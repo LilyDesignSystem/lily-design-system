@@ -37,7 +37,7 @@ on:
         type: boolean
         default: false
       only:
-        description: "helpers only: restrict to one helper catalog directory (e.g. lily-design-system-web-components-helpers)"
+        description: "helpers only: restrict to one helper catalog or package directory (e.g. lily-design-system-nunjucks-helpers or lily-design-system-svelte-theme-picker)"
         type: string
         default: ""
 

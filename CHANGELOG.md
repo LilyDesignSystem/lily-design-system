@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Web Components helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
+
+The 13 packages in `lily-design-system-web-components-helpers` moved to the repository root the same way as the HTML packages they
+were copied from, and the catalog was deleted. They import the headless library as a whole package, resolved in tests and types
+from its built `dist/`. Lockfiles are seeded from the catalog's. All 13 build and pass (591 tests: the catalog's 589 plus the two
+new kanban-board and gantt-chart tests). CI's `helper-packages` job now tests them, which CI never did for the catalog; Dependabot
+still does not cover them, as before. 125 published repositories.
+
 ## HTML helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
 
 The 13 packages in `lily-design-system-html-helpers` moved to the repository root the same way, and the catalog was deleted. Each

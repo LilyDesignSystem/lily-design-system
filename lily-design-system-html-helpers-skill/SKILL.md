@@ -92,10 +92,11 @@ into markup with its required attributes — no framework runtime, no Shadow
 DOM styling to work around, and (per each helper's own `spec/index.md`) no
 hardcoded CSS or user-facing strings shipped with it.
 
-## Relationship to the Web Components helpers catalog
+## Relationship to the Web Components helpers
 
-`lily-design-system-web-components-helpers` (added 2026-09-03) is a
-maintainer-directed **independent copy** of this catalog — the same six
+The Web Components helpers (added 2026-09-03; one top-level
+`lily-design-system-web-components-*` subproject each since 2026-10-10)
+are a maintainer-directed **independent copy** of these packages — the same six
 web-component helpers under `<lily-*-picker>` tags instead of bare
 `<*-picker>` tags, differing only in tag prefix and package naming. Nothing
 ports between the two catalogs automatically; each is versioned and tested

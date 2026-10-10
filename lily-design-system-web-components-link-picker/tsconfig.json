@@ -1,0 +1,29 @@
+{
+  "//": "Used by build.js (tsup --tsconfig) so the DTS step resolves each Lily dependency's types: sibling packages from their built dist/, the headless library's source .d.ts directly.",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": false,
+    "paths": {
+      "@lilydesignsystem/web-components-headless": [
+        "../lily-design-system-web-components-headless/dist/index.d.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "examples",
+    "docs"
+  ]
+}

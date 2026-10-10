@@ -30,7 +30,7 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
   current component list, and the two architecture decisions (autonomous
   custom elements over customized built-ins; light-DOM-only):
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/).
-- **[`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)**
+- **[the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages)**
   — the full six-helper `*-picker` catalog (`theme-picker`, `locale-picker`,
   `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`),
   each a `<lily-*-picker>` custom element. It is a maintainer-directed

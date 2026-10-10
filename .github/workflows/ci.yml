@@ -116,6 +116,7 @@ jobs:
           - vue
           - angular
           - html
+          - web-components
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -368,12 +369,11 @@ jobs:
           npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
-      - name: Build web-components helpers dist
-        working-directory: lily-design-system-web-components-helpers
+      - name: Build web-components helper packages dist
         run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
+          for d in $(bin/list-helper-packages web-components); do
+            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
+          done
       - name: Smoke every package as a consumer
         run: |
           bin/smoke-packages

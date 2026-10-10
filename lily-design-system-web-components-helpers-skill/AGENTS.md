@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining how to consume
-[`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/),
+[the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages),
 the catalog of six opinionated `<lily-*-picker>` web-component helpers —
 `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker` — that sit alongside the Web Components
@@ -61,7 +61,7 @@ skill points at rather than restates.
 - **Isn't**: the general Lily concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)). Isn't the
   Web Components helpers catalog itself (that's
-  [`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)) —
+  [the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages)) —
   it ships no helper packages of its own. Isn't the Web Components headless
   skill (that's
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/)),

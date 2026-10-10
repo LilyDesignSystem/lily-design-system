@@ -6,8 +6,11 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Web Components helpers usage
 
-`lily-design-system-web-components-helpers` is a catalog of six
-opinionated, reusable **web components (custom elements)** — under the
+The Web Components helpers are opinionated, reusable **web components
+(custom elements)**, each its own top-level subproject
+`lily-design-system-web-components-{package}/` since 2026-10-10 (before
+that, one `lily-design-system-web-components-helpers` catalog;
+`bin/list-helper-packages web-components` lists them) — under the
 `<lily-*-picker>` tag prefix — that sit alongside the Web Components
 headless catalog. Where a headless component is a pure markup primitive, a
 helper owns one complete interaction end to end: selection, optional

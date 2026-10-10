@@ -27,8 +27,8 @@ app, no helper packages of its own.
 
 - `SKILL.md` — the skill: the two-subproject map
   (`@lilydesignsystem/web-components-headless`, its full achievable scope,
-  536/571 native-custom-element catalog; `lily-design-system-web-components-helpers`,
-  the full six-helper `<lily-*-picker>` catalog), a decision guide for
+  536/571 native-custom-element catalog; the Web Components helper packages,
+  `<lily-*-picker>` and the rest, one top-level subproject each), a decision guide for
   which one a given request needs, the real and current absence of a Web
   Components example application, the distinction from the plain-HTML
   catalogs (both ship helpers as custom elements, but the headless

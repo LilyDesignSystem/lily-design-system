@@ -40,11 +40,10 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's, React's, Vue's, Angular's and HTML's helpers are one top-level subproject per package (below); the other three frameworks keep theirs in one catalog each.
+Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's, React's, Vue's, Angular's, HTML's and Web Components' helpers are one top-level subproject per package (below); the other two frameworks keep theirs in one catalog each.
 
 - [Lily Design System: Blazor helpers](../lily-design-system-blazor-helpers)
 - [Lily Design System: Nunjucks helpers](../lily-design-system-nunjucks-helpers)
-- [Lily Design System: Web Components helpers](../lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags (2026-09-03); see its provenance note
 
 The Svelte helpers (canonical reference) are one top-level subproject per package, since 2026-10-10 (the data grid since 2026-10-09); the `lily-design-system-svelte-helpers` catalog that held them is gone. `bin/list-helper-packages svelte` lists them in build order:
 
@@ -127,6 +126,22 @@ The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/li
 - [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker) — `@lilydesignsystem/html-theme-picker`
 - [`lily-design-system-html-gantt-chart`](../lily-design-system-html-gantt-chart) — `@lilydesignsystem/html-gantt-chart`
 - [`lily-design-system-html-picker-bar`](../lily-design-system-html-picker-bar) — `@lilydesignsystem/html-picker-bar`
+
+The Web Components helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages web-components`):
+
+- [`lily-design-system-web-components-date-time-picker`](../lily-design-system-web-components-date-time-picker) — `@lilydesignsystem/web-components-date-time-picker`
+- [`lily-design-system-web-components-kanban-board`](../lily-design-system-web-components-kanban-board) — `@lilydesignsystem/web-components-kanban-board`
+- [`lily-design-system-web-components-link-picker`](../lily-design-system-web-components-link-picker) — `@lilydesignsystem/web-components-link-picker`
+- [`lily-design-system-web-components-locale-picker`](../lily-design-system-web-components-locale-picker) — `@lilydesignsystem/web-components-locale-picker`
+- [`lily-design-system-web-components-menu-picker`](../lily-design-system-web-components-menu-picker) — `@lilydesignsystem/web-components-menu-picker`
+- [`lily-design-system-web-components-motion-picker`](../lily-design-system-web-components-motion-picker) — `@lilydesignsystem/web-components-motion-picker`
+- [`lily-design-system-web-components-search-picker`](../lily-design-system-web-components-search-picker) — `@lilydesignsystem/web-components-search-picker`
+- [`lily-design-system-web-components-settings-picker`](../lily-design-system-web-components-settings-picker) — `@lilydesignsystem/web-components-settings-picker`
+- [`lily-design-system-web-components-share-picker`](../lily-design-system-web-components-share-picker) — `@lilydesignsystem/web-components-share-picker`
+- [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker) — `@lilydesignsystem/web-components-text-size-picker`
+- [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker) — `@lilydesignsystem/web-components-theme-picker`
+- [`lily-design-system-web-components-gantt-chart`](../lily-design-system-web-components-gantt-chart) — `@lilydesignsystem/web-components-gantt-chart`
+- [`lily-design-system-web-components-picker-bar`](../lily-design-system-web-components-picker-bar) — `@lilydesignsystem/web-components-picker-bar`
 
 ## Reference themes
 

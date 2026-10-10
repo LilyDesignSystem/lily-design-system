@@ -10,7 +10,7 @@ two-skill plan (`lily-design-system-skill` and
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to consume
-[`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/):
+[the Web Components helper packages](../../spec/helpers/index.md#web-components-helper-packages):
 the catalog of six `<lily-*-picker>` web-component helpers — `theme-picker`,
 `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`,
 `date-time-picker` — that sit alongside the (536/571, its full achievable scope) Web
@@ -103,7 +103,7 @@ to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [../../lily-design-system-web-components-helpers/spec/index.md](../../lily-design-system-web-components-helpers/spec/index.md) —
+- [the Web Components helper packages](../../spec/helpers/index.md#web-components-helper-packages) —
   the Web Components helpers catalog's own specification and its
   provenance note in full; the canonical source this skill points at
   rather than duplicates.

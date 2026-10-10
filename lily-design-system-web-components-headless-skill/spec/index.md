@@ -26,8 +26,8 @@ headless components, no example app, no helper packages of its own.
 This is the framework-specific counterpart, for the Web Components headless
 library, to the general [`lily-design-system-skill`](../../lily-design-system-skill/).
 Its sibling, [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/),
-covers the neighbouring, separately maintained `*-picker` helpers catalog
-(`lily-design-system-web-components-helpers`) instead of the headless
+covers the neighbouring, separately maintained helper packages (one
+top-level `lily-design-system-web-components-*` subproject each) instead of the headless
 library.
 
 ## 2. Scope

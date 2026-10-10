@@ -1,7 +1,7 @@
 # Lily Design System™ — Web Components Helpers Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains
-[`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/):
+[the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages):
 the catalog of six opinionated, reusable Web Components (custom elements)
 — `<lily-theme-picker>`, `<lily-locale-picker>`, `<lily-text-size-picker>`,
 `<lily-motion-picker>`, `<lily-share-picker>`, `<lily-date-time-picker>` —

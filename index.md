@@ -83,8 +83,8 @@ Headless versions if you want to use components with all your own styles:
 
 ## Helpers
 
-Small, opinionated helper packages for every framework — Svelte's, React's, Vue's, Angular's and HTML's
-as one top-level subproject each, the other three frameworks' in a catalog each.
+Small, opinionated helper packages for every framework — Svelte's, React's, Vue's, Angular's, HTML's and Web Components'
+as one top-level subproject each, the other two frameworks' in a catalog each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — and each
 owns one complete interaction end to end:
 
@@ -181,7 +181,20 @@ owns one complete interaction end to end:
   - [`picker-bar`](lily-design-system-angular-picker-bar)
 - [Blazor helpers](lily-design-system-blazor-helpers)
 - [Nunjucks helpers](lily-design-system-nunjucks-helpers)
-- [Web Components helpers](lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags
+- Web Components helpers — an independent copy of the HTML helpers with `lily-*` tags, one top-level subproject per package:
+  - [`date-time-picker`](lily-design-system-web-components-date-time-picker)
+  - [`kanban-board`](lily-design-system-web-components-kanban-board)
+  - [`link-picker`](lily-design-system-web-components-link-picker)
+  - [`locale-picker`](lily-design-system-web-components-locale-picker)
+  - [`menu-picker`](lily-design-system-web-components-menu-picker)
+  - [`motion-picker`](lily-design-system-web-components-motion-picker)
+  - [`search-picker`](lily-design-system-web-components-search-picker)
+  - [`settings-picker`](lily-design-system-web-components-settings-picker)
+  - [`share-picker`](lily-design-system-web-components-share-picker)
+  - [`text-size-picker`](lily-design-system-web-components-text-size-picker)
+  - [`theme-picker`](lily-design-system-web-components-theme-picker)
+  - [`gantt-chart`](lily-design-system-web-components-gantt-chart)
+  - [`picker-bar`](lily-design-system-web-components-picker-bar)
 
 ## Themes
 

@@ -96,7 +96,7 @@ Lily also ships two catalogs under `<lily-*>` tags —
 [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)
 (native custom elements, no framework runtime, but a deliberately **partial**
 536/571 catalog) and
-[`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)
+[the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages)
 (an independent copy of these HTML helpers under `<lily-*-picker>` tags).
 Both helpers catalogs ship custom elements, but the two *headless* catalogs
 differ in kind, not just tag prefix: HTML headless is full-catalog (571/571)
