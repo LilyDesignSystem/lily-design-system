@@ -28,8 +28,8 @@
 
   <h2>Step 1 — Get the code</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-html-headless
-cd lily-design-system-html-headless`}</code></pre>
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless`}</code></pre>
   <p>
     Every component is a standalone file in <code>components/</code> —
     <code>button.html</code>, <code>text-input.html</code>, and so on — with a

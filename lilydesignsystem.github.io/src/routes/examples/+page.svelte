@@ -20,7 +20,7 @@
   </header>
 
   <div class="card-grid">
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
       <h3 class="card-heading">HTML JavaScript</h3>
       <p class="card-description">
         Plain HTML pages, vanilla JavaScript, no build tools. Drops into any
@@ -29,7 +29,7 @@
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
       <h3 class="card-heading">Svelte + SvelteKit</h3>
       <p class="card-description">
         SvelteKit 3 app using Svelte 5 runes. Component routes, file-based
@@ -38,7 +38,7 @@
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
       <h3 class="card-heading">React + Next.js</h3>
       <p class="card-description">
         Next.js 16 app showing each component in context, with TypeScript
@@ -47,7 +47,7 @@
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
       <h3 class="card-heading">Vue + Nuxt.js</h3>
       <p class="card-description">
         Nuxt 4 app. <code>&lt;script setup&gt;</code> and the Composition API
@@ -56,7 +56,7 @@
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
       <h3 class="card-heading">Angular + Analog</h3>
       <p class="card-description">
         Angular 22 + Analog.js app. File-based routing, signals, zoneless
@@ -65,7 +65,7 @@
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
       <h3 class="card-heading">Blazor Web</h3>
       <p class="card-description">
         Blazor Web app with Razor components. Server- and WebAssembly-friendly,
@@ -74,7 +74,7 @@
       <p class="card-meta">→ View on GitHub</p>
     </a>
 
-    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
       <h3 class="card-heading">Nunjucks + Eleventy</h3>
       <p class="card-description">
         Eleventy site using Nunjucks macros. Ideal for content-heavy static

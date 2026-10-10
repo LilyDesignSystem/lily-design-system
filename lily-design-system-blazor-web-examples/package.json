@@ -17,7 +17,8 @@
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-blazor-web-examples"
   },
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {

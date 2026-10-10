@@ -90,7 +90,7 @@
     <li>
       <a
         class="framework-icon-link"
-        href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless"
+        href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless"
       >
         <img src="/assets/images/icons/web-components/64x64.png" alt="" width="40" height="40" />
         <span>Web Components</span>
@@ -218,8 +218,8 @@
       free, open source, and made to be remixed.
     </p>
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
-cd lily-design-system-svelte-sveltekit-examples
+    <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
 pnpm install && pnpm run dev`}</code></pre>
     <p style="text-align: center; margin-top: 2rem;">
       <a class="button button-secondary" href="/examples/">Explore all seven example apps →</a>

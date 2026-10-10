@@ -26,8 +26,8 @@
 
   <h2>Step 1 — Get the code</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless
-cd lily-design-system-nunjucks-headless
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
 pnpm install
 pnpm test        # vitest rendering every macro`}</code></pre>
   <p>
@@ -93,8 +93,8 @@ pnpm test        # vitest rendering every macro`}</code></pre>
     full catalog as a static site with per-component demo pages:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples
-cd lily-design-system-nunjucks-eleventy-examples
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
 pnpm install && pnpm run dev`}</code></pre>
 
   <h2>Next steps</h2>

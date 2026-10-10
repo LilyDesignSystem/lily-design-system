@@ -27,8 +27,8 @@
 
   <h2>Step 1 — Get the code</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-vue-headless
-cd lily-design-system-vue-headless
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
 pnpm install
 pnpm test        # vitest + @testing-library/vue
 pnpm run storybook   # browse all 571 components`}</code></pre>
@@ -88,7 +88,7 @@ const name = ref("");
       <em>two</em> labels (one empty) because <code>Field</code> already
       renders its own from the <code>label</code> prop — caught by
       compiling the exact snippet. The
-      <a href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples/blob/main/pages/contact-form.vue">contact-form composed route</a>
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">contact-form composed route</a>
       is the same pattern, exercised by real e2e and axe tests.
     </p>
   </div>
@@ -121,8 +121,8 @@ const name = ref("");
     and demoed, with Playwright e2e and an axe-core baseline:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples
-cd lily-design-system-vue-nuxt-examples
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
 pnpm install && pnpm run dev`}</code></pre>
 
   <h2>Next steps</h2>

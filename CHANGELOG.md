@@ -1,13 +1,25 @@
 # Changelog — Lily Design System™
 
 All notable changes to the canonical catalog and monorepo are documented
-here. Per-catalog helper changelogs live in each
-`lily-design-system-*-helpers/CHANGELOG.md`.
+here. Each helper package keeps its own changelog in its directory,
+`lily-design-system-{framework}-{package}/CHANGELOG.md`.
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
+
+## Guards against dead mirror links and stale registries — 2026-10-10
+
+Deleting the subtree mirrors would have left the docs site full of 404s: its skills, examples, help and tutorial pages (in all 12
+languages) linked to the mirror repositories, cloned them in their code samples, and the seven example apps' `package.json`
+`repository` named them. Every such link now points into the monorepo — `…/lily-design-system/tree/main/<name>` for a subproject,
+`…/blob/main/<name>/<path>` for a file in one, and `git clone …/lily-design-system` then `cd lily-design-system/<name>` for a clone —
+and the example apps' `repository` names the monorepo with `directory`. `bin/test` now fails on any link to a mirror on GitHub, GitLab
+or Codeberg (dated plans under `docs/superpowers` excepted) and on any tracked `.git-subtree-push` file or `bin/git-subtree-push`.
+`bin/generate-registries --check` reports drift without writing, and `bin/test` runs it: the 2026-10-06 `DateRange`/`ReviewDate`/
+`ChatComposer` tag changes had reached `components-categories.tsv` but not the seven example registries, which only CI's git-diff step
+noticed. The spell-check word list gains the five words CI flagged.
 
 ## Subtree mirrors removed: every subproject lives only in the monorepo — 2026-10-10
 

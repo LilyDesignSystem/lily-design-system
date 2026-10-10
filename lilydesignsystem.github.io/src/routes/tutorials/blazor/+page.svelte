@@ -27,8 +27,8 @@
 
   <h2>Step 1 — Get the code</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-blazor-headless
-cd lily-design-system-blazor-headless
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
 dotnet build
 dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
   <p>
@@ -79,7 +79,7 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
       no <code>Label</code> parameter, so the earlier draft's
       <code>&lt;Form&gt;</code> usage was corrected to omit one rather than
       invent an attribute that does not exist. The
-      <a href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples/blob/main/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">contact-form composed route</a>
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">contact-form composed route</a>
       is the same pattern, exercised by real e2e and axe tests.
     </p>
   </div>
@@ -109,8 +109,8 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
     catalog styled and demoed, with Playwright e2e tests:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples
-cd lily-design-system-blazor-web-examples
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
 dotnet run --project src/LilyBlazorWebExamples`}</code></pre>
 
   <h2>Next steps</h2>

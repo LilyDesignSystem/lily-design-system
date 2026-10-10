@@ -26,7 +26,8 @@
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-html-css-js-examples"
   },
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {

@@ -27,8 +27,8 @@
 
   <h2>Step 1 — Get the code</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-headless
-cd lily-design-system-angular-headless
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
 pnpm install
 pnpm test        # vitest + TestBed, all 571 components
 pnpm run build-storybook`}</code></pre>
@@ -98,7 +98,7 @@ export class ContactForm {
       which renders <em>two</em> labels (one empty) because
       <code>lily-field</code> already renders its own from the
       <code>label</code> input — caught by checking the component source. The
-      <a href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples/blob/main/src/app/views/contact-form.ts">contact-form composed route</a>
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">contact-form composed route</a>
       is the same pattern, exercised by real e2e and axe tests.
     </p>
   </div>
@@ -128,8 +128,8 @@ export class ContactForm {
     catalog with file-based routing and Vite:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-examples
-cd lily-design-system-angular-examples
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
 pnpm install && pnpm run dev`}</code></pre>
 
   <h2>Next steps</h2>

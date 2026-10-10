@@ -352,8 +352,25 @@ test_locale_directories_have_a_region() (
     test -z "$sub" || err "locale routes live at /<code>/, not under /locales/: $sub"
 )
 
+# The per-subproject subtree mirrors were deleted 2026-10-10: every
+# subproject lives only in this monorepo. A link to a mirror is a 404 (the
+# docs site carried dozens), and a .git-subtree-push file or the old push
+# script would bring the mirror workflow back. Link to the subproject's
+# directory instead: https://github.com/LilyDesignSystem/lily-design-system/tree/main/<name>
+# (docs/superpowers holds dated plans, kept as written).
+test_no_subtree_mirrors() (
+    cd "$top" || return
+    links="$(git grep -nIiE '(github\.com|codeberg\.org|gitlab\.com)[/:]lilydesignsystem/lily-design-system-[a-z]' \
+        -- . ':!docs/superpowers' ':!bin/test' || true)"
+    test -z "$links" || err "links to a deleted subtree mirror (link the monorepo directory instead):
+$links"
+    files="$(git ls-files '*.git-subtree-push' 'bin/git-subtree-push')"
+    test -z "$files" || err "subtree push files are retired (packages publish from the monorepo): $files"
+)
+
 test_helper_glyphs_are_bare
 test_locale_directories_have_a_region
+test_no_subtree_mirrors
 test_no_package_json_pnpm_overrides
 test_lockfiles_are_tracked
 "$top/bin/check-theme" >/dev/null 2>&1 \
@@ -377,6 +394,8 @@ test_lockfiles_are_tracked
     || err "locale page routes are out of date; run bin/generate-locale-pages"
 "$top/bin/sync-special-files" --check >/dev/null 2>&1 \
     || err "special files are out of sync; run bin/sync-special-files"
+"$top/bin/generate-registries" --check >/dev/null 2>&1 \
+    || err "example-app registries are stale; run bin/generate-registries"
 
 if test -s "$ERRFLAG"; then
     >&2 printf %s\\n "bin/test: FAILED"

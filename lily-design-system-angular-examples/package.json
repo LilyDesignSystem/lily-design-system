@@ -50,7 +50,8 @@
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-angular-examples.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-angular-examples"
   },
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {

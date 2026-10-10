@@ -7,15 +7,18 @@ baselined
 bootcamp
 bootstrapper
 cascader
+choropleth
 coachmark
 dedup
 deployers
+dismissable
 endonym
 endonyms
 exonym
 explainability
 forkable
 gsub
+hoverable
 Internationalizable
 matrixed
 megathread
@@ -33,6 +36,7 @@ sockpuppets
 sparkline
 themechange
 unasserted
+undismissable
 unfakeable
 unhead
 unimportable
@@ -318,3 +322,5 @@ unbumped
 unfocusable
 unpopulatable
 
+# Non-English UI strings quoted in docs (the picker labels' locales)
+Tudalennau

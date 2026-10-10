@@ -28,13 +28,24 @@
 // is stale (bin/test checks it isn't).
 //
 // Run bin/test afterwards; it asserts every registry matches the catalog.
+//
+// --check writes nothing and exits 1 if any output would change (bin/test
+// runs it: a catalog change once updated components-categories.tsv without
+// regenerating the registries, and only CI's git-diff step noticed).
 
 const fs = require("fs");
 const path = require("path");
 
 const top = path.join(__dirname, "..");
+const check = process.argv.includes("--check");
+const stale = [];
 const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
 const write = (p, s) => {
+  if (check) {
+    const file = path.join(top, p);
+    if (!fs.existsSync(file) || fs.readFileSync(file, "utf-8") !== s) stale.push(p);
+    return;
+  }
   fs.writeFileSync(path.join(top, p), s);
   console.log("wrote", p);
 };
@@ -370,4 +381,13 @@ const htmlEntry = (c, indent) => {
   write(p, [...lines.slice(0, first), ...block, ...lines.slice(last + 1)].join("\n"));
 }
 
-console.log(`done: ${components.length} components across all registries`);
+if (check) {
+  if (stale.length) {
+    console.error(`generate-registries: ${stale.length} stale registr${stale.length === 1 ? "y" : "ies"}; run bin/generate-registries:`);
+    for (const p of stale) console.error("  " + p);
+    process.exit(1);
+  }
+  console.log(`generate-registries: up to date (${components.length} components)`);
+} else {
+  console.log(`done: ${components.length} components across all registries`);
+}

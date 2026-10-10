@@ -58,8 +58,8 @@ test('code samples stay byte-identical and focusable', async ({ page }) => {
   await page.goto('/ru-001/help/');
   const en = await (await page.request.get('/help/')).text();
   const ruPre = await page.locator('main pre').first().textContent();
-  expect(ruPre).toContain('git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless');
-  expect(en).toContain('git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless');
+  expect(ruPre).toContain('git clone https://github.com/LilyDesignSystem/lily-design-system\ncd lily-design-system/lily-design-system-react-headless');
+  expect(en).toContain('git clone https://github.com/LilyDesignSystem/lily-design-system\ncd lily-design-system/lily-design-system-react-headless');
   await expect(page.locator('main pre').first()).toHaveAttribute('tabindex', '0');
 });
 

@@ -28,8 +28,8 @@
 
   <h2>Step 1 — Get the code</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-headless
-cd lily-design-system-svelte-headless
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
 pnpm install
 pnpm test        # vitest — thousands of component cases
 pnpm run storybook   # browse all 571 components`}</code></pre>
@@ -91,7 +91,7 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
       separate <code>Label</code> inside <code>Field</code>, which rendered
       <em>two</em> labels (one empty) because <code>Field</code> already
       renders its own from the <code>label</code> prop. The
-      <a href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples/blob/main/src/routes/contact-form/%2Bpage.svelte">contact-form composed route</a>
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">contact-form composed route</a>
       is the same pattern, exercised by real e2e and axe tests.
     </p>
   </div>
@@ -128,8 +128,8 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
     accessibility baseline:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
-cd lily-design-system-svelte-sveltekit-examples
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
 pnpm install && pnpm run dev`}</code></pre>
 
   <h2>Next steps</h2>

@@ -28,8 +28,8 @@
 
   <h2>Step 1 — Get the code</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
-cd lily-design-system-react-headless
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
 pnpm install
 pnpm test        # vitest + @testing-library/react
 pnpm run storybook   # browse all 571 components`}</code></pre>
@@ -87,7 +87,7 @@ export function ContactForm() {
       <em>two</em> labels (one empty) because <code>Field</code> already
       renders its own from the <code>label</code> prop — caught by
       compiling the exact snippet. The
-      <a href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples/blob/main/app/contact-form/page.tsx">contact-form composed route</a>
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">contact-form composed route</a>
       is the same pattern, exercised by real e2e and axe tests.
     </p>
   </div>
@@ -109,8 +109,8 @@ export function ContactForm() {
     styled and demoed, with Playwright e2e and an axe-core baseline:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-next-examples
-cd lily-design-system-react-next-examples
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
 pnpm install && pnpm run dev`}</code></pre>
 
   <h2>Next steps</h2>

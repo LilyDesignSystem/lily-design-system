@@ -2,16 +2,16 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** The `bin/` scripts list and scaffold the catalog, verify required files across the repo and every subproject, sync the canonical AGENTS docs into subprojects, and push each subproject to its standalone git remote.
+**Summary.** The `bin/` scripts list and scaffold the catalog, verify required files across the repo and every subproject, sync the canonical AGENTS docs and special files into subprojects, and push the docs site to its own repository.
 
 ## Scope
 
-Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verification script, the sync model, the update driver, the subtree-push helper, and Storybook story generation. These scripts read `components.tsv` (the source of truth) and `bin/list-implementations` (the subproject list) and operate uniformly across the seven headless and seven example subprojects.
+Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verification script, the sync model, the update driver, and Storybook story generation. These scripts read `components.tsv` (the source of truth) and `bin/list-implementations` (the subproject list) and operate uniformly across the seven headless and seven example subprojects.
 
 ## Principles and rules
 
 - **`components.tsv` is the catalog source of truth.** `list-components-as-kebab-case` and `-as-pascal-case` derive their output from it; nothing maintains a duplicate list.
-- **AGENTS files at the repo root are canonical.** `bin/sync` rsyncs `AGENTS/` into each subproject. It uses rsync (file copies), **not** symlinks, because a copy stays correct when a subproject is packaged or copied out on its own, unlike symlinks across project boundaries — a symlinked AGENTS dir would break the standalone subtree repos.
+- **AGENTS files at the repo root are canonical.** `bin/sync` rsyncs `AGENTS/` into each subproject. It uses rsync (file copies), **not** symlinks, because a copy stays correct when a subproject is packaged or copied out on its own, unlike symlinks across project boundaries.
 - **`bin/test` is the single verification gate.** It checks required files across the repository, all components, the github.io site, and all implementation subprojects, and fails on missing or stub ("Not yet implemented.") files.
 - **Lockfiles are always committed.** Every `pnpm-lock.yaml` (and any other package-manager lockfile) that exists in the tree is tracked in git — never gitignored, never left untracked. Reproducible installs are the point: CI, a fresh clone, and each published package must resolve the same dependency graph the maintainer tested, and a subproject published without its lockfile silently loses that. Lockfiles live where their `pnpm install` runs (a catalog or app root, or a package with its own install), and `bin/test` fails on any lockfile left untracked or ignored.
 - **Scaffolders produce the standard file set.** Both `create-*-directory` scripts emit `index.md`, a `README.md` symlink to it, `AGENTS.md`, plus `spec/index.md` (the spec-driven plan + tasks file that replaced the older `plan.md` / `tasks.md`).
@@ -39,7 +39,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `check-site-page-translations`        | Verify every `<language>.html` has the English page's exact markup structure and code samples, is actually translated, and that each language covers all eight pages. |
 | `generate-locale-pages`               | Write the `/<code>/<page>/` route files for every non-English locale whose language has all eight pages; `--check` reports drift. |
 | `check-class-names`                   | Audit that every implementation in all 8 headless libraries carries its slug as the base class (first token of a class list); run by `bin/test` and CI. |
-| `generate-registries`                 | Regenerate every example-app catalog registry from `components.tsv` + the canonical SvelteKit demo map, so hand-copied registries cannot drift. |
+| `generate-registries`                 | Regenerate every example-app catalog registry from `components.tsv` + the canonical SvelteKit demo map, so hand-copied registries cannot drift; `--check` reports drift without writing (run by `bin/test`). |
 | `check-links`                         | Verify every relative markdown link in tracked `*.md` files resolves (synced AGENTS copies excluded); exits non-zero on breakage. |
 
 ## Verification: bin/test
@@ -56,6 +56,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `test_implementations_with_svelte`   | Each Svelte component dir has `index.md`, `.svelte`, `.stories.svelte`, `.test.ts`.       |
 | `test_implementation_nunjucks_headless` | Each nunjucks-headless component has `macro.njk`, `macro.test.js`, `index.md`.         |
 | `test_implementation_nunjucks_example`  | Each nunjucks-example component has a `{slug}.njk`.                                     |
+| `test_no_subtree_mirrors`            | No tracked file links to a deleted subtree mirror (GitHub, GitLab or Codeberg; dated plans in `docs/superpowers` excepted), and no `.git-subtree-push` or `bin/git-subtree-push` is tracked. |
 
 ## Sync model
 
@@ -103,14 +104,14 @@ done
 - [ ] `generate-storybook-stories.mjs` produces stories for the headless libraries. Overstated as written: reading the script, its `PROJECTS` array only targets `@lilydesignsystem/svelte-headless` (plus the SvelteKit examples app) — it does not touch React, Vue, Angular, HTML, Nunjucks, or Web Components headless at all. Those five full-catalog libraries do carry 491/491 `.stories.*` files each (verified by direct count) and Web Components carries 456/456 (its full achievable scope), so stories exist everywhere they should, but not because this script produced them — no other generator script exists in `bin/` for the other frameworks, so how those non-Svelte story files were produced/kept in sync is undocumented. Leaving open as a real doc/tooling mismatch, not a missing-stories defect.
 
 ## Related topics
-- [architecture](../architecture/index.md) — the subtree layout these scripts operate over.
+- [architecture](../architecture/index.md) — the monorepo layout these scripts operate over.
 - [testing](../testing/index.md) — the framework test suites that `bin/test` complements.
 - [components](../components/index.md) — the `components.tsv` catalog the listers read.
 - [examples](../examples/index.md) — Storybook and example apps the generators target.
 
 ## Sources
 - [bin/](../../bin/) — `list-components-as-kebab-case`, `list-components-as-pascal-case`, `list-implementations`, `create-component-directory`, `create-implementation-directory`, `test`, `sync`, `update`, `generate-storybook-stories.mjs`
-- [spec/index.md](../index.md) — §9 (Tooling table), §3 (subtree layout)
+- [spec/index.md](../index.md) — §9 (Tooling table), §3 (architecture)
 
 ---
 

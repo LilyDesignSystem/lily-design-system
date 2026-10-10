@@ -33,7 +33,8 @@
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-svelte-sveltekit-examples"
   },
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {

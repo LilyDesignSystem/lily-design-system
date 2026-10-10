@@ -42,8 +42,8 @@
     it is to clone the headless repo for your stack:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
-cd lily-design-system-react-headless
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
 pnpm install`}</code></pre>
   <p>The same pattern works for the other frameworks:</p>
   <ul>
@@ -131,8 +131,8 @@ pnpm install`}</code></pre>
     example app and view the demo at <code>/components</code>.
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
-cd lily-design-system-svelte-sveltekit-examples
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
 pnpm install
 pnpm run dev`}</code></pre>
   <p>
@@ -255,7 +255,8 @@ pnpm run dev`}</code></pre>
     </li>
   </ul>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-theme-picker`}</code></pre>
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker`}</code></pre>
   <p>
     The Svelte catalog is the canonical reference; React, Vue, Angular, HTML,
     Nunjucks, Web Components, and Blazor ports match it contract-for-contract. See the

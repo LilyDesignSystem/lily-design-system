@@ -26,7 +26,8 @@
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-nunjucks-eleventy-examples"
   },
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {

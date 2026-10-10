@@ -70,7 +70,7 @@
       </a>
     </li>
     <li>
-      <a class="framework-icon-link" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless">
+      <a class="framework-icon-link" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless">
         <img src="/assets/images/icons/web-components/64x64.png" alt="" width="40" height="40" />
         <span>Web Components</span>
       </a>

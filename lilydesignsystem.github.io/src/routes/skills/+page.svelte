@@ -29,10 +29,10 @@
     <li>
       <strong>General / maintainer</strong> — "What is Lily?" / "How is this
       monorepo put together?" —
-      <a href="https://github.com/LilyDesignSystem/lily-design-system-skill"
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
         ><code>lily-design-system-skill</code></a
       >,
-      <a href="https://github.com/LilyDesignSystem/lily-design-system-maintainer-skill"
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
         ><code>lily-design-system-maintainer-skill</code></a
       >
     </li>
@@ -69,58 +69,58 @@
     <tbody>
       <tr>
         <td>Angular</td>
-        <td><a aria-label="Angular umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-angular-skill">skill</a></td>
-        <td><a aria-label="Angular headless skill" href="https://github.com/LilyDesignSystem/lily-design-system-angular-headless-skill">skill</a></td>
-        <td><a aria-label="Angular helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-angular-helpers-skill">skill</a></td>
+        <td><a aria-label="Angular umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="Angular headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="Angular helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">skill</a></td>
       </tr>
       <tr>
         <td>Blazor</td>
-        <td><a aria-label="Blazor umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-skill">skill</a></td>
-        <td><a aria-label="Blazor headless skill" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-headless-skill">skill</a></td>
-        <td><a aria-label="Blazor helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers-skill">skill</a></td>
+        <td><a aria-label="Blazor umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="Blazor headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="Blazor helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">skill</a></td>
       </tr>
       <tr>
         <td>HTML</td>
-        <td><a aria-label="HTML umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-html-skill">skill</a></td>
-        <td><a aria-label="HTML headless skill" href="https://github.com/LilyDesignSystem/lily-design-system-html-headless-skill">skill</a></td>
-        <td><a aria-label="HTML helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-html-helpers-skill">skill</a></td>
+        <td><a aria-label="HTML umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="HTML headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="HTML helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">skill</a></td>
       </tr>
       <tr>
         <td>Nunjucks</td>
-        <td><a aria-label="Nunjucks umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-skill">skill</a></td>
-        <td><a aria-label="Nunjucks headless skill" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless-skill">skill</a></td>
-        <td><a aria-label="Nunjucks helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+        <td><a aria-label="Nunjucks umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="Nunjucks headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="Nunjucks helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">skill</a></td>
       </tr>
       <tr>
         <td>React</td>
-        <td><a aria-label="React umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-react-skill">skill</a></td>
-        <td><a aria-label="React headless skill" href="https://github.com/LilyDesignSystem/lily-design-system-react-headless-skill">skill</a></td>
-        <td><a aria-label="React helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-react-helpers-skill">skill</a></td>
+        <td><a aria-label="React umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="React headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="React helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
       </tr>
       <tr>
         <td>Svelte</td>
-        <td><a aria-label="Svelte umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-skill">skill</a></td>
-        <td><a aria-label="Svelte headless skill" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-headless-skill">skill</a></td>
-        <td><a aria-label="Svelte helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers-skill">skill</a></td>
+        <td><a aria-label="Svelte umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="Svelte headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="Svelte helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">skill</a></td>
       </tr>
       <tr>
         <td>Vue</td>
-        <td><a aria-label="Vue umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-vue-skill">skill</a></td>
-        <td><a aria-label="Vue headless skill" href="https://github.com/LilyDesignSystem/lily-design-system-vue-headless-skill">skill</a></td>
-        <td><a aria-label="Vue helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-vue-helpers-skill">skill</a></td>
+        <td><a aria-label="Vue umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="Vue headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="Vue helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">skill</a></td>
       </tr>
       <tr>
         <td>Web Components</td>
-        <td><a aria-label="Web Components umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-skill">skill</a></td>
+        <td><a aria-label="Web Components umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">skill</a></td>
         <td>
           <a
             aria-label="Web Components headless skill"
-            href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless-skill"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
             >skill</a
           >
           (536/571)
         </td>
-        <td><a aria-label="Web Components helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers-skill">skill</a></td>
+        <td><a aria-label="Web Components helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
       </tr>
     </tbody>
   </table>
@@ -139,7 +139,8 @@
     account's skills directory):
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-skill`}</code></pre>
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill`}</code></pre>
   <p>
     Working across several frameworks, or on the monorepo itself? Clone the
     <a href="https://github.com/LilyDesignSystem/lily-design-system">canonical monorepo</a>
