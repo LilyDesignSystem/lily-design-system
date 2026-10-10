@@ -872,8 +872,8 @@ export const components: Component[] = [
       slug: "date-range",
       name: "DateRange",
       description: "paired start and end date inputs",
-      tag: "span",
-      category: "content",
+      tag: "fieldset",
+      category: "forms",
   },
   {
       slug: "date-time-local-input",
@@ -2566,7 +2566,7 @@ export const components: Component[] = [
       slug: "review-date",
       name: "ReviewDate",
       description: "a display of a content review date",
-      tag: "span",
+      tag: "time",
       category: "content",
   },
   {
@@ -4001,8 +4001,8 @@ export const components: Component[] = [
       slug: "chat-composer",
       name: "ChatComposer",
       description: "a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress",
-      tag: "div",
-      category: "content",
+      tag: "form",
+      category: "forms",
   },
 ];
 
