@@ -53,7 +53,8 @@ span" but implemented as the roving-tabindex cursor). It does not.
 no roving-tabindex concept of any kind — only
 `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes`. There is
 therefore no overload to avoid: `data-in-range` (span membership) and
-`tabindex`/`aria-selected` (the roving-tabindex cursor) are simply two
+`tabindex` (the roving-tabindex cursor; never `aria-selected`, since focus
+is not selection) are simply two
 different ordinary attributes passed through `AdditionalAttributes`,
 kept conceptually distinct exactly as both the Svelte and this port's
 own contract require, with no conflict to design around.

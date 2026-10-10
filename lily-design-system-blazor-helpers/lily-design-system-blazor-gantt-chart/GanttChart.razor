@@ -21,7 +21,8 @@
     parameter at all — no `Active`, no roving-tabindex concept of any
     kind, only Label/CssClass/ChildContent/AdditionalAttributes. So
     there is no overload to avoid; `data-in-range` (span membership) and
-    `tabindex`/`aria-selected` (the roving-tabindex cursor) are both
+    `tabindex` (the roving-tabindex cursor; never `aria-selected`, since
+    focus is not selection) are both
     just ordinary attributes passed through AdditionalAttributes, kept
     conceptually distinct exactly as the Svelte contract requires.
 
@@ -102,7 +103,6 @@
                                       data-row="@rowNum"
                                       data-col="@colNum"
                                       tabindex="@(isActiveCell ? "0" : "-1")"
-                                      aria-selected="@(isActiveCell ? "true" : "false")"
                                       data-in-range="@(inRange ? "" : null)"
                                       data-milestone="@(isMilestone ? "" : null)"
                                       data-today="@(isCellToday ? "" : null)"

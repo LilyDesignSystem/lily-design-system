@@ -59,7 +59,7 @@ change:**
   avoids (§3 of its own spec: `active` there means the roving-tabindex
   cursor, never span-membership) is not a risk here; there is no
   `active` prop to overload in the first place. Both the roving-
-  tabindex cursor (`data-row`/`data-col`/`tabindex`/`aria-selected`)
+  tabindex cursor (`data-row`/`data-col`/`tabindex`; never `aria-selected`)
   and the span-membership marker (`data-in-range`, matching the
   Svelte contract's own resolution) are set via direct attribute
   bindings on the native `<td lily-gantt-table-td>` cell.
@@ -98,7 +98,7 @@ change:**
           <button class="gantt-chart-collapse-button" aria-expanded>…</button>  <!-- only on parent rows -->
           {taskLabel(task)}
         </th>
-        <td lily-gantt-table-td data-row data-col tabindex aria-selected data-in-range data-milestone data-today aria-describedby="{dependencySummaryId}">
+        <td lily-gantt-table-td data-row data-col tabindex data-in-range data-milestone data-today aria-describedby="{dependencySummaryId}">
           <span class="gantt-chart-bar" data-percent-complete="{n}"></span>     <!-- only in the task's own leading in-range cell -->
         </td>
       </tr>

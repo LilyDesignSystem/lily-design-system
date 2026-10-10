@@ -51,7 +51,9 @@ than inventing a second date-editing surface.
 `GanttTableTD`'s own `active` prop is documented (and its own example
 uses it) for "this cell falls within the task's time span" — but its
 implementation ties `active` directly to `aria-selected`/roving
-`tabindex`, and a task's bar can span many cells at once while
+`tabindex` (until 2026-10-10, when `active` stopped setting
+`aria-selected`; it still sets the roving `tabindex`, so the overload
+reasoning below stands), and a task's bar can span many cells at once while
 roving-tabindex requires exactly one `tabindex="0"` cell grid-wide.
 Reusing `active` for both meanings would put multiple cells at
 `tabindex="0"` simultaneously whenever a task's bar is wider than one

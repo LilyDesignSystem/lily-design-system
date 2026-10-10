@@ -420,14 +420,12 @@ export class KanbanBoard extends HTMLElement {
     #setActiveCell(row: number, col: number): HTMLTableCellElement | undefined {
         const oldCell = this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`);
         oldCell?.setAttribute("tabindex", "-1");
-        oldCell?.setAttribute("aria-selected", "false");
 
         this.#focusedRow = row;
         this.#focusedCol = col;
 
         const newCell = this.#cellEls.get(`${row}-${col}`);
         newCell?.setAttribute("tabindex", "0");
-        newCell?.setAttribute("aria-selected", "true");
         return newCell;
     }
 
@@ -568,7 +566,6 @@ export class KanbanBoard extends HTMLElement {
                 td.setAttribute("data-col", String(colIndex));
                 const active = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
                 td.setAttribute("tabindex", active ? "0" : "-1");
-                td.setAttribute("aria-selected", String(active));
                 if (card) td.setAttribute("aria-label", this.#cardLabel(card));
                 td.addEventListener("dragover", (event) =>
                     this.#onColumnDragOver(event as DragEvent),

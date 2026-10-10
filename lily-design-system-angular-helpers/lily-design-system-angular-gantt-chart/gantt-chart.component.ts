@@ -266,7 +266,6 @@ export function nextGanttChartId(): string {
                   [attr.data-row]="rowIndex"
                   [attr.data-col]="colIndex"
                   [attr.tabindex]="isFocused(rowIndex, colIndex) ? 0 : -1"
-                  [attr.aria-selected]="isFocused(rowIndex, colIndex)"
                   [attr.data-in-range]="inRange ? '' : null"
                   [attr.data-milestone]="isMilestone ? '' : null"
                   [attr.data-today]="colToday ? '' : null"

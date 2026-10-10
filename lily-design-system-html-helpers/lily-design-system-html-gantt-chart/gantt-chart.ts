@@ -516,14 +516,12 @@ export class GanttChart extends HTMLElement {
     #setActiveCell(row: number, col: number): HTMLTableCellElement | undefined {
         const oldCell = this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`);
         oldCell?.setAttribute("tabindex", "-1");
-        oldCell?.setAttribute("aria-selected", "false");
 
         this.#focusedRow = row;
         this.#focusedCol = col;
 
         const newCell = this.#cellEls.get(`${row}-${col}`);
         newCell?.setAttribute("tabindex", "0");
-        newCell?.setAttribute("aria-selected", "true");
         return newCell;
     }
 
@@ -691,7 +689,6 @@ export class GanttChart extends HTMLElement {
                 td.setAttribute("data-col", String(colIndex));
                 const active = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
                 td.setAttribute("tabindex", active ? "0" : "-1");
-                td.setAttribute("aria-selected", String(active));
                 td.setAttribute(
                     "aria-label",
                     this.#labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start,

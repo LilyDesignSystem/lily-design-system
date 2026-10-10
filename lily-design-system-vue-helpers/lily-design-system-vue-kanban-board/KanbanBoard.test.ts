@@ -109,6 +109,12 @@ describe("KanbanBoard — markup (§8.1, §8.2, §8.3, §8.4)", () => {
 });
 
 describe("KanbanBoard — roving-tabindex keyboard navigation (§8.5, §8.6)", () => {
+    test("§8.5 the roving tab stop is not announced as selection: no cell carries aria-selected", () => {
+        build();
+        expect(tabbableCells()).toHaveLength(1);
+        expect(document.querySelectorAll("td[aria-selected]")).toHaveLength(0);
+    });
+
     test("§8.5 exactly one body cell carries tabindex=0, and arrows move it and clamp", async () => {
         build();
         expect(tabbableCells()).toHaveLength(1);

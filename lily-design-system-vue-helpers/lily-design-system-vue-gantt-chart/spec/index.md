@@ -50,7 +50,9 @@ finding the Svelte canonical documents.** Vue's own `GanttTableTD.vue`
 doc comment reads: "Supports an active state to indicate the task
 spans this time period, communicated via `aria-selected`" — but its
 actual template implementation is `:aria-selected="active ||
-undefined"` and `:tabindex="active ? 0 : -1"`, i.e. `active` is tied
+undefined"` and `:tabindex="active ? 0 : -1"` (until 2026-10-10, when `active` stopped setting
+`aria-selected`; it still sets the roving `tabindex`, so the overload
+reasoning below stands), i.e. `active` is tied
 directly to the roving-tabindex cursor, exactly the same overload the
 Svelte canonical's `GanttTableTD` has (see its own spec §3 and
 CHANGELOG.md). Reusing `active` for "this cell is within the task's

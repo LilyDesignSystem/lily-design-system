@@ -51,8 +51,8 @@ change:**
   is a bare attribute-selector directive with only a `className`
   input. There is therefore no contract to reuse or collide with.
   Angular's attribute-selector idiom lets a consuming template bind
-  extra attributes (`[attr.data-row]`, `[attr.tabindex]`,
-  `[attr.aria-selected]`) directly onto the same native `<td
+  extra attributes (`[attr.data-row]`, `[attr.tabindex]` — the cursor; never
+  `aria-selected`) directly onto the same native `<td
   lily-kanban-table-td>` element, so the roving-tabindex cursor is set
   that way instead — no headless-component change needed.
 - Angular's headless `KanbanTable` sets **no `role="grid"`** on its
@@ -96,7 +96,7 @@ change:**
     </thead>
     <tbody lily-kanban-table-body>
       <tr lily-kanban-table-row>
-        <td lily-kanban-table-td data-row data-col tabindex aria-selected> <!-- roving-tabindex cursor -->
+        <td lily-kanban-table-td data-row data-col tabindex> <!-- roving-tabindex cursor; no aria-selected: focus is not selection -->
           <span class="kanban-board-card-title">{cardLabel(card)}</span>
           <lily-icon-button baseClass="kanban-board-move-button" ariaHaspopup="listbox" [ariaExpanded] [tabIndex]="-1">…</lily-icon-button>
           <lily-listbox baseClass="kanban-board-move-list" navigation="active-descendant" [hidden]="…"> <!-- only while open -->

@@ -39,7 +39,7 @@ same headless components the React picker helpers — `theme-picker`,
 `locale-picker`, etc. — compose) for the per-card move-menu trigger
 and the menu itself. `KanbanTable` keeps owning `<table role="grid">`
 and its `aria-label`; `KanbanTableTD`'s existing `active` prop (roving
-`tabindex`/`aria-selected`) is reused as-is for body cells — this
+`tabindex`; never `aria-selected` since 2026-10-10) is reused as-is for body cells — this
 catalog's `KanbanTableTD` has no span-membership overload (unlike
 `GanttTableTD`, see the gantt-chart spec §3), so no separate
 `data-in-range`-style attribute is needed here.

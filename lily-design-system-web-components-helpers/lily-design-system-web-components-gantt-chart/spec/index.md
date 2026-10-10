@@ -58,7 +58,7 @@ is needed here.
 
 This component owns its own `<td>` cells directly (class
 `gantt-chart-td`), so — matching the Svelte reference's own reasoning
-in its §3 — the roving-tabindex cursor (`tabindex`/`aria-selected`) and
+in its §3 — the roving-tabindex cursor (`tabindex`; never `aria-selected`) and
 "this cell falls within the task's span" (`data-in-range`) are two
 independent attributes on the same cell, never conflated: a task's bar
 can cover many cells at once, while roving-tabindex requires exactly
@@ -103,7 +103,7 @@ renders:
             {taskLabel(task)}
             <span class="gantt-chart-dependency-summary" id="{dependencyId}" hidden>{labels.dependencySummary(preds)}</span> <!-- only when deps exist and the label is set -->
           </th>
-          <td class="gantt-chart-td" role="gridcell" data-row data-col tabindex aria-selected data-in-range data-milestone data-today aria-describedby="{dependencyId}">
+          <td class="gantt-chart-td" role="gridcell" data-row data-col tabindex data-in-range data-milestone data-today aria-describedby="{dependencyId}">
             <span class="gantt-chart-bar" data-percent-complete="{n}" draggable="true"></span> <!-- only in the task's own leading in-range cell -->
           </td>
         </tr>

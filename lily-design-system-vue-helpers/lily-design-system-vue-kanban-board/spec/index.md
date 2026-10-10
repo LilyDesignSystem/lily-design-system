@@ -41,7 +41,7 @@ popup, anchored to a grid cell instead of a page header, mirroring
 `spec/helpers/index.md`'s "Composition with the headless layer" §
 "Per-catalog composition summary" row for `vue`). `KanbanTable` keeps
 owning `<table role="grid">` and its `aria-label`; `KanbanTableTD`'s
-existing `active` prop (roving `tabindex`/`aria-selected`) is reused
+existing `active` prop (roving `tabindex`; never `aria-selected` since 2026-10-10) is reused
 as-is for body cells — Vue's own `KanbanTableTD` carries no overload of
 `active` the way `GanttTableTD` does (see the `gantt-chart` spec §3 for
 that finding), so no workaround is needed here.

@@ -53,7 +53,9 @@ component (once for a task's start date, once for its end), mirroring
 catalog too.** Its own doc comment says `active` means "this cell
 represents an active time period for the task," but its actual
 implementation (`lily-design-system-react-headless/components/GanttTableTD.tsx`)
-ties `active` directly to `aria-selected`/roving `tabindex="0"` — the
+ties `active` directly to `aria-selected`/roving `tabindex="0"` (until 2026-10-10, when `active` stopped setting
+`aria-selected`; it still sets the roving `tabindex`, so the overload
+reasoning below stands) — the
 identical overload the Svelte reference found and deliberately worked
 around (see that package's CHANGELOG.md). A task's bar can span many
 cells at once while roving-tabindex requires exactly one

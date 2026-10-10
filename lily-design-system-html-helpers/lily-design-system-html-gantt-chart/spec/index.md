@@ -153,7 +153,7 @@ see §6), `compareISO`, `endOfMonth`, `generateColumns`, `flattenTasks`,
             {taskLabel(task)}
             <span class="gantt-chart-dependency-summary" hidden>{dependencySummary}</span>     <!-- only when deps + label -->
           </th>
-          <td class="gantt-table-td" data-row="{r}" data-col="{c}" tabindex="0|-1" aria-selected="true|false"
+          <td class="gantt-table-td" data-row="{r}" data-col="{c}" tabindex="0|-1"
               data-in-range data-milestone data-today aria-describedby="{dependencySummaryId}">
             <span class="gantt-chart-bar" data-percent-complete="{n}"></span>     <!-- only in the task's own leading in-range cell -->
           </td>
@@ -340,10 +340,11 @@ and [spec/helpers/index.md § gantt-chart contract](../../../spec/helpers/index.
    explaining why `active` (the roving-tabindex cursor) must stay
    separate from "this cell is within the task's span"
    (`data-in-range`), because `GanttTableTD`'s own `active` prop is
-   wired to `aria-selected`/`tabindex` in that catalog. This catalog's
+   wired to `aria-selected`/`tabindex` in that catalog (until 2026-10-10;
+   it now sets `tabindex` only). This catalog's
    `gantt-table-td.html` contract documents only `aria-label` — there is
-   no `active` prop to begin with, so this port sets `tabindex`/
-   `aria-selected` (roving cursor) and `data-in-range` (span membership)
+   no `active` prop to begin with, so this port sets `tabindex`
+   (roving cursor; never `aria-selected`) and `data-in-range` (span membership)
    as two independent, always-compatible attributes with no risk to
    document a workaround for.
 

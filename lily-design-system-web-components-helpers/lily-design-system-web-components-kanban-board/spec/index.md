@@ -57,7 +57,8 @@ this catalog's own architecture (read before assuming a gap):
   `active` prop on a shared sub-component the way the Svelte/React/Vue/
   Angular ports do. There is no risk of the `active`-prop overload
   those ports had to reason about — WAI-ARIA APG Grid roving-tabindex
-  (`tabindex`/`aria-selected`) is implemented directly on cells this
+  (`tabindex` only — never `aria-selected`, since focus is not selection)
+  is implemented directly on cells this
   package owns outright.
 - **`role="grid"` is set explicitly.** `<lily-kanban-table>` defaults
   its inner `<table>` to `role="region"` (a deliberate, documented
@@ -105,7 +106,7 @@ renders:
       </thead>
       <tbody>
         <tr>
-          <td class="kanban-board-td" role="gridcell" data-row data-col tabindex aria-selected> <!-- tabindex="0" on exactly one cell -->
+          <td class="kanban-board-td" role="gridcell" data-row data-col tabindex> <!-- tabindex="0" on exactly one cell -->
             <span class="kanban-board-card-title" draggable="true">{cardLabel(card)}</span>
             <lily-icon-button base-class="kanban-board-move-button" label="{labels.moveButton(card)}" tabindex="-1" aria-haspopup="listbox" aria-expanded aria-controls="{listId}">⇄</lily-icon-button>
             <ul class="kanban-board-move-list" id="{listId}" role="listbox" aria-label="{labels.moveMenuLabel}" tabindex="-1" hidden> <!-- hidden unless this card's menu is open -->

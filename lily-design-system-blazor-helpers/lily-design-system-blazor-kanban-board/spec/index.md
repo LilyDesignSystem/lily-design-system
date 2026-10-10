@@ -43,7 +43,7 @@ page header.
 catalog's own headless layer:** the canonical Svelte spec says
 "`KanbanTable` keeps owning `<table role="grid">`… `KanbanTableTD`'s
 existing `active` prop (roving `tabindex`/`aria-selected`) is reused
-as-is." This catalog's actual `KanbanTable`/`KanbanTableBody`/
+as-is." (Since 2026-10-10 the cursor is `tabindex` only — no cell carries `aria-selected`, because focus is not selection.) This catalog's actual `KanbanTable`/`KanbanTableBody`/
 `KanbanTableTD` render `role="region"` / `role="list"` /
 `role="listitem"` respectively (a WAI-ARIA Grid did not exist in this
 headless catalog when they were built), and `KanbanTableTD` has **no**
@@ -55,8 +55,8 @@ package overrides `role` to `grid`/`rowgroup`/`gridcell` per element via
 last-attribute-wins merge order (each headless component's own explicit
 `role` appears *before* its own `@attributes="AdditionalAttributes"` in
 its markup, so a caller-supplied `role` always wins) — and implements
-the entire roving-tabindex model itself (`tabindex`, `aria-selected`,
-`data-row`, `data-col`) the same way, via the same mechanism. Verified
+the entire roving-tabindex model itself (`tabindex`, `data-row`,
+`data-col` — never `aria-selected`, since focus is not selection) the same way, via the same mechanism. Verified
 against the actual rendered DOM in `KanbanBoardTests.cs`, not just that
 it compiles. See CHANGELOG.md.
 
@@ -77,7 +77,7 @@ it compiles. See CHANGELOG.md.
     </KanbanTableHead>
     <KanbanTableBody role="rowgroup">
       <KanbanTableRow>
-        <KanbanTableTD role="gridcell" tabindex data-row data-col aria-selected>
+        <KanbanTableTD role="gridcell" tabindex data-row data-col>
           <span class="kanban-board-card-title">{CardLabel(card)}</span>
           <button class="kanban-board-move-button" aria-haspopup="listbox" aria-expanded>…</button>
           <ul class="kanban-board-move-list" role="listbox" aria-label="…">  <!-- only while open -->
@@ -162,7 +162,7 @@ implementation's `event.target.closest(...)` check can.
 exposes an `ElementReference` for its `<td>`. Grid-cell focus is
 therefore driven by `IJSRuntime.InvokeVoidAsync("eval", …)` targeting a
 per-cell `id`, deferred to `OnAfterRenderAsync` so the DOM the browser
-focuses already reflects the new `tabindex`/`aria-selected` state — the
+focuses already reflects the new `tabindex` state — the
 same "id-targeted eval, deferred to after render" idiom `DateTimePicker`
 and `ThemePicker` already use for cases with no `ElementReference`.
 Move-button/listbox focus uses real `ElementReference`s (both

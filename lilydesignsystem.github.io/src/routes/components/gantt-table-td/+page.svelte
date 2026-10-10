@@ -76,6 +76,7 @@
     <ul>
       <li>Implicit <code>gridcell</code> role from the <code>&lt;td&gt;</code> element when inside a <code>role="grid"</code> table</li>
       <li>Consumer may add <code>aria-label</code> or <code>aria-describedby</code> for cells with visual-only content (e.g., bar segments)</li>
+      <li><code>active</code> (Svelte, React and Vue) makes this cell the grid's single roving tab stop — <code>tabindex="0"</code>, every other cell <code>-1</code> — and **never sets <code>aria-selected</code>**: focus is not selection, and announcing every focused cell as "selected" misleads screen-reader users. A grid with real selection sets <code>aria-selected</code> itself, on the row or explicitly on the cell (rest props pass it through). Corrected 2026-10-10; before that <code>active</code> set <code>aria-selected="true"</code> too.</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -83,6 +84,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
+      <li><code>active</code>: boolean (optional, default false) -- the roving tab stop; sets <code>tabindex</code> only, never <code>aria-selected</code></li>
       <li><code>children</code>: slot (required) -- cell content such as bar segments, milestone markers, or text</li>
       <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;td&gt;</code> element</li>
     </ul>

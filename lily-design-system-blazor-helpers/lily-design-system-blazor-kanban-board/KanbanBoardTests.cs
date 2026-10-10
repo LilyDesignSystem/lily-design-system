@@ -152,6 +152,15 @@ public class KanbanBoardTests : TestContext
     // =====================================================================
 
     [Fact]
+    public void Section_8_5_Roving_Tab_Stop_Is_Not_Announced_As_Selection()
+    {
+        // Focus is not selection: the cursor cell is the tab stop only.
+        var cut = RenderDefault();
+        Assert.Single(TabbableCells(cut));
+        Assert.Empty(cut.FindAll("td[aria-selected]"));
+    }
+
+    [Fact]
     public void Section_8_5_Exactly_One_Cell_Tabindex_Zero_Arrows_Move_And_Clamp()
     {
         var cut = RenderDefault();

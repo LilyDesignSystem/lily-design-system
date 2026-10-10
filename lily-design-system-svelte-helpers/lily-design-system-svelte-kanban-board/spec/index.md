@@ -42,8 +42,8 @@ per-card move-menu trigger and the menu itself — a small
 button-opens-listbox popup, structurally identical to every picker's
 own shape, just anchored to a grid cell instead of a page header.
 `KanbanTable` keeps owning `<table role="grid">` and its `aria-label`;
-`KanbanTableTD`'s existing `active` prop (roving `tabindex`/
-`aria-selected`) is reused as-is for body cells, the same way
+`KanbanTableTD`'s existing `active` prop (roving `tabindex`;
+never `aria-selected` since 2026-10-10) is reused as-is for body cells, the same way
 `data-grid` reuses it on `DataTableTD`.
 
 ## 4. HTML

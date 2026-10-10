@@ -510,12 +510,10 @@ export class GanttChart extends HTMLElement {
     const previous = this.#cellEls.get(`${previousRow}-${previousCol}`);
     if (previous) {
       previous.setAttribute("tabindex", "-1");
-      previous.setAttribute("aria-selected", "false");
     }
     const next = this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`);
     if (next) {
       next.setAttribute("tabindex", "0");
-      next.setAttribute("aria-selected", "true");
       if (focusNewCell) next.focus({ preventScroll: true });
     }
   }
@@ -676,7 +674,6 @@ export class GanttChart extends HTMLElement {
         td.setAttribute("data-col", String(colIndex));
         const isActive = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
         td.setAttribute("tabindex", isActive ? "0" : "-1");
-        td.setAttribute("aria-selected", String(isActive));
         if (inRange) td.setAttribute("data-in-range", "");
         if (isMilestone) td.setAttribute("data-milestone", "");
         if (isToday) td.setAttribute("data-today", "");

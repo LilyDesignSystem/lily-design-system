@@ -28,6 +28,7 @@
 
 - `role="listitem"` -- identifies this as an item within a list container (the parent Kanban column with `role="list"`)
 - `aria-label` -- optional accessible name for the card, set from the `label` prop, allowing screen readers to identify individual cards
+- `active` (Svelte, React and Vue) makes this cell the grid's single roving tab stop — `tabindex="0"`, every other cell `-1` — and **never sets `aria-selected`**: focus is not selection, and announcing every focused cell as "selected" misleads screen-reader users. A grid with real selection sets `aria-selected` itself, on the row or explicitly on the cell (rest props pass it through). Corrected 2026-10-10; before that `active` set `aria-selected="true"` too.
 
 ## Keyboard
 
@@ -35,6 +36,7 @@
 
 ## Props
 
+- `active`: boolean (optional, default false) -- the roving tab stop; sets `tabindex` only, never `aria-selected`
 - `label`: string (optional) -- accessible label for the card via `aria-label`
 - `children`: slot (required) -- card content (title, assignee, metadata, etc.)
 - `...restProps`: any -- additional HTML attributes spread onto the `<div>` element

@@ -11,7 +11,7 @@
     trigger-button-opens-listbox popup, anchored to a grid cell instead of
     a page header. WAI-ARIA APG Grid roving-tabindex keyboard model,
     hand-rolled (no headless data-grid exists yet in this catalog to reuse
-    it from) via AdditionalAttributes splatting: tabindex/aria-selected/
+    it from) via AdditionalAttributes splatting: tabindex and
     role are NOT parameters KanbanTableTD exposes, so they are set as
     ordinary unmatched attributes that flow through its own
     `@attributes="AdditionalAttributes"`.
@@ -78,7 +78,6 @@
                                        data-row="@row"
                                        data-col="@col"
                                        tabindex="@(isActive ? "0" : "-1")"
-                                       aria-selected="@(isActive ? "true" : "false")"
                                        Label="@(card is not null ? ResolveCardLabel(card) : null)"
                                        @ondragover:preventDefault="true"
                                        @ondrop="@(e => OnColumnDropAsync(column, e))">

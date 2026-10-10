@@ -26,6 +26,7 @@
 ## ARIA
 
 - Implicit `cell` role from the `<td>` element -- identifies the element as a cell within a table row
+- `active` (Svelte, React and Vue) makes this cell the grid's single roving tab stop — `tabindex="0"`, every other cell `-1` — and **never sets `aria-selected`**: focus is not selection, and announcing every focused cell as "selected" misleads screen-reader users. A grid with real selection sets `aria-selected` itself, on the row or explicitly on the cell (rest props pass it through). Corrected 2026-10-10; before that `active` set `aria-selected="true"` too.
 
 ## Keyboard
 
@@ -33,6 +34,7 @@
 
 ## Props
 
+- `active`: boolean (optional, default false) -- the roving tab stop; sets `tabindex` only, never `aria-selected`
 - `children`: slot (required) -- cell content
 - `...restProps`: Any additional HTML attributes passed to the `<td>` element
 

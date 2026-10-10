@@ -145,7 +145,7 @@ dispatches.
       </thead>
       <tbody class="kanban-table-body">
         <tr class="kanban-table-row">
-          <td class="kanban-table-td" data-row="{r}" data-col="{c}" tabindex="0|-1" aria-selected="true|false" aria-label="{cardLabel}">
+          <td class="kanban-table-td" data-row="{r}" data-col="{c}" tabindex="0|-1" aria-label="{cardLabel}">  <!-- no aria-selected: focus is not selection -->
             <span class="kanban-board-card-title" draggable="true">{cardLabel(card)}</span>
             <button class="kanban-board-move-button" aria-haspopup="listbox" aria-expanded="false|true" tabindex="-1">…</button>
             <ul class="kanban-board-move-list" role="listbox" aria-label="{moveMenuLabel}" tabindex="-1">  <!-- only while open -->

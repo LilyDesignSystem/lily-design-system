@@ -136,7 +136,6 @@ export function nextKanbanBoardId(): string {
                   [attr.data-row]="rowIndex"
                   [attr.data-col]="colIndex"
                   [attr.tabindex]="isFocused(rowIndex, colIndex) ? 0 : -1"
-                  [attr.aria-selected]="isFocused(rowIndex, colIndex)"
                   (dragover)="onColumnDragOver($event)"
                   (drop)="onColumnDrop(column, $event)"
                 >

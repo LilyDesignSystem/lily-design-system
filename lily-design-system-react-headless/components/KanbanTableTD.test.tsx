@@ -24,9 +24,9 @@ describe("KanbanTableTD", () => {
         expect(screen.getByRole("gridcell").textContent?.trim()).toBe("");
     });
 
-    test("has aria-selected when active", () => {
+    test("does not set aria-selected when active (focus is not selection)", () => {
         render(<table><tbody><tr><Subject active /></tr></tbody></table>);
-        expect(screen.getByRole("gridcell").getAttribute("aria-selected")).toBe("true");
+        expect(screen.getByRole("gridcell").getAttribute("aria-selected")).toBeNull();
     });
 
     test("has no aria-selected by default", () => {

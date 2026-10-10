@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Focus is not selection: table cells stop announcing the keyboard cursor as "selected" — 2026-10-10
+
+The `active` prop on `DataTableTD`, `GanttTableTD` and `KanbanTableTD` set `aria-selected="true"` as well as the roving
+`tabindex="0"`, so a screen reader announced every focused cell as "selected" — misleading in any grid, and wrong in one with real
+selection. `active` now sets only `tabindex`; a grid with real selection sets `aria-selected` itself. Fixed in the three
+libraries that have the prop (Svelte, both copies; React; Vue; the other five libraries' cells have no `active` prop) and in the
+kanban-board and gantt-chart helpers that hand-rolled the same cursor (Angular, HTML, Web Components, Blazor). The Svelte, React and
+Vue kanban-board and gantt-chart helpers are fixed through the headless cells. Every changed test (the three cells' "active"
+tests, and a new "no cell carries aria-selected" test in all 14 kanban-board and gantt-chart helpers) failed against the old code.
+The cell contracts in `components/{data,gantt,kanban}-table-td/AGENTS.md` now say so; the helper specs that described
+`aria-selected` as the roving cursor are updated. No theme styled these cells by `aria-selected`; `calendar-table-td`'s
+`aria-selected` is a real date selection and is unchanged. Also in the data grid 0.3.0 (not yet released): focus follows clicks,
+the tab stop survives shrinking rows/columns, `aria-rowcount`/`aria-rowindex` when paginated, page announcements, column `compare`.
+
 ## `lily-design-system-svelte-data-grid` becomes its own subproject; data grid 0.2.0 — 2026-10-09
 
 The Svelte data grid moved out of `lily-design-system-svelte-helpers` to a top-level subproject with its own toolchain
