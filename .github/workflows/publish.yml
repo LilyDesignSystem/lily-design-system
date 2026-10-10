@@ -1,5 +1,12 @@
 name: Publish
 
+# Monorepo publishing: every npm and NuGet package is built and published
+# from this repository (LilyDesignSystem/lily-design-system), whose
+# package.json files name it as `repository` (with `directory`) and whose
+# .csproj files name it as <RepositoryUrl>; the per-subproject git subtree
+# repositories are source mirrors only and never publish anything. See
+# docs/releasing.md and spec/trusted-publishing/index.md.
+#
 # Tag-gated, dry-run by default. A v* tag (or a manual dispatch) runs
 # the publish scripts in --dry-run mode; publishing for real requires
 # the explicit `real` input on a manual dispatch — a tag alone never
@@ -60,6 +67,13 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
+
+      - name: Check every package names the monorepo as its source
+        # Packages publish from this monorepo, never from the per-subproject
+        # subtree mirrors. npm --provenance rejects a package whose
+        # repository.url is not the repository this workflow runs in, so
+        # fail before any registry is touched.
+        run: bin/check-package-metadata
 
       - name: Decide mode
         id: mode

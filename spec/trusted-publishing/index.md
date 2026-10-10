@@ -59,6 +59,30 @@ the credential inventory and its single-holder honesty is
   adopted, Trusted Publishing's short-lived OIDC token — both authenticate
   the same publish step, whoever decided to run it.
 
+## Monorepo publishing
+
+Every package is published from this monorepo and names it as its source
+(2026-10-10; before that, each `package.json` and `.csproj` named its own
+per-subproject subtree repository). This is a precondition for both halves
+of this topic, not a separate choice:
+
+- **npm provenance** binds a package to the repository the publishing
+  workflow ran in, and npm rejects a publish whose `repository.url` names a
+  different one. Publishing runs in `LilyDesignSystem/lily-design-system`, so
+  every published `package.json` names it, with `repository.directory` set
+  to its subproject path. With the earlier subtree URLs, a `--provenance`
+  publish from `publish.yml` could not have succeeded; no release up to
+  2026-10-10 carries a provenance attestation (all were published locally).
+- **Trusted publishers** (nuget.org's policy now, npm's when adopted) are
+  bound to one repository and workflow. One monorepo workflow means one
+  policy binding per registry, instead of one per subtree repository.
+
+The subtree repositories stay as read-only source mirrors and are never a
+publishing source. [`bin/check-package-metadata`](../../bin/check-package-metadata)
+enforces the metadata in `bin/test`, in CI, and as the first step of
+`publish.yml`; [docs/releasing.md](../../docs/releasing.md) § Monorepo
+publishing is the procedure.
+
 ## Readiness picture (as of 2026-09)
 
 | Registry | Trusted Publishing state | Covers our forges? |
@@ -117,9 +141,17 @@ Still open, for npm, when the bar below is met:
       `publish.yml` in favour of `NuGet/login@v1` + `NUGET_USER`.
 - [ ] npm: trusted publishers configured for all package names;
       `NPM_TOKEN` removed and revoked; docs updated in the same commit.
-- [x] Until npm adopts: npm publishes carry `--provenance`; publishing
-      requires explicit manual dispatch; `NPM_TOKEN` exists only as a
-      named CI secret with its holder recorded.
+- [x] Until npm adopts: `publish.yml` publishes npm with `--provenance`;
+      publishing requires explicit manual dispatch; `NPM_TOKEN` exists only
+      as a named CI secret with its holder recorded.
+- [x] Monorepo publishing: every published `package.json` names
+      `LilyDesignSystem/lily-design-system` as `repository.url` with its own
+      `repository.directory`, every packable `.csproj` names it as
+      `<RepositoryUrl>`, and `bin/check-package-metadata` enforces both
+      (2026-10-10).
+- [ ] A release published through `publish.yml` with a provenance
+      attestation on npm (none exists yet: every release so far was
+      published locally).
 
 ## Related topics
 

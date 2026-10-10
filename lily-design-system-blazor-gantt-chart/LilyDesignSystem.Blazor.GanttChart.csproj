@@ -11,7 +11,7 @@
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor Gantt chart: a keyboard-accessible Gantt chart composing the headless GanttTable family plus the sibling DateTimePicker helper (twice per edit session) for start/end date editing. Row hierarchy, milestones, percent-complete, today marker, finish-to-start dependency data. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system-blazor-gantt-chart</RepositoryUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y;gantt</PackageTags>
     <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>

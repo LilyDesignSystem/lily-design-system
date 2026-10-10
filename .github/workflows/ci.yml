@@ -50,6 +50,9 @@ jobs:
       - name: bin/check-class-names (every headless implementation carries its base class)
         run: bin/check-class-names
 
+      - name: bin/check-package-metadata (every published package names the monorepo as its source)
+        run: bin/check-package-metadata
+
   helper-packages:
     # Top-level helper packages, one subproject each (the *-helpers
     # catalogs dissolved into them, Svelte first, 2026-10-10). Each is its

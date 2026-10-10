@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Monorepo publishing for npm and NuGet — 2026-10-10
+
+Packages are built and published only from this monorepo, never from the per-subproject git subtree repositories, which stay as
+read-only source mirrors. All 102 published `package.json` files (94 helper packages, 7 headless libraries, `@lilydesignsystem/themes`)
+now have `repository` = `git+https://github.com/LilyDesignSystem/lily-design-system.git` with `directory` set to their own subproject,
+and all 14 packable `.csproj` files have `<RepositoryUrl>` = the monorepo; every one previously named its own subtree repository
+(the helper packages since the catalog moves earlier today). This was not cosmetic: npm `--provenance` rejects a publish whose
+`repository.url` differs from the repository the workflow runs in, so the `publish` workflow's provenance publishing could not have
+succeeded for any package, and indeed no release so far carries a provenance attestation (all were published locally). `ng-packagr`
+carries the field into Angular's `dist/package.json`, and `dotnet pack` now writes the monorepo URL plus the exact commit into each
+`.nuspec`. New `bin/check-package-metadata` enforces both rules, in `bin/test`, in CI's `verify` job, and as the first step of
+`publish.yml`, before any registry is touched. `docs/releasing.md` gains a "Monorepo publishing" section and the release procedure
+says to publish from a monorepo checkout (preferably via `publish.yml`, the only path that attests provenance);
+`spec/trusted-publishing` records the change and the still-open item of a first provenance-attested release. No package versions
+changed: the scripts never edit versions, and the new metadata ships with each package's next release.
+
 ## Blazor helpers: one top-level subproject per package; every catalog is now gone — 2026-10-10
 
 The 13 packages in `lily-design-system-blazor-helpers` moved to the repository root, and the last catalog was deleted. The shared

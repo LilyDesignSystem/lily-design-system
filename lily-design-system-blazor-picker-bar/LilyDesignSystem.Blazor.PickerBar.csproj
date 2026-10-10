@@ -11,7 +11,7 @@
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor picker bar: composes link-picker (optional), search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system-blazor-picker-bar</RepositoryUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y</PackageTags>
     <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>

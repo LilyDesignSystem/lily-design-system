@@ -24,7 +24,8 @@
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-nunjucks-headless"
   },
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {

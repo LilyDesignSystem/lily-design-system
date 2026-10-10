@@ -17,7 +17,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-vue-headless.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-vue-headless"
   },
   "keywords": [
     "public",

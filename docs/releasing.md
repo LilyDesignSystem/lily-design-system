@@ -63,9 +63,37 @@ wording) is the worked example.
 ## Two ways to consume, one source
 
 - **Package consumption**: npm / NuGet, via the version lines above.
+  Every package is built and published **from this monorepo** (see
+  "Monorepo publishing" below), and names it as its source.
 - **Source consumption**: every subproject is a `git subtree` pushed to
   its own public repository (`bin/git-subtree-push`), and the zero-install
-  path — copying markup — needs no artifact at all.
+  path — copying markup — needs no artifact at all. Those repositories are
+  read-only source mirrors; nothing is ever published from them.
+
+## Monorepo publishing
+
+Since 2026-10-10, publishing to npm and NuGet happens only from this
+repository, `LilyDesignSystem/lily-design-system`: the `publish` workflow,
+or `bin/publish-headless` / `bin/publish-helpers` run from a checkout of
+it. A subtree repository is never a publishing source. The package
+metadata says so:
+
+- every published `package.json` has
+  `"repository": { "type": "git", "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git", "directory": "<its subproject directory>" }`,
+  so npm's package page links to the right folder of the monorepo, and
+  `npm publish --provenance` from `publish.yml` can verify that the
+  package came from the repository it names (npm rejects a mismatch with
+  E422 — which is why the earlier per-subtree URLs made provenance
+  publishing from this workflow impossible);
+- every packable `.csproj` has
+  `<RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system</RepositoryUrl>`;
+  `dotnet pack` adds the exact commit to the package's `repository`
+  element.
+
+[`bin/check-package-metadata`](../bin/check-package-metadata) enforces both;
+it runs in `bin/test`, in CI, and as the first step of `publish.yml`.
+The npm and NuGet trusted-publisher policies are bound to this
+repository and `publish.yml` for the same reason.
 
 Registries get releases; the subtree repos track `main`. A consumer who
 needs reproducibility should use packages (whose lockfile-tested
@@ -93,7 +121,8 @@ identified release commits; earlier history has no tags.
 1. Bump the package's `package.json` / `.csproj` version and write its
    CHANGELOG entry. The scripts never edit versions.
 2. **Dry-run first, always**: `bin/publish-headless --dry-run` /
-   `bin/publish-helpers --dry-run`.
+   `bin/publish-helpers --dry-run`, from a checkout of this monorepo —
+   never from a subtree repository. `bin/check-package-metadata` must pass.
 3. **Consumer smoke**: `bin/smoke-packages` — packs every npm headless
    library and imports it from a scratch project the way a consumer
    would. This is the gate that would have caught 0.2.0; it also runs
@@ -105,7 +134,9 @@ identified release commits; earlier history has no tags.
    no local `NUGET_API_KEY` any more), or the tag-gated
    [`publish` workflow](../.github/workflows/publish.yml) — dry-run by
    default, real publishing only via an explicit manual dispatch, npm
-   provenance enabled.
+   provenance enabled. Prefer the workflow for npm: only a publish from it
+   carries a provenance attestation (a local `npm publish` cannot), and no
+   release before 2026-10-10 has one.
 
 ## Deprecation policy
 

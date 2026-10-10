@@ -201,6 +201,7 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories
 - [list-helper-packages](../bin/list-helper-packages): List one framework's top-level helper packages in dependency (build) order
+- [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo, never from a subtree repo
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
 - [create-implementation-directory](../bin/create-implementation-directory): Scaffold one implementation directory
 - [test](../bin/test): Run all tests

@@ -362,6 +362,11 @@ test_lockfiles_are_tracked
     || err "theme token blocks drift from themes/tokens/*.json; run bin/generate-theme-tokens"
 "$top/bin/check-class-names" >/dev/null 2>&1 \
     || err "a headless implementation lacks its base class hook; run bin/check-class-names"
+
+# Packages publish from the monorepo, so every published manifest must
+# name it as its source repository (npm --provenance rejects a mismatch).
+"$top/bin/check-package-metadata" >/dev/null 2>&1 \
+    || err "a published package names a repository other than the monorepo; run bin/check-package-metadata"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
 "$top/bin/extract-site-pages" --check >/dev/null 2>&1 \

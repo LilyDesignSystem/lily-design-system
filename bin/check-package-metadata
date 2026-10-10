@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+"""Every published package names the monorepo as its source.
+
+Packages are built and published from this monorepo (the `publish`
+workflow, or `bin/publish-headless` / `bin/publish-helpers` run from a
+checkout of it), not from the per-subproject git subtree repositories,
+which are read-only source mirrors. So:
+
+  * every published npm package.json (`@lilydesignsystem/*`, not private)
+    has `repository.url` = the monorepo and `repository.directory` = its
+    own path in it. npm `--provenance` checks `repository.url` against the
+    repository the publishing workflow ran in, and rejects a mismatch
+    (E422), so a subtree URL here breaks provenance publishing outright;
+  * every packable .csproj (one with a <PackageId>) has
+    <RepositoryUrl> = the monorepo.
+
+Usage: bin/check-package-metadata   (exit 1 and a list on any mismatch)
+Spec: spec/trusted-publishing/index.md § Monorepo publishing.
+"""
+import glob, json, os, re, sys
+
+MONO = "LilyDesignSystem/lily-design-system"
+NPM_URL = f"git+https://github.com/{MONO}.git"
+NUGET_URL = f"https://github.com/{MONO}"
+
+root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(root)
+errors, npm, nuget = [], 0, 0
+
+for p in sorted(glob.glob("lily-design-system-*/package.json")):
+    d = json.load(open(p))
+    if d.get("private") or not str(d.get("name", "")).startswith("@lilydesignsystem/"):
+        continue
+    npm += 1
+    r = d.get("repository")
+    want_dir = os.path.dirname(p)
+    if not isinstance(r, dict) or r.get("url") != NPM_URL or r.get("directory") != want_dir:
+        errors.append(f"{p}: repository must be {{\"type\": \"git\", \"url\": \"{NPM_URL}\", \"directory\": \"{want_dir}\"}}, found {json.dumps(r)}")
+
+for p in sorted(glob.glob("lily-design-system-*/**/*.csproj", recursive=True)):
+    if "/bin/" in p or "/obj/" in p:
+        continue
+    t = open(p).read()
+    if "<PackageId>" not in t:
+        continue
+    nuget += 1
+    m = re.search(r"<RepositoryUrl>([^<]*)</RepositoryUrl>", t)
+    if not m or m.group(1) != NUGET_URL:
+        errors.append(f"{p}: <RepositoryUrl> must be {NUGET_URL}, found {m.group(1) if m else 'none'}")
+
+if errors:
+    print(f"check-package-metadata: {len(errors)} problem(s)")
+    for e in errors:
+        print("  " + e)
+    sys.exit(1)
+print(f"check-package-metadata: OK ({npm} npm packages, {nuget} NuGet packages name the monorepo)")

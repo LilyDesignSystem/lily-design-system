@@ -339,6 +339,7 @@ Scripts live in `bin/`:
 | `bin/list-components-as-pascal-case`  | List all component PascalCase names.                 |
 | `bin/list-implementations`            | List implementation subprojects.                     |
 | `bin/list-helper-packages`            | One framework's top-level helper packages, in build order. |
+| `bin/check-package-metadata`          | Every published package names the monorepo as its source (monorepo publishing). |
 | `bin/create-component-directory`      | Scaffold one component directory.                    |
 | `bin/create-implementation-directory` | Scaffold one implementation directory.               |
 | `bin/test`                            | Verify required files across repo + all subprojects. |

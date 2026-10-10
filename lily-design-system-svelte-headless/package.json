@@ -14,7 +14,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-svelte-headless.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-svelte-headless"
   },
   "keywords": [
     "lily",
