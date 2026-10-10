@@ -109,7 +109,11 @@ never re-implements a `<table>`.
 (row) => unknown` (default `row[id]`), `format?: (value, row) =>
 string` (default `String(value)`, `""` for `null`/`undefined`),
 `sortable?`, `filterable?` (default `true`), `resizable?`, `hidable?`,
-`width?: number` (px), `cell?: Snippet<[DataGridCellContext]>` (default:
+`width?: number` (px), `compare?: (a, b) => number` (orders two raw
+non-null values when sorting — pass e.g. an `Intl.Collator`'s `compare`
+for locale-aware text order; the grid picks no locale itself, so the
+default is plain `<`/`>`; `null`/`undefined` sort last regardless),
+`cell?: Snippet<[DataGridCellContext]>` (default:
 the formatted value as text). `DataGridCellContext` is `{ value,
 formatted, row, column }` — a typed Svelte 5 snippet rather than a slot,
 so a consumer's link, badge, or icon cell typechecks against the row
@@ -122,7 +126,8 @@ control it names**, matching `share-picker`'s `copyLabel` and
 English fallback for any of them: `search`, `columnVisibility`,
 `columnVisibilityOption(header)`, `resizeHandle(header)`, `selectAll`,
 `selectionColumn`, `selectRow(rowLabel)`, `previousPage`, `nextPage`,
-`pageStatus(page, pageCount, rowCount)`, `sortAnnouncement(header,
+`pageStatus(page, pageCount, rowCount)`, `pageAnnouncement(page,
+pageCount)`, `sortAnnouncement(header,
 direction)`, `filterAnnouncement(matchCount, totalCount)`,
 `selectionAnnouncement(selectedCount)`.
 
@@ -213,7 +218,24 @@ sortable header cell triggers that column's sort exactly as a pointer
 click would; on a focused selection cell, toggles that row's (or all
 rows', for the header select-all cell) selection.
 
-**Announcements.** Every sort, filter, and selection change writes a
+The roving position follows focus however it arrives: a pointer click
+or programmatic `focus()` on a cell moves it there (`focusin`), so the
+next arrow key moves from the cell the user is actually on. It is also
+clamped to the cells that currently exist — when filtering, paging, or
+hiding a column removes the cell it named, the nearest remaining cell
+becomes the tab stop, so the grid never drops out of the tab order.
+
+**Focus is not selection.** Body cells never carry `aria-selected`;
+selection lives on the row (`<tr aria-selected>`) only when
+`selectionMode !== "none"`. The headless `DataTableTD`'s `active` prop
+used to set `aria-selected="true"` on the focused cell as well, which
+announced every focused cell as "selected"; that was fixed at the
+source on 2026-10-10 (the cell contract now says `active` sets only
+`tabindex`). `DataGrid` still passes `aria-selected={undefined}` to its
+cells, so it stays correct against a published headless version that
+predates the fix.
+
+**Announcements.** Every sort, filter, selection, and page change writes a
 string to a single `data-grid-status` `aria-live="polite"` region,
 built from the matching `labels.*` function — never a hardcoded
 sentence. No announcement is attempted for a control whose label
@@ -236,7 +258,14 @@ WAI-ARIA APG Grid pattern (`role="grid"`, inherited from `DataTable`).
 Roving-tabindex focus management, not `aria-activedescendant` (see §6).
 `aria-sort` on every sortable header, reflecting live state. Hiding a
 column removes its cells outright rather than leaving stale
-`aria-colcount`/`aria-rowcount` bookkeeping to get wrong. State changes
+`aria-colcount` bookkeeping to get wrong. When `pageSize` is set, the
+DOM holds one page of a larger set, so the grid carries `aria-rowcount`
+(all sorted-and-filtered rows plus the header row) and every row carries
+its 1-based `aria-rowindex` (header `1`, then its position in the whole
+sorted-and-filtered list), letting a screen reader say "row 4 of 6" on
+page 2. Without pagination every row is in the DOM and neither is set.
+The column resize handle exposes `aria-valuenow` and `aria-valuemin`
+(40). State changes
 are announced through one live region rather than relying on visual
 change alone.
 
@@ -298,6 +327,16 @@ change alone.
   row per keystroke.
 - §8.19 A column's `cell` snippet, when set, renders each of its body
   cells and receives `value`, `formatted`, `row`, and `column`.
+- §8.20 Focusing a cell by pointer moves the roving position to it, so
+  arrows move from that cell; filtering away the focused row or hiding
+  the focused column still leaves exactly one tabbable cell; no body
+  cell carries `aria-selected`.
+- §8.21 With `pageSize` set, the grid carries `aria-rowcount` (rows plus
+  header) and each row its `aria-rowindex` in the whole list.
+- §8.22 Changing page writes `labels.pageAnnouncement(page, pageCount)`
+  to `data-grid-status`.
+- §8.23 The resize handle carries `aria-valuemin="40"`.
+- §8.24 A column's `compare` orders its sort.
 
 ## 9. Non-goals
 

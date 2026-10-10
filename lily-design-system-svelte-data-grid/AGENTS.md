@@ -79,7 +79,14 @@ footer.
 - `aria-sort` on every sortable header, reflecting live state.
 - Hiding a column removes its cells rather than hiding them visually,
   so column count stays truthful to assistive technology.
-- One `aria-live="polite"` region for all state-change announcements.
+- One `aria-live="polite"` region for all state-change announcements
+  (sort, filter, selection, page).
+- The roving tab stop follows `focusin` and is clamped to cells that
+  exist (`activeRow`/`activeCol`), so it never vanishes when rows or
+  columns shrink — spec/index.md §8.20.
+- Focus is not selection: body cells override `DataTableTD`'s
+  `aria-selected`; selection lives on the row.
+- Paginated: `aria-rowcount` on the grid, `aria-rowindex` on every row.
 
 ## Conventions this package follows
 

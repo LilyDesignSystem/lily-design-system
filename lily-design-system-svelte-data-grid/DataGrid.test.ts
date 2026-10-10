@@ -387,3 +387,84 @@ describe("DataGrid — cell snippet (§8.19)", () => {
         expect(links[0].textContent).toBe("BOB@EXAMPLE.COM (Bob)");
     });
 });
+
+describe("DataGrid — focus integrity (§8.20)", () => {
+    test("§8.20 focusing a cell by pointer moves the roving position there, so arrows move from it", async () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, labels: LABELS } });
+        const cell = bodyRows()[1].querySelectorAll<HTMLElement>(".data-table-td")[1];
+        await fireEvent.focusIn(cell);
+        expect(tabbableCells()).toEqual([cell]);
+        await fireEvent.keyDown(cell, { key: "ArrowLeft" });
+        expect(tabbableCells()).toEqual([bodyRows()[1].querySelectorAll(".data-table-td")[0]]);
+    });
+
+    test("§8.20 filtering away the focused row still leaves exactly one tabbable cell", async () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowDown" });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowDown" }); // row 2 of 2
+        expect(tabbableCells()[0]).toBe(bodyRows()[1].querySelector(".data-table-td"));
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "bob" } });
+        expect(bodyRows()).toHaveLength(1);
+        expect(tabbableCells()).toHaveLength(1);
+    });
+
+    test("§8.20 hiding the focused column still leaves exactly one tabbable cell", async () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowDown" });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight" }); // the Email cell
+        expect(tabbableCells()[0]).toBe(bodyRows()[0].querySelectorAll(".data-table-td")[1]);
+        await fireEvent.click(screen.getByRole("checkbox", { name: "Show Email" }));
+        expect(tabbableCells()).toHaveLength(1);
+    });
+
+    test("§8.20 keyboard focus is not announced as selection: no body cell carries aria-selected", async () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowDown" });
+        expect(tabbableCells()[0].classList.contains("data-table-td")).toBe(true);
+        expect(document.querySelectorAll(".data-table-td[aria-selected]")).toHaveLength(0);
+    });
+});
+
+describe("DataGrid — row position for assistive technology (§8.21)", () => {
+    test("§8.21 a paginated grid exposes aria-rowcount and each row's aria-rowindex", async () => {
+        const rows = Array.from({ length: 5 }, (_, i) => ({ name: `Row ${i}`, email: `r${i}@example.com` }));
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows, pageSize: 2, labels: LABELS } });
+        expect(screen.getByRole("grid").getAttribute("aria-rowcount")).toBe("6"); // 5 rows + header
+        expect(document.querySelector(".data-table-head .data-table-row")?.getAttribute("aria-rowindex")).toBe("1");
+        await fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        expect(bodyRows().map((r) => r.getAttribute("aria-rowindex"))).toEqual(["4", "5"]);
+    });
+});
+
+describe("DataGrid — page announcement (§8.22)", () => {
+    test("§8.22 changing page announces labels.pageAnnouncement", async () => {
+        render(DataGrid, {
+            props: {
+                label: "Users", columns: COLUMNS, rows: ROWS, pageSize: 1,
+                labels: { ...LABELS, pageAnnouncement: (page: number, count: number) => `Page ${page} of ${count}` },
+            },
+        });
+        await fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("Page 2 of 2");
+    });
+});
+
+describe("DataGrid — resize handle range (§8.23)", () => {
+    test("§8.23 the resize handle exposes its minimum width as aria-valuemin", () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, labels: LABELS } });
+        expect(screen.getByRole("separator").getAttribute("aria-valuemin")).toBe("40");
+    });
+});
+
+describe("DataGrid — custom comparison (§8.24)", () => {
+    test("§8.24 a column's `compare` orders its sort, e.g. a consumer-supplied locale collator", async () => {
+        const collator = new Intl.Collator("en", { sensitivity: "base" });
+        const rows = [{ name: "Zoe" }, { name: "alice" }, { name: "Bob" }];
+        const columns: DataGridColumn[] = [
+            { id: "name", header: "Name", sortable: true, compare: (a, b) => collator.compare(String(a), String(b)) },
+        ];
+        render(DataGrid, { props: { label: "Users", columns, rows } });
+        await fireEvent.click(screen.getByRole("button", { name: "Name" }));
+        expect(bodyRows().map((r) => r.textContent?.trim())).toEqual(["alice", "Bob", "Zoe"]);
+    });
+});

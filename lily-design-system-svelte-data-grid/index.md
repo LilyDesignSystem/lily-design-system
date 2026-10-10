@@ -62,6 +62,7 @@ its four wrapped pickers.
     nextPage: "Next page",
     pageStatus: (page, pageCount, rowCount) =>
       `Page ${page} of ${pageCount} (${rowCount} rows)`,
+    pageAnnouncement: (page, pageCount) => `Page ${page} of ${pageCount}`,
     sortAnnouncement: (header, direction) => `${header} sorted ${direction}`,
     filterAnnouncement: (matches, total) => `${matches} of ${total} rows match`,
     selectionAnnouncement: (count) => `${count} rows selected`,
@@ -92,6 +93,9 @@ doesn't render (no baked-in English fallback).
   that reads a real key if you replace `rows` with reordered data.
 - **Cells**: a column's `cell` snippet receives `{ value, formatted,
   row, column }`; `format` still drives the filter.
+- **Sort order**: pass a column `compare`, e.g.
+  `new Intl.Collator(locale).compare`, for locale-aware text; the grid
+  picks no locale.
 - **Large data**: hold `rows` in `$state.raw` (see
   [spec/index.md §6](./spec/index.md#6-behaviour)). Sorting reads each
   key once and filtering reuses one search index across keystrokes.

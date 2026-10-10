@@ -4,6 +4,36 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-10
+
+Accessibility and correctness audit; each fix has a test that failed
+before it (spec/index.md §8.20–§8.24).
+
+### Fixed
+
+- Clicking a cell did not move the roving tab stop, so the next arrow
+  key jumped from wherever keyboard focus had last been. A `focusin`
+  handler now moves it to the focused cell.
+- Filtering away the focused row, changing to a shorter page, or hiding
+  the focused column left no cell with `tabindex="0"`, so the grid
+  dropped out of the tab order. The tab stop is now clamped to the
+  cells that exist.
+- Every focused body cell was announced as "selected": the headless
+  `DataTableTD` set `aria-selected` on its active cell. The grid
+  overrides it; selection lives on the row only. (Also fixed at the
+  source the same day: `active` on `DataTableTD`, `GanttTableTD` and
+  `KanbanTableTD` no longer sets `aria-selected`.)
+
+### Added
+
+- `aria-rowcount` on the grid and `aria-rowindex` on every row when
+  paginated, so a screen reader reports a row's place in the whole list.
+- `labels.pageAnnouncement(page, pageCount)`: page changes are announced,
+  as the shared data-grid contract already required.
+- `DataGridColumn.compare` for a consumer-supplied sort order, e.g. an
+  `Intl.Collator` (the grid still picks no locale).
+- `aria-valuemin` on the column resize handle.
+
 ## 0.2.0 — 2026-10-09
 
 Lessons from an external practitioner write-up on profiling a large

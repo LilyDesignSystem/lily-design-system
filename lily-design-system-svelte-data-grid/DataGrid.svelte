@@ -39,6 +39,12 @@
         format?: (value: unknown, row: DataGridRow) => string;
         /** Column participates in sorting. */
         sortable?: boolean;
+        /**
+         * Orders two raw values when sorting (negative, zero, positive),
+         * e.g. a consumer's `Intl.Collator#compare`. Defaults to `<`/`>`.
+         * `null`/`undefined` always sort last, before `compare` is called.
+         */
+        compare?: (a: unknown, b: unknown) => number;
         /** Column participates in the text filter. Default true. */
         filterable?: boolean;
         /** Column can be resized (pointer + keyboard). */
@@ -67,6 +73,7 @@
         previousPage?: string;
         nextPage?: string;
         pageStatus?: (page: number, pageCount: number, rowCount: number) => string;
+        pageAnnouncement?: (page: number, pageCount: number) => string;
         sortAnnouncement?: (header: string, direction: DataGridSortDirection) => string;
         filterAnnouncement?: (matchCount: number, totalCount: number) => string;
         selectionAnnouncement?: (selectedCount: number) => string;
@@ -201,14 +208,17 @@
         const column = columns.find((c) => c.id === sort.columnId);
         if (!column) return filteredEntries;
         const dir = sort.direction === "ascending" ? 1 : -1;
+        const compare = column.compare;
         // Read each sort key once (n accessor calls), not twice per comparison.
         const keyed = filteredEntries.map((entry) => ({ entry, key: defaultAccessor(column, entry.row) }));
         keyed.sort((a, b) => {
             const av = a.key;
             const bv = b.key;
             if (av === bv) return 0;
+            // Missing values sort last in both directions.
             if (av === null || av === undefined) return 1;
             if (bv === null || bv === undefined) return -1;
+            if (compare) return compare(av, bv) * dir;
             return (av as never) > (bv as never) ? dir : -dir;
         });
         return keyed.map((k) => k.entry);
@@ -224,6 +234,17 @@
     );
 
     const lastCol = $derived(colOffset + visibleColumns.length - 1);
+
+    // The roving position clamped to the cells that exist now. Filtering,
+    // paging, or hiding a column can remove the cell focusedRow/focusedCol
+    // name; without the clamp no cell would be tabbable and the grid would
+    // drop out of the tab order (spec/index.md §8.20).
+    const activeRow = $derived(Math.max(-1, Math.min(focusedRow, pageEntries.length - 1)));
+    const activeCol = $derived(Math.max(0, Math.min(focusedCol, lastCol)));
+
+    // Row position for assistive technology, only when pagination means the
+    // DOM holds a subset of the rows (spec/index.md §8.21). Header row is 1.
+    const rowCount = $derived(pageSize ? sortedEntries.length + 1 : undefined);
 
     // O(1) membership instead of `selected.includes` per row.
     const selectedSet = $derived(new Set(selected));
@@ -374,7 +395,10 @@
     // ---------------------------------------------------------------
 
     function goToPage(next: number): void {
-        page = Math.min(Math.max(next, 1), pageCount);
+        const target = Math.min(Math.max(next, 1), pageCount);
+        if (target === clampedPage) return;
+        page = target;
+        announce(labels.pageAnnouncement?.(target, pageCount));
     }
 
     // ---------------------------------------------------------------
@@ -396,19 +420,27 @@
     }
 
     function activateFocusedCell(): void {
-        if (focusedCol === 0 && hasSelection) {
-            if (focusedRow === -1) {
+        if (activeCol === 0 && hasSelection) {
+            if (activeRow === -1) {
                 if (selectionMode === "multiple") toggleSelectAll();
             } else {
-                toggleRow(pageStart + focusedRow);
+                toggleRow(pageStart + activeRow);
             }
             return;
         }
-        const column = visibleColumns[focusedCol - colOffset];
+        const column = visibleColumns[activeCol - colOffset];
         if (!column) return;
-        if (focusedRow === -1) {
+        if (activeRow === -1) {
             toggleSort(column);
         }
+    }
+
+    /** Pointer or programmatic focus on a cell moves the roving position to it. */
+    function onGridFocusin(event: FocusEvent): void {
+        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        if (!cell) return;
+        focusedRow = Number(cell.dataset.row);
+        focusedCol = Number(cell.dataset.col);
     }
 
     function onGridKeydown(event: KeyboardEvent): void {
@@ -417,37 +449,37 @@
         switch (event.key) {
             case "ArrowRight":
                 event.preventDefault();
-                moveFocus(focusedRow, focusedCol + 1);
+                moveFocus(activeRow, activeCol + 1);
                 break;
             case "ArrowLeft":
                 event.preventDefault();
-                moveFocus(focusedRow, focusedCol - 1);
+                moveFocus(activeRow, activeCol - 1);
                 break;
             case "ArrowDown":
                 event.preventDefault();
-                moveFocus(focusedRow + 1, focusedCol);
+                moveFocus(activeRow + 1, activeCol);
                 break;
             case "ArrowUp":
                 event.preventDefault();
-                moveFocus(focusedRow - 1, focusedCol);
+                moveFocus(activeRow - 1, activeCol);
                 break;
             case "Home":
                 event.preventDefault();
                 if (event.ctrlKey || event.metaKey) moveFocus(-1, 0);
-                else moveFocus(focusedRow, 0);
+                else moveFocus(activeRow, 0);
                 break;
             case "End":
                 event.preventDefault();
                 if (event.ctrlKey || event.metaKey) moveFocus(pageEntries.length - 1, lastCol);
-                else moveFocus(focusedRow, lastCol);
+                else moveFocus(activeRow, lastCol);
                 break;
             case "PageDown":
                 event.preventDefault();
-                moveFocus(focusedRow + (pageSize ?? 10), focusedCol);
+                moveFocus(activeRow + (pageSize ?? 10), activeCol);
                 break;
             case "PageUp":
                 event.preventDefault();
-                moveFocus(focusedRow - (pageSize ?? 10), focusedCol);
+                moveFocus(activeRow - (pageSize ?? 10), activeCol);
                 break;
             case "Enter":
             case " ":
@@ -529,14 +561,14 @@
         </div>
     {/if}
 
-    <DataTable {label} {caption} onkeydown={onGridKeydown}>
+    <DataTable {label} {caption} aria-rowcount={rowCount} onkeydown={onGridKeydown} onfocusin={onGridFocusin}>
         <DataTableHead>
-            <DataTableRow>
+            <DataTableRow aria-rowindex={pageSize ? 1 : undefined}>
                 {#if hasSelection}
                     <DataTableTH
                         data-row={-1}
                         data-col={0}
-                        tabindex={focusedRow === -1 && focusedCol === 0 ? 0 : -1}
+                        tabindex={activeRow === -1 && activeCol === 0 ? 0 : -1}
                     >
                         {#if selectionMode === "multiple"}
                             <input
@@ -556,7 +588,7 @@
                     <DataTableTH
                         data-row={-1}
                         data-col={colOffset + i}
-                        tabindex={focusedRow === -1 && focusedCol === colOffset + i ? 0 : -1}
+                        tabindex={activeRow === -1 && activeCol === colOffset + i ? 0 : -1}
                         aria-sort={ariaSortFor(column)}
                         style={widthFor(column) ? `width:${widthFor(column)}px` : undefined}
                     >
@@ -587,6 +619,7 @@
                                 aria-orientation="vertical"
                                 aria-label={labels.resizeHandle?.(column.header)}
                                 aria-valuenow={widthFor(column) ?? 120}
+                                aria-valuemin={MIN_COLUMN_WIDTH}
                                 tabindex="0"
                                 onkeydown={(e: KeyboardEvent) => onResizeKeydown(column, e)}
                                 onpointerdown={(e: PointerEvent) => onResizePointerDown(column, e)}
@@ -600,12 +633,16 @@
             {#each pageEntries as entry, rowIndex (entry.id)}
                 {@const row = entry.row}
                 {@const id = entry.id}
-                <DataTableRow aria-selected={hasSelection ? isSelected(id) : undefined}>
+                <DataTableRow
+                    aria-selected={hasSelection ? isSelected(id) : undefined}
+                    aria-rowindex={pageSize ? pageStart + rowIndex + 2 : undefined}
+                >
                     {#if hasSelection}
                         <DataTableTD
                             data-row={rowIndex}
                             data-col={0}
-                            active={focusedRow === rowIndex && focusedCol === 0}
+                            active={activeRow === rowIndex && activeCol === 0}
+                            aria-selected={undefined}
                         >
                             <input
                                 type={selectionMode === "single" ? "radio" : "checkbox"}
@@ -622,7 +659,8 @@
                         <DataTableTD
                             data-row={rowIndex}
                             data-col={colOffset + colIndex}
-                            active={focusedRow === rowIndex && focusedCol === colOffset + colIndex}
+                            active={activeRow === rowIndex && activeCol === colOffset + colIndex}
+                            aria-selected={undefined}
                             style={widthFor(column) ? `width:${widthFor(column)}px` : undefined}
                         >
                             {#if column.cell}
