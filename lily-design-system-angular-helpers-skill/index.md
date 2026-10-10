@@ -1,7 +1,7 @@
 # Lily Design System™ — Angular Helpers Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume the
-[`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/)
+[the Angular helper packages](../spec/helpers/index.md#angular-helper-packages)
 catalog: installing and importing each of the six `*-picker` packages
 (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker`), their shared and individual contracts,

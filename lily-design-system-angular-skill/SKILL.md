@@ -18,7 +18,7 @@ directly once you know which subproject you need.
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
 | [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/) | The full 571-component catalog as standalone Angular 20 components — zero CSS, semantic HTML + ARIA + keyboard behaviour only. | You are building a real app and want to depend on and style the components yourself. |
-| [`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/) | Six opinionated packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`), each owning one whole page-header preference/action, or — for `date-time-picker` — a form value. | You need a page-header preference control or a date/time form field, not a bare catalog primitive. |
+| [the Angular helper packages](../spec/helpers/index.md#angular-helper-packages) | Six opinionated packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`), each owning one whole page-header preference/action, or — for `date-time-picker` — a form value. | You need a page-header preference control or a date/time form field, not a bare catalog primitive. |
 | [`lily-design-system-angular-examples`](../lily-design-system-angular-examples/) | A fully styled Angular + Analog.js reference app: every catalog component plus 12 composed pages, styled to the NHS UK visual reference. | You want to run something and see it working, or copy a working CSS answer for a component instead of inventing your own. |
 
 For the headless library's own consumption details (install command,

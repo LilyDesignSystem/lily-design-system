@@ -2,8 +2,8 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that ties together the three real
 Angular subprojects in this monorepo — the headless component library
-(`@lilydesignsystem/angular-headless`), the `*-picker` helpers catalog
-(`lily-design-system-angular-helpers`), and the styled example application
+(`@lilydesignsystem/angular-headless`), the helper packages (one
+top-level `lily-design-system-angular-*` subproject each), and the styled example application
 (`lily-design-system-angular-examples`) — and helps an agent decide which
 one it needs.
 

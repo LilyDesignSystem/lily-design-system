@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
+
+The 13 packages in `lily-design-system-angular-helpers` moved to the repository root the same way, and the catalog was deleted.
+Each builds with its own `ng-packagr` run into `dist/` and is published from there; its source `package.json` now has a
+`prepublishOnly` that refuses a publish from the source directory (the 2026-10-08 failure mode: a package with no compiled code).
+`tsconfig.json` pins `@angular/*` and `rxjs` to the package's own copy, since a sibling's `.d.ts` otherwise resolves a second copy
+from its own `node_modules` and breaks signal-input type checks. Each lockfile is seeded from the catalog's, keeping the exact
+dependency versions: a fresh resolve picks up jsdom 30.1.2, which breaks eight Angular focus tests (link-, menu-, settings-,
+share-picker) that pass on 30.1.1 — a real regression to handle when Dependabot proposes it, not part of this move. All 13 build and
+pass. CI's per-catalog "build sibling headless" step is gone (no remaining catalog needs it). 101 published repositories.
+
 ## Vue helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
 
 The 13 packages in `lily-design-system-vue-helpers` moved to the repository root the same way, and the catalog was deleted. Each

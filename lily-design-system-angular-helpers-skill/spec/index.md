@@ -11,7 +11,7 @@ framework-specific pair.
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to consume the
-[`lily-design-system-angular-helpers`](../../lily-design-system-angular-helpers/)
+[the Angular helper packages](../../spec/helpers/index.md#angular-helper-packages)
 catalog: six opinionated Angular packages
 (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker`) that each own one complete interaction
@@ -82,7 +82,7 @@ to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [../../lily-design-system-angular-helpers/spec/index.md](../../lily-design-system-angular-helpers/spec/index.md) —
+- [the Angular helper packages](../../spec/helpers/index.md#angular-helper-packages) —
   the Angular helpers catalog this skill documents consumption of.
 - [../../lily-design-system-angular-headless-skill/spec/index.md](../../lily-design-system-angular-headless-skill/spec/index.md) —
   the sibling skill for the Angular headless component library.

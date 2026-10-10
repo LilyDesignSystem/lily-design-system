@@ -129,18 +129,18 @@ if [ -z "$NUGET_ONLY" ]; then
     publish_npm_package "$d"
   done
 
-  # Angular: ng-packagr writes the publishable package.json INTO dist/, so the
-  # catalog must be built first and each package published from its dist/.
-  if only_matches "$ROOT/lily-design-system-angular-helpers"; then
-    ensure_installed "$ROOT/lily-design-system-angular-helpers"
-    echo "--> building angular dist (ng-packagr)"
-    pnpm -C "$ROOT/lily-design-system-angular-helpers" build
-    for d in "$ROOT"/lily-design-system-angular-helpers/lily-design-system-*; do
-      [ -d "$d/dist" ] || continue
-      echo "--> $(basename "$d") (from dist/)"
-      publish_npm_package "$d/dist"
-    done
-  fi
+  # Angular: ng-packagr writes the publishable package.json INTO dist/, so
+  # each package is built first (in dependency order) and published from its
+  # dist/. Its own package.json's prepublishOnly refuses a publish from the
+  # source directory, which ships no compiled code.
+  for d in $("$ROOT/bin/list-helper-packages" angular); do
+    d="$ROOT/$d"
+    only_matches "$d" || continue
+    ensure_installed "$d"
+    echo "--> $(basename "$d") (ng-packagr, from dist/)"
+    pnpm -C "$d" build
+    publish_npm_package "$d/dist"
+  done
 fi
 
 if ! only_matches "$ROOT/lily-design-system-blazor-helpers"; then

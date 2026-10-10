@@ -79,11 +79,11 @@ for fw in html nunjucks web-components; do
   done
 done
 for p in theme-picker locale-picker text-size-picker motion-picker link-picker menu-picker settings-picker share-picker date-time-picker; do
-  d="$ROOT/lily-design-system-angular-helpers/lily-design-system-angular-$p"
+  d="$ROOT/lily-design-system-angular-$p"
   if [ -d "$d/dist" ]; then
     ( cd "$d/dist" && npm pack --pack-destination "$S" ) > /dev/null
   else
-    echo "angular-$p: dist/ missing — build the helpers catalog first (cd lily-design-system-angular-helpers && npm run build)" >&2; exit 1
+    echo "angular-$p: dist/ missing — build it first (cd lily-design-system-angular-$p && pnpm build)" >&2; exit 1
   fi
 done
 

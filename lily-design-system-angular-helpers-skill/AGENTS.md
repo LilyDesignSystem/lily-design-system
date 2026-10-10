@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining how to consume the
-[`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/)
+[the Angular helper packages](../spec/helpers/index.md#angular-helper-packages)
 catalog: six opinionated Angular packages
 (`@lilydesignsystem/angular-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-motion-picker`, `-share-picker`,
@@ -50,7 +50,7 @@ requires in place of a parenthesised TypeScript cast.
   portable to any Angular project that depends on Lily even outside this
   monorepo.
 - **Isn't**: the Angular helpers catalog itself (that's
-  [`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/)),
+  [the Angular helper packages](../spec/helpers/index.md#angular-helper-packages)),
   the Angular headless component library or its skill (that's
   [`lily-design-system-angular-headless-skill`](../lily-design-system-angular-headless-skill/)),
   and isn't the general framework-agnostic Lily concepts skill (that's

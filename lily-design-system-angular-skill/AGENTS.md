@@ -25,7 +25,7 @@ A Claude Skill that ties together the three real Angular subprojects in
 this monorepo — the headless component library
 [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/),
 the `*-picker` helpers catalog
-[`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/),
+[the Angular helper packages](../spec/helpers/index.md#angular-helper-packages),
 and the styled example application
 [`lily-design-system-angular-examples`](../lily-design-system-angular-examples/)
 — and helps an agent decide which one it needs. The skill itself is

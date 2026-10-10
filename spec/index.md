@@ -31,7 +31,7 @@ coding agents.
 | Topic | What it covers |
 | ----- | -------------- |
 | [overview](overview/index.md) | Vision, scope, the headless vs. example layers, key facts. |
-| [architecture](architecture/index.md) | Monorepo layout, the 61 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 5 helper catalogs + 41 top-level Svelte, React and Vue helper packages), `themes/`, the git-subtree model, required files. |
+| [architecture](architecture/index.md) | Monorepo layout, the 73 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 4 helper catalogs + 54 top-level Svelte, React, Vue and Angular helper packages), `themes/`, the git-subtree model, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect). |
@@ -108,8 +108,8 @@ committing.
   component class hook.
 - Component documentation per component (`components/{slug}/index.md`,
   `AGENTS.md`, `spec/index.md`).
-- Helper packages for all eight frameworks — Svelte's, React's and Vue's as one
-  top-level subproject per package (since 2026-10-10), the other five in a
+- Helper packages for all eight frameworks — Svelte's, React's, Vue's and Angular's as one
+  top-level subproject per package (since 2026-10-10), the other four in a
   `*-helpers` catalog each — each framework shipping the
   `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
   `share-picker`, `search-picker`, `link-picker`, `menu-picker`, `settings-picker`, and `date-time-picker` helper packages —
@@ -133,10 +133,10 @@ committing.
 
 The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
-`AGENTS/*.md`, `themes/`); 61 implementation subprojects hang off it —
+`AGENTS/*.md`, `themes/`); 73 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 headless library at its full
-achievable scope (Web Components, 536/571), 7 example apps, 5
-helper catalogs (Angular, HTML, Web Components, Nunjucks and Blazor), and 41 Svelte, React and Vue helper packages, one top-level
+achievable scope (Web Components, 536/571), 7 example apps, 4
+helper catalogs (HTML, Web Components, Nunjucks and Blazor), and 54 Svelte, React, Vue and Angular helper packages, one top-level
 subproject each (their catalogs were dissolved into them 2026-10-10;
 `bin/list-helper-packages <framework>`). Each subproject is also a `git
 subtree` pushed to its own standalone remote via `bin/git-subtree-push`.
@@ -150,7 +150,7 @@ git-subtree/multi-forge publishing model: [spec/architecture/](architecture/inde
   (Web Components mirrors 456 of it): unstyled, accessible, zero CSS.
 - **Examples** (7 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
-- **Helpers** (5 catalogs + 41 top-level Svelte, React and Vue packages) — opinionated packages,
+- **Helpers** (4 catalogs + 54 top-level Svelte, React, Vue and Angular packages) — opinionated packages,
   each owning one complete interaction end to end: `theme-picker`,
   `locale-picker`, `text-size-picker`, `motion-picker` (icon button +
   APG listbox, own a user preference), `share-picker`, `search-picker`, `link-picker`, `menu-picker` and `settings-picker`
@@ -344,7 +344,7 @@ Scripts live in `bin/`:
 | `bin/create-implementation-directory` | Scaffold one implementation directory.               |
 | `bin/test`                            | Verify required files across repo + all subprojects. |
 | `bin/sync`                            | Sync shared files across subprojects (rsync).        |
-| `bin/sync-special-files`              | Propagate the top-level special files into all 89 published repos. |
+| `bin/sync-special-files`              | Propagate the top-level special files into all 101 published repos. |
 | `bin/update`                          | Update shared files.                                 |
 | `bin/git-subtree-push`                | Push each subtree to its standalone remote.          |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
@@ -371,7 +371,7 @@ as a memorable entry point. See
 
 Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
 propagates the top-level special files (LICENSE, CONTRIBUTING, SECURITY,
-GOVERNANCE, …) into all 89 published repositories — a public
+GOVERNANCE, …) into all 101 published repositories — a public
 repository without a LICENSE is "all rights reserved" whatever the
 monorepo says (see [special-files-for-public-repos](special-files-for-public-repos/index.md)).
 `bin/sync` copies the canonical root `AGENTS.md`/`AGENTS/*.md` into
@@ -441,7 +441,7 @@ checked is considered live work; anything unchecked is queued in §12.
       `motion-picker` added 2026-09-03, `search-picker` 2026-10-02).
       Per-catalog test counts: [spec/testing/](testing/index.md); the
       accessibility-hardening sweeps that produced the current counts: §14.1.
-- [x] All 61 subprojects have required files (`index.md`, `README.md`
+- [x] All 73 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `spec/index.md`, `.git-subtree-push`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
       standardised on (it replaces the older split plan.md / tasks.md).

@@ -6,8 +6,10 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Angular helpers usage
 
-`lily-design-system-angular-helpers` is a catalog of six opinionated
-Angular 20 components that sit alongside
+The Angular helpers are opinionated Angular 20 components, each its own
+top-level subproject `lily-design-system-angular-{package}/` since
+2026-10-10 (before that, one `lily-design-system-angular-helpers` catalog;
+`bin/list-helper-packages angular` lists them), that sit alongside
 [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless-skill/).
 Where a headless catalog component is a pure markup primitive with no
 lifecycle, each helper owns one complete interaction end to end. Each

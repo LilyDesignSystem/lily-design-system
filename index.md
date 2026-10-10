@@ -83,8 +83,8 @@ Headless versions if you want to use components with all your own styles:
 
 ## Helpers
 
-Small, opinionated helper packages for every framework — Svelte's, React's and Vue's
-as one top-level subproject each, the other five frameworks' in a catalog each.
+Small, opinionated helper packages for every framework — Svelte's, React's, Vue's and Angular's
+as one top-level subproject each, the other four frameworks' in a catalog each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — and each
 owns one complete interaction end to end:
 
@@ -152,7 +152,20 @@ owns one complete interaction end to end:
   - [`theme-picker`](lily-design-system-vue-theme-picker)
   - [`gantt-chart`](lily-design-system-vue-gantt-chart)
   - [`picker-bar`](lily-design-system-vue-picker-bar)
-- [Angular helpers](lily-design-system-angular-helpers)
+- Angular helpers, one top-level subproject per package:
+  - [`date-time-picker`](lily-design-system-angular-date-time-picker)
+  - [`kanban-board`](lily-design-system-angular-kanban-board)
+  - [`link-picker`](lily-design-system-angular-link-picker)
+  - [`locale-picker`](lily-design-system-angular-locale-picker)
+  - [`menu-picker`](lily-design-system-angular-menu-picker)
+  - [`motion-picker`](lily-design-system-angular-motion-picker)
+  - [`search-picker`](lily-design-system-angular-search-picker)
+  - [`settings-picker`](lily-design-system-angular-settings-picker)
+  - [`share-picker`](lily-design-system-angular-share-picker)
+  - [`text-size-picker`](lily-design-system-angular-text-size-picker)
+  - [`theme-picker`](lily-design-system-angular-theme-picker)
+  - [`gantt-chart`](lily-design-system-angular-gantt-chart)
+  - [`picker-bar`](lily-design-system-angular-picker-bar)
 - [Blazor helpers](lily-design-system-blazor-helpers)
 - [Nunjucks helpers](lily-design-system-nunjucks-helpers)
 - [Web Components helpers](lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags

@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "./dist",
+  "lib": {
+    "entryFile": "index.ts"
+  },
+  "allowedNonPeerDependencies": [
+    "@lilydesignsystem/angular-link-picker",
+    "@lilydesignsystem/angular-search-picker",
+    "@lilydesignsystem/angular-theme-picker",
+    "@lilydesignsystem/angular-locale-picker",
+    "@lilydesignsystem/angular-text-size-picker",
+    "@lilydesignsystem/angular-share-picker"
+  ]
+}
