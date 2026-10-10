@@ -15,18 +15,18 @@
   },
   "dependencies": {
     "@lilydesignsystem/svelte-picker-bar": "^0.3.0",
-    "@lilydesignsystem/svelte-share-picker": "^0.1.2"
+    "@lilydesignsystem/svelte-share-picker": "^0.2.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@sveltejs/adapter-static": "^4.0.0",
-    "@sveltejs/kit": "^3.0.0",
+    "@sveltejs/kit": "^3.0.1",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
-    "marked": "^18.0.14",
-    "svelte": "^5.57.1",
+    "marked": "^18.1.0",
+    "svelte": "^5.57.2",
     "svelte-check": "^4.7.6",
     "typescript": "^6.0.3",
-    "vite": "^8.3.1"
+    "vite": "^8.3.3"
   },
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
