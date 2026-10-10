@@ -46,8 +46,8 @@ Recorded so the delta is auditable; details in
   types, and `sideEffects: false` — after discovering 0.2.0 was
   unusable (declared a `main` that was never built). Verified by
   installing packed tarballs into scratch consumers.
-- **Special files (new work)**: the repo root and all 22 published
-  subtree repositories now carry the 16-file public-repo set (LICENSE,
+- **Special files (new work)**: the repo root and all 22 subprojects
+  (then published as subtree repositories) now carry the 16-file public-repo set (LICENSE,
   CITATION.cff, NEWS, COMPARISONS, BENCHMARKS, INSTALL, CONTRIBUTING,
   CODEOWNERS, MAINTAINERS, CHANGELOG, AI_STATEMENT, GOVERNANCE,
   SECURITY, CODE_OF_CONDUCT, RFC, README), propagated by
@@ -84,7 +84,7 @@ exists; it is kept in `CHANGELOG.md` and `spec/history/`. As of 2026-10-06:
   and maintainer requests. All 8 headless libraries implement every row except Web
   Components, which implements 536 (the 35 table sub-elements and interactive `*ListItem`
   families are permanently excluded). `bin/check-coverage` reports 0 drift.
-- **Repositories**: 150 published subtree repos — 122 implementation subprojects (8 headless,
+- **Subprojects**: 150 — 122 implementation subprojects (8 headless,
   7 example apps, 107 helper packages, one each since 2026-10-10), 26 Claude Skills,
   `lily-design-system-themes` and the docs site. `bin/test` and `bin/check-links` (12,425 markdown files) are clean.
 - **Published** (2026-10-06): headless npm `svelte`/`react`/`vue` 0.4.0, `angular`/`web-components`

@@ -196,17 +196,17 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 ## Tools
 
 - [Makefile](../Makefile): `make github-pages` delegates to [bin/make-github-pages](../bin/make-github-pages), see [spec/monorepo-github-pages/index.md](../spec/monorepo-github-pages/index.md)
-- [make-github-pages](../bin/make-github-pages): Push `lilydesignsystem.github.io/` to its standalone remote via git subtree — same result as `bin/git-subtree-push lilydesignsystem.github.io`
+- [make-github-pages](../bin/make-github-pages): Push `lilydesignsystem.github.io/` to its own repository via git subtree (the one subproject that still has one; it serves GitHub Pages)
 - [list-components-as-kebab-case](../bin/list-components-as-kebab-case): List components as kebab case
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories
 - [list-helper-packages](../bin/list-helper-packages): List one framework's top-level helper packages in dependency (build) order
-- [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo, never from a subtree repo
+- [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
 - [create-implementation-directory](../bin/create-implementation-directory): Scaffold one implementation directory
 - [test](../bin/test): Run all tests
 - [sync](../bin/sync): Sync files across subprojects
-- [sync-special-files](../bin/sync-special-files): Sync the top-level special files (LICENSE, CONTRIBUTING, SECURITY, GOVERNANCE, …) into every public subtree repo
+- [sync-special-files](../bin/sync-special-files): Sync the top-level special files (LICENSE, CONTRIBUTING, SECURITY, GOVERNANCE, …) into every subproject
 - [update](../bin/update): Update shared files
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
 - [publish-helpers](../bin/publish-helpers): Build and publish every helper package (npm / NuGet)
@@ -252,7 +252,6 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `AGENTS.md` with AI coding help
 - `AGENTS/` directory with modular agent files
 - `spec/index.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
-- `.git-subtree-push`
 
 ## For each component directory
 

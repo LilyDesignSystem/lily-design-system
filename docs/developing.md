@@ -29,9 +29,10 @@ standalone subtrees, not a workspace.
   description) is the source of truth; `components/{slug}/AGENTS.md`
   fixes each component's element, ARIA, keyboard contract, props, and
   maturity `Status`.
-- **Subtrees, not submodules.** Every subproject publishes standalone
-  via `bin/git-subtree-push`; nothing may reach across subproject
-  boundaries at build time (a Turbopack upgrade once exposed an alias
+- **Self-contained subprojects.** Every subproject builds and publishes
+  on its own (its own toolchain and lockfile); nothing may reach across
+  subproject boundaries at build time except a sibling's built `dist/` in
+  local dev/test (a Turbopack upgrade once exposed an alias
   that did — see CHANGELOG 2026-08-26).
 - **The copy-pattern.** Example apps consume headless components as
   *copies* in their own tree, not as imports of the sibling subproject.
@@ -51,7 +52,6 @@ standalone subtrees, not a workspace.
 | `bin/check-theme`, `bin/generate-theme-tokens` | With any theme change (`--check` runs inside bin/test) |
 | `bin/sync`, `bin/sync-special-files` | After editing canonical AGENTS/, themes/, or root special files |
 | `bin/smoke-packages`, `bin/publish-*` | Release engineering ([docs/releasing.md](releasing.md)) |
-| `bin/git-subtree-push` | Maintainer: publish subtrees |
 
 ## Add a component, start to finish
 

@@ -52,7 +52,7 @@ Its position relative to its siblings:
   `RenderFragment ChildContent`, `AdditionalAttributes`, `IJSRuntime` DOM
   work, NuGet Trusted Publishing).
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`), since it
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`), since it
   follows the `lily-design-system-*` naming convention and `bin/test` holds
   it to the same bar as the other implementation subprojects.
 
@@ -80,7 +80,7 @@ to run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` exists with a `name` + `description` frontmatter pair that
       names concrete trigger phrases, per Claude Skill authoring practice.
 - [x] Required subproject files present: `index.md`, `README.md` (symlink),
-      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`.
+      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] `bin/test` passes with this subproject in place.
 - [x] Every concrete fact in `SKILL.md` about the three real Blazor
       subprojects (package identities, namespaces, the example app's
@@ -89,9 +89,7 @@ to run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` does not restate `lily-design-system-blazor-headless-skill`'s
       or `lily-design-system-blazor-helpers-skill`'s content — it points at
       them.
-- [ ] A `.git-subtree-push` remote is actually configured and the first
-      push to a standalone public repository has happened; not yet done as
-      of 2026-09-05.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

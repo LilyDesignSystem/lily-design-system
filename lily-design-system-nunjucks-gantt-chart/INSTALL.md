@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Nunjucks gantt-chart helper: an accessible Gantt chart over the headless GanttTable family.
+This is the Nunjucks gantt-chart helper: an accessible Gantt chart over the headless GanttTable family.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-nunjucks-gantt-chart/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

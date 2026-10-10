@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Angular 22 theme-picker helper: an icon button and listbox that loads a reference theme stylesheet and sets data-theme.
+This is the Angular 22 theme-picker helper: an icon button and listbox that loads a reference theme stylesheet and sets data-theme.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-angular-theme-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

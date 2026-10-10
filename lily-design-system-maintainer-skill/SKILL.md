@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-maintainer-skill
-description: Technical workflow for maintainers of the Lily Design System monorepo — the required-files layout for subprojects and components, the AGENTS.md sync model, the bin/ tooling (test, sync, sync-special-files, generate-registries, publish-headless, publish-helpers, git-subtree-push), the per-framework implementation conventions, and the spec-driven development workflow. Use when adding, changing, or auditing a component, subproject, or helper in this repository, or when running its verification, sync, or publish tooling.
+description: Technical workflow for maintainers of the Lily Design System monorepo — the required-files layout for subprojects and components, the AGENTS.md sync model, the bin/ tooling (test, sync, sync-special-files, generate-registries, publish-headless, publish-helpers, check-package-metadata), the per-framework implementation conventions, and the spec-driven development workflow. Use when adding, changing, or auditing a component, subproject, or helper in this repository, or when running its verification, sync, or publish tooling.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -34,9 +34,8 @@ Don't hand-write these — scaffold, then fill in content.
 
 **Per subproject** (`bin/create-implementation-directory {name}`):
 `index.md`, `README.md` (symlink → `index.md`), `AGENTS.md`, `spec/index.md`.
-(`CLAUDE.md` was retired 2026-09-19; `AGENTS.md` is the single AI-instruction file.) Then, because it's public:
-`.git-subtree-push` (one line: the directory name) and the 14 "special
-files" a public repo needs — LICENSE.md, CITATION.cff, NEWS.md,
+(`CLAUDE.md` was retired 2026-09-19; `AGENTS.md` is the single AI-instruction file.) Then the 14 "special
+files" a public project needs — LICENSE.md, CITATION.cff, NEWS.md,
 COMPARISONS.md, BENCHMARKS.md, INSTALL.md, CONTRIBUTING.md, CODEOWNERS,
 MAINTAINERS.md, CHANGELOG.md, AI_STATEMENT.md, GOVERNANCE.md, SECURITY.md,
 CODE_OF_CONDUCT.md, RFC.md — propagated by `bin/sync-special-files`, which
@@ -96,7 +95,7 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `list-implementations` | Enumerate the implementation subprojects. |
 | `create-component-directory` / `create-implementation-directory` | Scaffold the required-files skeleton. |
 | `test` | Verify required files + catalog consistency + per-framework coverage across the whole repo. Exits non-zero on failure. Run this before every commit. |
-| `sync` | rsync shared root files (`AGENTS.md`, `AGENTS/*.md`, …) into every subproject — not symlinks, because `git subtree push` doesn't follow symlinks across project boundaries. |
+| `sync` | rsync shared root files (`AGENTS.md`, `AGENTS/*.md`, …) into every subproject — not symlinks, because a copy stays correct when a subproject is packaged or copied out on its own |
 | `sync-special-files` | Propagate the 12 copied + 2 generated (`CITATION.cff`, `INSTALL.md`) special files into every `lily-design-system-*` subproject. Idempotent. |
 | `update` | Update shared files. |
 | `generate-registries` | Regenerate every example app's component registry from `components.tsv` + the canonical demo map. |
@@ -115,7 +114,7 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `smoke-packages` | Pack + install each published headless tarball into a scratch consumer and render it — catches `main`-never-built breakage. |
 | `publish-headless` | Build + publish the 7 npm headless libraries and pack the Blazor one (NuGet publishes only through the `publish.yml` OIDC workflow). |
 | `publish-helpers` | Build + publish every helper package (npm / NuGet). |
-| `git-subtree-push` | Push each subtree to its standalone public remote. |
+| `make-github-pages` | Push the docs site to its own repository (the one remaining subtree; `make github-pages`). Every other subproject lives only in the monorepo, and packages publish from it (`check-package-metadata` enforces that). |
 
 ## Design-principle rules to check before writing headless code
 

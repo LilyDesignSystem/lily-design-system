@@ -30,7 +30,7 @@ Based on the Angular example-app research:
 - [x] Copy component-demos.ts registry.
 - [x] Copy nhs.css.
 - [x] Scaffold Playwright config + accessibility.spec.ts + responsive.spec.ts.
-- [x] Standard subproject docs (AGENTS.md, CLAUDE.md, index.md, README.md → index.md symlink, spec/index.md, .git-subtree-push).
+- [x] Standard subproject docs (AGENTS.md, CLAUDE.md, index.md, README.md → index.md symlink, spec/index.md).
 - [ ] `pnpm install` + `pnpm dev` boot smoke (deferred — pulls Analog + Angular + Vite deps).
 - [ ] `pnpm test:e2e` reach 29/29 axe baseline (deferred until install).
 
@@ -52,4 +52,4 @@ Based on the Angular example-app research:
 - `src/styles/nhs.css`
 - 15 page files: `index.page.ts`, `components/index.page.ts`, `components/[slug].page.ts`, plus 12 composed pages
 - 2 Playwright specs: `accessibility.spec.ts`, `responsive.spec.ts`
-- 6 docs: `AGENTS.md`, `CLAUDE.md`, `index.md`, `README.md` symlink, `spec/index.md`, `.git-subtree-push`
+- 5 docs: `AGENTS.md`, `CLAUDE.md`, `index.md`, `README.md` symlink, `spec/index.md`

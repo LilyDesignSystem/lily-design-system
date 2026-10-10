@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Vue 3 example application: a fully styled reference app demonstrating every catalog component.
+This is the Vue 3 example application: a fully styled reference app demonstrating every catalog component.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-vue-nuxt-examples/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
@@ -10,8 +10,8 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 ## Run this example application
 
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples.git
-cd lily-design-system-vue-nuxt-examples
+git clone https://github.com/LilyDesignSystem/lily-design-system.git
+cd lily-design-system/lily-design-system-vue-nuxt-examples
 npm install
 npm run dev
 ```

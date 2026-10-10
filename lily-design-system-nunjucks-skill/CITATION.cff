@@ -12,20 +12,19 @@ authors:
     orcid: 'https://orcid.org/0009-0000-4681-282X'
 identifiers:
   - type: url
-    value: 'https://github.com/LilyDesignSystem/lily-design-system-nunjucks-skill/'
-    description: lily-design-system-nunjucks-skill source repository
+    value: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill'
+    description: lily-design-system-nunjucks-skill source
   - type: url
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System canonical monorepo
-repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-nunjucks-skill/'
+repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This repository is a Claude Skill covering everything available for Nunjucks in Lily Design System (headless library, helpers catalog, and example app where one exists) for an AI coding agent.
+  This is a Claude Skill covering everything available for Nunjucks in Lily Design System (headless library, helpers catalog, and example app where one exists) for an AI coding agent.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
-  across seven frameworks. The canonical monorepo is at
-  https://github.com/LilyDesignSystem/lily-design-system and this repository is
-  published from it as a git subtree.
+  across eight frameworks. Its source is the lily-design-system-nunjucks-skill directory
+  of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system
   - headless components

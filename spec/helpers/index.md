@@ -46,7 +46,7 @@ The canonical Svelte helpers were one catalog, `lily-design-system-svelte-helper
 2026-10-10, when each package moved to the repository root as a subproject of its own and the
 catalog was deleted. Each package has its own toolchain (`package.json` devDependencies and
 scripts, `pnpm-lock.yaml`, vite/vitest config, `build.js`), its own `AGENTS/` (the helper set:
-conventions, testing, SSR, shared principles), its own published special files and git subtree.
+conventions, testing, SSR, shared principles), its own special files. (Each was also its own git subtree repository until those mirrors were deleted, also 2026-10-10.)
 A package that depends on a sibling resolves it in local dev/test from the sibling's built
 `dist/`; [`bin/list-helper-packages svelte`](../../bin/list-helper-packages) prints them in that
 build order, which CI and `bin/publish-helpers` follow.
@@ -220,7 +220,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `dist/`                            | Build output (`build.js` per catalog; `files`/`exports` maps, `svelte` condition where relevant).                                                                                      |
 | `docs/`, `examples/`               | Topic guides and runnable examples (optional).                                                                                                                                         |
 
-Each helper package is a top-level subproject and its own `git subtree` pushed to a standalone remote (since 2026-10-10; before that each `*-helpers` catalog directory was a subtree too). All 80 picker packages (8 frameworks × 10 pickers, `picker-bar` included as of 2026-09-15) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
+Each helper package is a top-level subproject of the monorepo and publishes from it (the per-package and per-catalog subtree repositories were deleted 2026-10-10). All 80 picker packages (8 frameworks × 10 pickers, `picker-bar` included as of 2026-09-15) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
 
 Every package is at **0.1.0**. The July 2026 rename from `*-select` / `*-button` to `*-picker` changed the published package names, and a renamed package has no history under its new name — numbering the first release 0.4.0 would imply three releases that never existed. Nothing had been published, so the reset cost nothing. The in-tree history (radio-group picker → native `<select>` → placeholder-pinned `<select>` → icon button + listbox) is preserved in each package's CHANGELOG under a provenance heading. `motion-picker` (added 2026-09-03) never carried the old names, so it has no provenance heading to preserve.
 
@@ -760,7 +760,7 @@ accessibility documentation before writing the table above:
 - [x] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings — nor, in `share-picker`'s case, any third-party endpoint.
 - [x] `share-picker` renders a disclosure of real links plus a clipboard action, announces the copy outcome politely, and prefers the native share sheet where the platform has one.
 - [x] The Svelte helper packages are the canonical reference; the other seven frameworks' helpers are idiom-faithful ports.
-- [x] Each helper package is a top-level subproject and its own git subtree with a standalone remote (since 2026-10-10; before that each `*-helpers` catalog was).
+- [x] Each helper package is a top-level subproject that publishes from the monorepo (subtree mirrors retired 2026-10-10).
 - [x] Each helper builds its `dist/` (or, for Blazor, its NuGet package) with its own build script and publishes via `bin/publish-helpers`.
 - [x] `search-picker` (2026-10-02) ships in all eight catalogs: a magnifying-glass icon button opening a disclosure panel with a real `<form role="search">` (a `type="search"` field and a `⏎` submit button at its right) that navigates to `${action}?${encodeURIComponent(query.trim())}` — `/?foo` by default — with required `label`/`inputLabel`/`submitLabel` and no English defaults, verified against a numbered spec with one test per acceptance clause per catalog (Svelte 24, React 25, Vue 24, Angular 24, HTML 32, Web Components 32, Nunjucks 35, Blazor 26), each shown to fail when the implementation is broken.
 - [x] `search-picker` behaves in real Safari: a focusout with no `relatedTarget` (Safari does not focus a `<button>` on click) never closes the panel, so `⏎` and the icon-button toggle work. Found by reproducing in real WebKit (where `⏎` did nothing), fixed in all eight catalogs (Blazor, which cannot read `relatedTarget`, waits for the causing click instead), and confirmed in real WebKit and Chromium for the Svelte, React, Vue, HTML, Web Components and Nunjucks ports; Angular and Blazor by unit test only.

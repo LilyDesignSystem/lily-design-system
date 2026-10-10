@@ -43,8 +43,7 @@ example pages.
   in the helpers catalog, and the `lily-design-system-nunjucks-*` package
   naming convention).
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files,
-  `.git-subtree-push`), since it follows the `lily-design-system-*`
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files), since it follows the `lily-design-system-*`
   naming convention and `bin/test` holds it to the same bar as the other
   implementation subprojects.
 
@@ -74,8 +73,7 @@ to run beyond `bin/test`'s required-files checks.
       that names concrete trigger phrases, per Claude Skill authoring
       practice.
 - [x] Required subproject files present: `index.md`, `README.md`
-      (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
-      `.git-subtree-push`.
+      (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] `SKILL.md` maps all three real Nunjucks subprojects and states,
       for each, when an agent should reach for it.
 - [x] `SKILL.md` points to both sibling skills rather than restating
@@ -90,9 +88,7 @@ to run beyond `bin/test`'s required-files checks.
       done as of 2026-09-05.
 - [ ] `bin/test` passes with this subproject in place; not yet verified
       as of 2026-09-05.
-- [ ] A `.git-subtree-push` remote is actually configured and the first
-      push to a standalone public repository has happened; not yet done
-      as of 2026-09-05.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

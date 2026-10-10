@@ -21,11 +21,11 @@ export.
 
 It does **not** cover the docs site's own content, routes, or build
 (see the site's own `AGENTS.md`/`index.md` at
-[lilydesignsystem.github.io/](../../lilydesignsystem.github.io/)), the
-general subtree-publishing model shared by all 21+ implementation
-subprojects (see [architecture](../architecture/index.md)), or the
-`bin/git-subtree-push` mechanics generic to every subproject (see
-[tooling](../tooling/index.md)).
+[lilydesignsystem.github.io/](../../lilydesignsystem.github.io/)), or source
+hosting for the rest of the monorepo (see [architecture](../architecture/index.md)).
+Since 2026-10-10 the docs site is the **only** subproject still exported to
+a repository of its own: every other subproject's subtree mirror was deleted
+and `bin/git-subtree-push` removed.
 
 ## Principles and rules
 
@@ -54,21 +54,16 @@ subprojects (see [architecture](../architecture/index.md)), or the
   the monorepo working tree, and its own README/AGENTS files (inherited
   from the subtree export) still describe it as a subproject of the
   canonical monorepo, pointing back there for all real work.
-- **Publishing is `bin/git-subtree-push lilydesignsystem.github.io`**,
-  or the equivalent `make github-pages` — same mechanism, same
-  three-forge fan-out (GitHub, Codeberg, GitLab) as every other
-  subproject via `bin/git-subtree-push` — see
-  [architecture](../architecture/index.md) and
-  [tooling](../tooling/index.md). `make github-pages` is a thin
+- **Publishing is `make github-pages`**, fanned out to three forges
+  (GitHub, Codeberg, GitLab). `make github-pages` is a thin
   `Makefile` target delegating to the POSIX shell script
   `bin/make-github-pages`, which runs
   `git subtree push --prefix=lilydesignsystem.github.io github-pages main`
-  against a dedicated `github-pages` git remote (same three push URLs
-  as the `lilydesignsystem.github.io` remote `bin/git-subtree-push`
-  uses — a deliberate second remote alias, not a replacement, kept
-  memorable and consistent with the same `make github-pages` convention
-  used across this maintainer's other repositories). Either path
-  produces an identical subtree split; use whichever is at hand.
+  against the `github-pages` git remote (kept consistent with the same
+  `make github-pages` convention used across this maintainer's other
+  repositories). Until 2026-10-10 a second remote alias,
+  `lilydesignsystem.github.io`, served `bin/git-subtree-push`; both were
+  removed with the other subtree mirrors.
   GitHub Pages' own `deploy.yml` workflow (which lives inside the
   subtree and only takes effect once it reaches the standalone repo's
   root, since GitHub Actions reads `.github/workflows/` relative to
@@ -78,7 +73,7 @@ subprojects (see [architecture](../architecture/index.md)), or the
   ordinary clone of the standalone remote, keeping it current after a
   push is just `git -C ~/git/lilydesignsystem/lilydesignsystem.github.io pull`.
   It is never the target of a `git push` from anywhere except the
-  monorepo's own `bin/git-subtree-push`.
+  monorepo's own `make github-pages`.
 
 ## Detail sections
 
@@ -89,7 +84,7 @@ subprojects (see [architecture](../architecture/index.md)), or the
 | Monorepo (source of truth) | `~/git/lilydesignsystem/lily-design-system/` |
 | Docs site subproject (edit here) | `~/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/` |
 | Standalone export (read-only, derived) | `~/git/lilydesignsystem/lilydesignsystem.github.io/` — a **sibling** of the monorepo, not nested inside it |
-| Standalone remote(s) | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as either the `lilydesignsystem.github.io` git remote (`bin/git-subtree-push`) or the `github-pages` git remote (`make github-pages`) — same URLs, two names |
+| Standalone remote(s) | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as the `github-pages` git remote (`make github-pages`) |
 | Live site | <https://lilydesignsystem.com/> |
 | Publish shortcut | `make github-pages` (root `Makefile`) → `bin/make-github-pages` |
 
@@ -97,9 +92,8 @@ subprojects (see [architecture](../architecture/index.md)), or the
 
 1. Edit `lilydesignsystem.github.io/` inside the monorepo as usual; commit
    there.
-2. `bin/git-subtree-push lilydesignsystem.github.io` or `make github-pages`
-   — either splits that subdirectory's history and pushes it to all
-   three standalone remotes.
+2. `make github-pages` — splits that subdirectory's history and pushes it
+   to all three standalone remotes.
 3. The standalone repo's own `deploy.yml` (installed at its root once the
    subtree lands there) builds and deploys to GitHub Pages.
 4. Optionally, `git -C ~/git/lilydesignsystem/lilydesignsystem.github.io pull`
@@ -107,11 +101,10 @@ subprojects (see [architecture](../architecture/index.md)), or the
 
 ### Why this is worth a dedicated topic
 
-Every other implementation subproject's exported name follows the
-`lily-design-system-*` prefix and exists purely as a publishing target —
-nobody needs a local sibling clone of `@lilydesignsystem/svelte-headless`
-next to the monorepo, because there's no platform requirement forcing a
-specific standalone name or location. The docs site is the one subproject
+Until 2026-10-10 every other subproject was also exported, under its
+`lily-design-system-*` name, purely as a source mirror — and those
+mirrors were deleted as soon as packages published from the monorepo
+alone, because nothing required them. The docs site is the one subproject
 where the export's name and (optionally) its local presence as a sibling
 directory are dictated by GitHub Pages itself, which is exactly the kind
 of platform-imposed exception worth writing down rather than
@@ -119,12 +112,9 @@ rediscovering by surprise.
 
 ## Acceptance criteria
 
-- [x] `lilydesignsystem.github.io/.git-subtree-push` exists and names the
-      matching remote.
 - [x] The standalone remote exists on all three forges (GitHub, Codeberg,
       GitLab) and reflects the monorepo's current subtree content —
-      verified 2026-08-31 via `bin/git-subtree-push lilydesignsystem.github.io`
-      (pushed cleanly to all three).
+      verified 2026-08-31 (pushed cleanly to all three).
 - [x] A local sibling clone exists at
       `~/git/lilydesignsystem/lilydesignsystem.github.io`, verified to
       carry the correct subtree-split history (commit messages match the
@@ -135,24 +125,21 @@ rediscovering by surprise.
 - [x] `make github-pages` (root `Makefile`) delegates to the POSIX
       shell script `bin/make-github-pages`, which runs
       `git subtree push --prefix=lilydesignsystem.github.io github-pages main`
-      against a dedicated `github-pages` remote and produces the same
-      result as `bin/git-subtree-push` — verified 2026-08-31 (`Everything
-      up-to-date` on all three push URLs both times, before and after
-      the delegation was added).
+      against the `github-pages` remote — verified 2026-08-31 (`Everything
+      up-to-date` on all three push URLs). Since 2026-10-10 it is the
+      only publish path.
 
 ## Related topics
 
-- [architecture](../architecture/index.md) — the git-subtree publishing
-  model and multi-forge fan-out every subproject uses.
-- [tooling](../tooling/index.md) — `bin/git-subtree-push` mechanics.
+- [architecture](../architecture/index.md) — source hosting and the
+  monorepo's multi-forge fan-out.
+- [tooling](../tooling/index.md) — the `bin/` scripts.
 - [special-files-for-public-repos](../special-files-for-public-repos/index.md) —
   the special files `bin/sync-special-files` maintains inside the docs
-  site subproject, same as every other public subtree repo.
+  site subproject, same as every other subproject.
 
 ## Sources
 
-- [lilydesignsystem.github.io/.git-subtree-push](../../lilydesignsystem.github.io/.git-subtree-push)
-- [bin/git-subtree-push](../../bin/git-subtree-push)
 - [bin/make-github-pages](../../bin/make-github-pages)
 - [Makefile](../../Makefile)
 

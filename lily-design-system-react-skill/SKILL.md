@@ -39,7 +39,7 @@ skill gives real, not just pointer-level, coverage.
   deliberate accommodation, not a defect to fix.
 - **Component wiring**: components live in the app's own
   `components/` directory as real copies of the react-headless catalog
-  (so the standalone subtree repo builds on its own) and are imported
+  (so the app builds on its own) and are imported
   through a `@lily/*` path alias (`./components/*`), declared in both
   `tsconfig.json` and `vitest.config.ts`.
 - **Styling**: NHS UK design system colours, typography, spacing, and

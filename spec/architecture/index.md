@@ -13,8 +13,8 @@ It does not cover the vision or scope split (see [overview](../overview/index.md
 ## Principles and rules
 
 - The repository root holds the **canonical catalog and tools**; subprojects hold framework-specific implementations.
-- `AGENTS.md` and `AGENTS/*.md` at the repo root are **canonical**; `bin/sync` rsyncs them into each subproject (rsync, not symlinks — `git subtree push` does not follow symlinks across project boundaries).
-- Every subproject is a **`git subtree`** so it can be pushed to its own standalone remote via `bin/git-subtree-push`.
+- `AGENTS.md` and `AGENTS/*.md` at the repo root are **canonical**; `bin/sync` rsyncs them into each subproject (rsync, not symlinks — a copy stays correct when a subproject is packaged or copied out on its own).
+- Every subproject is a directory of this monorepo; packages publish from here (see [trusted-publishing](../trusted-publishing/index.md) § Monorepo publishing). Until 2026-10-10 each subproject was also its own public `git subtree` repository; those mirrors were deleted, and only the docs site (`lilydesignsystem.github.io`, GitHub Pages) is still pushed to a repository of its own, by `make github-pages`.
 - Every subproject and every component directory must carry the **required files** below; `bin/test` verifies their presence.
 - `README.md` is always a **symlink to `index.md`**.
 
@@ -64,13 +64,13 @@ An 8th headless library sits outside the pairs: `@lilydesignsystem/web-component
 
 Every framework's helpers are top-level subprojects, one per package (`lily-design-system-{framework}-{package}`), and carry the seven framework-specific `*-picker` helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker and date-time-picker (56 packages in all) — plus `picker-bar`, which composes five of them, and the gantt-chart and kanban-board packages. Svelte's helpers add data-grid and calendar-view; Nunjucks' add the shared listbox-behavior package. See [helpers](../helpers/index.md).
 
-Every framework's helpers are one top-level subproject per package instead of one catalog (Svelte first, the other seven the same day, 2026-10-10; see [helpers](../helpers/index.md#where-the-helpers-live)). For Svelte: `lily-design-system-svelte-data-grid` moved out of `lily-design-system-svelte-helpers` on 2026-10-09, the other fourteen on 2026-10-10, and the catalog was deleted ([list](../helpers/index.md#svelte-helper-packages)). Each has its own `package.json` devDependencies, `pnpm-lock.yaml`, vite/vitest config, `build.js`, `AGENTS/` and `.git-subtree-push`; depends on `@lilydesignsystem/svelte-headless` and, for `picker-bar`, `gantt-chart` and `calendar-view`, on sibling packages, all resolved in local dev/test from their built `dist/`; is built in the order `bin/list-helper-packages svelte` prints; and is published by `bin/publish-helpers` and tested by the CI `helper-packages` job.
+Every framework's helpers are one top-level subproject per package instead of one catalog (Svelte first, the other seven the same day, 2026-10-10; see [helpers](../helpers/index.md#where-the-helpers-live)). For Svelte: `lily-design-system-svelte-data-grid` moved out of `lily-design-system-svelte-helpers` on 2026-10-09, the other fourteen on 2026-10-10, and the catalog was deleted ([list](../helpers/index.md#svelte-helper-packages)). Each has its own `package.json` devDependencies, `pnpm-lock.yaml`, vite/vitest config, `build.js` and `AGENTS/`; depends on `@lilydesignsystem/svelte-headless` and, for `picker-bar`, `gantt-chart` and `calendar-view`, on sibling packages, all resolved in local dev/test from their built `dist/`; is built in the order `bin/list-helper-packages svelte` prints; and is published by `bin/publish-helpers` and tested by the CI `helper-packages` job.
 
 The root `themes/` directory ships 45 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes) that target the Lily class hooks and pair with the theme-select helper. See [theme](../theme/index.md).
 
-## Git subtree publishing model
+## Source hosting
 
-Each subproject is maintained as a `git subtree` of this monorepo and published to its own standalone repository via `bin/git-subtree-push`. The monorepo's own `origin` and each subproject's subtree remote fan out to **three forges** — GitHub, Codeberg, and GitLab — under the `LilyDesignSystem` organisation:
+The monorepo is the only source repository. Until 2026-10-10 each subproject was also its own public `git subtree` repository; those mirrors were deleted, and only the docs site (`lilydesignsystem.github.io`, GitHub Pages) is still pushed to a repository of its own, by `make github-pages`. The monorepo's `origin` fans out to **three forges** — GitHub, Codeberg, and GitLab — under the `LilyDesignSystem` organisation:
 
 ```
 origin  fetch: git@github.com:LilyDesignSystem/lily-design-system.git
@@ -79,7 +79,7 @@ origin  push : git@codeberg.org:LilyDesignSystem/lily-design-system.git
 origin  push : git@gitlab.com:LilyDesignSystem/lily-design-system.git
 ```
 
-The same one-fetch / three-push pattern applies to every subproject remote (e.g. `@lilydesignsystem/react-headless`). Subtree remote configuration for each subproject lives in its `.git-subtree-push` file.
+Packages are published from this repository to npm and NuGet; see [trusted-publishing](../trusted-publishing/index.md) § Monorepo publishing.
 
 ## Required files per subproject
 
@@ -89,7 +89,6 @@ The same one-fetch / three-push pattern applies to every subproject remote (e.g.
 | `README.md` | Symlink to `index.md` |
 | `AGENTS.md` | AI coding help; loads modular `AGENTS/*.md` |
 | `spec/index.md` | Spec-driven plan + tasks (replaces the older split `plan.md` / `tasks.md`) |
-| `.git-subtree-push` | Subtree remote configuration |
 
 ## Required files per component directory
 
@@ -108,10 +107,10 @@ Every `components/{slug}/` directory (571 of them) carries:
 - [x] `@lilydesignsystem/web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491; 536/571 as of 2026-10-06 — the full achievable scope) accounting.
 - [x] Helper packages exist for all eight frameworks, one top-level subproject each (107 in all; the per-framework catalogs were dissolved into them 2026-10-10).
 - [x] All 571 component directories carry the required component files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`; `CLAUDE.md` was retired 2026-09-19).
-- [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, spec/plan/tasks, and `.git-subtree-push`.
+- [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, and spec/plan/tasks.
 - [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
-- [x] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`. `@lilydesignsystem/web-components-headless` and `lily-design-system-web-components-helpers` had no remote configured at all as of 2026-09-05; fixed 2026-09-06 (GitHub repos created, `bin/git-subtree-push` run for both, confirmed pushed). Every subproject and skill now has at least a working GitHub remote — the remaining gap (GitLab/Codeberg fan-out for the 2026-09-04/05 additions) is tracked separately below.
-- [ ] Each subproject remote fans out to GitHub, Codeberg, and GitLab on push. Confirmed gap, not stale: the original 22 subprojects (as of 2026-09) do have 3-way `pushurl` fan-out (verified via `git config --get-regexp 'remote\..*\.pushurl'`), but the 26 new Claude Skill subprojects added 2026-09-04/05 the two `web-components-*` subprojects, and the 107 helper packages (repositories created 2026-10-09 for `lily-design-system-svelte-data-grid`, 2026-10-10 for the other 106) have only a single GitHub `url` and no `pushurl` fan-out at all (verified directly — zero matches for `skill|web-components` in the pushurl config). GitLab push-to-create defaults private (no API token here to flip it) and Codeberg disables push-to-create for orgs, per CHANGELOG.md 2026-09-05.
+- [x] Retired 2026-10-10: subprojects are no longer pushed to standalone repositories; the mirrors were deleted and `bin/git-subtree-push` removed. Only the docs site is still a subtree, pushed by `make github-pages`.
+- [x] The monorepo's `origin` fans out to GitHub, Codeberg, and GitLab on push. (Per-subproject remotes and their partial fan-out were retired with the subtree mirrors, 2026-10-10.)
 - [x] `bin/test` passes against the repository, all components, and all subprojects.
 
 ## Related topics

@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Vue 3 link-picker helper: a home icon button that opens the page links the app defines.
+This is the Vue 3 link-picker helper: a home icon button that opens the page links the app defines.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-vue-link-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

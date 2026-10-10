@@ -35,7 +35,5 @@ hands off to its two siblings rather than duplicating them.
 
 Scaffolded to match the other implementation subprojects — including the
 required files (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`,
-`spec/index.md`) and the [`.git-subtree-push`](.git-subtree-push) config
-`bin/git-subtree-push` reads — so it can be pushed to its own standalone
-public repository the same way once that remote is configured; as of this
-writing no such remote exists yet.
+`spec/index.md`) — and lives only in this monorepo (its standalone subtree
+repository was deleted 2026-10-10).

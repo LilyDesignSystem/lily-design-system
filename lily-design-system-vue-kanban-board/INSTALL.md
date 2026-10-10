@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Vue 3 kanban-board helper: an accessible kanban board over the headless KanbanTable family.
+This is the Vue 3 kanban-board helper: an accessible kanban board over the headless KanbanTable family.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-vue-kanban-board/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

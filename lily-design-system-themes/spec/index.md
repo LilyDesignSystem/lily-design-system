@@ -53,7 +53,7 @@ are already npm-installable.
 Same bar as every Lily subproject (`AGENTS/lily.md` § "For each
 subproject"): `index.md`, `README.md` (symlink), `AGENTS.md`,
 `spec/index.md`, plus the special files `bin/sync-special-files`
-propagates and `.git-subtree-push`.
+propagates.
 
 ## 6. Acceptance criteria
 

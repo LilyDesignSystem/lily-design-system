@@ -12,20 +12,19 @@ authors:
     orcid: 'https://orcid.org/0009-0000-4681-282X'
 identifiers:
   - type: url
-    value: 'https://github.com/LilyDesignSystem/lily-design-system-blazor-share-picker/'
-    description: lily-design-system-blazor-share-picker source repository
+    value: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-share-picker'
+    description: lily-design-system-blazor-share-picker source
   - type: url
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System canonical monorepo
-repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-blazor-share-picker/'
+repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-share-picker'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This repository is the Blazor share-picker helper: an icon button that opens the native share sheet or a list of share links.
+  This is the Blazor share-picker helper: an icon button that opens the native share sheet or a list of share links.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
-  across seven frameworks. The canonical monorepo is at
-  https://github.com/LilyDesignSystem/lily-design-system and this repository is
-  published from it as a git subtree.
+  across eight frameworks. Its source is the lily-design-system-blazor-share-picker directory
+  of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system
   - headless components

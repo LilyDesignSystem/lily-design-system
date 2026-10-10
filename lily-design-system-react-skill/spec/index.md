@@ -43,7 +43,7 @@ pointer.
   three (function components + hooks only, `className`, rest-props
   spreading, `"use client"` boundaries, no hardcoded strings).
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`),
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`),
   since it follows the `lily-design-system-*` naming convention and
   `bin/test` holds it to the same bar as the other implementation
   subprojects.
@@ -85,8 +85,7 @@ tests to run beyond `bin/test`'s required-files checks.
       that names concrete trigger phrases, per Claude Skill authoring
       practice.
 - [x] Required subproject files present: `index.md`, `README.md`
-      (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
-      `.git-subtree-push`.
+      (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] `SKILL.md`'s three-subproject map, the example-app coverage
       (routes, styling, running it, App Router specifics), and the
       React-wide conventions are grounded in the real
@@ -100,9 +99,7 @@ tests to run beyond `bin/test`'s required-files checks.
       their content.
 - [ ] The 14 special files present via `bin/sync-special-files`.
 - [ ] `bin/test` passes with this subproject in place.
-- [ ] A `.git-subtree-push` remote is actually configured and the
-      first push to a standalone public repository has happened; not
-      yet done as of 2026-09-05.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

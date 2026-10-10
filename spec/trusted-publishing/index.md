@@ -77,8 +77,9 @@ of this topic, not a separate choice:
   bound to one repository and workflow. One monorepo workflow means one
   policy binding per registry, instead of one per subtree repository.
 
-The subtree repositories stay as read-only source mirrors and are never a
-publishing source. [`bin/check-package-metadata`](../../bin/check-package-metadata)
+The per-subproject subtree repositories were deleted the same day (only the
+docs site keeps a repository of its own), so there is no other publishing
+source to confuse with this one. [`bin/check-package-metadata`](../../bin/check-package-metadata)
 enforces the metadata in `bin/test`, in CI, and as the first step of
 `publish.yml`; [docs/releasing.md](../../docs/releasing.md) § Monorepo
 publishing is the procedure.

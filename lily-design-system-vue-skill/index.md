@@ -32,7 +32,5 @@ sibling skills or `lily-design-system-skill` rather than restating them.
 ## Scaffolding note
 
 Scaffolded to match the other implementation subprojects — including the
-special files and the [`.git-subtree-push`](.git-subtree-push) config
-`bin/git-subtree-push` reads — so it can be pushed to its own standalone
-public repository the same way once that remote is configured; as of this
-writing no such remote exists yet.
+special files — and lives only in this monorepo (its standalone subtree
+repository was deleted 2026-10-10).

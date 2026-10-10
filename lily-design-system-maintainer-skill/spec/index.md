@@ -30,8 +30,7 @@ treatment.
   add-a-component workflow, the `bin/` tool table, and pointers into the
   `AGENTS/*.md` rules.
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the 14 special files,
-  `.git-subtree-push`), since it follows the `lily-design-system-*`
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the 14 special files), since it follows the `lily-design-system-*`
   naming convention and `bin/test` holds it to the same bar as the other
   20 implementation subprojects.
 
@@ -53,13 +52,10 @@ no tests to run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` exists with a `name` + `description` frontmatter pair that
       names concrete trigger phrases, per Claude Skill authoring practice.
 - [x] Required subproject files present: `index.md`, `README.md` (symlink),
-      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`.
+      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] The 14 special files present via `bin/sync-special-files`.
 - [x] `bin/test` passes with this subproject in place.
-- [ ] A `.git-subtree-push` remote is actually configured and the first
-      push to a standalone public repository has happened (tracked in
-      [spec/trusted-publishing/index.md](../../spec/trusted-publishing/index.md)-style
-      release tracking once it happens; not yet done as of 2026-08-30).
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 
@@ -69,4 +65,4 @@ no tests to run beyond `bin/test`'s required-files checks.
   monorepo layout and the required-files convention this subproject
   follows.
 - [spec/special-files-for-public-repos/index.md](../../spec/special-files-for-public-repos/index.md) —
-  the 14-file contract every public subtree repo carries.
+  the 14-file contract every subproject carries.

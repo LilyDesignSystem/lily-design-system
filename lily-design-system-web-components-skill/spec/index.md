@@ -36,8 +36,7 @@ app, no helper packages of its own.
   the two sibling skills and the general Lily concepts skill rather than a
   restatement of any of them.
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files,
-  `.git-subtree-push`), since it follows the `lily-design-system-*` naming
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files), since it follows the `lily-design-system-*` naming
   convention and `bin/test` holds it to the same bar as the other
   implementation subprojects.
 
@@ -89,13 +88,10 @@ to run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` distinguishes the Web Components headless catalog from
       `@lilydesignsystem/html-headless` without conflating the two.
 - [x] Required subproject files present: `index.md`, `README.md`
-      (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
-      `.git-subtree-push`.
+      (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] `bin/test` passes with this subproject in place.
 - [ ] The special files are present via `bin/sync-special-files`.
-- [ ] A `.git-subtree-push` remote is actually configured and the first
-      push to a standalone public repository has happened; not yet done
-      as of 2026-09-05.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

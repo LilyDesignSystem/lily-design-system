@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Blazor settings-picker helper: a cog icon button that opens whatever the app provides.
+This is the Blazor settings-picker helper: a cog icon button that opens whatever the app provides.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-blazor-settings-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

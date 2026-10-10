@@ -1,8 +1,8 @@
 # Install
 
-This repository is the React date-time-picker helper: a date/time field with an APG date-picker dialog.
+This is the React date-time-picker helper: a date/time field with an APG date-picker dialog.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-react-date-time-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

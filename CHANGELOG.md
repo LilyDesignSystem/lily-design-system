@@ -9,6 +9,21 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Subtree mirrors removed: every subproject lives only in the monorepo — 2026-10-10
+
+With packages publishing from the monorepo, the per-subproject `git subtree` mirror repositories had no remaining job, so they are
+being deleted: 157 GitHub repositories (149 subprojects plus the 8 old `*-helpers` catalogs). The docs site,
+`lilydesignsystem.github.io`, is the one exception: GitHub Pages serves the site from its own repository, so it stays a subtree,
+pushed by `make github-pages` (`bin/make-github-pages`, the `github-pages` remote). In this repository: `bin/git-subtree-push` and all
+151 `.git-subtree-push` files are removed; `bin/test` no longer requires one per subproject; `bin/sync-special-files` points each
+subproject's generated `CITATION.cff`, `INSTALL.md` and changelog stub at its directory in the monorepo (the site keeps its own
+repository URL) and labels its count "subprojects"; the special files themselves stay, because every published package still ships its
+subproject's LICENSE. The architecture, tooling, special-files, GitHub Pages, helpers, frameworks, agent-skills, Dependabot and
+trusted-publishing specs, `spec/index.md`, `AGENTS/lily.md`, `AGENTS/helpers.md`, `MAINTAINERS.md`, `docs/developing.md`,
+`docs/releasing.md`, `plan.md` and the skills (including the maintainer skill's workflow) describe the monorepo as the only source
+repository; dated history is kept as history. The GitHub deletions and the local git-remote cleanup are run by the maintainer (they
+need the `delete_repo` token scope); the GitLab and Codeberg copies of the original 22 mirrors are deleted by hand on those forges.
+
 ## Monorepo publishing for npm and NuGet — 2026-10-10
 
 Packages are built and published only from this monorepo, never from the per-subproject git subtree repositories, which stay as

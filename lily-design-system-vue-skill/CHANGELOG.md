@@ -1,7 +1,7 @@
 # Changelog
 
-This repository is published as a `git subtree` from the canonical Lily Design
-System™ monorepo, and does not keep a separate change history.
+This subproject is a directory of the canonical Lily Design System™ monorepo,
+and does not keep a separate change history.
 
 **The canonical changelog is
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).** It records every change to

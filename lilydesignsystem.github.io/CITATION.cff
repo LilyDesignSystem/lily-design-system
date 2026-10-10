@@ -13,19 +13,18 @@ authors:
 identifiers:
   - type: url
     value: 'https://github.com/LilyDesignSystem/lilydesignsystem.github.io/'
-    description: lilydesignsystem.github.io source repository
+    description: lilydesignsystem.github.io source
   - type: url
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System canonical monorepo
 repository-code: 'https://github.com/LilyDesignSystem/lilydesignsystem.github.io/'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This repository is the Lily Design System documentation website.
+  This is the Lily Design System documentation website.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
-  across seven frameworks. The canonical monorepo is at
-  https://github.com/LilyDesignSystem/lily-design-system and this repository is
-  published from it as a git subtree.
+  across eight frameworks. Its source is the lilydesignsystem.github.io directory
+  of the canonical monorepo at https://github.com/LilyDesignSystem/lily-design-system.
 keywords:
   - design system
   - headless components

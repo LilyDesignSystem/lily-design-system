@@ -65,17 +65,17 @@ wording) is the worked example.
 - **Package consumption**: npm / NuGet, via the version lines above.
   Every package is built and published **from this monorepo** (see
   "Monorepo publishing" below), and names it as its source.
-- **Source consumption**: every subproject is a `git subtree` pushed to
-  its own public repository (`bin/git-subtree-push`), and the zero-install
-  path — copying markup — needs no artifact at all. Those repositories are
-  read-only source mirrors; nothing is ever published from them.
+- **Source consumption**: clone the monorepo and use a subproject's
+  directory, and the zero-install path — copying markup — needs no artifact
+  at all. (Until 2026-10-10 every subproject was also pushed to its own
+  public `git subtree` repository; those mirrors were deleted.)
 
 ## Monorepo publishing
 
 Since 2026-10-10, publishing to npm and NuGet happens only from this
 repository, `LilyDesignSystem/lily-design-system`: the `publish` workflow,
 or `bin/publish-headless` / `bin/publish-helpers` run from a checkout of
-it. A subtree repository is never a publishing source. The package
+it. The package
 metadata says so:
 
 - every published `package.json` has
@@ -95,7 +95,7 @@ it runs in `bin/test`, in CI, and as the first step of `publish.yml`.
 The npm and NuGet trusted-publisher policies are bound to this
 repository and `publish.yml` for the same reason.
 
-Registries get releases; the subtree repos track `main`. A consumer who
+Registries get releases; the monorepo's `main` tracks development. A consumer who
 needs reproducibility should use packages (whose lockfile-tested
 dependency graphs ship with them — lockfiles are always committed,
 spec/tooling) or pin a commit.
@@ -110,8 +110,8 @@ spec/tooling) or pin a commit.
    and Codeberg).
 4. GitHub Release from the CHANGELOG section:
    `gh release create vX.Y.Z --title "X.Y.Z — <name>" --notes-file <notes> --verify-tag`.
-5. `bin/git-subtree-push` so the standalone repos carry the release
-   state.
+5. `make github-pages` if the docs site changed (the site is the one
+   subproject still pushed to a repository of its own).
 
 Retroactive tags v0.2.0–v0.6.0 were created 2026-08-26 against the
 identified release commits; earlier history has no tags.
@@ -122,7 +122,7 @@ identified release commits; earlier history has no tags.
    CHANGELOG entry. The scripts never edit versions.
 2. **Dry-run first, always**: `bin/publish-headless --dry-run` /
    `bin/publish-helpers --dry-run`, from a checkout of this monorepo —
-   never from a subtree repository. `bin/check-package-metadata` must pass.
+   `bin/check-package-metadata` must pass.
 3. **Consumer smoke**: `bin/smoke-packages` — packs every npm headless
    library and imports it from a scratch project the way a consumer
    would. This is the gate that would have caught 0.2.0; it also runs

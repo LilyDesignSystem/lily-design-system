@@ -38,7 +38,7 @@ full-subproject treatment.
   vs. tag+attribute-selector convention, theming/class hooks, and pointers
   to the catalog-wide naming and composition references.
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`), since it
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`), since it
   follows the `lily-design-system-*` naming convention and `bin/test` holds
   it to the same bar as the other implementation subprojects.
 
@@ -70,12 +70,10 @@ to run beyond `bin/test`'s required-files checks.
       consumer cannot infer from the catalog-wide (framework-agnostic)
       naming rules alone.
 - [x] Required subproject files present: `index.md`, `README.md` (symlink),
-      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`.
+      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [ ] The special files present via `bin/sync-special-files`.
 - [ ] `bin/test` passes with this subproject in place.
-- [ ] A `.git-subtree-push` remote is actually configured and the first
-      push to a standalone public repository has happened; not yet done as
-      of 2026-09-04.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

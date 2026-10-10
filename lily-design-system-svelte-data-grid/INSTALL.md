@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Svelte 5 headless data grid: sort, filter, row selection, column resize and visibility, pagination and APG grid keyboard navigation over the headless DataTable family.
+This is the Svelte 5 headless data grid: sort, filter, row selection, column resize and visibility, pagination and APG grid keyboard navigation over the headless DataTable family.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-svelte-data-grid/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

@@ -37,7 +37,7 @@ Its siblings:
   exceptions (`share-picker`'s disclosure, `date-time-picker`'s
   field-plus-dialog shape), and the Blazor-specific `IJSRuntime`/SSR pattern.
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`), since it
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`), since it
   follows the `lily-design-system-*` naming convention and `bin/test` holds
   it to the same bar as the other implementation subprojects.
 
@@ -64,7 +64,7 @@ run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` exists with a `name` + `description` frontmatter pair that
       names concrete trigger phrases, per Claude Skill authoring practice.
 - [x] Required subproject files present: `index.md`, `README.md` (symlink),
-      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`.
+      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] `bin/test` passes with this subproject in place.
 - [x] Every concrete fact in `SKILL.md` (package ids, publish status, the
       `IJSRuntime`/`OnAfterRenderAsync` pattern) is grounded in the Blazor
@@ -74,9 +74,7 @@ run beyond `bin/test`'s required-files checks.
       than assuming parity with its five siblings, since it landed in the
       catalog after the 2026-09-02 real-publish run this spec's sources
       record.
-- [ ] A `.git-subtree-push` remote is actually configured and the first push
-      to a standalone public repository has happened; not yet done as of
-      2026-09-04.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

@@ -73,7 +73,7 @@ full-subproject treatment — see "Naming-split retirement" and
   `bin/list-implementations` and `bin/sync-special-files` as an
   implementation subproject, held to the full required-files bar
   (`index.md`, `README.md` symlink, `AGENTS.md`,
-  `spec/index.md`, the 14 special files, `.git-subtree-push`), per
+  `spec/index.md`, the 14 special files), per
   [architecture](../architecture/index.md) and
   [special-files-for-public-repos](../special-files-for-public-repos/index.md).
   All twenty-six skills carry the full set.
@@ -131,7 +131,7 @@ Identical across all twenty-six skills:
 | `index.md` | yes | yes |
 | `AGENTS.md` | yes | yes |
 | `spec/index.md` | yes | yes |
-| 14 special files + `.git-subtree-push` | yes, via `bin/sync-special-files` | yes, via `bin/sync-special-files` |
+| 14 special files | yes, via `bin/sync-special-files` | yes, via `bin/sync-special-files` |
 | `reference/*.md` | yes for `lily-design-system-skill` (naming-and-catalog, composition-patterns); none for the maintainer skill | none — each points into its own real subproject's docs, or its sibling skills, instead |
 
 ### Naming-split retirement (2026-08-31)
@@ -149,7 +149,7 @@ matched any `-skill`-suffixed name generically rather than hardcoding
 — required no tooling change at all: `lily-design-system-skill` was
 automatically picked up, scaffolded with the full required-files set
 (`index.md`, `AGENTS.md`, `spec/index.md`,
-`.git-subtree-push`, the 14 special files via `bin/sync-special-files`),
+the 14 special files via `bin/sync-special-files`),
 and its `README.md` symlink retargeted from `SKILL.md` to the new
 `index.md`, matching the maintainer skill's own shape.
 
@@ -264,7 +264,11 @@ generic text only for the two framework-agnostic skills. No misgenerated
 files this time — the new tier's directory names don't collide with any
 existing `bin/test` grep pattern the way `*-headless-skill` did.
 
-### Standalone repositories (2026-09-04/05)
+### Standalone repositories (2026-09-04/05; retired 2026-10-10)
+
+The skills' standalone subtree repositories, like every subproject's, were
+deleted on 2026-10-10; the skills live only in this monorepo now. The
+history below is kept as a record.
 
 All twenty-six skills now have a real `git@github.com:LilyDesignSystem/...`
 remote configured and a first `bin/git-subtree-push`: the eighteen
@@ -284,7 +288,7 @@ subproject's remote carries remains a maintainer step.
 - [x] Each has a `SKILL.md` with `name` + `description` frontmatter
       naming concrete trigger phrases.
 - [x] All twenty-six skills carry the full required-files set
-      (`index.md`, `README.md` symlink to `index.md`, `AGENTS.md`, `spec/index.md`, `.git-subtree-push`, the 14 special
+      (`index.md`, `README.md` symlink to `index.md`, `AGENTS.md`, `spec/index.md`, the 14 special
       files via `bin/sync-special-files`) and pass `bin/test`.
 - [x] `bin/sync-special-files`'s generated files for all twenty-six
       skills (and for the two pre-existing `web-components-*`
@@ -298,8 +302,8 @@ subproject's remote carries remains a maintainer step.
       change (2026-09-05).
 - [x] This topic is linked from [spec/index.md](../index.md)'s topic
       table.
-- [x] A real `.git-subtree-push` remote is configured and the first push
-      has happened, GitHub-only, for all twenty-six skills (the original
+- [x] (Retired 2026-10-10, repositories deleted.) A real `.git-subtree-push` remote was configured and the first push
+      happened, GitHub-only, for all twenty-six skills (the original
       eighteen on 2026-09-04, the eight framework-umbrella ones on
       2026-09-05).
 - [ ] GitLab and Codeberg remotes for any of the twenty-six skills — not

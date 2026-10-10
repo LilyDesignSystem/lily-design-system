@@ -36,7 +36,7 @@ Its siblings:
   identity and install, the Blazor/Razor consumption idiom, theming, and
   pointers to the canonical naming/composition references.
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`), since it
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`), since it
   follows the `lily-design-system-*` naming convention and `bin/test` holds
   it to the same bar as the other implementation subprojects.
 
@@ -63,14 +63,12 @@ run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` exists with a `name` + `description` frontmatter pair that
       names concrete trigger phrases, per Claude Skill authoring practice.
 - [x] Required subproject files present: `index.md`, `README.md` (symlink),
-      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`.
+      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] `bin/test` passes with this subproject in place.
 - [x] Every concrete fact in `SKILL.md` (package id, publish status, Razor
       idioms) is grounded in the Blazor headless subproject's own
       `AGENTS.md`/`spec/index.md` and the root `CHANGELOG.md`, not invented.
-- [ ] A `.git-subtree-push` remote is actually configured and the first push
-      to a standalone public repository has happened; not yet done as of
-      2026-09-04.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

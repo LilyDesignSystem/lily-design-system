@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Lily Design System documentation website.
+This is the Lily Design System documentation website.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lilydesignsystem.github.io/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

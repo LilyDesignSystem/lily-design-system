@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Nunjucks listbox-behavior helper: the shared listbox keyboard behaviour the picker helpers use.
+This is the Nunjucks listbox-behavior helper: the shared listbox keyboard behaviour the picker helpers use.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-nunjucks-listbox-behavior/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

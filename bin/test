@@ -37,10 +37,11 @@ repo_setup_exists_or_err() (
     file_size_or_err "$1/LICENSE.md"
 )
 
-# Every subproject is a git subtree pushed to its own standalone PUBLIC
-# repository, so each one needs the top-level files a public repo is
-# expected to carry -- above all LICENSE.md, because a repository without
-# one is "all rights reserved" by default whatever the monorepo says.
+# Every subproject carries the top-level special files -- above all
+# LICENSE.md, because a published package (npm tarballs include LICENSE*)
+# or a copied-out directory without one is "all rights reserved" by
+# default whatever the monorepo says. (Until 2026-10-10 each subproject
+# was also its own public subtree repository; those mirrors are gone.)
 # The root is canonical and bin/sync-special-files propagates the set.
 # Spec: spec/special-files-for-public-repos/index.md
 special_files_exist_or_err() (
@@ -163,7 +164,6 @@ test_implementations() {
         dir="$top/$implementation"
         ai_exists_or_err "$dir"
         special_files_exist_or_err "$dir"
-        file_exists_or_err "$dir/.git-subtree-push"
     done
 }
 
@@ -298,8 +298,8 @@ test_implementations_with_svelte
 test_implementation_nunjucks_headless
 test_implementation_nunjucks_example
 # Lockfiles are always committed (spec/tooling): an untracked or
-# gitignored pnpm-lock.yaml means CI, fresh clones, and the published
-# subtree repos resolve a different dependency graph than was tested.
+# gitignored pnpm-lock.yaml means CI, fresh clones, and published
+# packages resolve a different dependency graph than was tested.
 ##
 # pnpm 10+ reads `overrides` from pnpm-workspace.yaml, NOT from
 # package.json's "pnpm" key. The 2026-09-03 Dependabot pass (P8-T4)

@@ -23,7 +23,7 @@ done
 # The reference themes are canonical at the repo root; the example apps
 # serve them as static assets so the theme-picker helper can swap the
 # managed <link> href at runtime (spec/theme, plan P3). rsync, not
-# symlinks, for the same subtree reason as AGENTS/.
+# symlinks: a copy stays correct when a subproject is packaged or copied out on its own.
 for themes_dest in \
     "$top/lily-design-system-svelte-sveltekit-examples/static/themes" \
     "$top/lily-design-system-react-next-examples/public/themes" \

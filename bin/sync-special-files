@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-"""Propagate the root special files into every public subtree repository.
+"""Propagate the root special files into every subproject.
 
-Every subproject is a `git subtree` pushed to its own standalone public
-repository, so each one needs the top-level files a public repository is
-expected to carry -- above all a LICENSE, since a repository without one is
-"all rights reserved" by default whatever the monorepo says.
+Every subproject carries the top-level files a public project is expected to
+carry -- above all a LICENSE, since a published package (npm tarballs include
+LICENSE*) or a copied-out directory without one is "all rights reserved" by
+default whatever the monorepo says. Until 2026-10-10 each subproject was also
+its own public `git subtree` repository; those mirrors were deleted, so every
+subproject's source link is now its directory in the canonical monorepo. The
+docs site, `lilydesignsystem.github.io`, is the one subproject that still has
+its own repository (it serves GitHub Pages).
 
 The root is canonical. Copied files get an HTML-comment provenance banner and
 have their relative links rewritten: a target that exists in the destination
 stays relative, one that does not becomes an absolute URL on the canonical
 repository. CITATION.cff and INSTALL.md are generated per subproject, because
-a citation must name its own repo and a Blazor install has nothing in common
+a citation must name its own source location and a Blazor install has nothing in common
 with a Nunjucks one.
 
 Idempotent: running it twice produces no diff.
@@ -27,6 +31,20 @@ import sys
 CANONICAL = "https://github.com/LilyDesignSystem/lily-design-system"
 DOCS = "https://lilydesignsystem.com/"
 ORG = "https://github.com/LilyDesignSystem"
+SITE = "lilydesignsystem.github.io"
+
+
+def source_url(name):
+    """Where a subproject's source lives: the docs site keeps its own
+    repository; every other subproject is a directory of the monorepo."""
+    return f"{ORG}/{name}/" if name == SITE else f"{CANONICAL}/tree/main/{name}"
+
+
+def clone_lines(name):
+    """Shell lines that clone a subproject's source and enter it."""
+    if name == SITE:
+        return f"git clone {ORG}/{name}.git\ncd {name}"
+    return f"git clone {CANONICAL}.git\ncd lily-design-system/{name}"
 ORCID = "https://orcid.org/0009-0000-4681-282X"
 SPDX = "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause"
 
@@ -252,20 +270,19 @@ authors:
     orcid: '{ORCID}'
 identifiers:
   - type: url
-    value: '{ORG}/{name}/'
-    description: {name} source repository
+    value: '{source_url(name)}'
+    description: {name} source
   - type: url
     value: '{CANONICAL}/'
     description: Lily Design System canonical monorepo
-repository-code: '{ORG}/{name}/'
+repository-code: '{source_url(name)}'
 url: '{DOCS}'
 abstract: >-
-  This repository is {describe(name)}.
+  This is {describe(name)}.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 571 components is implemented
-  across seven frameworks. The canonical monorepo is at
-  {CANONICAL} and this repository is
-  published from it as a git subtree.
+  across eight frameworks. Its source is the {name} directory
+  of the canonical monorepo at {CANONICAL}.
 keywords:
   - design system
   - headless components
@@ -286,9 +303,9 @@ def install(name):
     label = FRAMEWORK.get(fw, "")
     head = f"""# Install
 
-This repository is {describe(name)}.
+This is {describe(name)}.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `{name}/` directory of the canonical Lily Design System™
 monorepo at <{CANONICAL}>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <{DOCS}>
@@ -298,8 +315,7 @@ Full documentation and the searchable component catalog: <{DOCS}>
 ## Run the site locally
 
 ```sh
-git clone {ORG}/{name}.git
-cd {name}
+{clone_lines(name)}
 npm install
 npm run dev
 ```
@@ -381,7 +397,7 @@ anywhere. No dependency, no build step.
 **Or clone and copy the component files:**
 
 ```sh
-git clone {ORG}/{name}.git
+{clone_lines(name)}
 ```
 
 The components ship no CSS. Style them through the kebab-case class hook on each
@@ -488,10 +504,11 @@ Its contract is the package's own `spec/index.md`, summarised in
 
 This is a [Claude Skill](https://code.claude.com/docs/en/skills), not a
 runnable application — there is no `package.json` and nothing to build.
-Read `SKILL.md` directly, or clone it into an agent's skills directory:
+Read `SKILL.md` directly, or clone the monorepo and copy this directory into
+an agent's skills directory:
 
 ```sh
-git clone {ORG}/{name}.git
+{clone_lines(name)}
 ```
 """
     else:
@@ -501,8 +518,7 @@ git clone {ORG}/{name}.git
 ## Run this example application
 
 ```sh
-git clone {ORG}/{name}.git
-cd {name}
+{clone_lines(name)}
 {inst}{run}
 ```
 
@@ -530,11 +546,22 @@ Lily™ and Lily Design System™ are trademarks.
 """
 
 
+def old_changelog_stub(name):
+    """The stub written before 2026-10-10, when subprojects were subtree
+    repositories; a CHANGELOG.md still equal to it is regenerated."""
+    return changelog_stub(name).replace(STUB_INTRO, OLD_STUB_INTRO)
+
+
+OLD_STUB_INTRO = """This repository is published as a `git subtree` from the canonical Lily Design
+System™ monorepo, and does not keep a separate change history."""
+STUB_INTRO = """This subproject is a directory of the canonical Lily Design System™ monorepo,
+and does not keep a separate change history."""
+
+
 def changelog_stub(name):
     return f"""# Changelog
 
-This repository is published as a `git subtree` from the canonical Lily Design
-System™ monorepo, and does not keep a separate change history.
+{STUB_INTRO}
 
 **The canonical changelog is
 [CHANGELOG.md]({CANONICAL}/blob/main/CHANGELOG.md).** It records every change to
@@ -594,10 +621,10 @@ def main():
         write(os.path.join(dest, "INSTALL.md"), install(sub), state)
 
         cl = os.path.join(dest, "CHANGELOG.md")
-        if not os.path.exists(cl):
+        if not os.path.exists(cl) or open(cl).read() == old_changelog_stub(sub):
             write(cl, changelog_stub(sub), state)
 
-    print(f"sync-special-files: {len(subs)} repositories, "
+    print(f"sync-special-files: {len(subs)} subprojects, "
           f"{state['wrote']} written, {state['same']} unchanged")
     if check_only and state["wrote"]:
         for c in state["changed"][:20]:

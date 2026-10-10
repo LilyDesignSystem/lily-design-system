@@ -47,8 +47,7 @@ library.
   theming, and pointers into the catalog-wide naming reference rather
   than a restatement of it.
 - The standard subproject file set (`index.md`, `README.md` symlink,
-  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files,
-  `.git-subtree-push`), since it follows the `lily-design-system-*` naming
+  `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files), since it follows the `lily-design-system-*` naming
   convention and `bin/test` holds it to the same bar as the other
   implementation subprojects.
 
@@ -112,12 +111,10 @@ reproduced here verbatim rather than reworded:
       `*ListItem` family and every table sub-element family — 35
       components total) and why.
 - [x] Required subproject files present: `index.md`, `README.md` (symlink),
-      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`.
+      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
 - [x] `bin/test` passes with this subproject in place.
 - [ ] The special files are present via `bin/sync-special-files`.
-- [ ] A `.git-subtree-push` remote is actually configured and the first
-      push to a standalone public repository has happened; not yet done
-      as of 2026-09-04.
+- [x] Retired 2026-10-10: no standalone subtree repository; this subproject lives only in the monorepo (the mirrors were deleted).
 
 ## 5. Related topics
 

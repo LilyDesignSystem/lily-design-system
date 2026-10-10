@@ -1,8 +1,8 @@
 # Install
 
-This repository is the Blazor picker-bar helper: the link, search, theme, locale, text-size and share pickers in one page-header row.
+This is the Blazor picker-bar helper: the link, search, theme, locale, text-size and share pickers in one page-header row.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-blazor-picker-bar/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

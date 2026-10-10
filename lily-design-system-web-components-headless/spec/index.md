@@ -70,7 +70,7 @@ hand-rolled approximation.
 - The shared `lib/dom-utils.ts` helpers every component builds on.
 - Required subproject files matching every other implementation directory:
   `index.md`, `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`,
-  `spec/index.md`, `.git-subtree-push`.
+  `spec/index.md`.
 
 ### Explicitly out of scope (permanent, architectural)
 
@@ -294,7 +294,7 @@ lily-design-system-web-components-headless/
 ├── index.test.ts            ← dist/ end-to-end smoke test
 ├── .storybook/
 ├── package.json / tsconfig.json / vite.config.ts / vitest-setup.ts
-└── (index.md / AGENTS.md / CLAUDE.md / spec/index.md / .git-subtree-push)
+└── (index.md / AGENTS.md / CLAUDE.md / spec/index.md)
 ```
 
 ## 6. Shared helpers (`lib/dom-utils.ts`)
@@ -406,7 +406,7 @@ data, Content) matching this file's §2 breakdown.
       data, Content, National identifiers, Lists, Pickers, Links,
       Navigation, Tables).
 - [x] Required subproject files present (`index.md`, `README.md` symlink,
-      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
+      `AGENTS.md`, `CLAUDE.md`, `spec/index.md`).
 - [x] `bin/sync` run — root `AGENTS/*.md` present under this subproject's
       own `AGENTS/`.
 - [x] `bin/test` run clean against this subproject (2026-09-06).
@@ -416,9 +416,8 @@ data, Content) matching this file's §2 breakdown.
       `ThemeProvider`'s `display: contents`) and CSS custom properties
       (§4.3) — swept 2026-09-06 after the completion push, 3 real
       violations found and fixed (see the test-defects bullet above).
-- [ ] Registered as a git subtree with its own standalone remote and
-      pushed (pending first publish decision — not yet published to npm;
-      the `.git-subtree-push` file is in place but no push has run yet).
+- [x] Retired 2026-10-10: no standalone subtree repository (the mirrors
+      were deleted); it publishes to npm from the monorepo.
 - [x] Every achievable component implemented (§11.8) — no open backlog
       remains as of 2026-09-06.
 - [ ] Angular-style `*ListItem`/table-sub-element wrapper-host-safe

@@ -1,8 +1,8 @@
 # Install
 
-This repository is a Claude Skill covering the Vue 3 headless component library for an AI coding agent.
+This is a Claude Skill covering the Vue 3 headless component library for an AI coding agent.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-vue-headless-skill/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
@@ -11,10 +11,12 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 This is a [Claude Skill](https://code.claude.com/docs/en/skills), not a
 runnable application — there is no `package.json` and nothing to build.
-Read `SKILL.md` directly, or clone it into an agent's skills directory:
+Read `SKILL.md` directly, or clone the monorepo and copy this directory into
+an agent's skills directory:
 
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system-vue-headless-skill.git
+git clone https://github.com/LilyDesignSystem/lily-design-system.git
+cd lily-design-system/lily-design-system-vue-headless-skill
 ```
 
 ## License

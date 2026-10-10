@@ -31,15 +31,15 @@ coding agents.
 | Topic | What it covers |
 | ----- | -------------- |
 | [overview](overview/index.md) | Vision, scope, the headless vs. example layers, key facts. |
-| [architecture](architecture/index.md) | Monorepo layout, the 122 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 107 top-level helper packages), `themes/`, the git-subtree model, required files. |
+| [architecture](architecture/index.md) | Monorepo layout, the 122 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 107 top-level helper packages), `themes/`, source hosting, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect). |
 | [theme](theme/index.md) | Token shape, `--theme-*` custom properties, `data-theme` variants, the headless forbidden-list. |
 | [components](components/index.md) | The 491-component catalog, suffix→element mapping, name patterns, composition, per-component docs. |
 | [examples](examples/index.md) | Example apps, the three required routes, NHS reference styling, demo render mechanisms. |
-| [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification, subtree push. |
-| [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo. |
+| [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification. |
+| [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo (the one subtree left). |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs (plus the unpaired, Web Components catalog), per-framework file shapes and idioms, the copy-pattern. |
 | [helpers](helpers/index.md) | The helper packages (one top-level subproject each): the 10 pickers and `picker-bar`, their contracts, manifests, tooltips, and publish pipeline. |
@@ -56,7 +56,7 @@ coding agents.
 | [national-identifiers](national-identifiers/index.md) | The 140 national personal identifier components, normalization, validation algorithms. |
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
-| [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every published subtree repo carries, copy-vs-generate, the sync tooling. |
+| [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every subproject carries, copy-vs-generate, the sync tooling. |
 | [dependabot](dependabot/index.md) | Repo-level security updates: the grouped-weekly-PR `.github/dependabot.yml`, 31 entries. |
 | [node-current-version](node-current-version/index.md) | The Node 26 requirement: `engines.node` across all `package.json` files and `deploy.yml`. |
 | [agent-skills](agent-skills/index.md) | The `lily-design-system-skill` (end-user) and `lily-design-system-maintainer-skill` (maintainer) Claude Skills, what each covers, and the naming-split retirement. |
@@ -137,10 +137,11 @@ The repository root holds the canonical catalog and tools
 achievable scope (Web Components, 536/571), 7 example apps and
 107 helper packages, one top-level
 subproject each (the per-framework catalogs were dissolved into them 2026-10-10;
-`bin/list-helper-packages <framework>`). Each subproject is also a `git
-subtree` pushed to its own standalone remote via `bin/git-subtree-push`.
+`bin/list-helper-packages <framework>`). Packages publish from this
+monorepo; the per-subproject subtree mirrors were deleted 2026-10-10, and
+only the docs site is still pushed to its own repository (`make github-pages`).
 Full directory tree, the per-framework table, and the
-git-subtree/multi-forge publishing model: [spec/architecture/](architecture/index.md).
+multi-forge source hosting: [spec/architecture/](architecture/index.md).
 
 ### The three subproject layers
 
@@ -159,8 +160,7 @@ git-subtree/multi-forge publishing model: [spec/architecture/](architecture/inde
 ### Required files
 
 Every subproject and every component directory carries the same core
-set — `index.md`, `README.md` (symlink to `index.md`), `AGENTS.md`, `spec/index.md` — plus `.git-subtree-push` for
-subprojects. Full per-file purpose tables:
+set — `index.md`, `README.md` (symlink to `index.md`), `AGENTS.md`, `spec/index.md`. Full per-file purpose tables:
 [spec/architecture/](architecture/index.md#required-files-per-subproject).
 `bin/test` verifies every component and every subproject has the
 required files.
@@ -344,9 +344,8 @@ Scripts live in `bin/`:
 | `bin/create-implementation-directory` | Scaffold one implementation directory.               |
 | `bin/test`                            | Verify required files across repo + all subprojects. |
 | `bin/sync`                            | Sync shared files across subprojects (rsync).        |
-| `bin/sync-special-files`              | Propagate the top-level special files into all 150 published repos. |
+| `bin/sync-special-files`              | Propagate the top-level special files into every subproject. |
 | `bin/update`                          | Update shared files.                                 |
-| `bin/git-subtree-push`                | Push each subtree to its standalone remote.          |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
 | `bin/publish-helpers`                 | Build + publish every helper package (npm / NuGet): the `*-picker`s, `picker-bar`, and the gantt / kanban / calendar-view packages, and the standalone `lily-design-system-svelte-data-grid`. |
 | `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).|
@@ -371,12 +370,12 @@ as a memorable entry point. See
 
 Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
 propagates the top-level special files (LICENSE, CONTRIBUTING, SECURITY,
-GOVERNANCE, …) into all 150 published repositories — a public
-repository without a LICENSE is "all rights reserved" whatever the
-monorepo says (see [special-files-for-public-repos](special-files-for-public-repos/index.md)).
+GOVERNANCE, …) into every subproject — a published package or a
+copied-out subproject without a LICENSE is "all rights reserved" whatever
+the monorepo says (see [special-files-for-public-repos](special-files-for-public-repos/index.md)).
 `bin/sync` copies the canonical root `AGENTS.md`/`AGENTS/*.md` into
-subprojects via `rsync`, not symlinks (`git subtree push` doesn't
-follow symlinks across project boundaries).
+subprojects via `rsync`, not symlinks (a copy stays correct when a
+subproject is packaged or copied out on its own).
 
 ## 10. References
 
@@ -442,7 +441,7 @@ checked is considered live work; anything unchecked is queued in §12.
       Per-catalog test counts: [spec/testing/](testing/index.md); the
       accessibility-hardening sweeps that produced the current counts: §14.1.
 - [x] All 122 subprojects have required files (`index.md`, `README.md`
-      symlink, `AGENTS.md`, `spec/index.md`, `.git-subtree-push`).
+      symlink, `AGENTS.md`, `spec/index.md`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
       standardised on (it replaces the older split plan.md / tasks.md).
 - [x] All example subprojects reference `AGENTS/examples.md` for route
@@ -461,7 +460,7 @@ checked is considered live work; anything unchecked is queued in §12.
       scaffold correctly.
 - [x] `bin/test` passes against the repository, all components, all subprojects.
 - [x] `bin/sync` keeps shared files in sync (rsync, not symlink).
-- [x] `bin/git-subtree-push` pushes each subtree to its remote.
+- [x] Retired 2026-10-10: `bin/git-subtree-push` and the per-subproject subtree mirrors (packages publish from the monorepo).
 
 ### 11.4 Verified (point-in-time snapshots; catalog counts updated to 490 on 2026-07-03, then 491 on 2026-07-07 with `image-cropper`)
 
@@ -599,7 +598,7 @@ Long-term: versioned releases per subproject npm/NuGet package
   slug, name, description)
 - Companion docs: [AGENTS.md](../AGENTS.md), [AGENTS/*.md](../AGENTS/),
   [index.md](../index.md), [CHANGELOG.md](../CHANGELOG.md)
-- Subtree pushes: see each subproject's `.git-subtree-push` file
+- Source and publishing: this monorepo only (subtree mirrors deleted 2026-10-10; the docs site's own repository is pushed by `make github-pages`)
 
 ### 14.1 Changelog highlights
 

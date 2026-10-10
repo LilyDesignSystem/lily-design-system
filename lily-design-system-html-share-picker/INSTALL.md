@@ -1,8 +1,8 @@
 # Install
 
-This repository is the HTML share-picker helper: an icon button that opens the native share sheet or a list of share links.
+This is the HTML share-picker helper: an icon button that opens the native share sheet or a list of share links.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-html-share-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

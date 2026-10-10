@@ -2,18 +2,19 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Every subproject in this monorepo is a `git subtree` pushed to its own
-standalone **public repository**. Each of those repositories is the first and often
-only thing a stranger sees, so each one needs the standard set of top-level files a
-public repository is expected to carry — licence, citation, contribution route,
-ownership, provenance — not just the monorepo root. This topic fixes that set, says
+**Summary.** Every subproject in this monorepo carries the standard set of top-level
+files a public project is expected to carry — licence, citation, contribution route,
+ownership, provenance — not just the monorepo root: a published package ships its
+subproject's LICENSE, and a subproject copied out on its own must still say whose it
+is and under what terms. (Until 2026-10-10 each subproject was also its own public
+`git subtree` repository; those mirrors were deleted. The docs site still has one.) This topic fixes that set, says
 which files are copied and which are generated per subproject, and defines the
 tooling that keeps them in sync.
 
 ## Scope
 
 This topic covers the special top-level files for the repository root and for all
-150 published repositories (the 122 implementation subprojects, the 26 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
+150 subprojects (the 122 implementation subprojects, the 26 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
 link-rewriting rule that makes a copied file correct in its destination, and the
 `bin/sync-special-files` and `bin/test` enforcement.
 
@@ -24,10 +25,12 @@ or the publish pipeline (see [tooling](../tooling/index.md)).
 
 ## Principles and rules
 
-- **A public repository with no `LICENSE` is "all rights reserved".** Default
-  copyright applies to a repository that omits it, whatever the upstream monorepo
-  says. This is the single reason this topic exists: the 22 public repositories that existed
-  in 2026-08 were shipping without one.
+- **A public repository, package, or copied-out directory with no `LICENSE` is
+  "all rights reserved".** Default copyright applies to one that omits it, whatever
+  the upstream monorepo says. This is why this topic exists: the 22 public subtree
+  repositories that existed in 2026-08 were shipping without one. Those mirrors
+  were deleted 2026-10-10, but every published package still ships its
+  subproject's LICENSE, and the docs site is still its own repository.
 - **The root is canonical; subprojects receive copies.** Edit at the root and run
   `bin/sync-special-files`. Never hand-edit a synced copy — it will be overwritten.
   Each copy carries an HTML-comment provenance banner saying so.
@@ -101,19 +104,19 @@ absolute link on the canonical repository, which is the only place that file exi
 
 | Script | Purpose |
 | --- | --- |
-| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 150 published repositories, rewriting links and generating the per-subproject files |
+| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 150 subprojects, rewriting links and generating the per-subproject files |
 | [`bin/test`](../../bin/test) | Verify the set is present and non-empty in the root and every subproject |
 | [`bin/check-links`](../../bin/check-links) | Verify every rewritten relative link still resolves |
 
 `bin/sync-special-files` is idempotent: running it twice produces no diff. Run it
-after editing any canonical file, and before `bin/git-subtree-push`.
+after editing any canonical file, and before publishing.
 
 ## Acceptance criteria
 
 - [x] The repository root carries all 16 files in the table.
 - [x] `LICENSE.md` states one SPDX expression, and it matches every package
       manifest and [spec/index.md](../index.md) §14.
-- [x] All 150 published repositories carry the full set (re-run 2026-10-10: 150 repositories, 0 changed).
+- [x] All 150 subprojects carry the full set (re-run 2026-10-10: 150 subprojects, 0 changed).
 - [x] Every subproject `CITATION.cff` names its own repository and parses as valid
       YAML against CFF 1.2.0.
 - [x] Every subproject `INSTALL.md` documents that subproject's own install path,

@@ -35,7 +35,5 @@ the single source of truth.
   helpers catalog.
 
 Scaffolded to match the other implementation subprojects — including the
-copied + generated special files and the [`.git-subtree-push`](.git-subtree-push)
-config `bin/git-subtree-push` reads — so it can be pushed to its own
-standalone public repository the same way once that remote is configured;
-as of this writing no such remote exists yet.
+copied + generated special files — and lives only in this monorepo (its standalone subtree
+repository was deleted 2026-10-10).

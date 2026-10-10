@@ -1,8 +1,8 @@
 # Install
 
-This repository is the HTML locale-picker helper: an icon button and listbox that sets the document's lang and dir.
+This is the HTML locale-picker helper: an icon button and listbox that sets the document's lang and dir.
 
-It is published as a `git subtree` from the canonical Lily Design System™
+Its source is the `lily-design-system-html-locale-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>

@@ -3,14 +3,14 @@
 
 Packages are built and published from this monorepo (the `publish`
 workflow, or `bin/publish-headless` / `bin/publish-helpers` run from a
-checkout of it), not from the per-subproject git subtree repositories,
-which are read-only source mirrors. So:
+checkout of it), the only source repository (the per-subproject git
+subtree mirrors were deleted 2026-10-10). So:
 
   * every published npm package.json (`@lilydesignsystem/*`, not private)
     has `repository.url` = the monorepo and `repository.directory` = its
     own path in it. npm `--provenance` checks `repository.url` against the
     repository the publishing workflow ran in, and rejects a mismatch
-    (E422), so a subtree URL here breaks provenance publishing outright;
+    (E422), so any other URL here breaks provenance publishing outright;
   * every packable .csproj (one with a <PackageId>) has
     <RepositoryUrl> = the monorepo.
 

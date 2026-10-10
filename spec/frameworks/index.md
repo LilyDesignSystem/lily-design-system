@@ -16,7 +16,7 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 - **Headless libraries ship components only.** They do not depend on their sibling app framework — e.g. svelte-headless does not depend on SvelteKit; angular-headless ships standalone components, not an Analog app.
 - **Example apps consume by copy.** Each example app copies the headless components into its own source tree rather than taking an npm/NuGet dependency, so the demos always track the in-repo headless source.
 - **Framework idioms, not framework lock-in.** Rest-props spread, two-way binding, and slots/children each use the framework's native mechanism (see [headless](../headless/index.md) for the rest-props table).
-- **Subtree-pushable.** Each of the 23 implementation subprojects is a `git subtree` with its own `.git-subtree-push` remote configuration.
+- **Self-contained.** Each implementation subproject builds and publishes from its own directory of the monorepo. (Until 2026-10-10 each was also pushed to its own subtree repository; those mirrors were deleted.)
 
 ## The seven framework pairs
 
@@ -83,7 +83,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 - [x] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
 - [x] Svelte headless ships no `<style>` blocks; Nunjucks macros use camelCase names with kebab-case classes. Directly re-verified across the full catalog, not a sample (2026-10-06): 0/571 Svelte components contain a `<style` block; Nunjucks `macro.njk` files declare a camelCase macro name (e.g. `breadcrumbNav`) while rendering the kebab-case base class (`breadcrumb-nav`).
 - [x] angular-headless passes its vitest suite (1,010 cases as of 2026-08-26) and builds via ng-packagr 22; angular-examples builds full-content SSG on Analog 2.7 with the explicit route table (the one-time blocker is closed).
-- [x] All 23 implementation subprojects are git subtrees with a `.git-subtree-push` remote. Directly re-verified: all 7 headless + 7 example subprojects carry `.git-subtree-push` and have a configured git remote.
+- [x] Retired 2026-10-10: implementation subprojects are no longer subtree mirrors (the repositories were deleted; packages publish from the monorepo).
 
 ## Related topics
 

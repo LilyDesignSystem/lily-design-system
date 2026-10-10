@@ -22,10 +22,8 @@ Enable GitHub Dependabot .github/dependabot.yml for scheduled update PRs.
   single PR (`groups: lily: patterns: ["*"]`), because one PR per outdated
   package across 31 directories would be dozens of PRs a week for a single
   maintainer.
-- **Scope note**: this covers the canonical monorepo only, not the 22
-  published subtree repositories (see
-  [special-files-for-public-repos](../special-files-for-public-repos/index.md)
-  for that separate propagation problem — `.github/dependabot.yml` isn't a
-  file `git subtree push` carries across, since `.github/` sits outside every
-  subtree's prefix). Extending Dependabot coverage to the subtree repos is
-  unscoped future work, not implied by this spec's text.
+- **Scope note**: this covers the canonical monorepo, which since 2026-10-10
+  is the only source repository (the per-subproject subtree mirrors were
+  deleted). The docs site's own repository (`lilydesignsystem.github.io`,
+  pushed by `make github-pages`) gets no `.github/dependabot.yml` of its
+  own; its dependencies are covered by this file's entry for its directory.

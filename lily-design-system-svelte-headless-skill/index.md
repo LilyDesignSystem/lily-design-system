@@ -34,8 +34,5 @@ truth.
 Scaffolded to the same full-subproject bar as its siblings
 (`lily-design-system-skill`, `lily-design-system-maintainer-skill`,
 `lily-design-system-svelte-helpers-skill`) — including the required
-`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
-and the [`.git-subtree-push`](.git-subtree-push) config `bin/git-subtree-push`
-reads — so it can be pushed to its own standalone public repository the
-same way once that remote is configured; as of this writing no such remote
-exists yet.
+`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md` — and lives only in this monorepo (its standalone subtree
+repository was deleted 2026-10-10).

@@ -73,9 +73,9 @@ There is no succession plan that a document can create. What exists instead:
   a pinned version is not affected by maintainer availability.
 - **Nothing new ships.** No release, no accessibility fix, no new framework, no
   security patch.
-- **The work is not lost, and this part is unusually well covered.** Every
-  subproject is a `git subtree` pushed to three independent forges — GitHub,
-  GitLab, and Codeberg (see each subproject's `.git-subtree-push`). The whole
+- **The work is not lost, and this part is unusually well covered.** The
+  monorepo is pushed to three independent forges — GitHub, GitLab, and
+  Codeberg (`origin`'s push URLs). The whole
   history survives the loss of any one of them, including GitHub. The license is
   a permissive menu ([LICENSE.md](LICENSE.md)) and the entire design rationale is
   in the tree under [spec/](spec/index.md) rather than in one person's head. A
