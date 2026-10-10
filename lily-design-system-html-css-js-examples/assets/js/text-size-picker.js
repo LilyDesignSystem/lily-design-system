@@ -1,4 +1,4 @@
-// lily-design-system-html-text-size-picker/text-size-picker.ts
+// text-size-picker.ts
 import { ListboxController } from "./listbox-controller.js";
 var SVG_NS = "http://www.w3.org/2000/svg";
 function sizeName(size) {
@@ -513,7 +513,7 @@ function createTooltip(button, className, id, getLabel, isOpen) {
   return { el, update, destroy };
 }
 
-// lily-design-system-html-text-size-picker/index.ts
+// index.ts
 if (typeof customElements !== "undefined" && !customElements.get("text-size-picker")) {
   customElements.define("text-size-picker", TextSizePicker);
 }

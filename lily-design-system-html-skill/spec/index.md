@@ -13,7 +13,7 @@ A Claude Skill that ties together the three real plain-HTML subprojects in
 this monorepo — the full-catalog (571/571) headless component library
 ([`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/)),
 the six `*-picker` helper web components
-([`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/)),
+([the HTML helper packages](../../spec/helpers/index.md#html-helper-packages)),
 and the styled NHS-UK-themed reference application
 ([`lily-design-system-html-css-js-examples`](../../lily-design-system-html-css-js-examples/))
 — and helps an agent decide which one a request actually needs. It sits one

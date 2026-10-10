@@ -51,7 +51,7 @@ app, no helper packages of its own.
 - Restating `lily-design-system-web-components-helpers-skill`'s own
   content in full — the six helpers, the three markup shapes, the
   attribute/property/event contract, and the precise provenance statement
-  relating this catalog to `lily-design-system-html-helpers` all live
+  relating this catalog to the HTML helper packages (then the `lily-design-system-html-helpers` catalog) all live
   there.
 - Restating `AGENTS/*.md` or the root `spec/` topic docs in full.
 - Any component implementation, example page, or helper package.

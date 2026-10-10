@@ -136,7 +136,21 @@ updates:
           - "*"
 
   - package-ecosystem: "npm"
-    directory: "/lily-design-system-html-helpers"
+    # One top-level subproject per HTML helper package (2026-10-10).
+    directories:
+      - "/lily-design-system-html-date-time-picker"
+      - "/lily-design-system-html-kanban-board"
+      - "/lily-design-system-html-link-picker"
+      - "/lily-design-system-html-locale-picker"
+      - "/lily-design-system-html-menu-picker"
+      - "/lily-design-system-html-motion-picker"
+      - "/lily-design-system-html-search-picker"
+      - "/lily-design-system-html-settings-picker"
+      - "/lily-design-system-html-share-picker"
+      - "/lily-design-system-html-text-size-picker"
+      - "/lily-design-system-html-theme-picker"
+      - "/lily-design-system-html-gantt-chart"
+      - "/lily-design-system-html-picker-bar"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

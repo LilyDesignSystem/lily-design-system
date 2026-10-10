@@ -63,7 +63,7 @@ mkdir -p "$top/lily-design-system-html-css-js-examples/pages/assets/js"
 cp "$top/lily-design-system-html-headless/components/listbox-controller.js" \
     "$top/lily-design-system-html-css-js-examples/pages/assets/js/listbox-controller.js"
 for picker in theme-picker locale-picker text-size-picker; do
-    src="$top/lily-design-system-html-helpers/lily-design-system-html-$picker/dist/index.js"
+    src="$top/lily-design-system-html-$picker/dist/index.js"
     if [ -f "$src" ]; then
         sed 's#"@lilydesignsystem/html-headless/components/listbox-controller.js"#"./listbox-controller.js"#' \
             "$src" > "$top/lily-design-system-html-css-js-examples/pages/assets/js/$picker.js"

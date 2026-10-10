@@ -1,7 +1,7 @@
 # Lily Design System™ — HTML Helpers Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains
-[`lily-design-system-html-helpers`](../lily-design-system-html-helpers/):
+[the HTML helper packages](../spec/helpers/index.md#html-helper-packages):
 the catalog of six opinionated, reusable HTML **web components (custom
 elements)** — `theme-picker`, `locale-picker`, `text-size-picker`,
 `motion-picker`, `share-picker`, `date-time-picker` — that sit alongside the

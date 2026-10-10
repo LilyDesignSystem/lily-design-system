@@ -40,9 +40,8 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's, React's, Vue's and Angular's helpers are one top-level subproject per package (below); the other four frameworks keep theirs in one catalog each.
+Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's, React's, Vue's, Angular's and HTML's helpers are one top-level subproject per package (below); the other three frameworks keep theirs in one catalog each.
 
-- [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
 - [Lily Design System: Blazor helpers](../lily-design-system-blazor-helpers)
 - [Lily Design System: Nunjucks helpers](../lily-design-system-nunjucks-helpers)
 - [Lily Design System: Web Components helpers](../lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags (2026-09-03); see its provenance note
@@ -112,6 +111,22 @@ The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin
 - [`lily-design-system-angular-theme-picker`](../lily-design-system-angular-theme-picker) — `@lilydesignsystem/angular-theme-picker`
 - [`lily-design-system-angular-gantt-chart`](../lily-design-system-angular-gantt-chart) — `@lilydesignsystem/angular-gantt-chart`
 - [`lily-design-system-angular-picker-bar`](../lily-design-system-angular-picker-bar) — `@lilydesignsystem/angular-picker-bar`
+
+The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages html`):
+
+- [`lily-design-system-html-date-time-picker`](../lily-design-system-html-date-time-picker) — `@lilydesignsystem/html-date-time-picker`
+- [`lily-design-system-html-kanban-board`](../lily-design-system-html-kanban-board) — `@lilydesignsystem/html-kanban-board`
+- [`lily-design-system-html-link-picker`](../lily-design-system-html-link-picker) — `@lilydesignsystem/html-link-picker`
+- [`lily-design-system-html-locale-picker`](../lily-design-system-html-locale-picker) — `@lilydesignsystem/html-locale-picker`
+- [`lily-design-system-html-menu-picker`](../lily-design-system-html-menu-picker) — `@lilydesignsystem/html-menu-picker`
+- [`lily-design-system-html-motion-picker`](../lily-design-system-html-motion-picker) — `@lilydesignsystem/html-motion-picker`
+- [`lily-design-system-html-search-picker`](../lily-design-system-html-search-picker) — `@lilydesignsystem/html-search-picker`
+- [`lily-design-system-html-settings-picker`](../lily-design-system-html-settings-picker) — `@lilydesignsystem/html-settings-picker`
+- [`lily-design-system-html-share-picker`](../lily-design-system-html-share-picker) — `@lilydesignsystem/html-share-picker`
+- [`lily-design-system-html-text-size-picker`](../lily-design-system-html-text-size-picker) — `@lilydesignsystem/html-text-size-picker`
+- [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker) — `@lilydesignsystem/html-theme-picker`
+- [`lily-design-system-html-gantt-chart`](../lily-design-system-html-gantt-chart) — `@lilydesignsystem/html-gantt-chart`
+- [`lily-design-system-html-picker-bar`](../lily-design-system-html-picker-bar) — `@lilydesignsystem/html-picker-bar`
 
 ## Reference themes
 

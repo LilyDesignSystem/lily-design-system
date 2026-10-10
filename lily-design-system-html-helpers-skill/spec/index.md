@@ -10,7 +10,7 @@ two-skill plan (`lily-design-system-skill` and
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains
-[`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/):
+[the HTML helper packages](../../spec/helpers/index.md#html-helper-packages):
 the catalog of six web-component `*-picker` helpers — `theme-picker`,
 `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`,
 `date-time-picker` — that sit alongside the HTML headless library, each
@@ -74,7 +74,7 @@ to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [../../lily-design-system-html-helpers/spec/index.md](../../lily-design-system-html-helpers/spec/index.md) —
+- [the HTML helper packages](../../spec/helpers/index.md#html-helper-packages) —
   the HTML helpers catalog's own specification; the canonical source this
   skill points at rather than duplicates.
 - [../../lily-design-system-html-headless-skill/spec/index.md](../../lily-design-system-html-headless-skill/spec/index.md) —

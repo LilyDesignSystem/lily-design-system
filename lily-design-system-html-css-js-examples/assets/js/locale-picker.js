@@ -1,4 +1,4 @@
-// lily-design-system-html-locale-picker/locales.ts
+// locales.ts
 var defaultLocaleLabels = {
   "af_NA": "Afrikaans (Namibia)",
   "af_ZA": "Afrikaans (South Africa)",
@@ -488,7 +488,7 @@ var RTL_SCRIPT_SUBTAGS = /* @__PURE__ */ new Set([
   // Adlam
 ]);
 
-// lily-design-system-html-locale-picker/locale-picker.ts
+// locale-picker.ts
 import { ListboxController } from "./listbox-controller.js";
 var SVG_NS = "http://www.w3.org/2000/svg";
 function bcp47LocaleTag(locale) {
@@ -1101,7 +1101,7 @@ function createTooltip(button, className, id, getLabel, isOpen) {
   return { el, update, destroy };
 }
 
-// lily-design-system-html-locale-picker/index.ts
+// index.ts
 if (typeof customElements !== "undefined" && !customElements.get("locale-picker")) {
   customElements.define("locale-picker", LocalePicker);
 }

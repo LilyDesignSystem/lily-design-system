@@ -6,8 +6,11 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — HTML helpers usage
 
-`lily-design-system-html-helpers` is a catalog of six opinionated, reusable
-**web components (custom elements)** that sit alongside the HTML headless
+The HTML helpers are opinionated, reusable **web components (custom
+elements)**, each its own top-level subproject
+`lily-design-system-html-{package}/` since 2026-10-10 (before that, one
+`lily-design-system-html-helpers` catalog; `bin/list-helper-packages html`
+lists them), that sit alongside the HTML headless
 library. Where a headless component is a pure markup primitive, a helper
 owns one complete interaction end to end — selection, optional persistence,
 and DOM application for the four preference pickers; a single action for

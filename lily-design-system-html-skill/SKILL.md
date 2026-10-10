@@ -21,7 +21,7 @@ choice): [`lily-design-system-skill`](../lily-design-system-skill/).
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
 | [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/) | The full-catalog (571/571) headless component library: one self-contained `components/{slug}.html` file per component — an HTML comment header, semantic markup with ARIA and a kebab-case class, and, where needed, an embedded vanilla-JS `<script>` IIFE. Zero CSS. It is also the **reference implementation** every other framework binding mirrors. | You want the markup and behaviour for a component and will style it yourself; you're copying a snippet or including it server-side with no framework and no build step. |
-| [`lily-design-system-html-helpers`](../lily-design-system-html-helpers/) | Six vanilla-JS **custom elements** — `<theme-picker>`, `<locale-picker>`, `<text-size-picker>`, `<motion-picker>`, `<share-picker>`, `<date-time-picker>` — that sit alongside the headless library and each own one whole interaction (a page-header preference, an action, or a form value) end to end. | You need a page-header preference control, a share action, or a typeable date/time field — not a catalog component, a self-contained interactive widget. |
+| [the HTML helper packages](../spec/helpers/index.md#html-helper-packages) | Six vanilla-JS **custom elements** — `<theme-picker>`, `<locale-picker>`, `<text-size-picker>`, `<motion-picker>`, `<share-picker>`, `<date-time-picker>` — that sit alongside the headless library and each own one whole interaction (a page-header preference, an action, or a form value) end to end. | You need a page-header preference control, a share action, or a typeable date/time field — not a catalog component, a self-contained interactive widget. |
 | [`lily-design-system-html-css-js-examples`](../lily-design-system-html-css-js-examples/) | The styled reference application: every catalog component demonstrated live, NHS UK visual styling, and composed multi-component pages. | You want to see a component fully styled and running, or want working CSS to copy rather than write your own. |
 
 Each is scoped by its own sibling skill for the deep contract — this skill
@@ -61,9 +61,9 @@ this is where its contract lives.
   `book-an-appointment` (a flagship five-step wizard) and an `rtl-demo`
   (`dir="rtl"` with Arabic content) — each exercises several catalog
   components together.
-- **Helpers vendoring**: this app does not build the helpers catalog itself
+- **Helpers vendoring**: this app does not build the helper packages itself
   — the root `bin/sync` tool copies each helper's already-built
-  `dist/index.js` from `lily-design-system-html-helpers` into
+  `dist/index.js` from `lily-design-system-html-{picker}/` into
   `pages/assets/js/{picker}.js` (confirmed for `theme-picker`,
   `locale-picker`, `text-size-picker`) so the pages can `<script>`-include
   the custom elements as static files, matching how the rest of the app

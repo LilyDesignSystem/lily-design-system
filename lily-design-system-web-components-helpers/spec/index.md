@@ -1,7 +1,7 @@
 # Lily Design System — Web Components Helpers — Specification
 
 > **Provenance.** This catalog is a maintainer-directed (2026-09-03) independent copy of
-> [`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/), which is itself
+> [the HTML helper packages](../../spec/helpers/index.md#html-helper-packages), which is itself
 > already six vanilla custom elements. It differs in tag prefix — `<lily-theme-picker>`
 > rather than `<theme-picker>`, matching the Web Components headless catalog — and in
 > package naming. Nothing ports between the two automatically: a change to one must be
@@ -92,7 +92,7 @@ All six helpers are implemented with HTML source, tests, docs, and a
 package manifest. The catalog mirrors the canonical
 [the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages)
 reference with HTML idioms substituted, as an independent copy of
-[`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/)
+[the HTML helper packages](../../spec/helpers/index.md#html-helper-packages)
 under the `<lily-*>` tag prefix (see the provenance note at the top of
 this file).
 

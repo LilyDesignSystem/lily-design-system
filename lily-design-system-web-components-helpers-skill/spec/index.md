@@ -19,7 +19,7 @@ component implementation — it ships no helper packages of its own.
 
 **Provenance, stated precisely.** The catalog this skill documents is a
 maintainer-directed (2026-09-03) **independent copy** of
-[`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/)
+[the HTML helper packages](../../spec/helpers/index.md#html-helper-packages)
 — itself already six vanilla custom elements — differing only in tag
 prefix (`<lily-theme-picker>` rather than bare `<theme-picker>`) and
 package naming. Nothing ports between the two catalogs automatically: a
@@ -47,7 +47,7 @@ instead of the helpers catalog.
   `share-picker`'s disclosure exception, `date-time-picker`'s
   field-plus-dialog exception), the attribute/property/event contract, the
   install-and-consume idiom, and the precise provenance statement relating
-  this catalog to `lily-design-system-html-helpers`.
+  this catalog to the HTML helper packages (then the `lily-design-system-html-helpers` catalog).
 - The standard subproject file set (`index.md`, `README.md` symlink,
   `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the special files,
   `.git-subtree-push`), since it follows the `lily-design-system-*` naming
@@ -62,7 +62,7 @@ instead of the helpers catalog.
   source of truth.
 - Any component implementation, example page, or helper package.
 - **Overstating or understating the provenance relationship to
-  `lily-design-system-html-helpers`.** This skill states plainly that the
+  the HTML helper packages (then the `lily-design-system-html-helpers` catalog).** This skill states plainly that the
   Web Components catalog is an independent copy with no automatic sync —
   never implying a live fork relationship, and never omitting that the two
   catalogs share a common origin and contract.
@@ -87,7 +87,7 @@ to run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` names all six helpers, their `<lily-*-picker>` tags, and
       what each owns (preference / action / form value).
 - [x] `SKILL.md` states the provenance relationship to
-      `lily-design-system-html-helpers` precisely: an independent copy,
+      the HTML helper packages (then the `lily-design-system-html-helpers` catalog) precisely: an independent copy,
       differing in tag prefix and package naming, with nothing porting
       automatically between the two.
 - [x] `SKILL.md` documents the three markup shapes (preference listbox,

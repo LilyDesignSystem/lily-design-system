@@ -57,7 +57,6 @@ jobs:
       fail-fast: false
       matrix:
         catalog:
-          - lily-design-system-html-helpers
           - lily-design-system-nunjucks-helpers
     steps:
       - uses: actions/checkout@v7
@@ -116,6 +115,7 @@ jobs:
           - react
           - vue
           - angular
+          - html
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -125,10 +125,11 @@ jobs:
         with:
           node-version: 22
       - name: Build the headless library they depend on
+        # Some headless libraries (HTML) are consumed as source and have no build.
         working-directory: lily-design-system-${{ matrix.framework }}-headless
         run: |
           pnpm install --no-frozen-lockfile
-          pnpm run build
+          pnpm run --if-present build
       - name: Install, build and test each package in dependency order
         run: |
           for d in $(bin/list-helper-packages ${{ matrix.framework }}); do
@@ -278,7 +279,7 @@ jobs:
             lily-design-system-react-*-picker/pnpm-lock.yaml
             lily-design-system-vue-*-picker/pnpm-lock.yaml
             lily-design-system-angular-*-picker/pnpm-lock.yaml
-            lily-design-system-html-helpers/pnpm-lock.yaml
+            lily-design-system-html-*-picker/pnpm-lock.yaml
             lily-design-system-nunjucks-helpers/pnpm-lock.yaml
       - name: Free preinstalled runner bloat for headroom
         # The ubuntu runner ships ~30 GB of toolchains this job never
@@ -356,12 +357,11 @@ jobs:
           for d in $(bin/list-helper-packages angular); do
             ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
           done
-      - name: Build html helpers dist
-        working-directory: lily-design-system-html-helpers
+      - name: Build html helper packages dist
         run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
+          for d in $(bin/list-helper-packages html); do
+            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
+          done
       - name: Build nunjucks helpers dist
         working-directory: lily-design-system-nunjucks-helpers
         run: |

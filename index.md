@@ -83,8 +83,8 @@ Headless versions if you want to use components with all your own styles:
 
 ## Helpers
 
-Small, opinionated helper packages for every framework — Svelte's, React's, Vue's and Angular's
-as one top-level subproject each, the other four frameworks' in a catalog each.
+Small, opinionated helper packages for every framework — Svelte's, React's, Vue's, Angular's and HTML's
+as one top-level subproject each, the other three frameworks' in a catalog each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — and each
 owns one complete interaction end to end:
 
@@ -107,7 +107,20 @@ owns one complete interaction end to end:
   APG date-picker dialog, locale-correct from `Intl`. Applies nothing,
   persists nothing — a date in a form is data, not a preference.
 
-- [HTML helpers](lily-design-system-html-helpers)
+- HTML helpers, one top-level subproject per package:
+  - [`date-time-picker`](lily-design-system-html-date-time-picker)
+  - [`kanban-board`](lily-design-system-html-kanban-board)
+  - [`link-picker`](lily-design-system-html-link-picker)
+  - [`locale-picker`](lily-design-system-html-locale-picker)
+  - [`menu-picker`](lily-design-system-html-menu-picker)
+  - [`motion-picker`](lily-design-system-html-motion-picker)
+  - [`search-picker`](lily-design-system-html-search-picker)
+  - [`settings-picker`](lily-design-system-html-settings-picker)
+  - [`share-picker`](lily-design-system-html-share-picker)
+  - [`text-size-picker`](lily-design-system-html-text-size-picker)
+  - [`theme-picker`](lily-design-system-html-theme-picker)
+  - [`gantt-chart`](lily-design-system-html-gantt-chart)
+  - [`picker-bar`](lily-design-system-html-picker-bar)
 - Svelte helpers (canonical reference), one top-level subproject per package:
   - [`data-grid`](lily-design-system-svelte-data-grid)
   - [`date-time-picker`](lily-design-system-svelte-date-time-picker)

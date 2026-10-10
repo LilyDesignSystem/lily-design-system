@@ -1,4 +1,4 @@
-// lily-design-system-html-theme-picker/theme-picker.ts
+// theme-picker.ts
 import { ListboxController } from "./listbox-controller.js";
 var SVG_NS = "http://www.w3.org/2000/svg";
 function themeName(theme) {
@@ -591,7 +591,7 @@ function createTooltip(button, className, id, getLabel, isOpen) {
   return { el, update, destroy };
 }
 
-// lily-design-system-html-theme-picker/index.ts
+// index.ts
 if (typeof customElements !== "undefined" && !customElements.get("theme-picker")) {
   customElements.define("theme-picker", ThemePicker);
 }

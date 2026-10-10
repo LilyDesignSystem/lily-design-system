@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## HTML helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
+
+The 13 packages in `lily-design-system-html-helpers` moved to the repository root the same way, and the catalog was deleted. Each
+builds with its own `tsup` run (`dependencies` external, including the headless library's
+`components/listbox-controller.js` subpath) and resolves that subpath in tests and types straight from the headless source,
+which needs no build. Lockfiles are seeded from the catalog's. All 13 build and pass (593 tests: the catalog's 591 plus the two
+new kanban-board and gantt-chart tests). `bin/sync` vendors the three pickers into the HTML example app from the new paths; CI's
+helper-packages job builds a headless library only if it has a `build` script. 113 published repositories.
+
 ## Angular helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
 
 The 13 packages in `lily-design-system-angular-helpers` moved to the repository root the same way, and the catalog was deleted.

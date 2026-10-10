@@ -1,0 +1,47 @@
+{
+  "//": "Used by build.js (tsup --tsconfig) so the DTS step resolves each Lily dependency's types: sibling packages from their built dist/, the headless library's source .d.ts directly.",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": false,
+    "paths": {
+      "@lilydesignsystem/html-headless/components/listbox-controller.js": [
+        "../lily-design-system-html-headless/components/listbox-controller.d.ts"
+      ],
+      "@lilydesignsystem/html-link-picker": [
+        "../lily-design-system-html-link-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/html-locale-picker": [
+        "../lily-design-system-html-locale-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/html-search-picker": [
+        "../lily-design-system-html-search-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/html-share-picker": [
+        "../lily-design-system-html-share-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/html-text-size-picker": [
+        "../lily-design-system-html-text-size-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/html-theme-picker": [
+        "../lily-design-system-html-theme-picker/dist/index.d.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "examples",
+    "docs"
+  ]
+}

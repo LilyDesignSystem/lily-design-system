@@ -28,7 +28,7 @@ subprojects in this monorepo —
 2026-09-06 — no framework runtime) and
 [`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)
 (the full six-helper `<lily-*-picker>` catalog, a maintainer-directed
-independent copy of `lily-design-system-html-helpers`) — and helps an agent
+independent copy of the HTML helper packages (then the `lily-design-system-html-helpers` catalog)) — and helps an agent
 decide which one a given request actually needs. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository

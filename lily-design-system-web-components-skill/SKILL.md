@@ -34,7 +34,7 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
   — the full six-helper `*-picker` catalog (`theme-picker`, `locale-picker`,
   `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`),
   each a `<lily-*-picker>` custom element. It is a maintainer-directed
-  **independent copy** of `lily-design-system-html-helpers` (itself already
+  **independent copy** of the HTML helper packages (then the `lily-design-system-html-helpers` catalog) (itself already
   six vanilla custom elements), differing only in tag prefix
   (`<lily-theme-picker>` rather than bare `<theme-picker>`) and package
   naming — nothing ports between the two catalogs automatically. Deep dive

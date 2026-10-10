@@ -33,7 +33,7 @@ explaining the Web Components helpers consumption idiom is grounded in the
 same rules the catalog itself is held to.
 
 This catalog is a maintainer-directed (2026-09-03) **independent copy** of
-[`lily-design-system-html-helpers`](../lily-design-system-html-helpers/) —
+[the HTML helper packages](../spec/helpers/index.md#html-helper-packages) —
 which is itself already six vanilla custom elements. It differs only in
 tag prefix (`<lily-theme-picker>` rather than bare `<theme-picker>`,
 matching the Web Components headless catalog's `lily-{slug}` tag

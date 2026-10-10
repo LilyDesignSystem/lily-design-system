@@ -9,7 +9,7 @@ that sit alongside the Web Components headless catalog, each owning one
 whole interaction end to end.
 
 This catalog is a maintainer-directed (2026-09-03) **independent copy** of
-[`lily-design-system-html-helpers`](../lily-design-system-html-helpers/),
+[the HTML helper packages](../spec/helpers/index.md#html-helper-packages),
 differing only in tag prefix and package naming; nothing ports between the
 two automatically. This skill states that provenance precisely rather than
 overstating it (a fork with automatic sync) or understating it (an

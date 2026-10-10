@@ -21,8 +21,8 @@ helper packages of its own.
 This is the framework-specific counterpart, for the HTML headless library,
 to the general [`lily-design-system-skill`](../../lily-design-system-skill/).
 Its own sibling, [`lily-design-system-html-helpers-skill`](../../lily-design-system-html-helpers-skill/),
-covers the neighbouring `*-picker` helpers catalog
-(`lily-design-system-html-helpers`) instead of the headless library.
+covers the neighbouring HTML helper packages (one top-level
+`lily-design-system-html-*` subproject each) instead of the headless library.
 
 ## 2. Scope
 

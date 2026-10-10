@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining
-[`lily-design-system-html-helpers`](../lily-design-system-html-helpers/), the
+[the HTML helper packages](../spec/helpers/index.md#html-helper-packages), the
 catalog of six web-component `*-picker` helpers (`theme-picker`,
 `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`,
 `date-time-picker`) that sit alongside the HTML headless library. The skill
@@ -49,7 +49,7 @@ rather than a page-header preference widget.
   contract, its attribute/property/event surface, and how it relates to
   the independent Web Components helpers copy.
 - **Isn't**: the HTML helpers catalog itself (that's
-  [`lily-design-system-html-helpers`](../lily-design-system-html-helpers/));
+  [the HTML helper packages](../spec/helpers/index.md#html-helper-packages));
   isn't the HTML headless-library skill (that's
   [`lily-design-system-html-headless-skill`](../lily-design-system-html-headless-skill/));
   isn't the general Lily concepts skill (that's
