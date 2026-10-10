@@ -6,6 +6,9 @@
   <title>{% if title %}{{ title }} — {% endif %}{{ site.name }}</title>
   {% if description %}<meta name="description" content="{{ description }}">{% endif %}
   <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="importmap">
+    {"imports": {"@lilydesignsystem/nunjucks-listbox-behavior": "/assets/js/listbox-behavior.client.js"}}
+  </script>
   <script>
     // Creates the managed theme <link> before first paint (persisted slug
     // if any, else the default) and sets data-theme; the theme-picker

@@ -1,2 +1,7 @@
 allowBuilds:
   esbuild: true
+overrides:
+  # js-yaml 3 (via gray-matter) needs argparse only for its own CLI, which
+  # nothing here runs; dropping it drops sprintf-js, which has no patched
+  # release (Dependabot alert 579).
+  "js-yaml@3>argparse": "-"

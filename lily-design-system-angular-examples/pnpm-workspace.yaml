@@ -15,3 +15,7 @@ minimumReleaseAgeExclude:
 # to one patched version is safe.
 overrides:
   esbuild: "0.28.2"
+  # js-yaml 3 (via front-matter) needs argparse only for its own CLI, which
+  # nothing here runs; dropping it drops sprintf-js, which has no patched
+  # release (Dependabot alert 578).
+  "js-yaml@3>argparse": "-"

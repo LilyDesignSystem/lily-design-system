@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Dependabot alerts; the Eleventy example builds again — 2026-10-10
+
+The Nuxt example overrides `@nuxt/devtools` to 4.0.0-beta.4: devtools 3.x imports `simple-git`'s default export, which the patched
+`simple-git` 4.x line dropped, and devtools 4 no longer uses `simple-git` (four alerts, two critical). The Eleventy and Angular
+examples drop `argparse` from `js-yaml` 3, which needs it only for its own CLI, so `sprintf-js` (no patched release) leaves both
+trees. The two `braces` alerts, also unpatched, are dismissed: it arrives through chokidar 3 and fast-glob in build tooling fed only
+the project's own glob patterns. Verifying the Eleventy change found the example had not built since 2026-09-16: the npm-scope rename
+had turned its headless template path into `../@lilydesignsystem/nunjucks-headless`, and the picker scripts import the shared listbox
+module by package name, which a browser cannot resolve — the layout now maps it with an import map.
+
 ## Guards against dead mirror links and stale registries — 2026-10-10
 
 Deleting the subtree mirrors would have left the docs site full of 404s: its skills, examples, help and tutorial pages (in all 12

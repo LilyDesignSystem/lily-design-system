@@ -6,7 +6,7 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const headlessRoot = path.resolve(
   projectRoot,
   "..",
-  "@lilydesignsystem/nunjucks-headless",
+  "lily-design-system-nunjucks-headless",
 );
 // The helper packages are top-level subprojects (one per package, since
 // 2026-10-10), so their templates resolve from the repository root, e.g.
@@ -34,8 +34,12 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   // The 45 reference themes (synced from the repo root by bin/sync) and
   // the picker client runtimes, vendored from the top-level helper packages.
+  // The pickers import the shared listbox module by its package name, which
+  // the import map in layouts/base.njk points at the copy served here.
   eleventyConfig.addPassthroughCopy({ "src/themes": "themes" });
   eleventyConfig.addPassthroughCopy({
+    "../lily-design-system-nunjucks-listbox-behavior/listbox-behavior.client.js":
+      "assets/js/listbox-behavior.client.js",
     "../lily-design-system-nunjucks-theme-picker/theme-picker.client.js":
       "assets/js/theme-picker.client.js",
     "../lily-design-system-nunjucks-locale-picker/dist/index.js":
