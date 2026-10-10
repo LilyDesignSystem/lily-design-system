@@ -6,7 +6,7 @@
   },
   "description": "Lily Design System Angular settings picker: an icon button (a cog icon) opening a dropdown of whatever the app provides. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-headless": "^0.2.0"
+    "@lilydesignsystem/angular-headless": "^0.5.0"
   },
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <23.0.0",
