@@ -83,7 +83,7 @@ Every helper subproject follows the same shape:
 
 All six helpers are implemented with HTML source, tests, docs, and a
 package manifest. The catalog mirrors the canonical
-[`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/)
+[the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages)
 reference with HTML idioms substituted.
 
 `share-picker` is the first non-preference helper. It is also the one
@@ -101,6 +101,6 @@ for the full contract.
 
 ## 8. References
 
-- Canonical reference catalog: [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/).
+- Canonical reference: [the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages).
 - Headless sibling: [`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/).
 - Root specification: [../spec/index.md](../../spec/index.md) and [../AGENTS.md](../../AGENTS.md).

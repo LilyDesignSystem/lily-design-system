@@ -1,6 +1,6 @@
 # KanbanBoard — Specification (Vue helper)
 
-Canonical contract: [the Svelte package's spec/index.md](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/spec/index.md)
+Canonical contract: [the Svelte package's spec/index.md](../../../lily-design-system-svelte-kanban-board/spec/index.md)
 (implemented first, 2026-09-22). This port mirrors its § numbering;
 where the two disagree, the Svelte side wins. Differences here are
 strictly Vue-API-surface translations (props → `defineProps`/`emit`

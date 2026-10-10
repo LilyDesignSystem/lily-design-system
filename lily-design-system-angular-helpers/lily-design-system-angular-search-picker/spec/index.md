@@ -6,7 +6,7 @@ documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 The canonical cross-framework contract is the Svelte helper's
-[spec](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/spec/index.md);
+[spec](../../../lily-design-system-svelte-search-picker/spec/index.md);
 per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree. This
 file states the same contract in Angular 20 idiom. The §7 clause numbers
 match the Svelte spec one for one.

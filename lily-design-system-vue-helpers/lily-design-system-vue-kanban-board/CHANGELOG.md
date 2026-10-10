@@ -7,7 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-09-22
 
 Initial release. Ported from the canonical
-[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/CHANGELOG.md)
+[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-kanban-board/CHANGELOG.md)
 (2026-09-22). Composes `@lilydesignsystem/vue-headless`'s `KanbanTable`
 family (structural, unmodified) and its `IconButton`/`Listbox` pair
 (the same composition every Vue preference picker already uses) for a

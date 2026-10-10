@@ -14,7 +14,7 @@ canonical Svelte reference, since no headless `data-grid` exists yet in
 this catalog to copy the model from. Ships no CSS.
 
 Ported from the canonical
-[svelte-kanban-board](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/)
+[svelte-kanban-board](../../lily-design-system-svelte-kanban-board/)
 (2026-09-22).
 
 ## Files

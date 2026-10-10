@@ -91,12 +91,39 @@ def rewrite_links(text, root, dest, placed):
 
 
 # Single-package subprojects, mapped to what each one is.
-STANDALONE_PACKAGES = {
-    "lily-design-system-svelte-data-grid": (
-        "headless data grid: sort, filter, row selection, column resize and "
-        "visibility, pagination and APG grid keyboard navigation over the "
-        "headless DataTable family"),
+# Single-package subprojects: helper packages that each live at the top
+# level as their own subproject (the per-framework *-helpers catalogs were
+# dissolved into them, Svelte first, on 2026-10-10). Matched by the tail
+# after "lily-design-system-{fw}-", mapped to what the package is.
+HELPER_PACKAGES = {
+    "theme-picker": "theme-picker helper: an icon button and listbox that loads a reference theme stylesheet and sets data-theme",
+    "locale-picker": "locale-picker helper: an icon button and listbox that sets the document's lang and dir",
+    "text-size-picker": "text-size-picker helper: an icon button and listbox that sets data-text-size",
+    "motion-picker": "motion-picker helper: an icon button and listbox that sets data-motion, defaulting to prefers-reduced-motion",
+    "share-picker": "share-picker helper: an icon button that opens the native share sheet or a list of share links",
+    "search-picker": "search-picker helper: an icon button that opens a search form",
+    "link-picker": "link-picker helper: a home icon button that opens the page links the app defines",
+    "menu-picker": "menu-picker helper: a hamburger icon button that opens whatever the app provides",
+    "settings-picker": "settings-picker helper: a cog icon button that opens whatever the app provides",
+    "date-time-picker": "date-time-picker helper: a date/time field with an APG date-picker dialog",
+    "picker-bar": "picker-bar helper: the link, search, theme, locale, text-size and share pickers in one page-header row",
+    "kanban-board": "kanban-board helper: an accessible kanban board over the headless KanbanTable family",
+    "gantt-chart": "gantt-chart helper: an accessible Gantt chart over the headless GanttTable family",
+    "calendar-view": "calendar-view helper: a week, four-week and month calendar over the headless CalendarTable family",
+    "data-grid": ("headless data grid: sort, filter, row selection, column resize and "
+                  "visibility, pagination and APG grid keyboard navigation over the "
+                  "headless DataTable family"),
+    "listbox-behavior": "listbox-behavior helper: the shared listbox keyboard behaviour the picker helpers use",
 }
+
+
+def helper_package(name):
+    """The HELPER_PACKAGES key for a top-level helper package, else None."""
+    for fw in FRAMEWORK:
+        prefix = f"lily-design-system-{fw}-"
+        if name.startswith(prefix) and name[len(prefix):] in HELPER_PACKAGES:
+            return name[len(prefix):]
+    return None
 
 
 def parts(name):
@@ -121,10 +148,10 @@ def parts(name):
     # is neither "headless" nor "helpers", so leaving the loop to run
     # first would misclassify every framework-specific skill as an
     # "examples" subproject.
-    # A single published package promoted out of its framework's
-    # *-helpers catalog to a subproject of its own. Checked before the
+    # A single published helper package, a top-level subproject of its
+    # own rather than a directory inside a *-helpers catalog. Checked before the
     # framework-prefix loop, whose catch-all would call it "examples".
-    if name in STANDALONE_PACKAGES:
+    if helper_package(name):
         for fw in FRAMEWORK:
             if name.startswith(f"lily-design-system-{fw}-"):
                 return fw, "package"
@@ -162,7 +189,7 @@ def describe(name):
     if kind == "examples":
         return f"the {label} example application: a fully styled reference app demonstrating every catalog component"
     if kind == "package":
-        return f"the {label} {STANDALONE_PACKAGES[name]}"
+        return f"the {label} {HELPER_PACKAGES[helper_package(name)]}"
     if kind == "skill":
         if name.endswith("-headless-skill"):
             return f"a Claude Skill covering the {label} headless component library for an AI coding agent"

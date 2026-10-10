@@ -6,7 +6,7 @@ anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 The canonical cross-framework contract is the Svelte helper's
-[`spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md).
+[`spec/index.md`](../../../lily-design-system-svelte-date-time-picker/spec/index.md).
 Per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree; this
 file mirrors its §-numbering exactly so the two test suites line up
 clause for clause. The only differences are §4 (the API, restated in
@@ -693,7 +693,7 @@ title carries its clause number. 65 tests total, using vitest + jsdom +
 
 Identical to the canonical Svelte spec §8 — behaviour, not idiom, so
 nothing changes in the port. See the Svelte
-[`spec/index.md` §8](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md#8-dhcw-feature-parity).
+[`spec/index.md` §8](../../../lily-design-system-svelte-date-time-picker/spec/index.md#8-dhcw-feature-parity).
 
 ## 9. Deliberate departures from DHCW
 

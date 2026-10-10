@@ -9,7 +9,7 @@ construction: month names, weekday names, first day of week, numeric field
 order, 12- vs 24-hour clock and AM/PM names all come from `Intl`.
 
 A direct port of the canonical
-[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-date-time-picker/).
 Canonical contract: [spec/index.md](./spec/index.md).
 
 ## Install

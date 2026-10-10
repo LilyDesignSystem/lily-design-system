@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-svelte-skill
-description: Explains what's available for Svelte in Lily Design System and which Svelte subproject to reach for — the headless component library, the canonical *-picker helpers catalog (every other framework ports from this one), or the SvelteKit example application. Use when someone asks what Svelte packages Lily ships, which Svelte subproject they need for a given job, wants to see Svelte components styled and running, or asks about the SvelteKit example app's routes, NHS UK styling, or test coverage.
+description: Explains what's available for Svelte in Lily Design System and which Svelte subproject to reach for — the headless component library, the canonical helper packages (every other framework ports from this one), or the SvelteKit example application. Use when someone asks what Svelte packages Lily ships, which Svelte subproject they need for a given job, wants to see Svelte components styled and running, or asks about the SvelteKit example app's routes, NHS UK styling, or test coverage.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -9,7 +9,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 Three real Svelte subprojects make up Lily's Svelte support. This skill is
 the umbrella: it maps the three, helps decide which one a task needs, and
 points at the two sibling skills that already cover the headless library and
-the helpers catalog in depth. It does not restate their content.
+the helper packages in depth. It does not restate their content.
 
 ## The three subprojects
 
@@ -22,19 +22,19 @@ the helpers catalog in depth. It does not restate their content.
   [`lily-design-system-svelte-headless-skill`](../lily-design-system-svelte-headless-skill/)
   — the Svelte 5 consumption idiom (`class` prop, `$props()` with rest-props,
   `$bindable()`, `Snippet` children), npm package identity.
-- **[`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)**
-  — the six `*-picker` helper packages (theme-picker, locale-picker,
-  text-size-picker, motion-picker, share-picker, date-time-picker). Each
+- **[the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)**
+  — one top-level subproject per package: the ten `*-picker` helpers,
+  `picker-bar`, data-grid, kanban-board, gantt-chart, calendar-view. Each
   owns one whole interaction end to end — not just markup but the popup,
   the keyboard behaviour, and (for most of them) applying and persisting a
-  value. **This catalog is canonical**: per `AGENTS/helpers.md`'s "Svelte is
+  value. **These packages are canonical**: per `AGENTS/helpers.md`'s "Svelte is
   canonical" rule, every other framework's helpers (React, Vue, Angular,
   Blazor, HTML, Nunjucks, Web Components) port their contract from here,
-  and when a catalog disagrees, Svelte wins. Reach for this when the task
+  and when a framework disagrees, Svelte wins. Reach for this when the task
   is a page-header preference control, a share action, or a date/time form
   field. Deep dive:
   [`lily-design-system-svelte-helpers-skill`](../lily-design-system-svelte-helpers-skill/)
-  — the six helpers' contracts, npm package names, and the idempotent-apply
+  — the helpers' contracts, npm package names, and the idempotent-apply
   rule.
 - **[`lily-design-system-svelte-sveltekit-examples`](../lily-design-system-svelte-sveltekit-examples/)**
   — a fully styled SvelteKit 2 reference application demonstrating the
@@ -45,7 +45,7 @@ the helpers catalog in depth. It does not restate their content.
 
 ## When NOT this skill
 
-For the headless library's consumption idiom or the helpers catalog's
+For the headless library's consumption idiom or the helper packages's
 per-helper contracts, use the two sibling skills above directly — this
 skill only maps the territory and does not duplicate their content. For
 framework-agnostic Lily concepts, terminology, naming conventions, and
@@ -99,7 +99,7 @@ every example app runs.
 
 - **Svelte 5 runes** throughout (`$state`, `$derived`, `$props`,
   `$bindable`, `$effect`) — no legacy Svelte 4 syntax.
-- **No `<style>` blocks in the headless library or the helpers catalog.**
+- **No `<style>` blocks in the headless library or the helper packages.**
   Headless components and helper packages ship zero CSS, not even Svelte's
   own scoped styles; only the example app has stylesheets.
 - **TypeScript everywhere**, Vite as the build tool, pnpm (not npm).

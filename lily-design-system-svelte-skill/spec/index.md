@@ -11,15 +11,15 @@ agent-skills plan this subproject is part of.
 An **umbrella Claude Skill** for Svelte: it ties together the three real
 Svelte subprojects in this monorepo — the headless component library
 ([`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/)),
-the `*-picker` helpers catalog
-([`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/),
+the Svelte helper packages
+([the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages),
 which is also the **canonical** reference every other framework's helpers
 port from, per `AGENTS/helpers.md`'s "Svelte is canonical" rule), and the
 SvelteKit example application
 ([`lily-design-system-svelte-sveltekit-examples`](../../lily-design-system-svelte-sveltekit-examples/))
 — helps an agent decide which one it needs, and points into the two more
 specific sibling skills that already cover the headless library and the
-helpers catalog:
+helper packages:
 [`lily-design-system-svelte-headless-skill`](../../lily-design-system-svelte-headless-skill/)
 and
 [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/).
@@ -30,7 +30,7 @@ content and documentation, not a component implementation — it ships no
 headless components, no example app, no helper packages.
 
 The canonical-helpers relevance matters for this skill specifically:
-because Svelte's helpers catalog is the contract every other framework
+because Svelte's helper packages are the contract every other framework
 ports from, a task that touches the *design* of a picker helper (not just
 its Svelte consumption) is more likely to land here or in
 `lily-design-system-svelte-helpers-skill` than in any other framework's
@@ -41,7 +41,7 @@ helpers skill.
 ### In scope
 
 - `SKILL.md` — the skill: the three-subproject map (headless library,
-  canonical helpers catalog, SvelteKit example app), a decision aid for
+  canonical helper packages, SvelteKit example app), a decision aid for
   which subproject a task needs, pointers to the two sibling skills for
   the headless and helpers deep dives, real coverage of the SvelteKit
   example app (required routes, NHS UK visual reference, how to run it,
@@ -65,7 +65,7 @@ helpers skill.
   `AGENTS/*.md` files rather than duplicating their rules.
 - Any component, helper, or example-app implementation. Component source
   lives in `@lilydesignsystem/svelte-headless`, helper source in
-  `lily-design-system-svelte-helpers`, and example pages in
+  the top-level `lily-design-system-svelte-*` helper packages, and example pages in
   `lily-design-system-svelte-sveltekit-examples` — none of it here.
 - Framework-agnostic Lily concepts already covered by
   [`lily-design-system-skill`](../../lily-design-system-skill/).
@@ -86,7 +86,7 @@ to run beyond `bin/test`'s required-files checks.
       (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
       `.git-subtree-push`.
 - [x] `SKILL.md` states only facts verified against the real
-      `@lilydesignsystem/svelte-headless`, `lily-design-system-svelte-helpers`,
+      `@lilydesignsystem/svelte-headless`, the Svelte helper packages (then the `lily-design-system-svelte-helpers` catalog),
       and `lily-design-system-svelte-sveltekit-examples` subprojects (the
       SvelteKit example app's required + composed routes, its
       `e2e/axe-catalog.spec.ts` and `e2e/visual-regression.spec.ts` files,
@@ -108,7 +108,7 @@ to run beyond `bin/test`'s required-files checks.
   the sibling skill covering the headless library's npm package identity
   and Svelte 5 consumption idiom in depth.
 - [`lily-design-system-svelte-helpers-skill`'s spec/index.md](../../lily-design-system-svelte-helpers-skill/spec/index.md) —
-  the sibling skill covering the canonical `*-picker` helpers catalog's
+  the sibling skill covering the canonical helper packages'
   six contracts and the idempotent-apply rule in depth.
 - [`lily-design-system-svelte-sveltekit-examples`'s spec/index.md](../../lily-design-system-svelte-sveltekit-examples/spec/index.md) —
   the example application's own spec, for the one subproject this skill

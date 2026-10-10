@@ -2,7 +2,7 @@
 
 Canonical contract for `@lilydesignsystem/react-kanban-board`, ported
 from the canonical
-[`@lilydesignsystem/svelte-kanban-board`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/spec/index.md)
+[`@lilydesignsystem/svelte-kanban-board`](../../../lily-design-system-svelte-kanban-board/spec/index.md)
 (the reference implementation; see
 [spec/helpers/index.md § kanban-board contract](../../../spec/helpers/index.md)
 for the cross-catalog contract both implement). Same behaviour, React

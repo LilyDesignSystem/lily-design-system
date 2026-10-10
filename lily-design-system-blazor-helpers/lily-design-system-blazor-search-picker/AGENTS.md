@@ -12,7 +12,7 @@ Submitting navigates to `{Action}?{encodeURIComponent(query.Trim())}` —
 by default `/?<query>`. Ships no CSS and no JS file.
 
 The canonical implementation is the Svelte helper
-[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/);
+[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-search-picker/);
 this is a direct port with Blazor idioms swapped. When the two disagree,
 Svelte wins — see [spec/index.md §9](./spec/index.md#9-blazor-deviations-from-the-canonical-svelte-implementation)
 for the deviations that could not be avoided.

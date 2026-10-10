@@ -2,7 +2,7 @@
 
 Canonical contract for `@lilydesignsystem/react-gantt-chart`, ported
 from the canonical
-[`@lilydesignsystem/svelte-gantt-chart`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/spec/index.md)
+[`@lilydesignsystem/svelte-gantt-chart`](../../../lily-design-system-svelte-gantt-chart/spec/index.md)
 (the reference implementation; see
 [spec/helpers/index.md § gantt-chart contract](../../../spec/helpers/index.md)
 for the cross-catalog contract both implement). Same behaviour, React

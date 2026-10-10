@@ -308,13 +308,16 @@
 
   <h2>Where to get them</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers
-# or -react- / -vue- / -angular- / -html- / -nunjucks- / -blazor- / -web-components-`}</code></pre>
+  <pre tabindex="0"><code>{`# Svelte: one repository per package, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-theme-picker
+# other frameworks: one catalog each
+git clone https://github.com/LilyDesignSystem/lily-design-system-react-helpers
+# or -vue- / -angular- / -html- / -nunjucks- / -blazor- / -web-components-`}</code></pre>
   <p>
-    Each catalog has per-package specs, tests mapped to the spec clauses,
+    Each package has its own spec, tests mapped to the spec clauses,
     runnable examples (including SSR cookie patterns), and a build + publish
-    pipeline. The Svelte catalog is canonical; when in doubt, its contracts
-    win.
+    pipeline. The Svelte packages are canonical; when in doubt, their
+    contracts win.
   </p>
 
   <h2>Next steps</h2>

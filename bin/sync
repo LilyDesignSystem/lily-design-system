@@ -2,13 +2,21 @@
 set -euf
 top="$(git rev-parse --show-toplevel)"
 
+# Helper packages (one top-level subproject each) keep the helper AGENTS/
+# set (conventions, testing, ssr, shared principles) they carried over from
+# their *-helpers catalog, rather than the canonical root AGENTS/ set.
+helper_packages="$(for fw in angular blazor html nunjucks react svelte vue web-components; do
+    "$top/bin/list-helper-packages" "$fw"
+done)"
+
 "$top/bin/list-implementations" |
 while read -r implementation; do
-    # Helpers catalogs keep their own AGENTS/ (conventions, testing, ssr,
-    # shared principles) rather than the canonical root AGENTS/ set.
     case "$implementation" in
         *-helpers) continue ;;
     esac
+    if printf '%s\n' "$helper_packages" | grep -qx -- "$implementation"; then
+        continue
+    fi
     rsync -av "$top/AGENTS/" "$top/$implementation/AGENTS/"
 done
 

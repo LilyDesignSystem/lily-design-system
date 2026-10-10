@@ -265,7 +265,7 @@ Runnable pages in [examples/](./examples/).
 - [`@lilydesignsystem/html-theme-picker`](../lily-design-system-html-theme-picker/)
 - [`@lilydesignsystem/html-locale-picker`](../lily-design-system-html-locale-picker/)
 - [`@lilydesignsystem/html-text-size-picker`](../lily-design-system-html-text-size-picker/)
-- [Svelte original](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/)
+- [Svelte original](../../lily-design-system-svelte-share-picker/)
 
 ---
 

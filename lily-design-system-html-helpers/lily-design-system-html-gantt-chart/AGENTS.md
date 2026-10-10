@@ -15,7 +15,7 @@ the pattern `@lilydesignsystem/html-picker-bar` established. Ships no
 CSS.
 
 Ported from the canonical
-[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/)
+[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/)
 (2026-09-21), implemented here 2026-09-22.
 
 **This catalog's `lily-design-system-html-headless` `gantt-table*.html`

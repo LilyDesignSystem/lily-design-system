@@ -422,7 +422,7 @@ already numbered through §7.24, so the new clauses continue from §7.25.
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 - **2026-09-16**: default icon changed from the Unicode glyph U+0041 LATIN CAPITAL LETTER A (exposed as `TextSizePicker.LatinCapitalLetterA`) to a bundled outline SVG. Maintainer-directed, applied to all five page-header pickers the same day. The constant was removed, not renamed.
 - Canonical contract:
-  [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)
+  [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-text-size-picker/spec/index.md)
 
 ---
 

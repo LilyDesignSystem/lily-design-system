@@ -13,7 +13,7 @@ tooling that keeps them in sync.
 ## Scope
 
 This topic covers the special top-level files for the repository root and for all
-51 published repositories (the 23 implementation subprojects, the 26 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
+65 published repositories (the 37 implementation subprojects, the 26 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
 link-rewriting rule that makes a copied file correct in its destination, and the
 `bin/sync-special-files` and `bin/test` enforcement.
 
@@ -101,7 +101,7 @@ absolute link on the canonical repository, which is the only place that file exi
 
 | Script | Purpose |
 | --- | --- |
-| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 51 published repositories, rewriting links and generating the per-subproject files |
+| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 65 published repositories, rewriting links and generating the per-subproject files |
 | [`bin/test`](../../bin/test) | Verify the set is present and non-empty in the root and every subproject |
 | [`bin/check-links`](../../bin/check-links) | Verify every rewritten relative link still resolves |
 
@@ -113,7 +113,7 @@ after editing any canonical file, and before `bin/git-subtree-push`.
 - [x] The repository root carries all 16 files in the table.
 - [x] `LICENSE.md` states one SPDX expression, and it matches every package
       manifest and [spec/index.md](../index.md) §14.
-- [x] All 51 published repositories carry the full set (re-run 2026-10-06: 51 repositories, 0 changed).
+- [x] All 65 published repositories carry the full set (re-run 2026-10-10: 65 repositories, 0 changed).
 - [x] Every subproject `CITATION.cff` names its own repository and parses as valid
       YAML against CFF 1.2.0.
 - [x] Every subproject `INSTALL.md` documents that subproject's own install path,

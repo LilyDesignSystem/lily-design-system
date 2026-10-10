@@ -2,7 +2,7 @@
 
 Canonical contract for `@lilydesignsystem/web-components-kanban-board`,
 registered as `<lily-kanban-board>`. Ports
-[`@lilydesignsystem/svelte-kanban-board`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/spec/index.md)
+[`@lilydesignsystem/svelte-kanban-board`](../../../lily-design-system-svelte-kanban-board/spec/index.md)
 (proposed 2026-09-21) to this catalog's vanilla-custom-element idiom.
 Svelte wins on behaviour; this package supplies the custom-element API
 shape. Ported 2026-09-22, after the React, Vue, Angular, and Blazor

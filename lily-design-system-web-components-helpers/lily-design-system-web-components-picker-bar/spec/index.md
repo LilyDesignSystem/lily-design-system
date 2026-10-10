@@ -6,7 +6,7 @@ documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 Ported from the canonical Svelte helper
-[`@lilydesignsystem/svelte-picker-bar`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md).
+[`@lilydesignsystem/svelte-picker-bar`](../../../lily-design-system-svelte-picker-bar/spec/index.md).
 Per [`AGENTS/helpers.md`](../../../AGENTS/helpers.md) the Svelte side
 wins on behaviour; this file records the vanilla-custom-element idiom
 and the places the API shape could not be carried over verbatim

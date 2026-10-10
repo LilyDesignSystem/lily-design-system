@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "sourceMap": false,
+    "paths": {
+      "@lilydesignsystem/svelte-headless": [
+        "../lily-design-system-svelte-headless/dist/index.d.ts"
+      ]
+    },
+    "types": [
+      "node"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*.config.js",
+    "build.js",
+    "vitest-setup.js",
+    "examples",
+    "docs",
+    "**/*.stories.svelte"
+  ]
+}

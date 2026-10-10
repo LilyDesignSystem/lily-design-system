@@ -22,10 +22,10 @@
 
 ## Overview
 
-A Claude Skill explaining the Svelte 5 `*-picker` helper catalog,
-[`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
-— the six helpers (theme-picker, locale-picker, text-size-picker,
-motion-picker, share-picker, date-time-picker) and, per
+A Claude Skill explaining
+[the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
+— one top-level subproject per package: the ten `*-picker` helpers,
+`picker-bar`, data-grid, kanban-board, gantt-chart, calendar-view — and, per
 `AGENTS/helpers.md`'s "Svelte is canonical" rule, **the reference
 contract every other framework's helpers port from**. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
@@ -33,21 +33,21 @@ binding design-principle rules every other subproject in this repository
 loads, plus `AGENTS/sveltekit.md` for the Svelte 5 + SvelteKit 2
 conventions specific to this framework pair, so an agent explaining the
 canonical helper contract is grounded in the same rules the Svelte
-helpers catalog itself is held to.
+helper packages themselves are held to.
 
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill scoped to consuming and understanding
-  `lily-design-system-svelte-helpers` — the six helpers' contracts, their
+  the Svelte helper packages — their contracts, their
   npm package identities and install idiom, the icon-button-opens-listbox
   shape shared by the four preference helpers versus `share-picker`'s
   disclosure and `date-time-picker`'s field+dialog shape, and the
   idempotent-apply rule that exists because of a real, documented Svelte
   `$effect` re-entrancy defect (see `AGENTS/helpers.md`'s "Applying is
   idempotent" rule).
-- **Isn't**: the Svelte helpers catalog itself (that's
-  [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/),
-  which ships the six helper packages) — it ships no components of its
+- **Isn't**: the helper packages themselves (that's
+  [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages))
+  — it ships no components of its
   own. Isn't the general, framework-agnostic Lily concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)). Isn't the
   Svelte headless-catalog skill (that's

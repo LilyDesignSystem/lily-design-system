@@ -14,7 +14,7 @@ rectangular grid (columns × largest column's card count). Ships no
 CSS.
 
 A direct port of the canonical
-[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/).
+[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-kanban-board/).
 When the two disagree, the Svelte side wins.
 
 ## Files

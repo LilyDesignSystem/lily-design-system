@@ -6,7 +6,7 @@ in the spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 A direct port of the canonical
-[`@lilydesignsystem/svelte-date-time-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md).
+[`@lilydesignsystem/svelte-date-time-picker`](../../../lily-design-system-svelte-date-time-picker/spec/index.md).
 Where the two disagree, the Svelte side wins. The §7 clause numbers are
 kept identical across catalogs so the suites cross-reference.
 

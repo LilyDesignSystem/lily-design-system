@@ -7,7 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-09-22
 
 Initial release. Ported from the canonical
-[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/CHANGELOG.md)
+[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/CHANGELOG.md)
 (2026-09-22). Composes `@lilydesignsystem/vue-headless`'s `GanttTable`
 family (structural, task bars as column-spanning cells rather than
 pixel-positioned floating divs) and `@lilydesignsystem/vue-date-time-picker`

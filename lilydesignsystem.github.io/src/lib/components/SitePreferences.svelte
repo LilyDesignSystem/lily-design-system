@@ -3,7 +3,7 @@
   composed from the real, published `@lilydesignsystem/svelte-picker-bar`
   helper (theme, language, text size, share in one component) rather than
   assembling the four sibling pickers by hand — see
-  lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar.
+  lily-design-system-svelte-picker-bar.
 
   These are headless components: PickerBar supplies no CSS of its own;
   static/assets/style.css supplies every visual decision, including the

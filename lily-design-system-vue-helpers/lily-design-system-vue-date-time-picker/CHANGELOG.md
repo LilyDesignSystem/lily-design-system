@@ -146,7 +146,7 @@ from `disabled` to `aria-disabled`.
 ### Initial entry — 2026-07-28
 
 Initial release. A direct port of the canonical
-[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/)
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-date-time-picker/)
 0.1.0, the fifth Lily helper and the first form-value helper in this
 catalog — the three `*-picker` siblings own a preference lifecycle and
 `share-picker` owns an action; this one owns a form value, and, like

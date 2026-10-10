@@ -1,7 +1,7 @@
 # TextSizePicker — Specification (React helper)
 
 Port of the canonical Svelte contract
-([`../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)).
+([`../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-text-size-picker/spec/index.md)).
 The §7 numbering matches the Svelte spec so cross-framework tests line up,
 and it matches the sibling `theme-picker` / `locale-picker` specs so all
 three helpers can be read side by side.

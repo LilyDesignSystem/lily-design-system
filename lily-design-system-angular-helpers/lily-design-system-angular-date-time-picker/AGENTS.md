@@ -4,7 +4,7 @@ Single source of truth: [spec/index.md](./spec/index.md). Read it first;
 everything below is a fast index.
 
 The canonical cross-framework contract is the Svelte helper's
-[spec](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md);
+[spec](../../lily-design-system-svelte-date-time-picker/spec/index.md);
 per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree.
 
 ## What this package is

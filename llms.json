@@ -152,9 +152,9 @@
           "description": "Fully styled reference app demonstrating the same catalog."
         },
         {
-          "title": "lily-design-system-svelte-helpers",
-          "url": "lily-design-system-svelte-helpers/index.md",
-          "description": "The canonical picker catalog (theme, locale, text-size, motion, share, search, date-time, picker-bar)."
+          "title": "Svelte helper packages",
+          "url": "spec/helpers/index.md#svelte-helper-packages",
+          "description": "The canonical helpers, one top-level subproject each: the ten pickers, picker-bar, data-grid, kanban-board, gantt-chart, calendar-view."
         },
         {
           "title": "lily-design-system-skill",

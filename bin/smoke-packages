@@ -51,11 +51,11 @@ else
   echo "angular: dist/ missing — run ng-packagr first" >&2; exit 1
 fi
 for p in theme-picker locale-picker text-size-picker motion-picker link-picker menu-picker settings-picker share-picker date-time-picker; do
-  d="$ROOT/lily-design-system-svelte-helpers/lily-design-system-svelte-$p"
+  d="$ROOT/lily-design-system-svelte-$p"
   if [ -d "$d/dist" ]; then
     ( cd "$d" && npm pack --pack-destination "$S" ) > /dev/null
   else
-    echo "svelte-$p: dist/ missing — build the helpers catalog first (cd lily-design-system-svelte-helpers && npm run build)" >&2; exit 1
+    echo "svelte-$p: dist/ missing — build it first (cd lily-design-system-svelte-$p && pnpm build)" >&2; exit 1
   fi
 done
 for fw in react vue html nunjucks web-components; do

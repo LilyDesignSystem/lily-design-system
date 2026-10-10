@@ -7,7 +7,7 @@ or the `⏎` button, navigates to `/?<query>` — a search for `foo` goes to
 `/?foo`.
 
 A port of the canonical
-[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/).
+[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-search-picker/).
 The single source of truth is [spec/index.md](./spec/index.md). This file
 is the human-readable guide.
 

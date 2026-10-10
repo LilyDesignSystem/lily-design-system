@@ -6,7 +6,7 @@ anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 Ported from the canonical Svelte helper
-[`@lilydesignsystem/svelte-gantt-chart`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/spec/index.md).
+[`@lilydesignsystem/svelte-gantt-chart`](../../../lily-design-system-svelte-gantt-chart/spec/index.md).
 Per `AGENTS/helpers.md` the Svelte side wins on behaviour; this file
 records the vanilla-custom-element idiom and the places the API shape
 could not be carried over verbatim (§4 property-only members, §6 reused

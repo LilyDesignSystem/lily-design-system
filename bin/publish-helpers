@@ -41,8 +41,9 @@ for arg in "$@"; do
     --only) prev="--only" ;;
   esac
 done
-# --only <catalog-dir> restricts the run to one helper catalog (e.g.
-# --only lily-design-system-web-components-helpers), so a first release
+# --only <dir> restricts the run to one helper catalog (e.g.
+# --only lily-design-system-web-components-helpers), or to one top-level
+# helper package (e.g. --only lily-design-system-svelte-theme-picker), so a first release
 # of a new catalog does not have to re-run every other catalog. The
 # Blazor/NuGet section runs only when no --only is given, or when it
 # names the Blazor catalog.
@@ -105,8 +106,7 @@ if [ -z "$NUGET_ONLY" ]; then
   echo "== npm helper packages =="
   # svelte / react / vue / html / nunjucks: each package's `prepublishOnly`
   # runs the catalog's dist build, so publish from the package root.
-  for d in "$ROOT"/lily-design-system-svelte-helpers/lily-design-system-* \
-           "$ROOT"/lily-design-system-react-helpers/lily-design-system-* \
+  for d in "$ROOT"/lily-design-system-react-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-vue-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-html-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-* \
@@ -118,10 +118,14 @@ if [ -z "$NUGET_ONLY" ]; then
     publish_npm_package "$d"
   done
 
-  # Helper packages promoted out of their catalog to a top-level
-  # subproject of their own: each is its own pnpm root, so install and
-  # publish it in place (its `prepublishOnly` runs its own build).
-  for d in "$ROOT"/lily-design-system-svelte-data-grid; do
+  # Top-level helper packages (the catalogs dissolved into one subproject
+  # per package, Svelte first, 2026-10-10): each is its own pnpm root, so
+  # install and publish it in place (its `prepublishOnly` runs its own
+  # build). --only names the package directory itself.
+  for d in "$ROOT"/lily-design-system-svelte-*; do
+    case "$(basename "$d")" in
+      *-headless|*-sveltekit-examples|*-skill) continue ;;
+    esac
     [ -f "$d/package.json" ] || continue
     only_matches "$d" || continue
     ensure_installed "$d"

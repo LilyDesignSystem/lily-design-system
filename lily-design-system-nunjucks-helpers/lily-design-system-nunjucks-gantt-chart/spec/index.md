@@ -1,7 +1,7 @@
 # GanttChart — Specification (Nunjucks helper)
 
 Canonical contract for `@lilydesignsystem/nunjucks-gantt-chart`. Ports
-[the Svelte canonical's spec](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/spec/index.md)
+[the Svelte canonical's spec](../../../lily-design-system-svelte-gantt-chart/spec/index.md)
 (proposed 2026-09-21 in
 [spec/helpers/index.md § gantt-chart contract](../../../spec/helpers/index.md))
 to this catalog's macro + client.js architecture, alongside

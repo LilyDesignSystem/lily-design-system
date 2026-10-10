@@ -180,15 +180,12 @@ test_implementations_with_vite() {
 }
 
 test_implementations_with_svelte() {
-    # Only the svelte component libraries follow the src/lib/components
-    # layout. Exclude the *-helpers catalogs, which hold a couple of
-    # opinionated helper subprojects rather than the full component set,
-    # and the *-skill packages (lily-design-system-svelte-headless-skill,
-    # lily-design-system-svelte-helpers-skill), which are documentation
-    # for an AI agent, not a component library. Also exclude
-    # lily-design-system-svelte-data-grid: one helper package promoted out
-    # of svelte-helpers to its own subproject, not a component library.
-    "$top/bin/list-implementations" | grep svelte- | grep -v -- '-helpers' | grep -v -- '-skill' | grep -v -- '-data-grid' |
+    # Only the two full-catalog svelte subprojects follow the
+    # src/lib/components layout: the headless library and the SvelteKit
+    # example app. Named outright rather than excluded piecemeal, because
+    # every other lily-design-system-svelte-* subproject (each helper
+    # package, each *-skill) is something else.
+    "$top/bin/list-implementations" | grep -E -- '^lily-design-system-svelte-(headless|sveltekit-examples)$' |
     while read -r implementation; do
         "$top/bin/list-components-as-pascal-case" |
         while read -r component; do

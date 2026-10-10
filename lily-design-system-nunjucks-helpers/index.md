@@ -218,11 +218,11 @@ APIs — `document`, `localStorage`, `navigator`, `addEventListener`,
 
 The Nunjucks port is one of several framework ports of the same
 contract. The canonical reference is the Svelte 5 implementation in
-[`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/);
+[the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages);
 all other framework helpers (Vue, React, Angular, Blazor, Nunjucks)
 mirror it clause-for-clause in `spec/index.md` §7.
 
-- [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
+- [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
   — canonical reference.
 - [`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/)
   — Vue 3 port (closest analog in API shape).

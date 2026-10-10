@@ -128,7 +128,7 @@ and tests stay in lock-step across frameworks.
 
 ## Sibling helper catalogs
 
-- [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
+- [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
   — the canonical Svelte 5 reference implementation. When the Vue
   port and the Svelte canonical disagree, the Svelte side wins and
   the Vue side is patched.

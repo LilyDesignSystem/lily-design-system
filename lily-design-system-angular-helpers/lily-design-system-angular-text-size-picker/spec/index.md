@@ -7,7 +7,7 @@ spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 This is the Angular port of the canonical Svelte contract in
-[`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md).
+[`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-text-size-picker/spec/index.md).
 When the Angular port and the Svelte canonical disagree, the Svelte
 side wins and the Angular side is patched.
 
@@ -384,7 +384,7 @@ clause means the same thing in every catalog.
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
-- Canonical contract: [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)
+- Canonical contract: [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-text-size-picker/spec/index.md)
 - **2026-09-16**: default icon changed from the Unicode glyph U+0041
   LATIN CAPITAL LETTER A (exported as `LATIN_CAPITAL_LETTER_A`) to a
   bundled outline SVG. Maintainer-directed, applied to all five

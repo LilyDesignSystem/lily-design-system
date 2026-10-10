@@ -73,9 +73,9 @@ searchable component catalog: https://lilydesignsystem.com/.
   the canonical Svelte 5 headless library — other catalogs port from it.
 - [lily-design-system-svelte-sveltekit-examples](lily-design-system-svelte-sveltekit-examples/index.md):
   fully styled reference app for the same catalog.
-- [lily-design-system-svelte-helpers](lily-design-system-svelte-helpers/index.md):
-  the canonical picker catalog (theme, locale, text-size, motion, share, search,
-  date-time, picker-bar).
+- [Svelte helper packages](spec/helpers/index.md#svelte-helper-packages):
+  the canonical helpers, one top-level subproject each — the ten pickers,
+  picker-bar, data-grid, kanban-board, gantt-chart, calendar-view.
 - The remaining 20 headless/example/helper subprojects (React, Vue,
   Angular, Blazor, HTML, Nunjucks, Web Components) follow the same
   shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.

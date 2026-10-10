@@ -79,7 +79,7 @@ Every helper subproject follows the same shape:
 
 All six helpers are implemented with React 19 source, tests, docs, and a
 package manifest. The catalog mirrors the canonical
-[`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/)
+[the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages)
 reference with React 19 idioms substituted.
 
 `share-picker` and `date-time-picker` are the two helpers that don't fit
@@ -93,6 +93,6 @@ to the document or persists anything. See each helper's own
 
 ## 8. References
 
-- Canonical reference catalog: [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/).
+- Canonical reference: [the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages).
 - Headless sibling: [`@lilydesignsystem/react-headless`](../../lily-design-system-react-headless/).
 - Root specification: [../spec/index.md](../../spec/index.md) and [../AGENTS.md](../../AGENTS.md).

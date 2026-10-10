@@ -2,11 +2,11 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library. Most own a **user preference** end to end (selection + DOM application + optional persistence) — `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, each rendered as a single-icon button (a bundled SVG as of 2026-09-16, not a Unicode glyph) that opens a WAI-ARIA APG listbox. `share-picker` owns an **action** instead, and `date-time-picker` owns a **form value**; neither applies anything to the document nor persists anything. All six helpers ship in all eight catalogs (the eighth, `lily-design-system-web-components-helpers`, is an independent copy of the HTML catalog with `lily-*` tags — see its provenance note). `search-picker` (added 2026-10-02) also owns an **action**: a magnifying-glass icon opening a search field and a `⏎` submit button that navigates to `/?<query>`. A further package, `picker-bar`, composes five of them (search first, then theme, locale, text-size, share) into one page-header row; it shipped first in the canonical `svelte-helpers` catalog and was ported to all seven other catalogs the same day (2026-09-15) — see §"picker-bar contract" below.
+**Summary.** Each framework ships small, opinionated, reusable helper packages (Svelte's as one top-level subproject each, the other seven frameworks' in a `*-helpers` catalog each) that sit alongside the headless library. Most own a **user preference** end to end (selection + DOM application + optional persistence) — `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, each rendered as a single-icon button (a bundled SVG as of 2026-09-16, not a Unicode glyph) that opens a WAI-ARIA APG listbox. `share-picker` owns an **action** instead, and `date-time-picker` owns a **form value**; neither applies anything to the document nor persists anything. All six helpers ship in all eight catalogs (the eighth, `lily-design-system-web-components-helpers`, is an independent copy of the HTML catalog with `lily-*` tags — see its provenance note). `search-picker` (added 2026-10-02) also owns an **action**: a magnifying-glass icon opening a search field and a `⏎` submit button that navigates to `/?<query>`. A further package, `picker-bar`, composes five of them (search first, then theme, locale, text-size, share) into one page-header row; it shipped first in the canonical `svelte-helpers` catalog and was ported to all seven other catalogs the same day (2026-09-15) — see §"picker-bar contract" below.
 
 ## Scope
 
-This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet. A ninth, `kanban-board` (see §"kanban-board contract" below), and a tenth, `gantt-chart` (see §"gantt-chart contract" below — the first helper to compose another *helper*, `date-time-picker`, rather than only headless components), are likewise now implemented in the canonical `svelte-helpers` catalog and ported to all seven other catalogs — `react-helpers`, `vue-helpers`, `angular-helpers`, `blazor-helpers` (2026-09-22), then `web-components-helpers`, `html-helpers`, and `nunjucks-helpers` (also 2026-09-22, once an earlier survey's claim that those three catalogs had no `DataTable`/`KanbanTable`/`GanttTable` headless family at all was found to be a false negative from a broken search pattern — they had the family all along). `kanban-board` and `gantt-chart` are the first two helpers to ship in every catalog. An eleventh, `calendar-view` (see §"calendar-view contract" below — a read/browse week/four-week/month calendar composing `CalendarTable` and, for its date arithmetic, the sibling helper `date-time-picker`), is likewise now implemented in the canonical `svelte-helpers` catalog (2026-09-22); the other seven catalogs do not port it yet.
+This topic covers the helpers of all eight frameworks (angular, blazor, html, nunjucks, react, svelte, vue, web-components) — the seven `*-helpers` catalogs and the top-level Svelte helper packages — the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet. A ninth, `kanban-board` (see §"kanban-board contract" below), and a tenth, `gantt-chart` (see §"gantt-chart contract" below — the first helper to compose another *helper*, `date-time-picker`, rather than only headless components), are likewise now implemented in the canonical `svelte-helpers` catalog and ported to all seven other catalogs — `react-helpers`, `vue-helpers`, `angular-helpers`, `blazor-helpers` (2026-09-22), then `web-components-helpers`, `html-helpers`, and `nunjucks-helpers` (also 2026-09-22, once an earlier survey's claim that those three catalogs had no `DataTable`/`KanbanTable`/`GanttTable` headless family at all was found to be a false negative from a broken search pattern — they had the family all along). `kanban-board` and `gantt-chart` are the first two helpers to ship in every catalog. An eleventh, `calendar-view` (see §"calendar-view contract" below — a read/browse week/four-week/month calendar composing `CalendarTable` and, for its date arithmetic, the sibling helper `date-time-picker`), is likewise now implemented in the canonical `svelte-helpers` catalog (2026-09-22); the other seven catalogs do not port it yet.
 
 It does **not** cover: the headless 571-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
@@ -23,13 +23,15 @@ It does **not** cover: the headless 571-component catalog and its rules (see [he
 - **SSR-safe.** No DOM writes outside the framework's mount/effect lifecycle (`$effect` / `onMount` / equivalent).
 - **i18n-clean.** Every user-facing string comes from a prop.
 - **Spec-driven.** Every helper has a numbered `spec/index.md`; tests assert against those § numbers; docs link back.
-- **Svelte is canonical.** The `lily-design-system-svelte-helpers` catalog is the canonical reference; the other seven are framework-idiom ports.
+- **Svelte is canonical.** The Svelte helper packages (one top-level subproject each since 2026-10-10, formerly the `lily-design-system-svelte-helpers` catalog) are the canonical reference; the other seven frameworks' helpers are framework-idiom ports.
 
-## The eight helper catalogs
+## Where the helpers live
+
+Svelte's helpers are one top-level subproject per package (see [Svelte helper packages](#svelte-helper-packages) below); the other seven frameworks still keep theirs in one `*-helpers` catalog each.
 
 | Catalog                                                   | Manifest per package                  | Helpers                                                                                     |
 | --------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `lily-design-system-svelte-helpers` (canonical reference) | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+| Svelte (canonical reference): one top-level `lily-design-system-svelte-*` subproject per package | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
 | `lily-design-system-react-helpers`                        | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
 | `lily-design-system-vue-helpers`                          | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
 | `lily-design-system-angular-helpers`                      | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
@@ -37,6 +39,33 @@ It does **not** cover: the headless 571-component catalog and its rules (see [he
 | `lily-design-system-web-components-helpers`               | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar (`lily-*` tags; copy of the HTML catalog) |
 | `lily-design-system-nunjucks-helpers`                     | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
 | `lily-design-system-blazor-helpers`                       | NuGet `.csproj` (Razor class library) | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+
+### Svelte helper packages
+
+The canonical Svelte helpers were one catalog, `lily-design-system-svelte-helpers`, until
+2026-10-10, when each package moved to the repository root as a subproject of its own and the
+catalog was deleted. Each package has its own toolchain (`package.json` devDependencies and
+scripts, `pnpm-lock.yaml`, vite/vitest config, `build.js`), its own `AGENTS/` (the helper set:
+conventions, testing, SSR, shared principles), its own published special files and git subtree.
+A package that depends on a sibling resolves it in local dev/test from the sibling's built
+`dist/`; [`bin/list-helper-packages svelte`](../../bin/list-helper-packages) prints them in that
+build order, which CI and `bin/publish-helpers` follow.
+
+- [`lily-design-system-svelte-data-grid`](../../lily-design-system-svelte-data-grid/) — `@lilydesignsystem/svelte-data-grid`
+- [`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-date-time-picker/) — `@lilydesignsystem/svelte-date-time-picker`
+- [`lily-design-system-svelte-kanban-board`](../../lily-design-system-svelte-kanban-board/) — `@lilydesignsystem/svelte-kanban-board`
+- [`lily-design-system-svelte-link-picker`](../../lily-design-system-svelte-link-picker/) — `@lilydesignsystem/svelte-link-picker`
+- [`lily-design-system-svelte-locale-picker`](../../lily-design-system-svelte-locale-picker/) — `@lilydesignsystem/svelte-locale-picker`
+- [`lily-design-system-svelte-menu-picker`](../../lily-design-system-svelte-menu-picker/) — `@lilydesignsystem/svelte-menu-picker`
+- [`lily-design-system-svelte-motion-picker`](../../lily-design-system-svelte-motion-picker/) — `@lilydesignsystem/svelte-motion-picker`
+- [`lily-design-system-svelte-search-picker`](../../lily-design-system-svelte-search-picker/) — `@lilydesignsystem/svelte-search-picker`
+- [`lily-design-system-svelte-settings-picker`](../../lily-design-system-svelte-settings-picker/) — `@lilydesignsystem/svelte-settings-picker`
+- [`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-share-picker/) — `@lilydesignsystem/svelte-share-picker`
+- [`lily-design-system-svelte-text-size-picker`](../../lily-design-system-svelte-text-size-picker/) — `@lilydesignsystem/svelte-text-size-picker`
+- [`lily-design-system-svelte-theme-picker`](../../lily-design-system-svelte-theme-picker/) — `@lilydesignsystem/svelte-theme-picker`
+- [`lily-design-system-svelte-calendar-view`](../../lily-design-system-svelte-calendar-view/) — `@lilydesignsystem/svelte-calendar-view`
+- [`lily-design-system-svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/) — `@lilydesignsystem/svelte-gantt-chart`
+- [`lily-design-system-svelte-picker-bar`](../../lily-design-system-svelte-picker-bar/) — `@lilydesignsystem/svelte-picker-bar`
 
 Blazor is .NET rather than npm, so its helpers ship as Razor class libraries with a `.csproj` (e.g. `LilyDesignSystem.Blazor.ThemeSelect.csproj`) instead of a `package.json`.
 
@@ -157,7 +186,7 @@ A drop-in headless site-search control, added 2026-10-02
 (maintainer-directed). Like `share-picker` it owns an **action**: it
 applies nothing to the document and persists nothing. Full contract
 (canonical):
-[the Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/spec/index.md);
+[the Svelte package's spec/index.md](../../lily-design-system-svelte-search-picker/spec/index.md);
 each port's own `spec/index.md` mirrors its § numbering.
 
 | Aspect         | Contract |
@@ -208,7 +237,7 @@ A drop-in headless motion (reduced-motion) selector, added 2026-09-03.
 A form-value helper, not a page-header control: it owns a **date**, a
 **time**, or **both**, rather than a document-wide preference. Ships in
 all eight catalogs, added 2026-07-28. Full contract:
-[the Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md)
+[the Svelte package's spec/index.md](../../lily-design-system-svelte-date-time-picker/spec/index.md)
 (canonical; every port's own `spec/index.md` mirrors its § numbering).
 
 | Aspect         | Contract                                                                                                                                                                                                                                                                                                       |
@@ -234,7 +263,7 @@ A composition, not a preference/action/form-value owner: it renders
 {class}">` row. Shipped first in the canonical `svelte-helpers`
 catalog on 2026-09-15, then ported to all seven other catalogs the
 same day. Full contract (canonical):
-[the Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md);
+[the Svelte package's spec/index.md](../../lily-design-system-svelte-picker-bar/spec/index.md);
 each port's own `spec/index.md` mirrors its § numbering.
 
 | Aspect         | Contract                                                                                                                                                                                                                                        |
@@ -596,7 +625,7 @@ accessibility documentation before writing the table above:
 - [x] The four preference helpers apply idempotently: a value already applied is a no-op and the change callback fires once per applied change, verified per catalog by a regression test that fails without the guard.
 - [x] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings — nor, in `share-picker`'s case, any third-party endpoint.
 - [x] `share-picker` renders a disclosure of real links plus a clipboard action, announces the copy outcome politely, and prefers the native share sheet where the platform has one.
-- [x] The svelte-helpers catalog is the canonical reference; the other seven are idiom-faithful ports.
+- [x] The Svelte helper packages are the canonical reference; the other seven frameworks' helpers are idiom-faithful ports.
 - [x] Each `*-helpers` catalog and each helper is a git subtree with a standalone remote.
 - [x] Each helper builds a `dist/` via the catalog `build.js` and publishes via `bin/publish-helpers`.
 - [x] `search-picker` (2026-10-02) ships in all eight catalogs: a magnifying-glass icon button opening a disclosure panel with a real `<form role="search">` (a `type="search"` field and a `⏎` submit button at its right) that navigates to `${action}?${encodeURIComponent(query.trim())}` — `/?foo` by default — with required `label`/`inputLabel`/`submitLabel` and no English defaults, verified against a numbered spec with one test per acceptance clause per catalog (Svelte 24, React 25, Vue 24, Angular 24, HTML 32, Web Components 32, Nunjucks 35, Blazor 26), each shown to fail when the implementation is broken.
@@ -625,30 +654,29 @@ accessibility documentation before writing the table above:
 
 ## Sources
 
-- [lily-design-system-svelte-helpers/index.md](../../lily-design-system-svelte-helpers/index.md) — canonical catalog and conventions
-- [lily-design-system-svelte-helpers/AGENTS.md](../../lily-design-system-svelte-helpers/AGENTS.md)
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker/) — theme-picker contract
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-locale-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-locale-picker/) — locale-picker contract
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/) — text-size-picker contract
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-motion-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-motion-picker/) — motion-picker contract
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/) — share-picker contract
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/) — search-picker contract (canonical spec)
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — date-time-picker contract (canonical spec)
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/) — picker-bar contract (canonical spec; ported to all seven other catalogs the same day)
+- [Svelte helper packages](#svelte-helper-packages) — the canonical helpers, one top-level subproject each
+- [lily-design-system-svelte-theme-picker/](../../lily-design-system-svelte-theme-picker/) — theme-picker contract
+- [lily-design-system-svelte-locale-picker/](../../lily-design-system-svelte-locale-picker/) — locale-picker contract
+- [lily-design-system-svelte-text-size-picker/](../../lily-design-system-svelte-text-size-picker/) — text-size-picker contract
+- [lily-design-system-svelte-motion-picker/](../../lily-design-system-svelte-motion-picker/) — motion-picker contract
+- [lily-design-system-svelte-share-picker/](../../lily-design-system-svelte-share-picker/) — share-picker contract
+- [lily-design-system-svelte-search-picker/](../../lily-design-system-svelte-search-picker/) — search-picker contract (canonical spec)
+- [lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-date-time-picker/) — date-time-picker contract (canonical spec)
+- [lily-design-system-svelte-picker-bar/](../../lily-design-system-svelte-picker-bar/) — picker-bar contract (canonical spec; ported to all seven other catalogs the same day)
 - [lily-design-system-svelte-headless/components/DataTable/DataTable.svelte](../../lily-design-system-svelte-headless/components/DataTable/DataTable.svelte) — the headless `role="grid"` container the data-grid contract composes rather than duplicates
 - [lily-design-system-svelte-headless/components/KanbanTable/KanbanTable.svelte](../../lily-design-system-svelte-headless/components/KanbanTable/KanbanTable.svelte) — the headless `role="grid"` container the kanban-board contract composes rather than duplicates
 - [lily-design-system-svelte-headless/components/GanttTable/GanttTable.svelte](../../lily-design-system-svelte-headless/components/GanttTable/GanttTable.svelte) — the headless `role="grid"` container the gantt-chart contract composes rather than duplicates; its own doc-comment example already shows the column-span task-bar pattern
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the sibling helper the gantt-chart contract composes for keyboard-accessible date/duration editing
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/) — kanban-board contract (canonical spec; ported to all seven other catalogs the same week)
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/) — gantt-chart contract (canonical spec; ported to all seven other catalogs the same week)
+- [lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-date-time-picker/) — the sibling helper the gantt-chart contract composes for keyboard-accessible date/duration editing
+- [lily-design-system-svelte-kanban-board/](../../lily-design-system-svelte-kanban-board/) — kanban-board contract (canonical spec; ported to all seven other catalogs the same week)
+- [lily-design-system-svelte-gantt-chart/](../../lily-design-system-svelte-gantt-chart/) — gantt-chart contract (canonical spec; ported to all seven other catalogs the same week)
 - [lily-design-system-svelte-headless/components/Listbox/Listbox.svelte](../../lily-design-system-svelte-headless/components/Listbox/Listbox.svelte) — extended 2026-09-21 with `navigation="active-descendant"` mode so the preference helpers could compose it
 - [lily-design-system-svelte-headless/components/IconButton/IconButton.svelte](../../lily-design-system-svelte-headless/components/IconButton/IconButton.svelte) — extended 2026-09-21 with `baseClass` and a bindable `ref` for the same reason
 - [lily-design-system-svelte-headless/CHANGELOG.md](../../lily-design-system-svelte-headless/CHANGELOG.md) — the Unreleased entry documenting both extensions
 - [lily-design-system-svelte-data-grid/](../../lily-design-system-svelte-data-grid/) — data-grid contract (canonical spec; implemented only here so far)
 - [lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte](../../lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte) — the headless `role="grid"` container the calendar-view contract composes rather than duplicates
 - [lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte](../../lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte) — the `selected`/`today` cell shape and roving-tabindex model the calendar-view contract reuses
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the sibling helper the calendar-view contract composes for civil-date arithmetic and the WAI-ARIA APG calendar keyboard model, both confirmed present in its own source
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-calendar-view/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-calendar-view/) — calendar-view contract (canonical spec; implemented only here so far)
+- [lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-date-time-picker/) — the sibling helper the calendar-view contract composes for civil-date arithmetic and the WAI-ARIA APG calendar keyboard model, both confirmed present in its own source
+- [lily-design-system-svelte-calendar-view/](../../lily-design-system-svelte-calendar-view/) — calendar-view contract (canonical spec; implemented only here so far)
 - [bin/publish-helpers](../../bin/publish-helpers) — release pipeline
 - [spec/index.md](../index.md) §3 (subproject architecture)
 

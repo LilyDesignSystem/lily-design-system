@@ -17,7 +17,7 @@ beyond two catalog-specific defaults: the full 45-theme reference list
 (§5.1 of the spec) and the seven-step text-size scale (§5.2).
 `motion-picker` and `date-time-picker` are deliberately not included —
 see spec §1. Ported from the canonical
-[Svelte picker-bar](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/AGENTS.md).
+[Svelte picker-bar](../../lily-design-system-svelte-picker-bar/AGENTS.md).
 
 ## Files
 

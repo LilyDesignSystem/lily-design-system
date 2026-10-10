@@ -16,7 +16,7 @@ consumer's tree. No source change.
 ## 0.1.0 — 2026-09-22
 
 Initial release. Ported from the canonical
-[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/)
+[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/)
 (see [spec/helpers/index.md § gantt-chart contract](../../spec/helpers/index.md)),
 translated to React 19 idioms (hooks instead of runes, controlled
 `value`/`onChange` instead of two-way binding). Composes

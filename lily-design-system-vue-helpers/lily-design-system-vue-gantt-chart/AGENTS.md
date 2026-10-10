@@ -15,7 +15,7 @@ own precedent, a sibling *helper* rather than only headless components:
 resize a task. Ships no CSS.
 
 A direct port of the canonical
-[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/).
+[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/).
 When the two disagree, the Svelte side wins.
 
 ## Files

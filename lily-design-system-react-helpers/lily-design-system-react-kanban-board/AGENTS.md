@@ -13,7 +13,7 @@ helpers use across the resulting rectangular grid (columns × largest
 column's card count). Ships no CSS.
 
 Ported from the canonical
-[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/)
+[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-kanban-board/)
 (2026-09-22), which is the reference implementation for this contract —
 see [spec/helpers/index.md § kanban-board contract](../../spec/helpers/index.md).
 

@@ -2,11 +2,11 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ is a monorepo holding a canonical 571-component catalog and tools, plus 24 implementation subprojects — 8 headless libraries (7 full-catalog, 1 at its full achievable scope), 7 example apps, 8 helper catalogs and 1 standalone helper package (`lily-design-system-svelte-data-grid`) — together with the `@lilydesignsystem/themes` package, the `lilydesignsystem.github.io` docs site, and 26 Claude Skill packages. Every one of these is a `git subtree` pushed to its own standalone remote.
+**Summary.** Lily™ is a monorepo holding a canonical 571-component catalog and tools, plus 37 implementation subprojects — 8 headless libraries (7 full-catalog, 1 at its full achievable scope), 7 example apps, 7 helper catalogs and 15 Svelte helper packages (one top-level subproject each) — together with the `@lilydesignsystem/themes` package, the `lilydesignsystem.github.io` docs site, and 26 Claude Skill packages. Every one of these is a `git subtree` pushed to its own standalone remote.
 
 ## Scope
 
-This topic covers the monorepo directory layout, the 24 implementation subprojects, the themes package, docs site and skills, the git-subtree publishing model and multi-forge remote fan-out, and the required files per subproject and per component directory.
+This topic covers the monorepo directory layout, the 37 implementation subprojects, the themes package, docs site and skills, the git-subtree publishing model and multi-forge remote fan-out, and the required files per subproject and per component directory.
 
 It does not cover the vision or scope split (see [overview](../overview/index.md)), the catalog contents and naming (see [components](../components/index.md)), or the listing/scaffold/sync/test scripts in detail (see [tooling](../tooling/index.md)).
 
@@ -31,8 +31,8 @@ lily-design-system/                              ← canonical catalog + tools
 ├── bin/                                         ← scaffolding, listing, sync, generators, test, publish
 ├── spec/index.md, spec/{topic}/index.md         ← spec + modular topic docs
 ├── lily-design-system-{framework}-headless/     ← 8 headless libraries: html, svelte, react, vue, angular, blazor, nunjucks, web-components
-├── lily-design-system-{framework}-helpers/      ← 8 helper catalogs (same frameworks)
-├── lily-design-system-svelte-data-grid/         ← standalone helper package: @lilydesignsystem/svelte-data-grid
+├── lily-design-system-{framework}-helpers/      ← 7 helper catalogs (every framework but Svelte)
+├── lily-design-system-svelte-{package}/         ← 15 Svelte helper packages, one subproject each (bin/list-helper-packages svelte)
 ├── lily-design-system-html-css-js-examples/     ← examples: vanilla HTML+CSS+JS
 ├── lily-design-system-svelte-sveltekit-examples/ ← examples: SvelteKit
 ├── lily-design-system-react-next-examples/      ← examples: Next.js
@@ -45,7 +45,7 @@ lily-design-system/                              ← canonical catalog + tools
 └── lilydesignsystem.github.io/                  ← the docs site (SvelteKit, GitHub Pages)
 ```
 
-## The 24 implementation subprojects
+## The 37 implementation subprojects
 
 | Framework | Headless library | Example app |
 | --- | --- | --- |
@@ -63,9 +63,9 @@ An 8th headless library sits outside the pairs: `@lilydesignsystem/web-component
 
 ## Helper catalogs
 
-Eight per-framework helper subprojects (`lily-design-system-{framework}-helpers`, one each for html, svelte, react, vue, angular, blazor, nunjucks and web-components) carry the seven framework-specific `*-picker` helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker and date-time-picker (56 packages in all) — plus `picker-bar`, which composes five of them, and the gantt-chart and kanban-board packages (the Svelte catalog also carries calendar-view). See [helpers](../helpers/index.md).
+Seven per-framework helper catalogs (`lily-design-system-{framework}-helpers`, one each for html, react, vue, angular, blazor, nunjucks and web-components) carry the seven framework-specific `*-picker` helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker and date-time-picker (56 packages in all) — plus `picker-bar`, which composes five of them, and the gantt-chart and kanban-board packages. Svelte's helpers are the same packages plus data-grid and calendar-view, as top-level subprojects (below). See [helpers](../helpers/index.md).
 
-One helper package is its own top-level subproject instead of living in a catalog: `lily-design-system-svelte-data-grid` (`@lilydesignsystem/svelte-data-grid`), moved out of `lily-design-system-svelte-helpers` on 2026-10-09. It has its own `package.json` devDependencies, `pnpm-lock.yaml`, vite/vitest config, `build.js` and `.git-subtree-push`, depends on `@lilydesignsystem/svelte-headless`'s `DataTable` family (resolved in local dev/test from `../lily-design-system-svelte-headless/dist/`), and is published by `bin/publish-helpers` and tested by the CI helpers job like a catalog. Its contract is still summarised in [helpers § data-grid contract](../helpers/index.md#data-grid-contract).
+The Svelte helpers are one top-level subproject per package instead of one catalog: `lily-design-system-svelte-data-grid` moved out of `lily-design-system-svelte-helpers` on 2026-10-09, the other fourteen on 2026-10-10, and the catalog was deleted ([list](../helpers/index.md#svelte-helper-packages)). Each has its own `package.json` devDependencies, `pnpm-lock.yaml`, vite/vitest config, `build.js`, `AGENTS/` and `.git-subtree-push`; depends on `@lilydesignsystem/svelte-headless` and, for `picker-bar`, `gantt-chart` and `calendar-view`, on sibling packages, all resolved in local dev/test from their built `dist/`; is built in the order `bin/list-helper-packages svelte` prints; and is published by `bin/publish-helpers` and tested by the CI `helper-packages` job.
 
 The root `themes/` directory ships 45 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes) that target the Lily class hooks and pair with the theme-select helper. See [theme](../theme/index.md).
 
@@ -112,7 +112,7 @@ Every `components/{slug}/` directory (571 of them) carries:
 - [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, spec/plan/tasks, and `.git-subtree-push`.
 - [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
 - [x] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`. `@lilydesignsystem/web-components-headless` and `lily-design-system-web-components-helpers` had no remote configured at all as of 2026-09-05; fixed 2026-09-06 (GitHub repos created, `bin/git-subtree-push` run for both, confirmed pushed). Every subproject and skill now has at least a working GitHub remote — the remaining gap (GitLab/Codeberg fan-out for the 2026-09-04/05 additions) is tracked separately below.
-- [ ] Each subproject remote fans out to GitHub, Codeberg, and GitLab on push. Confirmed gap, not stale: the original 22 subprojects (as of 2026-09) do have 3-way `pushurl` fan-out (verified via `git config --get-regexp 'remote\..*\.pushurl'`), but the 26 new Claude Skill subprojects added 2026-09-04/05 the two `web-components-*` subprojects, and `lily-design-system-svelte-data-grid` (repository created 2026-10-09) have only a single GitHub `url` and no `pushurl` fan-out at all (verified directly — zero matches for `skill|web-components` in the pushurl config). GitLab push-to-create defaults private (no API token here to flip it) and Codeberg disables push-to-create for orgs, per CHANGELOG.md 2026-09-05.
+- [ ] Each subproject remote fans out to GitHub, Codeberg, and GitLab on push. Confirmed gap, not stale: the original 22 subprojects (as of 2026-09) do have 3-way `pushurl` fan-out (verified via `git config --get-regexp 'remote\..*\.pushurl'`), but the 26 new Claude Skill subprojects added 2026-09-04/05 the two `web-components-*` subprojects, and the 15 Svelte helper packages (repositories created 2026-10-09 for `lily-design-system-svelte-data-grid`, 2026-10-10 for the other 14) have only a single GitHub `url` and no `pushurl` fan-out at all (verified directly — zero matches for `skill|web-components` in the pushurl config). GitLab push-to-create defaults private (no API token here to flip it) and Codeberg disables push-to-create for orgs, per CHANGELOG.md 2026-09-05.
 - [x] `bin/test` passes against the repository, all components, and all subprojects.
 
 ## Related topics

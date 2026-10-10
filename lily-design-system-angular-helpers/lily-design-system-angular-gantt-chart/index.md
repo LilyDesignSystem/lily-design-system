@@ -6,7 +6,7 @@ editing composed from
 [`date-time-picker`](../lily-design-system-angular-date-time-picker/index.md),
 row hierarchy, milestones, percent-complete, a today marker, and
 dependency data. Ports
-[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/index.md)
+[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/index.md)
 to Angular 20.
 
 ## Install

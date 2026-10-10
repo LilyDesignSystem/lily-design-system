@@ -1,7 +1,7 @@
 # KanbanBoard — Specification (Nunjucks helper)
 
 Canonical contract for `@lilydesignsystem/nunjucks-kanban-board`. Ports
-[the Svelte canonical's spec](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/spec/index.md)
+[the Svelte canonical's spec](../../../lily-design-system-svelte-kanban-board/spec/index.md)
 (proposed 2026-09-21 in
 [spec/helpers/index.md § kanban-board contract](../../../spec/helpers/index.md))
 to this catalog's macro + client.js architecture. The DOM contract and

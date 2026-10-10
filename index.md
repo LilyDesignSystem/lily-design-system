@@ -83,8 +83,9 @@ Headless versions if you want to use components with all your own styles:
 
 ## Helpers
 
-Per-framework helper catalogs of small, opinionated packages. Each catalog
-ships ten `*-picker` helpers — 80 packages across 8 catalogs — and each
+Small, opinionated helper packages for every framework — Svelte's as one
+top-level subproject each, the other seven frameworks' in a catalog each.
+Each framework ships ten `*-picker` helpers — 80 packages in all — and each
 owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
@@ -107,7 +108,22 @@ owns one complete interaction end to end:
   persists nothing — a date in a form is data, not a preference.
 
 - [HTML helpers](lily-design-system-html-helpers)
-- [Svelte helpers](lily-design-system-svelte-helpers) (canonical reference)
+- Svelte helpers (canonical reference), one top-level subproject per package:
+  - [`data-grid`](lily-design-system-svelte-data-grid)
+  - [`date-time-picker`](lily-design-system-svelte-date-time-picker)
+  - [`kanban-board`](lily-design-system-svelte-kanban-board)
+  - [`link-picker`](lily-design-system-svelte-link-picker)
+  - [`locale-picker`](lily-design-system-svelte-locale-picker)
+  - [`menu-picker`](lily-design-system-svelte-menu-picker)
+  - [`motion-picker`](lily-design-system-svelte-motion-picker)
+  - [`search-picker`](lily-design-system-svelte-search-picker)
+  - [`settings-picker`](lily-design-system-svelte-settings-picker)
+  - [`share-picker`](lily-design-system-svelte-share-picker)
+  - [`text-size-picker`](lily-design-system-svelte-text-size-picker)
+  - [`theme-picker`](lily-design-system-svelte-theme-picker)
+  - [`calendar-view`](lily-design-system-svelte-calendar-view)
+  - [`gantt-chart`](lily-design-system-svelte-gantt-chart)
+  - [`picker-bar`](lily-design-system-svelte-picker-bar)
 - [React helpers](lily-design-system-react-helpers)
 - [Vue helpers](lily-design-system-vue-helpers)
 - [Angular helpers](lily-design-system-angular-helpers)

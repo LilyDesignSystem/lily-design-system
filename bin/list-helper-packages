@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""List one framework's top-level helper packages in dependency order.
+
+Usage: bin/list-helper-packages <framework>     e.g. bin/list-helper-packages svelte
+
+Each helper package is a top-level `lily-design-system-{framework}-*`
+subproject with its own package.json (the per-framework *-helpers catalogs
+were dissolved into them, Svelte first, on 2026-10-10). A package that
+depends on a sibling (picker-bar on six pickers, gantt-chart and
+calendar-view on date-time-picker) resolves it in local dev/test from the
+sibling's built dist/, so siblings must build first: this prints every
+package after the siblings it depends on, ties broken by name. The headless
+library, example apps and *-skill packages are not helper packages and are
+never listed.
+"""
+import json, os, sys
+
+if len(sys.argv) != 2:
+    sys.exit("usage: bin/list-helper-packages <framework>")
+fw = sys.argv[1]
+root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+prefix = f"lily-design-system-{fw}-"
+skip = ("-headless", "-helpers", "-skill", "-examples")
+
+pkgs = {}
+for d in sorted(os.listdir(root)):
+    path = os.path.join(root, d, "package.json")
+    if d.startswith(prefix) and not d.endswith(skip) and os.path.isfile(path):
+        deps = json.load(open(path)).get("dependencies", {})
+        pkgs[d] = {"lily-design-system-" + k.split("/", 1)[1]
+                   for k in deps if k.startswith("@lilydesignsystem/")}
+
+done, out = set(), []
+while len(out) < len(pkgs):
+    ready = [d for d in pkgs if d not in done and pkgs[d] & pkgs.keys() <= done]
+    if not ready:
+        sys.exit("error: dependency cycle among: " + " ".join(sorted(set(pkgs) - done)))
+    for d in sorted(ready):
+        done.add(d)
+        out.append(d)
+print("\n".join(out))

@@ -6,7 +6,7 @@ anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 Ported from the canonical Svelte helper
-[`@lilydesignsystem/svelte-kanban-board`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/spec/index.md).
+[`@lilydesignsystem/svelte-kanban-board`](../../../lily-design-system-svelte-kanban-board/spec/index.md).
 Per `AGENTS/helpers.md` the Svelte side wins on behaviour; this file
 records the vanilla-custom-element idiom and the places the API shape
 could not be carried over verbatim (§4 property-only members, §10 the

@@ -6,7 +6,7 @@ anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 A direct port of the canonical
-[`@lilydesignsystem/svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
+[`@lilydesignsystem/svelte-share-picker`](../../../lily-design-system-svelte-share-picker/spec/index.md).
 Where the two disagree, the Svelte side wins. The §7 clause numbers are
 kept identical across catalogs so the suites cross-reference.
 

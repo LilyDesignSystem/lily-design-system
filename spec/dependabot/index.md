@@ -15,7 +15,8 @@ Enable GitHub Dependabot .github/dependabot.yml for scheduled update PRs.
   entries — one `github-actions` entry for `.github/workflows/`, 20 `npm`
   entries (one per pnpm-workspace root; each catalog's `pnpm-workspace.yaml`
   lets one entry cover its nested helper packages, per
-  [helpers](../helpers/index.md)), and 10 `nuget` entries (one per `.csproj`
+  [helpers](../helpers/index.md); the Svelte entry instead lists its 15
+  top-level helper packages under `directories:`, since 2026-10-10), and 10 `nuget` entries (one per `.csproj`
   directory — NuGet has no workspace concept to consolidate them the way
   pnpm does). Every entry runs weekly and groups all its updates into a
   single PR (`groups: lily: patterns: ["*"]`), because one PR per outdated

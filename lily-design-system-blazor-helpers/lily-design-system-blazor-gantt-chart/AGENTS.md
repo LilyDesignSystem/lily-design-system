@@ -15,7 +15,7 @@ accessible editing. The same WAI-ARIA APG Grid roving-tabindex model
 time-axis columns. Ships no CSS.
 
 Ported from the canonical
-[svelte-gantt-chart](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/)
+[svelte-gantt-chart](../../lily-design-system-svelte-gantt-chart/)
 (2026-09-22).
 
 ## Files

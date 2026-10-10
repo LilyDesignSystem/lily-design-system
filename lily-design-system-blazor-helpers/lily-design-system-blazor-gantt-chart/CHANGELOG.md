@@ -7,7 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-09-22
 
 Initial release. Ported from the canonical
-[Svelte package](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/)
+[Svelte package](../../lily-design-system-svelte-gantt-chart/)
 to this catalog's own idioms. Composes this catalog's own headless
 `GanttTable` family (`LilyBlazorHeadless.Components`, unmodified) and
 the **sibling** `LilyDesignSystem.Blazor.DateTimePicker` package — used

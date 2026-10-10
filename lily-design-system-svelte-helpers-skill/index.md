@@ -1,13 +1,12 @@
 # Lily Design System™ — Svelte Helpers Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains
-[`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/),
-the **canonical** reference catalog of Lily's six `*-picker` helpers
-(theme-picker, locale-picker, text-size-picker, motion-picker,
-share-picker, date-time-picker): their npm package names and install
-idiom, the shared icon-button-opens-listbox contract for the four
-preference helpers, `share-picker`'s link-disclosure shape and
-`date-time-picker`'s field+dialog shape, and the idempotent-apply rule
+[the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages),
+the **canonical** reference for Lily's helpers, one top-level
+subproject per package (the ten `*-picker` helpers, `picker-bar`, and the
+data-grid, kanban-board, gantt-chart and calendar-view packages): their
+npm package names and install idiom, the shared icon-button-opens-popup
+contract, and the idempotent-apply rule
 that guards against a real Svelte `effect_update_depth_exceeded` freeze.
 
 It is a framework-specific sibling of
@@ -22,18 +21,18 @@ helpers port from — not a portable general-purpose package.
 ## What it's for
 
 Load this skill when someone asks how to install or use a Lily Svelte
-picker helper, wants the Svelte 5 idiom for one of the six helpers, asks
-why applying a preference must be idempotent, or asks which catalog is
+helper, wants the Svelte 5 idiom for one of the helpers, asks
+why applying a preference must be idempotent, or asks which helpers are
 canonical when framework helpers disagree. It doesn't restate
-`AGENTS/helpers.md` or the six helpers' own `spec/index.md` files in
+`AGENTS/helpers.md` or the packages' own `spec/index.md` files in
 full — it points at them, so the underlying source stays the single
 source of truth.
 
 ## Structure
 
-- [`SKILL.md`](SKILL.md) — the skill itself: the six helpers and their
+- [`SKILL.md`](SKILL.md) — the skill itself: the helper packages and their
   contracts, npm package names and install idiom, the idempotent-apply
-  rule, and pointers to the canonical helper catalog and the Svelte 5
+  rule, and pointers to the canonical helper packages and the Svelte 5
   idiom.
 
 Scaffolded to the same full-subproject bar as its siblings

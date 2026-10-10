@@ -12,7 +12,7 @@ Submitting navigates to `${action}?${encodeURIComponent(query.trim())}`
 — by default `/?<query>`. Ships no CSS.
 
 A direct port of the canonical
-[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/).
+[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-search-picker/).
 When the two disagree, the Svelte side wins.
 
 ## Files

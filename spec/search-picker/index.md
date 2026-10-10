@@ -13,7 +13,7 @@ at its right, the ⏎ submit button. Pressing Return in the field, or the
 goes to `/?foo`. The text is trimmed and URI-encoded (`foo bar` →
 `/?foo%20bar`); an empty search goes nowhere. `action` changes the path,
 `navigate` swaps in a client-side router. Full contract: the canonical
-[Svelte package spec](../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/spec/index.md).
+[Svelte package spec](../../lily-design-system-svelte-search-picker/spec/index.md).
 
 Button:
 

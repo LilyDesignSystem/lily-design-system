@@ -365,7 +365,7 @@ Runnable pages in [examples/](./examples/).
 - [`@lilydesignsystem/web-components-share-picker`](../lily-design-system-web-components-share-picker/)
 - [`@lilydesignsystem/web-components-theme-picker`](../lily-design-system-web-components-theme-picker/)
 - [`@lilydesignsystem/web-components-locale-picker`](../lily-design-system-web-components-locale-picker/)
-- [Svelte original](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/)
+- [Svelte original](../../lily-design-system-svelte-date-time-picker/)
 
 ---
 

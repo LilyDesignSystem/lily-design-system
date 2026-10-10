@@ -3,7 +3,7 @@
 A headless, interactive kanban board: cards move between columns by
 pointer drag-and-drop or, independently, by a keyboard-accessible
 per-card "Move to…" menu — never drag-only. Ports
-[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/index.md)
+[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-kanban-board/index.md)
 to Angular 20.
 
 ## Install

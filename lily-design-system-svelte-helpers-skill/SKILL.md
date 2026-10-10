@@ -1,63 +1,65 @@
 ---
 name: lily-design-system-svelte-helpers-skill
-description: Explains Lily Design System's Svelte *-picker helper catalog — the canonical reference every other framework's helpers port from — covering the six helpers (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), their npm package names and install idiom, the shared icon-button-opens-listbox contract for the four preference helpers versus share-picker's link disclosure and date-time-picker's field+dialog shape, and the idempotent-apply rule that exists because a re-entrant $effect once froze the picker mid-open. Use when someone asks how to install or use a Lily Svelte picker helper, wants the Svelte 5 idiom for one of the six helpers, asks why applying a preference must be idempotent, or asks which catalog is canonical when framework helpers disagree.
+description: Explains Lily Design System's Svelte helper packages — the canonical reference every other framework's helpers port from, one top-level subproject per package — covering the ten *-picker helpers (theme, locale, text-size, motion, share, search, link, menu, settings, date-time), picker-bar, and the data-grid, kanban-board, gantt-chart and calendar-view packages; their npm package names and install idiom; the shared icon-button-opens-popup contract; and the idempotent-apply rule that exists because a re-entrant $effect once froze a picker mid-open. Use when someone asks how to install or use a Lily Svelte helper, wants the Svelte 5 idiom for one, asks why applying a preference must be idempotent, or asks which helpers are canonical when frameworks disagree.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Svelte helpers
 
-The Svelte 5 implementation of Lily's `*-picker` helper catalog —
-opinionated packages that each own one complete interaction end to end
-(selection, DOM application, optional persistence), sitting above the
-plain headless catalog. **This catalog is canonical**: per
-`AGENTS/helpers.md`'s "Svelte is canonical" rule, every other framework's
-helpers (React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components) port
-their contract from `lily-design-system-svelte-helpers`, and when a
-catalog disagrees with Svelte, Svelte wins.
+The Svelte 5 helper packages: opinionated packages that each own one
+complete interaction end to end, sitting above the plain headless
+library. **They are canonical**: per `AGENTS/helpers.md`'s "Svelte is
+canonical" rule, every other framework's helpers (React, Vue, Angular,
+Blazor, HTML, Nunjucks, Web Components) port their contract from these,
+and when a framework disagrees with Svelte, Svelte wins.
 
-## The six helpers
+Each package is its own top-level subproject of the monorepo,
+`lily-design-system-svelte-{package}/`, with its own toolchain, spec,
+tests and published repository (since 2026-10-10; before that they lived
+together in a `lily-design-system-svelte-helpers` catalog, now deleted).
+`bin/list-helper-packages svelte` lists them in build order. The list,
+with links: `spec/helpers/index.md` § "Svelte helper packages".
 
-| Helper | Owns | Root markup shape |
+## The packages
+
+| Package | Owns | Shape |
 | --- | --- | --- |
-| `theme-picker` | a **preference** (visual theme) | icon button (◑) + listbox |
-| `locale-picker` | a **preference** (`lang`/`dir`) | icon button (🌐) + listbox |
-| `text-size-picker` | a **preference** (`data-text-size`) | icon button ("A") + listbox |
-| `motion-picker` | a **preference** (`data-motion`) | icon button (⏸) + listbox |
-| `share-picker` | an **action** | icon button (➤) + disclosure of real `<a>` links |
-| `date-time-picker` | a **form value** | typeable text field + icon button (📅) opening an APG dialog |
+| `theme-picker` | a **preference** (theme stylesheet + `data-theme`) | icon button + listbox |
+| `locale-picker` | a **preference** (`lang`/`dir`) | icon button + listbox |
+| `text-size-picker` | a **preference** (`data-text-size`) | icon button + listbox |
+| `motion-picker` | a **preference** (`data-motion`; defaults to `prefers-reduced-motion`) | icon button + listbox |
+| `share-picker` | an **action** | icon button + disclosure of real `<a>` links |
+| `search-picker` | an **action** (GET to `/?<text>`) | icon button + disclosure holding a search form |
+| `link-picker` | an **action** (the app's page links) | home icon button + disclosure of real `<a>` links |
+| `menu-picker` | whatever the app provides | hamburger icon button + disclosure panel |
+| `settings-picker` | whatever the app provides | cog icon button + disclosure panel |
+| `date-time-picker` | a **form value** | typeable field + icon button opening an APG date-picker dialog |
+| `picker-bar` | a composition | link, search, theme, locale, text-size and share pickers in one row |
+| `data-grid` | grid state and behaviour | over the headless `DataTable` family |
+| `kanban-board` | board state and keyboard moves | over the headless `KanbanTable` family |
+| `gantt-chart` | schedule state and editing | over the headless `GanttTable` family + `date-time-picker` |
+| `calendar-view` | week / four-week / month browsing | over the headless `CalendarTable` family + `date-time-picker` |
 
-The four preference helpers share one contract: root
-`<div class="{helper} {class}">` containing a hidden input for form
+The four preference pickers share one contract: root
+`<div class="{helper} {class}">` with a hidden input for form
 participation, a `<button class="{helper}-button" aria-haspopup="listbox"
 aria-expanded aria-controls>` whose only content is an `aria-hidden`
-glyph span, and a `<ul class="{helper}-list" role="listbox" hidden>` of
+icon, and a `<ul class="{helper}-list" role="listbox" hidden>` of
 `<li role="option" aria-selected>` — the WAI-ARIA APG listbox keyboard
-pattern throughout (arrows clamp, Home/End jump, typeahead, Enter/Space
-select-apply-and-close, Escape reverts, Tab closes and moves on).
-`share-picker` deliberately breaks that shape: its destinations are
-navigation, so they're real `<a>` elements in a disclosure, not
-`role="option"` items — `role="menuitem"` would strip middle-click and
-open-in-new-tab. `date-time-picker` breaks it differently: it's a form
-control, not a page-header control, so it pairs a typeable field with its
-trigger rather than being icon-button-only. `motion-picker`'s one
-divergence from its three preference siblings: its default checks
-`(prefers-reduced-motion: reduce)` unconditionally rather than resolving
-to a fixed slug, because motion has a real accessibility signal (WCAG
-2.3.3) worth deferring to.
-
-Full per-helper contracts: `AGENTS/helpers.md` (loaded into this skill's
-`AGENTS.md`) and each helper's own `spec/index.md` under
-`../lily-design-system-svelte-helpers/`.
+pattern throughout. The link-based pickers (`share-picker`,
+`link-picker`) are disclosures of real `<a>` elements, not
+`role="option"` items, because `role="menuitem"` would strip middle-click
+and open-in-new-tab. `date-time-picker` is a form control, so it pairs a
+typeable field with its trigger. Full contracts: `AGENTS/helpers.md`
+(loaded into this skill's `AGENTS.md`) and each package's own
+`spec/index.md`.
 
 ## Install
 
-Each helper is published as its own npm package. As verified against the
-live registry: `@lilydesignsystem/svelte-theme-picker`,
-`-locale-picker`, `-text-size-picker`, `-share-picker`, and
-`-date-time-picker` are published (0.1.1); `-motion-picker` was not found
-on the registry as of this writing — check `npm view
-@lilydesignsystem/svelte-motion-picker version` for current status
-before depending on it via npm rather than a workspace/folder import.
+Each package is published to npm as `@lilydesignsystem/svelte-{package}`
+(for example `@lilydesignsystem/svelte-theme-picker`). Check
+`npm view @lilydesignsystem/svelte-{package} version` for what is
+published before depending on one.
 
 ```sh
 pnpm add @lilydesignsystem/svelte-theme-picker
@@ -69,8 +71,9 @@ pnpm add @lilydesignsystem/svelte-theme-picker
 </script>
 ```
 
-Every helper's own `peerDependencies` requires `svelte` `^5.0.0` only —
-no other runtime dependency.
+Every package's `peerDependencies` requires `svelte` `^5.0.0`. Most also
+depend on `@lilydesignsystem/svelte-headless`; `picker-bar`,
+`gantt-chart` and `calendar-view` also depend on sibling helper packages.
 
 ## The idempotent-apply rule
 

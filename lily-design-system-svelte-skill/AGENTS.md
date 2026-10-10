@@ -25,8 +25,8 @@
 A Claude Skill that maps Lily Design System's three real Svelte
 subprojects — the headless component library
 ([`@lilydesignsystem/svelte-headless`](../lily-design-system-svelte-headless/)),
-the canonical `*-picker` helpers catalog
-([`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)),
+the canonical helper packages
+([the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)),
 and the SvelteKit example application
 ([`lily-design-system-svelte-sveltekit-examples`](../lily-design-system-svelte-sveltekit-examples/))
 — and helps an agent decide which one a task needs. The skill itself is
@@ -43,8 +43,8 @@ held to.
   Svelte subprojects, a decision aid for which one a task needs, real
   coverage of the SvelteKit example app (the one subproject neither sibling
   skill covers), and pointers into the two sibling skills for the headless
-  library and the helpers catalog.
-- **Isn't**: the headless library, the helpers catalog, or the example app
+  library and the helper packages.
+- **Isn't**: the headless library, the helper packages, or the example app
   themselves — it ships no components, no helper packages, no example
   pages. Isn't the general, framework-agnostic Lily concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)). Isn't a
@@ -52,7 +52,7 @@ held to.
   [`lily-design-system-svelte-headless-skill`](../lily-design-system-svelte-headless-skill/)
   owns the headless library's consumption idiom, and
   [`lily-design-system-svelte-helpers-skill`](../lily-design-system-svelte-helpers-skill/)
-  owns the helpers catalog's per-helper contracts; this skill sits one
+  owns the helper packages's per-helper contracts; this skill sits one
   level above both and points at them rather than restating them.
 
 ## Internationalization

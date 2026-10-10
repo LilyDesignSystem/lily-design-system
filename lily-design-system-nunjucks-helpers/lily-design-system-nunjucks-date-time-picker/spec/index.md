@@ -6,7 +6,7 @@ anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 The canonical helper is the Svelte one
-([`../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md)).
+([`../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md`](../../../lily-design-system-svelte-date-time-picker/spec/index.md)).
 Per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree; §3.4
 below records every place this port could not follow it literally, and
 why.

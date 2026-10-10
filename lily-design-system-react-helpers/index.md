@@ -108,7 +108,7 @@ in one app; the helpers are not a replacement.
 
 The Svelte and React helper catalogs are kept in lock-step: every
 helper here mirrors a sibling in
-[`../lily-design-system-svelte-helpers/`](../lily-design-system-svelte-helpers/),
+[the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages),
 sharing the same spec numbering, the same `data-*` attributes, the
 same class hooks, and the same `locales.tsv` source data. The only
 intentional divergences are framework idioms:

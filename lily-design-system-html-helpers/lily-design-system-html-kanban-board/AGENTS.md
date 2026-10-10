@@ -15,7 +15,7 @@ keyboard navigation across a rectangular grid (columns × the largest
 column's card count). Ships no CSS.
 
 Ported from the canonical
-[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/)
+[`@lilydesignsystem/svelte-kanban-board`](../../lily-design-system-svelte-kanban-board/)
 (2026-09-21), implemented here 2026-09-22.
 
 **Unlike every other catalog that has ported this helper so far**

@@ -2,7 +2,7 @@
 
 Single source of truth for the `@lilydesignsystem/vue-search-picker`
 Vue 3 helper. A port of the canonical
-[`@lilydesignsystem/svelte-search-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/spec/index.md);
+[`@lilydesignsystem/svelte-search-picker`](../../../lily-design-system-svelte-search-picker/spec/index.md);
 when the two disagree, the Svelte side wins.
 
 This file drives implementation, testing, and documentation:

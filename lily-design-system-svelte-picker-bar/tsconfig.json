@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "sourceMap": false,
+    "paths": {
+      "@lilydesignsystem/svelte-link-picker": [
+        "../lily-design-system-svelte-link-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/svelte-locale-picker": [
+        "../lily-design-system-svelte-locale-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/svelte-search-picker": [
+        "../lily-design-system-svelte-search-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/svelte-share-picker": [
+        "../lily-design-system-svelte-share-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/svelte-text-size-picker": [
+        "../lily-design-system-svelte-text-size-picker/dist/index.d.ts"
+      ],
+      "@lilydesignsystem/svelte-theme-picker": [
+        "../lily-design-system-svelte-theme-picker/dist/index.d.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*.config.js",
+    "build.js",
+    "vitest-setup.js",
+    "examples",
+    "docs",
+    "**/*.stories.svelte"
+  ]
+}

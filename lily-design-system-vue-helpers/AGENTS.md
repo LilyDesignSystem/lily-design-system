@@ -29,5 +29,5 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 - Tests use vitest + jsdom + `@vue/test-utils`.
 - No hardcoded user-facing strings; everything comes from props.
 - The canonical reference is the parallel
-  [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
+  [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
   catalog; Vue helpers are direct ports with framework idioms swapped.

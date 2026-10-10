@@ -13,7 +13,7 @@ Submitting navigates to `${action}?${encodeURIComponent(query.trim())}`
 — by default `/?<query>`. Ships no CSS.
 
 Ported from the canonical Svelte helper
-[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-search-picker/).
+[`@lilydesignsystem/svelte-search-picker`](../../lily-design-system-svelte-search-picker/).
 Svelte wins on behaviour; this package supplies the custom-element idiom.
 
 ## Files

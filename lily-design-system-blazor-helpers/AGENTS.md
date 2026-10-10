@@ -35,7 +35,7 @@ follows the file shape in [AGENTS/conventions.md](./AGENTS/conventions.md).
 - Tests use bUnit + xUnit. One `[Fact]` per numbered §7 acceptance.
 - No hardcoded user-facing strings; everything comes from parameters.
 - The canonical reference is the parallel
-  [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
+  [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
   catalog; Blazor helpers are direct ports with framework idioms
   swapped.
 

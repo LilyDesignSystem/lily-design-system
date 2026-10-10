@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Svelte helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
+
+The 14 packages left in `lily-design-system-svelte-helpers` moved to the repository root, joining
+`lily-design-system-svelte-data-grid`, and the catalog was deleted (its history stays in git). Each package has its own toolchain
+(`package.json` scripts and devDependencies, `pnpm-lock.yaml`, vite/vitest config, `tsconfig.json`, `build.js`), the helper
+`AGENTS/` set the catalog carried, the 15 special files and a `.git-subtree-push`. A package that depends on a sibling (`picker-bar`
+on six pickers, `gantt-chart` and `calendar-view` on `date-time-picker`) resolves it in local dev/test from the sibling's built
+`dist/`; the new `bin/list-helper-packages <framework>` prints them in that build order. All 15 build, pass their tests (498 + the
+data grid's 36), and pass `svelte-check` (examples and stories excluded from it; Node types for the three tests that read source
+files). Tooling: CI has a `helper-packages` job, `bin/publish-helpers` and `bin/smoke-packages` use the new paths, Dependabot lists
+the 15 directories, `bin/test`'s full-library Svelte check names its two subprojects outright, `bin/sync` leaves helper packages'
+own `AGENTS/` alone, and `bin/sync-special-files` describes every helper package (65 published repositories). Docs: a "Svelte helper
+packages" section in `spec/helpers` replaces the catalog as the index every other catalog's "canonical reference" now links to;
+`spec/architecture` (37 implementation subprojects), `spec/index.md`, `AGENTS/lily.md`, `AGENTS/helpers.md`, `llms.txt`/`llms.json`,
+the docs site's help and helpers-tutorial clone samples, and the Svelte helpers and Svelte umbrella skills are updated. The other
+seven frameworks' catalogs follow the same way.
+
 ## Focus is not selection: table cells stop announcing the keyboard cursor as "selected" — 2026-10-10
 
 The `active` prop on `DataTableTD`, `GanttTableTD` and `KanbanTableTD` set `aria-selected="true"` as well as the roving

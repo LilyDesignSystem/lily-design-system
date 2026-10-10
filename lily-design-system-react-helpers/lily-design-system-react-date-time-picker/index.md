@@ -10,7 +10,7 @@ order, 12- vs 24-hour clock and AM/PM names all come from `Intl`.
 
 Canonical contract: [spec/index.md](./spec/index.md). Ported from the
 Svelte original at
-[`lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/),
+[`lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/`](../../lily-design-system-svelte-date-time-picker/),
 which is canonical per `AGENTS/helpers.md`.
 
 ## Install
@@ -278,7 +278,7 @@ nobody wants to page a calendar back forty years.
 - [`@lilydesignsystem/react-locale-picker`](../lily-design-system-react-locale-picker/)
 - [`@lilydesignsystem/react-text-size-picker`](../lily-design-system-react-text-size-picker/)
 - [`@lilydesignsystem/react-share-picker`](../lily-design-system-react-share-picker/)
-- [`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the canonical original
+- [`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-date-time-picker/) — the canonical original
 
 ## Tests
 

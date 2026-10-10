@@ -2,7 +2,7 @@
 
 Canonical contract for `@lilydesignsystem/web-components-gantt-chart`,
 registered as `<lily-gantt-chart>`. Ports
-[`@lilydesignsystem/svelte-gantt-chart`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/spec/index.md)
+[`@lilydesignsystem/svelte-gantt-chart`](../../../lily-design-system-svelte-gantt-chart/spec/index.md)
 (proposed 2026-09-21) to this catalog's vanilla-custom-element idiom.
 Svelte wins on behaviour; this package supplies the custom-element API
 shape. Ported 2026-09-22.

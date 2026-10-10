@@ -255,7 +255,7 @@ pnpm run dev`}</code></pre>
     </li>
   </ul>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers`}</code></pre>
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-theme-picker`}</code></pre>
   <p>
     The Svelte catalog is the canonical reference; React, Vue, Angular, HTML,
     Nunjucks, Web Components, and Blazor ports match it contract-for-contract. See the

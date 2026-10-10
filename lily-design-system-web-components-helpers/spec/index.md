@@ -90,7 +90,7 @@ Every helper subproject follows the same shape:
 
 All six helpers are implemented with HTML source, tests, docs, and a
 package manifest. The catalog mirrors the canonical
-[`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/)
+[the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages)
 reference with HTML idioms substituted, as an independent copy of
 [`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/)
 under the `<lily-*>` tag prefix (see the provenance note at the top of
@@ -111,6 +111,6 @@ for the full contract.
 
 ## 8. References
 
-- Canonical reference catalog: [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/).
+- Canonical reference: [the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages).
 - Headless sibling: [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/).
 - Root specification: [../spec/index.md](../../spec/index.md) and [../AGENTS.md](../../AGENTS.md).

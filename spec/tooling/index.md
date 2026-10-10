@@ -23,6 +23,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `list-components-as-kebab-case`       | Print every component slug (column 1 of `components.tsv`), one per line.                  |
 | `list-components-as-pascal-case`      | Print every component PascalCase name, one per line.                                      |
 | `list-implementations`               | List the implementation subprojects: top-level dirs matching `lily-*`, sorted.           |
+| `list-helper-packages <framework>`   | List one framework's top-level helper packages in dependency (build) order.              |
 | `create-component-directory`          | Scaffold one `components/{slug}/` directory with the standard file set.                   |
 | `create-implementation-directory`    | Scaffold one implementation subproject directory with the standard file set.             |
 | `test`                                | Verify required files across repo + components + github.io + all subprojects.             |

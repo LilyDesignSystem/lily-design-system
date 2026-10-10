@@ -160,7 +160,7 @@ either an interactive render mode. See
 
 ## Sibling helper catalogs
 
-- [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
+- [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
   — the canonical Svelte 5 reference implementation. When the Blazor
   port and the Svelte canonical disagree, the Svelte side wins and
   the Blazor side is patched.

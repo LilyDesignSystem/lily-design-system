@@ -1,8 +1,9 @@
 # Dependabot configuration — Lily Design System™
 #
 # Scheduled dependency-update PRs (spec/dependabot/index.md). This is a large
-# monorepo — 20 npm/pnpm workspaces (each catalog's pnpm-workspace.yaml lets
-# one entry cover its nested helper packages too) and 10 standalone .NET
+# monorepo — 20 npm/pnpm entries (each catalog's pnpm-workspace.yaml lets
+# one entry cover its nested helper packages too; the Svelte helper packages,
+# one top-level subproject each, share one entry via `directories:`) and 10 standalone .NET
 # project directories (NuGet has no workspace concept, so each .csproj gets
 # its own entry) — so every directory groups all its updates into a single
 # weekly PR (`groups: lily: patterns: ["*"]`) rather than one PR per package,
@@ -283,7 +284,23 @@ updates:
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
-    directory: "/lily-design-system-svelte-helpers"
+    # One top-level subproject per Svelte helper package (2026-10-10).
+    directories:
+      - "/lily-design-system-svelte-data-grid"
+      - "/lily-design-system-svelte-date-time-picker"
+      - "/lily-design-system-svelte-kanban-board"
+      - "/lily-design-system-svelte-link-picker"
+      - "/lily-design-system-svelte-locale-picker"
+      - "/lily-design-system-svelte-menu-picker"
+      - "/lily-design-system-svelte-motion-picker"
+      - "/lily-design-system-svelte-search-picker"
+      - "/lily-design-system-svelte-settings-picker"
+      - "/lily-design-system-svelte-share-picker"
+      - "/lily-design-system-svelte-text-size-picker"
+      - "/lily-design-system-svelte-theme-picker"
+      - "/lily-design-system-svelte-calendar-view"
+      - "/lily-design-system-svelte-gantt-chart"
+      - "/lily-design-system-svelte-picker-bar"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

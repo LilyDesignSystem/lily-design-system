@@ -15,7 +15,7 @@ twice per edit session (start date, end date) as the keyboard-
 accessible way to reschedule or resize a task. Ships no CSS.
 
 Ported from the canonical
-[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/)
+[`@lilydesignsystem/svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/)
 (2026-09-22), which is the reference implementation for this contract —
 see [spec/helpers/index.md § gantt-chart contract](../../spec/helpers/index.md).
 

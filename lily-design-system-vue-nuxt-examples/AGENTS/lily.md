@@ -40,10 +40,9 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other six are idiom ports.
+Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's helpers are one top-level subproject per package (below); the other seven frameworks keep theirs in one catalog each.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
-- [Lily Design System: Svelte helpers](../lily-design-system-svelte-helpers)
 - [Lily Design System: React helpers](../lily-design-system-react-helpers)
 - [Lily Design System: Vue helpers](../lily-design-system-vue-helpers)
 - [Lily Design System: Angular helpers](../lily-design-system-angular-helpers)
@@ -51,9 +50,23 @@ Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-
 - [Lily Design System: Nunjucks helpers](../lily-design-system-nunjucks-helpers)
 - [Lily Design System: Web Components helpers](../lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags (2026-09-03); see its provenance note
 
-One helper package is a top-level subproject of its own rather than part of a catalog:
+The Svelte helpers (canonical reference) are one top-level subproject per package, since 2026-10-10 (the data grid since 2026-10-09); the `lily-design-system-svelte-helpers` catalog that held them is gone. `bin/list-helper-packages svelte` lists them in build order:
 
-- [Lily Design System: Svelte data grid](../lily-design-system-svelte-data-grid) — `@lilydesignsystem/svelte-data-grid`, a headless data grid over the `DataTable` family (moved out of svelte-helpers 2026-10-09)
+- [`lily-design-system-svelte-data-grid`](../lily-design-system-svelte-data-grid) — `@lilydesignsystem/svelte-data-grid`
+- [`lily-design-system-svelte-date-time-picker`](../lily-design-system-svelte-date-time-picker) — `@lilydesignsystem/svelte-date-time-picker`
+- [`lily-design-system-svelte-kanban-board`](../lily-design-system-svelte-kanban-board) — `@lilydesignsystem/svelte-kanban-board`
+- [`lily-design-system-svelte-link-picker`](../lily-design-system-svelte-link-picker) — `@lilydesignsystem/svelte-link-picker`
+- [`lily-design-system-svelte-locale-picker`](../lily-design-system-svelte-locale-picker) — `@lilydesignsystem/svelte-locale-picker`
+- [`lily-design-system-svelte-menu-picker`](../lily-design-system-svelte-menu-picker) — `@lilydesignsystem/svelte-menu-picker`
+- [`lily-design-system-svelte-motion-picker`](../lily-design-system-svelte-motion-picker) — `@lilydesignsystem/svelte-motion-picker`
+- [`lily-design-system-svelte-search-picker`](../lily-design-system-svelte-search-picker) — `@lilydesignsystem/svelte-search-picker`
+- [`lily-design-system-svelte-settings-picker`](../lily-design-system-svelte-settings-picker) — `@lilydesignsystem/svelte-settings-picker`
+- [`lily-design-system-svelte-share-picker`](../lily-design-system-svelte-share-picker) — `@lilydesignsystem/svelte-share-picker`
+- [`lily-design-system-svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker) — `@lilydesignsystem/svelte-text-size-picker`
+- [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker) — `@lilydesignsystem/svelte-theme-picker`
+- [`lily-design-system-svelte-calendar-view`](../lily-design-system-svelte-calendar-view) — `@lilydesignsystem/svelte-calendar-view`
+- [`lily-design-system-svelte-gantt-chart`](../lily-design-system-svelte-gantt-chart) — `@lilydesignsystem/svelte-gantt-chart`
+- [`lily-design-system-svelte-picker-bar`](../lily-design-system-svelte-picker-bar) — `@lilydesignsystem/svelte-picker-bar`
 
 ## Reference themes
 
@@ -81,6 +94,7 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [list-components-as-kebab-case](../bin/list-components-as-kebab-case): List components as kebab case
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories
+- [list-helper-packages](../bin/list-helper-packages): List one framework's top-level helper packages in dependency (build) order
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory
 - [create-implementation-directory](../bin/create-implementation-directory): Scaffold one implementation directory
 - [test](../bin/test): Run all tests

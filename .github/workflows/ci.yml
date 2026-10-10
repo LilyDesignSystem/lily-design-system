@@ -57,15 +57,11 @@ jobs:
       fail-fast: false
       matrix:
         catalog:
-          - lily-design-system-svelte-helpers
           - lily-design-system-react-helpers
           - lily-design-system-vue-helpers
           - lily-design-system-angular-helpers
           - lily-design-system-html-helpers
           - lily-design-system-nunjucks-helpers
-          # A single package promoted out of svelte-helpers to its own
-          # subproject (2026-10-09); same pnpm build + test shape.
-          - lily-design-system-svelte-data-grid
     steps:
       - uses: actions/checkout@v7
       - name: Free preinstalled runner bloat for headroom
@@ -108,9 +104,9 @@ jobs:
         # html-helpers' own sibling reference is a source file, not a dist/
         # build output, so it needs no build step; nunjucks-helpers has no
         # such reference at all.
-        if: contains(fromJSON('["lily-design-system-svelte-helpers","lily-design-system-react-helpers","lily-design-system-vue-helpers","lily-design-system-angular-helpers","lily-design-system-svelte-data-grid"]'), matrix.catalog)
+        if: contains(fromJSON('["lily-design-system-react-helpers","lily-design-system-vue-helpers","lily-design-system-angular-helpers"]'), matrix.catalog)
         run: |
-          headless="$(echo '${{ matrix.catalog }}' | sed -E 's/-(helpers|data-grid)$/-headless/')"
+          headless="$(echo '${{ matrix.catalog }}' | sed 's/-helpers$/-headless/')"
           cd "$headless"
           pnpm install --no-frozen-lockfile
           pnpm run build
@@ -128,6 +124,40 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.catalog }}
         run: pnpm exec vitest run
+
+  helper-packages:
+    # Top-level helper packages, one subproject each (the *-helpers
+    # catalogs dissolved into them, Svelte first, 2026-10-10). Each is its
+    # own pnpm root; one that depends on a sibling resolves it in dev/test
+    # from the sibling's built dist/, so bin/list-helper-packages gives the
+    # build order, and each package builds before the next one tests.
+    name: helper packages tests (${{ matrix.framework }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        framework:
+          - svelte
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Build the headless library they depend on
+        working-directory: lily-design-system-${{ matrix.framework }}-headless
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm run build
+      - name: Install, build and test each package in dependency order
+        run: |
+          for d in $(bin/list-helper-packages ${{ matrix.framework }}); do
+            echo "::group::$d"
+            ( cd "$d" && pnpm install --no-frozen-lockfile && pnpm run build && pnpm run test )
+            echo "::endgroup::"
+          done
 
   headless:
     name: headless tests (${{ matrix.catalog }})
@@ -266,7 +296,7 @@ jobs:
             lily-design-system-svelte-headless/pnpm-lock.yaml
             lily-design-system-react-headless/pnpm-lock.yaml
             lily-design-system-vue-headless/pnpm-lock.yaml
-            lily-design-system-svelte-helpers/pnpm-lock.yaml
+            lily-design-system-svelte-*-picker/pnpm-lock.yaml
             lily-design-system-react-helpers/pnpm-lock.yaml
             lily-design-system-vue-helpers/pnpm-lock.yaml
             lily-design-system-angular-helpers/pnpm-lock.yaml
@@ -327,12 +357,12 @@ jobs:
       # npm, so it's excluded here same as it is from smoke-packages
       # itself) — each catalog's own `npm run build` builds all 6 of
       # its nested picker packages in one pass.
-      - name: Build svelte helpers dist
-        working-directory: lily-design-system-svelte-helpers
+      - name: Build svelte helper packages dist
+        # One top-level subproject per package, built in dependency order.
         run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
+          for d in $(bin/list-helper-packages svelte); do
+            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
+          done
       - name: Build react helpers dist
         working-directory: lily-design-system-react-helpers
         run: |

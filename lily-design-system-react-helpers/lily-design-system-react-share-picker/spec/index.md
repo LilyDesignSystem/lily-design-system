@@ -6,7 +6,7 @@ anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 The canonical cross-framework contract is the Svelte helper's
-[`spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
+[`spec/index.md`](../../../lily-design-system-svelte-share-picker/spec/index.md).
 Per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree; this
 file mirrors its §-numbering exactly so the two test suites line up
 clause for clause.
