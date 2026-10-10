@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/vue-date-time-picker':
-        specifier: ^0.1.1
-        version: 0.1.2(vue@3.5.43(typescript@5.9.3))
-      '@lilydesignsystem/vue-headless':
         specifier: ^0.2.0
         version: 0.2.0(vue@3.5.43(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless':
+        specifier: ^0.4.0
+        version: 0.4.0(vue@3.5.43(typescript@5.9.3))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.9
@@ -126,14 +126,20 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/vue-date-time-picker@0.1.2':
-    resolution: {integrity: sha512-09OGujrQXe6wZIMv6yENzAe+uAxgtym2F+6BAS8uPryCnJlbOuOoFdSdE49FPbYU113klRcO0QgkQRpTetyXVQ==}
+  '@lilydesignsystem/vue-date-time-picker@0.2.0':
+    resolution: {integrity: sha512-B+Wr4QuCbnxbA861YU+00L6JtmaGU/cvHErp+m9Y6pNgCBRG093KQEwFgvl6ocu3PNO9mBbTTag047YzcZyX3w==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.0.0
 
   '@lilydesignsystem/vue-headless@0.2.0':
     resolution: {integrity: sha512-R6NWRndpVz7RtPbDK8fTUn6Anrc3RuoMlLJX7VbZDqpN5TqRJOPkbo/NwhIWkBjdhqO44DP/r5MGR3BfpTBVuQ==}
+    engines: {node: '=26'}
+    peerDependencies:
+      vue: ^3.4.0
+
+  '@lilydesignsystem/vue-headless@0.4.0':
+    resolution: {integrity: sha512-CdpabsvwGPVef7R2BQT5xxcmyUeMDEdZXQ1cAdCBwaWSjeXMfUuMKW9itKEExtrCfvEOrqY3vAUX8Ilpx2W4TQ==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.4.0
@@ -855,12 +861,17 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/vue-date-time-picker@0.1.2(vue@3.5.43(typescript@5.9.3))':
+  '@lilydesignsystem/vue-date-time-picker@0.2.0(vue@3.5.43(typescript@5.9.3))':
     dependencies:
       '@lilydesignsystem/vue-headless': 0.2.0(vue@3.5.43(typescript@5.9.3))
       vue: 3.5.43(typescript@5.9.3)
 
   '@lilydesignsystem/vue-headless@0.2.0(vue@3.5.43(typescript@5.9.3))':
+    dependencies:
+      aria-query: 5.3.2
+      vue: 3.5.43(typescript@5.9.3)
+
+  '@lilydesignsystem/vue-headless@0.4.0(vue@3.5.43(typescript@5.9.3))':
     dependencies:
       aria-query: 5.3.2
       vue: 3.5.43(typescript@5.9.3)
