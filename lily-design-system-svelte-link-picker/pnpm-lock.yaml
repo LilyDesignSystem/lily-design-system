@@ -9,12 +9,12 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/svelte-headless':
-        specifier: ^0.2.0
-        version: 0.2.0(svelte@5.57.2)
+        specifier: ^0.4.0
+        version: 0.4.0(svelte@5.57.2)
     devDependencies:
       '@sveltejs/package':
-        specifier: ^2.5.8
-        version: 2.5.8(svelte@5.57.2)(typescript@6.0.3)
+        specifier: ^3.0.0
+        version: 3.0.0(svelte@5.57.2)(typescript@6.0.3)
       '@sveltejs/vite-plugin-svelte':
         specifier: ^7.3.1
         version: 7.3.1(svelte@5.57.2)(vite@8.3.4(@types/node@26.6.4))
@@ -133,8 +133,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/svelte-headless@0.2.0':
-    resolution: {integrity: sha512-xaCVY+qX2Aznb2wGtJhEIMCSeP04N/EZMZbjuOEllpMb3vow5yb/hH1pUybZwic/2HMCEp6zjuI9dSY7gKnRig==}
+  '@lilydesignsystem/svelte-headless@0.4.0':
+    resolution: {integrity: sha512-zrHBMmliIK6ic+eKH4ZE0AJ+kWnAf5su1SRv7AlU2YcEx4Q3hm0MruApaIjgOAc2UxjJjT2UBIldw2y40CVURQ==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -250,12 +250,16 @@ packages:
     resolution: {integrity: sha512-VT3qmUb8pRV2QrZjd8iAmtg8lf4W0TIjZbvXtz5MKei/q96teWZgGJyyidJzOjzZzvdq616eSRVeMYIQChUTAQ==}
     engines: {node: '>= 18.0.0'}
 
-  '@sveltejs/package@2.5.8':
-    resolution: {integrity: sha512-zeBbsXYvHiBu56v4gJaGQoEHzg96w0E1j3dOMX8vo56s6vI5eQ57ZEZhudjwjnegnVitRRu5MrmhO0eNvaonIw==}
-    engines: {node: ^16.14 || >=18}
+  '@sveltejs/package@3.0.0':
+    resolution: {integrity: sha512-iZXRdFKR6fh6b95TygyYwF1ZyX0V9PwstvgwYfhIcMjgyN5Uegvqpr5Xkmi55uEnw9TW7cmzrfLAX8tbU2ZEvw==}
+    engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
       svelte: ^3.44.0 || ^4.0.0 || ^5.0.0-next.1
+      typescript: ^6.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   '@sveltejs/vite-plugin-svelte@7.3.1':
     resolution: {integrity: sha512-ZPsLN8B1e/En+Ak5s4V7srFDT532oS0qieLsQwu63NGKsS+iAjoO2Js1BochlHlglcU+Pt7WAO3C5Ee+4f6gVA==}
@@ -465,10 +469,6 @@ packages:
     peerDependenciesMeta:
       canvas:
         optional: true
-
-  kleur@4.1.5:
-    resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
-    engines: {node: '>=6'}
 
   lightningcss-android-arm64@1.33.0:
     resolution: {integrity: sha512-gEpRTalKdosp4Bb8qWtc2iOgE5SeIHlpS1up9bFq2wAyYhl1UdTObYiHe98zEM9SQvSoqQZ1IQD0JNpg3Ml5pg==}
@@ -898,7 +898,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/svelte-headless@0.2.0(svelte@5.57.2)':
+  '@lilydesignsystem/svelte-headless@0.4.0(svelte@5.57.2)':
     dependencies:
       aria-query: 5.3.2
       svelte: 5.57.2
@@ -958,16 +958,15 @@ snapshots:
 
   '@sveltejs/load-config@0.2.3': {}
 
-  '@sveltejs/package@2.5.8(svelte@5.57.2)(typescript@6.0.3)':
+  '@sveltejs/package@3.0.0(svelte@5.57.2)(typescript@6.0.3)':
     dependencies:
+      '@sveltejs/load-config': 0.2.3
       chokidar: 5.0.0
-      kleur: 4.1.5
-      sade: 1.8.1
       semver: 7.8.5
       svelte: 5.57.2
       svelte2tsx: 0.7.61(svelte@5.57.2)(typescript@6.0.3)
-    transitivePeerDependencies:
-      - typescript
+    optionalDependencies:
+      typescript: 6.0.3
 
   '@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4(@types/node@26.6.4))':
     dependencies:
@@ -1153,8 +1152,6 @@ snapshots:
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - '@noble/hashes'
-
-  kleur@4.1.5: {}
 
   lightningcss-android-arm64@1.33.0:
     optional: true
