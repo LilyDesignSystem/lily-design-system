@@ -226,7 +226,7 @@ mirror it clause-for-clause in `spec/index.md` §7.
   — canonical reference.
 - [`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/)
   — Vue 3 port (closest analog in API shape).
-- [`lily-design-system-react-helpers`](../lily-design-system-react-helpers/)
+- [the React helper packages](../spec/helpers/index.md#react-helper-packages)
   — React port.
 - [`lily-design-system-nunjucks-helpers`](./) — this catalog.
 

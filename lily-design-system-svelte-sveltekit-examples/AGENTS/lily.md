@@ -40,10 +40,9 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's helpers are one top-level subproject per package (below); the other seven frameworks keep theirs in one catalog each.
+Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's and React's helpers are one top-level subproject per package (below); the other six frameworks keep theirs in one catalog each.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
-- [Lily Design System: React helpers](../lily-design-system-react-helpers)
 - [Lily Design System: Vue helpers](../lily-design-system-vue-helpers)
 - [Lily Design System: Angular helpers](../lily-design-system-angular-helpers)
 - [Lily Design System: Blazor helpers](../lily-design-system-blazor-helpers)
@@ -67,6 +66,22 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 - [`lily-design-system-svelte-calendar-view`](../lily-design-system-svelte-calendar-view) — `@lilydesignsystem/svelte-calendar-view`
 - [`lily-design-system-svelte-gantt-chart`](../lily-design-system-svelte-gantt-chart) — `@lilydesignsystem/svelte-gantt-chart`
 - [`lily-design-system-svelte-picker-bar`](../lily-design-system-svelte-picker-bar) — `@lilydesignsystem/svelte-picker-bar`
+
+The React helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages react`):
+
+- [`lily-design-system-react-date-time-picker`](../lily-design-system-react-date-time-picker) — `@lilydesignsystem/react-date-time-picker`
+- [`lily-design-system-react-kanban-board`](../lily-design-system-react-kanban-board) — `@lilydesignsystem/react-kanban-board`
+- [`lily-design-system-react-link-picker`](../lily-design-system-react-link-picker) — `@lilydesignsystem/react-link-picker`
+- [`lily-design-system-react-locale-picker`](../lily-design-system-react-locale-picker) — `@lilydesignsystem/react-locale-picker`
+- [`lily-design-system-react-menu-picker`](../lily-design-system-react-menu-picker) — `@lilydesignsystem/react-menu-picker`
+- [`lily-design-system-react-motion-picker`](../lily-design-system-react-motion-picker) — `@lilydesignsystem/react-motion-picker`
+- [`lily-design-system-react-search-picker`](../lily-design-system-react-search-picker) — `@lilydesignsystem/react-search-picker`
+- [`lily-design-system-react-settings-picker`](../lily-design-system-react-settings-picker) — `@lilydesignsystem/react-settings-picker`
+- [`lily-design-system-react-share-picker`](../lily-design-system-react-share-picker) — `@lilydesignsystem/react-share-picker`
+- [`lily-design-system-react-text-size-picker`](../lily-design-system-react-text-size-picker) — `@lilydesignsystem/react-text-size-picker`
+- [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker) — `@lilydesignsystem/react-theme-picker`
+- [`lily-design-system-react-gantt-chart`](../lily-design-system-react-gantt-chart) — `@lilydesignsystem/react-gantt-chart`
+- [`lily-design-system-react-picker-bar`](../lily-design-system-react-picker-bar) — `@lilydesignsystem/react-picker-bar`
 
 ## Reference themes
 

@@ -24,7 +24,7 @@
 A Claude Skill explaining how to install and use the React
 implementation of Lily Design System™'s six `*-picker` helper
 packages —
-[`lily-design-system-react-helpers/`](../lily-design-system-react-helpers/)'s
+[the React helper packages](../spec/helpers/index.md#react-helper-packages)'s
 `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, and `date-time-picker`. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the
@@ -42,7 +42,7 @@ contract — the helper's own implementation is held to.
   `"use client"` SSR boundary, and the idempotent-apply guard — for
   people building *with* them.
 - **Isn't**: the React helpers catalog itself (that's
-  [`lily-design-system-react-helpers`](../lily-design-system-react-helpers/),
+  [the React helper packages](../spec/helpers/index.md#react-helper-packages),
   which ships the actual packages), isn't the general
   framework-agnostic Lily skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)), and

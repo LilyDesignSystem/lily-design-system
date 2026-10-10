@@ -57,7 +57,6 @@ jobs:
       fail-fast: false
       matrix:
         catalog:
-          - lily-design-system-react-helpers
           - lily-design-system-vue-helpers
           - lily-design-system-angular-helpers
           - lily-design-system-html-helpers
@@ -104,7 +103,7 @@ jobs:
         # html-helpers' own sibling reference is a source file, not a dist/
         # build output, so it needs no build step; nunjucks-helpers has no
         # such reference at all.
-        if: contains(fromJSON('["lily-design-system-react-helpers","lily-design-system-vue-helpers","lily-design-system-angular-helpers"]'), matrix.catalog)
+        if: contains(fromJSON('["lily-design-system-vue-helpers","lily-design-system-angular-helpers"]'), matrix.catalog)
         run: |
           headless="$(echo '${{ matrix.catalog }}' | sed 's/-helpers$/-headless/')"
           cd "$headless"
@@ -138,6 +137,7 @@ jobs:
       matrix:
         framework:
           - svelte
+          - react
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -297,7 +297,7 @@ jobs:
             lily-design-system-react-headless/pnpm-lock.yaml
             lily-design-system-vue-headless/pnpm-lock.yaml
             lily-design-system-svelte-*-picker/pnpm-lock.yaml
-            lily-design-system-react-helpers/pnpm-lock.yaml
+            lily-design-system-react-*-picker/pnpm-lock.yaml
             lily-design-system-vue-helpers/pnpm-lock.yaml
             lily-design-system-angular-helpers/pnpm-lock.yaml
             lily-design-system-html-helpers/pnpm-lock.yaml
@@ -363,12 +363,11 @@ jobs:
           for d in $(bin/list-helper-packages svelte); do
             ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
           done
-      - name: Build react helpers dist
-        working-directory: lily-design-system-react-helpers
+      - name: Build react helper packages dist
         run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
+          for d in $(bin/list-helper-packages react); do
+            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
+          done
       - name: Build vue helpers dist
         working-directory: lily-design-system-vue-helpers
         run: |

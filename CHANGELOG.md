@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## React helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
+
+The 13 packages in `lily-design-system-react-helpers` moved to the repository root the same way as Svelte's (below), and the
+catalog was deleted. Each builds with its own `tsup` run from its own directory, so every `dependencies`/`peerDependencies` entry
+stays external (`picker-bar`'s build keeps bare imports of its six sibling pickers), and its Vite config dedupes `react`/`react-dom`
+because a sibling's built `dist/` resolves React from its own `node_modules`. Each package aliases its transitive Lily dependencies
+to their local builds. All 13 build and pass (530 tests: the catalog's 528 plus the two new kanban-board and gantt-chart tests).
+CI's `helper-packages` job, `bin/publish-helpers`, `bin/smoke-packages` and Dependabot cover them; a "React helper packages"
+section in `spec/helpers` replaces the catalog; 77 published repositories.
+
 ## Svelte helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
 
 The 14 packages left in `lily-design-system-svelte-helpers` moved to the repository root, joining

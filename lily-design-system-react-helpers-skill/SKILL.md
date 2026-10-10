@@ -6,8 +6,10 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — React helpers
 
-The React `*-picker` catalog ships six small, opinionated React 19
-packages that sit alongside the headless
+The React helpers are small, opinionated React 19 packages, each its
+own top-level subproject `lily-design-system-react-{package}/` since
+2026-10-10 (before that, one `lily-design-system-react-helpers` catalog;
+`bin/list-helper-packages react` lists them), that sit alongside the headless
 `@lilydesignsystem/react-headless` library. Where a headless
 component is a pure markup primitive, a helper owns one whole
 interaction end to end — selection, DOM application, and (for most of

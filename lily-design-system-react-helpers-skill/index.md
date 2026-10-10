@@ -5,7 +5,7 @@ and use the React implementation of Lily Design System™'s six
 `*-picker` helper packages: `theme-picker`, `locale-picker`,
 `text-size-picker`, `motion-picker`, `share-picker`, and
 `date-time-picker`. Each ships as its own npm package under
-[`lily-design-system-react-helpers/`](../lily-design-system-react-helpers/).
+[the React helper packages](../spec/helpers/index.md#react-helper-packages).
 
 It is one of two React-scoped skills, alongside
 [`lily-design-system-react-headless-skill`](../lily-design-system-react-headless-skill/),

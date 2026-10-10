@@ -25,7 +25,7 @@ A Claude Skill mapping the three real React subprojects in this
 monorepo —
 [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)
 (the headless component library),
-[`lily-design-system-react-helpers`](../lily-design-system-react-helpers/)
+[the React helper packages](../spec/helpers/index.md#react-helper-packages)
 (the six `*-picker` helper packages), and
 [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/)
 (the styled Next.js reference app) — and helping an agent decide which

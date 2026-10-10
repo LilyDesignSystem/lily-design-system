@@ -83,8 +83,8 @@ Headless versions if you want to use components with all your own styles:
 
 ## Helpers
 
-Small, opinionated helper packages for every framework — Svelte's as one
-top-level subproject each, the other seven frameworks' in a catalog each.
+Small, opinionated helper packages for every framework — Svelte's and React's
+as one top-level subproject each, the other six frameworks' in a catalog each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — and each
 owns one complete interaction end to end:
 
@@ -124,7 +124,20 @@ owns one complete interaction end to end:
   - [`calendar-view`](lily-design-system-svelte-calendar-view)
   - [`gantt-chart`](lily-design-system-svelte-gantt-chart)
   - [`picker-bar`](lily-design-system-svelte-picker-bar)
-- [React helpers](lily-design-system-react-helpers)
+- React helpers, one top-level subproject per package:
+  - [`date-time-picker`](lily-design-system-react-date-time-picker)
+  - [`kanban-board`](lily-design-system-react-kanban-board)
+  - [`link-picker`](lily-design-system-react-link-picker)
+  - [`locale-picker`](lily-design-system-react-locale-picker)
+  - [`menu-picker`](lily-design-system-react-menu-picker)
+  - [`motion-picker`](lily-design-system-react-motion-picker)
+  - [`search-picker`](lily-design-system-react-search-picker)
+  - [`settings-picker`](lily-design-system-react-settings-picker)
+  - [`share-picker`](lily-design-system-react-share-picker)
+  - [`text-size-picker`](lily-design-system-react-text-size-picker)
+  - [`theme-picker`](lily-design-system-react-theme-picker)
+  - [`gantt-chart`](lily-design-system-react-gantt-chart)
+  - [`picker-bar`](lily-design-system-react-picker-bar)
 - [Vue helpers](lily-design-system-vue-helpers)
 - [Angular helpers](lily-design-system-angular-helpers)
 - [Blazor helpers](lily-design-system-blazor-helpers)

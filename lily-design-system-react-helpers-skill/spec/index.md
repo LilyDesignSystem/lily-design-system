@@ -91,7 +91,7 @@ tests to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [`../../lily-design-system-react-helpers/spec/index.md`](../../lily-design-system-react-helpers/spec/index.md) —
+- [the React helper packages](../../spec/helpers/index.md#react-helper-packages) —
   the React helpers catalog's own specification; the ground truth
   this skill documents consumption of.
 - [`../../lily-design-system-react-headless-skill/spec/index.md`](../../lily-design-system-react-headless-skill/spec/index.md) —

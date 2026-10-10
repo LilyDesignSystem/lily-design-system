@@ -106,8 +106,7 @@ if [ -z "$NUGET_ONLY" ]; then
   echo "== npm helper packages =="
   # svelte / react / vue / html / nunjucks: each package's `prepublishOnly`
   # runs the catalog's dist build, so publish from the package root.
-  for d in "$ROOT"/lily-design-system-react-helpers/lily-design-system-* \
-           "$ROOT"/lily-design-system-vue-helpers/lily-design-system-* \
+  for d in "$ROOT"/lily-design-system-vue-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-html-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-web-components-helpers/lily-design-system-*; do
@@ -122,10 +121,8 @@ if [ -z "$NUGET_ONLY" ]; then
   # per package, Svelte first, 2026-10-10): each is its own pnpm root, so
   # install and publish it in place (its `prepublishOnly` runs its own
   # build). --only names the package directory itself.
-  for d in "$ROOT"/lily-design-system-svelte-*; do
-    case "$(basename "$d")" in
-      *-headless|*-sveltekit-examples|*-skill) continue ;;
-    esac
+  for d in $(for fw in svelte react; do "$ROOT/bin/list-helper-packages" "$fw"; done); do
+    d="$ROOT/$d"
     [ -f "$d/package.json" ] || continue
     only_matches "$d" || continue
     ensure_installed "$d"
