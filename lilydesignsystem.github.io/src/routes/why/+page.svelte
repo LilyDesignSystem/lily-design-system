@@ -151,7 +151,7 @@
     </li>
     <li>
       <strong>Share what you find, with a minimal reproduction,</strong> on
-      the relevant repo, or email
+      the GitHub repository, or email
       <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
     </li>
   </ul>

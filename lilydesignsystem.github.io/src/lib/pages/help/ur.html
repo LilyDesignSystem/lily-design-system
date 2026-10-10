@@ -2,7 +2,7 @@
 <!-- description: Lily کے ساتھ شروع کریں: اپنے فریم ورک کے لیے headless پیکیج انسٹال کریں، کمپوننٹ نقل کریں، اسے سٹائل کریں، تھیم لگائیں، اور جاری کریں۔ مسائل کا حل، عمومی سوالات، اور معاونت۔ -->
 <section class="page-intro">
   <h1>Lily کے ساتھ آغاز</h1>
-  <p class="page-intro-tagline">ایک فریم ورک چنیں، headless ریپو یا مثالی ایپ کلون کریں، اور اپنے صفحات خود ترتیب دینا شروع کریں۔ رہنمائی والا راستہ پسند ہے؟ <a href="/tutorials/">ٹیوٹوریلز</a> سے شروع کریں۔</p>
+  <p class="page-intro-tagline">ایک فریم ورک چنیں، مونو ریپو کلون کر کے اس کی headless لائبریری یا مثالی ایپ کھولیں، اور اپنے صفحات خود ترتیب دینا شروع کریں۔ رہنمائی والا راستہ پسند ہے؟ <a href="/tutorials/">ٹیوٹوریلز</a> سے شروع کریں۔</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>انسٹالیشن</h2>
-  <p>Lily ہر فریم ورک کے لیے الگ Git ریپوز کے طور پر شائع ہوتا ہے۔ اسے آزمانے کا تیز ترین طریقہ اپنے سٹیک کا headless ریپو کلون کرنا ہے:</p>
+  <p>Lily ایک ہی Git مونو ریپو میں رہتا ہے، جس میں ہر فریم ورک کی headless لائبریری، معاون پیکجز اور مثالی ایپ کے لیے الگ ڈائریکٹری ہے۔ اسے آزمانے کا تیز ترین طریقہ مونو ریپو کلون کر کے اپنے سٹیک کی headless لائبریری کھولنا ہے:</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>pnpm install پیئر یا ورژن کی غلطی کے ساتھ ناکام ہوتا ہے</summary>
-    <p>موجودہ pnpm (v10+) اور Node 22+ استعمال کریں۔ ہر ریپو اپنے فریم ورک کے ورژن <code>package.json</code> میں طے کرتا ہے؛ اگر آپ کا عالمی ٹول چین پرانا ہے تو <code>pnpm env use --global lts</code> تیز ترین حل ہے۔</p>
+    <p>موجودہ pnpm (v10+) اور Node 22+ استعمال کریں۔ ہر ذیلی پروجیکٹ اپنے فریم ورک کے ورژن <code>package.json</code> میں طے کرتا ہے؛ اگر آپ کا عالمی ٹول چین پرانا ہے تو <code>pnpm env use --global lts</code> تیز ترین حل ہے۔</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>کچھ اور ٹوٹا ہوا ہے</summary>
-    <p>متعلقہ ریپو پر <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> میں کم از کم دوبارہ پیدا کرنے کی مثال کے ساتھ ایشو کھولیں — یا <a href="#community">برادری اور معاونت</a> دیکھیں۔</p>
+    <p><a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> میں کم از کم دوبارہ پیدا کرنے کی مثال کے ساتھ ایشو کھولیں — یا <a href="#community">برادری اور معاونت</a> دیکھیں۔</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>کم از کم دوبارہ پیدا کرنے کی مثال کے ساتھ خرابی کی رپورٹس۔</li>
     <li>سکرین ریڈرز اور معاون ٹیکنالوجی کے ساتھ رسائی کے آڈٹ۔</li>
   </ul>
-  <p>متعلقہ ریپو پر <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> میں ایشوز اور پل ریکویسٹس کھولیں۔</p>
+  <p><a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> میں ایشوز اور پل ریکویسٹس کھولیں۔</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>برادری اور معاونت</h2>
   <ul>
-    <li><strong>سوالات اور خرابی کی رپورٹس</strong> — متعلقہ ریپو پر <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> میں ایشو کھولیں۔</li>
+    <li><strong>سوالات اور خرابی کی رپورٹس</strong> — <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> میں ایشو کھولیں۔</li>
     <li><strong>ای میل</strong> — نگہبان <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> پڑھتا ہے اور تعاون، رہنمائی، اور آراء کا خیر مقدم کرتا ہے۔</li>
     <li><strong>آئینے</strong> — Lily کو <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> اور <a href="https://gitlab.com/LilyDesignSystem">GitLab</a> پر بھی بھیجا جاتا ہے، تاکہ آپ اپنی پسند کے پلیٹ فارم سے شریک ہو سکیں۔</li>
     <li><strong>طرزِ عمل</strong> — منصوبہ ایک معیاری ضابطۂ اخلاق کی پیروی کرتا ہے؛ مہربان رہیں، نیک نیتی فرض کریں۔</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>میں خرابی کی رپورٹ یا فیچر کی درخواست کیسے کروں؟</summary>
-    <p>متعلقہ GitHub ریپو پر ایشو کھولیں، یا <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> کو ای میل کریں۔</p>
+    <p>GitHub ریپو پر ایشو کھولیں، یا <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> کو ای میل کریں۔</p>
   </details>
 </section>

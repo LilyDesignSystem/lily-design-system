@@ -2,7 +2,7 @@
 <!-- description: Lily के साथ शुरुआत करें: अपने फ़्रेमवर्क के लिए headless पैकेज इंस्टॉल करें, कंपोनेंट कॉपी करें, उसे स्टाइल करें, थीम लगाएँ और प्रकाशित करें। समस्या-निवारण, अक्सर पूछे जाने वाले प्रश्न और सहायता। -->
 <section class="page-intro">
   <h1>Lily के साथ शुरुआत</h1>
-  <p class="page-intro-tagline">एक फ़्रेमवर्क चुनें, headless रिपॉज़िटरी या उदाहरण ऐप क्लोन करें, और अपने पृष्ठ स्वयं बनाना शुरू करें। निर्देशित रास्ता पसंद है? <a href="/tutorials/">ट्यूटोरियल</a> से शुरू करें।</p>
+  <p class="page-intro-tagline">एक फ़्रेमवर्क चुनें, मोनोरिपो क्लोन करके उसकी headless लाइब्रेरी या उदाहरण ऐप खोलें, और अपने पृष्ठ स्वयं बनाना शुरू करें। निर्देशित रास्ता पसंद है? <a href="/tutorials/">ट्यूटोरियल</a> से शुरू करें।</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>इंस्टॉल करना</h2>
-  <p>Lily हर फ़्रेमवर्क के लिए अलग Git रिपॉज़िटरी के रूप में प्रकाशित होता है। इसे आज़माने का सबसे तेज़ तरीका अपने स्टैक की headless रिपॉज़िटरी क्लोन करना है:</p>
+  <p>Lily एक ही Git मोनोरिपो में रहता है, जिसमें हर फ़्रेमवर्क की headless लाइब्रेरी, सहायक पैकेजों और उदाहरण ऐप के लिए अलग डायरेक्टरी है। इसे आज़माने का सबसे तेज़ तरीका मोनोरिपो क्लोन करके अपने स्टैक की headless लाइब्रेरी खोलना है:</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>pnpm install पीयर या संस्करण त्रुटि के साथ विफल होता है</summary>
-    <p>मौजूदा pnpm (v10+) और Node 22+ का उपयोग करें। हर रिपॉज़िटरी अपने फ़्रेमवर्क के संस्करण <code>package.json</code> में तय करती है; यदि आपकी वैश्विक टूलचेन पुरानी है, तो <code>pnpm env use --global lts</code> सबसे तेज़ उपाय है।</p>
+    <p>मौजूदा pnpm (v10+) और Node 22+ का उपयोग करें। हर सबप्रोजेक्ट अपने फ़्रेमवर्क के संस्करण <code>package.json</code> में तय करता है; यदि आपकी वैश्विक टूलचेन पुरानी है, तो <code>pnpm env use --global lts</code> सबसे तेज़ उपाय है।</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>कुछ और टूटा है</summary>
-    <p>संबंधित रिपॉज़िटरी पर <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> में न्यूनतम पुनरुत्पादन के साथ इश्यू खोलें — या <a href="#community">समुदाय और सहायता</a> देखें।</p>
+    <p><a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> में न्यूनतम पुनरुत्पादन के साथ इश्यू खोलें — या <a href="#community">समुदाय और सहायता</a> देखें।</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>न्यूनतम पुनरुत्पादन के साथ बग रिपोर्ट।</li>
     <li>स्क्रीन रीडर और सहायक तकनीक के साथ पहुँचनीयता ऑडिट।</li>
   </ul>
-  <p>संबंधित रिपॉज़िटरी पर <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> में इश्यू और पुल रिक्वेस्ट खोलें।</p>
+  <p><a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> में इश्यू और पुल रिक्वेस्ट खोलें।</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>समुदाय और सहायता</h2>
   <ul>
-    <li><strong>प्रश्न और बग रिपोर्ट</strong> — संबंधित रिपॉज़िटरी पर <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> में इश्यू खोलें।</li>
+    <li><strong>प्रश्न और बग रिपोर्ट</strong> — <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> में इश्यू खोलें।</li>
     <li><strong>ईमेल</strong> — अनुरक्षक <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> पढ़ता है और सहयोग, मार्गदर्शन और प्रतिक्रिया का स्वागत करता है।</li>
     <li><strong>प्रतिबिंब</strong> — Lily को <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> और <a href="https://gitlab.com/LilyDesignSystem">GitLab</a> पर भी भेजा जाता है, ताकि आप अपनी पसंद के प्लेटफ़ॉर्म से भाग ले सकें।</li>
     <li><strong>आचरण</strong> — प्रोजेक्ट एक मानक आचार संहिता का पालन करता है; दयालु रहें, सद्भावना मानें।</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>मैं बग की रिपोर्ट या फ़ीचर का अनुरोध कैसे करूँ?</summary>
-    <p>संबंधित GitHub रिपॉज़िटरी पर इश्यू खोलें, या <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> को ईमेल करें।</p>
+    <p>GitHub रिपॉज़िटरी पर इश्यू खोलें, या <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> को ईमेल करें।</p>
   </details>
 </section>

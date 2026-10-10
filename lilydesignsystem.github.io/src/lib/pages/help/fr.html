@@ -2,7 +2,7 @@
 <!-- description: Prenez Lily en main : installez le paquet headless de votre framework, copiez un composant, stylez-le, appliquez-lui un thème, livrez-le. Dépannage, FAQ et assistance. -->
 <section class="page-intro">
   <h1>Premiers pas avec Lily</h1>
-  <p class="page-intro-tagline">Choisissez un framework, clonez le dépôt headless ou l'application d'exemple, et commencez à composer vos propres pages. Vous préférez un parcours guidé ? Commencez par les <a href="/tutorials/">tutoriels</a>.</p>
+  <p class="page-intro-tagline">Choisissez un framework, clonez le monodépôt, ouvrez sa bibliothèque headless ou l'application d'exemple, et commencez à composer vos propres pages. Vous préférez un parcours guidé ? Commencez par les <a href="/tutorials/">tutoriels</a>.</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>Installation</h2>
-  <p>Lily est publiée sous forme de dépôts Git distincts par framework. Le moyen le plus rapide de l'essayer est de cloner le dépôt headless de votre pile :</p>
+  <p>Lily vit dans un seul monodépôt Git, avec un répertoire pour la bibliothèque headless, les paquets auxiliaires et l'application d'exemple de chaque framework. Le moyen le plus rapide de l'essayer est de cloner le monodépôt et d'ouvrir la bibliothèque headless de votre pile :</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>pnpm install échoue avec une erreur de dépendance homologue ou de version</summary>
-    <p>Utilisez un pnpm récent (v10+) et Node 22+. Chaque dépôt fixe les versions de son framework dans <code>package.json</code> ; si votre chaîne d'outils globale est plus ancienne, <code>pnpm env use --global lts</code> est la solution la plus rapide.</p>
+    <p>Utilisez un pnpm récent (v10+) et Node 22+. Chaque sous-projet fixe les versions de son framework dans <code>package.json</code> ; si votre chaîne d'outils globale est plus ancienne, <code>pnpm env use --global lts</code> est la solution la plus rapide.</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Autre chose ne fonctionne pas</summary>
-    <p>Ouvrez un ticket avec un cas reproductible minimal sur le dépôt concerné de <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> — ou consultez <a href="#community">communauté et assistance</a>.</p>
+    <p>Ouvrez un ticket avec un cas reproductible minimal sur <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ou consultez <a href="#community">communauté et assistance</a>.</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>Des rapports de bogues avec un cas reproductible minimal.</li>
     <li>Des audits d'accessibilité avec des lecteurs d'écran et des technologies d'assistance.</li>
   </ul>
-  <p>Ouvrez des tickets et des demandes de fusion sur le dépôt concerné de <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+  <p>Ouvrez des tickets et des demandes de fusion sur <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>Communauté et assistance</h2>
   <ul>
-    <li><strong>Questions et rapports de bogues</strong> — ouvrez un ticket sur le dépôt concerné de <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</li>
+    <li><strong>Questions et rapports de bogues</strong> — ouvrez un ticket sur <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</li>
     <li><strong>E-mail</strong> — le responsable lit <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> et accueille la collaboration, les conseils et les retours.</li>
     <li><strong>Miroirs</strong> — Lily est aussi poussée vers <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> et <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, afin que vous puissiez participer depuis la forge de votre choix.</li>
     <li><strong>Conduite</strong> — le projet suit un code de conduite standard ; soyez bienveillant, présumez la bonne foi.</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Comment signaler un bogue ou demander une fonctionnalité ?</summary>
-    <p>Ouvrez un ticket sur le dépôt GitHub concerné, ou écrivez à <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+    <p>Ouvrez un ticket sur le dépôt GitHub, ou écrivez à <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
   </details>
 </section>

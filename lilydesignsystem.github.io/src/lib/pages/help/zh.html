@@ -2,7 +2,7 @@
 <!-- description: 开始使用 Lily：为你的框架安装 headless 包，复制组件，设置样式，应用主题，然后发布。故障排查、常见问题与支持。 -->
 <section class="page-intro">
   <h1>Lily 入门</h1>
-  <p class="page-intro-tagline">选择一个框架，克隆 headless 仓库或示例应用，然后开始组合你自己的页面。喜欢有引导的路径？请从<a href="/tutorials/">教程</a>开始。</p>
+  <p class="page-intro-tagline">选择一个框架，克隆单体仓库并打开其中的 headless 库或示例应用，然后开始组合你自己的页面。喜欢有引导的路径？请从<a href="/tutorials/">教程</a>开始。</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>安装</h2>
-  <p>Lily 针对每个框架以独立的 Git 仓库形式发布。最快的试用方法是克隆你所用技术栈的 headless 仓库：</p>
+  <p>Lily 位于一个 Git 单体仓库中，每个框架的 headless 库、辅助包和示例应用各有一个目录。最快的试用方法是克隆单体仓库，然后打开你所用技术栈的 headless 库：</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>pnpm install 因对等依赖或版本错误而失败</summary>
-    <p>使用较新的 pnpm（v10+）和 Node 22+。每个仓库都在 <code>package.json</code> 中固定了其框架版本；如果你的全局工具链较旧，<code>pnpm env use --global lts</code> 是最快的解决办法。</p>
+    <p>使用较新的 pnpm（v10+）和 Node 22+。每个子项目都在 <code>package.json</code> 中固定了其框架版本；如果你的全局工具链较旧，<code>pnpm env use --global lts</code> 是最快的解决办法。</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>其他东西坏了</summary>
-    <p>请在相关仓库（<a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>）提交议题并附上最小复现——或查看<a href="#community">社区与支持</a>。</p>
+    <p>请在 <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> 提交议题并附上最小复现——或查看<a href="#community">社区与支持</a>。</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>附带最小复现的缺陷报告。</li>
     <li>借助屏幕阅读器和辅助技术进行的无障碍审计。</li>
   </ul>
-  <p>请在相关仓库（<a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>）提交议题和拉取请求。</p>
+  <p>请在 <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> 提交议题和拉取请求。</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>社区与支持</h2>
   <ul>
-    <li><strong>问题与缺陷报告</strong> — 请在相关仓库（<a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>）提交议题。</li>
+    <li><strong>问题与缺陷报告</strong> — 请在 <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> 提交议题。</li>
     <li><strong>电子邮件</strong> — 维护者会阅读 <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>，欢迎协作、指导和反馈。</li>
     <li><strong>镜像</strong> — Lily 还会推送到 <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> 和 <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>，这样你可以在自己喜欢的平台上参与。</li>
     <li><strong>行为准则</strong> — 项目遵循标准的行为准则；请友善待人，以善意揣度他人。</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>我该如何报告缺陷或请求新功能？</summary>
-    <p>在相关的 GitHub 仓库提交议题，或发邮件至 <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>。</p>
+    <p>在 GitHub 仓库提交议题，或发邮件至 <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>。</p>
   </details>
 </section>

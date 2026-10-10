@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 
 exports.config = {
@@ -21,5 +22,19 @@ exports.config = {
   mochaOpts: {
     ui: 'bdd',
     timeout: 60000
+  },
+  // wdio exits 0 when nothing ran: a SIGINT before any worker starts (e.g.
+  // during the chromedriver download) ends with no failures, so a test run
+  // that tested nothing reported success. Fail unless every spec file
+  // finished (any number, when --spec picks files).
+  onComplete(exitCode, config, capabilities, results) {
+    const picked = process.argv.some((a) => a === '--spec' || a.startsWith('--spec='));
+    const expected = picked ? 1 : fs.readdirSync(path.join(__dirname, 'components'))
+      .filter((f) => f.endsWith('.test.js')).length;
+    if (results.finished < expected) {
+      const message = `only ${results.finished} of ${expected} spec files finished`;
+      console.error(`\nwdio.conf.js: ${message}; failing the run`);
+      throw new Error(message);
+    }
   }
 };

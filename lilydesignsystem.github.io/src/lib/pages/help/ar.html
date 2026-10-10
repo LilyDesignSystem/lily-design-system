@@ -2,7 +2,7 @@
 <!-- description: ابدأ مع Lily: ثبّت حزمة headless لإطار عملك، وانسخ مكوّنًا، ونسّقه، وطبّق عليه سمة، وأطلقه. استكشاف الأخطاء وإصلاحها، والأسئلة الشائعة، والدعم. -->
 <section class="page-intro">
   <h1>البدء مع Lily</h1>
-  <p class="page-intro-tagline">اختر إطار عمل، وانسخ مستودع headless أو تطبيق المثال، وابدأ بتركيب صفحاتك الخاصة. تفضّل مسارًا موجَّهًا؟ ابدأ بـ <a href="/tutorials/">الدروس</a>.</p>
+  <p class="page-intro-tagline">اختر إطار عمل، وانسخ المستودع الأحادي وافتح مكتبة headless أو تطبيق المثال فيه، وابدأ بتركيب صفحاتك الخاصة. تفضّل مسارًا موجَّهًا؟ ابدأ بـ <a href="/tutorials/">الدروس</a>.</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>التثبيت</h2>
-  <p>يُنشر Lily كمستودعات Git منفصلة لكل إطار عمل. وأسرع طريقة لتجربته هي نسخ مستودع headless لتقنيتك:</p>
+  <p>يعيش Lily في مستودع Git أحادي واحد، فيه مجلد لمكتبة headless لكل إطار عمل وحزمه المساعدة وتطبيق المثال. وأسرع طريقة لتجربته هي نسخ المستودع الأحادي وفتح مكتبة headless لتقنيتك:</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>يفشل pnpm install بخطأ في التبعيات النظيرة أو الإصدار</summary>
-    <p>استخدم pnpm حديثًا (الإصدار 10 أو أحدث) وNode 22 أو أحدث. يثبّت كل مستودع إصدارات إطار عمله في <code>package.json</code>؛ وإن كانت سلسلة أدواتك العامة أقدم فإن <code>pnpm env use --global lts</code> هو أسرع حل.</p>
+    <p>استخدم pnpm حديثًا (الإصدار 10 أو أحدث) وNode 22 أو أحدث. يثبّت كل مشروع فرعي إصدارات إطار عمله في <code>package.json</code>؛ وإن كانت سلسلة أدواتك العامة أقدم فإن <code>pnpm env use --global lts</code> هو أسرع حل.</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>شيء آخر معطّل</summary>
-    <p>افتح مشكلة مع إعادة إنتاج مصغّرة في المستودع المعني على <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> — أو راجع <a href="#community">المجتمع والدعم</a>.</p>
+    <p>افتح مشكلة مع إعادة إنتاج مصغّرة على <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — أو راجع <a href="#community">المجتمع والدعم</a>.</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>تقارير أخطاء مع إعادة إنتاج مصغّرة.</li>
     <li>تدقيقات لإمكانية الوصول بقارئات الشاشة والتقنيات المساعدة.</li>
   </ul>
-  <p>افتح المشكلات وطلبات الدمج في المستودع المعني على <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+  <p>افتح المشكلات وطلبات الدمج على <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>المجتمع والدعم</h2>
   <ul>
-    <li><strong>الأسئلة وتقارير الأخطاء</strong> — افتح مشكلة في المستودع المعني على <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</li>
+    <li><strong>الأسئلة وتقارير الأخطاء</strong> — افتح مشكلة على <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</li>
     <li><strong>البريد الإلكتروني</strong> — يقرأ القائم على الصيانة <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> ويرحب بالتعاون والإرشاد والملاحظات.</li>
     <li><strong>المرايا</strong> — يُدفَع Lily أيضًا إلى <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> و<a href="https://gitlab.com/LilyDesignSystem">GitLab</a>، فيمكنك المشاركة من المنصة التي تفضّلها.</li>
     <li><strong>السلوك</strong> — يتبع المشروع مدونة سلوك معيارية؛ كن لطيفًا وافترض حسن النية.</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>كيف أبلغ عن خلل أو أطلب ميزة؟</summary>
-    <p>افتح مشكلة في مستودع GitHub المعني، أو راسل <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+    <p>افتح مشكلة في مستودع GitHub، أو راسل <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
   </details>
 </section>

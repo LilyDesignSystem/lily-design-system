@@ -9,8 +9,7 @@
 <section class="page-intro">
   <h1>Getting started with Lily</h1>
   <p class="page-intro-tagline">
-    Pick a framework, clone the headless repo or the example app, and start
-    composing your own pages. Prefer a guided path? Start with the
+    Pick a framework, clone the monorepo and open its headless library or example app, and start composing your own pages. Prefer a guided path? Start with the
     <a href="/tutorials/">tutorials</a>.
   </p>
 </section>
@@ -38,8 +37,7 @@
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>Install</h2>
   <p>
-    Lily is published as separate Git repos per framework. The fastest way to try
-    it is to clone the headless repo for your stack:
+    Lily lives in one Git monorepo, with a directory for each framework's headless library, helper packages and example app. The fastest way to try it is to clone the monorepo and open the headless library for your stack:
   </p>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system
@@ -368,8 +366,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker`}</code></pre>
   <details class="faq-item">
     <summary>pnpm install fails with a peer or version error</summary>
     <p>
-      Use a current pnpm (v10+) and Node 22+. Each repo pins its framework
-      versions in <code>package.json</code>; if your global toolchain is
+      Use a current pnpm (v10+) and Node 22+. Each subproject pins its framework versions in its own <code>package.json</code>; if your global toolchain is
       older, <code>pnpm env use --global lts</code> is the quickest fix.
     </p>
   </details>
@@ -400,8 +397,8 @@ cd lily-design-system/lily-design-system-svelte-theme-picker`}</code></pre>
   <details class="faq-item">
     <summary>Something else is broken</summary>
     <p>
-      Open an issue with a minimal reproduction on the relevant repo at
-      <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> —
+      Open an issue with a minimal reproduction at
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> —
       or see <a href="#community">community and support</a>.
     </p>
   </details>
@@ -419,8 +416,8 @@ cd lily-design-system/lily-design-system-svelte-theme-picker`}</code></pre>
     <li>Accessibility audits with screen readers and assistive tech.</li>
   </ul>
   <p>
-    Open issues and PRs against the relevant repo at
-    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+    Open issues and PRs at
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
   </p>
 </section>
 
@@ -428,9 +425,8 @@ cd lily-design-system/lily-design-system-svelte-theme-picker`}</code></pre>
   <h2>Community and support</h2>
   <ul>
     <li>
-      <strong>Questions and bug reports</strong> — open an issue on the
-      relevant repo at
-      <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+      <strong>Questions and bug reports</strong> — open an issue at
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
     </li>
     <li>
       <strong>Email</strong> — the maintainer reads
@@ -515,7 +511,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker`}</code></pre>
   <details class="faq-item">
     <summary>How do I report a bug or request a feature?</summary>
     <p>
-      Open an issue on the relevant GitHub repo, or email
+      Open an issue on the GitHub repository, or email
       <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
     </p>
   </details>

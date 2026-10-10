@@ -2,7 +2,7 @@
 <!-- description: Начните работу с Lily: установите headless-пакет для своего фреймворка, скопируйте компонент, оформите его, примените тему и выпустите. Устранение неполадок, частые вопросы и поддержка. -->
 <section class="page-intro">
   <h1>Начало работы с Lily</h1>
-  <p class="page-intro-tagline">Выберите фреймворк, клонируйте headless-репозиторий или пример приложения и начните собирать собственные страницы. Предпочитаете путь с подсказками? Начните с <a href="/tutorials/">учебников</a>.</p>
+  <p class="page-intro-tagline">Выберите фреймворк, клонируйте монорепозиторий, откройте в нём headless-библиотеку или пример приложения и начните собирать собственные страницы. Предпочитаете путь с подсказками? Начните с <a href="/tutorials/">учебников</a>.</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>Установка</h2>
-  <p>Lily публикуется в виде отдельных Git-репозиториев для каждого фреймворка. Быстрее всего попробовать её, клонировав headless-репозиторий вашего стека:</p>
+  <p>Lily живёт в одном Git-монорепозитории, где у headless-библиотеки, вспомогательных пакетов и примера приложения каждого фреймворка есть свой каталог. Быстрее всего попробовать её, клонировав монорепозиторий и открыв headless-библиотеку вашего стека:</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>pnpm install завершается ошибкой peer-зависимости или версии</summary>
-    <p>Используйте актуальный pnpm (v10+) и Node 22+. Каждый репозиторий фиксирует версии своего фреймворка в <code>package.json</code>; если ваш глобальный набор инструментов старше, быстрее всего поможет <code>pnpm env use --global lts</code>.</p>
+    <p>Используйте актуальный pnpm (v10+) и Node 22+. Каждый подпроект фиксирует версии своего фреймворка в <code>package.json</code>; если ваш глобальный набор инструментов старше, быстрее всего поможет <code>pnpm env use --global lts</code>.</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Сломалось что-то другое</summary>
-    <p>Откройте обращение с минимальным воспроизведением в нужном репозитории на <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> или загляните в раздел <a href="#community">«Сообщество и поддержка»</a>.</p>
+    <p>Откройте обращение с минимальным воспроизведением на <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> или загляните в раздел <a href="#community">«Сообщество и поддержка»</a>.</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>Отчёты об ошибках с минимальным воспроизведением.</li>
     <li>Аудиты доступности со скринридерами и вспомогательными технологиями.</li>
   </ul>
-  <p>Открывайте обращения и запросы на слияние в нужном репозитории на <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+  <p>Открывайте обращения и запросы на слияние на <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>Сообщество и поддержка</h2>
   <ul>
-    <li><strong>Вопросы и отчёты об ошибках</strong> — откройте обращение в нужном репозитории на <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</li>
+    <li><strong>Вопросы и отчёты об ошибках</strong> — откройте обращение на <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</li>
     <li><strong>Электронная почта</strong> — сопровождающий читает <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> и рад сотрудничеству, советам и отзывам.</li>
     <li><strong>Зеркала</strong> — Lily также публикуется на <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> и <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, так что вы можете участвовать с той платформы, которая вам удобнее.</li>
     <li><strong>Поведение</strong> — проект следует стандартному кодексу поведения; будьте добры и исходите из добросовестности.</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Как сообщить об ошибке или предложить функцию?</summary>
-    <p>Откройте обращение в нужном репозитории GitHub или напишите на <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+    <p>Откройте обращение в репозитории GitHub или напишите на <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
   </details>
 </section>

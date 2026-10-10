@@ -2,7 +2,7 @@
 <!-- description: Mulai dengan Lily: pasang paket headless untuk framework Anda, salin komponen, tata, beri tema, lalu rilis. Pemecahan masalah, FAQ, dan dukungan. -->
 <section class="page-intro">
   <h1>Memulai dengan Lily</h1>
-  <p class="page-intro-tagline">Pilih framework, klon repositori headless atau aplikasi contoh, lalu mulailah menyusun halaman Anda sendiri. Lebih suka jalur yang dipandu? Mulailah dengan <a href="/tutorials/">tutorial</a>.</p>
+  <p class="page-intro-tagline">Pilih framework, klon monorepo, buka pustaka headless atau aplikasi contoh di dalamnya, lalu mulailah menyusun halaman Anda sendiri. Lebih suka jalur yang dipandu? Mulailah dengan <a href="/tutorials/">tutorial</a>.</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>Pemasangan</h2>
-  <p>Lily diterbitkan sebagai repositori Git terpisah untuk setiap framework. Cara tercepat mencobanya adalah mengklon repositori headless untuk tumpukan teknologi Anda:</p>
+  <p>Lily berada dalam satu monorepo Git, dengan direktori untuk pustaka headless, paket pembantu, dan aplikasi contoh setiap framework. Cara tercepat mencobanya adalah mengklon monorepo dan membuka pustaka headless untuk tumpukan teknologi Anda:</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>pnpm install gagal dengan galat peer atau versi</summary>
-    <p>Gunakan pnpm terbaru (v10+) dan Node 22+. Setiap repositori mengunci versi framework-nya di <code>package.json</code>; jika perangkat global Anda lebih lama, <code>pnpm env use --global lts</code> adalah perbaikan tercepat.</p>
+    <p>Gunakan pnpm terbaru (v10+) dan Node 22+. Setiap subproyek mengunci versi framework-nya di <code>package.json</code>; jika perangkat global Anda lebih lama, <code>pnpm env use --global lts</code> adalah perbaikan tercepat.</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Ada hal lain yang rusak</summary>
-    <p>Buka isu dengan reproduksi minimal di repositori terkait pada <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> — atau lihat <a href="#community">komunitas dan dukungan</a>.</p>
+    <p>Buka isu dengan reproduksi minimal di <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — atau lihat <a href="#community">komunitas dan dukungan</a>.</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>Laporan bug dengan reproduksi minimal.</li>
     <li>Audit aksesibilitas dengan pembaca layar dan teknologi bantu.</li>
   </ul>
-  <p>Buka isu dan pull request di repositori terkait pada <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+  <p>Buka isu dan pull request di <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>Komunitas dan dukungan</h2>
   <ul>
-    <li><strong>Pertanyaan dan laporan bug</strong> — buka isu di repositori terkait pada <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</li>
+    <li><strong>Pertanyaan dan laporan bug</strong> — buka isu di <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</li>
     <li><strong>Surel</strong> — pemelihara membaca <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> dan menyambut kolaborasi, bimbingan, dan masukan.</li>
     <li><strong>Cermin</strong> — Lily juga didorong ke <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> dan <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, sehingga Anda dapat berpartisipasi dari platform pilihan Anda.</li>
     <li><strong>Perilaku</strong> — proyek ini mengikuti kode etik standar; bersikaplah baik, berprasangka baiklah.</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Bagaimana cara melaporkan bug atau meminta fitur?</summary>
-    <p>Buka isu di repositori GitHub terkait, atau kirim surel ke <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+    <p>Buka isu di repositori GitHub, atau kirim surel ke <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
   </details>
 </section>

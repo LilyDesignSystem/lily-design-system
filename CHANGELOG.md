@@ -19,7 +19,11 @@ and the example apps' `repository` names the monorepo with `directory`. `bin/tes
 or Codeberg (dated plans under `docs/superpowers` excepted) and on any tracked `.git-subtree-push` file or `bin/git-subtree-push`.
 `bin/generate-registries --check` reports drift without writing, and `bin/test` runs it: the 2026-10-06 `DateRange`/`ReviewDate`/
 `ChatComposer` tag changes had reached `components-categories.tsv` but not the seven example registries, which only CI's git-diff step
-noticed. The spell-check word list gains the five words CI flagged.
+noticed. The spell-check word list gains the five words CI flagged. The help and "why" pages' prose, in all 12 languages, no
+longer describes "separate Git repos per framework" or sends readers to "the relevant repo": it says to clone the monorepo and open the
+library's directory, and issues go to the monorepo itself. The HTML headless WebDriverIO config fails a run unless every spec file
+finished (any number with `--spec`): a local run interrupted before its first worker started had reported success having tested
+nothing.
 
 ## Subtree mirrors removed: every subproject lives only in the monorepo — 2026-10-10
 

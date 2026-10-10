@@ -2,7 +2,7 @@
 <!-- description: Comece com a Lily: instale o pacote headless do seu framework, copie um componente, estilize, aplique um tema e publique. Solução de problemas, FAQ e suporte. -->
 <section class="page-intro">
   <h1>Primeiros passos com a Lily</h1>
-  <p class="page-intro-tagline">Escolha um framework, clone o repositório headless ou o aplicativo de exemplo e comece a compor suas próprias páginas. Prefere um caminho guiado? Comece pelos <a href="/tutorials/">tutoriais</a>.</p>
+  <p class="page-intro-tagline">Escolha um framework, clone o monorrepositório, abra a biblioteca headless ou o aplicativo de exemplo e comece a compor suas próprias páginas. Prefere um caminho guiado? Comece pelos <a href="/tutorials/">tutoriais</a>.</p>
 </section>
 
 <nav aria-label="On this page" class="prose" style="margin: 0 auto;">
@@ -27,7 +27,7 @@
 
 <section class="section prose" id="install" style="margin: 0 auto;">
   <h2>Instalação</h2>
-  <p>A Lily é publicada como repositórios Git separados por framework. A forma mais rápida de experimentá-la é clonar o repositório headless da sua pilha:</p>
+  <p>A Lily vive em um único monorrepositório Git, com um diretório para a biblioteca headless, os pacotes auxiliares e o aplicativo de exemplo de cada framework. A forma mais rápida de experimentá-la é clonar o monorrepositório e abrir a biblioteca headless da sua pilha:</p>
   
   <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
 cd lily-design-system/lily-design-system-react-headless
@@ -224,7 +224,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>O pnpm install falha com um erro de dependência par ou de versão</summary>
-    <p>Use um pnpm atual (v10+) e Node 22+. Cada repositório fixa as versões do seu framework em <code>package.json</code>; se a sua cadeia de ferramentas global for mais antiga, <code>pnpm env use --global lts</code> é a correção mais rápida.</p>
+    <p>Use um pnpm atual (v10+) e Node 22+. Cada subprojeto fixa as versões do seu framework em <code>package.json</code>; se a sua cadeia de ferramentas global for mais antiga, <code>pnpm env use --global lts</code> é a correção mais rápida.</p>
   </details>
 
   <details class="faq-item">
@@ -239,7 +239,7 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Algo mais está quebrado</summary>
-    <p>Abra uma issue com um caso reproduzível mínimo no repositório correspondente em <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> — ou veja <a href="#community">comunidade e suporte</a>.</p>
+    <p>Abra uma issue com um caso reproduzível mínimo em <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ou veja <a href="#community">comunidade e suporte</a>.</p>
   </details>
 </section>
 
@@ -254,13 +254,13 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
     <li>Relatos de bugs com um caso reproduzível mínimo.</li>
     <li>Auditorias de acessibilidade com leitores de tela e tecnologias assistivas.</li>
   </ul>
-  <p>Abra issues e pull requests no repositório correspondente em <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+  <p>Abra issues e pull requests em <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</p>
 </section>
 
 <section class="section prose" id="community" style="margin: 0 auto;">
   <h2>Comunidade e suporte</h2>
   <ul>
-    <li><strong>Perguntas e relatos de bugs</strong> — abra uma issue no repositório correspondente em <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</li>
+    <li><strong>Perguntas e relatos de bugs</strong> — abra uma issue em <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.</li>
     <li><strong>E-mail</strong> — o responsável lê <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> e recebe bem colaboração, orientação e comentários.</li>
     <li><strong>Espelhos</strong> — a Lily também é enviada para o <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> e o <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, para que você participe pela plataforma de sua preferência.</li>
     <li><strong>Conduta</strong> — o projeto segue um código de conduta padrão; seja gentil e presuma boa-fé.</li>
@@ -302,6 +302,6 @@ cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
 
   <details class="faq-item">
     <summary>Como relato um bug ou solicito um recurso?</summary>
-    <p>Abra uma issue no repositório GitHub correspondente ou escreva para <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+    <p>Abra uma issue no repositório GitHub ou escreva para <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
   </details>
 </section>
