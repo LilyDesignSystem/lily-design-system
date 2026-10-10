@@ -23,7 +23,7 @@
 
 A Claude Skill that maps the three real Blazor subprojects in this
 monorepo — [`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/),
-[`lily-design-system-blazor-helpers`](../lily-design-system-blazor-helpers/),
+[the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages),
 and [`lily-design-system-blazor-web-examples`](../lily-design-system-blazor-web-examples/) —
 and helps an agent decide which one a given task needs. It is the Blazor
 **umbrella** skill, one level up from
@@ -45,7 +45,7 @@ subprojects is grounded in the same rules each of them is held to.
   [`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/) —
   this subproject ships no `.razor` components).
 - **Isn't**: the Blazor `*-picker` helpers catalog itself (that's
-  [`lily-design-system-blazor-helpers`](../lily-design-system-blazor-helpers/)).
+  [the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages)).
 - **Isn't**: the Blazor Web example app itself (that's
   [`lily-design-system-blazor-web-examples`](../lily-design-system-blazor-web-examples/) —
   this subproject ships no pages, no CSS, nothing runnable).

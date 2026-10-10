@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <!-- Test project for LilyDesignSystem.Blazor.SearchPicker alone (until 2026-10-10 one shared
+       test project in lily-design-system-blazor-helpers covered every helper).
+       The tests live next to the component, in ../SearchPickerTests.cs, and are
+       excluded from the published package; they are compiled here instead. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>LilyDesignSystem.Blazor.Helpers.Tests</RootNamespace>
+    <AssemblyName>LilyDesignSystem.Blazor.SearchPicker.Tests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageReference Include="bunit" Version="1.40.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0" />
+    <PackageReference Include="coverlet.collector" Version="10.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LilyDesignSystem.Blazor.SearchPicker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SearchPickerTests.cs" />
+  </ItemGroup>
+
+</Project>

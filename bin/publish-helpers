@@ -41,12 +41,11 @@ for arg in "$@"; do
     --only) prev="--only" ;;
   esac
 done
-# --only <dir> restricts the run to one helper catalog (e.g.
-# --only lily-design-system-blazor-helpers), or to one top-level
-# helper package (e.g. --only lily-design-system-svelte-theme-picker), so a first release
-# of a new catalog does not have to re-run every other catalog. The
-# Blazor/NuGet section runs only when no --only is given, or when it
-# names the Blazor catalog.
+# --only <dir> restricts the run to one helper package, named by its
+# top-level directory (e.g. --only lily-design-system-svelte-theme-picker
+# or --only lily-design-system-blazor-theme-picker), so a first release of
+# one package does not re-run every other. The Blazor/NuGet section runs
+# only when no --only is given, or when it names a Blazor helper package.
 only_matches() { [ -z "$ONLY" ] || [ "$(basename "$1")" = "$ONLY" ]; }
 
 # Every npm helper package's prepublishOnly runs its CATALOG's build
@@ -131,7 +130,10 @@ if [ -z "$NUGET_ONLY" ]; then
   done
 fi
 
-if ! only_matches "$ROOT/lily-design-system-blazor-helpers"; then
+# The Blazor NuGet section runs when no --only is given, or when --only
+# names one of the Blazor helper packages (one top-level subproject each).
+BLAZOR_PACKAGES="$("$ROOT/bin/list-helper-packages" blazor)"
+if [ -n "$ONLY" ] && ! printf '%s\n' "$BLAZOR_PACKAGES" | grep -qx -- "$ONLY"; then
   echo "(--only $ONLY: skipping the Blazor NuGet section)"
   exit 0
 fi
@@ -143,10 +145,13 @@ NUPKG_OUT="$ROOT/dist-nuget"
 # pushed to nuget.org and claim those names irreversibly.
 rm -rf "$NUPKG_OUT"
 mkdir -p "$NUPKG_OUT"
-for proj in "$ROOT"/lily-design-system-blazor-helpers/lily-design-system-blazor-*/*.csproj; do
-  [ -f "$proj" ] || continue
-  echo "--> pack $(basename "$proj")"
-  dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
+for d in $BLAZOR_PACKAGES; do
+  only_matches "$ROOT/$d" || continue
+  for proj in "$ROOT/$d"/*.csproj; do
+    [ -f "$proj" ] || continue
+    echo "--> pack $(basename "$proj")"
+    dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
+  done
 done
 if [ -z "$DRY" ]; then
   : "${NUGET_API_KEY:?set NUGET_API_KEY to push to nuget.org}"

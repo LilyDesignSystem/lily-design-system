@@ -24,7 +24,7 @@ _Updated 2026-09-06._
 | Started | 2025-08-09 |
 | Catalog | 571 components |
 | Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (536/571; the remaining 35 are permanently excluded, not backlog) |
-| Layers | 8 headless libraries, 7 example applications, 8 helper catalogs (48 packages) |
+| Layers | 8 headless libraries, 7 example applications, 107 helper packages (one top-level subproject each since 2026-10-10) |
 | Themes | 45 reference stylesheets |
 | Published | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published |
 | License | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option |

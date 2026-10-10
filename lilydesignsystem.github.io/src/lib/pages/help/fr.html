@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Assistants de préférences</h2>
-  <p>Chaque framework a un catalogue compagnon <code>*-helpers</code> avec huit petits sélecteurs (et un <code>picker-bar</code> qui les assemble). Chacun est un bouton à icône headless qui ouvre une fenêtre contextuelle — une liste d'options, une liste de liens, un formulaire de recherche ou (pour date-time-picker) une boîte de dialogue de sélection de date — et non un <code>&lt;select&gt;</code> natif ; il est compatible SSR et ne livre aucun CSS :</p>
+  <p>Chaque framework a huit petits sélecteurs, chacun dans son propre paquet <code>lily-design-system-{framework}-{package}</code> (et un <code>picker-bar</code> qui les assemble). Chacun est un bouton à icône headless qui ouvre une fenêtre contextuelle — une liste d'options, une liste de liens, un formulaire de recherche ou (pour date-time-picker) une boîte de dialogue de sélection de date — et non un <code>&lt;select&gt;</code> natif ; il est compatible SSR et ne livre aucun CSS :</p>
   <ul>
     <li><strong>theme-picker</strong> — charge les feuilles de style de thème à l'exécution en échangeant un <code>&lt;link&gt;</code> géré, définit <code>data-theme</code> sur le document et, en option, enregistre dans <code>localStorage</code>.</li>
     <li><strong>locale-picker</strong> — définit <code>lang</code> et <code>dir</code> (avec détection automatique de l'écriture de droite à gauche) pour que votre bibliothèque d'i18n puisse suivre ; ne traduit rien lui-même.</li>

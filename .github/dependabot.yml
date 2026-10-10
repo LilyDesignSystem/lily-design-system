@@ -541,7 +541,7 @@ updates:
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "nuget"
-    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-date-time-picker"
+    directory: "/lily-design-system-blazor-date-time-picker"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
@@ -553,7 +553,7 @@ updates:
           - "*"
 
   - package-ecosystem: "nuget"
-    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-locale-picker"
+    directory: "/lily-design-system-blazor-locale-picker"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
@@ -565,7 +565,7 @@ updates:
           - "*"
 
   - package-ecosystem: "nuget"
-    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-share-picker"
+    directory: "/lily-design-system-blazor-share-picker"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
@@ -577,7 +577,7 @@ updates:
           - "*"
 
   - package-ecosystem: "nuget"
-    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-text-size-picker"
+    directory: "/lily-design-system-blazor-text-size-picker"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
@@ -589,7 +589,7 @@ updates:
           - "*"
 
   - package-ecosystem: "nuget"
-    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-theme-picker"
+    directory: "/lily-design-system-blazor-theme-picker"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
@@ -601,7 +601,22 @@ updates:
           - "*"
 
   - package-ecosystem: "nuget"
-    directory: "/lily-design-system-blazor-helpers/tests/LilyDesignSystem.Blazor.Helpers.Tests"
+    # Each Blazor helper package's own test project (2026-10-10; until then
+    # one shared test project in the lily-design-system-blazor-helpers catalog).
+    directories:
+      - "/lily-design-system-blazor-date-time-picker/tests"
+      - "/lily-design-system-blazor-kanban-board/tests"
+      - "/lily-design-system-blazor-link-picker/tests"
+      - "/lily-design-system-blazor-locale-picker/tests"
+      - "/lily-design-system-blazor-menu-picker/tests"
+      - "/lily-design-system-blazor-motion-picker/tests"
+      - "/lily-design-system-blazor-search-picker/tests"
+      - "/lily-design-system-blazor-settings-picker/tests"
+      - "/lily-design-system-blazor-share-picker/tests"
+      - "/lily-design-system-blazor-text-size-picker/tests"
+      - "/lily-design-system-blazor-theme-picker/tests"
+      - "/lily-design-system-blazor-gantt-chart/tests"
+      - "/lily-design-system-blazor-picker-bar/tests"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

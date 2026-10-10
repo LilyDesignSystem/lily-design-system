@@ -6,14 +6,17 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Blazor helpers usage
 
-`lily-design-system-blazor-helpers` is a catalog of six opinionated Blazor
-components — `theme-picker`, `locale-picker`, `text-size-picker`,
-`motion-picker`, `share-picker`, `date-time-picker` — that sit alongside the
+The Blazor helpers are opinionated Blazor components — `theme-picker`,
+`locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`,
+`date-time-picker` and the rest — each its own top-level subproject
+`lily-design-system-blazor-{package}/` with its own test project in `tests/`
+since 2026-10-10 (before that, one `lily-design-system-blazor-helpers`
+catalog with a shared test project), that sit alongside the
 headless [`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/)
 library. Where a headless component is a pure markup container, a helper owns
 one complete interaction end to end: selection, applying it to the document,
 and (for four of the six) optional persistence. Svelte is the canonical
-reference catalog; Blazor is a direct port with framework idioms swapped.
+reference; Blazor is a direct port with framework idioms swapped.
 
 ## The six helpers
 

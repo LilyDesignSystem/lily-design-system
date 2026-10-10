@@ -31,7 +31,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `update`                             | Drive an end-to-end audit/harmonise/test pass (invokes `claude` over every subproject).  |
 | `git-subtree-push`                    | Push each subproject subtree to its standalone GitHub remote.                             |
 | `generate-storybook-stories.mjs`      | Generate Storybook stories for the headless libraries.                                    |
-| `publish-helpers`                     | Build (`build.js` per catalog) and publish every helper package — npm for the JS catalogs, NuGet for Blazor. |
+| `publish-helpers`                     | Build (each package's own build script, in `bin/list-helper-packages` order) and publish every helper package — npm for the JS frameworks, NuGet for Blazor. |
 | `generate-examples`                   | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page; writes the generated data for all example apps. |
 | `generate-site-pages`                 | Rebuild the docs-site component pages that are still placeholders from `components/{slug}/index.md` and refresh every page's Example section. |
 | `generate-sitemap`                    | Regenerate the docs site's `sitemap.xml` (one URL per route, git-derived `<lastmod>`); `--check` reports drift. |
@@ -103,7 +103,7 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 - [x] `list-implementations` lists every `lily-*` subproject, sorted.
 - [x] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md` loading `@AGENTS.md`, `spec/index.md`).
 - [x] `bin/test` passes against repo + all components + github.io + all subprojects.
-- [x] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks). (Deliberately excludes the `*-helpers` catalogs, which keep their own `AGENTS/` conventions — confirmed in the script's `case *-helpers) continue ;; esac` guard — so "every subproject" means every non-helpers implementation, as documented in `AGENTS/lily.md`.)
+- [x] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks). (Deliberately excludes the helper packages, which keep their own helper `AGENTS/` set — the script skips every name `bin/list-helper-packages` prints — so "every subproject" means every non-helper implementation, as documented in `AGENTS/lily.md`.)
 - [x] Every `pnpm-lock.yaml` on disk (outside `node_modules/`) is tracked in git; `bin/test` fails on an untracked or ignored one.
 - [x] `bin/sync-special-files` propagates the top-level special files into all 51
       published repos, is idempotent, and gates via `--check` from `bin/test`.

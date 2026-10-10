@@ -40,9 +40,8 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's, React's, Vue's, Angular's, HTML's, Web Components' and Nunjucks' helpers are one top-level subproject per package (below); the other one frameworks keep theirs in one catalog each.
+Each framework ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Every framework's helpers are one top-level subproject per package (below), since 2026-10-10.
 
-- [Lily Design System: Blazor helpers](../lily-design-system-blazor-helpers)
 
 The Svelte helpers (canonical reference) are one top-level subproject per package, since 2026-10-10 (the data grid since 2026-10-09); the `lily-design-system-svelte-helpers` catalog that held them is gone. `bin/list-helper-packages svelte` lists them in build order:
 
@@ -158,6 +157,22 @@ The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bi
 - [`lily-design-system-nunjucks-text-size-picker`](../lily-design-system-nunjucks-text-size-picker) — `@lilydesignsystem/nunjucks-text-size-picker`
 - [`lily-design-system-nunjucks-theme-picker`](../lily-design-system-nunjucks-theme-picker) — `@lilydesignsystem/nunjucks-theme-picker`
 - [`lily-design-system-nunjucks-picker-bar`](../lily-design-system-nunjucks-picker-bar) — `@lilydesignsystem/nunjucks-picker-bar`
+
+The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages blazor`):
+
+- [`lily-design-system-blazor-date-time-picker`](../lily-design-system-blazor-date-time-picker) — `@lilydesignsystem/blazor-date-time-picker`
+- [`lily-design-system-blazor-kanban-board`](../lily-design-system-blazor-kanban-board) — `@lilydesignsystem/blazor-kanban-board`
+- [`lily-design-system-blazor-link-picker`](../lily-design-system-blazor-link-picker) — `@lilydesignsystem/blazor-link-picker`
+- [`lily-design-system-blazor-locale-picker`](../lily-design-system-blazor-locale-picker) — `@lilydesignsystem/blazor-locale-picker`
+- [`lily-design-system-blazor-menu-picker`](../lily-design-system-blazor-menu-picker) — `@lilydesignsystem/blazor-menu-picker`
+- [`lily-design-system-blazor-motion-picker`](../lily-design-system-blazor-motion-picker) — `@lilydesignsystem/blazor-motion-picker`
+- [`lily-design-system-blazor-search-picker`](../lily-design-system-blazor-search-picker) — `@lilydesignsystem/blazor-search-picker`
+- [`lily-design-system-blazor-settings-picker`](../lily-design-system-blazor-settings-picker) — `@lilydesignsystem/blazor-settings-picker`
+- [`lily-design-system-blazor-share-picker`](../lily-design-system-blazor-share-picker) — `@lilydesignsystem/blazor-share-picker`
+- [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker) — `@lilydesignsystem/blazor-text-size-picker`
+- [`lily-design-system-blazor-theme-picker`](../lily-design-system-blazor-theme-picker) — `@lilydesignsystem/blazor-theme-picker`
+- [`lily-design-system-blazor-gantt-chart`](../lily-design-system-blazor-gantt-chart) — `@lilydesignsystem/blazor-gantt-chart`
+- [`lily-design-system-blazor-picker-bar`](../lily-design-system-blazor-picker-bar) — `@lilydesignsystem/blazor-picker-bar`
 
 ## Reference themes
 

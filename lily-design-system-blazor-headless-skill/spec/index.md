@@ -24,7 +24,7 @@ Its siblings:
   framework-agnostic Lily concepts (headless-vs-example, the catalog,
   naming conventions, composition patterns).
 - [`lily-design-system-blazor-helpers-skill`](../../lily-design-system-blazor-helpers-skill/)
-  covers the Blazor `*-picker` helpers catalog — a separate set of NuGet
+  covers the Blazor helper packages (one top-level subproject each) — a separate set of NuGet
   packages with their own opinionated icon-button/listbox contract, not
   covered here.
 
@@ -48,7 +48,7 @@ Its siblings:
 - Any component implementation. This skill teaches consumption of
   `lily-design-system-blazor-headless`; it does not ship, modify, or test
   that library's `.razor` components.
-- The Blazor `*-picker` helpers catalog — that's
+- The Blazor helper packages — that's
   `lily-design-system-blazor-helpers-skill`'s job.
 
 ## 3. Architecture

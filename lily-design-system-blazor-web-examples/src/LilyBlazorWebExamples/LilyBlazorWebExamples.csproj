@@ -13,9 +13,9 @@
   <!-- Theme-picker helper: local subtree reference until the NuGet
        packages are pushed (they are packed in ../../dist-nuget). -->
   <ItemGroup>
-    <ProjectReference Include="..\..\..\lily-design-system-blazor-helpers\lily-design-system-blazor-theme-picker\LilyDesignSystem.Blazor.ThemePicker.csproj" />
-    <ProjectReference Include="..\..\..\lily-design-system-blazor-helpers\lily-design-system-blazor-locale-picker\LilyDesignSystem.Blazor.LocalePicker.csproj" />
-    <ProjectReference Include="..\..\..\lily-design-system-blazor-helpers\lily-design-system-blazor-text-size-picker\LilyDesignSystem.Blazor.TextSizePicker.csproj" />
+    <ProjectReference Include="..\..\..\lily-design-system-blazor-theme-picker\LilyDesignSystem.Blazor.ThemePicker.csproj" />
+    <ProjectReference Include="..\..\..\lily-design-system-blazor-locale-picker\LilyDesignSystem.Blazor.LocalePicker.csproj" />
+    <ProjectReference Include="..\..\..\lily-design-system-blazor-text-size-picker\LilyDesignSystem.Blazor.TextSizePicker.csproj" />
   </ItemGroup>
 
 </Project>

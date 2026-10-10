@@ -21,7 +21,7 @@ reach for; it does not restate any of their contracts in full.
   `BreadcrumbNav`, `DataTable`, and the rest — and intend to style it
   yourself. **Deep dive:**
   [`lily-design-system-blazor-headless-skill`](../lily-design-system-blazor-headless-skill/).
-- **[`lily-design-system-blazor-helpers`](../lily-design-system-blazor-helpers/)**
+- **[the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages)**
   — six opinionated packages that sit alongside the headless library, each
   owning one whole interaction end to end: `theme-picker`, `locale-picker`,
   `text-size-picker`, `motion-picker` (a user preference — selection + DOM

@@ -11,7 +11,7 @@ Blazor.
 
 A Claude Skill that ties together the three real Blazor subprojects in
 this monorepo — [`lily-design-system-blazor-headless`](../../lily-design-system-blazor-headless/),
-[`lily-design-system-blazor-helpers`](../../lily-design-system-blazor-helpers/),
+[the Blazor helper packages](../../spec/helpers/index.md#blazor-helper-packages),
 and [`lily-design-system-blazor-web-examples`](../../lily-design-system-blazor-web-examples/) —
 helps an agent decide which one it needs, and points into the two more
 specific sibling skills

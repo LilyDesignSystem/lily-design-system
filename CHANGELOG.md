@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Blazor helpers: one top-level subproject per package; every catalog is now gone — 2026-10-10
+
+The 13 packages in `lily-design-system-blazor-helpers` moved to the repository root, and the last catalog was deleted. The shared
+test project became one per package (`tests/LilyDesignSystem.Blazor.{Package}.Tests.csproj`, compiling the package's own
+`*Tests.cs`; each package's `.csproj` excludes `tests/` and names its own test assembly in `InternalsVisibleTo`). The headless
+`ProjectReference` lost a `..\`; sibling references were already one level up. All 13 pass (456 tests: the catalog's 454 plus the two
+new kanban-board and gantt-chart tests) and `dotnet pack` cleanly, with the right NuGet dependencies and each package's own
+repository URL. `bin/list-helper-packages` reads `.csproj` sibling `ProjectReference`s for Blazor; `bin/publish-helpers` packs and pushes
+per package; CI has a `dotnet-helper-packages` job; Dependabot's NuGet entries point at the new directories; generated
+`INSTALL.md` files say `dotnet add package`. The Blazor example app's `ProjectReference`s were updated and it builds.
+
+All eight frameworks' helpers are now 107 top-level subprojects; the specs, AGENTS files, `llms` files, `NEWS.md`, `plan.md` and the
+docs site's help page (translated sentence in all 12 languages) describe that state. 150 published repositories.
+
 ## Nunjucks helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
 
 The 14 packages in `lily-design-system-nunjucks-helpers` (the 13 helpers plus the shared `listbox-behavior`, which gains its own

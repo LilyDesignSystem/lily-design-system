@@ -4,7 +4,8 @@
 Usage: bin/list-helper-packages <framework>     e.g. bin/list-helper-packages svelte
 
 Each helper package is a top-level `lily-design-system-{framework}-*`
-subproject with its own package.json (the per-framework *-helpers catalogs
+subproject with its own package.json (or, for Blazor, its own .csproj,
+whose sibling ProjectReferences are its dependencies) (the per-framework *-helpers catalogs
 were dissolved into them, Svelte first, on 2026-10-10). A package that
 depends on a sibling (picker-bar on six pickers, gantt-chart and
 calendar-view on date-time-picker) resolves it in local dev/test from the
@@ -13,7 +14,7 @@ package after the siblings it depends on, ties broken by name. The headless
 library, example apps and *-skill packages are not helper packages and are
 never listed.
 """
-import json, os, sys
+import json, os, re, sys
 
 if len(sys.argv) != 2:
     sys.exit("usage: bin/list-helper-packages <framework>")
@@ -24,11 +25,21 @@ skip = ("-headless", "-helpers", "-skill", "-examples")
 
 pkgs = {}
 for d in sorted(os.listdir(root)):
+    if not d.startswith(prefix) or d.endswith(skip):
+        continue
     path = os.path.join(root, d, "package.json")
-    if d.startswith(prefix) and not d.endswith(skip) and os.path.isfile(path):
+    if os.path.isfile(path):
         deps = json.load(open(path)).get("dependencies", {})
         pkgs[d] = {"lily-design-system-" + k.split("/", 1)[1]
                    for k in deps if k.startswith("@lilydesignsystem/")}
+        continue
+    # A .NET (Blazor) package: a .csproj at its top level; its sibling
+    # dependencies are ProjectReferences into ../lily-design-system-*/.
+    projs = [f for f in os.listdir(os.path.join(root, d)) if f.endswith(".csproj")] \
+        if os.path.isdir(os.path.join(root, d)) else []
+    if projs:
+        text = open(os.path.join(root, d, projs[0])).read()
+        pkgs[d] = set(re.findall(r'ProjectReference Include="\.\.[\\/](lily-design-system-[a-z0-9-]+)[\\/]', text))
 
 done, out = set(), []
 while len(out) < len(pkgs):

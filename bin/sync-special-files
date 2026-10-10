@@ -226,6 +226,17 @@ def npm_name(name):
     return "@lilydesignsystem/" + name[len("lily-design-system-"):]
 
 
+def nuget_id(name):
+    """The NuGet PackageId of a Blazor helper package, read from its .csproj."""
+    d = os.path.join(top(), name)
+    for f in sorted(os.listdir(d)):
+        if f.endswith(".csproj"):
+            m = re.search(r"<PackageId>([^<]+)</PackageId>", open(os.path.join(d, f)).read())
+            if m:
+                return m.group(1)
+    raise SystemExit(f"error: no <PackageId> in a .csproj under {name}")
+
+
 def citation(name):
     return f"""cff-version: 1.2.0
 title: "Lily Design System: {name}"
@@ -442,6 +453,20 @@ npm install {npm_name(f'lily-design-system-{fw}-theme-picker')}
 Every user-facing string is a prop — there are no English defaults to override.
 All are SSR-safe and ship no CSS. Contracts:
 [AGENTS/helpers.md]({CANONICAL}/blob/main/AGENTS/helpers.md) and
+[spec/helpers/index.md]({CANONICAL}/blob/main/spec/helpers/index.md).
+"""
+    elif kind == "package" and fw == "blazor":
+        body = f"""
+## Install
+
+```sh
+dotnet add package {nuget_id(name)}
+```
+
+A Razor class library. It ships semantic HTML, ARIA, focus management, and
+keyboard behaviour — and **no CSS** — and every user-facing string is a
+parameter, with no English defaults. Its contract is the package's own
+`spec/index.md`, summarised in
 [spec/helpers/index.md]({CANONICAL}/blob/main/spec/helpers/index.md).
 """
     elif kind == "package":

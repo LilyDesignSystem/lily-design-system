@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>পছন্দ সহায়ক</h2>
-  <p>প্রতিটি ফ্রেমওয়ার্কের একটি সঙ্গী <code>*-helpers</code> ক্যাটালগ আছে যাতে আটটি ছোট বাছাইকারী আছে (এবং একটি <code>picker-bar</code> যা সেগুলোকে একত্র করে)। প্রতিটি একটি headless আইকন বোতাম যা পপআপ খোলে — বিকল্পের তালিকা, লিংকের তালিকা, অনুসন্ধান ফর্ম, বা (date-time-picker-এর জন্য) তারিখ বাছাইয়ের ডায়ালগ — নেটিভ <code>&lt;select&gt;</code> নয়; SSR-নিরাপদ; এবং কোনো CSS দেয় না:</p>
+  <p>প্রতিটি ফ্রেমওয়ার্কে আটটি ছোট বাছাইকারী আছে, প্রতিটি তার নিজস্ব <code>lily-design-system-{framework}-{package}</code> প্যাকেজে (এবং একটি <code>picker-bar</code> যা সেগুলোকে একত্র করে)। প্রতিটি একটি headless আইকন বোতাম যা পপআপ খোলে — বিকল্পের তালিকা, লিংকের তালিকা, অনুসন্ধান ফর্ম, বা (date-time-picker-এর জন্য) তারিখ বাছাইয়ের ডায়ালগ — নেটিভ <code>&lt;select&gt;</code> নয়; SSR-নিরাপদ; এবং কোনো CSS দেয় না:</p>
   <ul>
     <li><strong>theme-picker</strong> — একটি পরিচালিত <code>&lt;link&gt;</code> বদলে রানটাইমে থিম স্টাইলশিট লোড করে, নথিতে <code>data-theme</code> ঠিক করে, এবং ঐচ্ছিকভাবে <code>localStorage</code>-এ সংরক্ষণ করে।</li>
     <li><strong>locale-picker</strong> — <code>lang</code> ও <code>dir</code> ঠিক করে (ডান-থেকে-বাম লেখার স্বয়ংক্রিয় শনাক্তকরণসহ) যাতে আপনার i18n লাইব্রেরি অনুসরণ করতে পারে; নিজে কোনো অনুবাদ করে না।</li>

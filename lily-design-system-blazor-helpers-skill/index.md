@@ -1,7 +1,7 @@
 # Lily Design System™ — Blazor Helpers Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to install and use
-[`lily-design-system-blazor-helpers`](../lily-design-system-blazor-helpers/):
+[the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages):
 the six `*-picker` helper packages (theme-picker, locale-picker,
 text-size-picker, motion-picker, share-picker, date-time-picker), their NuGet
 package identities and publish status, the shared icon-button-plus-listbox

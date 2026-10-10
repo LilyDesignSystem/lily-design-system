@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>偏好辅助组件</h2>
-  <p>每个框架都有一个配套的 <code>*-helpers</code> 目录，其中有八个小型选择器（以及一个把它们组装在一起的 <code>picker-bar</code>）。每个都是打开弹出层的 headless 图标按钮——选项列表、链接列表、搜索表单，或（对 date-time-picker 而言）日期选择对话框——而不是原生的 <code>&lt;select&gt;</code>；它对 SSR 安全，也不附带任何 CSS：</p>
+  <p>每个框架都有八个小型选择器，每个都是独立的 <code>lily-design-system-{framework}-{package}</code> 包（以及一个把它们组装在一起的 <code>picker-bar</code>）。每个都是打开弹出层的 headless 图标按钮——选项列表、链接列表、搜索表单，或（对 date-time-picker 而言）日期选择对话框——而不是原生的 <code>&lt;select&gt;</code>；它对 SSR 安全，也不附带任何 CSS：</p>
   <ul>
     <li><strong>theme-picker</strong> — 通过替换一个受管理的 <code>&lt;link&gt;</code> 在运行时加载主题样式表，在文档上设置 <code>data-theme</code>，并可选择持久化到 <code>localStorage</code>。</li>
     <li><strong>locale-picker</strong> — 设置 <code>lang</code> 和 <code>dir</code>（自动检测从右到左），以便你的 i18n 库跟随；它自己不做任何翻译。</li>

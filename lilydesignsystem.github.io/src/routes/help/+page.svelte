@@ -205,8 +205,8 @@ pnpm run dev`}</code></pre>
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Preference helpers</h2>
   <p>
-    Each framework has a companion <code>*-helpers</code> catalog with eight
-    small pickers (and a <code>picker-bar</code> that assembles them). Each is
+    Each framework has eight small pickers, each its own
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> package (and a <code>picker-bar</code> that assembles them). Each is
     a headless icon-button that opens a popup — a listbox, a list of links, a
     search form, or (for date-time-picker) a date-picker dialog — not a native
     <code>&lt;select&gt;</code>; is SSR-safe; and ships no CSS:

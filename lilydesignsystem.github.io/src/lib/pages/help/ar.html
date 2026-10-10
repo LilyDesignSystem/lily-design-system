@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>مساعدات التفضيلات</h2>
-  <p>لكل إطار عمل فهرس مرافق <code>*-helpers</code> فيه ثمانية منتقيات صغيرة (و<code>picker-bar</code> الذي يجمعها). وكل منها زر أيقونة headless يفتح نافذة منبثقة — قائمة خيارات أو قائمة روابط أو نموذج بحث أو (في date-time-picker) حوار انتقاء تاريخ — وليس <code>&lt;select&gt;</code> أصليًا؛ وهو آمن للعرض على الخادم ولا يأتي بأي CSS:</p>
+  <p>لكل إطار عمل ثمانية منتقيات صغيرة، كل منها في حزمته الخاصة <code>lily-design-system-{framework}-{package}</code> (و<code>picker-bar</code> الذي يجمعها). وكل منها زر أيقونة headless يفتح نافذة منبثقة — قائمة خيارات أو قائمة روابط أو نموذج بحث أو (في date-time-picker) حوار انتقاء تاريخ — وليس <code>&lt;select&gt;</code> أصليًا؛ وهو آمن للعرض على الخادم ولا يأتي بأي CSS:</p>
   <ul>
     <li><strong>theme-picker</strong> — يحمّل أوراق أنماط السمات وقت التشغيل بتبديل <code>&lt;link&gt;</code> مُدار، ويضبط <code>data-theme</code> على المستند، ويحفظ اختياريًا في <code>localStorage</code>.</li>
     <li><strong>locale-picker</strong> — يضبط <code>lang</code> و<code>dir</code> (مع كشف تلقائي للكتابة من اليمين إلى اليسار) لتتبعهما مكتبة i18n لديك؛ ولا يترجم شيئًا بنفسه.</li>

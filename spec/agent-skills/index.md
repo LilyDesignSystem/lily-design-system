@@ -29,7 +29,7 @@ full-subproject treatment — see "Naming-split retirement" and
 - Eight framework-umbrella skills, `lily-design-system-{framework}-skill`,
   one per framework family — see "The eight framework-umbrella skills"
   below. Each ties together the up-to-three real subprojects for that
-  framework (headless library, helpers catalog, example app) and points
+  framework (headless library, helper packages, example app) and points
   down into the two more specific sibling skills below rather than
   duplicating them.
 - Sixteen framework-specific skills, `lily-design-system-{framework}-headless-skill`
@@ -211,7 +211,7 @@ covering exactly the one real subproject it is named after:
 | Framework | Headless skill | Helpers skill |
 | --- | --- | --- |
 | Angular | [`lily-design-system-angular-headless-skill`](../../lily-design-system-angular-headless-skill/) → [`@lilydesignsystem/angular-headless`](../../lily-design-system-angular-headless/) | [`lily-design-system-angular-helpers-skill`](../../lily-design-system-angular-helpers-skill/) → [the Angular helper packages](../helpers/index.md#angular-helper-packages) |
-| Blazor | [`lily-design-system-blazor-headless-skill`](../../lily-design-system-blazor-headless-skill/) → [`lily-design-system-blazor-headless`](../../lily-design-system-blazor-headless/) | [`lily-design-system-blazor-helpers-skill`](../../lily-design-system-blazor-helpers-skill/) → [`lily-design-system-blazor-helpers`](../../lily-design-system-blazor-helpers/) |
+| Blazor | [`lily-design-system-blazor-headless-skill`](../../lily-design-system-blazor-headless-skill/) → [`lily-design-system-blazor-headless`](../../lily-design-system-blazor-headless/) | [`lily-design-system-blazor-helpers-skill`](../../lily-design-system-blazor-helpers-skill/) → [the Blazor helper packages](../helpers/index.md#blazor-helper-packages) |
 | HTML | [`lily-design-system-html-headless-skill`](../../lily-design-system-html-headless-skill/) → [`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/) | [`lily-design-system-html-helpers-skill`](../../lily-design-system-html-helpers-skill/) → [the HTML helper packages](../helpers/index.md#html-helper-packages) |
 | Nunjucks | [`lily-design-system-nunjucks-headless-skill`](../../lily-design-system-nunjucks-headless-skill/) → [`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/) | [`lily-design-system-nunjucks-helpers-skill`](../../lily-design-system-nunjucks-helpers-skill/) → [the Nunjucks helper packages](../helpers/index.md#nunjucks-helper-packages) |
 | React | [`lily-design-system-react-headless-skill`](../../lily-design-system-react-headless-skill/) → [`@lilydesignsystem/react-headless`](../../lily-design-system-react-headless/) | [`lily-design-system-react-helpers-skill`](../../lily-design-system-react-helpers-skill/) → [the React helper packages](../helpers/index.md#react-helper-packages) |

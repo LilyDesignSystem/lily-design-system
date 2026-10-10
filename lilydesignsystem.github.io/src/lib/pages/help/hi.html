@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>वरीयता सहायक</h2>
-  <p>हर फ़्रेमवर्क का एक साथी <code>*-helpers</code> कैटलॉग है जिसमें आठ छोटे चयनकर्ता हैं (और एक <code>picker-bar</code> जो उन्हें जोड़ता है)। हर एक headless आइकन बटन है जो पॉपअप खोलता है — विकल्पों की सूची, लिंक की सूची, खोज फ़ॉर्म, या (date-time-picker के लिए) तारीख चुनने का डायलॉग — मूल <code>&lt;select&gt;</code> नहीं; SSR के लिए सुरक्षित है; और कोई CSS नहीं देता:</p>
+  <p>हर फ़्रेमवर्क में आठ छोटे चयनकर्ता हैं, हर एक अपने अलग <code>lily-design-system-{framework}-{package}</code> पैकेज में (और एक <code>picker-bar</code> जो उन्हें जोड़ता है)। हर एक headless आइकन बटन है जो पॉपअप खोलता है — विकल्पों की सूची, लिंक की सूची, खोज फ़ॉर्म, या (date-time-picker के लिए) तारीख चुनने का डायलॉग — मूल <code>&lt;select&gt;</code> नहीं; SSR के लिए सुरक्षित है; और कोई CSS नहीं देता:</p>
   <ul>
     <li><strong>theme-picker</strong> — एक प्रबंधित <code>&lt;link&gt;</code> बदलकर रनटाइम पर थीम स्टाइलशीट लोड करता है, दस्तावेज़ पर <code>data-theme</code> सेट करता है, और वैकल्पिक रूप से <code>localStorage</code> में सहेजता है।</li>
     <li><strong>locale-picker</strong> — <code>lang</code> और <code>dir</code> सेट करता है (दाएँ-से-बाएँ लेखन की स्वचालित पहचान के साथ) ताकि आपकी i18n लाइब्रेरी उनका अनुसरण कर सके; स्वयं कोई अनुवाद नहीं करता।</li>

@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>ترجیحات کے معاونین</h2>
-  <p>ہر فریم ورک کا ایک ساتھی <code>*-helpers</code> کیٹلاگ ہے جس میں آٹھ چھوٹے انتخاب کنندگان ہیں (اور ایک <code>picker-bar</code> جو انہیں جمع کرتا ہے)۔ ہر ایک headless آئیکن بٹن ہے جو پاپ اپ کھولتا ہے — اختیارات کی فہرست، لنکس کی فہرست، تلاش کا فارم، یا (date-time-picker کے لیے) تاریخ منتخب کرنے کا ڈائیلاگ — مقامی <code>&lt;select&gt;</code> نہیں؛ SSR کے لیے محفوظ ہے؛ اور کوئی CSS نہیں دیتا:</p>
+  <p>ہر فریم ورک میں آٹھ چھوٹے انتخاب کنندگان ہیں، ہر ایک اپنے الگ <code>lily-design-system-{framework}-{package}</code> پیکیج میں (اور ایک <code>picker-bar</code> جو انہیں جمع کرتا ہے)۔ ہر ایک headless آئیکن بٹن ہے جو پاپ اپ کھولتا ہے — اختیارات کی فہرست، لنکس کی فہرست، تلاش کا فارم، یا (date-time-picker کے لیے) تاریخ منتخب کرنے کا ڈائیلاگ — مقامی <code>&lt;select&gt;</code> نہیں؛ SSR کے لیے محفوظ ہے؛ اور کوئی CSS نہیں دیتا:</p>
   <ul>
     <li><strong>theme-picker</strong> — ایک منظم <code>&lt;link&gt;</code> بدل کر چلتے وقت تھیم سٹائل شیٹس لوڈ کرتا ہے، دستاویز پر <code>data-theme</code> مقرر کرتا ہے، اور اختیاری طور پر <code>localStorage</code> میں محفوظ کرتا ہے۔</li>
     <li><strong>locale-picker</strong> — <code>lang</code> اور <code>dir</code> مقرر کرتا ہے (دائیں سے بائیں تحریر کی خودکار شناخت کے ساتھ) تاکہ آپ کی i18n لائبریری پیروی کر سکے؛ خود کوئی ترجمہ نہیں کرتا۔</li>

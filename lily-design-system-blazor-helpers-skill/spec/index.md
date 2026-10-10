@@ -9,7 +9,7 @@ two-skill plan this subproject extends with a framework-scoped skill.
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to install and use
-[`lily-design-system-blazor-helpers`](../../lily-design-system-blazor-helpers/):
+[the Blazor helper packages](../../spec/helpers/index.md#blazor-helper-packages):
 the six `*-picker` helper packages (theme-picker, locale-picker,
 text-size-picker, motion-picker, share-picker, date-time-picker), their NuGet
 package identities and publish status, the shared icon-button-plus-listbox
@@ -80,7 +80,7 @@ run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [`../../lily-design-system-blazor-helpers/spec/index.md`](../../lily-design-system-blazor-helpers/spec/index.md) —
+- [the Blazor helper packages](../../spec/helpers/index.md#blazor-helper-packages) —
   the Blazor helpers catalog's own spec: the source of truth for every
   per-helper fact this skill teaches. (Note: as read on 2026-09-04, that
   file itself only lists `theme-picker` and `locale-picker`, trailing the

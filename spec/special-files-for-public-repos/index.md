@@ -13,7 +13,7 @@ tooling that keeps them in sync.
 ## Scope
 
 This topic covers the special top-level files for the repository root and for all
-138 published repositories (the 110 implementation subprojects, the 26 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
+150 published repositories (the 122 implementation subprojects, the 26 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
 link-rewriting rule that makes a copied file correct in its destination, and the
 `bin/sync-special-files` and `bin/test` enforcement.
 
@@ -101,7 +101,7 @@ absolute link on the canonical repository, which is the only place that file exi
 
 | Script | Purpose |
 | --- | --- |
-| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 138 published repositories, rewriting links and generating the per-subproject files |
+| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 150 published repositories, rewriting links and generating the per-subproject files |
 | [`bin/test`](../../bin/test) | Verify the set is present and non-empty in the root and every subproject |
 | [`bin/check-links`](../../bin/check-links) | Verify every rewritten relative link still resolves |
 
@@ -113,7 +113,7 @@ after editing any canonical file, and before `bin/git-subtree-push`.
 - [x] The repository root carries all 16 files in the table.
 - [x] `LICENSE.md` states one SPDX expression, and it matches every package
       manifest and [spec/index.md](../index.md) §14.
-- [x] All 138 published repositories carry the full set (re-run 2026-10-10: 138 repositories, 0 changed).
+- [x] All 150 published repositories carry the full set (re-run 2026-10-10: 150 repositories, 0 changed).
 - [x] Every subproject `CITATION.cff` names its own repository and parses as valid
       YAML against CFF 1.2.0.
 - [x] Every subproject `INSTALL.md` documents that subproject's own install path,
@@ -129,7 +129,7 @@ after editing any canonical file, and before `bin/git-subtree-push`.
 - [architecture](../architecture/index.md) — the subtree model that makes each subproject a public repo.
 - [tooling](../tooling/index.md) — the `bin/` scripts, including the sync model.
 - [trademarks](../trademarks.md) — the ™ convention every distributed file follows.
-- [helpers](../helpers/index.md) — the helper catalogs, whose `AGENTS/` the ordinary `bin/sync` deliberately skips.
+- [helpers](../helpers/index.md) — the helper packages, whose own `AGENTS/` the ordinary `bin/sync` deliberately skips.
 
 ## Sources
 

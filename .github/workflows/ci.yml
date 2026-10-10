@@ -149,8 +149,6 @@ jobs:
         include:
           - project: lily-design-system-blazor-headless
             csproj: tests/LilyBlazorHeadless.Tests/LilyBlazorHeadless.Tests.csproj
-          - project: lily-design-system-blazor-helpers
-            csproj: tests/LilyDesignSystem.Blazor.Helpers.Tests/LilyDesignSystem.Blazor.Helpers.Tests.csproj
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v6
@@ -165,6 +163,30 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.project }}
         run: dotnet test ${{ matrix.csproj }}
+
+  dotnet-helper-packages:
+    # The Blazor helper packages, one top-level subproject each since
+    # 2026-10-10, each with its own test project in tests/.
+    name: dotnet test (Blazor helper packages)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.0.x"
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: nuget-blazor-helper-packages-${{ hashFiles('lily-design-system-blazor-*/**/*.csproj') }}
+          restore-keys: nuget-blazor-helper-packages-
+      - name: Test each package
+        run: |
+          for d in $(bin/list-helper-packages blazor); do
+            echo "::group::$d"
+            dotnet test "$d"/tests/*.csproj
+            echo "::endgroup::"
+          done
 
   example-smoke:
     name: example-app Playwright smoke (svelte-sveltekit-examples)

@@ -149,7 +149,7 @@ pnpm run dev</code></pre>
 
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Asisten preferensi</h2>
-  <p>Setiap framework memiliki katalog pendamping <code>*-helpers</code> dengan delapan pemilih kecil (dan <code>picker-bar</code> yang merangkainya). Masing-masing adalah tombol ikon headless yang membuka popup — daftar pilihan, daftar tautan, formulir pencarian, atau (untuk date-time-picker) dialog pemilih tanggal — bukan <code>&lt;select&gt;</code> native; aman untuk SSR; dan tidak menyertakan CSS:</p>
+  <p>Setiap framework memiliki delapan pemilih kecil, masing-masing dalam paketnya sendiri <code>lily-design-system-{framework}-{package}</code> (dan <code>picker-bar</code> yang merangkainya). Masing-masing adalah tombol ikon headless yang membuka popup — daftar pilihan, daftar tautan, formulir pencarian, atau (untuk date-time-picker) dialog pemilih tanggal — bukan <code>&lt;select&gt;</code> native; aman untuk SSR; dan tidak menyertakan CSS:</p>
   <ul>
     <li><strong>theme-picker</strong> — memuat stylesheet tema saat runtime dengan menukar <code>&lt;link&gt;</code> yang dikelola, mengatur <code>data-theme</code> pada dokumen, dan secara opsional menyimpannya ke <code>localStorage</code>.</li>
     <li><strong>locale-picker</strong> — mengatur <code>lang</code> dan <code>dir</code> (dengan deteksi otomatis kanan-ke-kiri) agar pustaka i18n Anda dapat mengikuti; tidak melakukan penerjemahan sendiri.</li>

@@ -84,9 +84,9 @@ exists; it is kept in `CHANGELOG.md` and `spec/history/`. As of 2026-10-06:
   and maintainer requests. All 8 headless libraries implement every row except Web
   Components, which implements 536 (the 35 table sub-elements and interactive `*ListItem`
   families are permanently excluded). `bin/check-coverage` reports 0 drift.
-- **Repositories**: 51 published subtree repos — 23 implementation subprojects (8 headless,
-  7 example apps, 8 helper catalogs), 26 Claude Skills, `lily-design-system-themes` and the
-  docs site. `bin/test` and `bin/check-links` (12,425 markdown files) are clean.
+- **Repositories**: 150 published subtree repos — 122 implementation subprojects (8 headless,
+  7 example apps, 107 helper packages, one each since 2026-10-10), 26 Claude Skills,
+  `lily-design-system-themes` and the docs site. `bin/test` and `bin/check-links` (12,425 markdown files) are clean.
 - **Published** (2026-10-06): headless npm `svelte`/`react`/`vue` 0.4.0, `angular`/`web-components`
   0.5.0, `html` 0.6.0, `nunjucks` 0.4.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.4.0;
   `@lilydesignsystem/themes` 0.3.0; every helper package (npm and NuGet), including the

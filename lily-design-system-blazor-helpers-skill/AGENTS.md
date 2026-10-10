@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining how to install and use
-[`lily-design-system-blazor-helpers`](../lily-design-system-blazor-helpers/),
+[the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages),
 the Blazor catalog of six `*-picker` helper packages. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same
 binding design-principle rules every other subproject in this repository
@@ -38,7 +38,7 @@ helpers themselves are held to.
   icon-button/listbox contract and its two exceptions (`share-picker`,
   `date-time-picker`), and the Blazor-specific `IJSRuntime`/SSR pattern.
 - **Isn't**: the Blazor helpers catalog itself (that's
-  [`lily-design-system-blazor-helpers`](../lily-design-system-blazor-helpers/) —
+  [the Blazor helper packages](../spec/helpers/index.md#blazor-helper-packages) —
   this subproject ships no `.razor` components, no tests beyond its own
   required-files check).
 - **Isn't**: the general, framework-agnostic Lily concepts skill (that's
