@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Vue helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
+
+The 13 packages in `lily-design-system-vue-helpers` moved to the repository root the same way, and the catalog was deleted. Each
+builds with Vite library mode (every `dependencies`/`peerDependencies` entry external, so `picker-bar` keeps bare sibling imports)
+plus `vue-tsc` declarations from its own `shims.d.ts`, and its test config dedupes `vue`. All 13 build and pass (529 tests: the
+catalog's 527 plus the two new kanban-board and gantt-chart tests). 89 published repositories.
+
 ## React helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
 
 The 13 packages in `lily-design-system-react-helpers` moved to the repository root the same way as Svelte's (below), and the

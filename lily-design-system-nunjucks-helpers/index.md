@@ -224,7 +224,7 @@ mirror it clause-for-clause in `spec/index.md` §7.
 
 - [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
   — canonical reference.
-- [`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/)
+- [the Vue helper packages](../spec/helpers/index.md#vue-helper-packages)
   — Vue 3 port (closest analog in API shape).
 - [the React helper packages](../spec/helpers/index.md#react-helper-packages)
   — React port.

@@ -12,7 +12,7 @@ An **umbrella** Claude Skill for Vue: it ties together the three real Vue
 subprojects in this monorepo —
 [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/)
 (the 571-component catalog as unstyled `.vue` SFCs),
-[`lily-design-system-vue-helpers`](../../lily-design-system-vue-helpers/)
+[the Vue helper packages](../../spec/helpers/index.md#vue-helper-packages)
 (the six `*-picker` packages), and
 [`lily-design-system-vue-nuxt-examples`](../../lily-design-system-vue-nuxt-examples/)
 (the fully styled Nuxt 3 reference app) — helps an agent decide which one
@@ -31,7 +31,7 @@ Its siblings:
   covers `@lilydesignsystem/vue-headless`'s own install/import/consumption
   idiom in depth.
 - [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/)
-  covers `lily-design-system-vue-helpers`'s own per-package contracts and
+  covers the Vue helper packages' own per-package contracts and
   consumption idiom in depth.
 
 ## 2. Scope

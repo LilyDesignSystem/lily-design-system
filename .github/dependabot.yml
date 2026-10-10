@@ -383,7 +383,21 @@ updates:
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
-    directory: "/lily-design-system-vue-helpers"
+    # One top-level subproject per Vue helper package (2026-10-10).
+    directories:
+      - "/lily-design-system-vue-date-time-picker"
+      - "/lily-design-system-vue-kanban-board"
+      - "/lily-design-system-vue-link-picker"
+      - "/lily-design-system-vue-locale-picker"
+      - "/lily-design-system-vue-menu-picker"
+      - "/lily-design-system-vue-motion-picker"
+      - "/lily-design-system-vue-search-picker"
+      - "/lily-design-system-vue-settings-picker"
+      - "/lily-design-system-vue-share-picker"
+      - "/lily-design-system-vue-text-size-picker"
+      - "/lily-design-system-vue-theme-picker"
+      - "/lily-design-system-vue-gantt-chart"
+      - "/lily-design-system-vue-picker-bar"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

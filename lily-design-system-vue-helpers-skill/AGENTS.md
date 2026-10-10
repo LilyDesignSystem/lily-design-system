@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill scoped to consuming the six packages in
-[`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/):
+[the Vue helper packages](../spec/helpers/index.md#vue-helper-packages):
 `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker`. Covers each package's npm name and
 install command, the three shared contract shapes (icon-button-plus-
@@ -42,7 +42,7 @@ same rules the packages themselves are held to.
   `*-picker` helper packages from a Vue 3 application — install, import,
   `v-model` binding, attribute fallthrough, the three shape families.
 - **Isn't**: the Vue helpers catalog itself (that's
-  [`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/) —
+  [the Vue helper packages](../spec/helpers/index.md#vue-helper-packages) —
   this subproject ships no components, no build, no tests beyond
   `bin/test`'s required-files checks).
 - **Isn't**: the general, framework-agnostic Lily concepts skill (that's

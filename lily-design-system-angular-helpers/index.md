@@ -158,7 +158,7 @@ and tests stay in lock-step across frameworks.
   — the canonical Svelte 5 reference implementation. When the
   Angular port and the Svelte canonical disagree, the Svelte side
   wins and the Angular side is patched.
-- [`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/)
+- [the Vue helper packages](../spec/helpers/index.md#vue-helper-packages)
   — Vue 3 port of the same contract; useful as a cross-framework
   reference because its template DSL is closest to Angular's.
 

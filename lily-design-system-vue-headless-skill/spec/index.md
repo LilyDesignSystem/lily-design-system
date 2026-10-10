@@ -24,8 +24,8 @@ Its siblings:
   composition patterns — this subproject narrows that to one framework's
   consumption syntax rather than duplicating it.
 - [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/)
-  covers the parallel `*-picker` helpers catalog for Vue
-  (`lily-design-system-vue-helpers`), a separate npm package family with
+  covers the parallel Vue helper packages (one top-level
+  `lily-design-system-vue-*` subproject each), a separate npm package family with
   its own contract.
 
 ## 2. Scope

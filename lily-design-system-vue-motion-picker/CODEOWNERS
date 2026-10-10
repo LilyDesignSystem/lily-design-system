@@ -1,0 +1,12 @@
+# Synced from the canonical repository by bin/sync-special-files. Do not edit here.
+# Code owners for Lily Design System.
+#
+# This project has one maintainer, who owns every file in it.
+# See MAINTAINERS.md for the roster and the continuity statement.
+#
+# Both forms are listed deliberately. A GitHub handle always resolves;
+# an email-form owner resolves only when that address is verified on a
+# GitHub account that has write access to the repository. Listing both
+# means review requests still route if either identity changes.
+
+*       @joelparkerhenderson joel@joelparkerhenderson.com

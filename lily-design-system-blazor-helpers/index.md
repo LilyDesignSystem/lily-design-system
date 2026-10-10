@@ -164,7 +164,7 @@ either an interactive render mode. See
   — the canonical Svelte 5 reference implementation. When the Blazor
   port and the Svelte canonical disagree, the Svelte side wins and
   the Blazor side is patched.
-- [`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/)
+- [the Vue helper packages](../spec/helpers/index.md#vue-helper-packages)
   — Vue 3 port. Same DOM contract, same §7 acceptance numbering.
 
 ## Testing

@@ -40,10 +40,9 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's and React's helpers are one top-level subproject per package (below); the other six frameworks keep theirs in one catalog each.
+Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other seven are idiom ports. Svelte's, React's and Vue's helpers are one top-level subproject per package (below); the other five frameworks keep theirs in one catalog each.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
-- [Lily Design System: Vue helpers](../lily-design-system-vue-helpers)
 - [Lily Design System: Angular helpers](../lily-design-system-angular-helpers)
 - [Lily Design System: Blazor helpers](../lily-design-system-blazor-helpers)
 - [Lily Design System: Nunjucks helpers](../lily-design-system-nunjucks-helpers)
@@ -82,6 +81,22 @@ The React helpers, one top-level subproject per package since 2026-10-10 (`bin/l
 - [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../lily-design-system-react-gantt-chart) — `@lilydesignsystem/react-gantt-chart`
 - [`lily-design-system-react-picker-bar`](../lily-design-system-react-picker-bar) — `@lilydesignsystem/react-picker-bar`
+
+The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages vue`):
+
+- [`lily-design-system-vue-date-time-picker`](../lily-design-system-vue-date-time-picker) — `@lilydesignsystem/vue-date-time-picker`
+- [`lily-design-system-vue-kanban-board`](../lily-design-system-vue-kanban-board) — `@lilydesignsystem/vue-kanban-board`
+- [`lily-design-system-vue-link-picker`](../lily-design-system-vue-link-picker) — `@lilydesignsystem/vue-link-picker`
+- [`lily-design-system-vue-locale-picker`](../lily-design-system-vue-locale-picker) — `@lilydesignsystem/vue-locale-picker`
+- [`lily-design-system-vue-menu-picker`](../lily-design-system-vue-menu-picker) — `@lilydesignsystem/vue-menu-picker`
+- [`lily-design-system-vue-motion-picker`](../lily-design-system-vue-motion-picker) — `@lilydesignsystem/vue-motion-picker`
+- [`lily-design-system-vue-search-picker`](../lily-design-system-vue-search-picker) — `@lilydesignsystem/vue-search-picker`
+- [`lily-design-system-vue-settings-picker`](../lily-design-system-vue-settings-picker) — `@lilydesignsystem/vue-settings-picker`
+- [`lily-design-system-vue-share-picker`](../lily-design-system-vue-share-picker) — `@lilydesignsystem/vue-share-picker`
+- [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker) — `@lilydesignsystem/vue-text-size-picker`
+- [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker) — `@lilydesignsystem/vue-theme-picker`
+- [`lily-design-system-vue-gantt-chart`](../lily-design-system-vue-gantt-chart) — `@lilydesignsystem/vue-gantt-chart`
+- [`lily-design-system-vue-picker-bar`](../lily-design-system-vue-picker-bar) — `@lilydesignsystem/vue-picker-bar`
 
 ## Reference themes
 

@@ -181,7 +181,7 @@ The Svelte helpers in
 [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
 share the same specification numbering and the same default
 behaviour. The Vue helpers in
-[`../lily-design-system-vue-helpers/`](../lily-design-system-vue-helpers/)
+[the Vue helper packages](../spec/helpers/index.md#vue-helper-packages)
 are a direct port of the Svelte canonical for Vue 3.
 
 The HTML helpers are the framework-free counterpart: a single import

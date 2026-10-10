@@ -10,7 +10,7 @@ two-skill plan this subproject's siblings implement.
 
 A Claude Skill that explains how to install, import, and consume the six
 packages in
-[`lily-design-system-vue-helpers`](../../lily-design-system-vue-helpers/)
+[the Vue helper packages](../../spec/helpers/index.md#vue-helper-packages)
 — `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker` — using that catalog's own Vue 3
 Composition API idiom: `v-model` via `defineModel()`, `v-bind="$attrs"`
@@ -77,7 +77,7 @@ to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [`../../lily-design-system-vue-helpers/spec/index.md`](../../lily-design-system-vue-helpers/spec/index.md) —
+- [the Vue helper packages](../../spec/helpers/index.md#vue-helper-packages) —
   the Vue helpers catalog's own spec: per-helper contracts, file shape,
   and test verification this skill's usage guidance is grounded in.
 - [`../../lily-design-system-vue-headless-skill/spec/index.md`](../../lily-design-system-vue-headless-skill/spec/index.md) —

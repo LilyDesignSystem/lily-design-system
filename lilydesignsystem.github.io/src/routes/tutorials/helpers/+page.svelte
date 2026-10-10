@@ -308,12 +308,13 @@
 
   <h2>Where to get them</h2>
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-  <pre tabindex="0"><code>{`# Svelte and React: one repository per package, e.g.
+  <pre tabindex="0"><code>{`# Svelte, React and Vue: one repository per package, e.g.
 git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-theme-picker
 git clone https://github.com/LilyDesignSystem/lily-design-system-react-theme-picker
+git clone https://github.com/LilyDesignSystem/lily-design-system-vue-theme-picker
 # other frameworks: one catalog each
-git clone https://github.com/LilyDesignSystem/lily-design-system-vue-helpers
-# or -angular- / -html- / -nunjucks- / -blazor- / -web-components-`}</code></pre>
+git clone https://github.com/LilyDesignSystem/lily-design-system-angular-helpers
+# or -html- / -web-components- / -nunjucks- / -blazor-`}</code></pre>
   <p>
     Each package has its own spec, tests mapped to the spec clauses,
     runnable examples (including SSR cookie patterns), and a build + publish

@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to install,
 import, and consume the six packages in
-[`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/) —
+[the Vue helper packages](../spec/helpers/index.md#vue-helper-packages) —
 `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
 `share-picker`, `date-time-picker` — using correct Vue 3 Composition API
 idiom: `v-model` via `defineModel()`, `v-bind="$attrs"`, prop-driven
