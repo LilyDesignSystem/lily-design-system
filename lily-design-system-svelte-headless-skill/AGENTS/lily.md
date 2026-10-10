@@ -51,6 +51,10 @@ Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-
 - [Lily Design System: Nunjucks helpers](../lily-design-system-nunjucks-helpers)
 - [Lily Design System: Web Components helpers](../lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags (2026-09-03); see its provenance note
 
+One helper package is a top-level subproject of its own rather than part of a catalog:
+
+- [Lily Design System: Svelte data grid](../lily-design-system-svelte-data-grid) — `@lilydesignsystem/svelte-data-grid`, a headless data grid over the `DataTable` family (moved out of svelte-helpers 2026-10-09)
+
 ## Reference themes
 
 The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-picker helper loads them at runtime.

@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `lily-design-system-svelte-data-grid` becomes its own subproject; data grid 0.2.0 — 2026-10-09
+
+The Svelte data grid moved out of `lily-design-system-svelte-helpers` to a top-level subproject with its own toolchain
+(`package.json` devDependencies and scripts, `pnpm-lock.yaml`, vite/vitest config, `build.js`), `.git-subtree-push`, `AGENTS/` and
+synced special files. It is the only `*-data-grid` in any helpers catalog, so it is the only one moved. Tooling follows it: `bin/test`
+keeps it out of the full-catalog Svelte check, `bin/publish-helpers` publishes it, the CI helpers job builds and tests it, and
+`bin/sync-special-files` gains a `package` kind so it is not described as an example app. Version 0.2.0 also fixes page-relative
+default row ids (page 2's first row reused page 1's id) and Shift-range selection on later pages, removes three hot-path multipliers
+(sort accessor calls, per-keystroke filter reformatting, per-row `selected.includes`), and adds a typed `cell` snippet per column —
+prompted by an external practitioner write-up on profiling a large Svelte 5 data grid (source redacted; see the package spec §11).
+
 ## `menu-picker` and `settings-picker`, two more pickers, in all eight catalogs — 2026-10-08
 
 Two new free-standing helpers: an icon button (a hamburger, a cog — bundled SVGs on the shared 16x16 grid) that opens a dropdown of

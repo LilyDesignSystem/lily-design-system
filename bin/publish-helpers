@@ -118,6 +118,17 @@ if [ -z "$NUGET_ONLY" ]; then
     publish_npm_package "$d"
   done
 
+  # Helper packages promoted out of their catalog to a top-level
+  # subproject of their own: each is its own pnpm root, so install and
+  # publish it in place (its `prepublishOnly` runs its own build).
+  for d in "$ROOT"/lily-design-system-svelte-data-grid; do
+    [ -f "$d/package.json" ] || continue
+    only_matches "$d" || continue
+    ensure_installed "$d"
+    echo "--> $(basename "$d")"
+    publish_npm_package "$d"
+  done
+
   # Angular: ng-packagr writes the publishable package.json INTO dist/, so the
   # catalog must be built first and each package published from its dist/.
   if only_matches "$ROOT/lily-design-system-angular-helpers"; then

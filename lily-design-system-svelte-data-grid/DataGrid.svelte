@@ -1,4 +1,5 @@
 <script lang="ts" module>
+    import type { Snippet } from "svelte";
     import {
         DataTable,
         DataTableBody,
@@ -19,6 +20,14 @@
 
     export type DataGridRow = Record<string, unknown>;
 
+    /** Arguments a column's `cell` snippet receives. See spec/index.md §5. */
+    export type DataGridCellContext = {
+        value: unknown;
+        formatted: string;
+        row: DataGridRow;
+        column: DataGridColumn;
+    };
+
     export type DataGridColumn = {
         /** Stable column identifier; also the default property read from each row. */
         id: string;
@@ -38,6 +47,8 @@
         hidable?: boolean;
         /** Initial pixel width, meaningful only when `resizable`. */
         width?: number;
+        /** Custom cell renderer. Defaults to the formatted value as text. */
+        cell?: Snippet<[DataGridCellContext]>;
     };
 
     /**
@@ -70,7 +81,7 @@
         columns: DataGridColumn[];
         /** Row data. */
         rows: DataGridRow[];
-        /** Derives a stable id per row. Defaults to the row's index. */
+        /** Derives a stable id per row. Defaults to the row's index in `rows`. */
         rowId?: (row: DataGridRow, index: number) => string;
         /** Row selection mode. */
         selectionMode?: DataGridSelectionMode;
@@ -149,11 +160,13 @@
 
     let rootEl: HTMLDivElement | undefined = $state();
     let statusMessage = $state("");
-    let hiddenColumnIds = $state<Set<string>>(new Set());
-    let columnWidths = $state<Record<string, number>>({});
+    // Always replaced wholesale, never mutated in place, so `$state.raw`:
+    // no deep proxy to build or to read through. See spec/index.md §6.
+    let hiddenColumnIds = $state.raw<Set<string>>(new Set());
+    let columnWidths = $state.raw<Record<string, number>>({});
     let focusedRow = $state(-1); // -1 = header row
     let focusedCol = $state(0);
-    let lastSelectedIndex = -1;
+    let lastSelectedIndex = -1; // index into sortedEntries, not into the page
 
     const hasSelection = $derived(selectionMode !== "none");
     const colOffset = $derived(hasSelection ? 1 : 0);
@@ -161,44 +174,63 @@
     const visibleColumns = $derived(columns.filter((c) => !hiddenColumnIds.has(c.id)));
     const hidableColumns = $derived(columns.filter((c) => c.hidable));
 
-    const filteredRows = $derived.by(() => {
-        const text = filter.trim().toLowerCase();
-        if (!text) return rows;
+    // Each row's id is derived once, from its position in `rows`, so it
+    // survives sorting, filtering and paging (spec/index.md §6 "Row identity").
+    type Entry = { row: DataGridRow; id: string };
+    const entries = $derived<Entry[]>(rows.map((row, index) => ({ row, id: rowId(row, index) })));
+
+    // Lowercased search text per row, built once per rows/columns change
+    // rather than reformatting every cell on every keystroke. Read only
+    // when a filter is active, so an unfiltered grid never builds it.
+    const searchIndex = $derived.by(() => {
         const filterableColumns = columns.filter((c) => c.filterable !== false);
-        return rows.filter((row) =>
-            filterableColumns.some((column) => formatCell(column, row).toLowerCase().includes(text)),
+        return entries.map((entry) =>
+            filterableColumns.map((column) => formatCell(column, entry.row).toLowerCase()),
         );
     });
 
-    const sortedRows = $derived.by(() => {
-        if (sort.direction === "none" || !sort.columnId) return filteredRows;
+    const filteredEntries = $derived.by(() => {
+        const text = filter.trim().toLowerCase();
+        if (!text) return entries;
+        const index = searchIndex;
+        return entries.filter((_entry, i) => index[i].some((value) => value.includes(text)));
+    });
+
+    const sortedEntries = $derived.by(() => {
+        if (sort.direction === "none" || !sort.columnId) return filteredEntries;
         const column = columns.find((c) => c.id === sort.columnId);
-        if (!column) return filteredRows;
+        if (!column) return filteredEntries;
         const dir = sort.direction === "ascending" ? 1 : -1;
-        return [...filteredRows].sort((a, b) => {
-            const av = defaultAccessor(column, a);
-            const bv = defaultAccessor(column, b);
+        // Read each sort key once (n accessor calls), not twice per comparison.
+        const keyed = filteredEntries.map((entry) => ({ entry, key: defaultAccessor(column, entry.row) }));
+        keyed.sort((a, b) => {
+            const av = a.key;
+            const bv = b.key;
             if (av === bv) return 0;
             if (av === null || av === undefined) return 1;
             if (bv === null || bv === undefined) return -1;
-            return av > bv ? dir : -dir;
+            return (av as never) > (bv as never) ? dir : -dir;
         });
+        return keyed.map((k) => k.entry);
     });
 
     const pageCount = $derived(
-        pageSize ? Math.max(1, Math.ceil(sortedRows.length / pageSize)) : 1,
+        pageSize ? Math.max(1, Math.ceil(sortedEntries.length / pageSize)) : 1,
     );
     const clampedPage = $derived(Math.min(Math.max(page, 1), pageCount));
-    const pageRows = $derived(
-        pageSize ? sortedRows.slice((clampedPage - 1) * pageSize, clampedPage * pageSize) : sortedRows,
+    const pageStart = $derived(pageSize ? (clampedPage - 1) * pageSize : 0);
+    const pageEntries = $derived(
+        pageSize ? sortedEntries.slice(pageStart, pageStart + pageSize) : sortedEntries,
     );
 
     const lastCol = $derived(colOffset + visibleColumns.length - 1);
 
+    // O(1) membership instead of `selected.includes` per row.
+    const selectedSet = $derived(new Set(selected));
     const allSelected = $derived(
-        sortedRows.length > 0 && sortedRows.every((row, i) => selected.includes(rowId(row, i))),
+        sortedEntries.length > 0 && sortedEntries.every((entry) => selectedSet.has(entry.id)),
     );
-    const someSelected = $derived(!allSelected && sortedRows.some((row, i) => selected.includes(rowId(row, i))));
+    const someSelected = $derived(!allSelected && sortedEntries.some((entry) => selectedSet.has(entry.id)));
 
     function announce(message: string | undefined): void {
         if (message) statusMessage = message;
@@ -236,7 +268,7 @@
         filter = (event.target as HTMLInputElement).value;
         page = 1;
         onFilterChange?.(filter);
-        announce(labels.filterAnnouncement?.(filteredRows.length, rows.length));
+        announce(labels.filterAnnouncement?.(filteredEntries.length, rows.length));
     }
 
     // ---------------------------------------------------------------
@@ -244,7 +276,7 @@
     // ---------------------------------------------------------------
 
     function isSelected(id: string): boolean {
-        return selected.includes(id);
+        return selectedSet.has(id);
     }
 
     function setSelected(next: string[]): void {
@@ -253,14 +285,15 @@
         announce(labels.selectionAnnouncement?.(next.length));
     }
 
-    function toggleRow(row: Record<string, unknown>, index: number, event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean }): void {
-        const id = rowId(row, index);
+    /** `index` is the row's position in `sortedEntries`, not on the current page. */
+    function toggleRow(index: number, event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean }): void {
+        const id = sortedEntries[index].id;
         if (selectionMode === "single") {
             setSelected(isSelected(id) ? [] : [id]);
         } else if (selectionMode === "multiple") {
             if (event?.shiftKey && lastSelectedIndex >= 0) {
                 const [start, end] = lastSelectedIndex < index ? [lastSelectedIndex, index] : [index, lastSelectedIndex];
-                const range = sortedRows.slice(start, end + 1).map((r, i) => rowId(r, start + i));
+                const range = sortedEntries.slice(start, end + 1).map((entry) => entry.id);
                 setSelected([...new Set([...selected, ...range])]);
             } else if (event?.ctrlKey || event?.metaKey) {
                 setSelected(isSelected(id) ? selected.filter((x) => x !== id) : [...selected, id]);
@@ -275,7 +308,7 @@
         if (allSelected) {
             setSelected([]);
         } else {
-            setSelected(sortedRows.map((row, i) => rowId(row, i)));
+            setSelected(sortedEntries.map((entry) => entry.id));
         }
     }
 
@@ -357,7 +390,7 @@
     }
 
     function moveFocus(row: number, col: number): void {
-        focusedRow = Math.min(Math.max(row, -1), pageRows.length - 1);
+        focusedRow = Math.min(Math.max(row, -1), pageEntries.length - 1);
         focusedCol = Math.min(Math.max(col, 0), lastCol);
         focusActiveCell();
     }
@@ -367,7 +400,7 @@
             if (focusedRow === -1) {
                 if (selectionMode === "multiple") toggleSelectAll();
             } else {
-                toggleRow(pageRows[focusedRow], focusedRow);
+                toggleRow(pageStart + focusedRow);
             }
             return;
         }
@@ -405,7 +438,7 @@
                 break;
             case "End":
                 event.preventDefault();
-                if (event.ctrlKey || event.metaKey) moveFocus(pageRows.length - 1, lastCol);
+                if (event.ctrlKey || event.metaKey) moveFocus(pageEntries.length - 1, lastCol);
                 else moveFocus(focusedRow, lastCol);
                 break;
             case "PageDown":
@@ -564,8 +597,9 @@
             </DataTableRow>
         </DataTableHead>
         <DataTableBody>
-            {#each pageRows as row, rowIndex (rowId(row, rowIndex))}
-                {@const id = rowId(row, rowIndex)}
+            {#each pageEntries as entry, rowIndex (entry.id)}
+                {@const row = entry.row}
+                {@const id = entry.id}
                 <DataTableRow aria-selected={hasSelection ? isSelected(id) : undefined}>
                     {#if hasSelection}
                         <DataTableTD
@@ -580,7 +614,7 @@
                                     visibleColumns[0] ? formatCell(visibleColumns[0], row) : String(rowIndex + 1),
                                 )}
                                 checked={isSelected(id)}
-                                onclick={(e: MouseEvent) => toggleRow(row, rowIndex, e)}
+                                onclick={(e: MouseEvent) => toggleRow(pageStart + rowIndex, e)}
                             />
                         </DataTableTD>
                     {/if}
@@ -591,7 +625,16 @@
                             active={focusedRow === rowIndex && focusedCol === colOffset + colIndex}
                             style={widthFor(column) ? `width:${widthFor(column)}px` : undefined}
                         >
-                            {formatCell(column, row)}
+                            {#if column.cell}
+                                {@render column.cell({
+                                    value: defaultAccessor(column, row),
+                                    formatted: formatCell(column, row),
+                                    row,
+                                    column,
+                                })}
+                            {:else}
+                                {formatCell(column, row)}
+                            {/if}
                         </DataTableTD>
                     {/each}
                 </DataTableRow>
@@ -609,7 +652,7 @@
             >
                 {labels.previousPage}
             </button>
-            <span class="data-grid-page-status">{labels.pageStatus?.(clampedPage, pageCount, sortedRows.length)}</span>
+            <span class="data-grid-page-status">{labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}</span>
             <button
                 type="button"
                 class="data-grid-page-next"

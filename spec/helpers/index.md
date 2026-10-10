@@ -261,11 +261,13 @@ containing its compiled source.
 
 ## data-grid contract
 
-**Status: implemented in `svelte-helpers` only (2026-09-21), as
+**Status: implemented for Svelte only (2026-09-21), as
 `@lilydesignsystem/svelte-data-grid`; the other seven catalogs do not
-port it yet.** Specced first, before the package existed, per this
+port it yet. Since 2026-10-09 the package is its own top-level
+subproject, `lily-design-system-svelte-data-grid`, rather than a
+directory inside `svelte-helpers`.** Specced first, before the package existed, per this
 topic's own "Spec-driven" principle — the numbered contract below
-matches [the package's own `spec/index.md`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-data-grid/spec/index.md),
+matches [the package's own `spec/index.md`](../../lily-design-system-svelte-data-grid/spec/index.md),
 which is canonical. It shipped in `svelte-helpers` first, the same
 workflow `motion-picker`, `date-time-picker`, and `picker-bar` each
 followed; porting it to the other seven catalogs is open work, not
@@ -300,6 +302,9 @@ implementation.
 | Persistence        | Optional `localStorage[storageKey]`, try/catch-guarded like the four preference helpers, but scoped to **view state only** (column widths, column visibility, sort state) — never row data.                                                                                                                                                                                             |
 | SSR                | All DOM writes inside the framework's mount/effect lifecycle; server render emits `rows` unsorted and unfiltered as given.                                                                                                                                                                                                                                                               |
 | i18n               | Every user-facing string (sort/filter/pagination controls, live-region announcements) comes from a prop; no hardcoded English, matching every other helper.                                                                                                                                                                                                                             |
+| Row identity       | Each row's id is `rowId(row, index)` with `index` its position in `rows`, computed once — never a sorted, filtered or per-page index — so ids survive every view change and key the body rows (a moved row is moved, not re-rendered). Added 2026-10-09 after the Svelte implementation was found reusing page-relative ids. |
+| Hot-path cost      | Sort reads each row's key once (n accessor calls, not two per comparison); filter reuses one search index across keystrokes; selection membership is a set, not a per-row array scan. Ports should keep the row backing non-deeply-reactive where the framework allows it (Svelte `$state.raw`, Vue `shallowRef`, Angular signals over immutable arrays). |
+| Cell rendering     | Optional per-column cell renderer in the framework's typed idiom (Svelte snippet `cell`), receiving `{ value, formatted, row, column }`; `format` still drives the filter. |
 | Non-goals (v1)     | **Virtualization/windowing** — rendering only a visible row window would make the helper own scroll position and viewport math, which is real layout ownership and conflicts with "no bundled CSS, no rendering opinion" the same way it would for any other helper; documented as a non-goal, the same way `date-time-picker` documents "no translation," rather than left as a silent gap. Also out for v1: inline cell editing, column reorder, column pin, row grouping/aggregation, server-side sort/filter/pagination, CSV export, and drag-to-reorder rows (same layout-ownership objection as virtualization) — v2 candidates once v1 ships and is exercised in a real app. |
 
 Researched against the WAI-ARIA APG Grid pattern's keyboard/focus
@@ -311,6 +316,7 @@ layer) before writing the table above:
 - [TanStack Table docs](https://tanstack.com/table/latest/docs/overview) — source for the v1/v2 sort/filter/selection/resize/pin/group feature triage; state-and-behaviour-only, zero rendering opinion, matching Lily's headless rule.
 - [AG Grid: Accessibility](https://www.ag-grid.com/javascript-data-grid/accessibility/) and [CoreUI Data Grid: Accessibility](https://coreui.io/data-grid/docs/guides/accessibility/) — cross-checked the `aria-rowcount`/`aria-colcount`/`aria-rowindex` bookkeeping DataTable would need once rows can be hidden (column visibility) or reordered (pagination).
 - [CoreUI Data Grid: Virtualization](https://coreui.io/data-grid/docs/features/virtualization/) — source for treating virtualization as an accessibility trade-off (broken screen-reader row traversal unless bookkeeping is exact) and recommending pagination as the safer default, which is why virtualization is listed as a non-goal above rather than a v2 stretch item.
+- A practitioner write-up on profiling a large Svelte 5 data grid (read 2026-10-09; source and project deliberately not named) — source for the row-identity, hot-path-cost and cell-rendering rows above, and for the `$effect.pre` / `$state.raw` constraints recorded against any future virtualization. Details: [the package spec §11](../../lily-design-system-svelte-data-grid/spec/index.md).
 
 ## kanban-board contract
 
@@ -638,7 +644,7 @@ accessibility documentation before writing the table above:
 - [lily-design-system-svelte-headless/components/Listbox/Listbox.svelte](../../lily-design-system-svelte-headless/components/Listbox/Listbox.svelte) — extended 2026-09-21 with `navigation="active-descendant"` mode so the preference helpers could compose it
 - [lily-design-system-svelte-headless/components/IconButton/IconButton.svelte](../../lily-design-system-svelte-headless/components/IconButton/IconButton.svelte) — extended 2026-09-21 with `baseClass` and a bindable `ref` for the same reason
 - [lily-design-system-svelte-headless/CHANGELOG.md](../../lily-design-system-svelte-headless/CHANGELOG.md) — the Unreleased entry documenting both extensions
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-data-grid/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-data-grid/) — data-grid contract (canonical spec; implemented only here so far)
+- [lily-design-system-svelte-data-grid/](../../lily-design-system-svelte-data-grid/) — data-grid contract (canonical spec; implemented only here so far)
 - [lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte](../../lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte) — the headless `role="grid"` container the calendar-view contract composes rather than duplicates
 - [lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte](../../lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte) — the `selected`/`today` cell shape and roving-tabindex model the calendar-view contract reuses
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the sibling helper the calendar-view contract composes for civil-date arithmetic and the WAI-ARIA APG calendar keyboard model, both confirmed present in its own source

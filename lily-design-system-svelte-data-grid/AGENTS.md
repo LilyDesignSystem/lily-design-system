@@ -13,8 +13,15 @@ selection, column resize/visibility, pagination, and WAI-ARIA APG
 Grid-pattern roving-tabindex keyboard navigation on top of it. Ships
 no CSS.
 
+A top-level subproject of its own since 2026-10-09 (moved out of
+`lily-design-system-svelte-helpers`): its own `package.json`
+devDependencies, lockfile, vite/vitest config and `build.js`. Run
+`pnpm install`, `pnpm test`, `pnpm build`, `pnpm check` here. Tests
+resolve `@lilydesignsystem/svelte-headless` from
+`../lily-design-system-svelte-headless/dist/`, so build that first.
+
 Proposed and documented first in
-[spec/helpers/index.md § data-grid contract](../../spec/helpers/index.md)
+[spec/helpers/index.md § data-grid contract](../spec/helpers/index.md)
 (2026-09-21); this package is that contract's first implementation.
 No other framework catalog ports it yet.
 
@@ -33,7 +40,7 @@ No other framework catalog ports it yet.
 - Default export: `DataGrid` component.
 - Named export: `DataGrid`.
 - Type exports: `Props`, `DataGridColumn`, `DataGridRow`,
-  `DataGridLabels`, `DataGridSelectionMode`, `DataGridSort`,
+  `DataGridLabels`, `DataGridCellContext`, `DataGridSelectionMode`, `DataGridSort`,
   `DataGridSortDirection`.
 
 Required props: `label`, `columns`, `rows`.
@@ -76,7 +83,13 @@ footer.
 
 ## Conventions this package follows
 
-- Svelte 5 runes (`$props`, `$bindable`, `$derived`, `$effect`).
+- Svelte 5 runes (`$props`, `$bindable`, `$derived`, `$effect`);
+  `$state.raw` for state that is only ever replaced wholesale.
+- Row ids are computed once from each row's position in `rows` and key
+  the body `{#each}`; never derive an id from a sorted or paged index.
+- Hot-path work (sort keys, filter search index, selection `Set`) is
+  computed once per input change, never per comparison/keystroke/row —
+  see spec/index.md §6 "Hot-path cost" and §8.18.
 - Strict TypeScript on the public surface.
 - Depends on `@lilydesignsystem/svelte-headless` as a real dependency —
   never vendors `DataTable`'s markup.

@@ -63,6 +63,9 @@ jobs:
           - lily-design-system-angular-helpers
           - lily-design-system-html-helpers
           - lily-design-system-nunjucks-helpers
+          # A single package promoted out of svelte-helpers to its own
+          # subproject (2026-10-09); same pnpm build + test shape.
+          - lily-design-system-svelte-data-grid
     steps:
       - uses: actions/checkout@v7
       - name: Free preinstalled runner bloat for headroom
@@ -105,9 +108,9 @@ jobs:
         # html-helpers' own sibling reference is a source file, not a dist/
         # build output, so it needs no build step; nunjucks-helpers has no
         # such reference at all.
-        if: contains(fromJSON('["lily-design-system-svelte-helpers","lily-design-system-react-helpers","lily-design-system-vue-helpers","lily-design-system-angular-helpers"]'), matrix.catalog)
+        if: contains(fromJSON('["lily-design-system-svelte-helpers","lily-design-system-react-helpers","lily-design-system-vue-helpers","lily-design-system-angular-helpers","lily-design-system-svelte-data-grid"]'), matrix.catalog)
         run: |
-          headless="$(echo '${{ matrix.catalog }}' | sed 's/-helpers$/-headless/')"
+          headless="$(echo '${{ matrix.catalog }}' | sed -E 's/-(helpers|data-grid)$/-headless/')"
           cd "$headless"
           pnpm install --no-frozen-lockfile
           pnpm run build

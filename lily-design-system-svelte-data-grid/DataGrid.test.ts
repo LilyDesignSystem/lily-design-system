@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, within } from "@testing-library/svelte";
+import { createRawSnippet } from "svelte";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import DataGrid from "./DataGrid.svelte";
@@ -201,11 +202,10 @@ describe("DataGrid — roving-tabindex keyboard navigation (§8.11, §8.12)", ()
         render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, labels: LABELS } });
         expect(tabbableCells()).toHaveLength(1);
 
-        const grid = screen.getByRole("grid");
         let active = tabbableCells()[0];
         expect(active.tagName.toLowerCase()).toBe("th");
 
-        await fireEvent.keyDown(active, { key: "ArrowDown" }, { target: grid });
+        await fireEvent.keyDown(active, { key: "ArrowDown" });
         active = tabbableCells()[0];
         expect(tabbableCells()).toHaveLength(1);
         expect(active.tagName.toLowerCase()).toBe("td");
@@ -306,5 +306,84 @@ describe("DataGrid — extra attributes and non-goals (§8.15, §8.16)", () => {
         const manyRows = Array.from({ length: 50 }, (_, i) => ({ name: `Row ${i}`, email: `row${i}@example.com` }));
         render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: manyRows } });
         expect(bodyRows()).toHaveLength(50);
+    });
+});
+
+describe("DataGrid — row identity (§8.17)", () => {
+    test("§8.17 default ids come from the row's position in `rows`, so page 2 does not reuse page 1's ids", async () => {
+        const onSelectionChange = vi.fn();
+        render(DataGrid, {
+            props: { label: "Users", columns: COLUMNS, rows: ROWS, pageSize: 1, selectionMode: "single", labels: LABELS, onSelectionChange },
+        });
+        await fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        await fireEvent.click(screen.getByRole("radio"));
+        expect(onSelectionChange).toHaveBeenLastCalledWith(["1"]);
+    });
+
+    test("§8.17 a row keeps its id when sorting moves it", async () => {
+        const onSelectionChange = vi.fn();
+        render(DataGrid, {
+            props: { label: "Users", columns: COLUMNS, rows: ROWS, selectionMode: "single", labels: LABELS, onSelectionChange },
+        });
+        await fireEvent.click(screen.getByRole("button", { name: "Name" })); // ascending: Alice (rows[1]) first
+        await fireEvent.click(screen.getAllByRole("radio")[0]);
+        expect(onSelectionChange).toHaveBeenLastCalledWith(["1"]);
+    });
+
+    test("§8.17 Shift-range selection on page 2 selects page 2's rows", async () => {
+        const onSelectionChange = vi.fn();
+        const rows = Array.from({ length: 4 }, (_, i) => ({ name: `Row ${i}`, email: `r${i}@example.com` }));
+        render(DataGrid, {
+            props: { label: "Users", columns: COLUMNS, rows, pageSize: 2, selectionMode: "multiple", labels: LABELS, onSelectionChange },
+        });
+        await fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+        const boxes = within(document.querySelector(".data-table-body") as HTMLElement).getAllByRole("checkbox");
+        await fireEvent.click(boxes[0]);
+        await fireEvent.click(boxes[1], { shiftKey: true });
+        expect(onSelectionChange).toHaveBeenLastCalledWith(["2", "3"]);
+    });
+});
+
+describe("DataGrid — hot-path cost (§8.18)", () => {
+    const MANY = Array.from({ length: 64 }, (_, i) => ({ name: `Row ${(i * 37) % 64}`, email: `r${i}@example.com` }));
+
+    test("§8.18 sorting reads each row's sort key once, not once per comparison", async () => {
+        const accessor = vi.fn((row: Record<string, unknown>) => row.name);
+        const columns: DataGridColumn[] = [{ id: "name", header: "Name", sortable: true, filterable: false, accessor }];
+        render(DataGrid, { props: { label: "Users", columns, rows: MANY } });
+        accessor.mockClear();
+        await fireEvent.click(screen.getByRole("button", { name: "Name" }));
+        // n key reads for the sort; keyed rows that only move are not re-rendered.
+        expect(accessor.mock.calls.length).toBeLessThanOrEqual(MANY.length);
+    });
+
+    test("§8.18 successive filter keystrokes reuse one search index instead of reformatting every cell", async () => {
+        const format = vi.fn((value: unknown) => String(value));
+        const columns: DataGridColumn[] = [{ id: "name", header: "Name", format }];
+        render(DataGrid, { props: { label: "Users", columns, rows: MANY, labels: LABELS } });
+        format.mockClear();
+        const search = screen.getByRole("searchbox", { name: "Search rows" });
+        for (const text of ["r", "ro", "row", "row "]) {
+            await fireEvent.input(search, { target: { value: text } });
+        }
+        // One index build (n calls); the old per-keystroke scan cost 4n.
+        expect(format.mock.calls.length).toBeLessThanOrEqual(MANY.length);
+    });
+});
+
+describe("DataGrid — cell snippet (§8.19)", () => {
+    test("§8.19 a column's `cell` snippet renders each body cell with value, formatted text, and row", () => {
+        const cell = createRawSnippet((ctx: () => { value: unknown; formatted: string; row: Record<string, unknown> }) => ({
+            render: () => `<a class="test-cell" href="mailto:${String(ctx().value)}">${ctx().formatted} (${String(ctx().row.name)})</a>`,
+        }));
+        const columns: DataGridColumn[] = [
+            { id: "name", header: "Name" },
+            { id: "email", header: "Email", format: (v) => String(v).toUpperCase(), cell },
+        ];
+        render(DataGrid, { props: { label: "Users", columns, rows: ROWS } });
+        const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".test-cell"));
+        expect(links).toHaveLength(2);
+        expect(links[0].getAttribute("href")).toBe("mailto:bob@example.com");
+        expect(links[0].textContent).toBe("BOB@EXAMPLE.COM (Bob)");
     });
 });

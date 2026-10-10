@@ -1,7 +1,7 @@
 # DataGrid — Specification (Svelte helper)
 
 Canonical contract for `@lilydesignsystem/svelte-data-grid`. Proposed
-2026-09-21 in [spec/helpers/index.md § data-grid contract](../../../spec/helpers/index.md).
+2026-09-21 in [spec/helpers/index.md § data-grid contract](../../spec/helpers/index.md).
 This package is the first implementation; no other framework catalog
 ports it yet.
 
@@ -91,7 +91,7 @@ never re-implements a `<table>`.
 | `columns`            | `DataGridColumn[]`                                                     | yes      | —          |
 | `rows`               | `Record<string, unknown>[]`                                            | yes      | —          |
 | `caption`            | `string`                                                                | no       | —          |
-| `rowId`              | `(row, index) => string`                                               | no       | `String(index)` |
+| `rowId`              | `(row, index) => string` — `index` is the row's position in `rows`    | no       | `String(index)` |
 | `selectionMode`      | `"none" \| "single" \| "multiple"`                                      | no       | `"none"`   |
 | `selected`           | `string[]`, bindable                                                    | no       | `[]`       |
 | `onSelectionChange`  | `(ids: string[]) => void`                                               | no       | —          |
@@ -109,7 +109,12 @@ never re-implements a `<table>`.
 (row) => unknown` (default `row[id]`), `format?: (value, row) =>
 string` (default `String(value)`, `""` for `null`/`undefined`),
 `sortable?`, `filterable?` (default `true`), `resizable?`, `hidable?`,
-`width?: number` (px).
+`width?: number` (px), `cell?: Snippet<[DataGridCellContext]>` (default:
+the formatted value as text). `DataGridCellContext` is `{ value,
+formatted, row, column }` — a typed Svelte 5 snippet rather than a slot,
+so a consumer's link, badge, or icon cell typechecks against the row
+type end to end, and `format` still feeds the filter (§6) even when
+`cell` replaces what is shown.
 
 `DataGridLabels` — every field optional, but **its presence gates the
 control it names**, matching `share-picker`'s `copyLabel` and
@@ -137,6 +142,36 @@ times); non-sortable columns never carry the attribute.
 every `filterable` column's formatted cell value (default
 `filterable: true`). It renders only when `labels.search` is set — an
 unlabelled search box is worse than none.
+
+**Row identity.** Each row's id is computed once, as `rowId(row,
+index)` with `index` its position in `rows` — never its position after
+sorting, filtering, or on the current page. Ids therefore survive every
+view change: the first row on page 2 is not id `"0"` again, sorting a
+selected row elsewhere keeps it selected, and the body's `{#each}` is
+keyed by that id so a row that only moves is moved, not re-rendered. A
+consumer whose `rows` array is replaced with reordered or inserted data
+should pass a `rowId` that reads a real key from the row.
+
+**Hot-path cost.** Sort, filter and selection are the work a large grid
+repeats; each is shaped so its cost does not multiply (§8.18):
+sorting reads each row's key once and sorts the keys (n accessor
+calls, not two per comparison); filtering builds one lowercased search
+index per `rows`/`columns` change and reuses it across keystrokes,
+instead of reformatting every cell each time; selection membership is
+a `Set` derived from `selected`, not `selected.includes` per row. View
+state that is always replaced wholesale (`columnWidths`,
+`hiddenColumnIds`) is `$state.raw` — no deep proxy to build or read
+through.
+
+**Consumer guidance: hold `rows` in `$state.raw`.** The grid reads
+`rows` but never mutates it. A consumer that holds its rows in plain
+`$state` makes Svelte wrap every row in a deep reactive proxy, and
+every accessor read in sort and filter then goes through that proxy;
+practitioner profiling of a large Svelte 5 grid (see §11) reported
+sort-and-filter dropping from about 80ms to about 6ms on moving the
+rows to `$state.raw`, where only the array reference is reactive. So:
+`let rows = $state.raw(data)`, and update by assigning a new array
+(`rows = [...rows, row]`), never by mutating in place.
 
 **Selection.** `"single"` keeps at most one id in `selected`, and
 clicking a selected row's control clears it. `"multiple"` adds a
@@ -253,14 +288,33 @@ change alone.
 - §8.16 No virtualization: every row of the current page renders
   eagerly, with no windowing/recycling machinery — documented non-goal,
   not an oversight.
+- §8.17 Default row ids come from each row's position in `rows`: the
+  first row on page 2 does not reuse page 1's id, a row keeps its id
+  when sorting moves it, and Shift-range selection on a later page
+  selects that page's rows.
+- §8.18 Sorting calls a column's `accessor` at most once per row;
+  successive filter keystrokes reuse one search index, calling a
+  column's `format` at most once per row in total rather than once per
+  row per keystroke.
+- §8.19 A column's `cell` snippet, when set, renders each of its body
+  cells and receives `value`, `formatted`, `row`, and `column`.
 
 ## 9. Non-goals
 
 Virtualization/windowing, inline cell editing, column reorder, column
 pinning, row grouping/aggregation, server-side sort/filter/pagination,
 CSV export, drag-to-reorder rows. See §2 and
-[spec/helpers/index.md § data-grid contract](../../../spec/helpers/index.md)
+[spec/helpers/index.md § data-grid contract](../../spec/helpers/index.md)
 for the reasoning behind each.
+
+If virtualization is ever reconsidered (v2), two lessons from §11 apply
+before any code: measure the viewport in `$effect.pre`, not `$effect` —
+the window size must be known before the paint that uses it, or the
+first frame renders rows at zero height — and keep the row backing in
+`$state.raw` so scroll-driven re-slicing never walks a deep proxy. The
+accessibility objection in §2 (exact `aria-rowcount`/`aria-rowindex`
+bookkeeping, broken screen-reader traversal otherwise) still stands
+and is the deciding constraint, not performance.
 
 ## 10. Relationship to the headless layer and other helpers
 
@@ -273,3 +327,45 @@ follows every other helper's established rules: headless (no bundled
 CSS), SSR-safe, i18n-clean (§5's label-gating pattern mirrors
 `share-picker`'s `copyLabel` and `date-time-picker`'s `labels`),
 try/catch-guarded `localStorage`, and Svelte-canonical-first.
+
+## 11. Research notes
+
+**Profiling a large Svelte 5 data grid (practitioner write-up, read
+2026-10-09).** An external project's author published lessons from
+profiling their own Svelte 5 grid; the source is not cited here, and
+the project, author and product are deliberately left unnamed. The
+numbers are the author's own, on a dataset whose size and hardware
+were not stated — treat them as direction, not a benchmark. What Lily
+took from it:
+
+- *A data grid is a reactivity problem first.* The goal is to repaint
+  only the cells that changed. Lily's response: stable, position-in-`rows`
+  row ids and a keyed body `{#each}` (§6 "Row identity", §8.17).
+- *Deep proxies are the dominant cost at scale.* Svelte's deep `$state`
+  proxy suits forms and costs heavily on tens of thousands of rows;
+  moving the row backing to `$state.raw` (array reference reactive,
+  contents not) took sort-and-filter from ~80ms to ~6ms. Lily's
+  response: `$state.raw` for the grid's own wholesale-replaced view
+  state, and consumer guidance to hold `rows` the same way (§6).
+- *Typed snippets beat slots for cell renderers.* Passing a snippet on
+  the column definition keeps the cell's arguments typechecked all the
+  way through. Lily's response: `DataGridColumn.cell` (§5, §8.19).
+- *Measure before paint with `$effect.pre`.* Only relevant to
+  virtualization, which stays a non-goal; recorded in §9 for v2.
+- *Separate headless core from render component.* Lily already does
+  this at a higher level: `data-grid` owns state and behaviour and the
+  headless `DataTable` family owns the markup (§3).
+
+The write-up's own feature list (Excel-style filter menus, server-side
+row model, transactions, 1M-row virtualization) was not adopted: each
+is either an existing v1 non-goal (§9) or out of scope for a headless
+helper.
+
+Reviewing the component against these lessons also surfaced two real
+defects, fixed in 0.2.0: default ids were the row's index **on the
+current page**, so page 2's first row reused page 1's id `"0"` and
+sorting moved ids between rows; and Shift-range selection mixed page
+and whole-list indexes. Plus three avoidable multipliers in the hot
+path: an accessor call twice per sort comparison, every cell reformatted
+on every filter keystroke, and `selected.includes` per row (§6
+"Hot-path cost", §8.18).

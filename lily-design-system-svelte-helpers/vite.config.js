@@ -64,11 +64,10 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
-      // @lilydesignsystem/svelte-data-grid depends on the *headless*
-      // catalog's DataTable family the same way a real consumer would (a
-      // regular npm `dependency`, resolved from the registry once
-      // published) — the first helper to depend across catalogs rather
-      // than on a sibling helper. The headless catalog lives one level up
+      // kanban-board, gantt-chart, calendar-view and the migrated pickers
+      // depend on the *headless* catalog the same way a real consumer
+      // would (a regular npm `dependency`, resolved from the registry once
+      // published), rather than on a sibling helper. The headless catalog lives one level up
       // as a sibling top-level directory, not nested inside this one.
       "@lilydesignsystem/svelte-headless": fileURLToPath(
         new URL(

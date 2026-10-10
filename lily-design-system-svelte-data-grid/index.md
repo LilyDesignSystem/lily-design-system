@@ -23,22 +23,29 @@ its four wrapped pickers.
 
   const columns: DataGridColumn[] = [
     { id: "name", header: "Name", sortable: true, resizable: true },
-    { id: "email", header: "Email", sortable: true },
+    { id: "email", header: "Email", sortable: true, cell: emailCell },
     { id: "role", header: "Role", sortable: true, hidable: true },
   ];
 
-  const rows = [
-    { name: "Alice", email: "alice@example.com", role: "Admin" },
-    { name: "Bob", email: "bob@example.com", role: "Editor" },
-  ];
+  // $state.raw: the grid never mutates rows, so skip the deep proxy.
+  // Update by assigning a new array, e.g. rows = [...rows, newRow].
+  let rows = $state.raw([
+    { id: "u1", name: "Alice", email: "alice@example.com", role: "Admin" },
+    { id: "u2", name: "Bob", email: "bob@example.com", role: "Editor" },
+  ]);
 
   let selected = $state<string[]>([]);
 </script>
+
+{#snippet emailCell({ value, formatted })}
+  <a href={`mailto:${value}`}>{formatted}</a>
+{/snippet}
 
 <DataGrid
   label="User accounts"
   {columns}
   {rows}
+  rowId={(row) => String(row.id)}
   selectionMode="multiple"
   bind:selected
   pageSize={25}
@@ -80,6 +87,14 @@ doesn't render (no baked-in English fallback).
 - **Keyboard**: WAI-ARIA APG Grid roving-tabindex — arrows move
   cell-to-cell and clamp, Home/End jump within the row,
   Ctrl+Home/Ctrl+End jump to the grid's ends, PageUp/PageDown page.
+- **Row ids**: `rowId(row, index)` with `index` the row's position in
+  `rows`, so ids survive sorting, filtering and paging. Pass a `rowId`
+  that reads a real key if you replace `rows` with reordered data.
+- **Cells**: a column's `cell` snippet receives `{ value, formatted,
+  row, column }`; `format` still drives the filter.
+- **Large data**: hold `rows` in `$state.raw` (see
+  [spec/index.md §6](./spec/index.md#6-behaviour)). Sorting reads each
+  key once and filtering reuses one search index across keystrokes.
 - **Persistence**: `storageKey` persists column widths, hidden
   columns, and sort — never row data or selection.
 
