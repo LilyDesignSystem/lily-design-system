@@ -19,4 +19,14 @@ describe("ImageFileInput", () => {
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
+
+  // Guards the canonical type from components/{slug}/AGENTS.md — every
+  // typed input in this library once rendered type="text" (fixed
+  // 2026-08-26), and nothing asserted otherwise.
+  test('renders the canonical input type "file"', () => {
+    const fixture = TestBed.createComponent(ImageFileInput);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("input.image-file-input");
+    expect(el.getAttribute("type")).toBe("file");
+  });
 });

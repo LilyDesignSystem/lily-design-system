@@ -66,6 +66,7 @@ WDIO
 # Tools, platforms, and brand names
 analogjs
 Blazor
+bref
 Codeberg
 cooperpress
 Deque

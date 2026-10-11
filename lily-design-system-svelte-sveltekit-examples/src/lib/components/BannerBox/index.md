@@ -1,77 +1,129 @@
 # BannerBox
 
-## Overview
+A layout box placed inside a `Banner` to arrange its content using flexbox horizontal (via consumer CSS). Renders a single `<div>` with an optional `aria-label`.
 
-A headless layout component designed to be placed inside a Banner component.
-Renders a <div> that the consumer styles with flexbox horizontal layout
-(display: flex; flex-direction: row) to arrange banner content items side by
-side, such as a message and action buttons.
+## What it is
+
+A headless Svelte 5 layout wrapper for `Banner` content. Category: banner layout primitive, sibling to `Banner`, `SuperBanner`, `MedicalBanner`.
 
 ## What it does
 
-A banner box that is inside a banner component, using flexbox horizontal.
+- Renders `<div class="banner-box {className}" aria-label={label}>`.
+- `aria-label` attribute is always written; when `label` is undefined the attribute evaluates to no accessible name (consumer can simply omit the prop).
+- Spreads additional HTML attributes onto the `<div>`.
+- Provides no behavior; consumers apply `display: flex; flex-direction: row;` via CSS.
 
-## When to use
+## When to use it
 
-- Use when you need a banner box that is inside a banner component, using flexbox horizontal.
+- Inside a `Banner` to lay out a message next to action buttons, icons, or links.
+- When horizontal flex layout is desired for banner content.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Outside a `Banner` — it has no specific meaning there.
+- For medical banner content — use `MedicalBannerBox` (or its danger/advice variants).
+- For generic flex layouts — use a plain `<div>`.
 
-## Usage
+## How to use it
 
-```svelte
-<BannerBox>content</BannerBox>
-```
+Import `BannerBox` from `./BannerBox.svelte`. Place as a direct child of `Banner`. Put message plus actions inside.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, optional | Accessible name via aria-label. |
-| `children` | Snippet, required | The banner box content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` — string, default `""`. CSS class appended to `banner-box`.
+- `label` — string, optional. Accessible name via `aria-label`.
+- `children` — `Snippet`, required. Contents of the banner box.
+- `...restProps` — additional HTML attributes spread onto the `<div>`.
 
-## Examples
+## Usage
+
+### Simple message with action
 
 ```svelte
+<script lang="ts">
+  import Banner from '../Banner/Banner.svelte';
+  import BannerBox from './BannerBox.svelte';
+</script>
+
 <Banner>
   <BannerBox>
     <span>Important announcement</span>
-    <button>Learn more</button>
+    <a href="/learn-more">Learn more</a>
   </BannerBox>
 </Banner>
 ```
 
-## SvelteKit example
+### With accessible label
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BannerBox from "#lib/components/BannerBox/BannerBox.svelte";
+  import Banner from '../Banner/Banner.svelte';
+  import BannerBox from './BannerBox.svelte';
 </script>
 
-<BannerBox>content</BannerBox>
+<Banner type="warning">
+  <BannerBox label="Session expiration notice">
+    <span>Your session ends soon.</span>
+    <button type="button">Extend</button>
+  </BannerBox>
+</Banner>
 ```
 
-## Keyboard
+### Multiple boxes inside a banner
 
-- None (passive layout element)
+```svelte
+<script lang="ts">
+  import Banner from '../Banner/Banner.svelte';
+  import BannerBox from './BannerBox.svelte';
+</script>
+
+<Banner>
+  <BannerBox><strong>Update</strong></BannerBox>
+  <BannerBox>
+    <span>New features available.</span>
+    <a href="/whats-new">See what's new</a>
+  </BannerBox>
+</Banner>
+```
+
+### Cookie consent layout
+
+```svelte
+<script lang="ts">
+  import Banner from '../Banner/Banner.svelte';
+  import BannerBox from './BannerBox.svelte';
+  import Button from '../Button/Button.svelte';
+</script>
+
+<Banner type="info">
+  <BannerBox>
+    <span>We use cookies to improve your experience.</span>
+    <Button>Accept</Button>
+    <Button>Decline</Button>
+  </BannerBox>
+</Banner>
+```
+
+### With data attribute for tests
+
+```svelte
+<BannerBox data-testid="promo-row">
+  <span>Sale today only</span>
+  <a href="/shop">Shop now</a>
+</BannerBox>
+```
 
 ## Accessibility
 
-- No additional ARIA required; parent Banner provides landmark and aria-live
-- Optional aria-label via label prop
+- No role by default; the parent `Banner` provides the `region` landmark and live region.
+- Optional `aria-label` when the content alone is not self-explanatory.
+- Not interactive; contained elements handle their own a11y.
 
-## Internationalization
+## Related components
 
-- All text comes through children; no hardcoded strings
-
-## References
-
-- CSS Flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
+- `Banner` — required outer container.
+- `MedicalBanner`, `MedicalBannerBox`, `MedicalBannerBoxForDanger`, `MedicalBannerBoxForAdvice` — medical variants.
+- `SuperBanner` — higher-priority banner.
 
 ---
 

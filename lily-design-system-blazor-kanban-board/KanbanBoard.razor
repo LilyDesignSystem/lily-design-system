@@ -80,7 +80,8 @@
                                        tabindex="@(isActive ? "0" : "-1")"
                                        Label="@(card is not null ? ResolveCardLabel(card) : null)"
                                        @ondragover:preventDefault="true"
-                                       @ondrop="@(e => OnColumnDropAsync(column, e))">
+                                       @ondrop="@(e => OnColumnDropAsync(column, e))"
+                                       @onfocusin="@(() => OnCellFocusIn(row, col))">
                             @if (card is not null)
                             {
                                 var currentCard = card;
@@ -94,19 +95,24 @@
                                       @ondragstart="@(e => OnCardDragStart(currentCard, e))">
                                     @ResolveCardLabel(currentCard)
                                 </span>
-                                <IconButton @ref="_moveButtonComponents[currentCard.Id]"
-                                            BaseCssClass="kanban-board-move-button"
-                                            Label="@(Labels.MoveButton?.Invoke(currentCard) ?? "")"
-                                            tabindex="-1"
-                                            aria-haspopup="listbox"
-                                            aria-expanded="@(_openCardId == currentCard.Id ? "true" : "false")"
-                                            @onclick="@(() => OnMoveButtonClickAsync(currentCard))">
-                                    &#8644;
-                                </IconButton>
+                                @* Gated on Labels.MoveButton: an unnamed button is worse than
+                                   none, and Enter/Space on the cell opens the menu either way. *@
+                                @if (Labels.MoveButton is not null)
+                                {
+                                    <IconButton @ref="_moveButtonComponents[currentCard.Id]"
+                                                BaseCssClass="kanban-board-move-button"
+                                                Label="@Labels.MoveButton(currentCard)"
+                                                tabindex="-1"
+                                                aria-haspopup="listbox"
+                                                aria-expanded="@(_openCardId == currentCard.Id ? "true" : "false")"
+                                                @onclick="@(() => OnMoveButtonClickAsync(currentCard))">
+                                        &#8644;
+                                    </IconButton>
+                                }
                                 @if (_openCardId == currentCard.Id)
                                 {
                                     <Listbox @ref="_listComponent"
-                                             Label="@(Labels.MoveMenuLabel ?? "")"
+                                             Label="@(Labels.MoveMenuLabel ?? ResolveCardLabel(currentCard))"
                                              BaseCssClass="kanban-board-move-list"
                                              Navigation="@Listbox.ActiveDescendant"
                                              Clamp="true"

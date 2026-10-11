@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import BelgiqueNumeroDeRegistreNationalInput from './BelgiqueNumeroDeRegistreNationalInput';
 
 const meta = {
-  title: 'Examples/BelgiqueNumeroDeRegistreNationalInput',
+  title: 'Headless/BelgiqueNumeroDeRegistreNationalInput',
   component: BelgiqueNumeroDeRegistreNationalInput,
   tags: ['autodocs']
 } satisfies Meta<typeof BelgiqueNumeroDeRegistreNationalInput>;

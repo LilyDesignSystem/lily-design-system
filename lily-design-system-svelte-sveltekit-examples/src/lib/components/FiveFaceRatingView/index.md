@@ -1,78 +1,110 @@
 # FiveFaceRatingView
 
-## Overview
+A read-only display of a 1–5 face rating. Renders a `<span role="img">` whose text content is the label corresponding to the value.
 
-A read-only five-face rating display that shows a text label corresponding to a
-rating value from 1 to 5. This is the display-only companion to FiveFaceRatingPicker,
-used for showing previously submitted ratings in summaries, review lists, or
-dashboard displays. Renders a span with role="img" and the face label text.
+## What it is
+
+`FiveFaceRatingView` is the display-only companion to `FiveFaceRatingPicker`. Given a numeric `value` (1–5) it derives the matching face label from the `labels` array and renders it inside a `<span role="img">` with an `aria-label` for accessibility. The `data-value` attribute exposes the numeric value for consumer CSS.
 
 ## What it does
 
-A read-only display of a five-face satisfaction rating.
+- Renders `<span class="five-face-rating-view" role="img" aria-label={label} data-value={value}>`.
+- Derives `faceLabel` via `$derived(labels[value - 1] ?? "")`.
+- Shows the derived label as text content.
+- Forwards `restProps`.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Dashboards and summaries where a previously submitted rating should appear.
+- Review lists, profile pages, report screens.
+- Anywhere a face label should be announced as an image with a meaningful `aria-label`.
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- For capturing a new rating. Use `FiveFaceRatingPicker`.
+- For star ratings. Use `FiveStarRatingView`.
+- For Net Promoter Score values. Use `NetPromoterScoreView`.
+- For free-form text display. Use a plain `<span>`.
 
-## Usage
+## How to use it
 
-```svelte
-<FiveFaceRatingView value={4} label="Good rating" />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | number, required | Rating value (1-5) to display. |
-| `label` | string, required | Accessible description via aria-label. |
-| `labels` | string[], default ["Very bad", "Bad", "Okay", "Good", "Very good"] | Text labels for each face. |
-| `...restProps` | additional HTML attributes spread onto the span |  |
-
-## Examples
+Provide the numeric value and a label describing the rating.
 
 ```svelte
-<!-- Display a submitted face rating -->
-<FiveFaceRatingView value={3} label="Okay rating" />
-
-<!-- Custom face labels -->
-<FiveFaceRatingView value={5} label="Excellent" labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]} />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FiveFaceRatingView from "#lib/components/FiveFaceRatingView/FiveFaceRatingView.svelte";
+    import FiveFaceRatingView from "./FiveFaceRatingView.svelte";
 </script>
 
 <FiveFaceRatingView value={4} label="Good rating" />
 ```
 
-## Keyboard
+## Props
 
-- None — this is a passive, read-only display element
+| Prop      | Type       | Default                                                | Description                                  |
+| --------- | ---------- | ------------------------------------------------------ | -------------------------------------------- |
+| `class`   | `string`   | `""`                                                   | CSS class appended to the base class.       |
+| `value`   | `number`   | required                                               | Rating value (1–5).                          |
+| `label`   | `string`   | required                                               | Accessible name via `aria-label`.            |
+| `labels`  | `string[]` | `["Very bad", "Bad", "Okay", "Good", "Very good"]`     | Text labels for each face.                   |
+| `...rest` | `unknown`  | —                                                      | Additional HTML attributes on the `<span>`.  |
+
+## Usage
+
+### 1. Basic display
+
+```svelte
+<FiveFaceRatingView value={3} label="Okay rating" />
+```
+
+### 2. Custom labels
+
+```svelte
+<FiveFaceRatingView
+    value={5}
+    label="Excellent"
+    labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]}
+/>
+```
+
+### 3. Localised (French)
+
+```svelte
+<FiveFaceRatingView
+    value={4}
+    label="Bonne note"
+    labels={["Très mauvais", "Mauvais", "Correct", "Bon", "Très bon"]}
+/>
+```
+
+### 4. Paired with the picker
+
+```svelte
+<FiveFaceRatingPicker label="Rate" bind:value={rating} />
+{#if rating > 0}
+    <FiveFaceRatingView value={rating} label="Your rating" />
+{/if}
+```
+
+### 5. In a summary list
+
+```svelte
+<SummaryList>
+    <SummaryListItem term="Satisfaction">
+        <FiveFaceRatingView value={survey.rating} label="Satisfaction rating" />
+    </SummaryListItem>
+</SummaryList>
+```
 
 ## Accessibility
 
-- role="img" indicates the span represents a visual/graphic element (the face rating)
-- aria-label provides the full rating description for screen readers
-- data-value attribute exposes the numeric value for consumer CSS or testing
+- `role="img"` with `aria-label` treats the span as a labelled image, so screen readers announce the descriptive label rather than the plain text.
+- `data-value` is a styling hook only; it is not exposed to assistive technology.
 
-## Internationalization
+## Related components
 
-- All text content comes through the labels and label props; no hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA img role: https://www.w3.org/WAI/ARIA/apd/roles/img/
+- `FiveFaceRatingPicker` — picker counterpart (radio-based).
+- `FiveFaceRatingPickerButton` — individual face button primitive.
+- `FiveStarRatingView`, `NetPromoterScoreView`, `RedAmberGreenView`, `RedOrangeYellowGreenBlueView` — analogous read-only rating views.
 
 ---
 

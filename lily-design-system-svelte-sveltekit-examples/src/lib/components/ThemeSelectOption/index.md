@@ -1,83 +1,125 @@
 # ThemeSelectOption
 
-## Overview
+A single `<option>` element designed to be used inside a `ThemeSelect`, carrying a theme `value` and a visible label via `children`.
 
-A single <option> element for use inside a ThemeSelect dropdown. Renders a
-native <option> with a theme value and label text. Supports selected and
-disabled states via native HTML attributes. Used as a compound child of
-ThemeSelect to define available theme choices such as light, dark, or
-high-contrast modes.
+## What it is
+
+`ThemeSelectOption` is a headless Svelte 5 component that wraps a native `<option>` element. It is the child element in the `ThemeSelect` → `ThemeSelectOption` composition pattern and carries a `value` attribute plus optional `selected`/`disabled` flags.
 
 ## What it does
 
-One option in a theme select dropdown.
+- Renders `<option class="theme-select-option {className}" value={value} {selected} {disabled}>`.
+- Displays the `children` snippet as the visible option label.
+- Spreads additional HTML attributes onto the `<option>`.
 
-## When to use
+## When to use it
 
-- Use when you need one option in a theme select dropdown.
+- Inside a `ThemeSelect` to define one available theme choice.
+- For compile-time or markup-driven lists of theme options.
+- When iterating over a theme array with `{#each}`.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it outside of a `<select>` — an `<option>` element is invalid elsewhere.
+- Don't use it for radio-style theme choice — use `ThemeSelect` instead.
+- Don't use it for generic non-theme options — use the generic `Option` component.
+- Don't add ARIA roles — the native `<option>` provides all semantics through its parent `<select>`.
+
+## How to use it
+
+Import and place inside `ThemeSelect`. Provide a unique `value` and label content via the default snippet.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `theme-select-option`.
+- `value` — string, required. The theme identifier submitted when selected.
+- `selected` — boolean, default `false`. Whether this option is pre-selected.
+- `disabled` — boolean, default `false`. Whether this option is disabled.
+- `children` — Snippet, required. The visible label for this option.
+- `...restProps` — any additional HTML attributes spread onto the `<option>`.
 
 ## Usage
 
 ```svelte
-<ThemeSelectOption value="dark">Dark</ThemeSelectOption>
-```
+<script lang="ts">
+  import ThemeSelect from "../ThemeSelect/ThemeSelect.svelte";
+  import ThemeSelectOption from "./ThemeSelectOption.svelte";
 
-## Props
+  let theme = $state("");
+</script>
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | string, required | The theme identifier submitted when selected. |
-| `selected` | boolean, default false | Whether this option is pre-selected. |
-| `disabled` | boolean, default false | Whether this option is disabled. |
-| `children` | Snippet, required | The visible label text for the theme option. |
-| `...restProps` | additional HTML attributes spread onto the <option> |  |
-
-## Examples
-
-```svelte
-<!-- Theme options inside a ThemeSelect -->
 <ThemeSelect label="Theme" bind:value={theme}>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
-  <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
-  <ThemeSelectOption value="system">System Default</ThemeSelectOption>
 </ThemeSelect>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ThemeSelectOption from "#lib/components/ThemeSelectOption/ThemeSelectOption.svelte";
+  import ThemeSelect from "../ThemeSelect/ThemeSelect.svelte";
+  import ThemeSelectOption from "./ThemeSelectOption.svelte";
+
+  let theme = $state("");
 </script>
 
-<ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+<ThemeSelect label="Theme" bind:value={theme}>
+  <ThemeSelectOption value="" disabled>Select a theme…</ThemeSelectOption>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark" selected>Dark</ThemeSelectOption>
+</ThemeSelect>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import ThemeSelect from "../ThemeSelect/ThemeSelect.svelte";
+  import ThemeSelectOption from "./ThemeSelectOption.svelte";
 
-- None directly — keyboard behavior is managed by the parent <select> element
-- (Up/Down arrows, Home/End, type-ahead search).
+  const themes = [
+    { value: "light", label: "Light" },
+    { value: "dark", label: "Dark" },
+    { value: "high-contrast", label: "High Contrast" },
+    { value: "system", label: "System Default" },
+  ];
+  let theme = $state("system");
+</script>
+
+<ThemeSelect label="Color scheme" bind:value={theme}>
+  {#each themes as t}
+    <ThemeSelectOption value={t.value}>{t.label}</ThemeSelectOption>
+  {/each}
+</ThemeSelect>
+```
+
+```svelte
+<script lang="ts">
+  import ThemeSelect from "../ThemeSelect/ThemeSelect.svelte";
+  import ThemeSelectOption from "./ThemeSelectOption.svelte";
+
+  let theme = $state("light");
+  let premium = $state(false);
+</script>
+
+<ThemeSelect label="Theme" bind:value={theme}>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+  <ThemeSelectOption value="midnight" disabled={!premium}>
+    Midnight (premium)
+  </ThemeSelectOption>
+</ThemeSelect>
+```
 
 ## Accessibility
 
-- Native <option> element provides built-in accessibility via the parent <select>
-- Screen readers announce the option text and selected state automatically
+- Native `<option>` inherits all accessibility from the enclosing `<select>` — keyboard navigation, selection state, and screen reader announcement are handled automatically.
+- Do not add explicit ARIA roles or attributes.
+- The visible label text provides the accessible name.
 
-## Internationalization
+## Related components
 
-- Option label text comes through the children snippet
-- No hardcoded user-facing strings
-
-## References
-
-- HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option
+- `ThemeSelect` — the parent `<select>` container.
+- `Option` — generic option for use with the generic `Select`.
+- `ThemeSelect` — radio-group alternative.
+- `ThemeSelectButton` — swatch-button alternative.
 
 ---
 

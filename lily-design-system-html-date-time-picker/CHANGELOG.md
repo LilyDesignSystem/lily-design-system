@@ -4,6 +4,11 @@ All notable changes to `@lilydesignsystem/html-date-time-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11
+
+Fixed: a form reset now restores the initial date (and time zone) in the field, the element and the submitted value,
+unless the reset is cancelled. Before, the field and the form's submitted value disagreed after a reset. See `spec/index.md` §5.10.
+
 ## 0.2.0 — 2026-10-04
 
 **Added: picker tooltip (minor, additive).** The button now has a purely visual `<div class="date-time-picker-tooltip" role="tooltip" hidden>` sibling holding its `label` text, shown on pointer hover (hoverable, WCAG 1.4.13) or keyboard focus, dismissible with `Escape`, never shown while the dialog is open, and deliberately not linked with `aria-describedby`. New `.date-time-picker-tooltip` class hook; no new attributes or text. Spec clauses 62-67.

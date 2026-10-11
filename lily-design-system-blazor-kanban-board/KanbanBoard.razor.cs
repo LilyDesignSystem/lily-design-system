@@ -138,7 +138,7 @@ public partial class KanbanBoard : ComponentBase
     private Listbox? _listComponent;
 
     private bool _focusListPending;
-    private string? _focusButtonPendingForCardId;
+    private string? _focusCardPendingId;
     private bool _focusCellPending;
 
     // -------------------------------------------------------------------
@@ -217,10 +217,14 @@ public partial class KanbanBoard : ComponentBase
     // Move menu (keyboard + pointer share this).
     // -------------------------------------------------------------------
 
+    /// <summary>Choosing the card's own column is not a move: the menu just closes.</summary>
     private async Task MoveCardAsync(KanbanCard card, KanbanColumn toColumn)
     {
-        await OnMove.InvokeAsync((card.Id, toColumn.Id));
-        Announce(Labels.MoveAnnouncement?.Invoke(ResolveCardLabel(card), toColumn.Title));
+        if (toColumn.Id != card.ColumnId)
+        {
+            await OnMove.InvokeAsync((card.Id, toColumn.Id));
+            Announce(Labels.MoveAnnouncement?.Invoke(ResolveCardLabel(card), toColumn.Title));
+        }
         await CloseMoveMenuAsync();
     }
 
@@ -242,7 +246,7 @@ public partial class KanbanBoard : ComponentBase
         var cardId = _openCardId;
         _openCardId = null;
         _moveActiveIndex = -1;
-        if (refocus) _focusButtonPendingForCardId = cardId;
+        if (refocus) _focusCardPendingId = cardId;
         return Task.CompletedTask;
     }
 
@@ -279,7 +283,8 @@ public partial class KanbanBoard : ComponentBase
         var cardId = _draggingCardId;
         _draggingCardId = null;
         var card = Cards.FirstOrDefault(c => c.Id == cardId);
-        if (card is not null) await MoveCardAsync(card, column);
+        // Dropping a card back on its own column is not a move.
+        if (card is not null && card.ColumnId != column.Id) await MoveCardAsync(card, column);
     }
 
     // -------------------------------------------------------------------
@@ -311,6 +316,38 @@ public partial class KanbanBoard : ComponentBase
         // handler — otherwise a Blazor Server round trip could dispatch
         // the focus call before the client's DOM reflects the new cursor.
         _focusCellPending = true;
+    }
+
+    /// <summary>The cursor follows focus however it arrives — a click, or a consumer's own focus().</summary>
+    private void OnCellFocusIn(int row, int col)
+    {
+        _focusedRow = row;
+        _focusedCol = col;
+    }
+
+    /// <summary>
+    /// Clamp the roving cursor to the cells that exist now: a move can shrink
+    /// the board, and a cursor left on a vanished row would take the grid out
+    /// of the tab order altogether.
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        var maxRows = MaxRows(CardsByColumn);
+        _focusedRow = Math.Min(Math.Max(_focusedRow, 0), Math.Max(maxRows - 1, 0));
+        _focusedCol = Math.Min(Math.Max(_focusedCol, 0), Math.Max(Columns.Count - 1, 0));
+    }
+
+    /// <summary>A card's (row, column) in the grid as it renders now, or null.</summary>
+    private (int Row, int Col)? PositionOf(string cardId)
+    {
+        var byColumn = CardsByColumn;
+        for (var col = 0; col < Columns.Count; col++)
+        {
+            if (!byColumn.TryGetValue(Columns[col].Id, out var list)) continue;
+            var row = list.FindIndex(c => c.Id == cardId);
+            if (row >= 0) return (row, col);
+        }
+        return null;
     }
 
     private void OnGridKeyDown(KeyboardEventArgs args)
@@ -377,10 +414,32 @@ public partial class KanbanBoard : ComponentBase
             _focusListPending = false;
             if (_listComponent is not null) await TryFocusAsync(_listComponent.Element);
         }
-        if (_focusButtonPendingForCardId is { } cardId)
+        // Focus a card wherever it is now — after a move the consumer's Cards
+        // has put it in another column. The roving cursor follows it there
+        // first (one more render, so the new cell carries tabindex="0"), then
+        // focus lands on its move button, or on its cell when it has none.
+        if (_focusCardPendingId is { } pendingCardId)
         {
-            _focusButtonPendingForCardId = null;
-            if (_moveButtonComponents.TryGetValue(cardId, out var button)) await TryFocusAsync(button.Element);
+            var position = PositionOf(pendingCardId);
+            if (position is null)
+            {
+                _focusCardPendingId = null; // the card is gone; nothing to follow
+            }
+            else if (position.Value.Row != _focusedRow || position.Value.Col != _focusedCol)
+            {
+                _focusedRow = position.Value.Row;
+                _focusedCol = position.Value.Col;
+                StateHasChanged();
+                return;
+            }
+            else
+            {
+                _focusCardPendingId = null;
+                if (Labels.MoveButton is not null && _moveButtonComponents.TryGetValue(pendingCardId, out var button))
+                    await TryFocusAsync(button.Element);
+                else
+                    await FocusActiveCellAsync();
+            }
         }
         if (_focusCellPending)
         {

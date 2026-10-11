@@ -11,7 +11,7 @@
     //   className — string, optional. CSS class name.
     //   value — number, required. Rating value (1-5) to display.
     //   label — string, required. Accessible description via aria-label.
-    //   labels — string[], default ["Very bad", "Bad", "Okay", "Good", "Very good"]. Text labels for each face.
+    //   labels — string[], default ["1", "2", "3", "4", "5"] (no English default; pass words, e.g. ["Very bad", …, "Very good"]). Text labels for each face.
     //   ...restProps — additional HTML attributes spread onto the span.
     //
     // Syntax:
@@ -53,7 +53,8 @@
         /** Labels for each face. */
         labels?: string[];
     }>(), {
-        labels: () => ["Very bad", "Bad", "Okay", "Good", "Very good"],
+        // The numbers, not English words: the words are the consumer's to supply.
+        labels: () => ["1", "2", "3", "4", "5"],
     });
 
     const faceLabel = computed(() =>

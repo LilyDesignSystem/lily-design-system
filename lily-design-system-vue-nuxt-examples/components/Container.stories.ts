@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Container from './Container.vue';
 
 const meta = {
-  title: 'Examples/Container',
+  title: 'Headless/Container',
   component: Container,
   tags: ['autodocs']
 } satisfies Meta<typeof Container>;

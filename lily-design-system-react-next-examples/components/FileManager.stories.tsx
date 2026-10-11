@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import FileManager from './FileManager';
 
 const meta = {
-  title: 'Examples/FileManager',
+  title: 'Headless/FileManager',
   component: FileManager,
   tags: ['autodocs']
 } satisfies Meta<typeof FileManager>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TreeListItem from './TreeListItem.vue';
 
 const meta = {
-  title: 'Examples/TreeListItem',
+  title: 'Headless/TreeListItem',
   component: TreeListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof TreeListItem>;

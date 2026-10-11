@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ValidationList from './ValidationList';
 
 const meta = {
-  title: 'Examples/ValidationList',
+  title: 'Headless/ValidationList',
   component: ValidationList,
   tags: ['autodocs']
 } satisfies Meta<typeof ValidationList>;

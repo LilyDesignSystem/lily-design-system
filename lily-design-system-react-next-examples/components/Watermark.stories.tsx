@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Watermark from './Watermark';
 
 const meta = {
-  title: 'Examples/Watermark',
+  title: 'Headless/Watermark',
   component: Watermark,
   tags: ['autodocs']
 } satisfies Meta<typeof Watermark>;

@@ -3,7 +3,7 @@
   import GanttTableTfoot from './GanttTableTfoot.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/GanttTableTfoot',
+    title: 'Headless/GanttTableTfoot',
     component: GanttTableTfoot,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PhaseBanner from './PhaseBanner';
 
 const meta = {
-  title: 'Examples/PhaseBanner',
+  title: 'Headless/PhaseBanner',
   component: PhaseBanner,
   tags: ['autodocs']
 } satisfies Meta<typeof PhaseBanner>;

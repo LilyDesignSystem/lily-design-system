@@ -3,7 +3,7 @@
   import ToggleButton from './ToggleButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ToggleButton',
+    title: 'Headless/ToggleButton',
     component: ToggleButton,
   });
 </script>

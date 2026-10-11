@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EspanaTarjetaSanitariaIndividualInput from './EspanaTarjetaSanitariaIndividualInput';
 
 const meta = {
-  title: 'Examples/EspanaTarjetaSanitariaIndividualInput',
+  title: 'Headless/EspanaTarjetaSanitariaIndividualInput',
   component: EspanaTarjetaSanitariaIndividualInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EspanaTarjetaSanitariaIndividualInput>;

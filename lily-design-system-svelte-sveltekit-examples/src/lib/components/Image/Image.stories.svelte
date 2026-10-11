@@ -3,7 +3,7 @@
   import Image from './Image.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Image',
+    title: 'Headless/Image',
     component: Image,
   });
 </script>

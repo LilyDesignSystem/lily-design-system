@@ -3,7 +3,7 @@
   import PaddingReset from './PaddingReset.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PaddingReset',
+    title: 'Headless/PaddingReset',
     component: PaddingReset,
   });
 </script>

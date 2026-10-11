@@ -3,7 +3,7 @@
   import FloatingPanel from './FloatingPanel.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FloatingPanel',
+    title: 'Headless/FloatingPanel',
     component: FloatingPanel,
   });
 </script>

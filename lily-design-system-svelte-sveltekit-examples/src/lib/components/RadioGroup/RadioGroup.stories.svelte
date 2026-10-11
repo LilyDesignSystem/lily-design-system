@@ -3,7 +3,7 @@
   import RadioGroup from './RadioGroup.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RadioGroup',
+    title: 'Headless/RadioGroup',
     component: RadioGroup,
   });
 </script>

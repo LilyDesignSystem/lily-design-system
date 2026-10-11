@@ -1,78 +1,117 @@
 # MeasurementUnitView
 
-## Overview
+MeasurementUnitView is a headless Svelte 5 display component that shows a measurement unit in a `<span>` element. A measurement unit is a standard quantity used to express a physical measurement, such as "kg", "lb", "cm", or "inch".
 
-A headless display component that shows a measurement unit in a <span>
-element. A measurement unit is a standard quantity used to express a
-physical measurement, such as "kg", "lb", "cm", or "inch". This is a
-read-only display component, part of the Input/View pattern for measurement
-data.
+## What it is
+
+A thin, unstyled `<span>` wrapper that renders a unit string with an optional `aria-label` for screen-reader context (useful for abbreviations). It is the read-only companion to `MeasurementUnitInput`.
 
 ## What it does
 
-A read-only display of a measurement unit.
+- Renders a `<span>` with `class="measurement-unit-view"` plus any consumer-provided CSS class.
+- Displays the required `value` prop as text content.
+- Applies `aria-label` from the optional `label` prop.
+- Spreads `...restProps` onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Displaying a measurement unit alongside a numeric value (e.g., "72" + "kg").
+- Showing a stored unit next to a label in a description list, card, or table cell.
+- Expanding an abbreviated unit via `label` so screen readers announce its full name.
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- Do not use when the value should be editable — use `MeasurementUnitInput`.
+- Do not use for a measurement value — use `MeasurementInstanceView`.
+- Do not use for a measurement system — use `MeasurementSystemView`.
 
-## Usage
+## How to use it
 
-```svelte
-<MeasurementUnitView value="kg" />
-```
+Import the component, pass the unit `value`, and optionally provide a `label` with the long form for accessibility.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | string, required | The measurement unit to display. |
-| `label` | string, optional | Accessible name via aria-label for additional context. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
+- `class` (string, optional) — consumer CSS class appended to the base class.
+- `value` (string, required) — the measurement unit to display.
+- `label` (string, optional) — accessible name via `aria-label`.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<span>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Simple unit abbreviation display -->
-<MeasurementUnitView value="kg" />
-
-<!-- With accessible label for abbreviated unit -->
-<MeasurementUnitView value="lb" label="Pounds" />
-```
-
-## SvelteKit example
+### Simple unit abbreviation
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementUnitView from "#lib/components/MeasurementUnitView/MeasurementUnitView.svelte";
+    import MeasurementUnitView from "./MeasurementUnitView.svelte";
 </script>
 
 <MeasurementUnitView value="kg" />
 ```
 
-## Keyboard
+### With accessible long-form label
 
-- None — this is a display-only component with no interactive behavior.
+```svelte
+<script lang="ts">
+    import MeasurementUnitView from "./MeasurementUnitView.svelte";
+</script>
+
+<MeasurementUnitView value="lb" label="Pounds" />
+```
+
+### Beside a numeric value
+
+```svelte
+<script lang="ts">
+    import MeasurementUnitView from "./MeasurementUnitView.svelte";
+</script>
+
+<p>
+    Weight: 72&nbsp;<MeasurementUnitView value="kg" label="Kilograms" />
+</p>
+```
+
+### In a description list
+
+```svelte
+<script lang="ts">
+    import MeasurementUnitView from "./MeasurementUnitView.svelte";
+</script>
+
+<dl>
+    <dt>Unit</dt>
+    <dd><MeasurementUnitView value="cm" label="Centimetres" /></dd>
+</dl>
+```
+
+### With a consumer CSS class
+
+```svelte
+<script lang="ts">
+    import MeasurementUnitView from "./MeasurementUnitView.svelte";
+</script>
+
+<MeasurementUnitView class="unit-muted" value="mmHg" label="Millimetres of mercury" />
+
+<style>
+    :global(.unit-muted) {
+        color: #6b7280;
+        margin-left: 0.25rem;
+    }
+</style>
+```
 
 ## Accessibility
 
-- aria-label optionally provides additional context beyond the displayed unit
-- Text content is inherently accessible to screen readers
+- `aria-label` optionally provides the long form of an abbreviation (e.g., "kg" → "Kilograms").
+- Text content is inherently accessible to screen readers.
+- Compliant with WCAG 2.2 AAA when the consumer provides sufficient colour contrast.
 
-## Internationalization
+## Related components
 
-- All text comes through the value and label props
-- No hardcoded user-facing strings
-
-## References
-
-- HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+- `MeasurementUnitInput` — paired input for entering the same unit.
+- `MeasurementInstanceView` / `MeasurementInstanceInput` — value + unit together.
+- `MeasurementSystemView` / `MeasurementSystemInput` — measurement system.
+- `BodyText` — general text block.
 
 ---
 

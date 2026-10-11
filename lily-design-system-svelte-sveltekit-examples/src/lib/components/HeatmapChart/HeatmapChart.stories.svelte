@@ -3,7 +3,7 @@
   import HeatmapChart from './HeatmapChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/HeatmapChart',
+    title: 'Headless/HeatmapChart',
     component: HeatmapChart,
   });
 </script>

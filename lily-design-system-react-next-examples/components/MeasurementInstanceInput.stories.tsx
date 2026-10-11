@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MeasurementInstanceInput from './MeasurementInstanceInput';
 
 const meta = {
-  title: 'Examples/MeasurementInstanceInput',
+  title: 'Headless/MeasurementInstanceInput',
   component: MeasurementInstanceInput,
   tags: ['autodocs']
 } satisfies Meta<typeof MeasurementInstanceInput>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import RangeInput from './RangeInput';
 
 const meta = {
-  title: 'Examples/RangeInput',
+  title: 'Headless/RangeInput',
   component: RangeInput,
   tags: ['autodocs']
 } satisfies Meta<typeof RangeInput>;

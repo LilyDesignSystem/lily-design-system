@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Diff from './Diff.vue';
 
 const meta = {
-  title: 'Examples/Diff',
+  title: 'Headless/Diff',
   component: Diff,
   tags: ['autodocs']
 } satisfies Meta<typeof Diff>;

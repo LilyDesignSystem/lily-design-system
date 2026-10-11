@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PostalCodeInput from './PostalCodeInput.vue';
 
 const meta = {
-  title: 'Examples/PostalCodeInput',
+  title: 'Headless/PostalCodeInput',
   component: PostalCodeInput,
   tags: ['autodocs']
 } satisfies Meta<typeof PostalCodeInput>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TabBarButton from './TabBarButton.vue';
 
 const meta = {
-  title: 'Examples/TabBarButton',
+  title: 'Headless/TabBarButton',
   component: TabBarButton,
   tags: ['autodocs']
 } satisfies Meta<typeof TabBarButton>;

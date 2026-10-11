@@ -3,7 +3,7 @@
   import KbdShortcut from './KbdShortcut.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/KbdShortcut',
+    title: 'Headless/KbdShortcut',
     component: KbdShortcut,
   });
 </script>

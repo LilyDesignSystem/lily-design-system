@@ -1,86 +1,148 @@
 # BreadcrumbNav
 
-## Overview
+A navigation landmark for a breadcrumb trail that shows the user's current position within the site hierarchy. Renders a `<nav>` with a required `aria-label`.
 
-A navigation landmark for a breadcrumb trail that shows the user's current
-location within a site hierarchy. Renders a <nav> element with an accessible
-label. Contains a BreadcrumbList which holds BreadcrumbListItem children.
-Used in sites with deep hierarchies such as e-commerce catalogs,
-documentation, and content management systems.
+## What it is
+
+A headless Svelte 5 compound component. Category: navigation-landmark primitive, sibling of `AccordionNav`, `ContentsNav`, `PaginationNav`, and `TreeNav`.
 
 ## What it does
 
-A navigation container for breadcrumb trail links.
+- Renders `<nav class="breadcrumb-nav {className}" aria-label={label}>`.
+- Provides the navigation landmark name so AT users can jump to the trail via landmark menus.
+- Spreads additional HTML attributes onto the `<nav>`.
 
-## When to use
+## When to use it
 
-- Use to mark a region as primary navigation (landmark).
+- At the top of any page with a hierarchical site structure.
+- For e-commerce, documentation, CMSes, and deeply nested sections.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For primary site-wide navigation — use `NavigationMenu` or a plain `<nav>` with a `<ul>` of links.
+- For one-step back navigation — use `BackLink`.
+- For pagination trails — use `PaginationNav`.
 
-## Usage
+## How to use it
 
-```svelte
-<BreadcrumbNav label="Breadcrumb">
-  <BreadcrumbList>...</BreadcrumbList>
-</BreadcrumbNav>
-```
+Import `BreadcrumbNav` from `./BreadcrumbNav.svelte`. Always pass `label`. Wrap a `BreadcrumbList` inside.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the navigation landmark. |
-| `children` | Snippet, required | BreadcrumbList element. |
-| `...restProps` | additional HTML attributes spread onto the <nav> |  |
+- `class` — string, default `""`. CSS class appended to `breadcrumb-nav`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `children` — `Snippet`, required. A `BreadcrumbList`.
+- `...restProps` — additional HTML attributes spread onto the `<nav>`.
 
-## Examples
+## Usage
+
+### Standard trail
 
 ```svelte
-<!-- Full breadcrumb navigation -->
+<script lang="ts">
+  import BreadcrumbNav from './BreadcrumbNav.svelte';
+  import BreadcrumbList from '../BreadcrumbList/BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+</script>
+
 <BreadcrumbNav label="Breadcrumb">
   <BreadcrumbList>
     <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-    <BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
+    <BreadcrumbListItem><a href="/shop">Shop</a></BreadcrumbListItem>
     <BreadcrumbListItem current>Widget</BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```
 
-## SvelteKit example
+### Localized label
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BreadcrumbNav from "#lib/components/BreadcrumbNav/BreadcrumbNav.svelte";
+  import BreadcrumbNav from './BreadcrumbNav.svelte';
+  import BreadcrumbList from '../BreadcrumbList/BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+
+  const label = 'Chemin de navigation';
 </script>
 
-<BreadcrumbNav label="Breadcrumb">
-  <BreadcrumbList>...</BreadcrumbList>
+<BreadcrumbNav {label}>
+  <BreadcrumbList>
+    <BreadcrumbListItem><a href="/">Accueil</a></BreadcrumbListItem>
+    <BreadcrumbListItem current>À propos</BreadcrumbListItem>
+  </BreadcrumbList>
 </BreadcrumbNav>
 ```
 
-## Keyboard
+### Inside a page header
 
-- Tab: Focus moves between links in the breadcrumb trail
-- Enter: Activates the focused breadcrumb link
+```svelte
+<script lang="ts">
+  import BreadcrumbNav from './BreadcrumbNav.svelte';
+  import BreadcrumbList from '../BreadcrumbList/BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+</script>
+
+<header>
+  <BreadcrumbNav label="You are here">
+    <BreadcrumbList>
+      <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
+      <BreadcrumbListItem current>Dashboard</BreadcrumbListItem>
+    </BreadcrumbList>
+  </BreadcrumbNav>
+  <h1>Dashboard</h1>
+</header>
+```
+
+### With data hooks
+
+```svelte
+<script lang="ts">
+  import BreadcrumbNav from './BreadcrumbNav.svelte';
+  import BreadcrumbList from '../BreadcrumbList/BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+</script>
+
+<BreadcrumbNav label="Breadcrumb" data-testid="bc" id="page-breadcrumbs">
+  <BreadcrumbList>
+    <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
+    <BreadcrumbListItem current>Contact</BreadcrumbListItem>
+  </BreadcrumbList>
+</BreadcrumbNav>
+```
+
+### Nested inside an app frame
+
+```svelte
+<script lang="ts">
+  import BreadcrumbNav from './BreadcrumbNav.svelte';
+  import BreadcrumbList from '../BreadcrumbList/BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+</script>
+
+<main>
+  <BreadcrumbNav label="Admin breadcrumb">
+    <BreadcrumbList>
+      <BreadcrumbListItem><a href="/admin">Admin</a></BreadcrumbListItem>
+      <BreadcrumbListItem><a href="/admin/users">Users</a></BreadcrumbListItem>
+      <BreadcrumbListItem current>Edit user</BreadcrumbListItem>
+    </BreadcrumbList>
+  </BreadcrumbNav>
+</main>
+```
 
 ## Accessibility
 
-- <nav> with aria-label creates a navigation landmark
-- Screen readers announce the landmark name for orientation
+- `<nav>` with `aria-label` gives the trail a distinct landmark.
+- If a page has multiple breadcrumb navs (rare), differentiate them with unique labels.
+- Keyboard: native Tab through links.
+- Screen readers announce "Breadcrumb, navigation" (or the localized label).
 
-## Internationalization
+## Related components
 
-- Label text comes through the label prop; no hardcoded strings
-
-## References
-
-- WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
-- HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
+- `BreadcrumbList`, `BreadcrumbListItem`, `BreadcrumbLink` — trail children.
+- `BackLink` — one-step back navigation.
+- `AccordionNav`, `ContentsNav`, `PaginationNav`, `TreeNav` — sibling landmarks.
+- `NavigationMenu` — primary site navigation.
 
 ---
 

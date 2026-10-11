@@ -3,7 +3,7 @@
   import TreeList from './TreeList.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TreeList',
+    title: 'Headless/TreeList',
     component: TreeList,
   });
 </script>

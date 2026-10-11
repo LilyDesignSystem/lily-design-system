@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MockupShell from './MockupShell';
 
 const meta = {
-  title: 'Examples/MockupShell',
+  title: 'Headless/MockupShell',
   component: MockupShell,
   tags: ['autodocs']
 } satisfies Meta<typeof MockupShell>;

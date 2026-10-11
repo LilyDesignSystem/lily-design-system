@@ -3,7 +3,7 @@
   import ReviewDate from './ReviewDate.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ReviewDate',
+    title: 'Headless/ReviewDate',
     component: ReviewDate,
   });
 </script>

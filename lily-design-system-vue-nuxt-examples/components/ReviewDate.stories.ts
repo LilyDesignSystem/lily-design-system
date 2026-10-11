@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ReviewDate from './ReviewDate.vue';
 
 const meta = {
-  title: 'Examples/ReviewDate',
+  title: 'Headless/ReviewDate',
   component: ReviewDate,
   tags: ['autodocs']
 } satisfies Meta<typeof ReviewDate>;

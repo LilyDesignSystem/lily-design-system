@@ -3,7 +3,7 @@
   import TextAreaInput from './TextAreaInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TextAreaInput',
+    title: 'Headless/TextAreaInput',
     component: TextAreaInput,
   });
 </script>

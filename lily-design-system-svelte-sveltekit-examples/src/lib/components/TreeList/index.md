@@ -1,44 +1,51 @@
 # TreeList
 
-## Overview
+A headless hierarchical list rendered as `<ol role="tree">` with built-in arrow-key / Home / End navigation between descendant `[role="treeitem"]` elements.
 
-A headless hierarchical list using the ARIA tree role with full keyboard
-navigation. Renders a <ul> with role="tree" and manages focus movement
-between tree items using ArrowDown/ArrowUp with wrapping, plus Home/End
-to jump to first/last items. Commonly used for file browsers, organizational
-charts, nested data displays, or any hierarchical structure.
+## What it is
+
+`TreeList` is a Svelte 5 component implementing the WAI-ARIA tree pattern. It renders an `<ol>` with `role="tree"` and manages focus movement across descendant tree items via `ArrowDown`, `ArrowUp`, `Home`, and `End` with wraparound at boundaries.
 
 ## What it does
 
-A hierarchical list with nested expandable items.
+- Renders `<ol class="tree-list {className}" role="tree" aria-label={label}>`.
+- Stores a DOM ref and, on arrow / Home / End keypresses, finds all descendants matching `[role='treeitem']` and moves focus accordingly.
+- Wraps focus at boundaries (down from last → first, up from first → last).
+- Renders the `children` snippet.
+- Spreads additional HTML attributes onto the `<ol>`.
 
-## When to use
+## When to use it
 
-- Use to render an ordered collection of related items.
+- File browsers and directory tree views.
+- Organizational charts and hierarchical employee listings.
+- Nested category lists and taxonomy browsers.
+- Any hierarchy of items expressed as an ordered list.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it for flat, non-hierarchical content — use `TaskList` or a plain `<ul>`.
+- Don't use it for navigation where `role="tree"` is semantically wrong — use `NavigationMenu` or `TreeNav` for nav semantics.
+- Don't use it for tabular hierarchy — use `DataTable`.
+- Don't use it for kanban / status groupings — use `KanbanTable`.
+
+## How to use it
+
+Import and provide `<li role="treeitem" tabindex="-1">` children (the first visible item commonly uses `tabindex="0"`). Pass a translated `label`.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `tree-list`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `children` — Snippet, required. Tree item elements with `role="treeitem"`.
+- `...restProps` — any additional HTML attributes spread onto the `<ol>`.
 
 ## Usage
 
 ```svelte
-<TreeList label="File browser">...</TreeList>
-```
+<script lang="ts">
+  import TreeList from "./TreeList.svelte";
+</script>
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the tree via aria-label. |
-| `children` | Snippet, required | Tree item elements with role="treeitem". |
-| `...restProps` | additional HTML attributes spread onto the <ul> |  |
-
-## Examples
-
-```svelte
-<!-- File browser tree view -->
 <TreeList label="File browser">
   <li role="treeitem" tabindex="0">Documents</li>
   <li role="treeitem" tabindex="-1">Photos</li>
@@ -46,38 +53,81 @@ A hierarchical list with nested expandable items.
 </TreeList>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TreeList from "#lib/components/TreeList/TreeList.svelte";
+  import TreeList from "./TreeList.svelte";
+
+  const rows = ["Home", "About", "Contact"];
 </script>
 
-<TreeList label="File browser">...</TreeList>
+<TreeList label="Site map">
+  {#each rows as r, i}
+    <li role="treeitem" tabindex={i === 0 ? 0 : -1}>{r}</li>
+  {/each}
+</TreeList>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import TreeList from "./TreeList.svelte";
+</script>
 
-- ArrowDown: move focus to the next tree item (wraps to first)
-- ArrowUp: move focus to the previous tree item (wraps to last)
-- Home: move focus to the first tree item
-- End: move focus to the last tree item
+<TreeList label="Org chart">
+  <li role="treeitem" tabindex="0" aria-expanded="true">
+    Engineering
+    <ol role="group">
+      <li role="treeitem" tabindex="-1">Frontend</li>
+      <li role="treeitem" tabindex="-1">Backend</li>
+    </ol>
+  </li>
+  <li role="treeitem" tabindex="-1" aria-expanded="false">Design</li>
+</TreeList>
+```
+
+```svelte
+<script lang="ts">
+  import TreeList from "./TreeList.svelte";
+
+  let selected = $state("Home");
+</script>
+
+<TreeList label="Sections">
+  <li
+    role="treeitem"
+    tabindex="0"
+    aria-selected={selected === "Home"}
+    onclick={() => (selected = "Home")}
+  >
+    Home
+  </li>
+  <li
+    role="treeitem"
+    tabindex="-1"
+    aria-selected={selected === "About"}
+    onclick={() => (selected = "About")}
+  >
+    About
+  </li>
+</TreeList>
+<p>Selected: {selected}</p>
+```
 
 ## Accessibility
 
-- role="tree" identifies the container as a tree widget for hierarchical data
-- aria-label={label} provides an accessible name describing the tree
+- `role="tree"` identifies the container as a tree widget.
+- `aria-label` supplies the accessible name.
+- Keyboard:
+  - `ArrowDown` / `ArrowUp` move focus between tree items, wrapping around.
+  - `Home` / `End` jump to first/last items.
+- Consumers should use `role="treeitem"` and `tabindex="-1"` on items (with one item getting `tabindex="0"` for initial tab stop).
+- For nested levels, children should use `role="group"` wrappers and `aria-expanded` on the parent item.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/TreeList/
-- WAI-ARIA tree role: https://www.w3.org/TR/wai-aria-1.2/#tree
+- `TreeNav` — the same tree pattern rendered as `<ul>` and intended for navigation.
+- `TreeListItem` — helper item component.
+- `TreeMenu` — hierarchical menu variant.
+- `ContentsList` — table-of-contents flat list.
 
 ---
 

@@ -3,7 +3,7 @@
   import TagInput from './TagInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TagInput',
+    title: 'Headless/TagInput',
     component: TagInput,
   });
 </script>

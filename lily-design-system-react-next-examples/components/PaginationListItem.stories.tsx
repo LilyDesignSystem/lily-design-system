@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PaginationListItem from './PaginationListItem';
 
 const meta = {
-  title: 'Examples/PaginationListItem',
+  title: 'Headless/PaginationListItem',
   component: PaginationListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof PaginationListItem>;

@@ -3,7 +3,7 @@
   import Separator from './Separator.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Separator',
+    title: 'Headless/Separator',
     component: Separator,
   });
 </script>

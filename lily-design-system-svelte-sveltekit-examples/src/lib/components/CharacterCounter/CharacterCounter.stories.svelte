@@ -3,7 +3,7 @@
   import CharacterCounter from './CharacterCounter.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CharacterCounter',
+    title: 'Headless/CharacterCounter',
     component: CharacterCounter,
   });
 </script>

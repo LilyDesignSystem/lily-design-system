@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ResetInput from './ResetInput';
 
 const meta = {
-  title: 'Examples/ResetInput',
+  title: 'Headless/ResetInput',
   component: ResetInput,
   tags: ['autodocs']
 } satisfies Meta<typeof ResetInput>;

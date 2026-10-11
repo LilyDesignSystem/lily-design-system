@@ -1,86 +1,129 @@
 # PostalCodeInput
 
-## Overview
+A headless text input for postal or ZIP codes. Renders a native `<input type="text">` (so alphanumeric codes like UK postcodes work) with `autocomplete="postal-code"` for browser autofill.
 
-A headless text input for entering postal or ZIP codes with
-autocomplete="postal-code" for browser autofill support. It renders a native
-<input type="text"> (not type="number", since postal codes may contain letters
-or dashes) with a bindable value for two-way data binding. Commonly used in
-address forms, checkout flows, shipping calculators, and location-based inputs.
-Pairs with PostalCodeView for the Input/View pattern.
+## What it is
+
+- Component: `PostalCodeInput`
+- HTML element: `<input type="text">`
+- Role: implicit textbox
+- Category: form input (input half of the Input/View pattern)
 
 ## What it does
 
-An input for entering a postal or ZIP code.
+- Renders a plain text input pre-wired for postal codes.
+- Applies `autocomplete="postal-code"` for browser address autofill.
+- Exposes `bind:value` for two-way data binding.
+- Forwards `required`, `disabled`, and all other attributes onto the `<input>`.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Address forms, checkout, and shipping calculators.
+- Any field capturing a postal, ZIP, or postcode value.
+- Forms where you want to support alphanumeric codes (e.g. UK `SW1A 1AA`) and dashes (e.g. US ZIP+4 `90210-1234`).
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- For displaying an existing postal code as read-only — use `PostalCodeView`.
+- For generic free-form text — use `TextInput`.
+- For numeric-only quantities — use `NumberInput`.
 
-## Usage
+## How to use it
+
+Import and bind a string value. Add `pattern`, `placeholder`, and `maxlength` via `restProps` for locale-specific formats.
 
 ```svelte
-<PostalCodeInput label="Postal code" bind:value />
+import PostalCodeInput from './PostalCodeInput.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `value` | string, default "" | Current postal code value; bindable with bind:value. |
-| `required` | boolean, default false | Whether the field is required. |
-| `disabled` | boolean, default false | Whether the field is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `postal-code-input`.
+- `label`: string, required. Accessible name via `aria-label`.
+- `value`: string, default `""`. Bindable with `bind:value`.
+- `required`: boolean, default `false`.
+- `disabled`: boolean, default `false`.
+- `...restProps`: spread onto the `<input>` (e.g. `pattern`, `placeholder`, `maxlength`).
 
-## Examples
+## Usage
+
+### Basic example
 
 ```svelte
-<!-- Basic postal code input -->
-<PostalCodeInput label="Postal code" bind:value />
+<script lang="ts">
+  import PostalCodeInput from './PostalCodeInput.svelte';
 
-<!-- Required ZIP code input -->
-<PostalCodeInput label="ZIP code" bind:value={zipCode} required />
+  let postcode = $state("");
+</script>
 
-<!-- UK postcode with placeholder -->
+<PostalCodeInput label="Postal code" bind:value={postcode} />
+```
+
+### Required ZIP code
+
+```svelte
+<script lang="ts">
+  import PostalCodeInput from './PostalCodeInput.svelte';
+
+  let zip = $state("");
+</script>
+
+<PostalCodeInput label="ZIP code" bind:value={zip} required />
+```
+
+### UK postcode with a placeholder
+
+```svelte
+<script lang="ts">
+  import PostalCodeInput from './PostalCodeInput.svelte';
+
+  let postcode = $state("");
+</script>
+
 <PostalCodeInput label="Postcode" bind:value={postcode} placeholder="SW1A 1AA" />
 ```
 
-## SvelteKit example
+### With a locale-specific pattern
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PostalCodeInput from "#lib/components/PostalCodeInput/PostalCodeInput.svelte";
+  import PostalCodeInput from './PostalCodeInput.svelte';
 </script>
 
-<PostalCodeInput label="Postal code" bind:value />
+<!-- US ZIP or ZIP+4 -->
+<PostalCodeInput label="ZIP" pattern="\d{5}(-\d{4})?" placeholder="90210" />
 ```
 
-## Keyboard
+### Toggling between input and view
 
-- None beyond native input behavior — standard text editing keys
-- (typing, backspace, selection, clipboard-copy-button shortcuts) handled by the browser.
+```svelte
+<script lang="ts">
+  import PostalCodeInput from './PostalCodeInput.svelte';
+  import PostalCodeView from '../PostalCodeView/PostalCodeView.svelte';
+
+  let zip = $state("90210");
+  let editing = $state(false);
+</script>
+
+{#if editing}
+  <PostalCodeInput label="ZIP" bind:value={zip} />
+{:else}
+  <PostalCodeView text={zip} />
+{/if}
+<button onclick={() => (editing = !editing)}>Toggle</button>
+```
 
 ## Accessibility
 
-- aria-label provides an accessible name since no visible <label> is included
-- autocomplete="postal-code" hints browser autofill for postal code fields
+- `aria-label` provides the accessible name since no visible `<label>` is rendered. Pair with `Field` for a visible label.
+- `autocomplete="postal-code"` helps browser autofill and password-manager-style address tools.
+- WCAG 2.2 AAA: consumer CSS must supply a visible focus indicator and an error state for `:invalid`.
 
-## Internationalization
+## Related components
 
-- The label prop is the only user-facing text; no hardcoded strings
-- Consumer can pass pattern, placeholder, and maxlength via restProps for locale-specific formats
-
-## References
-
-- HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-- MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+- `PostalCodeView` — read-only display sibling.
+- `TextInput` — generic text input.
+- `Field`, `Label`, `Hint`, `ErrorMessage` — labeling and messaging wrappers.
 
 ---
 

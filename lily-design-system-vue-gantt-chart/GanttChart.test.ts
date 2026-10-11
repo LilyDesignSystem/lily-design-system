@@ -353,3 +353,107 @@ describe("GanttChart — extra attributes (§8.15)", () => {
         expect(document.querySelector('[data-testid="chart-root"]')).toBeTruthy();
     });
 });
+
+function key(el: Element, k: string, init: KeyboardEventInit = {}): void {
+    el.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true, ...init }));
+}
+
+function startField(): HTMLInputElement | null {
+    return document.querySelector<HTMLInputElement>(".gantt-chart-edit-row .date-time-picker-input");
+}
+
+describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => {
+    test("§8.17 depth is a data-depth attribute, never an inline style", () => {
+        build();
+        const headers = Array.from(document.querySelectorAll<HTMLElement>(".gantt-table-tbody .gantt-table-th"));
+        expect(headers.map((h) => h.dataset.depth)).toEqual(["0", "0", "0", "0", "1", "1"]);
+        expect(headers.filter((h) => h.hasAttribute("style"))).toHaveLength(0);
+    });
+
+    test("§8.17 a task whose parentId names no task renders as a top-level row", () => {
+        const orphan: GanttTask = { id: "orphan", label: "Orphan", start: "2026-10-02", end: "2026-10-02", parentId: "gone" };
+        expect(flattenTasks([...TASKS, orphan], new Set()).map((r) => r.task.id)).toContain("orphan");
+    });
+
+    test("§8.17 a parentId cycle does not recurse forever", () => {
+        const cycle: GanttTask[] = [
+            { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", parentId: "b" },
+            { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", parentId: "a" },
+        ];
+        expect(() => effectiveRange(cycle[0], cycle)).not.toThrow();
+    });
+
+    test("§8.8 when collapsing removes the row under the cursor, one cell stays tabbable", async () => {
+        build({ labels: LABELS });
+        key(tabbableCells()[0], "End", { ctrlKey: true });
+        await flush();
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("5");
+        buttonByName("Collapse Phase 1")!.click();
+        await flush();
+        expect(rows()).toHaveLength(4);
+        expect(tabbableCells()).toHaveLength(1);
+    });
+
+    test("§8.8 focusing a cell by pointer moves the cursor there", async () => {
+        build();
+        const cell = rows()[2].querySelectorAll<HTMLElement>(".gantt-table-td")[4];
+        cell.focus();
+        await flush();
+        expect(tabbableCells()).toEqual([cell]);
+    });
+
+    test("§8.9 opening the edit region moves focus to the start date's field", async () => {
+        build({ labels: LABELS });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        expect(document.activeElement).toBe(startField());
+    });
+
+    test("§8.11 Escape cancels the edit region and returns focus to the task's cell", async () => {
+        const wrapper = build({ labels: LABELS });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        key(startField()!, "Escape");
+        await flush();
+        expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+        expect(wrapper.emitted("task-change")).toBeUndefined();
+        expect(document.activeElement).toBe(tabbableCells()[0]);
+    });
+
+    test("§8.10 Save returns focus to the grid", async () => {
+        build({ labels: LABELS });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        editRowButton("gantt-chart-save-button")!.click();
+        await flush();
+        expect(document.activeElement).toBe(tabbableCells()[0]);
+    });
+
+    test("§8.10 a range entered end-first is saved start-first", async () => {
+        const wrapper = build({ labels: LABELS });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        const field = startField()!;
+        field.value = "2026-10-09";
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+        field.dispatchEvent(new Event("change", { bubbles: true }));
+        field.dispatchEvent(new FocusEvent("blur"));
+        await flush();
+        editRowButton("gantt-chart-save-button")!.click();
+        await flush();
+        expect(wrapper.emitted("task-change")).toEqual([["design", "2026-10-03", "2026-10-09"]]);
+    });
+
+    test("§8.16 controls whose labels are absent do not render unnamed", async () => {
+        build({ labels: { dateTimePickerLabels: DTP_LABELS } });
+        expect(document.querySelector(".gantt-chart-collapse-button")).toBeNull();
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+    });
+
+    test("§8.16 labels.taskColumnHeader names the leading header cell", () => {
+        build({ labels: { ...LABELS, taskColumnHeader: "Task" } });
+        expect(document.querySelector(".gantt-table-thead .gantt-table-th")?.textContent?.trim()).toBe("Task");
+    });
+});

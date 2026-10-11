@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AccordionLink from './AccordionLink';
 
 const meta = {
-  title: 'Examples/AccordionLink',
+  title: 'Headless/AccordionLink',
   component: AccordionLink,
   tags: ['autodocs']
 } satisfies Meta<typeof AccordionLink>;

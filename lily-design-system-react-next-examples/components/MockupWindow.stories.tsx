@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MockupWindow from './MockupWindow';
 
 const meta = {
-  title: 'Examples/MockupWindow',
+  title: 'Headless/MockupWindow',
   component: MockupWindow,
   tags: ['autodocs']
 } satisfies Meta<typeof MockupWindow>;

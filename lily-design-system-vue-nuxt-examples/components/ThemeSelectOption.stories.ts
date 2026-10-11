@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ThemeSelectOption from './ThemeSelectOption.vue';
 
 const meta = {
-  title: 'Examples/ThemeSelectOption',
+  title: 'Headless/ThemeSelectOption',
   component: ThemeSelectOption,
   tags: ['autodocs']
 } satisfies Meta<typeof ThemeSelectOption>;

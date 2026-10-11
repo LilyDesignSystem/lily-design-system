@@ -3,7 +3,7 @@
   import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RedOrangeYellowGreenBlueView',
+    title: 'Headless/RedOrangeYellowGreenBlueView',
     component: RedOrangeYellowGreenBlueView,
   });
 </script>

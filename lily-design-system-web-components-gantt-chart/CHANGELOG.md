@@ -3,6 +3,13 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11
+
+Fixed: row depth is `data-depth`, not an inline style; orphaned `parentId`s render as top-level rows and cycles no longer
+hang; the edit region takes focus on open and returns it to the grid on Save/Cancel/Escape; a range entered end-first is
+saved start-first and Save is disabled while a date is empty; collapse and edit controls do not render unnamed. Added
+`labels.taskColumnHeader` and `effectiveRanges`. See the repository CHANGELOG (2026-10-11) and `spec/index.md` §8.
+
 ## 0.1.0 — 2026-09-22
 
 Initial release. Direct port of `@lilydesignsystem/svelte-gantt-chart`.

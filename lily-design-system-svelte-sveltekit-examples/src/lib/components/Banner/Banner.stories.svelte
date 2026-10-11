@@ -3,7 +3,7 @@
   import Banner from './Banner.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Banner',
+    title: 'Headless/Banner',
     component: Banner,
   });
 </script>

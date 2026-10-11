@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Sparkline from './Sparkline';
 
 const meta = {
-  title: 'Examples/Sparkline',
+  title: 'Headless/Sparkline',
   component: Sparkline,
   tags: ['autodocs']
 } satisfies Meta<typeof Sparkline>;

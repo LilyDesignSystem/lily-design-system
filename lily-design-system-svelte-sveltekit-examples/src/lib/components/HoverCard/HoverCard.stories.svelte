@@ -3,7 +3,7 @@
   import HoverCard from './HoverCard.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/HoverCard',
+    title: 'Headless/HoverCard',
     component: HoverCard,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TableRow from './TableRow.vue';
 
 const meta = {
-  title: 'Examples/TableRow',
+  title: 'Headless/TableRow',
   component: TableRow,
   tags: ['autodocs']
 } satisfies Meta<typeof TableRow>;

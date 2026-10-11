@@ -3,7 +3,7 @@
   import Badge from './Badge.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Badge',
+    title: 'Headless/Badge',
     component: Badge,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PaginationNav from './PaginationNav.vue';
 
 const meta = {
-  title: 'Examples/PaginationNav',
+  title: 'Headless/PaginationNav',
   component: PaginationNav,
   tags: ['autodocs']
 } satisfies Meta<typeof PaginationNav>;

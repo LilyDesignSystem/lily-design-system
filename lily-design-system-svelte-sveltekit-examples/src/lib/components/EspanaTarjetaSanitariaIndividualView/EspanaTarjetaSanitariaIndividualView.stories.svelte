@@ -3,7 +3,7 @@
   import EspanaTarjetaSanitariaIndividualView from './EspanaTarjetaSanitariaIndividualView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EspanaTarjetaSanitariaIndividualView',
+    title: 'Headless/EspanaTarjetaSanitariaIndividualView',
     component: EspanaTarjetaSanitariaIndividualView,
   });
 </script>

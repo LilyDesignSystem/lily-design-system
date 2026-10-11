@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import EmailInput from './EmailInput.vue';
 
 const meta = {
-  title: 'Examples/EmailInput',
+  title: 'Headless/EmailInput',
   component: EmailInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EmailInput>;

@@ -1,76 +1,117 @@
 # UnitedKingdomNationalHealthServiceNumberView
 
-## Overview
+A read-only inline display of a UK NHS number, rendered as `<span>` with `aria-label` for accessible labeling.
 
-A headless display component for showing a United Kingdom National Health
-Service (NHS) number in a read-only format. Renders the number as an inline
-<span> element with an accessible label. Suitable for patient records,
-summaries, confirmation screens, or any context where an NHS number needs
-to be displayed but not edited. This is the View counterpart to the Input
-component in the Input/View pattern.
+## What it is
+
+`UnitedKingdomNationalHealthServiceNumberView` is a headless Svelte 5 component that shows a UK NHS number as plain text inside a `<span>`. It is the read-only counterpart to `UnitedKingdomNationalHealthServiceNumberInput` in an Input/View pattern; the input collects the value while the view displays it.
 
 ## What it does
 
-A read-only display of a UK NHS number.
+- Renders `<span class="united-kingdom-national-health-service-number-view {className}" aria-label={label}>{value}</span>`.
+- Performs no formatting or validation — the consumer provides the already-formatted NHS number string.
+- Spreads additional HTML attributes onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Patient record summaries where the NHS number appears but is not editable.
+- Confirmation screens after submitting a form.
+- Printable patient documents and receipts.
+- Any NHS context that displays the number alongside other patient details.
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- Don't use it to collect the NHS number — use `UnitedKingdomNationalHealthServiceNumberInput`.
+- Don't use it for other countries' identifiers — use the corresponding country-specific view components.
+- Don't use it for arbitrary inline text — use `Character` or a plain `<span>`.
+- Don't use it without a `label` prop — screen readers need the context.
+
+## How to use it
+
+Import the component and pass a translated `label` plus the `value` string (pre-formatted as `XXX XXX XXXX`).
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `united-kingdom-national-health-service-number-view`.
+- `label` — string, required. Accessible label via `aria-label`.
+- `value` — string, default `""`. The NHS number to display.
+- `...restProps` — any additional HTML attributes spread onto the `<span>`.
 
 ## Usage
 
 ```svelte
-<UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for screen readers via aria-label. |
-| `value` | string, default "" | The NHS number string to display. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
-
-## Examples
-
-```svelte
-<!-- Display patient NHS number -->
-<UnitedKingdomNationalHealthServiceNumberView label="Patient NHS Number" value={nhsNumber} />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import UnitedKingdomNationalHealthServiceNumberView from "#lib/components/UnitedKingdomNationalHealthServiceNumberView/UnitedKingdomNationalHealthServiceNumberView.svelte";
+  import UnitedKingdomNationalHealthServiceNumberView from "./UnitedKingdomNationalHealthServiceNumberView.svelte";
 </script>
 
-<UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" />
+<UnitedKingdomNationalHealthServiceNumberView
+  label="NHS Number"
+  value="123 456 7890"
+/>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import UnitedKingdomNationalHealthServiceNumberView from "./UnitedKingdomNationalHealthServiceNumberView.svelte";
 
-- None -- passive display-only component
+  const patient = { name: "Alice", nhs: "987 654 3210" };
+</script>
+
+<dl>
+  <dt>Name</dt>
+  <dd>{patient.name}</dd>
+  <dt>NHS Number</dt>
+  <dd>
+    <UnitedKingdomNationalHealthServiceNumberView
+      label="Patient NHS Number"
+      value={patient.nhs}
+    />
+  </dd>
+</dl>
+```
+
+```svelte
+<script lang="ts">
+  import UnitedKingdomNationalHealthServiceNumberInput from "../UnitedKingdomNationalHealthServiceNumberInput/UnitedKingdomNationalHealthServiceNumberInput.svelte";
+  import UnitedKingdomNationalHealthServiceNumberView from "./UnitedKingdomNationalHealthServiceNumberView.svelte";
+
+  let value = $state("123 456 7890");
+  let editing = $state(false);
+</script>
+
+{#if editing}
+  <UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" bind:value />
+  <button type="button" onclick={() => (editing = false)}>Done</button>
+{:else}
+  <UnitedKingdomNationalHealthServiceNumberView label="NHS Number" {value} />
+  <button type="button" onclick={() => (editing = true)}>Edit</button>
+{/if}
+```
+
+```svelte
+<script lang="ts">
+  import UnitedKingdomNationalHealthServiceNumberView from "./UnitedKingdomNationalHealthServiceNumberView.svelte";
+</script>
+
+<UnitedKingdomNationalHealthServiceNumberView
+  label="Numéro NHS"
+  value="123 456 7890"
+  data-testid="nhs-view"
+/>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name so screen readers announce the purpose
-- Screen readers announce the label followed by the text content (the number)
+- `aria-label` supplies the accessible name so screen readers announce the purpose before reading the number.
+- Passive display element — no focus, no keyboard interaction.
+- Consumers should provide the value already formatted as `XXX XXX XXXX`.
 
-## Internationalization
+## Related components
 
-- The label prop externalizes user-facing text for translation
-- No hardcoded strings in the component
-
-## References
-
-- NHS Number: https://www.nhs.uk/using-the-nhs/about-the-nhs/what-is-an-nhs-number/
+- `UnitedKingdomNationalHealthServiceNumberInput` — the paired input component.
+- `IrelandIndividualHealthIdentifierView` — Ireland IHI read-only view.
+- `NorthernIrelandHealthAndCareNumberView` — NI H&C number view.
+- `UnitedStatesSocialSecurityNumberView` — US SSN read-only view.
 
 ---
 

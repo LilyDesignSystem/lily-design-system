@@ -1,81 +1,99 @@
 # FileInput
 
-## Overview
+A headless file input that wraps a native `<input type="file">` with accessible labelling, optional accepted file types, and multiple-selection support.
 
-A file input wrapping a native <input type="file"> with accessible labeling.
-Allows users to select one or more files from their device for upload. Supports
-filtering by accepted file types, multiple file selection, and standard form
-states. Used in upload forms, profile editors, and document management interfaces.
+## What it is
+
+`FileInput` is a thin wrapper around `<input type="file">`. It contributes `aria-label`, and forwards `accept`, `multiple`, `required`, and `disabled`. The file selection itself is managed by the browser; for security reasons there is no bindable value.
 
 ## What it does
 
-An input for selecting files from the file system <input type="file">.
+- Renders `<input type="file" aria-label={label}>`.
+- Forwards `accept`, `multiple`, `required`, `disabled`.
+- Spreads `restProps` onto the `<input>`.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Basic file selection in any form.
+- Image uploads, document attachments, profile pictures.
+- When you want the browser's native file picker UI.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- For drag-and-drop upload zones with progress. Use `FileUpload`.
+- For image-only uploads with a preview. Use `ImageFileInput`.
+- For file browsing inside the app. Use `FileManager` or `FileDialog`.
 
-## Usage
+## How to use it
 
-```svelte
-<FileInput label="Upload photo" accept="image/*" />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `accept` | string, default undefined | Comma-separated accepted file types (MIME types or extensions). |
-| `multiple` | boolean, default false | Whether multiple files can be selected. |
-| `required` | boolean, default false | Whether a file selection is required. |
-| `disabled` | boolean, default false | Whether the file input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
-
-## Examples
+Provide a required `label` and optional `accept`.
 
 ```svelte
-<!-- Image file input -->
-<FileInput label="Upload photo" accept="image/*" />
-
-<!-- Multiple document upload -->
-<FileInput label="Attach documents" accept=".pdf,.doc,.docx" multiple />
-
-<!-- Required profile picture -->
-<FileInput label="Profile picture" accept="image/png,image/jpeg" required />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FileInput from "#lib/components/FileInput/FileInput.svelte";
+    import FileInput from "./FileInput.svelte";
 </script>
 
 <FileInput label="Upload photo" accept="image/*" />
 ```
 
-## Keyboard
+## Props
 
-- Enter/Space: opens the file picker dialog (native browser behavior)
+| Prop       | Type      | Default     | Description                                    |
+| ---------- | --------- | ----------- | ---------------------------------------------- |
+| `class`    | `string`  | `""`        | CSS class appended to the base class.         |
+| `label`    | `string`  | required    | Accessible name via `aria-label`.              |
+| `accept`   | `string`  | `undefined` | Comma-separated MIME types or extensions.      |
+| `multiple` | `boolean` | `false`     | Allow selecting multiple files.                |
+| `required` | `boolean` | `false`     | Whether the input is required.                 |
+| `disabled` | `boolean` | `false`     | Whether the input is disabled.                 |
+| `...rest`  | `unknown` | —           | Additional HTML attributes on the `<input>`.   |
+
+## Usage
+
+### 1. Image upload
+
+```svelte
+<FileInput label="Upload photo" accept="image/*" />
+```
+
+### 2. Multiple documents
+
+```svelte
+<FileInput label="Attach documents" accept=".pdf,.doc,.docx" multiple />
+```
+
+### 3. Required profile picture
+
+```svelte
+<FileInput label="Profile picture" accept="image/png,image/jpeg" required />
+```
+
+### 4. With onchange handler
+
+```svelte
+<FileInput label="Upload CSV" accept=".csv" onchange={handleFiles} />
+```
+
+### 5. Inside a Field
+
+```svelte
+<Field label="Avatar" description="PNG or JPEG, up to 5 MB">
+    <FileInput label="Avatar" accept="image/png,image/jpeg" />
+</Field>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name since no visible <label> is included
+- `aria-label` provides the accessible name since there is no visible label.
+- Native `<input type="file">` provides keyboard support (Enter/Space opens the picker).
+- Consumers should convey file name, size, and type feedback separately (e.g. via `FileUpload`'s live region).
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+- `FileUpload` — button-triggered uploader with a live file-count announcement.
+- `ImageFileInput` — image file input with preview.
+- `FileManager` — embedded file browser region.
+- `FileDialog` — modal file operation dialog.
 
 ---
 

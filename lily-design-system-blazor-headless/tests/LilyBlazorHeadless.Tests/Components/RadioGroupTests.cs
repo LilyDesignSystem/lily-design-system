@@ -34,4 +34,13 @@ public class RadioGroupTests : TestContext
         var root = cut.Find(".radio-group");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Root_is_a_fieldset_with_role_radiogroup()
+    {
+        var cut = RenderComponent<RadioGroup>(p => p.AddChildContent("body"));
+        var root = cut.Find(".radio-group");
+        Assert.Equal("FIELDSET", root.TagName);
+        Assert.Equal("radiogroup", root.GetAttribute("role"));
+    }
 }

@@ -1,79 +1,115 @@
 # RedAmberGreenView
 
-## Overview
+A headless read-only display of a Red/Amber/Green (RAG) status. Renders the value inside a `<span>` with an accessible label so screen readers announce both the context and the displayed status.
 
-A headless RAG (Red/Amber/Green) status view that displays a traffic-light
-status value as read-only text inside a <span> element. Used to present
-previously captured RAG status data in dashboards, reports, and detail views
-where the status is informational rather than editable.
+## What it is
+
+- Component: `RedAmberGreenView`
+- HTML element: `<span>`
+- Role: inline text; accessible name via `aria-label`
+- Category: view (read-only display sibling of `RedAmberGreenPicker`)
 
 ## What it does
 
-A read-only display of a red/amber/green status.
+- Displays a RAG status string as inline text.
+- Announces context to assistive technology via `aria-label`.
+- Spreads additional HTML attributes onto the `<span>` (e.g. `data-testid` or color-coding hooks).
+- Performs no validation or formatting — the consumer supplies the status value.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Dashboards, reports, and summary cards that display a previously captured RAG status.
+- Inline surfacing of project or risk health in read-only contexts.
+- Alongside other read-only status information (e.g. inside a `SummaryList`).
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- To capture a RAG value — use `RedAmberGreenPicker` or compose `RedAmberGreenPickerButton`s.
+- For a five-level scale — use `RedOrangeYellowGreenBlueView`.
+- For rating or satisfaction displays — use `FiveStarRatingView`, `FiveFaceRatingView`, `NetPromoterScoreView`.
 
-## Usage
+## How to use it
+
+Import and render with a required `label`. The `value` is displayed as-is.
 
 ```svelte
-<RedAmberGreenView label="Project status" value="green" />
+import RedAmberGreenView from './RedAmberGreenView.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for screen readers via aria-label. |
-| `value` | string, default "" | The RAG status value to display (e.g. "red", "amber", "green"). |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `red-amber-green-view`.
+- `label`: string, required. Accessible name via `aria-label`.
+- `value`: string, default `""`. The RAG status to display (e.g. `"red"`, `"amber"`, `"green"`).
+- `...restProps`: spread onto the `<span>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Display a dynamic status -->
-<RedAmberGreenView label="Health check" value={status} />
-
-<!-- With extra attributes -->
-<RedAmberGreenView label="Risk level" value="amber" data-testid="risk" />
-```
-
-## SvelteKit example
+### Basic example
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedAmberGreenView from "#lib/components/RedAmberGreenView/RedAmberGreenView.svelte";
+  import RedAmberGreenView from './RedAmberGreenView.svelte';
 </script>
 
 <RedAmberGreenView label="Project status" value="green" />
 ```
 
-## Keyboard
+### Dynamic value
 
-- None — this is a passive informational display, not an interactive element.
+```svelte
+<script lang="ts">
+  import RedAmberGreenView from './RedAmberGreenView.svelte';
+
+  let status = $state("amber");
+</script>
+
+<RedAmberGreenView label="Health check" value={status} />
+```
+
+### Paired with the picker counterpart
+
+```svelte
+<script lang="ts">
+  import RedAmberGreenPicker from '../RedAmberGreenPicker/RedAmberGreenPicker.svelte';
+  import RedAmberGreenView from './RedAmberGreenView.svelte';
+
+  let status = $state("");
+  let submitted = $state(false);
+</script>
+
+{#if submitted}
+  <RedAmberGreenView label="Status" value={status} />
+{:else}
+  <RedAmberGreenPicker label="Status" bind:value={status} />
+  <button type="button" onclick={() => (submitted = true)}>Confirm</button>
+{/if}
+```
+
+### Color-coded via data attribute
+
+```svelte
+<RedAmberGreenView label="Risk level" value="amber" data-tone="warning" />
+```
+
+### Localized value
+
+```svelte
+<RedAmberGreenView label="Estado" value="rojo" />
+```
 
 ## Accessibility
 
-- aria-label on the <span> for screen reader context
-- Screen readers announce the label and displayed status value
-- WCAG 2.2 AAA: properly labeled for assistive technology
+- `aria-label` provides the accessible name for the inline `<span>`.
+- No interactive behavior; the component is not focusable.
+- WCAG 2.2 AAA: color alone is insufficient — always render a text value so status is communicated independently of hue.
 
-## Internationalization
+## Related components
 
-- The label prop externalizes the accessible label string
-- The value is displayed as-is, allowing localized status names
-
-## References
-
-- WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
-- Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+- `RedAmberGreenPicker` — dropdown-style picker sibling.
+- `RedAmberGreenPickerButton` — button-style picker sibling.
+- `RedOrangeYellowGreenBlueView` — five-level status view.
+- Other read-only status views: `FiveStarRatingView`, `FiveFaceRatingView`, `NetPromoterScoreView`.
 
 ---
 

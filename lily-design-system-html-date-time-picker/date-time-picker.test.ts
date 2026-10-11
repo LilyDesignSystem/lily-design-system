@@ -1470,3 +1470,35 @@ describe("<date-time-picker> — tooltip (§7.62–§7.68)", () => {
     remove.mockRestore();
   });
 });
+
+describe("DateTimePicker — form reset", () => {
+  function inForm(): { form: HTMLFormElement; el: DateTimePicker } {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    const el = document.createElement("date-time-picker") as DateTimePicker;
+    for (const [k, v] of Object.entries(base({ name: "when", value: "2026-10-01" }))) el.setAttribute(k, v);
+    el.labels = LABELS;
+    form.appendChild(el);
+    type(field(), "09/10/2026");
+    blur(field());
+    return { form, el };
+  }
+
+  test("a form reset restores the initial date in the field, the element and the form", async () => {
+    const { form, el } = inForm();
+    expect(new FormData(form).get("when")).toBe("2026-10-09");
+    form.reset();
+    await vi.advanceTimersByTimeAsync(1);
+    expect(el.value).toBe("2026-10-01");
+    expect(new FormData(form).get("when")).toBe("2026-10-01");
+    expect(field().value).toBe("01 Oct 2026");
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const { form } = inForm();
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await vi.advanceTimersByTimeAsync(1);
+    expect(new FormData(form).get("when")).toBe("2026-10-09");
+  });
+});

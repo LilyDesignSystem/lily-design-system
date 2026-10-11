@@ -79,18 +79,12 @@ lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentE
 
 new_dirs_for() (
     # slug="$1" pascal="$2"
-    # svelte-headless has TWO real component trees, not a canonical +
-    # a duplicate: build.mjs's dist build reads components/{Pascal}/
-    # directly (the actual npm-published source), while
-    # src/lib/components/{Pascal}/ is the SvelteKit-convention mirror
-    # used for local dev; vitest's default include glob runs both
-    # trees' tests project-wide (plan P7-T14 -- an earlier version of
-    # this script only wrote the src/lib mirror, which is why P7-T13's
-    # first Kbd fix missed the copy that actually ships).
+    # svelte-headless has one component tree, components/{Pascal}/ --
+    # what build.mjs publishes. Its src/lib/components/ mirror was
+    # removed 2026-10-11 after drifting (tasks.md P10-T13).
     printf '%s\n' \
         "components/$1" \
         "lily-design-system-svelte-headless/components/$2" \
-        "lily-design-system-svelte-headless/src/lib/components/$2" \
         "lily-design-system-svelte-sveltekit-examples/src/lib/components/$2" \
         "lily-design-system-nunjucks-headless/components/$1" \
         "lilydesignsystem.github.io/src/routes/components/$1"
@@ -117,7 +111,14 @@ new_files_for() (
         "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/$2.razor" \
         "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/${2}Tests.cs" \
         "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/$2.md" \
-        "lily-design-system-nunjucks-eleventy-examples/src/components/$1.njk"
+        "lily-design-system-nunjucks-eleventy-examples/src/components/$1.njk" \
+        "lily-design-system-react-next-examples/components/$2.tsx" \
+        "lily-design-system-react-next-examples/components/$2.stories.tsx" \
+        "lily-design-system-vue-nuxt-examples/components/$2.vue" \
+        "lily-design-system-vue-nuxt-examples/components/$2.stories.ts" \
+        "lily-design-system-angular-examples/src/app/components/$2.ts" \
+        "lily-design-system-angular-examples/src/app/components/$2.spec.ts" \
+        "lily-design-system-angular-examples/src/app/components/$2.md"
 )
 
 if [ "${1:-}" = "--revert" ]; then
@@ -352,16 +353,10 @@ mv "lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts
 
 # ---------- 5. seven headless implementations + tests + stories ----------
 
-## svelte-headless has two real component trees (not canonical + dead
-## duplicate -- see the new_dirs_for() comment above): components/ is
-## what build.mjs actually reads to publish the npm package;
-## src/lib/components/ is the SvelteKit-convention mirror for local
-## dev, also required (identically) in svelte-sveltekit-examples by
-## bin/test's test_implementations_with_svelte. All three get the
-## exact same files.
+## svelte-headless's components/ (what build.mjs publishes) and the
+## SvelteKit example's src/lib/components/ get the same files.
 for svelte_root in \
     "lily-design-system-svelte-headless/components/$pascal" \
-    "lily-design-system-svelte-headless/src/lib/components/$pascal" \
     "lily-design-system-svelte-sveltekit-examples/src/lib/components/$pascal"
 do
     mkdir -p "$svelte_root"
@@ -962,6 +957,8 @@ node bin/generate-site-pages > /dev/null
 node bin/generate-sitemap > /dev/null
 echo "Regenerating the site's canonical-contract sections..."
 python3 bin/generate-api-docs > /dev/null
+echo "Copying the new component into the example apps' component copies..."
+python3 bin/sync-example-components > /dev/null
 
 echo
 echo "Done. Run 'bin/test' to verify, and 'bin/new-component --revert $slug' to undo."

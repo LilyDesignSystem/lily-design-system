@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import Kbd from "./Kbd.svelte";
     const { Story } = defineMeta({
-        title: "Examples/Kbd",
+        title: "Headless/Kbd",
         component: Kbd,
     });
 </script>

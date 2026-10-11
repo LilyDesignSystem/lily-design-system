@@ -3,7 +3,7 @@
   import TimeInput from './TimeInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TimeInput',
+    title: 'Headless/TimeInput',
     component: TimeInput,
   });
 </script>

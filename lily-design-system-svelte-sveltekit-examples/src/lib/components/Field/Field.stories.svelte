@@ -3,7 +3,7 @@
   import Field from './Field.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Field',
+    title: 'Headless/Field',
     component: Field,
   });
 </script>

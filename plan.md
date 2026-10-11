@@ -144,6 +144,54 @@ What the systems Lily learns from are doing, and what it implies here.
    pattern-level guidance; the flagship scenario route (P6) is the
    first step and should be written up as a pattern doc, not only code.
 
+## Research findings (2026-10-11): bref-ui
+
+[bref-ui](https://github.com/feuersteiner/bref-ui) (MIT, Svelte 5) was read at commit `3333552` (2026-10-11). It is a
+small styled library — 17 components (button, checkbox, combobox, dialog, icon, pill, pill-group, pill-choice-group,
+popover, progress, select, spinner, surface, switch, text-area, text-input, theme, tree-view) — that ships the same
+source two ways: an npm package, and a Bun CLI that copies a component and its dependencies into the consumer's project
+(shadcn's source-ownership model). Lily already has a counterpart for every component, so the value is in its
+techniques, not its catalog. What it implies here:
+
+1. **Form reset and native validation.** Its combobox mirrors its value into a hidden native `<select>` (so `required`
+   and `form.checkValidity()` work natively, and an `invalid` event moves focus to the visible field), and both the
+   combobox and the pill choice group restore their initial value on the form's `reset` event — deferred one tick so a
+   consumer's `preventDefault()` is honoured. No Lily headless component or helper listens for `reset` today; a
+   stateful control (the pickers' hidden inputs, `date-time-picker`, `combobox`, `tag-input`,
+   `multi-select-with-extras`, `segment-group`, …) keeps its own state when its form is reset, so what the user sees
+   and what the form submits can diverge. → P10-T1.
+2. **Native Popover API and CSS anchor positioning.** Its popover uses `popover="auto"` with
+   `showPopover({ source })`, which brings top-layer stacking, Escape and outside-click (light) dismissal from the
+   browser, and positions with `position-area` / `position-try-fallbacks` / `anchor-size()` instead of script. Lily's
+   headless `Popover` renders only while `open` and leaves Escape, outside click and positioning to the consumer. →
+   P10-T2 (design pass; browser support must be checked, not assumed).
+3. **Touch target size.** It enlarges controls under `@media (pointer: coarse)` (a 2.75rem minimum). None of Lily's 45
+   themes has a coarse-pointer rule, though Lily targets WCAG 2.2 AAA, whose 2.5.5 asks for 44×44 CSS px targets. →
+   P10-T3.
+4. **Report contrast, don't repair it.** Its theme tooling is to validate final contrast pairs and *report* failures
+   without silently replacing the author's colours. `bin/check-theme` checks no contrast today; the error-text defect
+   closed in P9-T13 was found by an axe sweep, not by the theme check. → P10-T4.
+5. **One compact agent entry per component.** Its `/llms.txt` gives every component the same short block — purpose,
+   one working example, and all props on one line, required first, with types and defaults — generated from the docs
+   pages' own prop data, with a contributor rule that any public API change updates it. Lily's `llms.txt` is a curated
+   map; per-component props live only in `components/*/AGENTS.md`. → P10-T5.
+6. **Copy-into-project distribution.** Each component carries a `registry.json` (files, exports, dependencies); one
+   loader validates ids, file existence and an acyclic dependency graph, and `add` previews `add` / `unchanged` /
+   `conflict` files and asks before each overwrite. Lily publishes whole libraries; a copy path would let a team own
+   one component's source without forking a catalog. A maintainer decision, not a task yet. → P10-T6.
+7. **Choice chips on real inputs.** Its pill choice group is a `radiogroup` of radio inputs (single) or a `group` of
+   checkboxes (multiple), each visually a pill and optionally deletable — real form controls under a chip skin. Lily
+   has `tag-group`, `segment-group` and `toggle-group`, but no filter-chip group whose items are form inputs. →
+   P10-T7 — decided 2026-10-11: no new component; `radio-group` / `checkbox-group` with a chip look, documented as a
+   composition pattern.
+
+**Not adopted.** Its English defaults (`"Select…"`, `"Tree view"`, `"No options found"`) — Lily takes every string
+from the consumer. The `surface()` paint recipe and `glass` variants — visual decisions that belong in Lily's themes,
+not its headless layer. The Material Symbols font dependency — Lily bundles no fonts or icon sets. Select options as
+`aria-pressed` buttons rather than a listbox, and a tree view that is a group of buttons rather than a tree — Lily's
+existing `select` and `tree-*` semantics are the stronger choice. Its "seekable" progress bar that becomes a range
+input — Lily keeps `progress` and `slider` separate.
+
 ---
 
 ## Phase 1 — Truth, hygiene, and registry cleanup

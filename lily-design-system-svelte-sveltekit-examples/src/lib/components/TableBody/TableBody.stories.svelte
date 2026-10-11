@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import TableBody from "./TableBody.svelte";
     const { Story } = defineMeta({
-        title: "Examples/TableBody",
+        title: "Headless/TableBody",
         component: TableBody,
     });
 </script>

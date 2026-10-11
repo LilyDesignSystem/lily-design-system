@@ -1,86 +1,118 @@
 # Drawer
 
-## Overview
+A panel that slides in from an edge of the viewport. Rendered conditionally as `<div role="dialog" aria-modal="true">` with a `data-side` attribute for consumer positioning.
 
-A panel that slides in from an edge of the viewport, typically used for
-navigation menus, filters, or supplementary content. Renders conditionally
-based on the open state and uses role="dialog" with aria-modal="true" for
-proper screen reader behavior. The side prop indicates which edge via a
-data-side attribute for consumer positioning and animation styles.
+## What it is
+
+`Drawer` is a headless dialog-style overlay that enters from a chosen screen edge (`left`, `right`, `top`, or `bottom`). It handles Escape-to-close and accessible labelling; positioning and animation are entirely up to consumer CSS, which can target `[data-side="…"]`.
 
 ## What it does
 
-A panel that slides in from the edge of the screen.
+- Conditionally renders a `<div role="dialog" aria-modal="true">` when `open` is `true`.
+- Applies `aria-label` for the accessible name.
+- Exposes `data-side="left|right|top|bottom"` for CSS hooks.
+- Closes on Escape by setting `open = false`.
+- Removes the drawer entirely from the DOM when closed.
 
-## When to use
+## When to use it
 
-- Use when you need a panel that slides in from the edge of the screen.
+- Mobile-friendly navigation menus, filter panels, cart or inbox panels.
+- Supplementary content that should slide in over the main view.
+- Responsive sidebars that hide until summoned.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For centred, modal confirmations or forms. Use `Dialog` or `AlertDialog` instead.
+- For always-visible side content. Use `Sidebar` instead.
+- For toast-style transient messages. Use `Toast` or `Notification`.
 
-## Usage
+## How to use it
+
+Bind `open` to a state variable and choose a `side`.
 
 ```svelte
-<Drawer label="Nav" bind:open side="left">Content</Drawer>
+<script lang="ts">
+    import Drawer from "./Drawer.svelte";
+    let open = $state(false);
+</script>
+
+<button type="button" onclick={() => open = true}>Open menu</button>
+<Drawer label="Navigation" bind:open side="left">
+    <nav>…</nav>
+</Drawer>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `open` | boolean, default false | Whether the drawer is visible; bindable. |
-| `label` | string, required | Accessible name for the drawer. |
-| `side` | "left" \| "right" \| "top" \| "bottom", default "left" | Edge the drawer enters from. |
-| `children` | Snippet, required | Drawer content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+| Prop       | Type                                       | Default | Description                                |
+| ---------- | ------------------------------------------ | ------- | ------------------------------------------ |
+| `class`    | `string`                                   | `""`    | CSS class appended to the base class.     |
+| `open`     | `boolean`                                  | `false` | Whether the drawer is visible. Bindable.   |
+| `label`    | `string`                                   | required| Accessible name via `aria-label`.          |
+| `side`     | `"left" \| "right" \| "top" \| "bottom"`   | `"left"`| Edge the drawer enters from.               |
+| `children` | `Snippet`                                  | required| Drawer content.                            |
+| `...rest`  | `unknown`                                  | —       | Additional HTML attributes on the `<div>`. |
 
-## Examples
+## Usage
+
+### 1. Left-side navigation drawer
 
 ```svelte
-<!-- Navigation drawer from left -->
 <Drawer label="Navigation" bind:open side="left">
-  <nav>...</nav>
-</Drawer>
-
-<!-- Filters drawer from right -->
-<Drawer label="Filters" bind:open={showFilters} side="right">
-  <form>...</form>
+    <nav aria-label="Main">…</nav>
 </Drawer>
 ```
 
-## SvelteKit example
+### 2. Right-side filter drawer
 
 ```svelte
-<!-- src/routes/+page.svelte -->
+<Drawer label="Filters" bind:open={showFilters} side="right">
+    <form>…</form>
+</Drawer>
+```
+
+### 3. Top banner-style drawer
+
+```svelte
+<Drawer label="Announcements" bind:open side="top">
+    <p>Release 2.0 is now available.</p>
+</Drawer>
+```
+
+### 4. Bottom-sheet drawer
+
+```svelte
+<Drawer label="Details" bind:open side="bottom">
+    <article>…</article>
+</Drawer>
+```
+
+### 5. Close on action
+
+```svelte
 <script lang="ts">
-  import Drawer from "#lib/components/Drawer/Drawer.svelte";
+    import Drawer from "./Drawer.svelte";
+    let open = $state(true);
 </script>
 
-<Drawer label="Nav" bind:open side="left">Content</Drawer>
+<Drawer label="Cart" bind:open side="right">
+    <ul>…</ul>
+    <button type="button" onclick={() => open = false}>Close</button>
+</Drawer>
 ```
-
-## Keyboard
-
-- Escape: closes the drawer by setting open to false
 
 ## Accessibility
 
-- role="dialog" identifies the drawer as a dialog
-- aria-label provides the accessible name
-- aria-modal="true" indicates the drawer is modal
-- tabindex="-1" allows programmatic focus management
-- data-side attribute conveys position for consumer styling
+- `role="dialog"` with `aria-modal="true"` and `aria-label`.
+- Escape closes the drawer.
+- `tabindex="-1"` supports programmatic focus management. Consumers should move focus into the drawer on open and return it to the trigger on close.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+- `SlideOutDrawer` — alternative slide-out panel pattern.
+- `Sheet` — overlay sheet from a screen edge.
+- `Dialog` — centred modal dialog.
+- `Sidebar` — persistent side navigation.
 
 ---
 

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import GoToNextSection from './GoToNextSection';
 
 const meta = {
-  title: 'Examples/GoToNextSection',
+  title: 'Headless/GoToNextSection',
   component: GoToNextSection,
   tags: ['autodocs']
 } satisfies Meta<typeof GoToNextSection>;

@@ -3,7 +3,7 @@
   import DataTableBody from './DataTableBody.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DataTableBody',
+    title: 'Headless/DataTableBody',
     component: DataTableBody,
   });
 </script>

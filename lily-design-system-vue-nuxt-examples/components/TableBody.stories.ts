@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TableBody from './TableBody.vue';
 
 const meta = {
-  title: 'Examples/TableBody',
+  title: 'Headless/TableBody',
   component: TableBody,
   tags: ['autodocs']
 } satisfies Meta<typeof TableBody>;

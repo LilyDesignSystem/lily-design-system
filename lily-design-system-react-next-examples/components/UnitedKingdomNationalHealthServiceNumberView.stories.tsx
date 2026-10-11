@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import UnitedKingdomNationalHealthServiceNumberView from './UnitedKingdomNationalHealthServiceNumberView';
 
 const meta = {
-  title: 'Examples/UnitedKingdomNationalHealthServiceNumberView',
+  title: 'Headless/UnitedKingdomNationalHealthServiceNumberView',
   component: UnitedKingdomNationalHealthServiceNumberView,
   tags: ['autodocs']
 } satisfies Meta<typeof UnitedKingdomNationalHealthServiceNumberView>;

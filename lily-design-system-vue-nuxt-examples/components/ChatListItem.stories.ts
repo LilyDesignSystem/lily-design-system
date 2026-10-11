@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ChatListItem from './ChatListItem.vue';
 
 const meta = {
-  title: 'Examples/ChatListItem',
+  title: 'Headless/ChatListItem',
   component: ChatListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof ChatListItem>;

@@ -3,7 +3,7 @@
   import DateTimeLocalInput from './DateTimeLocalInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DateTimeLocalInput',
+    title: 'Headless/DateTimeLocalInput',
     component: DateTimeLocalInput,
   });
 </script>

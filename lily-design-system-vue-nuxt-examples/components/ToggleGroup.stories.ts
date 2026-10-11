@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ToggleGroup from './ToggleGroup.vue';
 
 const meta = {
-  title: 'Examples/ToggleGroup',
+  title: 'Headless/ToggleGroup',
   component: ToggleGroup,
   tags: ['autodocs']
 } satisfies Meta<typeof ToggleGroup>;

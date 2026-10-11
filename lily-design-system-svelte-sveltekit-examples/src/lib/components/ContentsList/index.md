@@ -1,80 +1,109 @@
 # ContentsList
 
-## Overview
+A headless ordered list for a table of contents. It renders a semantic `<ol>` and is designed to live inside a `ContentsNav` landmark with `ContentsListItem` children.
 
-A headless ordered list for a table of contents. Renders a semantic <ol>
-element containing ContentsListItem children. Designed to be placed inside
-a ContentsNav component. The ordered list conveys the sequential nature of
-page sections to assistive technology.
+## What it is
+
+ContentsList is a thin wrapper that outputs `<ol class="contents-list ...">`. It does not impose any list semantics beyond what `<ol>` provides, and it does not include an `aria-label` (the label belongs on the parent `ContentsNav`).
 
 ## What it does
 
-An contents ordered list of contents list item components.
+- Renders `<ol>` with a `contents-list` base class.
+- Spreads `restProps` onto the `<ol>`.
 
-## When to use
+## When to use it
 
-- Use to render an ordered collection of related items.
+- Building a table-of-contents structure inside `ContentsNav`.
+- Rendering sequential page sections where order is meaningful.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For unordered lists — use a plain `<ul>` or `CheckList`.
+- For breadcrumb/pagination navigation — use `BreadcrumbList`/`PaginationList`.
+- As a standalone list without a nav landmark — use `<ol>` directly.
+
+## How to use it
+
+Place inside `ContentsNav`, with `ContentsListItem` children containing anchor links.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `children` | `Snippet` | required | `ContentsListItem` components. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<ol>`. |
 
 ## Usage
 
 ```svelte
-<ContentsList>
-  <ContentsListItem><a href="#section">Section</a></ContentsListItem>
-</ContentsList>
-```
+<script lang="ts">
+    import ContentsNav from "../ContentsNav/ContentsNav.svelte";
+    import ContentsList from "./ContentsList.svelte";
+    import ContentsListItem from "../ContentsListItem/ContentsListItem.svelte";
+</script>
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | ContentsListItem components or <li> elements. |
-| `...restProps` | additional HTML attributes spread onto the <ol> |  |
-
-## Examples
-
-```svelte
-<!-- Contents list inside a navigation landmark -->
 <ContentsNav label="On this page">
-  <ContentsList>
-    <ContentsListItem><a href="#introduction">Introduction</a></ContentsListItem>
-    <ContentsListItem><a href="#usage">Usage</a></ContentsListItem>
-  </ContentsList>
+    <ContentsList>
+        <ContentsListItem><a href="#introduction">Introduction</a></ContentsListItem>
+        <ContentsListItem><a href="#usage">Usage</a></ContentsListItem>
+        <ContentsListItem><a href="#examples">Examples</a></ContentsListItem>
+    </ContentsList>
 </ContentsNav>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContentsList from "#lib/components/ContentsList/ContentsList.svelte";
+    import ContentsNav from "../ContentsNav/ContentsNav.svelte";
+    import ContentsList from "./ContentsList.svelte";
+    import ContentsListItem from "../ContentsListItem/ContentsListItem.svelte";
+
+    const sections = [
+        { id: "overview", title: "Overview" },
+        { id: "install", title: "Install" },
+        { id: "api", title: "API" }
+    ];
 </script>
 
-<ContentsList>
-  <ContentsListItem><a href="#section">Section</a></ContentsListItem>
-</ContentsList>
+<ContentsNav label="Contents">
+    <ContentsList>
+        {#each sections as s (s.id)}
+            <ContentsListItem><a href={`#${s.id}`}>{s.title}</a></ContentsListItem>
+        {/each}
+    </ContentsList>
+</ContentsNav>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import ContentsNav from "../ContentsNav/ContentsNav.svelte";
+    import ContentsList from "./ContentsList.svelte";
+    import ContentsListItem from "../ContentsListItem/ContentsListItem.svelte";
+</script>
 
-- None — passive list container; keyboard navigation handled by links within items
+<ContentsNav label="Report contents">
+    <ContentsList>
+        <ContentsListItem>
+            <a href="#results">Results</a>
+            <ContentsList>
+                <ContentsListItem><a href="#data">Data</a></ContentsListItem>
+                <ContentsListItem><a href="#analysis">Analysis</a></ContentsListItem>
+            </ContentsList>
+        </ContentsListItem>
+    </ContentsList>
+</ContentsNav>
+```
 
 ## Accessibility
 
-- <ol> provides implicit list role conveying sequential section order
+- The `<ol>` provides implicit list semantics conveying sequential order.
+- For assistive tech naming, place this list inside `ContentsNav` which supplies the `<nav aria-label>`.
 
-## Internationalization
+## Related components
 
-- All content is provided by consumers through children; no hardcoded strings
-
-## References
-
-- MDN ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
+- `ContentsNav` — navigation landmark wrapper.
+- `ContentsListItem` — individual entry.
+- `ContentsLink` — single link variant.
 
 ---
 

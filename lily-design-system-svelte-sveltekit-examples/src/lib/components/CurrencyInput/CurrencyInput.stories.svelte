@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import CurrencyInput from "./CurrencyInput.svelte";
     const { Story } = defineMeta({
-        title: "Examples/CurrencyInput",
+        title: "Headless/CurrencyInput",
         component: CurrencyInput,
     });
 </script>

@@ -3,7 +3,7 @@
   import GanttTable from './GanttTable.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/GanttTable',
+    title: 'Headless/GanttTable',
     component: GanttTable,
   });
 </script>

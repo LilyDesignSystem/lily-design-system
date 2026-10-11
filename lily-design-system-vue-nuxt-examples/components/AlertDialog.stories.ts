@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AlertDialog from './AlertDialog.vue';
 
 const meta = {
-  title: 'Examples/AlertDialog',
+  title: 'Headless/AlertDialog',
   component: AlertDialog,
   tags: ['autodocs']
 } satisfies Meta<typeof AlertDialog>;

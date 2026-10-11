@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import EestiIsikukoodInput from './EestiIsikukoodInput.vue';
 
 const meta = {
-  title: 'Examples/EestiIsikukoodInput',
+  title: 'Headless/EestiIsikukoodInput',
   component: EestiIsikukoodInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EestiIsikukoodInput>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import BackLink from './BackLink.vue';
 
 const meta = {
-  title: 'Examples/BackLink',
+  title: 'Headless/BackLink',
   component: BackLink,
   tags: ['autodocs']
 } satisfies Meta<typeof BackLink>;

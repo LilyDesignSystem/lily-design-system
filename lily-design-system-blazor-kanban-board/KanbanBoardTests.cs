@@ -318,6 +318,128 @@ public class KanbanBoardTests : TestContext
     }
 
     // =====================================================================
+    // Focus, tab stop and move edge cases
+    // =====================================================================
+
+    /// <summary>
+    /// A parent that owns the cards and applies each move, so the moved card
+    /// arrives in the same render batch as the move itself — as it would from
+    /// a real consumer.
+    /// </summary>
+    private sealed class MovingHost : ComponentBase
+    {
+        [Parameter] public KanbanLabels? Labels { get; set; }
+        private IReadOnlyList<KanbanCard> _cards = Cards;
+
+        protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
+        {
+            builder.OpenComponent<KanbanBoard>(0);
+            builder.AddAttribute(1, nameof(KanbanBoard.Label), "Sprint board");
+            builder.AddAttribute(2, nameof(KanbanBoard.Columns), Columns);
+            builder.AddAttribute(3, nameof(KanbanBoard.Cards), _cards);
+            builder.AddAttribute(4, nameof(KanbanBoard.Labels), Labels ?? new KanbanLabels());
+            builder.AddAttribute(5, nameof(KanbanBoard.OnMove), EventCallback.Factory.Create<(string CardId, string ToColumnId)>(this, args =>
+            {
+                _cards = _cards
+                    .Select(c => c.Id == args.CardId ? new KanbanCard { Id = c.Id, ColumnId = args.ToColumnId, Title = c.Title } : c)
+                    .ToList();
+            }));
+            builder.CloseComponent();
+        }
+    }
+
+    [Fact]
+    public async Task Section_8_8_After_A_Move_Focus_And_The_Tab_Stop_Follow_The_Card()
+    {
+        var host = RenderComponent<MovingHost>(p => p.Add(x => x.Labels, Labels));
+        var board = host.FindComponent<KanbanBoard>();
+
+        board.FindAll(".kanban-table-td[tabindex='0']").Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var doneOption = board.FindAll("li.kanban-board-move-option").Single(o => o.TextContent.Trim() == "Done");
+        await doneOption.ClickAsync(new MouseEventArgs());
+
+        var tabbable = board.FindAll(".kanban-table-td[tabindex='0']");
+        Assert.Single(tabbable);
+        Assert.Equal("2", tabbable[0].GetAttribute("data-col"));
+        Assert.Equal(board.Instance.MoveButtonReferenceId("c1"), FocusedRefIds()[^1]);
+    }
+
+    [Fact]
+    public async Task Section_8_15_Choosing_The_Cards_Own_Column_Or_Dropping_It_There_Is_Not_A_Move()
+    {
+        (string, string)? captured = null;
+        var cut = RenderDefault(
+            labels: Labels,
+            onMove: EventCallback.Factory.Create<(string, string)>(this, args => captured = args));
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var todoOption = cut.FindAll("li.kanban-board-move-option").Single(o => o.TextContent.Trim() == "To Do");
+        await todoOption.ClickAsync(new MouseEventArgs());
+        Assert.Empty(cut.FindAll("ul.kanban-board-move-list"));
+        Assert.Equal("", cut.Find(".kanban-board-status").TextContent);
+
+        var cardTitle = cut.FindAll(".kanban-board-card-title").First(e => e.TextContent.Trim() == "Card One");
+        await cardTitle.DragStartAsync(new DragEventArgs());
+        await BodyRows(cut).ElementAt(1).QuerySelectorAll(".kanban-table-td")[0].DropAsync(new DragEventArgs());
+
+        Assert.Null(captured);
+    }
+
+    [Fact]
+    public void Section_8_16_When_The_Board_Shrinks_Under_The_Cursor_One_Cell_Stays_Tabbable()
+    {
+        var cut = RenderDefault();
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "End" });
+        Assert.Equal("1", TabbableCells(cut).Single().GetAttribute("data-row"));
+
+        cut.SetParametersAndRender(p => p.Add(x => x.Cards, Cards.Where(c => c.Id != "c2" && c.Id != "c4").ToList()));
+
+        Assert.Single(BodyRows(cut));
+        Assert.Single(TabbableCells(cut));
+    }
+
+    [Fact]
+    public async Task Section_8_16_Focusing_A_Cell_By_Pointer_Moves_The_Cursor_There()
+    {
+        var cut = RenderDefault();
+        var cell = BodyRows(cut).ElementAt(1).QuerySelectorAll(".kanban-table-td")[1];
+        await cell.TriggerEventAsync("onfocusin", new FocusEventArgs());
+
+        var tabbable = TabbableCells(cut).Single();
+        Assert.Equal("1", tabbable.GetAttribute("data-row"));
+        Assert.Equal("1", tabbable.GetAttribute("data-col"));
+    }
+
+    [Fact]
+    public void Section_8_13_Without_MoveButton_Label_No_Unnamed_Button_And_Menu_Is_Named_By_The_Card()
+    {
+        var cut = RenderDefault();
+        Assert.Empty(cut.FindAll(".kanban-board-move-button"));
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Equal("Card One", cut.Find("ul.kanban-board-move-list").GetAttribute("aria-label"));
+
+        cut.Find("ul.kanban-board-move-list").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        // No button to return to: focus goes back to the card's own cell.
+        var cellId = TabbableCells(cut).Single().GetAttribute("id")!;
+        Assert.Contains(
+            JSInterop.Invocations.Where(i => i.Identifier == "eval"),
+            i => ((string)i.Arguments[0]!).Contains(cellId));
+    }
+
+    [Fact]
+    public void Section_8_3_A_Column_Exactly_At_Its_WipLimit_Is_Not_Over_It()
+    {
+        var cut = RenderComponent<KanbanBoard>(p => p
+            .Add(x => x.Label, "Sprint board")
+            .Add(x => x.Columns, Columns)
+            .Add(x => x.Cards, Cards.Where(c => c.Id != "c4").ToList())
+            .Add(x => x.Labels, Labels));
+
+        Assert.False(cut.FindAll(".kanban-table-th")[1].HasAttribute("data-over-limit"));
+    }
+
+    // =====================================================================
     // Focus-interop helper — mirrors ThemePickerTests' own FocusedRefIds().
     // =====================================================================
 

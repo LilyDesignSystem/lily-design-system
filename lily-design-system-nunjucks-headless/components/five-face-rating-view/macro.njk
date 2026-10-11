@@ -5,8 +5,9 @@
   HTML tag: <span>
   CSS class: five-face-rating-view
   Data attribute: data-value (1–5).
-  Accessibility: role="img" + aria-label with the verbal rating
-    ("Very unhappy", "Unhappy", "Neutral", "Happy", "Very happy").
+  Accessibility: role="img" + aria-label. Pass label with the verbal
+    rating in the page's language (e.g. "Rating: Happy"); without it the
+    label is the number alone — no English default.
 
   Params:
     value       number   1–5 rating.
@@ -17,14 +18,7 @@
 #}
 {%- macro fiveFaceRatingView(params) -%}
 {%- set value = params.value | default(3) -%}
-{%- set phrase = "Neutral" -%}
-{%- if value == 1 -%}{%- set phrase = "Very unhappy" -%}
-{%- elif value == 2 -%}{%- set phrase = "Unhappy" -%}
-{%- elif value == 3 -%}{%- set phrase = "Neutral" -%}
-{%- elif value == 4 -%}{%- set phrase = "Happy" -%}
-{%- elif value == 5 -%}{%- set phrase = "Very happy" -%}
-{%- endif -%}
-{%- set label = params.label | default("Rating: " ~ phrase) -%}
+{%- set label = params.label | default(value) -%}
 <span
   class="five-face-rating-view{% if params.classes %} {{ params.classes }}{% endif %}"
   role="img"

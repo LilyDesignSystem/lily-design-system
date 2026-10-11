@@ -1,84 +1,123 @@
 # TreeNav
 
-## Overview
+A headless hierarchical navigation list rendered as `<ul role="tree">` with built-in arrow-key / Home / End keyboard navigation across descendant `[role="treeitem"]` elements.
 
-A headless tree-based menu that displays hierarchical or nested navigation
-options using the ARIA tree role. Renders a <ul> with role="tree" and
-provides keyboard navigation between tree items using ArrowDown/ArrowUp
-with wrapping, plus Home/End to jump to first/last items. Commonly used
-for file directories, multi-level category navigation, or organizational
-charts.
+## What it is
+
+`TreeNav` is a Svelte 5 component that applies the WAI-ARIA tree pattern to navigation. It renders a `<ul>` with `role="tree"` and manages focus between tree items on arrow / Home / End keypresses. It is the navigation-oriented sibling of `TreeList`.
 
 ## What it does
 
-A hierarchical navigation with expandable branches.
+- Renders `<ul class="tree-nav {className}" role="tree" aria-label={label}>`.
+- Queries descendants with `[role="treeitem"]` and, on `ArrowDown`, `ArrowUp`, `Home`, and `End`, moves focus to the appropriate item with wraparound.
+- Renders the `children` snippet.
+- Spreads additional HTML attributes onto the `<ul>`.
 
-## When to use
+## When to use it
 
-- Use to mark a region as primary navigation (landmark).
+- File-directory or folder navigation in a sidebar.
+- Multi-level category trees for product catalogs.
+- Organizational chart navigation.
+- Any hierarchical navigation where the user should arrow between items.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it for flat navigation links — use a simple `<nav>` with links or `NavigationMenu`.
+- Don't use it for breadcrumb trails — use `BreadcrumbNav`.
+- Don't use it for page-section outlines — use `ContentsNav`.
+- Don't use it when a table of tree semantics are not desired — use `TreeList` (ordered) or a plain `<ul>`.
+
+## How to use it
+
+Import and supply `<li role="treeitem" tabindex="-1">` children (one item with `tabindex="0"` to serve as the tab stop). Pass a translated `label` via the required `label` prop.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `tree-nav`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `children` — Snippet, required. Tree item elements with `role="treeitem"`.
+- `...restProps` — any additional HTML attributes spread onto the `<ul>`.
 
 ## Usage
 
 ```svelte
-<TreeNav label="Navigation">...</TreeNav>
-```
+<script lang="ts">
+  import TreeNav from "./TreeNav.svelte";
+</script>
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the tree via aria-label. |
-| `children` | Snippet, required | Tree item elements (expected to be <li role="treeitem">). |
-| `...restProps` | additional HTML attributes spread onto the <ul> |  |
-
-## Examples
-
-```svelte
-<!-- Tree menu with navigable items -->
-<TreeNav label="Navigation">
-  <li role="treeitem" tabindex="-1">Home</li>
+<TreeNav label="Main navigation">
+  <li role="treeitem" tabindex="0">Home</li>
   <li role="treeitem" tabindex="-1">About</li>
   <li role="treeitem" tabindex="-1">Contact</li>
 </TreeNav>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TreeNav from "#lib/components/TreeNav/TreeNav.svelte";
+  import TreeNav from "./TreeNav.svelte";
+  import TreeList from "../TreeList/TreeList.svelte";
 </script>
 
-<TreeNav label="Navigation">...</TreeNav>
+<TreeNav label="Docs">
+  <li role="treeitem" tabindex="0" aria-expanded="true">
+    Getting started
+    <TreeList label="Getting started topics">
+      <li role="treeitem" tabindex="-1"><a href="/install">Install</a></li>
+      <li role="treeitem" tabindex="-1"><a href="/setup">Setup</a></li>
+    </TreeList>
+  </li>
+  <li role="treeitem" tabindex="-1">Guides</li>
+</TreeNav>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import TreeNav from "./TreeNav.svelte";
 
-- ArrowDown: move focus to the next tree item (wraps to first)
-- ArrowUp: move focus to the previous tree item (wraps to last)
-- Home: move focus to the first tree item
-- End: move focus to the last tree item
+  const items = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
+</script>
+
+<TreeNav label="Site">
+  {#each items as it, i}
+    <li role="treeitem" tabindex={i === 0 ? 0 : -1}>
+      <a href={it.href}>{it.label}</a>
+    </li>
+  {/each}
+</TreeNav>
+```
+
+```svelte
+<script lang="ts">
+  import TreeNav from "./TreeNav.svelte";
+</script>
+
+<TreeNav label="Navigation" data-testid="tree">
+  <li role="treeitem" tabindex="0" aria-selected="true">Dashboard</li>
+  <li role="treeitem" tabindex="-1" aria-selected="false">Reports</li>
+  <li role="treeitem" tabindex="-1" aria-selected="false">Settings</li>
+</TreeNav>
+```
 
 ## Accessibility
 
-- role="tree" identifies the container as a tree view widget
-- aria-label={label} provides an accessible name for the tree
-- Consumer items should use role="treeitem" and tabindex="-1"
+- `role="tree"` identifies the container as a tree widget.
+- `aria-label` supplies the accessible name.
+- Keyboard:
+  - `ArrowDown` / `ArrowUp` traverse items with wrap.
+  - `Home` / `End` jump to first/last.
+- Consumers give items `role="treeitem"` and `tabindex="-1"`; exactly one item should have `tabindex="0"` to serve as the group's tab stop.
+- For hierarchy, wrap children in `<ul role="group">` or another `TreeList` under a parent `treeitem`, and use `aria-expanded`.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/TreeList/
+- `TreeList` — same pattern using `<ol>` for ordered lists.
+- `TreeListItem` — helper item component.
+- `TreeMenu` — menu-flavored tree variant.
+- `NavigationMenu` / `BreadcrumbNav` — alternative navigation containers.
 
 ---
 

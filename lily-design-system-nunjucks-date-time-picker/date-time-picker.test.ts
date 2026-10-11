@@ -1439,3 +1439,38 @@ describe("DateTimePicker — tooltip (Tooltip 1–8)", () => {
     remove.mockRestore();
   });
 });
+
+describe("DateTimePicker — form reset", () => {
+  function inForm() {
+    document.body.innerHTML = `<form>${renderMacro({ label: "Appointment date", labels: LABELS, name: "when", value: "2026-10-01" })}</form>`;
+    const form = document.body.querySelector("form") as HTMLFormElement;
+    const root = form.querySelector("[data-lily-date-time-picker-root]") as HTMLElement;
+    const api = initDateTimePicker(root, { locale: "en-GB" });
+    const field = root.querySelector(".date-time-picker-input") as HTMLInputElement;
+    field.value = "09/10/2026";
+    field.dispatchEvent(new window.Event("input", { bubbles: true }));
+    field.dispatchEvent(new window.Event("blur", { bubbles: true }));
+    return { form, field, api };
+  }
+  const afterReset = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+  test("a form reset restores the initial date in the field, the controller and the form", async () => {
+    const { form, field, api } = inForm();
+    expect(new window.FormData(form).get("when")).toBe("2026-10-09");
+    form.reset();
+    await afterReset();
+    expect(api.getValue()).toBe("2026-10-01");
+    expect(new window.FormData(form).get("when")).toBe("2026-10-01");
+    expect(field.value).toBe("01 Oct 2026");
+    api.destroy();
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const { form, api } = inForm();
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await afterReset();
+    expect(new window.FormData(form).get("when")).toBe("2026-10-09");
+    api.destroy();
+  });
+});

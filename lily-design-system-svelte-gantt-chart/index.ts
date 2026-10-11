@@ -10,6 +10,7 @@ export {
     addDays,
     compareISO,
     effectiveRange,
+    effectiveRanges,
     endOfMonth,
     flattenTasks,
     generateColumns,

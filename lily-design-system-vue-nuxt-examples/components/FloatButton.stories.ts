@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FloatButton from './FloatButton.vue';
 
 const meta = {
-  title: 'Examples/FloatButton',
+  title: 'Headless/FloatButton',
   component: FloatButton,
   tags: ['autodocs']
 } satisfies Meta<typeof FloatButton>;

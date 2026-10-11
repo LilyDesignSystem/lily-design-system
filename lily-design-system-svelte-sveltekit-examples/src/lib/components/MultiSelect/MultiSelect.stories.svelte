@@ -3,7 +3,7 @@
   import MultiSelect from './MultiSelect.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MultiSelect',
+    title: 'Headless/MultiSelect',
     component: MultiSelect,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ItaliaCodiceFiscaleInput from './ItaliaCodiceFiscaleInput.vue';
 
 const meta = {
-  title: 'Examples/ItaliaCodiceFiscaleInput',
+  title: 'Headless/ItaliaCodiceFiscaleInput',
   component: ItaliaCodiceFiscaleInput,
   tags: ['autodocs']
 } satisfies Meta<typeof ItaliaCodiceFiscaleInput>;

@@ -5,6 +5,10 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## Unreleased — 2026-10-11 (labels and contracts)
+
+`pinInputDiv` takes `digitLabel`; the star, face and NPS macros no longer build English labels; `radioGroup` and `checkboxGroup` render a `<fieldset>`; `tag` is a `<span>` (was `<strong>`), not a live region unless `live` is set. See the repository CHANGELOG (2026-10-11).
+
 ## 0.4.0 — 2026-10-06
 
 **Breaking.** The `dateRange` macro renders a `<fieldset class="date-range">` of two date inputs; its params are now

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import UrlInput from './UrlInput.vue';
 
 const meta = {
-  title: 'Examples/UrlInput',
+  title: 'Headless/UrlInput',
   component: UrlInput,
   tags: ['autodocs']
 } satisfies Meta<typeof UrlInput>;

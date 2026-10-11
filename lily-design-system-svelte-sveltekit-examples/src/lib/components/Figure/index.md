@@ -1,86 +1,106 @@
 # Figure
 
-## Overview
+A container for graphical content such as charts, diagrams, illustrations, and data visualisations. Renders `<figure role="img">` with an accessible label.
 
-A container for graphical content such as charts, diagrams, illustrations,
-or data visualizations. Renders a <figure> element with role="img" and an
-accessible label. Used in dashboards, reports, analytics tools, and data-driven
-applications. The consumer provides their preferred visualization (SVG, canvas,
-or a charting library) as children.
+## What it is
+
+`Figure` is a structural wrapper around the native `<figure>` element, adding `role="img"` and a required `aria-label`. It does not supply any chart or visualisation — consumers provide SVG, canvas, or any other visual content as children.
 
 ## What it does
 
-A self-contained figure with optional caption.
+- Renders `<figure class="figure" role="img" aria-label={label}>`.
+- Forwards `restProps` onto the `<figure>`.
 
-## When to use
+## When to use it
 
-- Use when you need a self-contained figure with optional caption.
+- Dashboards, reports, and analytics screens where a labelled figure is needed.
+- Any graphical region that should be announced to assistive technology as a single image.
+- Wrapping bespoke chart components with proper `aria-label` semantics.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- When you need a caption below the figure. Render a `<figcaption>` yourself inside the children, or combine with `Caption`.
+- When the content is purely decorative. Add `aria-hidden="true"` to a plain `<figure>`.
+- For responsive photographs with alt text. Use `FeaturePhoto` or `Image`.
 
-## Usage
+## How to use it
+
+Pass the visualization content as children and a descriptive `label`.
 
 ```svelte
-<Figure label="Monthly revenue">
-  <svg><!-- chart here --></svg>
+<script lang="ts">
+    import Figure from "./Figure.svelte";
+</script>
+
+<Figure label="Monthly revenue for 2026">
+    <svg><!-- bar chart SVG --></svg>
 </Figure>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name describing the figure content. |
-| `children` | Snippet, required | The figure visualization content. |
-| `...restProps` | additional HTML attributes spread onto the <figure> element |  |
+| Prop       | Type       | Default  | Description                                   |
+| ---------- | ---------- | -------- | --------------------------------------------- |
+| `class`    | `string`   | `""`     | CSS class appended to the base class.        |
+| `label`    | `string`   | required | Accessible description via `aria-label`.      |
+| `children` | `Snippet`  | required | Figure content (SVG, canvas, component, etc.).|
+| `...rest`  | `unknown`  | —        | Additional HTML attributes on the `<figure>`. |
 
-## Examples
+## Usage
+
+### 1. Bar chart
 
 ```svelte
-<!-- Bar chart figure -->
-<Figure label="Monthly revenue for 2024">
-  <svg><!-- bar chart SVG here --></svg>
+<Figure label="Monthly revenue for 2026">
+    <svg><!-- bar chart SVG here --></svg>
 </Figure>
+```
 
-<!-- Canvas-based visualization -->
+### 2. Canvas visualisation
+
+```svelte
 <Figure label="User growth trend">
-  <canvas><!-- canvas chart here --></canvas>
+    <canvas bind:this={canvas} width="600" height="300"></canvas>
 </Figure>
 ```
 
-## SvelteKit example
+### 3. With a figcaption inside
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import Figure from "#lib/components/Figure/Figure.svelte";
-</script>
-
-<Figure label="Monthly revenue">
-  <svg><!-- chart here --></svg>
+<Figure label="Users by region">
+    <svg><!-- map --></svg>
+    <figcaption>Active users as of March 2026</figcaption>
 </Figure>
 ```
 
-## Keyboard
+### 4. Wrapping a chart component
 
-- None — passive container for data visualization
+```svelte
+<Figure label="Weekly active users">
+    <Sparkline data={users} />
+</Figure>
+```
+
+### 5. Localised label
+
+```svelte
+<Figure label="Ingresos mensuales">
+    <svg><!-- gráfico --></svg>
+</Figure>
+```
 
 ## Accessibility
 
-- role="img" identifies the figure as a graphical image
-- aria-label provides an accessible name describing the figure content
+- `role="img"` tells assistive technology to treat the figure as a single image.
+- `aria-label` provides a concise description; use longer explanations with `aria-describedby` if needed.
+- If the content has meaningful text, consider whether `role="img"` is still appropriate or whether you should omit it so individual elements remain accessible.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized descriptions
-
-## References
-
-- WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
-- MDN figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
+- `Caption` — caption for a table or figure element.
+- `GraphicBlock` — richer wrapper with title, description, notes, and ARIA description.
+- `FeaturePhoto`, `Image` — photographic content.
+- `Sparkline`, `Chart` components — chart primitives suitable as children.
 
 ---
 

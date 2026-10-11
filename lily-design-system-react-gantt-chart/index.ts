@@ -3,6 +3,7 @@ export {
   GanttChart,
   compareISO,
   effectiveRange,
+  effectiveRanges,
   endOfMonth,
   flattenTasks,
   generateColumns,

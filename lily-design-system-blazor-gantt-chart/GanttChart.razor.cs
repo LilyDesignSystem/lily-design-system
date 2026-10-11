@@ -73,6 +73,8 @@ public sealed record GanttColumn
 /// </summary>
 public sealed record GanttLabels
 {
+    /// <summary>Header for the leading task-label column; an empty header cell otherwise.</summary>
+    public string? TaskColumnHeader { get; init; }
     public Func<string, string, GanttTimeUnit, string>? ColumnLabel { get; init; }
     public Func<GanttTask, string>? EditButton { get; init; }
     public string? StartLabel { get; init; }
@@ -164,6 +166,7 @@ public partial class GanttChart : ComponentBase
     private string? _draggingTaskId;
 
     private bool _focusCellPending;
+    private bool _focusEditPending;
 
     // -------------------------------------------------------------------
     // Test seams (InternalsVisibleTo). bUnit has no live focus model — see
@@ -228,9 +231,11 @@ public partial class GanttChart : ComponentBase
     {
         var childrenOf = new Dictionary<string, List<GanttTask>>();
         var roots = new List<GanttTask>();
+        var ids = tasks.Select(t => t.Id).ToHashSet();
         foreach (var task in tasks)
         {
-            if (task.ParentId is null)
+            // A task whose ParentId names no task is a top-level row, not dropped.
+            if (task.ParentId is null || !ids.Contains(task.ParentId))
             {
                 roots.Add(task);
             }
@@ -263,19 +268,50 @@ public partial class GanttChart : ComponentBase
 
     /// <summary>A parent's start/end are derived (min start / max end of descendants), never its own data.</summary>
     public static GanttDateRange EffectiveRange(GanttTask task, IReadOnlyList<GanttTask> allTasks)
-    {
-        var children = allTasks.Where(t => t.ParentId == task.Id).ToList();
-        if (children.Count == 0) return new GanttDateRange(task.Start, task.End);
+        => EffectiveRanges(allTasks).TryGetValue(task.Id, out var range) ? range : new GanttDateRange(task.Start, task.End);
 
-        var start = "";
-        var end = "";
-        foreach (var child in children)
+    /// <summary>
+    /// Every task's effective range in one pass over the tree — computed once
+    /// per render rather than re-walking every parent's subtree for each row.
+    /// A ParentId cycle cannot recurse forever: a task already on the walk is
+    /// read as a leaf.
+    /// </summary>
+    public static IReadOnlyDictionary<string, GanttDateRange> EffectiveRanges(IReadOnlyList<GanttTask> tasks)
+    {
+        var childrenOf = new Dictionary<string, List<GanttTask>>();
+        foreach (var task in tasks)
         {
-            var r = EffectiveRange(child, allTasks);
-            if (start == "" || CompareIso(r.Start, start) < 0) start = r.Start;
-            if (end == "" || CompareIso(r.End, end) > 0) end = r.End;
+            if (task.ParentId is null) continue;
+            if (!childrenOf.TryGetValue(task.ParentId, out var list))
+            {
+                list = new List<GanttTask>();
+                childrenOf[task.ParentId] = list;
+            }
+            list.Add(task);
         }
-        return new GanttDateRange(start, end);
+        var ranges = new Dictionary<string, GanttDateRange>();
+        var onWalk = new HashSet<string>();
+        GanttDateRange Visit(GanttTask task)
+        {
+            if (ranges.TryGetValue(task.Id, out var known)) return known;
+            if (!childrenOf.TryGetValue(task.Id, out var children) || onWalk.Contains(task.Id))
+                return new GanttDateRange(task.Start, task.End);
+            onWalk.Add(task.Id);
+            var start = "";
+            var end = "";
+            foreach (var child in children)
+            {
+                var r = Visit(child);
+                if (start == "" || CompareIso(r.Start, start) < 0) start = r.Start;
+                if (end == "" || CompareIso(r.End, end) > 0) end = r.End;
+            }
+            onWalk.Remove(task.Id);
+            var range = new GanttDateRange(start, end);
+            ranges[task.Id] = range;
+            return range;
+        }
+        foreach (var task in tasks) ranges[task.Id] = Visit(task);
+        return ranges;
     }
 
     // -------------------------------------------------------------------
@@ -286,8 +322,24 @@ public partial class GanttChart : ComponentBase
 
     private IReadOnlyList<GanttFlatRow> Rows => FlattenTasks(Tasks, _collapsed);
 
-    private GanttDateRange RangeFor(GanttTask task, bool hasChildren)
-        => hasChildren ? EffectiveRange(task, Tasks) : new GanttDateRange(task.Start, task.End);
+    private static GanttDateRange RangeFor(GanttTask task, bool hasChildren, IReadOnlyDictionary<string, GanttDateRange> ranges)
+        => hasChildren && ranges.TryGetValue(task.Id, out var range) ? range : new GanttDateRange(task.Start, task.End);
+
+    // The roving cursor, clamped to the cells that exist now: collapsing a
+    // parent can remove the row it named, and the grid must never leave the
+    // tab order.
+    private int ActiveRow => Math.Min(_focusedRow, Math.Max(Rows.Count - 1, 0));
+    private int ActiveCol => Math.Min(_focusedCol, Math.Max(Columns.Count - 1, 0));
+
+    /// <summary>Editing needs every label its controls show; an unnamed Save is worse than none.</summary>
+    private bool CanEdit
+        => Labels.DateTimePickerLabels is not null
+           && !string.IsNullOrEmpty(Labels.StartLabel)
+           && !string.IsNullOrEmpty(Labels.EndLabel)
+           && !string.IsNullOrEmpty(Labels.SaveLabel)
+           && !string.IsNullOrEmpty(Labels.CancelLabel);
+
+    internal string EditStartInputId => $"{_baseId}-edit-start";
 
     private string ResolveTaskLabel(GanttTask task) => (TaskLabel ?? (t => t.Label))(task);
 
@@ -317,7 +369,16 @@ public partial class GanttChart : ComponentBase
         if (!_collapsed.Remove(taskId)) _collapsed.Add(taskId);
         // Unlike grid-cell/move-menu focus, no explicit refocus is needed:
         // the collapse button is a plain <button> click target, so the
-        // browser already keeps focus on it through the re-render.
+        // browser already keeps focus on it through the re-render. The
+        // stored cursor is kept on a row that still exists.
+        _focusedRow = ActiveRow;
+    }
+
+    /// <summary>The cursor follows focus however it arrives — a click, or a consumer's own focus().</summary>
+    private void OnCellFocusIn(int row, int col)
+    {
+        _focusedRow = row;
+        _focusedCol = col;
     }
 
     // -------------------------------------------------------------------
@@ -332,19 +393,33 @@ public partial class GanttChart : ComponentBase
 
     private void OpenEdit(GanttTask task)
     {
-        if (Labels.DateTimePickerLabels is null) return;
+        if (!CanEdit) return;
         _editingTaskId = task.Id;
         _editStart = task.Start;
         _editEnd = task.End;
+        // Focus moves into the region it opened, onto the start date's field.
+        _focusEditPending = true;
     }
 
+    /// <summary>
+    /// A range entered end-first is saved start-first; Save is disabled while
+    /// either date is empty. Closing either way returns focus to the grid's
+    /// tab stop, on the edited task's row.
+    /// </summary>
     private async Task SaveEditAsync(GanttTask task)
     {
-        await ApplyChangeAsync(task, _editStart, _editEnd);
+        if (string.IsNullOrEmpty(_editStart) || string.IsNullOrEmpty(_editEnd)) return;
+        var (start, end) = CompareIso(_editStart, _editEnd) <= 0 ? (_editStart, _editEnd) : (_editEnd, _editStart);
+        await ApplyChangeAsync(task, start, end);
         _editingTaskId = null;
+        _focusCellPending = true;
     }
 
-    private void CancelEdit() => _editingTaskId = null;
+    private void CancelEdit()
+    {
+        _editingTaskId = null;
+        _focusCellPending = true;
+    }
 
     private void OnBarDragStart(GanttTask task, DragEventArgs _) => _draggingTaskId = task.Id;
 
@@ -372,7 +447,12 @@ public partial class GanttChart : ComponentBase
 
     private async Task FocusActiveCellAsync()
     {
-        var script = $"document.getElementById({JsonString(CellId(_focusedRow, _focusedCol))})?.focus({{preventScroll:true}})";
+        await FocusByIdAsync(CellId(ActiveRow, ActiveCol));
+    }
+
+    private async Task FocusByIdAsync(string id)
+    {
+        var script = $"document.getElementById({JsonString(id)})?.focus({{preventScroll:true}})";
         try
         {
             await JS.InvokeVoidAsync("eval", script);
@@ -443,8 +523,20 @@ public partial class GanttChart : ComponentBase
     // Lifecycle.
     // -------------------------------------------------------------------
 
+    protected override void OnParametersSet()
+    {
+        // A new Tasks can remove the row the cursor named.
+        _focusedRow = ActiveRow;
+        _focusedCol = ActiveCol;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (_focusEditPending)
+        {
+            _focusEditPending = false;
+            await FocusByIdAsync(EditStartInputId);
+        }
         if (_focusCellPending)
         {
             _focusCellPending = false;

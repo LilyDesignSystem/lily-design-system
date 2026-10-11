@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CodeBlock from './CodeBlock';
 
 const meta = {
-  title: 'Examples/CodeBlock',
+  title: 'Headless/CodeBlock',
   component: CodeBlock,
   tags: ['autodocs']
 } satisfies Meta<typeof CodeBlock>;

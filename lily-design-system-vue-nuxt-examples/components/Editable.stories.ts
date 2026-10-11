@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Editable from './Editable.vue';
 
 const meta = {
-  title: 'Examples/Editable',
+  title: 'Headless/Editable',
   component: Editable,
   tags: ['autodocs']
 } satisfies Meta<typeof Editable>;

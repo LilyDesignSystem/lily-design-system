@@ -9,20 +9,20 @@ description: a picker for selecting a 1-5 star rating
 
 <h2>How was your appointment?</h2>
 {% call fiveStarRatingPicker({ label: "How was your appointment?" }) %}
-  {{ fiveStarRatingPickerButton({ value: 5 }) }}
-  {{ fiveStarRatingPickerButton({ value: 4 }) }}
-  {{ fiveStarRatingPickerButton({ value: 3, checked: true }) }}
-  {{ fiveStarRatingPickerButton({ value: 2 }) }}
-  {{ fiveStarRatingPickerButton({ value: 1 }) }}
+  {{ fiveStarRatingPickerButton({ value: 5, label: "Rate 5 stars" }) }}
+  {{ fiveStarRatingPickerButton({ value: 4, label: "Rate 4 stars" }) }}
+  {{ fiveStarRatingPickerButton({ value: 3, label: "Rate 3 stars", checked: true }) }}
+  {{ fiveStarRatingPickerButton({ value: 2, label: "Rate 2 stars" }) }}
+  {{ fiveStarRatingPickerButton({ value: 1, label: "Rate 1 star" }) }}
 {% endcall %}
 
 <h2>Service rating</h2>
 {% call fiveStarRatingPicker({ label: "Rate the service" }) %}
-  {{ fiveStarRatingPickerButton({ value: 5 }) }}
-  {{ fiveStarRatingPickerButton({ value: 4 }) }}
-  {{ fiveStarRatingPickerButton({ value: 3 }) }}
-  {{ fiveStarRatingPickerButton({ value: 2 }) }}
-  {{ fiveStarRatingPickerButton({ value: 1 }) }}
+  {{ fiveStarRatingPickerButton({ value: 5, label: "Rate 5 stars" }) }}
+  {{ fiveStarRatingPickerButton({ value: 4, label: "Rate 4 stars" }) }}
+  {{ fiveStarRatingPickerButton({ value: 3, label: "Rate 3 stars" }) }}
+  {{ fiveStarRatingPickerButton({ value: 2, label: "Rate 2 stars" }) }}
+  {{ fiveStarRatingPickerButton({ value: 1, label: "Rate 1 star" }) }}
 {% endcall %}
 
 <h2>Layout note</h2>

@@ -3,7 +3,7 @@
   import PostalCodeInput from './PostalCodeInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PostalCodeInput',
+    title: 'Headless/PostalCodeInput',
     component: PostalCodeInput,
   });
 </script>

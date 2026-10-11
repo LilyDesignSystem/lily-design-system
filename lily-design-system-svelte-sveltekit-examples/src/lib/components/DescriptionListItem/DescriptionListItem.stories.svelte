@@ -3,7 +3,7 @@
   import DescriptionListItem from './DescriptionListItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DescriptionListItem',
+    title: 'Headless/DescriptionListItem',
     component: DescriptionListItem,
   });
 </script>

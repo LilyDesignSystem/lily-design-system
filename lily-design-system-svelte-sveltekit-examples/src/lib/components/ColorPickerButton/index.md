@@ -1,82 +1,136 @@
 # ColorPickerButton
 
-## Overview
+A headless `<button>` representing a single predefined color swatch. It renders a button with an inline `background-color` style, a `data-color` attribute, and `aria-pressed` reflecting its selected state. Used inside palettes, theme builders, and customization forms.
 
-A headless button representing a single predefined color choice within a color
-picker interface. It renders a <button> with inline background-color styling and
-communicates selected state through aria-pressed. The data-color attribute allows
-consumers to target specific colors via CSS. Commonly used in color palette UIs,
-theme builders, and product customization forms.
+## What it is
+
+ColorPickerButton is a Svelte 5 component that renders:
+
+```html
+<button type="button" aria-label={label} aria-pressed={selected} data-color={color} style:background-color={color} />
+```
+
+It intentionally includes an inline `background-color` style because the color is the swatch's purpose. All other styling comes from the consumer.
+
+Note: the component's `.md` file refers to it as "ColorPickerSwatchButton"; the actual Svelte file and directory are `ColorPickerButton`.
 
 ## What it does
 
-A button showing a color swatch in a color picker.
+- Renders an accessible `<button>` with `aria-label` and `aria-pressed`.
+- Paints the button background to the `color` prop.
+- Exposes `data-color` for CSS targeting.
+- Forwards `disabled` and `onclick`.
 
-## When to use
+## When to use it
 
-- Use as a single selectable option within the matching Picker.
-- Use for an in-page action (not navigation).
+- Showing preset color swatches in a palette or picker.
+- Theme customization forms where users pick from a curated list.
+- Alongside `ColorPicker` for combined preset + freeform selection.
 
-## When not to use
+## When not to use it
 
-- Do not use for navigation to another URL — use a link instead.
+- For a native `<input type="color">` — use `ColorInput`.
+- For a 2D value region — use `ColorPicker`.
+- For generic selection buttons — use `Button` or `ToggleButton`.
+
+## How to use it
+
+Set `color` to a CSS color. Provide a human-readable `label` (e.g. "Ocean Blue") for screen readers. Control `selected` from parent state to reflect which swatch is active.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `color` | `string` | required | CSS color value used for background and `data-color`. |
+| `label` | `string` | required | `aria-label`. |
+| `selected` | `boolean` | `false` | Reflected in `aria-pressed`. |
+| `disabled` | `boolean` | `false` | Disables the button. |
+| `onclick` | `(event: MouseEvent) => void` | `undefined` | Click handler. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<button>`. |
 
 ## Usage
 
 ```svelte
-<ColorPickerButton color="#ff0000" label="Red" onclick={handleSelect} />
+<script lang="ts">
+    import ColorPicker from "../ColorPicker/ColorPicker.svelte";
+    import ColorPickerButton from "./ColorPickerButton.svelte";
+
+    let x = $state(0);
+    let y = $state(0);
+    let selected = $state("#2563eb");
+
+    const palette = [
+        { color: "#ef4444", label: "Red" },
+        { color: "#f59e0b", label: "Amber" },
+        { color: "#16a34a", label: "Green" },
+        { color: "#2563eb", label: "Blue" }
+    ];
+</script>
+
+<ColorPicker label="Color board" bind:x bind:y />
+
+{#each palette as p}
+    <ColorPickerButton
+        color={p.color}
+        label={p.label}
+        selected={selected === p.color}
+        onclick={() => (selected = p.color)}
+    />
+{/each}
 ```
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `color` | string, required | CSS color value applied as background-color and exposed via data-color. |
-| `label` | string, required | Accessible name announced by screen readers (e.g., "Red", "Ocean Blue"). |
-| `selected` | boolean, default false | Whether the swatch is currently selected; reflected in aria-pressed. |
-| `disabled` | boolean, default false | Whether the swatch is disabled. |
-| `onclick` | (event: MouseEvent) => void, default undefined | Click handler for selection. |
-| `...restProps` | additional HTML attributes spread onto the <button> |  |
-
-## Examples
-
 ```svelte
-<!-- Selected swatch -->
-<ColorPickerButton color="#0066cc" label="Blue" selected={true} onclick={handleSelect} />
-<!-- Disabled swatch -->
+<script lang="ts">
+    import ColorPickerButton from "./ColorPickerButton.svelte";
+</script>
+
+<ColorPickerButton color="#0066cc" label="Blue" selected={true} />
 <ColorPickerButton color="#cccccc" label="Gray" disabled={true} />
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ColorPickerButton from "#lib/components/ColorPickerButton/ColorPickerButton.svelte";
+    import ColorPickerButton from "./ColorPickerButton.svelte";
+
+    let chosen = $state<string | null>(null);
+    const swatches = ["#ff0000", "#00ff00", "#0000ff"];
 </script>
 
-<ColorPickerButton color="#ff0000" label="Red" onclick={handleSelect} />
+{#each swatches as color}
+    <ColorPickerButton
+        {color}
+        label={`Color ${color}`}
+        selected={chosen === color}
+        onclick={() => (chosen = color)}
+    />
+{/each}
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import ColorPickerButton from "./ColorPickerButton.svelte";
 
-- Tab: Move focus to the swatch button
-- Enter: Activate the button (native button behavior)
-- Space: Activate the button (native button behavior)
+    function handle(event: MouseEvent) {
+        const el = event.currentTarget as HTMLButtonElement;
+        console.log("Picked:", el.dataset.color);
+    }
+</script>
+
+<ColorPickerButton color="#2563eb" label="Brand Blue" onclick={handle} />
+```
 
 ## Accessibility
 
-- aria-label provides an accessible name since the button has no visible text
-- aria-pressed indicates whether the swatch is currently selected in a toggle context
+- `aria-label` provides a name since the button has no visible text.
+- `aria-pressed` communicates toggle state in a palette UI.
+- `<button type="button">` ensures clicks are not treated as form submissions.
 
-## Internationalization
+## Related components
 
-- The label prop provides the accessible name; no hardcoded strings
-
-## References
-
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+- `ColorPicker` — 2D color region.
+- `ColorInput` — native color input.
+- `ToggleButton` — generic pressed/unpressed toggle.
 
 ---
 

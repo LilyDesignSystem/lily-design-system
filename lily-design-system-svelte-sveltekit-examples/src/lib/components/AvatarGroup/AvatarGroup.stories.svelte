@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import AvatarGroup from "./AvatarGroup.svelte";
     const { Story } = defineMeta({
-        title: "Examples/AvatarGroup",
+        title: "Headless/AvatarGroup",
         component: AvatarGroup,
     });
 </script>

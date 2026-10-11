@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SuperBanner from './SuperBanner.vue';
 
 const meta = {
-  title: 'Examples/SuperBanner',
+  title: 'Headless/SuperBanner',
   component: SuperBanner,
   tags: ['autodocs']
 } satisfies Meta<typeof SuperBanner>;

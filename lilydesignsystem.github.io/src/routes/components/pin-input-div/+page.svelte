@@ -75,7 +75,7 @@
     <h3>ARIA</h3>
     <ul>
       <li><code>role="group"</code> with <code>aria-label</code> on the container</li>
-      <li>Each input has <code>aria-label="Digit X of Y"</code> for positional context</li>
+      <li>Each input's <code>aria-label</code> comes from the optional <code>digitLabel(position, length)</code> (e.g. "Digit 1 of 4"); without it each input is named by <code>label</code> — no English default</li>
       <li><code>inputmode="numeric"</code> for numeric keyboard on mobile</li>
     </ul>
     <h3>Keyboard</h3>
@@ -90,6 +90,7 @@
     <ul>
       <li><code>label</code>: string (required) -- accessible label for the group via aria-label</li>
       <li><code>length</code>: number (default: 4) -- number of digit inputs</li>
+      <li><code>digitLabel</code>: (position: number, length: number) =&gt; string (optional) -- each input's accessible name; defaults to <code>label</code></li>
       <li><code>value</code>: string (default: "") -- bindable combined string of all digits</li>
       <li><code>disabled</code>: boolean (default: false) -- disables all inputs</li>
       <li><code>...restProps</code>: Any additional HTML attributes on the group div</li>

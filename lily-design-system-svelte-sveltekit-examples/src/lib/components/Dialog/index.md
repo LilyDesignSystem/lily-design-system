@@ -1,88 +1,123 @@
 # Dialog
 
-## Overview
+A modal or non-modal dialog built on the native `<dialog>` element with a bindable `open` state and Escape-to-close handling.
 
-A modal or non-modal dialog that overlays the main interface to communicate
-information or prompt users for input. Uses the native <dialog> element with
-conditional rendering. Common use cases include confirmations, alerts, forms,
-settings, and any interaction requiring focused user attention.
+## What it is
+
+`Dialog` conditionally renders a `<dialog>` element with `aria-label`, optional `aria-modal`, and an Escape key listener. When `open` is `false` the element is fully removed from the DOM. The component drives the element's `open` attribute directly rather than calling `.showModal()`.
 
 ## What it does
 
-A modal or non-modal dialog window.
+- Renders `<dialog open>` only when `open` is `true`.
+- Applies `aria-label` for the accessible name.
+- Applies `aria-modal="true"` when `modal` is `true`.
+- Closes on Escape by setting `open = false`.
+- Allows programmatic focus via `tabindex="-1"`.
 
-## When to use
+## When to use it
 
-- Use for modal or non-modal content that requires focused attention.
+- Confirmations, alerts, forms that require focused attention.
+- Settings dialogs, details views, multi-step tasks that interrupt the main flow.
+- Modal or non-modal secondary surfaces over the main page.
 
-## When not to use
+## When not to use it
 
-- Do not use for simple confirmations that can be expressed inline.
+- For urgent error alerts that cannot be dismissed. Use `AlertDialog` instead.
+- For file pickers or file operations. Use `FileDialog` instead.
+- For side-sliding panels or drawers. Use `Drawer` or `Sheet`.
 
-## Usage
+## How to use it
+
+Bind `open` to a state variable and toggle it with a trigger.
 
 ```svelte
-<Dialog label="Confirm" bind:open>Content here</Dialog>
+<script lang="ts">
+    import Dialog from "./Dialog.svelte";
+    let open = $state(false);
+</script>
+
+<button type="button" onclick={() => open = true}>Open dialog</button>
+<Dialog label="Confirm action" bind:open>
+    <p>Are you sure?</p>
+    <button type="button" onclick={() => open = false}>Close</button>
+</Dialog>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `open` | boolean, default false | Whether the dialog is visible; bindable. |
-| `label` | string, required | Accessible name for the dialog. |
-| `modal` | boolean, default true | Whether the dialog behaves as a modal. |
-| `children` | Snippet, required | Dialog body content. |
-| `...restProps` | additional HTML attributes spread onto the <dialog> element |  |
+| Prop       | Type       | Default  | Description                                   |
+| ---------- | ---------- | -------- | --------------------------------------------- |
+| `class`    | `string`   | `""`     | CSS class appended to the base class.        |
+| `open`     | `boolean`  | `false`  | Whether the dialog is visible. Bindable.      |
+| `label`    | `string`   | required | Accessible name via `aria-label`.             |
+| `modal`    | `boolean`  | `true`   | Whether the dialog is modal (`aria-modal`).   |
+| `children` | `Snippet`  | required | Dialog body content.                          |
+| `...rest`  | `unknown`  | —        | Additional HTML attributes on the `<dialog>`. |
 
-## Examples
+## Usage
 
-```svelte
-<!-- Confirmation dialog -->
-<Dialog label="Confirm action" bind:open={showDialog}>
-  <p>Are you sure you want to proceed?</p>
-  <button onclick={() => showDialog = false}>Cancel</button>
-  <button onclick={() => { handleConfirm(); showDialog = false; }}>Confirm</button>
-</Dialog>
-
-<!-- Non-modal dialog -->
-<Dialog label="Notification" bind:open={showNotice} modal={false}>
-  <p>Your file has been saved.</p>
-</Dialog>
-```
-
-## SvelteKit example
+### 1. Confirmation dialog
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Dialog from "#lib/components/Dialog/Dialog.svelte";
+    import Dialog from "./Dialog.svelte";
+    let open = $state(false);
+    function confirm() { /* … */ open = false; }
 </script>
 
-<Dialog label="Confirm" bind:open>Content here</Dialog>
+<Dialog label="Confirm action" bind:open>
+    <p>Are you sure you want to proceed?</p>
+    <button type="button" onclick={() => open = false}>Cancel</button>
+    <button type="button" onclick={confirm}>Confirm</button>
+</Dialog>
 ```
 
-## Keyboard
+### 2. Non-modal notice
 
-- Escape: closes the dialog by setting open to false
+```svelte
+<Dialog label="Notification" bind:open={showNotice} modal={false}>
+    <p>Your file has been saved.</p>
+</Dialog>
+```
+
+### 3. Form inside a dialog
+
+```svelte
+<Dialog label="Create account" bind:open>
+    <form onsubmit={handleSubmit}>
+        <input name="name" required />
+        <button type="submit">Create</button>
+    </form>
+</Dialog>
+```
+
+### 4. Multiple dialogs
+
+```svelte
+<Dialog label="Step 1" bind:open={step1Open}>…</Dialog>
+<Dialog label="Step 2" bind:open={step2Open}>…</Dialog>
+```
+
+### 5. Escape to close (built in)
+
+```svelte
+<Dialog label="Press Escape to close" bind:open>
+    <p>Hit Escape to close this dialog.</p>
+</Dialog>
+```
 
 ## Accessibility
 
-- role="dialog" provided natively by the <dialog> element
-- aria-label provides the accessible name
-- aria-modal="true" when modal prop is true, indicating focus trap
-- tabindex="-1" allows the dialog to receive focus for keyboard events
+- Implicit `role="dialog"` from `<dialog>`, with `aria-label` and optional `aria-modal="true"`.
+- Escape key closes the dialog.
+- `tabindex="-1"` allows programmatic focus management. Focus trapping is the consumer's responsibility when needed.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
-- MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
-- WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
+- `AlertDialog` — dialog for urgent, must-acknowledge messages.
+- `FileDialog` — dialog for file operations.
+- `Drawer`, `Sheet` — edge-aligned panels.
+- `Popover`, `Popup`, `HoverCard` — lighter-weight floating surfaces.
 
 ---
 

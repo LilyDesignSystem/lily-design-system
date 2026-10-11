@@ -3,7 +3,7 @@
   import EireIndividualHealthIdentifierInput from './EireIndividualHealthIdentifierInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EireIndividualHealthIdentifierInput',
+    title: 'Headless/EireIndividualHealthIdentifierInput',
     component: EireIndividualHealthIdentifierInput,
   });
 </script>

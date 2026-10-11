@@ -3,7 +3,7 @@
   import AspectRatioContainer from './AspectRatioContainer.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AspectRatioContainer',
+    title: 'Headless/AspectRatioContainer',
     component: AspectRatioContainer,
   });
 </script>

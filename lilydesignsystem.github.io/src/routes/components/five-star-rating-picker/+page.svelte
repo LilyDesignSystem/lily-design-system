@@ -87,6 +87,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the rating group via <code>aria-label</code></li>
+      <li><code>starLabel</code>: (star: number) =&gt; string (optional) -- each option's text; defaults to the number</li>
       <li><code>value</code>: number (default: <code>0</code>) -- current rating (1-5, 0 = none), two-way bindable via <code>value</code></li>
       <li><code>name</code>: string (default: <code>"rating"</code>) -- radio group name for form submission</li>
       <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the entire group is disabled</li>

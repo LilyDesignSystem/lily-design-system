@@ -20,22 +20,11 @@ describe("five-star-rating-picker-button", () => {
     ).toBe("5");
   });
 
-  it("generates default aria-label (plural)", () => {
-    const { document } = render("five-star-rating-picker-button", {
-      value: 4,
-    });
+  it("without a label, names the button by its number — no English default", () => {
+    const { document } = render("five-star-rating-picker-button", { value: 4 });
     expect(
       document.querySelector("button.five-star-rating-picker-button").getAttribute("aria-label"),
-    ).toBe("Rate 4 stars");
-  });
-
-  it("generates singular aria-label for value=1", () => {
-    const { document } = render("five-star-rating-picker-button", {
-      value: 1,
-    });
-    expect(
-      document.querySelector("button.five-star-rating-picker-button").getAttribute("aria-label"),
-    ).toBe("Rate 1 star");
+    ).toBe("4");
   });
 
   it("sets aria-checked and tabindex based on checked", () => {

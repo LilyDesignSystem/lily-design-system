@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { onBeforeUnmount, onMounted, ref } from "vue";
 
     // FiveStarRatingPicker component
     //
@@ -53,6 +54,8 @@
         label: string;
         /** Radio group name for form submission. */
         name?: string;
+        /** Each option's text, e.g. (n) => `${n} stars`. Defaults to the number alone: no English default. */
+        starLabel?: (star: number) => string;
         /** Whether the entire group is disabled. */
         disabled?: boolean;
     }>(), {
@@ -61,6 +64,33 @@
     });
 
     const modelValue = defineModel<number>({ default: 0 });
+    const initialValue = modelValue.value;
+
+    // Form reset: the inputs take a one-way value, which a reset changes without
+    // telling this component, so the model would keep a value the form no longer
+    // submits. Restore the initial value instead — one tick later, after the
+    // browser has reset the DOM, and not when the reset was cancelled.
+    const root = ref<HTMLElement | null>(null);
+    let resetForm: HTMLFormElement | null = null;
+    let resetTimer: ReturnType<typeof setTimeout> | undefined;
+    function onReset(event: Event): void {
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+            if (event.defaultPrevented || !root.value) return;
+            modelValue.value = initialValue;
+            for (const input of root.value.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                input.checked = input.value === String(initialValue);
+            }
+        }, 0);
+    }
+    onMounted(() => {
+        resetForm = root.value?.closest("form") ?? null;
+        resetForm?.addEventListener("reset", onReset);
+    });
+    onBeforeUnmount(() => {
+        clearTimeout(resetTimer);
+        resetForm?.removeEventListener("reset", onReset);
+    });
 
     const stars = [1, 2, 3, 4, 5];
 
@@ -69,6 +99,7 @@
 <template>
     <!-- FiveStarRatingPicker.vue -->
     <fieldset
+        ref="root"
         class="five-star-rating-picker"
         role="radiogroup"
         :aria-label="label"
@@ -82,8 +113,7 @@
                     :checked="modelValue === star"
                     @change="modelValue = star"
                 />
-                {{ star }}
-                {{ star === 1 ? "star" : "stars" }}
+                {{ starLabel ? starLabel(star) : star }}
             </label>
     </fieldset>
 </template>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Collapsible from './Collapsible.vue';
 
 const meta = {
-  title: 'Examples/Collapsible',
+  title: 'Headless/Collapsible',
   component: Collapsible,
   tags: ['autodocs']
 } satisfies Meta<typeof Collapsible>;

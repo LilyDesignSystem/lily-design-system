@@ -1,83 +1,171 @@
 # Table
 
-## Overview
+A headless semantic table with an accessible label. Renders `<table>` and defers all header/body/footer structure to the consumer.
 
-A headless table that renders a semantic <table> element with an accessible
-label. Used to display structured data in rows and columns for reports,
-schedules, product lists, and dashboards. The consumer provides all table
-content (thead, tbody, tfoot, caption, colgroup, etc.) through the children
-snippet, maintaining full control over table structure and styling.
+## What it is
+
+A Svelte 5 headless component that renders `<table class="table ...">` with `aria-label`. The consumer provides `<caption>`, `<colgroup>`, `<thead>`, `<tbody>`, and `<tfoot>` (or equivalent components like `TableHead`, `TableBody`, `TableRow`, `TableTD`, `TableTD`) through `children`.
 
 ## What it does
 
-A table with rows and columns <table>.
+- Renders a semantic `<table>`.
+- Attaches the required `aria-label`.
+- Spreads `...restProps` onto the `<table>`.
+- Delegates all table structure and content to the consumer.
 
-## When to use
+No sorting, filtering, or pagination is built in.
 
-- Use to display structured tabular data with headers and rows.
+## When to use it
 
-## When not to use
+- Generic tabular data presentation.
+- When you do not need the extra semantics of `DataTable`, `CalendarTable`, `GanttTable`, or `KanbanTable`.
+- As a foundation for custom table layouts.
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Sortable/filterable data grids - use `DataTable`.
+- Calendars - use `CalendarTable`.
+- Gantt charts - use `GanttTable`.
+- Kanban boards - use `KanbanTable`.
+- Key-value summaries - use `SummaryList`.
 
-```svelte
-<Table label="User accounts">...</Table>
-```
+## How to use it
+
+1. Import `Table` and (optionally) the companion subcomponents.
+2. Provide a translated `label`.
+3. Place `thead`/`tbody`/`tfoot` (or the component equivalents) inside `children`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the table via aria-label. |
-| `children` | Snippet, required | Table content including thead, tbody, tfoot, etc. |
-| `...restProps` | additional HTML attributes spread onto the <table> |  |
+- `class` (string, optional, default `""`) - merged with the base `table` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `children` (Snippet, required) - table content.
+- `...restProps` - spread onto the `<table>`.
 
-## Examples
+## Usage
+
+Simple table with native elements:
 
 ```svelte
-<!-- Data table with column headers -->
+<script lang="ts">
+    import Table from "./Table.svelte";
+</script>
+
 <Table label="User accounts">
-  <thead><tr><th scope="col">Name</th><th scope="col">Email</th></tr></thead>
-  <tbody><tr><td>Alice</td><td>alice@example.com</td></tr></tbody>
+    <thead>
+        <tr><th scope="col">Name</th><th scope="col">Email</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>Alice</td><td>alice@example.com</td></tr>
+        <tr><td>Bob</td><td>bob@example.com</td></tr>
+    </tbody>
 </Table>
 ```
 
-## SvelteKit example
+Using the companion components:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Table from "#lib/components/Table/Table.svelte";
+    import Table from "./Table.svelte";
+    import TableHead from "../TableHead/TableHead.svelte";
+    import TableBody from "../TableBody/TableBody.svelte";
+    import TableRow from "../TableRow/TableRow.svelte";
+    import TableTD from "../TableTD/TableTD.svelte";
+    import TableTD from "../TableTD/TableTD.svelte";
 </script>
 
-<Table label="User accounts">...</Table>
+<Table label="Tasks">
+    <TableHead>
+        <TableRow>
+            <TableTD>Task</TableTD>
+            <TableTD>Status</TableTD>
+        </TableRow>
+    </TableHead>
+    <TableBody>
+        <TableRow>
+            <TableTD>Write docs</TableTD>
+            <TableTD>In progress</TableTD>
+        </TableRow>
+    </TableBody>
+</Table>
 ```
 
-## Keyboard
+With a visible caption:
 
-- None directly -- standard table navigation is handled by screen readers
+```svelte
+<script lang="ts">
+    import Table from "./Table.svelte";
+</script>
+
+<Table label="Q1 sales">
+    <caption>Sales by region (Q1 2026)</caption>
+    <thead>
+        <tr><th scope="col">Region</th><th scope="col">Sales</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>NA</td><td>$1.2M</td></tr>
+    </tbody>
+</Table>
+```
+
+With row headers:
+
+```svelte
+<script lang="ts">
+    import Table from "./Table.svelte";
+</script>
+
+<Table label="Employees">
+    <thead>
+        <tr><th scope="col">Name</th><th scope="col">Title</th></tr>
+    </thead>
+    <tbody>
+        <tr><th scope="row">Alice</th><td>Engineer</td></tr>
+        <tr><th scope="row">Bob</th><td>Designer</td></tr>
+    </tbody>
+</Table>
+```
+
+Dynamic rows from data:
+
+```svelte
+<script lang="ts">
+    import Table from "./Table.svelte";
+    const rows = [
+        { id: 1, name: "Alice" },
+        { id: 2, name: "Bob" },
+    ];
+</script>
+
+<Table label="Users">
+    <thead>
+        <tr><th scope="col">ID</th><th scope="col">Name</th></tr>
+    </thead>
+    <tbody>
+        {#each rows as r (r.id)}
+            <tr><td>{r.id}</td><td>{r.name}</td></tr>
+        {/each}
+    </tbody>
+</Table>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name for screen readers
-- Semantic <table> element conveys tabular data structure
-- Consumers should use <th scope="col"> for column headers
-- Consumers should use <th scope="row"> for row headers
-- Consumers may add <caption> for a visible table title
+- Semantic `<table>` is announced correctly by screen readers.
+- `aria-label` supplies the accessible name; alternatively add a `<caption>` for a visible title.
+- Use `<th scope="col">` for column headers and `<th scope="row">` for row headers.
+- The component does not enforce any particular structure; valid table HTML is the consumer's responsibility.
 
-## Internationalization
-
-- The label prop externalizes user-facing text for translation
-- All content is provided through the children snippet
-- No hardcoded strings in the component
-
-## References
-
+References:
 - WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apg/patterns/table/
-- HTML Table Element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
+- MDN `<table>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
+
+## Related components
+
+- `TableHead`, `TableBody`, `TableFoot`, `TableRow`, `TableTD`, `TableTD` - structural building blocks.
+- `DataTable` - sortable data grid.
+- `CalendarTable`, `GanttTable`, `KanbanTable` - specialized tables.
+- `SummaryList` - key-value pair alternative.
 
 ---
 

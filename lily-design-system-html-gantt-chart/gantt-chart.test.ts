@@ -364,9 +364,108 @@ describe("GanttChart — extra attributes and labels (§8.15, §8.16)", () => {
 
     test("§8.16 no collapse-button accessible name or dependency summary renders without a label", () => {
         mount({});
-        const collapseButton = document.querySelector(".gantt-chart-collapse-button")!;
-        expect(collapseButton.getAttribute("aria-label")).toBe("");
+        // No unnamed button: without labels.collapseButton there is none at all.
+        expect(document.querySelector(".gantt-chart-collapse-button")).toBeNull();
         const buildRow = rows()[1];
         expect(buildRow.querySelector(".gantt-table-td[aria-describedby]")).toBeNull();
+    });
+});
+
+describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => {
+    function startField(): HTMLInputElement | null {
+        return document.querySelector<HTMLInputElement>(".gantt-chart-edit-row .date-time-picker-input");
+    }
+
+    function editButton(className: string): HTMLButtonElement {
+        return document.querySelector<HTMLButtonElement>(`.gantt-chart-edit-row button.${className}`)!;
+    }
+
+    test("§8.17 depth is a data-depth attribute, never an inline style", () => {
+        mount({});
+        const headers = Array.from(document.querySelectorAll<HTMLElement>(".gantt-table-tbody .gantt-table-th"));
+        expect(headers.map((h) => h.dataset.depth)).toEqual(["0", "0", "0", "0", "1", "1"]);
+        expect(headers.filter((h) => h.hasAttribute("style"))).toHaveLength(0);
+    });
+
+    test("§8.17 a task whose parentId names no task renders as a top-level row", () => {
+        const orphan: GanttTask = { id: "orphan", label: "Orphan", start: "2026-10-02", end: "2026-10-02", parentId: "gone" };
+        expect(flattenTasks([...TASKS, orphan], new Set()).map((r) => r.task.id)).toContain("orphan");
+    });
+
+    test("§8.17 a parentId cycle does not recurse forever", () => {
+        const cycle: GanttTask[] = [
+            { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", parentId: "b" },
+            { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", parentId: "a" },
+        ];
+        expect(() => effectiveRange(cycle[0], cycle)).not.toThrow();
+    });
+
+    test("§8.6 collapsing keeps focus on the collapse button and one cell tabbable", () => {
+        mount({ labels: LABELS });
+        press(tabbableCells()[0], "End", { ctrlKey: true });
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("5");
+        const collapse = document.querySelector<HTMLElement>('[aria-label="Collapse Phase 1"]')!;
+        collapse.focus();
+        click(collapse);
+        expect(rows()).toHaveLength(4);
+        expect(tabbableCells()).toHaveLength(1);
+        expect(document.activeElement?.getAttribute("aria-label")).toBe("Expand Phase 1");
+    });
+
+    test("§8.8 focusing a cell by pointer moves the cursor there", () => {
+        mount({});
+        const cell = rows()[2].querySelectorAll<HTMLElement>(".gantt-table-td")[4];
+        cell.focus();
+        expect(tabbableCells()).toEqual([cell]);
+    });
+
+    test("§8.9 opening the edit region moves focus to the start date's field", () => {
+        mount({ labels: LABELS });
+        press(tabbableCells()[0], "Enter");
+        expect(document.activeElement).toBe(startField());
+    });
+
+    test("§8.11 Escape cancels the edit region and returns focus to the task's cell", () => {
+        const onTaskChange = vi.fn();
+        mount({ labels: LABELS, onTaskChange });
+        press(tabbableCells()[0], "Enter");
+        press(startField()!, "Escape");
+        expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+        expect(onTaskChange).not.toHaveBeenCalled();
+        expect(document.activeElement).toBe(tabbableCells()[0]);
+    });
+
+    test("§8.10 Save returns focus to the grid, even when the consumer's update rebuilds it", () => {
+        const el = mount({ labels: LABELS });
+        el.onTaskChange = (id, start, end) => {
+            el.tasks = TASKS.map((t) => (t.id === id ? { ...t, start, end } : t));
+        };
+        press(tabbableCells()[0], "Enter");
+        click(editButton("gantt-chart-save-button"));
+        expect(document.activeElement).toBe(tabbableCells()[0]);
+    });
+
+    test("§8.10 a range entered end-first is saved start-first", () => {
+        const onTaskChange = vi.fn();
+        mount({ labels: LABELS, onTaskChange });
+        press(tabbableCells()[0], "Enter");
+        const field = startField()!;
+        field.value = "2026-10-09";
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+        field.dispatchEvent(new Event("change", { bubbles: true }));
+        field.dispatchEvent(new FocusEvent("blur"));
+        click(editButton("gantt-chart-save-button"));
+        expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-03", "2026-10-09");
+    });
+
+    test("§8.16 the edit region does not open without its labels", () => {
+        mount({ labels: { dateTimePickerLabels: DTP_LABELS } });
+        press(tabbableCells()[0], "Enter");
+        expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+    });
+
+    test("§8.16 labels.taskColumnHeader names the leading header cell", () => {
+        mount({ labels: { ...LABELS, taskColumnHeader: "Task" } });
+        expect(document.querySelector(".gantt-table-thead .gantt-table-th")?.textContent).toBe("Task");
     });
 });

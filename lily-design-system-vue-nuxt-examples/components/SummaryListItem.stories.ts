@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SummaryListItem from './SummaryListItem.vue';
 
 const meta = {
-  title: 'Examples/SummaryListItem',
+  title: 'Headless/SummaryListItem',
   component: SummaryListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof SummaryListItem>;

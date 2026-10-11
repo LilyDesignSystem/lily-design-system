@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SplitButton from './SplitButton.vue';
 
 const meta = {
-  title: 'Examples/SplitButton',
+  title: 'Headless/SplitButton',
   component: SplitButton,
   tags: ['autodocs']
 } satisfies Meta<typeof SplitButton>;

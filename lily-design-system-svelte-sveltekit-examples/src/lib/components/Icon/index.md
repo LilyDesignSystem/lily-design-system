@@ -1,83 +1,120 @@
 # Icon
 
-## Overview
+An icon wrapper that provides proper accessibility semantics for icon content. Supports both meaningful icons (announced by screen readers) and decorative icons (hidden from assistive tech). The consumer provides the actual icon content (text, SVG, or other markup) as children.
 
-An icon wrapper that provides proper accessibility semantics for icon content.
-Supports both meaningful icons (with accessible labels announced by screen readers)
-and decorative icons (hidden from assistive technology). The consumer provides the
-actual icon content (text characters, SVG, or any markup) as children.
+## What it is
+
+A Svelte 5 component that renders `<span class="icon ...">` wrapping the `children` snippet. ARIA semantics flip depending on whether the icon is meaningful (has a `label`) or decorative.
 
 ## What it does
 
-A container for displaying an icon.
+- Renders `<span class="icon ...">` around the `children` snippet.
+- When `decorative` is true: sets `aria-hidden="true"` and omits the role.
+- When `decorative` is false: sets `role="img"` and applies `aria-label={label}` (undefined if no label given).
+- Spreads additional HTML attributes onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when you need a container for displaying an icon.
+- Wrapping inline icon glyphs (text characters, emoji, SVG markup) to ensure correct accessibility semantics.
+- Declaring whether an icon conveys meaning (then it needs a label) or is decorative.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For emoji with a specific text label. Use `Emoji`.
+- For a single decorative character inside body text. Use `Character`.
+- For images with full alt text. Use `Image`.
+- For QR codes. Use `QrCodeImage`.
+
+## How to use it
+
+Pass a `label` when the icon conveys meaning that should be announced; pass `decorative` when the icon only decorates an adjacent label.
+
+## Props
+
+- `class` (string, optional) - CSS class appended after the base `icon` class.
+- `label` (string, optional) - Accessible name via `aria-label` for meaningful icons.
+- `decorative` (boolean, default `false`) - Hides the icon from assistive tech when true.
+- `children` (Snippet, required) - Icon content.
+- `...restProps` - Additional HTML attributes spread onto the `<span>`.
 
 ## Usage
 
 ```svelte
-<Icon label="Close">x</Icon>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, default undefined | Accessible name for meaningful icons via aria-label. |
-| `decorative` | boolean, default false | When true, hides the icon from assistive technology. |
-| `children` | Snippet, required | The icon content (text, SVG, or other markup). |
-| `...restProps` | additional HTML attributes spread onto the span element |  |
-
-## Examples
-
-```svelte
-<!-- Meaningful icon with accessible label -->
-<Icon label="Close">x</Icon>
-
-<!-- Decorative icon hidden from screen readers -->
-<Icon decorative>*</Icon>
-
-<!-- Icon with custom data attribute -->
-<Icon label="Search" data-testid="search-icon">Q</Icon>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Icon from "#lib/components/Icon/Icon.svelte";
+    import Icon from "./Icon.svelte";
 </script>
 
 <Icon label="Close">x</Icon>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import Icon from "./Icon.svelte";
+</script>
 
-- None — this is a passive container; keyboard behavior depends on the parent interactive element
+<button aria-label="Save">
+    <Icon decorative>*</Icon>
+    Save
+</button>
+```
+
+```svelte
+<script lang="ts">
+    import Icon from "./Icon.svelte";
+</script>
+
+<Icon label="Search">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" />
+        <line x1="21" y1="21" x2="16" y2="16" stroke="currentColor" />
+    </svg>
+</Icon>
+```
+
+```svelte
+<script lang="ts">
+    import Icon from "./Icon.svelte";
+</script>
+
+<Icon label="Warning" class="warning-icon" data-testid="warning">
+    ⚠
+</Icon>
+```
+
+```svelte
+<script lang="ts">
+    import Icon from "./Icon.svelte";
+    const items = [
+        { glyph: "★", label: "Favourite" },
+        { glyph: "✎", label: "Edit" },
+        { glyph: "✕", label: "Remove" },
+    ];
+</script>
+
+<ul>
+    {#each items as it}
+        <li>
+            <button aria-label={it.label}>
+                <Icon decorative>{it.glyph}</Icon>
+            </button>
+        </li>
+    {/each}
+</ul>
+```
 
 ## Accessibility
 
-- role="img" applied to meaningful icons so assistive technology treats the span as an image
-- aria-label provides the accessible name for meaningful icons
-- aria-hidden="true" applied when decorative is true, hiding the icon from the accessibility tree
-- When decorative is true, role is omitted entirely
+- Meaningful icons: `role="img"` + `aria-label` announce the icon as a named image.
+- Decorative icons: `aria-hidden="true"` removes them from the accessibility tree.
+- Consumer is responsible for choosing the correct mode; mixing them (e.g. providing both `label` and `decorative`) would be contradictory - prefer one or the other.
 
-## Internationalization
+## Related components
 
-- The label prop allows localized accessible names; no hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
-- WAI-ARIA Images Tutorial: https://www.w3.org/WAI/tutorials/images/decorative/
+- `Emoji` - emoji with explicit accessible name.
+- `Character` - single character display element.
+- `Image` - full image component with required alt text.
+- `ScreenReaderSpan` - visually hidden text for screen readers.
+- `Flair` - small inline label/emphasis element.
 
 ---
 

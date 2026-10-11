@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("checkbox-group", () => {
-  it("renders a <div role=group> with the base class", () => {
+  it("renders a <fieldset role=group> with the base class", () => {
     const { document } = render("checkbox-group", { label: "Conditions" });
-    const el = document.querySelector("div.checkbox-group");
+    const el = document.querySelector("fieldset.checkbox-group");
     expect(el).toBeTruthy();
     expect(el.getAttribute("role")).toBe("group");
   });
@@ -12,7 +12,7 @@ describe("checkbox-group", () => {
   it("sets aria-label from params.label", () => {
     const { document } = render("checkbox-group", { label: "Conditions" });
     expect(
-      document.querySelector("div.checkbox-group").getAttribute("aria-label"),
+      document.querySelector("fieldset.checkbox-group").getAttribute("aria-label"),
     ).toBe("Conditions");
   });
 
@@ -21,7 +21,7 @@ describe("checkbox-group", () => {
       label: "Fallback",
       labelledBy: "h",
     });
-    const el = document.querySelector("div.checkbox-group");
+    const el = document.querySelector("fieldset.checkbox-group");
     expect(el.getAttribute("aria-labelledby")).toBe("h");
     expect(el.hasAttribute("aria-label")).toBe(false);
   });
@@ -32,7 +32,7 @@ describe("checkbox-group", () => {
       required: true,
     });
     expect(
-      document.querySelector("div.checkbox-group").getAttribute("aria-required"),
+      document.querySelector("fieldset.checkbox-group").getAttribute("aria-required"),
     ).toBe("true");
   });
 
@@ -41,7 +41,7 @@ describe("checkbox-group", () => {
       label: "x",
       classes: "inline",
     });
-    expect(document.querySelector("div.checkbox-group.inline")).toBeTruthy();
+    expect(document.querySelector("fieldset.checkbox-group.inline")).toBeTruthy();
   });
 
   it("renders caller block content", () => {
@@ -50,7 +50,7 @@ describe("checkbox-group", () => {
       { label: "x" },
       '<input type="checkbox" id="c1">',
     );
-    expect(document.querySelector("div.checkbox-group input#c1")).toBeTruthy();
+    expect(document.querySelector("fieldset.checkbox-group input#c1")).toBeTruthy();
   });
 
   it("contains no <style> or <script> tags", () => {

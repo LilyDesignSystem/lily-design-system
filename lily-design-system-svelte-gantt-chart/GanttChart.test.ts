@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/svelte";
+import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, expect, test, vi } from "vitest";
 
 import GanttChart, {
@@ -308,5 +308,97 @@ describe("GanttChart — extra attributes (§8.15)", () => {
     test("§8.15 extra attributes spread onto the root", () => {
         render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, "data-testid": "chart-root" } });
         expect(document.querySelector('[data-testid="chart-root"]')).toBeTruthy();
+    });
+});
+
+describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => {
+    test("§8.5 depth is a data-depth attribute, never an inline style", () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS } });
+        const headers = Array.from(document.querySelectorAll<HTMLElement>(".gantt-table-tbody .gantt-table-th"));
+        expect(headers.map((h) => h.dataset.depth)).toEqual(["0", "0", "0", "0", "1", "1"]);
+        expect(headers.filter((h) => h.hasAttribute("style"))).toHaveLength(0);
+    });
+
+    test("§8.5 a task whose parentId names no task renders as a top-level row", () => {
+        const orphan: GanttTask = { id: "orphan", label: "Orphan", start: "2026-10-02", end: "2026-10-02", parentId: "gone" };
+        expect(flattenTasks([...TASKS, orphan], new Set()).map((r) => r.task.id)).toContain("orphan");
+    });
+
+    test("§8.5 a parentId cycle does not recurse forever", () => {
+        const cycle: GanttTask[] = [
+            { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", parentId: "b" },
+            { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", parentId: "a" },
+        ];
+        expect(() => effectiveRange(cycle[0], cycle)).not.toThrow();
+    });
+
+    test("§8.8 when collapsing removes the row under the cursor, one cell stays tabbable", async () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "End", ctrlKey: true });
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("5");
+        await fireEvent.click(screen.getByRole("button", { name: "Collapse Phase 1" }));
+        expect(rows()).toHaveLength(4);
+        expect(tabbableCells()).toHaveLength(1);
+    });
+
+    test("§8.8 focusing a cell by pointer moves the cursor there", async () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS } });
+        const cell = rows()[2].querySelectorAll<HTMLElement>(".gantt-table-td")[4];
+        cell.focus();
+        await waitFor(() => expect(tabbableCells()).toEqual([cell]));
+    });
+
+    test("§8.9 opening the edit region moves focus to the start date's field", async () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        await waitFor(() =>
+            expect(document.activeElement).toBe(document.querySelector(".gantt-chart-edit-row .date-time-picker-input")),
+        );
+    });
+
+    test("§8.11 Escape cancels the edit region and returns focus to the task's cell", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS, onTaskChange } });
+        const cell = tabbableCells()[0];
+        await fireEvent.keyDown(cell, { key: "Enter" });
+        const field = document.querySelector<HTMLElement>(".gantt-chart-edit-row .date-time-picker-input")!;
+        await fireEvent.keyDown(field, { key: "Escape" });
+        expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+        expect(onTaskChange).not.toHaveBeenCalled();
+        await waitFor(() => expect(document.activeElement).toBe(tabbableCells()[0]));
+    });
+
+    test("§8.10 Save returns focus to the grid", async () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        await fireEvent.click(screen.getByRole("button", { name: "Save" }));
+        await waitFor(() => expect(document.activeElement).toBe(tabbableCells()[0]));
+    });
+
+    test("§8.10 a range entered end-first is saved start-first", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS, onTaskChange } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        const [startField, endField] = document.querySelectorAll<HTMLInputElement>(".gantt-chart-edit-row .date-time-picker-input");
+        await fireEvent.input(startField, { target: { value: "2026-10-09" } });
+        await fireEvent.change(startField, { target: { value: "2026-10-09" } });
+        await fireEvent.blur(startField);
+        expect(endField).toBeTruthy();
+        await fireEvent.click(screen.getByRole("button", { name: "Save" }));
+        expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-03", "2026-10-09");
+    });
+
+    test("§8.16 controls whose labels are absent do not render unnamed", async () => {
+        render(GanttChart, {
+            props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: { dateTimePickerLabels: DTP_LABELS } },
+        });
+        expect(document.querySelector(".gantt-chart-collapse-button")).toBeNull();
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+    });
+
+    test("§8.16 labels.taskColumnHeader names the leading header cell", () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: { ...LABELS, taskColumnHeader: "Task" } } });
+        expect(document.querySelector(".gantt-table-thead .gantt-table-th")?.textContent).toBe("Task");
     });
 });

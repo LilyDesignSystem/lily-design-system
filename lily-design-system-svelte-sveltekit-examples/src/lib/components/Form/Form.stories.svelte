@@ -3,7 +3,7 @@
   import Form from './Form.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Form',
+    title: 'Headless/Form',
     component: Form,
   });
 </script>

@@ -9,7 +9,8 @@
 //     data-value and used to look up the displayed face label.
 //   label — REQUIRED. Accessible description, via aria-label.
 //   labels — optional JSON-encoded array of 5 strings; default
-//     ["Very bad", "Bad", "Okay", "Good", "Very good"].
+//     ["1", "2", "3", "4", "5"] — the numbers, not English words, which
+//     are the consumer's to supply (e.g. ["Very bad", …, "Very good"]).
 //   ...rest — spread onto the <span>.
 //
 // References:
@@ -18,7 +19,7 @@
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const DEFAULT_LABELS = ["Very bad", "Bad", "Okay", "Good", "Very good"];
+const DEFAULT_LABELS = ["1", "2", "3", "4", "5"];
 const HANDLED = new Set(["value", "label", "labels"]);
 
 function parseLabels(raw: string | null): string[] {

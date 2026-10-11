@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import LineChart from './LineChart.vue';
 
 const meta = {
-  title: 'Examples/LineChart',
+  title: 'Headless/LineChart',
   component: LineChart,
   tags: ['autodocs']
 } satisfies Meta<typeof LineChart>;

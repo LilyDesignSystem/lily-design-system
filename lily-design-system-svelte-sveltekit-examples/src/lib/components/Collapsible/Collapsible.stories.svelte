@@ -3,7 +3,7 @@
   import Collapsible from './Collapsible.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Collapsible',
+    title: 'Headless/Collapsible',
     component: Collapsible,
   });
 </script>

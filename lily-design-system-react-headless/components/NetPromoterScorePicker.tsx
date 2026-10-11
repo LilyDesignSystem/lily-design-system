@@ -53,7 +53,7 @@
 //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 //   - WAI-ARIA Radiogroup Role: https://www.w3.org/TR/wai-aria-1.2/#radiogroup
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 export interface NetPromoterScorePickerProps {
     className?: string;
@@ -76,8 +76,41 @@ export default function NetPromoterScorePicker({
     onChange,
     ...restProps
 }: NetPromoterScorePickerProps) {
+    const initialValue = useRef(value);
+    const onChangeRef = useRef(onChange);
+    onChangeRef.current = onChange;
+
+    // Form reset: the inputs are controlled, so a reset changes the DOM without
+    // telling React, and the component would keep a value the form no longer
+    // submits. Restore the initial value instead — one tick later, after the
+    // browser has reset the DOM, and not when the reset was cancelled.
+    const rootRef = useRef<HTMLFieldSetElement>(null);
+    useEffect(() => {
+        const root = rootRef.current;
+        const form = root?.closest("form");
+        if (!root || !form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                // Controlled: tell the consumer, as a user's choice would.
+                if (value !== initialValue.current) onChangeRef.current?.(initialValue.current);
+                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                    input.checked = input.value === String(initialValue.current);
+                }
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
     return (
         <fieldset
+            ref={rootRef}
             className={`net-promoter-score-picker ${className}`}
             role="radiogroup"
             aria-label={label}

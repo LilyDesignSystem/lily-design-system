@@ -19,7 +19,7 @@
 - Renders a `<span>` with `role="img"` to indicate it represents a visual rating
 - Uses derived value to look up the face label from the `labels` array based on the `value`
 - Exposes `data-value` attribute for consumer CSS or testing
-- Default labels are "Very bad", "Bad", "Okay", "Good", "Very good" -- customizable via the `labels` prop
+- Default labels are the numbers "1" to "5" -- pass words in the page's language via the `labels` prop (no English default)
 - Spreads `restProps` for consumer customization
 
 ## ARIA
@@ -35,7 +35,7 @@
 
 - `value`: number (required) -- rating value (1-5) to display
 - `label`: string (required) -- accessible description via `aria-label`
-- `labels`: string[] (default: `["Very bad", "Bad", "Okay", "Good", "Very good"]`) -- text labels for each face
+- `labels`: string[] (default: `["1", "2", "3", "4", "5"]`; no English default) -- text labels for each face
 - `...restProps`: unknown -- additional attributes spread onto the `<span>`
 
 ## Acceptance Criteria

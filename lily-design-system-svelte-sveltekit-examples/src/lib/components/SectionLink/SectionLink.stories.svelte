@@ -3,7 +3,7 @@
   import SectionLink from './SectionLink.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SectionLink',
+    title: 'Headless/SectionLink',
     component: SectionLink,
   });
 </script>

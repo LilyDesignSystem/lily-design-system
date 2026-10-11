@@ -1,44 +1,49 @@
 # BreadcrumbList
 
-## Overview
+An ordered list of breadcrumb items forming the trail. Renders a semantic `<ol>` inside a `BreadcrumbNav`. Although AGENTS.md associates `list` components generally with `<ol>`, this component is specifically the trail's ordered list and expects `BreadcrumbListItem` children.
 
-An ordered list that contains BreadcrumbListItem children, representing
-the hierarchical trail in a breadcrumb navigation. Renders a semantic
-<ol> element to convey the ordered relationship of pages. Must be placed
-inside a BreadcrumbNav container.
+## What it is
+
+A headless Svelte 5 compound component. Category: navigation list primitive, part of the BreadcrumbNav → BreadcrumbList → BreadcrumbListItem composition; sibling of `ContentsList`, `PaginationList`, `TreeList`.
 
 ## What it does
 
-An ordered list of breadcrumb list items.
+- Renders `<ol class="breadcrumb-list {className}">`.
+- Spreads additional HTML attributes onto the `<ol>`.
+- Separator characters between items (e.g. `"/"`, `">"`) are consumer-supplied.
 
-## When to use
+## When to use it
 
-- Use to render an ordered collection of related items.
+- Inside `BreadcrumbNav` to hold breadcrumb items.
+- Wherever you need a strictly ordered visual trail of ancestors.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For non-breadcrumb ordered lists — use a plain `<ol>`.
+- For pagination — use `PaginationList`.
+- For hierarchical tree navigation — use `TreeList`.
 
-## Usage
+## How to use it
 
-```svelte
-<BreadcrumbList>
-  <BreadcrumbListItem>...</BreadcrumbListItem>
-</BreadcrumbList>
-```
+Import `BreadcrumbList` from `./BreadcrumbList.svelte`. Place inside `BreadcrumbNav`. Fill with `BreadcrumbListItem` children.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | BreadcrumbListItem elements. |
-| `...restProps` | additional HTML attributes spread onto the <ol> |  |
+- `class` — string, default `""`. CSS class appended to `breadcrumb-list`.
+- `children` — `Snippet`, required. `BreadcrumbListItem` elements.
+- `...restProps` — additional HTML attributes spread onto the `<ol>`.
 
-## Examples
+## Usage
+
+### Basic trail
 
 ```svelte
-<!-- Breadcrumb list inside a nav -->
+<script lang="ts">
+  import BreadcrumbNav from '../BreadcrumbNav/BreadcrumbNav.svelte';
+  import BreadcrumbList from './BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+</script>
+
 <BreadcrumbNav label="Breadcrumb">
   <BreadcrumbList>
     <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
@@ -48,37 +53,86 @@ An ordered list of breadcrumb list items.
 </BreadcrumbNav>
 ```
 
-## SvelteKit example
+### With CSS-supplied separators
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BreadcrumbList from "#lib/components/BreadcrumbList/BreadcrumbList.svelte";
+  import BreadcrumbNav from '../BreadcrumbNav/BreadcrumbNav.svelte';
+  import BreadcrumbList from './BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
 </script>
 
-<BreadcrumbList>
-  <BreadcrumbListItem>...</BreadcrumbListItem>
-</BreadcrumbList>
+<BreadcrumbNav label="Docs">
+  <BreadcrumbList data-separator="/">
+    <BreadcrumbListItem><a href="/docs">Docs</a></BreadcrumbListItem>
+    <BreadcrumbListItem><a href="/docs/guides">Guides</a></BreadcrumbListItem>
+    <BreadcrumbListItem current>Installation</BreadcrumbListItem>
+  </BreadcrumbList>
+</BreadcrumbNav>
 ```
 
-## Keyboard
+### Dynamic trail from data
 
-- None — passive container. Keyboard interactions are handled
-- by links within BreadcrumbListItem children.
+```svelte
+<script lang="ts">
+  import BreadcrumbNav from '../BreadcrumbNav/BreadcrumbNav.svelte';
+  import BreadcrumbList from './BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+
+  let trail = $state([
+    { href: '/', label: 'Home' },
+    { href: '/shop', label: 'Shop' },
+    { label: 'Books' }
+  ]);
+</script>
+
+<BreadcrumbNav label="Shop">
+  <BreadcrumbList>
+    {#each trail as crumb, i}
+      <BreadcrumbListItem current={i === trail.length - 1}>
+        {#if crumb.href}
+          <a href={crumb.href}>{crumb.label}</a>
+        {:else}
+          {crumb.label}
+        {/if}
+      </BreadcrumbListItem>
+    {/each}
+  </BreadcrumbList>
+</BreadcrumbNav>
+```
+
+### Inside an app shell
+
+```svelte
+<script lang="ts">
+  import BreadcrumbNav from '../BreadcrumbNav/BreadcrumbNav.svelte';
+  import BreadcrumbList from './BreadcrumbList.svelte';
+  import BreadcrumbListItem from '../BreadcrumbListItem/BreadcrumbListItem.svelte';
+</script>
+
+<header>
+  <BreadcrumbNav label="You are here">
+    <BreadcrumbList>
+      <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
+      <BreadcrumbListItem current>Dashboard</BreadcrumbListItem>
+    </BreadcrumbList>
+  </BreadcrumbNav>
+</header>
+```
 
 ## Accessibility
 
-- <ol> conveys the ordered hierarchical relationship of the trail
-- Implicit list role allows screen readers to announce item count
+- `<ol>` conveys order semantics; screen readers announce item counts.
+- No ARIA role override; implicit list semantics are sufficient inside a named `<nav>`.
+- Keyboard: Tab/Enter handled by links inside items.
+- Supply visual separators via CSS pseudo-content so AT doesn't read them.
 
-## Internationalization
+## Related components
 
-- No user-facing strings; all content comes through children
-- Separator characters (e.g. "/" or ">") should be added by the consumer
-
-## References
-
-- WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
+- `BreadcrumbNav` — outer `<nav>` landmark.
+- `BreadcrumbListItem` — individual `<li>` in the trail.
+- `BreadcrumbLink` — anchor styled for breadcrumbs.
+- `PaginationList`, `TreeList`, `ContentsList` — sibling list types.
 
 ---
 

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import MeasurementUnitView from './MeasurementUnitView.vue';
 
 const meta = {
-  title: 'Examples/MeasurementUnitView',
+  title: 'Headless/MeasurementUnitView',
   component: MeasurementUnitView,
   tags: ['autodocs']
 } satisfies Meta<typeof MeasurementUnitView>;

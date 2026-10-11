@@ -1,91 +1,111 @@
 # DontListItem
 
-## Overview
+A single discouraged-practice item within a `DontList`. Renders a semantic `<li>` with `data-recommendation="dont"` for consumer styling hooks.
 
-A single discouraged-practice item within a "Don't" list. Renders a semantic
-<li> element representing a guideline or practice that users should avoid.
-Commonly used in design system documentation, style guides, and instructional
-content to show anti-patterns alongside DoListItem.
+## What it is
 
-The component sets data-recommendation="dont" for consumer styling hooks,
-enabling visual differentiation (e.g. red crosses, danger borders) without
-embedding any styles itself.
+`DontListItem` represents one anti-pattern or practice to avoid. It renders a native `<li>` so it integrates with its parent list's semantics, and it exposes `data-recommendation="dont"` so consumer CSS can apply visual treatments (crosses, danger colours, borders) without the component shipping any styles.
 
 ## What it does
 
-A discouraged-practice item in a dont-list guideline list.
+- Renders `<li class="dont-list-item" data-recommendation="dont">`.
+- Exposes the `data-recommendation` hook for CSS targeting.
+- Forwards `restProps` onto the `<li>`.
 
-## When to use
+## When to use it
 
-- Use as a child of the matching list component — never standalone.
+- Inside a `DontList` (or any `<ul>`/`<ol>`) to document anti-patterns.
+- Alongside `DoListItem` to illustrate do/don't contrasts.
+- Guideline, checklist, and style-guide pages.
 
-## When not to use
+## When not to use it
 
-- Do not use outside its parent list component.
+- Outside a list parent. It should always be inside `<ul>`, `<ol>`, or `DontList`.
+- For task-based checklists with interactive state. Use `CheckListItem` / `TaskListItem` instead.
+- For purely decorative rendering; use a plain `<li>` if you don't need the data attribute.
 
-## Usage
+## How to use it
+
+Place one or more `DontListItem`s inside a `DontList`.
 
 ```svelte
-<DontListItem>Use vague placeholder text</DontListItem>
+<script lang="ts">
+    import DontList from "../DontList/DontList.svelte";
+    import DontListItem from "./DontListItem.svelte";
+</script>
+
+<DontList>
+    <DontListItem>Use color alone to convey meaning</DontListItem>
+</DontList>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | The discouraged-practice content. |
-| `...restProps` | additional HTML attributes spread onto the <li> |  |
+| Prop       | Type       | Default | Description                              |
+| ---------- | ---------- | ------- | ---------------------------------------- |
+| `class`    | `string`   | `""`    | CSS class appended to the base class.   |
+| `children` | `Snippet`  | required| The discouraged-practice content.        |
+| `...rest`  | `unknown`  | —       | Additional HTML attributes on the `<li>`.|
 
-## Examples
+## Usage
+
+### 1. Inside DontList
 
 ```svelte
-<!-- Design system anti-pattern list -->
+<DontList>
+    <DontListItem>Skip alt text</DontListItem>
+    <DontListItem>Use only color for meaning</DontListItem>
+</DontList>
+```
+
+### 2. Side-by-side with DoListItem
+
+```svelte
+<DoList>
+    <DoListItem>Write clear error messages</DoListItem>
+</DoList>
+<DontList>
+    <DontListItem>Use technical jargon in errors</DontListItem>
+</DontList>
+```
+
+### 3. Rich content
+
+```svelte
+<DontList>
+    <DontListItem>
+        Do not override <code>outline</code> without a visible replacement
+    </DontListItem>
+</DontList>
+```
+
+### 4. Inside a plain list
+
+```svelte
 <ul aria-label="Practices to avoid">
-  <DontListItem>Use color alone to convey meaning</DontListItem>
-  <DontListItem>Remove focus outlines without replacement</DontListItem>
-  <DontListItem>Rely solely on placeholder text as labels</DontListItem>
-</ul>
-
-<!-- Side-by-side do/don't pattern -->
-<ul aria-label="Do">
-  <DoListItem>Write clear error messages</DoListItem>
-</ul>
-<ul aria-label="Don't">
-  <DontListItem>Use technical jargon in errors</DontListItem>
+    <DontListItem>Use placeholders as labels</DontListItem>
+    <DontListItem>Trap keyboard focus</DontListItem>
 </ul>
 ```
 
-## SvelteKit example
+### 5. Styled via data-recommendation
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import DontListItem from "#lib/components/DontListItem/DontListItem.svelte";
-</script>
-
-<DontListItem>Use vague placeholder text</DontListItem>
+<DontListItem class="with-icon">Skip validation</DontListItem>
+<!-- CSS may target [data-recommendation="dont"]::before for a cross mark -->
 ```
-
-## Keyboard
-
-- None directly — passive informational display, not interactive
 
 ## Accessibility
 
-- Semantic <li> element provides list item semantics within the parent list
-- Screen readers announce list position from the parent <ul> or <ol>
-- data-recommendation attribute provides a hook for consumer styling
+- Native `<li>` participates in its parent list's semantics and count announcements.
+- `data-recommendation="dont"` is a styling hook only; it is not exposed to assistive technology.
+- All text comes from consumer children, supporting translation.
 
-## Internationalization
+## Related components
 
-- All content is provided through the children snippet
-- No hardcoded strings in the component
-
-## References
-
-- MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
-- Material Design Do/Don't guidelines: https://m3.material.io/foundations/content-design/style-guide/overview
+- `DontList` — the ordered-list container.
+- `DoList`, `DoListItem` — the paired recommendation list.
+- `CheckListItem`, `TaskListItem`, `SummaryListItem` — other list-item variants.
 
 ---
 

@@ -3,7 +3,7 @@
   import BreadcrumbListItem from './BreadcrumbListItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/BreadcrumbListItem',
+    title: 'Headless/BreadcrumbListItem',
     component: BreadcrumbListItem,
   });
 </script>

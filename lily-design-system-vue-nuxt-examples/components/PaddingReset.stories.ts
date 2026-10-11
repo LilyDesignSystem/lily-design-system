@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PaddingReset from './PaddingReset.vue';
 
 const meta = {
-  title: 'Examples/PaddingReset',
+  title: 'Headless/PaddingReset',
   component: PaddingReset,
   tags: ['autodocs']
 } satisfies Meta<typeof PaddingReset>;

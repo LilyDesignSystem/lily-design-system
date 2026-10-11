@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import UnitedKingdomNationalInsuranceNumberView from './UnitedKingdomNationalInsuranceNumberView.vue';
 
 const meta = {
-  title: 'Examples/UnitedKingdomNationalInsuranceNumberView',
+  title: 'Headless/UnitedKingdomNationalInsuranceNumberView',
   component: UnitedKingdomNationalInsuranceNumberView,
   tags: ['autodocs']
 } satisfies Meta<typeof UnitedKingdomNationalInsuranceNumberView>;

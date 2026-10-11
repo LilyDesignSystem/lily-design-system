@@ -1,88 +1,124 @@
 # ImageCropper
 
-## Overview
+A headless container for cropping and resizing an image to a selected region. Declares a `role="application"` region with an accessible label and relies on the consumer to provide the actual image and crop overlay surface (image + overlay, canvas, SVG handles, or a third-party cropping library).
 
-A headless container for cropping and resizing an image to a selected region,
-typically using mouse, touch, or stylus input to move and resize a crop
-rectangle. Renders a <div> with role="application" and an accessible label.
-Commonly used in avatar and profile-photo editors, media upload workflows,
-document scanning, and content management systems. The consumer provides the
-actual cropping implementation (an HTML image with an overlay, a canvas, SVG
-resize handles, or a third-party cropping library).
+## What it is
+
+A Svelte 5 headless component that renders `<div class="image-cropper ...">` with `role="application"` and `aria-label`. The `children` snippet is where the consumer plugs in an `<img>`, `<canvas>`, `<svg>`, or any cropping implementation.
 
 ## What it does
 
-A container for cropping and resizing an image to a selected region.
+- Declares an `application` landmark so assistive tech knows complex pointer interactions occur inside.
+- Applies the accessible name via `aria-label`.
+- Forwards `...restProps` onto the `<div>`.
+- Contains no cropping logic, no pointer handlers, and no styles.
 
-## When to use
+## When to use it
 
-- Use when you need a drag-to-frame area for cropping and resizing an image.
+- Avatar and profile-photo editors that frame an image to a fixed region.
+- Media upload workflows that need a drag-to-frame crop before saving.
+- Document scanning and content management where a region of an image must be isolated.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Simply selecting and previewing a file - use `ImageFileInput`.
+- Capturing a handwritten signature - use `SignaturePad`.
+- Displaying an image without editing - use `Image`.
+- Any place where `role="application"` is not actually needed - it suppresses screen-reader browse mode and should only be used for genuine custom input widgets.
 
-## Usage
+## How to use it
 
-```svelte
-<ImageCropper label="Crop your profile photo">
-  <img src="/uploads/photo.jpg" alt="Photo to crop" />
-</ImageCropper>
-```
+1. Import the component.
+2. Provide a translated `label` (for example, `"Crop your profile photo"`).
+3. Place an image and crop overlay inside `children`.
+4. Implement all pointer/touch/stylus handling on that surface.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible description of the image cropper via aria-label. |
-| `children` | Snippet, required | The image and crop overlay surface (image, canvas, SVG, or cropping-library output). |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged with the base `image-cropper` class.
+- `label` (string, required) - accessible description via `aria-label`.
+- `children` (Snippet, required) - the image and crop overlay surface.
+- `...restProps` - spread onto the `<div>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Avatar upload flow -->
-<ImageCropper label="Crop your profile photo to a square">
-  <img src={previewUrl} alt="Selected photo to crop" />
-</ImageCropper>
-
-<!-- Document scan crop region -->
-<ImageCropper label="Adjust the crop region around the document">
-  <canvas width="600" height="800"></canvas>
-</ImageCropper>
-```
-
-## SvelteKit example
+Image with a crop overlay:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ImageCropper from "#lib/components/ImageCropper/ImageCropper.svelte";
+    import ImageCropper from "./ImageCropper.svelte";
 </script>
 
 <ImageCropper label="Crop your profile photo">
-  <img src="/uploads/photo.jpg" alt="Photo to crop" />
+    <img src="/uploads/photo.jpg" alt="Photo to crop" />
 </ImageCropper>
 ```
 
-## Keyboard
+Canvas surface:
 
-- None — pointer- and keyboard-based crop interactions are handled by the consumer-provided overlay surface.
+```svelte
+<script lang="ts">
+    import ImageCropper from "./ImageCropper.svelte";
+</script>
+
+<ImageCropper label="Adjust the crop region around the document">
+    <canvas width="600" height="800"></canvas>
+</ImageCropper>
+```
+
+In an avatar upload flow:
+
+```svelte
+<script lang="ts">
+    import ImageCropper from "./ImageCropper.svelte";
+    let previewUrl = $state("");
+</script>
+
+<ImageCropper label="Crop your profile photo to a square">
+    <img src={previewUrl} alt="Selected photo to crop" />
+</ImageCropper>
+```
+
+With custom class:
+
+```svelte
+<script lang="ts">
+    import ImageCropper from "./ImageCropper.svelte";
+</script>
+
+<ImageCropper label="Image cropper" class="boxed">
+    <img src="/uploads/photo.jpg" alt="Photo to crop" />
+</ImageCropper>
+```
+
+Paired with a reset button:
+
+```svelte
+<script lang="ts">
+    import ImageCropper from "./ImageCropper.svelte";
+    function reset() { /* consumer resets the crop region */ }
+</script>
+
+<ImageCropper label="Crop your profile photo">
+    <img src="/uploads/photo.jpg" alt="Photo to crop" />
+</ImageCropper>
+<button onclick={reset}>Reset</button>
+```
 
 ## Accessibility
 
-- role="application" indicates a complex widget with custom pointer interactions
-- aria-label provides an accessible description of the image cropper purpose
-- Assistive technologies pass keyboard events through to the application
+- `role="application"` intentionally shifts screen readers out of browse mode for custom widgets. Use it only when genuinely needed.
+- `aria-label` must be descriptive and localized.
+- Consumers should offer keyboard-accessible controls for moving and resizing the crop region.
 
-## Internationalization
+References:
+- WAI-ARIA `application` role: https://www.w3.org/TR/wai-aria-1.2/#application
 
-- The label prop externalizes the accessible description for localization
+## Related components
 
-## References
-
-- WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
+- `ImageFileInput` - select and preview an image file.
+- `Image` - display an image without editing.
+- `SignaturePad` - capture a handwritten signature.
 
 ---
 

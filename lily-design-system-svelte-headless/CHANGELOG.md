@@ -3,6 +3,16 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11 (labels and contracts)
+
+`PinInputDiv` takes `digitLabel` and no longer names its boxes in English; `FiveStarRatingPicker` takes `starLabel`; `FiveFaceRatingPicker` / `FiveFaceRatingView` default their labels to the numbers. `Tag` is not a live region unless `live` is set. The form-reset fixes listed above now also reach `components/`, which the build publishes. See the repository CHANGELOG (2026-10-11).
+
+## Unreleased — 2026-10-11
+
+Fixed: `FiveStarRatingPicker`, `FiveFaceRatingPicker`, `NetPromoterScorePicker` and `PinInputDiv` restore their initial value when their `<form>` is reset (one tick after `reset`, unless it is
+cancelled); before, a reset changed the inputs without telling the component, so its value disagreed with what the
+form showed or submitted. `PinInputDiv` also now shows its initial `value` instead of overwriting it with an empty string on mount.
+
 ## 0.4.0 — 2026-10-06
 
 **16 new components (catalog 555 → 571); no breaking changes.**

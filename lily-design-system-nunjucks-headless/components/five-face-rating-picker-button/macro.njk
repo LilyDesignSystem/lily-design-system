@@ -10,8 +10,9 @@
     value        number   1–5. Required.
     checked      boolean
     disabled     boolean
-    label        string   Auto-generated from value when omitted
-                          ("Very unhappy", ..., "Very happy").
+    label        string   The face's name in the page's language (e.g.
+                          "Very unhappy"); without it, the number alone —
+                          no English default.
     id           string
     name         string
     classes      string
@@ -19,14 +20,7 @@
 #}
 {%- macro fiveFaceRatingPickerButton(params) -%}
 {%- set value = params.value -%}
-{%- set phrase = "Neutral" -%}
-{%- if value == 1 -%}{%- set phrase = "Very unhappy" -%}
-{%- elif value == 2 -%}{%- set phrase = "Unhappy" -%}
-{%- elif value == 3 -%}{%- set phrase = "Neutral" -%}
-{%- elif value == 4 -%}{%- set phrase = "Happy" -%}
-{%- elif value == 5 -%}{%- set phrase = "Very happy" -%}
-{%- endif -%}
-{%- set label = params.label | default(phrase) -%}
+{%- set label = params.label | default(value) -%}
 <button
   class="five-face-rating-picker-button{% if params.classes %} {{ params.classes }}{% endif %}"
   type="{{ params.type | default('button') }}"

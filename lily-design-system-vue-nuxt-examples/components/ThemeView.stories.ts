@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ThemeView from './ThemeView.vue';
 
 const meta = {
-  title: 'Examples/ThemeView',
+  title: 'Headless/ThemeView',
   component: ThemeView,
   tags: ['autodocs']
 } satisfies Meta<typeof ThemeView>;

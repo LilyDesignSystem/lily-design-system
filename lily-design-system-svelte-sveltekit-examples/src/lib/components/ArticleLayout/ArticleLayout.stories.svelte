@@ -3,7 +3,7 @@
   import ArticleLayout from './ArticleLayout.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ArticleLayout',
+    title: 'Headless/ArticleLayout',
     component: ArticleLayout,
   });
 </script>

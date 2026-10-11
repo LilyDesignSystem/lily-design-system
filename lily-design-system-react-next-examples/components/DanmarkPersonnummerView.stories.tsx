@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DanmarkPersonnummerView from './DanmarkPersonnummerView';
 
 const meta = {
-  title: 'Examples/DanmarkPersonnummerView',
+  title: 'Headless/DanmarkPersonnummerView',
   component: DanmarkPersonnummerView,
   tags: ['autodocs']
 } satisfies Meta<typeof DanmarkPersonnummerView>;

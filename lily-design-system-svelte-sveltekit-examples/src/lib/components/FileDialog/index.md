@@ -1,83 +1,123 @@
 # FileDialog
 
-## Overview
+A modal dialog scoped to file operations (open, save, pick). Uses the native `<dialog>` element, renders only when `open` is `true`, and closes on Escape.
 
-A modal dialog for file-related operations such as opening, saving, or
-managing files. Renders a native <dialog> element conditionally based on
-the open state, with accessible labeling and Escape key dismissal. Useful
-in file managers, document editors, and content management systems where
-the consumer provides file lists, action buttons, and navigation as children.
+## What it is
+
+`FileDialog` is a specialised variant of `Dialog` for file-related workflows. It renders a native `<dialog>` with `aria-label` and an Escape key listener; the consumer populates the dialog with file listings, action buttons, breadcrumbs, or any UI the task requires.
 
 ## What it does
 
-A dialog for browsing and selecting files.
+- Conditionally renders `<dialog open aria-label={label}>` when `open` is `true`.
+- Listens for Escape and sets `open = false`.
+- Exposes `tabindex="-1"` for programmatic focus management.
+- Binds `open` via `$bindable()`.
 
-## When to use
+## When to use it
 
-- Use for modal or non-modal content that requires focused attention.
+- "Open file" / "Save as" / "Choose location" modals in file managers and editors.
+- Document pickers, asset browsers, or export dialogs.
+- Wherever a dedicated file-scoped modal is clearer than a generic `Dialog`.
 
-## When not to use
+## When not to use it
 
-- Do not use for simple confirmations that can be expressed inline.
+- For a simple OS file picker. Use `FileInput` or `FileUpload`.
+- For generic confirmations or forms. Use `Dialog` or `AlertDialog`.
+- For a full file browser surface that stays embedded on the page. Use `FileManager`.
 
-## Usage
+## How to use it
+
+Bind `open` and provide dialog content as children.
 
 ```svelte
-<FileDialog label="Open file" bind:open>Content</FileDialog>
+<script lang="ts">
+    import FileDialog from "./FileDialog.svelte";
+    let open = $state(false);
+</script>
+
+<button type="button" onclick={() => open = true}>Open…</button>
+<FileDialog label="Open file" bind:open>
+    <ul>
+        <li>document.txt</li>
+        <li>image.png</li>
+    </ul>
+    <button type="button" onclick={() => open = false}>Cancel</button>
+</FileDialog>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the dialog. |
-| `open` | boolean, default false | Whether the dialog is visible; bindable. |
-| `children` | Snippet, required | Dialog content. |
-| `...restProps` | additional HTML attributes spread onto the <dialog> element |  |
+| Prop       | Type       | Default | Description                                   |
+| ---------- | ---------- | ------- | --------------------------------------------- |
+| `class`    | `string`   | `""`    | CSS class appended to the base class.        |
+| `label`    | `string`   | required| Accessible name via `aria-label`.             |
+| `open`     | `boolean`  | `false` | Whether the dialog is visible. Bindable.      |
+| `children` | `Snippet`  | required| Dialog content.                               |
+| `...rest`  | `unknown`  | —       | Additional HTML attributes on the `<dialog>`. |
 
-## Examples
+## Usage
+
+### 1. Open file
 
 ```svelte
-<!-- File open dialog -->
 <FileDialog label="Open file" bind:open>
-  <ul>
-    <li>document.txt</li>
-    <li>image.png</li>
-  </ul>
-  <button onclick={() => open = false}>Cancel</button>
+    <ul>
+        {#each files as f}<li>{f.name}</li>{/each}
+    </ul>
+    <button type="button" onclick={() => open = false}>Cancel</button>
 </FileDialog>
 ```
 
-## SvelteKit example
+### 2. Save as
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import FileDialog from "#lib/components/FileDialog/FileDialog.svelte";
-</script>
-
-<FileDialog label="Open file" bind:open>Content</FileDialog>
+<FileDialog label="Save as" bind:open>
+    <Field label="Filename">
+        <TextInput label="Filename" bind:value={filename} />
+    </Field>
+    <button type="button" onclick={save}>Save</button>
+</FileDialog>
 ```
 
-## Keyboard
+### 3. Escape closes
 
-- Escape: closes the dialog by setting open to false
+```svelte
+<FileDialog label="Choose folder" bind:open>
+    <p>Press Escape to cancel.</p>
+</FileDialog>
+```
+
+### 4. With selection callback
+
+```svelte
+<FileDialog label="Select image" bind:open>
+    {#each images as img}
+        <button type="button" onclick={() => { pick(img); open = false; }}>{img.name}</button>
+    {/each}
+</FileDialog>
+```
+
+### 5. Controlled from a menu
+
+```svelte
+<DropdownMenu label="File">
+    <li role="menuitem" tabindex="-1" onclick={() => open = true}>Open…</li>
+</DropdownMenu>
+<FileDialog label="Open" bind:open>…</FileDialog>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name
-- Native <dialog> element provides implicit role="dialog"
-- tabindex="-1" allows programmatic focus management
+- Implicit `role="dialog"` from the `<dialog>` element.
+- `aria-label` names the dialog.
+- Escape closes the dialog; consumers should additionally manage focus trapping and focus return.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
-- MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+- `Dialog` — generic modal dialog.
+- `AlertDialog` — urgent must-acknowledge dialog.
+- `FileInput`, `FileUpload` — native file pickers.
+- `FileManager` — embedded file browser region.
 
 ---
 

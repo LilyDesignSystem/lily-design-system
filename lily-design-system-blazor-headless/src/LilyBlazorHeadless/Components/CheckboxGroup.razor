@@ -5,7 +5,7 @@
     a group component that manages a collection of checkboxes with shared state
 *@
 
-<div class="@($"checkbox-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<fieldset class="@($"checkbox-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</fieldset>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

@@ -1,84 +1,131 @@
 # CalendarRangePicker
 
-## Overview
+A headless container for calendar-based date-range selection. Renders a `<div role="application">` with a required `aria-label`. Provides the semantic shell; the consumer supplies the calendar grid, range highlighting, and keyboard interactions.
 
-A headless container for calendar-based date range selection. Renders a <div>
-with role="application" to support rich keyboard interactions beyond standard
-navigation. Used in booking systems, travel planners, analytics dashboards,
-and reporting tools where users define start and end dates.
+## What it is
+
+A headless Svelte 5 wrapper intended to host a `CalendarTable` (or similar) with custom selection logic. Category: date-picking primitive alongside `CalendarTable`, `DateInput`, `DateRange`, and `DateTimeLocalInput`.
 
 ## What it does
 
-A picker for selecting a date range on a calendar.
+- Renders `<div class="calendar-range-picker {className}" role="application" aria-label={label}>`.
+- Applies `role="application"` to signal that the widget manages its own keyboard interactions instead of standard document navigation.
+- Spreads additional HTML attributes onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use when the user should choose from a bounded set of visual options.
+- Booking systems, travel planners, analytics reports where users pick start + end dates.
+- Any custom calendar UI that wraps a `CalendarTable` with range-selection behavior.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simple `<Select>` or radio group would communicate options better.
+- For a single-day picker — use `DateInput`.
+- For displaying a fixed range — use `DateRange`.
+- For a full calendar grid — use `CalendarTable`.
+- For month/week-only pickers — use `MonthInput` / `WeekInput`.
 
-## Usage
+## How to use it
 
-```svelte
-<CalendarRangePicker label="Select dates">
-  <!-- calendar grid -->
-</CalendarRangePicker>
-```
+Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. Compose the inner grid and custom keyboard/selection logic yourself.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name describing the picker purpose. |
-| `children` | Snippet, required | Calendar grid content including date cells and navigation controls. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` — string, default `""`. CSS class appended after the base `calendar-range-picker` class.
+- `label` — string, required. Accessible name via `aria-label`.
+- `children` — `Snippet`, required. Calendar grid content.
+- `...restProps` — additional HTML attributes spread onto the `<div>`.
 
-## Examples
+## Usage
+
+### Basic range picker with a CalendarTable
 
 ```svelte
-<!-- Travel date range picker -->
+<script lang="ts">
+  import CalendarRangePicker from './CalendarRangePicker.svelte';
+  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
+  import CalendarTableHead from '../CalendarTableHead/CalendarTableHead.svelte';
+  import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
+  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+</script>
+
 <CalendarRangePicker label="Select travel dates">
   <CalendarTable label="January 2025">
-    <!-- date cells with range highlighting -->
+    <CalendarTableHead>
+      <CalendarTableRow>
+        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+      </CalendarTableRow>
+    </CalendarTableHead>
+    <CalendarTableBody>
+      <CalendarTableRow>
+        {#each [1, 2, 3, 4, 5, 6, 7] as d}
+          <CalendarTableTD>{d}</CalendarTableTD>
+        {/each}
+      </CalendarTableRow>
+    </CalendarTableBody>
   </CalendarTable>
 </CalendarRangePicker>
 ```
 
-## SvelteKit example
+### Range state managed by consumer
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarRangePicker from "#lib/components/CalendarRangePicker/CalendarRangePicker.svelte";
+  import CalendarRangePicker from './CalendarRangePicker.svelte';
+
+  let start = $state<Date | null>(null);
+  let end = $state<Date | null>(null);
+
+  function onkeydown(e: KeyboardEvent) {
+    // consumer implements arrow key navigation and Enter/Space selection
+  }
 </script>
 
-<CalendarRangePicker label="Select dates">
-  <!-- calendar grid -->
+<CalendarRangePicker label="Select dates" {onkeydown}>
+  <div>
+    Start: {start?.toDateString() ?? 'none'} — End: {end?.toDateString() ?? 'none'}
+  </div>
 </CalendarRangePicker>
 ```
 
-## Keyboard
+### Localized label
 
-- None built-in — the consumer should implement date cell navigation (arrow keys),
-- selection (Enter/Space), and range extension (Shift+click) as appropriate.
+```svelte
+<script lang="ts">
+  import CalendarRangePicker from './CalendarRangePicker.svelte';
+
+  const label = 'Seleccionar fechas de viaje';
+</script>
+
+<CalendarRangePicker {label}>
+  <p>Cuadrícula del calendario</p>
+</CalendarRangePicker>
+```
+
+### With testing hooks
+
+```svelte
+<script lang="ts">
+  import CalendarRangePicker from './CalendarRangePicker.svelte';
+</script>
+
+<CalendarRangePicker label="Date range" data-testid="range-picker" id="rp">
+  <p>...</p>
+</CalendarRangePicker>
+```
 
 ## Accessibility
 
-- role="application" indicates the widget manages its own keyboard interactions
-- aria-label provides an accessible name for the calendar range picker
+- `role="application"` tells screen readers the widget handles its own key handling; the consumer must implement arrow-key navigation, Enter/Space selection, and range extension (e.g. Shift+click).
+- `aria-label` names the picker.
+- Focus management and range highlighting are the consumer's responsibility.
+- Follows the WAI-ARIA Application role and Grid pattern guidance.
 
-## Internationalization
+## Related components
 
-- Label text comes through the label prop; no hardcoded strings
-- All date content and navigation is provided by the consumer
-
-## References
-
-- WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+- `CalendarTable` + `CalendarTableHead`/`Body`/`Foot`/`Row`/`Data`/`Col` — the grid components.
+- `DateInput`, `DateRange`, `DateField`, `DateTimeLocalInput`, `DateTimeNowInput`, `MonthInput`, `WeekInput` — related date inputs.
+- `TimePickerInput`, `TimeInput` — time-selection counterparts.
 
 ---
 

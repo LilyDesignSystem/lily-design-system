@@ -9,7 +9,8 @@
   Accessibility:
     - The filled and empty stars are drawn by CSS pseudo-elements
       from data-value; screen readers are given the rating via
-      aria-label like "Rating: 4 out of 5 stars".
+      aria-label: pass label in the page's language (e.g. "Rating: 4
+      out of 5 stars"); without it the label is "4/5" — no English default.
 
   Params:
     value       number   0–5 rating.
@@ -21,7 +22,7 @@
 #}
 {%- macro fiveStarRatingView(params) -%}
 {%- set max = params.max | default(5) -%}
-{%- set label = params.label | default("Rating: " ~ (params.value | default(0)) ~ " out of " ~ max ~ " stars") -%}
+{%- set label = params.label | default((params.value | default(0)) ~ "/" ~ max) -%}
 <span
   class="five-star-rating-view{% if params.classes %} {{ params.classes }}{% endif %}"
   role="img"

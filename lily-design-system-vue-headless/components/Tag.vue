@@ -43,20 +43,26 @@
     // References:
     //   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
 
-    defineProps<{
+    withDefaults(defineProps<{
         /** Accessible label for screen readers */
         label: string;
-    }>();
+        /**
+         * Announce changes: a `role="status"` live region, for a tag whose text
+         * changes in place (a job's status). Off by default — a page of static
+         * tags should not be a page of live regions.
+         */
+        live?: boolean;
+    }>(), { live: false });
 
 </script>
 
 <template>
     <!-- Tag.vue -->
-    <span
-        class="tag"
-        role="status"
-        :aria-label="label"
-    >
+    <span v-if="live" class="tag" role="status" :aria-label="label">
         <slot />
+    </span>
+    <!-- Not a live region: aria-label is not allowed on a plain <span>, so the label is screen-reader text appended after the content (the themes hide .screen-reader-span). The content stays exposed: it may hold a focusable control, such as a remove button. -->
+    <span v-else class="tag">
+        <slot /><span v-if="label" class="screen-reader-span">{{ label }}</span>
     </span>
 </template>

@@ -1,83 +1,146 @@
 # RedAmberGreenPickerButton
 
-## Overview
+A headless button representing one Red/Amber/Green (RAG) status choice. Renders a `<button>` with `aria-pressed` indicating selection and `data-value` for consumer CSS hooks.
 
-A headless button representing one Red/Amber/Green status choice within a
-RAG status picker. Renders a <button> with aria-pressed to indicate the
-selected state and data-value for consumer CSS targeting. Commonly used in
-project dashboards, risk registers, and reporting tools where clicking a
-status button selects that status level.
+## What it is
+
+- Component: `RedAmberGreenPickerButton`
+- HTML element: `<button type="button">`
+- Role: toggle button (`aria-pressed` reflects selection)
+- Category: form input (button-style companion to `RedAmberGreenPicker`)
 
 ## What it does
 
-A picker button for selecting a red/amber/green status.
+- Renders a `<button>` with `type="button"` so it does not submit a form by accident.
+- Applies `aria-label`, `aria-pressed` (from `selected`), and `data-value` (from `value`).
+- Renders the `label` as the visible button text.
+- Optionally forwards an `onclick` handler.
+- Forwards any other HTML attributes onto the `<button>`.
 
-## When to use
+## When to use it
 
-- Use as a single selectable option within the matching Picker.
-- Use for an in-page action (not navigation).
+- When you want a horizontal or tile-style RAG picker with custom styling rather than a native `<select>` dropdown.
+- Inside a `role="group"` or similar container to compose a custom picker.
+- Anywhere in a RAG dashboard where clicking a colored button picks the RAG level.
 
-## When not to use
+## When not to use it
 
-- Do not use for navigation to another URL — use a link instead.
+- For a native dropdown selector — use `RedAmberGreenPicker`.
+- For a five-level scale — use `RedOrangeYellowGreenBluePickerButton`.
+- For rating / satisfaction scales — use `FiveStarRatingPickerButton`, `FiveFaceRatingPickerButton`, `NetPromoterScorePickerButton`.
+- To display an already-captured value — use `RedAmberGreenView`.
 
-## Usage
+## How to use it
+
+Compose three buttons — one per status — inside your own container. Manage the `selected` state externally.
 
 ```svelte
-<RedAmberGreenPickerButton value="green" label="Green" onclick={handleSelect} />
+import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `value` | string, required | The status value (e.g. "red", "amber", "green"). |
-| `label` | string, required | Accessible name for the button via aria-label. |
-| `selected` | boolean, default false | Whether this status is currently selected. |
-| `disabled` | boolean, default false | Whether the button is disabled. |
-| `onclick` | (event: MouseEvent) => void, optional | Click handler. |
-| `...restProps` | additional HTML attributes spread onto the <button> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `red-amber-green-picker-button`.
+- `value`: string, required. Status value (e.g. `"red"`, `"amber"`, `"green"`).
+- `label`: string, required. Accessible name and visible text.
+- `selected`: boolean, default `false`. Whether this status is currently selected.
+- `disabled`: boolean, default `false`.
+- `onclick`: `(event: MouseEvent) => void`, optional.
+- `...restProps`: spread onto the `<button>`.
 
-## Examples
+## Usage
+
+### Single selected button
 
 ```svelte
-<!-- Selected status button -->
-<RedAmberGreenPickerButton value="red" label="Red" selected={true} onclick={handleSelect} />
-<!-- Disabled status button -->
+<script lang="ts">
+  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+</script>
+
+<RedAmberGreenPickerButton value="red" label="Red" selected={true} />
+```
+
+### Full composed picker (composition with RedAmberGreenPicker pattern)
+
+```svelte
+<script lang="ts">
+  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+
+  let status = $state("green");
+  const levels = [
+    { value: "red", label: "Red" },
+    { value: "amber", label: "Amber" },
+    { value: "green", label: "Green" },
+  ];
+</script>
+
+<div role="group" aria-label="Project status">
+  {#each levels as lv}
+    <RedAmberGreenPickerButton
+      value={lv.value}
+      label={lv.label}
+      selected={status === lv.value}
+      onclick={() => (status = lv.value)}
+    />
+  {/each}
+</div>
+<p>Selected: {status}</p>
+```
+
+### Disabled button
+
+```svelte
+<script lang="ts">
+  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+</script>
+
 <RedAmberGreenPickerButton value="amber" label="Amber" disabled={true} />
 ```
 
-## SvelteKit example
+### CSS targeting via data-value
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedAmberGreenPickerButton from "#lib/components/RedAmberGreenPickerButton/RedAmberGreenPickerButton.svelte";
+  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
 </script>
 
-<RedAmberGreenPickerButton value="green" label="Green" onclick={handleSelect} />
+<!-- Consumer CSS can target [data-value="red"], [data-value="amber"], [data-value="green"] -->
+<RedAmberGreenPickerButton value="red" label="Red" />
+<RedAmberGreenPickerButton value="amber" label="Amber" />
+<RedAmberGreenPickerButton value="green" label="Green" />
 ```
 
-## Keyboard
+### Localized labels
 
-- Tab: Move focus to the button
-- Enter: Activate the button (native button behavior)
-- Space: Activate the button (native button behavior)
+```svelte
+<script lang="ts">
+  import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
+
+  let status = $state("");
+</script>
+
+<RedAmberGreenPickerButton
+  value="red"
+  label="Rojo"
+  selected={status === "red"}
+  onclick={() => (status = "red")}
+/>
+```
 
 ## Accessibility
 
-- aria-label provides an accessible name for the button
-- aria-pressed indicates whether the status is currently selected
-- data-value exposes the status value for consumer CSS selectors
+- `aria-label` names the button for screen readers.
+- `aria-pressed` indicates the selected/unselected state — preferred for toggle semantics over simple click handlers.
+- `type="button"` prevents accidental form submission.
+- Keyboard: Tab to focus, Enter or Space to activate.
+- WCAG 2.2 AAA: do not rely on color alone — ensure the label is always rendered and that a visible focus indicator is supplied via consumer CSS.
 
-## Internationalization
+## Related components
 
-- The label prop provides the accessible name; no hardcoded strings
-
-## References
-
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
-- Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+- `RedAmberGreenPicker` — native `<select>` variant of this picker.
+- `RedAmberGreenView` — read-only display sibling.
+- `RedOrangeYellowGreenBluePickerButton` — five-level button equivalent.
+- Other picker buttons: `FiveStarRatingPickerButton`, `FiveFaceRatingPickerButton`, `NetPromoterScorePickerButton`.
 
 ---
 

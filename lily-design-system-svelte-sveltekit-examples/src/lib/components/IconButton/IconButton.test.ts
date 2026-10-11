@@ -125,4 +125,32 @@ describe("IconButton", () => {
         expect(root.className).toContain("icon-button");
         expect(root.className).toContain("extra");
     });
+
+    test("baseClass replaces the default class token outright", () => {
+        const { container } = render(Subject, { props: {
+            label: "X",
+            baseClass: "motion-picker-button",
+            children: textSnippet("X"),
+        }});
+
+        const root = container.querySelector("button") as HTMLElement;
+        expect(root.className).toBe("motion-picker-button ");
+    });
+
+    test("bind:ref exposes the rendered button", () => {
+        let ref: HTMLButtonElement | undefined;
+        render(Subject, {
+            props: {
+                label: "X",
+                get ref() {
+                    return ref;
+                },
+                set ref(v: HTMLButtonElement | undefined) {
+                    ref = v;
+                },
+                children: textSnippet("X"),
+            },
+        });
+        expect(ref).toBe(screen.getByRole("button"));
+    });
 });

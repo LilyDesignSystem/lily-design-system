@@ -3,7 +3,7 @@
   import ThemeView from './ThemeView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ThemeView',
+    title: 'Headless/ThemeView',
     component: ThemeView,
   });
 </script>

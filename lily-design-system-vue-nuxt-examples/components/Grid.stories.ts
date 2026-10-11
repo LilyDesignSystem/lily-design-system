@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Grid from './Grid.vue';
 
 const meta = {
-  title: 'Examples/Grid',
+  title: 'Headless/Grid',
   component: Grid,
   tags: ['autodocs']
 } satisfies Meta<typeof Grid>;

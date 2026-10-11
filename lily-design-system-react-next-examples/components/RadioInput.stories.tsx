@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import RadioInput from './RadioInput';
 
 const meta = {
-  title: 'Examples/RadioInput',
+  title: 'Headless/RadioInput',
   component: RadioInput,
   tags: ['autodocs']
 } satisfies Meta<typeof RadioInput>;

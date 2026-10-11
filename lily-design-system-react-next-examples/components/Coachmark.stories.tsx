@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Coachmark from './Coachmark';
 
 const meta = {
-  title: 'Examples/Coachmark',
+  title: 'Headless/Coachmark',
   component: Coachmark,
   tags: ['autodocs']
 } satisfies Meta<typeof Coachmark>;

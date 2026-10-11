@@ -3,7 +3,7 @@
   import Popup from './Popup.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Popup',
+    title: 'Headless/Popup',
     component: Popup,
   });
 </script>

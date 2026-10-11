@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import HorizontalScroller from './HorizontalScroller';
 
 const meta = {
-  title: 'Examples/HorizontalScroller',
+  title: 'Headless/HorizontalScroller',
   component: HorizontalScroller,
   tags: ['autodocs']
 } satisfies Meta<typeof HorizontalScroller>;

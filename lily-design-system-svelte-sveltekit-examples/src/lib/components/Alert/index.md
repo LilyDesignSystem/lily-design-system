@@ -1,98 +1,129 @@
 # Alert
 
-## Overview
+A status message for important information or feedback. Renders a `<div>` as an ARIA live region so screen readers announce it automatically, with severity type exposed via `data-type` for consumer styling.
 
-A headless alert for displaying important messages to the user, such as
-warnings, errors, confirmations, or status updates. Renders a <div> with
-ARIA live region attributes so screen readers announce content automatically.
+## What it is
 
-Supports severity types (info, success, warning, error) exposed via a
-data-type attribute for consumer CSS styling. An optional heading is
-rendered with <strong> emphasis without assuming a heading level.
+A headless Svelte 5 component for info, success, warning, and error messages. Category: feedback / live-region primitive, alongside `Banner`, `Toast`, `Notification`, and `AlertDialog`.
 
 ## What it does
 
-A status message for important information or feedback.
+- Renders `<div class="alert {className}" role={role} aria-live={ariaLive} aria-atomic="true" data-type={type}>`.
+- Default `role="alert"` (assertive) with auto-derived `aria-live="assertive"`; if `role="status"` is passed, derives `aria-live="polite"`.
+- `live` prop explicitly overrides `aria-live` if supplied.
+- Optionally renders `<p><strong>{heading}</strong></p>` above the body when `heading` is provided — intentionally not a heading element so the consumer controls document outline.
+- Spreads additional attributes onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use to announce important information to the user immediately.
+- For inline status messaging that must be announced (form errors, save confirmations).
+- For critical error callouts that need immediate attention (`type="error"`, `role="alert"`).
+- For polite notifications that shouldn't interrupt (`role="status"`).
 
-## When not to use
+## When not to use it
 
-- Do not use for non-urgent passive messages — use a `Notification` or status text instead.
+- For modal acknowledgment dialogs — use `AlertDialog`.
+- For page-level dismissible site messages — use `Banner`.
+- For transient auto-dismissing toasts — use `Toast` / `Sonner`.
+- For a form error summary across multiple fields — use `ErrorSummary`.
+- For a single inline field error — use `ErrorMessage`.
 
-## Usage
+## How to use it
 
-```svelte
-<Alert>Message</Alert>
-<Alert type="error" heading="Error">Details here.</Alert>
-```
+Import `Alert` from `./Alert.svelte`. Pass the severity `type` for styling and choose `role="alert"` for urgent content or `role="status"` for polite.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `type` | "info" \| "success" \| "warning" \| "error", default "info" | Severity type exposed as data-type attribute. |
-| `heading` | string, optional | Heading text rendered as <p><strong>. |
-| `role` | "alert" \| "status", default "alert" | ARIA role: "alert" for assertive (immediate), "status" for polite. |
-| `live` | "assertive" \| "polite" \| "off", optional | Overrides the default aria-live value derived from the role. |
-| `children` | Snippet, required | The alert content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` — string, default `""`. CSS class appended to `alert`.
+- `type` — `"info" | "success" | "warning" | "error"`, default `"info"`. Severity, exposed as `data-type`.
+- `heading` — string, optional. Heading text rendered as `<p><strong>`.
+- `role` — `"alert" | "status"`, default `"alert"`.
+- `live` — `"assertive" | "polite" | "off"`, optional. Overrides derived `aria-live`.
+- `children` — `Snippet`, required. Alert content.
+- `...restProps` — additional HTML attributes spread onto the `<div>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Simple info alert (default) -->
-<Alert>Something happened.</Alert>
-
-<!-- Error alert with heading -->
-<Alert type="error" heading="Error">Something went wrong.</Alert>
-
-<!-- Success notification -->
-<Alert type="success" heading="Saved">Your changes were saved.</Alert>
-
-<!-- Polite status message -->
-<Alert role="status">Loading complete.</Alert>
-
-<!-- Warning with custom attributes -->
-<Alert type="warning" data-testid="warn-alert">Check your input.</Alert>
-```
-
-## SvelteKit example
+### Simple info alert
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Alert from "#lib/components/Alert/Alert.svelte";
+  import Alert from './Alert.svelte';
 </script>
 
-<Alert>Message</Alert>
-<Alert type="error" heading="Error">Details here.</Alert>
+<Alert>Something happened.</Alert>
 ```
 
-## Keyboard
+### Error alert with heading
 
-- None — alerts are passive announcements, not interactive.
+```svelte
+<script lang="ts">
+  import Alert from './Alert.svelte';
+</script>
+
+<Alert type="error" heading="Error">
+  Something went wrong. Please try again.
+</Alert>
+```
+
+### Polite status message
+
+```svelte
+<script lang="ts">
+  import Alert from './Alert.svelte';
+</script>
+
+<Alert role="status" type="success" heading="Saved">
+  Your changes were saved.
+</Alert>
+```
+
+### Dynamic, reactively shown alert
+
+```svelte
+<script lang="ts">
+  import Alert from './Alert.svelte';
+
+  let error = $state<string | null>(null);
+  function submit() {
+    error = 'Unable to connect to the server.';
+  }
+</script>
+
+<button onclick={submit}>Submit</button>
+{#if error}
+  <Alert type="error" heading="Connection failed">{error}</Alert>
+{/if}
+```
+
+### Warning with explicit live override
+
+```svelte
+<script lang="ts">
+  import Alert from './Alert.svelte';
+</script>
+
+<Alert type="warning" role="status" live="assertive" heading="Session expiring">
+  You will be logged out in 1 minute.
+</Alert>
+```
 
 ## Accessibility
 
-- role="alert" with aria-live="assertive" for immediate announcements
-- role="status" with aria-live="polite" for less urgent messages
-- aria-atomic="true" ensures the entire region is re-read on change
-- data-type exposes severity for consumer styling (not for assistive tech)
+- `role="alert"` → `aria-live="assertive"`: screen readers interrupt and announce immediately.
+- `role="status"` → `aria-live="polite"`: announced when the user is idle.
+- `aria-atomic="true"` ensures the whole region is re-read on content change.
+- `data-type` is a styling hook, not an ARIA signal.
+- Use `heading` instead of `<h1>`–`<h6>` so document outline remains consumer-controlled.
 
-## Internationalization
+## Related components
 
-- All text comes through children snippet and heading prop
-- No hardcoded strings
-
-## References
-
-- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
-- WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
-- WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
+- `AlertDialog` — modal variant requiring user acknowledgment.
+- `Banner` — dismissible page-level message.
+- `Toast` / `Sonner` — transient auto-dismissed notifications.
+- `Notification` — brief event or update message.
+- `ErrorMessage`, `ErrorSummary` — form error presentation.
+- `InformationCallout`, `WarningCallout` — static emphasis callouts.
 
 ---
 

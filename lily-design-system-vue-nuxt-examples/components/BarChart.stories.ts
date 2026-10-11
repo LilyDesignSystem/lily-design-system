@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import BarChart from './BarChart.vue';
 
 const meta = {
-  title: 'Examples/BarChart',
+  title: 'Headless/BarChart',
   component: BarChart,
   tags: ['autodocs']
 } satisfies Meta<typeof BarChart>;

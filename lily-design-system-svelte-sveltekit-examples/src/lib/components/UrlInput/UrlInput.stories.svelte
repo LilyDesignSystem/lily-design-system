@@ -3,7 +3,7 @@
   import UrlInput from './UrlInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/UrlInput',
+    title: 'Headless/UrlInput',
     component: UrlInput,
   });
 </script>

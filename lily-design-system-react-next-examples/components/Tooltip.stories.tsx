@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Tooltip from './Tooltip';
 
 const meta = {
-  title: 'Examples/Tooltip',
+  title: 'Headless/Tooltip',
   component: Tooltip,
   tags: ['autodocs']
 } satisfies Meta<typeof Tooltip>;

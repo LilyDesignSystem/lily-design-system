@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PaddingReset from './PaddingReset';
 
 const meta = {
-  title: 'Examples/PaddingReset',
+  title: 'Headless/PaddingReset',
   component: PaddingReset,
   tags: ['autodocs']
 } satisfies Meta<typeof PaddingReset>;

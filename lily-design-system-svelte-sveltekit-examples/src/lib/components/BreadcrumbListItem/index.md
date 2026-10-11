@@ -1,76 +1,114 @@
 # BreadcrumbListItem
 
-## Overview
+A single step in a breadcrumb trail. Renders a semantic `<li>`, with `aria-current="page"` applied when `current` is true to indicate the user's location.
 
-A single step in a breadcrumb navigation trail. Renders as a semantic <li>
-element designed to be placed inside a BreadcrumbList component. Supports
-aria-current="page" to indicate the user's current location. Typically
-contains a link for ancestor pages, or plain text for the current page.
+## What it is
+
+A headless Svelte 5 component. Category: breadcrumb-trail leaf, part of the BreadcrumbNav → BreadcrumbList → BreadcrumbListItem composition.
 
 ## What it does
 
-One breadcrumb list item in the trail.
+- Renders `<li class="breadcrumb-list-item {className}" aria-current={current ? "page" : undefined}>`.
+- Typically contains an `<a>` for ancestor pages or plain text for the current page.
+- Spreads additional HTML attributes onto the `<li>`.
 
-## When to use
+## When to use it
 
-- Use as a child of the matching list component — never standalone.
+- Inside `BreadcrumbList` to represent each crumb.
+- For both navigable ancestors and the current page.
 
-## When not to use
+## When not to use it
 
-- Do not use outside its parent list component.
+- Outside a breadcrumb trail — use a plain `<li>` or another list item variant (`ContentsListItem`, `PaginationListItem`).
+- For single-screen step trackers — prefer a custom component or `TimelineList`.
 
-## Usage
+## How to use it
 
-```svelte
-<BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-```
+Import `BreadcrumbListItem` from `./BreadcrumbListItem.svelte`. Put inside `BreadcrumbList`. Mark the last crumb with `current`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `current` | boolean, default false | Whether this item represents the current page. |
-| `children` | Snippet, required | Breadcrumb content, typically an <a> link or plain text. |
-| `...restProps` | additional HTML attributes spread onto the <li> |  |
+- `class` — string, default `""`. CSS class appended to `breadcrumb-list-item`.
+- `current` — boolean, default `false`. Sets `aria-current="page"` when true.
+- `children` — `Snippet`, required. Crumb content (link or text).
+- `...restProps` — additional HTML attributes spread onto the `<li>`.
 
-## Examples
+## Usage
+
+### Navigable ancestor
 
 ```svelte
-<!-- Navigable ancestor page -->
-<BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
+<script lang="ts">
+  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+</script>
 
-<!-- Current page (no link) -->
+<BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
+```
+
+### Current page (no link)
+
+```svelte
+<script lang="ts">
+  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+</script>
+
 <BreadcrumbListItem current>About</BreadcrumbListItem>
 ```
 
-## SvelteKit example
+### Full trail composition
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BreadcrumbListItem from "#lib/components/BreadcrumbListItem/BreadcrumbListItem.svelte";
+  import BreadcrumbNav from '../BreadcrumbNav/BreadcrumbNav.svelte';
+  import BreadcrumbList from '../BreadcrumbList/BreadcrumbList.svelte';
+  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
 </script>
 
-<BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
+<BreadcrumbNav label="Breadcrumb">
+  <BreadcrumbList>
+    <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
+    <BreadcrumbListItem><a href="/support">Support</a></BreadcrumbListItem>
+    <BreadcrumbListItem current>Contact us</BreadcrumbListItem>
+  </BreadcrumbList>
+</BreadcrumbNav>
 ```
 
-## Keyboard
+### Reactive current flag
 
-- None directly — keyboard interaction is handled by the contained links.
+```svelte
+<script lang="ts">
+  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+
+  let path = $state('/about');
+</script>
+
+<BreadcrumbListItem current={path === '/about'}>
+  {path === '/about' ? 'About' : <a href="/about">About</a>}
+</BreadcrumbListItem>
+```
+
+### With data attribute
+
+```svelte
+<script lang="ts">
+  import BreadcrumbListItem from './BreadcrumbListItem.svelte';
+</script>
+
+<BreadcrumbListItem data-depth="2"><a href="/guides">Guides</a></BreadcrumbListItem>
+```
 
 ## Accessibility
 
-- Implicit listitem role from the semantic <li> element
-- aria-current="page" set when current is true, indicating the user's location
+- Implicit `listitem` role from `<li>`.
+- `aria-current="page"` announces the current location; only applied when `current` is true.
+- Keyboard interaction comes from contained links.
 
-## Internationalization
+## Related components
 
-- All text comes through children snippet; no hardcoded strings
-
-## References
-
-- WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
+- `BreadcrumbNav` — outer `<nav>`.
+- `BreadcrumbList` — `<ol>` wrapper.
+- `BreadcrumbLink` — styled link for breadcrumbs.
+- `PaginationListItem`, `ContentsListItem`, `TreeListItem` — sibling list items.
 
 ---
 

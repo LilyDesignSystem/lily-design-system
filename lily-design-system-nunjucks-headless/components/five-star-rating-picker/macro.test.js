@@ -9,10 +9,9 @@ describe("five-star-rating-picker", () => {
     expect(el.getAttribute("role")).toBe("radiogroup");
   });
 
-  it("defaults aria-label to 'Rate out of 5'", () => {
+  it("without a label, renders no English aria-label", () => {
     const { document } = render("five-star-rating-picker", {});
-    expect(document.querySelector("div.five-star-rating-picker").getAttribute("aria-label"))
-      .toBe("Rate out of 5");
+    expect(document.querySelector("div.five-star-rating-picker").hasAttribute("aria-label")).toBe(false);
   });
 
   it("respects a custom label", () => {

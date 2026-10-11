@@ -3,7 +3,7 @@
   import SummaryListItem from './SummaryListItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SummaryListItem',
+    title: 'Headless/SummaryListItem',
     component: SummaryListItem,
   });
 </script>

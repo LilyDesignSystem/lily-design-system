@@ -1,98 +1,134 @@
 # AngleSliderRangeInput
 
-## Overview
+A range slider for selecting an angle value in degrees (0–360 by default). Built on native `<input type="range">` with full ARIA slider semantics and a human-readable `aria-valuetext` that appends a degree suffix.
 
-A headless slider for selecting an angle value (0–360 degrees). Built on
-the native <input type="range"> with full ARIA slider semantics. Useful
-for rotation controls, compass direction pickers, hue angle selectors,
-or any circular/angular value input.
+## What it is
+
+A headless Svelte 5 input wrapping `<input type="range">`. Category: range input / slider primitive, alongside `RangeInput`, `Slider`, and `Dial`.
 
 ## What it does
 
-A range input for selecting an angle in degrees.
+- Renders `<input type="range" class="angle-slider-range-input {className}">`.
+- Exposes `value` via `$bindable(0)`.
+- Sets `min`, `max`, `step`, `disabled`, `name`, `id` from props.
+- Applies ARIA slider semantics: `aria-label`, `aria-valuemin`, `aria-valuemax`, `aria-valuenow`.
+- Derives `aria-valuetext` as `{value}{valueTextSuffix}` (default suffix `"°"`), e.g. `"90°"` for screen readers.
+- Spreads any additional HTML attributes onto the `<input>`.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Rotation, compass heading, or hue selection.
+- Any circular/angular numeric input 0–360°.
+- Wherever a range slider with degree semantics is clearer than a number input.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- For general numeric values — use `NumberInput` or `RangeInput`.
+- For two-dimensional hue/saturation picking — use `ColorPicker`.
+- For a rotary knob UI — use `Dial`.
+- For selecting a slider confirmation gesture — use `SliderButton`.
 
-## Usage
+## How to use it
 
-```svelte
-<AngleSliderRangeInput label="Rotation" bind:value={angle} />
-```
+Import `AngleSliderRangeInput` from `./AngleSliderRangeInput.svelte`. Provide `label` (required). Bind `value` for two-way state.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | number, default 0, bindable | Current angle in degrees. |
-| `min` | number, default 0 | Minimum angle. |
-| `max` | number, default 360 | Maximum angle. |
-| `step` | number, default 1 | Step increment. |
-| `label` | string, required | Accessible label for the slider. |
-| `disabled` | boolean, default false | Whether the slider is disabled. |
-| `name` | string, optional | Form field name for submission. |
-| `id` | string, optional | Element ID. |
-| `valueTextSuffix` | string, default "°" | Suffix for aria-valuetext (e.g., "°" makes "90°" for screen readers). |
-| `...restProps` | additional HTML attributes spread onto <input> |  |
+- `class` — string, default `""`. Appended to `angle-slider-range-input`.
+- `value` — number, default `0`, bindable. Current angle.
+- `min` — number, default `0`.
+- `max` — number, default `360`.
+- `step` — number, default `1`.
+- `label` — string, required. Accessible name.
+- `disabled` — boolean, default `false`.
+- `name` — string, optional. Form field name.
+- `id` — string, optional.
+- `valueTextSuffix` — string, default `"°"`. Suffix for `aria-valuetext`.
+- `...restProps` — additional HTML attributes spread onto the `<input>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Basic angle slider -->
-<AngleSliderRangeInput label="Rotation" bind:value={angle} />
-
-<!-- Stepped compass direction -->
-<AngleSliderRangeInput label="Direction" value={90} step={15} />
-
-<!-- Custom range with suffix -->
-<AngleSliderRangeInput label="Hue" min={0} max={360}
-  valueTextSuffix=" degrees" bind:value={hue} />
-
-<!-- Disabled slider -->
-<AngleSliderRangeInput label="Locked angle" value={45} disabled />
-```
-
-## SvelteKit example
+### Basic angle slider
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AngleSliderRangeInput from "#lib/components/AngleSliderRangeInput/AngleSliderRangeInput.svelte";
+  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
+
+  let angle = $state(0);
 </script>
 
 <AngleSliderRangeInput label="Rotation" bind:value={angle} />
+<p>Current angle: {angle}°</p>
 ```
 
-## Keyboard
+### Stepped compass direction
 
-- Arrow Right / Arrow Up: Increase value by step
-- Arrow Left / Arrow Down: Decrease value by step
-- Home: Set to min value
-- End: Set to max value
-- (All provided by native <input type="range"> behavior.)
+```svelte
+<script lang="ts">
+  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
+
+  let heading = $state(90);
+</script>
+
+<AngleSliderRangeInput label="Direction" bind:value={heading} step={15} />
+```
+
+### Custom range with localized suffix
+
+```svelte
+<script lang="ts">
+  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
+
+  let hue = $state(0);
+</script>
+
+<AngleSliderRangeInput
+  label="Hue"
+  min={0}
+  max={360}
+  valueTextSuffix=" degrees"
+  bind:value={hue}
+/>
+```
+
+### Disabled
+
+```svelte
+<script lang="ts">
+  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
+</script>
+
+<AngleSliderRangeInput label="Locked angle" value={45} disabled />
+```
+
+### Named form field
+
+```svelte
+<script lang="ts">
+  import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
+</script>
+
+<form>
+  <AngleSliderRangeInput label="Orientation" name="orientation" id="orient" />
+  <button type="submit">Save</button>
+</form>
+```
 
 ## Accessibility
 
-- Implicit slider role from <input type="range">
-- aria-label provides accessible name
-- aria-valuemin, aria-valuemax, aria-valuenow for range semantics
-- aria-valuetext provides human-readable value (e.g., "90°")
+- Implicit `slider` role via `<input type="range">`.
+- `aria-label`, `aria-valuemin`, `aria-valuemax`, `aria-valuenow` describe the range.
+- `aria-valuetext` gives screen readers a friendly value (e.g. `"90°"`).
+- Keyboard (native): Arrow keys step; Page Up/Down jump larger; Home/End jump to min/max.
+- Focus is browser-native; consumer provides focus styling.
 
-## Internationalization
+## Related components
 
-- Label text comes through the label prop
-- Value text suffix (e.g., "°" or " degrees") via valueTextSuffix prop
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
+- `RangeInput` — general numeric range input.
+- `Slider` — draggable slider UI.
+- `Dial` — rotary value picker.
+- `NumberInput` — plain number input.
+- `ColorPicker` — hue/saturation 2D picker.
 
 ---
 

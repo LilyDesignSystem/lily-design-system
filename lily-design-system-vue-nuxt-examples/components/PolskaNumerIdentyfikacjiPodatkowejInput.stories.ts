@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PolskaNumerIdentyfikacjiPodatkowejInput from './PolskaNumerIdentyfikacjiPodatkowejInput.vue';
 
 const meta = {
-  title: 'Examples/PolskaNumerIdentyfikacjiPodatkowejInput',
+  title: 'Headless/PolskaNumerIdentyfikacjiPodatkowejInput',
   component: PolskaNumerIdentyfikacjiPodatkowejInput,
   tags: ['autodocs']
 } satisfies Meta<typeof PolskaNumerIdentyfikacjiPodatkowejInput>;

@@ -3,7 +3,7 @@
   import Footer from './Footer.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Footer',
+    title: 'Headless/Footer',
     component: Footer,
   });
 </script>

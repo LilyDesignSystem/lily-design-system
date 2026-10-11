@@ -3,7 +3,7 @@
   import FileUpload from './FileUpload.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FileUpload',
+    title: 'Headless/FileUpload',
     component: FileUpload,
   });
 </script>

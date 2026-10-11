@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import GrailLayoutRightAside from './GrailLayoutRightAside.vue';
 
 const meta = {
-  title: 'Examples/GrailLayoutRightAside',
+  title: 'Headless/GrailLayoutRightAside',
   component: GrailLayoutRightAside,
   tags: ['autodocs']
 } satisfies Meta<typeof GrailLayoutRightAside>;

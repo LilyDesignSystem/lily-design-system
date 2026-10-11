@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+"""bin/sync-example-components — keep the example apps' component copies identical to their headless library.
+
+Four example apps carry their own copy of every headless component instead of
+depending on the library package: the SvelteKit, Next.js, Nuxt and Angular
+examples. Nothing kept those copies in step, and by 2026-10-11 they had drifted
+badly: national-identifier components still scaffold placeholders, Listbox and
+IconButton missing their September composition features, table cells still
+announcing the keyboard cursor as selected, and the Next.js, Nuxt and Angular
+copies missing 80 components (tasks.md P10-T13).
+
+The library is the one source. This script mirrors, for every component in
+components.tsv, the file kinds each example keeps:
+
+  SvelteKit  src/lib/components/{Name}/  every file in the library's components/{Name}/
+                                         (index.md's repository links re-rooted: two levels deeper)
+  Next.js    components/                 {Name}.tsx, {Name}.stories.tsx
+  Nuxt       components/                 {Name}.vue, {Name}.stories.ts
+             tests/components/           {Name}.test.ts, where the example keeps one
+                                         (its import rewritten to ../../components/)
+  Angular    src/app/components/         {Name}.ts, {Name}.spec.ts, {Name}.md
+
+Usage:
+  bin/sync-example-components          copy every differing or missing file
+  bin/sync-example-components --check  report drift and exit 1 (wired into bin/test)
+
+Edit a component in its headless library, then run this script; never edit an
+example's copy directly.
+"""
+
+import filecmp
+import os
+import shutil
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def names():
+    with open(os.path.join(TOP, "components.tsv")) as f:
+        return [line.split("\t")[1] for line in f if line.strip()]
+
+
+def pairs():
+    """Yield (source, destination, transform) for every file that should be mirrored."""
+    for name in names():
+        src = os.path.join(TOP, "lily-design-system-svelte-headless/components", name)
+        dst = os.path.join(TOP, "lily-design-system-svelte-sveltekit-examples/src/lib/components", name)
+        if os.path.isdir(src):
+            for entry in sorted(os.listdir(src)):
+                if os.path.isfile(os.path.join(src, entry)):
+                    # The example's copy sits two directories deeper, so a doc's
+                    # repository-relative links need two more "../".
+                    transform = ("](../../../", "](../../../../../") if entry.endswith(".md") else None
+                    yield os.path.join(src, entry), os.path.join(dst, entry), transform
+        for lib, example, suffixes in (
+            ("lily-design-system-react-headless/components", "lily-design-system-react-next-examples/components",
+             (".tsx", ".stories.tsx")),
+            ("lily-design-system-vue-headless/components", "lily-design-system-vue-nuxt-examples/components",
+             (".vue", ".stories.ts")),
+            ("lily-design-system-angular-headless/components", "lily-design-system-angular-examples/src/app/components",
+             (".ts", ".spec.ts", ".md")),
+        ):
+            for suffix in suffixes:
+                src = os.path.join(TOP, lib, name + suffix)
+                if os.path.isfile(src):
+                    yield src, os.path.join(TOP, example, name + suffix), None
+        # The Nuxt example keeps copies of some of the library's tests in its own
+        # tests/components/, importing the component from ../../components/.
+        src = os.path.join(TOP, "lily-design-system-vue-headless/components", name + ".test.ts")
+        dst = os.path.join(TOP, "lily-design-system-vue-nuxt-examples/tests/components", name + ".test.ts")
+        if os.path.isfile(src) and os.path.isfile(dst):
+            yield src, dst, (f'"./{name}.vue"', f'"../../components/{name}.vue"')
+
+
+def main() -> int:
+    check = "--check" in sys.argv[1:]
+    drift = []
+    for src, dst, transform in pairs():
+        if transform is None:
+            if os.path.isfile(dst) and filecmp.cmp(src, dst, shallow=False):
+                continue
+        else:
+            with open(src) as f:
+                want = f.read().replace(*transform)
+            if os.path.isfile(dst) and open(dst).read() == want:
+                continue
+        drift.append(os.path.relpath(dst, TOP))
+        if not check:
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            if transform is None:
+                shutil.copyfile(src, dst)
+            else:
+                with open(dst, "w") as f:
+                    f.write(want)
+    if check:
+        if drift:
+            for path in drift[:20]:
+                print(f"Error: {path} differs from its headless library", file=sys.stderr)
+            if len(drift) > 20:
+                print(f"Error: ... and {len(drift) - 20} more", file=sys.stderr)
+            print(f"sync-example-components: FAILED ({len(drift)} drifting; run bin/sync-example-components)",
+                  file=sys.stderr)
+            return 1
+        print("sync-example-components: OK (example copies match their libraries)")
+        return 0
+    print(f"sync-example-components: {len(drift)} files copied")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

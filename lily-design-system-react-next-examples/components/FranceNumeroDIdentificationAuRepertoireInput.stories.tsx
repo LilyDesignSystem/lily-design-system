@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import FranceNumeroDIdentificationAuRepertoireInput from './FranceNumeroDIdentificationAuRepertoireInput';
 
 const meta = {
-  title: 'Examples/FranceNumeroDIdentificationAuRepertoireInput',
+  title: 'Headless/FranceNumeroDIdentificationAuRepertoireInput',
   component: FranceNumeroDIdentificationAuRepertoireInput,
   tags: ['autodocs']
 } satisfies Meta<typeof FranceNumeroDIdentificationAuRepertoireInput>;

@@ -3,7 +3,7 @@
   import ColumnChart from './ColumnChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ColumnChart',
+    title: 'Headless/ColumnChart',
     component: ColumnChart,
   });
 </script>

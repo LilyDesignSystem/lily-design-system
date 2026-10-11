@@ -107,13 +107,17 @@ export function initKanbanBoard(root, opts = {}) {
       const button = root.querySelector(
         `[data-lily-kanban-board-move-button][data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
       );
-      if (!cardId || !button) return;
+      // The button renders only when labels.moveButton names it; without it
+      // the card's own cell opens the menu and takes focus back.
+      const cell = list.closest("[data-row][data-col]");
+      const focusTarget = button || cell;
+      if (!cardId || !focusTarget) return;
       const keyboard = createListboxKeyboard(list, {
         clamp: true,
         onActivate: (index) => chooseOption(cardId, index),
         onEscape: () => closeMenu(cardId, true),
         onTabOut: () => {
-          button.focus({ preventScroll: true });
+          focusTarget.focus({ preventScroll: true });
           closeMenu(cardId, false);
         },
       });
@@ -127,7 +131,7 @@ export function initKanbanBoard(root, opts = {}) {
         const index = options.indexOf(li);
         if (index >= 0) chooseOption(cardId, index);
       });
-      menus.set(cardId, { button, list, keyboard });
+      menus.set(cardId, { button, focusTarget, list, keyboard });
     },
   );
 
@@ -136,7 +140,7 @@ export function initKanbanBoard(root, opts = {}) {
     const entry = menus.get(cardId);
     if (!entry) return;
     openCardId = cardId;
-    entry.button.setAttribute("aria-expanded", "true");
+    if (entry.button) entry.button.setAttribute("aria-expanded", "true");
     entry.list.hidden = false;
     const options = Array.from(entry.list.querySelectorAll('[role="option"]'));
     const selectedIndex = options.findIndex(
@@ -149,13 +153,14 @@ export function initKanbanBoard(root, opts = {}) {
   function closeMenu(cardId, refocus) {
     const entry = menus.get(cardId);
     if (!entry) return;
-    entry.button.setAttribute("aria-expanded", "false");
+    if (entry.button) entry.button.setAttribute("aria-expanded", "false");
     entry.list.hidden = true;
     entry.keyboard.setActive(-1);
     if (openCardId === cardId) openCardId = null;
-    // Refocus THIS card's own button — never a shared "last" reference.
-    // See the shared-ref regression note in this file's header comment.
-    if (refocus) entry.button.focus({ preventScroll: true });
+    // Refocus THIS card's own button (or its cell, when it has none) —
+    // never a shared "last" reference. See the shared-ref regression note
+    // in this file's header comment.
+    if (refocus) entry.focusTarget.focus({ preventScroll: true });
   }
 
   function columnTitleFor(columnId) {
@@ -187,7 +192,10 @@ export function initKanbanBoard(root, opts = {}) {
     if (!entry) return;
     const options = Array.from(entry.list.querySelectorAll('[role="option"]'));
     const option = options[index];
-    if (option) applyMove(cardId, option.getAttribute("data-value"));
+    // Choosing the card's own column (the selected option) is not a move.
+    if (option && option.getAttribute("aria-selected") !== "true") {
+      applyMove(cardId, option.getAttribute("data-value"));
+    }
     closeMenu(cardId, true);
   }
 
@@ -212,7 +220,7 @@ export function initKanbanBoard(root, opts = {}) {
     const entry = menus.get(openCardId);
     if (!entry) return;
     const t = event.target;
-    if (t && (entry.list.contains(t) || entry.button.contains(t))) return;
+    if (t && (entry.list.contains(t) || entry.focusTarget.contains(t))) return;
     closeMenu(openCardId, false);
   }
 
@@ -221,7 +229,7 @@ export function initKanbanBoard(root, opts = {}) {
     const entry = menus.get(openCardId);
     if (!entry) return;
     const next = event.relatedTarget;
-    if (next && (entry.list.contains(next) || entry.button.contains(next))) return;
+    if (next && (entry.list.contains(next) || (entry.button && entry.button.contains(next)))) return;
     closeMenu(openCardId, false);
   }
 
@@ -229,7 +237,28 @@ export function initKanbanBoard(root, opts = {}) {
   // Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern)
   // -----------------------------------------------------------------
 
+  /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+  function onGridFocusin(event) {
+    const cell =
+      event.target && event.target.closest
+        ? event.target.closest("[data-row][data-col]")
+        : null;
+    if (!cell) return;
+    const current = focusedCellEl();
+    if (current && current !== cell) current.setAttribute("tabindex", "-1");
+    cell.setAttribute("tabindex", "0");
+  }
+
   function onGridKeydown(event) {
+    // The open move menu owns its own keys; letting them bubble here moved the
+    // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
+    if (
+      event.target &&
+      event.target.closest &&
+      event.target.closest("[data-lily-kanban-board-move-list]")
+    ) {
+      return;
+    }
     const cell =
       event.target && event.target.closest
         ? event.target.closest("[data-row][data-col]")
@@ -325,10 +354,16 @@ export function initKanbanBoard(root, opts = {}) {
       headerCells[colIndex] &&
       headerCells[colIndex].getAttribute("data-lily-kanban-board-column-id");
     if (!toColumnId) return;
+    // Dropping a card back on its own column is not a move.
+    const cardCell = root.querySelector(
+      `.kanban-table-td[data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
+    );
+    if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) return;
     applyMove(cardId, toColumnId);
   }
 
   table.addEventListener("keydown", onGridKeydown);
+  table.addEventListener("focusin", onGridFocusin);
   root.addEventListener("click", onRootClick);
   root.addEventListener("focusout", onRootFocusOut);
   root.addEventListener("dragstart", onDragStart);
@@ -340,6 +375,7 @@ export function initKanbanBoard(root, opts = {}) {
     destroy: () => {
       menus.forEach((entry) => entry.keyboard.destroy());
       table.removeEventListener("keydown", onGridKeydown);
+      table.removeEventListener("focusin", onGridFocusin);
       root.removeEventListener("click", onRootClick);
       root.removeEventListener("focusout", onRootFocusOut);
       root.removeEventListener("dragstart", onDragStart);

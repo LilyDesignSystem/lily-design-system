@@ -4,6 +4,11 @@ All notable changes to `@lilydesignsystem/web-components-date-time-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11
+
+Fixed: a form reset now restores the initial date (and time zone) in the field, the element and the submitted value,
+unless the reset is cancelled. Before, the field and the form's submitted value disagreed after a reset. See `spec/index.md` §5.10.
+
 ## 0.2.0 — 2026-10-04
 
 **Tooltip (additive, minor).** New `.date-time-picker-tooltip` element

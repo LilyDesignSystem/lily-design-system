@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ActionGroup from './ActionGroup.vue';
 
 const meta = {
-  title: 'Examples/ActionGroup',
+  title: 'Headless/ActionGroup',
   component: ActionGroup,
   tags: ['autodocs']
 } satisfies Meta<typeof ActionGroup>;

@@ -3,7 +3,7 @@
   import Dial from './Dial.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Dial',
+    title: 'Headless/Dial',
     component: Dial,
   });
 </script>

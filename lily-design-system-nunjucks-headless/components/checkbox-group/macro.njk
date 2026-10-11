@@ -1,7 +1,7 @@
 {#
   CheckboxGroup macro — a group component that manages a collection of checkboxes.
 
-  HTML tag: <div role="group">
+  HTML tag: <fieldset role="group">
   CSS class: checkbox-group
   Accessibility:
     - role="group" groups the checkboxes for assistive tech.
@@ -32,7 +32,7 @@
 #}
 {%- macro checkboxGroup(params) -%}
 {%- set p = params | default({}) -%}
-<div
+<fieldset
   class="checkbox-group{% if p.classes %} {{ p.classes }}{% endif %}"
   role="group"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
@@ -45,5 +45,5 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</div>
+</fieldset>
 {%- endmacro -%}

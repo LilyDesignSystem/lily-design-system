@@ -3,7 +3,7 @@
   import BackLink from './BackLink.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/BackLink',
+    title: 'Headless/BackLink',
     component: BackLink,
   });
 </script>

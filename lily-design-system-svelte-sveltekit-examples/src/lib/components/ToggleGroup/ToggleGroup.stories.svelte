@@ -3,7 +3,7 @@
   import ToggleGroup from './ToggleGroup.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ToggleGroup',
+    title: 'Headless/ToggleGroup',
     component: ToggleGroup,
   });
 </script>

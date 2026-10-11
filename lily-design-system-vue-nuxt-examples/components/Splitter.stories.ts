@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Splitter from './Splitter.vue';
 
 const meta = {
-  title: 'Examples/Splitter',
+  title: 'Headless/Splitter',
   component: Splitter,
   tags: ['autodocs']
 } satisfies Meta<typeof Splitter>;

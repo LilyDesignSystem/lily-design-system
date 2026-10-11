@@ -12,7 +12,9 @@
     value        number   0–10. Required.
     checked      boolean
     disabled     boolean
-    label        string   Default "Rate {value} out of 10".
+    label        string   The button's name in the page's language (e.g.
+                          "Rate 7 out of 10"); without it, the number alone —
+                          no English default.
     id           string
     name         string
     classes      string
@@ -26,7 +28,7 @@
 {%- elif value >= 7 -%}
   {%- set category = "passive" -%}
 {%- endif -%}
-{%- set label = params.label | default("Rate " ~ value ~ " out of 10") -%}
+{%- set label = params.label | default(value) -%}
 <button
   class="net-promoter-score-picker-button{% if params.classes %} {{ params.classes }}{% endif %}"
   type="{{ params.type | default('button') }}"

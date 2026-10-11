@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ContextualHelp from './ContextualHelp';
 
 const meta = {
-  title: 'Examples/ContextualHelp',
+  title: 'Headless/ContextualHelp',
   component: ContextualHelp,
   tags: ['autodocs']
 } satisfies Meta<typeof ContextualHelp>;

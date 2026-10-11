@@ -1,78 +1,117 @@
 # PostalCodeView
 
-## Overview
+A headless read-only display of a postal or ZIP code rendered inside a `<span>`. Paired with `PostalCodeInput` as the view half of the Input/View pattern.
 
-A headless display component that renders a postal or ZIP code as read-only
-text within a <span> element. Used to present postal code information in
-address displays, confirmation pages, shipping summaries, or any context where
-the value is not editable. Pairs with PostalCodeInput for the Input/View pattern.
+## What it is
+
+- Component: `PostalCodeView`
+- HTML element: `<span>`
+- Role: inline text
+- Category: view (read-only half of the Input/View pattern)
 
 ## What it does
 
-A read-only display of a postal or ZIP code.
+- Renders the supplied `text` verbatim inside a `<span>`.
+- Spreads additional attributes onto the `<span>`.
+- Applies no formatting, validation, or styling — the consumer supplies the already-formatted value.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Address displays, order confirmations, shipping summaries, and account profile views.
+- Inline placement within sentences or summary lists.
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- To edit the value — use `PostalCodeInput`.
+- For generic inline text — use a raw `<span>`.
+- Where a semantic label/landmark is required — wrap in `SummaryListItem` or `Field`.
 
-## Usage
+## How to use it
+
+Import and pass the postal code through the `text` prop.
 
 ```svelte
-<PostalCodeView text="90210" />
+import PostalCodeView from './PostalCodeView.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `text` | string, default "" | The postal code string to display. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `postal-code-view`.
+- `text`: string, default `""`. The postal code to display.
+- `...restProps`: spread onto the `<span>`.
 
-## Examples
+Note: unlike most `*View` components in this library, this one uses `text` (not `value`) and does not apply an `aria-label`.
 
-```svelte
-<!-- US ZIP code -->
-<PostalCodeView text="90210" />
+## Usage
 
-<!-- UK postcode -->
-<PostalCodeView text="SW1A 1AA" />
-
-<!-- Inline with surrounding text -->
-<p>Your postal code: <PostalCodeView text={postalCode} /></p>
-```
-
-## SvelteKit example
+### US ZIP code
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PostalCodeView from "#lib/components/PostalCodeView/PostalCodeView.svelte";
+  import PostalCodeView from './PostalCodeView.svelte';
 </script>
 
 <PostalCodeView text="90210" />
 ```
 
-## Keyboard
+### UK postcode
 
-- None — this is a passive display element with no interactive behavior.
+```svelte
+<script lang="ts">
+  import PostalCodeView from './PostalCodeView.svelte';
+</script>
+
+<PostalCodeView text="SW1A 1AA" />
+```
+
+### Inline with surrounding text
+
+```svelte
+<script lang="ts">
+  import PostalCodeView from './PostalCodeView.svelte';
+
+  let postcode = $state("EC1A 1BB");
+</script>
+
+<p>Your postal code: <PostalCodeView text={postcode} /></p>
+```
+
+### Paired with the input counterpart
+
+```svelte
+<script lang="ts">
+  import PostalCodeInput from '../PostalCodeInput/PostalCodeInput.svelte';
+  import PostalCodeView from './PostalCodeView.svelte';
+
+  let zip = $state("90210");
+  let editing = $state(false);
+</script>
+
+{#if editing}
+  <PostalCodeInput label="ZIP" bind:value={zip} />
+{:else}
+  <PostalCodeView text={zip} />
+{/if}
+<button onclick={() => (editing = !editing)}>Toggle</button>
+```
+
+### With a test hook
+
+```svelte
+<PostalCodeView text="90210" data-testid="shipping-zip" />
+```
 
 ## Accessibility
 
-- No ARIA attributes needed; the <span> renders inline text natively accessible
-- to screen readers
+- The `<span>` is inline text and reads naturally with surrounding content.
+- The component does not set `aria-label`; if you need an announced name, wrap in a labeled container or wrap the value in another descriptive element.
+- Not focusable; no keyboard interaction.
 
-## Internationalization
+## Related components
 
-- The text prop is the only content; no hardcoded user-facing strings
-
-## References
-
-- MDN span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+- `PostalCodeInput` — editable form sibling for the same postal code.
+- `SummaryList`, `SummaryListItem` — common containers for address fields.
+- Other read-only view components: `NorthernIrelandHealthAndCareNumberView`, `NetPromoterScoreView`, `RedAmberGreenView`.
 
 ---
 

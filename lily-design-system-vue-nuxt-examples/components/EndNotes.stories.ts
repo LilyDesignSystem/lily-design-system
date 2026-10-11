@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import EndNotes from './EndNotes.vue';
 
 const meta = {
-  title: 'Examples/EndNotes',
+  title: 'Headless/EndNotes',
   component: EndNotes,
   tags: ['autodocs']
 } satisfies Meta<typeof EndNotes>;

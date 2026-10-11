@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Visible from './Visible.vue';
 
 const meta = {
-  title: 'Examples/Visible',
+  title: 'Headless/Visible',
   component: Visible,
   tags: ['autodocs']
 } satisfies Meta<typeof Visible>;

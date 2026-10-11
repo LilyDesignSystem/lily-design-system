@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import IslandKennitalaInput from './IslandKennitalaInput';
 
 const meta = {
-  title: 'Examples/IslandKennitalaInput',
+  title: 'Headless/IslandKennitalaInput',
   component: IslandKennitalaInput,
   tags: ['autodocs']
 } satisfies Meta<typeof IslandKennitalaInput>;

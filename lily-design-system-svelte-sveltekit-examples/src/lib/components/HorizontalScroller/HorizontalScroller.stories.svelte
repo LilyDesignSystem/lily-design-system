@@ -3,7 +3,7 @@
   import HorizontalScroller from './HorizontalScroller.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/HorizontalScroller',
+    title: 'Headless/HorizontalScroller',
     component: HorizontalScroller,
   });
 </script>

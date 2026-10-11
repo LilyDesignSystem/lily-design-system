@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { onBeforeUnmount, onMounted, ref } from "vue";
 
     // FiveFaceRatingPicker component
     //
@@ -12,7 +13,7 @@
     //   label — string, required. Accessible name for the rating group via aria-label.
     //   value — number, default 0. Current rating (1-5, 0 = none); bindable via v-model.
     //   name — string, default "face-rating". Radio group name for form submission.
-    //   labels — string[], default ["Very bad", "Bad", "Okay", "Good", "Very good"]. Accessible labels for each face.
+    //   labels — string[], default ["1", "2", "3", "4", "5"] (no English default; pass words, e.g. ["Very bad", …, "Very good"]). Accessible labels for each face.
     //   disabled — boolean, default false. Whether the entire group is disabled.
     //   ...restProps — additional HTML attributes spread onto the fieldset.
     //
@@ -60,11 +61,39 @@
         disabled?: boolean;
     }>(), {
         name: "face-rating",
-        labels: () => ["Very bad", "Bad", "Okay", "Good", "Very good"],
+        // The numbers, not English words: the words are the consumer's to supply.
+        labels: () => ["1", "2", "3", "4", "5"],
         disabled: false,
     });
 
     const modelValue = defineModel<number>({ default: 0 });
+    const initialValue = modelValue.value;
+
+    // Form reset: the inputs take a one-way value, which a reset changes without
+    // telling this component, so the model would keep a value the form no longer
+    // submits. Restore the initial value instead — one tick later, after the
+    // browser has reset the DOM, and not when the reset was cancelled.
+    const root = ref<HTMLElement | null>(null);
+    let resetForm: HTMLFormElement | null = null;
+    let resetTimer: ReturnType<typeof setTimeout> | undefined;
+    function onReset(event: Event): void {
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+            if (event.defaultPrevented || !root.value) return;
+            modelValue.value = initialValue;
+            for (const input of root.value.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                input.checked = input.value === String(initialValue);
+            }
+        }, 0);
+    }
+    onMounted(() => {
+        resetForm = root.value?.closest("form") ?? null;
+        resetForm?.addEventListener("reset", onReset);
+    });
+    onBeforeUnmount(() => {
+        clearTimeout(resetTimer);
+        resetForm?.removeEventListener("reset", onReset);
+    });
 
     const faces = [1, 2, 3, 4, 5];
 
@@ -73,6 +102,7 @@
 <template>
     <!-- FiveFaceRatingPicker.vue -->
     <fieldset
+        ref="root"
         class="five-face-rating-picker"
         role="radiogroup"
         :aria-label="label"

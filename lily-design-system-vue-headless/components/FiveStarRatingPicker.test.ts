@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
@@ -58,11 +58,56 @@ describe("FiveStarRatingPicker model binding", () => {
     expect(emitted()["update:modelValue"]).toEqual([[4]]);
   });
 
-  test("renders each star's number alongside its unit", () => {
-    render(Subject, { props: { label: "Rating" } });
+  test("renders each star's number alongside its unit, from starLabel", () => {
+    render(Subject, { props: { label: "Rating", starLabel: (n: number) => `${n} star` } });
     const group = screen.getByRole("radiogroup");
-    expect(group.textContent).toContain("1");
-    expect(group.textContent).toContain("star");
+    expect(group.textContent).toContain("1 star");
     expect(group.textContent).not.toContain(':star="star"');
+  });
+});
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(props: Record<string, unknown>) {
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+  const result = render(Subject, { props, container: form });
+  return { form, emitted: result.emitted };
+}
+
+const afterReset = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+describe("form reset", () => {
+  test("a form reset restores the initial value and emits it", async () => {
+    const { form, emitted } = inForm({ label: "Rating", name: "rating", modelValue: 3 });
+    await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="5"]')!);
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual([5]);
+    form.reset();
+    await afterReset();
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual([3]);
+    expect(form.querySelector<HTMLInputElement>("input:checked")?.value).toBe("3");
+    expect(new FormData(form).get("rating")).toBe("3");
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const { form, emitted } = inForm({ label: "Rating", name: "rating", modelValue: 3 });
+    await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="5"]')!);
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await afterReset();
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual([5]);
+  });
+});
+
+describe("no English default", () => {
+  test("without starLabel the options are the numbers alone", () => {
+    render(Subject, { props: { label: "Rating" } });
+    expect(screen.getByLabelText("3")).toBeTruthy();
+    expect(screen.queryByText(/stars?/)).toBeNull();
+  });
+
+  test("starLabel supplies each option's text", () => {
+    render(Subject, { props: { label: "Rating", starLabel: (n: number) => (n === 1 ? "1 étoile" : `${n} étoiles`) } });
+    expect(screen.getByLabelText("1 étoile")).toBeTruthy();
+    expect(screen.getByLabelText("4 étoiles")).toBeTruthy();
   });
 });

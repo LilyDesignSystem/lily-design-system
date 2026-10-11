@@ -210,7 +210,7 @@ through one live region.
   role="grid">` whose `aria-label` comes from `label`.
 - §9.2 Renders one header cell per column with its title and, when
   `labels.cardCount` is supplied, a derived card count.
-- §9.3 A column at or over `wipLimit` (including exactly `0`) carries
+- §9.3 A column over `wipLimit` (including exactly `0`) carries
   `data-over-limit` and renders `labels.overLimit`'s substituted text;
   a column under its limit, or with no `wipLimit` set, carries
   neither.
@@ -239,6 +239,23 @@ through one live region.
 - §9.12 Extra attributes spread onto the root `<div>`.
 - §9.13 No hardcoded user-facing strings: every label comes from a
   macro param or a `labels.*` template string/function.
+
+**Added 2026-10-11** (canonical §8.13–§8.16; see the Svelte package's spec):
+
+- Without `labels.moveButton` no unnamed move button renders; Enter/Space on
+  the card's cell opens the menu, which is then named by the card itself.
+- Keys pressed inside the open move menu never move the grid cursor, and
+  choosing a destination does not reopen the menu.
+- Choosing the card's current column, or dropping a card on it, is not a
+  move: no `onMove`, no announcement.
+- Focusing a cell by pointer moves the roving cursor there; when the board
+  shrinks under the cursor, exactly one cell stays tabbable; after a move,
+  focus and the cursor follow the card to its new column (its move button,
+  or its cell when there is none).
+- A column is over its `wipLimit` only with more cards than the limit;
+  exactly at the limit it is full, not in breach.
+
+Nunjucks deviation: the board is server-rendered and the client never rebuilds it, so a move cannot carry focus to the card's new column — the page re-renders it. Focus returns to the card's own button (or cell) in place.
 
 ## 10. Shared-ref regression (rigor note)
 

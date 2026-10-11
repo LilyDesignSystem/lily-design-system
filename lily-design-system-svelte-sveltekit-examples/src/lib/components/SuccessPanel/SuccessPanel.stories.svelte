@@ -3,7 +3,7 @@
   import SuccessPanel from './SuccessPanel.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SuccessPanel',
+    title: 'Headless/SuccessPanel',
     component: SuccessPanel,
   });
 </script>

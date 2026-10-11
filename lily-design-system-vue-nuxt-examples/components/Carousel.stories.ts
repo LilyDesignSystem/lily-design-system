@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Carousel from './Carousel.vue';
 
 const meta = {
-  title: 'Examples/Carousel',
+  title: 'Headless/Carousel',
   component: Carousel,
   tags: ['autodocs']
 } satisfies Meta<typeof Carousel>;

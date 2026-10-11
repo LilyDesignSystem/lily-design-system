@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Masonry from './Masonry.vue';
 
 const meta = {
-  title: 'Examples/Masonry',
+  title: 'Headless/Masonry',
   component: Masonry,
   tags: ['autodocs']
 } satisfies Meta<typeof Masonry>;

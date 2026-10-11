@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import BreadcrumbLink from './BreadcrumbLink.vue';
 
 const meta = {
-  title: 'Examples/BreadcrumbLink',
+  title: 'Headless/BreadcrumbLink',
   component: BreadcrumbLink,
   tags: ['autodocs']
 } satisfies Meta<typeof BreadcrumbLink>;

@@ -2,16 +2,16 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("radio-group", () => {
-  it("renders a <div role=radiogroup> with the base class", () => {
+  it("renders a <fieldset role=radiogroup> with the base class", () => {
     const { document } = render("radio-group", { label: "Where" });
-    const el = document.querySelector("div.radio-group");
+    const el = document.querySelector("fieldset.radio-group");
     expect(el).toBeTruthy();
     expect(el.getAttribute("role")).toBe("radiogroup");
   });
 
   it("sets aria-label from params.label", () => {
     const { document } = render("radio-group", { label: "Where" });
-    expect(document.querySelector("div.radio-group").getAttribute("aria-label"))
+    expect(document.querySelector("fieldset.radio-group").getAttribute("aria-label"))
       .toBe("Where");
   });
 
@@ -20,7 +20,7 @@ describe("radio-group", () => {
       label: "Fallback",
       labelledBy: "h",
     });
-    const el = document.querySelector("div.radio-group");
+    const el = document.querySelector("fieldset.radio-group");
     expect(el.getAttribute("aria-labelledby")).toBe("h");
     expect(el.hasAttribute("aria-label")).toBe(false);
   });
@@ -31,7 +31,7 @@ describe("radio-group", () => {
       describedBy: "x-hint",
     });
     expect(
-      document.querySelector("div.radio-group").getAttribute("aria-describedby"),
+      document.querySelector("fieldset.radio-group").getAttribute("aria-describedby"),
     ).toBe("x-hint");
   });
 
@@ -41,7 +41,7 @@ describe("radio-group", () => {
       required: true,
     });
     expect(
-      document.querySelector("div.radio-group").getAttribute("aria-required"),
+      document.querySelector("fieldset.radio-group").getAttribute("aria-required"),
     ).toBe("true");
   });
 
@@ -50,7 +50,7 @@ describe("radio-group", () => {
       label: "x",
       classes: "inline",
     });
-    expect(document.querySelector("div.radio-group.inline")).toBeTruthy();
+    expect(document.querySelector("fieldset.radio-group.inline")).toBeTruthy();
   });
 
   it("renders caller block content", () => {
@@ -59,7 +59,7 @@ describe("radio-group", () => {
       { label: "x" },
       '<input type="radio" id="r1">',
     );
-    expect(document.querySelector("div.radio-group input#r1")).toBeTruthy();
+    expect(document.querySelector("fieldset.radio-group input#r1")).toBeTruthy();
   });
 
   it("contains no <style> or <script> tags", () => {

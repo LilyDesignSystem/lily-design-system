@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PortugalPassaporteView from './PortugalPassaporteView.vue';
 
 const meta = {
-  title: 'Examples/PortugalPassaporteView',
+  title: 'Headless/PortugalPassaporteView',
   component: PortugalPassaporteView,
   tags: ['autodocs']
 } satisfies Meta<typeof PortugalPassaporteView>;

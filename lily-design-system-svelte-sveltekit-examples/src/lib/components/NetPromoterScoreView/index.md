@@ -1,79 +1,117 @@
 # NetPromoterScoreView
 
-## Overview
+A headless read-only display of a Net Promoter Score value. Renders a `<span>` with an accessible label so screen readers announce both the context and the displayed score.
 
-A headless Net Promoter Score (NPS) rating view that displays an NPS score
-value as read-only text within a <span> element. Used to show previously
-captured NPS data in dashboards, reports, or detail views. NPS scores range
-from 0 to 10, with respondents classified as Detractors (0-6), Passives (7-8),
-or Promoters (9-10).
+## What it is
+
+- Component: `NetPromoterScoreView`
+- HTML element: `<span>`
+- Role: inline text; accessible name via `aria-label`
+- Category: view (read-only display half of the Input/View pattern for NPS)
 
 ## What it does
 
-A read-only display of a Net Promoter Score.
+- Displays an NPS score value as inline text content.
+- Announces context to assistive technology through `aria-label`.
+- Spreads additional attributes onto the `<span>` for hooks such as `data-testid` or color-coding.
+- Performs no validation, formatting, or classification — consumers supply the value.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Dashboards, reports, summary cards that show a previously captured NPS score.
+- Detail views where the score is informational rather than editable.
+- Alongside other read-only person or customer data (e.g. inside a `SummaryList`).
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- To capture an NPS score: use `NetPromoterScorePicker` with `NetPromoterScorePickerButton`.
+- To show star or face ratings: use `FiveStarRatingView` or `FiveFaceRatingView`.
+- To show status levels (RAG, ROYGB): use `RedAmberGreenView` or `RedOrangeYellowGreenBlueView`.
 
-## Usage
+## How to use it
+
+Import and render with a required `label`. The `value` is displayed as-is.
 
 ```svelte
-<NetPromoterScoreView label="NPS Score" value="8" />
+import NetPromoterScoreView from './NetPromoterScoreView.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for screen readers via aria-label. |
-| `value` | string, default "" | The NPS score value to display. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
+- `class` (`className`): string, default `""`. Extra CSS class appended to `net-promoter-score-view`.
+- `label`: string, required. Accessible label announced by screen readers via `aria-label`.
+- `value`: string, default `""`. The NPS score to display.
+- `...restProps`: any other HTML attributes are spread onto the `<span>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Display a static NPS score -->
-<NetPromoterScoreView label="NPS Score" value="8" />
-
-<!-- Display a dynamic score with reactive binding -->
-<NetPromoterScoreView label="Customer rating" value={score} />
-```
-
-## SvelteKit example
+### Basic example
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NetPromoterScoreView from "#lib/components/NetPromoterScoreView/NetPromoterScoreView.svelte";
+  import NetPromoterScoreView from './NetPromoterScoreView.svelte';
 </script>
 
 <NetPromoterScoreView label="NPS Score" value="8" />
 ```
 
-## Keyboard
+### Dynamic value
 
-- None — this is a passive informational display, not interactive.
+```svelte
+<script lang="ts">
+  import NetPromoterScoreView from './NetPromoterScoreView.svelte';
+
+  let score = $state("9");
+</script>
+
+<NetPromoterScoreView label="Customer rating" value={score} />
+```
+
+### Paired with the input counterpart
+
+```svelte
+<script lang="ts">
+  import NetPromoterScorePicker from '../NetPromoterScorePicker/NetPromoterScorePicker.svelte';
+  import NetPromoterScorePickerButton from '../NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte';
+  import NetPromoterScoreView from './NetPromoterScoreView.svelte';
+
+  let nps = $state<number | undefined>(undefined);
+  let submitted = $state(false);
+</script>
+
+{#if submitted}
+  <NetPromoterScoreView label="Your score" value={String(nps ?? "")} />
+{:else}
+  <NetPromoterScorePicker label="Rate us">
+    {#each Array.from({ length: 11 }, (_, i) => i) as score}
+      <NetPromoterScorePickerButton
+        value={score}
+        label={String(score)}
+        selected={nps === score}
+        onclick={() => (nps = score)}
+      />
+    {/each}
+  </NetPromoterScorePicker>
+{/if}
+```
+
+### Color-coded via data attribute
+
+```svelte
+<NetPromoterScoreView label="NPS" value="3" data-band="detractor" />
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name so screen readers announce context
-- Screen readers announce both the label and the displayed value
+- `aria-label` provides the accessible name announced alongside the displayed value.
+- No interactive behavior; the component is not focusable and exposes no keyboard affordances.
+- WCAG 2.2 AAA: consumer-supplied CSS must maintain color contrast if using color coding by score.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- The value is displayed as-is, allowing localized formatting
-- No hardcoded user-facing strings
-
-## References
-
-- Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
+- `NetPromoterScorePicker`, `NetPromoterScorePickerButton` — capture an NPS score.
+- `FiveStarRatingView`, `FiveFaceRatingView` — sibling rating view components.
+- `RedAmberGreenView`, `RedOrangeYellowGreenBlueView` — sibling read-only status displays.
 
 ---
 

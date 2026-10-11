@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TabBar from './TabBar.vue';
 
 const meta = {
-  title: 'Examples/TabBar',
+  title: 'Headless/TabBar',
   component: TabBar,
   tags: ['autodocs']
 } satisfies Meta<typeof TabBar>;

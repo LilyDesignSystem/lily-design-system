@@ -70,6 +70,8 @@
 </script>
 
 <script lang="ts">
+    import { tick } from "svelte";
+
     let {
         class: className = "",
         label,
@@ -84,6 +86,7 @@
 
     const baseId = nextKanbanBoardId();
     const moveOptionId = (i: number) => `${baseId}-move-option-${i}`;
+    const moveListId = `${baseId}-move-list`;
 
     let rootEl: HTMLDivElement | undefined = $state();
     let statusMessage = $state("");
@@ -93,7 +96,6 @@
     /** The card whose move menu is open, if any. */
     let openCardId = $state<string | null>(null);
     let moveActiveIndex = $state(-1);
-    let moveButtonEl: HTMLButtonElement | undefined = $state();
     let moveListEl: HTMLElement | undefined = $state();
 
     const cardsByColumn = $derived.by(() => {
@@ -109,6 +111,12 @@
         columns.reduce((max, column) => Math.max(max, cardsByColumn.get(column.id)?.length ?? 0), 0),
     );
 
+    // The roving cursor, clamped to the cells that exist now: a move can shrink
+    // the board, and a cursor left on a vanished row would take the grid out of
+    // the tab order altogether.
+    const activeRow = $derived(Math.min(focusedRow, maxRows - 1));
+    const activeCol = $derived(Math.min(focusedCol, columns.length - 1));
+
     function cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
         const column = columns[colIndex];
         if (!column) return undefined;
@@ -123,26 +131,47 @@
     // Move menu (keyboard + pointer share this)
     // ---------------------------------------------------------------
 
+    /** Choosing the card's own column is not a move: the menu just closes. */
     function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
-        onMove?.(card.id, toColumn.id);
-        announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
-        closeMoveMenu();
+        if (toColumn.id !== card.columnId) {
+            onMove?.(card.id, toColumn.id);
+            announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
+        }
+        closeMoveMenu(card.id);
     }
 
-    function openMoveMenu(card: KanbanCard): void {
+    async function openMoveMenu(card: KanbanCard): Promise<void> {
         openCardId = card.id;
         const currentIndex = columns.findIndex((c) => c.id === card.columnId);
         moveActiveIndex = currentIndex >= 0 ? currentIndex : 0;
-        queueMicrotask(() => {
-            moveListEl?.focus({ preventScroll: true });
-        });
+        await tick();
+        moveListEl?.focus({ preventScroll: true });
     }
 
-    function closeMoveMenu(refocus = true): void {
+    function closeMoveMenu(cardId: string, refocus = true): void {
         if (openCardId === null) return;
         openCardId = null;
         moveActiveIndex = -1;
-        if (refocus) queueMicrotask(() => moveButtonEl?.focus({ preventScroll: true }));
+        if (refocus) void focusCard(cardId);
+    }
+
+    /**
+     * Focus a card wherever it is after the next render — after a move the
+     * consumer's `cards` has put it in another column. The roving cursor
+     * follows it there, and focus lands on its move button, or on its cell
+     * when there is no button.
+     */
+    async function focusCard(cardId: string): Promise<void> {
+        await tick();
+        const cell = Array.from(rootEl?.querySelectorAll<HTMLElement>("[data-card-id]") ?? []).find(
+            (el) => el.dataset.cardId === cardId,
+        );
+        if (!cell) return;
+        focusedRow = Number(cell.dataset.row);
+        focusedCol = Number(cell.dataset.col);
+        await tick();
+        const target = cell.querySelector<HTMLElement>(".kanban-board-move-button") ?? cell;
+        target.focus({ preventScroll: true });
     }
 
     // ---------------------------------------------------------------
@@ -165,61 +194,73 @@
         const cardId = draggingCardId ?? event.dataTransfer?.getData("text/plain");
         draggingCardId = null;
         const card = cards.find((c) => c.id === cardId);
-        if (card) moveCard(card, column);
+        // Dropping a card back on its own column is not a move.
+        if (card && card.columnId !== column.id) moveCard(card, column);
     }
 
     // ---------------------------------------------------------------
     // Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern)
     // ---------------------------------------------------------------
 
-    function focusActiveCell(): void {
-        queueMicrotask(() => {
-            rootEl?.querySelector<HTMLElement>('.kanban-table-td[tabindex="0"]')?.focus({ preventScroll: true });
-        });
+    async function focusActiveCell(): Promise<void> {
+        await tick();
+        rootEl?.querySelector<HTMLElement>('.kanban-table-td[tabindex="0"]')?.focus({ preventScroll: true });
+    }
+
+    /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+    function onGridFocusin(event: FocusEvent): void {
+        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        if (!cell) return;
+        focusedRow = Number(cell.dataset.row);
+        focusedCol = Number(cell.dataset.col);
     }
 
     function moveFocus(row: number, col: number): void {
         focusedCol = Math.min(Math.max(col, 0), columns.length - 1);
         focusedRow = Math.min(Math.max(row, 0), maxRows - 1);
-        focusActiveCell();
+        void focusActiveCell();
     }
 
     function onGridKeydown(event: KeyboardEvent): void {
-        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        const target = event.target as HTMLElement;
+        // The open move menu owns its own keys; letting them bubble here moved the
+        // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
+        if (target.closest(".kanban-board-move-list")) return;
+        const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
         switch (event.key) {
             case "ArrowUp":
                 event.preventDefault();
-                moveFocus(focusedRow - 1, focusedCol);
+                moveFocus(activeRow - 1, activeCol);
                 break;
             case "ArrowDown":
                 event.preventDefault();
-                moveFocus(focusedRow + 1, focusedCol);
+                moveFocus(activeRow + 1, activeCol);
                 break;
             case "ArrowLeft":
                 event.preventDefault();
-                moveFocus(focusedRow, focusedCol - 1);
+                moveFocus(activeRow, activeCol - 1);
                 break;
             case "ArrowRight":
                 event.preventDefault();
-                moveFocus(focusedRow, focusedCol + 1);
+                moveFocus(activeRow, activeCol + 1);
                 break;
             case "Home":
                 event.preventDefault();
                 if (ctrlOrMeta) moveFocus(0, 0);
-                else moveFocus(0, focusedCol);
+                else moveFocus(0, activeCol);
                 break;
             case "End":
                 event.preventDefault();
                 if (ctrlOrMeta) moveFocus(maxRows - 1, columns.length - 1);
-                else moveFocus(maxRows - 1, focusedCol);
+                else moveFocus(maxRows - 1, activeCol);
                 break;
             case "Enter":
             case " ": {
                 event.preventDefault();
-                const card = cardAt(focusedCol, focusedRow);
-                if (card) openMoveMenu(card);
+                const card = cardAt(activeCol, activeRow);
+                if (card) void openMoveMenu(card);
                 break;
             }
         }
@@ -227,7 +268,7 @@
 </script>
 
 <div bind:this={rootEl} class={`kanban-board ${className}`.trim()} {...restProps}>
-    <KanbanTable {label} {caption} onkeydown={onGridKeydown}>
+    <KanbanTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin}>
         <KanbanTableHead>
             <KanbanTableRow>
                 {#each columns as column (column.id)}
@@ -253,7 +294,8 @@
                         <KanbanTableTD
                             data-row={rowIndex}
                             data-col={colIndex}
-                            active={focusedRow === rowIndex && focusedCol === colIndex}
+                            data-card-id={card?.id}
+                            active={activeRow === rowIndex && activeCol === colIndex}
                             label={card ? cardLabel(card) : undefined}
                             ondragover={onColumnDragOver}
                             ondrop={(e: DragEvent) => onColumnDrop(column, e)}
@@ -273,29 +315,34 @@
                                 >
                                     {cardLabel(card)}
                                 </span>
-                                <IconButton
-                                    bind:ref={moveButtonEl}
-                                    baseClass="kanban-board-move-button"
-                                    label={labels.moveButton?.(card) ?? ""}
-                                    tabindex="-1"
-                                    aria-haspopup="listbox"
-                                    aria-expanded={openCardId === card.id}
-                                    onclick={() => (openCardId === card.id ? closeMoveMenu() : openMoveMenu(card))}
-                                >
-                                    ⇄
-                                </IconButton>
+                                <!-- Gated on labels.moveButton: an unnamed button is worse than
+                                     none, and Enter/Space on the cell opens the menu either way. -->
+                                {#if labels.moveButton}
+                                    <IconButton
+                                        baseClass="kanban-board-move-button"
+                                        label={labels.moveButton(card)}
+                                        tabindex="-1"
+                                        aria-haspopup="listbox"
+                                        aria-expanded={openCardId === card.id}
+                                        aria-controls={openCardId === card.id ? moveListId : undefined}
+                                        onclick={() => (openCardId === card.id ? closeMoveMenu(card.id) : openMoveMenu(card))}
+                                    >
+                                        ⇄
+                                    </IconButton>
+                                {/if}
                                 {#if openCardId === card.id}
                                     <Listbox
                                         bind:ref={moveListEl}
                                         as="ul"
+                                        id={moveListId}
                                         baseClass="kanban-board-move-list"
-                                        label={labels.moveMenuLabel ?? ""}
+                                        label={labels.moveMenuLabel ?? cardLabel(card)}
                                         navigation="active-descendant"
                                         clamp
                                         bind:activeIndex={moveActiveIndex}
                                         onActivate={(i: number) => moveCard(card, columns[i])}
-                                        onEscape={() => closeMoveMenu()}
-                                        onTabOut={() => closeMoveMenu(false)}
+                                        onEscape={() => closeMoveMenu(card.id)}
+                                        onTabOut={() => closeMoveMenu(card.id, false)}
                                     >
                                         {#each columns as destination, i (destination.id)}
                                             <!-- svelte-ignore a11y_click_events_have_key_events -->

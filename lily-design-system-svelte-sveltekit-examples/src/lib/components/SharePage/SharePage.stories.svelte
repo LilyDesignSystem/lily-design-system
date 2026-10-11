@@ -3,7 +3,7 @@
   import SharePage from './SharePage.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SharePage',
+    title: 'Headless/SharePage',
     component: SharePage,
   });
 </script>

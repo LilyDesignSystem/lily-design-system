@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Timer from './Timer.vue';
 
 const meta = {
-  title: 'Examples/Timer',
+  title: 'Headless/Timer',
   component: Timer,
   tags: ['autodocs']
 } satisfies Meta<typeof Timer>;

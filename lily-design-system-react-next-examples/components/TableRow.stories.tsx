@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TableRow from './TableRow';
 
 const meta = {
-  title: 'Examples/TableRow',
+  title: 'Headless/TableRow',
   component: TableRow,
   tags: ['autodocs']
 } satisfies Meta<typeof TableRow>;

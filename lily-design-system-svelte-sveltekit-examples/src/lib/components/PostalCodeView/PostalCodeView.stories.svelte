@@ -3,7 +3,7 @@
   import PostalCodeView from './PostalCodeView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PostalCodeView',
+    title: 'Headless/PostalCodeView',
     component: PostalCodeView,
   });
 </script>

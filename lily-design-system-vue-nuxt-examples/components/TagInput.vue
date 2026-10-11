@@ -50,12 +50,14 @@
         disabled: false,
     });
 
+    const emit = defineEmits<{ add: [value: string] }>();
+
     const modelValue = defineModel<string>({ default: "" });
 
     function onkeydown(event: KeyboardEvent) {
         if (event.key === "Enter" && modelValue.value.trim()) {
             event.preventDefault();
-            onadd?.(modelValue.value.trim());
+            emit("add", modelValue.value.trim());
             modelValue.value = "";
         }
     }

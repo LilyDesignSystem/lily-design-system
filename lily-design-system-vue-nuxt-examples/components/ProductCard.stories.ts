@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ProductCard from './ProductCard.vue';
 
 const meta = {
-  title: 'Examples/ProductCard',
+  title: 'Headless/ProductCard',
   component: ProductCard,
   tags: ['autodocs']
 } satisfies Meta<typeof ProductCard>;

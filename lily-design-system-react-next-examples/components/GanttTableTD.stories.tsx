@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import GanttTableTD from './GanttTableTD';
 
 const meta = {
-  title: 'Examples/GanttTableTD',
+  title: 'Headless/GanttTableTD',
   component: GanttTableTD,
   tags: ['autodocs']
 } satisfies Meta<typeof GanttTableTD>;

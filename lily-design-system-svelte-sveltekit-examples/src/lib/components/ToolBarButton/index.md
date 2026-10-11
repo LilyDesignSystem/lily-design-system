@@ -1,81 +1,110 @@
 # ToolBarButton
 
-## Overview
+A single `<button type="button">` designed to be placed inside a `ToolBar`, with an optional `disabled` state and full attribute pass-through.
 
-A single button within a ToolBar. Renders as a native <button> element
-with type="button" for proper keyboard and screen reader support. The
-component avoids unintended form submissions and supports the disabled
-attribute for disabling interaction. Designed to be placed inside a ToolBar
-container that manages roving focus keyboard navigation.
+## What it is
+
+`ToolBarButton` is a headless Svelte 5 component rendering a native `<button type="button">` optimized for use inside a `ToolBar` container that provides roving-focus keyboard navigation.
 
 ## What it does
 
-One action button in a tool bar.
+- Renders `<button class="tool-bar-button {className}" type="button" {disabled}>`.
+- Renders the `children` snippet as the button's content.
+- Spreads additional HTML attributes onto the `<button>` (including event handlers).
 
-## When to use
+## When to use it
 
-- Use for an in-page action (not navigation).
+- As each action button inside a `ToolBar` (bold, italic, undo, redo, etc.).
+- When you want implicit button semantics with toolbar-compatible focus behavior.
+- When an action should not submit a parent form.
 
-## When not to use
+## When not to use it
 
-- Do not use for navigation to another URL — use a link instead.
+- Don't use it outside a `ToolBar` when you want roving focus — the navigation logic lives in the parent.
+- Don't use it to submit forms — use `SubmitInput` or `ButtonInput`.
+- Don't use it for a toggle state — use `ToggleButton` with `role="switch"`.
+- Don't use it for navigation — use an `<a>` element.
+
+## How to use it
+
+Import and place inside a `ToolBar`. Provide content via `children` and wire `onclick` via rest-props.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `tool-bar-button`.
+- `disabled` — boolean, default `false`. Whether the button is disabled.
+- `children` — Snippet, required. Button content.
+- `...restProps` — any additional HTML attributes spread onto the `<button>`.
 
 ## Usage
 
 ```svelte
-<ToolBarButton>Bold</ToolBarButton>
-```
+<script lang="ts">
+  import ToolBar from "../ToolBar/ToolBar.svelte";
+  import ToolBarButton from "./ToolBarButton.svelte";
+</script>
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `disabled` | boolean, default false | Whether the button is disabled. |
-| `children` | Snippet, required | Button content. |
-| `...restProps` | additional HTML attributes spread onto the <button> |  |
-
-## Examples
-
-```svelte
-<!-- Toolbar with buttons -->
 <ToolBar label="Editor tools">
   <ToolBarButton>Bold</ToolBarButton>
   <ToolBarButton>Italic</ToolBarButton>
-  <ToolBarButton disabled>Redo</ToolBarButton>
+  <ToolBarButton>Underline</ToolBarButton>
 </ToolBar>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ToolBarButton from "#lib/components/ToolBarButton/ToolBarButton.svelte";
+  import ToolBar from "../ToolBar/ToolBar.svelte";
+  import ToolBarButton from "./ToolBarButton.svelte";
+
+  let canRedo = $state(false);
 </script>
 
-<ToolBarButton>Bold</ToolBarButton>
+<ToolBar label="History">
+  <ToolBarButton>Undo</ToolBarButton>
+  <ToolBarButton disabled={!canRedo}>Redo</ToolBarButton>
+</ToolBar>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import ToolBar from "../ToolBar/ToolBar.svelte";
+  import ToolBarButton from "./ToolBarButton.svelte";
 
-- Enter/Space: activate the button (native behavior)
-- Arrow keys: handled by parent ToolBar for roving focus navigation
-- Button is skipped in tab order when disabled
+  let count = $state(0);
+</script>
+
+<ToolBar label="Counter">
+  <ToolBarButton onclick={() => count--}>−</ToolBarButton>
+  <ToolBarButton onclick={() => count++}>+</ToolBarButton>
+</ToolBar>
+<p>Count: {count}</p>
+```
+
+```svelte
+<script lang="ts">
+  import ToolBar from "../ToolBar/ToolBar.svelte";
+  import ToolBarButton from "./ToolBarButton.svelte";
+</script>
+
+<ToolBar label="Outils">
+  <ToolBarButton aria-label="Annuler">↶</ToolBarButton>
+  <ToolBarButton aria-label="Refaire">↷</ToolBarButton>
+</ToolBar>
+```
 
 ## Accessibility
 
-- Implicit button role from the <button> element
-- disabled attribute communicates disabled state to assistive technology
+- Implicit `button` role from the native `<button>`.
+- `type="button"` prevents accidental form submission.
+- `disabled` removes the button from the tab sequence and is conveyed to assistive technology.
+- Arrow-key navigation is provided by the parent `ToolBar`, not by this component.
 
-## Internationalization
+## Related components
 
-- All text is provided through the children snippet
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+- `ToolBar` — the required parent container that supplies arrow-key roving focus.
+- `TaskBarButton` — a simpler bar button without roving focus.
+- `MenuBarButton` — button inside a menu bar.
+- `Button` — a general-purpose button for standalone contexts.
 
 ---
 

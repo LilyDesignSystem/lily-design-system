@@ -251,6 +251,19 @@ the roving-tabindex column index.
 - §8.16 No hardcoded user-facing strings: every label comes from an
   input or a `labels.*` function.
 
+**Added 2026-10-11** (canonical §8.6–§8.11, §8.16, §8.17; see the Svelte package's spec):
+
+- Row depth is `data-depth` on the row header, never an inline style.
+- A task whose `parentId` names no task renders as a top-level row; a
+  `parentId` cycle does not hang; parent ranges are derived in one pass.
+- Focusing a cell by pointer moves the roving cursor there; when collapsing
+  removes the row under the cursor, exactly one cell stays tabbable.
+- Opening the edit region moves focus to the start date's field; Save
+  (disabled while a date is empty) saves a range entered end-first
+  start-first; Save, Cancel and Escape return focus to the grid.
+- Without their labels, the collapse button and the edit region do not
+  render unnamed; `labels.taskColumnHeader` names the leading header cell.
+
 ## 9. Non-goals
 
 Dependency-arrow rendering, virtualization, critical-path calculation,

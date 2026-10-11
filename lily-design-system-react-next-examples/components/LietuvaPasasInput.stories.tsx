@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import LietuvaPasasInput from './LietuvaPasasInput';
 
 const meta = {
-  title: 'Examples/LietuvaPasasInput',
+  title: 'Headless/LietuvaPasasInput',
   component: LietuvaPasasInput,
   tags: ['autodocs']
 } satisfies Meta<typeof LietuvaPasasInput>;

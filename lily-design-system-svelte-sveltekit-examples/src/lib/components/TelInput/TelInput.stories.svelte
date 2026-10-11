@@ -3,7 +3,7 @@
   import TelInput from './TelInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TelInput',
+    title: 'Headless/TelInput',
     component: TelInput,
   });
 </script>

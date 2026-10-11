@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Command from './Command.vue';
 
 const meta = {
-  title: 'Examples/Command',
+  title: 'Headless/Command',
   component: Command,
   tags: ['autodocs']
 } satisfies Meta<typeof Command>;

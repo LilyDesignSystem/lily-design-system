@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 
 import Subject from "./NetPromoterScorePicker.svelte";
@@ -69,4 +69,36 @@ describe("NetPromoterScorePicker", () => {
     const radios = screen.getAllByRole("radio") as HTMLInputElement[];
     expect(radios[0].name).toBe("score");
   });
+});
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(props: Record<string, unknown>): HTMLFormElement {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    render(Subject, { target: form, props });
+    return form;
+}
+
+const afterReset = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+describe("form reset", () => {
+    test("a form reset restores the initial value, in the radios and in what the form submits", async () => {
+        const form = inForm({ label: "Rating", name: "nps", value: "7" });
+        const pickRadio = form.querySelector<HTMLInputElement>('input[value="9"]')!;
+        await fireEvent.click(pickRadio);
+        expect(new FormData(form).get("nps")).toBe("9");
+        form.reset();
+        await afterReset();
+        expect(form.querySelector<HTMLInputElement>('input:checked')?.value).toBe("7");
+        expect(new FormData(form).get("nps")).toBe("7");
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const form = inForm({ label: "Rating", name: "nps", value: "7" });
+        await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="9"]')!);
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        expect(new FormData(form).get("nps")).toBe("9");
+    });
 });

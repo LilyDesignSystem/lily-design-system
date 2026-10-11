@@ -1,79 +1,117 @@
 # Tag
 
-## Overview
+A headless inline tag for labels, categories, keywords, or status indicators. Rendered as a `<span>` with `role="status"` and an accessible label.
 
-A headless tag for displaying labels, categories, keywords, or status
-indicators. Renders as an inline <span> with role="status" and an accessible
-label, creating an implicit live region so screen readers announce content
-changes. Commonly used in content management, product listings, article
-metadata, and filtering interfaces to visually group or classify content.
+## What it is
+
+A Svelte 5 headless component that renders `<span class="tag ...">` with `role="status"` and `aria-label`. The visible text is supplied via the `children` snippet.
 
 ## What it does
 
-A keyword label for categorizing content.
+- Renders an inline tag element.
+- Applies `role="status"` - which is an implicit polite live region. New content inside the tag will be announced by screen readers.
+- Applies `aria-label` so screen readers read an expanded phrase beyond the visible text (for example, "Priority: High" instead of just "High").
+- Spreads `...restProps` onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when you need a keyword label for categorizing content.
+- Category or topic chips on a blog post or article.
+- Status chips (Active, Pending, Done).
+- Keywords in a metadata area.
+- Any short label that groups or classifies content.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Removable chips backed by a button - compose with a real `<button>` child or use `TagInput` for typed entry.
+- Live, assertive alerts - use `Alert` or `role="alert"`.
+- Multi-item tag strips - use `TagGroup` to wrap several tags.
+- Counters or score badges - use `Badge`.
 
-## Usage
+## How to use it
 
-```svelte
-<Tag label="Category">Design</Tag>
-```
+1. Import the component.
+2. Supply a translated `label`.
+3. Put visible text in `children`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for screen readers via aria-label. |
-| `children` | Snippet, required | The tag's visible content (text, etc.). |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
+- `class` (string, optional, default `""`) - merged with the base `tag` class.
+- `label` (string, required) - accessible label via `aria-label`.
+- `children` (Snippet, required) - visible tag content.
+- `...restProps` - spread onto the `<span>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Status tag -->
-<Tag label="Status">Active</Tag>
-
-<!-- Priority tag with expanded context -->
-<Tag label="Priority: High">High</Tag>
-```
-
-## SvelteKit example
+Simple category tag:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Tag from "#lib/components/Tag/Tag.svelte";
+    import Tag from "./Tag.svelte";
 </script>
 
 <Tag label="Category">Design</Tag>
 ```
 
-## Keyboard
+Status tag:
 
-- None -- tags are informational, not interactive
+```svelte
+<script lang="ts">
+    import Tag from "./Tag.svelte";
+</script>
+
+<Tag label="Status">Active</Tag>
+```
+
+Descriptive label:
+
+```svelte
+<script lang="ts">
+    import Tag from "./Tag.svelte";
+</script>
+
+<Tag label="Priority: High">High</Tag>
+```
+
+Multiple tags (consider wrapping with `TagGroup`):
+
+```svelte
+<script lang="ts">
+    import Tag from "./Tag.svelte";
+    import TagGroup from "../TagGroup/TagGroup.svelte";
+</script>
+
+<TagGroup label="Technologies">
+    <Tag label="Technology">Svelte</Tag>
+    <Tag label="Technology">TypeScript</Tag>
+    <Tag label="Technology">Vite</Tag>
+</TagGroup>
+```
+
+Inline within text:
+
+```svelte
+<script lang="ts">
+    import Tag from "./Tag.svelte";
+</script>
+
+<p>This post is filed under <Tag label="Topic">Accessibility</Tag>.</p>
+```
 
 ## Accessibility
 
-- role="status" enables live region announcements for screen readers
-- aria-label provides expanded context beyond the visible tag text
+- `role="status"` makes the tag an implicit polite live region; dynamic updates to its content will be announced.
+- `aria-label` provides an expanded phrase for screen readers.
+- Ensure color contrast is sufficient if you render styled tags in consumer CSS.
 
-## Internationalization
+References:
+- WAI-ARIA `status` role: https://www.w3.org/TR/wai-aria-1.2/#status
 
-- The label prop externalizes user-facing text for translation
-- All visible content is provided through the children snippet
-- No hardcoded strings in the component
+## Related components
 
-## References
-
-- WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
+- `TagGroup` - container for multiple tags.
+- `TagInput` - text input for creating tags.
+- `Badge` - count/status badge.
+- `Flair` - decorative highlight.
 
 ---
 

@@ -101,12 +101,13 @@ standard file set (`index.md`, `README.md` symlink, `AGENTS.md` containing `@AGE
 `+page.svelte` (copy a sibling's and adjust).
 
 **6. Implementations — all seven frameworks.** Svelte is canonical:
-implement `lily-design-system-svelte-headless/src/lib/components/{Pascal}/`
-first ({Pascal}.svelte + .test.ts + .stories.svelte + index.md), copy
-into the SvelteKit app's `src/lib/components/{Pascal}/`, then port to
-react, vue, angular, html, and blazor headless (+ their example-app
-copies) and nunjucks (`components/{slug}/macro.njk` + macro.test.js +
-index.md). Follow the suffix→element mapping and a sibling component's
+implement `lily-design-system-svelte-headless/components/{Pascal}/`
+first ({Pascal}.svelte + .test.ts + .stories.svelte + index.md), then port to
+react, vue, angular, html, and blazor headless and nunjucks
+(`components/{slug}/macro.njk` + macro.test.js + index.md). Then run
+`bin/sync-example-components`: the SvelteKit, Next.js, Nuxt and Angular
+example apps keep copies of their library's components, and `bin/test`
+fails if a copy differs. Never edit an example's copy directly. Follow the suffix→element mapping and a sibling component's
 idiom in each framework.
 
 > Honesty note: `bin/test` currently machine-gates the svelte,

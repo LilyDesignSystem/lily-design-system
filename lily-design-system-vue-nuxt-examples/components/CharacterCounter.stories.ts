@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CharacterCounter from './CharacterCounter.vue';
 
 const meta = {
-  title: 'Examples/CharacterCounter',
+  title: 'Headless/CharacterCounter',
   component: CharacterCounter,
   tags: ['autodocs']
 } satisfies Meta<typeof CharacterCounter>;

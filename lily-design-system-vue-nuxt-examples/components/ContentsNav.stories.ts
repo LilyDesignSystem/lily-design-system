@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ContentsNav from './ContentsNav.vue';
 
 const meta = {
-  title: 'Examples/ContentsNav',
+  title: 'Headless/ContentsNav',
   component: ContentsNav,
   tags: ['autodocs']
 } satisfies Meta<typeof ContentsNav>;

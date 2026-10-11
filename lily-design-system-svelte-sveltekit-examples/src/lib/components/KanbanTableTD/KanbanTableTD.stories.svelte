@@ -3,7 +3,7 @@
   import KanbanTableTD from './KanbanTableTD.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/KanbanTableTD',
+    title: 'Headless/KanbanTableTD',
     component: KanbanTableTD,
   });
 </script>

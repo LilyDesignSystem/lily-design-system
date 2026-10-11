@@ -1,80 +1,115 @@
 # BeachBall
 
-## Overview
+A loading / waiting indicator inspired by the macOS spinning beach-ball cursor. Renders a `<div role="status">` that exposes `aria-busy` and `aria-live="polite"`, with an inner `<span aria-hidden="true">` (only while active) for the consumer to animate.
 
-A headless loading/waiting indicator inspired by the macOS spinning beach
-ball cursor. Renders a <div> with role="status" and an inner <span> animation
-target when active. Commonly used to indicate background processing, page
-loads, or any busy state where the system is working on a task.
+## What it is
+
+A headless Svelte 5 component for signalling that the system is busy. Category: loading / progress primitive, alongside `Loading`, `ProgressSpinner`, `ProgressCircle`, `Progress`, and `Skeleton`.
 
 ## What it does
 
-A decorative animated beach ball element.
+- Renders `<div class="beach-ball {className}" role="status" aria-label={label} aria-busy={active} aria-live="polite" data-active={active}>`.
+- When `active` is true, renders an inner `<span aria-hidden="true"></span>` as the animation target.
+- `aria-busy` reflects the `active` prop so AT knows when the region is loading.
+- Spreads additional HTML attributes onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a decorative animated beach ball element.
+- Passive indication that a background task is in progress.
+- Inline indicator next to content that is being fetched.
+- Full-region busy state where you want AT to announce the label politely.
 
-## When not to use
+## When not to use it
 
-- Do not use for operations that complete almost instantly — avoid spinner flicker.
+- For determinate progress — use `Progress` or `ProgressCircle`.
+- For skeleton placeholders — use `Skeleton`.
+- For a simple spinner with no beach-ball metaphor — use `ProgressSpinner` or `Loading`.
+- For urgent "please wait" modal messages — use `AlertDialog` with `Loading` content.
 
-## Usage
+## How to use it
 
-```svelte
-<BeachBall label="Loading content" />
-```
+Import `BeachBall` from `./BeachBall.svelte`. Always pass `label`. Toggle `active` to start/stop.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible description of what is loading, applied via aria-label. |
-| `active` | boolean, default true | Whether the loading indicator is currently active. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` — string, default `""`. CSS class appended to `beach-ball`.
+- `label` — string, required. Accessible description of what is loading.
+- `active` — boolean, default `true`.
+- `...restProps` — additional HTML attributes spread onto the `<div>`.
 
-## Examples
+## Usage
+
+### Always-on loading indicator
 
 ```svelte
-<!-- Conditional loading indicator -->
-<BeachBall label="Processing request" active={isLoading} />
+<script lang="ts">
+  import BeachBall from './BeachBall.svelte';
+</script>
 
-<!-- Always-visible loading indicator -->
 <BeachBall label="Fetching data" />
 ```
 
-## SvelteKit example
+### Toggled by fetch state
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BeachBall from "#lib/components/BeachBall/BeachBall.svelte";
+  import BeachBall from './BeachBall.svelte';
+
+  let loading = $state(true);
+
+  $effect(() => {
+    setTimeout(() => (loading = false), 2000);
+  });
 </script>
 
-<BeachBall label="Loading content" />
+<BeachBall label="Processing request" active={loading} />
 ```
 
-## Keyboard
+### Inline with content
 
-- None — this is a passive informational indicator, not interactive.
+```svelte
+<script lang="ts">
+  import BeachBall from './BeachBall.svelte';
+
+  let saving = $state(false);
+</script>
+
+<p>Status: {saving ? 'Saving...' : 'Saved'} <BeachBall label="Saving" active={saving} /></p>
+```
+
+### With custom class and data hooks
+
+```svelte
+<BeachBall label="Loading results" class="large" data-testid="results-spinner" />
+```
+
+### Localized label
+
+```svelte
+<script lang="ts">
+  import BeachBall from './BeachBall.svelte';
+
+  const label = 'Cargando contenido';
+</script>
+
+<BeachBall {label} />
+```
 
 ## Accessibility
 
-- role="status" identifies this as a status region for screen readers
-- aria-live="polite" announces loading state changes without interrupting the user
-- aria-busy reflects the active prop, signaling loading in progress
-- aria-label describes what is loading, set from the label prop
-- data-active attribute mirrors the active state for CSS selectors
+- `role="status"` gives the region a polite live announcement.
+- `aria-busy` reflects activity; screen readers can interpret it as "loading in progress".
+- `aria-label` from the `label` prop describes what is loading.
+- `data-active` is a CSS hook, not for AT.
+- Not interactive; not keyboard reachable.
 
-## Internationalization
+## Related components
 
-- All text comes through the label prop; no hardcoded strings
-
-## References
-
-- WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
-- ARIA aria-busy: https://www.w3.org/TR/wai-aria-1.2/#aria-busy
+- `Loading` — generic loading text/image/animation.
+- `ProgressSpinner` — indeterminate spinner.
+- `ProgressCircle` — circular (determinate) progress.
+- `Progress` — linear progress bar.
+- `Skeleton` — placeholder shimmer blocks.
 
 ---
 

@@ -3,7 +3,7 @@
   import InformationCallout from './InformationCallout.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/InformationCallout',
+    title: 'Headless/InformationCallout',
     component: InformationCallout,
   });
 </script>

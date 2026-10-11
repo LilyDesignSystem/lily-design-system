@@ -1,83 +1,115 @@
 # ToggleButton
 
-## Overview
+A binary on/off toggle rendered as a `<button type="button" role="switch">` with `aria-checked` reflecting the bindable `pressed` state, supporting Space-to-toggle keyboard interaction.
 
-A headless binary on/off toggle button using role="switch". Renders a
-<button> with aria-checked to communicate state. Supports click and
-keyboard (Space key) interaction. The pressed state is bindable for
-two-way data flow. Commonly used for settings like dark mode,
-notifications, or feature flags.
+## What it is
+
+`ToggleButton` is a headless Svelte 5 component that implements the WAI-ARIA switch pattern. It renders a native `<button>` with `role="switch"` and uses `aria-checked` to communicate on/off state. The `pressed` state is bindable for two-way data flow.
 
 ## What it does
 
-A button that toggles between pressed and unpressed states.
+- Renders `<button class="toggle-button {className}" type="button" role="switch" aria-checked={pressed} aria-label={label}>`.
+- Toggles `pressed` on `click` (unless disabled).
+- Toggles `pressed` when `Space` is pressed (preventing default page scroll) unless disabled.
+- Forwards `disabled`.
+- Renders optional `children` content inside the button.
+- Spreads additional HTML attributes onto the `<button>`.
 
-## When to use
+## When to use it
 
-- Use for an in-page action (not navigation).
+- Dark mode / light mode toggles.
+- Feature flags in settings panels.
+- Mute/unmute, notifications on/off, autoplay on/off.
+- Any binary state that benefits from switch semantics.
 
-## When not to use
+## When not to use it
 
-- Do not use for navigation to another URL — use a link instead.
+- Don't use it for triggering actions — use a plain `Button` or `ToolBarButton`.
+- Don't use it for mutually exclusive options — use `RadioGroup` / `SegmentGroup`.
+- Don't use it for multi-select toggles — use `CheckboxGroup`.
+- Don't use it for pressed-state buttons where a switch role is semantically wrong — use a plain `<button>` with `aria-pressed`.
+
+## How to use it
+
+Import, bind `pressed`, and pass a translated `label`. Optionally render visible content via `children`.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `toggle-button`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `pressed` — boolean, default `false`, bindable via `bind:pressed`. Whether the toggle is on.
+- `disabled` — boolean, default `false`. Whether the toggle is disabled.
+- `children` — Snippet, optional. Button content.
+- `...restProps` — any additional HTML attributes spread onto the `<button>`.
 
 ## Usage
 
 ```svelte
-<ToggleButton label="Dark mode" bind:pressed />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `pressed` | boolean, default false | Whether the toggle is on. Bindable. |
-| `disabled` | boolean, default false | Whether the toggle is disabled. |
-| `children` | Snippet, optional | Button content. |
-| `...restProps` | additional HTML attributes spread onto the <button> |  |
-
-## Examples
-
-```svelte
-<!-- Dark mode toggle -->
-<ToggleButton label="Dark mode" bind:pressed />
-
-<!-- Mute toggle with disabled state -->
-<ToggleButton label="Mute audio" bind:pressed={muted} disabled={locked} />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ToggleButton from "#lib/components/ToggleButton/ToggleButton.svelte";
+  import ToggleButton from "./ToggleButton.svelte";
+
+  let dark = $state(false);
 </script>
 
-<ToggleButton label="Dark mode" bind:pressed />
+<ToggleButton label="Dark mode" bind:pressed={dark} />
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import ToggleButton from "./ToggleButton.svelte";
 
-- Space: toggles between on and off states
-- Enter: activates the button (native button behavior)
+  let muted = $state(false);
+  let locked = $state(false);
+</script>
+
+<ToggleButton label="Mute audio" bind:pressed={muted} disabled={locked}>
+  {muted ? "Muted" : "Audible"}
+</ToggleButton>
+```
+
+```svelte
+<script lang="ts">
+  import ToggleGroup from "../ToggleGroup/ToggleGroup.svelte";
+  import ToggleButton from "./ToggleButton.svelte";
+
+  let bold = $state(false);
+  let italic = $state(false);
+  let underline = $state(false);
+</script>
+
+<ToggleGroup label="Text formatting">
+  <ToggleButton label="Bold" bind:pressed={bold}>B</ToggleButton>
+  <ToggleButton label="Italic" bind:pressed={italic}>I</ToggleButton>
+  <ToggleButton label="Underline" bind:pressed={underline}>U</ToggleButton>
+</ToggleGroup>
+```
+
+```svelte
+<script lang="ts">
+  import ToggleButton from "./ToggleButton.svelte";
+
+  let autosave = $state(true);
+</script>
+
+<ToggleButton label="Autosave" bind:pressed={autosave}>
+  Autosave: {autosave ? "On" : "Off"}
+</ToggleButton>
+```
 
 ## Accessibility
 
-- role="switch" identifies the element as a two-state toggle
-- aria-checked={pressed} communicates the current state
-- aria-label={label} provides the accessible name
+- `role="switch"` identifies the element as a two-state control.
+- `aria-checked` reflects the current state.
+- `aria-label` provides the accessible name.
+- `Space` and click both toggle state; the component prevents `Space`'s default page scroll.
+- `disabled` removes the button from the tab sequence and is conveyed natively.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded strings
-
-## References
-
-- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
-- WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
+- `ToggleGroup` — container grouping related toggle buttons.
+- `SwitchButton` — traditional on/off switch styled toggle.
+- `Button` — standard button for actions.
+- `CheckboxInput` — checkbox equivalent for form-submission contexts.
 
 ---
 

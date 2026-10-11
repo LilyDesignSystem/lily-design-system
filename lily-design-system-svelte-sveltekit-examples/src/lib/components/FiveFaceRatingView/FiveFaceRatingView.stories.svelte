@@ -3,7 +3,7 @@
   import FiveFaceRatingView from './FiveFaceRatingView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FiveFaceRatingView',
+    title: 'Headless/FiveFaceRatingView',
     component: FiveFaceRatingView,
   });
 </script>

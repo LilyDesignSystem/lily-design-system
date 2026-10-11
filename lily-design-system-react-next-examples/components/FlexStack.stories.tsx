@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import FlexStack from './FlexStack';
 
 const meta = {
-  title: 'Examples/FlexStack',
+  title: 'Headless/FlexStack',
   component: FlexStack,
   tags: ['autodocs']
 } satisfies Meta<typeof FlexStack>;

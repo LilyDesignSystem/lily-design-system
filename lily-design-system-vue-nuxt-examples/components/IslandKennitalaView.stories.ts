@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import IslandKennitalaView from './IslandKennitalaView.vue';
 
 const meta = {
-  title: 'Examples/IslandKennitalaView',
+  title: 'Headless/IslandKennitalaView',
   component: IslandKennitalaView,
   tags: ['autodocs']
 } satisfies Meta<typeof IslandKennitalaView>;

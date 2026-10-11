@@ -3,7 +3,7 @@
   import ContentBlock from './ContentBlock.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ContentBlock',
+    title: 'Headless/ContentBlock',
     component: ContentBlock,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ErrorSummary from './ErrorSummary.vue';
 
 const meta = {
-  title: 'Examples/ErrorSummary',
+  title: 'Headless/ErrorSummary',
   component: ErrorSummary,
   tags: ['autodocs']
 } satisfies Meta<typeof ErrorSummary>;

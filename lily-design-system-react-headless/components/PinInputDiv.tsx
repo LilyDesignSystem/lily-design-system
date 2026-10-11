@@ -58,6 +58,11 @@ export interface PinInputDivProps {
     label: string;
     /** Number of digit inputs to render */
     length?: number;
+    /**
+     * Each digit input's accessible name, e.g. (n, of) => `Digit ${n} of ${of}`.
+     * Without it each input is named by `label`: no English default.
+     */
+    digitLabel?: (position: number, length: number) => string;
     /** Combined string of all entered digits */
     value?: string;
     /** Whether all inputs are disabled */
@@ -71,13 +76,46 @@ export default function PinInputDiv({
     className = "",
     label,
     length = 4,
+    digitLabel,
     value = "",
     disabled = false,
     onChange,
     ...restProps
 }: PinInputDivProps) {
-    const [digits, setDigits] = useState<string[]>(() => Array.from({ length }, () => ""));
+    // Seeded from the initial `value`, which used to be ignored.
+    const initialDigits = useRef(
+        Array.from({ length }, (_, i) => (/^[0-9]$/.test(value[i] ?? "") ? value[i] : "")),
+    );
+    const [digits, setDigits] = useState<string[]>(() => [...initialDigits.current]);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+    // Form reset: the inputs are controlled, so a reset changes the DOM without
+    // telling React, and the component would keep a value the form no longer
+    // submits. Restore the initial value instead — one tick later, after the
+    // browser has reset the DOM, and not when the reset was cancelled.
+    const rootRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const root = rootRef.current;
+        const form = root?.closest("form");
+        if (!root || !form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                setDigits([...initialDigits.current]);
+                inputRefs.current.forEach((input, i) => {
+                    if (input) input.value = initialDigits.current[i];
+                });
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Sync combined value to parent
     useEffect(() => {
@@ -128,6 +166,7 @@ export default function PinInputDiv({
 
     return (
         <div
+            ref={rootRef}
             className={`pin-input-div ${className}`}
             role="group"
             aria-label={label}
@@ -140,7 +179,7 @@ export default function PinInputDiv({
                     type="text"
                     inputMode="numeric"
                     maxLength={1}
-                    aria-label={`Digit ${index + 1} of ${length}`}
+                    aria-label={digitLabel ? digitLabel(index + 1, length) : label}
                     value={digits[index]}
                     disabled={disabled}
                     onInput={(e) => handleInput(index, e)}

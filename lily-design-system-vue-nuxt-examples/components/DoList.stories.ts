@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DoList from './DoList.vue';
 
 const meta = {
-  title: 'Examples/DoList',
+  title: 'Headless/DoList',
   component: DoList,
   tags: ['autodocs']
 } satisfies Meta<typeof DoList>;

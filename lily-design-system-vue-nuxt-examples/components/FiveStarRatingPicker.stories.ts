@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FiveStarRatingPicker from './FiveStarRatingPicker.vue';
 
 const meta = {
-  title: 'Examples/FiveStarRatingPicker',
+  title: 'Headless/FiveStarRatingPicker',
   component: FiveStarRatingPicker,
   tags: ['autodocs']
 } satisfies Meta<typeof FiveStarRatingPicker>;

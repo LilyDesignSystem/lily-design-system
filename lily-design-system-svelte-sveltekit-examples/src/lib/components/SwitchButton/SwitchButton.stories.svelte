@@ -3,7 +3,7 @@
   import SwitchButton from './SwitchButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SwitchButton',
+    title: 'Headless/SwitchButton',
     component: SwitchButton,
   });
 </script>

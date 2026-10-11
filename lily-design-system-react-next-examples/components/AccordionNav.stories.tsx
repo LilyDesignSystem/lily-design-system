@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AccordionNav from './AccordionNav';
 
 const meta = {
-  title: 'Examples/AccordionNav',
+  title: 'Headless/AccordionNav',
   component: AccordionNav,
   tags: ['autodocs']
 } satisfies Meta<typeof AccordionNav>;

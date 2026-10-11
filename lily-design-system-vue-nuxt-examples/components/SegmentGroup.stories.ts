@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SegmentGroup from './SegmentGroup.vue';
 
 const meta = {
-  title: 'Examples/SegmentGroup',
+  title: 'Headless/SegmentGroup',
   component: SegmentGroup,
   tags: ['autodocs']
 } satisfies Meta<typeof SegmentGroup>;

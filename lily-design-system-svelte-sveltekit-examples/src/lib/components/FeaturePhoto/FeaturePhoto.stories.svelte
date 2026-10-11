@@ -3,7 +3,7 @@
   import FeaturePhoto from './FeaturePhoto.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FeaturePhoto',
+    title: 'Headless/FeaturePhoto',
     component: FeaturePhoto,
   });
 </script>

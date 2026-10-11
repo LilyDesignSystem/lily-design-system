@@ -228,7 +228,8 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
         build();
         tabbableCells()[0].dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
         await flush();
-        document.activeElement!.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+        key(listbox()!, "ArrowDown");
+        key(listbox()!, "Enter");
         await flush();
         expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
     });
@@ -236,5 +237,117 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
     test("§8.12 extra attributes spread onto the root", () => {
         build({ "data-testid": "board-root" });
         expect(document.querySelector('[data-testid="board-root"]')).toBeTruthy();
+    });
+});
+
+function key(el: Element, k: string, init: KeyboardEventInit = {}): void {
+    el.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true, ...init }));
+}
+
+function listbox(): HTMLElement | null {
+    return document.querySelector('[role="listbox"]');
+}
+
+describe("KanbanBoard — focus, tab stop and move edge cases", () => {
+    test("§8.8 after a move, focus and the tab stop follow the card to its new column", async () => {
+        const wrapper = build({
+            labels: LABELS,
+            onMove: (id: string, columnId: string) =>
+                wrapper.setProps({ cards: CARDS.map((c) => (c.id === id ? { ...c, columnId } : c)) }),
+        });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        optionByName("Done")!.click();
+        await flush();
+        await flush();
+        expect(document.activeElement).toBe(moveButton("Move Card One"));
+        expect(tabbableCells()).toHaveLength(1);
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("2");
+    });
+
+    test("§8.14 keys pressed in the open move menu do not move the grid cursor or focus", async () => {
+        build({ labels: LABELS });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        const menu = listbox()!;
+        expect(document.activeElement).toBe(menu);
+        key(menu, "ArrowDown");
+        key(menu, "ArrowRight");
+        await flush();
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("0");
+        expect(document.activeElement).toBe(menu);
+    });
+
+    test("§8.14 choosing a destination in the menu does not reopen it", async () => {
+        build({ labels: LABELS });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        key(listbox()!, "ArrowDown");
+        key(listbox()!, "Enter");
+        await flush();
+        await flush();
+        expect(listbox()).toBeNull();
+    });
+
+    test("§8.15 choosing the card's own column, or dropping it there, is not a move", async () => {
+        const wrapper = build({ labels: LABELS });
+        key(tabbableCells()[0], "Enter");
+        await flush();
+        optionByName("To Do")!.click();
+        await flush();
+        expect(listbox()).toBeNull();
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
+
+        const title = Array.from(document.querySelectorAll(".kanban-board-card-title")).find(
+            (el) => el.textContent?.trim() === "Card One",
+        )!;
+        const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+        const drag = new Event("dragstart", { bubbles: true });
+        Object.assign(drag, { dataTransfer });
+        title.dispatchEvent(drag);
+        const drop = new Event("drop", { bubbles: true, cancelable: true });
+        Object.assign(drop, { dataTransfer });
+        bodyRows()[1].querySelectorAll(".kanban-table-td")[0].dispatchEvent(drop);
+        expect(wrapper.emitted("move")).toBeUndefined();
+    });
+
+    test("§8.16 when the board shrinks under the cursor, one cell stays tabbable", async () => {
+        const wrapper = build();
+        key(tabbableCells()[0], "End");
+        await flush();
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("1");
+        await wrapper.setProps({ cards: CARDS.filter((c) => c.id !== "c2" && c.id !== "c4") });
+        expect(bodyRows()).toHaveLength(1);
+        expect(tabbableCells()).toHaveLength(1);
+    });
+
+    test("§8.16 focusing a cell by pointer moves the cursor there", async () => {
+        build();
+        const cell = bodyRows()[1].querySelectorAll<HTMLElement>(".kanban-table-td")[1];
+        cell.focus();
+        await flush();
+        expect(tabbableCells()).toEqual([cell]);
+        key(cell, "ArrowUp");
+        await flush();
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("0");
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+    });
+
+    test("§8.13 without labels.moveButton there is no unnamed button; the menu is named by the card and Escape refocuses the cell", async () => {
+        build();
+        expect(document.querySelector(".kanban-board-move-button")).toBeNull();
+        const cell = tabbableCells()[0];
+        key(cell, "Enter");
+        await flush();
+        expect(listbox()!.getAttribute("aria-label")).toBe("Card One");
+        key(listbox()!, "Escape");
+        await flush();
+        await flush();
+        expect(document.activeElement).toBe(cell);
+    });
+
+    test("§8.3 a column exactly at its wipLimit is not over it", () => {
+        build({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS });
+        expect(document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit")).toBe(false);
     });
 });

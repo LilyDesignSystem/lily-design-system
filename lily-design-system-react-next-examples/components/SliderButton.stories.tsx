@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SliderButton from './SliderButton';
 
 const meta = {
-  title: 'Examples/SliderButton',
+  title: 'Headless/SliderButton',
   component: SliderButton,
   tags: ['autodocs']
 } satisfies Meta<typeof SliderButton>;

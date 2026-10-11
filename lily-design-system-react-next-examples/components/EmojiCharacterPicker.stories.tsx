@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EmojiCharacterPicker from './EmojiCharacterPicker';
 
 const meta = {
-  title: 'Examples/EmojiCharacterPicker',
+  title: 'Headless/EmojiCharacterPicker',
   component: EmojiCharacterPicker,
   tags: ['autodocs']
 } satisfies Meta<typeof EmojiCharacterPicker>;

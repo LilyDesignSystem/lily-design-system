@@ -3,7 +3,7 @@
   import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PasswordInputOrTextInputDiv',
+    title: 'Headless/PasswordInputOrTextInputDiv',
     component: PasswordInputOrTextInputDiv,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DateTimeNowInput from './DateTimeNowInput.vue';
 
 const meta = {
-  title: 'Examples/DateTimeNowInput',
+  title: 'Headless/DateTimeNowInput',
   component: DateTimeNowInput,
   tags: ['autodocs']
 } satisfies Meta<typeof DateTimeNowInput>;

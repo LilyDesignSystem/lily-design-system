@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import ContentsLink from "./ContentsLink.svelte";
     const { Story } = defineMeta({
-        title: "Examples/ContentsLink",
+        title: "Headless/ContentsLink",
         component: ContentsLink,
     });
 </script>

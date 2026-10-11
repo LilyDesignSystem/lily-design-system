@@ -418,3 +418,132 @@ class AttrHost {
   readonly range = RANGE;
   readonly tasks = TASKS;
 }
+
+describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => {
+  function flush(): Promise<void> {
+    return new Promise((r) => setTimeout(r, 0));
+  }
+
+  async function settle(fixture: ComponentFixture<unknown>): Promise<void> {
+    fixture.detectChanges();
+    await flush();
+    fixture.detectChanges();
+  }
+
+  function startField(fixture: ComponentFixture<unknown>): HTMLInputElement | null {
+    return (fixture.nativeElement as HTMLElement).querySelector<HTMLInputElement>(
+      ".gantt-chart-edit-row .date-time-picker-input",
+    );
+  }
+
+  function editButton(fixture: ComponentFixture<unknown>, className: string): HTMLElement {
+    return (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      `.gantt-chart-edit-row button.${className}`,
+    )!;
+  }
+
+  test("§8.17 depth is a data-depth attribute, never an inline style", () => {
+    const fixture = mount();
+    const rowHeaders = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(".gantt-table-tbody .gantt-table-th"),
+    );
+    expect(rowHeaders.map((h) => h.dataset["depth"])).toEqual(["0", "0", "0", "0", "1", "1"]);
+    expect(rowHeaders.filter((h) => h.hasAttribute("style"))).toHaveLength(0);
+  });
+
+  test("§8.17 a task whose parentId names no task renders as a top-level row", () => {
+    const orphan: GanttTask = {
+      id: "orphan",
+      label: "Orphan",
+      start: "2026-10-02",
+      end: "2026-10-02",
+      parentId: "gone",
+    };
+    expect(flattenTasks([...TASKS, orphan], new Set()).map((r) => r.task.id)).toContain("orphan");
+  });
+
+  test("§8.17 a parentId cycle does not recurse forever", () => {
+    const cycle: GanttTask[] = [
+      { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", parentId: "b" },
+      { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", parentId: "a" },
+    ];
+    expect(() => effectiveRange(cycle[0], cycle)).not.toThrow();
+  });
+
+  test("§8.8 when collapsing removes the row under the cursor, one cell stays tabbable", () => {
+    const fixture = mount({ labels: LABELS });
+    press(fixture, tabbableCells(fixture)[0], "End", { ctrlKey: true });
+    expect(tabbableCells(fixture)[0].getAttribute("data-row")).toBe("5");
+    const collapse = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      '[aria-label="Collapse Phase 1"]',
+    )!;
+    click(fixture, collapse);
+    expect(rows(fixture)).toHaveLength(4);
+    expect(tabbableCells(fixture)).toHaveLength(1);
+  });
+
+  test("§8.8 focusing a cell by pointer moves the cursor there", () => {
+    const fixture = mount();
+    const cell = rows(fixture)[2].querySelectorAll<HTMLElement>(".gantt-table-td")[4];
+    cell.focus();
+    fixture.detectChanges();
+    expect(tabbableCells(fixture)).toEqual([cell]);
+  });
+
+  test("§8.9 opening the edit region moves focus to the start date's field", async () => {
+    const fixture = mount({ labels: LABELS });
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    await settle(fixture);
+    expect(document.activeElement).toBe(startField(fixture));
+  });
+
+  test("§8.11 Escape cancels the edit region and returns focus to the task's cell", async () => {
+    const fixture = mount({ labels: LABELS });
+    const onChange = vi.fn();
+    fixture.componentInstance.taskChange.subscribe(onChange as (e: GanttTaskChangeEvent) => void);
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    await settle(fixture);
+    press(fixture, startField(fixture)!, "Escape");
+    await settle(fixture);
+    expect(fixture.nativeElement.querySelector(".gantt-chart-edit-row")).toBeNull();
+    expect(onChange).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(tabbableCells(fixture)[0]);
+  });
+
+  test("§8.10 Save returns focus to the grid", async () => {
+    const fixture = mount({ labels: LABELS });
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    await settle(fixture);
+    click(fixture, editButton(fixture, "gantt-chart-save-button"));
+    await settle(fixture);
+    expect(document.activeElement).toBe(tabbableCells(fixture)[0]);
+  });
+
+  test("§8.10 a range entered end-first is saved start-first", async () => {
+    const fixture = mount({ labels: LABELS });
+    const onChange = vi.fn();
+    fixture.componentInstance.taskChange.subscribe(onChange as (e: GanttTaskChangeEvent) => void);
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    await settle(fixture);
+    const field = startField(fixture)!;
+    field.value = "2026-10-09";
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+    field.dispatchEvent(new Event("change", { bubbles: true }));
+    field.dispatchEvent(new FocusEvent("blur"));
+    await settle(fixture);
+    click(fixture, editButton(fixture, "gantt-chart-save-button"));
+    expect(onChange).toHaveBeenCalledWith({ taskId: "design", start: "2026-10-03", end: "2026-10-09" });
+  });
+
+  test("§8.16 controls whose labels are absent do not render unnamed", () => {
+    const fixture = mount({ labels: { dateTimePickerLabels: DTP_LABELS } });
+    expect(fixture.nativeElement.querySelector(".gantt-chart-collapse-button")).toBeNull();
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    expect(fixture.nativeElement.querySelector(".gantt-chart-edit-row")).toBeNull();
+  });
+
+  test("§8.16 labels.taskColumnHeader names the leading header cell", () => {
+    const fixture = mount({ labels: { ...LABELS, taskColumnHeader: "Task" } });
+    expect(headers(fixture)[0].textContent?.trim()).toBe("Task");
+  });
+});

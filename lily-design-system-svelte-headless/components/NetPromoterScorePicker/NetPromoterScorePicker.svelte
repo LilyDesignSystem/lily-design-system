@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { untrack } from "svelte";
     // NetPromoterScorePicker component
     //
     // A headless Net Promoter Score (NPS) rating input that renders a fieldset
@@ -69,10 +70,38 @@
         name?: string;
         [key: string]: unknown;
     } = $props();
+
+    // Form reset: the radios use a one-way `checked`, which a reset clears
+    // without telling this component, so `value` would keep a rating the form no
+    // longer submits. Restore the initial value instead — one tick later, after
+    // the browser has reset the DOM, and not when the reset was cancelled.
+    let root: HTMLFieldSetElement | undefined = $state();
+    const initialValue = untrack(() => value);
+    $effect(() => {
+        const form = root?.form ?? root?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented || !root) return;
+                value = initialValue;
+                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                    input.checked = input.value === String(initialValue);
+                }
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    });
 </script>
 
 <!-- NetPromoterScorePicker: a fieldset radiogroup with 11 radio buttons (0-10) -->
 <fieldset
+    bind:this={root}
     class={`net-promoter-score-picker ${className}`}
     role="radiogroup"
     aria-label={label}

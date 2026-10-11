@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import HrvatskaOsobniIdentifikacijskiBrojView from './HrvatskaOsobniIdentifikacijskiBrojView.vue';
 
 const meta = {
-  title: 'Examples/HrvatskaOsobniIdentifikacijskiBrojView',
+  title: 'Headless/HrvatskaOsobniIdentifikacijskiBrojView',
   component: HrvatskaOsobniIdentifikacijskiBrojView,
   tags: ['autodocs']
 } satisfies Meta<typeof HrvatskaOsobniIdentifikacijskiBrojView>;

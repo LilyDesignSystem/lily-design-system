@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen } from "@testing-library/svelte";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
@@ -16,7 +16,7 @@ describe("FiveFaceRatingPicker", () => {
   });
 
   test("has all 5 default labels", () => {
-    render(Subject, { props: { label: "Experience" } });
+    render(Subject, { props: { label: "Experience", labels: ["Very bad", "Bad", "Okay", "Good", "Very good"] } });
     expect(screen.getByText("Very bad")).toBeTruthy();
     expect(screen.getByText("Bad")).toBeTruthy();
     expect(screen.getByText("Okay")).toBeTruthy();
@@ -84,5 +84,45 @@ describe("FiveFaceRatingPicker", () => {
   test("passes through attributes", () => {
     render(Subject, { props: { label: "E", "data-testid": "fr" } });
     expect(screen.getByTestId("fr")).toBeTruthy();
+  });
+});
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(props: Record<string, unknown>): HTMLFormElement {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    render(Subject, { target: form, props });
+    return form;
+}
+
+const afterReset = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+describe("form reset", () => {
+    test("a form reset restores the initial value, in the radios and in what the form submits", async () => {
+        const form = inForm({ label: "Rating", name: "face", value: 2 });
+        const pickRadio = form.querySelector<HTMLInputElement>('input[value="4"]')!;
+        await fireEvent.click(pickRadio);
+        expect(new FormData(form).get("face")).toBe("4");
+        form.reset();
+        await afterReset();
+        expect(form.querySelector<HTMLInputElement>('input:checked')?.value).toBe("2");
+        expect(new FormData(form).get("face")).toBe("2");
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const form = inForm({ label: "Rating", name: "face", value: 2 });
+        await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="4"]')!);
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        expect(new FormData(form).get("face")).toBe("4");
+    });
+});
+
+describe("no English default", () => {
+  test("without labels the options are the numbers 1 to 5", () => {
+    render(Subject, { props: { label: "Feedback" } });
+    for (const n of ["1", "2", "3", "4", "5"]) expect(screen.getByLabelText(n)).toBeTruthy();
+    expect(screen.queryByText(/bad|good|okay/i)).toBeNull();
   });
 });

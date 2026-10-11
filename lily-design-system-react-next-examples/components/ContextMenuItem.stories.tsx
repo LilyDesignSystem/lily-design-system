@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ContextMenuItem from './ContextMenuItem';
 
 const meta = {
-  title: 'Examples/ContextMenuItem',
+  title: 'Headless/ContextMenuItem',
   component: ContextMenuItem,
   tags: ['autodocs']
 } satisfies Meta<typeof ContextMenuItem>;

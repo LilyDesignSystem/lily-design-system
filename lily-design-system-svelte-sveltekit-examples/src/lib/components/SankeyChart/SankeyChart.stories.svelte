@@ -3,7 +3,7 @@
   import SankeyChart from './SankeyChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SankeyChart',
+    title: 'Headless/SankeyChart',
     component: SankeyChart,
   });
 </script>

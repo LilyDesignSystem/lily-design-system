@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Hint from './Hint';
 
 const meta = {
-  title: 'Examples/Hint',
+  title: 'Headless/Hint',
   component: Hint,
   tags: ['autodocs']
 } satisfies Meta<typeof Hint>;

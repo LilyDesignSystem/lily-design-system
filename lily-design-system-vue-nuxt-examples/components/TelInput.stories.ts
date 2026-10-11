@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TelInput from './TelInput.vue';
 
 const meta = {
-  title: 'Examples/TelInput',
+  title: 'Headless/TelInput',
   component: TelInput,
   tags: ['autodocs']
 } satisfies Meta<typeof TelInput>;

@@ -3,7 +3,7 @@
   import ImageCropper from './ImageCropper.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ImageCropper',
+    title: 'Headless/ImageCropper',
     component: ImageCropper,
   });
 </script>

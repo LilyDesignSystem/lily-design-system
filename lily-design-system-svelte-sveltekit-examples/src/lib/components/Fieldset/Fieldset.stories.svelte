@@ -3,7 +3,7 @@
   import Fieldset from './Fieldset.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Fieldset',
+    title: 'Headless/Fieldset',
     component: Fieldset,
   });
 </script>

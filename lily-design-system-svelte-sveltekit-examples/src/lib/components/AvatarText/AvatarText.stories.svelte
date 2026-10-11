@@ -3,7 +3,7 @@
   import AvatarText from './AvatarText.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AvatarText',
+    title: 'Headless/AvatarText',
     component: AvatarText,
   });
 </script>

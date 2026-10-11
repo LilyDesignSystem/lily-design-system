@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ValidationList from './ValidationList.vue';
 
 const meta = {
-  title: 'Examples/ValidationList',
+  title: 'Headless/ValidationList',
   component: ValidationList,
   tags: ['autodocs']
 } satisfies Meta<typeof ValidationList>;

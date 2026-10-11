@@ -3,7 +3,7 @@
   import Tooltip from './Tooltip.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Tooltip',
+    title: 'Headless/Tooltip',
     component: Tooltip,
   });
 </script>

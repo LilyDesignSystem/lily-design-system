@@ -5,11 +5,25 @@
     a keyword label for categorizing content
 *@
 
-<span class="@($"tag {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+@if (Live)
+{
+    <span class="@($"tag {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+}
+else if (!string.IsNullOrEmpty(Label))
+{
+    @* Not a live region: aria-label is not allowed on a plain <span>, so the label is screen-reader text appended after the content (the themes hide .screen-reader-span). The content stays exposed: it may hold a focusable control, such as a remove button. *@
+    <span class="@($"tag {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent<span class="screen-reader-span">@Label</span></span>
+}
+else
+{
+    <span class="@($"tag {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</span>
+}
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Announce changes: a role="status" live region. Off by default.</summary>
+    [Parameter] public bool Live { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

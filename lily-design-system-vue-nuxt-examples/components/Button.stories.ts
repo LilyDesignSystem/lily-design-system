@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Button from './Button.vue';
 
 const meta = {
-  title: 'Examples/Button',
+  title: 'Headless/Button',
   component: Button,
   tags: ['autodocs']
 } satisfies Meta<typeof Button>;

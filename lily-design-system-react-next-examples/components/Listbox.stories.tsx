@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Listbox from './Listbox';
 
 const meta = {
-  title: 'Examples/Listbox',
+  title: 'Headless/Listbox',
   component: Listbox,
   tags: ['autodocs']
 } satisfies Meta<typeof Listbox>;

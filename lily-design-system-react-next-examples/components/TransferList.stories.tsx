@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TransferList from './TransferList';
 
 const meta = {
-  title: 'Examples/TransferList',
+  title: 'Headless/TransferList',
   component: TransferList,
   tags: ['autodocs']
 } satisfies Meta<typeof TransferList>;

@@ -89,7 +89,7 @@ Class hooks: `.kanban-board`, `.kanban-board-th`, `.kanban-board-td`,
 
 ## WIP limits
 
-Set `wipLimit` on a `KanbanColumn`. A column at or over its limit gets
+Set `wipLimit` on a `KanbanColumn`. A column over its limit (more cards than the limit) gets
 `data-over-limit` on its header cell and, when `labels.overLimit` is
 supplied, a warning message. This is a styling hook only — moves are
 never blocked.

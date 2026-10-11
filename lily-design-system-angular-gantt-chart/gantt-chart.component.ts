@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Injector,
+  afterNextRender,
   ElementRef,
   computed,
   inject,
@@ -60,6 +62,8 @@ export type GanttTimeUnit = "day" | "week" | "month";
  * label-gating convention. See spec/index.md §5.
  */
 export type GanttLabels = {
+  /** Header for the leading task-label column; an empty header cell otherwise. */
+  taskColumnHeader?: string;
   columnLabel?: (start: string, end: string, timeUnit: GanttTimeUnit) => string;
   /** Carried for API parity with the Svelte reference; unused there too. */
   editButton?: (task: GanttTask) => string;
@@ -138,14 +142,19 @@ function overlaps(aStart: string, aEnd: string, bStart: string, bEnd: string): b
 
 export type GanttFlatRow = { task: GanttTask; depth: number; hasChildren: boolean };
 
-/** Depth-first flatten of the parentId tree, skipping collapsed subtrees. */
+/**
+ * Depth-first flatten of the parentId tree, skipping collapsed subtrees.
+ * A task whose `parentId` names no task is a top-level row, not dropped.
+ */
 export function flattenTasks(
   tasks: GanttTask[],
   collapsed: ReadonlySet<string>,
 ): GanttFlatRow[] {
+  const ids = new Set(tasks.map((t) => t.id));
   const childrenOf = new Map<string | undefined, GanttTask[]>();
   for (const task of tasks) {
-    const key = task.parentId;
+    const key =
+      task.parentId != null && ids.has(task.parentId) ? task.parentId : undefined;
     const list = childrenOf.get(key) ?? [];
     list.push(task);
     childrenOf.set(key, list);
@@ -167,16 +176,51 @@ export function effectiveRange(
   task: GanttTask,
   allTasks: GanttTask[],
 ): { start: string; end: string } {
-  const children = allTasks.filter((t) => t.parentId === task.id);
-  if (children.length === 0) return { start: task.start, end: task.end };
-  let start = "";
-  let end = "";
-  for (const child of children) {
-    const r = effectiveRange(child, allTasks);
-    if (!start || compareISO(r.start, start) < 0) start = r.start;
-    if (!end || compareISO(r.end, end) > 0) end = r.end;
+  return (
+    effectiveRanges(allTasks).get(task.id) ?? { start: task.start, end: task.end }
+  );
+}
+
+/**
+ * Every task's effective range in one pass over the tree — computed once per
+ * `tasks` change rather than re-walking every parent's subtree on each render.
+ * A `parentId` cycle cannot recurse forever: a task already on the walk is
+ * read as a leaf.
+ */
+export function effectiveRanges(
+  tasks: GanttTask[],
+): Map<string, { start: string; end: string }> {
+  const childrenOf = new Map<string, GanttTask[]>();
+  for (const task of tasks) {
+    if (task.parentId == null) continue;
+    const list = childrenOf.get(task.parentId) ?? [];
+    list.push(task);
+    childrenOf.set(task.parentId, list);
   }
-  return { start, end };
+  const ranges = new Map<string, { start: string; end: string }>();
+  const onWalk = new Set<string>();
+  function visit(task: GanttTask): { start: string; end: string } {
+    const known = ranges.get(task.id);
+    if (known) return known;
+    const children = childrenOf.get(task.id) ?? [];
+    if (children.length === 0 || onWalk.has(task.id)) {
+      return { start: task.start, end: task.end };
+    }
+    onWalk.add(task.id);
+    let start = "";
+    let end = "";
+    for (const child of children) {
+      const r = visit(child);
+      if (!start || compareISO(r.start, start) < 0) start = r.start;
+      if (!end || compareISO(r.end, end) > 0) end = r.end;
+    }
+    onWalk.delete(task.id);
+    const range = { start, end };
+    ranges.set(task.id, range);
+    return range;
+  }
+  for (const task of tasks) ranges.set(task.id, visit(task));
+  return ranges;
 }
 
 let uid = 0;
@@ -214,7 +258,11 @@ export function nextGanttChartId(): string {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #rootEl class="gantt-chart {{ className() }}">
-      <lily-gantt-table [label]="label()" (keydown)="onGridKeydown($event)">
+      <lily-gantt-table
+        [label]="label()"
+        (keydown)="onGridKeydown($event)"
+        (focusin)="onGridFocusin($event)"
+      >
         @if (caption()) {
           <!-- GanttTable has no "caption" input (Angular headless
                deviation from the Svelte contract); a <caption> element
@@ -224,7 +272,7 @@ export function nextGanttChartId(): string {
         }
         <thead lily-gantt-table-thead>
           <tr lily-gantt-table-tr>
-            <th lily-gantt-table-th scope="col"></th>
+            <th lily-gantt-table-th scope="col">{{ labels().taskColumnHeader ?? "" }}</th>
             @for (column of columns(); track column.start) {
               @let colToday = isTodayColumn(column);
               <th lily-gantt-table-th scope="col" [attr.data-today]="colToday ? '' : null">{{
@@ -239,13 +287,14 @@ export function nextGanttChartId(): string {
             @let deps = predecessorLabels(row.task);
             @let hasDeps = deps.length > 0 && !!labels().dependencySummary;
             <tr lily-gantt-table-tr>
-              <th lily-gantt-table-th scope="row" [style.padding-inline-start.em]="row.depth">
-                @if (row.hasChildren) {
+              <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
+              <th lily-gantt-table-th scope="row" [attr.data-depth]="row.depth">
+                @if (row.hasChildren && labels().collapseButton) {
                   <button
                     type="button"
                     class="gantt-chart-collapse-button"
                     [attr.aria-expanded]="!collapsedIds().has(row.task.id)"
-                    [attr.aria-label]="labels().collapseButton?.(row.task, collapsedIds().has(row.task.id)) ?? ''"
+                    [attr.aria-label]="labels().collapseButton!(row.task, collapsedIds().has(row.task.id))"
                     (click)="toggleCollapse(row.task.id)"
                   >{{ collapsedIds().has(row.task.id) ? "▸" : "▾" }}</button>
                 }
@@ -284,9 +333,9 @@ export function nextGanttChartId(): string {
                 </td>
               }
             </tr>
-            @if (editingTaskId() === row.task.id && labels().dateTimePickerLabels) {
+            @if (editingTaskId() === row.task.id && canEdit()) {
               <tr class="gantt-chart-edit-row">
-                <td [attr.colspan]="columns().length + 1">
+                <td [attr.colspan]="columns().length + 1" (keydown)="onEditKeydown($event)">
                   <lily-date-time-picker
                     [label]="labels().startLabel ?? ''"
                     [labels]="labels().dateTimePickerLabels!"
@@ -302,12 +351,13 @@ export function nextGanttChartId(): string {
                   <button
                     type="button"
                     class="gantt-chart-save-button"
+                    [disabled]="!editStart() || !editEnd()"
                     (click)="saveEdit(row.task)"
                   >{{ labels().saveLabel ?? "" }}</button>
                   <button
                     type="button"
                     class="gantt-chart-cancel-button"
-                    (click)="cancelEdit()"
+                    (click)="closeEdit()"
                   >{{ labels().cancelLabel ?? "" }}</button>
                 </td>
               </tr>
@@ -350,6 +400,7 @@ export class GanttChart implements AfterViewInit {
 
   private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly injector = inject(Injector);
 
   protected readonly statusMessage = signal("");
   protected readonly collapsedIds = signal(new Set<string>());
@@ -364,6 +415,22 @@ export class GanttChart implements AfterViewInit {
 
   protected readonly columns = computed(() => generateColumns(this.range(), this.timeUnit()));
   protected readonly rows = computed(() => flattenTasks(this.tasks(), this.collapsedIds()));
+  private readonly ranges = computed(() => effectiveRanges(this.tasks()));
+
+  // The roving cursor, clamped to the cells that exist now: collapsing a parent
+  // can remove the row it named, and the grid must never leave the tab order.
+  protected readonly activeRow = computed(() => Math.min(this.focusedRow(), this.rows().length - 1));
+  protected readonly activeCol = computed(() =>
+    Math.min(this.focusedCol(), this.columns().length - 1),
+  );
+
+  /** Editing needs every label its controls show; an unnamed Save is worse than none. */
+  protected readonly canEdit = computed(() => {
+    const l = this.labels();
+    return (
+      !!l.dateTimePickerLabels && !!l.startLabel && !!l.endLabel && !!l.saveLabel && !!l.cancelLabel
+    );
+  });
 
   /**
    * Angular's headless `GanttTable` (unlike the Svelte reference this
@@ -383,7 +450,9 @@ export class GanttChart implements AfterViewInit {
   }
 
   protected rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
-    return hasChildren ? effectiveRange(task, this.tasks()) : { start: task.start, end: task.end };
+    return hasChildren
+      ? (this.ranges().get(task.id) ?? task)
+      : { start: task.start, end: task.end };
   }
 
   /** Exposed as a bound method so the template (which can only call
@@ -399,7 +468,7 @@ export class GanttChart implements AfterViewInit {
   }
 
   protected isFocused(rowIndex: number, colIndex: number): boolean {
-    return this.focusedRow() === rowIndex && this.focusedCol() === colIndex;
+    return this.activeRow() === rowIndex && this.activeCol() === colIndex;
   }
 
   private announce(message: string | undefined): void {
@@ -439,19 +508,46 @@ export class GanttChart implements AfterViewInit {
   }
 
   protected openEdit(task: GanttTask): void {
-    if (!this.labels().dateTimePickerLabels) return;
+    if (!this.canEdit()) return;
     this.editingTaskId.set(task.id);
     this.editStart.set(task.start);
     this.editEnd.set(task.end);
+    // Focus moves into the region it opened, onto the start date's field.
+    this.cdr.detectChanges();
+    this.afterRender(() =>
+      this.rootRef()
+        .nativeElement.querySelector<HTMLElement>(".gantt-chart-edit-row .date-time-picker-input")
+        ?.focus({ preventScroll: true }),
+    );
   }
 
+  /** A range entered end-first is saved start-first; Save is disabled while either date is empty. */
   protected saveEdit(task: GanttTask): void {
-    this.applyChange(task, this.editStart(), this.editEnd());
-    this.editingTaskId.set(null);
+    const a = this.editStart();
+    const b = this.editEnd();
+    if (!a || !b) return;
+    const [start, end] = compareISO(a, b) <= 0 ? [a, b] : [b, a];
+    this.applyChange(task, start, end);
+    this.closeEdit();
   }
 
-  protected cancelEdit(): void {
+  /** Closing either way returns focus to the grid's tab stop, on the edited task's row. */
+  protected closeEdit(): void {
     this.editingTaskId.set(null);
+    this.focusActiveCell();
+  }
+
+  protected onEditKeydown(event: KeyboardEvent): void {
+    // Escape cancels, unless a date picker's own dialog used it to close itself.
+    if (event.key === "Escape" && !event.defaultPrevented) {
+      event.preventDefault();
+      this.closeEdit();
+    }
+  }
+
+  /** Run after the next render, when the DOM matches the state just set. */
+  private afterRender(fn: () => void): void {
+    afterNextRender(fn, { injector: this.injector });
   }
 
   protected onBarDragStart(task: GanttTask, event: DragEvent): void {
@@ -480,11 +576,19 @@ export class GanttChart implements AfterViewInit {
   // ---------------------------------------------------------------
 
   private focusActiveCell(): void {
-    queueMicrotask(() => {
+    this.afterRender(() =>
       this.rootRef()
         .nativeElement.querySelector<HTMLElement>('.gantt-table-td[tabindex="0"]')
-        ?.focus({ preventScroll: true });
-    });
+        ?.focus({ preventScroll: true }),
+    );
+  }
+
+  /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+  protected onGridFocusin(event: FocusEvent): void {
+    const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+    if (!cell) return;
+    this.focusedRow.set(Number(cell.dataset["row"]));
+    this.focusedCol.set(Number(cell.dataset["col"]));
   }
 
   private moveFocus(row: number, col: number): void {
@@ -501,34 +605,34 @@ export class GanttChart implements AfterViewInit {
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
-        this.moveFocus(this.focusedRow() - 1, this.focusedCol());
+        this.moveFocus(this.activeRow() - 1, this.activeCol());
         break;
       case "ArrowDown":
         event.preventDefault();
-        this.moveFocus(this.focusedRow() + 1, this.focusedCol());
+        this.moveFocus(this.activeRow() + 1, this.activeCol());
         break;
       case "ArrowLeft":
         event.preventDefault();
-        this.moveFocus(this.focusedRow(), this.focusedCol() - 1);
+        this.moveFocus(this.activeRow(), this.activeCol() - 1);
         break;
       case "ArrowRight":
         event.preventDefault();
-        this.moveFocus(this.focusedRow(), this.focusedCol() + 1);
+        this.moveFocus(this.activeRow(), this.activeCol() + 1);
         break;
       case "Home":
         event.preventDefault();
         if (ctrlOrMeta) this.moveFocus(0, 0);
-        else this.moveFocus(this.focusedRow(), 0);
+        else this.moveFocus(this.activeRow(), 0);
         break;
       case "End":
         event.preventDefault();
         if (ctrlOrMeta) this.moveFocus(this.rows().length - 1, this.columns().length - 1);
-        else this.moveFocus(this.focusedRow(), this.columns().length - 1);
+        else this.moveFocus(this.activeRow(), this.columns().length - 1);
         break;
       case "Enter":
       case " ": {
         event.preventDefault();
-        const row = this.rows()[this.focusedRow()];
+        const row = this.rows()[this.activeRow()];
         if (row && !row.hasChildren) this.openEdit(row.task);
         break;
       }

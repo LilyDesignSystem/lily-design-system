@@ -3,7 +3,7 @@
   import Input from './Input.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Input',
+    title: 'Headless/Input',
     component: Input,
   });
 </script>

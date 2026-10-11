@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ScatterChart from './ScatterChart';
 
 const meta = {
-  title: 'Examples/ScatterChart',
+  title: 'Headless/ScatterChart',
   component: ScatterChart,
   tags: ['autodocs']
 } satisfies Meta<typeof ScatterChart>;

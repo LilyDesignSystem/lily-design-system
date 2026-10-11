@@ -3,7 +3,7 @@
   import Details from './Details.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Details',
+    title: 'Headless/Details',
     component: Details,
   });
 </script>

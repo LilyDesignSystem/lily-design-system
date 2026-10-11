@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import GrailLayoutRightAside from './GrailLayoutRightAside';
 
 const meta = {
-  title: 'Examples/GrailLayoutRightAside',
+  title: 'Headless/GrailLayoutRightAside',
   component: GrailLayoutRightAside,
   tags: ['autodocs']
 } satisfies Meta<typeof GrailLayoutRightAside>;

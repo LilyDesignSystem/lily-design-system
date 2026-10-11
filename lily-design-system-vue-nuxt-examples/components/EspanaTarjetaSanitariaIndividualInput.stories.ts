@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import EspanaTarjetaSanitariaIndividualInput from './EspanaTarjetaSanitariaIndividualInput.vue';
 
 const meta = {
-  title: 'Examples/EspanaTarjetaSanitariaIndividualInput',
+  title: 'Headless/EspanaTarjetaSanitariaIndividualInput',
   component: EspanaTarjetaSanitariaIndividualInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EspanaTarjetaSanitariaIndividualInput>;

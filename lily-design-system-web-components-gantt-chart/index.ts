@@ -18,12 +18,13 @@ import {
   GanttChart,
   compareISO,
   effectiveRange,
+  effectiveRanges,
   endOfMonth,
   flattenTasks,
   generateColumns,
   nextGanttChartId,
 } from "./gantt-chart.js";
-export { GanttChart, compareISO, effectiveRange, endOfMonth, flattenTasks, generateColumns, nextGanttChartId };
+export { GanttChart, compareISO, effectiveRange, effectiveRanges, endOfMonth, flattenTasks, generateColumns, nextGanttChartId };
 export type {
   GanttChartProps,
   GanttColumn,

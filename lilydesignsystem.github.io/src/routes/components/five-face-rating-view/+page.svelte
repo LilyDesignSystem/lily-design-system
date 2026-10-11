@@ -85,7 +85,7 @@
     <ul>
       <li><code>value</code>: number (required) -- rating value (1-5) to display</li>
       <li><code>label</code>: string (required) -- accessible description via <code>aria-label</code></li>
-      <li><code>labels</code>: string[] (default: <code>["Very bad", "Bad", "Okay", "Good", "Very good"]</code>) -- text labels for each face</li>
+      <li><code>labels</code>: string[] (default: <code>["1", "2", "3", "4", "5"]</code>; no English default) -- text labels for each face</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;span&gt;</code></li>
     </ul>
 </section>

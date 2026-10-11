@@ -3,7 +3,7 @@
   import KanbanTableFoot from './KanbanTableFoot.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/KanbanTableFoot',
+    title: 'Headless/KanbanTableFoot',
     component: KanbanTableFoot,
   });
 </script>

@@ -1,80 +1,88 @@
 # Character
 
-## Overview
+A headless component for displaying a single character, glyph, symbol, or emoji with proper accessibility semantics. Meaningful characters are announced to screen readers via `role="img"` and `aria-label`; decorative characters are hidden via `aria-hidden="true"` and `role="presentation"`.
 
-A headless component for displaying a single character, glyph, symbol, or
-emoji with proper accessibility semantics. When the character conveys meaning
-(like a checkmark for success), it uses role="img" with aria-label. When
-purely decorative, it hides from assistive technologies. Useful for initials,
-status indicators, rating symbols, and decorative flourishes.
+## What it is
+
+Character renders a `<span>` wrapper around a single glyph. It determines accessibility treatment based on the `decorative` prop: when `false` (default), it requires a `label` so assistive technologies describe the glyph; when `true`, it is hidden from assistive technology entirely.
 
 ## What it does
 
-A single character display element.
+- Renders `<span role="img" aria-label={label}>` for meaningful characters.
+- Renders `<span role="presentation" aria-hidden="true">` for decorative characters.
+- Accepts any single-character content via `children`.
 
-## When to use
+## When to use it
 
-- Use when you need a single character display element.
+- Displaying a status icon, initial letter, rating symbol, or meaningful emoji that must be announced to screen readers.
+- Placing a decorative glyph that should be skipped by assistive technology.
+- When a single character needs consistent accessibility semantics rather than plain text.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For multi-character text — use plain markup or `BodyText`.
+- For actual icons with SVG content — use `Icon`.
+- For an emoji picker — use `EmojiCharacterPicker`.
+
+## How to use it
+
+Wrap the glyph in `<Character>`. Always provide `label` when the character conveys meaning; set `decorative` to `true` otherwise.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `label` | `string` | `undefined` | Accessible name used when not decorative. |
+| `decorative` | `boolean` | `false` | Hide from assistive technology. |
+| `children` | `Snippet` | required | The character to display. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<span>`. |
 
 ## Usage
 
 ```svelte
-<Character label="Check mark">✓</Character>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, optional | Accessible description of the character for screen readers. |
-| `decorative` | boolean, default false | When true, hides the character from assistive technology. |
-| `children` | Snippet, required | The character to display. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
-
-## Examples
-
-```svelte
-<!-- Meaningful character with accessible label -->
-<Character label="Warning symbol">⚠</Character>
-
-<!-- Decorative character hidden from screen readers -->
-<Character decorative>★</Character>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Character from "#lib/components/Character/Character.svelte";
+    import Character from "./Character.svelte";
 </script>
 
 <Character label="Check mark">✓</Character>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import Character from "./Character.svelte";
+</script>
 
-- None — this component is a passive display element.
+<Character label="Warning">⚠</Character>
+```
+
+```svelte
+<script lang="ts">
+    import Character from "./Character.svelte";
+</script>
+
+<Character decorative>★</Character>
+```
+
+```svelte
+<script lang="ts">
+    import Character from "./Character.svelte";
+</script>
+
+<p>Press <Character label="Return key">⏎</Character> to submit.</p>
+```
 
 ## Accessibility
 
-- role="img" when the character is meaningful (decorative is false)
-- role="presentation" when decorative is true, removing semantic meaning
-- aria-label provides the accessible name for meaningful characters
-- aria-hidden="true" when decorative, hiding from the accessibility tree
+- Meaningful glyphs get `role="img"` with `aria-label`; this is the recommended WAI-ARIA pattern for a non-text character that carries meaning.
+- Decorative glyphs get `aria-hidden="true"` and `role="presentation"`, so they are skipped in screen-reader output.
+- Avoid passing more than one glyph so the `role="img"` represents a single atomic concept.
 
-## Internationalization
+## Related components
 
-- Label text comes through the label prop; no hardcoded strings
-
-## References
-
-- WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
+- `Emoji` — emoji-specific variant with accessibility semantics.
+- `Icon` — container for SVG icons.
+- `ScreenReaderSpan` — visually hidden text intended only for screen readers.
 
 ---
 

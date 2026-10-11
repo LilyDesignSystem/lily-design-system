@@ -1053,6 +1053,38 @@
         }
     }
 
+    // Form reset. The visible field uses a one-way `value`, so a reset blanked
+    // it while `value` — and the hidden input the form submits — kept the date:
+    // the field showed nothing and the form still sent the old value. Restore
+    // the initial value instead, one tick later (after the browser has reset the
+    // DOM) and not when the reset was cancelled. Like a native reset, it fires
+    // no change callback.
+    const initialValue = untrack(() => value);
+    const initialTimeZone = untrack(() => timeZone);
+    $effect(() => {
+        const form = rootEl?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                closeDialog(false);
+                typed = null;
+                invalid = false;
+                value = initialValue;
+                timeZone = initialTimeZone;
+                const field = rootEl?.querySelector<HTMLInputElement>(".date-time-picker-input");
+                if (field) field.value = (formatValue ?? defaultFormat)(initialValue ?? "");
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    });
+
     /** Commit the pending selection to `value` and notify. */
     function commit(): void {
         const next = joinValue(pendingDate, pendingTime, mode);

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AlbaCommunityHealthIndexView from './AlbaCommunityHealthIndexView';
 
 const meta = {
-  title: 'Examples/AlbaCommunityHealthIndexView',
+  title: 'Headless/AlbaCommunityHealthIndexView',
   component: AlbaCommunityHealthIndexView,
   tags: ['autodocs']
 } satisfies Meta<typeof AlbaCommunityHealthIndexView>;

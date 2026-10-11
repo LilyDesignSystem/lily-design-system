@@ -1,83 +1,119 @@
 # Editable
 
-## Overview
+An inline-editable text control that toggles between a display `<span role="button">` and an edit `<input type="text">`. Press Enter to confirm, Escape to cancel.
 
-An inline-editable text component that toggles between a read-only display
-and an input field for editing. In display mode it renders a <span> with
-role="button"; in edit mode it renders an <input type="text">. Pressing
-Enter confirms the edit and Escape cancels it, reverting to the original value.
+## What it is
+
+`Editable` is a headless inline-edit primitive. In display mode it shows the current value inside a focusable `<span role="button">`. Activating it (Enter, Space, or click) swaps the span for an `<input>` that edits an internal draft value. Enter commits the draft back to `value`; Escape reverts the draft and returns to display mode.
 
 ## What it does
 
-An inline-editable text element that toggles between view and edit modes.
+- Renders either a `<span role="button">` (display) or an `<input type="text">` (edit).
+- Uses an internal draft `$state` so cancelling reverts without losing the original.
+- Binds both `value` (committed value) and `editing` (mode flag) via `$bindable()`.
+- Handles Enter (commit), Space (start editing), and Escape (cancel).
+- Respects `disabled` with `aria-disabled` and `tabindex="-1"`.
 
-## When to use
+## When to use it
 
-- Use to display structured tabular data with headers and rows.
+- Inline editable profile fields, titles, captions, list item names.
+- Settings entries that allow quick edits without navigating away.
+- Any place where click-to-edit is a better UX than a separate form.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- When the edit must go through a form with validation and a Save button. Use `EditableForm` or a plain `Form`.
+- For multi-line text. Wrap a `TextAreaInput` inside an `EditableForm` instead.
+- For selection values. Use `Select`, `Combobox`, or `RadioGroup`.
 
-## Usage
+## How to use it
+
+Bind `value` and provide an accessible `label`.
 
 ```svelte
-<Editable label="Name" bind:value />
+<script lang="ts">
+    import Editable from "./Editable.svelte";
+    let name = $state("Alice");
+</script>
+
+<Editable label="Name" bind:value={name} />
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | string, default "" | Current text value; bindable. |
-| `label` | string, required | Accessible name for the editable control. |
-| `editing` | boolean, default false | Whether the component is in edit mode; bindable. |
-| `disabled` | boolean, default false | Whether editing is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <span> or <input> |  |
+| Prop       | Type      | Default | Description                                  |
+| ---------- | --------- | ------- | -------------------------------------------- |
+| `class`    | `string`  | `""`    | CSS class appended to the base class.       |
+| `value`    | `string`  | `""`    | Current committed value. Bindable.           |
+| `label`    | `string`  | required| Accessible name via `aria-label`.            |
+| `editing`  | `boolean` | `false` | Whether in edit mode. Bindable.              |
+| `disabled` | `boolean` | `false` | Whether editing is disabled.                 |
+| `...rest`  | `unknown` | —       | Additional HTML attributes on span or input. |
 
-## Examples
+## Usage
+
+### 1. Basic inline edit
 
 ```svelte
-<!-- Basic inline edit -->
-<Editable label="Name" bind:value />
+<script lang="ts">
+    import Editable from "./Editable.svelte";
+    let title = $state("Untitled");
+</script>
 
-<!-- With external editing state control -->
-<Editable label="Title" bind:value bind:editing />
+<Editable label="Title" bind:value={title} />
 ```
 
-## SvelteKit example
+### 2. External editing control
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Editable from "#lib/components/Editable/Editable.svelte";
+    import Editable from "./Editable.svelte";
+    let value = $state("Alice");
+    let editing = $state(false);
+</script>
+
+<Editable label="Name" bind:value bind:editing />
+<button type="button" onclick={() => editing = true}>Edit</button>
+```
+
+### 3. Disabled
+
+```svelte
+<Editable label="Read-only name" value="System" disabled />
+```
+
+### 4. Multiple editables in a list
+
+```svelte
+{#each items as item}
+    <Editable label={`Name for ${item.id}`} bind:value={item.name} />
+{/each}
+```
+
+### 5. React to commits
+
+```svelte
+<script lang="ts">
+    import Editable from "./Editable.svelte";
+    let value = $state("Alice");
+    $effect(() => { saveToServer(value); });
 </script>
 
 <Editable label="Name" bind:value />
 ```
 
-## Keyboard
-
-- Enter (display mode): activate edit mode
-- Space (display mode): activate edit mode
-- Enter (edit mode): confirm the edit and return to display mode
-- Escape (edit mode): cancel the edit and return to display mode
-
 ## Accessibility
 
-- role="button" on the display span indicates it is activatable
-- aria-label provides the accessible name in both modes
-- aria-disabled on the span when disabled
-- tabindex="0" when enabled, tabindex="-1" when disabled
+- Display mode: `role="button"` with `aria-label`, `tabindex="0"` (or `-1` when disabled).
+- Edit mode: native `<input>` with `aria-label`.
+- Keyboard: Enter commits (both modes), Space starts edit, Escape cancels.
+- `aria-disabled` is set when disabled.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+- `EditableForm` — form-wrapped inline editing with Save/Cancel semantics.
+- `TextInput`, `TextAreaInput` — plain text inputs for explicit forms.
+- `Field` — label + input + error pattern.
 
 ---
 

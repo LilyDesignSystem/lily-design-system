@@ -74,8 +74,8 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="status"</code> -- identifies this as a live region for screen reader announcements of content changes</li>
-      <li><code>aria-label</code> -- provides an accessible name from the <code>label</code> prop, giving expanded context beyond the visible tag text</li>
+      <li>Default: no role; the <code>label</code> is screen-reader text after the content, for context the visible text lacks (visible "High", label "priority": read as "High priority")</li>
+      <li>With <code>live</code>: <code>role="status"</code> (a polite live region) and <code>aria-label</code> from the <code>label</code> prop</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -83,7 +83,8 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (required) -- accessible label for screen readers via <code>aria-label</code></li>
+      <li><code>label</code>: string (required) -- accessible label for screen readers: screen-reader text by default, <code>aria-label</code> when <code>live</code></li>
+      <li><code>live</code>: boolean (default false) -- render a <code>role="status"</code> live region</li>
       <li><code>children</code>: slot (required) -- the tag's visible content (text, etc.)</li>
       <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;span&gt;</code> element</li>
     </ul>

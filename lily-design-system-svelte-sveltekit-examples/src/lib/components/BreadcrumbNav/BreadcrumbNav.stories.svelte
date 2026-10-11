@@ -3,7 +3,7 @@
   import BreadcrumbNav from './BreadcrumbNav.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/BreadcrumbNav',
+    title: 'Headless/BreadcrumbNav',
     component: BreadcrumbNav,
   });
 </script>

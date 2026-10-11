@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CymruRhifYGwasanaethIechydGwladolInput from './CymruRhifYGwasanaethIechydGwladolInput.vue';
 
 const meta = {
-  title: 'Examples/CymruRhifYGwasanaethIechydGwladolInput',
+  title: 'Headless/CymruRhifYGwasanaethIechydGwladolInput',
   component: CymruRhifYGwasanaethIechydGwladolInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CymruRhifYGwasanaethIechydGwladolInput>;

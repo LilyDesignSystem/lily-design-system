@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Sparkline from './Sparkline.vue';
 
 const meta = {
-  title: 'Examples/Sparkline',
+  title: 'Headless/Sparkline',
   component: Sparkline,
   tags: ['autodocs']
 } satisfies Meta<typeof Sparkline>;

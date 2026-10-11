@@ -442,4 +442,127 @@ public class GanttChartTests : TestContext
 
         Assert.NotNull(cut.Find("[data-testid='chart-root']"));
     }
+
+    // =====================================================================
+    // Focus, tab stop, hierarchy and edit edge cases
+    // =====================================================================
+
+    private IEnumerable<string> EvalScripts()
+        => JSInterop.Invocations.Where(i => i.Identifier == "eval").Select(i => (string)i.Arguments[0]!);
+
+    [Fact]
+    public void Section_8_17_Depth_Is_A_Data_Depth_Attribute_Never_An_Inline_Style()
+    {
+        var cut = RenderDefault();
+        var headers = Rows(cut).Select(r => r.QuerySelector(".gantt-table-th")!).ToList();
+        Assert.Equal(new[] { "0", "0", "0", "0", "1", "1" }, headers.Select(h => h.GetAttribute("data-depth")));
+        Assert.DoesNotContain(headers, h => h.HasAttribute("style"));
+    }
+
+    [Fact]
+    public void Section_8_17_A_Task_Whose_ParentId_Names_No_Task_Renders_As_A_Top_Level_Row()
+    {
+        var orphan = new GanttTask { Id = "orphan", Label = "Orphan", Start = "2026-10-02", End = "2026-10-02", ParentId = "gone" };
+        var rows = GanttChart.FlattenTasks(Tasks.Append(orphan).ToList(), new HashSet<string>());
+        Assert.Contains(rows, r => r.Task.Id == "orphan" && r.Depth == 0);
+    }
+
+    [Fact]
+    public void Section_8_17_A_ParentId_Cycle_Does_Not_Recurse_Forever()
+    {
+        var cycle = new[]
+        {
+            new GanttTask { Id = "a", Label = "A", Start = "2026-10-01", End = "2026-10-02", ParentId = "b" },
+            new GanttTask { Id = "b", Label = "B", Start = "2026-10-03", End = "2026-10-04", ParentId = "a" },
+        };
+        var range = GanttChart.EffectiveRange(cycle[0], cycle);
+        Assert.False(string.IsNullOrEmpty(range.Start));
+    }
+
+    [Fact]
+    public void Section_8_8_When_Collapsing_Removes_The_Row_Under_The_Cursor_One_Cell_Stays_Tabbable()
+    {
+        var cut = RenderDefault(labels: Labels);
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "End", CtrlKey = true });
+        Assert.Equal("5", TabbableCells(cut).Single().GetAttribute("data-row"));
+
+        cut.Find("[aria-label='Collapse Phase 1']").Click();
+
+        Assert.Equal(4, Rows(cut).Count);
+        Assert.Single(TabbableCells(cut));
+    }
+
+    [Fact]
+    public async Task Section_8_8_Focusing_A_Cell_By_Pointer_Moves_The_Cursor_There()
+    {
+        var cut = RenderDefault();
+        var cell = Rows(cut)[2].QuerySelectorAll(".gantt-table-td")[4];
+        await cell.TriggerEventAsync("onfocusin", new FocusEventArgs());
+
+        var tabbable = TabbableCells(cut).Single();
+        Assert.Equal("2", tabbable.GetAttribute("data-row"));
+        Assert.Equal("4", tabbable.GetAttribute("data-col"));
+    }
+
+    [Fact]
+    public void Section_8_9_Opening_The_Edit_Region_Moves_Focus_To_The_Start_Field()
+    {
+        var cut = RenderDefault(labels: Labels);
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+
+        var startId = cut.Instance.EditStartInputId;
+        Assert.NotNull(cut.Find($"#{startId}"));
+        Assert.Contains(EvalScripts(), script => script.Contains(startId));
+    }
+
+    [Fact]
+    public async Task Section_8_10_Save_And_Cancel_Return_Focus_To_The_Grid()
+    {
+        var cut = RenderDefault(labels: Labels);
+        var cellId = TabbableCells(cut).Single().GetAttribute("id")!;
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var before = EvalScripts().Count();
+        await cut.Find(".gantt-chart-save-button").ClickAsync(new MouseEventArgs());
+        Assert.Contains(EvalScripts().Skip(before), script => script.Contains(cellId));
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        before = EvalScripts().Count();
+        await cut.Find(".gantt-chart-cancel-button").ClickAsync(new MouseEventArgs());
+        Assert.Contains(EvalScripts().Skip(before), script => script.Contains(cellId));
+    }
+
+    [Fact]
+    public async Task Section_8_10_A_Range_Entered_End_First_Is_Saved_Start_First()
+    {
+        (string, string, string)? captured = null;
+        var cut = RenderDefault(
+            labels: Labels,
+            onTaskChange: EventCallback.Factory.Create<(string, string, string)>(this, args => captured = args));
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+
+        var startField = cut.Find($"#{cut.Instance.EditStartInputId}");
+        startField.Input("2026-10-09");
+        startField.Blur();
+        await cut.Find(".gantt-chart-save-button").ClickAsync(new MouseEventArgs());
+
+        Assert.Equal(("design", "2026-10-03", "2026-10-09"), captured);
+    }
+
+    [Fact]
+    public void Section_8_16_Controls_Whose_Labels_Are_Absent_Do_Not_Render_Unnamed()
+    {
+        var cut = RenderDefault(labels: new GanttLabels { DateTimePickerLabels = DtpLabels });
+        Assert.Empty(cut.FindAll(".gantt-chart-collapse-button"));
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(cut.FindAll(".gantt-chart-edit-row"));
+    }
+
+    [Fact]
+    public void Section_8_16_Labels_TaskColumnHeader_Names_The_Leading_Header_Cell()
+    {
+        var cut = RenderDefault(labels: Labels with { TaskColumnHeader = "Task" });
+        Assert.Equal("Task", cut.Find(".gantt-table-thead .gantt-table-th").TextContent.Trim());
+    }
 }

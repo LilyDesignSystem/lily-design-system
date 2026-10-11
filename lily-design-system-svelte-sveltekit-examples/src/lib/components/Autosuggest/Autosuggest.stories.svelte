@@ -3,7 +3,7 @@
   import Autosuggest from './Autosuggest.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Autosuggest',
+    title: 'Headless/Autosuggest',
     component: Autosuggest,
   });
 </script>

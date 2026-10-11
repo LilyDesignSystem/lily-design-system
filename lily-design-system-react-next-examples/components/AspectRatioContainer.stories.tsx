@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AspectRatioContainer from './AspectRatioContainer';
 
 const meta = {
-  title: 'Examples/AspectRatioContainer',
+  title: 'Headless/AspectRatioContainer',
   component: AspectRatioContainer,
   tags: ['autodocs']
 } satisfies Meta<typeof AspectRatioContainer>;

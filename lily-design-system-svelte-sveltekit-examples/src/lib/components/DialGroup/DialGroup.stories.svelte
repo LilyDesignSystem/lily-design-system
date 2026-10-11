@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import DialGroup from "./DialGroup.svelte";
     const { Story } = defineMeta({
-        title: "Examples/DialGroup",
+        title: "Headless/DialGroup",
         component: DialGroup,
     });
 </script>

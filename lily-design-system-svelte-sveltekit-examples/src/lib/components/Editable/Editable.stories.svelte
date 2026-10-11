@@ -3,7 +3,7 @@
   import Editable from './Editable.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Editable',
+    title: 'Headless/Editable',
     component: Editable,
   });
 </script>

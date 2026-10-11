@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.vue';
 
 const meta = {
-  title: 'Examples/PasswordInputOrTextInputDiv',
+  title: 'Headless/PasswordInputOrTextInputDiv',
   component: PasswordInputOrTextInputDiv,
   tags: ['autodocs']
 } satisfies Meta<typeof PasswordInputOrTextInputDiv>;

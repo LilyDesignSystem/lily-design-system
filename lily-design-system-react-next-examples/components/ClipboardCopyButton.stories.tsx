@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ClipboardCopyButton from './ClipboardCopyButton';
 
 const meta = {
-  title: 'Examples/ClipboardCopyButton',
+  title: 'Headless/ClipboardCopyButton',
   component: ClipboardCopyButton,
   tags: ['autodocs']
 } satisfies Meta<typeof ClipboardCopyButton>;

@@ -3,7 +3,7 @@
   import TaskBar from './TaskBar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TaskBar',
+    title: 'Headless/TaskBar',
     component: TaskBar,
   });
 </script>

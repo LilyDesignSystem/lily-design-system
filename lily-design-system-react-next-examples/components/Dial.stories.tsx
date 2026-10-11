@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Dial from './Dial';
 
 const meta = {
-  title: 'Examples/Dial',
+  title: 'Headless/Dial',
   component: Dial,
   tags: ['autodocs']
 } satisfies Meta<typeof Dial>;

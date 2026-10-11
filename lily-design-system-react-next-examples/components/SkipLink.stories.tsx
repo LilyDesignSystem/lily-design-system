@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SkipLink from './SkipLink';
 
 const meta = {
-  title: 'Examples/SkipLink',
+  title: 'Headless/SkipLink',
   component: SkipLink,
   tags: ['autodocs']
 } satisfies Meta<typeof SkipLink>;

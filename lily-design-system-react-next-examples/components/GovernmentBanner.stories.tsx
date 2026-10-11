@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import GovernmentBanner from './GovernmentBanner';
 
 const meta = {
-  title: 'Examples/GovernmentBanner',
+  title: 'Headless/GovernmentBanner',
   component: GovernmentBanner,
   tags: ['autodocs']
 } satisfies Meta<typeof GovernmentBanner>;

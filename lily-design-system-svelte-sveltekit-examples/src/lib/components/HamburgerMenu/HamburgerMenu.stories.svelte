@@ -3,7 +3,7 @@
   import HamburgerMenu from './HamburgerMenu.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/HamburgerMenu',
+    title: 'Headless/HamburgerMenu',
     component: HamburgerMenu,
   });
 </script>

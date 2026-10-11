@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView';
 
 const meta = {
-  title: 'Examples/TuaisceartEireannHealthAndCareNumberView',
+  title: 'Headless/TuaisceartEireannHealthAndCareNumberView',
   component: TuaisceartEireannHealthAndCareNumberView,
   tags: ['autodocs']
 } satisfies Meta<typeof TuaisceartEireannHealthAndCareNumberView>;

@@ -3,7 +3,7 @@
   import Visible from './Visible.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Visible',
+    title: 'Headless/Visible',
     component: Visible,
   });
 </script>

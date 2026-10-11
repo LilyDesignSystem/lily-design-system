@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AiLabel from './AiLabel.vue';
 
 const meta = {
-  title: 'Examples/AiLabel',
+  title: 'Headless/AiLabel',
   component: AiLabel,
   tags: ['autodocs']
 } satisfies Meta<typeof AiLabel>;

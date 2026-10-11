@@ -1,84 +1,118 @@
 # Progress
 
-## Overview
+A headless progress indicator using the native HTML `<progress>` element. Supports both determinate (with `value`) and indeterminate (when `value` is undefined) progress.
 
-A headless progress indicator using the native HTML <progress> element with
-built-in semantic meaning and accessibility. It supports both determinate
-progress (with a known value and maximum) and indeterminate progress (when
-value is undefined, indicating an ongoing process of unknown duration).
-Commonly used for file uploads, form submissions, loading sequences, and
-installation wizards.
+## What it is
+
+- Component: `Progress`
+- HTML element: `<progress>`
+- Role: implicit `progressbar`
+- Category: status / progress indicator
 
 ## What it does
 
-A horizontal progress bar showing completion.
+- Renders a native `<progress>` with `aria-label`.
+- Accepts `value` (current) and `max` (total); when `value` is `undefined`, the native element displays as indeterminate.
+- Forwards any other HTML attributes onto the `<progress>`.
 
-## When to use
+## When to use it
 
-- Use to communicate completion status of a long-running task.
+- File uploads, form submissions, and long-running operations with measurable progress.
+- Installation or multi-step wizards ("Step 3 of 5").
+- Indeterminate loading where the total is unknown.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For an indeterminate spinner with no linear bar — use `ProgressSpinner`.
+- For a circular percentage indicator — use `ProgressCircle`.
+- For a measurement within a range that isn't about "progress toward completion" — use `Meter`.
+- For a brief loading state inside a button or text — use `Loading` or `Skeleton`.
 
-## Usage
+## How to use it
+
+Import and supply an `aria-label`-worthy description via `label`. Set `value` for determinate progress, omit for indeterminate.
 
 ```svelte
-<Progress label="Upload progress" value={50} />
+import Progress from './Progress.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label describing what process is tracked. |
-| `value` | number, default undefined | Current progress value; undefined means indeterminate. |
-| `max` | number, default 100 | Maximum value representing 100% completion. |
-| `...restProps` | additional HTML attributes spread onto the <progress> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `progress`.
+- `label`: string, required. Accessible name via `aria-label`.
+- `value`: number, default `undefined`. Current value; `undefined` → indeterminate.
+- `max`: number, default `100`. Maximum value (100% complete).
+- `...restProps`: spread onto the `<progress>`.
 
-## Examples
+## Usage
+
+### Determinate progress at 50%
 
 ```svelte
-<!-- Determinate progress at 50% -->
+<script lang="ts">
+  import Progress from './Progress.svelte';
+</script>
+
 <Progress label="Upload progress" value={50} max={100} />
+```
 
-<!-- Indeterminate loading (no value) -->
+### Indeterminate loading
+
+```svelte
+<script lang="ts">
+  import Progress from './Progress.svelte';
+</script>
+
 <Progress label="Loading" />
+```
 
-<!-- Step-based progress (3 of 5 steps) -->
+### Step-based progress (3 of 5)
+
+```svelte
+<script lang="ts">
+  import Progress from './Progress.svelte';
+</script>
+
 <Progress label="Installation" value={3} max={5} />
 ```
 
-## SvelteKit example
+### Animated progress from state
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Progress from "#lib/components/Progress/Progress.svelte";
+  import Progress from './Progress.svelte';
+
+  let percent = $state(0);
+  $effect(() => {
+    const id = setInterval(() => {
+      percent = Math.min(100, percent + 5);
+      if (percent >= 100) clearInterval(id);
+    }, 200);
+    return () => clearInterval(id);
+  });
 </script>
 
-<Progress label="Upload progress" value={50} />
+<Progress label="Upload progress" value={percent} max={100} />
 ```
 
-## Keyboard
+### With a test hook
 
-- None — this is a passive display element that does not accept user input.
+```svelte
+<Progress label="Sync" value={40} data-testid="sync-progress" />
+```
 
 ## Accessibility
 
-- aria-label describes what process the progress bar represents
-- The <progress> element implicitly has role="progressbar" with aria-valuenow,
-- aria-valuemin, and aria-valuemax managed by the browser
+- `<progress>` implicitly has `role="progressbar"` with `aria-valuenow` / `aria-valuemin` / `aria-valuemax` managed by the browser.
+- `aria-label` tells screen readers *what* is progressing.
+- WCAG 2.2 AAA: consumer CSS must provide sufficient contrast for the progress bar.
 
-## Internationalization
+## Related components
 
-- The label prop is the only user-facing text; no hardcoded strings
-
-## References
-
-- MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
-- WAI-ARIA progressbar role: https://www.w3.org/WAI/ARIA/apg/patterns/meter/
+- `ProgressCircle` — circular progress indicator with explicit ARIA values.
+- `ProgressSpinner` — indeterminate spinning indicator.
+- `Meter` — non-progress measurement within a range.
+- `Loading`, `Skeleton` — alternative loading affordances.
 
 ---
 

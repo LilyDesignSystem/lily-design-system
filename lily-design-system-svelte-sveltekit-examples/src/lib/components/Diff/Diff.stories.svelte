@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import Diff from "./Diff.svelte";
     const { Story } = defineMeta({
-        title: "Examples/Diff",
+        title: "Headless/Diff",
         component: Diff,
     });
 </script>

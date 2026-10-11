@@ -1,85 +1,120 @@
 # Details
 
-## Overview
+A disclosure widget built on the native `<details>` and `<summary>` elements. Shows and hides supplementary content on demand with full browser-native accessibility.
 
-A disclosure widget that reveals or hides additional content on demand.
-Built on the native HTML <details> and <summary> elements, it provides
-progressive disclosure with built-in browser accessibility. Common use
-cases include FAQs, collapsible sections, and supplementary explanations.
+## What it is
+
+`Details` is a headless wrapper around the HTML `<details>` element. It renders the provided `summary` text inside a `<summary>` element and the `children` snippet as the expandable content. The `open` state is bindable, so parent components can both read and drive the expanded/collapsed state.
 
 ## What it does
 
-A disclosure widget that shows and hides content.
+- Renders `<details>` with a `<summary>` toggle and a child content region.
+- Binds the `open` attribute for two-way state sync.
+- Leaves all visual styling (arrows, spacing, animation) to consumer CSS.
 
-## When to use
+## When to use it
 
-- Use when you need a disclosure widget that shows and hides content.
+- FAQ items, progressive disclosure, optional explanatory text.
+- Any case where the standards-based `<details>` semantics are sufficient.
+- Content that should remain in the accessible tree and work without JavaScript.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- When you need a custom trigger element (button, link, icon) or an animated content region. Use `Expander` or `Collapsible` instead.
+- When the content must be announced as a dialog or a live region.
+- When you need to control the expanded state via a separate trigger element.
 
-## Usage
+## How to use it
+
+Pass a required `summary` string and wrap the revealed content in the default slot.
 
 ```svelte
-<Details summary="More info">Content here</Details>
+<script lang="ts">
+    import Details from "./Details.svelte";
+</script>
+
+<Details summary="More information">
+    <p>Additional details shown when expanded.</p>
+</Details>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `summary` | string, required | Text displayed in the clickable summary toggle. |
-| `open` | boolean, default false | Whether the details section is expanded; bindable. |
-| `children` | Snippet, required | Content revealed when expanded. |
-| `...restProps` | additional HTML attributes spread onto the <details> element |  |
+| Prop       | Type       | Default  | Description                                      |
+| ---------- | ---------- | -------- | ------------------------------------------------ |
+| `class`    | `string`   | `""`     | CSS class appended to the base class.           |
+| `summary`  | `string`   | required | Text shown in the clickable `<summary>`.         |
+| `open`     | `boolean`  | `false`  | Whether the details section is expanded. Bindable. |
+| `children` | `Snippet`  | required | Content revealed when expanded.                  |
+| `...rest`  | `unknown`  | —        | Additional HTML attributes on the `<details>`.   |
 
-## Examples
+## Usage
+
+### 1. Basic disclosure
 
 ```svelte
-<!-- Basic disclosure -->
-<Details summary="More information">
-  <p>Additional details shown when expanded.</p>
-</Details>
-
-<!-- Two-way binding with parent state -->
-<Details summary="Advanced options" bind:open={showAdvanced}>
-  <p>Configure advanced settings here.</p>
+<Details summary="Read more">
+    <p>Lorem ipsum dolor sit amet.</p>
 </Details>
 ```
 
-## SvelteKit example
+### 2. Bound open state
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Details from "#lib/components/Details/Details.svelte";
+    import Details from "./Details.svelte";
+    let open = $state(false);
 </script>
 
-<Details summary="More info">Content here</Details>
+<Details summary="Advanced options" bind:open>
+    <p>Configure advanced settings here.</p>
+</Details>
+<p>Open: {open}</p>
 ```
 
-## Keyboard
+### 3. Open by default
 
-- Enter: toggles the disclosure open/closed when <summary> is focused
-- Space: toggles the disclosure open/closed when <summary> is focused
+```svelte
+<Details summary="Terms and conditions" open>
+    <p>Full terms text…</p>
+</Details>
+```
+
+### 4. Multiple details
+
+```svelte
+<Details summary="Question 1"><p>Answer 1</p></Details>
+<Details summary="Question 2"><p>Answer 2</p></Details>
+<Details summary="Question 3"><p>Answer 3</p></Details>
+```
+
+### 5. With a programmatic toggle
+
+```svelte
+<script lang="ts">
+    import Details from "./Details.svelte";
+    let open = $state(false);
+</script>
+
+<button type="button" onclick={() => open = !open}>
+    Toggle details
+</button>
+<Details summary="Details" bind:open>
+    <p>Controlled from outside.</p>
+</Details>
+```
 
 ## Accessibility
 
-- Native <details>/<summary> provide built-in ARIA semantics
-- Browser automatically exposes expanded/collapsed state to assistive technology
-- No additional ARIA attributes needed
+- `<details>` and `<summary>` natively expose disclosure semantics. No extra ARIA needed.
+- Keyboard: Enter and Space on the focused `<summary>` toggle the state.
+- Assistive technology announces the expanded/collapsed state automatically.
 
-## Internationalization
+## Related components
 
-- The summary prop accepts any string; consumers provide localized text
-
-## References
-
-- MDN details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
-- MDN summary element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary
-- WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+- `Expander` — button-triggered disclosure with `aria-expanded`/`aria-controls`.
+- `Collapsible` — generic collapsible container.
+- `AccordionList` / `AccordionListItem` — grouped disclosures in an accordion pattern.
 
 ---
 

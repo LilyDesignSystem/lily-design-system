@@ -3,7 +3,7 @@
   import WarningCallout from './WarningCallout.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/WarningCallout',
+    title: 'Headless/WarningCallout',
     component: WarningCallout,
   });
 </script>

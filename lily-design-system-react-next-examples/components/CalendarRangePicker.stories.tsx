@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CalendarRangePicker from './CalendarRangePicker';
 
 const meta = {
-  title: 'Examples/CalendarRangePicker',
+  title: 'Headless/CalendarRangePicker',
   component: CalendarRangePicker,
   tags: ['autodocs']
 } satisfies Meta<typeof CalendarRangePicker>;

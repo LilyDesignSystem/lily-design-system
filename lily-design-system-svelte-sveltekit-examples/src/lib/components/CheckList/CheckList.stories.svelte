@@ -3,7 +3,7 @@
   import CheckList from './CheckList.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CheckList',
+    title: 'Headless/CheckList',
     component: CheckList,
   });
 </script>

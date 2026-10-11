@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PhotoPack from './PhotoPack';
 
 const meta = {
-  title: 'Examples/PhotoPack',
+  title: 'Headless/PhotoPack',
   component: PhotoPack,
   tags: ['autodocs']
 } satisfies Meta<typeof PhotoPack>;

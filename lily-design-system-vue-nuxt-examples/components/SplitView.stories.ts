@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SplitView from './SplitView.vue';
 
 const meta = {
-  title: 'Examples/SplitView',
+  title: 'Headless/SplitView',
   component: SplitView,
   tags: ['autodocs']
 } satisfies Meta<typeof SplitView>;

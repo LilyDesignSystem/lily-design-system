@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import GovernmentIdentifier from './GovernmentIdentifier.vue';
 
 const meta = {
-  title: 'Examples/GovernmentIdentifier',
+  title: 'Headless/GovernmentIdentifier',
   component: GovernmentIdentifier,
   tags: ['autodocs']
 } satisfies Meta<typeof GovernmentIdentifier>;

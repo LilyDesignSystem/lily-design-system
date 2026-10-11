@@ -1,94 +1,141 @@
 # SlideOutDrawer
 
-## Overview
+A headless modal dialog that slides out from the side of the screen. Conditionally rendered and dismissed with Escape.
 
-A headless slide-out drawer that renders a modal dialog container which
-slides in from the side of the screen. When open, it can be dismissed with
-the Escape key. Commonly used for navigation menus, filters, settings panels,
-or secondary content in mobile and web applications.
+## What it is
+
+A Svelte 5 headless component that, when `open` is `true`, renders `<div class="slide-out-drawer ...">` with `role="dialog"`, `aria-label`, `aria-modal="true"`, and `tabindex="-1"`. When `open` is `false`, the component renders nothing.
 
 ## What it does
 
-A drawer that slides out from the side of the page.
+- Conditionally mounts based on the `open` binding.
+- Declares modal dialog semantics (`role="dialog"`, `aria-modal="true"`).
+- Attaches a keydown handler that closes the drawer on Escape (setting `open = false`).
+- Renders `children` inside.
+- Spreads `...restProps` onto the `<div>`.
 
-## When to use
+Slide direction, overlay backdrop, focus trap, and animations are implementation details left to the consumer.
 
-- Use when you need a drawer that slides out from the side of the page.
+## When to use it
 
-## When not to use
+- Mobile navigation drawers triggered by a hamburger menu.
+- Secondary settings panels shown over the main UI.
+- Filter or sort overlays in mobile-first experiences.
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Non-modal panels - use `Popover`, `FloatingPanel`, or `Sheet` depending on pattern.
+- Persistent sidebars - use `Sidebar`.
+- Dialogs with forced acknowledgment - use `AlertDialog`.
 
-```svelte
-<SlideOutDrawer label="Menu" bind:open={isOpen}>
-  <nav>Menu content</nav>
-</SlideOutDrawer>
-```
+## How to use it
+
+1. Import the component.
+2. Provide a translated `label`.
+3. Bind `open` via `bind:open`.
+4. Implement the trigger (button) that sets `open = true`.
+5. Add focus trapping and slide-in animation via CSS/consumer code.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the dialog via aria-label. |
-| `open` | boolean, default false | Whether the drawer is visible; bindable via bind:open. |
-| `children` | Snippet, required | The drawer content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged with the base `slide-out-drawer` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `open` (boolean, optional, default `false`, bindable).
+- `children` (Snippet, required) - drawer content.
+- `...restProps` - spread onto the `<div>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Navigation drawer with close button -->
-<SlideOutDrawer label="Navigation menu" bind:open={isOpen}>
-  <nav>
-    <ul><li><a href="/">Home</a></li></ul>
-  </nav>
-  <button onclick={() => isOpen = false}>Close</button>
-</SlideOutDrawer>
-
-<!-- Settings panel -->
-<SlideOutDrawer label="Settings panel" bind:open={settingsOpen}>
-  <h2>Settings</h2>
-  <form><label><input type="checkbox" /> Enable notifications</label></form>
-</SlideOutDrawer>
-```
-
-## SvelteKit example
+Navigation drawer:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SlideOutDrawer from "#lib/components/SlideOutDrawer/SlideOutDrawer.svelte";
+    import SlideOutDrawer from "./SlideOutDrawer.svelte";
+    let open = $state(false);
 </script>
 
-<SlideOutDrawer label="Menu" bind:open={isOpen}>
-  <nav>Menu content</nav>
+<button onclick={() => (open = true)}>Menu</button>
+<SlideOutDrawer label="Navigation menu" bind:open>
+    <nav>
+        <ul><li><a href="/">Home</a></li></ul>
+    </nav>
+    <button onclick={() => (open = false)}>Close</button>
 </SlideOutDrawer>
 ```
 
-## Keyboard
+Settings panel:
 
-- Escape: closes the drawer by setting open to false
+```svelte
+<script lang="ts">
+    import SlideOutDrawer from "./SlideOutDrawer.svelte";
+    let settingsOpen = $state(false);
+</script>
+
+<button onclick={() => (settingsOpen = true)}>Settings</button>
+<SlideOutDrawer label="Settings panel" bind:open={settingsOpen}>
+    <h2>Settings</h2>
+    <label><input type="checkbox" /> Enable notifications</label>
+</SlideOutDrawer>
+```
+
+Keyboard-only dismissal reminder (Escape is built in):
+
+```svelte
+<script lang="ts">
+    import SlideOutDrawer from "./SlideOutDrawer.svelte";
+    let open = $state(true);
+</script>
+
+<SlideOutDrawer label="Press Escape to close" bind:open>
+    <p>This drawer closes when you press Escape.</p>
+</SlideOutDrawer>
+```
+
+With CSS class for animation:
+
+```svelte
+<script lang="ts">
+    import SlideOutDrawer from "./SlideOutDrawer.svelte";
+    let open = $state(false);
+</script>
+
+<SlideOutDrawer label="Drawer" bind:open class="slide-right">
+    <p>Content</p>
+</SlideOutDrawer>
+```
+
+Inline close:
+
+```svelte
+<script lang="ts">
+    import SlideOutDrawer from "./SlideOutDrawer.svelte";
+    let open = $state(true);
+</script>
+
+<SlideOutDrawer label="Filters" bind:open>
+    <button onclick={() => (open = false)}>Apply</button>
+</SlideOutDrawer>
+```
 
 ## Accessibility
 
-- role="dialog" for modal overlay semantics
-- aria-label describes the drawer purpose
-- aria-modal="true" indicates modal behavior (content behind is inert)
-- tabindex="-1" allows the dialog to receive programmatic focus
-- WCAG 2.2 AAA: properly labeled modal with keyboard dismissal
+- `role="dialog"` + `aria-modal="true"` + `aria-label` form a conformant modal dialog.
+- `tabindex="-1"` makes the dialog container programmatically focusable.
+- Escape is wired to close.
+- The consumer must:
+  - Move focus to the dialog on open.
+  - Trap focus inside while open.
+  - Restore focus to the trigger on close.
 
-## Internationalization
-
-- The label prop externalizes the accessible label string
-- No hardcoded user-facing strings
-
-## References
-
+References:
 - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
-- WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
+
+## Related components
+
+- `Sheet` - edge-aware side sheet variant (supports `side`).
+- `Drawer` - simple edge panel.
+- `Dialog`, `AlertDialog` - centered modal dialogs.
+- `Sidebar` - persistent complementary region.
 
 ---
 

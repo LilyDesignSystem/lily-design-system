@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import type React from "react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./FiveFaceRatingPicker";
 
@@ -16,7 +17,7 @@ describe("FiveFaceRatingPicker", () => {
   });
 
   test("has all 5 default labels", () => {
-    render(<Subject label="Experience" />);
+    render(<Subject label="Experience" labels={["Very bad", "Bad", "Okay", "Good", "Very good"]} />);
     expect(screen.getByText("Very bad")).toBeTruthy();
     expect(screen.getByText("Bad")).toBeTruthy();
     expect(screen.getByText("Okay")).toBeTruthy();
@@ -78,5 +79,46 @@ describe("FiveFaceRatingPicker", () => {
   test("passes through attributes", () => {
     render(<Subject label="E" data-testid="fr" />);
     expect(screen.getByTestId("fr")).toBeTruthy();
+  });
+});
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(ui: React.ReactElement): HTMLFormElement {
+  const { container } = render(<form>{ui}</form>);
+  return container.querySelector("form")!;
+}
+
+const afterReset = () => act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+
+describe("form reset", () => {
+  test("a form reset restores the initial value and reports it to the consumer", async () => {
+    const onChange = vi.fn();
+    const form = inForm(<Subject label="Rating" name="face" value={2} onChange={onChange} />);
+    fireEvent.click(form.querySelector<HTMLInputElement>('input[value="4"]')!);
+    expect(onChange).toHaveBeenLastCalledWith(4);
+    form.reset();
+    await afterReset();
+    expect(onChange).toHaveBeenLastCalledWith(2);
+    expect(form.querySelector<HTMLInputElement>("input:checked")?.value).toBe("2");
+    expect(new FormData(form).get("face")).toBe("2");
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const onChange = vi.fn();
+    const form = inForm(<Subject label="Rating" name="face" value={2} onChange={onChange} />);
+    fireEvent.click(form.querySelector<HTMLInputElement>('input[value="4"]')!);
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await afterReset();
+    expect(onChange).toHaveBeenLastCalledWith(4);
+    expect(new FormData(form).get("face")).toBe("4");
+  });
+});
+
+describe("no English default", () => {
+  test("without labels the options are the numbers 1 to 5", () => {
+    render(<Subject label="Feedback" />);
+    for (const n of ["1", "2", "3", "4", "5"]) expect(screen.getByLabelText(n)).toBeTruthy();
+    expect(screen.queryByText(/bad|good|okay/i)).toBeNull();
   });
 });

@@ -5,7 +5,7 @@
     a group of radio buttons for selecting one option
 *@
 
-<div class="@($"radio-group {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<fieldset class="@($"radio-group {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</fieldset>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

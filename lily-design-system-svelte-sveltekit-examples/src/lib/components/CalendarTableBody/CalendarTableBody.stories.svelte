@@ -3,7 +3,7 @@
   import CalendarTableBody from './CalendarTableBody.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CalendarTableBody',
+    title: 'Headless/CalendarTableBody',
     component: CalendarTableBody,
   });
 </script>

@@ -3,7 +3,7 @@
   import EmailInput from './EmailInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EmailInput',
+    title: 'Headless/EmailInput',
     component: EmailInput,
   });
 </script>

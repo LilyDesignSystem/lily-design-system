@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AccordionNav from './AccordionNav.vue';
 
 const meta = {
-  title: 'Examples/AccordionNav',
+  title: 'Headless/AccordionNav',
   component: AccordionNav,
   tags: ['autodocs']
 } satisfies Meta<typeof AccordionNav>;

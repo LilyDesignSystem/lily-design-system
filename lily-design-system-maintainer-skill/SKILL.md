@@ -69,8 +69,8 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 2. Implement in all 8 headless libraries, following [`AGENTS/headless.md`](../AGENTS/headless.md):
    most-specific semantic element first, kebab-case base class + consumer class hook as the first
    root attribute, rest-props spread on the root, zero CSS, ARIA/keyboard baked in per the
-   component's `AGENTS.md` contract. Svelte is canonical (two real trees: `components/` and
-   `src/lib/components/`, plus the SvelteKit examples copy). **Web Components has no scaffolded
+   component's `AGENTS.md` contract. Svelte is canonical (`components/` in the headless library, plus the SvelteKit examples
+   copy). **Web Components has no scaffolded
    placeholder**: add `components/{slug}.ts` + test + story and the barrel entry, and bump the
    registered-element count pinned in its `index.test.ts`.
 3. Barrel exports (`index.ts`) in the Svelte, React, Vue, Angular and Web Components libraries.

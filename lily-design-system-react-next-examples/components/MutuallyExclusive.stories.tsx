@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MutuallyExclusive from './MutuallyExclusive';
 
 const meta = {
-  title: 'Examples/MutuallyExclusive',
+  title: 'Headless/MutuallyExclusive',
   component: MutuallyExclusive,
   tags: ['autodocs']
 } satisfies Meta<typeof MutuallyExclusive>;

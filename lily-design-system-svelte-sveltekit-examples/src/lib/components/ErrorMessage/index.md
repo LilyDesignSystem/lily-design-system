@@ -1,77 +1,106 @@
 # ErrorMessage
 
-## Overview
+A single error message that announces itself to screen readers. Renders `<p role="alert">`, which creates an implicit assertive live region.
 
-Displays an error message using role="alert" for immediate screen reader
-announcement. Renders a <p> element that acts as an assertive live region,
-so the error text is announced as soon as it enters the DOM. Used for form
-validation feedback, system error notifications, and inline error display.
+## What it is
+
+`ErrorMessage` is a minimal paragraph with `role="alert"`. Because `alert` is an assertive live region, the error text is announced by screen readers as soon as the element enters the DOM. Render it only when an error exists so that each appearance triggers a fresh announcement.
 
 ## What it does
 
-An error message associated with a form field.
+- Renders `<p class="error-message" role="alert">` with the supplied children.
+- Forwards `restProps` onto the `<p>`.
 
-## When to use
+## When to use it
 
-- Use when you need an error message associated with a form field.
+- Inline form field errors shown below an input.
+- Per-field validation feedback after a submit attempt.
+- Any transient error text that should be announced immediately.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a summary of all form errors. Use `ErrorSummary` instead.
+- For static, always-visible error text that should not be announced. Use a plain `<p>`.
+- For long-lived error banners. Use `Alert` with `Banner` or a `Notification`.
 
-## Usage
+## How to use it
+
+Render conditionally when there is an error to display.
 
 ```svelte
-<ErrorMessage>Error text here</ErrorMessage>
+<script lang="ts">
+    import ErrorMessage from "./ErrorMessage.svelte";
+    let error = $state("");
+</script>
+
+{#if error}
+    <ErrorMessage>{error}</ErrorMessage>
+{/if}
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | Error message text content. |
-| `...restProps` | additional HTML attributes spread onto the <p> element |  |
+| Prop       | Type       | Default | Description                              |
+| ---------- | ---------- | ------- | ---------------------------------------- |
+| `class`    | `string`   | `""`    | CSS class appended to the base class.   |
+| `children` | `Snippet`  | required| Error message content.                   |
+| `...rest`  | `unknown`  | —       | Additional HTML attributes on the `<p>`. |
 
-## Examples
+## Usage
+
+### 1. Inline error message
 
 ```svelte
-<!-- Inline error message -->
 <ErrorMessage>Password is required</ErrorMessage>
+```
 
-<!-- Conditional error display -->
+### 2. Conditional display
+
+```svelte
 {#if error}
-  <ErrorMessage>{error}</ErrorMessage>
+    <ErrorMessage>{error}</ErrorMessage>
 {/if}
 ```
 
-## SvelteKit example
+### 3. Associated with an input via `aria-errormessage`
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import ErrorMessage from "#lib/components/ErrorMessage/ErrorMessage.svelte";
-</script>
-
-<ErrorMessage>Error text here</ErrorMessage>
+<input id="email" aria-invalid={!!error} aria-errormessage="email-error" />
+{#if error}
+    <ErrorMessage id="email-error">{error}</ErrorMessage>
+{/if}
 ```
 
-## Keyboard
+### 4. Multiple field errors
 
-- None — passive container for displaying error text
+```svelte
+{#each Object.entries(errors) as [field, msg]}
+    {#if msg}
+        <ErrorMessage id={`${field}-error`}>{msg}</ErrorMessage>
+    {/if}
+{/each}
+```
+
+### 5. Formatted content
+
+```svelte
+<ErrorMessage>
+    Passwords must be at least <strong>8 characters</strong>.
+</ErrorMessage>
+```
 
 ## Accessibility
 
-- role="alert" creates an implicit aria-live="assertive" live region
-- Error text is announced immediately to screen readers when it appears
+- `role="alert"` creates an implicit `aria-live="assertive"` region.
+- Ensure the element appears (or re-appears) at the moment of error — screen readers only announce when the live region changes.
+- Pair with `aria-invalid` and `aria-errormessage` on the associated input for robust form error semantics.
 
-## Internationalization
+## Related components
 
-- All error text comes through consumer-provided children
-
-## References
-
-- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
+- `ErrorSummary` — consolidated summary of all form errors.
+- `Field` — includes a built-in error paragraph with `role="alert"`.
+- `Alert` — generic status message.
+- `Hint` — non-error helper text.
 
 ---
 

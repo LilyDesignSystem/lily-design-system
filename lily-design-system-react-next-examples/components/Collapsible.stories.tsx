@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Collapsible from './Collapsible';
 
 const meta = {
-  title: 'Examples/Collapsible',
+  title: 'Headless/Collapsible',
   component: Collapsible,
   tags: ['autodocs']
 } satisfies Meta<typeof Collapsible>;

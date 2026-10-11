@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Flair from './Flair.vue';
 
 const meta = {
-  title: 'Examples/Flair',
+  title: 'Headless/Flair',
   component: Flair,
   tags: ['autodocs']
 } satisfies Meta<typeof Flair>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Resizable from './Resizable.vue';
 
 const meta = {
-  title: 'Examples/Resizable',
+  title: 'Headless/Resizable',
   component: Resizable,
   tags: ['autodocs']
 } satisfies Meta<typeof Resizable>;

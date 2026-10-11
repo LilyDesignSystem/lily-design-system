@@ -3,7 +3,7 @@
   import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TuaisceartEireannHealthAndCareNumberView',
+    title: 'Headless/TuaisceartEireannHealthAndCareNumberView',
     component: TuaisceartEireannHealthAndCareNumberView,
   });
 </script>

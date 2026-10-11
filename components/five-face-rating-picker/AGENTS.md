@@ -23,7 +23,7 @@
 
 - Renders a `<fieldset>` with `role="radiogroup"` containing 5 `<label>`/`<input type="radio">` pairs
 - Supports two-way binding for the selected rating value (1-5, with 0 meaning no selection)
-- Default face labels are "Very bad", "Bad", "Okay", "Good", "Very good" -- customizable via the `labels` prop
+- Default face labels are the numbers "1" to "5" -- pass words in the page's language via the `labels` prop (no English default)
 - Each radio button displays the corresponding label text for screen readers and visual users
 - The `name` prop groups the radio buttons for form submission
 - Supports `disabled` state on the fieldset level
@@ -45,7 +45,7 @@
 - `label`: string (required) -- accessible name for the rating group via `aria-label`
 - `value`: number (default: `0`) -- current rating (1-5, 0 = none), two-way bindable via `value`
 - `name`: string (default: `"face-rating"`) -- radio group name for form submission
-- `labels`: string[] (default: `["Very bad", "Bad", "Okay", "Good", "Very good"]`) -- accessible labels for each face
+- `labels`: string[] (default: `["1", "2", "3", "4", "5"]`; no English default) -- accessible labels for each face
 - `disabled`: boolean (default: `false`) -- whether the entire group is disabled
 - `...restProps`: unknown -- additional attributes spread onto the `<fieldset>`
 

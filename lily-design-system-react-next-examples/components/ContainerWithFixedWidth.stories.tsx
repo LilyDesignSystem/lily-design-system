@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ContainerWithFixedWidth from './ContainerWithFixedWidth';
 
 const meta = {
-  title: 'Examples/ContainerWithFixedWidth',
+  title: 'Headless/ContainerWithFixedWidth',
   component: ContainerWithFixedWidth,
   tags: ['autodocs']
 } satisfies Meta<typeof ContainerWithFixedWidth>;

@@ -177,6 +177,9 @@ tooling around it; Lily has not.
 
 **Changes my mind:** evidence either way from people who actually copied.
 
+A proposal for the tooling, including a way for copies to learn about later fixes:
+[docs/copy-into-project-proposal.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/copy-into-project-proposal.md).
+
 ### RFC 9 — Is targeting AAA honest, or should the target be AA?
 
 **Current answer:** WCAG 2.2 AAA is the stated target; automated baselines run AA

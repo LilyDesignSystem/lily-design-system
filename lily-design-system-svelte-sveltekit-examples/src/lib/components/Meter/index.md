@@ -1,85 +1,147 @@
 # Meter
 
-## Overview
+Meter is a headless Svelte 5 component that displays a scalar measurement within a known range using the native HTML `<meter>` element. It supports optional thresholds for `low`, `high`, and `optimum` values — useful for disk usage, battery level, password strength, performance scores, or any bounded numeric measurement.
 
-A headless meter that displays a scalar measurement within a known range
-using the native HTML <meter> element. It supports optional threshold
-indicators for low, high, and optimum values. Useful for displaying disk
-usage, battery level, password strength, performance scores, or any bounded
-numeric measurement.
+## What it is
+
+A thin wrapper around the native `<meter>` element. Because `<meter>` has built-in semantics in every modern browser and assistive technology, this component simply forwards the standard attributes and adds an `aria-label`.
 
 ## What it does
 
-A gauge displaying a scalar value within a known range.
+- Renders a `<meter>` with `class="meter"` plus any consumer-provided CSS class.
+- Forwards `value`, `min`, `max`, `low`, `high`, and `optimum` to the native element.
+- Applies `aria-label` from the required `label` prop.
+- Renders the `value` as text content inside the element to serve as a fallback for unsupported browsers.
+- Spreads `...restProps` onto the `<meter>`.
 
-## When to use
+## When to use it
 
-- Use when you need a gauge displaying a scalar value within a known range.
+- Disk space or storage usage indicators.
+- Battery level, memory consumption, CPU utilization.
+- Password strength meters.
+- Performance scores, quiz results, or any bounded measurement with meaningful thresholds.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Do not use for indeterminate or determinate progress of a task — use `Progress` or `ProgressCircle`.
+- Do not use for a slider control — use `RangeInput` or `Slider`.
+- Do not use for unbounded values — `<meter>` requires a known range.
+- Do not use as a form input — `<meter>` is display-only.
 
-## Usage
+## How to use it
 
-```svelte
-<Meter label="Disk space" value={45} max={100} />
-```
+Import the component, pass a `label`, a `value`, and the `min`/`max` bounds. Optionally add `low`, `high`, and `optimum` thresholds for richer semantics.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | number, required | The current measured value. |
-| `min` | number, default 0 | The minimum bound of the range. |
-| `max` | number, default 100 | The maximum bound of the range. |
-| `low` | number, optional | The upper bound of the low range threshold. |
-| `high` | number, optional | The lower bound of the high range threshold. |
-| `optimum` | number, optional | The optimal value within the range. |
-| `label` | string, required | Accessible name for the meter via aria-label. |
-| `...restProps` | additional HTML attributes spread onto the <meter> |  |
+- `class` (string, optional) — consumer CSS class appended to the base `meter` class.
+- `value` (number, required) — the current measured value.
+- `min` (number, optional, default `0`) — the minimum bound of the range.
+- `max` (number, optional, default `100`) — the maximum bound of the range.
+- `low` (number, optional) — the upper bound of the low-range threshold.
+- `high` (number, optional) — the lower bound of the high-range threshold.
+- `optimum` (number, optional) — the optimal value within the range.
+- `label` (string, required) — accessible name applied via `aria-label`.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<meter>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Basic disk usage meter -->
-<Meter label="Disk space" value={45} max={100} />
-
-<!-- Meter with thresholds -->
-<Meter label="Battery" value={20} min={0} max={100} low={25} high={75} optimum={100} />
-```
-
-## SvelteKit example
+### Basic disk usage meter
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Meter from "#lib/components/Meter/Meter.svelte";
+    import Meter from "./Meter.svelte";
 </script>
 
 <Meter label="Disk space" value={45} max={100} />
 ```
 
-## Keyboard
+### Battery with thresholds
 
-- None — this is a passive display element with no interactive behavior.
+```svelte
+<script lang="ts">
+    import Meter from "./Meter.svelte";
+    let battery = $state(20);
+</script>
+
+<Meter
+    label="Battery"
+    value={battery}
+    min={0}
+    max={100}
+    low={25}
+    high={75}
+    optimum={100}
+/>
+```
+
+### Password strength meter
+
+```svelte
+<script lang="ts">
+    import Meter from "./Meter.svelte";
+    let strength = $state(3);
+</script>
+
+<Meter
+    label="Password strength"
+    value={strength}
+    min={0}
+    max={5}
+    low={1}
+    high={4}
+    optimum={5}
+/>
+```
+
+### Meter with a custom CSS class
+
+```svelte
+<script lang="ts">
+    import Meter from "./Meter.svelte";
+</script>
+
+<Meter class="meter-wide" label="Quota" value={72} max={100} />
+
+<style>
+    :global(.meter-wide) {
+        width: 100%;
+        height: 1rem;
+    }
+</style>
+```
+
+### Meter bound to dynamic state
+
+```svelte
+<script lang="ts">
+    import Meter from "./Meter.svelte";
+    let used = $state(30);
+</script>
+
+<Meter label="Memory used" value={used} min={0} max={100} />
+
+<button type="button" onclick={() => (used = Math.min(100, used + 10))}>
+    Use more memory
+</button>
+```
 
 ## Accessibility
 
-- aria-label={label} provides an accessible name describing what the meter measures
-- Native <meter> element provides built-in semantics for assistive technologies
-- Text content inside the element serves as a fallback for unsupported browsers
+- `aria-label` provides the accessible name for the meter.
+- Native `<meter>` exposes built-in `role="meter"` semantics and the current/min/max values to assistive technology.
+- Text content inside the element serves as a fallback for unsupported browsers.
+- Not interactive — no keyboard behaviour.
+- Compliant with WAI-ARIA `meter` role and WCAG 2.2 AAA when consumer-supplied colour contrast is sufficient for any custom styling.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
-- HTML meter element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter
-- WAI-ARIA meter role: https://www.w3.org/TR/wai-aria-1.2/#meter
+- `Progress` — a horizontal progress bar for task completion (native `<progress>`).
+- `ProgressCircle` — circular progress indicator.
+- `ProgressSpinner` — indeterminate spinning indicator.
+- `RangeInput` — a slider input for selecting values in a range.
+- `Sparkline` — a small inline chart for trends.
+- `Gauge`/`Dial` — circular/rotary value selectors (`Dial`).
 
 ---
 

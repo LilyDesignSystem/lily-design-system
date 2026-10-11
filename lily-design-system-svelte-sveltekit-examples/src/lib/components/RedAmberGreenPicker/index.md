@@ -1,80 +1,133 @@
 # RedAmberGreenPicker
 
-## Overview
+A headless Red/Amber/Green (RAG) status picker that renders a native `<select>` with three traffic-light options: red, amber, and green.
 
-A headless RAG (Red/Amber/Green) status input that renders a native
-<select> element with three traffic-light options: red, amber, and green.
-RAG status is widely used in project management dashboards, risk registers,
-and reporting tools to communicate health at a glance.
+## What it is
+
+- Component: `RedAmberGreenPicker`
+- HTML element: `<select>` containing three fixed `<option>`s
+- Role: native select (combobox / listbox)
+- Category: form input (picker half of the Picker / PickerButton pair for RAG)
 
 ## What it does
 
-A picker for selecting a red/amber/green status.
+- Renders a `<select aria-label="…">` with three hardcoded options: `red`, `amber`, `green`.
+- Supports `bind:value` for two-way binding of the selected status string.
+- Provides native dropdown keyboard behavior (Up/Down, Enter/Space, Escape).
 
-## When to use
+## When to use it
 
-- Use when the user should choose from a bounded set of visual options.
+- Project health dashboards, risk registers, and RAG-style status reporting.
+- Any form where one of three traffic-light levels must be captured.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simple `<Select>` or radio group would communicate options better.
+- For a five-level status scale — use `RedOrangeYellowGreenBluePicker`.
+- For a satisfaction score — use `FiveFaceRatingPicker` or `NetPromoterScorePicker`.
+- For a star rating — use `FiveStarRatingPicker`.
+- For custom-styled buttons instead of a dropdown — compose `RedAmberGreenPickerButton`s in your own container.
+- To display an already-captured RAG value — use `RedAmberGreenView`.
 
-## Usage
+## How to use it
+
+Import and bind a string value (`"red" | "amber" | "green" | ""`).
 
 ```svelte
-<RedAmberGreenPicker label="Project status" bind:value={status} />
+import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the select element. |
-| `value` | string, default "" | Currently selected status value; bindable. |
-| `...restProps` | additional HTML attributes spread onto the <select> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `red-amber-green-picker`.
+- `label`: string, required. Accessible name via `aria-label`.
+- `value`: string, default `""`. Bindable with `bind:value`.
+- `...restProps`: spread onto the `<select>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Pre-selected value -->
-<RedAmberGreenPicker label="Health check" value="green" />
-
-<!-- Two-way binding with state -->
-<RedAmberGreenPicker label="Sprint status" bind:value={status} data-project="alpha" />
-```
-
-## SvelteKit example
+### Pre-selected value
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedAmberGreenPicker from "#lib/components/RedAmberGreenPicker/RedAmberGreenPicker.svelte";
+  import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
 </script>
 
-<RedAmberGreenPicker label="Project status" bind:value={status} />
+<RedAmberGreenPicker label="Health check" value="green" />
 ```
 
-## Keyboard
+### Two-way binding
 
-- Arrow Up/Down: navigate options (native select behavior)
-- Enter/Space: open the dropdown (native select behavior)
-- Escape: close the dropdown (native select behavior)
+```svelte
+<script lang="ts">
+  import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
+
+  let status = $state("amber");
+</script>
+
+<RedAmberGreenPicker label="Sprint status" bind:value={status} />
+<p>Current: {status}</p>
+```
+
+### Compound picker using buttons (composition pattern)
+
+```svelte
+<script lang="ts">
+  import RedAmberGreenPickerButton from '../RedAmberGreenPickerButton/RedAmberGreenPickerButton.svelte';
+
+  let status = $state("green");
+  const levels = ["red", "amber", "green"] as const;
+</script>
+
+<div role="group" aria-label="Project status">
+  {#each levels as level}
+    <RedAmberGreenPickerButton
+      value={level}
+      label={level}
+      selected={status === level}
+      onclick={() => (status = level)}
+    />
+  {/each}
+</div>
+```
+
+### Alongside the view counterpart
+
+```svelte
+<script lang="ts">
+  import RedAmberGreenPicker from './RedAmberGreenPicker.svelte';
+  import RedAmberGreenView from '../RedAmberGreenView/RedAmberGreenView.svelte';
+
+  let status = $state("");
+  let submitted = $state(false);
+</script>
+
+{#if submitted}
+  <RedAmberGreenView label="Status" value={status} />
+{:else}
+  <RedAmberGreenPicker label="Status" bind:value={status} />
+  <button type="button" onclick={() => (submitted = true)}>Confirm</button>
+{/if}
+```
+
+### With a test hook
+
+```svelte
+<RedAmberGreenPicker label="Risk" bind:value={status} data-testid="rag" />
+```
 
 ## Accessibility
 
-- aria-label on the <select> for screen reader context
-- Native <select> provides implicit combobox/listbox role
-- WCAG 2.2 AAA: properly labeled for assistive technology
+- `aria-label` on the `<select>` provides the accessible name.
+- Native `<select>` provides implicit combobox/listbox semantics and keyboard navigation.
+- Option text ("Red", "Amber", "Green") is hardcoded in English; wrap or fork to localize.
+- WCAG 2.2 AAA: color alone is insufficient — pair the picker's output with readable text like `RedAmberGreenView`.
 
-## Internationalization
+## Related components
 
-- The label prop externalizes the accessible label string
-- Option display text ("Red", "Amber", "Green") is hardcoded; wrap or fork to localize
-
-## References
-
-- Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+- `RedAmberGreenView` — read-only display sibling for a captured RAG value.
+- `RedAmberGreenPickerButton` — button-style picker used when you want a custom button-based picker UI.
+- `RedOrangeYellowGreenBluePicker`, `RedOrangeYellowGreenBluePickerButton`, `RedOrangeYellowGreenBlueView` — five-level scale.
+- Other pickers: `FiveFaceRatingPicker`, `FiveStarRatingPicker`, `NetPromoterScorePicker`.
 
 ---
 

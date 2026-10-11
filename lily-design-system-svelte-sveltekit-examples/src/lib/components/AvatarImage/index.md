@@ -1,76 +1,123 @@
 # AvatarImage
 
-## Overview
+The image element inside an `Avatar` container. Renders a native `<img>` marked `aria-hidden="true"` so the parent `Avatar`'s `aria-label` provides the single accessible name.
 
-The image element within an Avatar. Renders a native <img> element
-for displaying a user's profile photo. Must be used inside an Avatar
-container.
+## What it is
+
+A headless Svelte 5 component that outputs a single `<img>` tag. Category: identity-primitive child, must be used inside `Avatar`.
 
 ## What it does
 
-An avatar indicator inside image such as a user photo.
+- Renders `<img class="avatar-image {className}" src alt aria-hidden="true">`.
+- Defers accessible naming to the parent `Avatar` (which has `aria-label`).
+- Spreads additional HTML attributes onto the `<img>`.
 
-## When to use
+## When to use it
 
-- Use when you need an avatar indicator inside image such as a user photo.
+- Inside `Avatar` when you have a profile photo.
+- As the primary visual inside the avatar; optionally paired with `AvatarText` as fallback.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Standalone outside `Avatar` — use `Image` or a plain `<img>` element.
+- As a decorative icon — use `Icon`.
+- For a feature photo with captioning/lazy loading — use `FeaturePhoto`.
 
-## Usage
+## How to use it
 
-```svelte
-<AvatarImage src="/photo.jpg" alt="Jane Doe" />
-```
+Import `AvatarImage` from `./AvatarImage.svelte`. Always pass both `src` and `alt`. Place inside an `Avatar`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `src` | string, required | URL of the avatar image. |
-| `alt` | string, required | Accessible description for the image. |
-| `...restProps` | additional HTML attributes spread onto the <img> |  |
+- `class` — string, default `""`. CSS class appended to `avatar-image`.
+- `src` — string, required. Image URL.
+- `alt` — string, required. Alt text (kept for non-ARIA fallbacks and indexing, though the rendered `<img>` is `aria-hidden="true"`).
+- `...restProps` — additional HTML attributes spread onto the `<img>`.
 
-## Examples
+## Usage
+
+### Basic avatar image
 
 ```svelte
-<!-- Photo avatar inside Avatar -->
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarImage from './AvatarImage.svelte';
+</script>
+
 <Avatar alt="Jane Doe">
   <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
 </Avatar>
 ```
 
-## SvelteKit example
+### With size attributes
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AvatarImage from "#lib/components/AvatarImage/AvatarImage.svelte";
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarImage from './AvatarImage.svelte';
 </script>
 
-<AvatarImage src="/photo.jpg" alt="Jane Doe" />
+<Avatar alt="Ada Lovelace">
+  <AvatarImage src="/photos/ada.jpg" alt="Ada Lovelace" width="48" height="48" />
+</Avatar>
 ```
 
-## Keyboard
+### Lazy-loaded image
 
-- None — display-only element.
+```svelte
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarImage from './AvatarImage.svelte';
+</script>
+
+<Avatar alt="Team member">
+  <AvatarImage src="/team/member.jpg" alt="Team member" loading="lazy" decoding="async" />
+</Avatar>
+```
+
+### Fallback with AvatarText
+
+```svelte
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarImage from './AvatarImage.svelte';
+  import AvatarText from '../AvatarText/AvatarText.svelte';
+</script>
+
+<Avatar alt="Jane Doe">
+  <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
+  <AvatarText>JD</AvatarText>
+</Avatar>
+```
+
+### Reactive src
+
+```svelte
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarImage from './AvatarImage.svelte';
+
+  let src = $state('/photos/jane.jpg');
+</script>
+
+<Avatar alt="Jane Doe">
+  <AvatarImage {src} alt="Jane Doe" />
+</Avatar>
+<button onclick={() => (src = '/photos/jane-alt.jpg')}>Swap photo</button>
+```
 
 ## Accessibility
 
-- Native <img> with alt text provides image accessibility
-- aria-hidden="true" prevents duplicate announcements since the
-- parent Avatar already has aria-label
+- Marked `aria-hidden="true"` to prevent duplicate announcements; the parent `Avatar` owns the accessible name.
+- `alt` still passed for browsers, indexers, and situations where the image fails to load.
+- No keyboard interaction.
 
-## Internationalization
+## Related components
 
-- alt text comes through props
-- No hardcoded strings
-
-## References
-
-- HTML img element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
+- `Avatar` — required parent.
+- `AvatarText` — text/initials alternative or fallback.
+- `AvatarGroup` — stacked avatars.
+- `Image`, `FeaturePhoto` — standalone image components.
 
 ---
 

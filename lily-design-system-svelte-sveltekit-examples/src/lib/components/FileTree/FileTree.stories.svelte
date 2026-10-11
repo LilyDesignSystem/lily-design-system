@@ -3,7 +3,7 @@
   import FileTree from './FileTree.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FileTree',
+    title: 'Headless/FileTree',
     component: FileTree,
   });
 </script>

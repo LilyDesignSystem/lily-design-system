@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ToggleButton from './ToggleButton';
 
 const meta = {
-  title: 'Examples/ToggleButton',
+  title: 'Headless/ToggleButton',
   component: ToggleButton,
   tags: ['autodocs']
 } satisfies Meta<typeof ToggleButton>;

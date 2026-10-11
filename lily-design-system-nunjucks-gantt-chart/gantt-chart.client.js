@@ -187,10 +187,57 @@ export function initGanttChart(root, opts = {}) {
     return Array.from(tbody.querySelectorAll(":scope > .gantt-table-tr[data-lily-gantt-chart-task-id]"));
   }
 
+  // Every task row, captured once: a collapsed subtree's rows leave the DOM,
+  // but their dates still count toward their ancestors' derived range.
+  const rowById = new Map(
+    Array.from(tbody.querySelectorAll(".gantt-table-tr[data-lily-gantt-chart-task-id]")).map((row) => [
+      row.getAttribute("data-lily-gantt-chart-task-id"),
+      row,
+    ]),
+  );
+
   function taskRowFor(taskId) {
-    return tbody.querySelector(
-      `.gantt-table-tr[data-lily-gantt-chart-task-id="${escapeAttrValue(taskId)}"]`,
-    );
+    return rowById.get(taskId) || null;
+  }
+
+  /**
+   * A parent's start/end are derived from its descendants (min start / max
+   * end). The server derived them once; a change applied here must derive
+   * them again, or a parent's bar goes stale after its child moves. A
+   * `parentId` cycle cannot recurse forever: a row already on the walk is
+   * read as a leaf.
+   */
+  function recomputeParentRanges() {
+    const childrenOf = new Map();
+    rowById.forEach((row) => {
+      const parentId = row.getAttribute("data-lily-gantt-chart-parent-id") || "";
+      if (!parentId || !rowById.has(parentId)) return;
+      if (!childrenOf.has(parentId)) childrenOf.set(parentId, []);
+      childrenOf.get(parentId).push(row);
+    });
+    const onWalk = new Set();
+    function visit(row) {
+      const id = row.getAttribute("data-lily-gantt-chart-task-id");
+      const children = childrenOf.get(id) || [];
+      const own = {
+        start: row.getAttribute("data-lily-gantt-chart-start") || "",
+        end: row.getAttribute("data-lily-gantt-chart-end") || "",
+      };
+      if (children.length === 0 || onWalk.has(id)) return own;
+      onWalk.add(id);
+      let start = "";
+      let end = "";
+      children.forEach((child) => {
+        const r = visit(child);
+        if (!start || compareISO(r.start, start) < 0) start = r.start;
+        if (!end || compareISO(r.end, end) > 0) end = r.end;
+      });
+      onWalk.delete(id);
+      row.setAttribute("data-lily-gantt-chart-start", start);
+      row.setAttribute("data-lily-gantt-chart-end", end);
+      return { start, end };
+    }
+    rowById.forEach((row) => visit(row));
   }
 
   function editRowFor(taskId) {
@@ -280,6 +327,26 @@ export function initGanttChart(root, opts = {}) {
       target.setAttribute("tabindex", "0");
       target.focus({ preventScroll: true });
     }
+  }
+
+  /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+  function onGridFocusin(event) {
+    const cell = event.target && event.target.closest ? event.target.closest("[data-row][data-col]") : null;
+    if (!cell) return;
+    const current = table.querySelector('.gantt-table-td[tabindex="0"]');
+    if (current && current !== cell) current.setAttribute("tabindex", "-1");
+    cell.setAttribute("tabindex", "0");
+    focusedRow = Number(cell.getAttribute("data-row"));
+    focusedCol = Number(cell.getAttribute("data-col"));
+  }
+
+  /** Escape in an open edit region cancels it, unless a date picker used it to close its own dialog. */
+  function onTbodyKeydown(event) {
+    if (event.key !== "Escape" || event.defaultPrevented) return;
+    const editRow = event.target && event.target.closest ? event.target.closest("[data-lily-gantt-chart-edit-row]") : null;
+    if (!editRow) return;
+    event.preventDefault();
+    cancelEdit(editRow.getAttribute("data-lily-gantt-chart-task-id"));
   }
 
   function onGridKeydown(event) {
@@ -450,8 +517,16 @@ export function initGanttChart(root, opts = {}) {
     if (cell) cell.colSpan = columns.length + 1;
 
     editRow.hidden = false;
-    const startController = initDateTimePicker(startRoot, {});
-    const endController = initDateTimePicker(endRoot, {});
+    // Save is disabled while either date is empty.
+    const saveButton = editRow.querySelector("[data-lily-gantt-chart-save-button]");
+    let startController = null;
+    let endController = null;
+    const syncSave = () => {
+      if (!saveButton || !startController || !endController) return;
+      saveButton.disabled = !startController.getValue() || !endController.getValue();
+    };
+    startController = initDateTimePicker(startRoot, { onChange: () => syncSave() });
+    endController = initDateTimePicker(endRoot, { onChange: () => syncSave() });
     openEdits.set(taskId, { startRoot, endRoot, startController, endController });
 
     const firstField = startRoot.querySelector("[data-lily-date-time-picker-input]");
@@ -482,6 +557,7 @@ export function initGanttChart(root, opts = {}) {
     if (!row) return;
     row.setAttribute("data-lily-gantt-chart-start", start);
     row.setAttribute("data-lily-gantt-chart-end", end);
+    recomputeParentRanges();
     if (typeof opts.onTaskChange === "function") opts.onTaskChange(taskId, start, end);
     const announceFn = opts.labels && opts.labels.dateAnnouncement;
     if (typeof announceFn === "function") {
@@ -495,8 +571,11 @@ export function initGanttChart(root, opts = {}) {
   function saveEdit(taskId) {
     const entry = openEdits.get(taskId);
     if (!entry) return;
-    const start = entry.startController.getValue();
-    const end = entry.endController.getValue();
+    const a = entry.startController.getValue();
+    const b = entry.endController.getValue();
+    if (!a || !b) return;
+    // A range entered end-first is saved start-first.
+    const [start, end] = compareISO(a, b) <= 0 ? [a, b] : [b, a];
     closeEdit(taskId);
     applyChange(taskId, start, end);
   }
@@ -550,6 +629,8 @@ export function initGanttChart(root, opts = {}) {
   // -----------------------------------------------------------------
 
   table.addEventListener("keydown", onGridKeydown);
+  table.addEventListener("focusin", onGridFocusin);
+  tbody.addEventListener("keydown", onTbodyKeydown);
   tbody.addEventListener("click", onTbodyClick);
   table.addEventListener("dragstart", onDragStart);
   table.addEventListener("dragover", onDragOver);
@@ -565,6 +646,8 @@ export function initGanttChart(root, opts = {}) {
       });
       openEdits.clear();
       table.removeEventListener("keydown", onGridKeydown);
+      table.removeEventListener("focusin", onGridFocusin);
+      tbody.removeEventListener("keydown", onTbodyKeydown);
       tbody.removeEventListener("click", onTbodyClick);
       table.removeEventListener("dragstart", onDragStart);
       table.removeEventListener("dragover", onDragOver);

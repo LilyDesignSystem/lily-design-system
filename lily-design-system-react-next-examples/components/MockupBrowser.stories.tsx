@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MockupBrowser from './MockupBrowser';
 
 const meta = {
-  title: 'Examples/MockupBrowser',
+  title: 'Headless/MockupBrowser',
   component: MockupBrowser,
   tags: ['autodocs']
 } satisfies Meta<typeof MockupBrowser>;

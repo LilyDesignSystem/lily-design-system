@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ToolBarButton from './ToolBarButton';
 
 const meta = {
-  title: 'Examples/ToolBarButton',
+  title: 'Headless/ToolBarButton',
   component: ToolBarButton,
   tags: ['autodocs']
 } satisfies Meta<typeof ToolBarButton>;

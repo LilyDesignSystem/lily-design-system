@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import GraphicBlock from './GraphicBlock';
 
 const meta = {
-  title: 'Examples/GraphicBlock',
+  title: 'Headless/GraphicBlock',
   component: GraphicBlock,
   tags: ['autodocs']
 } satisfies Meta<typeof GraphicBlock>;

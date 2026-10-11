@@ -3,7 +3,7 @@
   import EmptyState from './EmptyState.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EmptyState',
+    title: 'Headless/EmptyState',
     component: EmptyState,
   });
 </script>

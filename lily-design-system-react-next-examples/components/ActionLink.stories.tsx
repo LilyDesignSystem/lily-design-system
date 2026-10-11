@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ActionLink from './ActionLink';
 
 const meta = {
-  title: 'Examples/ActionLink',
+  title: 'Headless/ActionLink',
   component: ActionLink,
   tags: ['autodocs']
 } satisfies Meta<typeof ActionLink>;

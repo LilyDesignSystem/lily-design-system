@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import KanbanTableHead from './KanbanTableHead.vue';
 
 const meta = {
-  title: 'Examples/KanbanTableHead',
+  title: 'Headless/KanbanTableHead',
   component: KanbanTableHead,
   tags: ['autodocs']
 } satisfies Meta<typeof KanbanTableHead>;

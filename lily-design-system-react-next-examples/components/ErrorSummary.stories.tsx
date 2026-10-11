@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ErrorSummary from './ErrorSummary';
 
 const meta = {
-  title: 'Examples/ErrorSummary',
+  title: 'Headless/ErrorSummary',
   component: ErrorSummary,
   tags: ['autodocs']
 } satisfies Meta<typeof ErrorSummary>;

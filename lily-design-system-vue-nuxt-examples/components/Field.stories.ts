@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Field from './Field.vue';
 
 const meta = {
-  title: 'Examples/Field',
+  title: 'Headless/Field',
   component: Field,
   tags: ['autodocs']
 } satisfies Meta<typeof Field>;

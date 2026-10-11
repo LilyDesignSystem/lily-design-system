@@ -1,89 +1,138 @@
 # PasswordInputOrTextInputDiv
 
-## Overview
+A headless password input with an optional show/hide toggle button. The wrapper `<div>` contains an `<input>` whose `type` dynamically switches between `"password"` and `"text"`, plus a toggle button with `aria-pressed` state.
 
-A headless password input with an optional show/hide toggle button. It renders
-a wrapper <div> containing an <input> that dynamically switches between
-type="password" and type="text", plus a toggle button with aria-pressed state.
-Includes autocomplete="current-password" for browser password manager support.
-Commonly used in login forms, registration forms, and account settings.
+## What it is
+
+- Component: `PasswordInputOrTextInputDiv`
+- HTML element: `<div>` containing `<input>` and an optional `<button>`
+- Role: wrapper div + native input + toggle button
+- Category: form input with visibility toggle
 
 ## What it does
 
-An input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle.
+- Renders a single input field that swaps between obscured and visible text.
+- Renders a toggle `<button>` with `aria-label` and `aria-pressed` reflecting visibility.
+- Maintains internal `visible` state; toggle is controlled by the component, not a prop.
+- Always applies `autocomplete="current-password"` on the input for password-manager support.
+- Supports `bind:value` on the wrapper to two-way bind the password value.
+- Allows hiding the toggle via `showToggle={false}`.
 
-## When to use
+## When to use it
 
-- Use when you need an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle.
+- Sign-in and password-entry forms where users benefit from verifying typed characters.
+- Mobile or touch contexts where typo rates are high.
+- Any time you want the equivalent of `PasswordInput` plus a reveal affordance.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- When the reveal affordance is prohibited by policy — use `PasswordInput` instead.
+- For PINs / OTPs — use `PinInputDiv`.
+- For non-password text entry — use `TextInput`.
 
-## Usage
+## How to use it
+
+Import and bind a string `value`. Customize the toggle label for localization.
 
 ```svelte
-<PasswordInputOrTextInputDiv label="Password" bind:value />
+import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the password input via aria-label. |
-| `value` | string, default "" | Current password value; bindable with bind:value. |
-| `showToggle` | boolean, default true | Whether to render the show/hide toggle button. |
-| `toggleLabel` | string, default "Show password" | Accessible label for the toggle button. |
-| `required` | boolean, default false | Whether the input is required. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the wrapper <div> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `password-input-or-text-input-div`.
+- `label`: string, required. Accessible name for the password input (on the `<input>`, via `aria-label`).
+- `value`: string, default `""`. Bindable.
+- `showToggle`: boolean, default `true`. Whether to render the show/hide button.
+- `toggleLabel`: string, default `"Show password"`. Accessible label for the toggle button (also its visible text).
+- `required`: boolean, default `false`.
+- `disabled`: boolean, default `false`.
+- `...restProps`: spread onto the wrapper `<div>`, not the `<input>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Password input with toggle (default) -->
-<PasswordInputOrTextInputDiv label="Password" bind:value />
-
-<!-- Password input without toggle -->
-<PasswordInputOrTextInputDiv label="Password" bind:value showToggle={false} />
-
-<!-- Custom toggle label for internationalization -->
-<PasswordInputOrTextInputDiv label="Mot de passe" bind:value toggleLabel="Afficher le mot de passe" />
-```
-
-## SvelteKit example
+### Default with toggle
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PasswordInputOrTextInputDiv from "#lib/components/PasswordInputOrTextInputDiv/PasswordInputOrTextInputDiv.svelte";
+  import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';
+
+  let password = $state("");
 </script>
 
-<PasswordInputOrTextInputDiv label="Password" bind:value />
+<PasswordInputOrTextInputDiv label="Password" bind:value={password} />
 ```
 
-## Keyboard
+### Without the toggle
 
-- Enter/Space on the toggle button: toggles password visibility
+```svelte
+<script lang="ts">
+  import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';
+
+  let password = $state("");
+</script>
+
+<PasswordInputOrTextInputDiv label="Password" bind:value={password} showToggle={false} />
+```
+
+### Localized toggle label
+
+```svelte
+<script lang="ts">
+  import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';
+
+  let password = $state("");
+</script>
+
+<PasswordInputOrTextInputDiv
+  label="Mot de passe"
+  bind:value={password}
+  toggleLabel="Afficher le mot de passe"
+/>
+```
+
+### Required and disabled variants
+
+```svelte
+<script lang="ts">
+  import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';
+
+  let password = $state("");
+</script>
+
+<PasswordInputOrTextInputDiv label="Password" bind:value={password} required />
+<PasswordInputOrTextInputDiv label="Password" value="••••••••" disabled />
+```
+
+### In a sign-in form
+
+```svelte
+<script lang="ts">
+  import PasswordInputOrTextInputDiv from './PasswordInputOrTextInputDiv.svelte';
+
+  let password = $state("");
+  function signIn(e: SubmitEvent) { e.preventDefault(); /* auth */ }
+</script>
+
+<form onsubmit={signIn}>
+  <PasswordInputOrTextInputDiv label="Password" bind:value={password} required />
+  <button type="submit">Sign in</button>
+</form>
+```
 
 ## Accessibility
 
-- aria-label on the input provides the accessible name
-- aria-label on the toggle button describes its purpose
-- aria-pressed on the toggle button indicates current visibility state
-- autocomplete="current-password" enables browser password manager integration
+- `aria-label` on the `<input>` names the field.
+- `aria-label` + `aria-pressed` on the toggle button communicate its purpose and current state.
+- Toggling updates `aria-pressed` so screen readers announce the new state.
+- WCAG 2.2 AAA: consumer CSS must provide a visible focus indicator for both the input and the toggle button.
 
-## Internationalization
+## Related components
 
-- The label and toggleLabel props are the only user-facing strings
-- Default toggleLabel is "Show password"; override for other locales
-- No other hardcoded user-facing strings
-
-## References
-
-- HTML password input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
-- WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
+- `PasswordInput` — plain password field with no toggle.
+- `PinInputDiv` — segmented PIN / OTP entry.
+- `TextInput` — standard text input.
+- `Field`, `Label`, `Hint`, `ErrorMessage` — labeling and messaging wrappers.
 
 ---
 

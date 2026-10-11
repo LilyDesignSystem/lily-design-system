@@ -10,10 +10,25 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-segment-group-item",
   standalone: true,
-  template: `<div class="segment-group-item {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+  template: `<button
+    type="button"
+    class="segment-group-item {{ className() }}"
+    role="radio"
+    [attr.aria-checked]="checked()"
+    [attr.data-value]="value() || null"
+    [attr.tabindex]="checked() ? 0 : -1"
+    [disabled]="disabled()"
+    [attr.aria-label]="label() || null"
+  ><ng-content /></button>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SegmentGroupItem {
   readonly label = input<string>("");
   readonly className = input<string>("");
+  /** Whether this segment is selected (`aria-checked`, and the roving tab stop). */
+  readonly checked = input<boolean>(false);
+  /** Value associated with this segment, exposed as `data-value`. */
+  readonly value = input<string>("");
+  /** Whether this segment is disabled. */
+  readonly disabled = input<boolean>(false);
 }

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Sidebar from './Sidebar';
 
 const meta = {
-  title: 'Examples/Sidebar',
+  title: 'Headless/Sidebar',
   component: Sidebar,
   tags: ['autodocs']
 } satisfies Meta<typeof Sidebar>;

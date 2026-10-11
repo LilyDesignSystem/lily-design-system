@@ -1,94 +1,140 @@
 # Banner
 
-## Overview
+A prominent message bar, typically across the top or bottom of a page, that announces site-wide information. Renders a `<div role="region" aria-live="polite">` with optional dismiss button. Supports internal dismiss state so the banner is removed from the DOM once closed.
 
-A headless banner for displaying prominent messages at the top or bottom
-of an interface. Renders as a <div role="region"> with aria-live="polite"
-and data-type for consumer styling. Supports optional dismiss functionality
-with a close button. Commonly used for site announcements, cookie notices,
-session warnings, and maintenance alerts.
+## What it is
+
+A headless Svelte 5 component outputting a `<div>` wrapping the message and an optional unlabeled `<button type="button">` for dismissal. Category: page-level messaging primitive alongside `SuperBanner`, `MedicalBanner`, and `Alert`.
 
 ## What it does
 
-A prominent message bar across the top of a page.
+- Maintains internal `visible` state initialized to `true`.
+- Conditionally renders `<div class="banner {className}" role="region" aria-live="polite" data-type={type}>` while visible.
+- Renders children as the main message.
+- If `dismissible` is true, renders a bare `<button type="button" aria-label={closeLabel}>` that flips `visible` to `false` and invokes `onclose()`.
+- Spreads additional HTML attributes onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use for a top-of-page message that applies to the whole site or section.
+- Site-wide announcements: maintenance notices, cookie consent, session warnings.
+- Persistent (but dismissible) info at the top or bottom of the viewport.
+- Promotional banners with a clear close affordance.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For modal urgent messages — use `AlertDialog`.
+- For transient notifications — use `Toast` / `Sonner`.
+- For medical context — use `MedicalBanner`.
+- For the highest-priority system-wide state — use `SuperBanner`.
+- For inline feedback messaging within a page — use `Alert`.
 
-## Usage
+## How to use it
 
-```svelte
-<Banner>Message</Banner>
-<Banner dismissible closeLabel="Close" onclose={handler}>Message</Banner>
-```
+Import `Banner` from `./Banner.svelte`. Provide children as the message. For dismissal, set `dismissible`, provide a `closeLabel`, and optionally handle `onclose`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `type` | "info" \| "success" \| "warning" \| "error", default "info" | Semantic variant exposed as data-type. |
-| `dismissible` | boolean, default false | Whether the banner can be dismissed. |
-| `onclose` | () => void, optional | Callback when the banner is dismissed. |
-| `closeLabel` | string, optional | Accessible label for the dismiss button (e.g., "Close banner" or "Dismiss"). |
-| `children` | Snippet, required | The banner content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` — string, default `""`. CSS class appended to `banner`.
+- `type` — `"info" | "success" | "warning" | "error"`, default `"info"`.
+- `dismissible` — boolean, default `false`.
+- `onclose` — `() => void`, optional. Fires after visibility is set to false.
+- `closeLabel` — string, optional. Accessible name for the dismiss button.
+- `children` — `Snippet`, required. Banner content.
+- `...restProps` — additional HTML attributes spread onto the `<div>`.
 
-## Examples
+## Usage
+
+### Simple info banner
 
 ```svelte
-<!-- Simple info banner -->
+<script lang="ts">
+  import Banner from './Banner.svelte';
+</script>
+
 <Banner>Important announcement here.</Banner>
+```
 
-<!-- Dismissible warning banner -->
-<Banner type="warning" dismissible closeLabel="Dismiss"
-  onclose={handleDismiss}>
-  Your session will expire soon.
+### Dismissible warning
+
+```svelte
+<script lang="ts">
+  import Banner from './Banner.svelte';
+
+  function handleDismiss() {
+    console.log('banner closed');
+  }
+</script>
+
+<Banner
+  type="warning"
+  dismissible
+  closeLabel="Dismiss"
+  onclose={handleDismiss}
+>
+  Your session will expire in 5 minutes.
 </Banner>
+```
 
-<!-- Error banner with custom attributes -->
-<Banner type="error" data-testid="error-banner">
+### With a BannerBox for horizontal layout
+
+```svelte
+<script lang="ts">
+  import Banner from './Banner.svelte';
+  import BannerBox from '../BannerBox/BannerBox.svelte';
+</script>
+
+<Banner type="info" dismissible closeLabel="Close">
+  <BannerBox>
+    <span>We use cookies to improve your experience.</span>
+    <a href="/cookies">Learn more</a>
+  </BannerBox>
+</Banner>
+```
+
+### Error banner, non-dismissible
+
+```svelte
+<script lang="ts">
+  import Banner from './Banner.svelte';
+</script>
+
+<Banner type="error" data-testid="outage-banner">
   Service unavailable. Please try again later.
 </Banner>
 ```
 
-## SvelteKit example
+### Controlled via external state
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Banner from "#lib/components/Banner/Banner.svelte";
+  import Banner from './Banner.svelte';
+
+  let accepted = $state(false);
 </script>
 
-<Banner>Message</Banner>
-<Banner dismissible closeLabel="Close" onclose={handler}>Message</Banner>
+{#if !accepted}
+  <Banner type="info" dismissible closeLabel="Accept" onclose={() => (accepted = true)}>
+    By using this site you accept our terms.
+  </Banner>
+{/if}
 ```
-
-## Keyboard
-
-- Tab: Focus the dismiss button (when dismissible)
-- Enter / Space: Activate the dismiss button
 
 ## Accessibility
 
-- role="region" for landmark identification
-- aria-live="polite" for announcing content changes
-- Dismiss button has aria-label from closeLabel prop
-- data-type exposes variant for consumer styling
+- `role="region"` marks the banner as a landmark (consumers should ensure uniqueness or supply `aria-label` on multiple banners).
+- `aria-live="polite"` announces content changes without interrupting.
+- The dismiss button has `aria-label={closeLabel}`; since the button has no children, `closeLabel` must be provided for an accessible name.
+- `data-type` is a styling hook, not an ARIA signal.
+- Keyboard: dismiss button is focusable; Enter/Space activate it natively.
 
-## Internationalization
+## Related components
 
-- All text comes through children snippet and closeLabel prop
-- No hardcoded strings; consumer provides dismiss button label
-
-## References
-
-- WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
+- `BannerBox` — flexbox layout inside a `Banner`.
+- `SuperBanner` — highest-priority system-state banner.
+- `MedicalBanner`, `MedicalBannerBox`, `MedicalBannerBoxForDanger`, `MedicalBannerBoxForAdvice` — medical variants.
+- `Alert` — inline status message.
+- `Toast`, `Sonner` — transient notifications.
+- `AlertDialog` — modal acknowledgment dialog.
 
 ---
 

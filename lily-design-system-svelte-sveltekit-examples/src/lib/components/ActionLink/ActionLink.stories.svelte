@@ -3,7 +3,7 @@
   import ActionLink from './ActionLink.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ActionLink',
+    title: 'Headless/ActionLink',
     component: ActionLink,
   });
 </script>

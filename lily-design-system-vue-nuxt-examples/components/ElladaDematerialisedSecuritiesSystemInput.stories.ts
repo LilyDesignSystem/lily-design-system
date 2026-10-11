@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ElladaDematerialisedSecuritiesSystemInput from './ElladaDematerialisedSecuritiesSystemInput.vue';
 
 const meta = {
-  title: 'Examples/ElladaDematerialisedSecuritiesSystemInput',
+  title: 'Headless/ElladaDematerialisedSecuritiesSystemInput',
   component: ElladaDematerialisedSecuritiesSystemInput,
   tags: ['autodocs']
 } satisfies Meta<typeof ElladaDematerialisedSecuritiesSystemInput>;

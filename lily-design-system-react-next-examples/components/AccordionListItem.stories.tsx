@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AccordionListItem from './AccordionListItem';
 
 const meta = {
-  title: 'Examples/AccordionListItem',
+  title: 'Headless/AccordionListItem',
   component: AccordionListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof AccordionListItem>;

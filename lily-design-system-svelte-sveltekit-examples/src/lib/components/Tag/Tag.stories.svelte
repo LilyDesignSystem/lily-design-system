@@ -3,7 +3,7 @@
   import Tag from './Tag.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Tag',
+    title: 'Headless/Tag',
     component: Tag,
   });
 </script>

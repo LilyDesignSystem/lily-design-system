@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Blockquote from './Blockquote.vue';
 
 const meta = {
-  title: 'Examples/Blockquote',
+  title: 'Headless/Blockquote',
   component: Blockquote,
   tags: ['autodocs']
 } satisfies Meta<typeof Blockquote>;

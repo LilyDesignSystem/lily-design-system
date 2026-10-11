@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import DigitalObjectIdentifierLink from "./DigitalObjectIdentifierLink.svelte";
     const { Story } = defineMeta({
-        title: "Examples/DigitalObjectIdentifierLink",
+        title: "Headless/DigitalObjectIdentifierLink",
         component: DigitalObjectIdentifierLink,
     });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ActionLink from './ActionLink.vue';
 
 const meta = {
-  title: 'Examples/ActionLink',
+  title: 'Headless/ActionLink',
   component: ActionLink,
   tags: ['autodocs']
 } satisfies Meta<typeof ActionLink>;

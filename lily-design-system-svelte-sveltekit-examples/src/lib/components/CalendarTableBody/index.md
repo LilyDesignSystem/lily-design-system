@@ -1,68 +1,150 @@
 # CalendarTableBody
 
-## Overview
+The body section of a `CalendarTable`. Renders a `<tbody>` that holds rows of day cells.
 
-The body section of a CalendarTable, rendered as a <tbody> element.
-Contains CalendarTableRow elements with day data cells.
+## What it is
+
+A headless Svelte 5 structural wrapper. Category: calendar grid structural primitive, sibling of `CalendarTableHead` and `CalendarTableFoot`; inside a `CalendarTable`.
 
 ## What it does
 
-A calendar table interactive grid tbody for managing dates, days, etc. <tbody>.
+- Renders `<tbody class="calendar-table-body {className}">`.
+- Spreads additional HTML attributes onto the `<tbody>`.
+- No behavior — purely structural.
 
-## When to use
+## When to use it
 
-- Use when you need a calendar table interactive grid tbody for managing dates, days, etc. <tbody>.
+- Inside `CalendarTable` to hold the main body of day rows.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Outside a `CalendarTable` — use `DataTableBody`, `GanttTableBody`, `KanbanTableBody`, or `TableBody` as appropriate.
 
-## Usage
+## How to use it
 
-```svelte
-<CalendarTableBody>
-  <CalendarTableRow>
-    <CalendarTableTD>1</CalendarTableTD>
-    <CalendarTableTD>2</CalendarTableTD>
-  </CalendarTableRow>
-</CalendarTableBody>
-```
+Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `CalendarTable` and fill with `CalendarTableRow`s.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | CalendarTableRow elements with data cells. |
-| `...restProps` | additional HTML attributes spread onto the <tbody> |  |
+- `class` — string, default `""`. CSS class appended to `calendar-table-body`.
+- `children` — `Snippet`, required. `CalendarTableRow` elements with day cells.
+- `...restProps` — additional HTML attributes spread onto the `<tbody>`.
 
-## SvelteKit example
+## Usage
+
+### Minimal body
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableBody from "#lib/components/CalendarTableBody/CalendarTableBody.svelte";
+  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
+  import CalendarTableBody from './CalendarTableBody.svelte';
+  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
-<CalendarTableBody>
+<CalendarTable label="January 2025">
+  <CalendarTableBody>
+    <CalendarTableRow>
+      <CalendarTableTD>1</CalendarTableTD>
+      <CalendarTableTD>2</CalendarTableTD>
+    </CalendarTableRow>
+  </CalendarTableBody>
+</CalendarTable>
+```
+
+### Multiple rows
+
+```svelte
+<script lang="ts">
+  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
+  import CalendarTableBody from './CalendarTableBody.svelte';
+  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+</script>
+
+<CalendarTable label="January 2025">
+  <CalendarTableBody>
+    <CalendarTableRow>
+      {#each [1, 2, 3, 4, 5, 6, 7] as d}
+        <CalendarTableTD>{d}</CalendarTableTD>
+      {/each}
+    </CalendarTableRow>
+    <CalendarTableRow>
+      {#each [8, 9, 10, 11, 12, 13, 14] as d}
+        <CalendarTableTD>{d}</CalendarTableTD>
+      {/each}
+    </CalendarTableRow>
+  </CalendarTableBody>
+</CalendarTable>
+```
+
+### With head and foot siblings
+
+```svelte
+<script lang="ts">
+  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
+  import CalendarTableHead from '../CalendarTableHead/CalendarTableHead.svelte';
+  import CalendarTableBody from './CalendarTableBody.svelte';
+  import CalendarTableFoot from '../CalendarTableFoot/CalendarTableFoot.svelte';
+  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+</script>
+
+<CalendarTable label="Feb 2025">
+  <CalendarTableHead>
+    <CalendarTableRow><th>Mon</th><th>Tue</th></CalendarTableRow>
+  </CalendarTableHead>
+  <CalendarTableBody>
+    <CalendarTableRow><CalendarTableTD>3</CalendarTableTD></CalendarTableRow>
+  </CalendarTableBody>
+  <CalendarTableFoot>
+    <CalendarTableRow><CalendarTableTD>Total</CalendarTableTD></CalendarTableRow>
+  </CalendarTableFoot>
+</CalendarTable>
+```
+
+### With data attribute
+
+```svelte
+<CalendarTableBody data-month="january">
   <CalendarTableRow>
     <CalendarTableTD>1</CalendarTableTD>
-    <CalendarTableTD>2</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableBody>
 ```
 
-## Keyboard
+### Reactive rows from a date array
 
-- None built-in — keyboard navigation handled at the CalendarTable grid level.
+```svelte
+<script lang="ts">
+  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
+  import CalendarTableBody from './CalendarTableBody.svelte';
+  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+
+  let weeks = $state([[1, 2, 3, 4, 5, 6, 7]]);
+</script>
+
+<CalendarTable label="Week">
+  <CalendarTableBody>
+    {#each weeks as week}
+      <CalendarTableRow>
+        {#each week as d}<CalendarTableTD>{d}</CalendarTableTD>{/each}
+      </CalendarTableRow>
+    {/each}
+  </CalendarTableBody>
+</CalendarTable>
+```
 
 ## Accessibility
 
-- <tbody> provides structural body semantics for the table
+- `<tbody>` provides structural body semantics; no ARIA override.
+- Keyboard navigation is handled at the `CalendarTable` grid level.
 
-## References
+## Related components
 
-- HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody
+- `CalendarTable`, `CalendarTableHead`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableTD`, `CalendarTableTD`.
+- `DataTableBody`, `GanttTableBody`, `KanbanTableBody`, `TableBody` — sibling variants.
 
 ---
 

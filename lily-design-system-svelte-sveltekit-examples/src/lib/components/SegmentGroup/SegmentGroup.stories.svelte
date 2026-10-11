@@ -3,7 +3,7 @@
   import SegmentGroup from './SegmentGroup.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SegmentGroup',
+    title: 'Headless/SegmentGroup',
     component: SegmentGroup,
   });
 </script>

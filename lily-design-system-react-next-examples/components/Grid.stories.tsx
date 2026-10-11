@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Grid from './Grid';
 
 const meta = {
-  title: 'Examples/Grid',
+  title: 'Headless/Grid',
   component: Grid,
   tags: ['autodocs']
 } satisfies Meta<typeof Grid>;

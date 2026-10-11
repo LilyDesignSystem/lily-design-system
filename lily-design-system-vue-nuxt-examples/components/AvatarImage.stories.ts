@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AvatarImage from './AvatarImage.vue';
 
 const meta = {
-  title: 'Examples/AvatarImage',
+  title: 'Headless/AvatarImage',
   component: AvatarImage,
   tags: ['autodocs']
 } satisfies Meta<typeof AvatarImage>;

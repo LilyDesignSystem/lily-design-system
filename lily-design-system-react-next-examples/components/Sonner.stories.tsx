@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Sonner from './Sonner';
 
 const meta = {
-  title: 'Examples/Sonner',
+  title: 'Headless/Sonner',
   component: Sonner,
   tags: ['autodocs']
 } satisfies Meta<typeof Sonner>;

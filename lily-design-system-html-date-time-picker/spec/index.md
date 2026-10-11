@@ -536,6 +536,13 @@ the grid so the zone is chosen before the instant.
   for a zone change.
 - No zone is selected unless the consumer sets one.
 
+### 5.10 Form reset
+
+When the picker sits in a `<form>` and the form is reset, the picker restores the value (and time zone) it had when
+first rendered — in the visible field, in the element's `value`, and in the hidden input the form submits — one tick after the
+`reset` event, so the browser has reset the DOM first, and not at all when a listener cancelled the reset
+(`preventDefault()`). Like a native reset, it calls no `onChange` and dispatches no `datetimechange`. The listener is added on connect and removed on disconnect. Before 2026-10-11 a reset blanked the field while `value` and the hidden input kept the date, so the field showed nothing and the form still submitted the old value.
+
 ## 6. Accessibility
 
 Identical contract to the Svelte spec's §6 — roles/properties table

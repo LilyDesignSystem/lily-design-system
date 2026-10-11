@@ -3,7 +3,7 @@
   import DataTableRow from './DataTableRow.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DataTableRow',
+    title: 'Headless/DataTableRow',
     component: DataTableRow,
   });
 </script>

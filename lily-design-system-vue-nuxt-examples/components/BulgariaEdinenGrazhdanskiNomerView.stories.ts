@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import BulgariaEdinenGrazhdanskiNomerView from './BulgariaEdinenGrazhdanskiNomerView.vue';
 
 const meta = {
-  title: 'Examples/BulgariaEdinenGrazhdanskiNomerView',
+  title: 'Headless/BulgariaEdinenGrazhdanskiNomerView',
   component: BulgariaEdinenGrazhdanskiNomerView,
   tags: ['autodocs']
 } satisfies Meta<typeof BulgariaEdinenGrazhdanskiNomerView>;

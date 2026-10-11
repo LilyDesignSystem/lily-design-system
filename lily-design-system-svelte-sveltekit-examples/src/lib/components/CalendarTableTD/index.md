@@ -1,80 +1,131 @@
 # CalendarTableTD
 
-## Overview
+A single day cell in a `CalendarTable`. Renders a `<td>` with `role="gridcell"`, supporting selected and today states via ARIA and a roving-tabindex pattern (`tabindex="0"` when selected, `-1` otherwise).
 
-A single day cell within a CalendarTable grid. Renders as a <td> with
-role="gridcell", supporting selected and today states for visual and
-accessible indication. Uses a roving tabindex pattern where the selected
-cell receives focus. Designed for use inside a CalendarTableRow.
+## What it is
+
+A headless Svelte 5 leaf cell. Category: calendar grid cell primitive, inside a `CalendarTableRow`.
 
 ## What it does
 
-A calendar table interactive grid data cell for managing dates, days, etc. <td>.
+- Renders `<td class="calendar-table-td {className}" role="gridcell" aria-selected={selected || undefined} aria-current={today ? "date" : undefined} tabindex={selected ? 0 : -1}>`.
+- `aria-selected="true"` only when `selected` is true.
+- `aria-current="date"` only when `today` is true.
+- Roving tabindex puts focus on the selected cell; other cells are skipped (`-1`).
+- Spreads additional HTML attributes onto the `<td>`.
 
-## When to use
+## When to use it
 
-- Use when you need a calendar table interactive grid data cell for managing dates, days, etc. <td>.
+- Inside a `CalendarTableRow` to represent each day.
+- In date pickers, range pickers, and schedule views.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Outside a `CalendarTable` — use `DataTableTD`, `GanttTableTD`, `KanbanTableTD`, or `TableTD`.
+- As a header cell — use a plain `<th>` inside `CalendarTableHead`.
 
-## Usage
+## How to use it
 
-```svelte
-<CalendarTableTD>15</CalendarTableTD>
-```
+Import `CalendarTableTD` from `./CalendarTableTD.svelte`. Pass children for the day content. Set `selected` and `today` as needed.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `selected` | boolean, default false | Whether this day cell is selected. |
-| `today` | boolean, default false | Whether this day cell represents today's date. |
-| `children` | Snippet, required | Day content, typically the day number. |
-| `...restProps` | additional HTML attributes spread onto the <td> |  |
+- `class` — string, default `""`. CSS class appended to `calendar-table-td`.
+- `selected` — boolean, default `false`. Whether the cell is selected.
+- `today` — boolean, default `false`. Whether the cell represents today.
+- `children` — `Snippet`, required. Cell content, typically the day number.
+- `...restProps` — additional HTML attributes spread onto the `<td>`.
 
-## Examples
+## Usage
+
+### Regular day cell
 
 ```svelte
-<!-- Selected day that is also today -->
-<CalendarTableTD selected today>15</CalendarTableTD>
+<script lang="ts">
+  import CalendarTableTD from './CalendarTableTD.svelte';
+</script>
 
-<!-- Regular unselected day -->
 <CalendarTableTD>22</CalendarTableTD>
 ```
 
-## SvelteKit example
+### Selected and today
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableTD from "#lib/components/CalendarTableTD/CalendarTableTD.svelte";
+  import CalendarTableTD from './CalendarTableTD.svelte';
 </script>
 
-<CalendarTableTD>15</CalendarTableTD>
+<CalendarTableTD selected today>15</CalendarTableTD>
 ```
 
-## Keyboard
+### In a row
 
-- Tab: Focus moves to the selected cell (tabindex="0")
-- Arrow keys: Typically handled by the parent CalendarTable grid navigation
+```svelte
+<script lang="ts">
+  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
+
+  let selected = $state(15);
+</script>
+
+<CalendarTableRow>
+  {#each [14, 15, 16] as d}
+    <CalendarTableTD selected={d === selected} onclick={() => (selected = d)}>
+      {d}
+    </CalendarTableTD>
+  {/each}
+</CalendarTableRow>
+```
+
+### Full calendar composition
+
+```svelte
+<script lang="ts">
+  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
+  import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
+  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
+</script>
+
+<CalendarTable label="January 2025">
+  <CalendarTableBody>
+    <CalendarTableRow>
+      {#each [1, 2, 3, 4, 5, 6, 7] as d}
+        <CalendarTableTD today={d === 3}>{d}</CalendarTableTD>
+      {/each}
+    </CalendarTableRow>
+  </CalendarTableBody>
+</CalendarTable>
+```
+
+### With click handler and data attribute
+
+```svelte
+<script lang="ts">
+  import CalendarTableTD from './CalendarTableTD.svelte';
+
+  function pick(d: number) {
+    console.log('picked', d);
+  }
+</script>
+
+<CalendarTableTD data-date="2025-01-15" onclick={() => pick(15)}>15</CalendarTableTD>
+```
 
 ## Accessibility
 
-- role="gridcell" identifies the cell as part of a grid
-- aria-selected set to true when selected; omitted otherwise
-- aria-current="date" set when the cell represents today; omitted otherwise
-- Roving tabindex: tabindex="0" when selected, "-1" otherwise
+- `role="gridcell"` marks each cell as part of the grid widget.
+- `aria-selected` reflects selection state.
+- `aria-current="date"` marks today's cell.
+- Roving tabindex: only the selected cell is Tab-reachable; arrow keys must be handled by the parent grid.
+- Keyboard: consumers should implement arrow-key navigation, Enter/Space selection at the `CalendarTable` level.
 
-## Internationalization
+## Related components
 
-- Day content comes through children snippet; no hardcoded strings
-
-## References
-
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+- `CalendarTableRow` — required parent.
+- `CalendarTable` — outer grid.
+- `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableTD` — siblings.
+- `DataTableTD`, `GanttTableTD`, `KanbanTableTD`, `TableTD` — sibling table variants.
 
 ---
 

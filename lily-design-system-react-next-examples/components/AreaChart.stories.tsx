@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AreaChart from './AreaChart';
 
 const meta = {
-  title: 'Examples/AreaChart',
+  title: 'Headless/AreaChart',
   component: AreaChart,
   tags: ['autodocs']
 } satisfies Meta<typeof AreaChart>;

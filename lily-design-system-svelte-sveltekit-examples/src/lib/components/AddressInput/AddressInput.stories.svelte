@@ -3,7 +3,7 @@
   import AddressInput from './AddressInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AddressInput',
+    title: 'Headless/AddressInput',
     component: AddressInput,
   });
 </script>

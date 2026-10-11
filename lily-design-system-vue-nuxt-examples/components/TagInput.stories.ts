@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TagInput from './TagInput.vue';
 
 const meta = {
-  title: 'Examples/TagInput',
+  title: 'Headless/TagInput',
   component: TagInput,
   tags: ['autodocs']
 } satisfies Meta<typeof TagInput>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PaginationLink from './PaginationLink.vue';
 
 const meta = {
-  title: 'Examples/PaginationLink',
+  title: 'Headless/PaginationLink',
   component: PaginationLink,
   tags: ['autodocs']
 } satisfies Meta<typeof PaginationLink>;

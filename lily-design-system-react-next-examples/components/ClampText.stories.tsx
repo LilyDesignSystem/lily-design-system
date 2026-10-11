@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ClampText from './ClampText';
 
 const meta = {
-  title: 'Examples/ClampText',
+  title: 'Headless/ClampText',
   component: ClampText,
   tags: ['autodocs']
 } satisfies Meta<typeof ClampText>;

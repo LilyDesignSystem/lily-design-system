@@ -1,80 +1,132 @@
 # MonthInput
 
-## Overview
+MonthInput is a headless Svelte 5 month input that wraps a native `<input type="month">` with accessible labelling. It provides a bindable value in `YYYY-MM` format and supports required and disabled states — useful for credit-card expirations, report periods, billing cycles, or any date selection at month granularity.
 
-A headless month input that wraps a native <input type="month"> element with
-accessible labelling for selecting a month and year. It provides a bindable
-value in YYYY-MM format and supports required and disabled states. Useful for
-credit card expiration dates, report periods, billing cycles, or any date
-selection at month granularity.
+## What it is
+
+A thin wrapper around `<input type="month">`. The browser handles the picker UI and keyboard behaviour natively; this component exposes just the props needed for accessible labelling and two-way binding.
 
 ## What it does
 
-An input for selecting a month and year <input type="month">.
+- Renders an `<input type="month">` with `class="month-input"` plus any consumer-provided CSS class.
+- Applies `aria-label` from the required `label` prop.
+- Provides a bindable `value` (string, `YYYY-MM` format) via `$bindable("")`.
+- Forwards `required` and `disabled` HTML attributes.
+- Spreads `...restProps` onto the `<input>` — consumers typically pass `min`, `max`, `step`, or `name`.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Credit-card expiration date entry.
+- Report or billing cycle selection.
+- Any month-level date picker (e.g., subscription start month).
+- Scheduling recurring monthly events where only the month and year matter.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- Do not use for a full date — use `DateInput`.
+- Do not use for a time — use `TimeInput`.
+- Do not use for a date + time — use `DateTimeLocalInput`.
+- Do not use for week selection — use `WeekInput`.
 
-## Usage
+## How to use it
 
-```svelte
-<MonthInput label="Start month" bind:value />
-```
+Import the component, pass a `label`, and bind the `value` (which will be a `YYYY-MM` string). Optionally constrain with `min` / `max` via `restProps`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the input via aria-label. |
-| `value` | string, default "" | Current month value in YYYY-MM format; bindable via $bindable(). |
-| `required` | boolean, default false | Whether the input is required. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+- `class` (string, optional) — consumer CSS class appended to the base class.
+- `label` (string, required) — accessible name applied via `aria-label`.
+- `value` (string, optional, default `""`) — bindable month value in `YYYY-MM` format.
+- `required` (boolean, optional, default `false`) — whether the input is required.
+- `disabled` (boolean, optional, default `false`) — whether the input is disabled.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<input>` (for example `min`, `max`, `step`).
 
-## Examples
+## Usage
 
-```svelte
-<!-- Basic month picker -->
-<MonthInput label="Start month" bind:value />
-
-<!-- Required month input with min/max constraints -->
-<MonthInput label="Expiration" bind:value required min="2024-01" max="2030-12" />
-```
-
-## SvelteKit example
+### Basic month picker
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MonthInput from "#lib/components/MonthInput/MonthInput.svelte";
+    import MonthInput from "./MonthInput.svelte";
+    let month = $state("");
 </script>
 
-<MonthInput label="Start month" bind:value />
+<MonthInput label="Start month" bind:value={month} />
 ```
 
-## Keyboard
+### Required with min/max constraints
 
-- Native browser month input keyboard behavior (varies by browser).
+```svelte
+<script lang="ts">
+    import MonthInput from "./MonthInput.svelte";
+    let month = $state("");
+</script>
+
+<MonthInput
+    label="Expiration"
+    bind:value={month}
+    required
+    min="2024-01"
+    max="2030-12"
+/>
+```
+
+### Disabled with a preselected month
+
+```svelte
+<script lang="ts">
+    import MonthInput from "./MonthInput.svelte";
+    let month = $state("2025-04");
+</script>
+
+<MonthInput label="Report month" bind:value={month} disabled />
+```
+
+### Credit-card expiration
+
+```svelte
+<script lang="ts">
+    import MonthInput from "./MonthInput.svelte";
+    let expiration = $state("");
+</script>
+
+<MonthInput
+    label="Card expiration"
+    bind:value={expiration}
+    required
+    min="2026-04"
+    name="expiration"
+/>
+```
+
+### Derived date from the bound value
+
+```svelte
+<script lang="ts">
+    import MonthInput from "./MonthInput.svelte";
+    let month = $state("2026-01");
+    const firstOfMonth = $derived(month ? `${month}-01` : "");
+</script>
+
+<MonthInput label="Start month" bind:value={month} />
+<p>First day of month: {firstOfMonth}</p>
+```
 
 ## Accessibility
 
-- aria-label={label} provides an accessible name describing the input purpose
-- Supports required and disabled HTML states
+- `aria-label` provides the accessible name in the absence of a visible `<label>`.
+- Native `<input type="month">` exposes appropriate semantics and keyboard behaviour to the browser and assistive technology.
+- `required` and `disabled` attributes are forwarded.
+- Compliant with WCAG 2.2 AAA when the consumer provides sufficient focus indicators.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
-- HTML month input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/month
+- `DateInput` — a full date picker (`<input type="date">`).
+- `WeekInput` — a week + year picker (`<input type="week">`).
+- `TimeInput` — a time picker (`<input type="time">`).
+- `DateTimeLocalInput` — date + time without a timezone.
+- `DateTimeNowInput` — date + time with a "now" button.
+- `DateRange` — display of a start/end date range.
 
 ---
 

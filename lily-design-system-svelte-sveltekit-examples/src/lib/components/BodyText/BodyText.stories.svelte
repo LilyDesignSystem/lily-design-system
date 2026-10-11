@@ -3,7 +3,7 @@
   import BodyText from './BodyText.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/BodyText',
+    title: 'Headless/BodyText',
     component: BodyText,
   });
 </script>

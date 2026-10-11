@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ProgressSpinner from './ProgressSpinner.vue';
 
 const meta = {
-  title: 'Examples/ProgressSpinner',
+  title: 'Headless/ProgressSpinner',
   component: ProgressSpinner,
   tags: ['autodocs']
 } satisfies Meta<typeof ProgressSpinner>;

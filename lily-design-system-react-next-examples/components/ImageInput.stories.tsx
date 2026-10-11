@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ImageInput from './ImageInput';
 
 const meta = {
-  title: 'Examples/ImageInput',
+  title: 'Headless/ImageInput',
   component: ImageInput,
   tags: ['autodocs']
 } satisfies Meta<typeof ImageInput>;

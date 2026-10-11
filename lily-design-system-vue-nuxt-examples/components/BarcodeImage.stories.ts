@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import BarcodeImage from './BarcodeImage.vue';
 
 const meta = {
-  title: 'Examples/BarcodeImage',
+  title: 'Headless/BarcodeImage',
   component: BarcodeImage,
   tags: ['autodocs']
 } satisfies Meta<typeof BarcodeImage>;

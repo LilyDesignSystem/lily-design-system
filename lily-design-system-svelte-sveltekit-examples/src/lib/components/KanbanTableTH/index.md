@@ -1,72 +1,111 @@
 # KanbanTableTD
 
-## Overview
+A column header cell within a `KanbanTable`. Renders a `<th scope="col">` element, intended to live inside a `KanbanTableRow` within `KanbanTableHead`, where it labels a workflow stage column.
 
-A column definition within a KanbanTable, rendered as a <col> element.
-Used inside a <colgroup> to define column properties such as width or
-span for each workflow stage column. Does not render visible content.
+## What it is
+
+A headless Svelte 5 wrapper around `<th>` with `scope="col"` and optional `colspan` / `rowspan`. It carries the base class `kanban-table-th`.
 
 ## What it does
 
-A kanban board table interactive grid column for organizing items by status <th>.
+- Renders `<th class="kanban-table-th ..." scope="col">`.
+- Applies `colspan` / `rowspan` only when truthy.
+- Accepts an alternative `scope` (e.g. `"colgroup"`).
+- Renders header text via `children`.
+- Spreads `...restProps` onto the `<th>`.
 
-## When to use
+## When to use it
 
-- Use when you need a kanban board table interactive grid column for organizing items by status <th>.
+- For workflow-stage column headers ("To do", "In progress", "Done").
+- For grouped header cells via `colspan` / `rowspan`.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For task data cells — use `KanbanTableTD`.
+- For row headers — use a `<th scope="row">` directly inside `KanbanTableRow`.
+- For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `KanbanTable`.
 
-## Usage
+## How to use it
 
-```svelte
-<colgroup><KanbanTableTD /><KanbanTableTD /><KanbanTableTD /></colgroup>
-```
+Place `KanbanTableTD` elements inside a `KanbanTableRow` within `KanbanTableHead`, one per workflow stage.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `span` | number, optional | Number of columns this col element spans. |
-| `...restProps` | additional HTML attributes spread onto the <col> |  |
+- `class` (string, optional) — consumer CSS class appended to the base `kanban-table-th` class.
+- `colspan` (number, optional) — number of columns this header spans.
+- `rowspan` (number, optional) — number of rows this header spans.
+- `scope` (`"col" | "row" | "colgroup" | "rowgroup"`, default `"col"`).
+- `children` (Snippet, optional) — header cell content.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<th>`.
 
-## Examples
+## Usage
+
+### Three-stage board
 
 ```svelte
+<script lang="ts">
+    import KanbanTable from "../KanbanTable/KanbanTable.svelte";
+    import KanbanTableHead from "../KanbanTableHead/KanbanTableHead.svelte";
+    import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
+    import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
+    import KanbanTableTD from "./KanbanTableTD.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
+</script>
+
 <KanbanTable label="Board">
-  <colgroup>
-    <KanbanTableTD span={1} />
-    <KanbanTableTD span={1} />
-    <KanbanTableTD span={1} />
-  </colgroup>
-  ...
+    <KanbanTableHead>
+        <KanbanTableRow>
+            <KanbanTableTD>To do</KanbanTableTD>
+            <KanbanTableTD>In progress</KanbanTableTD>
+            <KanbanTableTD>Done</KanbanTableTD>
+        </KanbanTableRow>
+    </KanbanTableHead>
+    <KanbanTableBody>
+        <KanbanTableRow>
+            <KanbanTableTD>A</KanbanTableTD>
+            <KanbanTableTD>B</KanbanTableTD>
+            <KanbanTableTD>C</KanbanTableTD>
+        </KanbanTableRow>
+    </KanbanTableBody>
 </KanbanTable>
 ```
 
-## SvelteKit example
+### Spanning columns
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import KanbanTableTD from "#lib/components/KanbanTableTD/KanbanTableTD.svelte";
-</script>
-
-<colgroup><KanbanTableTD /><KanbanTableTD /><KanbanTableTD /></colgroup>
+<KanbanTableHead>
+    <KanbanTableRow>
+        <KanbanTableTD colspan={2} scope="colgroup">Active</KanbanTableTD>
+        <KanbanTableTD>Done</KanbanTableTD>
+    </KanbanTableRow>
+</KanbanTableHead>
 ```
 
-## Keyboard
+### With per-column data hooks
 
-- None — <col> is not interactive.
+```svelte
+<KanbanTableHead>
+    <KanbanTableRow>
+        <KanbanTableTD data-stage="todo">To do</KanbanTableTD>
+        <KanbanTableTD data-stage="doing">In progress</KanbanTableTD>
+        <KanbanTableTD data-stage="done">Done</KanbanTableTD>
+    </KanbanTableRow>
+</KanbanTableHead>
+```
 
 ## Accessibility
 
-- <col> provides structural column information for the table
+- `<th scope="col">` associates the header with its workflow column for assistive tech.
+- Use `scope="colgroup"` together with `colspan` for grouped column headers.
 
-## References
+## Related components
 
-- HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- `KanbanTable` — the root `<table>` with `role="grid"`.
+- `KanbanTableHead` — the `<thead>` section containing column-header rows.
+- `KanbanTableBody` — the `<tbody>` section containing task rows.
+- `KanbanTableFoot` — the `<tfoot>` section for totals.
+- `KanbanTableRow` — a `<tr>` row.
+- `KanbanTableTD` — a `<td role="gridcell">` task cell.
 
 ---
 

@@ -3,7 +3,7 @@
   import SkipLink from './SkipLink.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SkipLink',
+    title: 'Headless/SkipLink',
     component: SkipLink,
   });
 </script>

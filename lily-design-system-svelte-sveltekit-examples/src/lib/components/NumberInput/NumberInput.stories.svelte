@@ -3,7 +3,7 @@
   import NumberInput from './NumberInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/NumberInput',
+    title: 'Headless/NumberInput',
     component: NumberInput,
   });
 </script>

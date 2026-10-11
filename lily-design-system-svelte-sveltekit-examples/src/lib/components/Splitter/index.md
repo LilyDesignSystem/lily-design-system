@@ -1,83 +1,152 @@
 # Splitter
 
-## Overview
+A headless, focusable separator between two resizable panels. Uses `role="separator"` with an orientation and a value range.
 
-A headless draggable separator between resizable panels that uses the ARIA
-separator role with keyboard focus and value tracking. Renders a <div> with
-orientation, value range, and accessible labeling. Used between adjacent panels
-to provide a visual and interactive handle for resizing.
+## What it is
+
+A Svelte 5 headless primitive that renders a single empty `<div class="splitter ...">` with:
+
+- `role="separator"`
+- `aria-label`
+- `aria-orientation`
+- `tabindex="0"`
+- default `aria-valuenow={50}`, `aria-valuemin={0}`, `aria-valuemax={100}`
 
 ## What it does
 
-A draggable divider for resizing adjacent panels.
+- Declares the element as a resizable separator (window splitter).
+- Exposes orientation.
+- Is keyboard-focusable.
+- Does NOT render any children (the source renders `<div></div>`).
+- Spreads `...restProps`, which can be used to override the default `aria-valuenow` with a bound value.
 
-## When to use
+The consumer implements all drag handling and keyboard interaction (arrow keys to move, Home/End to snap, etc.).
 
-- Use when you need a draggable divider for resizing adjacent panels.
+## When to use it
 
-## When not to use
+- Between two resizable panels (three-column layouts, editor/preview splits).
+- Inside IDE-style layouts and dashboards.
+- Any place the user can drag a handle to resize sibling regions.
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Passive horizontal rules - use `Separator`.
+- Resizable containers with a corner handle - use `Resizable`.
+- Scrollbar UIs - use `ScrollBar`.
 
-```svelte
-<Splitter label="Resize panels" orientation="vertical" />
-```
+## How to use it
+
+1. Place the `Splitter` between two panels in your layout.
+2. Provide a translated `label`.
+3. Choose `orientation` (`"vertical"` for side-by-side panels, `"horizontal"` for stacked).
+4. Bind the current position to `aria-valuenow` through restProps.
+5. Implement pointer and key handlers to adjust the actual panel sizes.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the splitter via aria-label. |
-| `orientation` | "horizontal" \| "vertical", default "vertical" | The split direction. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged with the base `splitter` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `orientation` (`"horizontal" | "vertical"`, optional, default `"vertical"`).
+- `...restProps` - spread onto `<div>`; use this to override `aria-valuenow`, attach `onkeydown`, etc.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Horizontal splitter between top and bottom panels -->
-<Splitter label="Resize editor and preview" orientation="horizontal" />
-
-<!-- Vertical splitter with custom aria-valuenow -->
-<Splitter label="Resize sidebar" orientation="vertical" aria-valuenow={splitPos} />
-```
-
-## SvelteKit example
+Vertical splitter (between left and right panels):
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Splitter from "#lib/components/Splitter/Splitter.svelte";
+    import Splitter from "./Splitter.svelte";
 </script>
 
-<Splitter label="Resize panels" orientation="vertical" />
+<div class="columns">
+    <section>Left panel</section>
+    <Splitter label="Resize left panel" orientation="vertical" />
+    <section>Right panel</section>
+</div>
 ```
 
-## Keyboard
+Horizontal splitter (between top and bottom panels):
 
-- Tab: moves focus to the splitter
-- Arrow keys: consumer should implement to adjust split position
-- Home: consumer should implement to set minimum position
-- End: consumer should implement to set maximum position
+```svelte
+<script lang="ts">
+    import Splitter from "./Splitter.svelte";
+</script>
+
+<div class="rows">
+    <section>Top</section>
+    <Splitter label="Resize editor and preview" orientation="horizontal" />
+    <section>Bottom</section>
+</div>
+```
+
+Bound position:
+
+```svelte
+<script lang="ts">
+    import Splitter from "./Splitter.svelte";
+    let pos = $state(60);
+</script>
+
+<Splitter label="Resize sidebar" orientation="vertical" aria-valuenow={pos} />
+```
+
+Keyboard handler (consumer-implemented):
+
+```svelte
+<script lang="ts">
+    import Splitter from "./Splitter.svelte";
+    let pos = $state(50);
+    function onkeydown(e: KeyboardEvent) {
+        if (e.key === "ArrowLeft") pos = Math.max(0, pos - 1);
+        if (e.key === "ArrowRight") pos = Math.min(100, pos + 1);
+        if (e.key === "Home") pos = 0;
+        if (e.key === "End") pos = 100;
+    }
+</script>
+
+<Splitter label="Resize" aria-valuenow={pos} {onkeydown} />
+```
+
+Drag handler (consumer-implemented):
+
+```svelte
+<script lang="ts">
+    import Splitter from "./Splitter.svelte";
+    let pos = $state(50);
+    function onpointerdown(e: PointerEvent) {
+        const start = e.clientX;
+        const startPos = pos;
+        function onmove(ev: PointerEvent) {
+            pos = Math.min(100, Math.max(0, startPos + ev.clientX - start));
+        }
+        function onup() {
+            window.removeEventListener("pointermove", onmove);
+            window.removeEventListener("pointerup", onup);
+        }
+        window.addEventListener("pointermove", onmove);
+        window.addEventListener("pointerup", onup);
+    }
+</script>
+
+<Splitter label="Resize" aria-valuenow={pos} {onpointerdown} />
+```
 
 ## Accessibility
 
-- role="separator" identifies the element as a separator between regions
-- aria-label provides an accessible name describing the splitter's purpose
-- aria-orientation indicates horizontal or vertical direction
-- aria-valuenow/aria-valuemin/aria-valuemax report the split position
-- tabindex="0" makes the splitter keyboard-focusable
+- `role="separator"` with `aria-orientation` is the correct pattern for a window splitter.
+- `aria-valuenow`/`aria-valuemin`/`aria-valuemax` communicate split position to assistive tech.
+- `tabindex="0"` makes the splitter keyboard-focusable.
+- Consumers must provide a visible focus indicator and implement arrow-key resize.
 
-## Internationalization
-
-- The label prop externalizes the accessible label string
-
-## References
-
+References:
 - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
+
+## Related components
+
+- `Resizable` - a single resizable region (not between panels).
+- `Separator` - passive horizontal rule.
+- `ScrollBar` - custom scrollbar track.
 
 ---
 

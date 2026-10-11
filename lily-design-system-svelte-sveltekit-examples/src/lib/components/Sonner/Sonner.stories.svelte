@@ -3,7 +3,7 @@
   import Sonner from './Sonner.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Sonner',
+    title: 'Headless/Sonner',
     component: Sonner,
   });
 </script>

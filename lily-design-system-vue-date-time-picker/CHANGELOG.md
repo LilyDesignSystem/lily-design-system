@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11
+
+Fixed: a form reset now restores the initial date (and time zone) in the field, the model and the submitted value,
+unless the reset is cancelled. Before, the field and the form's submitted value disagreed after a reset. See `spec/index.md` §5.10.
+
 ## 0.2.0 — 2026-10-04
 
 **Added: hover/keyboard-focus tooltip (minor, additive).** A new

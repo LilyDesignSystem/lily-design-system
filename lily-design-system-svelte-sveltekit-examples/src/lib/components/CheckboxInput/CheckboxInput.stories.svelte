@@ -3,7 +3,7 @@
   import CheckboxInput from './CheckboxInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CheckboxInput',
+    title: 'Headless/CheckboxInput',
     component: CheckboxInput,
   });
 </script>

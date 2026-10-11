@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ChatListItem from './ChatListItem';
 
 const meta = {
-  title: 'Examples/ChatListItem',
+  title: 'Headless/ChatListItem',
   component: ChatListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof ChatListItem>;

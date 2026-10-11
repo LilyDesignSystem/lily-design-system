@@ -3,7 +3,7 @@
   import DateTimeNowInput from './DateTimeNowInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DateTimeNowInput',
+    title: 'Headless/DateTimeNowInput',
     component: DateTimeNowInput,
   });
 </script>

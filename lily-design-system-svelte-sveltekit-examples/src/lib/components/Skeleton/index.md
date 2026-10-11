@@ -1,80 +1,125 @@
 # Skeleton
 
-## Overview
+A headless loading placeholder. Hidden from screen readers with `aria-hidden="true"` and marked as busy with `aria-busy="true"`.
 
-A headless loading placeholder that indicates content is in the process of
-loading. Shows the approximate layout of content before it arrives, reducing
-perceived loading time and preventing layout shift. Hidden from screen readers
-with aria-hidden="true" and signals loading state with aria-busy="true".
+## What it is
+
+A Svelte 5 headless primitive rendering a single `<div>` placeholder with `aria-hidden="true"` and `aria-busy="true"`. The consumer supplies any inner shapes (lines, circles, blocks) via the optional `children` snippet.
 
 ## What it does
 
-A placeholder loading animation for content.
+- Renders a single `<div class="skeleton ...">` placeholder.
+- Applies `aria-hidden="true"` so the skeleton is not announced.
+- Applies `aria-busy="true"` to signal that content is loading.
+- Renders optional `children` (for example, skeleton line shapes) or an empty `<div>` when none are provided.
+- Spreads `...restProps` onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a placeholder loading animation for content.
+- As a placeholder while list items, cards, or articles are loading.
+- To preserve layout and reduce perceived latency during data fetches.
+- Anywhere a spinner would be too intrusive.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For indeterminate status messages aimed at screen readers - use `Loading` or `ProgressSpinner`.
+- For determinate progress - use `Progress` or `ProgressCircle`.
+- For content that is already loaded - skeletons should be temporary.
 
-## Usage
+## How to use it
 
-```svelte
-<Skeleton />
-```
+1. Import the component.
+2. Optionally render child shapes inside for row and card-like layouts.
+3. Replace the skeleton with real content once loading completes.
+4. Style via the `.skeleton` class.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, optional | Placeholder content such as skeleton line shapes. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged after the base `skeleton` class.
+- `children` (Snippet, optional) - placeholder shapes.
+- `...restProps` - spread onto the `<div>` (for example, `style`, `id`).
 
-## Examples
+## Usage
+
+Empty skeleton box:
 
 ```svelte
-<!-- With placeholder shapes -->
-<Skeleton>
-  <div class="skeleton-line"></div>
-  <div class="skeleton-line"></div>
-</Skeleton>
+<script lang="ts">
+    import Skeleton from "./Skeleton.svelte";
+</script>
 
-<!-- With sizing attributes -->
 <Skeleton style="width:200px; height:20px;" />
 ```
 
-## SvelteKit example
+Skeleton with line shapes:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Skeleton from "#lib/components/Skeleton/Skeleton.svelte";
+    import Skeleton from "./Skeleton.svelte";
 </script>
 
-<Skeleton />
+<Skeleton>
+    <div class="skeleton-line" style="height:16px; width:80%"></div>
+    <div class="skeleton-line" style="height:16px; width:60%"></div>
+    <div class="skeleton-line" style="height:16px; width:90%"></div>
+</Skeleton>
 ```
 
-## Keyboard
+Skeleton card:
 
-- None — this is a passive placeholder hidden from interaction.
+```svelte
+<script lang="ts">
+    import Skeleton from "./Skeleton.svelte";
+</script>
+
+<Skeleton>
+    <div style="height:120px" class="skeleton-media"></div>
+    <div style="height:14px; width:70%" class="skeleton-line"></div>
+    <div style="height:14px; width:40%" class="skeleton-line"></div>
+</Skeleton>
+```
+
+Conditional render:
+
+```svelte
+<script lang="ts">
+    import Skeleton from "./Skeleton.svelte";
+    let loading = $state(true);
+</script>
+
+{#if loading}
+    <Skeleton style="height:80px"></Skeleton>
+{:else}
+    <article>Loaded!</article>
+{/if}
+```
+
+List of skeleton rows:
+
+```svelte
+<script lang="ts">
+    import Skeleton from "./Skeleton.svelte";
+</script>
+
+{#each { length: 5 } as _}
+    <Skeleton style="height:32px; margin:4px 0"></Skeleton>
+{/each}
+```
 
 ## Accessibility
 
-- aria-hidden="true" hides the placeholder entirely from screen readers
-- aria-busy="true" signals that this region is in a loading state
-- Content will be replaced when loading completes
+- `aria-hidden="true"` removes the placeholder from the accessibility tree.
+- `aria-busy="true"` tells assistive tech the area is loading.
+- Consumers should ensure real content replaces the skeleton promptly.
 
-## Internationalization
+References:
+- WAI-ARIA `aria-busy`: https://www.w3.org/WAI/ARIA/apg/states/aria-busy/
+- MDN `aria-hidden`: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden
 
-- No user-facing text — purely a visual placeholder
+## Related components
 
-## References
-
-- WAI-ARIA aria-busy: https://www.w3.org/WAI/ARIA/apd/states/aria-busy/
-- MDN aria-hidden: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden
+- `Loading` - announced loading indicator.
+- `Progress`, `ProgressCircle`, `ProgressSpinner` - progress indicators.
 
 ---
 

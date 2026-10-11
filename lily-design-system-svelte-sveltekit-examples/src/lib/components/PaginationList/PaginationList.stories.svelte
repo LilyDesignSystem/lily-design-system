@@ -3,7 +3,7 @@
   import PaginationList from './PaginationList.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PaginationList',
+    title: 'Headless/PaginationList',
     component: PaginationList,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AiLabel from './AiLabel';
 
 const meta = {
-  title: 'Examples/AiLabel',
+  title: 'Headless/AiLabel',
   component: AiLabel,
   tags: ['autodocs']
 } satisfies Meta<typeof AiLabel>;

@@ -3,7 +3,7 @@
   import FiveFaceRatingPicker from './FiveFaceRatingPicker.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FiveFaceRatingPicker',
+    title: 'Headless/FiveFaceRatingPicker',
     component: FiveFaceRatingPicker,
   });
 </script>

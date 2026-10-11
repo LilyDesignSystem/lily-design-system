@@ -1,86 +1,129 @@
 # SignaturePad
 
-## Overview
+A headless container for capturing handwritten signatures. Declares a `role="application"` region with an accessible label and relies on the consumer to provide the actual drawing surface (canvas, SVG, or third-party library).
 
-A headless container for capturing handwritten signatures using mouse, touch,
-or stylus input. Renders a <div> with role="application" and an accessible
-label. Commonly used in contract signing workflows, consent forms, delivery
-confirmations, and legal document processing. The consumer provides the actual
-drawing implementation (HTML canvas, SVG paths, or a third-party library).
+## What it is
+
+A Svelte 5 headless component that renders `<div class="signature-pad ...">` with `role="application"` and `aria-label`. The `children` snippet is where the consumer plugs in a `<canvas>`, `<svg>`, or any drawing implementation.
 
 ## What it does
 
-A drawing area for capturing a handwritten signature.
+- Declares an `application` landmark so assistive tech knows complex pointer interactions occur inside.
+- Applies the accessible name via `aria-label`.
+- Forwards `...restProps` onto the `<div>`.
+- Contains no drawing logic, no pointer handlers, and no styles.
 
-## When to use
+## When to use it
 
-- Use when you need a drawing area for capturing a handwritten signature.
+- Contract and consent workflows that collect a handwritten signature.
+- Delivery confirmations and in-person authorizations.
+- Legal or clinical documents that demand a signature rather than a checkbox.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Simple consent checkboxes - use `CheckboxInput`.
+- Typed-name signatures - use `TextInput`.
+- Image uploads of a pre-existing signature - use `ImageFileInput`.
+- Any place where `role="application"` is not actually needed - it suppresses screen-reader browse mode and should only be used for genuine custom input widgets.
 
-## Usage
+## How to use it
 
-```svelte
-<SignaturePad label="Sign here">
-  <canvas width="400" height="200"></canvas>
-</SignaturePad>
-```
+1. Import the component.
+2. Provide a translated `label` (for example, `"Sign to accept terms"`).
+3. Place a drawing surface inside `children`.
+4. Implement all pointer/touch/stylus handling on that surface.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible description of the signature field via aria-label. |
-| `children` | Snippet, required | Drawing surface (canvas, SVG, or other input mechanism). |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged with the base `signature-pad` class.
+- `label` (string, required) - accessible description via `aria-label`.
+- `children` (Snippet, required) - the drawing surface.
+- `...restProps` - spread onto the `<div>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- With terms acceptance context -->
-<SignaturePad label="Sign to accept terms">
-  <canvas width="400" height="200"></canvas>
-</SignaturePad>
-
-<!-- With SVG drawing surface -->
-<SignaturePad label="Your signature">
-  <svg viewBox="0 0 400 200"><path d="" /></svg>
-</SignaturePad>
-```
-
-## SvelteKit example
+Canvas drawing surface:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SignaturePad from "#lib/components/SignaturePad/SignaturePad.svelte";
+    import SignaturePad from "./SignaturePad.svelte";
 </script>
 
 <SignaturePad label="Sign here">
-  <canvas width="400" height="200"></canvas>
+    <canvas width="400" height="200"></canvas>
 </SignaturePad>
 ```
 
-## Keyboard
+SVG surface:
 
-- None — pointer-based interactions are handled by the consumer-provided drawing surface.
+```svelte
+<script lang="ts">
+    import SignaturePad from "./SignaturePad.svelte";
+    let path = $state("");
+</script>
+
+<SignaturePad label="Your signature">
+    <svg viewBox="0 0 400 200"><path d={path} stroke="black" fill="none" /></svg>
+</SignaturePad>
+```
+
+With consent text context:
+
+```svelte
+<script lang="ts">
+    import SignaturePad from "./SignaturePad.svelte";
+</script>
+
+<p>I agree to the terms above.</p>
+<SignaturePad label="Sign to accept terms">
+    <canvas width="500" height="150"></canvas>
+</SignaturePad>
+```
+
+With custom class:
+
+```svelte
+<script lang="ts">
+    import SignaturePad from "./SignaturePad.svelte";
+</script>
+
+<SignaturePad label="Signature" class="boxed">
+    <canvas width="400" height="200"></canvas>
+</SignaturePad>
+```
+
+Paired with a clear button:
+
+```svelte
+<script lang="ts">
+    import SignaturePad from "./SignaturePad.svelte";
+    let canvas = $state<HTMLCanvasElement>();
+    function clear() {
+        const ctx = canvas?.getContext("2d");
+        if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+</script>
+
+<SignaturePad label="Signature">
+    <canvas bind:this={canvas} width="400" height="200"></canvas>
+</SignaturePad>
+<button onclick={clear}>Clear</button>
+```
 
 ## Accessibility
 
-- role="application" indicates a complex widget with custom pointer interactions
-- aria-label provides an accessible description of the signature pad purpose
-- Assistive technologies pass keyboard events through to the application
+- `role="application"` intentionally shifts screen readers out of browse mode for custom widgets. Use it only when genuinely needed.
+- `aria-label` must be descriptive and localized.
+- Consumers should offer a fallback (for example, typing a name) for users who cannot draw.
 
-## Internationalization
+References:
+- WAI-ARIA `application` role: https://www.w3.org/TR/wai-aria-1.2/#application
 
-- The label prop externalizes the accessible description for localization
+## Related components
 
-## References
-
-- WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
+- `CheckboxInput` - consent checkbox alternative.
+- `TextInput` - typed-name signature alternative.
+- `ImageFileInput` - upload a signature image.
 
 ---
 

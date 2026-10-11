@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TextAreaInput from './TextAreaInput.vue';
 
 const meta = {
-  title: 'Examples/TextAreaInput',
+  title: 'Headless/TextAreaInput',
   component: TextAreaInput,
   tags: ['autodocs']
 } satisfies Meta<typeof TextAreaInput>;

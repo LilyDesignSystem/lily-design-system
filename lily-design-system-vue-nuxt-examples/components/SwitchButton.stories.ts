@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SwitchButton from './SwitchButton.vue';
 
 const meta = {
-  title: 'Examples/SwitchButton',
+  title: 'Headless/SwitchButton',
   component: SwitchButton,
   tags: ['autodocs']
 } satisfies Meta<typeof SwitchButton>;

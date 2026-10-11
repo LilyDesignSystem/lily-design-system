@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MeasurementUnitView from './MeasurementUnitView';
 
 const meta = {
-  title: 'Examples/MeasurementUnitView',
+  title: 'Headless/MeasurementUnitView',
   component: MeasurementUnitView,
   tags: ['autodocs']
 } satisfies Meta<typeof MeasurementUnitView>;

@@ -1610,6 +1610,35 @@ export function initDateTimePicker(root, opts = {}) {
 
   const tooltipDestroy = wireTooltip(root, button, ".date-time-picker-tooltip", dialog);
 
+  // Form reset. A hidden input has no separate default value, so a reset left
+  // it — and this controller — on the typed date while the server-rendered
+  // field went back to the initial one: the field showed one date and the form
+  // sent another. Restore the initial value everywhere instead, one tick later
+  // (after the browser has reset the DOM) and not when the reset was
+  // cancelled. Like a native reset it calls no change callback.
+  const initialValue = state.value;
+  const initialZone = state.timeZone;
+  const resetForm = root.closest("form");
+  let resetTimer;
+  function onFormReset(event) {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      if (event.defaultPrevented) return;
+      closeDialog(false);
+      state.typed = null;
+      state.invalid = false;
+      state.value = initialValue;
+      hiddenInput.value = initialValue;
+      state.timeZone = initialZone;
+      if (hiddenZoneInput) hiddenZoneInput.value = initialZone;
+      if (zoneSelect) zoneSelect.value = initialZone;
+      if (initialZone) root.setAttribute("data-time-zone", initialZone);
+      else root.removeAttribute("data-time-zone");
+      refreshField();
+    }, 0);
+  }
+  if (resetForm) resetForm.addEventListener("reset", onFormReset);
+
   return {
     open: openDialog,
     close: () => closeDialog(false),
@@ -1617,6 +1646,8 @@ export function initDateTimePicker(root, opts = {}) {
     clear: clearValue,
     getValue: () => state.value,
     destroy: () => {
+      clearTimeout(resetTimer);
+      if (resetForm) resetForm.removeEventListener("reset", onFormReset);
       tooltipDestroy();
       if (calendarTable) calendarTable.removeEventListener("keydown", onGridKeydown);
       dialog.removeEventListener("keydown", onDialogKeydown);

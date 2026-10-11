@@ -1,75 +1,104 @@
 # ColorInput
 
-## Overview
+A headless color input that wraps the native `<input type="color">` element. The value is a hex color string (for example, `"#ff0000"`) and supports two-way binding via `bind:value`.
 
-A headless color input wrapping the native HTML <input type="color"> element.
-It provides a browser-native color picker with accessible labelling via aria-label.
-The value is always a hex color string (e.g., "#ff0000"). Useful in settings panels,
-theme editors, or any interface where users need to select a color.
+## What it is
+
+ColorInput renders a bare `<input type="color">` with `aria-label` for accessibility. The browser provides the native color picker UI. Use it anywhere you want a low-footprint hex color selector.
 
 ## What it does
 
-An input for selecting a color value <input type="color">.
+- Renders `<input type="color" aria-label={label} />`.
+- Two-way binds `value` (a hex color string, default `"#000000"`).
+- Forwards `disabled`, `name`, and `id` to the input.
+- Spreads `restProps` onto the input.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Settings pages where users pick a single hex color.
+- Theme builders, drawing apps, label-color pickers.
+- When the native browser picker is sufficient.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- When you need a custom UI (palette swatches, HSL sliders) — use `ColorPicker` and `ColorPickerButton`.
+- For non-hex formats — the native control returns hex only.
+- For multi-stop or gradient selection — build a custom component.
+
+## How to use it
+
+Bind `value` to a `$state` variable. Provide `label` for accessibility since the native color input has no visible label.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `value` | `string` | `"#000000"` (bindable) | Current hex color. |
+| `label` | `string` | required | `aria-label`. |
+| `disabled` | `boolean` | `false` | Disables the input. |
+| `name` | `string` | `undefined` | Form field name. |
+| `id` | `string` | `undefined` | Element ID. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<input>`. |
 
 ## Usage
 
 ```svelte
-<ColorInput label="Background color" bind:value={color} />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | string, default "#000000" | Current hex color string; bindable via bind:value. |
-| `label` | string, required | Accessible name via aria-label. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `name` | string, default undefined | Form field name. |
-| `id` | string, default undefined | Element ID. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
-
-## Examples
-
-```svelte
-<!-- Disabled color input with form name -->
-<ColorInput label="Text color" bind:value={textColor} disabled name="text_color" />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ColorInput from "#lib/components/ColorInput/ColorInput.svelte";
+    import ColorInput from "./ColorInput.svelte";
+
+    let color = $state("#2563eb");
 </script>
 
-<ColorInput label="Background color" bind:value={color} />
+<ColorInput label="Primary color" bind:value={color} />
+<p>Selected: {color}</p>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import ColorInput from "./ColorInput.svelte";
 
-- None — keyboard behavior is provided by the browser-native color input
+    let text = $state("#111827");
+</script>
+
+<ColorInput label="Text color" bind:value={text} name="text_color" />
+```
+
+```svelte
+<script lang="ts">
+    import ColorInput from "./ColorInput.svelte";
+
+    let bg = $state("#ffffff");
+    let locked = $state(true);
+</script>
+
+<ColorInput label="Background" bind:value={bg} disabled={locked} />
+```
+
+```svelte
+<script lang="ts">
+    import ColorInput from "./ColorInput.svelte";
+
+    let fg = $state("#000000");
+    let bg = $state("#ffffff");
+</script>
+
+<fieldset>
+    <legend>Theme</legend>
+    <ColorInput label="Foreground" bind:value={fg} />
+    <ColorInput label="Background" bind:value={bg} />
+</fieldset>
+```
 
 ## Accessibility
 
-- aria-label provides an accessible name since native color inputs have no visible label
+- `aria-label` names the input; pair with a visible `<label for=...>` if sighted users also need text.
+- The native picker provides keyboard support.
 
-## Internationalization
+## Related components
 
-- The label prop provides the accessible name; no hardcoded strings
-
-## References
-
-- MDN <input type="color">: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
+- `ColorPicker` — 2D saturation/brightness picker.
+- `ColorPickerButton` — single swatch button for predefined colors.
 
 ---
 

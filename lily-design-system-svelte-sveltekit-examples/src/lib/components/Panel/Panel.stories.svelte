@@ -3,7 +3,7 @@
   import Panel from './Panel.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Panel',
+    title: 'Headless/Panel',
     component: Panel,
   });
 </script>

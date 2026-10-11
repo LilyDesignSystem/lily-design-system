@@ -3,7 +3,7 @@
   import Command from './Command.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Command',
+    title: 'Headless/Command',
     component: Command,
   });
 </script>

@@ -1,62 +1,138 @@
 # DataTableHead
 
-## Overview
+The header section of a `DataTable`. Renders a `<thead>` containing `DataTableRow` elements with column header cells (typically `<th scope="col">`).
 
-The header section of a DataTable, rendered as a <thead> element.
-Contains DataTableRow elements with column header cells.
+## What it is
+
+DataTableHead is a structural wrapper emitting `<thead class="data-table-head ...">`. It has no state or ARIA of its own.
 
 ## What it does
 
-A data table interactive grid thead for displaying and sorting tabular data <thead>.
+- Renders `<thead>`.
+- Renders children inside.
+- Spreads `restProps` onto the `<thead>`.
 
-## When to use
+## When to use it
 
-- Use when you need a data table interactive grid thead for displaying and sorting tabular data <thead>.
+- At the top of a `DataTable` to declare column headers.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For body or footer rows — use `DataTableBody` or `DataTableFoot`.
+- For static tables — use `TableHead`.
+
+## How to use it
+
+Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the actual header cells.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `children` | `Snippet` | required | `DataTableRow` elements with header cells. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<thead>`. |
 
 ## Usage
 
 ```svelte
-<DataTableHead>
-  <DataTableRow><th scope="col">Name</th><th scope="col">Email</th></DataTableRow>
-</DataTableHead>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | DataTableRow elements with header cells. |
-| `...restProps` | additional HTML attributes spread onto the <thead> |  |
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableHead from "#lib/components/DataTableHead/DataTableHead.svelte";
+    import DataTable from "../DataTable/DataTable.svelte";
+    import DataTableHead from "./DataTableHead.svelte";
+    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
+    import DataTableRow from "../DataTableRow/DataTableRow.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
-<DataTableHead>
-  <DataTableRow><th scope="col">Name</th><th scope="col">Email</th></DataTableRow>
-</DataTableHead>
+<DataTable label="Employees">
+    <DataTableHead>
+        <DataTableRow>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+        </DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+        <DataTableRow>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
+        </DataTableRow>
+    </DataTableBody>
+</DataTable>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import DataTable from "../DataTable/DataTable.svelte";
+    import DataTableHead from "./DataTableHead.svelte";
+    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
+    import DataTableRow from "../DataTableRow/DataTableRow.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
-- None built-in — keyboard navigation handled at the DataTable grid level.
+    const cols = ["Name", "Email", "Role"];
+</script>
+
+<DataTable label="Users">
+    <DataTableHead>
+        <DataTableRow>
+            {#each cols as c}
+                <th scope="col">{c}</th>
+            {/each}
+        </DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+        <DataTableRow>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
+            <DataTableTD>Admin</DataTableTD>
+        </DataTableRow>
+    </DataTableBody>
+</DataTable>
+```
+
+```svelte
+<script lang="ts">
+    import DataTable from "../DataTable/DataTable.svelte";
+    import DataTableHead from "./DataTableHead.svelte";
+    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
+    import DataTableRow from "../DataTableRow/DataTableRow.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
+
+    let sortKey = $state("name");
+
+    function sortBy(k: string) {
+        sortKey = k;
+    }
+</script>
+
+<DataTable label="Sortable users">
+    <DataTableHead>
+        <DataTableRow>
+            <th scope="col" aria-sort={sortKey === "name" ? "ascending" : "none"}>
+                <button type="button" onclick={() => sortBy("name")}>Name</button>
+            </th>
+            <th scope="col" aria-sort={sortKey === "email" ? "ascending" : "none"}>
+                <button type="button" onclick={() => sortBy("email")}>Email</button>
+            </th>
+        </DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+        <DataTableRow>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
+        </DataTableRow>
+    </DataTableBody>
+</DataTable>
+```
 
 ## Accessibility
 
-- <thead> provides structural header semantics for the table
+- `<thead>` is the conventional container for column headers.
+- Use `<th scope="col">` on each header cell for clear row/column associations.
+- Use `aria-sort` on sortable header cells.
 
-## References
+## Related components
 
-- HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead
+- `DataTable`, `DataTableBody`, `DataTableFoot`, `DataTableRow`, `DataTableTD`, `DataTableTD`.
 
 ---
 

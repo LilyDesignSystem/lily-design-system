@@ -3,7 +3,7 @@
   import ClipboardCopyButton from './ClipboardCopyButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ClipboardCopyButton',
+    title: 'Headless/ClipboardCopyButton',
     component: ClipboardCopyButton,
   });
 </script>

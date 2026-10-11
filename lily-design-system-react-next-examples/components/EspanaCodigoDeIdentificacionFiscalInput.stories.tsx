@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EspanaCodigoDeIdentificacionFiscalInput from './EspanaCodigoDeIdentificacionFiscalInput';
 
 const meta = {
-  title: 'Examples/EspanaCodigoDeIdentificacionFiscalInput',
+  title: 'Headless/EspanaCodigoDeIdentificacionFiscalInput',
   component: EspanaCodigoDeIdentificacionFiscalInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EspanaCodigoDeIdentificacionFiscalInput>;

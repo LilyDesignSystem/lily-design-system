@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import KanbanTable from './KanbanTable';
 
 const meta = {
-  title: 'Examples/KanbanTable',
+  title: 'Headless/KanbanTable',
   component: KanbanTable,
   tags: ['autodocs']
 } satisfies Meta<typeof KanbanTable>;

@@ -3,7 +3,7 @@
   import DateInput from './DateInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DateInput',
+    title: 'Headless/DateInput',
     component: DateInput,
   });
 </script>

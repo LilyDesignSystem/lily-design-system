@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Cascader from './Cascader';
 
 const meta = {
-  title: 'Examples/Cascader',
+  title: 'Headless/Cascader',
   component: Cascader,
   tags: ['autodocs']
 } satisfies Meta<typeof Cascader>;

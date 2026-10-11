@@ -1,101 +1,141 @@
 # AlertDialog
 
-## Overview
+A modal dialog for urgent messages requiring user acknowledgment. Uses the native HTML `<dialog>` element with `role="alertdialog"` and `aria-modal="true"`. Distinguished from the regular `Dialog` by the alertdialog role, which signals to assistive technologies that the content demands attention.
 
-A headless modal alert dialog for critical interactions that require user
-acknowledgment before continuing. Uses the native HTML <dialog> element
-with the ARIA alertdialog role. Distinguished from regular Dialog by the
-alertdialog role, which signals to assistive technologies that the content
-requires immediate attention.
+## What it is
 
-Common uses: confirming irreversible actions ("Delete this item?"),
-warning about unsaved changes, or displaying critical error messages.
+A headless Svelte 5 component rendering a `<dialog>` only while `open` is true. Category: overlay / dialog primitive, a sibling of `Dialog`, `FileDialog`, `Sheet`, and `Drawer`.
 
 ## What it does
 
-A modal dialog for urgent messages requiring user acknowledgment.
+- Conditionally renders `<dialog class="alert-dialog {className}" open role="alertdialog" aria-modal="true">` when `open === true`.
+- Always emits `aria-labelledby` pointing to the inner title paragraph; the id is generated per instance via `$props.id()` so multiple dialogs in the same document do not collide.
+- Emits `aria-describedby` pointing to the description paragraph only when `description` is provided (also a per-instance id).
+- `open` prop is `$bindable(false)` so consumers can close it via `bind:open`.
+- Renders the title as `<p><strong>{title}</strong></p>` (not a heading element, to leave outline control to the consumer) and the optional description as a `<p>`. Action buttons come from children.
+- Known limitation: the consumer is responsible for focus trapping and Escape-key handling.
 
-## When to use
+## When to use it
 
-- Use for modal or non-modal content that requires focused attention.
+- Confirming irreversible destructive actions ("Delete this item?").
+- Warning about unsaved changes before leaving.
+- Critical error messaging that must block interaction.
 
-## When not to use
+## When not to use it
 
-- Do not use for simple confirmations that can be expressed inline.
+- For non-critical modals — use `Dialog`.
+- For auto-dismissing notifications — use `Toast` / `Sonner`.
+- For inline status messaging — use `Alert`.
+- For file browsing — use `FileDialog`.
+- For drawers and sheets — use `Drawer` / `Sheet`.
 
-## Usage
+## How to use it
 
-```svelte
-<AlertDialog bind:open title="Confirm" description="Are you sure?">
-  <button>Yes</button>
-  <button>No</button>
-</AlertDialog>
-```
+Import `AlertDialog` from `./AlertDialog.svelte`. Bind `open` to local state. Pass `title` (required) and optional `description`. Supply action buttons as children.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `open` | boolean, default false, bindable | Whether the dialog is visible. |
-| `title` | string, required | Dialog heading, referenced by aria-labelledby. |
-| `description` | string, optional | Dialog message, referenced by aria-describedby. |
-| `children` | Snippet, required | Action buttons and additional content. |
-| `...restProps` | additional HTML attributes spread onto <dialog> |  |
+- `class` — string, default `""`. CSS class appended to `alert-dialog`.
+- `open` — boolean, default `false`, bindable.
+- `title` — string, required. Heading text, referenced by `aria-labelledby`.
+- `description` — string, optional. Message text, referenced by `aria-describedby`.
+- `children` — `Snippet`, required. Action buttons / additional content.
+- `...restProps` — additional HTML attributes spread onto the `<dialog>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Confirmation dialog with description -->
-<AlertDialog bind:open={showDialog} title="Confirm Deletion"
-  description="This action cannot be undone.">
-  <button onclick={handleConfirm}>Yes, delete</button>
-  <button onclick={handleCancel}>Cancel</button>
-</AlertDialog>
-
-<!-- Simple acknowledgment dialog -->
-<AlertDialog bind:open={showAlert} title="Session Expired">
-  <button onclick={() => showAlert = false}>OK</button>
-</AlertDialog>
-```
-
-## SvelteKit example
+### Confirm destructive action
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AlertDialog from "#lib/components/AlertDialog/AlertDialog.svelte";
+  import AlertDialog from './AlertDialog.svelte';
+  import Button from '../Button/Button.svelte';
+
+  let showDialog = $state(false);
+  function confirm() {
+    showDialog = false;
+  }
 </script>
 
-<AlertDialog bind:open title="Confirm" description="Are you sure?">
-  <button>Yes</button>
-  <button>No</button>
+<Button onclick={() => (showDialog = true)}>Delete</Button>
+
+<AlertDialog
+  bind:open={showDialog}
+  title="Confirm Deletion"
+  description="This action cannot be undone."
+>
+  <Button onclick={confirm}>Yes, delete</Button>
+  <Button onclick={() => (showDialog = false)}>Cancel</Button>
 </AlertDialog>
 ```
 
-## Keyboard
+### Simple acknowledgment
 
-- Escape: Consumer must implement via onkeydown to close the dialog
-- Tab: Consumer should implement focus trapping within the dialog
+```svelte
+<script lang="ts">
+  import AlertDialog from './AlertDialog.svelte';
+  import Button from '../Button/Button.svelte';
+
+  let showAlert = $state(true);
+</script>
+
+<AlertDialog bind:open={showAlert} title="Session Expired">
+  <Button onclick={() => (showAlert = false)}>OK</Button>
+</AlertDialog>
+```
+
+### With Escape key handling
+
+```svelte
+<script lang="ts">
+  import AlertDialog from './AlertDialog.svelte';
+  import Button from '../Button/Button.svelte';
+
+  let open = $state(false);
+
+  function onkeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') open = false;
+  }
+</script>
+
+<svelte:window {onkeydown} />
+
+<AlertDialog bind:open title="Unsaved changes" description="Leave without saving?">
+  <Button onclick={() => (open = false)}>Stay</Button>
+  <Button onclick={() => { open = false; history.back(); }}>Leave</Button>
+</AlertDialog>
+```
+
+### Driven by external condition
+
+```svelte
+<script lang="ts">
+  import AlertDialog from './AlertDialog.svelte';
+  import Button from '../Button/Button.svelte';
+
+  let error = $state<string | null>(null);
+  let showErr = $derived(error !== null);
+</script>
+
+<AlertDialog open={showErr} title="Network error" description={error ?? ''}>
+  <Button onclick={() => (error = null)}>Dismiss</Button>
+</AlertDialog>
+```
 
 ## Accessibility
 
-- role="alertdialog" signals critical content requiring acknowledgment
-- aria-modal="true" indicates modal behavior to assistive technologies
-- aria-labelledby references the title element
-- aria-describedby references the description element (when present)
-- Conditionally rendered with {#if open} to remove from DOM when closed
+- `role="alertdialog"` communicates urgency to assistive technologies.
+- `aria-modal="true"` signals modal behavior.
+- `aria-labelledby` references the title paragraph; `aria-describedby` references the description when present.
+- Consumer must implement focus trap inside the dialog and Escape-key close.
+- Follows the WAI-ARIA Alert and Message Dialogs Pattern.
 
-## Internationalization
+## Related components
 
-- Title and description come through props
-- Action buttons come through children snippet
-- No hardcoded strings
-
-## References
-
-- WAI-ARIA alertdialog role: https://www.w3.org/TR/wai-aria-1.2/#alertdialog
-- WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
+- `Dialog` — non-critical modal dialog.
+- `FileDialog` — file-browsing dialog.
+- `Alert` — inline urgent message, not modal.
+- `Drawer`, `Sheet` — edge-anchored overlay panels.
 
 ---
 

@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import Tile from "./Tile.svelte";
     const { Story } = defineMeta({
-        title: "Examples/Tile",
+        title: "Headless/Tile",
         component: Tile,
     });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import MaltaNationalIdentificationNumberInput from './MaltaNationalIdentificationNumberInput.vue';
 
 const meta = {
-  title: 'Examples/MaltaNationalIdentificationNumberInput',
+  title: 'Headless/MaltaNationalIdentificationNumberInput',
   component: MaltaNationalIdentificationNumberInput,
   tags: ['autodocs']
 } satisfies Meta<typeof MaltaNationalIdentificationNumberInput>;

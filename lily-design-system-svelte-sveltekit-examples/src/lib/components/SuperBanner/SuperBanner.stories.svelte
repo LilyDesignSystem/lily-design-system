@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import SuperBanner from "./SuperBanner.svelte";
     const { Story } = defineMeta({
-        title: "Examples/SuperBanner",
+        title: "Headless/SuperBanner",
         component: SuperBanner,
     });
 </script>

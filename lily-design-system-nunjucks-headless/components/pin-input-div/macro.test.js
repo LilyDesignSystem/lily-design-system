@@ -38,4 +38,22 @@ describe("pin-input-div", () => {
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
   });
+
+  it("without digitLabel, names each input by the group's label — no English default", () => {
+    const { document } = render("pin-input-div", { id: "pin", label: "Código", length: 2 });
+    const labels = [...document.querySelectorAll("input")].map((input) => input.getAttribute("aria-label"));
+    expect(labels).toEqual(["Código", "Código"]);
+  });
+
+  it("digitLabel fills in {position} and {length}", () => {
+    const { document } = render("pin-input-div", {
+      id: "pin",
+      label: "PIN",
+      length: 4,
+      digitLabel: "Digit {position} of {length}",
+    });
+    const inputs = document.querySelectorAll("input");
+    expect(inputs[0].getAttribute("aria-label")).toBe("Digit 1 of 4");
+    expect(inputs[3].getAttribute("aria-label")).toBe("Digit 4 of 4");
+  });
 });

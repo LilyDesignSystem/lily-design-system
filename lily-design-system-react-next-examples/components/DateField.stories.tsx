@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DateField from './DateField';
 
 const meta = {
-  title: 'Examples/DateField',
+  title: 'Headless/DateField',
   component: DateField,
   tags: ['autodocs']
 } satisfies Meta<typeof DateField>;

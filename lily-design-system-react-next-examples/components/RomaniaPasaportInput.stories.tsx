@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import RomaniaPasaportInput from './RomaniaPasaportInput';
 
 const meta = {
-  title: 'Examples/RomaniaPasaportInput',
+  title: 'Headless/RomaniaPasaportInput',
   component: RomaniaPasaportInput,
   tags: ['autodocs']
 } satisfies Meta<typeof RomaniaPasaportInput>;

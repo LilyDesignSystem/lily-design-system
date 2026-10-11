@@ -1,89 +1,142 @@
 # PaginationList
 
-## Overview
+A headless pagination list. Renders a semantic `<nav>` wrapping an `<ol>` of pagination items. The component owns the ordered list so consumers only need to provide `PaginationListItem` children.
 
-A headless pagination navigation component that divides content into separate
-pages. It renders a semantic <nav> element wrapping a <ul> list, with an
-accessible label to identify the navigation purpose. Commonly used in search
-results, product listings, data tables, and any interface with paginated content.
+## What it is
+
+- Component: `PaginationList`
+- HTML element: `<nav>` containing `<ol>`
+- Role: navigation landmark + ordered list
+- Category: navigation list (middle of the PaginationNav → PaginationList → PaginationListItem composition)
 
 ## What it does
 
-An ordered list of pagination list items.
+- Renders `<nav aria-label="…">` as an accessible navigation region.
+- Renders an inner `<ol>` so the numeric ordering of pages is semantically preserved.
+- Renders its children inside the `<ol>` — typically `PaginationListItem` elements.
 
-## When to use
+## When to use it
 
-- Use to render an ordered collection of related items.
+- As the list portion of a pagination control, directly inside `PaginationNav` or standalone.
+- To render Previous/Next and numbered page items in a semantically ordered list.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For hierarchical navigation — use `TreeList`.
+- For breadcrumb trails — use `BreadcrumbList`.
+- For contents / outline lists — use `ContentsList`.
 
-## Usage
+## How to use it
+
+Wrap items in `PaginationList`; place inside `PaginationNav` for a named landmark.
 
 ```svelte
-<PaginationList label="Pagination">{children}</PaginationList>
+import PaginationList from './PaginationList.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the pagination navigation via aria-label. |
-| `children` | Snippet, required | Pagination list items, typically <li> elements with links or buttons. |
-| `...restProps` | additional HTML attributes spread onto the <nav> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `pagination-list`.
+- `label`: string, required. Accessible name for the navigation via `aria-label`.
+- `children`: Snippet, required. Pagination list items.
+- `...restProps`: spread onto the wrapping `<nav>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Basic pagination with current page indicated -->
-<PaginationList label="Pagination">
-  <li><a href="/page/1">1</a></li>
-  <li><a href="/page/2" aria-current="page">2</a></li>
-  <li><a href="/page/3">3</a></li>
-</PaginationList>
-
-<!-- With previous/next controls -->
-<PaginationList label="Search results pages">
-  <li><a href="/page/1">Previous</a></li>
-  <li><a href="/page/2" aria-current="page">2</a></li>
-  <li><a href="/page/3">Next</a></li>
-</PaginationList>
-```
-
-## SvelteKit example
+### Inside a PaginationNav
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PaginationList from "#lib/components/PaginationList/PaginationList.svelte";
+  import PaginationNav from '../PaginationNav/PaginationNav.svelte';
+  import PaginationList from './PaginationList.svelte';
+  import PaginationListItem from '../PaginationListItem/PaginationListItem.svelte';
 </script>
 
-<PaginationList label="Pagination">{children}</PaginationList>
+<PaginationNav label="Pagination">
+  <PaginationList label="Search results">
+    <PaginationListItem><a href="/page/1">1</a></PaginationListItem>
+    <PaginationListItem><a href="/page/2" aria-current="page">2</a></PaginationListItem>
+    <PaginationListItem><a href="/page/3">3</a></PaginationListItem>
+  </PaginationList>
+</PaginationNav>
 ```
 
-## Keyboard
+### Standalone with Previous/Next
 
-- Tab: moves focus between pagination links/buttons in the list
-- Enter: activates the focused link or button to navigate to that page
+```svelte
+<script lang="ts">
+  import PaginationList from './PaginationList.svelte';
+  import PaginationListItem from '../PaginationListItem/PaginationListItem.svelte';
+</script>
+
+<PaginationList label="Article pages">
+  <PaginationListItem><a href="/article?p=1">Previous</a></PaginationListItem>
+  <PaginationListItem><a href="/article?p=2" aria-current="page">2</a></PaginationListItem>
+  <PaginationListItem><a href="/article?p=3">Next</a></PaginationListItem>
+</PaginationList>
+```
+
+### Generated from a range
+
+```svelte
+<script lang="ts">
+  import PaginationList from './PaginationList.svelte';
+  import PaginationListItem from '../PaginationListItem/PaginationListItem.svelte';
+
+  let current = $state(4);
+  const total = 10;
+</script>
+
+<PaginationList label="Results pages">
+  {#each Array.from({ length: total }, (_, i) => i + 1) as n}
+    <PaginationListItem>
+      <a href={`?p=${n}`} aria-current={n === current ? "page" : undefined}>{n}</a>
+    </PaginationListItem>
+  {/each}
+</PaginationList>
+```
+
+### With buttons
+
+```svelte
+<script lang="ts">
+  import PaginationList from './PaginationList.svelte';
+  import PaginationListItem from '../PaginationListItem/PaginationListItem.svelte';
+
+  let page = $state(1);
+</script>
+
+<PaginationList label="Pages">
+  <PaginationListItem>
+    <button type="button" onclick={() => (page = Math.max(1, page - 1))}>Previous</button>
+  </PaginationListItem>
+  <PaginationListItem>
+    <button type="button" onclick={() => (page += 1)}>Next</button>
+  </PaginationListItem>
+</PaginationList>
+```
+
+### With ellipsis indicators
+
+```svelte
+<PaginationList label="Pages">
+  <PaginationListItem><a href="/p/1">1</a></PaginationListItem>
+  <PaginationListItem aria-hidden="true">…</PaginationListItem>
+  <PaginationListItem><a href="/p/50" aria-current="page">50</a></PaginationListItem>
+</PaginationList>
+```
 
 ## Accessibility
 
-- <nav aria-label="..."> creates a navigation landmark for assistive technology
-- Consumer should apply aria-current="page" on the link for the active page
-- Compound component; see PaginationListItem for individual page items
+- The wrapping `<nav aria-label>` creates a navigation landmark. If this list is already inside `PaginationNav`, both are landmarks — prefer distinct labels, or omit nesting if you don't need the inner landmark.
+- The inner `<ol>` preserves page ordering for assistive technology.
+- Apply `aria-current="page"` on the link for the current page.
 
-## Internationalization
+## Related components
 
-- The label prop is the only text provided by the component
-- All page link text comes through children
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation
-- WAI-ARIA Practices - Navigation: https://www.w3.org/WAI/ARIA/apg/patterns/navigation/
+- `PaginationNav` — the outer navigation landmark for a full pagination region.
+- `PaginationListItem` — a single list item inside this list.
+- `BreadcrumbList`, `TreeList`, `ContentsList`, `TimelineList` — sibling list containers.
 
 ---
 

@@ -3,7 +3,7 @@
   import ToolBar from './ToolBar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ToolBar',
+    title: 'Headless/ToolBar',
     component: ToolBar,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MenuItem from './MenuItem';
 
 const meta = {
-  title: 'Examples/MenuItem',
+  title: 'Headless/MenuItem',
   component: MenuItem,
   tags: ['autodocs']
 } satisfies Meta<typeof MenuItem>;

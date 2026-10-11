@@ -1,75 +1,145 @@
 # TextInputWithSearch
 
-## Overview
+A text input paired with a search button inside a `<div role="search">` wrapper, firing an `onsearch(value)` callback when the user clicks the button or presses Enter.
 
-A headless component that wraps a native <input type="text"> and
-<button type="button"> inside a <div role="search">. The search button
-triggers a callback with the current input value. Pressing Enter in the
-input also triggers the search. Useful for search bars, filter inputs,
-lookup fields, and any interface with an explicit search action.
+## What it is
+
+`TextInputWithSearch` is a headless Svelte 5 compound component combining a native `<input type="text">` and a `<button type="button">` inside a `<div role="search">` landmark. It is designed for search bars, filter fields, and lookup inputs with an explicit submit-to-search action.
 
 ## What it does
 
-A single-line text input field <input type="text"> with search capability.
+- Renders a `<div role="search" aria-label={label}>` wrapper.
+- Contains a `<input type="text">` with `aria-label={inputLabel}`, bound `value`, and optional `placeholder`, `required`, `disabled` attributes.
+- Contains a `<button type="button">` labeled with `searchLabel` and disabled together with the input.
+- Calls the `onsearch(value)` callback when the button is clicked or when the user presses `Enter` in the input.
+- Binds `value` via `bind:value`.
+- Spreads additional HTML attributes onto the wrapper `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a single-line text input field <input type="text"> with search capability.
+- Site-wide search bars.
+- Filter inputs where a separate submit is required.
+- Lookup fields that should not search on every keystroke.
+- Any interface with a clearly visible search button.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it for live/type-ahead search — use a `TextInput` with a reactive filter instead.
+- Don't use it for free-form non-search text entry — use `TextInput`.
+- Don't use it for autocomplete dropdowns — use `Combobox`.
+- Don't use it inside a broader form's submit flow — the internal button uses `type="button"` and will not submit the parent form.
+
+## How to use it
+
+Import the component, bind `value`, and supply `label`, `inputLabel`, and `searchLabel`. Pass an `onsearch` handler to run the search logic.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `text-input-with-search` on the wrapper.
+- `label` — string, required. Accessible name for the search region via `aria-label`.
+- `inputLabel` — string, default `"Search"`. Accessible name for the text input.
+- `searchLabel` — string, default `"Search"`. Accessible label and visible text of the button.
+- `value` — string, default `""`, bindable via `bind:value`. Current input value.
+- `placeholder` — string, optional. Placeholder text.
+- `onsearch` — `(value: string) => void`, optional. Callback invoked when search is triggered.
+- `required` — boolean, default `false`. Whether the input is required.
+- `disabled` — boolean, default `false`. Disables both the input and the button.
+- `...restProps` — any additional HTML attributes spread onto the wrapper `<div>`.
 
 ## Usage
 
 ```svelte
-<TextInputWithSearch label="Site search" onsearch={handleSearch} bind:value />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the search region via aria-label. |
-| `inputLabel` | string, default "Search" | Accessible name for the text input. |
-| `searchLabel` | string, default "Search" | Accessible label and text for the search button. |
-| `value` | string, default "" | Bindable text input value. |
-| `placeholder` | string, optional | Placeholder text for the input. |
-| `onsearch` | (value: string) => void, optional | Callback when search is triggered. |
-| `required` | boolean, default false | Whether the input is required. |
-| `disabled` | boolean, default false | Whether the input and button are disabled. |
-| `...restProps` | additional HTML attributes spread onto the wrapper <div> |  |
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TextInputWithSearch from "#lib/components/TextInputWithSearch/TextInputWithSearch.svelte";
+  import TextInputWithSearch from "./TextInputWithSearch.svelte";
+
+  let q = $state("");
+  function handleSearch(value: string) {
+    console.log("searching", value);
+  }
 </script>
 
-<TextInputWithSearch label="Site search" onsearch={handleSearch} bind:value />
+<TextInputWithSearch
+  label="Site search"
+  onsearch={handleSearch}
+  bind:value={q}
+/>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import TextInputWithSearch from "./TextInputWithSearch.svelte";
 
-- Tab: Moves focus between input and search button
-- Enter in input: Triggers search
-- Enter/Space on button: Triggers search
+  let q = $state("");
+  let results = $state<string[]>([]);
+  const data = ["Apples", "Oranges", "Bananas"];
+</script>
+
+<TextInputWithSearch
+  label="Fruit search"
+  inputLabel="Fruit name"
+  searchLabel="Find"
+  placeholder="Type a fruit"
+  bind:value={q}
+  onsearch={(v) => (results = data.filter((d) => d.toLowerCase().includes(v.toLowerCase())))}
+/>
+
+<ul>
+  {#each results as r}
+    <li>{r}</li>
+  {/each}
+</ul>
+```
+
+```svelte
+<script lang="ts">
+  import TextInputWithSearch from "./TextInputWithSearch.svelte";
+
+  let q = $state("");
+</script>
+
+<TextInputWithSearch
+  label="Recherche"
+  inputLabel="Requête"
+  searchLabel="Rechercher"
+  bind:value={q}
+  onsearch={(v) => console.log(v)}
+/>
+```
+
+```svelte
+<script lang="ts">
+  import TextInputWithSearch from "./TextInputWithSearch.svelte";
+
+  let q = $state("initial");
+  let busy = $state(false);
+</script>
+
+<TextInputWithSearch
+  label="Knowledge base"
+  bind:value={q}
+  disabled={busy}
+  required
+  onsearch={async (v) => {
+    busy = true;
+    await new Promise((r) => setTimeout(r, 500));
+    busy = false;
+  }}
+/>
+```
 
 ## Accessibility
 
-- role="search" on wrapper for search landmark
-- aria-label on region, input, and button
+- `role="search"` on the wrapper designates a search landmark.
+- `aria-label` on the wrapper, input, and button provide distinct accessible names.
+- Pressing `Enter` in the input triggers the search and prevents default form submission.
+- `disabled` removes both controls from the tab order and disables interaction.
 
-## Internationalization
+## Related components
 
-- label, inputLabel, searchLabel, placeholder are the only user-facing strings
-
-## References
-
-- WAI-ARIA search role: https://www.w3.org/TR/wai-aria-1.2/#search
+- `SearchInput` — a single `<input type="search">` without a button.
+- `TextInput` — plain single-line text input.
+- `Combobox` — text input paired with a filterable dropdown list.
+- `DataFilterForm` — form wrapper for complex multi-field filters.
 
 ---
 

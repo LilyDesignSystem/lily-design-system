@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TreeSelect from './TreeSelect';
 
 const meta = {
-  title: 'Examples/TreeSelect',
+  title: 'Headless/TreeSelect',
   component: TreeSelect,
   tags: ['autodocs']
 } satisfies Meta<typeof TreeSelect>;

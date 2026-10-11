@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AddressographBox from './AddressographBox';
 
 const meta = {
-  title: 'Examples/AddressographBox',
+  title: 'Headless/AddressographBox',
   component: AddressographBox,
   tags: ['autodocs']
 } satisfies Meta<typeof AddressographBox>;

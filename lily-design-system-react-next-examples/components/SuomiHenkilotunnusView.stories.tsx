@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SuomiHenkilotunnusView from './SuomiHenkilotunnusView';
 
 const meta = {
-  title: 'Examples/SuomiHenkilotunnusView',
+  title: 'Headless/SuomiHenkilotunnusView',
   component: SuomiHenkilotunnusView,
   tags: ['autodocs']
 } satisfies Meta<typeof SuomiHenkilotunnusView>;

@@ -1,88 +1,127 @@
 # Header
 
-## Overview
+A semantic page or section header that renders a native HTML `<header>` element. Typically used at the top of a page or region for introductory or navigational content such as headings, navigation, branding, search, or call-to-action buttons.
 
-A semantic page header landmark that renders a native <header> element for introductory
-or navigational content. Typically positioned at the top of a page or section, it contains
-elements like headings, navigation links, branding, search controls, or call-to-action
-buttons. The <header> element is automatically recognized by assistive technologies as
-the banner landmark role when it is a direct child of <body>.
+## What it is
+
+A Svelte 5 component that renders a `<header>` element with the base class `header`. The native `<header>` element provides the `banner` landmark role when it is a direct child of `<body>`.
 
 ## What it does
 
-A page or section header area.
+- Renders `<header class="header ...">` around the `children` snippet.
+- When `label` is provided, sets `aria-label` on the `<header>`.
+- Spreads any additional HTML attributes onto the `<header>` element.
 
-## When to use
+## When to use it
 
-- Use when you need a page or section header area.
+- Page-level headers with site branding and top-level navigation.
+- Section- or article-level headers with a heading and associated byline or metadata.
+- Any context where the semantic `<header>` element is appropriate.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For the top slot of the Grail Layout. Use `GrailLayoutTopHeader` as the slot, and put a `Header` (or `<header>`) inside it.
+- For page footers. Use `Footer`.
+- For high-priority site-wide banner messages. Use `Banner` or `SuperBanner`.
+
+## How to use it
+
+Wrap header content in `<Header>...</Header>`. Provide `label` when there are multiple `<header>` elements on the page and they need to be disambiguated for assistive tech.
+
+## Props
+
+- `class` (string, optional) - CSS class appended after the base `header` class.
+- `label` (string, optional) - Accessible name via `aria-label`.
+- `children` (Snippet, required) - Header content.
+- `...restProps` - Additional HTML attributes spread onto the `<header>` element.
 
 ## Usage
 
 ```svelte
-<Header label="Site header">{children}</Header>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, default undefined | Optional accessible name via aria-label, useful for distinguishing multiple headers. |
-| `children` | Snippet, required | Content rendered inside the header element. |
-| `...restProps` | additional HTML attributes spread onto the header element |  |
-
-## Examples
-
-```svelte
-<!-- Page header with heading -->
-<Header label="Site header">
-  <h1>My Site</h1>
-</Header>
-
-<!-- Header with navigation -->
-<Header>
-  <h1>Page Title</h1>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-  </nav>
-</Header>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Header from "#lib/components/Header/Header.svelte";
+    import Header from "./Header.svelte";
 </script>
 
-<Header label="Site header">{children}</Header>
+<Header label="Site header">
+    <h1>My Site</h1>
+</Header>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import Header from "./Header.svelte";
+</script>
 
-- None — this is a passive container; keyboard interactions are determined by child elements
+<Header>
+    <h1>Page Title</h1>
+    <nav aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+    </nav>
+</Header>
+```
+
+```svelte
+<script lang="ts">
+    import Header from "./Header.svelte";
+</script>
+
+<article>
+    <Header label="Article header">
+        <h1>Article title</h1>
+        <p>By Jamie, 2026-04-18</p>
+    </Header>
+    <p>Body content...</p>
+</article>
+```
+
+```svelte
+<script lang="ts">
+    import Header from "./Header.svelte";
+</script>
+
+<Header
+    class="site-header"
+    data-testid="site-header"
+    label="Site header"
+>
+    <a href="/" aria-label="Home">Logo</a>
+    <form role="search">
+        <label>Search <input type="search" /></label>
+    </form>
+</Header>
+```
+
+```svelte
+<script lang="ts">
+    import Header from "./Header.svelte";
+    import HamburgerMenu from "../HamburgerMenu/HamburgerMenu.svelte";
+    let open = $state(false);
+</script>
+
+<Header label="Mobile header">
+    <a href="/">Logo</a>
+    <HamburgerMenu label="Menu" bind:open>
+        <ul>
+            <li><a href="/a">A</a></li>
+            <li><a href="/b">B</a></li>
+        </ul>
+    </HamburgerMenu>
+</Header>
+```
 
 ## Accessibility
 
-- The <header> element implicitly has role="banner" when a direct child of <body>
-- aria-label optionally provides an accessible name to distinguish multiple headers on a page
-- Screen reader users can navigate directly to the header via landmark navigation
+- Native `<header>` implicitly has role `banner` when it is a direct child of `<body>`; otherwise it is a generic header for its containing section.
+- `aria-label` can distinguish multiple headers for assistive-tech users.
+- No keyboard behaviour by default; interactions come from child elements.
 
-## Internationalization
+## Related components
 
-- The label prop allows localized accessible names; no hardcoded user-facing strings
-- All content comes through the children snippet
-
-## References
-
-- MDN header element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header
-- WAI-ARIA Banner Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+- `Footer` - semantic `<footer>` landmark.
+- `GrailLayoutTopHeader` - Grail Layout structural wrapper for the top slot.
+- `Banner` / `SuperBanner` - high-priority banner messages.
+- `Headline` - page headline with heading and subtitle.
 
 ---
 

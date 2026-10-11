@@ -1,79 +1,99 @@
 # ContextMenuItem
 
-## Overview
+A headless menu item for use inside a `ContextMenu`. Renders a `<div role="menuitem" tabindex="-1">`. The `tabindex="-1"` supports the roving-focus pattern managed by the parent `ContextMenu`.
 
-A headless context menu item representing a single action within a context menu.
-Renders a <div> with role="menuitem" and tabindex="-1" for proper menu keyboard
-navigation. Focus is managed programmatically by the parent ContextMenu component
-using Arrow keys. Should be placed within a role="menu" container. Commonly used
-for right-click menu actions like cut, copy, paste, and delete.
+## What it is
+
+ContextMenuItem is a Svelte 5 component that emits `<div role="menuitem" tabindex="-1">` with the provided children. It does not manage its own focus or state; the parent menu focuses the first item on open and navigates via arrow keys.
 
 ## What it does
 
-One item in a context menu.
+- Renders a `role="menuitem"` element with `tabindex="-1"`.
+- Accepts children for the label, shortcut hint, etc.
+- Spreads `restProps` onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need one item in a context menu.
+- As a direct child of `ContextMenu`.
+- For disabled items, pass `aria-disabled="true"` in restProps.
+- For keyboard-shortcut hints, pass `aria-keyshortcuts="..."`.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Outside a `role="menu"` container — semantics will be wrong.
+- For a menubar item — use `MenuBarButton`.
+- For a navigation link — use `BreadcrumbLink` or similar.
+
+## How to use it
+
+Place inside `ContextMenu`. Add click handlers via `restProps` (`onclick`) to implement the action. Use `aria-disabled` for disabled state.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `children` | `Snippet` | required | Menu item content. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<div>`. |
 
 ## Usage
 
 ```svelte
-<ContextMenuItem>Cut</ContextMenuItem>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | Menu item content (text, shortcut hint, etc.). |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
-
-## Examples
-
-```svelte
-<!-- Multiple menu items within a context menu -->
-<ContextMenuItem>Cut</ContextMenuItem>
-<ContextMenuItem>Copy</ContextMenuItem>
-<ContextMenuItem>Paste</ContextMenuItem>
-<ContextMenuItem aria-disabled="true">Delete</ContextMenuItem>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContextMenuItem from "#lib/components/ContextMenuItem/ContextMenuItem.svelte";
+    import ContextMenu from "../ContextMenu/ContextMenu.svelte";
+    import ContextMenuItem from "./ContextMenuItem.svelte";
+
+    let open = $state(false);
 </script>
 
-<ContextMenuItem>Cut</ContextMenuItem>
+<ContextMenu label="Actions" bind:open>
+    <ContextMenuItem>Cut</ContextMenuItem>
+    <ContextMenuItem>Copy</ContextMenuItem>
+    <ContextMenuItem>Paste</ContextMenuItem>
+</ContextMenu>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import ContextMenu from "../ContextMenu/ContextMenu.svelte";
+    import ContextMenuItem from "./ContextMenuItem.svelte";
 
-- Focus is managed by the parent menu using ArrowUp/ArrowDown
-- Enter/Space: Activate the menu item (handled by consumer event listeners)
+    let open = $state(false);
+</script>
+
+<ContextMenu label="Edit" bind:open>
+    <ContextMenuItem onclick={() => console.log("Undo")}>Undo</ContextMenuItem>
+    <ContextMenuItem onclick={() => console.log("Redo")}>Redo</ContextMenuItem>
+    <ContextMenuItem aria-disabled="true">Delete</ContextMenuItem>
+</ContextMenu>
+```
+
+```svelte
+<script lang="ts">
+    import ContextMenu from "../ContextMenu/ContextMenu.svelte";
+    import ContextMenuItem from "./ContextMenuItem.svelte";
+
+    let open = $state(false);
+</script>
+
+<ContextMenu label="Clipboard" bind:open>
+    <ContextMenuItem aria-keyshortcuts="Control+X">Cut</ContextMenuItem>
+    <ContextMenuItem aria-keyshortcuts="Control+C">Copy</ContextMenuItem>
+    <ContextMenuItem aria-keyshortcuts="Control+V">Paste</ContextMenuItem>
+</ContextMenu>
+```
 
 ## Accessibility
 
-- role="menuitem" identifies this element as an item within a menu
-- tabindex="-1" supports roving focus management by the parent menu
-- Consumer can add aria-disabled="true" for disabled items
-- Consumer can add aria-keyshortcuts for keyboard shortcut hints
+- `role="menuitem"` signals membership in a menu.
+- `tabindex="-1"` removes the item from the normal tab order so the parent menu can manage focus with arrow keys.
+- Consumers should attach Enter/Space handlers if they need click-equivalent activation.
 
-## Internationalization
+## Related components
 
-- All content is provided through the children snippet; no hardcoded strings
-
-## References
-
-- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
+- `ContextMenu` — parent container.
+- `MenuItem` — menu item for `Menu`.
+- `DropdownMenu` — menu under a trigger button.
 
 ---
 

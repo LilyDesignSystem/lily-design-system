@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import ChatMessage from "./ChatMessage.svelte";
     const { Story } = defineMeta({
-        title: "Examples/ChatMessage",
+        title: "Headless/ChatMessage",
         component: ChatMessage,
     });
 </script>

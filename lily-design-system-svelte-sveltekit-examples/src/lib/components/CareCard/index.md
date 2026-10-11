@@ -1,89 +1,107 @@
 # CareCard
 
-## Overview
+A headless healthcare guidance component inspired by NHS England care card patterns. It renders a `<section>` landmark with a required `<h2>` heading and body content, and exposes a `data-type` attribute for three urgency tiers: `non-urgent`, `urgent`, and `immediate`.
 
-A headless healthcare guidance component inspired by NHS England care card
-patterns. Renders a <section> landmark with a heading and body content,
-supporting three urgency tiers: non-urgent (speak to a GP), urgent (visit
-A&E or call 111), and immediate (call 999). The data-type attribute enables
-consumer CSS styling based on urgency level.
+## What it is
+
+CareCard is a Svelte 5 component that emits `<section role="region">` with `aria-label` (defaulting to the heading), an `<h2>` heading element, and consumer-provided body content. The `data-type` attribute advertises the urgency tier so consumer CSS can apply urgency-appropriate visual treatment (for example, NHS blue for `non-urgent`, red for `immediate`).
 
 ## What it does
 
-A medical care instruction card with urgency levels.
+- Renders a landmark `<section>` with `role="region"` and `aria-label`.
+- Always renders an `<h2>` heading from the required `heading` prop.
+- Renders the body content via `children`.
+- Exposes `data-type` reflecting the urgency tier.
 
-## When to use
+## When to use it
 
-- Use to group related content in a single surfaceable container.
+- Presenting safety-critical medical guidance in healthcare apps, patient portals, and clinical tools.
+- Advising patients when to speak to a GP, call a triage line (e.g. 111), visit A&E, or call emergency services (e.g. 999).
+- Separating conditional advice visually by urgency while keeping semantics consistent.
 
-## When not to use
+## When not to use it
 
-- Do not nest cards deeply or use a card as a generic container when a plain element suffices.
+- For general informational callouts — use `InformationCallout` or `Alert`.
+- For a warning that is not medical — use `WarningCallout`.
+- When the card does not represent an urgency tier in healthcare guidance.
+
+## How to use it
+
+Provide a required `heading` describing the action, and optionally pick one of the three `type` values. Consumers supply styling via CSS targeting `[data-type="..."]`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `type` | `"non-urgent" \| "urgent" \| "immediate"` | `"non-urgent"` | Urgency tier exposed via `data-type`. |
+| `heading` | `string` | required | Heading text rendered in an `<h2>`. |
+| `label` | `string` | `undefined` | `aria-label` override; defaults to `heading`. |
+| `children` | `Snippet` | required | Body content. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<section>`. |
 
 ## Usage
 
 ```svelte
-<CareCard heading="See a GP if:">
-  <p>You have persistent symptoms.</p>
-</CareCard>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `type` | "non-urgent" \| "urgent" \| "immediate", default "non-urgent" | Urgency level. |
-| `heading` | string, required | Heading text describing the care action. |
-| `label` | string, optional | aria-label override; defaults to heading text. |
-| `children` | Snippet, required | The care card body content. |
-| `...restProps` | additional HTML attributes spread onto the <section> |  |
-
-## Examples
-
-```svelte
-<!-- Non-urgent care card -->
-<CareCard type="non-urgent" heading="Speak to a GP if:">
-  <ul><li>you have symptoms for more than 3 days</li></ul>
-</CareCard>
-
-<!-- Immediate care card -->
-<CareCard type="immediate" heading="Call 999 if:">
-  <ul><li>you have difficulty breathing</li></ul>
-</CareCard>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CareCard from "#lib/components/CareCard/CareCard.svelte";
+    import CareCard from "./CareCard.svelte";
 </script>
 
-<CareCard heading="See a GP if:">
-  <p>You have persistent symptoms.</p>
+<CareCard type="non-urgent" heading="Speak to a GP if:">
+    <ul>
+        <li>symptoms have lasted more than 3 days</li>
+    </ul>
 </CareCard>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import CareCard from "./CareCard.svelte";
+</script>
 
-- None — this component is a passive content container.
+<CareCard type="urgent" heading="Ask for an urgent GP appointment or call 111 if:">
+    <ul>
+        <li>you feel faint or very weak</li>
+        <li>you have a high temperature</li>
+    </ul>
+</CareCard>
+```
+
+```svelte
+<script lang="ts">
+    import CareCard from "./CareCard.svelte";
+</script>
+
+<CareCard type="immediate" heading="Call 999 or go to A&E if:">
+    <ul>
+        <li>you have sudden chest pain</li>
+        <li>you have difficulty breathing</li>
+    </ul>
+</CareCard>
+```
+
+```svelte
+<script lang="ts">
+    import CareCard from "./CareCard.svelte";
+</script>
+
+<CareCard heading="Self-care" label="Self-care advice">
+    <p>Rest, drink fluids, and monitor your symptoms.</p>
+</CareCard>
+```
 
 ## Accessibility
 
-- role="region" identifies the card as a named landmark
-- aria-label set from label prop or heading prop for screen reader identification
-- <h2> heading provides document structure
-- data-type exposes urgency level for consumer styling hooks
+- `role="region"` names this container as a landmark.
+- `aria-label` defaults to the heading text so screen readers announce the purpose.
+- `<h2>` provides structure and is recommended for the NHS care card pattern.
+- `data-type` is a styling hook only — it does not change semantics.
 
-## Internationalization
+## Related components
 
-- All text comes through heading, label, and children props; no hardcoded strings
-
-## References
-
-- NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards
+- `Alert`, `AlertDialog` — for time-bound and modal alert messages.
+- `InformationCallout`, `WarningCallout` — general, non-clinical callouts.
+- `MedicalBanner`, `MedicalBannerBox` — page-level medical messaging.
 
 ---
 

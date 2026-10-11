@@ -89,7 +89,7 @@
       <li><code>label</code>: string (required) -- accessible name for the rating group via <code>aria-label</code></li>
       <li><code>value</code>: number (default: <code>0</code>) -- current rating (1-5, 0 = none), two-way bindable via <code>value</code></li>
       <li><code>name</code>: string (default: <code>"face-rating"</code>) -- radio group name for form submission</li>
-      <li><code>labels</code>: string[] (default: <code>["Very bad", "Bad", "Okay", "Good", "Very good"]</code>) -- accessible labels for each face</li>
+      <li><code>labels</code>: string[] (default: <code>["1", "2", "3", "4", "5"]</code>; no English default) -- accessible labels for each face</li>
       <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the entire group is disabled</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;fieldset&gt;</code></li>
     </ul>

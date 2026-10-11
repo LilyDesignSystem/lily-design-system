@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CeskoCestovniPasInput from './CeskoCestovniPasInput';
 
 const meta = {
-  title: 'Examples/CeskoCestovniPasInput',
+  title: 'Headless/CeskoCestovniPasInput',
   component: CeskoCestovniPasInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CeskoCestovniPasInput>;

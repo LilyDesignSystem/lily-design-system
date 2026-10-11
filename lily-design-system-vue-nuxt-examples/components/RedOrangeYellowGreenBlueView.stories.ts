@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.vue';
 
 const meta = {
-  title: 'Examples/RedOrangeYellowGreenBlueView',
+  title: 'Headless/RedOrangeYellowGreenBlueView',
   component: RedOrangeYellowGreenBlueView,
   tags: ['autodocs']
 } satisfies Meta<typeof RedOrangeYellowGreenBlueView>;

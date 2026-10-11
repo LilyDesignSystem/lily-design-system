@@ -1,84 +1,146 @@
 # Popover
 
-## Overview
+A headless conditional dialog overlay that displays contextual information or actions near its trigger element. Only mounts in the DOM when `open` is `true`.
 
-A headless conditional dialog overlay that displays contextual information or
-actions near the element that triggered it. It renders a <div> with role="dialog"
-only when the open state is true, using $bindable() for two-way binding of
-visibility. Unlike tooltips, popovers can contain rich interactive content such
-as forms, buttons, or other controls. Commonly used for contextual menus,
-information panels, and inline editing.
+## What it is
+
+- Component: `Popover`
+- HTML element: `<div role="dialog">` (conditionally rendered)
+- Role: `dialog`
+- Category: overlay / floating content
 
 ## What it does
 
-A floating content box anchored to a trigger element.
+- Renders a `<div role="dialog">` with `aria-label` only when the bindable `open` is `true`.
+- Does nothing when closed — no hidden DOM, no animation hooks.
+- Supports `bind:open` for two-way toggling from the trigger.
+- Spreads additional attributes onto the dialog `<div>`.
 
-## When to use
+## When to use it
 
-- Use for supplemental, on-demand information tied to a trigger element.
+- Contextual panels anchored to a trigger button, such as inline help, quick actions, or preview cards.
+- Rich interactive content (forms, buttons) that should appear on demand — richer than a tooltip.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a simple hover/focus descriptor with no interactive content — use `Tooltip`.
+- For a hover card tied to a link or avatar — use `HoverCard`.
+- For a modal confirmation that blocks the rest of the UI — use `Dialog` or `AlertDialog`.
+- For a top-of-page announcement — use `Banner` or `Notification`.
+- For a side-slide panel — use `Drawer` or `Sheet`.
 
-## Usage
+## How to use it
+
+The consumer is responsible for the trigger, the open/close logic, Escape handling, and focus management. The component only toggles visibility and applies ARIA.
 
 ```svelte
-<Popover label="Info" bind:open>{children}</Popover>
+import Popover from './Popover.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the popover dialog via aria-label. |
-| `open` | boolean, default false, bindable | Controls whether the popover is visible. |
-| `children` | Snippet, required | The popover content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `popover`.
+- `label`: string, required. Accessible name for the dialog via `aria-label`.
+- `open`: boolean, default `false`. Bindable with `bind:open`.
+- `children`: Snippet, required. Popover content.
+- `...restProps`: spread onto the `<div>`.
 
-## Examples
+## Usage
+
+### Toggle from a button
 
 ```svelte
-<!-- Popover with toggle trigger -->
-<button onclick={() => showPopover = !showPopover}>Toggle info</button>
-<Popover label="Additional information" bind:open={showPopover}>
+<script lang="ts">
+  import Popover from './Popover.svelte';
+
+  let open = $state(false);
+</script>
+
+<button type="button" onclick={() => (open = !open)}>Toggle info</button>
+<Popover label="Additional information" bind:open>
   <p>Here is some contextual information.</p>
-  <button onclick={() => showPopover = false}>Close</button>
+  <button type="button" onclick={() => (open = false)}>Close</button>
 </Popover>
 ```
 
-## SvelteKit example
+### Open on hover, close on Escape
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Popover from "#lib/components/Popover/Popover.svelte";
+  import Popover from './Popover.svelte';
+
+  let open = $state(false);
+  function onKey(e: KeyboardEvent) { if (e.key === "Escape") open = false; }
 </script>
 
-<Popover label="Info" bind:open>{children}</Popover>
+<svelte:window onkeydown={onKey} />
+
+<button
+  type="button"
+  onmouseenter={() => (open = true)}
+  onmouseleave={() => (open = false)}
+>
+  Details
+</button>
+<Popover label="Details" bind:open>
+  <p>Quick preview content.</p>
+</Popover>
 ```
 
-## Keyboard
+### With a form inside
 
-- Escape: consumer should implement closing the popover by setting open to false
-- Tab: consumer should consider trapping focus within the popover when open
+```svelte
+<script lang="ts">
+  import Popover from './Popover.svelte';
+
+  let open = $state(false);
+  let email = $state("");
+</script>
+
+<button type="button" onclick={() => (open = true)}>Invite</button>
+<Popover label="Send invitation" bind:open>
+  <form onsubmit={(e) => { e.preventDefault(); open = false; }}>
+    <label>Email <input type="email" bind:value={email} /></label>
+    <button type="submit">Send</button>
+    <button type="button" onclick={() => (open = false)}>Cancel</button>
+  </form>
+</Popover>
+```
+
+### Controlled open state
+
+```svelte
+<script lang="ts">
+  import Popover from './Popover.svelte';
+
+  let open = $state(true);
+</script>
+
+<Popover label="Welcome" {open}>
+  <p>Welcome aboard!</p>
+</Popover>
+```
+
+### Extra attributes for positioning hooks
+
+```svelte
+<Popover label="Menu" bind:open data-anchor="top-right" />
+```
 
 ## Accessibility
 
-- role="dialog" identifies the popover as a dialog overlay
-- aria-label provides the accessible name for the dialog
-- Conditionally rendered; not in the DOM when closed
+- `role="dialog"` + `aria-label` expose the popover as a named dialog region.
+- Consumer must implement Escape-to-close behavior and, where appropriate, focus trapping and restore-on-close — the component intentionally does not impose these.
+- Consider moving focus into the popover on open and back to the trigger on close.
 
-## Internationalization
+## Related components
 
-- The label prop is the only text; all content comes through children
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/
-- WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
+- `Popup` — near-identical general-purpose overlay dialog.
+- `Tooltip` — hover/focus descriptor for simple non-interactive text.
+- `HoverCard` — rich hover-triggered card.
+- `Dialog`, `AlertDialog`, `FileDialog` — modal alternatives.
+- `Drawer`, `Sheet`, `SlideOutDrawer` — edge-anchored panels.
+- `FloatingPanel` — free-floating panel variant.
 
 ---
 

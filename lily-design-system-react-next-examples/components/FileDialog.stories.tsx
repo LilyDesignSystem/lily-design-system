@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import FileDialog from './FileDialog';
 
 const meta = {
-  title: 'Examples/FileDialog',
+  title: 'Headless/FileDialog',
   component: FileDialog,
   tags: ['autodocs']
 } satisfies Meta<typeof FileDialog>;

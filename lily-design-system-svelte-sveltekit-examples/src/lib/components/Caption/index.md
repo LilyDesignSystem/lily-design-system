@@ -1,78 +1,120 @@
 # Caption
 
-## Overview
+A caption providing supplementary text alongside images, videos, charts, or other media. Renders a semantic `<figcaption>`, which natively associates with a parent `<figure>`.
 
-A headless caption for providing supplementary text alongside images, videos,
-charts, or other media. Renders as a semantic <figcaption> element, which
-provides an implicit association with a parent <figure> element. Commonly used
-in galleries, product pages, data visualizations, and educational content.
+## What it is
+
+A headless Svelte 5 component outputting a single `<figcaption>`. Category: figure / captioning primitive, typically paired with `Figure` and `Image`/`FeaturePhoto`.
 
 ## What it does
 
-A caption for a table or figure element.
+- Renders `<figcaption class="caption {className}">`.
+- Spreads additional HTML attributes onto the `<figcaption>` (including `id` for `aria-describedby` references).
+- No behavior — purely content.
 
-## When to use
+## When to use it
 
-- Use when you need a caption for a table or figure element.
+- Below an image, chart, video, or diagram inside a `<figure>` or `Figure`.
+- To provide descriptive or attribution text for media.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For table captions — use `<caption>` inside a `Table`/`DataTable`/`CalendarTable` (the component already renders one when `caption` is provided).
+- For floating tooltips — use `Tooltip`.
+- For general body text — use `BodyText` or plain `<p>`.
 
-## Usage
+## How to use it
 
-```svelte
-<Caption>Photo of a sunset over the ocean.</Caption>
-```
+Import `Caption` from `./Caption.svelte`. Place inside a `<figure>` or `Figure`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | The caption text or content to display. |
-| `...restProps` | additional HTML attributes spread onto the <figcaption> |  |
+- `class` — string, default `""`. CSS class appended to `caption`.
+- `children` — `Snippet`, required. Caption text or content.
+- `...restProps` — additional HTML attributes spread onto the `<figcaption>` (e.g. `id`).
 
-## Examples
+## Usage
+
+### Caption in a figure
 
 ```svelte
-<!-- Caption for a chart with an id for aria-describedby -->
-<Caption id="chart-caption">Figure 1: Revenue growth over time.</Caption>
+<script lang="ts">
+  import Caption from './Caption.svelte';
+</script>
 
-<!-- Caption inside a figure -->
 <figure>
-  <img src="sunset.jpg" alt="Sunset over the ocean" />
+  <img src="/sunset.jpg" alt="Sunset over the ocean" />
   <Caption>Photo taken at Malibu beach.</Caption>
 </figure>
 ```
 
-## SvelteKit example
+### Caption for a chart referenced by aria-describedby
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Caption from "#lib/components/Caption/Caption.svelte";
+  import Caption from './Caption.svelte';
 </script>
 
-<Caption>Photo of a sunset over the ocean.</Caption>
+<figure aria-describedby="chart-caption">
+  <svg role="img" aria-label="Revenue chart"><!-- ... --></svg>
+  <Caption id="chart-caption">Figure 1: Revenue growth over time.</Caption>
+</figure>
 ```
 
-## Keyboard
+### Caption with inline mark-up
 
-- None — this component is a passive container for descriptive text.
+```svelte
+<script lang="ts">
+  import Caption from './Caption.svelte';
+</script>
+
+<figure>
+  <img src="/poster.jpg" alt="Event poster" />
+  <Caption>
+    Photograph by <em>Jane Doe</em> — <a href="/license">CC BY 4.0</a>
+  </Caption>
+</figure>
+```
+
+### With the Figure component
+
+```svelte
+<script lang="ts">
+  import Figure from '../Figure/Figure.svelte';
+  import Caption from './Caption.svelte';
+</script>
+
+<Figure>
+  <img src="/diagram.png" alt="System overview diagram" />
+  <Caption>System overview: client → API → database.</Caption>
+</Figure>
+```
+
+### Video caption
+
+```svelte
+<script lang="ts">
+  import Caption from './Caption.svelte';
+</script>
+
+<figure>
+  <video src="/intro.mp4" controls></video>
+  <Caption>Product introduction video, 2 minutes.</Caption>
+</figure>
+```
 
 ## Accessibility
 
-- Implicit semantics from <figcaption> — automatically associated with parent <figure>
-- Can be referenced via id and aria-describedby from other elements
+- `<figcaption>` automatically associates with its parent `<figure>`, providing an accessible caption for screen readers.
+- Can be referenced via `id` + `aria-describedby` from other elements.
+- No interactive behavior; contained links/buttons bring their own a11y.
 
-## Internationalization
+## Related components
 
-- All text comes through children snippet; no hardcoded strings
-
-## References
-
-- MDN figcaption: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption
+- `Figure` — the `<figure>` wrapper.
+- `Image`, `FeaturePhoto` — image children.
+- `BodyText` — general text blocks.
+- `EndNotes`, `Footnote` — other kinds of supplementary text.
 
 ---
 

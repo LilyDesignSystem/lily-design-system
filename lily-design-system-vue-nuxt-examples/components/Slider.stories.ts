@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Slider from './Slider.vue';
 
 const meta = {
-  title: 'Examples/Slider',
+  title: 'Headless/Slider',
   component: Slider,
   tags: ['autodocs']
 } satisfies Meta<typeof Slider>;

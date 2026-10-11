@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Separator from './Separator.vue';
 
 const meta = {
-  title: 'Examples/Separator',
+  title: 'Headless/Separator',
   component: Separator,
   tags: ['autodocs']
 } satisfies Meta<typeof Separator>;

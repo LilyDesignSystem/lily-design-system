@@ -3,7 +3,7 @@
   import TimeoutDialog from './TimeoutDialog.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TimeoutDialog',
+    title: 'Headless/TimeoutDialog',
     component: TimeoutDialog,
   });
 </script>

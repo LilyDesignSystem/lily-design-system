@@ -3,7 +3,7 @@
   import RedAmberGreenPickerButton from './RedAmberGreenPickerButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RedAmberGreenPickerButton',
+    title: 'Headless/RedAmberGreenPickerButton',
     component: RedAmberGreenPickerButton,
   });
 </script>

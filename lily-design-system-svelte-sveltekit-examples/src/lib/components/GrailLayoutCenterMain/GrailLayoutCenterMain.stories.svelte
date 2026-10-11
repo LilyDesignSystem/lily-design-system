@@ -1,14 +1,16 @@
 <script module lang="ts">
-    import { defineMeta } from "@storybook/addon-svelte-csf";
-    import GrailLayoutCenterMain from "./GrailLayoutCenterMain.svelte";
-    const { Story } = defineMeta({
-        title: "Examples/GrailLayoutCenterMain",
-        component: GrailLayoutCenterMain,
-    });
+  import { defineMeta } from '@storybook/addon-svelte-csf';
+  import GrailLayoutCenterMain from './GrailLayoutCenterMain.svelte';
+
+  const { Story } = defineMeta({
+    title: 'Headless/GrailLayoutCenterMain',
+    component: GrailLayoutCenterMain,
+  });
 </script>
 
-<Story name="Default" tags={["autodocs", "!dev"]}>
-    <GrailLayoutCenterMain label="GrailLayoutCenterMain example">
-        <span>GrailLayoutCenterMain example</span>
-    </GrailLayoutCenterMain>
+<Story
+  name="Default"
+  tags={['autodocs', '!dev']}
+>
+  <p>Layout section content</p>
 </Story>

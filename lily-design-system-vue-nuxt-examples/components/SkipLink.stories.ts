@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SkipLink from './SkipLink.vue';
 
 const meta = {
-  title: 'Examples/SkipLink',
+  title: 'Headless/SkipLink',
   component: SkipLink,
   tags: ['autodocs']
 } satisfies Meta<typeof SkipLink>;

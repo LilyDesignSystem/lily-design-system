@@ -3,7 +3,7 @@
   import AreaChart from './AreaChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AreaChart',
+    title: 'Headless/AreaChart',
     component: AreaChart,
   });
 </script>

@@ -228,7 +228,9 @@
 
 {%- macro _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks) -%}
 {%- set thHtml = "" -%}
-{%- if hasChildren -%}
+{#- The collapse button only when both its labels are given: an unnamed
+    button is worse than none, and the subtree then stays expanded. -#}
+{%- if hasChildren and labels.collapseLabel and labels.expandLabel -%}
   {%- set collapseLabelRaw = labels.collapseLabel | default("") -%}
   {%- set expandLabelRaw = labels.expandLabel | default("") -%}
   {%- set collapseLabelSub = collapseLabelRaw | replace("{task}", task.label) -%}
@@ -241,7 +243,8 @@
   {%- set depsText = labels.dependencySummary | replace("{predecessors}", deps | join(", ")) -%}
   {%- set thHtml = (thHtml ~ '<span id="' ~ depId ~ '" class="gantt-chart-dependency-summary" hidden data-lily-gantt-chart-dependency-summary>' ~ depsText ~ '</span>') | safe -%}
 {%- endif -%}
-{%- set thAttrs = [["style", "padding-inline-start: " + depth + "em"]] -%}
+{#- Depth is data for the consumer's CSS (indentation), never an inline style. -#}
+{%- set thAttrs = [["data-depth", depth]] -%}
 {%- set thContent = ganttTableTh({ scope: "row", attributes: thAttrs, html: thHtml }) -%}
 {%- if hasChildren -%}
   {%- set effRange = (_ganttChartEffectiveRange(task.id, tasks)).split(",") -%}
@@ -255,6 +258,7 @@
   ["data-lily-gantt-chart-task-id", task.id],
   ["data-lily-gantt-chart-task-label", task.label],
   ["data-lily-gantt-chart-depth", depth],
+  ["data-lily-gantt-chart-parent-id", task.parentId | default("")],
   ["data-lily-gantt-chart-start", effStart],
   ["data-lily-gantt-chart-end", effEnd]
 ] -%}
@@ -278,10 +282,13 @@
   root call; comparing against `task.parentId | default("")` handles
   both root tasks (no parentId) and nested ones uniformly.
 -#}
-{%- macro _ganttChartRowsHtml(parentTaskId, depth, tasks, labels, id, dtpLabelsPresent) -%}
+{%- macro _ganttChartRowsHtml(parentTaskId, depth, tasks, labels, id, dtpLabelsPresent, taskIds) -%}
 {%- set out = "" -%}
 {%- for task in tasks -%}
-  {%- if (task.parentId | default("")) == parentTaskId -%}
+  {#- At the root, a task whose parentId names no task is a top-level row,
+      not silently dropped. -#}
+  {%- set ownParent = task.parentId | default("") -%}
+  {%- if ownParent == parentTaskId or (parentTaskId == "" and not (ownParent in taskIds)) -%}
     {%- set hasChildren = false -%}
     {%- for t2 in tasks -%}
       {%- if (t2.parentId | default("")) == task.id -%}{%- set hasChildren = true -%}{%- endif -%}
@@ -296,7 +303,7 @@
     {%- endif -%}
     {%- set out = (out ~ _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks)) | safe -%}
     {%- if hasChildren -%}
-      {%- set out = (out ~ _ganttChartRowsHtml(task.id, depth + 1, tasks, labels, id, dtpLabelsPresent)) | safe -%}
+      {%- set out = (out ~ _ganttChartRowsHtml(task.id, depth + 1, tasks, labels, id, dtpLabelsPresent, taskIds)) | safe -%}
     {%- endif -%}
   {%- endif -%}
 {%- endfor -%}
@@ -310,11 +317,14 @@
 {%- set id = opts.id | default("gantt-chart-" + name) -%}
 {%- set statusId = id + "-status" -%}
 {%- set timeUnit = opts.timeUnit | default("day") -%}
-{%- set dtpLabelsPresent = (labels.dateTimePickerLabels is defined) and labels.dateTimePickerLabels -%}
-{%- set leadingThHtml = ganttTableTh({ scope: "col", attributes: [["data-lily-gantt-chart-leading-column", ""]] }) -%}
+{#- Editing needs every label its controls show; an unnamed Save is worse than none. -#}
+{%- set dtpLabelsPresent = (labels.dateTimePickerLabels is defined) and labels.dateTimePickerLabels and labels.startLabel and labels.endLabel and labels.saveLabel and labels.cancelLabel -%}
+{%- set taskIds = [] -%}
+{%- for t in tasks -%}{%- set taskIds = taskIds.concat([t.id]) -%}{%- endfor -%}
+{%- set leadingThHtml = ganttTableTh({ scope: "col", attributes: [["data-lily-gantt-chart-leading-column", ""]], text: labels.taskColumnHeader | default("") }) -%}
 {%- set theadRowHtml = ganttTableTr({ html: leadingThHtml, attributes: [["data-lily-gantt-chart-header-row", ""]] }) -%}
 {%- set theadHtml = ganttTableThead({ html: theadRowHtml }) -%}
-{%- set bodyRowsHtml = _ganttChartRowsHtml("", 0, tasks, labels, id, dtpLabelsPresent) -%}
+{%- set bodyRowsHtml = _ganttChartRowsHtml("", 0, tasks, labels, id, dtpLabelsPresent, taskIds) -%}
 {%- set tbodyHtml = ganttTableTbody({ html: bodyRowsHtml }) -%}
 {%- set tableHtml = ganttTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml) | safe }) -%}
 <div

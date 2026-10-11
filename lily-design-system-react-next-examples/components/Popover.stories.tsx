@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Popover from './Popover';
 
 const meta = {
-  title: 'Examples/Popover',
+  title: 'Headless/Popover',
   component: Popover,
   tags: ['autodocs']
 } satisfies Meta<typeof Popover>;

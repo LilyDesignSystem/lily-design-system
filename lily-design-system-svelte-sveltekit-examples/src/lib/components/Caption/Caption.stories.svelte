@@ -3,7 +3,7 @@
   import Caption from './Caption.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Caption',
+    title: 'Headless/Caption',
     component: Caption,
   });
 </script>

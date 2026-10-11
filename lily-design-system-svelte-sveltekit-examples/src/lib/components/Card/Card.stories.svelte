@@ -3,7 +3,7 @@
   import Card from './Card.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Card',
+    title: 'Headless/Card',
     component: Card,
   });
 </script>

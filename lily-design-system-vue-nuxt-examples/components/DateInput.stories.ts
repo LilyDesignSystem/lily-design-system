@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DateInput from './DateInput.vue';
 
 const meta = {
-  title: 'Examples/DateInput',
+  title: 'Headless/DateInput',
   component: DateInput,
   tags: ['autodocs']
 } satisfies Meta<typeof DateInput>;

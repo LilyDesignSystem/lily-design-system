@@ -24,11 +24,19 @@ describe("PinInputDiv", () => {
         expect(host.getAttribute("aria-label")).toBe("Enter PIN");
     });
 
-    test("defaults to 4 digit inputs with positional labels", () => {
+    test("defaults to 4 digit inputs, each named by the group's label (no English default)", () => {
         const host = render('<lily-pin-input-div label="Enter PIN"></lily-pin-input-div>');
         const inputs = host.querySelectorAll("input");
 
         expect(inputs.length).toBe(4);
+        expect(inputs[0]!.getAttribute("aria-label")).toBe("Enter PIN");
+        expect(inputs[3]!.getAttribute("aria-label")).toBe("Enter PIN");
+    });
+
+    test("digitLabel supplies positional labels, before or after connect", () => {
+        const host = render('<lily-pin-input-div label="Enter PIN"></lily-pin-input-div>') as unknown as PinInputDiv;
+        host.digitLabel = (n, of) => `Digit ${n} of ${of}`;
+        const inputs = (host as unknown as HTMLElement).querySelectorAll("input");
         expect(inputs[0]!.getAttribute("aria-label")).toBe("Digit 1 of 4");
         expect(inputs[3]!.getAttribute("aria-label")).toBe("Digit 4 of 4");
     });
@@ -114,5 +122,18 @@ describe("PinInputDiv", () => {
         const inputs = host.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
         expect(inputs[0]!.value).toBe("9");
         expect(host.value).toBe("9876");
+    });
+});
+
+describe("form reset", () => {
+    test("a form reset restores the initial digits, not empty fields", () => {
+        const form = document.createElement("form");
+        form.innerHTML = `<lily-pin-input-div label="PIN" length="2" value="1"></lily-pin-input-div>`;
+        document.body.appendChild(form);
+        const el = form.querySelector("lily-pin-input-div") as PinInputDiv;
+        el.value = "17";
+        expect(el.value).toBe("17");
+        form.reset();
+        expect(el.value).toBe("1");
     });
 });

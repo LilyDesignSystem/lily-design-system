@@ -3,7 +3,7 @@
   import GaugeChart from './GaugeChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/GaugeChart',
+    title: 'Headless/GaugeChart',
     component: GaugeChart,
   });
 </script>

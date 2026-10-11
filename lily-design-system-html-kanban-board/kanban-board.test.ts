@@ -256,6 +256,7 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
     test("§8.11 no announcement fires when moveAnnouncement is absent", () => {
         mount({});
         press(tabbableCells()[0], "Enter");
+        press(document.activeElement!, "ArrowDown");
         press(document.activeElement!, "Enter");
         expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
     });
@@ -276,7 +277,101 @@ describe("KanbanBoard — labels are the only source of user-facing strings (§8
         mount({});
         expect(document.querySelector(".kanban-board-count")).toBeNull();
         expect(document.querySelector(".kanban-board-wip-warning")).toBeNull();
-        const moveButton = document.querySelector(".kanban-board-move-button")!;
-        expect(moveButton.getAttribute("aria-label")).toBe("");
+        // No unnamed button: without labels.moveButton there is none at all.
+        expect(document.querySelector(".kanban-board-move-button")).toBeNull();
+    });
+});
+
+describe("KanbanBoard — focus, tab stop and move edge cases", () => {
+    function option(name: string): HTMLElement {
+        return Array.from(document.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find(
+            (el) => el.textContent?.trim() === name,
+        )!;
+    }
+
+    function list(): HTMLElement | null {
+        return document.querySelector<HTMLElement>(".kanban-board-move-list");
+    }
+
+    function moveButton(name: string): HTMLElement | null {
+        return document.querySelector<HTMLElement>(`.kanban-board-move-button[aria-label="${name}"]`);
+    }
+
+    function dragEvent(type: string, dataTransfer: unknown): Event {
+        const event = new Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperty(event, "dataTransfer", { value: dataTransfer });
+        return event;
+    }
+
+    test("§8.8 after a move, focus and the tab stop follow the card to its new column", () => {
+        const el = mount({ labels: LABELS });
+        el.onMove = (id, columnId) => {
+            el.cards = CARDS.map((c) => (c.id === id ? { ...c, columnId } : c));
+        };
+        press(tabbableCells()[0], "Enter");
+        click(option("Done"));
+        expect(document.activeElement).toBe(moveButton("Move Card One"));
+        expect(tabbableCells()).toHaveLength(1);
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("2");
+    });
+
+    test("§8.14 keys pressed in the open move menu do not move the grid cursor or focus", () => {
+        mount({ labels: LABELS });
+        press(tabbableCells()[0], "Enter");
+        const menu = list()!;
+        expect(document.activeElement).toBe(menu);
+        press(menu, "ArrowDown");
+        press(menu, "ArrowRight");
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("0");
+        expect(document.activeElement).toBe(menu);
+    });
+
+    test("§8.14 choosing a destination in the menu does not reopen it", () => {
+        mount({ labels: LABELS });
+        press(tabbableCells()[0], "Enter");
+        press(list()!, "ArrowDown");
+        press(list()!, "Enter");
+        expect(list()).toBeNull();
+    });
+
+    test("§8.15 choosing the card's own column, or dropping it there, is not a move", () => {
+        const onMove = vi.fn();
+        mount({ labels: LABELS, onMove });
+        press(tabbableCells()[0], "Enter");
+        click(option("To Do"));
+        expect(list()).toBeNull();
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
+
+        const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+        const title = Array.from(document.querySelectorAll(".kanban-board-card-title")).find(
+            (el) => el.textContent?.trim() === "Card One",
+        )!;
+        title.dispatchEvent(dragEvent("dragstart", dataTransfer));
+        bodyRows()[1].querySelectorAll(".kanban-table-td")[0].dispatchEvent(dragEvent("drop", dataTransfer));
+        expect(onMove).not.toHaveBeenCalled();
+    });
+
+    test("§8.16 focusing a cell by pointer moves the cursor there", () => {
+        mount({});
+        const cell = bodyRows()[1].querySelectorAll<HTMLElement>(".kanban-table-td")[1];
+        cell.focus();
+        expect(tabbableCells()).toEqual([cell]);
+        press(cell, "ArrowUp");
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("0");
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+    });
+
+    test("§8.13 without labels.moveButton the menu still opens from the cell, named by the card, and Escape refocuses the cell", () => {
+        mount({});
+        const cell = tabbableCells()[0];
+        press(cell, "Enter");
+        expect(list()!.getAttribute("aria-label")).toBe("Card One");
+        press(list()!, "Escape");
+        expect(document.activeElement).toBe(cell);
+    });
+
+    test("§8.3 a column exactly at its wipLimit is not over it", () => {
+        mount({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS });
+        expect(document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit")).toBe(false);
     });
 });

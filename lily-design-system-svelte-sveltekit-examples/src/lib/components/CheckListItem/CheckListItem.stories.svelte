@@ -3,7 +3,7 @@
   import CheckListItem from './CheckListItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CheckListItem',
+    title: 'Headless/CheckListItem',
     component: CheckListItem,
   });
 </script>

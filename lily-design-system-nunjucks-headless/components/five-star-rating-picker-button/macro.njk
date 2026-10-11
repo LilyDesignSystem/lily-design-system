@@ -5,8 +5,9 @@
   HTML tag: <button role="radio">
   CSS class: five-star-rating-picker-button
   Data attribute: data-value with the rating this button selects.
-  Accessibility: aria-label is required and typically names the
-    value ("Rate 1 star", "Rate 2 stars", ...).
+  Accessibility: pass label, naming the value in the page's language
+    (e.g. "Rate 1 star"); without it the label is the number alone — no
+    English default.
 
   Params:
     value        number   The rating this button selects (1–5).
@@ -19,7 +20,7 @@
     attributes   object
 #}
 {%- macro fiveStarRatingPickerButton(params) -%}
-{%- set label = params.label | default("Rate " ~ params.value ~ (" star" if params.value == 1 else " stars")) -%}
+{%- set label = params.label | default(params.value) -%}
 <button
   class="five-star-rating-picker-button{% if params.classes %} {{ params.classes }}{% endif %}"
   type="{{ params.type | default('button') }}"

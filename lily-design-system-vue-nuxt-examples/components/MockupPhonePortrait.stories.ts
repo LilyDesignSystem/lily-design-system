@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import MockupPhonePortrait from './MockupPhonePortrait.vue';
 
 const meta = {
-  title: 'Examples/MockupPhonePortrait',
+  title: 'Headless/MockupPhonePortrait',
   component: MockupPhonePortrait,
   tags: ['autodocs']
 } satisfies Meta<typeof MockupPhonePortrait>;

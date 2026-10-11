@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import ChatNav from "./ChatNav.svelte";
     const { Story } = defineMeta({
-        title: "Examples/ChatNav",
+        title: "Headless/ChatNav",
         component: ChatNav,
     });
 </script>

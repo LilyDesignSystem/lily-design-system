@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Table from './Table';
 
 const meta = {
-  title: 'Examples/Table',
+  title: 'Headless/Table',
   component: Table,
   tags: ['autodocs']
 } satisfies Meta<typeof Table>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CalendarTable from './CalendarTable';
 
 const meta = {
-  title: 'Examples/CalendarTable',
+  title: 'Headless/CalendarTable',
   component: CalendarTable,
   tags: ['autodocs']
 } satisfies Meta<typeof CalendarTable>;

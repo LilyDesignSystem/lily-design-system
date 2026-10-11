@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Popover from './Popover.vue';
 
 const meta = {
-  title: 'Examples/Popover',
+  title: 'Headless/Popover',
   component: Popover,
   tags: ['autodocs']
 } satisfies Meta<typeof Popover>;

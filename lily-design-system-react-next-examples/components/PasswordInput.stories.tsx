@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PasswordInput from './PasswordInput';
 
 const meta = {
-  title: 'Examples/PasswordInput',
+  title: 'Headless/PasswordInput',
   component: PasswordInput,
   tags: ['autodocs']
 } satisfies Meta<typeof PasswordInput>;

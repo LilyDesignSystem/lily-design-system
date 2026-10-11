@@ -3,7 +3,7 @@
   import CalendarTableTD from './CalendarTableTD.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CalendarTableTD',
+    title: 'Headless/CalendarTableTD',
     component: CalendarTableTD,
   });
 </script>

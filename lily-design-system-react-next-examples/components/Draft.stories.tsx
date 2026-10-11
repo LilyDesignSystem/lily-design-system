@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Draft from './Draft';
 
 const meta = {
-  title: 'Examples/Draft',
+  title: 'Headless/Draft',
   component: Draft,
   tags: ['autodocs']
 } satisfies Meta<typeof Draft>;

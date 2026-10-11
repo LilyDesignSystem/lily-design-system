@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PhaseBanner from './PhaseBanner.vue';
 
 const meta = {
-  title: 'Examples/PhaseBanner',
+  title: 'Headless/PhaseBanner',
   component: PhaseBanner,
   tags: ['autodocs']
 } satisfies Meta<typeof PhaseBanner>;

@@ -12,6 +12,7 @@ export {
   generateColumns,
   flattenTasks,
   effectiveRange,
+  effectiveRanges,
 } from "./gantt-chart.component";
 export type {
   GanttTask,

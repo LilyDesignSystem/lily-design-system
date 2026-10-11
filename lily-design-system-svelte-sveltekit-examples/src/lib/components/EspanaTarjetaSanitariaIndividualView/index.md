@@ -1,56 +1,103 @@
 # EspanaTarjetaSanitariaIndividualView
 
-## Overview
+A headless read-only display of a España Tarjeta Sanitaria Individual (TSI / CIP-SNS) identifier. Renders a `<span>` with an accessible label.
 
-A headless display component for showing a España Tarjeta Sanitaria
-Individual (TSI) / CIP-SNS in a read-only format. The TSI is the unique
-Spanish national healthcare identifier printed on the tarjeta sanitaria.
+## What it is
+
+`EspanaTarjetaSanitariaIndividualView` is the display-only companion to `EspanaTarjetaSanitariaIndividualInput`. It renders a `<span>` containing the TSI value, with an `aria-label` for screen readers. The component contributes no styling or formatting — the raw string is shown as-is.
 
 ## What it does
 
-A read-only display of a España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier.
+- Renders `<span class="espana-tarjeta-sanitaria-individual-view" aria-label={label}>{value}</span>`.
+- Forwards `restProps` onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Patient profiles, appointment summaries, check-in screens where a TSI should be visible but not editable.
+- Confirmation screens echoing what the user entered.
+- Any read-only surface that shows a TSI.
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- For capturing input. Use `EspanaTarjetaSanitariaIndividualInput` instead.
+- For other healthcare identifiers. Use the matching country-specific view component.
+- For general text display. Use a plain `<span>`.
 
-## Usage
+## How to use it
 
-```svelte
-<EspanaTarjetaSanitariaIndividualView label="TSI" value="BBBB12345678" />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label via aria-label. |
-| `value` | string, default "" | The TSI string to display. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
-
-## SvelteKit example
+Pass the TSI string and an accessible label.
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EspanaTarjetaSanitariaIndividualView from "#lib/components/EspanaTarjetaSanitariaIndividualView/EspanaTarjetaSanitariaIndividualView.svelte";
+    import EspanaTarjetaSanitariaIndividualView from "./EspanaTarjetaSanitariaIndividualView.svelte";
 </script>
 
 <EspanaTarjetaSanitariaIndividualView label="TSI" value="BBBB12345678" />
 ```
 
-## Keyboard
+## Props
 
-- None -- passive display-only component
+| Prop      | Type      | Default  | Description                              |
+| --------- | --------- | -------- | ---------------------------------------- |
+| `class`   | `string`  | `""`     | CSS class appended to the base class.   |
+| `label`   | `string`  | required | Accessible name via `aria-label`.        |
+| `value`   | `string`  | `""`     | TSI string to display.                   |
+| `...rest` | `unknown` | —        | Additional HTML attributes on the span.  |
+
+## Usage
+
+### 1. Basic display
+
+```svelte
+<EspanaTarjetaSanitariaIndividualView label="TSI" value="BBBB12345678" />
+```
+
+### 2. In a summary list
+
+```svelte
+<SummaryList>
+    <SummaryListItem term="TSI">
+        <EspanaTarjetaSanitariaIndividualView label="TSI" value={patient.tsi} />
+    </SummaryListItem>
+</SummaryList>
+```
+
+### 3. Localised label
+
+```svelte
+<EspanaTarjetaSanitariaIndividualView
+    label="Tarjeta Sanitaria Individual"
+    value={patient.tsi}
+/>
+```
+
+### 4. Paired with input for confirmation
+
+```svelte
+<EspanaTarjetaSanitariaIndividualInput label="TSI" bind:value={tsi} />
+<p>Valor actual: <EspanaTarjetaSanitariaIndividualView label="TSI" value={tsi} /></p>
+```
+
+### 5. Styled via class
+
+```svelte
+<EspanaTarjetaSanitariaIndividualView
+    label="TSI"
+    value={patient.tsi}
+    class="monospace"
+/>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name for screen readers
+- `aria-label` provides an explicit accessible name even when the surrounding context is insufficient.
+- Passive display element; no keyboard interaction.
+
+## Related components
+
+- `EspanaTarjetaSanitariaIndividualInput` — input counterpart.
+- `UnitedKingdomNationalHealthServiceNumberView`, `FranceNumeroDIdentificationAuRepertoireView`, `IrelandIndividualHealthIdentifierView`, `NorthernIrelandHealthAndCareNumberView`, `UnitedStatesSocialSecurityNumberView` — analogous views for other countries.
+- `SummaryList`, `SummaryListItem` — key/value displays.
 
 ---
 

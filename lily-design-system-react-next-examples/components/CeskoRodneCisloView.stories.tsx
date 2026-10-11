@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CeskoRodneCisloView from './CeskoRodneCisloView';
 
 const meta = {
-  title: 'Examples/CeskoRodneCisloView',
+  title: 'Headless/CeskoRodneCisloView',
   component: CeskoRodneCisloView,
   tags: ['autodocs']
 } satisfies Meta<typeof CeskoRodneCisloView>;

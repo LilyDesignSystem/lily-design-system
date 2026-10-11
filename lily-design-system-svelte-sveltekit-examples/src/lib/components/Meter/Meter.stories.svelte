@@ -3,7 +3,7 @@
   import Meter from './Meter.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Meter',
+    title: 'Headless/Meter',
     component: Meter,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ColumnChart from './ColumnChart';
 
 const meta = {
-  title: 'Examples/ColumnChart',
+  title: 'Headless/ColumnChart',
   component: ColumnChart,
   tags: ['autodocs']
 } satisfies Meta<typeof ColumnChart>;

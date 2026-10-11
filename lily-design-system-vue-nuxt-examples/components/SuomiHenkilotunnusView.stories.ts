@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SuomiHenkilotunnusView from './SuomiHenkilotunnusView.vue';
 
 const meta = {
-  title: 'Examples/SuomiHenkilotunnusView',
+  title: 'Headless/SuomiHenkilotunnusView',
   component: SuomiHenkilotunnusView,
   tags: ['autodocs']
 } satisfies Meta<typeof SuomiHenkilotunnusView>;

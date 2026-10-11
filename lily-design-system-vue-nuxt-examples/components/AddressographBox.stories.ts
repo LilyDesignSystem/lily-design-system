@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AddressographBox from './AddressographBox.vue';
 
 const meta = {
-  title: 'Examples/AddressographBox',
+  title: 'Headless/AddressographBox',
   component: AddressographBox,
   tags: ['autodocs']
 } satisfies Meta<typeof AddressographBox>;

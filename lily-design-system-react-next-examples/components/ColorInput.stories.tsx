@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ColorInput from './ColorInput';
 
 const meta = {
-  title: 'Examples/ColorInput',
+  title: 'Headless/ColorInput',
   component: ColorInput,
   tags: ['autodocs']
 } satisfies Meta<typeof ColorInput>;

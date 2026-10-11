@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import StickyPromoBanner from './StickyPromoBanner';
 
 const meta = {
-  title: 'Examples/StickyPromoBanner',
+  title: 'Headless/StickyPromoBanner',
   component: StickyPromoBanner,
   tags: ['autodocs']
 } satisfies Meta<typeof StickyPromoBanner>;

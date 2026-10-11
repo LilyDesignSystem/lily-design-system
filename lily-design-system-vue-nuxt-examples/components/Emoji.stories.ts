@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Emoji from './Emoji.vue';
 
 const meta = {
-  title: 'Examples/Emoji',
+  title: 'Headless/Emoji',
   component: Emoji,
   tags: ['autodocs']
 } satisfies Meta<typeof Emoji>;

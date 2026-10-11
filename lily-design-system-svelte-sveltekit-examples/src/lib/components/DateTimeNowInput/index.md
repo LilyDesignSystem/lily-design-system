@@ -1,93 +1,144 @@
 # DateTimeNowInput
 
-## Overview
+A headless composite of a date input, a time input, and a "Now" button wrapped in a grouping `<div>`. The "Now" button fills both inputs with the current local date and time in one click.
 
-A headless component that wraps a native <input type="date">, <input type="time">,
-and <button type="button"> inside a <div>. The "Now" button sets both inputs to the
-current local date and time when clicked. Useful for event logging, timestamping,
-incident reporting, and any scenario where users need to quickly capture the current
-date and time or manually enter a specific date and time.
+## What it is
+
+`DateTimeNowInput` renders a `<div role="group">` containing `<input type="date">`, `<input type="time">`, and a `<button type="button">`. Date and time are bound independently through two separate bindable props, and the "Now" button sets both values using the user's local clock.
+
+The component is fully headless: no styles, no icons, and no classes beyond the base `date-time-now-input` hook.
 
 ## What it does
 
-An input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">.
+- Renders a grouping `<div role="group" aria-label={label}>`.
+- Renders a `<input type="date">` bound to `dateValue`.
+- Renders a `<input type="time">` bound to `timeValue`.
+- Renders a `<button type="button">` that sets both inputs to the current local date and time when clicked.
+- Propagates `required` and `disabled` to all child controls.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Incident or event logging where users should quickly capture the present moment.
+- Timestamped notes, visit logs, clinical observations, audit entries.
+- Any form where the user should be able to enter a specific date and time manually or "stamp" the current one.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- When a single `<input type="datetime-local">` is sufficient. Use `DateTimeLocalInput` instead.
+- When you do not need a "Now" affordance — use a pair of `DateInput` and `TimeInput` directly.
+- When time zone awareness is required; this component captures local values only.
 
-## Usage
+## How to use it
+
+Bind both `dateValue` and `timeValue` and pass localised labels for the group, inputs, and button.
 
 ```svelte
-<DateTimeNowInput label="Event time" bind:dateValue bind:timeValue />
+<script lang="ts">
+    import DateTimeNowInput from "./DateTimeNowInput.svelte";
+    let dateValue = $state("");
+    let timeValue = $state("");
+</script>
+
+<DateTimeNowInput
+    label="Event time"
+    bind:dateValue
+    bind:timeValue
+/>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the wrapper group via aria-label. |
-| `dateLabel` | string, default "Date" | Accessible name for the date input via aria-label. |
-| `timeLabel` | string, default "Time" | Accessible name for the time input via aria-label. |
-| `nowLabel` | string, default "Now" | Accessible label and text for the "Now" button. |
-| `dateValue` | string, default "" | Bindable date string (format: YYYY-MM-DD). |
-| `timeValue` | string, default "" | Bindable time string (format: HH:mm). |
-| `required` | boolean, default false | Whether the inputs are required. |
-| `disabled` | boolean, default false | Whether the inputs and button are disabled. |
-| `...restProps` | additional HTML attributes spread onto the wrapper <div> |  |
+| Prop         | Type      | Default  | Description                                      |
+| ------------ | --------- | -------- | ------------------------------------------------ |
+| `class`      | `string`  | `""`     | CSS class appended to the base class.           |
+| `label`      | `string`  | required | Accessible name for the group via `aria-label`.  |
+| `dateLabel`  | `string`  | `"Date"` | Accessible name for the date input.              |
+| `timeLabel`  | `string`  | `"Time"` | Accessible name for the time input.              |
+| `nowLabel`   | `string`  | `"Now"`  | Accessible label and visible text for the button.|
+| `dateValue`  | `string`  | `""`     | Bindable date (`YYYY-MM-DD`).                    |
+| `timeValue`  | `string`  | `""`     | Bindable time (`HH:mm`).                         |
+| `required`   | `boolean` | `false`  | Whether the inputs are required.                 |
+| `disabled`   | `boolean` | `false`  | Whether the inputs and button are disabled.      |
+| `...rest`    | `unknown` | —        | Additional HTML attributes spread onto the `<div>`. |
 
-## Examples
+## Usage
 
-```svelte
-<!-- Basic usage -->
-<DateTimeNowInput label="Event time" bind:dateValue bind:timeValue />
-
-<!-- Custom labels for internationalization -->
-<DateTimeNowInput label="Heure" dateLabel="Date" timeLabel="Heure" nowLabel="Maintenant" bind:dateValue bind:timeValue />
-
-<!-- Required and disabled -->
-<DateTimeNowInput label="Appointment" bind:dateValue bind:timeValue required disabled={isLocked} />
-```
-
-## SvelteKit example
+### 1. Basic now-stamp field
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateTimeNowInput from "#lib/components/DateTimeNowInput/DateTimeNowInput.svelte";
+    import DateTimeNowInput from "./DateTimeNowInput.svelte";
+    let dateValue = $state("");
+    let timeValue = $state("");
 </script>
 
 <DateTimeNowInput label="Event time" bind:dateValue bind:timeValue />
 ```
 
-## Keyboard
+### 2. Localised labels (French)
 
-- Tab: Moves focus between the date input, time input, and "Now" button
-- Enter/Space on the "Now" button: Sets both inputs to the current date and time
-- Arrow keys: Navigate within the date and time picker fields (native browser behavior)
+```svelte
+<DateTimeNowInput
+    label="Heure de l'événement"
+    dateLabel="Date"
+    timeLabel="Heure"
+    nowLabel="Maintenant"
+    bind:dateValue
+    bind:timeValue
+/>
+```
+
+### 3. Required and locked
+
+```svelte
+<DateTimeNowInput
+    label="Appointment"
+    bind:dateValue
+    bind:timeValue
+    required
+    disabled={isLocked}
+/>
+```
+
+### 4. Reset both values
+
+```svelte
+<script lang="ts">
+    import DateTimeNowInput from "./DateTimeNowInput.svelte";
+    let dateValue = $state("");
+    let timeValue = $state("");
+    function clear() { dateValue = ""; timeValue = ""; }
+</script>
+
+<DateTimeNowInput label="Observed at" bind:dateValue bind:timeValue />
+<button type="button" onclick={clear}>Clear</button>
+```
+
+### 5. Inside a form with submission
+
+```svelte
+<form onsubmit={handleSubmit}>
+    <DateTimeNowInput
+        label="Incident time"
+        bind:dateValue
+        bind:timeValue
+        required
+    />
+    <button type="submit">Log incident</button>
+</form>
+```
 
 ## Accessibility
 
-- role="group" on the wrapper with aria-label for grouping
-- aria-label on the date input provides the accessible name
-- aria-label on the time input provides the accessible name
-- aria-label on the "Now" button describes its purpose
+- `role="group"` with `aria-label` groups the three controls semantically.
+- Each control has its own `aria-label` via `dateLabel`, `timeLabel`, and `nowLabel`.
+- Keyboard: Tab moves between the three controls; Enter/Space activates the "Now" button; Arrow keys operate the native pickers.
 
-## Internationalization
+## Related components
 
-- The label, dateLabel, timeLabel, and nowLabel props are the only user-facing strings
-- Default labels are "Date", "Time", and "Now"; override for other locales
-- No other hardcoded user-facing strings
-
-## References
-
-- MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
-- MDN time input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+- `DateTimeLocalInput` — single `<input type="datetime-local">` alternative.
+- `DateInput`, `TimeInput` — the underlying pair without a "Now" button.
+- `Form`, `Field` — form composition wrappers.
 
 ---
 

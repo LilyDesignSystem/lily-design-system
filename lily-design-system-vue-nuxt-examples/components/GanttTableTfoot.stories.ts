@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import GanttTableTfoot from './GanttTableTfoot.vue';
 
 const meta = {
-  title: 'Examples/GanttTableTfoot',
+  title: 'Headless/GanttTableTfoot',
   component: GanttTableTfoot,
   tags: ['autodocs']
 } satisfies Meta<typeof GanttTableTfoot>;

@@ -2,8 +2,8 @@
 
 Canonical contract for `@lilydesignsystem/svelte-gantt-chart`. Proposed
 2026-09-21 in [spec/helpers/index.md § gantt-chart contract](../../spec/helpers/index.md).
-This package is the first implementation; no other framework catalog
-ports it yet.
+Svelte is the canonical implementation; the other seven frameworks
+port it (`lily-design-system-{framework}-gantt-chart`).
 
 ## 1. Purpose
 
@@ -72,14 +72,14 @@ is not modified.
   <GanttTable label="{label}" caption="{caption}">
     <GanttTableThead>
       <GanttTableTr>
-        <GanttTableTH scope="col"></GanttTableTH>                 <!-- leading task-label column -->
+        <GanttTableTH scope="col">{labels.taskColumnHeader}</GanttTableTH>  <!-- leading task-label column -->
         <GanttTableTH scope="col" data-today>{columnLabel(period)}</GanttTableTH>
       </GanttTableTr>
     </GanttTableThead>
     <GanttTableTbody>
       <GanttTableTr>
-        <GanttTableTH scope="row">
-          <button class="gantt-chart-collapse-button" aria-expanded>…</button>  <!-- only on parent rows -->
+        <GanttTableTH scope="row" data-depth="{depth}">
+          <button class="gantt-chart-collapse-button" aria-expanded>…</button>  <!-- only on parent rows, only if labels.collapseButton -->
           {taskLabel(task)}
         </GanttTableTH>
         <GanttTableTD data-in-range data-milestone data-today aria-describedby="{dependencySummaryId}">
@@ -90,7 +90,7 @@ is not modified.
         <td colspan="{columns.length + 1}">
           <DateTimePicker label="{labels.startLabel}" mode="date" bind:value />
           <DateTimePicker label="{labels.endLabel}" mode="date" bind:value />
-          <button class="gantt-chart-save-button">{labels.saveLabel}</button>
+          <button class="gantt-chart-save-button" disabled?>{labels.saveLabel}</button>  <!-- disabled while a date is empty -->
           <button class="gantt-chart-cancel-button">{labels.cancelLabel}</button>
         </td>
       </tr>
@@ -122,13 +122,17 @@ dates, required, inclusive; equal values mean a milestone),
 
 `GanttLabels` — every field optional, but presence gates the control
 it names, matching every other helper's label-gating convention:
-`columnLabel(start, end, timeUnit)`, `editButton(task)`,
+`taskColumnHeader` (text of the leading header cell, which is otherwise
+empty), `columnLabel(start, end, timeUnit)`, `editButton(task)`,
 `editDialogLabel(task)`, `startLabel`/`endLabel` (passed as each
 composed `DateTimePicker`'s own `label`), `dateTimePickerLabels`
 (a `DateTimePickerLabels` object, reused for both composed pickers —
 editing is gated on this being present, since date-time-picker itself
-requires it), `saveLabel`/`cancelLabel`, `dependencySummary(predecessorLabels)`,
-`dateAnnouncement(taskLabel, start, end)`, `collapseButton(task, collapsed)`.
+requires it — and on `startLabel`, `endLabel`, `saveLabel` and
+`cancelLabel` too, since an edit region with an unnamed field or button
+is worse than none), `saveLabel`/`cancelLabel`, `dependencySummary(predecessorLabels)`,
+`dateAnnouncement(taskLabel, start, end)`, `collapseButton(task, collapsed)`
+(without it no collapse button renders and every row stays expanded).
 
 ## 6. Behaviour
 
@@ -148,7 +152,12 @@ plain attribute (`data-percent-complete`) on the task's own leading
 in-range cell — the fill itself is the consumer's CSS.
 
 **Row hierarchy.** `task.parentId` builds a tree, flattened for
-rendering with a `depth` used for indentation. A parent row's
+rendering with a `depth`, exposed as `data-depth` on the row header for
+the consumer's CSS to indent by — never an inline style, which the
+headless rules forbid. A task whose `parentId` names no task in `tasks`
+is a top-level row, not silently dropped, and a `parentId` cycle cannot
+recurse forever. Every parent's effective range is computed once per
+`tasks` change (`effectiveRanges`), not per row per render. A parent row's
 `start`/`end` are derived (min start / max end across its descendants)
 and rendered read-only — parent rows are not directly editable.
 `GanttTableTH`'s own `<button class="gantt-chart-collapse-button"
@@ -167,9 +176,13 @@ matching `kanban-board`'s own research citation for a parallel
 problem: not arrow-key-nudge-by-one-day. Enter/Space on a focused
 (non-parent) row opens an inline edit region for that task with two
 composed `DateTimePicker` instances (`mode="date"`) bound to local
-copies of `start`/`end`; Save calls `onTaskChange` and closes; Cancel
-discards. Gated on `labels.dateTimePickerLabels` being supplied — see
-§5.
+copies of `start`/`end`, and focus moves to the start date's field;
+Save calls `onTaskChange` and closes; Cancel or Escape discards (an
+Escape a date picker used to close its own dialog, or to drop a pending
+typed edit, is left to it). Closing either way returns focus to the
+grid's tab stop on the edited task's row. A range entered end-first is
+saved start-first, and Save is disabled while either date is empty. Gated
+on the labels listed in §5.
 
 **Date/duration edit — pointer.** Native HTML5 drag-and-drop resizes
 or reschedules a task's bar; supplementary, never the only path, the
@@ -216,15 +229,19 @@ its own grid.
   task with no dependencies carries neither.
 - §8.8 Exactly one body cell carries `tabindex="0"` at any time; arrow
   keys move it and clamp at the grid's edges within the current row/
-  column axis rather than wrapping.
+  column axis rather than wrapping. Focusing a cell by pointer moves the
+  cursor there; when collapsing removes the row under the cursor, exactly
+  one cell stays tabbable.
 - §8.9 Enter/Space on a focused non-parent row opens an inline edit
   region with two composed `DateTimePicker` instances seeded from that
   task's current `start`/`end`, only when `labels.dateTimePickerLabels`
-  is supplied; a parent row does not open one.
+  is supplied; a parent row does not open one. Opening it moves focus to
+  the start date's field.
 - §8.10 Saving the edit region calls `onTaskChange` with the task's id
-  and the edited `start`/`end`, then closes the region.
-- §8.11 Cancelling the edit region discards changes without calling
-  `onTaskChange`.
+  and the edited `start`/`end` (start-first, whatever order they were
+  entered in), then closes the region and returns focus to the grid.
+- §8.11 Cancelling the edit region, by its button or by Escape, discards
+  changes without calling `onTaskChange` and returns focus to the grid.
 - §8.12 A pointer drag-resize/reschedule of a task's bar calls
   `onTaskChange` the same way the keyboard path does.
 - §8.13 A successful edit (by either path) writes an announcement to
@@ -235,7 +252,11 @@ its own grid.
   omitted, no column carries it — nothing is computed internally.
 - §8.15 Extra attributes spread onto the root `<div>`.
 - §8.16 No hardcoded user-facing strings: every label comes from a
-  prop or a `labels.*` function.
+  prop or a `labels.*` function; a control whose label is absent (collapse,
+  the edit region) does not render unnamed.
+- §8.17 Row depth is `data-depth` on the row header, never an inline
+  style; an orphaned `parentId` renders a top-level row; a `parentId`
+  cycle does not hang.
 
 ## 9. Non-goals
 

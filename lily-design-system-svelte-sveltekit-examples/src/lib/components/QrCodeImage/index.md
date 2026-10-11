@@ -1,85 +1,124 @@
 # QrCodeImage
 
-## Overview
+A headless container for a QR code (two-dimensional barcode-image). Renders a `<div role="img">` with an `aria-label` describing the encoded content; the consumer provides the actual visual rendering (SVG, canvas, or third-party library output) as children.
 
-A headless container for displaying a QR code (two-dimensional barcode-image) that
-encodes data such as URLs, text, contact information, or other machine-readable
-content. It renders a <div> with role="img" and a required aria-label so screen
-reader users understand what the QR code represents. The consumer provides the
-actual QR code rendering (SVG, canvas, or third-party library output) as
-children. Commonly used for sharing links, mobile payments, event check-ins,
-and authentication workflows.
+## What it is
+
+- Component: `QrCodeImage`
+- HTML element: `<div>`
+- Role: `img`
+- Category: image container
 
 ## What it does
 
-A QR code image generated from text or URL data.
+- Renders a `<div role="img">` so assistive technology treats the rendering as an image.
+- Applies `aria-label` as the accessible description of what the QR code encodes.
+- Renders the consumer-supplied children (SVG, canvas, img) as the visible output.
+- Forwards any additional attributes onto the wrapping `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a QR code image generated from text or URL data.
+- Sharing URLs for mobile scanning.
+- WiFi credentials, Wi-Fi join, or event check-ins.
+- Payment and point-of-sale flows.
+- Authentication secret / TOTP enrollment.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a plain `<img>` of a QR code — use a native `<img>` with `alt` text instead.
+- For short URLs that can be copied — use `ClipboardCopyButton`.
+- For decorative icons unrelated to scanning — use `Icon` or `Image`.
 
-## Usage
+## How to use it
+
+Import and provide the QR payload visualization as children. The `label` should describe *what happens on scan*, not "QR code".
 
 ```svelte
-<QrCodeImage label="Scan to visit example.com">{qrSvg}</QrCodeImage>
+import QrCodeImage from './QrCodeImage.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible description of the QR code content via aria-label. |
-| `children` | Snippet, required | QR code rendering (SVG, canvas, or other visual output). |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `qr-code-image`.
+- `label`: string, required. Accessible description of the encoded content via `aria-label`.
+- `children`: Snippet, required. Visual rendering of the code (SVG, canvas, `<img>`, etc.).
+- `...restProps`: spread onto the `<div>`.
 
-## Examples
+## Usage
+
+### With an SVG rendering
 
 ```svelte
-<!-- QR code with SVG rendering -->
-<QrCodeImage label="Scan to visit example.com">
-  <svg><!-- QR code SVG paths --></svg>
-</QrCodeImage>
+<script lang="ts">
+  import QrCodeImage from './QrCodeImage.svelte';
+</script>
 
-<!-- QR code with canvas rendering -->
+<QrCodeImage label="Scan to visit example.com">
+  <svg viewBox="0 0 29 29" width="160" height="160" aria-hidden="true">
+    <!-- QR code paths supplied by a library -->
+  </svg>
+</QrCodeImage>
+```
+
+### With a canvas rendering
+
+```svelte
+<script lang="ts">
+  import QrCodeImage from './QrCodeImage.svelte';
+
+  let qrCanvas = $state<HTMLCanvasElement | null>(null);
+  // populate qrCanvas via your QR library of choice
+</script>
+
 <QrCodeImage label="Scan to download the app">
   <canvas bind:this={qrCanvas}></canvas>
 </QrCodeImage>
 ```
 
-## SvelteKit example
+### With an image source
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import QrCodeImage from "#lib/components/QrCodeImage/QrCodeImage.svelte";
+  import QrCodeImage from './QrCodeImage.svelte';
 </script>
 
-<QrCodeImage label="Scan to visit example.com">{qrSvg}</QrCodeImage>
+<QrCodeImage label="Scan to open the menu">
+  <img src="/qr/menu.png" alt="" aria-hidden="true" />
+</QrCodeImage>
 ```
 
-## Keyboard
+### WiFi join payload
 
-- None — this is a passive display container with no interactive behavior.
+```svelte
+<script lang="ts">
+  import QrCodeImage from './QrCodeImage.svelte';
+</script>
+
+<QrCodeImage label="Scan to join Wi-Fi network 'Guest'">
+  <svg viewBox="0 0 29 29" aria-hidden="true">
+    <!-- QR paths for WIFI:T:WPA;S:Guest;P:...;; -->
+  </svg>
+</QrCodeImage>
+```
+
+### Localized label
+
+```svelte
+<QrCodeImage label="Escanear para visitar example.com">
+  <svg viewBox="0 0 29 29" aria-hidden="true"></svg>
+</QrCodeImage>
+```
 
 ## Accessibility
 
-- role="img" identifies the container as an image for assistive technologies
-- aria-label provides an accessible description of the encoded content
-- Screen reader users hear the label instead of seeing the visual barcode-image
+- `role="img"` + `aria-label` makes the container announce a single descriptive name, even when the inner SVG/canvas has many nested paths.
+- Keep the inner visual as `aria-hidden="true"` (or `alt=""` on an `<img>`) so only the outer label is announced.
+- Provide a fallback text link near the QR code — screen-reader users and keyboard users cannot scan.
 
-## Internationalization
+## Related components
 
-- The label prop is the only user-facing text; no hardcoded strings
-- Label should describe the encoded content, not "QR code" generically
-
-## References
-
-- WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img
+- `Image`, `Icon` — simple image and icon containers.
+- `ClipboardCopyButton` — copy-to-clipboard alternative for URLs.
 
 ---
 

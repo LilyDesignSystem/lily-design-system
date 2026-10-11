@@ -3,7 +3,7 @@
   import FranceNumeroDIdentificationAuRepertoireInput from './FranceNumeroDIdentificationAuRepertoireInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FranceNumeroDIdentificationAuRepertoireInput',
+    title: 'Headless/FranceNumeroDIdentificationAuRepertoireInput',
     component: FranceNumeroDIdentificationAuRepertoireInput,
   });
 </script>

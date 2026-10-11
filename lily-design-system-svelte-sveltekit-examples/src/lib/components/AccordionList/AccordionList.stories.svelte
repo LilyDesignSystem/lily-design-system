@@ -3,7 +3,7 @@
   import AccordionList from './AccordionList.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AccordionList',
+    title: 'Headless/AccordionList',
     component: AccordionList,
   });
 </script>

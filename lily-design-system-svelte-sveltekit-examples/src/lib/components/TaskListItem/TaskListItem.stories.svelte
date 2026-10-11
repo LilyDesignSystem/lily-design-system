@@ -3,7 +3,7 @@
   import TaskListItem from './TaskListItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TaskListItem',
+    title: 'Headless/TaskListItem',
     component: TaskListItem,
   });
 </script>

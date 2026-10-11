@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SlovenijaEmsoView from './SlovenijaEmsoView.vue';
 
 const meta = {
-  title: 'Examples/SlovenijaEmsoView',
+  title: 'Headless/SlovenijaEmsoView',
   component: SlovenijaEmsoView,
   tags: ['autodocs']
 } satisfies Meta<typeof SlovenijaEmsoView>;

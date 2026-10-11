@@ -3,7 +3,7 @@
   import CalendarMonthTable from './CalendarMonthTable.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CalendarMonthTable',
+    title: 'Headless/CalendarMonthTable',
     component: CalendarMonthTable,
   });
 </script>

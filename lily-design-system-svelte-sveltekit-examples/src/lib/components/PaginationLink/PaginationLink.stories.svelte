@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import PaginationLink from "./PaginationLink.svelte";
     const { Story } = defineMeta({
-        title: "Examples/PaginationLink",
+        title: "Headless/PaginationLink",
         component: PaginationLink,
     });
 </script>

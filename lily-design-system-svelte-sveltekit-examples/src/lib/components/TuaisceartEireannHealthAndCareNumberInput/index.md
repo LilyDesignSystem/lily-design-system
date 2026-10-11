@@ -1,81 +1,141 @@
-# NorthernIrelandHealthAndCareNumberInput
+# TuaisceartEireannHealthAndCareNumberInput
 
-## Overview
+A headless input for entering a Tuaisceart Eireann Health and Care (H&C) Number — a 10-digit identifier displayed as `XXX XXX XXXX` and used by Health and Social Care Tuaisceart Eireann to uniquely identify patients.
 
-A headless input for entering a Tuaisceart Eireann Health and Care (H&C)
-Number, a 10-digit identifier displayed as XXX XXX XXXX, used by HSC
-Tuaisceart Eireann to uniquely identify patients.
+## What it is
+
+- Component: `TuaisceartEireannHealthAndCareNumberInput`
+- HTML element: `<input type="text">`
+- Role: implicit text input
+- Category: input (form control half of the Input/View pattern for the H&C Number)
 
 ## What it does
 
-An input for entering a Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier.
+- Renders a single text input pre-configured for the 3-3-4 H&C format.
+- Applies `inputmode="numeric"` so mobile devices present a numeric keypad.
+- Applies `pattern="[0-9]{3} [0-9]{3} [0-9]{4}"` so native form validation rejects mis-formatted entries.
+- Applies `autocomplete="off"` to protect a sensitive national healthcare identifier.
+- Exposes `bind:value` for two-way data binding.
+- Forwards `required`, `disabled`, and any other HTML attributes to the underlying `<input>`.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Patient registration or intake forms in Tuaisceart Eireann HSC systems.
+- Clinical applications that need to capture or update an H&C Number.
+- Any flow that needs native browser validation of the 3-3-4 digit format.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- To display an already-captured H&C Number as read-only — use a view component on a `<span>` instead.
+- For a different jurisdiction's identifier — use the matching country-specific component (`UnitedKingdomNationalHealthServiceNumberInput`, `EireIndividualHealthIdentifierInput`, etc.).
+- For free-form text — use `TextInput`.
 
-## Usage
+## How to use it
+
+Import the component from its directory and bind a string value. Text containing spaces between the 3-3-4 groups passes the pattern validator.
 
 ```svelte
-<NorthernIrelandHealthAndCareNumberInput label="H&C Number" bind:value />
+import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for screen readers via aria-label. |
-| `value` | string, default "" | Bindable input value; supports bind:value. |
-| `required` | boolean, default false | Whether the input is required for form submission. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `tuaisceart-eireann-health-and-care-number-input`.
+- `label`: string, required. Accessible label applied via `aria-label`.
+- `value`: string, default `""`. Bindable with `bind:value`.
+- `required`: boolean, default `false`. Marks the input as required for form submission.
+- `disabled`: boolean, default `false`. Disables the input.
+- `...restProps`: spread onto the `<input>` (e.g. `placeholder`, `data-testid`, event handlers).
 
-## Examples
+## Usage
 
-```svelte
-<!-- Required H&C Number input -->
-<NorthernIrelandHealthAndCareNumberInput label="H&C Number" required />
-
-<!-- Disabled H&C Number input -->
-<NorthernIrelandHealthAndCareNumberInput label="H&C Number" disabled />
-```
-
-## SvelteKit example
+### Basic example
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NorthernIrelandHealthAndCareNumberInput from "#lib/components/NorthernIrelandHealthAndCareNumberInput/NorthernIrelandHealthAndCareNumberInput.svelte";
+  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+
+  let hc = $state("");
 </script>
 
-<NorthernIrelandHealthAndCareNumberInput label="H&C Number" bind:value />
+<TuaisceartEireannHealthAndCareNumberInput label="H&C Number" bind:value={hc} />
 ```
 
-## Keyboard
+### Required field
 
-- Standard text input keyboard behavior
+```svelte
+<script lang="ts">
+  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+</script>
+
+<TuaisceartEireannHealthAndCareNumberInput label="H&C Number" required />
+```
+
+### Disabled field
+
+```svelte
+<script lang="ts">
+  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+</script>
+
+<TuaisceartEireannHealthAndCareNumberInput label="H&C Number" value="320 000 0001" disabled />
+```
+
+### With a placeholder and submission
+
+```svelte
+<script lang="ts">
+  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+
+  let hc = $state("");
+  function submit(e: SubmitEvent) { e.preventDefault(); /* send hc */ }
+</script>
+
+<form onsubmit={submit}>
+  <TuaisceartEireannHealthAndCareNumberInput
+    label="H&C Number"
+    bind:value={hc}
+    placeholder="320 000 0001"
+    required
+  />
+  <button type="submit">Save</button>
+</form>
+```
+
+### Toggling between input and view
+
+```svelte
+<script lang="ts">
+  import TuaisceartEireannHealthAndCareNumberInput from './TuaisceartEireannHealthAndCareNumberInput.svelte';
+  import TuaisceartEireannHealthAndCareNumberView from '../TuaisceartEireannHealthAndCareNumberView/TuaisceartEireannHealthAndCareNumberView.svelte';
+
+  let hc = $state("320 000 0001");
+  let editing = $state(false);
+</script>
+
+{#if editing}
+  <TuaisceartEireannHealthAndCareNumberInput label="H&C Number" bind:value={hc} />
+{:else}
+  <TuaisceartEireannHealthAndCareNumberView label="H&C Number" value={hc} />
+{/if}
+<button onclick={() => (editing = !editing)}>Toggle</button>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name for screen readers
-- inputmode="numeric" hints mobile devices to show numeric keyboard
-- pattern="[0-9]{3} [0-9]{3} [0-9]{4}" validates 3-3-4 digit format
-- autocomplete="off" protects sensitive health identifiers
-- required and disabled states are conveyed to assistive technology
+- `aria-label` is the accessible name; no visible `<label>` is rendered.
+- `inputmode="numeric"` hints mobile soft keyboards to show digits.
+- `pattern` enables native invalid-state feedback and blocks non-matching submits.
+- `autocomplete="off"` discourages browser storage of a sensitive identifier.
+- WCAG 2.2 AAA: consumer CSS must supply a visible focus indicator and an error state for `:invalid`.
 
-## Internationalization
+## Related components
 
-- The label prop externalizes user-facing text for translation
-- No hardcoded strings in the component
-
-## References
-
-- HSC NI: https://online.hscni.net/
+- `TuaisceartEireannHealthAndCareNumberView` — read-only display sibling for the same H&C Number.
+- `UnitedKingdomNationalHealthServiceNumberInput` / `UnitedKingdomNationalHealthServiceNumberView` — UK NHS Number equivalents.
+- `EireIndividualHealthIdentifierInput` / `EireIndividualHealthIdentifierView` — Republic of Eire IHI equivalents.
+- `EspanaTarjetaSanitariaIndividualInput`, `FranceNumeroDIdentificationAuRepertoireInput` — other jurisdictions.
+- `TextInput` — generic text input for non-identifier fields.
 
 ---
 

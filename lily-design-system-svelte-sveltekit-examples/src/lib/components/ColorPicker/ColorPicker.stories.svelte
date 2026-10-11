@@ -3,7 +3,7 @@
   import ColorPicker from './ColorPicker.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ColorPicker',
+    title: 'Headless/ColorPicker',
     component: ColorPicker,
   });
 </script>

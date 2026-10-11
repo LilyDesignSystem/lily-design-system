@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Hint from './Hint.vue';
 
 const meta = {
-  title: 'Examples/Hint',
+  title: 'Headless/Hint',
   component: Hint,
   tags: ['autodocs']
 } satisfies Meta<typeof Hint>;

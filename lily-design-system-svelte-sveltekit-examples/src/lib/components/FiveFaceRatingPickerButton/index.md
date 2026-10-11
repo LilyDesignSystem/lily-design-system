@@ -1,82 +1,124 @@
 # FiveFaceRatingPickerButton
 
-## Overview
+A single face button representing one value (1–5) in a five-face rating picker. Renders `<button aria-pressed data-value>` with an accessible label.
 
-A headless button representing one face in a five-face rating picker. Renders
-a <button> with aria-pressed to indicate the selected state and data-value for
-consumer CSS targeting. Each button represents a satisfaction level (1-5) with
-a descriptive label (e.g. "Very bad", "Good"). Commonly used in satisfaction
-surveys, feedback forms, and experience ratings.
+## What it is
+
+`FiveFaceRatingPickerButton` is the per-value primitive used to compose a custom five-face picker. Each button represents one rating level and toggles its `aria-pressed` attribute to indicate whether it is the currently selected face. Consumer components typically render five of these inside a custom picker container.
 
 ## What it does
 
-A picker button for selecting a 1-5 satisfaction rating using face labels.
+- Renders `<button type="button" aria-label={label} aria-pressed={selected} data-value={value}>{label}</button>`.
+- Forwards `onclick` so the parent can update selection.
+- Applies `disabled` to the button.
+- Spreads `restProps` onto the `<button>`.
 
-## When to use
+## When to use it
 
-- Use as a single selectable option within the matching Picker.
-- Use for an in-page action (not navigation).
+- Building a custom picker UI instead of using `FiveFaceRatingPicker`'s native radios.
+- Scenarios where buttons (toggle-like) are preferred over radio-button semantics.
+- Fine-grained control over layout, animation, and visual treatment of each face.
 
-## When not to use
+## When not to use it
 
-- Do not use for navigation to another URL — use a link instead.
+- For a ready-made radio-based picker. Use `FiveFaceRatingPicker` instead.
+- For displaying a submitted rating. Use `FiveFaceRatingView`.
+- For any different scale (3-level, 10-level, stars). Use the corresponding picker family.
 
-## Usage
+## How to use it
+
+Render one button per value (1–5) and track selection in the parent.
 
 ```svelte
-<FiveFaceRatingPickerButton value={3} label="Okay" onclick={handleSelect} />
+<script lang="ts">
+    import FiveFaceRatingPickerButton from "./FiveFaceRatingPickerButton.svelte";
+    let rating = $state(0);
+    const labels = ["Very bad", "Bad", "Okay", "Good", "Very good"];
+</script>
+
+<div role="group" aria-label="Rate us">
+    {#each labels as l, i}
+        <FiveFaceRatingPickerButton
+            value={i + 1}
+            label={l}
+            selected={rating === i + 1}
+            onclick={() => rating = i + 1}
+        />
+    {/each}
+</div>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `value` | number, required | The rating value (1-5). |
-| `label` | string, required | Accessible name for the button (e.g. "Very bad", "Good"). |
-| `selected` | boolean, default false | Whether this face is currently selected. |
-| `disabled` | boolean, default false | Whether the button is disabled. |
-| `onclick` | (event: MouseEvent) => void, optional | Click handler. |
-| `...restProps` | additional HTML attributes spread onto the <button> |  |
+| Prop       | Type                              | Default     | Description                                |
+| ---------- | --------------------------------- | ----------- | ------------------------------------------ |
+| `class`    | `string`                          | `""`        | CSS class appended to the base class.     |
+| `value`    | `number`                          | required    | Rating value (1–5).                        |
+| `label`    | `string`                          | required    | Accessible name and visible button text.   |
+| `selected` | `boolean`                         | `false`     | Whether this face is currently selected.   |
+| `disabled` | `boolean`                         | `false`     | Whether the button is disabled.            |
+| `onclick`  | `(event: MouseEvent) => void`     | `undefined` | Click handler.                             |
+| `...rest`  | `unknown`                         | —           | Additional HTML attributes on the button.  |
 
-## Examples
+## Usage
 
-```svelte
-<!-- Selected face button -->
-<FiveFaceRatingPickerButton value={4} label="Good" selected={true} onclick={handleSelect} />
-<!-- Disabled face button -->
-<FiveFaceRatingPickerButton value={1} label="Very bad" disabled={true} />
-```
-
-## SvelteKit example
+### 1. Composition with FiveFaceRatingPicker
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FiveFaceRatingPickerButton from "#lib/components/FiveFaceRatingPickerButton/FiveFaceRatingPickerButton.svelte";
+    import FiveFaceRatingPickerButton from "./FiveFaceRatingPickerButton.svelte";
+    let rating = $state(0);
+    const labels = ["Very bad", "Bad", "Okay", "Good", "Very good"];
 </script>
 
-<FiveFaceRatingPickerButton value={3} label="Okay" onclick={handleSelect} />
+<div role="group" aria-label="Experience">
+    {#each labels as label, i}
+        <FiveFaceRatingPickerButton
+            value={i + 1}
+            {label}
+            selected={rating === i + 1}
+            onclick={() => rating = i + 1}
+        />
+    {/each}
+</div>
 ```
 
-## Keyboard
+### 2. Selected state
 
-- Tab: Move focus to the button
-- Enter: Activate the button (native button behavior)
-- Space: Activate the button (native button behavior)
+```svelte
+<FiveFaceRatingPickerButton value={4} label="Good" selected />
+```
+
+### 3. Disabled
+
+```svelte
+<FiveFaceRatingPickerButton value={1} label="Very bad" disabled />
+```
+
+### 4. Styled via data-value
+
+```svelte
+<FiveFaceRatingPickerButton value={3} label="Okay" />
+<!-- CSS may target [data-value="3"] for a specific face colour -->
+```
+
+### 5. Localised
+
+```svelte
+<FiveFaceRatingPickerButton value={5} label="Excelente" onclick={pickFive} />
+```
 
 ## Accessibility
 
-- aria-label provides an accessible name describing the face level
-- aria-pressed indicates whether the face is currently selected
-- data-value exposes the rating value for consumer CSS selectors
+- `aria-label` provides the face description.
+- `aria-pressed` communicates the current selection state.
+- `data-value` is a styling/testing hook only, not exposed to assistive technology.
 
-## Internationalization
+## Related components
 
-- The label prop provides the accessible name; no hardcoded strings
-
-## References
-
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+- `FiveFaceRatingPicker` — complete radio-based picker using these semantics.
+- `FiveFaceRatingView` — read-only face rating display.
+- `FiveStarRatingPickerButton`, `NetPromoterScorePickerButton`, `RedAmberGreenPickerButton`, `RedOrangeYellowGreenBluePickerButton`, `ThemeSelectButton`, `ColorPickerButton` — analogous per-option picker buttons.
 
 ---
 

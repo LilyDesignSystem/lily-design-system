@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Listbox from './Listbox.vue';
 
 const meta = {
-  title: 'Examples/Listbox',
+  title: 'Headless/Listbox',
   component: Listbox,
   tags: ['autodocs']
 } satisfies Meta<typeof Listbox>;

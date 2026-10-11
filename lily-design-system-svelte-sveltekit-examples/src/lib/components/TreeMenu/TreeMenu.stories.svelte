@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import TreeMenu from "./TreeMenu.svelte";
     const { Story } = defineMeta({
-        title: "Examples/TreeMenu",
+        title: "Headless/TreeMenu",
         component: TreeMenu,
     });
 </script>

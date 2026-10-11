@@ -1,90 +1,114 @@
 # ScrollArea
 
-## Overview
+A headless, keyboard-focusable landmark region for overflowing content. Consumers bring the CSS (`overflow`, `max-height`, etc.); the component brings the semantics.
 
-A headless scrollable container that provides keyboard accessibility for
-overflowing content. Renders a focusable <div> region so keyboard users can
-scroll through long lists, code blocks, chat messages, or data tables using
-standard scrolling keys without needing a mouse.
+## What it is
+
+`ScrollArea` is a Svelte 5 headless component that renders a single `<div class="scroll-area ...">` with `role="region"`, `aria-label`, and `tabindex="0"`. The `children` snippet supplies whatever content should be scrollable.
 
 ## What it does
 
-A scrollable container with custom scrollbar support.
+- Wraps arbitrary content in a named landmark region.
+- Makes the container keyboard-focusable so users can operate native scroll keybindings (Arrow, Page, Home, End) without a mouse.
+- Forwards any additional attributes to the root `<div>` via `...restProps`.
 
-## When to use
+The component does not apply any `overflow` or sizing rule itself; the consumer's CSS must set the actual scroll behavior.
 
-- Use when you need a scrollable container with custom scrollbar support.
+## When to use it
 
-## When not to use
+- Long lists, chat transcripts, log viewers, or code blocks that need to scroll inside a bounded box.
+- Any scroll container that should also be a keyboard-reachable landmark (for example, a table of contents pane).
+- Content that must remain operable for keyboard-only users who cannot grab a scrollbar with a pointer.
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Page-level scrolling - the browser handles that natively on `<html>`/`<body>`.
+- Content that fits on screen and never overflows - a plain element is simpler.
+- Split panels with a draggable handle - use `Splitter` and `Resizable`.
+- Custom scrollbars with visible drag thumbs - pair with `ScrollBar` for the thumb semantics.
 
-```svelte
-<ScrollArea label="Scrollable content">
-  <p>Long content...</p>
-</ScrollArea>
-```
+## How to use it
+
+1. Import the component from its source file.
+2. Provide a translated `label` describing what is scrollable.
+3. Add CSS that sets `overflow`, dimensions, and any custom focus indicator.
+4. Put the scrollable content in the `children` snippet.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the scrollable region via aria-label. |
-| `children` | Snippet, required | Scrollable content to render inside the container. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged with the base `scroll-area` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `children` (Snippet, required) - scrollable content.
+- `...restProps` - spread onto the root `<div>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Chat messages area -->
-<ScrollArea label="Chat messages">
-  {#each messages as msg}<p>{msg}</p>{/each}
-</ScrollArea>
-
-<!-- Code block with custom styling -->
-<ScrollArea label="Source code" style="overflow:auto; max-height:300px;">
-  <pre><code>{source}</code></pre>
-</ScrollArea>
-```
-
-## SvelteKit example
+Chat transcript pane:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ScrollArea from "#lib/components/ScrollArea/ScrollArea.svelte";
+    import ScrollArea from "./ScrollArea.svelte";
+    let messages = $state(["Hello", "Hi", "How are you?"]);
 </script>
 
-<ScrollArea label="Scrollable content">
-  <p>Long content...</p>
+<ScrollArea label="Chat messages">
+    {#each messages as m}<p>{m}</p>{/each}
 </ScrollArea>
 ```
 
-## Keyboard
+Code block with inline style:
 
-- Tab: moves focus to the scroll area container
-- Arrow Up/Down: scrolls content vertically (native browser behavior)
-- Arrow Left/Right: scrolls content horizontally (native browser behavior)
-- Page Up/Down: scrolls by one page (native browser behavior)
-- Home/End: scrolls to beginning or end (native browser behavior)
+```svelte
+<script lang="ts">
+    import ScrollArea from "./ScrollArea.svelte";
+</script>
+
+<ScrollArea label="Source code" style="overflow:auto; max-height:300px;">
+    <pre><code>{source}</code></pre>
+</ScrollArea>
+```
+
+Log viewer with consumer CSS class:
+
+```svelte
+<script lang="ts">
+    import ScrollArea from "./ScrollArea.svelte";
+</script>
+
+<ScrollArea label="Build log" class="log-viewer">
+    {#each logLines as line}<div>{line}</div>{/each}
+</ScrollArea>
+```
+
+Horizontally scrolling gallery:
+
+```svelte
+<script lang="ts">
+    import ScrollArea from "./ScrollArea.svelte";
+</script>
+
+<ScrollArea label="Image gallery" style="overflow-x:auto; white-space:nowrap;">
+    {#each images as img}<img src={img.src} alt={img.alt} />{/each}
+</ScrollArea>
+```
 
 ## Accessibility
 
-- role="region" identifies the container as a landmark
-- aria-label describes what content is scrollable
-- tabindex="0" makes the container keyboard-focusable for scrolling
+- `role="region"` with `aria-label` creates a named landmark.
+- `tabindex="0"` enables keyboard scrolling on the container (browser native).
+- Consumers must provide a visible focus indicator so keyboard users can see focus.
+- No custom key handler - scrolling relies on the browser's built-in key mapping.
 
-## Internationalization
-
-- The label prop externalizes the accessible label string
-
-## References
-
+References:
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region
 - WCAG 2.1 Reflow: https://www.w3.org/WAI/WCAG21/Understanding/reflow.html
+
+## Related components
+
+- `ScrollBar` - custom scrollbar handle with ARIA scrollbar role.
+- `Resizable` - focusable region with resize semantics.
+- `Splitter` - separator between two panels.
+- `Sidebar` - complementary landmark without scroll guarantees.
 
 ---
 

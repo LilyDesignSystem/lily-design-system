@@ -3,7 +3,7 @@
   import TabBarButton from './TabBarButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TabBarButton',
+    title: 'Headless/TabBarButton',
     component: TabBarButton,
   });
 </script>

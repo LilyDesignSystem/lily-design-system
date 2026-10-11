@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SubmitInput from './SubmitInput.vue';
 
 const meta = {
-  title: 'Examples/SubmitInput',
+  title: 'Headless/SubmitInput',
   component: SubmitInput,
   tags: ['autodocs']
 } satisfies Meta<typeof SubmitInput>;

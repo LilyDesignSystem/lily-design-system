@@ -95,3 +95,35 @@ describe("NetPromoterScorePicker model binding", () => {
     expect(group.textContent).toContain("10");
   });
 });
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(props: Record<string, unknown>) {
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+  const result = render(Subject, { props, container: form });
+  return { form, emitted: result.emitted };
+}
+
+const afterReset = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+describe("form reset", () => {
+  test("a form reset restores the initial value and emits it", async () => {
+    const { form, emitted } = inForm({ label: "Rating", name: "nps", modelValue: "7" });
+    await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="9"]')!);
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual(["9"]);
+    form.reset();
+    await afterReset();
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual(["7"]);
+    expect(form.querySelector<HTMLInputElement>("input:checked")?.value).toBe("7");
+    expect(new FormData(form).get("nps")).toBe("7");
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const { form, emitted } = inForm({ label: "Rating", name: "nps", modelValue: "7" });
+    await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="9"]')!);
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await afterReset();
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual(["9"]);
+  });
+});

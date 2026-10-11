@@ -9,13 +9,23 @@
     // the `pressed` prop, which renders aria-pressed.
     //
     // Props:
-    //   label    — string, REQUIRED. Accessible name (aria-label).
-    //   type     — "button" | "submit" | "reset", default "button".
-    //   disabled — boolean, default false.
-    //   pressed  — boolean | undefined, default undefined. Toggle state.
+    //   label     — string, REQUIRED. Accessible name (aria-label).
+    //   type      — "button" | "submit" | "reset", default "button".
+    //   disabled  — boolean, default false.
+    //   pressed   — boolean | undefined, default undefined. Toggle state.
+    //   baseClass — string, default "icon-button". The base class token itself
+    //     (not appended — replaces "icon-button" outright, since Vue's default
+    //     class fallthrough only ever concatenates). A consumer whose own
+    //     contract needs an exact class (e.g. a picker's `class="{helper}-button"`)
+    //     sets this instead of layering `class` on top of the default.
     //   default slot — the icon content (svg, emoji, glyph).
     //   emits click(event) — click handler.
-    //   ...restProps — additional HTML attributes spread onto the <button>.
+    //   ...restProps — additional HTML attributes spread onto the <button>
+    //     (e.g. aria-haspopup, aria-expanded, aria-controls, @keydown — Vue's
+    //     automatic single-root attribute/listener fallthrough).
+    //
+    // Exposes (defineExpose): `el` — the rendered button element, for a
+    // consumer that needs to call .focus() on it.
     //
     // Syntax:
     //   <IconButton label="Close" @click="onClose">×</IconButton>
@@ -49,6 +59,8 @@
     // References:
     //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
+    import { ref } from "vue";
+
     withDefaults(defineProps<{
         /** Accessible label (REQUIRED). */
         label: string;
@@ -58,22 +70,30 @@
         disabled?: boolean;
         /** Toggle pressed state. */
         pressed?: boolean;
+        /** Base class token, replacing "icon-button" outright (not appended). */
+        baseClass?: string;
     }>(), {
         type: "button",
         disabled: false,
         pressed: undefined,
+        baseClass: "icon-button",
     });
 
     defineEmits<{
         (e: "click", event: MouseEvent): void;
     }>();
 
+    const buttonRef = ref<HTMLButtonElement | undefined>(undefined);
+
+    defineExpose({ el: buttonRef });
+
 </script>
 
 <template>
     <!-- IconButton.vue -->
     <button
-        class="icon-button"
+        ref="buttonRef"
+        :class="baseClass"
         :type="type"
         :disabled="disabled"
         :aria-label="label"

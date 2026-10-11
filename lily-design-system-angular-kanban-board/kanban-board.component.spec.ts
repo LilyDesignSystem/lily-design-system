@@ -208,7 +208,9 @@ describe("KanbanBoard — move menu (§8.7, §8.8, §8.9)", () => {
     expect(onMove).toHaveBeenCalledWith({ cardId: "c1", toColumnId: "done" });
     expect(fixture.nativeElement.querySelector(".kanban-board-move-list")).toBeNull();
     await flush();
-    expect(document.activeElement?.className).toContain("kanban-board-move-button");
+    fixture.detectChanges();
+    // That card's own button, found by its id, not whichever card rendered last.
+    expect(document.activeElement?.getAttribute("aria-label")).toBe("Move Card One");
     // Not just *a* move button — specifically Card One's own button. All
     // four cards render a button sharing the same class, so a shared/
     // last-rendered-wins focus reference (a real bug caught in the
@@ -263,6 +265,7 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
     const fixture = mount();
     press(fixture, tabbableCells(fixture)[0], "Enter");
     const list = fixture.nativeElement.querySelector(".kanban-board-move-list")!;
+    press(fixture, list, "ArrowDown");
     press(fixture, list, "Enter");
     expect(
       fixture.nativeElement.querySelector(".kanban-board-status")?.textContent,
@@ -295,3 +298,114 @@ class AttrHost {
   readonly columns = COLUMNS;
   readonly cards = CARDS;
 }
+
+describe("KanbanBoard — focus, tab stop and move edge cases", () => {
+  function option(fixture: ComponentFixture<unknown>, name: string): HTMLElement {
+    return Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(".kanban-board-move-option"),
+    ).find((el) => el.textContent?.trim() === name)!;
+  }
+
+  function list(fixture: ComponentFixture<unknown>): HTMLElement | null {
+    return (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(".kanban-board-move-list");
+  }
+
+  async function settle(fixture: ComponentFixture<unknown>): Promise<void> {
+    fixture.detectChanges();
+    await flush();
+    fixture.detectChanges();
+  }
+
+  test("§8.8 after a move, focus and the tab stop follow the card to its new column", async () => {
+    const fixture = mount({ labels: LABELS });
+    fixture.componentInstance.move.subscribe(({ cardId, toColumnId }) => {
+      fixture.componentRef.setInput(
+        "cards",
+        CARDS.map((c) => (c.id === cardId ? { ...c, columnId: toColumnId } : c)),
+      );
+    });
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    click(fixture, option(fixture, "Done"));
+    await settle(fixture);
+    expect(document.activeElement?.getAttribute("aria-label")).toBe("Move Card One");
+    expect(tabbableCells(fixture)).toHaveLength(1);
+    expect(tabbableCells(fixture)[0].getAttribute("data-col")).toBe("2");
+  });
+
+  test("§8.14 keys pressed in the open move menu do not move the grid cursor or focus", async () => {
+    const fixture = mount({ labels: LABELS });
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    await settle(fixture);
+    const menu = list(fixture)!;
+    expect(document.activeElement).toBe(menu);
+    press(fixture, menu, "ArrowDown");
+    press(fixture, menu, "ArrowRight");
+    await settle(fixture);
+    expect(tabbableCells(fixture)[0].getAttribute("data-col")).toBe("0");
+    expect(document.activeElement).toBe(menu);
+  });
+
+  test("§8.14 choosing a destination in the menu does not reopen it", async () => {
+    const fixture = mount({ labels: LABELS });
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    press(fixture, list(fixture)!, "ArrowDown");
+    press(fixture, list(fixture)!, "Enter");
+    await settle(fixture);
+    expect(list(fixture)).toBeNull();
+  });
+
+  test("§8.15 choosing the card's own column, or dropping it there, is not a move", () => {
+    const fixture = mount({ labels: LABELS });
+    const onMove = vi.fn();
+    fixture.componentInstance.move.subscribe(onMove as (e: KanbanMoveEvent) => void);
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    click(fixture, option(fixture, "To Do"));
+    expect(list(fixture)).toBeNull();
+    expect(fixture.nativeElement.querySelector(".kanban-board-status")?.textContent).toBe("");
+
+    const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+    const title = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll(".kanban-board-card-title"),
+    ).find((el) => el.textContent?.trim() === "Card One")!;
+    title.dispatchEvent(dragEvent("dragstart", dataTransfer));
+    bodyRows(fixture)[1].querySelectorAll(".kanban-table-td")[0].dispatchEvent(dragEvent("drop", dataTransfer));
+    expect(onMove).not.toHaveBeenCalled();
+  });
+
+  test("§8.16 when the board shrinks under the cursor, one cell stays tabbable", () => {
+    const fixture = mount();
+    press(fixture, tabbableCells(fixture)[0], "End");
+    expect(tabbableCells(fixture)[0].getAttribute("data-row")).toBe("1");
+    fixture.componentRef.setInput("cards", CARDS.filter((c) => c.id !== "c2" && c.id !== "c4"));
+    fixture.detectChanges();
+    expect(bodyRows(fixture)).toHaveLength(1);
+    expect(tabbableCells(fixture)).toHaveLength(1);
+  });
+
+  test("§8.16 focusing a cell by pointer moves the cursor there", () => {
+    const fixture = mount();
+    const cell = bodyRows(fixture)[1].querySelectorAll<HTMLElement>(".kanban-table-td")[1];
+    cell.focus();
+    fixture.detectChanges();
+    expect(tabbableCells(fixture)).toEqual([cell]);
+    press(fixture, cell, "ArrowUp");
+    expect(tabbableCells(fixture)[0].getAttribute("data-row")).toBe("0");
+    expect(tabbableCells(fixture)[0].getAttribute("data-col")).toBe("1");
+  });
+
+  test("§8.13 without labels.moveButton there is no unnamed button; the menu is named by the card and Escape refocuses the cell", async () => {
+    const fixture = mount();
+    expect(fixture.nativeElement.querySelector(".kanban-board-move-button")).toBeNull();
+    const cell = tabbableCells(fixture)[0] as HTMLElement;
+    press(fixture, cell, "Enter");
+    expect(list(fixture)!.getAttribute("aria-label")).toBe("Card One");
+    press(fixture, list(fixture)!, "Escape");
+    await settle(fixture);
+    expect(document.activeElement).toBe(cell);
+  });
+
+  test("§8.3 a column exactly at its wipLimit is not over it", () => {
+    const fixture = mount({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS });
+    expect(headers(fixture)[1].hasAttribute("data-over-limit")).toBe(false);
+  });
+});

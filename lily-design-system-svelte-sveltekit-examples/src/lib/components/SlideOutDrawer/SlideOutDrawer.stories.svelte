@@ -3,7 +3,7 @@
   import SlideOutDrawer from './SlideOutDrawer.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SlideOutDrawer',
+    title: 'Headless/SlideOutDrawer',
     component: SlideOutDrawer,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FiveFaceRatingView from './FiveFaceRatingView.vue';
 
 const meta = {
-  title: 'Examples/FiveFaceRatingView',
+  title: 'Headless/FiveFaceRatingView',
   component: FiveFaceRatingView,
   tags: ['autodocs']
 } satisfies Meta<typeof FiveFaceRatingView>;

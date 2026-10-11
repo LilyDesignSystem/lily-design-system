@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Byline from './Byline';
 
 const meta = {
-  title: 'Examples/Byline',
+  title: 'Headless/Byline',
   component: Byline,
   tags: ['autodocs']
 } satisfies Meta<typeof Byline>;

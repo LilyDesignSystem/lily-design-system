@@ -3,7 +3,7 @@
   import RelatedContent from './RelatedContent.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RelatedContent',
+    title: 'Headless/RelatedContent',
     component: RelatedContent,
   });
 </script>

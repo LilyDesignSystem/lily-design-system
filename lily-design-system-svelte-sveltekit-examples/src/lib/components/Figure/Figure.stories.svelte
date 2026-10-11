@@ -3,7 +3,7 @@
   import Figure from './Figure.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Figure',
+    title: 'Headless/Figure',
     component: Figure,
   });
 </script>

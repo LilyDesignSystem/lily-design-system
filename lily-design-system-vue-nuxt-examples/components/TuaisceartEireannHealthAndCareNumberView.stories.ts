@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TuaisceartEireannHealthAndCareNumberView from './TuaisceartEireannHealthAndCareNumberView.vue';
 
 const meta = {
-  title: 'Examples/TuaisceartEireannHealthAndCareNumberView',
+  title: 'Headless/TuaisceartEireannHealthAndCareNumberView',
   component: TuaisceartEireannHealthAndCareNumberView,
   tags: ['autodocs']
 } satisfies Meta<typeof TuaisceartEireannHealthAndCareNumberView>;

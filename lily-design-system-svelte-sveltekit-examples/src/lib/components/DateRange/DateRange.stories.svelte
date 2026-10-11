@@ -3,7 +3,7 @@
   import DateRange from './DateRange.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DateRange',
+    title: 'Headless/DateRange',
     component: DateRange,
   });
 </script>

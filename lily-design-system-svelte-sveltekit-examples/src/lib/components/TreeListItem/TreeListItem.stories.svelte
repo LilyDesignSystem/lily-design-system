@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import TreeListItem from "./TreeListItem.svelte";
     const { Story } = defineMeta({
-        title: "Examples/TreeListItem",
+        title: "Headless/TreeListItem",
         component: TreeListItem,
     });
 </script>

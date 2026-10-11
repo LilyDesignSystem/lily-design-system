@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import NederlandBurgerserviceNummerView from './NederlandBurgerserviceNummerView.vue';
 
 const meta = {
-  title: 'Examples/NederlandBurgerserviceNummerView',
+  title: 'Headless/NederlandBurgerserviceNummerView',
   component: NederlandBurgerserviceNummerView,
   tags: ['autodocs']
 } satisfies Meta<typeof NederlandBurgerserviceNummerView>;

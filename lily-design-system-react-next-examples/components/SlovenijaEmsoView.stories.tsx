@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SlovenijaEmsoView from './SlovenijaEmsoView';
 
 const meta = {
-  title: 'Examples/SlovenijaEmsoView',
+  title: 'Headless/SlovenijaEmsoView',
   component: SlovenijaEmsoView,
   tags: ['autodocs']
 } satisfies Meta<typeof SlovenijaEmsoView>;

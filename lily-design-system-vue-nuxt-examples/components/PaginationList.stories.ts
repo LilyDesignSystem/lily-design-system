@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PaginationList from './PaginationList.vue';
 
 const meta = {
-  title: 'Examples/PaginationList',
+  title: 'Headless/PaginationList',
   component: PaginationList,
   tags: ['autodocs']
 } satisfies Meta<typeof PaginationList>;

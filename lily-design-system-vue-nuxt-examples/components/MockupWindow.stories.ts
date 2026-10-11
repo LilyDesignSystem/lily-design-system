@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import MockupWindow from './MockupWindow.vue';
 
 const meta = {
-  title: 'Examples/MockupWindow',
+  title: 'Headless/MockupWindow',
   component: MockupWindow,
   tags: ['autodocs']
 } satisfies Meta<typeof MockupWindow>;

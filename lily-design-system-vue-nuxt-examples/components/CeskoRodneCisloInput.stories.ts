@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CeskoRodneCisloInput from './CeskoRodneCisloInput.vue';
 
 const meta = {
-  title: 'Examples/CeskoRodneCisloInput',
+  title: 'Headless/CeskoRodneCisloInput',
   component: CeskoRodneCisloInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CeskoRodneCisloInput>;

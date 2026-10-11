@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MedicalBanner from './MedicalBanner';
 
 const meta = {
-  title: 'Examples/MedicalBanner',
+  title: 'Headless/MedicalBanner',
   component: MedicalBanner,
   tags: ['autodocs']
 } satisfies Meta<typeof MedicalBanner>;

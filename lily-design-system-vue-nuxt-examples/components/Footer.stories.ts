@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Footer from './Footer.vue';
 
 const meta = {
-  title: 'Examples/Footer',
+  title: 'Headless/Footer',
   component: Footer,
   tags: ['autodocs']
 } satisfies Meta<typeof Footer>;

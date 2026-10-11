@@ -3,7 +3,7 @@
   import UnitedStatesSocialSecurityNumberInput from './UnitedStatesSocialSecurityNumberInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/UnitedStatesSocialSecurityNumberInput',
+    title: 'Headless/UnitedStatesSocialSecurityNumberInput',
     component: UnitedStatesSocialSecurityNumberInput,
   });
 </script>

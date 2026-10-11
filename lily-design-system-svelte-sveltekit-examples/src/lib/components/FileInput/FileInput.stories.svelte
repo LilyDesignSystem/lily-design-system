@@ -3,7 +3,7 @@
   import FileInput from './FileInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FileInput',
+    title: 'Headless/FileInput',
     component: FileInput,
   });
 </script>

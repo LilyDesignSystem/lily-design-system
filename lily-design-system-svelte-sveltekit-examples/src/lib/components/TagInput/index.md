@@ -1,76 +1,134 @@
 # TagInput
 
-## Overview
+A headless text input that submits a new tag when the user presses Enter.
 
-A headless text input for adding tags to a collection. When the user types
-a value and presses Enter, the component calls the onadd callback with the
-trimmed text and automatically clears the input, providing a streamlined
-tag entry experience. Commonly used alongside TagGroup for tag management
-interfaces such as adding skills, keywords, or labels.
+## What it is
+
+A Svelte 5 headless component that renders `<input class="tag-input ..." type="text">` with `aria-label`, `bind:value`, a built-in `onkeydown` handler, and optional `onadd` callback.
 
 ## What it does
 
-An input for adding and removing tags.
+- Renders a native text input.
+- Applies `aria-label`.
+- Binds `value` two-way via `$bindable("")`.
+- On Enter: if the trimmed value is non-empty, calls `preventDefault()`, invokes `onadd(value.trim())`, then clears the input.
+- Forwards `disabled`.
+- Spreads `...restProps` onto the `<input>`.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Tag entry alongside a `TagGroup` (skills, keywords, labels).
+- Free-form chip input in forms.
+- Autocomplete scenarios where the consumer drives suggestions separately.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- Picking from a fixed list of tags - use `Combobox` or `CheckboxGroup`.
+- Generic free-form text entry - use `TextInput`.
+- Email/URL/tel input - use the specialized input components.
 
-## Usage
+## How to use it
 
-```svelte
-<TagInput label="Add tag" bind:value onadd={(tag) => tags.push(tag)} />
-```
+1. Import the component.
+2. Provide a translated `label`.
+3. Bind `value` and provide an `onadd` callback that appends the new tag to your collection.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the input via aria-label. |
-| `value` | string, default "" | Current input text; bindable with bind:value. |
-| `onadd` | (value: string) => void, optional | Callback fired when Enter is pressed with non-empty trimmed value. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+- `class` (string, optional, default `""`) - merged with the base `tag-input` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `value` (string, optional, default `""`, bindable).
+- `onadd` (`(value: string) => void`, optional) - called on Enter when the trimmed value is non-empty.
+- `disabled` (boolean, optional, default `false`).
+- `...restProps` - spread onto the `<input>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Tag input with add handler -->
-<TagInput label="Add skill" bind:value onadd={(skill) => skills = [...skills, skill]} />
-```
-
-## SvelteKit example
+Adding to a list:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TagInput from "#lib/components/TagInput/TagInput.svelte";
+    import TagInput from "./TagInput.svelte";
+    let tags = $state<string[]>([]);
+    let value = $state("");
 </script>
 
-<TagInput label="Add tag" bind:value onadd={(tag) => tags.push(tag)} />
+<TagInput label="Add tag" bind:value onadd={(t) => (tags = [...tags, t])} />
+<ul>{#each tags as t}<li>{t}</li>{/each}</ul>
 ```
 
-## Keyboard
+With `TagGroup` and `Tag` for rendering:
 
-- Enter: when the input has a non-empty trimmed value, calls onadd and clears input
+```svelte
+<script lang="ts">
+    import TagInput from "./TagInput.svelte";
+    import TagGroup from "../TagGroup/TagGroup.svelte";
+    import Tag from "../Tag/Tag.svelte";
+    let skills = $state<string[]>(["Svelte"]);
+    let v = $state("");
+</script>
+
+<TagGroup label="Skills">
+    {#each skills as s}<Tag label="Skill">{s}</Tag>{/each}
+</TagGroup>
+<TagInput label="Add skill" bind:value={v} onadd={(s) => (skills = [...skills, s])} />
+```
+
+De-duplicated on add:
+
+```svelte
+<script lang="ts">
+    import TagInput from "./TagInput.svelte";
+    let tags = $state<string[]>([]);
+    let v = $state("");
+    function add(t: string) {
+        if (!tags.includes(t)) tags = [...tags, t];
+    }
+</script>
+
+<TagInput label="Add unique tag" bind:value={v} onadd={add} />
+```
+
+Disabled while submitting:
+
+```svelte
+<script lang="ts">
+    import TagInput from "./TagInput.svelte";
+    let v = $state("");
+    let submitting = $state(false);
+</script>
+
+<TagInput label="Add" bind:value={v} disabled={submitting} onadd={() => {}} />
+```
+
+Placeholder via restProps:
+
+```svelte
+<script lang="ts">
+    import TagInput from "./TagInput.svelte";
+    let v = $state("");
+</script>
+
+<TagInput
+    label="Add tag"
+    bind:value={v}
+    placeholder="Type and press Enter..."
+    onadd={(t) => console.log("add", t)}
+/>
+```
 
 ## Accessibility
 
-- aria-label={label} provides an accessible name for the text input
+- `aria-label` provides the accessible name.
+- Enter adds a tag and clears the field (with `preventDefault` so forms do not submit).
+- Consumers should render the resulting tags as real content that is visible and accessible (for example, via `Tag`/`TagGroup`).
+- For screen-reader feedback when a tag is added, consider a live region updated by the `onadd` handler.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA textbox role: https://www.w3.org/TR/wai-aria-1.2/#textbox
+- `Tag`, `TagGroup` - rendered output.
+- `TextInput` - generic text input.
+- `Combobox` - text input with filterable dropdown.
 
 ---
 

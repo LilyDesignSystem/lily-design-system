@@ -3,7 +3,7 @@
   import QrCodeImage from './QrCodeImage.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/QrCodeImage',
+    title: 'Headless/QrCodeImage',
     component: QrCodeImage,
   });
 </script>

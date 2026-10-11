@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import NederlandPaspoortNummerView from './NederlandPaspoortNummerView.vue';
 
 const meta = {
-  title: 'Examples/NederlandPaspoortNummerView',
+  title: 'Headless/NederlandPaspoortNummerView',
   component: NederlandPaspoortNummerView,
   tags: ['autodocs']
 } satisfies Meta<typeof NederlandPaspoortNummerView>;

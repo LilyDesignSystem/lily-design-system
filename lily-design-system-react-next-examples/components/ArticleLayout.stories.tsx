@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ArticleLayout from './ArticleLayout';
 
 const meta = {
-  title: 'Examples/ArticleLayout',
+  title: 'Headless/ArticleLayout',
   component: ArticleLayout,
   tags: ['autodocs']
 } satisfies Meta<typeof ArticleLayout>;

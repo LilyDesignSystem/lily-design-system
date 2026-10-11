@@ -3,7 +3,7 @@
   import InsetText from './InsetText.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/InsetText',
+    title: 'Headless/InsetText',
     component: InsetText,
   });
 </script>

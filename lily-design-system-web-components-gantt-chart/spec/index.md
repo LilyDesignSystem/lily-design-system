@@ -98,7 +98,7 @@ renders:
       </thead>
       <tbody>
         <tr>
-          <th class="gantt-chart-row-header" scope="row" style="padding-inline-start: {depth}em">
+          <th class="gantt-chart-row-header" scope="row" data-depth="{depth}">
             <button class="gantt-chart-collapse-button" aria-expanded aria-label="{labels.collapseButton(task,collapsed)}">▾</button> <!-- only on parent rows -->
             {taskLabel(task)}
             <span class="gantt-chart-dependency-summary" id="{dependencyId}" hidden>{labels.dependencySummary(preds)}</span> <!-- only when deps exist and the label is set -->
@@ -182,8 +182,8 @@ instead of a spanning range. `percentComplete`, when set, rides as
 `data-percent-complete` on the task's own leading in-range cell.
 
 **Row hierarchy.** `task.parentId` builds a tree, flattened for
-rendering with a `depth` used for indentation
-(`padding-inline-start`). A parent row's `start`/`end` are derived
+rendering with a `depth`, exposed as `data-depth` on the row header for
+the consumer's CSS to indent by (never an inline style). A parent row's `start`/`end` are derived
 (min start / max end across its descendants) and rendered read-only —
 parent rows are not directly editable. The row header's own collapse
 button toggles a parent's children; collapsing removes descendant rows
@@ -277,6 +277,19 @@ for all edit announcements.
   property or a `labels.*` function; the one falls-back exception is
   a column header with no `labels.columnLabel` rendering its raw ISO
   date rather than nothing, matching the Svelte reference exactly.
+
+**Added 2026-10-11** (canonical §8.6–§8.11, §8.16, §8.17; see the Svelte package's spec):
+
+- Row depth is `data-depth` on the row header, never an inline style.
+- A task whose `parentId` names no task renders as a top-level row; a
+  `parentId` cycle does not hang; parent ranges are derived in one pass.
+- Focusing a cell by pointer moves the roving cursor there; when collapsing
+  removes the row under the cursor, exactly one cell stays tabbable.
+- Opening the edit region moves focus to the start date's field; Save
+  (disabled while a date is empty) saves a range entered end-first
+  start-first; Save, Cancel and Escape return focus to the grid.
+- Without their labels, the collapse button and the edit region do not
+  render unnamed; `labels.taskColumnHeader` names the leading header cell.
 
 ## 9. Non-goals
 

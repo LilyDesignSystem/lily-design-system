@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import InsetText from './InsetText';
 
 const meta = {
-  title: 'Examples/InsetText',
+  title: 'Headless/InsetText',
   component: InsetText,
   tags: ['autodocs']
 } satisfies Meta<typeof InsetText>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import NavigationMenu from './NavigationMenu';
 
 const meta = {
-  title: 'Examples/NavigationMenu',
+  title: 'Headless/NavigationMenu',
   component: NavigationMenu,
   tags: ['autodocs']
 } satisfies Meta<typeof NavigationMenu>;

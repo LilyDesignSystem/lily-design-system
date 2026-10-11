@@ -3,7 +3,7 @@
   import StatusTag from './StatusTag.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/StatusTag',
+    title: 'Headless/StatusTag',
     component: StatusTag,
   });
 </script>

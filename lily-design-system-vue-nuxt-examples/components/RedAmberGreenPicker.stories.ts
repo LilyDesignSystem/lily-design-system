@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import RedAmberGreenPicker from './RedAmberGreenPicker.vue';
 
 const meta = {
-  title: 'Examples/RedAmberGreenPicker',
+  title: 'Headless/RedAmberGreenPicker',
   component: RedAmberGreenPicker,
   tags: ['autodocs']
 } satisfies Meta<typeof RedAmberGreenPicker>;

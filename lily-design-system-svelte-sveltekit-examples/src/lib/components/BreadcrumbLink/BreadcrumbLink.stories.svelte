@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import BreadcrumbLink from "./BreadcrumbLink.svelte";
     const { Story } = defineMeta({
-        title: "Examples/BreadcrumbLink",
+        title: "Headless/BreadcrumbLink",
         component: BreadcrumbLink,
     });
 </script>

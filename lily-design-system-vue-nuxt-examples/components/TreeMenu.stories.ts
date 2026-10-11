@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TreeMenu from './TreeMenu.vue';
 
 const meta = {
-  title: 'Examples/TreeMenu',
+  title: 'Headless/TreeMenu',
   component: TreeMenu,
   tags: ['autodocs']
 } satisfies Meta<typeof TreeMenu>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Separator from './Separator';
 
 const meta = {
-  title: 'Examples/Separator',
+  title: 'Headless/Separator',
   component: Separator,
   tags: ['autodocs']
 } satisfies Meta<typeof Separator>;

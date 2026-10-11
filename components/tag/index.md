@@ -4,38 +4,41 @@ A tag is a small component used to label, categorize, or indicate the status of 
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
-Tags help users quickly scan and identify relevant information, and are presented as inline elements alongside other content. This headless component renders as a `<span>` with `role="status"` and an accessible label, providing semantic structure for screen reader announcements while consumers apply their own visual styling.
+Tags help users quickly scan and identify relevant information, and are presented as inline elements alongside other content. This headless component renders as a `<span>` whose accessible label is screen-reader text; set `live` for a tag whose text changes in place, which makes it a `role="status"` live region. Consumers apply their own visual styling.
 
 ## Implementation Notes
 
-- Renders as a `<span>` element with `role="status"` and `aria-label`
-- `role="status"` creates an implicit live region, so screen readers announce content changes
+- Renders as a `<span>` element; not a live region by default (decided 2026-10-11: a page of static tags should not be a page of live regions)
+- `aria-label` is not allowed on a plain `<span>`, so by default the `label` is screen-reader text (`<span class="screen-reader-span">`, which the themes hide) appended after the content; the content is never hidden, since it may hold a control such as a remove button
+- `live`: renders `role="status"` with `aria-label`, for a tag whose text changes in place (a job's status)
+
 - All visible content is provided through the `children` slot
 - Uses props for prop destructuring with rest props spread
 - No hardcoded strings; all text comes through props for internationalization
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (required) -- accessible label for screen readers: screen-reader text by default, `aria-label` when `live`
+- `live`: boolean (default false) -- render a `role="status"` live region
 - `children`: slot (required) -- the tag's visible content (text, etc.)
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
 ## Usage
 
 ```html
-<Tag label="Status: Completed">Completed</Tag>
+<Tag label="status">Completed</Tag>
 ```
 
 ```html
-<Tag label="Status: Overdue">Overdue</Tag>
+<Tag label="status">Overdue</Tag>
 ```
 
 ```html
-<Tag label="Status: Active">Active</Tag>
+<Tag label="status">Active</Tag>
 ```
 
 ```html
-<Tag label="Status: Inactive">Inactive</Tag>
+<Tag label="status">Inactive</Tag>
 ```
 
 ## Keyboard Interactions
@@ -44,8 +47,8 @@ Tags help users quickly scan and identify relevant information, and are presente
 
 ## ARIA
 
-- `role="status"` -- identifies this as a live region for screen reader announcements of content changes
-- `aria-label` -- provides an accessible name from the `label` prop, giving expanded context beyond the visible tag text
+- Default: no role; the `label` is screen-reader text after the content, for context the visible text lacks (visible "High", label "priority": read as "High priority")
+- With `live`: `role="status"` (a polite live region) and `aria-label` from the `label` prop
 
 ## When to Use
 
@@ -63,31 +66,28 @@ Tags help users quickly scan and identify relevant information, and are presente
 
 ## Headless
 
-This headless component renders a `<span>` with `role="status"` and `aria-label`, creating an implicit live region for screen reader announcements. The consumer provides all visual styling including background color, border radius, padding, and typography.
-
+This headless component renders a `<span>` with its `label` as screen-reader text (a `role="status"` live region only with `live`). The consumer provides all visual styling including background color, border radius, padding, and typography.
 
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.tag` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<span>` element with class `tag`
-- Verify role="status"` -- identifies this as a live region for screen reader announcements of content changes
-- Verify aria-label` -- provides an accessible name from the `label` prop, giving expanded context beyond the visible tag text
+- Verify there is no role by default, the `label` is screen-reader text after the content, and nothing inside is aria-hidden
+- Verify `live` renders role="status" with aria-label
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Use color-coding consistently to distinguish tag categories, but do not rely on color alone -- include text labels. Keep tags compact with consistent padding and font size.
-- **Developers**: Use the `label` prop to provide expanded context for screen readers beyond the visible tag text (e.g., `label="Priority: High"` with visible text "High"). Be aware that `role="status"` creates a live region, so dynamic content changes will be announced.
+- **Developers**: Use the `label` prop to provide expanded context for screen readers beyond the visible tag text (e.g., `label="priority"` with visible text "High", read as "High priority"); the label is added after the visible text, not instead of it. Set `live` only when the tag's text changes in place and the change should be announced: a live region on every static tag makes a list noisy.
 
 ## Composition
 
-Tag is designed to be used as a child of TagGroup. The TagGroup provides a `role="group"` container with an accessible label, while each Tag provides an individual labeled status element within the group.
+Tag is designed to be used as a child of TagGroup. The TagGroup provides a `role="group"` container with an accessible label, while each Tag provides an individually labelled item within the group.
 
 ## Related components
 

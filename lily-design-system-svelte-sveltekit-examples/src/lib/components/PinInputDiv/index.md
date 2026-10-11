@@ -1,91 +1,129 @@
 # PinInputDiv
 
-## Overview
+A headless PIN input that renders a group of single-character numeric inputs for PINs, verification codes, and one-time passwords (OTPs). Focus auto-advances on digit entry and retreats on Backspace.
 
-A headless PIN input that renders a group of single-character numeric inputs
-for entering PINs, verification codes, or one-time passwords (OTPs). Each
-digit occupies its own input field, creating a segmented entry experience that
-communicates the expected code length. Focus auto-advances on digit entry and
-retreats on Backspace. Commonly used in two-factor authentication, SMS
-verification, and secure PIN entry interfaces.
+## What it is
+
+- Component: `PinInputDiv`
+- HTML element: `<div role="group">` containing multiple `<input>` fields
+- Role: `group`
+- Category: segmented form input
 
 ## What it does
 
-A series of single-digit inputs for entering a PIN or OTP code.
+- Renders `length` (default 4) single-character `<input>` fields with `inputmode="numeric"` and `maxlength="1"`.
+- Accepts only digits 0–9; non-numeric input is rejected.
+- Auto-advances focus to the next field on digit entry.
+- Backspace clears the current field or moves focus back and clears the previous field.
+- Left / Right arrows move focus between fields.
+- Maintains an internal `digits` array and exposes a combined string via `bind:value`.
+- Applies positional aria-labels (`"Digit X of Y"`) to each digit input for screen reader context.
 
-## When to use
+## When to use it
 
-- Use when you need a series of single-digit inputs for entering a PIN or OTP code.
+- Two-factor authentication code entry (SMS, authenticator apps).
+- Email verification codes.
+- Secure PIN entry for checkout, unlock, or access flows.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a single password field — use `PasswordInput` or `PasswordInputOrTextInputDiv`.
+- For a long alphanumeric token — use `TextInput`.
+- For a numeric quantity — use `NumberInput`.
+- When the expected length is variable at runtime — the `length` prop is captured at initialization.
 
-## Usage
+## How to use it
+
+Import, bind `value`, and pick a `length`.
 
 ```svelte
-<PinInputDiv label="Enter PIN" bind:value />
+import PinInputDiv from './PinInputDiv.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the group of inputs via aria-label. |
-| `length` | number, default 4 | Number of digit inputs to render. |
-| `value` | string, default "" | Bindable combined string of all entered digits. |
-| `disabled` | boolean, default false | Whether all inputs are disabled. |
-| `...restProps` | additional HTML attributes spread onto the group <div> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `pin-input-div`.
+- `label`: string, required. Accessible label for the group via `aria-label`.
+- `length`: number, default `4`. Number of digit inputs. Captured at initialization; do not change dynamically.
+- `value`: string, default `""`. Combined digit string; bindable.
+- `disabled`: boolean, default `false`. Disables all inputs.
+- `...restProps`: spread onto the group `<div>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- 4-digit PIN input -->
-<PinInputDiv label="Enter PIN" bind:value={pin} />
-
-<!-- 6-digit verification code -->
-<PinInputDiv label="Verification Code" length={6} bind:value={code} />
-
-<!-- Disabled PIN input -->
-<PinInputDiv label="Locked PIN" disabled />
-```
-
-## SvelteKit example
+### 4-digit PIN
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PinInputDiv from "#lib/components/PinInputDiv/PinInputDiv.svelte";
+  import PinInputDiv from './PinInputDiv.svelte';
+
+  let pin = $state("");
 </script>
 
-<PinInputDiv label="Enter PIN" bind:value />
+<PinInputDiv label="Enter PIN" bind:value={pin} />
 ```
 
-## Keyboard
+### 6-digit verification code
 
-- Digit entry: enters value and auto-focuses next input
-- Backspace: clears current digit or moves to previous input if empty
-- ArrowLeft: focuses previous input
-- ArrowRight: focuses next input
-- Tab: standard tab navigation in/out of the group
+```svelte
+<script lang="ts">
+  import PinInputDiv from './PinInputDiv.svelte';
+
+  let code = $state("");
+</script>
+
+<PinInputDiv label="Verification Code" length={6} bind:value={code} />
+```
+
+### Submit when complete
+
+```svelte
+<script lang="ts">
+  import PinInputDiv from './PinInputDiv.svelte';
+
+  let code = $state("");
+  $effect(() => {
+    if (code.length === 6) {
+      // call verify endpoint
+    }
+  });
+</script>
+
+<PinInputDiv label="One-time code" length={6} bind:value={code} />
+```
+
+### Disabled after submission
+
+```svelte
+<script lang="ts">
+  import PinInputDiv from './PinInputDiv.svelte';
+
+  let code = $state("123456");
+  let submitting = $state(true);
+</script>
+
+<PinInputDiv label="One-time code" length={6} bind:value={code} disabled={submitting} />
+```
+
+### Localized group label
+
+```svelte
+<PinInputDiv label="Código de verificación" length={6} />
+```
 
 ## Accessibility
 
-- role="group" with aria-label on the container identifies the PIN group
-- Each input has aria-label="Digit X of Y" for positional context
-- inputmode="numeric" ensures numeric keyboard on mobile devices
-- maxlength="1" restricts each input to a single character
+- `role="group"` with `aria-label` identifies the collection as a PIN entry group.
+- Each digit input has an `aria-label` of the form `"Digit X of Y"` for positional context; note these positional labels are currently in English — wrap or fork to localize them.
+- `inputmode="numeric"` triggers a numeric soft keyboard on mobile devices.
+- Keyboard: Backspace, Left / Right arrows, and digit entry behave as users expect.
+- WCAG 2.2 AAA: consumer CSS must provide a visible focus indicator on each field.
 
-## Internationalization
+## Related components
 
-- The label prop is consumer-provided for the group name
-- Individual "Digit X of Y" labels are currently hardcoded in English
-- No other hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
+- `PasswordInput`, `PasswordInputOrTextInputDiv` — password fields.
+- `NumberInput` — single numeric input.
+- `TextInput` — arbitrary text input.
 
 ---
 

@@ -46,7 +46,7 @@
 // References:
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export interface FiveStarRatingPickerProps {
     className?: string;
@@ -56,6 +56,8 @@ export interface FiveStarRatingPickerProps {
     value?: number;
     /** Radio group name for form submission. */
     name?: string;
+    /** Each option's text, e.g. (n) => `${n} stars`. Defaults to the number alone: no English default. */
+    starLabel?: (star: number) => string;
     /** Whether the entire group is disabled. */
     disabled?: boolean;
     /** Callback when value changes. */
@@ -68,11 +70,48 @@ export default function FiveStarRatingPicker({
     label,
     value: valueProp = 0,
     name = "rating",
+    starLabel,
     disabled = false,
     onChange,
     ...restProps
 }: FiveStarRatingPickerProps) {
     const [value, setValue] = useState(valueProp);
+    const initialValue = useRef(valueProp);
+    const onChangeRef = useRef(onChange);
+    onChangeRef.current = onChange;
+
+    // Form reset: the inputs are controlled, so a reset changes the DOM without
+    // telling React, and the component — and its consumer, told by onChange —
+    // would keep a value the form no longer submits. Restore the initial value instead — one tick later, after the
+    // browser has reset the DOM, and not when the reset was cancelled.
+    const rootRef = useRef<HTMLFieldSetElement>(null);
+    useEffect(() => {
+        const root = rootRef.current;
+        const form = root?.closest("form");
+        if (!root || !form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                // Tell the consumer, as a user's choice would: its last onChange
+                // may name a value the form no longer holds.
+                setValue((current) => {
+                    if (current !== initialValue.current) onChangeRef.current?.(initialValue.current);
+                    return initialValue.current;
+                });
+                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                    input.checked = input.value === String(initialValue.current);
+                }
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const stars = [1, 2, 3, 4, 5];
 
     const handleChange = (star: number) => {
@@ -82,6 +121,7 @@ export default function FiveStarRatingPicker({
 
     return (
         <fieldset
+        ref={rootRef}
         className={`five-star-rating-picker ${className}`}
         role="radiogroup"
         aria-label={label}
@@ -98,8 +138,7 @@ export default function FiveStarRatingPicker({
         checked={value === star}
         onChange={() => handleChange(star)}
         />
-        {star}
-        {star === 1 ? " star" : " stars"}
+        {starLabel ? starLabel(star) : star}
         </label>
         </React.Fragment>
         ))}

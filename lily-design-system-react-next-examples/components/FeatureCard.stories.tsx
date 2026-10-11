@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import FeatureCard from './FeatureCard';
 
 const meta = {
-  title: 'Examples/FeatureCard',
+  title: 'Headless/FeatureCard',
   component: FeatureCard,
   tags: ['autodocs']
 } satisfies Meta<typeof FeatureCard>;

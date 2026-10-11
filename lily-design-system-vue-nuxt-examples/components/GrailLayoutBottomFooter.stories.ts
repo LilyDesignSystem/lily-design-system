@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import GrailLayoutBottomFooter from './GrailLayoutBottomFooter.vue';
 
 const meta = {
-  title: 'Examples/GrailLayoutBottomFooter',
+  title: 'Headless/GrailLayoutBottomFooter',
   component: GrailLayoutBottomFooter,
   tags: ['autodocs']
 } satisfies Meta<typeof GrailLayoutBottomFooter>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import QrCodeImage from './QrCodeImage.vue';
 
 const meta = {
-  title: 'Examples/QrCodeImage',
+  title: 'Headless/QrCodeImage',
   component: QrCodeImage,
   tags: ['autodocs']
 } satisfies Meta<typeof QrCodeImage>;

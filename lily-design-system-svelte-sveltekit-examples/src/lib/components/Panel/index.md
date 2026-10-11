@@ -1,88 +1,135 @@
 # Panel
 
-## Overview
+A headless labeled container for grouping related content. Renders a `<section>` with `aria-label`, creating a named region landmark that assistive technology can enumerate and jump to.
 
-A headless labeled container for grouping related content, controls, or settings.
-It renders a semantic <section> element with an accessible label, creating a
-named region landmark that assistive technology can identify and navigate to.
-Commonly used in dashboards, settings pages, sidebars, and multi-section layouts.
+## What it is
+
+- Component: `Panel`
+- HTML element: `<section>`
+- Role: implicit `region` when named (via `aria-label`)
+- Category: layout / landmark container
 
 ## What it does
 
-A generic content panel with optional heading.
+- Renders a `<section aria-label="…">` around its children.
+- Creates a named region landmark so screen readers can list and navigate to this area.
+- Spreads additional HTML attributes onto the `<section>`.
 
-## When to use
+## When to use it
 
-- Use when you need a generic content panel with optional heading.
+- Settings pages, dashboards, and multi-section layouts where each group of content benefits from landmark navigation.
+- Side-by-side cards where each card represents a distinct topical region.
+- Grouping a set of related form fields where a visible heading is not desired.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a generic non-landmark container — use a plain `<div>` or `Card`.
+- For structural page regions — use `GrailLayoutTopHeader`, `GrailLayoutCenterMain`, `GrailLayoutLeftAside`, `GrailLayoutRightAside`, `GrailLayoutBottomFooter`.
+- For a modal or overlay — use `Dialog`, `Popover`, `Popup`, `Drawer`, or `Sheet`.
+- When you need a visible heading as the region's accessible name — use `<section aria-labelledby="…">` directly, since `Panel` applies only `aria-label`.
 
-## Usage
+## How to use it
+
+Import and wrap content. Provide a concise, descriptive `label`.
 
 ```svelte
-<Panel label="Settings">{children}</Panel>
+import Panel from './Panel.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the panel region via aria-label. |
-| `children` | Snippet, required | The panel content. |
-| `...restProps` | additional HTML attributes spread onto the <section> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `panel`.
+- `label`: string, required. Accessible name for the region via `aria-label`.
+- `children`: Snippet, required. The panel content.
+- `...restProps`: spread onto the `<section>`.
 
-## Examples
+## Usage
+
+### Basic labeled panel
 
 ```svelte
-<!-- Basic labeled panel -->
+<script lang="ts">
+  import Panel from './Panel.svelte';
+</script>
+
 <Panel label="Settings">
   <p>Adjust your preferences below.</p>
 </Panel>
+```
 
-<!-- Multiple panels on a page -->
+### Multiple panels on a page
+
+```svelte
+<script lang="ts">
+  import Panel from './Panel.svelte';
+</script>
+
 <Panel label="Account information">
   <p>Name, email, and profile details.</p>
 </Panel>
+
 <Panel label="Notification preferences">
   <p>Choose how you want to be notified.</p>
 </Panel>
 ```
 
-## SvelteKit example
+### Panel containing a form
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Panel from "#lib/components/Panel/Panel.svelte";
+  import Panel from './Panel.svelte';
+  import TextInput from '../TextInput/TextInput.svelte';
+  import Button from '../Button/Button.svelte';
+
+  let name = $state("");
 </script>
 
-<Panel label="Settings">{children}</Panel>
+<Panel label="Profile">
+  <TextInput label="Name" bind:value={name} />
+  <Button type="button">Save</Button>
+</Panel>
 ```
 
-## Keyboard
+### Panel with a heading inside
 
-- None — this is a passive container. Screen reader users can navigate to
-- named regions using landmark navigation shortcuts.
+```svelte
+<script lang="ts">
+  import Panel from './Panel.svelte';
+</script>
+
+<Panel label="Recent activity">
+  <h2>Recent activity</h2>
+  <ul>
+    <li>Signed in — 10:24</li>
+    <li>Updated profile — 10:36</li>
+  </ul>
+</Panel>
+```
+
+### Panel as a dashboard card
+
+```svelte
+<script lang="ts">
+  import Panel from './Panel.svelte';
+</script>
+
+<Panel label="System status" data-tone="ok">
+  <p>All systems operational.</p>
+</Panel>
+```
 
 ## Accessibility
 
-- <section aria-label="..."> creates a named region landmark
-- Assistive technology can list and navigate to this section via landmarks
-- The aria-label value should be concise and descriptive of the panel content
+- `<section aria-label="…">` is a named region landmark. Keep the `label` short, descriptive, and unique on the page.
+- Assistive technology users can navigate among landmarks; multiple named `Panel`s should each have distinct labels.
+- Do not rely on `Panel` alone for grouped form controls with a shared legend — use `Fieldset` for that pattern.
 
-## Internationalization
+## Related components
 
-- The label prop is the only text; consumer provides all content through children
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
-- HTML section element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section
-- WAI Landmarks: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+- `Card` — visually grouped content container without a landmark role.
+- `Fieldset` — grouped form controls with a `<legend>`.
+- `GrailLayoutCenterMain`, `GrailLayoutLeftAside`, `GrailLayoutRightAside` — page-structural landmarks.
+- `Dialog`, `Popover`, `Popup`, `Drawer` — overlay alternatives.
 
 ---
 

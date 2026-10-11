@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SignaturePad from './SignaturePad.vue';
 
 const meta = {
-  title: 'Examples/SignaturePad',
+  title: 'Headless/SignaturePad',
   component: SignaturePad,
   tags: ['autodocs']
 } satisfies Meta<typeof SignaturePad>;

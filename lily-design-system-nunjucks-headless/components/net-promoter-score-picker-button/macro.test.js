@@ -18,10 +18,10 @@ describe("net-promoter-score-picker-button", () => {
     expect(el.getAttribute("data-category")).toBe("promoter");
   });
 
-  it("generates default aria-label 'Rate N out of 10'", () => {
+  it("without a label, names the button by its number — no English default", () => {
     const { document } = render(name, { value: 7 });
     expect(document.querySelector(`button.${name}`).getAttribute("aria-label"))
-      .toBe("Rate 7 out of 10");
+      .toBe("7");
   });
 
   it("sets aria-checked and tabindex from checked", () => {

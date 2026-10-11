@@ -3,7 +3,7 @@
   import ToolBarButton from './ToolBarButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ToolBarButton',
+    title: 'Headless/ToolBarButton',
     component: ToolBarButton,
   });
 </script>

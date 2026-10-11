@@ -3,7 +3,7 @@
   import Hint from './Hint.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Hint',
+    title: 'Headless/Hint',
     component: Hint,
   });
 </script>

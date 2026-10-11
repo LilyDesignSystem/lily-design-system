@@ -3,7 +3,7 @@
   import TabBar from './TabBar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TabBar',
+    title: 'Headless/TabBar',
     component: TabBar,
   });
 </script>

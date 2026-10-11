@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CallToAction from './CallToAction.vue';
 
 const meta = {
-  title: 'Examples/CallToAction',
+  title: 'Headless/CallToAction',
   component: CallToAction,
   tags: ['autodocs']
 } satisfies Meta<typeof CallToAction>;

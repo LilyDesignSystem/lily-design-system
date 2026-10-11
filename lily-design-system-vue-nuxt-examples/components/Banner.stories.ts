@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Banner from './Banner.vue';
 
 const meta = {
-  title: 'Examples/Banner',
+  title: 'Headless/Banner',
   component: Banner,
   tags: ['autodocs']
 } satisfies Meta<typeof Banner>;

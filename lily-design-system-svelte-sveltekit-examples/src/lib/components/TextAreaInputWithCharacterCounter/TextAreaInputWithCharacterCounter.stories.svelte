@@ -3,7 +3,7 @@
   import TextAreaInputWithCharacterCounter from './TextAreaInputWithCharacterCounter.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TextAreaInputWithCharacterCounter',
+    title: 'Headless/TextAreaInputWithCharacterCounter',
     component: TextAreaInputWithCharacterCounter,
   });
 </script>

@@ -1,68 +1,126 @@
 # GanttTableTH
 
-## Overview
+A column header cell within a `GanttTable`. Renders a `<th scope="col">` element, intended to live inside a `GanttTableTr` within `GanttTableHead`, where it labels a time-period column.
 
-A column definition within a GanttTable, rendered as a <col> element.
-Used inside a <colgroup> to define column properties such as span.
-Useful for styling entire columns of the Gantt grid (e.g. weekends,
-milestones, or specific time periods).
+## What it is
+
+A Svelte 5 component that renders `<th class="gantt-table-th ..." scope="col">` with optional `colspan` and `rowspan` attributes. Renders header text via `children`.
 
 ## What it does
 
-A Gantt chart table interactive grid column for planning schedule visualization <th>.
+- Renders `<th>` with `scope="col"` by default.
+- Applies `colspan` / `rowspan` only when truthy.
+- Accepts an alternative `scope` (e.g. `"colgroup"`).
+- Renders header text via `children`.
+- Spreads additional HTML attributes onto the `<th>`.
 
-## When to use
+## When to use it
 
-- Use when you need a Gantt chart table interactive grid column for planning schedule visualization <th>.
+- For time-period column headers (days, weeks, months, milestones).
+- For grouped header cells (e.g. a quarter spanning three months) via `colspan`.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For task data cells — use `GanttTableTD`.
+- For row headers — use a `<th scope="row">` directly inside `GanttTableTr`.
+- For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `GanttTable`.
 
-## Usage
+## How to use it
 
-```svelte
-<colgroup>
-  <GanttTableTH />
-  <GanttTableTH span={5} />
-  <GanttTableTH />
-</colgroup>
-```
+Place `GanttTableTH` elements inside a `GanttTableTr` within `GanttTableHead`, one per time-period column.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `span` | number, optional | Number of columns this <col> spans. |
-| `...restProps` | additional HTML attributes spread onto the <col> |  |
+- `class` (string, optional) - CSS class appended after the base `gantt-table-th` class.
+- `colspan` (number, optional) - Number of columns this header spans.
+- `rowspan` (number, optional) - Number of rows this header spans.
+- `scope` (`"col" | "row" | "colgroup" | "rowgroup"`, default `"col"`).
+- `children` (Snippet, optional) - Header cell content.
+- `...restProps` - Additional HTML attributes spread onto the `<th>`.
 
-## SvelteKit example
+## Usage
+
+### Weekly columns
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableTH from "#lib/components/GanttTableTH/GanttTableTH.svelte";
+    import GanttTable from "../GanttTable/GanttTable.svelte";
+    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+    import GanttTableTH from "./GanttTableTH.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
-<colgroup>
-  <GanttTableTH />
-  <GanttTableTH span={5} />
-  <GanttTableTH />
-</colgroup>
+<GanttTable label="Project schedule">
+    <GanttTableHead>
+        <GanttTableTr>
+            <GanttTableTH>Task</GanttTableTH>
+            <GanttTableTH>W1</GanttTableTH>
+            <GanttTableTH>W2</GanttTableTH>
+            <GanttTableTH>W3</GanttTableTH>
+            <GanttTableTH>W4</GanttTableTH>
+        </GanttTableTr>
+    </GanttTableHead>
+    <GanttTableBody>
+        <GanttTableTr>
+            <th scope="row">Design</th>
+            <GanttTableTD />
+            <GanttTableTD />
+            <GanttTableTD />
+            <GanttTableTD />
+        </GanttTableTr>
+    </GanttTableBody>
+</GanttTable>
 ```
 
-## Keyboard
+### Grouped quarter and month headers
 
-- None — <col> is not interactive.
+```svelte
+<GanttTableHead>
+    <GanttTableTr>
+        <GanttTableTH rowspan={2}>Task</GanttTableTH>
+        <GanttTableTH colspan={3} scope="colgroup">Q1</GanttTableTH>
+        <GanttTableTH colspan={3} scope="colgroup">Q2</GanttTableTH>
+    </GanttTableTr>
+    <GanttTableTr>
+        <GanttTableTH>Jan</GanttTableTH>
+        <GanttTableTH>Feb</GanttTableTH>
+        <GanttTableTH>Mar</GanttTableTH>
+        <GanttTableTH>Apr</GanttTableTH>
+        <GanttTableTH>May</GanttTableTH>
+        <GanttTableTH>Jun</GanttTableTH>
+    </GanttTableTr>
+</GanttTableHead>
+```
+
+### Dynamic column headers
+
+```svelte
+<script lang="ts">
+    const weeks = [1, 2, 3, 4];
+</script>
+
+<GanttTableHead>
+    <GanttTableTr>
+        <GanttTableTH>Task</GanttTableTH>
+        {#each weeks as w}<GanttTableTH>W{w}</GanttTableTH>{/each}
+    </GanttTableTr>
+</GanttTableHead>
+```
 
 ## Accessibility
 
-- <col> provides structural column semantics for the table
+- `<th scope="col">` associates the header with its column for assistive tech.
+- Use `scope="colgroup"` together with `colspan` for grouped column headers.
 
-## References
+## Related components
 
-- HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- `GanttTable` - parent grid.
+- `GanttTableHead` / `GanttTableBody` / `GanttTableTfoot` - sections.
+- `GanttTableTr` - row wrapper.
+- `GanttTableTD` - data cell primitive.
+- `DataTableTD`, `CalendarTableTD`, `KanbanTableTD`, `TableTD` - sibling header-cell components in other tables.
 
 ---
 

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DropdownMenu from './DropdownMenu.vue';
 
 const meta = {
-  title: 'Examples/DropdownMenu',
+  title: 'Headless/DropdownMenu',
   component: DropdownMenu,
   tags: ['autodocs']
 } satisfies Meta<typeof DropdownMenu>;

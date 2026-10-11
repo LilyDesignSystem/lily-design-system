@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PopconfirmDialog from './PopconfirmDialog.vue';
 
 const meta = {
-  title: 'Examples/PopconfirmDialog',
+  title: 'Headless/PopconfirmDialog',
   component: PopconfirmDialog,
   tags: ['autodocs']
 } satisfies Meta<typeof PopconfirmDialog>;

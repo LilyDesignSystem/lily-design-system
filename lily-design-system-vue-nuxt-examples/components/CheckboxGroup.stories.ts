@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CheckboxGroup from './CheckboxGroup.vue';
 
 const meta = {
-  title: 'Examples/CheckboxGroup',
+  title: 'Headless/CheckboxGroup',
   component: CheckboxGroup,
   tags: ['autodocs']
 } satisfies Meta<typeof CheckboxGroup>;

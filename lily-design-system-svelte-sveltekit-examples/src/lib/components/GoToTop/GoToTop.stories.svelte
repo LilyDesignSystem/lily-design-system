@@ -3,7 +3,7 @@
   import GoToTop from './GoToTop.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/GoToTop',
+    title: 'Headless/GoToTop',
     component: GoToTop,
   });
 </script>

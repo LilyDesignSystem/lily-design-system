@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import EnglandNationalHealthServiceNumberInput from './EnglandNationalHealthServiceNumberInput.vue';
 
 const meta = {
-  title: 'Examples/EnglandNationalHealthServiceNumberInput',
+  title: 'Headless/EnglandNationalHealthServiceNumberInput',
   component: EnglandNationalHealthServiceNumberInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EnglandNationalHealthServiceNumberInput>;

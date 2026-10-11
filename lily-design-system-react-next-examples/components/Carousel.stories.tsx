@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Carousel from './Carousel';
 
 const meta = {
-  title: 'Examples/Carousel',
+  title: 'Headless/Carousel',
   component: Carousel,
   tags: ['autodocs']
 } satisfies Meta<typeof Carousel>;

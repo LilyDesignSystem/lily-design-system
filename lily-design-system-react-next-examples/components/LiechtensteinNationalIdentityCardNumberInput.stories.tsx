@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import LiechtensteinNationalIdentityCardNumberInput from './LiechtensteinNationalIdentityCardNumberInput';
 
 const meta = {
-  title: 'Examples/LiechtensteinNationalIdentityCardNumberInput',
+  title: 'Headless/LiechtensteinNationalIdentityCardNumberInput',
   component: LiechtensteinNationalIdentityCardNumberInput,
   tags: ['autodocs']
 } satisfies Meta<typeof LiechtensteinNationalIdentityCardNumberInput>;

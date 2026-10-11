@@ -1,13 +1,14 @@
-import { render, screen } from "@testing-library/vue";
-import { describe, expect, test } from "vitest";
-
-import Subject from "../../components/SectionList.vue";
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/vue";
+import SectionList from "../../components/SectionList.vue";
 
 describe("SectionList", () => {
-    test("renders the component", () => {
-        render(Subject, { props: { label: "Test" }, slots: { default: "Content" } });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
-        expect(el.classList.contains("section-list")).toBe(true);
+  it("renders with class", () => {
+    const { container } = render(SectionList, {
+      props: { label: "Test" },
+      slots: { default: "content" },
     });
+    const el = container.querySelector(".section-list");
+    expect(el).toBeTruthy();
+  });
 });

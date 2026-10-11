@@ -3,7 +3,7 @@
   import NavigationMenu from './NavigationMenu.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/NavigationMenu',
+    title: 'Headless/NavigationMenu',
     component: NavigationMenu,
   });
 </script>

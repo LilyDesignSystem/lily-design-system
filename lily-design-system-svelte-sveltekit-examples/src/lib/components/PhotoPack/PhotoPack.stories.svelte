@@ -3,7 +3,7 @@
   import PhotoPack from './PhotoPack.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PhotoPack',
+    title: 'Headless/PhotoPack',
     component: PhotoPack,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import RomaniaCodNumericPersonalView from './RomaniaCodNumericPersonalView.vue';
 
 const meta = {
-  title: 'Examples/RomaniaCodNumericPersonalView',
+  title: 'Headless/RomaniaCodNumericPersonalView',
   component: RomaniaCodNumericPersonalView,
   tags: ['autodocs']
 } satisfies Meta<typeof RomaniaCodNumericPersonalView>;

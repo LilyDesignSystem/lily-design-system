@@ -3,7 +3,7 @@
   import NetPromoterScoreView from './NetPromoterScoreView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/NetPromoterScoreView',
+    title: 'Headless/NetPromoterScoreView',
     component: NetPromoterScoreView,
   });
 </script>

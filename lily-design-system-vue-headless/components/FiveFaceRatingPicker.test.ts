@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
@@ -16,7 +16,7 @@ describe("FiveFaceRatingPicker", () => {
   });
 
   test("has all 5 default labels", () => {
-    render(Subject, { props: { label: "Experience" } });
+    render(Subject, { props: { label: "Experience", labels: ["Very bad", "Bad", "Okay", "Good", "Very good"] } });
     expect(screen.getByText("Very bad")).toBeTruthy();
     expect(screen.getByText("Bad")).toBeTruthy();
     expect(screen.getByText("Okay")).toBeTruthy();
@@ -106,6 +106,46 @@ describe("FiveFaceRatingPicker model binding", () => {
 
   test("default labels are not shared between instances", () => {
     const first = render(Subject, { props: { label: "A" } });
-    expect(first.getByRole("radiogroup").textContent).toContain("Very bad");
+    expect(first.getByRole("radiogroup").textContent).toContain("1");
+  });
+});
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(props: Record<string, unknown>) {
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+  const result = render(Subject, { props, container: form });
+  return { form, emitted: result.emitted };
+}
+
+const afterReset = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+describe("form reset", () => {
+  test("a form reset restores the initial value and emits it", async () => {
+    const { form, emitted } = inForm({ label: "Rating", name: "face", modelValue: 2 });
+    await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="4"]')!);
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual([4]);
+    form.reset();
+    await afterReset();
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual([2]);
+    expect(form.querySelector<HTMLInputElement>("input:checked")?.value).toBe("2");
+    expect(new FormData(form).get("face")).toBe("2");
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const { form, emitted } = inForm({ label: "Rating", name: "face", modelValue: 2 });
+    await fireEvent.click(form.querySelector<HTMLInputElement>('input[value="4"]')!);
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await afterReset();
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual([4]);
+  });
+});
+
+describe("no English default", () => {
+  test("without labels the options are the numbers 1 to 5", () => {
+    render(Subject, { props: { label: "Feedback" } });
+    for (const n of ["1", "2", "3", "4", "5"]) expect(screen.getByLabelText(n)).toBeTruthy();
+    expect(screen.queryByText(/bad|good|okay/i)).toBeNull();
   });
 });

@@ -1,91 +1,111 @@
 # DoListItem
 
-## Overview
+A single recommended-practice item within a `DoList`. Renders a semantic `<li>` with `data-recommendation="do"` for consumer styling hooks.
 
-A single recommended-practice item within a "Do" list. Renders a semantic
-<li> element representing a guideline or best practice that users should
-follow. Commonly used in design system documentation, style guides, and
-instructional content to show approved patterns alongside DontListItem.
+## What it is
 
-The component sets data-recommendation="do" for consumer styling hooks,
-enabling visual differentiation (e.g. green checkmarks, success borders)
-without embedding any styles itself.
+`DoListItem` represents one approved guideline or best practice. It renders a native `<li>` so it participates correctly in its parent list's semantics, and it exposes `data-recommendation="do"` so consumer CSS can add visual treatments (checkmarks, success colours, borders) without the component shipping any styles itself.
 
 ## What it does
 
-An encouraged-practice item in a do-list guideline list.
+- Renders `<li class="do-list-item" data-recommendation="do">`.
+- Exposes the `data-recommendation` hook for CSS targeting.
+- Forwards `restProps` onto the `<li>`.
 
-## When to use
+## When to use it
 
-- Use as a child of the matching list component — never standalone.
+- Inside a `DoList` (or any `<ul>`/`<ol>`) to document approved patterns.
+- Alongside `DontListItem` to illustrate do/don't contrasts.
+- Guideline, checklist, and style-guide pages.
 
-## When not to use
+## When not to use it
 
-- Do not use outside its parent list component.
+- Outside a list parent. It should always be inside `<ul>`, `<ol>`, or `DoList`.
+- For task-based checklists with interactive state. Use `CheckListItem` / `TaskListItem` instead.
+- For purely decorative rendering; use a plain `<li>` if you don't need the data attribute.
 
-## Usage
+## How to use it
+
+Place one or more `DoListItem`s inside a `DoList`.
 
 ```svelte
-<DoListItem>Use semantic HTML elements</DoListItem>
+<script lang="ts">
+    import DoList from "../DoList/DoList.svelte";
+    import DoListItem from "./DoListItem.svelte";
+</script>
+
+<DoList>
+    <DoListItem>Use descriptive alt text for images</DoListItem>
+</DoList>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | The recommendation content. |
-| `...restProps` | additional HTML attributes spread onto the <li> |  |
+| Prop       | Type       | Default | Description                              |
+| ---------- | ---------- | ------- | ---------------------------------------- |
+| `class`    | `string`   | `""`    | CSS class appended to the base class.   |
+| `children` | `Snippet`  | required| The recommendation content.              |
+| `...rest`  | `unknown`  | —       | Additional HTML attributes on the `<li>`.|
 
-## Examples
+## Usage
+
+### 1. Inside DoList
 
 ```svelte
-<!-- Design system guideline list -->
+<DoList>
+    <DoListItem>Write clear labels</DoListItem>
+    <DoListItem>Use semantic HTML</DoListItem>
+</DoList>
+```
+
+### 2. Side-by-side with DontListItem
+
+```svelte
+<DoList>
+    <DoListItem>Write clear error messages</DoListItem>
+</DoList>
+<DontList>
+    <DontListItem>Use technical jargon in errors</DontListItem>
+</DontList>
+```
+
+### 3. Rich content
+
+```svelte
+<DoList>
+    <DoListItem>
+        Use <code>aria-label</code> to describe unlabelled controls
+    </DoListItem>
+</DoList>
+```
+
+### 4. Inside a plain list
+
+```svelte
 <ul aria-label="Recommended practices">
-  <DoListItem>Use descriptive alt text for images</DoListItem>
-  <DoListItem>Provide visible focus indicators</DoListItem>
-  <DoListItem>Use sufficient color contrast</DoListItem>
-</ul>
-
-<!-- Side-by-side do/don't pattern -->
-<ul aria-label="Do">
-  <DoListItem>Write clear error messages</DoListItem>
-</ul>
-<ul aria-label="Don't">
-  <DontListItem>Use technical jargon in errors</DontListItem>
+    <DoListItem>Provide visible focus indicators</DoListItem>
+    <DoListItem>Use sufficient color contrast</DoListItem>
 </ul>
 ```
 
-## SvelteKit example
+### 5. Styled via data-recommendation
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import DoListItem from "#lib/components/DoListItem/DoListItem.svelte";
-</script>
-
-<DoListItem>Use semantic HTML elements</DoListItem>
+<DoListItem class="with-icon">Keep copy short</DoListItem>
+<!-- CSS may target [data-recommendation="do"]::before for a checkmark -->
 ```
-
-## Keyboard
-
-- None directly — passive informational display, not interactive
 
 ## Accessibility
 
-- Semantic <li> element provides list item semantics within the parent list
-- Screen readers announce list position from the parent <ul> or <ol>
-- data-recommendation attribute provides a hook for consumer styling
+- Native `<li>` participates in its parent list's semantics and count announcements.
+- `data-recommendation="do"` is a styling hook only; it is not exposed to assistive technology.
+- All text comes from consumer children, so content is fully translatable.
 
-## Internationalization
+## Related components
 
-- All content is provided through the children snippet
-- No hardcoded strings in the component
-
-## References
-
-- MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
-- Material Design Do/Don't guidelines: https://m3.material.io/foundations/content-design/style-guide/overview
+- `DoList` — the ordered-list container.
+- `DontList`, `DontListItem` — the paired anti-pattern list.
+- `CheckListItem`, `TaskListItem`, `SummaryListItem` — other list-item variants.
 
 ---
 

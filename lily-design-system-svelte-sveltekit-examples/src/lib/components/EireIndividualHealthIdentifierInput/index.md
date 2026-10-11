@@ -1,81 +1,131 @@
-# IrelandIndividualHealthIdentifierInput
+# EireIndividualHealthIdentifierInput
 
-## Overview
+EireIndividualHealthIdentifierInput is a headless Svelte 5 input for entering an Eire Individual Health Identifier (IHI) — a 10-digit clinical identifier used by the Irish Health Service Executive (HSE) to safely match patients with their medical records across hospitals and GPs.
 
-A headless input for entering an Eire Individual Health Identifier (IHI),
-a 10-digit clinical identifier used by the HSE to safely match patients
-with their medical records across different hospitals and GPs.
+## What it is
+
+A specialised `<input type="text">` configured for the Irish IHI format with accessibility-focused defaults: `inputmode="numeric"`, `pattern="[0-9]{10}"`, and `autocomplete="off"` to protect sensitive health data.
 
 ## What it does
 
-An input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier.
+- Renders an `<input type="text">` with `class="eire-individual-health-identifier-input"` plus any consumer-provided CSS class.
+- Applies `aria-label` from the required `label` prop.
+- Sets `inputmode="numeric"` so mobile devices show a numeric keyboard.
+- Sets `pattern="[0-9]{10}"` to enforce 10-digit validation at submit time.
+- Sets `autocomplete="off"` to protect sensitive health identifiers.
+- Provides a bindable `value` via `$bindable("")` for two-way binding.
+- Supports `required` and `disabled` HTML states.
+- Spreads `...restProps` onto the `<input>` for consumer customization.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Collecting an Irish patient's IHI within a clinical or administrative form.
+- Admission, registration, or identity-verification flows within the Irish healthcare context.
+- Any application that needs to reference the HSE's unique patient identifier.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- Do not use for other national healthcare identifiers — use the corresponding UK (`UnitedKingdomNationalHealthServiceNumberInput`), US (`UnitedStatesSocialSecurityNumberInput`), French (`FranceNumeroDIdentificationAuRepertoireInput`), or Spanish (`EspanaTarjetaSanitariaIndividualInput`) components.
+- Do not use for display-only contexts — use `EireIndividualHealthIdentifierView`.
+- Do not use when you cannot protect the value appropriately — IHIs are sensitive personal data.
+- Do not use for non-numeric identifiers or free-form text — use `TextInput`.
 
-## Usage
+## How to use it
 
-```svelte
-<IrelandIndividualHealthIdentifierInput label="IHI" bind:value />
-```
+Import the component, pass a `label` (for example "IHI" or a localised equivalent), and bind the `value`. Consumers are responsible for checksum-level validation and server-side verification.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for screen readers via aria-label. |
-| `value` | string, default "" | Bindable input value; supports bind:value. |
-| `required` | boolean, default false | Whether the input is required for form submission. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+- `class` (string, optional) — consumer CSS class appended to the base class.
+- `label` (string, required) — accessible name applied via `aria-label`.
+- `value` (string, optional, default `""`) — bindable IHI value via `bind:value`.
+- `required` (boolean, optional, default `false`) — whether the input is required.
+- `disabled` (boolean, optional, default `false`) — whether the input is disabled.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<input>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Required IHI input -->
-<IrelandIndividualHealthIdentifierInput label="IHI" required />
-
-<!-- Disabled IHI input -->
-<IrelandIndividualHealthIdentifierInput label="IHI" disabled />
-```
-
-## SvelteKit example
+### Basic IHI entry
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import IrelandIndividualHealthIdentifierInput from "#lib/components/IrelandIndividualHealthIdentifierInput/IrelandIndividualHealthIdentifierInput.svelte";
+    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+    let ihi = $state("");
 </script>
 
-<IrelandIndividualHealthIdentifierInput label="IHI" bind:value />
+<EireIndividualHealthIdentifierInput label="IHI" bind:value={ihi} />
 ```
 
-## Keyboard
+### Required IHI input
 
-- Standard text input keyboard behavior
+```svelte
+<script lang="ts">
+    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+    let ihi = $state("");
+</script>
+
+<EireIndividualHealthIdentifierInput
+    label="Individual Health Identifier"
+    bind:value={ihi}
+    required
+/>
+```
+
+### Disabled IHI input
+
+```svelte
+<script lang="ts">
+    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+    let ihi = $state("1234567890");
+</script>
+
+<EireIndividualHealthIdentifierInput label="IHI" bind:value={ihi} disabled />
+```
+
+### Inside a field with a localised label
+
+```svelte
+<script lang="ts">
+    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+    let ihi = $state("");
+    const t = { label: "Uimhir Aitheantais Sláinte Aonair" };
+</script>
+
+<EireIndividualHealthIdentifierInput label={t.label} bind:value={ihi} required />
+```
+
+### IHI input with placeholder
+
+```svelte
+<script lang="ts">
+    import EireIndividualHealthIdentifierInput from "./EireIndividualHealthIdentifierInput.svelte";
+    let ihi = $state("");
+</script>
+
+<EireIndividualHealthIdentifierInput
+    label="IHI"
+    bind:value={ihi}
+    placeholder="10 digits"
+/>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name for screen readers
-- inputmode="numeric" hints mobile devices to show numeric keyboard
-- pattern="[0-9]{10}" validates 10-digit format
-- autocomplete="off" protects sensitive health identifiers
-- required and disabled states are conveyed to assistive technology
+- `aria-label` supplies an accessible name when no visible `<label>` is present.
+- `inputmode="numeric"` surfaces a numeric keypad on mobile browsers.
+- `pattern="[0-9]{10}"` enables native form validation.
+- `autocomplete="off"` avoids storing sensitive health data in browser autofill.
+- Native `required` and `disabled` attributes are conveyed to assistive technology.
+- Compliant with WCAG 2.2 AAA with consumer-provided focus indicators.
 
-## Internationalization
+## Related components
 
-- The label prop externalizes user-facing text for translation
-- No hardcoded strings in the component
-
-## References
-
-- HSE: https://www.hse.ie/
+- `EireIndividualHealthIdentifierView` — paired read-only display of the same identifier.
+- `UnitedKingdomNationalHealthServiceNumberInput` / `UnitedKingdomNationalHealthServiceNumberView` — UK NHS number.
+- `UnitedStatesSocialSecurityNumberInput` / `UnitedStatesSocialSecurityNumberView` — US SSN.
+- `FranceNumeroDIdentificationAuRepertoireInput` / `FranceNumeroDIdentificationAuRepertoireView` — French NIR.
+- `EspanaTarjetaSanitariaIndividualInput` / `EspanaTarjetaSanitariaIndividualView` — Spanish TSI.
+- `TuaisceartEireannHealthAndCareNumberInput` / `TuaisceartEireannHealthAndCareNumberView` — Tuaisceart Eireann H&C number.
 
 ---
 

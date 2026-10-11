@@ -3,7 +3,7 @@
   import Icon from './Icon.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Icon',
+    title: 'Headless/Icon',
     component: Icon,
   });
 </script>

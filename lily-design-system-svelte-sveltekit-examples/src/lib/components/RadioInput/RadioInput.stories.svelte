@@ -3,7 +3,7 @@
   import RadioInput from './RadioInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RadioInput',
+    title: 'Headless/RadioInput',
     component: RadioInput,
   });
 </script>

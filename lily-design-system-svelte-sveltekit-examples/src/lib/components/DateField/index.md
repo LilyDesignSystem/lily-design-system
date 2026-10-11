@@ -1,85 +1,109 @@
 # DateField
 
-## Overview
+A headless date field with a visible label, an `<input type="date">`, and optional description and error messages — all wired up with auto-generated IDs for accessible ARIA relationships.
 
-A headless date field providing a fully labeled date input with built-in support
-for descriptions and error messages. It wraps a native <input type="date"> with
-a visible <label>, optional helper text, and validation error display, all linked
-via auto-generated IDs for accessibility. Error messages are announced to screen
-readers via role="alert". Ideal for forms requiring date input with validation.
+## What it is
+
+DateField renders a `<div>` wrapper containing a `<label>`, an `<input type="date">` with `bind:value`, and conditional `<p>` elements for description and error. It auto-generates a stable input ID if one is not provided, and derives `descriptionId` and `errorId` from it using `$derived()`.
+
+When `error` is set, the input receives `aria-invalid="true"` and `aria-errormessage={errorId}`, and the error paragraph has `role="alert"`.
 
 ## What it does
 
-A structured field for entering date components.
+- Renders a labelled date input.
+- Optionally renders a description paragraph linked via `aria-describedby`.
+- Optionally renders an error paragraph with `role="alert"`, linked via `aria-errormessage`.
+- Supports two-way binding on `value` (YYYY-MM-DD).
 
-## When to use
+## When to use it
 
-- Use when you need a structured field for entering date components.
+- Form inputs for dates (DOB, due dates, start/end) that need full labelling and validation.
+- When you want native date picking with graceful description and error display.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For bare date inputs without extra scaffolding — use `DateInput`.
+- For ranges — use `DateRange`.
+- For time-only — use `TimeInput` or `TimePickerInput`.
+
+## How to use it
+
+Bind `value`. Provide `label`. Pass `error` on validation failure; the alert will be announced.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `label` | `string` | required | Visible label. |
+| `value` | `string` | `""` (bindable) | Date value in YYYY-MM-DD. |
+| `description` | `string` | `undefined` | Helper text below the input. |
+| `error` | `string` | `undefined` | Error message; triggers `aria-invalid`. |
+| `required` | `boolean` | `false` | Marks the field required. |
+| `disabled` | `boolean` | `false` | Disables the input. |
+| `id` | `string` | `undefined` | Custom input ID; auto-generated if omitted. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the wrapper `<div>`. |
 
 ## Usage
 
 ```svelte
-<DateField label="Start date" bind:value />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Visible label text for the date field. |
-| `value` | string, default "" | Current date value in YYYY-MM-DD format; bindable via bind:value. |
-| `description` | string, default undefined | Helper text displayed below the input. |
-| `error` | string, default undefined | Error message displayed when validation fails. |
-| `required` | boolean, default false | Whether the field is required. |
-| `disabled` | boolean, default false | Whether the field is disabled. |
-| `id` | string, default undefined | Custom ID for the input element; auto-generated if omitted. |
-| `...restProps` | additional HTML attributes spread onto the wrapper <div> |  |
-
-## Examples
-
-```svelte
-<!-- Date field with error and required state -->
-<DateField label="End date" bind:value error="Required" required />
-<!-- Date field with description -->
-<DateField label="Birthday" bind:value description="Format: YYYY-MM-DD" />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateField from "#lib/components/DateField/DateField.svelte";
+    import DateField from "./DateField.svelte";
+
+    let start = $state("");
 </script>
 
-<DateField label="Start date" bind:value />
+<DateField label="Start date" bind:value={start} />
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import DateField from "./DateField.svelte";
 
-- None beyond native <input type="date"> keyboard behavior, which varies by browser
+    let end = $state("");
+    let error = $derived(end === "" ? "Please choose a date." : undefined);
+</script>
+
+<DateField label="End date" bind:value={end} {error} required />
+```
+
+```svelte
+<script lang="ts">
+    import DateField from "./DateField.svelte";
+
+    let birthday = $state("");
+</script>
+
+<DateField label="Birthday" bind:value={birthday} description="Format: YYYY-MM-DD" />
+```
+
+```svelte
+<script lang="ts">
+    import DateField from "./DateField.svelte";
+
+    let deadline = $state("");
+</script>
+
+<DateField
+    label="Deadline"
+    id="deadline-field"
+    bind:value={deadline}
+    description="Must be a future date."
+/>
+```
 
 ## Accessibility
 
-- <label for={inputId}> links the visible label to the input
-- aria-describedby links the input to its description text when present
-- aria-invalid="true" indicates the input has an invalid value when error is present
-- aria-errormessage links the input to its error message when present
-- role="alert" on the error paragraph announces errors to screen readers
+- `<label for=...>` binds the visible label to the input.
+- `aria-describedby` links the input to its description.
+- `aria-invalid` and `aria-errormessage` link the input to the error.
+- `role="alert"` announces error messages to screen readers.
 
-## Internationalization
+## Related components
 
-- The label, description, and error props provide all text; no hardcoded strings
-
-## References
-
-- ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
-- WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
+- `DateInput` — bare `<input type="date">`.
+- `DateRange` — paired start/end date inputs.
+- `Field` — generic field wrapper for any input.
 
 ---
 

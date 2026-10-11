@@ -3,7 +3,7 @@
   import SelectWithExtras from './SelectWithExtras.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SelectWithExtras',
+    title: 'Headless/SelectWithExtras',
     component: SelectWithExtras,
   });
 </script>

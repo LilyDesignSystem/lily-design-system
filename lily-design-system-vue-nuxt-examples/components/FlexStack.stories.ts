@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FlexStack from './FlexStack.vue';
 
 const meta = {
-  title: 'Examples/FlexStack',
+  title: 'Headless/FlexStack',
   component: FlexStack,
   tags: ['autodocs']
 } satisfies Meta<typeof FlexStack>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import BackLink from './BackLink';
 
 const meta = {
-  title: 'Examples/BackLink',
+  title: 'Headless/BackLink',
   component: BackLink,
   tags: ['autodocs']
 } satisfies Meta<typeof BackLink>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ScreenReaderSpan from './ScreenReaderSpan.vue';
 
 const meta = {
-  title: 'Examples/ScreenReaderSpan',
+  title: 'Headless/ScreenReaderSpan',
   component: ScreenReaderSpan,
   tags: ['autodocs']
 } satisfies Meta<typeof ScreenReaderSpan>;

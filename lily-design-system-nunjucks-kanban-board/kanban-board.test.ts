@@ -372,10 +372,15 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
 });
 
 describe("KanbanBoard — label-presence-gates-control / no hardcoded strings (§8.13)", () => {
-  test("§8.13 moveMenuLabel absent renders an empty aria-label, not a baked-in string", () => {
+  test("§8.13 moveMenuLabel absent names the menu by its card, not a baked-in string", () => {
     const root = mountIntoBody(renderMacro(defaultOpts()));
     const list = moveListFor(root, "c1");
-    expect(list.getAttribute("aria-label")).toBe("");
+    expect(list.getAttribute("aria-label")).toBe("Card One");
+  });
+
+  test("§8.13 without labels.moveButton no unnamed move button renders", () => {
+    const root = mountIntoBody(renderMacro(defaultOpts()));
+    expect(root.querySelector(".kanban-board-move-button")).toBeNull();
   });
 
   test("§8.13 moveButton template substitutes the card's title via {card}", () => {
@@ -385,7 +390,7 @@ describe("KanbanBoard — label-presence-gates-control / no hardcoded strings (�
   });
 
   test("§8.13 a custom {% call %} glyph replaces the default glyph on every move button", () => {
-    const html = renderMacroWithCaller(defaultOpts(), `<span class="my-glyph">M</span>`);
+    const html = renderMacroWithCaller(defaultOpts({ labels: LABELS }), `<span class="my-glyph">M</span>`);
     const root = mountIntoBody(html);
     const buttons = root.querySelectorAll(".kanban-board-move-button");
     expect(buttons.length).toBeGreaterThan(0);
@@ -415,5 +420,75 @@ describe("KanbanBoard — autoInit and destroy", () => {
     controller.destroy();
     key(tabbableCells(root)[0], "Enter");
     expect(moveButtonFor(root, "c1").getAttribute("aria-expanded")).toBe("false");
+  });
+});
+
+describe("KanbanBoard — focus and move edge cases", () => {
+  function option(list: HTMLElement, name: string): HTMLElement {
+    return Array.from(list.querySelectorAll<HTMLElement>('[role="option"]')).find(
+      (el) => el.textContent?.trim() === name,
+    )!;
+  }
+
+  test("§8.14 keys pressed in the open move menu do not move the grid cursor or focus", () => {
+    const { root } = setup({ labels: LABELS });
+    key(tabbableCells(root)[0], "Enter");
+    const list = moveListFor(root, "c1");
+    expect(document.activeElement).toBe(list);
+    key(list, "ArrowDown");
+    key(list, "ArrowRight");
+    expect(tabbableCells(root)[0].getAttribute("data-col")).toBe("0");
+    expect(document.activeElement).toBe(list);
+  });
+
+  test("§8.14 choosing a destination in the menu does not reopen it", () => {
+    const { root } = setup({ labels: LABELS });
+    key(tabbableCells(root)[0], "Enter");
+    const list = moveListFor(root, "c1");
+    key(list, "ArrowDown");
+    key(list, "Enter");
+    expect(list.hidden).toBe(true);
+  });
+
+  test("§8.15 choosing the card's own column, or dropping it there, is not a move", () => {
+    const onMove = vi.fn();
+    const { root } = setup({ labels: LABELS }, { onMove });
+    key(tabbableCells(root)[0], "Enter");
+    click(option(moveListFor(root, "c1"), "To Do"));
+    expect(moveListFor(root, "c1").hidden).toBe(true);
+
+    const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+    const handle = root.querySelector('[data-lily-kanban-board-card-handle][data-lily-kanban-board-card-id="c1"]')!;
+    handle.dispatchEvent(dragEvent("dragstart", dataTransfer));
+    bodyRows(root)[1].querySelectorAll(".kanban-table-td")[0].dispatchEvent(dragEvent("drop", dataTransfer));
+    expect(onMove).not.toHaveBeenCalled();
+  });
+
+  test("§8.16 focusing a cell by pointer moves the cursor there", () => {
+    const { root } = setup();
+    const cell = bodyRows(root)[1].querySelectorAll<HTMLElement>(".kanban-table-td")[1];
+    cell.focus();
+    expect(tabbableCells(root)).toEqual([cell]);
+    key(cell, "ArrowUp");
+    expect(tabbableCells(root)[0].getAttribute("data-row")).toBe("0");
+    expect(tabbableCells(root)[0].getAttribute("data-col")).toBe("1");
+  });
+
+  test("§8.13 without labels.moveButton the cell opens the menu and Escape refocuses the cell", () => {
+    const { root } = setup();
+    const cell = tabbableCells(root)[0];
+    key(cell, "Enter");
+    const list = moveListFor(root, "c1");
+    expect(list.hidden).toBe(false);
+    key(list, "Escape");
+    expect(document.activeElement).toBe(cell);
+  });
+
+  test("§8.3 a column exactly at its wipLimit is not over it", () => {
+    const root = mountIntoBody(
+      renderMacro(defaultOpts({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS })),
+    );
+    const headers = root.querySelectorAll("[data-lily-kanban-board-column-id]");
+    expect(headers[1].hasAttribute("data-over-limit")).toBe(false);
   });
 });

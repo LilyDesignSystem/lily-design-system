@@ -3,7 +3,7 @@
   import MutuallyExclusive from './MutuallyExclusive.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MutuallyExclusive',
+    title: 'Headless/MutuallyExclusive',
     component: MutuallyExclusive,
   });
 </script>

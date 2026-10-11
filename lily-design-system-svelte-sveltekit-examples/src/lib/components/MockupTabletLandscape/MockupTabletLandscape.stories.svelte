@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import MockupTabletLandscape from "./MockupTabletLandscape.svelte";
     const { Story } = defineMeta({
-        title: "Examples/MockupTabletLandscape",
+        title: "Headless/MockupTabletLandscape",
         component: MockupTabletLandscape,
     });
 </script>

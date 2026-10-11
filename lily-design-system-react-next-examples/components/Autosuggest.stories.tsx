@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Autosuggest from './Autosuggest';
 
 const meta = {
-  title: 'Examples/Autosuggest',
+  title: 'Headless/Autosuggest',
   component: Autosuggest,
   tags: ['autodocs']
 } satisfies Meta<typeof Autosuggest>;

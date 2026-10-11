@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11
+
+Fixed: a form reset now restores the initial date (and time zone) in the field, the controller and the submitted value,
+unless the reset is cancelled. Before, the field and the form's submitted value disagreed after a reset. See `spec/index.md` §5.10.
+
 ## 0.2.0 — 2026-10-04
 
 **Added: picker tooltip (minor, additive).** The macro now renders `<div class="date-time-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>` as a sibling right after the calendar trigger button — the button's existing `label`, no new macro argument, no new English text, deliberately not linked with `aria-describedby`. The client wires it: shown on pointer hover (over the button or the tooltip itself) or keyboard focus (`:focus-visible`); `Escape` on the button dismisses it without moving focus; never shown while the popup is open; idempotent across repeated init. New class hook `.date-time-picker-tooltip`; theme CSS for it already ships in `themes/`. Ports the canonical Svelte change.

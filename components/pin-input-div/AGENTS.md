@@ -24,7 +24,7 @@
 ## ARIA
 
 - `role="group"` with `aria-label` on the container
-- Each input has `aria-label="Digit X of Y"` for positional context
+- Each input's `aria-label` comes from the optional `digitLabel(position, length)` (e.g. "Digit 1 of 4"); without it each input is named by `label` — no English default
 - `inputmode="numeric"` for numeric keyboard on mobile
 
 ## Keyboard
@@ -39,6 +39,7 @@
 
 - `label`: string (required) -- accessible label for the group via aria-label
 - `length`: number (default: 4) -- number of digit inputs
+- `digitLabel`: (position: number, length: number) => string (optional) -- each input's accessible name; defaults to `label`
 - `value`: string (default: "") -- bindable combined string of all digits
 - `disabled`: boolean (default: false) -- disables all inputs
 - `...restProps`: Any additional HTML attributes on the group div

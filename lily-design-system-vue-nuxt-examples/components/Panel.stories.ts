@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Panel from './Panel.vue';
 
 const meta = {
-  title: 'Examples/Panel',
+  title: 'Headless/Panel',
   component: Panel,
   tags: ['autodocs']
 } satisfies Meta<typeof Panel>;

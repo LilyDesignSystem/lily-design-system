@@ -1,78 +1,108 @@
 # TimePickerInput
 
-## Overview
+A headless time picker wrapping a native `<input type="time">` for selecting a time of day, with `aria-label`, bindable `value`, and optional `required`/`disabled` attributes.
 
-A headless time picker that wraps a native <input type="time"> element,
-allowing users to select a specific time of day. Often used alongside date
-pickers in forms, scheduling tools, or booking systems. The native input
-handles 12-hour/24-hour format based on the browser locale. Supports
-two-way data binding and standard form validation attributes.
+## What it is
+
+`TimePickerInput` is a Svelte 5 component that renders `<input type="time">` and exposes a bindable string value in `HH:MM` format. It is typically used alongside a date picker in forms and scheduling interfaces.
 
 ## What it does
 
-An input with a dropdown for picking a time.
+- Renders `<input type="time" class="time-picker-input {className}">`.
+- Provides `aria-label={label}` for the accessible name.
+- Binds `value` via `bind:value`.
+- Forwards `required` and `disabled`.
+- Spreads additional HTML attributes onto the `<input>` (e.g. `min`, `max`, `step`).
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Appointment and booking forms.
+- Deadline and departure-time pickers in travel / logistics flows.
+- Any form where the user picks a time of day independent of a calendar date.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- Don't use it when you also need a date — use `DateTimeLocalInput` or `DateTimeNowInput`.
+- Don't use it for a date-only input — use `DateInput`.
+- Don't use it for time durations — use `NumberInput` with minute/second labels.
+- Don't use it for countdowns or elapsed time displays — use `Timer`.
+
+## How to use it
+
+Import, bind `value`, and pass a translated `label`. Use `min`/`max`/`step` via rest-props to constrain the allowed values.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `time-picker-input`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `value` — string, default `""`, bindable via `bind:value`. Time value in `HH:MM` format.
+- `required` — boolean, default `false`. Whether the input is required.
+- `disabled` — boolean, default `false`. Whether the input is disabled.
+- `...restProps` — any additional HTML attributes spread onto the `<input>`.
 
 ## Usage
 
 ```svelte
-<TimePickerInput label="Appointment time" bind:value />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `value` | string, default "" | Current time value in HH:MM format; bindable with bind:value. |
-| `required` | boolean, default false | Whether a value is required for form submission. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
-
-## Examples
-
-```svelte
-<!-- Required departure time picker -->
-<TimePickerInput label="Departure time" bind:value required />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TimePickerInput from "#lib/components/TimePickerInput/TimePickerInput.svelte";
+  import TimePickerInput from "./TimePickerInput.svelte";
+
+  let t = $state("");
 </script>
 
-<TimePickerInput label="Appointment time" bind:value />
+<TimePickerInput label="Appointment time" bind:value={t} />
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import TimePickerInput from "./TimePickerInput.svelte";
 
-- Tab: move focus to/from the time input
-- ArrowUp/ArrowDown: increment/decrement the focused time segment
-- ArrowLeft/ArrowRight: move between time segments
+  let departure = $state("");
+</script>
+
+<TimePickerInput label="Departure time" bind:value={departure} required />
+```
+
+```svelte
+<script lang="ts">
+  import TimePickerInput from "./TimePickerInput.svelte";
+  import DateInput from "../DateInput/DateInput.svelte";
+
+  let date = $state("");
+  let time = $state("");
+</script>
+
+<DateInput label="Date" bind:value={date} />
+<TimePickerInput label="Time" bind:value={time} />
+```
+
+```svelte
+<script lang="ts">
+  import TimePickerInput from "./TimePickerInput.svelte";
+
+  let t = $state("12:00");
+</script>
+
+<TimePickerInput
+  label="Lunch slot"
+  bind:value={t}
+  min="11:00"
+  max="14:00"
+  step={900}
+/>
+```
 
 ## Accessibility
 
-- aria-label={label} provides an accessible name for the time input
+- `aria-label` provides the accessible name since no visible `<label>` is rendered.
+- Native time input offers keyboard navigation (Arrow keys adjust segments, Tab between segments).
+- The browser renders the appropriate 12-hour / 24-hour UI based on locale while the stored value is always `HH:MM`.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- Time format is locale-dependent via native browser behavior
-
-## References
-
-- MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+- `TimeInput` — an alternative `<input type="time">` wrapper with an equivalent API.
+- `DateInput` — date-only entry.
+- `DateTimeLocalInput` — combined date and time.
+- `DateTimeNowInput` — combined date + time with a "now" button.
 
 ---
 

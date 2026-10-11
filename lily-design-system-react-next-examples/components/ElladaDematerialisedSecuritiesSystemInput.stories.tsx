@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ElladaDematerialisedSecuritiesSystemInput from './ElladaDematerialisedSecuritiesSystemInput';
 
 const meta = {
-  title: 'Examples/ElladaDematerialisedSecuritiesSystemInput',
+  title: 'Headless/ElladaDematerialisedSecuritiesSystemInput',
   component: ElladaDematerialisedSecuritiesSystemInput,
   tags: ['autodocs']
 } satisfies Meta<typeof ElladaDematerialisedSecuritiesSystemInput>;

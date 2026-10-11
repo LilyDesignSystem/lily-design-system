@@ -3,7 +3,7 @@
   import Tour from './Tour.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Tour',
+    title: 'Headless/Tour',
     component: Tour,
   });
 </script>

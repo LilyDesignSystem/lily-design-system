@@ -1593,6 +1593,44 @@ onMounted(() => {
 onBeforeUnmount(() => {
     document.removeEventListener("click", onDocumentClick);
 });
+
+// Form reset. The visible field takes a one-way `:value`, so a reset blanked it
+// while the model — and the hidden input the form submits — kept the date: the
+// field showed nothing and the form still sent the old value. Restore the
+// initial value instead, one tick later (after the browser has reset the DOM)
+// and not when the reset was cancelled. Like a native reset it emits no
+// `change`; `v-model` is kept in step through `update:value`.
+const initialValue = current.value;
+const initialZone = currentZone.value;
+let resetForm: HTMLFormElement | null = null;
+let resetTimer: ReturnType<typeof setTimeout> | undefined;
+function onFormReset(event: Event): void {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+        if (event.defaultPrevented) return;
+        void closeDialog(false);
+        typed.value = null;
+        invalid.value = false;
+        if (current.value !== initialValue) {
+            current.value = initialValue;
+            emit("update:value", initialValue);
+        }
+        if (currentZone.value !== initialZone) {
+            currentZone.value = initialZone;
+            emit("update:timeZone", initialZone);
+        }
+        const field = rootEl.value?.querySelector<HTMLInputElement>(".date-time-picker-input");
+        if (field) field.value = (props.formatValue ?? defaultFormat)(initialValue ?? "");
+    }, 0);
+}
+onMounted(() => {
+    resetForm = rootEl.value?.closest("form") ?? null;
+    resetForm?.addEventListener("reset", onFormReset);
+});
+onBeforeUnmount(() => {
+    clearTimeout(resetTimer);
+    resetForm?.removeEventListener("reset", onFormReset);
+});
 </script>
 
 <template>

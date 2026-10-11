@@ -3,7 +3,7 @@
   import Framer from './Framer.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Framer',
+    title: 'Headless/Framer',
     component: Framer,
   });
 </script>

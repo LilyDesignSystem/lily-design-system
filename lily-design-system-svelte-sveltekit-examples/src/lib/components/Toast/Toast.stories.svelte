@@ -3,7 +3,7 @@
   import Toast from './Toast.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Toast',
+    title: 'Headless/Toast',
     component: Toast,
   });
 </script>

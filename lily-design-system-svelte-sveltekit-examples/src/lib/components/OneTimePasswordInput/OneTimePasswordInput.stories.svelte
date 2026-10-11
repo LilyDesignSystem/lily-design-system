@@ -3,7 +3,7 @@
   import OneTimePasswordInput from './OneTimePasswordInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/OneTimePasswordInput',
+    title: 'Headless/OneTimePasswordInput',
     component: OneTimePasswordInput,
   });
 </script>

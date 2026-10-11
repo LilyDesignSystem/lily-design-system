@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import QrCodeImage from './QrCodeImage';
 
 const meta = {
-  title: 'Examples/QrCodeImage',
+  title: 'Headless/QrCodeImage',
   component: QrCodeImage,
   tags: ['autodocs']
 } satisfies Meta<typeof QrCodeImage>;

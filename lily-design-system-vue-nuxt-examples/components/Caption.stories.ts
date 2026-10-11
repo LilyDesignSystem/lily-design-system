@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Caption from './Caption.vue';
 
 const meta = {
-  title: 'Examples/Caption',
+  title: 'Headless/Caption',
   component: Caption,
   tags: ['autodocs']
 } satisfies Meta<typeof Caption>;

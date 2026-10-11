@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FileInput from './FileInput.vue';
 
 const meta = {
-  title: 'Examples/FileInput',
+  title: 'Headless/FileInput',
   component: FileInput,
   tags: ['autodocs']
 } satisfies Meta<typeof FileInput>;

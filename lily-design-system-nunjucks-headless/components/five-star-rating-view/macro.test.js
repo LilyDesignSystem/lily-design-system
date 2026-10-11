@@ -25,10 +25,10 @@ describe("five-star-rating-view", () => {
     expect(el.getAttribute("data-max")).toBe("10");
   });
 
-  it("generates a default aria-label", () => {
+  it("without a label, names the rating as value/max — no English default", () => {
     const { document } = render("five-star-rating-view", { value: 4 });
     expect(document.querySelector("span.five-star-rating-view").getAttribute("aria-label"))
-      .toBe("Rating: 4 out of 5 stars");
+      .toBe("4/5");
   });
 
   it("respects a custom label", () => {

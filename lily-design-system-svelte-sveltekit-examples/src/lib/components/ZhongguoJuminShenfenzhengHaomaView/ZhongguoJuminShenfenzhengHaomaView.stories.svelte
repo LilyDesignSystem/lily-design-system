@@ -1,14 +1,15 @@
 <script module lang="ts">
-    import { defineMeta } from "@storybook/addon-svelte-csf";
-    import ZhongguoJuminShenfenzhengHaomaView from "./ZhongguoJuminShenfenzhengHaomaView.svelte";
-    const { Story } = defineMeta({
-        title: "Headless/ZhongguoJuminShenfenzhengHaomaView",
-        component: ZhongguoJuminShenfenzhengHaomaView,
-    });
+  import { defineMeta } from '@storybook/addon-svelte-csf';
+  import ZhongguoJuminShenfenzhengHaomaView from './ZhongguoJuminShenfenzhengHaomaView.svelte';
+
+  const { Story } = defineMeta({
+    title: 'Headless/ZhongguoJuminShenfenzhengHaomaView',
+    component: ZhongguoJuminShenfenzhengHaomaView,
+  });
 </script>
 
-<Story name="Default" tags={["autodocs", "!dev"]}>
-    <ZhongguoJuminShenfenzhengHaomaView label="ZhongguoJuminShenfenzhengHaomaView example">
-        <span>ZhongguoJuminShenfenzhengHaomaView example</span>
-    </ZhongguoJuminShenfenzhengHaomaView>
-</Story>
+<Story
+  name="Default"
+  tags={['autodocs', '!dev']}
+  args={{'label':'居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ) View'}}
+/>

@@ -3,7 +3,7 @@
   import Splitter from './Splitter.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Splitter',
+    title: 'Headless/Splitter',
     component: Splitter,
   });
 </script>

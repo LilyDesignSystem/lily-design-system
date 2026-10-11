@@ -3,7 +3,7 @@
   import PinInputDiv from './PinInputDiv.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PinInputDiv',
+    title: 'Headless/PinInputDiv',
     component: PinInputDiv,
   });
 </script>

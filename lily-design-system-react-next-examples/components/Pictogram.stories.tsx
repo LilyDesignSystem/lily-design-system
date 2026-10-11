@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Pictogram from './Pictogram';
 
 const meta = {
-  title: 'Examples/Pictogram',
+  title: 'Headless/Pictogram',
   component: Pictogram,
   tags: ['autodocs']
 } satisfies Meta<typeof Pictogram>;

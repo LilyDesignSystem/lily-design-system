@@ -3,7 +3,7 @@
   import FiveStarRatingPicker from './FiveStarRatingPicker.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FiveStarRatingPicker',
+    title: 'Headless/FiveStarRatingPicker',
     component: FiveStarRatingPicker,
   });
 </script>

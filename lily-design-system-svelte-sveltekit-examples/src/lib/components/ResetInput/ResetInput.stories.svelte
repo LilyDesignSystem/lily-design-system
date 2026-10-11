@@ -3,7 +3,7 @@
   import ResetInput from './ResetInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ResetInput',
+    title: 'Headless/ResetInput',
     component: ResetInput,
   });
 </script>

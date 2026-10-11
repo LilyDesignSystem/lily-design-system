@@ -3,7 +3,7 @@
   import Select from './Select.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Select',
+    title: 'Headless/Select',
     component: Select,
   });
 </script>

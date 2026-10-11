@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import UrlInput from './UrlInput';
 
 const meta = {
-  title: 'Examples/UrlInput',
+  title: 'Headless/UrlInput',
   component: UrlInput,
   tags: ['autodocs']
 } satisfies Meta<typeof UrlInput>;

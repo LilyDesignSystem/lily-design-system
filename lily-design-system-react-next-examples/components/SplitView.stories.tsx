@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SplitView from './SplitView';
 
 const meta = {
-  title: 'Examples/SplitView',
+  title: 'Headless/SplitView',
   component: SplitView,
   tags: ['autodocs']
 } satisfies Meta<typeof SplitView>;

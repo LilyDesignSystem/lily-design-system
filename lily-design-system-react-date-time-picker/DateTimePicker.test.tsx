@@ -1333,3 +1333,52 @@ describe("DateTimePicker — tooltip (§7.62–§7.69)", () => {
         remove.mockRestore();
     });
 });
+
+describe("DateTimePicker — form reset", () => {
+    function Host({ onChange }: { onChange?: (value: string) => void }) {
+        const [value, setValue] = useState("2026-10-01");
+        return (
+            <form>
+                <DateTimePicker
+                    {...base({ name: "when" })}
+                    value={value}
+                    onChange={(next: string) => {
+                        setValue(next);
+                        onChange?.(next);
+                    }}
+                />
+            </form>
+        );
+    }
+
+    // The suite runs on fake timers; the reset waits one tick.
+    const afterReset = () => React.act(() => vi.advanceTimersByTimeAsync(1));
+
+    test("a form reset restores the initial date, through onChange, in the field and the form", async () => {
+        const onChange = vi.fn();
+        const { container } = render(<Host onChange={onChange} />);
+        const form = container.querySelector("form")!;
+        const field = form.querySelector<HTMLInputElement>(".date-time-picker-input")!;
+        fireEvent.change(field, { target: { value: "09/10/2026" } });
+        fireEvent.blur(field);
+        expect(new FormData(form).get("when")).toBe("2026-10-09");
+
+        form.reset();
+        await afterReset();
+        expect(onChange).toHaveBeenLastCalledWith("2026-10-01");
+        expect(new FormData(form).get("when")).toBe("2026-10-01");
+        expect(field.value).toBe("01 Oct 2026");
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { container } = render(<Host />);
+        const form = container.querySelector("form")!;
+        const field = form.querySelector<HTMLInputElement>(".date-time-picker-input")!;
+        fireEvent.change(field, { target: { value: "09/10/2026" } });
+        fireEvent.blur(field);
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await afterReset();
+        expect(new FormData(form).get("when")).toBe("2026-10-09");
+    });
+});

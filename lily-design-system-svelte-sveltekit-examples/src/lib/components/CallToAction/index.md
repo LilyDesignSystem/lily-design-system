@@ -1,86 +1,124 @@
 # CallToAction
 
-## Overview
+A prominent prompt encouraging user action. Renders as an `<a>` when `href` is provided (for navigation like "Sign Up Now") or as a `<button type="button">` when `href` is omitted (for in-page actions like "Get Started"). This dual-mode approach preserves correct semantics.
 
-A headless call-to-action (CTA) component that prompts users to take a
-specific action. Renders as an <a> element when href is provided (for
-navigation CTAs like "Sign Up") or a <button> when no href is given (for
-action CTAs like "Get Started"). This dual-mode approach ensures correct
-semantic HTML for accessibility and SEO.
+## What it is
+
+A headless Svelte 5 component that picks between `<a>` and `<button>`. Category: prominent action / hero primitive, alongside `ActionLink`, `Button`, and `Hero`.
 
 ## What it does
 
-A prominent prompt encouraging user action.
+- If `href` is provided: renders `<a class="call-to-action-link {className}" href aria-label={label}>`.
+- If `href` is absent: renders `<button type="button" class="call-to-action-button {className}" disabled={disabled} aria-label={label} onclick={onclick}>`.
+- `disabled` applies only in button mode (links cannot be natively disabled).
+- Spreads additional HTML attributes onto the rendered element.
 
-## When to use
+## When to use it
 
-- Use when you need a prominent prompt encouraging user action.
+- A prominent CTA on a landing page, hero section, or pricing page.
+- When the CTA destination or action is the visually dominant element on the section.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a small in-copy link — use `ActionLink`.
+- For standard page buttons — use `Button`.
+- For a "go back" affordance — use `BackLink`.
+- For navigating breadcrumbs — use `BreadcrumbLink`.
 
-## Usage
+## How to use it
 
-```svelte
-<CallToAction href="/signup">Sign Up Now</CallToAction>
-```
+Import `CallToAction` from `./CallToAction.svelte`. Set `href` for navigation or `onclick` for actions. Provide children as the visible label.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `href` | string, optional | If provided, renders as a link; otherwise renders as a button. |
-| `label` | string, optional | Accessible label override via aria-label. |
-| `disabled` | boolean, default false | Disables the button (button mode only). |
-| `onclick` | (event: MouseEvent) => void, optional | Click handler (button mode). |
-| `children` | Snippet, required | The CTA content. |
-| `...restProps` | additional HTML attributes spread onto the <a> or <button> |  |
+- `class` — string, default `""`. CSS class appended to either `call-to-action-link` or `call-to-action-button`.
+- `href` — string, optional. If set, renders `<a>`.
+- `label` — string, optional. Accessible name via `aria-label`.
+- `disabled` — boolean, default `false`. Button mode only.
+- `onclick` — `(event: MouseEvent) => void`, optional. Button mode only.
+- `children` — `Snippet`, required. CTA label.
+- `...restProps` — additional HTML attributes spread onto the `<a>` or `<button>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Navigation CTA (renders as <a>) -->
-<CallToAction href="/signup">Sign Up Now</CallToAction>
-
-<!-- Action CTA (renders as <button>) -->
-<CallToAction onclick={handleAction}>Get Started</CallToAction>
-```
-
-## SvelteKit example
+### Navigation CTA
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CallToAction from "#lib/components/CallToAction/CallToAction.svelte";
+  import CallToAction from './CallToAction.svelte';
 </script>
 
 <CallToAction href="/signup">Sign Up Now</CallToAction>
 ```
 
-## Keyboard
+### Action CTA
 
-- Tab: Focus the element
-- Enter: Activate the link or button
-- Space: Activate the button (button mode only; links do not respond to Space)
+```svelte
+<script lang="ts">
+  import CallToAction from './CallToAction.svelte';
+
+  function start() {
+    console.log('starting...');
+  }
+</script>
+
+<CallToAction onclick={start}>Get Started</CallToAction>
+```
+
+### With icon override label (icon-only link)
+
+```svelte
+<script lang="ts">
+  import CallToAction from './CallToAction.svelte';
+</script>
+
+<CallToAction href="/join" label="Join the program">
+  <span aria-hidden="true">➜</span>
+</CallToAction>
+```
+
+### Disabled button CTA
+
+```svelte
+<script lang="ts">
+  import CallToAction from './CallToAction.svelte';
+
+  let loading = $state(true);
+</script>
+
+<CallToAction disabled={loading} onclick={() => (loading = false)}>
+  {loading ? 'Loading...' : 'Continue'}
+</CallToAction>
+```
+
+### In a hero section
+
+```svelte
+<script lang="ts">
+  import CallToAction from './CallToAction.svelte';
+</script>
+
+<section>
+  <h1>Ready to begin?</h1>
+  <p>Start your free trial today.</p>
+  <CallToAction href="/trial" data-track="hero-cta">Start free trial</CallToAction>
+</section>
+```
 
 ## Accessibility
 
-- Implicit link role when rendered as <a>
-- Implicit button role when rendered as <button>
-- Optional aria-label for screen reader text override
-- disabled only applies in button mode (links cannot be disabled natively)
+- Correct semantics for each usage: links for navigation, buttons for in-page actions.
+- `aria-label` overrides the accessible name when provided.
+- Native keyboard handling: Enter activates link/button; Space activates button only.
+- `disabled` is meaningful only for the button mode.
 
-## Internationalization
+## Related components
 
-- CTA text comes through children snippet; no hardcoded strings
-- Label override comes through label prop
-
-## References
-
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
-- WAI-ARIA Link Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/link/
+- `ActionLink` — smaller inline forward-navigation link.
+- `Button` — standard in-page button.
+- `BackLink` — return-to-previous-page link.
+- `Hero`, `HeroHeadline` — contexts where CTAs typically live.
+- `SliderButton` — confirmation gesture button.
 
 ---
 

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PostalCodeView from './PostalCodeView';
 
 const meta = {
-  title: 'Examples/PostalCodeView',
+  title: 'Headless/PostalCodeView',
   component: PostalCodeView,
   tags: ['autodocs']
 } satisfies Meta<typeof PostalCodeView>;

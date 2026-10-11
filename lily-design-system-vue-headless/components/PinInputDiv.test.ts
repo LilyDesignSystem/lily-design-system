@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
@@ -45,7 +45,7 @@ describe("PinInputDiv", () => {
   });
 
   test("each input has an accessible digit label", () => {
-    render(Subject, { props: { label: "Enter PIN" } });
+    render(Subject, { props: { label: "Enter PIN", digitLabel: (n: number, of: number) => `Digit ${n} of ${of}` } });
 
     expect(screen.getByLabelText("Digit 1 of 4")).toBeTruthy();
     expect(screen.getByLabelText("Digit 2 of 4")).toBeTruthy();
@@ -54,7 +54,7 @@ describe("PinInputDiv", () => {
   });
 
   test("digit labels reflect custom length", () => {
-    render(Subject, { props: { label: "Enter Code", length: 6 } });
+    render(Subject, { props: { label: "Enter Code", length: 6, digitLabel: (n: number, of: number) => `Digit ${n} of ${of}` } });
 
     expect(screen.getByLabelText("Digit 1 of 6")).toBeTruthy();
     expect(screen.getByLabelText("Digit 6 of 6")).toBeTruthy();
@@ -92,5 +92,44 @@ describe("PinInputDiv", () => {
 
     const group = screen.getByRole("group");
     expect(group.getAttribute("id")).toBe("my-pin");
+  });
+});
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(props: Record<string, unknown>) {
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+  const result = render(Subject, { props, container: form });
+  return { form, emitted: result.emitted };
+}
+
+const afterReset = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+describe("initial value and form reset", () => {
+  test("the initial value fills the digit inputs instead of being cleared on mount", () => {
+    const { form, emitted } = inForm({ label: "PIN", length: 4, modelValue: "12" });
+    expect([...form.querySelectorAll<HTMLInputElement>("input")].map((input) => input.value)).toEqual(["1", "2", "", ""]);
+    expect(emitted()["update:modelValue"]?.at(-1) ?? ["12"]).toEqual(["12"]);
+  });
+
+  test("a form reset restores the initial digits and emits them", async () => {
+    const { form, emitted } = inForm({ label: "PIN", length: 2, modelValue: "1" });
+    const inputs = form.querySelectorAll<HTMLInputElement>("input");
+    inputs[1].value = "7";
+    await fireEvent.input(inputs[1]);
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual(["17"]);
+    form.reset();
+    await afterReset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect([...inputs].map((input) => input.value)).toEqual(["1", ""]);
+    expect(emitted()["update:modelValue"]?.at(-1)).toEqual(["1"]);
+  });
+});
+
+describe("no English default", () => {
+  test("without digitLabel each input is named by the group's own label", () => {
+    render(Subject, { props: { label: "Código", length: 2 } });
+    expect(screen.getAllByLabelText("Código").filter((el) => el.tagName === "INPUT")).toHaveLength(2);
+    expect(screen.queryByLabelText(/Digit/)).toBeNull();
   });
 });

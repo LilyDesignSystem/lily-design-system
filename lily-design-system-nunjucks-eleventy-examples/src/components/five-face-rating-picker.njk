@@ -9,20 +9,20 @@ description: a picker for selecting a 1-5 satisfaction rating using face labels
 
 <h2>How satisfied were you?</h2>
 {% call fiveFaceRatingPicker({ label: "How satisfied were you with your visit?" }) %}
-  {{ fiveFaceRatingPickerButton({ value: 1 }) }}
-  {{ fiveFaceRatingPickerButton({ value: 2 }) }}
-  {{ fiveFaceRatingPickerButton({ value: 3 }) }}
-  {{ fiveFaceRatingPickerButton({ value: 4, checked: true }) }}
-  {{ fiveFaceRatingPickerButton({ value: 5 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 1, label: "Very unhappy" }) }}
+  {{ fiveFaceRatingPickerButton({ value: 2, label: "Unhappy" }) }}
+  {{ fiveFaceRatingPickerButton({ value: 3, label: "Neutral" }) }}
+  {{ fiveFaceRatingPickerButton({ value: 4, label: "Happy", checked: true }) }}
+  {{ fiveFaceRatingPickerButton({ value: 5, label: "Very happy" }) }}
 {% endcall %}
 
 <h2>Rate your experience</h2>
 {% call fiveFaceRatingPicker({ label: "Rate your experience" }) %}
-  {{ fiveFaceRatingPickerButton({ value: 1 }) }}
-  {{ fiveFaceRatingPickerButton({ value: 2 }) }}
-  {{ fiveFaceRatingPickerButton({ value: 3 }) }}
-  {{ fiveFaceRatingPickerButton({ value: 4 }) }}
-  {{ fiveFaceRatingPickerButton({ value: 5 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 1, label: "Very unhappy" }) }}
+  {{ fiveFaceRatingPickerButton({ value: 2, label: "Unhappy" }) }}
+  {{ fiveFaceRatingPickerButton({ value: 3, label: "Neutral" }) }}
+  {{ fiveFaceRatingPickerButton({ value: 4, label: "Happy" }) }}
+  {{ fiveFaceRatingPickerButton({ value: 5, label: "Very happy" }) }}
 {% endcall %}
 
 <h2>Accessibility</h2>

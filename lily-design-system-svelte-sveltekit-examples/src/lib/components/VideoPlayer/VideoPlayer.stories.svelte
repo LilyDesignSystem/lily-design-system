@@ -3,7 +3,7 @@
   import VideoPlayer from './VideoPlayer.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/VideoPlayer',
+    title: 'Headless/VideoPlayer',
     component: VideoPlayer,
   });
 </script>

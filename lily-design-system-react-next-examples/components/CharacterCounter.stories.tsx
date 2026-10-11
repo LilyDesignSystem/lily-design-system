@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CharacterCounter from './CharacterCounter';
 
 const meta = {
-  title: 'Examples/CharacterCounter',
+  title: 'Headless/CharacterCounter',
   component: CharacterCounter,
   tags: ['autodocs']
 } satisfies Meta<typeof CharacterCounter>;

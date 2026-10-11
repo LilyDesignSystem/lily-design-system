@@ -3,7 +3,7 @@
   import DropdownMenu from './DropdownMenu.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DropdownMenu',
+    title: 'Headless/DropdownMenu',
     component: DropdownMenu,
   });
 </script>

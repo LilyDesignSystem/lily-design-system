@@ -1,78 +1,106 @@
 # TextInput
 
-## Overview
+A single-line text input rendered as a native `<input type="text">` with `aria-label`, bindable `value`, and optional `required`/`disabled` attributes.
 
-A headless single-line text input that wraps the native HTML <input type="text">
-element. Used for entering short text values such as names, titles, or other
-brief textual data. The component supports accessible labeling via aria-label
-and two-way data binding through a bindable value prop.
+## What it is
+
+`TextInput` is a headless Svelte 5 component that wraps `<input type="text">`. It provides two-way-bound `value` and an accessible name via `aria-label`, with no visual styling.
 
 ## What it does
 
-A single-line text input field <input type="text">.
+- Renders `<input type="text" class="text-input {className}">`.
+- Sets `aria-label={label}` for accessible naming.
+- Binds `value` via `bind:value`.
+- Forwards `required` and `disabled`.
+- Spreads additional HTML attributes onto the `<input>` (e.g. `placeholder`, `maxlength`, `pattern`, `id`, `autocomplete`).
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Entering short text values like names, titles, or brief free-form strings.
+- Form fields without a specialized input type.
+- As the inner input when composing larger form primitives or custom wrappers.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- Don't use it for passwords — use `PasswordInput` or `PasswordInputOrTextInputDiv`.
+- Don't use it for email — use `EmailInput`.
+- Don't use it for phone numbers — use `TelInput`.
+- Don't use it for URLs — use `UrlInput`.
+- Don't use it for multi-line content — use `TextAreaInput`.
+
+## How to use it
+
+Import and bind `value`. Supply a translated `label`. Extend with placeholder/pattern/maxlength via rest-props.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `text-input`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `value` — string, default `""`, bindable via `bind:value`. Input value.
+- `required` — boolean, default `false`. Whether the field is required.
+- `disabled` — boolean, default `false`. Whether the field is disabled.
+- `...restProps` — any additional HTML attributes spread onto the `<input>`.
 
 ## Usage
 
 ```svelte
-<TextInput label="Full name" bind:value />
+<script lang="ts">
+  import TextInput from "./TextInput.svelte";
+
+  let name = $state("");
+</script>
+
+<TextInput label="Full name" bind:value={name} />
 ```
 
-## Props
+```svelte
+<script lang="ts">
+  import TextInput from "./TextInput.svelte";
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `value` | string, default "" | Bindable text value; supports bind:value. |
-| `required` | boolean, default false | Whether the field is required. |
-| `disabled` | boolean, default false | Whether the field is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+  let email = $state("");
+</script>
 
-## Examples
+<TextInput label="Email" bind:value={email} required placeholder="you@example.com" />
+```
 
 ```svelte
-<!-- Required email field -->
-<TextInput label="Email" bind:value={email} required />
+<script lang="ts">
+  import TextInput from "./TextInput.svelte";
 
-<!-- Disabled notes field -->
+  let notes = $state("Read-only");
+</script>
+
 <TextInput label="Notes" bind:value={notes} disabled />
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import TextInput from "./TextInput.svelte";
+
+  let zip = $state("");
 </script>
 
-<TextInput label="Full name" bind:value />
+<TextInput
+  label="ZIP code"
+  bind:value={zip}
+  pattern="[0-9]{5}"
+  maxlength={5}
+  inputmode="numeric"
+/>
 ```
-
-## Keyboard
-
-- None beyond native input behavior -- standard text editing keys
 
 ## Accessibility
 
-- aria-label={label} provides an accessible name since no visible <label> is included
+- `aria-label` provides the accessible name since no visible `<label>` is included — always pass a translated string.
+- Native `<input type="text">` handles focus, Tab order, and text editing keys.
+- `required` and `disabled` states are conveyed to assistive technology natively.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
-- MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+- `TextAreaInput` — multi-line equivalent.
+- `TextInputWithSearch` — text input plus a search button.
+- `PasswordInput` / `EmailInput` / `TelInput` / `UrlInput` / `NumberInput` — type-specialized variants.
+- `Field` — wrapper with visible label, hint, and error.
 
 ---
 

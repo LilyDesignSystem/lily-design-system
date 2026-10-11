@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TabPanel from './TabPanel';
 
 const meta = {
-  title: 'Examples/TabPanel',
+  title: 'Headless/TabPanel',
   component: TabPanel,
   tags: ['autodocs']
 } satisfies Meta<typeof TabPanel>;

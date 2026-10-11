@@ -3,7 +3,7 @@
   import SearchInput from './SearchInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SearchInput',
+    title: 'Headless/SearchInput',
     component: SearchInput,
   });
 </script>

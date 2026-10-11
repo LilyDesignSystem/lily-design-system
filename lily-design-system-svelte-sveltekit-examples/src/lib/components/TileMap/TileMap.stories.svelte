@@ -3,7 +3,7 @@
   import TileMap from './TileMap.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TileMap',
+    title: 'Headless/TileMap',
     component: TileMap,
   });
 </script>

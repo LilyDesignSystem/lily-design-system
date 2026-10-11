@@ -3,7 +3,7 @@
   import TagGroup from './TagGroup.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TagGroup',
+    title: 'Headless/TagGroup',
     component: TagGroup,
   });
 </script>

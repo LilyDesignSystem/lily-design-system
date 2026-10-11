@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TableTH from './TableTH.vue';
 
 const meta = {
-  title: 'Examples/TableTH',
+  title: 'Headless/TableTH',
   component: TableTH,
   tags: ['autodocs']
 } satisfies Meta<typeof TableTH>;

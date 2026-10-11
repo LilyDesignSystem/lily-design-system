@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Pictogram from './Pictogram.vue';
 
 const meta = {
-  title: 'Examples/Pictogram',
+  title: 'Headless/Pictogram',
   component: Pictogram,
   tags: ['autodocs']
 } satisfies Meta<typeof Pictogram>;

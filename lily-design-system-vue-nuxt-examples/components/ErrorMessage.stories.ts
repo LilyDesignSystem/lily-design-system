@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ErrorMessage from './ErrorMessage.vue';
 
 const meta = {
-  title: 'Examples/ErrorMessage',
+  title: 'Headless/ErrorMessage',
   component: ErrorMessage,
   tags: ['autodocs']
 } satisfies Meta<typeof ErrorMessage>;

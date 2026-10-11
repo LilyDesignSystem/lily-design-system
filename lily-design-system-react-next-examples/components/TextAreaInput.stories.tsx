@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TextAreaInput from './TextAreaInput';
 
 const meta = {
-  title: 'Examples/TextAreaInput',
+  title: 'Headless/TextAreaInput',
   component: TextAreaInput,
   tags: ['autodocs']
 } satisfies Meta<typeof TextAreaInput>;

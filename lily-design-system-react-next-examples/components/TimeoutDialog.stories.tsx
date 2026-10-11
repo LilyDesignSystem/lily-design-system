@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TimeoutDialog from './TimeoutDialog';
 
 const meta = {
-  title: 'Examples/TimeoutDialog',
+  title: 'Headless/TimeoutDialog',
   component: TimeoutDialog,
   tags: ['autodocs']
 } satisfies Meta<typeof TimeoutDialog>;

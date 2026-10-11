@@ -3,7 +3,7 @@
   import FileDialog from './FileDialog.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FileDialog',
+    title: 'Headless/FileDialog',
     component: FileDialog,
   });
 </script>

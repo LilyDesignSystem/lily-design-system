@@ -1,82 +1,127 @@
 # ReviewDate
 
-## Overview
+A semantic, headless display for a review, audit, or next-review date that combines a human-readable label with a machine-readable `datetime` attribute on the HTML `<time>` element.
 
-A headless review date component that renders a semantic <time> element with
-a machine-readable datetime attribute and human-readable display text via a
-children snippet. Commonly used in dashboards, compliance tracking, audit logs,
-and scheduling interfaces where dates must be both human-readable and machine-parseable.
+## What it is
+
+`ReviewDate` is a Svelte 5 headless component that renders a single `<time class="review-date ...">` element carrying an `aria-label` and a required ISO 8601 `datetime` attribute. The visible text is supplied via the `children` snippet.
 
 ## What it does
 
-A display of a content review date.
+- Renders `<time datetime="...">` with the required `datetime` prop.
+- Applies `aria-label` so screen readers announce a full, consumer-provided description.
+- Renders the `children` snippet inside the `<time>` for human-readable display (for example, a localized formatted date).
+- Spreads `...restProps` onto the `<time>` element.
 
-## When to use
+No formatting is performed - both the machine-readable ISO string and the human-readable text are supplied by the consumer.
 
-- Use when you need a display of a content review date.
+## When to use it
 
-## When not to use
+- Dashboards showing last-audit or next-review dates.
+- Compliance, governance, or content-lifecycle widgets.
+- Scheduling views that must expose a machine-parseable date for browsers, parsers, and assistive technology.
+- Any place where both readability and machine semantics matter.
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Date input fields - use `DateInput` or `DateField`.
+- Date range display with two endpoints - use `DateRange`.
+- Timestamps that are purely decorative and never need machine semantics (a plain `<span>` is fine).
+- Countdown timers - use `Timer`.
 
-```svelte
-<ReviewDate label="Next review" datetime="2025-06-15">June 15, 2025</ReviewDate>
-```
+## How to use it
+
+1. Import `ReviewDate` from its source file.
+2. Provide a translated `label` (required) describing the date's meaning ("Last review", "Next audit", ...).
+3. Provide a `datetime` string in ISO 8601 (`"2026-06-15"`, `"2026-06-15T09:30:00Z"`, ...).
+4. Provide the visible text in the `children` snippet - typically a locale-formatted string.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for screen readers via aria-label. |
-| `datetime` | string, required | Machine-readable date/time in ISO 8601 format. |
-| `children` | Snippet, required | Human-readable display text for the date. |
-| `...restProps` | additional HTML attributes spread onto the <time> |  |
+- `class` (string, optional, default `""`) - merged with the base `review-date` class.
+- `label` (string, required) - applied to `aria-label` on the `<time>` element.
+- `datetime` (string, required) - machine-readable ISO 8601 date/time for the `datetime` attribute.
+- `children` (Snippet, required) - human-readable display text for the date.
+- `...restProps` - any additional HTML attributes spread onto `<time>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Dynamic date with formatted output -->
-<ReviewDate label="Last audit" datetime={isoDate}>{formattedDate}</ReviewDate>
-
-<!-- With extra attributes -->
-<ReviewDate label="Due date" datetime="2025-12-31" data-urgency="high">Dec 31, 2025</ReviewDate>
-```
-
-## SvelteKit example
+Simple review date:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ReviewDate from "#lib/components/ReviewDate/ReviewDate.svelte";
+    import ReviewDate from "./ReviewDate.svelte";
 </script>
 
-<ReviewDate label="Next review" datetime="2025-06-15">June 15, 2025</ReviewDate>
+<ReviewDate label="Next review" datetime="2026-06-15">June 15, 2026</ReviewDate>
 ```
 
-## Keyboard
+With a locale-formatted string:
 
-- None — this is an informational display, not an interactive element.
+```svelte
+<script lang="ts">
+    import ReviewDate from "./ReviewDate.svelte";
+    const iso = "2026-04-18";
+    const formatted = new Date(iso).toLocaleDateString("en-GB");
+</script>
+
+<ReviewDate label="Last audit" datetime={iso}>{formatted}</ReviewDate>
+```
+
+With extra data attributes for CSS:
+
+```svelte
+<script lang="ts">
+    import ReviewDate from "./ReviewDate.svelte";
+</script>
+
+<ReviewDate label="Due date" datetime="2026-12-31" data-urgency="high">
+    Dec 31, 2026
+</ReviewDate>
+```
+
+In a summary row:
+
+```svelte
+<script lang="ts">
+    import ReviewDate from "./ReviewDate.svelte";
+    import SummaryListItem from "../SummaryListItem/SummaryListItem.svelte";
+</script>
+
+<SummaryListItem term="Next review">
+    <ReviewDate label="Next review" datetime="2026-09-01">September 1, 2026</ReviewDate>
+</SummaryListItem>
+```
+
+Conditional localized output:
+
+```svelte
+<script lang="ts">
+    import ReviewDate from "./ReviewDate.svelte";
+    let { iso, locale }: { iso: string; locale: string } = $props();
+</script>
+
+<ReviewDate label="Review date" datetime={iso}>
+    {new Intl.DateTimeFormat(locale).format(new Date(iso))}
+</ReviewDate>
+```
 
 ## Accessibility
 
-- Semantic <time> element provides machine-readable date context
-- aria-label for screen reader context beyond the visible text
-- The datetime attribute enables browsers and assistive technology to parse dates
-- WCAG 2.2 AAA: properly labeled with semantic time element
+- Uses the semantic `<time>` element so assistive tech and browsers can parse the date.
+- `datetime` MUST be a valid ISO 8601 value for correct machine semantics.
+- `aria-label` is required and should describe the meaning of the date, not just repeat the visible text ("Last reviewed on ..." rather than just "June 15, 2026").
 
-## Internationalization
+References:
+- HTML `<time>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
+- ISO 8601: https://en.wikipedia.org/wiki/ISO_8601
 
-- The label prop externalizes the accessible label string
-- The children snippet allows localized date formatting
-- The datetime attribute uses ISO 8601, which is locale-independent
+## Related components
 
-## References
-
-- HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
-- ISO 8601 Date Format: https://en.wikipedia.org/wiki/ISO_8601
+- `DateInput`, `DateField`, `DateTimeLocalInput` - entering date values.
+- `DateRange` - displaying a start-to-end range.
+- `Byline` - author and timestamp block.
+- `SummaryListItem` - key/value rows that often contain a `ReviewDate`.
 
 ---
 

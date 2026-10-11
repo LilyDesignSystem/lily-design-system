@@ -1320,3 +1320,44 @@ describe("DateTimePicker — tooltip (§7.62–§7.67)", () => {
         removeSpy.mockRestore();
     });
 });
+
+describe("DateTimePicker — form reset", () => {
+    function inForm(props: Record<string, unknown>) {
+        const form = document.createElement("form");
+        document.body.appendChild(form);
+        const wrapper = mount(DateTimePicker, { props: base(props), attachTo: form });
+        wrappers.push(wrapper);
+        return { form, wrapper };
+    }
+
+    async function typeDate(form: HTMLFormElement, text: string): Promise<void> {
+        const field = form.querySelector<HTMLInputElement>(".date-time-picker-input")!;
+        field.value = text;
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+        field.dispatchEvent(new FocusEvent("blur"));
+        await flush();
+    }
+
+    test("a form reset restores the initial date in the field, the model and the form", async () => {
+        const { form, wrapper } = inForm({ name: "when", value: "2026-10-01" });
+        await typeDate(form, "09/10/2026");
+        expect(new FormData(form).get("when")).toBe("2026-10-09");
+
+        form.reset();
+        await vi.advanceTimersByTimeAsync(1);
+        await flush();
+        expect(wrapper.emitted("update:value")?.at(-1)).toEqual(["2026-10-01"]);
+        expect(new FormData(form).get("when")).toBe("2026-10-01");
+        expect(form.querySelector<HTMLInputElement>(".date-time-picker-input")!.value).toBe("01 Oct 2026");
+    });
+
+    test("a cancelled reset changes nothing", async () => {
+        const { form } = inForm({ name: "when", value: "2026-10-01" });
+        await typeDate(form, "09/10/2026");
+        form.addEventListener("reset", (event) => event.preventDefault());
+        form.reset();
+        await vi.advanceTimersByTimeAsync(1);
+        await flush();
+        expect(new FormData(form).get("when")).toBe("2026-10-09");
+    });
+});

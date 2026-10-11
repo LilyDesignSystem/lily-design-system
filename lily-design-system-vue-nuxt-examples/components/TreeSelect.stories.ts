@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TreeSelect from './TreeSelect.vue';
 
 const meta = {
-  title: 'Examples/TreeSelect',
+  title: 'Headless/TreeSelect',
   component: TreeSelect,
   tags: ['autodocs']
 } satisfies Meta<typeof TreeSelect>;

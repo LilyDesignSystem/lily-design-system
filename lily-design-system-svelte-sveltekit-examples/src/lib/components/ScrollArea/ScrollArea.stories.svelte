@@ -3,7 +3,7 @@
   import ScrollArea from './ScrollArea.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ScrollArea',
+    title: 'Headless/ScrollArea',
     component: ScrollArea,
   });
 </script>

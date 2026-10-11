@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CheckboxInput from './CheckboxInput.vue';
 
 const meta = {
-  title: 'Examples/CheckboxInput',
+  title: 'Headless/CheckboxInput',
   component: CheckboxInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CheckboxInput>;

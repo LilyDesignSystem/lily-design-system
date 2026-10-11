@@ -3,7 +3,7 @@
   import Header from './Header.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Header',
+    title: 'Headless/Header',
     component: Header,
   });
 </script>

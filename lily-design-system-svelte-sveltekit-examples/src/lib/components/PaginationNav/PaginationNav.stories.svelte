@@ -3,7 +3,7 @@
   import PaginationNav from './PaginationNav.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PaginationNav',
+    title: 'Headless/PaginationNav',
     component: PaginationNav,
   });
 </script>

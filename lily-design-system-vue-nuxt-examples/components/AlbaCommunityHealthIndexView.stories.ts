@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AlbaCommunityHealthIndexView from './AlbaCommunityHealthIndexView.vue';
 
 const meta = {
-  title: 'Examples/AlbaCommunityHealthIndexView',
+  title: 'Headless/AlbaCommunityHealthIndexView',
   component: AlbaCommunityHealthIndexView,
   tags: ['autodocs']
 } satisfies Meta<typeof AlbaCommunityHealthIndexView>;

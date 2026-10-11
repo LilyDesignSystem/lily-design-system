@@ -1,77 +1,104 @@
 # EmailInput
 
-## Overview
+A headless email input that wraps a native `<input type="email">` with accessible labelling and a bindable value.
 
-A headless email input wrapping a native <input type="email"> with accessible
-labeling. Provides a streamlined API for basic email collection with required
-and disabled state support.
+## What it is
+
+`EmailInput` is a thin wrapper around `<input type="email">`. The browser provides email validation, keyboard, and mobile keyboard optimisations; the component contributes `aria-label`, a bindable value, and standard `required`/`disabled` flags.
 
 ## What it does
 
-An input for entering an email address <input type="email">.
+- Renders `<input type="email" aria-label={label}>`.
+- Binds `value` via `$bindable()`.
+- Forwards `required` and `disabled` to the native input.
+- Spreads `restProps` onto the `<input>`.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Simple email collection in a form where the consumer handles layout, labelling and error rendering externally.
+- Registration, sign-in, contact forms.
+- Anywhere you need the browser's native email validation and mobile keyboard.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- For displaying an email address as a link. Use `EmailLink` instead.
+- When you need built-in label, hint, and error wrappers. Compose with `Field`.
+- For arbitrary text input. Use `TextInput`.
 
-## Usage
+## How to use it
+
+Provide a required `label` and bind a value.
 
 ```svelte
-<EmailInput label="Your email" bind:value />
+<script lang="ts">
+    import EmailInput from "./EmailInput.svelte";
+    let email = $state("");
+</script>
+
+<EmailInput label="Your email" bind:value={email} />
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `value` | string, default "" | Current email value; bindable. |
-| `required` | boolean, default false | Whether the field is required. |
-| `disabled` | boolean, default false | Whether the field is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+| Prop       | Type      | Default | Description                                  |
+| ---------- | --------- | ------- | -------------------------------------------- |
+| `class`    | `string`  | `""`    | CSS class appended to the base class.       |
+| `label`    | `string`  | required| Accessible name via `aria-label`.            |
+| `value`    | `string`  | `""`    | Bindable email value.                        |
+| `required` | `boolean` | `false` | Whether the field is required.               |
+| `disabled` | `boolean` | `false` | Whether the field is disabled.               |
+| `...rest`  | `unknown` | —       | Additional HTML attributes on the `<input>`. |
 
-## Examples
+## Usage
 
-```svelte
-<!-- Basic email input -->
-<EmailInput label="Your email" bind:value />
-
-<!-- Required email field -->
-<EmailInput label="Contact email" bind:value required />
-```
-
-## SvelteKit example
+### 1. Basic input
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import EmailInput from "#lib/components/EmailInput/EmailInput.svelte";
-</script>
-
-<EmailInput label="Your email" bind:value />
+<EmailInput label="Your email" bind:value={email} />
 ```
 
-## Keyboard
+### 2. Required field
 
-- None custom — keyboard behavior provided by the browser-native email input
+```svelte
+<EmailInput label="Contact email" bind:value={email} required />
+```
+
+### 3. Inside a Field
+
+```svelte
+<Field label="Email" description="We'll never share your email.">
+    <EmailInput label="Email" bind:value={email} />
+</Field>
+```
+
+### 4. Disabled
+
+```svelte
+<EmailInput label="Email" value="alice@example.com" disabled />
+```
+
+### 5. With name and autocomplete
+
+```svelte
+<EmailInput
+    label="Email"
+    bind:value={email}
+    name="email"
+    autocomplete="email"
+    required
+/>
+```
 
 ## Accessibility
 
-- aria-label provides the accessible name since no visible <label> is included
-- Native <input type="email"> provides built-in validation
+- `aria-label` provides the accessible name because there is no visible `<label>`. For visual labels, wrap with `Field` or associate an external `<label for>`.
+- `required` and `disabled` are communicated natively.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- MDN input type="email": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
+- `EmailLink` — displays an email address as a clickable `mailto:` link.
+- `Field` — label + description + error wrapper around any input.
+- `TextInput`, `UrlInput`, `TelInput`, `SearchInput` — sibling input types.
 
 ---
 

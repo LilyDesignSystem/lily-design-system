@@ -36,7 +36,8 @@ describe("FiveFaceRatingView", () => {
 
         const span = host.querySelector("span")!;
         expect(span.getAttribute("data-value")).toBe("4");
-        expect(span.textContent).toBe("Good");
+        // The default is the number, not an English word.
+        expect(span.textContent).toBe("4");
     });
 
     test("supports custom labels via a JSON-encoded labels attribute", () => {
@@ -63,7 +64,7 @@ describe("FiveFaceRatingView", () => {
         expect(host.value).toBe(1);
         host.value = 3;
         expect(host.value).toBe(3);
-        expect(host.querySelector("span")!.textContent).toBe("Okay");
+        expect(host.querySelector("span")!.textContent).toBe("3");
         expect(host.querySelector("span")!.getAttribute("data-value")).toBe("3");
     });
 });

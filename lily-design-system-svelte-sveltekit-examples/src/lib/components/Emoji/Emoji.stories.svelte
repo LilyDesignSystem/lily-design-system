@@ -3,7 +3,7 @@
   import Emoji from './Emoji.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Emoji',
+    title: 'Headless/Emoji',
     component: Emoji,
   });
 </script>

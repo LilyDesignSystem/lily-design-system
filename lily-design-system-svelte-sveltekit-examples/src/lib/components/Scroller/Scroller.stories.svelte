@@ -3,7 +3,7 @@
   import Scroller from './Scroller.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Scroller',
+    title: 'Headless/Scroller',
     component: Scroller,
   });
 </script>

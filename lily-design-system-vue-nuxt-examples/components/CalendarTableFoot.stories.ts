@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CalendarTableFoot from './CalendarTableFoot.vue';
 
 const meta = {
-  title: 'Examples/CalendarTableFoot',
+  title: 'Headless/CalendarTableFoot',
   component: CalendarTableFoot,
   tags: ['autodocs']
 } satisfies Meta<typeof CalendarTableFoot>;

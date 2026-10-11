@@ -3,7 +3,7 @@
   import ProgressCircle from './ProgressCircle.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ProgressCircle',
+    title: 'Headless/ProgressCircle',
     component: ProgressCircle,
   });
 </script>

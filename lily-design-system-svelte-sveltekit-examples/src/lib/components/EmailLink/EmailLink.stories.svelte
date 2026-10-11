@@ -3,7 +3,7 @@
   import EmailLink from './EmailLink.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EmailLink',
+    title: 'Headless/EmailLink',
     component: EmailLink,
   });
 </script>

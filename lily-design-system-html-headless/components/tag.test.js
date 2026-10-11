@@ -15,9 +15,11 @@ describe('Tag', function() {
     expect(className).toContain('tag');
   });
 
-  it('should have an aria-label attribute', async function() {
+  it('is not a live region and carries its label as screen-reader text', async function() {
     const el = await $('span.tag');
-    const label = await el.getAttribute('aria-label');
-    expect(label).not.toBeNull();
+    expect(await el.getAttribute('role')).toBeNull();
+    expect(await el.getAttribute('aria-label')).toBeNull();
+    await expect(await $('span.tag > span.screen-reader-span')).toExist();
+    await expect(await $('span.tag [aria-hidden]')).not.toExist();
   });
 });

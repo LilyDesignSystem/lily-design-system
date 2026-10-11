@@ -3,7 +3,7 @@
   import DoList from './DoList.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DoList',
+    title: 'Headless/DoList',
     component: DoList,
   });
 </script>

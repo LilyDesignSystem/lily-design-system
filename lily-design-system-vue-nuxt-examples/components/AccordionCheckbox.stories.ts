@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AccordionCheckbox from './AccordionCheckbox.vue';
 
 const meta = {
-  title: 'Examples/AccordionCheckbox',
+  title: 'Headless/AccordionCheckbox',
   component: AccordionCheckbox,
   tags: ['autodocs']
 } satisfies Meta<typeof AccordionCheckbox>;

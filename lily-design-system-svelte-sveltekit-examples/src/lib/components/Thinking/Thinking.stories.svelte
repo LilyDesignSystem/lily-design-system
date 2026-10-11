@@ -3,7 +3,7 @@
   import Thinking from './Thinking.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Thinking',
+    title: 'Headless/Thinking',
     component: Thinking,
   });
 </script>

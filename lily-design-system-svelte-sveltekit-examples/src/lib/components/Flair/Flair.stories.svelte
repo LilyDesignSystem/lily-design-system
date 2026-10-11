@@ -3,7 +3,7 @@
   import Flair from './Flair.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Flair',
+    title: 'Headless/Flair',
     component: Flair,
   });
 </script>

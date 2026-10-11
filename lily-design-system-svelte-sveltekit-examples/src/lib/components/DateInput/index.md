@@ -1,81 +1,108 @@
 # DateInput
 
-## Overview
+A headless date input — a minimal wrapper around the native `<input type="date">` with `aria-label` for accessibility. The value is a YYYY-MM-DD string with two-way binding support.
 
-A headless native date input wrapping <input type="date"> with accessible
-labelling via aria-label and a bindable value. The value is stored in ISO 8601
-YYYY-MM-DD format. It supports min and max constraints to restrict the allowable
-date range. Useful in forms where users need to enter a calendar date with the
-browser's built-in date picker.
+## What it is
+
+DateInput renders a bare `<input type="date">` with `aria-label={label}` and `bind:value`. It supports `min`/`max` constraints, `required`, and `disabled`. The browser provides the native date picker UI.
 
 ## What it does
 
-An input for entering a date value <input type="date">.
+- Renders `<input type="date" aria-label={label}>`.
+- Two-way binds `value` via `$bindable()`.
+- Forwards `min`, `max`, `required`, `disabled` to the input.
+- Spreads `restProps` onto the input.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- Where you need a compact date input without a visible label.
+- Inside your own custom field layout.
+- Composed with other controls in a row.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- When you need an integrated label, description, and error — use `DateField`.
+- For a start/end pair — use `DateRange`.
+- For datetime with time zones — see `DateTimeLocalInput` or custom.
+
+## How to use it
+
+Provide `label` (used as `aria-label`). Bind `value` to a `$state` variable.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `label` | `string` | required | `aria-label`. |
+| `value` | `string` | `""` (bindable) | Date in YYYY-MM-DD. |
+| `min` | `string` | `undefined` | Minimum date (YYYY-MM-DD). |
+| `max` | `string` | `undefined` | Maximum date (YYYY-MM-DD). |
+| `required` | `boolean` | `false` | Marks the input required. |
+| `disabled` | `boolean` | `false` | Disables the input. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<input>`. |
 
 ## Usage
 
 ```svelte
-<DateInput label="Birth date" bind:value />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name applied via aria-label. |
-| `value` | string, default "" | Bindable date string in YYYY-MM-DD format. |
-| `min` | string, default undefined | Minimum allowed date in YYYY-MM-DD format. |
-| `max` | string, default undefined | Maximum allowed date in YYYY-MM-DD format. |
-| `required` | boolean, default false | Whether the input is required for form submission. |
-| `disabled` | boolean, default false | Whether the input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
-
-## Examples
-
-```svelte
-<!-- Date input with min/max constraints -->
-<DateInput label="Deadline" bind:value min="2024-01-01" max="2024-12-31" />
-<!-- Required and conditionally disabled -->
-<DateInput label="Start date" bind:value required disabled={isLocked} />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateInput from "#lib/components/DateInput/DateInput.svelte";
+    import DateInput from "./DateInput.svelte";
+
+    let date = $state("");
 </script>
 
-<DateInput label="Birth date" bind:value />
+<DateInput label="Birth date" bind:value={date} />
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import DateInput from "./DateInput.svelte";
 
-- Tab: Move focus to and from the date input (native browser behavior)
-- Arrow keys: Navigate within the date picker fields (native browser behavior)
-- Enter: Open or confirm the date picker (native browser behavior)
+    let due = $state("");
+</script>
+
+<DateInput label="Deadline" bind:value={due} min="2024-01-01" max="2024-12-31" />
+```
+
+```svelte
+<script lang="ts">
+    import DateInput from "./DateInput.svelte";
+
+    let date = $state("");
+    let locked = $state(false);
+</script>
+
+<DateInput label="Start date" bind:value={date} required disabled={locked} />
+```
+
+```svelte
+<script lang="ts">
+    import DateInput from "./DateInput.svelte";
+
+    let start = $state("");
+    let end = $state("");
+</script>
+
+<label>
+    Start
+    <DateInput label="Start date" bind:value={start} />
+</label>
+<label>
+    End
+    <DateInput label="End date" bind:value={end} min={start} />
+</label>
+```
 
 ## Accessibility
 
-- aria-label provides an accessible name since there is no visible <label> element
+- `aria-label` names the input; pair with a visible `<label>` if needed.
+- Native date picker supports keyboard interaction.
 
-## Internationalization
+## Related components
 
-- The label prop provides the accessible name; no hardcoded strings
-
-## References
-
-- MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+- `DateField` — date input with label/description/error.
+- `DateRange` — start/end pair.
+- `DateTimeLocalInput`, `MonthInput`, `WeekInput`, `TimeInput` — related input types.
 
 ---
 

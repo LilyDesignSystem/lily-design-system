@@ -1,96 +1,141 @@
 # HamburgerMenu
 
-## Overview
+A hamburger menu toggle button paired with a navigation panel. Used on mobile and compact layouts to conserve screen space by hiding the primary navigation behind a toggle control.
 
-A hamburger menu toggle button that reveals or hides a navigation panel. Commonly
-used on mobile layouts and compact interfaces to conserve screen space by hiding
-the primary navigation behind a toggle control. Manages ARIA attributes linking the
-toggle button to the navigation panel via aria-controls and aria-expanded.
+## What it is
+
+A Svelte 5 component that renders a wrapper `<div>` containing a `<button>` and (when open) a `<div role="navigation">` landmark. The button manages `aria-expanded` and `aria-controls` linking to the panel, and the `open` prop is bindable via `$bindable(false)`.
 
 ## What it does
 
-A toggle button that opens a mobile navigation menu.
+- Renders a wrapper `<div class="hamburger-menu ...">`.
+- Renders `<button type="button" aria-label aria-expanded aria-controls>` that toggles `open` on click and displays the `label` as its visible text.
+- Generates a unique `menuId` via `Math.random().toString(36)` for `aria-controls` and the panel's `id`.
+- When `open` is true, renders `<div id={menuId} role="navigation" aria-label>` containing the `children` snippet.
+- When `open` is false, the navigation panel is fully removed from the DOM.
 
-## When to use
+## When to use it
 
-- Use when offering a list of commands or options from a trigger.
+- Mobile-first navigation where the primary menu is collapsed behind a toggle.
+- Any compact UI where navigation should be hidden until requested.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For desktop navigation that should always be visible. Use `NavigationMenu` or `MenuBar`.
+- For a dropdown menu triggered by a button. Use `DropdownMenu`.
+- For a side-sliding panel. Use `Drawer`, `Sheet`, or `SlideOutDrawer`.
+- For accordion-style navigation. Use `AccordionNav`.
+
+## How to use it
+
+Import the component, optionally bind `open` to consumer state, and supply the navigation markup as children. The visible button text is the `label`; consumer CSS can replace/hide the text with an icon.
+
+## Props
+
+- `class` (string, optional) - CSS class appended after the base `hamburger-menu` class.
+- `label` (string, default `"Menu"`) - Accessible name for the toggle button and navigation panel. Also rendered as the button's visible text.
+- `open` (boolean, default `false`) - Whether the navigation panel is visible. Bindable via `bind:open`.
+- `children` (Snippet, required) - Navigation content rendered when the menu is open.
+- `...restProps` - Additional HTML attributes spread onto the wrapper `<div>`.
 
 ## Usage
 
 ```svelte
-<HamburgerMenu label="Main menu" bind:open>{children}</HamburgerMenu>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, default "Menu" | Accessible name for the toggle button and navigation region. |
-| `open` | boolean, default false | Bindable boolean controlling whether the navigation panel is visible. |
-| `children` | Snippet, required | Navigation content rendered when the menu is open. |
-| `...restProps` | additional HTML attributes spread onto the outer div wrapper |  |
-
-## Examples
-
-```svelte
-<!-- Basic hamburger menu with navigation links -->
-<HamburgerMenu label="Main menu" bind:open>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-    </ul>
-  </nav>
-</HamburgerMenu>
-
-<!-- Hamburger menu with external open state -->
-<HamburgerMenu bind:open={menuOpen}>
-  <ul>
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/settings">Settings</a></li>
-  </ul>
-</HamburgerMenu>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import HamburgerMenu from "#lib/components/HamburgerMenu/HamburgerMenu.svelte";
+    import HamburgerMenu from "./HamburgerMenu.svelte";
+    let open = $state(false);
 </script>
 
-<HamburgerMenu label="Main menu" bind:open>{children}</HamburgerMenu>
+<HamburgerMenu label="Main menu" bind:open>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</HamburgerMenu>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import HamburgerMenu from "./HamburgerMenu.svelte";
+    let menuOpen = $state(true);
+</script>
 
-- Enter: Toggles the menu open/closed when the button has focus
-- Space: Toggles the menu open/closed when the button has focus
-- Tab: Moves focus to/from the toggle button and into the navigation content when open
+<HamburgerMenu bind:open={menuOpen}>
+    <ul>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/settings">Settings</a></li>
+    </ul>
+</HamburgerMenu>
+<p>Menu is {menuOpen ? "open" : "closed"}</p>
+```
+
+```svelte
+<script lang="ts">
+    import HamburgerMenu from "./HamburgerMenu.svelte";
+    const links = [
+        { href: "/", text: "Home" },
+        { href: "/pricing", text: "Pricing" },
+        { href: "/docs", text: "Docs" },
+    ];
+</script>
+
+<HamburgerMenu label="Site menu">
+    <nav>
+        <ul>
+            {#each links as l}<li><a href={l.href}>{l.text}</a></li>{/each}
+        </ul>
+    </nav>
+</HamburgerMenu>
+```
+
+```svelte
+<script lang="ts">
+    import HamburgerMenu from "./HamburgerMenu.svelte";
+    let open = $state(false);
+    function onKey(e: KeyboardEvent) {
+        if (e.key === "Escape") open = false;
+    }
+</script>
+
+<svelte:window on:keydown={onKey} />
+<HamburgerMenu label="Menu" bind:open>
+    <p>Press Escape to close.</p>
+</HamburgerMenu>
+```
+
+```svelte
+<script lang="ts">
+    import HamburgerMenu from "./HamburgerMenu.svelte";
+</script>
+
+<HamburgerMenu
+    label="Navigation"
+    class="mobile-menu"
+    data-testid="mobile-menu"
+>
+    <ul>
+        <li><a href="/">Home</a></li>
+    </ul>
+</HamburgerMenu>
+```
 
 ## Accessibility
 
-- aria-label on the button provides an accessible name for the toggle control
-- aria-expanded on the button indicates whether the navigation panel is visible
-- aria-controls on the button references the id of the navigation panel
-- role="navigation" on the content container identifies it as a navigation landmark
-- aria-label on the navigation container provides an accessible name for the landmark
+- `aria-label` on the button names the control.
+- `aria-expanded` on the button reflects panel visibility.
+- `aria-controls` links the button to the panel's `id`.
+- `role="navigation"` + `aria-label` on the panel creates a named navigation landmark.
+- Native `<button>` supports Enter and Space for toggling.
+- When closed, the panel is removed from the DOM, so it cannot be reached via Tab.
+- Consumer is responsible for focus management when opening/closing (e.g. returning focus to the button on Escape).
 
-## Internationalization
+## Related components
 
-- The label prop allows localized accessible names; default "Menu" should be overridden for non-English locales
-- All content comes through the children snippet
-
-## References
-
-- WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
-- WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+- `NavigationMenu` - site-wide persistent navigation menu.
+- `DropdownMenu` - menu that opens below a trigger button.
+- `Menu` / `MenuItem` - generic menu and items.
+- `Drawer` / `Sheet` / `SlideOutDrawer` - edge-anchored navigation panels.
+- `AccordionNav` - hierarchical accordion navigation.
 
 ---
 

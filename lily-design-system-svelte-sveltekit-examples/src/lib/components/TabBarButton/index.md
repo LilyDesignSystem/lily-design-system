@@ -1,87 +1,169 @@
 # TabBarButton
 
-## Overview
+A headless tab button intended to sit inside a `TabBar`. Renders `<button role="tab">` with `aria-selected`, `aria-controls`, and roving `tabindex`.
 
-A headless tab button for use within a tabbed interface. Renders a <button>
-with role="tab" and appropriate ARIA attributes for tab selection and panel
-association. It follows the roving tabindex pattern where only the selected
-tab participates in the tab order. Designed to be placed inside a TabBar
-container with role="tablist".
+## What it is
+
+A Svelte 5 headless component that renders a single `<button class="tab-bar-button ...">` with:
+
+- `role="tab"`
+- `aria-selected={selected}`
+- `aria-controls={controls}`
+- `tabindex={selected ? 0 : -1}` (roving tabindex)
 
 ## What it does
 
-One tab button in a tab group.
+- Declares itself as a tab.
+- Reflects selection state via `aria-selected`.
+- Links to its tabpanel via `aria-controls` (required id of the panel element).
+- Uses roving tabindex so only the active tab participates in Tab order.
+- Renders `children` as the visible label.
+- Spreads `...restProps` onto the `<button>` (for example, `onclick`).
 
-## When to use
+## When to use it
 
-- Use for an in-page action (not navigation).
+- Exclusively inside `TabBar` (or any `role="tablist"` container).
+- As the clickable tab header that switches content panels.
 
-## When not to use
+## When not to use it
 
-- Do not use for navigation to another URL — use a link instead.
+- Outside a tablist - use `Button` or `ToggleButton`.
+- For tab-like radio selection without panel association - use `SegmentGroupItem`.
 
-## Usage
+## How to use it
 
-```svelte
-<TabBarButton selected={true} controls="panel-1">Label</TabBarButton>
-```
+1. Import alongside `TabBar`.
+2. Set `selected` on the currently active tab.
+3. Pass the id of the corresponding tabpanel as `controls`.
+4. Attach an `onclick` to update which tab is active.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `selected` | boolean, default false | Whether this tab is currently active. |
-| `controls` | string, required | The id of the associated tabpanel element. |
-| `children` | Snippet, required | Tab label content. |
-| `...restProps` | additional HTML attributes spread onto the <button> |  |
+- `class` (string, optional, default `""`) - merged with the base `tab-bar-button` class.
+- `selected` (boolean, optional, default `false`) - current active tab; drives `aria-selected` and roving `tabindex`.
+- `controls` (string, required) - id of the associated tabpanel element.
+- `children` (Snippet, required) - tab label content.
+- `...restProps` - spread onto the `<button>`.
 
-## Examples
+## Usage
+
+Basic pair of tabs:
 
 ```svelte
-<!-- Tab buttons within a TabBar -->
+<script lang="ts">
+    import TabBar from "../TabBar/TabBar.svelte";
+    import TabBarButton from "./TabBarButton.svelte";
+    let active = $state("general");
+</script>
+
 <TabBar label="Settings">
-  <TabBarButton selected={activeTab === "general"} controls="panel-general"
-    onclick={() => activeTab = "general"}>General</TabBarButton>
-  <TabBarButton selected={activeTab === "advanced"} controls="panel-advanced"
-    onclick={() => activeTab = "advanced"}>Advanced</TabBarButton>
+    <TabBarButton
+        selected={active === "general"}
+        controls="panel-general"
+        onclick={() => (active = "general")}
+    >General</TabBarButton>
+    <TabBarButton
+        selected={active === "advanced"}
+        controls="panel-advanced"
+        onclick={() => (active = "advanced")}
+    >Advanced</TabBarButton>
 </TabBar>
 ```
 
-## SvelteKit example
+Tabs with icons:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TabBarButton from "#lib/components/TabBarButton/TabBarButton.svelte";
+    import TabBar from "../TabBar/TabBar.svelte";
+    import TabBarButton from "./TabBarButton.svelte";
+    let active = $state("home");
 </script>
 
-<TabBarButton selected={true} controls="panel-1">Label</TabBarButton>
+<TabBar label="App">
+    <TabBarButton
+        selected={active === "home"}
+        controls="p-home"
+        onclick={() => (active = "home")}
+    >
+        <span aria-hidden="true">🏠</span> Home
+    </TabBarButton>
+    <TabBarButton
+        selected={active === "profile"}
+        controls="p-profile"
+        onclick={() => (active = "profile")}
+    >
+        <span aria-hidden="true">👤</span> Profile
+    </TabBarButton>
+</TabBar>
 ```
 
-## Keyboard
+Mapped from a list:
 
-- Tab: moves focus to the selected tab in the tablist
-- ArrowLeft/ArrowRight: moves between tabs (handled by parent tablist)
-- Enter/Space: activates the tab (native button behavior)
+```svelte
+<script lang="ts">
+    import TabBar from "../TabBar/TabBar.svelte";
+    import TabBarButton from "./TabBarButton.svelte";
+    const items = ["overview", "activity", "settings"];
+    let active = $state("overview");
+</script>
+
+<TabBar label="Profile">
+    {#each items as it}
+        <TabBarButton
+            selected={active === it}
+            controls={`p-${it}`}
+            onclick={() => (active = it)}
+        >{it}</TabBarButton>
+    {/each}
+</TabBar>
+```
+
+With panels matching the `controls` id:
+
+```svelte
+<script lang="ts">
+    import TabBar from "../TabBar/TabBar.svelte";
+    import TabBarButton from "./TabBarButton.svelte";
+    let active = $state("a");
+</script>
+
+<TabBar label="Data">
+    <TabBarButton selected={active === "a"} controls="panel-a" onclick={() => (active = "a")}>A</TabBarButton>
+    <TabBarButton selected={active === "b"} controls="panel-b" onclick={() => (active = "b")}>B</TabBarButton>
+</TabBar>
+<section id="panel-a" role="tabpanel" hidden={active !== "a"}>A</section>
+<section id="panel-b" role="tabpanel" hidden={active !== "b"}>B</section>
+```
+
+Disabled/non-interactive via attribute spread:
+
+```svelte
+<script lang="ts">
+    import TabBar from "../TabBar/TabBar.svelte";
+    import TabBarButton from "./TabBarButton.svelte";
+</script>
+
+<TabBar label="Docs">
+    <TabBarButton selected controls="p1">Intro</TabBarButton>
+    <TabBarButton controls="p2" disabled>Advanced (coming soon)</TabBarButton>
+</TabBar>
+```
 
 ## Accessibility
 
-- role="tab" identifies this element as a tab in a tabbed interface
-- aria-selected communicates the selection state to screen readers
-- aria-controls links the tab to its panel for assistive technology
-- Roving tabindex: selected tab has tabindex=0, others have tabindex=-1
-- Compound component: must be placed inside a TabBar container
+- `role="tab"` + `aria-selected` + `aria-controls` implement the Tabs pattern.
+- Roving tabindex ensures only one tab is in the tab order.
+- Enter and Space activate the button natively.
+- Arrow / Home / End are handled by the parent `TabBar`.
 
-## Internationalization
-
-- All visible text is provided through the children snippet
-- No hardcoded strings in the component
-
-## References
-
+References:
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
-- WAI-ARIA Tab Role: https://www.w3.org/TR/wai-aria-1.2/#tab
+
+## Related components
+
+- `TabBar` - the required parent.
+- `SegmentGroupItem` - radio-style alternative.
+- `Button` - generic button.
 
 ---
 

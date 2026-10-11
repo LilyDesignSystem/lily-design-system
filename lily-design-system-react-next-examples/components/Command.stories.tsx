@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Command from './Command';
 
 const meta = {
-  title: 'Examples/Command',
+  title: 'Headless/Command',
   component: Command,
   tags: ['autodocs']
 } satisfies Meta<typeof Command>;

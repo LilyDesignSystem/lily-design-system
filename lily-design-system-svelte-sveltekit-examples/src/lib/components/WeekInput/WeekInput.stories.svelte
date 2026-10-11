@@ -3,7 +3,7 @@
   import WeekInput from './WeekInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/WeekInput',
+    title: 'Headless/WeekInput',
     component: WeekInput,
   });
 </script>

@@ -3,7 +3,7 @@
   import SectionNav from './SectionNav.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SectionNav',
+    title: 'Headless/SectionNav',
     component: SectionNav,
   });
 </script>

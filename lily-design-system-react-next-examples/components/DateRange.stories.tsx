@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DateRange from './DateRange';
 
 const meta = {
-  title: 'Examples/DateRange',
+  title: 'Headless/DateRange',
   component: DateRange,
   tags: ['autodocs']
 } satisfies Meta<typeof DateRange>;

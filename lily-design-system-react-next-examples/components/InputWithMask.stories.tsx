@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import InputWithMask from './InputWithMask';
 
 const meta = {
-  title: 'Examples/InputWithMask',
+  title: 'Headless/InputWithMask',
   component: InputWithMask,
   tags: ['autodocs']
 } satisfies Meta<typeof InputWithMask>;

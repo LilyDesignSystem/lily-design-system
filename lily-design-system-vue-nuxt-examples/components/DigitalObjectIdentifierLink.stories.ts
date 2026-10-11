@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DigitalObjectIdentifierLink from './DigitalObjectIdentifierLink.vue';
 
 const meta = {
-  title: 'Examples/DigitalObjectIdentifierLink',
+  title: 'Headless/DigitalObjectIdentifierLink',
   component: DigitalObjectIdentifierLink,
   tags: ['autodocs']
 } satisfies Meta<typeof DigitalObjectIdentifierLink>;

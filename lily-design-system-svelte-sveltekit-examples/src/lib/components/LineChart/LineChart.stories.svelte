@@ -3,7 +3,7 @@
   import LineChart from './LineChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/LineChart',
+    title: 'Headless/LineChart',
     component: LineChart,
   });
 </script>

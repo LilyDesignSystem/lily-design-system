@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TileMap from './TileMap';
 
 const meta = {
-  title: 'Examples/TileMap',
+  title: 'Headless/TileMap',
   component: TileMap,
   tags: ['autodocs']
 } satisfies Meta<typeof TileMap>;

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { onBeforeUnmount, onMounted, ref } from "vue";
 
     // NetPromoterScorePicker component
     //
@@ -65,12 +66,40 @@
     });
 
     const modelValue = defineModel<string>({ default: "" });
+    const initialValue = modelValue.value;
+
+    // Form reset: the inputs take a one-way value, which a reset changes without
+    // telling this component, so the model would keep a value the form no longer
+    // submits. Restore the initial value instead — one tick later, after the
+    // browser has reset the DOM, and not when the reset was cancelled.
+    const root = ref<HTMLElement | null>(null);
+    let resetForm: HTMLFormElement | null = null;
+    let resetTimer: ReturnType<typeof setTimeout> | undefined;
+    function onReset(event: Event): void {
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+            if (event.defaultPrevented || !root.value) return;
+            modelValue.value = initialValue;
+            for (const input of root.value.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                input.checked = input.value === String(initialValue);
+            }
+        }, 0);
+    }
+    onMounted(() => {
+        resetForm = root.value?.closest("form") ?? null;
+        resetForm?.addEventListener("reset", onReset);
+    });
+    onBeforeUnmount(() => {
+        clearTimeout(resetTimer);
+        resetForm?.removeEventListener("reset", onReset);
+    });
 
 </script>
 
 <template>
     <!-- NetPromoterScorePicker: a fieldset radiogroup with 11 radio buttons (0-10) -->
     <fieldset
+        ref="root"
         class="net-promoter-score-picker"
         role="radiogroup"
         :aria-label="label"

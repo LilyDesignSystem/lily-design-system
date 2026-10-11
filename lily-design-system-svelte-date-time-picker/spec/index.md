@@ -468,6 +468,13 @@ the grid so the zone is chosen before the instant.
   guesses from `Intl.DateTimeFormat().resolvedOptions().timeZone`, for
   the same reason `locale-picker` never picks a locale.
 
+### 5.10 Form reset
+
+When the picker sits in a `<form>` and the form is reset, the picker restores the value (and time zone) it had when
+first rendered — in the visible field, in the bound `value`, and in the hidden input the form submits — one tick after the
+`reset` event, so the browser has reset the DOM first, and not at all when a listener cancelled the reset
+(`preventDefault()`). Like a native reset, it calls no `onChange`; a `bind:value` consumer sees the restored value. Before 2026-10-11 a reset blanked the field while `value` and the hidden input kept the date, so the field showed nothing and the form still submitted the old value.
+
 ## 6. Accessibility
 
 ### 6.1 Roles and properties

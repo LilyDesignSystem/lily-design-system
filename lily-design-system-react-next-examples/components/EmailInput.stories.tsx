@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EmailInput from './EmailInput';
 
 const meta = {
-  title: 'Examples/EmailInput',
+  title: 'Headless/EmailInput',
   component: EmailInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EmailInput>;

@@ -1,87 +1,124 @@
 # Badge
 
-## Overview
+A small inline label for counts, statuses, or categories. Renders a `<span role="status">` with severity variant exposed via `data-type` and an optional `aria-label` for screen-reader context.
 
-A headless inline badge for displaying status indicators, counts, or
-short labels. Renders as a <span role="status"> with aria-label and
-data-type for consumer styling. Commonly used for notification counts,
-"New" labels, status pills, and category tags.
+## What it is
+
+A headless Svelte 5 component outputting a single `<span>`. Category: small-label primitive alongside `Tag`, `Flair`, and `AiLabel`.
 
 ## What it does
 
-A small label for counts, statuses, or categories.
+- Renders `<span class="badge {className}" role="status" aria-label={label} data-type={type}>`.
+- Applies `aria-label` only when `label` is provided (for cases where the visible text lacks context, e.g. `"3"` → `"3 unread messages"`).
+- Exposes `data-type` for CSS styling hooks.
+- Spreads additional HTML attributes onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when you need a small label for counts, statuses, or categories.
+- Notification counts on a bell icon.
+- "New", "Beta", "Draft" micro-labels.
+- Status pills (Success, Error, Warning) inline with text.
+- Category tags where `role="status"` semantics are acceptable.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For interactive category toggles — use `Tag` / `TagGroup`.
+- For AI indication — use `AiLabel`.
+- For decorative highlight — use `Flair`.
+- For persistent prominent messaging — use `Alert` or `Banner`.
+- For a page-wide count that auto-updates aloud — prefer a dedicated `aria-live` region.
 
-## Usage
+## How to use it
 
-```svelte
-<Badge>New</Badge>
-<Badge label="3 unread messages">3</Badge>
-```
+Import `Badge` from `./Badge.svelte`. Provide children for the visible content. Optionally pass `type` for semantic variant and `label` for extra screen-reader context.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `type` | "default" \| "info" \| "success" \| "warning" \| "error", default "default" | Semantic variant exposed as data-type. |
-| `label` | string, optional | Accessible label for screen readers when badge text alone is insufficient (e.g., "3 unread messages"). |
-| `children` | Snippet, required | The badge content (text, number, etc.). |
-| `...restProps` | additional HTML attributes spread onto <span> |  |
+- `class` — string, default `""`. CSS class appended to `badge`.
+- `type` — `"default" | "info" | "success" | "warning" | "error"`, default `"default"`.
+- `label` — string, optional. Accessible name override.
+- `children` — `Snippet`, required. Badge content.
+- `...restProps` — additional HTML attributes spread onto the `<span>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Simple text badge -->
-<Badge>New</Badge>
-
-<!-- Count badge with accessible context -->
-<Badge label="3 unread messages">3</Badge>
-
-<!-- Warning badge -->
-<Badge type="warning">Alert</Badge>
-
-<!-- Error badge with custom attributes -->
-<Badge type="error" data-testid="error-badge">Failed</Badge>
-```
-
-## SvelteKit example
+### Simple text badge
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Badge from "#lib/components/Badge/Badge.svelte";
+  import Badge from './Badge.svelte';
 </script>
 
 <Badge>New</Badge>
-<Badge label="3 unread messages">3</Badge>
 ```
 
-## Keyboard
+### Count badge with accessible context
 
-- None — badges are display-only, not interactive.
+```svelte
+<script lang="ts">
+  import Badge from './Badge.svelte';
+
+  let unread = $state(3);
+</script>
+
+<Badge label="{unread} unread messages">{unread}</Badge>
+```
+
+### Status variants
+
+```svelte
+<script lang="ts">
+  import Badge from './Badge.svelte';
+</script>
+
+<Badge type="info">Info</Badge>
+<Badge type="success">Saved</Badge>
+<Badge type="warning">Pending</Badge>
+<Badge type="error">Failed</Badge>
+```
+
+### Inside a button label
+
+```svelte
+<script lang="ts">
+  import Badge from './Badge.svelte';
+  import Button from '../Button/Button.svelte';
+
+  let unread = $state(12);
+</script>
+
+<Button>
+  Messages <Badge label="{unread} unread">{unread}</Badge>
+</Button>
+```
+
+### Reactive status
+
+```svelte
+<script lang="ts">
+  import Badge from './Badge.svelte';
+
+  let status = $state<'success' | 'warning' | 'error'>('success');
+  let text = $derived({ success: 'Online', warning: 'Degraded', error: 'Offline' }[status]);
+</script>
+
+<Badge type={status}>{text}</Badge>
+```
 
 ## Accessibility
 
-- role="status" for live region semantics (screen readers announce changes)
-- aria-label provides additional context beyond the visible text
-- data-type exposes variant for consumer styling (not for assistive tech)
+- `role="status"` creates a polite live region so changes are announced at a natural pause.
+- `aria-label` gives screen readers full context when the visible text is minimal.
+- `data-type` is for styling only.
+- Not interactive — not keyboard reachable by default.
 
-## Internationalization
+## Related components
 
-- All text comes through children snippet and label prop
-- No hardcoded strings
-
-## References
-
-- WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
+- `Tag`, `TagGroup` — interactive keyword labels.
+- `AiLabel` — AI transparency indicator.
+- `Flair` — decorative inline highlight.
+- `Character` — single character display.
+- `Alert`, `Notification`, `Toast` — larger feedback surfaces.
 
 ---
 

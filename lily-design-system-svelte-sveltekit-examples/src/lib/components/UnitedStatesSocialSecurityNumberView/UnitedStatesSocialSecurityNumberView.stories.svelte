@@ -3,7 +3,7 @@
   import UnitedStatesSocialSecurityNumberView from './UnitedStatesSocialSecurityNumberView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/UnitedStatesSocialSecurityNumberView',
+    title: 'Headless/UnitedStatesSocialSecurityNumberView',
     component: UnitedStatesSocialSecurityNumberView,
   });
 </script>

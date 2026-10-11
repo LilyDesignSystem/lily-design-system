@@ -476,6 +476,13 @@ the grid so the zone is chosen before the instant.
   zone change.
 - No zone is selected unless the consumer sets one.
 
+### 5.10 Form reset
+
+When the picker sits in a `<form>` and the form is reset, the picker restores the value (and time zone) it had when
+first rendered — in the visible field, in the component, and in the hidden input the form submits — one tick after the
+`reset` event, so the browser has reset the DOM first, and not at all when a listener cancelled the reset
+(`preventDefault()`). `value` is controlled, so the restored value reaches the consumer through `onChange` (and `onTimeZoneChange`), exactly as a user's choice would. Before 2026-10-11 a reset left the typed date in place, because React keeps a controlled field's default in step with its value.
+
 ## 6. Accessibility
 
 ### 6.1 Roles and properties

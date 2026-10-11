@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { untrack } from "svelte";
     // FiveStarRatingPicker component
     //
     // A five-star rating input that lets users select a rating from 1 to 5 stars using
@@ -9,6 +10,7 @@
     // Props:
     //   className — string, optional. CSS class name.
     //   label — string, required. Accessible name for the rating group via aria-label.
+    //   starLabel — (star: number) => string, optional. Each option's text; defaults to the number (no English).
     //   value — number, default 0. Current rating (1-5, 0 = none); bindable via bind:value.
     //   name — string, default "rating". Radio group name for form submission.
     //   disabled — boolean, default false. Whether the entire group is disabled.
@@ -52,6 +54,7 @@
         label,
         value = $bindable(0),
         name = "rating",
+        starLabel,
         disabled = false,
         ...restProps
     }: {
@@ -61,16 +64,46 @@
         value?: number;
         /** Radio group name for form submission. */
         name?: string;
+        /** Each option's text, e.g. (n) => `${n} stars`. Defaults to the number alone: no English default. */
+        starLabel?: (star: number) => string;
         /** Whether the entire group is disabled. */
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
 
     const stars = [1, 2, 3, 4, 5];
+
+    // Form reset: the radios use a one-way `checked`, which a reset clears
+    // without telling this component, so `value` would keep a rating the form no
+    // longer submits. Restore the initial value instead — one tick later, after
+    // the browser has reset the DOM, and not when the reset was cancelled.
+    let root: HTMLFieldSetElement | undefined = $state();
+    const initialValue = untrack(() => value);
+    $effect(() => {
+        const form = root?.form ?? root?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented || !root) return;
+                value = initialValue;
+                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                    input.checked = input.value === String(initialValue);
+                }
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    });
 </script>
 
 <!-- FiveStarRatingPicker.svelte -->
 <fieldset
+    bind:this={root}
     class={`five-star-rating-picker ${className}`}
     role="radiogroup"
     aria-label={label}
@@ -86,8 +119,7 @@
                 checked={value === star}
                 onchange={() => (value = star)}
             />
-            {star}
-            {star === 1 ? "star" : "stars"}
+            {starLabel ? starLabel(star) : star}
         </label>
     {/each}
 </fieldset>

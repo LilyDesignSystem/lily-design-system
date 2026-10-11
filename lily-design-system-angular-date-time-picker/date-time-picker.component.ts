@@ -3,9 +3,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Directive,
   ElementRef,
   TemplateRef,
+  afterNextRender,
   computed,
   contentChild,
   effect,
@@ -1428,6 +1430,43 @@ export class DateTimePicker {
         this.viewMonth.set(anchor.month);
         this.cursor.set(formatIsoDate(anchor));
       }
+    });
+
+    // Form reset. The visible field takes a one-way `[value]`, so a reset
+    // blanked it while `value` — and the hidden input the form submits — kept
+    // the date: the field showed nothing and the form still sent the old
+    // value. Restore the initial value instead, one tick later (after the
+    // browser has reset the DOM) and not when the reset was cancelled. Read
+    // after the first render, once the inputs are bound. Like a native reset
+    // it emits no `change`; the `value` model is updated.
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      const root = this.rootRef().nativeElement;
+      const form = root.closest("form");
+      if (!form) return;
+      const initialValue = this.value();
+      const initialZone = this.timeZone();
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const onReset = (event: Event) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          if (event.defaultPrevented) return;
+          this.closeDialog(false);
+          this.typed.set(null);
+          this.invalid.set(false);
+          this.value.set(initialValue);
+          this.timeZone.set(initialZone);
+          const field = root.querySelector<HTMLInputElement>(".date-time-picker-input");
+          const formatter = this.formatValue() ?? ((v: string) => this.defaultFormat(v));
+          if (field) field.value = formatter(initialValue ?? "");
+          this.cdr.markForCheck();
+        }, 0);
+      };
+      form.addEventListener("reset", onReset);
+      destroyRef.onDestroy(() => {
+        clearTimeout(timer);
+        form.removeEventListener("reset", onReset);
+      });
     });
   }
 

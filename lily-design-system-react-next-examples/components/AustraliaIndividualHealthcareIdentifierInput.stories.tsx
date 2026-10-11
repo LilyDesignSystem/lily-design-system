@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AustraliaIndividualHealthcareIdentifierInput from './AustraliaIndividualHealthcareIdentifierInput';
 
 const meta = {
-  title: 'Examples/AustraliaIndividualHealthcareIdentifierInput',
+  title: 'Headless/AustraliaIndividualHealthcareIdentifierInput',
   component: AustraliaIndividualHealthcareIdentifierInput,
   tags: ['autodocs']
 } satisfies Meta<typeof AustraliaIndividualHealthcareIdentifierInput>;

@@ -3,7 +3,7 @@
   import ScrollBar from './ScrollBar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ScrollBar',
+    title: 'Headless/ScrollBar',
     component: ScrollBar,
   });
 </script>

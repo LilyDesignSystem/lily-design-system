@@ -3,7 +3,7 @@
   import MedicalBanner from './MedicalBanner.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MedicalBanner',
+    title: 'Headless/MedicalBanner',
     component: MedicalBanner,
   });
 </script>

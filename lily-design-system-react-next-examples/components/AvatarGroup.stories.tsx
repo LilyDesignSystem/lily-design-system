@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AvatarGroup from './AvatarGroup';
 
 const meta = {
-  title: 'Examples/AvatarGroup',
+  title: 'Headless/AvatarGroup',
   component: AvatarGroup,
   tags: ['autodocs']
 } satisfies Meta<typeof AvatarGroup>;

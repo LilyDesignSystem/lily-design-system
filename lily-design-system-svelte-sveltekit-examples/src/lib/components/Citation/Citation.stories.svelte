@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import Citation from "./Citation.svelte";
     const { Story } = defineMeta({
-        title: "Examples/Citation",
+        title: "Headless/Citation",
         component: Citation,
     });
 </script>

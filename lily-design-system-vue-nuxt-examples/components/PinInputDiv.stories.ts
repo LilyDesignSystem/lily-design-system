@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PinInputDiv from './PinInputDiv.vue';
 
 const meta = {
-  title: 'Examples/PinInputDiv',
+  title: 'Headless/PinInputDiv',
   component: PinInputDiv,
   tags: ['autodocs']
 } satisfies Meta<typeof PinInputDiv>;

@@ -17,18 +17,10 @@ describe("five-face-rating-picker-button", () => {
       .toBe("5");
   });
 
-  it("generates default aria-label from value", () => {
-    const cases = [
-      [1, "Very unhappy"],
-      [2, "Unhappy"],
-      [3, "Neutral"],
-      [4, "Happy"],
-      [5, "Very happy"],
-    ];
-    for (const [value, phrase] of cases) {
+  it("without a label, names the face by its number — no English default", () => {
+    for (const value of [1, 2, 3, 4, 5]) {
       const { document } = render(name, { value });
-      expect(document.querySelector(`button.${name}`).getAttribute("aria-label"))
-        .toBe(phrase);
+      expect(document.querySelector(`button.${name}`).getAttribute("aria-label")).toBe(String(value));
     }
   });
 

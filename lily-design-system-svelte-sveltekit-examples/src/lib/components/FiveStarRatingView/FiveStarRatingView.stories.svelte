@@ -3,7 +3,7 @@
   import FiveStarRatingView from './FiveStarRatingView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FiveStarRatingView',
+    title: 'Headless/FiveStarRatingView',
     component: FiveStarRatingView,
   });
 </script>

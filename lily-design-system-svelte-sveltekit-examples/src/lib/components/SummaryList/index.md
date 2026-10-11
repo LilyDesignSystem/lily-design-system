@@ -1,82 +1,140 @@
 # SummaryList
 
-## Overview
+A headless description list for presenting key-value summary data. Renders a semantic `<dl>` with an accessible label.
 
-A headless summary list that renders a semantic <dl> (description list)
-element for presenting key-value pairs or summary information. Commonly
-used for order summaries, account settings, form review data, or any
-context requiring term-description pairs. The consumer provides content
-through the children snippet, typically <dt>/<dd> pairs or SummaryListItem components.
+## What it is
+
+A Svelte 5 headless component that renders `<dl class="summary-list ...">` with `aria-label` and the supplied `children`. Children are typically `SummaryListItem` components (or direct `<dt>` / `<dd>` pairs).
 
 ## What it does
 
-An ordered list of key-value summary pairs.
+- Renders the semantic description-list container.
+- Applies the required `aria-label`.
+- Spreads `...restProps` onto the `<dl>`.
 
-## When to use
+No layout, no keyboard support, no state.
 
-- Use to render an ordered collection of related items.
+## When to use it
 
-## When not to use
+- Order summaries at checkout.
+- Account settings review screens.
+- Form confirmation pages.
+- Any place with a set of term/definition rows (label / value).
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Generic vertical lists - use `<ul>` or relevant `List` components.
+- Tables of data with multiple columns - use `Table` or `DataTable`.
+- Menus of actions - use `Menu` or `DropdownMenu`.
 
-```svelte
-<SummaryList label="Order summary">...</SummaryList>
-```
+## How to use it
+
+1. Import both `SummaryList` and `SummaryListItem`.
+2. Provide a translated `label`.
+3. Render one `SummaryListItem` per row, passing `term` and the value in `children`.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the description list via aria-label. |
-| `children` | Snippet, required | List content, typically <dt>/<dd> pairs. |
-| `...restProps` | additional HTML attributes spread onto the <dl> |  |
+- `class` (string, optional, default `""`) - merged with the base `summary-list` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `children` (Snippet, required) - list content (typically `SummaryListItem`s).
+- `...restProps` - spread onto `<dl>`.
 
-## Examples
+## Usage
+
+Composition with `SummaryListItem`:
 
 ```svelte
-<!-- Key-value pair summary -->
+<script lang="ts">
+    import SummaryList from "./SummaryList.svelte";
+    import SummaryListItem from "../SummaryListItem/SummaryListItem.svelte";
+</script>
+
 <SummaryList label="Order summary">
-  <dt>Product</dt><dd>Widget</dd>
-  <dt>Quantity</dt><dd>3</dd>
-  <dt>Total</dt><dd>$29.97</dd>
+    <SummaryListItem term="Product">Widget</SummaryListItem>
+    <SummaryListItem term="Quantity">3</SummaryListItem>
+    <SummaryListItem term="Total">$29.97</SummaryListItem>
 </SummaryList>
 ```
 
-## SvelteKit example
+Plain `<dt>`/`<dd>` children:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SummaryList from "#lib/components/SummaryList/SummaryList.svelte";
+    import SummaryList from "./SummaryList.svelte";
 </script>
 
-<SummaryList label="Order summary">...</SummaryList>
+<SummaryList label="Account details">
+    <dt>Name</dt><dd>Jane Doe</dd>
+    <dt>Email</dt><dd>jane@example.com</dd>
+</SummaryList>
 ```
 
-## Keyboard
+Dynamic rows:
 
-- None -- passive informational display, not interactive
+```svelte
+<script lang="ts">
+    import SummaryList from "./SummaryList.svelte";
+    import SummaryListItem from "../SummaryListItem/SummaryListItem.svelte";
+    const rows = [
+        { term: "Plan", value: "Pro" },
+        { term: "Seats", value: "5" },
+        { term: "Renewal", value: "2026-06-01" },
+    ];
+</script>
+
+<SummaryList label="Subscription">
+    {#each rows as r}
+        <SummaryListItem term={r.term}>{r.value}</SummaryListItem>
+    {/each}
+</SummaryList>
+```
+
+With nested interactive values:
+
+```svelte
+<script lang="ts">
+    import SummaryList from "./SummaryList.svelte";
+    import SummaryListItem from "../SummaryListItem/SummaryListItem.svelte";
+</script>
+
+<SummaryList label="Shipping">
+    <SummaryListItem term="Address">
+        123 Main St
+        <button>Edit</button>
+    </SummaryListItem>
+</SummaryList>
+```
+
+With custom class:
+
+```svelte
+<script lang="ts">
+    import SummaryList from "./SummaryList.svelte";
+    import SummaryListItem from "../SummaryListItem/SummaryListItem.svelte";
+</script>
+
+<SummaryList label="Invoice" class="stripe-rows">
+    <SummaryListItem term="Subtotal">$100.00</SummaryListItem>
+    <SummaryListItem term="Tax">$8.25</SummaryListItem>
+    <SummaryListItem term="Total">$108.25</SummaryListItem>
+</SummaryList>
+```
 
 ## Accessibility
 
-- Semantic <dl> element provides description list semantics
-- aria-label on the dl provides screen reader context
-- Screen readers announce the list and its term-description pairs
+- `<dl>` is the correct semantic element for term-description pairs.
+- `aria-label` adds a descriptive name so screen readers announce the list's purpose.
+- `<dt>` and `<dd>` children are announced as term/description by assistive tech.
 
-## Internationalization
+References:
+- MDN `<dl>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 
-- The label prop externalizes the accessible label string
-- The children snippet allows localized content
-- No hardcoded strings in the component
+## Related components
 
-## References
-
-- MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
-- WAI-ARIA landmark regions: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+- `SummaryListItem` - the intended row component.
+- `DataTable`, `Table` - tabular alternatives.
+- `Fieldset` - grouping form fields.
 
 ---
 

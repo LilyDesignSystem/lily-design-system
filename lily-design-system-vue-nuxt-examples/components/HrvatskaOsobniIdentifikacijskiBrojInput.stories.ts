@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import HrvatskaOsobniIdentifikacijskiBrojInput from './HrvatskaOsobniIdentifikacijskiBrojInput.vue';
 
 const meta = {
-  title: 'Examples/HrvatskaOsobniIdentifikacijskiBrojInput',
+  title: 'Headless/HrvatskaOsobniIdentifikacijskiBrojInput',
   component: HrvatskaOsobniIdentifikacijskiBrojInput,
   tags: ['autodocs']
 } satisfies Meta<typeof HrvatskaOsobniIdentifikacijskiBrojInput>;

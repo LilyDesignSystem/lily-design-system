@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Watermark from './Watermark.vue';
 
 const meta = {
-  title: 'Examples/Watermark',
+  title: 'Headless/Watermark',
   component: Watermark,
   tags: ['autodocs']
 } satisfies Meta<typeof Watermark>;

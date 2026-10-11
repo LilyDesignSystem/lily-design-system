@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Icon from './Icon.vue';
 
 const meta = {
-  title: 'Examples/Icon',
+  title: 'Headless/Icon',
   component: Icon,
   tags: ['autodocs']
 } satisfies Meta<typeof Icon>;

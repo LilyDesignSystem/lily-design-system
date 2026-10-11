@@ -34,9 +34,9 @@ describe("DataTableTD", () => {
         expect(screen.getByText("Bob")).toBeTruthy();
     });
 
-    test("has aria-selected when active", () => {
+    test("does not set aria-selected when active (focus is not selection)", () => {
         renderInRow({ active: true }, "x");
-        expect(screen.getByRole("gridcell").getAttribute("aria-selected")).toBe("true");
+        expect(screen.getByRole("gridcell").getAttribute("aria-selected")).toBeNull();
     });
 
     test("omits aria-selected when not active", () => {

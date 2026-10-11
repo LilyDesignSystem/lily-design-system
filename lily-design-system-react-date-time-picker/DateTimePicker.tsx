@@ -1051,6 +1051,40 @@ export function DateTimePicker({
         if (refocus) focusRequestRef.current = "opener";
     }
 
+    // Form reset: restore the initial value and time zone, as a native control
+    // would — one tick later, after the browser has reset the DOM, and not when
+    // the reset was cancelled. The value is controlled, so the change goes
+    // through `onChange` (and `onTimeZoneChange`) for the consumer to apply.
+    const initialValueRef = React.useRef(currentValue);
+    const initialZoneRef = React.useRef(currentZone);
+    const resetRef = React.useRef<() => void>(() => {});
+    resetRef.current = () => {
+        setOpen(false);
+        setTyped(null);
+        setInvalid(false);
+        commitValue(initialValueRef.current);
+        if (currentZone !== initialZoneRef.current) {
+            if (!zoneControlled) setInternalZone(initialZoneRef.current);
+            onTimeZoneChange?.(initialZoneRef.current);
+        }
+    };
+    React.useEffect(() => {
+        const form = rootRef.current?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (!event.defaultPrevented) resetRef.current();
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    }, []);
+
     /**
      * Commit the pending selection to `value` and notify.
      *

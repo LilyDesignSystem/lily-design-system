@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import StickyPromoBanner from './StickyPromoBanner.vue';
 
 const meta = {
-  title: 'Examples/StickyPromoBanner',
+  title: 'Headless/StickyPromoBanner',
   component: StickyPromoBanner,
   tags: ['autodocs']
 } satisfies Meta<typeof StickyPromoBanner>;

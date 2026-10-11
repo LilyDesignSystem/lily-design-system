@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DateTimeView from './DateTimeView';
 
 const meta = {
-  title: 'Examples/DateTimeView',
+  title: 'Headless/DateTimeView',
   component: DateTimeView,
   tags: ['autodocs']
 } satisfies Meta<typeof DateTimeView>;

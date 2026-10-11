@@ -54,9 +54,9 @@ const FRAMEWORKS = [
   {
     id: "svelte",
     label: "Svelte",
-    impl: (c) => `lily-design-system-svelte-headless/src/lib/components/${c.name}/${c.name}.svelte`,
-    test: (c) => `lily-design-system-svelte-headless/src/lib/components/${c.name}/${c.name}.test.ts`,
-    story: (c) => `lily-design-system-svelte-headless/src/lib/components/${c.name}/${c.name}.stories.svelte`,
+    impl: (c) => `lily-design-system-svelte-headless/components/${c.name}/${c.name}.svelte`,
+    test: (c) => `lily-design-system-svelte-headless/components/${c.name}/${c.name}.test.ts`,
+    story: (c) => `lily-design-system-svelte-headless/components/${c.name}/${c.name}.stories.svelte`,
   },
   {
     id: "react",

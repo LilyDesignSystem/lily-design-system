@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SuomiHenkilotunnusInput from './SuomiHenkilotunnusInput.vue';
 
 const meta = {
-  title: 'Examples/SuomiHenkilotunnusInput',
+  title: 'Headless/SuomiHenkilotunnusInput',
   component: SuomiHenkilotunnusInput,
   tags: ['autodocs']
 } satisfies Meta<typeof SuomiHenkilotunnusInput>;

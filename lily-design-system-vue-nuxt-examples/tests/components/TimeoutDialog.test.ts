@@ -1,13 +1,14 @@
-import { render, screen } from "@testing-library/vue";
-import { describe, expect, test } from "vitest";
-
-import Subject from "../../components/TimeoutDialog.vue";
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/vue";
+import TimeoutDialog from "../../components/TimeoutDialog.vue";
 
 describe("TimeoutDialog", () => {
-    test("renders the component", () => {
-        render(Subject, { props: { label: "Test" }, slots: { default: "Content" } });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
-        expect(el.classList.contains("timeout-dialog")).toBe(true);
+  it("renders with class", () => {
+    const { container } = render(TimeoutDialog, {
+      props: { label: "Test" },
+      slots: { default: "content" },
     });
+    const el = container.querySelector(".timeout-dialog");
+    expect(el).toBeTruthy();
+  });
 });

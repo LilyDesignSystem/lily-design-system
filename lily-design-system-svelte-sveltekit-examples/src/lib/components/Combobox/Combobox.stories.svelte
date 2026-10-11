@@ -3,7 +3,7 @@
   import Combobox from './Combobox.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Combobox',
+    title: 'Headless/Combobox',
     component: Combobox,
   });
 </script>

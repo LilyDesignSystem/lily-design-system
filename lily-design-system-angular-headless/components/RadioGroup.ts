@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-radio-group",
   standalone: true,
-  template: `<div class="radio-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+  template: `<fieldset class="radio-group {{ className() }}" role="radiogroup" [attr.aria-label]="label() || null"><ng-content /></fieldset>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioGroup {

@@ -43,7 +43,7 @@
         }
         <GanttTableThead>
             <GanttTableTr>
-                <GanttTableTH scope="col"></GanttTableTH>
+                <GanttTableTH scope="col">@(Labels.TaskColumnHeader ?? "")</GanttTableTH>
                 @foreach (var column in Columns)
                 {
                     var isColumnToday = Today is not null && RangesOverlap(column.Start, column.End, Today, Today);
@@ -57,23 +57,26 @@
             @{
                 var rows = Rows;
                 var columns = Columns;
+                var ranges = EffectiveRanges(Tasks);
             }
             @for (var rowIndex = 0; rowIndex < rows.Count; rowIndex++)
             {
                 var row = rows[rowIndex];
                 var rowNum = rowIndex;
-                var range = RangeFor(row.Task, row.HasChildren);
+                var range = RangeFor(row.Task, row.HasChildren, ranges);
                 var deps = PredecessorLabels(row.Task);
                 <GanttTableTr>
-                    <GanttTableTH scope="row" style="@($"padding-inline-start: {row.Depth}em")">
-                        @if (row.HasChildren)
+                    @* Depth is data for the consumer's CSS (indentation), never an inline style. *@
+                    <GanttTableTH scope="row" data-depth="@row.Depth">
+                        @* Gated on Labels.CollapseButton: an unnamed button is worse than none. *@
+                        @if (row.HasChildren && Labels.CollapseButton is not null)
                         {
                             var collapsibleTask = row.Task;
                             var isCollapsed = _collapsed.Contains(collapsibleTask.Id);
                             <button type="button"
                                     class="gantt-chart-collapse-button"
                                     aria-expanded="@(!isCollapsed ? "true" : "false")"
-                                    aria-label="@(Labels.CollapseButton?.Invoke(collapsibleTask, isCollapsed) ?? "")"
+                                    aria-label="@Labels.CollapseButton(collapsibleTask, isCollapsed)"
                                     @onclick="@(() => ToggleCollapse(collapsibleTask.Id))">
                                 @(isCollapsed ? "▸" : "▾")
                             </button>
@@ -95,7 +98,7 @@
                         var isCellToday = Today is not null && RangesOverlap(column.Start, column.End, Today, Today);
                         var isLeadingCell = inRange && RangesOverlap(column.Start, column.End, range.Start, range.Start);
                         var hasDescribedBy = deps.Count > 0 && Labels.DependencySummary is not null;
-                        var isActiveCell = _focusedRow == rowNum && _focusedCol == colNum;
+                        var isActiveCell = ActiveRow == rowNum && ActiveCol == colNum;
                         var currentTask = row.Task;
                         var hasChildrenForCell = row.HasChildren;
                         <GanttTableTD id="@CellId(rowNum, colNum)"
@@ -108,7 +111,8 @@
                                       data-today="@(isCellToday ? "" : null)"
                                       aria-describedby="@(hasDescribedBy ? DependencyId(currentTask.Id) : null)"
                                       @ondragover:preventDefault="true"
-                                      @ondrop="@(e => OnCellDropAsync(column, e))">
+                                      @ondrop="@(e => OnCellDropAsync(column, e))"
+                                      @onfocusin="@(() => OnCellFocusIn(rowNum, colNum))">
                             @if (isLeadingCell)
                             {
                                 <span class="gantt-chart-bar"
@@ -119,12 +123,13 @@
                         </GanttTableTD>
                     }
                 </GanttTableTr>
-                @if (_editingTaskId == row.Task.Id && Labels.DateTimePickerLabels is not null)
+                @if (_editingTaskId == row.Task.Id && CanEdit && Labels.DateTimePickerLabels is not null)
                 {
                     var editingTask = row.Task;
                     <tr class="gantt-chart-edit-row">
                         <td colspan="@(columns.Count + 1)">
                             <DateTimePicker Label="@(Labels.StartLabel ?? "")"
+                                             InputId="@EditStartInputId"
                                              Labels="@Labels.DateTimePickerLabels"
                                              Mode="DateTimeMode.Date"
                                              @bind-Value="_editStart" />
@@ -132,7 +137,10 @@
                                              Labels="@Labels.DateTimePickerLabels"
                                              Mode="DateTimeMode.Date"
                                              @bind-Value="_editEnd" />
-                            <button type="button" class="gantt-chart-save-button" @onclick="@(() => SaveEditAsync(editingTask))">
+                            <button type="button"
+                                    class="gantt-chart-save-button"
+                                    disabled="@(string.IsNullOrEmpty(_editStart) || string.IsNullOrEmpty(_editEnd))"
+                                    @onclick="@(() => SaveEditAsync(editingTask))">
                                 @(Labels.SaveLabel ?? "")
                             </button>
                             <button type="button" class="gantt-chart-cancel-button" @onclick="CancelEdit">

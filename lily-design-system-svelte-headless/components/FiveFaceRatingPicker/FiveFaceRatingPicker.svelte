@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { untrack } from "svelte";
     // FiveFaceRatingPicker component
     //
     // A five-face rating input that lets users select a satisfaction level from 1 to 5
@@ -11,7 +12,7 @@
     //   label — string, required. Accessible name for the rating group via aria-label.
     //   value — number, default 0. Current rating (1-5, 0 = none); bindable via bind:value.
     //   name — string, default "face-rating". Radio group name for form submission.
-    //   labels — string[], default ["Very bad", "Bad", "Okay", "Good", "Very good"]. Accessible labels for each face.
+    //   labels — string[], default ["1", "2", "3", "4", "5"] (no English default; pass words, e.g. ["Very bad", …, "Very good"]). Accessible labels for each face.
     //   disabled — boolean, default false. Whether the entire group is disabled.
     //   ...restProps — additional HTML attributes spread onto the fieldset.
     //
@@ -53,7 +54,8 @@
         label,
         value = $bindable(0),
         name = "face-rating",
-        labels = ["Very bad", "Bad", "Okay", "Good", "Very good"],
+        // The numbers, not English words: the words are the consumer's to supply.
+        labels = ["1", "2", "3", "4", "5"],
         disabled = false,
         ...restProps
     }: {
@@ -71,10 +73,38 @@
     } = $props();
 
     const faces = [1, 2, 3, 4, 5];
+
+    // Form reset: the radios use a one-way `checked`, which a reset clears
+    // without telling this component, so `value` would keep a rating the form no
+    // longer submits. Restore the initial value instead — one tick later, after
+    // the browser has reset the DOM, and not when the reset was cancelled.
+    let root: HTMLFieldSetElement | undefined = $state();
+    const initialValue = untrack(() => value);
+    $effect(() => {
+        const form = root?.form ?? root?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented || !root) return;
+                value = initialValue;
+                for (const input of root.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+                    input.checked = input.value === String(initialValue);
+                }
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    });
 </script>
 
 <!-- FiveFaceRatingPicker.svelte -->
 <fieldset
+    bind:this={root}
     class={`five-face-rating-picker ${className}`}
     role="radiogroup"
     aria-label={label}

@@ -3,7 +3,7 @@
   import EditableForm from './EditableForm.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EditableForm',
+    title: 'Headless/EditableForm',
     component: EditableForm,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SlideOutDrawer from './SlideOutDrawer';
 
 const meta = {
-  title: 'Examples/SlideOutDrawer',
+  title: 'Headless/SlideOutDrawer',
   component: SlideOutDrawer,
   tags: ['autodocs']
 } satisfies Meta<typeof SlideOutDrawer>;

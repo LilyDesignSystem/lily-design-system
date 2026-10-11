@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TreeNav from './TreeNav';
 
 const meta = {
-  title: 'Examples/TreeNav',
+  title: 'Headless/TreeNav',
   component: TreeNav,
   tags: ['autodocs']
 } satisfies Meta<typeof TreeNav>;

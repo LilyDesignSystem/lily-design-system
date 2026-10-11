@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import WarningCallout from './WarningCallout.vue';
 
 const meta = {
-  title: 'Examples/WarningCallout',
+  title: 'Headless/WarningCallout',
   component: WarningCallout,
   tags: ['autodocs']
 } satisfies Meta<typeof WarningCallout>;

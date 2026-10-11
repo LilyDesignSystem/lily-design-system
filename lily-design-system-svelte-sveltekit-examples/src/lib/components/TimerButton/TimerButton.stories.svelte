@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import TimerButton from "./TimerButton.svelte";
     const { Story } = defineMeta({
-        title: "Examples/TimerButton",
+        title: "Headless/TimerButton",
         component: TimerButton,
     });
 </script>

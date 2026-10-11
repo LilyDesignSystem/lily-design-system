@@ -443,7 +443,7 @@ public static class ComponentExamples
         ["table-row"] = new("razor", "<TableRow>\n    Content\n</TableRow>\n", new List<ExampleVariant> {  }),
         ["table-td"] = new("razor", "<TableTD>\n    Content\n</TableTD>\n", new List<ExampleVariant> {  }),
         ["table-th"] = new("razor", "<TableTH>\n    Content\n</TableTH>\n", new List<ExampleVariant> {  }),
-        ["tag"] = new("html", "<Tag label=\"Status: Completed\">Completed</Tag>\n", new List<ExampleVariant> {  }),
+        ["tag"] = new("html", "<Tag label=\"status\">Completed</Tag>\n", new List<ExampleVariant> {  }),
         ["tag-group"] = new("html", "<TagGroup label=\"Patient statuses\">\n  <Tag label=\"Status: Verified\">Verified</Tag>\n  <Tag label=\"Status: NHS patient\">NHS patient</Tag>\n  <Tag label=\"Status: Review due\">Review due</Tag>\n</TagGroup>\n", new List<ExampleVariant> {  }),
         ["tag-input"] = new("html", "<TagInput label=\"Add tag\" value={tagText} onadd={(tag) => tags.push(tag)} />\n", new List<ExampleVariant> {  }),
         ["task-bar"] = new("html", "<TaskBar label=\"Document actions\">\n  <TaskBarButton>New</TaskBarButton>\n  <TaskBarButton>Open</TaskBarButton>\n  <TaskBarButton>Save</TaskBarButton>\n  <TaskBarButton>Print</TaskBarButton>\n</TaskBar>\n", new List<ExampleVariant> {  }),

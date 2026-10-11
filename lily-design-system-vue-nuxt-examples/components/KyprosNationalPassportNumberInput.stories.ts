@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import KyprosNationalPassportNumberInput from './KyprosNationalPassportNumberInput.vue';
 
 const meta = {
-  title: 'Examples/KyprosNationalPassportNumberInput',
+  title: 'Headless/KyprosNationalPassportNumberInput',
   component: KyprosNationalPassportNumberInput,
   tags: ['autodocs']
 } satisfies Meta<typeof KyprosNationalPassportNumberInput>;

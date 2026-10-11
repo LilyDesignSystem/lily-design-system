@@ -3,7 +3,7 @@
   import FileManager from './FileManager.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/FileManager',
+    title: 'Headless/FileManager',
     component: FileManager,
   });
 </script>

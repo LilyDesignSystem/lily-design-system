@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CurrencyInput from './CurrencyInput';
 
 const meta = {
-  title: 'Examples/CurrencyInput',
+  title: 'Headless/CurrencyInput',
   component: CurrencyInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CurrencyInput>;

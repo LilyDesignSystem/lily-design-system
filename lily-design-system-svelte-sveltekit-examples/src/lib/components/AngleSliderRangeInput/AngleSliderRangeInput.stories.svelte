@@ -3,7 +3,7 @@
   import AngleSliderRangeInput from './AngleSliderRangeInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AngleSliderRangeInput',
+    title: 'Headless/AngleSliderRangeInput',
     component: AngleSliderRangeInput,
   });
 </script>

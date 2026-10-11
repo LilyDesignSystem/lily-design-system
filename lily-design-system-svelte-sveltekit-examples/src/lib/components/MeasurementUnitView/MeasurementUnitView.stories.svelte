@@ -3,7 +3,7 @@
   import MeasurementUnitView from './MeasurementUnitView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MeasurementUnitView',
+    title: 'Headless/MeasurementUnitView',
     component: MeasurementUnitView,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PinInputDiv from './PinInputDiv';
 
 const meta = {
-  title: 'Examples/PinInputDiv',
+  title: 'Headless/PinInputDiv',
   component: PinInputDiv,
   tags: ['autodocs']
 } satisfies Meta<typeof PinInputDiv>;

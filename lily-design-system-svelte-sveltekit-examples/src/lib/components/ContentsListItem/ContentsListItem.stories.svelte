@@ -3,7 +3,7 @@
   import ContentsListItem from './ContentsListItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ContentsListItem',
+    title: 'Headless/ContentsListItem',
     component: ContentsListItem,
   });
 </script>

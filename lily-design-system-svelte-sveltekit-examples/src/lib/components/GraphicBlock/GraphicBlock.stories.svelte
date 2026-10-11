@@ -3,7 +3,7 @@
   import GraphicBlock from './GraphicBlock.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/GraphicBlock',
+    title: 'Headless/GraphicBlock',
     component: GraphicBlock,
   });
 </script>

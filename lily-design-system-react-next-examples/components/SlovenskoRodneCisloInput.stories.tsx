@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SlovenskoRodneCisloInput from './SlovenskoRodneCisloInput';
 
 const meta = {
-  title: 'Examples/SlovenskoRodneCisloInput',
+  title: 'Headless/SlovenskoRodneCisloInput',
   component: SlovenskoRodneCisloInput,
   tags: ['autodocs']
 } satisfies Meta<typeof SlovenskoRodneCisloInput>;

@@ -31,6 +31,17 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      follows (plan P3-T7), so a future refresh knows its baseline.
 
 Exits non-zero listing every violation. Wired into bin/test.
+
+`bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
+for each theme it computes the WCAG 2 contrast ratio of every declared
+text/background token pair (base content on the three base surfaces, each
+`-content` colour on its fill, and `--lily-error-text` on the page) and
+lists every pair below AAA (7:1), marking those also below AA (4.5:1).
+It never rewrites a colour — a theme's colours are its author's decision —
+and it always exits 0, so it is not part of bin/test. Colours are parsed
+from hex and `oklch()`, `color-mix(in oklch, …)` is evaluated, and an
+out-of-sRGB-gamut colour is clipped (and flagged) rather than gamut-mapped,
+so a flagged pair is approximate.
 """
 
 import glob
@@ -117,7 +128,145 @@ def unwrapped_rules(css: str):
     return bad
 
 
+# ---------------------------------------------------------------------------
+# --contrast: report-only WCAG 2 contrast of each theme's token pairs
+# ---------------------------------------------------------------------------
+
+# (foreground token, background token) — text drawn on a surface or fill.
+CONTRAST_PAIRS = [
+    ("--color-base-content", "--color-base-100"),
+    ("--color-base-content", "--color-base-200"),
+    ("--color-base-content", "--color-base-300"),
+    *[(f"--color-{n}-content", f"--color-{n}")
+      for n in ("primary", "secondary", "accent", "neutral", "info", "success", "warning", "error")],
+    ("--lily-error-text", "--color-base-100"),
+]
+AAA, AA = 7.0, 4.5
+
+
+def _srgb_to_linear(c: float) -> float:
+    return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+
+
+def _linear_to_srgb(c: float) -> float:
+    return 12.92 * c if c <= 0.0031308 else 1.055 * c ** (1 / 2.4) - 0.055
+
+
+def _oklab_to_linear_srgb(L: float, a: float, b: float):
+    l_ = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3
+    m_ = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3
+    s_ = (L - 0.0894841775 * a - 1.2914855480 * b) ** 3
+    return (
+        4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_,
+        -1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_,
+        -0.0041960863 * l_ - 0.7034186147 * m_ + 1.7076147010 * s_,
+    )
+
+
+def _linear_srgb_to_oklch(r: float, g: float, b: float):
+    l = (0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b) ** (1 / 3)
+    m = (0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b) ** (1 / 3)
+    s_ = (0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b) ** (1 / 3)
+    L = 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s_
+    A = 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s_
+    B = 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s_
+    import math
+    return L, math.hypot(A, B), math.degrees(math.atan2(B, A)) % 360
+
+
+def parse_color(value: str, tokens: dict, depth: int = 0):
+    """A CSS colour value -> (L, C, H) in OKLCH, or None if unsupported."""
+    import math
+    v = value.strip()
+    if depth > 8:
+        return None
+    m = re.fullmatch(r"var\(\s*(--[a-z0-9-]+)\s*\)", v)
+    if m:
+        return parse_color(tokens.get(m.group(1), ""), tokens, depth + 1)
+    m = re.fullmatch(r"#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})", v)
+    if m:
+        h = m.group(1)
+        if len(h) == 3:
+            h = "".join(c * 2 for c in h)
+        rgb = [_srgb_to_linear(int(h[i:i + 2], 16) / 255) for i in (0, 2, 4)]
+        return _linear_srgb_to_oklch(*rgb)
+    m = re.fullmatch(r"oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)(?:deg)?\s*(?:/\s*[\d.%]+\s*)?\)", v)
+    if m:
+        L = float(m.group(1)) / (100 if m.group(2) else 1)
+        return L, float(m.group(3)), float(m.group(4))
+    m = re.fullmatch(r"color-mix\(\s*in\s+oklch\s*,\s*(.+?)\s+([\d.]+)%\s*,\s*(.+?)\s*\)", v, re.S)
+    if m:
+        c1 = parse_color(m.group(1), tokens, depth + 1)
+        c2 = parse_color(m.group(3), tokens, depth + 1)
+        if c1 is None or c2 is None:
+            return None
+        p = float(m.group(2)) / 100
+        h1, h2 = c1[2], c2[2]
+        # An achromatic colour's hue is powerless: take the other's.
+        if c1[1] < 1e-4:
+            h1 = h2
+        if c2[1] < 1e-4:
+            h2 = h1
+        dh = ((h2 - h1 + 180) % 360) - 180  # shorter hue arc
+        return (c1[0] * p + c2[0] * (1 - p), c1[1] * p + c2[1] * (1 - p), (h1 + dh * (1 - p)) % 360)
+    return None
+
+
+def luminance(oklch):
+    """Relative luminance (WCAG 2) of an OKLCH colour; (value, clipped?)."""
+    import math
+    L, C, H = oklch
+    a, b = C * math.cos(math.radians(H)), C * math.sin(math.radians(H))
+    rgb = _oklab_to_linear_srgb(L, a, b)
+    # 0.001 tolerance: a value written to three decimals (sRGB red is
+    # oklch(62.8% 0.2577 29.23)) lands a hair outside and is not a real excursion.
+    clipped = any(c < -1e-3 or c > 1 + 1e-3 for c in rgb)
+    r, g, bl = (min(max(c, 0.0), 1.0) for c in rgb)
+    # Round-trip through 8-bit sRGB, as a browser paints it.
+    r, g, bl = (_srgb_to_linear(round(_linear_to_srgb(c) * 255) / 255) for c in (r, g, bl))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * bl, clipped
+
+
+def contrast_report() -> int:
+    files = sorted(glob.glob(os.path.join(TOP, "themes", "*.css")))
+    below_aaa = below_aa = unparsed = 0
+    for f in files:
+        css = strip_comments(open(f).read())
+        tokens = {}
+        for name, value in re.findall(r"(--[a-z0-9-]+)\s*:\s*([^;]+);", css):
+            tokens.setdefault(name, " ".join(value.split()))
+        lines = []
+        for fg, bg in CONTRAST_PAIRS:
+            c_fg, c_bg = parse_color(tokens.get(fg, ""), tokens), parse_color(tokens.get(bg, ""), tokens)
+            if c_fg is None or c_bg is None:
+                unparsed += 1
+                lines.append(f"  ?      {fg} on {bg}: colour not parsed")
+                continue
+            (l1, k1), (l2, k2) = luminance(c_fg), luminance(c_bg)
+            ratio = (max(l1, l2) + 0.05) / (min(l1, l2) + 0.05)
+            if ratio >= AAA:
+                continue
+            below_aaa += 1
+            mark = "AA  " if ratio >= AA else "FAIL"
+            if ratio < AA:
+                below_aa += 1
+            note = " (outside sRGB, clipped: approximate)" if k1 or k2 else ""
+            lines.append(f"  {mark} {ratio:5.2f}:1  {fg} on {bg}{note}")
+        if lines:
+            print(os.path.basename(f))
+            print("\n".join(lines))
+    pairs = len(files) * len(CONTRAST_PAIRS)
+    print(
+        f"check-theme --contrast: {pairs} pairs in {len(files)} themes; "
+        f"{below_aaa} below AAA (7:1), of which {below_aa} below AA (4.5:1); {unparsed} not parsed. "
+        "Report only: no colour was changed."
+    )
+    return 0
+
+
 def main() -> int:
+    if "--contrast" in sys.argv[1:]:
+        return contrast_report()
     slugs = set(
         line.split("\t")[0]
         for line in open(os.path.join(TOP, "components.tsv"))

@@ -590,9 +590,9 @@ describe("GanttChart — extra attributes and i18n (§8.15, §8.16)", () => {
     expect(root.getAttribute("data-testid")).toBe("chart-root");
   });
 
-  test("§8.16 collapseLabel/expandLabel absent render an empty aria-label, not a baked-in string", () => {
+  test("§8.16 without collapseLabel/expandLabel no unnamed collapse button renders", () => {
     const root = mountIntoBody(renderMacro(defaultOpts()));
-    expect(collapseButtonFor(root, "parent").getAttribute("aria-label")).toBe("");
+    expect(collapseButtonFor(root, "parent")).toBeNull();
   });
 
   test("§8.16 saveLabel/cancelLabel render the caller's own text, not a baked-in string", () => {
@@ -631,5 +631,78 @@ describe("GanttChart — autoInit and destroy", () => {
     key(tabbableCells(root)[0], "ArrowRight");
     // No listener remains: the roving-tabindex cursor does not move.
     expect(tabbableCells(root)[0].getAttribute("data-col")).toBe("0");
+  });
+});
+
+describe("GanttChart — focus, hierarchy and edit edge cases", () => {
+  function startInput(root: HTMLElement, taskId: string): HTMLInputElement {
+    return editRowFor(root, taskId).querySelector("[data-lily-date-time-picker-input]") as HTMLInputElement;
+  }
+
+  test("§8.17 depth is a data-depth attribute, never an inline style", () => {
+    const root = mountIntoBody(renderMacro(defaultOpts()));
+    const headers = rows(root).map((r) => r.querySelector<HTMLElement>(".gantt-table-th")!);
+    expect(headers.map((h) => h.getAttribute("data-depth"))).toEqual(["0", "0", "0", "0", "1", "1"]);
+    expect(headers.filter((h) => h.hasAttribute("style"))).toHaveLength(0);
+  });
+
+  test("§8.17 a task whose parentId names no task renders as a top-level row", () => {
+    const orphan = { id: "orphan", label: "Orphan", start: "2026-10-02", end: "2026-10-02", parentId: "gone" };
+    const root = mountIntoBody(renderMacro(defaultOpts({ tasks: [...TASKS, orphan] })));
+    const orphanRow = rows(root).find((r) => r.getAttribute("data-lily-gantt-chart-task-id") === "orphan");
+    expect(orphanRow).toBeTruthy();
+    expect(orphanRow!.getAttribute("data-lily-gantt-chart-depth")).toBe("0");
+  });
+
+  test("§8.5 editing a child re-derives its parent's range", () => {
+    const { root } = setup({ labels: LABELS });
+    // Move focus to child A (row 4) and open its edit region.
+    for (let i = 0; i < 4; i++) key(tabbableCells(root)[0], "ArrowDown");
+    key(tabbableCells(root)[0], "Enter");
+    typeIntoField(startInput(root, "child1"), "2026-10-02");
+    click(saveButtonFor(root, "child1"));
+    const parent = rows(root).find((r) => r.getAttribute("data-lily-gantt-chart-task-id") === "parent")!;
+    expect(parent.getAttribute("data-lily-gantt-chart-start")).toBe("2026-10-02");
+    expect(parent.getAttribute("data-lily-gantt-chart-end")).toBe("2026-10-09");
+  });
+
+  test("§8.8 focusing a cell by pointer moves the cursor there", () => {
+    const { root } = setup();
+    const cell = rows(root)[2].querySelectorAll<HTMLElement>(".gantt-table-td")[4];
+    cell.focus();
+    expect(tabbableCells(root)).toEqual([cell]);
+    key(cell, "ArrowUp");
+    expect(tabbableCells(root)[0].getAttribute("data-row")).toBe("1");
+    expect(tabbableCells(root)[0].getAttribute("data-col")).toBe("4");
+  });
+
+  test("§8.11 Escape cancels the edit region and returns focus to the task's cell", () => {
+    const onTaskChange = vi.fn();
+    const { root } = setup({ labels: LABELS }, { onTaskChange });
+    key(tabbableCells(root)[0], "Enter");
+    expect(editRowFor(root, "design").hidden).toBe(false);
+    key(startInput(root, "design"), "Escape");
+    expect(editRowFor(root, "design").hidden).toBe(true);
+    expect(onTaskChange).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(tabbableCells(root)[0]);
+  });
+
+  test("§8.10 a range entered end-first is saved start-first", () => {
+    const onTaskChange = vi.fn();
+    const { root } = setup({ labels: LABELS }, { onTaskChange });
+    key(tabbableCells(root)[0], "Enter");
+    typeIntoField(startInput(root, "design"), "2026-10-09");
+    click(saveButtonFor(root, "design"));
+    expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-03", "2026-10-09");
+  });
+
+  test("§8.16 the edit region is not rendered without its labels", () => {
+    const root = mountIntoBody(renderMacro(defaultOpts({ labels: { dateTimePickerLabels: DTP_LABELS } })));
+    expect(root.querySelector(".gantt-chart-edit-row")).toBeNull();
+  });
+
+  test("§8.16 labels.taskColumnHeader names the leading header cell", () => {
+    const root = mountIntoBody(renderMacro(defaultOpts({ labels: { ...LABELS, taskColumnHeader: "Task" } })));
+    expect(headerCells(root)[0].textContent?.trim()).toBe("Task");
   });
 });

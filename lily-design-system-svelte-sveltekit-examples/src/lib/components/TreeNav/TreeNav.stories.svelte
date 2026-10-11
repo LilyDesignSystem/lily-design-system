@@ -3,7 +3,7 @@
   import TreeNav from './TreeNav.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TreeNav',
+    title: 'Headless/TreeNav',
     component: TreeNav,
   });
 </script>

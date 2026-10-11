@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DanmarkPersonnummerInput from './DanmarkPersonnummerInput.vue';
 
 const meta = {
-  title: 'Examples/DanmarkPersonnummerInput',
+  title: 'Headless/DanmarkPersonnummerInput',
   component: DanmarkPersonnummerInput,
   tags: ['autodocs']
 } satisfies Meta<typeof DanmarkPersonnummerInput>;

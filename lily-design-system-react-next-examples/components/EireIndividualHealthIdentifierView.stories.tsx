@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EireIndividualHealthIdentifierView from './EireIndividualHealthIdentifierView';
 
 const meta = {
-  title: 'Examples/EireIndividualHealthIdentifierView',
+  title: 'Headless/EireIndividualHealthIdentifierView',
   component: EireIndividualHealthIdentifierView,
   tags: ['autodocs']
 } satisfies Meta<typeof EireIndividualHealthIdentifierView>;

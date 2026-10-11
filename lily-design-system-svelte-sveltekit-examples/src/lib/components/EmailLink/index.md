@@ -1,76 +1,100 @@
 # EmailLink
 
-## Overview
+A `mailto:` hyperlink displaying an email address. Clicking it opens the user's default mail client with the address pre-filled.
 
-Displays an email address as a clickable mailto link. When clicked, it opens
-the user's default email client with the address pre-filled. Used for
-displaying email addresses in profiles, contact lists, or user cards.
+## What it is
+
+`EmailLink` is a minimal wrapper around an `<a href="mailto:…">`. The address is used for both the visible text and the `href`. An optional `label` can override the accessible name via `aria-label` when the address alone is not descriptive enough.
 
 ## What it does
 
-A mailto hyperlink for an email address.
+- Renders `<a href="mailto:{email}" aria-label={label}>` displaying `email` as its text content.
+- Forwards `restProps` onto the `<a>`.
 
-## When to use
+## When to use it
 
-- Use for navigation to another URL or in-page anchor.
+- Profile pages, contact lists, and team member cards where an email address should be actionable.
+- Footer "Contact us" links.
+- Any visible email address that should open the user's mail client.
 
-## When not to use
+## When not to use it
 
-- Do not use for in-page actions — use a `Button` instead.
+- For email input. Use `EmailInput` instead.
+- When you want to include subject/body parameters, compose the `href` yourself or pass them via `restProps`/`href` as appropriate.
+- For telephone links. Use `TelLink`.
 
-## Usage
+## How to use it
 
-```svelte
-<EmailLink email="alice@example.com" />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `email` | string, required | The email address to display and link to. |
-| `label` | string, default undefined | Optional accessible label override via aria-label. |
-| `...restProps` | additional HTML attributes spread onto the <a> element |  |
-
-## Examples
+Pass the email address as a prop.
 
 ```svelte
-<!-- Basic email display -->
-<EmailLink email="alice@example.com" />
-
-<!-- With accessible label override for additional context -->
-<EmailLink email="support@example.com" label="Contact support team" />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EmailLink from "#lib/components/EmailLink/EmailLink.svelte";
+    import EmailLink from "./EmailLink.svelte";
 </script>
 
 <EmailLink email="alice@example.com" />
 ```
 
-## Keyboard
+## Props
 
-- None custom — Tab to focus, Enter to activate (native <a> link behavior)
+| Prop      | Type      | Default     | Description                                     |
+| --------- | --------- | ----------- | ----------------------------------------------- |
+| `class`   | `string`  | `""`        | CSS class appended to the base class.          |
+| `email`   | `string`  | required    | The email address (used for text and `href`).   |
+| `label`   | `string`  | `undefined` | Optional accessible name override.              |
+| `...rest` | `unknown` | —           | Additional HTML attributes on the `<a>`.        |
+
+## Usage
+
+### 1. Basic email link
+
+```svelte
+<EmailLink email="alice@example.com" />
+```
+
+### 2. With an accessible label override
+
+```svelte
+<EmailLink email="support@example.com" label="Contact support team" />
+```
+
+### 3. In a contact list
+
+```svelte
+<ul>
+    {#each team as member}
+        <li>{member.name}: <EmailLink email={member.email} /></li>
+    {/each}
+</ul>
+```
+
+### 4. Styled via class
+
+```svelte
+<EmailLink email="press@example.com" class="email-link--press" />
+```
+
+### 5. With subject via rest props
+
+```svelte
+<EmailLink
+    email="sales@example.com"
+    href="mailto:sales@example.com?subject=Enquiry"
+/>
+<!-- The explicit href overrides the generated one. -->
+```
 
 ## Accessibility
 
-- aria-label optionally overrides the accessible name when email text alone is insufficient
-- Native <a> element provides built-in link semantics
+- Native `<a>` provides link semantics and Enter/Tab keyboard behaviour.
+- `aria-label`, when provided, overrides the accessible name computed from the email text.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-- Email address display is inherently locale-independent
-
-## References
-
-- MDN mailto links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_an_email_address
+- `EmailInput` — input for entering an email address.
+- `TelLink`, `TelInput` — telephone counterparts.
+- `DigitalObjectIdentifierLink` — DOI permanent hyperlink.
+- `ActionLink`, `BackLink` — other link variants.
 
 ---
 

@@ -1,68 +1,147 @@
 # DataTableFoot
 
-## Overview
+The footer section of a `DataTable`. Renders a `<tfoot>` containing summary or aggregate rows.
 
-The footer section of a DataTable, rendered as a <tfoot> element.
-Contains DataTableRow elements with summary or aggregate data cells.
+## What it is
+
+DataTableFoot is a structural wrapper emitting `<tfoot class="data-table-foot ...">`. It has no state and no ARIA of its own.
 
 ## What it does
 
-A data table interactive grid tfoot for displaying and sorting tabular data <tfoot>.
+- Renders `<tfoot>`.
+- Renders children inside.
+- Spreads `restProps` onto the `<tfoot>`.
 
-## When to use
+## When to use it
 
-- Use when you need a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>.
+- Showing totals, aggregates, or summary rows at the bottom of a `DataTable`.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For header rows — use `DataTableHead`.
+- For regular data rows — use `DataTableBody`.
+
+## How to use it
+
+Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` children.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `children` | `Snippet` | required | Footer rows. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<tfoot>`. |
 
 ## Usage
 
 ```svelte
-<DataTableFoot>
-  <DataTableRow>
-    <DataTableTD>Total</DataTableTD>
-    <DataTableTD>$50,000</DataTableTD>
-  </DataTableRow>
-</DataTableFoot>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | DataTableRow elements with footer cells. |
-| `...restProps` | additional HTML attributes spread onto the <tfoot> |  |
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableFoot from "#lib/components/DataTableFoot/DataTableFoot.svelte";
+    import DataTable from "../DataTable/DataTable.svelte";
+    import DataTableHead from "../DataTableHead/DataTableHead.svelte";
+    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
+    import DataTableFoot from "./DataTableFoot.svelte";
+    import DataTableRow from "../DataTableRow/DataTableRow.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
-<DataTableFoot>
-  <DataTableRow>
-    <DataTableTD>Total</DataTableTD>
-    <DataTableTD>$50,000</DataTableTD>
-  </DataTableRow>
-</DataTableFoot>
+<DataTable label="Budget">
+    <DataTableHead>
+        <DataTableRow>
+            <th scope="col">Item</th>
+            <th scope="col">Amount</th>
+        </DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+        <DataTableRow>
+            <DataTableTD>Travel</DataTableTD>
+            <DataTableTD>$1,200</DataTableTD>
+        </DataTableRow>
+        <DataTableRow>
+            <DataTableTD>Lodging</DataTableTD>
+            <DataTableTD>$800</DataTableTD>
+        </DataTableRow>
+    </DataTableBody>
+    <DataTableFoot>
+        <DataTableRow>
+            <DataTableTD>Total</DataTableTD>
+            <DataTableTD>$2,000</DataTableTD>
+        </DataTableRow>
+    </DataTableFoot>
+</DataTable>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import DataTable from "../DataTable/DataTable.svelte";
+    import DataTableHead from "../DataTableHead/DataTableHead.svelte";
+    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
+    import DataTableFoot from "./DataTableFoot.svelte";
+    import DataTableRow from "../DataTableRow/DataTableRow.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
-- None built-in — keyboard navigation handled at the DataTable grid level.
+    const lines = [
+        { label: "A", amount: 10 },
+        { label: "B", amount: 20 },
+        { label: "C", amount: 30 }
+    ];
+    const total = lines.reduce((s, l) => s + l.amount, 0);
+</script>
+
+<DataTable label="Totals">
+    <DataTableHead>
+        <DataTableRow>
+            <th scope="col">Label</th>
+            <th scope="col">Amount</th>
+        </DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+        {#each lines as l}
+            <DataTableRow>
+                <DataTableTD>{l.label}</DataTableTD>
+                <DataTableTD>{l.amount}</DataTableTD>
+            </DataTableRow>
+        {/each}
+    </DataTableBody>
+    <DataTableFoot>
+        <DataTableRow>
+            <DataTableTD>Sum</DataTableTD>
+            <DataTableTD>{total}</DataTableTD>
+        </DataTableRow>
+    </DataTableFoot>
+</DataTable>
+```
+
+```svelte
+<script lang="ts">
+    import DataTable from "../DataTable/DataTable.svelte";
+    import DataTableHead from "../DataTableHead/DataTableHead.svelte";
+    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
+    import DataTableFoot from "./DataTableFoot.svelte";
+    import DataTableRow from "../DataTableRow/DataTableRow.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
+</script>
+
+<DataTable label="With empty foot">
+    <DataTableHead>
+        <DataTableRow><th scope="col">X</th></DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+        <DataTableRow><DataTableTD>1</DataTableTD></DataTableRow>
+    </DataTableBody>
+    <DataTableFoot>
+        <DataTableRow><DataTableTD>—</DataTableTD></DataTableRow>
+    </DataTableFoot>
+</DataTable>
+```
 
 ## Accessibility
 
-- <tfoot> provides structural footer semantics for the table
+- `<tfoot>` adds structural footer semantics.
 
-## References
+## Related components
 
-- HTML tfoot element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot
+- `DataTable`, `DataTableHead`, `DataTableBody`, `DataTableRow`, `DataTableTD`.
 
 ---
 

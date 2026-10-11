@@ -3,7 +3,7 @@
   import EireIndividualHealthIdentifierView from './EireIndividualHealthIdentifierView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EireIndividualHealthIdentifierView',
+    title: 'Headless/EireIndividualHealthIdentifierView',
     component: EireIndividualHealthIdentifierView,
   });
 </script>

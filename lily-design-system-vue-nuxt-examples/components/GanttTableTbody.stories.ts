@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import GanttTableTbody from './GanttTableTbody.vue';
 
 const meta = {
-  title: 'Examples/GanttTableTbody',
+  title: 'Headless/GanttTableTbody',
   component: GanttTableTbody,
   tags: ['autodocs']
 } satisfies Meta<typeof GanttTableTbody>;

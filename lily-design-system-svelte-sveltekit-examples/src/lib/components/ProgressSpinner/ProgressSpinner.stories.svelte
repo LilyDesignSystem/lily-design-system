@@ -3,7 +3,7 @@
   import ProgressSpinner from './ProgressSpinner.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ProgressSpinner',
+    title: 'Headless/ProgressSpinner',
     component: ProgressSpinner,
   });
 </script>

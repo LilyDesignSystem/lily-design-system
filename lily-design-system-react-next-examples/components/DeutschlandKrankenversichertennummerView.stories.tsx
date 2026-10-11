@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DeutschlandKrankenversichertennummerView from './DeutschlandKrankenversichertennummerView';
 
 const meta = {
-  title: 'Examples/DeutschlandKrankenversichertennummerView',
+  title: 'Headless/DeutschlandKrankenversichertennummerView',
   component: DeutschlandKrankenversichertennummerView,
   tags: ['autodocs']
 } satisfies Meta<typeof DeutschlandKrankenversichertennummerView>;

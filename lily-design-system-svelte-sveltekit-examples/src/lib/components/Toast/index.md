@@ -1,86 +1,118 @@
 # Toast
 
-## Overview
+A headless notification toast rendered as a `<div>` with ARIA live-region semantics (`role="status"` / `aria-live="polite"` by default, or `role="alert"` / `aria-live="assertive"` when `urgent`).
 
-A headless notification toast that provides a brief, transient message to
-the user via ARIA live regions. Uses role="status" with aria-live="polite"
-by default, or role="alert" with aria-live="assertive" for urgent messages.
-Toasts are typically used for success confirmations, error messages, and
-informational updates without requiring user interaction.
+## What it is
+
+`Toast` is a headless Svelte 5 component that wraps its children in a `<div>` with live-region attributes suitable for brief, transient messages. It does not manage timing, dismissal, or stacking — consumers own that behavior.
 
 ## What it does
 
-A brief auto-dismissing notification message.
+- Renders `<div class="toast {className}" role={urgent ? "alert" : "status"} aria-live={urgent ? "assertive" : "polite"} aria-label={label}>`.
+- Renders the `children` snippet inside.
+- Spreads additional HTML attributes onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use for transient feedback that does not block the user.
+- Success confirmations ("Saved successfully").
+- Informational updates ("3 new messages").
+- Non-blocking error messages with `urgent`.
+- Feedback after user-initiated actions.
 
-## When not to use
+## When not to use it
 
-- Do not use for critical content the user must act on — use an `AlertDialog` instead.
+- Don't use it for modal messages requiring acknowledgment — use `AlertDialog`.
+- Don't use it for persistent page banners — use `Banner` or `SuperBanner`.
+- Don't use it for inline form errors — use `ErrorMessage` or `ErrorSummary`.
+- Don't use it when the message must trap focus — use `Dialog`.
+
+## How to use it
+
+Import, optionally pass `label`, and set `urgent` for assertive announcements. Consumers control when to mount and unmount the toast.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `toast`.
+- `label` — string, optional. Accessible label via `aria-label`.
+- `urgent` — boolean, default `false`. When true, uses `role="alert"` and `aria-live="assertive"`.
+- `children` — Snippet, required. Toast message content.
+- `...restProps` — any additional HTML attributes spread onto the `<div>`.
 
 ## Usage
 
 ```svelte
-<Toast label="Success">Your changes have been saved.</Toast>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, default undefined | Optional accessible label via aria-label. |
-| `urgent` | boolean, default false | When true, uses role="alert" and aria-live="assertive". |
-| `children` | Snippet, required | The toast message content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
-
-## Examples
-
-```svelte
-<!-- Urgent error toast -->
-<Toast label="Error" urgent>Something went wrong.</Toast>
-
-<!-- Informational toast -->
-<Toast label="Info">
-  <p>3 new messages in your inbox.</p>
-</Toast>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Toast from "#lib/components/Toast/Toast.svelte";
+  import Toast from "./Toast.svelte";
 </script>
 
 <Toast label="Success">Your changes have been saved.</Toast>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import Toast from "./Toast.svelte";
+</script>
 
-- None -- passive notification container; announced via live regions
+<Toast label="Error" urgent>Something went wrong.</Toast>
+```
+
+```svelte
+<script lang="ts">
+  import Toast from "./Toast.svelte";
+
+  let visible = $state(false);
+
+  function notify() {
+    visible = true;
+    setTimeout(() => (visible = false), 3000);
+  }
+</script>
+
+<button type="button" onclick={notify}>Save</button>
+
+{#if visible}
+  <Toast label="Info">Saved 3 items.</Toast>
+{/if}
+```
+
+```svelte
+<script lang="ts">
+  import Toast from "./Toast.svelte";
+
+  const messages = $state<Array<{ id: number; text: string; urgent: boolean }>>([]);
+  let nextId = 1;
+
+  function add(text: string, urgent = false) {
+    const id = nextId++;
+    messages.push({ id, text, urgent });
+    setTimeout(() => {
+      const i = messages.findIndex((m) => m.id === id);
+      if (i >= 0) messages.splice(i, 1);
+    }, 4000);
+  }
+</script>
+
+<button type="button" onclick={() => add("Saved", false)}>Save</button>
+<button type="button" onclick={() => add("Failed", true)}>Fail</button>
+
+{#each messages as m (m.id)}
+  <Toast label={m.urgent ? "Error" : "Info"} urgent={m.urgent}>{m.text}</Toast>
+{/each}
+```
 
 ## Accessibility
 
-- role="status" (default) for polite announcements at the next graceful opportunity
-- role="alert" (when urgent) for immediate, time-sensitive announcements
-- aria-live="polite" (default) waits for a pause before announcing
-- aria-live="assertive" (when urgent) interrupts current speech
-- aria-label provides optional descriptive label for the toast region
+- Default `role="status"` + `aria-live="polite"` announces at the next graceful opportunity.
+- `urgent` flips both `role` and `aria-live` together, giving `alert`/`assertive` for time-sensitive messages.
+- `aria-label` optionally supplies a descriptive name for the live region.
+- Because screen readers announce on mount, avoid repeatedly re-rendering the same toast without a new id.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- All toast content is provided through the children snippet
-
-## References
-
-- WAI-ARIA Alert Role: https://www.w3.org/TR/wai-aria-1.2/#alert
-- WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
-- WAI-ARIA Live Regions: https://www.w3.org/TR/wai-aria-1.2/#aria-live
+- `Sonner` — toast notification manager.
+- `Notification` — brief event/update message component.
+- `Banner` / `SuperBanner` — persistent top-of-page messages.
+- `AlertDialog` — modal urgent dialog requiring acknowledgment.
 
 ---
 

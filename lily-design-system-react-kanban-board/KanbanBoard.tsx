@@ -89,6 +89,7 @@ export function KanbanBoard({
 }: Props): React.ReactElement {
   const baseId = `kanban-board-${React.useId()}`;
   const moveOptionId = (i: number) => `${baseId}-move-option-${i}`;
+  const moveListId = `${baseId}-move-list`;
 
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const [statusMessage, setStatusMessage] = React.useState("");
@@ -99,14 +100,15 @@ export function KanbanBoard({
   const [openCardId, setOpenCardId] = React.useState<string | null>(null);
   const [moveActiveIndex, setMoveActiveIndex] = React.useState(-1);
 
-  // One button ref per card (keyed by id), not a single shared ref, so
-  // closing a given card's menu always returns focus to THAT card's own
-  // move button, not to whichever card happened to mount last.
-  const moveButtonRefs = React.useRef<Map<string, HTMLButtonElement>>(
-    new Map(),
-  );
   const moveListRef = React.useRef<HTMLElement | null>(null);
-  const refocusCardIdRef = React.useRef<string | null>(null);
+  /**
+   * Focus to move after the next commit: the menu, the cursor's cell, or a card
+   * found by id wherever it now is. Only ever set by a user action, so mounting
+   * the board never takes focus from the page.
+   */
+  const pendingFocusRef = React.useRef<
+    { kind: "menu" } | { kind: "cell" } | { kind: "card"; id: string } | null
+  >(null);
   const draggingCardIdRef = React.useRef<string | null>(null);
 
   const cardsByColumn = groupCardsByColumn(columns, cards);
@@ -114,6 +116,12 @@ export function KanbanBoard({
     (max, column) => Math.max(max, cardsByColumn.get(column.id)?.length ?? 0),
     0,
   );
+
+  // The roving cursor, clamped to the cells that exist now: a move can shrink
+  // the board, and a cursor left on a vanished row would take the grid out of
+  // the tab order altogether.
+  const activeRow = Math.min(focusedRow, maxRows - 1);
+  const activeCol = Math.min(focusedCol, columns.length - 1);
 
   function cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
     const column = columns[colIndex];
@@ -129,41 +137,56 @@ export function KanbanBoard({
   // Move menu (keyboard + pointer share this)
   // ---------------------------------------------------------------
 
+  /** Choosing the card's own column is not a move: the menu just closes. */
   function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
-    onMove?.(card.id, toColumn.id);
-    announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
-    closeMoveMenu();
+    if (toColumn.id !== card.columnId) {
+      onMove?.(card.id, toColumn.id);
+      announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
+    }
+    closeMoveMenu(card.id);
   }
 
   function openMoveMenu(card: KanbanCard): void {
     setOpenCardId(card.id);
     const currentIndex = columns.findIndex((c) => c.id === card.columnId);
     setMoveActiveIndex(currentIndex >= 0 ? currentIndex : 0);
+    pendingFocusRef.current = { kind: "menu" };
   }
 
-  function closeMoveMenu(refocus = true): void {
-    setOpenCardId((current) => {
-      if (current === null) return current;
-      refocusCardIdRef.current = refocus ? current : null;
-      return null;
-    });
+  function closeMoveMenu(cardId: string, refocus = true): void {
+    setOpenCardId(null);
     setMoveActiveIndex(-1);
+    pendingFocusRef.current = refocus ? { kind: "card", id: cardId } : null;
   }
 
-  // Focus management: opening moves focus into the listbox; closing
-  // returns it to the move button of the card that was open, mirroring
-  // the Svelte reference's queueMicrotask-after-mutation timing via an
-  // effect that runs after the DOM commit.
+  // Runs after every commit, and acts only on a pending request. A card is
+  // found by id after the commit — after a move the consumer's `cards` has put
+  // it in another column — and the roving cursor follows it there; focus lands
+  // on its move button, or on its cell when there is no button.
   React.useEffect(() => {
-    if (openCardId !== null) {
+    const pending = pendingFocusRef.current;
+    if (!pending) return;
+    pendingFocusRef.current = null;
+    const root = rootRef.current;
+    if (!root) return;
+    if (pending.kind === "menu") {
       moveListRef.current?.focus({ preventScroll: true });
-    } else if (refocusCardIdRef.current) {
-      const id = refocusCardIdRef.current;
-      refocusCardIdRef.current = null;
-      moveButtonRefs.current.get(id)?.focus({ preventScroll: true });
+    } else if (pending.kind === "cell") {
+      root
+        .querySelector<HTMLElement>('.kanban-table-td[tabindex="0"]')
+        ?.focus({ preventScroll: true });
+    } else {
+      const cell = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-card-id]"),
+      ).find((el) => el.dataset.cardId === pending.id);
+      if (!cell) return;
+      setFocusedRow(Number(cell.dataset.row));
+      setFocusedCol(Number(cell.dataset.col));
+      (
+        cell.querySelector<HTMLElement>(".kanban-board-move-button") ?? cell
+      ).focus({ preventScroll: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openCardId]);
+  });
 
   // ---------------------------------------------------------------
   // Pointer drag-and-drop (supplementary, never the only path)
@@ -184,7 +207,8 @@ export function KanbanBoard({
       draggingCardIdRef.current ?? event.dataTransfer?.getData("text/plain");
     draggingCardIdRef.current = null;
     const card = cards.find((c) => c.id === cardId);
-    if (card) moveCard(card, column);
+    // Dropping a card back on its own column is not a move.
+    if (card && card.columnId !== column.id) moveCard(card, column);
   }
 
   // ---------------------------------------------------------------
@@ -194,51 +218,58 @@ export function KanbanBoard({
   function moveFocus(row: number, col: number): void {
     setFocusedCol(Math.min(Math.max(col, 0), columns.length - 1));
     setFocusedRow(Math.min(Math.max(row, 0), maxRows - 1));
+    pendingFocusRef.current = { kind: "cell" };
   }
 
-  React.useEffect(() => {
-    rootRef.current
-      ?.querySelector<HTMLElement>('.kanban-table-td[tabindex="0"]')
-      ?.focus({ preventScroll: true });
-  }, [focusedRow, focusedCol]);
-
-  function onGridKeyDown(event: React.KeyboardEvent): void {
+  /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+  function onGridFocus(event: React.FocusEvent): void {
     const cell = (event.target as HTMLElement).closest<HTMLElement>(
       "[data-row][data-col]",
     );
+    if (!cell) return;
+    setFocusedRow(Number(cell.dataset.row));
+    setFocusedCol(Number(cell.dataset.col));
+  }
+
+  function onGridKeyDown(event: React.KeyboardEvent): void {
+    const target = event.target as HTMLElement;
+    // The open move menu owns its own keys; letting them bubble here moved the
+    // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
+    if (target.closest(".kanban-board-move-list")) return;
+    const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
-        moveFocus(focusedRow - 1, focusedCol);
+        moveFocus(activeRow - 1, activeCol);
         break;
       case "ArrowDown":
         event.preventDefault();
-        moveFocus(focusedRow + 1, focusedCol);
+        moveFocus(activeRow + 1, activeCol);
         break;
       case "ArrowLeft":
         event.preventDefault();
-        moveFocus(focusedRow, focusedCol - 1);
+        moveFocus(activeRow, activeCol - 1);
         break;
       case "ArrowRight":
         event.preventDefault();
-        moveFocus(focusedRow, focusedCol + 1);
+        moveFocus(activeRow, activeCol + 1);
         break;
       case "Home":
         event.preventDefault();
         if (ctrlOrMeta) moveFocus(0, 0);
-        else moveFocus(0, focusedCol);
+        else moveFocus(0, activeCol);
         break;
       case "End":
         event.preventDefault();
         if (ctrlOrMeta) moveFocus(maxRows - 1, columns.length - 1);
-        else moveFocus(maxRows - 1, focusedCol);
+        else moveFocus(maxRows - 1, activeCol);
         break;
       case "Enter":
       case " ": {
         event.preventDefault();
-        const card = cardAt(focusedCol, focusedRow);
+        const card = cardAt(activeCol, activeRow);
         if (card) openMoveMenu(card);
         break;
       }
@@ -251,7 +282,12 @@ export function KanbanBoard({
       className={`kanban-board ${className}`.trim()}
       {...restProps}
     >
-      <KanbanTable label={label} caption={caption} onKeyDown={onGridKeyDown}>
+      <KanbanTable
+        label={label}
+        caption={caption}
+        onKeyDown={onGridKeyDown}
+        onFocus={onGridFocus}
+      >
         <KanbanTableHead>
           <KanbanTableRow>
             {columns.map((column) => {
@@ -289,7 +325,8 @@ export function KanbanBoard({
                     key={column.id}
                     data-row={rowIndex}
                     data-col={colIndex}
-                    active={focusedRow === rowIndex && focusedCol === colIndex}
+                    data-card-id={card?.id}
+                    active={activeRow === rowIndex && activeCol === colIndex}
                     label={card ? cardLabel(card) : undefined}
                     onDragOver={onColumnDragOver}
                     onDrop={(e: React.DragEvent) => onColumnDrop(column, e)}
@@ -311,37 +348,44 @@ export function KanbanBoard({
                         >
                           {cardLabel(card)}
                         </span>
-                        <IconButton
-                          ref={(el: HTMLButtonElement | null) => {
-                            if (el) moveButtonRefs.current.set(card.id, el);
-                            else moveButtonRefs.current.delete(card.id);
-                          }}
-                          baseClass="kanban-board-move-button"
-                          label={labels.moveButton?.(card) ?? ""}
-                          tabIndex={-1}
-                          aria-haspopup="listbox"
-                          aria-expanded={openCardId === card.id}
-                          onClick={() =>
-                            openCardId === card.id
-                              ? closeMoveMenu()
-                              : openMoveMenu(card)
-                          }
-                        >
-                          ⇄
-                        </IconButton>
+                        {/*
+                          Gated on labels.moveButton: an unnamed button is
+                          worse than none, and Enter/Space on the cell opens
+                          the menu either way.
+                        */}
+                        {labels.moveButton && (
+                          <IconButton
+                            baseClass="kanban-board-move-button"
+                            label={labels.moveButton(card)}
+                            tabIndex={-1}
+                            aria-haspopup="listbox"
+                            aria-expanded={openCardId === card.id}
+                            aria-controls={
+                              openCardId === card.id ? moveListId : undefined
+                            }
+                            onClick={() =>
+                              openCardId === card.id
+                                ? closeMoveMenu(card.id)
+                                : openMoveMenu(card)
+                            }
+                          >
+                            ⇄
+                          </IconButton>
+                        )}
                         {openCardId === card.id && (
                           <Listbox
                             ref={moveListRef}
                             as="ul"
+                            id={moveListId}
                             baseClass="kanban-board-move-list"
-                            label={labels.moveMenuLabel ?? ""}
+                            label={labels.moveMenuLabel ?? cardLabel(card)}
                             navigation="active-descendant"
                             clamp
                             activeIndex={moveActiveIndex}
                             onActiveIndexChange={setMoveActiveIndex}
                             onActivate={(i: number) => moveCard(card, columns[i])}
-                            onEscape={() => closeMoveMenu()}
-                            onTabOut={() => closeMoveMenu(false)}
+                            onEscape={() => closeMoveMenu(card.id)}
+                            onTabOut={() => closeMoveMenu(card.id, false)}
                           >
                             {columns.map((destination, i) => (
                               <li

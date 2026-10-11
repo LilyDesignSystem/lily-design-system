@@ -1,69 +1,127 @@
 # CalendarTableRow
 
-## Overview
+A single row inside `CalendarTableHead`, `CalendarTableBody`, or `CalendarTableFoot`. Renders a `<tr>` that holds header cells (`<th>`) or `CalendarTableTD` cells.
 
-A single row within a CalendarTable grid. Renders as a <tr>,
-containing CalendarTableTD cells for each day in the week.
-Used inside CalendarTableHead, CalendarTableBody, or CalendarTableFoot.
+## What it is
+
+A headless Svelte 5 structural wrapper. Category: calendar grid row primitive; inside the head/body/foot of a `CalendarTable`.
 
 ## What it does
 
-A calendar table interactive grid row for managing dates, days, etc. <tr>.
+- Renders `<tr class="calendar-table-row {className}">`.
+- Spreads additional HTML attributes onto the `<tr>`.
+- No behavior — purely structural.
 
-## When to use
+## When to use it
 
-- Use when you need a calendar table interactive grid row for managing dates, days, etc. <tr>.
+- For every row in a calendar: the day-of-week header row in `CalendarTableHead`, each week row in `CalendarTableBody`, and any summary row in `CalendarTableFoot`.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Outside a `CalendarTable` — use `DataTableRow`, `GanttTableTr`, `KanbanTableRow`, or `TableRow` as appropriate.
 
-## Usage
+## How to use it
 
-```svelte
-<CalendarTableRow>
-  <CalendarTableTD>1</CalendarTableTD>
-  <CalendarTableTD>2</CalendarTableTD>
-</CalendarTableRow>
-```
+Import `CalendarTableRow` from `./CalendarTableRow.svelte`. Fill with `<th>` cells inside the head, or `CalendarTableTD` cells inside the body/foot.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | CalendarTableTD cells for each day in the row. |
-| `...restProps` | additional HTML attributes spread onto the <tr> |  |
+- `class` — string, default `""`. CSS class appended to `calendar-table-row`.
+- `children` — `Snippet`, required. Cells for the row.
+- `...restProps` — additional HTML attributes spread onto the `<tr>`.
 
-## SvelteKit example
+## Usage
+
+### Week row in the body
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableRow from "#lib/components/CalendarTableRow/CalendarTableRow.svelte";
+  import CalendarTableRow from './CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTableRow>
-  <CalendarTableTD>1</CalendarTableTD>
-  <CalendarTableTD>2</CalendarTableTD>
+  {#each [1, 2, 3, 4, 5, 6, 7] as d}
+    <CalendarTableTD>{d}</CalendarTableTD>
+  {/each}
 </CalendarTableRow>
 ```
 
-## Keyboard
+### Header row with `<th>` cells
 
-- None built-in — keyboard navigation is handled at the CalendarTable grid level.
+```svelte
+<script lang="ts">
+  import CalendarTableRow from './CalendarTableRow.svelte';
+</script>
+
+<CalendarTableRow>
+  <th scope="col">Mon</th>
+  <th scope="col">Tue</th>
+  <th scope="col">Wed</th>
+</CalendarTableRow>
+```
+
+### Row in a foot for summary
+
+```svelte
+<script lang="ts">
+  import CalendarTableRow from './CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+</script>
+
+<CalendarTableRow>
+  <CalendarTableTD>Total days: 7</CalendarTableTD>
+</CalendarTableRow>
+```
+
+### Full composition inside a body
+
+```svelte
+<script lang="ts">
+  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
+  import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
+  import CalendarTableRow from './CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+</script>
+
+<CalendarTable label="January 2025">
+  <CalendarTableBody>
+    <CalendarTableRow>
+      {#each [1, 2, 3, 4, 5, 6, 7] as d}
+        <CalendarTableTD>{d}</CalendarTableTD>
+      {/each}
+    </CalendarTableRow>
+    <CalendarTableRow>
+      {#each [8, 9, 10, 11, 12, 13, 14] as d}
+        <CalendarTableTD>{d}</CalendarTableTD>
+      {/each}
+    </CalendarTableRow>
+  </CalendarTableBody>
+</CalendarTable>
+```
+
+### With data attribute
+
+```svelte
+<script lang="ts">
+  import CalendarTableRow from './CalendarTableRow.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
+</script>
+
+<CalendarTableRow data-week={1}>
+  <CalendarTableTD>1</CalendarTableTD>
+</CalendarTableRow>
+```
 
 ## Accessibility
 
-- <tr> has implicit role="row" within the grid (no explicit role needed)
+- `<tr>` has implicit row semantics inside the grid; no explicit ARIA needed.
+- Keyboard navigation is handled at the `CalendarTable` grid level.
 
-## Internationalization
+## Related components
 
-- All cell content comes through children snippet; no hardcoded strings
-
-## References
-
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+- `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableTD`, `CalendarTableTD`.
+- `DataTableRow`, `GanttTableTr`, `KanbanTableRow`, `TableRow`.
 
 ---
 

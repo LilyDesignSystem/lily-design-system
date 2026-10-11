@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProgressCircle from './ProgressCircle';
 
 const meta = {
-  title: 'Examples/ProgressCircle',
+  title: 'Headless/ProgressCircle',
   component: ProgressCircle,
   tags: ['autodocs']
 } satisfies Meta<typeof ProgressCircle>;

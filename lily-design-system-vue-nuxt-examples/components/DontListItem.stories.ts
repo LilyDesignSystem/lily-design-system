@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DontListItem from './DontListItem.vue';
 
 const meta = {
-  title: 'Examples/DontListItem',
+  title: 'Headless/DontListItem',
   component: DontListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof DontListItem>;

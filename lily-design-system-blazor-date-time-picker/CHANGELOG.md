@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11
+
+Documented: unlike the other seven ports, this one does not restore its initial value on a form `reset` (no JS
+interop module); reset the bound value instead. See `spec/index.md` §5.10.
+
 ## 0.3.0 — 2026-10-04
 
 **Added (minor, additive): picker tooltip.** A new `.date-time-picker-tooltip` element

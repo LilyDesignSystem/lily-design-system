@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Resizable from './Resizable';
 
 const meta = {
-  title: 'Examples/Resizable',
+  title: 'Headless/Resizable',
   component: Resizable,
   tags: ['autodocs']
 } satisfies Meta<typeof Resizable>;

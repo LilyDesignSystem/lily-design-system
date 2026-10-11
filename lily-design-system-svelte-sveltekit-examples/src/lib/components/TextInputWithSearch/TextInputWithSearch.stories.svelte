@@ -3,7 +3,7 @@
   import TextInputWithSearch from './TextInputWithSearch.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TextInputWithSearch',
+    title: 'Headless/TextInputWithSearch',
     component: TextInputWithSearch,
   });
 </script>

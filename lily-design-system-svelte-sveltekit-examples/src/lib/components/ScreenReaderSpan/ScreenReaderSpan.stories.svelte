@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import ScreenReaderSpan from "./ScreenReaderSpan.svelte";
     const { Story } = defineMeta({
-        title: "Examples/ScreenReaderSpan",
+        title: "Headless/ScreenReaderSpan",
         component: ScreenReaderSpan,
     });
 </script>

@@ -14,6 +14,13 @@
 //     `value` property.
 //   disabled — presence-based boolean, applied to every digit input.
 //
+// Properties:
+//   digitLabel — (position, length) => string, optional. Each digit
+//     input's accessible name, e.g. (n, of) => `Digit ${n} of ${of}`.
+//     Without it each input is named by `label`: no English default.
+//     Property-only (a function cannot be an attribute); setting it after
+//     connect relabels the existing inputs.
+//
 // Keyboard:
 //   Digit entry — accepts 0-9 only, auto-focuses the next input.
 //   Backspace — clears the current digit, or (when already empty) clears
@@ -28,6 +35,20 @@ import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class PinInputDiv extends HTMLElement {
     #inputs: HTMLInputElement[] = [];
+    #digitLabel: ((position: number, length: number) => string) | undefined;
+
+    get digitLabel(): ((position: number, length: number) => string) | undefined {
+        return this.#digitLabel;
+    }
+    set digitLabel(fn: ((position: number, length: number) => string) | undefined) {
+        this.#digitLabel = fn;
+        this.#inputs.forEach((input, index) => input.setAttribute("aria-label", this.#inputLabel(index)));
+    }
+
+    #inputLabel(index: number): string {
+        const length = this.#inputs.length || Number(this.getAttribute("length") ?? "4") || 4;
+        return this.#digitLabel ? this.#digitLabel(index + 1, length) : (this.getAttribute("label") ?? "");
+    }
 
     connectedCallback(): void {
         if (this.#inputs.length > 0) return;
@@ -46,8 +67,13 @@ export class PinInputDiv extends HTMLElement {
             input.type = "text";
             input.inputMode = "numeric";
             input.maxLength = 1;
-            input.setAttribute("aria-label", `Digit ${index + 1} of ${length}`);
-            input.value = initial[index] ?? "";
+            input.setAttribute(
+                "aria-label",
+                this.#digitLabel ? this.#digitLabel(index + 1, length) : (label ?? ""),
+            );
+            // `defaultValue`, not `value`: a form reset restores an input to its
+            // default, so the initial digits — not empty fields — come back.
+            input.defaultValue = initial[index] ?? "";
             input.disabled = disabled;
             input.addEventListener("input", (event) => this.#onInput(index, event));
             input.addEventListener("keydown", (event) => this.#onKeydown(index, event));

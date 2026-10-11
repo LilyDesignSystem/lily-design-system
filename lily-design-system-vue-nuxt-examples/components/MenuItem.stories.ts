@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import MenuItem from './MenuItem.vue';
 
 const meta = {
-  title: 'Examples/MenuItem',
+  title: 'Headless/MenuItem',
   component: MenuItem,
   tags: ['autodocs']
 } satisfies Meta<typeof MenuItem>;

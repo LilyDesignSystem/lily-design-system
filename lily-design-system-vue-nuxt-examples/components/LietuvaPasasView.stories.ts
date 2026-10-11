@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import LietuvaPasasView from './LietuvaPasasView.vue';
 
 const meta = {
-  title: 'Examples/LietuvaPasasView',
+  title: 'Headless/LietuvaPasasView',
   component: LietuvaPasasView,
   tags: ['autodocs']
 } satisfies Meta<typeof LietuvaPasasView>;

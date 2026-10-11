@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SectionLink from './SectionLink';
 
 const meta = {
-  title: 'Examples/SectionLink',
+  title: 'Headless/SectionLink',
   component: SectionLink,
   tags: ['autodocs']
 } satisfies Meta<typeof SectionLink>;

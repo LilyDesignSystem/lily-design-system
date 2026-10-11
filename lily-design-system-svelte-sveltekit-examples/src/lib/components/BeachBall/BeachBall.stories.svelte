@@ -3,7 +3,7 @@
   import BeachBall from './BeachBall.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/BeachBall',
+    title: 'Headless/BeachBall',
     component: BeachBall,
   });
 </script>

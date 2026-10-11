@@ -3,7 +3,7 @@
   import Sidebar from './Sidebar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Sidebar',
+    title: 'Headless/Sidebar',
     component: Sidebar,
   });
 </script>

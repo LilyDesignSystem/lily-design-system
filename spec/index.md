@@ -351,10 +351,11 @@ Scripts live in `bin/`:
 | `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).|
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
-| `bin/check-theme`                     | Conformance checks for the 45 reference themes.      |
+| `bin/check-theme`                     | Conformance checks for the 45 reference themes; `--contrast` reports token-pair contrast (report only). |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
 | `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
 | `bin/check-class-names`               | Every implementation in all 8 headless libraries carries its slug as the first token of a class list. |
+| `bin/sync-example-components`         | Mirror each headless library's components into its example app's copy (`--check` in `bin/test`). |
 | `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries. |
 | `bin/generate-component-categories`   | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |
 | `bin/new-component`                   | End-to-end scaffolder for one new placeholder component. |

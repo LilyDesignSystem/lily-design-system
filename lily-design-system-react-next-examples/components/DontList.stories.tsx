@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DontList from './DontList';
 
 const meta = {
-  title: 'Examples/DontList',
+  title: 'Headless/DontList',
   component: DontList,
   tags: ['autodocs']
 } satisfies Meta<typeof DontList>;

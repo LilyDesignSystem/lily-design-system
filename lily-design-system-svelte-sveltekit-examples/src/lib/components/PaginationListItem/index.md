@@ -1,76 +1,123 @@
 # PaginationListItem
 
-## Overview
+A headless `<li>` for a single entry within a `PaginationList`. Holds a page link, Previous/Next control, or ellipsis indicator.
 
-A single entry within a PaginationList navigation component. It renders as a
-semantic <li> element designed for use inside the PaginationList's <ul> structure.
-The item typically contains a link or button for a specific page number,
-previous/next controls, or an ellipsis indicator.
+## What it is
+
+- Component: `PaginationListItem`
+- HTML element: `<li>`
+- Role: implicit `listitem`
+- Category: navigation list item (leaf of the PaginationNav → PaginationList → PaginationListItem composition)
 
 ## What it does
 
-One pagination list item in the trail.
+- Renders a semantic `<li>` wrapper.
+- Renders arbitrary children (typically `<a>` or `<button>`) inside.
+- Forwards all additional HTML attributes onto the `<li>`.
 
-## When to use
+## When to use it
 
-- Use as a child of the matching list component — never standalone.
+- For each page-link or control entry inside a `PaginationList`.
+- For ellipsis indicators in long page runs (e.g. `1 … 50`).
 
-## When not to use
+## When not to use it
 
-- Do not use outside its parent list component.
+- For breadcrumb trails — use `BreadcrumbListItem`.
+- For hierarchical navigation — use `TreeListItem`.
+- For ordinary content lists — use a native `<li>` or `SummaryListItem`.
 
-## Usage
+## How to use it
+
+Place inside a `PaginationList`. Put the clickable link or button (or ellipsis text) inside.
 
 ```svelte
-<PaginationListItem><a href="/page/1">1</a></PaginationListItem>
+import PaginationListItem from './PaginationListItem.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | Item content, typically a link or button. |
-| `...restProps` | additional HTML attributes spread onto the <li> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `pagination-list-item`.
+- `children`: Snippet, required. The item content — a link, button, or text.
+- `...restProps`: spread onto the `<li>` (e.g. `aria-hidden`, `data-*`).
 
-## Examples
+## Usage
 
-```svelte
-<!-- Page number link -->
-<PaginationListItem><a href="/page/1">1</a></PaginationListItem>
-
-<!-- Current page with aria-current -->
-<PaginationListItem><a href="/page/2" aria-current="page">2</a></PaginationListItem>
-```
-
-## SvelteKit example
+### Basic page-number link
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PaginationListItem from "#lib/components/PaginationListItem/PaginationListItem.svelte";
+  import PaginationListItem from './PaginationListItem.svelte';
 </script>
 
-<PaginationListItem><a href="/page/1">1</a></PaginationListItem>
+<PaginationListItem>
+  <a href="/page/1">1</a>
+</PaginationListItem>
 ```
 
-## Keyboard
+### Current page with `aria-current`
 
-- None directly — keyboard interaction is handled by the contained links or buttons.
+```svelte
+<script lang="ts">
+  import PaginationListItem from './PaginationListItem.svelte';
+</script>
+
+<PaginationListItem>
+  <a href="/page/2" aria-current="page">2</a>
+</PaginationListItem>
+```
+
+### Previous / Next controls
+
+```svelte
+<script lang="ts">
+  import PaginationList from '../PaginationList/PaginationList.svelte';
+  import PaginationListItem from './PaginationListItem.svelte';
+</script>
+
+<PaginationList label="Pages">
+  <PaginationListItem><a href="/page/1" rel="prev">Previous</a></PaginationListItem>
+  <PaginationListItem><a href="/page/3" rel="next">Next</a></PaginationListItem>
+</PaginationList>
+```
+
+### Ellipsis between page groups
+
+```svelte
+<script lang="ts">
+  import PaginationListItem from './PaginationListItem.svelte';
+</script>
+
+<PaginationListItem aria-hidden="true">…</PaginationListItem>
+```
+
+### Inside the full PaginationNav composition
+
+```svelte
+<script lang="ts">
+  import PaginationNav from '../PaginationNav/PaginationNav.svelte';
+  import PaginationList from '../PaginationList/PaginationList.svelte';
+  import PaginationListItem from './PaginationListItem.svelte';
+</script>
+
+<PaginationNav label="Pagination">
+  <PaginationList label="Pages">
+    <PaginationListItem><a href="/p/1">1</a></PaginationListItem>
+    <PaginationListItem><a href="/p/2" aria-current="page">2</a></PaginationListItem>
+    <PaginationListItem><a href="/p/3">3</a></PaginationListItem>
+  </PaginationList>
+</PaginationNav>
+```
 
 ## Accessibility
 
-- Implicit listitem role from the semantic <li> element
-- Consumer should set aria-current="page" on the active page link within the item
+- `<li>` provides implicit `listitem` semantics inside the parent `<ol>`.
+- Apply `aria-current="page"` on the link for the active page.
+- Use `aria-hidden="true"` on purely decorative ellipsis items so they are not announced.
 
-## Internationalization
+## Related components
 
-- All text content comes through the children snippet
-- No hardcoded user-facing strings
-
-## References
-
-- HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
+- `PaginationNav`, `PaginationList` — navigation landmark and list containers.
+- `BreadcrumbListItem`, `TreeListItem`, `ContentsListItem` — sibling list-item components.
 
 ---
 

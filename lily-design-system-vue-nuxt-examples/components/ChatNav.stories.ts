@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ChatNav from './ChatNav.vue';
 
 const meta = {
-  title: 'Examples/ChatNav',
+  title: 'Headless/ChatNav',
   component: ChatNav,
   tags: ['autodocs']
 } satisfies Meta<typeof ChatNav>;

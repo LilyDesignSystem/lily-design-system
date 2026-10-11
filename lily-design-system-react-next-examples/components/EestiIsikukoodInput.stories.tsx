@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EestiIsikukoodInput from './EestiIsikukoodInput';
 
 const meta = {
-  title: 'Examples/EestiIsikukoodInput',
+  title: 'Headless/EestiIsikukoodInput',
   component: EestiIsikukoodInput,
   tags: ['autodocs']
 } satisfies Meta<typeof EestiIsikukoodInput>;

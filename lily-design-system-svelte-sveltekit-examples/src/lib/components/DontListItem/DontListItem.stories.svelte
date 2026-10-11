@@ -3,7 +3,7 @@
   import DontListItem from './DontListItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DontListItem',
+    title: 'Headless/DontListItem',
     component: DontListItem,
   });
 </script>

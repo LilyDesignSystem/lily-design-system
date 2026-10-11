@@ -3,7 +3,7 @@
   import Listbox from './Listbox.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Listbox',
+    title: 'Headless/Listbox',
     component: Listbox,
   });
 </script>

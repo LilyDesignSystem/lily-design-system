@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import Code from "./Code.svelte";
     const { Story } = defineMeta({
-        title: "Examples/Code",
+        title: "Headless/Code",
         component: Code,
     });
 </script>

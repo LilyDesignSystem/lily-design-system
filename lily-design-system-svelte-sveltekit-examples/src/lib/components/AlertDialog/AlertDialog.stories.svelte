@@ -3,7 +3,7 @@
   import AlertDialog from './AlertDialog.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AlertDialog',
+    title: 'Headless/AlertDialog',
     component: AlertDialog,
   });
 </script>

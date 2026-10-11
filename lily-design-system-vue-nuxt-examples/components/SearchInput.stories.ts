@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SearchInput from './SearchInput.vue';
 
 const meta = {
-  title: 'Examples/SearchInput',
+  title: 'Headless/SearchInput',
   component: SearchInput,
   tags: ['autodocs']
 } satisfies Meta<typeof SearchInput>;

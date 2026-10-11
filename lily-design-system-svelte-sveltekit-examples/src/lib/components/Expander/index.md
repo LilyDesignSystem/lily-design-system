@@ -1,85 +1,117 @@
 # Expander
 
-## Overview
+A button-triggered disclosure widget with `aria-expanded` and `aria-controls`. Shows and hides a labelled region of content.
 
-An expander that shows or hides additional content with a toggle button.
-Similar to native <details>/<summary> but uses a <button> trigger with
-aria-expanded and aria-controls for full control over behavior. Useful for
-FAQ sections, collapsible panels, settings groups, and progressive disclosure.
+## What it is
+
+`Expander` is a richer alternative to the native `<details>` element. It uses a `<button>` trigger with `aria-expanded` and `aria-controls`, and a `<div role="region">` for the expandable content. The component generates a unique ID via `Math.random()` so the button's `aria-controls` and the content's `id` stay in sync.
 
 ## What it does
 
-A control that expands to reveal more content.
+- Renders a wrapper `<div>` with a toggle `<button>` and conditionally rendered content region.
+- Applies `aria-expanded` and `aria-controls` on the button.
+- Applies `role="region"` and `aria-label` on the content region.
+- Removes content from the DOM entirely when collapsed.
+- Binds `expanded` via `$bindable()`.
 
-## When to use
+## When to use it
 
-- Use when you need a control that expands to reveal more content.
+- Expandable settings panels, FAQ items, on-page help.
+- Any disclosure where you want a styled button trigger instead of the native `<summary>`.
+- Cases where you need to sync the open state with external UI.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- When native `<details>`/`<summary>` semantics are sufficient. Use `Details`.
+- For grouped accordions. Use `AccordionList` / `AccordionListItem`.
+- For generic containers without a button trigger. Use `Collapsible`.
 
-## Usage
+## How to use it
+
+Bind `expanded` and pass a label and children.
 
 ```svelte
-<Expander label="Show details" bind:expanded>Content</Expander>
+<script lang="ts">
+    import Expander from "./Expander.svelte";
+    let expanded = $state(false);
+</script>
+
+<Expander label="Show details" bind:expanded>
+    <p>Details here…</p>
+</Expander>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Button text and accessible name for both the button and content region. |
-| `expanded` | boolean, default false | Whether the content is visible; bindable. |
-| `children` | Snippet, required | Expandable content rendered when expanded is true. |
-| `...restProps` | additional HTML attributes spread onto the outer <div> wrapper |  |
+| Prop       | Type       | Default | Description                                  |
+| ---------- | ---------- | ------- | -------------------------------------------- |
+| `class`    | `string`   | `""`    | CSS class appended to the base class.       |
+| `label`    | `string`   | required| Button label and region `aria-label`.        |
+| `expanded` | `boolean`  | `false` | Whether the content is expanded. Bindable.   |
+| `children` | `Snippet`  | required| Expandable content.                          |
+| `...rest`  | `unknown`  | —       | Additional HTML attributes on the wrapper.   |
 
-## Examples
+## Usage
+
+### 1. Basic expander
 
 ```svelte
-<!-- Basic expander -->
 <Expander label="Show details" bind:expanded>
-  <p>Details here...</p>
-</Expander>
-
-<!-- Advanced settings panel -->
-<Expander label="Advanced settings" bind:expanded={showAdvanced}>
-  <form>...</form>
+    <p>Details here...</p>
 </Expander>
 ```
 
-## SvelteKit example
+### 2. Advanced settings
 
 ```svelte
-<!-- src/routes/+page.svelte -->
+<Expander label="Advanced settings" bind:expanded={showAdvanced}>
+    <form>…</form>
+</Expander>
+```
+
+### 3. Open by default
+
+```svelte
+<Expander label="Terms" expanded>
+    <p>Full terms of service…</p>
+</Expander>
+```
+
+### 4. Multiple on a page
+
+```svelte
+<Expander label="What is included?">…</Expander>
+<Expander label="How do I cancel?">…</Expander>
+<Expander label="Is there a free trial?">…</Expander>
+```
+
+### 5. Controlled from outside
+
+```svelte
 <script lang="ts">
-  import Expander from "#lib/components/Expander/Expander.svelte";
+    import Expander from "./Expander.svelte";
+    let expanded = $state(false);
 </script>
 
-<Expander label="Show details" bind:expanded>Content</Expander>
+<button type="button" onclick={() => expanded = !expanded}>External toggle</button>
+<Expander label="Content" bind:expanded>
+    <p>Controlled by the button above.</p>
+</Expander>
 ```
-
-## Keyboard
-
-- Enter: toggles the expander open/closed (native button behavior)
-- Space: toggles the expander open/closed (native button behavior)
-- Tab: moves focus to/from the toggle button
 
 ## Accessibility
 
-- aria-expanded on the button indicates whether content is visible
-- aria-controls references the ID of the expandable content region
-- role="region" on the content container identifies the expandable area
-- aria-label on the content region provides an accessible name
+- `aria-expanded` on the button reflects the state.
+- `aria-controls` links the button to the content region's generated ID.
+- `role="region"` with `aria-label` makes the content a labelled landmark.
+- Content is removed from the DOM when collapsed (screen readers will not expose it).
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+- `Details` — native `<details>`/`<summary>` alternative.
+- `Collapsible` — generic collapsible container.
+- `AccordionList`, `AccordionListItem` — grouped disclosures.
+- `HamburgerMenu` — mobile-style expander for navigation.
 
 ---
 

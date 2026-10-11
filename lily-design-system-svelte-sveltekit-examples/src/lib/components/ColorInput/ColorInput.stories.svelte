@@ -3,7 +3,7 @@
   import ColorInput from './ColorInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ColorInput',
+    title: 'Headless/ColorInput',
     component: ColorInput,
   });
 </script>

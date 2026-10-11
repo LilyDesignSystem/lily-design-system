@@ -3,7 +3,7 @@
   import DataFilterForm from './DataFilterForm.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DataFilterForm',
+    title: 'Headless/DataFilterForm',
     component: DataFilterForm,
   });
 </script>

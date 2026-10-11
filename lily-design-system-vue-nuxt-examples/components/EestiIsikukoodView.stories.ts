@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import EestiIsikukoodView from './EestiIsikukoodView.vue';
 
 const meta = {
-  title: 'Examples/EestiIsikukoodView',
+  title: 'Headless/EestiIsikukoodView',
   component: EestiIsikukoodView,
   tags: ['autodocs']
 } satisfies Meta<typeof EestiIsikukoodView>;

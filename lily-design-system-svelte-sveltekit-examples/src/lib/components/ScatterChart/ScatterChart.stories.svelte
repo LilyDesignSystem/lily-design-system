@@ -3,7 +3,7 @@
   import ScatterChart from './ScatterChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ScatterChart',
+    title: 'Headless/ScatterChart',
     component: ScatterChart,
   });
 </script>

@@ -1,68 +1,152 @@
 # GanttTableBody
 
-## Overview
+The body section of a `GanttTable`, rendered as a native `<tbody>` element. It contains `GanttTableTr` elements with task data cells.
 
-The body section of a GanttTable, rendered as a <tbody> element.
-Contains GanttTableTr elements with task data cells.
+## What it is
+
+A Svelte 5 structural wrapper that renders `<tbody class="gantt-table-tbody ...">{children}</tbody>`. It carries no internal state, no ARIA attributes, and no styling.
 
 ## What it does
 
-A Gantt chart table interactive grid tbody for planning schedule visualization <tbody>.
+- Renders `<tbody class="gantt-table-tbody ...">` around the `children` snippet.
+- Spreads any additional HTML attributes onto the `<tbody>`.
 
-## When to use
+## When to use it
 
-- Use when you need a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>.
+- Inside a `GanttTable` to group the body rows containing task-vs-time cells.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For header rows. Use `GanttTableHead`.
+- For footer/summary rows. Use `GanttTableTfoot`.
+- For non-Gantt table bodies. Use `DataTableBody`, `CalendarTableBody`, `KanbanTableBody`, or `TableBody`.
+
+## How to use it
+
+Place inside a `GanttTable` and fill with `GanttTableTr` elements.
+
+## Props
+
+- `class` (string, optional) - CSS class appended after the base `gantt-table-tbody` class.
+- `children` (Snippet, required) - `GanttTableTr` elements with task data cells.
+- `...restProps` - Additional HTML attributes spread onto the `<tbody>`.
 
 ## Usage
 
 ```svelte
-<GanttTableBody>
-  <GanttTableTr>
-    <GanttTableTD>Design</GanttTableTD>
-    <GanttTableTD>Jan 1</GanttTableTD>
-  </GanttTableTr>
-</GanttTableBody>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | GanttTableTr elements with data cells. |
-| `...restProps` | additional HTML attributes spread onto the <tbody> |  |
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableBody from "#lib/components/GanttTableBody/GanttTableBody.svelte";
+    import GanttTable from "../GanttTable/GanttTable.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
-<GanttTableBody>
-  <GanttTableTr>
-    <GanttTableTD>Design</GanttTableTD>
-    <GanttTableTD>Jan 1</GanttTableTD>
-  </GanttTableTr>
-</GanttTableBody>
+<GanttTable label="Project timeline">
+    <GanttTableBody>
+        <GanttTableTr>
+            <th>Design</th>
+            <GanttTableTD active>---</GanttTableTD>
+            <GanttTableTD />
+        </GanttTableTr>
+    </GanttTableBody>
+</GanttTable>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import GanttTable from "../GanttTable/GanttTable.svelte";
+    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+</script>
 
-- None built-in — keyboard navigation handled at the GanttTable grid level.
+<GanttTable label="Release plan">
+    <GanttTableHead>
+        <GanttTableTr><th>Task</th><th>W1</th></GanttTableTr>
+    </GanttTableHead>
+    <GanttTableBody>
+        <GanttTableTr>
+            <th>Ship v1</th>
+            <GanttTableTD active>---</GanttTableTD>
+        </GanttTableTr>
+    </GanttTableBody>
+</GanttTable>
+```
+
+```svelte
+<script lang="ts">
+    import GanttTable from "../GanttTable/GanttTable.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+    const tasks = [
+        { name: "Scope", active: [true, false] },
+        { name: "Build", active: [false, true] },
+    ];
+</script>
+
+<GanttTable label="Tasks">
+    <GanttTableBody>
+        {#each tasks as t}
+            <GanttTableTr>
+                <th>{t.name}</th>
+                {#each t.active as a}
+                    <GanttTableTD active={a} />
+                {/each}
+            </GanttTableTr>
+        {/each}
+    </GanttTableBody>
+</GanttTable>
+```
+
+```svelte
+<script lang="ts">
+    import GanttTable from "../GanttTable/GanttTable.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+</script>
+
+<GanttTable label="Custom styling demo">
+    <GanttTableBody class="striped" data-testid="gantt-body">
+        <GanttTableTr><th>Row</th><GanttTableTD /></GanttTableTr>
+    </GanttTableBody>
+</GanttTable>
+```
+
+```svelte
+<script lang="ts">
+    import GanttTable from "../GanttTable/GanttTable.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
+</script>
+
+<GanttTable label="Grouped body">
+    <GanttTableBody>
+        <GanttTableTr><th>Group A</th><GanttTableTD active /></GanttTableTr>
+    </GanttTableBody>
+    <GanttTableBody>
+        <GanttTableTr><th>Group B</th><GanttTableTD /></GanttTableTr>
+    </GanttTableBody>
+</GanttTable>
+```
 
 ## Accessibility
 
-- <tbody> provides structural body semantics for the table
+- `<tbody>` conveys structural body semantics natively.
+- No additional ARIA applied; grid-level semantics live on `GanttTable` (`role="grid"`).
+- Keyboard navigation is expected to be implemented by the consumer at the grid level.
 
-## References
+## Related components
 
-- HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody
+- `GanttTable` - the parent grid.
+- `GanttTableHead` - header section.
+- `GanttTableTfoot` - footer section.
+- `GanttTableTr` - row wrapper.
+- `GanttTableTD` - cell primitive with `role="gridcell"` and `active` state.
+- `GanttTableTH` - column definition for `<colgroup>`.
 
 ---
 

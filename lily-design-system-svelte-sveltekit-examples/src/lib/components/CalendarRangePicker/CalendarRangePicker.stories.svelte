@@ -3,7 +3,7 @@
   import CalendarRangePicker from './CalendarRangePicker.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CalendarRangePicker',
+    title: 'Headless/CalendarRangePicker',
     component: CalendarRangePicker,
   });
 </script>

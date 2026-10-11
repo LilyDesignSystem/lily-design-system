@@ -7,7 +7,9 @@
     role="radiogroup" and an accessible name.
 
   Params:
-    label        string   Accessible name. Default "Rate out of 5".
+    label        string   Accessible name, in the page's language. Required
+                          unless labelledBy is given; there is no English
+                          default.
     labelledBy   string
     id           string
     classes      string
@@ -19,7 +21,7 @@
   class="five-star-rating-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
-  {%- else %} aria-label="{{ p.label | default('Rate out of 5') }}"{% endif %}
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

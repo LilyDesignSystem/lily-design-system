@@ -2,8 +2,8 @@
 
 Canonical contract for `@lilydesignsystem/svelte-kanban-board`. Proposed
 2026-09-21 in [spec/helpers/index.md § kanban-board contract](../../spec/helpers/index.md).
-This package is the first implementation; no other framework catalog
-ports it yet.
+Svelte is the canonical implementation; the other seven frameworks
+port it (`lily-design-system-{framework}-kanban-board`).
 
 ## 1. Purpose
 
@@ -64,7 +64,7 @@ never `aria-selected` since 2026-10-10) is reused as-is for body cells, the same
       <KanbanTableRow>
         <KanbanTableTD>                             <!-- active = the roving-tabindex cursor -->
           <span class="kanban-board-card-title">{cardLabel(card)}</span>
-          <button class="kanban-board-move-button" aria-haspopup="listbox" aria-expanded>…</button>
+          <button class="kanban-board-move-button" aria-haspopup="listbox" aria-expanded aria-controls>…</button>  <!-- only if labels.moveButton -->
           <Listbox class="kanban-board-move-list" role="listbox" hidden>  <!-- only while open -->
             <li role="option">{destinationColumn.title}</li>
           </Listbox>
@@ -99,8 +99,10 @@ in the `cards` array.
 control it names, matching every other helper's label-gating
 convention (`share-picker`'s `copyLabel`, `data-grid`'s label-gated
 toolbar): `cardCount(count)`, `overLimit(count, limit)`,
-`moveButton(card)` (accessible name for the per-card move trigger),
-`moveMenuLabel` (accessible name for the move listbox),
+`moveButton(card)` (accessible name for the per-card move trigger; without
+it no button renders, and Enter/Space on the card's cell is the way in),
+`moveMenuLabel` (accessible name for the move listbox; without it the
+listbox is named by the card's own label),
 `moveAnnouncement(cardTitle, columnTitle)`.
 
 ## 6. Behaviour
@@ -123,11 +125,22 @@ research cited in spec/helpers/index.md: not arrow-key dragging.
 Enter/Space on a focused card cell opens that card's own "Move to…"
 menu (a headless `Listbox` in `navigation="active-descendant"` mode,
 composed exactly like a picker's own popup); choosing a destination
-column calls `onMove`, closes the menu, returns focus to the
-move-button, and announces the result. Escape closes without moving.
+column calls `onMove`, closes the menu, and announces the result.
+Choosing the card's current column is not a move: the menu closes with
+no `onMove` and no announcement (dropping a card on its own column is
+likewise ignored). Escape closes without moving.
+
+**Focus after the menu closes** goes to *that* card — found by its id
+after the next render, so when the consumer's `cards` has moved it, focus
+and the roving cursor follow it into its new column — landing on its move
+button, or on its cell when no button renders. The menu's own keys
+(arrows, Enter, Escape) belong to the menu: they never reach the grid's
+handler, which would otherwise move the grid cursor out from under an
+open menu and reopen it after a move.
 
 **WIP limits.** `column.wipLimit`, when set, is compared against that
-column's current card count; a column at or over its limit carries
+column's current card count; a column over its limit (more cards than
+the limit — a column exactly at its limit is full, not in breach) carries
 `data-over-limit` on its header cell and renders `labels.overLimit`'s
 text — rendered only when `labels.overLimit` is supplied.
 
@@ -142,7 +155,11 @@ at a time. `ArrowUp`/`ArrowDown` move within a column and clamp;
 `ArrowLeft`/`ArrowRight` move across columns and clamp;
 `Home`/`End` jump to the first/last row of the current column;
 `Ctrl+Home`/`Ctrl+End` jump to the grid's first/last cell;
-`Enter`/`Space` opens the focused card's move menu.
+`Enter`/`Space` opens the focused card's move menu. The cursor follows
+focus however it arrives (a pointer click or a consumer's `focus()` on
+a cell moves it there), and it is clamped to the cells that exist — when
+a move shrinks the board under it, the nearest remaining cell becomes the
+tab stop, so the board never drops out of the tab order.
 
 **SSR.** All DOM writes inside the framework's mount/effect lifecycle;
 server render emits `cards` in their given order with no move menu
@@ -163,8 +180,8 @@ open listbox). State changes are announced through one live region.
   whose `role="grid"` and `aria-label` come from `label`.
 - §8.2 Renders one `KanbanTableTH` per column with its title and, when
   `labels.cardCount` is supplied, a derived card count.
-- §8.3 A column at or over `wipLimit` carries `data-over-limit` and
-  renders `labels.overLimit`'s text; a column under its limit, or with
+- §8.3 A column over `wipLimit` carries `data-over-limit` and
+  renders `labels.overLimit`'s text; a column at or under its limit, or with
   no `wipLimit` set, carries neither.
 - §8.4 Cards render as a rectangular grid: the body has as many rows
   as the largest column's card count, and shorter columns pad with
@@ -179,7 +196,8 @@ open listbox). State changes are announced through one live region.
   `role="listbox"` of destination columns appears).
 - §8.8 Choosing a destination column in the move menu calls `onMove`
   with the card's id and the destination column's id, closes the
-  menu, and returns focus to the move button.
+  menu, and returns focus to that card's own move button (or its cell
+  when there is no button), following the card into its new column.
 - §8.9 Escape closes the move menu without calling `onMove`.
 - §8.10 A pointer drag-and-drop of a card onto another column's cell
   calls `onMove` the same way the keyboard path does.
@@ -189,7 +207,14 @@ open listbox). State changes are announced through one live region.
   absent.
 - §8.12 Extra attributes spread onto the root `<div>`.
 - §8.13 No hardcoded user-facing strings: every label comes from a
-  prop or a `labels.*` function.
+  prop or a `labels.*` function; without `labels.moveButton` no unnamed
+  move button renders.
+- §8.14 Keys pressed inside the open move menu never move the grid
+  cursor, and choosing a destination does not reopen the menu.
+- §8.15 Choosing the card's current column, or dropping a card on it,
+  calls no `onMove` and announces nothing.
+- §8.16 Focusing a cell by pointer moves the roving cursor there; when the
+  board shrinks under the cursor, exactly one cell stays tabbable.
 
 ## 9. Non-goals
 

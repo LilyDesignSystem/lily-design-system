@@ -1,77 +1,117 @@
 # MeasurementInstanceView
 
-## Overview
+MeasurementInstanceView is a headless Svelte 5 display component that shows a measurement instance value in a `<span>` element. A measurement instance is a concrete data point such as "72 kg", "98.6 F", or "120/80 mmHg". It is the read-only companion to `MeasurementInstanceInput`.
 
-A headless display component that shows a specific measurement instance
-value in a <span> element. A measurement instance is a concrete data point
-such as "72 kg", "98.6 F", or "120/80 mmHg". This is a read-only display
-component, part of the Input/View pattern for measurement data.
+## What it is
+
+A thin, unstyled `<span>` wrapper that renders a measurement string and optionally adds an `aria-label` for extra context.
 
 ## What it does
 
-A read-only display of a measurement value and unit.
+- Renders a `<span>` with `class="measurement-instance-view"` plus any consumer-provided CSS class.
+- Displays the required `value` prop as text content.
+- Applies `aria-label` from the optional `label` prop (omitted when not provided).
+- Spreads `...restProps` onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when displaying a value read-only (no editing).
+- Displaying a previously-recorded measurement on a summary screen, patient record, or printable view.
+- Showing a stored measurement next to a label in a description list or card.
+- Confirming a submitted measurement back to the user in a review step.
 
-## When not to use
+## When not to use it
 
-- Do not use when the user must edit the value — use the matching `*Input` component instead.
+- Do not use when the value should be editable — use `MeasurementInstanceInput`.
+- Do not use for free-form text unrelated to measurements — use a plain `<span>` or `BodyText`.
 
-## Usage
+## How to use it
 
-```svelte
-<MeasurementInstanceView value="72 kg" />
-```
+Import the component, pass the `value` string, and optionally provide a `label` for additional screen-reader context.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | string, required | The measurement instance value to display. |
-| `label` | string, optional | Accessible name via aria-label for additional context. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
+- `class` (string, optional) — consumer CSS class appended to the base class.
+- `value` (string, required) — the measurement instance value to display.
+- `label` (string, optional) — accessible name via `aria-label`.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<span>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Simple measurement display -->
-<MeasurementInstanceView value="72 kg" />
-
-<!-- With accessible label for screen reader context -->
-<MeasurementInstanceView value="98.6 F" label="Body temperature" />
-```
-
-## SvelteKit example
+### Simple measurement display
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementInstanceView from "#lib/components/MeasurementInstanceView/MeasurementInstanceView.svelte";
+    import MeasurementInstanceView from "./MeasurementInstanceView.svelte";
 </script>
 
 <MeasurementInstanceView value="72 kg" />
 ```
 
-## Keyboard
+### With an accessible label
 
-- None — this is a display-only component with no interactive behavior.
+```svelte
+<script lang="ts">
+    import MeasurementInstanceView from "./MeasurementInstanceView.svelte";
+</script>
+
+<MeasurementInstanceView value="98.6 F" label="Body temperature" />
+```
+
+### Inside a description list
+
+```svelte
+<script lang="ts">
+    import MeasurementInstanceView from "./MeasurementInstanceView.svelte";
+</script>
+
+<dl>
+    <dt>Weight</dt>
+    <dd><MeasurementInstanceView value="72 kg" label="Weight" /></dd>
+    <dt>Height</dt>
+    <dd><MeasurementInstanceView value="178 cm" label="Height" /></dd>
+</dl>
+```
+
+### With a consumer CSS class
+
+```svelte
+<script lang="ts">
+    import MeasurementInstanceView from "./MeasurementInstanceView.svelte";
+</script>
+
+<MeasurementInstanceView class="value-strong" value="120/80 mmHg" label="Blood pressure" />
+
+<style>
+    :global(.value-strong) {
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+</style>
+```
+
+### Bound from state
+
+```svelte
+<script lang="ts">
+    import MeasurementInstanceView from "./MeasurementInstanceView.svelte";
+    let reading = $state("36.7 C");
+</script>
+
+<MeasurementInstanceView value={reading} label="Latest temperature" />
+```
 
 ## Accessibility
 
-- aria-label optionally provides additional context beyond the displayed value
-- Text content is inherently accessible to screen readers
+- `aria-label` optionally provides context beyond the displayed value.
+- Text content is inherently accessible to screen readers.
+- Compliant with WCAG 2.2 AAA when consumer provides sufficient colour contrast.
 
-## Internationalization
+## Related components
 
-- All text comes through the value and label props
-- No hardcoded user-facing strings
-
-## References
-
-- HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+- `MeasurementInstanceInput` — paired input for entering the same measurement.
+- `MeasurementSystemView` / `MeasurementSystemInput` — measurement system.
+- `MeasurementUnitView` / `MeasurementUnitInput` — measurement unit.
+- `BodyText` — general text block.
 
 ---
 

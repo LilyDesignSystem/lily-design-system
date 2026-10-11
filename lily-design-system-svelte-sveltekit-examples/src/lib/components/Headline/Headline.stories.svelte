@@ -3,7 +3,7 @@
   import Headline from './Headline.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Headline',
+    title: 'Headless/Headline',
     component: Headline,
   });
 </script>

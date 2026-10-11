@@ -3,7 +3,7 @@
   import Avatar from './Avatar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Avatar',
+    title: 'Headless/Avatar',
     component: Avatar,
   });
 </script>

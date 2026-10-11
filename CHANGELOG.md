@@ -9,6 +9,120 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## One source for every component: the Svelte mirror is gone, and example copies are generated — 2026-10-11
+
+From tasks.md P10-T13.
+
+- **`lily-design-system-svelte-headless` had two full copies of its 571 components**: `components/`, which `build.mjs`
+  publishes, and `src/lib/components/`, which `bin/check-coverage`, `bin/check-class-names` and the spec treated as
+  canonical. They had drifted in 253 files, always the same way: `components/` was current and the mirror stale (48
+  national-identifier components were still scaffold placeholders in the mirror; `IconButton` and `Listbox` lacked the
+  September composition features). No consumer could import the mirror — the package ships only `dist/` — so it was
+  removed, after confirming every differing file was either identical or older there. The tools, `bin/test`,
+  `bin/new-component`, the package spec, `docs/developing.md` and the maintainer skill now name `components/` alone.
+  The package's test run drops from 5,917 to 3,075 tests: the removed half re-ran the same tests on stale copies.
+- **The example apps' copies are now generated.** The SvelteKit, Next.js, Nuxt and Angular examples keep their own copy
+  of every component, and nothing kept them in step: 2,496 files differed from their libraries, the Next.js, Nuxt and
+  Angular copies were missing 80 components, and the copies still had the bugs the libraries had fixed (the table cells
+  announcing the keyboard cursor as selected, the old chart markup, the Nuxt star picker printing `:star="star"`). The
+  new `bin/sync-example-components` mirrors each library into its example's copy (Nuxt's copied tests included, with
+  their import path rewritten); `bin/test` runs it with `--check` and fails on any drift, and `bin/new-component` runs
+  it after scaffolding. All four examples' unit tests and production builds pass, and the SvelteKit CI browser suite
+  (accessibility, responsive, components index, RTL, book-an-appointment) plus two composed pages — 96 tests — passes.
+
+## No English defaults in the rating pickers or PIN field; Tag stops being a live region — 2026-10-11
+
+From tasks.md P10-T8 and P10-T11.
+
+- **English defaults removed.** `PinInputDiv` named each box "Digit N of M"; it takes an optional `digitLabel(position,
+  length)` (Nunjucks: a `digitLabel` template with `{position}` and `{length}`) and otherwise names each box by the
+  group's `label`. `FiveStarRatingPicker` printed "star" / "stars"; it takes an optional `starLabel(star)` and otherwise
+  shows the number. `FiveFaceRatingPicker` and `FiveFaceRatingView` defaulted to "Very bad" … "Very good"; they default
+  to "1" … "5". Nunjucks had more: its star and face picker buttons, star and face views, Net Promoter Score button and
+  star picker group built English labels ("Rate 4 stars", "Rating: 4 out of 5 stars", "Very unhappy" …) when none was
+  passed; each now falls back to the number (or "4/5"), and the star picker group to no `aria-label`. The Eleventy
+  example passes its English labels explicitly.
+- **Tag is no longer a live region by default.** Every library rendered `role="status"`, so a page of tags was a page
+  of live regions. Decided 2026-10-11: by default a tag is a plain `<span>`; because `aria-label` is not allowed on one,
+  the `label` becomes screen-reader text (`.screen-reader-span`, which the 45 themes hide) appended after the content.
+  The content is never hidden: a first version wrapped it in `aria-hidden`, and the SvelteKit example's axe test caught
+  that it hid a tag's remove button from assistive technology. A new `live` prop restores `role="status"` with `aria-label` for a tag whose text changes in place. The
+  libraries had also drifted: Angular rendered a `<div>` with no role, HTML a `<span>` with an empty `aria-label`, and
+  Nunjucks a `<strong>`; all eight now render the same markup.
+- **`radio-group` and `checkbox-group` are `<fieldset>`s everywhere.** Their contract said `<div>` while its own
+  behaviour text, and the Svelte, React, Vue and Web Components libraries, said `<fieldset>`. Angular, Blazor, HTML and
+  Nunjucks now render a `<fieldset>` too (Angular also gained the missing `role="radiogroup"` / `role="group"`), and the
+  contract says `<fieldset>`. The themes do not reset a fieldset's default border, which these four libraries' examples
+  now show as the other four already did.
+- **`segment-group-item` is a `<button role="radio">`.** The contract said `<div>`, "Interactive: no". Angular rendered a
+  plain `<div>` with no role and Blazor a `<div role="radio">` that could not take focus; both now render a
+  `<button type="button" role="radio">` with `checked` (`aria-checked`, roving `tabindex`), `value` and `disabled`.
+- **Copies kept in step.** `lily-design-system-svelte-headless` holds two full copies of its components
+  (`components/`, which the build publishes, and `src/lib/components/`, which `bin/check-coverage` reads); the earlier
+  form-reset fixes had landed only in `src/lib`, so they had not reached the published package. Every changed file is
+  now identical in both, and in the SvelteKit, Next.js, Nuxt and Angular example apps' own copies — which also replaced
+  four Nuxt copies that predated fixes the Vue library had already made.
+
+## `bin/check-theme --contrast` reports every theme's text contrast — 2026-10-11
+
+From the bref-ui survey (tasks.md P10-T4): report contrast failures, never silently repair them. The new report-only
+pass computes the WCAG 2 contrast ratio of 12 text/background token pairs in each of the 45 themes and lists every pair
+below AAA (7:1), marking those below AA (4.5:1). It parses hex and `oklch()`, evaluates `color-mix(in oklch, …)` (as
+`--lily-error-text` uses), clips colours outside sRGB and marks those pairs approximate, changes nothing and exits 0,
+so it is not part of `bin/test`. First run: 198 of 540 pairs below AAA, 50 below AA across 27 themes — `error`,
+`success` and `secondary` fills most often. The NHS England and Scotland themes' success green (`oklch(56% 0.16 145)`,
+4.37:1 with white) has drifted from NHS's own `#007f3b` (5.12:1). Which colours to change is a design decision per
+theme, left to tasks.md P10-T10.
+
+## Form reset restores what the user started with — 2026-10-11
+
+From the bref-ui survey (tasks.md P10-T1). A control that shows its value through a one-way binding, or keeps it in its
+own state, never heard about a form's `reset` event: the browser reset the DOM and the component did not follow, so what
+the field showed, what the component held and what the form submitted disagreed. Each fix restores the value the
+control was first rendered with, one tick after `reset` and not when a listener cancelled it, with a test that fails on
+the old code:
+
+- **`date-time-picker`** in Svelte, Vue, Angular, HTML and Web Components: a reset blanked the visible field while the
+  hidden input still submitted the typed date. In Nunjucks the opposite: the server-rendered field went back to the
+  initial date while the hidden input (which has no separate default) and the controller kept the typed one. In React
+  the reset changed nothing, because React keeps a controlled field's default in step with its value; it now restores
+  the initial date through `onChange`. Blazor is a documented deviation: no JS interop module, and Blazor forms reset
+  through their model (`spec/index.md` §5.10 in each package).
+- **`FiveStarRatingPicker`, `FiveFaceRatingPicker`, `NetPromoterScorePicker`** in Svelte, React and Vue: a reset changed
+  the checked radio without updating the component's value or telling the consumer. In React and Vue the restored value
+  now reaches the consumer through `onChange` / `update:modelValue`. The Angular, Blazor and Web Components pickers are
+  containers for consumer-supplied radios, and the HTML and Nunjucks ones are static markup, so the browser's own reset
+  already covers them.
+- **`PinInputDiv`** in Svelte, React and Vue: besides the reset, it ignored its initial `value` — Svelte and Vue
+  overwrote a bound starting value with an empty string on mount. The Web Components `pin-input-div` now sets its
+  initial digits as the inputs' default values, so a reset restores them instead of emptying every field.
+
+Svelte already re-syncs `bind:value`, `bind:checked` and `bind:group` after a reset, so components that bind native
+inputs needed nothing. Found along the way, not fixed here: hardcoded English in `PinInputDiv` (the digit labels),
+`FiveStarRatingPicker` ("star" / "stars") and `FiveFaceRatingPicker` (its default face labels) — tasks.md P10-T8.
+
+## Kanban board and gantt chart: focus, tab stop and unnamed controls fixed in all eight frameworks — 2026-10-11
+
+A review of the Svelte kanban board and gantt chart against their own specs found defects that every port shared, each now
+fixed in all eight frameworks with a test that fails on the old code:
+
+- **Kanban board.** Keys pressed in an open move menu also reached the grid, so an arrow moved the grid cursor and pulled
+  focus out of the menu (Svelte, React, Vue, Angular, HTML, Nunjucks). After a move, focus went to the last-rendered card's
+  button (Svelte) or fell to the page (HTML and Web Components, which rebuild on the consumer's update); it now follows
+  the moved card to its new column. Clicking a cell did not move the roving cursor, and a move that shrank the board
+  could leave no cell tabbable. Choosing a card's own column, or dropping it there, counted as a move. Without
+  `labels.moveButton` the move button rendered with an empty name; it is now not rendered, and the menu opens from the cell,
+  named by the card. React also took focus on mount.
+- **Gantt chart.** Row indentation was an inline `style`, which the headless rules forbid; it is now `data-depth`. A task
+  whose `parentId` named no task disappeared, and a `parentId` cycle overflowed the stack. Opening the edit region did not
+  move focus into it, and closing it did not return focus to the grid; Escape now cancels (not in Blazor, where the event
+  cannot tell whether a date picker used it). A range entered end-first was saved as given, and Save accepted an empty date.
+  Collapse, Save and Cancel rendered with empty names when their labels were missing. Parent ranges are now derived in one
+  pass instead of once per row per render, and Nunjucks re-derives them when a child changes on the client.
+- **Specs.** Both specs said a column "at or over" its WIP limit is flagged; all eight implementations flag only "over",
+  which the attribute's name says too, so the specs now match. `labels.taskColumnHeader` names the gantt chart's leading
+  header cell, which was empty.
+
 ## Angular link, menu, settings and share pickers focus their list on open — 2026-10-11
 
 Opening one of these four pickers set `open` and then moved focus in a `queueMicrotask`, on the assumption that Angular had removed

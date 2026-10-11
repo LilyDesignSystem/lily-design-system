@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Autosuggest from './Autosuggest.vue';
 
 const meta = {
-  title: 'Examples/Autosuggest',
+  title: 'Headless/Autosuggest',
   component: Autosuggest,
   tags: ['autodocs']
 } satisfies Meta<typeof Autosuggest>;

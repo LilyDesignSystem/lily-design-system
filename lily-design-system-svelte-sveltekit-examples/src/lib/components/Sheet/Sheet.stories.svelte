@@ -3,7 +3,7 @@
   import Sheet from './Sheet.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Sheet',
+    title: 'Headless/Sheet',
     component: Sheet,
   });
 </script>

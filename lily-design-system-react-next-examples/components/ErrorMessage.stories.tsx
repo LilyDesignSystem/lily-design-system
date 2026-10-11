@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ErrorMessage from './ErrorMessage';
 
 const meta = {
-  title: 'Examples/ErrorMessage',
+  title: 'Headless/ErrorMessage',
   component: ErrorMessage,
   tags: ['autodocs']
 } satisfies Meta<typeof ErrorMessage>;

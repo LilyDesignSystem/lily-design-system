@@ -3,7 +3,7 @@
   import TimelineList from './TimelineList.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TimelineList',
+    title: 'Headless/TimelineList',
     component: TimelineList,
   });
 </script>

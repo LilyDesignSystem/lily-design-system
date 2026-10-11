@@ -3,7 +3,7 @@
   import MenuBarButton from './MenuBarButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MenuBarButton',
+    title: 'Headless/MenuBarButton',
     component: MenuBarButton,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Popup from './Popup';
 
 const meta = {
-  title: 'Examples/Popup',
+  title: 'Headless/Popup',
   component: Popup,
   tags: ['autodocs']
 } satisfies Meta<typeof Popup>;

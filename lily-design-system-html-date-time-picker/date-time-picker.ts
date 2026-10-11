@@ -668,6 +668,13 @@ export class DateTimePicker extends HTMLElement {
     #open = false;
     #invalid = false;
     #typed: string | null = null;
+
+    // Form reset (see #onFormReset): the value and zone when first connected,
+    // and the form currently listened to.
+    #initialValue = "";
+    #initialZone = "";
+    #resetForm: HTMLFormElement | null = null;
+    #resetTimer: ReturnType<typeof setTimeout> | undefined;
     #pendingDate = "";
     #pendingTime = "";
     #viewYear = 1970;
@@ -1061,6 +1068,8 @@ export class DateTimePicker extends HTMLElement {
     connectedCallback(): void {
         if (!this.#initialised) {
             this.#initialised = true;
+            this.#initialValue = this.value;
+            this.#initialZone = this.timeZone;
             this.#today = todayIso();
             const anchor =
                 parseIsoDate(splitValue(this.value, this.mode).date) ??
@@ -1073,7 +1082,30 @@ export class DateTimePicker extends HTMLElement {
         }
         this.#render();
         document.addEventListener("click", this.#onDocumentClick);
+        this.#resetForm = this.closest("form");
+        this.#resetForm?.addEventListener("reset", this.#onFormReset);
     }
+
+    /**
+     * Form reset. The visible field's value is set as a property, so a reset
+     * blanked it while `value` — and the hidden input the form submits — kept
+     * the date: the field showed nothing and the form still sent the old
+     * value. Restore the initial value instead, one tick later (after the
+     * browser has reset the DOM) and not when the reset was cancelled. Like a
+     * native reset it fires no change callback or event.
+     */
+    #onFormReset = (event: Event): void => {
+        clearTimeout(this.#resetTimer);
+        this.#resetTimer = setTimeout(() => {
+            if (event.defaultPrevented) return;
+            this.#closeDialog(false);
+            this.#typed = null;
+            this.#invalid = false;
+            this.value = this.#initialValue;
+            this.timeZone = this.#initialZone;
+            this.#syncState();
+        }, 0);
+    };
 
     attributeChangedCallback(name: string, _old: string | null, _value: string | null): void {
         switch (name) {
@@ -1101,6 +1133,9 @@ export class DateTimePicker extends HTMLElement {
     }
 
     disconnectedCallback(): void {
+        clearTimeout(this.#resetTimer);
+        this.#resetForm?.removeEventListener("reset", this.#onFormReset);
+        this.#resetForm = null;
         this.#tooltip?.destroy();
         document.removeEventListener("click", this.#onDocumentClick);
     }

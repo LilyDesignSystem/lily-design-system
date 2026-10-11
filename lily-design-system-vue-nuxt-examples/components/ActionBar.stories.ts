@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ActionBar from './ActionBar.vue';
 
 const meta = {
-  title: 'Examples/ActionBar',
+  title: 'Headless/ActionBar',
   component: ActionBar,
   tags: ['autodocs']
 } satisfies Meta<typeof ActionBar>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AlertDialog from './AlertDialog';
 
 const meta = {
-  title: 'Examples/AlertDialog',
+  title: 'Headless/AlertDialog',
   component: AlertDialog,
   tags: ['autodocs']
 } satisfies Meta<typeof AlertDialog>;

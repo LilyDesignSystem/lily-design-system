@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PolskaPeselInput from './PolskaPeselInput.vue';
 
 const meta = {
-  title: 'Examples/PolskaPeselInput',
+  title: 'Headless/PolskaPeselInput',
   component: PolskaPeselInput,
   tags: ['autodocs']
 } satisfies Meta<typeof PolskaPeselInput>;

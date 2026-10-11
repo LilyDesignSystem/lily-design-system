@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import HiddenInput from './HiddenInput';
 
 const meta = {
-  title: 'Examples/HiddenInput',
+  title: 'Headless/HiddenInput',
   component: HiddenInput,
   tags: ['autodocs']
 } satisfies Meta<typeof HiddenInput>;

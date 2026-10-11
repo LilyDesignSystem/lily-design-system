@@ -3,17 +3,28 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 /**
  * ScatterChart — a scatter chart visualization using dots to display data
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `scatter-chart` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * The consumer supplies the inline <svg> as projected content; nothing is
+ * drawn here. The graphic is a role="img" wrapper named by `label`
+ * (`describedBy` is its aria-describedby). An element projected with the
+ * `dataTable` attribute (`<table dataTable>`) is rendered in
+ * `.scatter-chart-data-table`, a SIBLING of the image wrapper: role="img" makes
+ * descendants presentational, so a table inside it would be invisible to
+ * assistive technology.
+ * Keyboard: none on the graphic; the table follows native table behaviour.
+ * Deviations from Svelte: no rest-props spread (Angular cannot spread onto
+ * an inner element); the data-table wrapper is always rendered (Angular
+ * cannot detect projected content), empty when nothing is projected.
  */
 @Component({
   selector: "lily-scatter-chart",
   standalone: true,
-  template: `<div class="scatter-chart {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+  template: `<figure class="scatter-chart {{ className() }}"><div class="scatter-chart-graphic" role="img" [attr.aria-label]="label() || null" [attr.aria-describedby]="describedBy() || null"><ng-content /></div><div class="scatter-chart-data-table"><ng-content select="[dataTable]" /></div></figure>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScatterChart {
+  /** Accessible name for the chart. */
   readonly label = input<string>("");
+  /** Id of a description (aria-describedby on the image wrapper). */
+  readonly describedBy = input<string>("");
   readonly className = input<string>("");
 }

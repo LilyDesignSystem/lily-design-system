@@ -3,7 +3,7 @@
   import Timer from './Timer.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Timer',
+    title: 'Headless/Timer',
     component: Timer,
   });
 </script>

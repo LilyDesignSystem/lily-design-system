@@ -9,6 +9,9 @@
     id, name (base name; each input appends "-{index}"),
     length (default 6), value (string of digits),
     label (legend-like aria-label on the wrapper),
+    digitLabel (each input's aria-label, with {position} and {length}
+      placeholders, e.g. "Digit {position} of {length}"; without it each
+      input is named by label — no English default),
     required, disabled, classes, attributes.
 #}
 {%- macro pinInputDiv(params) -%}
@@ -36,7 +39,7 @@
     id="{{ baseId }}-{{ i }}"
     {%- if baseName %} name="{{ baseName }}-{{ i }}"{% endif %}
     value="{{ value[i] if i < value | length else '' }}"
-    aria-label="Digit {{ i + 1 }} of {{ length }}"
+    aria-label="{{ p.digitLabel | replace('{position}', i + 1) | replace('{length}', length) if p.digitLabel else p.label }}"
     {%- if p.required %} required{% endif %}
     {%- if p.disabled %} disabled{% endif %}
   >

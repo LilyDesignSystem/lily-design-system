@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import LatvijaPersonasKodsView from './LatvijaPersonasKodsView.vue';
 
 const meta = {
-  title: 'Examples/LatvijaPersonasKodsView',
+  title: 'Headless/LatvijaPersonasKodsView',
   component: LatvijaPersonasKodsView,
   tags: ['autodocs']
 } satisfies Meta<typeof LatvijaPersonasKodsView>;

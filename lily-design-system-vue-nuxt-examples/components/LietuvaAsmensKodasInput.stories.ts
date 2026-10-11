@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import LietuvaAsmensKodasInput from './LietuvaAsmensKodasInput.vue';
 
 const meta = {
-  title: 'Examples/LietuvaAsmensKodasInput',
+  title: 'Headless/LietuvaAsmensKodasInput',
   component: LietuvaAsmensKodasInput,
   tags: ['autodocs']
 } satisfies Meta<typeof LietuvaAsmensKodasInput>;

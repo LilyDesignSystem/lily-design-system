@@ -3,7 +3,7 @@
   import AccordionNav from './AccordionNav.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/AccordionNav',
+    title: 'Headless/AccordionNav',
     component: AccordionNav,
   });
 </script>

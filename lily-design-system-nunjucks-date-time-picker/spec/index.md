@@ -545,6 +545,13 @@ once the client applies it. The value contract is unchanged — a zone is
 metadata about *where* the civil time applies, not part of it — and
 `onChange`/`datetimechange` never fire for a zone change.
 
+### 5.10 Form reset
+
+When the picker sits in a `<form>` and the form is reset, the picker restores the value (and time zone) it had when
+first rendered — in the visible field, in the controller (`getValue()`), and in the hidden input the form submits — one tick after the
+`reset` event, so the browser has reset the DOM first, and not at all when a listener cancelled the reset
+(`preventDefault()`). Like a native reset, it calls no `onChange`. `destroy()` removes the listener. Before 2026-10-11 a reset put the server-rendered field back to the initial date while the hidden input — which has no separate default — and the controller kept the typed one, so the field showed one date and the form submitted another.
+
 ## 6. Accessibility
 
 ### 6.1 Roles and properties

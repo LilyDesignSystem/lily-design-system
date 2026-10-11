@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import RangeInput from './RangeInput.vue';
 
 const meta = {
-  title: 'Examples/RangeInput',
+  title: 'Headless/RangeInput',
   component: RangeInput,
   tags: ['autodocs']
 } satisfies Meta<typeof RangeInput>;

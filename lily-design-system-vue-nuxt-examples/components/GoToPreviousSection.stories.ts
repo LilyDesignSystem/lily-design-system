@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import GoToPreviousSection from './GoToPreviousSection.vue';
 
 const meta = {
-  title: 'Examples/GoToPreviousSection',
+  title: 'Headless/GoToPreviousSection',
   component: GoToPreviousSection,
   tags: ['autodocs']
 } satisfies Meta<typeof GoToPreviousSection>;

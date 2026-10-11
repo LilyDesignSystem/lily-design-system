@@ -3,7 +3,7 @@
   import Footnote from './Footnote.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Footnote',
+    title: 'Headless/Footnote',
     component: Footnote,
   });
 </script>

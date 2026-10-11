@@ -1,91 +1,119 @@
 # ScrollBar
 
-## Overview
+A headless scrollbar element with the ARIA `scrollbar` role, orientation, and value range. Designed for custom scrollbar UIs where the consumer draws the thumb and implements the drag logic.
 
-A headless scrollbar track element that provides the ARIA scrollbar role
-and value attributes for a custom scrollbar control. Renders a <div> with
-orientation, value range, and accessible labeling. The consumer provides the
-visual thumb element as children and implements drag/scroll interaction logic.
+## What it is
+
+`ScrollBar` renders a single `<div class="scroll-bar ...">` with `role="scrollbar"`, `aria-orientation`, `aria-label`, and initial `aria-valuenow=0 / aria-valuemin=0 / aria-valuemax=100`. The visual thumb is supplied by the consumer via the `children` snippet.
 
 ## What it does
 
-A custom scrollbar element.
+- Declares a scrollbar track for assistive technologies.
+- Exposes orientation (`horizontal` or `vertical`) through `aria-orientation`.
+- Sets default ARIA value attributes that the consumer can override via `restProps` (for example, `aria-valuenow={pos}`).
+- Renders the supplied `children` (typically the draggable thumb).
 
-## When to use
+Drag logic, scroll synchronization, and keyboard handling are the consumer's responsibility.
 
-- Use when you need a custom scrollbar element.
+## When to use it
 
-## When not to use
+- Custom scrollbar UI paired with a `ScrollArea` or any scrollable content region.
+- Timeline scrubbers, horizontal carousel bars, or other controls that are semantically scrollbars.
+- Places where native browser scrollbars are hidden and replaced with a custom control.
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Standard page or container scrolling - the browser already exposes native scrollbars.
+- A draggable separator between two panels - use `Splitter` with `role="separator"` instead.
+- A slider for picking a numeric value - use `Slider`.
 
-```svelte
-<ScrollBar orientation="vertical" label="Scroll">
-  <div>thumb</div>
-</ScrollBar>
-```
+## How to use it
+
+1. Import from its source file.
+2. Pass a translated `label`.
+3. Choose `orientation` (`"vertical"` or `"horizontal"`).
+4. Override `aria-valuenow` (and optionally `aria-valuemin`/`aria-valuemax`) through restProps to reflect the current scroll position.
+5. Put the draggable thumb in the `children` snippet and implement pointer/keyboard handling yourself.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `orientation` | "vertical" \| "horizontal", default "vertical" | The scrollbar direction. |
-| `label` | string, required | Accessible name for the scrollbar via aria-label. |
-| `children` | Snippet, required | ScrollBar content, typically the draggable thumb element. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged with the base `scroll-bar` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `orientation` (`"vertical" | "horizontal"`, optional, default `"vertical"`) - written to `aria-orientation`.
+- `children` (Snippet, required) - scrollbar content (typically the thumb).
+- `...restProps` - any additional attributes spread onto the `<div>`, including overrides for `aria-valuenow`/`aria-valuemin`/`aria-valuemax`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Horizontal scrollbar for a timeline -->
-<ScrollBar orientation="horizontal" label="Timeline scroll">
-  <div class="thumb"></div>
-</ScrollBar>
-
-<!-- Vertical scrollbar with custom attributes -->
-<ScrollBar orientation="vertical" label="Page scroll" aria-valuenow={scrollPos}>
-  <div class="thumb"></div>
-</ScrollBar>
-```
-
-## SvelteKit example
+Vertical scrollbar with a simple thumb:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ScrollBar from "#lib/components/ScrollBar/ScrollBar.svelte";
+    import ScrollBar from "./ScrollBar.svelte";
 </script>
 
-<ScrollBar orientation="vertical" label="Scroll">
-  <div>thumb</div>
+<ScrollBar orientation="vertical" label="Page scroll">
+    <div class="thumb"></div>
 </ScrollBar>
 ```
 
-## Keyboard
+Horizontal timeline scrollbar:
 
-- Arrow Up/Left: scroll backward (decrease value) — consumer must implement
-- Arrow Down/Right: scroll forward (increase value) — consumer must implement
-- Page Up/Down: scroll by large increment — consumer must implement
-- Home: scroll to beginning — consumer must implement
-- End: scroll to end — consumer must implement
+```svelte
+<script lang="ts">
+    import ScrollBar from "./ScrollBar.svelte";
+</script>
+
+<ScrollBar orientation="horizontal" label="Timeline scroll">
+    <div class="thumb"></div>
+</ScrollBar>
+```
+
+Reflecting a bound scroll position:
+
+```svelte
+<script lang="ts">
+    import ScrollBar from "./ScrollBar.svelte";
+    let pos = $state(42);
+</script>
+
+<ScrollBar orientation="vertical" label="List scroll" aria-valuenow={pos}>
+    <div class="thumb" style={`top:${pos}%`}></div>
+</ScrollBar>
+```
+
+Paired with a scroll area:
+
+```svelte
+<script lang="ts">
+    import ScrollArea from "../ScrollArea/ScrollArea.svelte";
+    import ScrollBar from "./ScrollBar.svelte";
+</script>
+
+<div class="scroll-layout">
+    <ScrollArea label="Content">...</ScrollArea>
+    <ScrollBar orientation="vertical" label="Content scroll">
+        <div class="thumb"></div>
+    </ScrollBar>
+</div>
+```
 
 ## Accessibility
 
-- role="scrollbar" identifies the element as a scrollbar control
-- aria-orientation indicates horizontal or vertical direction
-- aria-valuenow/aria-valuemin/aria-valuemax track scroll position
-- aria-label provides the accessible name
+- `role="scrollbar"` is the correct role for a scroll control.
+- `aria-orientation` announces the axis.
+- Consumers MUST keep `aria-valuenow` in sync with the actual scroll position for screen-reader parity.
+- Keyboard support (Arrow / Page / Home / End) must be implemented by the consumer.
 
-## Internationalization
+References:
+- WAI-ARIA `scrollbar` role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
 
-- The label prop externalizes the accessible label string
+## Related components
 
-## References
-
-- WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
+- `ScrollArea` - the scrollable content region this scrollbar typically accompanies.
+- `Slider` - numeric value selection via range input.
+- `Splitter` - draggable separator.
+- `Resizable` - focusable resize region.
 
 ---
 

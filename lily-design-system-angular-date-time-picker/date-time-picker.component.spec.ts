@@ -1446,3 +1446,59 @@ describe("date-time-picker — tooltip (§7.62–§7.67)", () => {
     }
   });
 });
+
+@Component({
+  standalone: true,
+  imports: [DateTimePicker],
+  template: `
+    <form>
+      <lily-date-time-picker
+        label="Pick a date"
+        [labels]="labels"
+        locale="en-GB"
+        name="when"
+        [(value)]="value"
+      />
+    </form>
+  `,
+})
+class ResetHost {
+  labels = LABELS;
+  value = "2026-10-01";
+}
+
+describe("DateTimePicker — form reset", () => {
+  async function setup(): Promise<{ fixture: ComponentFixture<ResetHost>; form: HTMLFormElement; field: HTMLInputElement }> {
+    const fixture = TestBed.createComponent(ResetHost);
+    fixtures.push(fixture);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const form = (fixture.nativeElement as HTMLElement).querySelector("form")!;
+    const field = form.querySelector<HTMLInputElement>(".date-time-picker-input")!;
+    field.value = "09/10/2026";
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+    field.dispatchEvent(new FocusEvent("blur"));
+    fixture.detectChanges();
+    return { fixture, form, field };
+  }
+
+  test("a form reset restores the initial date in the field, the model and the form", async () => {
+    const { fixture, form, field } = await setup();
+    expect(new FormData(form).get("when")).toBe("2026-10-09");
+    form.reset();
+    await flush();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value).toBe("2026-10-01");
+    expect(new FormData(form).get("when")).toBe("2026-10-01");
+    expect(field.value).toBe("01 Oct 2026");
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const { fixture, form } = await setup();
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await flush();
+    fixture.detectChanges();
+    expect(new FormData(form).get("when")).toBe("2026-10-09");
+  });
+});

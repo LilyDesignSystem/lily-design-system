@@ -3,7 +3,7 @@
   import EndNotes from './EndNotes.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EndNotes',
+    title: 'Headless/EndNotes',
     component: EndNotes,
   });
 </script>

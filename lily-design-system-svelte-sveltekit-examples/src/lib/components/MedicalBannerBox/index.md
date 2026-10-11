@@ -1,58 +1,153 @@
 # MedicalBannerBox
 
-## Overview
+MedicalBannerBox is a headless Svelte 5 layout component designed to be placed inside a `MedicalBanner`. It renders a `<div>` with `data-context="medical"` that the consumer typically styles with flexbox horizontal layout to arrange medical banner content items side by side.
 
-A headless layout component designed to be placed inside a MedicalBanner.
-Renders a <div> with data-context="medical" that the consumer styles with
-flexbox horizontal layout to arrange medical banner content items side by side.
+## What it is
+
+A passive layout wrapper for medical banner content. It carries an optional `aria-label` and the `data-context="medical"` hook for consumer CSS; it has no state, no keyboard behaviour, and no built-in styling.
 
 ## What it does
 
-A medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information.
+- Renders a `<div>` with `class="medical-banner-box"` plus any consumer-provided CSS class.
+- Applies `data-context="medical"` for CSS targeting.
+- Applies `aria-label` when the optional `label` prop is provided.
+- Renders the required `children` snippet as the box content.
+- Spreads `...restProps` onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information.
+- Grouping multiple pieces of medical-banner content horizontally inside a `MedicalBanner`.
+- Hosting nested `MedicalBannerBoxForAdvice` and `MedicalBannerBoxForDanger` sections in a single row.
+- Providing a scoped CSS target for medical-context layout.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Do not use outside a `MedicalBanner` — use `BannerBox` for non-medical banners.
+- Do not use for a single standalone region — nest `MedicalBannerBoxForAdvice` or `MedicalBannerBoxForDanger` directly inside the `MedicalBanner`.
+- Do not use for general layout — use a plain `<div>` or one of the layout components (`GrailLayout`, `ContentBlock`).
 
-## Usage
+## How to use it
 
-```svelte
-<MedicalBannerBox>content</MedicalBannerBox>
-```
+Place `MedicalBannerBox` inside a `MedicalBanner` and nest domain-specific `MedicalBannerBoxForAdvice` / `MedicalBannerBoxForDanger` children, or arbitrary content.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, optional | Accessible name via aria-label. |
-| `children` | Snippet, required | The medical banner box content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional) — consumer CSS class appended to the base `medical-banner-box` class.
+- `label` (string, optional) — accessible name via `aria-label`.
+- `children` (Snippet, required) — the box content.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<div>`.
 
-## SvelteKit example
+## Usage
+
+### Box nesting advice and danger sections
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MedicalBannerBox from "#lib/components/MedicalBannerBox/MedicalBannerBox.svelte";
+    import MedicalBanner from "../MedicalBanner/MedicalBanner.svelte";
+    import MedicalBannerBox from "./MedicalBannerBox.svelte";
+    import MedicalBannerBoxForDanger from "../MedicalBannerBoxForDanger/MedicalBannerBoxForDanger.svelte";
+    import MedicalBannerBoxForAdvice from "../MedicalBannerBoxForAdvice/MedicalBannerBoxForAdvice.svelte";
 </script>
 
-<MedicalBannerBox>content</MedicalBannerBox>
+<MedicalBanner label="Patient summary">
+    <MedicalBannerBox>
+        <MedicalBannerBoxForDanger label="Allergies">
+            <p>Penicillin</p>
+        </MedicalBannerBoxForDanger>
+        <MedicalBannerBoxForAdvice label="Care team">
+            <p>GP: Dr. Rivera</p>
+        </MedicalBannerBoxForAdvice>
+    </MedicalBannerBox>
+</MedicalBanner>
 ```
 
-## Keyboard
+### Box with an accessible label
 
-- None (passive layout element)
+```svelte
+<script lang="ts">
+    import MedicalBanner from "../MedicalBanner/MedicalBanner.svelte";
+    import MedicalBannerBox from "./MedicalBannerBox.svelte";
+</script>
+
+<MedicalBanner label="Record">
+    <MedicalBannerBox label="Patient identifiers">
+        <p>MRN: 00123</p>
+        <p>DOB: 1980-01-01</p>
+    </MedicalBannerBox>
+</MedicalBanner>
+```
+
+### Box with consumer CSS for horizontal flex
+
+```svelte
+<script lang="ts">
+    import MedicalBanner from "../MedicalBanner/MedicalBanner.svelte";
+    import MedicalBannerBox from "./MedicalBannerBox.svelte";
+</script>
+
+<MedicalBanner label="Summary">
+    <MedicalBannerBox class="flex-row">
+        <div>Section 1</div>
+        <div>Section 2</div>
+        <div>Section 3</div>
+    </MedicalBannerBox>
+</MedicalBanner>
+
+<style>
+    :global(.flex-row) {
+        display: flex;
+        gap: 1rem;
+    }
+</style>
+```
+
+### Box with a data attribute variant
+
+```svelte
+<script lang="ts">
+    import MedicalBanner from "../MedicalBanner/MedicalBanner.svelte";
+    import MedicalBannerBox from "./MedicalBannerBox.svelte";
+</script>
+
+<MedicalBanner label="Ward overview">
+    <MedicalBannerBox data-layout="compact">
+        <p>Bed 12A — stable</p>
+    </MedicalBannerBox>
+</MedicalBanner>
+```
+
+### Multiple boxes stacked
+
+```svelte
+<script lang="ts">
+    import MedicalBanner from "../MedicalBanner/MedicalBanner.svelte";
+    import MedicalBannerBox from "./MedicalBannerBox.svelte";
+</script>
+
+<MedicalBanner label="Shift report">
+    <MedicalBannerBox label="Morning">
+        <p>12 admissions</p>
+    </MedicalBannerBox>
+    <MedicalBannerBox label="Afternoon">
+        <p>8 discharges</p>
+    </MedicalBannerBox>
+</MedicalBanner>
+```
 
 ## Accessibility
 
-- No additional ARIA required; parent MedicalBanner provides landmark
-- Optional aria-label via label prop
-- data-context="medical" for medical context
+- The parent `MedicalBanner` provides the landmark and `aria-live` announcement.
+- `aria-label` (optional) provides an accessible name for this specific layout box.
+- `data-context="medical"` is a CSS hook; it does not affect ARIA semantics.
+- No keyboard behaviour — the box is passive.
+
+## Related components
+
+- `MedicalBanner` — the landmark region this box lives inside.
+- `MedicalBannerBoxForAdvice` — advice-level nested region.
+- `MedicalBannerBoxForDanger` — danger-level nested region.
+- `BannerBox` — non-medical equivalent for `Banner`.
+- `Banner` — the non-medical banner root.
 
 ---
 

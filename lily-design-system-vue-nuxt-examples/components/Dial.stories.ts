@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Dial from './Dial.vue';
 
 const meta = {
-  title: 'Examples/Dial',
+  title: 'Headless/Dial',
   component: Dial,
   tags: ['autodocs']
 } satisfies Meta<typeof Dial>;

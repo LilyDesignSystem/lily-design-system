@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/svelte";
+import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, expect, test, vi } from "vitest";
 
 import KanbanBoard from "./KanbanBoard.svelte";
@@ -133,7 +133,9 @@ describe("KanbanBoard — move menu (§8.7, §8.8, §8.9)", () => {
         await fireEvent.click(doneOption);
         expect(onMove).toHaveBeenCalledWith("c1", "done");
         expect(screen.queryByRole("listbox")).toBeNull();
-        expect(document.activeElement?.className).toContain("kanban-board-move-button");
+        // That card's own button: every card used to bind one shared ref, so focus
+        // went to whichever card rendered last.
+        await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Move Card One" })));
     });
 
     test("§8.9 Escape closes the move menu without calling onMove", async () => {
@@ -176,12 +178,110 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
     test("§8.11 no announcement fires when moveAnnouncement is absent", async () => {
         render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS } });
         await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
-        await fireEvent.keyDown(document.activeElement!, { key: "Enter" });
+        const listbox = await screen.findByRole("listbox");
+        await fireEvent.keyDown(listbox, { key: "ArrowDown" });
+        await fireEvent.keyDown(listbox, { key: "Enter" });
         expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
     });
 
     test("§8.12 extra attributes spread onto the root", () => {
         render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS, "data-testid": "board-root" } });
         expect(document.querySelector('[data-testid="board-root"]')).toBeTruthy();
+    });
+});
+
+describe("KanbanBoard — focus, tab stop and move edge cases", () => {
+    const moved = (cards: KanbanCard[], id: string, columnId: string) =>
+        cards.map((c) => (c.id === id ? { ...c, columnId } : c));
+
+    test("§8.8 after a move, focus and the tab stop follow the card to its new column", async () => {
+        let cards = CARDS;
+        const { rerender } = render(KanbanBoard, {
+            props: {
+                label: "Sprint board",
+                columns: COLUMNS,
+                cards,
+                labels: LABELS,
+                onMove: (id: string, col: string) => {
+                    cards = moved(cards, id, col);
+                    void rerender({ cards });
+                },
+            },
+        });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        await fireEvent.click(screen.getByRole("option", { name: "Done" }));
+        await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Move Card One" })));
+        expect(tabbableCells()).toHaveLength(1);
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("2");
+    });
+
+    test("§8.5 keys pressed in the open move menu do not move the grid cursor or focus", async () => {
+        render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        const listbox = await screen.findByRole("listbox");
+        await waitFor(() => expect(document.activeElement).toBe(listbox));
+        await fireEvent.keyDown(listbox, { key: "ArrowDown" });
+        await fireEvent.keyDown(listbox, { key: "ArrowRight" });
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("0");
+        await waitFor(() => expect(document.activeElement).toBe(listbox));
+    });
+
+    test("§8.8 choosing a destination in the menu does not reopen it", async () => {
+        render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        const listbox = await screen.findByRole("listbox");
+        await fireEvent.keyDown(listbox, { key: "ArrowDown" });
+        await fireEvent.keyDown(listbox, { key: "Enter" });
+        await waitFor(() => expect(screen.queryByRole("listbox")).toBeNull());
+    });
+
+    test("§8.8 choosing the card's own column, or dropping it there, is not a move", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS, labels: LABELS, onMove } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        await fireEvent.click(screen.getByRole("option", { name: "To Do" }));
+        expect(screen.queryByRole("listbox")).toBeNull();
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
+
+        const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+        fireEvent.dragStart(screen.getByText("Card One"), { dataTransfer });
+        fireEvent.drop(bodyRows()[1].querySelectorAll(".kanban-table-td")[0], { dataTransfer });
+        expect(onMove).not.toHaveBeenCalled();
+    });
+
+    test("§8.5 when the board shrinks under the cursor, one cell stays tabbable", async () => {
+        const { rerender } = render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "End" });
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("1");
+        await rerender({ cards: CARDS.filter((c) => c.id !== "c2" && c.id !== "c4") });
+        expect(bodyRows()).toHaveLength(1);
+        expect(tabbableCells()).toHaveLength(1);
+    });
+
+    test("§8.5 focusing a cell by pointer moves the cursor there", async () => {
+        render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS } });
+        const cell = bodyRows()[1].querySelectorAll<HTMLElement>(".kanban-table-td")[1];
+        cell.focus();
+        await waitFor(() => expect(tabbableCells()).toEqual([cell]));
+        await fireEvent.keyDown(cell, { key: "ArrowUp" });
+        expect(tabbableCells()[0].getAttribute("data-row")).toBe("0");
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+    });
+
+    test("§8.13 without labels.moveButton there is no unnamed button; the menu is named by the card and Escape refocuses the cell", async () => {
+        render(KanbanBoard, { props: { label: "Sprint board", columns: COLUMNS, cards: CARDS } });
+        expect(document.querySelector(".kanban-board-move-button")).toBeNull();
+        const cell = tabbableCells()[0] as HTMLElement;
+        await fireEvent.keyDown(cell, { key: "Enter" });
+        const listbox = await screen.findByRole("listbox", { name: "Card One" });
+        await fireEvent.keyDown(listbox, { key: "Escape" });
+        await waitFor(() => expect(document.activeElement).toBe(cell));
+    });
+
+    test("§8.3 a column exactly at its wipLimit is not over it", () => {
+        render(KanbanBoard, {
+            props: { label: "Sprint board", columns: COLUMNS, cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS },
+        });
+        expect(document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit")).toBe(false);
     });
 });

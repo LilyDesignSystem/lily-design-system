@@ -448,7 +448,7 @@ export const componentExamples: Record<string, ComponentExample> = {
   "table-row": {"usage":{"lang":"html","code":"<TableBody>\n  <TableRow>\n    <TableTD>Alice</TableTD>\n    <TableTD>alice@example.com</TableTD>\n  </TableRow>\n</TableBody>\n"}},
   "table-td": {"usage":{"lang":"html","code":"<TableRow>\n  <TableTD>Alice</TableTD>\n  <TableTD>alice@example.com</TableTD>\n</TableRow>\n"}},
   "table-th": {"usage":{"lang":"html","code":"<Table label=\"Users\">\n  <TableHead>\n    <TableRow>\n      <TableTH>Name</TableTH>\n      <TableTH>Email</TableTH>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableTD>Alice</TableTD>\n      <TableTD>alice@example.com</TableTD>\n    </TableRow>\n  </TableBody>\n</Table>\n"}},
-  "tag": {"usage":{"lang":"html","code":"<Tag label=\"Status: Completed\">Completed</Tag>\n"}},
+  "tag": {"usage":{"lang":"html","code":"<Tag label=\"status\">Completed</Tag>\n"}},
   "tag-group": {"usage":{"lang":"html","code":"<TagGroup label=\"Patient statuses\">\n  <Tag label=\"Status: Verified\">Verified</Tag>\n  <Tag label=\"Status: NHS patient\">NHS patient</Tag>\n  <Tag label=\"Status: Review due\">Review due</Tag>\n</TagGroup>\n"}},
   "tag-input": {"usage":{"lang":"html","code":"<TagInput label=\"Add tag\" value={tagText} onadd={(tag) => tags.push(tag)} />\n"}},
   "task-bar": {"usage":{"lang":"html","code":"<TaskBar label=\"Document actions\">\n  <TaskBarButton>New</TaskBarButton>\n  <TaskBarButton>Open</TaskBarButton>\n  <TaskBarButton>Save</TaskBarButton>\n  <TaskBarButton>Print</TaskBarButton>\n</TaskBar>\n"}},

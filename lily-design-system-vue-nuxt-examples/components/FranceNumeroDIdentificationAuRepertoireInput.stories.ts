@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FranceNumeroDIdentificationAuRepertoireInput from './FranceNumeroDIdentificationAuRepertoireInput.vue';
 
 const meta = {
-  title: 'Examples/FranceNumeroDIdentificationAuRepertoireInput',
+  title: 'Headless/FranceNumeroDIdentificationAuRepertoireInput',
   component: FranceNumeroDIdentificationAuRepertoireInput,
   tags: ['autodocs']
 } satisfies Meta<typeof FranceNumeroDIdentificationAuRepertoireInput>;

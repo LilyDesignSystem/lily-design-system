@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Visible from './Visible';
 
 const meta = {
-  title: 'Examples/Visible',
+  title: 'Headless/Visible',
   component: Visible,
   tags: ['autodocs']
 } satisfies Meta<typeof Visible>;

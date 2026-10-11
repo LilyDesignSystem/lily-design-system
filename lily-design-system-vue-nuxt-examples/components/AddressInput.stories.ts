@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AddressInput from './AddressInput.vue';
 
 const meta = {
-  title: 'Examples/AddressInput',
+  title: 'Headless/AddressInput',
   component: AddressInput,
   tags: ['autodocs']
 } satisfies Meta<typeof AddressInput>;

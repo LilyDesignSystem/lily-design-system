@@ -1,84 +1,139 @@
 # Popup
 
-## Overview
+A headless conditional overlay dialog that temporarily appears over the main content for information, prompts, or actions. Only mounts in the DOM when `open` is `true`.
 
-A headless conditional overlay dialog that temporarily appears over the main
-content to convey information, prompt user actions, or display additional
-options. It renders a <div> with role="dialog" only when the open state is
-true. Similar to Popover but designed as a general-purpose overlay dialog.
-Commonly used for confirmations, prompts, contextual actions, and inline forms.
+## What it is
+
+- Component: `Popup`
+- HTML element: `<div role="dialog">` (conditionally rendered)
+- Role: `dialog`
+- Category: overlay / floating content
 
 ## What it does
 
-A temporary overlay that appears above page content.
+- Renders a `<div role="dialog">` with `aria-label` only when the bindable `open` is `true`.
+- Unmounts completely when closed.
+- Supports `bind:open` for two-way binding.
+- Spreads additional attributes onto the dialog `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a temporary overlay that appears above page content.
+- Confirmations, prompts, and short user decisions that don't require a full modal dialog.
+- Contextual actions surfaced above other content.
+- Inline forms or controls that should overlay the page temporarily.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a small descriptor tied to a trigger by proximity — use `Tooltip` or `Popover`.
+- For blocking modal prompts — use `Dialog` or `AlertDialog`.
+- For persistent top-of-page messages — use `Banner`, `SuperBanner`, or `Notification`.
+- For side-anchored panels — use `Drawer`, `Sheet`, or `SlideOutDrawer`.
 
-## Usage
+## How to use it
+
+The consumer controls the trigger, the open/close logic, Escape handling, and focus management.
 
 ```svelte
-<Popup label="Info" bind:open>{children}</Popup>
+import Popup from './Popup.svelte';
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the popup dialog via aria-label. |
-| `open` | boolean, default false, bindable | Controls whether the popup is visible. |
-| `children` | Snippet, required | Content rendered inside the dialog. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (`className`): string, default `""`. CSS class appended to `popup`.
+- `label`: string, required. Accessible name for the dialog via `aria-label`.
+- `open`: boolean, default `false`. Bindable with `bind:open`.
+- `children`: Snippet, required. Popup content.
+- `...restProps`: spread onto the `<div>`.
 
-## Examples
+## Usage
+
+### Confirmation popup
 
 ```svelte
-<!-- Confirmation popup -->
-<button onclick={() => showPopup = !showPopup}>Open popup</button>
-<Popup label="Confirmation" bind:open={showPopup}>
+<script lang="ts">
+  import Popup from './Popup.svelte';
+
+  let open = $state(false);
+</script>
+
+<button type="button" onclick={() => (open = true)}>Delete</button>
+<Popup label="Confirm deletion" bind:open>
   <p>Are you sure you want to proceed?</p>
-  <button onclick={() => showPopup = false}>Yes</button>
-  <button onclick={() => showPopup = false}>No</button>
+  <button type="button" onclick={() => (open = false)}>Yes</button>
+  <button type="button" onclick={() => (open = false)}>No</button>
 </Popup>
 ```
 
-## SvelteKit example
+### Toggle trigger
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Popup from "#lib/components/Popup/Popup.svelte";
+  import Popup from './Popup.svelte';
+
+  let open = $state(false);
 </script>
 
-<Popup label="Info" bind:open>{children}</Popup>
+<button type="button" onclick={() => (open = !open)}>Toggle popup</button>
+<Popup label="Info" bind:open>
+  <p>Popup content.</p>
+</Popup>
 ```
 
-## Keyboard
+### Escape to close
 
-- Escape: consumer should implement closing the popup by setting open to false
-- Tab: consumer should consider trapping focus within the popup when open
+```svelte
+<script lang="ts">
+  import Popup from './Popup.svelte';
+
+  let open = $state(true);
+  function onKey(e: KeyboardEvent) { if (e.key === "Escape") open = false; }
+</script>
+
+<svelte:window onkeydown={onKey} />
+
+<Popup label="Welcome" bind:open>
+  <p>Press Escape to close.</p>
+</Popup>
+```
+
+### With inline form
+
+```svelte
+<script lang="ts">
+  import Popup from './Popup.svelte';
+
+  let open = $state(false);
+  let tag = $state("");
+</script>
+
+<button type="button" onclick={() => (open = true)}>Add tag</button>
+<Popup label="New tag" bind:open>
+  <form onsubmit={(e) => { e.preventDefault(); open = false; }}>
+    <label>Name <input type="text" bind:value={tag} /></label>
+    <button type="submit">Add</button>
+    <button type="button" onclick={() => (open = false)}>Cancel</button>
+  </form>
+</Popup>
+```
+
+### With positioning hook
+
+```svelte
+<Popup label="Menu" bind:open data-anchor="top-center" />
+```
 
 ## Accessibility
 
-- role="dialog" identifies the popup as a dialog overlay
-- aria-label provides the accessible name for the dialog
-- Conditionally rendered; not in the DOM when closed
+- `role="dialog"` + `aria-label` expose the popup as a named dialog region.
+- Consumer must implement Escape-to-close, focus trap, and focus restoration as appropriate.
+- Consider moving focus to the popup on open and restoring it to the trigger on close.
 
-## Internationalization
+## Related components
 
-- The label prop is the only text; all content comes through children
-- No hardcoded user-facing strings
-
-## References
-
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/
-- WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
+- `Popover` — near-identical floating dialog variant.
+- `Dialog`, `AlertDialog`, `FileDialog` — fully modal alternatives.
+- `Tooltip`, `HoverCard` — simpler hover/focus overlays.
+- `Drawer`, `Sheet`, `SlideOutDrawer`, `FloatingPanel` — other overlay patterns.
 
 ---
 

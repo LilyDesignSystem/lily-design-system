@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CymruRhifYGwasanaethIechydGwladolInput from './CymruRhifYGwasanaethIechydGwladolInput';
 
 const meta = {
-  title: 'Examples/CymruRhifYGwasanaethIechydGwladolInput',
+  title: 'Headless/CymruRhifYGwasanaethIechydGwladolInput',
   component: CymruRhifYGwasanaethIechydGwladolInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CymruRhifYGwasanaethIechydGwladolInput>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Expander from './Expander';
 
 const meta = {
-  title: 'Examples/Expander',
+  title: 'Headless/Expander',
   component: Expander,
   tags: ['autodocs']
 } satisfies Meta<typeof Expander>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CurrencyInput from './CurrencyInput.vue';
 
 const meta = {
-  title: 'Examples/CurrencyInput',
+  title: 'Headless/CurrencyInput',
   component: CurrencyInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CurrencyInput>;

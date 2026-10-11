@@ -95,6 +95,7 @@ const emit = defineEmits<{
 
 const baseId = nextKanbanBoardId();
 const moveOptionId = (i: number) => `${baseId}-move-option-${i}`;
+const moveListId = `${baseId}-move-list`;
 
 const rootEl = ref<HTMLDivElement | null>(null);
 const statusMessage = ref("");
@@ -105,22 +106,10 @@ const focusedCol = ref(0);
 const openCardId = ref<string | null>(null);
 const moveActiveIndex = ref(-1);
 
-// IconButton/Listbox are compositions: a template ref on them resolves
-// to whatever they defineExpose (`{ el }`), not the raw DOM node. Only
-// one move menu is ever open at a time, but the trigger buttons repeat
-// once per card inside a v-for — a static `ref="…"` name there would
-// collect into an array (Vue's v-for-ref rule), so each button's ref is
-// captured into a plain Map keyed by card id via a function ref instead,
-// letting `closeMoveMenu` refocus the SPECIFIC card's own button
-// regardless of whether Enter/Space (keyboard) or a click opened it.
-const moveButtonRefs = new Map<string, { el?: HTMLButtonElement } | null>();
-function setMoveButtonRef(cardId: string, el: unknown): void {
-    if (el) moveButtonRefs.set(cardId, el as { el?: HTMLButtonElement });
-    else moveButtonRefs.delete(cardId);
-}
-// The open Listbox is also lexically inside that same v-for (even though
-// `v-if` only ever mounts one at a time), so it gets the same array-ref
-// treatment — a function ref sidesteps that too.
+// The open Listbox is lexically inside a v-for (even though `v-if` only
+// ever mounts one at a time), so a static `ref="…"` name would collect
+// into an array (Vue's v-for-ref rule) — a function ref sidesteps that.
+// It resolves to what Listbox defineExposes (`{ el }`), not the DOM node.
 let moveListRef: { el?: HTMLElement } | null = null;
 function setMoveListRef(el: unknown): void {
     moveListRef = (el as { el?: HTMLElement } | null) ?? null;
@@ -138,6 +127,12 @@ const cardsByColumn = computed(() => {
 const maxRows = computed(() =>
     props.columns.reduce((max, column) => Math.max(max, cardsByColumn.value.get(column.id)?.length ?? 0), 0),
 );
+
+// The roving cursor, clamped to the cells that exist now: a move can shrink
+// the board, and a cursor left on a vanished row would take the grid out of
+// the tab order altogether.
+const activeRow = computed(() => Math.min(focusedRow.value, maxRows.value - 1));
+const activeCol = computed(() => Math.min(focusedCol.value, props.columns.length - 1));
 
 const rowIndices = computed(() => Array.from({ length: maxRows.value }, (_, i) => i));
 
@@ -172,10 +167,13 @@ function announce(message: string | undefined): void {
 // Move menu (keyboard + pointer share this)
 // ---------------------------------------------------------------
 
+/** Choosing the card's own column is not a move: the menu just closes. */
 function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
-    emit("move", card.id, toColumn.id);
-    announce(props.labels?.moveAnnouncement?.(resolveCardLabel(card), toColumn.title));
-    closeMoveMenu();
+    if (toColumn.id !== card.columnId) {
+        emit("move", card.id, toColumn.id);
+        announce(props.labels?.moveAnnouncement?.(resolveCardLabel(card), toColumn.title));
+    }
+    void closeMoveMenu(card.id);
 }
 
 async function openMoveMenu(card: KanbanCard): Promise<void> {
@@ -186,19 +184,33 @@ async function openMoveMenu(card: KanbanCard): Promise<void> {
     moveListRef?.el?.focus({ preventScroll: true });
 }
 
-async function closeMoveMenu(refocus = true): Promise<void> {
+async function closeMoveMenu(cardId: string, refocus = true): Promise<void> {
     if (openCardId.value === null) return;
-    const cardId = openCardId.value;
     openCardId.value = null;
     moveActiveIndex.value = -1;
-    if (refocus) {
-        await nextTick();
-        moveButtonRefs.get(cardId)?.el?.focus({ preventScroll: true });
-    }
+    if (refocus) await focusCard(cardId);
+}
+
+/**
+ * Focus a card wherever it is after the next render — after a move the
+ * consumer has put it in another column. The roving cursor follows it
+ * there, and focus lands on its move button, or on its cell when there is
+ * no button.
+ */
+async function focusCard(cardId: string): Promise<void> {
+    await nextTick();
+    const cell = Array.from(rootEl.value?.querySelectorAll<HTMLElement>("[data-card-id]") ?? []).find(
+        (el) => el.dataset.cardId === cardId,
+    );
+    if (!cell) return;
+    focusedRow.value = Number(cell.dataset.row);
+    focusedCol.value = Number(cell.dataset.col);
+    await nextTick();
+    (cell.querySelector<HTMLElement>(".kanban-board-move-button") ?? cell).focus({ preventScroll: true });
 }
 
 function onMoveButtonClick(card: KanbanCard): void {
-    void (openCardId.value === card.id ? closeMoveMenu() : openMoveMenu(card));
+    void (openCardId.value === card.id ? closeMoveMenu(card.id) : openMoveMenu(card));
 }
 
 // ---------------------------------------------------------------
@@ -221,7 +233,8 @@ function onColumnDrop(column: KanbanColumn, event: DragEvent): void {
     const cardId = draggingCardId ?? event.dataTransfer?.getData("text/plain");
     draggingCardId = null;
     const card = props.cards.find((c) => c.id === cardId);
-    if (card) moveCard(card, column);
+    // Dropping a card back on its own column is not a move.
+    if (card && card.columnId !== column.id) moveCard(card, column);
 }
 
 // ---------------------------------------------------------------
@@ -239,41 +252,53 @@ function moveFocus(row: number, col: number): void {
     void focusActiveCell();
 }
 
-function onGridKeydown(event: KeyboardEvent): void {
+/** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+function onGridFocusin(event: FocusEvent): void {
     const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+    if (!cell) return;
+    focusedRow.value = Number(cell.dataset.row);
+    focusedCol.value = Number(cell.dataset.col);
+}
+
+function onGridKeydown(event: KeyboardEvent): void {
+    const target = event.target as HTMLElement;
+    // The open move menu owns its own keys; letting them bubble here moved the
+    // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
+    if (target.closest(".kanban-board-move-list")) return;
+    const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
     switch (event.key) {
         case "ArrowUp":
             event.preventDefault();
-            moveFocus(focusedRow.value - 1, focusedCol.value);
+            moveFocus(activeRow.value - 1, activeCol.value);
             break;
         case "ArrowDown":
             event.preventDefault();
-            moveFocus(focusedRow.value + 1, focusedCol.value);
+            moveFocus(activeRow.value + 1, activeCol.value);
             break;
         case "ArrowLeft":
             event.preventDefault();
-            moveFocus(focusedRow.value, focusedCol.value - 1);
+            moveFocus(activeRow.value, activeCol.value - 1);
             break;
         case "ArrowRight":
             event.preventDefault();
-            moveFocus(focusedRow.value, focusedCol.value + 1);
+            moveFocus(activeRow.value, activeCol.value + 1);
             break;
         case "Home":
             event.preventDefault();
             if (ctrlOrMeta) moveFocus(0, 0);
-            else moveFocus(0, focusedCol.value);
+            else moveFocus(0, activeCol.value);
             break;
         case "End":
             event.preventDefault();
             if (ctrlOrMeta) moveFocus(maxRows.value - 1, props.columns.length - 1);
-            else moveFocus(maxRows.value - 1, focusedCol.value);
+            else moveFocus(maxRows.value - 1, activeCol.value);
             break;
         case "Enter":
         case " ": {
             event.preventDefault();
-            const card = cardAt(focusedCol.value, focusedRow.value);
+            const card = cardAt(activeCol.value, activeRow.value);
             if (card) void openMoveMenu(card);
             break;
         }
@@ -283,7 +308,7 @@ function onGridKeydown(event: KeyboardEvent): void {
 
 <template>
     <div ref="rootEl" :class="`kanban-board ${props.class ?? ''}`.trim()">
-        <KanbanTable :label="label" :caption="caption" @keydown="onGridKeydown">
+        <KanbanTable :label="label" :caption="caption" @keydown="onGridKeydown" @focusin="onGridFocusin">
             <KanbanTableHead>
                 <KanbanTableRow>
                     <KanbanTableTH
@@ -310,7 +335,8 @@ function onGridKeydown(event: KeyboardEvent): void {
                         :key="cell.column.id"
                         :data-row="rowIndex"
                         :data-col="cell.colIndex"
-                        :active="focusedRow === rowIndex && focusedCol === cell.colIndex"
+                        :data-card-id="cell.card?.id"
+                        :active="activeRow === rowIndex && activeCol === cell.colIndex"
                         :label="cell.card ? resolveCardLabel(cell.card) : ''"
                         @dragover="onColumnDragOver"
                         @drop="(e: DragEvent) => onColumnDrop(cell.column, e)"
@@ -330,27 +356,31 @@ function onGridKeydown(event: KeyboardEvent): void {
                                 @dragstart="(e: DragEvent) => onCardDragStart(cell.card!, e)"
                                 >{{ resolveCardLabel(cell.card!) }}</span
                             >
+                            <!-- Gated on labels.moveButton: an unnamed button is worse than
+                                 none, and Enter/Space on the cell opens the menu either way. -->
                             <IconButton
-                                :ref="(el: unknown) => setMoveButtonRef(cell.card!.id, el)"
+                                v-if="labels?.moveButton"
                                 baseClass="kanban-board-move-button"
-                                :label="labels?.moveButton?.(cell.card!) ?? ''"
+                                :label="labels.moveButton(cell.card!)"
                                 tabindex="-1"
                                 aria-haspopup="listbox"
                                 :aria-expanded="openCardId === cell.card!.id ? 'true' : 'false'"
+                                :aria-controls="openCardId === cell.card!.id ? moveListId : undefined"
                                 @click="onMoveButtonClick(cell.card!)"
                             >⇄</IconButton>
                             <Listbox
                                 v-if="openCardId === cell.card!.id"
                                 :ref="setMoveListRef"
                                 as="ul"
+                                :id="moveListId"
                                 baseClass="kanban-board-move-list"
-                                :label="labels?.moveMenuLabel ?? ''"
+                                :label="labels?.moveMenuLabel ?? resolveCardLabel(cell.card!)"
                                 navigation="active-descendant"
                                 clamp
                                 v-model:activeIndex="moveActiveIndex"
                                 @activate="(i: number) => moveCard(cell.card!, columns[i])"
-                                @escape="() => closeMoveMenu()"
-                                @tab-out="() => closeMoveMenu(false)"
+                                @escape="() => closeMoveMenu(cell.card!.id)"
+                                @tab-out="() => closeMoveMenu(cell.card!.id, false)"
                             >
                                 <li
                                     v-for="(destination, i) in columns"

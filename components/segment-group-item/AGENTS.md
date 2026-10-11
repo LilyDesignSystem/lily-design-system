@@ -6,9 +6,9 @@
 - PascalCase: SegmentGroupItem
 - Description: one selectable segment in a segment group
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <button>
 - CSS class: .segment-group-item
-- Interactive: no
+- Interactive: yes
 
 ## Composition
 

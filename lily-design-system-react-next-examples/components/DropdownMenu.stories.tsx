@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DropdownMenu from './DropdownMenu';
 
 const meta = {
-  title: 'Examples/DropdownMenu',
+  title: 'Headless/DropdownMenu',
   component: DropdownMenu,
   tags: ['autodocs']
 } satisfies Meta<typeof DropdownMenu>;

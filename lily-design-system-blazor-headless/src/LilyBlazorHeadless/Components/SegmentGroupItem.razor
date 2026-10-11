@@ -5,10 +5,24 @@
     one selectable segment in a segment group
 *@
 
-<div class="@($"segment-group-item {CssClass}".Trim())" role="radio" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<button type="button"
+        class="@($"segment-group-item {CssClass}".Trim())"
+        role="radio"
+        aria-checked="@(Checked ? "true" : "false")"
+        data-value="@(string.IsNullOrEmpty(Value) ? null : Value)"
+        tabindex="@(Checked ? "0" : "-1")"
+        disabled="@Disabled"
+        aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)"
+        @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>Whether this segment is selected (aria-checked, and the roving tab stop).</summary>
+    [Parameter] public bool Checked { get; set; }
+    /// <summary>Value associated with this segment, exposed as data-value.</summary>
+    [Parameter] public string Value { get; set; } = "";
+    /// <summary>Whether this segment is disabled.</summary>
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

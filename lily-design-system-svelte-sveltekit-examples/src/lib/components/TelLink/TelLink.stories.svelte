@@ -3,7 +3,7 @@
   import TelLink from './TelLink.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TelLink',
+    title: 'Headless/TelLink',
     component: TelLink,
   });
 </script>

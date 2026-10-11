@@ -1,84 +1,128 @@
 # ThemeSelect
 
-## Overview
+A dropdown `<select>` for choosing a visual theme, with `aria-label`, bindable `value`, and `ThemeSelectOption` children defining the available themes.
 
-A headless theme selection control that renders a native <select> dropdown
-for choosing between visual themes or color schemes. Commonly used for
-light, dark, high-contrast, or system-default theme options. The consumer
-provides <option> elements as children and is responsible for applying the
-selected theme value to the page.
+## What it is
+
+`ThemeSelect` is a headless Svelte 5 component that renders a native `<select>` element for theme selection. It is the parent in the `ThemeSelect` → `ThemeSelectOption` composition pattern. The consumer binds `value` to track the selected theme and applies it to the page.
 
 ## What it does
 
-A select dropdown for choosing a theme.
+- Renders `<select class="theme-select {className}" aria-label={label}>`.
+- Binds `value` two-way via `bind:value`.
+- Delegates option rendering to `children`, expected to be `ThemeSelectOption` elements.
+- Spreads additional HTML attributes onto the `<select>`.
 
-## When to use
+## When to use it
 
-- Use when you need a select dropdown for choosing a theme.
+- Settings pages where a compact dropdown is preferred over visible radios.
+- Forms that save user theme preference.
+- Places where the number of themes is long or benefits from space efficiency.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it when you want always-visible radio options — use `ThemeSelect`.
+- Don't use it for read-only display — use `ThemeView`.
+- Don't use it for non-theme selects — use the generic `Select` component.
+- Don't use it for multiple simultaneous selections — `<select>` by default is single-select.
+
+## How to use it
+
+Import both `ThemeSelect` and `ThemeSelectOption`. Pass a `label`, bind `value`, and provide one `ThemeSelectOption` per theme.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `theme-select`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `value` — string, default `""`, bindable via `bind:value`. The selected theme identifier.
+- `children` — Snippet, required. `ThemeSelectOption` elements.
+- `...restProps` — any additional HTML attributes spread onto the `<select>`.
 
 ## Usage
 
 ```svelte
-<ThemeSelect label="Theme" bind:value>...</ThemeSelect>
-```
+<script lang="ts">
+  import ThemeSelect from "./ThemeSelect.svelte";
+  import ThemeSelectOption from "../ThemeSelectOption/ThemeSelectOption.svelte";
 
-## Props
+  let theme = $state("light");
+</script>
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `value` | string, default "" | Bindable selected theme; supports bind:value. |
-| `children` | Snippet, required | ThemeSelectOption elements representing available themes. |
-| `...restProps` | additional HTML attributes spread onto the <select> |  |
-
-## Examples
-
-```svelte
-<!-- theme select with multiple schemes -->
-<ThemeSelect label="Color scheme" bind:value={theme}>
+<ThemeSelect label="Theme" bind:value={theme}>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
-  <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
   <ThemeSelectOption value="system">System Default</ThemeSelectOption>
 </ThemeSelect>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ThemeSelect from "#lib/components/ThemeSelect/ThemeSelect.svelte";
+  import ThemeSelect from "./ThemeSelect.svelte";
+  import ThemeSelectOption from "../ThemeSelectOption/ThemeSelectOption.svelte";
+  import ThemeView from "../ThemeView/ThemeView.svelte";
+
+  let theme = $state("dark");
 </script>
 
-<ThemeSelect label="Theme" bind:value>...</ThemeSelect>
+<ThemeSelect label="Color scheme" bind:value={theme}>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+  <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
+</ThemeSelect>
+
+<p>Active: <ThemeView label="Active theme" value={theme} /></p>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import ThemeSelect from "./ThemeSelect.svelte";
+  import ThemeSelectOption from "../ThemeSelectOption/ThemeSelectOption.svelte";
 
-- Tab: moves focus to the select element (native behavior)
-- Space/Enter: opens the dropdown (native behavior)
-- ArrowUp/ArrowDown: navigates through options (native behavior)
-- Escape: closes the dropdown (native behavior)
+  const themes = [
+    { value: "light", name: "Clair" },
+    { value: "dark", name: "Sombre" },
+    { value: "system", name: "Système" },
+  ];
+  let theme = $state("system");
+</script>
+
+<ThemeSelect label="Thème" bind:value={theme}>
+  {#each themes as t}
+    <ThemeSelectOption value={t.value}>{t.name}</ThemeSelectOption>
+  {/each}
+</ThemeSelect>
+```
+
+```svelte
+<script lang="ts">
+  import ThemeSelect from "./ThemeSelect.svelte";
+  import ThemeSelectOption from "../ThemeSelectOption/ThemeSelectOption.svelte";
+
+  let theme = $state("dark");
+
+  $effect(() => {
+    document.documentElement.dataset.theme = theme;
+  });
+</script>
+
+<ThemeSelect label="Theme" bind:value={theme}>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+</ThemeSelect>
+```
 
 ## Accessibility
 
-- aria-label={label} provides an accessible name since no visible <label> is included
+- Native `<select>` provides `combobox`-like keyboard interaction: Space/Enter open, Arrow keys navigate, Escape closes, type-ahead search works.
+- `aria-label` supplies the accessible name.
+- The browser's OS-native dropdown is used, maximizing platform and screen reader compatibility.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- Option text is consumer-provided and can be localized
-
-## References
-
-- MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
-- WCAG 1.4.12 Text Spacing: https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html
+- `ThemeSelectOption` — option child used inside `ThemeSelect`.
+- `ThemeSelect` — radio-group alternative.
+- `ThemeView` — read-only display of the current theme.
+- `Select` — generic select for non-theme use cases.
 
 ---
 

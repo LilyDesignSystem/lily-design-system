@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import RomaniaCodNumericPersonalInput from './RomaniaCodNumericPersonalInput';
 
 const meta = {
-  title: 'Examples/RomaniaCodNumericPersonalInput',
+  title: 'Headless/RomaniaCodNumericPersonalInput',
   component: RomaniaCodNumericPersonalInput,
   tags: ['autodocs']
 } satisfies Meta<typeof RomaniaCodNumericPersonalInput>;

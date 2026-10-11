@@ -7,16 +7,16 @@ description: a read-only display of a five-star rating
 {% from "components/five-star-rating-view/macro.njk" import fiveStarRatingView %}
 
 <h2>Ratings at different values</h2>
-<p>0 / 5: {{ fiveStarRatingView({ value: 0 }) }}</p>
-<p>1 / 5: {{ fiveStarRatingView({ value: 1 }) }}</p>
-<p>2 / 5: {{ fiveStarRatingView({ value: 2 }) }}</p>
-<p>3 / 5: {{ fiveStarRatingView({ value: 3 }) }}</p>
-<p>4 / 5: {{ fiveStarRatingView({ value: 4 }) }}</p>
-<p>5 / 5: {{ fiveStarRatingView({ value: 5 }) }}</p>
+<p>0 / 5: {{ fiveStarRatingView({ value: 0, label: "Rating: 0 out of 5 stars" }) }}</p>
+<p>1 / 5: {{ fiveStarRatingView({ value: 1, label: "Rating: 1 out of 5 stars" }) }}</p>
+<p>2 / 5: {{ fiveStarRatingView({ value: 2, label: "Rating: 2 out of 5 stars" }) }}</p>
+<p>3 / 5: {{ fiveStarRatingView({ value: 3, label: "Rating: 3 out of 5 stars" }) }}</p>
+<p>4 / 5: {{ fiveStarRatingView({ value: 4, label: "Rating: 4 out of 5 stars" }) }}</p>
+<p>5 / 5: {{ fiveStarRatingView({ value: 5, label: "Rating: 5 out of 5 stars" }) }}</p>
 
 <h2>Half ratings</h2>
-<p>3.5 / 5: {{ fiveStarRatingView({ value: 3.5 }) }}</p>
-<p>4.2 / 5: {{ fiveStarRatingView({ value: 4.2 }) }}</p>
+<p>3.5 / 5: {{ fiveStarRatingView({ value: 3.5, label: "Rating: 3.5 out of 5 stars" }) }}</p>
+<p>4.2 / 5: {{ fiveStarRatingView({ value: 4.2, label: "Rating: 4.2 out of 5 stars" }) }}</p>
 
 <h2>Accessibility</h2>
 <p>The view has <code>role="img"</code> and a descriptive

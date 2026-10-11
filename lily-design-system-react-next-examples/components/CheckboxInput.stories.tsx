@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import CheckboxInput from './CheckboxInput';
 
 const meta = {
-  title: 'Examples/CheckboxInput',
+  title: 'Headless/CheckboxInput',
   component: CheckboxInput,
   tags: ['autodocs']
 } satisfies Meta<typeof CheckboxInput>;

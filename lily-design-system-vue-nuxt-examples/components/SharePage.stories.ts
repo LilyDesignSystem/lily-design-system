@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SharePage from './SharePage.vue';
 
 const meta = {
-  title: 'Examples/SharePage',
+  title: 'Headless/SharePage',
   component: SharePage,
   tags: ['autodocs']
 } satisfies Meta<typeof SharePage>;

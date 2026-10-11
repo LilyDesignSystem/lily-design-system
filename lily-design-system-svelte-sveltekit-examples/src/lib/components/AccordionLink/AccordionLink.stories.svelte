@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import AccordionLink from "./AccordionLink.svelte";
     const { Story } = defineMeta({
-        title: "Examples/AccordionLink",
+        title: "Headless/AccordionLink",
         component: AccordionLink,
     });
 </script>

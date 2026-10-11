@@ -3,7 +3,7 @@
   import MedicalBannerBoxForDanger from './MedicalBannerBoxForDanger.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MedicalBannerBoxForDanger',
+    title: 'Headless/MedicalBannerBoxForDanger',
     component: MedicalBannerBoxForDanger,
   });
 </script>

@@ -1,82 +1,106 @@
 # CharacterCounter
 
-## Overview
+A headless status display that shows the current character count for a text input, with an optional maximum. It uses `role="status"` plus `aria-live="polite"` so screen readers announce updates without interrupting the user, and exposes `data-count`, `data-max`, `data-remaining`, and `data-over-limit` attributes so consumers can style the counter by state.
 
-A headless character counter that displays real-time character count
-information for a text input. Renders a <span> with role="status" and
-aria-live="polite" so screen readers announce updates without interrupting
-the user. Shows "count / max" when a maximum is provided, or just the count
-otherwise. Used alongside text inputs with character limits such as tweets,
-SMS fields, form fields, or bios.
+## What it is
+
+CharacterCounter is a passive `<span>` that formats and announces a character count. The component itself does not count characters; callers pass the current `count` (typically `text.length`) and optionally `max`. It computes `remaining` and `overLimit` internally via `$derived()`.
+
+Display format is `"count / max"` when `max` is provided, or just `"count"` otherwise.
 
 ## What it does
 
-A counter showing remaining or used characters in a text field.
+- Renders `<span role="status" aria-live="polite">` with an optional `aria-label`.
+- Displays `count / max` or `count`.
+- Adds `data-count`, `data-max`, `data-remaining` attributes.
+- Adds `data-over-limit` only when `count > max`.
 
-## When to use
+## When to use it
 
-- Use when you need a counter showing remaining or used characters in a text field.
+- Next to text inputs or textareas with a character limit (SMS, tweet-style inputs, bios, summaries).
+- When assistive technology users need updates on the character count as they type.
+- When visual style should change near or over the limit via CSS selectors.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For pure progress indication not tied to characters — use `Progress` or `Meter`.
+- For validation error messages — use `ErrorMessage` or `Field`.
+- For a combined text-area-input + counter — use `TextAreaInputWithCharacterCounter`.
+
+## How to use it
+
+Pass `count={text.length}` from the parent and optionally `max`. The component auto-announces updates because it is a live region; you do not need to manage that.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `count` | `number` | `0` | Current character count. |
+| `max` | `number` | `undefined` | Optional maximum used to compute `remaining` and `over-limit`. |
+| `label` | `string` | `undefined` | `aria-label` context (e.g. "Characters"). |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<span>`. |
 
 ## Usage
 
 ```svelte
+<script lang="ts">
+    import CharacterCounter from "./CharacterCounter.svelte";
+
+    let text = $state("");
+</script>
+
+<textarea bind:value={text} maxlength={280}></textarea>
 <CharacterCounter count={text.length} max={280} label="Characters" />
 ```
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `count` | number, default 0 | Current character count. |
-| `max` | number, optional | Maximum allowed characters; enables remaining/over-limit tracking. |
-| `label` | string, optional | Accessible label for the counter via aria-label. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
-
-## Examples
-
 ```svelte
-<!-- Counter with maximum limit -->
-<CharacterCounter count={text.length} max={280} label="Character count" />
+<script lang="ts">
+    import CharacterCounter from "./CharacterCounter.svelte";
 
-<!-- Counter without maximum (just shows count) -->
+    let text = $state("");
+</script>
+
+<input type="text" bind:value={text} />
 <CharacterCounter count={text.length} label="Characters typed" />
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CharacterCounter from "#lib/components/CharacterCounter/CharacterCounter.svelte";
+    import CharacterCounter from "./CharacterCounter.svelte";
+
+    let text = $state("Already over the limit for this demo.");
 </script>
 
-<CharacterCounter count={text.length} max={280} label="Characters" />
+<CharacterCounter count={text.length} max={10} label="Bio" />
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import CharacterCounter from "./CharacterCounter.svelte";
 
-- None — this component is a passive status display.
+    let title = $state("");
+    const MAX = 60;
+</script>
+
+<label>
+    Title
+    <input type="text" bind:value={title} maxlength={MAX} />
+</label>
+<CharacterCounter count={title.length} max={MAX} label="Title characters" />
+```
 
 ## Accessibility
 
-- role="status" identifies the element as a live region for advisory information
-- aria-live="polite" announces updates at the next convenient pause
-- aria-label provides context for what the counter represents
-- data-count, data-max, data-remaining, data-over-limit for CSS selectors
+- `role="status"` plus `aria-live="polite"` announces updates without interrupting.
+- `aria-label` gives the counter meaning when read standalone.
+- Visual style for over-limit state should rely on `[data-over-limit]` so screen readers and visual users get parallel signals.
 
-## Internationalization
+## Related components
 
-- Label text comes through the label prop; no hardcoded strings
-- Display format is "count / max" — consumer can override via CSS or wrapper
-
-## References
-
-- WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
+- `TextAreaInputWithCharacterCounter` — combines a text-area-input with this counter.
+- `ErrorMessage` — error text for form fields.
+- `Progress`, `Meter` — generic numeric progress displays.
 
 ---
 

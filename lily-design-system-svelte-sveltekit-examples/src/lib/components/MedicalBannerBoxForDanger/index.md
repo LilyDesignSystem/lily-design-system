@@ -1,62 +1,148 @@
 # MedicalBannerBoxForDanger
 
-## Overview
+MedicalBannerBoxForDanger is a headless Svelte 5 component for displaying critical medical record danger information such as reactions, warnings, alarms, and other danger-level clinical alerts inside a `MedicalBanner`. It renders a `<div>` with `role="region"`, `aria-label`, and `data-type="danger"`.
 
-A headless component for displaying critical medical record danger information
-such as reactions, warnings, alarms, and other danger-level clinical alerts.
-Renders a <div> with role="region", aria-label, and data-type="danger".
+## What it is
+
+A labelled region for danger-level medical content. It provides a landmark (`role="region"`) with the `data-type="danger"` CSS hook so consumers can style it distinctly from advice-level content.
 
 ## What it does
 
-A medical record banner box for danger information e.g. reactions, warnings, alarms, etc.
+- Renders a `<div>` with `class="medical-banner-box-for-danger"` plus any consumer-provided CSS class.
+- Applies `role="region"` and `aria-label` from the required `label` prop.
+- Applies `data-type="danger"` for CSS targeting.
+- Renders the required `children` snippet as the region content.
+- Spreads `...restProps` onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a medical record banner box for danger information e.g. reactions, warnings, alarms, etc..
+- Displaying critical clinical alerts: allergies, drug reactions, resuscitation status, infection-control flags.
+- Warning clinicians about conditions that require immediate attention.
+- Pairing with `MedicalBannerBoxForAdvice` to separate critical alerts from routine advice.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Do not use for routine advice or care-plan information — use `MedicalBannerBoxForAdvice`.
+- Do not use for general warnings outside medical contexts — use `WarningCallout` or `Alert`.
+- Do not use for modal urgency — use `AlertDialog`.
 
-## Usage
+## How to use it
 
-```svelte
-<MedicalBannerBoxForDanger label="Allergies">content</MedicalBannerBoxForDanger>
-```
+Place inside a `MedicalBanner` or `MedicalBannerBox`, pass a descriptive `label`, and render danger content via the `children` snippet.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `children` | Snippet, required | The danger banner box content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional) — consumer CSS class appended to the base class.
+- `label` (string, required) — accessible name via `aria-label`.
+- `children` (Snippet, required) — the danger-region content.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<div>`.
 
-## SvelteKit example
+## Usage
+
+### Allergies alert
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MedicalBannerBoxForDanger from "#lib/components/MedicalBannerBoxForDanger/MedicalBannerBoxForDanger.svelte";
+    import MedicalBanner from "../MedicalBanner/MedicalBanner.svelte";
+    import MedicalBannerBox from "../MedicalBannerBox/MedicalBannerBox.svelte";
+    import MedicalBannerBoxForDanger from "./MedicalBannerBoxForDanger.svelte";
 </script>
 
-<MedicalBannerBoxForDanger label="Allergies">content</MedicalBannerBoxForDanger>
+<MedicalBanner label="Patient summary">
+    <MedicalBannerBox>
+        <MedicalBannerBoxForDanger label="Allergies">
+            <p>Penicillin, peanuts</p>
+        </MedicalBannerBoxForDanger>
+    </MedicalBannerBox>
+</MedicalBanner>
 ```
 
-## Keyboard
+### Infection-control flag
 
-- None (passive layout element)
+```svelte
+<script lang="ts">
+    import MedicalBannerBoxForDanger from "./MedicalBannerBoxForDanger.svelte";
+</script>
+
+<MedicalBannerBoxForDanger label="Infection control">
+    <p>MRSA positive — isolation precautions required</p>
+</MedicalBannerBoxForDanger>
+```
+
+### Nested with advice in a full medical banner
+
+```svelte
+<script lang="ts">
+    import MedicalBanner from "../MedicalBanner/MedicalBanner.svelte";
+    import MedicalBannerBox from "../MedicalBannerBox/MedicalBannerBox.svelte";
+    import MedicalBannerBoxForDanger from "./MedicalBannerBoxForDanger.svelte";
+    import MedicalBannerBoxForAdvice from "../MedicalBannerBoxForAdvice/MedicalBannerBoxForAdvice.svelte";
+</script>
+
+<MedicalBanner label="Record summary" type="warning">
+    <MedicalBannerBox>
+        <MedicalBannerBoxForDanger label="Reactions">
+            <p>Severe reaction to morphine</p>
+        </MedicalBannerBoxForDanger>
+        <MedicalBannerBoxForAdvice label="Contacts">
+            <p>On-call: Dr. Patel</p>
+        </MedicalBannerBoxForAdvice>
+    </MedicalBannerBox>
+</MedicalBanner>
+```
+
+### Danger with consumer CSS
+
+```svelte
+<script lang="ts">
+    import MedicalBannerBoxForDanger from "./MedicalBannerBoxForDanger.svelte";
+</script>
+
+<MedicalBannerBoxForDanger class="danger-strong" label="DNACPR">
+    <p>Do not attempt CPR</p>
+</MedicalBannerBoxForDanger>
+
+<style>
+    :global(.danger-strong[data-type="danger"]) {
+        background: #fee2e2;
+        border-left: 4px solid #dc2626;
+        padding: 0.5rem;
+    }
+</style>
+```
+
+### Dynamic danger list
+
+```svelte
+<script lang="ts">
+    import MedicalBannerBoxForDanger from "./MedicalBannerBoxForDanger.svelte";
+    let reactions = $state(["Penicillin", "Sulfa"]);
+</script>
+
+<MedicalBannerBoxForDanger label="Drug reactions">
+    <ul>
+        {#each reactions as reaction}
+            <li>{reaction}</li>
+        {/each}
+    </ul>
+</MedicalBannerBoxForDanger>
+```
 
 ## Accessibility
 
-- role="region" for landmark identification
-- aria-label provides accessible name
-- data-type="danger" for consumer CSS targeting
+- `role="region"` creates a discoverable landmark for screen readers.
+- `aria-label` gives the region a clear accessible name.
+- `data-type="danger"` is a CSS hook only; it does not affect ARIA semantics.
+- No keyboard behaviour — the region is passive.
+- Compliant with WCAG 2.2 AAA when the consumer supplies sufficient colour contrast (critical for danger styling).
 
-## Internationalization
+## Related components
 
-- label prop is the only user-facing string; no hardcoded strings
+- `MedicalBanner` — the parent landmark region.
+- `MedicalBannerBox` — flex-row layout container inside `MedicalBanner`.
+- `MedicalBannerBoxForAdvice` — paired advice-level region.
+- `Alert`, `AlertDialog`, `WarningCallout` — general-purpose warning/alert patterns.
+- `CareCard` — a medical care instruction card with urgency levels.
 
 ---
 

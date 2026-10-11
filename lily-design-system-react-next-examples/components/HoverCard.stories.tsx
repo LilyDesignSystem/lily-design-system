@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import HoverCard from './HoverCard';
 
 const meta = {
-  title: 'Examples/HoverCard',
+  title: 'Headless/HoverCard',
   component: HoverCard,
   tags: ['autodocs']
 } satisfies Meta<typeof HoverCard>;

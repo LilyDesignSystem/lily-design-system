@@ -3,7 +3,7 @@
   import Option from './Option.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Option',
+    title: 'Headless/Option',
     component: Option,
   });
 </script>

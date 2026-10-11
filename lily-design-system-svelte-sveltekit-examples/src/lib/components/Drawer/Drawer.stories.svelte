@@ -3,7 +3,7 @@
   import Drawer from './Drawer.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Drawer',
+    title: 'Headless/Drawer',
     component: Drawer,
   });
 </script>

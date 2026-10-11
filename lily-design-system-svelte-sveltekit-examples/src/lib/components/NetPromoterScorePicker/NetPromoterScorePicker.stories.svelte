@@ -3,7 +3,7 @@
   import NetPromoterScorePicker from './NetPromoterScorePicker.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/NetPromoterScorePicker',
+    title: 'Headless/NetPromoterScorePicker',
     component: NetPromoterScorePicker,
   });
 </script>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import PortugalNumeroDeIdentificacaoFiscalView from './PortugalNumeroDeIdentificacaoFiscalView.vue';
 
 const meta = {
-  title: 'Examples/PortugalNumeroDeIdentificacaoFiscalView',
+  title: 'Headless/PortugalNumeroDeIdentificacaoFiscalView',
   component: PortugalNumeroDeIdentificacaoFiscalView,
   tags: ['autodocs']
 } satisfies Meta<typeof PortugalNumeroDeIdentificacaoFiscalView>;

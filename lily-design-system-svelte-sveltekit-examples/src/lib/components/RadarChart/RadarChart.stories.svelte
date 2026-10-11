@@ -3,7 +3,7 @@
   import RadarChart from './RadarChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RadarChart',
+    title: 'Headless/RadarChart',
     component: RadarChart,
   });
 </script>

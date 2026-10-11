@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import MockupWatch from "./MockupWatch.svelte";
     const { Story } = defineMeta({
-        title: "Examples/MockupWatch",
+        title: "Headless/MockupWatch",
         component: MockupWatch,
     });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import RedAmberGreenPicker from './RedAmberGreenPicker';
 
 const meta = {
-  title: 'Examples/RedAmberGreenPicker',
+  title: 'Headless/RedAmberGreenPicker',
   component: RedAmberGreenPicker,
   tags: ['autodocs']
 } satisfies Meta<typeof RedAmberGreenPicker>;

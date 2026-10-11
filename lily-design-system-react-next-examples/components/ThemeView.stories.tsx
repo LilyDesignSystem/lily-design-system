@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ThemeView from './ThemeView';
 
 const meta = {
-  title: 'Examples/ThemeView',
+  title: 'Headless/ThemeView',
   component: ThemeView,
   tags: ['autodocs']
 } satisfies Meta<typeof ThemeView>;

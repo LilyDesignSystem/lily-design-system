@@ -3,7 +3,7 @@
   import ShowMore from './ShowMore.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ShowMore',
+    title: 'Headless/ShowMore',
     component: ShowMore,
   });
 </script>

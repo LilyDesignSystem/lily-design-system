@@ -1,85 +1,108 @@
 # CheckboxInput
 
-## Overview
+A minimal headless wrapper around the native `<input type="checkbox">` element. It uses `aria-label` instead of a wrapping `<label>`, giving consumers full control over label placement and visual composition. The `checked` prop is bindable for two-way binding.
 
-A minimal headless wrapper around the native HTML <input type="checkbox">
-element. Unlike the Checkbox component which includes a wrapping <label>,
-CheckboxInput uses aria-label for accessibility, giving consumers full control
-over label placement and visual presentation. Ideal for custom layouts where
-the label position, custom indicators, or complex form integration requires
-consumer control.
+## What it is
+
+CheckboxInput renders a single `<input type="checkbox">` element with no wrapper. Its `checked` prop uses Svelte 5's `$bindable()` for two-way binding, and the `label` prop is applied as `aria-label`.
 
 ## What it does
 
-A checkbox input for toggling a boolean value <input type="checkbox">.
+- Renders `<input type="checkbox" aria-label={label} />`.
+- Supports two-way binding on `checked` via `bind:checked`.
+- Forwards `disabled`, `required`, `name`, `id`, `value` to the native input.
+- Spreads `restProps` onto the input.
 
-## When to use
+## When to use it
 
-- Use when you need the user to enter or pick a value in a form.
+- When you need a bare checkbox and want to position your own visible label.
+- Integrating into custom layouts (label left, label right, icon indicator).
+- Inside `CheckboxGroup` or other custom wrappers that supply their own labels.
 
-## When not to use
+## When not to use it
 
-- Do not use for read-only display — use the matching `*View` component instead.
+- When you want a standard `<label><input /></label>` pairing — write that directly, or use `CheckListItem`.
+- For a switch control — use `SwitchButton`.
+- For a form field with validation and hint text — use `Field`.
+
+## How to use it
+
+Bind the `checked` prop for reactivity. Provide `label` for accessibility. Wrap with your own visible `<label>` if needed — the visible label can coexist with `aria-label`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `checked` | `boolean` | `false` (bindable) | Current checked state. |
+| `label` | `string` | required | `aria-label` for the checkbox. |
+| `disabled` | `boolean` | `false` | Disables the checkbox. |
+| `required` | `boolean` | `false` | Marks the checkbox as required. |
+| `name` | `string` | `undefined` | Form field name. |
+| `id` | `string` | `undefined` | Element ID. |
+| `value` | `string` | `undefined` | Value attribute for form submission. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<input>`. |
 
 ## Usage
 
 ```svelte
-<CheckboxInput label="Accept terms" bind:checked />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `checked` | boolean, default false, bindable | Whether the checkbox is checked. |
-| `label` | string, required | Accessible name applied via aria-label. |
-| `disabled` | boolean, default false | Whether the checkbox is disabled. |
-| `required` | boolean, default false | Whether the checkbox is required for form submission. |
-| `name` | string, optional | Form field name attribute. |
-| `id` | string, optional | Element id attribute. |
-| `value` | string, optional | Value attribute for form submission. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
-
-## Examples
-
-```svelte
-<!-- Checkbox with external label -->
-<CheckboxInput label="Subscribe to newsletter" bind:checked={subscribed} disabled={!hasEmail} />
-
-<!-- Required checkbox in a form -->
-<CheckboxInput label="Required field" bind:checked required name="agree" value="yes" />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CheckboxInput from "#lib/components/CheckboxInput/CheckboxInput.svelte";
+    import CheckboxInput from "./CheckboxInput.svelte";
+
+    let accepted = $state(false);
 </script>
 
-<CheckboxInput label="Accept terms" bind:checked />
+<CheckboxInput label="Accept terms" bind:checked={accepted} />
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import CheckboxInput from "./CheckboxInput.svelte";
 
-- Space: Toggle the checkbox checked state (native browser behavior)
-- Tab: Move focus to and from the checkbox (native browser behavior)
+    let subscribed = $state(false);
+    let hasEmail = $state(true);
+</script>
+
+<CheckboxInput
+    label="Subscribe to newsletter"
+    bind:checked={subscribed}
+    disabled={!hasEmail}
+/>
+```
+
+```svelte
+<script lang="ts">
+    import CheckboxInput from "./CheckboxInput.svelte";
+
+    let agree = $state(false);
+</script>
+
+<CheckboxInput label="I agree" bind:checked={agree} required name="agree" value="yes" />
+```
+
+```svelte
+<script lang="ts">
+    import CheckboxInput from "./CheckboxInput.svelte";
+
+    let remember = $state(true);
+    const id = "remember-me";
+</script>
+
+<CheckboxInput {id} label="Remember me" bind:checked={remember} />
+<label for={id}>Remember me on this device</label>
+```
 
 ## Accessibility
 
-- aria-label provides an accessible name since there is no visible <label> element
-- Implicit checkbox role from <input type="checkbox">
+- The native `<input type="checkbox">` supplies the checkbox role and keyboard support (Space toggles, Tab focus).
+- `aria-label` gives the checkbox an accessible name since there is no wrapping `<label>`.
+- Pair with a visible `<label for=...>` if sighted users also need the text.
 
-## Internationalization
+## Related components
 
-- Label text comes through the label prop; no hardcoded strings
-
-## References
-
-- MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-- WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+- `CheckboxGroup` — groups related checkboxes.
+- `CheckListItem` — `<li>`-wrapped checkbox with visible label.
+- `SwitchButton` — styled on/off toggle.
 
 ---
 

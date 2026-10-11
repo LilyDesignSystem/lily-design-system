@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import CheckListItem from './CheckListItem.vue';
 
 const meta = {
-  title: 'Examples/CheckListItem',
+  title: 'Headless/CheckListItem',
   component: CheckListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof CheckListItem>;

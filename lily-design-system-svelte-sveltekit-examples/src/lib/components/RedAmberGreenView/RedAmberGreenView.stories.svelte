@@ -3,7 +3,7 @@
   import RedAmberGreenView from './RedAmberGreenView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RedAmberGreenView',
+    title: 'Headless/RedAmberGreenView',
     component: RedAmberGreenView,
   });
 </script>

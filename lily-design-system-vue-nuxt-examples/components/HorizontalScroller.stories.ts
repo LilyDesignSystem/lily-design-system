@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import HorizontalScroller from './HorizontalScroller.vue';
 
 const meta = {
-  title: 'Examples/HorizontalScroller',
+  title: 'Headless/HorizontalScroller',
   component: HorizontalScroller,
   tags: ['autodocs']
 } satisfies Meta<typeof HorizontalScroller>;

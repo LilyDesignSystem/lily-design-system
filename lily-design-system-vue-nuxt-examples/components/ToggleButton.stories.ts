@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ToggleButton from './ToggleButton.vue';
 
 const meta = {
-  title: 'Examples/ToggleButton',
+  title: 'Headless/ToggleButton',
   component: ToggleButton,
   tags: ['autodocs']
 } satisfies Meta<typeof ToggleButton>;

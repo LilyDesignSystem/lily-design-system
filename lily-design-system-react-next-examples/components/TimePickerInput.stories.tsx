@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import TimePickerInput from './TimePickerInput';
 
 const meta = {
-  title: 'Examples/TimePickerInput',
+  title: 'Headless/TimePickerInput',
   component: TimePickerInput,
   tags: ['autodocs']
 } satisfies Meta<typeof TimePickerInput>;

@@ -1,82 +1,127 @@
 # FileManager
 
-## Overview
+A headless region wrapper for a file browser or file management surface. Renders a `<div role="region">` with an accessible label; the consumer supplies all listing and navigation UI.
 
-A file management interface for browsing, organizing, and managing files and
-directories. Renders a <div> with role="region" and an accessible label,
-defining a semantic boundary for the file management area. Used in content
-management systems, cloud storage apps, document editors, and admin dashboards.
-The consumer provides file listings, navigation controls, and interaction behavior.
+## What it is
+
+`FileManager` is a structural landmark for file management features. It defines a named `region` landmark so assistive technology can navigate directly to the file browser, and it leaves folder structure, file listings, breadcrumbs, and actions entirely to the consumer.
 
 ## What it does
 
-A file browser for navigating and managing files.
+- Renders `<div class="file-manager" role="region" aria-label={label}>`.
+- Forwards `restProps` onto the `<div>`.
 
-## When to use
+## When to use it
 
-- Use when you need a file browser for navigating and managing files.
+- Embedded file browsers inside content management systems, cloud storage apps, admin dashboards.
+- Document library pages.
+- Any page-level file browsing experience that should be identifiable as a landmark.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For modal file operations. Use `FileDialog`.
+- For single file selection from the OS. Use `FileInput` or `FileUpload`.
+- For small inline lists without landmark semantics. Use a plain `<ul>`.
 
-## Usage
+## How to use it
+
+Wrap your file listing and actions inside `FileManager`.
 
 ```svelte
-<FileManager label="Project files">Content</FileManager>
+<script lang="ts">
+    import FileManager from "./FileManager.svelte";
+</script>
+
+<FileManager label="Project files">
+    <ul>
+        <li>document.pdf</li>
+        <li>image.png</li>
+    </ul>
+</FileManager>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name describing the file manager. |
-| `children` | Snippet, required | The file browser content. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+| Prop       | Type       | Default  | Description                              |
+| ---------- | ---------- | -------- | ---------------------------------------- |
+| `class`    | `string`   | `""`     | CSS class appended to the base class.   |
+| `label`    | `string`   | required | Accessible name via `aria-label`.        |
+| `children` | `Snippet`  | required | File browser content.                    |
+| `...rest`  | `unknown`  | —        | Additional HTML attributes on the `<div>`. |
 
-## Examples
+## Usage
+
+### 1. Basic file listing
 
 ```svelte
-<!-- Basic file listing -->
 <FileManager label="Project files">
-  <ul>
-    <li>document.pdf</li>
-    <li>image.png</li>
-    <li>data.csv</li>
-  </ul>
+    <ul>
+        <li>document.pdf</li>
+        <li>image.png</li>
+        <li>data.csv</li>
+    </ul>
 </FileManager>
 ```
 
-## SvelteKit example
+### 2. With breadcrumbs
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import FileManager from "#lib/components/FileManager/FileManager.svelte";
-</script>
-
-<FileManager label="Project files">Content</FileManager>
+<FileManager label="Documents">
+    <BreadcrumbNav label="Path">
+        <BreadcrumbList>
+            <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
+            <BreadcrumbListItem current>Documents</BreadcrumbListItem>
+        </BreadcrumbList>
+    </BreadcrumbNav>
+    <ul>…</ul>
+</FileManager>
 ```
 
-## Keyboard
+### 3. With actions
 
-- None built-in — consumer implements keyboard navigation for file
-- selection, folder traversal, and action triggers
+```svelte
+<FileManager label="Assets">
+    <button type="button" onclick={upload}>Upload</button>
+    <button type="button" onclick={refresh}>Refresh</button>
+    <ul>…</ul>
+</FileManager>
+```
+
+### 4. Driven by data
+
+```svelte
+<FileManager label="My files">
+    <ul>
+        {#each files as f}
+            <li>
+                <button type="button" onclick={() => open(f)}>{f.name}</button>
+            </li>
+        {/each}
+    </ul>
+</FileManager>
+```
+
+### 5. Alongside a FileDialog
+
+```svelte
+<FileManager label="Project files">
+    <button type="button" onclick={() => open = true}>New file…</button>
+</FileManager>
+<FileDialog label="New file" bind:open>…</FileDialog>
+```
 
 ## Accessibility
 
-- role="region" defines the file manager as a named landmark section
-- aria-label provides an accessible name for the region
+- `role="region"` defines a named landmark.
+- `aria-label` provides the accessible name.
+- Consumers own keyboard navigation (arrow keys, Enter to open, context menus, etc.).
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized text
-
-## References
-
-- WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
-- WAI-ARIA Landmark Regions: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+- `FileDialog` — modal file operation dialog.
+- `FileInput`, `FileUpload`, `ImageFileInput` — file pickers.
+- `BreadcrumbNav` — path navigation.
+- `DataTable` — tabular file listings.
 
 ---
 

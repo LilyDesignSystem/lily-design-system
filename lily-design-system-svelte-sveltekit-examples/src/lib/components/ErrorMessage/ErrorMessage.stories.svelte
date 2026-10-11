@@ -3,7 +3,7 @@
   import ErrorMessage from './ErrorMessage.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ErrorMessage',
+    title: 'Headless/ErrorMessage',
     component: ErrorMessage,
   });
 </script>

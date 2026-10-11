@@ -3,7 +3,7 @@
   import Menu from './Menu.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Menu',
+    title: 'Headless/Menu',
     component: Menu,
   });
 </script>

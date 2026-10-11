@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SegmentGroupItem from './SegmentGroupItem';
 
 const meta = {
-  title: 'Examples/SegmentGroupItem',
+  title: 'Headless/SegmentGroupItem',
   component: SegmentGroupItem,
   tags: ['autodocs']
 } satisfies Meta<typeof SegmentGroupItem>;

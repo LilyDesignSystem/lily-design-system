@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Scroller from './Scroller.vue';
 
 const meta = {
-  title: 'Examples/Scroller',
+  title: 'Headless/Scroller',
   component: Scroller,
   tags: ['autodocs']
 } satisfies Meta<typeof Scroller>;

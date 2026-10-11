@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DigitalObjectIdentifierLink from './DigitalObjectIdentifierLink';
 
 const meta = {
-  title: 'Examples/DigitalObjectIdentifierLink',
+  title: 'Headless/DigitalObjectIdentifierLink',
   component: DigitalObjectIdentifierLink,
   tags: ['autodocs']
 } satisfies Meta<typeof DigitalObjectIdentifierLink>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import NederlandPaspoortNummerView from './NederlandPaspoortNummerView';
 
 const meta = {
-  title: 'Examples/NederlandPaspoortNummerView',
+  title: 'Headless/NederlandPaspoortNummerView',
   component: NederlandPaspoortNummerView,
   tags: ['autodocs']
 } satisfies Meta<typeof NederlandPaspoortNummerView>;

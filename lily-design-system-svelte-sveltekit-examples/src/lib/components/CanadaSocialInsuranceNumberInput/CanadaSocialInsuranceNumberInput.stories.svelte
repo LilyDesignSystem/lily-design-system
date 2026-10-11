@@ -1,14 +1,15 @@
 <script module lang="ts">
-    import { defineMeta } from "@storybook/addon-svelte-csf";
-    import CanadaSocialInsuranceNumberInput from "./CanadaSocialInsuranceNumberInput.svelte";
-    const { Story } = defineMeta({
-        title: "Headless/CanadaSocialInsuranceNumberInput",
-        component: CanadaSocialInsuranceNumberInput,
-    });
+  import { defineMeta } from '@storybook/addon-svelte-csf';
+  import CanadaSocialInsuranceNumberInput from './CanadaSocialInsuranceNumberInput.svelte';
+
+  const { Story } = defineMeta({
+    title: 'Headless/CanadaSocialInsuranceNumberInput',
+    component: CanadaSocialInsuranceNumberInput,
+  });
 </script>
 
-<Story name="Default" tags={["autodocs", "!dev"]}>
-    <CanadaSocialInsuranceNumberInput label="CanadaSocialInsuranceNumberInput example">
-        <span>CanadaSocialInsuranceNumberInput example</span>
-    </CanadaSocialInsuranceNumberInput>
-</Story>
+<Story
+  name="Default"
+  tags={['autodocs', '!dev']}
+  args={{'label':'Social Insurance Number (SIN) Input'}}
+/>

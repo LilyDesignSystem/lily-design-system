@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FileDialog from './FileDialog.vue';
 
 const meta = {
-  title: 'Examples/FileDialog',
+  title: 'Headless/FileDialog',
   component: FileDialog,
   tags: ['autodocs']
 } satisfies Meta<typeof FileDialog>;

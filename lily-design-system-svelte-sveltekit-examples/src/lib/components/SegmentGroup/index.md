@@ -1,86 +1,156 @@
 # SegmentGroup
 
-## Overview
+A headless container for a set of mutually exclusive segment options, rendered as a `role="radiogroup"`. Intended to hold `SegmentGroupItem` children (or any `role="radio"` buttons).
 
-A headless segmented control group that uses the ARIA radiogroup role to
-contain a set of mutually exclusive options. Renders a <div> with
-role="radiogroup" and expects children to be SegmentGroupItem buttons
-(or buttons with role="radio" and aria-checked). Used for view mode toggles,
-filter selections, display density controls, and similar single-select UIs.
+## What it is
+
+`SegmentGroup` renders a single `<div class="segment-group ...">` with `role="radiogroup"` and `aria-label`. It wraps `children` (typically `SegmentGroupItem` elements).
 
 ## What it does
 
-A group of mutually exclusive segment options.
+- Groups mutually exclusive options semantically via `role="radiogroup"`.
+- Attaches the accessible name via `aria-label`.
+- Renders `children` as-is and spreads `...restProps` onto the root `<div>`.
 
-## When to use
+It does NOT implement arrow-key navigation or selection state. Consumers manage which child is selected and can add keyboard handlers if desired.
 
-- Use when multiple related child components should be grouped semantically.
+## When to use it
 
-## When not to use
+- View-mode toggles (Grid / List / Gallery).
+- Display-density selectors (Compact / Comfortable / Spacious).
+- Filter pills that pick exactly one option.
+- Any single-select UI that should be announced as a group of mutually exclusive radios.
 
-- Do not use when a simpler native HTML element would suffice.
+## When not to use it
 
-## Usage
+- Multi-select chip rows - use `TagGroup` or `CheckboxGroup`.
+- Standard form radio buttons with labels - use `RadioGroup` and `RadioInput`.
+- Tabs that switch content panels - use `TabBar` / `TabBarButton`.
+- Arbitrary toggles - use `ToggleGroup`.
 
-```svelte
-<SegmentGroup label="View">
-  <button role="radio" aria-checked="true">Grid</button>
-  <button role="radio" aria-checked="false">List</button>
-</SegmentGroup>
-```
+## How to use it
+
+1. Import both `SegmentGroup` and `SegmentGroupItem`.
+2. Provide a translated `label` on the group.
+3. Render one `SegmentGroupItem` per option, setting `checked` on the currently selected one.
+4. Handle clicks on each `SegmentGroupItem` to update your selection state.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the segment group via aria-label. |
-| `children` | Snippet, required | Segment button elements to render inside the group. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
+- `class` (string, optional, default `""`) - merged with the base `segment-group` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `children` (Snippet, required) - segment items.
+- `...restProps` - spread onto the root `<div>`.
 
-## Examples
+## Usage
+
+Composition with `SegmentGroupItem`:
 
 ```svelte
-<!-- With SegmentGroupItem children -->
+<script lang="ts">
+    import SegmentGroup from "./SegmentGroup.svelte";
+    import SegmentGroupItem from "../SegmentGroupItem/SegmentGroupItem.svelte";
+    let mode = $state<"grid" | "list">("grid");
+</script>
+
 <SegmentGroup label="Display mode">
-  <SegmentGroupItem checked={mode === 'grid'} value="grid">Grid</SegmentGroupItem>
-  <SegmentGroupItem checked={mode === 'list'} value="list">List</SegmentGroupItem>
+    <SegmentGroupItem
+        checked={mode === "grid"}
+        value="grid"
+        onclick={() => (mode = "grid")}
+    >Grid</SegmentGroupItem>
+    <SegmentGroupItem
+        checked={mode === "list"}
+        value="list"
+        onclick={() => (mode = "list")}
+    >List</SegmentGroupItem>
 </SegmentGroup>
 ```
 
-## SvelteKit example
+Three-option density picker:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SegmentGroup from "#lib/components/SegmentGroup/SegmentGroup.svelte";
+    import SegmentGroup from "./SegmentGroup.svelte";
+    import SegmentGroupItem from "../SegmentGroupItem/SegmentGroupItem.svelte";
+    let density = $state<"compact" | "cozy" | "comfortable">("cozy");
+    const options = ["compact", "cozy", "comfortable"] as const;
+</script>
+
+<SegmentGroup label="Density">
+    {#each options as d}
+        <SegmentGroupItem
+            checked={density === d}
+            value={d}
+            onclick={() => (density = d)}
+        >{d}</SegmentGroupItem>
+    {/each}
+</SegmentGroup>
+```
+
+With a disabled option:
+
+```svelte
+<script lang="ts">
+    import SegmentGroup from "./SegmentGroup.svelte";
+    import SegmentGroupItem from "../SegmentGroupItem/SegmentGroupItem.svelte";
+    let plan = $state("free");
+</script>
+
+<SegmentGroup label="Plan">
+    <SegmentGroupItem checked={plan === "free"} value="free" onclick={() => (plan = "free")}>Free</SegmentGroupItem>
+    <SegmentGroupItem checked={plan === "pro"} value="pro" onclick={() => (plan = "pro")}>Pro</SegmentGroupItem>
+    <SegmentGroupItem checked={plan === "enterprise"} value="enterprise" disabled>Enterprise</SegmentGroupItem>
+</SegmentGroup>
+```
+
+Inside a form with hidden input:
+
+```svelte
+<script lang="ts">
+    import SegmentGroup from "./SegmentGroup.svelte";
+    import SegmentGroupItem from "../SegmentGroupItem/SegmentGroupItem.svelte";
+    let view = $state("grid");
+</script>
+
+<form>
+    <SegmentGroup label="View">
+        <SegmentGroupItem checked={view === "grid"} value="grid" onclick={() => (view = "grid")}>Grid</SegmentGroupItem>
+        <SegmentGroupItem checked={view === "list"} value="list" onclick={() => (view = "list")}>List</SegmentGroupItem>
+    </SegmentGroup>
+    <input type="hidden" name="view" value={view} />
+</form>
+```
+
+Plain-button children (no `SegmentGroupItem`):
+
+```svelte
+<script lang="ts">
+    import SegmentGroup from "./SegmentGroup.svelte";
 </script>
 
 <SegmentGroup label="View">
-  <button role="radio" aria-checked="true">Grid</button>
-  <button role="radio" aria-checked="false">List</button>
+    <button role="radio" aria-checked="true">Grid</button>
+    <button role="radio" aria-checked="false">List</button>
 </SegmentGroup>
 ```
 
-## Keyboard
-
-- Tab: moves focus into the segment group
-- Arrow Left/Right: consumer should implement navigation between segments
-- Space/Enter: consumer should implement activation of the focused segment
-
 ## Accessibility
 
-- role="radiogroup" identifies the container as mutually exclusive radio-like options
-- aria-label provides an accessible name for the group
-- Children should use role="radio" and aria-checked attributes
+- `role="radiogroup"` makes the container a named group of mutually exclusive radios.
+- `aria-label` is required.
+- Children should have `role="radio"` and `aria-checked`.
+- Arrow-key navigation is not built in; `SegmentGroupItem` uses roving `tabindex` based on `checked`.
 
-## Internationalization
-
-- The label prop externalizes the accessible label string
-
-## References
-
+References:
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+## Related components
+
+- `SegmentGroupItem` - the intended child.
+- `RadioGroup` / `RadioInput` - native form radios.
+- `ToggleGroup` - similar pattern for toggle buttons.
+- `CheckboxGroup` - multi-select equivalent.
 
 ---
 

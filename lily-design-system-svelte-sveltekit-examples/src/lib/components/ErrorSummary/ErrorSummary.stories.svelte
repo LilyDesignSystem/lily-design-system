@@ -3,7 +3,7 @@
   import ErrorSummary from './ErrorSummary.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ErrorSummary',
+    title: 'Headless/ErrorSummary',
     component: ErrorSummary,
   });
 </script>

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Combobox from './Combobox';
 
 const meta = {
-  title: 'Examples/Combobox',
+  title: 'Headless/Combobox',
   component: Combobox,
   tags: ['autodocs']
 } satisfies Meta<typeof Combobox>;

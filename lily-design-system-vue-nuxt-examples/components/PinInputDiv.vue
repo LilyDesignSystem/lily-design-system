@@ -57,13 +57,18 @@
     // References:
     //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
-    import { computed, ref, watchEffect } from "vue";
+    import { computed, onBeforeUnmount, onMounted, ref, watchEffect } from "vue";
 
     const props = withDefaults(defineProps<{
         /** Accessible label for the group of inputs */
         label: string;
         /** Number of digit inputs to render */
         length?: number;
+        /**
+         * Each digit input's accessible name, e.g. (n, of) => `Digit ${n} of ${of}`.
+         * Without it each input is named by `label`: no English default.
+         */
+        digitLabel?: (position: number, length: number) => string;
         /** Whether all inputs are disabled */
         disabled?: boolean;
     }>(), {
@@ -73,9 +78,40 @@
 
     const modelValue = defineModel<string>({ default: "" });
 
-    const digits = ref<string[]>(Array.from({ length: props.length }, () => ""));
+    // Seeded from the initial model value, which the watchEffect below used to
+    // overwrite with "" on mount.
+    const initialDigits = Array.from({ length: props.length }, (_, i) =>
+        /^[0-9]$/.test(modelValue.value[i] ?? "") ? modelValue.value[i] : "",
+    );
+    const digits = ref<string[]>([...initialDigits]);
 
     const inputRefs = ref<HTMLInputElement[]>([]);
+
+    // Form reset: the inputs take a one-way value, which a reset changes without
+    // telling this component, so the model would keep a value the form no longer
+    // submits. Restore the initial value instead — one tick later, after the
+    // browser has reset the DOM, and not when the reset was cancelled.
+    const root = ref<HTMLElement | null>(null);
+    let resetForm: HTMLFormElement | null = null;
+    let resetTimer: ReturnType<typeof setTimeout> | undefined;
+    function onReset(event: Event): void {
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+            if (event.defaultPrevented || !root.value) return;
+            digits.value = [...initialDigits];
+            inputRefs.value.forEach((input, i) => {
+                if (input) input.value = initialDigits[i];
+            });
+        }, 0);
+    }
+    onMounted(() => {
+        resetForm = root.value?.closest("form") ?? null;
+        resetForm?.addEventListener("reset", onReset);
+    });
+    onBeforeUnmount(() => {
+        clearTimeout(resetTimer);
+        resetForm?.removeEventListener("reset", onReset);
+    });
 
     const combinedValue = computed(() =>
         digits.value.join(""),
@@ -130,6 +166,7 @@
 <template>
     <!-- PinInputDiv.vue -->
     <div
+        ref="root"
         class="pin-input-div"
         role="group"
         :aria-label="label"
@@ -139,7 +176,7 @@
                 type="text"
                 inputmode="numeric"
                 maxlength="1"
-                :aria-label="`Digit ${index + 1} of ${length}`"
+                :aria-label="digitLabel ? digitLabel(index + 1, length) : label"
                 :value="digits[index]"
                 :disabled="disabled"
                 @input="(e: any) => handleInput(index, e)"

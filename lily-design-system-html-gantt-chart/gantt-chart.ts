@@ -67,6 +67,8 @@ export type GanttTimeUnit = "day" | "week" | "month";
  * label-gating convention.
  */
 export type GanttLabels = {
+    /** Header for the leading task-label column; an empty header cell otherwise. */
+    taskColumnHeader?: string;
     columnLabel?: (start: string, end: string, timeUnit: GanttTimeUnit) => string;
     editButton?: (task: GanttTask) => string;
     startLabel?: string;
@@ -154,11 +156,15 @@ function rangesOverlap(aStart: string, aEnd: string, bStart: string, bEnd: strin
 
 export type GanttFlatRow = { task: GanttTask; depth: number; hasChildren: boolean };
 
-/** Depth-first flatten of the parentId tree, skipping collapsed subtrees. */
+/**
+ * Depth-first flatten of the parentId tree, skipping collapsed subtrees.
+ * A task whose `parentId` names no task is a top-level row, not dropped.
+ */
 export function flattenTasks(tasks: GanttTask[], collapsed: ReadonlySet<string>): GanttFlatRow[] {
+    const ids = new Set(tasks.map((t) => t.id));
     const childrenOf = new Map<string | undefined, GanttTask[]>();
     for (const task of tasks) {
-        const key = task.parentId;
+        const key = task.parentId != null && ids.has(task.parentId) ? task.parentId : undefined;
         const list = childrenOf.get(key) ?? [];
         list.push(task);
         childrenOf.set(key, list);
@@ -177,16 +183,45 @@ export function flattenTasks(tasks: GanttTask[], collapsed: ReadonlySet<string>)
 
 /** A parent's start/end are derived (min start / max end of descendants), never its own data. */
 export function effectiveRange(task: GanttTask, allTasks: GanttTask[]): { start: string; end: string } {
-    const children = allTasks.filter((t) => t.parentId === task.id);
-    if (children.length === 0) return { start: task.start, end: task.end };
-    let start = "";
-    let end = "";
-    for (const child of children) {
-        const r = effectiveRange(child, allTasks);
-        if (!start || compareISO(r.start, start) < 0) start = r.start;
-        if (!end || compareISO(r.end, end) > 0) end = r.end;
+    return effectiveRanges(allTasks).get(task.id) ?? { start: task.start, end: task.end };
+}
+
+/**
+ * Every task's effective range in one pass over the tree — computed once per
+ * render rather than re-walking every parent's subtree for each row.
+ * A `parentId` cycle cannot recurse forever: a task already on the walk is
+ * read as a leaf.
+ */
+export function effectiveRanges(tasks: GanttTask[]): Map<string, { start: string; end: string }> {
+    const childrenOf = new Map<string, GanttTask[]>();
+    for (const task of tasks) {
+        if (task.parentId == null) continue;
+        const list = childrenOf.get(task.parentId) ?? [];
+        list.push(task);
+        childrenOf.set(task.parentId, list);
     }
-    return { start, end };
+    const ranges = new Map<string, { start: string; end: string }>();
+    const onWalk = new Set<string>();
+    function visit(task: GanttTask): { start: string; end: string } {
+        const known = ranges.get(task.id);
+        if (known) return known;
+        const children = childrenOf.get(task.id) ?? [];
+        if (children.length === 0 || onWalk.has(task.id)) return { start: task.start, end: task.end };
+        onWalk.add(task.id);
+        let start = "";
+        let end = "";
+        for (const child of children) {
+            const r = visit(child);
+            if (!start || compareISO(r.start, start) < 0) start = r.start;
+            if (!end || compareISO(r.end, end) > 0) end = r.end;
+        }
+        onWalk.delete(task.id);
+        const range = { start, end };
+        ranges.set(task.id, range);
+        return range;
+    }
+    for (const task of tasks) ranges.set(task.id, visit(task));
+    return ranges;
 }
 
 let uid = 0;
@@ -370,8 +405,23 @@ export class GanttChart extends HTMLElement {
         return flattenTasks(this.#tasks, this.#collapsed);
     }
 
-    #rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
-        return hasChildren ? effectiveRange(task, this.#tasks) : { start: task.start, end: task.end };
+    #rangeFor(
+        task: GanttTask,
+        hasChildren: boolean,
+        ranges: Map<string, { start: string; end: string }>,
+    ): { start: string; end: string } {
+        return hasChildren ? (ranges.get(task.id) ?? task) : { start: task.start, end: task.end };
+    }
+
+    /** Editing needs every label its controls show; an unnamed Save is worse than none. */
+    #canEdit(): boolean {
+        const l = this.#labels;
+        return !!l.dateTimePickerLabels && !!l.startLabel && !!l.endLabel && !!l.saveLabel && !!l.cancelLabel;
+    }
+
+    /** Focus the grid's tab stop — after a rebuild, the new cell standing where the old one was. */
+    #focusActiveCell(): void {
+        this.#cellEls.get(`${this.#focusedRow}-${this.#focusedCol}`)?.focus({ preventScroll: true });
     }
 
     #predecessorLabels(task: GanttTask): string[] {
@@ -402,6 +452,11 @@ export class GanttChart extends HTMLElement {
         // handled the same way a structural attribute change closes
         // date-time-picker's own dialog.
         this.#render();
+        // The rebuild replaced the button that had focus; give focus to its
+        // successor rather than letting it fall to <body>.
+        this.#rootEl
+            ?.querySelector<HTMLElement>(`[data-task-id="${CSS.escape(taskId)}"] .gantt-chart-collapse-button`)
+            ?.focus({ preventScroll: true });
     }
 
     // ---- Edit — keyboard (composed date-time-picker) and pointer (native DnD) ----
@@ -420,7 +475,7 @@ export class GanttChart extends HTMLElement {
 
     #openEdit(task: GanttTask): void {
         const dateTimePickerLabels = this.#labels.dateTimePickerLabels;
-        if (!dateTimePickerLabels) return;
+        if (!dateTimePickerLabels || !this.#canEdit()) return;
         if (this.#editingTaskId && this.#editingTaskId !== task.id) this.#closeEdit();
 
         this.#editingTaskId = task.id;
@@ -432,6 +487,13 @@ export class GanttChart extends HTMLElement {
         tr.className = "gantt-chart-edit-row";
         const td = document.createElement("td");
         td.colSpan = columns.length + 1;
+        td.addEventListener("keydown", (event) => {
+            // Escape cancels, unless a date picker's own dialog used it to close itself.
+            if (event.key === "Escape" && !event.defaultPrevented) {
+                event.preventDefault();
+                this.#cancelEdit();
+            }
+        });
 
         const startPicker = document.createElement("date-time-picker") as DateTimePicker;
         startPicker.className = "gantt-chart-start-picker";
@@ -455,6 +517,11 @@ export class GanttChart extends HTMLElement {
         saveButton.textContent = this.#labels.saveLabel ?? "";
         saveButton.addEventListener("click", () => this.#saveEdit(task));
         td.appendChild(saveButton);
+        // Save is disabled while either date is empty.
+        const syncSave = (): void => {
+            saveButton.disabled = !startPicker.value || !endPicker.value;
+        };
+        td.addEventListener("datetimechange", syncSave);
 
         const cancelButton = document.createElement("button");
         cancelButton.type = "button";
@@ -469,6 +536,8 @@ export class GanttChart extends HTMLElement {
         this.#editRowEl = tr;
         this.#editStartPickerEl = startPicker;
         this.#editEndPickerEl = endPicker;
+        // Focus moves into the region it opened, onto the start date's field.
+        startPicker.querySelector<HTMLElement>(".date-time-picker-input")?.focus({ preventScroll: true });
     }
 
     #closeEdit(): void {
@@ -479,15 +548,25 @@ export class GanttChart extends HTMLElement {
         this.#editingTaskId = null;
     }
 
+    /**
+     * A range entered end-first is saved start-first. The region closes before
+     * the consumer hears of the change — its `tasks` update rebuilds the chart —
+     * and focus then returns to the grid's tab stop on the edited row.
+     */
     #saveEdit(task: GanttTask): void {
-        const start = this.#editStartPickerEl?.value || task.start;
-        const end = this.#editEndPickerEl?.value || task.end;
-        this.#applyChange(task, start, end);
+        const a = this.#editStartPickerEl?.value;
+        const b = this.#editEndPickerEl?.value;
+        if (!a || !b) return;
+        const [start, end] = compareISO(a, b) <= 0 ? [a, b] : [b, a];
         this.#closeEdit();
+        this.#applyChange(task, start, end);
+        this.#focusActiveCell();
     }
 
+    /** Cancel returns focus to the grid's tab stop, on the edited task's row. */
     #cancelEdit(): void {
         this.#closeEdit();
+        this.#focusActiveCell();
     }
 
     #onBarDragStart(task: GanttTask, event: DragEvent): void {
@@ -530,6 +609,13 @@ export class GanttChart extends HTMLElement {
         const clampedRow = Math.min(Math.max(row, 0), Math.max(rowCount - 1, 0));
         const cell = this.#setActiveCell(clampedRow, clampedCol);
         cell?.focus({ preventScroll: true });
+    }
+
+    /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+    #onGridFocusin(event: FocusEvent): void {
+        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        if (!cell) return;
+        this.#setActiveCell(Number(cell.dataset.row), Number(cell.dataset.col));
     }
 
     #onGridKeydown(event: KeyboardEvent): void {
@@ -596,6 +682,7 @@ export class GanttChart extends HTMLElement {
         table.setAttribute("role", "grid");
         table.setAttribute("aria-label", this.label);
         table.addEventListener("keydown", (event) => this.#onGridKeydown(event as KeyboardEvent));
+        table.addEventListener("focusin", (event) => this.#onGridFocusin(event as FocusEvent));
 
         if (this.caption) {
             const caption = document.createElement("caption");
@@ -620,6 +707,7 @@ export class GanttChart extends HTMLElement {
         const leadingTh = document.createElement("th");
         leadingTh.className = "gantt-table-th";
         leadingTh.setAttribute("scope", "col");
+        leadingTh.textContent = this.#labels.taskColumnHeader ?? "";
         headRow.appendChild(leadingTh);
 
         for (const column of columns) {
@@ -638,27 +726,30 @@ export class GanttChart extends HTMLElement {
         const tbody = document.createElement("tbody");
         tbody.className = "gantt-table-tbody";
 
+        const ranges = effectiveRanges(this.#tasks);
         rows.forEach((row, rowIndex) => {
             const { task } = row;
-            const { start, end } = this.#rangeFor(task, row.hasChildren);
+            const { start, end } = this.#rangeFor(task, row.hasChildren, ranges);
             const deps = this.#predecessorLabels(task);
             const hasDependencySummary = deps.length > 0 && !!this.#labels.dependencySummary;
 
             const tr = document.createElement("tr");
             tr.className = "gantt-table-tr";
+            tr.dataset.taskId = task.id;
 
             const rowTh = document.createElement("th");
             rowTh.className = "gantt-table-th";
             rowTh.setAttribute("scope", "row");
-            rowTh.style.paddingInlineStart = `${row.depth}em`;
+            // Depth is data for the consumer's CSS (indentation), never an inline style.
+            rowTh.dataset.depth = String(row.depth);
 
-            if (row.hasChildren) {
+            if (row.hasChildren && this.#labels.collapseButton) {
                 const collapsed = this.#collapsed.has(task.id);
                 const collapseButton = document.createElement("button");
                 collapseButton.type = "button";
                 collapseButton.className = "gantt-chart-collapse-button";
                 collapseButton.setAttribute("aria-expanded", String(!collapsed));
-                collapseButton.setAttribute("aria-label", this.#labels.collapseButton?.(task, collapsed) ?? "");
+                collapseButton.setAttribute("aria-label", this.#labels.collapseButton(task, collapsed));
                 collapseButton.appendChild(this.renderCollapseIcon(collapsed));
                 collapseButton.addEventListener("click", () => this.#toggleCollapse(task.id));
                 rowTh.appendChild(collapseButton);

@@ -3,7 +3,7 @@
   import Resizable from './Resizable.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Resizable',
+    title: 'Headless/Resizable',
     component: Resizable,
   });
 </script>

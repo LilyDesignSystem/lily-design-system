@@ -3,7 +3,7 @@
   import ColorPickerButton from './ColorPickerButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ColorPickerButton',
+    title: 'Headless/ColorPickerButton',
     component: ColorPickerButton,
   });
 </script>

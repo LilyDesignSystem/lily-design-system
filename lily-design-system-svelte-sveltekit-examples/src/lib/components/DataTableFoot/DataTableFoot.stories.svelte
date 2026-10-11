@@ -3,7 +3,7 @@
   import DataTableFoot from './DataTableFoot.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DataTableFoot',
+    title: 'Headless/DataTableFoot',
     component: DataTableFoot,
   });
 </script>

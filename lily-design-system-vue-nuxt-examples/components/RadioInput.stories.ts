@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import RadioInput from './RadioInput.vue';
 
 const meta = {
-  title: 'Examples/RadioInput',
+  title: 'Headless/RadioInput',
   component: RadioInput,
   tags: ['autodocs']
 } satisfies Meta<typeof RadioInput>;

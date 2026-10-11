@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AustraliaIndividualHealthcareIdentifierInput from './AustraliaIndividualHealthcareIdentifierInput.vue';
 
 const meta = {
-  title: 'Examples/AustraliaIndividualHealthcareIdentifierInput',
+  title: 'Headless/AustraliaIndividualHealthcareIdentifierInput',
   component: AustraliaIndividualHealthcareIdentifierInput,
   tags: ['autodocs']
 } satisfies Meta<typeof AustraliaIndividualHealthcareIdentifierInput>;

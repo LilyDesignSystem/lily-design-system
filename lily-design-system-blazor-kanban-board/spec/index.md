@@ -138,7 +138,7 @@ menu, and returns focus to the move-button. Escape closes without
 moving.
 
 **WIP limits.** `column.WipLimit`, when set, is compared against that
-column's current card count; a column at or over its limit carries
+column's current card count; a column over its limit carries
 `data-over-limit` on its header cell and renders `Labels.OverLimit`'s
 text — rendered only when `Labels.OverLimit` is supplied.
 
@@ -188,8 +188,8 @@ announced through one live region.
   default) and `aria-label` comes from `Label`.
 - §8.2 Renders one `KanbanTableTH` per column with its title and, when
   `Labels.CardCount` is supplied, a derived card count.
-- §8.3 A column at or over `WipLimit` carries `data-over-limit` and
-  renders `Labels.OverLimit`'s text; a column under its limit, or with
+- §8.3 A column over `WipLimit` carries `data-over-limit` and
+  renders `Labels.OverLimit`'s text; a column at or under its limit, or with
   no `WipLimit` set, carries neither.
 - §8.4 Cards render as a rectangular grid: the body has as many rows
   as the largest column's card count, and shorter columns pad with
@@ -218,6 +218,23 @@ announced through one live region.
   defaults of `"list"`/`"listitem"`).
 - §8.14 No hardcoded user-facing strings: every label comes from a
   parameter or a `Labels.*` function.
+
+**Added 2026-10-11** (canonical §8.13–§8.16; see the Svelte package's spec):
+
+- Without `labels.moveButton` no unnamed move button renders; Enter/Space on
+  the card's cell opens the menu, which is then named by the card itself.
+- Keys pressed inside the open move menu never move the grid cursor, and
+  choosing a destination does not reopen the menu.
+- Choosing the card's current column, or dropping a card on it, is not a
+  move: no `onMove`, no announcement.
+- Focusing a cell by pointer moves the roving cursor there; when the board
+  shrinks under the cursor, exactly one cell stays tabbable; after a move,
+  focus and the cursor follow the card to its new column (its move button,
+  or its cell when there is none).
+- A column is over its `wipLimit` only with more cards than the limit;
+  exactly at the limit it is full, not in breach.
+
+Blazor note: the Blazor `Listbox` does not stop key propagation, so an Enter that chooses a destination may also reach the grid's handler after the menu has closed. bUnit dispatches events without bubbling, so this ordering is not covered by the suite and has not been checked in a browser.
 
 ## 9. Non-goals and deviations from the Svelte reference
 

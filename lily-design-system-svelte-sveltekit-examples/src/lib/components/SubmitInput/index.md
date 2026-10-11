@@ -1,79 +1,130 @@
 # SubmitInput
 
-## Overview
+A headless form submit button rendered as `<input type="submit">`.
 
-A headless form submission button using the native HTML <input type="submit">
-element. When clicked within a form, it triggers the form's submit event and
-built-in browser validation. The component supports custom button text through
-the value prop and can be disabled to prevent premature submission.
+## What it is
+
+A Svelte 5 headless component that renders a single `<input class="submit-input ..." type="submit">` element.
 
 ## What it does
 
-A button input that submits a form <input type="submit">.
+- Renders a native submit input.
+- Uses the `value` prop as the visible button text (default `"Submit"`).
+- Forwards `disabled`.
+- Spreads `...restProps` onto the `<input>` (`name`, `form`, event handlers, etc.).
 
-## When to use
+No ARIA attributes are added because `<input type="submit">` is natively accessible.
 
-- Use when you need the user to enter or pick a value in a form.
+## When to use it
 
-## When not to use
+- The primary submit button at the end of an HTML form.
+- Any place where `<input type="submit">` semantics are preferred over `<button type="submit">`.
 
-- Do not use for read-only display — use the matching `*View` component instead.
+## When not to use it
 
-## Usage
+- For non-submit actions - use `Button` or `ButtonInput`.
+- When you need rich content inside the button (icons, spans) - use `<button>` or the `Button` component. `<input>` cannot have children.
+- For reset-form actions - use `ResetInput`.
 
-```svelte
-<SubmitInput />
-```
+## How to use it
+
+1. Import the component.
+2. Provide a translated `value` (button text).
+3. Place it inside a `<form>` or `Form` component.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `value` | string, default "Submit" | The visible button text. |
-| `disabled` | boolean, default false | Whether the button is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <input> |  |
+- `class` (string, optional, default `""`) - merged with the base `submit-input` class.
+- `value` (string, optional, default `"Submit"`) - visible button text.
+- `disabled` (boolean, optional, default `false`).
+- `...restProps` - spread onto the `<input>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Custom button text -->
-<SubmitInput value="Send" />
-
-<!-- Conditionally disabled submit -->
-<SubmitInput value="Save changes" disabled={!formValid} />
-```
-
-## SvelteKit example
+Default:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SubmitInput from "#lib/components/SubmitInput/SubmitInput.svelte";
+    import SubmitInput from "./SubmitInput.svelte";
 </script>
 
-<SubmitInput />
+<form>
+    <SubmitInput />
+</form>
 ```
 
-## Keyboard
+Custom label:
 
-- Enter: activates the submit button (native behavior)
-- Space: activates the submit button (native behavior)
+```svelte
+<script lang="ts">
+    import SubmitInput from "./SubmitInput.svelte";
+</script>
+
+<form>
+    <SubmitInput value="Send message" />
+</form>
+```
+
+Conditionally disabled:
+
+```svelte
+<script lang="ts">
+    import SubmitInput from "./SubmitInput.svelte";
+    let formValid = $state(false);
+</script>
+
+<form>
+    <SubmitInput value="Save changes" disabled={!formValid} />
+</form>
+```
+
+With a `name` for multi-submit forms:
+
+```svelte
+<script lang="ts">
+    import SubmitInput from "./SubmitInput.svelte";
+</script>
+
+<form>
+    <SubmitInput value="Approve" name="action" />
+    <SubmitInput value="Reject" name="action" />
+</form>
+```
+
+Inside the `Form` component:
+
+```svelte
+<script lang="ts">
+    import Form from "../Form/Form.svelte";
+    import SubmitInput from "./SubmitInput.svelte";
+    function onsubmit(e: SubmitEvent) {
+        e.preventDefault();
+        console.log("submitted");
+    }
+</script>
+
+<Form label="Contact" {onsubmit}>
+    <!-- fields... -->
+    <SubmitInput value="Submit" />
+</Form>
+```
 
 ## Accessibility
 
-- Native <input type="submit"> has an implicit button role
-- The value attribute serves as the accessible name
-- No additional ARIA attributes needed beyond native semantics
+- Native `<input type="submit">` has implicit button semantics.
+- The `value` attribute is the accessible name.
+- Keyboard: Enter and Space activate the button.
+- No extra ARIA attributes needed.
 
-## Internationalization
+References:
+- MDN `input type="submit"`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit
 
-- The value prop externalizes user-facing button text for translation
-- Default value "Submit" should be overridden with translated text
+## Related components
 
-## References
-
-- MDN input type="submit": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit
+- `Button` - generic `<button>` element.
+- `ButtonInput` - `<input type="button">` (no default submission).
+- `ResetInput` - `<input type="reset">`.
+- `Form` - form wrapper.
 
 ---
 

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Scroller from './Scroller';
 
 const meta = {
-  title: 'Examples/Scroller',
+  title: 'Headless/Scroller',
   component: Scroller,
   tags: ['autodocs']
 } satisfies Meta<typeof Scroller>;

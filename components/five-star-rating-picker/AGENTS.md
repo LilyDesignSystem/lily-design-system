@@ -23,7 +23,7 @@
 
 - Renders a `<fieldset>` with `role="radiogroup"` containing 5 `<label>`/`<input type="radio">` pairs
 - Supports two-way binding for the selected rating value (1-5, with 0 meaning no selection)
-- Each radio label reads "1 star", "2 stars", "3 stars", etc. for screen reader clarity
+- Each radio's text comes from the optional `starLabel(star)` (e.g. "3 stars"); without it the text is the number alone — no English default
 - The `name` prop groups the radio buttons for form submission
 - Supports `disabled` state on the fieldset level
 
@@ -42,6 +42,7 @@
 ## Props
 
 - `label`: string (required) -- accessible name for the rating group via `aria-label`
+- `starLabel`: (star: number) => string (optional) -- each option's text; defaults to the number
 - `value`: number (default: `0`) -- current rating (1-5, 0 = none), two-way bindable via `value`
 - `name`: string (default: `"rating"`) -- radio group name for form submission
 - `disabled`: boolean (default: `false`) -- whether the entire group is disabled

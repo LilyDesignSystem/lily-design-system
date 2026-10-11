@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import NederlandIdentiteitskaartNummerInput from './NederlandIdentiteitskaartNummerInput';
 
 const meta = {
-  title: 'Examples/NederlandIdentiteitskaartNummerInput',
+  title: 'Headless/NederlandIdentiteitskaartNummerInput',
   component: NederlandIdentiteitskaartNummerInput,
   tags: ['autodocs']
 } satisfies Meta<typeof NederlandIdentiteitskaartNummerInput>;

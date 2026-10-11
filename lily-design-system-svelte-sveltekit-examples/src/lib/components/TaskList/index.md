@@ -1,88 +1,113 @@
 # TaskList
 
-## Overview
+An ordered list of task items rendered as a semantic `<ol role="list">` with an accessible label, designed to be populated with `TaskListItem` components for displaying to-dos, action items, or sequences.
 
-A headless task list that renders a semantic ordered list (<ol>) with
-role="list" and an accessible label. Used to display a series of tasks,
-to-dos, or action items in project management tools, to-do apps, or
-onboarding processes. The explicit role="list" ensures screen readers
-announce list semantics even when CSS removes default list styling.
+## What it is
+
+`TaskList` is a headless Svelte 5 container component that renders an `<ol>` element with an explicit `role="list"` and an `aria-label`. It is the parent in the `TaskList` → `TaskListItem` composition pattern used to display a collection of tasks.
 
 ## What it does
 
-An ordered list of task list items.
+- Renders an `<ol>` with base class `task-list` and the supplied `aria-label`.
+- Uses `role="list"` explicitly so screen readers continue to announce list semantics even when consumer CSS removes default list styling (which removes implicit list semantics in some browsers).
+- Accepts a required `children` snippet. Children should be `<li>` elements or `TaskListItem` components.
+- Spreads additional HTML attributes onto the `<ol>`.
 
-## When to use
+## When to use it
 
-- Use to render an ordered collection of related items.
+- To present a series of tasks, to-dos, or action items that the user should complete.
+- Onboarding checklists, setup wizards, or progress tracking sequences.
+- Project management or workflow views where each row represents one task.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it for unordered content where sequence is irrelevant — use a plain `<ul>` or `DoList`/`DontList` for semantic guideline lists.
+- Don't use it for navigation — use `TreeNav`, `BreadcrumbNav`, or `ContentsNav`.
+- Don't use it as a table — use `DataTable` when you need rows and columns.
+- Don't use it for chat messages — use `ChatList`/`ChatListItem`.
+
+## How to use it
+
+Import `TaskList` and place `TaskListItem` children (or raw `<li>` elements) inside. Provide an `aria-label` via the `label` prop describing what the list represents.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `task-list`.
+- `label` — string, required. Accessible label for the list via `aria-label`.
+- `children` — Snippet, required. Task items, usually `TaskListItem` instances.
+- `...restProps` — any additional HTML attributes spread onto the `<ol>`.
 
 ## Usage
 
 ```svelte
-<TaskList label="Today's tasks">...</TaskList>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the task list via aria-label. |
-| `children` | Snippet, required | Task items (should be <li> elements). |
-| `...restProps` | additional HTML attributes spread onto the <ul> |  |
-
-## Examples
-
-```svelte
-<!-- Simple task list -->
-<TaskList label="Today's tasks">
-  <li>Review pull requests</li>
-  <li>Update documentation</li>
-  <li>Deploy to staging</li>
-</TaskList>
-
-<!-- Task list with checkboxes -->
-<TaskList label="Onboarding CheckList">
-  <li><label><input type="checkbox" /> Create account</label></li>
-  <li><label><input type="checkbox" /> Complete tutorial</label></li>
-</TaskList>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TaskList from "#lib/components/TaskList/TaskList.svelte";
+  import TaskList from "./TaskList.svelte";
+  import TaskListItem from "../TaskListItem/TaskListItem.svelte";
 </script>
 
-<TaskList label="Today's tasks">...</TaskList>
+<TaskList label="Today's tasks">
+  <TaskListItem label="Review pull requests" />
+  <TaskListItem label="Update documentation" />
+  <TaskListItem label="Deploy to staging" />
+</TaskList>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import TaskList from "./TaskList.svelte";
+  import TaskListItem from "../TaskListItem/TaskListItem.svelte";
 
-- None directly -- standard list navigation by screen readers
-- Tab moves focus between interactive elements within task items
+  let a = $state(false);
+  let b = $state(true);
+</script>
+
+<TaskList label="Onboarding checklist">
+  <TaskListItem label="Create account" bind:checked={a} />
+  <TaskListItem label="Complete profile" bind:checked={b} />
+</TaskList>
+```
+
+```svelte
+<script lang="ts">
+  import TaskList from "./TaskList.svelte";
+</script>
+
+<TaskList label="Raw li example">
+  <li><label><input type="checkbox" /> Free-form item</label></li>
+</TaskList>
+```
+
+```svelte
+<script lang="ts">
+  import TaskList from "./TaskList.svelte";
+  import TaskListItem from "../TaskListItem/TaskListItem.svelte";
+
+  const tasks = $state([
+    { id: 1, label: "Buy groceries", checked: false },
+    { id: 2, label: "Wash car", checked: true },
+  ]);
+</script>
+
+<TaskList label="Weekend chores">
+  {#each tasks as task (task.id)}
+    <TaskListItem label={task.label} bind:checked={task.checked} />
+  {/each}
+</TaskList>
+```
 
 ## Accessibility
 
-- role="list" explicitly marks this as a list for screen readers
-- aria-label provides the accessible name for the list
-- Screen readers announce the list with its label and item count
+- Explicit `role="list"` guarantees list semantics are announced regardless of CSS reset rules.
+- `aria-label` provides the list its accessible name; always supply a meaningful label.
+- Tab order moves through focusable children (checkboxes, buttons, links) inside items.
+- Screen readers announce position and total ("2 of 4") when items are present.
 
-## Internationalization
+## Related components
 
-- The label prop externalizes user-facing text for translation
-- All task content is provided through the children snippet
-- No hardcoded strings in the component
-
-## References
-
-- WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
+- `TaskListItem` — the item child component designed to pair with this list.
+- `CheckList` / `CheckListItem` — similar pattern but scoped to checked/unchecked checklists.
+- `TourList` / `TourListItem` — guided walkthrough sequences.
+- `TimelineList` / `TimelineListItem` — chronological event ordering.
 
 ---
 

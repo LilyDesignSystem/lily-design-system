@@ -3,7 +3,7 @@
   import BannerBox from './BannerBox.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/BannerBox',
+    title: 'Headless/BannerBox',
     component: BannerBox,
   });
 </script>

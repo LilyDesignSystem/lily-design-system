@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import DownloadButton from './DownloadButton';
 
 const meta = {
-  title: 'Examples/DownloadButton',
+  title: 'Headless/DownloadButton',
   component: DownloadButton,
   tags: ['autodocs']
 } satisfies Meta<typeof DownloadButton>;

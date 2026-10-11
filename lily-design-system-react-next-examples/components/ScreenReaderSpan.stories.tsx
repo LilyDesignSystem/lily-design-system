@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ScreenReaderSpan from './ScreenReaderSpan';
 
 const meta = {
-  title: 'Examples/ScreenReaderSpan',
+  title: 'Headless/ScreenReaderSpan',
   component: ScreenReaderSpan,
   tags: ['autodocs']
 } satisfies Meta<typeof ScreenReaderSpan>;

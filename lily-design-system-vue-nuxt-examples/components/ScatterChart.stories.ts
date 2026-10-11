@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ScatterChart from './ScatterChart.vue';
 
 const meta = {
-  title: 'Examples/ScatterChart',
+  title: 'Headless/ScatterChart',
   component: ScatterChart,
   tags: ['autodocs']
 } satisfies Meta<typeof ScatterChart>;

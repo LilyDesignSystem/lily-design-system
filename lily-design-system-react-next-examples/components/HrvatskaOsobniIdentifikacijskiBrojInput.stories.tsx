@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import HrvatskaOsobniIdentifikacijskiBrojInput from './HrvatskaOsobniIdentifikacijskiBrojInput';
 
 const meta = {
-  title: 'Examples/HrvatskaOsobniIdentifikacijskiBrojInput',
+  title: 'Headless/HrvatskaOsobniIdentifikacijskiBrojInput',
   component: HrvatskaOsobniIdentifikacijskiBrojInput,
   tags: ['autodocs']
 } satisfies Meta<typeof HrvatskaOsobniIdentifikacijskiBrojInput>;

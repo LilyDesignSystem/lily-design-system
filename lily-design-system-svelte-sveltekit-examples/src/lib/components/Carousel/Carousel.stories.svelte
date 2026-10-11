@@ -3,7 +3,7 @@
   import Carousel from './Carousel.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Carousel',
+    title: 'Headless/Carousel',
     component: Carousel,
   });
 </script>

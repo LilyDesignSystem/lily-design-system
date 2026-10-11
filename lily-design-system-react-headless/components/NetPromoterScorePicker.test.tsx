@@ -1,5 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { useState } from "react";
+import type React from "react";
+import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./NetPromoterScorePicker";
 
@@ -68,5 +70,54 @@ describe("NetPromoterScorePicker", () => {
 
     const radios = screen.getAllByRole("radio") as HTMLInputElement[];
     expect(radios[0].name).toBe("score");
+  });
+});
+
+/** Render inside a real <form>, so form.reset() reaches the component. */
+function inForm(ui: React.ReactElement): HTMLFormElement {
+  const { container } = render(<form>{ui}</form>);
+  return container.querySelector("form")!;
+}
+
+const afterReset = () => act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+
+/** A consumer that controls the value, as this component expects. */
+function Controlled({ onChange }: { onChange: (value: string) => void }) {
+  const [value, setValue] = useState("7");
+  return (
+    <Subject
+      label="Rating"
+      name="nps"
+      value={value}
+      onChange={(next: string) => {
+        setValue(next);
+        onChange(next);
+      }}
+    />
+  );
+}
+
+describe("form reset", () => {
+  test("a form reset restores the initial value and reports it to the consumer", async () => {
+    const onChange = vi.fn();
+    const form = inForm(<Controlled onChange={onChange} />);
+    fireEvent.click(form.querySelector<HTMLInputElement>('input[value="9"]')!);
+    expect(onChange).toHaveBeenLastCalledWith("9");
+    form.reset();
+    await afterReset();
+    expect(onChange).toHaveBeenLastCalledWith("7");
+    expect(form.querySelector<HTMLInputElement>("input:checked")?.value).toBe("7");
+    expect(new FormData(form).get("nps")).toBe("7");
+  });
+
+  test("a cancelled reset changes nothing", async () => {
+    const onChange = vi.fn();
+    const form = inForm(<Controlled onChange={onChange} />);
+    fireEvent.click(form.querySelector<HTMLInputElement>('input[value="9"]')!);
+    form.addEventListener("reset", (event) => event.preventDefault());
+    form.reset();
+    await afterReset();
+    expect(onChange).toHaveBeenLastCalledWith("9");
+    expect(new FormData(form).get("nps")).toBe("9");
   });
 });

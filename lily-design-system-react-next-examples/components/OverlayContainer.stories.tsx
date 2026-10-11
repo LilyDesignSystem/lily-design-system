@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import OverlayContainer from './OverlayContainer';
 
 const meta = {
-  title: 'Examples/OverlayContainer',
+  title: 'Headless/OverlayContainer',
   component: OverlayContainer,
   tags: ['autodocs']
 } satisfies Meta<typeof OverlayContainer>;

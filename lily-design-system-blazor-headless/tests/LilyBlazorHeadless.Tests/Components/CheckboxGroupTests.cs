@@ -34,4 +34,13 @@ public class CheckboxGroupTests : TestContext
         var root = cut.Find(".checkbox-group");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Root_is_a_fieldset_with_role_group()
+    {
+        var cut = RenderComponent<CheckboxGroup>(p => p.AddChildContent("body"));
+        var root = cut.Find(".checkbox-group");
+        Assert.Equal("FIELDSET", root.TagName);
+        Assert.Equal("group", root.GetAttribute("role"));
+    }
 }

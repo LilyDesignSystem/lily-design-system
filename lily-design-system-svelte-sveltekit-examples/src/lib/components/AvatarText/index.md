@@ -1,81 +1,126 @@
 # AvatarText
 
-## Overview
+The initials/text fallback inside an `Avatar`. Renders a `<span>` marked `aria-hidden="true"` — the parent `Avatar`'s `aria-label` is the single accessible name.
 
-The text/initials fallback within an Avatar. Renders a <span>
-with aria-hidden="true" containing the initials or short text that
-represents the user when no image is available. Must be used inside
-an Avatar container.
+## What it is
+
+A headless Svelte 5 component that outputs a single `<span>` tag. Category: identity-primitive child, must be used inside `Avatar`.
 
 ## What it does
 
-An avatar indicator inner text such as a user name.
+- Renders `<span class="avatar-text {className}" aria-hidden="true">{children}</span>`.
+- Displays short text (typically 1–3 initials) representing the user when no image is available.
+- Spreads additional HTML attributes onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when you need an avatar indicator inner text such as a user name.
+- Inside `Avatar` as a fallback when no profile photo exists.
+- Inside `Avatar` alongside `AvatarImage` as a fallback when the image fails to load.
+- For decorative short text representations of identity (emoji, glyph).
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Outside `Avatar` — use a plain `<span>` or `Flair`.
+- For decorative single characters — use `Character`.
+- For a keyword label — use `Tag`.
+- For a count or status pill — use `Badge`.
 
-## Usage
+## How to use it
 
-```svelte
-<AvatarText>JD</AvatarText>
-```
+Import `AvatarText` from `./AvatarText.svelte`. Place inside an `Avatar`. Pass initials or short text via children.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | Initials or short text (e.g., "JD"). |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
+- `class` — string, default `""`. CSS class appended to `avatar-text`.
+- `children` — `Snippet`, required. Initials or short text (e.g. `"JD"`).
+- `...restProps` — additional HTML attributes spread onto the `<span>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Initials fallback inside Avatar -->
-<Avatar alt="Jane Doe">
-  <AvatarText>JD</AvatarText>
-</Avatar>
-
-<!-- Alongside an image as fallback -->
-<Avatar alt="Jane Doe">
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
-  <AvatarText>JD</AvatarText>
-</Avatar>
-```
-
-## SvelteKit example
+### Initials
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AvatarText from "#lib/components/AvatarText/AvatarText.svelte";
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarText from './AvatarText.svelte';
 </script>
 
-<AvatarText>JD</AvatarText>
+<Avatar alt="Jane Doe">
+  <AvatarText>JD</AvatarText>
+</Avatar>
 ```
 
-## Keyboard
+### Single-character avatar
 
-- None — display-only element.
+```svelte
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarText from './AvatarText.svelte';
+</script>
+
+<Avatar alt="Anon">
+  <AvatarText>A</AvatarText>
+</Avatar>
+```
+
+### Emoji avatar
+
+```svelte
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarText from './AvatarText.svelte';
+</script>
+
+<Avatar alt="Support bot">
+  <AvatarText>🤖</AvatarText>
+</Avatar>
+```
+
+### Image with text fallback
+
+```svelte
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarImage from '../AvatarImage/AvatarImage.svelte';
+  import AvatarText from './AvatarText.svelte';
+</script>
+
+<Avatar alt="Jane Doe">
+  <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
+  <AvatarText>JD</AvatarText>
+</Avatar>
+```
+
+### Dynamic initials from a name
+
+```svelte
+<script lang="ts">
+  import Avatar from '../Avatar/Avatar.svelte';
+  import AvatarText from './AvatarText.svelte';
+
+  let name = $state('Ada Lovelace');
+  let initials = $derived(
+    name.split(' ').map((n) => n[0]).join('').toUpperCase()
+  );
+</script>
+
+<Avatar alt={name}>
+  <AvatarText>{initials}</AvatarText>
+</Avatar>
+```
 
 ## Accessibility
 
-- aria-hidden="true" prevents duplicate announcements since the
-- parent Avatar already has aria-label
+- Marked `aria-hidden="true"` to avoid duplicate announcements.
+- The parent `Avatar`'s `aria-label` supplies the accessible name.
+- Not interactive.
 
-## Internationalization
+## Related components
 
-- All text comes through the children snippet
-- No hardcoded strings
-
-## References
-
-- WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
+- `Avatar` — required parent.
+- `AvatarImage` — image sibling.
+- `AvatarGroup` — stacked avatars.
+- `Character`, `Flair` — small display-only text primitives.
 
 ---
 

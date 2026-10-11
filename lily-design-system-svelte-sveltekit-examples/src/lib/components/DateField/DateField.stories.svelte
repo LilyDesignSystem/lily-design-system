@@ -3,7 +3,7 @@
   import DateField from './DateField.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DateField',
+    title: 'Headless/DateField',
     component: DateField,
   });
 </script>

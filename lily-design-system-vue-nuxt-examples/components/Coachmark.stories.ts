@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Coachmark from './Coachmark.vue';
 
 const meta = {
-  title: 'Examples/Coachmark',
+  title: 'Headless/Coachmark',
   component: Coachmark,
   tags: ['autodocs']
 } satisfies Meta<typeof Coachmark>;

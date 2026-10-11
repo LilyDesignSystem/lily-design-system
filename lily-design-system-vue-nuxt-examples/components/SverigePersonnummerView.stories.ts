@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SverigePersonnummerView from './SverigePersonnummerView.vue';
 
 const meta = {
-  title: 'Examples/SverigePersonnummerView',
+  title: 'Headless/SverigePersonnummerView',
   component: SverigePersonnummerView,
   tags: ['autodocs']
 } satisfies Meta<typeof SverigePersonnummerView>;

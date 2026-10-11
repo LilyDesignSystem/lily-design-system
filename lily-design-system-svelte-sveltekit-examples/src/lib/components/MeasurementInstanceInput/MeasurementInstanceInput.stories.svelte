@@ -3,7 +3,7 @@
   import MeasurementInstanceInput from './MeasurementInstanceInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MeasurementInstanceInput',
+    title: 'Headless/MeasurementInstanceInput',
     component: MeasurementInstanceInput,
   });
 </script>

@@ -3,7 +3,7 @@
   import Character from './Character.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Character',
+    title: 'Headless/Character',
     component: Character,
   });
 </script>

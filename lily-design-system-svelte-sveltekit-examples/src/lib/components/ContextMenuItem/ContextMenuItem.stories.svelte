@@ -3,7 +3,7 @@
   import ContextMenuItem from './ContextMenuItem.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ContextMenuItem',
+    title: 'Headless/ContextMenuItem',
     component: ContextMenuItem,
   });
 </script>

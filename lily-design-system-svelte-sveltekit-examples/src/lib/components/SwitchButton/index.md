@@ -1,79 +1,131 @@
 # SwitchButton
 
-## Overview
+A headless two-state toggle button rendered as `<button role="switch">` with `aria-checked`.
 
-A headless toggle switch that provides a binary on/off control using
-role="switch" with aria-checked. It renders as a <button> element and
-supports both click and keyboard (Space key) activation. Commonly used
-for settings, preferences, and feature toggles where users need to
-enable or disable a single option without submitting a form.
+## What it is
+
+A Svelte 5 headless component that renders `<button class="switch-button ..." type="button" role="switch">`. It binds `checked` two-way and toggles on click, plus handles Space explicitly (with `preventDefault`) so the page does not scroll.
 
 ## What it does
 
-A toggle switch for turning a setting on or off.
+- Renders a self-closing `<button>` (no children are rendered by the component).
+- Applies `role="switch"`, `aria-checked={checked}`, `aria-label={label}`, and `type="button"`.
+- Toggles `checked` on click (when not disabled).
+- Handles Space in a custom `onkeydown` to toggle `checked` (with `preventDefault`), preventing default scroll.
+- Forwards `disabled`.
+- Spreads `...restProps` onto the `<button>`.
 
-## When to use
+Because the component itself renders no children, it is a visually empty button - consumers must style it entirely via CSS (for example, `::before`/`::after` pseudo-elements).
 
-- Use for an in-page action (not navigation).
+## When to use it
 
-## When not to use
+- Settings that toggle a single option on/off (notifications, dark mode).
+- Feature flags and preference toggles.
+- Any on/off control that does not submit a form.
 
-- Do not use for navigation to another URL — use a link instead.
+## When not to use it
 
-## Usage
+- Form submission - use `SubmitInput` or `Button`.
+- Pressed/unpressed generic buttons - use `ToggleButton`.
+- Selecting one of several options - use `SegmentGroup` or `RadioGroup`.
+- Multi-select lists - use `CheckboxGroup`.
 
-```svelte
-<SwitchButton label="Enable notifications" bind:checked />
-```
+## How to use it
+
+1. Import the component.
+2. Provide a translated `label`.
+3. Bind `checked`.
+4. Add CSS for the track and thumb.
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `checked` | boolean, default false | Whether the switch is on; bindable with bind:checked. |
-| `disabled` | boolean, default false | Whether the switch is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <button> |  |
+- `class` (string, optional, default `""`) - merged with the base `switch-button` class.
+- `label` (string, required) - accessible name via `aria-label`.
+- `checked` (boolean, optional, default `false`, bindable).
+- `disabled` (boolean, optional, default `false`).
+- `...restProps` - spread onto the `<button>`.
 
-## Examples
+## Usage
 
-```svelte
-<!-- Dark mode switch with conditional disabled -->
-<SwitchButton label="Dark mode" bind:checked={darkMode} disabled={locked} />
-```
-
-## SvelteKit example
+Basic on/off toggle:
 
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SwitchButton from "#lib/components/SwitchButton/SwitchButton.svelte";
+    import SwitchButton from "./SwitchButton.svelte";
+    let enabled = $state(false);
 </script>
 
-<SwitchButton label="Enable notifications" bind:checked />
+<SwitchButton label="Enable notifications" bind:checked={enabled} />
+<p>Notifications are {enabled ? "on" : "off"}</p>
 ```
 
-## Keyboard
+Dark mode toggle:
 
-- Space: toggles the switch between on and off states (custom handler with preventDefault)
-- Enter: activates the button (native button behavior)
+```svelte
+<script lang="ts">
+    import SwitchButton from "./SwitchButton.svelte";
+    let dark = $state(false);
+</script>
+
+<SwitchButton label="Dark mode" bind:checked={dark} />
+```
+
+Disabled switch:
+
+```svelte
+<script lang="ts">
+    import SwitchButton from "./SwitchButton.svelte";
+    let locked = $state(true);
+    let x = $state(false);
+</script>
+
+<SwitchButton label="Locked feature" bind:checked={x} disabled={locked} />
+```
+
+With onchange-like side effect via `$effect`:
+
+```svelte
+<script lang="ts">
+    import SwitchButton from "./SwitchButton.svelte";
+    let sync = $state(false);
+    $effect(() => {
+        console.log("sync changed:", sync);
+    });
+</script>
+
+<SwitchButton label="Auto sync" bind:checked={sync} />
+```
+
+In a settings form:
+
+```svelte
+<script lang="ts">
+    import SwitchButton from "./SwitchButton.svelte";
+    let prefs = $state({ email: true, sms: false });
+</script>
+
+<ul>
+    <li><SwitchButton label="Email alerts" bind:checked={prefs.email} /> Email alerts</li>
+    <li><SwitchButton label="SMS alerts" bind:checked={prefs.sms} /> SMS alerts</li>
+</ul>
+```
 
 ## Accessibility
 
-- role="switch" identifies the element as a two-state toggle switch
-- aria-checked={checked} communicates whether the switch is on or off
-- aria-label={label} provides the accessible name for the switch control
+- `role="switch"` with `aria-checked` is the correct pattern for binary toggles.
+- `aria-label` provides the accessible name.
+- Space and Enter activate (Space handled explicitly with `preventDefault`).
+- Native `<button disabled>` behavior blocks interaction when disabled.
 
-## Internationalization
-
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
+References:
 - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
-- WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
+- WAI-ARIA `switch` role: https://www.w3.org/TR/wai-aria-1.2/#switch
+
+## Related components
+
+- `ToggleButton` - pressed/unpressed state (uses `aria-pressed`).
+- `CheckboxInput` - form-bound boolean input.
+- `SegmentGroup` - mutually exclusive options.
 
 ---
 

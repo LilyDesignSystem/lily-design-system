@@ -1,84 +1,116 @@
 # FiveFaceRatingPicker
 
-## Overview
+A radio group for selecting a satisfaction rating from 1 to 5 using face labels ("Very bad" to "Very good").
 
-A five-face rating input that lets users select a satisfaction level from 1 to 5
-using labeled radio buttons representing faces from "Very bad" to "Very good".
-Commonly used in satisfaction surveys, feedback forms, and experience ratings
-where face-based labels are more intuitive than numeric scales.
+## What it is
+
+`FiveFaceRatingPicker` renders a `<fieldset role="radiogroup">` with five labelled `<input type="radio">` elements. The default face labels are `["Very bad", "Bad", "Okay", "Good", "Very good"]`, but the full array is overridable for localisation or custom wording. Value `0` means no selection; valid ratings are `1`–`5`.
 
 ## What it does
 
-A picker for selecting a 1-5 satisfaction rating using face labels.
+- Renders `<fieldset role="radiogroup" aria-label={label}>` containing five labelled radios.
+- Binds `value` (1–5, or 0 for none) via `$bindable()`.
+- Uses native radio buttons for keyboard arrow navigation, Tab, and Space.
+- Forwards `disabled` to disable the whole group.
+- Exposes `name` for form submission.
 
-## When to use
+## When to use it
 
-- Use when the user should choose from a bounded set of visual options.
+- Satisfaction surveys, feedback widgets, end-of-interaction rating prompts.
+- Anywhere face-based wording is more intuitive than numeric stars.
+- Forms where the rating must be submitted as a radio-group value.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simple `<Select>` or radio group would communicate options better.
+- For star-based ratings. Use `FiveStarRatingPicker`.
+- For Net Promoter Score (0–10). Use `NetPromoterScorePicker`.
+- For read-only display. Use `FiveFaceRatingView`.
+- For three-level red/amber/green. Use `RedAmberGreenPicker`.
 
-## Usage
+## How to use it
+
+Bind `value` and provide a `label`.
 
 ```svelte
-<FiveFaceRatingPicker label="How was your experience?" bind:value />
+<script lang="ts">
+    import FiveFaceRatingPicker from "./FiveFaceRatingPicker.svelte";
+    let rating = $state(0);
+</script>
+
+<FiveFaceRatingPicker label="How was your experience?" bind:value={rating} />
 ```
 
 ## Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the rating group via aria-label. |
-| `value` | number, default 0 | Current rating (1-5, 0 = none); bindable via bind:value. |
-| `name` | string, default "face-rating" | Radio group name for form submission. |
-| `labels` | string[], default ["Very bad", "Bad", "Okay", "Good", "Very good"] | Accessible labels for each face. |
-| `disabled` | boolean, default false | Whether the entire group is disabled. |
-| `...restProps` | additional HTML attributes spread onto the fieldset |  |
+| Prop       | Type       | Default                                                      | Description                                  |
+| ---------- | ---------- | ------------------------------------------------------------ | -------------------------------------------- |
+| `class`    | `string`   | `""`                                                         | CSS class appended to the base class.       |
+| `label`    | `string`   | required                                                     | Accessible name via `aria-label`.            |
+| `value`    | `number`   | `0`                                                          | Current rating (1–5). Bindable. 0 = none.    |
+| `name`     | `string`   | `"face-rating"`                                              | Radio group `name`.                          |
+| `labels`   | `string[]` | `["Very bad", "Bad", "Okay", "Good", "Very good"]`           | Label for each face.                         |
+| `disabled` | `boolean`  | `false`                                                      | Whether the group is disabled.               |
+| `...rest`  | `unknown`  | —                                                            | Additional HTML attributes on the fieldset.  |
 
-## Examples
+## Usage
+
+### 1. Basic binding
 
 ```svelte
-<!-- Basic face rating with two-way binding -->
 <FiveFaceRatingPicker label="How was your experience?" bind:value={rating} />
-
-<!-- Custom face labels -->
-<FiveFaceRatingPicker label="Rate service" bind:value labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]} />
 ```
 
-## SvelteKit example
+### 2. Custom labels
 
 ```svelte
-<!-- src/routes/+page.svelte -->
-<script lang="ts">
-  import FiveFaceRatingPicker from "#lib/components/FiveFaceRatingPicker/FiveFaceRatingPicker.svelte";
-</script>
-
-<FiveFaceRatingPicker label="How was your experience?" bind:value />
+<FiveFaceRatingPicker
+    label="Rate the service"
+    bind:value={rating}
+    labels={["Terrible", "Poor", "Fair", "Great", "Excellent"]}
+/>
 ```
 
-## Keyboard
+### 3. Localised (Spanish)
 
-- Tab: Focus the selected radio (or first if none selected)
-- ArrowDown / ArrowRight: Move to next radio button
-- ArrowUp / ArrowLeft: Move to previous radio button
-- Space: Select the focused radio button
+```svelte
+<FiveFaceRatingPicker
+    label="¿Cómo fue su experiencia?"
+    bind:value={rating}
+    labels={["Muy mala", "Mala", "Regular", "Buena", "Muy buena"]}
+/>
+```
+
+### 4. With a custom name for forms
+
+```svelte
+<form method="post">
+    <FiveFaceRatingPicker label="Rating" name="satisfaction" bind:value={rating} />
+    <button type="submit">Submit</button>
+</form>
+```
+
+### 5. Paired view after selection
+
+```svelte
+<FiveFaceRatingPicker label="Rate this" bind:value={rating} />
+{#if rating > 0}
+    <p>You selected: <FiveFaceRatingView value={rating} label="Your rating" /></p>
+{/if}
+```
 
 ## Accessibility
 
-- role="radiogroup" on the fieldset identifies the group as a set of radio buttons
-- aria-label provides an accessible name for the entire rating group
-- Each radio button has a visible text label for screen reader announcement
+- `role="radiogroup"` + `aria-label` group the radios.
+- Native radios provide Tab, Arrow, and Space handling.
+- Disabling the fieldset disables every descendant radio.
 
-## Internationalization
+## Related components
 
-- All text content comes through the labels prop; no hardcoded user-facing strings
-- The label prop allows localized accessible names
-
-## References
-
-- WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
+- `FiveFaceRatingView` — read-only face rating display.
+- `FiveFaceRatingPickerButton` — individual face button primitive.
+- `FiveStarRatingPicker`, `FiveStarRatingView` — star-based rating alternatives.
+- `NetPromoterScorePicker`, `NetPromoterScoreView` — 0–10 NPS alternative.
+- `RedAmberGreenPicker`, `RedOrangeYellowGreenBluePicker` — colour-based alternatives.
 
 ---
 

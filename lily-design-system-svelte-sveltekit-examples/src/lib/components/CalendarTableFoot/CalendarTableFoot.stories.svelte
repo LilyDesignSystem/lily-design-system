@@ -3,7 +3,7 @@
   import CalendarTableFoot from './CalendarTableFoot.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CalendarTableFoot',
+    title: 'Headless/CalendarTableFoot',
     component: CalendarTableFoot,
   });
 </script>

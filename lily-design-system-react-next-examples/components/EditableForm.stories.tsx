@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EditableForm from './EditableForm';
 
 const meta = {
-  title: 'Examples/EditableForm',
+  title: 'Headless/EditableForm',
   component: EditableForm,
   tags: ['autodocs']
 } satisfies Meta<typeof EditableForm>;

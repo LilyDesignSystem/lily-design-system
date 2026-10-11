@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import TimeoutDialog from './TimeoutDialog.vue';
 
 const meta = {
-  title: 'Examples/TimeoutDialog',
+  title: 'Headless/TimeoutDialog',
   component: TimeoutDialog,
   tags: ['autodocs']
 } satisfies Meta<typeof TimeoutDialog>;

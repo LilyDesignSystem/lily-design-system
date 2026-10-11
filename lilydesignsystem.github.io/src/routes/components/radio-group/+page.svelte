@@ -68,7 +68,7 @@
       <li>PascalCase: RadioGroup</li>
       <li>Description: a group of radio buttons for selecting one option</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;fieldset&gt;</li>
       <li>CSS class: .radio-group</li>
       <li>Interactive: yes</li>
     </ul>

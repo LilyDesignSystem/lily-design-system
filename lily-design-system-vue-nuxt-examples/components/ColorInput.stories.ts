@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ColorInput from './ColorInput.vue';
 
 const meta = {
-  title: 'Examples/ColorInput',
+  title: 'Headless/ColorInput',
   component: ColorInput,
   tags: ['autodocs']
 } satisfies Meta<typeof ColorInput>;

@@ -439,6 +439,13 @@ the grid so the zone is chosen before the instant.
   fire for a zone change.
 - No zone is selected unless the consumer sets one.
 
+### 5.10 Form reset — Blazor deviation
+
+The other seven ports restore the initial value when their `<form>` is reset (see the Svelte spec §5.10). This port
+does not: a Blazor component cannot hear a form's `reset` event without a JavaScript module calling back into .NET,
+which this package does not ship, and Blazor forms reset through their model (`EditForm` and a fresh model object), not
+through the browser's `form.reset()`. Reset the bound value instead.
+
 ## 6. Accessibility
 
 ### 6.1 Roles and properties

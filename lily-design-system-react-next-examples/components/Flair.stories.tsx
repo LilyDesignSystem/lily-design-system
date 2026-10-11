@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Flair from './Flair';
 
 const meta = {
-  title: 'Examples/Flair',
+  title: 'Headless/Flair',
   component: Flair,
   tags: ['autodocs']
 } satisfies Meta<typeof Flair>;

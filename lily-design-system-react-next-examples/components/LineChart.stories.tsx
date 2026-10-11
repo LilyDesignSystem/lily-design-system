@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import LineChart from './LineChart';
 
 const meta = {
-  title: 'Examples/LineChart',
+  title: 'Headless/LineChart',
   component: LineChart,
   tags: ['autodocs']
 } satisfies Meta<typeof LineChart>;

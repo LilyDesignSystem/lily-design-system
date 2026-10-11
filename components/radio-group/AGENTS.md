@@ -6,7 +6,7 @@
 - PascalCase: RadioGroup
 - Description: a group of radio buttons for selecting one option
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <fieldset>
 - CSS class: .radio-group
 - Interactive: yes
 

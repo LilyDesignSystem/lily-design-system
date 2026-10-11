@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ProductCard from './ProductCard';
 
 const meta = {
-  title: 'Examples/ProductCard',
+  title: 'Headless/ProductCard',
   component: ProductCard,
   tags: ['autodocs']
 } satisfies Meta<typeof ProductCard>;

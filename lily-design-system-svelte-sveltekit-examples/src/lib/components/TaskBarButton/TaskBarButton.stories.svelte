@@ -3,7 +3,7 @@
   import TaskBarButton from './TaskBarButton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TaskBarButton',
+    title: 'Headless/TaskBarButton',
     component: TaskBarButton,
   });
 </script>

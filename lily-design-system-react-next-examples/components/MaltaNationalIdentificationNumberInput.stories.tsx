@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import MaltaNationalIdentificationNumberInput from './MaltaNationalIdentificationNumberInput';
 
 const meta = {
-  title: 'Examples/MaltaNationalIdentificationNumberInput',
+  title: 'Headless/MaltaNationalIdentificationNumberInput',
   component: MaltaNationalIdentificationNumberInput,
   tags: ['autodocs']
 } satisfies Meta<typeof MaltaNationalIdentificationNumberInput>;

@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-11
+
+Fixed: a form reset now restores the initial date (and time zone) in the field, the consumer (through `onChange`) and the submitted value,
+unless the reset is cancelled. Before, a reset kept the typed date instead of the initial one. See `spec/index.md` §5.10.
+
 ## 0.2.0 — 2026-10-04
 
 **Added (minor, additive): a picker tooltip.** A new `.date-time-picker-tooltip` element (`role="tooltip"`, `hidden` at rest) follows the calendar trigger and shows the button's existing `label` on pointer hover, on the tooltip itself (hoverable), and on keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus, and it is never shown while the dialog is open. No new props and no new text; deliberately not linked by `aria-describedby`, since it duplicates the button's `aria-label`. Position and appearance are theme CSS keyed on `hidden`.

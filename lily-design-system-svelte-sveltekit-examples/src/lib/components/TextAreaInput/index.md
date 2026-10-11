@@ -1,82 +1,107 @@
 # TextAreaInput
 
-## Overview
+A multi-line text input rendered as a native `<textarea>` with `aria-label`, bindable `value`, and optional `rows`, `required`, and `disabled` attributes.
 
-A headless multi-line text input that wraps the native HTML <textarea>
-element. Used for comments, messages, descriptions, feedback, code input,
-and any scenario where users need to enter extended text content. Unlike
-a single-line TextInput, TextAreaInput provides a larger, scrollable text area
-that supports multiple lines.
+## What it is
+
+`TextAreaInput` is a headless Svelte 5 component wrapping the native `<textarea>` element. It provides two-way-bound `value` and accessible labeling via `aria-label` without imposing any visual styling.
 
 ## What it does
 
-A multi-line text input area.
+- Renders `<textarea class="text-area-input {className}">` with `aria-label` for the accessible name.
+- Binds `value` two-way via `bind:value`.
+- Forwards `rows`, `required`, and `disabled` to the native element.
+- Spreads additional HTML attributes (e.g. `placeholder`, `maxlength`, `id`) onto the `<textarea>`.
 
-## When to use
+## When to use it
 
-- Use when you need a multi-line text input area.
+- Comment boxes, messages, descriptions, and feedback forms.
+- Code input where users paste or type longer blocks of text.
+- Any form that needs multiple lines of user input without character counting.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it for single-line text — use `TextInput`.
+- Don't use it when you need a character counter — use `TextAreaInputWithCharacterCounter`.
+- Don't use it for rich / formatted text input — use a dedicated rich-text editor.
+- Don't use it for search queries — use `SearchInput` or `TextInputWithSearch`.
+
+## How to use it
+
+Import, bind `value`, pass a translated `label`, and optionally set `rows`. Add `placeholder`/`maxlength` via rest-props.
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `text-area-input`.
+- `label` — string, required. Accessible name via `aria-label`.
+- `value` — string, default `""`, bindable via `bind:value`. Text content.
+- `rows` — number, optional. Number of visible rows.
+- `required` — boolean, default `false`. Whether the text-area-input is required.
+- `disabled` — boolean, default `false`. Whether the text-area-input is disabled.
+- `...restProps` — any additional HTML attributes spread onto the `<textarea>`.
 
 ## Usage
 
 ```svelte
-<TextAreaInput label="Comments" bind:value rows={5} />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name via aria-label. |
-| `value` | string, default "" | Bindable text content; supports bind:value. |
-| `rows` | number, default undefined | Number of visible text rows. |
-| `required` | boolean, default false | Whether the text-area-input is required. |
-| `disabled` | boolean, default false | Whether the text-area-input is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <textarea> |  |
-
-## Examples
-
-```svelte
-<!-- Required description field -->
-<TextAreaInput label="Description" bind:value={description} required />
-
-<!-- Read-only notes -->
-<TextAreaInput label="Notes" bind:value disabled={isReadOnly} />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TextAreaInput from "#lib/components/TextAreaInput/TextAreaInput.svelte";
+  import TextAreaInput from "./TextAreaInput.svelte";
+
+  let comments = $state("");
 </script>
 
-<TextAreaInput label="Comments" bind:value rows={5} />
+<TextAreaInput label="Comments" bind:value={comments} rows={5} />
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import TextAreaInput from "./TextAreaInput.svelte";
 
-- Tab: moves focus to and from the text-area-input (native behavior)
-- Enter: inserts a new line (does not submit forms)
-- All standard text editing keys function normally
+  let description = $state("");
+</script>
+
+<TextAreaInput
+  label="Description"
+  bind:value={description}
+  required
+  placeholder="Describe the issue…"
+/>
+```
+
+```svelte
+<script lang="ts">
+  import TextAreaInput from "./TextAreaInput.svelte";
+
+  let notes = $state("Locked notes");
+  let readOnly = $state(true);
+</script>
+
+<TextAreaInput label="Notes" bind:value={notes} disabled={readOnly} />
+```
+
+```svelte
+<script lang="ts">
+  import TextAreaInput from "./TextAreaInput.svelte";
+
+  let body = $state("");
+  let count = $derived(body.length);
+</script>
+
+<TextAreaInput label="Message" bind:value={body} maxlength={500} rows={6} />
+<p aria-live="polite">{count} / 500 characters</p>
+```
 
 ## Accessibility
 
-- aria-label={label} provides an accessible name since no visible <label> is included
+- `aria-label` supplies the accessible name since no visible `<label>` is rendered — pass a translated string.
+- Native `<textarea>` provides Tab focus and standard text-editing key handling; `Enter` inserts a newline and does not submit the form.
+- `required` and `disabled` states are conveyed natively.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any translated string
-- No hardcoded user-facing strings
-
-## References
-
-- MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
+- `TextAreaInputWithCharacterCounter` — adds a live character-count caption.
+- `TextInput` — single-line text input.
+- `CharacterCounter` — standalone counter you can pair with `TextAreaInput`.
+- `Field` — wrapper providing a visible `<label>`, hint, and error.
 
 ---
 

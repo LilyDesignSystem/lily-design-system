@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import HeroHeadline from './HeroHeadline.vue';
 
 const meta = {
-  title: 'Examples/HeroHeadline',
+  title: 'Headless/HeroHeadline',
   component: HeroHeadline,
   tags: ['autodocs']
 } satisfies Meta<typeof HeroHeadline>;

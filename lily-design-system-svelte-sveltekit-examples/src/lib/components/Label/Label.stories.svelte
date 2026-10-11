@@ -3,7 +3,7 @@
   import Label from './Label.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Label',
+    title: 'Headless/Label',
     component: Label,
   });
 </script>

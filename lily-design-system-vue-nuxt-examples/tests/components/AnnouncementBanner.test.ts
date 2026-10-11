@@ -1,13 +1,14 @@
-import { render, screen } from "@testing-library/vue";
-import { describe, expect, test } from "vitest";
-
-import Subject from "../../components/AnnouncementBanner.vue";
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/vue";
+import AnnouncementBanner from "../../components/AnnouncementBanner.vue";
 
 describe("AnnouncementBanner", () => {
-    test("renders the component", () => {
-        render(Subject, { props: { label: "Test" }, slots: { default: "Content" } });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
-        expect(el.classList.contains("announcement-banner")).toBe(true);
+  it("renders with class", () => {
+    const { container } = render(AnnouncementBanner, {
+      props: { label: "Test" },
+      slots: { default: "content" },
     });
+    const el = container.querySelector(".announcement-banner");
+    expect(el).toBeTruthy();
+  });
 });

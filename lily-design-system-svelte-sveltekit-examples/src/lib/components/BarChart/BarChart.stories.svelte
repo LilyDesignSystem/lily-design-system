@@ -3,7 +3,7 @@
   import BarChart from './BarChart.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/BarChart',
+    title: 'Headless/BarChart',
     component: BarChart,
   });
 </script>

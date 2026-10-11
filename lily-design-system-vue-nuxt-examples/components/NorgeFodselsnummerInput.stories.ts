@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import NorgeFodselsnummerInput from './NorgeFodselsnummerInput.vue';
 
 const meta = {
-  title: 'Examples/NorgeFodselsnummerInput',
+  title: 'Headless/NorgeFodselsnummerInput',
   component: NorgeFodselsnummerInput,
   tags: ['autodocs']
 } satisfies Meta<typeof NorgeFodselsnummerInput>;

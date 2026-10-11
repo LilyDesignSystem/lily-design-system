@@ -1,86 +1,155 @@
 # HoverCard
 
-## Overview
+A hover card that displays supplementary content when triggered - typically by hover or focus on an external trigger element. Renders a container with `role="tooltip"` when `open` is true.
 
-A hover card that displays supplementary content when triggered, typically by a
-hover or focus interaction on a trigger element. It conditionally renders a container
-with role="tooltip" when the open prop is true. Useful for user profile previews,
-link previews, contextual help, or any popover-style content.
+## What it is
+
+A Svelte 5 component that conditionally renders `<div class="hover-card ..." role="tooltip" aria-label={label}>` when `open` is true. The `open` prop is bindable via `$bindable(false)`.
 
 ## What it does
 
-A card that appears on hover over a trigger element.
+- When `open` is true, renders a `<div role="tooltip">` with `aria-label` and the `children` snippet.
+- When `open` is false, renders nothing at all.
+- Spreads additional HTML attributes onto the `<div>`.
+- Does not manage hover/focus/Escape - consumers wire those events on the trigger element and toggle `open`.
 
-## When to use
+## When to use it
 
-- Use to group related content in a single surfaceable container.
-- Use for supplemental, on-demand information tied to a trigger element.
+- User profile previews shown on hover over an avatar or name.
+- Link previews or term definitions on hover/focus.
+- Contextual help surfaces triggered by a question-mark button.
 
-## When not to use
+## When not to use it
 
-- Do not nest cards deeply or use a card as a generic container when a plain element suffices.
+- For a short descriptive tooltip where the consumer wants automatic positioning. Use `Tooltip`.
+- For click-triggered floating menus. Use `Popover` or `DropdownMenu`.
+- For full modal dialogs. Use `Dialog` or `AlertDialog`.
+- For persistent contextual panels. Use `Popover` or `FloatingPanel`.
+
+## How to use it
+
+Bind `open` to consumer state, and toggle it from the trigger's `onmouseenter`/`onmouseleave`/`onfocus`/`onblur` (or `onclick`) events. Wire the trigger to the card via `aria-describedby` pointing at an id you set on the card.
+
+## Props
+
+- `class` (string, optional) - CSS class appended after the base `hover-card` class.
+- `label` (string, required) - Accessible name via `aria-label`.
+- `open` (boolean, default `false`) - Whether the card is rendered. Bindable via `bind:open`.
+- `children` (Snippet, required) - Card content.
+- `...restProps` - Additional HTML attributes spread onto the `<div>`.
 
 ## Usage
 
 ```svelte
-<HoverCard label="User info" bind:open>{children}</HoverCard>
-```
+<script lang="ts">
+    import HoverCard from "./HoverCard.svelte";
+    let open = $state(false);
+</script>
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible name for the hover card via aria-label. |
-| `open` | boolean, default false | Whether the hover card is visible; bindable with bind:open. |
-| `children` | Snippet, required | Content to display inside the hover card. |
-| `...restProps` | additional HTML attributes spread onto the container div |  |
-
-## Examples
-
-```svelte
-<!-- Hover card triggered by mouse/focus events on a button -->
 <button
-  onmouseenter={() => open = true}
-  onmouseleave={() => open = false}
-  onfocus={() => open = true}
-  onblur={() => open = false}
+    onmouseenter={() => (open = true)}
+    onmouseleave={() => (open = false)}
+    onfocus={() => (open = true)}
+    onblur={() => (open = false)}
+    aria-describedby="user-card"
 >Hover me</button>
-<HoverCard label="User info" bind:open>
-  <p>Profile details here</p>
+
+<HoverCard id="user-card" label="User info" bind:open>
+    <p>Profile details here</p>
 </HoverCard>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import HoverCard from "#lib/components/HoverCard/HoverCard.svelte";
+    import HoverCard from "./HoverCard.svelte";
+    let open = $state(false);
+    const user = { name: "Alex", role: "Admin" };
 </script>
 
-<HoverCard label="User info" bind:open>{children}</HoverCard>
+<a
+    href="/users/alex"
+    onmouseenter={() => (open = true)}
+    onmouseleave={() => (open = false)}
+>{user.name}</a>
+
+<HoverCard label={`Profile: ${user.name}`} bind:open>
+    <p>{user.name}</p>
+    <p>{user.role}</p>
+</HoverCard>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import HoverCard from "./HoverCard.svelte";
+    let open = $state(false);
+    function onKey(e: KeyboardEvent) {
+        if (e.key === "Escape") open = false;
+    }
+</script>
 
-- None at the component level — consumer manages focus-based visibility on the trigger element
+<svelte:window on:keydown={onKey} />
+<button
+    onfocus={() => (open = true)}
+    onblur={() => (open = false)}
+>Help</button>
+<HoverCard label="Help" bind:open>
+    <p>Press Escape to dismiss.</p>
+</HoverCard>
+```
+
+```svelte
+<script lang="ts">
+    import HoverCard from "./HoverCard.svelte";
+    let open = $state(false);
+</script>
+
+<HoverCard
+    label="Terms glossary"
+    bind:open
+    class="glossary-card"
+    data-testid="glossary"
+>
+    <dl>
+        <dt>API</dt><dd>Application Programming Interface</dd>
+    </dl>
+</HoverCard>
+```
+
+```svelte
+<script lang="ts">
+    import HoverCard from "./HoverCard.svelte";
+    let openFor = $state<string | null>(null);
+    const items = ["A", "B", "C"];
+</script>
+
+{#each items as item}
+    <button
+        onmouseenter={() => (openFor = item)}
+        onmouseleave={() => (openFor = null)}
+    >{item}</button>
+    {#if openFor === item}
+        <HoverCard label={`Info about ${item}`} open={true}>
+            <p>Details about {item}</p>
+        </HoverCard>
+    {/if}
+{/each}
+```
 
 ## Accessibility
 
-- role="tooltip" identifies the hover card as supplementary descriptive content
-- aria-label provides an accessible name describing the hover card content
-- Consumer should link the trigger to the tooltip via aria-describedby
+- `role="tooltip"` marks the element as supplementary descriptive content.
+- `aria-label` names the content.
+- Consumers should link the trigger to the card via `aria-describedby`.
+- When closed, the card is not in the DOM and cannot be reached by Tab.
+- Consumer manages Escape-to-close and focus/hover event wiring.
 
-## Internationalization
+## Related components
 
-- The label prop allows localized accessible names; no hardcoded user-facing strings
-- All content comes through the children snippet
-
-## References
-
-- WAI-ARIA tooltip role: https://www.w3.org/TR/wai-aria-1.2/#tooltip
-- WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
+- `Tooltip` - shorter tooltip popups.
+- `Popover` - click-triggered floating content.
+- `FloatingPanel` - generic floating region container.
+- `Popup` - temporary overlay content.
+- `Dialog` / `AlertDialog` - modal dialogs.
 
 ---
 

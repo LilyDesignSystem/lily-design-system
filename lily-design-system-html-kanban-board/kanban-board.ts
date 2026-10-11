@@ -286,7 +286,18 @@ export class KanbanBoard extends HTMLElement {
 
     // ---- Move (keyboard + pointer share this) ----
 
+    /**
+     * Choosing the card's own column is not a move: the menu just closes.
+     * A real move closes the menu first, then tells the consumer — whose
+     * `cards` update rebuilds the board — and then focuses the card wherever
+     * it now is, so focus is never left on a node the rebuild removed.
+     */
     #moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
+        if (toColumn.id === card.columnId) {
+            this.#closeMoveMenu();
+            return;
+        }
+        this.#closeMoveMenu(false);
         this.#onMove?.(card.id, toColumn.id);
         this.dispatchEvent(
             new CustomEvent<KanbanBoardMoveDetail>("movecard", {
@@ -298,7 +309,27 @@ export class KanbanBoard extends HTMLElement {
         this.#announce(
             this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title),
         );
-        this.#closeMoveMenu();
+        this.#focusCard(card.id);
+    }
+
+    /** The cell holding a card, found by its id wherever the card now is. */
+    #cellForCard(cardId: string): HTMLTableCellElement | undefined {
+        for (const cell of this.#cellEls.values()) {
+            if (cell.dataset.cardId === cardId) return cell;
+        }
+        return undefined;
+    }
+
+    /**
+     * Move the roving cursor to a card and focus it: its move button, or its
+     * cell when there is no button.
+     */
+    #focusCard(cardId: string): void {
+        const cell = this.#cellForCard(cardId);
+        if (!cell) return;
+        this.#setActiveCell(Number(cell.dataset.row), Number(cell.dataset.col));
+        const target = this.#moveButtonEls.get(cardId) ?? cell;
+        target.focus({ preventScroll: true });
     }
 
     #openMoveMenu(card: KanbanCard): void {
@@ -307,16 +338,23 @@ export class KanbanBoard extends HTMLElement {
         if (this.#openCardId && this.#openCardId !== card.id) {
             this.#closeMoveMenu(false);
         }
+        const cell = this.#cellForCard(card.id);
+        if (!cell) return;
+        // The button exists only when labels.moveButton names it; Enter/Space
+        // on the cell opens the menu either way.
         const button = this.#moveButtonEls.get(card.id);
-        if (!button) return;
+        const listId = `${this.#baseId}-move-list`;
 
         this.#openCardId = card.id;
-        button.setAttribute("aria-expanded", "true");
+        button?.setAttribute("aria-expanded", "true");
+        button?.setAttribute("aria-controls", listId);
 
         const list = document.createElement("ul");
+        list.id = listId;
         list.className = "kanban-board-move-list";
         list.setAttribute("role", "listbox");
-        list.setAttribute("aria-label", this.#labels.moveMenuLabel ?? "");
+        // Named by the card itself when no menu label is given.
+        list.setAttribute("aria-label", this.#labels.moveMenuLabel ?? this.#cardLabel(card));
         list.setAttribute("tabindex", "-1");
 
         const optionEls: HTMLLIElement[] = [];
@@ -335,7 +373,7 @@ export class KanbanBoard extends HTMLElement {
             optionEls.push(li);
         });
 
-        button.insertAdjacentElement("afterend", list);
+        cell.appendChild(list);
         this.#moveListEl = list;
         this.#moveOptionEls = optionEls;
 
@@ -367,7 +405,7 @@ export class KanbanBoard extends HTMLElement {
                 // list first would drop focus to <body>, and the browser
                 // would then compute Tab's default target from the top of
                 // the document instead of from here.
-                button.focus({ preventScroll: true });
+                (button ?? cell).focus({ preventScroll: true });
                 this.#closeMoveMenu(false);
             },
         });
@@ -393,7 +431,8 @@ export class KanbanBoard extends HTMLElement {
         // comment on #moveButtonEls and spec/index.md §10).
         const button = this.#moveButtonEls.get(cardId);
         button?.setAttribute("aria-expanded", "false");
-        if (refocus) button?.focus({ preventScroll: true });
+        button?.removeAttribute("aria-controls");
+        if (refocus) this.#focusCard(cardId);
     }
 
     // ---- Pointer drag-and-drop (supplementary, never the only path) ----
@@ -412,7 +451,8 @@ export class KanbanBoard extends HTMLElement {
         const cardId = this.#draggingCardId ?? event.dataTransfer?.getData("text/plain");
         this.#draggingCardId = null;
         const card = this.#cards.find((c) => c.id === cardId);
-        if (card) this.#moveCard(card, column);
+        // Dropping a card back on its own column is not a move.
+        if (card && card.columnId !== column.id) this.#moveCard(card, column);
     }
 
     // ---- Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern) ----
@@ -436,8 +476,18 @@ export class KanbanBoard extends HTMLElement {
         cell?.focus({ preventScroll: true });
     }
 
+    /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+    #onGridFocusin(event: FocusEvent): void {
+        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        if (!cell) return;
+        this.#setActiveCell(Number(cell.dataset.row), Number(cell.dataset.col));
+    }
+
     #onGridKeydown(event: KeyboardEvent): void {
         const target = event.target as HTMLElement;
+        // The open move menu owns its own keys; letting them bubble here moved the
+        // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
+        if (target.closest(".kanban-board-move-list")) return;
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const cardsByColumn = this.#cardsByColumn();
@@ -508,6 +558,7 @@ export class KanbanBoard extends HTMLElement {
         table.addEventListener("keydown", (event) =>
             this.#onGridKeydown(event as KeyboardEvent),
         );
+        table.addEventListener("focusin", (event) => this.#onGridFocusin(event as FocusEvent));
 
         if (this.caption) {
             const caption = document.createElement("caption");
@@ -566,7 +617,10 @@ export class KanbanBoard extends HTMLElement {
                 td.setAttribute("data-col", String(colIndex));
                 const active = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
                 td.setAttribute("tabindex", active ? "0" : "-1");
-                if (card) td.setAttribute("aria-label", this.#cardLabel(card));
+                if (card) {
+                    td.setAttribute("aria-label", this.#cardLabel(card));
+                    td.dataset.cardId = card.id;
+                }
                 td.addEventListener("dragover", (event) =>
                     this.#onColumnDragOver(event as DragEvent),
                 );
@@ -584,20 +638,24 @@ export class KanbanBoard extends HTMLElement {
                     );
                     td.appendChild(titleSpan);
 
-                    const button = document.createElement("button");
-                    button.type = "button";
-                    button.className = "kanban-board-move-button";
-                    button.setAttribute("aria-label", this.#labels.moveButton?.(card) ?? "");
-                    button.setAttribute("aria-haspopup", "listbox");
-                    button.setAttribute("aria-expanded", "false");
-                    button.setAttribute("tabindex", "-1");
-                    button.appendChild(this.renderMoveButtonIcon());
-                    button.addEventListener("click", () => {
-                        if (this.#openCardId === card.id) this.#closeMoveMenu();
-                        else this.#openMoveMenu(card);
-                    });
-                    td.appendChild(button);
-                    this.#moveButtonEls.set(card.id, button);
+                    // Gated on labels.moveButton: an unnamed button is worse than
+                    // none, and Enter/Space on the cell opens the menu either way.
+                    if (this.#labels.moveButton) {
+                        const button = document.createElement("button");
+                        button.type = "button";
+                        button.className = "kanban-board-move-button";
+                        button.setAttribute("aria-label", this.#labels.moveButton(card));
+                        button.setAttribute("aria-haspopup", "listbox");
+                        button.setAttribute("aria-expanded", "false");
+                        button.setAttribute("tabindex", "-1");
+                        button.appendChild(this.renderMoveButtonIcon());
+                        button.addEventListener("click", () => {
+                            if (this.#openCardId === card.id) this.#closeMoveMenu();
+                            else this.#openMoveMenu(card);
+                        });
+                        td.appendChild(button);
+                        this.#moveButtonEls.set(card.id, button);
+                    }
                 }
 
                 tr.appendChild(td);

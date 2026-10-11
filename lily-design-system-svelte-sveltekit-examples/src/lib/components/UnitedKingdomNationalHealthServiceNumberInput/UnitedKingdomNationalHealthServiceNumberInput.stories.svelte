@@ -3,7 +3,7 @@
   import UnitedKingdomNationalHealthServiceNumberInput from './UnitedKingdomNationalHealthServiceNumberInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/UnitedKingdomNationalHealthServiceNumberInput',
+    title: 'Headless/UnitedKingdomNationalHealthServiceNumberInput',
     component: UnitedKingdomNationalHealthServiceNumberInput,
   });
 </script>

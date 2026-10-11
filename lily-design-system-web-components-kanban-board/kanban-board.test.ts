@@ -281,6 +281,7 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
     mount({});
     press(tabbableCells()[0], "Enter");
     const list = openListFor("Card One");
+    press(list, "ArrowDown");
     press(list, "Enter");
     expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
   });
@@ -292,12 +293,77 @@ describe("KanbanBoard — announcements and extra attributes (§8.11, §8.12)", 
 });
 
 describe("KanbanBoard — no hardcoded strings (§8.13)", () => {
-  test("§8.13 move button and listbox carry no text unless a label supplies it", () => {
+  test("§8.13 without labels there is no unnamed move button, and the menu is named by the card", () => {
     mount({});
-    const button = moveButtonFor("Card One");
-    expect(button.getAttribute("aria-label")).toBe("");
+    expect(document.querySelector(".kanban-board-move-button")).toBeNull();
     press(tabbableCells()[0], "Enter");
     const list = openListFor("Card One");
-    expect(list.getAttribute("aria-label")).toBe("");
+    expect(list.getAttribute("aria-label")).toBe("Card One");
+  });
+});
+
+describe("KanbanBoard — focus, tab stop and move edge cases", () => {
+  function option(list: HTMLElement, name: string): HTMLElement {
+    return Array.from(list.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find(
+      (el) => el.textContent?.trim() === name,
+    )!;
+  }
+
+  function dragEvent(type: string, dataTransfer: unknown): Event {
+    const event = new Event(type, { bubbles: true, cancelable: true });
+    Object.defineProperty(event, "dataTransfer", { value: dataTransfer });
+    return event;
+  }
+
+  test("§8.8 after a move, focus and the tab stop follow the card to its new column", () => {
+    const el = mount({ labels: LABELS });
+    el.onMove = (id, columnId) => {
+      el.cards = CARDS.map((c) => (c.id === id ? { ...c, columnId } : c));
+    };
+    press(tabbableCells()[0], "Enter");
+    click(option(openListFor("Card One"), "Done"));
+    expect(document.activeElement).toBe(moveButtonFor("Card One"));
+    expect(tabbableCells()).toHaveLength(1);
+    expect(tabbableCells()[0].getAttribute("data-col")).toBe("2");
+  });
+
+  test("§8.15 choosing the card's own column, or dropping it there, is not a move", () => {
+    const onMove = vi.fn();
+    mount({ labels: LABELS, onMove });
+    press(tabbableCells()[0], "Enter");
+    click(option(openListFor("Card One"), "To Do"));
+    expect(document.querySelector(".kanban-board-move-list:not([hidden])")).toBeNull();
+    expect(document.querySelector(".kanban-board-status")?.textContent).toBe("");
+
+    const dataTransfer = { setData: vi.fn(), getData: vi.fn(() => "c1") };
+    const title = Array.from(document.querySelectorAll(".kanban-board-card-title")).find(
+      (el) => el.textContent === "Card One",
+    )!;
+    title.dispatchEvent(dragEvent("dragstart", dataTransfer));
+    bodyRows()[1].querySelectorAll("td")[0].dispatchEvent(dragEvent("drop", dataTransfer));
+    expect(onMove).not.toHaveBeenCalled();
+  });
+
+  test("§8.16 focusing a cell by pointer moves the cursor there", () => {
+    mount({});
+    const cell = bodyRows()[1].querySelectorAll<HTMLElement>("td")[1];
+    cell.focus();
+    expect(tabbableCells()).toEqual([cell]);
+    press(cell, "ArrowUp");
+    expect(tabbableCells()[0].getAttribute("data-row")).toBe("0");
+    expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+  });
+
+  test("§8.13 without labels.moveButton, Escape returns focus to the card's cell", () => {
+    mount({});
+    const cell = tabbableCells()[0];
+    press(cell, "Enter");
+    press(openListFor("Card One"), "Escape");
+    expect(document.activeElement).toBe(cell);
+  });
+
+  test("§8.3 a column exactly at its wipLimit is not over it", () => {
+    mount({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS });
+    expect(headers()[1].hasAttribute("data-over-limit")).toBe(false);
   });
 });

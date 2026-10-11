@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SwitchButton from './SwitchButton';
 
 const meta = {
-  title: 'Examples/SwitchButton',
+  title: 'Headless/SwitchButton',
   component: SwitchButton,
   tags: ['autodocs']
 } satisfies Meta<typeof SwitchButton>;

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import LiechtensteinNationalIdentityCardNumberView from './LiechtensteinNationalIdentityCardNumberView.vue';
 
 const meta = {
-  title: 'Examples/LiechtensteinNationalIdentityCardNumberView',
+  title: 'Headless/LiechtensteinNationalIdentityCardNumberView',
   component: LiechtensteinNationalIdentityCardNumberView,
   tags: ['autodocs']
 } satisfies Meta<typeof LiechtensteinNationalIdentityCardNumberView>;

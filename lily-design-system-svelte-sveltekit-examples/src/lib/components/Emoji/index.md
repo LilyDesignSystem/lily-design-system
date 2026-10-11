@@ -1,77 +1,100 @@
 # Emoji
 
-## Overview
+An emoji character wrapped in `<span role="img">` with a required `aria-label` so assistive technology announces a meaningful description instead of raw Unicode.
 
-Wraps an emoji character with proper accessibility semantics so that screen
-readers announce a meaningful description instead of the raw Unicode character.
-Renders a <span> with role="img" and a required aria-label. Use for any emoji
-that conveys meaning; decorative emoji should be hidden from assistive technology.
+## What it is
+
+`Emoji` makes meaningful emoji usage accessible. It renders a `<span role="img" aria-label={label}>` containing the emoji character. The label is required to encourage callers to supply a proper description.
 
 ## What it does
 
-A single emoji character with accessible name.
+- Renders `<span role="img" aria-label={label}>{emoji}</span>`.
+- Forwards `restProps` onto the `<span>`.
 
-## When to use
+## When to use it
 
-- Use when you need a single emoji character with accessible name.
+- Whenever an emoji conveys meaning that screen readers should announce (status indicators, ratings, prompts).
+- Inside buttons, badges, or inline content where the emoji is content, not decoration.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For purely decorative emoji — use an inline emoji and hide it from assistive technology with `aria-hidden="true"`.
+- For emoji pickers. Use `EmojiCharacterPicker` for a grid of selectable emoji.
+- For font-icon icons. Use `Icon` instead.
 
-## Usage
+## How to use it
 
-```svelte
-<Emoji emoji="👍" label="Thumbs up" />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `emoji` | string, required | The emoji character(s) to display. |
-| `label` | string, required | Accessible name describing the emoji for screen readers. |
-| `...restProps` | additional HTML attributes spread onto the <span> |  |
-
-## Examples
+Pass the emoji and a descriptive label.
 
 ```svelte
-<!-- Thumbs up emoji -->
-<Emoji emoji="👍" label="Thumbs up" />
-
-<!-- Warning emoji -->
-<Emoji emoji="⚠️" label="Warning" />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Emoji from "#lib/components/Emoji/Emoji.svelte";
+    import Emoji from "./Emoji.svelte";
 </script>
 
 <Emoji emoji="👍" label="Thumbs up" />
 ```
 
-## Keyboard
+## Props
 
-- None — passive inline display element
+| Prop      | Type      | Default  | Description                              |
+| --------- | --------- | -------- | ---------------------------------------- |
+| `class`   | `string`  | `""`     | CSS class appended to the base class.   |
+| `emoji`   | `string`  | required | The emoji character(s).                  |
+| `label`   | `string`  | required | Accessible description via `aria-label`. |
+| `...rest` | `unknown` | —        | Additional HTML attributes on the span.  |
+
+## Usage
+
+### 1. Thumbs up
+
+```svelte
+<Emoji emoji="👍" label="Thumbs up" />
+```
+
+### 2. Warning symbol
+
+```svelte
+<Emoji emoji="⚠️" label="Warning" />
+```
+
+### 3. Inside a button
+
+```svelte
+<button type="button">
+    <Emoji emoji="🗑️" label="Delete" />
+</button>
+```
+
+### 4. Inline in prose
+
+```svelte
+<p>
+    Give feedback by tapping
+    <Emoji emoji="😊" label="Happy face" />
+    or
+    <Emoji emoji="😞" label="Sad face" />
+    .
+</p>
+```
+
+### 5. Flags with locale-appropriate labels
+
+```svelte
+<Emoji emoji="🇫🇷" label="France" />
+<Emoji emoji="🇪🇸" label="Spain" />
+```
 
 ## Accessibility
 
-- role="img" identifies the emoji as an image for assistive technologies
-- aria-label provides a textual description of the emoji character
+- `role="img"` with `aria-label` ensures screen readers announce the description rather than the raw character.
+- Always pass a meaningful label; for purely decorative emoji, use inline text with `aria-hidden="true"` instead of this component.
 
-## Internationalization
+## Related components
 
-- The label prop accepts any string; consumers provide localized descriptions
-- Emoji characters are locale-independent
-
-## References
-
-- WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
+- `EmojiCharacterPicker` — grid of selectable emoji for pickers.
+- `Icon` — generic icon container.
+- `Character` — single character display primitive.
+- `ScreenReaderSpan` — visually hidden descriptive text.
 
 ---
 

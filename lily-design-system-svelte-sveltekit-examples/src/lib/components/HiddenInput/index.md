@@ -1,75 +1,126 @@
 # HiddenInput
 
-## Overview
+A hidden form input that renders a native `<input type="hidden">` element for passing data in form submissions without any visible or editable UI. Useful for CSRF tokens, record IDs, or any non-displayed metadata.
 
-A hidden form input that renders a native <input type="hidden"> element for passing
-data in forms that should not be visible or editable by the user. Useful for including
-hidden form values such as CSRF tokens, record IDs, or other metadata that must be
-submitted with a form but has no visual presence.
+## What it is
+
+A Svelte 5 thin wrapper around `<input type="hidden">` with a required `name` and an optional `value`. The hidden input is not visible, not focusable, and not perceivable by users.
 
 ## What it does
 
-A hidden input for including data in form submission <input type="hidden">.
+- Renders `<input class="hidden-input ..." type="hidden" name={name} value={value}>`.
+- Spreads any additional HTML attributes onto the `<input>` element.
 
-## When to use
+## When to use it
 
-- Use when you need a hidden input for including data in form submission <input type="hidden">.
+- Including non-editable metadata in a form submission (CSRF token, record ID, form step).
+- Passing server-side context back on submit without showing it to users.
+- Any place a native `<input type="hidden">` is appropriate.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For visible text input. Use `TextInput`.
+- For form state that is not submitted. Use local component state (e.g. `$state`).
+- For client-only secrets. Hidden inputs are still readable in the DOM - do not treat them as secure.
+- For password fields. Use `PasswordInput`.
+
+## How to use it
+
+Place inside a `<form>` (or `Form`) and set the `name` and `value` for the data to submit.
+
+## Props
+
+- `class` (string, optional) - CSS class appended after the base `hidden-input` class.
+- `name` (string, required) - Form field name.
+- `value` (string, default `""`) - Hidden input value.
+- `...restProps` - Additional HTML attributes spread onto the `<input>`.
 
 ## Usage
 
 ```svelte
-<HiddenInput name="csrf" value={token} />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `name` | string, required | The form field name attribute. |
-| `value` | string, default "" | The hidden input value. |
-| `...restProps` | additional HTML attributes spread onto the input element |  |
-
-## Examples
-
-```svelte
-<!-- CSRF token hidden input -->
-<HiddenInput name="csrf" value={token} />
-
-<!-- Record ID hidden input -->
-<HiddenInput name="record_id" value={id} />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import HiddenInput from "#lib/components/HiddenInput/HiddenInput.svelte";
+    import HiddenInput from "./HiddenInput.svelte";
+    const csrfToken = "abc123";
 </script>
 
-<HiddenInput name="csrf" value={token} />
+<form method="post">
+    <HiddenInput name="csrf" value={csrfToken} />
+    <button type="submit">Submit</button>
+</form>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import HiddenInput from "./HiddenInput.svelte";
+    let recordId = $state("42");
+</script>
 
-- None — hidden inputs are not visible or focusable
+<form>
+    <HiddenInput name="record_id" value={recordId} />
+    <label>New name <input name="name" /></label>
+    <button type="submit">Save</button>
+</form>
+```
+
+```svelte
+<script lang="ts">
+    import HiddenInput from "./HiddenInput.svelte";
+    let step = $state("2");
+</script>
+
+<form>
+    <HiddenInput name="wizard_step" value={step} />
+    <p>Step {step} of 3</p>
+</form>
+```
+
+```svelte
+<script lang="ts">
+    import Form from "../Form/Form.svelte";
+    import HiddenInput from "./HiddenInput.svelte";
+    function handleSubmit(e: SubmitEvent) {
+        const data = new FormData(e.target as HTMLFormElement);
+        console.log(Object.fromEntries(data));
+    }
+</script>
+
+<Form label="Edit record" onsubmit={handleSubmit}>
+    <HiddenInput name="id" value="101" />
+    <label>Title <input name="title" /></label>
+    <button type="submit">Save</button>
+</Form>
+```
+
+```svelte
+<script lang="ts">
+    import HiddenInput from "./HiddenInput.svelte";
+    const fields = [
+        { name: "user_id", value: "u-1" },
+        { name: "org_id", value: "o-9" },
+    ];
+</script>
+
+<form>
+    {#each fields as f}
+        <HiddenInput name={f.name} value={f.value} data-testid={f.name} />
+    {/each}
+    <button type="submit">Save</button>
+</form>
+```
 
 ## Accessibility
 
-- No ARIA attributes needed because hidden inputs are not perceivable by any user
+- No ARIA attributes applied; hidden inputs are not perceivable to any user.
+- Not focusable and not in the Tab sequence.
+- Consumers should not use hidden inputs to carry user-visible information.
 
-## Internationalization
+## Related components
 
-- No user-facing strings; name and value are programmatic data
-
-## References
-
-- HTML hidden input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden
+- `TextInput` - visible text input.
+- `NumberInput` - numeric input.
+- `PasswordInput` - password input.
+- `Input` - generic HTML input wrapper.
+- `Form` - form wrapper with accessibility.
 
 ---
 

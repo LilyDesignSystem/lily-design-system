@@ -3,7 +3,7 @@
   import Sparkline from './Sparkline.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Sparkline',
+    title: 'Headless/Sparkline',
     component: Sparkline,
   });
 </script>

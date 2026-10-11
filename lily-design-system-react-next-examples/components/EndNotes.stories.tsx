@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EndNotes from './EndNotes';
 
 const meta = {
-  title: 'Examples/EndNotes',
+  title: 'Headless/EndNotes',
   component: EndNotes,
   tags: ['autodocs']
 } satisfies Meta<typeof EndNotes>;

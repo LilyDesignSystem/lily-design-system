@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ItaliaCodiceFiscaleView from './ItaliaCodiceFiscaleView';
 
 const meta = {
-  title: 'Examples/ItaliaCodiceFiscaleView',
+  title: 'Headless/ItaliaCodiceFiscaleView',
   component: ItaliaCodiceFiscaleView,
   tags: ['autodocs']
 } satisfies Meta<typeof ItaliaCodiceFiscaleView>;

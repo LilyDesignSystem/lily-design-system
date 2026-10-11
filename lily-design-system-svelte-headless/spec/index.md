@@ -85,22 +85,22 @@ lily-design-system-svelte-headless/
 │   ├── {PascalCase}.md                   ← author-facing notes
 │   ├── {PascalCase}.test.ts              ← vitest spec
 │   └── {PascalCase}.stories.svelte       ← Storybook story
-├── src/lib/components/{PascalCase}/      ← mirror of components/ for SvelteKit
-│                                           consumers (kept in sync)
 ├── package.json
 ├── vite.config.ts
 ├── vitest-setup.js
 └── tsconfig.json
 ```
 
-Both `components/` and `src/lib/components/` exist because consumers may
-import either path depending on how they consume the library (raw vs.
-SvelteKit lib alias). They are kept in sync 1:1.
+`components/` is the one source: `build.mjs` publishes it to `dist/`. A
+`src/lib/components/` mirror existed until 2026-10-11, described as a second
+import path for SvelteKit consumers; no consumer could reach it (the package
+ships only `dist/`), and it had drifted — 48 national-identifier components
+were still scaffold placeholders there, and `IconButton`/`Listbox` lacked the
+September composition features — so it was removed (tasks.md P10-T13).
 
 ## 4. Per-component contract
 
-Each component lives in `components/{PascalCase}/` and
-`src/lib/components/{PascalCase}/`. Required files in each directory:
+Each component lives in `components/{PascalCase}/`. Required files in each directory:
 
 - `index.md` — human documentation (description, when-to-use, when-not-to-use,
   usage, props, ARIA, keyboard, references).
@@ -214,7 +214,6 @@ pnpm run storybook                   # run Storybook
 
 - [ ] All 490 canonical components from [../components.tsv](../../components.tsv)
       have a directory in `components/{PascalCase}/`.
-- [ ] All 490 directories are mirrored under `src/lib/components/{PascalCase}/`.
 - [ ] Each directory has the 10 required files (see §4).
 - [ ] Every component implements the HTML tag specified in its
       `AGENTS.md → HTML tag`.
@@ -276,7 +275,7 @@ pnpm run storybook                   # run Storybook
 
 - [x] All 490 canonical components compile cleanly.
 - [x] `components/` ↔ `src/lib/components/` 1:1 mirror verified
-      (815 test files = 2 × 490 + 1).
+      (815 test files = 2 × 490 + 1). Superseded 2026-10-11: the mirror was removed.
 - [x] `pnpm exec vitest run` passes: **4,016 / 4,016 tests, zero failures**.
 - [x] CSS class-name audit: **490 / 490** components reference their canonical
       kebab-case base class.

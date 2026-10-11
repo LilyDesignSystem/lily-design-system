@@ -3,7 +3,7 @@
   import EspanaTarjetaSanitariaIndividualInput from './EspanaTarjetaSanitariaIndividualInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EspanaTarjetaSanitariaIndividualInput',
+    title: 'Headless/EspanaTarjetaSanitariaIndividualInput',
     component: EspanaTarjetaSanitariaIndividualInput,
   });
 </script>

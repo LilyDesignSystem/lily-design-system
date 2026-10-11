@@ -1,84 +1,124 @@
 # ColorPicker
 
-## Overview
+A headless 2D selector for choosing coordinates on a picker board: `x` for saturation (0–100) and `y` for brightness (0–100). It uses `role="slider"` with keyboard arrow-key navigation and exposes `data-x`/`data-y` so consumers can position a visual cursor via CSS.
 
-A headless 2D area selector for choosing colors by saturation (X axis, 0-100)
-and brightness (Y axis, 0-100). Users navigate the board with keyboard arrow
-keys, with Shift held for larger steps (10 instead of 1). The component exposes
-data-x and data-y attributes for CSS-based cursor positioning. Useful for
-advanced color pickers requiring fine-grained 2D color property selection.
+## What it is
+
+ColorPicker renders a `<div role="slider">` with `tabindex="0"` (when enabled), `aria-valuenow` reflecting `x`, and `aria-valuemin=0`/`aria-valuemax=100`. Arrow keys update `x`/`y` by 1 (or 10 with Shift). Home/End set `x` to 0 or 100.
+
+Both `x` and `y` use `$bindable()` for two-way binding.
 
 ## What it does
 
-A two-dimensional board for picking colors by hue and saturation.
+- Renders an accessible slider-like region with ARIA attributes.
+- Handles keyboard navigation for 2D selection.
+- Exposes coordinates via `data-x` and `data-y` for CSS cursor placement.
+- Sets `aria-disabled` and `tabindex=-1` when disabled.
 
-## When to use
+## When to use it
 
-- Use when the user should choose from a bounded set of visual options.
+- Advanced color pickers where users pick saturation/brightness visually.
+- 2D coordinate pickers where the axes represent any pair of values in 0–100.
+- Composing with `ColorPickerButton` swatches for preset colors.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simple `<Select>` or radio group would communicate options better.
+- For selecting a single hex color — use `ColorInput`.
+- For linear value selection — use `Slider` or `RangeInput`.
+- For a hue ring — build a custom variant (hue is not covered here).
+
+## How to use it
+
+Bind `x` and `y` state, paint a background behind the component (hue gradient is the consumer's responsibility), and position a visual cursor from `[data-x]`/`[data-y]` in CSS.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `x` | `number` | `0` (bindable) | Horizontal position, 0–100. |
+| `y` | `number` | `0` (bindable) | Vertical position, 0–100. |
+| `label` | `string` | required | `aria-label`. |
+| `disabled` | `boolean` | `false` | Disables keyboard interaction. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<div>`. |
 
 ## Usage
 
 ```svelte
-<ColorPicker label="Color saturation and brightness" bind:x bind:y />
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `x` | number, default 0 | Horizontal position (0-100, saturation); bindable via bind:x. |
-| `y` | number, default 0 | Vertical position (0-100, brightness); bindable via bind:y. |
-| `label` | string, required | Accessible name via aria-label. |
-| `disabled` | boolean, default false | Whether the control is disabled. |
-| `...restProps` | additional HTML attributes spread onto the <div> |  |
-
-## Examples
-
-```svelte
-<!-- Disabled board with initial position -->
-<ColorPicker label="Select color" bind:x bind:y disabled />
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ColorPicker from "#lib/components/ColorPicker/ColorPicker.svelte";
+    import ColorPicker from "./ColorPicker.svelte";
+
+    let saturation = $state(50);
+    let brightness = $state(50);
 </script>
 
-<ColorPicker label="Color saturation and brightness" bind:x bind:y />
+<ColorPicker label="Saturation and brightness" bind:x={saturation} bind:y={brightness} />
+<p>S: {saturation}, B: {brightness}</p>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import ColorPicker from "./ColorPicker.svelte";
+    import ColorPickerButton from "../ColorPickerButton/ColorPickerButton.svelte";
 
-- ArrowRight: Increase X by 1 (Shift: by 10)
-- ArrowLeft: Decrease X by 1 (Shift: by 10)
-- ArrowUp: Decrease Y by 1 (Shift: by 10)
-- ArrowDown: Increase Y by 1 (Shift: by 10)
-- Home: Set X to 0
-- End: Set X to 100
+    let x = $state(0);
+    let y = $state(0);
+    let selected = $state("#ff0000");
+    const presets = [
+        { color: "#ff0000", label: "Red" },
+        { color: "#00ff00", label: "Green" },
+        { color: "#0000ff", label: "Blue" }
+    ];
+</script>
+
+<ColorPicker label="Color board" bind:x bind:y />
+{#each presets as p}
+    <ColorPickerButton
+        color={p.color}
+        label={p.label}
+        selected={selected === p.color}
+        onclick={() => (selected = p.color)}
+    />
+{/each}
+```
+
+```svelte
+<script lang="ts">
+    import ColorPicker from "./ColorPicker.svelte";
+
+    let x = $state(25);
+    let y = $state(75);
+</script>
+
+<ColorPicker label="Color" bind:x bind:y disabled />
+```
+
+```svelte
+<script lang="ts">
+    import ColorPicker from "./ColorPicker.svelte";
+
+    let x = $state(0);
+    let y = $state(0);
+
+    function reset() { x = 0; y = 0; }
+</script>
+
+<ColorPicker label="Pick" bind:x bind:y />
+<button type="button" onclick={reset}>Reset</button>
+```
 
 ## Accessibility
 
-- role="slider" identifies the element as a slider control
-- aria-label provides an accessible name
-- aria-valuenow reflects the current X value (0-100)
-- aria-valuemin="0" and aria-valuemax="100" define the range
-- aria-disabled is set when the control is disabled
+- `role="slider"` with `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` exposes the numeric value.
+- Keyboard support: ArrowLeft/Right change `x` by 1 (Shift = 10); ArrowUp/Down change `y`; Home/End set `x` to 0/100.
+- `aria-disabled` and `tabindex=-1` when `disabled`.
+- The slider pattern here only reflects `x` via `aria-valuenow`. For explicit Y exposure, screen-reader users may need supplementary announcements; combine with a separate `aria-live` readout if Y must be heard.
 
-## Internationalization
+## Related components
 
-- The label prop provides the accessible name; no hardcoded strings
-
-## References
-
-- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
+- `ColorPickerButton` — preset swatch button.
+- `ColorInput` — native `<input type="color">`.
+- `Slider`, `RangeInput` — 1D selection.
 
 ---
 

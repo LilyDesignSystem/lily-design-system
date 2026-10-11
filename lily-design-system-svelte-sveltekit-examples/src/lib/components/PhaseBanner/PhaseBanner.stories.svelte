@@ -3,7 +3,7 @@
   import PhaseBanner from './PhaseBanner.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/PhaseBanner',
+    title: 'Headless/PhaseBanner',
     component: PhaseBanner,
   });
 </script>

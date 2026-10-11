@@ -1,85 +1,144 @@
 # DateRange
 
-## Overview
+A headless paired start/end date range control. It renders a `<fieldset aria-label>` containing two native `<input type="date">` elements, each with its own `aria-label`. Both `start` and `end` are bindable.
 
-A headless date range providing paired start and end date inputs within a
-semantic <fieldset>. It allows users to specify a span of time using two native
-<input type="date"> elements, each with its own accessible label. Both values
-support two-way binding for reactive state management. Commonly used in booking
-forms, search filters, reporting interfaces, and scheduling tools.
+## What it is
+
+DateRange renders:
+
+```html
+<fieldset aria-label={label}>
+  <input type="date" aria-label={startLabel} bind:value={start} />
+  <input type="date" aria-label={endLabel} bind:value={end} />
+</fieldset>
+```
+
+It groups two date inputs semantically under a shared label.
 
 ## What it does
 
-A display of a start and end date range.
+- Renders a `<fieldset>` with `aria-label`.
+- Renders two `<input type="date">` elements with individual `aria-label`s.
+- Two-way binds `start` and `end`.
 
-## When to use
+## When to use it
 
-- Use when you need paired start and end date inputs.
+- Date ranges in booking forms, reports, timelines, filters.
+- Any UI where a pair of related dates must be labelled together.
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- For a single date — use `DateField` or `DateInput`.
+- For more complex range pickers with a calendar — use `CalendarRangePicker`.
+- For a datetime range — compose `DateTimeLocalInput` manually.
+
+## How to use it
+
+Provide three labels: `label` (group), `startLabel`, `endLabel`. Bind `start` and `end` to `$state` strings.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name appended to the base class. |
+| `label` | `string` | required | Group `aria-label` on the `<fieldset>`. |
+| `startLabel` | `string` | required | `aria-label` for the start input. |
+| `endLabel` | `string` | required | `aria-label` for the end input. |
+| `start` | `string` | `""` (bindable) | Start date (YYYY-MM-DD). |
+| `end` | `string` | `""` (bindable) | End date (YYYY-MM-DD). |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<fieldset>`. |
 
 ## Usage
 
 ```svelte
-<DateRange label="Trip dates" startLabel="Departure" endLabel="Return" bind:start bind:end />
-```
+<script lang="ts">
+    import DateRange from "./DateRange.svelte";
 
-## Props
+    let start = $state("");
+    let end = $state("");
+</script>
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible group label applied to the fieldset via aria-label. |
-| `startLabel` | string, required | Accessible label for the start date input. |
-| `endLabel` | string, required | Accessible label for the end date input. |
-| `start` | string, default "" | Start date value in YYYY-MM-DD format; bindable. |
-| `end` | string, default "" | End date value in YYYY-MM-DD format; bindable. |
-| `...restProps` | additional HTML attributes spread onto the <fieldset> |  |
-
-## Examples
-
-```svelte
-<!-- Date range for a project timeline -->
 <DateRange
-  label="Project timeline"
-  startLabel="Start date"
-  endLabel="End date"
-  bind:start
-  bind:end
+    label="Trip dates"
+    startLabel="Departure"
+    endLabel="Return"
+    bind:start
+    bind:end
 />
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateRange from "#lib/components/DateRange/DateRange.svelte";
+    import DateRange from "./DateRange.svelte";
+
+    let start = $state("");
+    let end = $state("");
 </script>
 
-<DateRange label="Trip dates" startLabel="Departure" endLabel="Return" bind:start bind:end />
+<DateRange
+    label="Project timeline"
+    startLabel="Start date"
+    endLabel="End date"
+    bind:start
+    bind:end
+/>
+<p>From {start} to {end}</p>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import DateRange from "./DateRange.svelte";
 
-- Tab: Move focus between the start and end date inputs
-- Arrow keys: Navigate within date picker fields (native browser behavior)
+    let start = $state("2025-01-01");
+    let end = $state("2025-01-31");
+</script>
+
+<DateRange
+    label="January"
+    startLabel="Start"
+    endLabel="End"
+    bind:start
+    bind:end
+/>
+```
+
+```svelte
+<script lang="ts">
+    import DateRange from "./DateRange.svelte";
+
+    let start = $state("");
+    let end = $state("");
+
+    function submit(e: SubmitEvent) {
+        e.preventDefault();
+        console.log({ start, end });
+    }
+</script>
+
+<form onsubmit={submit}>
+    <DateRange
+        label="Booking window"
+        startLabel="Check-in"
+        endLabel="Check-out"
+        bind:start
+        bind:end
+    />
+    <button type="submit">Search</button>
+</form>
+```
 
 ## Accessibility
 
-- aria-label on <fieldset> provides an accessible group name for the date range pair
-- aria-label on each input provides individual accessible names
+- `<fieldset aria-label>` groups the two inputs semantically.
+- Each input has its own `aria-label` for screen-reader navigation.
+- Native `<input type="date">` provides the date picker UI and keyboard support.
+- Consider adding `min={start}` on the end input to enforce chronological order.
 
-## Internationalization
+## Related components
 
-- The label, startLabel, and endLabel props provide all text; no hardcoded strings
-
-## References
-
-- MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
-- MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
+- `DateField` — single date with description and error.
+- `DateInput` — single bare date input.
+- `CalendarRangePicker` — full calendar-based range picker.
 
 ---
 

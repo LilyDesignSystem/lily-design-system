@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Sheet from './Sheet.vue';
 
 const meta = {
-  title: 'Examples/Sheet',
+  title: 'Headless/Sheet',
   component: Sheet,
   tags: ['autodocs']
 } satisfies Meta<typeof Sheet>;

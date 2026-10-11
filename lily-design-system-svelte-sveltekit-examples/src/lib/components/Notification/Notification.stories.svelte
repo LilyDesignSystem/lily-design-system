@@ -3,7 +3,7 @@
   import Notification from './Notification.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Notification',
+    title: 'Headless/Notification',
     component: Notification,
   });
 </script>

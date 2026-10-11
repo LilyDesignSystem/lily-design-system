@@ -3,7 +3,7 @@
   import ThemeProvider from './ThemeProvider.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ThemeProvider',
+    title: 'Headless/ThemeProvider',
     component: ThemeProvider,
   });
 </script>

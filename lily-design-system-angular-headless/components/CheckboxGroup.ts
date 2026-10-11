@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
   selector: "lily-checkbox-group",
   standalone: true,
-  template: `<div class="checkbox-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+  template: `<fieldset class="checkbox-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></fieldset>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxGroup {

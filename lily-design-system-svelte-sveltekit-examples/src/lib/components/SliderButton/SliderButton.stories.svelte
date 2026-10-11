@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import SliderButton from "./SliderButton.svelte";
     const { Story } = defineMeta({
-        title: "Examples/SliderButton",
+        title: "Headless/SliderButton",
         component: SliderButton,
     });
 </script>

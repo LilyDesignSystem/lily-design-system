@@ -1,7 +1,7 @@
 {#
   RadioGroup macro — a group of radio buttons for selecting one option.
 
-  HTML tag: <div role="radiogroup">
+  HTML tag: <fieldset role="radiogroup">
   CSS class: radio-group
   Accessibility:
     - role="radiogroup" groups the radios for assistive tech.
@@ -35,7 +35,7 @@
 #}
 {%- macro radioGroup(params) -%}
 {%- set p = params | default({}) -%}
-<div
+<fieldset
   class="radio-group{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
@@ -48,5 +48,5 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</div>
+</fieldset>
 {%- endmacro -%}

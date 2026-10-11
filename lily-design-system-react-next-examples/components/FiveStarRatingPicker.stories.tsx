@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import FiveStarRatingPicker from './FiveStarRatingPicker';
 
 const meta = {
-  title: 'Examples/FiveStarRatingPicker',
+  title: 'Headless/FiveStarRatingPicker',
   component: FiveStarRatingPicker,
   tags: ['autodocs']
 } satisfies Meta<typeof FiveStarRatingPicker>;

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import NetPromoterScorePickerButton from './NetPromoterScorePickerButton';
 
 const meta = {
-  title: 'Examples/NetPromoterScorePickerButton',
+  title: 'Headless/NetPromoterScorePickerButton',
   component: NetPromoterScorePickerButton,
   tags: ['autodocs']
 } satisfies Meta<typeof NetPromoterScorePickerButton>;

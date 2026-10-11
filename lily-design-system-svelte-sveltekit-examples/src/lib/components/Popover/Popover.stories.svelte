@@ -3,7 +3,7 @@
   import Popover from './Popover.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Popover',
+    title: 'Headless/Popover',
     component: Popover,
   });
 </script>

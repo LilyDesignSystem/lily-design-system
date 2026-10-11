@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import BreadcrumbList from './BreadcrumbList';
 
 const meta = {
-  title: 'Examples/BreadcrumbList',
+  title: 'Headless/BreadcrumbList',
   component: BreadcrumbList,
   tags: ['autodocs']
 } satisfies Meta<typeof BreadcrumbList>;

@@ -542,6 +542,13 @@ the grid so the zone is chosen before the instant.
   zone change.
 - No zone is selected unless the consumer sets one.
 
+### 5.10 Form reset
+
+When the picker sits in a `<form>` and the form is reset, the picker restores the value (and time zone) it had when
+first rendered — in the visible field, in the `v-model:value` model (through `update:value`), and in the hidden input the form submits — one tick after the
+`reset` event, so the browser has reset the DOM first, and not at all when a listener cancelled the reset
+(`preventDefault()`). Like a native reset, it emits no `change`. Before 2026-10-11 a reset blanked the field while the model and the hidden input kept the date, so the field showed nothing and the form still submitted the old value.
+
 ## 6. Accessibility
 
 ### 6.1 Roles and properties

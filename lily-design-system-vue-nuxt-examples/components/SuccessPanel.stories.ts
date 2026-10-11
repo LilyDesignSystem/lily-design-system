@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import SuccessPanel from './SuccessPanel.vue';
 
 const meta = {
-  title: 'Examples/SuccessPanel',
+  title: 'Headless/SuccessPanel',
   component: SuccessPanel,
   tags: ['autodocs']
 } satisfies Meta<typeof SuccessPanel>;

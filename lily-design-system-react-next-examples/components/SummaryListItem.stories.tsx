@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import SummaryListItem from './SummaryListItem';
 
 const meta = {
-  title: 'Examples/SummaryListItem',
+  title: 'Headless/SummaryListItem',
   component: SummaryListItem,
   tags: ['autodocs']
 } satisfies Meta<typeof SummaryListItem>;

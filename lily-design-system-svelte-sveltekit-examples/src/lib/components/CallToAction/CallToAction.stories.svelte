@@ -3,7 +3,7 @@
   import CallToAction from './CallToAction.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CallToAction',
+    title: 'Headless/CallToAction',
     component: CallToAction,
   });
 </script>

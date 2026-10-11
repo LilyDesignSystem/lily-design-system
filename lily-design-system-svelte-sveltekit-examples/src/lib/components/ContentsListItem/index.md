@@ -1,80 +1,110 @@
 # ContentsListItem
 
-## Overview
+A headless `<li>` for use inside `ContentsList`. It wraps consumer-provided content, typically an anchor link, and supports nesting for hierarchical document structures.
 
-A headless list item for use within a table of contents or navigation list.
-Renders a semantic <li> element that wraps consumer-provided content, typically
-an anchor link to a page section. Supports nesting for hierarchical
-document structures by placing a `<ol>` inside. Used as a child of
-ContentsList or any ordered/ordered list in a navigation context.
+## What it is
+
+ContentsListItem renders a bare `<li>` with spread attributes. It is a minimal structural element intended for use inside `<ol>`/`<ul>` (typically `ContentsList`).
+
+Note: the current source does not apply any base `class` to the `<li>`; the `className` prop is accepted but not applied.
 
 ## What it does
 
-One contents list item.
+- Renders `<li>` with all `restProps` spread onto it.
+- Renders children inside the `<li>`.
 
-## When to use
+## When to use it
 
-- Use as a child of the matching list component — never standalone.
+- Each entry in a table of contents.
+- Nested contents entries by placing another `<ol>`/`ContentsList` inside.
+- Any list item that should inherit `contents-list` semantics from a parent list.
 
-## When not to use
+## When not to use it
 
-- Do not use outside its parent list component.
+- For breadcrumb items — use `BreadcrumbListItem`.
+- For pagination items — use `PaginationListItem`.
+- For task items — use `CheckListItem` or `TaskListItem`.
+
+## How to use it
+
+Place inside `ContentsList`. Wrap a link inside. Use `aria-current="page"` or `aria-current="true"` to mark the current page.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `class` | `string` | `""` | CSS class name (accepted but not applied in current source). |
+| `children` | `Snippet` | required | List item content. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<li>`. |
 
 ## Usage
 
 ```svelte
-<ContentsListItem><a href="#section">Section</a></ContentsListItem>
-```
-
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | List item content (typically a link or nested list). |
-| `...restProps` | additional HTML attributes spread onto the <li> |  |
-
-## Examples
-
-```svelte
-<!-- Nested contents list items for subsections -->
-<ContentsListItem>
-  <a href="#section-3">Results</a>
-  <ul>
-    <ContentsListItem><a href="#section-3a">Data</a></ContentsListItem>
-    <ContentsListItem><a href="#section-3b">Analysis</a></ContentsListItem>
-  </ul>
-</ContentsListItem>
-```
-
-## SvelteKit example
-
-```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContentsListItem from "#lib/components/ContentsListItem/ContentsListItem.svelte";
+    import ContentsNav from "../ContentsNav/ContentsNav.svelte";
+    import ContentsList from "../ContentsList/ContentsList.svelte";
+    import ContentsListItem from "./ContentsListItem.svelte";
 </script>
 
-<ContentsListItem><a href="#section">Section</a></ContentsListItem>
+<ContentsNav label="On this page">
+    <ContentsList>
+        <ContentsListItem><a href="#intro">Introduction</a></ContentsListItem>
+        <ContentsListItem><a href="#usage">Usage</a></ContentsListItem>
+    </ContentsList>
+</ContentsNav>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+    import ContentsNav from "../ContentsNav/ContentsNav.svelte";
+    import ContentsList from "../ContentsList/ContentsList.svelte";
+    import ContentsListItem from "./ContentsListItem.svelte";
+</script>
 
-- None — keyboard interaction is handled by contained links or the parent list
+<ContentsNav label="Report">
+    <ContentsList>
+        <ContentsListItem>
+            <a href="#results">Results</a>
+            <ContentsList>
+                <ContentsListItem><a href="#data">Data</a></ContentsListItem>
+                <ContentsListItem><a href="#analysis">Analysis</a></ContentsListItem>
+            </ContentsList>
+        </ContentsListItem>
+    </ContentsList>
+</ContentsNav>
+```
+
+```svelte
+<script lang="ts">
+    import ContentsNav from "../ContentsNav/ContentsNav.svelte";
+    import ContentsList from "../ContentsList/ContentsList.svelte";
+    import ContentsListItem from "./ContentsListItem.svelte";
+
+    const currentId = "usage";
+</script>
+
+<ContentsNav label="Docs">
+    <ContentsList>
+        <ContentsListItem aria-current={currentId === "install" ? "true" : undefined}>
+            <a href="#install">Install</a>
+        </ContentsListItem>
+        <ContentsListItem aria-current={currentId === "usage" ? "true" : undefined}>
+            <a href="#usage">Usage</a>
+        </ContentsListItem>
+    </ContentsList>
+</ContentsNav>
+```
 
 ## Accessibility
 
-- Semantic <li> provides implicit listitem role
-- Should be placed within a <ul> or <ol> parent for valid HTML structure
-- Supports aria-current="page" or aria-current="true" on the <li> for current page indication
+- Semantic `<li>` provides the `listitem` role when inside a list.
+- Apply `aria-current="page"` or `aria-current="true"` on the `<li>` or on the inner anchor to flag the current entry.
 
-## Internationalization
+## Related components
 
-- All content is provided through the children snippet; no hardcoded strings
-
-## References
-
-- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
+- `ContentsList` — parent list.
+- `ContentsNav` — navigation landmark.
+- `ContentsLink` — standalone link variant.
 
 ---
 

@@ -3,7 +3,7 @@
   import Expander from './Expander.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Expander',
+    title: 'Headless/Expander',
     component: Expander,
   });
 </script>

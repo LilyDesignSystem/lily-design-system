@@ -2,7 +2,7 @@
     import { defineMeta } from "@storybook/addon-svelte-csf";
     import ChatListItem from "./ChatListItem.svelte";
     const { Story } = defineMeta({
-        title: "Examples/ChatListItem",
+        title: "Headless/ChatListItem",
         component: ChatListItem,
     });
 </script>

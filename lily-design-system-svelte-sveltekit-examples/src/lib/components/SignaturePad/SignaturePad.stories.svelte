@@ -3,7 +3,7 @@
   import SignaturePad from './SignaturePad.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/SignaturePad',
+    title: 'Headless/SignaturePad',
     component: SignaturePad,
   });
 </script>

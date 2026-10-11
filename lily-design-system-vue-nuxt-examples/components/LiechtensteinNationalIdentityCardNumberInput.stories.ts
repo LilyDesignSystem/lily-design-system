@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import LiechtensteinNationalIdentityCardNumberInput from './LiechtensteinNationalIdentityCardNumberInput.vue';
 
 const meta = {
-  title: 'Examples/LiechtensteinNationalIdentityCardNumberInput',
+  title: 'Headless/LiechtensteinNationalIdentityCardNumberInput',
   component: LiechtensteinNationalIdentityCardNumberInput,
   tags: ['autodocs']
 } satisfies Meta<typeof LiechtensteinNationalIdentityCardNumberInput>;

@@ -3,7 +3,7 @@
   import MonthInput from './MonthInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/MonthInput',
+    title: 'Headless/MonthInput',
     component: MonthInput,
   });
 </script>

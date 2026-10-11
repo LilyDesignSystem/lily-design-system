@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Statistic from './Statistic.vue';
 
 const meta = {
-  title: 'Examples/Statistic',
+  title: 'Headless/Statistic',
   component: Statistic,
   tags: ['autodocs']
 } satisfies Meta<typeof Statistic>;

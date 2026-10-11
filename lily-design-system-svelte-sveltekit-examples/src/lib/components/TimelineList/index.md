@@ -1,44 +1,50 @@
 # TimelineList
 
-## Overview
+An ordered list of chronological events, rendered as a semantic `<ol>` with an accessible `aria-label`, designed to contain `TimelineListItem` children.
 
-A headless timeline list that renders a semantic ordered list (<ol>) with
-an accessible label for displaying events, milestones, or activities in
-chronological order. Commonly used for project tracking, activity feeds,
-historical overviews, order history, or user journey visualization. The
-consumer provides TimelineListItem children through the snippet.
+## What it is
+
+`TimelineList` is a headless Svelte 5 container that renders an `<ol>` element with an `aria-label`. It is the parent in the `TimelineList` → `TimelineListItem` composition pattern used for activity feeds, order histories, release notes, and user journeys.
 
 ## What it does
 
-An ordered list of chronological events or milestones.
+- Renders `<ol class="timeline-list {className}" aria-label={label}>`.
+- Renders the supplied `children` snippet inside the `<ol>`.
+- Spreads additional HTML attributes onto the `<ol>`.
 
-## When to use
+## When to use it
 
-- Use to render an ordered collection of related items.
+- Project milestone / release history displays.
+- Activity feeds and audit logs.
+- Order status tracking and shipment timelines.
+- User-journey visualization (signup → onboarding → upgrade).
 
-## When not to use
+## When not to use it
 
-- Do not use when a simpler native HTML element would suffice.
+- Don't use it for navigation — use `TreeNav` or `BreadcrumbNav`.
+- Don't use it for tasks requiring checkboxes — use `TaskList`/`TaskListItem`.
+- Don't use it for a kanban or Gantt style view — use `KanbanTable` or `GanttTable`.
+- Don't use it to render a single event — a plain `<p>` or `<time>` is sufficient.
+
+## How to use it
+
+Import `TimelineList` plus `TimelineListItem`, pass an accessible `label`, and provide one item per event. Each item can set `datetime` (ISO string) and `heading` (visible date text).
+
+## Props
+
+- `class` — string, optional. Extra CSS class appended to `timeline-list`.
+- `label` — string, required. Accessible label via `aria-label`.
+- `children` — Snippet, required. `TimelineListItem` elements.
+- `...restProps` — any additional HTML attributes spread onto the `<ol>`.
 
 ## Usage
 
 ```svelte
-<TimelineList label="Project milestones">...</TimelineList>
-```
+<script lang="ts">
+  import TimelineList from "./TimelineList.svelte";
+  import TimelineListItem from "../TimelineListItem/TimelineListItem.svelte";
+</script>
 
-## Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `className` | string, optional | CSS class name. |
-| `label` | string, required | Accessible label for the timeline via aria-label. |
-| `children` | Snippet, required | TimelineListItem elements. |
-| `...restProps` | additional HTML attributes spread onto the <ol> |  |
-
-## Examples
-
-```svelte
-<!-- Timeline with semantic time elements -->
 <TimelineList label="Order history">
   <TimelineListItem datetime="2024-01-15" heading="January 15, 2024">
     Order placed
@@ -46,42 +52,76 @@ An ordered list of chronological events or milestones.
   <TimelineListItem datetime="2024-01-16" heading="January 16, 2024">
     Order shipped
   </TimelineListItem>
+  <TimelineListItem datetime="2024-01-19" heading="January 19, 2024">
+    Order delivered
+  </TimelineListItem>
 </TimelineList>
 ```
 
-## SvelteKit example
-
 ```svelte
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TimelineList from "#lib/components/TimelineList/TimelineList.svelte";
+  import TimelineList from "./TimelineList.svelte";
+  import TimelineListItem from "../TimelineListItem/TimelineListItem.svelte";
+
+  const events = [
+    { at: "2024-03-01", heading: "Mar 1", msg: "Project kickoff" },
+    { at: "2024-04-15", heading: "Apr 15", msg: "MVP release" },
+    { at: "2024-06-01", heading: "Jun 1", msg: "v1.0 launch" },
+  ];
 </script>
 
-<TimelineList label="Project milestones">...</TimelineList>
+<TimelineList label="Project milestones">
+  {#each events as e (e.at)}
+    <TimelineListItem datetime={e.at} heading={e.heading}>
+      {e.msg}
+    </TimelineListItem>
+  {/each}
+</TimelineList>
 ```
 
-## Keyboard
+```svelte
+<script lang="ts">
+  import TimelineList from "./TimelineList.svelte";
+  import TimelineListItem from "../TimelineListItem/TimelineListItem.svelte";
+</script>
 
-- None directly -- standard list navigation by screen readers
-- Tab moves focus between any interactive elements within items
+<TimelineList label="Activity feed">
+  <TimelineListItem datetime="2024-07-01T09:15:00Z" heading="9:15 AM">
+    <strong>Alice</strong> commented on <a href="/issue/1">#1</a>
+  </TimelineListItem>
+  <TimelineListItem>Status pending review</TimelineListItem>
+</TimelineList>
+```
+
+```svelte
+<script lang="ts">
+  import TimelineList from "./TimelineList.svelte";
+  import TimelineListItem from "../TimelineListItem/TimelineListItem.svelte";
+</script>
+
+<TimelineList label="Historique" data-testid="fr-history">
+  <TimelineListItem datetime="2024-01-15" heading="15 janvier 2024">
+    Commande passée
+  </TimelineListItem>
+  <TimelineListItem datetime="2024-01-19" heading="19 janvier 2024">
+    Commande livrée
+  </TimelineListItem>
+</TimelineList>
+```
 
 ## Accessibility
 
-- Semantic <ol> element conveys chronological ordering to screen readers
-- aria-label provides the accessible name for the timeline
-- Screen readers announce the list with its label and item count
-- Consumers should use <time> elements with datetime attributes
+- Semantic `<ol>` conveys chronological ordering to screen readers.
+- `aria-label` provides the list's accessible name; always pass one.
+- Screen readers announce list position ("2 of 4") from within each item.
+- Consumers should pass ISO `datetime` to items for machine-readable dates.
 
-## Internationalization
+## Related components
 
-- The label prop externalizes user-facing text for translation
-- All timeline content is provided through the children snippet
-- No hardcoded strings in the component
-
-## References
-
-- HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
-- WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
+- `TimelineListItem` — child entry component; required for proper composition.
+- `TaskList` / `TaskListItem` — ordered tasks with checkboxes.
+- `SummaryList` / `SummaryListItem` — key-value summary pairs.
+- `EndNotes` — titled endnote section at the end of an article.
 
 ---
 

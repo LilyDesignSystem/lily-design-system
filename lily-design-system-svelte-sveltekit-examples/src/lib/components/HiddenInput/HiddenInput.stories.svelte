@@ -3,7 +3,7 @@
   import HiddenInput from './HiddenInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/HiddenInput',
+    title: 'Headless/HiddenInput',
     component: HiddenInput,
   });
 </script>

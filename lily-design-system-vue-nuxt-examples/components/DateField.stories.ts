@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DateField from './DateField.vue';
 
 const meta = {
-  title: 'Examples/DateField',
+  title: 'Headless/DateField',
   component: DateField,
   tags: ['autodocs']
 } satisfies Meta<typeof DateField>;

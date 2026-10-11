@@ -3,7 +3,7 @@
   import Byline from './Byline.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Byline',
+    title: 'Headless/Byline',
     component: Byline,
   });
 </script>

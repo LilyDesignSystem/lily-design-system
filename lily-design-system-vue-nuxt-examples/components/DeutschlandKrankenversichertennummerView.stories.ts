@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import DeutschlandKrankenversichertennummerView from './DeutschlandKrankenversichertennummerView.vue';
 
 const meta = {
-  title: 'Examples/DeutschlandKrankenversichertennummerView',
+  title: 'Headless/DeutschlandKrankenversichertennummerView',
   component: DeutschlandKrankenversichertennummerView,
   tags: ['autodocs']
 } satisfies Meta<typeof DeutschlandKrankenversichertennummerView>;

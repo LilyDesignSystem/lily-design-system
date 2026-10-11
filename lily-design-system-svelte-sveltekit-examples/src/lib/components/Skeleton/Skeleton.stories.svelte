@@ -3,7 +3,7 @@
   import Skeleton from './Skeleton.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/Skeleton',
+    title: 'Headless/Skeleton',
     component: Skeleton,
   });
 </script>

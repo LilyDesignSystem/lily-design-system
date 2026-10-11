@@ -5,6 +5,10 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## Unreleased — 2026-10-11 (labels and contracts)
+
+`radio-group` and `checkbox-group` are `<fieldset>`s; `tag` is not a live region (its label is screen-reader text). See the repository CHANGELOG (2026-10-11).
+
 ## 0.6.0 — 2026-10-06
 
 **Breaking.** `date-range.html` is now a `<fieldset class="date-range">` holding two

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Footnote from './Footnote';
 
 const meta = {
-  title: 'Examples/Footnote',
+  title: 'Headless/Footnote',
   component: Footnote,
   tags: ['autodocs']
 } satisfies Meta<typeof Footnote>;

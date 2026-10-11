@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import AccordionCheckbox from './AccordionCheckbox';
 
 const meta = {
-  title: 'Examples/AccordionCheckbox',
+  title: 'Headless/AccordionCheckbox',
   component: AccordionCheckbox,
   tags: ['autodocs']
 } satisfies Meta<typeof AccordionCheckbox>;

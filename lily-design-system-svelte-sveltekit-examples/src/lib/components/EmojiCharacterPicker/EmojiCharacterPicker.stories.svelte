@@ -3,7 +3,7 @@
   import EmojiCharacterPicker from './EmojiCharacterPicker.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/EmojiCharacterPicker',
+    title: 'Headless/EmojiCharacterPicker',
     component: EmojiCharacterPicker,
   });
 </script>

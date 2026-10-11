@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import ThemeProvider from './ThemeProvider';
 
 const meta = {
-  title: 'Examples/ThemeProvider',
+  title: 'Headless/ThemeProvider',
   component: ThemeProvider,
   tags: ['autodocs']
 } satisfies Meta<typeof ThemeProvider>;

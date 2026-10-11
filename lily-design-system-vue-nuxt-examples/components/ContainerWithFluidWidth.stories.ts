@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import ContainerWithFluidWidth from './ContainerWithFluidWidth.vue';
 
 const meta = {
-  title: 'Examples/ContainerWithFluidWidth',
+  title: 'Headless/ContainerWithFluidWidth',
   component: ContainerWithFluidWidth,
   tags: ['autodocs']
 } satisfies Meta<typeof ContainerWithFluidWidth>;

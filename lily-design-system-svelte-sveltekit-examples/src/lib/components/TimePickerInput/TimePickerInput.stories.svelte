@@ -3,7 +3,7 @@
   import TimePickerInput from './TimePickerInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TimePickerInput',
+    title: 'Headless/TimePickerInput',
     component: TimePickerInput,
   });
 </script>

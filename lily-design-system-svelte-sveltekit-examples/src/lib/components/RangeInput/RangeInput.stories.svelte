@@ -3,7 +3,7 @@
   import RangeInput from './RangeInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/RangeInput',
+    title: 'Headless/RangeInput',
     component: RangeInput,
   });
 </script>

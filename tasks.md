@@ -2194,4 +2194,86 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
 
 ---
 
+## Phase 10 — bref-ui survey (2026-10-11)
+
+Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit `3333552`; the reasoning for each is in
+[plan.md § Research findings (2026-10-11)](plan.md#research-findings-2026-10-11-bref-ui). None is started.
+
+### Open
+
+- [x] **P10-T1 Form reset and native validation for stateful controls** — closed 2026-10-11 (reset; validation
+  not needed). An audit for the bug class — a control whose visible value is a one-way binding or its own state — found
+  `date-time-picker` (seven ports; Blazor a documented deviation), the three radio rating pickers in Svelte, React and
+  Vue, and `PinInputDiv` in Svelte, React, Vue and Web Components. Each restores its initial value one tick after
+  `reset` unless cancelled, with a test that fails on the old code (CHANGELOG 2026-10-11). The audit searched the Svelte
+  headless library and helpers; the other candidates in this task's first draft (`tag-input`, `combobox`,
+  `segment-group`, `multi-select-with-extras`) bind native inputs there, which Svelte re-syncs itself. Their React,
+  Vue and Angular versions were **not** audited — React and Vue controlled inputs can drift the same way (P10-T9). The `invalid`-routing half needs no work: no
+  component hides the native field that carries `required`, except `date-time-picker`, whose visible field carries it.
+- [ ] **P10-T2 Native Popover API for `popover` (design pass).** Evaluate `popover="auto"` + `showPopover({ source })`
+  for the headless `Popover` (top layer, Escape and light dismiss from the browser) and, separately, for the pickers'
+  popups, whose Escape/Tab/focus-return contracts must survive unchanged. Record current browser support for the
+  Popover API, the `source` option and CSS anchor positioning before deciding; positioning (`position-area`,
+  `position-try-fallbacks`) would live in the themes, not the headless layer.
+- [ ] **P10-T3 Coarse-pointer target sizes in the 45 themes.** The themes already share a WCAG 2.5.8 (AA) floor —
+  every interactive hook at least 24×24 CSS px (the "target-size (minimum) floor" section `bin/check-theme` pins).
+  Add the AAA step: a `@media (pointer: coarse)` rule giving interactive controls (buttons, picker triggers, options,
+  form fields, links in lists) at least 44×44 CSS px (WCAG 2.5.5), as a new shared section the same check pins.
+- [x] **P10-T4 Contrast checks in `bin/check-theme`** — closed 2026-10-11. `bin/check-theme --contrast` computes the
+  WCAG 2 ratio of 12 token pairs per theme (base content on the three base surfaces, each `-content` colour on its
+  fill, `--lily-error-text` on the page), parsing hex and `oklch()` and evaluating `color-mix(in oklch, …)`, and lists
+  every pair below AAA (7:1), marking those below AA (4.5:1). Report only: it changes no colour and exits 0, so it is
+  not in `bin/test`. The maths was checked against known values (white/black 21:1, `#767676` on white 4.54:1, sRGB red's
+  luminance 0.2126). First run: 540 pairs, 198 below AAA, **50 below AA** in 27 themes — most often `error-content`
+  on `error` (10), `success` (9) and `secondary` (9). Colours outside sRGB (111 of 900 declared colours, mostly the
+  DaisyUI-derived themes) are clipped, so those pairs are marked approximate. Follow-up: P10-T10.
+- [ ] **P10-T5 Per-component agent reference.** Generate one compact block per component — purpose, one working
+  example, all props on one line (required first, with types and defaults) — from `components/*/AGENTS.md` into a
+  generated `llms-full.txt` (root and docs site), with a `--check` drift mode in `bin/test`.
+- [ ] **P10-T6 Decide on a copy-into-project path.** Proposal written 2026-10-11, awaiting a decision:
+  [docs/copy-into-project-proposal.md](docs/copy-into-project-proposal.md). A maintainer decision first: whether Lily should offer a
+  shadcn-style `add <component>` that copies one component and its dependencies into a consumer project. If yes:
+  a per-component manifest (files, exports, dependencies) validated by one loader (unique ids, files exist, no cycles),
+  and an `add` that previews add / unchanged / conflict files and confirms each overwrite.
+- [x] **P10-T7 Candidate component: a choice-chip group** — decided 2026-10-11: **no new component.** `radio-group`
+  and `checkbox-group` are already `<fieldset>` groups of real, consumer-supplied radio and checkbox inputs — semantically what
+  bref-ui's pill choice group is — and a chip is a visual decision, which the headless layer leaves to themes and
+  consumers. Removable chips are `tag-input`'s job. `segment-group` and `toggle-group` are the wrong base: their items
+  are buttons with `role="radio"` / `aria-pressed`, which submit nothing with a form. Documented instead as the
+  choice-chip composition pattern in `AGENTS/components.md`. The pass also found contract metadata that disagrees with
+  the code (P10-T11).
+- [x] **P10-T8 Hardcoded English found during P10-T1** — closed 2026-10-11. `PinInputDiv` (`digitLabel`), `FiveStarRatingPicker`
+  (`starLabel`), `FiveFaceRatingPicker` / `FiveFaceRatingView` (numeric default labels) in Svelte, React, Vue, Web
+  Components and Nunjucks; Nunjucks also built English labels in its star, face and NPS buttons and views and its star
+  picker group, all removed. Every default now falls back to the consumer's `label` or the number. CHANGELOG 2026-10-11.
+- [ ] **P10-T9 Form-reset audit beyond Svelte.** P10-T1's search ran over the Svelte code. Run the same check — a form
+  control whose visible value is controlled or held in component state — over the React, Vue and Angular headless
+  libraries, starting with `tag-input`, `combobox`, `segment-group`, `multi-select-with-extras` and `editable`.
+- [ ] **P10-T10 Decide the colour fixes for the 50 AA contrast failures** from `bin/check-theme --contrast` (P10-T4).
+  A design decision per theme, not a mechanical fix: darken a fill, change its `-content` colour, or accept and document
+  it. Start with the public-sector themes, whose colours should match their upstream: the four NHS England and
+  Scotland themes' `success` fill is `oklch(56% 0.16 145)` (4.37:1 with white) where NHS's own green `#007f3b` gives
+  5.12:1; USWDS `success` (3.14:1); Adobe Spectrum `accent` and `success`; Mozilla Protocol `secondary` and `accent`.
+- [x] **P10-T11 Component contract metadata that disagrees with the code** — closed 2026-10-11 for the four named here.
+  `radio-group` / `checkbox-group`: `<fieldset>` in the contract and all eight libraries. `segment-group-item`: a
+  `<button role="radio">` in the contract, Angular and Blazor. `tag`: decided to be a plain `<span>` with the label as
+  screen-reader text, and a `role="status"` live region only with `live`. CHANGELOG 2026-10-11. The script-based audit
+  of every contract's "HTML tag" against each library is P10-T12.
+- [ ] **P10-T12 Audit every contract's HTML tag against all eight libraries.** P10-T11 found four contracts wrong and
+  libraries disagreeing with each other (Nunjucks rendered `tag` as `<strong>`; Angular `segment-group-item` had no
+  role). A script, as `bin/check-class-names` does for class hooks, comparing `components/*/AGENTS.md` "HTML tag"
+  with each library's rendered root. Known so far: `screen-reader-span` renders a `<div>` with `aria-label` (an
+  `aria-label` a plain element may not carry); Angular's headless components are thin wrappers that often omit the
+  ARIA their contract requires (e.g. `ToggleButton` has no `aria-pressed`).
+- [x] **P10-T13 One copy of the Svelte headless components** — closed 2026-10-11. `src/lib/components/` removed from
+  `lily-design-system-svelte-headless` (every differing file was identical or older there); the example apps' copies are
+  generated by `bin/sync-example-components`, checked by `bin/test`. The example apps still carry copies rather than
+  importing the library package: making each import its library (a path alias plus framework de-duplication in Vite,
+  Next.js and Angular) would remove the copies outright, and is the next step if wanted. CHANGELOG 2026-10-11.
+- [ ] **P10-T14 Decide whether the themes reset a group fieldset's border.** `radio-group` and `checkbox-group` are now
+  `<fieldset>`s in every library; the 45 themes lay them out but leave the browser's default fieldset border, padding
+  and minimum width. A visual decision: reset them, or keep the border as a grouping cue.
+
+---
+
 Lily™ and Lily Design System™ are trademarks.

@@ -3,7 +3,7 @@
   import CalendarTableHead from './CalendarTableHead.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/CalendarTableHead',
+    title: 'Headless/CalendarTableHead',
     component: CalendarTableHead,
   });
 </script>

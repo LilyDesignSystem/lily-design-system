@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Blockquote from './Blockquote';
 
 const meta = {
-  title: 'Examples/Blockquote',
+  title: 'Headless/Blockquote',
   component: Blockquote,
   tags: ['autodocs']
 } satisfies Meta<typeof Blockquote>;

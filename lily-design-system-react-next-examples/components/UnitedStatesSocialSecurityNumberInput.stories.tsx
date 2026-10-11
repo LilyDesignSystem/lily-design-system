@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import UnitedStatesSocialSecurityNumberInput from './UnitedStatesSocialSecurityNumberInput';
 
 const meta = {
-  title: 'Examples/UnitedStatesSocialSecurityNumberInput',
+  title: 'Headless/UnitedStatesSocialSecurityNumberInput',
   component: UnitedStatesSocialSecurityNumberInput,
   tags: ['autodocs']
 } satisfies Meta<typeof UnitedStatesSocialSecurityNumberInput>;

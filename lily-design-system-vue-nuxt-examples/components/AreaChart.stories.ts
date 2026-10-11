@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import AreaChart from './AreaChart.vue';
 
 const meta = {
-  title: 'Examples/AreaChart',
+  title: 'Headless/AreaChart',
   component: AreaChart,
   tags: ['autodocs']
 } satisfies Meta<typeof AreaChart>;
