@@ -6,7 +6,7 @@
   },
   "description": "Lily Design System Angular link picker: an icon button (a home icon) opening a disclosure of app-defined page links. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-headless": "^0.2.0"
+    "@lilydesignsystem/angular-headless": "^0.5.0"
   },
   "peerDependencies": {
     "@angular/common": ">=20.0.0 <23.0.0",
