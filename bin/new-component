@@ -75,6 +75,7 @@ lily-design-system-react-next-examples/app/data/component-examples.ts
 lily-design-system-vue-nuxt-examples/data/component-examples.ts
 lily-design-system-angular-examples/src/app/component-examples.ts
 lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentExamples.cs
+lilydesignsystem.github.io/static/sitemap.xml
 "
 
 new_dirs_for() (
@@ -118,7 +119,8 @@ new_files_for() (
         "lily-design-system-vue-nuxt-examples/components/$2.stories.ts" \
         "lily-design-system-angular-examples/src/app/components/$2.ts" \
         "lily-design-system-angular-examples/src/app/components/$2.spec.ts" \
-        "lily-design-system-angular-examples/src/app/components/$2.md"
+        "lily-design-system-angular-examples/src/app/components/$2.md" \
+        "lilydesignsystem.github.io/tests/components/$1.spec.ts"
 )
 
 if [ "${1:-}" = "--revert" ]; then
