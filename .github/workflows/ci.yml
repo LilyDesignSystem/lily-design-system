@@ -231,6 +231,52 @@ jobs:
             e2e/rtl-demo.spec.ts \
             e2e/book-an-appointment.spec.ts
 
+  eleventy-example:
+    # Nothing built this app in CI, and it went unbuildable for weeks
+    # (2026-09-16 to 2026-10-10) without anyone noticing. Its build fails
+    # on a missing headless directory or picker script, and the full
+    # Playwright suite visits every component page in components.tsv.
+    name: example-app build + Playwright (nunjucks-eleventy-examples)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: lily-design-system-nunjucks-eleventy-examples/pnpm-lock.yaml
+      - name: Build the locale picker (the site serves its dist/index.js)
+        working-directory: lily-design-system-nunjucks-locale-picker
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm run build
+      - name: Install
+        working-directory: lily-design-system-nunjucks-eleventy-examples
+        run: pnpm install --no-frozen-lockfile
+      - name: Build
+        working-directory: lily-design-system-nunjucks-eleventy-examples
+        run: pnpm run build
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('lily-design-system-nunjucks-eleventy-examples/pnpm-lock.yaml') }}
+      - name: Install Playwright Chromium
+        working-directory: lily-design-system-nunjucks-eleventy-examples
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Install Playwright OS deps only (browser cached)
+        working-directory: lily-design-system-nunjucks-eleventy-examples
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+      - name: Test (every component page, /components search, pickers, accessibility, responsive)
+        working-directory: lily-design-system-nunjucks-eleventy-examples
+        run: pnpm exec playwright test
+
   consumer-smoke:
     name: consumer smoke (packed tarballs import as a consumer would)
     runs-on: ubuntu-latest

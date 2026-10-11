@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import nunjucks from "nunjucks";
@@ -37,7 +38,7 @@ export default function (eleventyConfig) {
   // The pickers import the shared listbox module by its package name, which
   // the import map in layouts/base.njk points at the copy served here.
   eleventyConfig.addPassthroughCopy({ "src/themes": "themes" });
-  eleventyConfig.addPassthroughCopy({
+  const vendored = {
     "../lily-design-system-nunjucks-listbox-behavior/listbox-behavior.client.js":
       "assets/js/listbox-behavior.client.js",
     "../lily-design-system-nunjucks-theme-picker/theme-picker.client.js":
@@ -46,7 +47,17 @@ export default function (eleventyConfig) {
       "assets/js/locale-picker.client.js",
     "../lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js":
       "assets/js/text-size-picker.client.js",
-  });
+  };
+  // A passthrough copy skips a missing source without a word, which would
+  // ship a site whose pickers silently never open. dist/index.js needs
+  // `pnpm run build` in lily-design-system-nunjucks-locale-picker first.
+  const missing = Object.keys(vendored).filter(
+    (from) => !existsSync(path.resolve(projectRoot, from)),
+  );
+  if (missing.length > 0) {
+    throw new Error(`.eleventy.js: missing picker scripts (build the helper packages first): ${missing.join(", ")}`);
+  }
+  eleventyConfig.addPassthroughCopy(vendored);
 
   eleventyConfig.addFilter("kebabToCamel", (s) =>
     s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase()),

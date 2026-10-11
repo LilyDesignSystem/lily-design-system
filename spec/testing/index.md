@@ -61,10 +61,10 @@ Re-verified 2026-09-02 (plan P1-T6); every app is a fresh full-suite run, not a 
 | vue-nuxt-examples            | 1,319                 |
 | blazor-web-examples          | 1,327                 |
 | html-css-js-examples         | 903                   |
-| nunjucks-eleventy-examples   | 758                   |
+| nunjucks-eleventy-examples   | 1,293 (2026-10-11: `e2e/component-pages.spec.ts` visits every page in `components.tsv`; built and run by CI's `eleventy-example` job) |
 | angular-examples             | 1,574 (491 per-component pages × 3 assertions, axe on every top-level and composed route, responsive sweep) |
 
-Total: 9,007 specs, all green.
+Total: 9,542 specs, all green (9,007 on 2026-09-02; the Eleventy row was re-run 2026-10-11).
 
 ## Helper catalog test counts
 

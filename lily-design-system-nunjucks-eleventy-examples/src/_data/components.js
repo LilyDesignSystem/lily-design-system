@@ -8,7 +8,7 @@ const headlessComponents = path.resolve(
   "..",
   "..",
   "..",
-  "@lilydesignsystem/nunjucks-headless",
+  "lily-design-system-nunjucks-headless",
   "components",
 );
 const categoriesTsv = path.resolve(here, "..", "..", "..", "components-categories.tsv");
@@ -40,8 +40,10 @@ function kebabToCamel(s) {
 }
 
 function scan() {
+  // Fail the build rather than render "No components are implemented
+  // yet": a wrong path here emptied /components unnoticed for weeks.
   if (!existsSync(headlessComponents)) {
-    return [];
+    throw new Error(`components.js: no headless components at ${headlessComponents}`);
   }
   const categories = loadCategories();
   return readdirSync(headlessComponents)

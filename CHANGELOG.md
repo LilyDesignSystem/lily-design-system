@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The Eleventy example is tested in CI, against the whole catalog — 2026-10-11
+
+The npm-scope rename that broke the Eleventy example's build had also emptied `/components`: its data file read the same broken
+headless path and silently rendered "No components are implemented yet", and two GitHub links pointed at
+`tree/main/@lilydesignsystem/…`. Its 304 per-component Playwright files had drifted too — 285 catalog components had none, and 18
+tested slugs that had left the catalog. One `e2e/component-pages.spec.ts` now reads `components.tsv` and checks every component page,
+so a catalog change needs no spec edit. The build fails rather than shipping a broken site when the headless components directory or a
+vendored picker script is missing, and a new CI job, `eleventy-example`, builds the locale picker and the site and runs the whole
+Playwright suite (1,293 tests).
+
 ## Dependabot alerts; the Eleventy example builds again — 2026-10-10
 
 The Nuxt example overrides `@nuxt/devtools` to 4.0.0-beta.4: devtools 3.x imports `simple-git`'s default export, which the patched

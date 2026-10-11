@@ -104,7 +104,7 @@ lily-design-system-nunjucks-eleventy-examples/
 │   └── …
 │   └── assets/css/                        ← NHS-aligned stylesheets
 ├── _site/                                 ← Eleventy output (gitignored)
-├── e2e/components/{kebab-case}.spec.ts    ← Playwright e2e per slug
+├── e2e/component-pages.spec.ts           ← every /components/{slug}/ page, from components.tsv
 ├── playwright.config.ts
 └── package.json
 ```
@@ -148,12 +148,14 @@ breadcrumb/sidebar link needing the established AA-contrast fix).
 
 ### 7.1 Stack
 
-- **E2E**: Playwright across Chromium, Firefox, WebKit.
+- **E2E**: Playwright (Chromium).
 
 ### 7.2 E2E coverage
 
-Each `/components/{slug}/` route has a Playwright spec in
-`e2e/components/{kebab-case}.spec.ts`.
+`e2e/component-pages.spec.ts` reads the root `components.tsv` and checks every
+`/components/{slug}/` route: a non-error status and a visible, non-empty H1. A
+catalog change updates the suite with no spec file to add or delete. CI's
+`eleventy-example` job builds the site and runs the whole suite.
 
 ## 8. Commands
 
