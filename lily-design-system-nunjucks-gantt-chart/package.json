@@ -28,11 +28,11 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/nunjucks-headless": "^0.1.0",
-    "@lilydesignsystem/nunjucks-date-time-picker": "^0.1.0"
+    "@lilydesignsystem/nunjucks-headless": "^0.4.0",
+    "@lilydesignsystem/nunjucks-date-time-picker": "^0.2.0"
   },
   "devDependencies": {
-    "jsdom": "^30.1.1",
+    "jsdom": "^30.1.2",
     "nunjucks": "^3.2.4",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
