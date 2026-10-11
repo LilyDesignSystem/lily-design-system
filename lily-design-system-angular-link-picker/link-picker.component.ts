@@ -4,10 +4,13 @@ import {
   Component,
   Directive,
   ElementRef,
+  Injector,
   TemplateRef,
+  afterNextRender,
   computed,
   contentChild,
   effect,
+  inject,
   input,
   output,
   signal,
@@ -213,6 +216,7 @@ export class LinkPicker {
   protected readonly listId = `${this.baseId}-list`;
 
   protected readonly open = signal(false);
+  private readonly injector = inject(Injector);
 
   // Tooltip: shown while the pointer is over the button or the tooltip itself (hoverable, WCAG
   // 1.4.13) or while the button has keyboard focus; Escape dismisses it without moving focus;
@@ -289,11 +293,15 @@ export class LinkPicker {
   /** Open the list, focusing the first link (or the last, if `focusLast`). */
   openList(focusLast = false): void {
     this.open.set(true);
-    // Deferred so the `hidden` attribute is gone before focus is moved.
-    queueMicrotask(() => {
-      const all = this.items();
-      (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
-    });
+    // After the next render, so the list's `hidden` attribute is gone: a hidden link cannot take
+    // focus (a microtask ran before Angular rendered, and the focus silently went nowhere).
+    afterNextRender(
+      () => {
+        const all = this.items();
+        (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
+      },
+      { injector: this.injector },
+    );
   }
 
   /** Close the list; `refocus` returns focus to the trigger. */

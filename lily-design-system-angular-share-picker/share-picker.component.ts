@@ -4,10 +4,13 @@ import {
   Component,
   Directive,
   ElementRef,
+  Injector,
   TemplateRef,
+  afterNextRender,
   computed,
   contentChild,
   effect,
+  inject,
   input,
   output,
   signal,
@@ -293,6 +296,7 @@ export class SharePicker {
   // focus; Escape dismisses it without moving focus; never shown while
   // the popup is open, since the popup then explains the control.
   protected readonly tooltipId = `${this.baseId}-tooltip`;
+  private readonly injector = inject(Injector);
   protected readonly hoverButton = signal(false);
   protected readonly hoverTooltip = signal(false);
   protected readonly focusButton = signal(false);
@@ -381,11 +385,15 @@ export class SharePicker {
   openList(focusLast = false): void {
     this.open.set(true);
     this.status.set("");
-    // Deferred so the `hidden` attribute is gone before focus is moved.
-    queueMicrotask(() => {
-      const all = this.items();
-      (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
-    });
+    // After the next render, so the `hidden` attribute is gone: a hidden element cannot take
+    // focus (a microtask ran before Angular rendered, and the focus silently went nowhere).
+    afterNextRender(
+      () => {
+        const all = this.items();
+        (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
+      },
+      { injector: this.injector },
+    );
   }
 
   /** Close the list; `refocus` returns focus to the trigger. */

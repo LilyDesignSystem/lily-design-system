@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular link, menu, settings and share pickers focus their list on open — 2026-10-11
+
+Opening one of these four pickers set `open` and then moved focus in a `queueMicrotask`, on the assumption that Angular had removed
+the list's `hidden` attribute by then. It had not: the microtask runs before Angular renders the change, so `focus()` landed on a
+still-hidden element and focus went nowhere. jsdom 30.1.1 let that focus succeed anyway, which kept the tests green; jsdom 30.1.2
+refuses focus inside a hidden subtree, as browsers do, and Dependabot's upgrade (#197) failed eight tests. Each picker now moves focus
+in `afterNextRender`, after the list is visible; all 123 tests in the four packages pass under both jsdom versions.
+
 ## React helpers resolve React's types themselves — 2026-10-11
 
 CI's consumer-smoke job had failed on every `main` run: `react-link-picker`'s type build stopped on an implicitly-`any` event. Each
