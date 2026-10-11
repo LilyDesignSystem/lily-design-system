@@ -28,14 +28,14 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/svelte-headless": "^0.2.0",
-    "@lilydesignsystem/svelte-date-time-picker": "^0.1.1"
+    "@lilydesignsystem/svelte-headless": "^0.4.0",
+    "@lilydesignsystem/svelte-date-time-picker": "^0.2.0"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
   },
   "devDependencies": {
-    "@sveltejs/package": "^2.5.8",
+    "@sveltejs/package": "^3.0.0",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@testing-library/svelte": "^5.4.2",
     "@testing-library/user-event": "^14.6.7",
