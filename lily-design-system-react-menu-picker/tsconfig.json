@@ -19,6 +19,9 @@
     "paths": {
       "@lilydesignsystem/react-headless": [
         "../lily-design-system-react-headless/dist/index.d.ts"
+      ],
+      "react": [
+        "./node_modules/@types/react/index.d.ts"
       ]
     }
   },

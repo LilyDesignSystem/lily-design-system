@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## React helpers resolve React's types themselves — 2026-10-11
+
+CI's consumer-smoke job had failed on every `main` run: `react-link-picker`'s type build stopped on an implicitly-`any` event. Each
+React helper maps `@lilydesignsystem/react-headless` to the sibling's `dist/index.d.ts`, which imports `react`; the job deletes the
+headless `node_modules` after building it, so those types could not find React's, `IconButton`'s props degraded to `any`, and every
+React helper's published types were silently weakened — the link picker was only the one whose handler relied on inference. All 13
+React helper tsconfigs now map `react` to the helper's own `@types/react`, and the whole consumer-smoke job passes in a clean copy.
+
 ## The Eleventy example is tested in CI, against the whole catalog — 2026-10-11
 
 The npm-scope rename that broke the Eleventy example's build had also emptied `/components`: its data file read the same broken

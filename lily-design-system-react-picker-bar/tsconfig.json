@@ -37,6 +37,9 @@
       ],
       "@lilydesignsystem/react-theme-picker": [
         "../lily-design-system-react-theme-picker/dist/index.d.ts"
+      ],
+      "react": [
+        "./node_modules/@types/react/index.d.ts"
       ]
     }
   },
