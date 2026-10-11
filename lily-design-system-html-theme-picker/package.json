@@ -27,7 +27,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/html-headless": "^0.3.0"
+    "@lilydesignsystem/html-headless": "^0.6.0"
   },
   "devDependencies": {
     "jsdom": "^30.1.1",
