@@ -12,11 +12,11 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/react-date-time-picker':
-        specifier: ^0.1.1
-        version: 0.1.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@lilydesignsystem/react-headless':
         specifier: ^0.2.0
         version: 0.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@lilydesignsystem/react-headless':
+        specifier: ^0.4.0
+        version: 0.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
     devDependencies:
       '@testing-library/react':
         specifier: ^16.3.3
@@ -292,8 +292,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/react-date-time-picker@0.1.2':
-    resolution: {integrity: sha512-D4+yTllNIscQh3Iv8DX2PPc17TtP4fn21JnquGEAMItU6Q8ik3sTrwq0v2twSbRnU9DM/LumDycQ8pSRT+Mh5g==}
+  '@lilydesignsystem/react-date-time-picker@0.2.0':
+    resolution: {integrity: sha512-+UdUeE1n/jRwguII1JGr8Cq0xTD/CAAOjmRG/0dAt6+1UlESy6cfcVCcArybpCQFKh8lTUVWsOEjJrg8Qtl5wA==}
     engines: {node: '=26'}
     peerDependencies:
       react: '>=18'
@@ -301,6 +301,13 @@ packages:
 
   '@lilydesignsystem/react-headless@0.2.0':
     resolution: {integrity: sha512-QAn24YWl9wvuC9SHLV0T1a4rV9zSAYdMRaxMxJTyb4FH0ktRkS90N8xXvo6SRqdApHRZWLDSbPPbjJTcm+oUCA==}
+    engines: {node: '=26'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+
+  '@lilydesignsystem/react-headless@0.4.0':
+    resolution: {integrity: sha512-Mx8aiEC8arYf+hcEAkpL3S2IKnA37BYD2paAyh2UaV5XZMgXP8L2Xr16mFPPZoaaW1RkYe5fP/pKkaxJazOMyA==}
     engines: {node: '=26'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
@@ -1343,13 +1350,18 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/react-date-time-picker@0.1.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@lilydesignsystem/react-date-time-picker@0.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       '@lilydesignsystem/react-headless': 0.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
   '@lilydesignsystem/react-headless@0.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
+      react-dom: 19.3.0(react@19.3.0)
+
+  '@lilydesignsystem/react-headless@0.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
