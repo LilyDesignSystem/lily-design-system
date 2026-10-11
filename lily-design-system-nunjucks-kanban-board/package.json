@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/nunjucks-headless": "^0.1.0",
+    "@lilydesignsystem/nunjucks-headless": "^0.4.0",
     "@lilydesignsystem/nunjucks-listbox-behavior": "^0.1.0"
   },
   "devDependencies": {
