@@ -4,7 +4,7 @@ A headless wrapper for text that arrives in chunks, as an AI answer streams in, 
 
 ## Canonical documentation
 
-See [components/streaming-text/index.md](../../components/streaming-text/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
+See [components/streaming-text/index.md](../../../../components/streaming-text/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
 
 ## Usage
 

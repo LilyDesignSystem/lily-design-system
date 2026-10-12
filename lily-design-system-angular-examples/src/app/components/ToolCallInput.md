@@ -4,7 +4,7 @@ A headless wrapper for the input or arguments passed to a tool in a tool call.
 
 ## Canonical documentation
 
-See [components/tool-call-input/index.md](../../components/tool-call-input/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
+See [components/tool-call-input/index.md](../../../../components/tool-call-input/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
 
 ## Usage
 

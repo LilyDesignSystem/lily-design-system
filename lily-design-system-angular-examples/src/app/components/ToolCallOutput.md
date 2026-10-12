@@ -4,7 +4,7 @@ A headless wrapper for the output or result returned by a tool in a tool call.
 
 ## Canonical documentation
 
-See [components/tool-call-output/index.md](../../components/tool-call-output/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
+See [components/tool-call-output/index.md](../../../../components/tool-call-output/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
 
 ## Usage
 

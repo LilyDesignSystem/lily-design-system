@@ -4,7 +4,7 @@ A headless wrapper for an inline highlight marking text as relevant or reference
 
 ## Canonical documentation
 
-See [components/mark/index.md](../../components/mark/index.md) for the full component documentation: behaviour, props and guidance.
+See [components/mark/index.md](../../../../components/mark/index.md) for the full component documentation: behaviour, props and guidance.
 
 ## Usage
 

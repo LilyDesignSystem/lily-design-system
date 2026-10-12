@@ -4,7 +4,7 @@ A headless wrapper for a chat input form with a text area that grows with its co
 
 ## Canonical documentation
 
-See [components/chat-composer/index.md](../../components/chat-composer/index.md) for the full component documentation: keyboard, ARIA, props and guidance.
+See [components/chat-composer/index.md](../../../../components/chat-composer/index.md) for the full component documentation: keyboard, ARIA, props and guidance.
 
 ## Usage
 

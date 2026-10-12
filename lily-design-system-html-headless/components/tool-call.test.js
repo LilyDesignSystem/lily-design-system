@@ -9,14 +9,18 @@ describe('ToolCall', function() {
   });
 
   it('should render a details element with the base class as its first class', async function() {
-    const el = await $('details.tool-call');
-    await expect(el).toExist();
-    expect((await el.getAttribute('class')).split(' ')[0]).toBe('tool-call');
+    const els = await $$('details.tool-call');
+    expect(els.length).toBe(2);
+    for (const el of els) {
+      expect((await el.getAttribute('class')).split(' ')[0]).toBe('tool-call');
+    }
   });
 
   it('should have a summary and a content wrapper', async function() {
-    await expect($('details.tool-call > summary.tool-call-summary')).toExist();
-    await expect($('details.tool-call > div.tool-call-content')).toExist();
+    for (const el of await $$('details.tool-call')) {
+      await expect(el.$(':scope > summary.tool-call-summary')).toExist();
+      await expect(el.$(':scope > div.tool-call-content')).toExist();
+    }
   });
 
   it('should carry data-status, and aria-busy only while running', async function() {
@@ -39,6 +43,8 @@ describe('ToolCall', function() {
   });
 
   it('should not ship inline styles', async function() {
-    expect(await (await $('details.tool-call')).getAttribute('style')).toBeNull();
+    for (const el of await $$('details.tool-call')) {
+      expect(await el.getAttribute('style')).toBeNull();
+    }
   });
 });

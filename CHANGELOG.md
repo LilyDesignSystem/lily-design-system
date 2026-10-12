@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## HTML headless on WebDriverIO 10; usage comments no longer leak markup — 2026-10-12
+
+- **WebDriverIO 10** (Dependabot #183). Its `$()` is strict: a selector that matches more than one element throws
+  rather than quietly returning the first. Five spec files failed, and they had two different causes.
+- **19 HTML components rendered part of their usage example.** Their header comment nested a `<!-- … -->`
+  placeholder, so the inner `-->` closed it early: the rest of the example rendered as live markup, followed by a
+  stray `-->` as text. `split-view.html` and `transfer-list.html` therefore held two components, which is what the strict
+  selectors caught; the other 17 (`float-button.html` among them, with its example's inline `style`) leaked the same
+  way. Consumers copying these files got the duplicate too. The placeholders are now plain `… text …`, and no HTML file
+  in the repository nests a comment.
+- **Three fixtures hold two instances on purpose** (`chat-composer`, `streaming-text`, `tool-call`: a default state and
+  a busy, done or error state). Their structural tests now check every instance; their state tests name the one they
+  mean.
+- **`bin/sync-example-components` re-roots the Angular example's doc links.** The Angular copy sits two directories
+  deeper than the library, so the 9 docs with repository links pointed nowhere and `bin/check-links` had failed main's
+  CI since 2026-10-11.
+
 ## One source for every component: the Svelte mirror is gone, and example copies are generated — 2026-10-11
 
 From tasks.md P10-T13.

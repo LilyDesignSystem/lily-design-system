@@ -4,7 +4,7 @@ A headless wrapper for a collapsible record of one tool invocation by an AI agen
 
 ## Canonical documentation
 
-See [components/tool-call/index.md](../../components/tool-call/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
+See [components/tool-call/index.md](../../../../components/tool-call/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
 
 ## Usage
 

@@ -4,7 +4,7 @@ A headless wrapper for the name of the tool in a tool call, shown in the summary
 
 ## Canonical documentation
 
-See [components/tool-call-name/index.md](../../components/tool-call-name/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
+See [components/tool-call-name/index.md](../../../../components/tool-call-name/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
 
 ## Usage
 

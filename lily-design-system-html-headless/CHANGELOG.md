@@ -5,6 +5,12 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## Unreleased — 2026-10-12 (fixture markup, WebDriverIO 10)
+
+**Fixed.** 19 components' usage comments nested a `<!-- … -->` placeholder, which closed the comment early: the rest
+of the usage example rendered as live markup (a second `split-view`, `transfer-list`, `float-button`, …) followed by a
+stray `-->`. The placeholders are now plain text. Tests run on WebDriverIO 10.
+
 ## Unreleased — 2026-10-11 (labels and contracts)
 
 `radio-group` and `checkbox-group` are `<fieldset>`s; `tag` is not a live region (its label is screen-reader text). See the repository CHANGELOG (2026-10-11).

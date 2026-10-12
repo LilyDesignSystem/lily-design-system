@@ -9,14 +9,17 @@ describe('ChatComposer', function() {
   });
 
   it('should render a form with the base class as its first class', async function() {
-    const el = await $('form.chat-composer');
-    await expect(el).toExist();
-    expect((await el.getAttribute('class')).split(' ')[0]).toBe('chat-composer');
+    const els = await $$('form.chat-composer');
+    expect(els.length).toBe(2);
+    for (const el of els) {
+      expect((await el.getAttribute('class')).split(' ')[0]).toBe('chat-composer');
+    }
   });
 
   it('should have a named textarea', async function() {
-    const t = await $('form.chat-composer textarea.chat-composer-input');
-    expect(await t.getAttribute('aria-label')).toBe('Message');
+    for (const t of await $$('form.chat-composer textarea.chat-composer-input')) {
+      expect(await t.getAttribute('aria-label')).toBe('Message');
+    }
   });
 
   it('should have one button per form: send, disabled while empty', async function() {
@@ -35,6 +38,8 @@ describe('ChatComposer', function() {
   });
 
   it('should not ship inline styles', async function() {
-    expect(await (await $('form.chat-composer')).getAttribute('style')).toBeNull();
+    for (const el of await $$('form.chat-composer')) {
+      expect(await el.getAttribute('style')).toBeNull();
+    }
   });
 });

@@ -4,7 +4,7 @@ A headless wrapper for the error shown when a tool call fails.
 
 ## Canonical documentation
 
-See [components/tool-call-error/index.md](../../components/tool-call-error/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
+See [components/tool-call-error/index.md](../../../../components/tool-call-error/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
 
 ## Usage
 

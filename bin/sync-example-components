@@ -19,6 +19,7 @@ components.tsv, the file kinds each example keeps:
              tests/components/           {Name}.test.ts, where the example keeps one
                                          (its import rewritten to ../../components/)
   Angular    src/app/components/         {Name}.ts, {Name}.spec.ts, {Name}.md
+                                         ({Name}.md's repository links re-rooted: two levels deeper)
 
 Usage:
   bin/sync-example-components          copy every differing or missing file
@@ -61,10 +62,14 @@ def pairs():
             ("lily-design-system-angular-headless/components", "lily-design-system-angular-examples/src/app/components",
              (".ts", ".spec.ts", ".md")),
         ):
+            # A copy that sits deeper than the library's needs more "../" in its
+            # repository-relative doc links (the Angular example: two levels).
+            depth = example.count("/") - lib.count("/")
             for suffix in suffixes:
                 src = os.path.join(TOP, lib, name + suffix)
                 if os.path.isfile(src):
-                    yield src, os.path.join(TOP, example, name + suffix), None
+                    transform = ("](../../", "](" + "../" * (2 + depth)) if suffix == ".md" and depth else None
+                    yield src, os.path.join(TOP, example, name + suffix), transform
         # The Nuxt example keeps copies of some of the library's tests in its own
         # tests/components/, importing the component from ../../components/.
         src = os.path.join(TOP, "lily-design-system-vue-headless/components", name + ".test.ts")

@@ -4,7 +4,7 @@ A headless wrapper for the status of a tool call as a word, such as pending, run
 
 ## Canonical documentation
 
-See [components/tool-call-status/index.md](../../components/tool-call-status/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
+See [components/tool-call-status/index.md](../../../../components/tool-call-status/index.md) for the full component documentation: ARIA, behaviour, props and guidance.
 
 ## Usage
 
