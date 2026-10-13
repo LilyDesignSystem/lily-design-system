@@ -260,6 +260,7 @@ updates:
   - package-ecosystem: "npm"
     # One top-level subproject per React helper package (2026-10-10).
     directories:
+      - "/lily-design-system-react-data-grid"
       - "/lily-design-system-react-date-time-picker"
       - "/lily-design-system-react-kanban-board"
       - "/lily-design-system-react-link-picker"

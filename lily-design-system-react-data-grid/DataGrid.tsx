@@ -1,0 +1,1004 @@
+import * as React from "react";
+import {
+  DataTable,
+  DataTableBody,
+  DataTableFoot,
+  DataTableHead,
+  DataTableRow,
+  DataTableTD,
+  DataTableTH,
+} from "@lilydesignsystem/react-headless";
+
+export type DataGridSortDirection = "ascending" | "descending" | "none";
+
+export type DataGridSort = {
+  columnId: string;
+  direction: DataGridSortDirection;
+};
+
+export type DataGridSelectionMode = "none" | "single" | "multiple";
+
+export type DataGridRow = Record<string, unknown>;
+
+/** Arguments a column's `cell` render prop receives. See spec/index.md §5. */
+export type DataGridCellContext = {
+  value: unknown;
+  formatted: string;
+  row: DataGridRow;
+  column: DataGridColumn;
+};
+
+export type DataGridColumn = {
+  /** Stable column identifier; also the default property read from each row. */
+  id: string;
+  /** Accessible + visible column header text. */
+  header: string;
+  /** Reads this column's raw value from a row. Defaults to `row[id]`. */
+  accessor?: (row: DataGridRow) => unknown;
+  /** Formats a raw value for display. Defaults to `String(value)` (`""` for null/undefined). */
+  format?: (value: unknown, row: DataGridRow) => string;
+  /** Column participates in sorting. */
+  sortable?: boolean;
+  /**
+   * Orders two raw values when sorting (negative, zero, positive),
+   * e.g. a consumer's `Intl.Collator#compare`. Defaults to `<`/`>`.
+   * `null`/`undefined` always sort last, before `compare` is called.
+   */
+  compare?: (a: unknown, b: unknown) => number;
+  /** Column participates in the text filter. Default true. */
+  filterable?: boolean;
+  /** Column can be resized (pointer + keyboard). */
+  resizable?: boolean;
+  /** Column can be hidden via the column-visibility control. */
+  hidable?: boolean;
+  /** Initial pixel width, meaningful only when `resizable`. */
+  width?: number;
+  /** Custom cell renderer. Defaults to the formatted value as text. */
+  cell?: (ctx: DataGridCellContext) => React.ReactNode;
+  /** The header's content in place of the `header` text. `header` stays the accessible name. */
+  headerCell?: (ctx: { column: DataGridColumn }) => React.ReactNode;
+  /** Body cells of this column are `<th scope="row" role="rowheader">`. */
+  rowHeader?: boolean;
+  /** Horizontal alignment of the column's cells (`data-align` and `text-align`). */
+  align?: "start" | "center" | "end";
+  /** Extra class on each body cell of this column. */
+  cellClass?: string | ((ctx: DataGridCellContext) => string);
+  /** Extra attributes on each body cell of this column. */
+  cellAttrs?: (ctx: DataGridCellContext) => Record<string, unknown>;
+};
+
+/**
+ * Every field is optional, but its presence gates the control it
+ * names — no baked-in English fallback, matching share-picker's
+ * `copyLabel` and date-time-picker's `labels`. See spec/index.md §5.
+ */
+export type DataGridLabels = {
+  search?: string;
+  columnVisibility?: string;
+  columnVisibilityOption?: (header: string) => string;
+  resizeHandle?: (header: string) => string;
+  selectAll?: string;
+  selectionColumn?: string;
+  selectRow?: (rowLabel: string) => string;
+  previousPage?: string;
+  nextPage?: string;
+  pageStatus?: (page: number, pageCount: number, rowCount: number) => string;
+  pageAnnouncement?: (page: number, pageCount: number) => string;
+  sortAnnouncement?: (header: string, direction: DataGridSortDirection) => string;
+  filterAnnouncement?: (matchCount: number, totalCount: number) => string;
+  selectionAnnouncement?: (selectedCount: number) => string;
+};
+
+/** Public props for DataGrid. See `spec/index.md` §5 for the contract. */
+export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
+  /** Accessible name for the grid, passed through to DataTable. */
+  label: string;
+  /** Optional visible caption, passed through to DataTable. */
+  caption?: string;
+  /** Column definitions. */
+  columns: DataGridColumn[];
+  /** Row data. */
+  rows: DataGridRow[];
+  /** Derives a stable id per row. Defaults to the row's index in `rows`. */
+  rowId?: (row: DataGridRow, index: number) => string;
+  /** Row selection mode. */
+  selectionMode?: DataGridSelectionMode;
+  /** Selected row ids. When supplied, selection is controlled. */
+  selected?: string[];
+  /** Initial selection when uncontrolled. */
+  defaultSelected?: string[];
+  /** Called with the new id list after every selection change. */
+  onSelectionChange?: (ids: string[]) => void;
+  /** Text filter. When supplied, the filter is controlled. */
+  filter?: string;
+  /** Initial filter when uncontrolled. */
+  defaultFilter?: string;
+  /** Called with the new filter text after every change. */
+  onFilterChange?: (filter: string) => void;
+  /** Current sort. When supplied, the sort is controlled. */
+  sort?: DataGridSort;
+  /** Initial sort when uncontrolled. */
+  defaultSort?: DataGridSort;
+  /** Called with the new sort after every change. */
+  onSortChange?: (sort: DataGridSort) => void;
+  /** Rows per page. Unset disables pagination. */
+  pageSize?: number;
+  /** Current 1-indexed page. When supplied, the page is controlled. */
+  page?: number;
+  /** Initial page when uncontrolled. */
+  defaultPage?: number;
+  /** Called with the new page after every change (including the reset to 1 when the filter changes). */
+  onPageChange?: (page: number) => void;
+  /** If set, persist column widths / hidden columns / sort to localStorage. */
+  storageKey?: string;
+  /** User-facing strings. See DataGridLabels — presence gates each control. */
+  labels?: DataGridLabels;
+  /** `"grid"` (default): roving-tabindex grid. `"table"`: a plain table with ordinary tab stops. */
+  mode?: "grid" | "table";
+  /** Extra class on each body row. */
+  rowClass?: (row: DataGridRow) => string;
+  /** Extra attributes on each body row. */
+  rowAttrs?: (row: DataGridRow) => Record<string, unknown>;
+  /** Enter on a body cell with no widget, or a click outside any widget. */
+  onRowActivate?: (row: DataGridRow, id: string) => void;
+  /** Shown in one row spanning every column when no row is to be shown. */
+  empty?: React.ReactNode;
+  /** Rendered inside a `<tfoot>`. */
+  footer?: (ctx: { columns: DataGridColumn[]; rows: DataGridRow[] }) => React.ReactNode;
+  /** Sets `aria-busy` on the table. */
+  busy?: boolean;
+  /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
+  scroll?: boolean;
+  /** Extra CSS class on the root. */
+  className?: string;
+};
+
+/** What counts as a widget inside a cell: something a person can operate. */
+const WIDGET_SELECTOR =
+  'a[href], button, input, select, textarea, summary, [contenteditable="true"]';
+
+const MIN_COLUMN_WIDTH = 40;
+const RESIZE_STEP = 16;
+
+const DEFAULT_SORT: DataGridSort = { columnId: "", direction: "none" };
+const NO_ROWS: string[] = [];
+
+/** Default cell value reader: `row[column.id]`. */
+function defaultAccessor(column: DataGridColumn, row: DataGridRow): unknown {
+  return column.accessor ? column.accessor(row) : row[column.id];
+}
+
+/** Default cell formatter: `String(value)`, `""` for null/undefined. */
+function formatCell(column: DataGridColumn, row: DataGridRow): string {
+  const value = defaultAccessor(column, row);
+  if (column.format) return column.format(value, row);
+  return value === null || value === undefined ? "" : String(value);
+}
+
+/** A value the consumer may control (`value` supplied) or leave to the component (`defaultValue`). */
+function useControllable<T>(value: T | undefined, defaultValue: T): [T, (next: T) => void] {
+  const [internal, setInternal] = React.useState<T>(defaultValue);
+  return [value !== undefined ? value : internal, setInternal];
+}
+
+type Entry = { row: DataGridRow; id: string };
+
+export function DataGrid({
+  className = "",
+  label,
+  caption,
+  columns,
+  rows,
+  rowId = (_row: DataGridRow, index: number) => String(index),
+  selectionMode = "none",
+  selected: selectedProp,
+  defaultSelected = NO_ROWS,
+  onSelectionChange,
+  filter: filterProp,
+  defaultFilter = "",
+  onFilterChange,
+  sort: sortProp,
+  defaultSort = DEFAULT_SORT,
+  onSortChange,
+  pageSize,
+  page: pageProp,
+  defaultPage = 1,
+  onPageChange,
+  storageKey,
+  labels = {},
+  mode = "grid",
+  rowClass,
+  rowAttrs,
+  onRowActivate,
+  empty,
+  footer,
+  busy = false,
+  scroll = true,
+  ...restProps
+}: Props): React.ReactElement {
+  const isGrid = mode === "grid";
+
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  const [statusMessage, setStatusMessage] = React.useState("");
+  const [hiddenColumnIds, setHiddenColumnIds] = React.useState<Set<string>>(() => new Set());
+  const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
+  const [focusedRow, setFocusedRow] = React.useState(-1); // -1 = header row
+  const [focusedCol, setFocusedCol] = React.useState(0);
+  const lastSelectedIndexRef = React.useRef(-1); // index into sortedEntries, not into the page
+  const pendingFocusRef = React.useRef(false);
+
+  const [selected, setSelectedState] = useControllable(selectedProp, defaultSelected);
+  const [filter, setFilterState] = useControllable(filterProp, defaultFilter);
+  const [sort, setSortState] = useControllable(sortProp, defaultSort);
+  const [page, setPageState] = useControllable(pageProp, defaultPage);
+
+  const hasSelection = selectionMode !== "none";
+  const colOffset = hasSelection ? 1 : 0;
+
+  const visibleColumns = React.useMemo(
+    () => columns.filter((c) => !hiddenColumnIds.has(c.id)),
+    [columns, hiddenColumnIds],
+  );
+  const hidableColumns = React.useMemo(() => columns.filter((c) => c.hidable), [columns]);
+
+  // Each row's id is derived once, from its position in `rows`, so it
+  // survives sorting, filtering and paging (spec/index.md §6 "Row identity").
+  // `rowId` is read at call time, so an inline arrow does not defeat the memo.
+  const rowIdRef = React.useRef(rowId);
+  rowIdRef.current = rowId;
+  const entries = React.useMemo<Entry[]>(
+    () => rows.map((row, index) => ({ row, id: rowIdRef.current(row, index) })),
+    [rows],
+  );
+
+  // Each cell's value and formatted text, read once per row object and column
+  // (React re-renders every cell on every state change; the accessor and
+  // formatter are the consumer's code and may be costly). Reset when `columns`
+  // changes, so a new accessor or formatter is picked up.
+  const cellCache = React.useMemo(
+    () => new WeakMap<DataGridRow, Map<string, DataGridCellContext>>(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [columns],
+  );
+  function cellFor(column: DataGridColumn, row: DataGridRow): DataGridCellContext {
+    let perRow = cellCache.get(row);
+    if (!perRow) {
+      perRow = new Map();
+      cellCache.set(row, perRow);
+    }
+    let ctx = perRow.get(column.id);
+    if (!ctx) {
+      ctx = { value: defaultAccessor(column, row), formatted: formatCell(column, row), row, column };
+      perRow.set(column.id, ctx);
+    }
+    return ctx;
+  }
+
+  // Lowercased search text per row, built once per rows/columns change
+  // rather than reformatting every cell on every keystroke. Read only
+  // when a filter is active, so an unfiltered grid never builds it.
+  const searchIndexRef = React.useRef<{ key: unknown[]; index: string[][] } | null>(null);
+  function searchIndex(): string[][] {
+    const cached = searchIndexRef.current;
+    if (cached && cached.key[0] === entries && cached.key[1] === columns) return cached.index;
+    const filterableColumns = columns.filter((c) => c.filterable !== false);
+    const index = entries.map((entry) =>
+      filterableColumns.map((column) => cellFor(column, entry.row).formatted.toLowerCase()),
+    );
+    searchIndexRef.current = { key: [entries, columns], index };
+    return index;
+  }
+
+  function filterEntries(text: string): Entry[] {
+    const needle = text.trim().toLowerCase();
+    if (!needle) return entries;
+    const index = searchIndex();
+    return entries.filter((_entry, i) => index[i].some((value) => value.includes(needle)));
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const filteredEntries = React.useMemo(() => filterEntries(filter), [entries, columns, filter]);
+
+  const sortedEntries = React.useMemo(() => {
+    if (sort.direction === "none" || !sort.columnId) return filteredEntries;
+    const column = columns.find((c) => c.id === sort.columnId);
+    if (!column) return filteredEntries;
+    const dir = sort.direction === "ascending" ? 1 : -1;
+    const compare = column.compare;
+    // Read each sort key once (n accessor calls), not twice per comparison.
+    const keyed = filteredEntries.map((entry) => ({ entry, key: cellFor(column, entry.row).value }));
+    keyed.sort((a, b) => {
+      const av = a.key;
+      const bv = b.key;
+      if (av === bv) return 0;
+      // Missing values sort last in both directions.
+      if (av === null || av === undefined) return 1;
+      if (bv === null || bv === undefined) return -1;
+      if (compare) return compare(av, bv) * dir;
+      return (av as never) > (bv as never) ? dir : -dir;
+    });
+    return keyed.map((k) => k.entry);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredEntries, sort, columns]);
+
+  const pageCount = pageSize ? Math.max(1, Math.ceil(sortedEntries.length / pageSize)) : 1;
+  const clampedPage = Math.min(Math.max(page, 1), pageCount);
+  const pageStart = pageSize ? (clampedPage - 1) * pageSize : 0;
+  const pageEntries = React.useMemo(
+    () => (pageSize ? sortedEntries.slice(pageStart, pageStart + pageSize) : sortedEntries),
+    [sortedEntries, pageSize, pageStart],
+  );
+
+  const lastCol = colOffset + visibleColumns.length - 1;
+
+  // The roving position clamped to the cells that exist now. Filtering,
+  // paging, or hiding a column can remove the cell focusedRow/focusedCol
+  // name; without the clamp no cell would be tabbable and the grid would
+  // drop out of the tab order (spec/index.md §8.20).
+  const activeRow = Math.max(-1, Math.min(focusedRow, pageEntries.length - 1));
+  const activeCol = Math.max(0, Math.min(focusedCol, lastCol));
+
+  // Row position for assistive technology, only when pagination means the
+  // DOM holds a subset of the rows (spec/index.md §8.21). Header row is 1.
+  const rowCount = pageSize ? sortedEntries.length + 1 : undefined;
+
+  // O(1) membership instead of `selected.includes` per row.
+  const selectedSet = React.useMemo(() => new Set(selected), [selected]);
+  const allSelected =
+    sortedEntries.length > 0 && sortedEntries.every((entry) => selectedSet.has(entry.id));
+  const someSelected = !allSelected && sortedEntries.some((entry) => selectedSet.has(entry.id));
+
+  function announce(message: string | undefined): void {
+    if (message) setStatusMessage(message);
+  }
+
+  function setSort(next: DataGridSort): void {
+    setSortState(next);
+    onSortChange?.(next);
+  }
+
+  function setPage(next: number): void {
+    setPageState(next);
+    onPageChange?.(next);
+  }
+
+  // ---------------------------------------------------------------
+  // Sorting
+  // ---------------------------------------------------------------
+
+  function ariaSortFor(column: DataGridColumn): DataGridSortDirection | undefined {
+    if (!column.sortable) return undefined;
+    return sort.columnId === column.id ? sort.direction : "none";
+  }
+
+  function toggleSort(column: DataGridColumn): void {
+    if (!column.sortable) return;
+    const next: DataGridSort =
+      sort.columnId !== column.id
+        ? { columnId: column.id, direction: "ascending" }
+        : sort.direction === "ascending"
+          ? { columnId: column.id, direction: "descending" }
+          : sort.direction === "descending"
+            ? { columnId: "", direction: "none" }
+            : { columnId: column.id, direction: "ascending" };
+    setSort(next);
+    announce(labels.sortAnnouncement?.(column.header, next.direction));
+  }
+
+  // ---------------------------------------------------------------
+  // Filtering
+  // ---------------------------------------------------------------
+
+  function onFilterInput(event: React.ChangeEvent<HTMLInputElement>): void {
+    const next = event.target.value;
+    setFilterState(next);
+    setPage(1);
+    onFilterChange?.(next);
+    announce(labels.filterAnnouncement?.(filterEntries(next).length, rows.length));
+  }
+
+  // ---------------------------------------------------------------
+  // Selection
+  // ---------------------------------------------------------------
+
+  function isSelected(id: string): boolean {
+    return selectedSet.has(id);
+  }
+
+  function setSelected(next: string[]): void {
+    setSelectedState(next);
+    onSelectionChange?.(next);
+    announce(labels.selectionAnnouncement?.(next.length));
+  }
+
+  /** `index` is the row's position in `sortedEntries`, not on the current page. */
+  function toggleRow(
+    index: number,
+    event?: { shiftKey?: boolean; ctrlKey?: boolean; metaKey?: boolean },
+  ): void {
+    const id = sortedEntries[index].id;
+    const lastSelectedIndex = lastSelectedIndexRef.current;
+    if (selectionMode === "single") {
+      setSelected(isSelected(id) ? [] : [id]);
+    } else if (selectionMode === "multiple") {
+      if (event?.shiftKey && lastSelectedIndex >= 0) {
+        const [start, end] =
+          lastSelectedIndex < index ? [lastSelectedIndex, index] : [index, lastSelectedIndex];
+        const range = sortedEntries.slice(start, end + 1).map((entry) => entry.id);
+        setSelected([...new Set([...selected, ...range])]);
+      } else if (event?.ctrlKey || event?.metaKey) {
+        setSelected(isSelected(id) ? selected.filter((x) => x !== id) : [...selected, id]);
+      } else {
+        setSelected(isSelected(id) && selected.length === 1 ? [] : [id]);
+      }
+    }
+    lastSelectedIndexRef.current = index;
+  }
+
+  function toggleSelectAll(): void {
+    if (allSelected) {
+      setSelected([]);
+    } else {
+      setSelected(sortedEntries.map((entry) => entry.id));
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Column resize
+  // ---------------------------------------------------------------
+
+  function widthFor(column: DataGridColumn): number | undefined {
+    return columnWidths[column.id] ?? column.width;
+  }
+
+  /** Inline style of a column's cells: its width, and its alignment where one is set. */
+  function cellStyle(column: DataGridColumn): React.CSSProperties | undefined {
+    const style: Record<string, string> = {};
+    const width = widthFor(column);
+    if (width) style.width = `${width}px`;
+    if (column.align) style.textAlign = column.align;
+    return Object.keys(style).length > 0 ? (style as React.CSSProperties) : undefined;
+  }
+
+  function setWidth(column: DataGridColumn, width: number): void {
+    setColumnWidths((current) => ({ ...current, [column.id]: Math.max(MIN_COLUMN_WIDTH, width) }));
+  }
+
+  function onResizeKeydown(column: DataGridColumn, event: React.KeyboardEvent): void {
+    // The resize handle is its own tab stop outside the grid's
+    // roving-tabindex system (see spec/index.md §6) — every key here
+    // must stop, or it bubbles into onGridKeydown and moves grid focus
+    // out from under the handle the user is actually operating.
+    event.stopPropagation();
+    const current = widthFor(column) ?? 120;
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      setWidth(column, current + RESIZE_STEP);
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      setWidth(column, current - RESIZE_STEP);
+    }
+  }
+
+  function onResizePointerDown(column: DataGridColumn, event: React.PointerEvent): void {
+    event.preventDefault();
+    const startX = event.clientX;
+    const target = event.target as HTMLElement;
+    const startWidth =
+      widthFor(column) ?? target.closest("th")?.getBoundingClientRect().width ?? 120;
+    target.setPointerCapture?.(event.pointerId);
+
+    function onMove(moveEvent: PointerEvent): void {
+      setWidth(column, startWidth + (moveEvent.clientX - startX));
+    }
+    function onUp(): void {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    }
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  }
+
+  // ---------------------------------------------------------------
+  // Column visibility
+  // ---------------------------------------------------------------
+
+  function toggleColumnVisibility(columnId: string): void {
+    setHiddenColumnIds((current) => {
+      const next = new Set(current);
+      if (next.has(columnId)) next.delete(columnId);
+      else next.add(columnId);
+      return next;
+    });
+  }
+
+  // ---------------------------------------------------------------
+  // Pagination
+  // ---------------------------------------------------------------
+
+  function goToPage(next: number): void {
+    const target = Math.min(Math.max(next, 1), pageCount);
+    if (target === clampedPage) return;
+    setPage(target);
+    announce(labels.pageAnnouncement?.(target, pageCount));
+  }
+
+  // ---------------------------------------------------------------
+  // Roving-tabindex grid keyboard navigation (WAI-ARIA APG Grid pattern)
+  // ---------------------------------------------------------------
+
+  // Focus is moved after the commit that makes the target cell the tab stop,
+  // and only after a user action — mounting the grid never takes focus.
+  React.useEffect(() => {
+    if (!pendingFocusRef.current) return;
+    pendingFocusRef.current = false;
+    rootRef.current
+      ?.querySelector<HTMLElement>('.data-table-th[tabindex="0"], .data-table-td[tabindex="0"]')
+      ?.focus({ preventScroll: true });
+  });
+
+  function moveFocus(row: number, col: number): void {
+    setFocusedRow(Math.min(Math.max(row, -1), pageEntries.length - 1));
+    setFocusedCol(Math.min(Math.max(col, 0), lastCol));
+    pendingFocusRef.current = true;
+  }
+
+  function activateFocusedCell(): void {
+    if (activeCol === 0 && hasSelection) {
+      if (activeRow === -1) {
+        if (selectionMode === "multiple") toggleSelectAll();
+      } else {
+        toggleRow(pageStart + activeRow);
+      }
+      return;
+    }
+    const column = visibleColumns[activeCol - colOffset];
+    if (!column) return;
+    if (activeRow === -1) {
+      toggleSort(column);
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Widgets inside cells (APG grid: interactive cell contents)
+  // ---------------------------------------------------------------
+
+  /** The widgets a consumer put in a body cell (never the grid's own controls). */
+  function widgetsIn(cell: Element): HTMLElement[] {
+    return Array.from(cell.querySelectorAll<HTMLElement>(WIDGET_SELECTOR)).filter(
+      (el) => !el.closest("[data-grid-own]"),
+    );
+  }
+
+  function setWidgetTabindex(cell: Element, value: "0" | "-1"): void {
+    for (const widget of widgetsIn(cell)) widget.setAttribute("tabindex", value);
+  }
+
+  // Widgets in body cells are not tab stops, so Tab leaves the grid in one step.
+  // Re-run whenever what is on screen could have changed.
+  React.useEffect(() => {
+    const root = rootRef.current;
+    if (!root || !isGrid) return;
+    for (const cell of root.querySelectorAll(".data-table-body [data-row][data-col]")) {
+      if (cell.getAttribute("data-grid-entered") === "true") continue;
+      setWidgetTabindex(cell, "-1");
+    }
+  }, [pageEntries, visibleColumns, isGrid]);
+
+  /** Focus the first widget of a cell; its widgets are tab stops while focus stays inside it. */
+  function enterCell(cell: HTMLElement): boolean {
+    const first = widgetsIn(cell)[0];
+    if (!first) return false;
+    cell.setAttribute("data-grid-entered", "true");
+    setWidgetTabindex(cell, "0");
+    first.focus();
+    return true;
+  }
+
+  function leaveCell(cell: Element): void {
+    if (cell.getAttribute("data-grid-entered") !== "true") return;
+    cell.removeAttribute("data-grid-entered");
+    setWidgetTabindex(cell, "-1");
+  }
+
+  /** Pointer or programmatic focus on a cell moves the roving position to it. */
+  function onGridFocus(event: React.FocusEvent): void {
+    const target = event.target as HTMLElement;
+    const cell = target.closest<HTMLElement>("[data-row][data-col]");
+    if (!cell) return;
+    setFocusedRow(Number(cell.dataset.row));
+    setFocusedCol(Number(cell.dataset.col));
+    // Focus arriving on a widget (a click, or Tab inside the cell) makes the cell's widgets tab stops.
+    if (target !== cell && !target.closest("[data-grid-own]") && cell.closest(".data-table-body")) {
+      cell.setAttribute("data-grid-entered", "true");
+      setWidgetTabindex(cell, "0");
+    }
+  }
+
+  function onGridBlur(event: React.FocusEvent): void {
+    const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+    if (!cell) return;
+    const next = event.relatedTarget as Node | null;
+    if (next && cell.contains(next)) return;
+    leaveCell(cell);
+  }
+
+  /** A click on a body cell, outside any widget, activates its row. */
+  function onGridClick(event: React.MouseEvent): void {
+    if (!onRowActivate) return;
+    const target = event.target as HTMLElement;
+    const cell = target.closest<HTMLElement>("[data-row][data-col]");
+    if (!cell || cell.closest(".data-table-head")) return;
+    if (target.closest(WIDGET_SELECTOR) || target.closest("[data-grid-own]")) return;
+    const entry = pageEntries[Number(cell.dataset.row)];
+    if (entry) onRowActivate(entry.row, entry.id);
+  }
+
+  function onGridKeydown(event: React.KeyboardEvent): void {
+    const target = event.target as HTMLElement;
+    const cell = target.closest<HTMLElement>("[data-row][data-col]");
+    if (!cell) return;
+    // A key pressed on a widget inside a cell belongs to the widget: the caret moves in a field, a select
+    // opens, a link follows. Only Escape is the grid's, and it hands focus back to the cell.
+    if (target !== cell && !target.closest("[data-grid-own]")) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        cell.focus({ preventScroll: true });
+      }
+      return;
+    }
+    switch (event.key) {
+      case "ArrowRight":
+        event.preventDefault();
+        moveFocus(activeRow, activeCol + 1);
+        break;
+      case "ArrowLeft":
+        event.preventDefault();
+        moveFocus(activeRow, activeCol - 1);
+        break;
+      case "ArrowDown":
+        event.preventDefault();
+        moveFocus(activeRow + 1, activeCol);
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        moveFocus(activeRow - 1, activeCol);
+        break;
+      case "Home":
+        event.preventDefault();
+        if (event.ctrlKey || event.metaKey) moveFocus(-1, 0);
+        else moveFocus(activeRow, 0);
+        break;
+      case "End":
+        event.preventDefault();
+        if (event.ctrlKey || event.metaKey) moveFocus(pageEntries.length - 1, lastCol);
+        else moveFocus(activeRow, lastCol);
+        break;
+      case "PageDown":
+        event.preventDefault();
+        moveFocus(activeRow + (pageSize ?? 10), activeCol);
+        break;
+      case "PageUp":
+        event.preventDefault();
+        moveFocus(activeRow - (pageSize ?? 10), activeCol);
+        break;
+      case "Enter":
+      case " ":
+        event.preventDefault();
+        if (target === cell && cell.closest(".data-table-body") && !cell.querySelector("[data-grid-own]")) {
+          // A cell with a widget in it is entered; one without activates its row.
+          if (enterCell(cell)) break;
+          if (event.key === "Enter" && onRowActivate) {
+            const entry = pageEntries[Number(cell.dataset.row)];
+            if (entry) onRowActivate(entry.row, entry.id);
+            break;
+          }
+        }
+        activateFocusedCell();
+        break;
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Persistence (view state only: widths, hidden columns, sort — never rows/selection)
+  // ---------------------------------------------------------------
+
+  // Restoring and writing are separate steps: the first commit must not overwrite
+  // what is stored with the defaults before the stored view has been applied.
+  const [hydrated, setHydrated] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!storageKey) return;
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const saved = JSON.parse(raw) as {
+          columnWidths?: Record<string, number>;
+          hiddenColumnIds?: string[];
+          sort?: DataGridSort;
+        };
+        if (saved.columnWidths) setColumnWidths(saved.columnWidths);
+        if (saved.hiddenColumnIds) setHiddenColumnIds(new Set(saved.hiddenColumnIds));
+        if (saved.sort) setSort(saved.sort);
+      }
+    } catch {
+      // ignore quota / privacy / parse errors
+    }
+    setHydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageKey]);
+
+  React.useEffect(() => {
+    if (!storageKey || !hydrated || typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({ columnWidths, hiddenColumnIds: [...hiddenColumnIds], sort }),
+      );
+    } catch {
+      // ignore quota / privacy errors
+    }
+  }, [storageKey, hydrated, columnWidths, hiddenColumnIds, sort]);
+
+  // ---------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------
+
+  const table = (
+    <DataTable
+      label={label}
+      caption={caption}
+      role={isGrid ? "grid" : "table"}
+      aria-rowcount={isGrid ? rowCount : undefined}
+      aria-busy={busy ? "true" : undefined}
+      onKeyDown={isGrid ? onGridKeydown : undefined}
+      onFocus={isGrid ? onGridFocus : undefined}
+      onBlur={isGrid ? onGridBlur : undefined}
+      onClick={onRowActivate ? onGridClick : undefined}
+    >
+      <DataTableHead>
+        <DataTableRow aria-rowindex={pageSize ? 1 : undefined}>
+          {hasSelection && (
+            <DataTableTH
+              data-row={-1}
+              data-col={0}
+              tabIndex={isGrid ? (activeRow === -1 && activeCol === 0 ? 0 : -1) : undefined}
+            >
+              {selectionMode === "multiple" ? (
+                <input
+                  type="checkbox"
+                  data-grid-own=""
+                  tabIndex={isGrid ? -1 : undefined}
+                  aria-label={labels.selectAll}
+                  checked={allSelected}
+                  ref={(node) => {
+                    // `indeterminate` is a JS-only DOM property, not an attribute.
+                    if (node) node.indeterminate = someSelected;
+                  }}
+                  onChange={() => {}}
+                  onClick={toggleSelectAll}
+                />
+              ) : (
+                <span className="data-grid-selection-header-label">{labels.selectionColumn}</span>
+              )}
+            </DataTableTH>
+          )}
+          {visibleColumns.map((column, i) => (
+            <DataTableTH
+              key={column.id}
+              data-row={-1}
+              data-col={colOffset + i}
+              data-align={column.align}
+              tabIndex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
+              aria-sort={ariaSortFor(column)}
+              style={cellStyle(column)}
+            >
+              {column.sortable ? (
+                <button
+                  type="button"
+                  className="data-grid-sort-button"
+                  data-grid-own=""
+                  tabIndex={isGrid ? -1 : undefined}
+                  onClick={() => toggleSort(column)}
+                >
+                  {column.headerCell ? column.headerCell({ column }) : column.header}
+                </button>
+              ) : column.headerCell ? (
+                column.headerCell({ column })
+              ) : (
+                column.header
+              )}
+              {column.resizable && (
+                // WAI-ARIA "window splitter" pattern: role="separator" plus tabindex/aria-valuenow is
+                // exactly how a resize handle becomes focusable and operable.
+                <span
+                  className="data-grid-resize-handle"
+                  role="separator"
+                  data-grid-own=""
+                  aria-orientation="vertical"
+                  aria-label={labels.resizeHandle?.(column.header)}
+                  aria-valuenow={widthFor(column) ?? 120}
+                  aria-valuemin={MIN_COLUMN_WIDTH}
+                  tabIndex={0}
+                  onKeyDown={(e) => onResizeKeydown(column, e)}
+                  onPointerDown={(e) => onResizePointerDown(column, e)}
+                />
+              )}
+            </DataTableTH>
+          ))}
+        </DataTableRow>
+      </DataTableHead>
+      <DataTableBody>
+        {pageEntries.map((entry, rowIndex) => {
+          const row = entry.row;
+          const id = entry.id;
+          return (
+            <DataTableRow
+              key={id}
+              className={rowClass?.(row)}
+              aria-selected={hasSelection ? isSelected(id) : undefined}
+              aria-rowindex={pageSize ? pageStart + rowIndex + 2 : undefined}
+              {...(rowAttrs?.(row) ?? {})}
+            >
+              {hasSelection && (
+                <DataTableTD
+                  data-row={rowIndex}
+                  data-col={0}
+                  role={isGrid ? "gridcell" : "cell"}
+                  {...(isGrid
+                    ? { active: activeRow === rowIndex && activeCol === 0 }
+                    : { tabIndex: undefined })}
+                >
+                  <input
+                    type={selectionMode === "single" ? "radio" : "checkbox"}
+                    data-grid-own=""
+                    tabIndex={isGrid ? -1 : undefined}
+                    aria-label={labels.selectRow?.(
+                      visibleColumns[0] ? cellFor(visibleColumns[0], row).formatted : String(rowIndex + 1),
+                    )}
+                    checked={isSelected(id)}
+                    onChange={() => {}}
+                    onClick={(e) => toggleRow(pageStart + rowIndex, e)}
+                  />
+                </DataTableTD>
+              )}
+              {visibleColumns.map((column, colIndex) => {
+                const ctx = cellFor(column, row);
+                const extra = column.cellAttrs?.(ctx) ?? {};
+                const extraClass =
+                  typeof column.cellClass === "function" ? column.cellClass(ctx) : column.cellClass;
+                const content = column.cell ? column.cell(ctx) : ctx.formatted;
+                const isActive = activeRow === rowIndex && activeCol === colOffset + colIndex;
+                return column.rowHeader ? (
+                  <DataTableTH
+                    key={column.id}
+                    scope="row"
+                    role="rowheader"
+                    className={extraClass}
+                    data-row={rowIndex}
+                    data-col={colOffset + colIndex}
+                    data-align={column.align}
+                    tabIndex={isGrid ? (isActive ? 0 : -1) : undefined}
+                    style={cellStyle(column)}
+                    {...extra}
+                  >
+                    {content}
+                  </DataTableTH>
+                ) : (
+                  <DataTableTD
+                    key={column.id}
+                    className={extraClass}
+                    data-row={rowIndex}
+                    data-col={colOffset + colIndex}
+                    data-align={column.align}
+                    role={isGrid ? "gridcell" : "cell"}
+                    {...(isGrid ? { active: isActive } : { tabIndex: undefined })}
+                    style={cellStyle(column)}
+                    {...extra}
+                  >
+                    {content}
+                  </DataTableTD>
+                );
+              })}
+            </DataTableRow>
+          );
+        })}
+        {pageEntries.length === 0 && empty !== undefined && empty !== null && (
+          <DataTableRow className="data-grid-empty-row">
+            <DataTableTD
+              className="data-grid-empty"
+              colSpan={lastCol + 1}
+              role={isGrid ? "gridcell" : "cell"}
+              tabIndex={undefined}
+            >
+              {empty}
+            </DataTableTD>
+          </DataTableRow>
+        )}
+      </DataTableBody>
+      {footer && (
+        <DataTableFoot>
+          {footer({ columns: visibleColumns, rows: pageEntries.map((e) => e.row) })}
+        </DataTableFoot>
+      )}
+    </DataTable>
+  );
+
+  return (
+    <div ref={rootRef} className={`data-grid ${className}`.trim()} {...restProps}>
+      {(labels.search || hidableColumns.length > 0) && (
+        <div className="data-grid-toolbar">
+          {labels.search && (
+            <input
+              className="data-grid-search"
+              type="search"
+              aria-label={labels.search}
+              value={filter}
+              onChange={onFilterInput}
+            />
+          )}
+          {hidableColumns.length > 0 && labels.columnVisibility && (
+            <fieldset className="data-grid-column-visibility">
+              <legend>{labels.columnVisibility}</legend>
+              {hidableColumns.map((column) => (
+                <label key={column.id}>
+                  <input
+                    type="checkbox"
+                    checked={!hiddenColumnIds.has(column.id)}
+                    onChange={() => toggleColumnVisibility(column.id)}
+                  />
+                  {labels.columnVisibilityOption?.(column.header) ?? column.header}
+                </label>
+              ))}
+            </fieldset>
+          )}
+        </div>
+      )}
+
+      {scroll ? (
+        // A scrollable region must be reachable by keyboard (WCAG 2.1.1; axe `scrollable-region-focusable`).
+        // In grid mode a roving cell is already a tab stop, so only table mode makes the region one.
+        <div
+          className="data-grid-scroll"
+          role="region"
+          aria-label={label}
+          tabIndex={isGrid ? undefined : 0}
+        >
+          {table}
+        </div>
+      ) : (
+        table
+      )}
+
+      {pageSize ? (
+        <div className="data-grid-pagination">
+          <button
+            type="button"
+            className="data-grid-page-previous"
+            disabled={clampedPage <= 1}
+            onClick={() => goToPage(clampedPage - 1)}
+          >
+            {labels.previousPage}
+          </button>
+          <span className="data-grid-page-status">
+            {labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}
+          </span>
+          <button
+            type="button"
+            className="data-grid-page-next"
+            disabled={clampedPage >= pageCount}
+            onClick={() => goToPage(clampedPage + 1)}
+          >
+            {labels.nextPage}
+          </button>
+        </div>
+      ) : null}
+
+      <p className="data-grid-status" aria-live="polite">
+        {statusMessage}
+      </p>
+    </div>
+  );
+}
+
+export default DataGrid;

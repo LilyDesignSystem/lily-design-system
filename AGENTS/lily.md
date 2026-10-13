@@ -63,6 +63,7 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 
 The React helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages react`):
 
+- [`lily-design-system-react-data-grid`](../lily-design-system-react-data-grid) — `@lilydesignsystem/react-data-grid`
 - [`lily-design-system-react-date-time-picker`](../lily-design-system-react-date-time-picker) — `@lilydesignsystem/react-date-time-picker`
 - [`lily-design-system-react-kanban-board`](../lily-design-system-react-kanban-board) — `@lilydesignsystem/react-kanban-board`
 - [`lily-design-system-react-link-picker`](../lily-design-system-react-link-picker) — `@lilydesignsystem/react-link-picker`

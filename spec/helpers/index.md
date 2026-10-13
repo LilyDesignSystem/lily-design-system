@@ -72,6 +72,7 @@ build order, which CI and `bin/publish-helpers` follow.
 Until 2026-10-10 in the `lily-design-system-react-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages react`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-react-data-grid`](../../lily-design-system-react-data-grid/) — `@lilydesignsystem/react-data-grid`
 - [`lily-design-system-react-date-time-picker`](../../lily-design-system-react-date-time-picker/) — `@lilydesignsystem/react-date-time-picker`
 - [`lily-design-system-react-kanban-board`](../../lily-design-system-react-kanban-board/) — `@lilydesignsystem/react-kanban-board`
 - [`lily-design-system-react-link-picker`](../../lily-design-system-react-link-picker/) — `@lilydesignsystem/react-link-picker`
@@ -424,8 +425,9 @@ containing its compiled source.
 
 ## data-grid contract
 
-**Status: implemented for Svelte only (2026-09-21), as
-`@lilydesignsystem/svelte-data-grid`; the other seven catalogs do not
+**Status: implemented for Svelte (2026-09-21), as
+`@lilydesignsystem/svelte-data-grid`, and ported to React (2026-10-13), as
+`@lilydesignsystem/react-data-grid`; the other six catalogs do not
 port it yet. Since 2026-10-09 the package is its own top-level
 subproject, `lily-design-system-svelte-data-grid`, rather than a
 directory inside `svelte-helpers`.** Specced first, before the package existed, per this
@@ -433,7 +435,7 @@ topic's own "Spec-driven" principle — the numbered contract below
 matches [the package's own `spec/index.md`](../../lily-design-system-svelte-data-grid/spec/index.md),
 which is canonical. It shipped in `svelte-helpers` first, the same
 workflow `motion-picker`, `date-time-picker`, and `picker-bar` each
-followed; porting it to the other seven catalogs is open work, not
+followed; porting it to the other six catalogs is open work, not
 started.
 
 An interactive layer over the headless `DataTable` family. The
