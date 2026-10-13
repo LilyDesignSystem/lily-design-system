@@ -4,6 +4,38 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-10-13
+
+Rich cells. A grid whose cells can hold links, buttons, inputs and
+badges, and plain tables that do not need a grid's keyboard model. All
+additive: without the new options 0.3.0 behaviour is unchanged (§8.25–§8.34).
+
+### Added
+
+- **Real-browser tests** (`pnpm test:e2e`): Playwright in Chromium, Firefox and WebKit
+  for focus and tab order of widgets in cells (§8.35). Dev-only; not published.
+
+- **Interactive cell contents** (APG grid pattern). A key pressed on a
+  link, button, input or select *inside* a body cell is no longer
+  intercepted: the caret moves, a select opens, a link follows. `Escape`
+  returns focus to the cell. Widgets in body cells are `tabindex="-1"`
+  so Tab leaves the grid in one step; `Enter` on a cell that holds one
+  enters it (its widgets become tab stops while focus is inside). The
+  grid's own controls carry `data-grid-own` and keep following grid keys.
+- `mode: "grid" | "table"`. `"table"` is `role="table"` with `role="cell"`
+  cells, no roving tab stop and no grid keyboard handler; sort buttons,
+  selection controls and widgets are ordinary tab stops. For data that is
+  read, not navigated.
+- `DataGridColumn.headerCell` (header content snippet; `header` stays the
+  accessible name), `.rowHeader` (`<th scope="row" role="rowheader">`),
+  `.align`, `.cellClass`, `.cellAttrs`.
+- Grid props `rowClass`, `rowAttrs`, `onRowActivate(row, id)` (Enter on a
+  cell with no widget; a click outside any widget), `empty` and `footer`
+  snippets, `busy` (`aria-busy`).
+- `scroll` (default true): the table sits in a named
+  `data-grid-scroll` `role="region"`; in table mode the region is a tab
+  stop so a keyboard user can scroll it.
+
 ## 0.3.0 — 2026-10-10
 
 Accessibility and correctness audit; each fix has a test that failed

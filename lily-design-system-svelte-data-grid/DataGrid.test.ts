@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, within } from "@testing-library/svelte";
-import { createRawSnippet } from "svelte";
+import { createRawSnippet, tick } from "svelte";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import DataGrid from "./DataGrid.svelte";
@@ -466,5 +466,212 @@ describe("DataGrid — custom comparison (§8.24)", () => {
         render(DataGrid, { props: { label: "Users", columns, rows } });
         await fireEvent.click(screen.getByRole("button", { name: "Name" }));
         expect(bodyRows().map((r) => r.textContent?.trim())).toEqual(["alice", "Bob", "Zoe"]);
+    });
+});
+
+// ─── Interactive cells, table mode and the slots (§8.25–§8.34) ──────────────
+
+const widgetCell = createRawSnippet((ctx: () => { formatted: string }) => ({
+    render: () => `<span><a class="w-link" href="#${ctx().formatted}">${ctx().formatted}</a><input class="w-input" value="${ctx().formatted}"></span>`,
+}));
+const WIDGET_COLUMNS: DataGridColumn[] = [
+    { id: "name", header: "Name", sortable: true },
+    { id: "email", header: "Email", cell: widgetCell },
+];
+
+function press(target: Element, key: string): KeyboardEvent {
+    const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+    target.dispatchEvent(event);
+    return event;
+}
+
+describe("DataGrid — widgets inside cells (§8.25, §8.26)", () => {
+    test("§8.25 a key pressed on an input in a cell is not swallowed and does not move the roving position", async () => {
+        render(DataGrid, { props: { label: "Users", columns: WIDGET_COLUMNS, rows: ROWS } });
+        const input = document.querySelector<HTMLInputElement>(".w-input")!;
+        const before = tabbableCells()[0];
+        for (const key of ["ArrowLeft", "ArrowRight", "ArrowDown", "Home", "End", "Enter", " "]) {
+            expect(press(input, key).defaultPrevented, key).toBe(false);
+        }
+        expect(tabbableCells()).toEqual([before]);
+    });
+
+    test("§8.25 Escape on a widget focuses its cell", async () => {
+        render(DataGrid, { props: { label: "Users", columns: WIDGET_COLUMNS, rows: ROWS } });
+        const input = document.querySelector<HTMLInputElement>(".w-input")!;
+        input.focus();
+        press(input, "Escape");
+        expect(document.activeElement).toBe(input.closest(".data-table-td"));
+    });
+
+    test("§8.25 the grid's own controls still follow grid keys", async () => {
+        render(DataGrid, { props: { label: "Users", columns: WIDGET_COLUMNS, rows: ROWS, selectionMode: "multiple", labels: LABELS } });
+        const selectAll = screen.getByLabelText("Select all rows");
+        expect(press(selectAll, "ArrowRight").defaultPrevented).toBe(true);
+    });
+
+    test("§8.26 widgets in body cells are not tab stops, and Enter on the cell enters it", async () => {
+        render(DataGrid, { props: { label: "Users", columns: WIDGET_COLUMNS, rows: ROWS } });
+        await tick();
+        await Promise.resolve();
+        const widgets = Array.from(document.querySelectorAll<HTMLElement>(".w-link, .w-input"));
+        expect(widgets).toHaveLength(4);
+        for (const w of widgets) expect(w.getAttribute("tabindex")).toBe("-1");
+        const cell = bodyRows()[0].querySelectorAll<HTMLElement>(".data-table-td")[1];
+        const event = press(cell, "Enter");
+        expect(event.defaultPrevented).toBe(true);
+        expect(document.activeElement).toBe(cell.querySelector(".w-link"));
+        // While focus is inside the cell its widgets are tab stops, so Tab can move between them.
+        for (const w of cell.querySelectorAll<HTMLElement>(".w-link, .w-input")) expect(w.getAttribute("tabindex")).toBe("0");
+        // Leaving the cell puts them back.
+        await fireEvent.focusOut(cell.querySelector(".w-input")!, { relatedTarget: document.body });
+        for (const w of cell.querySelectorAll<HTMLElement>(".w-link, .w-input")) expect(w.getAttribute("tabindex")).toBe("-1");
+    });
+});
+
+describe("DataGrid — table mode (§8.27)", () => {
+    test("§8.27 a plain table: role table, role cell, no roving tab stop, no grid keys", async () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, mode: "table", selectionMode: "multiple", labels: LABELS } });
+        const table = screen.getByRole("table", { name: "Users" });
+        expect(table.getAttribute("role")).toBe("table");
+        expect(screen.queryByRole("grid")).toBeNull();
+        const cells = Array.from(document.querySelectorAll(".data-table-td"));
+        expect(cells.length).toBeGreaterThan(0);
+        for (const c of cells) {
+            expect(c.getAttribute("role")).toBe("cell");
+            expect(c.hasAttribute("tabindex")).toBe(false);
+        }
+        expect(tabbableCells()).toEqual([]);
+        expect(press(cells[0], "ArrowDown").defaultPrevented).toBe(false);
+        // Sort buttons and selection inputs are ordinary tab stops.
+        expect(screen.getByRole("button", { name: "Name" }).hasAttribute("tabindex")).toBe(false);
+        expect(screen.getByLabelText("Select all rows").hasAttribute("tabindex")).toBe(false);
+        // The rest still works: sorting.
+        await fireEvent.click(screen.getByRole("button", { name: "Name" }));
+        expect(bodyRows()[0].textContent).toContain("Alice");
+    });
+});
+
+describe("DataGrid — row headers and attribute hooks (§8.28, §8.29)", () => {
+    test("§8.28 a rowHeader column renders th scope=row in the body", () => {
+        const columns: DataGridColumn[] = [{ id: "name", header: "Name", rowHeader: true }, { id: "email", header: "Email" }];
+        render(DataGrid, { props: { label: "Users", columns, rows: ROWS } });
+        const th = bodyRows()[0].querySelector("th")!;
+        expect(th.getAttribute("scope")).toBe("row");
+        expect(th.getAttribute("role")).toBe("rowheader");
+        expect(th.textContent?.trim()).toBe("Bob");
+    });
+
+    test("§8.29 rowClass, rowAttrs, cellClass, cellAttrs and align reach the DOM", () => {
+        const columns: DataGridColumn[] = [
+            { id: "name", header: "Name", align: "end", cellClass: (ctx) => `n-${String(ctx.value).toLowerCase()}`, cellAttrs: (ctx) => ({ "data-testid": `name-${String(ctx.value)}` }) },
+            { id: "email", header: "Email", cellClass: "plain" },
+        ];
+        render(DataGrid, {
+            props: {
+                label: "Users", columns, rows: ROWS,
+                rowClass: (row: Record<string, unknown>) => `row-${String(row.name)}`,
+                rowAttrs: (row: Record<string, unknown>) => ({ "data-testid": `row-${String(row.name)}` }),
+            },
+        });
+        const row = screen.getByTestId("row-Bob");
+        expect(row.classList.contains("row-Bob")).toBe(true);
+        const nameCell = screen.getByTestId("name-Bob");
+        expect(nameCell.classList.contains("n-bob")).toBe(true);
+        expect(nameCell.getAttribute("data-align")).toBe("end");
+        expect((nameCell as HTMLElement).style.textAlign).toBe("end");
+        expect(row.querySelectorAll(".plain")).toHaveLength(1);
+    });
+});
+
+describe("DataGrid — header content (§8.30)", () => {
+    test("§8.30 headerCell replaces the header text inside the sort button; `header` stays the visibility label", () => {
+        const headerCell = createRawSnippet((ctx: () => { column: DataGridColumn }) => ({
+            render: () => `<span class="h-icon">★ ${ctx().column.header}</span>`,
+        }));
+        const columns: DataGridColumn[] = [{ id: "name", header: "Name", sortable: true, hidable: true, headerCell }];
+        render(DataGrid, { props: { label: "Users", columns, rows: ROWS, labels: LABELS } });
+        const button = document.querySelector(".data-grid-sort-button")!;
+        expect(button.querySelector(".h-icon")?.textContent).toBe("★ Name");
+        expect(screen.getByLabelText("Show Name")).toBeTruthy();
+    });
+});
+
+describe("DataGrid — empty, footer, busy (§8.31, §8.32)", () => {
+    const empty = createRawSnippet(() => ({ render: () => `<span class="e-text">Nobody here</span>` }));
+    const footer = createRawSnippet((ctx: () => { rows: unknown[] }) => ({
+        render: () => `<tr class="f-row"><td>${ctx().rows.length} rows</td></tr>`,
+    }));
+
+    test("§8.31 with nothing to show an `empty` snippet fills one cell spanning every column", async () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: [], empty } });
+        const cell = document.querySelector(".data-grid-empty")!;
+        expect(cell.getAttribute("colspan")).toBe("2");
+        expect(cell.querySelector(".e-text")?.textContent).toBe("Nobody here");
+    });
+
+    test("§8.31 a filter that matches nothing shows it; without the snippet there is no extra row", async () => {
+        const { unmount } = render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, empty, labels: LABELS, filter: "zzz" } });
+        expect(document.querySelector(".data-grid-empty")).not.toBeNull();
+        unmount();
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: [] } });
+        expect(document.querySelector(".data-grid-empty")).toBeNull();
+        expect(bodyRows()).toHaveLength(0);
+    });
+
+    test("§8.32 a footer snippet renders in a tfoot, and busy sets aria-busy", () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, footer, busy: true } });
+        expect(document.querySelector("tfoot .f-row")?.textContent).toBe("2 rows");
+        expect(screen.getByRole("grid").getAttribute("aria-busy")).toBe("true");
+    });
+});
+
+describe("DataGrid — scroll region (§8.33)", () => {
+    test("§8.33 the table sits in a named scroll region; only in table mode is the region a tab stop", () => {
+        const { unmount } = render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS } });
+        const region = document.querySelector(".data-grid-scroll")!;
+        expect(region.getAttribute("role")).toBe("region");
+        expect(region.getAttribute("aria-label")).toBe("Users");
+        expect(region.hasAttribute("tabindex")).toBe(false);
+        unmount();
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, mode: "table" } });
+        expect(document.querySelector(".data-grid-scroll")!.getAttribute("tabindex")).toBe("0");
+    });
+
+    test("§8.33 scroll=false leaves the table unwrapped", () => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, scroll: false } });
+        expect(document.querySelector(".data-grid-scroll")).toBeNull();
+        expect(screen.getByRole("grid")).toBeTruthy();
+    });
+});
+
+describe("DataGrid — row activation (§8.34)", () => {
+    test("§8.34 Enter on a body cell with no widget, and a click outside a widget, activate the row", async () => {
+        const onRowActivate = vi.fn();
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, onRowActivate, rowId: (r: Record<string, unknown>) => String(r.name) } });
+        const cell = bodyRows()[1].querySelectorAll<HTMLElement>(".data-table-td")[0];
+        press(cell, "Enter");
+        expect(onRowActivate).toHaveBeenLastCalledWith(ROWS[1], "Alice");
+        await fireEvent.click(bodyRows()[0].querySelectorAll(".data-table-td")[1]);
+        expect(onRowActivate).toHaveBeenLastCalledWith(ROWS[0], "Bob");
+        expect(onRowActivate).toHaveBeenCalledTimes(2);
+    });
+
+    test("§8.34 a click on a widget in the cell does not activate the row, and Enter on a cell with one enters it instead", async () => {
+        const onRowActivate = vi.fn();
+        render(DataGrid, { props: { label: "Users", columns: WIDGET_COLUMNS, rows: ROWS, onRowActivate } });
+        await fireEvent.click(document.querySelector(".w-link")!);
+        expect(onRowActivate).not.toHaveBeenCalled();
+        const cell = bodyRows()[0].querySelectorAll<HTMLElement>(".data-table-td")[1];
+        press(cell, "Enter");
+        expect(onRowActivate).not.toHaveBeenCalled();
+        expect(document.activeElement).toBe(cell.querySelector(".w-link"));
+    });
+
+    test("§8.34 the header row never activates a row", async () => {
+        const onRowActivate = vi.fn();
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: ROWS, onRowActivate } });
+        await fireEvent.click(document.querySelector(".data-table-th")!);
+        expect(onRowActivate).not.toHaveBeenCalled();
     });
 });

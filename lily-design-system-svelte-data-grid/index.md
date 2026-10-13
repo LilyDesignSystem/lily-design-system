@@ -93,6 +93,20 @@ doesn't render (no baked-in English fallback).
   that reads a real key if you replace `rows` with reordered data.
 - **Cells**: a column's `cell` snippet receives `{ value, formatted,
   row, column }`; `format` still drives the filter.
+- **Interactive cells**: a `cell` snippet may hold links, buttons,
+  inputs and selects. Keys pressed on such a widget are left alone
+  (`Escape` returns focus to the cell); widgets are not tab stops until
+  you `Enter` the cell, so Tab still leaves the grid in one step. `Enter`
+  on a cell with no widget, or a click outside any widget, calls
+  `onRowActivate(row, id)`.
+- **Table mode**: `mode="table"` gives a plain `role="table"` with
+  ordinary tab stops and no grid keyboard model — for data that is read,
+  not navigated. Sort, filter, selection and paging work the same.
+- **Column options**: `headerCell` (header content), `rowHeader`
+  (`<th scope="row">`), `align`, `cellClass`, `cellAttrs`; grid props
+  `rowClass`, `rowAttrs`, `empty`, `footer` (inside a `<tfoot>`), `busy`
+  (`aria-busy`), and `scroll` (the named `data-grid-scroll` region, on by
+  default).
 - **Sort order**: pass a column `compare`, e.g.
   `new Intl.Collator(locale).compare`, for locale-aware text; the grid
   picks no locale.

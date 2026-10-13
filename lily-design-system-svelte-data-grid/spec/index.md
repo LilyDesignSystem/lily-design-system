@@ -83,6 +83,12 @@ never re-implements a `<table>`.
 </div>
 ```
 
+With `scroll` (the default) the `DataTable` sits inside
+`<div class="data-grid-scroll" role="region" aria-label="{label}">`; an
+`empty` snippet adds one `<DataTableRow>` whose cell spans every column;
+a `footer` snippet adds a `<DataTableFoot>`; a `rowHeader` column's body
+cells are `<DataTableTH scope="row">`.
+
 ## 5. Props
 
 | Prop                | Type                                                                  | Required | Default    |
@@ -103,6 +109,14 @@ never re-implements a `<table>`.
 | `page`               | `number`, bindable                                                      | no       | `1`        |
 | `storageKey`         | `string`                                                                | no       | —          |
 | `labels`             | `DataGridLabels`                                                        | no       | `{}`       |
+| `mode`               | `"grid" \| "table"` — `"table"` is a plain sortable/filterable/pageable table with ordinary tab stops and no grid keyboard model (§6 "Table mode") | no       | `"grid"`   |
+| `rowClass`           | `(row) => string` — extra class on each body row                         | no       | —          |
+| `rowAttrs`           | `(row) => Record<string, unknown>` — extra attributes on each body row (e.g. `data-testid`) | no | —          |
+| `onRowActivate`      | `(row, id) => void` — Enter on a body cell with no widget in it, or a click outside any widget | no | —          |
+| `empty`              | `Snippet` — shown in one row spanning every column when no row matches   | no       | —          |
+| `footer`             | `Snippet<[{ columns, rows }]>` — rendered inside a `<tfoot>`; the consumer supplies its rows | no | —          |
+| `busy`               | `boolean` — sets `aria-busy` on the table                                | no       | `false`    |
+| `scroll`             | `boolean` — wrap the table in a scrollable `data-grid-scroll` region     | no       | `true`     |
 | `class`              | `string`                                                                | no       | `""`       |
 
 `DataGridColumn`: `id` (required), `header` (required), `accessor?:
@@ -114,7 +128,15 @@ non-null values when sorting — pass e.g. an `Intl.Collator`'s `compare`
 for locale-aware text order; the grid picks no locale itself, so the
 default is plain `<`/`>`; `null`/`undefined` sort last regardless),
 `cell?: Snippet<[DataGridCellContext]>` (default:
-the formatted value as text). `DataGridCellContext` is `{ value,
+the formatted value as text), `headerCell?: Snippet<[{ column }]>` (the
+header's content in place of the `header` text, which stays the
+accessible name and the text of the column-visibility control),
+`rowHeader?: boolean` (body cells of this column are `<th scope="row"
+role="rowheader">`), `align?: "start" | "center" | "end"` (sets
+`data-align` and `text-align` on its cells), `cellClass?: string |
+((ctx) => string)` and `cellAttrs?: (ctx) => Record<string, unknown>`
+(per body cell, where a consumer puts a status class or a
+`data-testid`). `DataGridCellContext` is `{ value,
 formatted, row, column }` — a typed Svelte 5 snippet rather than a slot,
 so a consumer's link, badge, or icon cell typechecks against the row
 type end to end, and `format` still feeds the filter (§6) even when
@@ -225,6 +247,39 @@ clamped to the cells that currently exist — when filtering, paging, or
 hiding a column removes the cell it named, the nearest remaining cell
 becomes the tab stop, so the grid never drops out of the tab order.
 
+**Interactive cell contents.** A `cell` snippet may hold links,
+buttons, inputs and selects. The grid follows the APG grid pattern's
+rule for these: a key pressed while focus is **on a widget inside a
+cell** (the target is not the cell itself, and not one of the grid's own
+controls, which carry `data-grid-own`) is left alone — the grid does not
+`preventDefault`, so the caret moves in a text field, a select opens, a
+link follows its address — except `Escape`, which returns focus to the
+cell. Widgets inside body cells are not tab stops (`tabindex="-1"`), so
+Tab still leaves the grid in one step: `Enter` on a cell that contains
+one moves focus to the first (and, while focus is inside that cell, its
+widgets are tab stops, so Tab moves between them; they revert when focus
+leaves the cell). `Enter` on a cell with no widget calls
+`onRowActivate(row, id)`; so does a click outside any widget.
+
+**Table mode.** `mode="table"` is for data that is read, not navigated.
+The element is `role="table"` and its cells `role="cell"`; no cell is a
+roving tab stop and the grid's keyboard handler and `aria-rowcount`
+bookkeeping are not installed. Sort buttons, selection controls and
+widgets in cells are ordinary tab stops. Sorting, filtering, selection,
+pagination, resizing and every slot work as in grid mode. Use it whenever
+nobody needs two-dimensional arrow-key navigation.
+
+**Empty, footer, busy, scroll.** With no row to show (nothing, or nothing
+matching the filter) and an `empty` snippet, one row whose single cell
+spans every column renders it; the grid renders no such row without the
+snippet. A `footer` snippet renders inside a `<tfoot>`, given the
+visible columns and the rows of the current page. `busy` sets
+`aria-busy="true"` on the table. Unless `scroll` is `false`, the table is
+wrapped in a `<div class="data-grid-scroll" role="region">` named by
+`label`, so a table wider than its container scrolls inside it instead of
+widening the page; in table mode, where no cell is focusable, the region
+itself is a tab stop so a keyboard user can scroll it.
+
 **Focus is not selection.** Body cells never carry `aria-selected`;
 selection lives on the row (`<tr aria-selected>`) only when
 `selectionMode !== "none"`. The headless `DataTableTD`'s `active` prop
@@ -267,7 +322,11 @@ page 2. Without pagination every row is in the DOM and neither is set.
 The column resize handle exposes `aria-valuenow` and `aria-valuemin`
 (40). State changes
 are announced through one live region rather than relying on visual
-change alone.
+change alone. In `mode="table"` the element is `role="table"` (the
+headless `role="grid"` is overridden) and cells are `role="cell"`; a
+`rowHeader` column's cells are `role="rowheader"`; a scroll region is
+named and, where no cell is focusable, itself focusable (WCAG 2.1.1).
+Keys pressed on a widget inside a cell are never swallowed (§6).
 
 ## 8. Acceptance criteria
 
@@ -337,6 +396,40 @@ change alone.
   to `data-grid-status`.
 - §8.23 The resize handle carries `aria-valuemin="40"`.
 - §8.24 A column's `compare` orders its sort.
+- §8.25 A key pressed on a link, button, input or select inside a body
+  cell is not `preventDefault`ed and does not move the roving position;
+  `Escape` on such a widget focuses its cell. The grid's own controls
+  (selection inputs, sort buttons) still follow grid keys.
+- §8.26 Widgets inside body cells carry `tabindex="-1"`; `Enter` on a
+  cell that contains one focuses the first, and while focus is inside the
+  cell its widgets are `tabindex="0"`, reverting when focus leaves.
+- §8.27 `mode="table"` renders `role="table"` with `role="cell"` cells, no
+  cell with a `tabindex`, no grid key handling, and sort buttons and
+  selection inputs without `tabindex="-1"`.
+- §8.28 A `rowHeader` column's body cells are `<th scope="row"
+  role="rowheader">`.
+- §8.29 `rowClass`, `rowAttrs`, a column's `cellClass`, `cellAttrs` and
+  `align` reach the DOM on every body row and cell.
+- §8.30 A column's `headerCell` snippet replaces the header text, inside
+  the sort button when sortable, and `header` stays the accessible name of
+  the column-visibility control.
+- §8.31 With no matching row, an `empty` snippet renders in one cell
+  spanning every visible column; without the snippet, no extra row.
+- §8.32 A `footer` snippet renders inside a `<tfoot>`; `busy` sets
+  `aria-busy`.
+- §8.33 The table sits in a `data-grid-scroll` region named by `label`
+  unless `scroll` is `false`; the region is a tab stop only in table mode.
+- §8.34 `Enter` on a body cell without a widget, and a click outside any
+  widget, call `onRowActivate(row, id)`; neither fires for a click on a
+  widget.
+
+- §8.35 Real-browser checks (`pnpm test:e2e`, Playwright in Chromium, Firefox
+  and WebKit, `e2e/widgets.spec.ts` against `e2e/harness/`) cover what jsdom
+  cannot judge for §8.25, §8.26 and §8.34: Tab never lands on a body widget
+  until its cell is entered, Enter on a cell enters it and Tab moves between
+  its widgets, the widgets revert to `tabindex="-1"` on leaving, arrow keys
+  and typing stay in an input, Escape returns focus to the cell, and a click
+  on a widget moves the roving position without activating the row.
 
 ## 9. Non-goals
 

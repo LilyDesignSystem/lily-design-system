@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/svelte-data-grid",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "engines": {
     "node": "=26"
   },
@@ -25,7 +25,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "svelte-check",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@lilydesignsystem/svelte-headless": "^0.4.0"
@@ -34,6 +35,7 @@
     "svelte": "^5.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@sveltejs/package": "^3.0.0",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@testing-library/svelte": "^5.4.2",

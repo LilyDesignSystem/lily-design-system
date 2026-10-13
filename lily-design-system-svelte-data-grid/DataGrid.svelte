@@ -3,6 +3,7 @@
     import {
         DataTable,
         DataTableBody,
+        DataTableFoot,
         DataTableHead,
         DataTableRow,
         DataTableTD,
@@ -55,6 +56,16 @@
         width?: number;
         /** Custom cell renderer. Defaults to the formatted value as text. */
         cell?: Snippet<[DataGridCellContext]>;
+        /** The header's content in place of the `header` text. `header` stays the accessible name. */
+        headerCell?: Snippet<[{ column: DataGridColumn }]>;
+        /** Body cells of this column are `<th scope="row" role="rowheader">`. */
+        rowHeader?: boolean;
+        /** Horizontal alignment of the column's cells (`data-align` and `text-align`). */
+        align?: "start" | "center" | "end";
+        /** Extra class on each body cell of this column. */
+        cellClass?: string | ((ctx: DataGridCellContext) => string);
+        /** Extra attributes on each body cell of this column. */
+        cellAttrs?: (ctx: DataGridCellContext) => Record<string, unknown>;
     };
 
     /**
@@ -112,10 +123,30 @@
         storageKey?: string;
         /** User-facing strings. See DataGridLabels — presence gates each control. */
         labels?: DataGridLabels;
+        /** `"grid"` (default): roving-tabindex grid. `"table"`: a plain table with ordinary tab stops. */
+        mode?: "grid" | "table";
+        /** Extra class on each body row. */
+        rowClass?: (row: DataGridRow) => string;
+        /** Extra attributes on each body row. */
+        rowAttrs?: (row: DataGridRow) => Record<string, unknown>;
+        /** Enter on a body cell with no widget, or a click outside any widget. */
+        onRowActivate?: (row: DataGridRow, id: string) => void;
+        /** Shown in one row spanning every column when no row is to be shown. */
+        empty?: Snippet;
+        /** Rendered inside a `<tfoot>`. */
+        footer?: Snippet<[{ columns: DataGridColumn[]; rows: DataGridRow[] }]>;
+        /** Sets `aria-busy` on the table. */
+        busy?: boolean;
+        /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
+        scroll?: boolean;
         /** Extra CSS class on the root. */
         class?: string;
         [key: string]: unknown;
     };
+
+    /** What counts as a widget inside a cell: something a person can operate. */
+    const WIDGET_SELECTOR =
+        'a[href], button, input, select, textarea, summary, [contenteditable="true"]';
 
     const MIN_COLUMN_WIDTH = 40;
     const RESIZE_STEP = 16;
@@ -162,8 +193,18 @@
         page = $bindable(1),
         storageKey,
         labels = {},
+        mode = "grid",
+        rowClass,
+        rowAttrs,
+        onRowActivate,
+        empty,
+        footer,
+        busy = false,
+        scroll = true,
         ...restProps
     }: Props = $props();
+
+    const isGrid = $derived(mode === "grid");
 
     let rootEl: HTMLDivElement | undefined = $state();
     let statusMessage = $state("");
@@ -341,6 +382,15 @@
         return columnWidths[column.id] ?? column.width;
     }
 
+    /** Inline style of a column's cells: its width, and its alignment where one is set. */
+    function cellStyle(column: DataGridColumn): string | undefined {
+        const parts: string[] = [];
+        const width = widthFor(column);
+        if (width) parts.push(`width:${width}px`);
+        if (column.align) parts.push(`text-align:${column.align}`);
+        return parts.length > 0 ? parts.join(";") : undefined;
+    }
+
     function setWidth(column: DataGridColumn, width: number): void {
         columnWidths = { ...columnWidths, [column.id]: Math.max(MIN_COLUMN_WIDTH, width) };
     }
@@ -435,17 +485,100 @@
         }
     }
 
+    // ---------------------------------------------------------------
+    // Widgets inside cells (APG grid: interactive cell contents)
+    // ---------------------------------------------------------------
+
+    /** The widgets a consumer put in a body cell (never the grid's own controls). */
+    function widgetsIn(cell: Element): HTMLElement[] {
+        return Array.from(cell.querySelectorAll<HTMLElement>(WIDGET_SELECTOR)).filter(
+            (el) => !el.closest("[data-grid-own]"),
+        );
+    }
+
+    function setWidgetTabindex(cell: Element, value: "0" | "-1"): void {
+        for (const widget of widgetsIn(cell)) widget.setAttribute("tabindex", value);
+    }
+
+    /** Widgets in body cells are not tab stops, so Tab leaves the grid in one step. */
+    function normaliseWidgets(): void {
+        if (!rootEl || !isGrid) return;
+        for (const cell of rootEl.querySelectorAll(".data-table-body [data-row][data-col]")) {
+            if (cell.getAttribute("data-grid-entered") === "true") continue;
+            setWidgetTabindex(cell, "-1");
+        }
+    }
+
+    $effect(() => {
+        // Re-run whenever what is on screen could have changed.
+        void pageEntries;
+        void visibleColumns;
+        void isGrid;
+        queueMicrotask(normaliseWidgets);
+    });
+
+    /** Focus the first widget of a cell; its widgets are tab stops while focus stays inside it. */
+    function enterCell(cell: HTMLElement): boolean {
+        const first = widgetsIn(cell)[0];
+        if (!first) return false;
+        cell.setAttribute("data-grid-entered", "true");
+        setWidgetTabindex(cell, "0");
+        first.focus();
+        return true;
+    }
+
+    function leaveCell(cell: Element): void {
+        if (cell.getAttribute("data-grid-entered") !== "true") return;
+        cell.removeAttribute("data-grid-entered");
+        setWidgetTabindex(cell, "-1");
+    }
+
     /** Pointer or programmatic focus on a cell moves the roving position to it. */
     function onGridFocusin(event: FocusEvent): void {
-        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        const target = event.target as HTMLElement;
+        const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         focusedRow = Number(cell.dataset.row);
         focusedCol = Number(cell.dataset.col);
+        // Focus arriving on a widget (a click, or Tab inside the cell) makes the cell's widgets tab stops.
+        if (target !== cell && !target.closest("[data-grid-own]") && cell.closest(".data-table-body")) {
+            cell.setAttribute("data-grid-entered", "true");
+            setWidgetTabindex(cell, "0");
+        }
+    }
+
+    function onGridFocusout(event: FocusEvent): void {
+        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        if (!cell) return;
+        const next = event.relatedTarget as Node | null;
+        if (next && cell.contains(next)) return;
+        leaveCell(cell);
+    }
+
+    /** A click on a body cell, outside any widget, activates its row. */
+    function onGridClick(event: MouseEvent): void {
+        if (!onRowActivate) return;
+        const target = event.target as HTMLElement;
+        const cell = target.closest<HTMLElement>("[data-row][data-col]");
+        if (!cell || cell.closest(".data-table-head")) return;
+        if (target.closest(WIDGET_SELECTOR) || target.closest("[data-grid-own]")) return;
+        const entry = pageEntries[Number(cell.dataset.row)];
+        if (entry) onRowActivate(entry.row, entry.id);
     }
 
     function onGridKeydown(event: KeyboardEvent): void {
-        const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
+        const target = event.target as HTMLElement;
+        const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
+        // A key pressed on a widget inside a cell belongs to the widget: the caret moves in a field, a select
+        // opens, a link follows. Only Escape is the grid's, and it hands focus back to the cell.
+        if (target !== cell && !target.closest("[data-grid-own]")) {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                cell.focus({ preventScroll: true });
+            }
+            return;
+        }
         switch (event.key) {
             case "ArrowRight":
                 event.preventDefault();
@@ -484,6 +617,15 @@
             case "Enter":
             case " ":
                 event.preventDefault();
+                if (target === cell && cell.closest(".data-table-body") && !cell.querySelector("[data-grid-own]")) {
+                    // A cell with a widget in it is entered; one without activates its row.
+                    if (enterCell(cell)) break;
+                    if (event.key === "Enter" && onRowActivate) {
+                        const entry = pageEntries[Number(cell.dataset.row)];
+                        if (entry) onRowActivate(entry.row, entry.id);
+                        break;
+                    }
+                }
                 activateFocusedCell();
                 break;
         }
@@ -561,19 +703,31 @@
         </div>
     {/if}
 
-    <DataTable {label} {caption} aria-rowcount={rowCount} onkeydown={onGridKeydown} onfocusin={onGridFocusin}>
+    {#snippet table()}
+    <DataTable
+        {label}
+        {caption}
+        role={isGrid ? "grid" : "table"}
+        aria-rowcount={isGrid ? rowCount : undefined}
+        aria-busy={busy ? "true" : undefined}
+        onkeydown={isGrid ? onGridKeydown : undefined}
+        onfocusin={isGrid ? onGridFocusin : undefined}
+        onfocusout={isGrid ? onGridFocusout : undefined}
+        onclick={onRowActivate ? onGridClick : undefined}
+    >
         <DataTableHead>
             <DataTableRow aria-rowindex={pageSize ? 1 : undefined}>
                 {#if hasSelection}
                     <DataTableTH
                         data-row={-1}
                         data-col={0}
-                        tabindex={activeRow === -1 && activeCol === 0 ? 0 : -1}
+                        tabindex={isGrid ? (activeRow === -1 && activeCol === 0 ? 0 : -1) : undefined}
                     >
                         {#if selectionMode === "multiple"}
                             <input
                                 type="checkbox"
-                                tabindex="-1"
+                                data-grid-own
+                                tabindex={isGrid ? -1 : undefined}
                                 aria-label={labels.selectAll}
                                 checked={allSelected}
                                 use:indeterminateAction={someSelected}
@@ -588,19 +742,23 @@
                     <DataTableTH
                         data-row={-1}
                         data-col={colOffset + i}
-                        tabindex={activeRow === -1 && activeCol === colOffset + i ? 0 : -1}
+                        data-align={column.align}
+                        tabindex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
                         aria-sort={ariaSortFor(column)}
-                        style={widthFor(column) ? `width:${widthFor(column)}px` : undefined}
+                        style={cellStyle(column)}
                     >
                         {#if column.sortable}
                             <button
                                 type="button"
                                 class="data-grid-sort-button"
-                                tabindex="-1"
+                                data-grid-own
+                                tabindex={isGrid ? -1 : undefined}
                                 onclick={() => toggleSort(column)}
                             >
-                                {column.header}
+                                {#if column.headerCell}{@render column.headerCell({ column })}{:else}{column.header}{/if}
                             </button>
+                        {:else if column.headerCell}
+                            {@render column.headerCell({ column })}
                         {:else}
                             {column.header}
                         {/if}
@@ -616,6 +774,7 @@
                             <span
                                 class="data-grid-resize-handle"
                                 role="separator"
+                                data-grid-own
                                 aria-orientation="vertical"
                                 aria-label={labels.resizeHandle?.(column.header)}
                                 aria-valuenow={widthFor(column) ?? 120}
@@ -634,19 +793,23 @@
                 {@const row = entry.row}
                 {@const id = entry.id}
                 <DataTableRow
+                    class={rowClass?.(row)}
                     aria-selected={hasSelection ? isSelected(id) : undefined}
                     aria-rowindex={pageSize ? pageStart + rowIndex + 2 : undefined}
+                    {...rowAttrs?.(row) ?? {}}
                 >
                     {#if hasSelection}
                         <DataTableTD
                             data-row={rowIndex}
                             data-col={0}
-                            active={activeRow === rowIndex && activeCol === 0}
+                            role={isGrid ? "gridcell" : "cell"}
+                            {...isGrid ? { active: activeRow === rowIndex && activeCol === 0 } : { tabindex: undefined }}
                             aria-selected={undefined}
                         >
                             <input
                                 type={selectionMode === "single" ? "radio" : "checkbox"}
-                                tabindex="-1"
+                                data-grid-own
+                                tabindex={isGrid ? -1 : undefined}
                                 aria-label={labels.selectRow?.(
                                     visibleColumns[0] ? formatCell(visibleColumns[0], row) : String(rowIndex + 1),
                                 )}
@@ -656,29 +819,86 @@
                         </DataTableTD>
                     {/if}
                     {#each visibleColumns as column, colIndex (column.id)}
-                        <DataTableTD
-                            data-row={rowIndex}
-                            data-col={colOffset + colIndex}
-                            active={activeRow === rowIndex && activeCol === colOffset + colIndex}
-                            aria-selected={undefined}
-                            style={widthFor(column) ? `width:${widthFor(column)}px` : undefined}
-                        >
-                            {#if column.cell}
-                                {@render column.cell({
-                                    value: defaultAccessor(column, row),
-                                    formatted: formatCell(column, row),
-                                    row,
-                                    column,
-                                })}
-                            {:else}
-                                {formatCell(column, row)}
-                            {/if}
-                        </DataTableTD>
+                        {@const ctx = {
+                            value: defaultAccessor(column, row),
+                            formatted: formatCell(column, row),
+                            row,
+                            column,
+                        }}
+                        {@const extra = column.cellAttrs?.(ctx) ?? {}}
+                        {@const extraClass = typeof column.cellClass === "function" ? column.cellClass(ctx) : column.cellClass}
+                        {#if column.rowHeader}
+                            <DataTableTH
+                                scope="row"
+                                role="rowheader"
+                                class={extraClass}
+                                data-row={rowIndex}
+                                data-col={colOffset + colIndex}
+                                data-align={column.align}
+                                tabindex={isGrid ? (activeRow === rowIndex && activeCol === colOffset + colIndex ? 0 : -1) : undefined}
+                                style={cellStyle(column)}
+                                {...extra}
+                            >
+                                {#if column.cell}{@render column.cell(ctx)}{:else}{ctx.formatted}{/if}
+                            </DataTableTH>
+                        {:else}
+                            <DataTableTD
+                                class={extraClass}
+                                data-row={rowIndex}
+                                data-col={colOffset + colIndex}
+                                data-align={column.align}
+                                role={isGrid ? "gridcell" : "cell"}
+                                {...isGrid ? { active: activeRow === rowIndex && activeCol === colOffset + colIndex } : { tabindex: undefined }}
+                                aria-selected={undefined}
+                                style={cellStyle(column)}
+                                {...extra}
+                            >
+                                {#if column.cell}
+                                    {@render column.cell(ctx)}
+                                {:else}
+                                    {ctx.formatted}
+                                {/if}
+                            </DataTableTD>
+                        {/if}
                     {/each}
                 </DataTableRow>
             {/each}
+            {#if pageEntries.length === 0 && empty}
+                <DataTableRow class="data-grid-empty-row">
+                    <DataTableTD
+                        class="data-grid-empty"
+                        colspan={lastCol + 1}
+                        role={isGrid ? "gridcell" : "cell"}
+                        tabindex={undefined}
+                    >
+                        {@render empty()}
+                    </DataTableTD>
+                </DataTableRow>
+            {/if}
         </DataTableBody>
+        {#if footer}
+            <DataTableFoot>
+                {@render footer({ columns: visibleColumns, rows: pageEntries.map((e) => e.row) })}
+            </DataTableFoot>
+        {/if}
     </DataTable>
+    {/snippet}
+
+    {#if scroll}
+        <!-- A scrollable region must be reachable by keyboard (WCAG 2.1.1; axe `scrollable-region-focusable`).
+             In grid mode a roving cell is already a tab stop, so only table mode makes the region one. -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <div
+            class="data-grid-scroll"
+            role="region"
+            aria-label={label}
+            tabindex={isGrid ? undefined : 0}
+        >
+            {@render table()}
+        </div>
+    {:else}
+        {@render table()}
+    {/if}
 
     {#if pageSize}
         <div class="data-grid-pagination">
