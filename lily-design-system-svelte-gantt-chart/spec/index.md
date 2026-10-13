@@ -279,3 +279,110 @@ than four different pickers in a row (`picker-bar`'s shape) or one
 picker inside a grid cell (`kanban-board`'s shape). Follows every
 other helper's established rules: headless (no bundled CSS), SSR-safe,
 i18n-clean (label-presence gates each control), Svelte-canonical-first.
+
+## 11. Research notes — SVAR Svelte Gantt (2026-10-13)
+
+A survey of [SVAR Svelte Gantt](https://svar.dev/svelte/gantt/) (MIT core, commercial PRO edition; v2.7–2.8 at the
+time of writing) for ideas to take, adapt or decline. Ideas only: no SVAR code or markup is reused, and SVAR's
+PRO features are described from its public pages and release notes. Sources:
+[product page](https://svar.dev/svelte/gantt/), [v2.6 release](https://svar.dev/blog/svar-svelte-gantt-2-6-released/),
+[PRO edition (v2.4)](https://svar.dev/blog/svelte-gantt-pro-2-4-released/),
+[v2.5 export](https://svar.dev/blog/svelte-gantt-pro-2-5-released/),
+[release notes](https://app.unpkg.com/wx-svelte-gantt@2.7.0/files/whatsnew.md),
+[task types](https://docs.svar.dev/vue/gantt/guides/configuration/task_types/).
+
+**The difference in kind.** SVAR draws a canvas-like timeline of pixel-positioned bars, with SVG dependency
+arrows, and optimises for pointer use and large data (it renders only the visible tasks; a demo handles 10,000).
+Lily's chart is a real `role="grid"` table whose bars are column-spanning cells, so every cell is reachable by
+keyboard and every relationship is text. SVAR's public documentation says little about accessibility (the
+hotkeys it lists — arrows to move the selection, Ctrl+C/X/V, Ctrl+D or Backspace to delete, Ctrl+Z/Y, all
+ignored while focus is in a text field — are the extent of it), which is the gap Lily's design fills; the
+ideas below are therefore filtered by "can it stay a table, with text for every fact?"
+
+### What SVAR has that Lily's v1 does not
+
+| SVAR feature (edition)                                                       | Lily today                                  |
+| ---------------------------------------------------------------------------- | ------------------------------------------- |
+| Zoom: Ctrl+wheel, `minCellWidth`/`maxCellWidth`, multi-row scales (month over day), hour/minute units | one fixed `timeUnit` (`day`/`week`/`month`) |
+| Markers: holiday and custom vertical markers; working-time calendars (PRO)   | `today` only; weekend/holiday shading is a non-goal |
+| Link types `e2s`, `s2s`, `s2e`, `e2e` with lag; auto-scheduling (PRO)         | finish-to-start data only; no scheduling    |
+| Critical path, slack/float, constraints and deadlines (PRO)                   | non-goal                                    |
+| Baselines, progress line, S-curve (PRO)                                       | `percentComplete` as a data value only      |
+| Unscheduled tasks (PRO), inactive/manually scheduled tasks (PRO)              | every task needs `start`/`end`              |
+| Split tasks (several segments on one row) (PRO)                               | one span per task                           |
+| Rollups: children and milestones minified onto the summary bar (PRO)          | parent range derived; children not echoed   |
+| Task types `task`/`summary`/`milestone` plus custom `taskTypes` with CSS ids  | milestone = zero duration; parent = summary |
+| Readonly mode                                                                  | editing gated on labels only                |
+| Filtering (v2.6, incl. natural-language query) and column sorting              | none                                        |
+| Context menu and toolbar; tooltips on bars and links                           | none                                        |
+| Undo/redo (PRO); copy task; inline cell editors; field validation              | `onTaskChange` only                         |
+| Export to PDF, PNG, Excel, MS Project; MS Project import (PRO)                 | out of scope                                |
+| Resource load chart, assignment, WBS codes, grouping (PRO, v2.7)               | resource columns are a non-goal             |
+| Real-time multi-user editing; REST data provider                               | out of scope (no data fetching)             |
+
+### Ideas worth taking, in the order they fit this package
+
+**A. Small, fit the headless rules as they are**
+
+1. **`readonly`.** A boolean that suppresses the edit button, the edit region and drag-resize while leaving
+   navigation, collapse and announcements. Today the only way to get a read-only chart is to omit the edit
+   labels, which is indirect.
+2. **Generalise `today` into `markers`.** `markers: { date: string; kind?: string; label?: string }[]` sets
+   `data-marker="{kind}"` on the matching column (and a visually-hidden or `labels`-supplied text name, so a marker
+   is never colour-only, WCAG 1.4.1). `today` stays as the one-line form. Covers holidays and milestones-of-the-calendar.
+3. **`isNonWorking(date) => boolean`.** A consumer callback (Lily owns no calendar and no locale) that sets
+   `data-non-working` on a column, giving weekend/holiday shading its hook without a shading feature. Covers
+   SVAR's working-time calendar as a rendering concern; the scheduling consequence stays the consumer's.
+4. **Task `type` and a `critical`/`slack` data pass-through.** `type?: string` → `data-task-type` on the row and
+   span cells (SVAR's custom task types, as a class hook). `critical?: boolean` and `slack?: number` →
+   `data-critical` / `data-slack`, plus an optional `labels.criticalSummary` sentence in the same
+   `aria-describedby` text as the dependencies. Lily still **computes nothing**; a pure
+   `criticalPath(tasks)` could ship as a separate named export for consumers who want it (see C).
+5. **Richer dependency data.** `dependsOn` accepting `string | { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number }`,
+   still exposed as text (`dependencySummary` receives the predecessor labels and types). No arrows, no scheduling:
+   the data and its text description only.
+6. **Progress in the edit region.** A percent-complete field next to the two date pickers, so the one value bars
+   show visually is also keyboard-editable (SVAR drags it on the bar; Lily's rule is that drag is never the only path).
+7. **`hour` time unit.** SVAR gained hour/minute units in 2.2; `timeUnit` could add `"hour"` with the same
+   column-per-unit model.
+
+**B. Need a design pass first**
+
+8. **Zoom as a controlled prop.** Interactive zoom is a v1 non-goal because it implies Ctrl+wheel and visual
+   layout. The headless form is `timeUnit` bindable plus a documented rule that the consumer renders zoom
+   in/out buttons (a pair of `IconButton`s) and that changing it announces through `labels.zoomAnnouncement`.
+   Pairs with multi-level headers: `scales: ("day" | "week" | "month")[]` renders a month row of `colspan` header
+   cells over a day row (SVAR's default two-row scale) — still one table.
+9. **Unscheduled tasks.** A task without `start`/`end` renders its row with no span and an "Add dates" action that
+   opens the existing edit region. Fits the a11y story better than SVAR's drag-from-grid onto the timeline.
+10. **Baselines.** `baseline?: { start; end }` renders a second marked span in the same cells (`data-baseline`),
+    and `labels.baselineSummary(task)` states the variance in text. Same "data flag + text" approach as dependencies.
+11. **Split tasks.** `segments?: { start; end }[]` marks several disjoint spans in one row; the edit region would
+    edit one segment at a time. Larger than the others because the edit surface changes.
+12. **Rollups.** A collapsed summary row echoing its children's spans (`data-rollup`), so collapsing a parent does
+    not lose the picture. Needs a rule for overlapping children and for the text description.
+13. **Row actions via `menu-picker`.** SVAR's context menu and toolbar map onto a per-row `menu-picker` (a disclosure
+    of whatever actions the app provides, already a Lily helper) rather than a new menu component — consistent with
+    how `kanban-board` composes `IconButton`/`Listbox` for "Move to…".
+14. **Filter and sort the rows.** `data-grid` already has both, with announcements; compose or share the logic
+    rather than re-implement (SVAR added filtering in 2.6 and column sorting in 1.1).
+15. **Row windowing by page.** SVAR's answer to large projects is dynamic rendering; the headless answer already in
+    `data-grid` is `pageSize` with `aria-rowcount`/`aria-rowindex`, which keeps the accessibility tree truthful.
+
+**C. Keep as non-goals (with the reason)**
+
+- **Dependency arrows, drag-to-link, pixel-positioned bars, S-curve, progress line, resource load histogram:** all
+  need layout and drawing ownership (§2). Their *data* can be exposed as text (items 4, 5, 10).
+- **Auto-scheduling, constraints, deadline conflict lists, critical-path *calculation*:** scheduling algorithms
+  over the consumer's data, not rendering. If wanted, ship pure functions as a separate export, never inside the component.
+- **Undo/redo and copy/paste:** the consumer owns the data, so it owns history. The component can emit
+  `onTaskChange` with enough to invert and document the hotkey convention (ignored in text fields), but not keep a stack.
+- **Export (PDF/PNG/Excel/MS Project), import, real-time sync, REST provider:** data movement, which §2 excludes.
+- **Resource management and WBS/grouping:** a different product surface; `data-grid` columns cover the table side.
+
+### Notes on method
+
+SVAR publishes no accessibility guide that could be found, and its own docs host returned 404 for the
+obvious accessibility path, so nothing above claims SVAR is or is not accessible beyond what its release notes and
+a third-party mirror of its hotkeys page state. Before building item 8–12, re-read SVAR's current docs; the
+PRO/free split changes between releases.

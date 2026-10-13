@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-13
+
+Docs only: `spec/index.md` §11 records a survey of SVAR Svelte Gantt and fifteen ranked ideas (`readonly`, `markers`,
+`isNonWorking`, task `type`/`critical`/`slack` data, richer `dependsOn`, zoom as a controlled prop, unscheduled tasks,
+baselines, split tasks, rollups, and what stays a non-goal). No code change.
+
 ## Unreleased — 2026-10-11
 
 Fixed: row depth is `data-depth`, not an inline style; orphaned `parentId`s render as top-level rows and cycles no longer
