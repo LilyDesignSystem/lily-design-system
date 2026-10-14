@@ -57,7 +57,7 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 - [`lily-design-system-svelte-share-picker`](../lily-design-system-svelte-share-picker) — `@lilydesignsystem/svelte-share-picker`
 - [`lily-design-system-svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker) — `@lilydesignsystem/svelte-text-size-picker`
 - [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker) — `@lilydesignsystem/svelte-theme-picker`
-- [`lily-design-system-svelte-calendar-view`](../lily-design-system-svelte-calendar-view) — `@lilydesignsystem/svelte-calendar-view`
+- [`lily-design-system-svelte-calendar`](../lily-design-system-svelte-calendar) — `@lilydesignsystem/svelte-calendar`
 - [`lily-design-system-svelte-gantt-chart`](../lily-design-system-svelte-gantt-chart) — `@lilydesignsystem/svelte-gantt-chart`
 - [`lily-design-system-svelte-picker-bar`](../lily-design-system-svelte-picker-bar) — `@lilydesignsystem/svelte-picker-bar`
 
@@ -76,6 +76,7 @@ The React helpers, one top-level subproject per package since 2026-10-10 (`bin/l
 - [`lily-design-system-react-text-size-picker`](../lily-design-system-react-text-size-picker) — `@lilydesignsystem/react-text-size-picker`
 - [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../lily-design-system-react-gantt-chart) — `@lilydesignsystem/react-gantt-chart`
+- [`lily-design-system-react-calendar`](../lily-design-system-react-calendar) — `@lilydesignsystem/react-calendar`
 - [`lily-design-system-react-picker-bar`](../lily-design-system-react-picker-bar) — `@lilydesignsystem/react-picker-bar`
 
 The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages vue`):
@@ -92,6 +93,7 @@ The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/lis
 - [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker) — `@lilydesignsystem/vue-text-size-picker`
 - [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker) — `@lilydesignsystem/vue-theme-picker`
 - [`lily-design-system-vue-gantt-chart`](../lily-design-system-vue-gantt-chart) — `@lilydesignsystem/vue-gantt-chart`
+- [`lily-design-system-vue-calendar`](../lily-design-system-vue-calendar) — `@lilydesignsystem/vue-calendar`
 - [`lily-design-system-vue-picker-bar`](../lily-design-system-vue-picker-bar) — `@lilydesignsystem/vue-picker-bar`
 
 The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages angular`):
@@ -108,6 +110,7 @@ The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin
 - [`lily-design-system-angular-text-size-picker`](../lily-design-system-angular-text-size-picker) — `@lilydesignsystem/angular-text-size-picker`
 - [`lily-design-system-angular-theme-picker`](../lily-design-system-angular-theme-picker) — `@lilydesignsystem/angular-theme-picker`
 - [`lily-design-system-angular-gantt-chart`](../lily-design-system-angular-gantt-chart) — `@lilydesignsystem/angular-gantt-chart`
+- [`lily-design-system-angular-calendar`](../lily-design-system-angular-calendar) — `@lilydesignsystem/angular-calendar`
 - [`lily-design-system-angular-picker-bar`](../lily-design-system-angular-picker-bar) — `@lilydesignsystem/angular-picker-bar`
 
 The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages html`):
@@ -124,6 +127,7 @@ The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/li
 - [`lily-design-system-html-text-size-picker`](../lily-design-system-html-text-size-picker) — `@lilydesignsystem/html-text-size-picker`
 - [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker) — `@lilydesignsystem/html-theme-picker`
 - [`lily-design-system-html-gantt-chart`](../lily-design-system-html-gantt-chart) — `@lilydesignsystem/html-gantt-chart`
+- [`lily-design-system-html-calendar`](../lily-design-system-html-calendar) — `@lilydesignsystem/html-calendar`
 - [`lily-design-system-html-picker-bar`](../lily-design-system-html-picker-bar) — `@lilydesignsystem/html-picker-bar`
 
 The Web Components helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages web-components`):
@@ -140,6 +144,7 @@ The Web Components helpers, one top-level subproject per package since 2026-10-1
 - [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker) — `@lilydesignsystem/web-components-text-size-picker`
 - [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker) — `@lilydesignsystem/web-components-theme-picker`
 - [`lily-design-system-web-components-gantt-chart`](../lily-design-system-web-components-gantt-chart) — `@lilydesignsystem/web-components-gantt-chart`
+- [`lily-design-system-web-components-calendar`](../lily-design-system-web-components-calendar) — `@lilydesignsystem/web-components-calendar`
 - [`lily-design-system-web-components-picker-bar`](../lily-design-system-web-components-picker-bar) — `@lilydesignsystem/web-components-picker-bar`
 
 The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages nunjucks`):
@@ -152,6 +157,7 @@ The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bi
 - [`lily-design-system-nunjucks-settings-picker`](../lily-design-system-nunjucks-settings-picker) — `@lilydesignsystem/nunjucks-settings-picker`
 - [`lily-design-system-nunjucks-share-picker`](../lily-design-system-nunjucks-share-picker) — `@lilydesignsystem/nunjucks-share-picker`
 - [`lily-design-system-nunjucks-gantt-chart`](../lily-design-system-nunjucks-gantt-chart) — `@lilydesignsystem/nunjucks-gantt-chart`
+- [`lily-design-system-nunjucks-calendar`](../lily-design-system-nunjucks-calendar) — `@lilydesignsystem/nunjucks-calendar`
 - [`lily-design-system-nunjucks-kanban-board`](../lily-design-system-nunjucks-kanban-board) — `@lilydesignsystem/nunjucks-kanban-board`
 - [`lily-design-system-nunjucks-locale-picker`](../lily-design-system-nunjucks-locale-picker) — `@lilydesignsystem/nunjucks-locale-picker`
 - [`lily-design-system-nunjucks-motion-picker`](../lily-design-system-nunjucks-motion-picker) — `@lilydesignsystem/nunjucks-motion-picker`
@@ -173,6 +179,7 @@ The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/
 - [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker) — `@lilydesignsystem/blazor-text-size-picker`
 - [`lily-design-system-blazor-theme-picker`](../lily-design-system-blazor-theme-picker) — `@lilydesignsystem/blazor-theme-picker`
 - [`lily-design-system-blazor-gantt-chart`](../lily-design-system-blazor-gantt-chart) — `@lilydesignsystem/blazor-gantt-chart`
+- [`lily-design-system-blazor-calendar`](../lily-design-system-blazor-calendar) — `@lilydesignsystem/blazor-calendar`
 - [`lily-design-system-blazor-picker-bar`](../lily-design-system-blazor-picker-bar) — `@lilydesignsystem/blazor-picker-bar`
 
 ## Reference themes

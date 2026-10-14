@@ -819,7 +819,7 @@ accessibility documentation before writing the table above:
 - [lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte](../../lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte) — the headless `role="grid"` container the calendar contract composes rather than duplicates
 - [lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte](../../lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte) — the `selected`/`today` cell shape and roving-tabindex model the calendar contract reuses
 - [lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-date-time-picker/) — the sibling helper the calendar contract composes for civil-date arithmetic and the WAI-ARIA APG calendar keyboard model, both confirmed present in its own source
-- [lily-design-system-svelte-calendar/](../../lily-design-system-svelte-calendar/) — calendar contract (canonical spec; implemented only here so far)
+- [lily-design-system-svelte-calendar/](../../lily-design-system-svelte-calendar/) — calendar contract (canonical spec; ported to the other seven frameworks 2026-10-14)
 - [bin/publish-helpers](../../bin/publish-helpers) — release pipeline
 - [spec/index.md](../index.md) §3 (subproject architecture)
 
