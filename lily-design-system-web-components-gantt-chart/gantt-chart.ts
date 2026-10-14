@@ -97,6 +97,12 @@ export type GanttLabels = {
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+  /** Accessible name for the zoom-in button (finer columns). Gates the button. */
+  zoomIn?: string;
+  /** Accessible name for the zoom-out button (coarser columns). Gates the button. */
+  zoomOut?: string;
+  /** Announced after a zoom step with the new unit. */
+  zoomAnnouncement?: (timeUnit: GanttTimeUnit) => string;
   /** Label of the progress field in the edit region (0–100). Gates the field. */
   percentLabel?: string;
   /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
@@ -270,7 +276,7 @@ export function nextGanttChartId(): string {
   return `gantt-chart-${uid}`;
 }
 
-const HANDLED_ATTRS = new Set(["label", "caption", "class", "today", "time-unit", "readonly"]);
+const HANDLED_ATTRS = new Set(["label", "caption", "class", "today", "time-unit", "readonly", "selected-task-id"]);
 
 /** See kanban-board.ts's identical helper for the rationale. */
 function passThroughAttributes(host: Element, target: Element): void {
@@ -305,7 +311,7 @@ type DateTimePickerElement = HTMLElement & {
 /** Custom-element class implementing `<lily-gantt-chart>`. */
 export class GanttChart extends HTMLElement {
   static get observedAttributes(): string[] {
-    return ["label", "caption", "today", "time-unit", "class", "readonly"];
+    return ["label", "caption", "today", "time-unit", "class", "readonly", "selected-task-id"];
   }
 
   // ---- Backing storage for property-only members ----
@@ -327,6 +333,10 @@ export class GanttChart extends HTMLElement {
   #editStart = "";
   #editEnd = "";
   #draggingTaskId: string | null = null;
+  #taskAttrs?: (task: GanttTask) => Record<string, string>;
+  #onTaskSelect?: (taskId: string | undefined) => void;
+  /** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
+  #resizingEdge: "start" | "end" | null = null;
 
   readonly #baseId = nextGanttChartId();
 
@@ -359,6 +369,32 @@ export class GanttChart extends HTMLElement {
   set today(v: string) {
     if (v) this.setAttribute("today", v);
     else this.removeAttribute("today");
+  }
+
+  /** The selected task's id (attribute `selected-task-id`). A click on a task's row or the `s` key on it selects (again deselects); `aria-selected`, `data-selected`. */
+  get selectedTaskId(): string | undefined {
+    return this.getAttribute("selected-task-id") ?? undefined;
+  }
+  set selectedTaskId(v: string | undefined) {
+    if (v == null) this.removeAttribute("selected-task-id");
+    else this.setAttribute("selected-task-id", v);
+  }
+
+  /** Called with the task id when selection changes, or `undefined` when it clears; also fires `taskselect`. */
+  get onTaskSelect(): ((taskId: string | undefined) => void) | undefined {
+    return this.#onTaskSelect;
+  }
+  set onTaskSelect(fn: ((taskId: string | undefined) => void) | undefined) {
+    this.#onTaskSelect = fn;
+  }
+
+  /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
+  get taskAttrs(): ((task: GanttTask) => Record<string, string>) | undefined {
+    return this.#taskAttrs;
+  }
+  set taskAttrs(fn: ((task: GanttTask) => Record<string, string>) | undefined) {
+    this.#taskAttrs = fn;
+    this.#render();
   }
 
   get timeUnit(): GanttTimeUnit {
@@ -440,7 +476,7 @@ export class GanttChart extends HTMLElement {
 
   attributeChangedCallback(name: string): void {
     if (!this.isConnected) return;
-    if (name === "label" || name === "caption" || name === "today" || name === "time-unit" || name === "class" || name === "readonly") {
+    if (name === "label" || name === "caption" || name === "today" || name === "time-unit" || name === "class" || name === "readonly" || name === "selected-task-id") {
       this.#render();
     }
   }
@@ -657,8 +693,57 @@ export class GanttChart extends HTMLElement {
 
   #onBarDragStart = (task: GanttTask, event: DragEvent): void => {
     this.#draggingTaskId = task.id;
+    this.#resizingEdge = null;
     event.dataTransfer?.setData("text/plain", task.id);
   };
+
+  #onHandleDragStart(task: GanttTask, edge: "start" | "end", event: DragEvent): void {
+    event.stopPropagation();
+    this.#draggingTaskId = task.id;
+    this.#resizingEdge = edge;
+    event.dataTransfer?.setData("text/plain", task.id);
+  }
+
+  // ---- Zoom ----
+
+  static readonly #ZOOM_ORDER: GanttTimeUnit[] = ["month", "week", "day"];
+
+  #zoom(delta: 1 | -1): void {
+    const next = GanttChart.#ZOOM_ORDER[GanttChart.#ZOOM_ORDER.indexOf(this.timeUnit) + delta];
+    if (!next) return;
+    this.#statusMessage = this.#labels.zoomAnnouncement?.(next) ?? this.#statusMessage;
+    this.timeUnit = next;
+  }
+
+  // ---- Selection ----
+
+  #selectTask(taskId: string): void {
+    const next = this.selectedTaskId === taskId ? undefined : taskId;
+    this.selectedTaskId = next;
+    this.#onTaskSelect?.(next);
+    this.dispatchEvent(new CustomEvent("taskselect", { detail: next, bubbles: true, composed: true }));
+  }
+
+  // ---- Keyboard shift / resize (Alt+Arrow) ----
+
+  #columnIndexOf(isoDate: string): number {
+    return this.#gridColumns().findIndex((c) => rangesOverlap(c.start, c.end, isoDate, isoDate));
+  }
+
+  #shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    const columns = this.#gridColumns();
+    if (endOnly) {
+      const target = columns[this.#columnIndexOf(task.end) + delta];
+      if (target && compareISO(task.start, target.end) <= 0) this.#applyChange(task, task.start, target.end);
+      return;
+    }
+    const target = columns[this.#columnIndexOf(task.start) + delta];
+    if (!target) return;
+    const a = parseIsoDate(task.start);
+    const b = parseIsoDate(task.end);
+    const duration = a && b ? toEpochDay(b) - toEpochDay(a) : 0;
+    this.#applyChange(task, target.start, addDays(target.start, duration));
+  }
 
   #onCellDragOver = (event: DragEvent): void => {
     if (this.#draggingTaskId) event.preventDefault();
@@ -670,7 +755,16 @@ export class GanttChart extends HTMLElement {
     const taskId = this.#draggingTaskId ?? event.dataTransfer?.getData("text/plain");
     this.#draggingTaskId = null;
     const task = this.#tasks.find((t) => t.id === taskId);
+    const edge = this.#resizingEdge;
+    this.#resizingEdge = null;
     if (!task) return;
+    if (edge) {
+      // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+      const start = edge === "start" ? column.start : task.start;
+      const end = edge === "end" ? column.end : task.end;
+      if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) this.#applyChange(task, start, end);
+      return;
+    }
     const startDate = parseIsoDate(task.start);
     const endDate = parseIsoDate(task.end);
     const duration = startDate && endDate ? toEpochDay(endDate) - toEpochDay(startDate) : 0;
@@ -721,6 +815,15 @@ export class GanttChart extends HTMLElement {
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
     const rows = this.#gridRows();
     const columns = this.#gridColumns();
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+      const row = rows[this.#focusedRow];
+      if (row && !row.hasChildren && !this.readonly && (event.target as HTMLElement).closest(".gantt-chart-td")) {
+        event.preventDefault();
+        this.#shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+        return;
+      }
+    }
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
@@ -748,6 +851,16 @@ export class GanttChart extends HTMLElement {
         if (ctrlOrMeta) this.#moveFocus(rows.length - 1, columns.length - 1);
         else this.#moveFocus(this.#focusedRow, columns.length - 1);
         break;
+      case "s":
+      case "S": {
+        if (event.ctrlKey || event.metaKey || event.altKey) break;
+        const row = rows[this.#focusedRow];
+        if (row && (event.target as HTMLElement).closest(".gantt-chart-td")) {
+          event.preventDefault();
+          this.#selectTask(row.task.id);
+        }
+        break;
+      }
       case "Enter":
       case " ": {
         event.preventDefault();
@@ -785,8 +898,35 @@ export class GanttChart extends HTMLElement {
     if (this.readonly) root.setAttribute("data-readonly", "");
     passThroughAttributes(this, root);
 
+    if (this.#labels.zoomIn || this.#labels.zoomOut) {
+      const zoomIndex = GanttChart.#ZOOM_ORDER.indexOf(this.timeUnit);
+      const group = document.createElement("div");
+      group.className = "gantt-chart-zoom";
+      group.setAttribute("role", "group");
+      group.setAttribute("aria-label", this.label);
+      const mk = (cls: string, text: string, name: string, disabled: boolean, delta: 1 | -1) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = cls;
+        b.setAttribute("aria-label", name);
+        b.textContent = text;
+        b.disabled = disabled;
+        b.addEventListener("click", () => this.#zoom(delta));
+        group.appendChild(b);
+      };
+      if (this.#labels.zoomOut) mk("gantt-chart-zoom-out-button", "−", this.#labels.zoomOut, zoomIndex <= 0, -1);
+      if (this.#labels.zoomIn) mk("gantt-chart-zoom-in-button", "+", this.#labels.zoomIn, zoomIndex >= GanttChart.#ZOOM_ORDER.length - 1, 1);
+      root.appendChild(group);
+    }
+
     const table = document.createElement("lily-gantt-table");
     table.setAttribute("label", this.label);
+    table.addEventListener("click", (event) => {
+      const t = event.target as HTMLElement;
+      if (t.closest("button, input, .gantt-chart-edit-row")) return;
+      const id = t.closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
+      if (id) this.#selectTask(id);
+    });
     if (this.caption) {
       const captionEl = document.createElement("caption");
       captionEl.textContent = this.caption;
@@ -850,6 +990,14 @@ export class GanttChart extends HTMLElement {
       if (row.task.type) tr.setAttribute("data-task-type", row.task.type);
       if (row.task.critical) tr.setAttribute("data-critical", "");
       if (row.task.slack != null) tr.setAttribute("data-slack", String(row.task.slack));
+      tr.dataset.taskId = row.task.id;
+      if (this.selectedTaskId === row.task.id) {
+        tr.setAttribute("aria-selected", "true");
+        tr.setAttribute("data-selected", "");
+      }
+      if (this.#taskAttrs) {
+        for (const [name, value] of Object.entries(this.#taskAttrs(row.task))) tr.setAttribute(name, value);
+      }
 
       const rowHeader = document.createElement("th");
       rowHeader.className = "gantt-chart-row-header";
@@ -927,8 +1075,22 @@ export class GanttChart extends HTMLElement {
           if (!row.hasChildren && !this.readonly) {
             bar.setAttribute("draggable", "true");
             bar.addEventListener("dragstart", (e) => this.#onBarDragStart(row.task, e as DragEvent));
+            const startHandle = document.createElement("span");
+            startHandle.className = "gantt-chart-bar-handle gantt-chart-bar-handle-start";
+            startHandle.setAttribute("draggable", "true");
+            startHandle.setAttribute("aria-hidden", "true");
+            startHandle.addEventListener("dragstart", (e) => this.#onHandleDragStart(row.task, "start", e as DragEvent));
+            bar.appendChild(startHandle);
           }
           td.appendChild(bar);
+        }
+        if (!row.hasChildren && !this.readonly && inRange && rangesOverlap(column.start, column.end, end, end)) {
+          const endHandle = document.createElement("span");
+          endHandle.className = "gantt-chart-bar-handle gantt-chart-bar-handle-end";
+          endHandle.setAttribute("draggable", "true");
+          endHandle.setAttribute("aria-hidden", "true");
+          endHandle.addEventListener("dragstart", (e) => this.#onHandleDragStart(row.task, "end", e as DragEvent));
+          td.appendChild(endHandle);
         }
 
         tr.appendChild(td);

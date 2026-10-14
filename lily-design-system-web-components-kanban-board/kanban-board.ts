@@ -45,6 +45,10 @@ export type KanbanColumn = {
   wipLimit?: number;
   /** A hard limit: a move into this column is refused once it holds `wipLimit` cards. */
   strictLimit?: boolean;
+  /** A non-colour status for the column (for example "Over capacity"): visible text in its header and `data-flag`. */
+  flag?: string;
+  /** A hook for per-column colour: becomes `data-accent` on the header and every cell. Lily sets no colour. */
+  accent?: string;
 };
 
 export type KanbanCard = {
@@ -54,7 +58,25 @@ export type KanbanCard = {
   columnId: string;
   /** Visible card title. */
   title: string;
+  /** A locked card cannot be moved, dragged or reordered (`data-locked` on its cell); it still counts toward WIP limits. */
+  locked?: boolean;
+  /** A second line under the title (a priority, "source · score", an amount). */
+  subtitle?: string;
+  /** Short labels shown under the subtitle (each a `.kanban-board-card-badge`). */
+  badges?: string[];
+  /** A non-colour status (for example "SLA breached"): visible text, `data-flag`, and linked to the cell with `aria-describedby`. */
+  flag?: string;
+  /** Makes the title a link to the record (`<a href>`). */
+  href?: string;
+  /** `false` stops pointer dragging this card while keeping the move menu and keyboard moves. */
+  draggable?: boolean;
 };
+
+/** What `renderCard` receives. */
+export type KanbanCardContext = { card: KanbanCard; label: string; column: KanbanColumn; pending: boolean };
+
+/** What `renderColumnHeader` / `renderColumnFooter` receive: the column and every card in it (unfiltered). */
+export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; count: number };
 
 /**
  * Every field is optional, but its presence gates the control it
@@ -75,6 +97,14 @@ export type KanbanLabels = {
   collapseColumn?: (column: KanbanColumn, collapsed: boolean) => string;
   /** Accessible name for a column's add-card button. Gates the button. */
   addCard?: (column: KanbanColumn) => string;
+  /** Message shown in an empty column (a column with no cards to show). Gates the message. */
+  emptyColumn?: (column: KanbanColumn) => string;
+  /** Announced while an async `moveHandler` is pending: (card title, column title). */
+  movePending?: (cardTitle: string, columnTitle: string) => string;
+  /** Announced when an async `moveHandler` rejects and the card goes back: (card title, column title, the rejection). */
+  moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
+  /** Accessible name of the board's search field. Gates the field. */
+  search?: string;
 };
 
 /** Mirrors the observed attributes / properties for typing convenience. */
@@ -90,7 +120,21 @@ export type KanbanBoardProps = {
   /** Property-only. Resolves a card to its display label. Defaults to `card.title`. */
   cardLabel?: (card: KanbanCard) => string;
   /** Property-only. Called after a card moves, by pointer or the move menu. */
-  onMove?: (cardId: string, toColumnId: string) => void;
+  onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void;
+  /** Property-only. Async move: awaited; the card shows in its new column at once with `data-pending` and goes back if it rejects. */
+  moveHandler?: (cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>;
+  /** Property-only. Called when an async `moveHandler` rejects, after the card has gone back. */
+  onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void;
+  /** Property-only. The columns a card may move to (its own is always shown). */
+  allowedColumns?: (card: KanbanCard) => string[];
+  /** Property-only. Hides cards for which it returns false; counts and limits still use every card. */
+  filter?: (card: KanbanCard) => boolean;
+  /** Property-only. Orders the cards shown within each column. */
+  compare?: (a: KanbanCard, b: KanbanCard) => number;
+  /** Property-only. Extra attributes on each card's cell. */
+  cardAttrs?: (card: KanbanCard) => Record<string, string>;
+  /** Property-only. The text `search` looks in. */
+  searchText?: (card: KanbanCard) => string;
   /** Property-only. Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. */
   onReorder?: (cardId: string, toIndex: number) => void;
   /** Property-only. Veto a move; refused columns show `aria-disabled` in the move menu. */
@@ -115,7 +159,7 @@ export function nextKanbanBoardId(): string {
   return `kanban-board-${uid}`;
 }
 
-const HANDLED_ATTRS = new Set(["label", "caption", "class", "readonly"]);
+const HANDLED_ATTRS = new Set(["label", "caption", "class", "readonly", "search"]);
 
 /**
  * Copy every attribute the consumer set on the HOST element (this
@@ -174,14 +218,23 @@ function clamp(n: number, min: number, max: number): number {
 /** Custom-element class implementing `<lily-kanban-board>`. */
 export class KanbanBoard extends HTMLElement {
   static get observedAttributes(): string[] {
-    return ["label", "caption", "class", "readonly"];
+    return ["label", "caption", "class", "readonly", "search"];
   }
 
   // ---- Backing storage for property-only members ----
   #columns: KanbanColumn[] = [];
   #cards: KanbanCard[] = [];
   #cardLabel: (card: KanbanCard) => string = (card) => card.title;
-  #onMove?: (cardId: string, toColumnId: string) => void;
+  #onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void;
+  #moveHandler?: (cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>;
+  #onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void;
+  #allowedColumns?: (card: KanbanCard) => string[];
+  #filter?: (card: KanbanCard) => boolean;
+  #compare?: (a: KanbanCard, b: KanbanCard) => number;
+  #cardAttrs?: (card: KanbanCard) => Record<string, string>;
+  #searchText?: (card: KanbanCard) => string;
+  /** Cards moved optimistically by an async `moveHandler` that has not settled: id → destination column. */
+  #optimistic: Record<string, string> = {};
   #onReorder?: (cardId: string, toIndex: number) => void;
   #canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
   #labels: KanbanLabels = {};
@@ -285,6 +338,78 @@ export class KanbanBoard extends HTMLElement {
     this.#onAddCard = fn;
   }
 
+  get moveHandler(): ((cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>) | undefined {
+    return this.#moveHandler;
+  }
+  /**
+   * An async move: awaited when a card moves. The card shows in its new column at once with `data-pending` and `aria-busy`
+   * and goes back if the promise rejects (`labels.moveFailed`, `onMoveError`, the `moveerror` event). `onMove` fires either way.
+   */
+  set moveHandler(fn: ((cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>) | undefined) {
+    this.#moveHandler = fn;
+  }
+
+  get onMoveError(): ((cardId: string, toColumnId: string, error: unknown) => void) | undefined {
+    return this.#onMoveError;
+  }
+  set onMoveError(fn: ((cardId: string, toColumnId: string, error: unknown) => void) | undefined) {
+    this.#onMoveError = fn;
+  }
+
+  get allowedColumns(): ((card: KanbanCard) => string[]) | undefined {
+    return this.#allowedColumns;
+  }
+  set allowedColumns(fn: ((card: KanbanCard) => string[]) | undefined) {
+    this.#allowedColumns = fn;
+    this.#render();
+  }
+
+  get filter(): ((card: KanbanCard) => boolean) | undefined {
+    return this.#filter;
+  }
+  set filter(fn: ((card: KanbanCard) => boolean) | undefined) {
+    this.#filter = fn;
+    this.#render();
+  }
+
+  get compare(): ((a: KanbanCard, b: KanbanCard) => number) | undefined {
+    return this.#compare;
+  }
+  set compare(fn: ((a: KanbanCard, b: KanbanCard) => number) | undefined) {
+    this.#compare = fn;
+    this.#render();
+  }
+
+  get cardAttrs(): ((card: KanbanCard) => Record<string, string>) | undefined {
+    return this.#cardAttrs;
+  }
+  set cardAttrs(fn: ((card: KanbanCard) => Record<string, string>) | undefined) {
+    this.#cardAttrs = fn;
+    this.#render();
+  }
+
+  /** Board-level search (attribute `search`): shows only cards whose text contains it (case-insensitive). */
+  get search(): string {
+    return this.getAttribute("search") ?? "";
+  }
+  set search(v: string) {
+    this.setAttribute("search", v);
+  }
+
+  get searchText(): ((card: KanbanCard) => string) | undefined {
+    return this.#searchText;
+  }
+  set searchText(fn: ((card: KanbanCard) => string) | undefined) {
+    this.#searchText = fn;
+  }
+
+  /** Replaces a card's title content. Return the node to put inside the title element. */
+  renderCard?: (ctx: KanbanCardContext) => Node;
+  /** Rendered in each column's header after its title and flag. */
+  renderColumnHeader?: (ctx: KanbanColumnContext) => Node;
+  /** Rendered in a `<tfoot>` cell per column: sums per stage. */
+  renderColumnFooter?: (ctx: KanbanColumnContext) => Node;
+
   get canMove(): ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined {
     return this.#canMove;
   }
@@ -317,28 +442,53 @@ export class KanbanBoard extends HTMLElement {
 
   attributeChangedCallback(name: string): void {
     if (!this.isConnected) return;
-    if (name === "label" || name === "caption" || name === "class" || name === "readonly") {
+    if (name === "label" || name === "caption" || name === "class" || name === "readonly" || name === "search") {
       this.#render();
     }
   }
 
   // ---- Derived data ----
 
-  #cardsByColumn(): Map<string, KanbanCard[]> {
+  /** Every card per column, optimistic moves applied (counts and WIP limits use this). */
+  #allByColumn(): Map<string, KanbanCard[]> {
     const map = new Map<string, KanbanCard[]>();
     for (const column of this.#columns) map.set(column.id, []);
     for (const card of this.#cards) {
-      map.get(card.columnId)?.push(card);
+      const effective = card.id in this.#optimistic ? { ...card, columnId: this.#optimistic[card.id] } : card;
+      map.get(effective.columnId)?.push(effective);
     }
     return map;
   }
 
+  /** What the grid shows: the filtered, searched, sorted view. */
+  #cardsByColumn(): Map<string, KanbanCard[]> {
+    const map = new Map<string, KanbanCard[]>();
+    const needle = this.search.trim().toLowerCase();
+    const text =
+      this.#searchText ??
+      ((c: KanbanCard) => [this.#cardLabel(c), c.subtitle ?? "", ...(c.badges ?? [])].join(" "));
+    for (const [id, list] of this.#allByColumn()) {
+      let shown = this.#filter ? list.filter(this.#filter) : list.slice();
+      if (needle) shown = shown.filter((c) => text(c).toLowerCase().includes(needle));
+      if (this.#compare) shown = shown.sort(this.#compare);
+      map.set(id, shown);
+    }
+    return map;
+  }
+
+  #isEmptyColumn(column: KanbanColumn, cardsByColumn: Map<string, KanbanCard[]>): boolean {
+    return !this.#collapsed.includes(column.id) && (cardsByColumn.get(column.id)?.length ?? 0) === 0;
+  }
+
   #maxRows(cardsByColumn: Map<string, KanbanCard[]>): number {
-    return this.#columns.reduce(
-      (max, column) =>
-        Math.max(max, this.#collapsed.includes(column.id) ? 0 : (cardsByColumn.get(column.id)?.length ?? 0)),
+    let max = this.#columns.reduce(
+      (m, column) =>
+        Math.max(m, this.#collapsed.includes(column.id) ? 0 : (cardsByColumn.get(column.id)?.length ?? 0)),
       0,
     );
+    // A row exists for an empty column's message even when no column has a card to show.
+    if (max === 0 && this.#labels.emptyColumn && this.#columns.some((c) => this.#isEmptyColumn(c, cardsByColumn))) max = 1;
+    return max;
   }
 
   #cardAt(
@@ -377,12 +527,52 @@ export class KanbanBoard extends HTMLElement {
    */
   #isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
     if (toColumn.id === card.columnId) return false;
+    if (this.#allowedColumns && !this.#allowedColumns(card).includes(toColumn.id)) return true;
     if (this.#canMove && !this.#canMove(card, toColumn)) return true;
     return (
       !!toColumn.strictLimit &&
       toColumn.wipLimit != null &&
-      (this.#cardsByColumn().get(toColumn.id)?.length ?? 0) >= toColumn.wipLimit
+      (this.#allByColumn().get(toColumn.id)?.length ?? 0) >= toColumn.wipLimit
     );
+  }
+
+  /** The columns the move menu offers for `card`: its own, and the ones it may move to. */
+  #moveTargets(card: KanbanCard): KanbanColumn[] {
+    if (!this.#allowedColumns) return this.#columns;
+    const allowed = this.#allowedColumns(card);
+    return this.#columns.filter((c) => c.id === card.columnId || allowed.includes(c.id));
+  }
+
+  async #runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): Promise<void> {
+    if (toIndex === undefined) this.#onMove?.(card.id, toColumn.id);
+    else this.#onMove?.(card.id, toColumn.id, toIndex);
+    const result = this.#moveHandler
+      ? toIndex === undefined
+        ? this.#moveHandler(card.id, toColumn.id)
+        : this.#moveHandler(card.id, toColumn.id, toIndex)
+      : undefined;
+    if (!result || typeof (result as Promise<unknown>).then !== "function") {
+      this.#announce(this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title));
+      this.#focusCard(card.id);
+      return;
+    }
+    this.#optimistic = { ...this.#optimistic, [card.id]: toColumn.id };
+    this.#statusMessage = this.#labels.movePending?.(this.#cardLabel(card), toColumn.title) ?? this.#statusMessage;
+    this.#render();
+    try {
+      await result;
+      this.#statusMessage = this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title) ?? this.#statusMessage;
+    } catch (error) {
+      this.#statusMessage = this.#labels.moveFailed?.(this.#cardLabel(card), toColumn.title, error) ?? this.#statusMessage;
+      this.#onMoveError?.(card.id, toColumn.id, error);
+      this.dispatchEvent(
+        new CustomEvent("moveerror", { detail: { cardId: card.id, toColumnId: toColumn.id, error }, bubbles: true, composed: true }),
+      );
+    } finally {
+      const { [card.id]: _settled, ...rest } = this.#optimistic;
+      this.#optimistic = rest;
+      this.#render();
+    }
   }
 
   #toggleCollapsed(column: KanbanColumn): void {
@@ -396,8 +586,8 @@ export class KanbanBoard extends HTMLElement {
     this.#render();
   }
 
-  #moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
-    if (this.readonly) return;
+  #moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): void {
+    if (this.readonly || card.locked || card.id in this.#optimistic) return;
     if (this.#isRefused(card, toColumn)) {
       this.#closeMoveMenu();
       this.#announce(this.#labels.moveBlocked?.(this.#cardLabel(card), toColumn.title));
@@ -408,9 +598,7 @@ export class KanbanBoard extends HTMLElement {
       return;
     }
     this.#closeMoveMenu(false);
-    this.#onMove?.(card.id, toColumn.id);
-    this.#announce(this.#labels.moveAnnouncement?.(this.#cardLabel(card), toColumn.title));
-    this.#focusCard(card.id);
+    void this.#runMove(card, toColumn, toIndex);
   }
 
   /** The cell holding a card, found by its id wherever the card now is. */
@@ -442,9 +630,9 @@ export class KanbanBoard extends HTMLElement {
   }
 
   #openMoveMenu(card: KanbanCard): void {
-    if (this.readonly) return;
+    if (this.readonly || card.locked) return;
     this.#openCardId = card.id;
-    const currentIndex = this.#columns.findIndex((c) => c.id === card.columnId);
+    const currentIndex = this.#moveTargets(card).findIndex((c) => c.id === card.columnId);
     this.#moveActiveIndex = currentIndex >= 0 ? currentIndex : 0;
     this.#syncMoveMenu(card.id);
     this.#moveListEls.get(card.id)?.focus({ preventScroll: true });
@@ -461,8 +649,10 @@ export class KanbanBoard extends HTMLElement {
   }
 
   #moveActiveIndexBy(cardId: string, delta: number): void {
-    if (this.#columns.length === 0) return;
-    this.#moveActiveIndex = clamp(this.#moveActiveIndex + delta, 0, this.#columns.length - 1);
+    const card = this.#cards.find((c) => c.id === cardId);
+    const count = card ? this.#moveTargets(card).length : this.#columns.length;
+    if (count === 0) return;
+    this.#moveActiveIndex = clamp(this.#moveActiveIndex + delta, 0, count - 1);
     this.#syncMoveMenu(cardId);
   }
 
@@ -496,7 +686,7 @@ export class KanbanBoard extends HTMLElement {
     const card = this.#cards.find((c) => c.id === cardId);
     const options = this.#moveOptionEls.get(cardId) ?? [];
     options.forEach((option, i) => {
-      const destination = this.#columns[i];
+      const destination = card ? this.#moveTargets(card)[i] : this.#columns[i];
       option.setAttribute("aria-selected", String(!!card && destination?.id === card.columnId));
       if (isOpen && i === this.#moveActiveIndex) option.setAttribute("data-active", "");
       else option.removeAttribute("data-active");
@@ -528,13 +718,13 @@ export class KanbanBoard extends HTMLElement {
       case "End":
         event.preventDefault();
         event.stopPropagation();
-        this.#setMoveActiveIndex(card.id, this.#columns.length - 1);
+        this.#setMoveActiveIndex(card.id, this.#moveTargets(card).length - 1);
         break;
       case "Enter":
       case " ":
         event.preventDefault();
         event.stopPropagation();
-        if (this.#moveActiveIndex >= 0) this.#moveCard(card, this.#columns[this.#moveActiveIndex]);
+        if (this.#moveActiveIndex >= 0) this.#moveCard(card, this.#moveTargets(card)[this.#moveActiveIndex]);
         break;
       case "Escape":
         event.preventDefault();
@@ -560,21 +750,41 @@ export class KanbanBoard extends HTMLElement {
   // ---------------------------------------------------------------
 
   #onCardDragStart = (card: KanbanCard, event: DragEvent): void => {
+    if (card.locked) {
+      event.preventDefault();
+      return;
+    }
     this.#draggingCardId = card.id;
     event.dataTransfer?.setData("text/plain", card.id);
   };
 
-  #onColumnDragOver = (event: DragEvent): void => {
-    if (this.#draggingCardId) event.preventDefault();
+  #onColumnDragOver = (event: DragEvent, td: HTMLElement): void => {
+    if (!this.#draggingCardId || this.readonly) return;
+    event.preventDefault();
+    this.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
+    td.setAttribute("data-drop-target", "");
   };
 
-  #onColumnDrop = (column: KanbanColumn, event: DragEvent): void => {
+  #onColumnDrop = (column: KanbanColumn, rowIndex: number, event: DragEvent): void => {
     event.preventDefault();
     const cardId = this.#draggingCardId ?? event.dataTransfer?.getData("text/plain");
     this.#draggingCardId = null;
+    this.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
+    if (this.readonly) return;
     const card = this.#cards.find((c) => c.id === cardId);
-    // Dropping a card back on its own column is not a move.
-    if (card && card.columnId !== column.id) this.#moveCard(card, column);
+    if (!card) return;
+    const shown = this.#cardsByColumn().get(column.id) ?? [];
+    const overCard = shown[rowIndex];
+    if (card.columnId === column.id) {
+      // Dropped on another card of its own column: reorder to that position.
+      const from = shown.findIndex((c) => c.id === card.id);
+      if (overCard && from >= 0 && from !== rowIndex) {
+        this.#onReorder?.(card.id, rowIndex);
+        this.#announce(this.#labels.reorderAnnouncement?.(this.#cardLabel(card), rowIndex + 1, shown.length));
+      }
+      return;
+    }
+    this.#moveCard(card, column, overCard ? rowIndex : undefined);
   };
 
   // ---------------------------------------------------------------
@@ -618,7 +828,7 @@ export class KanbanBoard extends HTMLElement {
   #reorderCard(delta: 1 | -1, cardsByColumn: Map<string, KanbanCard[]>): void {
     if (this.readonly) return;
     const card = this.#cardAt(this.#focusedCol, this.#focusedRow, cardsByColumn);
-    if (!card) return;
+    if (!card || card.locked) return;
     const total = cardsByColumn.get(card.columnId)?.length ?? 0;
     const toIndex = this.#focusedRow + delta;
     if (toIndex < 0 || toIndex >= total) return;
@@ -633,6 +843,14 @@ export class KanbanBoard extends HTMLElement {
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
     const cardsByColumn = this.#cardsByColumn();
     const maxRows = this.#maxRows(cardsByColumn);
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
+      event.preventDefault();
+      const card = this.#cardAt(this.#focusedCol, this.#focusedRow, cardsByColumn);
+      const destination = this.#columns[this.#focusedCol + (event.key === "ArrowLeft" ? -1 : 1)];
+      if (card && destination) this.#moveCard(card, destination);
+      return;
+    }
     if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
       event.preventDefault();
       this.#reorderCard(event.key === "ArrowUp" ? -1 : 1, cardsByColumn);
@@ -690,6 +908,7 @@ export class KanbanBoard extends HTMLElement {
     this.#moveActiveIndex = -1;
 
     const cardsByColumn = this.#cardsByColumn();
+    const allByColumn = this.#allByColumn();
     const maxRows = this.#maxRows(cardsByColumn);
     this.#focusedCol = clamp(this.#focusedCol, 0, this.#columns.length - 1);
     this.#focusedRow = clamp(this.#focusedRow, 0, Math.max(maxRows - 1, 0));
@@ -720,14 +939,33 @@ export class KanbanBoard extends HTMLElement {
     table.addEventListener("keydown", this.#onGridKeydown);
     table.addEventListener("focusin", this.#onGridFocusin);
 
+    if (this.#labels.search) {
+      const input = document.createElement("input");
+      input.type = "search";
+      input.className = "kanban-board-search";
+      input.setAttribute("aria-label", this.#labels.search);
+      input.value = this.search;
+      input.addEventListener("input", () => {
+        this.setAttribute("search", input.value);
+        const again = this.querySelector<HTMLInputElement>(".kanban-board-search");
+        again?.focus();
+        again?.setSelectionRange(input.value.length, input.value.length);
+      });
+      root.appendChild(input);
+    }
+
     const thead = document.createElement("thead");
     const headRow = document.createElement("tr");
     this.#columns.forEach((column) => {
-      const count = cardsByColumn.get(column.id)?.length ?? 0;
+      const count = allByColumn.get(column.id)?.length ?? 0;
+      const hidden = count - (cardsByColumn.get(column.id)?.length ?? 0);
       const overLimit = column.wipLimit != null && count > column.wipLimit;
       const th = document.createElement("th");
       th.className = "kanban-board-th";
       th.setAttribute("scope", "col");
+      if (hidden > 0) th.setAttribute("data-hidden-count", String(hidden));
+      if (column.flag) th.setAttribute("data-flag", column.flag);
+      if (column.accent) th.setAttribute("data-accent", column.accent);
       if (overLimit) th.setAttribute("data-over-limit", "");
       const isCollapsed = this.#collapsed.includes(column.id);
       if (isCollapsed) th.setAttribute("data-collapsed", "");
@@ -742,6 +980,15 @@ export class KanbanBoard extends HTMLElement {
         th.appendChild(toggle);
       }
       th.appendChild(document.createTextNode(column.title));
+      if (column.flag) {
+        const flag = document.createElement("span");
+        flag.className = "kanban-board-column-flag";
+        flag.textContent = column.flag;
+        th.appendChild(flag);
+      }
+      if (this.renderColumnHeader) {
+        th.appendChild(this.renderColumnHeader({ column, cards: allByColumn.get(column.id) ?? [], count }));
+      }
       if (this.#labels.cardCount) {
         const span = document.createElement("span");
         span.className = "kanban-board-count";
@@ -786,21 +1033,76 @@ export class KanbanBoard extends HTMLElement {
         if (this.#collapsed.includes(column.id)) td.setAttribute("data-collapsed", "");
         const isActive = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
         td.setAttribute("tabindex", isActive ? "0" : "-1");
-        td.addEventListener("dragover", this.#onColumnDragOver);
-        td.addEventListener("drop", (e) => this.#onColumnDrop(column, e as DragEvent));
+        if (column.accent) td.setAttribute("data-accent", column.accent);
+        if (card?.locked) td.setAttribute("data-locked", "");
+        if (card && card.id in this.#optimistic) {
+          td.setAttribute("data-pending", "");
+          td.setAttribute("aria-busy", "true");
+        }
+        if (card?.flag) {
+          td.setAttribute("data-flag", card.flag);
+          td.setAttribute("aria-describedby", `${this.#baseId}-flag-${card.id}`);
+        }
+        if (!card && rowIndex === 0 && this.#labels.emptyColumn && this.#isEmptyColumn(column, cardsByColumn)) {
+          td.setAttribute("data-empty", "");
+        }
+        td.addEventListener("dragover", (e) => this.#onColumnDragOver(e as DragEvent, td));
+        td.addEventListener("dragleave", () => td.removeAttribute("data-drop-target"));
+        td.addEventListener("drop", (e) => this.#onColumnDrop(column, rowIndex, e as DragEvent));
+        if (card && this.#cardAttrs) {
+          for (const [name, value] of Object.entries(this.#cardAttrs(card))) td.setAttribute(name, value);
+        }
 
         if (card) {
           td.dataset.cardId = card.id;
           const cardSpan = document.createElement("span");
           cardSpan.className = "kanban-board-card-title";
-          if (!this.readonly) cardSpan.setAttribute("draggable", "true");
-          cardSpan.textContent = this.#cardLabel(card);
+          if (!this.readonly && !card.locked && card.draggable !== false) cardSpan.setAttribute("draggable", "true");
+          if (this.renderCard) {
+            cardSpan.appendChild(
+              this.renderCard({ card, label: this.#cardLabel(card), column, pending: card.id in this.#optimistic }),
+            );
+          } else if (card.href) {
+            const link = document.createElement("a");
+            link.className = "kanban-board-card-link";
+            link.href = card.href;
+            link.textContent = this.#cardLabel(card);
+            cardSpan.appendChild(link);
+          } else {
+            cardSpan.textContent = this.#cardLabel(card);
+          }
           cardSpan.addEventListener("dragstart", (e) => this.#onCardDragStart(card, e as DragEvent));
           td.appendChild(cardSpan);
+          if (!this.renderCard) {
+            if (card.subtitle) {
+              const sub = document.createElement("span");
+              sub.className = "kanban-board-card-subtitle";
+              sub.textContent = card.subtitle;
+              td.appendChild(sub);
+            }
+            if (card.badges?.length) {
+              const badges = document.createElement("span");
+              badges.className = "kanban-board-card-badges";
+              for (const badge of card.badges) {
+                const b = document.createElement("span");
+                b.className = "kanban-board-card-badge";
+                b.textContent = badge;
+                badges.appendChild(b);
+              }
+              td.appendChild(badges);
+            }
+          }
+          if (card.flag) {
+            const flag = document.createElement("span");
+            flag.className = "kanban-board-card-flag";
+            flag.id = `${this.#baseId}-flag-${card.id}`;
+            flag.textContent = card.flag;
+            td.appendChild(flag);
+          }
 
           // Gated on labels.moveButton: an unnamed button is worse than
           // none, and Enter/Space on the cell opens the menu either way.
-          if (this.#labels.moveButton && !this.readonly) {
+          if (this.#labels.moveButton && !this.readonly && !card.locked) {
             const buttonHost = document.createElement("lily-icon-button");
             buttonHost.setAttribute("base-class", "kanban-board-move-button");
             buttonHost.setAttribute("label", this.#labels.moveButton(card));
@@ -828,7 +1130,7 @@ export class KanbanBoard extends HTMLElement {
           list.addEventListener("keydown", (e) => this.#onMoveListKeydown(e as KeyboardEvent, card));
 
           const optionEls: HTMLLIElement[] = [];
-          this.#columns.forEach((destination, i) => {
+          this.#moveTargets(card).forEach((destination, i) => {
             const option = document.createElement("li");
             option.className = "kanban-board-move-option";
             option.id = this.#moveOptionId(card.id, i);
@@ -845,12 +1147,32 @@ export class KanbanBoard extends HTMLElement {
           this.#moveOptionEls.set(card.id, optionEls);
         }
 
+        if (!card && rowIndex === 0 && this.#labels.emptyColumn && this.#isEmptyColumn(column, cardsByColumn)) {
+          const empty = document.createElement("span");
+          empty.className = "kanban-board-empty";
+          empty.textContent = this.#labels.emptyColumn(column);
+          td.appendChild(empty);
+        }
         tr.appendChild(td);
         this.#cellEls.set(`${rowIndex}-${colIndex}`, td);
       });
       tbody.appendChild(tr);
     }
     table.appendChild(tbody);
+    if (this.renderColumnFooter) {
+      const tfoot = document.createElement("tfoot");
+      const frow = document.createElement("tr");
+      for (const column of this.#columns) {
+        const fcell = document.createElement("td");
+        fcell.className = "kanban-board-td kanban-board-column-footer";
+        if (column.accent) fcell.setAttribute("data-accent", column.accent);
+        const cardsAll = allByColumn.get(column.id) ?? [];
+        fcell.appendChild(this.renderColumnFooter({ column, cards: cardsAll, count: cardsAll.length }));
+        frow.appendChild(fcell);
+      }
+      tfoot.appendChild(frow);
+      table.appendChild(tfoot);
+    }
     root.appendChild(table);
 
     const status = document.createElement("p");
