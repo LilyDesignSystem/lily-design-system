@@ -307,3 +307,19 @@ Tests §8.31–§8.47.
 - **Locked cards**: `card.locked` stops move, drag, reorder and the move menu (`data-locked` on the cell); the card still counts towards limits.
 - **Alt+ArrowLeft/Right**: moves the card to the neighbouring column (the twin of Alt+Up/Down reorder); honours read-only, locked, `canMove` and hard limits.
 - **`cardAttrs(card)`**: extra attributes on each card's cell.
+
+## 14. Consumer-requested capabilities (0.3.0, 2026-10-14)
+
+Tests §8.48–§8.62. Requested from a real app (tickets, leads, deals); the data fields are plain text so Lily keeps no English.
+
+- **Card body**: `card.subtitle`, `card.badges` (`.kanban-board-card-subtitle`, `.kanban-board-card-badge`), `card.href` (title as `<a class="kanban-board-card-link">`),
+  and a `card` snippet (`{ card, label, column, pending }`) that replaces the title content (the subtitle and badges are then the snippet's own).
+- **Non-colour flags**: `card.flag` and `column.flag` render visible text (`.kanban-board-card-flag`, `.kanban-board-column-flag`) and `data-flag`; a card's flag is
+  linked to its cell with `aria-describedby`, so a screen reader announces it. `column.accent` is a hook (`data-accent`) for per-column colour.
+- **Allowed targets**: `allowedColumns(card)` returns the column ids a card may move to; the move menu lists only those and the card's own column, and a drop or
+  Alt+Arrow elsewhere is refused (`moveBlocked`). `card.locked` stops all moves; `card.draggable=false` stops pointer dragging only.
+- **Async move**: `onMove` may return a promise. The card shows in its new column at once (`data-pending`, `aria-busy`, `labels.movePending`), a pending card cannot be moved
+  again, and on rejection it goes back with `labels.moveFailed` and `onMoveError`; `labels.moveAnnouncement` is announced on success.
+- **Column header and footer**: `columnHeader` and `columnFooter` snippets get `{ column, cards, count }` (every card, unfiltered), the footer in a `<tfoot>`: sums per stage.
+- **Empty column**: `labels.emptyColumn(column)` shows a message in the first cell of a column with nothing to show (a row is added if every column is empty).
+- **Search**: `search` (bindable) filters by label, subtitle and badges, or `searchText(card)`; `labels.search` gates a `type="search"` field. It combines with `filter`.

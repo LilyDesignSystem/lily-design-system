@@ -12,6 +12,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Added `filter` and `compare` (hide and order cards; counts and WIP limits still use every card; `data-hidden-count`), drag-and-drop
   drop position (`onMove`'s optional third argument; dropping on a card of the same column calls `onReorder`; `data-drop-target`),
   locked cards (`card.locked`, `data-locked`), Alt+ArrowLeft/Right to move a card to the neighbouring column, and `cardAttrs`.
+- Added a `card` snippet and `subtitle`, `badges` and `href` card fields; `card.flag` / `column.flag` (visible text, `data-flag`, linked
+  to the cell with `aria-describedby`); `column.accent` (`data-accent`); `allowedColumns(card)` (the move menu and drops offer only
+  valid columns); `card.draggable`; an async `onMove` (the card moves at once with `data-pending` / `aria-busy` and goes back on
+  rejection: `labels.movePending`, `labels.moveFailed`, `onMoveError`); `columnHeader` / `columnFooter` snippets; `labels.emptyColumn`;
+  and a board-level `search` (`labels.search` gates the field; `searchText`).
 
 ## 0.2.0 — 2026-10-14
 
