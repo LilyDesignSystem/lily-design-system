@@ -20,5 +20,6 @@ export type {
   GanttLabels,
   GanttTaskChangeEvent,
   GanttColumn,
+  GanttMarker,
   GanttFlatRow,
 } from "./gantt-chart.component";

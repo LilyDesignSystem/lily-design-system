@@ -272,3 +272,7 @@ package's own CHANGELOG.md: Angular's headless `KanbanTable`/
 that Svelte's versions have; and `IconButton` needed one small
 additive `tabIndex` input. None required modifying the `KanbanTable`
 family itself.
+
+## Svelte 0.2.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§8.17–§8.21 there): `readonly`, `canMove` with `labels.moveBlocked`, and Alt+ArrowUp/Down reorder via `onReorder(cardId, toIndex)` with `labels.reorderAnnouncement`. See the Svelte spec for the contract and the SVAR survey (§11).

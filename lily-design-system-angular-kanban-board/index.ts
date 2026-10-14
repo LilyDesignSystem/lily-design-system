@@ -4,4 +4,5 @@ export type {
   KanbanColumn,
   KanbanLabels,
   KanbanMoveEvent,
+  KanbanReorderEvent,
 } from "./kanban-board.component";

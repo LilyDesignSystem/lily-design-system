@@ -53,6 +53,17 @@ export type KanbanLabels = {
   moveButton?: (card: KanbanCard) => string;
   moveMenuLabel?: string;
   moveAnnouncement?: (cardTitle: string, columnTitle: string) => string;
+  /** Announced when `canMove` refuses a move. */
+  moveBlocked?: (cardTitle: string, columnTitle: string) => string;
+  /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
+  reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
+};
+
+/** Payload of the `reorder` output. */
+export type KanbanReorderEvent = {
+  cardId: string;
+  /** 0-based index within the card's own column. */
+  toIndex: number;
 };
 
 /** Payload of the `move` output. */
@@ -94,7 +105,11 @@ export function nextKanbanBoardId(): string {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div #rootEl class="kanban-board {{ className() }}">
+    <div
+      #rootEl
+      class="kanban-board {{ className() }}"
+      [attr.data-readonly]="readonly() ? '' : null"
+    >
       <lily-kanban-table
         [label]="label()"
         (keydown)="onGridKeydown($event)"
@@ -149,7 +164,7 @@ export function nextKanbanBoardId(): string {
                          move path is the button/listbox below. -->
                     <span
                       class="kanban-board-card-title"
-                      draggable="true"
+                      [attr.draggable]="readonly() ? null : 'true'"
                       (dragstart)="onCardDragStart(card, $event)"
                     >
                       {{ cardLabel()(card) }}
@@ -157,6 +172,7 @@ export function nextKanbanBoardId(): string {
                     <!-- Gated on labels.moveButton: an unnamed button is worse than
                          none, and Enter/Space on the cell opens the menu either way. -->
                     @if (labels().moveButton; as moveButton) {
+                      @if (!readonly()) {
                       <lily-icon-button
                         [label]="moveButton(card)"
                         baseClass="kanban-board-move-button"
@@ -168,6 +184,7 @@ export function nextKanbanBoardId(): string {
                       >
                         &#8644;
                       </lily-icon-button>
+                      }
                     }
                     @if (openCardId() === card.id) {
                       <lily-listbox
@@ -188,6 +205,7 @@ export function nextKanbanBoardId(): string {
                             [id]="moveOptionId(i)"
                             role="option"
                             [attr.aria-selected]="destination.id === card.columnId"
+                            [attr.aria-disabled]="isRefused(card, destination) ? 'true' : null"
                             [attr.data-active]="i === moveActiveIndex() ? '' : null"
                             (click)="moveCard(card, destination)"
                           >
@@ -221,6 +239,12 @@ export class KanbanBoard implements AfterViewInit {
   readonly cardLabel = input<(card: KanbanCard) => string>(
     (card: KanbanCard) => card.title,
   );
+  /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
+  readonly canMove = input<((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined>(
+    undefined,
+  );
+  /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
+  readonly readonly = input<boolean>(false);
   /** User-facing strings. See KanbanLabels — presence gates each control. */
   readonly labels = input<KanbanLabels>({});
   /** Extra CSS class on the root. */
@@ -228,6 +252,9 @@ export class KanbanBoard implements AfterViewInit {
 
   /** Fires after a card moves to a new column, by pointer or by the move menu. */
   readonly move = output<KanbanMoveEvent>();
+
+  /** Fires when Alt+ArrowUp/Down moves a card within its column. The consumer reorders `cards`. */
+  readonly reorder = output<KanbanReorderEvent>();
 
   private readonly baseId = nextKanbanBoardId();
   protected readonly moveListId = `${this.baseId}-move-list`;
@@ -325,7 +352,18 @@ export class KanbanBoard implements AfterViewInit {
   // ---------------------------------------------------------------
 
   /** Choosing the card's own column is not a move: the menu just closes. */
+  protected isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
+    const canMove = this.canMove();
+    return toColumn.id !== card.columnId && !!canMove && !canMove(card, toColumn);
+  }
+
   protected moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
+    if (this.readonly()) return;
+    if (this.isRefused(card, toColumn)) {
+      this.announce(this.labels().moveBlocked?.(this.cardLabel()(card), toColumn.title));
+      this.closeMoveMenu(card.id);
+      return;
+    }
     if (toColumn.id !== card.columnId) {
       this.move.emit({ cardId: card.id, toColumnId: toColumn.id });
       this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
@@ -339,6 +377,7 @@ export class KanbanBoard implements AfterViewInit {
   }
 
   protected openMoveMenu(card: KanbanCard): void {
+    if (this.readonly()) return;
     this.openCardId.set(card.id);
     const currentIndex = this.columns().findIndex((c) => c.id === card.columnId);
     this.moveActiveIndex.set(currentIndex >= 0 ? currentIndex : 0);
@@ -429,6 +468,18 @@ export class KanbanBoard implements AfterViewInit {
     this.focusedCol.set(Number(cell.dataset["col"]));
   }
 
+  private reorderCard(delta: 1 | -1): void {
+    if (this.readonly()) return;
+    const card = this.cardAt(this.activeCol(), this.activeRow());
+    if (!card) return;
+    const total = this.cardsByColumn().get(card.columnId)?.length ?? 0;
+    const toIndex = this.activeRow() + delta;
+    if (toIndex < 0 || toIndex >= total) return;
+    this.reorder.emit({ cardId: card.id, toIndex });
+    this.announce(this.labels().reorderAnnouncement?.(this.cardLabel()(card), toIndex + 1, total));
+    this.afterRender(() => this.focusCard(card.id));
+  }
+
   protected onGridKeydown(event: KeyboardEvent): void {
     const target = event.target as HTMLElement;
     // The open move menu owns its own keys; letting them bubble here moved the
@@ -437,6 +488,11 @@ export class KanbanBoard implements AfterViewInit {
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+      event.preventDefault();
+      this.reorderCard(event.key === "ArrowUp" ? -1 : 1);
+      return;
+    }
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();

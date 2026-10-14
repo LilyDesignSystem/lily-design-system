@@ -292,3 +292,7 @@ unlike Svelte's `GanttTableTD`, have no `active` prop to overload in
 the first place, so the span-membership-vs-roving-tabindex conflict
 the Svelte contract works around never arises here). No headless
 change was made to the `GanttTable` family.
+
+## Svelte 0.2.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§12 there): `readonly`, `markers` (`data-marker` plus a text label), `isNonWorking` (`data-non-working` when every day in a column is non-working), and task `type`/`critical`/`slack` as `data-*` hooks on the row.

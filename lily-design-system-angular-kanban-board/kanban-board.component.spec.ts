@@ -8,6 +8,7 @@ import {
   type KanbanColumn,
   type KanbanLabels,
   type KanbanMoveEvent,
+  type KanbanReorderEvent,
 } from "./kanban-board.component";
 
 const COLUMNS: KanbanColumn[] = [
@@ -407,5 +408,65 @@ describe("KanbanBoard — focus, tab stop and move edge cases", () => {
   test("§8.3 a column exactly at its wipLimit is not over it", () => {
     const fixture = mount({ cards: CARDS.filter((c) => c.id !== "c4"), labels: LABELS });
     expect(headers(fixture)[1].hasAttribute("data-over-limit")).toBe(false);
+  });
+});
+
+describe("KanbanBoard — reorder, veto and read-only (§8.17–§8.21)", () => {
+  const status = (fixture: ComponentFixture<unknown>) =>
+    fixture.nativeElement.querySelector(".kanban-board-status")?.textContent;
+
+  test("§8.17 Alt+ArrowDown emits reorder and announces it", () => {
+    const fixture = mount({
+      labels: { reorderAnnouncement: (t: string, p: number, n: number) => `${t} is ${p} of ${n}` },
+    });
+    const onReorder = vi.fn();
+    fixture.componentInstance.reorder.subscribe(onReorder as (e: KanbanReorderEvent) => void);
+    press(fixture, tabbableCells(fixture)[0], "ArrowDown", { altKey: true });
+    expect(onReorder).toHaveBeenCalledWith({ cardId: "c1", toIndex: 1 });
+    expect(status(fixture)).toBe("Card One is 2 of 2");
+  });
+
+  test("§8.18 Alt+Arrow at the column edge emits nothing", () => {
+    const fixture = mount();
+    const onReorder = vi.fn();
+    fixture.componentInstance.reorder.subscribe(onReorder as (e: KanbanReorderEvent) => void);
+    press(fixture, tabbableCells(fixture)[0], "ArrowUp", { altKey: true });
+    expect(onReorder).not.toHaveBeenCalled();
+  });
+
+  test("§8.19 canMove refuses a move: no move event, an announcement, aria-disabled option", () => {
+    const fixture = mount({
+      labels: { ...LABELS, moveBlocked: (t: string, c: string) => `${t} cannot go to ${c}` },
+      canMove: (_c: KanbanCard, to: KanbanColumn) => to.id !== "done",
+    });
+    const onMove = vi.fn();
+    fixture.componentInstance.move.subscribe(onMove as (e: KanbanMoveEvent) => void);
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    const option = Array.from(
+      fixture.nativeElement.querySelectorAll<HTMLElement>(".kanban-board-move-option"),
+    ).find((el) => el.textContent?.trim() === "Done")!;
+    expect(option.getAttribute("aria-disabled")).toBe("true");
+    click(fixture, option);
+    expect(onMove).not.toHaveBeenCalled();
+    expect(status(fixture)).toBe("Card One cannot go to Done");
+  });
+
+  test("§8.20 readonly: no move button, no menu, no drag, no reorder", () => {
+    const fixture = mount({ labels: LABELS, readonly: true });
+    const onReorder = vi.fn();
+    fixture.componentInstance.reorder.subscribe(onReorder as (e: KanbanReorderEvent) => void);
+    expect(fixture.nativeElement.querySelector(".kanban-board-move-button")).toBeNull();
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    expect(fixture.nativeElement.querySelector(".kanban-board-move-list")).toBeNull();
+    press(fixture, tabbableCells(fixture)[0], "ArrowDown", { altKey: true });
+    expect(onReorder).not.toHaveBeenCalled();
+    expect(fixture.nativeElement.querySelector("[draggable='true']")).toBeNull();
+    expect(fixture.nativeElement.querySelector(".kanban-board").hasAttribute("data-readonly")).toBe(true);
+  });
+
+  test("§8.21 readonly keeps arrow-key navigation", () => {
+    const fixture = mount({ readonly: true });
+    press(fixture, tabbableCells(fixture)[0], "ArrowRight");
+    expect(tabbableCells(fixture)[0].getAttribute("data-col")).toBe("1");
   });
 });

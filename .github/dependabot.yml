@@ -83,6 +83,7 @@ updates:
       - "/lily-design-system-angular-text-size-picker"
       - "/lily-design-system-angular-theme-picker"
       - "/lily-design-system-angular-gantt-chart"
+      - "/lily-design-system-angular-calendar"
       - "/lily-design-system-angular-picker-bar"
     schedule:
       interval: "weekly"

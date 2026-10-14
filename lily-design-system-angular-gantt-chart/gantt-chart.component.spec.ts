@@ -547,3 +547,53 @@ describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => 
     expect(headers(fixture)[0].textContent?.trim()).toBe("Task");
   });
 });
+
+describe("GanttChart — markers, working calendar, task data, readonly", () => {
+  const heads = (f: ComponentFixture<unknown>) => headers(f).slice(1);
+
+  test("markers mark the containing column, and a marker label renders as text", () => {
+    const fixture = mount({
+      markers: [{ date: "2026-10-05", kind: "holiday", label: "Bank holiday" }],
+    });
+    expect(heads(fixture)[4].getAttribute("data-marker")).toBe("holiday");
+    expect(heads(fixture)[4].textContent).toContain("Bank holiday");
+    expect(heads(fixture)[3].hasAttribute("data-marker")).toBe(false);
+    expect(fixture.nativeElement.querySelectorAll(".gantt-table-td[data-marker]").length).toBe(
+      rows(fixture).length,
+    );
+  });
+
+  test("isNonWorking marks a column only when every day in it is non-working", () => {
+    const fixture = mount({ isNonWorking: (d: string) => d === "2026-10-03" || d === "2026-10-04" });
+    expect(heads(fixture)[2].hasAttribute("data-non-working")).toBe(true);
+    expect(heads(fixture)[3].hasAttribute("data-non-working")).toBe(true);
+    expect(heads(fixture)[1].hasAttribute("data-non-working")).toBe(false);
+  });
+
+  test("week columns are non-working only if all seven days are", () => {
+    const fixture = mount({ timeUnit: "week", isNonWorking: (d: string) => d === "2026-10-03" });
+    expect(fixture.nativeElement.querySelector(".gantt-table-thead [data-non-working]")).toBeNull();
+  });
+
+  test("task type, critical and slack become data attributes on the row", () => {
+    const fixture = mount({
+      tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", type: "design", critical: true, slack: 2 } as GanttTask],
+    });
+    const row = rows(fixture)[0];
+    expect(row.getAttribute("data-task-type")).toBe("design");
+    expect(row.hasAttribute("data-critical")).toBe(true);
+    expect(row.getAttribute("data-slack")).toBe("2");
+  });
+
+  test("readonly: no edit region, no drag, navigation and collapse still work", () => {
+    const fixture = mount({ labels: LABELS, readonly: true });
+    press(fixture, tabbableCells(fixture)[0], "Enter");
+    expect(fixture.nativeElement.querySelector(".gantt-chart-edit-row")).toBeNull();
+    expect(fixture.nativeElement.querySelector(".gantt-chart-bar[draggable='true']")).toBeNull();
+    expect(fixture.nativeElement.querySelector(".gantt-chart").hasAttribute("data-readonly")).toBe(true);
+    press(fixture, tabbableCells(fixture)[0], "ArrowRight");
+    expect(tabbableCells(fixture)[0].getAttribute("data-col")).toBe("1");
+    click(fixture, fixture.nativeElement.querySelector('[aria-label="Collapse Phase 1"]'));
+    expect(fixture.nativeElement.querySelector('[aria-label="Expand Phase 1"]')).toBeTruthy();
+  });
+});

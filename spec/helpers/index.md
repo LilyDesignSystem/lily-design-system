@@ -125,6 +125,7 @@ packages above. [`bin/list-helper-packages angular`](../../bin/list-helper-packa
 - [`lily-design-system-angular-text-size-picker`](../../lily-design-system-angular-text-size-picker/) — `@lilydesignsystem/angular-text-size-picker`
 - [`lily-design-system-angular-theme-picker`](../../lily-design-system-angular-theme-picker/) — `@lilydesignsystem/angular-theme-picker`
 - [`lily-design-system-angular-gantt-chart`](../../lily-design-system-angular-gantt-chart/) — `@lilydesignsystem/angular-gantt-chart`
+- [`lily-design-system-angular-calendar`](../../lily-design-system-angular-calendar/) — `@lilydesignsystem/angular-calendar`
 - [`lily-design-system-angular-picker-bar`](../../lily-design-system-angular-picker-bar/) — `@lilydesignsystem/angular-picker-bar`
 
 ### HTML helper packages
