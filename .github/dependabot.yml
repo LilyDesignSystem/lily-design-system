@@ -442,6 +442,7 @@ updates:
       - "/lily-design-system-vue-text-size-picker"
       - "/lily-design-system-vue-theme-picker"
       - "/lily-design-system-vue-gantt-chart"
+      - "/lily-design-system-vue-calendar"
       - "/lily-design-system-vue-picker-bar"
     schedule:
       interval: "weekly"

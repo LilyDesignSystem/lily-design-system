@@ -105,6 +105,7 @@ packages above. [`bin/list-helper-packages vue`](../../bin/list-helper-packages)
 - [`lily-design-system-vue-text-size-picker`](../../lily-design-system-vue-text-size-picker/) — `@lilydesignsystem/vue-text-size-picker`
 - [`lily-design-system-vue-theme-picker`](../../lily-design-system-vue-theme-picker/) — `@lilydesignsystem/vue-theme-picker`
 - [`lily-design-system-vue-gantt-chart`](../../lily-design-system-vue-gantt-chart/) — `@lilydesignsystem/vue-gantt-chart`
+- [`lily-design-system-vue-calendar`](../../lily-design-system-vue-calendar/) — `@lilydesignsystem/vue-calendar`
 - [`lily-design-system-vue-picker-bar`](../../lily-design-system-vue-picker-bar/) — `@lilydesignsystem/vue-picker-bar`
 
 ### Angular helper packages

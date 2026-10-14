@@ -16,7 +16,16 @@ export type GanttTask = {
     parentId?: string;
     /** Other tasks' ids this task depends on (finish-to-start). */
     dependsOn?: string[];
+    /** Class hook only: becomes `data-task-type` on the row (e.g. "design", "review"). */
+    type?: string;
+    /** On the critical path; becomes `data-critical`. Lily computes nothing. */
+    critical?: boolean;
+    /** Slack in days, from the consumer's own scheduling; becomes `data-slack`. */
+    slack?: number;
 };
+
+/** A dated column marker (holiday, release, deadline). `label` is rendered as text so a marker is never colour-only. */
+export type GanttMarker = { date: string; kind?: string; label?: string };
 
 export type GanttTimeUnit = "day" | "week" | "month";
 
@@ -55,6 +64,12 @@ export type Props = {
     timeUnit?: GanttTimeUnit;
     /** ISO date marking "today"; never computed internally (stays SSR-safe). */
     today?: string;
+    /** Dated markers; each marks the column that contains its date with `data-marker`. */
+    markers?: GanttMarker[];
+    /** Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
+    isNonWorking?: (isoDate: string) => boolean;
+    /** Suppress editing, drag and the edit region; navigation and collapse still work. */
+    readonly?: boolean;
     /** Resolves a task to its display label. Defaults to `task.label`. */
     taskLabel?: (task: GanttTask) => string;
     /** User-facing strings. See GanttLabels — presence gates each control. */
@@ -219,6 +234,9 @@ const props = withDefaults(defineProps<Props>(), {
     caption: undefined,
     timeUnit: "day",
     today: undefined,
+    markers: () => [],
+    isNonWorking: undefined,
+    readonly: false,
     taskLabel: undefined,
     labels: () => ({}),
     class: "",
@@ -258,7 +276,7 @@ const activeCol = computed(() => Math.min(focusedCol.value, columns.value.length
 /** Editing needs every label its controls show; an unnamed Save is worse than none. */
 const canEdit = computed(() => {
     const l = props.labels;
-    return !!l?.dateTimePickerLabels && !!l.startLabel && !!l.endLabel && !!l.saveLabel && !!l.cancelLabel;
+    return !props.readonly && !!l?.dateTimePickerLabels && !!l.startLabel && !!l.endLabel && !!l.saveLabel && !!l.cancelLabel;
 });
 
 function resolveTaskLabel(task: GanttTask): string {
@@ -352,6 +370,7 @@ function onCellDragOver(event: DragEvent): void {
 }
 
 function onCellDrop(column: GanttColumn, event: DragEvent): void {
+    if (props.readonly) return;
     event.preventDefault();
     const taskId = draggingTaskId ?? event.dataTransfer?.getData("text/plain");
     draggingTaskId = null;
@@ -440,6 +459,23 @@ function isTodayColumn(column: GanttColumn): boolean {
     return props.today != null && rangesOverlap(column.start, column.end, props.today, props.today);
 }
 
+function markersIn(column: GanttColumn): GanttMarker[] {
+    return props.markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date));
+}
+
+function columnNonWorking(column: GanttColumn): boolean {
+    if (!props.isNonWorking) return false;
+    for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
+        if (!props.isNonWorking(d)) return false;
+    }
+    return true;
+}
+
+type ColumnView = { column: GanttColumn; markers: GanttMarker[]; nonWorking: boolean };
+const columnViews = computed<ColumnView[]>(() =>
+    columns.value.map((column) => ({ column, markers: markersIn(column), nonWorking: columnNonWorking(column) })),
+);
+
 type RowView = {
     row: FlatRow;
     rowIndex: number;
@@ -453,6 +489,8 @@ type RowView = {
         isMilestone: boolean;
         isToday: boolean;
         isLeadingCell: boolean;
+        nonWorking: boolean;
+        hasMarker: boolean;
     }[];
 };
 
@@ -464,7 +502,17 @@ function viewForRow(row: FlatRow, rowIndex: number): RowView {
         const isMilestone = inRange && start === end;
         const isToday = isTodayColumn(column);
         const isLeadingCell = inRange && rangesOverlap(column.start, column.end, start, start);
-        return { column, colIndex, inRange, isMilestone, isToday, isLeadingCell };
+        const cv = columnViews.value[colIndex];
+        return {
+            column,
+            colIndex,
+            inRange,
+            isMilestone,
+            isToday,
+            isLeadingCell,
+            nonWorking: cv.nonWorking,
+            hasMarker: cv.markers.length > 0,
+        };
     });
     return { row, rowIndex, start, end, deps, cells };
 }
@@ -473,24 +521,33 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
 </script>
 
 <template>
-    <div ref="rootEl" :class="`gantt-chart ${props.class ?? ''}`.trim()">
+    <div ref="rootEl" :class="`gantt-chart ${props.class ?? ''}`.trim()" :data-readonly="readonly ? '' : undefined">
         <GanttTable :label="label" :caption="caption" @keydown="onGridKeydown" @focusin="onGridFocusin">
             <GanttTableThead>
                 <GanttTableTr>
                     <GanttTableTH scope="col">{{ labels?.taskColumnHeader ?? "" }}</GanttTableTH>
                     <GanttTableTH
-                        v-for="column in columns"
-                        :key="column.start"
+                        v-for="cv in columnViews"
+                        :key="cv.column.start"
                         scope="col"
-                        :data-today="isTodayColumn(column) ? '' : undefined"
+                        :data-today="isTodayColumn(cv.column) ? '' : undefined"
+                        :data-non-working="cv.nonWorking ? '' : undefined"
+                        :data-marker="cv.markers.length ? cv.markers.map((m) => m.kind ?? 'marker').join(' ') : undefined"
                     >
-                        {{ labels?.columnLabel?.(column.start, column.end, timeUnit ?? "day") ?? column.start }}
+                        {{ labels?.columnLabel?.(cv.column.start, cv.column.end, timeUnit ?? "day") ?? cv.column.start }}
+                        <template v-for="marker in cv.markers" :key="marker.date + (marker.kind ?? '')">
+                            <span v-if="marker.label" class="gantt-chart-marker-label">{{ marker.label }}</span>
+                        </template>
                     </GanttTableTH>
                 </GanttTableTr>
             </GanttTableThead>
             <GanttTableTbody>
                 <template v-for="view in rowViews" :key="view.row.task.id">
-                    <GanttTableTr>
+                    <GanttTableTr
+                        :data-task-type="view.row.task.type"
+                        :data-critical="view.row.task.critical ? '' : undefined"
+                        :data-slack="view.row.task.slack"
+                    >
                         <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
                         <GanttTableTH scope="row" :data-depth="view.row.depth">
                             <button
@@ -522,6 +579,8 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
                             :data-in-range="cell.inRange ? '' : undefined"
                             :data-milestone="cell.isMilestone ? '' : undefined"
                             :data-today="cell.isToday ? '' : undefined"
+                            :data-non-working="cell.nonWorking ? '' : undefined"
+                            :data-marker="cell.hasMarker ? '' : undefined"
                             :aria-describedby="
                                 view.deps.length > 0 && labels?.dependencySummary
                                     ? dependencyId(view.row.task.id)
@@ -534,7 +593,7 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
                                 v-if="cell.isLeadingCell"
                                 class="gantt-chart-bar"
                                 :data-percent-complete="view.row.task.percentComplete ?? undefined"
-                                :draggable="!view.row.hasChildren ? 'true' : undefined"
+                                :draggable="!view.row.hasChildren && !readonly ? 'true' : undefined"
                                 @dragstart="(e: DragEvent) => onBarDragStart(view.row.task, e)"
                             ></span>
                         </GanttTableTD>

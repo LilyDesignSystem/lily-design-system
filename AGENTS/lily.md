@@ -93,6 +93,7 @@ The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/lis
 - [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker) — `@lilydesignsystem/vue-text-size-picker`
 - [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker) — `@lilydesignsystem/vue-theme-picker`
 - [`lily-design-system-vue-gantt-chart`](../lily-design-system-vue-gantt-chart) — `@lilydesignsystem/vue-gantt-chart`
+- [`lily-design-system-vue-calendar`](../lily-design-system-vue-calendar) — `@lilydesignsystem/vue-calendar`
 - [`lily-design-system-vue-picker-bar`](../lily-design-system-vue-picker-bar) — `@lilydesignsystem/vue-picker-bar`
 
 The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages angular`):

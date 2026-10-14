@@ -351,3 +351,58 @@ describe("KanbanBoard — focus, tab stop and move edge cases", () => {
         expect(document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit")).toBe(false);
     });
 });
+
+describe("KanbanBoard — reorder, veto and read-only (§8.17–§8.21)", () => {
+    const key = (el: Element, init: KeyboardEventInit) =>
+        el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, ...init }));
+
+    test("§8.17 Alt+ArrowDown emits reorder and announces it", async () => {
+        const wrapper = build({ labels: { reorderAnnouncement: (t: string, p: number, n: number) => `${t} is ${p} of ${n}` } });
+        key(tabbableCells()[0], { key: "ArrowDown", altKey: true });
+        await flush();
+        expect(wrapper.emitted("reorder")).toEqual([["c1", 1]]);
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("Card One is 2 of 2");
+    });
+
+    test("§8.18 Alt+Arrow at the column edge emits nothing", async () => {
+        const wrapper = build();
+        key(tabbableCells()[0], { key: "ArrowUp", altKey: true });
+        await flush();
+        expect(wrapper.emitted("reorder")).toBeUndefined();
+    });
+
+    test("§8.19 canMove refuses a move: no move event, an announcement, aria-disabled option", async () => {
+        const wrapper = build({
+            labels: { ...LABELS, moveBlocked: (t: string, c: string) => `${t} cannot go to ${c}` },
+            canMove: (_c: KanbanCard, to: KanbanColumn) => to.id !== "done",
+        });
+        key(tabbableCells()[0], { key: "Enter" });
+        await flush();
+        const option = optionByName("Done")!;
+        expect(option.getAttribute("aria-disabled")).toBe("true");
+        option.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await flush();
+        expect(wrapper.emitted("move")).toBeUndefined();
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("Card One cannot go to Done");
+    });
+
+    test("§8.20 readonly: no move button, no menu, no drag, no reorder", async () => {
+        const wrapper = build({ labels: LABELS, readonly: true });
+        expect(document.querySelector(".kanban-board-move-button")).toBeNull();
+        key(tabbableCells()[0], { key: "Enter" });
+        await flush();
+        expect(document.querySelector('[role="listbox"]')).toBeNull();
+        key(tabbableCells()[0], { key: "ArrowDown", altKey: true });
+        await flush();
+        expect(wrapper.emitted("reorder")).toBeUndefined();
+        expect(document.querySelector("[draggable='true']")).toBeNull();
+        expect(document.querySelector(".kanban-board")!.hasAttribute("data-readonly")).toBe(true);
+    });
+
+    test("§8.21 readonly keeps arrow-key navigation", async () => {
+        build({ readonly: true });
+        key(tabbableCells()[0], { key: "ArrowRight" });
+        await flush();
+        expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+    });
+});

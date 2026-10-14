@@ -33,6 +33,10 @@ export type KanbanLabels = {
     moveButton?: (card: KanbanCard) => string;
     moveMenuLabel?: string;
     moveAnnouncement?: (cardTitle: string, columnTitle: string) => string;
+    /** Announced when `canMove` refuses a move. */
+    moveBlocked?: (cardTitle: string, columnTitle: string) => string;
+    /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
+    reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
 };
 
 /** Public props for KanbanBoard. See `spec/index.md` §4 for the contract. */
@@ -47,6 +51,10 @@ export type Props = {
     cards: KanbanCard[];
     /** Resolves a card to its display label. Defaults to `card.title`. */
     cardLabel?: (card: KanbanCard) => string;
+    /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
+    canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
+    /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
+    readonly?: boolean;
     /** User-facing strings. See KanbanLabels — presence gates each control. */
     labels?: KanbanLabels;
     /** Extra CSS class on the root. */
@@ -82,6 +90,8 @@ import {
 const props = withDefaults(defineProps<Props>(), {
     caption: undefined,
     cardLabel: undefined,
+    canMove: undefined,
+    readonly: false,
     labels: () => ({}),
     class: "",
 });
@@ -91,6 +101,8 @@ const props = withDefaults(defineProps<Props>(), {
 // `theme-change` et al. and `date-time-picker`'s `change`.
 const emit = defineEmits<{
     (event: "move", cardId: string, toColumnId: string): void;
+    /** Alt+ArrowUp/Down moved a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
+    (event: "reorder", cardId: string, toIndex: number): void;
 }>();
 
 const baseId = nextKanbanBoardId();
@@ -169,6 +181,12 @@ function announce(message: string | undefined): void {
 
 /** Choosing the card's own column is not a move: the menu just closes. */
 function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
+    if (props.readonly) return;
+    if (toColumn.id !== card.columnId && props.canMove && !props.canMove(card, toColumn)) {
+        announce(props.labels?.moveBlocked?.(resolveCardLabel(card), toColumn.title));
+        void closeMoveMenu(card.id);
+        return;
+    }
     if (toColumn.id !== card.columnId) {
         emit("move", card.id, toColumn.id);
         announce(props.labels?.moveAnnouncement?.(resolveCardLabel(card), toColumn.title));
@@ -177,6 +195,7 @@ function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
 }
 
 async function openMoveMenu(card: KanbanCard): Promise<void> {
+    if (props.readonly) return;
     openCardId.value = card.id;
     const currentIndex = props.columns.findIndex((c) => c.id === card.columnId);
     moveActiveIndex.value = currentIndex >= 0 ? currentIndex : 0;
@@ -260,6 +279,18 @@ function onGridFocusin(event: FocusEvent): void {
     focusedCol.value = Number(cell.dataset.col);
 }
 
+function reorderCard(delta: 1 | -1): void {
+    if (props.readonly) return;
+    const card = cardAt(activeCol.value, activeRow.value);
+    if (!card) return;
+    const total = cardsByColumn.value.get(card.columnId)?.length ?? 0;
+    const toIndex = activeRow.value + delta;
+    if (toIndex < 0 || toIndex >= total) return;
+    emit("reorder", card.id, toIndex);
+    announce(props.labels?.reorderAnnouncement?.(resolveCardLabel(card), toIndex + 1, total));
+    void focusCard(card.id);
+}
+
 function onGridKeydown(event: KeyboardEvent): void {
     const target = event.target as HTMLElement;
     // The open move menu owns its own keys; letting them bubble here moved the
@@ -268,6 +299,11 @@ function onGridKeydown(event: KeyboardEvent): void {
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+        event.preventDefault();
+        reorderCard(event.key === "ArrowUp" ? -1 : 1);
+        return;
+    }
     switch (event.key) {
         case "ArrowUp":
             event.preventDefault();
@@ -307,7 +343,7 @@ function onGridKeydown(event: KeyboardEvent): void {
 </script>
 
 <template>
-    <div ref="rootEl" :class="`kanban-board ${props.class ?? ''}`.trim()">
+    <div ref="rootEl" :class="`kanban-board ${props.class ?? ''}`.trim()" :data-readonly="readonly ? '' : undefined">
         <KanbanTable :label="label" :caption="caption" @keydown="onGridKeydown" @focusin="onGridFocusin">
             <KanbanTableHead>
                 <KanbanTableRow>
@@ -352,14 +388,14 @@ function onGridKeydown(event: KeyboardEvent): void {
                             -->
                             <span
                                 class="kanban-board-card-title"
-                                draggable="true"
+                                :draggable="readonly ? undefined : 'true'"
                                 @dragstart="(e: DragEvent) => onCardDragStart(cell.card!, e)"
                                 >{{ resolveCardLabel(cell.card!) }}</span
                             >
                             <!-- Gated on labels.moveButton: an unnamed button is worse than
                                  none, and Enter/Space on the cell opens the menu either way. -->
                             <IconButton
-                                v-if="labels?.moveButton"
+                                v-if="labels?.moveButton && !readonly"
                                 baseClass="kanban-board-move-button"
                                 :label="labels.moveButton(cell.card!)"
                                 tabindex="-1"
@@ -389,6 +425,7 @@ function onGridKeydown(event: KeyboardEvent): void {
                                     :id="moveOptionId(i)"
                                     role="option"
                                     :aria-selected="destination.id === cell.card!.columnId"
+                                    :aria-disabled="destination.id !== cell.card!.columnId && canMove && !canMove(cell.card!, destination) ? 'true' : undefined"
                                     :data-active="i === moveActiveIndex ? '' : undefined"
                                     @click="() => moveCard(cell.card!, destination)"
                                 >

@@ -235,3 +235,7 @@ rules — see `KanbanBoard.vue`'s own comment for the reasoning, and
 `shims.d.ts` for the `vue-tsc` declaration-pass workaround this
 package needs (an existing convention already used by every other Vue
 helper that composes `@lilydesignsystem/vue-headless`).
+
+## Svelte 0.2.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§8.17–§8.21 there): `readonly`, `canMove` with `labels.moveBlocked`, and Alt+ArrowUp/Down reorder via `onReorder(cardId, toIndex)` with `labels.reorderAnnouncement`. See the Svelte spec for the contract and the SVAR survey (§11).
