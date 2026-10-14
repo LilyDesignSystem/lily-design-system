@@ -81,6 +81,20 @@
   5. onMove: (cardId, toColumnId) => void — same as #4, a
      kanban-board.client.js init option, never a macro param.
 
+  6. onReorder, canMove, labels.moveBlocked, labels.reorderAnnouncement —
+     the same story as #4 and #5: all callbacks, so all
+     `initKanbanBoard(root, {...})` options, never macro params.
+       onReorder(cardId, toIndex)   — Alt+ArrowUp/Down within a column.
+       canMove(cardId, toColumnId)  — veto; refused options get
+                                      aria-disabled when the menu opens.
+       labels.moveBlocked(cardTitle, columnTitle)
+       labels.reorderAnnouncement(cardTitle, position, total)
+
+  7. readonly — a plain boolean macro param (see below). It renders no
+     move button, no move menu and no draggable handle, and sets
+     `data-readonly` on the root; the client script also checks that
+     attribute, so reorder is disabled too. Arrow-key navigation stays.
+
   Params (single `opts` object):
     label       — string, required. aria-label for the grid table.
     columns     — array<{id, title, wipLimit?}>, required.
@@ -90,6 +104,7 @@
     caption     — string. Visible <caption>, forwarded to kanbanTable.
     labels      — object. See deviations above. Every field optional;
                   its presence gates the control/text it names.
+    readonly    — boolean. Disable every mutating interaction.
     name        — string, default "board". Discriminator for ids.
     id          — string, default "kanban-board-{name}".
     classes     — string. Extra CSS classes on the root <div>.
@@ -131,14 +146,14 @@
 {%- if overLimit and labels.overLimit %}<span class="kanban-board-wip-warning">{{ labels.overLimit | replace("{count}", count) | replace("{limit}", column.wipLimit) }}</span>{% endif -%}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml) -%}
+{%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly) -%}
 {%- if card -%}
 {%- set moveListId = id + "-move-list-" + card.id -%}
 {%- set moveButtonId = id + "-move-button-" + card.id -%}
 {#- The move button only when labels.moveButton names it: an unnamed button is
     worse than none, and Enter/Space on the cell opens the menu either way. The
     menu is named by the card itself when no moveMenuLabel is given. -#}
-<span class="kanban-board-card-title" draggable="true" data-lily-kanban-board-card-handle data-lily-kanban-board-card-id="{{ card.id }}">{{ card.title }}</span>{% if labels.moveButton %}<button type="button" class="kanban-board-move-button" id="{{ moveButtonId }}" tabindex="-1" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ moveListId }}" aria-label="{{ labels.moveButton | replace('{card}', card.title) }}" data-lily-kanban-board-move-button data-lily-kanban-board-card-id="{{ card.id }}">{{ glyphHtml | safe }}</button>{% endif %}<ul class="kanban-board-move-list" id="{{ moveListId }}" role="listbox" aria-label="{{ labels.moveMenuLabel | default(card.title) }}" tabindex="-1" hidden data-lily-kanban-board-move-list data-lily-kanban-board-card-id="{{ card.id }}">{%- for destination in columns -%}<li class="kanban-board-move-option" id="{{ id }}-move-option-{{ card.id }}-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if destination.id == card.columnId else 'false' }}" data-value="{{ destination.id }}">{{ destination.title }}</li>{%- endfor -%}</ul>
+<span class="kanban-board-card-title"{% if not readonly %} draggable="true"{% endif %} data-lily-kanban-board-card-handle data-lily-kanban-board-card-id="{{ card.id }}">{{ card.title }}</span>{% if not readonly %}{% if labels.moveButton %}<button type="button" class="kanban-board-move-button" id="{{ moveButtonId }}" tabindex="-1" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ moveListId }}" aria-label="{{ labels.moveButton | replace('{card}', card.title) }}" data-lily-kanban-board-move-button data-lily-kanban-board-card-id="{{ card.id }}">{{ glyphHtml | safe }}</button>{% endif %}<ul class="kanban-board-move-list" id="{{ moveListId }}" role="listbox" aria-label="{{ labels.moveMenuLabel | default(card.title) }}" tabindex="-1" hidden data-lily-kanban-board-move-list data-lily-kanban-board-card-id="{{ card.id }}">{%- for destination in columns -%}<li class="kanban-board-move-option" id="{{ id }}-move-option-{{ card.id }}-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if destination.id == card.columnId else 'false' }}" data-value="{{ destination.id }}">{{ destination.title }}</li>{%- endfor -%}</ul>{% endif %}
 {%- endif -%}
 {%- endmacro -%}
 
@@ -156,7 +171,7 @@
 {{- out | safe -}}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml) -%}
+{%- macro _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, readonly) -%}
 {%- set out = "" -%}
 {%- for column in columns -%}
   {%- set colIndex = loop.index0 -%}
@@ -165,7 +180,7 @@
   {%- set isActive = (rowIndex == 0 and colIndex == 0) -%}
   {%- set tdAttrs = [["data-row", rowIndex], ["data-col", colIndex], ["tabindex", (0 if isActive else -1)]] -%}
   {%- if card -%}{%- set tdAttrs = tdAttrs.concat([["data-lily-kanban-board-card-id", card.id]]) -%}{%- endif -%}
-  {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml) -%}
+  {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly) -%}
   {%- set out = (out ~ kanbanTableTd({ attributes: tdAttrs, html: cellHtml })) | safe -%}
 {%- endfor -%}
 {{- out | safe -}}
@@ -202,7 +217,7 @@
 {%- set theadHtml = (kanbanTableHead({ html: (kanbanTableRow({ html: headerRowHtml }) | safe) })) | safe -%}
 {%- set bodyRowsHtml = "" -%}
 {%- for rowIndex in range(0, maxRows) -%}
-  {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml) -%}
+  {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, opts.readonly) -%}
   {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ html: rowCellsHtml })) | safe -%}
 {%- endfor -%}
 {%- set tbodyHtml = (kanbanTableBody({ html: bodyRowsHtml })) | safe -%}
@@ -211,6 +226,7 @@
   class="kanban-board{% if opts.classes %} {{ opts.classes }}{% endif %}"
   data-lily-kanban-board-root
   data-lily-kanban-board-name="{{ name }}"
+  {%- if opts.readonly %} data-readonly{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 {{ tableHtml | safe }}

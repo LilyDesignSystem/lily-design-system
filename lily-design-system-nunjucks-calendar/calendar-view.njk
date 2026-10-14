@@ -1,0 +1,101 @@
+{#
+  CalendarView macro — a calendar: a week, a rolling four weeks, or a
+  padded month, with previous/next/today navigation, a view switcher,
+  APG grid keyboard navigation, a picked day, disabled days and
+  consumer-rendered events per day.
+
+  HTML tag: <div> (root) wrapping a toolbar, a <table role="grid"> built
+            from @lilydesignsystem/nunjucks-headless's calendar-table
+            macro family, and one aria-live status region.
+  CSS class: calendar-view
+  Companion runtime: calendar-view.client.js
+
+  The macro renders the SSR skeleton only: the toolbar, an empty grid and
+  the status region. Which days appear depends on civil-date arithmetic
+  that lives in the client (the same arithmetic date-time-picker's client
+  exports), so calendar-view.client.js builds the weekday header and the
+  day cells, exactly as gantt-chart.client.js builds the gantt grid body.
+  Call `initCalendarView(root, opts)` (or `autoInit(opts)`) once.
+
+  ---------------------------------------------------------------------
+  NUNJUCKS DEVIATIONS from the canonical Svelte props
+  ---------------------------------------------------------------------
+
+  A macro cannot evaluate a callback, so every function-valued prop is a
+  calendar-view.client.js init option rather than a macro param:
+    events, isDisabled, onNavigate, onDayClick, onEventClick, renderDay,
+    labels.previous(view), labels.next(view), labels.periodAnnouncement,
+    labels.weekday, labels.weekdayAbbr, labels.day.
+  Plain strings stay macro params: labels.weekView / fourWeekView /
+  monthView / today. `labels.previousLabel` / `labels.nextLabel` are
+  fixed strings naming the two arrows before hydration; once the client
+  runs, `labels.previous(view)` / `labels.next(view)` replace them.
+
+  Params (single `opts` object):
+    label       — string, required. aria-label for the grid.
+    view        — "week" | "four-week" | "month", default "month".
+    anchorDate  — ISO date the period is computed around. Default: `today`.
+    selectedDate— ISO date already picked.
+    today       — ISO date; never computed here (SSR-safe).
+    minDate, maxDate — ISO dates bounding what can be picked.
+    locale      — BCP 47, picks the first day of the week.
+    labels      — object, see above. Every field optional; each gates
+                  the control it names.
+    name        — string, default "calendar". Discriminator for ids.
+    id          — string, default "calendar-view-{name}".
+    classes     — string. Extra CSS classes on the root <div>.
+    attributes  — object. Extra HTML attributes spread onto the root.
+
+  Usage:
+    {% from "./calendar-view.njk" import calendarView %}
+    {{ calendarView({
+      label: "Appointments", view: "month", anchorDate: "2026-01-15",
+      today: "2026-01-08",
+      labels: { monthView: "Month", weekView: "Week", today: "Today" }
+    }) }}
+
+  Spec: spec/index.md.
+#}
+{% from "lily-design-system-nunjucks-headless/components/calendar-table/macro.njk" import calendarTable %}
+{% from "lily-design-system-nunjucks-headless/components/calendar-table-head/macro.njk" import calendarTableHead %}
+{% from "lily-design-system-nunjucks-headless/components/calendar-table-body/macro.njk" import calendarTableBody %}
+
+{%- macro calendarView(opts) -%}
+{%- set labels = opts.labels | default({}) -%}
+{%- set name = opts.name | default("calendar") -%}
+{%- set id = opts.id | default("calendar-view-" + name) -%}
+{%- set view = opts.view | default("month") -%}
+{%- set anchorDate = opts.anchorDate | default(opts.today) | default("1970-01-01") -%}
+{%- set tableHtml = calendarTable({ label: opts.label, classes: "calendar-view-table", attributes: {"role": "grid"}, html: (calendarTableHead({ html: "" }) ~ calendarTableBody({ html: "" })) | safe }) -%}
+<div
+  class="calendar-view{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  id="{{ id }}"
+  data-lily-calendar-view-root
+  data-lily-calendar-view-name="{{ name }}"
+  data-lily-calendar-view-view="{{ view }}"
+  data-lily-calendar-view-anchor-date="{{ anchorDate }}"
+  {%- if opts.selectedDate %} data-lily-calendar-view-selected-date="{{ opts.selectedDate }}"{% endif %}
+  {%- if opts.today %} data-lily-calendar-view-today="{{ opts.today }}"{% endif %}
+  {%- if opts.minDate %} data-lily-calendar-view-min-date="{{ opts.minDate }}"{% endif %}
+  {%- if opts.maxDate %} data-lily-calendar-view-max-date="{{ opts.maxDate }}"{% endif %}
+  {%- if opts.locale %} data-lily-calendar-view-locale="{{ opts.locale }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- if labels.weekView or labels.fourWeekView or labels.monthView %}
+<div class="calendar-view-toolbar">
+<div class="calendar-view-switcher" role="group">
+{%- if labels.weekView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-week" aria-pressed="{{ 'true' if view == 'week' else 'false' }}" data-lily-calendar-view-switch="week">{{ labels.weekView }}</button>{% endif %}
+{%- if labels.fourWeekView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-four-week" aria-pressed="{{ 'true' if view == 'four-week' else 'false' }}" data-lily-calendar-view-switch="four-week">{{ labels.fourWeekView }}</button>{% endif %}
+{%- if labels.monthView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-month" aria-pressed="{{ 'true' if view == 'month' else 'false' }}" data-lily-calendar-view-switch="month">{{ labels.monthView }}</button>{% endif %}
+</div>
+<div class="calendar-view-nav">
+<button type="button" class="calendar-view-previous-button"{% if labels.previousLabel %} aria-label="{{ labels.previousLabel }}"{% endif %} data-lily-calendar-view-previous>&#8249;</button>
+{%- if labels.today %}<button type="button" class="calendar-view-today-button"{% if not opts.today %} disabled{% endif %} data-lily-calendar-view-today-button>{{ labels.today }}</button>{% endif %}
+<button type="button" class="calendar-view-next-button"{% if labels.nextLabel %} aria-label="{{ labels.nextLabel }}"{% endif %} data-lily-calendar-view-next>&#8250;</button>
+</div>
+</div>
+{%- endif %}
+{{ tableHtml | safe }}
+<div class="calendar-view-status" id="{{ id }}-status" aria-live="polite" data-lily-calendar-view-status></div>
+</div>
+{%- endmacro -%}

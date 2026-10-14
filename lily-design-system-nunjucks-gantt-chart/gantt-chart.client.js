@@ -135,6 +135,8 @@ function applyTemplate(template, taskLabel) {
  *     columnLabel?: (start: string, end: string, timeUnit: string) => string,
  *     dateAnnouncement?: (taskLabel: string, start: string, end: string) => string,
  *   },
+ *   markers?: Array<{ date: string, kind?: string, label?: string }>,
+ *   isNonWorking?: (isoDate: string) => boolean,
  * }=} opts
  * @returns {{ destroy: () => void }}
  */
@@ -157,6 +159,21 @@ export function initGanttChart(root, opts = {}) {
   const today = root.getAttribute("data-lily-gantt-chart-today") || "";
 
   const columns = generateColumns(range, timeUnit);
+  const readonly = root.hasAttribute("data-readonly");
+
+  // Markers and the consumer's working calendar, resolved once per column.
+  const columnMarkers = columns.map((column) =>
+    (Array.isArray(opts.markers) ? opts.markers : []).filter((m) =>
+      rangesOverlap(column.start, column.end, m.date, m.date),
+    ),
+  );
+  const columnNonWorking = columns.map((column) => {
+    if (typeof opts.isNonWorking !== "function") return false;
+    for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
+      if (!opts.isNonWorking(d)) return false;
+    }
+    return true;
+  });
 
   // -----------------------------------------------------------------
   // Header — one <th> per generated column, appended after the
@@ -174,8 +191,22 @@ export function initGanttChart(root, opts = {}) {
     if (today && rangesOverlap(column.start, column.end, today, today)) {
       th.setAttribute("data-today", "");
     }
+    if (columnNonWorking[index]) th.setAttribute("data-non-working", "");
+    const markers = columnMarkers[index];
+    if (markers.length) th.setAttribute("data-marker", markers.map((m) => m.kind || "marker").join(" "));
     const columnLabelFn = opts.labels && opts.labels.columnLabel;
-    th.textContent = typeof columnLabelFn === "function" ? columnLabelFn(column.start, column.end, timeUnit) : column.start;
+    th.appendChild(
+      document.createTextNode(
+        typeof columnLabelFn === "function" ? columnLabelFn(column.start, column.end, timeUnit) : column.start,
+      ),
+    );
+    markers.forEach((marker) => {
+      if (!marker.label) return;
+      const span = document.createElement("span");
+      span.className = "gantt-chart-marker-label";
+      span.textContent = marker.label;
+      th.appendChild(span);
+    });
     headerRow.appendChild(th);
   });
 
@@ -288,6 +319,8 @@ export function initGanttChart(root, opts = {}) {
         if (inRange) td.setAttribute("data-in-range", "");
         if (isMilestone) td.setAttribute("data-milestone", "");
         if (isToday) td.setAttribute("data-today", "");
+        if (columnNonWorking[colIndex]) td.setAttribute("data-non-working", "");
+        if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
         if (describedBy) td.setAttribute("aria-describedby", describedBy);
 
         if (isLeading) {
@@ -296,7 +329,7 @@ export function initGanttChart(root, opts = {}) {
           bar.setAttribute("data-lily-gantt-chart-bar", "");
           bar.setAttribute("data-lily-gantt-chart-task-id", taskId);
           if (percentAttr != null && percentAttr !== "") bar.setAttribute("data-percent-complete", percentAttr);
-          if (!hasChildren) bar.setAttribute("draggable", "true");
+          if (!hasChildren && !readonly) bar.setAttribute("draggable", "true");
           td.appendChild(bar);
         }
 
@@ -606,6 +639,7 @@ export function initGanttChart(root, opts = {}) {
   }
 
   function onDrop(event) {
+    if (readonly) return;
     const cell = event.target && event.target.closest ? event.target.closest("[data-row][data-col]") : null;
     if (!cell) return;
     event.preventDefault();

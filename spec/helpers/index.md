@@ -181,6 +181,7 @@ packages above. [`bin/list-helper-packages nunjucks`](../../bin/list-helper-pack
 - [`lily-design-system-nunjucks-settings-picker`](../../lily-design-system-nunjucks-settings-picker/) — `@lilydesignsystem/nunjucks-settings-picker`
 - [`lily-design-system-nunjucks-share-picker`](../../lily-design-system-nunjucks-share-picker/) — `@lilydesignsystem/nunjucks-share-picker`
 - [`lily-design-system-nunjucks-gantt-chart`](../../lily-design-system-nunjucks-gantt-chart/) — `@lilydesignsystem/nunjucks-gantt-chart`
+- [`lily-design-system-nunjucks-calendar`](../../lily-design-system-nunjucks-calendar/) — `@lilydesignsystem/nunjucks-calendar`
 - [`lily-design-system-nunjucks-kanban-board`](../../lily-design-system-nunjucks-kanban-board/) — `@lilydesignsystem/nunjucks-kanban-board`
 - [`lily-design-system-nunjucks-locale-picker`](../../lily-design-system-nunjucks-locale-picker/) — `@lilydesignsystem/nunjucks-locale-picker`
 - [`lily-design-system-nunjucks-motion-picker`](../../lily-design-system-nunjucks-motion-picker/) — `@lilydesignsystem/nunjucks-motion-picker`

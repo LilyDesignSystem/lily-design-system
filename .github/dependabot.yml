@@ -209,6 +209,7 @@ updates:
       - "/lily-design-system-nunjucks-settings-picker"
       - "/lily-design-system-nunjucks-share-picker"
       - "/lily-design-system-nunjucks-gantt-chart"
+      - "/lily-design-system-nunjucks-calendar"
       - "/lily-design-system-nunjucks-kanban-board"
       - "/lily-design-system-nunjucks-locale-picker"
       - "/lily-design-system-nunjucks-motion-picker"

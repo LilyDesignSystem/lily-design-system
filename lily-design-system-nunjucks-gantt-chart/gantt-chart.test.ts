@@ -706,3 +706,49 @@ describe("GanttChart — focus, hierarchy and edit edge cases", () => {
     expect(headerCells(root)[0].textContent?.trim()).toBe("Task");
   });
 });
+
+describe("GanttChart — markers, working calendar, task data, readonly", () => {
+  const heads = (root: HTMLElement) => headerCells(root).slice(1);
+
+  test("markers mark the containing column, and a marker label renders as text", () => {
+    const { root } = setup({}, { markers: [{ date: "2026-10-05", kind: "holiday", label: "Bank holiday" }] });
+    expect(heads(root)[4].getAttribute("data-marker")).toBe("holiday");
+    expect(heads(root)[4].textContent).toContain("Bank holiday");
+    expect(heads(root)[3].hasAttribute("data-marker")).toBe(false);
+    expect(root.querySelectorAll(".gantt-table-td[data-marker]").length).toBe(rows(root).length);
+  });
+
+  test("isNonWorking marks a column only when every day in it is non-working", () => {
+    const { root } = setup({}, { isNonWorking: (d: string) => d === "2026-10-03" || d === "2026-10-04" });
+    expect(heads(root)[2].hasAttribute("data-non-working")).toBe(true);
+    expect(heads(root)[3].hasAttribute("data-non-working")).toBe(true);
+    expect(heads(root)[1].hasAttribute("data-non-working")).toBe(false);
+  });
+
+  test("week columns are non-working only if all seven days are", () => {
+    const { root } = setup({ timeUnit: "week" }, { isNonWorking: (d: string) => d === "2026-10-03" });
+    expect(root.querySelector(".gantt-table-thead [data-non-working]")).toBeNull();
+  });
+
+  test("task type, critical and slack become data attributes on the row", () => {
+    const { root } = setup({
+      tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", type: "design", critical: true, slack: 2 }],
+    });
+    const row = rows(root)[0];
+    expect(row.getAttribute("data-task-type")).toBe("design");
+    expect(row.hasAttribute("data-critical")).toBe(true);
+    expect(row.getAttribute("data-slack")).toBe("2");
+  });
+
+  test("readonly: no edit rows, no drag, navigation and collapse still work", () => {
+    const { root } = setup({ labels: LABELS, readonly: true });
+    expect(root.querySelector(".gantt-chart-edit-row, [data-lily-gantt-chart-edit-row]")).toBeNull();
+    key(tabbableCells(root)[0], "Enter");
+    expect(root.querySelector(".gantt-chart-bar[draggable='true']")).toBeNull();
+    expect(root.hasAttribute("data-readonly")).toBe(true);
+    key(tabbableCells(root)[0], "ArrowRight");
+    expect(tabbableCells(root)[0].getAttribute("data-col")).toBe("1");
+    click(collapseButtonFor(root, "parent"));
+    expect(collapseButtonFor(root, "parent").getAttribute("aria-expanded")).toBe("false");
+  });
+});

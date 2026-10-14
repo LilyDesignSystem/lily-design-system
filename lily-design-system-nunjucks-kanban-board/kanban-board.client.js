@@ -55,7 +55,13 @@ function textOf(el) {
  * @param {HTMLElement} root - The `[data-lily-kanban-board-root]`.
  * @param {{
  *   onMove?: (cardId: string, toColumnId: string) => void,
- *   labels?: { moveAnnouncement?: (cardTitle: string, columnTitle: string) => string },
+ *   onReorder?: (cardId: string, toIndex: number) => void,
+ *   canMove?: (cardId: string, toColumnId: string) => boolean,
+ *   labels?: {
+ *     moveAnnouncement?: (cardTitle: string, columnTitle: string) => string,
+ *     moveBlocked?: (cardTitle: string, columnTitle: string) => string,
+ *     reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string,
+ *   },
  * }=} opts
  * @returns {{ destroy: () => void }}
  */
@@ -66,6 +72,11 @@ export function initKanbanBoard(root, opts = {}) {
   const table = root.querySelector(".kanban-table");
   const statusEl = root.querySelector("[data-lily-kanban-board-status]");
   if (!table) return noop;
+
+  /** Read-only is the macro's `readonly` param, surfaced as `data-readonly`. */
+  function isReadonly() {
+    return root.hasAttribute("data-readonly");
+  }
 
   function numCols() {
     return root.querySelectorAll("[data-lily-kanban-board-column-id]").length;
@@ -136,6 +147,7 @@ export function initKanbanBoard(root, opts = {}) {
   );
 
   function openMenu(cardId) {
+    if (isReadonly()) return;
     if (openCardId && openCardId !== cardId) closeMenu(openCardId, false);
     const entry = menus.get(cardId);
     if (!entry) return;
@@ -146,6 +158,15 @@ export function initKanbanBoard(root, opts = {}) {
     const selectedIndex = options.findIndex(
       (o) => o.getAttribute("aria-selected") === "true",
     );
+    // A veto (opts.canMove) marks refused destinations aria-disabled.
+    options.forEach((option) => {
+      const refused =
+        typeof opts.canMove === "function" &&
+        option.getAttribute("aria-selected") !== "true" &&
+        !opts.canMove(cardId, option.getAttribute("data-value"));
+      if (refused) option.setAttribute("aria-disabled", "true");
+      else option.removeAttribute("aria-disabled");
+    });
     entry.keyboard.setActive(selectedIndex >= 0 ? selectedIndex : 0);
     entry.list.focus({ preventScroll: true });
   }
@@ -174,11 +195,14 @@ export function initKanbanBoard(root, opts = {}) {
     if (message && statusEl) statusEl.textContent = message;
   }
 
-  function applyMove(cardId, toColumnId) {
-    const cardHandle = root.querySelector(
+  function cardHandleFor(cardId) {
+    return root.querySelector(
       `[data-lily-kanban-board-card-handle][data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
     );
-    const cardTitle = textOf(cardHandle);
+  }
+
+  function applyMove(cardId, toColumnId) {
+    const cardTitle = textOf(cardHandleFor(cardId));
     const columnTitle = columnTitleFor(toColumnId);
     if (typeof opts.onMove === "function") opts.onMove(cardId, toColumnId);
     const moveAnnouncement = opts.labels && opts.labels.moveAnnouncement;
@@ -193,8 +217,16 @@ export function initKanbanBoard(root, opts = {}) {
     const options = Array.from(entry.list.querySelectorAll('[role="option"]'));
     const option = options[index];
     // Choosing the card's own column (the selected option) is not a move.
-    if (option && option.getAttribute("aria-selected") !== "true") {
-      applyMove(cardId, option.getAttribute("data-value"));
+    if (option && option.getAttribute("aria-selected") !== "true" && !isReadonly()) {
+      const toColumnId = option.getAttribute("data-value");
+      if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId)) {
+        const moveBlocked = opts.labels && opts.labels.moveBlocked;
+        if (typeof moveBlocked === "function") {
+          announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
+        }
+      } else {
+        applyMove(cardId, toColumnId);
+      }
     }
     closeMenu(cardId, true);
   }
@@ -249,6 +281,25 @@ export function initKanbanBoard(root, opts = {}) {
     cell.setAttribute("tabindex", "0");
   }
 
+  /** Alt+ArrowUp/Down: move the focused card within its own column. */
+  function reorderCard(cell, delta) {
+    if (isReadonly()) return;
+    const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+    if (!cardId) return;
+    const row = Number(cell.getAttribute("data-row"));
+    const col = Number(cell.getAttribute("data-col"));
+    const total = root.querySelectorAll(
+      `.kanban-table-td[data-col="${col}"][data-lily-kanban-board-card-id]`,
+    ).length;
+    const toIndex = row + delta;
+    if (toIndex < 0 || toIndex >= total) return;
+    if (typeof opts.onReorder === "function") opts.onReorder(cardId, toIndex);
+    const reorderAnnouncement = opts.labels && opts.labels.reorderAnnouncement;
+    if (typeof reorderAnnouncement === "function") {
+      announce(reorderAnnouncement(textOf(cardHandleFor(cardId)), toIndex + 1, total));
+    }
+  }
+
   function onGridKeydown(event) {
     // The open move menu owns its own keys; letting them bubble here moved the
     // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
@@ -267,6 +318,11 @@ export function initKanbanBoard(root, opts = {}) {
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+      event.preventDefault();
+      reorderCard(cell, event.key === "ArrowUp" ? -1 : 1);
+      return;
+    }
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
@@ -354,11 +410,19 @@ export function initKanbanBoard(root, opts = {}) {
       headerCells[colIndex] &&
       headerCells[colIndex].getAttribute("data-lily-kanban-board-column-id");
     if (!toColumnId) return;
+    if (isReadonly()) return;
     // Dropping a card back on its own column is not a move.
     const cardCell = root.querySelector(
       `.kanban-table-td[data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
     );
     if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) return;
+    if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId)) {
+      const moveBlocked = opts.labels && opts.labels.moveBlocked;
+      if (typeof moveBlocked === "function") {
+        announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
+      }
+      return;
+    }
     applyMove(cardId, toColumnId);
   }
 
