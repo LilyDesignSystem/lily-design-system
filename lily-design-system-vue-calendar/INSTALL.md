@@ -1,6 +1,6 @@
 # Install
 
-This is the Vue 3 gantt-chart helper: an accessible Gantt chart over the headless GanttTable family.
+This is the Vue 3 calendar helper: a week, four-week and month calendar over the headless CalendarTable family.
 
 Its source is the `lily-design-system-vue-calendar/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
