@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Calendar in every framework; kanban, gantt and `ContentsNav` scrollspy — 2026-10-14
+
+- **`calendar`** (renamed from `calendar-view`) is now in all eight frameworks (new packages for React, Vue, Angular, HTML,
+  Web Components, Nunjucks, Blazor), with a picked day, disabled days, a `t` shortcut and `onEventClick`.
+- **`kanban-board`** and **`gantt-chart`** gain `readonly`; kanban adds `canMove` and Alt+Arrow reorder; gantt adds `markers`,
+  `isNonWorking` and task `type`/`critical`/`slack`. Ported to all eight frameworks from the Svelte 0.2.0.
+- **`ContentsNav` scrollspy** (`spy`, added to the existing component rather than a new one; research in
+  [spec/components/scrollspy.md](spec/components/scrollspy.md)): the link of the section in view gets `aria-current` and
+  `data-active`. All eight headless libraries; the HTML one is proved in real Chrome.
+- Counts: 114 helper packages, 129 implementation subprojects.
+
 ## HTML headless on WebDriverIO 10; usage comments no longer leak markup — 2026-10-12
 
 - **WebDriverIO 10** (Dependabot #183). Its `$()` is strict: a selector that matches more than one element throws

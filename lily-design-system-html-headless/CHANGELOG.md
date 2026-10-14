@@ -5,6 +5,10 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## Unreleased — 2026-10-14 (scrollspy)
+
+- `ContentsNav` gains scrollspy (`spy`): the link of the section in view gets `aria-current` and `data-active`. New `components/contents-nav-spy.js` (`startScrollspy`), proved in real Chrome by `contents-nav-spy.test.js`.
+
 ## Unreleased — 2026-10-12 (fixture markup, WebDriverIO 10)
 
 **Fixed.** 19 components' usage comments nested a `<!-- … -->` placeholder, which closed the comment early: the rest
