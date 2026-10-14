@@ -294,3 +294,16 @@ Ideas 1, 3 and 7 of §11 (tests §8.22–§8.30).
 - **Hard limits**: `column.strictLimit` with `wipLimit` refuses a move into a full column (menu option `aria-disabled`, drops announce
   `moveBlocked`). Without it the limit stays a warning.
 Not built: drop position, card snippet, filter/sort, grouping, virtualization (§11 ideas 2, 4, 5, 6, 8).
+
+## 13. Shipped later in 0.3.0 (2026-10-14)
+
+Tests §8.31–§8.47.
+
+- **`filter` / `compare`**: the grid shows the filtered, sorted view. Header counts, WIP limits and over-limit warnings use every card; a column
+  with hidden cards carries `data-hidden-count`. With a filter active `onReorder`'s index is the position in the visible column.
+- **Drop position**: dropping a card on a card in another column calls `onMove(cardId, columnId, toIndex)` (0-based, visible column); on an empty
+  cell `onMove` gets two arguments (append). Dropping on another card of its own column calls `onReorder`. The cell under the drag carries
+  `data-drop-target`; read-only boards refuse drops.
+- **Locked cards**: `card.locked` stops move, drag, reorder and the move menu (`data-locked` on the cell); the card still counts towards limits.
+- **Alt+ArrowLeft/Right**: moves the card to the neighbouring column (the twin of Alt+Up/Down reorder); honours read-only, locked, `canMove` and hard limits.
+- **`cardAttrs(card)`**: extra attributes on each card's cell.

@@ -9,6 +9,9 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Added a progress field in the edit region (`labels.percentLabel`; `onTaskChange` gets the clamped value as a 4th argument),
   baselines (`task.baseline`: cells get `data-baseline`; `labels.baselineSummary` gives hidden text with the slip in days) and typed
   dependencies (`dependsOn` accepts `{ id, type?, lag? }`; `labels.dependencyDetail` words them).
+- Added a zoom control (`timeUnit` is bindable; `labels.zoomIn` / `zoomOut` / `zoomAnnouncement`), drag-resize handles on a task's bar
+  ends, task selection (`selectedTaskId`, `onTaskSelect`; click or the `s` key), Alt+ArrowLeft/Right to shift a task one column and
+  Alt+Shift+Arrow to move only its end, and `taskAttrs`.
 
 ## 0.2.0 — 2026-10-14
 

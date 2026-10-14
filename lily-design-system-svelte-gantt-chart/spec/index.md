@@ -417,3 +417,15 @@ Ideas A5, A6 and B10 of §11.
 - **Typed dependencies** (`dependsOn: (string | { id, type?, lag? })[]`): `labels.dependencyDetail(predecessor, type, lag)` words the typed ones
   (`type` defaults to `e2s`, `lag` to 0); untyped ones keep the predecessor's label. Data and text only: no arrows, no scheduling.
 Not built: the `hour` unit, split tasks, rollups, zoom, unscheduled tasks (§11 B).
+
+## 14. Shipped later in 0.3.0 (2026-10-14)
+
+Tests §14.1–§14.17.
+
+- **Zoom**: `timeUnit` is bindable; `labels.zoomIn` / `labels.zoomOut` gate buttons that step month ↔ week ↔ day (disabled at the ends);
+  `labels.zoomAnnouncement(unit)`. An hour unit is not built: it needs date-times, not day-granular dates.
+- **Drag-resize**: a leaf task's bar has start and end handles (`.gantt-chart-bar-handle-start/-end`); dropping one on a column moves that edge,
+  the other stays, and a range that would invert is ignored. None when read-only.
+- **Selection**: `selectedTaskId` (bindable) and `onTaskSelect`; a click on a row or the `s` key selects, again deselects; `aria-selected`, `data-selected`.
+- **Alt+ArrowLeft/Right** shifts a leaf task by one column keeping its duration; **Alt+Shift+Arrow** moves only its end (the keyboard twins of dragging).
+- **`taskAttrs(task)`**: extra attributes on each task's row.

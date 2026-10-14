@@ -501,3 +501,12 @@ and whole-list indexes. Plus three avoidable multipliers in the hot
 path: an accessor call twice per sort comparison, every cell reformatted
 on every filter keystroke, and `selected.includes` per row (§6
 "Hot-path cost", §8.18).
+
+## 12. Shipped in 0.5.0 (2026-10-14)
+
+Tests §8.40–§8.46.
+
+- **Column reordering**: `column.movable` headers are draggable and Alt+ArrowLeft/Right on a focused header moves the column (the keyboard
+  alternative, WCAG 2.5.7). `columnOrder` is bindable; columns it does not name follow in their `columns` order; hidden columns keep their
+  place when a visible one moves. `onColumnOrderChange(order)`; `labels.columnMoveAnnouncement(header, position, count)`.
+- **Pinned columns**: `column.pinned` puts `data-pinned="start" | "end"` on the header and cells. Lily sets no sticky offsets.

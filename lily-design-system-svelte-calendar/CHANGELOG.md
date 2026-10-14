@@ -10,6 +10,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `ranges` (marked ranges, `data-range="{kind}"`, also passed to the `day` snippet) and range selection: Shift+arrows extend
   a bindable `selectedRange` from the cursor, Enter confirms it through `onRangeSelect`, Shift+click picks one, Escape clears it
   (`data-in-range`, `data-range-start`, `data-range-end`; `labels.rangeAnnouncement`).
+- Added a one-day `"day"` view (`labels.dayView`); `maxEvents` (the `day` snippet gets `visibleEvents` and `hiddenCount`);
+  `onEventMove` with drag-and-drop of events between days (`eventProps(ev)` on the `day` snippet) and Alt+arrow keys on a focused
+  event (`labels.eventMoveAnnouncement`); `labels.periodTitle`; `hideOutsideDays`; `weekendDays` (`data-weekend`);
+  `selectionMode="multiple"` with a bindable `selectedDates`.
 
 ## 0.2.0 — 2026-10-14
 

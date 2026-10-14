@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-10-14
+
+- Added column reordering (`column.movable`: Alt+ArrowLeft/Right on a focused header, or dragging a header onto another; bindable `columnOrder`,
+  `onColumnOrderChange`, `labels.columnMoveAnnouncement`) and `column.pinned` (`data-pinned="start" | "end"` for sticky CSS). Tests §8.40–§8.46.
+
 ## 0.4.0 — 2026-10-13
 
 Rich cells. A grid whose cells can hold links, buttons, inputs and
