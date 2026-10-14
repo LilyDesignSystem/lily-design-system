@@ -283,3 +283,14 @@ Ideas, ranked, not yet built:
 8. **Virtualization** for very large boards.
 
 Still non-goals: the editor UI, export, undo/redo, REST adapter.
+
+## 12. Shipped in 0.3.0 (2026-10-14)
+
+Ideas 1, 3 and 7 of §11 (tests §8.22–§8.30).
+
+- **Collapsible columns**: `collapsedColumns` (bindable); `labels.collapseColumn` gates a header toggle (`aria-expanded`). A collapsed
+  column keeps its header, count and warning but its cells are empty (`data-collapsed`) and it does not count towards the board's height.
+- **Add card**: `labels.addCard` gates a `+` button per column; `onAddCard(columnId)`. Lily ships no editor. Never rendered when read-only.
+- **Hard limits**: `column.strictLimit` with `wipLimit` refuses a move into a full column (menu option `aria-disabled`, drops announce
+  `moveBlocked`). Without it the limit stays a warning.
+Not built: drop position, card snippet, filter/sort, grouping, virtualization (§11 ideas 2, 4, 5, 6, 8).

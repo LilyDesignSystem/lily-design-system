@@ -460,3 +460,100 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
         expect(screen.getByRole("button", { name: "Expand Phase 1" })).toBeTruthy();
     });
 });
+
+describe("GanttChart — progress field, baselines, typed dependencies", () => {
+    const heads = () => Array.from(document.querySelectorAll(".gantt-table-thead .gantt-table-th")).slice(1);
+    const cellsOf = (taskIndex: number) =>
+        Array.from(rows()[taskIndex].querySelectorAll<HTMLElement>(".gantt-table-td"));
+
+    test("percentLabel adds a progress field to the edit region; without it none renders", async () => {
+        const a = render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        expect(document.querySelector(".gantt-chart-percent-input")).toBeNull();
+        a.unmount();
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: { ...LABELS, percentLabel: "Percent complete" } } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        expect(screen.getByLabelText("Percent complete")).toBeTruthy();
+    });
+
+    test("the progress field starts at the task's percentComplete and Save passes the new value as a 4th argument", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, {
+            props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: { ...LABELS, percentLabel: "Percent complete" }, onTaskChange },
+        });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowDown" }); // build, percentComplete 40
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        const input = screen.getByLabelText("Percent complete") as HTMLInputElement;
+        expect(input.value).toBe("40");
+        await fireEvent.input(input, { target: { value: "75" } });
+        await fireEvent.click(screen.getByRole("button", { name: "Save" }));
+        expect(onTaskChange).toHaveBeenCalledWith("build", "2026-10-04", "2026-10-06", 75);
+    });
+
+    test("progress is clamped to 0–100", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, {
+            props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: { ...LABELS, percentLabel: "Percent complete" }, onTaskChange },
+        });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        await fireEvent.input(screen.getByLabelText("Percent complete"), { target: { value: "250" } });
+        await fireEvent.click(screen.getByRole("button", { name: "Save" }));
+        expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-01", "2026-10-03", 100);
+    });
+
+    test("without percentLabel Save keeps the three-argument call", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS, onTaskChange } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        await fireEvent.click(screen.getByRole("button", { name: "Save" }));
+        expect(onTaskChange.mock.calls[0]).toHaveLength(3);
+    });
+
+    test("a baseline marks the cells it covers with data-baseline, apart from the current span", () => {
+        const tasks: GanttTask[] = [{ id: "a", label: "A", start: "2026-10-04", end: "2026-10-06", baseline: { start: "2026-10-02", end: "2026-10-04" } }];
+        render(GanttChart, { props: { label: "Plan", range: RANGE, tasks } });
+        const withBaseline = cellsOf(0).map((c, i) => (c.hasAttribute("data-baseline") ? i : -1)).filter((i) => i >= 0);
+        expect(withBaseline).toEqual([1, 2, 3]); // 2, 3 and 4 October
+        expect(cellsOf(0)[3].hasAttribute("data-in-range")).toBe(true); // overlaps the current span on the 4th
+        expect(cellsOf(0)[1].hasAttribute("data-in-range")).toBe(false);
+    });
+
+    test("baselineSummary renders as hidden text with the slip in days, and describes the row's cells", () => {
+        const tasks: GanttTask[] = [{ id: "a", label: "A", start: "2026-10-04", end: "2026-10-06", baseline: { start: "2026-10-02", end: "2026-10-04" } }];
+        const labels: GanttLabels = { baselineSummary: (t, b, v) => `${t}: planned ${b.start} to ${b.end}, ${v} days late` };
+        render(GanttChart, { props: { label: "Plan", range: RANGE, tasks, labels } });
+        const summary = document.querySelector(".gantt-chart-baseline-summary") as HTMLElement;
+        expect(summary.hidden).toBe(true);
+        expect(summary.textContent!.trim()).toBe("A: planned 2026-10-02 to 2026-10-04, 2 days late");
+        expect(cellsOf(0)[0].getAttribute("aria-describedby")).toContain(summary.id);
+    });
+
+    test("a task with no baseline has no baseline cells or summary", () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: { baselineSummary: () => "x" } } });
+        expect(document.querySelector("[data-baseline]")).toBeNull();
+        expect(document.querySelector(".gantt-chart-baseline-summary")).toBeNull();
+    });
+
+    test("typed dependencies go through dependencyDetail; untyped ones keep the predecessor's label", () => {
+        const tasks: GanttTask[] = [
+            { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
+            { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a", type: "s2s", lag: 2 }, "a"] },
+        ];
+        const labels: GanttLabels = {
+            dependencySummary: (preds) => `After: ${preds.join("; ")}`,
+            dependencyDetail: (label, type, lag) => `${label} (${type}, lag ${lag})`,
+        };
+        render(GanttChart, { props: { label: "Plan", range: RANGE, tasks, labels } });
+        expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("After: Design (s2s, lag 2); Design");
+    });
+
+    test("a typed dependency without a lag or type defaults to e2s and 0", () => {
+        const tasks: GanttTask[] = [
+            { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
+            { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a" }] },
+        ];
+        const labels: GanttLabels = { dependencySummary: (p) => p.join(), dependencyDetail: (l, t, g) => `${l}/${t}/${g}` };
+        render(GanttChart, { props: { label: "Plan", range: RANGE, tasks, labels } });
+        expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("Design/e2s/0");
+    });
+});

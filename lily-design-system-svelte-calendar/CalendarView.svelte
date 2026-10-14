@@ -13,12 +13,19 @@
         daysInMonth,
         firstDayOfWeekFor,
         formatIsoDate,
+        isoWeek,
         monthMatrix,
         parseIsoDate,
         weekdayOf,
     } from "@lilydesignsystem/svelte-date-time-picker";
 
     export type CalendarView = "week" | "four-week" | "month";
+
+    /** A marked range (a holiday, a closure, a school term). `label` is text a `day` snippet can render. */
+    export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
+
+    /** The user's picked range, inclusive. */
+    export type SelectedRange = { start: string; end: string };
 
     export type CalendarEvent = {
         /** Stable event identifier. */
@@ -51,6 +58,12 @@
         weekdayAbbr?: (weekday: number) => string;
         /** Full accessible name for one day cell, e.g. "11, Tuesday, 6 January 2026". */
         day?: (isoDate: string, weekday: number, outsidePeriod: boolean) => string;
+        /** Visible text for the week-number column header (e.g. "Wk"). */
+        weekNumberHeader?: string;
+        /** Accessible name for a week-number cell (e.g. "Week 3"). Without it the bare number is the name. */
+        weekNumber?: (week: number) => string;
+        /** Announced as a range is extended with Shift+arrows or confirmed. */
+        rangeAnnouncement?: (start: string, end: string) => string;
     };
 
     export type Props = {
@@ -77,6 +90,14 @@
         maxDate?: string;
         /** Extra disabled-day test (holidays, closed days). Disabled days stay focusable but cannot be picked. */
         isDisabled?: (isoDate: string) => boolean;
+        /** Show an ISO week-number column (a row header per week). */
+        showWeekNumbers?: boolean;
+        /** Marked ranges (holidays, closures): each day inside gets `data-range="{kind}"`. */
+        ranges?: CalendarRange[];
+        /** The picked range, bindable. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. */
+        selectedRange?: SelectedRange;
+        /** Fired when a range is confirmed: Enter on an extended range, or Shift+click. */
+        onRangeSelect?: (start: string, end: string) => void;
         /** Fired when an enabled day cell is activated (Enter/Space, or click). */
         onDayClick?: (isoDate: string) => void;
         /** Fired when a rendered event is activated. Consumer wires this to the `day` snippet's own click handler. */
@@ -91,6 +112,10 @@
         outsidePeriod: boolean;
         selected: boolean;
         disabled: boolean;
+        /** Inside the picked range. */
+        inRange: boolean;
+        /** The marked ranges this day falls in. */
+        ranges: CalendarRange[];
         /** Call from the event's own button/click handler to fire `onEventClick`. */
         openEvent: (calendarEvent: CalendarEvent) => void;
     };
@@ -183,6 +208,10 @@
         minDate = undefined,
         maxDate = undefined,
         isDisabled = undefined,
+        showWeekNumbers = false,
+        ranges = [],
+        selectedRange = $bindable(undefined),
+        onRangeSelect = undefined,
         locale = undefined,
         labels = undefined,
         onNavigate = undefined,
@@ -214,6 +243,37 @@
         if (minDate && isoDate < minDate) return true;
         if (maxDate && isoDate > maxDate) return true;
         return isDisabled?.(isoDate) ?? false;
+    }
+
+    // ---------------------------------------------------------------
+    // Range selection: Shift+arrows extend from an anchor; Enter confirms.
+    // ---------------------------------------------------------------
+
+    let rangeAnchor: string | null = null;
+    const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
+
+    function setRange(a: string, b: string): void {
+        const [start, end] = a <= b ? [a, b] : [b, a];
+        selectedRange = { start, end };
+        const message = labels?.rangeAnnouncement?.(start, end);
+        if (message) statusMessage = message;
+    }
+
+    function confirmRange(): void {
+        if (!selectedRange) return;
+        rangeAnchor = null;
+        onRangeSelect?.(selectedRange.start, selectedRange.end);
+    }
+
+    const inSelectedRange = (isoDate: string) =>
+        !!selectedRange && isoDate >= selectedRange.start && isoDate <= selectedRange.end;
+
+    const rangesFor = (isoDate: string) => ranges.filter((r) => isoDate >= r.start && isoDate <= r.end);
+
+    /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
+    function weekNumberOf(row: string[]): number {
+        const thursday = row.find((d) => weekdayOf(d) === 4) ?? row[0];
+        return isoWeek(thursday);
     }
 
     function pick(isoDate: string): void {
@@ -304,6 +364,9 @@
     }
 
     function onGridKeydown(event: KeyboardEvent): void {
+        const extending = event.shiftKey && MOVE_KEYS.has(event.key);
+        if (extending && rangeAnchor === null) rangeAnchor = selectedDate && !selectedRange ? selectedDate : cursor;
+        if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor = null;
         switch (event.key) {
             case "ArrowLeft":
                 event.preventDefault();
@@ -344,7 +407,15 @@
             case "Enter":
             case " ":
                 event.preventDefault();
-                pick(cursor);
+                if (rangeAnchor !== null && selectedRange) confirmRange();
+                else pick(cursor);
+                break;
+            case "Escape":
+                if (selectedRange || rangeAnchor !== null) {
+                    event.preventDefault();
+                    rangeAnchor = null;
+                    selectedRange = undefined;
+                }
                 break;
             case "t":
             case "T":
@@ -354,10 +425,19 @@
                 moveCursor(today);
                 break;
         }
+        if (extending && rangeAnchor !== null) setRange(rangeAnchor, cursor);
     }
 
-    function onDayCellClick(isoDate: string): void {
+    function onDayCellClick(isoDate: string, event: MouseEvent): void {
+        if (event.shiftKey && !disabledDay(isoDate)) {
+            // Shift+click picks a range from the picked day (or the cursor) to here, and confirms it.
+            setRange(selectedDate && !selectedRange ? selectedDate : cursor, isoDate);
+            cursor = isoDate;
+            confirmRange();
+            return;
+        }
         cursor = isoDate;
+        rangeAnchor = null;
         pick(isoDate);
     }
 </script>
@@ -420,6 +500,9 @@
     <CalendarTable {label} class="calendar-view-table" onkeydown={onGridKeydown}>
         <CalendarTableHead>
             <CalendarTableRow>
+                {#if showWeekNumbers}
+                    <CalendarTableTH scope="col" data-week-number-header>{labels?.weekNumberHeader ?? ""}</CalendarTableTH>
+                {/if}
                 {#each { length: 7 } as _, i (i)}
                     {@const weekday = (firstDayOfWeek + i) % 7}
                     <CalendarTableTH scope="col">
@@ -435,6 +518,10 @@
         <CalendarTableBody>
             {#each days as week, rowIndex (rowIndex)}
                 <CalendarTableRow>
+                    {#if showWeekNumbers}
+                        {@const weekNo = weekNumberOf(week)}
+                        <CalendarTableTH scope="row" data-week-number={weekNo} aria-label={labels?.weekNumber?.(weekNo)}>{weekNo}</CalendarTableTH>
+                    {/if}
                     {#each week as d (d)}
                         {@const weekday = weekdayOf(d)}
                         {@const outside = isOutsidePeriod(view, d, anchorDate)}
@@ -442,6 +529,8 @@
                         {@const dayEvents = eventMap.get(d) ?? []}
                         {@const disabled = disabledDay(d)}
                         {@const picked = selectedDate === d}
+                        {@const inRange = inSelectedRange(d)}
+                        {@const dayRanges = rangesFor(d)}
                         <CalendarTableTD
                             selected={d === cursor}
                             today={isToday}
@@ -449,12 +538,16 @@
                             data-outside-period={outside ? "" : undefined}
                             data-selected={picked ? "" : undefined}
                             data-disabled={disabled ? "" : undefined}
+                            data-in-range={inRange ? "" : undefined}
+                            data-range-start={selectedRange?.start === d ? "" : undefined}
+                            data-range-end={selectedRange?.end === d ? "" : undefined}
+                            data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
                             aria-disabled={disabled || undefined}
                             aria-label={labels?.day?.(d, weekday, outside)}
-                            onclick={() => onDayCellClick(d)}
+                            onclick={(e: MouseEvent) => onDayCellClick(d, e)}
                         >
                             {#if day}
-                                {@render day({ date: d, events: dayEvents, isToday, outsidePeriod: outside, selected: picked, disabled, openEvent })}
+                                {@render day({ date: d, events: dayEvents, isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent })}
                             {:else}
                                 {parseIsoDate(d)?.day}
                             {/if}

@@ -2,6 +2,7 @@ export { default, default as GanttChart } from "./GanttChart.svelte";
 export type {
     Props,
     GanttColumn,
+    GanttDependency,
     GanttLabels,
     GanttMarker,
     GanttTask,

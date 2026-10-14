@@ -302,3 +302,16 @@ Ideas, ranked, not yet built:
 9. **Highlight ranges** (holidays, closures) as `ranges` with a `data-range` hook.
 
 Non-goals stay as §9: no event editor UI, no recurrence, no timezones.
+
+## 13. Shipped in 0.3.0 (2026-10-14)
+
+Ideas 1, 8 and 9 of §11. Each has tests in `CalendarView.test.ts` (§8.22–§8.30).
+
+- **Week numbers** (`showWeekNumbers`): a leading header (`labels.weekNumberHeader`) and a `scope="row"` header per week; the week's
+  Thursday decides its ISO number. Off by default.
+- **Marked ranges** (`ranges: { start, end, kind?, label? }[]`): `data-range="{kind}"` on each day inside, and the ranges are passed to the
+  `day` snippet so it can render `label` as text (never colour alone).
+- **Range selection**: Shift+arrows/Home/End/PageUp/PageDown extend from an anchor (the picked day, else the cursor) into `selectedRange`
+  (bindable); Enter confirms with `onRangeSelect(start, end)` instead of picking a day; a plain move stops extending but keeps the range;
+  Shift+click picks and confirms one; Escape clears. Hooks: `data-in-range`, `data-range-start`, `data-range-end`.
+Not built: keyboard and pointer event move, "+N more", day view, resize, create-by-selecting (§11 ideas 2–7).

@@ -17,6 +17,7 @@
         onEventClick,
         selectedDate,
         minDate,
+        ranges,
     }: {
         view?: "week" | "four-week" | "month";
         anchorDate?: string;
@@ -25,13 +26,15 @@
         onEventClick?: (e: CalendarEvent) => void;
         selectedDate?: string;
         minDate?: string;
+        ranges?: { start: string; end: string; kind?: string }[];
     } = $props();
 </script>
 
-<CalendarView label="Appointments" {view} {anchorDate} {events} {labels} {onEventClick} {selectedDate} {minDate}>
+<CalendarView label="Appointments" {view} {anchorDate} {events} {labels} {onEventClick} {selectedDate} {minDate} {ranges}>
     {#snippet day(args)}
         <span data-testid={`events-${args.date}`}>{args.events.map((e) => e.id).join(",")}</span>
         {#if args.selected}<i data-snippet-selected></i>{/if}
+        {#if args.ranges.length}<i data-snippet-ranges={args.ranges.map((r) => r.kind).join(",")}></i>{/if}
         {#if args.disabled}<i data-snippet-disabled></i>{/if}
         {#each args.events as ev (ev.id)}
             <button type="button" data-event-open onclick={() => args.openEvent(ev)}>{ev.id}</button>

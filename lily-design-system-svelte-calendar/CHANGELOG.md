@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-14
+
+- Added `showWeekNumbers` (a row header per week with the ISO week number; `labels.weekNumberHeader`, `labels.weekNumber`),
+  `ranges` (marked ranges, `data-range="{kind}"`, also passed to the `day` snippet) and range selection: Shift+arrows extend
+  a bindable `selectedRange` from the cursor, Enter confirms it through `onRangeSelect`, Shift+click picks one, Escape clears it
+  (`data-in-range`, `data-range-start`, `data-range-end`; `labels.rangeAnnouncement`).
+
 ## 0.2.0 — 2026-10-14
 
 - Renamed from `svelte-calendar-view` to `svelte-calendar`: the package is

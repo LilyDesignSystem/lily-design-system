@@ -10,6 +10,9 @@
     import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
 
+    /** A dependency with its type (`e2s` finish-to-start, `s2s`, `s2e`, `e2e`) and lag in days; data and text only. */
+    export type GanttDependency = { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
+
     export type GanttTask = {
         /** Stable task identifier. */
         id: string;
@@ -24,7 +27,9 @@
         /** Another task's id; builds the row hierarchy. */
         parentId?: string;
         /** Other tasks' ids this task depends on (finish-to-start). */
-        dependsOn?: string[];
+        dependsOn?: (string | GanttDependency)[];
+        /** The planned span, shown as a second marked span (`data-baseline`) so slippage is visible. */
+        baseline?: { start: string; end: string };
         /** Class hook only: becomes `data-task-type` on the row and its cells (e.g. "design", "review"). */
         type?: string;
         /** On the critical path; becomes `data-critical`. Lily computes nothing. */
@@ -59,6 +64,12 @@
         cancelLabel?: string;
         dependencySummary?: (predecessorLabels: string[]) => string;
         dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+        /** Label of the progress field in the edit region (0–100). Gates the field. */
+        percentLabel?: string;
+        /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
+        dependencyDetail?: (predecessorLabel: string, type: string, lag: number) => string;
+        /** Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early). */
+        baselineSummary?: (taskLabel: string, baseline: { start: string; end: string }, varianceDays: number) => string;
         collapseButton?: (task: GanttTask, collapsed: boolean) => string;
     };
 
@@ -78,7 +89,7 @@
         /** Resolves a task to its display label. Defaults to `task.label`. */
         taskLabel?: (task: GanttTask) => string;
         /** Called after a task's start/end changes, by pointer or by the edit region. */
-        onTaskChange?: (taskId: string, start: string, end: string) => void;
+        onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
         /** Dated markers; each marks the column that contains its date with `data-marker`. */
         markers?: GanttMarker[];
         /** Consumer's own working calendar; true marks the column `data-non-working` when every day in it is non-working. */
@@ -266,6 +277,7 @@
     let editingTaskId = $state<string | null>(null);
     let editStart = $state("");
     let editEnd = $state("");
+    let editPercent = $state("");
 
     let draggingTaskId: string | null = null;
 
@@ -322,18 +334,40 @@
 
     function predecessorLabels(task: GanttTask): string[] {
         if (!task.dependsOn?.length) return [];
-        return task.dependsOn.map((id) => {
+        return task.dependsOn.map((dep) => {
+            const id = typeof dep === "string" ? dep : dep.id;
             const predecessor = tasks.find((t) => t.id === id);
-            return predecessor ? taskLabel(predecessor) : id;
+            const text = predecessor ? taskLabel(predecessor) : id;
+            if (typeof dep === "string" || !labels.dependencyDetail) return text;
+            return labels.dependencyDetail(text, dep.type ?? "e2s", dep.lag ?? 0);
         });
+    }
+
+    // ---------------------------------------------------------------
+    // Baseline
+    // ---------------------------------------------------------------
+
+    const baselineId = (taskId: string) => `${baseId}-baseline-${taskId}`;
+
+    function baselineVariance(task: GanttTask, currentEnd: string): number {
+        return parseISOToEpochDay(currentEnd) - parseISOToEpochDay(task.baseline!.end);
+    }
+
+    /** The ids a cell is described by: the dependency summary, then the baseline summary. */
+    function describedBy(task: GanttTask, hasDeps: boolean): string | undefined {
+        const ids: string[] = [];
+        if (hasDeps && labels.dependencySummary) ids.push(dependencyId(task.id));
+        if (task.baseline && labels.baselineSummary) ids.push(baselineId(task.id));
+        return ids.length ? ids.join(" ") : undefined;
     }
 
     // ---------------------------------------------------------------
     // Edit — keyboard (composed DateTimePicker) and pointer (native DnD)
     // ---------------------------------------------------------------
 
-    function applyChange(task: GanttTask, start: string, end: string): void {
-        onTaskChange?.(task.id, start, end);
+    function applyChange(task: GanttTask, start: string, end: string, percentComplete?: number): void {
+        if (percentComplete === undefined) onTaskChange?.(task.id, start, end);
+        else onTaskChange?.(task.id, start, end, percentComplete);
         announce(labels.dateAnnouncement?.(taskLabel(task), start, end));
     }
 
@@ -342,6 +376,7 @@
         editingTaskId = task.id;
         editStart = task.start;
         editEnd = task.end;
+        editPercent = task.percentComplete != null ? String(task.percentComplete) : "";
         // Focus moves into the region it opened, onto the start date's field.
         await tick();
         rootEl?.querySelector<HTMLElement>(".gantt-chart-edit-row .date-time-picker-input")?.focus({ preventScroll: true });
@@ -351,7 +386,8 @@
     function saveEdit(task: GanttTask): void {
         if (!editStart || !editEnd) return;
         const [start, end] = compareISO(editStart, editEnd) <= 0 ? [editStart, editEnd] : [editEnd, editStart];
-        applyChange(task, start, end);
+        const percent = labels.percentLabel && editPercent !== "" ? Math.min(100, Math.max(0, Math.round(Number(editPercent)))) : undefined;
+        applyChange(task, start, end, Number.isFinite(percent) ? percent : undefined);
         closeEdit();
     }
 
@@ -504,6 +540,11 @@
                                 {labels.dependencySummary(deps)}
                             </span>
                         {/if}
+                        {#if row.task.baseline && labels.baselineSummary}
+                            <span id={baselineId(row.task.id)} class="gantt-chart-baseline-summary" hidden>
+                                {labels.baselineSummary(taskLabel(row.task), row.task.baseline, baselineVariance(row.task, end))}
+                            </span>
+                        {/if}
                     </GanttTableTH>
                     {#each columns as column, colIndex (column.start)}
                         {@const inRange = rangesOverlap(column.start, column.end, start, end)}
@@ -519,7 +560,8 @@
                             data-today={isToday ? "" : undefined}
                             data-non-working={nonWorking[colIndex] ? "" : undefined}
                             data-marker={markersIn(column).length ? "" : undefined}
-                            aria-describedby={deps.length > 0 && labels.dependencySummary ? dependencyId(row.task.id) : undefined}
+                            aria-describedby={describedBy(row.task, deps.length > 0)}
+                            data-baseline={row.task.baseline && rangesOverlap(column.start, column.end, row.task.baseline.start, row.task.baseline.end) ? "" : undefined}
                             ondragover={onCellDragOver}
                             ondrop={(e: DragEvent) => onCellDrop(column, e)}
                         >
@@ -550,6 +592,19 @@
                                 mode="date"
                                 bind:value={editEnd}
                             />
+                            {#if labels.percentLabel}
+                                <label class="gantt-chart-percent-label">
+                                    {labels.percentLabel}
+                                    <input
+                                        class="gantt-chart-percent-input"
+                                        type="number"
+                                        min="0"
+                                        max="100"
+                                        step="1"
+                                        bind:value={editPercent}
+                                    />
+                                </label>
+                            {/if}
                             <button
                                 type="button"
                                 class="gantt-chart-save-button"

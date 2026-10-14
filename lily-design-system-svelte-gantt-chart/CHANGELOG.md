@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-14
+
+- Added a progress field in the edit region (`labels.percentLabel`; `onTaskChange` gets the clamped value as a 4th argument),
+  baselines (`task.baseline`: cells get `data-baseline`; `labels.baselineSummary` gives hidden text with the slip in days) and typed
+  dependencies (`dependsOn` accepts `{ id, type?, lag? }`; `labels.dependencyDetail` words them).
+
 ## 0.2.0 — 2026-10-14
 
 - Added `readonly`, `markers`, `isNonWorking`, and task `type`, `critical`

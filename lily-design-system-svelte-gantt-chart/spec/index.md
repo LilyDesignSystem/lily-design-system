@@ -405,3 +405,15 @@ Ideas A1–A4 of §11 are built; each has a test in `GanttChart.test.ts`.
 
 Not yet built: A5 (richer dependency data), A6 (progress in the edit
 region), A7 (`hour` unit), and everything in B.
+
+## 13. Shipped in 0.3.0 (2026-10-14)
+
+Ideas A5, A6 and B10 of §11.
+
+- **Progress in the edit region** (`labels.percentLabel`): a 0–100 number field, clamped and rounded; `onTaskChange` gets it as a fourth
+  argument only when the field is shown. Drag keeps the three-argument call.
+- **Baselines** (`task.baseline`): cells it covers get `data-baseline` beside `data-in-range`; `labels.baselineSummary(task, baseline,
+  varianceDays)` renders hidden text (slip in days; negative = early) referenced by the row's cells' `aria-describedby`.
+- **Typed dependencies** (`dependsOn: (string | { id, type?, lag? })[]`): `labels.dependencyDetail(predecessor, type, lag)` words the typed ones
+  (`type` defaults to `e2s`, `lag` to 0); untyped ones keep the predecessor's label. Data and text only: no arrows, no scheduling.
+Not built: the `hour` unit, split tasks, rollups, zoom, unscheduled tasks (§11 B).

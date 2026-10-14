@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-14
+
+- Added collapsible columns (`collapsedColumns`, bindable; `labels.collapseColumn` gates a toggle with `aria-expanded`; a
+  collapsed column keeps its header and count but shows no cards), per-column add-card buttons (`labels.addCard`, `onAddCard`;
+  none when read-only) and hard WIP limits (`column.strictLimit` refuses moves into a full column, announced via `moveBlocked`).
+
 ## 0.2.0 — 2026-10-14
 
 - Added `readonly`, `canMove` (with `labels.moveBlocked`) and
