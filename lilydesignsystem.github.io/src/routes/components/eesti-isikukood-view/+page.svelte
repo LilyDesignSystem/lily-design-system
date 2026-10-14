@@ -1,5 +1,7 @@
 <script lang="ts">
-  const html: string = "<h1>Eesti Isikukood View</h1>\n\n<p>a read-only display of Estonia's Isikukood (IK)</p>\n\n<p>This is a new component. See <a href=\"https://github.com/joelparkerhenderson/lily-design-system/tree/main/components/eesti-isikukood-view\">the canonical documentation</a> for full details.</p>";
+  const intro: string = "<h1>Eesti Isikukood View</h1>\n\n<p>a read-only display of Estonia's Isikukood (IK)</p>\n\n<p>This is a new component. See <a href=\"https://github.com/joelparkerhenderson/lily-design-system/tree/main/components/eesti-isikukood-view\">the canonical documentation</a> for full details.</p>";
+  const usage: string = "";
+  const rest: string = "";
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"eesti-isikukood-view\" aria-label=\"a read-only display of Estonia's Isikukood (IK)\">EestiIsikukoodView</span>";
   const svelteSource: string = "// In your Svelte component:\nimport EestiIsikukoodView from \"lily-design-system-svelte-headless/components/EestiIsikukoodView/EestiIsikukoodView.svelte\";\n\n<EestiIsikukoodView label=\"Label\" value=\"Sample value\" />\n";
@@ -13,12 +15,8 @@
   <meta name="description" content="a read-only display of Estonia's Isikukood (IK)" />
 </svelte:head>
 
-<nav class="component-page-back" aria-label="Breadcrumb" style="max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 0;">
-  <a href="/components/">← All components</a>
-</nav>
-
-<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
-  {@html html}
+<article class="component-page component-page-intro prose" style="max-width: 64rem; margin: 0 auto; padding: 0.5rem 1rem 1rem;">
+  {@html intro}
 </article>
 
 <!-- BEGIN auto-generated component example -->
@@ -53,6 +51,16 @@
   </details>
 </section>
 <!-- END auto-generated component example -->
+
+{#if usage}
+<article class="component-page component-page-usage prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html usage}
+</article>
+{/if}
+
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html rest}
+</article>
 
 <!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
 <section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">

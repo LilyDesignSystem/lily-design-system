@@ -25,7 +25,6 @@
 
   type NavLink = { href: string; label: string };
   const navLinks = $derived<NavLink[]>([
-    { href: homeHref, label: strings.nav.home },
     { href: '/components/', label: strings.nav.components },
     { href: pageHref('tutorials', currentLocale), label: strings.nav.tutorials },
     { href: pageHref('examples', currentLocale), label: strings.nav.examples },

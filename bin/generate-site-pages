@@ -136,13 +136,52 @@ function descriptionFrom(md, fallback) {
   return text.length > 300 ? text.slice(0, 297) + "…" : text;
 }
 
+// The docs article is shown in this order: intro (the h1 and its opening paragraphs), the Example
+// section, "Usage", then the remaining sections with "Implementation Notes" moved to just after
+// "Advice" (or to the end when a page has no Advice). Idempotent.
+function splitArticle(html) {
+  const parts = html.split(/(?=<h2>)/);
+  const intro = parts[0];
+  const sections = parts.slice(1);
+  const heading = (sec) => (sec.match(/^<h2>(.*?)<\/h2>/) || [])[1];
+  const usage = sections.filter((x) => heading(x) === "Usage").join("");
+  const notes = sections.filter((x) => heading(x) === "Implementation Notes");
+  const rest = [];
+  for (const sec of sections) {
+    const h = heading(sec);
+    if (h === "Usage" || h === "Implementation Notes") continue;
+    rest.push(sec);
+    if (h === "Advice") rest.push(...notes.splice(0));
+  }
+  rest.push(...notes);
+  return { intro, usage, rest: rest.join("") };
+}
+
+const ARTICLE_STYLE = "max-width: 64rem; margin: 0 auto;";
+const introMarkup = `<article class="component-page component-page-intro prose" style="${ARTICLE_STYLE} padding: 0.5rem 1rem 1rem;">
+  {@html intro}
+</article>`;
+const afterMarkup = `{#if usage}
+<article class="component-page component-page-usage prose" style="${ARTICLE_STYLE} padding: 0 1rem 2rem;">
+  {@html usage}
+</article>
+{/if}
+
+<article class="component-page prose" style="${ARTICLE_STYLE} padding: 0 1rem 2rem;">
+  {@html rest}
+</article>`;
+const articleConsts = (html) => {
+  const { intro, usage, rest } = splitArticle(html);
+  return `  const intro: string = ${jsStr(intro)};\n  const usage: string = ${jsStr(usage)};\n  const rest: string = ${jsStr(rest)};`;
+};
+
 function fullPage(c) {
   const mdPath = `components/${c.slug}/index.md`;
   const md = read(mdPath);
   const html = focusablePre(marked.parse(md));
   return `<script lang="ts">
   // ${GENERATED_MARKER} — regenerate with bin/generate-site-pages, do not edit.
-  const html: string = ${jsStr(html)};
+${articleConsts(html)}
 ${constsFor(c)}
 </script>
 
@@ -151,15 +190,11 @@ ${constsFor(c)}
   <meta name="description" content="${escAttr(descriptionFrom(md, c.description))}" />
 </svelte:head>
 
-<nav class="component-page-back" aria-label="Breadcrumb" style="max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 0;">
-  <a href="/components/">← All components</a>
-</nav>
-
-<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
-  {@html html}
-</article>
+${introMarkup}
 
 ${sectionMarkup}
+
+${afterMarkup}
 `;
 }
 
@@ -200,10 +235,27 @@ for (const c of components) {
   const sm = oldConsts.match(/const svelteSource: string = ("(?:[^"\\]|\\.)*");/);
   const keepSource = sm ? JSON.parse(sm[1]) : undefined;
   t = t.slice(0, cb) + constsFor(c, keepSource) + t.slice(ce + CONSTS_END.length);
-  t = t.replace(/^(  const html: string = )("(?:[^"\\]|\\.)*");$/m, (_, a, lit) => a + jsStr(focusablePre(JSON.parse(lit))) + ";");
+  // Re-split the article (idempotent) and rebuild the markup around the Example region.
+  let articleHtml;
+  const hm = t.match(/^  const html: string = ("(?:[^"\\]|\\.)*");$/m);
+  if (hm) articleHtml = JSON.parse(hm[1]);
+  else {
+    const g = (n) => JSON.parse(t.match(new RegExp(`^  const ${n}: string = ("(?:[^"\\\\]|\\\\.)*");$`, "m"))[1]);
+    articleHtml = g("intro") + g("usage") + g("rest");
+  }
+  articleHtml = focusablePre(articleHtml);
+  t = t.replace(/^  const html: string = .*$/m, "  const intro: string = \"\";").replace(
+    /^  const intro: string = .*\n  const usage: string = .*\n  const rest: string = .*$/m,
+    "  const intro: string = \"\";"
+  );
+  t = t.replace(/^  const intro: string = "";$/m, () => articleConsts(articleHtml));
+  const sb = t.indexOf("</svelte:head>") + "</svelte:head>".length;
   const mb = t.indexOf(MARK_BEGIN);
   const me = t.indexOf(MARK_END);
-  if (mb >= 0 && me >= 0) t = t.slice(0, mb) + sectionMarkup + t.slice(me + MARK_END.length);
+  if (mb < 0 || me < 0 || sb < "</svelte:head>".length) continue;
+  const cs = t.indexOf("<!-- BEGIN generated: canonical contract");
+  const tail = cs >= 0 ? "\n" + t.slice(cs) : "";
+  t = t.slice(0, sb) + "\n\n" + introMarkup + "\n\n" + sectionMarkup + "\n\n" + afterMarkup + "\n" + tail;
   write(p, t);
   refreshed++;
 }
@@ -242,14 +294,8 @@ test.describe('component page: ' + slug, () => {
     expect(text).toContain(title.toLowerCase());
   });
 
-  test('shows the breadcrumb back-link to /components/', async ({ page }) => {
-    const back = page.getByRole('link', { name: /All components/ });
-    await expect(back).toBeVisible();
-    await expect(back).toHaveAttribute('href', '/components/');
-  });
-
   test('renders the documentation article', async ({ page }) => {
-    await expect(page.locator('article.component-page')).toBeVisible();
+    await expect(page.locator('article.component-page').first()).toBeVisible();
   });
 });
 `;

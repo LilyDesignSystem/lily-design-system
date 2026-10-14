@@ -259,6 +259,10 @@ html[data-text-size='largest'] { font-size: 150%; }
 }
 
 .prose { max-width: var(--lily-prose-max); }
+
+/* Component pages: the heading sits close under the header bar. */
+.site-main:has(.component-page-intro) { padding-top: 0.5rem; }
+.component-page-intro h1 { margin-top: 0; }
 .prose ul, .prose ol { padding-left: 1.5rem; }
 .prose li { margin-bottom: 0.25rem; }
 

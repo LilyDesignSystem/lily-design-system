@@ -1,5 +1,7 @@
 <script lang="ts">
-  const html: string = "<h1>Question</h1>\n\n<p>A question is anything that asks for information, invites a response, tests knowledge, etc. Examples include FAQ entries, quiz prompts, survey questions, forum questions, and interview questions.</p>\n\n<p>This headless component renders a <code>&lt;div&gt;</code> with class <code>question</code>. The consumer supplies the question text and any related content (answer slot, metadata, action buttons) as children.</p>\n\n<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (optional) -- accessible label for the question</li>\n<li><code>children</code>: slot (required) -- question content (heading, body, related answers, metadata)</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>aria-label</code> -- describes the question for screen readers when no visible heading is present</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use for FAQ entries that pair a question with one or more answers.</li>\n<li>Use for quiz, survey, or knowledge-check prompts.</li>\n<li>Use for forum-style threads where each thread starts with a question.</li>\n</ul>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>answer</code> — an answer is anything that responds to a question, request, action, etc.</li>\n<li><code>comment</code> — a comment is anything that expresses an opinion, observation, explanation, etc.</li>\n</ul>";
+  const intro: string = "<h1>Question</h1>\n\n<p>A question is anything that asks for information, invites a response, tests knowledge, etc. Examples include FAQ entries, quiz prompts, survey questions, forum questions, and interview questions.</p>\n\n<p>This headless component renders a <code>&lt;div&gt;</code> with class <code>question</code>. The consumer supplies the question text and any related content (answer slot, metadata, action buttons) as children.</p>\n\n";
+  const usage: string = "";
+  const rest: string = "<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (optional) -- accessible label for the question</li>\n<li><code>children</code>: slot (required) -- question content (heading, body, related answers, metadata)</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>aria-label</code> -- describes the question for screen readers when no visible heading is present</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use for FAQ entries that pair a question with one or more answers.</li>\n<li>Use for quiz, survey, or knowledge-check prompts.</li>\n<li>Use for forum-style threads where each thread starts with a question.</li>\n</ul>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>answer</code> — an answer is anything that responds to a question, request, action, etc.</li>\n<li><code>comment</code> — a comment is anything that expresses an opinion, observation, explanation, etc.</li>\n</ul>";
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"question\" aria-label=\"Question\"><h3>What time does the clinic open?</h3></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Question from \"lily-design-system-svelte-headless/components/Question/Question.svelte\";\n\n<Question>\n  <!-- content -->\n</Question>\n";
@@ -13,12 +15,8 @@
   <meta name="description" content="A question is anything that asks for information, invites a response, tests knowledge, etc." />
 </svelte:head>
 
-<nav class="component-page-back" aria-label="Breadcrumb" style="max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 0;">
-  <a href="/components/">← All components</a>
-</nav>
-
-<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
-  {@html html}
+<article class="component-page component-page-intro prose" style="max-width: 64rem; margin: 0 auto; padding: 0.5rem 1rem 1rem;">
+  {@html intro}
 </article>
 
 <!-- BEGIN auto-generated component example -->
@@ -53,6 +51,16 @@
   </details>
 </section>
 <!-- END auto-generated component example -->
+
+{#if usage}
+<article class="component-page component-page-usage prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html usage}
+</article>
+{/if}
+
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html rest}
+</article>
 
 <!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
 <section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">

@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
   import { LILY_COMPONENTS, type LilyComponent } from '#lib/components.js';
   import { locales } from '#lib/locales.js';
   import { firstVisitThisSession, pickLocaleRoute } from '#lib/locale-redirect.js';
@@ -10,12 +8,16 @@
   // First visit of a session: if the browser's language has a matching /<code>/ route,
   // go there (replacing "/" in the history so Back does not bounce). Client-only, so the
   // prerendered page and crawlers still get the English home page.
-  onMount(() => {
-    if (!firstVisitThisSession()) return;
-    const preferred = navigator.languages?.length ? navigator.languages : [navigator.language];
-    const code = pickLocaleRoute(preferred, locales());
-    if (code) goto(`/${code}/`, { replaceState: true });
-  });
+  //
+  // It runs as an inline script in <head> — before first paint and before any JavaScript bundle
+  // loads — so the visitor never sees the English page, unthemed, while the app hydrates (an
+  // onMount + goto() here waited for hydration and then for the target route's chunks).
+  const redirectScript = `(${(function (pick: typeof pickLocaleRoute, first: typeof firstVisitThisSession, available: string[]) {
+    if (location.pathname !== '/' || !first()) return;
+    const preferred = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+    const code = pick(preferred, available);
+    if (code) location.replace('/' + code + '/');
+  }).toString()})(${pickLocaleRoute.toString()}, ${firstVisitThisSession.toString()}, ${JSON.stringify(locales())})`;
 
   const matches: LilyComponent[] = $derived.by(() => {
     const q = query.trim().toLowerCase();
@@ -30,6 +32,7 @@
 </script>
 
 <svelte:head>
+  {@html `<script>${redirectScript}</script>`}
   <title>Lily Design System&trade;</title>
   <meta
     name="description"
@@ -228,10 +231,6 @@ pnpm install && pnpm run dev`}</code></pre>
 </section>
 
 <section class="section">
-  <header class="section-heading">
-    <h2>Find your path</h2>
-  </header>
-
   <div class="card-grid">
     <a class="card" href="/tutorials/">
       <h3 class="card-heading">Tutorials</h3>
@@ -243,7 +242,7 @@ pnpm install && pnpm run dev`}</code></pre>
       <p class="card-meta">Start here — about 10 minutes</p>
     </a>
     <a class="card" href="/components/">
-      <h3 class="card-heading">Component catalog</h3>
+      <h3 class="card-heading">Components</h3>
       <p class="card-description">
         Save time with {LILY_COMPONENTS.length} reusable, accessible
         components — each documented with props, ARIA contract, keyboard
@@ -252,7 +251,7 @@ pnpm install && pnpm run dev`}</code></pre>
       <p class="card-meta">{LILY_COMPONENTS.length} components, searchable</p>
     </a>
     <a class="card" href="/examples/">
-      <h3 class="card-heading">Example apps</h3>
+      <h3 class="card-heading">Examples</h3>
       <p class="card-description">
         See the whole system working end to end: seven complete, styled
         reference applications — SvelteKit, Next.js, Nuxt, Angular + Analog,

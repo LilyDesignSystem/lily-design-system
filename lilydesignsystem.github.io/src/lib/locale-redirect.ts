@@ -29,17 +29,16 @@ export function pickLocaleRoute(preferred: readonly string[], available: readonl
   return null;
 }
 
-const SESSION_KEY = 'lily-locale-redirect-done';
-
 /**
  * True the first time it is called in a browser session, false afterwards (and false if session
  * storage is unavailable). The redirect happens at most once per session so that a visitor who
  * deliberately comes back to "/" — to read the English page — is not sent away again.
  */
 export function firstVisitThisSession(): boolean {
+  // Self-contained (no module-level names): the home page serialises this function into an inline <head> script.
   try {
-    if (sessionStorage.getItem(SESSION_KEY)) return false;
-    sessionStorage.setItem(SESSION_KEY, '1');
+    if (sessionStorage.getItem('lily-locale-redirect-done')) return false;
+    sessionStorage.setItem('lily-locale-redirect-done', '1');
     return true;
   } catch {
     return false;

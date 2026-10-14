@@ -6,10 +6,9 @@
   This is intentionally a small subset of the canonical English home
   page's content (src/routes/+page.svelte), not a full translation of
   it — see spec/locales-for-global-sharing-with-svelte's "starts empty"
-  rollout note. `home.notice` says so, in the page's own language.
+  rollout note.
 -->
 <script lang="ts">
-  import { LILY_COMPONENTS } from '#lib/components.js';
   import { ui } from '#lib/i18n.js';
   import { localeLabel } from '#lib/locales.js';
   import { pageHref } from '#lib/pages.js';
@@ -78,17 +77,7 @@
   </ul>
 </section>
 
-<section class="section prose" style="margin: 0 auto;">
-  <div class="callout">
-    <p style="margin: 0;">{strings.home.notice}</p>
-  </div>
-</section>
-
 <section class="section">
-  <header class="section-heading">
-    <h2>{strings.home.findPath}</h2>
-  </header>
-
   <div class="card-grid">
     <a class="card" href={pageHref('tutorials', locale)}>
       <h3 class="card-heading">{strings.home.tutorials.heading}</h3>
@@ -97,7 +86,6 @@
     <a class="card" href="/components/">
       <h3 class="card-heading">{strings.home.components.heading}</h3>
       <p class="card-description">{strings.home.components.description}</p>
-      <p class="card-meta">{LILY_COMPONENTS.length}</p>
     </a>
     <a class="card" href={pageHref('examples', locale)}>
       <h3 class="card-heading">{strings.home.examples.heading}</h3>

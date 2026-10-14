@@ -1,6 +1,8 @@
 <script lang="ts">
   // Rendered from components/slug/index.md — regenerate with bin/generate-site-pages, do not edit.
-  const html: string = "<h1>ToolCallError</h1>\n<p>A headless wrapper for the error shown when a tool call fails.</p>\n<p><strong>Status:</strong> beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows.</p>\n<p>The error shown when a tool call fails. A <code>&lt;div role=&quot;alert&quot;&gt;</code> so the message is announced when it appears. The component draws, times and animates nothing and carries no strings of its own.</p>\n<h2>Implementation Notes</h2>\n<ul>\n<li>Root element: <code>&lt;div&gt;</code> with the base class <code>tool-call-error</code> first, then the consumer class</li>\n<li><code>restProps</code> spread onto the root; no internal state beyond <code>open</code> on the root</li>\n</ul>\n<h2>Props</h2>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody><tr>\n<td><code>class</code></td>\n<td>string</td>\n<td><code>&quot;&quot;</code></td>\n<td>Appended to the base class</td>\n</tr>\n<tr>\n<td><code>children</code></td>\n<td>slot</td>\n<td>—</td>\n<td>The error message</td>\n</tr>\n<tr>\n<td><code>...restProps</code></td>\n<td>HTML attributes</td>\n<td>—</td>\n<td>Spread onto the root <code>&lt;div&gt;</code></td>\n</tr>\n</tbody></table>\n<h2>Usage</h2>\n<pre tabindex=\"0\"><code class=\"language-svelte\">&lt;ToolCallError&gt;…&lt;/ToolCallError&gt;\n</code></pre>\n<h2>Keyboard Interactions</h2>\n<ul>\n<li>None</li>\n</ul>\n<h2>ARIA</h2>\n<ul>\n<li><code>role=&quot;alert&quot;</code> announces the error when it is added</li>\n</ul>\n<h2>When to Use</h2>\n<ul>\n<li>The failure message of a tool call</li>\n<li>Surfacing an error that must be heard immediately</li>\n</ul>\n<h2>When Not to Use</h2>\n<ul>\n<li>Use <code>ToolCallOutput</code> — for a normal result</li>\n<li>Use <code>ErrorMessage</code> — a validation message tied to a form field</li>\n<li>Use <code>ErrorSummary</code> — a page-level summary of form errors</li>\n</ul>\n<h2>Headless</h2>\n<p>This component decides semantics only. It decides no colour, icon, spinner, layout, monospace style or motion.</p>\n<h2>Styles</h2>\n<p>Target <code>.tool-call-error</code> (and <code>[data-status]</code> where it applies). No default styles are included.</p>\n<h2>Testing</h2>\n<ul>\n<li>Renders <code>&lt;div&gt;</code> with the base class <code>tool-call-error</code> and appends the consumer class</li>\n<li>Attribute behaviour as listed under Props and ARIA, each asserted with a test</li>\n<li>Children render; rest props reach the root</li>\n</ul>\n<h2>Advice</h2>\n<p>An alert inside a closed <code>&lt;details&gt;</code> is not announced. Open the <code>ToolCall</code> when status becomes <code>error</code>, or also show the error text in the summary.</p>\n<h2>Related components</h2>\n<ul>\n<li><code>tool-call</code></li>\n<li><code>tool-call-output</code></li>\n<li><code>error-message</code></li>\n</ul>\n<h2>References</h2>\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details\">MDN details element</a></li>\n<li><a href=\"https://www.w3.org/TR/wai-aria-1.2/#alert\">WAI-ARIA alert role</a></li>\n</ul>\n<hr>\n<p>Lily™ and Lily Design System™ are trademarks.</p>\n";
+  const intro: string = "<h1>ToolCallError</h1>\n<p>A headless wrapper for the error shown when a tool call fails.</p>\n<p><strong>Status:</strong> beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows.</p>\n<p>The error shown when a tool call fails. A <code>&lt;div role=&quot;alert&quot;&gt;</code> so the message is announced when it appears. The component draws, times and animates nothing and carries no strings of its own.</p>\n";
+  const usage: string = "<h2>Usage</h2>\n<pre tabindex=\"0\"><code class=\"language-svelte\">&lt;ToolCallError&gt;…&lt;/ToolCallError&gt;\n</code></pre>\n";
+  const rest: string = "<h2>Props</h2>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody><tr>\n<td><code>class</code></td>\n<td>string</td>\n<td><code>&quot;&quot;</code></td>\n<td>Appended to the base class</td>\n</tr>\n<tr>\n<td><code>children</code></td>\n<td>slot</td>\n<td>—</td>\n<td>The error message</td>\n</tr>\n<tr>\n<td><code>...restProps</code></td>\n<td>HTML attributes</td>\n<td>—</td>\n<td>Spread onto the root <code>&lt;div&gt;</code></td>\n</tr>\n</tbody></table>\n<h2>Keyboard Interactions</h2>\n<ul>\n<li>None</li>\n</ul>\n<h2>ARIA</h2>\n<ul>\n<li><code>role=&quot;alert&quot;</code> announces the error when it is added</li>\n</ul>\n<h2>When to Use</h2>\n<ul>\n<li>The failure message of a tool call</li>\n<li>Surfacing an error that must be heard immediately</li>\n</ul>\n<h2>When Not to Use</h2>\n<ul>\n<li>Use <code>ToolCallOutput</code> — for a normal result</li>\n<li>Use <code>ErrorMessage</code> — a validation message tied to a form field</li>\n<li>Use <code>ErrorSummary</code> — a page-level summary of form errors</li>\n</ul>\n<h2>Headless</h2>\n<p>This component decides semantics only. It decides no colour, icon, spinner, layout, monospace style or motion.</p>\n<h2>Styles</h2>\n<p>Target <code>.tool-call-error</code> (and <code>[data-status]</code> where it applies). No default styles are included.</p>\n<h2>Testing</h2>\n<ul>\n<li>Renders <code>&lt;div&gt;</code> with the base class <code>tool-call-error</code> and appends the consumer class</li>\n<li>Attribute behaviour as listed under Props and ARIA, each asserted with a test</li>\n<li>Children render; rest props reach the root</li>\n</ul>\n<h2>Advice</h2>\n<p>An alert inside a closed <code>&lt;details&gt;</code> is not announced. Open the <code>ToolCall</code> when status becomes <code>error</code>, or also show the error text in the summary.</p>\n<h2>Implementation Notes</h2>\n<ul>\n<li>Root element: <code>&lt;div&gt;</code> with the base class <code>tool-call-error</code> first, then the consumer class</li>\n<li><code>restProps</code> spread onto the root; no internal state beyond <code>open</code> on the root</li>\n</ul>\n<h2>Related components</h2>\n<ul>\n<li><code>tool-call</code></li>\n<li><code>tool-call-output</code></li>\n<li><code>error-message</code></li>\n</ul>\n<h2>References</h2>\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details\">MDN details element</a></li>\n<li><a href=\"https://www.w3.org/TR/wai-aria-1.2/#alert\">WAI-ARIA alert role</a></li>\n</ul>\n<hr>\n<p>Lily™ and Lily Design System™ are trademarks.</p>\n";
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"tool-call-error\" role=\"alert\">The tool timed out after 30 seconds.</div>";
   const svelteSource: string = "// In your Svelte component:\nimport ToolCallError from \"lily-design-system-svelte-headless/components/ToolCallError/ToolCallError.svelte\";\n\n<ToolCallError>\n  <!-- content -->\n</ToolCallError>\n";
@@ -14,12 +16,8 @@
   <meta name="description" content="A headless wrapper for the error shown when a tool call fails." />
 </svelte:head>
 
-<nav class="component-page-back" aria-label="Breadcrumb" style="max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 0;">
-  <a href="/components/">← All components</a>
-</nav>
-
-<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
-  {@html html}
+<article class="component-page component-page-intro prose" style="max-width: 64rem; margin: 0 auto; padding: 0.5rem 1rem 1rem;">
+  {@html intro}
 </article>
 
 <!-- BEGIN auto-generated component example -->
@@ -54,6 +52,16 @@
   </details>
 </section>
 <!-- END auto-generated component example -->
+
+{#if usage}
+<article class="component-page component-page-usage prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html usage}
+</article>
+{/if}
+
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html rest}
+</article>
 
 <!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
 <section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">

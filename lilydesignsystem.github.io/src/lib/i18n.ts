@@ -2,8 +2,7 @@
 // labels, and the localized home page's hero/card copy. Deeper content
 // (tutorials, component docs, etc.) is not translated yet — see
 // spec/locales-for-global-sharing-with-svelte/index.md's "starts empty"
-// rollout note and each translation's own `home.notice` string, which
-// says so in that locale's own language.
+// rollout note.
 //
 // Proper nouns ("Lily", "Lily Design System", "GitHub") are left
 // unconverted per that spec's "Guard against corruption" rule.
@@ -41,12 +40,10 @@ export type UiStrings = {
   home: {
     heroTitle: string;
     heroTagline: string;
-    findPath: string;
     frameworks: string;
     tutorials: { heading: string; description: string };
     components: { heading: string; description: string };
     examples: { heading: string; description: string };
-    notice: string;
   };
 };
 
@@ -64,7 +61,7 @@ const en: UiStrings = {
     github: 'GitHub'
   },
   footer: {
-    license: 'Free open source — BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0.',
+    license: 'Free open source.',
     trademark: 'Lily™ and Lily Design System™ are trademarks.',
     why: 'Why Lily'
   },
@@ -82,23 +79,20 @@ const en: UiStrings = {
     heroTitle: 'Build web designs better.',
     heroTagline:
       'Lily is a free, open-source, accessible design system with hundreds of components for seven frameworks.',
-    findPath: 'Find your path',
     frameworks: 'Supported frameworks',
     tutorials: {
       heading: 'Tutorials',
       description: 'Learn Lily step by step, in whichever framework you use.'
     },
     components: {
-      heading: 'Component catalog',
+      heading: 'Components',
       description:
         'Hundreds of reusable, accessible components, each documented and demonstrated.'
     },
     examples: {
-      heading: 'Example apps',
+      heading: 'Examples',
       description: 'Seven complete, styled reference applications you can clone and adjust.'
-    },
-    notice:
-      'This page is translated; deeper pages (tutorials, component docs) are still English-only for now.'
+    }
   }
 };
 
@@ -143,7 +137,6 @@ const es: UiStrings = {
     heroTitle: 'Diseña mejor para la web.',
     heroTagline:
       'Lily es un sistema de diseño gratuito, de código abierto y accesible, con cientos de componentes para siete frameworks.',
-    findPath: 'Encuentra tu camino',
     frameworks: 'Frameworks compatibles',
     tutorials: {
       heading: 'Tutoriales',
@@ -158,9 +151,7 @@ const es: UiStrings = {
       heading: 'Aplicaciones de ejemplo',
       description:
         'Siete aplicaciones de referencia completas y con estilo que puedes clonar y adaptar.'
-    },
-    notice:
-      'Esta página está traducida; las páginas más profundas (tutoriales, documentación de componentes) siguen disponibles solo en inglés por ahora.'
+    }
   }
 };
 
@@ -196,7 +187,6 @@ const fr: UiStrings = {
     heroTitle: 'Concevez mieux pour le web.',
     heroTagline:
       "Lily est un système de conception gratuit, open source et accessible, avec des centaines de composants pour sept frameworks.",
-    findPath: 'Trouvez votre chemin',
     frameworks: 'Frameworks pris en charge',
     tutorials: {
       heading: 'Tutoriels',
@@ -210,9 +200,7 @@ const fr: UiStrings = {
     examples: {
       heading: "Applications d'exemple",
       description: 'Sept applications de référence complètes et stylisées, à cloner et adapter.'
-    },
-    notice:
-      "Cette page est traduite ; les pages plus détaillées (tutoriels, documentation des composants) restent pour l'instant uniquement en anglais."
+    }
   }
 };
 
@@ -248,7 +236,6 @@ const pt: UiStrings = {
     heroTitle: 'Crie designs melhores para a web.',
     heroTagline:
       'Lily é um sistema de design gratuito, de código aberto e acessível, com centenas de componentes para sete frameworks.',
-    findPath: 'Encontre seu caminho',
     frameworks: 'Frameworks compatíveis',
     tutorials: {
       heading: 'Tutoriais',
@@ -263,9 +250,7 @@ const pt: UiStrings = {
       heading: 'Aplicativos de exemplo',
       description:
         'Sete aplicativos de referência completos e estilizados que você pode clonar e ajustar.'
-    },
-    notice:
-      'Esta página está traduzida; páginas mais profundas (tutoriais, documentação de componentes) ainda estão disponíveis apenas em inglês.'
+    }
   }
 };
 
@@ -302,7 +287,6 @@ const ru: UiStrings = {
     heroTitle: 'Создавайте веб-дизайн лучше.',
     heroTagline:
       'Lily — бесплатная система дизайна с открытым исходным кодом и сотнями доступных компонентов для семи фреймворков.',
-    findPath: 'Найдите свой путь',
     frameworks: 'Поддерживаемые фреймворки',
     tutorials: {
       heading: 'Уроки',
@@ -317,9 +301,7 @@ const ru: UiStrings = {
       heading: 'Примеры приложений',
       description:
         'Семь полноценных стилизованных эталонных приложений, которые можно клонировать и изменить.'
-    },
-    notice:
-      'Эта страница переведена; более глубокие страницы (уроки, документация компонентов) пока доступны только на английском языке.'
+    }
   }
 };
 
@@ -355,7 +337,6 @@ const hi: UiStrings = {
     heroTitle: 'वेब डिज़ाइन को बेहतर बनाइए।',
     heroTagline:
       'Lily एक निःशुल्क, ओपन-सोर्स, सुगम्य डिज़ाइन सिस्टम है जिसमें सात फ्रेमवर्क के लिए सैकड़ों कॉम्पोनेंट्स हैं।',
-    findPath: 'अपना रास्ता खोजें',
     frameworks: 'समर्थित फ़्रेमवर्क',
     tutorials: {
       heading: 'ट्यूटोरियल',
@@ -368,8 +349,7 @@ const hi: UiStrings = {
     examples: {
       heading: 'उदाहरण ऐप्स',
       description: 'सात पूर्ण, स्टाइल किए गए संदर्भ ऐप्स जिन्हें आप क्लोन और समायोजित कर सकते हैं।'
-    },
-    notice: 'यह पेज अनुवादित है; गहरे पेज (ट्यूटोरियल, कॉम्पोनेंट दस्तावेज़) अभी केवल अंग्रेज़ी में उपलब्ध हैं।'
+    }
   }
 };
 
@@ -405,7 +385,6 @@ const id: UiStrings = {
     heroTitle: 'Rancang desain web yang lebih baik.',
     heroTagline:
       'Lily adalah sistem desain gratis, sumber terbuka, dan aksesibel dengan ratusan komponen untuk tujuh framework.',
-    findPath: 'Temukan jalur Anda',
     frameworks: 'Framework yang didukung',
     tutorials: {
       heading: 'Tutorial',
@@ -420,9 +399,7 @@ const id: UiStrings = {
       heading: 'Aplikasi contoh',
       description:
         'Tujuh aplikasi referensi lengkap dan bergaya yang dapat Anda kloning dan sesuaikan.'
-    },
-    notice:
-      'Halaman ini sudah diterjemahkan; halaman yang lebih dalam (tutorial, dokumentasi komponen) untuk saat ini masih dalam bahasa Inggris.'
+    }
   }
 };
 
@@ -459,7 +436,6 @@ const cy: UiStrings = {
     heroTitle: 'Dylunio gwefannau yn well.',
     heroTagline:
       "Mae Lily yn system ddylunio ffynhonnell agored am ddim a hygyrch, gyda channoedd o gydrannau ar gyfer saith fframwaith.",
-    findPath: "Dewch o hyd i'ch llwybr",
     frameworks: 'Fframweithiau a gefnogir',
     tutorials: {
       heading: 'Tiwtorialau',
@@ -474,9 +450,7 @@ const cy: UiStrings = {
       heading: 'Apiau enghreifftiol',
       description:
         "Saith cymhwysiad cyfeirio cyflawn, wedi'u harddullio, y gallwch eu clonio a'u haddasu."
-    },
-    notice:
-      "Mae'r dudalen hon wedi'i chyfieithu; mae tudalennau dyfnach (tiwtorialau, dogfennaeth cydrannau) yn Saesneg yn unig am y tro."
+    }
   }
 };
 
@@ -511,7 +485,6 @@ const ar: UiStrings = {
   home: {
     heroTitle: 'صمّم الويب بشكل أفضل.',
     heroTagline: 'Lily نظام تصميم مجاني ومفتوح المصدر ويسهل الوصول إليه، يضم مئات المكوّنات لسبعة أطر عمل.',
-    findPath: 'اعثر على مسارك',
     frameworks: 'أطر العمل المدعومة',
     tutorials: {
       heading: 'الدروس',
@@ -524,8 +497,7 @@ const ar: UiStrings = {
     examples: {
       heading: 'تطبيقات نموذجية',
       description: 'سبعة تطبيقات مرجعية كاملة ومنسّقة يمكنك استنساخها وتعديلها.'
-    },
-    notice: 'هذه الصفحة مترجمة؛ الصفحات الأعمق (الدروس، توثيق المكوّنات) لا تزال بالإنجليزية فقط في الوقت الحالي.'
+    }
   }
 };
 
@@ -561,7 +533,6 @@ const ur: UiStrings = {
     heroTitle: 'ویب ڈیزائن کو بہتر بنائیں۔',
     heroTagline:
       'Lily ایک مفت، اوپن سورس اور قابلِ رسائی ڈیزائن سسٹم ہے جس میں سات فریم ورکس کے لیے سیکڑوں اجزاء شامل ہیں۔',
-    findPath: 'اپنا راستہ تلاش کریں',
     frameworks: 'معاون فریم ورکس',
     tutorials: {
       heading: 'سبق',
@@ -574,8 +545,7 @@ const ur: UiStrings = {
     examples: {
       heading: 'نمونہ ایپس',
       description: 'سات مکمل، ڈیزائن شدہ حوالہ ایپس جنہیں آپ کاپی اور تبدیل کر سکتے ہیں۔'
-    },
-    notice: 'یہ صفحہ ترجمہ شدہ ہے؛ گہرے صفحات (سبق، اجزاء کی دستاویزات) فی الحال صرف انگریزی میں دستیاب ہیں۔'
+    }
   }
 };
 
@@ -611,7 +581,6 @@ const bn: UiStrings = {
     heroTitle: 'ওয়েব ডিজাইন আরও ভালো করুন।',
     heroTagline:
       'Lily একটি বিনামূল্যের, ওপেন-সোর্স, প্রবেশযোগ্য ডিজাইন সিস্টেম, যাতে সাতটি ফ্রেমওয়ার্কের জন্য শত শত কম্পোনেন্ট রয়েছে।',
-    findPath: 'আপনার পথ খুঁজুন',
     frameworks: 'সমর্থিত ফ্রেমওয়ার্ক',
     tutorials: {
       heading: 'টিউটোরিয়াল',
@@ -624,8 +593,7 @@ const bn: UiStrings = {
     examples: {
       heading: 'উদাহরণ অ্যাপ',
       description: 'সাতটি সম্পূর্ণ, স্টাইল করা রেফারেন্স অ্যাপ, যা আপনি ক্লোন করে সামঞ্জস্য করতে পারেন।'
-    },
-    notice: 'এই পৃষ্ঠাটি অনূদিত; গভীর পৃষ্ঠাগুলো (টিউটোরিয়াল, কম্পোনেন্ট ডকুমেন্টেশন) আপাতত শুধু ইংরেজিতে উপলব্ধ।'
+    }
   }
 };
 
@@ -660,7 +628,6 @@ const zh: UiStrings = {
   home: {
     heroTitle: '更好地设计网页。',
     heroTagline: 'Lily 是一个免费、开源、无障碍的设计系统,为七种框架提供数百个组件。',
-    findPath: '找到适合你的路径',
     frameworks: '支持的框架',
     tutorials: {
       heading: '教程',
@@ -673,8 +640,7 @@ const zh: UiStrings = {
     examples: {
       heading: '示例应用',
       description: '七个完整、带样式的参考应用,你可以克隆并自行调整。'
-    },
-    notice: '本页面已翻译;更深入的页面(教程、组件文档)目前仍仅提供英文版本。'
+    }
   }
 };
 

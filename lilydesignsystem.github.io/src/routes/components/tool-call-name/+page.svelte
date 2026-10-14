@@ -1,6 +1,8 @@
 <script lang="ts">
   // Rendered from components/slug/index.md — regenerate with bin/generate-site-pages, do not edit.
-  const html: string = "<h1>ToolCallName</h1>\n<p>A headless wrapper for the name of the tool in a tool call, shown in the summary.</p>\n<p><strong>Status:</strong> beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows.</p>\n<p>The tool&#39;s name inside the summary, for example <code>search_web</code>. A plain <code>&lt;span&gt;</code>; the consumer supplies the text. The component draws, times and animates nothing and carries no strings of its own.</p>\n<h2>Implementation Notes</h2>\n<ul>\n<li>Root element: <code>&lt;span&gt;</code> with the base class <code>tool-call-name</code> first, then the consumer class</li>\n<li><code>restProps</code> spread onto the root; no internal state beyond <code>open</code> on the root</li>\n</ul>\n<h2>Props</h2>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody><tr>\n<td><code>class</code></td>\n<td>string</td>\n<td><code>&quot;&quot;</code></td>\n<td>Appended to the base class</td>\n</tr>\n<tr>\n<td><code>children</code></td>\n<td>slot</td>\n<td>—</td>\n<td>The tool name</td>\n</tr>\n<tr>\n<td><code>...restProps</code></td>\n<td>HTML attributes</td>\n<td>—</td>\n<td>Spread onto the root <code>&lt;span&gt;</code></td>\n</tr>\n</tbody></table>\n<h2>Usage</h2>\n<pre tabindex=\"0\"><code class=\"language-svelte\">&lt;ToolCallName&gt;…&lt;/ToolCallName&gt;\n</code></pre>\n<h2>Keyboard Interactions</h2>\n<ul>\n<li>None</li>\n</ul>\n<h2>ARIA</h2>\n<ul>\n<li>No ARIA attributes; the text is the name</li>\n</ul>\n<h2>When to Use</h2>\n<ul>\n<li>The first item in a <code>ToolCall</code> summary</li>\n<li>Showing a machine name in a monospace style via consumer CSS</li>\n</ul>\n<h2>When Not to Use</h2>\n<ul>\n<li>Use <code>ToolCallStatus</code> — for the state word</li>\n<li>Use <code>Kbd</code> — for keyboard keys rather than tool names</li>\n</ul>\n<h2>Headless</h2>\n<p>This component decides semantics only. It decides no colour, icon, spinner, layout, monospace style or motion.</p>\n<h2>Styles</h2>\n<p>Target <code>.tool-call-name</code> (and <code>[data-status]</code> where it applies). No default styles are included.</p>\n<h2>Testing</h2>\n<ul>\n<li>Renders <code>&lt;span&gt;</code> with the base class <code>tool-call-name</code> and appends the consumer class</li>\n<li>Attribute behaviour as listed under Props and ARIA, each asserted with a test</li>\n<li>Children render; rest props reach the root</li>\n</ul>\n<h2>Advice</h2>\n<p>Do not translate or alter the tool name: show what the system calls it.</p>\n<h2>Related components</h2>\n<ul>\n<li><code>tool-call</code></li>\n<li><code>tool-call-status</code></li>\n</ul>\n<h2>References</h2>\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details\">MDN details element</a></li>\n<li><a href=\"https://www.w3.org/TR/wai-aria-1.2/#alert\">WAI-ARIA alert role</a></li>\n</ul>\n<hr>\n<p>Lily™ and Lily Design System™ are trademarks.</p>\n";
+  const intro: string = "<h1>ToolCallName</h1>\n<p>A headless wrapper for the name of the tool in a tool call, shown in the summary.</p>\n<p><strong>Status:</strong> beta — implemented and unit-tested in all eight headless libraries; not yet exercised in composed flows.</p>\n<p>The tool&#39;s name inside the summary, for example <code>search_web</code>. A plain <code>&lt;span&gt;</code>; the consumer supplies the text. The component draws, times and animates nothing and carries no strings of its own.</p>\n";
+  const usage: string = "<h2>Usage</h2>\n<pre tabindex=\"0\"><code class=\"language-svelte\">&lt;ToolCallName&gt;…&lt;/ToolCallName&gt;\n</code></pre>\n";
+  const rest: string = "<h2>Props</h2>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody><tr>\n<td><code>class</code></td>\n<td>string</td>\n<td><code>&quot;&quot;</code></td>\n<td>Appended to the base class</td>\n</tr>\n<tr>\n<td><code>children</code></td>\n<td>slot</td>\n<td>—</td>\n<td>The tool name</td>\n</tr>\n<tr>\n<td><code>...restProps</code></td>\n<td>HTML attributes</td>\n<td>—</td>\n<td>Spread onto the root <code>&lt;span&gt;</code></td>\n</tr>\n</tbody></table>\n<h2>Keyboard Interactions</h2>\n<ul>\n<li>None</li>\n</ul>\n<h2>ARIA</h2>\n<ul>\n<li>No ARIA attributes; the text is the name</li>\n</ul>\n<h2>When to Use</h2>\n<ul>\n<li>The first item in a <code>ToolCall</code> summary</li>\n<li>Showing a machine name in a monospace style via consumer CSS</li>\n</ul>\n<h2>When Not to Use</h2>\n<ul>\n<li>Use <code>ToolCallStatus</code> — for the state word</li>\n<li>Use <code>Kbd</code> — for keyboard keys rather than tool names</li>\n</ul>\n<h2>Headless</h2>\n<p>This component decides semantics only. It decides no colour, icon, spinner, layout, monospace style or motion.</p>\n<h2>Styles</h2>\n<p>Target <code>.tool-call-name</code> (and <code>[data-status]</code> where it applies). No default styles are included.</p>\n<h2>Testing</h2>\n<ul>\n<li>Renders <code>&lt;span&gt;</code> with the base class <code>tool-call-name</code> and appends the consumer class</li>\n<li>Attribute behaviour as listed under Props and ARIA, each asserted with a test</li>\n<li>Children render; rest props reach the root</li>\n</ul>\n<h2>Advice</h2>\n<p>Do not translate or alter the tool name: show what the system calls it.</p>\n<h2>Implementation Notes</h2>\n<ul>\n<li>Root element: <code>&lt;span&gt;</code> with the base class <code>tool-call-name</code> first, then the consumer class</li>\n<li><code>restProps</code> spread onto the root; no internal state beyond <code>open</code> on the root</li>\n</ul>\n<h2>Related components</h2>\n<ul>\n<li><code>tool-call</code></li>\n<li><code>tool-call-status</code></li>\n</ul>\n<h2>References</h2>\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details\">MDN details element</a></li>\n<li><a href=\"https://www.w3.org/TR/wai-aria-1.2/#alert\">WAI-ARIA alert role</a></li>\n</ul>\n<hr>\n<p>Lily™ and Lily Design System™ are trademarks.</p>\n";
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"tool-call-name\">search_web</span>";
   const svelteSource: string = "// In your Svelte component:\nimport ToolCallName from \"lily-design-system-svelte-headless/components/ToolCallName/ToolCallName.svelte\";\n\n<ToolCallName>\n  <!-- content -->\n</ToolCallName>\n";
@@ -14,12 +16,8 @@
   <meta name="description" content="A headless wrapper for the name of the tool in a tool call, shown in the summary." />
 </svelte:head>
 
-<nav class="component-page-back" aria-label="Breadcrumb" style="max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 0;">
-  <a href="/components/">← All components</a>
-</nav>
-
-<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
-  {@html html}
+<article class="component-page component-page-intro prose" style="max-width: 64rem; margin: 0 auto; padding: 0.5rem 1rem 1rem;">
+  {@html intro}
 </article>
 
 <!-- BEGIN auto-generated component example -->
@@ -54,6 +52,16 @@
   </details>
 </section>
 <!-- END auto-generated component example -->
+
+{#if usage}
+<article class="component-page component-page-usage prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html usage}
+</article>
+{/if}
+
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html rest}
+</article>
 
 <!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
 <section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
