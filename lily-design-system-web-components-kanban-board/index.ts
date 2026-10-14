@@ -14,7 +14,7 @@
 import "@lilydesignsystem/web-components-headless";
 import { KanbanBoard, nextKanbanBoardId } from "./kanban-board.js";
 export { KanbanBoard, nextKanbanBoardId };
-export type { KanbanBoardProps, KanbanColumn, KanbanCard, KanbanLabels } from "./kanban-board.js";
+export type { KanbanBoardProps, KanbanColumn, KanbanLane, KanbanCard, KanbanLabels } from "./kanban-board.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("lily-kanban-board")) {
   customElements.define("lily-kanban-board", KanbanBoard);
