@@ -32,6 +32,9 @@ public sealed class KanbanColumn
 
     /// <summary>Work-in-progress limit; the column warns when its card count exceeds this.</summary>
     public int? WipLimit { get; init; }
+
+    /// <summary>A hard limit: a move into this column is refused once it holds <c>WipLimit</c> cards.</summary>
+    public bool StrictLimit { get; init; }
 }
 
 /// <summary>A kanban card. See <c>spec/index.md §5</c>.</summary>
@@ -74,6 +77,12 @@ public sealed record KanbanLabels
 
     /// <summary>Announced after Alt+ArrowUp/Down reorders a card: (card title, 1-based position, total).</summary>
     public Func<string, int, int, string>? ReorderAnnouncement { get; init; }
+
+    /// <summary>Accessible name for a column's collapse toggle: (column, collapsed). Gates the toggle.</summary>
+    public Func<KanbanColumn, bool, string>? CollapseColumn { get; init; }
+
+    /// <summary>Accessible name for a column's add-card button. Gates the button.</summary>
+    public Func<KanbanColumn, string>? AddCard { get; init; }
 }
 
 public partial class KanbanBoard : ComponentBase
@@ -111,6 +120,13 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>Veto a move (a hard WIP limit, a workflow rule). Refused columns show <c>aria-disabled</c> in the move menu.</summary>
     [Parameter] public Func<KanbanCard, KanbanColumn, bool>? CanMove { get; set; }
+
+    /// <summary>Ids of collapsed columns. Bindable: <c>@bind-CollapsedColumns</c>. A collapsed column keeps its header and count but shows no cards.</summary>
+    [Parameter] public IReadOnlyList<string> CollapsedColumns { get; set; } = Array.Empty<string>();
+    [Parameter] public EventCallback<IReadOnlyList<string>> CollapsedColumnsChanged { get; set; }
+
+    /// <summary>Raised with the column id when its add-card button is pressed. The consumer adds the card.</summary>
+    [Parameter] public EventCallback<string> OnAddCard { get; set; }
 
     /// <summary>Disable every mutating interaction: move menu, drag and reorder. Navigation still works.</summary>
     [Parameter] public bool Readonly { get; set; }
@@ -197,13 +213,24 @@ public partial class KanbanBoard : ComponentBase
         var max = 0;
         foreach (var column in Columns)
         {
+            if (IsCollapsed(column.Id)) continue;
             var count = byColumn.TryGetValue(column.Id, out var list) ? list.Count : 0;
             if (count > max) max = count;
         }
         return max;
     }
 
-    private static KanbanCard? CardAt(
+    private bool IsCollapsed(string columnId) => CollapsedColumns.Contains(columnId);
+
+    private async Task ToggleCollapsedAsync(KanbanColumn column)
+    {
+        CollapsedColumns = IsCollapsed(column.Id)
+            ? CollapsedColumns.Where(id => id != column.Id).ToList()
+            : CollapsedColumns.Append(column.Id).ToList();
+        await CollapsedColumnsChanged.InvokeAsync(CollapsedColumns);
+    }
+
+    private KanbanCard? CardAt(
         IReadOnlyList<KanbanColumn> columns,
         IReadOnlyDictionary<string, List<KanbanCard>> byColumn,
         int colIndex,
@@ -211,6 +238,7 @@ public partial class KanbanBoard : ComponentBase
     {
         if (colIndex < 0 || colIndex >= columns.Count) return null;
         var column = columns[colIndex];
+        if (IsCollapsed(column.Id)) return null;
         if (!byColumn.TryGetValue(column.Id, out var list)) return null;
         return rowIndex >= 0 && rowIndex < list.Count ? list[rowIndex] : null;
     }
@@ -234,7 +262,13 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>Choosing the card's own column is not a move: the menu just closes.</summary>
     private bool IsRefused(KanbanCard card, KanbanColumn toColumn)
-        => toColumn.Id != card.ColumnId && CanMove is not null && !CanMove(card, toColumn);
+    {
+        if (toColumn.Id == card.ColumnId) return false;
+        if (CanMove is not null && !CanMove(card, toColumn)) return true;
+        return toColumn.StrictLimit
+            && toColumn.WipLimit is { } limit
+            && (CardsByColumn.TryGetValue(toColumn.Id, out var list) ? list.Count : 0) >= limit;
+    }
 
     private async Task MoveCardAsync(KanbanCard card, KanbanColumn toColumn)
     {

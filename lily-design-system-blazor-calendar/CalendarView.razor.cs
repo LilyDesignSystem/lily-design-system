@@ -25,6 +25,12 @@ public enum CalendarViewMode
     Month,
 }
 
+/// <summary>A marked range (a holiday, a closure, a school term). <c>Label</c> is text a <c>Day</c> template can show.</summary>
+public sealed record CalendarRange(string Start, string End, string? Kind = null, string? Label = null);
+
+/// <summary>The user's picked range, inclusive.</summary>
+public sealed record CalendarSelectedRange(string Start, string End);
+
 /// <summary>A calendar event: a single-day <c>Date</c>, or an inclusive <c>Start</c>/<c>End</c> range.</summary>
 public sealed class CalendarEvent
 {
@@ -54,6 +60,12 @@ public sealed class CalendarDayContext
     public bool Selected { get; init; }
     public bool Disabled { get; init; }
 
+    /// <summary>Inside the picked range.</summary>
+    public bool InRange { get; init; }
+
+    /// <summary>The marked ranges this day falls in.</summary>
+    public IReadOnlyList<CalendarRange> Ranges { get; init; } = Array.Empty<CalendarRange>();
+
     /// <summary>Call from an event's own click handler to raise <c>OnEventClick</c>.</summary>
     public required Func<CalendarEvent, Task> OpenEvent { get; init; }
 }
@@ -82,6 +94,15 @@ public sealed record CalendarViewLabels
 
     /// <summary>Full accessible name for one day cell: (iso date, weekday, outside period).</summary>
     public Func<string, int, bool, string>? Day { get; init; }
+
+    /// <summary>Visible text for the week-number column header (e.g. "Wk").</summary>
+    public string? WeekNumberHeader { get; init; }
+
+    /// <summary>Accessible name for a week-number cell (e.g. "Week 3"). Without it the bare number is the name.</summary>
+    public Func<int, string>? WeekNumber { get; init; }
+
+    /// <summary>Announced as a range is extended with Shift+arrows or confirmed: (start, end).</summary>
+    public Func<string, string, string>? RangeAnnouncement { get; init; }
 }
 
 public partial class CalendarView : ComponentBase
@@ -106,6 +127,19 @@ public partial class CalendarView : ComponentBase
     /// <summary>ISO date the user has picked; distinct from the keyboard cursor. Bindable: <c>@bind-SelectedDate</c>.</summary>
     [Parameter] public string? SelectedDate { get; set; }
     [Parameter] public EventCallback<string?> SelectedDateChanged { get; set; }
+
+    /// <summary>Show an ISO week-number column (a row header per week).</summary>
+    [Parameter] public bool ShowWeekNumbers { get; set; }
+
+    /// <summary>Marked ranges (holidays, closures): each day inside gets <c>data-range="{kind}"</c>.</summary>
+    [Parameter] public IReadOnlyList<CalendarRange> Ranges { get; set; } = Array.Empty<CalendarRange>();
+
+    /// <summary>The picked range. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. Bindable: <c>@bind-SelectedRange</c>.</summary>
+    [Parameter] public CalendarSelectedRange? SelectedRange { get; set; }
+    [Parameter] public EventCallback<CalendarSelectedRange?> SelectedRangeChanged { get; set; }
+
+    /// <summary>Raised when a range is confirmed: Enter on an extended range, or Shift+click.</summary>
+    [Parameter] public EventCallback<CalendarSelectedRange> OnRangeSelect { get; set; }
 
     /// <summary>Events to place into day cells.</summary>
     [Parameter] public IReadOnlyList<CalendarEvent> Events { get; set; } = Array.Empty<CalendarEvent>();
@@ -155,6 +189,11 @@ public partial class CalendarView : ComponentBase
     private string? _cursor;
     private string _statusMessage = "";
     private bool _focusCursorPending;
+    private string? _rangeAnchor;
+    private static readonly HashSet<string> MoveKeys = new()
+    {
+        "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown",
+    };
 
     internal string RootId => $"{_baseId}-root";
     private string RootClass => $"calendar-view {CssClass}".Trim();
@@ -273,6 +312,36 @@ public partial class CalendarView : ComponentBase
         return IsDisabled?.Invoke(isoDate) ?? false;
     }
 
+    // -------------------------------------------------------------------
+    // Range selection: Shift+arrows extend from an anchor; Enter confirms.
+    // -------------------------------------------------------------------
+
+    private bool InSelectedRange(string d)
+        => SelectedRange is { } r && string.CompareOrdinal(d, r.Start) >= 0 && string.CompareOrdinal(d, r.End) <= 0;
+
+    private IReadOnlyList<CalendarRange> RangesFor(string d)
+        => Ranges.Where(r => string.CompareOrdinal(d, r.Start) >= 0 && string.CompareOrdinal(d, r.End) <= 0).ToList();
+
+    /// <summary>The ISO week number of the week shown in <paramref name="row"/> (its Thursday decides, as ISO 8601 says).</summary>
+    private static int WeekNumberOf(string[] row)
+        => DateTimePicker.IsoWeek(row.FirstOrDefault(d => DateTimePicker.WeekdayOf(d) == 4) ?? row[0]);
+
+    private async Task SetRangeAsync(string a, string b)
+    {
+        var (start, end) = string.CompareOrdinal(a, b) <= 0 ? (a, b) : (b, a);
+        SelectedRange = new CalendarSelectedRange(start, end);
+        await SelectedRangeChanged.InvokeAsync(SelectedRange);
+        var message = Labels.RangeAnnouncement?.Invoke(start, end);
+        if (message is not null) _statusMessage = message;
+    }
+
+    private async Task ConfirmRangeAsync()
+    {
+        if (SelectedRange is not { } range) return;
+        _rangeAnchor = null;
+        await OnRangeSelect.InvokeAsync(range);
+    }
+
     private async Task PickAsync(string isoDate)
     {
         if (IsDisabledDay(isoDate)) return;
@@ -380,6 +449,12 @@ public partial class CalendarView : ComponentBase
     {
         var cursor = EffectiveCursor(Days);
         var offset = (DateTimePicker.WeekdayOf(cursor) - FirstDay + 7) % 7;
+        var extending = args.ShiftKey && MoveKeys.Contains(args.Key);
+        if (extending && _rangeAnchor is null)
+        {
+            _rangeAnchor = !string.IsNullOrEmpty(SelectedDate) && SelectedRange is null ? SelectedDate : cursor;
+        }
+        if (!extending && MoveKeys.Contains(args.Key)) _rangeAnchor = null;
         switch (args.Key)
         {
             case "ArrowLeft": await MoveCursorAsync(DateTimePicker.AddDays(cursor, -1)); break;
@@ -392,7 +467,21 @@ public partial class CalendarView : ComponentBase
             case "PageDown": await PageCursorAsync(1, cursor); break;
             case "Enter":
             case " ":
-                await PickAsync(cursor);
+                if (_rangeAnchor is not null && SelectedRange is not null)
+                {
+                    await ConfirmRangeAsync();
+                    _focusCursorPending = true;
+                }
+                else await PickAsync(cursor);
+                break;
+            case "Escape":
+                if (SelectedRange is not null || _rangeAnchor is not null)
+                {
+                    _rangeAnchor = null;
+                    SelectedRange = null;
+                    await SelectedRangeChanged.InvokeAsync(null);
+                    _focusCursorPending = true;
+                }
                 break;
             case "t":
             case "T":
@@ -401,11 +490,25 @@ public partial class CalendarView : ComponentBase
                 await MoveCursorAsync(Today!);
                 break;
         }
+        if (extending && _rangeAnchor is not null && _cursor is not null)
+        {
+            await SetRangeAsync(_rangeAnchor, _cursor);
+        }
     }
 
-    private async Task OnDayCellClickAsync(string isoDate)
+    private async Task OnDayCellClickAsync(string isoDate, MouseEventArgs args)
     {
+        if (args.ShiftKey && !IsDisabledDay(isoDate))
+        {
+            // Shift+click picks a range from the picked day (or the cursor) to here, and confirms it.
+            var from = !string.IsNullOrEmpty(SelectedDate) && SelectedRange is null ? SelectedDate! : EffectiveCursor(Days);
+            _cursor = isoDate;
+            await SetRangeAsync(from, isoDate);
+            await ConfirmRangeAsync();
+            return;
+        }
         _cursor = isoDate;
+        _rangeAnchor = null;
         await PickAsync(isoDate);
     }
 

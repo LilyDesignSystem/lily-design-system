@@ -448,4 +448,164 @@ public class CalendarViewTests : TestContext
         Assert.Equal("True-False", Cell(cut, "2026-01-06").QuerySelector("[data-ctx]")!.GetAttribute("data-ctx"));
         Assert.Equal("False-True", Cell(cut, "2026-01-05").QuerySelector("[data-ctx]")!.GetAttribute("data-ctx"));
     }
+
+    // =====================================================================
+    // Round 2 — week numbers, marked ranges, range selection (§8.22–§8.30)
+    // =====================================================================
+
+    private static readonly CalendarViewLabels RangeLabels = Labels with
+    {
+        WeekNumberHeader = "Wk",
+        WeekNumber = n => $"Week {n}",
+        RangeAnnouncement = (s, e) => $"Selected {s} to {e}",
+    };
+
+    private IRenderedComponent<CalendarView> RenderMonth(Action<ComponentParameterCollectionBuilder<CalendarView>>? configure = null)
+        => Render(CalendarViewMode.Month, "2026-01-15", p =>
+        {
+            p.Add(x => x.Today, "2026-01-08");
+            configure?.Invoke(p);
+        });
+
+    private static void ShiftKeyDown(IRenderedComponent<CalendarView> cut, string key)
+        => cut.Find(".calendar-table").KeyDown(new KeyboardEventArgs { Key = key, ShiftKey = true });
+
+    [Fact]
+    public void Section_8_22_ShowWeekNumbers_Adds_A_Leading_Header_And_A_Row_Header_Per_Week()
+    {
+        var cut = RenderMonth(p =>
+        {
+            p.Add(x => x.ShowWeekNumbers, true);
+            p.Add(x => x.Labels, RangeLabels);
+        });
+
+        Assert.Equal("Wk", cut.Find("[data-week-number-header]").TextContent.Trim());
+        var rowHeaders = cut.FindAll("[data-week-number]");
+        Assert.Equal(6, rowHeaders.Count);
+        var week2 = rowHeaders.First(h => h.GetAttribute("data-week-number") == "2");
+        Assert.Equal("2", week2.TextContent.Trim());
+        Assert.Equal("Week 2", week2.GetAttribute("aria-label"));
+        Assert.Equal("row", week2.GetAttribute("scope"));
+    }
+
+    [Fact]
+    public void Section_8_22_Week_Numbers_Are_Off_By_Default()
+    {
+        var cut = RenderMonth();
+        Assert.Empty(cut.FindAll("[data-week-number]"));
+        Assert.Empty(cut.FindAll("[data-week-number-header]"));
+    }
+
+    [Fact]
+    public void Section_8_23_Ranges_Mark_Each_Day_Inside_With_Data_Range_Kind()
+    {
+        var cut = RenderMonth(p => p.Add(x => x.Ranges, new[]
+        {
+            new CalendarRange("2026-01-05", "2026-01-07", "holiday"),
+            new CalendarRange("2026-01-07", "2026-01-08"),
+        }));
+
+        Assert.Equal("holiday", Cell(cut, "2026-01-05").GetAttribute("data-range"));
+        Assert.Equal("holiday range", Cell(cut, "2026-01-07").GetAttribute("data-range"));
+        Assert.Equal("range", Cell(cut, "2026-01-08").GetAttribute("data-range"));
+        Assert.Null(Cell(cut, "2026-01-09").GetAttribute("data-range"));
+    }
+
+    [Fact]
+    public void Section_8_24_Shift_ArrowRight_Extends_A_Range_From_The_Cursor()
+    {
+        var cut = RenderMonth(p => p.Add(x => x.Labels, RangeLabels));
+        ShiftKeyDown(cut, "ArrowRight");
+        ShiftKeyDown(cut, "ArrowRight");
+
+        Assert.NotNull(Cell(cut, "2026-01-15").GetAttribute("data-range-start"));
+        Assert.NotNull(Cell(cut, "2026-01-17").GetAttribute("data-range-end"));
+        Assert.NotNull(Cell(cut, "2026-01-16").GetAttribute("data-in-range"));
+        Assert.Null(Cell(cut, "2026-01-18").GetAttribute("data-in-range"));
+        Assert.Equal("Selected 2026-01-15 to 2026-01-17", cut.Find(".calendar-view-status").TextContent);
+    }
+
+    [Fact]
+    public void Section_8_24_Extending_Backwards_Orders_The_Range()
+    {
+        var cut = RenderMonth();
+        ShiftKeyDown(cut, "ArrowLeft");
+
+        Assert.NotNull(Cell(cut, "2026-01-14").GetAttribute("data-range-start"));
+        Assert.NotNull(Cell(cut, "2026-01-15").GetAttribute("data-range-end"));
+    }
+
+    [Fact]
+    public void Section_8_25_Enter_On_An_Extended_Range_Raises_OnRangeSelect_Once_And_Not_OnDayClick()
+    {
+        var ranges = new List<CalendarSelectedRange>();
+        var clicks = new List<string>();
+        var cut = RenderMonth(p =>
+        {
+            p.Add(x => x.OnRangeSelect, EventCallback.Factory.Create<CalendarSelectedRange>(this, r => ranges.Add(r)));
+            p.Add(x => x.OnDayClick, EventCallback.Factory.Create<string>(this, d => clicks.Add(d)));
+        });
+        ShiftKeyDown(cut, "ArrowRight");
+        Key(cut, "Enter");
+
+        Assert.Equal(new[] { new CalendarSelectedRange("2026-01-15", "2026-01-16") }, ranges);
+        Assert.Empty(clicks);
+    }
+
+    [Fact]
+    public void Section_8_26_A_Plain_Arrow_After_Extending_Stops_Extending_But_Keeps_The_Range()
+    {
+        var cut = RenderMonth();
+        ShiftKeyDown(cut, "ArrowRight");
+        Key(cut, "ArrowRight");
+
+        Assert.NotNull(Cell(cut, "2026-01-16").GetAttribute("data-range-end"));
+        Assert.Null(Cell(cut, "2026-01-17").GetAttribute("data-in-range"));
+    }
+
+    [Fact]
+    public void Section_8_27_Escape_Clears_The_Range()
+    {
+        var cut = RenderMonth();
+        ShiftKeyDown(cut, "ArrowRight");
+        Key(cut, "Escape");
+
+        Assert.Empty(cut.FindAll("[data-in-range]"));
+    }
+
+    [Fact]
+    public async Task Section_8_28_Shift_Click_Picks_A_Range_From_The_Cursor_And_Confirms_It()
+    {
+        var ranges = new List<CalendarSelectedRange>();
+        var cut = RenderMonth(p => p.Add(x => x.OnRangeSelect, EventCallback.Factory.Create<CalendarSelectedRange>(this, r => ranges.Add(r))));
+        await Cell(cut, "2026-01-20").ClickAsync(new MouseEventArgs { ShiftKey = true });
+
+        Assert.Equal(new[] { new CalendarSelectedRange("2026-01-15", "2026-01-20") }, ranges);
+        Assert.NotNull(Cell(cut, "2026-01-18").GetAttribute("data-in-range"));
+    }
+
+    [Fact]
+    public async Task Section_8_29_A_Plain_Click_After_A_Range_Clears_Extension_And_Picks_That_Day()
+    {
+        var clicks = new List<string>();
+        var cut = RenderMonth(p => p.Add(x => x.OnDayClick, EventCallback.Factory.Create<string>(this, d => clicks.Add(d))));
+        ShiftKeyDown(cut, "ArrowRight");
+        await Cell(cut, "2026-01-22").ClickAsync(new MouseEventArgs());
+
+        Assert.Equal(new[] { "2026-01-22" }, clicks);
+    }
+
+    [Fact]
+    public void Section_8_30_The_Day_Template_Receives_InRange_And_Ranges()
+    {
+        var cut = RenderMonth(p =>
+        {
+            p.Add(x => x.SelectedRange, new CalendarSelectedRange("2026-01-06", "2026-01-07"));
+            p.Add(x => x.Ranges, new[] { new CalendarRange("2026-01-06", "2026-01-06", "holiday") });
+            p.Add(x => x.Day, ctx => builder => builder.AddMarkupContent(0, $"<i data-ctx='{ctx.InRange}-{string.Join(",", ctx.Ranges.Select(r => r.Kind))}'></i>"));
+        });
+
+        Assert.Equal("True-holiday", Cell(cut, "2026-01-06").QuerySelector("[data-ctx]")!.GetAttribute("data-ctx"));
+        Assert.Equal("True-", Cell(cut, "2026-01-07").QuerySelector("[data-ctx]")!.GetAttribute("data-ctx"));
+    }
 }

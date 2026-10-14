@@ -567,4 +567,138 @@ public class KanbanBoardInteractionTests : TestContext
 
         Assert.Equal("1", Tabbable(cut).GetAttribute("data-col"));
     }
+
+    // =====================================================================
+    // Round 2 — collapse, add card, hard limits (§8.22–§8.30)
+    // =====================================================================
+
+
+    private IRenderedComponent<KanbanBoard> RenderR2(
+        Action<ComponentParameterCollectionBuilder<KanbanBoard>>? configure = null,
+        KanbanLabels? labels = null,
+        IReadOnlyList<KanbanColumn>? columns = null)
+        => RenderComponent<KanbanBoard>(p =>
+        {
+            p.Add(x => x.Label, "Sprint board");
+            p.Add(x => x.Columns, columns ?? Columns);
+            p.Add(x => x.Cards, Cards);
+            p.Add(x => x.Labels, labels ?? BaseLabels with { MoveBlocked = (t, c) => $"{t} cannot go to {c}" });
+            configure?.Invoke(p);
+        });
+
+    private static readonly KanbanLabels CollapseLabels = BaseLabels with
+    {
+        CardCount = count => $"{count} cards",
+        CollapseColumn = (c, collapsed) => $"{(collapsed ? "Expand" : "Collapse")} {c.Title}",
+    };
+
+    private static AngleSharp.Dom.IElement NamedButton(IRenderedComponent<KanbanBoard> cut, string name)
+        => cut.FindAll("button").First(b => b.GetAttribute("aria-label") == name);
+
+    private static IReadOnlyList<KanbanColumn> StrictColumns(int limit) => new[]
+    {
+        new KanbanColumn { Id = "todo", Title = "To Do" },
+        new KanbanColumn { Id = "doing", Title = "In Progress", WipLimit = limit, StrictLimit = true },
+    };
+
+    [Fact]
+    public void Section_8_22_No_Collapse_Toggle_Without_Labels_CollapseColumn()
+    {
+        var cut = RenderR2();
+        Assert.Empty(cut.FindAll(".kanban-board-collapse-button"));
+    }
+
+    [Fact]
+    public void Section_8_23_The_Toggle_Collapses_A_Column()
+    {
+        var cut = RenderR2(labels: CollapseLabels);
+        Assert.Equal("true", NamedButton(cut, "Collapse To Do").GetAttribute("aria-expanded"));
+        Assert.Contains("Card One", cut.Markup);
+
+        NamedButton(cut, "Collapse To Do").Click();
+
+        Assert.Equal("false", NamedButton(cut, "Expand To Do").GetAttribute("aria-expanded"));
+        Assert.DoesNotContain("Card One", cut.Markup);
+        Assert.Contains("2 cards", cut.FindAll(".kanban-table-th")[0].TextContent);
+        Assert.NotNull(cut.FindAll(".kanban-table-th")[0].GetAttribute("data-collapsed"));
+    }
+
+    [Fact]
+    public void Section_8_24_CollapsedColumns_Starts_A_Column_Collapsed_And_Its_Cells_Carry_Data_Collapsed()
+    {
+        var cut = RenderR2(p => p.Add(x => x.CollapsedColumns, new[] { "todo" }));
+        Assert.DoesNotContain("Card One", cut.Markup);
+        Assert.All(cut.FindAll(".kanban-table-td[data-col='0']"), c => Assert.NotNull(c.GetAttribute("data-collapsed")));
+    }
+
+    [Fact]
+    public void Section_8_25_The_Boards_Height_Ignores_Collapsed_Columns()
+    {
+        Assert.Equal(2, BodyRowsOf(RenderR2()).Count());
+        Assert.Empty(BodyRowsOf(RenderR2(p => p.Add(x => x.CollapsedColumns, new[] { "todo", "doing" }))));
+    }
+
+    private static IEnumerable<AngleSharp.Dom.IElement> BodyRowsOf(IRenderedComponent<KanbanBoard> cut)
+        => cut.FindAll(".kanban-table-body .kanban-table-row");
+
+    [Fact]
+    public void Section_8_26_AddCard_Renders_An_Add_Button_Per_Column_That_Raises_OnAddCard()
+    {
+        string? added = null;
+        var cut = RenderR2(labels: BaseLabels with { AddCard = c => $"Add to {c.Title}" }, configure: p =>
+        {
+            p.Add(x => x.OnAddCard, EventCallback.Factory.Create<string>(this, id => added = id));
+        });
+
+        NamedButton(cut, "Add to In Progress").Click();
+
+        Assert.Equal("doing", added);
+    }
+
+    [Fact]
+    public void Section_8_27_No_Add_Button_Without_Labels_AddCard_Or_When_Readonly()
+    {
+        Assert.Empty(RenderR2().FindAll(".kanban-board-add-button"));
+        var readonlyCut = RenderR2(labels: BaseLabels with { AddCard = c => $"Add to {c.Title}" }, configure: p => p.Add(x => x.Readonly, true));
+        Assert.Empty(readonlyCut.FindAll(".kanban-board-add-button"));
+    }
+
+    [Fact]
+    public async Task Section_8_28_StrictLimit_Refuses_A_Move_Into_A_Full_Column()
+    {
+        (string, string)? moved = null;
+        var cut = RenderR2(columns: StrictColumns(2), configure: p => p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a)));
+
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var option = cut.FindAll("li.kanban-board-move-option").Single(o => o.TextContent.Trim() == "In Progress");
+        Assert.Equal("true", option.GetAttribute("aria-disabled"));
+        await option.ClickAsync(new MouseEventArgs());
+
+        Assert.Null(moved);
+        Assert.Equal("Card One cannot go to In Progress", cut.Find(".kanban-board-status").TextContent);
+    }
+
+    [Fact]
+    public async Task Section_8_29_StrictLimit_Allows_A_Move_While_The_Column_Is_Under_Its_Limit()
+    {
+        (string, string)? moved = null;
+        var cut = RenderR2(columns: StrictColumns(3), configure: p => p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a)));
+
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        await cut.FindAll("li.kanban-board-move-option").Single(o => o.TextContent.Trim() == "In Progress").ClickAsync(new MouseEventArgs());
+
+        Assert.Equal(("c1", "doing"), moved);
+    }
+
+    [Fact]
+    public async Task Section_8_30_Without_StrictLimit_A_Full_Column_Still_Accepts_Moves()
+    {
+        (string, string)? moved = null;
+        var cut = RenderR2(p => p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a)));
+
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        await cut.FindAll("li.kanban-board-move-option").Single(o => o.TextContent.Trim() == "In Progress").ClickAsync(new MouseEventArgs());
+
+        Assert.Equal(("c1", "doing"), moved);
+    }
 }

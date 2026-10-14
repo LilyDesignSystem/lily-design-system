@@ -294,3 +294,7 @@ established rules: headless (no bundled CSS), SSR-safe, i18n-clean
 ## Svelte 0.2.0 parity (2026-10-14)
 
 Ported from the Svelte canonical spec (§12 there): `readonly`, `markers` (`data-marker` plus a text label), `isNonWorking` (`data-non-working` when every day in a column is non-working), and task `type`/`critical`/`slack` as `data-*` hooks on the row.
+
+## Svelte 0.3.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§13 there): the progress field (`labels.percentLabel`, a 4th `onTaskChange` argument), baselines (`task.baseline`, `data-baseline`, `labels.baselineSummary`) and typed dependencies (`dependsOn` objects, `labels.dependencyDetail`).

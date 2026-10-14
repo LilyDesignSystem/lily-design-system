@@ -44,7 +44,17 @@
                 {
                     var count = byColumnHead.TryGetValue(column.Id, out var headList) ? headList.Count : 0;
                     var overLimit = column.WipLimit is { } limit && count > limit;
-                    <KanbanTableTH scope="col" data-over-limit="@(overLimit ? "" : null)">
+                    var columnCollapsed = IsCollapsed(column.Id);
+                    <KanbanTableTH scope="col" data-over-limit="@(overLimit ? "" : null)" data-collapsed="@(columnCollapsed ? "" : null)">
+                        @if (Labels.CollapseColumn is not null)
+                        {
+                            var toggled = column;
+                            <button type="button"
+                                    class="kanban-board-collapse-button"
+                                    aria-expanded="@(columnCollapsed ? "false" : "true")"
+                                    aria-label="@Labels.CollapseColumn(toggled, columnCollapsed)"
+                                    @onclick="@(() => ToggleCollapsedAsync(toggled))">@(columnCollapsed ? "▸" : "▾")</button>
+                        }
                         @column.Title
                         @if (Labels.CardCount is not null)
                         {
@@ -53,6 +63,14 @@
                         @if (overLimit && Labels.OverLimit is not null)
                         {
                             <span class="kanban-board-wip-warning">@Labels.OverLimit(count, column.WipLimit ?? 0)</span>
+                        }
+                        @if (Labels.AddCard is not null && !Readonly)
+                        {
+                            var addTo = column;
+                            <button type="button"
+                                    class="kanban-board-add-button"
+                                    aria-label="@Labels.AddCard(addTo)"
+                                    @onclick="@(() => OnAddCard.InvokeAsync(addTo.Id))">+</button>
                         }
                     </KanbanTableTH>
                 }
@@ -77,6 +95,7 @@
                                        role="gridcell"
                                        data-row="@row"
                                        data-col="@col"
+                                       data-collapsed="@(IsCollapsed(column.Id) ? "" : null)"
                                        tabindex="@(isActive ? "0" : "-1")"
                                        Label="@(card is not null ? ResolveCardLabel(card) : null)"
                                        @ondragover:preventDefault="true"

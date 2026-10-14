@@ -101,6 +101,12 @@
                                 @Labels.DependencySummary(deps)
                             </span>
                         }
+                        @if (row.Task.Baseline is not null && Labels.BaselineSummary is not null)
+                        {
+                            <span id="@BaselineId(row.Task.Id)" class="gantt-chart-baseline-summary" hidden>
+                                @Labels.BaselineSummary(ResolveTaskLabel(row.Task), row.Task.Baseline, VarianceDays(row.Task.Baseline, range.End))
+                            </span>
+                        }
                     </GanttTableTH>
                     @for (var colIndex = 0; colIndex < columns.Count; colIndex++)
                     {
@@ -124,7 +130,8 @@
                                       data-today="@(isCellToday ? "" : null)"
                                       data-non-working="@(IsNonWorkingColumn(column) ? "" : null)"
                                       data-marker="@(MarkersIn(column).Count > 0 ? "" : null)"
-                                      aria-describedby="@(hasDescribedBy ? DependencyId(currentTask.Id) : null)"
+                                      aria-describedby="@DescribedBy(currentTask, hasDescribedBy)"
+                                      data-baseline="@(HasBaseline(currentTask, column) ? "" : null)"
                                       @ondragover:preventDefault="true"
                                       @ondrop="@(e => OnCellDropAsync(column, e))"
                                       @onfocusin="@(() => OnCellFocusIn(rowNum, colNum))">
@@ -152,6 +159,16 @@
                                              Labels="@Labels.DateTimePickerLabels"
                                              Mode="DateTimeMode.Date"
                                              @bind-Value="_editEnd" />
+                            @if (!string.IsNullOrEmpty(Labels.PercentLabel))
+                            {
+                                <label class="gantt-chart-percent-label">
+                                    @Labels.PercentLabel
+                                    <input class="gantt-chart-percent-input"
+                                           type="number" min="0" max="100" step="1"
+                                           value="@_editPercent"
+                                           @onchange="@(e => _editPercent = e.Value?.ToString() ?? "")" />
+                                </label>
+                            }
                             <button type="button"
                                     class="gantt-chart-save-button"
                                     disabled="@(string.IsNullOrEmpty(_editStart) || string.IsNullOrEmpty(_editEnd))"

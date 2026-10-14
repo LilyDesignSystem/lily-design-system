@@ -565,6 +565,160 @@ public class GanttChartTests : TestContext
         var cut = RenderDefault(labels: Labels with { TaskColumnHeader = "Task" });
         Assert.Equal("Task", cut.Find(".gantt-table-thead .gantt-table-th").TextContent.Trim());
     }
+
+    // =====================================================================
+    // Round 2 — progress field, baselines, typed dependencies
+    // =====================================================================
+
+    private IRenderedComponent<GanttChart> RenderWith(
+        IReadOnlyList<GanttTask> tasks,
+        GanttLabels labels,
+        Action<ComponentParameterCollectionBuilder<GanttChart>>? configure = null)
+        => RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, tasks);
+            p.Add(x => x.Labels, labels);
+            configure?.Invoke(p);
+        });
+
+    private static readonly GanttTask BaselineTask = new()
+    {
+        Id = "a", Label = "A", Start = "2026-10-04", End = "2026-10-06",
+        Baseline = new GanttBaseline("2026-10-02", "2026-10-04"),
+    };
+
+    private static IReadOnlyList<AngleSharp.Dom.IElement> CellsOf(IRenderedComponent<GanttChart> cut, int row)
+        => Rows(cut)[row].QuerySelectorAll(".gantt-table-td").ToList();
+
+    [Fact]
+    public void PercentLabel_Adds_A_Progress_Field_To_The_Edit_Region_And_Without_It_None_Renders()
+    {
+        var without = RenderDefault(labels: Labels);
+        TabbableCells(without).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(without.FindAll(".gantt-chart-percent-input"));
+
+        var with = RenderDefault(labels: Labels with { PercentLabel = "Percent complete" });
+        TabbableCells(with).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Contains("Percent complete", with.Find(".gantt-chart-percent-label").TextContent);
+    }
+
+    [Fact]
+    public async Task The_Progress_Field_Starts_At_PercentComplete_And_Save_Raises_OnTaskPercentChange()
+    {
+        (string TaskId, int Percent)? captured = null;
+        var cut = RenderDefault(labels: Labels with { PercentLabel = "Percent complete" });
+        cut.SetParametersAndRender(p => p.Add(x => x.OnTaskPercentChange, EventCallback.Factory.Create<(string, int)>(this, a => captured = a)));
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Equal("40", cut.Find(".gantt-chart-percent-input").GetAttribute("value"));
+        cut.Find(".gantt-chart-percent-input").Change("75");
+        await cut.Find("button.gantt-chart-save-button").ClickAsync(new MouseEventArgs());
+
+        Assert.Equal(("build", 75), captured);
+    }
+
+    [Fact]
+    public async Task Progress_Is_Clamped_To_0_100()
+    {
+        (string TaskId, int Percent)? captured = null;
+        var cut = RenderDefault(labels: Labels with { PercentLabel = "Percent complete" });
+        cut.SetParametersAndRender(p => p.Add(x => x.OnTaskPercentChange, EventCallback.Factory.Create<(string, int)>(this, a => captured = a)));
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        cut.Find(".gantt-chart-percent-input").Change("250");
+        await cut.Find("button.gantt-chart-save-button").ClickAsync(new MouseEventArgs());
+
+        Assert.Equal(("design", 100), captured);
+    }
+
+    [Fact]
+    public async Task Without_PercentLabel_Save_Raises_No_Percent_Change()
+    {
+        var raised = false;
+        var cut = RenderDefault(labels: Labels);
+        cut.SetParametersAndRender(p => p.Add(x => x.OnTaskPercentChange, EventCallback.Factory.Create<(string, int)>(this, _ => raised = true)));
+
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        await cut.Find("button.gantt-chart-save-button").ClickAsync(new MouseEventArgs());
+
+        Assert.False(raised);
+    }
+
+    [Fact]
+    public void A_Baseline_Marks_The_Cells_It_Covers_With_Data_Baseline_Apart_From_The_Current_Span()
+    {
+        var cut = RenderWith(new[] { BaselineTask }, Labels);
+        var cells = CellsOf(cut, 0);
+        var withBaseline = Enumerable.Range(0, cells.Count).Where(i => cells[i].HasAttribute("data-baseline")).ToList();
+
+        Assert.Equal(new[] { 1, 2, 3 }, withBaseline);
+        Assert.True(cells[3].HasAttribute("data-in-range"));
+        Assert.False(cells[1].HasAttribute("data-in-range"));
+    }
+
+    [Fact]
+    public void BaselineSummary_Renders_Hidden_Text_With_The_Slip_And_Describes_The_Rows_Cells()
+    {
+        var cut = RenderWith(new[] { BaselineTask }, Labels with
+        {
+            BaselineSummary = (t, b, v) => $"{t}: planned {b.Start} to {b.End}, {v} days late",
+        });
+        var summary = cut.Find(".gantt-chart-baseline-summary");
+
+        Assert.True(summary.HasAttribute("hidden"));
+        Assert.Equal("A: planned 2026-10-02 to 2026-10-04, 2 days late", summary.TextContent.Trim());
+        Assert.Contains(summary.Id!, CellsOf(cut, 0)[0].GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public void A_Task_With_No_Baseline_Has_No_Baseline_Cells_Or_Summary()
+    {
+        var cut = RenderDefault(labels: Labels with { BaselineSummary = (_, _, _) => "x" });
+        Assert.Empty(cut.FindAll("[data-baseline]"));
+        Assert.Empty(cut.FindAll(".gantt-chart-baseline-summary"));
+    }
+
+    [Fact]
+    public void Typed_Dependencies_Go_Through_DependencyDetail_And_Id_Only_Ones_Keep_The_Label()
+    {
+        var tasks = new[]
+        {
+            new GanttTask { Id = "a", Label = "Design", Start = "2026-10-01", End = "2026-10-02" },
+            new GanttTask
+            {
+                Id = "b", Label = "Build", Start = "2026-10-03", End = "2026-10-04",
+                DependsOn = new[] { "a" },
+                Dependencies = new[] { new GanttDependency("a", "s2s", 2) },
+            },
+        };
+        var cut = RenderWith(tasks, Labels with
+        {
+            DependencySummary = p => $"After: {string.Join("; ", p)}",
+            DependencyDetail = (l, t, g) => $"{l} ({t}, lag {g})",
+        });
+
+        Assert.Equal("After: Design; Design (s2s, lag 2)", cut.Find(".gantt-chart-dependency-summary").TextContent.Trim());
+    }
+
+    [Fact]
+    public void A_Typed_Dependency_Without_A_Type_Or_Lag_Defaults_To_E2s_And_0()
+    {
+        var tasks = new[]
+        {
+            new GanttTask { Id = "a", Label = "Design", Start = "2026-10-01", End = "2026-10-02" },
+            new GanttTask { Id = "b", Label = "Build", Start = "2026-10-03", End = "2026-10-04", Dependencies = new[] { new GanttDependency("a") } },
+        };
+        var cut = RenderWith(tasks, Labels with
+        {
+            DependencySummary = p => string.Join(",", p),
+            DependencyDetail = (l, t, g) => $"{l}/{t}/{g}",
+        });
+
+        Assert.Equal("Design/e2s/0", cut.Find(".gantt-chart-dependency-summary").TextContent.Trim());
+    }
 }
 
 public class GanttChartExtrasTests : TestContext

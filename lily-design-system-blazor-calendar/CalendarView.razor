@@ -65,6 +65,10 @@
     <CalendarTable Label="@Label" CssClass="calendar-view-table" @onkeydown="OnGridKeyDownAsync">
         <CalendarTableHead>
             <CalendarTableRow>
+                @if (ShowWeekNumbers)
+                {
+                    <CalendarTableTH scope="col" data-week-number-header="">@Labels.WeekNumberHeader</CalendarTableTH>
+                }
                 @for (var i = 0; i < 7; i++)
                 {
                     var weekday = (FirstDay + i) % 7;
@@ -90,6 +94,13 @@
             @foreach (var week in weeks)
             {
                 <CalendarTableRow>
+                    @if (ShowWeekNumbers)
+                    {
+                        var weekNo = WeekNumberOf(week);
+                        <CalendarTableTH scope="row"
+                                         data-week-number="@weekNo"
+                                         aria-label="@Labels.WeekNumber?.Invoke(weekNo)">@weekNo</CalendarTableTH>
+                    }
                     @foreach (var date in week)
                     {
                         var d = date;
@@ -99,6 +110,9 @@
                         var picked = SelectedDate == d;
                         var dayEvents = eventMap.TryGetValue(d, out var list) ? list : (IReadOnlyList<CalendarEvent>)Array.Empty<CalendarEvent>();
                         var isCursor = d == cursor;
+                        var inRange = InSelectedRange(d);
+                        var dayRanges = RangesFor(d);
+                        var rangeKinds = dayRanges.Count > 0 ? string.Join(" ", dayRanges.Select(x => x.Kind ?? "range")) : null;
                         <CalendarTableTD id="@CellId(d)"
                                          Label="@Labels.Day?.Invoke(d, DateTimePicker.WeekdayOf(d), outside)"
                                          tabindex="@(isCursor ? "0" : "-1")"
@@ -109,7 +123,11 @@
                                          data-outside-period="@(outside ? "" : null)"
                                          data-selected="@(picked ? "" : null)"
                                          data-disabled="@(disabled ? "" : null)"
-                                         @onclick="@(() => OnDayCellClickAsync(d))">
+                                         data-in-range="@(inRange ? "" : null)"
+                                         data-range-start="@(SelectedRange?.Start == d ? "" : null)"
+                                         data-range-end="@(SelectedRange?.End == d ? "" : null)"
+                                         data-range="@rangeKinds"
+                                         @onclick="@((MouseEventArgs e) => OnDayCellClickAsync(d, e))">
                             @if (Day is not null)
                             {
                                 @Day(new CalendarDayContext
@@ -120,6 +138,8 @@
                                     OutsidePeriod = outside,
                                     Selected = picked,
                                     Disabled = disabled,
+                                    InRange = inRange,
+                                    Ranges = dayRanges,
                                     OpenEvent = OpenEventAsync,
                                 })
                             }

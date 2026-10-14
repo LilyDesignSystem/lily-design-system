@@ -19,6 +19,12 @@ using Microsoft.JSInterop;
 
 namespace LilyDesignSystem.Blazor.Helpers;
 
+/// <summary>A dependency with its type (<c>e2s</c> finish-to-start, <c>s2s</c>, <c>s2e</c>, <c>e2e</c>) and lag in days; data and text only.</summary>
+public sealed record GanttDependency(string Id, string? Type = null, int Lag = 0);
+
+/// <summary>The planned span, shown as a second marked span (<c>data-baseline</c>) so slippage is visible.</summary>
+public sealed record GanttBaseline(string Start, string End);
+
 /// <summary>A Gantt task. See <c>spec/index.md §5</c>.</summary>
 public sealed class GanttTask
 {
@@ -42,6 +48,12 @@ public sealed class GanttTask
 
     /// <summary>Other tasks' ids this task depends on (finish-to-start).</summary>
     public IReadOnlyList<string>? DependsOn { get; init; }
+
+    /// <summary>Typed dependencies (type and lag), listed after <see cref="DependsOn"/>. Type defaults to <c>e2s</c>.</summary>
+    public IReadOnlyList<GanttDependency>? Dependencies { get; init; }
+
+    /// <summary>The planned span, shown as a second marked span (<c>data-baseline</c>).</summary>
+    public GanttBaseline? Baseline { get; init; }
 
     /// <summary>Class hook only: becomes <c>data-task-type</c> on the row (e.g. "design", "review").</summary>
     public string? Type { get; init; }
@@ -104,6 +116,15 @@ public sealed record GanttLabels
     public string? CancelLabel { get; init; }
     public Func<IReadOnlyList<string>, string>? DependencySummary { get; init; }
     public Func<string, string, string, string>? DateAnnouncement { get; init; }
+
+    /// <summary>Label of the progress field in the edit region (0–100). Gates the field.</summary>
+    public string? PercentLabel { get; init; }
+
+    /// <summary>Text for one typed dependency: (predecessor label, type, lag in days). Id-only dependencies use the label.</summary>
+    public Func<string, string, int, string>? DependencyDetail { get; init; }
+
+    /// <summary>Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early).</summary>
+    public Func<string, GanttBaseline, int, string>? BaselineSummary { get; init; }
     public Func<GanttTask, bool, string>? CollapseButton { get; init; }
 }
 
@@ -162,6 +183,9 @@ public partial class GanttChart : ComponentBase
     /// <summary>Called after a task's start/end changes, by pointer or by the edit region.</summary>
     [Parameter] public EventCallback<(string TaskId, string Start, string End)> OnTaskChange { get; set; }
 
+    /// <summary>Raised with the new 0–100 progress (clamped, rounded) when the edit region's progress field is shown, just before <c>OnTaskChange</c>.</summary>
+    [Parameter] public EventCallback<(string TaskId, int PercentComplete)> OnTaskPercentChange { get; set; }
+
     /// <summary>User-facing strings. See <see cref="GanttLabels"/> — presence gates each control.</summary>
     [Parameter] public GanttLabels Labels { get; set; } = new();
 
@@ -188,6 +212,7 @@ public partial class GanttChart : ComponentBase
     private string? _editingTaskId;
     private string _editStart = "";
     private string _editEnd = "";
+    private string _editPercent = "";
 
     private string? _draggingTaskId;
 
@@ -372,10 +397,37 @@ public partial class GanttChart : ComponentBase
 
     private IReadOnlyList<string> PredecessorLabels(GanttTask task)
     {
-        if (task.DependsOn is not { Count: > 0 } dependsOn) return Array.Empty<string>();
-        return dependsOn
-            .Select(id => Tasks.FirstOrDefault(t => t.Id == id) is { } predecessor ? ResolveTaskLabel(predecessor) : id)
-            .ToList();
+        var labels = new List<string>();
+        string NameOf(string id) => Tasks.FirstOrDefault(t => t.Id == id) is { } predecessor ? ResolveTaskLabel(predecessor) : id;
+        if (task.DependsOn is { Count: > 0 } dependsOn) labels.AddRange(dependsOn.Select(NameOf));
+        if (task.Dependencies is { Count: > 0 } typed)
+        {
+            labels.AddRange(typed.Select(d => Labels.DependencyDetail is { } detail
+                ? detail(NameOf(d.Id), d.Type ?? "e2s", d.Lag)
+                : NameOf(d.Id)));
+        }
+        return labels;
+    }
+
+    internal string BaselineId(string taskId) => $"{_baseId}-baseline-{taskId}";
+
+    private static int VarianceDays(GanttBaseline baseline, string currentEnd)
+    {
+        var a = DateTimePicker.ParseIsoDate(baseline.End);
+        var b = DateTimePicker.ParseIsoDate(currentEnd);
+        return a is { } x && b is { } y ? (int)(DateTimePicker.ToEpochDay(y) - DateTimePicker.ToEpochDay(x)) : 0;
+    }
+
+    private static bool HasBaseline(GanttTask task, GanttColumn column)
+        => task.Baseline is { } b && RangesOverlap(column.Start, column.End, b.Start, b.End);
+
+    /// <summary>The ids a cell is described by: the dependency summary, then the baseline summary.</summary>
+    private string? DescribedBy(GanttTask task, bool hasDeps)
+    {
+        var ids = new List<string>();
+        if (hasDeps) ids.Add(DependencyId(task.Id));
+        if (task.Baseline is not null && Labels.BaselineSummary is not null) ids.Add(BaselineId(task.Id));
+        return ids.Count > 0 ? string.Join(" ", ids) : null;
     }
 
     private string RootClass => $"gantt-chart {CssClass}".Trim();
@@ -424,6 +476,7 @@ public partial class GanttChart : ComponentBase
         _editingTaskId = task.Id;
         _editStart = task.Start;
         _editEnd = task.End;
+        _editPercent = task.PercentComplete?.ToString() ?? "";
         // Focus moves into the region it opened, onto the start date's field.
         _focusEditPending = true;
     }
@@ -437,6 +490,12 @@ public partial class GanttChart : ComponentBase
     {
         if (string.IsNullOrEmpty(_editStart) || string.IsNullOrEmpty(_editEnd)) return;
         var (start, end) = CompareIso(_editStart, _editEnd) <= 0 ? (_editStart, _editEnd) : (_editEnd, _editStart);
+        if (!string.IsNullOrEmpty(Labels.PercentLabel)
+            && double.TryParse(_editPercent, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var raw))
+        {
+            var percent = (int)Math.Min(100, Math.Max(0, Math.Round(raw, MidpointRounding.AwayFromZero)));
+            await OnTaskPercentChange.InvokeAsync((task.Id, percent));
+        }
         await ApplyChangeAsync(task, start, end);
         _editingTaskId = null;
         _focusCellPending = true;
