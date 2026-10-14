@@ -279,3 +279,5 @@ Ported from the Svelte canonical spec (§13 there; clauses §8.31–§8.47): `fi
 ## Svelte 0.4.0 parity (2026-10-15)
 
 Ported from the Svelte canonical spec (§15 there; clauses §8.63–§8.83): multi-select and group move, undo, column reordering, swimlanes, drag preview and virtualization. See the Svelte spec for the contract; idiom differences (prop casing, event vs callback, async hooks) follow this package's earlier parity sections.
+
+Blazor differences: `Selected` / `ColumnOrder` bind with `@bind-`; `OnMoveToLane` is raised in addition to `OnMove` (as `OnMoveAt` is for the drop index), so `MoveHandler`'s signature is unchanged; `DragPreviewText` is delivered as `data-kanban-drag-preview` read by a one-time document listener installed through JS eval, because Blazor's drag event cannot call `setDragImage`; `Virtualize` reads `scrollTop` through a JS-eval call in its `onscroll` handler.

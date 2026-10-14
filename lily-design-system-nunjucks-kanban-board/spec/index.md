@@ -304,3 +304,5 @@ Ported from the Svelte canonical spec (§13 there; clauses §8.31–§8.47): `fi
 ## Svelte 0.4.0 parity (2026-10-15)
 
 Ported from the Svelte canonical spec (§15 there; clauses §8.63–§8.83): multi-select and group move, undo, column reordering, swimlanes, drag preview and virtualization. See the Svelte spec for the contract; idiom differences (prop casing, event vs callback, async hooks) follow this package's earlier parity sections.
+
+Nunjucks differences (the board is server-rendered; the client script wires it in place): `selectable`, `selected`, `undoable`, `movableColumns`, `columnOrder`, `lanes` and `virtualize` are macro params, `labels.undo` a plain string; the callbacks (`onSelectionChange`, `onColumnOrderChange`, `dragPreviewText`) and the function labels are `initKanbanBoard` options. The client reorders columns in place and windows the rows by taking them out of the DOM between spacer rows. The client never sees the consumer's data, so an undo calls `onMove(cardId, fromColumnId)` without checking the card is still where the move left it. Lane id is `onMove`'s fourth argument.
