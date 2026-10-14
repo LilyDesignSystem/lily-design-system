@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,6 +10,7 @@ import {
   computed,
   inject,
   input,
+  model,
   output,
   signal,
   viewChild,
@@ -89,6 +91,12 @@ export type GanttLabels = {
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+  /** Accessible name for the zoom-in button (finer columns). Gates the button. */
+  zoomIn?: string;
+  /** Accessible name for the zoom-out button (coarser columns). Gates the button. */
+  zoomOut?: string;
+  /** Announced after a zoom step with the new unit. */
+  zoomAnnouncement?: (timeUnit: GanttTimeUnit) => string;
   /** Label of the progress field in the edit region (0–100). Gates the field. */
   percentLabel?: string;
   /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
@@ -288,10 +296,33 @@ export function nextGanttChartId(): string {
       class="gantt-chart {{ className() }}"
       [attr.data-readonly]="readonly() ? '' : null"
     >
+      @if (labels().zoomIn || labels().zoomOut) {
+        <div class="gantt-chart-zoom" role="group" [attr.aria-label]="label()">
+          @if (labels().zoomOut; as zoomOut) {
+            <button
+              type="button"
+              class="gantt-chart-zoom-out-button"
+              [attr.aria-label]="zoomOut"
+              [disabled]="zoomIndex() <= 0"
+              (click)="zoom(-1)"
+            >−</button>
+          }
+          @if (labels().zoomIn; as zoomIn) {
+            <button
+              type="button"
+              class="gantt-chart-zoom-in-button"
+              [attr.aria-label]="zoomIn"
+              [disabled]="zoomIndex() >= ZOOM_ORDER.length - 1"
+              (click)="zoom(1)"
+            >+</button>
+          }
+        </div>
+      }
       <lily-gantt-table
         [label]="label()"
         (keydown)="onGridKeydown($event)"
         (focusin)="onGridFocusin($event)"
+        (click)="onGridClick($event)"
       >
         @if (caption()) {
           <!-- GanttTable has no "caption" input (Angular headless
@@ -333,6 +364,9 @@ export function nextGanttChartId(): string {
               [attr.data-task-type]="row.task.type ?? null"
               [attr.data-critical]="row.task.critical ? '' : null"
               [attr.data-slack]="row.task.slack ?? null"
+              [attr.data-task-id]="row.task.id"
+              [attr.aria-selected]="selectedTaskId() === row.task.id ? 'true' : null"
+              [attr.data-selected]="selectedTaskId() === row.task.id ? '' : null"
             >
               <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
               <th lily-gantt-table-th scope="row" [attr.data-depth]="row.depth">
@@ -383,6 +417,19 @@ export function nextGanttChartId(): string {
                       [attr.data-percent-complete]="row.task.percentComplete ?? null"
                       [attr.draggable]="!row.hasChildren && !readonly() ? 'true' : null"
                       (dragstart)="onBarDragStart(row.task, $event)"
+                    >@if (!row.hasChildren && !readonly()) {<span
+                        class="gantt-chart-bar-handle gantt-chart-bar-handle-start"
+                        draggable="true"
+                        aria-hidden="true"
+                        (dragstart)="onHandleDragStart(row.task, 'start', $event)"
+                      ></span>}</span>
+                  }
+                  @if (!row.hasChildren && !readonly() && inRange && rangesOverlap(column.start, column.end, rowRange.end, rowRange.end)) {
+                    <span
+                      class="gantt-chart-bar-handle gantt-chart-bar-handle-end"
+                      draggable="true"
+                      aria-hidden="true"
+                      (dragstart)="onHandleDragStart(row.task, 'end', $event)"
                     ></span>
                   }
                 </td>
@@ -439,7 +486,7 @@ export function nextGanttChartId(): string {
     </div>
   `,
 })
-export class GanttChart implements AfterViewInit {
+export class GanttChart implements AfterViewInit, AfterViewChecked {
   /** Accessible name for the chart, passed through to GanttTable. */
   readonly label = input.required<string>();
   /** Optional visible caption. See the `<caption>`-projection note in the template. */
@@ -449,7 +496,12 @@ export class GanttChart implements AfterViewInit {
   /** Task data. */
   readonly tasks = input.required<GanttTask[]>();
   /** Column granularity. A static rendering choice, not an interactive zoom control. */
-  readonly timeUnit = input<GanttTimeUnit>("day");
+  /** Column granularity. Two-way bindable: the zoom buttons (shown when `labels.zoomIn` / `labels.zoomOut` name them) step it month ↔ week ↔ day. */
+  readonly timeUnit = model<GanttTimeUnit>("day");
+  /** The selected task's id. Two-way bindable. A click on a task's row or the `s` key on it selects (again deselects); `aria-selected`, `data-selected`. */
+  readonly selectedTaskId = model<string | undefined>(undefined);
+  /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
+  readonly taskAttrs = input<((task: GanttTask) => Record<string, string>) | undefined>(undefined);
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
   readonly today = input<string>("");
   /** Dated markers; each marks the column that contains its date with `data-marker`. */
@@ -467,6 +519,8 @@ export class GanttChart implements AfterViewInit {
 
   /** Fires after a task's start/end changes, by pointer or by the edit region. */
   readonly taskChange = output<GanttTaskChangeEvent>();
+  /** Fires when selection changes: the task id, or `undefined` when it clears. */
+  readonly taskSelect = output<string | undefined>();
 
   private readonly baseId = nextGanttChartId();
   protected dependencyId(taskId: string): string {
@@ -520,6 +574,18 @@ export class GanttChart implements AfterViewInit {
    * identical gap in `KanbanTable`. See spec/index.md §3 and
    * CHANGELOG.md.
    */
+  /** `taskAttrs` has no template spread in Angular: the attributes are written onto each task's row after every check. */
+  ngAfterViewChecked(): void {
+    const attrs = this.taskAttrs();
+    if (!attrs) return;
+    const byId = new Map(this.tasks().map((t) => [t.id, t]));
+    for (const el of this.rootRef().nativeElement.querySelectorAll<HTMLElement>("tr[data-task-id]")) {
+      const task = byId.get(el.dataset["taskId"] ?? "");
+      if (!task) continue;
+      for (const [name, value] of Object.entries(attrs(task))) el.setAttribute(name, value);
+    }
+  }
+
   ngAfterViewInit(): void {
     this.rootRef()
       .nativeElement.querySelector("table.gantt-table")
@@ -688,7 +754,62 @@ export class GanttChart implements AfterViewInit {
 
   protected onBarDragStart(task: GanttTask, event: DragEvent): void {
     this.draggingTaskId = task.id;
+    this.resizingEdge = null;
     event.dataTransfer?.setData("text/plain", task.id);
+  }
+
+  /** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
+  private resizingEdge: "start" | "end" | null = null;
+
+  protected onHandleDragStart(task: GanttTask, edge: "start" | "end", event: DragEvent): void {
+    event.stopPropagation();
+    this.draggingTaskId = task.id;
+    this.resizingEdge = edge;
+    event.dataTransfer?.setData("text/plain", task.id);
+  }
+
+  // ---- Zoom ----
+  protected readonly ZOOM_ORDER: GanttTimeUnit[] = ["month", "week", "day"];
+  protected readonly zoomIndex = computed(() => this.ZOOM_ORDER.indexOf(this.timeUnit()));
+
+  protected zoom(delta: 1 | -1): void {
+    const next = this.ZOOM_ORDER[this.zoomIndex() + delta];
+    if (!next) return;
+    this.timeUnit.set(next);
+    this.announce(this.labels().zoomAnnouncement?.(next));
+  }
+
+  // ---- Selection ----
+  private selectTask(taskId: string): void {
+    this.selectedTaskId.set(this.selectedTaskId() === taskId ? undefined : taskId);
+    this.taskSelect.emit(this.selectedTaskId());
+  }
+
+  protected onGridClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.closest("button, input, .gantt-chart-edit-row")) return;
+    const taskId = target.closest<HTMLElement>("[data-task-id]")?.dataset["taskId"];
+    if (taskId) this.selectTask(taskId);
+  }
+
+  // ---- Keyboard shift / resize (Alt+Arrow) ----
+  private columnIndexOf(isoDate: string): number {
+    return this.columns().findIndex((c) => this.rangesOverlap(c.start, c.end, isoDate, isoDate));
+  }
+
+  private shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    const columns = this.columns();
+    if (endOnly) {
+      const target = columns[this.columnIndexOf(task.end) + delta];
+      if (target && compareISO(task.start, target.end) <= 0) this.applyChange(task, task.start, target.end);
+      return;
+    }
+    const target = columns[this.columnIndexOf(task.start) + delta];
+    if (!target) return;
+    const a = parseIsoDate(task.start);
+    const b = parseIsoDate(task.end);
+    const duration = a && b ? toEpochDay(b) - toEpochDay(a) : 0;
+    this.applyChange(task, target.start, addDays(target.start, duration));
   }
 
   protected onCellDragOver(event: DragEvent): void {
@@ -701,7 +822,16 @@ export class GanttChart implements AfterViewInit {
     const taskId = this.draggingTaskId ?? event.dataTransfer?.getData("text/plain");
     this.draggingTaskId = null;
     const task = this.tasks().find((t) => t.id === taskId);
+    const edge = this.resizingEdge;
+    this.resizingEdge = null;
     if (!task) return;
+    if (edge) {
+      // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+      const start = edge === "start" ? column.start : task.start;
+      const end = edge === "end" ? column.end : task.end;
+      if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) this.applyChange(task, start, end);
+      return;
+    }
     const startDate = parseIsoDate(task.start);
     const endDate = parseIsoDate(task.end);
     const duration = startDate && endDate ? toEpochDay(endDate) - toEpochDay(startDate) : 0;
@@ -739,6 +869,15 @@ export class GanttChart implements AfterViewInit {
     const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+      const row = this.rows()[this.activeRow()];
+      if (row && !row.hasChildren && !this.readonly() && (event.target as HTMLElement).closest(".gantt-table-td")) {
+        event.preventDefault();
+        this.shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+        return;
+      }
+    }
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
@@ -766,6 +905,16 @@ export class GanttChart implements AfterViewInit {
         if (ctrlOrMeta) this.moveFocus(this.rows().length - 1, this.columns().length - 1);
         else this.moveFocus(this.activeRow(), this.columns().length - 1);
         break;
+      case "s":
+      case "S": {
+        if (event.ctrlKey || event.metaKey || event.altKey) break;
+        const row = this.rows()[this.activeRow()];
+        if (row && (event.target as HTMLElement).closest(".gantt-table-td")) {
+          event.preventDefault();
+          this.selectTask(row.task.id);
+        }
+        break;
+      }
       case "Enter":
       case " ": {
         event.preventDefault();

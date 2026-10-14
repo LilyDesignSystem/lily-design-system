@@ -12,6 +12,7 @@ import {
   type CalendarNavigateEvent,
   type CalendarViewLabels,
   type CalendarRangeSelectEvent,
+  type CalendarEventMoveEvent,
 } from "./calendar-view.component";
 
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -404,5 +405,135 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
     shift(f, tabbable(f)[0], "ArrowRight");
     click(f, cellFor(f, "2026-01-22")!);
     expect(clicks).toEqual(["2026-01-22"]);
+  });
+});
+
+describe("CalendarView — day view, maxEvents, event drag-and-drop, title, weekends, multiple selection", () => {
+  const dayProps = { view: "day", anchorDate: "2026-01-06", today: "2026-01-08", labels: { ...LABELS, dayView: "Day" } };
+  const evs: CalendarEvent[] = [
+    { id: "a", date: "2026-01-06", title: "A" },
+    { id: "b", date: "2026-01-06", title: "B" },
+    { id: "c", date: "2026-01-06", title: "C" },
+  ];
+  const dragEvent = (type: string, d: unknown) => {
+    const e = new Event(type, { bubbles: true, cancelable: true });
+    Object.defineProperty(e, "dataTransfer", { value: d });
+    return e;
+  };
+
+  test("§8.33 the day view shows exactly one day under one weekday header", () => {
+    const f = mount(dayProps);
+    expect(dayCells(f)).toHaveLength(1);
+    expect(dayCells(f)[0].getAttribute("data-date")).toBe("2026-01-06");
+    expect(q(f, ".calendar-table-head .calendar-table-th")).toHaveLength(1);
+  });
+
+  test("§8.34 labels.dayView adds a pressed switcher button", () => {
+    const f = mount({ ...dayProps, view: "week" });
+    expect(button(f, "Day").getAttribute("aria-pressed")).toBe("false");
+    click(f, button(f, "Day"));
+    expect(button(f, "Day").getAttribute("aria-pressed")).toBe("true");
+    expect(dayCells(f)).toHaveLength(1);
+  });
+
+  test("§8.35 next steps one day and reports the one-day period", () => {
+    const f = mount(dayProps);
+    const nav = collectNavigate(f);
+    click(f, button(f, "Next day"));
+    expect(dayCells(f)[0].getAttribute("data-date")).toBe("2026-01-07");
+    expect(nav[nav.length - 1]).toEqual({ view: "day", start: "2026-01-07", end: "2026-01-07" });
+  });
+
+  test("§8.36 arrows and Page keys move by a day", () => {
+    const f = mount(dayProps);
+    press(f, tabbable(f)[0], "ArrowRight");
+    expect(dayCells(f)[0].getAttribute("data-date")).toBe("2026-01-07");
+    press(f, tabbable(f)[0], "ArrowDown");
+    expect(dayCells(f)[0].getAttribute("data-date")).toBe("2026-01-08");
+    press(f, tabbable(f)[0], "PageUp");
+    expect(dayCells(f)[0].getAttribute("data-date")).toBe("2026-01-07");
+  });
+
+  test("§8.31 maxEvents caps the events shown and a +N more button (labels.moreEvents) fires moreClick", () => {
+    const f = mount({ events: evs, maxEvents: 2, labels: { ...LABELS, moreEvents: (n: number) => `+${n} more` } });
+    const more: string[] = [];
+    f.componentInstance.moreClick.subscribe((d) => more.push(d));
+    expect(q(f, ".calendar-view-event")).toHaveLength(2);
+    const btn = q(f, ".calendar-view-more-button");
+    expect(btn).toHaveLength(1);
+    expect(btn[0].textContent!.trim()).toBe("+1 more");
+    click(f, btn[0]);
+    expect(more).toEqual(["2026-01-06"]);
+  });
+
+  test("§8.32 without maxEvents every event shows and no more button", () => {
+    const f = mount({ events: evs, labels: { ...LABELS, moreEvents: (n: number) => `+${n} more` } });
+    expect(q(f, ".calendar-view-event")).toHaveLength(3);
+    expect(q(f, ".calendar-view-more-button")).toHaveLength(0);
+  });
+
+  test("§8.38 event buttons are draggable only with moveEvents; a drop on a day emits eventMove", () => {
+    const f = mount({ events: evs });
+    expect(q(f, ".calendar-view-event")[0].hasAttribute("draggable")).toBe(false);
+    const g = mount({ events: evs, moveEvents: true });
+    const moves: CalendarEventMoveEvent[] = [];
+    g.componentInstance.eventMove.subscribe((m) => moves.push(m));
+    const el = q(g, ".calendar-view-event")[0];
+    expect(el.getAttribute("draggable")).toBe("true");
+    const dt = { setData: () => {}, getData: () => "" };
+    el.dispatchEvent(dragEvent("dragstart", dt));
+    cellFor(g, "2026-01-09")!.dispatchEvent(dragEvent("dragover", dt));
+    cellFor(g, "2026-01-09")!.dispatchEvent(dragEvent("drop", dt));
+    expect(moves).toEqual([{ event: evs[0], toDate: "2026-01-09" }]);
+  });
+
+  test("§8.40 Alt+Arrow on a focused event moves it a day / a week; a disabled day refuses", () => {
+    const f = mount({ events: evs, moveEvents: true });
+    const moves: CalendarEventMoveEvent[] = [];
+    f.componentInstance.eventMove.subscribe((m) => moves.push(m));
+    const el = q(f, ".calendar-view-event")[0];
+    press(f, el, "ArrowRight", { altKey: true });
+    press(f, el, "ArrowDown", { altKey: true });
+    expect(moves.map((m) => m.toDate)).toEqual(["2026-01-07", "2026-01-13"]);
+    const g = mount({ events: evs, moveEvents: true, minDate: "2026-01-07" });
+    const refused: CalendarEventMoveEvent[] = [];
+    g.componentInstance.eventMove.subscribe((m) => refused.push(m));
+    press(g, q(g, ".calendar-view-event")[0], "ArrowLeft", { altKey: true });
+    expect(refused).toEqual([]);
+  });
+
+  test("§8.42 labels.periodTitle renders the shown period's title and updates on navigation", () => {
+    const f = mount({ view: "month", anchorDate: "2026-01-15", labels: { ...LABELS, periodTitle: (v: string, s: string, e: string) => `${v}:${s}..${e}` } });
+    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-01-01..2026-01-31");
+    click(f, button(f, "Next month"));
+    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-02-01..2026-02-28");
+  });
+
+  test("§8.44 hideOutsideDays leaves outside cells empty but in the grid", () => {
+    const f = mount({ view: "month", anchorDate: "2026-01-15", hideOutsideDays: true });
+    expect((q(f, ".calendar-table-td[data-outside-period]")[0] as HTMLElement).textContent!.trim()).toBe("");
+    expect(cellFor(f, "2026-01-15")!.textContent!.trim()).toBe("15");
+    expect(dayCells(f)).toHaveLength(42);
+  });
+
+  test("§8.46 weekendDays marks those weekdays with data-weekend", () => {
+    const f = mount({ weekendDays: [0, 6] });
+    expect(cellFor(f, "2026-01-10")!.hasAttribute("data-weekend")).toBe(true);
+    expect(cellFor(f, "2026-01-11")!.hasAttribute("data-weekend")).toBe(true);
+    expect(cellFor(f, "2026-01-07")!.hasAttribute("data-weekend")).toBe(false);
+  });
+
+  test("§8.48 multiple selection toggles days and Enter toggles the cursor day", () => {
+    const f = mount({ selectionMode: "multiple" });
+    const clicks: string[] = [];
+    f.componentInstance.dayClick.subscribe((d) => clicks.push(d));
+    click(f, cellFor(f, "2026-01-06")!);
+    click(f, cellFor(f, "2026-01-08")!);
+    expect(cellFor(f, "2026-01-06")!.hasAttribute("data-selected")).toBe(true);
+    expect(cellFor(f, "2026-01-08")!.hasAttribute("data-selected")).toBe(true);
+    click(f, cellFor(f, "2026-01-06")!);
+    expect(cellFor(f, "2026-01-06")!.hasAttribute("data-selected")).toBe(false);
+    press(f, tabbable(f)[0], "Enter");
+    expect(clicks[clicks.length - 1]).toBe("2026-01-06");
   });
 });

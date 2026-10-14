@@ -34,7 +34,7 @@ import {
   weekdayOf,
 } from "@lilydesignsystem/angular-date-time-picker";
 
-export type CalendarViewMode = "week" | "four-week" | "month";
+export type CalendarViewMode = "day" | "week" | "four-week" | "month";
 
 /** A marked range (a holiday, a closure, a school term). */
 export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -59,6 +59,8 @@ export type CalendarEvent = {
  * no baked-in English fallback. See spec/index.md §5.
  */
 export type CalendarViewLabels = {
+  /** Switcher label for the one-day view. Gates its button. */
+  dayView?: string;
   weekView?: string;
   fourWeekView?: string;
   monthView?: string;
@@ -78,7 +80,16 @@ export type CalendarViewLabels = {
   weekNumber?: (week: number) => string;
   /** Announced as a range is extended with Shift+arrows or confirmed. */
   rangeAnnouncement?: (start: string, end: string) => string;
+  /** Announced after an event is moved to another day. */
+  eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
+  /** Visible title of the shown period, rendered between the previous and next buttons. Gates the title. */
+  periodTitle?: (view: CalendarViewMode, start: string, end: string) => string;
+  /** Text of the "+N more" button shown on a day that `maxEvents` caps: (hidden count, date). Gates the button. */
+  moreEvents?: (hiddenCount: number, isoDate: string) => string;
 };
+
+/** Payload of the `eventMove` output. */
+export type CalendarEventMoveEvent = { event: CalendarEvent; toDate: string };
 
 /** Payload of the `rangeSelect` output. */
 export type CalendarRangeSelectEvent = { start: string; end: string };
@@ -113,6 +124,7 @@ export function periodDays(
     if (!parsed) return [];
     return monthMatrix(parsed.year, parsed.month, firstDayOfWeek);
   }
+  if (view === "day") return [[anchorDate]];
   const start = weekStart(anchorDate, firstDayOfWeek);
   const rows = view === "week" ? 1 : 4;
   const weeks: string[][] = [];
@@ -138,6 +150,7 @@ export function periodRange(
       formatIsoDate({ ...parsed, day: daysInMonth(parsed.year, parsed.month) }),
     ];
   }
+  if (view === "day") return [anchorDate, anchorDate];
   const start = weekStart(anchorDate, firstDayOfWeek);
   const len = view === "week" ? 7 : 28;
   return [start, addDays(start, len - 1)];
@@ -206,9 +219,17 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #rootEl class="calendar-view {{ className() }}">
-      @if (labels().weekView || labels().fourWeekView || labels().monthView) {
+      @if (labels().periodTitle || labels().dayView || labels().weekView || labels().fourWeekView || labels().monthView) {
         <div class="calendar-view-toolbar">
           <div class="calendar-view-switcher" role="group">
+            @if (labels().dayView) {
+              <button
+                type="button"
+                class="calendar-view-switcher-button calendar-view-switcher-button-day"
+                [attr.aria-pressed]="view() === 'day'"
+                (click)="setView('day')"
+              >{{ labels().dayView }}</button>
+            }
             @if (labels().weekView) {
               <button
                 type="button"
@@ -241,6 +262,9 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               [attr.aria-label]="labels().previous?.(view()) ?? null"
               (click)="stepView(-1)"
             >‹</button>
+            @if (labels().periodTitle; as periodTitle) {
+              <span class="calendar-view-title">{{ periodTitle(view(), periodStart(), periodEnd()) }}</span>
+            }
             @if (labels().today) {
               <button
                 type="button"
@@ -303,7 +327,8 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
                   [attr.aria-current]="isToday(d) ? 'date' : null"
                   [attr.data-date]="d"
                   [attr.data-outside-period]="outside ? '' : null"
-                  [attr.data-selected]="selectedDate() === d ? '' : null"
+                  [attr.data-weekend]="weekendDays()?.includes(weekdayOfDate(d)) ? '' : null"
+                  [attr.data-selected]="isPicked(d) ? '' : null"
                   [attr.data-disabled]="disabled ? '' : null"
                   [attr.data-in-range]="inSelectedRange(d) ? '' : null"
                   [attr.data-range-start]="selectedRange()?.start === d ? '' : null"
@@ -312,15 +337,29 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
                   [attr.aria-disabled]="disabled ? 'true' : null"
                   [attr.aria-label]="dayName(d, outside)"
                   (click)="onDayCellClick(d, $event)"
+                  (dragover)="onDayDragOver($event)"
+                  (drop)="onDayDrop(d, $event)"
                 >
-                  {{ dayNumber(d) }}
-                  @for (event of eventsFor(d); track event.id) {
-                    @if (eventTitle(event); as title) {
+                  @if (!(hideOutsideDays() && outside)) {
+                    {{ dayNumber(d) }}
+                    @for (event of visibleEventsFor(d); track event.id) {
+                      @if (eventTitle(event); as title) {
+                        <button
+                          type="button"
+                          class="calendar-view-event"
+                          [attr.draggable]="moveEvents() ? 'true' : null"
+                          [attr.data-event-id]="moveEvents() ? event.id : null"
+                          (dragstart)="onEventDragStart(event, $event)"
+                          (click)="openEvent(event); $event.stopPropagation()"
+                        >{{ title }}</button>
+                      }
+                    }
+                    @if (hiddenCountFor(d) > 0 && labels().moreEvents; as more) {
                       <button
                         type="button"
-                        class="calendar-view-event"
-                        (click)="openEvent(event); $event.stopPropagation()"
-                      >{{ title }}</button>
+                        class="calendar-view-more-button"
+                        (click)="moreClick.emit(d); $event.stopPropagation()"
+                      >{{ more(hiddenCountFor(d), d) }}</button>
                     }
                   }
                 </td>
@@ -351,6 +390,18 @@ export class CalendarView implements AfterViewInit {
   readonly selectedRange = model<SelectedRange | undefined>(undefined);
   /** Events to place into day cells. */
   readonly events = input<CalendarEvent[]>([]);
+  /** Cap on events shown per day; a day with more shows a "+N more" button (`labels.moreEvents`) that fires `moreClick`. */
+  readonly maxEvents = input<number | undefined>(undefined);
+  /** Turns on event drag-and-drop between days and Alt+arrow keys on a focused event button; `eventMove` fires when one moves. */
+  readonly moveEvents = input<boolean>(false);
+  /** Month view: leave days outside the shown month empty (the cell keeps `data-outside-period`). */
+  readonly hideOutsideDays = input<boolean>(false);
+  /** Weekday numbers (0 = Sunday … 6 = Saturday) that are the weekend; those cells get `data-weekend`. */
+  readonly weekendDays = input<number[] | undefined>(undefined);
+  /** `"multiple"`: Enter/Space or a click toggles a day in `selectedDates` instead of setting `selectedDate`. */
+  readonly selectionMode = input<"single" | "multiple">("single");
+  /** The picked days in `"multiple"` mode. Two-way bindable. */
+  readonly selectedDates = model<string[]>([]);
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
   readonly today = input<string>("");
   /** Earliest pickable ISO date. */
@@ -373,6 +424,10 @@ export class CalendarView implements AfterViewInit {
   readonly eventClick = output<CalendarEvent>();
   /** Fires when a range is confirmed: Enter on an extended range, or Shift+click. */
   readonly rangeSelect = output<CalendarRangeSelectEvent>();
+  /** Fires when an event is moved to another day (drag-and-drop or Alt+arrow keys). Needs `[moveEvents]="true"`. */
+  readonly eventMove = output<CalendarEventMoveEvent>();
+  /** Fires with the date when a day's "+N more" button is pressed. */
+  readonly moreClick = output<string>();
 
   private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   private readonly cdr = inject(ChangeDetectorRef);
@@ -388,8 +443,12 @@ export class CalendarView implements AfterViewInit {
   private readonly flatDays = computed(() => this.days().flat());
   private readonly eventMap = computed(() => eventsByDay(this.events()));
   protected readonly weekdays = computed(() =>
-    Array.from({ length: 7 }, (_, i) => (this.firstDay() + i) % 7),
+    this.view() === "day"
+      ? [weekdayOf(this.anchorDate())]
+      : Array.from({ length: 7 }, (_, i) => (this.firstDay() + i) % 7),
   );
+  protected readonly periodStart = computed(() => periodRange(this.view(), this.anchorDate(), this.firstDay())[0]);
+  protected readonly periodEnd = computed(() => periodRange(this.view(), this.anchorDate(), this.firstDay())[1]);
 
   /** The roving cursor, kept inside the visible days when the period changes from outside. */
   protected readonly effectiveCursor = computed(() => {
@@ -416,6 +475,56 @@ export class CalendarView implements AfterViewInit {
 
   protected eventsFor(d: string): CalendarEvent[] {
     return this.eventMap().get(d) ?? [];
+  }
+
+  protected visibleEventsFor(d: string): CalendarEvent[] {
+    const all = this.eventsFor(d);
+    const max = this.maxEvents();
+    return max == null ? all : all.slice(0, Math.max(0, max));
+  }
+
+  protected hiddenCountFor(d: string): number {
+    const max = this.maxEvents();
+    return max == null ? 0 : Math.max(0, this.eventsFor(d).length - Math.max(0, max));
+  }
+
+  protected weekdayOfDate(d: string): number {
+    return weekdayOf(d);
+  }
+
+  protected isPicked(d: string): boolean {
+    return this.selectionMode() === "multiple" ? this.selectedDates().includes(d) : this.selectedDate() === d;
+  }
+
+  // ---------------------------------------------------------------
+  // Event drag-and-drop (supplementary pointer path) + Alt+arrow keys
+  // ---------------------------------------------------------------
+
+  private draggingEventId: string | null = null;
+
+  protected onEventDragStart(calendarEvent: CalendarEvent, event: DragEvent): void {
+    if (!this.moveEvents()) return;
+    this.draggingEventId = calendarEvent.id;
+    event.dataTransfer?.setData("text/plain", calendarEvent.id);
+  }
+
+  private moveEventTo(calendarEvent: CalendarEvent, toDate: string): void {
+    if (!this.moveEvents() || this.isDisabledDay(toDate)) return;
+    this.eventMove.emit({ event: calendarEvent, toDate });
+    const message = this.labels().eventMoveAnnouncement?.(calendarEvent, toDate);
+    if (message) this.statusMessage.set(message);
+  }
+
+  protected onDayDragOver(event: DragEvent): void {
+    if (this.draggingEventId && this.moveEvents()) event.preventDefault();
+  }
+
+  protected onDayDrop(isoDate: string, event: DragEvent): void {
+    event.preventDefault();
+    const id = this.draggingEventId ?? event.dataTransfer?.getData("text/plain");
+    this.draggingEventId = null;
+    const calendarEvent = this.events().find((e) => e.id === id);
+    if (calendarEvent) this.moveEventTo(calendarEvent, isoDate);
   }
 
   protected eventTitle(event: CalendarEvent): string {
@@ -485,7 +594,12 @@ export class CalendarView implements AfterViewInit {
 
   private pick(d: string): void {
     if (this.isDisabledDay(d)) return;
-    this.selectedDate.set(d);
+    if (this.selectionMode() === "multiple") {
+      const current = this.selectedDates();
+      this.selectedDates.set(current.includes(d) ? current.filter((x) => x !== d) : [...current, d].sort());
+    } else {
+      this.selectedDate.set(d);
+    }
     this.dayClick.emit(d);
   }
 
@@ -509,7 +623,8 @@ export class CalendarView implements AfterViewInit {
 
   protected stepView(delta: 1 | -1): void {
     const anchor = this.anchorDate();
-    if (this.view() === "week") this.navigateTo(addDays(anchor, delta * 7));
+    if (this.view() === "day") this.navigateTo(addDays(anchor, delta));
+    else if (this.view() === "week") this.navigateTo(addDays(anchor, delta * 7));
     else if (this.view() === "four-week") this.navigateTo(addDays(anchor, delta * 28));
     else this.navigateTo(addMonths(anchor, delta));
   }
@@ -549,6 +664,8 @@ export class CalendarView implements AfterViewInit {
       if (cp && anchor && (cp.year !== anchor.year || cp.month !== anchor.month)) {
         this.navigateTo(formatIsoDate({ year: cp.year, month: cp.month, day: 1 }));
       }
+    } else if (view === "day") {
+      if (next !== anchorDate) this.navigateTo(next);
     } else {
       const len = view === "week" ? 7 : 28;
       let start = weekStart(anchorDate, this.firstDay());
@@ -571,14 +688,27 @@ export class CalendarView implements AfterViewInit {
 
   private pageCursor(delta: 1 | -1): void {
     const cursor = this.effectiveCursor();
-    if (this.view() === "week") this.moveCursor(addDays(cursor, delta * 7));
+    if (this.view() === "day") this.moveCursor(addDays(cursor, delta));
+    else if (this.view() === "week") this.moveCursor(addDays(cursor, delta * 7));
     else if (this.view() === "four-week") this.moveCursor(addDays(cursor, delta * 28));
     else this.moveCursor(addMonths(cursor, delta));
   }
 
   protected onGridKeydown(event: KeyboardEvent): void {
+    if (this.moveEvents() && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+      const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
+      const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset["date"];
+      const calendarEvent = this.events().find((e) => e.id === el?.dataset["eventId"]);
+      if (el && fromDate && calendarEvent) {
+        event.preventDefault();
+        const week = this.view() === "day" ? 1 : 7;
+        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+        this.moveEventTo(calendarEvent, addDays(fromDate, delta));
+        return;
+      }
+    }
     const cursor = this.effectiveCursor();
-    const offset = (weekdayOf(cursor) - this.firstDay() + 7) % 7;
+    const offset = this.view() === "day" ? 0 : (weekdayOf(cursor) - this.firstDay() + 7) % 7;
     const extending = event.shiftKey && CalendarView.MOVE_KEYS.has(event.key);
     if (extending && this.rangeAnchor === null) {
       this.rangeAnchor = this.selectedDate() && !this.selectedRange() ? this.selectedDate()! : cursor;
@@ -595,11 +725,11 @@ export class CalendarView implements AfterViewInit {
         break;
       case "ArrowUp":
         event.preventDefault();
-        this.moveCursor(addDays(cursor, -7));
+        this.moveCursor(addDays(cursor, this.view() === "day" ? -1 : -7));
         break;
       case "ArrowDown":
         event.preventDefault();
-        this.moveCursor(addDays(cursor, 7));
+        this.moveCursor(addDays(cursor, this.view() === "day" ? 1 : 7));
         break;
       case "Home":
         event.preventDefault();
@@ -607,7 +737,7 @@ export class CalendarView implements AfterViewInit {
         break;
       case "End":
         event.preventDefault();
-        this.moveCursor(addDays(cursor, 6 - offset));
+        this.moveCursor(addDays(cursor, this.view() === "day" ? 0 : 6 - offset));
         break;
       case "PageUp":
         event.preventDefault();

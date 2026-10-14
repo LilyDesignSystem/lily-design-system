@@ -708,3 +708,99 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
     expect(f.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim()).toBe("Design/e2s/0");
   });
 });
+
+describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (§14.1–§14.17)", () => {
+  const zl = { ...LABELS, zoomIn: "Zoom in", zoomOut: "Zoom out", zoomAnnouncement: (u: string) => `Showing ${u}s` };
+  const cols = (f: ComponentFixture<unknown>) => headers(f).length - 1;
+  const btn = (f: ComponentFixture<unknown>, n: string) =>
+    Array.from(f.nativeElement.querySelectorAll("button")).find((b) => (b as HTMLElement).getAttribute("aria-label") === n) as HTMLButtonElement;
+  const cellAt = (f: ComponentFixture<unknown>, i: number) => rows(f)[0].querySelectorAll(".gantt-table-td")[i] as HTMLElement;
+  const dt = () => ({ setData: () => {}, getData: () => "design" });
+  const changes = (f: ComponentFixture<GanttChart>) => {
+    const out: { taskId: string; start: string; end: string }[] = [];
+    f.componentInstance.taskChange.subscribe((e) => out.push({ taskId: e.taskId, start: e.start, end: e.end }));
+    return out;
+  };
+
+  test("§14.1 no zoom buttons without labels.zoomIn / zoomOut", () => {
+    const f = mount({ labels: LABELS });
+    expect(f.nativeElement.querySelector(".gantt-chart-zoom")).toBeNull();
+  });
+
+  test("§14.2 zoom out steps to coarser columns, announcing each unit; §14.3 buttons disable at the ends", () => {
+    const f = mount({ labels: zl });
+    expect(btn(f, "Zoom in").disabled).toBe(true);
+    const day = cols(f);
+    click(f, btn(f, "Zoom out"));
+    expect(cols(f)).toBeLessThan(day);
+    expect(f.nativeElement.querySelector(".gantt-chart-status").textContent).toBe("Showing weeks");
+    click(f, btn(f, "Zoom out"));
+    expect(btn(f, "Zoom out").disabled).toBe(true);
+    expect(btn(f, "Zoom in").disabled).toBe(false);
+  });
+
+  test("§14.5 a leaf task's bar has a start handle and the last in-range cell an end handle; none when readonly or for a parent", () => {
+    const f = mount();
+    expect(rows(f)[0].querySelector(".gantt-chart-bar-handle-start")).toBeTruthy();
+    expect(cellAt(f, 2).querySelector(".gantt-chart-bar-handle-end")).toBeTruthy();
+    expect(rows(f)[3].querySelector(".gantt-chart-bar-handle")).toBeNull();
+    const g = mount({ readonly: true });
+    expect(g.nativeElement.querySelector(".gantt-chart-bar-handle")).toBeNull();
+  });
+
+  test("§14.6 the end handle extends the end; §14.7 the start handle moves the start and the range cannot invert", () => {
+    const f = mount();
+    const out = changes(f);
+    cellAt(f, 2).querySelector(".gantt-chart-bar-handle-end")!.dispatchEvent(dragEvent("dragstart", dt()));
+    cellAt(f, 5).dispatchEvent(dragEvent("drop", dt()));
+    rows(f)[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart", dt()));
+    cellAt(f, 1).dispatchEvent(dragEvent("drop", dt()));
+    rows(f)[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart", dt()));
+    cellAt(f, 7).dispatchEvent(dragEvent("drop", dt()));
+    expect(out).toEqual([
+      { taskId: "design", start: "2026-10-01", end: "2026-10-06" },
+      { taskId: "design", start: "2026-10-02", end: "2026-10-03" },
+    ]);
+  });
+
+  test("§14.9 clicking a row selects it; §14.10 again deselects; §14.11 the s key selects; §14.12 selectedTaskId starts selected", () => {
+    const f = mount();
+    const selects: (string | undefined)[] = [];
+    f.componentInstance.taskSelect.subscribe((id) => selects.push(id));
+    const c = rows(f)[1].querySelectorAll(".gantt-table-td")[0];
+    click(f, c);
+    expect(rows(f)[1].getAttribute("aria-selected")).toBe("true");
+    expect(rows(f)[1].hasAttribute("data-selected")).toBe(true);
+    click(f, c);
+    expect(rows(f)[1].hasAttribute("data-selected")).toBe(false);
+    expect(selects).toEqual(["build", undefined]);
+    press(f, tabbableCells(f)[0], "s");
+    expect(rows(f)[0].getAttribute("aria-selected")).toBe("true");
+    const g = mount({ selectedTaskId: "launch" });
+    expect(rows(g)[2].hasAttribute("data-selected")).toBe(true);
+  });
+
+  test("§14.13–§14.16 Alt+Arrow shifts, Alt+Shift+Arrow moves the end, not before the range, readonly ignores", () => {
+    const f = mount();
+    const out = changes(f);
+    press(f, tabbableCells(f)[0], "ArrowLeft", { altKey: true });
+    expect(out).toEqual([]);
+    press(f, tabbableCells(f)[0], "ArrowRight", { altKey: true });
+    press(f, tabbableCells(f)[0], "ArrowRight", { altKey: true, shiftKey: true });
+    expect(out).toEqual([
+      { taskId: "design", start: "2026-10-02", end: "2026-10-04" },
+      { taskId: "design", start: "2026-10-01", end: "2026-10-04" },
+    ]);
+    const g = mount({ readonly: true });
+    const ro = changes(g);
+    press(g, tabbableCells(g)[0], "ArrowRight", { altKey: true });
+    expect(ro).toEqual([]);
+  });
+
+  test("§14.17 taskAttrs adds attributes to each task's row", () => {
+    const f = mount({ taskAttrs: (t: { id: string }) => ({ "data-team": t.id === "design" ? "ux" : "eng" }) });
+    f.detectChanges();
+    expect(rows(f)[0].getAttribute("data-team")).toBe("ux");
+    expect(rows(f)[1].getAttribute("data-team")).toBe("eng");
+  });
+});
