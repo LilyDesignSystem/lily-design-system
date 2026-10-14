@@ -124,7 +124,7 @@ export { ContentBlock } from "./components/ContentBlock";
 export { ContentsLink } from "./components/ContentsLink";
 export { ContentsList } from "./components/ContentsList";
 export { ContentsListItem } from "./components/ContentsListItem";
-export { ContentsNav } from "./components/ContentsNav";
+export { ScrollspyOptions, ContentsNav } from "./components/ContentsNav";
 export { ContextMenu } from "./components/ContextMenu";
 export { ContextMenuItem } from "./components/ContextMenuItem";
 export { ContextualHelp } from "./components/ContextualHelp";

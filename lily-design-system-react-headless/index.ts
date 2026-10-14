@@ -246,7 +246,7 @@ export type { ContentsListProps } from "./components/ContentsList";
 export { default as ContentsListItem } from "./components/ContentsListItem";
 export type { ContentsListItemProps } from "./components/ContentsListItem";
 export { default as ContentsNav } from "./components/ContentsNav";
-export type { ContentsNavProps } from "./components/ContentsNav";
+export type { ContentsNavProps, ScrollspyOptions } from "./components/ContentsNav";
 export { default as ContextMenu } from "./components/ContextMenu";
 export type { ContextMenuProps } from "./components/ContextMenu";
 export { default as ContextMenuItem } from "./components/ContextMenuItem";
