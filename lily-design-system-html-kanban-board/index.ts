@@ -12,6 +12,8 @@ import { KanbanBoard, nextKanbanBoardId } from "./kanban-board.js";
 export { KanbanBoard, nextKanbanBoardId };
 export type {
     KanbanBoardProps,
+    KanbanCardContext,
+    KanbanColumnContext,
     KanbanBoardMoveDetail,
     KanbanBoardReorderDetail,
     KanbanColumn,

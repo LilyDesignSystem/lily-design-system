@@ -93,6 +93,12 @@ export type GanttLabels = {
     cancelLabel?: string;
     dependencySummary?: (predecessorLabels: string[]) => string;
     dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+    /** Accessible name for the zoom-in button (finer columns). Gates the button. */
+    zoomIn?: string;
+    /** Accessible name for the zoom-out button (coarser columns). Gates the button. */
+    zoomOut?: string;
+    /** Announced after a zoom step with the new unit. */
+    zoomAnnouncement?: (timeUnit: GanttTimeUnit) => string;
     /** Label of the progress field in the edit region (0–100). Gates the field. */
     percentLabel?: string;
     /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
@@ -265,7 +271,7 @@ const defaultTaskLabel = (task: GanttTask): string => task.label;
 /** Custom-element class implementing `<gantt-chart>`. */
 export class GanttChart extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "caption", "time-unit", "today", "class", "readonly"];
+        return ["label", "caption", "time-unit", "today", "class", "readonly", "selected-task-id"];
     }
 
     // Backing storage for property-only members (arrays/objects/functions
@@ -282,6 +288,10 @@ export class GanttChart extends HTMLElement {
     #rootEl: HTMLDivElement | null = null;
     #statusEl: HTMLParagraphElement | null = null;
     #statusMessage = "";
+    #taskAttrs: ((task: GanttTask) => Record<string, string>) | undefined;
+    #onTaskSelect: ((taskId: string | undefined) => void) | undefined;
+    /** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
+    #resizingEdge: "start" | "end" | null = null;
 
     #collapsed = new Set<string>();
 
@@ -327,6 +337,32 @@ export class GanttChart extends HTMLElement {
     }
     set timeUnit(v: GanttTimeUnit) {
         this.setAttribute("time-unit", v);
+    }
+
+    /** The selected task's id (attribute `selected-task-id`). A click on a task's row or the `s` key on it selects (again deselects); `aria-selected`, `data-selected`. */
+    get selectedTaskId(): string | undefined {
+        return this.getAttribute("selected-task-id") ?? undefined;
+    }
+    set selectedTaskId(v: string | undefined) {
+        if (v == null) this.removeAttribute("selected-task-id");
+        else this.setAttribute("selected-task-id", v);
+    }
+
+    /** Called with the task id when selection changes, or `undefined` when it clears; also fires `taskselect`. */
+    get onTaskSelect(): ((taskId: string | undefined) => void) | undefined {
+        return this.#onTaskSelect;
+    }
+    set onTaskSelect(fn: ((taskId: string | undefined) => void) | undefined) {
+        this.#onTaskSelect = fn;
+    }
+
+    /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
+    get taskAttrs(): ((task: GanttTask) => Record<string, string>) | undefined {
+        return this.#taskAttrs;
+    }
+    set taskAttrs(fn: ((task: GanttTask) => Record<string, string>) | undefined) {
+        this.#taskAttrs = fn;
+        this.#render();
     }
 
     get today(): string {
@@ -443,6 +479,7 @@ export class GanttChart extends HTMLElement {
             case "today":
             case "class":
             case "readonly":
+            case "selected-task-id":
                 this.#render();
                 break;
             default:
@@ -671,7 +708,56 @@ export class GanttChart extends HTMLElement {
 
     #onBarDragStart(task: GanttTask, event: DragEvent): void {
         this.#draggingTaskId = task.id;
+        this.#resizingEdge = null;
         event.dataTransfer?.setData("text/plain", task.id);
+    }
+
+    #onHandleDragStart(task: GanttTask, edge: "start" | "end", event: DragEvent): void {
+        event.stopPropagation();
+        this.#draggingTaskId = task.id;
+        this.#resizingEdge = edge;
+        event.dataTransfer?.setData("text/plain", task.id);
+    }
+
+    // ---- Zoom ----
+
+    static readonly #ZOOM_ORDER: GanttTimeUnit[] = ["month", "week", "day"];
+
+    #zoom(delta: 1 | -1): void {
+        const next = GanttChart.#ZOOM_ORDER[GanttChart.#ZOOM_ORDER.indexOf(this.timeUnit) + delta];
+        if (!next) return;
+        this.#statusMessage = this.#labels.zoomAnnouncement?.(next) ?? this.#statusMessage;
+        this.timeUnit = next;
+    }
+
+    // ---- Selection ----
+
+    #selectTask(taskId: string): void {
+        const next = this.selectedTaskId === taskId ? undefined : taskId;
+        this.selectedTaskId = next;
+        this.#onTaskSelect?.(next);
+        this.dispatchEvent(new CustomEvent("taskselect", { detail: next, bubbles: true, composed: true }));
+    }
+
+    // ---- Keyboard shift / resize (Alt+Arrow) ----
+
+    #columnIndexOf(isoDate: string): number {
+        return this.#columns().findIndex((c) => rangesOverlap(c.start, c.end, isoDate, isoDate));
+    }
+
+    #shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+        const columns = this.#columns();
+        if (endOnly) {
+            const target = columns[this.#columnIndexOf(task.end) + delta];
+            if (target && compareISO(task.start, target.end) <= 0) this.#applyChange(task, task.start, target.end);
+            return;
+        }
+        const target = columns[this.#columnIndexOf(task.start) + delta];
+        if (!target) return;
+        const a = parseIsoDate(task.start);
+        const b = parseIsoDate(task.end);
+        const duration = a && b ? toEpochDay(b) - toEpochDay(a) : 0;
+        this.#applyChange(task, target.start, addDays(target.start, duration));
     }
 
     #onCellDragOver(event: DragEvent): void {
@@ -684,7 +770,16 @@ export class GanttChart extends HTMLElement {
         const taskId = this.#draggingTaskId ?? event.dataTransfer?.getData("text/plain");
         this.#draggingTaskId = null;
         const task = this.#tasks.find((t) => t.id === taskId);
+        const edge = this.#resizingEdge;
+        this.#resizingEdge = null;
         if (!task) return;
+        if (edge) {
+            // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+            const start = edge === "start" ? column.start : task.start;
+            const end = edge === "end" ? column.end : task.end;
+            if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) this.#applyChange(task, start, end);
+            return;
+        }
         const startDate = parseIsoDate(task.start);
         const endDate = parseIsoDate(task.end);
         const duration = startDate && endDate ? toEpochDay(endDate) - toEpochDay(startDate) : 0;
@@ -726,6 +821,15 @@ export class GanttChart extends HTMLElement {
         const rows = this.#rows();
         const colCount = this.#columns().length;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+            // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+            const row = rows[this.#focusedRow];
+            if (row && !row.hasChildren && !this.readonly && target.closest(".gantt-table-td")) {
+                event.preventDefault();
+                this.#shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+                return;
+            }
+        }
         switch (event.key) {
             case "ArrowUp":
                 event.preventDefault();
@@ -753,6 +857,16 @@ export class GanttChart extends HTMLElement {
                 if (ctrlOrMeta) this.#moveFocus(rows.length - 1, colCount - 1, rows.length, colCount);
                 else this.#moveFocus(this.#focusedRow, colCount - 1, rows.length, colCount);
                 break;
+            case "s":
+            case "S": {
+                if (event.ctrlKey || event.metaKey || event.altKey) break;
+                const row = rows[this.#focusedRow];
+                if (row && target.closest(".gantt-table-td")) {
+                    event.preventDefault();
+                    this.#selectTask(row.task.id);
+                }
+                break;
+            }
             case "Enter":
             case " ": {
                 event.preventDefault();
@@ -779,8 +893,35 @@ export class GanttChart extends HTMLElement {
         root.className = `gantt-chart ${extraClass}`.trim();
         if (this.readonly) root.setAttribute("data-readonly", "");
 
+        if (this.#labels.zoomIn || this.#labels.zoomOut) {
+            const zoomIndex = GanttChart.#ZOOM_ORDER.indexOf(this.timeUnit);
+            const group = document.createElement("div");
+            group.className = "gantt-chart-zoom";
+            group.setAttribute("role", "group");
+            group.setAttribute("aria-label", this.label);
+            const mk = (cls: string, text: string, name: string, disabled: boolean, delta: 1 | -1) => {
+                const b = document.createElement("button");
+                b.type = "button";
+                b.className = cls;
+                b.setAttribute("aria-label", name);
+                b.textContent = text;
+                b.disabled = disabled;
+                b.addEventListener("click", () => this.#zoom(delta));
+                group.appendChild(b);
+            };
+            if (this.#labels.zoomOut) mk("gantt-chart-zoom-out-button", "−", this.#labels.zoomOut, zoomIndex <= 0, -1);
+            if (this.#labels.zoomIn) mk("gantt-chart-zoom-in-button", "+", this.#labels.zoomIn, zoomIndex >= GanttChart.#ZOOM_ORDER.length - 1, 1);
+            root.appendChild(group);
+        }
+
         const table = document.createElement("table");
         table.className = "gantt-table";
+        table.addEventListener("click", (event) => {
+            const t = event.target as HTMLElement;
+            if (t.closest("button, input, .gantt-chart-edit-row")) return;
+            const id = t.closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
+            if (id) this.#selectTask(id);
+        });
         table.setAttribute("role", "grid");
         table.setAttribute("aria-label", this.label);
         table.addEventListener("keydown", (event) => this.#onGridKeydown(event as KeyboardEvent));
@@ -867,6 +1008,13 @@ export class GanttChart extends HTMLElement {
             if (task.type) tr.setAttribute("data-task-type", task.type);
             if (task.critical) tr.setAttribute("data-critical", "");
             if (task.slack != null) tr.setAttribute("data-slack", String(task.slack));
+            if (this.selectedTaskId === task.id) {
+                tr.setAttribute("aria-selected", "true");
+                tr.setAttribute("data-selected", "");
+            }
+            if (this.#taskAttrs) {
+                for (const [name, value] of Object.entries(this.#taskAttrs(task))) tr.setAttribute(name, value);
+            }
 
             const rowTh = document.createElement("th");
             rowTh.className = "gantt-table-th";
@@ -953,8 +1101,24 @@ export class GanttChart extends HTMLElement {
                     if (!row.hasChildren && !this.readonly) {
                         bar.setAttribute("draggable", "true");
                         bar.addEventListener("dragstart", (event) => this.#onBarDragStart(task, event as DragEvent));
+                        const startHandle = document.createElement("span");
+                        startHandle.className = "gantt-chart-bar-handle gantt-chart-bar-handle-start";
+                        startHandle.setAttribute("draggable", "true");
+                        startHandle.setAttribute("aria-hidden", "true");
+                        startHandle.addEventListener("dragstart", (event) =>
+                            this.#onHandleDragStart(task, "start", event as DragEvent),
+                        );
+                        bar.appendChild(startHandle);
                     }
                     td.appendChild(bar);
+                }
+                if (!row.hasChildren && !this.readonly && inRange && rangesOverlap(column.start, column.end, end, end)) {
+                    const endHandle = document.createElement("span");
+                    endHandle.className = "gantt-chart-bar-handle gantt-chart-bar-handle-end";
+                    endHandle.setAttribute("draggable", "true");
+                    endHandle.setAttribute("aria-hidden", "true");
+                    endHandle.addEventListener("dragstart", (event) => this.#onHandleDragStart(task, "end", event as DragEvent));
+                    td.appendChild(endHandle);
                 }
 
                 tr.appendChild(td);
