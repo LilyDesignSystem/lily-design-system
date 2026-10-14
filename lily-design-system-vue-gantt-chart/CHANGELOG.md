@@ -7,6 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.3.0 — 2026-10-14
 
 - Added a progress field in the edit region, baselines and typed dependencies, ported from the Svelte 0.3.0.
+- Added a zoom control, drag-resize handles, task selection, Alt+Arrow shift and resize, and `taskAttrs`, ported from the Svelte 0.3.0.
 
 ## 0.2.0 — 2026-10-14
 

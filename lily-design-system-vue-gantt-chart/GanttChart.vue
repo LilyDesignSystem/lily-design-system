@@ -54,6 +54,12 @@ export type GanttLabels = {
     dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
     /** Label of the progress field in the edit region (0–100). Gates the field. */
     percentLabel?: string;
+    /** Accessible name for the zoom-in button (finer columns). Gates the button. */
+    zoomIn?: string;
+    /** Accessible name for the zoom-out button (coarser columns). Gates the button. */
+    zoomOut?: string;
+    /** Announced after a zoom step with the new unit. */
+    zoomAnnouncement?: (timeUnit: GanttTimeUnit) => string;
     /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
     dependencyDetail?: (predecessorLabel: string, type: string, lag: number) => string;
     /** Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early). */
@@ -75,8 +81,8 @@ export type Props = {
     range: { start: string; end: string };
     /** Task data. */
     tasks: GanttTask[];
-    /** Column granularity. A static rendering choice, not an interactive zoom control. */
-    timeUnit?: GanttTimeUnit;
+    /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
+    taskAttrs?: (task: GanttTask) => Record<string, unknown>;
     /** ISO date marking "today"; never computed internally (stays SSR-safe). */
     today?: string;
     /** Dated markers; each marks the column that contains its date with `data-marker`. */
@@ -247,7 +253,7 @@ import DateTimePicker, { addDays, parseIsoDate, toEpochDay } from "@lilydesignsy
 
 const props = withDefaults(defineProps<Props>(), {
     caption: undefined,
-    timeUnit: "day",
+    taskAttrs: undefined,
     today: undefined,
     markers: () => [],
     isNonWorking: undefined,
@@ -260,7 +266,14 @@ const props = withDefaults(defineProps<Props>(), {
 // The Svelte canonical takes an `onTaskChange` callback prop; the Vue
 // idiom for the same contract is an emitted event, matching
 // `kanban-board`'s own `move` and `picker-bar`'s `theme-change` et al.
+/** Column granularity (`v-model:timeUnit`). The zoom buttons (shown when `labels.zoomIn` / `labels.zoomOut` name them) step it month ↔ week ↔ day. */
+const timeUnit = defineModel<GanttTimeUnit>("timeUnit", { default: "day" });
+/** The selected task's id (`v-model:selectedTaskId`). A click on a task's row or the `s` key on it selects (again deselects); `aria-selected`, `data-selected`. */
+const selectedTaskId = defineModel<string | undefined>("selectedTaskId", { default: undefined });
+
 const emit = defineEmits<{
+    /** Selection changed: the task id, or `undefined` when it clears. */
+    (event: "task-select", taskId: string | undefined): void;
     (event: "task-change", taskId: string, start: string, end: string, percentComplete?: number): void;
 }>();
 
@@ -280,7 +293,7 @@ const editPercent = ref("");
 
 let draggingTaskId: string | null = null;
 
-const columns = computed(() => generateColumns(props.range, props.timeUnit ?? "day", addDays));
+const columns = computed(() => generateColumns(props.range, timeUnit.value, addDays));
 const rows = computed(() => flattenTasks(props.tasks, collapsed.value));
 const ranges = computed(() => effectiveRanges(props.tasks));
 
@@ -407,7 +420,61 @@ function onEditKeydown(event: KeyboardEvent): void {
 
 function onBarDragStart(task: GanttTask, event: DragEvent): void {
     draggingTaskId = task.id;
+    resizingEdge = null;
     event.dataTransfer?.setData("text/plain", task.id);
+}
+
+/** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
+let resizingEdge: "start" | "end" | null = null;
+
+function onHandleDragStart(task: GanttTask, edge: "start" | "end", event: DragEvent): void {
+    event.stopPropagation();
+    draggingTaskId = task.id;
+    resizingEdge = edge;
+    event.dataTransfer?.setData("text/plain", task.id);
+}
+
+// ---- Zoom ----
+const ZOOM_ORDER: GanttTimeUnit[] = ["month", "week", "day"];
+const zoomIndex = computed(() => ZOOM_ORDER.indexOf(timeUnit.value));
+
+function zoom(delta: 1 | -1): void {
+    const next = ZOOM_ORDER[zoomIndex.value + delta];
+    if (!next) return;
+    timeUnit.value = next;
+    announce(props.labels?.zoomAnnouncement?.(next));
+}
+
+// ---- Selection ----
+function selectTask(taskId: string): void {
+    selectedTaskId.value = selectedTaskId.value === taskId ? undefined : taskId;
+    emit("task-select", selectedTaskId.value);
+}
+
+function onGridClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.closest("button, input, .gantt-chart-edit-row")) return;
+    const taskId = target.closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
+    if (taskId) selectTask(taskId);
+}
+
+// ---- Keyboard shift / resize (Alt+Arrow) ----
+function columnIndexOf(isoDate: string): number {
+    return columns.value.findIndex((c) => rangesOverlap(c.start, c.end, isoDate, isoDate));
+}
+
+function shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    if (endOnly) {
+        const target = columns.value[columnIndexOf(task.end) + delta];
+        if (target && compareISO(task.start, target.end) <= 0) applyChange(task, task.start, target.end);
+        return;
+    }
+    const target = columns.value[columnIndexOf(task.start) + delta];
+    if (!target) return;
+    const a = parseIsoDate(task.start);
+    const b = parseIsoDate(task.end);
+    const duration = a && b ? toEpochDay(b) - toEpochDay(a) : 0;
+    applyChange(task, target.start, addDays(target.start, duration));
 }
 
 function onCellDragOver(event: DragEvent): void {
@@ -420,7 +487,16 @@ function onCellDrop(column: GanttColumn, event: DragEvent): void {
     const taskId = draggingTaskId ?? event.dataTransfer?.getData("text/plain");
     draggingTaskId = null;
     const task = props.tasks.find((t) => t.id === taskId);
+    const edge = resizingEdge;
+    resizingEdge = null;
     if (!task) return;
+    if (edge) {
+        // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+        const start = edge === "start" ? column.start : task.start;
+        const end = edge === "end" ? column.end : task.end;
+        if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) applyChange(task, start, end);
+        return;
+    }
     // Whole-day duration, reusing date-time-picker's own UTC-safe
     // civil-date arithmetic (`parseIsoDate` + `toEpochDay`) rather than
     // re-deriving epoch-day math locally.
@@ -457,6 +533,15 @@ function onGridKeydown(event: KeyboardEvent): void {
     const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+        // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+        const row = rows.value[activeRow.value];
+        if (row && !row.hasChildren && !props.readonly && (event.target as HTMLElement).closest(".gantt-table-td")) {
+            event.preventDefault();
+            shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+            return;
+        }
+    }
     switch (event.key) {
         case "ArrowUp":
             event.preventDefault();
@@ -484,6 +569,16 @@ function onGridKeydown(event: KeyboardEvent): void {
             if (ctrlOrMeta) moveFocus(rows.value.length - 1, columns.value.length - 1);
             else moveFocus(activeRow.value, columns.value.length - 1);
             break;
+        case "s":
+        case "S": {
+            if (event.ctrlKey || event.metaKey || event.altKey) break;
+            const row = rows.value[activeRow.value];
+            if (row && (event.target as HTMLElement).closest(".gantt-table-td")) {
+                event.preventDefault();
+                selectTask(row.task.id);
+            }
+            break;
+        }
         case "Enter":
         case " ": {
             event.preventDefault();
@@ -567,7 +662,25 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
 
 <template>
     <div ref="rootEl" :class="`gantt-chart ${props.class ?? ''}`.trim()" :data-readonly="readonly ? '' : undefined">
-        <GanttTable :label="label" :caption="caption" @keydown="onGridKeydown" @focusin="onGridFocusin">
+        <div v-if="labels?.zoomIn || labels?.zoomOut" class="gantt-chart-zoom" role="group" :aria-label="label">
+            <button
+                v-if="labels?.zoomOut"
+                type="button"
+                class="gantt-chart-zoom-out-button"
+                :aria-label="labels.zoomOut"
+                :disabled="zoomIndex <= 0"
+                @click="zoom(-1)"
+            >−</button>
+            <button
+                v-if="labels?.zoomIn"
+                type="button"
+                class="gantt-chart-zoom-in-button"
+                :aria-label="labels.zoomIn"
+                :disabled="zoomIndex >= ZOOM_ORDER.length - 1"
+                @click="zoom(1)"
+            >+</button>
+        </div>
+        <GanttTable :label="label" :caption="caption" @keydown="onGridKeydown" @focusin="onGridFocusin" @click="onGridClick">
             <GanttTableThead>
                 <GanttTableTr>
                     <GanttTableTH scope="col">{{ labels?.taskColumnHeader ?? "" }}</GanttTableTH>
@@ -579,7 +692,7 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
                         :data-non-working="cv.nonWorking ? '' : undefined"
                         :data-marker="cv.markers.length ? cv.markers.map((m) => m.kind ?? 'marker').join(' ') : undefined"
                     >
-                        {{ labels?.columnLabel?.(cv.column.start, cv.column.end, timeUnit ?? "day") ?? cv.column.start }}
+                        {{ labels?.columnLabel?.(cv.column.start, cv.column.end, timeUnit) ?? cv.column.start }}
                         <template v-for="marker in cv.markers" :key="marker.date + (marker.kind ?? '')">
                             <span v-if="marker.label" class="gantt-chart-marker-label">{{ marker.label }}</span>
                         </template>
@@ -592,6 +705,10 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
                         :data-task-type="view.row.task.type"
                         :data-critical="view.row.task.critical ? '' : undefined"
                         :data-slack="view.row.task.slack"
+                        :data-task-id="view.row.task.id"
+                        :aria-selected="selectedTaskId === view.row.task.id ? 'true' : undefined"
+                        :data-selected="selectedTaskId === view.row.task.id ? '' : undefined"
+                        v-bind="taskAttrs?.(view.row.task) ?? {}"
                     >
                         <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
                         <GanttTableTH scope="row" :data-depth="view.row.depth">
@@ -650,6 +767,19 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
                                 :data-percent-complete="view.row.task.percentComplete ?? undefined"
                                 :draggable="!view.row.hasChildren && !readonly ? 'true' : undefined"
                                 @dragstart="(e: DragEvent) => onBarDragStart(view.row.task, e)"
+                            ><span
+                                v-if="!view.row.hasChildren && !readonly"
+                                class="gantt-chart-bar-handle gantt-chart-bar-handle-start"
+                                draggable="true"
+                                aria-hidden="true"
+                                @dragstart="(e: DragEvent) => onHandleDragStart(view.row.task, 'start', e)"
+                            ></span></span>
+                            <span
+                                v-if="!view.row.hasChildren && !readonly && cell.inRange && rangesOverlap(cell.column.start, cell.column.end, view.end, view.end)"
+                                class="gantt-chart-bar-handle gantt-chart-bar-handle-end"
+                                draggable="true"
+                                aria-hidden="true"
+                                @dragstart="(e: DragEvent) => onHandleDragStart(view.row.task, 'end', e)"
                             ></span>
                         </GanttTableTD>
                     </GanttTableTr>

@@ -12,6 +12,10 @@ export type KanbanColumn = {
     wipLimit?: number;
     /** A hard limit: a move into this column is refused once it holds `wipLimit` cards. */
     strictLimit?: boolean;
+    /** A non-colour status for the column (for example "Over capacity"): visible text in its header and `data-flag`. */
+    flag?: string;
+    /** A hook for per-column colour: becomes `data-accent` on the header and every cell. Lily sets no colour. */
+    accent?: string;
 };
 
 /** A single card. */
@@ -22,7 +26,25 @@ export type KanbanCard = {
     columnId: string;
     /** Visible card title. */
     title: string;
+    /** A locked card cannot be moved, dragged or reordered (`data-locked` on its cell); it still counts toward WIP limits and can be navigated to. */
+    locked?: boolean;
+    /** A second line under the title (a priority, "source · score", an amount). */
+    subtitle?: string;
+    /** Short labels shown under the subtitle (each a `.kanban-board-card-badge`). */
+    badges?: string[];
+    /** A non-colour status (for example "SLA breached"): visible text, `data-flag`, and linked to the cell with `aria-describedby`. */
+    flag?: string;
+    /** Makes the title a link to the record (`<a href>`). */
+    href?: string;
+    /** `false` stops pointer dragging this card while keeping the move menu and keyboard moves. */
+    draggable?: boolean;
 };
+
+/** What the `card` slot receives. */
+export type KanbanCardContext = { card: KanbanCard; label: string; column: KanbanColumn; pending: boolean };
+
+/** What the `columnHeader` / `columnFooter` slots receive: the column and every card in it (unfiltered). */
+export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; count: number };
 
 /**
  * Every field is optional, but its presence gates the control it
@@ -43,6 +65,14 @@ export type KanbanLabels = {
     collapseColumn?: (column: KanbanColumn, collapsed: boolean) => string;
     /** Accessible name for a column's add-card button. Gates the button. */
     addCard?: (column: KanbanColumn) => string;
+    /** Message shown in an empty column (a column with no cards to show). Gates the message. */
+    emptyColumn?: (column: KanbanColumn) => string;
+    /** Announced while an async `moveHandler` is pending: (card title, column title). */
+    movePending?: (cardTitle: string, columnTitle: string) => string;
+    /** Announced when an async `moveHandler` rejects and the card goes back: (card title, column title, the rejection). */
+    moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
+    /** Accessible name of the board's search field. Gates the field. */
+    search?: string;
 };
 
 /** Public props for KanbanBoard. See `spec/index.md` §4 for the contract. */
@@ -57,6 +87,21 @@ export type Props = {
     cards: KanbanCard[];
     /** Resolves a card to its display label. Defaults to `card.title`. */
     cardLabel?: (card: KanbanCard) => string;
+    /** Extra attributes on each card's cell (for example `data-priority`); merged after Lily's own. */
+    cardAttrs?: (card: KanbanCard) => Record<string, unknown>;
+    /** Hides cards for which it returns false. Counts, WIP limits and over-limit warnings still use every card; a filtered column carries `data-hidden-count`. */
+    filter?: (card: KanbanCard) => boolean;
+    /** Orders the cards shown within each column (a stable sort). */
+    compare?: (a: KanbanCard, b: KanbanCard) => number;
+    /** The columns a card may move to (its own column is always shown). The move menu offers only these; drops and keyboard moves elsewhere are refused. */
+    allowedColumns?: (card: KanbanCard) => string[];
+    /**
+     * An async move: awaited when a card moves. The card shows in its new column at once with `data-pending` and `aria-busy`
+     * and goes back if the promise rejects (`labels.moveFailed`, the `move-error` event). The `move` event is emitted either way.
+     */
+    moveHandler?: (cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>;
+    /** The text `search` looks in. Defaults to the label, subtitle and badges. */
+    searchText?: (card: KanbanCard) => string;
     /** Ids of collapsed columns (`v-model:collapsedColumns`). A collapsed column keeps its header and count but shows no cards. */
     collapsedColumns?: string[];
     /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
@@ -98,6 +143,12 @@ import {
 const props = withDefaults(defineProps<Props>(), {
     caption: undefined,
     cardLabel: undefined,
+    cardAttrs: undefined,
+    filter: undefined,
+    compare: undefined,
+    allowedColumns: undefined,
+    moveHandler: undefined,
+    searchText: undefined,
     canMove: undefined,
     collapsedColumns: undefined,
     readonly: false,
@@ -109,13 +160,24 @@ const props = withDefaults(defineProps<Props>(), {
 // for the same contract is an emitted event, matching `picker-bar`'s
 // `theme-change` et al. and `date-time-picker`'s `change`.
 const collapsedModel = defineModel<string[]>("collapsedColumns", { default: () => [] });
+/** Board-level search (`v-model:search`): shows only cards whose text contains it (case-insensitive). Combines with `filter`. */
+const search = defineModel<string>("search", { default: "" });
 
 const emit = defineEmits<{
-    (event: "move", cardId: string, toColumnId: string): void;
+    /** A card moved. `toIndex` (0-based, in the visible column) is given only when a pointer drop landed on a card. */
+    (event: "move", cardId: string, toColumnId: string, toIndex?: number): void;
+    /** An async `moveHandler` rejected, after the card went back. */
+    (event: "move-error", cardId: string, toColumnId: string, error: unknown): void;
     /** A column's add-card button was pressed. The consumer adds the card (Lily ships no editor). */
     (event: "add-card", columnId: string): void;
     /** Alt+ArrowUp/Down moved a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
     (event: "reorder", cardId: string, toIndex: number): void;
+}>();
+
+defineSlots<{
+    card?: (ctx: KanbanCardContext) => unknown;
+    columnHeader?: (ctx: KanbanColumnContext) => unknown;
+    columnFooter?: (ctx: KanbanColumnContext) => unknown;
 }>();
 
 const baseId = nextKanbanBoardId();
@@ -140,14 +202,41 @@ function setMoveListRef(el: unknown): void {
     moveListRef = (el as { el?: HTMLElement } | null) ?? null;
 }
 
+/** Cards moved optimistically by an async `moveHandler` that has not settled: id → destination column. */
+const optimistic = ref<Record<string, string>>({});
+const isPending = (cardId: string) => cardId in optimistic.value;
+const effectiveCards = computed(() =>
+    props.cards.map((c) => (c.id in optimistic.value ? { ...c, columnId: optimistic.value[c.id] } : c)),
+);
+
 const cardsByColumn = computed(() => {
     const map = new Map<string, KanbanCard[]>();
     for (const column of props.columns) map.set(column.id, []);
-    for (const card of props.cards) {
+    for (const card of effectiveCards.value) {
         map.get(card.columnId)?.push(card);
     }
     return map;
 });
+
+// What the grid shows: the filtered, sorted view. Counts and WIP limits use `cardsByColumn` (every card).
+const shownByColumn = computed(() => {
+    const map = new Map<string, KanbanCard[]>();
+    const needle = search.value.trim().toLowerCase();
+    for (const [id, list] of cardsByColumn.value) {
+        let shown = props.filter ? list.filter(props.filter) : list.slice();
+        if (needle) {
+            const text = props.searchText ?? ((c: KanbanCard) => [resolveCardLabel(c), c.subtitle ?? "", ...(c.badges ?? [])].join(" "));
+            shown = shown.filter((c) => text(c).toLowerCase().includes(needle));
+        }
+        if (props.compare) shown = shown.sort(props.compare);
+        map.set(id, shown);
+    }
+    return map;
+});
+
+const isEmptyColumn = (column: KanbanColumn) => !isCollapsed(column.id) && (shownByColumn.value.get(column.id)?.length ?? 0) === 0;
+const hiddenCountFor = (column: KanbanColumn) =>
+    (cardsByColumn.value.get(column.id)?.length ?? 0) - (shownByColumn.value.get(column.id)?.length ?? 0);
 
 const isCollapsed = (columnId: string) => collapsedModel.value.includes(columnId);
 
@@ -158,10 +247,14 @@ function toggleCollapsed(column: KanbanColumn): void {
 }
 
 // A collapsed column shows no cards, so it does not count towards the board's height.
+// A row exists for an empty column's message even when no column has a card to show.
 const maxRows = computed(() =>
-    props.columns.reduce(
-        (max, column) => Math.max(max, isCollapsed(column.id) ? 0 : (cardsByColumn.value.get(column.id)?.length ?? 0)),
-        0,
+    Math.max(
+        props.columns.reduce(
+            (max, column) => Math.max(max, isCollapsed(column.id) ? 0 : (shownByColumn.value.get(column.id)?.length ?? 0)),
+            0,
+        ),
+        props.labels?.emptyColumn && props.columns.some(isEmptyColumn) ? 1 : 0,
     ),
 );
 
@@ -176,7 +269,7 @@ const rowIndices = computed(() => Array.from({ length: maxRows.value }, (_, i) =
 function cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
     const column = props.columns[colIndex];
     if (!column || isCollapsed(column.id)) return undefined;
-    return cardsByColumn.value.get(column.id)?.[rowIndex];
+    return shownByColumn.value.get(column.id)?.[rowIndex];
 }
 
 /** One row's cells, precomputed so the template calls `cardAt` exactly once per cell. */
@@ -208,6 +301,7 @@ function announce(message: string | undefined): void {
 /** A move is refused by the consumer's `canMove`, or by the destination's hard limit. */
 function isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
     if (toColumn.id === card.columnId) return false;
+    if (props.allowedColumns && !props.allowedColumns(card).includes(toColumn.id)) return true;
     if (props.canMove && !props.canMove(card, toColumn)) return true;
     return (
         !!toColumn.strictLimit &&
@@ -216,24 +310,56 @@ function isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
     );
 }
 
-function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
-    if (props.readonly) return;
+/** The columns the move menu offers for `card`: its own, and the ones it may move to. */
+function moveTargets(card: KanbanCard): KanbanColumn[] {
+    if (!props.allowedColumns) return props.columns;
+    const allowed = props.allowedColumns(card);
+    return props.columns.filter((c) => c.id === card.columnId || allowed.includes(c.id));
+}
+
+async function runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): Promise<void> {
+    if (toIndex === undefined) emit("move", card.id, toColumn.id);
+    else emit("move", card.id, toColumn.id, toIndex);
+    const result = props.moveHandler
+        ? toIndex === undefined
+            ? props.moveHandler(card.id, toColumn.id)
+            : props.moveHandler(card.id, toColumn.id, toIndex)
+        : undefined;
+    if (!result || typeof (result as Promise<unknown>).then !== "function") {
+        announce(props.labels?.moveAnnouncement?.(resolveCardLabel(card), toColumn.title));
+        return;
+    }
+    optimistic.value = { ...optimistic.value, [card.id]: toColumn.id };
+    announce(props.labels?.movePending?.(resolveCardLabel(card), toColumn.title));
+    try {
+        await result;
+        announce(props.labels?.moveAnnouncement?.(resolveCardLabel(card), toColumn.title));
+    } catch (error) {
+        announce(props.labels?.moveFailed?.(resolveCardLabel(card), toColumn.title, error));
+        emit("move-error", card.id, toColumn.id, error);
+    } finally {
+        const { [card.id]: _settled, ...rest } = optimistic.value;
+        optimistic.value = rest;
+    }
+}
+
+function moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): void {
+    if (props.readonly || card.locked || isPending(card.id)) return;
     if (isRefused(card, toColumn)) {
         announce(props.labels?.moveBlocked?.(resolveCardLabel(card), toColumn.title));
         void closeMoveMenu(card.id);
         return;
     }
     if (toColumn.id !== card.columnId) {
-        emit("move", card.id, toColumn.id);
-        announce(props.labels?.moveAnnouncement?.(resolveCardLabel(card), toColumn.title));
+        void runMove(card, toColumn, toIndex);
     }
     void closeMoveMenu(card.id);
 }
 
 async function openMoveMenu(card: KanbanCard): Promise<void> {
-    if (props.readonly) return;
+    if (props.readonly || card.locked) return;
     openCardId.value = card.id;
-    const currentIndex = props.columns.findIndex((c) => c.id === card.columnId);
+    const currentIndex = moveTargets(card).findIndex((c) => c.id === card.columnId);
     moveActiveIndex.value = currentIndex >= 0 ? currentIndex : 0;
     await nextTick();
     moveListRef?.el?.focus({ preventScroll: true });
@@ -275,21 +401,43 @@ function onMoveButtonClick(card: KanbanCard): void {
 let draggingCardId: string | null = null;
 
 function onCardDragStart(card: KanbanCard, event: DragEvent): void {
+    if (card.locked) {
+        event.preventDefault();
+        return;
+    }
     draggingCardId = card.id;
     event.dataTransfer?.setData("text/plain", card.id);
 }
 
-function onColumnDragOver(event: DragEvent): void {
-    if (draggingCardId) event.preventDefault();
+/** The cell a dragged card is over, for `data-drop-target` styling. */
+const dropTarget = ref<string | null>(null);
+
+function onColumnDragOver(event: DragEvent, rowIndex: number, colIndex: number): void {
+    if (!draggingCardId || props.readonly) return;
+    event.preventDefault();
+    dropTarget.value = `${rowIndex}-${colIndex}`;
 }
 
-function onColumnDrop(column: KanbanColumn, event: DragEvent): void {
+function onColumnDrop(column: KanbanColumn, rowIndex: number, event: DragEvent): void {
     event.preventDefault();
     const cardId = draggingCardId ?? event.dataTransfer?.getData("text/plain");
     draggingCardId = null;
+    dropTarget.value = null;
+    if (props.readonly) return;
     const card = props.cards.find((c) => c.id === cardId);
-    // Dropping a card back on its own column is not a move.
-    if (card && card.columnId !== column.id) moveCard(card, column);
+    if (!card) return;
+    const shown = shownByColumn.value.get(column.id) ?? [];
+    const overCard = shown[rowIndex];
+    if (card.columnId === column.id) {
+        // Dropped on another card of its own column: reorder to that position.
+        const from = shown.findIndex((c) => c.id === card.id);
+        if (overCard && from >= 0 && from !== rowIndex) {
+            emit("reorder", card.id, rowIndex);
+            announce(props.labels?.reorderAnnouncement?.(resolveCardLabel(card), rowIndex + 1, shown.length));
+        }
+        return;
+    }
+    moveCard(card, column, overCard ? rowIndex : undefined);
 }
 
 // ---------------------------------------------------------------
@@ -318,8 +466,8 @@ function onGridFocusin(event: FocusEvent): void {
 function reorderCard(delta: 1 | -1): void {
     if (props.readonly) return;
     const card = cardAt(activeCol.value, activeRow.value);
-    if (!card) return;
-    const total = cardsByColumn.value.get(card.columnId)?.length ?? 0;
+    if (!card || card.locked) return;
+    const total = shownByColumn.value.get(card.columnId)?.length ?? 0;
     const toIndex = activeRow.value + delta;
     if (toIndex < 0 || toIndex >= total) return;
     emit("reorder", card.id, toIndex);
@@ -335,6 +483,14 @@ function onGridKeydown(event: KeyboardEvent): void {
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+        // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
+        event.preventDefault();
+        const card = cardAt(activeCol.value, activeRow.value);
+        const destination = props.columns[activeCol.value + (event.key === "ArrowLeft" ? -1 : 1)];
+        if (card && destination) moveCard(card, destination);
+        return;
+    }
     if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
         event.preventDefault();
         reorderCard(event.key === "ArrowUp" ? -1 : 1);
@@ -380,6 +536,7 @@ function onGridKeydown(event: KeyboardEvent): void {
 
 <template>
     <div ref="rootEl" :class="`kanban-board ${props.class ?? ''}`.trim()" :data-readonly="readonly ? '' : undefined">
+        <input v-if="labels?.search" v-model="search" type="search" class="kanban-board-search" :aria-label="labels.search" />
         <KanbanTable :label="label" :caption="caption" @keydown="onGridKeydown" @focusin="onGridFocusin">
             <KanbanTableHead>
                 <KanbanTableRow>
@@ -388,6 +545,9 @@ function onGridKeydown(event: KeyboardEvent): void {
                         :key="column.id"
                         :data-over-limit="overLimitFor(column) ? '' : undefined"
                         :data-collapsed="isCollapsed(column.id) ? '' : undefined"
+                        :data-hidden-count="hiddenCountFor(column) > 0 ? hiddenCountFor(column) : undefined"
+                        :data-flag="column.flag"
+                        :data-accent="column.accent"
                     >
                         <button
                             v-if="labels?.collapseColumn"
@@ -398,6 +558,13 @@ function onGridKeydown(event: KeyboardEvent): void {
                             @click="toggleCollapsed(column)"
                         >{{ isCollapsed(column.id) ? "▸" : "▾" }}</button>
                         {{ column.title }}
+                        <span v-if="column.flag" class="kanban-board-column-flag">{{ column.flag }}</span>
+                        <slot
+                            name="columnHeader"
+                            :column="column"
+                            :cards="cardsByColumn.get(column.id) ?? []"
+                            :count="countFor(column)"
+                        />
                         <span v-if="labels?.cardCount" class="kanban-board-count">{{
                             labels.cardCount(countFor(column))
                         }}</span>
@@ -425,10 +592,20 @@ function onGridKeydown(event: KeyboardEvent): void {
                         :data-col="cell.colIndex"
                         :data-card-id="cell.card?.id"
                         :data-collapsed="isCollapsed(cell.column.id) ? '' : undefined"
+                        :data-locked="cell.card?.locked ? '' : undefined"
+                        :data-pending="cell.card && isPending(cell.card.id) ? '' : undefined"
+                        :aria-busy="cell.card && isPending(cell.card.id) ? 'true' : undefined"
+                        :data-flag="cell.card?.flag"
+                        :data-accent="cell.column.accent"
+                        :data-empty="!cell.card && rowIndex === 0 && labels?.emptyColumn && isEmptyColumn(cell.column) ? '' : undefined"
+                        :data-drop-target="dropTarget === `${rowIndex}-${cell.colIndex}` ? '' : undefined"
+                        :aria-describedby="cell.card?.flag ? `${baseId}-flag-${cell.card.id}` : undefined"
+                        v-bind="cell.card ? (cardAttrs?.(cell.card) ?? {}) : {}"
                         :active="activeRow === rowIndex && activeCol === cell.colIndex"
                         :label="cell.card ? resolveCardLabel(cell.card) : ''"
-                        @dragover="onColumnDragOver"
-                        @drop="(e: DragEvent) => onColumnDrop(cell.column, e)"
+                        @dragover="(e: DragEvent) => onColumnDragOver(e, rowIndex, cell.colIndex)"
+                        @dragleave="() => (dropTarget = null)"
+                        @drop="(e: DragEvent) => onColumnDrop(cell.column, rowIndex, e)"
                     >
                         <template v-if="cell.card">
                             <!--
@@ -441,14 +618,31 @@ function onGridKeydown(event: KeyboardEvent): void {
                             -->
                             <span
                                 class="kanban-board-card-title"
-                                :draggable="readonly ? undefined : 'true'"
+                                :draggable="readonly || cell.card!.locked || cell.card!.draggable === false ? undefined : 'true'"
                                 @dragstart="(e: DragEvent) => onCardDragStart(cell.card!, e)"
-                                >{{ resolveCardLabel(cell.card!) }}</span
                             >
+                                <slot
+                                    v-if="$slots.card"
+                                    name="card"
+                                    :card="cell.card!"
+                                    :label="resolveCardLabel(cell.card!)"
+                                    :column="cell.column"
+                                    :pending="isPending(cell.card!.id)"
+                                />
+                                <a v-else-if="cell.card!.href" class="kanban-board-card-link" :href="cell.card!.href">{{ resolveCardLabel(cell.card!) }}</a>
+                                <template v-else>{{ resolveCardLabel(cell.card!) }}</template>
+                            </span>
+                            <template v-if="!$slots.card">
+                                <span v-if="cell.card!.subtitle" class="kanban-board-card-subtitle">{{ cell.card!.subtitle }}</span>
+                                <span v-if="cell.card!.badges?.length" class="kanban-board-card-badges">
+                                    <span v-for="badge in cell.card!.badges" :key="badge" class="kanban-board-card-badge">{{ badge }}</span>
+                                </span>
+                            </template>
+                            <span v-if="cell.card!.flag" class="kanban-board-card-flag" :id="`${baseId}-flag-${cell.card!.id}`">{{ cell.card!.flag }}</span>
                             <!-- Gated on labels.moveButton: an unnamed button is worse than
                                  none, and Enter/Space on the cell opens the menu either way. -->
                             <IconButton
-                                v-if="labels?.moveButton && !readonly"
+                                v-if="labels?.moveButton && !readonly && !cell.card!.locked"
                                 baseClass="kanban-board-move-button"
                                 :label="labels.moveButton(cell.card!)"
                                 tabindex="-1"
@@ -467,12 +661,12 @@ function onGridKeydown(event: KeyboardEvent): void {
                                 navigation="active-descendant"
                                 clamp
                                 v-model:activeIndex="moveActiveIndex"
-                                @activate="(i: number) => moveCard(cell.card!, columns[i])"
+                                @activate="(i: number) => moveCard(cell.card!, moveTargets(cell.card!)[i])"
                                 @escape="() => closeMoveMenu(cell.card!.id)"
                                 @tab-out="() => closeMoveMenu(cell.card!.id, false)"
                             >
                                 <li
-                                    v-for="(destination, i) in columns"
+                                    v-for="(destination, i) in moveTargets(cell.card!)"
                                     :key="destination.id"
                                     class="kanban-board-move-option"
                                     :id="moveOptionId(i)"
@@ -486,9 +680,21 @@ function onGridKeydown(event: KeyboardEvent): void {
                                 </li>
                             </Listbox>
                         </template>
+                        <span
+                            v-else-if="rowIndex === 0 && labels?.emptyColumn && isEmptyColumn(cell.column)"
+                            class="kanban-board-empty"
+                            >{{ labels.emptyColumn(cell.column) }}</span
+                        >
                     </KanbanTableTD>
                 </KanbanTableRow>
             </KanbanTableBody>
+            <tfoot v-if="$slots.columnFooter" class="kanban-table-foot">
+                <tr class="kanban-table-row">
+                    <td v-for="column in columns" :key="column.id" class="kanban-table-td kanban-board-column-footer" :data-accent="column.accent">
+                        <slot name="columnFooter" :column="column" :cards="cardsByColumn.get(column.id) ?? []" :count="countFor(column)" />
+                    </td>
+                </tr>
+            </tfoot>
         </KanbanTable>
 
         <p class="kanban-board-status" aria-live="polite">{{ statusMessage }}</p>

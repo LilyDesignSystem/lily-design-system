@@ -631,3 +631,111 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
         expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("Design/e2s/0");
     });
 });
+
+describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (§14.1–§14.17)", () => {
+    const zl: GanttLabels = { ...LABELS, zoomIn: "Zoom in", zoomOut: "Zoom out", zoomAnnouncement: (u) => `Showing ${u}s` };
+    const cols = () => document.querySelectorAll(".gantt-table-thead .gantt-table-th").length - 1;
+    const btn = (n: string) => Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-label") === n) as HTMLButtonElement;
+    const cellAt = (i: number) => rows()[0].querySelectorAll(".gantt-table-td")[i] as HTMLElement;
+    const kd = (el: Element, init: KeyboardEventInit) => el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, ...init }));
+    const clk = (el: Element) => el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    const dragEvent = (type: string) => {
+        const e = new Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperty(e, "dataTransfer", { value: { setData: () => {}, getData: () => "design" } });
+        return e;
+    };
+
+    test("§14.1 no zoom buttons without labels.zoomIn / zoomOut", async () => {
+        build({ labels: LABELS });
+        await flush();
+        expect(document.querySelector(".gantt-chart-zoom")).toBeNull();
+    });
+
+    test("§14.2 zoom out steps to coarser columns, announcing each unit; §14.3 buttons disable at the ends", async () => {
+        build({ labels: zl });
+        await flush();
+        expect(btn("Zoom in").disabled).toBe(true);
+        const day = cols();
+        clk(btn("Zoom out"));
+        await flush();
+        expect(cols()).toBeLessThan(day);
+        expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Showing weeks");
+        clk(btn("Zoom out"));
+        await flush();
+        expect(btn("Zoom out").disabled).toBe(true);
+        expect(btn("Zoom in").disabled).toBe(false);
+    });
+
+    test("§14.5 a leaf task's bar has a start handle and the last in-range cell an end handle; none when readonly or for a parent", async () => {
+        build();
+        await flush();
+        expect(rows()[0].querySelector(".gantt-chart-bar-handle-start")).toBeTruthy();
+        expect(cellAt(2).querySelector(".gantt-chart-bar-handle-end")).toBeTruthy();
+        expect(rows()[3].querySelector(".gantt-chart-bar-handle")).toBeNull();
+        document.body.innerHTML = "";
+        build({ readonly: true });
+        await flush();
+        expect(document.querySelector(".gantt-chart-bar-handle")).toBeNull();
+    });
+
+    test("§14.6 the end handle extends the end; §14.7 the start handle moves the start and the range cannot invert", async () => {
+        const w = build();
+        await flush();
+        cellAt(2).querySelector(".gantt-chart-bar-handle-end")!.dispatchEvent(dragEvent("dragstart"));
+        cellAt(5).dispatchEvent(dragEvent("drop"));
+        rows()[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart"));
+        cellAt(1).dispatchEvent(dragEvent("drop"));
+        rows()[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart"));
+        cellAt(7).dispatchEvent(dragEvent("drop"));
+        expect(w.emitted("task-change")).toEqual([
+            ["design", "2026-10-01", "2026-10-06"],
+            ["design", "2026-10-02", "2026-10-03"],
+        ]);
+    });
+
+    test("§14.9 clicking a row selects it; §14.10 again deselects; §14.11 the s key selects; §14.12 selectedTaskId starts selected", async () => {
+        const w = build();
+        await flush();
+        const c = rows()[1].querySelectorAll(".gantt-table-td")[0];
+        clk(c);
+        await flush();
+        expect(rows()[1].getAttribute("aria-selected")).toBe("true");
+        expect(rows()[1].hasAttribute("data-selected")).toBe(true);
+        clk(c);
+        await flush();
+        expect(rows()[1].hasAttribute("data-selected")).toBe(false);
+        expect(w.emitted("task-select")).toEqual([["build"], [undefined]]);
+        kd(tabbableCells()[0], { key: "s" });
+        await flush();
+        expect(rows()[0].getAttribute("aria-selected")).toBe("true");
+        document.body.innerHTML = "";
+        build({ selectedTaskId: "launch" });
+        await flush();
+        expect(rows()[2].hasAttribute("data-selected")).toBe(true);
+    });
+
+    test("§14.13–§14.16 Alt+Arrow shifts, Alt+Shift+Arrow moves the end, not before the range, readonly ignores", async () => {
+        const w = build();
+        await flush();
+        kd(tabbableCells()[0], { key: "ArrowLeft", altKey: true });
+        expect(w.emitted("task-change")).toBeUndefined();
+        kd(tabbableCells()[0], { key: "ArrowRight", altKey: true });
+        kd(tabbableCells()[0], { key: "ArrowRight", altKey: true, shiftKey: true });
+        expect(w.emitted("task-change")).toEqual([
+            ["design", "2026-10-02", "2026-10-04"],
+            ["design", "2026-10-01", "2026-10-04"],
+        ]);
+        document.body.innerHTML = "";
+        const ro = build({ readonly: true });
+        await flush();
+        kd(tabbableCells()[0], { key: "ArrowRight", altKey: true });
+        expect(ro.emitted("task-change")).toBeUndefined();
+    });
+
+    test("§14.17 taskAttrs adds attributes to each task's row", async () => {
+        build({ taskAttrs: (t: GanttTask) => ({ "data-team": t.id === "design" ? "ux" : "eng" }) });
+        await flush();
+        expect(rows()[0].getAttribute("data-team")).toBe("ux");
+        expect(rows()[1].getAttribute("data-team")).toBe("eng");
+    });
+});

@@ -11,7 +11,7 @@ import {
     weekdayOf,
 } from "@lilydesignsystem/vue-date-time-picker";
 
-export type CalendarView = "week" | "four-week" | "month";
+export type CalendarView = "day" | "week" | "four-week" | "month";
 
 /** A marked range (a holiday, a closure, a school term). `label` is text a `day` slot can show. */
 export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -36,6 +36,8 @@ export type CalendarEvent = {
  * no baked-in English fallback. See spec/index.md §5.
  */
 export type CalendarViewLabels = {
+    /** Switcher label for the one-day view. Gates its button. */
+    dayView?: string;
     weekView?: string;
     fourWeekView?: string;
     monthView?: string;
@@ -55,6 +57,10 @@ export type CalendarViewLabels = {
     weekNumber?: (week: number) => string;
     /** Announced as a range is extended with Shift+arrows or confirmed. */
     rangeAnnouncement?: (start: string, end: string) => string;
+    /** Announced after an event is moved to another day. */
+    eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
+    /** Visible title of the shown period, rendered between the previous and next buttons. Gates the title. */
+    periodTitle?: (view: CalendarView, start: string, end: string) => string;
 };
 
 export type Props = {
@@ -64,6 +70,14 @@ export type Props = {
     today?: string;
     /** Events to place into day cells. */
     events?: CalendarEvent[];
+    /** Cap on events shown per day: the `day` slot gets `visibleEvents` and `hiddenCount`. */
+    maxEvents?: number;
+    /** Month view: leave days outside the shown month empty (the cell keeps `data-outside-period`). */
+    hideOutsideDays?: boolean;
+    /** Weekday numbers (0 = Sunday … 6 = Saturday) that are the weekend; those cells get `data-weekend`. */
+    weekendDays?: number[];
+    /** `"multiple"`: Enter/Space or a click toggles a day in `selectedDates` instead of setting `selectedDate`. */
+    selectionMode?: "single" | "multiple";
     /** Earliest pickable ISO date. */
     minDate?: string;
     /** Latest pickable ISO date. */
@@ -84,6 +98,10 @@ export type Props = {
 export type DayArgs = {
     date: string;
     events: CalendarEvent[];
+    /** The first `maxEvents` events (all of them without the cap). */
+    visibleEvents: CalendarEvent[];
+    /** How many events the cap hides, for a "+N more" control. */
+    hiddenCount: number;
     isToday: boolean;
     outsidePeriod: boolean;
     selected: boolean;
@@ -94,6 +112,8 @@ export type DayArgs = {
     ranges: CalendarRange[];
     /** Call from the event's own button/click handler to emit `event-click`. */
     openEvent: (calendarEvent: CalendarEvent) => void;
+    /** Bind onto an event's element (`v-bind="eventProps(ev)"`) to make it draggable and keyboard-movable. Empty without an `event-move` listener. */
+    eventProps: (calendarEvent: CalendarEvent) => Record<string, unknown>;
 };
 
 /** Start of the week containing `isoDate`, for a given first-day-of-week (0 = Sunday). */
@@ -109,6 +129,7 @@ export function periodDays(view: CalendarView, anchorDate: string, firstDayOfWee
         if (!parsed) return [];
         return monthMatrix(parsed.year, parsed.month, firstDayOfWeek);
     }
+    if (view === "day") return [[anchorDate]];
     const start = weekStart(anchorDate, firstDayOfWeek);
     const rows = view === "week" ? 1 : 4;
     const weeks: string[][] = [];
@@ -130,6 +151,7 @@ export function periodRange(view: CalendarView, anchorDate: string, firstDayOfWe
             formatIsoDate({ ...parsed, day: daysInMonth(parsed.year, parsed.month) }),
         ];
     }
+    if (view === "day") return [anchorDate, anchorDate];
     const start = weekStart(anchorDate, firstDayOfWeek);
     const len = view === "week" ? 7 : 28;
     return [start, addDays(start, len - 1)];
@@ -168,7 +190,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
 </script>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from "vue";
+import { computed, getCurrentInstance, nextTick, ref, watch } from "vue";
 import {
     CalendarTable,
     CalendarTableBody,
@@ -181,6 +203,10 @@ import {
 const props = withDefaults(defineProps<Props>(), {
     today: undefined,
     events: () => [],
+    maxEvents: undefined,
+    hideOutsideDays: false,
+    weekendDays: undefined,
+    selectionMode: "single",
     minDate: undefined,
     maxDate: undefined,
     isDisabled: undefined,
@@ -198,6 +224,8 @@ const anchorDate = defineModel<string>("anchorDate", { default: "1970-01-01" });
 const selectedDate = defineModel<string | undefined>("selectedDate", { default: undefined });
 /** The picked range. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. */
 const selectedRange = defineModel<SelectedRange | undefined>("selectedRange", { default: undefined });
+/** The picked days in `"multiple"` mode. */
+const selectedDates = defineModel<string[]>("selectedDates", { default: () => [] });
 
 const emit = defineEmits<{
     /** The visible period changed: view switch, previous/next/today, or a keyboard re-page. */
@@ -208,6 +236,8 @@ const emit = defineEmits<{
     (event: "event-click", calendarEvent: CalendarEvent): void;
     /** A range was confirmed: Enter on an extended range, or Shift+click. */
     (event: "range-select", start: string, end: string): void;
+    /** An event was moved to another day (drag-and-drop or Alt+arrow keys). Listening turns the drag-and-drop on. */
+    (event: "event-move", calendarEvent: CalendarEvent, toDate: string): void;
 }>();
 
 defineSlots<{ day?: (args: DayArgs) => unknown }>();
@@ -265,12 +295,57 @@ function weekNumberOf(row: string[]): number {
 
 function pick(isoDate: string): void {
     if (disabledDay(isoDate)) return;
-    selectedDate.value = isoDate;
+    if (props.selectionMode === "multiple") {
+        selectedDates.value = selectedDates.value.includes(isoDate)
+            ? selectedDates.value.filter((d) => d !== isoDate)
+            : [...selectedDates.value, isoDate].sort();
+    } else {
+        selectedDate.value = isoDate;
+    }
     emit("day-click", isoDate);
 }
 
 function openEvent(calendarEvent: CalendarEvent): void {
     emit("event-click", calendarEvent);
+}
+
+// ---------------------------------------------------------------
+// Event drag-and-drop (supplementary pointer path) + Alt+arrow keys
+// ---------------------------------------------------------------
+
+const instance = getCurrentInstance();
+const movable = computed(() => !!instance?.vnode.props?.onEventMove);
+let draggingEventId: string | null = null;
+
+function eventProps(calendarEvent: CalendarEvent): Record<string, unknown> {
+    if (!movable.value) return {};
+    return {
+        draggable: "true",
+        "data-event-id": calendarEvent.id,
+        onDragstart: (e: DragEvent) => {
+            draggingEventId = calendarEvent.id;
+            e.dataTransfer?.setData("text/plain", calendarEvent.id);
+        },
+    };
+}
+
+function moveEventTo(calendarEvent: CalendarEvent, toDate: string): void {
+    if (!movable.value || disabledDay(toDate)) return;
+    emit("event-move", calendarEvent, toDate);
+    const message = props.labels?.eventMoveAnnouncement?.(calendarEvent, toDate);
+    if (message) statusMessage.value = message;
+}
+
+function onDayDragOver(event: DragEvent): void {
+    if (draggingEventId && movable.value) event.preventDefault();
+}
+
+function onDayDrop(isoDate: string, event: DragEvent): void {
+    event.preventDefault();
+    const id = draggingEventId ?? event.dataTransfer?.getData("text/plain");
+    draggingEventId = null;
+    const calendarEvent = props.events.find((e) => e.id === id);
+    if (calendarEvent) moveEventTo(calendarEvent, isoDate);
 }
 
 function announce(): void {
@@ -288,7 +363,8 @@ function navigateTo(nextAnchor: string): void {
 }
 
 function stepView(delta: 1 | -1): void {
-    if (view.value === "week") navigateTo(addDays(anchorDate.value, delta * 7));
+    if (view.value === "day") navigateTo(addDays(anchorDate.value, delta));
+    else if (view.value === "week") navigateTo(addDays(anchorDate.value, delta * 7));
     else if (view.value === "four-week") navigateTo(addDays(anchorDate.value, delta * 28));
     else navigateTo(addMonths(anchorDate.value, delta));
 }
@@ -319,6 +395,8 @@ function moveCursor(next: string): void {
         if (cp && anchor && (cp.year !== anchor.year || cp.month !== anchor.month)) {
             navigateTo(formatIsoDate({ year: cp.year, month: cp.month, day: 1 }));
         }
+    } else if (view.value === "day") {
+        if (next !== anchorDate.value) navigateTo(next);
     } else {
         const len = view.value === "week" ? 7 : 28;
         let start = weekStart(anchorDate.value, firstDayOfWeek.value);
@@ -340,13 +418,26 @@ function moveCursor(next: string): void {
 }
 
 function pageCursor(delta: 1 | -1): void {
-    if (view.value === "week") moveCursor(addDays(cursor.value, delta * 7));
+    if (view.value === "day") moveCursor(addDays(cursor.value, delta));
+    else if (view.value === "week") moveCursor(addDays(cursor.value, delta * 7));
     else if (view.value === "four-week") moveCursor(addDays(cursor.value, delta * 28));
     else moveCursor(addMonths(cursor.value, delta));
 }
 
 function onGridKeydown(event: KeyboardEvent): void {
-    const offset = (weekdayOf(cursor.value) - firstDayOfWeek.value + 7) % 7;
+    if (movable.value && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+        const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
+        const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
+        const calendarEvent = props.events.find((e) => e.id === el?.dataset.eventId);
+        if (el && fromDate && calendarEvent) {
+            event.preventDefault();
+            const week = view.value === "day" ? 1 : 7;
+            const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+            moveEventTo(calendarEvent, addDays(fromDate, delta));
+            return;
+        }
+    }
+    const offset = view.value === "day" ? 0 : (weekdayOf(cursor.value) - firstDayOfWeek.value + 7) % 7;
     const extending = event.shiftKey && MOVE_KEYS.has(event.key);
     if (extending && rangeAnchor === null) {
         rangeAnchor = selectedDate.value && !selectedRange.value ? selectedDate.value : cursor.value;
@@ -363,11 +454,11 @@ function onGridKeydown(event: KeyboardEvent): void {
             break;
         case "ArrowUp":
             event.preventDefault();
-            moveCursor(addDays(cursor.value, -7));
+            moveCursor(addDays(cursor.value, view.value === "day" ? -1 : -7));
             break;
         case "ArrowDown":
             event.preventDefault();
-            moveCursor(addDays(cursor.value, 7));
+            moveCursor(addDays(cursor.value, view.value === "day" ? 1 : 7));
             break;
         case "Home":
             event.preventDefault();
@@ -375,7 +466,7 @@ function onGridKeydown(event: KeyboardEvent): void {
             break;
         case "End":
             event.preventDefault();
-            moveCursor(addDays(cursor.value, 6 - offset));
+            moveCursor(addDays(cursor.value, view.value === "day" ? 0 : 6 - offset));
             break;
         case "PageUp":
             event.preventDefault();
@@ -422,7 +513,13 @@ function onDayCellClick(isoDate: string, event: MouseEvent): void {
     pick(isoDate);
 }
 
-const weekdays = computed(() => Array.from({ length: 7 }, (_, i) => (firstDayOfWeek.value + i) % 7));
+const weekdays = computed(() =>
+    view.value === "day"
+        ? [weekdayOf(anchorDate.value)]
+        : Array.from({ length: 7 }, (_, i) => (firstDayOfWeek.value + i) % 7),
+);
+const periodStart = computed(() => periodRange(view.value, anchorDate.value, firstDayOfWeek.value)[0]);
+const periodEnd = computed(() => periodRange(view.value, anchorDate.value, firstDayOfWeek.value)[1]);
 
 function cellView(d: string) {
     const outside = isOutsidePeriod(view.value, d, anchorDate.value);
@@ -432,8 +529,14 @@ function cellView(d: string) {
         outside,
         isToday: props.today != null && d === props.today,
         events: eventMap.value.get(d) ?? [],
+        visibleEvents:
+            props.maxEvents == null
+                ? (eventMap.value.get(d) ?? [])
+                : (eventMap.value.get(d) ?? []).slice(0, Math.max(0, props.maxEvents)),
+        hiddenCount:
+            props.maxEvents == null ? 0 : Math.max(0, (eventMap.value.get(d) ?? []).length - Math.max(0, props.maxEvents)),
         disabled: disabledDay(d),
-        picked: selectedDate.value === d,
+        picked: props.selectionMode === "multiple" ? selectedDates.value.includes(d) : selectedDate.value === d,
         inRange: !!selectedRange.value && d >= selectedRange.value.start && d <= selectedRange.value.end,
         ranges: props.ranges.filter((r) => d >= r.start && d <= r.end),
     };
@@ -443,8 +546,15 @@ function cellView(d: string) {
 <template>
     <!-- CalendarView.vue -->
     <div ref="rootEl" :class="`calendar-view ${props.class ?? ''}`.trim()">
-        <div v-if="labels?.weekView || labels?.fourWeekView || labels?.monthView" class="calendar-view-toolbar">
+        <div v-if="labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView" class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
+                <button
+                    v-if="labels?.dayView"
+                    type="button"
+                    class="calendar-view-switcher-button calendar-view-switcher-button-day"
+                    :aria-pressed="view === 'day' ? 'true' : 'false'"
+                    @click="setView('day')"
+                >{{ labels.dayView }}</button>
                 <button
                     v-if="labels?.weekView"
                     type="button"
@@ -474,6 +584,7 @@ function cellView(d: string) {
                     :aria-label="labels?.previous?.(view)"
                     @click="stepView(-1)"
                 >‹</button>
+                <span v-if="labels?.periodTitle" class="calendar-view-title">{{ labels.periodTitle(view, periodStart, periodEnd) }}</span>
                 <button
                     v-if="labels?.today"
                     type="button"
@@ -519,6 +630,7 @@ function cellView(d: string) {
                         :today="cellView(d).isToday"
                         :data-date="d"
                         :data-outside-period="cellView(d).outside ? '' : undefined"
+                        :data-weekend="weekendDays?.includes(cellView(d).weekday) ? '' : undefined"
                         :data-selected="cellView(d).picked ? '' : undefined"
                         :data-disabled="cellView(d).disabled ? '' : undefined"
                         :data-in-range="cellView(d).inRange ? '' : undefined"
@@ -528,11 +640,16 @@ function cellView(d: string) {
                         :aria-disabled="cellView(d).disabled ? 'true' : undefined"
                         :aria-label="labels?.day?.(d, cellView(d).weekday, cellView(d).outside)"
                         @click="(e: MouseEvent) => onDayCellClick(d, e)"
+                        @dragover="onDayDragOver"
+                        @drop="(e: DragEvent) => onDayDrop(d, e)"
                     >
-                        <slot
+                        <template v-if="hideOutsideDays && cellView(d).outside"></template>
+                        <slot v-else
                             name="day"
                             :date="d"
                             :events="cellView(d).events"
+                            :visible-events="cellView(d).visibleEvents"
+                            :hidden-count="cellView(d).hiddenCount"
                             :is-today="cellView(d).isToday"
                             :outside-period="cellView(d).outside"
                             :selected="cellView(d).picked"
@@ -540,6 +657,7 @@ function cellView(d: string) {
                             :in-range="cellView(d).inRange"
                             :ranges="cellView(d).ranges"
                             :open-event="openEvent"
+                            :event-props="eventProps"
                         >{{ parseIsoDate(d)?.day }}</slot>
                     </CalendarTableTD>
                 </CalendarTableRow>

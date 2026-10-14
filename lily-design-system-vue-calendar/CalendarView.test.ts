@@ -127,11 +127,12 @@ function build(props: Record<string, unknown> = {}, withSlot = false) {
                         ? {
                               day: (a: any) => [
                                   h("span", { "data-testid": `events-${a.date}` }, a.events.map((e: any) => e.id).join(",")),
+                                  h("span", { "data-testid": `cap-${a.date}` }, `${a.visibleEvents.length}/${a.hiddenCount}`),
                                   a.selected ? h("i", { "data-snippet-selected": "" }) : null,
                                   a.disabled ? h("i", { "data-snippet-disabled": "" }) : null,
                                   a.ranges.length ? h("i", { "data-snippet-ranges": a.ranges.map((r: any) => r.kind).join(",") }) : null,
                                   ...a.events.map((ev: any) =>
-                                      h("button", { type: "button", "data-event-open": "", onClick: () => a.openEvent(ev) }, ev.id),
+                                      h("button", { type: "button", "data-event-open": "", ...a.eventProps(ev), onClick: () => a.openEvent(ev) }, ev.id),
                                   ),
                               ],
                           }
@@ -525,5 +526,146 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
         build({ ...b, events: EVENTS, ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }] }, true);
         await flush();
         expect(document.querySelector("[data-snippet-ranges='holiday']")).toBeTruthy();
+    });
+});
+
+describe("CalendarView — day view, maxEvents, drag-and-drop, title, weekends, multiple selection", () => {
+    const dayProps = { view: "day", anchorDate: "2026-01-06", today: "2026-01-08", labels: { ...LABELS, dayView: "Day" } };
+    const cells = () => Array.from(document.querySelectorAll<HTMLElement>(".calendar-table-td"));
+    const cell = (iso: string) => document.querySelector<HTMLElement>(`.calendar-table-td[data-date="${iso}"]`)!;
+    const evs: CalendarEvent[] = [{ id: "a", date: "2026-01-06", title: "A" }, { id: "b", date: "2026-01-06", title: "B" }, { id: "c", date: "2026-01-06", title: "C" }];
+    const dt = () => ({ setData: () => {}, getData: () => "" });
+    const dragEvent = (type: string, d: unknown) => {
+        const e = new Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperty(e, "dataTransfer", { value: d });
+        return e;
+    };
+
+    test("§8.33 the day view shows exactly one day under one weekday header", async () => {
+        build(dayProps);
+        await flush();
+        expect(cells()).toHaveLength(1);
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-06");
+        expect(document.querySelectorAll(".calendar-table-head .calendar-table-th")).toHaveLength(1);
+    });
+
+    test("§8.34 labels.dayView adds a pressed switcher button", async () => {
+        build({ ...dayProps, view: "week" });
+        await flush();
+        const b = byName("Day");
+        expect(b.getAttribute("aria-pressed")).toBe("false");
+        click(b);
+        await flush();
+        expect(b.getAttribute("aria-pressed")).toBe("true");
+        expect(cells()).toHaveLength(1);
+    });
+
+    test("§8.35 next steps one day and reports the one-day period", async () => {
+        const w = build(dayProps);
+        await flush();
+        click(byName("Next day"));
+        await flush();
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+        const nav = w.findComponent(CalendarView as any).emitted("navigate")!;
+        expect(nav[nav.length - 1]).toEqual(["day", "2026-01-07", "2026-01-07"]);
+    });
+
+    test("§8.36 arrows and Page keys move by a day", async () => {
+        build(dayProps);
+        await flush();
+        key(cells()[0], { key: "ArrowRight" });
+        await flush();
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+        key(cells()[0], { key: "ArrowDown" });
+        await flush();
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-08");
+        key(cells()[0], { key: "PageUp" });
+        await flush();
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+    });
+
+    test("§8.31 maxEvents caps visibleEvents and reports hiddenCount; without it nothing is hidden", async () => {
+        build({ ...base, events: evs, maxEvents: 2 }, true);
+        await flush();
+        expect(document.querySelector('[data-testid="cap-2026-01-06"]')!.textContent).toBe("2/1");
+        document.body.innerHTML = "";
+        build({ ...base, events: evs }, true);
+        await flush();
+        expect(document.querySelector('[data-testid="cap-2026-01-06"]')!.textContent).toBe("3/0");
+    });
+
+    test("§8.38 without an event-move listener the event is not draggable; with one a drop emits event-move", async () => {
+        build({ ...base, events: evs }, true);
+        await flush();
+        expect(document.querySelector("[data-event-open]")!.hasAttribute("draggable")).toBe(false);
+        document.body.innerHTML = "";
+        const onEventMove = vi.fn();
+        build({ ...base, events: evs, onEventMove }, true);
+        await flush();
+        const el = document.querySelector("[data-event-open]")!;
+        expect(el.getAttribute("draggable")).toBe("true");
+        const d = dt();
+        el.dispatchEvent(dragEvent("dragstart", d));
+        cell("2026-01-09").dispatchEvent(dragEvent("dragover", d));
+        cell("2026-01-09").dispatchEvent(dragEvent("drop", d));
+        expect(onEventMove).toHaveBeenCalledWith(evs[0], "2026-01-09");
+    });
+
+    test("§8.40 Alt+Arrow on a focused event moves it a day / a week; a disabled day refuses", async () => {
+        const onEventMove = vi.fn();
+        build({ ...base, events: evs, onEventMove }, true);
+        await flush();
+        const el = document.querySelector("[data-event-open]")!;
+        key(el, { key: "ArrowRight", altKey: true });
+        expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-07");
+        key(el, { key: "ArrowDown", altKey: true });
+        expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-13");
+        document.body.innerHTML = "";
+        const refused = vi.fn();
+        build({ ...base, events: evs, onEventMove: refused, minDate: "2026-01-07" }, true);
+        await flush();
+        key(document.querySelector("[data-event-open]")!, { key: "ArrowLeft", altKey: true });
+        expect(refused).not.toHaveBeenCalled();
+    });
+
+    test("§8.42 labels.periodTitle renders the shown period's title and updates on navigation", async () => {
+        build({ view: "month", anchorDate: "2026-01-15", labels: { ...LABELS, periodTitle: (v: string, s: string, e: string) => `${v}:${s}..${e}` } });
+        await flush();
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-01-01..2026-01-31");
+        click(byName("Next month"));
+        await flush();
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-02-01..2026-02-28");
+    });
+
+    test("§8.44 hideOutsideDays leaves outside cells empty but in the grid", async () => {
+        build({ view: "month", anchorDate: "2026-01-15", hideOutsideDays: true });
+        await flush();
+        expect(document.querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!.textContent!.trim()).toBe("");
+        expect(cell("2026-01-15").textContent!.trim()).toBe("15");
+        expect(cells()).toHaveLength(42);
+    });
+
+    test("§8.46 weekendDays marks those weekdays with data-weekend", async () => {
+        build({ view: "week", anchorDate: "2026-01-06", weekendDays: [0, 6] });
+        await flush();
+        expect(cell("2026-01-10").hasAttribute("data-weekend")).toBe(true);
+        expect(cell("2026-01-11").hasAttribute("data-weekend")).toBe(true);
+        expect(cell("2026-01-07").hasAttribute("data-weekend")).toBe(false);
+    });
+
+    test("§8.48 multiple selection toggles days and Enter toggles the cursor day", async () => {
+        const onDayClick = vi.fn();
+        build({ view: "week", anchorDate: "2026-01-06", selectionMode: "multiple", onDayClick });
+        await flush();
+        click(cell("2026-01-06"));
+        click(cell("2026-01-08"));
+        await flush();
+        expect(cell("2026-01-06").hasAttribute("data-selected")).toBe(true);
+        expect(cell("2026-01-08").hasAttribute("data-selected")).toBe(true);
+        click(cell("2026-01-06"));
+        await flush();
+        expect(cell("2026-01-06").hasAttribute("data-selected")).toBe(false);
+        key(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "Enter" });
+        expect(onDayClick).toHaveBeenLastCalledWith("2026-01-06");
     });
 });
