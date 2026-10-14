@@ -19,7 +19,7 @@
         weekdayOf,
     } from "@lilydesignsystem/svelte-date-time-picker";
 
-    export type CalendarView = "week" | "four-week" | "month";
+    export type CalendarView = "day" | "week" | "four-week" | "month";
 
     /** A marked range (a holiday, a closure, a school term). `label` is text a `day` snippet can render. */
     export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -45,6 +45,8 @@
      * helper's label-gating convention. See spec/index.md §5.
      */
     export type CalendarViewLabels = {
+        /** Switcher label for the one-day view. Gates its button. */
+        dayView?: string;
         weekView?: string;
         fourWeekView?: string;
         monthView?: string;
@@ -64,6 +66,8 @@
         weekNumber?: (week: number) => string;
         /** Announced as a range is extended with Shift+arrows or confirmed. */
         rangeAnnouncement?: (start: string, end: string) => string;
+        /** Announced after an event is moved to another day. */
+        eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
     };
 
     export type Props = {
@@ -77,6 +81,8 @@
         events?: CalendarEvent[];
         /** Cap on events shown per day: the day snippet gets `visibleEvents` (the first `maxEvents`) and `hiddenCount` for a "+N more" control. */
         maxEvents?: number;
+        /** Called when an event is moved to another day, by pointer drag-and-drop or Alt+arrow keys (a day, or a week with Up/Down) on a focused event element. The consumer updates `events`. Setting it turns the drag-and-drop on. */
+        onEventMove?: (calendarEvent: CalendarEvent, toDate: string) => void;
         /** ISO date marking "today"; never computed internally (stays SSR-safe). */
         today?: string;
         /** BCP 47 locale, passed to firstDayOfWeekFor. */
@@ -124,6 +130,8 @@
         ranges: CalendarRange[];
         /** Call from the event's own button/click handler to fire `onEventClick`. */
         openEvent: (calendarEvent: CalendarEvent) => void;
+        /** Spread onto an event's element to make it draggable and keyboard-movable: `{...eventProps(ev)}`. Empty without `onEventMove`. */
+        eventProps: (calendarEvent: CalendarEvent) => Record<string, unknown>;
     };
 
     /** Start of the week containing `isoDate`, for a given first-day-of-week (0 = Sunday). */
@@ -142,6 +150,7 @@
             if (!parsed) return [];
             return monthMatrix(parsed.year, parsed.month, firstDayOfWeek);
         }
+        if (view === "day") return [[anchorDate]];
         const start = weekStart(anchorDate, firstDayOfWeek);
         const rows = view === "week" ? 1 : 4;
         const weeks: string[][] = [];
@@ -163,6 +172,7 @@
                 formatIsoDate({ ...parsed, day: daysInMonth(parsed.year, parsed.month) }),
             ];
         }
+        if (view === "day") return [anchorDate, anchorDate];
         const start = weekStart(anchorDate, firstDayOfWeek);
         const len = view === "week" ? 7 : 28;
         return [start, addDays(start, len - 1)];
@@ -210,6 +220,7 @@
         anchorDate = $bindable(),
         events = [],
         maxEvents = undefined,
+        onEventMove = undefined,
         today = undefined,
         selectedDate = $bindable(undefined),
         minDate = undefined,
@@ -293,6 +304,43 @@
         onEventClick?.(calendarEvent);
     }
 
+    // ---------------------------------------------------------------
+    // Event drag-and-drop (supplementary pointer path) + Alt+arrow keys
+    // ---------------------------------------------------------------
+
+    let draggingEventId: string | null = null;
+
+    function eventProps(calendarEvent: CalendarEvent): Record<string, unknown> {
+        if (!onEventMove) return {};
+        return {
+            draggable: "true",
+            "data-event-id": calendarEvent.id,
+            ondragstart: (e: DragEvent) => {
+                draggingEventId = calendarEvent.id;
+                e.dataTransfer?.setData("text/plain", calendarEvent.id);
+            },
+        };
+    }
+
+    function moveEventTo(calendarEvent: CalendarEvent, toDate: string): void {
+        if (!onEventMove || disabledDay(toDate)) return;
+        onEventMove(calendarEvent, toDate);
+        const message = labels?.eventMoveAnnouncement?.(calendarEvent, toDate);
+        if (message) statusMessage = message;
+    }
+
+    function onDayDragOver(event: DragEvent): void {
+        if (draggingEventId && onEventMove) event.preventDefault();
+    }
+
+    function onDayDrop(isoDate: string, event: DragEvent): void {
+        event.preventDefault();
+        const id = draggingEventId ?? event.dataTransfer?.getData("text/plain");
+        draggingEventId = null;
+        const calendarEvent = events.find((e) => e.id === id);
+        if (calendarEvent) moveEventTo(calendarEvent, isoDate);
+    }
+
     function announce(): void {
         if (!labels?.periodAnnouncement) return;
         const [start, end] = periodRange(view, anchorDate, firstDayOfWeek);
@@ -307,7 +355,8 @@
     }
 
     function stepView(delta: 1 | -1): void {
-        if (view === "week") navigateTo(addDays(anchorDate, delta * 7));
+        if (view === "day") navigateTo(addDays(anchorDate, delta));
+        else if (view === "week") navigateTo(addDays(anchorDate, delta * 7));
         else if (view === "four-week") navigateTo(addDays(anchorDate, delta * 28));
         else navigateTo(addMonths(anchorDate, delta));
     }
@@ -344,6 +393,8 @@
             if (cp && anchor && (cp.year !== anchor.year || cp.month !== anchor.month)) {
                 navigateTo(formatIsoDate({ year: cp.year, month: cp.month, day: 1 }));
             }
+        } else if (view === "day") {
+            if (next !== anchorDate) navigateTo(next);
         } else {
             const len = view === "week" ? 7 : 28;
             let start = weekStart(anchorDate, firstDayOfWeek);
@@ -365,12 +416,25 @@
     }
 
     function pageCursor(delta: 1 | -1): void {
-        if (view === "week") moveCursor(addDays(cursor, delta * 7));
+        if (view === "day") moveCursor(addDays(cursor, delta));
+        else if (view === "week") moveCursor(addDays(cursor, delta * 7));
         else if (view === "four-week") moveCursor(addDays(cursor, delta * 28));
         else moveCursor(addMonths(cursor, delta));
     }
 
     function onGridKeydown(event: KeyboardEvent): void {
+        if (onEventMove && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+            const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
+            const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
+            const calendarEvent = events.find((e) => e.id === el?.dataset.eventId);
+            if (el && fromDate && calendarEvent) {
+                event.preventDefault();
+                const week = view === "day" ? 1 : 7;
+                const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+                moveEventTo(calendarEvent, addDays(fromDate, delta));
+                return;
+            }
+        }
         const extending = event.shiftKey && MOVE_KEYS.has(event.key);
         if (extending && rangeAnchor === null) rangeAnchor = selectedDate && !selectedRange ? selectedDate : cursor;
         if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor = null;
@@ -385,21 +449,21 @@
                 break;
             case "ArrowUp":
                 event.preventDefault();
-                moveCursor(addDays(cursor, -7));
+                moveCursor(addDays(cursor, view === "day" ? -1 : -7));
                 break;
             case "ArrowDown":
                 event.preventDefault();
-                moveCursor(addDays(cursor, 7));
+                moveCursor(addDays(cursor, view === "day" ? 1 : 7));
                 break;
             case "Home": {
                 event.preventDefault();
-                const offset = (weekdayOf(cursor) - firstDayOfWeek + 7) % 7;
+                const offset = view === "day" ? 0 : (weekdayOf(cursor) - firstDayOfWeek + 7) % 7;
                 moveCursor(addDays(cursor, -offset));
                 break;
             }
             case "End": {
                 event.preventDefault();
-                const offset = (weekdayOf(cursor) - firstDayOfWeek + 7) % 7;
+                const offset = view === "day" ? 6 : (weekdayOf(cursor) - firstDayOfWeek + 7) % 7;
                 moveCursor(addDays(cursor, 6 - offset));
                 break;
             }
@@ -451,9 +515,17 @@
 
 <!-- CalendarView.svelte -->
 <div bind:this={rootEl} class={`calendar-view ${className}`.trim()} {...restProps}>
-    {#if labels?.weekView || labels?.fourWeekView || labels?.monthView}
+    {#if labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView}
         <div class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
+                {#if labels?.dayView}
+                    <button
+                        type="button"
+                        class="calendar-view-switcher-button calendar-view-switcher-button-day"
+                        aria-pressed={view === "day"}
+                        onclick={() => setView("day")}
+                    >{labels.dayView}</button>
+                {/if}
                 {#if labels?.weekView}
                     <button
                         type="button"
@@ -510,8 +582,8 @@
                 {#if showWeekNumbers}
                     <CalendarTableTH scope="col" data-week-number-header>{labels?.weekNumberHeader ?? ""}</CalendarTableTH>
                 {/if}
-                {#each { length: 7 } as _, i (i)}
-                    {@const weekday = (firstDayOfWeek + i) % 7}
+                {#each { length: view === "day" ? 1 : 7 } as _, i (i)}
+                    {@const weekday = view === "day" ? weekdayOf(anchorDate) : (firstDayOfWeek + i) % 7}
                     <CalendarTableTH scope="col">
                         {#if labels?.weekdayAbbr}
                             <abbr title={labels.weekday?.(weekday) ?? labels.weekdayAbbr(weekday)}>{labels.weekdayAbbr(weekday)}</abbr>
@@ -552,9 +624,11 @@
                             aria-disabled={disabled || undefined}
                             aria-label={labels?.day?.(d, weekday, outside)}
                             onclick={(e: MouseEvent) => onDayCellClick(d, e)}
+                            ondragover={onDayDragOver}
+                            ondrop={(e: DragEvent) => onDayDrop(d, e)}
                         >
                             {#if day}
-                                {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent })}
+                                {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent, eventProps })}
                             {:else}
                                 {parseIsoDate(d)?.day}
                             {/if}

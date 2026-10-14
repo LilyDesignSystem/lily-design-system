@@ -67,7 +67,8 @@
         /** Resolves a card to its display label. Defaults to `card.title`. */
         cardLabel?: (card: KanbanCard) => string;
         /** Called after a card moves to a new column, by pointer or by the move menu. */
-        onMove?: (cardId: string, toColumnId: string) => void;
+        /** Called after a card moves to a new column, by pointer or the move menu. `toIndex` (0-based, in the visible column) is given only when a pointer drop landed on a card: the card was dropped there. */
+        onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void;
         /** Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
         onReorder?: (cardId: string, toIndex: number) => void;
         /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
@@ -193,7 +194,7 @@
         return !!toColumn.strictLimit && toColumn.wipLimit != null && (cardsByColumn.get(toColumn.id)?.length ?? 0) >= toColumn.wipLimit;
     }
 
-    function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
+    function moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): void {
         if (readonly) return;
         if (isRefused(card, toColumn)) {
             announce(labels.moveBlocked?.(cardLabel(card), toColumn.title));
@@ -201,7 +202,8 @@
             return;
         }
         if (toColumn.id !== card.columnId) {
-            onMove?.(card.id, toColumn.id);
+            if (toIndex === undefined) onMove?.(card.id, toColumn.id);
+            else onMove?.(card.id, toColumn.id, toIndex);
             announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
         }
         closeMoveMenu(card.id);
@@ -253,17 +255,35 @@
         event.dataTransfer?.setData("text/plain", card.id);
     }
 
-    function onColumnDragOver(event: DragEvent): void {
-        if (draggingCardId) event.preventDefault();
+    /** The cell a dragged card is over, for `data-drop-target` styling. */
+    let dropTarget = $state<string | null>(null);
+
+    function onColumnDragOver(event: DragEvent, rowIndex: number, colIndex: number): void {
+        if (!draggingCardId || readonly) return;
+        event.preventDefault();
+        dropTarget = `${rowIndex}-${colIndex}`;
     }
 
-    function onColumnDrop(column: KanbanColumn, event: DragEvent): void {
+    function onColumnDrop(column: KanbanColumn, rowIndex: number, event: DragEvent): void {
         event.preventDefault();
         const cardId = draggingCardId ?? event.dataTransfer?.getData("text/plain");
         draggingCardId = null;
+        dropTarget = null;
+        if (readonly) return;
         const card = cards.find((c) => c.id === cardId);
-        // Dropping a card back on its own column is not a move.
-        if (card && card.columnId !== column.id) moveCard(card, column);
+        if (!card) return;
+        const shown = shownByColumn.get(column.id) ?? [];
+        const overCard = shown[rowIndex];
+        if (card.columnId === column.id) {
+            // Dropped on another card of its own column: reorder to that position.
+            const from = shown.findIndex((c) => c.id === card.id);
+            if (overCard && from >= 0 && from !== rowIndex) {
+                onReorder?.(card.id, rowIndex);
+                announce(labels.reorderAnnouncement?.(cardLabel(card), rowIndex + 1, shown.length));
+            }
+            return;
+        }
+        moveCard(card, column, overCard ? rowIndex : undefined);
     }
 
     // ---------------------------------------------------------------
@@ -400,8 +420,10 @@
                             data-collapsed={isCollapsed(column.id) ? "" : undefined}
                             active={activeRow === rowIndex && activeCol === colIndex}
                             label={card ? cardLabel(card) : undefined}
-                            ondragover={onColumnDragOver}
-                            ondrop={(e: DragEvent) => onColumnDrop(column, e)}
+                            data-drop-target={dropTarget === `${rowIndex}-${colIndex}` ? "" : undefined}
+                            ondragover={(e: DragEvent) => onColumnDragOver(e, rowIndex, colIndex)}
+                            ondragleave={() => (dropTarget = null)}
+                            ondrop={(e: DragEvent) => onColumnDrop(column, rowIndex, e)}
                         >
                             {#if card}
                                 <!-- The card title is a supplementary pointer-drag handle inside

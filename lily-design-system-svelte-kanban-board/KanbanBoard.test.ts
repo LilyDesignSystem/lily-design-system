@@ -460,3 +460,48 @@ describe("KanbanBoard — filter and sort (§8.31–§8.34)", () => {
         expect(todo).toEqual(["Card Two", "Card One"]);
     });
 });
+
+describe("KanbanBoard — drop position (§8.35–§8.38)", () => {
+    const base = { label: "Sprint board", columns: COLUMNS, cards: CARDS };
+    const cell = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+    const drag = async (from: HTMLElement, to: HTMLElement) => {
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(from.querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.dragOver(to, { dataTransfer: dt });
+        await fireEvent.drop(to, { dataTransfer: dt });
+    };
+
+    test("§8.35 dropping on a card in another column passes that card's position as onMove's third argument", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove } });
+        await drag(cell(0, 0), cell(1, 2 - 1));
+        expect(onMove).toHaveBeenCalledWith("c1", "doing", 1);
+    });
+
+    test("§8.36 dropping on an empty cell calls onMove with two arguments (append)", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove } });
+        await drag(cell(0, 0), cell(0, 2));
+        expect(onMove).toHaveBeenCalledWith("c1", "done");
+    });
+
+    test("§8.37 dropping on another card of its own column reorders", async () => {
+        const onReorder = vi.fn();
+        render(KanbanBoard, { props: { ...base, onReorder } });
+        await drag(cell(0, 0), cell(1, 0));
+        expect(onReorder).toHaveBeenCalledWith("c1", 1);
+    });
+
+    test("§8.38 the cell under a dragged card carries data-drop-target; readonly refuses drops", async () => {
+        const onMove = vi.fn();
+        const { unmount } = render(KanbanBoard, { props: { ...base, onMove } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(cell(0, 0).querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.dragOver(cell(1, 1), { dataTransfer: dt });
+        expect(cell(1, 1).hasAttribute("data-drop-target")).toBe(true);
+        unmount();
+        render(KanbanBoard, { props: { ...base, onMove, readonly: true } });
+        await fireEvent.drop(cell(0, 2), { dataTransfer: dt });
+        expect(onMove).not.toHaveBeenCalled();
+    });
+});

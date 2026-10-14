@@ -423,6 +423,17 @@
 
     function onBarDragStart(task: GanttTask, event: DragEvent): void {
         draggingTaskId = task.id;
+        resizingEdge = null;
+        event.dataTransfer?.setData("text/plain", task.id);
+    }
+
+    /** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
+    let resizingEdge: "start" | "end" | null = null;
+
+    function onHandleDragStart(task: GanttTask, edge: "start" | "end", event: DragEvent): void {
+        event.stopPropagation();
+        draggingTaskId = task.id;
+        resizingEdge = edge;
         event.dataTransfer?.setData("text/plain", task.id);
     }
 
@@ -436,7 +447,16 @@
         const taskId = draggingTaskId ?? event.dataTransfer?.getData("text/plain");
         draggingTaskId = null;
         const task = tasks.find((t) => t.id === taskId);
+        const edge = resizingEdge;
+        resizingEdge = null;
         if (!task) return;
+        if (edge) {
+            // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+            const start = edge === "start" ? column.start : task.start;
+            const end = edge === "end" ? column.end : task.end;
+            if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) applyChange(task, start, end);
+            return;
+        }
         const duration = parseISOToEpochDay(task.end) - parseISOToEpochDay(task.start);
         applyChange(task, column.start, addDays(column.start, duration));
     }
@@ -598,6 +618,19 @@
                                     data-percent-complete={row.task.percentComplete ?? undefined}
                                     draggable={!row.hasChildren && !readonly ? "true" : undefined}
                                     ondragstart={(e: DragEvent) => onBarDragStart(row.task, e)}
+                                >{#if !row.hasChildren && !readonly}<span
+                                        class="gantt-chart-bar-handle gantt-chart-bar-handle-start"
+                                        draggable="true"
+                                        aria-hidden="true"
+                                        ondragstart={(e: DragEvent) => onHandleDragStart(row.task, "start", e)}
+                                    ></span>{/if}</span>
+                            {/if}
+                            {#if !row.hasChildren && !readonly && inRange && rangesOverlap(column.start, column.end, end, end)}
+                                <span
+                                    class="gantt-chart-bar-handle gantt-chart-bar-handle-end"
+                                    draggable="true"
+                                    aria-hidden="true"
+                                    ondragstart={(e: DragEvent) => onHandleDragStart(row.task, "end", e)}
                                 ></span>
                             {/if}
                         </GanttTableTD>

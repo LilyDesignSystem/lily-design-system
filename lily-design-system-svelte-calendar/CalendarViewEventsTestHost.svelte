@@ -19,8 +19,9 @@
         minDate,
         ranges,
         maxEvents,
+        onEventMove,
     }: {
-        view?: "week" | "four-week" | "month";
+        view?: "day" | "week" | "four-week" | "month";
         anchorDate?: string;
         events: CalendarEvent[];
         labels?: CalendarViewLabels;
@@ -29,10 +30,11 @@
         minDate?: string;
         ranges?: { start: string; end: string; kind?: string }[];
         maxEvents?: number;
+        onEventMove?: (e: CalendarEvent, d: string) => void;
     } = $props();
 </script>
 
-<CalendarView label="Appointments" {view} {anchorDate} {events} {labels} {onEventClick} {selectedDate} {minDate} {ranges} {maxEvents}>
+<CalendarView label="Appointments" {view} {anchorDate} {events} {labels} {onEventClick} {selectedDate} {minDate} {ranges} {maxEvents} {onEventMove}>
     {#snippet day(args)}
         <span data-testid={`events-${args.date}`}>{args.events.map((e) => e.id).join(",")}</span>
         <span data-testid={`cap-${args.date}`}>{args.visibleEvents.length}/{args.hiddenCount}</span>
@@ -40,7 +42,7 @@
         {#if args.ranges.length}<i data-snippet-ranges={args.ranges.map((r) => r.kind).join(",")}></i>{/if}
         {#if args.disabled}<i data-snippet-disabled></i>{/if}
         {#each args.events as ev (ev.id)}
-            <button type="button" data-event-open onclick={() => args.openEvent(ev)}>{ev.id}</button>
+            <button type="button" data-event-open {...args.eventProps(ev)} onclick={() => args.openEvent(ev)}>{ev.id}</button>
         {/each}
     {/snippet}
 </CalendarView>

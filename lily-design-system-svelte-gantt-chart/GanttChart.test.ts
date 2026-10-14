@@ -588,3 +588,42 @@ describe("GanttChart — zoom control (§14.1–§14.4)", () => {
         expect(btn("Zoom in").disabled).toBe(false);
     });
 });
+
+describe("GanttChart — drag-resize handles (§14.5–§14.8)", () => {
+    const dt = () => ({ setData: vi.fn(), getData: vi.fn(() => "design") });
+    const cellAt = (i: number) => rows()[0].querySelectorAll(".gantt-table-td")[i];
+
+    test("§14.5 a leaf task's bar has a start handle and the last in-range cell an end handle; none when readonly or for a parent", () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS } });
+        expect(rows()[0].querySelector(".gantt-chart-bar-handle-start")).toBeTruthy();
+        expect(cellAt(2).querySelector(".gantt-chart-bar-handle-end")).toBeTruthy();
+        expect(rows()[3].querySelector(".gantt-chart-bar-handle")).toBeNull();
+    });
+
+    test("§14.6 dropping the end handle on a later column extends the end and keeps the start", () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, onTaskChange } });
+        const d = dt();
+        fireEvent.dragStart(cellAt(2).querySelector(".gantt-chart-bar-handle-end")!, { dataTransfer: d });
+        fireEvent.drop(cellAt(5), { dataTransfer: d });
+        expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-01", "2026-10-06");
+    });
+
+    test("§14.7 dropping the start handle on an earlier/later column moves the start; the range cannot invert", () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, onTaskChange } });
+        const d = dt();
+        fireEvent.dragStart(rows()[0].querySelector(".gantt-chart-bar-handle-start")!, { dataTransfer: d });
+        fireEvent.drop(cellAt(1), { dataTransfer: d });
+        expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-02", "2026-10-03");
+        onTaskChange.mockClear();
+        fireEvent.dragStart(rows()[0].querySelector(".gantt-chart-bar-handle-start")!, { dataTransfer: d });
+        fireEvent.drop(cellAt(7), { dataTransfer: d });
+        expect(onTaskChange).not.toHaveBeenCalled();
+    });
+
+    test("§14.8 no handles when readonly", () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, readonly: true } });
+        expect(document.querySelector(".gantt-chart-bar-handle")).toBeNull();
+    });
+});

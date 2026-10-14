@@ -512,3 +512,88 @@ describe("CalendarView — maxEvents (§8.31–§8.32)", () => {
         expect(screen.getByTestId("cap-2026-01-06").textContent).toBe("3/0");
     });
 });
+
+describe("CalendarView — day view (§8.33–§8.37)", () => {
+    const dayProps = { label: "Appointments", view: "day" as const, anchorDate: "2026-01-06", today: "2026-01-08", labels: { ...LABELS, dayView: "Day" } };
+    const cells = () => Array.from(document.querySelectorAll<HTMLElement>(".calendar-table-td"));
+    const headers = () => Array.from(document.querySelectorAll(".calendar-table-thead .calendar-table-th, .calendar-table-head .calendar-table-th"));
+
+    test("§8.33 the day view shows exactly one day under one weekday header", () => {
+        render(CalendarView, { props: dayProps });
+        expect(cells()).toHaveLength(1);
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-06");
+        expect(headers()).toHaveLength(1);
+    });
+
+    test("§8.34 labels.dayView adds a pressed switcher button that switches to the day view", async () => {
+        render(CalendarView, { props: { ...dayProps, view: "week" } });
+        const b = screen.getByRole("button", { name: "Day" });
+        expect(b.getAttribute("aria-pressed")).toBe("false");
+        await fireEvent.click(b);
+        expect(b.getAttribute("aria-pressed")).toBe("true");
+        expect(cells()).toHaveLength(1);
+    });
+
+    test("§8.35 previous and next step one day and report the one-day period", async () => {
+        const onNavigate = vi.fn();
+        render(CalendarView, { props: { ...dayProps, onNavigate } });
+        await fireEvent.click(screen.getByRole("button", { name: LABELS.next!("day") }));
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+        expect(onNavigate).toHaveBeenLastCalledWith("day", "2026-01-07", "2026-01-07");
+    });
+
+    test("§8.36 arrows and Page keys move by a day", async () => {
+        render(CalendarView, { props: dayProps });
+        await fireEvent.keyDown(cells()[0], { key: "ArrowRight" });
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+        await fireEvent.keyDown(cells()[0], { key: "ArrowDown" });
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-08");
+        await fireEvent.keyDown(cells()[0], { key: "PageUp" });
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+    });
+
+    test("§8.37 the day view still renders the day snippet with that day's events", () => {
+        render(CalendarViewEventsTestHost, { props: { view: "day", anchorDate: "2026-01-06", events: EVENTS } });
+        expect(screen.getByTestId("events-2026-01-06").textContent).toBe("e1");
+    });
+});
+
+describe("CalendarView — event drag-and-drop (§8.38–§8.41)", () => {
+    const evs = [{ id: "a", date: "2026-01-06", title: "A" }];
+    const cell = (iso: string) => document.querySelector<HTMLElement>(`.calendar-table-td[data-date="${iso}"]`)!;
+    const evEl = () => document.querySelector<HTMLElement>("[data-event-open]")!;
+
+    test("§8.38 without onEventMove the event element is not draggable", () => {
+        render(CalendarViewEventsTestHost, { props: { events: evs } });
+        expect(evEl().hasAttribute("draggable")).toBe(false);
+    });
+
+    test("§8.39 with onEventMove the event is draggable and dropping it on a day calls onEventMove", async () => {
+        const onEventMove = vi.fn();
+        render(CalendarViewEventsTestHost, { props: { events: evs, onEventMove } });
+        expect(evEl().getAttribute("draggable")).toBe("true");
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(evEl(), { dataTransfer: dt });
+        await fireEvent.dragOver(cell("2026-01-09"), { dataTransfer: dt });
+        await fireEvent.drop(cell("2026-01-09"), { dataTransfer: dt });
+        expect(onEventMove).toHaveBeenCalledWith(evs[0], "2026-01-09");
+    });
+
+    test("§8.40 Alt+ArrowRight / Alt+ArrowDown on a focused event moves it a day / a week", async () => {
+        const onEventMove = vi.fn();
+        render(CalendarViewEventsTestHost, { props: { events: evs, onEventMove } });
+        await fireEvent.keyDown(evEl(), { key: "ArrowRight", altKey: true });
+        expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-07");
+        await fireEvent.keyDown(evEl(), { key: "ArrowDown", altKey: true });
+        expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-13");
+    });
+
+    test("§8.41 a disabled day refuses the drop", async () => {
+        const onEventMove = vi.fn();
+        render(CalendarViewEventsTestHost, { props: { events: evs, onEventMove, minDate: "2026-01-07" } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(evEl(), { dataTransfer: dt });
+        await fireEvent.drop(cell("2026-01-06"), { dataTransfer: dt });
+        expect(onEventMove).not.toHaveBeenCalled();
+    });
+});
