@@ -19,6 +19,10 @@ export type KanbanColumn = {
   wipLimit?: number;
   /** A hard limit: a move into this column is refused once it holds `wipLimit` cards. */
   strictLimit?: boolean;
+  /** A non-colour status for the column (for example "Over capacity"): visible text in its header and `data-flag`. */
+  flag?: string;
+  /** A hook for per-column colour: becomes `data-accent` on the header and every cell. Lily sets no colour. */
+  accent?: string;
 };
 
 export type KanbanCard = {
@@ -30,7 +34,23 @@ export type KanbanCard = {
   title: string;
   /** A locked card cannot be moved, dragged or reordered (`data-locked` on its cell); it still counts toward WIP limits. */
   locked?: boolean;
+  /** A second line under the title (a priority, "source · score", an amount). */
+  subtitle?: string;
+  /** Short labels shown under the subtitle (each a `.kanban-board-card-badge`). */
+  badges?: string[];
+  /** A non-colour status (for example "SLA breached"): visible text, `data-flag`, and linked to the cell with `aria-describedby`. */
+  flag?: string;
+  /** Makes the title a link to the record (`<a href>`). */
+  href?: string;
+  /** `false` stops pointer dragging this card while keeping the move menu and keyboard moves. */
+  draggable?: boolean;
 };
+
+/** What the `renderCard` prop receives. */
+export type KanbanCardContext = { card: KanbanCard; label: string; column: KanbanColumn; pending: boolean };
+
+/** What the `columnHeader` / `columnFooter` props receive: the column and every card in it (unfiltered). */
+export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; count: number };
 
 /**
  * Every field is optional, but its presence gates the control it
@@ -55,6 +75,14 @@ export type KanbanLabels = {
   collapseColumn?: (column: KanbanColumn, collapsed: boolean) => string;
   /** Accessible name for a column's add-card button. Gates the button. */
   addCard?: (column: KanbanColumn) => string;
+  /** Message shown in an empty column (a column with no cards to show). Gates the message. */
+  emptyColumn?: (column: KanbanColumn) => string;
+  /** Announced while an async `onMove` is pending: (card title, column title). */
+  movePending?: (cardTitle: string, columnTitle: string) => string;
+  /** Announced when an async `onMove` rejects and the card goes back: (card title, column title, the rejection). */
+  moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
+  /** Accessible name of the board's search field. Gates the field. */
+  search?: string;
 };
 
 /** Public props for KanbanBoard. See `spec/index.md` §5 for the contract. */
@@ -78,8 +106,28 @@ export type Props = Omit<
   filter?: (card: KanbanCard) => boolean;
   /** Orders the cards shown within each column (a stable sort). */
   compare?: (a: KanbanCard, b: KanbanCard) => number;
-  /** Called after a card moves to a new column, by pointer or by the move menu. `toIndex` (0-based, in the visible column) is given only when a pointer drop landed on a card. */
-  onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void;
+  /**
+   * Called when a card moves to a new column, by pointer or the move menu. `toIndex` (0-based, in the visible column) is given only when a
+   * pointer drop landed on a card. May return a promise: the card shows in its new column at once with `data-pending` and `aria-busy`,
+   * and goes back (announcing `labels.moveFailed`, calling `onMoveError`) if the promise rejects.
+   */
+  onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>;
+  /** Called when an async `onMove` rejects, after the card has gone back. */
+  onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void;
+  /** The columns a card may move to (its own column is always shown). The move menu offers only these; drops and keyboard moves elsewhere are refused. */
+  allowedColumns?: (card: KanbanCard) => string[];
+  /** Board-level search: shows only cards whose text contains it (case-insensitive). Controlled when given; combines with `filter`. */
+  search?: string;
+  defaultSearch?: string;
+  onSearchChange?: (search: string) => void;
+  /** The text `search` looks in. Defaults to the label, subtitle and badges. */
+  searchText?: (card: KanbanCard) => string;
+  /** Replaces the title content of a card (the subtitle and badges are then this render prop's own). */
+  renderCard?: (ctx: KanbanCardContext) => React.ReactNode;
+  /** Rendered in each column's header after its title and flag. */
+  columnHeader?: (ctx: KanbanColumnContext) => React.ReactNode;
+  /** Rendered in a `<tfoot>` cell per column: sums per stage. */
+  columnFooter?: (ctx: KanbanColumnContext) => React.ReactNode;
   /** Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
   onReorder?: (cardId: string, toIndex: number) => void;
   /** Ids of collapsed columns. Controlled when given. A collapsed column keeps its header and count but shows no cards. */
@@ -120,6 +168,15 @@ export function KanbanBoard({
   filter,
   compare,
   onMove,
+  onMoveError,
+  allowedColumns,
+  search: searchProp,
+  defaultSearch = "",
+  onSearchChange,
+  searchText,
+  renderCard,
+  columnHeader,
+  columnFooter,
   onReorder,
   canMove,
   collapsedColumns: collapsedProp,
@@ -155,11 +212,22 @@ export function KanbanBoard({
   >(null);
   const draggingCardIdRef = React.useRef<string | null>(null);
 
-  const cardsByColumn = groupCardsByColumn(columns, cards);
+  /** Cards moved optimistically by an async `onMove` that has not settled: id → destination column. */
+  const [optimistic, setOptimistic] = React.useState<Record<string, string>>({});
+  const isPending = (cardId: string) => cardId in optimistic;
+  const effectiveCards = cards.map((c) => (c.id in optimistic ? { ...c, columnId: optimistic[c.id] } : c));
+  const [searchInner, setSearchInner] = React.useState(defaultSearch);
+  const search = searchProp ?? searchInner;
+  const cardsByColumn = groupCardsByColumn(columns, effectiveCards);
   // What the grid shows: the filtered, sorted view. Counts and WIP limits use `cardsByColumn` (every card).
   const shownByColumn = new Map<string, KanbanCard[]>();
   for (const [id, list] of cardsByColumn) {
     let shown = filter ? list.filter(filter) : list.slice();
+    const needle = search.trim().toLowerCase();
+    if (needle) {
+      const text = searchText ?? ((c: KanbanCard) => [cardLabel(c), c.subtitle ?? "", ...(c.badges ?? [])].join(" "));
+      shown = shown.filter((c) => text(c).toLowerCase().includes(needle));
+    }
     if (compare) shown = shown.sort(compare);
     shownByColumn.set(id, shown);
   }
@@ -177,10 +245,16 @@ export function KanbanBoard({
   }
 
   // A collapsed column shows no cards, so it does not count towards the board's height.
-  const maxRows = columns.reduce(
-    (max, column) =>
-      Math.max(max, isCollapsed(column.id) ? 0 : (shownByColumn.get(column.id)?.length ?? 0)),
-    0,
+  const isEmptyColumn = (column: KanbanColumn) =>
+    !isCollapsed(column.id) && (shownByColumn.get(column.id)?.length ?? 0) === 0;
+  // A row exists for an empty column's message even when no column has a card to show.
+  const maxRows = Math.max(
+    columns.reduce(
+      (max, column) =>
+        Math.max(max, isCollapsed(column.id) ? 0 : (shownByColumn.get(column.id)?.length ?? 0)),
+      0,
+    ),
+    labels.emptyColumn && columns.some(isEmptyColumn) ? 1 : 0,
   );
 
   // The roving cursor, clamped to the cells that exist now: a move can shrink
@@ -207,6 +281,7 @@ export function KanbanBoard({
   /** A move is refused by the consumer's `canMove`, or by the destination's hard limit. */
   function isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
     if (toColumn.id === card.columnId) return false;
+    if (allowedColumns && !allowedColumns(card).includes(toColumn.id)) return true;
     if (canMove && !canMove(card, toColumn)) return true;
     return (
       !!toColumn.strictLimit &&
@@ -215,17 +290,44 @@ export function KanbanBoard({
     );
   }
 
+  /** The columns the move menu offers for `card`: its own, and the ones it may move to. */
+  function moveTargets(card: KanbanCard): KanbanColumn[] {
+    if (!allowedColumns) return columns;
+    const allowed = allowedColumns(card);
+    return columns.filter((c) => c.id === card.columnId || allowed.includes(c.id));
+  }
+
+  async function runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): Promise<void> {
+    const result = toIndex === undefined ? onMove?.(card.id, toColumn.id) : onMove?.(card.id, toColumn.id, toIndex);
+    if (!result || typeof (result as Promise<unknown>).then !== "function") {
+      announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
+      return;
+    }
+    setOptimistic((o) => ({ ...o, [card.id]: toColumn.id }));
+    announce(labels.movePending?.(cardLabel(card), toColumn.title));
+    try {
+      await result;
+      announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
+    } catch (error) {
+      announce(labels.moveFailed?.(cardLabel(card), toColumn.title, error));
+      onMoveError?.(card.id, toColumn.id, error);
+    } finally {
+      setOptimistic((o) => {
+        const { [card.id]: _settled, ...rest } = o;
+        return rest;
+      });
+    }
+  }
+
   function moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): void {
-    if (readonly || card.locked) return;
+    if (readonly || card.locked || isPending(card.id)) return;
     if (isRefused(card, toColumn)) {
       announce(labels.moveBlocked?.(cardLabel(card), toColumn.title));
       closeMoveMenu(card.id);
       return;
     }
     if (toColumn.id !== card.columnId) {
-      if (toIndex === undefined) onMove?.(card.id, toColumn.id);
-      else onMove?.(card.id, toColumn.id, toIndex);
-      announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
+      void runMove(card, toColumn, toIndex);
     }
     closeMoveMenu(card.id);
   }
@@ -233,7 +335,7 @@ export function KanbanBoard({
   function openMoveMenu(card: KanbanCard): void {
     if (readonly || card.locked) return;
     setOpenCardId(card.id);
-    const currentIndex = columns.findIndex((c) => c.id === card.columnId);
+    const currentIndex = moveTargets(card).findIndex((c) => c.id === card.columnId);
     setMoveActiveIndex(currentIndex >= 0 ? currentIndex : 0);
     pendingFocusRef.current = { kind: "menu" };
   }
@@ -413,6 +515,18 @@ export function KanbanBoard({
       data-readonly={readonly ? "" : undefined}
       {...restProps}
     >
+      {labels.search && (
+        <input
+          type="search"
+          className="kanban-board-search"
+          aria-label={labels.search}
+          value={search}
+          onChange={(e) => {
+            setSearchInner(e.target.value);
+            onSearchChange?.(e.target.value);
+          }}
+        />
+      )}
       <KanbanTable
         label={label}
         caption={caption}
@@ -431,6 +545,8 @@ export function KanbanBoard({
                   data-over-limit={overLimit ? "" : undefined}
                   data-hidden-count={count - (shownByColumn.get(column.id)?.length ?? 0) > 0 ? count - (shownByColumn.get(column.id)?.length ?? 0) : undefined}
                   data-collapsed={isCollapsed(column.id) ? "" : undefined}
+                  data-flag={column.flag}
+                  data-accent={column.accent}
                 >
                   {labels.collapseColumn && (
                     <button
@@ -444,6 +560,8 @@ export function KanbanBoard({
                     </button>
                   )}
                   {column.title}
+                  {column.flag && <span className="kanban-board-column-flag">{column.flag}</span>}
+                  {columnHeader?.({ column, cards: cardsByColumn.get(column.id) ?? [], count })}
                   {labels.cardCount && (
                     <span className="kanban-board-count">
                       {labels.cardCount(count)}
@@ -482,6 +600,12 @@ export function KanbanBoard({
                     data-card-id={card?.id}
                     data-collapsed={isCollapsed(column.id) ? "" : undefined}
                     data-locked={card?.locked ? "" : undefined}
+                    data-pending={card && isPending(card.id) ? "" : undefined}
+                    aria-busy={card && isPending(card.id) ? true : undefined}
+                    data-flag={card?.flag}
+                    data-accent={column.accent}
+                    data-empty={!card && rowIndex === 0 && labels.emptyColumn && isEmptyColumn(column) ? "" : undefined}
+                    aria-describedby={card?.flag ? `${baseId}-flag-${card.id}` : undefined}
                     data-drop-target={dropTarget === `${rowIndex}-${colIndex}` ? "" : undefined}
                     {...(card ? (cardAttrs?.(card) ?? {}) : {})}
                     active={activeRow === rowIndex && activeCol === colIndex}
@@ -502,11 +626,36 @@ export function KanbanBoard({
                         */}
                         <span
                           className="kanban-board-card-title"
-                          draggable={readonly || card.locked ? undefined : true}
+                          draggable={readonly || card.locked || card.draggable === false ? undefined : true}
                           onDragStart={(e) => onCardDragStart(card, e)}
                         >
-                          {cardLabel(card)}
+                          {renderCard ? (
+                            renderCard({ card, label: cardLabel(card), column, pending: isPending(card.id) })
+                          ) : card.href ? (
+                            <a className="kanban-board-card-link" href={card.href}>
+                              {cardLabel(card)}
+                            </a>
+                          ) : (
+                            cardLabel(card)
+                          )}
                         </span>
+                        {!renderCard && card.subtitle && (
+                          <span className="kanban-board-card-subtitle">{card.subtitle}</span>
+                        )}
+                        {!renderCard && card.badges?.length ? (
+                          <span className="kanban-board-card-badges">
+                            {card.badges.map((badge) => (
+                              <span key={badge} className="kanban-board-card-badge">
+                                {badge}
+                              </span>
+                            ))}
+                          </span>
+                        ) : null}
+                        {card.flag && (
+                          <span className="kanban-board-card-flag" id={`${baseId}-flag-${card.id}`}>
+                            {card.flag}
+                          </span>
+                        )}
                         {/*
                           Gated on labels.moveButton: an unnamed button is
                           worse than none, and Enter/Space on the cell opens
@@ -542,11 +691,11 @@ export function KanbanBoard({
                             clamp
                             activeIndex={moveActiveIndex}
                             onActiveIndexChange={setMoveActiveIndex}
-                            onActivate={(i: number) => moveCard(card, columns[i])}
+                            onActivate={(i: number) => moveCard(card, moveTargets(card)[i])}
                             onEscape={() => closeMoveMenu(card.id)}
                             onTabOut={() => closeMoveMenu(card.id, false)}
                           >
-                            {columns.map((destination, i) => (
+                            {moveTargets(card).map((destination, i) => (
                               <li
                                 key={destination.id}
                                 className="kanban-board-move-option"
@@ -564,12 +713,30 @@ export function KanbanBoard({
                         )}
                       </>
                     )}
+                    {!card && rowIndex === 0 && labels.emptyColumn && isEmptyColumn(column) && (
+                      <span className="kanban-board-empty">{labels.emptyColumn(column)}</span>
+                    )}
                   </KanbanTableTD>
                 );
               })}
             </KanbanTableRow>
           ))}
         </KanbanTableBody>
+        {columnFooter && (
+          <tfoot className="kanban-table-foot">
+            <tr className="kanban-table-row">
+              {columns.map((column) => (
+                <td key={column.id} className="kanban-table-td kanban-board-column-footer" data-accent={column.accent}>
+                  {columnFooter({
+                    column,
+                    cards: cardsByColumn.get(column.id) ?? [],
+                    count: cardsByColumn.get(column.id)?.length ?? 0,
+                  })}
+                </td>
+              ))}
+            </tr>
+          </tfoot>
+        )}
       </KanbanTable>
 
       <p className="kanban-board-status" aria-live="polite">

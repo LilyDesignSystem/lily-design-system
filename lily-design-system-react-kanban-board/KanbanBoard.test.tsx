@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import KanbanBoard from "./KanbanBoard";
@@ -630,5 +630,135 @@ describe("KanbanBoard — filter, drop position, locked cards, Alt+Arrow, cardAt
     render(<KanbanBoard {...base} cardAttrs={(c) => ({ "data-priority": c.id === "c1" ? "high" : "low" })} />);
     expect(document.querySelector('[data-card-id="c1"]')!.getAttribute("data-priority")).toBe("high");
     expect(document.querySelector('[data-card-id="c2"]')!.getAttribute("data-priority")).toBe("low");
+  });
+});
+
+describe("KanbanBoard — card body, flags, allowed columns, async move, footers, empty message, search (§8.48–§8.62)", () => {
+  const rich: KanbanCard[] = [
+    { id: "c1", columnId: "todo", title: "Card One", subtitle: "Source · 80", badges: ["P1", "VIP"], flag: "SLA breached", href: "/t/1" },
+    { id: "c2", columnId: "todo", title: "Card Two" },
+    { id: "c3", columnId: "doing", title: "Card Three" },
+  ];
+  const cols: KanbanColumn[] = [
+    { id: "todo", title: "To Do", flag: "Over capacity", accent: "red" },
+    { id: "doing", title: "In Progress" },
+    { id: "done", title: "Done" },
+  ];
+  const base = { label: "Board", columns: cols, cards: rich, labels: LABELS };
+  const cell = (id: string) => document.querySelector<HTMLElement>(`[data-card-id="${id}"]`)!;
+  const status = () => document.querySelector(".kanban-board-status")!.textContent;
+  const deferred = () => {
+    let resolve!: () => void;
+    let reject!: (e: unknown) => void;
+    const promise = new Promise<void>((res, rej) => ((resolve = res), (reject = rej)));
+    return { promise, resolve, reject };
+  };
+
+  test("§8.48 subtitle, badges and a link title render; §8.50 the flag is text, data-flag and aria-describedby; §8.51 column flag and accent", () => {
+    render(<KanbanBoard {...base} />);
+    expect(cell("c1").querySelector(".kanban-board-card-subtitle")!.textContent).toBe("Source · 80");
+    expect(Array.from(cell("c1").querySelectorAll(".kanban-board-card-badge")).map((b) => b.textContent)).toEqual(["P1", "VIP"]);
+    expect(cell("c1").querySelector("a.kanban-board-card-link")!.getAttribute("href")).toBe("/t/1");
+    const flag = cell("c1").querySelector(".kanban-board-card-flag")!;
+    expect(flag.textContent).toBe("SLA breached");
+    expect(cell("c1").getAttribute("data-flag")).toBe("SLA breached");
+    expect(cell("c1").getAttribute("aria-describedby")).toBe(flag.id);
+    const th = document.querySelector(".kanban-table-th")!;
+    expect(th.getAttribute("data-flag")).toBe("Over capacity");
+    expect(th.getAttribute("data-accent")).toBe("red");
+    expect(th.querySelector(".kanban-board-column-flag")!.textContent).toBe("Over capacity");
+    expect(cell("c1").getAttribute("data-accent")).toBe("red");
+  });
+
+  test("§8.49 renderCard replaces the title content; §8.59 columnHeader and columnFooter render per column", () => {
+    render(
+      <KanbanBoard
+        {...base}
+        renderCard={({ label }) => <b data-custom>{label}!</b>}
+        columnHeader={({ count }) => <i data-header>{count}</i>}
+        columnFooter={({ column, count, cards }) => <i data-footer={column.id}>{count}:{cards.map((c) => c.id).join(",")}</i>}
+      />,
+    );
+    expect(cell("c2").querySelector("[data-custom]")!.textContent).toBe("Card Two!");
+    expect(document.querySelectorAll("tfoot td")).toHaveLength(3);
+    expect(document.querySelector('[data-footer="todo"]')!.textContent).toBe("2:c1,c2");
+    expect(document.querySelectorAll("[data-header]")[1].textContent).toBe("1");
+  });
+
+  test("§8.52 allowedColumns limits the move menu; §8.53 a keyboard move elsewhere is refused and announced", () => {
+    render(<KanbanBoard {...base} allowedColumns={(c) => (c.id === "c1" ? ["doing"] : ["done"])} />);
+    fireEvent.keyDown(cell("c1"), { key: "Enter" });
+    expect(screen.getAllByRole("option").map((o) => o.textContent?.trim())).toEqual(["To Do", "In Progress"]);
+    cleanup();
+    const onMove = vi.fn();
+    render(<KanbanBoard {...base} onMove={onMove} allowedColumns={() => ["done"]} labels={{ ...LABELS, moveBlocked: (t, c) => `${t} cannot go to ${c}` }} />);
+    fireEvent.keyDown(cell("c1"), { key: "ArrowRight", altKey: true });
+    expect(onMove).not.toHaveBeenCalled();
+    expect(status()).toBe("Card One cannot go to In Progress");
+  });
+
+  test("§8.54 card.draggable=false stops pointer dragging but keeps the move menu", () => {
+    render(<KanbanBoard {...base} cards={rich.map((c) => (c.id === "c2" ? { ...c, draggable: false } : c))} />);
+    expect(cell("c2").querySelector("[draggable]")).toBeNull();
+    expect(cell("c2").querySelector(".kanban-board-move-button")).toBeTruthy();
+  });
+
+  test("§8.55 an async onMove shows data-pending and aria-busy in the new column, then clears on resolve", async () => {
+    const d = deferred();
+    render(<KanbanBoard {...base} onMove={() => d.promise} labels={{ ...LABELS, movePending: (t, c) => `Moving ${t} to ${c}` }} />);
+    fireEvent.focus(cell("c2"));
+    fireEvent.keyDown(cell("c2"), { key: "ArrowRight", altKey: true });
+    await waitFor(() => expect(cell("c2").getAttribute("data-pending")).toBe(""));
+    expect(cell("c2").getAttribute("aria-busy")).toBe("true");
+    expect(cell("c2").getAttribute("data-col")).toBe("1");
+    expect(status()).toBe("Moving Card Two to In Progress");
+    d.resolve();
+    await waitFor(() => expect(cell("c2").hasAttribute("data-pending")).toBe(false));
+  });
+
+  test("§8.56 a rejected async onMove sends the card back, announces moveFailed and calls onMoveError; §8.57 a pending card cannot move again", async () => {
+    const d = deferred();
+    const onMove = vi.fn(() => d.promise);
+    const onMoveError = vi.fn();
+    render(<KanbanBoard {...base} onMove={onMove} onMoveError={onMoveError} labels={{ ...LABELS, moveFailed: (t, c) => `Could not move ${t} to ${c}` }} />);
+    fireEvent.focus(cell("c2"));
+    fireEvent.keyDown(cell("c2"), { key: "ArrowRight", altKey: true });
+    await waitFor(() => expect(cell("c2").getAttribute("data-col")).toBe("1"));
+    fireEvent.keyDown(cell("c2"), { key: "ArrowRight", altKey: true });
+    expect(onMove).toHaveBeenCalledTimes(1);
+    d.reject(new Error("no"));
+    await waitFor(() => expect(cell("c2").getAttribute("data-col")).toBe("0"));
+    expect(onMoveError).toHaveBeenCalledWith("c2", "doing", expect.any(Error));
+    expect(status()).toBe("Could not move Card Two to In Progress");
+  });
+
+  test("§8.58 a synchronous onMove behaves as before (no pending state)", () => {
+    const onMove = vi.fn();
+    render(<KanbanBoard {...base} onMove={onMove} />);
+    fireEvent.focus(cell("c2"));
+    fireEvent.keyDown(cell("c2"), { key: "ArrowRight", altKey: true });
+    expect(onMove).toHaveBeenCalledWith("c2", "doing");
+    expect(document.querySelector("[data-pending]")).toBeNull();
+  });
+
+  test("§8.60 labels.emptyColumn shows a message in an empty column, even when no column has cards; §8.61 none without it", () => {
+    const lab = { ...LABELS, emptyColumn: (c: KanbanColumn) => `No cards in ${c.title}` };
+    render(<KanbanBoard {...base} labels={lab} />);
+    expect(document.querySelector(".kanban-board-empty")!.textContent).toBe("No cards in Done");
+    cleanup();
+    render(<KanbanBoard {...base} cards={[]} labels={lab} />);
+    expect(document.querySelectorAll(".kanban-board-empty")).toHaveLength(3);
+    expect(document.querySelectorAll(".kanban-table-body .kanban-table-row")).toHaveLength(1);
+    cleanup();
+    render(<KanbanBoard {...base} />);
+    expect(document.querySelector(".kanban-board-empty")).toBeNull();
+  });
+
+  test("§8.62 labels.search adds a search field that filters by label, subtitle and badges", () => {
+    render(<KanbanBoard {...base} labels={{ ...LABELS, search: "Search cards" }} />);
+    const input = screen.getByRole("searchbox", { name: "Search cards" });
+    fireEvent.change(input, { target: { value: "vip" } });
+    expect(Array.from(document.querySelectorAll(".kanban-board-card-title")).map((e) => e.textContent?.trim())).toEqual(["Card One"]);
+    expect(document.querySelector(".kanban-table-th")!.getAttribute("data-hidden-count")).toBe("1");
   });
 });

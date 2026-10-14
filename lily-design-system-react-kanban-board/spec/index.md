@@ -271,3 +271,7 @@ Ported from the Svelte canonical spec (§12 there; clauses §8.22–§8.30): col
 ## Svelte 0.3.0 parity, round 3 (2026-10-14)
 
 Ported from the Svelte canonical spec (§13 there; clauses §8.31–§8.47): `filter` / `compare`, drop position (`onMove`'s optional third argument, `data-drop-target`, in-column drop calls `onReorder`), `card.locked`, Alt+ArrowLeft/Right column move and `cardAttrs`.
+
+## Svelte 0.3.0 parity, consumer capabilities (2026-10-14)
+
+Ported from the Svelte canonical spec (§14 there; clauses §8.48–§8.62): card body (`subtitle`, `badges`, `href`, `renderCard`), flags and accent, `allowedColumns`, `card.draggable`, async `onMove` with `onMoveError`, `columnHeader` / `columnFooter` render props, `labels.emptyColumn` and `search`.

@@ -8,6 +8,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 - Added collapsible columns, per-column add-card buttons and hard WIP limits (`strictLimit`), ported from the Svelte 0.3.0.
 - Added `filter` and `compare`, drop position and in-column drag reorder, locked cards, Alt+ArrowLeft/Right column move and `cardAttrs`, ported from the Svelte 0.3.0.
+- Added the consumer-requested capabilities, ported from the Svelte 0.3.0: card `subtitle` / `badges` / `href` and a `renderCard` prop, `card.flag` / `column.flag` / `column.accent`, `allowedColumns`, `card.draggable`, an async `onMove` with a pending state and rollback (`onMoveError`), `columnHeader` / `columnFooter`, `labels.emptyColumn` and a board `search`.
 
 ## 0.2.0 — 2026-10-14
 
