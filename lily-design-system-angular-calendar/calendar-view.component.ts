@@ -28,12 +28,19 @@ import {
   daysInMonth,
   firstDayOfWeekFor,
   formatIsoDate,
+  isoWeek,
   monthMatrix,
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/angular-date-time-picker";
 
 export type CalendarViewMode = "week" | "four-week" | "month";
+
+/** A marked range (a holiday, a closure, a school term). */
+export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
+
+/** The user's picked range, inclusive. */
+export type SelectedRange = { start: string; end: string };
 
 export type CalendarEvent = {
   /** Stable event identifier. */
@@ -65,7 +72,16 @@ export type CalendarViewLabels = {
   weekdayAbbr?: (weekday: number) => string;
   /** Full accessible name for one day cell. */
   day?: (isoDate: string, weekday: number, outsidePeriod: boolean) => string;
+  /** Visible text for the week-number column header (e.g. "Wk"). */
+  weekNumberHeader?: string;
+  /** Accessible name for a week-number cell (e.g. "Week 3"). Without it the bare number is the name. */
+  weekNumber?: (week: number) => string;
+  /** Announced as a range is extended with Shift+arrows or confirmed. */
+  rangeAnnouncement?: (start: string, end: string) => string;
 };
+
+/** Payload of the `rangeSelect` output. */
+export type CalendarRangeSelectEvent = { start: string; end: string };
 
 /** What a `day` template (`<ng-template lilyCalendarDay>`-style) would need; exposed through `dayContent`. */
 export type DayArgs = {
@@ -250,6 +266,9 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
       >
         <thead lily-calendar-table-head>
           <tr lily-calendar-table-row>
+            @if (showWeekNumbers()) {
+              <th lily-calendar-table-th scope="col" data-week-number-header>{{ labels().weekNumberHeader ?? "" }}</th>
+            }
             @for (weekday of weekdays(); track $index) {
               <th lily-calendar-table-th scope="col">
                 @if (labels().weekdayAbbr; as abbr) {
@@ -264,6 +283,15 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
         <tbody lily-calendar-table-body>
           @for (week of days(); track $index) {
             <tr lily-calendar-table-row>
+              @if (showWeekNumbers()) {
+                @let weekNo = weekNumberOf(week);
+                <th
+                  lily-calendar-table-th
+                  scope="row"
+                  [attr.data-week-number]="weekNo"
+                  [attr.aria-label]="labels().weekNumber?.(weekNo) ?? null"
+                >{{ weekNo }}</th>
+              }
               @for (d of week; track d) {
                 @let outside = outsidePeriod(d);
                 @let disabled = isDisabledDay(d);
@@ -277,9 +305,13 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
                   [attr.data-outside-period]="outside ? '' : null"
                   [attr.data-selected]="selectedDate() === d ? '' : null"
                   [attr.data-disabled]="disabled ? '' : null"
+                  [attr.data-in-range]="inSelectedRange(d) ? '' : null"
+                  [attr.data-range-start]="selectedRange()?.start === d ? '' : null"
+                  [attr.data-range-end]="selectedRange()?.end === d ? '' : null"
+                  [attr.data-range]="rangeKinds(d)"
                   [attr.aria-disabled]="disabled ? 'true' : null"
                   [attr.aria-label]="dayName(d, outside)"
-                  (click)="onDayCellClick(d)"
+                  (click)="onDayCellClick(d, $event)"
                 >
                   {{ dayNumber(d) }}
                   @for (event of eventsFor(d); track event.id) {
@@ -311,6 +343,12 @@ export class CalendarView implements AfterViewInit {
   readonly anchorDate = model<string>("1970-01-01");
   /** ISO date the user has picked. Two-way bindable; distinct from the keyboard cursor. */
   readonly selectedDate = model<string | undefined>(undefined);
+  /** Show an ISO week-number column (a row header per week). */
+  readonly showWeekNumbers = input<boolean>(false);
+  /** Marked ranges (holidays, closures): each day inside gets `data-range="{kind}"`. */
+  readonly ranges = input<CalendarRange[]>([]);
+  /** The picked range. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. Two-way bindable. */
+  readonly selectedRange = model<SelectedRange | undefined>(undefined);
   /** Events to place into day cells. */
   readonly events = input<CalendarEvent[]>([]);
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
@@ -333,6 +371,8 @@ export class CalendarView implements AfterViewInit {
   readonly dayClick = output<string>();
   /** Fires when an event button is activated. */
   readonly eventClick = output<CalendarEvent>();
+  /** Fires when a range is confirmed: Enter on an extended range, or Shift+click. */
+  readonly rangeSelect = output<CalendarRangeSelectEvent>();
 
   private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   private readonly cdr = inject(ChangeDetectorRef);
@@ -401,6 +441,46 @@ export class CalendarView implements AfterViewInit {
     if (min && d < min) return true;
     if (max && d > max) return true;
     return this.isDisabled()?.(d) ?? false;
+  }
+
+  // ---------------------------------------------------------------
+  // Range selection: Shift+arrows extend from an anchor; Enter confirms.
+  // ---------------------------------------------------------------
+
+  private rangeAnchor: string | null = null;
+  private static readonly MOVE_KEYS = new Set([
+    "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown",
+  ]);
+
+  private setRange(a: string, b: string): void {
+    const [start, end] = a <= b ? [a, b] : [b, a];
+    this.selectedRange.set({ start, end });
+    const message = this.labels().rangeAnnouncement?.(start, end);
+    if (message) this.statusMessage.set(message);
+  }
+
+  private confirmRange(): void {
+    const range = this.selectedRange();
+    if (!range) return;
+    this.rangeAnchor = null;
+    this.rangeSelect.emit({ start: range.start, end: range.end });
+  }
+
+  protected inSelectedRange(d: string): boolean {
+    const r = this.selectedRange();
+    return !!r && d >= r.start && d <= r.end;
+  }
+
+  protected rangeKinds(d: string): string | null {
+    const kinds = this.ranges()
+      .filter((r) => d >= r.start && d <= r.end)
+      .map((r) => r.kind ?? "range");
+    return kinds.length ? kinds.join(" ") : null;
+  }
+
+  /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
+  protected weekNumberOf(row: string[]): number {
+    return isoWeek(row.find((d) => weekdayOf(d) === 4) ?? row[0]);
   }
 
   private pick(d: string): void {
@@ -499,6 +579,11 @@ export class CalendarView implements AfterViewInit {
   protected onGridKeydown(event: KeyboardEvent): void {
     const cursor = this.effectiveCursor();
     const offset = (weekdayOf(cursor) - this.firstDay() + 7) % 7;
+    const extending = event.shiftKey && CalendarView.MOVE_KEYS.has(event.key);
+    if (extending && this.rangeAnchor === null) {
+      this.rangeAnchor = this.selectedDate() && !this.selectedRange() ? this.selectedDate()! : cursor;
+    }
+    if (!extending && CalendarView.MOVE_KEYS.has(event.key)) this.rangeAnchor = null;
     switch (event.key) {
       case "ArrowLeft":
         event.preventDefault();
@@ -535,7 +620,15 @@ export class CalendarView implements AfterViewInit {
       case "Enter":
       case " ":
         event.preventDefault();
-        this.pick(cursor);
+        if (this.rangeAnchor !== null && this.selectedRange()) this.confirmRange();
+        else this.pick(cursor);
+        break;
+      case "Escape":
+        if (this.selectedRange() || this.rangeAnchor !== null) {
+          event.preventDefault();
+          this.rangeAnchor = null;
+          this.selectedRange.set(undefined);
+        }
         break;
       case "t":
       case "T": {
@@ -547,10 +640,20 @@ export class CalendarView implements AfterViewInit {
         break;
       }
     }
+    if (extending && this.rangeAnchor !== null) this.setRange(this.rangeAnchor, this.effectiveCursor());
   }
 
-  protected onDayCellClick(d: string): void {
+  protected onDayCellClick(d: string, event: MouseEvent): void {
+    if (event.shiftKey && !this.isDisabledDay(d)) {
+      // Shift+click picks a range from the picked day (or the cursor) to here, and confirms it.
+      const from = this.selectedDate() && !this.selectedRange() ? this.selectedDate()! : this.effectiveCursor();
+      this.setRange(from, d);
+      this.cursor.set(d);
+      this.confirmRange();
+      return;
+    }
     this.cursor.set(d);
+    this.rangeAnchor = null;
     this.pick(d);
   }
 }

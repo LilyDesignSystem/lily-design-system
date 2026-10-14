@@ -37,6 +37,9 @@ import {
 // `effectiveRange` (ported here, not reused) are exported below.
 export { addDays };
 
+/** A dependency with its type (`e2s` finish-to-start, `s2s`, `s2e`, `e2e`) and lag in days; data and text only. */
+export type GanttDependency = { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
+
 export type GanttTask = {
   /** Stable task identifier. */
   id: string;
@@ -51,7 +54,9 @@ export type GanttTask = {
   /** Another task's id; builds the row hierarchy. */
   parentId?: string;
   /** Other tasks' ids this task depends on (finish-to-start). */
-  dependsOn?: string[];
+  dependsOn?: (string | GanttDependency)[];
+  /** The planned span, shown as a second marked span (`data-baseline`) so slippage is visible. */
+  baseline?: { start: string; end: string };
   /** Class hook only: becomes `data-task-type` on the row (e.g. "design", "review"). */
   type?: string;
   /** On the critical path; becomes `data-critical`. Lily computes nothing. */
@@ -84,6 +89,16 @@ export type GanttLabels = {
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+  /** Label of the progress field in the edit region (0–100). Gates the field. */
+  percentLabel?: string;
+  /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
+  dependencyDetail?: (predecessorLabel: string, type: string, lag: number) => string;
+  /** Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early). */
+  baselineSummary?: (
+    taskLabel: string,
+    baseline: { start: string; end: string },
+    varianceDays: number,
+  ) => string;
   collapseButton?: (task: GanttTask, collapsed: boolean) => string;
 };
 
@@ -92,6 +107,8 @@ export type GanttTaskChangeEvent = {
   taskId: string;
   start: string;
   end: string;
+  /** Present only when the edit region's progress field is shown. */
+  percentComplete?: number;
 };
 
 // ---------------------------------------------------------------
@@ -334,6 +351,11 @@ export function nextGanttChartId(): string {
                     labels().dependencySummary!(deps)
                   }}</span>
                 }
+                @if (row.task.baseline && labels().baselineSummary) {
+                  <span [id]="baselineId(row.task.id)" class="gantt-chart-baseline-summary" hidden>{{
+                    baselineText(row.task, rowRange.end)
+                  }}</span>
+                }
               </th>
               @for (column of columns(); track column.start; let colIndex = $index) {
                 @let inRange = rangesOverlap(column.start, column.end, rowRange.start, rowRange.end);
@@ -350,7 +372,8 @@ export function nextGanttChartId(): string {
                   [attr.data-today]="colToday ? '' : null"
                   [attr.data-non-working]="isNonWorkingColumn(column) ? '' : null"
                   [attr.data-marker]="markersIn(column).length ? '' : null"
-                  [attr.aria-describedby]="hasDeps ? dependencyId(row.task.id) : null"
+                  [attr.aria-describedby]="describedBy(row.task, deps.length > 0)"
+                  [attr.data-baseline]="hasBaseline(row.task, column) ? '' : null"
                   (dragover)="onCellDragOver($event)"
                   (drop)="onCellDrop(column, $event)"
                 >
@@ -380,6 +403,20 @@ export function nextGanttChartId(): string {
                     mode="date"
                     [(value)]="editEnd"
                   />
+                  @if (labels().percentLabel) {
+                    <label class="gantt-chart-percent-label">
+                      {{ labels().percentLabel }}
+                      <input
+                        class="gantt-chart-percent-input"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="1"
+                        [value]="editPercent()"
+                        (input)="editPercent.set($any($event.target).value)"
+                      />
+                    </label>
+                  }
                   <button
                     type="button"
                     class="gantt-chart-save-button"
@@ -448,6 +485,7 @@ export class GanttChart implements AfterViewInit {
   protected readonly editingTaskId = signal<string | null>(null);
   protected readonly editStart = signal("");
   protected readonly editEnd = signal("");
+  protected readonly editPercent = signal("");
 
   private draggingTaskId: string | null = null;
 
@@ -548,18 +586,54 @@ export class GanttChart implements AfterViewInit {
 
   protected predecessorLabels(task: GanttTask): string[] {
     if (!task.dependsOn?.length) return [];
-    return task.dependsOn.map((id) => {
+    return task.dependsOn.map((dep) => {
+      const id = typeof dep === "string" ? dep : dep.id;
       const predecessor = this.tasks().find((t) => t.id === id);
-      return predecessor ? this.taskLabel()(predecessor) : id;
+      const text = predecessor ? this.taskLabel()(predecessor) : id;
+      const detail = this.labels().dependencyDetail;
+      if (typeof dep === "string" || !detail) return text;
+      return detail(text, dep.type ?? "e2s", dep.lag ?? 0);
     });
+  }
+
+  // ---------------------------------------------------------------
+  // Baseline
+  // ---------------------------------------------------------------
+
+  protected baselineId(taskId: string): string {
+    return `${this.baseId}-baseline-${taskId}`;
+  }
+
+  protected baselineText(task: GanttTask, currentEnd: string): string {
+    const b = task.baseline!;
+    const a = parseIsoDate(b.end);
+    const c = parseIsoDate(currentEnd);
+    const variance = a && c ? toEpochDay(c) - toEpochDay(a) : 0;
+    return this.labels().baselineSummary?.(this.taskLabel()(task), b, variance) ?? "";
+  }
+
+  protected hasBaseline(task: GanttTask, column: GanttColumn): boolean {
+    return !!task.baseline && overlaps(column.start, column.end, task.baseline.start, task.baseline.end);
+  }
+
+  /** The ids a cell is described by: the dependency summary, then the baseline summary. */
+  protected describedBy(task: GanttTask, hasDeps: boolean): string | null {
+    const ids: string[] = [];
+    if (hasDeps && this.labels().dependencySummary) ids.push(this.dependencyId(task.id));
+    if (task.baseline && this.labels().baselineSummary) ids.push(this.baselineId(task.id));
+    return ids.length ? ids.join(" ") : null;
   }
 
   // ---------------------------------------------------------------
   // Edit — keyboard (composed DateTimePicker) and pointer (native DnD)
   // ---------------------------------------------------------------
 
-  private applyChange(task: GanttTask, start: string, end: string): void {
-    this.taskChange.emit({ taskId: task.id, start, end });
+  private applyChange(task: GanttTask, start: string, end: string, percentComplete?: number): void {
+    this.taskChange.emit(
+      percentComplete === undefined
+        ? { taskId: task.id, start, end }
+        : { taskId: task.id, start, end, percentComplete },
+    );
     this.announce(this.labels().dateAnnouncement?.(this.taskLabel()(task), start, end));
   }
 
@@ -568,6 +642,7 @@ export class GanttChart implements AfterViewInit {
     this.editingTaskId.set(task.id);
     this.editStart.set(task.start);
     this.editEnd.set(task.end);
+    this.editPercent.set(task.percentComplete != null ? String(task.percentComplete) : "");
     // Focus moves into the region it opened, onto the start date's field.
     this.cdr.detectChanges();
     this.afterRender(() =>
@@ -583,7 +658,12 @@ export class GanttChart implements AfterViewInit {
     const b = this.editEnd();
     if (!a || !b) return;
     const [start, end] = compareISO(a, b) <= 0 ? [a, b] : [b, a];
-    this.applyChange(task, start, end);
+    const raw = this.editPercent();
+    const percent =
+      this.labels().percentLabel && raw !== ""
+        ? Math.min(100, Math.max(0, Math.round(Number(raw))))
+        : undefined;
+    this.applyChange(task, start, end, percent !== undefined && Number.isFinite(percent) ? percent : undefined);
     this.closeEdit();
   }
 

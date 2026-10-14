@@ -470,3 +470,109 @@ describe("KanbanBoard — reorder, veto and read-only (§8.17–§8.21)", () => 
     expect(tabbableCells(fixture)[0].getAttribute("data-col")).toBe("1");
   });
 });
+
+describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", () => {
+  const collapseLabels: KanbanLabels = {
+    ...LABELS,
+    collapseColumn: (c, collapsed) => `${collapsed ? "Expand" : "Collapse"} ${c.title}`,
+  };
+  const buttonNamed = (f: ComponentFixture<unknown>, name: string) =>
+    Array.from(f.nativeElement.querySelectorAll("button")).find(
+      (b) => (b as HTMLElement).getAttribute("aria-label") === name,
+    ) as HTMLElement;
+  const text = (f: ComponentFixture<unknown>) => f.nativeElement.textContent as string;
+  const status = (f: ComponentFixture<unknown>) =>
+    f.nativeElement.querySelector(".kanban-board-status")?.textContent;
+
+  test("§8.22 collapseColumn gates a toggle in each header; without it none renders", () => {
+    const f = mount();
+    expect(f.nativeElement.querySelector(".kanban-board-collapse-button")).toBeNull();
+  });
+
+  test("§8.23 the toggle collapses a column: aria-expanded flips, its cards are not rendered, its count remains", () => {
+    const f = mount({ labels: collapseLabels });
+    expect(buttonNamed(f, "Collapse To Do").getAttribute("aria-expanded")).toBe("true");
+    expect(text(f)).toContain("Card One");
+    click(f, buttonNamed(f, "Collapse To Do"));
+    expect(buttonNamed(f, "Expand To Do").getAttribute("aria-expanded")).toBe("false");
+    expect(text(f)).not.toContain("Card One");
+    expect(headers(f)[0].textContent).toContain("2 cards");
+    expect(headers(f)[0].hasAttribute("data-collapsed")).toBe(true);
+  });
+
+  test("§8.24 collapsedColumns starts a column collapsed, and its cells carry data-collapsed", () => {
+    const f = mount({ collapsedColumns: ["todo"], labels: LABELS });
+    expect(text(f)).not.toContain("Card One");
+    const cells = Array.from(f.nativeElement.querySelectorAll(".kanban-table-td")) as HTMLElement[];
+    expect(cells.filter((c) => c.dataset["col"] === "0").every((c) => c.hasAttribute("data-collapsed"))).toBe(true);
+  });
+
+  test("§8.25 the board's height ignores collapsed columns", () => {
+    expect(bodyRows(mount())).toHaveLength(2);
+    expect(bodyRows(mount({ collapsedColumns: ["todo", "doing"] }))).toHaveLength(0);
+  });
+
+  test("§8.26 addCard gates an add button per column that emits the column id", () => {
+    const f = mount({ labels: { addCard: (c: KanbanColumn) => `Add to ${c.title}` } });
+    const added: string[] = [];
+    f.componentInstance.addCardRequested.subscribe((id) => added.push(id));
+    click(f, buttonNamed(f, "Add to In Progress"));
+    expect(added).toEqual(["doing"]);
+  });
+
+  test("§8.27 no add button without labels.addCard, and none when readonly", () => {
+    expect(mount().nativeElement.querySelector(".kanban-board-add-button")).toBeNull();
+    const f = mount({ readonly: true, labels: { addCard: (c: KanbanColumn) => `Add to ${c.title}` } });
+    expect(f.nativeElement.querySelector(".kanban-board-add-button")).toBeNull();
+  });
+
+  test("§8.28 strictLimit refuses a move into a full column, announces it, and marks the option aria-disabled", () => {
+    const columns: KanbanColumn[] = [
+      { id: "todo", title: "To Do" },
+      { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true },
+    ];
+    const f = mount({ columns, labels: { ...LABELS, moveBlocked: (t: string, c: string) => `${t} cannot go to ${c}` } });
+    const onMove = vi.fn();
+    f.componentInstance.move.subscribe(onMove as (e: KanbanMoveEvent) => void);
+    press(f, tabbableCells(f)[0], "Enter");
+    const option = Array.from(f.nativeElement.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find(
+      (el) => el.textContent?.trim() === "In Progress",
+    )!;
+    expect(option.getAttribute("aria-disabled")).toBe("true");
+    click(f, option);
+    expect(onMove).not.toHaveBeenCalled();
+    expect(status(f)).toBe("Card One cannot go to In Progress");
+  });
+
+  test("§8.29 strictLimit allows a move while the column is under its limit", () => {
+    const columns: KanbanColumn[] = [
+      { id: "todo", title: "To Do" },
+      { id: "doing", title: "In Progress", wipLimit: 3, strictLimit: true },
+    ];
+    const f = mount({ columns, labels: LABELS });
+    const onMove = vi.fn();
+    f.componentInstance.move.subscribe(onMove as (e: KanbanMoveEvent) => void);
+    press(f, tabbableCells(f)[0], "Enter");
+    click(
+      f,
+      Array.from(f.nativeElement.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find(
+        (el) => el.textContent?.trim() === "In Progress",
+      )!,
+    );
+    expect(onMove).toHaveBeenCalledWith({ cardId: "c1", toColumnId: "doing" });
+  });
+
+  test("§8.30 without strictLimit a full column still accepts moves (the WIP limit is only a warning)", () => {
+    const f = mount({ labels: LABELS });
+    const onMove = vi.fn();
+    f.componentInstance.move.subscribe(onMove as (e: KanbanMoveEvent) => void);
+    press(f, tabbableCells(f)[0], "Enter");
+    click(
+      f,
+      Array.from(f.nativeElement.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find(
+        (el) => el.textContent?.trim() === "In Progress",
+      )!,
+    );
+    expect(onMove).toHaveBeenCalledWith({ cardId: "c1", toColumnId: "doing" });
+  });
+});

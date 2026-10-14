@@ -9,6 +9,7 @@ import {
   computed,
   inject,
   input,
+  model,
   output,
   signal,
   viewChild,
@@ -31,6 +32,8 @@ export type KanbanColumn = {
   title: string;
   /** Work-in-progress limit; the column warns when its card count exceeds this. */
   wipLimit?: number;
+  /** A hard limit: a move into this column is refused once it holds `wipLimit` cards. */
+  strictLimit?: boolean;
 };
 
 export type KanbanCard = {
@@ -57,6 +60,10 @@ export type KanbanLabels = {
   moveBlocked?: (cardTitle: string, columnTitle: string) => string;
   /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
   reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
+  /** Accessible name for a column's collapse toggle. Gates the toggle. */
+  collapseColumn?: (column: KanbanColumn, collapsed: boolean) => string;
+  /** Accessible name for a column's add-card button. Gates the button. */
+  addCard?: (column: KanbanColumn) => string;
 };
 
 /** Payload of the `reorder` output. */
@@ -130,7 +137,17 @@ export function nextKanbanBoardId(): string {
               <th
                 lily-kanban-table-th
                 [attr.data-over-limit]="overLimit ? '' : null"
+                [attr.data-collapsed]="isCollapsed(column.id) ? '' : null"
               >
+                @if (labels().collapseColumn; as collapseColumn) {
+                  <button
+                    type="button"
+                    class="kanban-board-collapse-button"
+                    [attr.aria-expanded]="!isCollapsed(column.id)"
+                    [attr.aria-label]="collapseColumn(column, isCollapsed(column.id))"
+                    (click)="toggleCollapsed(column)"
+                  >{{ isCollapsed(column.id) ? "▸" : "▾" }}</button>
+                }
                 {{ column.title }}
                 @if (labels().cardCount) {
                   <span class="kanban-board-count">{{ labels().cardCount!(count) }}</span>
@@ -139,6 +156,16 @@ export function nextKanbanBoardId(): string {
                   <span class="kanban-board-wip-warning">{{
                     labels().overLimit!(count, column.wipLimit ?? 0)
                   }}</span>
+                }
+                @if (labels().addCard; as addCard) {
+                  @if (!readonly()) {
+                    <button
+                      type="button"
+                      class="kanban-board-add-button"
+                      [attr.aria-label]="addCard(column)"
+                      (click)="addCardRequested.emit(column.id)"
+                    >+</button>
+                  }
                 }
               </th>
             }
@@ -154,6 +181,7 @@ export function nextKanbanBoardId(): string {
                   [attr.data-row]="rowIndex"
                   [attr.data-col]="colIndex"
                   [attr.data-card-id]="card?.id ?? null"
+                  [attr.data-collapsed]="isCollapsed(column.id) ? '' : null"
                   [attr.tabindex]="isFocused(rowIndex, colIndex) ? 0 : -1"
                   (dragover)="onColumnDragOver($event)"
                   (drop)="onColumnDrop(column, $event)"
@@ -245,6 +273,8 @@ export class KanbanBoard implements AfterViewInit {
   );
   /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
   readonly readonly = input<boolean>(false);
+  /** Ids of collapsed columns. Two-way bindable: `[(collapsedColumns)]`. A collapsed column keeps its header and count but shows no cards. */
+  readonly collapsedColumns = model<string[]>([]);
   /** User-facing strings. See KanbanLabels — presence gates each control. */
   readonly labels = input<KanbanLabels>({});
   /** Extra CSS class on the root. */
@@ -255,6 +285,9 @@ export class KanbanBoard implements AfterViewInit {
 
   /** Fires when Alt+ArrowUp/Down moves a card within its column. The consumer reorders `cards`. */
   readonly reorder = output<KanbanReorderEvent>();
+
+  /** Fires with the column id when its add-card button is pressed. The consumer adds the card (Lily ships no editor). */
+  readonly addCardRequested = output<string>();
 
   private readonly baseId = nextKanbanBoardId();
   protected readonly moveListId = `${this.baseId}-move-list`;
@@ -306,9 +339,23 @@ export class KanbanBoard implements AfterViewInit {
     return map;
   });
 
+  protected isCollapsed(columnId: string): boolean {
+    return this.collapsedColumns().includes(columnId);
+  }
+
+  protected toggleCollapsed(column: KanbanColumn): void {
+    this.collapsedColumns.set(
+      this.isCollapsed(column.id)
+        ? this.collapsedColumns().filter((id) => id !== column.id)
+        : [...this.collapsedColumns(), column.id],
+    );
+  }
+
+  // A collapsed column shows no cards, so it does not count towards the board's height.
   protected readonly maxRows = computed(() =>
     this.columns().reduce(
-      (max, column) => Math.max(max, this.cardsByColumn().get(column.id)?.length ?? 0),
+      (max, column) =>
+        Math.max(max, this.isCollapsed(column.id) ? 0 : (this.cardsByColumn().get(column.id)?.length ?? 0)),
       0,
     ),
   );
@@ -335,7 +382,7 @@ export class KanbanBoard implements AfterViewInit {
 
   protected cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
     const column = this.columns()[colIndex];
-    if (!column) return undefined;
+    if (!column || this.isCollapsed(column.id)) return undefined;
     return this.cardsByColumn().get(column.id)?.[rowIndex];
   }
 
@@ -353,8 +400,14 @@ export class KanbanBoard implements AfterViewInit {
 
   /** Choosing the card's own column is not a move: the menu just closes. */
   protected isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
+    if (toColumn.id === card.columnId) return false;
     const canMove = this.canMove();
-    return toColumn.id !== card.columnId && !!canMove && !canMove(card, toColumn);
+    if (canMove && !canMove(card, toColumn)) return true;
+    return (
+      !!toColumn.strictLimit &&
+      toColumn.wipLimit != null &&
+      this.cardCountFor(toColumn.id) >= toColumn.wipLimit
+    );
   }
 
   protected moveCard(card: KanbanCard, toColumn: KanbanColumn): void {

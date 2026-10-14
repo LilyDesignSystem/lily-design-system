@@ -11,6 +11,7 @@ import {
   type CalendarEvent,
   type CalendarNavigateEvent,
   type CalendarViewLabels,
+  type CalendarRangeSelectEvent,
 } from "./calendar-view.component";
 
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -299,5 +300,109 @@ describe("CalendarView — interaction", () => {
     click(f, cellFor(f, "2026-01-06")!.querySelector(".calendar-view-event")!);
     expect(events.map((e) => e.id)).toEqual(["e1"]);
     expect(clicks).toEqual([]);
+  });
+});
+
+describe("CalendarView — week numbers, marked ranges and range selection", () => {
+  const base = { view: "month", anchorDate: "2026-01-15", today: "2026-01-08" };
+  const rangeLabels: CalendarViewLabels = {
+    ...LABELS,
+    weekNumberHeader: "Wk",
+    weekNumber: (n) => `Week ${n}`,
+    rangeAnnouncement: (s, e) => `Selected ${s} to ${e}`,
+  };
+  const shift = (f: ComponentFixture<unknown>, el: Element, key: string) => press(f, el, key, { shiftKey: true });
+  const shiftClick = (f: ComponentFixture<unknown>, el: Element) => {
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true }));
+    f.detectChanges();
+  };
+  function collectRanges(f: ComponentFixture<CalendarView>): CalendarRangeSelectEvent[] {
+    const calls: CalendarRangeSelectEvent[] = [];
+    f.componentInstance.rangeSelect.subscribe((e) => calls.push(e));
+    return calls;
+  }
+
+  test("§8.22 showWeekNumbers adds a leading header and a row header per week with the ISO week number", () => {
+    const f = mount({ ...base, showWeekNumbers: true, labels: rangeLabels });
+    expect(f.nativeElement.querySelector("[data-week-number-header]").textContent.trim()).toBe("Wk");
+    const rowHeaders = Array.from(f.nativeElement.querySelectorAll("[data-week-number]")) as HTMLElement[];
+    expect(rowHeaders).toHaveLength(6);
+    const week2 = rowHeaders.find((h) => h.getAttribute("data-week-number") === "2")!;
+    expect(week2.textContent!.trim()).toBe("2");
+    expect(week2.getAttribute("aria-label")).toBe("Week 2");
+    expect(week2.getAttribute("scope")).toBe("row");
+  });
+
+  test("§8.22 week numbers are off by default", () => {
+    const f = mount(base);
+    expect(f.nativeElement.querySelector("[data-week-number]")).toBeNull();
+    expect(f.nativeElement.querySelector("[data-week-number-header]")).toBeNull();
+  });
+
+  test("§8.23 ranges mark each day inside with data-range={kind}", () => {
+    const f = mount({ ...base, ranges: [{ start: "2026-01-05", end: "2026-01-07", kind: "holiday" }, { start: "2026-01-07", end: "2026-01-08" }] });
+    expect(cellFor(f, "2026-01-05")!.getAttribute("data-range")).toBe("holiday");
+    expect(cellFor(f, "2026-01-07")!.getAttribute("data-range")).toBe("holiday range");
+    expect(cellFor(f, "2026-01-08")!.getAttribute("data-range")).toBe("range");
+    expect(cellFor(f, "2026-01-09")!.hasAttribute("data-range")).toBe(false);
+  });
+
+  test("§8.24 Shift+ArrowRight extends a range from the cursor, marking data-in-range, start and end", () => {
+    const f = mount({ ...base, labels: rangeLabels });
+    shift(f, tabbable(f)[0], "ArrowRight");
+    shift(f, tabbable(f)[0], "ArrowRight");
+    expect(cellFor(f, "2026-01-15")!.hasAttribute("data-range-start")).toBe(true);
+    expect(cellFor(f, "2026-01-17")!.hasAttribute("data-range-end")).toBe(true);
+    expect(cellFor(f, "2026-01-16")!.hasAttribute("data-in-range")).toBe(true);
+    expect(cellFor(f, "2026-01-18")!.hasAttribute("data-in-range")).toBe(false);
+    expect(f.nativeElement.querySelector(".calendar-view-status").textContent).toBe("Selected 2026-01-15 to 2026-01-17");
+  });
+
+  test("§8.24 extending backwards orders the range", () => {
+    const f = mount(base);
+    shift(f, tabbable(f)[0], "ArrowLeft");
+    expect(cellFor(f, "2026-01-14")!.hasAttribute("data-range-start")).toBe(true);
+    expect(cellFor(f, "2026-01-15")!.hasAttribute("data-range-end")).toBe(true);
+  });
+
+  test("§8.25 Enter on an extended range emits rangeSelect once, and not dayClick", () => {
+    const f = mount(base);
+    const ranges = collectRanges(f);
+    const clicks = collectDayClicks(f);
+    shift(f, tabbable(f)[0], "ArrowRight");
+    press(f, tabbable(f)[0], "Enter");
+    expect(ranges).toEqual([{ start: "2026-01-15", end: "2026-01-16" }]);
+    expect(clicks).toEqual([]);
+  });
+
+  test("§8.26 a plain arrow after extending stops extending but keeps the range", () => {
+    const f = mount(base);
+    shift(f, tabbable(f)[0], "ArrowRight");
+    press(f, tabbable(f)[0], "ArrowRight");
+    expect(cellFor(f, "2026-01-16")!.hasAttribute("data-range-end")).toBe(true);
+    expect(cellFor(f, "2026-01-17")!.hasAttribute("data-in-range")).toBe(false);
+  });
+
+  test("§8.27 Escape clears the range", () => {
+    const f = mount(base);
+    shift(f, tabbable(f)[0], "ArrowRight");
+    press(f, tabbable(f)[0], "Escape");
+    expect(f.nativeElement.querySelector("[data-in-range]")).toBeNull();
+  });
+
+  test("§8.28 Shift+click picks a range from the cursor to the clicked day and confirms it", () => {
+    const f = mount(base);
+    const ranges = collectRanges(f);
+    shiftClick(f, cellFor(f, "2026-01-20")!);
+    expect(ranges).toEqual([{ start: "2026-01-15", end: "2026-01-20" }]);
+    expect(cellFor(f, "2026-01-18")!.hasAttribute("data-in-range")).toBe(true);
+  });
+
+  test("§8.29 a plain click after a range clears extension and picks that day", () => {
+    const f = mount(base);
+    const clicks = collectDayClicks(f);
+    shift(f, tabbable(f)[0], "ArrowRight");
+    click(f, cellFor(f, "2026-01-22")!);
+    expect(clicks).toEqual(["2026-01-22"]);
   });
 });

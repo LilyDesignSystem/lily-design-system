@@ -8,6 +8,9 @@ export {
 } from "./calendar-view.component";
 export type {
   CalendarEvent,
+  CalendarRange,
+  CalendarRangeSelectEvent,
+  SelectedRange,
   CalendarViewLabels,
   CalendarViewMode,
   CalendarNavigateEvent,
