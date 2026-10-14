@@ -134,7 +134,7 @@ owns one complete interaction end to end:
   - [`share-picker`](lily-design-system-svelte-share-picker)
   - [`text-size-picker`](lily-design-system-svelte-text-size-picker)
   - [`theme-picker`](lily-design-system-svelte-theme-picker)
-  - [`calendar-view`](lily-design-system-svelte-calendar-view)
+  - [`calendar`](lily-design-system-svelte-calendar)
   - [`gantt-chart`](lily-design-system-svelte-gantt-chart)
   - [`picker-bar`](lily-design-system-svelte-picker-bar)
 - React helpers, one top-level subproject per package:

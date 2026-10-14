@@ -24,7 +24,7 @@ the helper packages in depth. It does not restate their content.
   `$bindable()`, `Snippet` children), npm package identity.
 - **[the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)**
   — one top-level subproject per package: the ten `*-picker` helpers,
-  `picker-bar`, data-grid, kanban-board, gantt-chart, calendar-view. Each
+  `picker-bar`, data-grid, kanban-board, gantt-chart, calendar. Each
   owns one whole interaction end to end — not just markup but the popup,
   the keyboard behaviour, and (for most of them) applying and persisting a
   value. **These packages are canonical**: per `AGENTS/helpers.md`'s "Svelte is

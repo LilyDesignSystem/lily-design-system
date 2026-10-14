@@ -14,7 +14,7 @@ A Claude Skill that explains
 [the Svelte helper packages](../../spec/helpers/index.md#svelte-helper-packages),
 one top-level subproject per package since 2026-10-10 (the ten
 `*-picker` helpers, `picker-bar`, data-grid, kanban-board, gantt-chart,
-calendar-view): their npm package
+calendar): their npm package
 identities and install idiom, the shared icon-button-opens-listbox
 contract for the four preference helpers versus `share-picker`'s link
 disclosure and `date-time-picker`'s field+dialog shape, and the

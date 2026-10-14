@@ -3,6 +3,7 @@ export type {
     Props,
     GanttColumn,
     GanttLabels,
+    GanttMarker,
     GanttTask,
     GanttTimeUnit,
 } from "./GanttChart.svelte";

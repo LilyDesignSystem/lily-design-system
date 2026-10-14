@@ -4,7 +4,7 @@ A Claude Skill ([`SKILL.md`](SKILL.md)) that explains
 [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages),
 the **canonical** reference for Lily's helpers, one top-level
 subproject per package (the ten `*-picker` helpers, `picker-bar`, and the
-data-grid, kanban-board, gantt-chart and calendar-view packages): their
+data-grid, kanban-board, gantt-chart and calendar packages): their
 npm package names and install idiom, the shared icon-button-opens-popup
 contract, and the idempotent-apply rule
 that guards against a real Svelte `effect_update_depth_exceeded` freeze.

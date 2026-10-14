@@ -186,6 +186,24 @@ break, Enter during IME composition is ignored; one button is send, or stop whil
 model picker in the default slot; show the conversation with `ChatNav`/`ChatList`/`ChatMessage`; announce a
 streaming reply with `StreamingText`.
 
+### Choice-chip pattern: RadioGroup / CheckboxGroup + real inputs
+
+Chips that pick one option or several are a *look*, not a new component: use `RadioGroup` (one choice) or
+`CheckboxGroup` (several), with a real input inside each label, and let CSS draw the chip. The inputs keep form
+submission, `required`, form reset, keyboard (arrows within a radio group, Tab between checkboxes) and the accessible
+name for free.
+
+```tsx
+<RadioGroup label="Delivery">
+  <label class="choice-chip"><input type="radio" name="delivery" value="post" /> Post</label>
+  <label class="choice-chip"><input type="radio" name="delivery" value="collect" /> Collect</label>
+</RadioGroup>
+```
+
+Style the label (`:has(input:checked)` for the selected state, `:has(input:focus-visible)` for the focus ring) and
+hide the input visually without removing it — clip it, never `display: none` or `hidden`, which take it out of the
+form and the accessibility tree. For removable chips, use `TagInput`.
+
 ### Table pattern: Table → Head/Body → Row → TH/TD
 
 ```tsx

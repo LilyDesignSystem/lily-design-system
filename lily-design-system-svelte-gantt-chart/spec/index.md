@@ -386,3 +386,22 @@ SVAR publishes no accessibility guide that could be found, and its own docs host
 obvious accessibility path, so nothing above claims SVAR is or is not accessible beyond what its release notes and
 a third-party mirror of its hotkeys page state. Before building item 8–12, re-read SVAR's current docs; the
 PRO/free split changes between releases.
+
+## 12. Shipped from the SVAR survey (0.2.0, 2026-10-14)
+
+Ideas A1–A4 of §11 are built; each has a test in `GanttChart.test.ts`.
+
+- **`readonly`** (A1): no edit region, no drag, `data-readonly` on the root;
+  navigation, collapse and announcements keep working.
+- **`markers`** (A2): `{ date, kind?, label? }[]`. The column containing the
+  date gets `data-marker="{kind}"` on its header and cells, and `label` is
+  rendered as text (`.gantt-chart-marker-label`) so a marker is never
+  colour-only. `today` stays as the one-line form.
+- **`isNonWorking(date)`** (A3): the consumer's own calendar. A column gets
+  `data-non-working` only when every day in it is non-working, so week and
+  month columns are not shaded for one free day.
+- **Task `type`, `critical`, `slack`** (A4): `data-task-type`, `data-critical`
+  and `data-slack` on the row. Lily computes nothing.
+
+Not yet built: A5 (richer dependency data), A6 (progress in the edit
+region), A7 (`hour` unit), and everything in B.

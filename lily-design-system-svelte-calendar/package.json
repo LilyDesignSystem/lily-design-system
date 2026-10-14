@@ -1,6 +1,6 @@
 {
-  "name": "@lilydesignsystem/svelte-calendar-view",
-  "version": "0.1.0",
+  "name": "@lilydesignsystem/svelte-calendar",
+  "version": "0.2.0",
   "engines": {
     "node": "=26"
   },
@@ -62,7 +62,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
-    "directory": "lily-design-system-svelte-calendar-view"
+    "directory": "lily-design-system-svelte-calendar"
   },
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {

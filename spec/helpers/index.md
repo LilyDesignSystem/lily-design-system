@@ -6,7 +6,7 @@
 
 ## Scope
 
-This topic covers the helpers of all eight frameworks (angular, blazor, html, nunjucks, react, svelte, vue, web-components) — the top-level helper packages, one subproject each — the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet. A ninth, `kanban-board` (see §"kanban-board contract" below), and a tenth, `gantt-chart` (see §"gantt-chart contract" below — the first helper to compose another *helper*, `date-time-picker`, rather than only headless components), are likewise now implemented in the canonical `svelte-helpers` catalog and ported to all seven other catalogs — `react-helpers`, `vue-helpers`, `angular-helpers`, `blazor-helpers` (2026-09-22), then `web-components-helpers`, `html-helpers`, and `nunjucks-helpers` (also 2026-09-22, once an earlier survey's claim that those three catalogs had no `DataTable`/`KanbanTable`/`GanttTable` headless family at all was found to be a false negative from a broken search pattern — they had the family all along). `kanban-board` and `gantt-chart` are the first two helpers to ship in every catalog. An eleventh, `calendar-view` (see §"calendar-view contract" below — a read/browse week/four-week/month calendar composing `CalendarTable` and, for its date arithmetic, the sibling helper `date-time-picker`), is likewise now implemented in the canonical `svelte-helpers` catalog (2026-09-22); the other seven catalogs do not port it yet.
+This topic covers the helpers of all eight frameworks (angular, blazor, html, nunjucks, react, svelte, vue, web-components) — the top-level helper packages, one subproject each — the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet. A ninth, `kanban-board` (see §"kanban-board contract" below), and a tenth, `gantt-chart` (see §"gantt-chart contract" below — the first helper to compose another *helper*, `date-time-picker`, rather than only headless components), are likewise now implemented in the canonical `svelte-helpers` catalog and ported to all seven other catalogs — `react-helpers`, `vue-helpers`, `angular-helpers`, `blazor-helpers` (2026-09-22), then `web-components-helpers`, `html-helpers`, and `nunjucks-helpers` (also 2026-09-22, once an earlier survey's claim that those three catalogs had no `DataTable`/`KanbanTable`/`GanttTable` headless family at all was found to be a false negative from a broken search pattern — they had the family all along). `kanban-board` and `gantt-chart` are the first two helpers to ship in every catalog. An eleventh, `calendar` (see §"calendar contract" below — a read/browse week/four-week/month calendar composing `CalendarTable` and, for its date arithmetic, the sibling helper `date-time-picker`), is likewise now implemented in the canonical `svelte-helpers` catalog (2026-09-22); the other seven catalogs do not port it yet.
 
 It does **not** cover: the headless 571-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
@@ -63,7 +63,7 @@ build order, which CI and `bin/publish-helpers` follow.
 - [`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-share-picker/) — `@lilydesignsystem/svelte-share-picker`
 - [`lily-design-system-svelte-text-size-picker`](../../lily-design-system-svelte-text-size-picker/) — `@lilydesignsystem/svelte-text-size-picker`
 - [`lily-design-system-svelte-theme-picker`](../../lily-design-system-svelte-theme-picker/) — `@lilydesignsystem/svelte-theme-picker`
-- [`lily-design-system-svelte-calendar-view`](../../lily-design-system-svelte-calendar-view/) — `@lilydesignsystem/svelte-calendar-view`
+- [`lily-design-system-svelte-calendar`](../../lily-design-system-svelte-calendar/) — `@lilydesignsystem/svelte-calendar`
 - [`lily-design-system-svelte-gantt-chart`](../../lily-design-system-svelte-gantt-chart/) — `@lilydesignsystem/svelte-gantt-chart`
 - [`lily-design-system-svelte-picker-bar`](../../lily-design-system-svelte-picker-bar/) — `@lilydesignsystem/svelte-picker-bar`
 
@@ -636,10 +636,10 @@ accessibility documentation before writing the table above:
 - [Gantt Chart Guide, TeamGantt](https://www.teamgantt.com/what-is-a-gantt-chart) — source for the standard feature vocabulary (milestones, today line, finish-to-start as the default dependency type) behind the v1/v2 triage above.
 - [Gantt View — Milestones & Dependencies, Airtable Support](https://support.airtable.com/docs/gantt-view-milestones-dependencies-and-critical-paths) — source for treating percent-complete as a v1 data value and critical-path as a v2/out-of-scope calculation rather than a rendering feature.
 
-## calendar-view contract
+## calendar contract
 
 **Status: implemented in `svelte-helpers` only (2026-09-22), as
-`@lilydesignsystem/svelte-calendar-view`.** Documented here first,
+`@lilydesignsystem/svelte-calendar`.** Documented here first,
 before the package existed, per this topic's own "Spec-driven"
 principle — the same workflow `data-grid`, `kanban-board`, and
 `gantt-chart` followed. The other seven catalogs do not port it yet.
@@ -653,7 +653,7 @@ roving-tabindex shape (`tabindex="0"` on the selected cell only) that
 `data-grid`/`kanban-board`/`gantt-chart` all independently arrived at
 — but ship zero period logic, zero navigation, and zero event
 rendering by design (see the component's own doc comment).
-`calendar-view` composes that family the way `gantt-chart` composes
+`calendar` composes that family the way `gantt-chart` composes
 `GanttTable`, and reuses `date-time-picker`'s own exported civil-date
 arithmetic (`monthMatrix`, `weekdayOf`, `isoWeek`, `addDays`,
 `addMonths`, `parseIsoDate`, `formatIsoDate`) rather than
@@ -664,7 +664,7 @@ on," and its keyboard model (`ArrowLeft`/`ArrowRight` ±1 day,
 `PageUp`/`PageDown` ±1 month) is exactly the WAI-ARIA APG calendar
 keyboard pattern this contract needs too, confirmed directly in
 `date-time-picker`'s own source rather than assumed from the spec
-alone. This makes `calendar-view` the third helper (after
+alone. This makes `calendar` the third helper (after
 `picker-bar` and `gantt-chart`) to depend on a sibling helper as a
 real package.
 
@@ -698,7 +698,7 @@ reader announcement adds to every cell. Lily's own `CalendarTable` —
 and every other grid-shaped headless component in this catalog —
 already made the opposite call, matching the WAI-ARIA APG's own
 Date Picker Dialog reference implementation, which is itself
-table-based. Reusing `CalendarTable` keeps `calendar-view` consistent
+table-based. Reusing `CalendarTable` keeps `calendar` consistent
 with `data-grid`/`kanban-board`/`gantt-chart` rather than introducing
 a fourth, non-table grid shape into the catalog for one component;
 the "Column 2, Row 2" complaint is mitigated the same way the WAI-ARIA
@@ -778,7 +778,7 @@ accessibility documentation before writing the table above:
 - [x] The headless-composition pattern ported to all seven other `*-helpers` catalogs (2026-09-21): react, vue, angular, blazor, web-components compose `IconButton` (+ `Listbox` for the 4 preference pickers, except web-components, whose fixed-tag `Listbox` can't stand in for a literal `<ul>`); html and nunjucks compose a purpose-built shared behavior module in place of a headless `Listbox` that turned out not to be a real component in either catalog. Every migrated package's own existing test suite passed with zero test-file edits, and every catalog's full headless + helpers workspace suite stayed green — see the per-catalog summary table above for what each catalog's own audit found and how its extension differs from Svelte's.
 - [x] `data-grid` ships no bundled CSS and no hardcoded strings (every user-facing string is a `labels.*` prop whose presence gates its control), and persists only column-width/visibility/sort-state view preferences (never row data or selection) to `localStorage`, matching every other helper.
 - [x] `data-grid` documents virtualization, inline cell editing, column reorder/pin, row grouping, server-side data, CSV export, and row drag-reorder as explicit v1 non-goals rather than silent gaps (spec/index.md §9).
-- [x] `calendar-view` (implemented 2026-09-22 as `@lilydesignsystem/svelte-calendar-view`): composes the headless `CalendarTable` family rather than duplicating a `<table>` implementation, in the canonical `svelte-helpers` catalog, reusing `date-time-picker`'s own exported civil-date arithmetic (`monthMatrix`, `weekdayOf`, `firstDayOfWeekFor`, `addDays`, `addMonths`) and its calendar dialog's own WAI-ARIA APG keyboard model (including its re-paging-on-boundary-crossing behaviour) rather than re-deriving either. Three view periods — week (7 days), a rolling four-week window (28 days), and a padded calendar month (42 days, `monthMatrix`'s own fixed shape) — with a view switcher (`aria-pressed`, renders only the buttons whose label is supplied), previous/next/today navigation, and consumer-owned event rendering per day cell via a `day` snippet, never a baked-in event-card shape. `CalendarTableTD`'s own `selected` prop already means "the roving-tabindex cursor" in its own doc comment, so composing it for the keyboard cursor needed no workaround, unlike `GanttTableTD`'s genuinely overloaded `active` prop. Documents an explicitly rejected alternative (a non-table, flexbox/CSS-Grid calendar layout, per a cited accessibility critique of table-based calendars) in favour of staying consistent with `data-grid`/`kanban-board`/`gantt-chart`'s own table-based WAI-ARIA APG Grid convention. Verified against a numbered spec — 27 tests, all passing, covering every §8 acceptance clause, including a real Svelte-template test host (`CalendarViewEventsTestHost.svelte`) to exercise the `day` snippet prop rather than hand-constructing Svelte's internal snippet-calling convention; the catalog's shared `build.js` gained a `*TestHost.svelte` exclusion rule so this test-only file never ships in the published package.
+- [x] `calendar` (implemented 2026-09-22 as `@lilydesignsystem/svelte-calendar`): composes the headless `CalendarTable` family rather than duplicating a `<table>` implementation, in the canonical `svelte-helpers` catalog, reusing `date-time-picker`'s own exported civil-date arithmetic (`monthMatrix`, `weekdayOf`, `firstDayOfWeekFor`, `addDays`, `addMonths`) and its calendar dialog's own WAI-ARIA APG keyboard model (including its re-paging-on-boundary-crossing behaviour) rather than re-deriving either. Three view periods — week (7 days), a rolling four-week window (28 days), and a padded calendar month (42 days, `monthMatrix`'s own fixed shape) — with a view switcher (`aria-pressed`, renders only the buttons whose label is supplied), previous/next/today navigation, and consumer-owned event rendering per day cell via a `day` snippet, never a baked-in event-card shape. `CalendarTableTD`'s own `selected` prop already means "the roving-tabindex cursor" in its own doc comment, so composing it for the keyboard cursor needed no workaround, unlike `GanttTableTD`'s genuinely overloaded `active` prop. Documents an explicitly rejected alternative (a non-table, flexbox/CSS-Grid calendar layout, per a cited accessibility critique of table-based calendars) in favour of staying consistent with `data-grid`/`kanban-board`/`gantt-chart`'s own table-based WAI-ARIA APG Grid convention. Verified against a numbered spec — 27 tests, all passing, covering every §8 acceptance clause, including a real Svelte-template test host (`CalendarViewEventsTestHost.svelte`) to exercise the `day` snippet prop rather than hand-constructing Svelte's internal snippet-calling convention; the catalog's shared `build.js` gained a `*TestHost.svelte` exclusion rule so this test-only file never ships in the published package.
 
 ## Related topics
 
@@ -809,10 +809,10 @@ accessibility documentation before writing the table above:
 - [lily-design-system-svelte-headless/components/IconButton/IconButton.svelte](../../lily-design-system-svelte-headless/components/IconButton/IconButton.svelte) — extended 2026-09-21 with `baseClass` and a bindable `ref` for the same reason
 - [lily-design-system-svelte-headless/CHANGELOG.md](../../lily-design-system-svelte-headless/CHANGELOG.md) — the Unreleased entry documenting both extensions
 - [lily-design-system-svelte-data-grid/](../../lily-design-system-svelte-data-grid/) — data-grid contract (canonical spec; implemented only here so far)
-- [lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte](../../lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte) — the headless `role="grid"` container the calendar-view contract composes rather than duplicates
-- [lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte](../../lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte) — the `selected`/`today` cell shape and roving-tabindex model the calendar-view contract reuses
-- [lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-date-time-picker/) — the sibling helper the calendar-view contract composes for civil-date arithmetic and the WAI-ARIA APG calendar keyboard model, both confirmed present in its own source
-- [lily-design-system-svelte-calendar-view/](../../lily-design-system-svelte-calendar-view/) — calendar-view contract (canonical spec; implemented only here so far)
+- [lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte](../../lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte) — the headless `role="grid"` container the calendar contract composes rather than duplicates
+- [lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte](../../lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte) — the `selected`/`today` cell shape and roving-tabindex model the calendar contract reuses
+- [lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-date-time-picker/) — the sibling helper the calendar contract composes for civil-date arithmetic and the WAI-ARIA APG calendar keyboard model, both confirmed present in its own source
+- [lily-design-system-svelte-calendar/](../../lily-design-system-svelte-calendar/) — calendar contract (canonical spec; implemented only here so far)
 - [bin/publish-helpers](../../bin/publish-helpers) — release pipeline
 - [spec/index.md](../index.md) §3 (subproject architecture)
 

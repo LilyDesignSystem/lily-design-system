@@ -25,7 +25,7 @@
 A Claude Skill explaining
 [the Svelte helper packages](../spec/helpers/index.md#svelte-helper-packages)
 — one top-level subproject per package: the ten `*-picker` helpers,
-`picker-bar`, data-grid, kanban-board, gantt-chart, calendar-view — and, per
+`picker-bar`, data-grid, kanban-board, gantt-chart, calendar — and, per
 `AGENTS/helpers.md`'s "Svelte is canonical" rule, **the reference
 contract every other framework's helpers port from**. The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the same

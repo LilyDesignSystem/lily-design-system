@@ -1,8 +1,8 @@
 # Install
 
-This is the Svelte 5 calendar-view helper: a week, four-week and month calendar over the headless CalendarTable family.
+This is the Svelte 5 calendar helper: a week, four-week and month calendar over the headless CalendarTable family.
 
-Its source is the `lily-design-system-svelte-calendar-view/` directory of the canonical Lily Design System™
+Its source is the `lily-design-system-svelte-calendar/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
@@ -10,7 +10,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 ## Install
 
 ```sh
-npm install @lilydesignsystem/svelte-calendar-view
+npm install @lilydesignsystem/svelte-calendar
 ```
 
 It ships semantic HTML, ARIA, focus management, and keyboard behaviour — and

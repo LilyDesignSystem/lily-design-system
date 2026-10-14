@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-14
+
+- Added `readonly`, `markers`, `isNonWorking`, and task `type`, `critical`
+  and `slack` data hooks (ideas A1–A4 of the SVAR survey; spec §12).
+
 ## Unreleased — 2026-10-13
 
 Docs only: `spec/index.md` §11 records a survey of SVAR Svelte Gantt and fifteen ranked ideas (`readonly`, `markers`,

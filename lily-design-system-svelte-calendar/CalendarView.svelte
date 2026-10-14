@@ -69,7 +69,15 @@
         labels?: CalendarViewLabels;
         /** Fired whenever the visible period changes: view switch, previous/next/today, or a keyboard re-page. */
         onNavigate?: (view: CalendarView, start: string, end: string) => void;
-        /** Fired when a day cell is activated (Enter/Space, or click). */
+        /** ISO date the user has picked (Enter/Space or click). Bindable; distinct from the keyboard cursor. */
+        selectedDate?: string;
+        /** Earliest pickable ISO date; earlier days get `aria-disabled`. */
+        minDate?: string;
+        /** Latest pickable ISO date; later days get `aria-disabled`. */
+        maxDate?: string;
+        /** Extra disabled-day test (holidays, closed days). Disabled days stay focusable but cannot be picked. */
+        isDisabled?: (isoDate: string) => boolean;
+        /** Fired when an enabled day cell is activated (Enter/Space, or click). */
         onDayClick?: (isoDate: string) => void;
         /** Fired when a rendered event is activated. Consumer wires this to the `day` snippet's own click handler. */
         onEventClick?: (calendarEvent: CalendarEvent) => void;
@@ -81,6 +89,10 @@
         events: CalendarEvent[];
         isToday: boolean;
         outsidePeriod: boolean;
+        selected: boolean;
+        disabled: boolean;
+        /** Call from the event's own button/click handler to fire `onEventClick`. */
+        openEvent: (calendarEvent: CalendarEvent) => void;
     };
 
     /** Start of the week containing `isoDate`, for a given first-day-of-week (0 = Sunday). */
@@ -167,11 +179,15 @@
         anchorDate = $bindable(),
         events = [],
         today = undefined,
+        selectedDate = $bindable(undefined),
+        minDate = undefined,
+        maxDate = undefined,
+        isDisabled = undefined,
         locale = undefined,
         labels = undefined,
         onNavigate = undefined,
         onDayClick = undefined,
-        onEventClick: _onEventClick = undefined,
+        onEventClick = undefined,
         day,
         ...restProps
     }: Props & { day?: Snippet<[DayArgs]> } = $props();
@@ -193,6 +209,22 @@
         if (flatDays.includes(cursor)) return;
         cursor = flatDays.includes(anchorDate) ? anchorDate : flatDays[0];
     });
+
+    function disabledDay(isoDate: string): boolean {
+        if (minDate && isoDate < minDate) return true;
+        if (maxDate && isoDate > maxDate) return true;
+        return isDisabled?.(isoDate) ?? false;
+    }
+
+    function pick(isoDate: string): void {
+        if (disabledDay(isoDate)) return;
+        selectedDate = isoDate;
+        onDayClick?.(isoDate);
+    }
+
+    function openEvent(calendarEvent: CalendarEvent): void {
+        onEventClick?.(calendarEvent);
+    }
 
     function announce(): void {
         if (!labels?.periodAnnouncement) return;
@@ -312,14 +344,21 @@
             case "Enter":
             case " ":
                 event.preventDefault();
-                onDayClick?.(cursor);
+                pick(cursor);
+                break;
+            case "t":
+            case "T":
+                if (today == null || event.ctrlKey || event.metaKey || event.altKey) break;
+                event.preventDefault();
+                navigateTo(today);
+                moveCursor(today);
                 break;
         }
     }
 
     function onDayCellClick(isoDate: string): void {
         cursor = isoDate;
-        onDayClick?.(isoDate);
+        pick(isoDate);
     }
 </script>
 
@@ -401,16 +440,21 @@
                         {@const outside = isOutsidePeriod(view, d, anchorDate)}
                         {@const isToday = today != null && d === today}
                         {@const dayEvents = eventMap.get(d) ?? []}
+                        {@const disabled = disabledDay(d)}
+                        {@const picked = selectedDate === d}
                         <CalendarTableTD
                             selected={d === cursor}
                             today={isToday}
                             data-date={d}
                             data-outside-period={outside ? "" : undefined}
+                            data-selected={picked ? "" : undefined}
+                            data-disabled={disabled ? "" : undefined}
+                            aria-disabled={disabled || undefined}
                             aria-label={labels?.day?.(d, weekday, outside)}
                             onclick={() => onDayCellClick(d)}
                         >
                             {#if day}
-                                {@render day({ date: d, events: dayEvents, isToday, outsidePeriod: outside })}
+                                {@render day({ date: d, events: dayEvents, isToday, outsidePeriod: outside, selected: picked, disabled, openEvent })}
                             {:else}
                                 {parseIsoDate(d)?.day}
                             {/if}

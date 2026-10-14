@@ -57,7 +57,7 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 - [`lily-design-system-svelte-share-picker`](../lily-design-system-svelte-share-picker) — `@lilydesignsystem/svelte-share-picker`
 - [`lily-design-system-svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker) — `@lilydesignsystem/svelte-text-size-picker`
 - [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker) — `@lilydesignsystem/svelte-theme-picker`
-- [`lily-design-system-svelte-calendar-view`](../lily-design-system-svelte-calendar-view) — `@lilydesignsystem/svelte-calendar-view`
+- [`lily-design-system-svelte-calendar`](../lily-design-system-svelte-calendar) — `@lilydesignsystem/svelte-calendar`
 - [`lily-design-system-svelte-gantt-chart`](../lily-design-system-svelte-gantt-chart) — `@lilydesignsystem/svelte-gantt-chart`
 - [`lily-design-system-svelte-picker-bar`](../lily-design-system-svelte-picker-bar) — `@lilydesignsystem/svelte-picker-bar`
 

@@ -25,7 +25,16 @@
         parentId?: string;
         /** Other tasks' ids this task depends on (finish-to-start). */
         dependsOn?: string[];
+        /** Class hook only: becomes `data-task-type` on the row and its cells (e.g. "design", "review"). */
+        type?: string;
+        /** On the critical path; becomes `data-critical`. Lily computes nothing. */
+        critical?: boolean;
+        /** Slack in days, from the consumer's own scheduling; becomes `data-slack`. */
+        slack?: number;
     };
+
+    /** A dated column marker (holiday, release, deadline). `label` is rendered as text so a marker is never colour-only. */
+    export type GanttMarker = { date: string; kind?: string; label?: string };
 
     export type GanttTimeUnit = "day" | "week" | "month";
 
@@ -70,6 +79,12 @@
         taskLabel?: (task: GanttTask) => string;
         /** Called after a task's start/end changes, by pointer or by the edit region. */
         onTaskChange?: (taskId: string, start: string, end: string) => void;
+        /** Dated markers; each marks the column that contains its date with `data-marker`. */
+        markers?: GanttMarker[];
+        /** Consumer's own working calendar; true marks the column `data-non-working` when every day in it is non-working. */
+        isNonWorking?: (isoDate: string) => boolean;
+        /** Suppress editing, drag and the edit region; navigation and collapse still work. */
+        readonly?: boolean;
         /** User-facing strings. See GanttLabels — presence gates each control. */
         labels?: GanttLabels;
         /** Extra CSS class on the root. */
@@ -230,6 +245,9 @@
         tasks,
         timeUnit = "day",
         today,
+        markers = [],
+        isNonWorking = undefined,
+        readonly = false,
         taskLabel = (task: GanttTask) => task.label,
         onTaskChange,
         labels = {},
@@ -262,8 +280,22 @@
 
     /** Editing needs every label its controls show; an unnamed Save is worse than none. */
     const canEdit = $derived(
-        !!labels.dateTimePickerLabels && !!labels.startLabel && !!labels.endLabel && !!labels.saveLabel && !!labels.cancelLabel,
+        !readonly && !!labels.dateTimePickerLabels && !!labels.startLabel && !!labels.endLabel && !!labels.saveLabel && !!labels.cancelLabel,
     );
+
+    function markersIn(column: GanttColumn): GanttMarker[] {
+        return markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date));
+    }
+
+    function columnNonWorking(column: GanttColumn): boolean {
+        if (!isNonWorking) return false;
+        for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
+            if (!isNonWorking(d)) return false;
+        }
+        return true;
+    }
+
+    const nonWorking = $derived(columns.map(columnNonWorking));
 
     function rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
         return hasChildren ? (ranges.get(task.id) ?? task) : { start: task.start, end: task.end };
@@ -348,6 +380,7 @@
 
     function onCellDrop(column: GanttColumn, event: DragEvent): void {
         event.preventDefault();
+        if (readonly) return;
         const taskId = draggingTaskId ?? event.dataTransfer?.getData("text/plain");
         draggingTaskId = null;
         const task = tasks.find((t) => t.id === taskId);
@@ -421,15 +454,24 @@
     }
 </script>
 
-<div bind:this={rootEl} class={`gantt-chart ${className}`.trim()} {...restProps}>
+<div bind:this={rootEl} class={`gantt-chart ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
     <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin}>
         <GanttTableThead>
             <GanttTableTr>
                 <GanttTableTH scope="col">{labels.taskColumnHeader ?? ""}</GanttTableTH>
                 {#each columns as column (column.start)}
                     {@const isToday = today != null && rangesOverlap(column.start, column.end, today, today)}
-                    <GanttTableTH scope="col" data-today={isToday ? "" : undefined}>
+                    {@const colMarkers = markersIn(column)}
+                    <GanttTableTH
+                        scope="col"
+                        data-today={isToday ? "" : undefined}
+                        data-non-working={nonWorking[columns.indexOf(column)] ? "" : undefined}
+                        data-marker={colMarkers.length ? colMarkers.map((m) => m.kind ?? "marker").join(" ") : undefined}
+                    >
                         {labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start}
+                        {#each colMarkers as marker (marker.date + (marker.kind ?? ""))}
+                            {#if marker.label}<span class="gantt-chart-marker-label">{marker.label}</span>{/if}
+                        {/each}
                     </GanttTableTH>
                 {/each}
             </GanttTableTr>
@@ -438,7 +480,11 @@
             {#each rows as row, rowIndex (row.task.id)}
                 {@const { start, end } = rangeFor(row.task, row.hasChildren)}
                 {@const deps = predecessorLabels(row.task)}
-                <GanttTableTr>
+                <GanttTableTr
+                    data-task-type={row.task.type}
+                    data-critical={row.task.critical ? "" : undefined}
+                    data-slack={row.task.slack}
+                >
                     <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
                     <GanttTableTH scope="row" data-depth={row.depth}>
                         {#if row.hasChildren && labels.collapseButton}
@@ -471,6 +517,8 @@
                             data-in-range={inRange ? "" : undefined}
                             data-milestone={isMilestone ? "" : undefined}
                             data-today={isToday ? "" : undefined}
+                            data-non-working={nonWorking[colIndex] ? "" : undefined}
+                            data-marker={markersIn(column).length ? "" : undefined}
                             aria-describedby={deps.length > 0 && labels.dependencySummary ? dependencyId(row.task.id) : undefined}
                             ondragover={onCellDragOver}
                             ondrop={(e: DragEvent) => onCellDrop(column, e)}
@@ -480,7 +528,7 @@
                                 <span
                                     class="gantt-chart-bar"
                                     data-percent-complete={row.task.percentComplete ?? undefined}
-                                    draggable={!row.hasChildren ? "true" : undefined}
+                                    draggable={!row.hasChildren && !readonly ? "true" : undefined}
                                     ondragstart={(e: DragEvent) => onBarDragStart(row.task, e)}
                                 ></span>
                             {/if}

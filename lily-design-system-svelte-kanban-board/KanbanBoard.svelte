@@ -39,6 +39,10 @@
         moveButton?: (card: KanbanCard) => string;
         moveMenuLabel?: string;
         moveAnnouncement?: (cardTitle: string, columnTitle: string) => string;
+        /** Announced when `canMove` refuses a move. */
+        moveBlocked?: (cardTitle: string, columnTitle: string) => string;
+        /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
+        reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
     };
 
     export type Props = {
@@ -54,6 +58,12 @@
         cardLabel?: (card: KanbanCard) => string;
         /** Called after a card moves to a new column, by pointer or by the move menu. */
         onMove?: (cardId: string, toColumnId: string) => void;
+        /** Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
+        onReorder?: (cardId: string, toIndex: number) => void;
+        /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
+        canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
+        /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
+        readonly?: boolean;
         /** User-facing strings. See KanbanLabels — presence gates each control. */
         labels?: KanbanLabels;
         /** Extra CSS class on the root. */
@@ -80,6 +90,9 @@
         cards,
         cardLabel = (card: KanbanCard) => card.title,
         onMove,
+        onReorder,
+        canMove,
+        readonly = false,
         labels = {},
         ...restProps
     }: Props = $props();
@@ -133,6 +146,12 @@
 
     /** Choosing the card's own column is not a move: the menu just closes. */
     function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
+        if (readonly) return;
+        if (toColumn.id !== card.columnId && canMove && !canMove(card, toColumn)) {
+            announce(labels.moveBlocked?.(cardLabel(card), toColumn.title));
+            closeMoveMenu(card.id);
+            return;
+        }
         if (toColumn.id !== card.columnId) {
             onMove?.(card.id, toColumn.id);
             announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
@@ -141,6 +160,7 @@
     }
 
     async function openMoveMenu(card: KanbanCard): Promise<void> {
+        if (readonly) return;
         openCardId = card.id;
         const currentIndex = columns.findIndex((c) => c.id === card.columnId);
         moveActiveIndex = currentIndex >= 0 ? currentIndex : 0;
@@ -221,6 +241,18 @@
         void focusActiveCell();
     }
 
+    function reorderCard(delta: 1 | -1): void {
+        if (readonly) return;
+        const card = cardAt(activeCol, activeRow);
+        if (!card) return;
+        const total = cardsByColumn.get(card.columnId)?.length ?? 0;
+        const toIndex = activeRow + delta;
+        if (toIndex < 0 || toIndex >= total) return;
+        onReorder?.(card.id, toIndex);
+        announce(labels.reorderAnnouncement?.(cardLabel(card), toIndex + 1, total));
+        void focusCard(card.id);
+    }
+
     function onGridKeydown(event: KeyboardEvent): void {
         const target = event.target as HTMLElement;
         // The open move menu owns its own keys; letting them bubble here moved the
@@ -229,6 +261,11 @@
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+            event.preventDefault();
+            reorderCard(event.key === "ArrowUp" ? -1 : 1);
+            return;
+        }
         switch (event.key) {
             case "ArrowUp":
                 event.preventDefault();
@@ -267,7 +304,7 @@
     }
 </script>
 
-<div bind:this={rootEl} class={`kanban-board ${className}`.trim()} {...restProps}>
+<div bind:this={rootEl} class={`kanban-board ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
     <KanbanTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin}>
         <KanbanTableHead>
             <KanbanTableRow>
@@ -310,14 +347,14 @@
                                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                                 <span
                                     class="kanban-board-card-title"
-                                    draggable="true"
+                                    draggable={readonly ? undefined : "true"}
                                     ondragstart={(e: DragEvent) => onCardDragStart(card, e)}
                                 >
                                     {cardLabel(card)}
                                 </span>
                                 <!-- Gated on labels.moveButton: an unnamed button is worse than
                                      none, and Enter/Space on the cell opens the menu either way. -->
-                                {#if labels.moveButton}
+                                {#if labels.moveButton && !readonly}
                                     <IconButton
                                         baseClass="kanban-board-move-button"
                                         label={labels.moveButton(card)}
@@ -351,6 +388,7 @@
                                                 id={moveOptionId(i)}
                                                 role="option"
                                                 aria-selected={destination.id === card.columnId}
+                                                aria-disabled={destination.id !== card.columnId && canMove && !canMove(card, destination) ? true : undefined}
                                                 data-active={i === moveActiveIndex ? "" : undefined}
                                                 onclick={() => moveCard(card, destination)}
                                             >

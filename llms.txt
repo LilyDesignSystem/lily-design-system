@@ -75,7 +75,7 @@ searchable component catalog: https://lilydesignsystem.com/.
   fully styled reference app for the same catalog.
 - [Svelte helper packages](spec/helpers/index.md#svelte-helper-packages):
   the canonical helpers, one top-level subproject each — the ten pickers,
-  picker-bar, data-grid, kanban-board, gantt-chart, calendar-view.
+  picker-bar, data-grid, kanban-board, gantt-chart, calendar.
 - The remaining 20 headless/example/helper subprojects (React, Vue,
   Angular, Blazor, HTML, Nunjucks, Web Components) follow the same
   shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.

@@ -347,7 +347,7 @@ Scripts live in `bin/`:
 | `bin/sync-special-files`              | Propagate the top-level special files into every subproject. |
 | `bin/update`                          | Update shared files.                                 |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
-| `bin/publish-helpers`                 | Build + publish every helper package (npm / NuGet): the `*-picker`s, `picker-bar`, and the gantt / kanban / calendar-view packages, and the standalone `lily-design-system-svelte-data-grid`. |
+| `bin/publish-helpers`                 | Build + publish every helper package (npm / NuGet): the `*-picker`s, `picker-bar`, and the gantt / kanban / calendar packages, and the standalone `lily-design-system-svelte-data-grid`. |
 | `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).|
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |

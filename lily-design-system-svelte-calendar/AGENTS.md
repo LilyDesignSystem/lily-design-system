@@ -15,7 +15,7 @@ WAI-ARIA APG calendar keyboard model, the sibling helper
 `@lilydesignsystem/svelte-date-time-picker`. Ships no CSS.
 
 Proposed and documented first in
-[spec/helpers/index.md § calendar-view contract](../spec/helpers/index.md)
+[spec/helpers/index.md § calendar contract](../spec/helpers/index.md)
 (2026-09-22), implemented here the same day. No other framework
 catalog ports it yet.
 
@@ -88,7 +88,7 @@ family, and a status region.
 - Every day cell's accessible name comes from `labels.day` — a full
   name per cell (e.g. "11, Tuesday, 6 January 2026"), never a bare day
   number, per the accessibility research cited in
-  spec/helpers/index.md § calendar-view contract.
+  spec/helpers/index.md § calendar contract.
 - One `aria-live="polite"` region for all period-change announcements.
 
 ## Conventions this package follows

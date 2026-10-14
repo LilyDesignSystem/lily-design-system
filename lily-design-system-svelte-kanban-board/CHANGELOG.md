@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-14
+
+- Added `readonly`, `canMove` (with `labels.moveBlocked`) and
+  within-column reorder: Alt+ArrowUp/Down fires the new `onReorder`
+  (with `labels.reorderAnnouncement`).
+- SVAR Svelte Kanban survey and ranked next ideas: spec §11.
+
 ## Unreleased — 2026-10-11
 
 Fixed: keys in an open move menu no longer reach the grid; focus and the roving cursor follow a moved card to its new

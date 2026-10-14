@@ -18,8 +18,8 @@ research behind the three view periods and the keyboard model.
 
 ```svelte
 <script lang="ts">
-  import CalendarView from "@lilydesignsystem/svelte-calendar-view";
-  import type { CalendarEvent, CalendarView as CalendarViewMode } from "@lilydesignsystem/svelte-calendar-view";
+  import CalendarView from "@lilydesignsystem/svelte-calendar";
+  import type { CalendarEvent, CalendarView as CalendarViewMode } from "@lilydesignsystem/svelte-calendar";
 
   let view = $state<CalendarViewMode>("month");
   let anchorDate = $state("2026-01-15");

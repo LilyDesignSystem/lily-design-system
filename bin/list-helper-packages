@@ -8,7 +8,7 @@ subproject with its own package.json (or, for Blazor, its own .csproj,
 whose sibling ProjectReferences are its dependencies) (the per-framework *-helpers catalogs
 were dissolved into them, Svelte first, on 2026-10-10). A package that
 depends on a sibling (picker-bar on six pickers, gantt-chart and
-calendar-view on date-time-picker) resolves it in local dev/test from the
+calendar on date-time-picker) resolves it in local dev/test from the
 sibling's built dist/, so siblings must build first: this prints every
 package after the siblings it depends on, ties broken by name. The headless
 library, example apps and *-skill packages are not helper packages and are

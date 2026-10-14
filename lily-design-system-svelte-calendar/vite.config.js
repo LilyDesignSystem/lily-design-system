@@ -3,7 +3,7 @@ import { defineConfig } from "vitest/config";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { svelteTesting } from "@testing-library/svelte/vite";
 
-// Standalone test harness for @lilydesignsystem/svelte-calendar-view.
+// Standalone test harness for @lilydesignsystem/svelte-calendar.
 export default defineConfig({
   plugins: [svelte(), svelteTesting()],
   resolve: {

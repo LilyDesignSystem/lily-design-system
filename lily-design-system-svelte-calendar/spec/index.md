@@ -2,7 +2,7 @@
 
 Single source of truth for this package. Canonical spec; the other
 seven catalogs port from this one. See also
-[spec/helpers/index.md § calendar-view contract](../../spec/helpers/index.md)
+[spec/helpers/index.md § calendar contract](../../spec/helpers/index.md)
 for the cross-catalog contract this package implements.
 
 ## 1. Purpose
@@ -87,7 +87,7 @@ Composes, rather than duplicates:
 
 `CalendarTable`'s own root, `CalendarTableHead`/`Body`, `Row`, `TH`,
 `TD` are rendered exactly as their own headless contracts specify;
-`calendar-view` adds only the toolbar, the day-content composition,
+`calendar` adds only the toolbar, the day-content composition,
 and the status region around them.
 
 ## 5. Props
@@ -126,7 +126,11 @@ type Props = {
   locale?: string; // BCP 47, passed to firstDayOfWeekFor
   labels?: CalendarViewLabels;
   onNavigate?: (view: CalendarView, anchorStart: string, anchorEnd: string) => void;
-  onDayClick?: (isoDate: string) => void;
+  selectedDate?: string; // bindable; the picked day, distinct from the keyboard cursor
+  minDate?: string;
+  maxDate?: string;
+  isDisabled?: (isoDate: string) => boolean;
+  onDayClick?: (isoDate: string) => void; // enabled days only
   onEventClick?: (event: CalendarEvent) => void;
   class?: string;
   day?: Snippet<[{ date: string; events: CalendarEvent[]; isToday: boolean; outsidePeriod: boolean }]>;
@@ -177,7 +181,8 @@ from one month to all three views:
 | `ArrowUp` / `ArrowDown` | Move cursor ±1 week (±7 days) |
 | `Home` / `End` | Jump to the first/last day of the cursor's own row |
 | `PageUp` / `PageDown` | Step the cursor by the current view's own length (mirrors §6.2) |
-| `Enter` / `Space` | Fire `onDayClick(cursor)` |
+| `Enter` / `Space` | Pick the cursor day: set `selectedDate`, fire `onDayClick(cursor)` (not on a disabled day) |
+| `t` | Go to `today` (navigate and move the cursor); a no-op without `today` |
 
 When the moved-to cursor date falls outside the currently visible
 days, the view re-pages to make it visible again — for week/four-week,
@@ -196,7 +201,7 @@ not exist in the DOM until the re-page's own re-render lands.
 
 `events` are matched to the day(s) they fall on (`date`, or every day
 in `[start, end]` inclusive for multi-day events) and passed to the
-`day` snippet for that cell — `calendar-view` owns placement only,
+`day` snippet for that cell — `calendar` owns placement only,
 never visual event-card design (see §9).
 
 ## 7. Accessibility
@@ -207,7 +212,7 @@ never visual event-card design (see §9).
 - Every cell's accessible name comes from `labels.day` (e.g. "11,
   Tuesday, 6 January 2026") — a full, unambiguous name per cell,
   never a bare day number, per the accessibility research cited in
-  spec/helpers/index.md § calendar-view contract.
+  spec/helpers/index.md § calendar contract.
 - `aria-current="date"` on the day matching `today`.
 - View-switcher buttons carry `aria-pressed` (or `aria-selected` for a
   tablist rendering) reflecting the active view.
@@ -234,6 +239,11 @@ Each clause below gets one or more tests in `CalendarView.test.ts`.
 - §8.14 `locale` changes the computed week start (`firstDayOfWeekFor`) and therefore which day each view starts on.
 - §8.15 Omitting `today` renders no `aria-current="date"` anywhere and disables the Today button.
 - §8.16 Extra attributes spread onto the root.
+- §8.17 Picking a day sets `data-selected` on it, separate from the keyboard cursor.
+- §8.18 `minDate`, `maxDate` and `isDisabled` give days `aria-disabled`/`data-disabled`; they stay focusable but cannot be picked.
+- §8.19 `t` moves the cursor to today and navigates.
+- §8.20 `t` is a no-op without `today`.
+- §8.21 The `day` snippet receives `selected`, `disabled` and `openEvent`, which fires `onEventClick`.
 
 ## 9. Non-goals
 
@@ -253,9 +263,42 @@ Each clause below gets one or more tests in `CalendarView.test.ts`.
 
 ## 10. Relationship to the headless layer and other helpers
 
-`calendar-view` is the fourth helper to compose a headless `*Table`
+`calendar` is the fourth helper to compose a headless `*Table`
 grid family (after `data-grid`, `kanban-board`, `gantt-chart`) and the
 third to depend on the sibling helper `date-time-picker` (after
 `picker-bar` and `gantt-chart`) — for civil-date arithmetic and its
 proven WAI-ARIA APG calendar keyboard model, not for any UI it
 renders. `CalendarTable` itself is not modified.
+
+## 11. Research notes — making the calendar interactive (2026-10-14)
+
+Surveyed FullCalendar, Schedule-X, and the Syncfusion, Kendo and MUI calendars.
+
+- **Keyboard parity is the gap.** FullCalendar makes events focusable only
+  with `eventInteractive`, and its docs describe no keyboard route for drag
+  or resize (touch is long-press). Schedule-X resizes by dragging an edge,
+  with 15/30/60-minute snapping. None documented keyboard move or resize,
+  so a keyboard route for either would be new ground.
+- **Grid navigation is settled.** Arrows, Home/End and PageUp/PageDown over
+  a `grid` role, one tab stop, as here.
+
+Shipped in 0.2.0: a picked day (`selectedDate`), disabled days
+(`minDate`, `maxDate`, `isDisabled`), the `t` shortcut, and a working
+`onEventClick` through the `day` snippet's `openEvent`.
+
+Ideas, ranked, not yet built:
+
+1. **Range pick**: Shift+Arrows extends a range from the picked day,
+   Enter confirms with `onRangeSelect(start, end)`.
+2. **Keyboard move**: focus an event, Enter to "grab", arrows to choose a
+   day, Enter to drop via `onEventMove(event, newStart)`, Escape to cancel,
+   announced in the status region. The consumer applies the move.
+3. **Pointer drag** with the same `onEventMove`, built on the keyboard path.
+4. **"+N more"** overflow per cell, with a `labels.more(count)` button.
+5. **Day view** with a time axis, **now indicator**, and snapping.
+6. **Event resize** by keyboard and edge drag (multi-day events first).
+7. **Create by selecting** a range, firing `onCreate(start, end)`.
+8. **Week numbers** column (`isoWeek` already exists in date-time-picker).
+9. **Highlight ranges** (holidays, closures) as `ranges` with a `data-range` hook.
+
+Non-goals stay as §9: no event editor UI, no recurrence, no timezones.

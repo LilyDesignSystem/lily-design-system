@@ -356,7 +356,7 @@ updates:
       - "/lily-design-system-svelte-share-picker"
       - "/lily-design-system-svelte-text-size-picker"
       - "/lily-design-system-svelte-theme-picker"
-      - "/lily-design-system-svelte-calendar-view"
+      - "/lily-design-system-svelte-calendar"
       - "/lily-design-system-svelte-gantt-chart"
       - "/lily-design-system-svelte-picker-bar"
     schedule:

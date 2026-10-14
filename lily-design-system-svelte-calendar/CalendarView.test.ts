@@ -326,3 +326,63 @@ describe("CalendarView — events", () => {
         expect(cellFor("2026-01-11")?.textContent?.trim()).toBe("11");
     });
 });
+
+// =====================================================================
+// Picking, disabled days, today shortcut, event activation (§8.17–§8.21)
+// =====================================================================
+
+describe("CalendarView — interaction", () => {
+    const base = { label: "Appointments", view: "week" as const, anchorDate: "2026-01-06", today: "2026-01-08" };
+
+    test("§8.17 picking a day marks it data-selected (distinct from the keyboard cursor)", async () => {
+        render(CalendarView, { props: { ...base } });
+        await fireEvent.click(cellFor("2026-01-07")!);
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight" });
+        expect(cellFor("2026-01-07")!.hasAttribute("data-selected")).toBe(true);
+        expect(cellFor("2026-01-08")!.hasAttribute("data-selected")).toBe(false);
+        expect(tabbableCells()[0].getAttribute("data-date")).toBe("2026-01-08");
+    });
+
+    test("§8.18 minDate, maxDate and isDisabled mark days aria-disabled; they stay focusable but cannot be picked", async () => {
+        const onDayClick = vi.fn();
+        render(CalendarView, {
+            props: { ...base, minDate: "2026-01-06", maxDate: "2026-01-10", isDisabled: (d: string) => d === "2026-01-07", onDayClick },
+        });
+        expect(cellFor("2026-01-05")!.getAttribute("aria-disabled")).toBe("true");
+        expect(cellFor("2026-01-07")!.getAttribute("aria-disabled")).toBe("true");
+        expect(cellFor("2026-01-11")!.getAttribute("aria-disabled")).toBe("true");
+        expect(cellFor("2026-01-06")!.hasAttribute("aria-disabled")).toBe(false);
+        await fireEvent.click(cellFor("2026-01-07")!);
+        expect(onDayClick).not.toHaveBeenCalled();
+        expect(tabbableCells()[0].getAttribute("data-date")).toBe("2026-01-07");
+        await fireEvent.click(cellFor("2026-01-09")!);
+        expect(onDayClick).toHaveBeenCalledWith("2026-01-09");
+    });
+
+    test("§8.19 pressing t moves the cursor to today and navigates there", async () => {
+        const onNavigate = vi.fn();
+        render(CalendarView, { props: { ...base, anchorDate: "2026-03-02", onNavigate } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "t" });
+        expect(onNavigate).toHaveBeenCalledWith("week", "2026-01-05", "2026-01-11");
+        expect(tabbableCells()[0].getAttribute("data-date")).toBe("2026-01-08");
+    });
+
+    test("§8.20 t does nothing when today is not supplied", async () => {
+        const onNavigate = vi.fn();
+        render(CalendarView, { props: { label: "A", view: "week", anchorDate: "2026-01-06", onNavigate } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "t" });
+        expect(onNavigate).not.toHaveBeenCalled();
+    });
+
+    test("§8.21 the day snippet receives selected, disabled and openEvent, which fires onEventClick", async () => {
+        const onEventClick = vi.fn();
+        render(CalendarViewEventsTestHost, {
+            props: { events: EVENTS, onEventClick, selectedDate: "2026-01-06", minDate: "2026-01-06" },
+        });
+        const button = document.querySelector<HTMLButtonElement>("[data-event-open]")!;
+        await fireEvent.click(button);
+        expect(onEventClick).toHaveBeenCalled();
+        expect(document.querySelector("[data-snippet-selected]")).toBeTruthy();
+        expect(document.querySelector("[data-snippet-disabled]")).toBeTruthy();
+    });
+});

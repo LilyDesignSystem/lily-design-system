@@ -215,6 +215,11 @@ open listbox). State changes are announced through one live region.
   calls no `onMove` and announces nothing.
 - §8.16 Focusing a cell by pointer moves the roving cursor there; when the
   board shrinks under the cursor, exactly one cell stays tabbable.
+- §8.17 Alt+ArrowUp/Down moves the focused card within its column via `onReorder(cardId, toIndex)` and announces `labels.reorderAnnouncement`.
+- §8.18 Alt+Arrow at the column edge, or on an empty cell, calls nothing.
+- §8.19 `canMove` can refuse a move: no `onMove`, `labels.moveBlocked` is announced, and the refused column's option is `aria-disabled`.
+- §8.20 `readonly`: no move button, no move menu, no drag, no reorder, `data-readonly` on the root.
+- §8.21 `readonly` keeps arrow-key navigation.
 
 ## 9. Non-goals
 
@@ -234,3 +239,47 @@ composition, ported to a grid-cell context instead of a page header).
 Follows every other helper's established rules: headless (no bundled
 CSS), SSR-safe, i18n-clean (label-presence gates each control),
 Svelte-canonical-first.
+
+## 11. Research notes — SVAR Svelte Kanban (2026-10-14)
+
+SVAR Kanban is built natively in Svelte 5, with a free edition and a paid
+PRO tier. I read its marketing pages and the Vue key-features page; I did
+not find its Svelte docs or any accessibility documentation, so this says
+nothing about how accessible SVAR is. Its features:
+
+- Drag between and within columns; every drag fires a `move-card` action
+  the app can validate or cancel.
+- Card sections: cover, priority, title, description, progress, deadline,
+  tags, avatars, attachment/comment counts, a menu trigger; custom bodies.
+- Collapsible columns, per-column add-card button, fixed or flexible width,
+  per-column scroll or one horizontal scroll.
+- An editor (sidebar, modal or inline) and a context menu (edit, duplicate,
+  delete, custom).
+- Stackable filters, sorting, and grouping by any field.
+- Virtualization of cards and columns; dynamic column loading and
+  undo/redo are PRO.
+- Read-only mode, REST data provider, export to PDF/PNG/XLSX, themes.
+
+Shipped in 0.2.0 from that list: **`readonly`**, **`canMove`** (SVAR's
+cancellable `move-card`), and **within-column reorder** (`onReorder`, with
+Alt+ArrowUp/Down — SVAR drags only). Lily's move menu stays the primary
+keyboard path.
+
+Ideas, ranked, not yet built:
+
+1. **Collapsible columns**: a header toggle (`aria-expanded`) hiding a
+   column's cards but keeping its count; the rectangular grid needs a
+   decision on collapsed cells.
+2. **Drop position**: pointer drops that pass an index, so a cross-column
+   drop can land between cards (today it appends).
+3. **Per-column add-card button** firing `onAddCard(columnId)`; Lily
+   still ships no editor.
+4. **Card slot**: a `card` snippet with priority, tags and deadline, so
+   the consumer controls the body (SVAR's `cardContent`).
+5. **Filter and sort hooks**: `filter(card)` prop and `sort` comparator,
+   applied per column without changing `cards`.
+6. **Group by**: swimlanes as row groups, the one hard grid change.
+7. **Hard WIP limits** as a `column.strictLimit` flag, on top of `canMove`.
+8. **Virtualization** for very large boards.
+
+Still non-goals: the editor UI, export, undo/redo, REST adapter.

@@ -4,10 +4,22 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-14
+
+- Renamed from `svelte-calendar-view` to `svelte-calendar`: the package is
+  now `@lilydesignsystem/svelte-calendar`. The component (`CalendarView`)
+  and its `.calendar-view*` class hooks are unchanged. The old name's
+  0.1.0 stays on npm.
+- Added `selectedDate` (bindable, shown as `data-selected`), `minDate`,
+  `maxDate` and `isDisabled` (`aria-disabled`, focusable but not pickable),
+  the `t` shortcut for today, and a working `onEventClick` through the
+  `day` snippet's new `openEvent`, `selected` and `disabled` arguments.
+- Research and ranked next ideas: spec §11.
+
 ## 0.1.0 — 2026-09-22
 
 Initial release. Proposed and specced in
-[spec/helpers/index.md § calendar-view contract](../spec/helpers/index.md),
+[spec/helpers/index.md § calendar contract](../spec/helpers/index.md),
 then implemented here as the canonical (and, for now, only) catalog.
 Composes `@lilydesignsystem/svelte-headless`'s `CalendarTable` family
 (unmodified) and `@lilydesignsystem/svelte-date-time-picker`'s
