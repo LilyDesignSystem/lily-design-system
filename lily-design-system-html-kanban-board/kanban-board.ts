@@ -37,6 +37,8 @@ export type KanbanColumn = {
     title: string;
     /** Work-in-progress limit; the column warns when its card count exceeds this. */
     wipLimit?: number;
+    /** A hard limit: a move into this column is refused once it holds `wipLimit` cards. */
+    strictLimit?: boolean;
 };
 
 export type KanbanCard = {
@@ -63,6 +65,10 @@ export type KanbanLabels = {
     moveBlocked?: (cardTitle: string, columnTitle: string) => string;
     /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
     reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
+    /** Accessible name for a column's collapse toggle. Gates the toggle. */
+    collapseColumn?: (column: KanbanColumn, collapsed: boolean) => string;
+    /** Accessible name for a column's add-card button. Gates the button. */
+    addCard?: (column: KanbanColumn) => string;
 };
 
 /** Detail of the `reordercard` event, paired with the `onReorder` property. */
@@ -89,6 +95,9 @@ export type KanbanBoardProps = {
     onReorder?: (cardId: string, toIndex: number) => void;
     canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
     readonly?: boolean;
+    collapsedColumns?: string[];
+    onCollapsedChange?: (collapsedColumns: string[]) => void;
+    onAddCard?: (columnId: string) => void;
     labels?: KanbanLabels;
     class?: string;
 };
@@ -118,6 +127,9 @@ export class KanbanBoard extends HTMLElement {
     #onReorder: ((cardId: string, toIndex: number) => void) | undefined;
     #canMove: ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined;
     #labels: KanbanLabels = {};
+    #collapsed: string[] = [];
+    #onCollapsedChange: ((collapsedColumns: string[]) => void) | undefined;
+    #onAddCard: ((columnId: string) => void) | undefined;
 
     // Rendered-DOM references.
     #rootEl: HTMLDivElement | null = null;
@@ -205,6 +217,30 @@ export class KanbanBoard extends HTMLElement {
     }
     set onReorder(fn: ((cardId: string, toIndex: number) => void) | undefined) {
         this.#onReorder = fn;
+    }
+
+    /** Ids of collapsed columns: a collapsed column keeps its header and count but shows no cards. */
+    get collapsedColumns(): string[] {
+        return [...this.#collapsed];
+    }
+    set collapsedColumns(v: string[]) {
+        this.#collapsed = Array.isArray(v) ? v.slice() : [];
+        this.#render();
+    }
+
+    get onCollapsedChange(): ((collapsedColumns: string[]) => void) | undefined {
+        return this.#onCollapsedChange;
+    }
+    set onCollapsedChange(fn: ((collapsedColumns: string[]) => void) | undefined) {
+        this.#onCollapsedChange = fn;
+    }
+
+    /** Called with the column id when its add-card button is pressed; the consumer adds the card. */
+    get onAddCard(): ((columnId: string) => void) | undefined {
+        return this.#onAddCard;
+    }
+    set onAddCard(fn: ((columnId: string) => void) | undefined) {
+        this.#onAddCard = fn;
     }
 
     /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
@@ -305,6 +341,7 @@ export class KanbanBoard extends HTMLElement {
     #maxRows(cardsByColumn: Map<string, KanbanCard[]>): number {
         let max = 0;
         for (const column of this.#columns) {
+            if (this.#collapsed.includes(column.id)) continue;
             max = Math.max(max, cardsByColumn.get(column.id)?.length ?? 0);
         }
         return max;
@@ -316,8 +353,19 @@ export class KanbanBoard extends HTMLElement {
         cardsByColumn: Map<string, KanbanCard[]>,
     ): KanbanCard | undefined {
         const column = this.#columns[colIndex];
-        if (!column) return undefined;
+        if (!column || this.#collapsed.includes(column.id)) return undefined;
         return cardsByColumn.get(column.id)?.[rowIndex];
+    }
+
+    #toggleCollapsed(column: KanbanColumn): void {
+        this.#collapsed = this.#collapsed.includes(column.id)
+            ? this.#collapsed.filter((id) => id !== column.id)
+            : [...this.#collapsed, column.id];
+        this.#onCollapsedChange?.([...this.#collapsed]);
+        this.dispatchEvent(
+            new CustomEvent<string[]>("collapsechange", { detail: [...this.#collapsed], bubbles: true, composed: true }),
+        );
+        this.#render();
     }
 
     #announce(message: string | undefined): void {
@@ -335,7 +383,13 @@ export class KanbanBoard extends HTMLElement {
      * it now is, so focus is never left on a node the rebuild removed.
      */
     #isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
-        return toColumn.id !== card.columnId && !!this.#canMove && !this.#canMove(card, toColumn);
+        if (toColumn.id === card.columnId) return false;
+        if (this.#canMove && !this.#canMove(card, toColumn)) return true;
+        return (
+            !!toColumn.strictLimit &&
+            toColumn.wipLimit != null &&
+            (this.#cardsByColumn().get(toColumn.id)?.length ?? 0) >= toColumn.wipLimit
+        );
     }
 
     #moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
@@ -663,6 +717,18 @@ export class KanbanBoard extends HTMLElement {
             const th = document.createElement("th");
             th.className = "kanban-table-th";
             if (overLimit) th.setAttribute("data-over-limit", "");
+            const isCollapsed = this.#collapsed.includes(column.id);
+            if (isCollapsed) th.setAttribute("data-collapsed", "");
+            if (this.#labels.collapseColumn) {
+                const toggle = document.createElement("button");
+                toggle.type = "button";
+                toggle.className = "kanban-board-collapse-button";
+                toggle.setAttribute("aria-expanded", String(!isCollapsed));
+                toggle.setAttribute("aria-label", this.#labels.collapseColumn(column, isCollapsed));
+                toggle.textContent = isCollapsed ? "▸" : "▾";
+                toggle.addEventListener("click", () => this.#toggleCollapsed(column));
+                th.appendChild(toggle);
+            }
             th.appendChild(document.createTextNode(column.title));
             if (this.#labels.cardCount) {
                 const span = document.createElement("span");
@@ -675,6 +741,20 @@ export class KanbanBoard extends HTMLElement {
                 span.className = "kanban-board-wip-warning";
                 span.textContent = this.#labels.overLimit(count, column.wipLimit ?? 0);
                 th.appendChild(span);
+            }
+            if (this.#labels.addCard && !this.readonly) {
+                const add = document.createElement("button");
+                add.type = "button";
+                add.className = "kanban-board-add-button";
+                add.setAttribute("aria-label", this.#labels.addCard(column));
+                add.textContent = "+";
+                add.addEventListener("click", () => {
+                    this.#onAddCard?.(column.id);
+                    this.dispatchEvent(
+                        new CustomEvent<string>("addcard", { detail: column.id, bubbles: true, composed: true }),
+                    );
+                });
+                th.appendChild(add);
             }
             headRow.appendChild(th);
         }
@@ -694,6 +774,7 @@ export class KanbanBoard extends HTMLElement {
                 td.className = "kanban-table-td";
                 td.setAttribute("data-row", String(rowIndex));
                 td.setAttribute("data-col", String(colIndex));
+                if (this.#collapsed.includes(column.id)) td.setAttribute("data-collapsed", "");
                 const active = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
                 td.setAttribute("tabindex", active ? "0" : "-1");
                 if (card) {

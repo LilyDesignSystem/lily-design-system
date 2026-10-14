@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-14
+
+- Added a progress field in the edit region, baselines and typed dependencies, ported from the Svelte 0.3.0.
+
 ## 0.2.0 — 2026-10-14
 
 - Added `readonly`, `markers`, `isNonWorking`, and task `type`, `critical` and `slack` data hooks, ported from the Svelte 0.2.0.

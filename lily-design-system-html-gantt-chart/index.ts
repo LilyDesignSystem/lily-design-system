@@ -38,6 +38,7 @@ export type {
     GanttChartTaskChangeDetail,
     GanttColumn,
     GanttFlatRow,
+    GanttDependency,
     GanttLabels,
     GanttMarker,
     GanttTask,

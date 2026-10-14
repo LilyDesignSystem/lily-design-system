@@ -19,6 +19,8 @@ import {
 export { CalendarView, eventsByDay, isOutsidePeriod, periodDays, periodRange, weekStart };
 export type {
     CalendarEvent,
+    CalendarRange,
+    SelectedRange,
     CalendarViewDayArgs,
     CalendarViewLabels,
     CalendarViewMode,
