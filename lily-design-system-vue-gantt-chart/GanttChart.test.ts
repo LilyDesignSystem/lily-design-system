@@ -512,3 +512,122 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
         expect(document.querySelector('[aria-label="Expand Phase 1"]')).toBeTruthy();
     });
 });
+
+describe("GanttChart — progress field, baselines, typed dependencies", () => {
+    const cellsOf = (i: number) => Array.from(document.querySelectorAll(".gantt-table-tbody > .gantt-table-tr")[i].querySelectorAll<HTMLElement>(".gantt-table-td"));
+    const key = (el: Element, init: KeyboardEventInit) =>
+        el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, ...init }));
+    const percentLabels: GanttLabels = { ...LABELS, percentLabel: "Percent complete" };
+    const percentInput = () => document.querySelector(".gantt-chart-percent-input") as HTMLInputElement;
+    const saveBtn = () => Array.from(document.querySelectorAll("button")).find((b) => b.textContent!.trim() === "Save") as HTMLElement;
+
+    test("percentLabel adds a progress field to the edit region; without it none renders", async () => {
+        const a = build({ labels: LABELS });
+        await flush();
+        key(tabbableCells()[0], { key: "Enter" });
+        await flush();
+        expect(percentInput()).toBeNull();
+        a.unmount();
+        wrappers.pop();
+        build({ labels: percentLabels });
+        await flush();
+        key(tabbableCells()[0], { key: "Enter" });
+        await flush();
+        expect(percentInput()).toBeTruthy();
+        expect(percentInput().closest("label")!.textContent).toContain("Percent complete");
+    });
+
+    test("the progress field starts at the task's percentComplete and Save emits the new value as a 4th argument", async () => {
+        const wrapper = build({ labels: percentLabels });
+        await flush();
+        key(tabbableCells()[0], { key: "ArrowDown" });
+        await flush();
+        key(tabbableCells()[0], { key: "Enter" });
+        await flush();
+        expect(percentInput().value).toBe("40");
+        percentInput().value = "75";
+        percentInput().dispatchEvent(new Event("input", { bubbles: true }));
+        await flush();
+        saveBtn().click();
+        await flush();
+        expect(wrapper.emitted("task-change")).toEqual([["build", "2026-10-04", "2026-10-06", 75]]);
+    });
+
+    test("progress is clamped to 0–100", async () => {
+        const wrapper = build({ labels: percentLabels });
+        await flush();
+        key(tabbableCells()[0], { key: "Enter" });
+        await flush();
+        percentInput().value = "250";
+        percentInput().dispatchEvent(new Event("input", { bubbles: true }));
+        await flush();
+        saveBtn().click();
+        await flush();
+        expect(wrapper.emitted("task-change")).toEqual([["design", "2026-10-01", "2026-10-03", 100]]);
+    });
+
+    test("without percentLabel Save keeps the three-argument emit", async () => {
+        const wrapper = build({ labels: LABELS });
+        await flush();
+        key(tabbableCells()[0], { key: "Enter" });
+        await flush();
+        saveBtn().click();
+        await flush();
+        expect(wrapper.emitted("task-change")![0]).toHaveLength(3);
+    });
+
+    test("a baseline marks the cells it covers with data-baseline, apart from the current span", async () => {
+        build({ tasks: [{ id: "a", label: "A", start: "2026-10-04", end: "2026-10-06", baseline: { start: "2026-10-02", end: "2026-10-04" } }] });
+        await flush();
+        const withBaseline = cellsOf(0).map((c, i) => (c.hasAttribute("data-baseline") ? i : -1)).filter((i) => i >= 0);
+        expect(withBaseline).toEqual([1, 2, 3]);
+        expect(cellsOf(0)[3].hasAttribute("data-in-range")).toBe(true);
+        expect(cellsOf(0)[1].hasAttribute("data-in-range")).toBe(false);
+    });
+
+    test("baselineSummary renders as hidden text with the slip in days, and describes the row's cells", async () => {
+        build({
+            tasks: [{ id: "a", label: "A", start: "2026-10-04", end: "2026-10-06", baseline: { start: "2026-10-02", end: "2026-10-04" } }],
+            labels: { baselineSummary: (t: string, b: { start: string; end: string }, v: number) => `${t}: planned ${b.start} to ${b.end}, ${v} days late` },
+        });
+        await flush();
+        const summary = document.querySelector(".gantt-chart-baseline-summary") as HTMLElement;
+        expect(summary.hidden).toBe(true);
+        expect(summary.textContent!.trim()).toBe("A: planned 2026-10-02 to 2026-10-04, 2 days late");
+        expect(cellsOf(0)[0].getAttribute("aria-describedby")).toContain(summary.id);
+    });
+
+    test("a task with no baseline has no baseline cells or summary", async () => {
+        build({ labels: { baselineSummary: () => "x" } });
+        await flush();
+        expect(document.querySelector("[data-baseline]")).toBeNull();
+        expect(document.querySelector(".gantt-chart-baseline-summary")).toBeNull();
+    });
+
+    test("typed dependencies go through dependencyDetail; untyped ones keep the predecessor's label", async () => {
+        build({
+            tasks: [
+                { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
+                { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a", type: "s2s", lag: 2 }, "a"] },
+            ],
+            labels: {
+                dependencySummary: (preds: string[]) => `After: ${preds.join("; ")}`,
+                dependencyDetail: (label: string, type: string, lag: number) => `${label} (${type}, lag ${lag})`,
+            },
+        });
+        await flush();
+        expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("After: Design (s2s, lag 2); Design");
+    });
+
+    test("a typed dependency without a lag or type defaults to e2s and 0", async () => {
+        build({
+            tasks: [
+                { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
+                { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a" }] },
+            ],
+            labels: { dependencySummary: (p: string[]) => p.join(), dependencyDetail: (l: string, t: string, g: number) => `${l}/${t}/${g}` },
+        });
+        await flush();
+        expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("Design/e2s/0");
+    });
+});

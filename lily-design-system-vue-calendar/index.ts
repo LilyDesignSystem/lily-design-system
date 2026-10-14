@@ -3,6 +3,8 @@ export type {
     Props,
     CalendarView as CalendarViewMode,
     CalendarEvent,
+    CalendarRange,
+    SelectedRange,
     CalendarViewLabels,
     DayArgs,
 } from "./CalendarView.vue";

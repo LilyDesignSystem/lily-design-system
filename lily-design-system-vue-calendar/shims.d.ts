@@ -27,6 +27,7 @@ declare module "@lilydesignsystem/vue-date-time-picker" {
     export const daysInMonth: (year: number, month: number) => number;
     export const firstDayOfWeekFor: (locale?: string) => number;
     export const formatIsoDate: (date: CivilDate) => string;
+    export const isoWeek: (isoDate: string) => number;
     export const monthMatrix: (year: number, month: number, firstDayOfWeek: number) => string[][];
     export const parseIsoDate: (text: string) => CivilDate | null;
     export const weekdayOf: (isoDate: string) => number;

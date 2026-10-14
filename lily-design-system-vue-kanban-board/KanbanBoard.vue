@@ -10,6 +10,8 @@ export type KanbanColumn = {
     title: string;
     /** Work-in-progress limit; the column warns when its card count exceeds this. */
     wipLimit?: number;
+    /** A hard limit: a move into this column is refused once it holds `wipLimit` cards. */
+    strictLimit?: boolean;
 };
 
 /** A single card. */
@@ -37,6 +39,10 @@ export type KanbanLabels = {
     moveBlocked?: (cardTitle: string, columnTitle: string) => string;
     /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
     reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
+    /** Accessible name for a column's collapse toggle. Gates the toggle. */
+    collapseColumn?: (column: KanbanColumn, collapsed: boolean) => string;
+    /** Accessible name for a column's add-card button. Gates the button. */
+    addCard?: (column: KanbanColumn) => string;
 };
 
 /** Public props for KanbanBoard. See `spec/index.md` §4 for the contract. */
@@ -51,6 +57,8 @@ export type Props = {
     cards: KanbanCard[];
     /** Resolves a card to its display label. Defaults to `card.title`. */
     cardLabel?: (card: KanbanCard) => string;
+    /** Ids of collapsed columns (`v-model:collapsedColumns`). A collapsed column keeps its header and count but shows no cards. */
+    collapsedColumns?: string[];
     /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
     canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
     /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
@@ -91,6 +99,7 @@ const props = withDefaults(defineProps<Props>(), {
     caption: undefined,
     cardLabel: undefined,
     canMove: undefined,
+    collapsedColumns: undefined,
     readonly: false,
     labels: () => ({}),
     class: "",
@@ -99,8 +108,12 @@ const props = withDefaults(defineProps<Props>(), {
 // The Svelte canonical takes an `onMove` callback prop; the Vue idiom
 // for the same contract is an emitted event, matching `picker-bar`'s
 // `theme-change` et al. and `date-time-picker`'s `change`.
+const collapsedModel = defineModel<string[]>("collapsedColumns", { default: () => [] });
+
 const emit = defineEmits<{
     (event: "move", cardId: string, toColumnId: string): void;
+    /** A column's add-card button was pressed. The consumer adds the card (Lily ships no editor). */
+    (event: "add-card", columnId: string): void;
     /** Alt+ArrowUp/Down moved a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
     (event: "reorder", cardId: string, toIndex: number): void;
 }>();
@@ -136,8 +149,20 @@ const cardsByColumn = computed(() => {
     return map;
 });
 
+const isCollapsed = (columnId: string) => collapsedModel.value.includes(columnId);
+
+function toggleCollapsed(column: KanbanColumn): void {
+    collapsedModel.value = isCollapsed(column.id)
+        ? collapsedModel.value.filter((id) => id !== column.id)
+        : [...collapsedModel.value, column.id];
+}
+
+// A collapsed column shows no cards, so it does not count towards the board's height.
 const maxRows = computed(() =>
-    props.columns.reduce((max, column) => Math.max(max, cardsByColumn.value.get(column.id)?.length ?? 0), 0),
+    props.columns.reduce(
+        (max, column) => Math.max(max, isCollapsed(column.id) ? 0 : (cardsByColumn.value.get(column.id)?.length ?? 0)),
+        0,
+    ),
 );
 
 // The roving cursor, clamped to the cells that exist now: a move can shrink
@@ -150,7 +175,7 @@ const rowIndices = computed(() => Array.from({ length: maxRows.value }, (_, i) =
 
 function cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
     const column = props.columns[colIndex];
-    if (!column) return undefined;
+    if (!column || isCollapsed(column.id)) return undefined;
     return cardsByColumn.value.get(column.id)?.[rowIndex];
 }
 
@@ -180,9 +205,20 @@ function announce(message: string | undefined): void {
 // ---------------------------------------------------------------
 
 /** Choosing the card's own column is not a move: the menu just closes. */
+/** A move is refused by the consumer's `canMove`, or by the destination's hard limit. */
+function isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
+    if (toColumn.id === card.columnId) return false;
+    if (props.canMove && !props.canMove(card, toColumn)) return true;
+    return (
+        !!toColumn.strictLimit &&
+        toColumn.wipLimit != null &&
+        (cardsByColumn.value.get(toColumn.id)?.length ?? 0) >= toColumn.wipLimit
+    );
+}
+
 function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
     if (props.readonly) return;
-    if (toColumn.id !== card.columnId && props.canMove && !props.canMove(card, toColumn)) {
+    if (isRefused(card, toColumn)) {
         announce(props.labels?.moveBlocked?.(resolveCardLabel(card), toColumn.title));
         void closeMoveMenu(card.id);
         return;
@@ -351,7 +387,16 @@ function onGridKeydown(event: KeyboardEvent): void {
                         v-for="column in columns"
                         :key="column.id"
                         :data-over-limit="overLimitFor(column) ? '' : undefined"
+                        :data-collapsed="isCollapsed(column.id) ? '' : undefined"
                     >
+                        <button
+                            v-if="labels?.collapseColumn"
+                            type="button"
+                            class="kanban-board-collapse-button"
+                            :aria-expanded="!isCollapsed(column.id) ? 'true' : 'false'"
+                            :aria-label="labels.collapseColumn(column, isCollapsed(column.id))"
+                            @click="toggleCollapsed(column)"
+                        >{{ isCollapsed(column.id) ? "▸" : "▾" }}</button>
                         {{ column.title }}
                         <span v-if="labels?.cardCount" class="kanban-board-count">{{
                             labels.cardCount(countFor(column))
@@ -361,6 +406,13 @@ function onGridKeydown(event: KeyboardEvent): void {
                             class="kanban-board-wip-warning"
                             >{{ labels.overLimit(countFor(column), column.wipLimit ?? 0) }}</span
                         >
+                        <button
+                            v-if="labels?.addCard && !readonly"
+                            type="button"
+                            class="kanban-board-add-button"
+                            :aria-label="labels.addCard(column)"
+                            @click="emit('add-card', column.id)"
+                        >+</button>
                     </KanbanTableTH>
                 </KanbanTableRow>
             </KanbanTableHead>
@@ -372,6 +424,7 @@ function onGridKeydown(event: KeyboardEvent): void {
                         :data-row="rowIndex"
                         :data-col="cell.colIndex"
                         :data-card-id="cell.card?.id"
+                        :data-collapsed="isCollapsed(cell.column.id) ? '' : undefined"
                         :active="activeRow === rowIndex && activeCol === cell.colIndex"
                         :label="cell.card ? resolveCardLabel(cell.card) : ''"
                         @dragover="onColumnDragOver"
@@ -425,7 +478,7 @@ function onGridKeydown(event: KeyboardEvent): void {
                                     :id="moveOptionId(i)"
                                     role="option"
                                     :aria-selected="destination.id === cell.card!.columnId"
-                                    :aria-disabled="destination.id !== cell.card!.columnId && canMove && !canMove(cell.card!, destination) ? 'true' : undefined"
+                                    :aria-disabled="isRefused(cell.card!, destination) ? 'true' : undefined"
                                     :data-active="i === moveActiveIndex ? '' : undefined"
                                     @click="() => moveCard(cell.card!, destination)"
                                 >
