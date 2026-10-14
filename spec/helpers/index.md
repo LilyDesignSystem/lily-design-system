@@ -165,6 +165,7 @@ packages above. [`bin/list-helper-packages web-components`](../../bin/list-helpe
 - [`lily-design-system-web-components-text-size-picker`](../../lily-design-system-web-components-text-size-picker/) — `@lilydesignsystem/web-components-text-size-picker`
 - [`lily-design-system-web-components-theme-picker`](../../lily-design-system-web-components-theme-picker/) — `@lilydesignsystem/web-components-theme-picker`
 - [`lily-design-system-web-components-gantt-chart`](../../lily-design-system-web-components-gantt-chart/) — `@lilydesignsystem/web-components-gantt-chart`
+- [`lily-design-system-web-components-calendar`](../../lily-design-system-web-components-calendar/) — `@lilydesignsystem/web-components-calendar`
 - [`lily-design-system-web-components-picker-bar`](../../lily-design-system-web-components-picker-bar/) — `@lilydesignsystem/web-components-picker-bar`
 
 ### Nunjucks helper packages

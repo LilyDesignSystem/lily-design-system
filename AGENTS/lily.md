@@ -144,6 +144,7 @@ The Web Components helpers, one top-level subproject per package since 2026-10-1
 - [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker) — `@lilydesignsystem/web-components-text-size-picker`
 - [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker) — `@lilydesignsystem/web-components-theme-picker`
 - [`lily-design-system-web-components-gantt-chart`](../lily-design-system-web-components-gantt-chart) — `@lilydesignsystem/web-components-gantt-chart`
+- [`lily-design-system-web-components-calendar`](../lily-design-system-web-components-calendar) — `@lilydesignsystem/web-components-calendar`
 - [`lily-design-system-web-components-picker-bar`](../lily-design-system-web-components-picker-bar) — `@lilydesignsystem/web-components-picker-bar`
 
 The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages nunjucks`):

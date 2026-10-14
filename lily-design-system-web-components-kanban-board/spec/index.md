@@ -322,3 +322,7 @@ and closes card one's menu, then opens and chooses from card two's
 menu, and asserts focus lands on card two's own button — confirmed
 load-bearing by temporarily reintroducing a "focus the last-built
 button" bug and observing the test fail.
+
+## Svelte 0.2.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§8.17–§8.21 there): `readonly`, `canMove` with `labels.moveBlocked`, and Alt+ArrowUp/Down reorder via `onReorder(cardId, toIndex)` with `labels.reorderAnnouncement`. See the Svelte spec for the contract and the SVAR survey (§11).
