@@ -17,6 +17,7 @@ export type {
     KanbanBoardMoveDetail,
     KanbanBoardReorderDetail,
     KanbanColumn,
+    KanbanLane,
     KanbanCard,
     KanbanLabels,
 } from "./kanban-board.js";
