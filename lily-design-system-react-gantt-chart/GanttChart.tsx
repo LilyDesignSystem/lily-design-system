@@ -14,6 +14,9 @@ import DateTimePicker, {
 } from "@lilydesignsystem/react-date-time-picker";
 import type { DateTimePickerLabels } from "@lilydesignsystem/react-date-time-picker";
 
+/** A dependency with its type (`e2s` finish-to-start, `s2s`, `s2e`, `e2e`) and lag in days; data and text only. */
+export type GanttDependency = { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
+
 export type GanttTask = {
   /** Stable task identifier. */
   id: string;
@@ -28,7 +31,9 @@ export type GanttTask = {
   /** Another task's id; builds the row hierarchy. */
   parentId?: string;
   /** Other tasks' ids this task depends on (finish-to-start). */
-  dependsOn?: string[];
+  dependsOn?: (string | GanttDependency)[];
+  /** The planned span, shown as a second marked span (`data-baseline`) so slippage is visible. */
+  baseline?: { start: string; end: string };
   /** Class hook only: becomes `data-task-type` on the row (e.g. "design", "review"). */
   type?: string;
   /** On the critical path; becomes `data-critical`. Lily computes nothing. */
@@ -63,6 +68,16 @@ export type GanttLabels = {
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+  /** Label of the progress field in the edit region (0–100). Gates the field. */
+  percentLabel?: string;
+  /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
+  dependencyDetail?: (predecessorLabel: string, type: string, lag: number) => string;
+  /** Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early). */
+  baselineSummary?: (
+    taskLabel: string,
+    baseline: { start: string; end: string },
+    varianceDays: number,
+  ) => string;
   collapseButton?: (task: GanttTask, collapsed: boolean) => string;
 };
 
@@ -92,7 +107,7 @@ export type Props = Omit<
   /** Resolves a task to its display label. Defaults to `task.label`. */
   taskLabel?: (task: GanttTask) => string;
   /** Called after a task's start/end changes, by pointer or by the edit region. */
-  onTaskChange?: (taskId: string, start: string, end: string) => void;
+  onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
   /** User-facing strings. See GanttLabels — presence gates each control. */
   labels?: GanttLabels;
   /** Extra CSS class on the root. */
@@ -276,6 +291,7 @@ export function GanttChart({
   );
   const [editStart, setEditStart] = React.useState("");
   const [editEnd, setEditEnd] = React.useState("");
+  const [editPercent, setEditPercent] = React.useState("");
 
   const draggingTaskIdRef = React.useRef<string | null>(null);
   /**
@@ -351,18 +367,36 @@ export function GanttChart({
 
   function predecessorLabels(task: GanttTask): string[] {
     if (!task.dependsOn?.length) return [];
-    return task.dependsOn.map((id) => {
+    return task.dependsOn.map((dep) => {
+      const id = typeof dep === "string" ? dep : dep.id;
       const predecessor = tasks.find((t) => t.id === id);
-      return predecessor ? taskLabel(predecessor) : id;
+      const text = predecessor ? taskLabel(predecessor) : id;
+      if (typeof dep === "string" || !labels.dependencyDetail) return text;
+      return labels.dependencyDetail(text, dep.type ?? "e2s", dep.lag ?? 0);
     });
+  }
+
+  // ---------------------------------------------------------------
+  // Baseline
+  // ---------------------------------------------------------------
+
+  const baselineId = (taskId: string) => `${baseId}-baseline-${taskId}`;
+
+  /** The ids a cell is described by: the dependency summary, then the baseline summary. */
+  function describedBy(task: GanttTask, hasDeps: boolean): string | undefined {
+    const ids: string[] = [];
+    if (hasDeps && labels.dependencySummary) ids.push(dependencyId(task.id));
+    if (task.baseline && labels.baselineSummary) ids.push(baselineId(task.id));
+    return ids.length ? ids.join(" ") : undefined;
   }
 
   // ---------------------------------------------------------------
   // Edit — keyboard (composed DateTimePicker) and pointer (native DnD)
   // ---------------------------------------------------------------
 
-  function applyChange(task: GanttTask, start: string, end: string): void {
-    onTaskChange?.(task.id, start, end);
+  function applyChange(task: GanttTask, start: string, end: string, percentComplete?: number): void {
+    if (percentComplete === undefined) onTaskChange?.(task.id, start, end);
+    else onTaskChange?.(task.id, start, end, percentComplete);
     announce(labels.dateAnnouncement?.(taskLabel(task), start, end));
   }
 
@@ -371,6 +405,7 @@ export function GanttChart({
     setEditingTaskId(task.id);
     setEditStart(task.start);
     setEditEnd(task.end);
+    setEditPercent(task.percentComplete != null ? String(task.percentComplete) : "");
     // Focus moves into the region it opened, onto the start date's field.
     pendingFocusRef.current = "edit";
   }
@@ -382,7 +417,11 @@ export function GanttChart({
       compareISO(editStart, editEnd) <= 0
         ? [editStart, editEnd]
         : [editEnd, editStart];
-    applyChange(task, start, end);
+    const percent =
+      labels.percentLabel && editPercent !== ""
+        ? Math.min(100, Math.max(0, Math.round(Number(editPercent))))
+        : undefined;
+    applyChange(task, start, end, percent !== undefined && Number.isFinite(percent) ? percent : undefined);
     closeEdit();
   }
 
@@ -587,6 +626,19 @@ export function GanttChart({
                         {labels.dependencySummary!(deps)}
                       </span>
                     )}
+                    {row.task.baseline && labels.baselineSummary && (
+                      <span
+                        id={baselineId(row.task.id)}
+                        className="gantt-chart-baseline-summary"
+                        hidden
+                      >
+                        {labels.baselineSummary(
+                          taskLabel(row.task),
+                          row.task.baseline,
+                          epochDaysBetween(row.task.baseline.end, end),
+                        )}
+                      </span>
+                    )}
                   </GanttTableTH>
                   {columns.map((column, colIndex) => {
                     const inRange = rangesOverlap(column.start, column.end, start, end);
@@ -607,8 +659,12 @@ export function GanttChart({
                         data-today={isToday ? "" : undefined}
                         data-non-working={nonWorking[colIndex] ? "" : undefined}
                         data-marker={markersIn(column).length ? "" : undefined}
-                        aria-describedby={
-                          hasDependencySummary ? dependencyId(row.task.id) : undefined
+                        aria-describedby={describedBy(row.task, deps.length > 0)}
+                        data-baseline={
+                          row.task.baseline &&
+                          rangesOverlap(column.start, column.end, row.task.baseline.start, row.task.baseline.end)
+                            ? ""
+                            : undefined
                         }
                         onDragOver={onCellDragOver}
                         onDrop={(e: React.DragEvent) => onCellDrop(column, e)}
@@ -642,6 +698,20 @@ export function GanttChart({
                         value={editEnd}
                         onChange={setEditEnd}
                       />
+                      {labels.percentLabel && (
+                        <label className="gantt-chart-percent-label">
+                          {labels.percentLabel}
+                          <input
+                            className="gantt-chart-percent-input"
+                            type="number"
+                            min={0}
+                            max={100}
+                            step={1}
+                            value={editPercent}
+                            onChange={(e) => setEditPercent(e.target.value)}
+                          />
+                        </label>
+                      )}
                       <button
                         type="button"
                         className="gantt-chart-save-button"

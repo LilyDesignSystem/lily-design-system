@@ -13,12 +13,19 @@ import {
   daysInMonth,
   firstDayOfWeekFor,
   formatIsoDate,
+  isoWeek,
   monthMatrix,
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/react-date-time-picker";
 
 export type CalendarView = "week" | "four-week" | "month";
+
+/** A marked range (a holiday, a closure, a school term). `label` is text a `day` render prop can show. */
+export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
+
+/** The user's picked range, inclusive. */
+export type SelectedRange = { start: string; end: string };
 
 export type CalendarEvent = {
   /** Stable event identifier. */
@@ -50,6 +57,12 @@ export type CalendarViewLabels = {
   weekdayAbbr?: (weekday: number) => string;
   /** Full accessible name for one day cell. */
   day?: (isoDate: string, weekday: number, outsidePeriod: boolean) => string;
+  /** Visible text for the week-number column header (e.g. "Wk"). */
+  weekNumberHeader?: string;
+  /** Accessible name for a week-number cell (e.g. "Week 3"). Without it the bare number is the name. */
+  weekNumber?: (week: number) => string;
+  /** Announced as a range is extended with Shift+arrows or confirmed. */
+  rangeAnnouncement?: (start: string, end: string) => string;
 };
 
 export type DayArgs = {
@@ -59,6 +72,10 @@ export type DayArgs = {
   outsidePeriod: boolean;
   selected: boolean;
   disabled: boolean;
+  /** Inside the picked range. */
+  inRange: boolean;
+  /** The marked ranges this day falls in. */
+  ranges: CalendarRange[];
   /** Call from the event's own button/click handler to fire `onEventClick`. */
   openEvent: (calendarEvent: CalendarEvent) => void;
 };
@@ -82,6 +99,16 @@ export type Props = Omit<
   selectedDate?: string;
   defaultSelectedDate?: string;
   onSelectedDateChange?: (selectedDate: string) => void;
+  /** Show an ISO week-number column (a row header per week). */
+  showWeekNumbers?: boolean;
+  /** Marked ranges (holidays, closures): each day inside gets `data-range="{kind}"`. */
+  ranges?: CalendarRange[];
+  /** The picked range. Controlled when given. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. */
+  selectedRange?: SelectedRange;
+  defaultSelectedRange?: SelectedRange;
+  onSelectedRangeChange?: (selectedRange: SelectedRange | undefined) => void;
+  /** Fired when a range is confirmed: Enter on an extended range, or Shift+click. */
+  onRangeSelect?: (start: string, end: string) => void;
   /** Events to place into day cells. */
   events?: CalendarEvent[];
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
@@ -216,6 +243,12 @@ export function CalendarView({
   selectedDate: selectedProp,
   defaultSelectedDate,
   onSelectedDateChange,
+  showWeekNumbers = false,
+  ranges = [],
+  selectedRange: selectedRangeProp,
+  defaultSelectedRange,
+  onSelectedRangeChange,
+  onRangeSelect,
   events = [],
   today,
   minDate,
@@ -241,6 +274,14 @@ export function CalendarView({
     defaultSelectedDate,
     onSelectedDateChange as ((next: string | undefined) => void) | undefined,
   );
+
+  const [selectedRange, setSelectedRange] = useControllable<SelectedRange | undefined>(
+    selectedRangeProp,
+    defaultSelectedRange,
+    onSelectedRangeChange,
+  );
+  /** Where Shift+arrows started extending from; null when not extending. */
+  const rangeAnchor = React.useRef<string | null>(null);
 
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const [cursor, setCursor] = React.useState(anchorDate);
@@ -272,6 +313,28 @@ export function CalendarView({
     if (minDate && isoDate < minDate) return true;
     if (maxDate && isoDate > maxDate) return true;
     return isDisabled?.(isoDate) ?? false;
+  }
+
+  function setRange(a: string, b: string): void {
+    const [start, end] = a <= b ? [a, b] : [b, a];
+    setSelectedRange({ start, end });
+    const message = labels?.rangeAnnouncement?.(start, end);
+    if (message) setStatusMessage(message);
+  }
+
+  function confirmRange(range: SelectedRange): void {
+    rangeAnchor.current = null;
+    onRangeSelect?.(range.start, range.end);
+  }
+
+  const inSelectedRange = (isoDate: string) =>
+    !!selectedRange && isoDate >= selectedRange.start && isoDate <= selectedRange.end;
+
+  const rangesFor = (isoDate: string) => ranges.filter((r) => isoDate >= r.start && isoDate <= r.end);
+
+  /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
+  function weekNumberOf(row: string[]): number {
+    return isoWeek(row.find((d) => weekdayOf(d) === 4) ?? row[0]);
   }
 
   function pick(isoDate: string): void {
@@ -340,51 +403,79 @@ export function CalendarView({
     focusPending.current = true;
   }
 
+  function pagedCursor(delta: 1 | -1): string {
+    if (view === "week") return addDays(effectiveCursor, delta * 7);
+    if (view === "four-week") return addDays(effectiveCursor, delta * 28);
+    return addMonths(effectiveCursor, delta);
+  }
+
   function pageCursor(delta: 1 | -1): void {
     if (view === "week") moveCursor(addDays(effectiveCursor, delta * 7));
     else if (view === "four-week") moveCursor(addDays(effectiveCursor, delta * 28));
     else moveCursor(addMonths(effectiveCursor, delta));
   }
 
+  const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
+
   function onGridKeyDown(event: React.KeyboardEvent): void {
     const offset = (weekdayOf(effectiveCursor) - firstDayOfWeek + 7) % 7;
+    const extending = event.shiftKey && MOVE_KEYS.has(event.key);
+    let extendTo: string | null = null;
+    if (extending && rangeAnchor.current === null) {
+      rangeAnchor.current = selectedDate && !selectedRange ? selectedDate : effectiveCursor;
+    }
+    if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor.current = null;
+    const move = (next: string) => {
+      if (extending) extendTo = next;
+      moveCursor(next);
+    };
     switch (event.key) {
       case "ArrowLeft":
         event.preventDefault();
-        moveCursor(addDays(effectiveCursor, -1));
+        move(addDays(effectiveCursor, -1));
         break;
       case "ArrowRight":
         event.preventDefault();
-        moveCursor(addDays(effectiveCursor, 1));
+        move(addDays(effectiveCursor, 1));
         break;
       case "ArrowUp":
         event.preventDefault();
-        moveCursor(addDays(effectiveCursor, -7));
+        move(addDays(effectiveCursor, -7));
         break;
       case "ArrowDown":
         event.preventDefault();
-        moveCursor(addDays(effectiveCursor, 7));
+        move(addDays(effectiveCursor, 7));
         break;
       case "Home":
         event.preventDefault();
-        moveCursor(addDays(effectiveCursor, -offset));
+        move(addDays(effectiveCursor, -offset));
         break;
       case "End":
         event.preventDefault();
-        moveCursor(addDays(effectiveCursor, 6 - offset));
+        move(addDays(effectiveCursor, 6 - offset));
         break;
       case "PageUp":
         event.preventDefault();
+        if (extending) extendTo = pagedCursor(-1);
         pageCursor(-1);
         break;
       case "PageDown":
         event.preventDefault();
+        if (extending) extendTo = pagedCursor(1);
         pageCursor(1);
         break;
       case "Enter":
       case " ":
         event.preventDefault();
-        pick(effectiveCursor);
+        if (rangeAnchor.current !== null && selectedRange) confirmRange(selectedRange);
+        else pick(effectiveCursor);
+        break;
+      case "Escape":
+        if (selectedRange || rangeAnchor.current !== null) {
+          event.preventDefault();
+          rangeAnchor.current = null;
+          setSelectedRange(undefined);
+        }
         break;
       case "t":
       case "T":
@@ -394,10 +485,21 @@ export function CalendarView({
         moveCursor(today);
         break;
     }
+    if (extending && extendTo !== null && rangeAnchor.current !== null) setRange(rangeAnchor.current, extendTo);
   }
 
-  function onDayCellClick(isoDate: string): void {
+  function onDayCellClick(isoDate: string, event: React.MouseEvent): void {
+    if (event.shiftKey && !disabledDay(isoDate)) {
+      // Shift+click picks a range from the picked day (or the cursor) to here, and confirms it.
+      const a = selectedDate && !selectedRange ? selectedDate : effectiveCursor;
+      const [start, end] = a <= isoDate ? [a, isoDate] : [isoDate, a];
+      setRange(a, isoDate);
+      setCursor(isoDate);
+      confirmRange({ start, end });
+      return;
+    }
     setCursor(isoDate);
+    rangeAnchor.current = null;
     pick(isoDate);
   }
 
@@ -477,6 +579,11 @@ export function CalendarView({
       <CalendarTable label={label} className="calendar-view-table" onKeyDown={onGridKeyDown}>
         <CalendarTableHead>
           <CalendarTableRow>
+            {showWeekNumbers && (
+              <CalendarTableTH scope="col" data-week-number-header="">
+                {labels?.weekNumberHeader ?? ""}
+              </CalendarTableTH>
+            )}
             {Array.from({ length: 7 }, (_, i) => {
               const weekday = (firstDayOfWeek + i) % 7;
               return (
@@ -496,6 +603,15 @@ export function CalendarView({
         <CalendarTableBody>
           {days.map((week, rowIndex) => (
             <CalendarTableRow key={rowIndex}>
+              {showWeekNumbers && (
+                <CalendarTableTH
+                  scope="row"
+                  data-week-number={weekNumberOf(week)}
+                  aria-label={labels?.weekNumber?.(weekNumberOf(week))}
+                >
+                  {weekNumberOf(week)}
+                </CalendarTableTH>
+              )}
               {week.map((d) => {
                 const weekday = weekdayOf(d);
                 const outside = isOutsidePeriod(view, d, anchorDate);
@@ -503,6 +619,8 @@ export function CalendarView({
                 const dayEvents = eventMap.get(d) ?? [];
                 const disabled = disabledDay(d);
                 const picked = selectedDate === d;
+                const inRange = inSelectedRange(d);
+                const dayRanges = rangesFor(d);
                 return (
                   <CalendarTableTD
                     key={d}
@@ -512,9 +630,15 @@ export function CalendarView({
                     data-outside-period={outside ? "" : undefined}
                     data-selected={picked ? "" : undefined}
                     data-disabled={disabled ? "" : undefined}
+                    data-in-range={inRange ? "" : undefined}
+                    data-range-start={selectedRange?.start === d ? "" : undefined}
+                    data-range-end={selectedRange?.end === d ? "" : undefined}
+                    data-range={
+                      dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined
+                    }
                     aria-disabled={disabled || undefined}
                     aria-label={labels?.day?.(d, weekday, outside)}
-                    onClick={() => onDayCellClick(d)}
+                    onClick={(e: React.MouseEvent) => onDayCellClick(d, e)}
                   >
                     {day
                       ? day({
@@ -524,6 +648,8 @@ export function CalendarView({
                           outsidePeriod: outside,
                           selected: picked,
                           disabled,
+                          inRange,
+                          ranges: dayRanges,
                           openEvent,
                         })
                       : parseIsoDate(d)?.day}
