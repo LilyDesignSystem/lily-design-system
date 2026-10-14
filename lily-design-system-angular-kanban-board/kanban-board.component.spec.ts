@@ -843,3 +843,89 @@ describe("KanbanBoard — filter, drop position, locked, Alt+Arrow, cardAttrs, c
     expect(headers(f)[0].getAttribute("data-hidden-count")).toBe("1");
   });
 });
+
+describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
+  const cardEl = (f: ComponentFixture<unknown>, id: string) =>
+    f.nativeElement.querySelector(`[data-card-id="${id}"]`) as HTMLElement;
+  const focusCell = (f: ComponentFixture<unknown>, id: string) => {
+    cardEl(f, id).dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+    f.detectChanges();
+  };
+
+  test("§8.63 selectable: x and Ctrl+click toggle, aria-multiselectable", () => {
+    const f = mount({ selectable: true });
+    expect(f.nativeElement.querySelector("table")!.getAttribute("aria-multiselectable")).toBe("true");
+    focusCell(f, "c1");
+    press(f, cardEl(f, "c1"), "x");
+    expect(cardEl(f, "c1").hasAttribute("data-selected")).toBe(true);
+    cardEl(f, "c2").dispatchEvent(new MouseEvent("click", { bubbles: true, ctrlKey: true }));
+    f.detectChanges();
+    expect(f.componentInstance.selected()).toEqual(["c1", "c2"]);
+  });
+
+  test("§8.64 moving a selected card moves the whole selection and announces once", async () => {
+    const f = mount({ selectable: true, selected: ["c1", "c2"], labels: { moveManyAnnouncement: (n: number, c: string) => `${n} to ${c}` } });
+    const moves: KanbanMoveEvent[] = [];
+    f.componentInstance.move.subscribe((e) => moves.push(e));
+    focusCell(f, "c1");
+    press(f, cardEl(f, "c1"), "ArrowRight", { altKey: true });
+    await flush();
+    f.detectChanges();
+    expect(moves.map((m) => [m.cardId, m.toColumnId])).toEqual([["c1", "doing"], ["c2", "doing"]]);
+    expect(f.nativeElement.querySelector(".kanban-board-status").textContent).toBe("2 to In Progress");
+    expect(f.componentInstance.selected()).toEqual([]);
+  });
+
+  test("§8.65 undoable: Ctrl+Z moves the card back", async () => {
+    const f = mount({ undoable: true });
+    const moves: KanbanMoveEvent[] = [];
+    f.componentInstance.move.subscribe((e) => moves.push(e));
+    focusCell(f, "c1");
+    press(f, cardEl(f, "c1"), "ArrowRight", { altKey: true });
+    await flush();
+    f.componentRef.setInput("cards", CARDS.map((x) => (x.id === "c1" ? { ...x, columnId: "doing" } : x)));
+    f.detectChanges();
+    press(f, tabbableCells(f)[0], "z", { ctrlKey: true });
+    await flush();
+    expect(moves.map((m) => [m.cardId, m.toColumnId])).toEqual([["c1", "doing"], ["c1", "todo"]]);
+  });
+
+  test("§8.66 movableColumns: Alt+Shift+ArrowRight reorders columns", () => {
+    const f = mount({ movableColumns: true });
+    focusCell(f, "c1");
+    press(f, cardEl(f, "c1"), "ArrowRight", { altKey: true, shiftKey: true });
+    f.detectChanges();
+    expect(f.componentInstance.columnOrder()).toEqual(["doing", "todo", "done"]);
+    expect(f.nativeElement.querySelector(".kanban-table-th").textContent).toContain("In Progress");
+  });
+
+  test("§8.67 lanes: lane header rows, cards grouped by laneId", () => {
+    const f = mount({
+      cards: CARDS.map((x, i) => ({ ...x, laneId: i < 2 ? "a" : "b" })),
+      lanes: [{ id: "a", title: "Alpha" }, { id: "b", title: "Beta" }],
+    });
+    expect(Array.from(f.nativeElement.querySelectorAll(".kanban-board-lane")).map((e) => (e as Element).textContent)).toEqual(["Alpha", "Beta"]);
+  });
+
+  test("§8.68 dropping into another lane's cell emits move with the lane id", () => {
+    const f = mount({
+      cards: [{ id: "c1", columnId: "todo", title: "One", laneId: "a" }],
+      lanes: [{ id: "a", title: "A" }, { id: "b", title: "B" }],
+    });
+    const moves: KanbanMoveEvent[] = [];
+    f.componentInstance.move.subscribe((e) => moves.push(e));
+    f.nativeElement.querySelector(".kanban-board-card-title").dispatchEvent(new Event("dragstart", { bubbles: true }));
+    f.nativeElement.querySelector('[data-row="1"][data-col="1"]').dispatchEvent(new Event("drop", { bubbles: true, cancelable: true }));
+    expect(moves).toEqual([{ cardId: "c1", toColumnId: "doing", toLaneId: "b" }]);
+  });
+
+  test("§8.69 virtualize renders a window with spacers and aria-rowcount", () => {
+    const cards = Array.from({ length: 100 }, (_, i) => ({ id: `k${i}`, columnId: "todo", title: `K${i}` }));
+    const f = mount({ cards, virtualize: { rowHeight: 20, height: 100 } });
+    f.detectChanges();
+    expect(f.nativeElement.querySelector(".kanban-board-scroll")).toBeTruthy();
+    expect(f.nativeElement.querySelectorAll("[data-card-id]").length).toBeLessThan(20);
+    expect(f.nativeElement.querySelector(".kanban-board-spacer")).toBeTruthy();
+    expect(f.nativeElement.querySelector("table")!.getAttribute("aria-rowcount")).toBe("101");
+  });
+});

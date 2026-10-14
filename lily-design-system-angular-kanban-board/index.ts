@@ -5,6 +5,7 @@ export type {
   KanbanColumnContext,
   KanbanMoveErrorEvent,
   KanbanColumn,
+  KanbanLane,
   KanbanLabels,
   KanbanMoveEvent,
   KanbanReorderEvent,

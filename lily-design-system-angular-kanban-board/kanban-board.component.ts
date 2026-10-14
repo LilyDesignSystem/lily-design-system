@@ -43,6 +43,14 @@ export type KanbanColumn = {
   accent?: string;
 };
 
+/** A swimlane: a horizontal band of rows (an owner, an account) that cards are grouped into. */
+export type KanbanLane = {
+  /** Stable lane identifier. */
+  id: string;
+  /** Visible lane title. */
+  title: string;
+};
+
 export type KanbanCard = {
   /** Stable card identifier. */
   id: string;
@@ -62,6 +70,8 @@ export type KanbanCard = {
   href?: string;
   /** `false` stops pointer dragging this card while keeping the move menu and keyboard moves. */
   draggable?: boolean;
+  /** The swimlane this card sits in (an id from `lanes`); the first lane when absent. */
+  laneId?: string;
 };
 
 /** What the `cardTemplate` receives (`let-card="card"`, `let-label="label"` …). */
@@ -97,6 +107,16 @@ export type KanbanLabels = {
   moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
   /** Accessible name of the board's search field. Gates the field. */
   search?: string;
+  /** Announced after several selected cards move together: (how many moved, destination column title). */
+  moveManyAnnouncement?: (count: number, columnTitle: string) => string;
+  /** Visible text of the undo button. Gates the button (with `undoable`). */
+  undo?: string;
+  /** Announced after an undo: (card title, column it went back to). */
+  undoAnnouncement?: (cardTitle: string, columnTitle: string) => string;
+  /** Announced after undoing a group of moves: (how many). */
+  undoManyAnnouncement?: (count: number) => string;
+  /** Announced after a column moves: (column title, 1-based position, how many columns). */
+  columnMoveAnnouncement?: (columnTitle: string, position: number, count: number) => string;
 };
 
 /** Payload of the `reorder` output. */
@@ -112,7 +132,16 @@ export type KanbanMoveEvent = {
   toColumnId: string;
   /** 0-based position in the visible column; present only when a pointer drop landed on a card. */
   toIndex?: number;
+  /** The destination lane; present only when a drop landed in a lane's cell. */
+  toLaneId?: string;
 };
+
+type UndoStep = { cardId: string; fromColumnId: string; toColumnId: string };
+
+type RenderItem =
+  | { kind: "spacer"; height: number; key: string }
+  | { kind: "lane"; lane: KanbanLane; key: string }
+  | { kind: "row"; rowIndex: number; laneId: string; laneRow: number; key: string };
 
 /** Payload of the `moveError` output. */
 export type KanbanMoveErrorEvent = { cardId: string; toColumnId: string; error: unknown };
@@ -165,6 +194,19 @@ export function nextKanbanBoardId(): string {
           (input)="search.set($any($event.target).value)"
         />
       }
+      @if (undoable() && labels().undo; as undoLabel) {
+        @if (!readonly()) {
+          <button type="button" class="kanban-board-undo-button" [disabled]="undoStack().length === 0" (click)="undo()">{{ undoLabel }}</button>
+        }
+      }
+      <!-- The scroll area is structural: a virtualized board renders only the rows in view inside it. -->
+      <div
+        #scrollEl
+        [class]="virtualize() ? 'kanban-board-scroll' : 'kanban-board-body'"
+        [style.height.px]="virtualize()?.height ?? null"
+        [style.overflow]="virtualize() ? 'auto' : null"
+        (scroll)="onScroll($event)"
+      >
       <lily-kanban-table
         [label]="label()"
         (keydown)="onGridKeydown($event)"
@@ -179,7 +221,7 @@ export function nextKanbanBoardId(): string {
         }
         <thead lily-kanban-table-head>
           <tr lily-kanban-table-row>
-            @for (column of columns(); track column.id) {
+            @for (column of orderedColumns(); track column.id) {
               @let count = cardCountFor(column.id);
               @let overLimit = isOverLimit(column, count);
               <th
@@ -189,6 +231,10 @@ export function nextKanbanBoardId(): string {
                 [attr.data-hidden-count]="hiddenCountFor(column.id) > 0 ? hiddenCountFor(column.id) : null"
                 [attr.data-flag]="column.flag ?? null"
                 [attr.data-accent]="column.accent ?? null"
+                [attr.draggable]="movableColumns() ? 'true' : null"
+                (dragstart)="onHeaderDragStart(column, $event)"
+                (dragover)="onHeaderDragOver($event)"
+                (drop)="onHeaderDrop(column, $event)"
               >
                 @if (labels().collapseColumn; as collapseColumn) {
                   <button
@@ -232,13 +278,29 @@ export function nextKanbanBoardId(): string {
           </tr>
         </thead>
         <tbody lily-kanban-table-body>
-          @for (rowIndex of rowIndexes(); track rowIndex) {
-            <tr lily-kanban-table-row>
-              @for (column of columns(); track column.id; let colIndex = $index) {
+          @for (item of renderItems(); track item.key) {
+            @if (item.kind === "spacer") {
+              <tr class="kanban-board-spacer" aria-hidden="true" [style.height.px]="item.height"><td [attr.colspan]="orderedColumns().length"></td></tr>
+            } @else if (item.kind === "lane") {
+              <tr lily-kanban-table-row data-lane-row="">
+                <th class="kanban-board-lane" scope="rowgroup" [attr.colspan]="orderedColumns().length" [attr.data-lane-id]="item.lane.id">{{ item.lane.title }}</th>
+              </tr>
+            } @else {
+            @let rowIndex = item.rowIndex;
+            <tr
+              lily-kanban-table-row
+              [attr.aria-rowindex]="virtualize() ? slotIndexOfRow(rowIndex) + 2 : null"
+              [attr.data-lane-id]="hasLanes() ? item.laneId : null"
+            >
+              @for (column of orderedColumns(); track column.id; let colIndex = $index) {
                 @let card = cardAt(colIndex, rowIndex);
                 <td
                   lily-kanban-table-td
                   [attr.data-row]="rowIndex"
+                  [attr.data-selected]="card && selectable() && isSelected(card.id) ? '' : null"
+                  [attr.aria-selected]="card && selectable() && isSelected(card.id) ? 'true' : null"
+                  [attr.data-dragging]="card && draggingGroup().includes(card.id) ? '' : null"
+                  (click)="onCellClick($event, card)"
                   [attr.data-col]="colIndex"
                   [attr.data-card-id]="card?.id ?? null"
                   [attr.data-collapsed]="isCollapsed(column.id) ? '' : null"
@@ -247,7 +309,7 @@ export function nextKanbanBoardId(): string {
                   [attr.aria-busy]="card && isPending(card.id) ? 'true' : null"
                   [attr.data-flag]="card?.flag ?? null"
                   [attr.data-accent]="column.accent ?? null"
-                  [attr.data-empty]="!card && rowIndex === 0 && labels().emptyColumn && isEmptyColumn(column) ? '' : null"
+                  [attr.data-empty]="!card && !hasLanes() && rowIndex === 0 && labels().emptyColumn && isEmptyColumn(column) ? '' : null"
                   [attr.data-drop-target]="dropTarget() === rowIndex + '-' + colIndex ? '' : null"
                   [attr.aria-describedby]="card?.flag ? flagId(card.id) : null"
                   [attr.tabindex]="isFocused(rowIndex, colIndex) ? 0 : -1"
@@ -263,6 +325,7 @@ export function nextKanbanBoardId(): string {
                       class="kanban-board-card-title"
                       [attr.draggable]="readonly() || card.locked || card.draggable === false ? null : 'true'"
                       (dragstart)="onCardDragStart(card, $event)"
+                      (dragend)="onCardDragEnd()"
                     >
                       @if (cardTemplate(); as cardTpl) {
                         <ng-container
@@ -335,18 +398,19 @@ export function nextKanbanBoardId(): string {
                         }
                       </lily-listbox>
                     }
-                  } @else if (rowIndex === 0 && labels().emptyColumn && isEmptyColumn(column)) {
+                  } @else if (!hasLanes() && rowIndex === 0 && labels().emptyColumn && isEmptyColumn(column)) {
                     <span class="kanban-board-empty">{{ labels().emptyColumn!(column) }}</span>
                   }
                 </td>
               }
             </tr>
+            }
           }
         </tbody>
         @if (columnFooterTemplate(); as footerTpl) {
           <tfoot class="kanban-table-foot">
             <tr class="kanban-table-row">
-              @for (column of columns(); track column.id) {
+              @for (column of orderedColumns(); track column.id) {
                 <td class="kanban-table-td kanban-board-column-footer" [attr.data-accent]="column.accent ?? null">
                   <ng-container
                     [ngTemplateOutlet]="footerTpl"
@@ -358,6 +422,7 @@ export function nextKanbanBoardId(): string {
           </tfoot>
         }
       </lily-kanban-table>
+      </div>
 
       <p class="kanban-board-status" aria-live="polite">{{ statusMessage() }}</p>
     </div>
@@ -399,6 +464,22 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   readonly columnHeaderTemplate = input<TemplateRef<KanbanColumnContext> | undefined>(undefined);
   /** A template rendered in a `<tfoot>` cell per column: sums per stage. */
   readonly columnFooterTemplate = input<TemplateRef<KanbanColumnContext> | undefined>(undefined);
+  /** Swimlanes: horizontal bands of rows. Each card sits in the lane named by `card.laneId` (the first lane when absent). A drop into another lane's cell changes the lane: `move` carries `toLaneId`. */
+  readonly lanes = input<KanbanLane[] | undefined>(undefined);
+  /** Several cards can be selected and moved together: Ctrl/Cmd+click or the `x` key toggles the card under the cursor. */
+  readonly selectable = input<boolean>(false);
+  /** The selected card ids. Two-way bindable: `[(selected)]`. */
+  readonly selected = model<string[]>([]);
+  /** Text for the drag preview (one card, or the whole selection): `setDragImage` gets an element with this text (class `kanban-board-drag-preview`). */
+  readonly dragPreviewText = input<((cards: KanbanCard[]) => string) | undefined>(undefined);
+  /** Remember successful moves so Ctrl/Cmd+Z (and `labels.undo`'s button) can take them back. A selection move is one undo step. */
+  readonly undoable = input<boolean>(false);
+  /** Columns can be reordered: drag a header onto another, or Alt+Shift+ArrowLeft/Right on any cell of the column. */
+  readonly movableColumns = input<boolean>(false);
+  /** Column ids in display order. Two-way bindable: `[(columnOrder)]`; columns it does not name follow in their own order. */
+  readonly columnOrder = model<string[]>([]);
+  /** Renders only the rows in view. The board gets a scroll area of `height` px; every row is assumed `rowHeight` px tall (lane headers count as a row). */
+  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(undefined);
   /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
   readonly canMove = input<((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined>(
     undefined,
@@ -432,6 +513,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   private readonly listRef = viewChild<Listbox>("moveListEl");
+  private readonly scrollRef = viewChild<ElementRef<HTMLDivElement>>("scrollEl");
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly injector = inject(Injector);
@@ -445,6 +527,10 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   protected readonly moveActiveIndex = signal(-1);
 
   private draggingCardId: string | null = null;
+  private draggingColumnId: string | null = null;
+  protected readonly draggingGroup = signal<string[]>([]);
+  protected readonly scrollTop = signal(0);
+  protected readonly undoStack = signal<UndoStep[][]>([]);
   /** The cell a dragged card is over, for `data-drop-target` styling. */
   protected readonly dropTarget = signal<string | null>(null);
   /** Cards moved optimistically by an async `moveHandler` that has not settled: id → destination column. */
@@ -477,6 +563,14 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   /** `cardAttrs` has no template spread in Angular: the attributes are written onto each card's cell after every check. */
   ngAfterViewChecked(): void {
+    // `KanbanTable` takes no aria passthrough in Angular, so the table's own aria state is written here too.
+    const table = this.rootRef().nativeElement.querySelector("table.kanban-table");
+    if (table) {
+      if (this.selectable()) table.setAttribute("aria-multiselectable", "true");
+      else table.removeAttribute("aria-multiselectable");
+      if (this.virtualize()) table.setAttribute("aria-rowcount", String(this.slots().length + 1));
+      else table.removeAttribute("aria-rowcount");
+    }
     const attrs = this.cardAttrs();
     if (!attrs) return;
     const byId = new Map(this.cards().map((c) => [c.id, c]));
@@ -487,10 +581,22 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     }
   }
 
+  // Columns in display order: those named in `columnOrder` first, the rest after in their own order.
+  protected readonly orderedColumns = computed(() => {
+    const order = this.columnOrder();
+    const columns = this.columns();
+    if (order.length === 0) return columns;
+    const rank = (id: string) => (order.indexOf(id) === -1 ? order.length : order.indexOf(id));
+    return columns
+      .map((c, i) => ({ c, i }))
+      .sort((a, b) => rank(a.c.id) - rank(b.c.id) || a.i - b.i)
+      .map((x) => x.c);
+  });
+
   protected readonly cardsByColumn = computed(() => {
     const map = new Map<string, KanbanCard[]>();
     const optimistic = this.optimistic();
-    for (const column of this.columns()) map.set(column.id, []);
+    for (const column of this.orderedColumns()) map.set(column.id, []);
     for (const card of this.cards()) {
       const effective = card.id in optimistic ? { ...card, columnId: optimistic[card.id] } : card;
       map.get(effective.columnId)?.push(effective);
@@ -516,6 +622,11 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     return map;
   });
 
+  protected readonly effectiveCards = computed(() => {
+    const optimistic = this.optimistic();
+    return this.cards().map((c) => (c.id in optimistic ? { ...c, columnId: optimistic[c.id] } : c));
+  });
+
   protected hiddenCountFor(columnId: string): number {
     return this.cardCountFor(columnId) - (this.shownByColumn().get(columnId)?.length ?? 0);
   }
@@ -536,30 +647,108 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     );
   }
 
-  // A collapsed column shows no cards, so it does not count towards the board's height.
-  // A row exists for an empty column's message even when no column has a card to show.
-  protected readonly maxRows = computed(() =>
-    Math.max(
-      this.columns().reduce(
-        (max, column) =>
-          Math.max(max, this.isCollapsed(column.id) ? 0 : (this.shownByColumn().get(column.id)?.length ?? 0)),
-        0,
-      ),
-      this.labels().emptyColumn && this.columns().some((c) => this.isEmptyColumn(c)) ? 1 : 0,
-    ),
+  // ---- Rows: one band per lane (a single anonymous band without `lanes`) ----
+  protected readonly hasLanes = computed(() => (this.lanes()?.length ?? 0) > 0);
+  private laneOf(card: KanbanCard): string {
+    return this.hasLanes() ? (card.laneId ?? this.lanes()![0].id) : "";
+  }
+  private readonly cellCards = computed(() => {
+    const map = new Map<string, KanbanCard[]>();
+    for (const [colId, list] of this.shownByColumn()) {
+      for (const card of list) {
+        const key = `${colId}\u0000${this.laneOf(card)}`;
+        const group = map.get(key);
+        if (group) group.push(card);
+        else map.set(key, [card]);
+      }
+    }
+    return map;
+  });
+  protected readonly slots = computed<RenderItem[]>(() => {
+    const out: RenderItem[] = [];
+    const lanes = this.lanes();
+    const bands: KanbanLane[] = this.hasLanes() ? lanes! : [{ id: "", title: "" }];
+    let rowIndex = 0;
+    for (const lane of bands) {
+      if (this.hasLanes()) out.push({ kind: "lane", lane, key: `lane:${lane.id}` });
+      let rows = 0;
+      for (const column of this.orderedColumns()) {
+        if (this.isCollapsed(column.id)) continue;
+        rows = Math.max(rows, this.cellCards().get(`${column.id}\u0000${lane.id}`)?.length ?? 0);
+      }
+      // A lane keeps at least one row so a card can be dropped into it; without lanes a row exists for an
+      // empty column's message even when no column has a card to show.
+      if (this.hasLanes()) rows = Math.max(rows, 1);
+      else if (rows === 0 && this.labels().emptyColumn && this.orderedColumns().some((c) => this.isEmptyColumn(c))) rows = 1;
+      for (let laneRow = 0; laneRow < rows; laneRow++) {
+        out.push({ kind: "row", rowIndex, laneId: lane.id, laneRow, key: `row:${rowIndex}` });
+        rowIndex++;
+      }
+    }
+    return out;
+  });
+  private readonly rowSlots = computed(() =>
+    this.slots().filter((x): x is Extract<RenderItem, { kind: "row" }> => x.kind === "row"),
   );
+  protected readonly maxRows = computed(() => this.rowSlots().length);
 
   // The roving cursor, clamped to the cells that exist now: a move can shrink
   // the board, and a cursor left on a vanished row would take the grid out of
   // the tab order altogether.
   protected readonly activeRow = computed(() => Math.min(this.focusedRow(), this.maxRows() - 1));
   protected readonly activeCol = computed(() =>
-    Math.min(this.focusedCol(), this.columns().length - 1),
+    Math.min(this.focusedCol(), this.orderedColumns().length - 1),
   );
 
-  protected readonly rowIndexes = computed(() =>
-    Array.from({ length: this.maxRows() }, (_, i) => i),
-  );
+  // ---- Windowing (virtualize) ----
+  protected slotIndexOfRow(rowIndex: number): number {
+    return this.slots().findIndex((x) => x.kind === "row" && x.rowIndex === rowIndex);
+  }
+  protected readonly renderItems = computed<RenderItem[]>(() => {
+    const all = this.slots();
+    const v = this.virtualize();
+    if (!v) return all;
+    const overscan = v.overscan ?? 3;
+    const top = this.scrollTop();
+    const start = Math.max(0, Math.floor(top / v.rowHeight) - overscan);
+    const end = Math.min(all.length, Math.ceil((top + v.height) / v.rowHeight) + overscan);
+    const indices = new Set<number>();
+    for (let i = start; i < end; i++) indices.add(i);
+    // The roving tab stop's row always renders, so the grid never leaves the tab order.
+    const active = this.slotIndexOfRow(this.activeRow());
+    if (active >= 0) indices.add(active);
+    const out: RenderItem[] = [];
+    let previous = -1;
+    for (const index of [...indices].sort((a, b) => a - b)) {
+      if (index - previous > 1) out.push({ kind: "spacer", height: (index - previous - 1) * v.rowHeight, key: `spacer:${previous}` });
+      out.push(all[index]);
+      previous = index;
+    }
+    if (all.length - 1 - previous > 0) out.push({ kind: "spacer", height: (all.length - 1 - previous) * v.rowHeight, key: `spacer:${previous}` });
+    return out;
+  });
+
+  protected onScroll(event: Event): void {
+    if (this.virtualize()) this.scrollTop.set((event.currentTarget as HTMLElement).scrollTop);
+  }
+
+  /** Bring a row into the scroll area (virtualized boards render only what is in view). */
+  private revealRow(rowIndex: number): void {
+    const v = this.virtualize();
+    if (!v) return;
+    const slotIndex = this.slotIndexOfRow(rowIndex);
+    if (slotIndex < 0) return;
+    const top = slotIndex * v.rowHeight;
+    const current = this.scrollTop();
+    let next = current;
+    if (top < current) next = top;
+    else if (top + v.rowHeight > current + v.height) next = top + v.rowHeight - v.height;
+    if (next !== current) {
+      this.scrollTop.set(next);
+      const el = this.scrollRef()?.nativeElement;
+      if (el) el.scrollTop = next;
+    }
+  }
 
   protected cardCountFor(columnId: string): number {
     return this.cardsByColumn().get(columnId)?.length ?? 0;
@@ -570,9 +759,10 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   }
 
   protected cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
-    const column = this.columns()[colIndex];
-    if (!column || this.isCollapsed(column.id)) return undefined;
-    return this.shownByColumn().get(column.id)?.[rowIndex];
+    const column = this.orderedColumns()[colIndex];
+    const slot = this.rowSlots()[rowIndex];
+    if (!column || !slot || this.isCollapsed(column.id)) return undefined;
+    return this.cellCards().get(`${column.id}\u0000${slot.laneId}`)?.[slot.laneRow];
   }
 
   protected isFocused(rowIndex: number, colIndex: number): boolean {
@@ -588,7 +778,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   // ---------------------------------------------------------------
 
   /** Choosing the card's own column is not a move: the menu just closes. */
-  protected isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
+  protected isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0): boolean {
     if (toColumn.id === card.columnId) return false;
     const allowed = this.allowedColumns();
     if (allowed && !allowed(card).includes(toColumn.id)) return true;
@@ -597,35 +787,44 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     return (
       !!toColumn.strictLimit &&
       toColumn.wipLimit != null &&
-      this.cardCountFor(toColumn.id) >= toColumn.wipLimit
+      this.cardCountFor(toColumn.id) + extra >= toColumn.wipLimit
     );
   }
 
   /** The columns the move menu offers for `card`: its own, and the ones it may move to. */
   protected moveTargets(card: KanbanCard): KanbanColumn[] {
     const allowed = this.allowedColumns();
-    if (!allowed) return this.columns();
+    if (!allowed) return this.orderedColumns();
     const ids = allowed(card);
-    return this.columns().filter((c) => c.id === card.columnId || ids.includes(c.id));
+    return this.orderedColumns().filter((c) => c.id === card.columnId || ids.includes(c.id));
   }
 
-  private async runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): Promise<void> {
-    const event: KanbanMoveEvent =
-      toIndex === undefined ? { cardId: card.id, toColumnId: toColumn.id } : { cardId: card.id, toColumnId: toColumn.id, toIndex };
+  private recordUndo(group: UndoStep[]): void {
+    if (!this.undoable() || group.length === 0) return;
+    this.undoStack.update((stack) => [...stack.slice(-49), group]);
+  }
+
+  /** Resolves true when the move went through (no handler, a synchronous one, or a promise that resolved). */
+  private async runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string, silent = false): Promise<boolean> {
+    const event: KanbanMoveEvent = { cardId: card.id, toColumnId: toColumn.id };
+    if (toIndex !== undefined) event.toIndex = toIndex;
+    if (toLaneId !== undefined) event.toLaneId = toLaneId;
     this.move.emit(event);
     const result = this.moveHandler()?.(event);
     if (!result || typeof (result as Promise<unknown>).then !== "function") {
-      this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
-      return;
+      if (!silent) this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
+      return true;
     }
     this.optimistic.update((o) => ({ ...o, [card.id]: toColumn.id }));
-    this.announce(this.labels().movePending?.(this.cardLabel()(card), toColumn.title));
+    if (!silent) this.announce(this.labels().movePending?.(this.cardLabel()(card), toColumn.title));
     try {
       await result;
-      this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
+      if (!silent) this.announce(this.labels().moveAnnouncement?.(this.cardLabel()(card), toColumn.title));
+      return true;
     } catch (error) {
       this.announce(this.labels().moveFailed?.(this.cardLabel()(card), toColumn.title, error));
       this.moveError.emit({ cardId: card.id, toColumnId: toColumn.id, error });
+      return false;
     } finally {
       this.optimistic.update((o) => {
         const { [card.id]: _settled, ...rest } = o;
@@ -635,15 +834,100 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     }
   }
 
-  protected moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): void {
+  // ---- Selection: several cards move together ----
+  protected isSelected(cardId: string): boolean {
+    return this.selected().includes(cardId);
+  }
+
+  private toggleSelected(cardId: string): void {
+    this.selected.set(
+      this.isSelected(cardId) ? this.selected().filter((id) => id !== cardId) : [...this.selected(), cardId],
+    );
+  }
+
+  protected onCellClick(event: MouseEvent, card: KanbanCard | undefined): void {
+    if (this.selectable() && (event.ctrlKey || event.metaKey) && card && !this.readonly()) {
+      event.preventDefault();
+      this.toggleSelected(card.id);
+    }
+  }
+
+  /** The cards that move when `card` moves: the whole selection when `card` is in it, else just `card`. */
+  private movingGroup(card: KanbanCard): KanbanCard[] {
+    if (!this.selectable() || !this.isSelected(card.id) || this.selected().length < 2) return [card];
+    return this.effectiveCards().filter((c) => this.isSelected(c.id));
+  }
+
+  private async moveGroup(group: KanbanCard[], toColumn: KanbanColumn): Promise<void> {
+    const moved: UndoStep[] = [];
+    let admitted = 0;
+    const runs: Promise<boolean>[] = [];
+    for (const member of group) {
+      if (member.locked || this.isPending(member.id) || member.columnId === toColumn.id) continue;
+      if (this.isRefused(member, toColumn, admitted)) {
+        this.announce(this.labels().moveBlocked?.(this.cardLabel()(member), toColumn.title));
+        continue;
+      }
+      admitted += 1;
+      const from = member.columnId;
+      runs.push(
+        this.runMove(member, toColumn, undefined, undefined, true).then((ok) => {
+          if (ok) moved.push({ cardId: member.id, fromColumnId: from, toColumnId: toColumn.id });
+          return ok;
+        }),
+      );
+    }
+    if (runs.length === 0) return;
+    this.announce(this.labels().moveManyAnnouncement?.(runs.length, toColumn.title));
+    this.selected.set([]);
+    await Promise.all(runs);
+    this.recordUndo(moved);
+  }
+
+  // ---- Undo ----
+  protected async undo(): Promise<void> {
+    if (!this.undoable() || this.readonly()) return;
+    let stack = this.undoStack();
+    while (stack.length > 0) {
+      const group = stack[stack.length - 1];
+      stack = stack.slice(0, -1);
+      this.undoStack.set(stack);
+      const live = group
+        .map((m) => ({ m, card: this.effectiveCards().find((c) => c.id === m.cardId) }))
+        .filter((x): x is { m: UndoStep; card: KanbanCard } => !!x.card && x.card.columnId === x.m.toColumnId && !x.card.locked);
+      if (live.length === 0) continue; // nothing of this step is where it was left: try the one before
+      for (const { m, card } of live) {
+        const back = this.orderedColumns().find((c) => c.id === m.fromColumnId);
+        if (back) await this.runMove(card, back, undefined, undefined, true);
+      }
+      if (live.length === 1) {
+        const back = this.orderedColumns().find((c) => c.id === live[0].m.fromColumnId);
+        this.announce(this.labels().undoAnnouncement?.(this.cardLabel()(live[0].card), back?.title ?? ""));
+      } else {
+        this.announce(this.labels().undoManyAnnouncement?.(live.length));
+      }
+      return;
+    }
+  }
+
+  protected moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number, toLaneId?: string): void {
     if (this.readonly() || card.locked || this.isPending(card.id)) return;
+    const group = this.movingGroup(card);
+    if (group.length > 1) {
+      void this.moveGroup(group, toColumn);
+      this.closeMoveMenu(card.id);
+      return;
+    }
     if (this.isRefused(card, toColumn)) {
       this.announce(this.labels().moveBlocked?.(this.cardLabel()(card), toColumn.title));
       this.closeMoveMenu(card.id);
       return;
     }
-    if (toColumn.id !== card.columnId) {
-      void this.runMove(card, toColumn, toIndex);
+    if (toColumn.id !== card.columnId || (toLaneId !== undefined && toLaneId !== this.laneOf(card))) {
+      const from = card.columnId;
+      void this.runMove(card, toColumn, toIndex, toLaneId).then((ok) => {
+        if (ok && toColumn.id !== from) this.recordUndo([{ cardId: card.id, fromColumnId: from, toColumnId: toColumn.id }]);
+      });
     }
     this.closeMoveMenu(card.id);
   }
@@ -707,6 +991,58 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     }
     this.draggingCardId = card.id;
     event.dataTransfer?.setData("text/plain", card.id);
+    const group = this.movingGroup(card);
+    this.draggingGroup.set(group.map((c) => c.id));
+    const root = this.rootRef().nativeElement;
+    const previewText = this.dragPreviewText();
+    if (previewText && event.dataTransfer?.setDragImage) {
+      const preview = document.createElement("div");
+      preview.className = "kanban-board-drag-preview";
+      preview.textContent = previewText(group);
+      preview.style.position = "absolute";
+      preview.style.top = "-1000px";
+      root.appendChild(preview);
+      event.dataTransfer.setDragImage(preview, 0, 0);
+      setTimeout(() => preview.remove(), 0);
+    }
+  }
+
+  protected onCardDragEnd(): void {
+    this.draggingGroup.set([]);
+    this.dropTarget.set(null);
+  }
+
+  // ---- Column reordering ----
+  private moveColumnTo(columnId: string, toIndex: number): boolean {
+    const ids = this.orderedColumns().map((c) => c.id);
+    const from = ids.indexOf(columnId);
+    const to = Math.min(Math.max(toIndex, 0), ids.length - 1);
+    if (from === -1 || from === to) return false;
+    ids.splice(to, 0, ...ids.splice(from, 1));
+    this.columnOrder.set(ids);
+    const column = this.columns().find((c) => c.id === columnId);
+    if (column) this.announce(this.labels().columnMoveAnnouncement?.(column.title, to + 1, ids.length));
+    return true;
+  }
+
+  protected onHeaderDragStart(column: KanbanColumn, event: DragEvent): void {
+    if (!this.movableColumns()) return;
+    this.draggingColumnId = column.id;
+    event.dataTransfer?.setData("text/plain", column.id);
+  }
+
+  protected onHeaderDragOver(event: DragEvent): void {
+    if (this.movableColumns() && this.draggingColumnId) event.preventDefault();
+  }
+
+  protected onHeaderDrop(column: KanbanColumn, event: DragEvent): void {
+    if (!this.movableColumns()) return;
+    event.preventDefault();
+    const id = this.draggingColumnId;
+    this.draggingColumnId = null;
+    if (!id || id === column.id) return;
+    const to = this.orderedColumns().findIndex((c) => c.id === column.id);
+    if (to >= 0) this.moveColumnTo(id, to);
   }
 
   protected onColumnDragOver(event: DragEvent, rowIndex: number, colIndex: number): void {
@@ -719,22 +1055,31 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     event.preventDefault();
     const cardId = this.draggingCardId ?? event.dataTransfer?.getData("text/plain");
     this.draggingCardId = null;
+    this.draggingGroup.set([]);
     this.dropTarget.set(null);
     if (this.readonly()) return;
     const card = this.cards().find((c) => c.id === cardId);
     if (!card) return;
-    const shown = this.shownByColumn().get(column.id) ?? [];
-    const overCard = shown[rowIndex];
+    const slot = this.rowSlots()[rowIndex];
+    const dropLane = this.hasLanes() && slot ? slot.laneId : undefined;
+    const shown = (slot ? this.cellCards().get(`${column.id}\u0000${slot.laneId}`) : this.shownByColumn().get(column.id)) ?? [];
+    const overCard = slot ? shown[slot.laneRow] : shown[rowIndex];
+    const dropIndex = slot ? slot.laneRow : rowIndex;
+    if (card.columnId === column.id && this.hasLanes() && dropLane !== undefined && dropLane !== this.laneOf(card)) {
+      // Dropped into another lane of its own column: only the lane changes.
+      this.moveCard(card, column, undefined, dropLane);
+      return;
+    }
     if (card.columnId === column.id) {
       // Dropped on another card of its own column: reorder to that position.
       const from = shown.findIndex((c) => c.id === card.id);
-      if (overCard && from >= 0 && from !== rowIndex) {
-        this.reorder.emit({ cardId: card.id, toIndex: rowIndex });
-        this.announce(this.labels().reorderAnnouncement?.(this.cardLabel()(card), rowIndex + 1, shown.length));
+      if (overCard && from >= 0 && from !== dropIndex) {
+        this.reorder.emit({ cardId: card.id, toIndex: dropIndex });
+        this.announce(this.labels().reorderAnnouncement?.(this.cardLabel()(card), dropIndex + 1, shown.length));
       }
       return;
     }
-    this.moveCard(card, column, overCard ? rowIndex : undefined);
+    this.moveCard(card, column, overCard ? dropIndex : undefined, dropLane);
   }
 
   // ---------------------------------------------------------------
@@ -750,8 +1095,10 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   }
 
   private moveFocus(row: number, col: number): void {
-    this.focusedCol.set(Math.min(Math.max(col, 0), this.columns().length - 1));
-    this.focusedRow.set(Math.min(Math.max(row, 0), this.maxRows() - 1));
+    this.focusedCol.set(Math.min(Math.max(col, 0), this.orderedColumns().length - 1));
+    const nextRow = Math.min(Math.max(row, 0), this.maxRows() - 1);
+    this.focusedRow.set(nextRow);
+    this.revealRow(nextRow);
     this.cdr.detectChanges();
     this.focusActiveCell();
   }
@@ -768,8 +1115,10 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     if (this.readonly()) return;
     const card = this.cardAt(this.activeCol(), this.activeRow());
     if (!card || card.locked) return;
-    const total = this.shownByColumn().get(card.columnId)?.length ?? 0;
-    const toIndex = this.activeRow() + delta;
+    const slot = this.rowSlots()[this.activeRow()];
+    const total = (slot ? this.cellCards().get(`${card.columnId}\u0000${slot.laneId}`) : this.shownByColumn().get(card.columnId))?.length ?? 0;
+    const laneRow = slot ? slot.laneRow : this.activeRow();
+    const toIndex = laneRow + delta;
     if (toIndex < 0 || toIndex >= total) return;
     this.reorder.emit({ cardId: card.id, toIndex });
     this.announce(this.labels().reorderAnnouncement?.(this.cardLabel()(card), toIndex + 1, total));
@@ -784,17 +1133,42 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (this.undoable() && ctrlOrMeta && !event.altKey && (event.key === "z" || event.key === "Z")) {
+      event.preventDefault();
+      void this.undo();
+      return;
+    }
+    if (this.movableColumns() && event.altKey && event.shiftKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
+      event.preventDefault();
+      const column = this.orderedColumns()[this.activeCol()];
+      const to = this.activeCol() + (event.key === "ArrowLeft" ? -1 : 1);
+      if (column && this.moveColumnTo(column.id, to)) {
+        this.focusedCol.set(to);
+        this.cdr.detectChanges();
+        this.focusActiveCell();
+      }
+      return;
+    }
     if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
       // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
       event.preventDefault();
       const card = this.cardAt(this.activeCol(), this.activeRow());
-      const destination = this.columns()[this.activeCol() + (event.key === "ArrowLeft" ? -1 : 1)];
+      const destination = this.orderedColumns()[this.activeCol() + (event.key === "ArrowLeft" ? -1 : 1)];
       if (card && destination) this.moveCard(card, destination);
       return;
     }
     if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
       event.preventDefault();
       this.reorderCard(event.key === "ArrowUp" ? -1 : 1);
+      return;
+    }
+    if (this.selectable() && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
+      const card = this.cardAt(this.activeCol(), this.activeRow());
+      if (card && !this.readonly()) {
+        event.preventDefault();
+        this.toggleSelected(card.id);
+      }
       return;
     }
     switch (event.key) {
@@ -821,7 +1195,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
         break;
       case "End":
         event.preventDefault();
-        if (ctrlOrMeta) this.moveFocus(this.maxRows() - 1, this.columns().length - 1);
+        if (ctrlOrMeta) this.moveFocus(this.maxRows() - 1, this.orderedColumns().length - 1);
         else this.moveFocus(this.maxRows() - 1, this.activeCol());
         break;
       case "Enter":
