@@ -96,3 +96,7 @@ same section number. §8.7 reads "`onSelectionChange` fires with the new ids on 
 Depends on `@lilydesignsystem/react-headless` ^0.4.0 as a regular dependency. In local
 dev/test `vite.config.ts` aliases it to `../lily-design-system-react-headless/dist/`, so build
 that first (`bin/list-helper-packages react`).
+
+## Svelte 0.5.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§12 there; clauses §8.40–§8.46): column reordering and pinned columns.

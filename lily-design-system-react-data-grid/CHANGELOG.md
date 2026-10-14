@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-10-14
+
+- Added column reordering (`column.movable`, `columnOrder`, `onColumnOrderChange`, `labels.columnMoveAnnouncement`; Alt+ArrowLeft/Right or header drag) and `column.pinned` (`data-pinned`), ported from the Svelte 0.5.0.
+
 ## 0.4.0 — 2026-10-13
 
 Initial release, at the version of the canonical

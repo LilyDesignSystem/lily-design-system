@@ -28,6 +28,8 @@ export type KanbanCard = {
   columnId: string;
   /** Visible card title. */
   title: string;
+  /** A locked card cannot be moved, dragged or reordered (`data-locked` on its cell); it still counts toward WIP limits. */
+  locked?: boolean;
 };
 
 /**
@@ -70,8 +72,14 @@ export type Props = Omit<
   cards: KanbanCard[];
   /** Resolves a card to its display label. Defaults to `card.title`. */
   cardLabel?: (card: KanbanCard) => string;
-  /** Called after a card moves to a new column, by pointer or by the move menu. */
-  onMove?: (cardId: string, toColumnId: string) => void;
+  /** Extra attributes on each card's cell (for example `data-priority`); merged after Lily's own. */
+  cardAttrs?: (card: KanbanCard) => Record<string, unknown>;
+  /** Hides cards for which it returns false. Counts, WIP limits and over-limit warnings still use every card; a filtered column carries `data-hidden-count`. */
+  filter?: (card: KanbanCard) => boolean;
+  /** Orders the cards shown within each column (a stable sort). */
+  compare?: (a: KanbanCard, b: KanbanCard) => number;
+  /** Called after a card moves to a new column, by pointer or by the move menu. `toIndex` (0-based, in the visible column) is given only when a pointer drop landed on a card. */
+  onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void;
   /** Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
   onReorder?: (cardId: string, toIndex: number) => void;
   /** Ids of collapsed columns. Controlled when given. A collapsed column keeps its header and count but shows no cards. */
@@ -108,6 +116,9 @@ export function KanbanBoard({
   columns,
   cards,
   cardLabel = (card: KanbanCard) => card.title,
+  cardAttrs,
+  filter,
+  compare,
   onMove,
   onReorder,
   canMove,
@@ -145,6 +156,14 @@ export function KanbanBoard({
   const draggingCardIdRef = React.useRef<string | null>(null);
 
   const cardsByColumn = groupCardsByColumn(columns, cards);
+  // What the grid shows: the filtered, sorted view. Counts and WIP limits use `cardsByColumn` (every card).
+  const shownByColumn = new Map<string, KanbanCard[]>();
+  for (const [id, list] of cardsByColumn) {
+    let shown = filter ? list.filter(filter) : list.slice();
+    if (compare) shown = shown.sort(compare);
+    shownByColumn.set(id, shown);
+  }
+  const [dropTarget, setDropTarget] = React.useState<string | null>(null);
 
   const [collapsedInner, setCollapsedInner] = React.useState<string[]>(defaultCollapsedColumns);
   const collapsedColumns = collapsedProp ?? collapsedInner;
@@ -160,7 +179,7 @@ export function KanbanBoard({
   // A collapsed column shows no cards, so it does not count towards the board's height.
   const maxRows = columns.reduce(
     (max, column) =>
-      Math.max(max, isCollapsed(column.id) ? 0 : (cardsByColumn.get(column.id)?.length ?? 0)),
+      Math.max(max, isCollapsed(column.id) ? 0 : (shownByColumn.get(column.id)?.length ?? 0)),
     0,
   );
 
@@ -173,7 +192,7 @@ export function KanbanBoard({
   function cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
     const column = columns[colIndex];
     if (!column || isCollapsed(column.id)) return undefined;
-    return cardsByColumn.get(column.id)?.[rowIndex];
+    return shownByColumn.get(column.id)?.[rowIndex];
   }
 
   function announce(message: string | undefined): void {
@@ -196,22 +215,23 @@ export function KanbanBoard({
     );
   }
 
-  function moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
-    if (readonly) return;
+  function moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): void {
+    if (readonly || card.locked) return;
     if (isRefused(card, toColumn)) {
       announce(labels.moveBlocked?.(cardLabel(card), toColumn.title));
       closeMoveMenu(card.id);
       return;
     }
     if (toColumn.id !== card.columnId) {
-      onMove?.(card.id, toColumn.id);
+      if (toIndex === undefined) onMove?.(card.id, toColumn.id);
+      else onMove?.(card.id, toColumn.id, toIndex);
       announce(labels.moveAnnouncement?.(cardLabel(card), toColumn.title));
     }
     closeMoveMenu(card.id);
   }
 
   function openMoveMenu(card: KanbanCard): void {
-    if (readonly) return;
+    if (readonly || card.locked) return;
     setOpenCardId(card.id);
     const currentIndex = columns.findIndex((c) => c.id === card.columnId);
     setMoveActiveIndex(currentIndex >= 0 ? currentIndex : 0);
@@ -258,22 +278,41 @@ export function KanbanBoard({
   // ---------------------------------------------------------------
 
   function onCardDragStart(card: KanbanCard, event: React.DragEvent): void {
+    if (card.locked) {
+      event.preventDefault();
+      return;
+    }
     draggingCardIdRef.current = card.id;
     event.dataTransfer?.setData("text/plain", card.id);
   }
 
-  function onColumnDragOver(event: React.DragEvent): void {
-    if (draggingCardIdRef.current) event.preventDefault();
+  function onColumnDragOver(event: React.DragEvent, rowIndex: number, colIndex: number): void {
+    if (!draggingCardIdRef.current || readonly) return;
+    event.preventDefault();
+    setDropTarget(`${rowIndex}-${colIndex}`);
   }
 
-  function onColumnDrop(column: KanbanColumn, event: React.DragEvent): void {
+  function onColumnDrop(column: KanbanColumn, rowIndex: number, event: React.DragEvent): void {
     event.preventDefault();
     const cardId =
       draggingCardIdRef.current ?? event.dataTransfer?.getData("text/plain");
     draggingCardIdRef.current = null;
+    setDropTarget(null);
+    if (readonly) return;
     const card = cards.find((c) => c.id === cardId);
-    // Dropping a card back on its own column is not a move.
-    if (card && card.columnId !== column.id) moveCard(card, column);
+    if (!card) return;
+    const shown = shownByColumn.get(column.id) ?? [];
+    const overCard = shown[rowIndex];
+    if (card.columnId === column.id) {
+      // Dropped on another card of its own column: reorder to that position.
+      const from = shown.findIndex((c) => c.id === card.id);
+      if (overCard && from >= 0 && from !== rowIndex) {
+        onReorder?.(card.id, rowIndex);
+        announce(labels.reorderAnnouncement?.(cardLabel(card), rowIndex + 1, shown.length));
+      }
+      return;
+    }
+    moveCard(card, column, overCard ? rowIndex : undefined);
   }
 
   // ---------------------------------------------------------------
@@ -299,8 +338,8 @@ export function KanbanBoard({
   function reorderCard(delta: 1 | -1): void {
     if (readonly) return;
     const card = cardAt(activeCol, activeRow);
-    if (!card) return;
-    const total = cardsByColumn.get(card.columnId)?.length ?? 0;
+    if (!card || card.locked) return;
+    const total = shownByColumn.get(card.columnId)?.length ?? 0;
     const toIndex = activeRow + delta;
     if (toIndex < 0 || toIndex >= total) return;
     onReorder?.(card.id, toIndex);
@@ -317,6 +356,14 @@ export function KanbanBoard({
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
+      event.preventDefault();
+      const card = cardAt(activeCol, activeRow);
+      const destination = columns[activeCol + (event.key === "ArrowLeft" ? -1 : 1)];
+      if (card && destination) moveCard(card, destination);
+      return;
+    }
     if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
       event.preventDefault();
       reorderCard(event.key === "ArrowUp" ? -1 : 1);
@@ -382,6 +429,7 @@ export function KanbanBoard({
                 <KanbanTableTH
                   key={column.id}
                   data-over-limit={overLimit ? "" : undefined}
+                  data-hidden-count={count - (shownByColumn.get(column.id)?.length ?? 0) > 0 ? count - (shownByColumn.get(column.id)?.length ?? 0) : undefined}
                   data-collapsed={isCollapsed(column.id) ? "" : undefined}
                 >
                   {labels.collapseColumn && (
@@ -433,10 +481,14 @@ export function KanbanBoard({
                     data-col={colIndex}
                     data-card-id={card?.id}
                     data-collapsed={isCollapsed(column.id) ? "" : undefined}
+                    data-locked={card?.locked ? "" : undefined}
+                    data-drop-target={dropTarget === `${rowIndex}-${colIndex}` ? "" : undefined}
+                    {...(card ? (cardAttrs?.(card) ?? {}) : {})}
                     active={activeRow === rowIndex && activeCol === colIndex}
                     label={card ? cardLabel(card) : undefined}
-                    onDragOver={onColumnDragOver}
-                    onDrop={(e: React.DragEvent) => onColumnDrop(column, e)}
+                    onDragOver={(e: React.DragEvent) => onColumnDragOver(e, rowIndex, colIndex)}
+                    onDragLeave={() => setDropTarget(null)}
+                    onDrop={(e: React.DragEvent) => onColumnDrop(column, rowIndex, e)}
                   >
                     {card && (
                       <>
@@ -450,7 +502,7 @@ export function KanbanBoard({
                         */}
                         <span
                           className="kanban-board-card-title"
-                          draggable={readonly ? undefined : true}
+                          draggable={readonly || card.locked ? undefined : true}
                           onDragStart={(e) => onCardDragStart(card, e)}
                         >
                           {cardLabel(card)}
@@ -460,7 +512,7 @@ export function KanbanBoard({
                           worse than none, and Enter/Space on the cell opens
                           the menu either way.
                         */}
-                        {labels.moveButton && !readonly && (
+                        {labels.moveButton && !readonly && !card.locked && (
                           <IconButton
                             baseClass="kanban-board-move-button"
                             label={labels.moveButton(card)}

@@ -68,6 +68,12 @@ export type GanttLabels = {
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+  /** Accessible name for the zoom-in button (finer columns). Gates the button. */
+  zoomIn?: string;
+  /** Accessible name for the zoom-out button (coarser columns). Gates the button. */
+  zoomOut?: string;
+  /** Announced after a zoom step with the new unit. */
+  zoomAnnouncement?: (timeUnit: GanttTimeUnit) => string;
   /** Label of the progress field in the edit region (0–100). Gates the field. */
   percentLabel?: string;
   /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
@@ -94,8 +100,16 @@ export type Props = Omit<
   range: { start: string; end: string };
   /** Task data. */
   tasks: GanttTask[];
-  /** Column granularity. A static rendering choice, not an interactive zoom control. */
+  /** Column granularity. Controlled when given; the zoom buttons (shown when `labels.zoomIn` / `labels.zoomOut` name them) step it month ↔ week ↔ day. */
   timeUnit?: GanttTimeUnit;
+  /** Called with the new unit when a zoom button is pressed. */
+  onTimeUnitChange?: (timeUnit: GanttTimeUnit) => void;
+  /** The selected task's id. Controlled when given. A click on a task's row or the `s` key on it selects (again deselects); the row gets `aria-selected` and `data-selected`. */
+  selectedTaskId?: string;
+  /** Called with the task id when selection changes, or `undefined` when it clears. */
+  onTaskSelect?: (taskId: string | undefined) => void;
+  /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
+  taskAttrs?: (task: GanttTask) => Record<string, unknown>;
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
   today?: string;
   /** Dated markers; each marks the column that contains its date with `data-marker`. */
@@ -264,7 +278,11 @@ export function GanttChart({
   caption,
   range,
   tasks,
-  timeUnit = "day",
+  timeUnit: timeUnitProp,
+  onTimeUnitChange,
+  selectedTaskId: selectedTaskIdProp,
+  onTaskSelect,
+  taskAttrs,
   today,
   markers = [],
   isNonWorking,
@@ -280,6 +298,11 @@ export function GanttChart({
 
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const [statusMessage, setStatusMessage] = React.useState("");
+  const [timeUnitState, setTimeUnitState] = React.useState<GanttTimeUnit>(timeUnitProp ?? "day");
+  const timeUnit = timeUnitProp ?? timeUnitState;
+  const [selectedState, setSelectedState] = React.useState<string | undefined>(undefined);
+  const selectedTaskId = selectedTaskIdProp ?? selectedState;
+  const resizingEdgeRef = React.useRef<"start" | "end" | null>(null);
   const [collapsed, setCollapsed] = React.useState<ReadonlySet<string>>(
     new Set(),
   );
@@ -441,7 +464,57 @@ export function GanttChart({
 
   function onBarDragStart(task: GanttTask, event: React.DragEvent): void {
     draggingTaskIdRef.current = task.id;
+    resizingEdgeRef.current = null;
     event.dataTransfer?.setData("text/plain", task.id);
+  }
+
+  function onHandleDragStart(task: GanttTask, edge: "start" | "end", event: React.DragEvent): void {
+    event.stopPropagation();
+    draggingTaskIdRef.current = task.id;
+    resizingEdgeRef.current = edge;
+    event.dataTransfer?.setData("text/plain", task.id);
+  }
+
+  // ---- Zoom ----
+  const ZOOM_ORDER: GanttTimeUnit[] = ["month", "week", "day"];
+  const zoomIndex = ZOOM_ORDER.indexOf(timeUnit);
+
+  function zoom(delta: 1 | -1): void {
+    const next = ZOOM_ORDER[zoomIndex + delta];
+    if (!next) return;
+    setTimeUnitState(next);
+    onTimeUnitChange?.(next);
+    announce(labels.zoomAnnouncement?.(next));
+  }
+
+  // ---- Selection ----
+  function selectTask(taskId: string): void {
+    const next = selectedTaskId === taskId ? undefined : taskId;
+    setSelectedState(next);
+    onTaskSelect?.(next);
+  }
+
+  function onGridClick(event: React.MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.closest("button, input, .gantt-chart-edit-row")) return;
+    const taskId = target.closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
+    if (taskId) selectTask(taskId);
+  }
+
+  // ---- Keyboard shift / resize (Alt+Arrow) ----
+  function columnIndexOf(isoDate: string): number {
+    return columns.findIndex((c) => rangesOverlap(c.start, c.end, isoDate, isoDate));
+  }
+
+  function shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    if (endOnly) {
+      const target = columns[columnIndexOf(task.end) + delta];
+      if (target && compareISO(task.start, target.end) <= 0) applyChange(task, task.start, target.end);
+      return;
+    }
+    const target = columns[columnIndexOf(task.start) + delta];
+    if (!target) return;
+    applyChange(task, target.start, addDays(target.start, epochDaysBetween(task.start, task.end)));
   }
 
   function onCellDragOver(event: React.DragEvent): void {
@@ -455,7 +528,16 @@ export function GanttChart({
       draggingTaskIdRef.current ?? event.dataTransfer?.getData("text/plain");
     draggingTaskIdRef.current = null;
     const task = tasks.find((t) => t.id === taskId);
+    const edge = resizingEdgeRef.current;
+    resizingEdgeRef.current = null;
     if (!task) return;
+    if (edge) {
+      // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+      const start = edge === "start" ? column.start : task.start;
+      const end = edge === "end" ? column.end : task.end;
+      if (compareISO(start, end) <= 0 && (start !== task.start || end !== task.end)) applyChange(task, start, end);
+      return;
+    }
     const duration = epochDaysBetween(task.start, task.end);
     applyChange(task, column.start, addDays(column.start, duration));
   }
@@ -500,6 +582,15 @@ export function GanttChart({
     );
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+      const row = rows[activeRow];
+      if (row && !row.hasChildren && !readonly && (event.target as HTMLElement).closest(".gantt-table-td")) {
+        event.preventDefault();
+        shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+        return;
+      }
+    }
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
@@ -527,6 +618,16 @@ export function GanttChart({
         if (ctrlOrMeta) moveFocus(rows.length - 1, columns.length - 1);
         else moveFocus(activeRow, columns.length - 1);
         break;
+      case "s":
+      case "S": {
+        if (event.ctrlKey || event.metaKey || event.altKey) break;
+        const row = rows[activeRow];
+        if (row && (event.target as HTMLElement).closest(".gantt-table-td")) {
+          event.preventDefault();
+          selectTask(row.task.id);
+        }
+        break;
+      }
       case "Enter":
       case " ": {
         event.preventDefault();
@@ -544,11 +645,26 @@ export function GanttChart({
       data-readonly={readonly ? "" : undefined}
       {...restProps}
     >
+      {(labels.zoomIn || labels.zoomOut) && (
+        <div className="gantt-chart-zoom" role="group" aria-label={label}>
+          {labels.zoomOut && (
+            <button type="button" className="gantt-chart-zoom-out-button" aria-label={labels.zoomOut} disabled={zoomIndex <= 0} onClick={() => zoom(-1)}>
+              −
+            </button>
+          )}
+          {labels.zoomIn && (
+            <button type="button" className="gantt-chart-zoom-in-button" aria-label={labels.zoomIn} disabled={zoomIndex >= ZOOM_ORDER.length - 1} onClick={() => zoom(1)}>
+              +
+            </button>
+          )}
+        </div>
+      )}
       <GanttTable
         label={label}
         caption={caption}
         onKeyDown={onGridKeyDown}
         onFocus={onGridFocus}
+        onClick={onGridClick}
       >
         <GanttTableThead>
           <GanttTableTr>
@@ -599,6 +715,10 @@ export function GanttChart({
                   data-task-type={row.task.type}
                   data-critical={row.task.critical ? "" : undefined}
                   data-slack={row.task.slack}
+                  data-task-id={row.task.id}
+                  aria-selected={selectedTaskId === row.task.id ? true : undefined}
+                  data-selected={selectedTaskId === row.task.id ? "" : undefined}
+                  {...(taskAttrs?.(row.task) ?? {})}
                 >
                   {/* Depth is data for the consumer's CSS (indentation), never an inline style. */}
                   <GanttTableTH scope="row" data-depth={row.depth}>
@@ -675,6 +795,23 @@ export function GanttChart({
                             data-percent-complete={row.task.percentComplete ?? undefined}
                             draggable={!row.hasChildren && !readonly}
                             onDragStart={(e) => onBarDragStart(row.task, e)}
+                          >
+                            {!row.hasChildren && !readonly && (
+                              <span
+                                className="gantt-chart-bar-handle gantt-chart-bar-handle-start"
+                                draggable
+                                aria-hidden="true"
+                                onDragStart={(e) => onHandleDragStart(row.task, "start", e)}
+                              />
+                            )}
+                          </span>
+                        )}
+                        {!row.hasChildren && !readonly && inRange && rangesOverlap(column.start, column.end, end, end) && (
+                          <span
+                            className="gantt-chart-bar-handle gantt-chart-bar-handle-end"
+                            draggable
+                            aria-hidden="true"
+                            onDragStart={(e) => onHandleDragStart(row.task, "end", e)}
                           />
                         )}
                       </GanttTableTD>

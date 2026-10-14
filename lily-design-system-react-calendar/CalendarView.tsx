@@ -19,7 +19,7 @@ import {
   weekdayOf,
 } from "@lilydesignsystem/react-date-time-picker";
 
-export type CalendarView = "week" | "four-week" | "month";
+export type CalendarView = "day" | "week" | "four-week" | "month";
 
 /** A marked range (a holiday, a closure, a school term). `label` is text a `day` render prop can show. */
 export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -44,6 +44,8 @@ export type CalendarEvent = {
  * no baked-in English fallback. See spec/index.md §5.
  */
 export type CalendarViewLabels = {
+  /** Switcher label for the one-day view. Gates its button. */
+  dayView?: string;
   weekView?: string;
   fourWeekView?: string;
   monthView?: string;
@@ -63,11 +65,19 @@ export type CalendarViewLabels = {
   weekNumber?: (week: number) => string;
   /** Announced as a range is extended with Shift+arrows or confirmed. */
   rangeAnnouncement?: (start: string, end: string) => string;
+  /** Announced after an event is moved to another day. */
+  eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
+  /** Visible title of the shown period, rendered between the previous and next buttons. Gates the title. */
+  periodTitle?: (view: CalendarView, start: string, end: string) => string;
 };
 
 export type DayArgs = {
   date: string;
   events: CalendarEvent[];
+  /** The first `maxEvents` events (all of them without the cap). */
+  visibleEvents: CalendarEvent[];
+  /** How many events the cap hides, for a "+N more" control. */
+  hiddenCount: number;
   isToday: boolean;
   outsidePeriod: boolean;
   selected: boolean;
@@ -78,6 +88,8 @@ export type DayArgs = {
   ranges: CalendarRange[];
   /** Call from the event's own button/click handler to fire `onEventClick`. */
   openEvent: (calendarEvent: CalendarEvent) => void;
+  /** Spread onto an event's element to make it draggable and keyboard-movable: `{...eventProps(ev)}`. Empty without `onEventMove`. */
+  eventProps: (calendarEvent: CalendarEvent) => React.HTMLAttributes<HTMLElement> & Record<string, unknown>;
 };
 
 /** Public props for CalendarView. See `spec/index.md` §5 for the contract. */
@@ -111,6 +123,20 @@ export type Props = Omit<
   onRangeSelect?: (start: string, end: string) => void;
   /** Events to place into day cells. */
   events?: CalendarEvent[];
+  /** Cap on events shown per day: the `day` render prop gets `visibleEvents` and `hiddenCount`. */
+  maxEvents?: number;
+  /** Called when an event is moved to another day, by drag-and-drop or Alt+arrow keys on a focused event element. Setting it turns the drag-and-drop on. */
+  onEventMove?: (calendarEvent: CalendarEvent, toDate: string) => void;
+  /** Month view: leave days outside the shown month empty (the cell keeps `data-outside-period`). */
+  hideOutsideDays?: boolean;
+  /** Weekday numbers (0 = Sunday … 6 = Saturday) that are the weekend; those cells get `data-weekend`. */
+  weekendDays?: number[];
+  /** `"multiple"`: Enter/Space or a click toggles a day in `selectedDates` instead of setting `selectedDate`. */
+  selectionMode?: "single" | "multiple";
+  /** The picked days in `"multiple"` mode. Controlled when given. */
+  selectedDates?: string[];
+  defaultSelectedDates?: string[];
+  onSelectedDatesChange?: (selectedDates: string[]) => void;
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
   today?: string;
   /** Earliest pickable ISO date. */
@@ -151,6 +177,7 @@ export function periodDays(
     if (!parsed) return [];
     return monthMatrix(parsed.year, parsed.month, firstDayOfWeek);
   }
+  if (view === "day") return [[anchorDate]];
   const start = weekStart(anchorDate, firstDayOfWeek);
   const rows = view === "week" ? 1 : 4;
   const weeks: string[][] = [];
@@ -176,6 +203,7 @@ export function periodRange(
       formatIsoDate({ ...parsed, day: daysInMonth(parsed.year, parsed.month) }),
     ];
   }
+  if (view === "day") return [anchorDate, anchorDate];
   const start = weekStart(anchorDate, firstDayOfWeek);
   const len = view === "week" ? 7 : 28;
   return [start, addDays(start, len - 1)];
@@ -250,6 +278,14 @@ export function CalendarView({
   onSelectedRangeChange,
   onRangeSelect,
   events = [],
+  maxEvents,
+  onEventMove,
+  hideOutsideDays = false,
+  weekendDays,
+  selectionMode = "single",
+  selectedDates: selectedDatesProp,
+  defaultSelectedDates,
+  onSelectedDatesChange,
   today,
   minDate,
   maxDate,
@@ -279,6 +315,11 @@ export function CalendarView({
     selectedRangeProp,
     defaultSelectedRange,
     onSelectedRangeChange,
+  );
+  const [selectedDates, setSelectedDates] = useControllable<string[]>(
+    selectedDatesProp,
+    defaultSelectedDates ?? [],
+    onSelectedDatesChange,
   );
   /** Where Shift+arrows started extending from; null when not extending. */
   const rangeAnchor = React.useRef<string | null>(null);
@@ -339,7 +380,15 @@ export function CalendarView({
 
   function pick(isoDate: string): void {
     if (disabledDay(isoDate)) return;
-    setSelectedDate(isoDate);
+    if (selectionMode === "multiple") {
+      setSelectedDates(
+        selectedDates.includes(isoDate)
+          ? selectedDates.filter((d) => d !== isoDate)
+          : [...selectedDates, isoDate].sort(),
+      );
+    } else {
+      setSelectedDate(isoDate);
+    }
     onDayClick?.(isoDate);
   }
 
@@ -357,7 +406,8 @@ export function CalendarView({
   }
 
   function stepView(delta: 1 | -1): void {
-    if (view === "week") navigateTo(addDays(anchorDate, delta * 7));
+    if (view === "day") navigateTo(addDays(anchorDate, delta));
+    else if (view === "week") navigateTo(addDays(anchorDate, delta * 7));
     else if (view === "four-week") navigateTo(addDays(anchorDate, delta * 28));
     else navigateTo(addMonths(anchorDate, delta));
   }
@@ -383,6 +433,8 @@ export function CalendarView({
       if (cp && anchor && (cp.year !== anchor.year || cp.month !== anchor.month)) {
         navigateTo(formatIsoDate({ year: cp.year, month: cp.month, day: 1 }));
       }
+    } else if (view === "day") {
+      if (next !== anchorDate) navigateTo(next);
     } else {
       const len = view === "week" ? 7 : 28;
       let start = weekStart(anchorDate, firstDayOfWeek);
@@ -404,21 +456,65 @@ export function CalendarView({
   }
 
   function pagedCursor(delta: 1 | -1): string {
+    if (view === "day") return addDays(effectiveCursor, delta);
     if (view === "week") return addDays(effectiveCursor, delta * 7);
     if (view === "four-week") return addDays(effectiveCursor, delta * 28);
     return addMonths(effectiveCursor, delta);
   }
 
   function pageCursor(delta: 1 | -1): void {
-    if (view === "week") moveCursor(addDays(effectiveCursor, delta * 7));
+    if (view === "day") moveCursor(addDays(effectiveCursor, delta));
+    else if (view === "week") moveCursor(addDays(effectiveCursor, delta * 7));
     else if (view === "four-week") moveCursor(addDays(effectiveCursor, delta * 28));
     else moveCursor(addMonths(effectiveCursor, delta));
   }
 
   const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
 
+  // ---- Event drag-and-drop (supplementary pointer path) + Alt+arrow keys ----
+  const draggingEventId = React.useRef<string | null>(null);
+
+  function eventProps(calendarEvent: CalendarEvent): React.HTMLAttributes<HTMLElement> & Record<string, unknown> {
+    if (!onEventMove) return {};
+    return {
+      draggable: true,
+      "data-event-id": calendarEvent.id,
+      onDragStart: (e: React.DragEvent) => {
+        draggingEventId.current = calendarEvent.id;
+        e.dataTransfer?.setData("text/plain", calendarEvent.id);
+      },
+    };
+  }
+
+  function moveEventTo(calendarEvent: CalendarEvent, toDate: string): void {
+    if (!onEventMove || disabledDay(toDate)) return;
+    onEventMove(calendarEvent, toDate);
+    const message = labels?.eventMoveAnnouncement?.(calendarEvent, toDate);
+    if (message) setStatusMessage(message);
+  }
+
+  function onDayDrop(isoDate: string, event: React.DragEvent): void {
+    event.preventDefault();
+    const id = draggingEventId.current ?? event.dataTransfer?.getData("text/plain");
+    draggingEventId.current = null;
+    const calendarEvent = events.find((e) => e.id === id);
+    if (calendarEvent) moveEventTo(calendarEvent, isoDate);
+  }
+
   function onGridKeyDown(event: React.KeyboardEvent): void {
-    const offset = (weekdayOf(effectiveCursor) - firstDayOfWeek + 7) % 7;
+    if (onEventMove && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+      const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
+      const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
+      const calendarEvent = events.find((e) => e.id === el?.dataset.eventId);
+      if (el && fromDate && calendarEvent) {
+        event.preventDefault();
+        const week = view === "day" ? 1 : 7;
+        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+        moveEventTo(calendarEvent, addDays(fromDate, delta));
+        return;
+      }
+    }
+    const offset = view === "day" ? 0 : (weekdayOf(effectiveCursor) - firstDayOfWeek + 7) % 7;
     const extending = event.shiftKey && MOVE_KEYS.has(event.key);
     let extendTo: string | null = null;
     if (extending && rangeAnchor.current === null) {
@@ -440,11 +536,11 @@ export function CalendarView({
         break;
       case "ArrowUp":
         event.preventDefault();
-        move(addDays(effectiveCursor, -7));
+        move(addDays(effectiveCursor, view === "day" ? -1 : -7));
         break;
       case "ArrowDown":
         event.preventDefault();
-        move(addDays(effectiveCursor, 7));
+        move(addDays(effectiveCursor, view === "day" ? 1 : 7));
         break;
       case "Home":
         event.preventDefault();
@@ -452,7 +548,7 @@ export function CalendarView({
         break;
       case "End":
         event.preventDefault();
-        move(addDays(effectiveCursor, 6 - offset));
+        move(addDays(effectiveCursor, view === "day" ? 0 : 6 - offset));
         break;
       case "PageUp":
         event.preventDefault();
@@ -503,6 +599,8 @@ export function CalendarView({
     pick(isoDate);
   }
 
+  const periodStart = periodRange(view, anchorDate, firstDayOfWeek)[0];
+  const periodEnd = periodRange(view, anchorDate, firstDayOfWeek)[1];
   const openEvent = (calendarEvent: CalendarEvent) => onEventClick?.(calendarEvent);
 
   return (
@@ -511,9 +609,19 @@ export function CalendarView({
       className={`calendar-view ${className}`.trim()}
       {...restProps}
     >
-      {(labels?.weekView || labels?.fourWeekView || labels?.monthView) && (
+      {(labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView) && (
         <div className="calendar-view-toolbar">
           <div className="calendar-view-switcher" role="group">
+            {labels?.dayView && (
+              <button
+                type="button"
+                className="calendar-view-switcher-button calendar-view-switcher-button-day"
+                aria-pressed={view === "day"}
+                onClick={() => changeView("day")}
+              >
+                {labels.dayView}
+              </button>
+            )}
             {labels?.weekView && (
               <button
                 type="button"
@@ -554,6 +662,9 @@ export function CalendarView({
             >
               ‹
             </button>
+            {labels?.periodTitle && (
+              <span className="calendar-view-title">{labels.periodTitle(view, periodStart, periodEnd)}</span>
+            )}
             {labels?.today && (
               <button
                 type="button"
@@ -584,8 +695,8 @@ export function CalendarView({
                 {labels?.weekNumberHeader ?? ""}
               </CalendarTableTH>
             )}
-            {Array.from({ length: 7 }, (_, i) => {
-              const weekday = (firstDayOfWeek + i) % 7;
+            {Array.from({ length: view === "day" ? 1 : 7 }, (_, i) => {
+              const weekday = view === "day" ? weekdayOf(anchorDate) : (firstDayOfWeek + i) % 7;
               return (
                 <CalendarTableTH key={i} scope="col">
                   {labels?.weekdayAbbr ? (
@@ -618,7 +729,7 @@ export function CalendarView({
                 const isToday = today != null && d === today;
                 const dayEvents = eventMap.get(d) ?? [];
                 const disabled = disabledDay(d);
-                const picked = selectedDate === d;
+                const picked = selectionMode === "multiple" ? selectedDates.includes(d) : selectedDate === d;
                 const inRange = inSelectedRange(d);
                 const dayRanges = rangesFor(d);
                 return (
@@ -628,6 +739,7 @@ export function CalendarView({
                     today={isToday}
                     data-date={d}
                     data-outside-period={outside ? "" : undefined}
+                    data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
                     data-selected={picked ? "" : undefined}
                     data-disabled={disabled ? "" : undefined}
                     data-in-range={inRange ? "" : undefined}
@@ -639,11 +751,19 @@ export function CalendarView({
                     aria-disabled={disabled || undefined}
                     aria-label={labels?.day?.(d, weekday, outside)}
                     onClick={(e: React.MouseEvent) => onDayCellClick(d, e)}
+                    onDragOver={(e: React.DragEvent) => {
+                      if (draggingEventId.current && onEventMove) e.preventDefault();
+                    }}
+                    onDrop={(e: React.DragEvent) => onDayDrop(d, e)}
                   >
-                    {day
+                    {hideOutsideDays && outside
+                      ? null
+                      : day
                       ? day({
                           date: d,
                           events: dayEvents,
+                          visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)),
+                          hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)),
                           isToday,
                           outsidePeriod: outside,
                           selected: picked,
@@ -651,6 +771,7 @@ export function CalendarView({
                           inRange,
                           ranges: dayRanges,
                           openEvent,
+                          eventProps,
                         })
                       : parseIsoDate(d)?.day}
                   </CalendarTableTD>

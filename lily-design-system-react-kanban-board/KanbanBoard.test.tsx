@@ -526,3 +526,109 @@ describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", ()
     expect(onMove).toHaveBeenCalledWith("c1", "doing");
   });
 });
+
+describe("KanbanBoard — filter, drop position, locked cards, Alt+Arrow, cardAttrs (§8.31–§8.47)", () => {
+  const base = { label: "Sprint board", columns: COLUMNS, cards: CARDS, labels: LABELS };
+  const cell = (row: number, col: number) =>
+    document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+  const titles = () => Array.from(document.querySelectorAll(".kanban-board-card-title")).map((e) => e.textContent?.trim());
+  const drag = (from: HTMLElement, to: HTMLElement) => {
+    const dt = { setData: vi.fn(), getData: () => "" };
+    fireEvent.dragStart(from.querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+    fireEvent.dragOver(to, { dataTransfer: dt });
+    fireEvent.drop(to, { dataTransfer: dt });
+  };
+
+  test("§8.31 filter hides cards; §8.32 counts and limits still use every card, with data-hidden-count", () => {
+    render(<KanbanBoard {...base} filter={(c) => c.columnId !== "doing"} />);
+    const heads = Array.from(document.querySelectorAll(".kanban-table-th"));
+    expect(titles()).not.toContain("Card Three");
+    expect(heads[1].textContent).toContain("2 cards");
+    expect(heads[1].hasAttribute("data-over-limit")).toBe(true);
+    expect(heads[1].getAttribute("data-hidden-count")).toBe("2");
+    expect(heads[0].hasAttribute("data-hidden-count")).toBe(false);
+  });
+
+  test("§8.33 the board's height follows the filtered view", () => {
+    render(<KanbanBoard {...base} filter={() => false} />);
+    expect(document.querySelectorAll(".kanban-table-body .kanban-table-row")).toHaveLength(0);
+  });
+
+  test("§8.34 compare orders the cards within each column", () => {
+    render(<KanbanBoard {...base} compare={(a, b) => b.title.localeCompare(a.title)} />);
+    const todo = Array.from(document.querySelectorAll<HTMLElement>('.kanban-table-td[data-col="0"] .kanban-board-card-title')).map((e) => e.textContent?.trim());
+    expect(todo).toEqual(["Card Two", "Card One"]);
+  });
+
+  test("§8.35 dropping on a card in another column passes its position; §8.36 on an empty cell appends", () => {
+    const onMove = vi.fn();
+    render(<KanbanBoard {...base} onMove={onMove} />);
+    drag(cell(0, 0), cell(1, 1));
+    expect(onMove).toHaveBeenLastCalledWith("c1", "doing", 1);
+    drag(cell(0, 0), cell(0, 2));
+    expect(onMove).toHaveBeenLastCalledWith("c1", "done");
+  });
+
+  test("§8.37 dropping on another card of its own column reorders", () => {
+    const onReorder = vi.fn();
+    render(<KanbanBoard {...base} onReorder={onReorder} />);
+    drag(cell(0, 0), cell(1, 0));
+    expect(onReorder).toHaveBeenCalledWith("c1", 1);
+  });
+
+  test("§8.38 the cell under a dragged card carries data-drop-target; readonly refuses drops", () => {
+    const onMove = vi.fn();
+    const { unmount } = render(<KanbanBoard {...base} onMove={onMove} />);
+    const dt = { setData: vi.fn(), getData: () => "" };
+    fireEvent.dragStart(cell(0, 0).querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+    fireEvent.dragOver(cell(1, 1), { dataTransfer: dt });
+    expect(cell(1, 1).hasAttribute("data-drop-target")).toBe(true);
+    unmount();
+    render(<KanbanBoard {...base} onMove={onMove} readonly />);
+    fireEvent.drop(cell(0, 2), { dataTransfer: dt });
+    expect(onMove).not.toHaveBeenCalled();
+  });
+
+  test("§8.39–§8.41 a locked card has data-locked, no move button, is not draggable, ignores Enter and Alt+Arrow, others still move", () => {
+    const cards = CARDS.map((c) => (c.id === "c1" ? { ...c, locked: true } : c));
+    const onMove = vi.fn();
+    const onReorder = vi.fn();
+    render(<KanbanBoard {...base} cards={cards} onMove={onMove} onReorder={onReorder} />);
+    expect(cell(0, 0).hasAttribute("data-locked")).toBe(true);
+    expect(cell(0, 0).querySelector(".kanban-board-move-button")).toBeNull();
+    expect(cell(0, 0).querySelector("[draggable]")).toBeNull();
+    expect(cell(1, 0).querySelector("[draggable='true']")).toBeTruthy();
+    fireEvent.keyDown(cell(0, 0), { key: "Enter" });
+    expect(document.querySelector('[role="listbox"]')).toBeNull();
+    fireEvent.keyDown(cell(0, 0), { key: "ArrowDown", altKey: true });
+    expect(onReorder).not.toHaveBeenCalled();
+    fireEvent.focus(cell(1, 0));
+    fireEvent.keyDown(cell(1, 0), { key: "Enter" });
+    fireEvent.click(screen.getByRole("option", { name: "Done" }));
+    expect(onMove).toHaveBeenCalledWith("c2", "done");
+  });
+
+  test("§8.44 Alt+ArrowRight moves the card to the next column; Alt+ArrowLeft past the first does nothing", () => {
+    const onMove = vi.fn();
+    render(<KanbanBoard {...base} onMove={onMove} />);
+    fireEvent.keyDown(cell(0, 0), { key: "ArrowLeft", altKey: true });
+    expect(onMove).not.toHaveBeenCalled();
+    fireEvent.keyDown(cell(0, 0), { key: "ArrowRight", altKey: true });
+    expect(onMove).toHaveBeenLastCalledWith("c1", "doing");
+  });
+
+  test("§8.46 a hard-limited full column refuses the keyboard move and announces it", () => {
+    const onMove = vi.fn();
+    const cols = [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true }];
+    render(<KanbanBoard {...base} columns={cols} onMove={onMove} labels={{ ...LABELS, moveBlocked: (t, c) => `${t} cannot go to ${c}` }} />);
+    fireEvent.keyDown(cell(0, 0), { key: "ArrowRight", altKey: true });
+    expect(onMove).not.toHaveBeenCalled();
+    expect(document.querySelector(".kanban-board-status")!.textContent).toBe("Card One cannot go to In Progress");
+  });
+
+  test("§8.47 cardAttrs adds attributes to each card's cell", () => {
+    render(<KanbanBoard {...base} cardAttrs={(c) => ({ "data-priority": c.id === "c1" ? "high" : "low" })} />);
+    expect(document.querySelector('[data-card-id="c1"]')!.getAttribute("data-priority")).toBe("high");
+    expect(document.querySelector('[data-card-id="c2"]')!.getAttribute("data-priority")).toBe("low");
+  });
+});

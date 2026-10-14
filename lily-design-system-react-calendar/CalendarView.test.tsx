@@ -43,8 +43,9 @@ function HostCalendar(props: Record<string, unknown>) {
         args.selected ? React.createElement("i", { "data-snippet-selected": "" }) : null,
         args.disabled ? React.createElement("i", { "data-snippet-disabled": "" }) : null,
         args.ranges.length ? React.createElement("i", { "data-snippet-ranges": args.ranges.map((r) => r.kind).join(",") }) : null,
+        React.createElement("span", { "data-testid": `cap-${args.date}` }, `${args.visibleEvents.length}/${args.hiddenCount}`),
         args.events.map((ev) =>
-          React.createElement("button", { key: ev.id, type: "button", "data-event-open": "", onClick: () => args.openEvent(ev) }, ev.id),
+          React.createElement("button", { key: ev.id, type: "button", "data-event-open": "", ...args.eventProps(ev), onClick: () => args.openEvent(ev) }, ev.id),
         ),
       ),
   } as never);
@@ -478,5 +479,119 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
     test("§8.30 the day render prop receives inRange and ranges", () => {
         render(React.createElement(HostCalendar, { events: EVENTS, ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }] }));
         expect(document.querySelector("[data-snippet-ranges='holiday']")).toBeTruthy();
+    });
+});
+
+describe("CalendarView — day view, maxEvents, drag-and-drop, title, weekends, multiple selection", () => {
+    const cellFor = (iso: string) => document.querySelector<HTMLElement>(`.calendar-table-td[data-date="${iso}"]`)!;
+    const cells = () => Array.from(document.querySelectorAll<HTMLElement>(".calendar-table-td"));
+    const tab = () => cells().filter((c) => c.getAttribute("tabindex") === "0");
+    const dayProps = { label: "Appointments", defaultView: "day" as const, defaultAnchorDate: "2026-01-06", today: "2026-01-08", labels: { ...LABELS, dayView: "Day" } };
+    const evs: CalendarEvent[] = [{ id: "a", date: "2026-01-06", title: "A" }, { id: "b", date: "2026-01-06", title: "B" }, { id: "c", date: "2026-01-06", title: "C" }];
+
+    test("§8.33 the day view shows exactly one day under one weekday header", () => {
+        render(React.createElement(CalendarView, dayProps));
+        expect(cells()).toHaveLength(1);
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-06");
+        expect(document.querySelectorAll(".calendar-table-head .calendar-table-th")).toHaveLength(1);
+    });
+
+    test("§8.34 labels.dayView adds a pressed switcher button", () => {
+        render(React.createElement(CalendarView, { ...dayProps, defaultView: "week" }));
+        const b = screen.getByRole("button", { name: "Day" });
+        expect(b.getAttribute("aria-pressed")).toBe("false");
+        fireEvent.click(b);
+        expect(b.getAttribute("aria-pressed")).toBe("true");
+        expect(cells()).toHaveLength(1);
+    });
+
+    test("§8.35 next steps one day and reports the one-day period", () => {
+        const onNavigate = vi.fn();
+        render(React.createElement(CalendarView, { ...dayProps, onNavigate }));
+        fireEvent.click(screen.getByRole("button", { name: "Next day" }));
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+        expect(onNavigate).toHaveBeenLastCalledWith("day", "2026-01-07", "2026-01-07");
+    });
+
+    test("§8.36 arrows and Page keys move by a day", () => {
+        render(React.createElement(CalendarView, dayProps));
+        fireEvent.keyDown(cells()[0], { key: "ArrowRight" });
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+        fireEvent.keyDown(cells()[0], { key: "ArrowDown" });
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-08");
+        fireEvent.keyDown(cells()[0], { key: "PageUp" });
+        expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+    });
+
+    test("§8.31 maxEvents caps visibleEvents and reports hiddenCount; without it nothing is hidden", () => {
+        render(React.createElement(HostCalendar, { events: evs, maxEvents: 2 }));
+        expect(screen.getByTestId("cap-2026-01-06").textContent).toBe("2/1");
+        cleanup();
+        render(React.createElement(HostCalendar, { events: evs }));
+        expect(screen.getByTestId("cap-2026-01-06").textContent).toBe("3/0");
+    });
+
+    test("§8.38 without onEventMove the event is not draggable; with it a drop calls onEventMove", () => {
+        render(React.createElement(HostCalendar, { events: evs }));
+        expect(document.querySelector("[data-event-open]")!.hasAttribute("draggable")).toBe(false);
+        cleanup();
+        const onEventMove = vi.fn();
+        render(React.createElement(HostCalendar, { events: evs, onEventMove }));
+        const el = document.querySelector("[data-event-open]")!;
+        expect(el.getAttribute("draggable")).toBe("true");
+        const dt = { setData: vi.fn(), getData: () => "" };
+        fireEvent.dragStart(el, { dataTransfer: dt });
+        fireEvent.dragOver(cellFor("2026-01-09"), { dataTransfer: dt });
+        fireEvent.drop(cellFor("2026-01-09"), { dataTransfer: dt });
+        expect(onEventMove).toHaveBeenCalledWith(evs[0], "2026-01-09");
+    });
+
+    test("§8.40 Alt+Arrow on a focused event moves it a day / a week; a disabled day refuses", () => {
+        const onEventMove = vi.fn();
+        render(React.createElement(HostCalendar, { events: evs, onEventMove }));
+        const el = document.querySelector("[data-event-open]")!;
+        fireEvent.keyDown(el, { key: "ArrowRight", altKey: true });
+        expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-07");
+        fireEvent.keyDown(el, { key: "ArrowDown", altKey: true });
+        expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-13");
+        cleanup();
+        const refused = vi.fn();
+        render(React.createElement(HostCalendar, { events: evs, onEventMove: refused, minDate: "2026-01-07" }));
+        fireEvent.keyDown(document.querySelector("[data-event-open]")!, { key: "ArrowLeft", altKey: true });
+        expect(refused).not.toHaveBeenCalled();
+    });
+
+    test("§8.42 labels.periodTitle renders the shown period's title and updates on navigation", () => {
+        render(React.createElement(CalendarView, { label: "A", defaultView: "month", defaultAnchorDate: "2026-01-15", labels: { ...LABELS, periodTitle: (v: string, s: string, e: string) => `${v}:${s}..${e}` } }));
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-01-01..2026-01-31");
+        fireEvent.click(screen.getByRole("button", { name: "Next month" }));
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-02-01..2026-02-28");
+    });
+
+    test("§8.44 hideOutsideDays leaves outside cells empty but in the grid", () => {
+        render(React.createElement(CalendarView, { label: "A", defaultView: "month", defaultAnchorDate: "2026-01-15", hideOutsideDays: true }));
+        expect(document.querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!.textContent!.trim()).toBe("");
+        expect(cellFor("2026-01-15").textContent!.trim()).toBe("15");
+        expect(cells()).toHaveLength(42);
+    });
+
+    test("§8.46 weekendDays marks those weekdays with data-weekend", () => {
+        render(React.createElement(CalendarView, { label: "A", defaultView: "week", defaultAnchorDate: "2026-01-06", weekendDays: [0, 6] }));
+        expect(cellFor("2026-01-10").hasAttribute("data-weekend")).toBe(true);
+        expect(cellFor("2026-01-11").hasAttribute("data-weekend")).toBe(true);
+        expect(cellFor("2026-01-07").hasAttribute("data-weekend")).toBe(false);
+    });
+
+    test("§8.48 multiple selection toggles days in selectedDates and Enter toggles the cursor day", () => {
+        const onDayClick = vi.fn();
+        render(React.createElement(CalendarView, { label: "A", defaultView: "week", defaultAnchorDate: "2026-01-06", selectionMode: "multiple", onDayClick }));
+        fireEvent.click(cellFor("2026-01-06"));
+        fireEvent.click(cellFor("2026-01-08"));
+        expect(cellFor("2026-01-06").hasAttribute("data-selected")).toBe(true);
+        expect(cellFor("2026-01-08").hasAttribute("data-selected")).toBe(true);
+        fireEvent.click(cellFor("2026-01-06"));
+        expect(cellFor("2026-01-06").hasAttribute("data-selected")).toBe(false);
+        fireEvent.keyDown(tab()[0], { key: "Enter" });
+        expect(onDayClick).toHaveBeenLastCalledWith("2026-01-06");
     });
 });

@@ -49,6 +49,10 @@ export type DataGridColumn = {
   filterable?: boolean;
   /** Column can be resized (pointer + keyboard). */
   resizable?: boolean;
+  /** Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another. */
+  movable?: boolean;
+  /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no offsets. */
+  pinned?: "start" | "end";
   /** Column can be hidden via the column-visibility control. */
   hidable?: boolean;
   /** Initial pixel width, meaningful only when `resizable`. */
@@ -87,6 +91,8 @@ export type DataGridLabels = {
   sortAnnouncement?: (header: string, direction: DataGridSortDirection) => string;
   filterAnnouncement?: (matchCount: number, totalCount: number) => string;
   selectionAnnouncement?: (selectedCount: number) => string;
+  /** Announced after a column moves: (header, 1-based position among the visible columns, how many are visible). */
+  columnMoveAnnouncement?: (header: string, position: number, count: number) => string;
 };
 
 /** Public props for DataGrid. See `spec/index.md` §5 for the contract. */
@@ -121,6 +127,11 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   defaultSort?: DataGridSort;
   /** Called with the new sort after every change. */
   onSortChange?: (sort: DataGridSort) => void;
+  /** Column ids in display order. Controlled when given; columns it does not name follow in their `columns` order. */
+  columnOrder?: string[];
+  defaultColumnOrder?: string[];
+  /** Called with the new order after a column moves. */
+  onColumnOrderChange?: (order: string[]) => void;
   /** Rows per page. Unset disables pagination. */
   pageSize?: number;
   /** Current 1-indexed page. When supplied, the page is controlled. */
@@ -200,6 +211,9 @@ export function DataGrid({
   sort: sortProp,
   defaultSort = DEFAULT_SORT,
   onSortChange,
+  columnOrder: columnOrderProp,
+  defaultColumnOrder,
+  onColumnOrderChange,
   pageSize,
   page: pageProp,
   defaultPage = 1,
@@ -235,9 +249,22 @@ export function DataGrid({
   const hasSelection = selectionMode !== "none";
   const colOffset = hasSelection ? 1 : 0;
 
+  const [columnOrder, setColumnOrderState] = useControllable<string[]>(columnOrderProp, defaultColumnOrder ?? []);
+  // Columns in display order: those named in `columnOrder` first, the rest after in their own order.
+  const orderedColumns = React.useMemo(() => {
+    if (columnOrder.length === 0) return columns;
+    const rank = (id: string) => {
+      const i = columnOrder.indexOf(id);
+      return i === -1 ? columnOrder.length : i;
+    };
+    return columns
+      .map((c, i) => ({ c, i }))
+      .sort((a, b) => rank(a.c.id) - rank(b.c.id) || a.i - b.i)
+      .map((x) => x.c);
+  }, [columns, columnOrder]);
   const visibleColumns = React.useMemo(
-    () => columns.filter((c) => !hiddenColumnIds.has(c.id)),
-    [columns, hiddenColumnIds],
+    () => orderedColumns.filter((c) => !hiddenColumnIds.has(c.id)),
+    [orderedColumns, hiddenColumnIds],
   );
   const hidableColumns = React.useMemo(() => columns.filter((c) => c.hidable), [columns]);
 
@@ -537,6 +564,34 @@ export function DataGrid({
       ?.focus({ preventScroll: true });
   });
 
+  /** Move `columnId` to sit at `toVisibleIndex` among the visible columns. Returns whether it moved. */
+  function moveColumn(columnId: string, toVisibleIndex: number): boolean {
+    const ids = visibleColumns.map((c) => c.id);
+    const from = ids.indexOf(columnId);
+    const to = Math.min(Math.max(toVisibleIndex, 0), ids.length - 1);
+    if (from === -1 || from === to) return false;
+    ids.splice(to, 0, ...ids.splice(from, 1));
+    // Hidden columns keep their places in the full order; visible ones are re-sequenced around them.
+    let next = 0;
+    const order = orderedColumns.map((c) => (ids.includes(c.id) ? ids[next++] : c.id));
+    setColumnOrderState(order);
+    onColumnOrderChange?.(order);
+    const column = columns.find((c) => c.id === columnId)!;
+    announce(labels.columnMoveAnnouncement?.(column.header, to + 1, ids.length));
+    return true;
+  }
+
+  const draggingColumnId = React.useRef<string | null>(null);
+
+  function onHeaderDrop(targetId: string, event: React.DragEvent): void {
+    event.preventDefault();
+    const id = draggingColumnId.current;
+    draggingColumnId.current = null;
+    if (!id || id === targetId) return;
+    const to = visibleColumns.findIndex((c) => c.id === targetId);
+    if (to >= 0) moveColumn(id, to);
+  }
+
   function moveFocus(row: number, col: number): void {
     setFocusedRow(Math.min(Math.max(row, -1), pageEntries.length - 1));
     setFocusedCol(Math.min(Math.max(col, 0), lastCol));
@@ -646,6 +701,15 @@ export function DataGrid({
         cell.focus({ preventScroll: true });
       }
       return;
+    }
+    if (event.altKey && activeRow === -1 && (event.key === "ArrowRight" || event.key === "ArrowLeft")) {
+      const column = visibleColumns[activeCol - colOffset];
+      if (column?.movable) {
+        event.preventDefault();
+        const delta = event.key === "ArrowRight" ? 1 : -1;
+        if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
+        return;
+      }
     }
     switch (event.key) {
       case "ArrowRight":
@@ -789,6 +853,11 @@ export function DataGrid({
               data-row={-1}
               data-col={colOffset + i}
               data-align={column.align}
+              data-pinned={column.pinned}
+              draggable={column.movable ? true : undefined}
+              onDragStart={column.movable ? (e: React.DragEvent) => { draggingColumnId.current = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
+              onDragOver={column.movable ? (e: React.DragEvent) => { if (draggingColumnId.current) e.preventDefault(); } : undefined}
+              onDrop={column.movable ? (e: React.DragEvent) => onHeaderDrop(column.id, e) : undefined}
               tabIndex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
               aria-sort={ariaSortFor(column)}
               style={cellStyle(column)}
@@ -878,6 +947,7 @@ export function DataGrid({
                     data-row={rowIndex}
                     data-col={colOffset + colIndex}
                     data-align={column.align}
+                    data-pinned={column.pinned}
                     tabIndex={isGrid ? (isActive ? 0 : -1) : undefined}
                     style={cellStyle(column)}
                     {...extra}
@@ -891,6 +961,7 @@ export function DataGrid({
                     data-row={rowIndex}
                     data-col={colOffset + colIndex}
                     data-align={column.align}
+                    data-pinned={column.pinned}
                     role={isGrid ? "gridcell" : "cell"}
                     {...(isGrid ? { active: isActive } : { tabIndex: undefined })}
                     style={cellStyle(column)}

@@ -703,3 +703,74 @@ describe("DataGrid — controlled and uncontrolled state (React)", () => {
         expect(onPageChange).toHaveBeenLastCalledWith(1);
     });
 });
+
+describe("DataGrid — column reordering and pinned columns (§8.40–§8.46)", () => {
+    const cols: DataGridColumn[] = [
+        { id: "a", header: "A", movable: true },
+        { id: "b", header: "B", movable: true },
+        { id: "c", header: "C" },
+    ];
+    const rows3 = [{ a: "a1", b: "b1", c: "c1" }];
+    const labels: DataGridLabels = { ...LABELS, columnMoveAnnouncement: (h, p, n) => `${h} is column ${p} of ${n}` };
+    const headers = () => Array.from(document.querySelectorAll<HTMLElement>("thead th")).map((h) => h.textContent?.trim());
+    const header = (t: string) => Array.from(document.querySelectorAll<HTMLElement>("thead th")).find((h) => h.textContent?.trim() === t)!;
+
+    test("§8.40 columnOrder sets the display order; unnamed columns follow", () => {
+        renderGrid({ label: "G", columns: cols, rows: rows3, columnOrder: ["c", "a"] });
+        expect(headers()).toEqual(["C", "A", "B"]);
+    });
+
+    test("§8.41 Alt+ArrowRight on a movable header moves the column, calls onColumnOrderChange and announces", () => {
+        const onColumnOrderChange = vi.fn();
+        renderGrid({ label: "G", columns: cols, rows: rows3, labels, onColumnOrderChange });
+        fireEvent.focus(header("A"));
+        fireEvent.keyDown(header("A"), { key: "ArrowRight", altKey: true });
+        expect(headers()).toEqual(["B", "A", "C"]);
+        expect(onColumnOrderChange).toHaveBeenCalledWith(["b", "a", "c"]);
+        expect(document.querySelector("[aria-live]")!.textContent).toContain("A is column 2 of 3");
+    });
+
+    test("§8.42 a column that is not movable ignores Alt+Arrow", () => {
+        renderGrid({ label: "G", columns: cols, rows: rows3 });
+        fireEvent.focus(header("C"));
+        fireEvent.keyDown(header("C"), { key: "ArrowLeft", altKey: true });
+        expect(headers()).toEqual(["A", "B", "C"]);
+    });
+
+    test("§8.43 dragging a movable header onto another moves it there", () => {
+        renderGrid({ label: "G", columns: cols, rows: rows3 });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        expect(header("A").getAttribute("draggable")).toBe("true");
+        expect(header("C").hasAttribute("draggable")).toBe(false);
+        fireEvent.dragStart(header("A"), { dataTransfer: dt });
+        fireEvent.dragOver(header("B"), { dataTransfer: dt });
+        fireEvent.drop(header("B"), { dataTransfer: dt });
+        expect(headers()).toEqual(["B", "A", "C"]);
+    });
+
+    test("§8.44 body cells follow the new column order", () => {
+        renderGrid({ label: "G", columns: cols, rows: rows3, columnOrder: ["b", "a", "c"] });
+        expect(Array.from(document.querySelectorAll("tbody td")).map((c) => c.textContent?.trim())).toEqual(["b1", "a1", "c1"]);
+    });
+
+    test("§8.45 hidden columns keep their place when a visible one moves", () => {
+        const onColumnOrderChange = vi.fn();
+        const hid: DataGridColumn[] = [
+            { id: "a", header: "A", movable: true },
+            { id: "b", header: "B", hidable: true },
+            { id: "c", header: "C", movable: true },
+        ];
+        renderGrid({ label: "G", columns: hid, rows: rows3, labels, onColumnOrderChange });
+        fireEvent.click(screen.getByRole("checkbox", { name: "Show B" }));
+        fireEvent.focus(header("A"));
+        fireEvent.keyDown(header("A"), { key: "ArrowRight", altKey: true });
+        expect(onColumnOrderChange).toHaveBeenCalledWith(["c", "b", "a"]);
+    });
+
+    test("§8.46 a pinned column's header and cells carry data-pinned", () => {
+        const pc: DataGridColumn[] = [{ id: "a", header: "A", pinned: "start" }, { id: "b", header: "B" }];
+        renderGrid({ label: "G", columns: pc, rows: [{ a: "1", b: "2" }] });
+        expect(document.querySelectorAll('[data-pinned="start"]')).toHaveLength(2);
+        expect(document.querySelectorAll("[data-pinned]")).toHaveLength(2);
+    });
+});

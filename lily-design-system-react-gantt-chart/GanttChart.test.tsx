@@ -579,3 +579,110 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
     expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("Design/e2s/0");
   });
 });
+
+describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (§14.1–§14.17)", () => {
+  const base = { label: "Q4 plan", range: RANGE, tasks: TASKS };
+  const zl: GanttLabels = { ...LABELS, zoomIn: "Zoom in", zoomOut: "Zoom out", zoomAnnouncement: (u) => `Showing ${u}s` };
+  const cols = () => document.querySelectorAll(".gantt-table-thead .gantt-table-th").length - 1;
+  const btn = (n: string) => screen.getByRole("button", { name: n }) as HTMLButtonElement;
+  const cellAt = (i: number) => rows()[0].querySelectorAll(".gantt-table-td")[i];
+  const dt = () => ({ setData: vi.fn(), getData: vi.fn(() => "design") });
+
+  test("§14.1 no zoom buttons without labels.zoomIn / zoomOut", () => {
+    render(<GanttChart {...base} labels={LABELS} />);
+    expect(document.querySelector(".gantt-chart-zoom")).toBeNull();
+  });
+
+  test("§14.2 zoom in steps to finer columns and out to coarser, announcing each unit; §14.3 buttons disable at the ends", () => {
+    render(<GanttChart {...base} labels={zl} timeUnit="week" />);
+    // controlled prop stays "week": the buttons still report the step
+    cleanup();
+    const onTimeUnitChange = vi.fn();
+    render(<GanttChart {...base} labels={zl} onTimeUnitChange={onTimeUnitChange} />);
+    expect(btn("Zoom in").disabled).toBe(true);
+    const day = cols();
+    fireEvent.click(btn("Zoom out"));
+    expect(cols()).toBeLessThan(day);
+    expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Showing weeks");
+    expect(onTimeUnitChange).toHaveBeenLastCalledWith("week");
+    fireEvent.click(btn("Zoom out"));
+    expect(btn("Zoom out").disabled).toBe(true);
+    expect(btn("Zoom in").disabled).toBe(false);
+  });
+
+  test("§14.5 a leaf task's bar has a start handle and the last in-range cell an end handle; none when readonly or for a parent", () => {
+    render(<GanttChart {...base} />);
+    expect(rows()[0].querySelector(".gantt-chart-bar-handle-start")).toBeTruthy();
+    expect(cellAt(2).querySelector(".gantt-chart-bar-handle-end")).toBeTruthy();
+    expect(rows()[3].querySelector(".gantt-chart-bar-handle")).toBeNull();
+    cleanup();
+    render(<GanttChart {...base} readonly />);
+    expect(document.querySelector(".gantt-chart-bar-handle")).toBeNull();
+  });
+
+  test("§14.6 the end handle extends the end; §14.7 the start handle moves the start and the range cannot invert", () => {
+    const onTaskChange = vi.fn();
+    render(<GanttChart {...base} onTaskChange={onTaskChange} />);
+    const d = dt();
+    fireEvent.dragStart(cellAt(2).querySelector(".gantt-chart-bar-handle-end")!, { dataTransfer: d });
+    fireEvent.drop(cellAt(5), { dataTransfer: d });
+    expect(onTaskChange).toHaveBeenLastCalledWith("design", "2026-10-01", "2026-10-06");
+    onTaskChange.mockClear();
+    fireEvent.dragStart(rows()[0].querySelector(".gantt-chart-bar-handle-start")!, { dataTransfer: d });
+    fireEvent.drop(cellAt(1), { dataTransfer: d });
+    expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-02", "2026-10-03");
+    onTaskChange.mockClear();
+    fireEvent.dragStart(rows()[0].querySelector(".gantt-chart-bar-handle-start")!, { dataTransfer: d });
+    fireEvent.drop(cellAt(7), { dataTransfer: d });
+    expect(onTaskChange).not.toHaveBeenCalled();
+  });
+
+  test("§14.9 clicking a row selects it (aria-selected, data-selected, onTaskSelect); §14.10 again deselects", () => {
+    const onTaskSelect = vi.fn();
+    render(<GanttChart {...base} onTaskSelect={onTaskSelect} />);
+    const c = rows()[1].querySelectorAll(".gantt-table-td")[0];
+    fireEvent.click(c);
+    expect(rows()[1].getAttribute("aria-selected")).toBe("true");
+    expect(rows()[1].hasAttribute("data-selected")).toBe(true);
+    expect(onTaskSelect).toHaveBeenCalledWith("build");
+    fireEvent.click(c);
+    expect(rows()[1].hasAttribute("data-selected")).toBe(false);
+    expect(onTaskSelect).toHaveBeenLastCalledWith(undefined);
+  });
+
+  test("§14.11 the s key selects the task under the cursor; §14.12 selectedTaskId starts a row selected", () => {
+    render(<GanttChart {...base} />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "s" });
+    expect(rows()[0].getAttribute("aria-selected")).toBe("true");
+    cleanup();
+    render(<GanttChart {...base} selectedTaskId="launch" />);
+    expect(rows()[2].hasAttribute("data-selected")).toBe(true);
+  });
+
+  test("§14.13 Alt+ArrowRight shifts the task one column keeping its duration; §14.14 not before the range starts", () => {
+    const onTaskChange = vi.fn();
+    render(<GanttChart {...base} onTaskChange={onTaskChange} />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowLeft", altKey: true });
+    expect(onTaskChange).not.toHaveBeenCalled();
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight", altKey: true });
+    expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-02", "2026-10-04");
+  });
+
+  test("§14.15 Alt+Shift+ArrowRight moves only the end; §14.16 readonly ignores it", () => {
+    const onTaskChange = vi.fn();
+    render(<GanttChart {...base} onTaskChange={onTaskChange} />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight", altKey: true, shiftKey: true });
+    expect(onTaskChange).toHaveBeenLastCalledWith("design", "2026-10-01", "2026-10-04");
+    cleanup();
+    const ro = vi.fn();
+    render(<GanttChart {...base} onTaskChange={ro} readonly />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight", altKey: true });
+    expect(ro).not.toHaveBeenCalled();
+  });
+
+  test("§14.17 taskAttrs adds attributes to each task's row", () => {
+    render(<GanttChart {...base} taskAttrs={(t) => ({ "data-team": t.id === "design" ? "ux" : "eng" })} />);
+    expect(rows()[0].getAttribute("data-team")).toBe("ux");
+    expect(rows()[1].getAttribute("data-team")).toBe("eng");
+  });
+});
