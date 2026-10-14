@@ -63,3 +63,29 @@ describe("ContentsLink", () => {
         expect(host.querySelectorAll("a.contents-link").length).toBe(1);
     });
 });
+
+describe("ContentsLink count", () => {
+    test("count-label renders inside the link, after the text", () => {
+        const host = render('<lily-contents-link href="#a" count="3" count-label="3 to do">Address</lily-contents-link>');
+        const a = host.querySelector("a")!;
+        expect(a.querySelector(".contents-link-count")!.textContent).toBe("3 to do");
+        expect(a.textContent).toBe("Address3 to do");
+    });
+
+    test("no count-label renders no count element", () => {
+        const host = render('<lily-contents-link href="#a" count="3">Address</lily-contents-link>');
+        expect(host.querySelector(".contents-link-count")).toBeNull();
+    });
+
+    test("count sets data-count; zero adds data-complete; none sets neither", () => {
+        const three = render('<lily-contents-link href="#a" count="3">x</lily-contents-link>').querySelector("a")!;
+        expect(three.getAttribute("data-count")).toBe("3");
+        expect(three.hasAttribute("data-complete")).toBe(false);
+        const zero = render('<lily-contents-link href="#a" count="0">x</lily-contents-link>').querySelector("a")!;
+        expect(zero.getAttribute("data-count")).toBe("0");
+        expect(zero.hasAttribute("data-complete")).toBe(true);
+        const none = render('<lily-contents-link href="#a">x</lily-contents-link>').querySelector("a")!;
+        expect(none.hasAttribute("data-count")).toBe(false);
+        expect(none.hasAttribute("data-complete")).toBe(false);
+    });
+});

@@ -9,7 +9,9 @@
     current     boolean  Adds aria-current="location".
     text        string
     html        string
-    label       string
+    label       string   aria-label override; it replaces the whole name, so include any count in it.
+    count       number   Sets data-count on the link (and data-complete when 0).
+    countLabel  string   Visible, localised count text (e.g. "3 to do"), rendered inside the link after the text.
     id          string
     classes     string
     attributes  object
@@ -21,11 +23,14 @@
   {%- if params.current %} aria-current="location"{% endif %}
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.count is defined and params.count is not none %} data-count="{{ params.count }}"{% endif %}
+  {%- if params.count is defined and params.count === 0 %} data-complete=""{% endif %}
   {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   {%- if params.html -%}{{ params.html | safe }}
   {%- elif params.text -%}{{ params.text }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
+  {%- if params.countLabel %} <span class="contents-link-count">{{ params.countLabel }}</span>{% endif -%}
 </a>
 {%- endmacro -%}

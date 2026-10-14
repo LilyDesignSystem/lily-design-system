@@ -13,7 +13,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["href", "current"]);
+const HANDLED = new Set(["href", "current", "count", "count-label"]);
 
 export class ContentsLink extends HTMLElement {
     connectedCallback(): void {
@@ -26,7 +26,22 @@ export class ContentsLink extends HTMLElement {
         if (this.hasAttribute("current")) a.setAttribute("aria-current", "true");
         passThroughAttributes(this, a, HANDLED);
 
+        const count = this.getAttribute("count");
+        if (count !== null && count !== "") {
+            a.setAttribute("data-count", count);
+            if (Number(count) === 0) a.setAttribute("data-complete", "");
+        }
+
         moveChildrenInto(this, a);
+
+        // A visible count inside the link, after the text, so the link's accessible name includes it.
+        const countLabel = this.getAttribute("count-label");
+        if (countLabel) {
+            const span = document.createElement("span");
+            span.className = "contents-link-count";
+            span.textContent = countLabel;
+            a.appendChild(span);
+        }
         this.appendChild(a);
     }
 }

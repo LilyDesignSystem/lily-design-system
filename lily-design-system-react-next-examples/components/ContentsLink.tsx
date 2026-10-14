@@ -33,6 +33,10 @@ export interface ContentsLinkProps {
     href: string;
     /** Accessible label override for screen readers. */
     label?: string;
+    /** Tasks (or items) to show a count for; sets data-count on the link (and data-complete when 0). */
+    count?: number;
+    /** Visible, localised count text (e.g. "3 to do"), rendered inside the link after the text. */
+    countLabel?: string;
     /** The link content. */
     children: React.ReactNode;
     [key: string]: unknown;
@@ -42,6 +46,8 @@ export default function ContentsLink({
     className = "",
     href,
     label = undefined,
+    count = undefined,
+    countLabel = undefined,
     children,
     ...restProps
 }: ContentsLinkProps) {
@@ -50,9 +56,12 @@ export default function ContentsLink({
             className={`contents-link ${className}`}
             href={href}
             aria-label={label}
+            data-count={count}
+            data-complete={count === 0 ? "" : undefined}
             {...restProps}
         >
             {children}
+            {countLabel ? <span className="contents-link-count">{countLabel}</span> : null}
         </a>
     );
 }

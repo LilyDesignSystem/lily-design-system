@@ -26,8 +26,14 @@
         href: string;
         /** Accessible label override for screen readers. */
         label?: string;
+        /** Sets data-count on the link (and data-complete when 0). */
+        count?: number;
+        /** Visible, localised count text (e.g. "3 to do"), rendered inside the link after the text. */
+        countLabel?: string;
     }>(), {
         label: undefined,
+        count: undefined,
+        countLabel: undefined,
     });
 
 </script>
@@ -38,7 +44,10 @@
         class="contents-link"
         :href="href"
         :aria-label="label"
+        :data-count="count"
+        :data-complete="count === 0 ? '' : undefined"
     >
         <slot />
+        <span v-if="countLabel" class="contents-link-count">{{ countLabel }}</span>
     </a>
 </template>

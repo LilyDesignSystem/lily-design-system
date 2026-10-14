@@ -100,3 +100,22 @@ ContentsLink is used within ContentsListItem, which is part of ContentsList and 
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## Count
+
+Show how many things need doing in a section by adding `countLabel`. It is rendered inside the link, after the text, so the
+link's accessible name includes it ("Address 3 to do"); `count` adds `data-count` (and `data-complete` at 0) for styling.
+You supply the whole phrase, so plurals and languages are yours; the count is text, never colour alone (WCAG 1.4.1).
+An `aria-label` replaces the whole name, so if you set one, include the count in it.
+
+- **Svelte:** `<ContentsLink href="#address" count={3} countLabel="3 to do">Address</ContentsLink>`
+- **React:** `<ContentsLink href="#address" count={3} countLabel="3 to do">Address</ContentsLink>`
+- **Vue:** `<ContentsLink href="#address" :count="3" count-label="3 to do">Address</ContentsLink>`
+- **Angular:** `<lily-contents-link href="#address" [count]="3" countLabel="3 to do">Address</lily-contents-link>`
+- **Web Components:** `<lily-contents-link href="#address" count="3" count-label="3 to do">Address</lily-contents-link>`
+- **HTML:** `<a class="contents-link" href="#address" data-count="3">Address <span class="contents-link-count">3 to do</span></a>`
+- **Nunjucks:** `contentsLink({ href: "#address", text: "Address", count: 3, countLabel: "3 to do" })`
+- **Blazor:** `<ContentsLink Href="#address" Count="3" CountLabel="3 to do">Address</ContentsLink>`
+
+For a left-hand list of page sections with counts, use `ContentsNav` (with `spy`, to mark the section in view) containing
+`ContentsLink`s that carry a `countLabel`.

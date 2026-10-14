@@ -5,11 +5,20 @@
     one table of contents link
 *@
 
-<a class="@($"contents-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</a>
+<a class="@($"contents-link {CssClass}".Trim())"
+   href="@Href"
+   aria-label="@Label"
+   data-count="@Count"
+   data-complete="@(Count == 0 ? "" : null)"
+   @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))@if (!string.IsNullOrEmpty(CountLabel)) {<span class="contents-link-count">@CountLabel</span>}</a>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
     [Parameter, EditorRequired] public string Href { get; set; } = "";
+    /// <summary>Sets data-count on the link (and data-complete when 0).</summary>
+    [Parameter] public int? Count { get; set; }
+    /// <summary>Visible, localised count text (e.g. "3 to do"), rendered inside the link after the text. No default, no English.</summary>
+    [Parameter] public string? CountLabel { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -41,4 +41,28 @@ describe("contents-link", () => {
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
   });
+
+  it("renders countLabel inside the link, after the text", () => {
+    const { document } = render("contents-link", { href: "#a", text: "Address", count: 3, countLabel: "3 to do" });
+    const a = document.querySelector("a.contents-link");
+    expect(a.querySelector(".contents-link-count").textContent).toBe("3 to do");
+    expect(a.textContent.trim()).toBe("Address 3 to do");
+  });
+
+  it("renders no count element without countLabel", () => {
+    const { document } = render("contents-link", { href: "#a", text: "Address", count: 3 });
+    expect(document.querySelector(".contents-link-count")).toBeNull();
+  });
+
+  it("sets data-count; zero adds data-complete; none sets neither", () => {
+    const three = render("contents-link", { text: "x", count: 3 }).document.querySelector("a");
+    expect(three.getAttribute("data-count")).toBe("3");
+    expect(three.hasAttribute("data-complete")).toBe(false);
+    const zero = render("contents-link", { text: "x", count: 0 }).document.querySelector("a");
+    expect(zero.getAttribute("data-count")).toBe("0");
+    expect(zero.hasAttribute("data-complete")).toBe(true);
+    const none = render("contents-link", { text: "x" }).document.querySelector("a");
+    expect(none.hasAttribute("data-count")).toBe(false);
+    expect(none.hasAttribute("data-complete")).toBe(false);
+  });
 });
