@@ -3,9 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased — 2026-10-14 (scrollspy)
+## 0.5.0 — 2026-10-14 (scrollspy, link counts)
 
 - `ContentsNav` gains scrollspy (`spy`): the link of the section in view gets `aria-current` and `data-active`. Props `spy`, `offset`, `root`, `current`, `onActiveChange`.
+- `ContentsLink` gains `count` and `countLabel`: a visible, localised count inside the link, with `data-count` (and `data-complete` at 0).
 
 ## Unreleased — 2026-10-11 (labels and contracts)
 

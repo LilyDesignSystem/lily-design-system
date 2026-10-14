@@ -5,9 +5,10 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
-## Unreleased — 2026-10-14 (scrollspy)
+## 0.5.0 — 2026-10-14 (scrollspy, link counts)
 
 - `ContentsNav` gains scrollspy (`spy`): the link of the section in view gets `aria-current` and `data-active`. Macro params `spy`, `spyOffset`, `spyCurrent`, `spyRoot` render data attributes; new `components/contents-nav/spy.js` does the work.
+- `ContentsLink` gains `count` and `countLabel`: a visible, localised count inside the link, with `data-count` (and `data-complete` at 0).
 
 ## Unreleased — 2026-10-11 (labels and contracts)
 
