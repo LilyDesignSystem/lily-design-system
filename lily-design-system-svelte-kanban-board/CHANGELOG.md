@@ -4,6 +4,16 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-10-14
+
+- Added the boards' remaining gaps: multi-select (`selectable`, bindable `selected`, `onSelectionChange`: Ctrl/Cmd+click or the `x` key; moving one
+  selected card moves them all together, honouring locks, vetoes and hard WIP limits; `labels.moveManyAnnouncement`), undo (`undoable`;
+  Ctrl/Cmd+Z and a `labels.undo` button take back the last move or group, through `onMove`), column reordering (`movableColumns`, bindable
+  `columnOrder`, `onColumnOrderChange`: drag a header or Alt+Shift+ArrowLeft/Right; `labels.columnMoveAnnouncement`), swimlanes (`lanes`,
+  `card.laneId`; a drop into another lane's cell passes the lane id to `onMove` as its fourth argument), a drag preview
+  (`dragPreviewText`, `data-dragging`) and virtualization (`virtualize: { rowHeight, height, overscan? }` renders only the rows in view).
+  Not built: a card editor (Lily ships no form) and card-order persistence (the consumer's data).
+
 ## 0.3.0 — 2026-10-14
 
 - Added collapsible columns (`collapsedColumns`, bindable; `labels.collapseColumn` gates a toggle with `aria-expanded`; a

@@ -323,3 +323,25 @@ Tests §8.48–§8.62. Requested from a real app (tickets, leads, deals); the da
 - **Column header and footer**: `columnHeader` and `columnFooter` snippets get `{ column, cards, count }` (every card, unfiltered), the footer in a `<tfoot>`: sums per stage.
 - **Empty column**: `labels.emptyColumn(column)` shows a message in the first cell of a column with nothing to show (a row is added if every column is empty).
 - **Search**: `search` (bindable) filters by label, subtitle and badges, or `searchText(card)`; `labels.search` gates a `type="search"` field. It combines with `filter`.
+
+## 15. Multi-select, undo, column reordering, swimlanes, drag preview, virtualization (0.4.0, 2026-10-14)
+
+Tests §8.63–§8.83. The consumer's list of what was still missing; a card editor and card-order persistence are not Lily's to build.
+
+- **Multi-select**: `selectable` turns it on. Ctrl/Cmd+click, or the `x` key on the card under the cursor, toggles a card (`data-selected`, `aria-selected="true"`; the table
+  is `aria-multiselectable`). `selected` is bindable and `onSelectionChange` reports it. Moving any selected card (menu, Alt+Arrow, drop) moves the whole selection:
+  `onMove` is called once per card, locked and refused cards stay behind (each announced through `moveBlocked`), a hard WIP limit admits only as many as fit, and
+  `labels.moveManyAnnouncement(count, column)` is announced once. The selection clears after the move.
+- **Undo**: `undoable` keeps the last 50 successful moves (a selection move is one step; a rejected async move is never recorded). Ctrl/Cmd+Z, or the button `labels.undo`
+  gates (disabled while there is nothing to undo), moves the step's cards back to the columns they came from through `onMove`; a card that is no longer where the move left it is skipped,
+  and an undo is not itself undoable. `labels.undoAnnouncement(card, column)` / `labels.undoManyAnnouncement(count)`.
+- **Column reordering**: `movableColumns` makes headers draggable and adds Alt+Shift+ArrowLeft/Right on any cell of the column (WCAG 2.5.7). `columnOrder` is bindable,
+  unnamed columns follow in their own order, `onColumnOrderChange(order)`, `labels.columnMoveAnnouncement(title, position, count)`; focus follows the moved column.
+- **Swimlanes**: `lanes` splits the body into bands, each led by a `.kanban-board-lane` header row (`th scope="rowgroup"`). A card sits in the lane its `laneId` names (the first lane
+  when absent). Every lane keeps at least one row so it is a drop target; `data-row` runs across lanes so the grid keyboard model is unchanged. Dropping a card into another lane's
+  cell of its own column changes only the lane — `onMove(cardId, columnId, undefined, laneId)`; into another column's cell it passes the lane as the fourth argument.
+  The empty-column message is not shown with lanes.
+- **Drag preview**: `dragPreviewText(cards)` makes a `.kanban-board-drag-preview` element with that text the drag image (the whole selection when dragging a selected card); the dragged cards carry `data-dragging`.
+- **Virtualization**: `virtualize: { rowHeight, height, overscan = 3 }` puts the table in a `.kanban-board-scroll` area (`height` px, `overflow:auto`, the structural inline style) and renders only the rows in view,
+  plus the roving tab stop's row, between `.kanban-board-spacer` rows of the right height (lane headers count as a row). Rows carry `aria-rowindex`, the table `aria-rowcount`. Keyboard focus scrolls the target row in.
+  Rows are assumed `rowHeight` px tall; Lily measures nothing.

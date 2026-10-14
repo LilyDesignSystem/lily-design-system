@@ -730,3 +730,230 @@ describe("KanbanBoard — card body, flags, allowed columns, async move, footers
         expect(document.querySelector(".kanban-table-th")!.getAttribute("data-hidden-count")).toBe("1");
     });
 });
+
+describe("KanbanBoard — multi-select, undo, column reordering, swimlanes, drag preview, virtualization (§8.63–§8.90)", () => {
+    const cards3: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "Card One" },
+        { id: "c2", columnId: "todo", title: "Card Two" },
+        { id: "c3", columnId: "doing", title: "Card Three" },
+    ];
+    const cols3: KanbanColumn[] = [
+        { id: "todo", title: "To Do" },
+        { id: "doing", title: "In Progress" },
+        { id: "done", title: "Done" },
+    ];
+    const base = { label: "Board", columns: cols3, cards: cards3 };
+    const cell = (id: string) => document.querySelector<HTMLElement>(`[data-card-id="${id}"]`)!;
+    const cellAt = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+    const status = () => document.querySelector(".kanban-board-status")!.textContent;
+    const heads = () => Array.from(document.querySelectorAll<HTMLElement>(".kanban-table-th")).map((h) => h.textContent?.trim());
+
+    test("§8.63 selectable: Ctrl+click and the x key toggle selection (data-selected, aria-selected); the table is aria-multiselectable", async () => {
+        render(KanbanBoard, { props: { ...base, selectable: true } });
+        expect(document.querySelector(".kanban-table")!.getAttribute("aria-multiselectable")).toBe("true");
+        await fireEvent.click(cell("c1"), { ctrlKey: true });
+        expect(cell("c1").hasAttribute("data-selected")).toBe(true);
+        expect(cell("c1").getAttribute("aria-selected")).toBe("true");
+        await fireEvent.focusIn(cell("c2"));
+        await fireEvent.keyDown(cell("c2"), { key: "x" });
+        expect(cell("c2").hasAttribute("data-selected")).toBe(true);
+        await fireEvent.keyDown(cell("c2"), { key: "x" });
+        expect(cell("c2").hasAttribute("data-selected")).toBe(false);
+    });
+
+    test("§8.64 without selectable no selection attributes appear and x does nothing", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.click(cell("c1"), { ctrlKey: true });
+        await fireEvent.keyDown(cell("c1"), { key: "x" });
+        expect(document.querySelector("[data-selected]")).toBeNull();
+    });
+
+    test("§8.65 moving a selected card moves the whole selection together, announces once, and clears the selection", async () => {
+        const onMove = vi.fn();
+        const onSelectionChange = vi.fn();
+        render(KanbanBoard, { props: { ...base, selectable: true, onMove, onSelectionChange, selected: ["c1", "c2"], labels: { ...LABELS, moveManyAnnouncement: (n: number, c: string) => `${n} cards moved to ${c}` } } });
+        await fireEvent.keyDown(cell("c1"), { key: "ArrowRight", altKey: true });
+        expect(onMove.mock.calls.map((c) => c.slice(0, 2))).toEqual([["c1", "doing"], ["c2", "doing"]]);
+        expect(status()).toBe("2 cards moved to In Progress");
+        expect(onSelectionChange).toHaveBeenLastCalledWith([]);
+    });
+
+    test("§8.66 a hard WIP limit admits only as many selected cards as fit; the rest are refused and announced", async () => {
+        const onMove = vi.fn();
+        const cols = [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true }];
+        render(KanbanBoard, { props: { ...base, columns: cols, selectable: true, onMove, selected: ["c1", "c2"], labels: { ...LABELS, moveBlocked: (t: string, c: string) => `${t} cannot go to ${c}` } } });
+        await fireEvent.keyDown(cell("c1"), { key: "ArrowRight", altKey: true });
+        expect(onMove).toHaveBeenCalledTimes(1);
+        expect(status()).toBe("Card Two cannot go to In Progress");
+    });
+
+    test("§8.67 a locked card in the selection stays put while the others move", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, cards: cards3.map((c) => (c.id === "c2" ? { ...c, locked: true } : c)), selectable: true, onMove, selected: ["c1", "c2"] } });
+        await fireEvent.keyDown(cell("c1"), { key: "ArrowRight", altKey: true });
+        expect(onMove.mock.calls.map((c) => c[0])).toEqual(["c1"]);
+    });
+
+    test("§8.68 dragPreviewText sets a drag image with the text, naming the whole selection when dragging a selected card", async () => {
+        render(KanbanBoard, { props: { ...base, selectable: true, selected: ["c1", "c2"], dragPreviewText: (cs: KanbanCard[]) => `${cs.length} cards` } });
+        const setDragImage = vi.fn();
+        await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: { setData: vi.fn(), setDragImage } });
+        expect(setDragImage).toHaveBeenCalledTimes(1);
+        expect((setDragImage.mock.calls[0][0] as HTMLElement).textContent).toBe("2 cards");
+        expect((setDragImage.mock.calls[0][0] as HTMLElement).className).toBe("kanban-board-drag-preview");
+        expect(cell("c1").hasAttribute("data-dragging")).toBe(true);
+        expect(cell("c2").hasAttribute("data-dragging")).toBe(true);
+        await fireEvent.dragEnd(cell("c1").querySelector(".kanban-board-card-title")!);
+        expect(document.querySelector("[data-dragging]")).toBeNull();
+    });
+
+    test("§8.69 undoable: Ctrl+Z moves the last moved card back through onMove and announces", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, undoable: true, onMove, labels: { ...LABELS, undoAnnouncement: (t: string, c: string) => `${t} back to ${c}` } } });
+        await fireEvent.keyDown(cell("c1"), { key: "ArrowRight", altKey: true });
+        expect(onMove).toHaveBeenLastCalledWith("c1", "doing");
+        await fireEvent.keyDown(cell("c1"), { key: "z", ctrlKey: true });
+        // The consumer has not applied the first move (cards is unchanged), so the card is not where the move left it.
+        expect(onMove).toHaveBeenCalledTimes(1);
+    });
+
+    test("§8.70 undo takes the last step back once the consumer has applied the move; an undo is not itself undoable", async () => {
+        const onMove = vi.fn();
+        const { rerender } = render(KanbanBoard, { props: { ...base, undoable: true, onMove, labels: { ...LABELS, undo: "Undo", undoAnnouncement: (t: string, c: string) => `${t} back to ${c}` } } });
+        const undoButton = () => screen.getByRole("button", { name: "Undo" }) as HTMLButtonElement;
+        expect(undoButton().disabled).toBe(true);
+        await fireEvent.keyDown(cell("c1"), { key: "ArrowRight", altKey: true });
+        await rerender({ ...base, cards: cards3.map((c) => (c.id === "c1" ? { ...c, columnId: "doing" } : c)), undoable: true, onMove, labels: { ...LABELS, undo: "Undo", undoAnnouncement: (t: string, c: string) => `${t} back to ${c}` } });
+        expect(undoButton().disabled).toBe(false);
+        await fireEvent.click(undoButton());
+        expect(onMove).toHaveBeenLastCalledWith("c1", "todo");
+        expect(status()).toBe("Card One back to To Do");
+        expect(undoButton().disabled).toBe(true);
+    });
+
+    test("§8.71 without undoable Ctrl+Z does nothing and no undo button shows", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove, labels: { ...LABELS, undo: "Undo" } } });
+        await fireEvent.keyDown(cell("c1"), { key: "z", ctrlKey: true });
+        expect(onMove).not.toHaveBeenCalled();
+        expect(document.querySelector(".kanban-board-undo-button")).toBeNull();
+    });
+
+    test("§8.72 columnOrder sets the display order; unnamed columns follow", () => {
+        render(KanbanBoard, { props: { ...base, columnOrder: ["done", "todo"] } });
+        expect(heads()).toEqual(["Done", "To Do", "In Progress"]);
+    });
+
+    test("§8.73 Alt+Shift+ArrowRight on a cell moves its column, calls onColumnOrderChange, announces, and focus follows", async () => {
+        const onColumnOrderChange = vi.fn();
+        render(KanbanBoard, { props: { ...base, movableColumns: true, onColumnOrderChange, labels: { columnMoveAnnouncement: (t: string, p: number, n: number) => `${t} is column ${p} of ${n}` } } });
+        await fireEvent.keyDown(cellAt(0, 0), { key: "ArrowRight", altKey: true, shiftKey: true });
+        expect(heads()).toEqual(["In Progress", "To Do", "Done"]);
+        expect(onColumnOrderChange).toHaveBeenCalledWith(["doing", "todo", "done"]);
+        expect(status()).toBe("To Do is column 2 of 3");
+        expect(cellAt(0, 1).getAttribute("tabindex")).toBe("0");
+    });
+
+    test("§8.74 dragging a header onto another moves the column; without movableColumns headers are not draggable", async () => {
+        const { unmount } = render(KanbanBoard, { props: base });
+        expect(document.querySelector(".kanban-table-th")!.hasAttribute("draggable")).toBe(false);
+        unmount();
+        render(KanbanBoard, { props: { ...base, movableColumns: true } });
+        const th = Array.from(document.querySelectorAll<HTMLElement>(".kanban-table-th"));
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(th[0], { dataTransfer: dt });
+        await fireEvent.dragOver(th[2], { dataTransfer: dt });
+        await fireEvent.drop(th[2], { dataTransfer: dt });
+        expect(heads()).toEqual(["In Progress", "Done", "To Do"]);
+    });
+
+    const lanes = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+    const laneCards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "Card One", laneId: "ann" },
+        { id: "c2", columnId: "todo", title: "Card Two", laneId: "bo" },
+        { id: "c3", columnId: "doing", title: "Card Three", laneId: "ann" },
+    ];
+
+    test("§8.75 lanes render a header row per lane and group each card under its lane (the first lane when laneId is absent)", () => {
+        render(KanbanBoard, { props: { ...base, lanes, cards: [...laneCards, { id: "c4", columnId: "done", title: "Card Four" }] } });
+        const headers = Array.from(document.querySelectorAll(".kanban-board-lane")).map((h) => h.textContent);
+        expect(headers).toEqual(["Ann", "Bo"]);
+        const laneOfCard = (id: string) => cell(id).closest("tr")!.getAttribute("data-lane-id");
+        expect(laneOfCard("c1")).toBe("ann");
+        expect(laneOfCard("c2")).toBe("bo");
+        expect(laneOfCard("c4")).toBe("ann");
+    });
+
+    test("§8.76 every lane keeps a row, so an empty lane is still a drop target; data-row indexes run across lanes", () => {
+        render(KanbanBoard, { props: { ...base, lanes: [...lanes, { id: "cy", title: "Cy" }], cards: laneCards } });
+        const rows = Array.from(document.querySelectorAll(".kanban-table-body tr:not([data-lane-row])"));
+        expect(rows.map((r) => r.getAttribute("data-lane-id"))).toEqual(["ann", "bo", "cy"]);
+        const indexes = Array.from(document.querySelectorAll<HTMLElement>('.kanban-table-td[data-col="0"]')).map((c) => c.dataset.row);
+        expect(indexes).toEqual(["0", "1", "2"]);
+    });
+
+    test("§8.77 dropping a card into another lane's cell of its own column changes only the lane (onMove with the lane id)", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, lanes, cards: laneCards, onMove } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.drop(cellAt(1, 0), { dataTransfer: dt });
+        expect(onMove).toHaveBeenCalledWith("c1", "todo", undefined, "bo");
+    });
+
+    test("§8.78 dropping into another column and lane passes the lane as the fourth argument", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, lanes, cards: laneCards, onMove } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
+        expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "bo");
+    });
+
+    test("§8.79 keyboard navigation moves across lanes by data-row", async () => {
+        render(KanbanBoard, { props: { ...base, lanes, cards: laneCards } });
+        await fireEvent.keyDown(cellAt(0, 0), { key: "ArrowDown" });
+        await waitFor(() => expect(cellAt(1, 0).getAttribute("tabindex")).toBe("0"));
+    });
+
+    const many: KanbanCard[] = Array.from({ length: 100 }, (_, i) => ({ id: `m${i}`, columnId: "todo", title: `M${i}` }));
+
+    test("§8.80 virtualize renders only the rows in view plus overscan, between spacer rows of the right height, in a scroll area", () => {
+        render(KanbanBoard, { props: { ...base, cards: many, virtualize: { rowHeight: 20, height: 100, overscan: 2 } } });
+        const area = document.querySelector<HTMLElement>(".kanban-board-scroll")!;
+        expect(area.style.height).toBe("100px");
+        expect(area.style.overflow).toBe("auto");
+        const rendered = document.querySelectorAll('.kanban-table-td[data-col="0"]');
+        expect(rendered.length).toBeLessThan(20);
+        expect(rendered.length).toBeGreaterThanOrEqual(5);
+        const spacer = document.querySelector<HTMLElement>(".kanban-board-spacer")!;
+        expect(parseInt(spacer.style.height)).toBeGreaterThan(1000);
+        expect(document.querySelector(".kanban-table")!.getAttribute("aria-rowcount")).toBe("101");
+    });
+
+    test("§8.81 scrolling the area renders the rows now in view, with aria-rowindex", async () => {
+        render(KanbanBoard, { props: { ...base, cards: many, virtualize: { rowHeight: 20, height: 100, overscan: 0 } } });
+        const area = document.querySelector<HTMLElement>(".kanban-board-scroll")!;
+        area.scrollTop = 1000;
+        await fireEvent.scroll(area);
+        await waitFor(() => expect(cell("m50")).toBeTruthy());
+        expect(cell("m50").closest("tr")!.getAttribute("aria-rowindex")).toBe("52");
+        // Row 0 stays rendered as the roving tab stop; rows between it and the window do not.
+        expect(document.querySelector('[data-card-id="m1"]')).toBeNull();
+    });
+
+    test("§8.82 the roving tab stop's row always renders, and moving focus down far reveals later rows", async () => {
+        render(KanbanBoard, { props: { ...base, cards: many, virtualize: { rowHeight: 20, height: 100, overscan: 0 } } });
+        expect(document.querySelectorAll('.kanban-table-td[tabindex="0"]')).toHaveLength(1);
+        await fireEvent.keyDown(cellAt(0, 0), { key: "End", ctrlKey: true });
+        await waitFor(() => expect(cell("m99")).toBeTruthy());
+        expect(document.querySelectorAll('.kanban-table-td[tabindex="0"]')).toHaveLength(1);
+    });
+
+    test("§8.83 without virtualize every row renders and there is no scroll style or spacer", () => {
+        render(KanbanBoard, { props: { ...base, cards: many } });
+        expect(document.querySelectorAll('.kanban-table-td[data-col="0"]')).toHaveLength(100);
+        expect(document.querySelector(".kanban-board-spacer")).toBeNull();
+        expect(document.querySelector(".kanban-board-scroll")).toBeNull();
+    });
+});

@@ -5,5 +5,6 @@ export type {
     KanbanCardContext,
     KanbanColumnContext,
     KanbanColumn,
+    KanbanLane,
     KanbanLabels,
 } from "./KanbanBoard.svelte";
