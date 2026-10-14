@@ -855,3 +855,97 @@ describe("kanban-board — round 3 and consumer capabilities (§8.31–§8.62)",
     expect(heads()[0].hasAttribute("data-hidden-count")).toBe(false);
   });
 });
+
+describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
+  const cell = (id: string) => document.querySelector<HTMLElement>(`.kanban-table-td[data-lily-kanban-board-card-id="${id}"]`)!;
+
+  test("§8.63 selectable: x and Ctrl+click toggle, selectionchange fires, aria-multiselectable", () => {
+    const onSelectionChange = vi.fn();
+    const { root, controller } = setup({ selectable: true }, { onSelectionChange });
+    const events: string[][] = [];
+    root.addEventListener("selectionchange", (e) => events.push((e as CustomEvent<string[]>).detail));
+    expect(root.querySelector("table")!.getAttribute("aria-multiselectable")).toBe("true");
+    key(cell("c1"), "x");
+    expect(cell("c1").hasAttribute("data-selected")).toBe(true);
+    cell("c2").dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, ctrlKey: true }));
+    expect(onSelectionChange).toHaveBeenLastCalledWith(["c1", "c2"]);
+    expect(events.at(-1)).toEqual(["c1", "c2"]);
+    expect(controller.selected()).toEqual(["c1", "c2"]);
+  });
+
+  test("§8.64 moving a selected card moves the whole selection and announces once", () => {
+    const onMove = vi.fn();
+    const { root } = setup(
+      { selectable: true, selected: ["c1", "c2"] },
+      { onMove, labels: { moveManyAnnouncement: (n: number, c: string) => `${n} to ${c}` } },
+    );
+    key(cell("c1"), "ArrowRight", { altKey: true });
+    expect(onMove.mock.calls.map((c) => [c[0], c[1]])).toEqual([["c1", "doing"], ["c2", "doing"]]);
+    expect(root.querySelector(".kanban-board-status")!.textContent).toBe("2 to In Progress");
+    expect(root.querySelector("[data-selected]")).toBeNull();
+  });
+
+  test("§8.65 undoable: Ctrl+Z calls onMove back with the original column", async () => {
+    const onMove = vi.fn();
+    const { root } = setup({ undoable: true, labels: { undo: "Undo" } }, { onMove });
+    const button = root.querySelector<HTMLButtonElement>("[data-lily-kanban-board-undo]")!;
+    expect(button.disabled).toBe(true);
+    key(cell("c1"), "ArrowRight", { altKey: true });
+    await new Promise((r) => setTimeout(r, 0));
+    expect(button.disabled).toBe(false);
+    key(cell("c1"), "z", { ctrlKey: true });
+    await new Promise((r) => setTimeout(r, 0));
+    expect(onMove.mock.calls.map((c) => [c[0], c[1]])).toEqual([["c1", "doing"], ["c1", "todo"]]);
+    expect(button.disabled).toBe(true);
+  });
+
+  test("§8.66 movableColumns: Alt+Shift+ArrowRight reorders the columns in place", () => {
+    const onColumnOrderChange = vi.fn();
+    const { root, controller } = setup({ movableColumns: true }, { onColumnOrderChange });
+    key(cell("c1"), "ArrowRight", { altKey: true, shiftKey: true });
+    expect(onColumnOrderChange).toHaveBeenCalledWith(["doing", "todo", "done"]);
+    expect(controller.columnOrder()).toEqual(["doing", "todo", "done"]);
+    expect(cell("c1").getAttribute("data-col")).toBe("1");
+    expect(root.querySelector(".kanban-table-th")!.textContent).toContain("In Progress");
+  });
+
+  test("§8.66b the macro's columnOrder is the starting order", () => {
+    const root = mountIntoBody(renderMacro(defaultOpts({ columnOrder: ["done", "todo"] })));
+    expect(Array.from(root.querySelectorAll(".kanban-table-th")).map((th) => th.getAttribute("data-lily-kanban-board-column-id"))).toEqual(["done", "todo", "doing"]);
+  });
+
+  test("§8.67 lanes: lane header rows, cards grouped by laneId", () => {
+    const root = mountIntoBody(
+      renderMacro(
+        defaultOpts({
+          cards: CARDS.map((x, i) => ({ ...x, laneId: i < 2 ? "a" : "b" })),
+          lanes: [{ id: "a", title: "Alpha" }, { id: "b", title: "Beta" }],
+        }),
+      ),
+    );
+    expect(Array.from(root.querySelectorAll(".kanban-board-lane")).map((e) => e.textContent)).toEqual(["Alpha", "Beta"]);
+  });
+
+  test("§8.68 dropping into another lane's cell reports the lane id", () => {
+    const onMove = vi.fn();
+    const root = mountIntoBody(
+      renderMacro(defaultOpts({ cards: [{ id: "c1", columnId: "todo", title: "One", laneId: "a" }], lanes: [{ id: "a", title: "A" }, { id: "b", title: "B" }] })),
+    );
+    initKanbanBoard(root, { onMove });
+    const dt = { setData: vi.fn(), getData: () => "c1" };
+    root.querySelector("[data-lily-kanban-board-card-handle]")!.dispatchEvent(dragEvent("dragstart", dt));
+    root.querySelector('[data-row="1"][data-col="1"]')!.dispatchEvent(dragEvent("drop", dt));
+    expect(onMove).toHaveBeenCalledWith("c1", "doing", undefined, "b");
+  });
+
+  test("§8.69 virtualize keeps only the rows in view, with spacers and aria-rowcount", () => {
+    const many = Array.from({ length: 100 }, (_, i) => ({ id: `k${i}`, columnId: "todo", title: `K${i}` }));
+    const root = mountIntoBody(renderMacro(defaultOpts({ cards: many, virtualize: { rowHeight: 20, height: 100 } })));
+    expect(root.querySelector("table")!.getAttribute("aria-rowcount")).toBe("101");
+    expect(root.querySelectorAll("[data-lily-kanban-board-card-id]").length).toBeGreaterThan(50); // SSR renders every row
+    initKanbanBoard(root, {});
+    expect(root.querySelector(".kanban-board-scroll")).toBeTruthy();
+    expect(root.querySelectorAll(".kanban-table-td[data-lily-kanban-board-card-id]").length).toBeLessThan(20);
+    expect(root.querySelector(".kanban-board-spacer")).toBeTruthy();
+  });
+});

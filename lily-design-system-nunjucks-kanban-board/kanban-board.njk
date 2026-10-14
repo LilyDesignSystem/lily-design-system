@@ -132,6 +132,28 @@
          column calls onReorder(cardId, toIndex). Alt+ArrowLeft/Right moves a card to the
          neighbouring column.
 
+  10. 0.4.0 — multi-select, undo, column reordering, swimlanes, drag preview, virtualization:
+       selectable    — macro param (boolean): aria-multiselectable on the grid and `data-lily-kanban-board-selectable`
+                       on the root; `selected` (array of card ids) renders data-selected / aria-selected at SSR.
+                       The client toggles a card on Ctrl/Cmd+click or the `x` key and moves the whole selection together.
+       undoable      — macro param (boolean); labels.undo (plain string) renders the undo button. The client keeps the
+                       stack and calls onMove(cardId, fromColumnId) to take a move back. NUNJUCKS DEVIATION: the board is
+                       server-rendered and the client never sees the consumer's data, so it cannot check that a card is
+                       still where the move left it — the consumer ignores a stale undo.
+       movableColumns / columnOrder — macro params: draggable headers (the client reorders the columns in place) and the
+                       starting order (array of column ids; unnamed columns follow). The client reports the new order
+                       through onColumnOrderChange(ids) and the `columnorderchange` event.
+       lanes         — macro param, array<{id, title}>; card.laneId names a card's lane (the first lane when absent). Each
+                       lane gets a `.kanban-board-lane` header row (th scope="rowgroup"). The client passes the lane id to
+                       onMove as its fourth argument for a drop into another lane's cell.
+       virtualize    — macro param {rowHeight, height, overscan?}: the table sits in a `.kanban-board-scroll` area; every
+                       row is rendered at SSR (without the client script the area is just scrollable) and the client
+                       keeps only the rows in view in the DOM, between `.kanban-board-spacer` rows. aria-rowindex /
+                       aria-rowcount are rendered at SSR.
+       Client options: dragPreviewText(cards) — cards are `{id, title}`; onSelectionChange(ids), onColumnOrderChange(ids);
+         labels.moveManyAnnouncement(count, columnTitle), labels.undoAnnouncement(cardTitle, columnTitle),
+         labels.undoManyAnnouncement(count), labels.columnMoveAnnouncement(columnTitle, position, count).
+
   Params (single `opts` object):
     label       — string, required. aria-label for the grid table.
     columns     — array<{id, title, wipLimit?, strictLimit?}>, required.
@@ -143,6 +165,7 @@
     labels      — object. See deviations above. Every field optional;
                   its presence gates the control/text it names.
     readonly    — boolean. Disable every mutating interaction.
+    selectable, selected, undoable, movableColumns, columnOrder, lanes, virtualize — see 10 above.
     name        — string, default "board". Discriminator for ids.
     id          — string, default "kanban-board-{name}".
     classes     — string. Extra CSS classes on the root <div>.
@@ -206,13 +229,14 @@
 {%- endif -%}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, collapsedColumns, readonly) -%}
+{%- macro _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, collapsedColumns, readonly, movableColumns) -%}
 {%- set out = "" -%}
 {%- for column in columns -%}
   {%- set colCards = columnCardLists[loop.index0] -%}
   {%- set count = colCards.length -%}
   {%- set overLimit = column.wipLimit is defined and column.wipLimit is not none and count > column.wipLimit -%}
   {%- set thAttrs = [["data-lily-kanban-board-column-id", column.id], ["data-lily-kanban-board-column-title", column.title]] -%}
+  {%- if movableColumns -%}{%- set thAttrs = thAttrs.concat([["draggable", "true"]]) -%}{%- endif -%}
   {%- if column.flag -%}{%- set thAttrs = thAttrs.concat([["data-flag", column.flag]]) -%}{%- endif -%}
   {%- if column.accent -%}{%- set thAttrs = thAttrs.concat([["data-accent", column.accent]]) -%}{%- endif -%}
   {%- if overLimit -%}{%- set thAttrs = thAttrs.concat([["data-over-limit", ""]]) -%}{%- endif -%}
@@ -225,23 +249,24 @@
 {{- out | safe -}}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, readonly, collapsedColumns) -%}
+{%- macro _kanbanBoardBodyRowHtml(rowIndex, laneRow, columns, columnCardLists, labels, id, glyphHtml, readonly, collapsedColumns, selected, hasLanes) -%}
 {%- set out = "" -%}
 {%- for column in columns -%}
   {%- set colIndex = loop.index0 -%}
   {%- set colCards = columnCardLists[colIndex] -%}
-  {%- set card = colCards[rowIndex] -%}
+  {%- set card = colCards[laneRow] -%}
   {%- set isActive = (rowIndex == 0 and colIndex == 0) -%}
   {%- set tdAttrs = [["data-row", rowIndex], ["data-col", colIndex], ["tabindex", (0 if isActive else -1)]] -%}
   {%- if column.accent -%}{%- set tdAttrs = tdAttrs.concat([["data-accent", column.accent]]) -%}{%- endif -%}
   {%- if card -%}
     {%- set tdAttrs = tdAttrs.concat([["data-lily-kanban-board-card-id", card.id], ["data-lily-kanban-board-search-text", (card.title ~ " " ~ (card.subtitle | default("")) ~ " " ~ ((card.badges | default([])) | join(" ")))]]) -%}
     {%- if card.locked -%}{%- set tdAttrs = tdAttrs.concat([["data-locked", ""]]) -%}{%- endif -%}
+    {%- if card.id in selected -%}{%- set tdAttrs = tdAttrs.concat([["data-selected", ""], ["aria-selected", "true"]]) -%}{%- endif -%}
     {%- if card.flag -%}{%- set tdAttrs = tdAttrs.concat([["data-flag", card.flag], ["aria-describedby", id + "-flag-" + card.id]]) -%}{%- endif -%}
     {%- if card.allowedColumns -%}{%- set tdAttrs = tdAttrs.concat([["data-lily-kanban-board-allowed-columns", card.allowedColumns | join(",")]]) -%}{%- endif -%}
     {%- if card.attrs -%}{%- for attrName, attrValue in card.attrs -%}{%- set tdAttrs = tdAttrs.concat([[attrName, attrValue]]) -%}{%- endfor -%}{%- endif -%}
   {%- endif -%}
-  {%- set emptyText = (labels.emptyColumn | replace("{column}", column.title)) if (rowIndex == 0 and not card and labels.emptyColumn and colCards.length == 0 and not (column.id in collapsedColumns)) else "" -%}
+  {%- set emptyText = (labels.emptyColumn | replace("{column}", column.title)) if ((not hasLanes) and rowIndex == 0 and not card and labels.emptyColumn and colCards.length == 0 and not (column.id in collapsedColumns)) else "" -%}
   {%- if emptyText -%}{%- set tdAttrs = tdAttrs.concat([["data-empty", ""]]) -%}{%- endif -%}
   {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly, emptyText) -%}
   {%- set out = (out ~ kanbanTableTd({ attributes: tdAttrs, html: cellHtml })) | safe -%}
@@ -251,6 +276,17 @@
 
 {%- macro kanbanBoard(opts) -%}
 {%- set columns = opts.columns -%}
+{#- Display order: the columns `columnOrder` names first, the rest after in their own order. -#}
+{%- set columnOrder = opts.columnOrder | default([]) -%}
+{%- if columnOrder | length -%}
+  {%- set orderedColumns = [] -%}
+  {%- for orderedId in columnOrder -%}{%- for column in opts.columns -%}{%- if column.id == orderedId -%}{%- set orderedColumns = orderedColumns.concat([column]) -%}{%- endif -%}{%- endfor -%}{%- endfor -%}
+  {%- for column in opts.columns -%}{%- if not (column.id in columnOrder) -%}{%- set orderedColumns = orderedColumns.concat([column]) -%}{%- endif -%}{%- endfor -%}
+  {%- set columns = orderedColumns -%}
+{%- endif -%}
+{%- set lanes = opts.lanes | default([]) -%}
+{%- set hasLanes = (lanes | length) > 0 -%}
+{%- set selectedIds = opts.selected | default([]) -%}
 {%- set cards = opts.cards -%}
 {%- set labels = opts.labels | default({}) -%}
 {%- set name = opts.name | default("board") -%}
@@ -276,14 +312,47 @@
   {%- set columnCardLists = columnCardLists.concat([colCards]) -%}
   {%- if colCards.length > maxRows -%}{%- set maxRows = colCards.length -%}{%- endif -%}
 {%- endfor -%}
-{#- A row exists for an empty column's message even when no column has a card. -#}
-{%- if maxRows == 0 and labels.emptyColumn and columns | length -%}{%- set maxRows = 1 -%}{%- endif -%}
-{%- set headerRowHtml = _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, opts.collapsedColumns | default([]), opts.readonly) -%}
+{%- set collapsedIds = opts.collapsedColumns | default([]) -%}
+{%- set headerRowHtml = _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, collapsedIds, opts.readonly, opts.movableColumns) -%}
 {%- set theadHtml = (kanbanTableHead({ html: (kanbanTableRow({ html: headerRowHtml }) | safe) })) | safe -%}
+{#- Rows: one band per lane (a single anonymous band without `lanes`). `rowIndex` runs across lanes, `laneRow` within one. -#}
+{%- set bands = lanes if hasLanes else [{ id: "", title: "" }] -%}
 {%- set bodyRowsHtml = "" -%}
-{%- for rowIndex in range(0, maxRows) -%}
-  {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, opts.readonly, opts.collapsedColumns | default([])) -%}
-  {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ html: rowCellsHtml })) | safe -%}
+{%- set rowIndex = 0 -%}
+{%- set slotIndex = 0 -%}
+{%- for lane in bands -%}
+  {%- if hasLanes -%}
+    {%- set laneThHtml = ('<th class="kanban-board-lane" scope="rowgroup" colspan="' ~ (columns | length) ~ '" data-lane-id="' ~ (lane.id | e) ~ '">' ~ (lane.title | e) ~ '</th>') | safe -%}
+    {%- set laneAttrs = [["data-lily-kanban-board-lane-row", ""]] -%}
+    {%- if opts.virtualize -%}{%- set laneAttrs = laneAttrs.concat([["aria-rowindex", slotIndex + 2]]) -%}{%- endif -%}
+    {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ attributes: laneAttrs, html: laneThHtml })) | safe -%}
+    {%- set slotIndex = slotIndex + 1 -%}
+  {%- endif -%}
+  {%- set laneLists = [] -%}
+  {%- set laneRows = 0 -%}
+  {%- for column in columns -%}
+    {%- set laneCards = [] -%}
+    {%- for card in cards -%}
+      {%- if card.columnId == column.id and ((not hasLanes) or (card.laneId | default(lanes[0].id)) == lane.id) -%}
+        {%- set laneCards = laneCards.concat([card]) -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- set laneLists = laneLists.concat([laneCards]) -%}
+    {%- if laneCards.length > laneRows -%}{%- set laneRows = laneCards.length -%}{%- endif -%}
+  {%- endfor -%}
+  {#- A lane keeps at least one row so a card can be dropped into it; without lanes a row exists for an
+      empty column's message even when no column has a card. -#}
+  {%- if hasLanes and laneRows == 0 -%}{%- set laneRows = 1 -%}{%- endif -%}
+  {%- if (not hasLanes) and laneRows == 0 and labels.emptyColumn and columns | length -%}{%- set laneRows = 1 -%}{%- endif -%}
+  {%- for laneRow in range(0, laneRows) -%}
+    {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, laneRow, columns, laneLists, labels, id, glyphHtml, opts.readonly, collapsedIds, selectedIds, hasLanes) -%}
+    {%- set rowAttrs = [] -%}
+    {%- if hasLanes -%}{%- set rowAttrs = rowAttrs.concat([["data-lane-id", lane.id], ["data-lane-row", laneRow]]) -%}{%- endif -%}
+    {%- if opts.virtualize -%}{%- set rowAttrs = rowAttrs.concat([["aria-rowindex", slotIndex + 2]]) -%}{%- endif -%}
+    {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ attributes: rowAttrs, html: rowCellsHtml })) | safe -%}
+    {%- set rowIndex = rowIndex + 1 -%}
+    {%- set slotIndex = slotIndex + 1 -%}
+  {%- endfor -%}
 {%- endfor -%}
 {%- set tbodyHtml = (kanbanTableBody({ html: bodyRowsHtml })) | safe -%}
 {%- set tfootHtml = "" -%}
@@ -295,15 +364,29 @@
   {%- set tfootHtml = tfootHtml ~ '</tr></tfoot>' -%}
 {%- endif -%}
 {%- set searchHtml = ('<input type="search" class="kanban-board-search" aria-label="' ~ labels.search ~ '" value="' ~ (opts.search | default("")) ~ '" data-lily-kanban-board-search>') if labels.search else "" -%}
-{%- set tableHtml = kanbanTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml ~ tfootHtml) | safe }) -%}
+{%- set tableAttrs = [["role", "grid"]] -%}
+{%- if opts.selectable -%}{%- set tableAttrs = tableAttrs.concat([["aria-multiselectable", "true"]]) -%}{%- endif -%}
+{%- if opts.virtualize -%}{%- set tableAttrs = tableAttrs.concat([["aria-rowcount", slotIndex + 1]]) -%}{%- endif -%}
+{%- set tableHtml = kanbanTable({ label: opts.label, caption: opts.caption, attributes: tableAttrs, html: (theadHtml ~ tbodyHtml ~ tfootHtml) | safe }) -%}
+{#- The scroll area is structural: a virtualized board gets a fixed height and the client keeps only the rows in view. -#}
+{%- if opts.virtualize -%}
+  {%- set scrollHtml = ('<div class="kanban-board-scroll" style="height: ' ~ opts.virtualize.height ~ 'px; overflow: auto" data-lily-kanban-board-virtualize data-row-height="' ~ opts.virtualize.rowHeight ~ '" data-overscan="' ~ (opts.virtualize.overscan | default(3)) ~ '">' ~ tableHtml ~ '</div>') | safe -%}
+{%- else -%}
+  {%- set scrollHtml = ('<div class="kanban-board-body">' ~ tableHtml ~ '</div>') | safe -%}
+{%- endif -%}
+{%- set undoHtml = ('<button type="button" class="kanban-board-undo-button" disabled data-lily-kanban-board-undo>' ~ (labels.undo | e) ~ '</button>') if (opts.undoable and labels.undo and not opts.readonly) else "" -%}
 <div
   class="kanban-board{% if opts.classes %} {{ opts.classes }}{% endif %}"
   data-lily-kanban-board-root
   data-lily-kanban-board-name="{{ name }}"
   {%- if opts.readonly %} data-readonly{% endif %}
+  {%- if opts.selectable %} data-lily-kanban-board-selectable{% endif %}
+  {%- if opts.undoable %} data-lily-kanban-board-undoable{% endif %}
+  {%- if opts.movableColumns %} data-lily-kanban-board-movable-columns{% endif %}
+  {%- if hasLanes %} data-lily-kanban-board-has-lanes{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-{{ searchHtml | safe }}{{ tableHtml | safe }}
+{{ searchHtml | safe }}{{ undoHtml | safe }}{{ scrollHtml | safe }}
 <p class="kanban-board-status" id="{{ statusId }}" aria-live="polite" data-lily-kanban-board-status></p>
 </div>
 {%- endmacro -%}

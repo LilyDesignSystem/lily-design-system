@@ -54,8 +54,11 @@ function textOf(el) {
  *
  * @param {HTMLElement} root - The `[data-lily-kanban-board-root]`.
  * @param {{
- *   onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void,
- *   moveHandler?: (cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>,
+ *   onMove?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void,
+ *   moveHandler?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void | Promise<unknown>,
+ *   onSelectionChange?: (selected: string[]) => void,
+ *   onColumnOrderChange?: (order: string[]) => void,
+ *   dragPreviewText?: (cards: Array<{ id: string, title: string }>) => string,
  *   onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void,
  *   onReorder?: (cardId: string, toIndex: number) => void,
  *   canMove?: (cardId: string, toColumnId: string) => boolean,
@@ -67,17 +70,31 @@ function textOf(el) {
  *     reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string,
  *     movePending?: (cardTitle: string, columnTitle: string) => string,
  *     moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string,
+ *     moveManyAnnouncement?: (count: number, columnTitle: string) => string,
+ *     undoAnnouncement?: (cardTitle: string, columnTitle: string) => string,
+ *     undoManyAnnouncement?: (count: number) => string,
+ *     columnMoveAnnouncement?: (columnTitle: string, position: number, count: number) => string,
  *   },
  * }=} opts
- * @returns {{ destroy: () => void, collapsedColumns: () => string[] }}
+ * @returns {{ destroy: () => void, collapsedColumns: () => string[], selected: () => string[], columnOrder: () => string[], undo: () => Promise<void> }}
  */
 export function initKanbanBoard(root, opts = {}) {
-  const noop = { destroy: () => {}, collapsedColumns: () => [] };
+  const noop = { destroy: () => {}, collapsedColumns: () => [], selected: () => [], columnOrder: () => [], undo: async () => {} };
   if (typeof document === "undefined" || !root) return noop;
 
   const table = root.querySelector(".kanban-table");
   const statusEl = root.querySelector("[data-lily-kanban-board-status]");
   if (!table) return noop;
+
+  const tbody = table.querySelector(".kanban-table-body");
+  /** Every body row — lane header rows included — whether or not it is in the DOM right now (virtualization takes rows out). */
+  const rows = tbody ? Array.from(tbody.children) : [];
+  const isCell = (el) => el.classList.contains("kanban-table-td");
+  const isDataRow = (tr) => Array.from(tr.children).some(isCell);
+  const dataRows = () => rows.filter(isDataRow);
+  const allCells = () => rows.flatMap((tr) => Array.from(tr.children).filter(isCell));
+  const cellsOfRow = (tr) => Array.from(tr.children).filter(isCell);
+  const hasLanes = root.hasAttribute("data-lily-kanban-board-has-lanes");
 
   /** Read-only is the macro's `readonly` param, surfaced as `data-readonly`. */
   function isReadonly() {
@@ -97,8 +114,7 @@ export function initKanbanBoard(root, opts = {}) {
       .map((th) => th.getAttribute("data-lily-kanban-board-column-id"));
   const headerFor = (columnId) =>
     root.querySelector(`th[data-lily-kanban-board-column-id="${escapeAttrValue(columnId)}"]`);
-  const cellsOfColumn = (index) =>
-    Array.from(root.querySelectorAll(`.kanban-table-td[data-col="${index}"]`));
+  const cellsOfColumn = (index) => allCells().filter((td) => td.getAttribute("data-col") === String(index));
 
   function isCollapsed(columnId) {
     const th = headerFor(columnId);
@@ -119,7 +135,7 @@ export function initKanbanBoard(root, opts = {}) {
     const ids = columnIds();
     const needle = searchNeedle();
     const hiddenByColumn = new Map();
-    root.querySelectorAll(".kanban-table-body > .kanban-table-row > .kanban-table-td").forEach((td) => {
+    allCells().forEach((td) => {
       const index = Number(td.getAttribute("data-col"));
       const collapsed = isCollapsed(ids[index]);
       const text = (td.getAttribute("data-lily-kanban-board-search-text") || "").toLowerCase();
@@ -149,17 +165,20 @@ export function initKanbanBoard(root, opts = {}) {
       else th.removeAttribute("data-hidden-count");
     });
     // A row with nothing left to show is hidden, so the board's height follows what is shown.
-    root.querySelectorAll(".kanban-table-body > .kanban-table-row").forEach((tr) => {
-      const empty = Array.from(tr.children).every((td) => td.childNodes.length === 0);
-      tr.hidden = empty && Array.from(tr.children).some((td) => stash.has(td));
+    rows.filter(isDataRow).forEach((tr) => {
+      const cells = cellsOfRow(tr);
+      const empty = cells.every((td) => td.childNodes.length === 0);
+      tr.hidden = empty && cells.some((td) => stash.has(td));
     });
     // Keep the roving tab stop on a visible row.
     const stop = focusedCellEl();
     if (stop && stop.parentElement && stop.parentElement.hidden) {
-      const first = root.querySelector(".kanban-table-body > .kanban-table-row:not([hidden]) .kanban-table-td");
+      const firstRow = rows.find((tr) => isDataRow(tr) && !tr.hidden);
+      const first = firstRow ? cellsOfRow(firstRow)[0] : null;
       stop.setAttribute("tabindex", "-1");
       if (first) first.setAttribute("tabindex", "0");
     }
+    applyWindow(true);
   }
 
   function applyCollapsed(columnId, collapsed) {
@@ -180,11 +199,10 @@ export function initKanbanBoard(root, opts = {}) {
   }
 
   /** The cell holding a card (its id is on the cell, so this works while the card is stashed). */
-  const cellForCard = (cardId) =>
-    root.querySelector(`.kanban-table-td[data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`);
+  const cellForCard = (cardId) => allCells().find((td) => td.getAttribute("data-lily-kanban-board-card-id") === String(cardId)) || null;
 
   /** A move is refused by the card's allowed columns, the consumer's veto or by a full hard-limited column. */
-  function isRefused(cardId, toColumnId) {
+  function isRefused(cardId, toColumnId, extra = 0) {
     const owner = cellForCard(cardId);
     const allowed = owner && owner.getAttribute("data-lily-kanban-board-allowed-columns");
     const ownColumn = owner ? columnIds()[Number(owner.getAttribute("data-col"))] : null;
@@ -195,27 +213,100 @@ export function initKanbanBoard(root, opts = {}) {
     const limit = Number(th.getAttribute("data-wip-limit"));
     const index = columnIds().indexOf(toColumnId);
     const count = cellsOfColumn(index).filter((td) => td.hasAttribute("data-lily-kanban-board-card-id")).length;
-    return Number.isFinite(limit) && count >= limit;
+    return Number.isFinite(limit) && count + extra >= limit;
   }
 
   function numCols() {
     return root.querySelectorAll("[data-lily-kanban-board-column-id]").length;
   }
   function numRows() {
-    return root.querySelectorAll(".kanban-table-body > .kanban-table-row").length;
+    return dataRows().length;
   }
   function cellAt(row, col) {
-    return root.querySelector(
-      `.kanban-table-td[data-row="${row}"][data-col="${col}"]`,
-    );
+    const tr = dataRows()[row];
+    return tr ? cellsOfRow(tr).find((td) => td.getAttribute("data-col") === String(col)) || null : null;
   }
   function focusedCellEl() {
-    return root.querySelector('.kanban-table-td[tabindex="0"]');
+    return allCells().find((td) => td.getAttribute("tabindex") === "0") || null;
+  }
+
+  // -----------------------------------------------------------------
+  // Virtualization: every row is rendered by the macro; only the rows in view (plus the roving tab stop's row)
+  // stay in the DOM, between spacer rows. Without the client script the area is just scrollable.
+  // -----------------------------------------------------------------
+
+  const scrollEl = root.querySelector("[data-lily-kanban-board-virtualize]");
+  const rowHeight = scrollEl ? Number(scrollEl.getAttribute("data-row-height")) : 0;
+  const overscan = scrollEl ? Number(scrollEl.getAttribute("data-overscan") || 3) : 0;
+  const viewHeight = scrollEl ? parseFloat(scrollEl.style.height) || 0 : 0;
+  let scrollTopState = 0;
+  let windowSig = null;
+
+  const windowedRows = () => rows.filter((tr) => !tr.hidden);
+
+  function applyWindow(force) {
+    if (!scrollEl || !tbody || !rowHeight) return;
+    const visible = windowedRows();
+    const start = Math.max(0, Math.floor(scrollTopState / rowHeight) - overscan);
+    const end = Math.min(visible.length, Math.ceil((scrollTopState + viewHeight) / rowHeight) + overscan);
+    const indices = new Set();
+    for (let i = start; i < end; i++) indices.add(i);
+    const stop = focusedCellEl();
+    const stopRow = stop ? visible.indexOf(stop.parentElement) : -1;
+    if (stopRow >= 0) indices.add(stopRow);
+    const sorted = Array.from(indices).sort((a, b) => a - b);
+    const sig = sorted.join(",") + "|" + visible.length;
+    if (!force && sig === windowSig) return;
+    windowSig = sig;
+    const hadFocus = !!document.activeElement && tbody.contains(document.activeElement);
+    const focused = hadFocus ? document.activeElement : null;
+    const spacer = (count) => {
+      const tr = document.createElement("tr");
+      tr.className = "kanban-board-spacer";
+      tr.setAttribute("aria-hidden", "true");
+      tr.style.height = `${count * rowHeight}px`;
+      const td = document.createElement("td");
+      td.colSpan = numCols();
+      tr.appendChild(td);
+      return tr;
+    };
+    const children = [];
+    let previous = -1;
+    for (const index of sorted) {
+      if (index - previous > 1) children.push(spacer(index - previous - 1));
+      children.push(visible[index]);
+      previous = index;
+    }
+    if (visible.length - 1 - previous > 0) children.push(spacer(visible.length - 1 - previous));
+    tbody.replaceChildren(...children);
+    if (focused && focused.isConnected === false) focused.focus({ preventScroll: true });
+  }
+
+  /** Bring a row into the scroll area. */
+  function revealRow(rowIndex) {
+    if (!scrollEl || !rowHeight) return;
+    const tr = dataRows()[rowIndex];
+    const slot = tr ? windowedRows().indexOf(tr) : -1;
+    if (slot < 0) return;
+    const top = slot * rowHeight;
+    let next = scrollTopState;
+    if (top < scrollTopState) next = top;
+    else if (top + rowHeight > scrollTopState + viewHeight) next = top + rowHeight - viewHeight;
+    if (next === scrollTopState) return;
+    scrollTopState = next;
+    scrollEl.scrollTop = next;
+    applyWindow(false);
+  }
+
+  function onScroll() {
+    scrollTopState = scrollEl.scrollTop;
+    applyWindow(false);
   }
 
   function moveFocus(row, col) {
     const clampedRow = Math.min(Math.max(row, 0), numRows() - 1);
     const clampedCol = Math.min(Math.max(col, 0), numCols() - 1);
+    revealRow(clampedRow);
     const target = cellAt(clampedRow, clampedCol);
     if (!target) return;
     const current = focusedCellEl();
@@ -324,47 +415,189 @@ export function initKanbanBoard(root, opts = {}) {
     );
   }
 
-  function applyMove(cardId, toColumnId, toIndex) {
+  const columnOfCard = (cardId) => {
+    const cell = cellForCard(cardId);
+    return cell ? columnIds()[Number(cell.getAttribute("data-col"))] : null;
+  };
+  const laneOfCell = (cell) => {
+    const tr = cell && cell.parentElement;
+    return tr ? tr.getAttribute("data-lane-id") : null;
+  };
+
+  /** Resolves true when the move went through (a synchronous `onMove`, or a promise that resolved). */
+  async function applyMove(cardId, toColumnId, toIndex, toLaneId, silent) {
     const cardTitle = textOf(cardHandleFor(cardId));
     const columnTitle = columnTitleFor(toColumnId);
     const cell = cellForCard(cardId);
-    if (cell && cell.hasAttribute("data-pending")) return; // a pending card cannot be moved again
+    if (cell && cell.hasAttribute("data-pending")) return false; // a pending card cannot be moved again
     if (typeof opts.onMove === "function") {
-      if (toIndex === undefined) opts.onMove(cardId, toColumnId);
+      if (toLaneId !== undefined) opts.onMove(cardId, toColumnId, toIndex, toLaneId);
+      else if (toIndex === undefined) opts.onMove(cardId, toColumnId);
       else opts.onMove(cardId, toColumnId, toIndex);
     }
     const labelsObj = opts.labels || {};
     const result =
       typeof opts.moveHandler === "function"
-        ? toIndex === undefined
-          ? opts.moveHandler(cardId, toColumnId)
-          : opts.moveHandler(cardId, toColumnId, toIndex)
+        ? toLaneId !== undefined
+          ? opts.moveHandler(cardId, toColumnId, toIndex, toLaneId)
+          : toIndex === undefined
+            ? opts.moveHandler(cardId, toColumnId)
+            : opts.moveHandler(cardId, toColumnId, toIndex)
         : undefined;
     if (!result || typeof result.then !== "function") {
-      if (typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
-      return;
+      if (!silent && typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
+      return true;
     }
     // Async: the board is rendered by the server, so the card stays put and shows it is pending.
     if (cell) {
       cell.setAttribute("data-pending", "");
       cell.setAttribute("aria-busy", "true");
     }
-    if (typeof labelsObj.movePending === "function") announce(labelsObj.movePending(cardTitle, columnTitle));
-    result.then(
-      () => {
-        if (typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
-      },
-      (error) => {
-        if (typeof labelsObj.moveFailed === "function") announce(labelsObj.moveFailed(cardTitle, columnTitle, error));
-        if (typeof opts.onMoveError === "function") opts.onMoveError(cardId, toColumnId, error);
-        root.dispatchEvent(new CustomEvent("moveerror", { detail: { cardId, toColumnId, error }, bubbles: true }));
-      },
-    ).then(() => {
-      if (cell) {
-        cell.removeAttribute("data-pending");
-        cell.removeAttribute("aria-busy");
+    if (!silent && typeof labelsObj.movePending === "function") announce(labelsObj.movePending(cardTitle, columnTitle));
+    let ok = true;
+    try {
+      await result;
+      if (!silent && typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
+    } catch (error) {
+      ok = false;
+      if (typeof labelsObj.moveFailed === "function") announce(labelsObj.moveFailed(cardTitle, columnTitle, error));
+      if (typeof opts.onMoveError === "function") opts.onMoveError(cardId, toColumnId, error);
+      root.dispatchEvent(new CustomEvent("moveerror", { detail: { cardId, toColumnId, error }, bubbles: true }));
+    }
+    if (cell) {
+      cell.removeAttribute("data-pending");
+      cell.removeAttribute("aria-busy");
+    }
+    return ok;
+  }
+
+  // -----------------------------------------------------------------
+  // Selection: several cards move together
+  // -----------------------------------------------------------------
+
+  const isSelectable = () => root.hasAttribute("data-lily-kanban-board-selectable");
+  const selectedIds = () =>
+    allCells()
+      .filter((td) => td.hasAttribute("data-selected") && td.hasAttribute("data-lily-kanban-board-card-id"))
+      .map((td) => td.getAttribute("data-lily-kanban-board-card-id"));
+
+  function setSelected(cardId, on) {
+    const cell = cellForCard(cardId);
+    if (!cell) return;
+    if (on) {
+      cell.setAttribute("data-selected", "");
+      cell.setAttribute("aria-selected", "true");
+    } else {
+      cell.removeAttribute("data-selected");
+      cell.removeAttribute("aria-selected");
+    }
+  }
+
+  function notifySelection() {
+    const ids = selectedIds();
+    if (typeof opts.onSelectionChange === "function") opts.onSelectionChange(ids);
+    root.dispatchEvent(new CustomEvent("selectionchange", { detail: ids, bubbles: true }));
+  }
+
+  function toggleSelected(cardId) {
+    if (isReadonly()) return;
+    const cell = cellForCard(cardId);
+    if (!cell) return;
+    setSelected(cardId, !cell.hasAttribute("data-selected"));
+    notifySelection();
+  }
+
+  function clearSelection() {
+    selectedIds().forEach((id) => setSelected(id, false));
+    notifySelection();
+  }
+
+  /** The cards that move when `cardId` moves: the whole selection when it is in it, else just that card. */
+  function movingGroup(cardId) {
+    if (!isSelectable()) return [cardId];
+    const ids = selectedIds();
+    return ids.length >= 2 && ids.includes(cardId) ? ids : [cardId];
+  }
+
+  // -----------------------------------------------------------------
+  // Undo: the client keeps the stack; the consumer owns the data, so an undo calls onMove back.
+  // -----------------------------------------------------------------
+
+  const undoStack = [];
+  const undoButton = root.querySelector("[data-lily-kanban-board-undo]");
+  const isUndoable = () => root.hasAttribute("data-lily-kanban-board-undoable");
+  function syncUndo() {
+    if (undoButton) undoButton.disabled = undoStack.length === 0;
+  }
+  function recordUndo(group) {
+    if (!isUndoable() || group.length === 0) return;
+    undoStack.push(group);
+    if (undoStack.length > 50) undoStack.shift();
+    syncUndo();
+  }
+
+  async function undo() {
+    if (!isUndoable() || isReadonly()) return;
+    const labelsObj = opts.labels || {};
+    while (undoStack.length > 0) {
+      const group = undoStack.pop();
+      syncUndo();
+      const live = group.filter((m) => {
+        const cell = cellForCard(m.cardId);
+        return !!cell && !cell.hasAttribute("data-locked");
+      });
+      if (live.length === 0) continue;
+      for (const m of live) await applyMove(m.cardId, m.fromColumnId, undefined, undefined, true);
+      if (live.length === 1) {
+        if (typeof labelsObj.undoAnnouncement === "function") {
+          announce(labelsObj.undoAnnouncement(textOf(cardHandleFor(live[0].cardId)), columnTitleFor(live[0].fromColumnId)));
+        }
+      } else if (typeof labelsObj.undoManyAnnouncement === "function") {
+        announce(labelsObj.undoManyAnnouncement(live.length));
       }
-    });
+      return;
+    }
+  }
+
+  /**
+   * One path for every move (menu, Alt+Arrow, drop): a selection moves together, a refused move is announced,
+   * a successful one is remembered for undo.
+   */
+  async function requestMove(cardId, toColumnId, toIndex, toLaneId) {
+    const labelsObj = opts.labels || {};
+    const group = movingGroup(cardId);
+    if (group.length > 1) {
+      const moved = [];
+      let admitted = 0;
+      const runs = [];
+      for (const id of group) {
+        const cell = cellForCard(id);
+        if (!cell || cell.hasAttribute("data-locked") || cell.hasAttribute("data-pending") || columnOfCard(id) === toColumnId) continue;
+        if (isRefused(id, toColumnId, admitted)) {
+          if (typeof labelsObj.moveBlocked === "function") announce(labelsObj.moveBlocked(textOf(cardHandleFor(id)), columnTitleFor(toColumnId)));
+          continue;
+        }
+        admitted += 1;
+        const from = columnOfCard(id);
+        runs.push(applyMove(id, toColumnId, undefined, undefined, true).then((ok) => {
+          if (ok) moved.push({ cardId: id, fromColumnId: from, toColumnId });
+          return ok;
+        }));
+      }
+      if (runs.length === 0) return;
+      if (typeof labelsObj.moveManyAnnouncement === "function") announce(labelsObj.moveManyAnnouncement(runs.length, columnTitleFor(toColumnId)));
+      clearSelection();
+      await Promise.all(runs);
+      recordUndo(moved);
+      return;
+    }
+    if (isRefused(cardId, toColumnId)) {
+      if (typeof labelsObj.moveBlocked === "function") announce(labelsObj.moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
+      return;
+    }
+    const from = columnOfCard(cardId);
+    const ok = await applyMove(cardId, toColumnId, toIndex, toLaneId);
+    if (ok && from !== toColumnId) recordUndo([{ cardId, fromColumnId: from, toColumnId }]);
   }
 
   function chooseOption(cardId, index) {
@@ -374,15 +607,7 @@ export function initKanbanBoard(root, opts = {}) {
     const option = options[index];
     // Choosing the card's own column (the selected option) is not a move.
     if (option && option.getAttribute("aria-selected") !== "true" && !isReadonly()) {
-      const toColumnId = option.getAttribute("data-value");
-      if (isRefused(cardId, toColumnId)) {
-        const moveBlocked = opts.labels && opts.labels.moveBlocked;
-        if (typeof moveBlocked === "function") {
-          announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
-        }
-      } else {
-        applyMove(cardId, toColumnId);
-      }
+      void requestMove(cardId, option.getAttribute("data-value"));
     }
     closeMenu(cardId, true);
   }
@@ -401,6 +626,18 @@ export function initKanbanBoard(root, opts = {}) {
       if (typeof opts.onCollapsedChange === "function") opts.onCollapsedChange(ids);
       root.dispatchEvent(new CustomEvent("collapsechange", { detail: ids, bubbles: true }));
       return;
+    }
+    if (target && target.closest("[data-lily-kanban-board-undo]")) {
+      void undo();
+      return;
+    }
+    if (isSelectable() && (event.ctrlKey || event.metaKey) && target) {
+      const clicked = target.closest(".kanban-table-td[data-lily-kanban-board-card-id]");
+      if (clicked) {
+        event.preventDefault();
+        toggleSelected(clicked.getAttribute("data-lily-kanban-board-card-id"));
+        return;
+      }
     }
     const add = target && target.closest("[data-lily-kanban-board-add]");
     if (add) {
@@ -454,16 +691,25 @@ export function initKanbanBoard(root, opts = {}) {
     cell.setAttribute("tabindex", "0");
   }
 
+  /** A cell's row within its lane (its row across the board without lanes). */
+  function laneRowOf(cell) {
+    const tr = cell.parentElement;
+    return hasLanes && tr && tr.hasAttribute("data-lane-row")
+      ? Number(tr.getAttribute("data-lane-row"))
+      : Number(cell.getAttribute("data-row"));
+  }
+
   /** Alt+ArrowUp/Down: move the focused card within its own column. */
   function reorderCard(cell, delta) {
     if (isReadonly()) return;
     const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
     if (!cardId || cell.hasAttribute("data-locked")) return;
-    const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
-    const total = root.querySelectorAll(
-      `.kanban-table-td[data-col="${col}"][data-lily-kanban-board-card-id]`,
+    const lane = laneOfCell(cell);
+    const total = cellsOfColumn(col).filter(
+      (td) => td.hasAttribute("data-lily-kanban-board-card-id") && (!hasLanes || laneOfCell(td) === lane),
     ).length;
+    const row = laneRowOf(cell);
     const toIndex = row + delta;
     if (toIndex < 0 || toIndex >= total) return;
     if (typeof opts.onReorder === "function") opts.onReorder(cardId, toIndex);
@@ -491,19 +737,41 @@ export function initKanbanBoard(root, opts = {}) {
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (isUndoable() && ctrlOrMeta && !event.altKey && (event.key === "z" || event.key === "Z")) {
+      event.preventDefault();
+      void undo();
+      return;
+    }
+    if (isMovableColumns() && event.altKey && event.shiftKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
+      event.preventDefault();
+      const columnId = columnIds()[col];
+      const to = col + (event.key === "ArrowLeft" ? -1 : 1);
+      if (columnId && moveColumn(columnId, to)) {
+        const moved = cellAt(row, to);
+        if (moved) {
+          const current = focusedCellEl();
+          if (current && current !== moved) current.setAttribute("tabindex", "-1");
+          moved.setAttribute("tabindex", "0");
+          moved.focus({ preventScroll: true });
+        }
+      }
+      return;
+    }
+    if (isSelectable() && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
+      const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+      if (cardId && !isReadonly()) {
+        event.preventDefault();
+        toggleSelected(cardId);
+      }
+      return;
+    }
     if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
       // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
       event.preventDefault();
       const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
       const destination = columnIds()[col + (event.key === "ArrowLeft" ? -1 : 1)];
-      if (cardId && destination && !isReadonly() && !cell.hasAttribute("data-locked")) {
-        if (isRefused(cardId, destination)) {
-          const moveBlocked = opts.labels && opts.labels.moveBlocked;
-          if (typeof moveBlocked === "function") announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(destination)));
-        } else {
-          applyMove(cardId, destination);
-        }
-      }
+      if (cardId && destination && !isReadonly() && !cell.hasAttribute("data-locked")) void requestMove(cardId, destination);
       return;
     }
     if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
@@ -551,12 +819,60 @@ export function initKanbanBoard(root, opts = {}) {
   }
 
   // -----------------------------------------------------------------
+  // Column reordering: the columns move in place (the macro's `columnOrder` is only the starting order)
+  // -----------------------------------------------------------------
+
+  const isMovableColumns = () => root.hasAttribute("data-lily-kanban-board-movable-columns");
+
+  function moveColumn(columnId, toIndex) {
+    const ids = columnIds();
+    const from = ids.indexOf(columnId);
+    const to = Math.min(Math.max(toIndex, 0), ids.length - 1);
+    if (from === -1 || from === to) return false;
+    const order = ids.slice();
+    order.splice(to, 0, ...order.splice(from, 1));
+    const permute = (parent, items) => {
+      order.map((id) => items[ids.indexOf(id)]).forEach((el) => parent.appendChild(el));
+    };
+    const headRow = table.querySelector(".kanban-table-head .kanban-table-row");
+    if (headRow) permute(headRow, Array.from(headRow.children));
+    rows.filter(isDataRow).forEach((tr) => {
+      const cells = cellsOfRow(tr);
+      permute(tr, cells);
+      cells.forEach((td) => td.setAttribute("data-col", String(order.indexOf(ids[Number(td.getAttribute("data-col"))]))));
+    });
+    const footRow = table.querySelector(".kanban-table-foot .kanban-table-row");
+    if (footRow) permute(footRow, Array.from(footRow.children));
+    // Each card's move menu lists the columns in their new order.
+    menus.forEach((entry) => {
+      const options = Array.from(entry.list.children);
+      options
+        .slice()
+        .sort((a, b) => order.indexOf(a.getAttribute("data-value")) - order.indexOf(b.getAttribute("data-value")))
+        .forEach((li) => entry.list.appendChild(li));
+    });
+    if (typeof opts.onColumnOrderChange === "function") opts.onColumnOrderChange(order);
+    root.dispatchEvent(new CustomEvent("columnorderchange", { detail: order, bubbles: true }));
+    const columnMove = opts.labels && opts.labels.columnMoveAnnouncement;
+    if (typeof columnMove === "function") announce(columnMove(columnTitleFor(columnId), to + 1, order.length));
+    return true;
+  }
+
+  // -----------------------------------------------------------------
   // Pointer drag-and-drop (supplementary, never the only move path)
   // -----------------------------------------------------------------
 
   let draggingCardId = null;
+  let draggingColumnId = null;
 
   function onDragStart(event) {
+    const header =
+      event.target && event.target.closest && isMovableColumns() ? event.target.closest("th[data-lily-kanban-board-column-id]") : null;
+    if (header) {
+      draggingColumnId = header.getAttribute("data-lily-kanban-board-column-id");
+      if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingColumnId || "");
+      return;
+    }
     const handle =
       event.target && event.target.closest
         ? event.target.closest("[data-lily-kanban-board-card-handle]")
@@ -570,9 +886,35 @@ export function initKanbanBoard(root, opts = {}) {
     }
     draggingCardId = dragged;
     if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingCardId || "");
+    const group = movingGroup(dragged);
+    group.forEach((id) => {
+      const groupCell = cellForCard(id);
+      if (groupCell) groupCell.setAttribute("data-dragging", "");
+    });
+    if (typeof opts.dragPreviewText === "function" && event.dataTransfer && event.dataTransfer.setDragImage) {
+      const preview = document.createElement("div");
+      preview.className = "kanban-board-drag-preview";
+      preview.textContent = opts.dragPreviewText(group.map((id) => ({ id, title: textOf(cardHandleFor(id)) })));
+      preview.style.position = "absolute";
+      preview.style.top = "-1000px";
+      root.appendChild(preview);
+      event.dataTransfer.setDragImage(preview, 0, 0);
+      setTimeout(() => preview.remove(), 0);
+    }
+  }
+
+  function onDragEnd() {
+    draggingCardId = null;
+    draggingColumnId = null;
+    root.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
+    root.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
   }
 
   function onDragOver(event) {
+    if (draggingColumnId) {
+      if (event.target && event.target.closest && event.target.closest("th[data-lily-kanban-board-column-id]")) event.preventDefault();
+      return;
+    }
     if (!draggingCardId) return;
     const cell =
       event.target && event.target.closest
@@ -585,6 +927,16 @@ export function initKanbanBoard(root, opts = {}) {
   }
 
   function onDrop(event) {
+    if (draggingColumnId) {
+      const target = event.target && event.target.closest ? event.target.closest("th[data-lily-kanban-board-column-id]") : null;
+      const id = draggingColumnId;
+      draggingColumnId = null;
+      if (!target) return;
+      event.preventDefault();
+      const targetId = target.getAttribute("data-lily-kanban-board-column-id");
+      if (id && targetId && id !== targetId) moveColumn(id, columnIds().indexOf(targetId));
+      return;
+    }
     const cell =
       event.target && event.target.closest
         ? event.target.closest("[data-row][data-col]")
@@ -592,6 +944,7 @@ export function initKanbanBoard(root, opts = {}) {
     if (!cell) return;
     event.preventDefault();
     root.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
+    root.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
     const cardId =
       draggingCardId ||
       (event.dataTransfer && event.dataTransfer.getData
@@ -609,29 +962,30 @@ export function initKanbanBoard(root, opts = {}) {
     if (!toColumnId) return;
     if (isReadonly()) return;
     const cardCell = cellForCard(cardId);
-    const dropRow = Number(cell.getAttribute("data-row"));
+    const dropRow = laneRowOf(cell);
+    const dropLane = hasLanes ? laneOfCell(cell) : undefined;
     const overCard = cell.hasAttribute("data-lily-kanban-board-card-id") && stash.has(cell) === false;
+    if (cardCell && hasLanes && Number(cardCell.getAttribute("data-col")) === colIndex && dropLane !== laneOfCell(cardCell)) {
+      // Dropped into another lane of its own column: only the lane changes.
+      if (!cardCell.hasAttribute("data-locked")) void requestMove(cardId, toColumnId, undefined, dropLane);
+      return;
+    }
     if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) {
       // Dropped on another card of its own column: reorder to that position.
-      const fromRow = Number(cardCell.getAttribute("data-row"));
+      const fromRow = laneRowOf(cardCell);
       if (overCard && fromRow !== dropRow && !cardCell.hasAttribute("data-locked")) {
         if (typeof opts.onReorder === "function") opts.onReorder(cardId, dropRow);
         const reorderAnnouncement = opts.labels && opts.labels.reorderAnnouncement;
         if (typeof reorderAnnouncement === "function") {
-          const total = root.querySelectorAll(`.kanban-table-td[data-col="${colIndex}"][data-lily-kanban-board-card-id]`).length;
+          const total = cellsOfColumn(colIndex).filter(
+            (td) => td.hasAttribute("data-lily-kanban-board-card-id") && (!hasLanes || laneOfCell(td) === laneOfCell(cell)),
+          ).length;
           announce(reorderAnnouncement(textOf(cardHandleFor(cardId)), dropRow + 1, total));
         }
       }
       return;
     }
-    if (isRefused(cardId, toColumnId)) {
-      const moveBlocked = opts.labels && opts.labels.moveBlocked;
-      if (typeof moveBlocked === "function") {
-        announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
-      }
-      return;
-    }
-    applyMove(cardId, toColumnId, overCard ? dropRow : undefined);
+    void requestMove(cardId, toColumnId, overCard ? dropRow : undefined, dropLane);
   }
 
   function onSearchInput(event) {
@@ -645,14 +999,21 @@ export function initKanbanBoard(root, opts = {}) {
   root.addEventListener("dragstart", onDragStart);
   root.addEventListener("dragover", onDragOver);
   root.addEventListener("drop", onDrop);
+  root.addEventListener("dragend", onDragEnd);
   root.addEventListener("input", onSearchInput);
+  if (scrollEl) scrollEl.addEventListener("scroll", onScroll);
   document.addEventListener("click", onDocumentClick);
 
   // Columns the macro rendered collapsed, and a search it started with: take those cards out of the DOM now.
   refreshVisibility();
 
+  syncUndo();
+
   return {
     collapsedColumns: collapsedIds,
+    selected: selectedIds,
+    columnOrder: columnIds,
+    undo,
     destroy: () => {
       menus.forEach((entry) => entry.keyboard.destroy());
       table.removeEventListener("keydown", onGridKeydown);
@@ -662,6 +1023,8 @@ export function initKanbanBoard(root, opts = {}) {
       root.removeEventListener("dragstart", onDragStart);
       root.removeEventListener("dragover", onDragOver);
       root.removeEventListener("drop", onDrop);
+      root.removeEventListener("dragend", onDragEnd);
+      if (scrollEl) scrollEl.removeEventListener("scroll", onScroll);
       root.removeEventListener("input", onSearchInput);
       document.removeEventListener("click", onDocumentClick);
     },

@@ -300,3 +300,7 @@ Ported from the Svelte canonical spec (§12 there; clauses §8.22–§8.30): col
 ## Svelte 0.3.0 parity, round 3 (2026-10-14)
 
 Ported from the Svelte canonical spec (§13 there; clauses §8.31–§8.47): `filter` / `compare`, drop position (`onMove`'s optional third argument, `data-drop-target`, in-column drop calls `onReorder`), `card.locked`, Alt+ArrowLeft/Right column move and `cardAttrs`; and the consumer-requested capabilities (Svelte spec §14, clauses §8.48–§8.62): card body, flags, `allowedColumns`, async move (`moveHandler` where the idiom has events), column header/footer, `labels.emptyColumn`, `search`.
+
+## Svelte 0.4.0 parity (2026-10-15)
+
+Ported from the Svelte canonical spec (§15 there; clauses §8.63–§8.83): multi-select and group move, undo, column reordering, swimlanes, drag preview and virtualization. See the Svelte spec for the contract; idiom differences (prop casing, event vs callback, async hooks) follow this package's earlier parity sections.
