@@ -28,6 +28,7 @@
     components themselves. See CHANGELOG.md for the full reasoning.
 *@
 
+@{ var layout = BuildLayout(); var cols = Cols; }
 <div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
     @if (Labels.Search is not null)
     {
@@ -37,7 +38,19 @@
                value="@SearchValue"
                @oninput="@(async (ChangeEventArgs e) => { SearchValue = e.Value?.ToString() ?? ""; await SearchValueChanged.InvokeAsync(SearchValue); })" />
     }
-    <KanbanTable Label="@Label" role="grid" @onkeydown="OnGridKeyDown">
+    @if (Undoable && Labels.Undo is not null && !Readonly)
+    {
+        <button type="button"
+                class="kanban-board-undo-button"
+                disabled="@(_undoStack.Count == 0)"
+                @onclick="UndoAsync">@Labels.Undo</button>
+    }
+    @* The scroll area is structural: a virtualized board gets a fixed height and renders only the rows in view. *@
+    <div id="@ScrollId"
+         class="@(Virtualize is not null ? "kanban-board-scroll" : "kanban-board-body")"
+         style="@(Virtualize is { } vz ? $"height: {vz.Height}px; overflow: auto" : null)"
+         @onscroll="@(Virtualize is not null ? OnScrollAsync : null)">
+    <KanbanTable Label="@Label" role="grid" aria-multiselectable="@(Selectable ? "true" : null)" aria-rowcount="@(Virtualize is not null ? (layout.Slots.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
             @* KanbanTable has no built-in caption slot; a literal <caption>
@@ -48,13 +61,17 @@
         <KanbanTableHead>
             <KanbanTableRow>
                 @{ var byColumnHead = AllByColumn; var shownHead = CardsByColumn; }
-                @foreach (var column in Columns)
+                @foreach (var column in cols)
                 {
                     var count = byColumnHead.TryGetValue(column.Id, out var headList) ? headList.Count : 0;
                     var hiddenCount = count - (shownHead.TryGetValue(column.Id, out var shownList) ? shownList.Count : 0);
                     var overLimit = column.WipLimit is { } limit && count > limit;
                     var columnCollapsed = IsCollapsed(column.Id);
-                    <KanbanTableTH scope="col" data-over-limit="@(overLimit ? "" : null)" data-collapsed="@(columnCollapsed ? "" : null)"
+                    <KanbanTableTH scope="col" draggable="@(MovableColumns ? "true" : null)"
+                                    @ondragstart="@(() => OnHeaderDragStart(column))"
+                                    @ondragover:preventDefault="@MovableColumns"
+                                    @ondrop="@(() => OnHeaderDropAsync(column))"
+                                    data-over-limit="@(overLimit ? "" : null)" data-collapsed="@(columnCollapsed ? "" : null)"
                                     data-hidden-count="@(hiddenCount > 0 ? hiddenCount.ToString() : null)"
                                     data-flag="@column.Flag"
                                     data-accent="@column.Accent">
@@ -97,19 +114,28 @@
             </KanbanTableRow>
         </KanbanTableHead>
         <KanbanTableBody role="rowgroup">
-            @{
-                var byColumn = CardsByColumn;
-                var maxRows = MaxRows(byColumn);
-            }
-            @for (var rowIndex = 0; rowIndex < maxRows; rowIndex++)
+            @foreach (var item in RenderItems(layout))
             {
-                var row = rowIndex;
-                <KanbanTableRow>
-                    @for (var colIndex = 0; colIndex < Columns.Count; colIndex++)
+                if (item.Slot is null)
+                {
+                    <tr class="kanban-board-spacer" aria-hidden="true" style="@($"height: {item.SpacerRows * Virtualize!.RowHeight}px")"><td colspan="@cols.Count"></td></tr>
+                    continue;
+                }
+                var slot = item.Slot;
+                if (slot.Lane is not null)
+                {
+                    <KanbanTableRow data-lane-row="" aria-rowindex="@(Virtualize is not null ? (slot.SlotIndex + 2).ToString() : null)">
+                        <th class="kanban-board-lane" scope="rowgroup" colspan="@cols.Count" data-lane-id="@slot.Lane.Id">@slot.Lane.Title</th>
+                    </KanbanTableRow>
+                    continue;
+                }
+                var row = slot.RowIndex;
+                <KanbanTableRow data-lane-id="@(HasLanes ? slot.LaneId : null)" aria-rowindex="@(Virtualize is not null ? (slot.SlotIndex + 2).ToString() : null)">
+                    @for (var colIndex = 0; colIndex < cols.Count; colIndex++)
                     {
                         var col = colIndex;
-                        var column = Columns[col];
-                        var card = CardAt(Columns, byColumn, col, row);
+                        var column = cols[col];
+                        var card = CardAt(layout, col, row);
                         var isActive = _focusedRow == row && _focusedCol == col;
                         <KanbanTableTD id="@CellId(row, col)"
                                        role="gridcell"
@@ -120,9 +146,13 @@
                                        data-locked="@(card?.Locked == true ? "" : null)"
                                        data-pending="@(card is not null && IsPending(card.Id) ? "" : null)"
                                        aria-busy="@(card is not null && IsPending(card.Id) ? "true" : null)"
+                                       data-selected="@(card is not null && Selectable && IsSelected(card.Id) ? "" : null)"
+                                       aria-selected="@(card is not null && Selectable && IsSelected(card.Id) ? "true" : null)"
+                                       data-dragging="@(card is not null && _draggingGroup.Contains(card.Id) ? "" : null)"
+                                       @onclick="@(e => OnCellClickAsync(card, e))"
                                        data-flag="@card?.Flag"
                                        data-accent="@column.Accent"
-                                       data-empty="@(card is null && row == 0 && Labels.EmptyColumn is not null && IsEmptyColumn(column, byColumn) ? "" : null)"
+                                       data-empty="@(card is null && !HasLanes && row == 0 && Labels.EmptyColumn is not null && IsEmptyColumn(column, layout.ByColumn) ? "" : null)"
                                        data-drop-target="@(_dropTarget == $"{row}-{col}" ? "" : null)"
                                        aria-describedby="@(card?.Flag is not null ? $"{_baseId}-flag-{card.Id}" : null)"
                                        @attributes="@(card is not null && CardAttributes is not null ? CardAttributes(card) : null)"
@@ -142,7 +172,9 @@
                                    one — see the move-button/listbox below for that. *@
                                 <span class="kanban-board-card-title"
                                       draggable="@(Readonly || currentCard.Locked || currentCard.Draggable == false ? null : "true")"
-                                      @ondragstart="@(e => OnCardDragStart(currentCard, e))">
+                                      data-kanban-drag-preview="@DragPreviewFor(currentCard)"
+                                      @ondragstart="@(e => OnCardDragStart(currentCard, e))"
+                                      @ondragend="OnCardDragEnd">
                                     @if (CardTemplate is not null)
                                     {
                                         @CardTemplate(new KanbanCardContext { Card = currentCard, Label = ResolveCardLabel(currentCard), Column = column, Pending = IsPending(currentCard.Id) })
@@ -220,7 +252,7 @@
                                     </Listbox>
                                 }
                             }
-                            else if (row == 0 && Labels.EmptyColumn is not null && IsEmptyColumn(column, byColumn))
+                            else if (!HasLanes && row == 0 && Labels.EmptyColumn is not null && IsEmptyColumn(column, layout.ByColumn))
                             {
                                 <span class="kanban-board-empty">@Labels.EmptyColumn(column)</span>
                             }
@@ -234,7 +266,7 @@
             var allFoot = AllByColumn;
             <tfoot class="kanban-table-foot">
                 <tr class="kanban-table-row">
-                    @foreach (var column in Columns)
+                    @foreach (var column in cols)
                     {
                         var footCards = allFoot.TryGetValue(column.Id, out var fl) ? fl : new List<KanbanCard>();
                         <td class="kanban-table-td kanban-board-column-footer" data-accent="@column.Accent">
@@ -245,6 +277,7 @@
             </tfoot>
         }
     </KanbanTable>
+    </div>
 
     <p class="kanban-board-status" aria-live="polite">@_statusMessage</p>
 </div>

@@ -960,4 +960,118 @@ public class KanbanBoardInteractionTests : TestContext
         Assert.Equal(new[] { "Card One" }, cut.FindAll(".kanban-board-card-title").Select(e => e.TextContent.Trim()).ToArray());
         Assert.Equal("1", cut.FindAll(".kanban-table-th")[0].GetAttribute("data-hidden-count"));
     }
+
+    // ---- 0.4.0 (§8.63–§8.83) ----
+
+    private IRenderedComponent<KanbanBoard> RenderV4(System.Action<ComponentParameterCollectionBuilder<KanbanBoard>>? configure = null, IReadOnlyList<KanbanCard>? cards = null)
+        => RenderComponent<KanbanBoard>(p =>
+        {
+            p.Add(x => x.Label, "Board");
+            p.Add(x => x.Columns, Columns);
+            p.Add(x => x.Cards, cards ?? Cards);
+            configure?.Invoke(p);
+        });
+
+    [Fact]
+    public void Selectable_X_And_Ctrl_Click_Toggle_And_Selected_Updates()
+    {
+        IReadOnlyList<string> selected = new List<string>();
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Selectable, true);
+            p.Add(x => x.SelectedChanged, EventCallback.Factory.Create<IReadOnlyList<string>>(this, v => selected = v));
+        });
+        Assert.Equal("true", cut.Find("table").GetAttribute("aria-multiselectable"));
+        CardCell(cut, "c1").FocusIn(new FocusEventArgs());
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "x" });
+        Assert.Equal(new[] { "c1" }, selected.ToArray());
+        CardCell(cut, "c2").Click(new MouseEventArgs { CtrlKey = true });
+        Assert.Equal(new[] { "c1", "c2" }, selected.ToArray());
+        Assert.NotNull(CardCell(cut, "c1").GetAttribute("data-selected"));
+    }
+
+    [Fact]
+    public void Moving_A_Selected_Card_Moves_The_Whole_Selection_And_Announces_Once()
+    {
+        var moves = new List<(string, string)>();
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Selectable, true);
+            p.Add(x => x.Selected, new[] { "c1", "c2" });
+            p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, m => moves.Add(m)));
+            p.Add(x => x.Labels, BaseLabels with { MoveManyAnnouncement = (n, c) => $"{n} to {c}" });
+        });
+        CardCell(cut, "c1").FocusIn(new FocusEventArgs());
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Equal(new[] { ("c1", "doing"), ("c2", "doing") }, moves.ToArray());
+        Assert.Equal("2 to In Progress", cut.Find(".kanban-board-status").TextContent);
+    }
+
+    [Fact]
+    public void Undoable_Ctrl_Z_Moves_The_Card_Back()
+    {
+        var moves = new List<(string, string)>();
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Undoable, true);
+            p.Add(x => x.Labels, BaseLabels with { Undo = "Undo" });
+            p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, m => moves.Add(m)));
+        });
+        Assert.NotNull(cut.Find(".kanban-board-undo-button").GetAttribute("disabled"));
+        CardCell(cut, "c1").FocusIn(new FocusEventArgs());
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        // the consumer owns Cards: put the card where the move left it
+        cut.SetParametersAndRender(p => p.Add(x => x.Cards, Cards.Select(c => c.Id == "c1" ? new KanbanCard { Id = "c1", ColumnId = "doing", Title = c.Title } : c).ToList()));
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "z", CtrlKey = true });
+        Assert.Equal(new[] { ("c1", "doing"), ("c1", "todo") }, moves.ToArray());
+    }
+
+    [Fact]
+    public void MovableColumns_Alt_Shift_ArrowRight_Reorders_Columns()
+    {
+        IReadOnlyList<string> order = new List<string>();
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.MovableColumns, true);
+            p.Add(x => x.ColumnOrderChanged, EventCallback.Factory.Create<IReadOnlyList<string>>(this, v => order = v));
+        });
+        CardCell(cut, "c1").FocusIn(new FocusEventArgs());
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true, ShiftKey = true });
+        Assert.Equal(new[] { "doing", "todo", "done" }, order.ToArray());
+        Assert.Contains("In Progress", cut.FindAll(".kanban-table-th")[0].TextContent);
+    }
+
+    [Fact]
+    public void Lanes_Render_Header_Rows_And_Group_Cards_By_LaneId()
+    {
+        var cards = Cards.Select((c, i) => new KanbanCard { Id = c.Id, ColumnId = c.ColumnId, Title = c.Title, LaneId = i < 2 ? "a" : "b" }).ToList();
+        var cut = RenderV4(p => p.Add(x => x.Lanes, new[] { new KanbanLane { Id = "a", Title = "Alpha" }, new KanbanLane { Id = "b", Title = "Beta" } }), cards);
+        Assert.Equal(new[] { "Alpha", "Beta" }, cut.FindAll(".kanban-board-lane").Select(e => e.TextContent.Trim()).ToArray());
+    }
+
+    [Fact]
+    public void Dropping_Into_Another_Lanes_Cell_Raises_OnMoveToLane()
+    {
+        var landed = new List<(string, string, string)>();
+        var cards = new[] { new KanbanCard { Id = "c1", ColumnId = "todo", Title = "One", LaneId = "a" } };
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Lanes, new[] { new KanbanLane { Id = "a", Title = "A" }, new KanbanLane { Id = "b", Title = "B" } });
+            p.Add(x => x.OnMoveToLane, EventCallback.Factory.Create<(string, string, string)>(this, m => landed.Add(m)));
+        }, cards);
+        cut.Find(".kanban-board-card-title").DragStart(new DragEventArgs());
+        cut.Find("[data-row='1'][data-col='1']").Drop(new DragEventArgs());
+        Assert.Equal(new[] { ("c1", "doing", "b") }, landed.ToArray());
+    }
+
+    [Fact]
+    public void Virtualize_Renders_A_Window_With_Spacers_And_AriaRowcount()
+    {
+        var many = Enumerable.Range(0, 100).Select(i => new KanbanCard { Id = $"k{i}", ColumnId = "todo", Title = $"K{i}" }).ToList();
+        var cut = RenderV4(p => p.Add(x => x.Virtualize, new KanbanVirtualize(20, 100)), many);
+        Assert.NotEmpty(cut.FindAll(".kanban-board-scroll"));
+        Assert.True(cut.FindAll("[data-card-id]").Count < 20);
+        Assert.NotEmpty(cut.FindAll(".kanban-board-spacer"));
+        Assert.Equal("101", cut.Find("table").GetAttribute("aria-rowcount"));
+    }
 }
