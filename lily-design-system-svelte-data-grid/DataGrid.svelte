@@ -50,6 +50,8 @@
         filterable?: boolean;
         /** Column can be resized (pointer + keyboard). */
         resizable?: boolean;
+        /** Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another. */
+        movable?: boolean;
         /** Column can be hidden via the column-visibility control. */
         hidable?: boolean;
         /** Initial pixel width, meaningful only when `resizable`. */
@@ -88,6 +90,8 @@
         sortAnnouncement?: (header: string, direction: DataGridSortDirection) => string;
         filterAnnouncement?: (matchCount: number, totalCount: number) => string;
         selectionAnnouncement?: (selectedCount: number) => string;
+        /** Announced after a column moves: (header, 1-based position among the visible columns, how many are visible). */
+        columnMoveAnnouncement?: (header: string, position: number, count: number) => string;
     };
 
     export type Props = {
@@ -115,6 +119,10 @@
         sort?: DataGridSort;
         /** Called with the new sort after every change. */
         onSortChange?: (sort: DataGridSort) => void;
+        /** Column ids in display order. Two-way bindable; columns it does not name follow in their `columns` order. */
+        columnOrder?: string[];
+        /** Called with the new order after a column moves. */
+        onColumnOrderChange?: (order: string[]) => void;
         /** Rows per page. Unset disables pagination. */
         pageSize?: number;
         /** Current 1-indexed page. Two-way bindable. */
@@ -189,6 +197,8 @@
         onFilterChange,
         sort = $bindable<DataGridSort>({ columnId: "", direction: "none" }),
         onSortChange,
+        columnOrder = $bindable<string[]>([]),
+        onColumnOrderChange,
         pageSize,
         page = $bindable(1),
         storageKey,
@@ -219,7 +229,19 @@
     const hasSelection = $derived(selectionMode !== "none");
     const colOffset = $derived(hasSelection ? 1 : 0);
 
-    const visibleColumns = $derived(columns.filter((c) => !hiddenColumnIds.has(c.id)));
+    // Columns in display order: those named in `columnOrder` first, the rest after in their own order.
+    const orderedColumns = $derived.by(() => {
+        if (columnOrder.length === 0) return columns;
+        const rank = (id: string) => {
+            const i = columnOrder.indexOf(id);
+            return i === -1 ? columnOrder.length : i;
+        };
+        return columns
+            .map((c, i) => ({ c, i }))
+            .sort((a, b) => rank(a.c.id) - rank(b.c.id) || a.i - b.i)
+            .map((x) => x.c);
+    });
+    const visibleColumns = $derived(orderedColumns.filter((c) => !hiddenColumnIds.has(c.id)));
     const hidableColumns = $derived(columns.filter((c) => c.hidable));
 
     // Each row's id is derived once, from its position in `rows`, so it
@@ -463,6 +485,35 @@
         });
     }
 
+    /** Move `columnId` to sit at `toVisibleIndex` among the visible columns. Returns whether it moved. */
+    function moveColumn(columnId: string, toVisibleIndex: number): boolean {
+        const ids = visibleColumns.map((c) => c.id);
+        const from = ids.indexOf(columnId);
+        const to = Math.min(Math.max(toVisibleIndex, 0), ids.length - 1);
+        if (from === -1 || from === to) return false;
+        ids.splice(to, 0, ...ids.splice(from, 1));
+        // Hidden columns keep their places in the full order; visible ones are re-sequenced around them.
+        const full = orderedColumns.map((c) => c.id);
+        const hiddenAt = full.map((id) => (ids.includes(id) ? null : id));
+        let next = 0;
+        columnOrder = hiddenAt.map((id) => id ?? ids[next++]);
+        onColumnOrderChange?.(columnOrder);
+        const column = columns.find((c) => c.id === columnId)!;
+        announce(labels.columnMoveAnnouncement?.(column.header, to + 1, ids.length));
+        return true;
+    }
+
+    let draggingColumnId: string | null = null;
+
+    function onHeaderDrop(targetId: string, event: DragEvent): void {
+        event.preventDefault();
+        const id = draggingColumnId;
+        draggingColumnId = null;
+        if (!id || id === targetId) return;
+        const to = visibleColumns.findIndex((c) => c.id === targetId);
+        if (to >= 0) moveColumn(id, to);
+    }
+
     function moveFocus(row: number, col: number): void {
         focusedRow = Math.min(Math.max(row, -1), pageEntries.length - 1);
         focusedCol = Math.min(Math.max(col, 0), lastCol);
@@ -578,6 +629,15 @@
                 cell.focus({ preventScroll: true });
             }
             return;
+        }
+        if (event.altKey && activeRow === -1 && (event.key === "ArrowRight" || event.key === "ArrowLeft")) {
+            const column = visibleColumns[activeCol - colOffset];
+            if (column?.movable) {
+                event.preventDefault();
+                const delta = event.key === "ArrowRight" ? 1 : -1;
+                if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
+                return;
+            }
         }
         switch (event.key) {
             case "ArrowRight":
@@ -746,6 +806,10 @@
                         tabindex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
                         aria-sort={ariaSortFor(column)}
                         style={cellStyle(column)}
+                        draggable={column.movable ? "true" : undefined}
+                        ondragstart={column.movable ? (e: DragEvent) => { draggingColumnId = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
+                        ondragover={column.movable ? (e: DragEvent) => { if (draggingColumnId) e.preventDefault(); } : undefined}
+                        ondrop={column.movable ? (e: DragEvent) => onHeaderDrop(column.id, e) : undefined}
                     >
                         {#if column.sortable}
                             <button

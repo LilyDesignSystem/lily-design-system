@@ -335,6 +335,14 @@
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+            // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
+            event.preventDefault();
+            const card = cardAt(activeCol, activeRow);
+            const destination = columns[activeCol + (event.key === "ArrowLeft" ? -1 : 1)];
+            if (card && destination) moveCard(card, destination);
+            return;
+        }
         if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
             event.preventDefault();
             reorderCard(event.key === "ArrowUp" ? -1 : 1);

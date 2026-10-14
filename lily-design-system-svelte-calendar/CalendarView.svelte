@@ -85,6 +85,8 @@
         maxEvents?: number;
         /** Month view: leave days outside the shown month empty (no number, no events; the cell keeps `data-outside-period`). */
         hideOutsideDays?: boolean;
+        /** Weekday numbers (0 = Sunday … 6 = Saturday) that are the weekend; those cells get `data-weekend`. Lily assumes none, since weekends differ by country. */
+        weekendDays?: number[];
         /** Called when an event is moved to another day, by pointer drag-and-drop or Alt+arrow keys (a day, or a week with Up/Down) on a focused event element. The consumer updates `events`. Setting it turns the drag-and-drop on. */
         onEventMove?: (calendarEvent: CalendarEvent, toDate: string) => void;
         /** ISO date marking "today"; never computed internally (stays SSR-safe). */
@@ -225,6 +227,7 @@
         events = [],
         maxEvents = undefined,
         hideOutsideDays = false,
+        weekendDays = undefined,
         onEventMove = undefined,
         today = undefined,
         selectedDate = $bindable(undefined),
@@ -626,6 +629,7 @@
                             today={isToday}
                             data-date={d}
                             data-outside-period={outside ? "" : undefined}
+                            data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
                             data-selected={picked ? "" : undefined}
                             data-disabled={disabled ? "" : undefined}
                             data-in-range={inRange ? "" : undefined}

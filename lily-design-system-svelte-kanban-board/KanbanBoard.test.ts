@@ -538,3 +538,34 @@ describe("KanbanBoard — locked cards (§8.39–§8.43)", () => {
         expect(onMove).toHaveBeenCalledWith("c2", "done");
     });
 });
+
+describe("KanbanBoard — Alt+Arrow column move (§8.44–§8.46)", () => {
+    const base = { label: "Sprint board", columns: COLUMNS, cards: CARDS, labels: LABELS };
+    const cell = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+
+    test("§8.44 Alt+ArrowRight moves the card to the next column; Alt+ArrowLeft to the previous", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove } });
+        await fireEvent.keyDown(cell(0, 0), { key: "ArrowRight", altKey: true });
+        expect(onMove).toHaveBeenLastCalledWith("c1", "doing");
+        await fireEvent.focusIn(cell(0, 1));
+        await fireEvent.keyDown(cell(0, 1), { key: "ArrowLeft", altKey: true });
+        expect(onMove).toHaveBeenLastCalledWith("c3", "todo");
+    });
+
+    test("§8.45 there is no move past the first or last column, and readonly and locked cards do not move", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove } });
+        await fireEvent.keyDown(cell(0, 0), { key: "ArrowLeft", altKey: true });
+        expect(onMove).not.toHaveBeenCalled();
+    });
+
+    test("§8.46 a hard-limited full column refuses the keyboard move and announces it", async () => {
+        const onMove = vi.fn();
+        const cols = [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true }];
+        render(KanbanBoard, { props: { ...base, columns: cols, onMove, labels: { ...LABELS, moveBlocked: (t: string, c: string) => `${t} cannot go to ${c}` } } });
+        await fireEvent.keyDown(cell(0, 0), { key: "ArrowRight", altKey: true });
+        expect(onMove).not.toHaveBeenCalled();
+        expect(document.querySelector(".kanban-board-status")!.textContent).toBe("Card One cannot go to In Progress");
+    });
+});

@@ -675,3 +675,68 @@ describe("DataGrid — row activation (§8.34)", () => {
         expect(onRowActivate).not.toHaveBeenCalled();
     });
 });
+
+describe("DataGrid — column reordering (§8.40–§8.45)", () => {
+    const cols: DataGridColumn[] = [
+        { id: "a", header: "A", movable: true },
+        { id: "b", header: "B", movable: true },
+        { id: "c", header: "C" },
+    ];
+    const rows3 = [{ a: "a1", b: "b1", c: "c1" }];
+    const labels: DataGridLabels = { ...LABELS, columnMoveAnnouncement: (h, p, n) => `${h} is column ${p} of ${n}` };
+    const headers = () => Array.from(document.querySelectorAll<HTMLElement>("thead th")).map((h) => h.textContent?.trim());
+    const header = (t: string) => Array.from(document.querySelectorAll<HTMLElement>("thead th")).find((h) => h.textContent?.trim() === t)!;
+
+    test("§8.40 columnOrder sets the display order; unnamed columns follow", () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, columnOrder: ["c", "a"] } });
+        expect(headers()).toEqual(["C", "A", "B"]);
+    });
+
+    test("§8.41 Alt+ArrowRight on a movable header moves the column, calls onColumnOrderChange and announces", async () => {
+        const onColumnOrderChange = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, labels, onColumnOrderChange } });
+        await fireEvent.focusIn(header("A"));
+        await fireEvent.keyDown(header("A"), { key: "ArrowRight", altKey: true });
+        expect(headers()).toEqual(["B", "A", "C"]);
+        expect(onColumnOrderChange).toHaveBeenCalledWith(["b", "a", "c"]);
+        expect(document.querySelector("[aria-live]")!.textContent).toContain("A is column 2 of 3");
+    });
+
+    test("§8.42 a column that is not movable ignores Alt+Arrow", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3 } });
+        await fireEvent.focusIn(header("C"));
+        await fireEvent.keyDown(header("C"), { key: "ArrowLeft", altKey: true });
+        expect(headers()).toEqual(["A", "B", "C"]);
+    });
+
+    test("§8.43 dragging a movable header onto another moves it there", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3 } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        expect(header("A").getAttribute("draggable")).toBe("true");
+        expect(header("C").hasAttribute("draggable")).toBe(false);
+        await fireEvent.dragStart(header("A"), { dataTransfer: dt });
+        await fireEvent.dragOver(header("B"), { dataTransfer: dt });
+        await fireEvent.drop(header("B"), { dataTransfer: dt });
+        expect(headers()).toEqual(["B", "A", "C"]);
+    });
+
+    test("§8.44 body cells follow the new column order", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, columnOrder: ["b", "a", "c"] } });
+        const cells = Array.from(document.querySelectorAll("tbody td")).map((c) => c.textContent?.trim());
+        expect(cells).toEqual(["b1", "a1", "c1"]);
+    });
+
+    test("§8.45 hidden columns keep their place when a visible one moves", async () => {
+        const onColumnOrderChange = vi.fn();
+        const hid: DataGridColumn[] = [
+            { id: "a", header: "A", movable: true },
+            { id: "b", header: "B", hidable: true },
+            { id: "c", header: "C", movable: true },
+        ];
+        render(DataGrid, { props: { label: "G", columns: hid, rows: rows3, labels, onColumnOrderChange } });
+        await fireEvent.click(screen.getByRole("checkbox", { name: "Show B" }));
+        await fireEvent.focusIn(header("A"));
+        await fireEvent.keyDown(header("A"), { key: "ArrowRight", altKey: true });
+        expect(onColumnOrderChange).toHaveBeenCalledWith(["c", "b", "a"]);
+    });
+});

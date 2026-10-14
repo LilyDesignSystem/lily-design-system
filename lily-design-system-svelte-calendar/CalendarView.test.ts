@@ -627,3 +627,16 @@ describe("CalendarView — period title and hideOutsideDays (§8.42–§8.45)", 
         expect(document.querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!.textContent?.trim()).not.toBe("");
     });
 });
+
+describe("CalendarView — weekendDays (§8.46–§8.47)", () => {
+    test("§8.46 weekendDays marks those weekdays' cells with data-weekend", () => {
+        render(CalendarView, { props: { label: "A", view: "week", anchorDate: "2026-01-06", weekendDays: [0, 6] } });
+        expect(cellFor("2026-01-10")!.hasAttribute("data-weekend")).toBe(true); // Saturday
+        expect(cellFor("2026-01-11")!.hasAttribute("data-weekend")).toBe(true); // Sunday
+        expect(cellFor("2026-01-07")!.hasAttribute("data-weekend")).toBe(false);
+    });
+    test("§8.47 no cell is a weekend by default", () => {
+        render(CalendarView, { props: { label: "A", view: "week", anchorDate: "2026-01-06" } });
+        expect(document.querySelector("[data-weekend]")).toBeNull();
+    });
+});

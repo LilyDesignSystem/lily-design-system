@@ -662,3 +662,35 @@ describe("GanttChart — task selection (§14.9–§14.12)", () => {
         expect(rows()[2].hasAttribute("data-selected")).toBe(true);
     });
 });
+
+describe("GanttChart — Alt+Arrow shift and resize (§14.13–§14.16)", () => {
+    const base = { label: "Q4 plan", range: RANGE, tasks: TASKS };
+
+    test("§14.13 Alt+ArrowRight shifts the task one column, keeping its duration", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { ...base, onTaskChange } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight", altKey: true });
+        expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-02", "2026-10-04");
+    });
+
+    test("§14.14 Alt+ArrowLeft shifts it earlier, and not before the range starts", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { ...base, onTaskChange } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowLeft", altKey: true });
+        expect(onTaskChange).not.toHaveBeenCalled();
+    });
+
+    test("§14.15 Alt+Shift+ArrowRight moves only the end; Alt+Shift+ArrowLeft cannot cross the start", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { ...base, onTaskChange } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight", altKey: true, shiftKey: true });
+        expect(onTaskChange).toHaveBeenLastCalledWith("design", "2026-10-01", "2026-10-04");
+    });
+
+    test("§14.16 readonly and parent rows ignore it", async () => {
+        const onTaskChange = vi.fn();
+        render(GanttChart, { props: { ...base, onTaskChange, readonly: true } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight", altKey: true });
+        expect(onTaskChange).not.toHaveBeenCalled();
+    });
+});

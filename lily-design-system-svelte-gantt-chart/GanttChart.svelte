@@ -443,6 +443,22 @@
         event.dataTransfer?.setData("text/plain", task.id);
     }
 
+    function columnIndexOf(isoDate: string): number {
+        return columns.findIndex((c) => rangesOverlap(c.start, c.end, isoDate, isoDate));
+    }
+
+    function shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+        if (endOnly) {
+            const target = columns[columnIndexOf(task.end) + delta];
+            if (target && compareISO(task.start, target.end) <= 0) applyChange(task, task.start, target.end);
+            return;
+        }
+        const target = columns[columnIndexOf(task.start) + delta];
+        if (!target) return;
+        const duration = parseISOToEpochDay(task.end) - parseISOToEpochDay(task.start);
+        applyChange(task, target.start, addDays(target.start, duration));
+    }
+
     function onCellDragOver(event: DragEvent): void {
         if (draggingTaskId) event.preventDefault();
     }
@@ -505,6 +521,15 @@
         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+            // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end (the keyboard twins of dragging the bar and its end handle).
+            const row = rows[activeRow];
+            if (row && !row.hasChildren && !readonly && (event.target as HTMLElement).closest(".gantt-table-td")) {
+                event.preventDefault();
+                shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+                return;
+            }
+        }
         switch (event.key) {
             case "ArrowUp":
                 event.preventDefault();
