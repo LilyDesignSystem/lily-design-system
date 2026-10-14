@@ -263,3 +263,7 @@ the structural `KanbanTable` family and the interactive
 `IconButton`/`Listbox` pair every picker helper already depends on.
 Follows every other Blazor helper's established rules: headless (no
 bundled CSS), SSR-safe, i18n-clean (label-presence gates each control).
+
+## Svelte 0.2.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§8.17–§8.21 there): `readonly`, `canMove` with `labels.moveBlocked`, and Alt+ArrowUp/Down reorder via `onReorder(cardId, toIndex)` with `labels.reorderAnnouncement`. See the Svelte spec for the contract and the SVAR survey (§11).

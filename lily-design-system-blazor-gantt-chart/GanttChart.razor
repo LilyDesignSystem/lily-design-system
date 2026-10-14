@@ -35,7 +35,7 @@
     role="region"/"list"/"listitem".
 *@
 
-<div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
+<div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
     <GanttTable Label="@Label" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
@@ -47,8 +47,19 @@
                 @foreach (var column in Columns)
                 {
                     var isColumnToday = Today is not null && RangesOverlap(column.Start, column.End, Today, Today);
-                    <GanttTableTH scope="col" data-today="@(isColumnToday ? "" : null)">
+                    var columnMarkers = MarkersIn(column);
+                    <GanttTableTH scope="col"
+                                  data-today="@(isColumnToday ? "" : null)"
+                                  data-non-working="@(IsNonWorkingColumn(column) ? "" : null)"
+                                  data-marker="@MarkerKinds(columnMarkers)">
                         @(Labels.ColumnLabel?.Invoke(column.Start, column.End, TimeUnit) ?? column.Start)
+                        @foreach (var marker in columnMarkers)
+                        {
+                            @if (!string.IsNullOrEmpty(marker.Label))
+                            {
+                                <span class="gantt-chart-marker-label">@marker.Label</span>
+                            }
+                        }
                     </GanttTableTH>
                 }
             </GanttTableTr>
@@ -65,7 +76,9 @@
                 var rowNum = rowIndex;
                 var range = RangeFor(row.Task, row.HasChildren, ranges);
                 var deps = PredecessorLabels(row.Task);
-                <GanttTableTr>
+                <GanttTableTr data-task-type="@row.Task.Type"
+                              data-critical="@(row.Task.Critical ? "" : null)"
+                              data-slack="@(row.Task.Slack?.ToString())">
                     @* Depth is data for the consumer's CSS (indentation), never an inline style. *@
                     <GanttTableTH scope="row" data-depth="@row.Depth">
                         @* Gated on Labels.CollapseButton: an unnamed button is worse than none. *@
@@ -109,6 +122,8 @@
                                       data-in-range="@(inRange ? "" : null)"
                                       data-milestone="@(isMilestone ? "" : null)"
                                       data-today="@(isCellToday ? "" : null)"
+                                      data-non-working="@(IsNonWorkingColumn(column) ? "" : null)"
+                                      data-marker="@(MarkersIn(column).Count > 0 ? "" : null)"
                                       aria-describedby="@(hasDescribedBy ? DependencyId(currentTask.Id) : null)"
                                       @ondragover:preventDefault="true"
                                       @ondrop="@(e => OnCellDropAsync(column, e))"
@@ -117,7 +132,7 @@
                             {
                                 <span class="gantt-chart-bar"
                                       data-percent-complete="@(currentTask.PercentComplete?.ToString() ?? null)"
-                                      draggable="@(!hasChildrenForCell ? "true" : null)"
+                                      draggable="@(!hasChildrenForCell && !Readonly ? "true" : null)"
                                       @ondragstart="@(e => OnBarDragStart(currentTask, e))"></span>
                             }
                         </GanttTableTD>

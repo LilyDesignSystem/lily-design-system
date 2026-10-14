@@ -566,3 +566,112 @@ public class GanttChartTests : TestContext
         Assert.Equal("Task", cut.Find(".gantt-table-thead .gantt-table-th").TextContent.Trim());
     }
 }
+
+public class GanttChartExtrasTests : TestContext
+{
+    private static readonly GanttRange Range = new() { Start = "2026-10-01", End = "2026-10-10" };
+
+    private static readonly IReadOnlyList<GanttTask> Tasks = new[]
+    {
+        new GanttTask { Id = "design", Label = "Design", Start = "2026-10-01", End = "2026-10-03" },
+        new GanttTask { Id = "parent", Label = "Phase 1", Start = "2026-10-01", End = "2026-10-01" },
+        new GanttTask { Id = "child1", Label = "Child A", Start = "2026-10-08", End = "2026-10-08", ParentId = "parent" },
+    };
+
+    private static readonly DateTimePickerLabels DtpLabels = new()
+    {
+        PreviousYear = "Previous year", PreviousMonth = "Previous month", PreviousWeek = "Previous week",
+        PreviousDay = "Previous day", NextDay = "Next day", NextWeek = "Next week",
+        NextMonth = "Next month", NextYear = "Next year", Confirm = "Confirm", Cancel = "Cancel",
+    };
+
+    private static readonly GanttLabels Labels = new()
+    {
+        StartLabel = "Start date", EndLabel = "End date", DateTimePickerLabels = DtpLabels,
+        SaveLabel = "Save", CancelLabel = "Cancel",
+        CollapseButton = (task, collapsed) => collapsed ? $"Expand {task.Label}" : $"Collapse {task.Label}",
+    };
+
+    public GanttChartExtrasTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
+    }
+
+    private IRenderedComponent<GanttChart> Render(
+        Action<ComponentParameterCollectionBuilder<GanttChart>>? configure = null,
+        IReadOnlyList<GanttTask>? tasks = null)
+        => RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, tasks ?? Tasks);
+            p.Add(x => x.Labels, Labels);
+            configure?.Invoke(p);
+        });
+
+    private static IReadOnlyList<AngleSharp.Dom.IElement> Heads(IRenderedComponent<GanttChart> cut)
+        => cut.FindAll(".gantt-table-thead .gantt-table-th").Skip(1).ToList();
+
+    [Fact]
+    public void Markers_Mark_The_Containing_Column_And_A_Label_Renders_As_Text()
+    {
+        var cut = Render(p => p.Add(x => x.Markers, new[] { new GanttMarker { Date = "2026-10-05", Kind = "holiday", Label = "Bank holiday" } }));
+
+        Assert.Equal("holiday", Heads(cut)[4].GetAttribute("data-marker"));
+        Assert.Contains("Bank holiday", Heads(cut)[4].TextContent);
+        Assert.False(Heads(cut)[3].HasAttribute("data-marker"));
+        Assert.Equal(cut.FindAll(".gantt-table-tbody > .gantt-table-tr").Count, cut.FindAll(".gantt-table-td[data-marker]").Count);
+    }
+
+    [Fact]
+    public void IsNonWorking_Marks_A_Column_Only_When_Every_Day_In_It_Is_Non_Working()
+    {
+        var cut = Render(p => p.Add(x => x.IsNonWorking, d => d == "2026-10-03" || d == "2026-10-04"));
+
+        Assert.True(Heads(cut)[2].HasAttribute("data-non-working"));
+        Assert.True(Heads(cut)[3].HasAttribute("data-non-working"));
+        Assert.False(Heads(cut)[1].HasAttribute("data-non-working"));
+    }
+
+    [Fact]
+    public void Week_Columns_Are_Non_Working_Only_If_All_Seven_Days_Are()
+    {
+        var cut = Render(p =>
+        {
+            p.Add(x => x.TimeUnit, GanttTimeUnit.Week);
+            p.Add(x => x.IsNonWorking, d => d == "2026-10-03");
+        });
+
+        Assert.Empty(cut.FindAll(".gantt-table-thead [data-non-working]"));
+    }
+
+    [Fact]
+    public void Task_Type_Critical_And_Slack_Become_Data_Attributes_On_The_Row()
+    {
+        var tasks = new[] { new GanttTask { Id = "a", Label = "A", Start = "2026-10-01", End = "2026-10-02", Type = "design", Critical = true, Slack = 2 } };
+        var cut = Render(tasks: tasks);
+
+        var row = cut.FindAll(".gantt-table-tbody > .gantt-table-tr")[0];
+        Assert.Equal("design", row.GetAttribute("data-task-type"));
+        Assert.True(row.HasAttribute("data-critical"));
+        Assert.Equal("2", row.GetAttribute("data-slack"));
+    }
+
+    [Fact]
+    public async Task Readonly_Opens_No_Edit_Region_Or_Drag_And_Navigation_And_Collapse_Still_Work()
+    {
+        var cut = Render(p => p.Add(x => x.Readonly, true));
+
+        cut.FindAll(".gantt-table-td[tabindex='0']").Single().KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(cut.FindAll(".gantt-chart-edit-row"));
+        Assert.Empty(cut.FindAll(".gantt-chart-bar[draggable='true']"));
+        Assert.True(cut.Find("div.gantt-chart").HasAttribute("data-readonly"));
+
+        cut.FindAll(".gantt-table-td[tabindex='0']").Single().KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+        Assert.Equal("1", cut.FindAll(".gantt-table-td[tabindex='0']").Single().GetAttribute("data-col"));
+
+        await cut.Find("[aria-label='Collapse Phase 1']").ClickAsync(new MouseEventArgs());
+        Assert.NotEmpty(cut.FindAll("[aria-label='Expand Phase 1']"));
+    }
+}

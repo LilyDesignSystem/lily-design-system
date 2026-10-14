@@ -68,6 +68,12 @@ public sealed record KanbanLabels
 
     /// <summary>Announcement text after a successful move.</summary>
     public Func<string, string, string>? MoveAnnouncement { get; init; }
+
+    /// <summary>Announced when <c>CanMove</c> refuses a move: (card title, column title).</summary>
+    public Func<string, string, string>? MoveBlocked { get; init; }
+
+    /// <summary>Announced after Alt+ArrowUp/Down reorders a card: (card title, 1-based position, total).</summary>
+    public Func<string, int, int, string>? ReorderAnnouncement { get; init; }
 }
 
 public partial class KanbanBoard : ComponentBase
@@ -99,6 +105,15 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>Called after a card moves to a new column, by pointer or by the move menu.</summary>
     [Parameter] public EventCallback<(string CardId, string ToColumnId)> OnMove { get; set; }
+
+    /// <summary>Called when Alt+ArrowUp/Down moves a card within its column; <c>ToIndex</c> is 0-based. The consumer reorders <c>Cards</c>.</summary>
+    [Parameter] public EventCallback<(string CardId, int ToIndex)> OnReorder { get; set; }
+
+    /// <summary>Veto a move (a hard WIP limit, a workflow rule). Refused columns show <c>aria-disabled</c> in the move menu.</summary>
+    [Parameter] public Func<KanbanCard, KanbanColumn, bool>? CanMove { get; set; }
+
+    /// <summary>Disable every mutating interaction: move menu, drag and reorder. Navigation still works.</summary>
+    [Parameter] public bool Readonly { get; set; }
 
     /// <summary>User-facing strings. See <see cref="KanbanLabels"/> — presence gates each control.</summary>
     [Parameter] public KanbanLabels Labels { get; set; } = new();
@@ -218,8 +233,18 @@ public partial class KanbanBoard : ComponentBase
     // -------------------------------------------------------------------
 
     /// <summary>Choosing the card's own column is not a move: the menu just closes.</summary>
+    private bool IsRefused(KanbanCard card, KanbanColumn toColumn)
+        => toColumn.Id != card.ColumnId && CanMove is not null && !CanMove(card, toColumn);
+
     private async Task MoveCardAsync(KanbanCard card, KanbanColumn toColumn)
     {
+        if (Readonly) return;
+        if (IsRefused(card, toColumn))
+        {
+            Announce(Labels.MoveBlocked?.Invoke(ResolveCardLabel(card), toColumn.Title));
+            await CloseMoveMenuAsync();
+            return;
+        }
         if (toColumn.Id != card.ColumnId)
         {
             await OnMove.InvokeAsync((card.Id, toColumn.Id));
@@ -230,6 +255,7 @@ public partial class KanbanBoard : ComponentBase
 
     private void OpenMoveMenu(KanbanCard card)
     {
+        if (Readonly) return;
         _openCardId = card.Id;
         var currentIndex = -1;
         for (var i = 0; i < Columns.Count; i++)
@@ -350,7 +376,21 @@ public partial class KanbanBoard : ComponentBase
         return null;
     }
 
-    private void OnGridKeyDown(KeyboardEventArgs args)
+    private async Task ReorderCardAsync(int delta)
+    {
+        if (Readonly) return;
+        var byColumn = CardsByColumn;
+        var card = CardAt(Columns, byColumn, _focusedCol, _focusedRow);
+        if (card is null) return;
+        var total = byColumn.TryGetValue(card.ColumnId, out var list) ? list.Count : 0;
+        var toIndex = _focusedRow + delta;
+        if (toIndex < 0 || toIndex >= total) return;
+        await OnReorder.InvokeAsync((card.Id, toIndex));
+        Announce(Labels.ReorderAnnouncement?.Invoke(ResolveCardLabel(card), toIndex + 1, total));
+        _focusCardPendingId = card.Id;
+    }
+
+    private async Task OnGridKeyDown(KeyboardEventArgs args)
     {
         // Blazor's KeyboardEventArgs carries no event-target element info
         // (unlike the DOM event the Svelte reference inspects via
@@ -368,6 +408,12 @@ public partial class KanbanBoard : ComponentBase
         var maxRows = MaxRows(byColumn);
         var columnCount = Columns.Count;
         var ctrlOrMeta = args.CtrlKey || args.MetaKey;
+
+        if (args.AltKey && (args.Key == "ArrowUp" || args.Key == "ArrowDown"))
+        {
+            await ReorderCardAsync(args.Key == "ArrowUp" ? -1 : 1);
+            return;
+        }
 
         switch (args.Key)
         {

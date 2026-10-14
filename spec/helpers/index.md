@@ -206,6 +206,7 @@ packages above. [`bin/list-helper-packages blazor`](../../bin/list-helper-packag
 - [`lily-design-system-blazor-text-size-picker`](../../lily-design-system-blazor-text-size-picker/) — `@lilydesignsystem/blazor-text-size-picker`
 - [`lily-design-system-blazor-theme-picker`](../../lily-design-system-blazor-theme-picker/) — `@lilydesignsystem/blazor-theme-picker`
 - [`lily-design-system-blazor-gantt-chart`](../../lily-design-system-blazor-gantt-chart/) — `@lilydesignsystem/blazor-gantt-chart`
+- [`lily-design-system-blazor-calendar`](../../lily-design-system-blazor-calendar/) — `@lilydesignsystem/blazor-calendar`
 - [`lily-design-system-blazor-picker-bar`](../../lily-design-system-blazor-picker-bar/) — `@lilydesignsystem/blazor-picker-bar`
 
 Blazor is .NET rather than npm, so its helpers ship as Razor class libraries with a `.csproj` (e.g. `LilyDesignSystem.Blazor.ThemePicker.csproj`) instead of a `package.json`, and each has its own test project in `tests/`.

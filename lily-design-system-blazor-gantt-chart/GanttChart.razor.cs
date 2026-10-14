@@ -42,6 +42,23 @@ public sealed class GanttTask
 
     /// <summary>Other tasks' ids this task depends on (finish-to-start).</summary>
     public IReadOnlyList<string>? DependsOn { get; init; }
+
+    /// <summary>Class hook only: becomes <c>data-task-type</c> on the row (e.g. "design", "review").</summary>
+    public string? Type { get; init; }
+
+    /// <summary>On the critical path; becomes <c>data-critical</c>. Lily computes nothing.</summary>
+    public bool Critical { get; init; }
+
+    /// <summary>Slack in days, from the consumer's own scheduling; becomes <c>data-slack</c>.</summary>
+    public int? Slack { get; init; }
+}
+
+/// <summary>A dated column marker (holiday, release, deadline). <c>Label</c> is rendered as text so a marker is never colour-only.</summary>
+public sealed record GanttMarker
+{
+    public required string Date { get; init; }
+    public string? Kind { get; init; }
+    public string? Label { get; init; }
 }
 
 /// <summary>Column granularity. A static rendering choice, not an interactive zoom control.</summary>
@@ -129,6 +146,15 @@ public partial class GanttChart : ComponentBase
 
     /// <summary>ISO date marking "today"; never computed internally (stays SSR-safe).</summary>
     [Parameter] public string? Today { get; set; }
+
+    /// <summary>Dated markers; each marks the column that contains its date with <c>data-marker</c>.</summary>
+    [Parameter] public IReadOnlyList<GanttMarker> Markers { get; set; } = Array.Empty<GanttMarker>();
+
+    /// <summary>Consumer's own working calendar; a column is <c>data-non-working</c> when every day in it is non-working.</summary>
+    [Parameter] public Func<string, bool>? IsNonWorking { get; set; }
+
+    /// <summary>Suppress editing, drag and the edit region; navigation and collapse still work.</summary>
+    [Parameter] public bool Readonly { get; set; }
 
     /// <summary>Resolves a task to its display label. Defaults to <c>task.Label</c>.</summary>
     [Parameter] public Func<GanttTask, string>? TaskLabel { get; set; }
@@ -333,7 +359,8 @@ public partial class GanttChart : ComponentBase
 
     /// <summary>Editing needs every label its controls show; an unnamed Save is worse than none.</summary>
     private bool CanEdit
-        => Labels.DateTimePickerLabels is not null
+        => !Readonly
+           && Labels.DateTimePickerLabels is not null
            && !string.IsNullOrEmpty(Labels.StartLabel)
            && !string.IsNullOrEmpty(Labels.EndLabel)
            && !string.IsNullOrEmpty(Labels.SaveLabel)
@@ -429,8 +456,25 @@ public partial class GanttChart : ComponentBase
     // unconditionally via the modifier alone — harmless, since OnCellDropAsync
     // only acts when it can resolve a real dragged GanttTask.
 
+    private IReadOnlyList<GanttMarker> MarkersIn(GanttColumn column)
+        => Markers.Where(m => RangesOverlap(column.Start, column.End, m.Date, m.Date)).ToList();
+
+    private static string? MarkerKinds(IReadOnlyList<GanttMarker> markers)
+        => markers.Count == 0 ? null : string.Join(" ", markers.Select(m => m.Kind ?? "marker"));
+
+    private bool IsNonWorkingColumn(GanttColumn column)
+    {
+        if (IsNonWorking is null) return false;
+        for (var d = column.Start; CompareIso(d, column.End) <= 0; d = AddDays(d, 1))
+        {
+            if (!IsNonWorking(d)) return false;
+        }
+        return true;
+    }
+
     private async Task OnCellDropAsync(GanttColumn column, DragEventArgs _)
     {
+        if (Readonly) return;
         var taskId = _draggingTaskId;
         _draggingTaskId = null;
         var task = Tasks.FirstOrDefault(t => t.Id == taskId);

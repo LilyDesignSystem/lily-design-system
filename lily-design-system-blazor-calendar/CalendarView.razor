@@ -1,0 +1,149 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+
+@*
+    CalendarView — Blazor helper component.
+    Single source of truth: the canonical Svelte spec
+    (lily-design-system-svelte-calendar/spec/index.md); see this package's
+    own spec/index.md for the Blazor differences.
+
+    Composes the headless CalendarTable family unmodified, plus the sibling
+    DateTimePicker helper's static civil-date arithmetic. WAI-ARIA APG Grid
+    roving-tabindex keyboard model, hand-rolled via AdditionalAttributes
+    splatting (CalendarTableTD has no Selected/Today parameter in this
+    catalog; tabindex, aria-selected and aria-current are ordinary
+    attributes that flow through its @attributes).
+*@
+
+<div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
+    @if (Labels.WeekView is not null || Labels.FourWeekView is not null || Labels.MonthView is not null)
+    {
+        <div class="calendar-view-toolbar">
+            <div class="calendar-view-switcher" role="group">
+                @if (Labels.WeekView is not null)
+                {
+                    <button type="button"
+                            class="calendar-view-switcher-button calendar-view-switcher-button-week"
+                            aria-pressed="@(View == CalendarViewMode.Week ? "true" : "false")"
+                            @onclick="@(() => SetViewAsync(CalendarViewMode.Week))">@Labels.WeekView</button>
+                }
+                @if (Labels.FourWeekView is not null)
+                {
+                    <button type="button"
+                            class="calendar-view-switcher-button calendar-view-switcher-button-four-week"
+                            aria-pressed="@(View == CalendarViewMode.FourWeek ? "true" : "false")"
+                            @onclick="@(() => SetViewAsync(CalendarViewMode.FourWeek))">@Labels.FourWeekView</button>
+                }
+                @if (Labels.MonthView is not null)
+                {
+                    <button type="button"
+                            class="calendar-view-switcher-button calendar-view-switcher-button-month"
+                            aria-pressed="@(View == CalendarViewMode.Month ? "true" : "false")"
+                            @onclick="@(() => SetViewAsync(CalendarViewMode.Month))">@Labels.MonthView</button>
+                }
+            </div>
+            <div class="calendar-view-nav">
+                <button type="button"
+                        class="calendar-view-previous-button"
+                        aria-label="@Labels.Previous?.Invoke(View)"
+                        @onclick="@(() => StepViewAsync(-1))">&#8249;</button>
+                @if (Labels.Today is not null)
+                {
+                    <button type="button"
+                            class="calendar-view-today-button"
+                            disabled="@string.IsNullOrEmpty(Today)"
+                            @onclick="GoTodayAsync">@Labels.Today</button>
+                }
+                <button type="button"
+                        class="calendar-view-next-button"
+                        aria-label="@Labels.Next?.Invoke(View)"
+                        @onclick="@(() => StepViewAsync(1))">&#8250;</button>
+            </div>
+        </div>
+    }
+
+    <CalendarTable Label="@Label" CssClass="calendar-view-table" @onkeydown="OnGridKeyDownAsync">
+        <CalendarTableHead>
+            <CalendarTableRow>
+                @for (var i = 0; i < 7; i++)
+                {
+                    var weekday = (FirstDay + i) % 7;
+                    <CalendarTableTH scope="col">
+                        @if (Labels.WeekdayAbbr is not null)
+                        {
+                            <abbr title="@(Labels.Weekday?.Invoke(weekday) ?? Labels.WeekdayAbbr(weekday))">@Labels.WeekdayAbbr(weekday)</abbr>
+                        }
+                        else if (Labels.Weekday is not null)
+                        {
+                            @Labels.Weekday(weekday)
+                        }
+                    </CalendarTableTH>
+                }
+            </CalendarTableRow>
+        </CalendarTableHead>
+        <CalendarTableBody>
+            @{
+                var weeks = Days;
+                var eventMap = EventsByDay(Events);
+                var cursor = EffectiveCursor(weeks);
+            }
+            @foreach (var week in weeks)
+            {
+                <CalendarTableRow>
+                    @foreach (var date in week)
+                    {
+                        var d = date;
+                        var outside = IsOutsidePeriod(View, d, AnchorDate);
+                        var isToday = !string.IsNullOrEmpty(Today) && d == Today;
+                        var disabled = IsDisabledDay(d);
+                        var picked = SelectedDate == d;
+                        var dayEvents = eventMap.TryGetValue(d, out var list) ? list : (IReadOnlyList<CalendarEvent>)Array.Empty<CalendarEvent>();
+                        var isCursor = d == cursor;
+                        <CalendarTableTD id="@CellId(d)"
+                                         Label="@Labels.Day?.Invoke(d, DateTimePicker.WeekdayOf(d), outside)"
+                                         tabindex="@(isCursor ? "0" : "-1")"
+                                         aria-selected="@(isCursor ? "true" : null)"
+                                         aria-current="@(isToday ? "date" : null)"
+                                         aria-disabled="@(disabled ? "true" : null)"
+                                         data-date="@d"
+                                         data-outside-period="@(outside ? "" : null)"
+                                         data-selected="@(picked ? "" : null)"
+                                         data-disabled="@(disabled ? "" : null)"
+                                         @onclick="@(() => OnDayCellClickAsync(d))">
+                            @if (Day is not null)
+                            {
+                                @Day(new CalendarDayContext
+                                {
+                                    Date = d,
+                                    Events = dayEvents,
+                                    IsToday = isToday,
+                                    OutsidePeriod = outside,
+                                    Selected = picked,
+                                    Disabled = disabled,
+                                    OpenEvent = OpenEventAsync,
+                                })
+                            }
+                            else
+                            {
+                                @DateTimePicker.ParseIsoDate(d)?.Day
+                                @foreach (var calendarEvent in dayEvents)
+                                {
+                                    var ev = calendarEvent;
+                                    @if (!string.IsNullOrEmpty(ev.Title))
+                                    {
+                                        <button type="button"
+                                                class="calendar-view-event"
+                                                @onclick="@(() => OpenEventAsync(ev))"
+                                                @onclick:stopPropagation="true">@ev.Title</button>
+                                    }
+                                }
+                            }
+                        </CalendarTableTD>
+                    }
+                </CalendarTableRow>
+            }
+        </CalendarTableBody>
+    </CalendarTable>
+
+    <div class="calendar-view-status" aria-live="polite">@_statusMessage</div>
+</div>

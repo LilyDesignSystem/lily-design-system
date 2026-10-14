@@ -622,6 +622,7 @@ updates:
       - "/lily-design-system-blazor-text-size-picker/tests"
       - "/lily-design-system-blazor-theme-picker/tests"
       - "/lily-design-system-blazor-gantt-chart/tests"
+      - "/lily-design-system-blazor-calendar/tests"
       - "/lily-design-system-blazor-picker-bar/tests"
     schedule:
       interval: "weekly"

@@ -179,6 +179,7 @@ The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/
 - [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker) — `@lilydesignsystem/blazor-text-size-picker`
 - [`lily-design-system-blazor-theme-picker`](../lily-design-system-blazor-theme-picker) — `@lilydesignsystem/blazor-theme-picker`
 - [`lily-design-system-blazor-gantt-chart`](../lily-design-system-blazor-gantt-chart) — `@lilydesignsystem/blazor-gantt-chart`
+- [`lily-design-system-blazor-calendar`](../lily-design-system-blazor-calendar) — `@lilydesignsystem/blazor-calendar`
 - [`lily-design-system-blazor-picker-bar`](../lily-design-system-blazor-picker-bar) — `@lilydesignsystem/blazor-picker-bar`
 
 ## Reference themes

@@ -451,3 +451,120 @@ public class KanbanBoardTests : TestContext
             .Select(i => ((ElementReference)i.Arguments[0]!).Id)
             .ToList();
 }
+
+public class KanbanBoardInteractionTests : TestContext
+{
+    private static readonly IReadOnlyList<KanbanColumn> Columns = new[]
+    {
+        new KanbanColumn { Id = "todo", Title = "To Do" },
+        new KanbanColumn { Id = "doing", Title = "In Progress", WipLimit = 1 },
+        new KanbanColumn { Id = "done", Title = "Done" },
+    };
+
+    private static readonly IReadOnlyList<KanbanCard> Cards = new[]
+    {
+        new KanbanCard { Id = "c1", ColumnId = "todo", Title = "Card One" },
+        new KanbanCard { Id = "c2", ColumnId = "todo", Title = "Card Two" },
+        new KanbanCard { Id = "c3", ColumnId = "doing", Title = "Card Three" },
+        new KanbanCard { Id = "c4", ColumnId = "doing", Title = "Card Four" },
+    };
+
+    private static readonly KanbanLabels BaseLabels = new()
+    {
+        MoveButton = card => $"Move {card.Title}",
+        MoveMenuLabel = "Move to column",
+        MoveAnnouncement = (title, column) => $"{title} moved to {column}",
+        MoveBlocked = (title, column) => $"{title} cannot go to {column}",
+        ReorderAnnouncement = (title, position, total) => $"{title} is {position} of {total}",
+    };
+
+    public KanbanBoardInteractionTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
+    }
+
+    private IRenderedComponent<KanbanBoard> Render(Action<ComponentParameterCollectionBuilder<KanbanBoard>>? configure = null)
+        => RenderComponent<KanbanBoard>(p =>
+        {
+            p.Add(x => x.Label, "Sprint board");
+            p.Add(x => x.Columns, Columns);
+            p.Add(x => x.Cards, Cards);
+            p.Add(x => x.Labels, BaseLabels);
+            configure?.Invoke(p);
+        });
+
+    private static AngleSharp.Dom.IElement Tabbable(IRenderedComponent<KanbanBoard> cut)
+        => cut.FindAll(".kanban-table-td[tabindex='0']").Single();
+
+    [Fact]
+    public void Section_8_17_Alt_ArrowDown_Reorders_Within_The_Column_And_Announces_It()
+    {
+        (string, int)? captured = null;
+        var cut = Render(p => p.Add(x => x.OnReorder, EventCallback.Factory.Create<(string, int)>(this, a => captured = a)));
+
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "ArrowDown", AltKey = true });
+
+        Assert.Equal(("c1", 1), captured);
+        Assert.Equal("Card One is 2 of 2", cut.Find(".kanban-board-status").TextContent);
+    }
+
+    [Fact]
+    public void Section_8_18_Alt_Arrow_At_The_Column_Edge_Does_Not_Reorder()
+    {
+        (string, int)? captured = null;
+        var cut = Render(p => p.Add(x => x.OnReorder, EventCallback.Factory.Create<(string, int)>(this, a => captured = a)));
+
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "ArrowUp", AltKey = true });
+
+        Assert.Null(captured);
+    }
+
+    [Fact]
+    public async Task Section_8_19_CanMove_Refuses_A_Move_With_An_Announcement_And_An_Aria_Disabled_Option()
+    {
+        (string, string)? moved = null;
+        var cut = Render(p =>
+        {
+            p.Add(x => x.CanMove, (card, column) => column.Id != "done");
+            p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a));
+        });
+
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var done = cut.FindAll("li.kanban-board-move-option").Single(o => o.TextContent.Trim() == "Done");
+        Assert.Equal("true", done.GetAttribute("aria-disabled"));
+        await done.ClickAsync(new MouseEventArgs());
+
+        Assert.Null(moved);
+        Assert.Equal("Card One cannot go to Done", cut.Find(".kanban-board-status").TextContent);
+    }
+
+    [Fact]
+    public void Section_8_20_Readonly_Renders_No_Move_Button_Menu_Drag_Or_Reorder()
+    {
+        (string, int)? captured = null;
+        var cut = Render(p =>
+        {
+            p.Add(x => x.Readonly, true);
+            p.Add(x => x.OnReorder, EventCallback.Factory.Create<(string, int)>(this, a => captured = a));
+        });
+
+        Assert.Empty(cut.FindAll(".kanban-board-move-button"));
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(cut.FindAll("ul.kanban-board-move-list"));
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "ArrowDown", AltKey = true });
+        Assert.Null(captured);
+        Assert.Empty(cut.FindAll("[draggable='true']"));
+        Assert.True(cut.Find("div.kanban-board").HasAttribute("data-readonly"));
+    }
+
+    [Fact]
+    public void Section_8_21_Readonly_Keeps_Arrow_Key_Navigation()
+    {
+        var cut = Render(p => p.Add(x => x.Readonly, true));
+
+        Tabbable(cut).KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+
+        Assert.Equal("1", Tabbable(cut).GetAttribute("data-col"));
+    }
+}

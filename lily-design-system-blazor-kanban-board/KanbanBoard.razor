@@ -28,7 +28,7 @@
     components themselves. See CHANGELOG.md for the full reasoning.
 *@
 
-<div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
+<div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
     <KanbanTable Label="@Label" role="grid" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
@@ -91,13 +91,13 @@
                                    of two equally-real move paths, not the accessible
                                    one — see the move-button/listbox below for that. *@
                                 <span class="kanban-board-card-title"
-                                      draggable="true"
+                                      draggable="@(Readonly ? null : "true")"
                                       @ondragstart="@(e => OnCardDragStart(currentCard, e))">
                                     @ResolveCardLabel(currentCard)
                                 </span>
                                 @* Gated on Labels.MoveButton: an unnamed button is worse than
                                    none, and Enter/Space on the cell opens the menu either way. *@
-                                @if (Labels.MoveButton is not null)
+                                @if (Labels.MoveButton is not null && !Readonly)
                                 {
                                     <IconButton @ref="_moveButtonComponents[currentCard.Id]"
                                                 BaseCssClass="kanban-board-move-button"
@@ -130,6 +130,7 @@
                                                 id="@MoveOptionId(destinationIndex)"
                                                 role="option"
                                                 aria-selected="@(destination.Id == currentCard.ColumnId ? "true" : "false")"
+                                                aria-disabled="@(IsRefused(currentCard, destination) ? "true" : null)"
                                                 data-active="@(destinationIndex == _moveActiveIndex ? "" : null)"
                                                 @onclick="@(() => MoveCardAsync(currentCard, destination))">
                                                 @destination.Title
