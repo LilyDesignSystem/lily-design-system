@@ -597,3 +597,33 @@ describe("CalendarView — event drag-and-drop (§8.38–§8.41)", () => {
         expect(onEventMove).not.toHaveBeenCalled();
     });
 });
+
+describe("CalendarView — period title and hideOutsideDays (§8.42–§8.45)", () => {
+    const month = { label: "Appointments", view: "month" as const, anchorDate: "2026-01-15" };
+    const title = (v: string, s: string, e: string) => `${v}:${s}..${e}`;
+
+    test("§8.42 labels.periodTitle renders the shown period's title, updating on navigation", async () => {
+        render(CalendarView, { props: { ...month, labels: { ...LABELS, periodTitle: title } } });
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-01-01..2026-01-31");
+        await fireEvent.click(screen.getByRole("button", { name: LABELS.next!("month") }));
+        expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-02-01..2026-02-28");
+    });
+
+    test("§8.43 no title without labels.periodTitle", () => {
+        render(CalendarView, { props: { ...month, labels: LABELS } });
+        expect(document.querySelector(".calendar-view-title")).toBeNull();
+    });
+
+    test("§8.44 hideOutsideDays leaves outside cells empty but keeps them in the grid", () => {
+        render(CalendarView, { props: { ...month, hideOutsideDays: true } });
+        const outside = document.querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!;
+        expect(outside.textContent?.trim()).toBe("");
+        expect(cellFor("2026-01-15")!.textContent?.trim()).toBe("15");
+        expect(dayCells()).toHaveLength(42);
+    });
+
+    test("§8.45 by default outside days show their number", () => {
+        render(CalendarView, { props: month });
+        expect(document.querySelector<HTMLElement>(".calendar-table-td[data-outside-period]")!.textContent?.trim()).not.toBe("");
+    });
+});

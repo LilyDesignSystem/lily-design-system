@@ -505,3 +505,36 @@ describe("KanbanBoard — drop position (§8.35–§8.38)", () => {
         expect(onMove).not.toHaveBeenCalled();
     });
 });
+
+describe("KanbanBoard — locked cards (§8.39–§8.43)", () => {
+    const cards: KanbanCard[] = CARDS.map((c) => (c.id === "c1" ? { ...c, locked: true } : c));
+    const base = { label: "Sprint board", columns: COLUMNS, cards, labels: LABELS };
+    const cell = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+
+    test("§8.39 a locked card's cell carries data-locked, has no move button and is not draggable", () => {
+        render(KanbanBoard, { props: base });
+        expect(cell(0, 0).hasAttribute("data-locked")).toBe(true);
+        expect(cell(0, 0).querySelector(".kanban-board-move-button")).toBeNull();
+        expect(cell(0, 0).querySelector("[draggable]")).toBeNull();
+        expect(cell(1, 0).querySelector(".kanban-board-move-button")).toBeTruthy();
+        expect(cell(1, 0).querySelector("[draggable='true']")).toBeTruthy();
+    });
+
+    test("§8.40 Enter on a locked card opens no menu; Alt+Arrow does not reorder it", async () => {
+        const onReorder = vi.fn();
+        render(KanbanBoard, { props: { ...base, onReorder } });
+        await fireEvent.keyDown(cell(0, 0), { key: "Enter" });
+        expect(document.querySelector('[role="listbox"]')).toBeNull();
+        await fireEvent.keyDown(cell(0, 0), { key: "ArrowDown", altKey: true });
+        expect(onReorder).not.toHaveBeenCalled();
+    });
+
+    test("§8.41 other cards still move normally", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove } });
+        await fireEvent.focusIn(cell(1, 0));
+        await fireEvent.keyDown(cell(1, 0), { key: "Enter" });
+        await fireEvent.click(screen.getByRole("option", { name: "Done" }));
+        expect(onMove).toHaveBeenCalledWith("c2", "done");
+    });
+});

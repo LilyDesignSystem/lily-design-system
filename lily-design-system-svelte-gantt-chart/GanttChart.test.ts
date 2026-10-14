@@ -627,3 +627,38 @@ describe("GanttChart — drag-resize handles (§14.5–§14.8)", () => {
         expect(document.querySelector(".gantt-chart-bar-handle")).toBeNull();
     });
 });
+
+describe("GanttChart — task selection (§14.9–§14.12)", () => {
+    const base = { label: "Q4 plan", range: RANGE, tasks: TASKS };
+
+    test("§14.9 clicking a task's row selects it: aria-selected and data-selected, and onTaskSelect fires", async () => {
+        const onTaskSelect = vi.fn();
+        render(GanttChart, { props: { ...base, onTaskSelect } });
+        await fireEvent.click(rows()[1].querySelectorAll(".gantt-table-td")[0]);
+        expect(rows()[1].getAttribute("aria-selected")).toBe("true");
+        expect(rows()[1].hasAttribute("data-selected")).toBe(true);
+        expect(onTaskSelect).toHaveBeenCalledWith("build");
+    });
+
+    test("§14.10 clicking the selected row again deselects and reports undefined", async () => {
+        const onTaskSelect = vi.fn();
+        render(GanttChart, { props: { ...base, onTaskSelect } });
+        const c = rows()[1].querySelectorAll(".gantt-table-td")[0];
+        await fireEvent.click(c);
+        await fireEvent.click(c);
+        expect(rows()[1].hasAttribute("data-selected")).toBe(false);
+        expect(onTaskSelect).toHaveBeenLastCalledWith(undefined);
+    });
+
+    test("§14.11 the s key selects the task under the cursor; other rows are unselected", async () => {
+        render(GanttChart, { props: base });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "s" });
+        expect(rows()[0].getAttribute("aria-selected")).toBe("true");
+        expect(rows()[1].hasAttribute("aria-selected")).toBe(false);
+    });
+
+    test("§14.12 selectedTaskId starts a row selected", () => {
+        render(GanttChart, { props: { ...base, selectedTaskId: "launch" } });
+        expect(rows()[2].hasAttribute("data-selected")).toBe(true);
+    });
+});

@@ -28,6 +28,8 @@
         columnId: string;
         /** Visible card title. */
         title: string;
+        /** A locked card cannot be moved, dragged or reordered (`data-locked` on its cell); it still counts toward WIP limits and can be navigated to. */
+        locked?: boolean;
     };
 
     /**
@@ -195,7 +197,7 @@
     }
 
     function moveCard(card: KanbanCard, toColumn: KanbanColumn, toIndex?: number): void {
-        if (readonly) return;
+        if (readonly || card.locked) return;
         if (isRefused(card, toColumn)) {
             announce(labels.moveBlocked?.(cardLabel(card), toColumn.title));
             closeMoveMenu(card.id);
@@ -210,7 +212,7 @@
     }
 
     async function openMoveMenu(card: KanbanCard): Promise<void> {
-        if (readonly) return;
+        if (readonly || card.locked) return;
         openCardId = card.id;
         const currentIndex = columns.findIndex((c) => c.id === card.columnId);
         moveActiveIndex = currentIndex >= 0 ? currentIndex : 0;
@@ -251,6 +253,10 @@
     let draggingCardId: string | null = null;
 
     function onCardDragStart(card: KanbanCard, event: DragEvent): void {
+        if (card.locked) {
+            event.preventDefault();
+            return;
+        }
         draggingCardId = card.id;
         event.dataTransfer?.setData("text/plain", card.id);
     }
@@ -312,7 +318,7 @@
     function reorderCard(delta: 1 | -1): void {
         if (readonly) return;
         const card = cardAt(activeCol, activeRow);
-        if (!card) return;
+        if (!card || card.locked) return;
         const total = shownByColumn.get(card.columnId)?.length ?? 0;
         const toIndex = activeRow + delta;
         if (toIndex < 0 || toIndex >= total) return;
@@ -417,6 +423,7 @@
                             data-row={rowIndex}
                             data-col={colIndex}
                             data-card-id={card?.id}
+                            data-locked={card?.locked ? "" : undefined}
                             data-collapsed={isCollapsed(column.id) ? "" : undefined}
                             active={activeRow === rowIndex && activeCol === colIndex}
                             label={card ? cardLabel(card) : undefined}
@@ -435,14 +442,14 @@
                                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                                 <span
                                     class="kanban-board-card-title"
-                                    draggable={readonly ? undefined : "true"}
+                                    draggable={readonly || card.locked ? undefined : "true"}
                                     ondragstart={(e: DragEvent) => onCardDragStart(card, e)}
                                 >
                                     {cardLabel(card)}
                                 </span>
                                 <!-- Gated on labels.moveButton: an unnamed button is worse than
                                      none, and Enter/Space on the cell opens the menu either way. -->
-                                {#if labels.moveButton && !readonly}
+                                {#if labels.moveButton && !readonly && !card.locked}
                                     <IconButton
                                         baseClass="kanban-board-move-button"
                                         label={labels.moveButton(card)}

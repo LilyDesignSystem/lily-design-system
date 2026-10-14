@@ -90,6 +90,10 @@
         tasks: GanttTask[];
         /** Column granularity. Bindable: the zoom buttons (shown when `labels.zoomIn` / `labels.zoomOut` name them) step it month ↔ week ↔ day. */
         timeUnit?: GanttTimeUnit;
+        /** The selected task's id. Bindable. A click on a task's row or the `s` key on it selects (a second one deselects); the row gets `aria-selected` and `data-selected`. Parent rows can be selected too. */
+        selectedTaskId?: string;
+        /** Called with the task id when selection changes, or `undefined` when it clears. */
+        onTaskSelect?: (taskId: string | undefined) => void;
         /** ISO date marking "today"; never computed internally (stays SSR-safe). */
         today?: string;
         /** Resolves a task to its display label. Defaults to `task.label`. */
@@ -267,6 +271,8 @@
         readonly = false,
         taskLabel = (task: GanttTask) => task.label,
         onTaskChange,
+        selectedTaskId = $bindable(undefined),
+        onTaskSelect = undefined,
         labels = {},
         ...restProps
     }: Props = $props();
@@ -471,6 +477,17 @@
     }
 
     /** The cursor follows focus however it arrives — a click, or a consumer's own focus(). */
+    function selectTask(taskId: string): void {
+        selectedTaskId = selectedTaskId === taskId ? undefined : taskId;
+        onTaskSelect?.(selectedTaskId);
+    }
+
+    function onGridClick(event: MouseEvent): void {
+        if ((event.target as HTMLElement).closest("button, input, .gantt-chart-edit-row")) return;
+        const taskId = (event.target as HTMLElement).closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
+        if (taskId) selectTask(taskId);
+    }
+
     function onGridFocusin(event: FocusEvent): void {
         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
@@ -515,6 +532,16 @@
                 if (ctrlOrMeta) moveFocus(rows.length - 1, columns.length - 1);
                 else moveFocus(activeRow, columns.length - 1);
                 break;
+            case "s":
+            case "S": {
+                if (event.ctrlKey || event.metaKey || event.altKey) break;
+                const row = rows[activeRow];
+                if (row && (event.target as HTMLElement).closest(".gantt-table-td")) {
+                    event.preventDefault();
+                    selectTask(row.task.id);
+                }
+                break;
+            }
             case "Enter":
             case " ": {
                 event.preventDefault();
@@ -537,7 +564,7 @@
             {/if}
         </div>
     {/if}
-    <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin}>
+    <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin} onclick={onGridClick}>
         <GanttTableThead>
             <GanttTableTr>
                 <GanttTableTH scope="col">{labels.taskColumnHeader ?? ""}</GanttTableTH>
@@ -566,6 +593,9 @@
                     data-task-type={row.task.type}
                     data-critical={row.task.critical ? "" : undefined}
                     data-slack={row.task.slack}
+                    data-task-id={row.task.id}
+                    aria-selected={selectedTaskId === row.task.id ? "true" : undefined}
+                    data-selected={selectedTaskId === row.task.id ? "" : undefined}
                 >
                     <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
                     <GanttTableTH scope="row" data-depth={row.depth}>

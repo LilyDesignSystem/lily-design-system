@@ -66,6 +66,8 @@
         weekNumber?: (week: number) => string;
         /** Announced as a range is extended with Shift+arrows or confirmed. */
         rangeAnnouncement?: (start: string, end: string) => string;
+        /** Visible title of the shown period (e.g. "January 2026"), rendered between the previous and next buttons. Gates the title. */
+        periodTitle?: (view: CalendarView, start: string, end: string) => string;
         /** Announced after an event is moved to another day. */
         eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
     };
@@ -81,6 +83,8 @@
         events?: CalendarEvent[];
         /** Cap on events shown per day: the day snippet gets `visibleEvents` (the first `maxEvents`) and `hiddenCount` for a "+N more" control. */
         maxEvents?: number;
+        /** Month view: leave days outside the shown month empty (no number, no events; the cell keeps `data-outside-period`). */
+        hideOutsideDays?: boolean;
         /** Called when an event is moved to another day, by pointer drag-and-drop or Alt+arrow keys (a day, or a week with Up/Down) on a focused event element. The consumer updates `events`. Setting it turns the drag-and-drop on. */
         onEventMove?: (calendarEvent: CalendarEvent, toDate: string) => void;
         /** ISO date marking "today"; never computed internally (stays SSR-safe). */
@@ -220,6 +224,7 @@
         anchorDate = $bindable(),
         events = [],
         maxEvents = undefined,
+        hideOutsideDays = false,
         onEventMove = undefined,
         today = undefined,
         selectedDate = $bindable(undefined),
@@ -340,6 +345,9 @@
         const calendarEvent = events.find((e) => e.id === id);
         if (calendarEvent) moveEventTo(calendarEvent, isoDate);
     }
+
+    const periodStart = $derived(periodRange(view, anchorDate, firstDayOfWeek)[0]);
+    const periodEnd = $derived(periodRange(view, anchorDate, firstDayOfWeek)[1]);
 
     function announce(): void {
         if (!labels?.periodAnnouncement) return;
@@ -515,7 +523,7 @@
 
 <!-- CalendarView.svelte -->
 <div bind:this={rootEl} class={`calendar-view ${className}`.trim()} {...restProps}>
-    {#if labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView}
+    {#if labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView}
         <div class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
                 {#if labels?.dayView}
@@ -558,6 +566,9 @@
                     aria-label={labels?.previous?.(view)}
                     onclick={() => stepView(-1)}
                 >‹</button>
+                {#if labels?.periodTitle}
+                    <span class="calendar-view-title">{labels.periodTitle(view, periodStart, periodEnd)}</span>
+                {/if}
                 {#if labels?.today}
                     <button
                         type="button"
@@ -627,7 +638,9 @@
                             ondragover={onDayDragOver}
                             ondrop={(e: DragEvent) => onDayDrop(d, e)}
                         >
-                            {#if day}
+                            {#if hideOutsideDays && outside}
+                                <!-- a hidden outside day stays an empty, focusable cell -->
+                            {:else if day}
                                 {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent, eventProps })}
                             {:else}
                                 {parseIsoDate(d)?.day}
