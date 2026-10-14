@@ -292,3 +292,7 @@ control), macro + client.js architecture throughout.
 ## Svelte 0.2.0 parity (2026-10-14)
 
 Ported from the Svelte canonical spec (§8.17–§8.21 there): `readonly`, `canMove` with `labels.moveBlocked`, and Alt+ArrowUp/Down reorder via `onReorder(cardId, toIndex)` with `labels.reorderAnnouncement`. See the Svelte spec for the contract and the SVAR survey (§11).
+
+## Svelte 0.3.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§12 there; clauses §8.22–§8.30): collapsible columns (`collapsedColumns`, `labels.collapseColumn`), add-card buttons (`labels.addCard`, `onAddCard`) and hard limits (`column.strictLimit`).

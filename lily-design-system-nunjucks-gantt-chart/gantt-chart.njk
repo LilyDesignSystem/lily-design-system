@@ -130,6 +130,21 @@
   Task data hooks: a task's `type`, `critical` and `slack` become
   `data-task-type`, `data-critical` and `data-slack` on its row.
 
+  Round 2 — progress field, baselines, typed dependencies:
+    - tasks[].baseline = {start, end}: rendered as data-lily-gantt-chart-baseline-
+      start/-end on the row; the client marks the cells it covers with
+      data-baseline and, when `labels.baselineSummary(taskLabel, baseline,
+      varianceDays)` is given as a client init option, adds a hidden summary
+      span that describes the row's cells (variance needs date arithmetic, so
+      it is client-side, like columnLabel).
+    - tasks[].dependsOn entries are an id string or {id, type?, lag?}.
+      `labels.dependencyDetail` is a template string with {predecessor},
+      {type}, {lag}; a typed dependency uses it, an id string keeps the plain
+      predecessor label (type defaults to e2s, lag to 0).
+    - labels.percentLabel (plain string) adds a 0–100 number field to the edit
+      region, starting at the task's percentComplete; Save passes the clamped,
+      rounded value as onTaskChange's 4th argument (only when the field shows).
+
   Params (single `opts` object):
     readonly    — boolean. Disable editing and drag; navigation stays.
     label       — string, required. aria-label for the grid table.
@@ -204,7 +219,7 @@
   id: endName
 }) -%}
 <tr class="gantt-chart-edit-row" hidden data-lily-gantt-chart-edit-row data-lily-gantt-chart-task-id="{{ task.id }}" data-lily-gantt-chart-original-start="{{ task.start }}" data-lily-gantt-chart-original-end="{{ task.end }}">
-<td>{{ startHtml | safe }}{{ endHtml | safe }}<button type="button" class="gantt-chart-save-button" data-lily-gantt-chart-save-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.saveLabel | default("") }}</button><button type="button" class="gantt-chart-cancel-button" data-lily-gantt-chart-cancel-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.cancelLabel | default("") }}</button></td>
+<td>{{ startHtml | safe }}{{ endHtml | safe }}{%- if labels.percentLabel %}<label class="gantt-chart-percent-label">{{ labels.percentLabel }}<input class="gantt-chart-percent-input" type="number" min="0" max="100" step="1" value="{{ task.percentComplete if task.percentComplete is defined and task.percentComplete is not none else '' }}" data-lily-gantt-chart-percent-input></label>{% endif -%}<button type="button" class="gantt-chart-save-button" data-lily-gantt-chart-save-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.saveLabel | default("") }}</button><button type="button" class="gantt-chart-cancel-button" data-lily-gantt-chart-cancel-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.cancelLabel | default("") }}</button></td>
 </tr>
 {%- endmacro -%}
 
@@ -278,6 +293,7 @@
 ] -%}
 {%- if hasChildren -%}{%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-has-children", ""]]) -%}{%- endif -%}
 {%- if task.type -%}{%- set rowAttrs = rowAttrs.concat([["data-task-type", task.type]]) -%}{%- endif -%}
+{%- if task.baseline -%}{%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-baseline-start", task.baseline.start], ["data-lily-gantt-chart-baseline-end", task.baseline.end]]) -%}{%- endif -%}
 {%- if task.critical -%}{%- set rowAttrs = rowAttrs.concat([["data-critical", ""]]) -%}{%- endif -%}
 {%- if task.slack is defined and task.slack is not none -%}{%- set rowAttrs = rowAttrs.concat([["data-slack", task.slack]]) -%}{%- endif -%}
 {%- if task.percentComplete is defined and task.percentComplete is not none -%}
@@ -312,9 +328,18 @@
     {%- endfor -%}
     {%- set deps = [] -%}
     {%- if task.dependsOn -%}
-      {%- for depId in task.dependsOn -%}
+      {%- for dep in task.dependsOn -%}
+        {%- set typed = dep.id is defined -%}
+        {%- set depId = dep.id if typed else dep -%}
         {%- for t3 in tasks -%}
-          {%- if t3.id == depId -%}{%- set deps = deps.concat([t3.label]) -%}{%- endif -%}
+          {%- if t3.id == depId -%}
+            {%- if typed and labels.dependencyDetail -%}
+              {%- set depText = labels.dependencyDetail | replace("{predecessor}", t3.label) | replace("{type}", dep.type | default("e2s")) | replace("{lag}", dep.lag | default(0)) -%}
+            {%- else -%}
+              {%- set depText = t3.label -%}
+            {%- endif -%}
+            {%- set deps = deps.concat([depText]) -%}
+          {%- endif -%}
         {%- endfor -%}
       {%- endfor -%}
     {%- endif -%}

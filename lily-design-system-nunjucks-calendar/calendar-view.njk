@@ -27,7 +27,10 @@
     labels.previous(view), labels.next(view), labels.periodAnnouncement,
     labels.weekday, labels.weekdayAbbr, labels.day.
   Plain strings stay macro params: labels.weekView / fourWeekView /
-  monthView / today. `labels.previousLabel` / `labels.nextLabel` are
+  monthView / today / weekNumberHeader.
+  Range options are client init options too: ranges (marked ranges, each day
+  inside gets data-range="{kind}"), selectedRange, onRangeSelect, and
+  labels.weekNumber(week) / labels.rangeAnnouncement(start, end). `labels.previousLabel` / `labels.nextLabel` are
   fixed strings naming the two arrows before hydration; once the client
   runs, `labels.previous(view)` / `labels.next(view)` replace them.
 
@@ -39,6 +42,8 @@
     today       — ISO date; never computed here (SSR-safe).
     minDate, maxDate — ISO dates bounding what can be picked.
     locale      — BCP 47, picks the first day of the week.
+    showWeekNumbers — boolean. Add an ISO week-number column (a row header per
+                  week); `labels.weekNumberHeader` is its header text.
     labels      — object, see above. Every field optional; each gates
                   the control it names.
     name        — string, default "calendar". Discriminator for ids.
@@ -79,6 +84,8 @@
   {%- if opts.minDate %} data-lily-calendar-view-min-date="{{ opts.minDate }}"{% endif %}
   {%- if opts.maxDate %} data-lily-calendar-view-max-date="{{ opts.maxDate }}"{% endif %}
   {%- if opts.locale %} data-lily-calendar-view-locale="{{ opts.locale }}"{% endif %}
+  {%- if opts.showWeekNumbers %} data-lily-calendar-view-show-week-numbers{% endif %}
+  {%- if opts.showWeekNumbers and labels.weekNumberHeader %} data-lily-calendar-view-week-number-header="{{ labels.weekNumberHeader }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 {%- if labels.weekView or labels.fourWeekView or labels.monthView %}

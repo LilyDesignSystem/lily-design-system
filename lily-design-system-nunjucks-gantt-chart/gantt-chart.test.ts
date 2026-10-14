@@ -752,3 +752,97 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
     expect(collapseButtonFor(root, "parent").getAttribute("aria-expanded")).toBe("false");
   });
 });
+
+describe("gantt-chart — progress field, baselines, typed dependencies", () => {
+  const cellsOf = (root: HTMLElement, i: number) =>
+    Array.from(rows(root)[i].querySelectorAll<HTMLElement>(".gantt-table-td"));
+  const percentLabels = { ...LABELS, percentLabel: "Percent complete" };
+  const percentInput = (root: HTMLElement) =>
+    root.querySelector<HTMLInputElement>("[data-lily-gantt-chart-percent-input]");
+  const BASE_TASK = { id: "a", label: "A", start: "2026-10-04", end: "2026-10-06", baseline: { start: "2026-10-02", end: "2026-10-04" } };
+
+  test("percentLabel adds a progress field to the edit row; without it none renders", () => {
+    const a = setup({ labels: LABELS });
+    expect(percentInput(a.root)).toBeNull();
+    document.body.innerHTML = "";
+    const b = setup({ labels: percentLabels });
+    expect(percentInput(b.root)).toBeTruthy();
+    expect(percentInput(b.root)!.closest("label")!.textContent).toContain("Percent complete");
+  });
+
+  test("the progress field starts at the task's percentComplete and Save passes the new value as a 4th argument", () => {
+    const onTaskChange = vi.fn();
+    const { root } = setup({ labels: percentLabels }, { onTaskChange });
+    key(tabbableCells(root)[0], "ArrowDown");
+    key(tabbableCells(root)[0], "Enter");
+    const input = root.querySelector<HTMLInputElement>('[data-lily-gantt-chart-edit-row][data-lily-gantt-chart-task-id="build"] [data-lily-gantt-chart-percent-input]')!;
+    expect(input.value).toBe("40");
+    input.value = "75";
+    click(saveButtonFor(root, "build"));
+    expect(onTaskChange).toHaveBeenCalledWith("build", "2026-10-04", "2026-10-06", 75);
+  });
+
+  test("progress is clamped to 0–100", () => {
+    const onTaskChange = vi.fn();
+    const { root } = setup({ labels: percentLabels }, { onTaskChange });
+    key(tabbableCells(root)[0], "Enter");
+    root.querySelector<HTMLInputElement>('[data-lily-gantt-chart-edit-row][data-lily-gantt-chart-task-id="design"] [data-lily-gantt-chart-percent-input]')!.value = "250";
+    click(saveButtonFor(root, "design"));
+    expect(onTaskChange).toHaveBeenCalledWith("design", "2026-10-01", "2026-10-03", 100);
+  });
+
+  test("without percentLabel Save keeps the three-argument call", () => {
+    const onTaskChange = vi.fn();
+    const { root } = setup({ labels: LABELS }, { onTaskChange });
+    key(tabbableCells(root)[0], "Enter");
+    click(saveButtonFor(root, "design"));
+    expect(onTaskChange.mock.calls[0]).toHaveLength(3);
+  });
+
+  test("a baseline marks the cells it covers with data-baseline, apart from the current span", () => {
+    const { root } = setup({ tasks: [BASE_TASK] });
+    const withBaseline = cellsOf(root, 0).map((c, i) => (c.hasAttribute("data-baseline") ? i : -1)).filter((i) => i >= 0);
+    expect(withBaseline).toEqual([1, 2, 3]);
+    expect(cellsOf(root, 0)[3].hasAttribute("data-in-range")).toBe(true);
+    expect(cellsOf(root, 0)[1].hasAttribute("data-in-range")).toBe(false);
+  });
+
+  test("labels.baselineSummary renders hidden text with the slip in days, and describes the row's cells", () => {
+    const { root } = setup(
+      { tasks: [BASE_TASK] },
+      { labels: { baselineSummary: (t: string, b: { start: string; end: string }, v: number) => `${t}: planned ${b.start} to ${b.end}, ${v} days late` } },
+    );
+    const summary = root.querySelector<HTMLElement>(".gantt-chart-baseline-summary")!;
+    expect(summary.hidden).toBe(true);
+    expect(summary.textContent).toBe("A: planned 2026-10-02 to 2026-10-04, 2 days late");
+    expect(cellsOf(root, 0)[0].getAttribute("aria-describedby")).toContain(summary.id);
+  });
+
+  test("a task with no baseline has no baseline cells or summary", () => {
+    const { root } = setup({}, { labels: { baselineSummary: () => "x" } });
+    expect(root.querySelector("[data-baseline]")).toBeNull();
+    expect(root.querySelector(".gantt-chart-baseline-summary")).toBeNull();
+  });
+
+  test("typed dependencies go through the dependencyDetail template; untyped ones keep the predecessor's label", () => {
+    const { root } = setup({
+      tasks: [
+        { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
+        { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a", type: "s2s", lag: 2 }, "a"] },
+      ],
+      labels: { dependencySummary: "After: {predecessors}", dependencyDetail: "{predecessor} ({type}, lag {lag})" },
+    });
+    expect(root.querySelector(".gantt-chart-dependency-summary")!.textContent).toBe("After: Design (s2s, lag 2), Design");
+  });
+
+  test("a typed dependency without a lag or type defaults to e2s and 0", () => {
+    const { root } = setup({
+      tasks: [
+        { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
+        { id: "b", label: "Build", start: "2026-10-03", end: "2026-10-04", dependsOn: [{ id: "a" }] },
+      ],
+      labels: { dependencySummary: "{predecessors}", dependencyDetail: "{predecessor}/{type}/{lag}" },
+    });
+    expect(root.querySelector(".gantt-chart-dependency-summary")!.textContent).toBe("Design/e2s/0");
+  });
+});

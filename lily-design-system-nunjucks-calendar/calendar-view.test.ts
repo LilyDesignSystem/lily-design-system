@@ -338,3 +338,114 @@ describe("calendar-view — interaction", () => {
     expect(dayCells()).toHaveLength(14);
   });
 });
+
+describe("calendar-view — week numbers, marked ranges and range selection", () => {
+  const base = { view: "month", anchorDate: "2026-01-15", today: "2026-01-08" };
+  const rangeLabels = {
+    ...CLIENT_LABELS,
+    weekNumber: (n: number) => `Week ${n}`,
+    rangeAnnouncement: (s: string, e: string) => `Selected ${s} to ${e}`,
+  };
+  const shiftKey = (el: Element, k: string) => press(el, k, { shiftKey: true });
+  const shiftClick = (el: Element) =>
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, shiftKey: true }));
+
+  test("§8.22 showWeekNumbers adds a leading header and a row header per week with the ISO week number", () => {
+    setup({ ...base, showWeekNumbers: true, labels: { weekNumberHeader: "Wk" } }, { labels: rangeLabels });
+    expect(document.querySelector("[data-week-number-header]")!.textContent).toBe("Wk");
+    const rowHeaders = q("[data-week-number]");
+    expect(rowHeaders).toHaveLength(6);
+    const week2 = rowHeaders.find((h) => h.getAttribute("data-week-number") === "2")!;
+    expect(week2.textContent).toBe("2");
+    expect(week2.getAttribute("aria-label")).toBe("Week 2");
+    expect(week2.getAttribute("scope")).toBe("row");
+  });
+
+  test("§8.22 week numbers are off by default", () => {
+    setup(base);
+    expect(document.querySelector("[data-week-number]")).toBeNull();
+    expect(document.querySelector("[data-week-number-header]")).toBeNull();
+  });
+
+  test("§8.23 ranges mark each day inside with data-range={kind}", () => {
+    setup(base, { ranges: [{ start: "2026-01-05", end: "2026-01-07", kind: "holiday" }, { start: "2026-01-07", end: "2026-01-08" }] });
+    expect(cellFor("2026-01-05")!.getAttribute("data-range")).toBe("holiday");
+    expect(cellFor("2026-01-07")!.getAttribute("data-range")).toBe("holiday range");
+    expect(cellFor("2026-01-08")!.getAttribute("data-range")).toBe("range");
+    expect(cellFor("2026-01-09")!.hasAttribute("data-range")).toBe(false);
+  });
+
+  test("§8.24 Shift+ArrowRight extends a range from the cursor, marking data-in-range, start and end", () => {
+    setup(base, { labels: rangeLabels });
+    shiftKey(tabbable()[0], "ArrowRight");
+    shiftKey(tabbable()[0], "ArrowRight");
+    expect(cellFor("2026-01-15")!.hasAttribute("data-range-start")).toBe(true);
+    expect(cellFor("2026-01-17")!.hasAttribute("data-range-end")).toBe(true);
+    expect(cellFor("2026-01-16")!.hasAttribute("data-in-range")).toBe(true);
+    expect(cellFor("2026-01-18")!.hasAttribute("data-in-range")).toBe(false);
+    expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Selected 2026-01-15 to 2026-01-17");
+  });
+
+  test("§8.24 extending backwards orders the range", () => {
+    setup(base);
+    shiftKey(tabbable()[0], "ArrowLeft");
+    expect(cellFor("2026-01-14")!.hasAttribute("data-range-start")).toBe(true);
+    expect(cellFor("2026-01-15")!.hasAttribute("data-range-end")).toBe(true);
+  });
+
+  test("§8.25 Enter on an extended range calls onRangeSelect once and not onDayClick", () => {
+    const onRangeSelect = vi.fn();
+    const onDayClick = vi.fn();
+    setup(base, { onRangeSelect, onDayClick });
+    shiftKey(tabbable()[0], "ArrowRight");
+    press(tabbable()[0], "Enter");
+    expect(onRangeSelect).toHaveBeenCalledTimes(1);
+    expect(onRangeSelect).toHaveBeenCalledWith("2026-01-15", "2026-01-16");
+    expect(onDayClick).not.toHaveBeenCalled();
+  });
+
+  test("§8.26 a plain arrow after extending stops extending but keeps the range", () => {
+    setup(base);
+    shiftKey(tabbable()[0], "ArrowRight");
+    press(tabbable()[0], "ArrowRight");
+    expect(cellFor("2026-01-16")!.hasAttribute("data-range-end")).toBe(true);
+    expect(cellFor("2026-01-17")!.hasAttribute("data-in-range")).toBe(false);
+  });
+
+  test("§8.27 Escape clears the range", () => {
+    setup(base);
+    shiftKey(tabbable()[0], "ArrowRight");
+    press(tabbable()[0], "Escape");
+    expect(document.querySelector("[data-in-range]")).toBeNull();
+  });
+
+  test("§8.28 Shift+click picks a range from the cursor to the clicked day and confirms it", () => {
+    const onRangeSelect = vi.fn();
+    setup(base, { onRangeSelect });
+    shiftClick(cellFor("2026-01-20")!);
+    expect(onRangeSelect).toHaveBeenCalledWith("2026-01-15", "2026-01-20");
+    expect(cellFor("2026-01-18")!.hasAttribute("data-in-range")).toBe(true);
+  });
+
+  test("§8.29 a plain click after a range clears extension and picks that day", () => {
+    const onDayClick = vi.fn();
+    setup(base, { onDayClick });
+    shiftKey(tabbable()[0], "ArrowRight");
+    click(cellFor("2026-01-22")!);
+    expect(onDayClick).toHaveBeenCalledWith("2026-01-22");
+  });
+
+  test("§8.30 setRanges and setSelectedRange update the grid; renderDay receives inRange and ranges", () => {
+    const { controller } = setup(base, {
+      renderDay: (a: { inRange: boolean; ranges: Array<{ kind?: string }> }) => {
+        const i = document.createElement("i");
+        i.setAttribute("data-ctx", `${a.inRange}-${a.ranges.map((r) => r.kind).join(",")}`);
+        return i;
+      },
+    });
+    controller.setRanges([{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }]);
+    controller.setSelectedRange({ start: "2026-01-06", end: "2026-01-07" });
+    expect(cellFor("2026-01-06")!.querySelector("[data-ctx]")!.getAttribute("data-ctx")).toBe("true-holiday");
+    expect(cellFor("2026-01-07")!.hasAttribute("data-in-range")).toBe(true);
+  });
+});

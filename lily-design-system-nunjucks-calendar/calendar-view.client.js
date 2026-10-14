@@ -24,12 +24,14 @@ import {
   daysInMonth,
   firstDayOfWeekFor,
   formatIsoDate,
+  isoWeek,
   monthMatrix,
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/nunjucks-date-time-picker";
 
 const VIEWS = ["week", "four-week", "month"];
+const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
 
 /** Start of the week containing `isoDate`, for a given first-day-of-week (0 = Sunday). */
 export function weekStart(isoDate, firstDayOfWeek) {
@@ -108,22 +110,28 @@ export function eventsByDay(events) {
  * @param {{
  *   events?: Array<{ id: string, date?: string, start?: string, end?: string, [k: string]: unknown }>,
  *   isDisabled?: (isoDate: string) => boolean,
+ *   ranges?: Array<{ start: string, end: string, kind?: string, label?: string }>,
+ *   selectedRange?: { start: string, end: string },
+ *   onRangeSelect?: (start: string, end: string) => void,
  *   onNavigate?: (view: string, start: string, end: string) => void,
  *   onDayClick?: (isoDate: string) => void,
  *   onEventClick?: (event: object) => void,
  *   renderDay?: (args: { date: string, events: object[], isToday: boolean, outsidePeriod: boolean,
- *     selected: boolean, disabled: boolean, openEvent: (event: object) => void }) => Node,
+ *     selected: boolean, disabled: boolean, inRange: boolean, ranges: object[], openEvent: (event: object) => void }) => Node,
  *   labels?: {
  *     previous?: (view: string) => string, next?: (view: string) => string,
  *     periodAnnouncement?: (view: string, start: string, end: string) => string,
  *     weekday?: (weekday: number) => string, weekdayAbbr?: (weekday: number) => string,
  *     day?: (isoDate: string, weekday: number, outsidePeriod: boolean) => string,
+ *     weekNumber?: (week: number) => string,
+ *     rangeAnnouncement?: (start: string, end: string) => string,
  *   },
  * }=} opts
- * @returns {{ destroy: () => void, setEvents: (events: object[]) => void }}
+ * @returns {{ destroy: () => void, setEvents: (events: object[]) => void,
+ *   setRanges: (ranges: object[]) => void, setSelectedRange: (range?: { start: string, end: string }) => void }}
  */
 export function initCalendarView(root, opts = {}) {
-  const noop = { destroy: () => {}, setEvents: () => {} };
+  const noop = { destroy: () => {}, setEvents: () => {}, setRanges: () => {}, setSelectedRange: () => {} };
   if (typeof document === "undefined" || !root) return noop;
 
   const table = root.querySelector(".calendar-table");
@@ -136,6 +144,9 @@ export function initCalendarView(root, opts = {}) {
   let events = Array.isArray(opts.events) ? opts.events.slice() : [];
   let cursor = null;
   let focusPending = false;
+  let ranges = Array.isArray(opts.ranges) ? opts.ranges.slice() : [];
+  let selectedRange = opts.selectedRange ? { ...opts.selectedRange } : undefined;
+  let rangeAnchor = null;
 
   const attr = (name) => root.getAttribute(`data-lily-calendar-view-${name}`) || "";
   const setAttr = (name, value) => {
@@ -145,6 +156,7 @@ export function initCalendarView(root, opts = {}) {
   const view = () => (VIEWS.includes(attr("view")) ? attr("view") : "month");
   const today = () => attr("today");
   const anchorDate = () => attr("anchor-date") || today() || "1970-01-01";
+  const showWeekNumbers = () => root.hasAttribute("data-lily-calendar-view-show-week-numbers");
   const firstDay = () => firstDayOfWeekFor(attr("locale") || undefined);
 
   function isDisabledDay(isoDate) {
@@ -182,6 +194,26 @@ export function initCalendarView(root, opts = {}) {
     cursor = isoDate;
     setAttr("selected-date", isoDate);
     if (typeof opts.onDayClick === "function") opts.onDayClick(isoDate);
+  }
+
+  function setRange(a, b) {
+    const [start, end] = a <= b ? [a, b] : [b, a];
+    selectedRange = { start, end };
+    if (typeof labels.rangeAnnouncement === "function" && statusEl) {
+      statusEl.textContent = labels.rangeAnnouncement(start, end);
+    }
+  }
+
+  function confirmRange() {
+    if (!selectedRange) return;
+    rangeAnchor = null;
+    if (typeof opts.onRangeSelect === "function") opts.onRangeSelect(selectedRange.start, selectedRange.end);
+    root.dispatchEvent(new CustomEvent("rangeselect", { detail: { ...selectedRange }, bubbles: true }));
+  }
+
+  /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
+  function weekNumberOf(row) {
+    return isoWeek(row.find((d) => weekdayOf(d) === 4) || row[0]);
   }
 
   function openEvent(event) {
@@ -228,6 +260,14 @@ export function initCalendarView(root, opts = {}) {
     thead.replaceChildren();
     const headRow = document.createElement("tr");
     headRow.className = "calendar-table-row";
+    if (showWeekNumbers()) {
+      const th = document.createElement("th");
+      th.className = "calendar-table-th";
+      th.setAttribute("scope", "col");
+      th.setAttribute("data-week-number-header", "");
+      th.textContent = root.getAttribute("data-lily-calendar-view-week-number-header") || "";
+      headRow.appendChild(th);
+    }
     for (let i = 0; i < 7; i++) {
       const weekday = (firstDay() + i) % 7;
       const th = document.createElement("th");
@@ -249,11 +289,23 @@ export function initCalendarView(root, opts = {}) {
     days.forEach((week) => {
       const tr = document.createElement("tr");
       tr.className = "calendar-table-row";
+      if (showWeekNumbers()) {
+        const weekNo = weekNumberOf(week);
+        const th = document.createElement("th");
+        th.className = "calendar-table-th";
+        th.setAttribute("scope", "row");
+        th.setAttribute("data-week-number", String(weekNo));
+        if (typeof labels.weekNumber === "function") th.setAttribute("aria-label", labels.weekNumber(weekNo));
+        th.textContent = String(weekNo);
+        tr.appendChild(th);
+      }
       week.forEach((d) => {
         const outside = isOutsidePeriod(v, d, anchor);
         const isToday = !!todayIso && d === todayIso;
         const disabled = isDisabledDay(d);
         const picked = selected === d;
+        const inRange = !!selectedRange && d >= selectedRange.start && d <= selectedRange.end;
+        const dayRanges = ranges.filter((r) => d >= r.start && d <= r.end);
         const td = document.createElement("td");
         td.className = "calendar-table-td";
         td.setAttribute("role", "gridcell");
@@ -263,6 +315,10 @@ export function initCalendarView(root, opts = {}) {
         td.setAttribute("data-date", d);
         if (outside) td.setAttribute("data-outside-period", "");
         if (picked) td.setAttribute("data-selected", "");
+        if (inRange) td.setAttribute("data-in-range", "");
+        if (selectedRange && selectedRange.start === d) td.setAttribute("data-range-start", "");
+        if (selectedRange && selectedRange.end === d) td.setAttribute("data-range-end", "");
+        if (dayRanges.length) td.setAttribute("data-range", dayRanges.map((r) => r.kind || "range").join(" "));
         if (disabled) {
           td.setAttribute("data-disabled", "");
           td.setAttribute("aria-disabled", "true");
@@ -275,6 +331,8 @@ export function initCalendarView(root, opts = {}) {
           outsidePeriod: outside,
           selected: picked,
           disabled,
+          inRange,
+          ranges: dayRanges,
           openEvent,
         };
         td.appendChild(typeof opts.renderDay === "function" ? opts.renderDay(args) : defaultRenderDay(args));
@@ -357,6 +415,11 @@ export function initCalendarView(root, opts = {}) {
   function onGridKeydown(event) {
     const c = effectiveCursor(visibleDays());
     const offset = (weekdayOf(c) - firstDay() + 7) % 7;
+    const extending = event.shiftKey && MOVE_KEYS.has(event.key);
+    if (extending && rangeAnchor === null) {
+      rangeAnchor = attr("selected-date") && !selectedRange ? attr("selected-date") : c;
+    }
+    if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor = null;
     switch (event.key) {
       case "ArrowLeft":
         event.preventDefault();
@@ -393,9 +456,19 @@ export function initCalendarView(root, opts = {}) {
       case "Enter":
       case " ":
         event.preventDefault();
-        pick(c);
+        if (rangeAnchor !== null && selectedRange) confirmRange();
+        else pick(c);
         focusPending = true;
         render();
+        break;
+      case "Escape":
+        if (selectedRange || rangeAnchor !== null) {
+          event.preventDefault();
+          rangeAnchor = null;
+          selectedRange = undefined;
+          focusPending = true;
+          render();
+        }
         break;
       case "t":
       case "T": {
@@ -408,6 +481,11 @@ export function initCalendarView(root, opts = {}) {
       }
       default:
         break;
+    }
+    if (extending && rangeAnchor !== null && cursor !== null) {
+      setRange(rangeAnchor, cursor);
+      focusPending = true;
+      render();
     }
   }
 
@@ -424,7 +502,18 @@ export function initCalendarView(root, opts = {}) {
     }
     const cell = target.closest(".calendar-table-td[data-date]");
     if (cell) {
-      cursor = cell.getAttribute("data-date");
+      const d = cell.getAttribute("data-date");
+      if (event.shiftKey && !isDisabledDay(d)) {
+        // Shift+click picks a range from the picked day (or the cursor) to here, and confirms it.
+        const from = attr("selected-date") && !selectedRange ? attr("selected-date") : effectiveCursor(visibleDays());
+        cursor = d;
+        setRange(from, d);
+        confirmRange();
+        render();
+        return;
+      }
+      cursor = d;
+      rangeAnchor = null;
       pick(cursor);
       render();
     }
@@ -441,6 +530,14 @@ export function initCalendarView(root, opts = {}) {
     },
     setEvents: (next) => {
       events = Array.isArray(next) ? next.slice() : [];
+      render();
+    },
+    setRanges: (next) => {
+      ranges = Array.isArray(next) ? next.slice() : [];
+      render();
+    },
+    setSelectedRange: (next) => {
+      selectedRange = next ? { ...next } : undefined;
       render();
     },
   };

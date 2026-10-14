@@ -130,8 +130,9 @@ function applyTemplate(template, taskLabel) {
  *
  * @param {HTMLElement} root - The `[data-lily-gantt-chart-root]`.
  * @param {{
- *   onTaskChange?: (taskId: string, start: string, end: string) => void,
+ *   onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void,
  *   labels?: {
+ *     baselineSummary?: (taskLabel: string, baseline: { start: string, end: string }, varianceDays: number) => string,
  *     columnLabel?: (start: string, end: string, timeUnit: string) => string,
  *     dateAnnouncement?: (taskLabel: string, start: string, end: string) => string,
  *   },
@@ -290,6 +291,34 @@ export function initGanttChart(root, opts = {}) {
   let focusedRow = 0;
   let focusedCol = 0;
 
+  /** The hidden baseline summary (text for the row's cells), refreshed whenever the row's dates change. */
+  function ensureBaselineSummary(row, taskId, start, end, baselineStart, baselineEnd) {
+    const summaryFn = opts.labels && opts.labels.baselineSummary;
+    const existing = row.querySelector("[data-lily-gantt-chart-baseline-summary]");
+    if (typeof summaryFn !== "function" || !baselineStart || !baselineEnd) {
+      if (existing) existing.remove();
+      return null;
+    }
+    const a = parseIsoDate(baselineEnd);
+    const c = parseIsoDate(end);
+    const variance = a && c ? toEpochDay(c) - toEpochDay(a) : 0;
+    const span = existing || document.createElement("span");
+    span.id = `${root.id || "gantt-chart"}-baseline-${taskId}`;
+    span.className = "gantt-chart-baseline-summary";
+    span.hidden = true;
+    span.setAttribute("data-lily-gantt-chart-baseline-summary", "");
+    span.textContent = summaryFn(
+      row.getAttribute("data-lily-gantt-chart-task-label") || "",
+      { start: baselineStart, end: baselineEnd },
+      variance,
+    );
+    if (!existing) {
+      const th = row.querySelector(".gantt-table-th");
+      if (th) th.appendChild(span);
+    }
+    return span;
+  }
+
   function rebuildGrid() {
     const rows = visibleTaskRows();
     focusedRow = Math.min(Math.max(focusedRow, 0), Math.max(rows.length - 1, 0));
@@ -303,7 +332,13 @@ export function initGanttChart(root, opts = {}) {
       const hasChildren = row.hasAttribute("data-lily-gantt-chart-has-children");
       const percentAttr = row.getAttribute("data-lily-gantt-chart-percent-complete");
       const depSpan = row.querySelector("[data-lily-gantt-chart-dependency-summary]");
-      const describedBy = depSpan ? depSpan.id : "";
+      const baselineStart = row.getAttribute("data-lily-gantt-chart-baseline-start") || "";
+      const baselineEnd = row.getAttribute("data-lily-gantt-chart-baseline-end") || "";
+      const hasBaseline = baselineStart !== "" && baselineEnd !== "";
+      const baselineSpan = ensureBaselineSummary(row, taskId, start, end, baselineStart, baselineEnd);
+      const describedBy = [depSpan ? depSpan.id : "", baselineSpan ? baselineSpan.id : ""]
+        .filter(Boolean)
+        .join(" ");
 
       columns.forEach((column, colIndex) => {
         const inRange = rangesOverlap(column.start, column.end, start, end);
@@ -322,6 +357,9 @@ export function initGanttChart(root, opts = {}) {
         if (columnNonWorking[colIndex]) td.setAttribute("data-non-working", "");
         if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
         if (describedBy) td.setAttribute("aria-describedby", describedBy);
+        if (hasBaseline && rangesOverlap(column.start, column.end, baselineStart, baselineEnd)) {
+          td.setAttribute("data-baseline", "");
+        }
 
         if (isLeading) {
           const bar = document.createElement("span");
@@ -549,6 +587,13 @@ export function initGanttChart(root, opts = {}) {
     const cell = editRow.querySelector("td");
     if (cell) cell.colSpan = columns.length + 1;
 
+    const percentInput = editRow.querySelector("[data-lily-gantt-chart-percent-input]");
+    if (percentInput) {
+      const row = taskRowFor(taskId);
+      const current = row ? row.getAttribute("data-lily-gantt-chart-percent-complete") : null;
+      percentInput.value = current == null ? "" : current;
+    }
+
     editRow.hidden = false;
     // Save is disabled while either date is empty.
     const saveButton = editRow.querySelector("[data-lily-gantt-chart-save-button]");
@@ -584,14 +629,18 @@ export function initGanttChart(root, opts = {}) {
     else focusActiveCell();
   }
 
-  function applyChange(taskId, start, end) {
+  function applyChange(taskId, start, end, percentComplete) {
     if (!taskId || !start || !end) return;
     const row = taskRowFor(taskId);
     if (!row) return;
     row.setAttribute("data-lily-gantt-chart-start", start);
     row.setAttribute("data-lily-gantt-chart-end", end);
+    if (percentComplete !== undefined) row.setAttribute("data-lily-gantt-chart-percent-complete", String(percentComplete));
     recomputeParentRanges();
-    if (typeof opts.onTaskChange === "function") opts.onTaskChange(taskId, start, end);
+    if (typeof opts.onTaskChange === "function") {
+      if (percentComplete === undefined) opts.onTaskChange(taskId, start, end);
+      else opts.onTaskChange(taskId, start, end, percentComplete);
+    }
     const announceFn = opts.labels && opts.labels.dateAnnouncement;
     if (typeof announceFn === "function") {
       const taskLabel = row.getAttribute("data-lily-gantt-chart-task-label") || "";
@@ -609,8 +658,11 @@ export function initGanttChart(root, opts = {}) {
     if (!a || !b) return;
     // A range entered end-first is saved start-first.
     const [start, end] = compareISO(a, b) <= 0 ? [a, b] : [b, a];
+    const percentInput = editRowFor(taskId)?.querySelector("[data-lily-gantt-chart-percent-input]");
+    const raw = percentInput ? percentInput.value : "";
+    const rounded = raw === "" ? NaN : Math.min(100, Math.max(0, Math.round(Number(raw))));
     closeEdit(taskId);
-    applyChange(taskId, start, end);
+    applyChange(taskId, start, end, Number.isFinite(rounded) ? rounded : undefined);
   }
 
   function cancelEdit(taskId) {

@@ -95,9 +95,27 @@
      `data-readonly` on the root; the client script also checks that
      attribute, so reorder is disabled too. Arrow-key navigation stays.
 
+  8. Round 2 — collapse, add card, hard limits:
+       columns[].strictLimit — a boolean on the column data: a move into it is
+                               refused (by the client) once it holds wipLimit
+                               cards. Rendered as data-strict-limit.
+       collapsedColumns      — macro param, array of column ids: the toggle's
+                               aria-expanded and data-collapsed render at SSR;
+                               the client then keeps those columns' cards out of
+                               the DOM (it needs `initKanbanBoard` to have run:
+                               without it the cards stay visible).
+       labels.collapseColumn / labels.expandColumn / labels.addCard — template
+                               strings with a `{column}` token (the column's
+                               title). Each gates the control it names; the add
+                               button is never rendered when `readonly`.
+       onCollapsedChange(ids), onAddCard(columnId) — client init options; the
+                               client also fires `collapsechange` / `addcard`
+                               events on the root.
+
   Params (single `opts` object):
     label       — string, required. aria-label for the grid table.
-    columns     — array<{id, title, wipLimit?}>, required.
+    columns     — array<{id, title, wipLimit?, strictLimit?}>, required.
+    collapsedColumns — array<string>. Ids of collapsed columns.
     cards       — array<{id, columnId, title}>, required. Card order
                   within a column follows the order cards appear in
                   this array (matches the Svelte canonical).
@@ -140,10 +158,12 @@
 {% from "lily-design-system-nunjucks-headless/components/kanban-table-th/macro.njk" import kanbanTableTh %}
 {% from "lily-design-system-nunjucks-headless/components/kanban-table-td/macro.njk" import kanbanTableTd %}
 
-{%- macro _kanbanBoardHeaderCellHtml(column, count, overLimit, labels) -%}
+{%- macro _kanbanBoardHeaderCellHtml(column, count, overLimit, labels, collapsed, readonly) -%}
+{%- if labels.collapseColumn or labels.expandColumn %}<button type="button" class="kanban-board-collapse-button" aria-expanded="{{ 'false' if collapsed else 'true' }}" aria-label="{{ (labels.expandColumn if collapsed else labels.collapseColumn) | default(labels.collapseColumn) | replace('{column}', column.title) }}" data-lily-kanban-board-collapse data-lily-kanban-board-column-id="{{ column.id }}">{{ '▸' if collapsed else '▾' }}</button>{% endif -%}
 {{- column.title -}}
 {%- if labels.cardCount %}<span class="kanban-board-count">{{ labels.cardCount | replace("{count}", count) }}</span>{% endif -%}
 {%- if overLimit and labels.overLimit %}<span class="kanban-board-wip-warning">{{ labels.overLimit | replace("{count}", count) | replace("{limit}", column.wipLimit) }}</span>{% endif -%}
+{%- if labels.addCard and not readonly %}<button type="button" class="kanban-board-add-button" aria-label="{{ labels.addCard | replace('{column}', column.title) }}" data-lily-kanban-board-add data-lily-kanban-board-column-id="{{ column.id }}">+</button>{% endif -%}
 {%- endmacro -%}
 
 {%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly) -%}
@@ -157,7 +177,7 @@
 {%- endif -%}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels) -%}
+{%- macro _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, collapsedColumns, readonly) -%}
 {%- set out = "" -%}
 {%- for column in columns -%}
   {%- set colCards = columnCardLists[loop.index0] -%}
@@ -165,7 +185,10 @@
   {%- set overLimit = column.wipLimit is defined and column.wipLimit is not none and count > column.wipLimit -%}
   {%- set thAttrs = [["data-lily-kanban-board-column-id", column.id]] -%}
   {%- if overLimit -%}{%- set thAttrs = thAttrs.concat([["data-over-limit", ""]]) -%}{%- endif -%}
-  {%- set cellHtml = _kanbanBoardHeaderCellHtml(column, count, overLimit, labels) -%}
+  {%- set collapsed = column.id in collapsedColumns -%}
+  {%- if collapsed -%}{%- set thAttrs = thAttrs.concat([["data-collapsed", ""]]) -%}{%- endif -%}
+  {%- if column.strictLimit and column.wipLimit is defined and column.wipLimit is not none -%}{%- set thAttrs = thAttrs.concat([["data-strict-limit", ""], ["data-wip-limit", column.wipLimit]]) -%}{%- endif -%}
+  {%- set cellHtml = _kanbanBoardHeaderCellHtml(column, count, overLimit, labels, collapsed, readonly) -%}
   {%- set out = (out ~ kanbanTableTh({ attributes: thAttrs, html: cellHtml })) | safe -%}
 {%- endfor -%}
 {{- out | safe -}}
@@ -213,7 +236,7 @@
   {%- set columnCardLists = columnCardLists.concat([colCards]) -%}
   {%- if colCards.length > maxRows -%}{%- set maxRows = colCards.length -%}{%- endif -%}
 {%- endfor -%}
-{%- set headerRowHtml = _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels) -%}
+{%- set headerRowHtml = _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, opts.collapsedColumns | default([]), opts.readonly) -%}
 {%- set theadHtml = (kanbanTableHead({ html: (kanbanTableRow({ html: headerRowHtml }) | safe) })) | safe -%}
 {%- set bodyRowsHtml = "" -%}
 {%- for rowIndex in range(0, maxRows) -%}

@@ -57,16 +57,18 @@ function textOf(el) {
  *   onMove?: (cardId: string, toColumnId: string) => void,
  *   onReorder?: (cardId: string, toIndex: number) => void,
  *   canMove?: (cardId: string, toColumnId: string) => boolean,
+ *   onCollapsedChange?: (collapsedColumns: string[]) => void,
+ *   onAddCard?: (columnId: string) => void,
  *   labels?: {
  *     moveAnnouncement?: (cardTitle: string, columnTitle: string) => string,
  *     moveBlocked?: (cardTitle: string, columnTitle: string) => string,
  *     reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string,
  *   },
  * }=} opts
- * @returns {{ destroy: () => void }}
+ * @returns {{ destroy: () => void, collapsedColumns: () => string[] }}
  */
 export function initKanbanBoard(root, opts = {}) {
-  const noop = { destroy: () => {} };
+  const noop = { destroy: () => {}, collapsedColumns: () => [] };
   if (typeof document === "undefined" || !root) return noop;
 
   const table = root.querySelector(".kanban-table");
@@ -76,6 +78,83 @@ export function initKanbanBoard(root, opts = {}) {
   /** Read-only is the macro's `readonly` param, surfaced as `data-readonly`. */
   function isReadonly() {
     return root.hasAttribute("data-readonly");
+  }
+
+  // -----------------------------------------------------------------
+  // Collapsed columns: a collapsed column keeps its header and count but its
+  // cards are taken out of the DOM (stashed, restored on expand).
+  // -----------------------------------------------------------------
+
+  /** @type {WeakMap<Element, Node[]>} */
+  const stash = new WeakMap();
+  const columnIds = () =>
+    Array.from(root.querySelectorAll("[data-lily-kanban-board-column-id]"))
+      .filter((th) => th.tagName === "TH")
+      .map((th) => th.getAttribute("data-lily-kanban-board-column-id"));
+  const headerFor = (columnId) =>
+    root.querySelector(`th[data-lily-kanban-board-column-id="${escapeAttrValue(columnId)}"]`);
+  const cellsOfColumn = (index) =>
+    Array.from(root.querySelectorAll(`.kanban-table-td[data-col="${index}"]`));
+
+  function isCollapsed(columnId) {
+    const th = headerFor(columnId);
+    return !!th && th.hasAttribute("data-collapsed");
+  }
+
+  function applyCollapsed(columnId, collapsed) {
+    const th = headerFor(columnId);
+    const index = columnIds().indexOf(columnId);
+    if (!th || index < 0) return;
+    if (collapsed) th.setAttribute("data-collapsed", "");
+    else th.removeAttribute("data-collapsed");
+    const toggle = th.querySelector("[data-lily-kanban-board-collapse]");
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", String(!collapsed));
+      toggle.textContent = collapsed ? "▸" : "▾";
+    }
+    cellsOfColumn(index).forEach((td) => {
+      if (collapsed) {
+        td.setAttribute("data-collapsed", "");
+        if (!stash.has(td)) {
+          stash.set(td, Array.from(td.childNodes));
+          td.replaceChildren();
+        }
+      } else {
+        td.removeAttribute("data-collapsed");
+        const nodes = stash.get(td);
+        if (nodes) {
+          td.replaceChildren(...nodes);
+          stash.delete(td);
+        }
+      }
+    });
+    // A row with nothing left to show is hidden, so the board's height ignores collapsed columns.
+    root.querySelectorAll(".kanban-table-body > .kanban-table-row").forEach((tr) => {
+      const empty = Array.from(tr.children).every((td) => td.childNodes.length === 0);
+      tr.hidden = empty && Array.from(tr.children).some((td) => td.hasAttribute("data-collapsed"));
+    });
+    // Keep the roving tab stop on a visible row.
+    const stop = focusedCellEl();
+    if (stop && stop.parentElement && stop.parentElement.hidden) {
+      const first = root.querySelector(".kanban-table-body > .kanban-table-row:not([hidden]) .kanban-table-td");
+      stop.setAttribute("tabindex", "-1");
+      if (first) first.setAttribute("tabindex", "0");
+    }
+  }
+
+  function collapsedIds() {
+    return columnIds().filter((id) => isCollapsed(id));
+  }
+
+  /** A move is refused by the consumer's veto or by a full hard-limited column. */
+  function isRefused(cardId, toColumnId) {
+    if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId)) return true;
+    const th = headerFor(toColumnId);
+    if (!th || !th.hasAttribute("data-strict-limit")) return false;
+    const limit = Number(th.getAttribute("data-wip-limit"));
+    const index = columnIds().indexOf(toColumnId);
+    const count = cellsOfColumn(index).filter((td) => td.hasAttribute("data-lily-kanban-board-card-id")).length;
+    return Number.isFinite(limit) && count >= limit;
   }
 
   function numCols() {
@@ -161,9 +240,8 @@ export function initKanbanBoard(root, opts = {}) {
     // A veto (opts.canMove) marks refused destinations aria-disabled.
     options.forEach((option) => {
       const refused =
-        typeof opts.canMove === "function" &&
         option.getAttribute("aria-selected") !== "true" &&
-        !opts.canMove(cardId, option.getAttribute("data-value"));
+        isRefused(cardId, option.getAttribute("data-value"));
       if (refused) option.setAttribute("aria-disabled", "true");
       else option.removeAttribute("aria-disabled");
     });
@@ -219,7 +297,7 @@ export function initKanbanBoard(root, opts = {}) {
     // Choosing the card's own column (the selected option) is not a move.
     if (option && option.getAttribute("aria-selected") !== "true" && !isReadonly()) {
       const toColumnId = option.getAttribute("data-value");
-      if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId)) {
+      if (isRefused(cardId, toColumnId)) {
         const moveBlocked = opts.labels && opts.labels.moveBlocked;
         if (typeof moveBlocked === "function") {
           announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
@@ -236,6 +314,23 @@ export function initKanbanBoard(root, opts = {}) {
   // -----------------------------------------------------------------
 
   function onRootClick(event) {
+    const target = event.target && event.target.closest ? event.target : null;
+    const collapse = target && target.closest("[data-lily-kanban-board-collapse]");
+    if (collapse) {
+      const id = collapse.getAttribute("data-lily-kanban-board-column-id");
+      applyCollapsed(id, !isCollapsed(id));
+      const ids = collapsedIds();
+      if (typeof opts.onCollapsedChange === "function") opts.onCollapsedChange(ids);
+      root.dispatchEvent(new CustomEvent("collapsechange", { detail: ids, bubbles: true }));
+      return;
+    }
+    const add = target && target.closest("[data-lily-kanban-board-add]");
+    if (add) {
+      const id = add.getAttribute("data-lily-kanban-board-column-id");
+      if (typeof opts.onAddCard === "function") opts.onAddCard(id);
+      root.dispatchEvent(new CustomEvent("addcard", { detail: id, bubbles: true }));
+      return;
+    }
     const button =
       event.target && event.target.closest
         ? event.target.closest("[data-lily-kanban-board-move-button]")
@@ -416,7 +511,7 @@ export function initKanbanBoard(root, opts = {}) {
       `.kanban-table-td[data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
     );
     if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) return;
-    if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId)) {
+    if (isRefused(cardId, toColumnId)) {
       const moveBlocked = opts.labels && opts.labels.moveBlocked;
       if (typeof moveBlocked === "function") {
         announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
@@ -435,7 +530,16 @@ export function initKanbanBoard(root, opts = {}) {
   root.addEventListener("drop", onDrop);
   document.addEventListener("click", onDocumentClick);
 
+  // Columns the macro rendered collapsed: take their cards out of the DOM now.
+  columnIds().forEach((id) => {
+    if (isCollapsed(id)) {
+      root.querySelector(`th[data-lily-kanban-board-column-id="${escapeAttrValue(id)}"]`).removeAttribute("data-collapsed");
+      applyCollapsed(id, true);
+    }
+  });
+
   return {
+    collapsedColumns: collapsedIds,
     destroy: () => {
       menus.forEach((entry) => entry.keyboard.destroy());
       table.removeEventListener("keydown", onGridKeydown);
