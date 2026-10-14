@@ -98,6 +98,10 @@
         onNavigate?: (view: CalendarView, start: string, end: string) => void;
         /** ISO date the user has picked (Enter/Space or click). Bindable; distinct from the keyboard cursor. */
         selectedDate?: string;
+        /** `"multiple"`: Enter/Space or a click toggles a day in `selectedDates` instead of setting `selectedDate`. Default `"single"`. */
+        selectionMode?: "single" | "multiple";
+        /** The picked days in `"multiple"` mode. Two-way bindable. */
+        selectedDates?: string[];
         /** Earliest pickable ISO date; earlier days get `aria-disabled`. */
         minDate?: string;
         /** Latest pickable ISO date; later days get `aria-disabled`. */
@@ -231,6 +235,8 @@
         onEventMove = undefined,
         today = undefined,
         selectedDate = $bindable(undefined),
+        selectionMode = "single",
+        selectedDates = $bindable([]),
         minDate = undefined,
         maxDate = undefined,
         isDisabled = undefined,
@@ -304,7 +310,11 @@
 
     function pick(isoDate: string): void {
         if (disabledDay(isoDate)) return;
-        selectedDate = isoDate;
+        if (selectionMode === "multiple") {
+            selectedDates = selectedDates.includes(isoDate) ? selectedDates.filter((d) => d !== isoDate) : [...selectedDates, isoDate].sort();
+        } else {
+            selectedDate = isoDate;
+        }
         onDayClick?.(isoDate);
     }
 
@@ -621,7 +631,7 @@
                         {@const isToday = today != null && d === today}
                         {@const dayEvents = eventMap.get(d) ?? []}
                         {@const disabled = disabledDay(d)}
-                        {@const picked = selectedDate === d}
+                        {@const picked = selectionMode === "multiple" ? selectedDates.includes(d) : selectedDate === d}
                         {@const inRange = inSelectedRange(d)}
                         {@const dayRanges = rangesFor(d)}
                         <CalendarTableTD

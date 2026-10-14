@@ -740,3 +740,12 @@ describe("DataGrid — column reordering (§8.40–§8.45)", () => {
         expect(onColumnOrderChange).toHaveBeenCalledWith(["c", "b", "a"]);
     });
 });
+
+describe("DataGrid — pinned columns (§8.46)", () => {
+    test("§8.46 a pinned column's header and cells carry data-pinned", () => {
+        const cols: DataGridColumn[] = [{ id: "a", header: "A", pinned: "start" }, { id: "b", header: "B" }];
+        render(DataGrid, { props: { label: "G", columns: cols, rows: [{ a: "1", b: "2" }] } });
+        expect(document.querySelectorAll('[data-pinned="start"]')).toHaveLength(2);
+        expect(document.querySelectorAll("[data-pinned]")).toHaveLength(2);
+    });
+});

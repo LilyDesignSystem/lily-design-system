@@ -68,6 +68,8 @@
         compare?: (a: KanbanCard, b: KanbanCard) => number;
         /** Resolves a card to its display label. Defaults to `card.title`. */
         cardLabel?: (card: KanbanCard) => string;
+        /** Extra attributes on each card's cell (for example `data-priority`); merged after Lily's own. */
+        cardAttrs?: (card: KanbanCard) => Record<string, unknown>;
         /** Called after a card moves to a new column, by pointer or by the move menu. */
         /** Called after a card moves to a new column, by pointer or the move menu. `toIndex` (0-based, in the visible column) is given only when a pointer drop landed on a card: the card was dropped there. */
         onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void;
@@ -108,6 +110,7 @@
         filter = undefined,
         compare = undefined,
         cardLabel = (card: KanbanCard) => card.title,
+        cardAttrs = undefined,
         onMove,
         onReorder,
         canMove,
@@ -432,6 +435,7 @@
                             data-col={colIndex}
                             data-card-id={card?.id}
                             data-locked={card?.locked ? "" : undefined}
+                            {...(card ? (cardAttrs?.(card) ?? {}) : {})}
                             data-collapsed={isCollapsed(column.id) ? "" : undefined}
                             active={activeRow === rowIndex && activeCol === colIndex}
                             label={card ? cardLabel(card) : undefined}

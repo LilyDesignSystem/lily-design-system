@@ -92,6 +92,8 @@
         timeUnit?: GanttTimeUnit;
         /** The selected task's id. Bindable. A click on a task's row or the `s` key on it selects (a second one deselects); the row gets `aria-selected` and `data-selected`. Parent rows can be selected too. */
         selectedTaskId?: string;
+        /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
+        taskAttrs?: (task: GanttTask) => Record<string, unknown>;
         /** Called with the task id when selection changes, or `undefined` when it clears. */
         onTaskSelect?: (taskId: string | undefined) => void;
         /** ISO date marking "today"; never computed internally (stays SSR-safe). */
@@ -272,6 +274,7 @@
         taskLabel = (task: GanttTask) => task.label,
         onTaskChange,
         selectedTaskId = $bindable(undefined),
+        taskAttrs = undefined,
         onTaskSelect = undefined,
         labels = {},
         ...restProps
@@ -621,6 +624,7 @@
                     data-task-id={row.task.id}
                     aria-selected={selectedTaskId === row.task.id ? "true" : undefined}
                     data-selected={selectedTaskId === row.task.id ? "" : undefined}
+                    {...(taskAttrs?.(row.task) ?? {})}
                 >
                     <!-- Depth is data for the consumer's CSS (indentation), never an inline style. -->
                     <GanttTableTH scope="row" data-depth={row.depth}>

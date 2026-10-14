@@ -52,6 +52,8 @@
         resizable?: boolean;
         /** Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another. */
         movable?: boolean;
+        /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no offsets. */
+        pinned?: "start" | "end";
         /** Column can be hidden via the column-visibility control. */
         hidable?: boolean;
         /** Initial pixel width, meaningful only when `resizable`. */
@@ -803,6 +805,7 @@
                         data-row={-1}
                         data-col={colOffset + i}
                         data-align={column.align}
+                        data-pinned={column.pinned}
                         tabindex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
                         aria-sort={ariaSortFor(column)}
                         style={cellStyle(column)}
@@ -899,6 +902,7 @@
                                 data-row={rowIndex}
                                 data-col={colOffset + colIndex}
                                 data-align={column.align}
+                        data-pinned={column.pinned}
                                 tabindex={isGrid ? (activeRow === rowIndex && activeCol === colOffset + colIndex ? 0 : -1) : undefined}
                                 style={cellStyle(column)}
                                 {...extra}
@@ -911,6 +915,7 @@
                                 data-row={rowIndex}
                                 data-col={colOffset + colIndex}
                                 data-align={column.align}
+                        data-pinned={column.pinned}
                                 role={isGrid ? "gridcell" : "cell"}
                                 {...isGrid ? { active: activeRow === rowIndex && activeCol === colOffset + colIndex } : { tabindex: undefined }}
                                 aria-selected={undefined}

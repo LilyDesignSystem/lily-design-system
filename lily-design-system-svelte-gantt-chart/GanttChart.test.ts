@@ -694,3 +694,11 @@ describe("GanttChart — Alt+Arrow shift and resize (§14.13–§14.16)", () => 
         expect(onTaskChange).not.toHaveBeenCalled();
     });
 });
+
+describe("GanttChart — taskAttrs (§14.17)", () => {
+    test("§14.17 taskAttrs adds attributes to each task's row", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, taskAttrs: (t: GanttTask) => ({ "data-team": t.id === "design" ? "ux" : "eng" }) } });
+        expect(rows()[0].getAttribute("data-team")).toBe("ux");
+        expect(rows()[1].getAttribute("data-team")).toBe("eng");
+    });
+});

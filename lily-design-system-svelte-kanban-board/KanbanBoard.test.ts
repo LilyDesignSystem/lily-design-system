@@ -569,3 +569,11 @@ describe("KanbanBoard — Alt+Arrow column move (§8.44–§8.46)", () => {
         expect(document.querySelector(".kanban-board-status")!.textContent).toBe("Card One cannot go to In Progress");
     });
 });
+
+describe("KanbanBoard — cardAttrs (§8.47)", () => {
+    test("§8.47 cardAttrs adds attributes to each card's cell", () => {
+        render(KanbanBoard, { props: { label: "B", columns: COLUMNS, cards: CARDS, cardAttrs: (c: KanbanCard) => ({ "data-priority": c.id === "c1" ? "high" : "low" }) } });
+        expect(document.querySelector('[data-card-id="c1"]')!.getAttribute("data-priority")).toBe("high");
+        expect(document.querySelector('[data-card-id="c2"]')!.getAttribute("data-priority")).toBe("low");
+    });
+});

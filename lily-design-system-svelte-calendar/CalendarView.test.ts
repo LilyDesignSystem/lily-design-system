@@ -640,3 +640,30 @@ describe("CalendarView — weekendDays (§8.46–§8.47)", () => {
         expect(document.querySelector("[data-weekend]")).toBeNull();
     });
 });
+
+describe("CalendarView — multiple selection (§8.48–§8.50)", () => {
+    const props = { label: "A", view: "week" as const, anchorDate: "2026-01-06", selectionMode: "multiple" as const };
+
+    test("§8.48 clicking days toggles them in selectedDates; each picked day carries data-selected", async () => {
+        render(CalendarView, { props });
+        await fireEvent.click(cellFor("2026-01-06")!);
+        await fireEvent.click(cellFor("2026-01-08")!);
+        expect(cellFor("2026-01-06")!.hasAttribute("data-selected")).toBe(true);
+        expect(cellFor("2026-01-08")!.hasAttribute("data-selected")).toBe(true);
+        await fireEvent.click(cellFor("2026-01-06")!);
+        expect(cellFor("2026-01-06")!.hasAttribute("data-selected")).toBe(false);
+    });
+
+    test("§8.49 Enter toggles the day under the cursor and onDayClick still fires", async () => {
+        const onDayClick = vi.fn();
+        render(CalendarView, { props: { ...props, onDayClick } });
+        await fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+        expect(cellFor("2026-01-06")!.hasAttribute("data-selected")).toBe(true);
+        expect(onDayClick).toHaveBeenCalledWith("2026-01-06");
+    });
+
+    test("§8.50 selectedDates starts days picked; single mode ignores it", () => {
+        render(CalendarView, { props: { ...props, selectedDates: ["2026-01-07"] } });
+        expect(cellFor("2026-01-07")!.hasAttribute("data-selected")).toBe(true);
+    });
+});
