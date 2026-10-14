@@ -449,3 +449,137 @@ describe("calendar-view — week numbers, marked ranges and range selection", ()
     expect(cellFor("2026-01-07")!.hasAttribute("data-in-range")).toBe(true);
   });
 });
+
+describe("calendar-view — day view, maxEvents, drag-and-drop, title, weekends, multiple selection", () => {
+  const dayBase = { view: "day", anchorDate: "2026-01-06", today: "2026-01-08", labels: { dayView: "Day" } };
+  const evs = [
+    { id: "a", date: "2026-01-06", title: "A" },
+    { id: "b", date: "2026-01-06", title: "B" },
+    { id: "c", date: "2026-01-06", title: "C" },
+  ];
+  const dragEvent = (type: string, d: unknown) => {
+    const e = new Event(type, { bubbles: true, cancelable: true });
+    Object.defineProperty(e, "dataTransfer", { value: d });
+    return e;
+  };
+  const cells = () => q(".calendar-table-td");
+
+  test("§8.33 the day view shows exactly one day under one weekday header", () => {
+    setup(dayBase);
+    expect(cells()).toHaveLength(1);
+    expect(cells()[0].getAttribute("data-date")).toBe("2026-01-06");
+    expect(q(".calendar-table-head .calendar-table-th")).toHaveLength(1);
+  });
+
+  test("§8.34 labels.dayView adds a pressed switcher button", () => {
+    setup({ ...dayBase, view: "week" });
+    const b = button("Day");
+    expect(b.getAttribute("aria-pressed")).toBe("false");
+    click(b);
+    expect(button("Day").getAttribute("aria-pressed")).toBe("true");
+    expect(cells()).toHaveLength(1);
+  });
+
+  test("§8.35 next steps one day and reports the one-day period", () => {
+    const onNavigate = vi.fn();
+    setup(dayBase, { labels: CLIENT_LABELS, onNavigate });
+    click(button("Next day"));
+    expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+    expect(onNavigate).toHaveBeenLastCalledWith("day", "2026-01-07", "2026-01-07");
+  });
+
+  test("§8.36 arrows and Page keys move by a day", () => {
+    setup(dayBase);
+    press(tabbable()[0], "ArrowRight");
+    expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+    press(tabbable()[0], "ArrowDown");
+    expect(cells()[0].getAttribute("data-date")).toBe("2026-01-08");
+    press(tabbable()[0], "PageUp");
+    expect(cells()[0].getAttribute("data-date")).toBe("2026-01-07");
+  });
+
+  test("§8.31 maxEvents caps the events shown and a +N more button fires moreclick; §8.32 without it nothing is hidden", () => {
+    const { root } = setup({ maxEvents: 2 }, { events: evs, labels: { ...CLIENT_LABELS, moreEvents: (n: number) => `+${n} more` } });
+    const more: string[] = [];
+    root.addEventListener("moreclick", (e) => more.push((e as CustomEvent<string>).detail));
+    expect(q(".calendar-view-event")).toHaveLength(2);
+    const btn = q(".calendar-view-more-button");
+    expect(btn).toHaveLength(1);
+    expect(btn[0].textContent).toBe("+1 more");
+    click(btn[0]);
+    expect(more).toEqual(["2026-01-06"]);
+    document.body.innerHTML = "";
+    setup({}, { events: evs, labels: { ...CLIENT_LABELS, moreEvents: (n: number) => `+${n} more` } });
+    expect(q(".calendar-view-event")).toHaveLength(3);
+    expect(q(".calendar-view-more-button")).toHaveLength(0);
+  });
+
+  test("§8.38 event buttons are draggable only when moving is on; a drop on a day calls onEventMove and fires eventmove", () => {
+    setup({}, { events: evs });
+    expect(q(".calendar-view-event")[0].hasAttribute("draggable")).toBe(false);
+    document.body.innerHTML = "";
+    const onEventMove = vi.fn();
+    const { root } = setup({}, { events: evs, onEventMove });
+    const fired: unknown[] = [];
+    root.addEventListener("eventmove", (e) => fired.push((e as CustomEvent).detail));
+    const btn = q(".calendar-view-event")[0];
+    expect(btn.getAttribute("draggable")).toBe("true");
+    const dt = { setData: () => {}, getData: () => "" };
+    btn.dispatchEvent(dragEvent("dragstart", dt));
+    cellFor("2026-01-09")!.dispatchEvent(dragEvent("dragover", dt));
+    cellFor("2026-01-09")!.dispatchEvent(dragEvent("drop", dt));
+    expect(onEventMove).toHaveBeenCalledWith(evs[0], "2026-01-09");
+    expect(fired).toEqual([{ event: evs[0], toDate: "2026-01-09" }]);
+  });
+
+  test("§8.40 Alt+Arrow on a focused event moves it a day / a week; a disabled day refuses", () => {
+    const onEventMove = vi.fn();
+    setup({}, { events: evs, onEventMove });
+    press(q(".calendar-view-event")[0], "ArrowRight", { altKey: true });
+    expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-07");
+    press(q(".calendar-view-event")[0], "ArrowDown", { altKey: true });
+    expect(onEventMove).toHaveBeenLastCalledWith(evs[0], "2026-01-13");
+    document.body.innerHTML = "";
+    const refused = vi.fn();
+    setup({ minDate: "2026-01-07" }, { events: evs, onEventMove: refused });
+    press(q(".calendar-view-event")[0], "ArrowLeft", { altKey: true });
+    expect(refused).not.toHaveBeenCalled();
+  });
+
+  test("§8.42 showPeriodTitle with labels.periodTitle renders the shown period's title and updates on navigation", () => {
+    setup({ view: "month", anchorDate: "2026-01-15", showPeriodTitle: true, labels: MACRO_LABELS }, {
+      labels: { ...CLIENT_LABELS, periodTitle: (v: string, s: string, e: string) => `${v}:${s}..${e}` },
+    });
+    expect(q(".calendar-view-title")[0].textContent).toBe("month:2026-01-01..2026-01-31");
+    click(button("Next month"));
+    expect(q(".calendar-view-title")[0].textContent).toBe("month:2026-02-01..2026-02-28");
+  });
+
+  test("§8.44 hideOutsideDays leaves outside cells empty but in the grid", () => {
+    setup({ view: "month", anchorDate: "2026-01-15", hideOutsideDays: true });
+    expect(q(".calendar-table-td[data-outside-period]")[0].textContent).toBe("");
+    expect(cellFor("2026-01-15")!.textContent).toBe("15");
+    expect(cells()).toHaveLength(42);
+  });
+
+  test("§8.46 weekendDays marks those weekdays with data-weekend", () => {
+    setup({ weekendDays: [0, 6] });
+    expect(cellFor("2026-01-10")!.hasAttribute("data-weekend")).toBe(true);
+    expect(cellFor("2026-01-11")!.hasAttribute("data-weekend")).toBe(true);
+    expect(cellFor("2026-01-07")!.hasAttribute("data-weekend")).toBe(false);
+  });
+
+  test("§8.48 multiple selection toggles days and Enter toggles the cursor day", () => {
+    const onDayClick = vi.fn();
+    const { controller } = setup({ selectionMode: "multiple" }, { onDayClick });
+    click(cellFor("2026-01-06")!);
+    click(cellFor("2026-01-08")!);
+    expect(cellFor("2026-01-06")!.hasAttribute("data-selected")).toBe(true);
+    expect(cellFor("2026-01-08")!.hasAttribute("data-selected")).toBe(true);
+    click(cellFor("2026-01-06")!);
+    expect(cellFor("2026-01-06")!.hasAttribute("data-selected")).toBe(false);
+    press(tabbable()[0], "Enter");
+    expect(onDayClick).toHaveBeenLastCalledWith("2026-01-06");
+    expect(controller.getSelectedDates()).toEqual(["2026-01-06", "2026-01-08"]);
+  });
+});

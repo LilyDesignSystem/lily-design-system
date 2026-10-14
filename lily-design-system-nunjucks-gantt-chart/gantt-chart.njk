@@ -145,6 +145,18 @@
       region, starting at the task's percentComplete; Save passes the clamped,
       rounded value as onTaskChange's 4th argument (only when the field shows).
 
+  Round 3 — zoom, resize, selection, Alt+Arrow, taskAttrs:
+    - labels.zoomIn / labels.zoomOut (plain strings) render zoom buttons that step the
+      time unit month <-> week <-> day (the client re-derives the columns, the header and
+      every row's cells); labels.zoomAnnouncement(timeUnit) is a client init option.
+    - A leaf task's bar gets a start handle and the last in-range cell an end handle
+      (drag one onto a column to move that edge; the range cannot invert).
+    - selectedTaskId (macro param) starts a row selected; a click on a row or the `s`
+      key selects, again deselects (aria-selected, data-selected); the client option
+      onTaskSelect and the `taskselect` event report it.
+    - Alt+ArrowLeft/Right shifts a leaf task one column; Alt+Shift+Arrow moves only its end.
+    - tasks[].attrs (object): extra attributes on the task's row (taskAttrs).
+
   Params (single `opts` object):
     readonly    — boolean. Disable editing and drag; navigation stays.
     label       — string, required. aria-label for the grid table.
@@ -294,6 +306,7 @@
 {%- if hasChildren -%}{%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-has-children", ""]]) -%}{%- endif -%}
 {%- if task.type -%}{%- set rowAttrs = rowAttrs.concat([["data-task-type", task.type]]) -%}{%- endif -%}
 {%- if task.baseline -%}{%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-baseline-start", task.baseline.start], ["data-lily-gantt-chart-baseline-end", task.baseline.end]]) -%}{%- endif -%}
+{%- if task.attrs -%}{%- for attrName, attrValue in task.attrs -%}{%- set rowAttrs = rowAttrs.concat([[attrName, attrValue]]) -%}{%- endfor -%}{%- endif -%}
 {%- if task.critical -%}{%- set rowAttrs = rowAttrs.concat([["data-critical", ""]]) -%}{%- endif -%}
 {%- if task.slack is defined and task.slack is not none -%}{%- set rowAttrs = rowAttrs.concat([["data-slack", task.slack]]) -%}{%- endif -%}
 {%- if task.percentComplete is defined and task.percentComplete is not none -%}
@@ -378,8 +391,15 @@
   data-lily-gantt-chart-time-unit="{{ timeUnit }}"
   {%- if opts.readonly %} data-readonly{% endif %}
   {%- if opts.today %} data-lily-gantt-chart-today="{{ opts.today }}"{% endif %}
+  {%- if opts.selectedTaskId %} data-lily-gantt-chart-selected-task-id="{{ opts.selectedTaskId }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+{%- if labels.zoomIn or labels.zoomOut %}
+<div class="gantt-chart-zoom" role="group" aria-label="{{ opts.label }}">
+{%- if labels.zoomOut %}<button type="button" class="gantt-chart-zoom-out-button" aria-label="{{ labels.zoomOut }}" data-lily-gantt-chart-zoom-out>&#8722;</button>{% endif %}
+{%- if labels.zoomIn %}<button type="button" class="gantt-chart-zoom-in-button" aria-label="{{ labels.zoomIn }}" data-lily-gantt-chart-zoom-in>+</button>{% endif %}
+</div>
+{%- endif %}
 {{ tableHtml | safe }}
 <p class="gantt-chart-status" id="{{ statusId }}" aria-live="polite" data-lily-gantt-chart-status></p>
 </div>

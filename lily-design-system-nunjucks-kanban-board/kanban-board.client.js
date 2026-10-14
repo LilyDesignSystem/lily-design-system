@@ -54,7 +54,9 @@ function textOf(el) {
  *
  * @param {HTMLElement} root - The `[data-lily-kanban-board-root]`.
  * @param {{
- *   onMove?: (cardId: string, toColumnId: string) => void,
+ *   onMove?: (cardId: string, toColumnId: string, toIndex?: number) => void,
+ *   moveHandler?: (cardId: string, toColumnId: string, toIndex?: number) => void | Promise<unknown>,
+ *   onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void,
  *   onReorder?: (cardId: string, toIndex: number) => void,
  *   canMove?: (cardId: string, toColumnId: string) => boolean,
  *   onCollapsedChange?: (collapsedColumns: string[]) => void,
@@ -63,6 +65,8 @@ function textOf(el) {
  *     moveAnnouncement?: (cardTitle: string, columnTitle: string) => string,
  *     moveBlocked?: (cardTitle: string, columnTitle: string) => string,
  *     reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string,
+ *     movePending?: (cardTitle: string, columnTitle: string) => string,
+ *     moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string,
  *   },
  * }=} opts
  * @returns {{ destroy: () => void, collapsedColumns: () => string[] }}
@@ -101,26 +105,35 @@ export function initKanbanBoard(root, opts = {}) {
     return !!th && th.hasAttribute("data-collapsed");
   }
 
-  function applyCollapsed(columnId, collapsed) {
-    const th = headerFor(columnId);
-    const index = columnIds().indexOf(columnId);
-    if (!th || index < 0) return;
-    if (collapsed) th.setAttribute("data-collapsed", "");
-    else th.removeAttribute("data-collapsed");
-    const toggle = th.querySelector("[data-lily-kanban-board-collapse]");
-    if (toggle) {
-      toggle.setAttribute("aria-expanded", String(!collapsed));
-      toggle.textContent = collapsed ? "▸" : "▾";
-    }
-    cellsOfColumn(index).forEach((td) => {
-      if (collapsed) {
-        td.setAttribute("data-collapsed", "");
+  /** The text a search matches a card on (the macro puts title, subtitle and badges in a data attribute). */
+  const searchNeedle = () => {
+    const input = root.querySelector("[data-lily-kanban-board-search]");
+    return input ? input.value.trim().toLowerCase() : "";
+  };
+
+  /**
+   * One pass over every cell: a cell is emptied (its content stashed out of the DOM) when its column is collapsed
+   * or its card does not match the search; rows with nothing left to show are hidden.
+   */
+  function refreshVisibility() {
+    const ids = columnIds();
+    const needle = searchNeedle();
+    const hiddenByColumn = new Map();
+    root.querySelectorAll(".kanban-table-body > .kanban-table-row > .kanban-table-td").forEach((td) => {
+      const index = Number(td.getAttribute("data-col"));
+      const collapsed = isCollapsed(ids[index]);
+      const text = (td.getAttribute("data-lily-kanban-board-search-text") || "").toLowerCase();
+      const filtered = !!needle && td.hasAttribute("data-lily-kanban-board-card-id") && !text.includes(needle);
+      const hide = collapsed || filtered;
+      if (collapsed) td.setAttribute("data-collapsed", "");
+      else td.removeAttribute("data-collapsed");
+      if (hide) {
         if (!stash.has(td)) {
           stash.set(td, Array.from(td.childNodes));
           td.replaceChildren();
         }
+        if (filtered) hiddenByColumn.set(index, (hiddenByColumn.get(index) || 0) + 1);
       } else {
-        td.removeAttribute("data-collapsed");
         const nodes = stash.get(td);
         if (nodes) {
           td.replaceChildren(...nodes);
@@ -128,10 +141,17 @@ export function initKanbanBoard(root, opts = {}) {
         }
       }
     });
-    // A row with nothing left to show is hidden, so the board's height ignores collapsed columns.
+    ids.forEach((id, index) => {
+      const th = headerFor(id);
+      if (!th) return;
+      const hidden = hiddenByColumn.get(index) || 0;
+      if (hidden > 0) th.setAttribute("data-hidden-count", String(hidden));
+      else th.removeAttribute("data-hidden-count");
+    });
+    // A row with nothing left to show is hidden, so the board's height follows what is shown.
     root.querySelectorAll(".kanban-table-body > .kanban-table-row").forEach((tr) => {
       const empty = Array.from(tr.children).every((td) => td.childNodes.length === 0);
-      tr.hidden = empty && Array.from(tr.children).some((td) => td.hasAttribute("data-collapsed"));
+      tr.hidden = empty && Array.from(tr.children).some((td) => stash.has(td));
     });
     // Keep the roving tab stop on a visible row.
     const stop = focusedCellEl();
@@ -142,12 +162,33 @@ export function initKanbanBoard(root, opts = {}) {
     }
   }
 
+  function applyCollapsed(columnId, collapsed) {
+    const th = headerFor(columnId);
+    if (!th) return;
+    if (collapsed) th.setAttribute("data-collapsed", "");
+    else th.removeAttribute("data-collapsed");
+    const toggle = th.querySelector("[data-lily-kanban-board-collapse]");
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", String(!collapsed));
+      toggle.textContent = collapsed ? "▸" : "▾";
+    }
+    refreshVisibility();
+  }
+
   function collapsedIds() {
     return columnIds().filter((id) => isCollapsed(id));
   }
 
-  /** A move is refused by the consumer's veto or by a full hard-limited column. */
+  /** The cell holding a card (its id is on the cell, so this works while the card is stashed). */
+  const cellForCard = (cardId) =>
+    root.querySelector(`.kanban-table-td[data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`);
+
+  /** A move is refused by the card's allowed columns, the consumer's veto or by a full hard-limited column. */
   function isRefused(cardId, toColumnId) {
+    const owner = cellForCard(cardId);
+    const allowed = owner && owner.getAttribute("data-lily-kanban-board-allowed-columns");
+    const ownColumn = owner ? columnIds()[Number(owner.getAttribute("data-col"))] : null;
+    if (allowed != null && toColumnId !== ownColumn && !allowed.split(",").includes(toColumnId)) return true;
     if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId)) return true;
     const th = headerFor(toColumnId);
     if (!th || !th.hasAttribute("data-strict-limit")) return false;
@@ -227,6 +268,8 @@ export function initKanbanBoard(root, opts = {}) {
 
   function openMenu(cardId) {
     if (isReadonly()) return;
+    const owner = cellForCard(cardId);
+    if (owner && owner.hasAttribute("data-locked")) return;
     if (openCardId && openCardId !== cardId) closeMenu(openCardId, false);
     const entry = menus.get(cardId);
     if (!entry) return;
@@ -263,6 +306,8 @@ export function initKanbanBoard(root, opts = {}) {
   }
 
   function columnTitleFor(columnId) {
+    const th = headerFor(columnId);
+    if (th && th.getAttribute("data-lily-kanban-board-column-title")) return th.getAttribute("data-lily-kanban-board-column-title");
     const option = root.querySelector(
       `.kanban-board-move-option[data-value="${escapeAttrValue(columnId)}"]`,
     );
@@ -279,14 +324,47 @@ export function initKanbanBoard(root, opts = {}) {
     );
   }
 
-  function applyMove(cardId, toColumnId) {
+  function applyMove(cardId, toColumnId, toIndex) {
     const cardTitle = textOf(cardHandleFor(cardId));
     const columnTitle = columnTitleFor(toColumnId);
-    if (typeof opts.onMove === "function") opts.onMove(cardId, toColumnId);
-    const moveAnnouncement = opts.labels && opts.labels.moveAnnouncement;
-    if (typeof moveAnnouncement === "function") {
-      announce(moveAnnouncement(cardTitle, columnTitle));
+    const cell = cellForCard(cardId);
+    if (cell && cell.hasAttribute("data-pending")) return; // a pending card cannot be moved again
+    if (typeof opts.onMove === "function") {
+      if (toIndex === undefined) opts.onMove(cardId, toColumnId);
+      else opts.onMove(cardId, toColumnId, toIndex);
     }
+    const labelsObj = opts.labels || {};
+    const result =
+      typeof opts.moveHandler === "function"
+        ? toIndex === undefined
+          ? opts.moveHandler(cardId, toColumnId)
+          : opts.moveHandler(cardId, toColumnId, toIndex)
+        : undefined;
+    if (!result || typeof result.then !== "function") {
+      if (typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
+      return;
+    }
+    // Async: the board is rendered by the server, so the card stays put and shows it is pending.
+    if (cell) {
+      cell.setAttribute("data-pending", "");
+      cell.setAttribute("aria-busy", "true");
+    }
+    if (typeof labelsObj.movePending === "function") announce(labelsObj.movePending(cardTitle, columnTitle));
+    result.then(
+      () => {
+        if (typeof labelsObj.moveAnnouncement === "function") announce(labelsObj.moveAnnouncement(cardTitle, columnTitle));
+      },
+      (error) => {
+        if (typeof labelsObj.moveFailed === "function") announce(labelsObj.moveFailed(cardTitle, columnTitle, error));
+        if (typeof opts.onMoveError === "function") opts.onMoveError(cardId, toColumnId, error);
+        root.dispatchEvent(new CustomEvent("moveerror", { detail: { cardId, toColumnId, error }, bubbles: true }));
+      },
+    ).then(() => {
+      if (cell) {
+        cell.removeAttribute("data-pending");
+        cell.removeAttribute("aria-busy");
+      }
+    });
   }
 
   function chooseOption(cardId, index) {
@@ -380,7 +458,7 @@ export function initKanbanBoard(root, opts = {}) {
   function reorderCard(cell, delta) {
     if (isReadonly()) return;
     const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
-    if (!cardId) return;
+    if (!cardId || cell.hasAttribute("data-locked")) return;
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const total = root.querySelectorAll(
@@ -413,6 +491,21 @@ export function initKanbanBoard(root, opts = {}) {
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
+      event.preventDefault();
+      const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+      const destination = columnIds()[col + (event.key === "ArrowLeft" ? -1 : 1)];
+      if (cardId && destination && !isReadonly() && !cell.hasAttribute("data-locked")) {
+        if (isRefused(cardId, destination)) {
+          const moveBlocked = opts.labels && opts.labels.moveBlocked;
+          if (typeof moveBlocked === "function") announce(moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(destination)));
+        } else {
+          applyMove(cardId, destination);
+        }
+      }
+      return;
+    }
     if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
       event.preventDefault();
       reorderCard(cell, event.key === "ArrowUp" ? -1 : 1);
@@ -469,7 +562,13 @@ export function initKanbanBoard(root, opts = {}) {
         ? event.target.closest("[data-lily-kanban-board-card-handle]")
         : null;
     if (!handle) return;
-    draggingCardId = handle.getAttribute("data-lily-kanban-board-card-id");
+    const dragged = handle.getAttribute("data-lily-kanban-board-card-id");
+    const owner = cellForCard(dragged);
+    if (owner && owner.hasAttribute("data-locked")) {
+      event.preventDefault();
+      return;
+    }
+    draggingCardId = dragged;
     if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingCardId || "");
   }
 
@@ -479,8 +578,10 @@ export function initKanbanBoard(root, opts = {}) {
       event.target && event.target.closest
         ? event.target.closest("[data-row][data-col]")
         : null;
-    if (!cell) return;
+    if (!cell || isReadonly()) return;
     event.preventDefault();
+    root.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
+    cell.setAttribute("data-drop-target", "");
   }
 
   function onDrop(event) {
@@ -490,6 +591,7 @@ export function initKanbanBoard(root, opts = {}) {
         : null;
     if (!cell) return;
     event.preventDefault();
+    root.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
     const cardId =
       draggingCardId ||
       (event.dataTransfer && event.dataTransfer.getData
@@ -506,11 +608,22 @@ export function initKanbanBoard(root, opts = {}) {
       headerCells[colIndex].getAttribute("data-lily-kanban-board-column-id");
     if (!toColumnId) return;
     if (isReadonly()) return;
-    // Dropping a card back on its own column is not a move.
-    const cardCell = root.querySelector(
-      `.kanban-table-td[data-lily-kanban-board-card-id="${escapeAttrValue(cardId)}"]`,
-    );
-    if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) return;
+    const cardCell = cellForCard(cardId);
+    const dropRow = Number(cell.getAttribute("data-row"));
+    const overCard = cell.hasAttribute("data-lily-kanban-board-card-id") && stash.has(cell) === false;
+    if (cardCell && Number(cardCell.getAttribute("data-col")) === colIndex) {
+      // Dropped on another card of its own column: reorder to that position.
+      const fromRow = Number(cardCell.getAttribute("data-row"));
+      if (overCard && fromRow !== dropRow && !cardCell.hasAttribute("data-locked")) {
+        if (typeof opts.onReorder === "function") opts.onReorder(cardId, dropRow);
+        const reorderAnnouncement = opts.labels && opts.labels.reorderAnnouncement;
+        if (typeof reorderAnnouncement === "function") {
+          const total = root.querySelectorAll(`.kanban-table-td[data-col="${colIndex}"][data-lily-kanban-board-card-id]`).length;
+          announce(reorderAnnouncement(textOf(cardHandleFor(cardId)), dropRow + 1, total));
+        }
+      }
+      return;
+    }
     if (isRefused(cardId, toColumnId)) {
       const moveBlocked = opts.labels && opts.labels.moveBlocked;
       if (typeof moveBlocked === "function") {
@@ -518,7 +631,11 @@ export function initKanbanBoard(root, opts = {}) {
       }
       return;
     }
-    applyMove(cardId, toColumnId);
+    applyMove(cardId, toColumnId, overCard ? dropRow : undefined);
+  }
+
+  function onSearchInput(event) {
+    if (event.target && event.target.closest && event.target.closest("[data-lily-kanban-board-search]")) refreshVisibility();
   }
 
   table.addEventListener("keydown", onGridKeydown);
@@ -528,15 +645,11 @@ export function initKanbanBoard(root, opts = {}) {
   root.addEventListener("dragstart", onDragStart);
   root.addEventListener("dragover", onDragOver);
   root.addEventListener("drop", onDrop);
+  root.addEventListener("input", onSearchInput);
   document.addEventListener("click", onDocumentClick);
 
-  // Columns the macro rendered collapsed: take their cards out of the DOM now.
-  columnIds().forEach((id) => {
-    if (isCollapsed(id)) {
-      root.querySelector(`th[data-lily-kanban-board-column-id="${escapeAttrValue(id)}"]`).removeAttribute("data-collapsed");
-      applyCollapsed(id, true);
-    }
-  });
+  // Columns the macro rendered collapsed, and a search it started with: take those cards out of the DOM now.
+  refreshVisibility();
 
   return {
     collapsedColumns: collapsedIds,
@@ -549,6 +662,7 @@ export function initKanbanBoard(root, opts = {}) {
       root.removeEventListener("dragstart", onDragStart);
       root.removeEventListener("dragover", onDragOver);
       root.removeEventListener("drop", onDrop);
+      root.removeEventListener("input", onSearchInput);
       document.removeEventListener("click", onDocumentClick);
     },
   };

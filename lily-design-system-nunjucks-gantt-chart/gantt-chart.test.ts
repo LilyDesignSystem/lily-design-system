@@ -846,3 +846,93 @@ describe("gantt-chart — progress field, baselines, typed dependencies", () => 
     expect(root.querySelector(".gantt-chart-dependency-summary")!.textContent).toBe("Design/e2s/0");
   });
 });
+
+describe("gantt-chart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (§14.1–§14.17)", () => {
+  const zl = { ...LABELS, zoomIn: "Zoom in", zoomOut: "Zoom out" };
+  const cols = (root: HTMLElement) => headerCells(root).length - 1;
+  const btn = (n: string) => Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-label") === n) as HTMLButtonElement;
+  const cellAt = (root: HTMLElement, i: number) => rows(root)[0].querySelectorAll(".gantt-table-td")[i] as HTMLElement;
+  const dt = () => ({ setData: () => {}, getData: () => "design" });
+  const dropAt = (el: Element) => el.dispatchEvent(dragEvent("drop", dt()));
+
+  test("§14.1 no zoom buttons without labels.zoomIn / zoomOut", () => {
+    const { root } = setup({ labels: LABELS });
+    expect(root.querySelector(".gantt-chart-zoom")).toBeNull();
+  });
+
+  test("§14.2 zoom out steps to coarser columns, announcing each unit; §14.3 buttons disable at the ends", () => {
+    const { root } = setup({ labels: zl }, { labels: { zoomAnnouncement: (u: string) => `Showing ${u}s` } });
+    expect(btn("Zoom in").disabled).toBe(true);
+    const day = cols(root);
+    click(btn("Zoom out"));
+    expect(cols(root)).toBeLessThan(day);
+    expect(root.querySelector(".gantt-chart-status")!.textContent).toBe("Showing weeks");
+    click(btn("Zoom out"));
+    expect(btn("Zoom out").disabled).toBe(true);
+    expect(btn("Zoom in").disabled).toBe(false);
+  });
+
+  test("§14.5 a leaf task's bar has a start handle and the last in-range cell an end handle; none when readonly or for a parent", () => {
+    const { root } = setup({});
+    expect(rows(root)[0].querySelector(".gantt-chart-bar-handle-start")).toBeTruthy();
+    expect(cellAt(root, 2).querySelector(".gantt-chart-bar-handle-end")).toBeTruthy();
+    expect(rows(root)[3].querySelector(".gantt-chart-bar-handle")).toBeNull();
+    document.body.innerHTML = "";
+    const ro = setup({ readonly: true });
+    expect(ro.root.querySelector(".gantt-chart-bar-handle")).toBeNull();
+  });
+
+  test("§14.6 the end handle extends the end; §14.7 the start handle moves the start and the range cannot invert", () => {
+    const onTaskChange = vi.fn();
+    const { root } = setup({}, { onTaskChange });
+    cellAt(root, 2).querySelector(".gantt-chart-bar-handle-end")!.dispatchEvent(dragEvent("dragstart", dt()));
+    dropAt(cellAt(root, 5));
+    rows(root)[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart", dt()));
+    dropAt(cellAt(root, 1));
+    rows(root)[0].querySelector(".gantt-chart-bar-handle-start")!.dispatchEvent(dragEvent("dragstart", dt()));
+    dropAt(cellAt(root, 7));
+    expect(onTaskChange.mock.calls).toEqual([
+      ["design", "2026-10-01", "2026-10-06"],
+      ["design", "2026-10-02", "2026-10-06"],
+    ]);
+  });
+
+  test("§14.9 clicking a row selects it; §14.10 again deselects; §14.11 the s key selects; §14.12 selectedTaskId starts selected", () => {
+    const onTaskSelect = vi.fn();
+    const { root } = setup({}, { onTaskSelect });
+    click(rows(root)[1].querySelectorAll(".gantt-table-td")[0]);
+    expect(rows(root)[1].getAttribute("aria-selected")).toBe("true");
+    expect(rows(root)[1].hasAttribute("data-selected")).toBe(true);
+    click(rows(root)[1].querySelectorAll(".gantt-table-td")[0]);
+    expect(rows(root)[1].hasAttribute("data-selected")).toBe(false);
+    expect(onTaskSelect.mock.calls).toEqual([["build"], [undefined]]);
+    key(tabbableCells(root)[0], "s");
+    expect(rows(root)[0].getAttribute("aria-selected")).toBe("true");
+    document.body.innerHTML = "";
+    const g = setup({ selectedTaskId: "launch" });
+    expect(rows(g.root)[2].hasAttribute("data-selected")).toBe(true);
+  });
+
+  test("§14.13–§14.16 Alt+Arrow shifts, Alt+Shift+Arrow moves the end, not before the range, readonly ignores", () => {
+    const onTaskChange = vi.fn();
+    const { root } = setup({}, { onTaskChange });
+    key(tabbableCells(root)[0], "ArrowLeft", { altKey: true });
+    expect(onTaskChange).not.toHaveBeenCalled();
+    key(tabbableCells(root)[0], "ArrowRight", { altKey: true });
+    key(tabbableCells(root)[0], "ArrowRight", { altKey: true, shiftKey: true });
+    expect(onTaskChange.mock.calls).toEqual([
+      ["design", "2026-10-02", "2026-10-04"],
+      ["design", "2026-10-02", "2026-10-05"],
+    ]);
+    document.body.innerHTML = "";
+    const ro = vi.fn();
+    const g = setup({ readonly: true }, { onTaskChange: ro });
+    key(tabbableCells(g.root)[0], "ArrowRight", { altKey: true });
+    expect(ro).not.toHaveBeenCalled();
+  });
+
+  test("§14.17 a task's attrs become attributes on its row", () => {
+    const { root } = setup({ tasks: TASKS.map((t) => (t.id === "design" ? { ...t, attrs: { "data-team": "ux" } } : t)) });
+    expect(rows(root)[0].getAttribute("data-team")).toBe("ux");
+  });
+});

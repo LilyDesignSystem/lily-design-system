@@ -112,6 +112,26 @@
                                client also fires `collapsechange` / `addcard`
                                events on the root.
 
+  9. Round 3 and consumer-requested capabilities:
+       card fields: subtitle, badges (array), flag, href, locked, draggable (false),
+         attrs (object, extra attributes on the cell), allowedColumns (array of ids:
+         the move menu lists only these and the card's own column; the client refuses
+         other moves). `flag` is visible text, data-flag, and aria-describedby on the cell.
+       column fields: flag, accent (data-accent), headerHtml / footerHtml (HTML strings,
+         rendered in the header after the title / in a <tfoot> cell).
+       labels.emptyColumn — template string with {column}: a message in an empty column.
+       labels.search — plain string: renders a search field; the client filters the
+         cards by title, subtitle and badges (stashed out of the DOM like a collapsed
+         column; data-hidden-count on the header). `search` (macro param) is its start value.
+       Client options: moveHandler(cardId, toColumnId, toIndex?) returns a promise: the
+         source cell shows data-pending / aria-busy while it is pending (the client does
+         not rebuild the board, so the card stays put; the consumer re-renders on success),
+         then labels.moveFailed(cardTitle, columnTitle, error) / onMoveError on rejection,
+         labels.movePending / labels.moveAnnouncement. onMove's third argument is the drop
+         position (when a pointer drop landed on a card); a drop on a card of the card's own
+         column calls onReorder(cardId, toIndex). Alt+ArrowLeft/Right moves a card to the
+         neighbouring column.
+
   Params (single `opts` object):
     label       — string, required. aria-label for the grid table.
     columns     — array<{id, title, wipLimit?, strictLimit?}>, required.
@@ -161,19 +181,28 @@
 {%- macro _kanbanBoardHeaderCellHtml(column, count, overLimit, labels, collapsed, readonly) -%}
 {%- if labels.collapseColumn or labels.expandColumn %}<button type="button" class="kanban-board-collapse-button" aria-expanded="{{ 'false' if collapsed else 'true' }}" aria-label="{{ (labels.expandColumn if collapsed else labels.collapseColumn) | default(labels.collapseColumn) | replace('{column}', column.title) }}" data-lily-kanban-board-collapse data-lily-kanban-board-column-id="{{ column.id }}">{{ '▸' if collapsed else '▾' }}</button>{% endif -%}
 {{- column.title -}}
+{%- if column.flag %}<span class="kanban-board-column-flag">{{ column.flag }}</span>{% endif -%}
+{%- if column.headerHtml %}{{ column.headerHtml | safe }}{% endif -%}
 {%- if labels.cardCount %}<span class="kanban-board-count">{{ labels.cardCount | replace("{count}", count) }}</span>{% endif -%}
 {%- if overLimit and labels.overLimit %}<span class="kanban-board-wip-warning">{{ labels.overLimit | replace("{count}", count) | replace("{limit}", column.wipLimit) }}</span>{% endif -%}
 {%- if labels.addCard and not readonly %}<button type="button" class="kanban-board-add-button" aria-label="{{ labels.addCard | replace('{column}', column.title) }}" data-lily-kanban-board-add data-lily-kanban-board-column-id="{{ column.id }}">+</button>{% endif -%}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly) -%}
+{%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly, emptyText) -%}
 {%- if card -%}
 {%- set moveListId = id + "-move-list-" + card.id -%}
 {%- set moveButtonId = id + "-move-button-" + card.id -%}
+{%- set movable = (not readonly) and (not card.locked) -%}
 {#- The move button only when labels.moveButton names it: an unnamed button is
     worse than none, and Enter/Space on the cell opens the menu either way. The
     menu is named by the card itself when no moveMenuLabel is given. -#}
-<span class="kanban-board-card-title"{% if not readonly %} draggable="true"{% endif %} data-lily-kanban-board-card-handle data-lily-kanban-board-card-id="{{ card.id }}">{{ card.title }}</span>{% if not readonly %}{% if labels.moveButton %}<button type="button" class="kanban-board-move-button" id="{{ moveButtonId }}" tabindex="-1" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ moveListId }}" aria-label="{{ labels.moveButton | replace('{card}', card.title) }}" data-lily-kanban-board-move-button data-lily-kanban-board-card-id="{{ card.id }}">{{ glyphHtml | safe }}</button>{% endif %}<ul class="kanban-board-move-list" id="{{ moveListId }}" role="listbox" aria-label="{{ labels.moveMenuLabel | default(card.title) }}" tabindex="-1" hidden data-lily-kanban-board-move-list data-lily-kanban-board-card-id="{{ card.id }}">{%- for destination in columns -%}<li class="kanban-board-move-option" id="{{ id }}-move-option-{{ card.id }}-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if destination.id == card.columnId else 'false' }}" data-value="{{ destination.id }}">{{ destination.title }}</li>{%- endfor -%}</ul>{% endif %}
+<span class="kanban-board-card-title"{% if movable and card.draggable != false %} draggable="true"{% endif %} data-lily-kanban-board-card-handle data-lily-kanban-board-card-id="{{ card.id }}">{% if card.href %}<a class="kanban-board-card-link" href="{{ card.href }}">{{ card.title }}</a>{% else %}{{ card.title }}{% endif %}</span>
+{%- if card.subtitle %}<span class="kanban-board-card-subtitle">{{ card.subtitle }}</span>{% endif -%}
+{%- if card.badges and card.badges | length %}<span class="kanban-board-card-badges">{% for badge in card.badges %}<span class="kanban-board-card-badge">{{ badge }}</span>{% endfor %}</span>{% endif -%}
+{%- if card.flag %}<span class="kanban-board-card-flag" id="{{ id }}-flag-{{ card.id }}">{{ card.flag }}</span>{% endif -%}
+{%- if movable %}{% if labels.moveButton %}<button type="button" class="kanban-board-move-button" id="{{ moveButtonId }}" tabindex="-1" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ moveListId }}" aria-label="{{ labels.moveButton | replace('{card}', card.title) }}" data-lily-kanban-board-move-button data-lily-kanban-board-card-id="{{ card.id }}">{{ glyphHtml | safe }}</button>{% endif %}<ul class="kanban-board-move-list" id="{{ moveListId }}" role="listbox" aria-label="{{ labels.moveMenuLabel | default(card.title) }}" tabindex="-1" hidden data-lily-kanban-board-move-list data-lily-kanban-board-card-id="{{ card.id }}">{%- for destination in columns -%}{%- if (not card.allowedColumns) or destination.id == card.columnId or destination.id in card.allowedColumns -%}<li class="kanban-board-move-option" id="{{ id }}-move-option-{{ card.id }}-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if destination.id == card.columnId else 'false' }}" data-value="{{ destination.id }}">{{ destination.title }}</li>{%- endif -%}{%- endfor -%}</ul>{% endif %}
+{%- elif emptyText -%}
+<span class="kanban-board-empty">{{ emptyText }}</span>
 {%- endif -%}
 {%- endmacro -%}
 
@@ -183,7 +212,9 @@
   {%- set colCards = columnCardLists[loop.index0] -%}
   {%- set count = colCards.length -%}
   {%- set overLimit = column.wipLimit is defined and column.wipLimit is not none and count > column.wipLimit -%}
-  {%- set thAttrs = [["data-lily-kanban-board-column-id", column.id]] -%}
+  {%- set thAttrs = [["data-lily-kanban-board-column-id", column.id], ["data-lily-kanban-board-column-title", column.title]] -%}
+  {%- if column.flag -%}{%- set thAttrs = thAttrs.concat([["data-flag", column.flag]]) -%}{%- endif -%}
+  {%- if column.accent -%}{%- set thAttrs = thAttrs.concat([["data-accent", column.accent]]) -%}{%- endif -%}
   {%- if overLimit -%}{%- set thAttrs = thAttrs.concat([["data-over-limit", ""]]) -%}{%- endif -%}
   {%- set collapsed = column.id in collapsedColumns -%}
   {%- if collapsed -%}{%- set thAttrs = thAttrs.concat([["data-collapsed", ""]]) -%}{%- endif -%}
@@ -194,7 +225,7 @@
 {{- out | safe -}}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, readonly) -%}
+{%- macro _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, readonly, collapsedColumns) -%}
 {%- set out = "" -%}
 {%- for column in columns -%}
   {%- set colIndex = loop.index0 -%}
@@ -202,8 +233,17 @@
   {%- set card = colCards[rowIndex] -%}
   {%- set isActive = (rowIndex == 0 and colIndex == 0) -%}
   {%- set tdAttrs = [["data-row", rowIndex], ["data-col", colIndex], ["tabindex", (0 if isActive else -1)]] -%}
-  {%- if card -%}{%- set tdAttrs = tdAttrs.concat([["data-lily-kanban-board-card-id", card.id]]) -%}{%- endif -%}
-  {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly) -%}
+  {%- if column.accent -%}{%- set tdAttrs = tdAttrs.concat([["data-accent", column.accent]]) -%}{%- endif -%}
+  {%- if card -%}
+    {%- set tdAttrs = tdAttrs.concat([["data-lily-kanban-board-card-id", card.id], ["data-lily-kanban-board-search-text", (card.title ~ " " ~ (card.subtitle | default("")) ~ " " ~ ((card.badges | default([])) | join(" ")))]]) -%}
+    {%- if card.locked -%}{%- set tdAttrs = tdAttrs.concat([["data-locked", ""]]) -%}{%- endif -%}
+    {%- if card.flag -%}{%- set tdAttrs = tdAttrs.concat([["data-flag", card.flag], ["aria-describedby", id + "-flag-" + card.id]]) -%}{%- endif -%}
+    {%- if card.allowedColumns -%}{%- set tdAttrs = tdAttrs.concat([["data-lily-kanban-board-allowed-columns", card.allowedColumns | join(",")]]) -%}{%- endif -%}
+    {%- if card.attrs -%}{%- for attrName, attrValue in card.attrs -%}{%- set tdAttrs = tdAttrs.concat([[attrName, attrValue]]) -%}{%- endfor -%}{%- endif -%}
+  {%- endif -%}
+  {%- set emptyText = (labels.emptyColumn | replace("{column}", column.title)) if (rowIndex == 0 and not card and labels.emptyColumn and colCards.length == 0 and not (column.id in collapsedColumns)) else "" -%}
+  {%- if emptyText -%}{%- set tdAttrs = tdAttrs.concat([["data-empty", ""]]) -%}{%- endif -%}
+  {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly, emptyText) -%}
   {%- set out = (out ~ kanbanTableTd({ attributes: tdAttrs, html: cellHtml })) | safe -%}
 {%- endfor -%}
 {{- out | safe -}}
@@ -236,15 +276,26 @@
   {%- set columnCardLists = columnCardLists.concat([colCards]) -%}
   {%- if colCards.length > maxRows -%}{%- set maxRows = colCards.length -%}{%- endif -%}
 {%- endfor -%}
+{#- A row exists for an empty column's message even when no column has a card. -#}
+{%- if maxRows == 0 and labels.emptyColumn and columns | length -%}{%- set maxRows = 1 -%}{%- endif -%}
 {%- set headerRowHtml = _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, opts.collapsedColumns | default([]), opts.readonly) -%}
 {%- set theadHtml = (kanbanTableHead({ html: (kanbanTableRow({ html: headerRowHtml }) | safe) })) | safe -%}
 {%- set bodyRowsHtml = "" -%}
 {%- for rowIndex in range(0, maxRows) -%}
-  {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, opts.readonly) -%}
+  {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml, opts.readonly, opts.collapsedColumns | default([])) -%}
   {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ html: rowCellsHtml })) | safe -%}
 {%- endfor -%}
 {%- set tbodyHtml = (kanbanTableBody({ html: bodyRowsHtml })) | safe -%}
-{%- set tableHtml = kanbanTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml) | safe }) -%}
+{%- set tfootHtml = "" -%}
+{%- set hasFooter = false -%}
+{%- for column in columns -%}{%- if column.footerHtml -%}{%- set hasFooter = true -%}{%- endif -%}{%- endfor -%}
+{%- if hasFooter -%}
+  {%- set tfootHtml = '<tfoot class="kanban-table-foot"><tr class="kanban-table-row">' -%}
+  {%- for column in columns -%}{%- set tfootHtml = tfootHtml ~ '<td class="kanban-table-td kanban-board-column-footer"' ~ (' data-accent="' ~ column.accent ~ '"' if column.accent else '') ~ '>' ~ (column.footerHtml if column.footerHtml else '') ~ '</td>' -%}{%- endfor -%}
+  {%- set tfootHtml = tfootHtml ~ '</tr></tfoot>' -%}
+{%- endif -%}
+{%- set searchHtml = ('<input type="search" class="kanban-board-search" aria-label="' ~ labels.search ~ '" value="' ~ (opts.search | default("")) ~ '" data-lily-kanban-board-search>') if labels.search else "" -%}
+{%- set tableHtml = kanbanTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml ~ tfootHtml) | safe }) -%}
 <div
   class="kanban-board{% if opts.classes %} {{ opts.classes }}{% endif %}"
   data-lily-kanban-board-root
@@ -252,7 +303,7 @@
   {%- if opts.readonly %} data-readonly{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-{{ tableHtml | safe }}
+{{ searchHtml | safe }}{{ tableHtml | safe }}
 <p class="kanban-board-status" id="{{ statusId }}" aria-live="polite" data-lily-kanban-board-status></p>
 </div>
 {%- endmacro -%}

@@ -131,7 +131,9 @@ function applyTemplate(template, taskLabel) {
  * @param {HTMLElement} root - The `[data-lily-gantt-chart-root]`.
  * @param {{
  *   onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void,
+ *   onTaskSelect?: (taskId: string | undefined) => void,
  *   labels?: {
+ *     zoomAnnouncement?: (timeUnit: string) => string,
  *     baselineSummary?: (taskLabel: string, baseline: { start: string, end: string }, varianceDays: number) => string,
  *     columnLabel?: (start: string, end: string, timeUnit: string) => string,
  *     dateAnnouncement?: (taskLabel: string, start: string, end: string) => string,
@@ -156,31 +158,38 @@ export function initGanttChart(root, opts = {}) {
     start: root.getAttribute("data-lily-gantt-chart-range-start") || "",
     end: root.getAttribute("data-lily-gantt-chart-range-end") || "",
   };
-  const timeUnit = root.getAttribute("data-lily-gantt-chart-time-unit") || "day";
+  let timeUnit = root.getAttribute("data-lily-gantt-chart-time-unit") || "day";
   const today = root.getAttribute("data-lily-gantt-chart-today") || "";
 
-  const columns = generateColumns(range, timeUnit);
+  let columns = generateColumns(range, timeUnit);
   const readonly = root.hasAttribute("data-readonly");
 
-  // Markers and the consumer's working calendar, resolved once per column.
-  const columnMarkers = columns.map((column) =>
-    (Array.isArray(opts.markers) ? opts.markers : []).filter((m) =>
-      rangesOverlap(column.start, column.end, m.date, m.date),
-    ),
-  );
-  const columnNonWorking = columns.map((column) => {
-    if (typeof opts.isNonWorking !== "function") return false;
-    for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
-      if (!opts.isNonWorking(d)) return false;
-    }
-    return true;
-  });
+  // Markers and the consumer's working calendar, resolved once per column (again after a zoom).
+  let columnMarkers = [];
+  let columnNonWorking = [];
+  function resolveColumns() {
+    columns = generateColumns(range, timeUnit);
+    columnMarkers = columns.map((column) =>
+      (Array.isArray(opts.markers) ? opts.markers : []).filter((m) =>
+        rangesOverlap(column.start, column.end, m.date, m.date),
+      ),
+    );
+    columnNonWorking = columns.map((column) => {
+      if (typeof opts.isNonWorking !== "function") return false;
+      for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
+        if (!opts.isNonWorking(d)) return false;
+      }
+      return true;
+    });
+  }
+  resolveColumns();
 
   // -----------------------------------------------------------------
   // Header — one <th> per generated column, appended after the
   // macro's own leading blank <th>.
   // -----------------------------------------------------------------
 
+  function buildHeader() {
   Array.from(headerRow.querySelectorAll(".gantt-table-th[data-lily-gantt-chart-column-index]")).forEach((el) =>
     el.remove(),
   );
@@ -210,6 +219,35 @@ export function initGanttChart(root, opts = {}) {
     });
     headerRow.appendChild(th);
   });
+  }
+  buildHeader();
+
+  // -----------------------------------------------------------------
+  // Zoom: month <-> week <-> day. Re-derives the columns, the header and every row's cells.
+  // -----------------------------------------------------------------
+
+  const ZOOM_ORDER = ["month", "week", "day"];
+
+  function syncZoomButtons() {
+    const index = ZOOM_ORDER.indexOf(timeUnit);
+    const out = root.querySelector("[data-lily-gantt-chart-zoom-out]");
+    const inn = root.querySelector("[data-lily-gantt-chart-zoom-in]");
+    if (out) out.disabled = index <= 0;
+    if (inn) inn.disabled = index >= ZOOM_ORDER.length - 1;
+  }
+
+  function zoom(delta) {
+    const next = ZOOM_ORDER[ZOOM_ORDER.indexOf(timeUnit) + delta];
+    if (!next) return;
+    timeUnit = next;
+    root.setAttribute("data-lily-gantt-chart-time-unit", next);
+    resolveColumns();
+    buildHeader();
+    rebuildGrid();
+    syncZoomButtons();
+    const fn = opts.labels && opts.labels.zoomAnnouncement;
+    if (typeof fn === "function" && statusEl) statusEl.textContent = fn(next);
+  }
 
   // -----------------------------------------------------------------
   // Row helpers
@@ -367,8 +405,26 @@ export function initGanttChart(root, opts = {}) {
           bar.setAttribute("data-lily-gantt-chart-bar", "");
           bar.setAttribute("data-lily-gantt-chart-task-id", taskId);
           if (percentAttr != null && percentAttr !== "") bar.setAttribute("data-percent-complete", percentAttr);
-          if (!hasChildren && !readonly) bar.setAttribute("draggable", "true");
+          if (!hasChildren && !readonly) {
+            bar.setAttribute("draggable", "true");
+            const startHandle = document.createElement("span");
+            startHandle.className = "gantt-chart-bar-handle gantt-chart-bar-handle-start";
+            startHandle.setAttribute("draggable", "true");
+            startHandle.setAttribute("aria-hidden", "true");
+            startHandle.setAttribute("data-lily-gantt-chart-handle", "start");
+            startHandle.setAttribute("data-lily-gantt-chart-task-id", taskId);
+            bar.appendChild(startHandle);
+          }
           td.appendChild(bar);
+        }
+        if (!hasChildren && !readonly && inRange && rangesOverlap(column.start, column.end, end, end)) {
+          const endHandle = document.createElement("span");
+          endHandle.className = "gantt-chart-bar-handle gantt-chart-bar-handle-end";
+          endHandle.setAttribute("draggable", "true");
+          endHandle.setAttribute("aria-hidden", "true");
+          endHandle.setAttribute("data-lily-gantt-chart-handle", "end");
+          endHandle.setAttribute("data-lily-gantt-chart-task-id", taskId);
+          td.appendChild(endHandle);
         }
 
         row.appendChild(td);
@@ -426,6 +482,15 @@ export function initGanttChart(root, opts = {}) {
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+      // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+      const taskRow = visibleTaskRows()[row];
+      if (taskRow && !taskRow.hasAttribute("data-lily-gantt-chart-has-children") && !readonly && event.target.closest(".gantt-table-td")) {
+        event.preventDefault();
+        shiftTask(taskRow, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+        return;
+      }
+    }
     switch (event.key) {
       case "ArrowUp":
         event.preventDefault();
@@ -453,6 +518,16 @@ export function initGanttChart(root, opts = {}) {
         if (ctrlOrMeta) moveFocus(visibleTaskRows().length - 1, columns.length - 1);
         else moveFocus(row, columns.length - 1);
         break;
+      case "s":
+      case "S": {
+        if (event.ctrlKey || event.metaKey || event.altKey) break;
+        const taskRow = visibleTaskRows()[row];
+        if (taskRow && event.target.closest(".gantt-table-td")) {
+          event.preventDefault();
+          selectTask(taskRow.getAttribute("data-lily-gantt-chart-task-id"));
+        }
+        break;
+      }
       case "Enter":
       case " ": {
         event.preventDefault();
@@ -528,7 +603,57 @@ export function initGanttChart(root, opts = {}) {
     rebuildGrid();
   }
 
+  // -----------------------------------------------------------------
+  // Selection (click or the `s` key); Alt+Arrow shift / resize
+  // -----------------------------------------------------------------
+
+  function selectedId() {
+    const row = tbody.querySelector(".gantt-table-tr[data-selected]");
+    return row ? row.getAttribute("data-lily-gantt-chart-task-id") : undefined;
+  }
+
+  function selectTask(taskId) {
+    const was = selectedId();
+    rowById.forEach((row) => {
+      row.removeAttribute("aria-selected");
+      row.removeAttribute("data-selected");
+    });
+    const next = was === taskId ? undefined : taskId;
+    if (next) {
+      const row = taskRowFor(next);
+      if (row) {
+        row.setAttribute("aria-selected", "true");
+        row.setAttribute("data-selected", "");
+      }
+    }
+    if (typeof opts.onTaskSelect === "function") opts.onTaskSelect(next);
+    root.dispatchEvent(new CustomEvent("taskselect", { detail: next, bubbles: true }));
+  }
+
+  function columnIndexOf(iso) {
+    return columns.findIndex((c) => rangesOverlap(c.start, c.end, iso, iso));
+  }
+
+  function shiftTask(taskRow, delta, endOnly) {
+    const taskId = taskRow.getAttribute("data-lily-gantt-chart-task-id");
+    const start = taskRow.getAttribute("data-lily-gantt-chart-start") || "";
+    const end = taskRow.getAttribute("data-lily-gantt-chart-end") || "";
+    if (endOnly) {
+      const target = columns[columnIndexOf(end) + delta];
+      if (target && compareISO(start, target.end) <= 0) applyChange(taskId, start, target.end);
+      return;
+    }
+    const target = columns[columnIndexOf(start) + delta];
+    if (!target) return;
+    applyChange(taskId, target.start, addDays(target.start, daysBetween(start, end)));
+  }
+
   function onTbodyClick(event) {
+    const clicked = event.target && event.target.closest ? event.target : null;
+    if (clicked && !clicked.closest("button, input, [data-lily-gantt-chart-edit-row]") && !clicked.closest("[data-lily-date-time-picker-root]")) {
+      const taskRow = clicked.closest(".gantt-table-tr[data-lily-gantt-chart-task-id]");
+      if (taskRow) selectTask(taskRow.getAttribute("data-lily-gantt-chart-task-id"));
+    }
     const collapseButton =
       event.target && event.target.closest ? event.target.closest("[data-lily-gantt-chart-collapse-button]") : null;
     if (collapseButton) {
@@ -676,9 +801,21 @@ export function initGanttChart(root, opts = {}) {
 
   let draggingTaskId = null;
 
+  /** Which edge of the dragged task's bar is being resized, or null for a whole-bar move. */
+  let resizingEdge = null;
+
   function onDragStart(event) {
+    const handle = event.target && event.target.closest ? event.target.closest("[data-lily-gantt-chart-handle]") : null;
+    if (handle) {
+      event.stopPropagation();
+      draggingTaskId = handle.getAttribute("data-lily-gantt-chart-task-id");
+      resizingEdge = handle.getAttribute("data-lily-gantt-chart-handle");
+      if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingTaskId || "");
+      return;
+    }
     const bar = event.target && event.target.closest ? event.target.closest("[data-lily-gantt-chart-bar]") : null;
     if (!bar) return;
+    resizingEdge = null;
     draggingTaskId = bar.getAttribute("data-lily-gantt-chart-task-id");
     if (event.dataTransfer) event.dataTransfer.setData("text/plain", draggingTaskId || "");
   }
@@ -704,6 +841,15 @@ export function initGanttChart(root, opts = {}) {
     if (!column || !row) return;
     const start = row.getAttribute("data-lily-gantt-chart-start") || "";
     const end = row.getAttribute("data-lily-gantt-chart-end") || "";
+    const edge = resizingEdge;
+    resizingEdge = null;
+    if (edge) {
+      // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+      const edgeStart = edge === "start" ? column.start : start;
+      const edgeEnd = edge === "end" ? column.end : end;
+      if (compareISO(edgeStart, edgeEnd) <= 0 && (edgeStart !== start || edgeEnd !== end)) applyChange(taskId, edgeStart, edgeEnd);
+      return;
+    }
     const duration = daysBetween(start, end);
     const newStart = column.start;
     const newEnd = addDays(newStart, duration);
@@ -722,10 +868,29 @@ export function initGanttChart(root, opts = {}) {
   table.addEventListener("dragover", onDragOver);
   table.addEventListener("drop", onDrop);
 
+  function onRootClick(event) {
+    const t = event.target && event.target.closest ? event.target : null;
+    if (!t) return;
+    if (t.closest("[data-lily-gantt-chart-zoom-in]")) zoom(1);
+    else if (t.closest("[data-lily-gantt-chart-zoom-out]")) zoom(-1);
+  }
+  root.addEventListener("click", onRootClick);
+
   rebuildGrid();
+  syncZoomButtons();
+  const initialSelected = root.getAttribute("data-lily-gantt-chart-selected-task-id");
+  if (initialSelected) {
+    const row = taskRowFor(initialSelected);
+    if (row) {
+      row.setAttribute("aria-selected", "true");
+      row.setAttribute("data-selected", "");
+    }
+  }
 
   return {
+    getSelectedTaskId: selectedId,
     destroy: () => {
+      root.removeEventListener("click", onRootClick);
       openEdits.forEach((entry) => {
         entry.startController.destroy();
         entry.endController.destroy();

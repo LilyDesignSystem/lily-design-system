@@ -659,3 +659,199 @@ describe("kanban-board — collapse, add card, hard limits (§8.22–§8.30)", (
     expect(onMove).toHaveBeenCalledWith("c1", "doing");
   });
 });
+
+describe("kanban-board — round 3 and consumer capabilities (§8.31–§8.62)", () => {
+  const rich = [
+    { id: "c1", columnId: "todo", title: "Card One", subtitle: "Source · 80", badges: ["P1", "VIP"], flag: "SLA breached", href: "/t/1" },
+    { id: "c2", columnId: "todo", title: "Card Two" },
+    { id: "c3", columnId: "doing", title: "Card Three" },
+  ];
+  const cols = [
+    { id: "todo", title: "To Do", flag: "Over capacity", accent: "red", headerHtml: "<i data-header>x</i>", footerHtml: "<i data-footer>sum</i>" },
+    { id: "doing", title: "In Progress" },
+    { id: "done", title: "Done" },
+  ];
+  const cell = (id: string) => document.querySelector<HTMLElement>(`[data-lily-kanban-board-card-id].kanban-table-td[data-lily-kanban-board-card-id="${id}"]`)!;
+  const cellAt = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+  const heads = () => Array.from(document.querySelectorAll<HTMLElement>("th[data-lily-kanban-board-column-id]"));
+  const stat = () => document.querySelector("[data-lily-kanban-board-status]")!.textContent;
+  const focusIn = (el: Element) => el.dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+  const dragEvent = (type: string, d: unknown) => {
+    const e = new Event(type, { bubbles: true, cancelable: true });
+    Object.defineProperty(e, "dataTransfer", { value: d });
+    return e;
+  };
+  const drag = (from: HTMLElement, to: HTMLElement) => {
+    const d = { setData: () => {}, getData: () => "" };
+    from.querySelector(".kanban-board-card-title")!.dispatchEvent(dragEvent("dragstart", d));
+    to.dispatchEvent(dragEvent("dragover", d));
+    to.dispatchEvent(dragEvent("drop", d));
+  };
+  const deferred = () => {
+    let resolve!: () => void;
+    let reject!: (e: unknown) => void;
+    const promise = new Promise<void>((res, rej) => ((resolve = res), (reject = rej)));
+    return { promise, resolve, reject };
+  };
+  const flush = () => new Promise((r) => setTimeout(r, 0));
+  const menuOption = (root: HTMLElement, title: string) =>
+    Array.from(root.querySelectorAll<HTMLElement>(".kanban-board-move-option")).find((o) => o.textContent === title && !o.closest("[hidden]"))!;
+
+  test("§8.34–§8.38 drop on a card passes its position; on an empty cell appends; in its own column reorders; data-drop-target", () => {
+    const onMove = vi.fn();
+    const onReorder = vi.fn();
+    setup({ cards: rich, columns: cols }, { onMove, onReorder });
+    const d = { setData: () => {}, getData: () => "" };
+    cellAt(0, 0).querySelector(".kanban-board-card-title")!.dispatchEvent(dragEvent("dragstart", d));
+    cellAt(0, 1).dispatchEvent(dragEvent("dragover", d));
+    expect(cellAt(0, 1).hasAttribute("data-drop-target")).toBe(true);
+    cellAt(0, 1).dispatchEvent(dragEvent("drop", d));
+    drag(cellAt(0, 0), cellAt(0, 2));
+    drag(cellAt(0, 0), cellAt(1, 0));
+    expect(onMove.mock.calls).toEqual([["c1", "doing", 0], ["c1", "done"]]);
+    expect(onReorder).toHaveBeenCalledWith("c1", 1);
+  });
+
+  test("§8.39–§8.41 a locked card has data-locked, no move button, no drag, ignores Enter and Alt+Arrow; others still move", () => {
+    const onMove = vi.fn();
+    const onReorder = vi.fn();
+    const { root } = setup({ cards: rich.map((c) => (c.id === "c1" ? { ...c, locked: true } : c)), columns: cols, labels: LABELS }, { onMove, onReorder });
+    expect(cell("c1").hasAttribute("data-locked")).toBe(true);
+    expect(cell("c1").querySelector(".kanban-board-move-button")).toBeNull();
+    expect(cell("c1").querySelector("[draggable]")).toBeNull();
+    key(cell("c1"), "Enter");
+    expect(root.querySelector('[role="listbox"]:not([hidden])')).toBeNull();
+    key(cell("c1"), "ArrowDown", { altKey: true });
+    expect(onReorder).not.toHaveBeenCalled();
+    focusIn(cell("c2"));
+    key(cell("c2"), "Enter");
+    click(menuOption(root, "Done"));
+    expect(onMove).toHaveBeenCalledWith("c2", "done");
+  });
+
+  test("§8.44–§8.46 Alt+ArrowRight moves to the next column, not past the first; a full hard-limited column refuses and announces", () => {
+    const onMove = vi.fn();
+    setup({ cards: rich, columns: cols }, { onMove });
+    key(cellAt(0, 0), "ArrowLeft", { altKey: true });
+    expect(onMove).not.toHaveBeenCalled();
+    key(cellAt(0, 0), "ArrowRight", { altKey: true });
+    expect(onMove).toHaveBeenCalledWith("c1", "doing");
+    document.body.innerHTML = "";
+    const refused = vi.fn();
+    setup(
+      { cards: CARDS, columns: [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress", wipLimit: 2, strictLimit: true }] },
+      { onMove: refused, labels: { moveBlocked: (t: string, c: string) => `${t} cannot go to ${c}` } },
+    );
+    key(cellAt(0, 0), "ArrowRight", { altKey: true });
+    expect(refused).not.toHaveBeenCalled();
+    expect(stat()).toBe("Card One cannot go to In Progress");
+  });
+
+  test("§8.47–§8.51 cards: attrs, subtitle, badges, link title, flag with aria-describedby; columns: flag, accent, headerHtml", () => {
+    setup({ cards: rich.map((c) => (c.id === "c2" ? { ...c, attrs: { "data-priority": "low" } } : c)), columns: cols });
+    expect(cell("c2").getAttribute("data-priority")).toBe("low");
+    expect(cell("c1").querySelector(".kanban-board-card-subtitle")!.textContent).toBe("Source · 80");
+    expect(Array.from(cell("c1").querySelectorAll(".kanban-board-card-badge")).map((b) => b.textContent)).toEqual(["P1", "VIP"]);
+    expect(cell("c1").querySelector("a.kanban-board-card-link")!.getAttribute("href")).toBe("/t/1");
+    const flag = cell("c1").querySelector(".kanban-board-card-flag")!;
+    expect(flag.textContent).toBe("SLA breached");
+    expect(cell("c1").getAttribute("data-flag")).toBe("SLA breached");
+    expect(cell("c1").getAttribute("aria-describedby")).toBe(flag.id);
+    expect(heads()[0].getAttribute("data-flag")).toBe("Over capacity");
+    expect(heads()[0].getAttribute("data-accent")).toBe("red");
+    expect(heads()[0].querySelector(".kanban-board-column-flag")!.textContent).toBe("Over capacity");
+    expect(heads()[0].querySelector("[data-header]")).toBeTruthy();
+    expect(cell("c1").getAttribute("data-accent")).toBe("red");
+  });
+
+  test("§8.59 column footerHtml renders a footer cell per column", () => {
+    setup({ cards: rich, columns: cols });
+    expect(document.querySelectorAll("tfoot td")).toHaveLength(3);
+    expect(document.querySelector("tfoot [data-footer]")!.textContent).toBe("sum");
+  });
+
+  test("§8.52–§8.53 card.allowedColumns limits the move menu; a keyboard move elsewhere is refused and announced", () => {
+    const withAllowed = rich.map((c) => (c.id === "c1" ? { ...c, allowedColumns: ["doing"] } : c));
+    const { root } = setup({ cards: withAllowed, columns: cols, labels: LABELS });
+    key(cell("c1"), "Enter");
+    expect(Array.from(root.querySelectorAll<HTMLElement>(".kanban-board-move-list:not([hidden]) [role=option]")).map((o) => o.textContent)).toEqual(["To Do", "In Progress"]);
+    document.body.innerHTML = "";
+    const onMove = vi.fn();
+    setup({ cards: rich.map((c) => ({ ...c, allowedColumns: ["done"] })), columns: cols }, { onMove, labels: { moveBlocked: (t: string, c: string) => `${t} cannot go to ${c}` } });
+    key(cellAt(0, 0), "ArrowRight", { altKey: true });
+    expect(onMove).not.toHaveBeenCalled();
+    expect(stat()).toBe("Card One cannot go to In Progress");
+  });
+
+  test("§8.54 card.draggable=false stops pointer dragging but keeps the move menu", () => {
+    setup({ cards: rich.map((c) => (c.id === "c2" ? { ...c, draggable: false } : c)), columns: cols, labels: LABELS });
+    expect(cell("c2").querySelector("[draggable]")).toBeNull();
+    expect(cell("c2").querySelector(".kanban-board-move-button")).toBeTruthy();
+  });
+
+  test("§8.55 an async moveHandler marks the card cell data-pending and aria-busy, then clears on resolve", async () => {
+    const d = deferred();
+    setup({ cards: rich, columns: cols }, { moveHandler: () => d.promise, labels: { movePending: (t: string, c: string) => `Moving ${t} to ${c}`, moveAnnouncement: (t: string, c: string) => `${t} moved to ${c}` } });
+    focusIn(cell("c2"));
+    key(cell("c2"), "ArrowRight", { altKey: true });
+    expect(cell("c2").getAttribute("data-pending")).toBe("");
+    expect(cell("c2").getAttribute("aria-busy")).toBe("true");
+    expect(stat()).toBe("Moving Card Two to In Progress");
+    d.resolve();
+    await flush();
+    expect(cell("c2").hasAttribute("data-pending")).toBe(false);
+    expect(stat()).toBe("Card Two moved to In Progress");
+  });
+
+  test("§8.56 a rejected moveHandler announces moveFailed and calls onMoveError; §8.57 a pending card cannot move again", async () => {
+    const d = deferred();
+    const handler = vi.fn(() => d.promise);
+    const onMoveError = vi.fn();
+    setup({ cards: rich, columns: cols }, { moveHandler: handler, onMoveError, labels: { moveFailed: (t: string, c: string) => `Could not move ${t} to ${c}` } });
+    focusIn(cell("c2"));
+    key(cell("c2"), "ArrowRight", { altKey: true });
+    key(cell("c2"), "ArrowRight", { altKey: true });
+    expect(handler).toHaveBeenCalledTimes(1);
+    d.reject(new Error("no"));
+    await flush();
+    expect(onMoveError).toHaveBeenCalledWith("c2", "doing", expect.any(Error));
+    expect(stat()).toBe("Could not move Card Two to In Progress");
+    expect(cell("c2").hasAttribute("data-pending")).toBe(false);
+  });
+
+  test("§8.58 without a moveHandler there is no pending state", () => {
+    const onMove = vi.fn();
+    setup({ cards: rich, columns: cols }, { onMove });
+    focusIn(cell("c2"));
+    key(cell("c2"), "ArrowRight", { altKey: true });
+    expect(onMove).toHaveBeenCalledWith("c2", "doing");
+    expect(document.querySelector("[data-pending]")).toBeNull();
+  });
+
+  test("§8.60–§8.61 labels.emptyColumn shows a message in an empty column, even when no column has cards; none without it", () => {
+    const lab = { emptyColumn: "No cards in {column}" };
+    setup({ cards: rich, columns: cols, labels: lab });
+    expect(document.querySelector(".kanban-board-empty")!.textContent).toBe("No cards in Done");
+    document.body.innerHTML = "";
+    setup({ cards: [], columns: cols, labels: lab });
+    expect(document.querySelectorAll(".kanban-board-empty")).toHaveLength(3);
+    expect(document.querySelectorAll(".kanban-table-body > .kanban-table-row")).toHaveLength(1);
+    document.body.innerHTML = "";
+    setup({ cards: rich, columns: cols });
+    expect(document.querySelector(".kanban-board-empty")).toBeNull();
+  });
+
+  test("§8.62 labels.search adds a search field that filters by title, subtitle and badges", () => {
+    setup({ cards: rich, columns: cols, labels: { search: "Search cards" } });
+    const input = document.querySelector<HTMLInputElement>('input[type="search"]')!;
+    expect(input.getAttribute("aria-label")).toBe("Search cards");
+    input.value = "vip";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(Array.from(document.querySelectorAll(".kanban-board-card-title")).map((e) => e.textContent?.trim())).toEqual(["Card One"]);
+    expect(heads()[0].getAttribute("data-hidden-count")).toBe("1");
+    input.value = "";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(document.querySelectorAll(".kanban-board-card-title")).toHaveLength(3);
+    expect(heads()[0].hasAttribute("data-hidden-count")).toBe(false);
+  });
+});

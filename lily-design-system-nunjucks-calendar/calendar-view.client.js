@@ -30,7 +30,7 @@ import {
   weekdayOf,
 } from "@lilydesignsystem/nunjucks-date-time-picker";
 
-const VIEWS = ["week", "four-week", "month"];
+const VIEWS = ["day", "week", "four-week", "month"];
 const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
 
 /** Start of the week containing `isoDate`, for a given first-day-of-week (0 = Sunday). */
@@ -46,6 +46,7 @@ export function periodDays(view, anchorDate, firstDayOfWeek) {
     if (!parsed) return [];
     return monthMatrix(parsed.year, parsed.month, firstDayOfWeek);
   }
+  if (view === "day") return [[anchorDate]];
   const start = weekStart(anchorDate, firstDayOfWeek);
   const rows = view === "week" ? 1 : 4;
   const weeks = [];
@@ -67,6 +68,7 @@ export function periodRange(view, anchorDate, firstDayOfWeek) {
       formatIsoDate({ ...parsed, day: daysInMonth(parsed.year, parsed.month) }),
     ];
   }
+  if (view === "day") return [anchorDate, anchorDate];
   const start = weekStart(anchorDate, firstDayOfWeek);
   const len = view === "week" ? 7 : 28;
   return [start, addDays(start, len - 1)];
@@ -111,6 +113,12 @@ export function eventsByDay(events) {
  *   events?: Array<{ id: string, date?: string, start?: string, end?: string, [k: string]: unknown }>,
  *   isDisabled?: (isoDate: string) => boolean,
  *   ranges?: Array<{ start: string, end: string, kind?: string, label?: string }>,
+ *   maxEvents?: number,
+ *   moveEvents?: boolean,
+ *   onEventMove?: (event: object, toDate: string) => void,
+ *   onMoreClick?: (isoDate: string) => void,
+ *   weekendDays?: number[],
+ *   selectedDates?: string[],
  *   selectedRange?: { start: string, end: string },
  *   onRangeSelect?: (start: string, end: string) => void,
  *   onNavigate?: (view: string, start: string, end: string) => void,
@@ -124,6 +132,9 @@ export function eventsByDay(events) {
  *     weekday?: (weekday: number) => string, weekdayAbbr?: (weekday: number) => string,
  *     day?: (isoDate: string, weekday: number, outsidePeriod: boolean) => string,
  *     weekNumber?: (week: number) => string,
+ *     eventMoveAnnouncement?: (event: object, toDate: string) => string,
+ *     periodTitle?: (view: string, start: string, end: string) => string,
+ *     moreEvents?: (hiddenCount: number, isoDate: string) => string,
  *     rangeAnnouncement?: (start: string, end: string) => string,
  *   },
  * }=} opts
@@ -131,7 +142,7 @@ export function eventsByDay(events) {
  *   setRanges: (ranges: object[]) => void, setSelectedRange: (range?: { start: string, end: string }) => void }}
  */
 export function initCalendarView(root, opts = {}) {
-  const noop = { destroy: () => {}, setEvents: () => {}, setRanges: () => {}, setSelectedRange: () => {} };
+  const noop = { destroy: () => {}, setEvents: () => {}, setRanges: () => {}, setSelectedRange: () => {}, getSelectedDates: () => [], setSelectedDates: () => {} };
   if (typeof document === "undefined" || !root) return noop;
 
   const table = root.querySelector(".calendar-table");
@@ -147,6 +158,17 @@ export function initCalendarView(root, opts = {}) {
   let ranges = Array.isArray(opts.ranges) ? opts.ranges.slice() : [];
   let selectedRange = opts.selectedRange ? { ...opts.selectedRange } : undefined;
   let rangeAnchor = null;
+  let selectedDates = Array.isArray(opts.selectedDates) ? opts.selectedDates.slice() : [];
+  let draggingEventId = null;
+  const weekendDays = () => {
+    if (Array.isArray(opts.weekendDays)) return opts.weekendDays;
+    const raw = root.getAttribute("data-lily-calendar-view-weekend-days");
+    return raw ? raw.split(",").map(Number) : [];
+  };
+  const selectionMode = () => (attr("selection-mode") === "multiple" ? "multiple" : "single");
+  const hideOutsideDays = () => root.hasAttribute("data-lily-calendar-view-hide-outside-days");
+  const maxEvents = () => (opts.maxEvents != null ? opts.maxEvents : root.hasAttribute("data-lily-calendar-view-max-events") ? Number(attr("max-events")) : undefined);
+  const movable = () => !!opts.moveEvents || typeof opts.onEventMove === "function" || root.hasAttribute("data-lily-calendar-view-move-events");
 
   const attr = (name) => root.getAttribute(`data-lily-calendar-view-${name}`) || "";
   const setAttr = (name, value) => {
@@ -192,7 +214,13 @@ export function initCalendarView(root, opts = {}) {
   function pick(isoDate) {
     if (isDisabledDay(isoDate)) return;
     cursor = isoDate;
-    setAttr("selected-date", isoDate);
+    if (selectionMode() === "multiple") {
+      selectedDates = selectedDates.includes(isoDate)
+        ? selectedDates.filter((d) => d !== isoDate)
+        : [...selectedDates, isoDate].sort();
+    } else {
+      setAttr("selected-date", isoDate);
+    }
     if (typeof opts.onDayClick === "function") opts.onDayClick(isoDate);
   }
 
@@ -216,6 +244,25 @@ export function initCalendarView(root, opts = {}) {
     return isoWeek(row.find((d) => weekdayOf(d) === 4) || row[0]);
   }
 
+  function attachEvent(calendarEvent, element) {
+    if (!movable()) return;
+    element.setAttribute("draggable", "true");
+    element.setAttribute("data-event-id", calendarEvent.id);
+    element.addEventListener("dragstart", (e) => {
+      draggingEventId = calendarEvent.id;
+      if (e.dataTransfer) e.dataTransfer.setData("text/plain", calendarEvent.id);
+    });
+  }
+
+  function moveEventTo(calendarEvent, toDate) {
+    if (!movable() || isDisabledDay(toDate)) return;
+    if (typeof opts.onEventMove === "function") opts.onEventMove(calendarEvent, toDate);
+    root.dispatchEvent(new CustomEvent("eventmove", { detail: { event: calendarEvent, toDate }, bubbles: true }));
+    if (typeof labels.eventMoveAnnouncement === "function" && statusEl) {
+      statusEl.textContent = labels.eventMoveAnnouncement(calendarEvent, toDate);
+    }
+  }
+
   function openEvent(event) {
     if (typeof opts.onEventClick === "function") opts.onEventClick(event);
   }
@@ -223,7 +270,7 @@ export function initCalendarView(root, opts = {}) {
   function defaultRenderDay(args) {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(document.createTextNode(String((parseIsoDate(args.date) || {}).day || "")));
-    args.events.forEach((event) => {
+    args.visibleEvents.forEach((event) => {
       if (typeof event.title !== "string") return;
       const button = document.createElement("button");
       button.type = "button";
@@ -233,8 +280,21 @@ export function initCalendarView(root, opts = {}) {
         e.stopPropagation();
         args.openEvent(event);
       });
+      args.attachEvent(event, button);
       fragment.appendChild(button);
     });
+    if (args.hiddenCount > 0 && typeof labels.moreEvents === "function") {
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "calendar-view-more-button";
+      more.textContent = labels.moreEvents(args.hiddenCount, args.date);
+      more.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (typeof opts.onMoreClick === "function") opts.onMoreClick(args.date);
+        root.dispatchEvent(new CustomEvent("moreclick", { detail: args.date, bubbles: true }));
+      });
+      fragment.appendChild(more);
+    }
     return fragment;
   }
 
@@ -268,8 +328,14 @@ export function initCalendarView(root, opts = {}) {
       th.textContent = root.getAttribute("data-lily-calendar-view-week-number-header") || "";
       headRow.appendChild(th);
     }
-    for (let i = 0; i < 7; i++) {
-      const weekday = (firstDay() + i) % 7;
+    // Period title (the macro renders the placeholder when `showPeriodTitle` is set).
+    const titleEl = root.querySelector("[data-lily-calendar-view-title]");
+    if (titleEl && typeof labels.periodTitle === "function") {
+      const [titleStart, titleEnd] = periodRange(v, anchor, firstDay());
+      titleEl.textContent = labels.periodTitle(v, titleStart, titleEnd);
+    }
+    for (let i = 0; i < (v === "day" ? 1 : 7); i++) {
+      const weekday = v === "day" ? weekdayOf(anchor) : (firstDay() + i) % 7;
       const th = document.createElement("th");
       th.className = "calendar-table-th";
       th.setAttribute("scope", "col");
@@ -303,7 +369,7 @@ export function initCalendarView(root, opts = {}) {
         const outside = isOutsidePeriod(v, d, anchor);
         const isToday = !!todayIso && d === todayIso;
         const disabled = isDisabledDay(d);
-        const picked = selected === d;
+        const picked = selectionMode() === "multiple" ? selectedDates.includes(d) : selected === d;
         const inRange = !!selectedRange && d >= selectedRange.start && d <= selectedRange.end;
         const dayRanges = ranges.filter((r) => d >= r.start && d <= r.end);
         const td = document.createElement("td");
@@ -314,6 +380,7 @@ export function initCalendarView(root, opts = {}) {
         if (isToday) td.setAttribute("aria-current", "date");
         td.setAttribute("data-date", d);
         if (outside) td.setAttribute("data-outside-period", "");
+        if (weekendDays().includes(weekdayOf(d))) td.setAttribute("data-weekend", "");
         if (picked) td.setAttribute("data-selected", "");
         if (inRange) td.setAttribute("data-in-range", "");
         if (selectedRange && selectedRange.start === d) td.setAttribute("data-range-start", "");
@@ -324,9 +391,27 @@ export function initCalendarView(root, opts = {}) {
           td.setAttribute("aria-disabled", "true");
         }
         if (typeof labels.day === "function") td.setAttribute("aria-label", labels.day(d, weekdayOf(d), outside));
+        td.addEventListener("dragover", (e) => {
+          if (draggingEventId && movable()) e.preventDefault();
+        });
+        td.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const id = draggingEventId || (e.dataTransfer ? e.dataTransfer.getData("text/plain") : "");
+          draggingEventId = null;
+          const calendarEvent = events.find((ev) => ev.id === id);
+          if (calendarEvent) moveEventTo(calendarEvent, d);
+        });
+        if (hideOutsideDays() && outside) {
+          tr.appendChild(td);
+          return;
+        }
+        const dayEvents = eventMap.get(d) || [];
+        const cap = maxEvents();
         const args = {
           date: d,
-          events: eventMap.get(d) || [],
+          events: dayEvents,
+          visibleEvents: cap == null ? dayEvents : dayEvents.slice(0, Math.max(0, cap)),
+          hiddenCount: cap == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, cap)),
           isToday,
           outsidePeriod: outside,
           selected: picked,
@@ -334,6 +419,7 @@ export function initCalendarView(root, opts = {}) {
           inRange,
           ranges: dayRanges,
           openEvent,
+          attachEvent,
         };
         td.appendChild(typeof opts.renderDay === "function" ? opts.renderDay(args) : defaultRenderDay(args));
         tr.appendChild(td);
@@ -356,7 +442,8 @@ export function initCalendarView(root, opts = {}) {
 
   function stepView(delta) {
     const anchor = anchorDate();
-    if (view() === "week") navigateTo(addDays(anchor, delta * 7));
+    if (view() === "day") navigateTo(addDays(anchor, delta));
+    else if (view() === "week") navigateTo(addDays(anchor, delta * 7));
     else if (view() === "four-week") navigateTo(addDays(anchor, delta * 28));
     else navigateTo(addMonths(anchor, delta));
   }
@@ -379,6 +466,11 @@ export function initCalendarView(root, opts = {}) {
         const first = formatIsoDate({ year: cp.year, month: cp.month, day: 1 });
         setAttr("anchor-date", first);
         emitNavigate(v, first);
+      }
+    } else if (v === "day") {
+      if (next !== anchor) {
+        setAttr("anchor-date", next);
+        emitNavigate(v, next);
       }
     } else {
       const len = v === "week" ? 7 : 28;
@@ -407,14 +499,27 @@ export function initCalendarView(root, opts = {}) {
   }
 
   function pageCursor(delta, c) {
-    if (view() === "week") moveCursor(addDays(c, delta * 7));
+    if (view() === "day") moveCursor(addDays(c, delta));
+    else if (view() === "week") moveCursor(addDays(c, delta * 7));
     else if (view() === "four-week") moveCursor(addDays(c, delta * 28));
     else moveCursor(addMonths(c, delta));
   }
 
   function onGridKeydown(event) {
+    if (movable() && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+      const el = event.target.closest ? event.target.closest("[data-event-id]") : null;
+      const fromCell = el && el.closest("[data-date]");
+      const calendarEvent = el ? events.find((e) => e.id === el.getAttribute("data-event-id")) : undefined;
+      if (el && fromCell && calendarEvent) {
+        event.preventDefault();
+        const week = view() === "day" ? 1 : 7;
+        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key];
+        moveEventTo(calendarEvent, addDays(fromCell.getAttribute("data-date"), delta));
+        return;
+      }
+    }
     const c = effectiveCursor(visibleDays());
-    const offset = (weekdayOf(c) - firstDay() + 7) % 7;
+    const offset = view() === "day" ? 0 : (weekdayOf(c) - firstDay() + 7) % 7;
     const extending = event.shiftKey && MOVE_KEYS.has(event.key);
     if (extending && rangeAnchor === null) {
       rangeAnchor = attr("selected-date") && !selectedRange ? attr("selected-date") : c;
@@ -431,11 +536,11 @@ export function initCalendarView(root, opts = {}) {
         break;
       case "ArrowUp":
         event.preventDefault();
-        moveCursor(addDays(c, -7));
+        moveCursor(addDays(c, view() === "day" ? -1 : -7));
         break;
       case "ArrowDown":
         event.preventDefault();
-        moveCursor(addDays(c, 7));
+        moveCursor(addDays(c, view() === "day" ? 1 : 7));
         break;
       case "Home":
         event.preventDefault();
@@ -443,7 +548,7 @@ export function initCalendarView(root, opts = {}) {
         break;
       case "End":
         event.preventDefault();
-        moveCursor(addDays(c, 6 - offset));
+        moveCursor(addDays(c, view() === "day" ? 0 : 6 - offset));
         break;
       case "PageUp":
         event.preventDefault();
@@ -534,6 +639,11 @@ export function initCalendarView(root, opts = {}) {
     },
     setRanges: (next) => {
       ranges = Array.isArray(next) ? next.slice() : [];
+      render();
+    },
+    getSelectedDates: () => selectedDates.slice(),
+    setSelectedDates: (next) => {
+      selectedDates = Array.isArray(next) ? next.slice() : [];
       render();
     },
     setSelectedRange: (next) => {
