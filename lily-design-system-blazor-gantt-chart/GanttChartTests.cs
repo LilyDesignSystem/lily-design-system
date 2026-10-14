@@ -719,6 +719,130 @@ public class GanttChartTests : TestContext
 
         Assert.Equal("Design/e2s/0", cut.Find(".gantt-chart-dependency-summary").TextContent.Trim());
     }
+
+    // =====================================================================
+    // Round 3 — zoom, resize handles, selection, Alt+Arrow, TaskAttributes
+    // =====================================================================
+
+    private static AngleSharp.Dom.IElement ZoomButton(IRenderedComponent<GanttChart> cut, string name)
+        => cut.FindAll("button").First(b => b.GetAttribute("aria-label") == name);
+
+    private static AngleSharp.Dom.IElement CellIn(IRenderedComponent<GanttChart> cut, int row, int col)
+        => Rows(cut)[row].QuerySelectorAll(".gantt-table-td")[col];
+
+    [Fact]
+    public void No_Zoom_Buttons_Without_Labels_ZoomIn_Or_ZoomOut()
+    {
+        var cut = RenderDefault(labels: Labels);
+        Assert.Empty(cut.FindAll(".gantt-chart-zoom"));
+    }
+
+    [Fact]
+    public void Zoom_Out_Steps_To_Coarser_Columns_Announcing_Each_Unit_And_The_Buttons_Disable_At_The_Ends()
+    {
+        var cut = RenderDefault(labels: Labels with { ZoomIn = "Zoom in", ZoomOut = "Zoom out", ZoomAnnouncement = u => $"Showing {u}" });
+        Assert.True(ZoomButton(cut, "Zoom in").HasAttribute("disabled"));
+        var day = cut.FindAll(".gantt-table-thead .gantt-table-th").Count;
+        ZoomButton(cut, "Zoom out").Click();
+        Assert.True(cut.FindAll(".gantt-table-thead .gantt-table-th").Count < day);
+        Assert.Equal("Showing Week", cut.Find(".gantt-chart-status").TextContent);
+        ZoomButton(cut, "Zoom out").Click();
+        Assert.True(ZoomButton(cut, "Zoom out").HasAttribute("disabled"));
+        Assert.False(ZoomButton(cut, "Zoom in").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void A_Leaf_Tasks_Bar_Has_A_Start_Handle_And_The_Last_In_Range_Cell_An_End_Handle_None_When_Readonly_Or_For_A_Parent()
+    {
+        var cut = RenderDefault();
+        Assert.NotNull(Rows(cut)[0].QuerySelector(".gantt-chart-bar-handle-start"));
+        Assert.NotNull(CellIn(cut, 0, 2).QuerySelector(".gantt-chart-bar-handle-end"));
+        Assert.Null(Rows(cut)[3].QuerySelector(".gantt-chart-bar-handle"));
+
+        var ro = RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, Tasks);
+            p.Add(x => x.Readonly, true);
+        });
+        Assert.Empty(ro.FindAll(".gantt-chart-bar-handle"));
+    }
+
+    [Fact]
+    public async Task The_End_Handle_Extends_The_End_And_The_Start_Handle_Moves_The_Start_And_The_Range_Cannot_Invert()
+    {
+        var changes = new List<(string, string, string)>();
+        var cut = RenderDefault(onTaskChange: EventCallback.Factory.Create<(string, string, string)>(this, a => changes.Add(a)));
+        await CellIn(cut, 0, 2).QuerySelector(".gantt-chart-bar-handle-end")!.TriggerEventAsync("ondragstart", new DragEventArgs());
+        await CellIn(cut, 0, 5).TriggerEventAsync("ondrop", new DragEventArgs());
+        await Rows(cut)[0].QuerySelector(".gantt-chart-bar-handle-start")!.TriggerEventAsync("ondragstart", new DragEventArgs());
+        await CellIn(cut, 0, 1).TriggerEventAsync("ondrop", new DragEventArgs());
+        await Rows(cut)[0].QuerySelector(".gantt-chart-bar-handle-start")!.TriggerEventAsync("ondragstart", new DragEventArgs());
+        await CellIn(cut, 0, 7).TriggerEventAsync("ondrop", new DragEventArgs());
+
+        Assert.Equal(new[] { ("design", "2026-10-01", "2026-10-06"), ("design", "2026-10-02", "2026-10-03") }, changes);
+    }
+
+    [Fact]
+    public async Task Clicking_A_Row_Selects_It_Again_Deselects_The_S_Key_Selects_And_SelectedTaskId_Starts_Selected()
+    {
+        var cut = RenderDefault();
+        await CellIn(cut, 1, 0).ClickAsync(new MouseEventArgs());
+        Assert.Equal("true", Rows(cut)[1].GetAttribute("aria-selected"));
+        Assert.NotNull(Rows(cut)[1].GetAttribute("data-selected"));
+        await CellIn(cut, 1, 0).ClickAsync(new MouseEventArgs());
+        Assert.Null(Rows(cut)[1].GetAttribute("data-selected"));
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "s" });
+        Assert.Equal("true", Rows(cut)[0].GetAttribute("aria-selected"));
+
+        var g = RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, Tasks);
+            p.Add(x => x.SelectedTaskId, "launch");
+        });
+        Assert.NotNull(Rows(g)[2].GetAttribute("data-selected"));
+    }
+
+    [Fact]
+    public void Alt_Arrow_Shifts_The_Task_Alt_Shift_Arrow_Moves_The_End_Not_Before_The_Range_And_Readonly_Ignores()
+    {
+        var changes = new List<(string, string, string)>();
+        var cut = RenderDefault(onTaskChange: EventCallback.Factory.Create<(string, string, string)>(this, a => changes.Add(a)));
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "ArrowLeft", AltKey = true });
+        Assert.Empty(changes);
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        TabbableCells(cut).Single().KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true, ShiftKey = true });
+        Assert.Equal(("design", "2026-10-02", "2026-10-04"), changes[0]);
+
+        var roChanges = new List<(string, string, string)>();
+        var ro = RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, Tasks);
+            p.Add(x => x.Readonly, true);
+            p.Add(x => x.OnTaskChange, EventCallback.Factory.Create<(string, string, string)>(this, a => roChanges.Add(a)));
+        });
+        TabbableCells(ro).Single().KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Empty(roChanges);
+    }
+
+    [Fact]
+    public void TaskAttributes_Adds_Attributes_To_Each_Tasks_Row()
+    {
+        var cut = RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, Tasks);
+            p.Add(x => x.TaskAttributes, t => new Dictionary<string, object> { ["data-team"] = t.Id == "design" ? "ux" : "eng" });
+        });
+        Assert.Equal("ux", Rows(cut)[0].GetAttribute("data-team"));
+        Assert.Equal("eng", Rows(cut)[1].GetAttribute("data-team"));
+    }
 }
 
 public class GanttChartExtrasTests : TestContext

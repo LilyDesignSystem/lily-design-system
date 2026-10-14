@@ -36,6 +36,21 @@
 *@
 
 <div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
+    @if (Labels.ZoomIn is not null || Labels.ZoomOut is not null)
+    {
+        <div class="gantt-chart-zoom" role="group" aria-label="@Label">
+            @if (Labels.ZoomOut is not null)
+            {
+                <button type="button" class="gantt-chart-zoom-out-button" aria-label="@Labels.ZoomOut"
+                        disabled="@(ZoomIndex <= 0)" @onclick="@(() => ZoomAsync(-1))">&#8722;</button>
+            }
+            @if (Labels.ZoomIn is not null)
+            {
+                <button type="button" class="gantt-chart-zoom-in-button" aria-label="@Labels.ZoomIn"
+                        disabled="@(ZoomIndex >= ZoomOrder.Length - 1)" @onclick="@(() => ZoomAsync(1))">+</button>
+            }
+        </div>
+    }
     <GanttTable Label="@Label" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
@@ -78,7 +93,11 @@
                 var deps = PredecessorLabels(row.Task);
                 <GanttTableTr data-task-type="@row.Task.Type"
                               data-critical="@(row.Task.Critical ? "" : null)"
-                              data-slack="@(row.Task.Slack?.ToString())">
+                              data-slack="@(row.Task.Slack?.ToString())"
+                              data-task-id="@row.Task.Id"
+                              aria-selected="@(SelectedTaskId == row.Task.Id ? "true" : null)"
+                              data-selected="@(SelectedTaskId == row.Task.Id ? "" : null)"
+                              @attributes="@(TaskAttributes is not null ? TaskAttributes(row.Task) : null)">
                     @* Depth is data for the consumer's CSS (indentation), never an inline style. *@
                     <GanttTableTH scope="row" data-depth="@row.Depth">
                         @* Gated on Labels.CollapseButton: an unnamed button is worse than none. *@
@@ -134,13 +153,29 @@
                                       data-baseline="@(HasBaseline(currentTask, column) ? "" : null)"
                                       @ondragover:preventDefault="true"
                                       @ondrop="@(e => OnCellDropAsync(column, e))"
+                                      @onclick="@(() => SelectTaskAsync(currentTask.Id))"
                                       @onfocusin="@(() => OnCellFocusIn(rowNum, colNum))">
                             @if (isLeadingCell)
                             {
                                 <span class="gantt-chart-bar"
                                       data-percent-complete="@(currentTask.PercentComplete?.ToString() ?? null)"
                                       draggable="@(!hasChildrenForCell && !Readonly ? "true" : null)"
-                                      @ondragstart="@(e => OnBarDragStart(currentTask, e))"></span>
+                                      @ondragstart="@(e => OnBarDragStart(currentTask, e))">@if (!hasChildrenForCell && !Readonly)
+                                    {
+                                        <span class="gantt-chart-bar-handle gantt-chart-bar-handle-start"
+                                              draggable="true"
+                                              aria-hidden="true"
+                                              @ondragstart="@(() => OnHandleDragStart(currentTask, "start"))"
+                                              @ondragstart:stopPropagation="true"></span>
+                                    }</span>
+                            }
+                            @if (!hasChildrenForCell && !Readonly && inRange && RangesOverlap(column.Start, column.End, range.End, range.End))
+                            {
+                                <span class="gantt-chart-bar-handle gantt-chart-bar-handle-end"
+                                      draggable="true"
+                                      aria-hidden="true"
+                                      @ondragstart="@(() => OnHandleDragStart(currentTask, "end"))"
+                                      @ondragstart:stopPropagation="true"></span>
                             }
                         </GanttTableTD>
                     }

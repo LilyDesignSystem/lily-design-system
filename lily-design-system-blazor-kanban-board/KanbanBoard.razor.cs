@@ -35,6 +35,12 @@ public sealed class KanbanColumn
 
     /// <summary>A hard limit: a move into this column is refused once it holds <c>WipLimit</c> cards.</summary>
     public bool StrictLimit { get; init; }
+
+    /// <summary>A non-colour status for the column (for example "Over capacity"): visible text in its header and <c>data-flag</c>.</summary>
+    public string? Flag { get; init; }
+
+    /// <summary>A hook for per-column colour: becomes <c>data-accent</c> on the header and every cell. Lily sets no colour.</summary>
+    public string? Accent { get; init; }
 }
 
 /// <summary>A kanban card. See <c>spec/index.md §5</c>.</summary>
@@ -48,6 +54,41 @@ public sealed class KanbanCard
 
     /// <summary>Visible card title.</summary>
     public required string Title { get; init; }
+
+    /// <summary>A locked card cannot be moved, dragged or reordered (<c>data-locked</c> on its cell); it still counts toward WIP limits.</summary>
+    public bool Locked { get; init; }
+
+    /// <summary>A second line under the title (a priority, "source · score", an amount).</summary>
+    public string? Subtitle { get; init; }
+
+    /// <summary>Short labels shown under the subtitle (each a <c>.kanban-board-card-badge</c>).</summary>
+    public IReadOnlyList<string>? Badges { get; init; }
+
+    /// <summary>A non-colour status (for example "SLA breached"): visible text, <c>data-flag</c>, and linked to the cell with <c>aria-describedby</c>.</summary>
+    public string? Flag { get; init; }
+
+    /// <summary>Makes the title a link to the record (<c>&lt;a href&gt;</c>).</summary>
+    public string? Href { get; init; }
+
+    /// <summary><c>false</c> stops pointer dragging this card while keeping the move menu and keyboard moves.</summary>
+    public bool? Draggable { get; init; }
+}
+
+/// <summary>What the <c>CardTemplate</c> receives.</summary>
+public sealed class KanbanCardContext
+{
+    public required KanbanCard Card { get; init; }
+    public required string Label { get; init; }
+    public required KanbanColumn Column { get; init; }
+    public bool Pending { get; init; }
+}
+
+/// <summary>What <c>ColumnHeader</c> / <c>ColumnFooter</c> receive: the column and every card in it (unfiltered).</summary>
+public sealed class KanbanColumnContext
+{
+    public required KanbanColumn Column { get; init; }
+    public required IReadOnlyList<KanbanCard> Cards { get; init; }
+    public int Count { get; init; }
 }
 
 /// <summary>
@@ -83,6 +124,18 @@ public sealed record KanbanLabels
 
     /// <summary>Accessible name for a column's add-card button. Gates the button.</summary>
     public Func<KanbanColumn, string>? AddCard { get; init; }
+
+    /// <summary>Message shown in an empty column (a column with no cards to show). Gates the message.</summary>
+    public Func<KanbanColumn, string>? EmptyColumn { get; init; }
+
+    /// <summary>Announced while an async <c>MoveHandler</c> is pending: (card title, column title).</summary>
+    public Func<string, string, string>? MovePending { get; init; }
+
+    /// <summary>Announced when an async <c>MoveHandler</c> fails and the card goes back: (card title, column title, the exception).</summary>
+    public Func<string, string, Exception, string>? MoveFailed { get; init; }
+
+    /// <summary>Accessible name of the board's search field. Gates the field.</summary>
+    public string? Search { get; init; }
 }
 
 public partial class KanbanBoard : ComponentBase
@@ -114,6 +167,46 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>Called after a card moves to a new column, by pointer or by the move menu.</summary>
     [Parameter] public EventCallback<(string CardId, string ToColumnId)> OnMove { get; set; }
+
+    /// <summary>Raised additionally when a pointer drop landed on a card: (card, column, 0-based position in the visible column).</summary>
+    [Parameter] public EventCallback<(string CardId, string ToColumnId, int ToIndex)> OnMoveAt { get; set; }
+
+    /// <summary>
+    /// An async move: awaited when a card moves. The card shows in its new column at once with <c>data-pending</c> and
+    /// <c>aria-busy</c> and goes back if it throws (<c>Labels.MoveFailed</c>, <c>OnMoveError</c>). <c>OnMove</c> is raised either way.
+    /// </summary>
+    [Parameter] public Func<string, string, int?, Task>? MoveHandler { get; set; }
+
+    /// <summary>Raised when an async <c>MoveHandler</c> throws, after the card has gone back.</summary>
+    [Parameter] public EventCallback<(string CardId, string ToColumnId, Exception Error)> OnMoveError { get; set; }
+
+    /// <summary>The columns a card may move to (its own column is always shown). The move menu offers only these; drops and keyboard moves elsewhere are refused.</summary>
+    [Parameter] public Func<KanbanCard, IReadOnlyList<string>>? AllowedColumns { get; set; }
+
+    /// <summary>Hides cards for which it returns false. Counts, WIP limits and over-limit warnings still use every card; a filtered column carries <c>data-hidden-count</c>.</summary>
+    [Parameter] public Func<KanbanCard, bool>? Filter { get; set; }
+
+    /// <summary>Orders the cards shown within each column (a stable sort).</summary>
+    [Parameter] public Comparison<KanbanCard>? Compare { get; set; }
+
+    /// <summary>Extra attributes on each card's cell (for example <c>data-priority</c>).</summary>
+    [Parameter] public Func<KanbanCard, IReadOnlyDictionary<string, object>>? CardAttributes { get; set; }
+
+    /// <summary>Board-level search: shows only cards whose text contains it (case-insensitive). Bindable: <c>@bind-Search</c>; combines with <c>Filter</c>.</summary>
+    [Parameter] public string SearchValue { get; set; } = "";
+    [Parameter] public EventCallback<string> SearchValueChanged { get; set; }
+
+    /// <summary>The text <c>SearchValue</c> looks in. Defaults to the label, subtitle and badges.</summary>
+    [Parameter] public Func<KanbanCard, string>? SearchText { get; set; }
+
+    /// <summary>Replaces a card's title content (the subtitle and badges are then the template's own).</summary>
+    [Parameter] public RenderFragment<KanbanCardContext>? CardTemplate { get; set; }
+
+    /// <summary>Rendered in each column's header after its title and flag.</summary>
+    [Parameter] public RenderFragment<KanbanColumnContext>? ColumnHeader { get; set; }
+
+    /// <summary>Rendered in a <c>&lt;tfoot&gt;</c> cell per column: sums per stage.</summary>
+    [Parameter] public RenderFragment<KanbanColumnContext>? ColumnFooter { get; set; }
 
     /// <summary>Called when Alt+ArrowUp/Down moves a card within its column; <c>ToIndex</c> is 0-based. The consumer reorders <c>Cards</c>.</summary>
     [Parameter] public EventCallback<(string CardId, int ToIndex)> OnReorder { get; set; }
@@ -194,7 +287,13 @@ public partial class KanbanBoard : ComponentBase
     // Derived data.
     // -------------------------------------------------------------------
 
-    private IReadOnlyDictionary<string, List<KanbanCard>> CardsByColumn
+    /// <summary>Cards moved optimistically by an async <c>MoveHandler</c> that has not settled: id → destination column.</summary>
+    private readonly Dictionary<string, string> _optimistic = new();
+
+    private bool IsPending(string cardId) => _optimistic.ContainsKey(cardId);
+
+    /// <summary>Every card per column, optimistic moves applied (counts and WIP limits use this).</summary>
+    private IReadOnlyDictionary<string, List<KanbanCard>> AllByColumn
     {
         get
         {
@@ -202,11 +301,39 @@ public partial class KanbanBoard : ComponentBase
             foreach (var column in Columns) map[column.Id] = new List<KanbanCard>();
             foreach (var card in Cards)
             {
-                if (map.TryGetValue(card.ColumnId, out var list)) list.Add(card);
+                var columnId = _optimistic.TryGetValue(card.Id, out var moved) ? moved : card.ColumnId;
+                if (map.TryGetValue(columnId, out var list)) list.Add(card);
             }
             return map;
         }
     }
+
+    /// <summary>What the grid shows: the filtered, searched, sorted view.</summary>
+    private IReadOnlyDictionary<string, List<KanbanCard>> CardsByColumn
+    {
+        get
+        {
+            var needle = (SearchValue ?? "").Trim().ToLowerInvariant();
+            var map = new Dictionary<string, List<KanbanCard>>();
+            foreach (var (id, list) in AllByColumn)
+            {
+                IEnumerable<KanbanCard> shown = Filter is null ? list : list.Where(Filter);
+                if (needle.Length > 0)
+                {
+                    shown = shown.Where(c => (SearchText?.Invoke(c)
+                        ?? string.Join(" ", new[] { ResolveCardLabel(c), c.Subtitle ?? "" }.Concat(c.Badges ?? Array.Empty<string>())))
+                        .ToLowerInvariant().Contains(needle));
+                }
+                var result = shown.ToList();
+                if (Compare is not null) result = result.OrderBy(c => c, Comparer<KanbanCard>.Create(Compare)).ToList();
+                map[id] = result;
+            }
+            return map;
+        }
+    }
+
+    private bool IsEmptyColumn(KanbanColumn column, IReadOnlyDictionary<string, List<KanbanCard>> shown)
+        => !IsCollapsed(column.Id) && (shown.TryGetValue(column.Id, out var list) ? list.Count : 0) == 0;
 
     private int MaxRows(IReadOnlyDictionary<string, List<KanbanCard>> byColumn)
     {
@@ -217,6 +344,8 @@ public partial class KanbanBoard : ComponentBase
             var count = byColumn.TryGetValue(column.Id, out var list) ? list.Count : 0;
             if (count > max) max = count;
         }
+        // A row exists for an empty column's message even when no column has a card to show.
+        if (max == 0 && Labels.EmptyColumn is not null && Columns.Any(c => IsEmptyColumn(c, byColumn))) max = 1;
         return max;
     }
 
@@ -264,15 +393,53 @@ public partial class KanbanBoard : ComponentBase
     private bool IsRefused(KanbanCard card, KanbanColumn toColumn)
     {
         if (toColumn.Id == card.ColumnId) return false;
+        if (AllowedColumns is not null && !AllowedColumns(card).Contains(toColumn.Id)) return true;
         if (CanMove is not null && !CanMove(card, toColumn)) return true;
         return toColumn.StrictLimit
             && toColumn.WipLimit is { } limit
-            && (CardsByColumn.TryGetValue(toColumn.Id, out var list) ? list.Count : 0) >= limit;
+            && (AllByColumn.TryGetValue(toColumn.Id, out var list) ? list.Count : 0) >= limit;
     }
 
-    private async Task MoveCardAsync(KanbanCard card, KanbanColumn toColumn)
+    /// <summary>The columns the move menu offers for <paramref name="card"/>: its own, and the ones it may move to.</summary>
+    private IReadOnlyList<KanbanColumn> MoveTargets(KanbanCard card)
     {
-        if (Readonly) return;
+        if (AllowedColumns is null) return Columns;
+        var allowed = AllowedColumns(card);
+        return Columns.Where(c => c.Id == card.ColumnId || allowed.Contains(c.Id)).ToList();
+    }
+
+    private async Task RunMoveAsync(KanbanCard card, KanbanColumn toColumn, int? toIndex)
+    {
+        await OnMove.InvokeAsync((card.Id, toColumn.Id));
+        if (toIndex is { } index) await OnMoveAt.InvokeAsync((card.Id, toColumn.Id, index));
+        if (MoveHandler is null)
+        {
+            Announce(Labels.MoveAnnouncement?.Invoke(ResolveCardLabel(card), toColumn.Title));
+            return;
+        }
+        _optimistic[card.Id] = toColumn.Id;
+        Announce(Labels.MovePending?.Invoke(ResolveCardLabel(card), toColumn.Title));
+        StateHasChanged();
+        try
+        {
+            await MoveHandler(card.Id, toColumn.Id, toIndex);
+            Announce(Labels.MoveAnnouncement?.Invoke(ResolveCardLabel(card), toColumn.Title));
+        }
+        catch (Exception error)
+        {
+            Announce(Labels.MoveFailed?.Invoke(ResolveCardLabel(card), toColumn.Title, error));
+            await OnMoveError.InvokeAsync((card.Id, toColumn.Id, error));
+        }
+        finally
+        {
+            _optimistic.Remove(card.Id);
+            StateHasChanged();
+        }
+    }
+
+    private async Task MoveCardAsync(KanbanCard card, KanbanColumn toColumn, int? toIndex = null)
+    {
+        if (Readonly || card.Locked || IsPending(card.Id)) return;
         if (IsRefused(card, toColumn))
         {
             Announce(Labels.MoveBlocked?.Invoke(ResolveCardLabel(card), toColumn.Title));
@@ -281,20 +448,20 @@ public partial class KanbanBoard : ComponentBase
         }
         if (toColumn.Id != card.ColumnId)
         {
-            await OnMove.InvokeAsync((card.Id, toColumn.Id));
-            Announce(Labels.MoveAnnouncement?.Invoke(ResolveCardLabel(card), toColumn.Title));
+            await RunMoveAsync(card, toColumn, toIndex);
         }
         await CloseMoveMenuAsync();
     }
 
     private void OpenMoveMenu(KanbanCard card)
     {
-        if (Readonly) return;
+        if (Readonly || card.Locked) return;
         _openCardId = card.Id;
         var currentIndex = -1;
-        for (var i = 0; i < Columns.Count; i++)
+        var targets = MoveTargets(card);
+        for (var i = 0; i < targets.Count; i++)
         {
-            if (Columns[i].Id == card.ColumnId) { currentIndex = i; break; }
+            if (targets[i].Id == card.ColumnId) { currentIndex = i; break; }
         }
         _moveActiveIndex = currentIndex >= 0 ? currentIndex : 0;
         _focusListPending = true;
@@ -324,6 +491,7 @@ public partial class KanbanBoard : ComponentBase
 
     private void OnCardDragStart(KanbanCard card, DragEventArgs _)
     {
+        if (card.Locked) return;
         _draggingCardId = card.Id;
     }
 
@@ -338,13 +506,36 @@ public partial class KanbanBoard : ComponentBase
     // OnColumnDropAsync below still only acts when it can resolve a real
     // dragged KanbanCard, so nothing unwanted happens on drop.
 
-    private async Task OnColumnDropAsync(KanbanColumn column, DragEventArgs _)
+    private async Task OnColumnDropAsync(KanbanColumn column, int rowIndex, DragEventArgs _)
     {
         var cardId = _draggingCardId;
         _draggingCardId = null;
+        _dropTarget = null;
+        if (Readonly) return;
         var card = Cards.FirstOrDefault(c => c.Id == cardId);
-        // Dropping a card back on its own column is not a move.
-        if (card is not null && card.ColumnId != column.Id) await MoveCardAsync(card, column);
+        if (card is null) return;
+        var shown = CardsByColumn.TryGetValue(column.Id, out var list) ? list : new List<KanbanCard>();
+        var overCard = rowIndex < shown.Count ? shown[rowIndex] : null;
+        if (card.ColumnId == column.Id)
+        {
+            // Dropped on another card of its own column: reorder to that position.
+            var from = shown.FindIndex(c => c.Id == card.Id);
+            if (overCard is not null && from >= 0 && from != rowIndex)
+            {
+                await OnReorder.InvokeAsync((card.Id, rowIndex));
+                Announce(Labels.ReorderAnnouncement?.Invoke(ResolveCardLabel(card), rowIndex + 1, shown.Count));
+            }
+            return;
+        }
+        await MoveCardAsync(card, column, overCard is not null ? rowIndex : null);
+    }
+
+    /// <summary>The cell a dragged card is over, for <c>data-drop-target</c> styling.</summary>
+    private string? _dropTarget;
+
+    private void OnColumnDragEnter(int rowIndex, int colIndex)
+    {
+        if (_draggingCardId is not null && !Readonly) _dropTarget = $"{rowIndex}-{colIndex}";
     }
 
     // -------------------------------------------------------------------
@@ -415,7 +606,7 @@ public partial class KanbanBoard : ComponentBase
         if (Readonly) return;
         var byColumn = CardsByColumn;
         var card = CardAt(Columns, byColumn, _focusedCol, _focusedRow);
-        if (card is null) return;
+        if (card is null || card.Locked) return;
         var total = byColumn.TryGetValue(card.ColumnId, out var list) ? list.Count : 0;
         var toIndex = _focusedRow + delta;
         if (toIndex < 0 || toIndex >= total) return;
@@ -442,6 +633,18 @@ public partial class KanbanBoard : ComponentBase
         var maxRows = MaxRows(byColumn);
         var columnCount = Columns.Count;
         var ctrlOrMeta = args.CtrlKey || args.MetaKey;
+
+        if (args.AltKey && (args.Key == "ArrowLeft" || args.Key == "ArrowRight"))
+        {
+            // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
+            var movingCard = CardAt(Columns, byColumn, _focusedCol, _focusedRow);
+            var neighbour = _focusedCol + (args.Key == "ArrowLeft" ? -1 : 1);
+            if (movingCard is not null && neighbour >= 0 && neighbour < Columns.Count)
+            {
+                await MoveCardAsync(movingCard, Columns[neighbour]);
+            }
+            return;
+        }
 
         if (args.AltKey && (args.Key == "ArrowUp" || args.Key == "ArrowDown"))
         {

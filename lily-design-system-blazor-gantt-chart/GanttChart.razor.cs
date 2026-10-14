@@ -105,6 +105,15 @@ public sealed record GanttLabels
     /// <summary>Header for the leading task-label column; an empty header cell otherwise.</summary>
     public string? TaskColumnHeader { get; init; }
     public Func<string, string, GanttTimeUnit, string>? ColumnLabel { get; init; }
+
+    /// <summary>Accessible name for the zoom-in button (finer columns). Gates the button.</summary>
+    public string? ZoomIn { get; init; }
+
+    /// <summary>Accessible name for the zoom-out button (coarser columns). Gates the button.</summary>
+    public string? ZoomOut { get; init; }
+
+    /// <summary>Announced after a zoom step with the new unit.</summary>
+    public Func<GanttTimeUnit, string>? ZoomAnnouncement { get; init; }
     public Func<GanttTask, string>? EditButton { get; init; }
     public string? StartLabel { get; init; }
     public string? EndLabel { get; init; }
@@ -162,8 +171,16 @@ public partial class GanttChart : ComponentBase
     /// <summary>Task data.</summary>
     [Parameter, EditorRequired] public IReadOnlyList<GanttTask> Tasks { get; set; } = Array.Empty<GanttTask>();
 
-    /// <summary>Column granularity. A static rendering choice, not an interactive zoom control.</summary>
+    /// <summary>Column granularity. Bindable: <c>@bind-TimeUnit</c>. The zoom buttons (shown when <c>Labels.ZoomIn</c> / <c>Labels.ZoomOut</c> name them) step it month ↔ week ↔ day.</summary>
     [Parameter] public GanttTimeUnit TimeUnit { get; set; } = GanttTimeUnit.Day;
+    [Parameter] public EventCallback<GanttTimeUnit> TimeUnitChanged { get; set; }
+
+    /// <summary>The selected task's id. Bindable: <c>@bind-SelectedTaskId</c>. A click on a task's cell or the <c>s</c> key on it selects (again deselects); <c>aria-selected</c>, <c>data-selected</c>.</summary>
+    [Parameter] public string? SelectedTaskId { get; set; }
+    [Parameter] public EventCallback<string?> SelectedTaskIdChanged { get; set; }
+
+    /// <summary>Extra attributes on each task's row (for example <c>data-team</c>).</summary>
+    [Parameter] public Func<GanttTask, IReadOnlyDictionary<string, object>>? TaskAttributes { get; set; }
 
     /// <summary>ISO date marking "today"; never computed internally (stays SSR-safe).</summary>
     [Parameter] public string? Today { get; set; }
@@ -507,7 +524,72 @@ public partial class GanttChart : ComponentBase
         _focusCellPending = true;
     }
 
-    private void OnBarDragStart(GanttTask task, DragEventArgs _) => _draggingTaskId = task.Id;
+    private void OnBarDragStart(GanttTask task, DragEventArgs _)
+    {
+        _draggingTaskId = task.Id;
+        _resizingEdge = null;
+    }
+
+    /// <summary>Which edge of the dragged task's bar is being resized, or null for a whole-bar move.</summary>
+    private string? _resizingEdge;
+
+    private void OnHandleDragStart(GanttTask task, string edge)
+    {
+        _draggingTaskId = task.Id;
+        _resizingEdge = edge;
+    }
+
+    // ---- Zoom ----
+
+    private static readonly GanttTimeUnit[] ZoomOrder = { GanttTimeUnit.Month, GanttTimeUnit.Week, GanttTimeUnit.Day };
+
+    private int ZoomIndex => Array.IndexOf(ZoomOrder, TimeUnit);
+
+    private async Task ZoomAsync(int delta)
+    {
+        var next = ZoomIndex + delta;
+        if (next < 0 || next >= ZoomOrder.Length) return;
+        TimeUnit = ZoomOrder[next];
+        await TimeUnitChanged.InvokeAsync(TimeUnit);
+        Announce(Labels.ZoomAnnouncement?.Invoke(TimeUnit));
+    }
+
+    // ---- Selection ----
+
+    private async Task SelectTaskAsync(string taskId)
+    {
+        SelectedTaskId = SelectedTaskId == taskId ? null : taskId;
+        await SelectedTaskIdChanged.InvokeAsync(SelectedTaskId);
+    }
+
+    // ---- Keyboard shift / resize (Alt+Arrow) ----
+
+    private int ColumnIndexOf(string isoDate)
+    {
+        var columns = Columns;
+        for (var i = 0; i < columns.Count; i++)
+        {
+            if (RangesOverlap(columns[i].Start, columns[i].End, isoDate, isoDate)) return i;
+        }
+        return -1;
+    }
+
+    private async Task ShiftTaskAsync(GanttTask task, int delta, bool endOnly)
+    {
+        var columns = Columns;
+        if (endOnly)
+        {
+            var i = ColumnIndexOf(task.End) + delta;
+            if (i >= 0 && i < columns.Count && CompareIso(task.Start, columns[i].End) <= 0)
+                await ApplyChangeAsync(task, task.Start, columns[i].End);
+            return;
+        }
+        var j = ColumnIndexOf(task.Start) + delta;
+        if (j < 0 || j >= columns.Count) return;
+        var startEpoch = DateTimePicker.ToEpochDay(DateTimePicker.ParseIsoDate(task.Start) ?? default);
+        var endEpoch = DateTimePicker.ToEpochDay(DateTimePicker.ParseIsoDate(task.End) ?? default);
+        await ApplyChangeAsync(task, columns[j].Start, AddDays(columns[j].Start, (int)(endEpoch - startEpoch)));
+    }
 
     // Same simplification as KanbanBoard's OnColumnDragOver: Blazor cannot
     // combine a plain @ondragover handler with an @ondragover:preventDefault
@@ -537,7 +619,18 @@ public partial class GanttChart : ComponentBase
         var taskId = _draggingTaskId;
         _draggingTaskId = null;
         var task = Tasks.FirstOrDefault(t => t.Id == taskId);
+        var edge = _resizingEdge;
+        _resizingEdge = null;
         if (task is null) return;
+        if (edge is not null)
+        {
+            // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
+            var newStart = edge == "start" ? column.Start : task.Start;
+            var newEnd = edge == "end" ? column.End : task.End;
+            if (CompareIso(newStart, newEnd) <= 0 && (newStart != task.Start || newEnd != task.End))
+                await ApplyChangeAsync(task, newStart, newEnd);
+            return;
+        }
         var startEpoch = DateTimePicker.ToEpochDay(DateTimePicker.ParseIsoDate(task.Start) ?? default);
         var endEpoch = DateTimePicker.ToEpochDay(DateTimePicker.ParseIsoDate(task.End) ?? default);
         var duration = (int)(endEpoch - startEpoch);
@@ -573,7 +666,7 @@ public partial class GanttChart : ComponentBase
         _focusCellPending = true;
     }
 
-    private void OnGridKeyDown(KeyboardEventArgs args)
+    private async Task OnGridKeyDown(KeyboardEventArgs args)
     {
         // See KanbanBoard's own note on the same guard: Blazor's
         // KeyboardEventArgs carries no event-target info, so while the
@@ -587,8 +680,23 @@ public partial class GanttChart : ComponentBase
         var columnCount = columns.Count;
         var ctrlOrMeta = args.CtrlKey || args.MetaKey;
 
+        if (args.AltKey && (args.Key == "ArrowLeft" || args.Key == "ArrowRight"))
+        {
+            // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
+            if (_focusedRow >= 0 && _focusedRow < rows.Count && !Readonly && !rows[_focusedRow].HasChildren)
+            {
+                await ShiftTaskAsync(rows[_focusedRow].Task, args.Key == "ArrowLeft" ? -1 : 1, args.ShiftKey);
+                return;
+            }
+        }
+
         switch (args.Key)
         {
+            case "s":
+            case "S":
+                if (!args.CtrlKey && !args.MetaKey && !args.AltKey && _focusedRow >= 0 && _focusedRow < rows.Count)
+                    await SelectTaskAsync(rows[_focusedRow].Task.Id);
+                break;
             case "ArrowUp":
                 MoveFocus(_focusedRow - 1, _focusedCol, columnCount, rowCount);
                 break;

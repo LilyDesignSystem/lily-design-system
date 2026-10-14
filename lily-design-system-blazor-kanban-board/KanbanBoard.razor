@@ -29,6 +29,14 @@
 *@
 
 <div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
+    @if (Labels.Search is not null)
+    {
+        <input type="search"
+               class="kanban-board-search"
+               aria-label="@Labels.Search"
+               value="@SearchValue"
+               @oninput="@(async (ChangeEventArgs e) => { SearchValue = e.Value?.ToString() ?? ""; await SearchValueChanged.InvokeAsync(SearchValue); })" />
+    }
     <KanbanTable Label="@Label" role="grid" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
@@ -39,13 +47,17 @@
         }
         <KanbanTableHead>
             <KanbanTableRow>
-                @{ var byColumnHead = CardsByColumn; }
+                @{ var byColumnHead = AllByColumn; var shownHead = CardsByColumn; }
                 @foreach (var column in Columns)
                 {
                     var count = byColumnHead.TryGetValue(column.Id, out var headList) ? headList.Count : 0;
+                    var hiddenCount = count - (shownHead.TryGetValue(column.Id, out var shownList) ? shownList.Count : 0);
                     var overLimit = column.WipLimit is { } limit && count > limit;
                     var columnCollapsed = IsCollapsed(column.Id);
-                    <KanbanTableTH scope="col" data-over-limit="@(overLimit ? "" : null)" data-collapsed="@(columnCollapsed ? "" : null)">
+                    <KanbanTableTH scope="col" data-over-limit="@(overLimit ? "" : null)" data-collapsed="@(columnCollapsed ? "" : null)"
+                                    data-hidden-count="@(hiddenCount > 0 ? hiddenCount.ToString() : null)"
+                                    data-flag="@column.Flag"
+                                    data-accent="@column.Accent">
                         @if (Labels.CollapseColumn is not null)
                         {
                             var toggled = column;
@@ -56,6 +68,14 @@
                                     @onclick="@(() => ToggleCollapsedAsync(toggled))">@(columnCollapsed ? "▸" : "▾")</button>
                         }
                         @column.Title
+                        @if (column.Flag is not null)
+                        {
+                            <span class="kanban-board-column-flag">@column.Flag</span>
+                        }
+                        @if (ColumnHeader is not null)
+                        {
+                            @ColumnHeader(new KanbanColumnContext { Column = column, Cards = headList ?? new List<KanbanCard>(), Count = count })
+                        }
                         @if (Labels.CardCount is not null)
                         {
                             <span class="kanban-board-count">@Labels.CardCount(count)</span>
@@ -96,10 +116,21 @@
                                        data-row="@row"
                                        data-col="@col"
                                        data-collapsed="@(IsCollapsed(column.Id) ? "" : null)"
+                                       data-card-id="@card?.Id"
+                                       data-locked="@(card?.Locked == true ? "" : null)"
+                                       data-pending="@(card is not null && IsPending(card.Id) ? "" : null)"
+                                       aria-busy="@(card is not null && IsPending(card.Id) ? "true" : null)"
+                                       data-flag="@card?.Flag"
+                                       data-accent="@column.Accent"
+                                       data-empty="@(card is null && row == 0 && Labels.EmptyColumn is not null && IsEmptyColumn(column, byColumn) ? "" : null)"
+                                       data-drop-target="@(_dropTarget == $"{row}-{col}" ? "" : null)"
+                                       aria-describedby="@(card?.Flag is not null ? $"{_baseId}-flag-{card.Id}" : null)"
+                                       @attributes="@(card is not null && CardAttributes is not null ? CardAttributes(card) : null)"
                                        tabindex="@(isActive ? "0" : "-1")"
                                        Label="@(card is not null ? ResolveCardLabel(card) : null)"
                                        @ondragover:preventDefault="true"
-                                       @ondrop="@(e => OnColumnDropAsync(column, e))"
+                                       @ondragenter="@(() => OnColumnDragEnter(row, col))"
+                                       @ondrop="@(e => OnColumnDropAsync(column, row, e))"
                                        @onfocusin="@(() => OnCellFocusIn(row, col))">
                             @if (card is not null)
                             {
@@ -110,13 +141,44 @@
                                    of two equally-real move paths, not the accessible
                                    one — see the move-button/listbox below for that. *@
                                 <span class="kanban-board-card-title"
-                                      draggable="@(Readonly ? null : "true")"
+                                      draggable="@(Readonly || currentCard.Locked || currentCard.Draggable == false ? null : "true")"
                                       @ondragstart="@(e => OnCardDragStart(currentCard, e))">
-                                    @ResolveCardLabel(currentCard)
+                                    @if (CardTemplate is not null)
+                                    {
+                                        @CardTemplate(new KanbanCardContext { Card = currentCard, Label = ResolveCardLabel(currentCard), Column = column, Pending = IsPending(currentCard.Id) })
+                                    }
+                                    else if (currentCard.Href is not null)
+                                    {
+                                        <a class="kanban-board-card-link" href="@currentCard.Href">@ResolveCardLabel(currentCard)</a>
+                                    }
+                                    else
+                                    {
+                                        @ResolveCardLabel(currentCard)
+                                    }
                                 </span>
+                                @if (CardTemplate is null)
+                                {
+                                    @if (currentCard.Subtitle is not null)
+                                    {
+                                        <span class="kanban-board-card-subtitle">@currentCard.Subtitle</span>
+                                    }
+                                    @if (currentCard.Badges is { Count: > 0 })
+                                    {
+                                        <span class="kanban-board-card-badges">
+                                            @foreach (var badge in currentCard.Badges)
+                                            {
+                                                <span class="kanban-board-card-badge">@badge</span>
+                                            }
+                                        </span>
+                                    }
+                                }
+                                @if (currentCard.Flag is not null)
+                                {
+                                    <span class="kanban-board-card-flag" id="@($"{_baseId}-flag-{currentCard.Id}")">@currentCard.Flag</span>
+                                }
                                 @* Gated on Labels.MoveButton: an unnamed button is worse than
                                    none, and Enter/Space on the cell opens the menu either way. *@
-                                @if (Labels.MoveButton is not null && !Readonly)
+                                @if (Labels.MoveButton is not null && !Readonly && !currentCard.Locked)
                                 {
                                     <IconButton @ref="_moveButtonComponents[currentCard.Id]"
                                                 BaseCssClass="kanban-board-move-button"
@@ -135,16 +197,16 @@
                                              BaseCssClass="kanban-board-move-list"
                                              Navigation="@Listbox.ActiveDescendant"
                                              Clamp="true"
-                                             OptionCount="@Columns.Count"
+                                             OptionCount="@MoveTargets(currentCard).Count"
                                              OptionId="@MoveOptionId"
                                              @bind-ActiveIndex="_moveActiveIndex"
-                                             OnActivate="@(i => MoveCardAsync(currentCard, Columns[i]))"
+                                             OnActivate="@(i => MoveCardAsync(currentCard, MoveTargets(currentCard)[i]))"
                                              OnEscape="@(() => CloseMoveMenuAsync())"
                                              OnTabOut="@(() => CloseMoveMenuAsync(false))">
-                                        @for (var i = 0; i < Columns.Count; i++)
+                                        @for (var i = 0; i < MoveTargets(currentCard).Count; i++)
                                         {
                                             var destinationIndex = i;
-                                            var destination = Columns[destinationIndex];
+                                            var destination = MoveTargets(currentCard)[destinationIndex];
                                             <li class="kanban-board-move-option"
                                                 id="@MoveOptionId(destinationIndex)"
                                                 role="option"
@@ -158,11 +220,30 @@
                                     </Listbox>
                                 }
                             }
+                            else if (row == 0 && Labels.EmptyColumn is not null && IsEmptyColumn(column, byColumn))
+                            {
+                                <span class="kanban-board-empty">@Labels.EmptyColumn(column)</span>
+                            }
                         </KanbanTableTD>
                     }
                 </KanbanTableRow>
             }
         </KanbanTableBody>
+        @if (ColumnFooter is not null)
+        {
+            var allFoot = AllByColumn;
+            <tfoot class="kanban-table-foot">
+                <tr class="kanban-table-row">
+                    @foreach (var column in Columns)
+                    {
+                        var footCards = allFoot.TryGetValue(column.Id, out var fl) ? fl : new List<KanbanCard>();
+                        <td class="kanban-table-td kanban-board-column-footer" data-accent="@column.Accent">
+                            @ColumnFooter(new KanbanColumnContext { Column = column, Cards = footCards, Count = footCards.Count })
+                        </td>
+                    }
+                </tr>
+            </tfoot>
+        }
     </KanbanTable>
 
     <p class="kanban-board-status" aria-live="polite">@_statusMessage</p>

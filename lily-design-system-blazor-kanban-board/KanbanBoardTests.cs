@@ -701,4 +701,263 @@ public class KanbanBoardInteractionTests : TestContext
 
         Assert.Equal(("c1", "doing"), moved);
     }
+
+    // =====================================================================
+    // Round 3 and consumer capabilities (§8.31–§8.62)
+    // =====================================================================
+
+    private static readonly IReadOnlyList<KanbanCard> RichCards = new[]
+    {
+        new KanbanCard { Id = "c1", ColumnId = "todo", Title = "Card One", Subtitle = "Source · 80", Badges = new[] { "P1", "VIP" }, Flag = "SLA breached", Href = "/t/1" },
+        new KanbanCard { Id = "c2", ColumnId = "todo", Title = "Card Two" },
+        new KanbanCard { Id = "c3", ColumnId = "doing", Title = "Card Three" },
+    };
+
+    private static readonly IReadOnlyList<KanbanColumn> RichColumns = new[]
+    {
+        new KanbanColumn { Id = "todo", Title = "To Do", Flag = "Over capacity", Accent = "red" },
+        new KanbanColumn { Id = "doing", Title = "In Progress" },
+        new KanbanColumn { Id = "done", Title = "Done" },
+    };
+
+    private IRenderedComponent<KanbanBoard> RenderRich(
+        Action<ComponentParameterCollectionBuilder<KanbanBoard>>? configure = null,
+        KanbanLabels? labels = null,
+        IReadOnlyList<KanbanCard>? cards = null,
+        IReadOnlyList<KanbanColumn>? columns = null)
+        => RenderComponent<KanbanBoard>(p =>
+        {
+            p.Add(x => x.Label, "Board");
+            p.Add(x => x.Columns, columns ?? RichColumns);
+            p.Add(x => x.Cards, cards ?? RichCards);
+            p.Add(x => x.Labels, labels ?? BaseLabels with { MoveBlocked = (t, c) => $"{t} cannot go to {c}" });
+            configure?.Invoke(p);
+        });
+
+    private static AngleSharp.Dom.IElement CardCell(IRenderedComponent<KanbanBoard> cut, string id)
+        => cut.Find($"[data-card-id='{id}']");
+
+    private static AngleSharp.Dom.IElement CellAt(IRenderedComponent<KanbanBoard> cut, int row, int col)
+        => cut.Find($".kanban-table-td[data-row='{row}'][data-col='{col}']");
+
+    private static async Task FocusInAsync(AngleSharp.Dom.IElement el) => await el.TriggerEventAsync("onfocusin", new FocusEventArgs());
+
+    [Fact]
+    public void Filter_Hides_Cards_And_Counts_And_Limits_Still_Use_Every_Card_With_Data_Hidden_Count()
+    {
+        var cut = RenderRich(p => p.Add(x => x.Filter, c => c.ColumnId != "doing"), BaseLabels with { CardCount = n => $"{n} cards" });
+        Assert.DoesNotContain("Card Three", cut.Markup);
+        Assert.Contains("1 cards", cut.FindAll(".kanban-table-th")[1].TextContent);
+        Assert.Equal("1", cut.FindAll(".kanban-table-th")[1].GetAttribute("data-hidden-count"));
+        Assert.Null(cut.FindAll(".kanban-table-th")[0].GetAttribute("data-hidden-count"));
+    }
+
+    [Fact]
+    public void Compare_Orders_The_Cards_Within_Each_Column()
+    {
+        var cut = RenderRich(p => p.Add(x => x.Compare, (a, b) => string.CompareOrdinal(b.Title, a.Title)));
+        var todo = cut.FindAll(".kanban-table-td[data-col='0'] .kanban-board-card-title").Select(e => e.TextContent.Trim()).ToList();
+        Assert.Equal(new[] { "Card Two", "Card One" }, todo);
+    }
+
+    [Fact]
+    public async Task Dropping_On_A_Card_In_Another_Column_Raises_OnMoveAt_With_Its_Position_And_On_Its_Own_Column_Reorders()
+    {
+        (string, string, int)? moveAt = null;
+        (string, int)? reordered = null;
+        var cut = RenderRich(p =>
+        {
+            p.Add(x => x.OnMoveAt, EventCallback.Factory.Create<(string, string, int)>(this, a => moveAt = a));
+            p.Add(x => x.OnReorder, EventCallback.Factory.Create<(string, int)>(this, a => reordered = a));
+        });
+        await CellAt(cut, 0, 0).QuerySelector(".kanban-board-card-title")!.TriggerEventAsync("ondragstart", new DragEventArgs());
+        await CellAt(cut, 0, 1).TriggerEventAsync("ondrop", new DragEventArgs());
+        Assert.Equal(("c1", "doing", 0), moveAt);
+
+        await CellAt(cut, 0, 0).QuerySelector(".kanban-board-card-title")!.TriggerEventAsync("ondragstart", new DragEventArgs());
+        await CellAt(cut, 1, 0).TriggerEventAsync("ondrop", new DragEventArgs());
+        Assert.Equal(("c1", 1), reordered);
+    }
+
+    [Fact]
+    public async Task A_Locked_Card_Has_Data_Locked_No_Move_Button_Ignores_Enter_And_Alt_Arrow()
+    {
+        var locked = RichCards.Select(c => c.Id == "c1" ? new KanbanCard { Id = c.Id, ColumnId = c.ColumnId, Title = c.Title, Locked = true } : c).ToList();
+        (string, string)? moved = null;
+        var cut = RenderRich(p => p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a)), cards: locked);
+
+        Assert.NotNull(CardCell(cut, "c1").GetAttribute("data-locked"));
+        Assert.Empty(CardCell(cut, "c1").QuerySelectorAll(".kanban-board-move-button"));
+        Assert.Null(CardCell(cut, "c1").QuerySelector(".kanban-board-card-title")!.GetAttribute("draggable"));
+        CardCell(cut, "c1").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(cut.FindAll("li.kanban-board-move-option"));
+        CardCell(cut, "c1").KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Null(moved);
+    }
+
+    [Fact]
+    public async Task Alt_ArrowRight_Moves_The_Card_To_The_Next_Column_And_A_Full_Hard_Limited_Column_Refuses_And_Announces()
+    {
+        (string, string)? moved = null;
+        var cut = RenderRich(p => p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a)));
+        CellAt(cut, 0, 0).KeyDown(new KeyboardEventArgs { Key = "ArrowLeft", AltKey = true });
+        Assert.Null(moved);
+        CellAt(cut, 0, 0).KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Equal(("c1", "doing"), moved);
+
+        (string, string)? refused = null;
+        var strict = new[]
+        {
+            new KanbanColumn { Id = "todo", Title = "To Do" },
+            new KanbanColumn { Id = "doing", Title = "In Progress", WipLimit = 1, StrictLimit = true },
+        };
+        var g = RenderRich(p => p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => refused = a)), columns: strict);
+        CellAt(g, 0, 0).KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Null(refused);
+        Assert.Equal("Card One cannot go to In Progress", g.Find(".kanban-board-status").TextContent);
+        await Task.CompletedTask;
+    }
+
+    [Fact]
+    public void CardAttributes_Adds_Attributes_To_Each_Cards_Cell()
+    {
+        var cut = RenderRich(p => p.Add(x => x.CardAttributes, c => new Dictionary<string, object> { ["data-priority"] = c.Id == "c1" ? "high" : "low" }));
+        Assert.Equal("high", CardCell(cut, "c1").GetAttribute("data-priority"));
+        Assert.Equal("low", CardCell(cut, "c2").GetAttribute("data-priority"));
+    }
+
+    [Fact]
+    public void Subtitle_Badges_A_Link_Title_A_Flag_With_Aria_Describedby_And_Column_Flag_And_Accent_Render()
+    {
+        var cut = RenderRich();
+        Assert.Equal("Source · 80", CardCell(cut, "c1").QuerySelector(".kanban-board-card-subtitle")!.TextContent);
+        Assert.Equal(new[] { "P1", "VIP" }, CardCell(cut, "c1").QuerySelectorAll(".kanban-board-card-badge").Select(b => b.TextContent).ToArray());
+        Assert.Equal("/t/1", CardCell(cut, "c1").QuerySelector("a.kanban-board-card-link")!.GetAttribute("href"));
+        var flag = CardCell(cut, "c1").QuerySelector(".kanban-board-card-flag")!;
+        Assert.Equal("SLA breached", flag.TextContent);
+        Assert.Equal("SLA breached", CardCell(cut, "c1").GetAttribute("data-flag"));
+        Assert.Equal(flag.Id, CardCell(cut, "c1").GetAttribute("aria-describedby"));
+        var th = cut.FindAll(".kanban-table-th")[0];
+        Assert.Equal("Over capacity", th.GetAttribute("data-flag"));
+        Assert.Equal("red", th.GetAttribute("data-accent"));
+        Assert.Equal("Over capacity", th.QuerySelector(".kanban-board-column-flag")!.TextContent);
+        Assert.Equal("red", CardCell(cut, "c1").GetAttribute("data-accent"));
+    }
+
+    [Fact]
+    public void CardTemplate_Replaces_The_Title_Content_And_ColumnHeader_And_ColumnFooter_Render_Per_Column()
+    {
+        var cut = RenderRich(p =>
+        {
+            p.Add(x => x.CardTemplate, ctx => builder => builder.AddMarkupContent(0, $"<b data-custom>{ctx.Label}!</b>"));
+            p.Add(x => x.ColumnHeader, ctx => builder => builder.AddMarkupContent(0, $"<i data-header>{ctx.Count}</i>"));
+            p.Add(x => x.ColumnFooter, ctx => builder => builder.AddMarkupContent(0, $"<i data-footer='{ctx.Column.Id}'>{ctx.Count}:{string.Join(",", ctx.Cards.Select(c => c.Id))}</i>"));
+        });
+        Assert.Equal("Card Two!", CardCell(cut, "c2").QuerySelector("[data-custom]")!.TextContent);
+        Assert.Equal(3, cut.FindAll("tfoot td").Count);
+        Assert.Equal("2:c1,c2", cut.Find("[data-footer='todo']").TextContent);
+        Assert.Equal("1", cut.FindAll("[data-header]")[1].TextContent);
+    }
+
+    [Fact]
+    public async Task AllowedColumns_Limits_The_Move_Menu_And_A_Keyboard_Move_Elsewhere_Is_Refused_And_Announced()
+    {
+        var cut = RenderRich(p => p.Add(x => x.AllowedColumns, c => c.Id == "c1" ? new[] { "doing" } : new[] { "done" }));
+        CardCell(cut, "c1").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Equal(new[] { "To Do", "In Progress" }, cut.FindAll("li.kanban-board-move-option").Select(o => o.TextContent.Trim()).ToArray());
+
+        (string, string)? moved = null;
+        var g = RenderRich(p =>
+        {
+            p.Add(x => x.AllowedColumns, _ => new[] { "done" });
+            p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a));
+        });
+        CellAt(g, 0, 0).KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Null(moved);
+        Assert.Equal("Card One cannot go to In Progress", g.Find(".kanban-board-status").TextContent);
+        await Task.CompletedTask;
+    }
+
+    [Fact]
+    public void Draggable_False_Stops_Pointer_Dragging_But_Keeps_The_Move_Menu()
+    {
+        var cards = RichCards.Select(c => c.Id == "c2" ? new KanbanCard { Id = c.Id, ColumnId = c.ColumnId, Title = c.Title, Draggable = false } : c).ToList();
+        var cut = RenderRich(cards: cards, labels: BaseLabels);
+        Assert.Null(CardCell(cut, "c2").QuerySelector(".kanban-board-card-title")!.GetAttribute("draggable"));
+        Assert.NotNull(CardCell(cut, "c2").QuerySelector(".kanban-board-move-button"));
+    }
+
+    [Fact]
+    public async Task An_Async_MoveHandler_Shows_Data_Pending_In_The_New_Column_Then_Clears_On_Completion()
+    {
+        var tcs = new TaskCompletionSource();
+        var cut = RenderRich(p => p.Add(x => x.MoveHandler, (_, _, _) => tcs.Task),
+            BaseLabels with { MovePending = (t, c) => $"Moving {t} to {c}" });
+        await FocusInAsync(CardCell(cut, "c2"));
+        CardCell(cut, "c2").KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        cut.WaitForAssertion(() => Assert.NotNull(CardCell(cut, "c2").GetAttribute("data-pending")));
+        Assert.Equal("true", CardCell(cut, "c2").GetAttribute("aria-busy"));
+        Assert.Equal("1", CardCell(cut, "c2").GetAttribute("data-col"));
+        Assert.Equal("Moving Card Two to In Progress", cut.Find(".kanban-board-status").TextContent);
+        tcs.SetResult();
+        cut.WaitForAssertion(() => Assert.Null(CardCell(cut, "c2").GetAttribute("data-pending")));
+    }
+
+    [Fact]
+    public async Task A_Failing_MoveHandler_Sends_The_Card_Back_Announces_MoveFailed_And_Raises_OnMoveError_And_A_Pending_Card_Cannot_Move_Again()
+    {
+        var tcs = new TaskCompletionSource();
+        var calls = 0;
+        (string, string, Exception)? error = null;
+        var cut = RenderRich(p =>
+        {
+            p.Add(x => x.MoveHandler, (_, _, _) => { calls++; return tcs.Task; });
+            p.Add(x => x.OnMoveError, EventCallback.Factory.Create<(string, string, Exception)>(this, a => error = a));
+        }, BaseLabels with { MoveFailed = (t, c, _) => $"Could not move {t} to {c}" });
+        await FocusInAsync(CardCell(cut, "c2"));
+        CardCell(cut, "c2").KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        cut.WaitForAssertion(() => Assert.Equal("1", CardCell(cut, "c2").GetAttribute("data-col")));
+        CardCell(cut, "c2").KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Equal(1, calls);
+        tcs.SetException(new InvalidOperationException("no"));
+        cut.WaitForAssertion(() => Assert.Equal("0", CardCell(cut, "c2").GetAttribute("data-col")));
+        Assert.Equal("c2", error?.Item1);
+        Assert.Equal("Could not move Card Two to In Progress", cut.Find(".kanban-board-status").TextContent);
+    }
+
+    [Fact]
+    public async Task Without_A_MoveHandler_There_Is_No_Pending_State()
+    {
+        (string, string)? moved = null;
+        var cut = RenderRich(p => p.Add(x => x.OnMove, EventCallback.Factory.Create<(string, string)>(this, a => moved = a)));
+        await FocusInAsync(CardCell(cut, "c2"));
+        CardCell(cut, "c2").KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.Equal(("c2", "doing"), moved);
+        Assert.Empty(cut.FindAll("[data-pending]"));
+    }
+
+    [Fact]
+    public void Labels_EmptyColumn_Shows_A_Message_In_An_Empty_Column_Even_When_No_Column_Has_Cards()
+    {
+        var lab = BaseLabels with { EmptyColumn = c => $"No cards in {c.Title}" };
+        var cut = RenderRich(labels: lab);
+        Assert.Equal("No cards in Done", cut.Find(".kanban-board-empty").TextContent);
+
+        var empty = RenderRich(labels: lab, cards: Array.Empty<KanbanCard>());
+        Assert.Equal(3, empty.FindAll(".kanban-board-empty").Count);
+        Assert.Single(empty.FindAll(".kanban-table-body .kanban-table-row"));
+
+        Assert.Empty(RenderRich().FindAll(".kanban-board-empty"));
+    }
+
+    [Fact]
+    public void Labels_Search_Adds_A_Search_Field_That_Filters_By_Label_Subtitle_And_Badges()
+    {
+        var cut = RenderRich(labels: BaseLabels with { Search = "Search cards" });
+        var input = cut.Find("input[type='search']");
+        Assert.Equal("Search cards", input.GetAttribute("aria-label"));
+        input.Input("vip");
+        Assert.Equal(new[] { "Card One" }, cut.FindAll(".kanban-board-card-title").Select(e => e.TextContent.Trim()).ToArray());
+        Assert.Equal("1", cut.FindAll(".kanban-table-th")[0].GetAttribute("data-hidden-count"));
+    }
 }

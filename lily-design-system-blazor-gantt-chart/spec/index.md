@@ -298,3 +298,7 @@ Ported from the Svelte canonical spec (§12 there): `readonly`, `markers` (`data
 ## Svelte 0.3.0 parity (2026-10-14)
 
 Ported from the Svelte canonical spec (§13 there): the progress field (`labels.percentLabel`, a 4th `onTaskChange` argument), baselines (`task.baseline`, `data-baseline`, `labels.baselineSummary`) and typed dependencies (`dependsOn` objects, `labels.dependencyDetail`).
+
+## Svelte 0.3.0 parity, round 3 (2026-10-14)
+
+Ported from the Svelte canonical spec (§14 there; clauses §14.1–§14.17): zoom (`timeUnit`, `labels.zoomIn` / `zoomOut`), drag-resize handles, task selection (`selectedTaskId`, `onTaskSelect`, the `s` key), Alt+ArrowLeft/Right shift and Alt+Shift+Arrow end move, and `taskAttrs`.

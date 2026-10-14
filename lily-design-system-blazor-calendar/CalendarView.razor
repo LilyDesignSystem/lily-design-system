@@ -16,10 +16,17 @@
 *@
 
 <div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
-    @if (Labels.WeekView is not null || Labels.FourWeekView is not null || Labels.MonthView is not null)
+    @if (Labels.PeriodTitle is not null || Labels.DayView is not null || Labels.WeekView is not null || Labels.FourWeekView is not null || Labels.MonthView is not null)
     {
         <div class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
+                @if (Labels.DayView is not null)
+                {
+                    <button type="button"
+                            class="calendar-view-switcher-button calendar-view-switcher-button-day"
+                            aria-pressed="@(View == CalendarViewMode.Day ? "true" : "false")"
+                            @onclick="@(() => SetViewAsync(CalendarViewMode.Day))">@Labels.DayView</button>
+                }
                 @if (Labels.WeekView is not null)
                 {
                     <button type="button"
@@ -47,6 +54,11 @@
                         class="calendar-view-previous-button"
                         aria-label="@Labels.Previous?.Invoke(View)"
                         @onclick="@(() => StepViewAsync(-1))">&#8249;</button>
+                @if (Labels.PeriodTitle is not null)
+                {
+                    var (titleStart, titleEnd) = PeriodRange(View, EffectiveAnchor, FirstDay);
+                    <span class="calendar-view-title">@Labels.PeriodTitle(View, titleStart, titleEnd)</span>
+                }
                 @if (Labels.Today is not null)
                 {
                     <button type="button"
@@ -69,9 +81,9 @@
                 {
                     <CalendarTableTH scope="col" data-week-number-header="">@Labels.WeekNumberHeader</CalendarTableTH>
                 }
-                @for (var i = 0; i < 7; i++)
+                @for (var i = 0; i < (View == CalendarViewMode.Day ? 1 : 7); i++)
                 {
-                    var weekday = (FirstDay + i) % 7;
+                    var weekday = View == CalendarViewMode.Day ? DateTimePicker.WeekdayOf(EffectiveAnchor) : (FirstDay + i) % 7;
                     <CalendarTableTH scope="col">
                         @if (Labels.WeekdayAbbr is not null)
                         {
@@ -107,7 +119,7 @@
                         var outside = IsOutsidePeriod(View, d, AnchorDate);
                         var isToday = !string.IsNullOrEmpty(Today) && d == Today;
                         var disabled = IsDisabledDay(d);
-                        var picked = SelectedDate == d;
+                        var picked = IsPicked(d);
                         var dayEvents = eventMap.TryGetValue(d, out var list) ? list : (IReadOnlyList<CalendarEvent>)Array.Empty<CalendarEvent>();
                         var isCursor = d == cursor;
                         var inRange = InSelectedRange(d);
@@ -121,19 +133,29 @@
                                          aria-disabled="@(disabled ? "true" : null)"
                                          data-date="@d"
                                          data-outside-period="@(outside ? "" : null)"
+                                         data-weekend="@(WeekendDays?.Contains(DateTimePicker.WeekdayOf(d)) == true ? "" : null)"
                                          data-selected="@(picked ? "" : null)"
                                          data-disabled="@(disabled ? "" : null)"
                                          data-in-range="@(inRange ? "" : null)"
                                          data-range-start="@(SelectedRange?.Start == d ? "" : null)"
                                          data-range-end="@(SelectedRange?.End == d ? "" : null)"
                                          data-range="@rangeKinds"
-                                         @onclick="@((MouseEventArgs e) => OnDayCellClickAsync(d, e))">
-                            @if (Day is not null)
+                                         @onclick="@((MouseEventArgs e) => OnDayCellClickAsync(d, e))"
+                                         @ondragover:preventDefault="@(_draggingEventId is not null && MoveEvents)"
+                                         @ondrop="@(() => OnDayDropAsync(d))">
+                            @if (HideOutsideDays && outside)
+                            {
+                            }
+                            else if (Day is not null)
                             {
                                 @Day(new CalendarDayContext
                                 {
                                     Date = d,
                                     Events = dayEvents,
+                                    VisibleEvents = VisibleEvents(dayEvents),
+                                    HiddenCount = HiddenCount(dayEvents),
+                                    EventAttributes = EventAttributes,
+                                    BeginDrag = BeginEventDrag,
                                     IsToday = isToday,
                                     OutsidePeriod = outside,
                                     Selected = picked,
@@ -146,16 +168,28 @@
                             else
                             {
                                 @DateTimePicker.ParseIsoDate(d)?.Day
-                                @foreach (var calendarEvent in dayEvents)
+                                @foreach (var calendarEvent in VisibleEvents(dayEvents))
                                 {
                                     var ev = calendarEvent;
                                     @if (!string.IsNullOrEmpty(ev.Title))
                                     {
                                         <button type="button"
                                                 class="calendar-view-event"
+                                                draggable="@(MoveEvents ? "true" : null)"
+                                                data-event-id="@(MoveEvents ? ev.Id : null)"
+                                                @ondragstart="@(() => OnEventDragStart(ev))"
+                                                @onkeydown="@((KeyboardEventArgs e) => OnEventKeyDownAsync(ev, d, e))"
                                                 @onclick="@(() => OpenEventAsync(ev))"
                                                 @onclick:stopPropagation="true">@ev.Title</button>
                                     }
+                                }
+                                @if (HiddenCount(dayEvents) > 0 && Labels.MoreEvents is not null)
+                                {
+                                    var moreDate = d;
+                                    <button type="button"
+                                            class="calendar-view-more-button"
+                                            @onclick="@(() => OnMoreClick.InvokeAsync(moreDate))"
+                                            @onclick:stopPropagation="true">@Labels.MoreEvents(HiddenCount(dayEvents), moreDate)</button>
                                 }
                             }
                         </CalendarTableTD>

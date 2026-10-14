@@ -20,6 +20,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 /// <summary>Which period is shown.</summary>
 public enum CalendarViewMode
 {
+    Day,
     Week,
     FourWeek,
     Month,
@@ -66,6 +67,18 @@ public sealed class CalendarDayContext
     /// <summary>The marked ranges this day falls in.</summary>
     public IReadOnlyList<CalendarRange> Ranges { get; init; } = Array.Empty<CalendarRange>();
 
+    /// <summary>The first <c>MaxEvents</c> events (all of them without the cap).</summary>
+    public IReadOnlyList<CalendarEvent> VisibleEvents { get; init; } = Array.Empty<CalendarEvent>();
+
+    /// <summary>How many events the cap hides, for a "+N more" control.</summary>
+    public int HiddenCount { get; init; }
+
+    /// <summary>Splat onto an event's element (<c>@attributes</c>) to make it draggable (<c>draggable</c>, <c>data-event-id</c>). Empty without <c>MoveEvents</c>.</summary>
+    public Func<CalendarEvent, Dictionary<string, object>> EventAttributes { get; init; } = _ => new Dictionary<string, object>();
+
+    /// <summary>Call from the event element's <c>@ondragstart</c> so a drop on a day moves it.</summary>
+    public Action<CalendarEvent> BeginDrag { get; init; } = _ => { };
+
     /// <summary>Call from an event's own click handler to raise <c>OnEventClick</c>.</summary>
     public required Func<CalendarEvent, Task> OpenEvent { get; init; }
 }
@@ -103,6 +116,18 @@ public sealed record CalendarViewLabels
 
     /// <summary>Announced as a range is extended with Shift+arrows or confirmed: (start, end).</summary>
     public Func<string, string, string>? RangeAnnouncement { get; init; }
+
+    /// <summary>Switcher label for the one-day view. Gates its button.</summary>
+    public string? DayView { get; init; }
+
+    /// <summary>Announced after an event is moved to another day: (event, to date).</summary>
+    public Func<CalendarEvent, string, string>? EventMoveAnnouncement { get; init; }
+
+    /// <summary>Visible title of the shown period, rendered between the previous and next buttons: (view, start, end). Gates the title.</summary>
+    public Func<CalendarViewMode, string, string, string>? PeriodTitle { get; init; }
+
+    /// <summary>Text of the "+N more" button on a day that <c>MaxEvents</c> caps: (hidden count, date). Gates the button.</summary>
+    public Func<int, string, string>? MoreEvents { get; init; }
 }
 
 public partial class CalendarView : ComponentBase
@@ -140,6 +165,31 @@ public partial class CalendarView : ComponentBase
 
     /// <summary>Raised when a range is confirmed: Enter on an extended range, or Shift+click.</summary>
     [Parameter] public EventCallback<CalendarSelectedRange> OnRangeSelect { get; set; }
+
+    /// <summary>Cap on events shown per day; a day with more shows a "+N more" button (<c>Labels.MoreEvents</c>) that raises <c>OnMoreClick</c>.</summary>
+    [Parameter] public int? MaxEvents { get; set; }
+
+    /// <summary>Raised with the date when a day's "+N more" button is pressed.</summary>
+    [Parameter] public EventCallback<string> OnMoreClick { get; set; }
+
+    /// <summary>Turns on event drag-and-drop between days and Alt+arrow keys on a focused event button; <c>OnEventMove</c> fires when one moves.</summary>
+    [Parameter] public bool MoveEvents { get; set; }
+
+    /// <summary>Raised when an event is moved to another day: (event, to date).</summary>
+    [Parameter] public EventCallback<(CalendarEvent Event, string ToDate)> OnEventMove { get; set; }
+
+    /// <summary>Month view: leave days outside the shown month empty (the cell keeps <c>data-outside-period</c>).</summary>
+    [Parameter] public bool HideOutsideDays { get; set; }
+
+    /// <summary>Weekday numbers (0 = Sunday … 6 = Saturday) that are the weekend; those cells get <c>data-weekend</c>.</summary>
+    [Parameter] public IReadOnlyList<int>? WeekendDays { get; set; }
+
+    /// <summary><c>Multiple</c>: Enter/Space or a click toggles a day in <c>SelectedDates</c> instead of setting <c>SelectedDate</c>.</summary>
+    [Parameter] public bool MultipleSelection { get; set; }
+
+    /// <summary>The picked days when <c>MultipleSelection</c> is on. Bindable: <c>@bind-SelectedDates</c>.</summary>
+    [Parameter] public IReadOnlyList<string> SelectedDates { get; set; } = Array.Empty<string>();
+    [Parameter] public EventCallback<IReadOnlyList<string>> SelectedDatesChanged { get; set; }
 
     /// <summary>Events to place into day cells.</summary>
     [Parameter] public IReadOnlyList<CalendarEvent> Events { get; set; } = Array.Empty<CalendarEvent>();
@@ -205,6 +255,57 @@ public partial class CalendarView : ComponentBase
 
     private string[][] Days => PeriodDays(View, EffectiveAnchor, FirstDay);
 
+    private string? _draggingEventId;
+    private bool _eventKeyHandled;
+
+    private bool IsPicked(string d) => MultipleSelection ? SelectedDates.Contains(d) : SelectedDate == d;
+
+    private IReadOnlyList<CalendarEvent> VisibleEvents(IReadOnlyList<CalendarEvent> all)
+        => MaxEvents is { } max ? all.Take(Math.Max(0, max)).ToList() : all;
+
+    private int HiddenCount(IReadOnlyList<CalendarEvent> all)
+        => MaxEvents is { } max ? Math.Max(0, all.Count - Math.Max(0, max)) : 0;
+
+    private Dictionary<string, object> EventAttributes(CalendarEvent calendarEvent)
+        => MoveEvents
+            ? new Dictionary<string, object> { ["draggable"] = "true", ["data-event-id"] = calendarEvent.Id }
+            : new Dictionary<string, object>();
+
+    private void BeginEventDrag(CalendarEvent calendarEvent)
+    {
+        if (MoveEvents) _draggingEventId = calendarEvent.Id;
+    }
+
+    private void OnEventDragStart(CalendarEvent calendarEvent) => BeginEventDrag(calendarEvent);
+
+    private async Task MoveEventToAsync(CalendarEvent calendarEvent, string toDate)
+    {
+        if (!MoveEvents || IsDisabledDay(toDate)) return;
+        await OnEventMove.InvokeAsync((calendarEvent, toDate));
+        var message = Labels.EventMoveAnnouncement?.Invoke(calendarEvent, toDate);
+        if (message is not null) _statusMessage = message;
+    }
+
+    private async Task OnDayDropAsync(string isoDate)
+    {
+        var id = _draggingEventId;
+        _draggingEventId = null;
+        if (id is null) return;
+        var calendarEvent = Events.FirstOrDefault(e => e.Id == id);
+        if (calendarEvent is not null) await MoveEventToAsync(calendarEvent, isoDate);
+    }
+
+    /// <summary>Alt+arrow keys on an event's own button move it a day (left/right) or a week (up/down).</summary>
+    private async Task OnEventKeyDownAsync(CalendarEvent calendarEvent, string fromDate, KeyboardEventArgs args)
+    {
+        if (!MoveEvents || !args.AltKey) return;
+        var week = View == CalendarViewMode.Day ? 1 : 7;
+        int? delta = args.Key switch { "ArrowLeft" => -1, "ArrowRight" => 1, "ArrowUp" => -week, "ArrowDown" => week, _ => null };
+        if (delta is null) return;
+        _eventKeyHandled = true;
+        await MoveEventToAsync(calendarEvent, DateTimePicker.AddDays(fromDate, delta.Value));
+    }
+
     // -------------------------------------------------------------------
     // Pure helpers (public so consumers can reuse them, as the other ports do)
     // -------------------------------------------------------------------
@@ -225,6 +326,7 @@ public partial class CalendarView : ComponentBase
             if (parsed is null) return Array.Empty<string[]>();
             return DateTimePicker.MonthMatrix(parsed.Value.Year, parsed.Value.Month, firstDayOfWeek);
         }
+        if (view == CalendarViewMode.Day) return new[] { new[] { anchorDate } };
         var start = WeekStart(anchorDate, firstDayOfWeek);
         var rows = view == CalendarViewMode.Week ? 1 : 4;
         var weeks = new string[rows][];
@@ -248,6 +350,7 @@ public partial class CalendarView : ComponentBase
                 DateTimePicker.FormatIsoDate(new CivilDate(p.Year, p.Month, 1)),
                 DateTimePicker.FormatIsoDate(new CivilDate(p.Year, p.Month, DateTimePicker.DaysInMonth(p.Year, p.Month))));
         }
+        if (view == CalendarViewMode.Day) return (anchorDate, anchorDate);
         var start = WeekStart(anchorDate, firstDayOfWeek);
         var len = view == CalendarViewMode.Week ? 7 : 28;
         return (start, DateTimePicker.AddDays(start, len - 1));
@@ -345,8 +448,18 @@ public partial class CalendarView : ComponentBase
     private async Task PickAsync(string isoDate)
     {
         if (IsDisabledDay(isoDate)) return;
-        SelectedDate = isoDate;
-        await SelectedDateChanged.InvokeAsync(isoDate);
+        if (MultipleSelection)
+        {
+            SelectedDates = SelectedDates.Contains(isoDate)
+                ? SelectedDates.Where(x => x != isoDate).ToList()
+                : SelectedDates.Append(isoDate).OrderBy(x => x, StringComparer.Ordinal).ToList();
+            await SelectedDatesChanged.InvokeAsync(SelectedDates);
+        }
+        else
+        {
+            SelectedDate = isoDate;
+            await SelectedDateChanged.InvokeAsync(isoDate);
+        }
         await OnDayClick.InvokeAsync(isoDate);
     }
 
@@ -373,6 +486,7 @@ public partial class CalendarView : ComponentBase
         var anchor = EffectiveAnchor;
         switch (View)
         {
+            case CalendarViewMode.Day: await NavigateToAsync(DateTimePicker.AddDays(anchor, delta)); break;
             case CalendarViewMode.Week: await NavigateToAsync(DateTimePicker.AddDays(anchor, delta * 7)); break;
             case CalendarViewMode.FourWeek: await NavigateToAsync(DateTimePicker.AddDays(anchor, delta * 28)); break;
             default: await NavigateToAsync(DateTimePicker.AddMonths(anchor, delta)); break;
@@ -408,6 +522,10 @@ public partial class CalendarView : ComponentBase
                 await NavigateToAsync(DateTimePicker.FormatIsoDate(new CivilDate(cp.Value.Year, cp.Value.Month, 1)));
             }
         }
+        else if (View == CalendarViewMode.Day)
+        {
+            if (next != anchor) await NavigateToAsync(next);
+        }
         else
         {
             var len = View == CalendarViewMode.Week ? 7 : 28;
@@ -439,6 +557,7 @@ public partial class CalendarView : ComponentBase
     {
         switch (View)
         {
+            case CalendarViewMode.Day: await MoveCursorAsync(DateTimePicker.AddDays(cursor, delta)); break;
             case CalendarViewMode.Week: await MoveCursorAsync(DateTimePicker.AddDays(cursor, delta * 7)); break;
             case CalendarViewMode.FourWeek: await MoveCursorAsync(DateTimePicker.AddDays(cursor, delta * 28)); break;
             default: await MoveCursorAsync(DateTimePicker.AddMonths(cursor, delta)); break;
@@ -447,8 +566,13 @@ public partial class CalendarView : ComponentBase
 
     private async Task OnGridKeyDownAsync(KeyboardEventArgs args)
     {
+        if (_eventKeyHandled)
+        {
+            _eventKeyHandled = false;
+            return;
+        }
         var cursor = EffectiveCursor(Days);
-        var offset = (DateTimePicker.WeekdayOf(cursor) - FirstDay + 7) % 7;
+        var offset = View == CalendarViewMode.Day ? 0 : (DateTimePicker.WeekdayOf(cursor) - FirstDay + 7) % 7;
         var extending = args.ShiftKey && MoveKeys.Contains(args.Key);
         if (extending && _rangeAnchor is null)
         {
@@ -459,10 +583,10 @@ public partial class CalendarView : ComponentBase
         {
             case "ArrowLeft": await MoveCursorAsync(DateTimePicker.AddDays(cursor, -1)); break;
             case "ArrowRight": await MoveCursorAsync(DateTimePicker.AddDays(cursor, 1)); break;
-            case "ArrowUp": await MoveCursorAsync(DateTimePicker.AddDays(cursor, -7)); break;
-            case "ArrowDown": await MoveCursorAsync(DateTimePicker.AddDays(cursor, 7)); break;
+            case "ArrowUp": await MoveCursorAsync(DateTimePicker.AddDays(cursor, View == CalendarViewMode.Day ? -1 : -7)); break;
+            case "ArrowDown": await MoveCursorAsync(DateTimePicker.AddDays(cursor, View == CalendarViewMode.Day ? 1 : 7)); break;
             case "Home": await MoveCursorAsync(DateTimePicker.AddDays(cursor, -offset)); break;
-            case "End": await MoveCursorAsync(DateTimePicker.AddDays(cursor, 6 - offset)); break;
+            case "End": await MoveCursorAsync(DateTimePicker.AddDays(cursor, View == CalendarViewMode.Day ? 0 : 6 - offset)); break;
             case "PageUp": await PageCursorAsync(-1, cursor); break;
             case "PageDown": await PageCursorAsync(1, cursor); break;
             case "Enter":

@@ -608,4 +608,189 @@ public class CalendarViewTests : TestContext
         Assert.Equal("True-holiday", Cell(cut, "2026-01-06").QuerySelector("[data-ctx]")!.GetAttribute("data-ctx"));
         Assert.Equal("True-", Cell(cut, "2026-01-07").QuerySelector("[data-ctx]")!.GetAttribute("data-ctx"));
     }
+
+    // =====================================================================
+    // Round 3 — day view, maxEvents, event drag-and-drop, title, weekends, multiple selection
+    // =====================================================================
+
+    private static readonly IReadOnlyList<CalendarEvent> ThreeEvents = new[]
+    {
+        new CalendarEvent { Id = "a", Date = "2026-01-06", Title = "A" },
+        new CalendarEvent { Id = "b", Date = "2026-01-06", Title = "B" },
+        new CalendarEvent { Id = "c", Date = "2026-01-06", Title = "C" },
+    };
+
+    private IRenderedComponent<CalendarView> RenderDay(Action<ComponentParameterCollectionBuilder<CalendarView>>? configure = null)
+        => Render(CalendarViewMode.Day, "2026-01-06", p =>
+        {
+            p.Add(x => x.Today, "2026-01-08");
+            p.Add(x => x.Labels, Labels with { DayView = "Day" });
+            configure?.Invoke(p);
+        });
+
+    [Fact]
+    public void Section_8_33_The_Day_View_Shows_Exactly_One_Day_Under_One_Weekday_Header()
+    {
+        var cut = RenderDay();
+        Assert.Single(Cells(cut));
+        Assert.Equal("2026-01-06", Cells(cut)[0].GetAttribute("data-date"));
+        Assert.Single(cut.FindAll(".calendar-table-head .calendar-table-th"));
+    }
+
+    [Fact]
+    public void Section_8_34_Labels_DayView_Adds_A_Pressed_Switcher_Button()
+    {
+        var cut = Render(CalendarViewMode.Week, "2026-01-06", p => p.Add(x => x.Labels, Labels with { DayView = "Day" }));
+        Assert.Equal("false", Button(cut, "Day").GetAttribute("aria-pressed"));
+        Button(cut, "Day").Click();
+        Assert.Equal("true", Button(cut, "Day").GetAttribute("aria-pressed"));
+        Assert.Single(Cells(cut));
+    }
+
+    [Fact]
+    public void Section_8_35_Next_Steps_One_Day_And_Reports_The_One_Day_Period()
+    {
+        (CalendarViewMode View, string Start, string End)? last = null;
+        var cut = RenderDay(p => p.Add(x => x.OnNavigate, EventCallback.Factory.Create<(CalendarViewMode, string, string)>(this, a => last = a)));
+        Button(cut, "Next Day").Click();
+        Assert.Equal("2026-01-07", Cells(cut)[0].GetAttribute("data-date"));
+        Assert.Equal((CalendarViewMode.Day, "2026-01-07", "2026-01-07"), last);
+    }
+
+    [Fact]
+    public void Section_8_36_Arrows_And_Page_Keys_Move_By_A_Day()
+    {
+        var cut = RenderDay();
+        Key(cut, "ArrowRight");
+        Assert.Equal("2026-01-07", Cells(cut)[0].GetAttribute("data-date"));
+        Key(cut, "ArrowDown");
+        Assert.Equal("2026-01-08", Cells(cut)[0].GetAttribute("data-date"));
+        Key(cut, "PageUp");
+        Assert.Equal("2026-01-07", Cells(cut)[0].GetAttribute("data-date"));
+    }
+
+    [Fact]
+    public void Section_8_31_MaxEvents_Caps_The_Events_Shown_And_A_More_Button_Raises_OnMoreClick()
+    {
+        string? more = null;
+        var cut = Render(configure: p =>
+        {
+            p.Add(x => x.Events, ThreeEvents);
+            p.Add(x => x.MaxEvents, 2);
+            p.Add(x => x.Labels, Labels with { MoreEvents = (n, _) => $"+{n} more" });
+            p.Add(x => x.OnMoreClick, EventCallback.Factory.Create<string>(this, d => more = d));
+        });
+
+        Assert.Equal(2, cut.FindAll(".calendar-view-event").Count);
+        var button = cut.Find(".calendar-view-more-button");
+        Assert.Equal("+1 more", button.TextContent.Trim());
+        button.Click();
+        Assert.Equal("2026-01-06", more);
+    }
+
+    [Fact]
+    public void Section_8_32_Without_MaxEvents_Every_Event_Shows_And_There_Is_No_More_Button()
+    {
+        var cut = Render(configure: p =>
+        {
+            p.Add(x => x.Events, ThreeEvents);
+            p.Add(x => x.Labels, Labels with { MoreEvents = (n, _) => $"+{n} more" });
+        });
+        Assert.Equal(3, cut.FindAll(".calendar-view-event").Count);
+        Assert.Empty(cut.FindAll(".calendar-view-more-button"));
+    }
+
+    [Fact]
+    public async Task Section_8_38_Event_Buttons_Are_Draggable_Only_With_MoveEvents_And_A_Drop_Raises_OnEventMove()
+    {
+        var plain = Render(configure: p => p.Add(x => x.Events, ThreeEvents));
+        Assert.Null(plain.Find(".calendar-view-event").GetAttribute("draggable"));
+
+        (CalendarEvent Event, string ToDate)? moved = null;
+        var cut = Render(configure: p =>
+        {
+            p.Add(x => x.Events, ThreeEvents);
+            p.Add(x => x.MoveEvents, true);
+            p.Add(x => x.OnEventMove, EventCallback.Factory.Create<(CalendarEvent, string)>(this, a => moved = a));
+        });
+        var button = cut.Find(".calendar-view-event");
+        Assert.Equal("true", button.GetAttribute("draggable"));
+        await button.TriggerEventAsync("ondragstart", new DragEventArgs());
+        await Cell(cut, "2026-01-09").TriggerEventAsync("ondrop", new DragEventArgs());
+
+        Assert.Equal("a", moved?.Event.Id);
+        Assert.Equal("2026-01-09", moved?.ToDate);
+    }
+
+    [Fact]
+    public async Task Section_8_40_Alt_Arrow_On_A_Focused_Event_Moves_It_A_Day_Or_A_Week_And_A_Disabled_Day_Refuses()
+    {
+        var moves = new List<string>();
+        var cut = Render(configure: p =>
+        {
+            p.Add(x => x.Events, ThreeEvents);
+            p.Add(x => x.MoveEvents, true);
+            p.Add(x => x.OnEventMove, EventCallback.Factory.Create<(CalendarEvent, string)>(this, a => moves.Add(a.Item2)));
+        });
+        await cut.Find(".calendar-view-event").TriggerEventAsync("onkeydown", new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        await cut.Find(".calendar-view-event").TriggerEventAsync("onkeydown", new KeyboardEventArgs { Key = "ArrowDown", AltKey = true });
+        Assert.Equal(new[] { "2026-01-07", "2026-01-13" }, moves);
+
+        var refused = new List<string>();
+        var g = Render(configure: p =>
+        {
+            p.Add(x => x.Events, ThreeEvents);
+            p.Add(x => x.MoveEvents, true);
+            p.Add(x => x.MinDate, "2026-01-07");
+            p.Add(x => x.OnEventMove, EventCallback.Factory.Create<(CalendarEvent, string)>(this, a => refused.Add(a.Item2)));
+        });
+        await g.Find(".calendar-view-event").TriggerEventAsync("onkeydown", new KeyboardEventArgs { Key = "ArrowLeft", AltKey = true });
+        Assert.Empty(refused);
+    }
+
+    [Fact]
+    public void Section_8_42_Labels_PeriodTitle_Renders_The_Shown_Periods_Title_And_Updates_On_Navigation()
+    {
+        var cut = RenderMonth(p => p.Add(x => x.Labels, Labels with { PeriodTitle = (v, s, e) => $"{v}:{s}..{e}" }));
+        Assert.Equal("Month:2026-01-01..2026-01-31", cut.Find(".calendar-view-title").TextContent);
+        Button(cut, "Next Month").Click();
+        Assert.Equal("Month:2026-02-01..2026-02-28", cut.Find(".calendar-view-title").TextContent);
+    }
+
+    [Fact]
+    public void Section_8_44_HideOutsideDays_Leaves_Outside_Cells_Empty_But_In_The_Grid()
+    {
+        var cut = RenderMonth(p => p.Add(x => x.HideOutsideDays, true));
+        Assert.Equal("", cut.Find(".calendar-table-td[data-outside-period]").TextContent.Trim());
+        Assert.Equal("15", Cell(cut, "2026-01-15").TextContent.Trim());
+        Assert.Equal(42, Cells(cut).Count);
+    }
+
+    [Fact]
+    public void Section_8_46_WeekendDays_Marks_Those_Weekdays_With_Data_Weekend()
+    {
+        var cut = Render(configure: p => p.Add(x => x.WeekendDays, new[] { 0, 6 }));
+        Assert.NotNull(Cell(cut, "2026-01-10").GetAttribute("data-weekend"));
+        Assert.NotNull(Cell(cut, "2026-01-11").GetAttribute("data-weekend"));
+        Assert.Null(Cell(cut, "2026-01-07").GetAttribute("data-weekend"));
+    }
+
+    [Fact]
+    public async Task Section_8_48_Multiple_Selection_Toggles_Days_And_Enter_Toggles_The_Cursor_Day()
+    {
+        var clicks = new List<string>();
+        var cut = Render(configure: p =>
+        {
+            p.Add(x => x.MultipleSelection, true);
+            p.Add(x => x.OnDayClick, EventCallback.Factory.Create<string>(this, d => clicks.Add(d)));
+        });
+        await Cell(cut, "2026-01-06").ClickAsync(new MouseEventArgs());
+        await Cell(cut, "2026-01-08").ClickAsync(new MouseEventArgs());
+        Assert.NotNull(Cell(cut, "2026-01-06").GetAttribute("data-selected"));
+        Assert.NotNull(Cell(cut, "2026-01-08").GetAttribute("data-selected"));
+        await Cell(cut, "2026-01-06").ClickAsync(new MouseEventArgs());
+        Assert.Null(Cell(cut, "2026-01-06").GetAttribute("data-selected"));
+        Key(cut, "Enter");
+        Assert.Equal("2026-01-06", clicks[^1]);
+    }
 }
