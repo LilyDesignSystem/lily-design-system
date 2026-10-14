@@ -39,6 +39,7 @@ export type {
     GanttColumn,
     GanttFlatRow,
     GanttLabels,
+    GanttMarker,
     GanttTask,
     GanttTimeUnit,
 } from "./gantt-chart.js";

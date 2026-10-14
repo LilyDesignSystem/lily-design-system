@@ -145,6 +145,7 @@ packages above. [`bin/list-helper-packages html`](../../bin/list-helper-packages
 - [`lily-design-system-html-text-size-picker`](../../lily-design-system-html-text-size-picker/) — `@lilydesignsystem/html-text-size-picker`
 - [`lily-design-system-html-theme-picker`](../../lily-design-system-html-theme-picker/) — `@lilydesignsystem/html-theme-picker`
 - [`lily-design-system-html-gantt-chart`](../../lily-design-system-html-gantt-chart/) — `@lilydesignsystem/html-gantt-chart`
+- [`lily-design-system-html-calendar`](../../lily-design-system-html-calendar/) — `@lilydesignsystem/html-calendar`
 - [`lily-design-system-html-picker-bar`](../../lily-design-system-html-picker-bar/) — `@lilydesignsystem/html-picker-bar`
 
 ### Web Components helper packages

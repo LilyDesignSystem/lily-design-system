@@ -151,6 +151,7 @@ updates:
       - "/lily-design-system-html-text-size-picker"
       - "/lily-design-system-html-theme-picker"
       - "/lily-design-system-html-gantt-chart"
+      - "/lily-design-system-html-calendar"
       - "/lily-design-system-html-picker-bar"
     schedule:
       interval: "weekly"

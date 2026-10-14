@@ -59,6 +59,17 @@ export type KanbanLabels = {
     moveButton?: (card: KanbanCard) => string;
     moveMenuLabel?: string;
     moveAnnouncement?: (cardTitle: string, columnTitle: string) => string;
+    /** Announced when `canMove` refuses a move. */
+    moveBlocked?: (cardTitle: string, columnTitle: string) => string;
+    /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
+    reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
+};
+
+/** Detail of the `reordercard` event, paired with the `onReorder` property. */
+export type KanbanBoardReorderDetail = {
+    cardId: string;
+    /** 0-based index within the card's own column. */
+    toIndex: number;
 };
 
 /** Detail of the `movecard` event, paired with the `onMove` property. */
@@ -75,6 +86,9 @@ export type KanbanBoardProps = {
     cards: KanbanCard[];
     cardLabel?: (card: KanbanCard) => string;
     onMove?: (cardId: string, toColumnId: string) => void;
+    onReorder?: (cardId: string, toIndex: number) => void;
+    canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
+    readonly?: boolean;
     labels?: KanbanLabels;
     class?: string;
 };
@@ -91,7 +105,7 @@ const defaultCardLabel = (card: KanbanCard): string => card.title;
 /** Custom-element class implementing `<kanban-board>`. */
 export class KanbanBoard extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "caption", "class"];
+        return ["label", "caption", "class", "readonly"];
     }
 
     // Backing storage for property-only members (arrays of objects and
@@ -101,6 +115,8 @@ export class KanbanBoard extends HTMLElement {
     #cards: KanbanCard[] = [];
     #cardLabel: (card: KanbanCard) => string = defaultCardLabel;
     #onMove: ((cardId: string, toColumnId: string) => void) | undefined;
+    #onReorder: ((cardId: string, toIndex: number) => void) | undefined;
+    #canMove: ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined;
     #labels: KanbanLabels = {};
 
     // Rendered-DOM references.
@@ -184,6 +200,31 @@ export class KanbanBoard extends HTMLElement {
         this.#onMove = fn;
     }
 
+    get onReorder(): ((cardId: string, toIndex: number) => void) | undefined {
+        return this.#onReorder;
+    }
+    set onReorder(fn: ((cardId: string, toIndex: number) => void) | undefined) {
+        this.#onReorder = fn;
+    }
+
+    /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
+    get canMove(): ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined {
+        return this.#canMove;
+    }
+    set canMove(fn: ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined) {
+        this.#canMove = fn;
+        this.#render();
+    }
+
+    /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
+    get readonly(): boolean {
+        return this.hasAttribute("readonly");
+    }
+    set readonly(v: boolean) {
+        if (v) this.setAttribute("readonly", "");
+        else this.removeAttribute("readonly");
+    }
+
     get labels(): KanbanLabels {
         return { ...this.#labels };
     }
@@ -237,6 +278,7 @@ export class KanbanBoard extends HTMLElement {
             case "label":
             case "caption":
             case "class":
+            case "readonly":
                 this.#render();
                 break;
             default:
@@ -292,7 +334,17 @@ export class KanbanBoard extends HTMLElement {
      * `cards` update rebuilds the board — and then focuses the card wherever
      * it now is, so focus is never left on a node the rebuild removed.
      */
+    #isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
+        return toColumn.id !== card.columnId && !!this.#canMove && !this.#canMove(card, toColumn);
+    }
+
     #moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
+        if (this.readonly) return;
+        if (this.#isRefused(card, toColumn)) {
+            this.#closeMoveMenu();
+            this.#announce(this.#labels.moveBlocked?.(this.#cardLabel(card), toColumn.title));
+            return;
+        }
         if (toColumn.id === card.columnId) {
             this.#closeMoveMenu();
             return;
@@ -333,6 +385,7 @@ export class KanbanBoard extends HTMLElement {
     }
 
     #openMoveMenu(card: KanbanCard): void {
+        if (this.readonly) return;
         // Only one move menu at a time; closing any other first also
         // exercises the same per-card-button lookup as a normal close.
         if (this.#openCardId && this.#openCardId !== card.id) {
@@ -367,6 +420,7 @@ export class KanbanBoard extends HTMLElement {
                 "aria-selected",
                 String(destination.id === card.columnId),
             );
+            if (this.#isRefused(card, destination)) li.setAttribute("aria-disabled", "true");
             li.textContent = destination.title;
             li.addEventListener("click", () => this.#moveCard(card, destination));
             list.appendChild(li);
@@ -483,6 +537,25 @@ export class KanbanBoard extends HTMLElement {
         this.#setActiveCell(Number(cell.dataset.row), Number(cell.dataset.col));
     }
 
+    #reorderCard(delta: 1 | -1, cardsByColumn: Map<string, KanbanCard[]>): void {
+        if (this.readonly) return;
+        const card = this.#cardAt(this.#focusedCol, this.#focusedRow, cardsByColumn);
+        if (!card) return;
+        const total = cardsByColumn.get(card.columnId)?.length ?? 0;
+        const toIndex = this.#focusedRow + delta;
+        if (toIndex < 0 || toIndex >= total) return;
+        this.#onReorder?.(card.id, toIndex);
+        this.dispatchEvent(
+            new CustomEvent<KanbanBoardReorderDetail>("reordercard", {
+                detail: { cardId: card.id, toIndex },
+                bubbles: true,
+                composed: true,
+            }),
+        );
+        this.#announce(this.#labels.reorderAnnouncement?.(this.#cardLabel(card), toIndex + 1, total));
+        this.#focusCard(card.id);
+    }
+
     #onGridKeydown(event: KeyboardEvent): void {
         const target = event.target as HTMLElement;
         // The open move menu owns its own keys; letting them bubble here moved the
@@ -493,6 +566,11 @@ export class KanbanBoard extends HTMLElement {
         const cardsByColumn = this.#cardsByColumn();
         const maxRows = this.#maxRows(cardsByColumn);
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+            event.preventDefault();
+            this.#reorderCard(event.key === "ArrowUp" ? -1 : 1, cardsByColumn);
+            return;
+        }
         switch (event.key) {
             case "ArrowUp":
                 event.preventDefault();
@@ -550,6 +628,7 @@ export class KanbanBoard extends HTMLElement {
         const extraClass = this.getAttribute("class") ?? "";
         const root = document.createElement("div");
         root.className = `kanban-board ${extraClass}`.trim();
+        if (this.readonly) root.setAttribute("data-readonly", "");
 
         const table = document.createElement("table");
         table.className = "kanban-table";
@@ -631,7 +710,7 @@ export class KanbanBoard extends HTMLElement {
                 if (card) {
                     const titleSpan = document.createElement("span");
                     titleSpan.className = "kanban-board-card-title";
-                    titleSpan.setAttribute("draggable", "true");
+                    if (!this.readonly) titleSpan.setAttribute("draggable", "true");
                     titleSpan.textContent = this.#cardLabel(card);
                     titleSpan.addEventListener("dragstart", (event) =>
                         this.#onCardDragStart(card, event as DragEvent),
@@ -640,7 +719,7 @@ export class KanbanBoard extends HTMLElement {
 
                     // Gated on labels.moveButton: an unnamed button is worse than
                     // none, and Enter/Space on the cell opens the menu either way.
-                    if (this.#labels.moveButton) {
+                    if (this.#labels.moveButton && !this.readonly) {
                         const button = document.createElement("button");
                         button.type = "button";
                         button.className = "kanban-board-move-button";

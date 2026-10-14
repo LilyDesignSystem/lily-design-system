@@ -57,7 +57,16 @@ export type GanttTask = {
     parentId?: string;
     /** Other tasks' ids this task depends on (finish-to-start). */
     dependsOn?: string[];
+    /** Class hook only: becomes `data-task-type` on the row (e.g. "design", "review"). */
+    type?: string;
+    /** On the critical path; becomes `data-critical`. Lily computes nothing. */
+    critical?: boolean;
+    /** Slack in days, from the consumer's own scheduling; becomes `data-slack`. */
+    slack?: number;
 };
+
+/** A dated column marker (holiday, release, deadline). `label` is rendered as text so a marker is never colour-only. */
+export type GanttMarker = { date: string; kind?: string; label?: string };
 
 export type GanttTimeUnit = "day" | "week" | "month";
 
@@ -97,6 +106,9 @@ export type GanttChartProps = {
     tasks: GanttTask[];
     timeUnit?: GanttTimeUnit;
     today?: string;
+    markers?: GanttMarker[];
+    isNonWorking?: (isoDate: string) => boolean;
+    readonly?: boolean;
     taskLabel?: (task: GanttTask) => string;
     onTaskChange?: (taskId: string, start: string, end: string) => void;
     labels?: GanttLabels;
@@ -236,7 +248,7 @@ const defaultTaskLabel = (task: GanttTask): string => task.label;
 /** Custom-element class implementing `<gantt-chart>`. */
 export class GanttChart extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "caption", "time-unit", "today", "class"];
+        return ["label", "caption", "time-unit", "today", "class", "readonly"];
     }
 
     // Backing storage for property-only members (arrays/objects/functions
@@ -246,6 +258,8 @@ export class GanttChart extends HTMLElement {
     #taskLabel: (task: GanttTask) => string = defaultTaskLabel;
     #onTaskChange: ((taskId: string, start: string, end: string) => void) | undefined;
     #labels: GanttLabels = {};
+    #markers: GanttMarker[] = [];
+    #isNonWorking: ((isoDate: string) => boolean) | undefined;
 
     #rootEl: HTMLDivElement | null = null;
     #statusEl: HTMLParagraphElement | null = null;
@@ -303,6 +317,33 @@ export class GanttChart extends HTMLElement {
     set today(v: string) {
         if (v) this.setAttribute("today", v);
         else this.removeAttribute("today");
+    }
+
+    /** Dated markers; each marks the column that contains its date with `data-marker`. */
+    get markers(): GanttMarker[] {
+        return [...this.#markers];
+    }
+    set markers(v: GanttMarker[]) {
+        this.#markers = Array.isArray(v) ? v.slice() : [];
+        this.#render();
+    }
+
+    /** Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
+    get isNonWorking(): ((isoDate: string) => boolean) | undefined {
+        return this.#isNonWorking;
+    }
+    set isNonWorking(fn: ((isoDate: string) => boolean) | undefined) {
+        this.#isNonWorking = fn;
+        this.#render();
+    }
+
+    /** Suppress editing, drag and the edit region; navigation and collapse still work. */
+    get readonly(): boolean {
+        return this.hasAttribute("readonly");
+    }
+    set readonly(v: boolean) {
+        if (v) this.setAttribute("readonly", "");
+        else this.removeAttribute("readonly");
     }
 
     get range(): { start: string; end: string } {
@@ -383,6 +424,7 @@ export class GanttChart extends HTMLElement {
             case "time-unit":
             case "today":
             case "class":
+            case "readonly":
                 this.#render();
                 break;
             default:
@@ -416,7 +458,7 @@ export class GanttChart extends HTMLElement {
     /** Editing needs every label its controls show; an unnamed Save is worse than none. */
     #canEdit(): boolean {
         const l = this.#labels;
-        return !!l.dateTimePickerLabels && !!l.startLabel && !!l.endLabel && !!l.saveLabel && !!l.cancelLabel;
+        return !this.readonly && !!l.dateTimePickerLabels && !!l.startLabel && !!l.endLabel && !!l.saveLabel && !!l.cancelLabel;
     }
 
     /** Focus the grid's tab stop — after a rebuild, the new cell standing where the old one was. */
@@ -580,6 +622,7 @@ export class GanttChart extends HTMLElement {
 
     #onCellDrop(column: GanttColumn, event: DragEvent): void {
         event.preventDefault();
+        if (this.readonly) return;
         const taskId = this.#draggingTaskId ?? event.dataTransfer?.getData("text/plain");
         this.#draggingTaskId = null;
         const task = this.#tasks.find((t) => t.id === taskId);
@@ -676,6 +719,7 @@ export class GanttChart extends HTMLElement {
         const extraClass = this.getAttribute("class") ?? "";
         const root = document.createElement("div");
         root.className = `gantt-chart ${extraClass}`.trim();
+        if (this.readonly) root.setAttribute("data-readonly", "");
 
         const table = document.createElement("table");
         table.className = "gantt-table";
@@ -710,15 +754,41 @@ export class GanttChart extends HTMLElement {
         leadingTh.textContent = this.#labels.taskColumnHeader ?? "";
         headRow.appendChild(leadingTh);
 
-        for (const column of columns) {
+        const columnMarkers = columns.map((column) =>
+            this.#markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date)),
+        );
+        const columnNonWorking = columns.map((column) => {
+            const isNonWorking = this.#isNonWorking;
+            if (!isNonWorking) return false;
+            for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
+                if (!isNonWorking(d)) return false;
+            }
+            return true;
+        });
+
+        columns.forEach((column, columnIndex) => {
             const isToday = todayIso != null && rangesOverlap(column.start, column.end, todayIso, todayIso);
             const th = document.createElement("th");
             th.className = "gantt-table-th";
             th.setAttribute("scope", "col");
             if (isToday) th.setAttribute("data-today", "");
-            th.textContent = this.#labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start;
+            if (columnNonWorking[columnIndex]) th.setAttribute("data-non-working", "");
+            const markers = columnMarkers[columnIndex];
+            if (markers.length) th.setAttribute("data-marker", markers.map((m) => m.kind ?? "marker").join(" "));
+            th.appendChild(
+                document.createTextNode(
+                    this.#labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start,
+                ),
+            );
+            for (const marker of markers) {
+                if (!marker.label) continue;
+                const span = document.createElement("span");
+                span.className = "gantt-chart-marker-label";
+                span.textContent = marker.label;
+                th.appendChild(span);
+            }
             headRow.appendChild(th);
-        }
+        });
         thead.appendChild(headRow);
         table.appendChild(thead);
 
@@ -736,6 +806,9 @@ export class GanttChart extends HTMLElement {
             const tr = document.createElement("tr");
             tr.className = "gantt-table-tr";
             tr.dataset.taskId = task.id;
+            if (task.type) tr.setAttribute("data-task-type", task.type);
+            if (task.critical) tr.setAttribute("data-critical", "");
+            if (task.slack != null) tr.setAttribute("data-slack", String(task.slack));
 
             const rowTh = document.createElement("th");
             rowTh.className = "gantt-table-th";
@@ -787,6 +860,8 @@ export class GanttChart extends HTMLElement {
                 if (inRange) td.setAttribute("data-in-range", "");
                 if (isMilestone) td.setAttribute("data-milestone", "");
                 if (isToday) td.setAttribute("data-today", "");
+                if (columnNonWorking[colIndex]) td.setAttribute("data-non-working", "");
+                if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
                 if (hasDependencySummary) td.setAttribute("aria-describedby", this.#dependencyId(task.id));
 
                 td.addEventListener("dragover", (event) => this.#onCellDragOver(event as DragEvent));
@@ -798,7 +873,7 @@ export class GanttChart extends HTMLElement {
                     if (task.percentComplete != null) {
                         bar.setAttribute("data-percent-complete", String(task.percentComplete));
                     }
-                    if (!row.hasChildren) {
+                    if (!row.hasChildren && !this.readonly) {
                         bar.setAttribute("draggable", "true");
                         bar.addEventListener("dragstart", (event) => this.#onBarDragStart(task, event as DragEvent));
                     }

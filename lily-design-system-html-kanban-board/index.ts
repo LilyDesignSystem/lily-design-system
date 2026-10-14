@@ -13,6 +13,7 @@ export { KanbanBoard, nextKanbanBoardId };
 export type {
     KanbanBoardProps,
     KanbanBoardMoveDetail,
+    KanbanBoardReorderDetail,
     KanbanColumn,
     KanbanCard,
     KanbanLabels,
