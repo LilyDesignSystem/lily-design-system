@@ -275,3 +275,7 @@ Ported from the Svelte canonical spec (§13 there; clauses §8.31–§8.47): `fi
 ## Svelte 0.3.0 parity, consumer capabilities (2026-10-14)
 
 Ported from the Svelte canonical spec (§14 there; clauses §8.48–§8.62): card body (`subtitle`, `badges`, `href`, `renderCard`), flags and accent, `allowedColumns`, `card.draggable`, async `onMove` with `onMoveError`, `columnHeader` / `columnFooter` render props, `labels.emptyColumn` and `search`.
+
+## Svelte 0.4.0 parity (2026-10-15)
+
+Ported from the Svelte canonical spec (§15 there; clauses §8.63–§8.83): multi-select and group move, undo, column reordering, swimlanes, drag preview and virtualization. See the Svelte spec for the contract; idiom differences (prop casing, event vs callback, async hooks) follow this package's earlier parity sections.

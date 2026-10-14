@@ -762,3 +762,91 @@ describe("KanbanBoard — card body, flags, allowed columns, async move, footers
     expect(document.querySelector(".kanban-table-th")!.getAttribute("data-hidden-count")).toBe("1");
   });
 });
+
+describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
+  const b = { label: "Board", columns: [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress" }, { id: "done", title: "Done" }] as KanbanColumn[], cards: CARDS.map((c) => ({ ...c })) };
+  const c = (id: string) => document.querySelector<HTMLElement>(`[data-card-id="${id}"]`)!;
+
+  test("§8.63 selectable: x toggles, Ctrl+click toggles, aria-multiselectable", () => {
+    const onSel = vi.fn();
+    render(<KanbanBoard {...b} selectable onSelectionChange={onSel} />);
+    expect(screen.getByRole("grid").getAttribute("aria-multiselectable")).toBe("true");
+    fireEvent.focus(c("c1"));
+    fireEvent.keyDown(c("c1"), { key: "x" });
+    expect(c("c1").hasAttribute("data-selected")).toBe(true);
+    fireEvent.click(c("c2"), { ctrlKey: true });
+    expect(onSel).toHaveBeenLastCalledWith(["c1", "c2"]);
+    fireEvent.click(c("c2"), { ctrlKey: true });
+    expect(onSel).toHaveBeenLastCalledWith(["c1"]);
+  });
+
+  test("§8.64 moving a selected card moves the whole selection and announces once", () => {
+    const onMove = vi.fn();
+    render(<KanbanBoard {...b} selectable defaultSelected={["c1", "c2"]} onMove={onMove} labels={{ moveManyAnnouncement: (n, col) => `${n} to ${col}` }} />);
+    fireEvent.focus(c("c1"));
+    fireEvent.keyDown(c("c1"), { key: "ArrowRight", altKey: true });
+    expect(onMove).toHaveBeenCalledTimes(2);
+    expect(onMove).toHaveBeenCalledWith("c1", "doing");
+    expect(onMove).toHaveBeenCalledWith("c2", "doing");
+    expect(document.querySelector(".kanban-board-status")!.textContent).toBe("2 to In Progress");
+    expect(document.querySelector("[data-selected]")).toBeNull();
+  });
+
+  test("§8.65 undoable: Ctrl+Z moves the card back through onMove", async () => {
+    const calls: [string, string][] = [];
+    function Host() {
+      const [cards, setCards] = React.useState(b.cards.map((x) => ({ ...x })));
+      return (
+        <KanbanBoard
+          {...b}
+          cards={cards}
+          undoable
+          onMove={(id, col) => {
+            calls.push([id, col]);
+            setCards((cs) => cs.map((x) => (x.id === id ? { ...x, columnId: col } : x)));
+          }}
+        />
+      );
+    }
+    render(<Host />);
+    fireEvent.focus(c("c1"));
+    fireEvent.keyDown(c("c1"), { key: "ArrowRight", altKey: true });
+    await waitFor(() => expect(calls).toEqual([["c1", "doing"]]));
+    fireEvent.keyDown(document.querySelector('.kanban-table-td[tabindex="0"]')!, { key: "z", ctrlKey: true });
+    await waitFor(() => expect(calls).toEqual([["c1", "doing"], ["c1", "todo"]]));
+  });
+
+  test("§8.66 movableColumns: Alt+Shift+ArrowRight reorders columns", () => {
+    const onOrder = vi.fn();
+    render(<KanbanBoard {...b} movableColumns onColumnOrderChange={onOrder} />);
+    fireEvent.focus(c("c1"));
+    fireEvent.keyDown(c("c1"), { key: "ArrowRight", altKey: true, shiftKey: true });
+    expect(onOrder).toHaveBeenCalledWith(["doing", "todo", "done"]);
+    expect(Array.from(document.querySelectorAll(".kanban-table-th")).map((e) => e.textContent?.trim())[0]).toContain("In Progress");
+  });
+
+  test("§8.67 lanes: lane header rows, cards grouped by laneId", () => {
+    const cards = b.cards.map((x, i) => ({ ...x, laneId: i < 2 ? "a" : "b" }));
+    render(<KanbanBoard {...b} cards={cards} lanes={[{ id: "a", title: "Alpha" }, { id: "b", title: "Beta" }]} />);
+    expect(Array.from(document.querySelectorAll(".kanban-board-lane")).map((e) => e.textContent)).toEqual(["Alpha", "Beta"]);
+  });
+
+  test("§8.68 dropping into another lane's cell calls onMove with the lane id", () => {
+    const onMove = vi.fn();
+    const cards = [{ id: "c1", columnId: "todo", title: "One", laneId: "a" }];
+    render(<KanbanBoard {...b} cards={cards} lanes={[{ id: "a", title: "A" }, { id: "b", title: "B" }]} onMove={onMove} />);
+    const target = document.querySelector<HTMLElement>('[data-row="1"][data-col="1"]')!;
+    fireEvent.dragStart(document.querySelector(".kanban-board-card-title")!);
+    fireEvent.drop(target);
+    expect(onMove).toHaveBeenCalledWith("c1", "doing", undefined, "b");
+  });
+
+  test("§8.69 virtualize renders a window with spacers and aria-rowcount", () => {
+    const cards = Array.from({ length: 100 }, (_, i) => ({ id: `k${i}`, columnId: "todo", title: `K${i}` }));
+    render(<KanbanBoard {...b} cards={cards} virtualize={{ rowHeight: 20, height: 100 }} />);
+    expect(document.querySelector(".kanban-board-scroll")).toBeTruthy();
+    expect(document.querySelectorAll("[data-card-id]").length).toBeLessThan(20);
+    expect(document.querySelector(".kanban-board-spacer")).toBeTruthy();
+    expect(screen.getByRole("grid").getAttribute("aria-rowcount")).toBe("101");
+  });
+});

@@ -3,5 +3,6 @@ export type {
   Props,
   KanbanColumn,
   KanbanCard,
+  KanbanLane,
   KanbanLabels,
 } from "./KanbanBoard";
