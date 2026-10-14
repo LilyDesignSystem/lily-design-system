@@ -259,3 +259,7 @@ behavioural contract (§8.8: "closes the menu, and returns focus to the
 move button") is unchanged and still passes the ported test
 unmodified; this is a correctness improvement over the reference's
 latent last-mounted-wins quirk, not a contract change.
+
+## Svelte 0.2.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§8.17–§8.21 there): `readonly`, `canMove` with `labels.moveBlocked`, and Alt+ArrowUp/Down reorder via `onReorder(cardId, toIndex)` with `labels.reorderAnnouncement`. See the Svelte spec for the contract and the SVAR survey (§11).

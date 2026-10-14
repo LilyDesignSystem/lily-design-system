@@ -428,3 +428,62 @@ describe("GanttChart — focus, tab stop, hierarchy and edit edge cases", () => 
     expect(document.querySelector(".gantt-table-thead .gantt-table-th")?.textContent).toBe("Task");
   });
 });
+
+describe("GanttChart — markers, working calendar, task data, readonly", () => {
+  const heads = () =>
+    Array.from(document.querySelectorAll(".gantt-table-thead .gantt-table-th")).slice(1);
+
+  test("markers mark the containing column, and a marker label renders as text", () => {
+    render(
+      <GanttChart
+        label="Q4 plan"
+        range={RANGE}
+        tasks={TASKS}
+        labels={LABELS}
+        markers={[{ date: "2026-10-05", kind: "holiday", label: "Bank holiday" }]}
+      />,
+    );
+    expect(heads()[4].getAttribute("data-marker")).toBe("holiday");
+    expect(heads()[4].textContent).toContain("Bank holiday");
+    expect(heads()[3].hasAttribute("data-marker")).toBe(false);
+    expect(document.querySelectorAll(".gantt-table-td[data-marker]").length).toBe(rows().length);
+  });
+
+  test("isNonWorking marks a column only when every day in it is non-working", () => {
+    const weekend = (d: string) => d === "2026-10-03" || d === "2026-10-04";
+    render(<GanttChart label="Q4 plan" range={RANGE} tasks={TASKS} isNonWorking={weekend} />);
+    expect(heads()[2].hasAttribute("data-non-working")).toBe(true);
+    expect(heads()[3].hasAttribute("data-non-working")).toBe(true);
+    expect(heads()[1].hasAttribute("data-non-working")).toBe(false);
+  });
+
+  test("week columns are non-working only if all seven days are", () => {
+    render(
+      <GanttChart label="Q4 plan" range={RANGE} tasks={TASKS} timeUnit="week" isNonWorking={(d) => d === "2026-10-03"} />,
+    );
+    expect(document.querySelector(".gantt-table-thead [data-non-working]")).toBeNull();
+  });
+
+  test("task type, critical and slack become data attributes on the row", () => {
+    const tasks: GanttTask[] = [
+      { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", type: "design", critical: true, slack: 2 },
+    ];
+    render(<GanttChart label="Plan" range={RANGE} tasks={tasks} />);
+    const row = rows()[0];
+    expect(row.getAttribute("data-task-type")).toBe("design");
+    expect(row.hasAttribute("data-critical")).toBe(true);
+    expect(row.getAttribute("data-slack")).toBe("2");
+  });
+
+  test("readonly: no edit region, no drag, navigation and collapse still work", () => {
+    render(<GanttChart label="Q4 plan" range={RANGE} tasks={TASKS} labels={LABELS} readonly />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+    expect(document.querySelector(".gantt-chart-edit-row")).toBeNull();
+    expect(document.querySelector(".gantt-chart-bar[draggable='true']")).toBeNull();
+    expect(document.querySelector(".gantt-chart")!.hasAttribute("data-readonly")).toBe(true);
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight" });
+    expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+    fireEvent.click(screen.getByRole("button", { name: "Collapse Phase 1" }));
+    expect(screen.getByRole("button", { name: "Expand Phase 1" })).toBeTruthy();
+  });
+});

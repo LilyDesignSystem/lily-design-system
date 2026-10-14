@@ -363,3 +363,69 @@ describe("KanbanBoard — focus, tab stop and move edge cases", () => {
     expect(document.querySelectorAll(".kanban-table-th")[1].hasAttribute("data-over-limit")).toBe(false);
   });
 });
+
+describe("KanbanBoard — reorder, veto and read-only (§8.17–§8.21)", () => {
+  const base = { label: "Sprint board", columns: COLUMNS, cards: CARDS };
+
+  test("§8.17 Alt+ArrowDown reorders within the column via onReorder and announces it", () => {
+    const onReorder = vi.fn();
+    const labels: KanbanLabels = {
+      reorderAnnouncement: (t, p, n) => `${t} is ${p} of ${n}`,
+    };
+    render(<KanbanBoard {...base} onReorder={onReorder} labels={labels} />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowDown", altKey: true });
+    expect(onReorder).toHaveBeenCalledWith("c1", 1);
+    expect(document.querySelector(".kanban-board-status")?.textContent).toBe(
+      "Card One is 2 of 2",
+    );
+  });
+
+  test("§8.18 Alt+Arrow at the column edge does not call onReorder", () => {
+    const onReorder = vi.fn();
+    render(<KanbanBoard {...base} onReorder={onReorder} />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowUp", altKey: true });
+    expect(onReorder).not.toHaveBeenCalled();
+  });
+
+  test("§8.19 canMove refuses a move: no onMove, an announcement, aria-disabled option", () => {
+    const onMove = vi.fn();
+    const labels: KanbanLabels = {
+      ...LABELS,
+      moveBlocked: (t, c) => `${t} cannot go to ${c}`,
+    };
+    render(
+      <KanbanBoard
+        {...base}
+        onMove={onMove}
+        labels={labels}
+        canMove={(_c, to) => to.id !== "done"}
+      />,
+    );
+    fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+    const option = screen.getByRole("option", { name: "Done" });
+    expect(option.getAttribute("aria-disabled")).toBe("true");
+    fireEvent.click(option);
+    expect(onMove).not.toHaveBeenCalled();
+    expect(document.querySelector(".kanban-board-status")?.textContent).toBe(
+      "Card One cannot go to Done",
+    );
+  });
+
+  test("§8.20 readonly: no move button, no menu, no drag, no reorder", () => {
+    const onReorder = vi.fn();
+    render(<KanbanBoard {...base} labels={LABELS} readonly onReorder={onReorder} />);
+    expect(document.querySelector(".kanban-board-move-button")).toBeNull();
+    fireEvent.keyDown(tabbableCells()[0], { key: "Enter" });
+    expect(screen.queryByRole("listbox")).toBeNull();
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowDown", altKey: true });
+    expect(onReorder).not.toHaveBeenCalled();
+    expect(document.querySelector("[draggable='true']")).toBeNull();
+    expect(document.querySelector(".kanban-board")!.hasAttribute("data-readonly")).toBe(true);
+  });
+
+  test("§8.21 readonly keeps arrow-key navigation", () => {
+    render(<KanbanBoard {...base} readonly />);
+    fireEvent.keyDown(tabbableCells()[0], { key: "ArrowRight" });
+    expect(tabbableCells()[0].getAttribute("data-col")).toBe("1");
+  });
+});

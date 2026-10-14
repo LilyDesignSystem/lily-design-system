@@ -29,7 +29,16 @@ export type GanttTask = {
   parentId?: string;
   /** Other tasks' ids this task depends on (finish-to-start). */
   dependsOn?: string[];
+  /** Class hook only: becomes `data-task-type` on the row (e.g. "design", "review"). */
+  type?: string;
+  /** On the critical path; becomes `data-critical`. Lily computes nothing. */
+  critical?: boolean;
+  /** Slack in days, from the consumer's own scheduling; becomes `data-slack`. */
+  slack?: number;
 };
+
+/** A dated column marker (holiday, release, deadline). `label` is rendered as text so a marker is never colour-only. */
+export type GanttMarker = { date: string; kind?: string; label?: string };
 
 export type GanttTimeUnit = "day" | "week" | "month";
 
@@ -74,6 +83,12 @@ export type Props = Omit<
   timeUnit?: GanttTimeUnit;
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
   today?: string;
+  /** Dated markers; each marks the column that contains its date with `data-marker`. */
+  markers?: GanttMarker[];
+  /** Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
+  isNonWorking?: (isoDate: string) => boolean;
+  /** Suppress editing, drag and the edit region; navigation and collapse still work. */
+  readonly?: boolean;
   /** Resolves a task to its display label. Defaults to `task.label`. */
   taskLabel?: (task: GanttTask) => string;
   /** Called after a task's start/end changes, by pointer or by the edit region. */
@@ -236,6 +251,9 @@ export function GanttChart({
   tasks,
   timeUnit = "day",
   today,
+  markers = [],
+  isNonWorking,
+  readonly = false,
   taskLabel = (task: GanttTask) => task.label,
   onTaskChange,
   labels = {},
@@ -278,11 +296,28 @@ export function GanttChart({
 
   /** Editing needs every label its controls show; an unnamed Save is worse than none. */
   const canEdit =
+    !readonly &&
     !!labels.dateTimePickerLabels &&
     !!labels.startLabel &&
     !!labels.endLabel &&
     !!labels.saveLabel &&
     !!labels.cancelLabel;
+
+  function markersIn(column: GanttColumn): GanttMarker[] {
+    return markers.filter((m) =>
+      rangesOverlap(column.start, column.end, m.date, m.date),
+    );
+  }
+
+  function columnNonWorking(column: GanttColumn): boolean {
+    if (!isNonWorking) return false;
+    for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
+      if (!isNonWorking(d)) return false;
+    }
+    return true;
+  }
+
+  const nonWorking = columns.map(columnNonWorking);
 
   function rangeFor(
     task: GanttTask,
@@ -375,6 +410,7 @@ export function GanttChart({
   }
 
   function onCellDrop(column: GanttColumn, event: React.DragEvent): void {
+    if (readonly) return;
     event.preventDefault();
     const taskId =
       draggingTaskIdRef.current ?? event.dataTransfer?.getData("text/plain");
@@ -466,6 +502,7 @@ export function GanttChart({
     <div
       ref={rootRef}
       className={`gantt-chart ${className}`.trim()}
+      data-readonly={readonly ? "" : undefined}
       {...restProps}
     >
       <GanttTable
@@ -477,18 +514,36 @@ export function GanttChart({
         <GanttTableThead>
           <GanttTableTr>
             <GanttTableTH scope="col">{labels.taskColumnHeader ?? ""}</GanttTableTH>
-            {columns.map((column) => {
+            {columns.map((column, headIndex) => {
               const isToday =
                 today != null &&
                 rangesOverlap(column.start, column.end, today, today);
+              const colMarkers = markersIn(column);
               return (
                 <GanttTableTH
                   key={column.start}
                   scope="col"
                   data-today={isToday ? "" : undefined}
+                  data-non-working={nonWorking[headIndex] ? "" : undefined}
+                  data-marker={
+                    colMarkers.length
+                      ? colMarkers.map((m) => m.kind ?? "marker").join(" ")
+                      : undefined
+                  }
                 >
                   {labels.columnLabel?.(column.start, column.end, timeUnit) ??
                     column.start}
+                  {colMarkers.map(
+                    (marker) =>
+                      marker.label && (
+                        <span
+                          key={marker.date + (marker.kind ?? "")}
+                          className="gantt-chart-marker-label"
+                        >
+                          {marker.label}
+                        </span>
+                      ),
+                  )}
                 </GanttTableTH>
               );
             })}
@@ -501,7 +556,11 @@ export function GanttChart({
             const hasDependencySummary = deps.length > 0 && !!labels.dependencySummary;
             return (
               <React.Fragment key={row.task.id}>
-                <GanttTableTr>
+                <GanttTableTr
+                  data-task-type={row.task.type}
+                  data-critical={row.task.critical ? "" : undefined}
+                  data-slack={row.task.slack}
+                >
                   {/* Depth is data for the consumer's CSS (indentation), never an inline style. */}
                   <GanttTableTH scope="row" data-depth={row.depth}>
                     {row.hasChildren && labels.collapseButton && (
@@ -546,6 +605,8 @@ export function GanttChart({
                         data-in-range={inRange ? "" : undefined}
                         data-milestone={isMilestone ? "" : undefined}
                         data-today={isToday ? "" : undefined}
+                        data-non-working={nonWorking[colIndex] ? "" : undefined}
+                        data-marker={markersIn(column).length ? "" : undefined}
                         aria-describedby={
                           hasDependencySummary ? dependencyId(row.task.id) : undefined
                         }
@@ -556,7 +617,7 @@ export function GanttChart({
                           <span
                             className="gantt-chart-bar"
                             data-percent-complete={row.task.percentComplete ?? undefined}
-                            draggable={!row.hasChildren}
+                            draggable={!row.hasChildren && !readonly}
                             onDragStart={(e) => onBarDragStart(row.task, e)}
                           />
                         )}

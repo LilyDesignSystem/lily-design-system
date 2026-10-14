@@ -333,3 +333,7 @@ mirroring the Svelte reference's own exports, because they are
 independently useful and independently testable. `addDays` is
 re-exported from `@lilydesignsystem/react-date-time-picker` directly
 (not re-implemented) — import it from there, not from this package.
+
+## Svelte 0.2.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§12 there): `readonly`, `markers` (`data-marker` plus a text label), `isNonWorking` (`data-non-working` when every day in a column is non-working), and task `type`/`critical`/`slack` as `data-*` hooks on the row.

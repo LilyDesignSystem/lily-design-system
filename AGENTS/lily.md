@@ -76,6 +76,7 @@ The React helpers, one top-level subproject per package since 2026-10-10 (`bin/l
 - [`lily-design-system-react-text-size-picker`](../lily-design-system-react-text-size-picker) — `@lilydesignsystem/react-text-size-picker`
 - [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../lily-design-system-react-gantt-chart) — `@lilydesignsystem/react-gantt-chart`
+- [`lily-design-system-react-calendar`](../lily-design-system-react-calendar) — `@lilydesignsystem/react-calendar`
 - [`lily-design-system-react-picker-bar`](../lily-design-system-react-picker-bar) — `@lilydesignsystem/react-picker-bar`
 
 The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages vue`):

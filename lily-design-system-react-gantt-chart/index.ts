@@ -14,4 +14,5 @@ export type {
   GanttTimeUnit,
   GanttLabels,
   GanttColumn,
+  GanttMarker,
 } from "./GanttChart";

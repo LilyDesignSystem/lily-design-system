@@ -85,6 +85,7 @@ packages above. [`bin/list-helper-packages react`](../../bin/list-helper-package
 - [`lily-design-system-react-text-size-picker`](../../lily-design-system-react-text-size-picker/) — `@lilydesignsystem/react-text-size-picker`
 - [`lily-design-system-react-theme-picker`](../../lily-design-system-react-theme-picker/) — `@lilydesignsystem/react-theme-picker`
 - [`lily-design-system-react-gantt-chart`](../../lily-design-system-react-gantt-chart/) — `@lilydesignsystem/react-gantt-chart`
+- [`lily-design-system-react-calendar`](../../lily-design-system-react-calendar/) — `@lilydesignsystem/react-calendar`
 - [`lily-design-system-react-picker-bar`](../../lily-design-system-react-picker-bar/) — `@lilydesignsystem/react-picker-bar`
 
 ### Vue helper packages
