@@ -30,6 +30,7 @@ Implement the Contents Nav component: a navigation landmark for a list of conten
 - [ ] `aria-label={label}` -- provides an accessible name for the `<nav>` landmark, distinguishing it from other navigation regions on the page
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+- [ ] With `spy`: exactly one link carries `aria-current` and `data-active`; clicks hold their link until the scroll settles; the URL hash wins on load (see `AGENTS.md`)
 - [ ] Tests pass in all implementations
 
 ## Implementation Status
@@ -57,3 +58,15 @@ Implement the Contents Nav component: a navigation landmark for a list of conten
 - [ ] Add screen reader announcement tests
 - [ ] Add integration tests with parent/child components
 - [ ] Cross-check against css-style-sheet-template.css
+
+## Scrollspy (added 2026-10-14)
+
+`spy` adds scrollspy to this component rather than a new one (see [spec/components/scrollspy.md](../../../spec/components/scrollspy.md)
+for the research and the design choices). Svelte is canonical; the other seven libraries port it.
+
+- Props: `spy`, `offset`, `root`, `current`, `active`, `onActiveChange` (see `AGENTS.md`).
+- Algorithm: last section whose top is at or above the line (+1 px); the last section at the bottom of the scroll range;
+  the first before any. Computed on scroll and resize (frame-throttled), on `hashchange`, and once on mount.
+- Click lock: released by `scrollend`, or after 1 s where that does not fire.
+- Testing: jsdom has no layout, so unit tests mock `getBoundingClientRect` and `scrollHeight`; a real-browser run on a long
+  page is still owed (bottom of page, click lock, fixed header).

@@ -34,7 +34,40 @@ Wrap a `ContentsList` that contains `ContentsListItem`s, each containing an anch
 | `class` | `string` | `""` | CSS class name appended to the base class. |
 | `label` | `string` | required | Accessible name (e.g. "Contents"). |
 | `children` | `Snippet` | required | Typically a `ContentsList`. |
+| `spy` | `boolean` | `false` | Scrollspy: mark the link of the section currently in view. |
+| `offset` | `number` | `0` | Activation line in px below the top of `root`; set to a fixed header's height. |
+| `root` | `HTMLElement \| null` | `null` | A scrolling element other than the viewport. |
+| `current` | `string` | `"true"` | The `aria-current` token on the active link. |
+| `active` | `string` (bindable) | `""` | The id of the section in view. |
+| `onActiveChange` | `(id: string) => void` | — | Called once per change. |
 | `...restProps` | `unknown` | — | Additional attributes spread onto the `<nav>`. |
+
+## Scrollspy
+
+Set `spy` to highlight the table-of-contents entry for the section the reader is in. The links are your own
+`<a href="#id">` elements inside the nav and the targets are the elements with those ids, so the list works as a
+plain jump list without script.
+
+```svelte
+<ContentsNav label="On this page" spy offset={64}>
+    <ContentsList>
+        <ContentsListItem><a href="#introduction">Introduction</a></ContentsListItem>
+        <ContentsListItem><a href="#usage">Usage</a></ContentsListItem>
+    </ContentsList>
+</ContentsNav>
+```
+
+- **Which section is current:** the last one whose top has passed the activation line (`offset` px below the top of `root`).
+  At the bottom of the page the last section is current, so a short last section is not unreachable; above the first
+  section, the first is.
+- **What is set:** `aria-current` (default `"true"`) and `data-active` on that link, and `data-descendant-active` on each
+  enclosing `<li>`, so a nested contents list can keep its parent open. Style the highlight with more than colour (WCAG 1.4.1).
+- **Clicks:** the clicked link becomes current at once and stays so until the scroll settles, so a smooth scroll passing
+  through other sections cannot move it.
+- **Not done for you:** smooth scrolling (use CSS `scroll-behavior` inside `prefers-reduced-motion: no-preference`), a fixed
+  header's offset (use `scroll-margin-top` on the targets and the same value for `offset`), moving focus, and updating the
+  URL (use `onActiveChange` with `history.replaceState`).
+- **No live region:** scrolling announces nothing, by design.
 
 ## Usage
 
