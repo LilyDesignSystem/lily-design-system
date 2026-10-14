@@ -335,6 +335,7 @@ explicit about that boundary.
 - [national-identifiers](../national-identifiers/index.md) — the 80 `-input`/`-view` identifier components.
 - [tooling](../tooling/index.md) — `bin/` scripts that list and scaffold catalog entries.
 - [testing](../testing/index.md) — how `bin/test` and per-framework suites verify the catalog.
+- [scrollspy](scrollspy.md) — research for a possible new component (not built).
 
 ## Sources
 

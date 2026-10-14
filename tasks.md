@@ -2273,6 +2273,7 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
 - [ ] **P10-T14 Decide whether the themes reset a group fieldset's border.** `radio-group` and `checkbox-group` are now
   `<fieldset>`s in every library; the 45 themes lay them out but leave the browser's default fieldset border, padding
   and minimum width. A visual decision: reset them, or keep the border as a grouping cue.
+- [ ] **P10-T15 Decide whether to build `scrollspy`.** Research is in [spec/components/scrollspy.md](spec/components/scrollspy.md): the behaviour, the Bootstrap failure modes to avoid, a recommended `scrollspy-nav`, and three open questions for the maintainer.
 
 ---
 
