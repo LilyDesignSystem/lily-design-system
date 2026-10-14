@@ -557,3 +557,34 @@ describe("GanttChart — progress field, baselines, typed dependencies", () => {
         expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("Design/e2s/0");
     });
 });
+
+describe("GanttChart — zoom control (§14.1–§14.4)", () => {
+    const zl: GanttLabels = { ...LABELS, zoomIn: "Zoom in", zoomOut: "Zoom out", zoomAnnouncement: (u) => `Showing ${u}s` };
+    const cols = () => document.querySelectorAll(".gantt-table-thead .gantt-table-th").length - 1;
+    const btn = (n: string) => screen.getByRole("button", { name: n }) as HTMLButtonElement;
+
+    test("§14.1 no zoom buttons without labels.zoomIn / zoomOut", () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: LABELS } });
+        expect(document.querySelector(".gantt-chart-zoom")).toBeNull();
+    });
+
+    test("§14.2 zoom in steps to finer columns and out to coarser, announcing each unit", async () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: zl, timeUnit: "week" } });
+        const week = cols();
+        await fireEvent.click(btn("Zoom in"));
+        expect(cols()).toBeGreaterThan(week);
+        expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Showing days");
+        await fireEvent.click(btn("Zoom out"));
+        await fireEvent.click(btn("Zoom out"));
+        expect(cols()).toBeLessThan(week);
+    });
+
+    test("§14.3 the buttons disable at the ends: day cannot zoom in, month cannot zoom out", async () => {
+        render(GanttChart, { props: { label: "Q4 plan", range: RANGE, tasks: TASKS, labels: zl, timeUnit: "day" } });
+        expect(btn("Zoom in").disabled).toBe(true);
+        await fireEvent.click(btn("Zoom out"));
+        await fireEvent.click(btn("Zoom out"));
+        expect(btn("Zoom out").disabled).toBe(true);
+        expect(btn("Zoom in").disabled).toBe(false);
+    });
+});

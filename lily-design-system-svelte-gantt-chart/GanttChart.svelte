@@ -71,6 +71,12 @@
         /** Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early). */
         baselineSummary?: (taskLabel: string, baseline: { start: string; end: string }, varianceDays: number) => string;
         collapseButton?: (task: GanttTask, collapsed: boolean) => string;
+        /** Accessible name for the zoom-in button (finer columns). Gates the button. */
+        zoomIn?: string;
+        /** Accessible name for the zoom-out button (coarser columns). Gates the button. */
+        zoomOut?: string;
+        /** Announced after a zoom step with the new unit. */
+        zoomAnnouncement?: (timeUnit: GanttTimeUnit) => string;
     };
 
     export type Props = {
@@ -82,7 +88,7 @@
         range: { start: string; end: string };
         /** Task data. */
         tasks: GanttTask[];
-        /** Column granularity. A static rendering choice, not an interactive zoom control. */
+        /** Column granularity. Bindable: the zoom buttons (shown when `labels.zoomIn` / `labels.zoomOut` name them) step it month ↔ week ↔ day. */
         timeUnit?: GanttTimeUnit;
         /** ISO date marking "today"; never computed internally (stays SSR-safe). */
         today?: string;
@@ -254,7 +260,7 @@
         caption,
         range,
         tasks,
-        timeUnit = "day",
+        timeUnit = $bindable("day"),
         today,
         markers = [],
         isNonWorking = undefined,
@@ -311,6 +317,16 @@
 
     function rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
         return hasChildren ? (ranges.get(task.id) ?? task) : { start: task.start, end: task.end };
+    }
+
+    const ZOOM_ORDER: GanttTimeUnit[] = ["month", "week", "day"];
+    const zoomIndex = $derived(ZOOM_ORDER.indexOf(timeUnit));
+
+    function zoom(delta: 1 | -1): void {
+        const next = ZOOM_ORDER[zoomIndex + delta];
+        if (!next) return;
+        timeUnit = next;
+        announce(labels.zoomAnnouncement?.(next));
     }
 
     function announce(message: string | undefined): void {
@@ -491,6 +507,16 @@
 </script>
 
 <div bind:this={rootEl} class={`gantt-chart ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
+    {#if labels.zoomIn || labels.zoomOut}
+        <div class="gantt-chart-zoom" role="group" aria-label={label}>
+            {#if labels.zoomOut}
+                <button type="button" class="gantt-chart-zoom-out-button" aria-label={labels.zoomOut} disabled={zoomIndex <= 0} onclick={() => zoom(-1)}>−</button>
+            {/if}
+            {#if labels.zoomIn}
+                <button type="button" class="gantt-chart-zoom-in-button" aria-label={labels.zoomIn} disabled={zoomIndex >= ZOOM_ORDER.length - 1} onclick={() => zoom(1)}>+</button>
+            {/if}
+        </div>
+    {/if}
     <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin}>
         <GanttTableThead>
             <GanttTableTr>
