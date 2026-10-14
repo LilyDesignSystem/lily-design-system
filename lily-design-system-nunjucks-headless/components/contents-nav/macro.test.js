@@ -36,4 +36,29 @@ describe("contents-nav", () => {
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
   });
+
+  it("renders no spy attributes by default", () => {
+    const { document } = render("contents-nav", {});
+    const el = document.querySelector("nav.contents-nav");
+    expect(el.hasAttribute("data-lily-contents-nav-spy")).toBe(false);
+  });
+
+  it("renders the spy data attributes when spy is set", () => {
+    const { document } = render("contents-nav", {
+      spy: true,
+      spyOffset: 64,
+      spyCurrent: "location",
+      spyRoot: "#pane",
+    });
+    const el = document.querySelector("nav.contents-nav");
+    expect(el.hasAttribute("data-lily-contents-nav-spy")).toBe(true);
+    expect(el.getAttribute("data-spy-offset")).toBe("64");
+    expect(el.getAttribute("data-spy-current")).toBe("location");
+    expect(el.getAttribute("data-spy-root")).toBe("#pane");
+  });
+
+  it("renders data-spy-offset for an offset of 0", () => {
+    const { document } = render("contents-nav", { spy: true, spyOffset: 0 });
+    expect(document.querySelector("nav.contents-nav").getAttribute("data-spy-offset")).toBe("0");
+  });
 });

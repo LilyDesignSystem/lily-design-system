@@ -5,6 +5,10 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## Unreleased — 2026-10-14 (scrollspy)
+
+- `ContentsNav` gains scrollspy (`spy`): the link of the section in view gets `aria-current` and `data-active`. Inputs `spy`, `offset`, `root`, `current`; two-way `[(active)]`.
+
 ## Unreleased — 2026-10-11 (labels and contracts)
 
 `RadioGroup` and `CheckboxGroup` render a `<fieldset>` with their group role; `SegmentGroupItem` is a `<button role="radio">` with `checked`, `value` and `disabled`; `Tag` is a `<span>`, not a live region unless `live` is set. See the repository CHANGELOG (2026-10-11).

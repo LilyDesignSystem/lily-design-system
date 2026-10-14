@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased — 2026-10-14 (scrollspy)
+
+- `ContentsNav` gains scrollspy (`spy`): the link of the section in view gets `aria-current` and `data-active`. Props `spy`, `offset`, `root`, `current`, `onActiveChange`.
+
 ## Unreleased — 2026-10-11 (labels and contracts)
 
 `PinInputDiv` takes `digitLabel` and no longer names its boxes in English; `FiveStarRatingPicker` takes `starLabel`; `FiveFaceRatingPicker` / `FiveFaceRatingView` default their labels to the numbers. `Tag` is not a live region unless `live` is set. See the repository CHANGELOG (2026-10-11).

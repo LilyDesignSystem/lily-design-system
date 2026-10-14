@@ -11,6 +11,11 @@
     id          string
     classes     string
     attributes  object
+    spy         boolean  Scrollspy: mark the link of the section in view. The macro only renders the
+                         data attributes below; spy.js (in this directory) does the work.
+    spyOffset   number   Activation line, px below the top of the scroller (a fixed header's height).
+    spyCurrent  string   The aria-current token for the active link. Default "true".
+    spyRoot     string   CSS selector of a scrolling element other than the viewport.
 
   Body content: typically a ContentsList, via caller().
 #}
@@ -20,6 +25,11 @@
   class="contents-nav{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Contents') }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.spy %} data-lily-contents-nav-spy
+    {%- if p.spyOffset is defined and p.spyOffset is not none %} data-spy-offset="{{ p.spyOffset }}"{% endif %}
+    {%- if p.spyCurrent %} data-spy-current="{{ p.spyCurrent }}"{% endif %}
+    {%- if p.spyRoot %} data-spy-root="{{ p.spyRoot }}"{% endif %}
+  {%- endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   {%- if p.html -%}{{ p.html | safe }}

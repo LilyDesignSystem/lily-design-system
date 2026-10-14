@@ -5,10 +5,30 @@
     a contents navigation area
 *@
 
-<nav class="@($"contents-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
+<nav class="@($"contents-nav {CssClass}".Trim())"
+     aria-label="@Label"
+     data-lily-contents-nav-spy="@(Spy ? "" : null)"
+     data-spy-offset="@(Spy ? SpyOffset?.ToString() : null)"
+     data-spy-current="@(Spy ? SpyCurrent : null)"
+     data-spy-root="@(Spy ? SpyRoot : null)"
+     @attributes="AdditionalAttributes">@ChildContent</nav>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+
+    /// <summary>Scrollspy: mark the link of the section in view. This only renders data attributes; load
+    /// <c>_content/LilyDesignSystem.Blazor.Headless/contents-nav-spy.js</c> and call <c>autoInit()</c> (see that file).</summary>
+    [Parameter] public bool Spy { get; set; }
+
+    /// <summary>Activation line, px below the top of the scroller; set to a fixed header's height.</summary>
+    [Parameter] public int? SpyOffset { get; set; }
+
+    /// <summary>The aria-current token for the active link. Default "true".</summary>
+    [Parameter] public string? SpyCurrent { get; set; }
+
+    /// <summary>CSS selector of a scrolling element other than the viewport.</summary>
+    [Parameter] public string? SpyRoot { get; set; }
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

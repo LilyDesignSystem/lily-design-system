@@ -103,3 +103,30 @@ ContentsNav follows the Nav/List/ListItem composition pattern. Use ContentsNav a
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## Scrollspy
+
+`spy` marks the table-of-contents link for the section the reader is in. It is a behaviour of this one component in every
+library; the links are your own `<a href="#id">` elements and the targets are the elements with those ids.
+
+- **Which section is current:** the last one whose top has passed the activation line (`offset` px below the top of the
+  scroller). At the bottom of the page the last section is current; above the first section, the first is.
+- **What is set:** `aria-current` (default `"true"`) and `data-active` on that link, and `data-descendant-active` on each
+  enclosing `<li>`. Style the highlight with more than colour (WCAG 1.4.1). There is no live region: scrolling announces nothing.
+- **Clicks:** the clicked link becomes current at once and stays so until the scroll settles (`scrollend`, or 1 s).
+- **Not done for you:** smooth scrolling (CSS `scroll-behavior` inside `prefers-reduced-motion: no-preference`), a fixed
+  header's offset (`scroll-margin-top` on the targets plus the same `offset`), moving focus, and updating the URL.
+
+Per library:
+
+- **Svelte:** `<ContentsNav spy offset={64} bind:active onActiveChange={...}>`.
+- **React:** `<ContentsNav spy offset={64} onActiveChange={...}>`.
+- **Vue:** `<ContentsNav spy :offset="64" v-model:active="section">`.
+- **Angular:** `<lily-contents-nav [spy]="true" [offset]="64" [(active)]="section">`.
+- **Web Components:** `<lily-contents-nav label="On this page" spy offset="64" root="#pane">`; fires `lily-active-change` with `{ id }`.
+- **HTML:** `startScrollspy(nav, { offset, root, current, onChange })` from `components/contents-nav-spy.js`.
+- **Nunjucks:** `spy: true, spyOffset: 64` renders data attributes; `components/contents-nav/spy.js` `autoInit()` does the work.
+- **Blazor:** `Spy="true" SpyOffset="64"` renders data attributes; load `_content/LilyDesignSystem.Blazor.Headless/contents-nav-spy.js` and call `autoInit()`. The component is not told which section is active.
+
+Verification: the HTML library proves the algorithm in real Chrome (`contents-nav-spy.test.js`: scrolling, bottom of page, click
+lock, hash on load, offset, nesting); the other libraries test with mocked layout, since jsdom has none.

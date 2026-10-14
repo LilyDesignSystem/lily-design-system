@@ -19,6 +19,29 @@ This component is commonly used at the top of documentation pages, articles, or 
 - `children`: ReactNode (required) -- list items, typically ContentsNavItem components or `<li>` elements with links
 - `...restProps`: any additional HTML attributes spread onto the `<nav>` element
 
+## Scrollspy
+
+Set `spy` to mark the table-of-contents link for the section in view. The links are your own `<a href="#id">` elements.
+
+```tsx
+<ContentsNav label="On this page" spy offset={64} onActiveChange={(id) => console.log(id)}>
+  <ContentsList>
+    <ContentsListItem><a href="#introduction">Introduction</a></ContentsListItem>
+    <ContentsListItem><a href="#usage">Usage</a></ContentsListItem>
+  </ContentsList>
+</ContentsNav>
+```
+
+Props: `spy`, `offset` (px, default 0), `root` (element, default the viewport), `current` (default `"true"`), `onActiveChange(id)`.
+
+- **Which section is current:** the last one whose top has passed the activation line (`offset` px below the top of the
+  scroller). At the bottom of the page the last section is current; above the first section, the first is.
+- **What is set:** `aria-current` (default `"true"`) and `data-active` on that link, and `data-descendant-active` on each
+  enclosing `<li>`. Style the highlight with more than colour (WCAG 1.4.1). There is no live region: scrolling announces nothing.
+- **Clicks:** the clicked link becomes current at once and stays so until the scroll settles (`scrollend`, or 1 s).
+- **Not done for you:** smooth scrolling (CSS `scroll-behavior` inside `prefers-reduced-motion: no-preference`), a fixed
+  header's offset (`scroll-margin-top` on the targets plus the same `offset`), moving focus, and updating the URL.
+
 ## Usage
 
 ```tsx

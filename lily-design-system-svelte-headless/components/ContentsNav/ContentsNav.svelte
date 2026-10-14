@@ -97,6 +97,8 @@
         let lockTimer: ReturnType<typeof setTimeout> | undefined;
         let frame = 0;
         let last = "";
+        // Until the reader first scrolls, the URL hash decides (links may render after mount).
+        let hashPending = false;
 
         const scroller: Window | HTMLElement = spyRoot ?? window;
 
@@ -127,6 +129,14 @@
 
         function update(): void {
             if (locked) return;
+            if (hashPending) {
+                const id = decodeURIComponent(window.location.hash.slice(1));
+                const hashed = id ? contentsLinks(nav!).find((a) => contentsLinkId(a) === id) : undefined;
+                if (hashed) {
+                    mark(hashed);
+                    return;
+                }
+            }
             const links = contentsLinks(nav!);
             const pairs = links
                 .map((a) => ({ a, el: contentsTarget(a, nav!.ownerDocument) }))
@@ -151,6 +161,11 @@
             });
         }
 
+        function onScroll(): void {
+            hashPending = false;
+            schedule();
+        }
+
         function release(): void {
             locked = false;
             if (lockTimer) clearTimeout(lockTimer);
@@ -173,24 +188,29 @@
             if (link) mark(link);
         }
 
-        scroller.addEventListener("scroll", schedule, { passive: true });
+        scroller.addEventListener("scroll", onScroll, { passive: true });
         scroller.addEventListener("scrollend", release);
         window.addEventListener("resize", schedule);
         window.addEventListener("hashchange", onHashChange);
         nav.addEventListener("click", onClick);
+        // Links rendered or re-pointed after mount (a list built from data) are picked up too.
+        const mutations = typeof MutationObserver === "undefined" ? null : new MutationObserver(schedule);
+        mutations?.observe(nav, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
 
         // The URL hash wins on load; otherwise the position decides.
         const initial = decodeURIComponent(window.location.hash.slice(1));
+        hashPending = initial !== "";
         const hashLink = initial ? contentsLinks(nav).find((a) => contentsLinkId(a) === initial) : undefined;
         if (hashLink) mark(hashLink);
         else update();
 
         return () => {
-            scroller.removeEventListener("scroll", schedule);
+            scroller.removeEventListener("scroll", onScroll);
             scroller.removeEventListener("scrollend", release);
             window.removeEventListener("resize", schedule);
             window.removeEventListener("hashchange", onHashChange);
             nav.removeEventListener("click", onClick);
+            mutations?.disconnect();
             if (frame) cancelAnimationFrame(frame);
             if (lockTimer) clearTimeout(lockTimer);
         };
