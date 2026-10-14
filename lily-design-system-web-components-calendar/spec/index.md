@@ -30,3 +30,7 @@ element with no benefit here.
   `@lilydesignsystem/web-components-date-time-picker`.
 - Every state change rebuilds the table; focus is restored to the cursor cell
   after a keyboard-driven change.
+
+## Svelte 0.3.0 parity (2026-10-14)
+
+Ported from the Svelte canonical spec (§13 there; clauses §8.22–§8.30): week numbers (`showWeekNumbers`), marked ranges (`ranges`, `data-range`) and range selection (`selectedRange`, `onRangeSelect`, `data-in-range`, `data-range-start`, `data-range-end`).

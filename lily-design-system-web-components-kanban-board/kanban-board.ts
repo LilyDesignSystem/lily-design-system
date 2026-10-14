@@ -43,6 +43,8 @@ export type KanbanColumn = {
   title: string;
   /** Work-in-progress limit; the column warns when its card count exceeds this. */
   wipLimit?: number;
+  /** A hard limit: a move into this column is refused once it holds `wipLimit` cards. */
+  strictLimit?: boolean;
 };
 
 export type KanbanCard = {
@@ -69,6 +71,10 @@ export type KanbanLabels = {
   moveBlocked?: (cardTitle: string, columnTitle: string) => string;
   /** Announced after Alt+ArrowUp/Down reorders a card; `position` is 1-based. */
   reorderAnnouncement?: (cardTitle: string, position: number, total: number) => string;
+  /** Accessible name for a column's collapse toggle. Gates the toggle. */
+  collapseColumn?: (column: KanbanColumn, collapsed: boolean) => string;
+  /** Accessible name for a column's add-card button. Gates the button. */
+  addCard?: (column: KanbanColumn) => string;
 };
 
 /** Mirrors the observed attributes / properties for typing convenience. */
@@ -91,6 +97,12 @@ export type KanbanBoardProps = {
   canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
   /** Attribute `readonly`. Disables the move menu, drag and reorder; navigation still works. */
   readonly?: boolean;
+  /** Property-only. Ids of collapsed columns; a collapsed column keeps its header and count but shows no cards. */
+  collapsedColumns?: string[];
+  /** Property-only. Called with the new collapsed ids when a column's toggle is pressed. */
+  onCollapsedChange?: (collapsedColumns: string[]) => void;
+  /** Property-only. Called with the column id when its add-card button is pressed. */
+  onAddCard?: (columnId: string) => void;
   /** Property-only. See KanbanLabels — presence gates each control. */
   labels?: KanbanLabels;
   class?: string;
@@ -173,6 +185,9 @@ export class KanbanBoard extends HTMLElement {
   #onReorder?: (cardId: string, toIndex: number) => void;
   #canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
   #labels: KanbanLabels = {};
+  #collapsed: string[] = [];
+  #onCollapsedChange?: (collapsedColumns: string[]) => void;
+  #onAddCard?: (columnId: string) => void;
 
   // ---- Internal state ----
   #statusMessage = "";
@@ -248,6 +263,28 @@ export class KanbanBoard extends HTMLElement {
     this.#onReorder = fn;
   }
 
+  get collapsedColumns(): string[] {
+    return [...this.#collapsed];
+  }
+  set collapsedColumns(v: string[]) {
+    this.#collapsed = Array.isArray(v) ? v.slice() : [];
+    this.#render();
+  }
+
+  get onCollapsedChange(): ((collapsedColumns: string[]) => void) | undefined {
+    return this.#onCollapsedChange;
+  }
+  set onCollapsedChange(fn: ((collapsedColumns: string[]) => void) | undefined) {
+    this.#onCollapsedChange = fn;
+  }
+
+  get onAddCard(): ((columnId: string) => void) | undefined {
+    return this.#onAddCard;
+  }
+  set onAddCard(fn: ((columnId: string) => void) | undefined) {
+    this.#onAddCard = fn;
+  }
+
   get canMove(): ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined {
     return this.#canMove;
   }
@@ -298,7 +335,8 @@ export class KanbanBoard extends HTMLElement {
 
   #maxRows(cardsByColumn: Map<string, KanbanCard[]>): number {
     return this.#columns.reduce(
-      (max, column) => Math.max(max, cardsByColumn.get(column.id)?.length ?? 0),
+      (max, column) =>
+        Math.max(max, this.#collapsed.includes(column.id) ? 0 : (cardsByColumn.get(column.id)?.length ?? 0)),
       0,
     );
   }
@@ -309,7 +347,7 @@ export class KanbanBoard extends HTMLElement {
     cardsByColumn: Map<string, KanbanCard[]>,
   ): KanbanCard | undefined {
     const column = this.#columns[colIndex];
-    if (!column) return undefined;
+    if (!column || this.#collapsed.includes(column.id)) return undefined;
     return cardsByColumn.get(column.id)?.[rowIndex];
   }
 
@@ -338,7 +376,24 @@ export class KanbanBoard extends HTMLElement {
    * it now is, so focus is never left on a node the rebuild removed.
    */
   #isRefused(card: KanbanCard, toColumn: KanbanColumn): boolean {
-    return toColumn.id !== card.columnId && !!this.#canMove && !this.#canMove(card, toColumn);
+    if (toColumn.id === card.columnId) return false;
+    if (this.#canMove && !this.#canMove(card, toColumn)) return true;
+    return (
+      !!toColumn.strictLimit &&
+      toColumn.wipLimit != null &&
+      (this.#cardsByColumn().get(toColumn.id)?.length ?? 0) >= toColumn.wipLimit
+    );
+  }
+
+  #toggleCollapsed(column: KanbanColumn): void {
+    this.#collapsed = this.#collapsed.includes(column.id)
+      ? this.#collapsed.filter((id) => id !== column.id)
+      : [...this.#collapsed, column.id];
+    this.#onCollapsedChange?.([...this.#collapsed]);
+    this.dispatchEvent(
+      new CustomEvent<string[]>("collapsechange", { detail: [...this.#collapsed], bubbles: true, composed: true }),
+    );
+    this.#render();
   }
 
   #moveCard(card: KanbanCard, toColumn: KanbanColumn): void {
@@ -674,6 +729,18 @@ export class KanbanBoard extends HTMLElement {
       th.className = "kanban-board-th";
       th.setAttribute("scope", "col");
       if (overLimit) th.setAttribute("data-over-limit", "");
+      const isCollapsed = this.#collapsed.includes(column.id);
+      if (isCollapsed) th.setAttribute("data-collapsed", "");
+      if (this.#labels.collapseColumn) {
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "kanban-board-collapse-button";
+        toggle.setAttribute("aria-expanded", String(!isCollapsed));
+        toggle.setAttribute("aria-label", this.#labels.collapseColumn(column, isCollapsed));
+        toggle.textContent = isCollapsed ? "▸" : "▾";
+        toggle.addEventListener("click", () => this.#toggleCollapsed(column));
+        th.appendChild(toggle);
+      }
       th.appendChild(document.createTextNode(column.title));
       if (this.#labels.cardCount) {
         const span = document.createElement("span");
@@ -686,6 +753,20 @@ export class KanbanBoard extends HTMLElement {
         warn.className = "kanban-board-wip-warning";
         warn.textContent = this.#labels.overLimit(count, column.wipLimit ?? 0);
         th.appendChild(warn);
+      }
+      if (this.#labels.addCard && !this.readonly) {
+        const add = document.createElement("button");
+        add.type = "button";
+        add.className = "kanban-board-add-button";
+        add.setAttribute("aria-label", this.#labels.addCard(column));
+        add.textContent = "+";
+        add.addEventListener("click", () => {
+          this.#onAddCard?.(column.id);
+          this.dispatchEvent(
+            new CustomEvent<string>("addcard", { detail: column.id, bubbles: true, composed: true }),
+          );
+        });
+        th.appendChild(add);
       }
       headRow.appendChild(th);
     });
@@ -702,6 +783,7 @@ export class KanbanBoard extends HTMLElement {
         td.setAttribute("role", "gridcell");
         td.setAttribute("data-row", String(rowIndex));
         td.setAttribute("data-col", String(colIndex));
+        if (this.#collapsed.includes(column.id)) td.setAttribute("data-collapsed", "");
         const isActive = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
         td.setAttribute("tabindex", isActive ? "0" : "-1");
         td.addEventListener("dragover", this.#onColumnDragOver);

@@ -29,6 +29,7 @@ export type {
   GanttChartProps,
   GanttColumn,
   GanttFlatRow,
+  GanttDependency,
   GanttLabels,
   GanttMarker,
   GanttTask,

@@ -39,6 +39,9 @@ import type { DateTimePickerLabels } from "@lilydesignsystem/web-components-date
 // Types
 // ---------------------------------------------------------------------
 
+/** A dependency with its type (`e2s` finish-to-start, `s2s`, `s2e`, `e2e`) and lag in days; data and text only. */
+export type GanttDependency = { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
+
 export type GanttTask = {
   /** Stable task identifier. */
   id: string;
@@ -53,7 +56,9 @@ export type GanttTask = {
   /** Another task's id; builds the row hierarchy. */
   parentId?: string;
   /** Other tasks' ids this task depends on (finish-to-start). */
-  dependsOn?: string[];
+  dependsOn?: (string | GanttDependency)[];
+  /** The planned span, shown as a second marked span (`data-baseline`) so slippage is visible. */
+  baseline?: { start: string; end: string };
   /** Class hook only: becomes `data-task-type` on the row (e.g. "design", "review"). */
   type?: string;
   /** On the critical path; becomes `data-critical`. Lily computes nothing. */
@@ -92,6 +97,16 @@ export type GanttLabels = {
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
+  /** Label of the progress field in the edit region (0–100). Gates the field. */
+  percentLabel?: string;
+  /** Text for one typed dependency: (predecessor label, type, lag in days). Untyped dependencies use the label. */
+  dependencyDetail?: (predecessorLabel: string, type: string, lag: number) => string;
+  /** Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early). */
+  baselineSummary?: (
+    taskLabel: string,
+    baseline: { start: string; end: string },
+    varianceDays: number,
+  ) => string;
   collapseButton?: (task: GanttTask, collapsed: boolean) => string;
 };
 
@@ -118,7 +133,7 @@ export type GanttChartProps = {
   /** Property-only. Resolves a task to its display label. Defaults to `task.label`. */
   taskLabel?: (task: GanttTask) => string;
   /** Property-only. Called after a task's start/end changes, by pointer or the edit region. */
-  onTaskChange?: (taskId: string, start: string, end: string) => void;
+  onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
   /** Property-only. See GanttLabels — presence gates each control. */
   labels?: GanttLabels;
   class?: string;
@@ -297,7 +312,8 @@ export class GanttChart extends HTMLElement {
   #range: { start: string; end: string } = { start: "", end: "" };
   #tasks: GanttTask[] = [];
   #taskLabel: (task: GanttTask) => string = (task) => task.label;
-  #onTaskChange?: (taskId: string, start: string, end: string) => void;
+  #onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void;
+  #editPercentEl: HTMLInputElement | null = null;
   #labels: GanttLabels = {};
   #markers: GanttMarker[] = [];
   #isNonWorking?: (isoDate: string) => boolean;
@@ -377,10 +393,10 @@ export class GanttChart extends HTMLElement {
     this.#render();
   }
 
-  get onTaskChange(): ((taskId: string, start: string, end: string) => void) | undefined {
+  get onTaskChange(): ((taskId: string, start: string, end: string, percentComplete?: number) => void) | undefined {
     return this.#onTaskChange;
   }
-  set onTaskChange(fn: ((taskId: string, start: string, end: string) => void) | undefined) {
+  set onTaskChange(fn: ((taskId: string, start: string, end: string, percentComplete?: number) => void) | undefined) {
     this.#onTaskChange = fn;
   }
 
@@ -460,10 +476,26 @@ export class GanttChart extends HTMLElement {
 
   #predecessorLabels(task: GanttTask): string[] {
     if (!task.dependsOn?.length) return [];
-    return task.dependsOn.map((id) => {
+    return task.dependsOn.map((dep) => {
+      const id = typeof dep === "string" ? dep : dep.id;
       const predecessor = this.#tasks.find((t) => t.id === id);
-      return predecessor ? this.#taskLabel(predecessor) : id;
+      const text = predecessor ? this.#taskLabel(predecessor) : id;
+      const detail = this.#labels.dependencyDetail;
+      if (typeof dep === "string" || !detail) return text;
+      return detail(text, dep.type ?? "e2s", dep.lag ?? 0);
     });
+  }
+
+  #baselineId(taskId: string): string {
+    return `${this.#baseId}-baseline-${taskId}`;
+  }
+
+  /** The ids a cell is described by: the dependency summary, then the baseline summary. */
+  #describedBy(task: GanttTask, hasDeps: boolean): string | null {
+    const ids: string[] = [];
+    if (hasDeps) ids.push(this.#dependencyId(task.id));
+    if (task.baseline && this.#labels.baselineSummary) ids.push(this.#baselineId(task.id));
+    return ids.length ? ids.join(" ") : null;
   }
 
   #dependencyId(taskId: string): string {
@@ -495,8 +527,9 @@ export class GanttChart extends HTMLElement {
   // Edit — keyboard (composed DateTimePicker) and pointer (native DnD)
   // ---------------------------------------------------------------
 
-  #applyChange(task: GanttTask, start: string, end: string): void {
-    this.#onTaskChange?.(task.id, start, end);
+  #applyChange(task: GanttTask, start: string, end: string, percentComplete?: number): void {
+    if (percentComplete === undefined) this.#onTaskChange?.(task.id, start, end);
+    else this.#onTaskChange?.(task.id, start, end, percentComplete);
     this.#announce(this.#labels.dateAnnouncement?.(this.#taskLabel(task), start, end));
   }
 
@@ -549,6 +582,23 @@ export class GanttChart extends HTMLElement {
     };
     td.appendChild(endPicker);
 
+    this.#editPercentEl = null;
+    if (this.#labels.percentLabel) {
+      const label = document.createElement("label");
+      label.className = "gantt-chart-percent-label";
+      label.appendChild(document.createTextNode(this.#labels.percentLabel));
+      const input = document.createElement("input");
+      input.className = "gantt-chart-percent-input";
+      input.type = "number";
+      input.min = "0";
+      input.max = "100";
+      input.step = "1";
+      input.value = task.percentComplete != null ? String(task.percentComplete) : "";
+      label.appendChild(input);
+      td.appendChild(label);
+      this.#editPercentEl = input;
+    }
+
     const saveButton = document.createElement("button");
     saveButton.type = "button";
     saveButton.className = "gantt-chart-save-button";
@@ -585,8 +635,10 @@ export class GanttChart extends HTMLElement {
     const b = this.#editEnd;
     if (!a || !b) return;
     const [start, end] = compareISO(a, b) <= 0 ? [a, b] : [b, a];
+    const raw = this.#editPercentEl?.value ?? "";
+    const rounded = raw === "" ? NaN : Math.min(100, Math.max(0, Math.round(Number(raw))));
     this.#closeEditRow();
-    this.#applyChange(task, start, end);
+    this.#applyChange(task, start, end, Number.isFinite(rounded) ? rounded : undefined);
     this.#focusActiveCell();
   }
 
@@ -597,6 +649,7 @@ export class GanttChart extends HTMLElement {
   }
 
   #closeEditRow(): void {
+    this.#editPercentEl = null;
     this.#editingTaskId = null;
     this.#editRowEl?.remove();
     this.#editRowEl = null;
@@ -823,6 +876,17 @@ export class GanttChart extends HTMLElement {
         summary.textContent = this.#labels.dependencySummary!(deps);
         rowHeader.appendChild(summary);
       }
+      if (row.task.baseline && this.#labels.baselineSummary) {
+        const a = parseIsoDate(row.task.baseline.end);
+        const c = parseIsoDate(end);
+        const variance = a && c ? toEpochDay(c) - toEpochDay(a) : 0;
+        const summary = document.createElement("span");
+        summary.id = this.#baselineId(row.task.id);
+        summary.className = "gantt-chart-baseline-summary";
+        summary.hidden = true;
+        summary.textContent = this.#labels.baselineSummary(this.#taskLabel(row.task), row.task.baseline, variance);
+        rowHeader.appendChild(summary);
+      }
       tr.appendChild(rowHeader);
 
       columns.forEach((column, colIndex) => {
@@ -843,7 +907,14 @@ export class GanttChart extends HTMLElement {
         if (isToday) td.setAttribute("data-today", "");
         if (columnNonWorking[colIndex]) td.setAttribute("data-non-working", "");
         if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
-        if (hasDependencySummary) td.setAttribute("aria-describedby", this.#dependencyId(row.task.id));
+        const describedBy = this.#describedBy(row.task, hasDependencySummary);
+        if (describedBy) td.setAttribute("aria-describedby", describedBy);
+        if (
+          row.task.baseline &&
+          rangesOverlap(column.start, column.end, row.task.baseline.start, row.task.baseline.end)
+        ) {
+          td.setAttribute("data-baseline", "");
+        }
         td.addEventListener("dragover", this.#onCellDragOver);
         td.addEventListener("drop", (e) => this.#onCellDrop(column, e as DragEvent));
 

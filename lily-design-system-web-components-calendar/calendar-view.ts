@@ -28,12 +28,19 @@ import {
     daysInMonth,
     firstDayOfWeekFor,
     formatIsoDate,
+    isoWeek,
     monthMatrix,
     parseIsoDate,
     weekdayOf,
 } from "@lilydesignsystem/web-components-date-time-picker";
 
 export type CalendarViewMode = "week" | "four-week" | "month";
+
+/** A marked range (a holiday, a closure, a school term). `label` is text `renderDay` can show. */
+export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
+
+/** The user's picked range, inclusive. */
+export type SelectedRange = { start: string; end: string };
 
 export type CalendarEvent = {
     /** Stable event identifier. */
@@ -65,6 +72,12 @@ export type CalendarViewLabels = {
     weekdayAbbr?: (weekday: number) => string;
     /** Full accessible name for one day cell. */
     day?: (isoDate: string, weekday: number, outsidePeriod: boolean) => string;
+    /** Visible text for the week-number column header (e.g. "Wk"). */
+    weekNumberHeader?: string;
+    /** Accessible name for a week-number cell (e.g. "Week 3"). Without it the bare number is the name. */
+    weekNumber?: (week: number) => string;
+    /** Announced as a range is extended with Shift+arrows or confirmed. */
+    rangeAnnouncement?: (start: string, end: string) => string;
 };
 
 /** What `renderDay` receives for one day cell. */
@@ -75,6 +88,10 @@ export type CalendarViewDayArgs = {
     outsidePeriod: boolean;
     selected: boolean;
     disabled: boolean;
+    /** Inside the picked range. */
+    inRange: boolean;
+    /** The marked ranges this day falls in. */
+    ranges: CalendarRange[];
     /** Call from an event's own click handler to fire `onEventClick` / `eventclick`. */
     openEvent: (calendarEvent: CalendarEvent) => void;
 };
@@ -92,6 +109,10 @@ export type CalendarViewProps = {
     minDate?: string;
     maxDate?: string;
     isDisabled?: (isoDate: string) => boolean;
+    showWeekNumbers?: boolean;
+    ranges?: CalendarRange[];
+    selectedRange?: SelectedRange;
+    onRangeSelect?: (start: string, end: string) => void;
     locale?: string;
     events?: CalendarEvent[];
     labels?: CalendarViewLabels;
@@ -176,7 +197,7 @@ const VIEWS: CalendarViewMode[] = ["week", "four-week", "month"];
 /** Custom-element class implementing `<lily-calendar-view>`. */
 export class CalendarView extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "view", "anchor-date", "selected-date", "today", "min-date", "max-date", "locale", "class"];
+        return ["label", "view", "anchor-date", "selected-date", "today", "min-date", "max-date", "locale", "class", "show-week-numbers"];
     }
 
     #events: CalendarEvent[] = [];
@@ -190,6 +211,13 @@ export class CalendarView extends HTMLElement {
     /** The roving-tabindex cursor; null until first needed (then the anchor date). */
     #cursor: string | null = null;
     #focusPending = false;
+
+    // Range selection: Shift+arrows extend from an anchor; Enter confirms.
+    #ranges: CalendarRange[] = [];
+    #selectedRange: SelectedRange | undefined;
+    #onRangeSelect: ((start: string, end: string) => void) | undefined;
+    #rangeAnchor: string | null = null;
+    static readonly #MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
 
     // ---- Property accessors ----
 
@@ -253,6 +281,40 @@ export class CalendarView extends HTMLElement {
     set locale(v: string | undefined) {
         if (v) this.setAttribute("locale", v);
         else this.removeAttribute("locale");
+    }
+
+    /** Show an ISO week-number column (a row header per week). */
+    get showWeekNumbers(): boolean {
+        return this.hasAttribute("show-week-numbers");
+    }
+    set showWeekNumbers(v: boolean) {
+        if (v) this.setAttribute("show-week-numbers", "");
+        else this.removeAttribute("show-week-numbers");
+    }
+
+    /** Marked ranges (holidays, closures): each day inside gets `data-range="{kind}"`. */
+    get ranges(): CalendarRange[] {
+        return [...this.#ranges];
+    }
+    set ranges(v: CalendarRange[]) {
+        this.#ranges = Array.isArray(v) ? v.slice() : [];
+        this.#render();
+    }
+
+    /** The picked range. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. */
+    get selectedRange(): SelectedRange | undefined {
+        return this.#selectedRange ? { ...this.#selectedRange } : undefined;
+    }
+    set selectedRange(v: SelectedRange | undefined) {
+        this.#selectedRange = v ? { ...v } : undefined;
+        this.#render();
+    }
+
+    get onRangeSelect(): ((start: string, end: string) => void) | undefined {
+        return this.#onRangeSelect;
+    }
+    set onRangeSelect(fn: ((start: string, end: string) => void) | undefined) {
+        this.#onRangeSelect = fn;
     }
 
     get events(): CalendarEvent[] {
@@ -362,6 +424,30 @@ export class CalendarView extends HTMLElement {
 
     // ---- Actions ----
 
+    #setRange(a: string, b: string, keepFocus: boolean): void {
+        const [start, end] = a <= b ? [a, b] : [b, a];
+        this.#selectedRange = { start, end };
+        const message = this.#labels.rangeAnnouncement?.(start, end);
+        if (message) this.#statusMessage = message;
+        if (keepFocus) this.#focusPending = true;
+        this.#render();
+    }
+
+    #confirmRange(): void {
+        const range = this.#selectedRange;
+        if (!range) return;
+        this.#rangeAnchor = null;
+        this.#onRangeSelect?.(range.start, range.end);
+        this.dispatchEvent(
+            new CustomEvent<SelectedRange>("rangeselect", { detail: { ...range }, bubbles: true, composed: true }),
+        );
+    }
+
+    /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
+    #weekNumberOf(row: string[]): number {
+        return isoWeek(row.find((d) => weekdayOf(d) === 4) ?? row[0]);
+    }
+
     #pick(isoDate: string): void {
         if (this.#isDisabledDay(isoDate)) return;
         this.#cursor = isoDate;
@@ -468,6 +554,11 @@ export class CalendarView extends HTMLElement {
     #onGridKeydown(event: KeyboardEvent): void {
         const cursor = this.#effectiveCursor(this.#visibleDays());
         const offset = (weekdayOf(cursor) - this.#firstDay() + 7) % 7;
+        const extending = event.shiftKey && CalendarView.#MOVE_KEYS.has(event.key);
+        if (extending && this.#rangeAnchor === null) {
+            this.#rangeAnchor = this.selectedDate && !this.#selectedRange ? this.selectedDate : cursor;
+        }
+        if (!extending && CalendarView.#MOVE_KEYS.has(event.key)) this.#rangeAnchor = null;
         switch (event.key) {
             case "ArrowLeft":
                 event.preventDefault();
@@ -504,9 +595,22 @@ export class CalendarView extends HTMLElement {
             case "Enter":
             case " ":
                 event.preventDefault();
-                this.#pick(cursor);
+                if (this.#rangeAnchor !== null && this.#selectedRange) {
+                    this.#confirmRange();
+                } else {
+                    this.#pick(cursor);
+                }
                 this.#focusPending = true;
                 this.#render();
+                break;
+            case "Escape":
+                if (this.#selectedRange || this.#rangeAnchor !== null) {
+                    event.preventDefault();
+                    this.#rangeAnchor = null;
+                    this.#selectedRange = undefined;
+                    this.#focusPending = true;
+                    this.#render();
+                }
                 break;
             case "t":
             case "T": {
@@ -519,6 +623,9 @@ export class CalendarView extends HTMLElement {
             }
             default:
                 break;
+        }
+        if (extending && this.#rangeAnchor !== null && this.#cursor !== null) {
+            this.#setRange(this.#rangeAnchor, this.#cursor, true);
         }
     }
 
@@ -604,6 +711,14 @@ export class CalendarView extends HTMLElement {
         thead.className = "calendar-table-head";
         const headRow = document.createElement("tr");
         headRow.className = "calendar-table-row";
+        if (this.showWeekNumbers) {
+            const th = document.createElement("th");
+            th.className = "calendar-table-th";
+            th.setAttribute("scope", "col");
+            th.setAttribute("data-week-number-header", "");
+            th.textContent = labels.weekNumberHeader ?? "";
+            headRow.appendChild(th);
+        }
         for (let i = 0; i < 7; i++) {
             const weekday = (firstDay + i) % 7;
             const th = document.createElement("th");
@@ -627,11 +742,25 @@ export class CalendarView extends HTMLElement {
         for (const week of days) {
             const tr = document.createElement("tr");
             tr.className = "calendar-table-row";
+            if (this.showWeekNumbers) {
+                const weekNo = this.#weekNumberOf(week);
+                const th = document.createElement("th");
+                th.className = "calendar-table-th";
+                th.setAttribute("scope", "row");
+                th.setAttribute("data-week-number", String(weekNo));
+                const weekName = labels.weekNumber?.(weekNo);
+                if (weekName) th.setAttribute("aria-label", weekName);
+                th.textContent = String(weekNo);
+                tr.appendChild(th);
+            }
             for (const d of week) {
                 const outside = isOutsidePeriod(view, d, anchorDate);
                 const isToday = !!this.today && d === this.today;
                 const disabled = this.#isDisabledDay(d);
                 const picked = this.selectedDate === d;
+                const range = this.#selectedRange;
+                const inRange = !!range && d >= range.start && d <= range.end;
+                const dayRanges = this.#ranges.filter((r) => d >= r.start && d <= r.end);
                 const td = document.createElement("td");
                 td.className = "calendar-table-td";
                 td.setAttribute("role", "gridcell");
@@ -642,14 +771,27 @@ export class CalendarView extends HTMLElement {
                 td.setAttribute("data-date", d);
                 if (outside) td.setAttribute("data-outside-period", "");
                 if (picked) td.setAttribute("data-selected", "");
+                if (inRange) td.setAttribute("data-in-range", "");
+                if (range?.start === d) td.setAttribute("data-range-start", "");
+                if (range?.end === d) td.setAttribute("data-range-end", "");
+                if (dayRanges.length) td.setAttribute("data-range", dayRanges.map((r) => r.kind ?? "range").join(" "));
                 if (disabled) {
                     td.setAttribute("data-disabled", "");
                     td.setAttribute("aria-disabled", "true");
                 }
                 const name = labels.day?.(d, weekdayOf(d), outside);
                 if (name) td.setAttribute("aria-label", name);
-                td.addEventListener("click", () => {
+                td.addEventListener("click", (event) => {
+                    if (event.shiftKey && !disabled) {
+                        // Shift+click picks a range from the picked day (or the cursor) to here, and confirms it.
+                        const from = this.selectedDate && !this.#selectedRange ? this.selectedDate : cursor;
+                        this.#cursor = d;
+                        this.#setRange(from, d, false);
+                        this.#confirmRange();
+                        return;
+                    }
                     this.#cursor = d;
+                    this.#rangeAnchor = null;
                     this.#pick(d);
                     this.#render();
                 });
@@ -661,6 +803,8 @@ export class CalendarView extends HTMLElement {
                         outsidePeriod: outside,
                         selected: picked,
                         disabled,
+                        inRange,
+                        ranges: dayRanges,
                         openEvent: (e) => this.#openEvent(e),
                     }),
                 );
