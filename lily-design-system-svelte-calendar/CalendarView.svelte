@@ -75,6 +75,8 @@
         anchorDate: string;
         /** Events to place into day cells. */
         events?: CalendarEvent[];
+        /** Cap on events shown per day: the day snippet gets `visibleEvents` (the first `maxEvents`) and `hiddenCount` for a "+N more" control. */
+        maxEvents?: number;
         /** ISO date marking "today"; never computed internally (stays SSR-safe). */
         today?: string;
         /** BCP 47 locale, passed to firstDayOfWeekFor. */
@@ -108,6 +110,10 @@
     export type DayArgs = {
         date: string;
         events: CalendarEvent[];
+        /** The first `maxEvents` events (all of them without the cap). */
+        visibleEvents: CalendarEvent[];
+        /** How many events the cap hides, for a "+N more" control. */
+        hiddenCount: number;
         isToday: boolean;
         outsidePeriod: boolean;
         selected: boolean;
@@ -203,6 +209,7 @@
         view = $bindable("month"),
         anchorDate = $bindable(),
         events = [],
+        maxEvents = undefined,
         today = undefined,
         selectedDate = $bindable(undefined),
         minDate = undefined,
@@ -547,7 +554,7 @@
                             onclick={(e: MouseEvent) => onDayCellClick(d, e)}
                         >
                             {#if day}
-                                {@render day({ date: d, events: dayEvents, isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent })}
+                                {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent })}
                             {:else}
                                 {parseIsoDate(d)?.day}
                             {/if}

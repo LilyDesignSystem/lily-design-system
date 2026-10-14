@@ -60,6 +60,10 @@
         columns: KanbanColumn[];
         /** Card data. */
         cards: KanbanCard[];
+        /** Hides cards for which it returns false (a search or label filter). Counts, WIP limits and over-limit warnings still use every card; a filtered column carries `data-hidden-count`. */
+        filter?: (card: KanbanCard) => boolean;
+        /** Orders the cards shown within each column (a stable sort; the `cards` order is kept when absent). */
+        compare?: (a: KanbanCard, b: KanbanCard) => number;
         /** Resolves a card to its display label. Defaults to `card.title`. */
         cardLabel?: (card: KanbanCard) => string;
         /** Called after a card moves to a new column, by pointer or by the move menu. */
@@ -98,6 +102,8 @@
         caption,
         columns,
         cards,
+        filter = undefined,
+        compare = undefined,
         cardLabel = (card: KanbanCard) => card.title,
         onMove,
         onReorder,
@@ -132,12 +138,23 @@
         return map;
     });
 
+    // What the grid shows: the filtered, sorted view. Counts and WIP limits use `cardsByColumn` (every card).
+    const shownByColumn = $derived.by(() => {
+        const map = new Map<string, KanbanCard[]>();
+        for (const [id, list] of cardsByColumn) {
+            let shown = filter ? list.filter(filter) : list.slice();
+            if (compare) shown = shown.sort(compare);
+            map.set(id, shown);
+        }
+        return map;
+    });
+
     const isCollapsed = (columnId: string) => collapsedColumns.includes(columnId);
 
     // A collapsed column shows no cards, so it does not count towards the board's height.
     const maxRows = $derived(
         columns.reduce(
-            (max, column) => Math.max(max, isCollapsed(column.id) ? 0 : (cardsByColumn.get(column.id)?.length ?? 0)),
+            (max, column) => Math.max(max, isCollapsed(column.id) ? 0 : (shownByColumn.get(column.id)?.length ?? 0)),
             0,
         ),
     );
@@ -157,7 +174,7 @@
     function cardAt(colIndex: number, rowIndex: number): KanbanCard | undefined {
         const column = columns[colIndex];
         if (!column || isCollapsed(column.id)) return undefined;
-        return cardsByColumn.get(column.id)?.[rowIndex];
+        return shownByColumn.get(column.id)?.[rowIndex];
     }
 
     function announce(message: string | undefined): void {
@@ -276,7 +293,7 @@
         if (readonly) return;
         const card = cardAt(activeCol, activeRow);
         if (!card) return;
-        const total = cardsByColumn.get(card.columnId)?.length ?? 0;
+        const total = shownByColumn.get(card.columnId)?.length ?? 0;
         const toIndex = activeRow + delta;
         if (toIndex < 0 || toIndex >= total) return;
         onReorder?.(card.id, toIndex);
@@ -342,7 +359,7 @@
                 {#each columns as column (column.id)}
                     {@const count = cardsByColumn.get(column.id)?.length ?? 0}
                     {@const overLimit = column.wipLimit != null && count > column.wipLimit}
-                    <KanbanTableTH data-over-limit={overLimit ? "" : undefined} data-collapsed={isCollapsed(column.id) ? "" : undefined}>
+                    <KanbanTableTH data-over-limit={overLimit ? "" : undefined} data-hidden-count={count - (shownByColumn.get(column.id)?.length ?? 0) > 0 ? count - (shownByColumn.get(column.id)?.length ?? 0) : undefined} data-collapsed={isCollapsed(column.id) ? "" : undefined}>
                         {#if labels.collapseColumn}
                             <button
                                 type="button"

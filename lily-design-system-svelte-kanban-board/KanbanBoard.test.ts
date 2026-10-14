@@ -429,3 +429,34 @@ describe("KanbanBoard — collapse, add card, hard limits (§8.22–§8.30)", ()
         expect(onMove).toHaveBeenCalledWith("c1", "doing");
     });
 });
+
+describe("KanbanBoard — filter and sort (§8.31–§8.34)", () => {
+    const base = { label: "Sprint board", columns: COLUMNS, cards: CARDS, labels: LABELS };
+    const titles = () => Array.from(document.querySelectorAll(".kanban-board-card-title")).map((e) => e.textContent?.trim());
+
+    test("§8.31 filter hides cards for which it returns false", () => {
+        render(KanbanBoard, { props: { ...base, filter: (c: KanbanCard) => c.title !== "Card One" } });
+        expect(titles()).not.toContain("Card One");
+        expect(titles()).toContain("Card Two");
+    });
+
+    test("§8.32 counts, WIP limits and over-limit warnings still use every card, and the column carries data-hidden-count", () => {
+        render(KanbanBoard, { props: { ...base, filter: (c: KanbanCard) => c.columnId !== "doing" } });
+        const heads = Array.from(document.querySelectorAll(".kanban-table-th"));
+        expect(heads[1].textContent).toContain("2 cards");
+        expect(heads[1].hasAttribute("data-over-limit")).toBe(true);
+        expect(heads[1].getAttribute("data-hidden-count")).toBe("2");
+        expect(heads[0].hasAttribute("data-hidden-count")).toBe(false);
+    });
+
+    test("§8.33 the board's height follows the filtered view", () => {
+        render(KanbanBoard, { props: { ...base, filter: () => false } });
+        expect(document.querySelectorAll(".kanban-table-body .kanban-table-row")).toHaveLength(0);
+    });
+
+    test("§8.34 compare orders the cards within each column", () => {
+        render(KanbanBoard, { props: { ...base, compare: (a: KanbanCard, b: KanbanCard) => b.title.localeCompare(a.title) } });
+        const todo = Array.from(document.querySelectorAll<HTMLElement>('.kanban-table-td[data-col="0"] .kanban-board-card-title')).map((e) => e.textContent?.trim());
+        expect(todo).toEqual(["Card Two", "Card One"]);
+    });
+});

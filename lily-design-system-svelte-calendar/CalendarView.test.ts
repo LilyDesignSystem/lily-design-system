@@ -496,3 +496,19 @@ describe("CalendarView — week numbers, marked ranges and range selection", () 
         expect(document.querySelector("[data-snippet-ranges='holiday']")).toBeTruthy();
     });
 });
+
+describe("CalendarView — maxEvents (§8.31–§8.32)", () => {
+    const evs = [
+        { id: "a", date: "2026-01-06", title: "A" },
+        { id: "b", date: "2026-01-06", title: "B" },
+        { id: "c", date: "2026-01-06", title: "C" },
+    ];
+    test("§8.31 maxEvents caps visibleEvents and reports hiddenCount", () => {
+        render(CalendarViewEventsTestHost, { props: { events: evs, maxEvents: 2 } });
+        expect(screen.getByTestId("cap-2026-01-06").textContent).toBe("2/1");
+    });
+    test("§8.32 without maxEvents every event is visible and hiddenCount is 0", () => {
+        render(CalendarViewEventsTestHost, { props: { events: evs } });
+        expect(screen.getByTestId("cap-2026-01-06").textContent).toBe("3/0");
+    });
+});
