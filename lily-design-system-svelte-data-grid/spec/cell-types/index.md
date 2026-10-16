@@ -12,7 +12,7 @@ Today a column is described by hooks — `accessor`, `format`, `compare`, `filte
 
 - In: the twelve types above, the common contract every type follows, and a per-type table of value shape, display, sort, filter, edit, export and accessibility.
 - Out: data fetching, uploads, people search, formula evaluation engines, locale data and styling. Those belong to the consumer (see "What Lily does not do").
-- Status: **text** and **number** are shipped (`editor` plus `format`/`parse`/`validate`, 0.6.0–0.7.0). **link**, **select option**, **date**, **time** and the rest can be built today with the `cell` snippet and the existing hooks, but are **proposed** as first-class `type`s here; nothing below the table in §3 is implemented until its row says so.
+- Status (0.8.0): **text, number, link, date, time, select option and radio group are shipped** as `column.type` (tests §8.79–§8.97; `cell-types.ts`). **time with time zone, person, file, rollup and formulas are proposed** — each can be built today with the `cell` snippet and the existing hooks, and a section marked *proposed* is not implemented.
 
 ## 1. Principles and rules
 
@@ -84,7 +84,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: `editor: "text"`, a single-line `<input type="text">` named by the column header (`labels.cellEditor(header)`). A multi-line text is a separate editor (`"textarea"`, Enter inserts a line, Ctrl/Cmd+Enter commits) — proposed.
 - **Export**: the string; a string starting `=`, `+`, `-`, `@`, tab or CR is defused in CSV/TSV and stored as text in `.xlsx`.
 - **Accessibility**: nothing beyond the grid cell; long text is not truncated by Lily (CSS `text-overflow` loses content for AT only if `aria-label` is also set, so do not).
-- **Status**: shipped.
+- **Status**: shipped (0.8.0 as `type: "text"`: start-aligned, `Intl.Collator` ordering with a locale).
 
 ### 3.2 Number
 
@@ -94,7 +94,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: `editor: "number"` (`<input type="number">`, `inputmode="decimal"` for the keypad); empty draft → `null`; a draft that is not a number is refused with `validate`. Decimal and grouping separators follow the browser's number input; if the app wants locale-aware typing, it supplies `parse`.
 - **Export**: the typed number — never the formatted text, so Excel can sum it and no locale separator is baked in.
 - **Accessibility**: units and currency belong in the *header* or in `format` output ("12.50 £"), not in a colour or icon; `aria-valuetext` is not needed on a cell.
-- **Status**: shipped.
+- **Status**: shipped (0.8.0 as `type: "number"`: end-aligned, `Intl.NumberFormat` with `locale` / `numberFormat`).
 
 ### 3.3 Link
 
@@ -105,7 +105,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: two text inputs in one editor (label, address), or a single address input when the value is a string; `validate` refuses a disallowed scheme.
 - **Export**: the label text. `exportHref: true` adds a second column "`{header}` URL" holding the address; native `.xlsx` hyperlinks (`<hyperlink>` + relationship) are proposed as a writer extension.
 - **Accessibility**: the link's name is its text; an icon-only link must supply `labels.linkName(row)`; never "click here". Focus is visible (consumer CSS).
-- **Status**: proposed.
+- **Status**: shipped (0.8.0). Differences from the design above: `exportHref` and native `.xlsx` hyperlinks are not implemented (a link exports its label); the editor edits the address only and keeps the label.
 
 ### 3.4 Date
 
@@ -115,7 +115,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: `editor: "date"` composes the existing `DateTimePicker` (`mode="date"`): a typeable field with a calendar dialog, `min`/`max`/`isDateDisabled` from the column, the picker's own required labels. `parse` accepts what the picker accepts; an unparsable draft stays in edit mode with `aria-invalid`.
 - **Export**: a typed date (`Date` at UTC midnight → Excel date serial, `yyyy-mm-dd` number format) — the shipped writer already does this for `Date` values.
 - **Accessibility**: `<time datetime>` gives machines the ISO value; the visible text is the human one. Relative text ("tomorrow") is the consumer's `format`, and should be paired with the absolute date for AT.
-- **Status**: proposed (display and export are possible today with `format` + `exportValue`).
+- **Status**: shipped (0.8.0). The editor is the platform's native `<input type="date">` rather than the composed `DateTimePicker`: the grid depends on the headless layer only, and a native field is accessible and locale-aware everywhere. A column wanting the calendar dialog supplies its own `cell` snippet. A civil date exports as a typed date and writes without a time of day in CSV/TSV.
 
 ### 3.5 Time
 
@@ -125,7 +125,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: `editor: "time"`, a time field (the platform `<input type="time">` with `step` for seconds, or `DateTimePicker mode="time"`); `minuteStep` is a column option.
 - **Export**: text `HH:mm[:ss]`. A native Excel time (fraction of a day with a time number format) is proposed for the writer; until then the text form is lossless.
 - **Accessibility**: a time input must be named; AM/PM is a separate segment in some browsers and is announced by the platform.
-- **Status**: proposed.
+- **Status**: shipped (0.8.0): `<time datetime>`, `Intl` text with `locale` / `timeFormat`, a native `<input type="time" step="1">` editor; exported as the stored text.
 
 ### 3.6 Time with time zone
 
@@ -147,7 +147,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: `editor: "select"` is a native `<select>` named by the header, with `<optgroup>` from `group` — chosen over a custom listbox because it is the most accessible control on every platform, including touch. `multiple` uses a checkbox list in a `<fieldset>`. A *searchable* select (a combobox) is a different control, proposed separately, and follows the APG combobox pattern.
 - **Export**: the label (`exportAs: "id"` for the id); multiple values are joined with `; `.
 - **Accessibility**: the selected state is the label; a colour badge is decoration. A disabled option is `disabled`, not hidden.
-- **Status**: proposed.
+- **Status**: shipped (0.8.0): single selection only. `multiple` and a searchable combobox are not implemented.
 
 ### 3.8 Radio group
 
@@ -159,7 +159,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Sort**: option order. **Filter**: the checked label.
 - **Export**: the checked label.
 - **Accessibility**: a radio group needs one name per row-and-column or the browser merges groups across rows — the generated `name` guarantees that. Required-ness is `required` on the group's radios, announced by the platform.
-- **Status**: proposed.
+- **Status**: shipped (0.8.0). Differences: `display: "selected"` is not implemented (the radios always render in an editable cell), and there is no separate editor mode.
 
 ### 3.9 Person
 
@@ -225,14 +225,15 @@ Fetch people or files, upload or store files, evaluate formulas, ship locale dat
 
 - [ ] Each type states its value shape, display, sort, filter, edit, export and accessibility (this document, §3).
 - [x] **Text** and **number** are implemented through `editor`, `format`, `parse`, `validate` and typed export (spec §13–§14; tests §8.47–§8.53, §8.67–§8.74).
-- [ ] `column.type` selects a bundle of defaults and sets `data-cell-type` on the header and cells.
-- [ ] A column's own `format`, `compare`, `parse`, `validate`, `exportValue` and `cell` override a type's.
-- [ ] Link refuses `javascript:` and other unsafe schemes (renders text) and marks new-tab links for assistive technology.
-- [ ] Date and time round-trip civil values without time-zone drift; time with time zone never converts silently and takes its sort reference date from the consumer.
-- [ ] Select uses a native `<select>`; radio group's inputs share a per-row, per-column `name`.
+- [x] `column.type` selects a bundle of defaults and sets `data-cell-type` on the header and cells (§8.79).
+- [x] A column's own `format`, `compare`, `parse`, `validate`, `exportValue` and `cell` override a type's (§8.80, §8.96).
+- [x] Link refuses `javascript:` and other unsafe schemes (renders text) and marks new-tab links for assistive technology (§8.82, §8.83, §8.94).
+- [x] Date and time round-trip civil values without time-zone drift (§8.85–§8.87, §8.95).
+- [ ] Time with time zone never converts silently and takes its sort reference date from the consumer (proposed).
+- [x] Select uses a native `<select>`; radio group's inputs share a per-row, per-column `name` (§8.88–§8.93).
 - [ ] Person shows the name as text and treats an avatar as decoration; file never uploads.
 - [ ] Rollup and formula cells are derived once per change, read-only (`aria-readonly`) for rollups, and formula errors are text.
-- [ ] No type writes a user-facing string of its own; every label is a `labels.*` prop.
+- [x] No shipped type writes a user-facing string of its own; every label is a `labels.*` prop (`opensInNewTab`, `invalidValue`, `radioGroup`, `cellEditor`).
 
 ## Related topics
 

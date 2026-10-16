@@ -2,6 +2,14 @@
     import type { Snippet } from "svelte";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
     import {
+        isInvalidForType,
+        linkParts,
+        resolveColumn,
+        safeHref,
+        type DataGridCellType,
+        type DataGridOption,
+    } from "./cell-types";
+    import {
         DataTable,
         DataTableBody,
         DataTableFoot,
@@ -91,8 +99,26 @@
         headerCell?: Snippet<[{ column: DataGridColumn }]>;
         /** Cells can be edited in place: F2 or Enter on a focused cell, a double click, or the button `labels.editCell` gates. Enter commits, Escape cancels, leaving the field commits. */
         editable?: boolean;
-        /** The editor's input type. Default `"text"`. */
-        editor?: "text" | "number";
+        /** The editor's control. Default `"text"`; a `type` sets its own (`"number"`, `"link"`, `"date"`, `"time"`, `"select"`, `"radio"`). */
+        editor?: "text" | "number" | "link" | "date" | "time" | "select" | "radio";
+        /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`, plus the cell's markup. Your own props win. See spec/cell-types/index.md. */
+        type?: DataGridCellType;
+        /** BCP 47 locale for this column's formatting and collation. Falls back to the grid's `locale`; with neither, values show as stored. */
+        locale?: string;
+        /** `select` and `radio`: the choices. The label is displayed, the id is stored. */
+        options?: DataGridOption[];
+        /** `select`: sort by option label (default) or by option order. (`radio` always sorts by order.) */
+        sortBy?: "label" | "order";
+        /** `select` and `radio`: export the option's `"label"` (default) or its `"id"`. */
+        exportAs?: "label" | "id";
+        /** `number`: options for `Intl.NumberFormat`. */
+        numberFormat?: Intl.NumberFormatOptions;
+        /** `date`: options for `Intl.DateTimeFormat` (the zone is always UTC: a civil date does not shift). */
+        dateFormat?: Intl.DateTimeFormatOptions;
+        /** `time`: options for `Intl.DateTimeFormat`. */
+        timeFormat?: Intl.DateTimeFormatOptions;
+        /** The text the grid's filter matches for a value. Default: the displayed text. */
+        filterText?: (value: unknown, row: DataGridRow) => string;
         /** Turns the editor's text into the committed value. Defaults to the text (`Number(text)`, or `null` when empty, for `"number"`). */
         parse?: (draft: string, row: DataGridRow) => unknown;
         /** Refuses a value: return a message and the cell stays in edit mode with `aria-invalid`; return nothing to accept. */
@@ -145,6 +171,12 @@
         exportExcel?: string;
         /** Announced after an export: (format, how many rows, file name). */
         exportAnnouncement?: (format: ExportFormat, rowCount: number, filename: string) => string;
+        /** Why a typed value was refused: (column header, the column's type). Gates the message; the cell stays in edit mode with `aria-invalid` either way. */
+        invalidValue?: (header: string, type: string) => string;
+        /** Appended, visually hidden, to a link that opens a new tab: (link text). */
+        opensInNewTab?: (text: string) => string;
+        /** Accessible name of a radio group in a cell: (column header, row label). Default the header. */
+        radioGroup?: (header: string, rowLabel: string) => string;
         /** Announced after an edit is cancelled with Escape. */
         editCancelAnnouncement?: (header: string) => string;
         /** Announced when `validate` refuses a value: (column header, the message). */
@@ -160,6 +192,8 @@
         columns: DataGridColumn[];
         /** Row data. */
         rows: DataGridRow[];
+        /** BCP 47 locale for the typed columns' formatting and collation. Never defaulted: with none, values show as stored. */
+        locale?: string;
         /** Derives a stable id per row. Defaults to the row's index in `rows`. */
         rowId?: (row: DataGridRow, index: number) => string;
         /** Row selection mode. */
@@ -223,6 +257,13 @@
         [key: string]: unknown;
     };
 
+    let uid = 0;
+    /** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
+    function nextDataGridId(): string {
+        uid += 1;
+        return `data-grid-${uid}`;
+    }
+
     /** What counts as a widget inside a cell: something a person can operate. */
     const WIDGET_SELECTOR =
         'a[href], button, input, select, textarea, summary, [contenteditable="true"]';
@@ -258,8 +299,9 @@
         class: className = "",
         label,
         caption,
-        columns,
+        columns: columnsProp,
         rows,
+        locale,
         rowId = (_row: DataGridRow, index: number) => String(index),
         selectionMode = "none",
         selected = $bindable<string[]>([]),
@@ -289,6 +331,11 @@
         onExport,
         ...restProps
     }: Props = $props();
+
+    // Each column with its type's defaults filled in under its own props.
+    const columns = $derived(columnsProp.map((c) => resolveColumn(c, locale)));
+
+    const gridId = nextDataGridId();
 
     const isGrid = $derived(mode === "grid");
 
@@ -331,7 +378,9 @@
     const searchIndex = $derived.by(() => {
         const filterableColumns = columns.filter((c) => c.filterable !== false);
         return entries.map((entry) =>
-            filterableColumns.map((column) => formatCell(column, entry.row).toLowerCase()),
+            filterableColumns.map((column) =>
+                (column.filterText ? column.filterText(defaultAccessor(column, entry.row), entry.row) : formatCell(column, entry.row)).toLowerCase(),
+            ),
         );
     });
 
@@ -672,19 +721,45 @@
     // Cell editing
     // ---------------------------------------------------------------
 
-    type Editing = { rowId: string; columnId: string; draft: string; error?: string };
+    type Editing = { rowId: string; columnId: string; draft: string; error?: string; invalid?: boolean };
     let editing = $state<Editing | null>(null);
 
     function startEdit(entry: Entry, column: DataGridColumn): void {
         if (!column.editable) return;
         const raw = defaultAccessor(column, entry.row);
-        editing = { rowId: entry.id, columnId: column.id, draft: raw === null || raw === undefined ? "" : String(raw) };
+        const text = column.type === "link" ? (linkParts(raw)?.href ?? "") : raw === null || raw === undefined ? "" : String(raw);
+        editing = { rowId: entry.id, columnId: column.id, draft: text };
     }
 
     function parseDraft(column: DataGridColumn, row: DataGridRow, draft: string): unknown {
         if (column.parse) return column.parse(draft, row);
         if (column.editor === "number") return draft.trim() === "" ? null : Number(draft);
+        if (column.editor === "date" || column.editor === "time" || column.editor === "select") return draft === "" ? null : draft;
         return draft;
+    }
+
+    /** Validate and report one new value for a cell. Returns false (and keeps editing, if the editor is open) when it is refused. */
+    function commitValue(entry: Entry, column: DataGridColumn, value: unknown): boolean {
+        const message = column.validate?.(value, entry.row);
+        const invalidType = isInvalidForType(column, value);
+        if (message || invalidType) {
+            const text = message ?? labels.invalidValue?.(column.header, column.type ?? "") ?? "";
+            if (editing) editing = { ...editing, error: text || undefined, invalid: true };
+            announce(labels.editError?.(column.header, text));
+            return false;
+        }
+        const previous = defaultAccessor(column, entry.row);
+        editing = null;
+        if (value !== previous && !(isStructurallyEqual(value, previous))) {
+            onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
+            announce(labels.editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
+        }
+        return true;
+    }
+
+    /** Two link values with the same address and label are the same edit. */
+    function isStructurallyEqual(a: unknown, b: unknown): boolean {
+        return typeof a === "object" && typeof b === "object" && a !== null && b !== null && JSON.stringify(a) === JSON.stringify(b);
     }
 
     function commitEdit(): void {
@@ -696,20 +771,7 @@
             editing = null;
             return;
         }
-        const value = parseDraft(column, entry.row, current.draft);
-        const message = column.validate?.(value, entry.row);
-        if (message) {
-            editing = { ...current, error: message };
-            announce(labels.editError?.(column.header, message));
-            return;
-        }
-        const previous = defaultAccessor(column, entry.row);
-        editing = null;
-        if (value !== previous) {
-            onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
-            announce(labels.editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
-        }
-        focusActiveCell();
+        if (commitValue(entry, column, parseDraft(column, entry.row, current.draft))) focusActiveCell();
     }
 
     function cancelEdit(): void {
@@ -738,9 +800,9 @@
     }
 
     /** Focus and select the editor's text as it appears. */
-    function focusEditor(node: HTMLInputElement) {
+    function focusEditor(node: HTMLInputElement | HTMLSelectElement) {
         node.focus();
-        node.select();
+        if (node instanceof HTMLInputElement && node.type === "text") node.select();
     }
 
     function activateFocusedCell(): void {
@@ -1028,23 +1090,67 @@
 
     {#snippet cellBody(entry: Entry, column: DataGridColumn, ctx: DataGridCellContext)}
         {#if editing && editing.rowId === entry.id && editing.columnId === column.id}
-            <input
-                class="data-grid-cell-editor"
-                type={column.editor === "number" ? "number" : "text"}
-                aria-label={labels.cellEditor?.(column.header) ?? column.header}
-                aria-invalid={editing.error ? "true" : undefined}
-                aria-describedby={editing.error ? `${entry.id}-${column.id}-error` : undefined}
-                value={editing.draft}
-                oninput={(e: Event) => { if (editing) editing = { ...editing, draft: (e.target as HTMLInputElement).value, error: undefined }; }}
-                onkeydown={onEditorKeydown}
-                onblur={() => { if (editing) commitEdit(); }}
-                use:focusEditor
-            />
+            {#if column.editor === "select"}
+                <select
+                    class="data-grid-cell-editor"
+                    aria-label={labels.cellEditor?.(column.header) ?? column.header}
+                    aria-invalid={editing.error || editing.invalid ? "true" : undefined}
+                    aria-describedby={editing.error ? `${entry.id}-${column.id}-error` : undefined}
+                    value={editing.draft}
+                    onchange={(e: Event) => { if (editing) editing = { ...editing, draft: (e.target as HTMLSelectElement).value, error: undefined, invalid: false }; }}
+                    onkeydown={onEditorKeydown}
+                    onblur={() => { if (editing) commitEdit(); }}
+                    use:focusEditor
+                >
+                    <option value=""></option>
+                    {#each (column.options ?? []).filter((o) => !o.group) as option (option.id)}
+                        <option value={option.id} disabled={option.disabled} selected={option.id === editing.draft}>{option.label}</option>
+                    {/each}
+                    {#each [...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string))] as group (group)}
+                        <optgroup label={group}>
+                            {#each (column.options ?? []).filter((o) => o.group === group) as option (option.id)}
+                                <option value={option.id} disabled={option.disabled} selected={option.id === editing.draft}>{option.label}</option>
+                            {/each}
+                        </optgroup>
+                    {/each}
+                </select>
+            {:else}
+                <input
+                    class="data-grid-cell-editor"
+                    type={column.editor === "number" ? "number" : column.editor === "date" ? "date" : column.editor === "time" ? "time" : "text"}
+                    step={column.editor === "time" ? 1 : undefined}
+                    inputmode={column.editor === "number" ? "decimal" : undefined}
+                    aria-label={labels.cellEditor?.(column.header) ?? column.header}
+                    aria-invalid={editing.error || editing.invalid ? "true" : undefined}
+                    aria-describedby={editing.error ? `${entry.id}-${column.id}-error` : undefined}
+                    value={editing.draft}
+                    oninput={(e: Event) => { if (editing) editing = { ...editing, draft: (e.target as HTMLInputElement).value, error: undefined, invalid: false }; }}
+                    onkeydown={onEditorKeydown}
+                    onblur={() => { if (editing) commitEdit(); }}
+                    use:focusEditor
+                />
+            {/if}
             {#if editing.error}
                 <span class="data-grid-cell-error" id={`${entry.id}-${column.id}-error`}>{editing.error}</span>
             {/if}
+        {:else if column.type === "radio" && column.editable}
+            <fieldset class="data-grid-radio-group" data-grid-own-group>
+                <legend class="data-grid-radio-legend">{labels.radioGroup?.(column.header, visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id) ?? column.header}</legend>
+                {#each column.options ?? [] as option (option.id)}
+                    <label class="data-grid-radio-option">
+                        <input
+                            type="radio"
+                            name={`${gridId}-${entry.id}-${column.id}`}
+                            value={option.id}
+                            checked={ctx.value === option.id}
+                            disabled={option.disabled}
+                            tabindex={isGrid ? -1 : undefined}
+                            onchange={() => commitValue(entry, column, option.id)}
+                        />{option.label}</label>
+                {/each}
+            </fieldset>
         {:else}
-            {#if column.cell}{@render column.cell(ctx)}{:else}{ctx.formatted}{/if}{#if column.editable && labels.editCell}
+            {#if column.cell}{@render column.cell(ctx)}{:else if column.type === "link"}{@render linkBody(ctx)}{:else if column.type === "date" || column.type === "time"}{#if ctx.formatted !== ""}<time datetime={String(ctx.value)}>{ctx.formatted}</time>{/if}{:else}{ctx.formatted}{/if}{#if column.editable && column.type !== "radio" && labels.editCell}
                 <button
                     type="button"
                     class="data-grid-edit-button"
@@ -1053,6 +1159,19 @@
                     aria-label={labels.editCell(column.header, visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id)}
                     onclick={() => startEdit(entry, column)}
                 ></button>{/if}
+        {/if}
+    {/snippet}
+
+    {#snippet linkBody(ctx: DataGridCellContext)}
+        {@const link = linkParts(ctx.value)}
+        {@const href = link ? safeHref(link.href) : null}
+        {#if link}
+            {#if href}
+                <a class="data-grid-link" {href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined}>{link.label ?? link.href}{#if link.external && labels.opensInNewTab}{" "}<span class="data-grid-visually-hidden">{labels.opensInNewTab(link.label ?? link.href)}</span>{/if}</a>
+            {:else}
+                <!-- An address with an unsafe scheme is shown as text, never as a link. -->
+                <span class="data-grid-link data-grid-link-unsafe">{link.label ?? link.href}</span>
+            {/if}
         {/if}
     {/snippet}
 
@@ -1097,6 +1216,7 @@
                         data-row={-1}
                         data-col={colOffset + i}
                         data-align={column.align}
+                        data-cell-type={column.type}
                         data-pinned={column.pinned}
                         tabindex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
                         aria-sort={ariaSortFor(column)}
@@ -1201,6 +1321,7 @@
                                 data-row={rowIndex}
                                 data-col={colOffset + colIndex}
                                 data-align={column.align}
+                        data-cell-type={column.type}
                         data-pinned={column.pinned}
                                 tabindex={isGrid ? (activeRow === rowIndex && activeCol === colOffset + colIndex ? 0 : -1) : undefined}
                                 style={cellStyle(column)}
@@ -1214,6 +1335,7 @@
                                 data-row={rowIndex}
                                 data-col={colOffset + colIndex}
                                 data-align={column.align}
+                        data-cell-type={column.type}
                         data-pinned={column.pinned}
                                 data-editable={column.editable ? "" : undefined}
                                 data-editing={editing?.rowId === id && editing.columnId === column.id ? "" : undefined}

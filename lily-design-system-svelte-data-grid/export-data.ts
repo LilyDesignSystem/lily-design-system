@@ -53,7 +53,12 @@ const FORMULA_START = /^[=+\-@\t\r]/;
 /** One cell as text. Numbers and booleans are never treated as formulas; only strings are defused. */
 export function cellText(value: unknown, safe = true): string {
     if (value === null || value === undefined) return "";
-    if (value instanceof Date) return Number.isNaN(value.getTime()) ? "" : value.toISOString();
+    if (value instanceof Date) {
+        if (Number.isNaN(value.getTime())) return "";
+        // A date at exactly UTC midnight is a civil date: write it without a time of day.
+        const iso = value.toISOString();
+        return iso.endsWith("T00:00:00.000Z") ? iso.slice(0, 10) : iso;
+    }
     if (typeof value === "number") return Number.isFinite(value) ? String(value) : "";
     if (typeof value === "boolean") return value ? "TRUE" : "FALSE";
     const text = String(value);

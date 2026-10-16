@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.0 — 2026-10-16
+
+- Added `column.type`: `"text" | "number" | "link" | "date" | "time" | "select" | "radio"`, a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor` plus each type's markup; your own props win. `data-cell-type` on the header and cells. New column props `locale`, `options`, `sortBy`, `exportAs`, `numberFormat`, `dateFormat`, `timeFormat`, `filterText`; a grid `locale` prop (never defaulted: with none, values show as stored).
+- link renders an `<a>` for `http:`, `https:`, `mailto:`, `tel:` and relative addresses only (anything else, `javascript:` included, is text); `external` adds `target="_blank"` `rel="noopener noreferrer"` and `labels.opensInNewTab`. date and time render `<time datetime>`; select edits with a native `<select>` (grouped options); radio renders a `fieldset` of radios named per row and column and commits on change. Typed values are checked on commit (`labels.invalidValue`).
+- Exported `cell-types.ts` helpers: `resolveColumn`, `safeHref`, `linkParts`, `linkLabel`, `isCivilDate`, `isCivilTime`, `civilDateToDate`, `isInvalidForType`. A civil date now writes without a time of day in CSV/TSV.
+
 ## 0.7.0 — 2026-10-16
 
 - Added export to CSV, TSV and Excel (.xlsx). `labels.exportCsv` / `exportTsv` / `exportExcel` gate one button each inside a group named by `labels.export`; the file holds the visible, `exportable` columns for the filtered, sorted rows across every page (`exportScope="selected"` for the selected rows only). `exportFilename`, `column.exportValue`, `column.exportable`, `onExport(file)` (return `false` to keep the grid from saving it), `labels.exportAnnouncement`.

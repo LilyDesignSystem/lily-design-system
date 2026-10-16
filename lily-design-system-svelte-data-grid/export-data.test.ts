@@ -59,7 +59,8 @@ describe("CSV and TSV (§8.57–§8.60)", () => {
 
     test("§8.60 booleans, dates and empty cells", () => {
         expect(cellText(true)).toBe("TRUE");
-        expect(cellText(new Date("2026-10-16T00:00:00Z"))).toBe("2026-10-16T00:00:00.000Z");
+        expect(cellText(new Date("2026-10-16T00:00:00Z"))).toBe("2026-10-16");
+        expect(cellText(new Date("2026-10-16T12:30:00Z"))).toBe("2026-10-16T12:30:00.000Z");
         expect(cellText(null)).toBe("");
         expect(cellText(undefined)).toBe("");
         expect(cellText(Number.NaN)).toBe("");

@@ -26,3 +26,5 @@ export {
     zipStore,
 } from "./export-data";
 export type { DelimitedOptions, ExportFormat, ExportTable, XlsxOptions } from "./export-data";
+export { civilDateToDate, isCivilDate, isCivilTime, isInvalidForType, linkLabel, linkParts, resolveColumn, safeHref } from "./cell-types";
+export type { DataGridCellType, DataGridLink, DataGridOption } from "./cell-types";

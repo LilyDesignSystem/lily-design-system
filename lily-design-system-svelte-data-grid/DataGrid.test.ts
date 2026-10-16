@@ -899,10 +899,10 @@ describe("DataGrid — export (§8.67–§8.74)", () => {
     ];
 
     async function exported(props: Record<string, unknown>, format: "csv" | "tsv" | "xlsx" = "csv") {
-        const onExport = vi.fn(() => false as const);
+        const onExport = vi.fn((_file: { format: string; filename: string; rowCount: number; blob: Blob }) => false as const);
         render(DataGrid, { props: { label: "G", columns: COLS, rows: DATA, labels: EXPORT_LABELS, onExport, ...props } });
         await fireEvent.click(document.querySelector(`[data-grid-export-format="${format}"]`)!);
-        const file = onExport.mock.calls[0][0] as { format: string; filename: string; rowCount: number; blob: Blob };
+        const file = onExport.mock.calls[0][0];
         const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
         return { file, text, onExport };
     }
@@ -1035,5 +1035,209 @@ describe("DataGrid — export with virtualization (§8.77)", () => {
         const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
         expect(text.trim().split("\r\n")).toHaveLength(301);
         expect(text).toContain("Row 299");
+    });
+});
+
+describe("DataGrid — cell types (§8.79–§8.97)", () => {
+    const dataCell = (row: number, col: number) =>
+        document.querySelector<HTMLElement>(`.data-table-body [data-row="${row}"][data-col="${col}"]`)!;
+    const text = (el: Element) => (el.textContent ?? "").trim();
+    const mount = (columns: DataGridColumn[], rows: Record<string, unknown>[], extra: Record<string, unknown> = {}) =>
+        render(DataGrid, { props: { label: "G", columns, rows, ...extra } });
+
+    test("§8.79 type sets data-cell-type on header and cells, and its alignment", () => {
+        mount([{ id: "n", header: "N", type: "number" }, { id: "t", header: "T", type: "text" }], [{ n: 1, t: "a" }]);
+        expect(document.querySelectorAll('[data-cell-type="number"]')).toHaveLength(2);
+        expect(dataCell(0, 0).getAttribute("data-align")).toBe("end");
+        expect(dataCell(0, 1).getAttribute("data-align")).toBe("start");
+    });
+
+    test("§8.80 number formats with the grid locale; a column's own format wins; no locale shows the value as stored", () => {
+        mount([{ id: "n", header: "N", type: "number" }, { id: "m", header: "M", type: "number", format: (v) => `#${v}` }], [{ n: 1200.5, m: 3 }], { locale: "en-US" });
+        expect(text(dataCell(0, 0))).toBe("1,200.5");
+        expect(text(dataCell(0, 1))).toBe("#3");
+        document.body.innerHTML = "";
+        mount([{ id: "n", header: "N", type: "number" }], [{ n: 1200.5 }]);
+        expect(text(dataCell(0, 0))).toBe("1200.5");
+    });
+
+    test("§8.81 link renders an anchor; the label is the text, the address the href", () => {
+        mount([{ id: "l", header: "L", type: "link" }], [{ l: { href: "https://example.com/a", label: "Example" } }, { l: "/docs" }]);
+        const a = dataCell(0, 0).querySelector("a")!;
+        expect(a.getAttribute("href")).toBe("https://example.com/a");
+        expect(text(a)).toBe("Example");
+        expect(dataCell(1, 0).querySelector("a")!.getAttribute("href")).toBe("/docs");
+    });
+
+    test("§8.82 an unsafe link scheme is shown as text, never as a link", () => {
+        mount([{ id: "l", header: "L", type: "link" }], [{ l: "javascript:alert(1)" }, { l: { href: "data:text/html,x", label: "Bad" } }, { l: " java\tscript:alert(1)" }]);
+        expect(document.querySelectorAll(".data-table-body a")).toHaveLength(0);
+        expect(text(dataCell(1, 0))).toBe("Bad");
+        expect(document.querySelectorAll(".data-grid-link-unsafe")).toHaveLength(3);
+    });
+
+    test("§8.83 an external link opens a new tab safely and says so", () => {
+        mount([{ id: "l", header: "L", type: "link" }], [{ l: { href: "https://example.com", label: "Ex", external: true } }], { labels: { opensInNewTab: (t: string) => `${t} opens in a new tab` } });
+        const a = dataCell(0, 0).querySelector("a")!;
+        expect(a.getAttribute("target")).toBe("_blank");
+        expect(a.getAttribute("rel")).toBe("noopener noreferrer");
+        expect(a.querySelector(".data-grid-visually-hidden")!.textContent).toBe("Ex opens in a new tab");
+        expect(a.textContent).toBe("Ex Ex opens in a new tab");
+    });
+
+    test("§8.84 links sort by label and filter on label and address", async () => {
+        mount(
+            [{ id: "l", header: "L", type: "link", sortable: true }],
+            [{ l: { href: "https://b.test", label: "Zed" } }, { l: { href: "https://a.test/special", label: "Amy" } }],
+            { labels: { search: "Search" } },
+        );
+        await fireEvent.click(screen.getByRole("button", { name: "L" }));
+        expect(text(dataCell(0, 0))).toBe("Amy");
+        await fireEvent.input(screen.getByRole("searchbox", { name: "Search" }), { target: { value: "special" } });
+        expect(bodyRows()).toHaveLength(1);
+    });
+
+    test("§8.85 date: a <time datetime> with locale text; ISO text without a locale; civil dates do not drift", () => {
+        mount([{ id: "d", header: "D", type: "date", dateFormat: { dateStyle: "long" } }], [{ d: "2026-10-16" }, { d: "2026-01-01" }], { locale: "en-GB" });
+        expect(dataCell(0, 0).querySelector("time")!.getAttribute("datetime")).toBe("2026-10-16");
+        expect(text(dataCell(0, 0))).toBe("16 October 2026");
+        expect(text(dataCell(1, 0))).toBe("1 January 2026");
+        document.body.innerHTML = "";
+        mount([{ id: "d", header: "D", type: "date" }], [{ d: "2026-10-16" }]);
+        expect(text(dataCell(0, 0))).toBe("2026-10-16");
+    });
+
+    test("§8.86 time: a <time> element, locale text, the stored text without a locale", () => {
+        mount([{ id: "t", header: "T", type: "time" }], [{ t: "14:30" }]);
+        expect(text(dataCell(0, 0))).toBe("14:30");
+        expect(dataCell(0, 0).querySelector("time")!.getAttribute("datetime")).toBe("14:30");
+        document.body.innerHTML = "";
+        mount([{ id: "t", header: "T", type: "time", timeFormat: { timeStyle: "short", hour12: true } }], [{ t: "14:30" }], { locale: "en-US" });
+        expect(text(dataCell(0, 0))).toMatch(/^2:30\s?PM$/);
+    });
+
+    test("§8.87 date and time editors are native date/time inputs; a bad date is refused with aria-invalid", async () => {
+        const onCellEdit = vi.fn();
+        mount([{ id: "d", header: "D", type: "date", editable: true }, { id: "t", header: "T", type: "time", editable: true }], [{ d: "2026-10-16", t: "09:00" }], { onCellEdit });
+        await fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        expect(input.type).toBe("date");
+        await fireEvent.input(input, { target: { value: "2027-02-03" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0].value).toBe("2027-02-03");
+        await fireEvent.keyDown(dataCell(0, 1), { key: "F2" });
+        expect((document.querySelector(".data-grid-cell-editor") as HTMLInputElement).type).toBe("time");
+    });
+
+    test("§8.88 select shows the option label, a stale id shows as itself", () => {
+        const options = [{ id: "todo", label: "To do" }, { id: "done", label: "Done" }];
+        mount([{ id: "s", header: "S", type: "select", options }], [{ s: "done" }, { s: "gone" }, { s: null }]);
+        expect(text(dataCell(0, 0))).toBe("Done");
+        expect(text(dataCell(1, 0))).toBe("gone");
+        expect(text(dataCell(2, 0))).toBe("");
+    });
+
+    test("§8.89 select edits with a native select, grouped options, and reports the id", async () => {
+        const onCellEdit = vi.fn();
+        const options = [{ id: "a", label: "Alpha" }, { id: "b", label: "Beta", group: "More" }];
+        mount([{ id: "s", header: "Status", type: "select", options, editable: true }], [{ s: "a" }], { onCellEdit });
+        await fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const select = screen.getByRole("combobox", { name: "Status" }) as HTMLSelectElement;
+        expect(select.querySelector("optgroup")!.getAttribute("label")).toBe("More");
+        await fireEvent.change(select, { target: { value: "b" } });
+        await fireEvent.keyDown(select, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0]).toMatchObject({ columnId: "s", value: "b", previous: "a" });
+    });
+
+    test("§8.90 select sorts by label, or by option order with sortBy order; filter matches the label; export is the label or the id", async () => {
+        const options = [{ id: "z", label: "Aardvark" }, { id: "a", label: "Zebra" }];
+        const rows = [{ s: "a" }, { s: "z" }];
+        mount([{ id: "s", header: "S", type: "select", options, sortable: true }], rows, { sort: { columnId: "s", direction: "ascending" }, labels: { search: "Search" } });
+        expect(text(dataCell(0, 0))).toBe("Aardvark");
+        await fireEvent.input(screen.getByRole("searchbox", { name: "Search" }), { target: { value: "zeb" } });
+        expect(bodyRows()).toHaveLength(1);
+        document.body.innerHTML = "";
+        mount([{ id: "s", header: "S", type: "select", options: [{ id: "q", label: "Qux" }, { id: "b", label: "Bar" }], sortBy: "order", sortable: true }], [{ s: "b" }, { s: "q" }], { sort: { columnId: "s", direction: "ascending" } });
+        expect(text(dataCell(0, 0))).toBe("Qux");
+        for (const exportAs of ["label", "id"] as const) {
+            document.body.innerHTML = "";
+            const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+            mount([{ id: "s", header: "S", type: "select", options, exportAs }], [{ s: "a" }], { labels: { exportCsv: "CSV" }, onExport });
+            await fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+            const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+            expect(out).toBe(`﻿S\r\n${exportAs === "id" ? "a" : "Zebra"}\r\n`);
+        }
+    });
+
+    test("§8.91 radio group: a fieldset with a legend, one radio per option, a name per row and column; change commits", async () => {
+        const onCellEdit = vi.fn();
+        const options = [{ id: "lo", label: "Low" }, { id: "hi", label: "High" }];
+        mount([{ id: "p", header: "Priority", type: "radio", options, editable: true }], [{ p: "lo" }, { p: "hi" }], { onCellEdit });
+        const groups = document.querySelectorAll("fieldset.data-grid-radio-group");
+        expect(groups).toHaveLength(2);
+        expect(groups[0].querySelector("legend")!.textContent).toBe("Priority");
+        const names = Array.from(document.querySelectorAll<HTMLInputElement>('input[type="radio"]')).map((r) => r.name);
+        expect(new Set(names).size).toBe(2);
+        expect((groups[0].querySelector('input[value="lo"]') as HTMLInputElement).checked).toBe(true);
+        await fireEvent.click(groups[0].querySelector('input[value="hi"]')!);
+        expect(onCellEdit.mock.calls[0][0]).toMatchObject({ columnId: "p", value: "hi", previous: "lo" });
+    });
+
+    test("§8.92 a read-only radio column shows the label as text", () => {
+        mount([{ id: "p", header: "P", type: "radio", options: [{ id: "lo", label: "Low" }] }], [{ p: "lo" }]);
+        expect(document.querySelector("fieldset")).toBeNull();
+        expect(text(dataCell(0, 0))).toBe("Low");
+    });
+
+    test("§8.93 an unknown option id is refused by a radio; the typed validate message and invalidValue label show", async () => {
+        const cols: DataGridColumn[] = [{ id: "n", header: "N", type: "number", editable: true, validate: (v) => (typeof v === "number" && v < 0 ? "Too small" : undefined) }];
+        const onCellEdit = vi.fn();
+        mount(cols, [{ n: 1 }], { onCellEdit, labels: { editError: (h: string, m: string) => `${h}: ${m}` } });
+        await fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        await fireEvent.input(input, { target: { value: "-4" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("N: Too small");
+    });
+
+    test("§8.94 editing a link changes the address and keeps the label; a bad scheme is refused", async () => {
+        const onCellEdit = vi.fn();
+        mount([{ id: "l", header: "L", type: "link", editable: true }], [{ l: { href: "https://a.test", label: "A" } }], { onCellEdit, labels: { invalidValue: (h: string, t: string) => `${h} is not a valid ${t}` } });
+        await fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        expect(input.value).toBe("https://a.test");
+        await fireEvent.input(input, { target: { value: "javascript:alert(1)" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(input.getAttribute("aria-invalid")).toBe("true");
+        expect(document.querySelector(".data-grid-cell-error")!.textContent).toBe("L is not a valid link");
+        await fireEvent.input(input, { target: { value: "https://b.test" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0].value).toEqual({ href: "https://b.test", label: "A" });
+    });
+
+    test("§8.95 date exports typed (no time of day); time and link export as text; typed export of a link is its label", async () => {
+        const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+        mount(
+            [{ id: "d", header: "D", type: "date" }, { id: "t", header: "T", type: "time" }, { id: "l", header: "L", type: "link" }],
+            [{ d: "2026-10-16", t: "09:05", l: { href: "https://a.test", label: "Home" } }],
+            { labels: { exportCsv: "CSV" }, onExport },
+        );
+        await fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+        expect(out).toBe("﻿D,T,L\r\n2026-10-16,09:05,Home\r\n");
+    });
+
+    test("§8.96 the column's own hooks override the type's", () => {
+        mount([{ id: "d", header: "D", type: "date", format: () => "custom", align: "end" }], [{ d: "2026-10-16" }]);
+        expect(text(dataCell(0, 0))).toBe("custom");
+        expect(dataCell(0, 0).getAttribute("data-align")).toBe("end");
+    });
+
+    test("§8.97 a column without a type is untouched", () => {
+        mount([{ id: "x", header: "X" }], [{ x: "plain" }]);
+        expect(dataCell(0, 0).hasAttribute("data-cell-type")).toBe(false);
+        expect(text(dataCell(0, 0))).toBe("plain");
     });
 });
