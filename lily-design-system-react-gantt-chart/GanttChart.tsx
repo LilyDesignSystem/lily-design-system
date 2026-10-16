@@ -22,10 +22,10 @@ export type GanttTask = {
   id: string;
   /** Visible task label. */
   label: string;
-  /** ISO date (`YYYY-MM-DD`), inclusive. */
-  start: string;
+  /** ISO date (`YYYY-MM-DD`), inclusive. Absent (with `end`) means the task is unscheduled: its row shows no bar (`data-unscheduled`) and its edit region sets the dates. */
+  start?: string;
   /** ISO date (`YYYY-MM-DD`), inclusive. Equal to `start` means a milestone. */
-  end: string;
+  end?: string;
   /** 0–100. Rendering the fill is the consumer's own CSS. */
   percentComplete?: number;
   /** Another task's id; builds the row hierarchy. */
@@ -85,6 +85,10 @@ export type GanttLabels = {
     varianceDays: number,
   ) => string;
   collapseButton?: (task: GanttTask, collapsed: boolean) => string;
+  /** Accessible name for the button that expands every parent task. Gates the button. */
+  expandAll?: string;
+  /** Accessible name for the button that collapses every parent task. Gates the button. */
+  collapseAll?: string;
 };
 
 /** Public props for GanttChart. See `spec/index.md` §5 for the contract. */
@@ -108,6 +112,10 @@ export type Props = Omit<
   selectedTaskId?: string;
   /** Called with the task id when selection changes, or `undefined` when it clears. */
   onTaskSelect?: (taskId: string | undefined) => void;
+  /** Ids of collapsed parent tasks. Controlled when given; the collapse buttons, `labels.expandAll` and `labels.collapseAll` change it. */
+  collapsedTaskIds?: string[];
+  defaultCollapsedTaskIds?: string[];
+  onCollapsedTaskIdsChange?: (collapsedTaskIds: string[]) => void;
   /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
   taskAttrs?: (task: GanttTask) => Record<string, unknown>;
   /** ISO date marking "today"; never computed internally (stays SSR-safe). */
@@ -227,7 +235,7 @@ export function effectiveRange(
   allTasks: GanttTask[],
 ): { start: string; end: string } {
   return (
-    effectiveRanges(allTasks).get(task.id) ?? { start: task.start, end: task.end }
+    effectiveRanges(allTasks).get(task.id) ?? { start: task.start ?? "", end: task.end ?? "" }
   );
 }
 
@@ -254,13 +262,14 @@ export function effectiveRanges(
     if (known) return known;
     const children = childrenOf.get(task.id) ?? [];
     if (children.length === 0 || onWalk.has(task.id)) {
-      return { start: task.start, end: task.end };
+      return { start: task.start ?? "", end: task.end ?? "" };
     }
     onWalk.add(task.id);
     let start = "";
     let end = "";
     for (const child of children) {
       const r = visit(child);
+      if (!r.start) continue; // an unscheduled child does not shape its parent's span
       if (!start || compareISO(r.start, start) < 0) start = r.start;
       if (!end || compareISO(r.end, end) > 0) end = r.end;
     }
@@ -282,6 +291,9 @@ export function GanttChart({
   onTimeUnitChange,
   selectedTaskId: selectedTaskIdProp,
   onTaskSelect,
+  collapsedTaskIds: collapsedProp,
+  defaultCollapsedTaskIds = [],
+  onCollapsedTaskIdsChange,
   taskAttrs,
   today,
   markers = [],
@@ -303,9 +315,13 @@ export function GanttChart({
   const [selectedState, setSelectedState] = React.useState<string | undefined>(undefined);
   const selectedTaskId = selectedTaskIdProp ?? selectedState;
   const resizingEdgeRef = React.useRef<"start" | "end" | null>(null);
-  const [collapsed, setCollapsed] = React.useState<ReadonlySet<string>>(
-    new Set(),
-  );
+  const [collapsedInner, setCollapsedInner] = React.useState<string[]>(defaultCollapsedTaskIds);
+  const collapsedTaskIds = collapsedProp ?? collapsedInner;
+  const collapsed = React.useMemo<ReadonlySet<string>>(() => new Set(collapsedTaskIds), [collapsedTaskIds]);
+  function commitCollapsed(next: string[]): void {
+    if (collapsedProp === undefined) setCollapsedInner(next);
+    onCollapsedTaskIdsChange?.(next);
+  }
   const [focusedRow, setFocusedRow] = React.useState(0);
   const [focusedCol, setFocusedCol] = React.useState(0);
 
@@ -363,8 +379,8 @@ export function GanttChart({
     hasChildren: boolean,
   ): { start: string; end: string } {
     return hasChildren
-      ? (ranges.get(task.id) ?? task)
-      : { start: task.start, end: task.end };
+      ? (ranges.get(task.id) ?? { start: "", end: "" })
+      : { start: task.start ?? "", end: task.end ?? "" };
   }
 
   function announce(message: string | undefined): void {
@@ -376,12 +392,16 @@ export function GanttChart({
   // ---------------------------------------------------------------
 
   function toggleCollapse(taskId: string): void {
-    setCollapsed((current) => {
-      const next = new Set(current);
-      if (next.has(taskId)) next.delete(taskId);
-      else next.add(taskId);
-      return next;
-    });
+    commitCollapsed(collapsed.has(taskId) ? collapsedTaskIds.filter((id) => id !== taskId) : [...collapsedTaskIds, taskId]);
+  }
+
+  /** Every task that has children (the ones a collapse button applies to). */
+  const parentIds = Array.from(new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) =>
+    tasks.some((t) => t.id === id),
+  );
+
+  function setAllCollapsed(value: boolean): void {
+    commitCollapsed(value ? parentIds : []);
   }
 
   // ---------------------------------------------------------------
@@ -426,8 +446,8 @@ export function GanttChart({
   function openEdit(task: GanttTask): void {
     if (!canEdit) return;
     setEditingTaskId(task.id);
-    setEditStart(task.start);
-    setEditEnd(task.end);
+    setEditStart(task.start ?? "");
+    setEditEnd(task.end ?? "");
     setEditPercent(task.percentComplete != null ? String(task.percentComplete) : "");
     // Focus moves into the region it opened, onto the start date's field.
     pendingFocusRef.current = "edit";
@@ -507,6 +527,7 @@ export function GanttChart({
   }
 
   function shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    if (!task.start || !task.end) return; // an unscheduled task has nothing to shift
     if (endOnly) {
       const target = columns[columnIndexOf(task.end) + delta];
       if (target && compareISO(task.start, target.end) <= 0) applyChange(task, task.start, target.end);
@@ -530,7 +551,7 @@ export function GanttChart({
     const task = tasks.find((t) => t.id === taskId);
     const edge = resizingEdgeRef.current;
     resizingEdgeRef.current = null;
-    if (!task) return;
+    if (!task || !task.start || !task.end) return;
     if (edge) {
       // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
       const start = edge === "start" ? column.start : task.start;
@@ -645,6 +666,20 @@ export function GanttChart({
       data-readonly={readonly ? "" : undefined}
       {...restProps}
     >
+      {parentIds.length > 0 && (labels.expandAll || labels.collapseAll) && (
+        <div className="gantt-chart-collapse-all" role="group" aria-label={label}>
+          {labels.expandAll && (
+            <button type="button" className="gantt-chart-expand-all-button" disabled={collapsedTaskIds.length === 0} onClick={() => setAllCollapsed(false)}>
+              {labels.expandAll}
+            </button>
+          )}
+          {labels.collapseAll && (
+            <button type="button" className="gantt-chart-collapse-all-button" disabled={parentIds.every((id) => collapsed.has(id))} onClick={() => setAllCollapsed(true)}>
+              {labels.collapseAll}
+            </button>
+          )}
+        </div>
+      )}
       {(labels.zoomIn || labels.zoomOut) && (
         <div className="gantt-chart-zoom" role="group" aria-label={label}>
           {labels.zoomOut && (
@@ -716,6 +751,7 @@ export function GanttChart({
                   data-critical={row.task.critical ? "" : undefined}
                   data-slack={row.task.slack}
                   data-task-id={row.task.id}
+                  data-unscheduled={!row.hasChildren && (!row.task.start || !row.task.end) ? "" : undefined}
                   aria-selected={selectedTaskId === row.task.id ? true : undefined}
                   data-selected={selectedTaskId === row.task.id ? "" : undefined}
                   {...(taskAttrs?.(row.task) ?? {})}
@@ -755,13 +791,13 @@ export function GanttChart({
                         {labels.baselineSummary(
                           taskLabel(row.task),
                           row.task.baseline,
-                          epochDaysBetween(row.task.baseline.end, end),
+                          end ? epochDaysBetween(row.task.baseline.end, end) : 0,
                         )}
                       </span>
                     )}
                   </GanttTableTH>
                   {columns.map((column, colIndex) => {
-                    const inRange = rangesOverlap(column.start, column.end, start, end);
+                    const inRange = !!start && !!end && rangesOverlap(column.start, column.end, start, end);
                     const isMilestone = inRange && start === end;
                     const isToday =
                       today != null &&
