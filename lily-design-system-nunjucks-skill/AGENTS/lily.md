@@ -81,6 +81,7 @@ The React helpers, one top-level subproject per package since 2026-10-10 (`bin/l
 
 The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages vue`):
 
+- [`lily-design-system-vue-data-grid`](../lily-design-system-vue-data-grid) — `@lilydesignsystem/vue-data-grid`
 - [`lily-design-system-vue-date-time-picker`](../lily-design-system-vue-date-time-picker) — `@lilydesignsystem/vue-date-time-picker`
 - [`lily-design-system-vue-kanban-board`](../lily-design-system-vue-kanban-board) — `@lilydesignsystem/vue-kanban-board`
 - [`lily-design-system-vue-link-picker`](../lily-design-system-vue-link-picker) — `@lilydesignsystem/vue-link-picker`

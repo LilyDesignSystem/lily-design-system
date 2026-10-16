@@ -557,7 +557,9 @@ var LocalePicker = class extends HTMLElement {
       "name",
       "apply-dir",
       "locale-labels",
-      "class"
+      "class",
+      "open",
+      "disabled"
     ];
   }
   #locales = [];
@@ -573,6 +575,12 @@ var LocalePicker = class extends HTMLElement {
   #optionEls = [];
   // Listbox state.
   #open = false;
+  /** True while an open comes from outside (the property, the attribute, mounting): state only, focus stays put. */
+  #quietOpen = false;
+  /** True while mounting open: the initial value is not a change, so nothing is reported. */
+  #silentOpen = false;
+  /** Called with the new open state whenever it changes; also dispatched as a bubbling `openchange` event. */
+  onOpenChange;
   #activeIndex = -1;
   // Stable ids for the button/listbox aria wiring.
   #baseId = nextLocalePickerId();
@@ -666,9 +674,53 @@ var LocalePicker = class extends HTMLElement {
   set target(v) {
     this.#target = v ?? null;
   }
-  /** Is the listbox open? Read-only; use `openList()` / `closeList()`. */
+  /** Is the popup open? Settable: `true` opens it and `false` closes it, without moving focus. The `open` attribute is the initial state. */
   get open() {
     return this.#open;
+  }
+  set open(value) {
+    if (!!value === this.#open) return;
+    this.#quietOpen = true;
+    try {
+      if (value) this.openList();
+      else this.closeList(false);
+    } finally {
+      this.#quietOpen = false;
+    }
+  }
+  /** Disables the button; an open popup closes. Attribute `disabled`. */
+  get disabled() {
+    return this.hasAttribute("disabled");
+  }
+  set disabled(value) {
+    if (value) this.setAttribute("disabled", "");
+    else this.removeAttribute("disabled");
+  }
+  #emitOpenChange(open) {
+    if (this.#silentOpen) return;
+    this.onOpenChange?.(open);
+    this.dispatchEvent(new CustomEvent("openchange", { detail: open, bubbles: true, composed: true }));
+  }
+  /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
+  #syncOpenAttributes(name) {
+    if (!this.#buttonEl) return;
+    if (name === "disabled") {
+      this.#buttonEl.disabled = this.disabled;
+      if (this.disabled && this.#open) this.open = false;
+      return;
+    }
+    this.open = this.hasAttribute("open");
+  }
+  /** After a render: carry `disabled` onto the button and honour an initial `open` attribute (not reported as a change). */
+  #applyInitialOpen() {
+    if (this.#buttonEl) this.#buttonEl.disabled = this.disabled;
+    if (!this.hasAttribute("open") || this.disabled || this.#open) return;
+    this.#silentOpen = true;
+    try {
+      this.open = true;
+    } finally {
+      this.#silentOpen = false;
+    }
   }
   /** id of the rendered `<ul role="listbox">`. */
   get listId() {
@@ -760,6 +812,10 @@ var LocalePicker = class extends HTMLElement {
     if (this.value) this.#applyLocale(this.value);
   }
   attributeChangedCallback(name, _old, value) {
+    if (name === "open" || name === "disabled") {
+      this.#syncOpenAttributes(name);
+      return;
+    }
     switch (name) {
       case "locales":
         this.#locales = value === null ? [] : parseCsv(value);
@@ -840,18 +896,21 @@ var LocalePicker = class extends HTMLElement {
   // ---- Open / close ----
   /** Open the listbox. `startIndex` overrides the active option. */
   openList(startIndex) {
+    if (this.disabled) return;
     const selected = this.#locales.indexOf(this.value);
     this.#activeIndex = this.#locales.length === 0 ? -1 : startIndex ?? (selected >= 0 ? selected : 0);
     this.#listboxController?.setActiveIndex(this.#activeIndex);
     this.#open = true;
+    this.#emitOpenChange(true);
     this.#syncState();
-    this.#listEl?.focus({ preventScroll: true });
+    if (!this.#quietOpen) this.#listEl?.focus({ preventScroll: true });
     this.#scrollActiveIntoView();
   }
   /** Close the listbox. Returns focus to the button unless `refocus` is false. */
   closeList(refocus = true) {
     if (!this.#open) return;
     this.#open = false;
+    this.#emitOpenChange(false);
     this.#activeIndex = -1;
     this.#listboxController?.setActiveIndex(-1);
     this.#syncState();
@@ -1008,6 +1067,7 @@ var LocalePicker = class extends HTMLElement {
     this.#listEl = list;
     this.#optionEls = optionEls;
     this.replaceChildren(root);
+    this.#applyInitialOpen();
   }
 };
 function parseCsv(s) {

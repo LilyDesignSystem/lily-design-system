@@ -433,6 +433,7 @@ updates:
   - package-ecosystem: "npm"
     # One top-level subproject per Vue helper package (2026-10-10).
     directories:
+      - "/lily-design-system-vue-data-grid"
       - "/lily-design-system-vue-date-time-picker"
       - "/lily-design-system-vue-kanban-board"
       - "/lily-design-system-vue-link-picker"

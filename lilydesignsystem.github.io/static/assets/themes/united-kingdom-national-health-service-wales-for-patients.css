@@ -1,5 +1,5 @@
 /* ============================================================================
- * Theme: united-kingdom-national-health-service-wales-patients
+ * Theme: united-kingdom-national-health-service-wales-for-patients
  * Brand: NHS Wales / GIG Cymru (Gwasanaeth Iechyd Gwladol Cymru) — patients
  * Format: Lily standalone theme
  *
@@ -58,7 +58,7 @@
  * When NOT to use this theme:
  *
  *   - Clinician-only workstations, EPR / eMAR / ePMA, results review
- *     (use `united-kingdom-national-health-service-wales-practitioners.css`)
+ *     (use `united-kingdom-national-health-service-wales-for-practitioners.css`)
  *   - Any surface where staff need to scan many rows of clinical data —
  *     this theme's rhythm makes that slow, not fast
  *

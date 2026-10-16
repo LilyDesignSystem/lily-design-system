@@ -93,6 +93,7 @@ packages above. [`bin/list-helper-packages react`](../../bin/list-helper-package
 Until 2026-10-10 in the `lily-design-system-vue-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages vue`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-vue-data-grid`](../../lily-design-system-vue-data-grid/) — `@lilydesignsystem/vue-data-grid`
 - [`lily-design-system-vue-date-time-picker`](../../lily-design-system-vue-date-time-picker/) — `@lilydesignsystem/vue-date-time-picker`
 - [`lily-design-system-vue-kanban-board`](../../lily-design-system-vue-kanban-board/) — `@lilydesignsystem/vue-kanban-board`
 - [`lily-design-system-vue-link-picker`](../../lily-design-system-vue-link-picker/) — `@lilydesignsystem/vue-link-picker`
