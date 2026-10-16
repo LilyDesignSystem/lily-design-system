@@ -123,3 +123,18 @@ describe("files (§8.66)", () => {
         expect(exportFilename("  ", "tsv")).toBe("export.tsv");
     });
 });
+
+describe("non-ASCII text (§8.78)", () => {
+    test("§8.78 Japanese, accented and emoji text survives CSV, TSV and xlsx unchanged", async () => {
+        const table = { headers: ["名前", "Café"], rows: [["にほんご 日本語", "naïve 🌸"]] };
+        const decode = async (blob: Blob) => new TextDecoder("utf-8", { ignoreBOM: true }).decode(await blob.arrayBuffer());
+        expect(await decode(exportBlob(table, "csv"))).toBe("\uFEFF名前,Café\r\nにほんご 日本語,naïve 🌸\r\n");
+        expect(await decode(exportBlob(table, "tsv"))).toBe("\uFEFF名前\tCafé\r\nにほんご 日本語\tnaïve 🌸\r\n");
+        const sheet = unzip(toXlsx(table))["xl/worksheets/sheet1.xml"];
+        expect(sheet).toContain(">名前<");
+        expect(sheet).toContain(">にほんご 日本語<");
+        expect(sheet).toContain(">naïve 🌸<");
+        expect(exportFilename("売上 2026", "csv")).toBe("売上 2026.csv");
+    });
+});
+

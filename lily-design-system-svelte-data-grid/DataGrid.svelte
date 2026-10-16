@@ -724,6 +724,10 @@
     function onEditorKeydown(event: KeyboardEvent): void {
         // The editor owns its keys; none may reach the grid's own handler.
         event.stopPropagation();
+        // While an input method is composing (a candidate list is open), Enter picks the candidate and
+        // Escape cancels the composition: neither commits nor cancels the edit. Some browsers report
+        // the confirming Enter with `isComposing` already false, but keyCode 229.
+        if (event.isComposing || event.keyCode === 229) return;
         if (event.key === "Enter") {
             event.preventDefault();
             commitEdit();

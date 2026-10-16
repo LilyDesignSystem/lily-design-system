@@ -7,6 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.7.0 — 2026-10-16
 
 - Added export to CSV, TSV and Excel (.xlsx). `labels.exportCsv` / `exportTsv` / `exportExcel` gate one button each inside a group named by `labels.export`; the file holds the visible, `exportable` columns for the filtered, sorted rows across every page (`exportScope="selected"` for the selected rows only). `exportFilename`, `column.exportValue`, `column.exportable`, `onExport(file)` (return `false` to keep the grid from saving it), `labels.exportAnnouncement`.
+- Fixed the cell editor committing when Enter confirmed an input-method (IME) candidate: keys during composition (`isComposing`, or `keyCode` 229) are now ignored, so Enter does not commit and Escape does not cancel until composition ends.
 - The writers are exported as pure functions for your own button or a server: `toCsv`, `toTsv`, `toDelimited`, `toXlsx`, `exportBlob`, `exportFilename`, `downloadBlob`, `cellText`, `columnName`, `zipStore`, `crc32`. The .xlsx writer has no dependencies (a stored ZIP of the workbook's XML parts) and is reproducible byte for byte.
 
 ## 0.6.0 — 2026-10-16

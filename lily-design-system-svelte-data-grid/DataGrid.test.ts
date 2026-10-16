@@ -988,3 +988,52 @@ describe("DataGrid — export (§8.67–§8.74)", () => {
         }
     });
 });
+
+describe("DataGrid — IME composition in the cell editor (§8.75–§8.76)", () => {
+    const cols: DataGridColumn[] = [{ id: "name", header: "Name", editable: true }];
+    const cell = () => document.querySelector<HTMLElement>('.data-table-body [data-row="0"][data-col="0"]')!;
+
+    test("§8.75 Enter while composing does not commit; Enter after composition does", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: cols, rows: [{ name: "Ann" }], onCellEdit } });
+        await fireEvent.keyDown(cell(), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        await fireEvent.input(input, { target: { value: "にほん" } });
+        await fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+        await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).toHaveBeenCalledTimes(1);
+        expect(onCellEdit.mock.calls[0][0].value).toBe("にほん");
+    });
+
+    test("§8.76 Escape while composing leaves the edit open; Escape after composition cancels it", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: cols, rows: [{ name: "Ann" }], onCellEdit } });
+        await fireEvent.keyDown(cell(), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        await fireEvent.keyDown(input, { key: "Escape", isComposing: true });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+        await fireEvent.keyDown(input, { key: "Escape" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeNull();
+        expect(onCellEdit).not.toHaveBeenCalled();
+    });
+});
+
+describe("DataGrid — export with virtualization (§8.77)", () => {
+    test("§8.77 a virtualized grid exports every row, not only the rendered window", async () => {
+        const big = Array.from({ length: 300 }, (_, i) => ({ name: `Row ${i}` }));
+        const onExport = vi.fn(() => false as const);
+        render(DataGrid, {
+            props: { label: "G", columns: [{ id: "name", header: "Name" }], rows: big, virtualize: { rowHeight: 20, height: 100 }, labels: { exportCsv: "CSV" }, onExport },
+        });
+        expect(document.querySelectorAll(".data-table-body [data-row]").length).toBeLessThan(30);
+        await fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const file = (onExport.mock.calls[0] as unknown as [{ rowCount: number; blob: Blob }])[0];
+        expect(file.rowCount).toBe(300);
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        expect(text.trim().split("\r\n")).toHaveLength(301);
+        expect(text).toContain("Row 299");
+    });
+});
