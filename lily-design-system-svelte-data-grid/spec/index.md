@@ -434,7 +434,7 @@ Keys pressed on a widget inside a cell are never swallowed (§6).
 ## 9. Non-goals
 
 Row grouping/aggregation, server-side sort/filter/pagination,
-CSV export, drag-to-reorder rows. See §2 and
+drag-to-reorder rows. (CSV export left this list in 0.7.0: §14.) See §2 and
 [spec/helpers/index.md § data-grid contract](../../spec/helpers/index.md)
 for the reasoning behind each.
 
@@ -516,3 +516,13 @@ Tests §8.47–§8.56. Both were listed as non-goals in §9; the accessibility o
 
 - **Cell editing**: `column.editable`. F2 on a focused cell, Enter on one (before row activation and widget entry), a double click, or the `labels.editCell` button (the one path in `mode="table"`) opens a text or number input named `labels.cellEditor(header)` (the header by default). Enter commits, Escape cancels, blur commits. The value is `parse(draft, row)` (`Number(draft)` or `null` for the number editor, the text otherwise); `validate(value, row)` returning a message keeps the cell editing with `aria-invalid`, the message in `.data-grid-cell-error`, `labels.editError` announced. `onCellEdit({ rowId, row, columnId, value, previous })` fires only when the value changed; the grid never writes to `rows`.
 - **Virtualization**: `virtualize: { rowHeight, height, overscan = 3 }` (needs `scroll`) gives `.data-grid-scroll` an inline `height` and `overflow:auto` and renders only the window plus the roving tab stop's row, with `.data-grid-spacer` rows (`aria-hidden`) holding the height of the rest. Rows are assumed `rowHeight` tall; Lily measures nothing. Combines with `pageSize`.
+
+## 14. Export to CSV, TSV and Excel (0.7.0, 2026-10-16)
+
+Tests §8.57–§8.74 (`export-data.test.ts` and `DataGrid.test.ts`). The format code is `export-data.ts`, free of the grid and exported for reuse; the grid adds a thin layer of buttons.
+
+- **What is exported**: the visible columns, in display order, minus `exportable: false` ones; the rows the filter leaves, in the current sort, across **every page** (`exportScope="selected"`: only the selected rows). Hidden columns are never exported. A cell is its `column.exportValue(row)` when given; otherwise a number, boolean or `Date` as itself and anything else as the text the grid shows (so `format` applies to text, while numbers stay numbers in Excel and are never locale-formatted).
+- **Buttons**: `labels.exportCsv`, `exportTsv`, `exportExcel` each gate one `button.data-grid-export-button[data-grid-export-format]` in `div.data-grid-export[role=group]` named by `labels.export`, inside the toolbar. They are disabled with no rows. After the file is built `onExport({ format, filename, rowCount, blob })` runs; returning `false` stops the save (to upload the blob, say); otherwise the file is saved through a temporary link and `labels.exportAnnouncement(format, rowCount, filename)` is announced. File name: `exportFilename` (default `data-grid`) plus the extension, never doubled, with `\/:*?"<>|` replaced.
+- **CSV / TSV** (RFC 4180): CRLF lines; a field is quoted when it holds the delimiter, a quote or a line break; quotes double. The grid's files start with a UTF-8 byte-order mark so Excel reads accents correctly (`bom` is off in the pure functions). **Formula injection**: a *string* starting with `=`, `+`, `-`, `@`, tab or CR gets a leading `'` (`safe`, default on); numbers and booleans, being typed, are never touched.
+- **Excel**: a real .xlsx — a ZIP, stored without compression, of `[Content_Types].xml`, `_rels/.rels`, `xl/workbook.xml` (+ rels), `xl/styles.xml` and one worksheet; no dependency and a fixed ZIP timestamp, so the same table gives the same bytes. Text is an inline string (so `=1+1` stays text), numbers are numeric, booleans typed, a `Date` is a serial number with a date or date-time format, and empty cells are omitted. The header row is bold and frozen; the sheet name is `exportFilename` cleaned of `[]:*?/\` and cut to 31 characters. Verified against openpyxl.
+- **Not included**: multiple sheets, column widths, number formats beyond dates, CSV import, copy-to-clipboard.

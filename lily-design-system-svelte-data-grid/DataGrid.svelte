@@ -1,5 +1,6 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
+    import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
     import {
         DataTable,
         DataTableBody,
@@ -20,6 +21,17 @@
     export type DataGridSelectionMode = "none" | "single" | "multiple";
 
     export type DataGridRow = Record<string, unknown>;
+
+    /** What `onExport` receives, before the file is saved. */
+    export type DataGridExport = {
+        format: ExportFormat;
+        /** The file name, with its extension. */
+        filename: string;
+        /** How many data rows (the header is not counted). */
+        rowCount: number;
+        /** The file. */
+        blob: Blob;
+    };
 
     /** Arguments a column's `cell` snippet receives. See spec/index.md §5. */
     export type DataGridCellContext = {
@@ -65,6 +77,10 @@
         movable?: boolean;
         /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no offsets. */
         pinned?: "start" | "end";
+        /** Set `false` to leave the column out of an export (an actions column, say). Default true. */
+        exportable?: boolean;
+        /** The value this column exports for a row. Default: a number, boolean or `Date` as itself, anything else as its displayed text (so `format` applies). */
+        exportValue?: (row: DataGridRow) => unknown;
         /** Column can be hidden via the column-visibility control. */
         hidable?: boolean;
         /** Initial pixel width, meaningful only when `resizable`. */
@@ -119,6 +135,16 @@
         cellEditor?: (header: string) => string;
         /** Announced after a committed edit: (column header, formatted new value). */
         editAnnouncement?: (header: string, value: string) => string;
+        /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+        export?: string;
+        /** Visible text of the CSV button. Gates the button. */
+        exportCsv?: string;
+        /** Visible text of the TSV button. Gates the button. */
+        exportTsv?: string;
+        /** Visible text of the Excel (.xlsx) button. Gates the button. */
+        exportExcel?: string;
+        /** Announced after an export: (format, how many rows, file name). */
+        exportAnnouncement?: (format: ExportFormat, rowCount: number, filename: string) => string;
         /** Announced after an edit is cancelled with Escape. */
         editCancelAnnouncement?: (header: string) => string;
         /** Announced when `validate` refuses a value: (column header, the message). */
@@ -178,6 +204,12 @@
         busy?: boolean;
         /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
         scroll?: boolean;
+        /** The file name without its extension. Default `"data-grid"`. */
+        exportFilename?: string;
+        /** What an export holds: `"view"` (default) is every row the filter leaves, in the current sort and not just the shown page; `"selected"` is only the selected rows. Hidden columns are never exported. */
+        exportScope?: "view" | "selected";
+        /** Called with the file before it is saved. Return `false` to keep the grid from saving it (to upload it, say). */
+        onExport?: (file: DataGridExport) => boolean | void;
         /** Called after a cell edit is committed. The consumer updates `rows`; the grid never mutates them. */
         onCellEdit?: (edit: DataGridCellEdit) => void;
         /**
@@ -252,6 +284,9 @@
         scroll = true,
         onCellEdit,
         virtualize,
+        exportFilename: exportBase = "data-grid",
+        exportScope = "view",
+        onExport,
         ...restProps
     }: Props = $props();
 
@@ -602,6 +637,38 @@
     }
 
     // ---------------------------------------------------------------
+    // Export (CSV / TSV / Excel)
+    // ---------------------------------------------------------------
+
+    const exportColumns = $derived(visibleColumns.filter((c) => c.exportable !== false));
+    const exportEntries = $derived(
+        exportScope === "selected" ? sortedEntries.filter((entry) => selectedSet.has(entry.id)) : sortedEntries,
+    );
+    const hasExportButtons = $derived(!!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
+
+    /** One cell for an export: typed values stay typed, everything else is the text the grid shows. */
+    function exportCell(column: DataGridColumn, row: DataGridRow): unknown {
+        if (column.exportValue) return column.exportValue(row);
+        const value = defaultAccessor(column, row);
+        if (value === null || value === undefined) return null;
+        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
+        return formatCell(column, row);
+    }
+
+    function runExport(format: ExportFormat): void {
+        const table = {
+            headers: exportColumns.map((c) => c.header),
+            rows: exportEntries.map((entry) => exportColumns.map((c) => exportCell(c, entry.row))),
+        };
+        const filename = exportFilename(exportBase, format);
+        const blob = exportBlob(table, format, { sheetName: exportBase });
+        const rowCount = table.rows.length;
+        if (onExport?.({ format, filename, rowCount, blob }) === false) return;
+        downloadBlob(blob, filename);
+        announce(labels.exportAnnouncement?.(format, rowCount, filename));
+    }
+
+    // ---------------------------------------------------------------
     // Cell editing
     // ---------------------------------------------------------------
 
@@ -913,7 +980,7 @@
 </script>
 
 <div bind:this={rootEl} class={`data-grid ${className}`.trim()} {...restProps}>
-    {#if labels.search || hidableColumns.length > 0}
+    {#if labels.search || hidableColumns.length > 0 || hasExportButtons}
         <div class="data-grid-toolbar">
             {#if labels.search}
                 <input
@@ -923,6 +990,19 @@
                     value={filter}
                     oninput={onFilterInput}
                 />
+            {/if}
+            {#if hasExportButtons}
+                <div class="data-grid-export" role="group" aria-label={labels.export}>
+                    {#if labels.exportCsv}
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="csv" disabled={exportEntries.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
+                    {/if}
+                    {#if labels.exportTsv}
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="tsv" disabled={exportEntries.length === 0} onclick={() => runExport("tsv")}>{labels.exportTsv}</button>
+                    {/if}
+                    {#if labels.exportExcel}
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="xlsx" disabled={exportEntries.length === 0} onclick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+                    {/if}
+                </div>
             {/if}
             {#if hidableColumns.length > 0 && labels.columnVisibility}
                 <fieldset class="data-grid-column-visibility">

@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.7.0 — 2026-10-16
+
+- Added export to CSV, TSV and Excel (.xlsx). `labels.exportCsv` / `exportTsv` / `exportExcel` gate one button each inside a group named by `labels.export`; the file holds the visible, `exportable` columns for the filtered, sorted rows across every page (`exportScope="selected"` for the selected rows only). `exportFilename`, `column.exportValue`, `column.exportable`, `onExport(file)` (return `false` to keep the grid from saving it), `labels.exportAnnouncement`.
+- The writers are exported as pure functions for your own button or a server: `toCsv`, `toTsv`, `toDelimited`, `toXlsx`, `exportBlob`, `exportFilename`, `downloadBlob`, `cellText`, `columnName`, `zipStore`, `crc32`. The .xlsx writer has no dependencies (a stored ZIP of the workbook's XML parts) and is reproducible byte for byte.
+
 ## 0.6.0 — 2026-10-16
 
 - Added inline cell editing: `column.editable` (with `editor: "text" | "number"`, `parse`, `validate`), F2 or Enter on a focused cell, a double click, or the `labels.editCell` button; Enter commits, Escape cancels, leaving the field commits; `onCellEdit({ rowId, row, columnId, value, previous })`, the grid never mutates `rows`; `validate` keeps the cell in edit mode with `aria-invalid`. Labels: `cellEditor`, `editAnnouncement`, `editCancelAnnouncement`, `editError`.

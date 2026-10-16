@@ -877,3 +877,114 @@ describe("DataGrid — virtualize (§8.54–§8.56)", () => {
         expect(tabbableCells()).toHaveLength(1);
     });
 });
+
+describe("DataGrid — export (§8.67–§8.74)", () => {
+    const EXPORT_LABELS: DataGridLabels = {
+        export: "Export",
+        exportCsv: "CSV",
+        exportTsv: "TSV",
+        exportExcel: "Excel",
+        exportAnnouncement: (format, count, filename) => `${count} rows as ${format}: ${filename}`,
+    };
+    const COLS: DataGridColumn[] = [
+        { id: "name", header: "Name", sortable: true },
+        { id: "qty", header: "Qty", format: (v) => `${v} pcs` },
+        { id: "act", header: "Actions", exportable: false },
+        { id: "email", header: "Email", hidable: true },
+    ];
+    const DATA = [
+        { name: "Bo", qty: 2, act: "x", email: "bo@x" },
+        { name: "Ann", qty: 3, act: "x", email: "ann@x" },
+        { name: "Cy", qty: 1, act: "x", email: "cy@x" },
+    ];
+
+    async function exported(props: Record<string, unknown>, format: "csv" | "tsv" | "xlsx" = "csv") {
+        const onExport = vi.fn(() => false as const);
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: DATA, labels: EXPORT_LABELS, onExport, ...props } });
+        await fireEvent.click(document.querySelector(`[data-grid-export-format="${format}"]`)!);
+        const file = onExport.mock.calls[0][0] as { format: string; filename: string; rowCount: number; blob: Blob };
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        return { file, text, onExport };
+    }
+
+    test("§8.67 labels gate the buttons: none without them, one per label inside a named group", () => {
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: DATA } });
+        expect(document.querySelector(".data-grid-export")).toBeNull();
+        document.body.innerHTML = "";
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: DATA, labels: { export: "Export", exportExcel: "Excel" } } });
+        expect(screen.getByRole("group", { name: "Export" })).toBeTruthy();
+        expect(document.querySelectorAll(".data-grid-export-button")).toHaveLength(1);
+        expect(screen.getByRole("button", { name: "Excel" }).getAttribute("data-grid-export-format")).toBe("xlsx");
+    });
+
+    test("§8.68 CSV holds the visible exportable columns, typed values raw and the rest as displayed, with a BOM", async () => {
+        const { file, text } = await exported({});
+        expect(file.format).toBe("csv");
+        expect(file.filename).toBe("data-grid.csv");
+        expect(file.rowCount).toBe(3);
+        expect(text).toBe("﻿Name,Qty,Email\r\nBo,2,bo@x\r\nAnn,3,ann@x\r\nCy,1,cy@x\r\n");
+    });
+
+    test("§8.69 hidden columns are left out", async () => {
+        const onExport = vi.fn(() => false as const);
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: DATA, onExport, labels: { ...EXPORT_LABELS, columnVisibility: "Columns", columnVisibilityOption: (h) => `Show ${h}` } } });
+        await fireEvent.click(screen.getByRole("checkbox", { name: "Show Email" }));
+        await fireEvent.click(document.querySelector('[data-grid-export-format="csv"]')!);
+        const file = (onExport.mock.calls[0] as unknown as [{ blob: Blob }])[0];
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        expect(text).toBe("\uFEFFName,Qty\r\nBo,2\r\nAnn,3\r\nCy,1\r\n");
+    });
+
+    test("§8.70 the export is the filtered, sorted view across every page, not just the shown page", async () => {
+        const { file, text } = await exported({ pageSize: 1, sort: { columnId: "name", direction: "ascending" }, filter: "x", labels: { ...EXPORT_LABELS, pageStatus: () => "" } });
+        expect(file.rowCount).toBe(3);
+        expect(text.split("\r\n").slice(1, 4)).toEqual(["Ann,3,ann@x", "Bo,2,bo@x", "Cy,1,cy@x"]);
+        document.body.innerHTML = "";
+        const filtered = await exported({ filter: "ann" });
+        expect(filtered.file.rowCount).toBe(1);
+    });
+
+    test("§8.71 exportScope selected exports only the selected rows", async () => {
+        const { file, text } = await exported({ exportScope: "selected", selectionMode: "multiple", selected: ["1"], labels: { ...EXPORT_LABELS, selectRow: (r: string) => r } });
+        expect(file.rowCount).toBe(1);
+        expect(text).toContain("Ann,3,ann@x");
+        expect(text).not.toContain("Bo,");
+    });
+
+    test("§8.72 TSV and Excel: the right extension and type; the xlsx blob is a ZIP", async () => {
+        const tsv = await exported({ exportFilename: "report" }, "tsv");
+        expect(tsv.file.filename).toBe("report.tsv");
+        expect(tsv.text).toContain("Name\tQty\tEmail");
+        document.body.innerHTML = "";
+        const xlsx = await exported({}, "xlsx");
+        expect(xlsx.file.filename).toBe("data-grid.xlsx");
+        expect(xlsx.file.blob.type).toContain("spreadsheetml.sheet");
+        const head = new Uint8Array(await xlsx.file.blob.arrayBuffer()).slice(0, 2);
+        expect(Array.from(head)).toEqual([0x50, 0x4b]); // "PK"
+    });
+
+    test("§8.73 column.exportValue overrides the cell; formula-looking text is defused", async () => {
+        const cols: DataGridColumn[] = [{ id: "n", header: "N", exportValue: (row) => `=${row.n}` }, { id: "m", header: "M", accessor: () => "plain" }];
+        const { text } = await exported({ columns: cols, rows: [{ n: 1 }] });
+        expect(text).toBe("﻿N,M\r\n'=1,plain\r\n");
+    });
+
+    test("§8.74 saves the file and announces unless onExport returns false; the buttons are disabled with nothing to export", async () => {
+        const created: Blob[] = [];
+        const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
+        URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
+        URL.revokeObjectURL = () => {};
+        try {
+            render(DataGrid, { props: { label: "G", columns: COLS, rows: DATA, labels: EXPORT_LABELS } });
+            await fireEvent.click(document.querySelector('[data-grid-export-format="csv"]')!);
+            expect(created).toHaveLength(1);
+            expect(document.querySelector(".data-grid-status")!.textContent).toBe("3 rows as csv: data-grid.csv");
+            document.body.innerHTML = "";
+            render(DataGrid, { props: { label: "G", columns: COLS, rows: [], labels: EXPORT_LABELS } });
+            expect((document.querySelector('[data-grid-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
+        } finally {
+            URL.createObjectURL = original.create;
+            URL.revokeObjectURL = original.revoke;
+        }
+    });
+});
