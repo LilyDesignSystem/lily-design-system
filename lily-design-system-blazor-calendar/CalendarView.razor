@@ -16,7 +16,7 @@
 *@
 
 <div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
-    @if (Labels.PeriodTitle is not null || Labels.DayView is not null || Labels.WeekView is not null || Labels.FourWeekView is not null || Labels.MonthView is not null)
+    @if (Labels.PeriodTitle is not null || Labels.DayView is not null || Labels.WeekView is not null || Labels.FourWeekView is not null || Labels.MonthView is not null || Labels.AgendaView is not null)
     {
         <div class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
@@ -48,6 +48,13 @@
                             aria-pressed="@(View == CalendarViewMode.Month ? "true" : "false")"
                             @onclick="@(() => SetViewAsync(CalendarViewMode.Month))">@Labels.MonthView</button>
                 }
+                @if (Labels.AgendaView is not null)
+                {
+                    <button type="button"
+                            class="calendar-view-switcher-button calendar-view-switcher-button-agenda"
+                            aria-pressed="@(View == CalendarViewMode.Agenda ? "true" : "false")"
+                            @onclick="@(() => SetViewAsync(CalendarViewMode.Agenda))">@Labels.AgendaView</button>
+                }
             </div>
             <div class="calendar-view-nav">
                 <button type="button"
@@ -74,6 +81,69 @@
         </div>
     }
 
+    @if (View == CalendarViewMode.Agenda)
+    {
+        @* The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. *@
+        var agendaEvents = EventsByDay(Events);
+        var agendaDays = AgendaDayList(agendaEvents);
+        <ol class="calendar-view-agenda" aria-label="@Label">
+            @foreach (var agendaDate in agendaDays)
+            {
+                var d = agendaDate;
+                var weekday = DateTimePicker.WeekdayOf(d);
+                var dayEvents = agendaEvents.TryGetValue(d, out var agendaList) ? agendaList : (IReadOnlyList<CalendarEvent>)Array.Empty<CalendarEvent>();
+                var isToday = !string.IsNullOrEmpty(Today) && d == Today;
+                var dayRanges = RangesFor(d);
+                <li class="calendar-view-agenda-day"
+                    data-date="@d"
+                    data-today="@(isToday ? "" : null)"
+                    data-weekend="@(WeekendDays?.Contains(weekday) == true ? "" : null)"
+                    data-range="@(dayRanges.Count > 0 ? string.Join(" ", dayRanges.Select(x => x.Kind ?? "range")) : null)"
+                    aria-current="@(isToday ? "date" : null)">
+                    <time class="calendar-view-agenda-date" datetime="@d">@(Labels.Day?.Invoke(d, weekday, false) ?? d)</time>
+                    @if (Day is not null)
+                    {
+                        @Day(new CalendarDayContext
+                        {
+                            Date = d,
+                            Events = dayEvents,
+                            VisibleEvents = VisibleEvents(dayEvents),
+                            HiddenCount = HiddenCount(dayEvents),
+                            EventAttributes = EventAttributes,
+                            BeginDrag = BeginEventDrag,
+                            IsToday = isToday,
+                            OutsidePeriod = false,
+                            Selected = false,
+                            Disabled = IsDisabledDay(d),
+                            InRange = false,
+                            Ranges = dayRanges,
+                            OpenEvent = OpenEventAsync,
+                        })
+                    }
+                    else if (dayEvents.Count > 0)
+                    {
+                        <ul class="calendar-view-agenda-events">
+                            @foreach (var calendarEvent in dayEvents)
+                            {
+                                var ev = calendarEvent;
+                                <li>
+                                    <button type="button"
+                                            class="calendar-view-event"
+                                            @onclick="@(() => OpenEventAsync(ev))">@(string.IsNullOrEmpty(ev.Title) ? ev.Id : ev.Title)</button>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ol>
+        @if (agendaDays.Count == 0 && Labels.AgendaEmpty is not null)
+        {
+            <p class="calendar-view-agenda-empty">@Labels.AgendaEmpty</p>
+        }
+    }
+    else
+    {
     <CalendarTable Label="@Label" CssClass="calendar-view-table" @onkeydown="OnGridKeyDownAsync">
         <CalendarTableHead>
             <CalendarTableRow>
@@ -198,6 +268,7 @@
             }
         </CalendarTableBody>
     </CalendarTable>
+    }
 
     <div class="calendar-view-status" aria-live="polite">@_statusMessage</div>
 </div>

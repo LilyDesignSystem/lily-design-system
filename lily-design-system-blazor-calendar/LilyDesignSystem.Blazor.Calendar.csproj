@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.Calendar</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.Calendar</PackageId>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor calendar: a week, four-week and month calendar composing the headless CalendarTable family plus the sibling DateTimePicker helper civil-date arithmetic. WAI-ARIA APG Grid keyboard model, picked and disabled days, events per day. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

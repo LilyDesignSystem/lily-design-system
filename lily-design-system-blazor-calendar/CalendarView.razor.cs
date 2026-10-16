@@ -24,6 +24,8 @@ public enum CalendarViewMode
     Week,
     FourWeek,
     Month,
+    /// <summary>The month as a list of the days that have events.</summary>
+    Agenda,
 }
 
 /// <summary>A marked range (a holiday, a closure, a school term). <c>Label</c> is text a <c>Day</c> template can show.</summary>
@@ -92,6 +94,12 @@ public sealed record CalendarViewLabels
     public string? WeekView { get; init; }
     public string? FourWeekView { get; init; }
     public string? MonthView { get; init; }
+
+    /// <summary>Switcher label for the agenda (list) view of the month. Gates its button.</summary>
+    public string? AgendaView { get; init; }
+
+    /// <summary>Agenda view: the message when the shown month has no events (and <c>AgendaEmptyDays</c> is off). Gates the message.</summary>
+    public string? AgendaEmpty { get; init; }
     public Func<CalendarViewMode, string>? Previous { get; init; }
     public Func<CalendarViewMode, string>? Next { get; init; }
     public string? Today { get; init; }
@@ -165,6 +173,9 @@ public partial class CalendarView : ComponentBase
 
     /// <summary>Raised when a range is confirmed: Enter on an extended range, or Shift+click.</summary>
     [Parameter] public EventCallback<CalendarSelectedRange> OnRangeSelect { get; set; }
+
+    /// <summary>Agenda view: also list days with no events. Default false (only days with events).</summary>
+    [Parameter] public bool AgendaEmptyDays { get; set; }
 
     /// <summary>Cap on events shown per day; a day with more shows a "+N more" button (<c>Labels.MoreEvents</c>) that raises <c>OnMoreClick</c>.</summary>
     [Parameter] public int? MaxEvents { get; set; }
@@ -255,6 +266,18 @@ public partial class CalendarView : ComponentBase
 
     private string[][] Days => PeriodDays(View, EffectiveAnchor, FirstDay);
 
+    /// <summary>The days of the shown month the agenda lists: those with events, or all of them with <c>AgendaEmptyDays</c>.</summary>
+    private List<string> AgendaDayList(IReadOnlyDictionary<string, IReadOnlyList<CalendarEvent>> eventMap)
+    {
+        var (start, end) = PeriodRange(CalendarViewMode.Agenda, EffectiveAnchor, FirstDay);
+        var days = new List<string>();
+        for (var d = start; string.CompareOrdinal(d, end) <= 0; d = DateTimePicker.AddDays(d, 1))
+        {
+            if (AgendaEmptyDays || (eventMap.TryGetValue(d, out var list) && list.Count > 0)) days.Add(d);
+        }
+        return days;
+    }
+
     private string? _draggingEventId;
     private bool _eventKeyHandled;
 
@@ -320,6 +343,7 @@ public partial class CalendarView : ComponentBase
     /// <summary>The visible days for <paramref name="view"/>, anchored around <paramref name="anchorDate"/>, as rows of 7.</summary>
     public static string[][] PeriodDays(CalendarViewMode view, string anchorDate, int firstDayOfWeek)
     {
+        if (view == CalendarViewMode.Agenda) return Array.Empty<string[]>();
         if (view == CalendarViewMode.Month)
         {
             var parsed = DateTimePicker.ParseIsoDate(anchorDate);
@@ -341,7 +365,7 @@ public partial class CalendarView : ComponentBase
     /// <summary>The inclusive [start, end] ISO range <paramref name="view"/> covers.</summary>
     public static (string Start, string End) PeriodRange(CalendarViewMode view, string anchorDate, int firstDayOfWeek)
     {
-        if (view == CalendarViewMode.Month)
+        if (view == CalendarViewMode.Month || view == CalendarViewMode.Agenda)
         {
             var parsed = DateTimePicker.ParseIsoDate(anchorDate);
             if (parsed is null) return (anchorDate, anchorDate);

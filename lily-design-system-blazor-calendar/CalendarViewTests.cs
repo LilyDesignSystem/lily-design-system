@@ -793,4 +793,64 @@ public class CalendarViewTests : TestContext
         Key(cut, "Enter");
         Assert.Equal("2026-01-06", clicks[^1]);
     }
+
+    // ---- Agenda view ----
+
+    private IRenderedComponent<CalendarView> RenderAgenda(Action<ComponentParameterCollectionBuilder<CalendarView>>? configure = null)
+        => Render(CalendarViewMode.Agenda, "2026-01-15", p =>
+        {
+            p.Add(x => x.Events, Events);
+            p.Add(x => x.Today, "2026-01-09");
+            configure?.Invoke(p);
+        });
+
+    [Fact]
+    public void Agenda_Lists_Only_The_Days_With_Events_As_An_Ordered_List_Of_Time_Headings()
+    {
+        var cut = RenderAgenda();
+        var items = cut.FindAll(".calendar-view-agenda-day");
+        Assert.Equal(new[] { "2026-01-06", "2026-01-09", "2026-01-10", "2026-01-11" }, items.Select(li => li.GetAttribute("data-date")).ToArray());
+        Assert.Equal("Appointments", cut.Find("ol.calendar-view-agenda").GetAttribute("aria-label"));
+        Assert.Equal("2026-01-06", items[0].QuerySelector("time")!.GetAttribute("datetime"));
+        Assert.Empty(cut.FindAll(".calendar-view-table"));
+    }
+
+    [Fact]
+    public void Agenda_AgendaEmptyDays_Lists_Every_Day_Of_The_Month()
+    {
+        var cut = RenderAgenda(p => p.Add(x => x.AgendaEmptyDays, true));
+        Assert.Equal(31, cut.FindAll(".calendar-view-agenda-day").Count);
+    }
+
+    [Fact]
+    public void Agenda_Each_Event_Is_A_Button_That_Raises_OnEventClick_And_Today_Has_AriaCurrent()
+    {
+        string? clicked = null;
+        var cut = RenderAgenda(p => p.Add(x => x.OnEventClick, EventCallback.Factory.Create<CalendarEvent>(this, e => clicked = e.Id)));
+        cut.FindAll(".calendar-view-event").First(b => b.TextContent.Trim() == "Single-day").Click();
+        Assert.Equal("e1", clicked);
+        Assert.Equal("date", cut.Find("[data-date='2026-01-09']").GetAttribute("aria-current"));
+    }
+
+    [Fact]
+    public void Agenda_AgendaEmpty_Shows_For_An_Empty_Month_The_Switcher_Selects_The_View_And_Next_Steps_A_Month()
+    {
+        (CalendarViewMode View, string Start, string End) last = default;
+        var cut = Render(CalendarViewMode.Agenda, "2026-01-15", p =>
+        {
+            p.Add(x => x.Labels, Labels with { AgendaView = "Agenda", AgendaEmpty = "Nothing this month" });
+            p.Add(x => x.OnNavigate, EventCallback.Factory.Create<(CalendarViewMode View, string Start, string End)>(this, e => last = e));
+        });
+        Assert.Equal("Nothing this month", cut.Find(".calendar-view-agenda-empty").TextContent.Trim());
+        Assert.Equal("true", cut.FindAll("button").First(b => b.TextContent.Trim() == "Agenda").GetAttribute("aria-pressed"));
+        cut.Find(".calendar-view-next-button").Click();
+        Assert.Equal((CalendarViewMode.Agenda, "2026-02-01", "2026-02-28"), last);
+    }
+
+    [Fact]
+    public void Agenda_PeriodRange_Treats_Agenda_As_The_Month_And_PeriodDays_Is_Empty()
+    {
+        Assert.Equal(("2026-01-01", "2026-01-31"), CalendarView.PeriodRange(CalendarViewMode.Agenda, "2026-01-15", 0));
+        Assert.Empty(CalendarView.PeriodDays(CalendarViewMode.Agenda, "2026-01-15", 0));
+    }
 }
