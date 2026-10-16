@@ -76,6 +76,8 @@ accessibility research this design choice is based on.
 `kanban-board-move-list`, `kanban-board-move-option`,
 `kanban-board-status`, plus `[data-over-limit]` on a column header at
 or over its `wipLimit`.
+- **Typed fields and editing** (0.6.0): `fields` + `card.values` show typed values under the title; `onFieldEdit` makes editable types edit in place (click, or F2). See [spec §13](./spec/index.md#13-typed-fields-inline-editing-export-hot-path-caching-060-2026-10-16).
+- **Export** (0.6.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons for the shown (or selected) cards.
 
 ## Non-goals
 
