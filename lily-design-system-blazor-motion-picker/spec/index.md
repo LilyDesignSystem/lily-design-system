@@ -190,3 +190,7 @@ helpers are unchanged by its introduction.
   to a bundled outline SVG (two pause bars). Maintainer-directed,
   applied to all five page-header pickers the same day. The constant
   was removed, not renamed.
+
+## Open state and disabled (2026-10-16)
+
+`Open` (`bool`, with `OpenChanged` so `@bind-Open` works) and `Disabled` (`bool`), ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. `OpenChanged` is raised for each change the picker itself makes — a click, a key, an outside click, `Disabled` closing it — and not for the initial value; a parent changing `Open` is applied in `OnParametersSet` as state only (no focus move, no echo). `Disabled` reaches the real `<button>` through the headless `IconButton`'s attribute passthrough and an open popup closes when it becomes true. Tests: `*OpenStateTests`.

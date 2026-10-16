@@ -1,5 +1,6 @@
 // MotionPicker tests — one [Fact] per spec/index.md §7 acceptance criterion.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -981,3 +982,79 @@ public class MotionPickerTests : TestContext
             i => i.Identifier == "Blazor._internal.domWrapper.focus");
     }
 }
+
+public class MotionPickerOpenStateTests : TestContext
+{
+    public MotionPickerOpenStateTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
+        JSInterop.Setup<string?>("eval", _ => true).SetResult(null);
+        JSInterop.Setup<bool>("eval", _ => true).SetResult(false);
+    }
+
+    private IRenderedComponent<MotionPicker> Render(Action<ComponentParameterCollectionBuilder<MotionPicker>>? configure = null)
+        => RenderComponent<MotionPicker>(p =>
+        {
+            p.Add(x => x.Label, "Motion").Add(x => x.Motions, new[] { "no-preference", "reduce" });
+            configure?.Invoke(p);
+        });
+
+    private static string? Expanded(IRenderedComponent<MotionPicker> cut)
+        => cut.Find("button[aria-expanded]").GetAttribute("aria-expanded");
+
+    [Fact]
+    public void Open_Parameter_Renders_The_Popup_Open_Without_Raising_OpenChanged()
+    {
+        var changes = new List<bool>();
+        var cut = Render(p => p
+            .Add(x => x.Open, true)
+            .Add(x => x.OpenChanged, EventCallback.Factory.Create<bool>(this, v => changes.Add(v))));
+        Assert.Equal("true", Expanded(cut));
+        Assert.Empty(changes);
+    }
+
+    [Fact]
+    public void A_Click_Raises_OpenChanged_For_Each_Open_And_Close()
+    {
+        var changes = new List<bool>();
+        var cut = Render(p => p.Add(x => x.OpenChanged, EventCallback.Factory.Create<bool>(this, v => changes.Add(v))));
+        cut.Find("button[aria-expanded]").Click();
+        Assert.Equal("true", Expanded(cut));
+        cut.Find("button[aria-expanded]").Click();
+        Assert.Equal("false", Expanded(cut));
+        Assert.Equal(new[] { true, false }, changes.ToArray());
+    }
+
+    [Fact]
+    public void Parent_Can_Open_And_Close_It_By_Changing_Open()
+    {
+        var cut = Render();
+        cut.SetParametersAndRender(p => p.Add(x => x.Open, true));
+        Assert.Equal("true", Expanded(cut));
+        cut.SetParametersAndRender(p => p.Add(x => x.Open, false));
+        Assert.Equal("false", Expanded(cut));
+    }
+
+    [Fact]
+    public void Disabled_Disables_The_Button_And_It_Cannot_Open()
+    {
+        var changes = new List<bool>();
+        var cut = Render(p => p
+            .Add(x => x.Disabled, true)
+            .Add(x => x.OpenChanged, EventCallback.Factory.Create<bool>(this, v => changes.Add(v))));
+        var button = cut.Find("button[aria-expanded]");
+        Assert.NotNull(button.GetAttribute("disabled"));
+        Assert.Equal("false", Expanded(cut));
+        Assert.Empty(changes);
+    }
+
+    [Fact]
+    public void Disabled_Closes_A_Popup_That_Was_Open()
+    {
+        var cut = Render(p => p.Add(x => x.Open, true).Add(x => x.Disabled, true));
+        Assert.Equal("false", Expanded(cut));
+        Assert.NotNull(cut.Find("button[aria-expanded]").GetAttribute("disabled"));
+    }
+}
+

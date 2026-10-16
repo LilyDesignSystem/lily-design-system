@@ -20,6 +20,7 @@
      @attributes="AdditionalAttributes">
 
     <IconButton @ref="_triggerComponent"
+                disabled="@Disabled"
                 Label="@Label"
                 BaseCssClass="link-picker-button"
                 aria-expanded="@(_open ? "true" : "false")"

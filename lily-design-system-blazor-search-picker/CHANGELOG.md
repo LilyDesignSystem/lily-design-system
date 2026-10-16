@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-16
+
+- Added `Open` (bindable: `@bind-Open`, with `OpenChanged`) and `Disabled`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `OpenChanged` is raised with the new state whenever the picker changes it (the user's action, or `Disabled` closing it); changing `Open` from the parent opens or closes the popup without moving focus; `Disabled` disables the button.
+
 ## 0.1.0 — 2026-10-02, additions before first publication
 
 **Added (minor, additive): picker tooltip.** A new `.search-picker-tooltip` element

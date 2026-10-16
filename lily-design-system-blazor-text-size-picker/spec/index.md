@@ -427,3 +427,7 @@ already numbered through §7.24, so the new clauses continue from §7.25.
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## Open state and disabled (2026-10-16)
+
+`Open` (`bool`, with `OpenChanged` so `@bind-Open` works) and `Disabled` (`bool`), ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. `OpenChanged` is raised for each change the picker itself makes — a click, a key, an outside click, `Disabled` closing it — and not for the initial value; a parent changing `Open` is applied in `OnParametersSet` as state only (no focus move, no echo). `Disabled` reaches the real `<button>` through the headless `IconButton`'s attribute passthrough and an open popup closes when it becomes true. Tests: `*OpenStateTests`.

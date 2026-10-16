@@ -593,3 +593,7 @@ already numbered through §7.29, so the new clauses continue from §7.30.
 - **2026-09-16**: default icon changed from the Unicode glyph U+1F310 GLOBE WITH MERIDIANS + U+FE0E (exposed as `LocalePicker.GlobeWithMeridians`) to a bundled outline SVG. Maintainer-directed, applied to all five page-header pickers the same day. The constant was removed, not renamed.
 - Canonical locale list: [locales.tsv](../locales.tsv) — 436 codes with
   English names (verbatim copy of the Svelte canonical).
+
+## Open state and disabled (2026-10-16)
+
+`Open` (`bool`, with `OpenChanged` so `@bind-Open` works) and `Disabled` (`bool`), ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. `OpenChanged` is raised for each change the picker itself makes — a click, a key, an outside click, `Disabled` closing it — and not for the initial value; a parent changing `Open` is applied in `OnParametersSet` as state only (no focus move, no echo). `Disabled` reaches the real `<button>` through the headless `IconButton`'s attribute passthrough and an open popup closes when it becomes true. Tests: `*OpenStateTests`.

@@ -100,3 +100,7 @@ tooltip, no stylesheet / English / routes). This port's suite, `LinkPickerTests.
 - Version: 0.1.0 (new, 2026-10-07)
 - Framework: Blazor (.NET 10), Razor class library
 - Test runner: xUnit + bUnit
+
+## Open state and disabled (2026-10-16)
+
+`Open` (`bool`, with `OpenChanged` so `@bind-Open` works) and `Disabled` (`bool`), ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. `OpenChanged` is raised for each change the picker itself makes — a click, a key, an outside click, `Disabled` closing it — and not for the initial value; a parent changing `Open` is applied in `OnParametersSet` as state only (no focus move, no echo). `Disabled` reaches the real `<button>` through the headless `IconButton`'s attribute passthrough and an open popup closes when it becomes true. Tests: `*OpenStateTests`.

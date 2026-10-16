@@ -84,6 +84,15 @@ public partial class LocalePicker : ComponentBase
     /// <summary>Extra CSS class merged into the root &lt;div&gt;.</summary>
     [Parameter] public string CssClass { get; set; } = "";
 
+    /// <summary>Is the popup open? Bindable: <c>@bind-Open</c>. Setting it from the parent opens or closes the popup without moving focus.</summary>
+    [Parameter] public bool Open { get; set; }
+
+    /// <summary>Raised with the new open state whenever the picker changes it (the user's action, or <c>Disabled</c> closing it).</summary>
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+
+    /// <summary>Disables the button; an open popup closes.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
     /// <summary>Captures all unmatched attributes; spread onto the root.</summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
@@ -98,6 +107,25 @@ public partial class LocalePicker : ComponentBase
 
     private bool _initialised;
     private bool _open;
+
+    /// <summary>Records an open or close the picker made, for <c>@bind-Open</c>.</summary>
+    private void ReportOpen(bool open)
+    {
+        Open = open;
+        _ = OpenChanged.InvokeAsync(open);
+    }
+
+    /// <summary>Applies <c>Open</c> and <c>Disabled</c> from the parent: state only, focus stays put.</summary>
+    protected override void OnParametersSet()
+    {
+        if (Disabled && Open)
+        {
+            Open = false;
+            _ = OpenChanged.InvokeAsync(false);
+        }
+        var wanted = Open && !Disabled;
+        if (wanted != _open) _open = wanted;
+    }
     private int _activeIndex = -1;
 
     private IconButton? _buttonComponent;
@@ -265,6 +293,7 @@ public partial class LocalePicker : ComponentBase
     /// one (or the first), unless <paramref name="startIndex"/> overrides it.</summary>
     private void OpenList(int? startIndex = null)
     {
+        if (Disabled) return;
         var selected = IndexOfValue();
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
@@ -273,6 +302,7 @@ public partial class LocalePicker : ComponentBase
             ? -1
             : startIndex ?? (selected >= 0 ? selected : 0);
         _open = true;
+        ReportOpen(true);
         _focusListPending = true;
         _suppressFocusOut = true;
         StateHasChanged();
@@ -283,6 +313,7 @@ public partial class LocalePicker : ComponentBase
     {
         if (!_open) return;
         _open = false;
+        ReportOpen(false);
         _activeIndex = -1;
         if (refocus)
         {
