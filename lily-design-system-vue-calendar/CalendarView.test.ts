@@ -669,3 +669,58 @@ describe("CalendarView — day view, maxEvents, drag-and-drop, title, weekends, 
         expect(onDayClick).toHaveBeenLastCalledWith("2026-01-06");
     });
 });
+
+describe("CalendarView — agenda view", () => {
+    const AGENDA_EVENTS: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "Single-day" },
+        { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "Multi-day" },
+    ];
+    const agendaProps = { label: "Agenda", view: "agenda" as const, anchorDate: "2026-01-15", events: AGENDA_EVENTS, today: "2026-01-09" };
+    const mounted: VueWrapper[] = [];
+    const make = (props: Record<string, unknown> = {}) => {
+        const w = mount(CalendarView, { props: { ...agendaProps, ...props }, attachTo: document.body });
+        mounted.push(w);
+        return w;
+    };
+    afterEach(() => {
+        while (mounted.length) mounted.pop()!.unmount();
+        document.body.innerHTML = "";
+    });
+
+    test("lists only the days with events, as an ordered list of <time> headings", () => {
+        make({ labels: LABELS });
+        const items = Array.from(document.querySelectorAll(".calendar-view-agenda-day"));
+        expect(items.map((li) => li.getAttribute("data-date"))).toEqual(["2026-01-06", "2026-01-09", "2026-01-10", "2026-01-11"]);
+        expect(document.querySelector("ol.calendar-view-agenda")!.getAttribute("aria-label")).toBe("Agenda");
+        expect(items[0].querySelector("time")!.getAttribute("datetime")).toBe("2026-01-06");
+        expect(document.querySelector(".calendar-view-table")).toBeNull();
+    });
+
+    test("agendaEmptyDays lists every day of the month", () => {
+        make({ agendaEmptyDays: true });
+        expect(document.querySelectorAll(".calendar-view-agenda-day")).toHaveLength(31);
+    });
+
+    test("each event is a button that fires onEventClick; today carries aria-current", () => {
+        const onEventClick = vi.fn();
+        make({ onEventClick });
+        (Array.from(document.querySelectorAll("button")).find((b) => b.textContent === "Single-day") as HTMLButtonElement).click();
+        expect(onEventClick).toHaveBeenCalledWith(AGENDA_EVENTS[0]);
+        expect(document.querySelector('[data-date="2026-01-09"]')!.getAttribute("aria-current")).toBe("date");
+    });
+
+    test("agendaEmpty shows for an empty month; the switcher selects the view; next steps a month", async () => {
+        const w = make({ events: [], labels: { ...LABELS, agendaView: "Agenda", agendaEmpty: "Nothing this month" } });
+        expect(document.querySelector(".calendar-view-agenda-empty")!.textContent).toBe("Nothing this month");
+        const agenda = Array.from(document.querySelectorAll("button")).find((b) => b.textContent === "Agenda") as HTMLButtonElement;
+        expect(agenda.getAttribute("aria-pressed")).toBe("true");
+        (document.querySelector(".calendar-view-next-button") as HTMLButtonElement).click();
+        await nextTick();
+        expect(w.emitted("navigate")!.at(-1)).toEqual(["agenda", "2026-02-01", "2026-02-28"]);
+    });
+
+    test("periodRange treats agenda as the month; periodDays is empty", () => {
+        expect(periodRange("agenda", "2026-01-15", 0)).toEqual(["2026-01-01", "2026-01-31"]);
+        expect(periodDays("agenda", "2026-01-15", 0)).toEqual([]);
+    });
+});

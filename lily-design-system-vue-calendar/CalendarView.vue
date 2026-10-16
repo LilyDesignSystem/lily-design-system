@@ -11,7 +11,7 @@ import {
     weekdayOf,
 } from "@lilydesignsystem/vue-date-time-picker";
 
-export type CalendarView = "day" | "week" | "four-week" | "month";
+export type CalendarView = "day" | "week" | "four-week" | "month" | "agenda";
 
 /** A marked range (a holiday, a closure, a school term). `label` is text a `day` slot can show. */
 export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -41,6 +41,10 @@ export type CalendarViewLabels = {
     weekView?: string;
     fourWeekView?: string;
     monthView?: string;
+    /** Switcher label for the agenda (list) view of the month. Gates its button. */
+    agendaView?: string;
+    /** Agenda view: the message when the shown month has no events (and `agendaEmptyDays` is off). Gates the message. */
+    agendaEmpty?: string;
     previous?: (view: CalendarView) => string;
     next?: (view: CalendarView) => string;
     today?: string;
@@ -70,6 +74,8 @@ export type Props = {
     today?: string;
     /** Events to place into day cells. */
     events?: CalendarEvent[];
+    /** Agenda view: also list days with no events. Default false (only days with events). */
+    agendaEmptyDays?: boolean;
     /** Cap on events shown per day: the `day` slot gets `visibleEvents` and `hiddenCount`. */
     maxEvents?: number;
     /** Month view: leave days outside the shown month empty (the cell keeps `data-outside-period`). */
@@ -124,6 +130,7 @@ export function weekStart(isoDate: string, firstDayOfWeek: number): string {
 
 /** The visible days for `view`, anchored around `anchorDate`, as rows of 7. */
 export function periodDays(view: CalendarView, anchorDate: string, firstDayOfWeek: number): string[][] {
+    if (view === "agenda") return [];
     if (view === "month") {
         const parsed = parseIsoDate(anchorDate);
         if (!parsed) return [];
@@ -143,7 +150,7 @@ export function periodDays(view: CalendarView, anchorDate: string, firstDayOfWee
 
 /** The inclusive [start, end] ISO range `view` covers. */
 export function periodRange(view: CalendarView, anchorDate: string, firstDayOfWeek: number): [string, string] {
-    if (view === "month") {
+    if (view === "month" || view === "agenda") {
         const parsed = parseIsoDate(anchorDate);
         if (!parsed) return [anchorDate, anchorDate];
         return [
@@ -204,6 +211,7 @@ const props = withDefaults(defineProps<Props>(), {
     today: undefined,
     events: () => [],
     maxEvents: undefined,
+    agendaEmptyDays: false,
     hideOutsideDays: false,
     weekendDays: undefined,
     selectionMode: "single",
@@ -250,6 +258,17 @@ const firstDayOfWeek = computed(() => firstDayOfWeekFor(props.locale));
 const days = computed(() => periodDays(view.value, anchorDate.value, firstDayOfWeek.value));
 const flatDays = computed(() => days.value.flat());
 const eventMap = computed(() => eventsByDay(props.events));
+
+// Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
+const agendaDays = computed(() => {
+    if (view.value !== "agenda") return [] as string[];
+    const [start, end] = periodRange("agenda", anchorDate.value, firstDayOfWeek.value);
+    const out: string[] = [];
+    for (let d = start; d <= end; d = addDays(d, 1)) {
+        if (props.agendaEmptyDays || (eventMap.value.get(d)?.length ?? 0) > 0) out.push(d);
+    }
+    return out;
+});
 
 // Keep the roving-tabindex cursor inside the visible days whenever the period
 // changes from outside (a prop change, not our own keyboard navigation).
@@ -546,7 +565,7 @@ function cellView(d: string) {
 <template>
     <!-- CalendarView.vue -->
     <div ref="rootEl" :class="`calendar-view ${props.class ?? ''}`.trim()">
-        <div v-if="labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView" class="calendar-view-toolbar">
+        <div v-if="labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView || labels?.agendaView" class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
                 <button
                     v-if="labels?.dayView"
@@ -576,6 +595,13 @@ function cellView(d: string) {
                     :aria-pressed="view === 'month' ? 'true' : 'false'"
                     @click="setView('month')"
                 >{{ labels.monthView }}</button>
+                <button
+                    v-if="labels?.agendaView"
+                    type="button"
+                    class="calendar-view-switcher-button calendar-view-switcher-button-agenda"
+                    :aria-pressed="view === 'agenda' ? 'true' : 'false'"
+                    @click="setView('agenda')"
+                >{{ labels.agendaView }}</button>
             </div>
             <div class="calendar-view-nav">
                 <button
@@ -601,7 +627,46 @@ function cellView(d: string) {
             </div>
         </div>
 
-        <CalendarTable :label="label" class="calendar-view-table" @keydown="onGridKeydown">
+        <template v-if="view === 'agenda'">
+            <!-- The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. -->
+            <ol class="calendar-view-agenda" :aria-label="label">
+                <li
+                    v-for="d in agendaDays"
+                    :key="d"
+                    class="calendar-view-agenda-day"
+                    :data-date="d"
+                    :data-today="cellView(d).isToday ? '' : undefined"
+                    :data-weekend="weekendDays?.includes(cellView(d).weekday) ? '' : undefined"
+                    :data-range="cellView(d).ranges.length ? cellView(d).ranges.map((r) => r.kind ?? 'range').join(' ') : undefined"
+                    :aria-current="cellView(d).isToday ? 'date' : undefined"
+                >
+                    <time class="calendar-view-agenda-date" :datetime="d">{{ labels?.day?.(d, cellView(d).weekday, false) ?? d }}</time>
+                    <slot
+                        name="day"
+                        :date="d"
+                        :events="cellView(d).events"
+                        :visible-events="cellView(d).visibleEvents"
+                        :hidden-count="cellView(d).hiddenCount"
+                        :is-today="cellView(d).isToday"
+                        :outside-period="false"
+                        :selected="false"
+                        :disabled="cellView(d).disabled"
+                        :in-range="false"
+                        :ranges="cellView(d).ranges"
+                        :open-event="openEvent"
+                        :event-props="eventProps"
+                    >
+                        <ul v-if="cellView(d).events.length > 0" class="calendar-view-agenda-events">
+                            <li v-for="calendarEvent in cellView(d).events" :key="calendarEvent.id">
+                                <button type="button" class="calendar-view-event" @click="openEvent(calendarEvent)">{{ typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id }}</button>
+                            </li>
+                        </ul>
+                    </slot>
+                </li>
+            </ol>
+            <p v-if="agendaDays.length === 0 && labels?.agendaEmpty" class="calendar-view-agenda-empty">{{ labels.agendaEmpty }}</p>
+        </template>
+        <CalendarTable v-else :label="label" class="calendar-view-table" @keydown="onGridKeydown">
             <CalendarTableHead>
                 <CalendarTableRow>
                     <CalendarTableTH v-if="showWeekNumbers" scope="col" data-week-number-header>{{ labels?.weekNumberHeader ?? "" }}</CalendarTableTH>
