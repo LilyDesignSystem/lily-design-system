@@ -141,7 +141,7 @@ function applyTemplate(template, taskLabel) {
  *   markers?: Array<{ date: string, kind?: string, label?: string }>,
  *   isNonWorking?: (isoDate: string) => boolean,
  * }=} opts
- * @returns {{ destroy: () => void }}
+ * @returns {{ destroy: () => void, getSelectedTaskId: () => string | undefined, collapsedTaskIds: () => string[] }}
  */
 export function initGanttChart(root, opts = {}) {
   const noop = { destroy: () => {} };
@@ -299,6 +299,7 @@ export function initGanttChart(root, opts = {}) {
       let end = "";
       children.forEach((child) => {
         const r = visit(child);
+        if (!r.start) return; // an unscheduled child does not shape its parent's span
         if (!start || compareISO(r.start, start) < 0) start = r.start;
         if (!end || compareISO(r.end, end) > 0) end = r.end;
       });
@@ -379,7 +380,7 @@ export function initGanttChart(root, opts = {}) {
         .join(" ");
 
       columns.forEach((column, colIndex) => {
-        const inRange = rangesOverlap(column.start, column.end, start, end);
+        const inRange = !!start && !!end && rangesOverlap(column.start, column.end, start, end);
         const isMilestone = inRange && start === end;
         const isToday = today !== "" && rangesOverlap(column.start, column.end, today, today);
         const isLeading = inRange && rangesOverlap(column.start, column.end, start, start);
@@ -583,24 +584,58 @@ export function initGanttChart(root, opts = {}) {
     collapsedChildren.delete(taskId);
   }
 
+  /** Collapse or expand one parent (its button, when it has one, follows). Does not rebuild the grid. */
+  function setCollapsed(taskId, collapsed) {
+    const row = taskRowFor(taskId);
+    if (!row || !row.hasAttribute("data-lily-gantt-chart-has-children")) return;
+    if (collapsedChildren.has(taskId) === collapsed) return;
+    if (collapsed) collapseRow(taskId, row);
+    else expandRow(taskId, row);
+    const button = row.querySelector("[data-lily-gantt-chart-collapse-button]");
+    if (button) {
+      const label = row.getAttribute("data-lily-gantt-chart-task-label") || "";
+      const raw = button.getAttribute(collapsed ? "data-lily-gantt-chart-expand-label" : "data-lily-gantt-chart-collapse-label") || "";
+      button.setAttribute("aria-expanded", String(!collapsed));
+      button.setAttribute("aria-label", applyTemplate(raw, label));
+    }
+  }
+
+  /** Every task that has children, in document order (rows leave the DOM when collapsed, `rowById` keeps them). */
+  const parentTaskIds = () =>
+    Array.from(rowById.entries())
+      .filter(([, row]) => row.hasAttribute("data-lily-gantt-chart-has-children"))
+      .map(([id]) => id);
+  const collapsedTaskIds = () => parentTaskIds().filter((id) => collapsedChildren.has(id));
+
+  const expandAllButton = root.querySelector("[data-lily-gantt-chart-expand-all]");
+  const collapseAllButton = root.querySelector("[data-lily-gantt-chart-collapse-all]");
+  function syncCollapseAllButtons() {
+    const parents = parentTaskIds();
+    if (expandAllButton) expandAllButton.disabled = collapsedTaskIds().length === 0;
+    if (collapseAllButton) collapseAllButton.disabled = parents.every((id) => collapsedChildren.has(id));
+  }
+
+  function reportCollapsed() {
+    const ids = collapsedTaskIds();
+    if (typeof opts.onCollapsedTaskIdsChange === "function") opts.onCollapsedTaskIdsChange(ids);
+    root.dispatchEvent(new CustomEvent("collapsechange", { detail: ids, bubbles: true }));
+    syncCollapseAllButtons();
+  }
+
   function onCollapseButtonClick(button) {
     const taskId = button.getAttribute("data-lily-gantt-chart-task-id");
-    const row = taskId ? taskRowFor(taskId) : null;
-    if (!taskId || !row) return;
-    const label = row.getAttribute("data-lily-gantt-chart-task-label") || "";
-    const collapseLabelRaw = button.getAttribute("data-lily-gantt-chart-collapse-label") || "";
-    const expandLabelRaw = button.getAttribute("data-lily-gantt-chart-expand-label") || "";
-    const isExpanded = button.getAttribute("aria-expanded") === "true";
-    if (isExpanded) {
-      collapseRow(taskId, row);
-      button.setAttribute("aria-expanded", "false");
-      button.setAttribute("aria-label", applyTemplate(expandLabelRaw, label));
-    } else {
-      expandRow(taskId, row);
-      button.setAttribute("aria-expanded", "true");
-      button.setAttribute("aria-label", applyTemplate(collapseLabelRaw, label));
-    }
+    if (!taskId) return;
+    setCollapsed(taskId, button.getAttribute("aria-expanded") === "true");
     rebuildGrid();
+    reportCollapsed();
+  }
+
+  /** Collapse every parent deepest-first (so each still sits in the DOM), or expand parents-first (so each does). */
+  function setAllCollapsed(collapsed) {
+    const ids = parentTaskIds();
+    (collapsed ? ids.slice().reverse() : ids).forEach((id) => setCollapsed(id, collapsed));
+    rebuildGrid();
+    reportCollapsed();
   }
 
   // -----------------------------------------------------------------
@@ -638,6 +673,7 @@ export function initGanttChart(root, opts = {}) {
     const taskId = taskRow.getAttribute("data-lily-gantt-chart-task-id");
     const start = taskRow.getAttribute("data-lily-gantt-chart-start") || "";
     const end = taskRow.getAttribute("data-lily-gantt-chart-end") || "";
+    if (!start || !end) return; // an unscheduled task has nothing to shift
     if (endOnly) {
       const target = columns[columnIndexOf(end) + delta];
       if (target && compareISO(start, target.end) <= 0) applyChange(taskId, start, target.end);
@@ -730,6 +766,7 @@ export function initGanttChart(root, opts = {}) {
     };
     startController = initDateTimePicker(startRoot, { onChange: () => syncSave() });
     endController = initDateTimePicker(endRoot, { onChange: () => syncSave() });
+    syncSave(); // an unscheduled task opens with both dates empty
     openEdits.set(taskId, { startRoot, endRoot, startController, endController });
 
     const firstField = startRoot.querySelector("[data-lily-date-time-picker-input]");
@@ -760,6 +797,7 @@ export function initGanttChart(root, opts = {}) {
     if (!row) return;
     row.setAttribute("data-lily-gantt-chart-start", start);
     row.setAttribute("data-lily-gantt-chart-end", end);
+    row.removeAttribute("data-unscheduled"); // scheduling an unscheduled task
     if (percentComplete !== undefined) row.setAttribute("data-lily-gantt-chart-percent-complete", String(percentComplete));
     recomputeParentRanges();
     if (typeof opts.onTaskChange === "function") {
@@ -843,6 +881,7 @@ export function initGanttChart(root, opts = {}) {
     const end = row.getAttribute("data-lily-gantt-chart-end") || "";
     const edge = resizingEdge;
     resizingEdge = null;
+    if (!start || !end) return; // an unscheduled task has no bar to drag
     if (edge) {
       // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
       const edgeStart = edge === "start" ? column.start : start;
@@ -871,7 +910,9 @@ export function initGanttChart(root, opts = {}) {
   function onRootClick(event) {
     const t = event.target && event.target.closest ? event.target : null;
     if (!t) return;
-    if (t.closest("[data-lily-gantt-chart-zoom-in]")) zoom(1);
+    if (t.closest("[data-lily-gantt-chart-expand-all]")) setAllCollapsed(false);
+    else if (t.closest("[data-lily-gantt-chart-collapse-all]")) setAllCollapsed(true);
+    else if (t.closest("[data-lily-gantt-chart-zoom-in]")) zoom(1);
     else if (t.closest("[data-lily-gantt-chart-zoom-out]")) zoom(-1);
   }
   root.addEventListener("click", onRootClick);
@@ -887,8 +928,22 @@ export function initGanttChart(root, opts = {}) {
     }
   }
 
+  // Parents the macro rendered collapsed (`collapsedTaskIds`): take their descendants out now, deepest-first.
+  parentTaskIds()
+    .slice()
+    .reverse()
+    .forEach((id) => {
+      const button = taskRowFor(id).querySelector("[data-lily-gantt-chart-collapse-button]");
+      if (root.getAttribute("data-lily-gantt-chart-collapsed-ids")?.split(",").includes(id) || (button && button.getAttribute("aria-expanded") === "false")) {
+        setCollapsed(id, true);
+      }
+    });
+  rebuildGrid();
+  syncCollapseAllButtons();
+
   return {
     getSelectedTaskId: selectedId,
+    collapsedTaskIds,
     destroy: () => {
       root.removeEventListener("click", onRootClick);
       openEdits.forEach((entry) => {

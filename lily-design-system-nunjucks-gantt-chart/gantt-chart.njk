@@ -161,6 +161,12 @@
     readonly    — boolean. Disable editing and drag; navigation stays.
     label       — string, required. aria-label for the grid table.
     range       — {start, end} (ISO dates), required.
+    collapsedTaskIds — array<string>. Ids of parent tasks to start collapsed (the client collapses them at init).
+    labels.expandAll / labels.collapseAll — plain strings; each gates a button in `.gantt-chart-collapse-all`
+                  (shown only when the chart has parent tasks). Client: `onCollapsedTaskIdsChange(ids)`, a
+                  `collapsechange` event, and `collapsedTaskIds()` on the controller.
+    Unscheduled tasks — a task with no start/end renders its row with no bar and `data-unscheduled`; the edit region
+                  opens with empty dates and Save stays disabled until both are set.
     tasks       — array<{id, label, start, end, percentComplete?,
                   parentId?, dependsOn?}>, required.
     caption     — string. Visible <caption>, forwarded to ganttTable.
@@ -230,7 +236,7 @@
   name: endName,
   id: endName
 }) -%}
-<tr class="gantt-chart-edit-row" hidden data-lily-gantt-chart-edit-row data-lily-gantt-chart-task-id="{{ task.id }}" data-lily-gantt-chart-original-start="{{ task.start }}" data-lily-gantt-chart-original-end="{{ task.end }}">
+<tr class="gantt-chart-edit-row" hidden data-lily-gantt-chart-edit-row data-lily-gantt-chart-task-id="{{ task.id }}" data-lily-gantt-chart-original-start="{{ task.start | default('') }}" data-lily-gantt-chart-original-end="{{ task.end | default('') }}">
 <td>{{ startHtml | safe }}{{ endHtml | safe }}{%- if labels.percentLabel %}<label class="gantt-chart-percent-label">{{ labels.percentLabel }}<input class="gantt-chart-percent-input" type="number" min="0" max="100" step="1" value="{{ task.percentComplete if task.percentComplete is defined and task.percentComplete is not none else '' }}" data-lily-gantt-chart-percent-input></label>{% endif -%}<button type="button" class="gantt-chart-save-button" data-lily-gantt-chart-save-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.saveLabel | default("") }}</button><button type="button" class="gantt-chart-cancel-button" data-lily-gantt-chart-cancel-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.cancelLabel | default("") }}</button></td>
 </tr>
 {%- endmacro -%}
@@ -257,11 +263,14 @@
       {%- set cs = childRange[0] -%}
       {%- set ce = childRange[1] -%}
     {%- else -%}
-      {%- set cs = t.start -%}
-      {%- set ce = t.end -%}
+      {%- set cs = t.start | default("") -%}
+      {%- set ce = t.end | default("") -%}
     {%- endif -%}
-    {%- if start == "" or cs < start -%}{%- set start = cs -%}{%- endif -%}
-    {%- if end == "" or ce > end -%}{%- set end = ce -%}{%- endif -%}
+    {#- An unscheduled child does not shape its parent's span. -#}
+    {%- if cs != "" -%}
+      {%- if start == "" or cs < start -%}{%- set start = cs -%}{%- endif -%}
+      {%- if end == "" or ce > end -%}{%- set end = ce -%}{%- endif -%}
+    {%- endif -%}
   {%- endif -%}
 {%- endfor -%}
 {{- start }},{{ end -}}
@@ -292,8 +301,8 @@
   {%- set effStart = effRange[0] -%}
   {%- set effEnd = effRange[1] -%}
 {%- else -%}
-  {%- set effStart = task.start -%}
-  {%- set effEnd = task.end -%}
+  {%- set effStart = task.start | default("") -%}
+  {%- set effEnd = task.end | default("") -%}
 {%- endif -%}
 {%- set rowAttrs = [
   ["data-lily-gantt-chart-task-id", task.id],
@@ -304,6 +313,7 @@
   ["data-lily-gantt-chart-end", effEnd]
 ] -%}
 {%- if hasChildren -%}{%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-has-children", ""]]) -%}{%- endif -%}
+{%- if (not hasChildren) and ((not task.start) or (not task.end)) -%}{%- set rowAttrs = rowAttrs.concat([["data-unscheduled", ""]]) -%}{%- endif -%}
 {%- if task.type -%}{%- set rowAttrs = rowAttrs.concat([["data-task-type", task.type]]) -%}{%- endif -%}
 {%- if task.baseline -%}{%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-baseline-start", task.baseline.start], ["data-lily-gantt-chart-baseline-end", task.baseline.end]]) -%}{%- endif -%}
 {%- if task.attrs -%}{%- for attrName, attrValue in task.attrs -%}{%- set rowAttrs = rowAttrs.concat([[attrName, attrValue]]) -%}{%- endfor -%}{%- endif -%}
@@ -392,8 +402,17 @@
   {%- if opts.readonly %} data-readonly{% endif %}
   {%- if opts.today %} data-lily-gantt-chart-today="{{ opts.today }}"{% endif %}
   {%- if opts.selectedTaskId %} data-lily-gantt-chart-selected-task-id="{{ opts.selectedTaskId }}"{% endif %}
+  {%- if opts.collapsedTaskIds %} data-lily-gantt-chart-collapsed-ids="{{ opts.collapsedTaskIds | join(',') }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+{%- set hasParents = false -%}
+{%- for t in tasks -%}{%- if t.parentId and (t.parentId in taskIds) -%}{%- set hasParents = true -%}{%- endif -%}{%- endfor -%}
+{%- if hasParents and (labels.expandAll or labels.collapseAll) %}
+<div class="gantt-chart-collapse-all" role="group" aria-label="{{ opts.label }}">
+{%- if labels.expandAll %}<button type="button" class="gantt-chart-expand-all-button"{% if not opts.collapsedTaskIds %} disabled{% endif %} data-lily-gantt-chart-expand-all>{{ labels.expandAll }}</button>{% endif %}
+{%- if labels.collapseAll %}<button type="button" class="gantt-chart-collapse-all-button" data-lily-gantt-chart-collapse-all>{{ labels.collapseAll }}</button>{% endif %}
+</div>
+{%- endif %}
 {%- if labels.zoomIn or labels.zoomOut %}
 <div class="gantt-chart-zoom" role="group" aria-label="{{ opts.label }}">
 {%- if labels.zoomOut %}<button type="button" class="gantt-chart-zoom-out-button" aria-label="{{ labels.zoomOut }}" data-lily-gantt-chart-zoom-out>&#8722;</button>{% endif %}
