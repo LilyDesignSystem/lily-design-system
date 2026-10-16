@@ -528,3 +528,5 @@ Tests §8.57–§8.74 (`export-data.test.ts` and `DataGrid.test.ts`). The format
 - **Not included**: multiple sheets, column widths, number formats beyond dates, CSV import, copy-to-clipboard.
 
 Deeper notes on screen-reader support, IME input and virtual scrolling for export: [excel-export/](excel-export/index.md).
+
+The twelve cell types (text, number, link, date, time, time with time zone, select option, radio group, person, file, rollup, formulas) and how a first-class `column.type` would bundle their defaults: [cell-types/](cell-types/index.md).
