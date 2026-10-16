@@ -91,6 +91,10 @@ export type KanbanLabels = {
   movePending?: (cardTitle: string, columnTitle: string) => string;
   /** Announced when an async `onMove` rejects and the card goes back: (card title, column title, the rejection). */
   moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
+  /** Accessible name for a lane's collapse toggle: (lane, collapsed). Gates the toggle. */
+  collapseLane?: (lane: KanbanLane, collapsed: boolean) => string;
+  /** Visible card count in a lane header: (lane, how many cards). Gates the count. */
+  laneCount?: (lane: KanbanLane, count: number) => string;
   /** Accessible name of the board's search field. Gates the field. */
   search?: string;
   /** Announced after several selected cards move together: (how many moved, destination column title). */
@@ -134,6 +138,10 @@ export type Props = Omit<
   onMove?: (cardId: string, toColumnId: string, toIndex?: number, toLaneId?: string) => void | Promise<unknown>;
   /** Swimlanes: horizontal bands of rows. Each card sits in the lane named by `card.laneId` (the first lane when absent). A drop into another lane's cell changes the lane: `onMove` gets the lane id as its fourth argument. */
   lanes?: KanbanLane[];
+  /** Ids of collapsed swimlanes. Controlled when given. A collapsed lane keeps its header row (and count) but renders no card rows. */
+  collapsedLanes?: string[];
+  defaultCollapsedLanes?: string[];
+  onCollapsedLanesChange?: (collapsedLanes: string[]) => void;
   /** Several cards can be selected and moved together: Ctrl/Cmd+click or the `x` key toggles the card under the cursor; moving one selected card moves them all. */
   selectable?: boolean;
   /** The selected card ids. Controlled when given. */
@@ -206,6 +214,9 @@ export function KanbanBoard({
   columns: columnsProp,
   cards,
   lanes,
+  collapsedLanes: collapsedLanesProp,
+  defaultCollapsedLanes = [],
+  onCollapsedLanesChange,
   selectable = false,
   selected: selectedProp,
   defaultSelected = [],
@@ -319,6 +330,15 @@ export function KanbanBoard({
     onCollapsedColumnsChange?.(next);
   }
 
+  const [collapsedLanesInner, setCollapsedLanesInner] = React.useState<string[]>(defaultCollapsedLanes);
+  const collapsedLanes = collapsedLanesProp ?? collapsedLanesInner;
+  const isLaneCollapsed = (laneId: string) => collapsedLanes.includes(laneId);
+  function toggleLane(lane: KanbanLane): void {
+    const next = isLaneCollapsed(lane.id) ? collapsedLanes.filter((id) => id !== lane.id) : [...collapsedLanes, lane.id];
+    if (collapsedLanesProp === undefined) setCollapsedLanesInner(next);
+    onCollapsedLanesChange?.(next);
+  }
+
   // A collapsed column shows no cards, so it does not count towards the board's height.
   const isEmptyColumn = (column: KanbanColumn) =>
     !isCollapsed(column.id) && (shownByColumn.get(column.id)?.length ?? 0) === 0;
@@ -342,6 +362,8 @@ export function KanbanBoard({
     let rowIndex = 0;
     for (const lane of laneBands) {
       if (hasLanes) slots.push({ kind: "lane", lane });
+      // A collapsed lane keeps its header and shows no card rows.
+      if (hasLanes && isLaneCollapsed(lane.id)) continue;
       let rows = 0;
       for (const column of columns) {
         if (isCollapsed(column.id)) continue;
@@ -354,6 +376,12 @@ export function KanbanBoard({
       for (let laneRow = 0; laneRow < rows; laneRow++) slots.push({ kind: "row", rowIndex: rowIndex++, laneId: lane.id, laneRow });
     }
   }
+  /** Every card in a lane (the search/filter view still applies). */
+  const laneCardCount = (laneId: string) => {
+    let n = 0;
+    for (const column of columns) n += cellCards.get(`${column.id}\u0000${laneId}`)?.length ?? 0;
+    return n;
+  };
   const rowSlots = slots.filter((x): x is Extract<Slot, { kind: "row" }> => x.kind === "row");
   const maxRows = rowSlots.length;
 
@@ -931,8 +959,28 @@ export function KanbanBoard({
             if (slot.kind === "lane") {
               return (
                 <KanbanTableRow key={item.key} data-lane-row="">
-                  <th className="kanban-board-lane" scope="rowgroup" colSpan={columns.length} data-lane-id={slot.lane.id}>
-                    {slot.lane.title}
+                  <th
+                    className="kanban-board-lane"
+                    scope="rowgroup"
+                    colSpan={columns.length}
+                    data-lane-id={slot.lane.id}
+                    data-collapsed={isLaneCollapsed(slot.lane.id) ? "" : undefined}
+                  >
+                    {labels.collapseLane && (
+                      <button
+                        type="button"
+                        className="kanban-board-lane-toggle"
+                        aria-expanded={!isLaneCollapsed(slot.lane.id)}
+                        aria-label={labels.collapseLane(slot.lane, isLaneCollapsed(slot.lane.id))}
+                        onClick={() => toggleLane(slot.lane)}
+                      >
+                        {isLaneCollapsed(slot.lane.id) ? "▸" : "▾"}
+                      </button>
+                    )}
+                    <span className="kanban-board-lane-title">{slot.lane.title}</span>
+                    {labels.laneCount && (
+                      <span className="kanban-board-lane-count">{labels.laneCount(slot.lane, laneCardCount(slot.lane.id))}</span>
+                    )}
                   </th>
                 </KanbanTableRow>
               );
