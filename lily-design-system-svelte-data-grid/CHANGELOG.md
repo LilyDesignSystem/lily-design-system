@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-16
+
+- Added inline cell editing: `column.editable` (with `editor: "text" | "number"`, `parse`, `validate`), F2 or Enter on a focused cell, a double click, or the `labels.editCell` button; Enter commits, Escape cancels, leaving the field commits; `onCellEdit({ rowId, row, columnId, value, previous })`, the grid never mutates `rows`; `validate` keeps the cell in edit mode with `aria-invalid`. Labels: `cellEditor`, `editAnnouncement`, `editCancelAnnouncement`, `editError`.
+- Added row virtualization: `virtualize: { rowHeight, height, overscan? }` renders only the rows in view (plus the roving tab stop's row) between `.data-grid-spacer` rows; `aria-rowcount` and every row's `aria-rowindex` are always set. Keyboard focus scrolls the target row into view.
+
 ## 0.5.0 — 2026-10-14
 
 - Added column reordering (`column.movable`: Alt+ArrowLeft/Right on a focused header, or dragging a header onto another; bindable `columnOrder`,

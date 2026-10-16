@@ -29,6 +29,17 @@
         column: DataGridColumn;
     };
 
+    /** What `onCellEdit` receives after a cell edit is committed. */
+    export type DataGridCellEdit = {
+        rowId: string;
+        row: DataGridRow;
+        columnId: string;
+        /** The parsed new value (a number for the `"number"` editor, the text otherwise). */
+        value: unknown;
+        /** The cell's value before the edit. */
+        previous: unknown;
+    };
+
     export type DataGridColumn = {
         /** Stable column identifier; also the default property read from each row. */
         id: string;
@@ -62,6 +73,14 @@
         cell?: Snippet<[DataGridCellContext]>;
         /** The header's content in place of the `header` text. `header` stays the accessible name. */
         headerCell?: Snippet<[{ column: DataGridColumn }]>;
+        /** Cells can be edited in place: F2 or Enter on a focused cell, a double click, or the button `labels.editCell` gates. Enter commits, Escape cancels, leaving the field commits. */
+        editable?: boolean;
+        /** The editor's input type. Default `"text"`. */
+        editor?: "text" | "number";
+        /** Turns the editor's text into the committed value. Defaults to the text (`Number(text)`, or `null` when empty, for `"number"`). */
+        parse?: (draft: string, row: DataGridRow) => unknown;
+        /** Refuses a value: return a message and the cell stays in edit mode with `aria-invalid`; return nothing to accept. */
+        validate?: (value: unknown, row: DataGridRow) => string | undefined;
         /** Body cells of this column are `<th scope="row" role="rowheader">`. */
         rowHeader?: boolean;
         /** Horizontal alignment of the column's cells (`data-align` and `text-align`). */
@@ -94,6 +113,16 @@
         selectionAnnouncement?: (selectedCount: number) => string;
         /** Announced after a column moves: (header, 1-based position among the visible columns, how many are visible). */
         columnMoveAnnouncement?: (header: string, position: number, count: number) => string;
+        /** Accessible name of a cell's edit button: (column header, row label). Gates the button (for pointer and table-mode use). */
+        editCell?: (header: string, rowLabel: string) => string;
+        /** Accessible name of the cell editor's field. Defaults to the column header. */
+        cellEditor?: (header: string) => string;
+        /** Announced after a committed edit: (column header, formatted new value). */
+        editAnnouncement?: (header: string, value: string) => string;
+        /** Announced after an edit is cancelled with Escape. */
+        editCancelAnnouncement?: (header: string) => string;
+        /** Announced when `validate` refuses a value: (column header, the message). */
+        editError?: (header: string, message: string) => string;
     };
 
     export type Props = {
@@ -149,6 +178,14 @@
         busy?: boolean;
         /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
         scroll?: boolean;
+        /** Called after a cell edit is committed. The consumer updates `rows`; the grid never mutates them. */
+        onCellEdit?: (edit: DataGridCellEdit) => void;
+        /**
+         * Renders only the rows in view, in a scroll region of `height` px (needs `scroll`). Every row is assumed
+         * `rowHeight` px tall; Lily measures nothing. `aria-rowcount` and every row's `aria-rowindex` are always set,
+         * so assistive technology still sees the whole grid.
+         */
+        virtualize?: { rowHeight: number; height: number; overscan?: number };
         /** Extra CSS class on the root. */
         class?: string;
         [key: string]: unknown;
@@ -213,6 +250,8 @@
         footer,
         busy = false,
         scroll = true,
+        onCellEdit,
+        virtualize,
         ...restProps
     }: Props = $props();
 
@@ -309,7 +348,46 @@
 
     // Row position for assistive technology, only when pagination means the
     // DOM holds a subset of the rows (spec/index.md §8.21). Header row is 1.
-    const rowCount = $derived(pageSize ? sortedEntries.length + 1 : undefined);
+    const rowCount = $derived(
+        pageSize ? sortedEntries.length + 1 : virtualize ? pageEntries.length + 1 : undefined,
+    );
+    const indexed = $derived(!!pageSize || !!virtualize);
+
+    // ---- Windowing (virtualize): only the rows in view, plus the roving tab stop's row ----
+    let scrollTop = $state(0);
+    let scrollEl: HTMLDivElement | undefined = $state();
+    type RenderItem = { kind: "row"; index: number } | { kind: "spacer"; rows: number; key: string };
+    const renderItems = $derived.by<RenderItem[]>(() => {
+        const total = pageEntries.length;
+        if (!virtualize) return pageEntries.map((_, index) => ({ kind: "row", index }));
+        const overscan = virtualize.overscan ?? 3;
+        const start = Math.max(0, Math.floor(scrollTop / virtualize.rowHeight) - overscan);
+        const end = Math.min(total, Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan);
+        const indices = new Set<number>();
+        for (let i = start; i < end; i++) indices.add(i);
+        if (activeRow >= 0 && activeRow < total) indices.add(activeRow);
+        const items: RenderItem[] = [];
+        let previous = -1;
+        for (const index of [...indices].sort((a, b) => a - b)) {
+            if (index - previous > 1) items.push({ kind: "spacer", rows: index - previous - 1, key: `spacer-${previous}` });
+            items.push({ kind: "row", index });
+            previous = index;
+        }
+        if (total - 1 - previous > 0) items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
+        return items;
+    });
+
+    /** Bring a body row into the scroll region. */
+    function revealRow(index: number): void {
+        if (!virtualize || index < 0) return;
+        const top = index * virtualize.rowHeight;
+        let next = scrollTop;
+        if (top < scrollTop) next = top;
+        else if (top + virtualize.rowHeight > scrollTop + virtualize.height) next = top + virtualize.rowHeight - virtualize.height;
+        if (next === scrollTop) return;
+        scrollTop = next;
+        if (scrollEl) scrollEl.scrollTop = next;
+    }
 
     // O(1) membership instead of `selected.includes` per row.
     const selectedSet = $derived(new Set(selected));
@@ -519,7 +597,79 @@
     function moveFocus(row: number, col: number): void {
         focusedRow = Math.min(Math.max(row, -1), pageEntries.length - 1);
         focusedCol = Math.min(Math.max(col, 0), lastCol);
+        revealRow(focusedRow);
         focusActiveCell();
+    }
+
+    // ---------------------------------------------------------------
+    // Cell editing
+    // ---------------------------------------------------------------
+
+    type Editing = { rowId: string; columnId: string; draft: string; error?: string };
+    let editing = $state<Editing | null>(null);
+
+    function startEdit(entry: Entry, column: DataGridColumn): void {
+        if (!column.editable) return;
+        const raw = defaultAccessor(column, entry.row);
+        editing = { rowId: entry.id, columnId: column.id, draft: raw === null || raw === undefined ? "" : String(raw) };
+    }
+
+    function parseDraft(column: DataGridColumn, row: DataGridRow, draft: string): unknown {
+        if (column.parse) return column.parse(draft, row);
+        if (column.editor === "number") return draft.trim() === "" ? null : Number(draft);
+        return draft;
+    }
+
+    function commitEdit(): void {
+        const current = editing;
+        if (!current) return;
+        const entry = entries.find((e) => e.id === current.rowId);
+        const column = columns.find((c) => c.id === current.columnId);
+        if (!entry || !column) {
+            editing = null;
+            return;
+        }
+        const value = parseDraft(column, entry.row, current.draft);
+        const message = column.validate?.(value, entry.row);
+        if (message) {
+            editing = { ...current, error: message };
+            announce(labels.editError?.(column.header, message));
+            return;
+        }
+        const previous = defaultAccessor(column, entry.row);
+        editing = null;
+        if (value !== previous) {
+            onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
+            announce(labels.editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
+        }
+        focusActiveCell();
+    }
+
+    function cancelEdit(): void {
+        const current = editing;
+        if (!current) return;
+        editing = null;
+        const column = columns.find((c) => c.id === current.columnId);
+        if (column) announce(labels.editCancelAnnouncement?.(column.header));
+        focusActiveCell();
+    }
+
+    function onEditorKeydown(event: KeyboardEvent): void {
+        // The editor owns its keys; none may reach the grid's own handler.
+        event.stopPropagation();
+        if (event.key === "Enter") {
+            event.preventDefault();
+            commitEdit();
+        } else if (event.key === "Escape") {
+            event.preventDefault();
+            cancelEdit();
+        }
+    }
+
+    /** Focus and select the editor's text as it appears. */
+    function focusEditor(node: HTMLInputElement) {
+        node.focus();
+        node.select();
     }
 
     function activateFocusedCell(): void {
@@ -619,6 +769,16 @@
         if (entry) onRowActivate(entry.row, entry.id);
     }
 
+    /** A double click on an editable body cell starts editing it. */
+    function onGridDblclick(event: MouseEvent): void {
+        const target = event.target as HTMLElement;
+        const cell = target.closest<HTMLElement>("[data-row][data-col]");
+        if (!cell || cell.closest(".data-table-head") || target.closest("input, button, select, textarea")) return;
+        const entry = pageEntries[Number(cell.dataset.row)];
+        const column = visibleColumns[Number(cell.dataset.col) - colOffset];
+        if (entry && column?.editable) startEdit(entry, column);
+    }
+
     function onGridKeydown(event: KeyboardEvent): void {
         const target = event.target as HTMLElement;
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
@@ -676,9 +836,26 @@
                 event.preventDefault();
                 moveFocus(activeRow - (pageSize ?? 10), activeCol);
                 break;
+            case "F2": {
+                const entry = pageEntries[Number(cell.dataset.row)];
+                const column = visibleColumns[Number(cell.dataset.col) - colOffset];
+                if (target === cell && entry && column?.editable) {
+                    event.preventDefault();
+                    startEdit(entry, column);
+                }
+                break;
+            }
             case "Enter":
             case " ":
                 event.preventDefault();
+                if (event.key === "Enter" && target === cell && cell.closest(".data-table-body")) {
+                    const entry = pageEntries[Number(cell.dataset.row)];
+                    const column = visibleColumns[Number(cell.dataset.col) - colOffset];
+                    if (entry && column?.editable) {
+                        startEdit(entry, column);
+                        break;
+                    }
+                }
                 if (target === cell && cell.closest(".data-table-body") && !cell.querySelector("[data-grid-own]")) {
                     // A cell with a widget in it is entered; one without activates its row.
                     if (enterCell(cell)) break;
@@ -765,6 +942,36 @@
         </div>
     {/if}
 
+    {#snippet cellBody(entry: Entry, column: DataGridColumn, ctx: DataGridCellContext)}
+        {#if editing && editing.rowId === entry.id && editing.columnId === column.id}
+            <input
+                class="data-grid-cell-editor"
+                type={column.editor === "number" ? "number" : "text"}
+                aria-label={labels.cellEditor?.(column.header) ?? column.header}
+                aria-invalid={editing.error ? "true" : undefined}
+                aria-describedby={editing.error ? `${entry.id}-${column.id}-error` : undefined}
+                value={editing.draft}
+                oninput={(e: Event) => { if (editing) editing = { ...editing, draft: (e.target as HTMLInputElement).value, error: undefined }; }}
+                onkeydown={onEditorKeydown}
+                onblur={() => { if (editing) commitEdit(); }}
+                use:focusEditor
+            />
+            {#if editing.error}
+                <span class="data-grid-cell-error" id={`${entry.id}-${column.id}-error`}>{editing.error}</span>
+            {/if}
+        {:else}
+            {#if column.cell}{@render column.cell(ctx)}{:else}{ctx.formatted}{/if}{#if column.editable && labels.editCell}
+                <button
+                    type="button"
+                    class="data-grid-edit-button"
+                    data-grid-own
+                    tabindex={isGrid ? -1 : undefined}
+                    aria-label={labels.editCell(column.header, visibleColumns[0] ? formatCell(visibleColumns[0], entry.row) : entry.id)}
+                    onclick={() => startEdit(entry, column)}
+                ></button>{/if}
+        {/if}
+    {/snippet}
+
     {#snippet table()}
     <DataTable
         {label}
@@ -776,9 +983,10 @@
         onfocusin={isGrid ? onGridFocusin : undefined}
         onfocusout={isGrid ? onGridFocusout : undefined}
         onclick={onRowActivate ? onGridClick : undefined}
+        ondblclick={onGridDblclick}
     >
         <DataTableHead>
-            <DataTableRow aria-rowindex={pageSize ? 1 : undefined}>
+            <DataTableRow aria-rowindex={indexed ? 1 : undefined}>
                 {#if hasSelection}
                     <DataTableTH
                         data-row={-1}
@@ -856,13 +1064,20 @@
             </DataTableRow>
         </DataTableHead>
         <DataTableBody>
-            {#each pageEntries as entry, rowIndex (entry.id)}
+            {#each renderItems as item (item.kind === "row" ? pageEntries[item.index].id : item.key)}
+              {#if item.kind === "spacer"}
+                <tr class="data-grid-spacer" aria-hidden="true" style={`height:${item.rows * (virtualize?.rowHeight ?? 0)}px`}>
+                    <td colspan={lastCol + 1}></td>
+                </tr>
+              {:else}
+                {@const rowIndex = item.index}
+                {@const entry = pageEntries[rowIndex]}
                 {@const row = entry.row}
                 {@const id = entry.id}
                 <DataTableRow
                     class={rowClass?.(row)}
                     aria-selected={hasSelection ? isSelected(id) : undefined}
-                    aria-rowindex={pageSize ? pageStart + rowIndex + 2 : undefined}
+                    aria-rowindex={indexed ? pageStart + rowIndex + 2 : undefined}
                     {...rowAttrs?.(row) ?? {}}
                 >
                     {#if hasSelection}
@@ -907,7 +1122,7 @@
                                 style={cellStyle(column)}
                                 {...extra}
                             >
-                                {#if column.cell}{@render column.cell(ctx)}{:else}{ctx.formatted}{/if}
+                                {@render cellBody(entry, column, ctx)}
                             </DataTableTH>
                         {:else}
                             <DataTableTD
@@ -916,21 +1131,20 @@
                                 data-col={colOffset + colIndex}
                                 data-align={column.align}
                         data-pinned={column.pinned}
+                                data-editable={column.editable ? "" : undefined}
+                                data-editing={editing?.rowId === id && editing.columnId === column.id ? "" : undefined}
                                 role={isGrid ? "gridcell" : "cell"}
                                 {...isGrid ? { active: activeRow === rowIndex && activeCol === colOffset + colIndex } : { tabindex: undefined }}
                                 aria-selected={undefined}
                                 style={cellStyle(column)}
                                 {...extra}
                             >
-                                {#if column.cell}
-                                    {@render column.cell(ctx)}
-                                {:else}
-                                    {ctx.formatted}
-                                {/if}
+                                {@render cellBody(entry, column, ctx)}
                             </DataTableTD>
                         {/if}
                     {/each}
                 </DataTableRow>
+              {/if}
             {/each}
             {#if pageEntries.length === 0 && empty}
                 <DataTableRow class="data-grid-empty-row">
@@ -958,10 +1172,13 @@
              In grid mode a roving cell is already a tab stop, so only table mode makes the region one. -->
         <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
         <div
+            bind:this={scrollEl}
             class="data-grid-scroll"
             role="region"
             aria-label={label}
             tabindex={isGrid ? undefined : 0}
+            style={virtualize ? `height:${virtualize.height}px;overflow:auto` : undefined}
+            onscroll={virtualize ? (e: Event) => { scrollTop = (e.currentTarget as HTMLElement).scrollTop; } : undefined}
         >
             {@render table()}
         </div>

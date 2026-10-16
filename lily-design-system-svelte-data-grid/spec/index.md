@@ -433,8 +433,7 @@ Keys pressed on a widget inside a cell are never swallowed (§6).
 
 ## 9. Non-goals
 
-Virtualization/windowing, inline cell editing, column reorder, column
-pinning, row grouping/aggregation, server-side sort/filter/pagination,
+Row grouping/aggregation, server-side sort/filter/pagination,
 CSV export, drag-to-reorder rows. See §2 and
 [spec/helpers/index.md § data-grid contract](../../spec/helpers/index.md)
 for the reasoning behind each.
@@ -510,3 +509,10 @@ Tests §8.40–§8.46.
   alternative, WCAG 2.5.7). `columnOrder` is bindable; columns it does not name follow in their `columns` order; hidden columns keep their
   place when a visible one moves. `onColumnOrderChange(order)`; `labels.columnMoveAnnouncement(header, position, count)`.
 - **Pinned columns**: `column.pinned` puts `data-pinned="start" | "end"` on the header and cells. Lily sets no sticky offsets.
+
+## 13. Cell editing and virtualization (0.6.0, 2026-10-16)
+
+Tests §8.47–§8.56. Both were listed as non-goals in §9; the accessibility objection to virtualization (exact `aria-rowcount` / `aria-rowindex`) is met by always setting them, as `kanban-board` does.
+
+- **Cell editing**: `column.editable`. F2 on a focused cell, Enter on one (before row activation and widget entry), a double click, or the `labels.editCell` button (the one path in `mode="table"`) opens a text or number input named `labels.cellEditor(header)` (the header by default). Enter commits, Escape cancels, blur commits. The value is `parse(draft, row)` (`Number(draft)` or `null` for the number editor, the text otherwise); `validate(value, row)` returning a message keeps the cell editing with `aria-invalid`, the message in `.data-grid-cell-error`, `labels.editError` announced. `onCellEdit({ rowId, row, columnId, value, previous })` fires only when the value changed; the grid never writes to `rows`.
+- **Virtualization**: `virtualize: { rowHeight, height, overscan = 3 }` (needs `scroll`) gives `.data-grid-scroll` an inline `height` and `overflow:auto` and renders only the window plus the roving tab stop's row, with `.data-grid-spacer` rows (`aria-hidden`) holding the height of the rest. Rows are assumed `rowHeight` tall; Lily measures nothing. Combines with `pageSize`.

@@ -749,3 +749,131 @@ describe("DataGrid — pinned columns (§8.46)", () => {
         expect(document.querySelectorAll("[data-pinned]")).toHaveLength(2);
     });
 });
+
+describe("DataGrid — cell editing (§8.47–§8.53)", () => {
+    const EDIT_COLS: DataGridColumn[] = [
+        { id: "name", header: "Name", editable: true },
+        { id: "age", header: "Age", editable: true, editor: "number" },
+        { id: "note", header: "Note" },
+    ];
+    const EDIT_ROWS = [{ name: "Ann", age: 30, note: "n" }];
+    const cell = (col: number) => document.querySelector<HTMLElement>(`.data-table-body [data-row="0"][data-col="${col}"]`)!;
+
+    test("§8.47 F2 on an editable cell opens an editor; Enter commits through onCellEdit", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit, labels: { editAnnouncement: (h, v) => `${h} is now ${v}` } } });
+        await fireEvent.keyDown(cell(0), { key: "F2" });
+        const input = screen.getByRole("textbox", { name: "Name" }) as HTMLInputElement;
+        expect(document.activeElement).toBe(input);
+        await fireEvent.input(input, { target: { value: "Bea" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).toHaveBeenCalledWith({ rowId: "0", row: EDIT_ROWS[0], columnId: "name", value: "Bea", previous: "Ann" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeNull();
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("Name is now Bea");
+    });
+
+    test("§8.48 Enter on an editable cell starts editing (before row activation); a non-editable cell does not", async () => {
+        const onRowActivate = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onRowActivate } });
+        await fireEvent.keyDown(cell(0), { key: "Enter" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+        expect(onRowActivate).not.toHaveBeenCalled();
+        await fireEvent.keyDown(document.querySelector(".data-grid-cell-editor")!, { key: "Escape" });
+        await fireEvent.keyDown(cell(2), { key: "F2" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeNull();
+    });
+
+    test("§8.49 Escape cancels without calling onCellEdit and announces", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit, labels: { editCancelAnnouncement: (h) => `${h} edit cancelled` } } });
+        await fireEvent.keyDown(cell(0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        await fireEvent.input(input, { target: { value: "Zed" } });
+        await fireEvent.keyDown(input, { key: "Escape" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("Name edit cancelled");
+    });
+
+    test("§8.50 the number editor commits a number; an unchanged value commits nothing", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit } });
+        await fireEvent.keyDown(cell(1), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        expect(input.type).toBe("number");
+        await fireEvent.input(input, { target: { value: "31" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0].value).toBe(31);
+        await fireEvent.keyDown(cell(1), { key: "F2" });
+        await fireEvent.keyDown(document.querySelector(".data-grid-cell-editor")!, { key: "Enter" });
+        expect(onCellEdit).toHaveBeenCalledTimes(1);
+    });
+
+    test("§8.51 validate refuses a value: the cell stays in edit mode, aria-invalid, message shown and announced", async () => {
+        const onCellEdit = vi.fn();
+        const cols: DataGridColumn[] = [{ id: "name", header: "Name", editable: true, validate: (v) => (v === "" ? "Required" : undefined) }];
+        render(DataGrid, { props: { label: "G", columns: cols, rows: [{ name: "Ann" }], onCellEdit, labels: { editError: (h, m) => `${h}: ${m}` } } });
+        await fireEvent.keyDown(cell(0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        await fireEvent.input(input, { target: { value: "" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(input.getAttribute("aria-invalid")).toBe("true");
+        expect(document.querySelector(".data-grid-cell-error")!.textContent).toBe("Required");
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("Name: Required");
+    });
+
+    test("§8.52 leaving the editor commits; a double click starts editing", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit } });
+        await fireEvent.dblClick(cell(0));
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        await fireEvent.input(input, { target: { value: "Cy" } });
+        await fireEvent.blur(input);
+        expect(onCellEdit).toHaveBeenCalledTimes(1);
+        expect(onCellEdit.mock.calls[0][0].value).toBe("Cy");
+    });
+
+    test("§8.53 labels.editCell gates an edit button on editable cells", async () => {
+        render(DataGrid, { props: { label: "G", columns: EDIT_COLS, rows: EDIT_ROWS } });
+        expect(document.querySelector(".data-grid-edit-button")).toBeNull();
+        document.body.innerHTML = "";
+        render(DataGrid, { props: { label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, labels: { editCell: (h, r) => `Edit ${h} of ${r}` } } });
+        expect(document.querySelectorAll(".data-grid-edit-button")).toHaveLength(2);
+        await fireEvent.click(screen.getByRole("button", { name: "Edit Name of Ann" }));
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+    });
+});
+
+describe("DataGrid — virtualize (§8.54–§8.56)", () => {
+    const BIG = Array.from({ length: 200 }, (_, i) => ({ name: `Row ${i}`, email: `r${i}@x` }));
+
+    test("§8.54 renders only the rows in view, with spacers, aria-rowcount and aria-rowindex", () => {
+        render(DataGrid, { props: { label: "G", columns: COLUMNS, rows: BIG, virtualize: { rowHeight: 20, height: 100 } } });
+        expect(bodyRows().length).toBeLessThan(20);
+        expect(document.querySelector(".data-grid-spacer")).toBeTruthy();
+        expect(document.querySelector("[role=grid]")!.getAttribute("aria-rowcount")).toBe("201");
+        expect(bodyRows()[0].getAttribute("aria-rowindex")).toBe("2");
+        const scroll = document.querySelector<HTMLElement>(".data-grid-scroll")!;
+        expect(scroll.style.height).toBe("100px");
+    });
+
+    test("§8.55 scrolling moves the window", async () => {
+        render(DataGrid, { props: { label: "G", columns: COLUMNS, rows: BIG, virtualize: { rowHeight: 20, height: 100, overscan: 0 } } });
+        const scroll = document.querySelector<HTMLElement>(".data-grid-scroll")!;
+        scroll.scrollTop = 1000;
+        await fireEvent.scroll(scroll);
+        const first = bodyRows().find((r) => r.hasAttribute("aria-rowindex"))!;
+        expect(first.textContent).toContain("Row 50");
+    });
+
+    test("§8.56 the roving tab stop's row stays rendered even outside the window", async () => {
+        render(DataGrid, { props: { label: "G", columns: COLUMNS, rows: BIG, virtualize: { rowHeight: 20, height: 100, overscan: 0 } } });
+        const scroll = document.querySelector<HTMLElement>(".data-grid-scroll")!;
+        const first = document.querySelector<HTMLElement>('.data-table-body [data-row="0"][data-col="0"]')!;
+        await fireEvent.focusIn(first);
+        scroll.scrollTop = 2000;
+        await fireEvent.scroll(scroll);
+        expect(document.querySelector('.data-table-body [data-row="0"][data-col="0"]')!.getAttribute("tabindex")).toBe("0");
+        expect(tabbableCells()).toHaveLength(1);
+    });
+});
