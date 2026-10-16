@@ -429,3 +429,7 @@ Tests §14.1–§14.17.
 - **Selection**: `selectedTaskId` (bindable) and `onTaskSelect`; a click on a row or the `s` key selects, again deselects; `aria-selected`, `data-selected`.
 - **Alt+ArrowLeft/Right** shifts a leaf task by one column keeping its duration; **Alt+Shift+Arrow** moves only its end (the keyboard twins of dragging).
 - **`taskAttrs(task)`**: extra attributes on each task's row.
+
+## 15. Unscheduled tasks and collapse-all (0.4.0, 2026-10-16)
+
+Tests §14.18–§14.24 (numbered with the later §14 clauses). `GanttTask.start` and `end` are optional. A task with neither is **unscheduled**: its row carries `data-unscheduled`, no cell is `data-in-range`, no bar renders, and `effectiveRanges` reads it as an empty range so a parent's span comes only from its scheduled children. The keyboard path to schedule it is the existing edit region — Enter opens it with empty dates, Save is disabled until both dates are set, and saving calls `onTaskChange(id, start, end)`. Dragging and Alt+Arrow shifts do nothing for an unscheduled task. `collapsedTaskIds` replaces the internal collapse set with a bindable array (the per-row collapse buttons write to it); `labels.expandAll` / `labels.collapseAll` gate two buttons, shown only when the chart has parent tasks, that clear it or set it to every parent's id.
