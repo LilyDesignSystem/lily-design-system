@@ -100,3 +100,7 @@ tooltip, no stylesheet / English / routes). This port's suite, `LinkPicker.test.
 - Version: 0.1.0 (new, 2026-10-07)
 - Framework: Vue 3 + TypeScript
 - Test runner: vitest + @vue/test-utils
+
+## Open state and disabled (2026-10-16)
+
+`v-model:open` (a `defineModel`, default `false`) and `disabled?: boolean`, ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. Idiom: `update:open` is the change notification, emitted once for each change the picker makes (the user's, or `disabled` closing it) and not for the initial value; with no `v-model` the picker keeps its own state. `disabled` is passed to the headless `IconButton` and an open popup closes when it becomes true. Tests: "open state and disabled".

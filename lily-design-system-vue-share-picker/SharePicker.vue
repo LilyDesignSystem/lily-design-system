@@ -70,6 +70,8 @@ export type Props = {
      * the sheet; `"list"` always shows the list.
      */
     strategy?: ShareStrategy;
+    /** Disables the button; an open popup closes. The popup's open state is `v-model:open`. */
+    disabled?: boolean;
     /** Extra CSS class on the root element. */
     class?: string;
 };
@@ -106,6 +108,7 @@ import { IconButton } from "@lilydesignsystem/vue-headless";
 // unmigrated one. See spec/index.md §3 / AGENTS/helpers.md.
 
 const props = withDefaults(defineProps<Props>(), {
+    disabled: false,
     targets: () => [],
     url: undefined,
     title: "",
@@ -128,7 +131,17 @@ const emit = defineEmits<{
 const baseId = nextSharePickerId();
 const listId = `${baseId}-list`;
 
-const open = ref(false);
+/** Is the popup open? Bindable: `v-model:open` (the picker keeps its own state when none is bound). */
+const open = defineModel<boolean>("open", { default: false });
+
+// A disabled picker cannot stay open.
+watch(
+    () => props.disabled,
+    (disabled) => {
+        if (disabled) open.value = false;
+    },
+    { immediate: true },
+);
 
 const tooltipId = `${baseId}-tooltip`;
 
@@ -374,6 +387,7 @@ onBeforeUnmount(() => {
         @focusout="onRootFocusOut"
     >
         <IconButton
+            :disabled="disabled"
             ref="buttonEl"
             baseClass="share-picker-button"
             :label="label"

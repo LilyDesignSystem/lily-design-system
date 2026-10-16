@@ -242,3 +242,7 @@ the accessible name never relies on it.
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## Open state and disabled (2026-10-16)
+
+`v-model:open` (a `defineModel`, default `false`) and `disabled?: boolean`, ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. Idiom: `update:open` is the change notification, emitted once for each change the picker makes (the user's, or `disabled` closing it) and not for the initial value; with no `v-model` the picker keeps its own state. `disabled` is passed to the headless `IconButton` and an open popup closes when it becomes true. Tests: "open state and disabled".

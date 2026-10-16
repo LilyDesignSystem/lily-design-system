@@ -42,6 +42,8 @@ export type Props = {
      * (e.g. `(href) => router.push(href)`) to keep the navigation in-app.
      */
     navigate?: (href: string) => void;
+    /** Disables the button; an open popup closes. The popup's open state is `v-model:open`. */
+    disabled?: boolean;
     /** Extra CSS class on the root element. */
     class?: string;
 };
@@ -72,6 +74,7 @@ import { IconButton } from "@lilydesignsystem/vue-headless";
 // is the wrong widget for it, not merely an unmigrated one.
 
 const props = withDefaults(defineProps<Props>(), {
+    disabled: false,
     placeholder: undefined,
     value: "",
     action: "/",
@@ -91,7 +94,17 @@ const emit = defineEmits<{
 const baseId = nextSearchPickerId();
 const panelId = `${baseId}-panel`;
 
-const open = ref(false);
+/** Is the popup open? Bindable: `v-model:open` (the picker keeps its own state when none is bound). */
+const open = defineModel<boolean>("open", { default: false });
+
+// A disabled picker cannot stay open.
+watch(
+    () => props.disabled,
+    (disabled) => {
+        if (disabled) open.value = false;
+    },
+    { immediate: true },
+);
 
 const tooltipId = `${baseId}-tooltip`;
 
@@ -251,6 +264,7 @@ onBeforeUnmount(() => {
         @focusout="onRootFocusOut"
     >
         <IconButton
+            :disabled="disabled"
             ref="buttonEl"
             baseClass="search-picker-button"
             :label="label"

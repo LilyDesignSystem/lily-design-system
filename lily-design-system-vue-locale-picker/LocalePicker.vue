@@ -52,6 +52,8 @@ export type Props = {
     applyDir?: boolean;
     /** Optional pretty labels per locale code. */
     localeLabels?: Record<string, string>;
+    /** Disables the button; an open popup closes. The popup's open state is `v-model:open`. */
+    disabled?: boolean;
     /** Extra CSS class on the root element. */
     class?: string;
 };
@@ -156,6 +158,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue"
 import { IconButton, Listbox } from "@lilydesignsystem/vue-headless";
 
 const props = withDefaults(defineProps<Props>(), {
+    disabled: false,
     value: "",
     defaultValue: undefined,
     storageKey: undefined,
@@ -176,7 +179,17 @@ const baseId = nextLocalePickerId();
 const listId = `${baseId}-list`;
 const optionId = (i: number) => `${baseId}-option-${i}`;
 
-const open = ref(false);
+/** Is the popup open? Bindable: `v-model:open` (the picker keeps its own state when none is bound). */
+const open = defineModel<boolean>("open", { default: false });
+
+// A disabled picker cannot stay open.
+watch(
+    () => props.disabled,
+    (disabled) => {
+        if (disabled) open.value = false;
+    },
+    { immediate: true },
+);
 
 const tooltipId = `${baseId}-tooltip`;
 
@@ -466,6 +479,7 @@ onBeforeUnmount(() => {
         <input type="hidden" :name="name" :value="current" />
 
         <IconButton
+            :disabled="disabled"
             ref="buttonEl"
             baseClass="locale-picker-button"
             :label="label"

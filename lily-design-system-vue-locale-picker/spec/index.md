@@ -566,3 +566,7 @@ GLOBE WITH MERIDIANS + U+FE0E (exported as `GLOBE_WITH_MERIDIANS`) to
 a bundled outline SVG. Maintainer-directed, applied to all five
 page-header pickers the same day. The glyph constant was removed, not
 renamed — there is no longer a single swappable character value.
+
+## Open state and disabled (2026-10-16)
+
+`v-model:open` (a `defineModel`, default `false`) and `disabled?: boolean`, ported from the Svelte canonical's `open`, `onOpenChange` and `disabled`. Idiom: `update:open` is the change notification, emitted once for each change the picker makes (the user's, or `disabled` closing it) and not for the initial value; with no `v-model` the picker keeps its own state. `disabled` is passed to the headless `IconButton` and an open popup closes when it becomes true. Tests: "open state and disabled".

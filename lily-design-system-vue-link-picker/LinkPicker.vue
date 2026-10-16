@@ -37,6 +37,8 @@ export type Props = {
      * (Ctrl/Cmd/Shift/Alt, middle button) and `newTab` links stay native.
      */
     navigate?: (href: string) => void;
+    /** Disables the button; an open popup closes. The popup's open state is `v-model:open`. */
+    disabled?: boolean;
     /** Extra CSS class on the root element. */
     class?: string;
 };
@@ -62,6 +64,7 @@ import { IconButton } from "@lilydesignsystem/vue-headless";
 // middle-click, open-in-new-tab and copy-link-address from ordinary links. See spec/index.md §3.
 
 const props = withDefaults(defineProps<Props>(), {
+    disabled: false,
     navigate: undefined,
     class: "",
 });
@@ -76,7 +79,17 @@ const baseId = nextLinkPickerId();
 const listId = `${baseId}-list`;
 const tooltipId = `${baseId}-tooltip`;
 
-const open = ref(false);
+/** Is the popup open? Bindable: `v-model:open` (the picker keeps its own state when none is bound). */
+const open = defineModel<boolean>("open", { default: false });
+
+// A disabled picker cannot stay open.
+watch(
+    () => props.disabled,
+    (disabled) => {
+        if (disabled) open.value = false;
+    },
+    { immediate: true },
+);
 
 // Tooltip: shown while the pointer is over the button or the tooltip itself (hoverable, WCAG
 // 1.4.13) or while the button has keyboard focus; Escape dismisses it without moving focus;
@@ -264,6 +277,7 @@ onBeforeUnmount(() => {
         @focusout="onRootFocusOut"
     >
         <IconButton
+            :disabled="disabled"
             ref="buttonEl"
             baseClass="link-picker-button"
             :label="label"

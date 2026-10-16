@@ -719,3 +719,58 @@ describe("TextSizePicker — tooltip (§7.23–§7.28)", () => {
         removeSpy.mockRestore();
     });
 });
+
+describe("TextSizePicker — open state and disabled", () => {
+    const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+    const mounted: VueWrapper[] = [];
+    const make = (extra: Record<string, unknown> = {}) => {
+        const wrapper = mount(TextSizePicker, { props: { ...{ label: "Text size", sizes: SIZES }, ...extra }, attachTo: document.body });
+        mounted.push(wrapper);
+        return wrapper;
+    };
+    const button = () => document.querySelector<HTMLButtonElement>(".text-size-picker-button")!;
+    afterEach(() => {
+        while (mounted.length) mounted.pop()!.unmount();
+        document.body.innerHTML = "";
+    });
+
+    test("open starts the popup open without emitting update:open", async () => {
+        const wrapper = make({ open: true });
+        await settle();
+        expect(button().getAttribute("aria-expanded")).toBe("true");
+        expect(wrapper.emitted("update:open")).toBeUndefined();
+    });
+
+    test("uncontrolled: update:open is emitted once for each open and close by the user", async () => {
+        const wrapper = make();
+        button().click();
+        await settle();
+        button().click();
+        await settle();
+        expect(wrapper.emitted("update:open")).toEqual([[true], [false]]);
+    });
+
+    test("v-model:open: a click asks for the change and the parent applies it", async () => {
+        const wrapper = make({ open: false });
+        await wrapper.setProps({ "onUpdate:open": (v: boolean) => wrapper.setProps({ open: v }) } as never);
+        button().click();
+        await settle();
+        expect(button().getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const wrapper = make({ disabled: true });
+        expect(button().disabled).toBe(true);
+        button().click();
+        await settle();
+        expect(button().getAttribute("aria-expanded")).toBe("false");
+        expect(wrapper.emitted("update:open")).toBeUndefined();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        make({ open: true, disabled: true });
+        await settle();
+        expect(button().getAttribute("aria-expanded")).toBe("false");
+    });
+});
+
