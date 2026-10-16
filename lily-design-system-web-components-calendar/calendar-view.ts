@@ -34,7 +34,7 @@ import {
     weekdayOf,
 } from "@lilydesignsystem/web-components-date-time-picker";
 
-export type CalendarViewMode = "day" | "week" | "four-week" | "month";
+export type CalendarViewMode = "day" | "week" | "four-week" | "month" | "agenda";
 
 /** A marked range (a holiday, a closure, a school term). `label` is text `renderDay` can show. */
 export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -62,6 +62,10 @@ export type CalendarViewLabels = {
     weekView?: string;
     fourWeekView?: string;
     monthView?: string;
+    /** Switcher label for the agenda (list) view of the month. Gates its button. */
+    agendaView?: string;
+    /** Agenda view: the message when the shown month has no events (and `agenda-empty-days` is off). Gates the message. */
+    agendaEmpty?: string;
     previous?: (view: CalendarViewMode) => string;
     next?: (view: CalendarViewMode) => string;
     today?: string;
@@ -144,6 +148,7 @@ export function weekStart(isoDate: string, firstDayOfWeek: number): string {
 
 /** The visible days for `view`, anchored around `anchorDate`, as rows of 7. */
 export function periodDays(view: CalendarViewMode, anchorDate: string, firstDayOfWeek: number): string[][] {
+    if (view === "agenda") return [];
     if (view === "month") {
         const parsed = parseIsoDate(anchorDate);
         if (!parsed) return [];
@@ -163,7 +168,7 @@ export function periodDays(view: CalendarViewMode, anchorDate: string, firstDayO
 
 /** The inclusive [start, end] ISO range `view` covers. */
 export function periodRange(view: CalendarViewMode, anchorDate: string, firstDayOfWeek: number): [string, string] {
-    if (view === "month") {
+    if (view === "month" || view === "agenda") {
         const parsed = parseIsoDate(anchorDate);
         if (!parsed) return [anchorDate, anchorDate];
         return [
@@ -208,12 +213,12 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
     return map;
 }
 
-const VIEWS: CalendarViewMode[] = ["day", "week", "four-week", "month"];
+const VIEWS: CalendarViewMode[] = ["day", "week", "four-week", "month", "agenda"];
 
 /** Custom-element class implementing `<lily-calendar-view>`. */
 export class CalendarView extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "view", "anchor-date", "selected-date", "today", "min-date", "max-date", "locale", "class", "show-week-numbers", "max-events", "hide-outside-days", "selection-mode", "move-events"];
+        return ["label", "view", "anchor-date", "selected-date", "today", "min-date", "max-date", "locale", "class", "show-week-numbers", "max-events", "agenda-empty-days", "hide-outside-days", "selection-mode", "move-events"];
     }
 
     #events: CalendarEvent[] = [];
@@ -346,6 +351,15 @@ export class CalendarView extends HTMLElement {
     set maxEvents(v: number | undefined) {
         if (v == null) this.removeAttribute("max-events");
         else this.setAttribute("max-events", String(v));
+    }
+
+    /** Agenda view: also list days with no events. Attribute `agenda-empty-days`. Default false (only days with events). */
+    get agendaEmptyDays(): boolean {
+        return this.hasAttribute("agenda-empty-days");
+    }
+    set agendaEmptyDays(v: boolean) {
+        if (v) this.setAttribute("agenda-empty-days", "");
+        else this.removeAttribute("agenda-empty-days");
     }
 
     /** Month view: leave days outside the shown month empty (the cell keeps `data-outside-period`). */
@@ -493,6 +507,26 @@ export class CalendarView extends HTMLElement {
             fragment.appendChild(more);
         }
         return fragment;
+    }
+
+    /**
+     * The events of one agenda day. Default: a list with one `.calendar-view-event` button per event (its
+     * `title` when a string, else its id). Override to render your own content.
+     */
+    renderAgendaDay(args: CalendarViewDayArgs): Node {
+        const list = document.createElement("ul");
+        list.className = "calendar-view-agenda-events";
+        for (const event of args.events) {
+            const item = document.createElement("li");
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "calendar-view-event";
+            button.textContent = typeof event["title"] === "string" ? (event["title"] as string) : event.id;
+            button.addEventListener("click", () => args.openEvent(event));
+            item.appendChild(button);
+            list.appendChild(item);
+        }
+        return list;
     }
 
     // ---- Lifecycle ----
@@ -814,7 +848,7 @@ export class CalendarView extends HTMLElement {
         const root = document.createElement("div");
         root.className = `calendar-view ${this.getAttribute("class") ?? ""}`.trim();
 
-        if (labels.periodTitle || labels.dayView || labels.weekView || labels.fourWeekView || labels.monthView) {
+        if (labels.periodTitle || labels.dayView || labels.weekView || labels.fourWeekView || labels.monthView || labels.agendaView) {
             const toolbar = document.createElement("div");
             toolbar.className = "calendar-view-toolbar";
 
@@ -826,6 +860,7 @@ export class CalendarView extends HTMLElement {
                 ["week", labels.weekView],
                 ["four-week", labels.fourWeekView],
                 ["month", labels.monthView],
+                ["agenda", labels.agendaView],
             ];
             for (const [mode, text] of entries) {
                 if (!text) continue;
@@ -864,6 +899,71 @@ export class CalendarView extends HTMLElement {
             nav.appendChild(next);
             toolbar.appendChild(nav);
             root.appendChild(toolbar);
+        }
+
+        if (view === "agenda") {
+            // The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor.
+            const [agendaStart, agendaEnd] = periodRange("agenda", anchorDate, firstDay);
+            const list = document.createElement("ol");
+            list.className = "calendar-view-agenda";
+            list.setAttribute("aria-label", this.label);
+            let count = 0;
+            const cap = this.maxEvents;
+            for (let d = agendaStart; d <= agendaEnd; d = addDays(d, 1)) {
+                const dayEvents = eventMap.get(d) ?? [];
+                if (!this.agendaEmptyDays && dayEvents.length === 0) continue;
+                count += 1;
+                const weekday = weekdayOf(d);
+                const isToday = !!this.today && d === this.today;
+                const dayRanges = this.#ranges.filter((r) => d >= r.start && d <= r.end);
+                const li = document.createElement("li");
+                li.className = "calendar-view-agenda-day";
+                li.setAttribute("data-date", d);
+                if (isToday) {
+                    li.setAttribute("data-today", "");
+                    li.setAttribute("aria-current", "date");
+                }
+                if (this.#weekendDays?.includes(weekday)) li.setAttribute("data-weekend", "");
+                if (dayRanges.length) li.setAttribute("data-range", dayRanges.map((r) => r.kind ?? "range").join(" "));
+                const time = document.createElement("time");
+                time.className = "calendar-view-agenda-date";
+                time.setAttribute("datetime", d);
+                time.textContent = labels.day?.(d, weekday, false) || d;
+                li.appendChild(time);
+                if (dayEvents.length > 0) {
+                    li.appendChild(
+                        this.renderAgendaDay({
+                            date: d,
+                            events: dayEvents,
+                            visibleEvents: cap == null ? dayEvents : dayEvents.slice(0, Math.max(0, cap)),
+                            hiddenCount: cap == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, cap)),
+                            isToday,
+                            outsidePeriod: false,
+                            selected: false,
+                            disabled: this.#isDisabledDay(d),
+                            inRange: false,
+                            ranges: dayRanges,
+                            openEvent: (e) => this.#openEvent(e),
+                            attachEvent: () => {},
+                        }),
+                    );
+                }
+                list.appendChild(li);
+            }
+            root.appendChild(list);
+            if (count === 0 && labels.agendaEmpty) {
+                const empty = document.createElement("p");
+                empty.className = "calendar-view-agenda-empty";
+                empty.textContent = labels.agendaEmpty;
+                root.appendChild(empty);
+            }
+            const agendaStatus = document.createElement("div");
+            agendaStatus.className = "calendar-view-status";
+            agendaStatus.setAttribute("aria-live", "polite");
+            agendaStatus.textContent = this.#statusMessage;
+            root.appendChild(agendaStatus);
+            this.replaceChildren(root);
+            return;
         }
 
         const table = document.createElement("table");
