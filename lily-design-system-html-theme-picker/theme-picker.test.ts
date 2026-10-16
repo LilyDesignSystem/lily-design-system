@@ -1134,3 +1134,82 @@ describe("<theme-picker> — tooltip (§7.26–§7.32)", () => {
     remove.mockRestore();
   });
 });
+
+describe("<theme-picker> — open state and disabled", () => {
+  function make(attrs: Record<string, string> = {}): HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void } {
+    const el = document.createElement("theme-picker") as HTMLElement & { open: boolean; disabled: boolean; onOpenChange?: (o: boolean) => void };
+    el.setAttribute("label", "Theme");
+    el.setAttribute("themes-url", "/assets/themes/");
+    el.setAttribute("themes", "light,dark,abyss");
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    document.body.appendChild(el);
+    return el;
+  }
+  const button = (el: HTMLElement) => el.querySelector<HTMLButtonElement>(".theme-picker-button")!;
+  const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+
+  test("the open attribute starts the popup open without an openchange", async () => {
+    const events: boolean[] = [];
+    document.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail), { once: true });
+    const el = make({ open: "" });
+    await settle();
+    expect(button(el).getAttribute("aria-expanded")).toBe("true");
+    expect(el.open).toBe(true);
+    expect(events).toEqual([]);
+  });
+
+  test("openchange and onOpenChange report each open and close by the user", async () => {
+    const el = make();
+    const events: boolean[] = [];
+    const calls: boolean[] = [];
+    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+    el.onOpenChange = (o) => calls.push(o);
+    button(el).click();
+    await settle();
+    button(el).click();
+    await settle();
+    expect(events).toEqual([true, false]);
+    expect(calls).toEqual([true, false]);
+  });
+
+  test("the open property opens and closes the popup, reports it, and does not move focus", async () => {
+    const el = make();
+    const events: boolean[] = [];
+    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+    const before = document.activeElement;
+    el.open = true;
+    await settle();
+    expect(button(el).getAttribute("aria-expanded")).toBe("true");
+    expect(document.activeElement).toBe(before);
+    el.open = false;
+    await settle();
+    expect(button(el).getAttribute("aria-expanded")).toBe("false");
+    expect(events).toEqual([true, false]);
+  });
+
+  test("disabled disables the button and it cannot open", async () => {
+    const el = make({ disabled: "" });
+    const events: boolean[] = [];
+    el.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+    expect(button(el).disabled).toBe(true);
+    button(el).click();
+    el.open = true;
+    await settle();
+    expect(button(el).getAttribute("aria-expanded")).toBe("false");
+    expect(events).toEqual([]);
+  });
+
+  test("disabling closes an open popup; disabled plus open starts closed", async () => {
+    const el = make({ open: "" });
+    await settle();
+    el.disabled = true;
+    await settle();
+    expect(button(el).disabled).toBe(true);
+    expect(button(el).getAttribute("aria-expanded")).toBe("false");
+    document.body.innerHTML = "";
+    const other = make({ open: "", disabled: "" });
+    await settle();
+    expect(button(other).getAttribute("aria-expanded")).toBe("false");
+  });
+});
+

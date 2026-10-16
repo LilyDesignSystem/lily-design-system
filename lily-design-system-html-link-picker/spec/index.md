@@ -125,3 +125,7 @@ list is named; links are real links with `aria-current="page"` where marked; foc
 - Version: 0.1.0 (new, 2026-10-07)
 - Framework: vanilla custom elements, light DOM, TypeScript (tsup)
 - Test runner: vitest + jsdom
+
+## Open state and disabled (2026-10-16)
+
+`open` (settable property; the `open` attribute is the initial state), `disabled` (property and attribute), the bubbling `openchange` event (`detail`: the new open state) and an `onOpenChange` property, ported from the Svelte canonical. `openchange` fires once for each change of the popup — the user's, a property or attribute set, or `disabled` closing it — and not for an initial `open` attribute. Setting `open` opens or closes the popup without moving focus; the keys and the pointer still do. `disabled` sets the native `disabled` on the button and closes an open popup. Tests: "open state and disabled".

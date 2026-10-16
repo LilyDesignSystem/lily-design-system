@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-16
+
+- Added `open` (property and attribute), `disabled` (property and attribute), an `openchange` event and an `onOpenChange` property, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `openchange` (detail: the new state) fires once for each change, from the user or from `open`, and not for an initial `open` attribute; opening from outside does not move focus; `disabled` disables the button and closes an open popup.
+
 ## 0.2.0 — 2026-10-04
 
 **Added: picker tooltip (minor, additive).** The button now has a purely visual `<div class="theme-picker-tooltip" role="tooltip" hidden>` sibling holding its `label` text, shown on pointer hover (hoverable, WCAG 1.4.13) or keyboard focus, dismissible with `Escape`, never shown while the listbox is open, and deliberately not linked with `aria-describedby`. New `.theme-picker-tooltip` class hook; no new attributes or text. Spec clauses 26-31.

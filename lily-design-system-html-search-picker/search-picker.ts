@@ -87,6 +87,8 @@ export class SearchPicker extends HTMLElement {
             "value",
             "action",
             "class",
+            "open",
+            "disabled",
         ];
     }
 
@@ -109,6 +111,13 @@ export class SearchPicker extends HTMLElement {
 
     // Disclosure state.
     #open = false;
+    /** True while an open comes from outside (the property, the attribute, mounting): state only, focus stays put. */
+    #quietOpen = false;
+    /** True while mounting open: the initial value is not a change, so nothing is reported. */
+    #silentOpen = false;
+
+    /** Called with the new open state whenever it changes; also dispatched as a bubbling `openchange` event. */
+    onOpenChange: ((open: boolean) => void) | undefined;
     // The live search text. Seeded from the `value` attribute; typing
     // updates this, never the attribute (same split as a native <input>).
     #value: string | null = null;
@@ -180,9 +189,57 @@ export class SearchPicker extends HTMLElement {
         this.#syncButtonContent();
     }
 
-    /** Is the panel open? Read-only; use `openPanel()` / `closePanel()`. */
+    /** Is the popup open? Settable: `true` opens it and `false` closes it, without moving focus. The `open` attribute is the initial state. */
     get open(): boolean {
         return this.#open;
+    }
+    set open(value: boolean) {
+        if (!!value === this.#open) return;
+        this.#quietOpen = true;
+        try {
+            if (value) this.openPanel();
+            else this.closePanel(false);
+        } finally {
+            this.#quietOpen = false;
+        }
+    }
+
+    /** Disables the button; an open popup closes. Attribute `disabled`. */
+    get disabled(): boolean {
+        return this.hasAttribute("disabled");
+    }
+    set disabled(value: boolean) {
+        if (value) this.setAttribute("disabled", "");
+        else this.removeAttribute("disabled");
+    }
+
+    #emitOpenChange(open: boolean): void {
+        if (this.#silentOpen) return;
+        this.onOpenChange?.(open);
+        this.dispatchEvent(new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }));
+    }
+
+    /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
+    #syncOpenAttributes(name: string): void {
+        if (!this.#buttonEl) return;
+        if (name === "disabled") {
+            this.#buttonEl.disabled = this.disabled;
+            if (this.disabled && this.#open) this.open = false;
+            return;
+        }
+        this.open = this.hasAttribute("open");
+    }
+
+    /** After a render: carry `disabled` onto the button and honour an initial `open` attribute (not reported as a change). */
+    #applyInitialOpen(): void {
+        if (this.#buttonEl) this.#buttonEl.disabled = this.disabled;
+        if (!this.hasAttribute("open") || this.disabled || this.#open) return;
+        this.#silentOpen = true;
+        try {
+            this.open = true;
+        } finally {
+            this.#silentOpen = false;
+        }
     }
 
     /** id of the rendered `<div class="search-picker-panel">`. */
@@ -234,6 +291,10 @@ export class SearchPicker extends HTMLElement {
     }
 
     attributeChangedCallback(name: string, old: string | null, value: string | null): void {
+        if (name === "open" || name === "disabled") {
+            this.#syncOpenAttributes(name);
+            return;
+        }
         // Idempotent: an unchanged write is a no-op.
         if (old === value) return;
         if (name === "value") {
@@ -258,19 +319,22 @@ export class SearchPicker extends HTMLElement {
 
     /** Open the panel and move focus into the search field. */
     openPanel(): void {
+        if (this.disabled) return;
         if (!this.#rootEl) return;
         this.#open = true;
+        this.#emitOpenChange(true);
         this.#syncState();
         // preventScroll: the panel is positioned by consumer CSS, and
         // focusing a field rendered partly off-screen would otherwise
         // scroll the whole page. #syncState has already removed `hidden`.
-        this.#inputEl?.focus({ preventScroll: true });
+        if (!this.#quietOpen) this.#inputEl?.focus({ preventScroll: true });
     }
 
     /** Close the panel. Returns focus to the button unless `refocus` is false. */
     closePanel(refocus = true): void {
         if (!this.#open) return;
         this.#open = false;
+        this.#emitOpenChange(false);
         this.#syncState();
         if (refocus) this.#buttonEl?.focus({ preventScroll: true });
     }
@@ -445,6 +509,7 @@ export class SearchPicker extends HTMLElement {
         this.#syncAttributes();
 
         this.replaceChildren(root);
+        this.#applyInitialOpen();
     }
 }
 

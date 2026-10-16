@@ -65,7 +65,10 @@ export function nextLinkPickerId(): string {
 /** Custom-element class implementing `<link-picker>`. */
 export class LinkPicker extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "links", "class"];
+        return ["label", "links", "class",
+                "open",
+                "disabled",
+        ];
     }
 
     #links: LinkItem[] = [];
@@ -79,6 +82,13 @@ export class LinkPicker extends HTMLElement {
     #listEl: HTMLUListElement | null = null;
 
     #open = false;
+    /** True while an open comes from outside (the property, the attribute, mounting): state only, focus stays put. */
+    #quietOpen = false;
+    /** True while mounting open: the initial value is not a change, so nothing is reported. */
+    #silentOpen = false;
+
+    /** Called with the new open state whenever it changes; also dispatched as a bubbling `openchange` event. */
+    onOpenChange: ((open: boolean) => void) | undefined;
 
     readonly #baseId = nextLinkPickerId();
 
@@ -115,9 +125,57 @@ export class LinkPicker extends HTMLElement {
         this.#render();
     }
 
-    /** Is the list open? Read-only; use `openList()` / `closeList()`. */
+    /** Is the popup open? Settable: `true` opens it and `false` closes it, without moving focus. The `open` attribute is the initial state. */
     get open(): boolean {
         return this.#open;
+    }
+    set open(value: boolean) {
+        if (!!value === this.#open) return;
+        this.#quietOpen = true;
+        try {
+            if (value) this.openList();
+            else this.closeList(false);
+        } finally {
+            this.#quietOpen = false;
+        }
+    }
+
+    /** Disables the button; an open popup closes. Attribute `disabled`. */
+    get disabled(): boolean {
+        return this.hasAttribute("disabled");
+    }
+    set disabled(value: boolean) {
+        if (value) this.setAttribute("disabled", "");
+        else this.removeAttribute("disabled");
+    }
+
+    #emitOpenChange(open: boolean): void {
+        if (this.#silentOpen) return;
+        this.onOpenChange?.(open);
+        this.dispatchEvent(new CustomEvent<boolean>("openchange", { detail: open, bubbles: true, composed: true }));
+    }
+
+    /** The `open` and `disabled` attributes, applied to the rendered button and popup. */
+    #syncOpenAttributes(name: string): void {
+        if (!this.#buttonEl) return;
+        if (name === "disabled") {
+            this.#buttonEl.disabled = this.disabled;
+            if (this.disabled && this.#open) this.open = false;
+            return;
+        }
+        this.open = this.hasAttribute("open");
+    }
+
+    /** After a render: carry `disabled` onto the button and honour an initial `open` attribute (not reported as a change). */
+    #applyInitialOpen(): void {
+        if (this.#buttonEl) this.#buttonEl.disabled = this.disabled;
+        if (!this.hasAttribute("open") || this.disabled || this.#open) return;
+        this.#silentOpen = true;
+        try {
+            this.open = true;
+        } finally {
+            this.#silentOpen = false;
+        }
     }
 
     /** id of the rendered `<ul class="link-picker-list">`. */
@@ -162,6 +220,10 @@ export class LinkPicker extends HTMLElement {
     }
 
     attributeChangedCallback(name: string): void {
+        if (name === "open" || name === "disabled") {
+            this.#syncOpenAttributes(name);
+            return;
+        }
         if (name === "links") this.#readLinksAttribute();
         if (name === "label" || name === "links" || name === "class") this.#render();
     }
@@ -186,17 +248,20 @@ export class LinkPicker extends HTMLElement {
 
     /** Open the list. Focuses the last link instead of the first when `focusLast`. */
     openList(focusLast = false): void {
+        if (this.disabled) return;
         const all = this.items();
         if (all.length === 0) return;
         this.#open = true;
+        this.#emitOpenChange(true);
         this.#syncState();
-        (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
+        if (!this.#quietOpen) (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
     }
 
     /** Close the list. Returns focus to the trigger unless `refocus` is false. */
     closeList(refocus = true): void {
         if (!this.#open) return;
         this.#open = false;
+        this.#emitOpenChange(false);
         this.#syncState();
         if (refocus) this.#buttonEl?.focus({ preventScroll: true });
     }
@@ -380,6 +445,7 @@ export class LinkPicker extends HTMLElement {
         this.#listEl = list;
 
         this.replaceChildren(root);
+        this.#applyInitialOpen();
     }
 }
 
