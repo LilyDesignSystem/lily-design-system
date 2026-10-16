@@ -10,22 +10,26 @@
         Listbox,
     } from "@lilydesignsystem/svelte-headless";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
-    import { isInvalidForType, resolveColumn, type DataGridCellType, type DataGridOption, type TypedColumn } from "./cell-types";
+    import {
+        draftOf as fieldDraft,
+        evaluateEdit,
+        exportFieldCell,
+        exportableFields,
+        fieldText as fieldTextOf,
+        editorKind,
+        isEditableField,
+        neighbourField,
+        resolveFields,
+        type Draft,
+        type FieldDef,
+        type ResolvedField,
+    } from "./typed-fields";
 
     /**
      * A typed field a card carries (an owner, a due date, an estimate): a bundle of display, sort and export defaults from
      * the data grid's cell types, read from `card.values[id]`. Plain data; the board shows it as text.
      */
-    export type KanbanField = Omit<TypedColumn, "type"> & {
-        /** Visible name of the field; also the header of its export column. */
-        header: string;
-        /** The kind of value: `text`, `number`, `link`, `date`, `time`, `select` or `radio` are editable here; the others display and export only. */
-        type?: DataGridCellType;
-        /** Set `false` to keep this field out of an export. */
-        exportable?: boolean;
-        /** Accessible name of the field's editor. Defaults to `header`. */
-        editLabel?: string;
-    };
+    export type KanbanField = FieldDef;
 
     export type KanbanColumn = {
         /** Stable column identifier. */
@@ -475,51 +479,25 @@
     // ---------------------------------------------------------------
 
     // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per card or keystroke.
-    const resolvedFields = $derived((fields ?? []).map((f) => resolveColumn(f as KanbanField & TypedColumn, locale) as KanbanField & TypedColumn));
-    const EDITABLE_TYPES = new Set(["text", "number", "link", "date", "time", "select", "radio"]);
-    const isFieldEditable = (f: KanbanField, card: KanbanCard) =>
-        !!onFieldEdit && !readonly && !card.locked && f.editable !== false && EDITABLE_TYPES.has(f.type ?? "text");
-    const fieldValue = (f: KanbanField & TypedColumn, card: KanbanCard): unknown => (f.accessor ? f.accessor(card.values ?? {}) : (card.values ?? {})[f.id]);
-    const fieldText = (f: KanbanField & TypedColumn, card: KanbanCard): string => {
-        const value = fieldValue(f, card);
-        if (value === null || value === undefined || value === "") return "";
-        const row = card.values ?? {};
-        return f.format ? f.format(value, row) : String(value);
-    };
-    const editorKind = (f: KanbanField): string => f.editor ?? f.type ?? "text";
+    const resolvedFields = $derived(resolveFields(fields, locale));
+    const isFieldEditable = (f: KanbanField, card: KanbanCard) => !!onFieldEdit && !readonly && !card.locked && isEditableField(f);
+    const fieldText = (f: ResolvedField, card: KanbanCard): string => fieldTextOf(f, card.values);
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editing = $state<{ cardId: string; fieldId: string; draft: string } | null>(null);
+    let editing = $state<{ cardId: string; fieldId: string; draft: Draft } | null>(null);
     let committing = false;
 
-    function draftOf(f: KanbanField & TypedColumn, card: KanbanCard): string {
-        const value = fieldValue(f, card);
-        if (value === null || value === undefined) return "";
-        if (f.type === "link") return typeof value === "string" ? value : String((value as { href?: string }).href ?? "");
-        return String(value);
-    }
-
-    async function startFieldEdit(card: KanbanCard, f: KanbanField & TypedColumn): Promise<void> {
+    async function startFieldEdit(card: KanbanCard, f: ResolvedField): Promise<void> {
         if (!isFieldEditable(f, card)) return;
         closeMoveMenu(card.id, false);
-        editing = { cardId: card.id, fieldId: f.id, draft: draftOf(f, card) };
+        editing = { cardId: card.id, fieldId: f.id, draft: fieldDraft(f, card.values) };
         await tick();
         const editor = rootEl?.querySelector<HTMLInputElement>(".kanban-board-field-editor");
         editor?.focus({ preventScroll: true });
         if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
     }
 
-    function parseDraft(f: KanbanField & TypedColumn, raw: string | number | null): unknown {
-        // A number input's bound value arrives as a number (or null when empty), whatever the draft was typed as.
-        const draft = raw === null || raw === undefined ? "" : String(raw);
-        if (f.parse) return f.parse(draft, {});
-        const kind = editorKind(f);
-        if (kind === "number") return draft.trim() === "" ? null : Number(draft);
-        if (kind === "date" || kind === "time" || kind === "select" || kind === "radio") return draft === "" ? null : draft;
-        return draft;
-    }
-
-    /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. */
+    /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
     function commitFieldEdit(refocus = true): boolean {
         if (!editing || committing) return true;
         const { cardId, fieldId, draft } = editing;
@@ -529,17 +507,16 @@
             editing = null;
             return true;
         }
-        const value = parseDraft(f, draft);
-        if (isInvalidForType(f, value)) {
+        const outcome = evaluateEdit(f, card.values, draft);
+        if (outcome.invalid) {
             announce(labels.editInvalid?.(cardLabel(card), f.header));
             return false;
         }
         committing = true;
-        const previous = fieldValue(f, card);
         editing = null;
-        if (value !== previous) {
-            onFieldEdit?.({ cardId, fieldId, value, previous });
-            announce(labels.editAnnouncement?.(cardLabel(card), f.header, value === null ? "" : String(value)));
+        if (outcome.changed) {
+            onFieldEdit?.({ cardId, fieldId, value: outcome.value, previous: outcome.previous });
+            announce(labels.editAnnouncement?.(cardLabel(card), f.header, outcome.text));
         }
         committing = false;
         if (refocus) void focusCard(cardId);
@@ -567,9 +544,7 @@
         } else if (event.key === "Tab" && editing) {
             // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
             const card = effectiveCards.find((c) => c.id === editing!.cardId);
-            const editable = card ? resolvedFields.filter((x) => isFieldEditable(x, card)) : [];
-            const at = editable.findIndex((x) => x.id === editing!.fieldId);
-            const next = editable[at + (event.shiftKey ? -1 : 1)];
+            const next = card ? neighbourField(resolvedFields.filter((x) => isFieldEditable(x, card)), editing.fieldId, event.shiftKey) : undefined;
             if (card && next) {
                 event.preventDefault();
                 if (commitFieldEdit(false)) void startFieldEdit(card, next);
@@ -584,18 +559,8 @@
         for (const column of columns) for (const card of shownByColumn.get(column.id) ?? []) if (exportScope !== "selected" || isSelected(card.id)) out.push(card);
         return out;
     });
-    const exportFieldList = $derived(resolvedFields.filter((f) => f.exportable !== false));
+    const exportFieldList = $derived(exportableFields(resolvedFields));
     const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
-
-    /** One field for an export: typed values stay typed, everything else is the text the board shows. */
-    function exportFieldCell(f: KanbanField & TypedColumn, card: KanbanCard): unknown {
-        const row = card.values ?? {};
-        if (f.exportValue) return f.exportValue(row);
-        const value = fieldValue(f, card);
-        if (value === null || value === undefined) return null;
-        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
-        return fieldText(f, card);
-    }
 
     function runExport(format: ExportFormat): void {
         const h = labels.exportHeaders;
@@ -614,7 +579,7 @@
             if (h.subtitle) cells.push(card.subtitle ?? null);
             if (h.badges) cells.push((card.badges ?? []).join("; "));
             if (h.flag) cells.push(card.flag ?? null);
-            for (const f of exportFieldList) cells.push(exportFieldCell(f, card));
+            for (const f of exportFieldList) cells.push(exportFieldCell(f, card.values));
             return cells;
         });
         const filename = exportFilename(exportBase, format);

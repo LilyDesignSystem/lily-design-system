@@ -19,22 +19,27 @@
         weekdayOf,
     } from "@lilydesignsystem/svelte-date-time-picker";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
-    import { civilDateToDate, isInvalidForType, resolveColumn, type DataGridCellType, type TypedColumn } from "./cell-types";
+    import { civilDateToDate } from "./cell-types";
+    import {
+        draftOf as fieldDraft,
+        evaluateEdit,
+        exportFieldCell,
+        exportableFields,
+        fieldText as fieldTextOf,
+        editorKind,
+        isEditableField,
+        neighbourField,
+        resolveFields,
+        type Draft,
+        type FieldDef,
+        type ResolvedField,
+    } from "./typed-fields";
 
     /**
      * A typed field an event carries (a room, a status, a cost), shown after the event's title in the agenda and read from
      * `event.values[id]`. A bundle of display, sort and export defaults from the data grid's cell types.
      */
-    export type CalendarEventField = Omit<TypedColumn, "type"> & {
-        /** Visible name of the field; also the header of its export column. */
-        header: string;
-        /** The kind of value: `text`, `number`, `link`, `date`, `time`, `select` or `radio` are editable; the others display and export only. */
-        type?: DataGridCellType;
-        /** Set `false` to keep this field out of an export. */
-        exportable?: boolean;
-        /** Accessible name of the field's editor. Defaults to `header`. */
-        editLabel?: string;
-    };
+    export type CalendarEventField = FieldDef;
 
     /** What `onExport` receives. Return `false` to take over the download. */
     export type CalendarExport = { format: ExportFormat; filename: string; eventCount: number; blob: Blob };
@@ -420,50 +425,26 @@
     // ---------------------------------------------------------------
 
     // Type defaults (format, compare, export value) resolved once per `eventFields` / `locale` change, never per event or keystroke.
-    const resolvedFields = $derived((eventFields ?? []).map((f) => resolveColumn(f as CalendarEventField & TypedColumn, locale) as CalendarEventField & TypedColumn));
-    const EDITABLE_TYPES = new Set(["text", "number", "link", "date", "time", "select", "radio"]);
-    const isFieldEditable = (f: CalendarEventField) => !!onFieldEdit && f.editable !== false && EDITABLE_TYPES.has(f.type ?? "text");
-    const fieldValue = (f: CalendarEventField & TypedColumn, calendarEvent: CalendarEvent): unknown => (f.accessor ? f.accessor(calendarEvent.values ?? {}) : (calendarEvent.values ?? {})[f.id]);
-    const fieldTextOf = (f: CalendarEventField & TypedColumn, calendarEvent: CalendarEvent): string => {
-        const value = fieldValue(f, calendarEvent);
-        if (value === null || value === undefined || value === "") return "";
-        return f.format ? f.format(value, calendarEvent.values ?? {}) : String(value);
-    };
+    const resolvedFields = $derived(resolveFields(eventFields, locale));
+    const isFieldEditable = (f: CalendarEventField) => !!onFieldEdit && isEditableField(f);
+    const eventFieldText = (f: ResolvedField, calendarEvent: CalendarEvent): string => fieldTextOf(f, calendarEvent.values);
     function fieldText(calendarEvent: CalendarEvent, fieldId: string): string {
         const f = resolvedFields.find((x) => x.id === fieldId);
-        return f ? fieldTextOf(f, calendarEvent) : "";
+        return f ? eventFieldText(f, calendarEvent) : "";
     }
     const eventTitle = (calendarEvent: CalendarEvent): string => (typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id);
-    const editorKind = (f: CalendarEventField): string => f.editor ?? f.type ?? "text";
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editing = $state<{ eventId: string; fieldId: string; draft: string | number | null } | null>(null);
+    let editing = $state<{ eventId: string; fieldId: string; draft: Draft } | null>(null);
     let committing = false;
 
-    function draftOf(f: CalendarEventField & TypedColumn, calendarEvent: CalendarEvent): string {
-        const value = fieldValue(f, calendarEvent);
-        if (value === null || value === undefined) return "";
-        if (f.type === "link") return typeof value === "string" ? value : String((value as { href?: string }).href ?? "");
-        return String(value);
-    }
-
-    async function startFieldEdit(calendarEvent: CalendarEvent, f: CalendarEventField & TypedColumn): Promise<void> {
+    async function startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): Promise<void> {
         if (!isFieldEditable(f)) return;
-        editing = { eventId: calendarEvent.id, fieldId: f.id, draft: draftOf(f, calendarEvent) };
+        editing = { eventId: calendarEvent.id, fieldId: f.id, draft: fieldDraft(f, calendarEvent.values) };
         await tick();
         const editor = rootEl?.querySelector<HTMLInputElement>(".calendar-view-field-editor");
         editor?.focus({ preventScroll: true });
         if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
-    }
-
-    function parseDraft(f: CalendarEventField & TypedColumn, raw: string | number | null): unknown {
-        // A number input's bound value arrives as a number (or null when empty), whatever the draft was typed as.
-        const draft = raw === null || raw === undefined ? "" : String(raw);
-        if (f.parse) return f.parse(draft, {});
-        const kind = editorKind(f);
-        if (kind === "number") return draft.trim() === "" ? null : Number(draft);
-        if (kind === "date" || kind === "time" || kind === "select" || kind === "radio") return draft === "" ? null : draft;
-        return draft;
     }
 
     /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
@@ -476,18 +457,17 @@
             editing = null;
             return true;
         }
-        const value = parseDraft(f, draft);
-        if (isInvalidForType(f, value)) {
+        const outcome = evaluateEdit(f, calendarEvent.values, draft);
+        if (outcome.invalid) {
             const message = labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
             if (message) statusMessage = message;
             return false;
         }
         committing = true;
-        const previous = fieldValue(f, calendarEvent);
         editing = null;
-        if (value !== previous) {
-            onFieldEdit?.({ eventId, fieldId, value, previous });
-            const message = labels?.editAnnouncement?.(eventTitle(calendarEvent), f.header, value === null ? "" : String(value));
+        if (outcome.changed) {
+            onFieldEdit?.({ eventId, fieldId, value: outcome.value, previous: outcome.previous });
+            const message = labels?.editAnnouncement?.(eventTitle(calendarEvent), f.header, outcome.text);
             if (message) statusMessage = message;
         }
         committing = false;
@@ -521,9 +501,7 @@
         } else if (event.key === "Tab" && editing) {
             // Tab commits and moves to the event's next (Shift+Tab: previous) editable field; past the last, it moves on.
             const calendarEvent = eventById.get(editing.eventId);
-            const editable = resolvedFields.filter(isFieldEditable);
-            const at = editable.findIndex((x) => x.id === editing!.fieldId);
-            const next = editable[at + (event.shiftKey ? -1 : 1)];
+            const next = neighbourField(resolvedFields.filter(isFieldEditable), editing.fieldId, event.shiftKey);
             if (calendarEvent && next) {
                 event.preventDefault();
                 if (commitFieldEdit(false)) void startFieldEdit(calendarEvent, next);
@@ -543,16 +521,7 @@
         return kept.sort((a, b) => eventSpan(a)!.start.localeCompare(eventSpan(b)!.start));
     });
     const hasExportButtons = $derived(!!labels?.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
-    const exportFieldList = $derived(resolvedFields.filter((f) => f.exportable !== false));
-
-    /** One field for an export: typed values stay typed, everything else is the text shown. */
-    function exportFieldCell(f: CalendarEventField & TypedColumn, calendarEvent: CalendarEvent): unknown {
-        if (f.exportValue) return f.exportValue(calendarEvent.values ?? {});
-        const value = fieldValue(f, calendarEvent);
-        if (value === null || value === undefined) return null;
-        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
-        return fieldTextOf(f, calendarEvent);
-    }
+    const exportFieldList = $derived(exportableFields(resolvedFields));
 
     function runExport(format: ExportFormat): void {
         const h = labels?.exportHeaders;
@@ -560,7 +529,7 @@
         const headers = [h.title, h.start, h.end, ...exportFieldList.map((f) => f.header)];
         const body = exportEvents.map((calendarEvent) => {
             const span = eventSpan(calendarEvent)!;
-            return [eventTitle(calendarEvent), civilDateToDate(span.start), civilDateToDate(span.end), ...exportFieldList.map((f) => exportFieldCell(f, calendarEvent))];
+            return [eventTitle(calendarEvent), civilDateToDate(span.start), civilDateToDate(span.end), ...exportFieldList.map((f) => exportFieldCell(f, calendarEvent.values))];
         });
         const filename = exportFilename(exportBase, format);
         const blob = exportBlob({ headers, rows: body }, format, { sheetName: exportBase });
@@ -902,7 +871,7 @@
                                     {#if resolvedFields.length > 0}
                                         <span class="calendar-view-event-fields">
                                             {#each resolvedFields as f (f.id)}
-                                                {@const text = fieldTextOf(f, calendarEvent)}
+                                                {@const text = eventFieldText(f, calendarEvent)}
                                                 {@const editable = isFieldEditable(f)}
                                                 {@const nameId = `${baseId}-fn-${calendarEvent.id}-${f.id}`}
                                                 {@const valueId = `${baseId}-fv-${calendarEvent.id}-${f.id}`}

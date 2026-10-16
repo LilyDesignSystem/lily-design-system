@@ -10,22 +10,27 @@
     import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
-    import { civilDateToDate, isInvalidForType, resolveColumn, type DataGridCellType, type TypedColumn } from "./cell-types";
+    import { civilDateToDate } from "./cell-types";
+    import {
+        draftOf as fieldDraft,
+        evaluateEdit,
+        exportFieldCell,
+        exportableFields,
+        fieldText as fieldTextOf,
+        editorKind,
+        isEditableField,
+        neighbourField,
+        resolveFields,
+        type Draft,
+        type FieldDef,
+        type ResolvedField,
+    } from "./typed-fields";
 
     /**
      * A typed field a task carries (an owner, a status, an estimate), shown as a column between the task name and the timeline and
      * read from `task.values[id]`. A bundle of display, sort and export defaults from the data grid's cell types.
      */
-    export type GanttField = Omit<TypedColumn, "type"> & {
-        /** Visible name of the field: its column header and the header of its export column. */
-        header: string;
-        /** The kind of value: `text`, `number`, `link`, `date`, `time`, `select` or `radio` are editable; the others display and export only. */
-        type?: DataGridCellType;
-        /** Set `false` to keep this field out of an export. */
-        exportable?: boolean;
-        /** Accessible name of the field's editor. Defaults to `header`. */
-        editLabel?: string;
-    };
+    export type GanttField = FieldDef;
 
     /** What `onExport` receives. Return `false` to take over the download. */
     export type GanttExport = { format: ExportFormat; filename: string; taskCount: number; blob: Blob };
@@ -417,46 +422,22 @@
     // ---------------------------------------------------------------
 
     // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per task or keystroke.
-    const resolvedFields = $derived((fields ?? []).map((f) => resolveColumn(f as GanttField & TypedColumn, locale) as GanttField & TypedColumn));
-    const EDITABLE_TYPES = new Set(["text", "number", "link", "date", "time", "select", "radio"]);
-    const isFieldEditable = (f: GanttField) => !!onFieldEdit && !readonly && f.editable !== false && EDITABLE_TYPES.has(f.type ?? "text");
-    const fieldValue = (f: GanttField & TypedColumn, task: GanttTask): unknown => (f.accessor ? f.accessor(task.values ?? {}) : (task.values ?? {})[f.id]);
-    const fieldText = (f: GanttField & TypedColumn, task: GanttTask): string => {
-        const value = fieldValue(f, task);
-        if (value === null || value === undefined || value === "") return "";
-        return f.format ? f.format(value, task.values ?? {}) : String(value);
-    };
-    const editorKind = (f: GanttField): string => f.editor ?? f.type ?? "text";
+    const resolvedFields = $derived(resolveFields(fields, locale));
+    const isFieldEditable = (f: GanttField) => !!onFieldEdit && !readonly && isEditableField(f);
+    const fieldText = (f: ResolvedField, task: GanttTask): string => fieldTextOf(f, task.values);
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editingField = $state<{ taskId: string; fieldId: string; draft: string | number | null } | null>(null);
+    let editingField = $state<{ taskId: string; fieldId: string; draft: Draft } | null>(null);
     let committing = false;
 
-    function draftOf(f: GanttField & TypedColumn, task: GanttTask): string {
-        const value = fieldValue(f, task);
-        if (value === null || value === undefined) return "";
-        if (f.type === "link") return typeof value === "string" ? value : String((value as { href?: string }).href ?? "");
-        return String(value);
-    }
-
-    async function startFieldEdit(task: GanttTask, f: GanttField & TypedColumn): Promise<void> {
+    async function startFieldEdit(task: GanttTask, f: ResolvedField): Promise<void> {
         if (!isFieldEditable(f)) return;
         editingTaskId = null;
-        editingField = { taskId: task.id, fieldId: f.id, draft: draftOf(f, task) };
+        editingField = { taskId: task.id, fieldId: f.id, draft: fieldDraft(f, task.values) };
         await tick();
         const editor = rootEl?.querySelector<HTMLInputElement>(".gantt-chart-field-editor");
         editor?.focus({ preventScroll: true });
         if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
-    }
-
-    function parseDraft(f: GanttField & TypedColumn, raw: string | number | null): unknown {
-        // A number input's bound value arrives as a number (or null when empty), whatever the draft was typed as.
-        const draft = raw === null || raw === undefined ? "" : String(raw);
-        if (f.parse) return f.parse(draft, {});
-        const kind = editorKind(f);
-        if (kind === "number") return draft.trim() === "" ? null : Number(draft);
-        if (kind === "date" || kind === "time" || kind === "select" || kind === "radio") return draft === "" ? null : draft;
-        return draft;
     }
 
     /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
@@ -469,17 +450,16 @@
             editingField = null;
             return true;
         }
-        const value = parseDraft(f, draft);
-        if (isInvalidForType(f, value)) {
+        const outcome = evaluateEdit(f, task.values, draft);
+        if (outcome.invalid) {
             announce(labels.editInvalid?.(taskLabel(task), f.header));
             return false;
         }
         committing = true;
-        const previous = fieldValue(f, task);
         editingField = null;
-        if (value !== previous) {
-            onFieldEdit?.({ taskId, fieldId, value, previous });
-            announce(labels.editAnnouncement?.(taskLabel(task), f.header, value === null ? "" : String(value)));
+        if (outcome.changed) {
+            onFieldEdit?.({ taskId, fieldId, value: outcome.value, previous: outcome.previous });
+            announce(labels.editAnnouncement?.(taskLabel(task), f.header, outcome.text));
         }
         committing = false;
         return true;
@@ -504,9 +484,7 @@
         } else if (event.key === "Tab" && editingField) {
             // Tab commits and moves to the task's next (Shift+Tab: previous) editable field; past the last, it moves on.
             const task = taskById.get(editingField.taskId);
-            const editable = resolvedFields.filter(isFieldEditable);
-            const at = editable.findIndex((x) => x.id === editingField!.fieldId);
-            const next = editable[at + (event.shiftKey ? -1 : 1)];
+            const next = neighbourField(resolvedFields.filter(isFieldEditable), editingField.fieldId, event.shiftKey);
             if (task && next) {
                 event.preventDefault();
                 if (commitFieldEdit()) void startFieldEdit(task, next);
@@ -518,16 +496,7 @@
 
     const exportRows = $derived(exportScope === "visible" ? rows.map((r) => r.task) : flattenTasks(tasks, new Set()).map((r) => r.task));
     const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
-    const exportFieldList = $derived(resolvedFields.filter((f) => f.exportable !== false));
-
-    /** One field for an export: typed values stay typed, everything else is the text the chart shows. */
-    function exportFieldCell(f: GanttField & TypedColumn, task: GanttTask): unknown {
-        if (f.exportValue) return f.exportValue(task.values ?? {});
-        const value = fieldValue(f, task);
-        if (value === null || value === undefined) return null;
-        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
-        return fieldText(f, task);
-    }
+    const exportFieldList = $derived(exportableFields(resolvedFields));
 
     /** A civil date as a real date for the spreadsheet; an unscheduled task's empty date as null. */
     const exportDate = (iso: string | undefined): Date | null => (iso ? civilDateToDate(iso) : null);
@@ -561,7 +530,7 @@
             }
             if (h.baselineStart) cells.push(exportDate(task.baseline?.start));
             if (h.baselineEnd) cells.push(exportDate(task.baseline?.end));
-            for (const f of exportFieldList) cells.push(exportFieldCell(f, task));
+            for (const f of exportFieldList) cells.push(exportFieldCell(f, task.values));
             return cells;
         });
         const filename = exportFilename(exportBase, format);
