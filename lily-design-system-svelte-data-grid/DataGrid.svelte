@@ -10,6 +10,7 @@
         isZonedTime,
         peopleOf,
         personName,
+        zonedUtcTime,
         type DataGridCellType,
         type DataGridFile,
         type DataGridOption,
@@ -111,6 +112,8 @@
         timeZones?: DataGridOption[];
         /** `time-zone`: the date (ISO) that orders zoned times and names a zone. Never computed by the grid. */
         referenceDate?: string;
+        /** `time-zone`: an export adds a second column holding the UTC time of day at `referenceDate`, headed by `labels.exportUtcHeader`. */
+        exportUtc?: boolean;
         /** `rollup`: how the related values are reduced. */
         aggregate?: "count" | "countUnique" | "sum" | "avg" | "median" | "min" | "max" | "range" | "percentTrue" | "percentEmpty";
         /** `rollup`: a reduction the named aggregates do not cover. */
@@ -146,7 +149,7 @@
         /** `select`: sort by option label (default) or by option order. (`radio` always sorts by order.) */
         sortBy?: "label" | "order";
         /** `select` and `radio`: export the option's `"label"` (default) or its `"id"`. */
-        exportAs?: "label" | "id";
+        exportAs?: "label" | "id" | "email";
         /** `number`: options for `Intl.NumberFormat`. */
         numberFormat?: Intl.NumberFormatOptions;
         /** `date`: options for `Intl.DateTimeFormat` (the zone is always UTC: a civil date does not shift). */
@@ -215,6 +218,8 @@
         radioGroup?: (header: string, rowLabel: string) => string;
         /** Accessible name of a `time-zone` editor's zone select. Defaults to the column header. */
         timeZone?: (header: string) => string;
+        /** `time-zone`: the header of the extra UTC export column: (column header). Gates the column (with `exportUtc` and a `referenceDate`). */
+        exportUtcHeader?: (header: string) => string;
         /** `person`: "+N more" text: (how many are hidden). Gates the text. */
         morePeople?: (count: number) => string;
         /** `file`: accessible name of a remove button: (file name). Gates the button. */
@@ -286,6 +291,8 @@
         busy?: boolean;
         /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
         scroll?: boolean;
+        /** `.xlsx` only: a `formula` column's cells keep the live expression with the result cached, so a spreadsheet user keeps the formula. CSV and TSV always carry the result. */
+        exportFormulas?: boolean;
         /** The file name without its extension. Default `"data-grid"`. */
         exportFilename?: string;
         /** What an export holds: `"view"` (default) is every row the filter leaves, in the current sort and not just the shown page; `"selected"` is only the selected rows. Hidden columns are never exported. */
@@ -382,6 +389,7 @@
         virtualize,
         exportFilename: exportBase = "data-grid",
         exportScope = "view",
+        exportFormulas = false,
         onExport,
         ...restProps
     }: Props = $props();
@@ -758,17 +766,41 @@
         return formatCell(column, row);
     }
 
+    /** The extra column a `time-zone` column asks for: its UTC time of day at the reference date. */
+    const hasUtcColumn = (c: DataGridColumn) => c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!labels.exportUtcHeader;
+
     function runExport(format: ExportFormat): void {
-        const table = {
-            headers: exportColumns.map((c) => c.header),
-            rows: exportEntries.map((entry) => exportColumns.map((c) => exportCell(c, entry.row))),
-        };
+        const live = (c: DataGridColumn) => format === "xlsx" && exportFormulas && c.type === "formula" && !!c.source;
+        const headers: string[] = [];
+        for (const c of exportColumns) {
+            headers.push(c.header);
+            if (hasUtcColumn(c)) headers.push(labels.exportUtcHeader!(c.header));
+        }
+        const rows = exportEntries.map((entry) => {
+            const cells: unknown[] = [];
+            for (const c of exportColumns) {
+                const expression = live(c) ? c.source!(entry.row) : undefined;
+                cells.push(typeof expression === "string" && expression !== "" && !c.errorOf?.(entry.row) ? { formula: expression, result: exportCell(c, entry.row) } : exportCell(c, entry.row));
+                if (hasUtcColumn(c)) cells.push(zonedUtcTime(defaultAccessor(c, entry.row), c.referenceDate));
+            }
+            return cells;
+        });
+        const table = { headers, rows };
         const filename = exportFilename(exportBase, format);
         const blob = exportBlob(table, format, { sheetName: exportBase });
         const rowCount = table.rows.length;
         if (onExport?.({ format, filename, rowCount, blob }) === false) return;
         downloadBlob(blob, filename);
         announce(labels.exportAnnouncement?.(format, rowCount, filename));
+    }
+
+    /** Files dropped on an editable file cell: the same report as the file input. The grid uploads nothing. */
+    function onFileDrop(entry: Entry, column: DataGridColumn, event: DragEvent): void {
+        const dropped = Array.from(event.dataTransfer?.files ?? []);
+        if (dropped.length === 0) return;
+        event.preventDefault();
+        const files = column.multiple === false ? dropped.slice(0, 1) : dropped;
+        onFilesSelected?.({ rowId: entry.id, row: entry.row, columnId: column.id, files });
     }
 
     // ---------------------------------------------------------------
@@ -1499,6 +1531,8 @@
                         data-pinned={column.pinned}
                                 data-editable={isEditable(column) ? "" : undefined}
                                 data-readonly={column.type === "rollup" ? "" : undefined}
+                                ondragover={column.type === "file" && column.editable ? (e: DragEvent) => { if (Array.from(e.dataTransfer?.types ?? []).includes("Files")) e.preventDefault(); } : undefined}
+                                ondrop={column.type === "file" && column.editable ? (e: DragEvent) => onFileDrop(entry, column, e) : undefined}
                                 aria-readonly={column.type === "rollup" ? "true" : undefined}
                                 data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
                                 data-editing={editing?.rowId === id && editing.columnId === column.id ? "" : undefined}

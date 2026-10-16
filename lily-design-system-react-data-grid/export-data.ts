@@ -12,7 +12,18 @@
 
 export type ExportFormat = "csv" | "tsv" | "xlsx";
 
-/** A header row and rows of cell values. A cell is a string, number, boolean, `Date`, or empty. */
+/**
+ * A live formula and the result it last computed. In an .xlsx the cell keeps the formula with the result cached
+ * (a spreadsheet user keeps the live formula); CSV and TSV carry only the result.
+ */
+export type ExportFormula = { formula: string; result: unknown };
+
+/** Whether a cell value is an {@link ExportFormula}. */
+export function isExportFormula(value: unknown): value is ExportFormula {
+    return !!value && typeof value === "object" && !(value instanceof Date) && typeof (value as ExportFormula).formula === "string" && "result" in (value as object);
+}
+
+/** A header row and rows of cell values. A cell is a string, number, boolean, `Date`, an {@link ExportFormula}, or empty. */
 export type ExportTable = {
     headers: string[];
     rows: unknown[][];
@@ -53,6 +64,7 @@ const FORMULA_START = /^[=+\-@\t\r]/;
 /** One cell as text. Numbers and booleans are never treated as formulas; only strings are defused. */
 export function cellText(value: unknown, safe = true): string {
     if (value === null || value === undefined) return "";
+    if (isExportFormula(value)) return cellText(value.result, safe);
     if (value instanceof Date) {
         if (Number.isNaN(value.getTime())) return "";
         // A date at exactly UTC midnight is a civil date: write it without a time of day.
@@ -142,8 +154,23 @@ const STYLES_XML =
     '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>' +
     "</styleSheet>";
 
+/** A formula cell: the expression (without its leading `=`) and the result it last computed, cached. */
+function formulaXml(ref: string, value: ExportFormula): string {
+    const expression = xmlEscape(value.formula.replace(/^=/, ""));
+    const result = value.result;
+    if (typeof result === "number" && Number.isFinite(result)) return `<c r="${ref}"><f>${expression}</f><v>${result}</v></c>`;
+    if (typeof result === "boolean") return `<c r="${ref}" t="b"><f>${expression}</f><v>${result ? 1 : 0}</v></c>`;
+    if (result instanceof Date && !Number.isNaN(result.getTime())) {
+        const timeOfDay = result.getTime() % 86_400_000 !== 0;
+        return `<c r="${ref}" s="${timeOfDay ? 2 : 1}"><f>${expression}</f><v>${excelSerial(result)}</v></c>`;
+    }
+    if (result === null || result === undefined) return `<c r="${ref}"><f>${expression}</f></c>`;
+    return `<c r="${ref}" t="str"><f>${expression}</f><v>${xmlEscape(String(result))}</v></c>`;
+}
+
 function cellXml(ref: string, value: unknown, headerStyle = false): string {
     if (value === null || value === undefined) return "";
+    if (isExportFormula(value)) return formulaXml(ref, value);
     const s = headerStyle ? ' s="3"' : "";
     if (value instanceof Date) {
         if (Number.isNaN(value.getTime())) return "";

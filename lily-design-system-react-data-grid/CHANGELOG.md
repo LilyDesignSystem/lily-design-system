@@ -7,6 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.9.0 — 2026-10-16
 
 - Added the five remaining cell types, ported from the Svelte 0.9.0: `time-zone`, `person` (`avatar`, `personEditor` render props), `file` (`onFilesSelected`, `onFileRemove`; nothing is uploaded), `rollup` (read-only, `aggregate` / `reduce` / `relation`) and `formula` (the consumer's `evaluate`; no engine, no string evaluation). Rollup and formula results are computed once per row each time `rows` or `columns` change. New exports: `aggregateValues`, `isZonedTime`, `isValidTimeZone`, `zonedMinutes`, `peopleOf`, `personName`, `filesOf`.
+- Also built, ported from the Svelte 0.9.0: `time-zone` `exportUtc` (with `labels.exportUtcHeader` and a `referenceDate`), person `exportAs: "email"`, files dropped on an editable file cell, and `exportFormulas` (`.xlsx` keeps `<f>` with the result cached; CSV and TSV carry the result). `export-data.ts` is again a copy of the Svelte module.
 
 ## 0.8.0 — 2026-10-16
 

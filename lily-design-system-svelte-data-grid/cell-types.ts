@@ -62,7 +62,7 @@ export type TypedColumn = {
     locale?: string;
     options?: DataGridOption[];
     sortBy?: "label" | "order";
-    exportAs?: "label" | "id";
+    exportAs?: "label" | "id" | "email";
     numberFormat?: Intl.NumberFormatOptions;
     dateFormat?: Intl.DateTimeFormatOptions;
     timeFormat?: Intl.DateTimeFormatOptions;
@@ -199,6 +199,15 @@ export function zonedMinutes(value: unknown, referenceDate?: string): number | n
     const offset = zoneOffsetMinutes(value.timeZone, guess);
     if (offset === null) return local;
     return guess / 60000 - offset;
+}
+
+/** A zoned time as the UTC time of day (`HH:mm`) at a reference date. Null without a valid reference date or value. */
+export function zonedUtcTime(value: unknown, referenceDate?: string): string | null {
+    if (!referenceDate || !isCivilDate(referenceDate)) return null;
+    const minutes = zonedMinutes(value, referenceDate);
+    if (minutes === null) return null;
+    const day = ((Math.round(minutes) % 1440) + 1440) % 1440;
+    return `${String(Math.floor(day / 60)).padStart(2, "0")}:${String(day % 60).padStart(2, "0")}`;
 }
 
 /** The zone as text: its short name (`BST`) when there is a locale and a reference date, else the zone id as given. */
@@ -417,8 +426,10 @@ function typeDefaults(column: TypedColumn, gridLocale: string | undefined): Part
                     return order(x[0] ?? "", y[0] ?? "") || x.length - y.length;
                 },
                 exportValue: (row) => {
-                    const joined = names(column.accessor ? column.accessor(row) : row[column.id]).join("; ");
-                    return joined === "" ? null : joined;
+                    const value = column.accessor ? column.accessor(row) : row[column.id];
+                    const parts = column.exportAs === "email" ? peopleOf(value).map((p) => p.email ?? "") : names(value);
+                    const joined = parts.join("; ");
+                    return joined.replace(/[;\s]/g, "") === "" ? null : joined;
                 },
             };
         }

@@ -1475,4 +1475,61 @@ describe("DataGrid — time zone, person, file, rollup and formula types (§8.98
         fireEvent.click(document.querySelector("[data-pick]")!);
         expect(onCellEdit.mock.calls[0][0]).toMatchObject({ columnId: "p", value: { id: "b", name: "Bo" }, previous: { id: "a", name: "Ann" } });
     });
+
+    test("§8.116 time-zone exportUtc adds a UTC column at the reference date, headed by labels.exportUtcHeader; absent without the label or a reference date", async () => {
+        const rows = [{ t: { time: "13:00", timeZone: "America/New_York" } }, { t: { time: "09:00", timeZone: "+01:00" } }];
+        const run = async (column: Record<string, unknown>, labels: Record<string, unknown>) => {
+            const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+            mount([{ id: "t", header: "Start", type: "time-zone", ...column } as DataGridColumn], rows, { labels: { exportCsv: "CSV", ...labels }, onExport });
+            fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+            const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+            cleanup();
+            return out;
+        };
+        const labels = { exportUtcHeader: (h: string) => `${h} (UTC)` };
+        expect(await run({ exportUtc: true, referenceDate: "2026-07-01" }, labels)).toBe("\uFEFFStart,Start (UTC)\r\n13:00 America/New_York,17:00\r\n09:00 +01:00,08:00\r\n");
+        expect(await run({ exportUtc: true }, labels)).toBe("\uFEFFStart\r\n13:00 America/New_York\r\n09:00 +01:00\r\n");
+        expect(await run({ exportUtc: true, referenceDate: "2026-07-01" }, {})).toBe("\uFEFFStart\r\n13:00 America/New_York\r\n09:00 +01:00\r\n");
+    });
+
+    test("§8.117 person exportAs email exports the emails '; '-joined; people without an email add nothing", async () => {
+        const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+        mount([{ id: "p", header: "P", type: "person", exportAs: "email" }], [{ p: [{ id: "a", name: "Ann", email: "ann@x" }, { id: "b", name: "Bo", email: "bo@x" }] }, { p: [{ id: "c", name: "Cy" }] }], { labels: { exportCsv: "CSV" }, onExport });
+        fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+        expect(out).toBe("\uFEFFP\r\nann@x; bo@x\r\n\r\n");
+    });
+
+    test("§8.118 files dropped on an editable file cell are reported like the input; a non-file drop and a read-only cell do nothing", async () => {
+        const onFilesSelected = vi.fn();
+        mount([{ id: "f", header: "F", type: "file", editable: true, multiple: false }, { id: "g", header: "G", type: "file" }], [{ f: [], g: [] }], { onFilesSelected });
+        const a = new File(["a"], "a.txt");
+        const b = new File(["b"], "b.txt");
+        fireEvent.drop(dataCell(0, 0), { dataTransfer: { files: [a, b], types: ["Files"] } });
+        expect(onFilesSelected).toHaveBeenCalledTimes(1);
+        expect(onFilesSelected.mock.calls[0][0]).toMatchObject({ columnId: "f", files: [a] });
+        fireEvent.drop(dataCell(0, 0), { dataTransfer: { files: [], types: ["text/plain"] } });
+        fireEvent.drop(dataCell(0, 1), { dataTransfer: { files: [a], types: ["Files"] } });
+        expect(onFilesSelected).toHaveBeenCalledTimes(1);
+    });
+
+    test("§8.119 exportFormulas keeps live formulas in .xlsx only; CSV still carries the result", async () => {
+        const evaluate = (e: string) => ({ value: Number(e.slice(1)) * 2 });
+        const grab = async (format: "csv" | "xlsx", extra: Record<string, unknown>) => {
+            const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+            mount([{ id: "f", header: "F", type: "formula", evaluate }], [{ f: "=21" }], { labels: { exportCsv: "CSV", exportExcel: "Excel" }, onExport, ...extra });
+            fireEvent.click(screen.getByRole("button", { name: format === "csv" ? "CSV" : "Excel" }));
+            const blob = onExport.mock.calls[0][0].blob;
+            cleanup();
+            return blob;
+        };
+        const csv = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await (await grab("csv", { exportFormulas: true })).arrayBuffer());
+        expect(csv).toBe("\uFEFFF\r\n42\r\n");
+        const bytes = new Uint8Array(await (await grab("xlsx", { exportFormulas: true })).arrayBuffer());
+        const text = new TextDecoder().decode(bytes);
+        expect(text).toContain("<f>21</f><v>42</v>");
+        const plain = new TextDecoder().decode(new Uint8Array(await (await grab("xlsx", {})).arrayBuffer()));
+        expect(plain).not.toContain("<f>");
+        expect(plain).toContain("<v>42</v>");
+    });
 });

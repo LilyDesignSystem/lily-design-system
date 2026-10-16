@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { cellText, columnName, crc32, exportBlob, exportFilename, toCsv, toTsv, toXlsx } from "./export-data";
+import { cellText, columnName, crc32, exportBlob, exportFilename, isExportFormula, toCsv, toTsv, toXlsx } from "./export-data";
 
 /** Reads a stored-only ZIP back into `{ name: text }`, checking every CRC. */
 function unzip(bytes: Uint8Array): Record<string, string> {
@@ -137,5 +137,20 @@ describe("non-ASCII text (§8.78)", () => {
         expect(sheet).toContain(">naïve 🌸<");
         expect(exportFilename("売上 2026", "csv")).toBe("売上 2026.csv");
     });
-});
 
+    test("§8.115 a formula cell keeps its expression with the result cached in .xlsx; CSV and TSV carry only the result", () => {
+        const table = {
+            headers: ["Sum", "Text", "Flag", "Empty", "Date"],
+            rows: [[{ formula: "=1+2", result: 3 }, { formula: "=\"a\"&\"<b>\"", result: "a<b>" }, { formula: "=TRUE", result: true }, { formula: "=A9", result: null }, { formula: "=DATE(2026,10,16)", result: new Date("2026-10-16T00:00:00Z") }]],
+        };
+        const sheet = unzip(toXlsx(table))["xl/worksheets/sheet1.xml"];
+        expect(sheet).toContain('<c r="A2"><f>1+2</f><v>3</v></c>');
+        expect(sheet).toContain('<c r="B2" t="str"><f>"a"&amp;"&lt;b&gt;"</f><v>a&lt;b&gt;</v></c>');
+        expect(sheet).toContain('<c r="C2" t="b"><f>TRUE</f><v>1</v></c>');
+        expect(sheet).toContain('<c r="D2"><f>A9</f></c>');
+        expect(sheet).toMatch(/<c r="E2" s="1"><f>DATE\(2026,10,16\)<\/f><v>\d+<\/v><\/c>/);
+        expect(toCsv(table)).toBe("Sum,Text,Flag,Empty,Date\r\n3,a<b>,TRUE,,2026-10-16\r\n");
+        expect(isExportFormula({ formula: "=1", result: 1 })).toBe(true);
+        expect(isExportFormula({ formula: "=1" })).toBe(false);
+    });
+});

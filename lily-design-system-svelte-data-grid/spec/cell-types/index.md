@@ -136,7 +136,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: a time field plus a zone select (the grid's `timeZone` choices come from the column, like `date-time-picker`'s `timeZones` / `timeZoneLabels`). Both are named; changing the zone does not change the stated time.
 - **Export**: text `14:30 Europe/London` (lossless and sortable by a person); with a `referenceDate`, an additional UTC column is optional.
 - **Accessibility**: the zone is read as text, never icon or colour only; the zone select's options carry the consumer's labels (no English city names bundled).
-- **Status**: shipped (0.9.0) as `type: "time-zone"`. Differences: with a `locale` and a `referenceDate` the zone is its short name (`BST`), otherwise the zone id as given (a short name depends on the date, and the grid never computes one); the optional extra UTC export column is not implemented.
+- **Status**: shipped (0.9.0) as `type: "time-zone"`. Differences: with a `locale` and a `referenceDate` the zone is its short name (`BST`), otherwise the zone id as given (a short name depends on the date, and the grid never computes one); `exportUtc` adds the extra UTC column (the time of day at `referenceDate`, headed by `labels.exportUtcHeader`).
 
 ### 3.7 Select option
 
@@ -169,7 +169,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: choosing a person means a *lookup*, which Lily cannot do (it does no data fetching). The editor is a consumer snippet (`personEditor`) given `{ value, commit, cancel }`; Lily provides the surrounding edit model (focus, Enter/Escape, validate, announcement). The consumer builds the search as an APG combobox.
 - **Export**: the name (`; `-joined); `exportAs: "email"` or an extra email column when needed.
 - **Accessibility / privacy**: names are personal data — they are exported only because the person pressed Export; Lily stores nothing and sends nothing. Emails appear only if the column asks. A person with no name falls back to their id as text, not to a blank.
-- **Status**: shipped (0.9.0). `personEditor` is a snippet given `{ value, commit, cancel }`; a person column with no `personEditor` is read-only even with `editable`. `exportAs: "email"` and the extra email column are not implemented.
+- **Status**: shipped (0.9.0). `personEditor` is a snippet given `{ value, commit, cancel }`; a person column with no `personEditor` is read-only even with `editable`. `exportAs: "email"` exports the emails; the extra email column is not built (use `exportAs`).
 
 ### 3.10 File
 
@@ -179,7 +179,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: a native `<input type="file">` (with `multiple`/`accept` from the column) named by the header. Lily **does not upload**: the chosen `File` objects go to `onFilesSelected({ rowId, row, columnId, files })`, and the consumer uploads, then updates `rows`. A remove control per file (a real button with `labels.removeFile(name)`) calls `onFileRemove`. Drag-and-drop onto the cell is a supplementary path, never the only one.
 - **Export**: the names, `; `-joined (no bytes, no paths).
 - **Accessibility**: the input has a visible/accessible name; progress and failure are the consumer's to announce through `labels`; the file list is a list so counts are announced.
-- **Status**: shipped (0.9.0). `onFilesSelected` and `onFileRemove` report; the file input and remove buttons are shown inline in an `editable` file cell (no separate edit mode). Drag-and-drop onto the cell is not implemented.
+- **Status**: shipped (0.9.0). `onFilesSelected` and `onFileRemove` report; the file input and remove buttons are shown inline in an `editable` file cell (no separate edit mode). Files dropped on an editable file cell are reported through `onFilesSelected` like the input's.
 
 ### 3.11 Rollup
 
@@ -200,7 +200,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: `F2` / Enter opens the editor showing the **expression**, not the result (as a spreadsheet does); commit stores the expression and recomputes; `validate` runs the engine's parse and refuses an invalid expression with `aria-invalid` and the engine's message. The editor is a text input; autocomplete of function names is out of scope.
 - **Dependencies**: recomputation order and invalidation are the engine's; the grid re-derives a cell's result when `rows`, the expression or `evaluate` changes, once per change.
 - **Accessibility**: the cell announces its result; the editor is named `labels.formulaEditor(header)`. A cell whose result is an error says so in text. `aria-readonly` is not set on editable formula cells.
-- **Status**: shipped (0.9.0) as `type: "formula"` with `evaluate`, `resultType`; the result is derived once per row, the editor shows the expression. `exportFormulas` (`<f>` cells in `.xlsx`) is not implemented.
+- **Status**: shipped (0.9.0) as `type: "formula"` with `evaluate`, `resultType`; the result is derived once per row, the editor shows the expression. `exportFormulas` writes `.xlsx` formula cells (`<f>` with the result cached); CSV and TSV carry the result.
 
 ## 4. Behaviour across the grid's features
 

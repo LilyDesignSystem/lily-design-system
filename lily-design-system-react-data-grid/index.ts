@@ -19,13 +19,14 @@ export {
   downloadBlob,
   exportBlob,
   exportFilename,
+  isExportFormula,
   toCsv,
   toDelimited,
   toTsv,
   toXlsx,
   zipStore,
 } from "./export-data";
-export type { DelimitedOptions, ExportFormat, ExportTable, XlsxOptions } from "./export-data";
+export type { DelimitedOptions, ExportFormat, ExportFormula, ExportTable, XlsxOptions } from "./export-data";
 export {
   aggregateValues,
   civilDateToDate,
@@ -42,6 +43,7 @@ export {
   resolveColumn,
   safeHref,
   zonedMinutes,
+  zonedUtcTime,
 } from "./cell-types";
 export type {
   DataGridAggregate,
