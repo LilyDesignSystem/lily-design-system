@@ -9,10 +9,10 @@ export type GanttTask = {
     id: string;
     /** Visible task label. */
     label: string;
-    /** ISO date (`YYYY-MM-DD`), inclusive. */
-    start: string;
+    /** ISO date (`YYYY-MM-DD`), inclusive. Absent (with `end`) means the task is unscheduled: its row shows no bar (`data-unscheduled`) and its edit region sets the dates. */
+    start?: string;
     /** ISO date (`YYYY-MM-DD`), inclusive. Equal to `start` means a milestone. */
-    end: string;
+    end?: string;
     /** 0–100. Rendering the fill is the consumer's own CSS. */
     percentComplete?: number;
     /** Another task's id; builds the row hierarchy. */
@@ -69,6 +69,10 @@ export type GanttLabels = {
         varianceDays: number,
     ) => string;
     collapseButton?: (task: GanttTask, collapsed: boolean) => string;
+    /** Accessible name for the button that expands every parent task. Gates the button. */
+    expandAll?: string;
+    /** Accessible name for the button that collapses every parent task. Gates the button. */
+    collapseAll?: string;
 };
 
 /** Public props for GanttChart. See `spec/index.md` §4 for the contract. */
@@ -190,7 +194,7 @@ export function flattenTasks(tasks: GanttTask[], collapsed: ReadonlySet<string>)
 
 /** A parent's start/end are derived (min start / max end of descendants), never its own data. */
 export function effectiveRange(task: GanttTask, allTasks: GanttTask[]): { start: string; end: string } {
-    return effectiveRanges(allTasks).get(task.id) ?? { start: task.start, end: task.end };
+    return effectiveRanges(allTasks).get(task.id) ?? { start: task.start ?? "", end: task.end ?? "" };
 }
 
 /**
@@ -213,12 +217,13 @@ export function effectiveRanges(tasks: GanttTask[]): Map<string, { start: string
         const known = ranges.get(task.id);
         if (known) return known;
         const children = childrenOf.get(task.id) ?? [];
-        if (children.length === 0 || onWalk.has(task.id)) return { start: task.start, end: task.end };
+        if (children.length === 0 || onWalk.has(task.id)) return { start: task.start ?? "", end: task.end ?? "" };
         onWalk.add(task.id);
         let start = "";
         let end = "";
         for (const child of children) {
             const r = visit(child);
+            if (!r.start) continue; // an unscheduled child does not shape its parent's span
             if (!start || compareISO(r.start, start) < 0) start = r.start;
             if (!end || compareISO(r.end, end) > 0) end = r.end;
         }
@@ -268,6 +273,8 @@ const props = withDefaults(defineProps<Props>(), {
 // `kanban-board`'s own `move` and `picker-bar`'s `theme-change` et al.
 /** Column granularity (`v-model:timeUnit`). The zoom buttons (shown when `labels.zoomIn` / `labels.zoomOut` name them) step it month ↔ week ↔ day. */
 const timeUnit = defineModel<GanttTimeUnit>("timeUnit", { default: "day" });
+/** Ids of collapsed parent tasks (`v-model:collapsedTaskIds`); the collapse buttons, `labels.expandAll` and `labels.collapseAll` change it. */
+const collapsedTaskIds = defineModel<string[]>("collapsedTaskIds", { default: () => [] });
 /** The selected task's id (`v-model:selectedTaskId`). A click on a task's row or the `s` key on it selects (again deselects); `aria-selected`, `data-selected`. */
 const selectedTaskId = defineModel<string | undefined>("selectedTaskId", { default: undefined });
 
@@ -282,7 +289,7 @@ const dependencyId = (taskId: string) => `${baseId}-deps-${taskId}`;
 
 const rootEl = ref<HTMLDivElement | null>(null);
 const statusMessage = ref("");
-const collapsed = ref(new Set<string>());
+const collapsed = computed(() => new Set(collapsedTaskIds.value));
 const focusedRow = ref(0);
 const focusedCol = ref(0);
 
@@ -313,7 +320,7 @@ function resolveTaskLabel(task: GanttTask): string {
 }
 
 function rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
-    return hasChildren ? (ranges.value.get(task.id) ?? task) : { start: task.start, end: task.end };
+    return hasChildren ? (ranges.value.get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
 }
 
 function announce(message: string | undefined): void {
@@ -325,10 +332,20 @@ function announce(message: string | undefined): void {
 // ---------------------------------------------------------------
 
 function toggleCollapse(taskId: string): void {
-    const next = new Set(collapsed.value);
-    if (next.has(taskId)) next.delete(taskId);
-    else next.add(taskId);
-    collapsed.value = next;
+    collapsedTaskIds.value = collapsed.value.has(taskId)
+        ? collapsedTaskIds.value.filter((id) => id !== taskId)
+        : [...collapsedTaskIds.value, taskId];
+}
+
+/** Every task that has children (the ones a collapse button applies to). */
+const parentIds = computed(() =>
+    Array.from(new Set(props.tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) =>
+        props.tasks.some((t) => t.id === id),
+    ),
+);
+
+function setAllCollapsed(value: boolean): void {
+    collapsedTaskIds.value = value ? parentIds.value : [];
 }
 
 // ---------------------------------------------------------------
@@ -361,6 +378,7 @@ function describedBy(task: GanttTask, hasDeps: boolean): string | undefined {
 }
 
 function varianceDays(task: GanttTask, currentEnd: string): number {
+    if (!currentEnd) return 0;
     const a = parseIsoDate(task.baseline!.end);
     const b = parseIsoDate(currentEnd);
     return a && b ? toEpochDay(b) - toEpochDay(a) : 0;
@@ -379,8 +397,8 @@ function applyChange(task: GanttTask, start: string, end: string, percentComplet
 async function openEdit(task: GanttTask): Promise<void> {
     if (!canEdit.value) return;
     editingTaskId.value = task.id;
-    editStart.value = task.start;
-    editEnd.value = task.end;
+    editStart.value = task.start ?? "";
+    editEnd.value = task.end ?? "";
     editPercent.value = task.percentComplete != null ? String(task.percentComplete) : "";
     // Focus moves into the region it opened, onto the start date's field.
     await nextTick();
@@ -464,6 +482,7 @@ function columnIndexOf(isoDate: string): number {
 }
 
 function shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    if (!task.start || !task.end) return; // an unscheduled task has nothing to shift
     if (endOnly) {
         const target = columns.value[columnIndexOf(task.end) + delta];
         if (target && compareISO(task.start, target.end) <= 0) applyChange(task, task.start, target.end);
@@ -489,7 +508,7 @@ function onCellDrop(column: GanttColumn, event: DragEvent): void {
     const task = props.tasks.find((t) => t.id === taskId);
     const edge = resizingEdge;
     resizingEdge = null;
-    if (!task) return;
+    if (!task || !task.start || !task.end) return;
     if (edge) {
         // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
         const start = edge === "start" ? column.start : task.start;
@@ -638,7 +657,7 @@ function viewForRow(row: FlatRow, rowIndex: number): RowView {
     const { start, end } = rangeFor(row.task, row.hasChildren);
     const deps = predecessorLabels(row.task);
     const cells = columns.value.map((column, colIndex) => {
-        const inRange = rangesOverlap(column.start, column.end, start, end);
+        const inRange = !!start && !!end && rangesOverlap(column.start, column.end, start, end);
         const isMilestone = inRange && start === end;
         const isToday = isTodayColumn(column);
         const isLeadingCell = inRange && rangesOverlap(column.start, column.end, start, start);
@@ -662,6 +681,22 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
 
 <template>
     <div ref="rootEl" :class="`gantt-chart ${props.class ?? ''}`.trim()" :data-readonly="readonly ? '' : undefined">
+        <div v-if="parentIds.length > 0 && (labels?.expandAll || labels?.collapseAll)" class="gantt-chart-collapse-all" role="group" :aria-label="label">
+            <button
+                v-if="labels?.expandAll"
+                type="button"
+                class="gantt-chart-expand-all-button"
+                :disabled="collapsedTaskIds.length === 0"
+                @click="setAllCollapsed(false)"
+            >{{ labels.expandAll }}</button>
+            <button
+                v-if="labels?.collapseAll"
+                type="button"
+                class="gantt-chart-collapse-all-button"
+                :disabled="parentIds.every((id) => collapsed.has(id))"
+                @click="setAllCollapsed(true)"
+            >{{ labels.collapseAll }}</button>
+        </div>
         <div v-if="labels?.zoomIn || labels?.zoomOut" class="gantt-chart-zoom" role="group" :aria-label="label">
             <button
                 v-if="labels?.zoomOut"
@@ -706,6 +741,7 @@ const rowViews = computed(() => rows.value.map((row, rowIndex) => viewForRow(row
                         :data-critical="view.row.task.critical ? '' : undefined"
                         :data-slack="view.row.task.slack"
                         :data-task-id="view.row.task.id"
+                        :data-unscheduled="!view.row.hasChildren && (!view.row.task.start || !view.row.task.end) ? '' : undefined"
                         :aria-selected="selectedTaskId === view.row.task.id ? 'true' : undefined"
                         :data-selected="selectedTaskId === view.row.task.id ? '' : undefined"
                         v-bind="taskAttrs?.(view.row.task) ?? {}"
