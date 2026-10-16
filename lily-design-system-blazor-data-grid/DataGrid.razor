@@ -1,0 +1,415 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+@using Microsoft.AspNetCore.Components.Forms
+
+@*
+    DataGrid component
+
+    An interactive data grid over the headless DataTable family: sort, filter, selection, resize, reorder, pagination,
+    cell editing, virtualization, export and twelve cell types. Ships no CSS. See spec/index.md.
+
+    Root: <div class="data-grid {CssClass}"> holding an optional toolbar, the table (in a data-grid-scroll region unless
+    Scroll is false), an optional pagination footer and the data-grid-status live region.
+*@
+
+<div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
+    @if (Labels.Search is not null || HidableColumns.Count > 0 || HasExportButtons)
+    {
+        <div class="data-grid-toolbar">
+            @if (Labels.Search is not null)
+            {
+                <input class="data-grid-search" type="search" aria-label="@Labels.Search" value="@Filter" @oninput="OnFilterInputAsync" />
+            }
+            @if (HasExportButtons)
+            {
+                <div class="data-grid-export" role="group" aria-label="@Labels.Export">
+                    @if (Labels.ExportCsv is not null)
+                    {
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="csv"
+                                disabled="@(ExportEntries.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Csv))">@Labels.ExportCsv</button>
+                    }
+                    @if (Labels.ExportTsv is not null)
+                    {
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="tsv"
+                                disabled="@(ExportEntries.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Tsv))">@Labels.ExportTsv</button>
+                    }
+                    @if (Labels.ExportExcel is not null)
+                    {
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="xlsx"
+                                disabled="@(ExportEntries.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Xlsx))">@Labels.ExportExcel</button>
+                    }
+                </div>
+            }
+            @if (HidableColumns.Count > 0 && Labels.ColumnVisibility is not null)
+            {
+                <fieldset class="data-grid-column-visibility">
+                    <legend>@Labels.ColumnVisibility</legend>
+                    @foreach (var hidable in HidableColumns)
+                    {
+                        var hidableId = hidable.Id;
+                        <label>
+                            <input type="checkbox" checked="@(!_hiddenColumnIds.Contains(hidableId))" @onchange="@(() => ToggleColumnVisibilityAsync(hidableId))" />
+                            @(Labels.ColumnVisibilityOption?.Invoke(hidable.Header) ?? hidable.Header)
+                        </label>
+                    }
+                </fieldset>
+            }
+        </div>
+    }
+
+    @if (Scroll)
+    {
+        @* A scrollable region must be reachable by keyboard (WCAG 2.1.1). In grid mode a roving cell is already a tab stop, so only table mode makes the region one. *@
+        <div id="@ScrollId" class="data-grid-scroll" role="region" aria-label="@Label"
+             tabindex="@(IsGrid ? null : "0")"
+             style="@(Virtualize is { } vz ? $"height:{vz.Height}px;overflow:auto" : null)"
+             @onscroll="OnScrollAsync">
+            @TableFragment
+        </div>
+    }
+    else
+    {
+        @TableFragment
+    }
+
+    @if (PageSize is not null)
+    {
+        <div class="data-grid-pagination">
+            <button type="button" class="data-grid-page-previous" disabled="@(ClampedPage <= 1)" @onclick="@(() => GoToPageAsync(ClampedPage - 1))">@Labels.PreviousPage</button>
+            <span class="data-grid-page-status">@Labels.PageStatus?.Invoke(ClampedPage, PageCount, _sorted.Count)</span>
+            <button type="button" class="data-grid-page-next" disabled="@(ClampedPage >= PageCount)" @onclick="@(() => GoToPageAsync(ClampedPage + 1))">@Labels.NextPage</button>
+        </div>
+    }
+
+    <p class="data-grid-status" aria-live="polite">@_statusMessage</p>
+</div>
+
+@code {
+    private RenderFragment TableFragment => __builder =>
+    {
+        var items = RenderItems();
+        <DataTable Label="@Label" role="@(IsGrid ? "grid" : "table")"
+                   aria-rowcount="@(IsGrid ? RowCount?.ToString() : null)"
+                   aria-busy="@(Busy ? "true" : null)"
+                   @onkeydown="@(IsGrid ? OnGridKeyDownAsync : NoKeys)">
+            @if (!string.IsNullOrEmpty(Caption))
+            {
+                <caption>@Caption</caption>
+            }
+            <DataTableHead>
+                <DataTableRow aria-rowindex="@(Indexed ? "1" : null)">
+                    @if (HasSelection)
+                    {
+                        <DataTableTH id="@CellId(-1, 0)" data-row="-1" data-col="0"
+                                     tabindex="@(IsGrid ? (ActiveRow == -1 && ActiveCol == 0 ? "0" : "-1") : null)"
+                                     @onfocusin="@(() => OnCellFocusIn(-1, 0))">
+                            @if (SelectionMode == DataGridSelectionMode.Multiple)
+                            {
+                                <input id="@($"{_gridId}-select-all")" type="checkbox" data-grid-own
+                                       tabindex="@(IsGrid ? "-1" : null)"
+                                       aria-label="@Labels.SelectAll"
+                                       checked="@AllSelected"
+                                       @onclick="ToggleSelectAllAsync" />
+                            }
+                            else
+                            {
+                                <span class="data-grid-selection-header-label">@Labels.SelectionColumn</span>
+                            }
+                        </DataTableTH>
+                    }
+                    @for (var i = 0; i < _visible.Count; i++)
+                    {
+                        var column = _visible[i];
+                        var headCol = ColOffset + i;
+                        <DataTableTH id="@CellId(-1, headCol)" data-row="-1" data-col="@headCol"
+                                     data-align="@AlignName(column)" data-cell-type="@TypeName(column)" data-pinned="@PinnedName(column)"
+                                     tabindex="@(IsGrid ? (ActiveRow == -1 && ActiveCol == headCol ? "0" : "-1") : null)"
+                                     aria-sort="@AriaSortFor(column)"
+                                     aria-describedby="@(column.Type == DataGridCellType.Rollup && Labels.RollupDescription is not null ? $"{_gridId}-{column.Id}-description" : null)"
+                                     style="@CellStyle(column)"
+                                     draggable="@(column.Movable ? "true" : null)"
+                                     @ondragstart="@(() => OnHeaderDragStart(column))"
+                                     @ondragover:preventDefault="@column.Movable"
+                                     @ondrop="@(() => OnHeaderDropAsync(column))"
+                                     @onfocusin="@(() => OnCellFocusIn(-1, headCol))">
+                            @if (column.Sortable)
+                            {
+                                <button type="button" class="data-grid-sort-button" data-grid-own
+                                        tabindex="@(IsGrid ? "-1" : null)"
+                                        @onclick="@(() => ToggleSortAsync(column))">
+                                    @if (column.HeaderCell is not null) { @column.HeaderCell(column) } else { @column.Header }
+                                </button>
+                            }
+                            else if (column.HeaderCell is not null)
+                            {
+                                @column.HeaderCell(column)
+                            }
+                            else
+                            {
+                                @column.Header
+                            }
+                            @if (column.Type == DataGridCellType.Rollup && Labels.RollupDescription is not null)
+                            {
+                                <span class="data-grid-visually-hidden" id="@($"{_gridId}-{column.Id}-description")">@Labels.RollupDescription(column.Header)</span>
+                            }
+                            @if (column.Resizable)
+                            {
+                                @* WAI-ARIA "window splitter" pattern: role="separator" plus tabindex/aria-valuenow is how a resize handle becomes focusable and operable. *@
+                                <span class="data-grid-resize-handle" role="separator" data-grid-own
+                                      aria-orientation="vertical"
+                                      aria-label="@Labels.ResizeHandle?.Invoke(column.Header)"
+                                      aria-valuenow="@(WidthFor(column) ?? 120)"
+                                      aria-valuemin="@MinColumnWidth"
+                                      tabindex="0"
+                                      @onkeydown="@(args => OnResizeKeyDownAsync(column, args))"
+                                      @onkeydown:stopPropagation="true"></span>
+                            }
+                        </DataTableTH>
+                    }
+                </DataTableRow>
+            </DataTableHead>
+            <DataTableBody>
+                @foreach (var item in items)
+                {
+                    if (item.Spacer)
+                    {
+                        <tr class="data-grid-spacer" aria-hidden="true" style="@($"height:{item.Rows * (Virtualize?.RowHeight ?? 0)}px")"><td colspan="@(LastCol + 1)"></td></tr>
+                        continue;
+                    }
+                    var rowIndex = item.Index;
+                    var entry = _pageEntries[rowIndex];
+                    var rowSelected = IsSelected(entry.Id);
+                    var rowAttrs = new Dictionary<string, object>(RowAttrs?.Invoke(entry.Row) ?? new Dictionary<string, object>());
+                    if (HasSelection) rowAttrs["aria-selected"] = rowSelected ? "true" : "false";
+                    if (Indexed) rowAttrs["aria-rowindex"] = (PageStart + rowIndex + 2).ToString();
+                    <DataTableRow @key="entry.Id" CssClass="@(RowClass?.Invoke(entry.Row) ?? "")" @attributes="rowAttrs">
+                        @if (HasSelection)
+                        {
+                            <DataTableTD id="@CellId(rowIndex, 0)" data-row="@rowIndex" data-col="0"
+                                         role="@(IsGrid ? "gridcell" : "cell")"
+                                         tabindex="@(IsGrid ? (ActiveRow == rowIndex && ActiveCol == 0 ? "0" : "-1") : null)"
+                                         @onfocusin="@(() => OnCellFocusIn(rowIndex, 0))">
+                                <input type="@(SelectionMode == DataGridSelectionMode.Single ? "radio" : "checkbox")" data-grid-own
+                                       tabindex="@(IsGrid ? "-1" : null)"
+                                       aria-label="@Labels.SelectRow?.Invoke(RowLabelOf(entry))"
+                                       checked="@rowSelected"
+                                       @onclick="@(args => ToggleRowAsync(PageStart + rowIndex, args.ShiftKey, args.CtrlKey || args.MetaKey))" />
+                            </DataTableTD>
+                        }
+                        @for (var colIndex = 0; colIndex < _visible.Count; colIndex++)
+                        {
+                            var column = _visible[colIndex];
+                            var cellRow = rowIndex;
+                            var cellCol = ColOffset + colIndex;
+                            var ctx = CellFor(column, entry.Row);
+                            var attrs = CellAttributes(column, ctx, rowIndex, colIndex, entry);
+                            var cellClass = column.CellClass?.Invoke(ctx) ?? "";
+                            RenderFragment body = @<text>
+                                @if (IsEditingCell(entry, column))
+                                {
+                                    var editing = _editing!;
+                                    var errorId = $"{entry.Id}-{column.Id}-error";
+                                    var label = (column.Type == DataGridCellType.Formula ? Labels.FormulaEditor?.Invoke(column.Header) : null) ?? Labels.CellEditor?.Invoke(column.Header) ?? column.Header;
+                                    @if (column.Editor == DataGridEditor.Person && column.PersonEditor is not null)
+                                    {
+                                        @column.PersonEditor(new DataGridPersonEditorContext(ctx.Value, v => { _ = InvokeAsync(async () => { await CommitValueAsync(entry, column, v); StateHasChanged(); }); }, () => { CancelEdit(); StateHasChanged(); }))
+                                    }
+                                    else if (column.Editor == DataGridEditor.TimeZone)
+                                    {
+                                        <span class="data-grid-zoned-editor" role="group" aria-label="@(Labels.CellEditor?.Invoke(column.Header) ?? column.Header)">
+                                            <input id="@EditorId" class="data-grid-cell-editor" type="time" step="1"
+                                                   aria-label="@(Labels.CellEditor?.Invoke(column.Header) ?? column.Header)"
+                                                   aria-invalid="@(editing.Error is not null || editing.Invalid ? "true" : null)"
+                                                   aria-describedby="@(editing.Error is not null ? errorId : null)"
+                                                   value="@editing.Draft"
+                                                   @oninput="@(e => SetDraft(e.Value?.ToString() ?? ""))"
+                                                   @onkeydown="OnEditorKeyDownAsync" @onkeydown:stopPropagation="true" />
+                                            <select class="data-grid-cell-editor data-grid-zone-editor"
+                                                    aria-label="@(Labels.TimeZone?.Invoke(column.Header) ?? column.Header)"
+                                                    value="@editing.Zone"
+                                                    @onchange="@(e => SetZone(e.Value?.ToString() ?? ""))"
+                                                    @onkeydown="OnEditorKeyDownAsync" @onkeydown:stopPropagation="true">
+                                                @foreach (var option in column.TimeZones ?? Array.Empty<DataGridOption>())
+                                                {
+                                                    <option value="@option.Id" selected="@(option.Id == editing.Zone)">@option.Label</option>
+                                                }
+                                            </select>
+                                        </span>
+                                    }
+                                    else if (column.Editor == DataGridEditor.Select)
+                                    {
+                                        <select id="@EditorId" class="data-grid-cell-editor"
+                                                aria-label="@label"
+                                                aria-invalid="@(editing.Error is not null || editing.Invalid ? "true" : null)"
+                                                aria-describedby="@(editing.Error is not null ? errorId : null)"
+                                                value="@editing.Draft"
+                                                @onchange="@(e => SetDraft(e.Value?.ToString() ?? ""))"
+                                                @onkeydown="OnEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                                @onblur="CommitEditAsync">
+                                            <option value=""></option>
+                                            @foreach (var option in (column.Options ?? Array.Empty<DataGridOption>()).Where(o => o.Group is null))
+                                            {
+                                                <option value="@option.Id" disabled="@option.Disabled" selected="@(option.Id == editing.Draft)">@option.Label</option>
+                                            }
+                                            @foreach (var group in GroupsOf(column))
+                                            {
+                                                <optgroup label="@group">
+                                                    @foreach (var option in (column.Options ?? Array.Empty<DataGridOption>()).Where(o => o.Group == group))
+                                                    {
+                                                        <option value="@option.Id" disabled="@option.Disabled" selected="@(option.Id == editing.Draft)">@option.Label</option>
+                                                    }
+                                                </optgroup>
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <input id="@EditorId" class="data-grid-cell-editor"
+                                               type="@(column.Editor == DataGridEditor.Number ? "number" : column.Editor == DataGridEditor.Date ? "date" : column.Editor == DataGridEditor.Time ? "time" : "text")"
+                                               step="@(column.Editor == DataGridEditor.Time ? "1" : null)"
+                                               inputmode="@(column.Editor == DataGridEditor.Number ? "decimal" : null)"
+                                               aria-label="@label"
+                                               aria-invalid="@(editing.Error is not null || editing.Invalid ? "true" : null)"
+                                               aria-describedby="@(editing.Error is not null ? errorId : null)"
+                                               value="@editing.Draft"
+                                               @oninput="@(e => SetDraft(e.Value?.ToString() ?? ""))"
+                                               @onkeydown="OnEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                               @onblur="CommitEditAsync" />
+                                    }
+                                    @if (editing.Error is not null)
+                                    {
+                                        <span class="data-grid-cell-error" id="@errorId">@editing.Error</span>
+                                    }
+                                }
+                                else if (column.Type == DataGridCellType.Radio && column.Editable)
+                                {
+                                    <fieldset class="data-grid-radio-group" data-grid-own-group>
+                                        <legend class="data-grid-radio-legend">@(Labels.RadioGroup?.Invoke(column.Header, RowLabelOf(entry)) ?? column.Header)</legend>
+                                        @foreach (var option in column.Options ?? Array.Empty<DataGridOption>())
+                                        {
+                                            var optionId = option.Id;
+                                            <label class="data-grid-radio-option">
+                                                <input type="radio" name="@($"{_gridId}-{entry.Id}-{column.Id}")" value="@optionId"
+                                                       checked="@(ctx.Value as string == optionId)" disabled="@option.Disabled"
+                                                       tabindex="@(IsGrid ? "-1" : null)"
+                                                       @onchange="@(() => CommitValueAsync(entry, column, optionId))" />@option.Label</label>
+                                        }
+                                    </fieldset>
+                                }
+                                else
+                                {
+                                    @if (column.Cell is not null)
+                                    {
+                                        @column.Cell(ctx)
+                                    }
+                                    else if (column.Type == DataGridCellType.Person)
+                                    {
+                                        var people = CellTypes.PeopleOf(ctx.Value);
+                                        @if (people.Count > 0)
+                                        {
+                                            var shown = ShownPeople(column, ctx.Value);
+                                            <ul class="data-grid-people">
+                                                @foreach (var person in shown)
+                                                {
+                                                    <li class="data-grid-person">@if (column.Avatar is not null){<span class="data-grid-avatar" aria-hidden="true">@column.Avatar(person)</span>}<span class="data-grid-person-name">@CellTypes.PersonName(person)</span></li>
+                                                }
+                                                @if (shown.Count < people.Count && Labels.MorePeople is not null)
+                                                {
+                                                    <li class="data-grid-people-more">@Labels.MorePeople(people.Count - shown.Count)</li>
+                                                }
+                                            </ul>
+                                        }
+                                    }
+                                    else if (column.Type == DataGridCellType.File)
+                                    {
+                                        var files = CellTypes.FilesOf(ctx.Value);
+                                        @if (files.Count > 0)
+                                        {
+                                            <ul class="data-grid-files">
+                                                @foreach (var file in files)
+                                                {
+                                                    var fileId = file.Id;
+                                                    var fileHref = CellTypes.SafeHref(file.Href);
+                                                    <li class="data-grid-file">@if (fileHref is not null){<a class="data-grid-link" href="@fileHref">@file.Name</a>}else{<span class="data-grid-file-name">@file.Name</span>}@if (file.Size is { } size && column.FormatSize is not null){@(" ")<span class="data-grid-file-size">@column.FormatSize(size)</span>}@if (column.Editable && Labels.RemoveFile is not null){<button type="button" class="data-grid-file-remove" data-grid-own tabindex="@(IsGrid ? "-1" : null)" aria-label="@Labels.RemoveFile(file.Name)" @onclick="@(() => OnFileRemove.InvokeAsync(new DataGridFileRemove(entry.Id, entry.Row, column.Id, fileId)))"></button>}</li>
+                                                }
+                                            </ul>
+                                        }
+                                        @if (column.Editable)
+                                        {
+                                            <InputFile class="data-grid-file-input" OnChange="@(e => OnFilesChosenAsync(entry, column, e))"
+                                                       aria-label="@(Labels.FileInput?.Invoke(column.Header, RowLabelOf(entry)) ?? column.Header)"
+                                                       multiple="@column.Multiple" accept="@column.Accept"
+                                                       tabindex="@(IsGrid ? "-1" : null)" />
+                                        }
+                                    }
+                                    else if (column.Type == DataGridCellType.Link)
+                                    {
+                                        var link = CellTypes.LinkParts(ctx.Value);
+                                        @if (link is not null)
+                                        {
+                                            var href = CellTypes.SafeHref(link.Href);
+                                            var text = link.Label ?? link.Href;
+                                            @if (href is not null)
+                                            {
+                                                <a class="data-grid-link" href="@href" target="@(link.External ? "_blank" : null)" rel="@(link.External ? "noopener noreferrer" : null)">@text@if (link.External && Labels.OpensInNewTab is not null){@(" ")<span class="data-grid-visually-hidden">@Labels.OpensInNewTab(text)</span>}</a>
+                                            }
+                                            else
+                                            {
+                                                @* An address with an unsafe scheme is shown as text, never as a link. *@
+                                                <span class="data-grid-link data-grid-link-unsafe">@text</span>
+                                            }
+                                        }
+                                    }
+                                    else if (column.Type is DataGridCellType.Date or DataGridCellType.Time)
+                                    {
+                                        @if (ctx.Formatted.Length > 0)
+                                        {
+                                            <time datetime="@(ctx.Value is string iso ? iso : CellTypes.CivilDateOf(ctx.Value)?.ToString("yyyy-MM-dd"))">@ctx.Formatted</time>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @ctx.Formatted
+                                    }
+                                    @if (IsEditable(column) && column.Type != DataGridCellType.Radio && Labels.EditCell is not null)
+                                    {
+                                        <button type="button" class="data-grid-edit-button" data-grid-own
+                                                tabindex="@(IsGrid ? "-1" : null)"
+                                                aria-label="@Labels.EditCell(column.Header, RowLabelOf(entry))"
+                                                @onclick="@(() => StartEdit(entry, column))"></button>
+                                    }
+                                }
+                            </text>;
+                            @if (column.RowHeader)
+                            {
+                                <DataTableTH CssClass="@cellClass" @attributes="attrs"
+                                             @onfocusin="@(() => OnCellFocusIn(cellRow, cellCol))"
+                                             @ondblclick="@(() => OnCellDoubleClickAsync(entry, column))">@body</DataTableTH>
+                            }
+                            else
+                            {
+                                <DataTableTD CssClass="@cellClass" @attributes="attrs"
+                                             @onfocusin="@(() => OnCellFocusIn(cellRow, cellCol))"
+                                             @ondblclick="@(() => OnCellDoubleClickAsync(entry, column))">@body</DataTableTD>
+                            }
+                        }
+                    </DataTableRow>
+                }
+                @if (_pageEntries.Count == 0 && Empty is not null)
+                {
+                    <DataTableRow CssClass="data-grid-empty-row">
+                        <DataTableTD CssClass="data-grid-empty" colspan="@(LastCol + 1)" role="@(IsGrid ? "gridcell" : "cell")">@Empty</DataTableTD>
+                    </DataTableRow>
+                }
+            </DataTableBody>
+            @if (Footer is not null)
+            {
+                <DataTableFoot>
+                    @Footer(new DataGridFooterContext(_visible, _pageEntries.Select(e => e.Row).ToList()))
+                </DataTableFoot>
+            }
+        </DataTable>
+    };
+
+    private static Task NoKeys(KeyboardEventArgs _) => Task.CompletedTask;
+}

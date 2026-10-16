@@ -195,6 +195,7 @@ packages above. [`bin/list-helper-packages nunjucks`](../../bin/list-helper-pack
 Until 2026-10-10 in the `lily-design-system-blazor-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages blazor`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-blazor-data-grid`](../../lily-design-system-blazor-data-grid/) — `LilyDesignSystem.Blazor.DataGrid`
 - [`lily-design-system-blazor-date-time-picker`](../../lily-design-system-blazor-date-time-picker/) — `@lilydesignsystem/blazor-date-time-picker`
 - [`lily-design-system-blazor-kanban-board`](../../lily-design-system-blazor-kanban-board/) — `@lilydesignsystem/blazor-kanban-board`
 - [`lily-design-system-blazor-link-picker`](../../lily-design-system-blazor-link-picker/) — `@lilydesignsystem/blazor-link-picker`

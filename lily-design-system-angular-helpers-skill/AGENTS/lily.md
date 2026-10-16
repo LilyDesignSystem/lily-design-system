@@ -168,6 +168,7 @@ The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bi
 
 The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages blazor`):
 
+- [`lily-design-system-blazor-data-grid`](../lily-design-system-blazor-data-grid) — `LilyDesignSystem.Blazor.DataGrid`
 - [`lily-design-system-blazor-date-time-picker`](../lily-design-system-blazor-date-time-picker) — `@lilydesignsystem/blazor-date-time-picker`
 - [`lily-design-system-blazor-kanban-board`](../lily-design-system-blazor-kanban-board) — `@lilydesignsystem/blazor-kanban-board`
 - [`lily-design-system-blazor-link-picker`](../lily-design-system-blazor-link-picker) — `@lilydesignsystem/blazor-link-picker`
