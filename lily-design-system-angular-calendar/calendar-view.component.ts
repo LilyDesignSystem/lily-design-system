@@ -34,7 +34,7 @@ import {
   weekdayOf,
 } from "@lilydesignsystem/angular-date-time-picker";
 
-export type CalendarViewMode = "day" | "week" | "four-week" | "month";
+export type CalendarViewMode = "day" | "week" | "four-week" | "month" | "agenda";
 
 /** A marked range (a holiday, a closure, a school term). */
 export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -64,6 +64,10 @@ export type CalendarViewLabels = {
   weekView?: string;
   fourWeekView?: string;
   monthView?: string;
+  /** Switcher label for the agenda (list) view of the month. Gates its button. */
+  agendaView?: string;
+  /** Agenda view: the message when the shown month has no events (and `agendaEmptyDays` is off). Gates the message. */
+  agendaEmpty?: string;
   previous?: (view: CalendarViewMode) => string;
   next?: (view: CalendarViewMode) => string;
   today?: string;
@@ -119,6 +123,7 @@ export function periodDays(
   anchorDate: string,
   firstDayOfWeek: number,
 ): string[][] {
+  if (view === "agenda") return [];
   if (view === "month") {
     const parsed = parseIsoDate(anchorDate);
     if (!parsed) return [];
@@ -142,7 +147,7 @@ export function periodRange(
   anchorDate: string,
   firstDayOfWeek: number,
 ): [string, string] {
-  if (view === "month") {
+  if (view === "month" || view === "agenda") {
     const parsed = parseIsoDate(anchorDate);
     if (!parsed) return [anchorDate, anchorDate];
     return [
@@ -219,7 +224,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #rootEl class="calendar-view {{ className() }}">
-      @if (labels().periodTitle || labels().dayView || labels().weekView || labels().fourWeekView || labels().monthView) {
+      @if (labels().periodTitle || labels().dayView || labels().weekView || labels().fourWeekView || labels().monthView || labels().agendaView) {
         <div class="calendar-view-toolbar">
           <div class="calendar-view-switcher" role="group">
             @if (labels().dayView) {
@@ -254,6 +259,14 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
                 (click)="setView('month')"
               >{{ labels().monthView }}</button>
             }
+            @if (labels().agendaView) {
+              <button
+                type="button"
+                class="calendar-view-switcher-button calendar-view-switcher-button-agenda"
+                [attr.aria-pressed]="view() === 'agenda'"
+                (click)="setView('agenda')"
+              >{{ labels().agendaView }}</button>
+            }
           </div>
           <div class="calendar-view-nav">
             <button
@@ -283,6 +296,35 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
         </div>
       }
 
+      @if (view() === "agenda") {
+        <!-- The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. -->
+        <ol class="calendar-view-agenda" [attr.aria-label]="label()">
+          @for (d of agendaDays(); track d) {
+            <li
+              class="calendar-view-agenda-day"
+              [attr.data-date]="d"
+              [attr.data-today]="isToday(d) ? '' : null"
+              [attr.data-weekend]="weekendDays()?.includes(weekdayOfDate(d)) ? '' : null"
+              [attr.data-range]="rangeKinds(d)"
+              [attr.aria-current]="isToday(d) ? 'date' : null"
+            >
+              <time class="calendar-view-agenda-date" [attr.datetime]="d">{{ dayName(d, false) || d }}</time>
+              @if (eventsFor(d).length > 0) {
+                <ul class="calendar-view-agenda-events">
+                  @for (event of eventsFor(d); track event.id) {
+                    <li>
+                      <button type="button" class="calendar-view-event" (click)="openEvent(event)">{{ eventTitle(event) || event.id }}</button>
+                    </li>
+                  }
+                </ul>
+              }
+            </li>
+          }
+        </ol>
+        @if (agendaDays().length === 0 && labels().agendaEmpty; as agendaEmpty) {
+          <p class="calendar-view-agenda-empty">{{ agendaEmpty }}</p>
+        }
+      } @else {
       <lily-calendar-table
         [label]="label()"
         className="calendar-view-table"
@@ -368,6 +410,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
           }
         </tbody>
       </lily-calendar-table>
+      }
 
       <div class="calendar-view-status" aria-live="polite">{{ statusMessage() }}</div>
     </div>
@@ -390,6 +433,8 @@ export class CalendarView implements AfterViewInit {
   readonly selectedRange = model<SelectedRange | undefined>(undefined);
   /** Events to place into day cells. */
   readonly events = input<CalendarEvent[]>([]);
+  /** Agenda view: also list days with no events. Default false (only days with events). */
+  readonly agendaEmptyDays = input<boolean>(false);
   /** Cap on events shown per day; a day with more shows a "+N more" button (`labels.moreEvents`) that fires `moreClick`. */
   readonly maxEvents = input<number | undefined>(undefined);
   /** Turns on event drag-and-drop between days and Alt+arrow keys on a focused event button; `eventMove` fires when one moves. */
@@ -442,6 +487,16 @@ export class CalendarView implements AfterViewInit {
   );
   private readonly flatDays = computed(() => this.days().flat());
   private readonly eventMap = computed(() => eventsByDay(this.events()));
+  // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
+  protected readonly agendaDays = computed(() => {
+    if (this.view() !== "agenda") return [] as string[];
+    const [start, end] = periodRange("agenda", this.anchorDate(), this.firstDay());
+    const out: string[] = [];
+    for (let d = start; d <= end; d = addDays(d, 1)) {
+      if (this.agendaEmptyDays() || (this.eventsFor(d).length > 0)) out.push(d);
+    }
+    return out;
+  });
   protected readonly weekdays = computed(() =>
     this.view() === "day"
       ? [weekdayOf(this.anchorDate())]
