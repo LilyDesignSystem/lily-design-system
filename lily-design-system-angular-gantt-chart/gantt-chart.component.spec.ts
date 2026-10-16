@@ -804,3 +804,80 @@ describe("GanttChart — zoom, resize handles, selection, Alt+Arrow, taskAttrs (
     expect(rows(f)[1].getAttribute("data-team")).toBe("eng");
   });
 });
+
+describe("GanttChart — unscheduled tasks and collapse-all (§14.18–§14.24)", () => {
+  const withUnscheduled: GanttTask[] = [
+    { id: "a", label: "Alpha", start: "2026-10-01", end: "2026-10-02" },
+    { id: "u", label: "To be planned" },
+  ];
+  const unscheduledCell = (f: ComponentFixture<unknown>) =>
+    f.nativeElement.querySelector('[data-task-id="u"] [data-row][data-col="0"]') as HTMLElement;
+  const byLabel = (f: ComponentFixture<unknown>, name: string) =>
+    Array.from(f.nativeElement.querySelectorAll("button")).find(
+      (b) => ((b as HTMLElement).getAttribute("aria-label") ?? (b as HTMLElement).textContent)?.trim() === name,
+    ) as HTMLButtonElement;
+
+  test("§14.18 a task with no dates renders a row with no bar and data-unscheduled", () => {
+    const f = mount({ tasks: withUnscheduled });
+    const row = f.nativeElement.querySelector('[data-task-id="u"]');
+    expect(row.hasAttribute("data-unscheduled")).toBe(true);
+    expect(row.querySelector(".gantt-chart-bar")).toBeNull();
+    expect(row.querySelector("[data-in-range]")).toBeNull();
+    expect(f.nativeElement.querySelector('[data-task-id="a"]').hasAttribute("data-unscheduled")).toBe(false);
+  });
+
+  test("§14.19 an unscheduled child does not shape its parent's span", () => {
+    const tasks: GanttTask[] = [
+      { id: "p", label: "P" },
+      { id: "c1", label: "C1", parentId: "p", start: "2026-10-03", end: "2026-10-04" },
+      { id: "c2", label: "C2", parentId: "p" },
+    ];
+    expect(effectiveRange(tasks[0], tasks)).toEqual({ start: "2026-10-03", end: "2026-10-04" });
+  });
+
+  test("§14.20 Enter on an unscheduled task opens the edit region with empty dates; Save is disabled until both are set", () => {
+    const f = mount({ tasks: withUnscheduled, labels: LABELS });
+    unscheduledCell(f).dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+    press(f, unscheduledCell(f), "Enter");
+    f.detectChanges();
+    expect(byLabel(f, "Save").disabled).toBe(true);
+  });
+
+  test("§14.21 Alt+Arrow on an unscheduled task changes nothing", () => {
+    const f = mount({ tasks: withUnscheduled });
+    const changes: unknown[] = [];
+    f.componentInstance.taskChange.subscribe((e) => changes.push(e));
+    unscheduledCell(f).dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+    unscheduledCell(f).dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", altKey: true, bubbles: true }));
+    f.detectChanges();
+    expect(changes).toEqual([]);
+  });
+
+  test("§14.22 collapsedTaskIds starts parents collapsed and the model updates", () => {
+    const f = mount({ collapsedTaskIds: ["parent"], labels: LABELS });
+    expect(f.nativeElement.querySelector('[data-task-id="child1"]')).toBeNull();
+    expect(byLabel(f, "Expand Phase 1").getAttribute("aria-expanded")).toBe("false");
+    byLabel(f, "Expand Phase 1").click();
+    f.detectChanges();
+    expect(f.componentInstance.collapsedTaskIds()).toEqual([]);
+    expect(f.nativeElement.querySelector('[data-task-id="child1"]')).not.toBeNull();
+  });
+
+  test("§14.23 labels.collapseAll and expandAll gate buttons that collapse and expand every parent", () => {
+    const f = mount({ labels: { expandAll: "Expand all", collapseAll: "Collapse all" } });
+    expect(byLabel(f, "Expand all").disabled).toBe(true);
+    byLabel(f, "Collapse all").click();
+    f.detectChanges();
+    expect(f.nativeElement.querySelector('[data-task-id="child1"]')).toBeNull();
+    expect(byLabel(f, "Collapse all").disabled).toBe(true);
+    byLabel(f, "Expand all").click();
+    f.detectChanges();
+    expect(f.nativeElement.querySelector('[data-task-id="child1"]')).not.toBeNull();
+  });
+
+  test("§14.24 no collapse-all buttons without labels or without parents", () => {
+    expect(mount().nativeElement.querySelector(".gantt-chart-collapse-all")).toBeNull();
+    const f = mount({ tasks: [TASKS[0]], labels: { expandAll: "Expand all", collapseAll: "Collapse all" } });
+    expect(f.nativeElement.querySelector(".gantt-chart-collapse-all")).toBeNull();
+  });
+});

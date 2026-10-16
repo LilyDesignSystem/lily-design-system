@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-10-16
+
+- Added unscheduled tasks, ported from the Svelte 0.4.0: a task with no `start` / `end` renders its row with no bar (`data-unscheduled`); Enter opens the edit region with empty dates and Save stays disabled until both are set, which schedules it through `onTaskChange`. An unscheduled child does not shape its parent's span; drag and Alt+Arrow do nothing for it.
+- Added `[(collapsedTaskIds)]` and `labels.expandAll` / `labels.collapseAll` buttons that expand or collapse every parent task.
+
 ## 0.3.0 — 2026-10-14
 
 - Added a progress field in the edit region, baselines and typed dependencies, ported from the Svelte 0.3.0.

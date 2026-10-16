@@ -47,10 +47,10 @@ export type GanttTask = {
   id: string;
   /** Visible task label. */
   label: string;
-  /** ISO date (`YYYY-MM-DD`), inclusive. */
-  start: string;
+  /** ISO date (`YYYY-MM-DD`), inclusive. Absent (with `end`) means the task is unscheduled: its row shows no bar (`data-unscheduled`) and its edit region sets the dates. */
+  start?: string;
   /** ISO date (`YYYY-MM-DD`), inclusive. Equal to `start` means a milestone. */
-  end: string;
+  end?: string;
   /** 0-100. Rendering the fill is the consumer's own CSS. */
   percentComplete?: number;
   /** Another task's id; builds the row hierarchy. */
@@ -108,6 +108,10 @@ export type GanttLabels = {
     varianceDays: number,
   ) => string;
   collapseButton?: (task: GanttTask, collapsed: boolean) => string;
+  /** Accessible name for the button that expands every parent task. Gates the button. */
+  expandAll?: string;
+  /** Accessible name for the button that collapses every parent task. Gates the button. */
+  collapseAll?: string;
 };
 
 /** Payload of the `taskChange` output. */
@@ -211,7 +215,7 @@ export function effectiveRange(
   allTasks: GanttTask[],
 ): { start: string; end: string } {
   return (
-    effectiveRanges(allTasks).get(task.id) ?? { start: task.start, end: task.end }
+    effectiveRanges(allTasks).get(task.id) ?? { start: task.start ?? "", end: task.end ?? "" }
   );
 }
 
@@ -238,13 +242,14 @@ export function effectiveRanges(
     if (known) return known;
     const children = childrenOf.get(task.id) ?? [];
     if (children.length === 0 || onWalk.has(task.id)) {
-      return { start: task.start, end: task.end };
+      return { start: task.start ?? "", end: task.end ?? "" };
     }
     onWalk.add(task.id);
     let start = "";
     let end = "";
     for (const child of children) {
       const r = visit(child);
+      if (!r.start) continue; // an unscheduled child does not shape its parent's span
       if (!start || compareISO(r.start, start) < 0) start = r.start;
       if (!end || compareISO(r.end, end) > 0) end = r.end;
     }
@@ -296,6 +301,16 @@ export function nextGanttChartId(): string {
       class="gantt-chart {{ className() }}"
       [attr.data-readonly]="readonly() ? '' : null"
     >
+      @if (parentIds().length > 0 && (labels().expandAll || labels().collapseAll)) {
+        <div class="gantt-chart-collapse-all" role="group" [attr.aria-label]="label()">
+          @if (labels().expandAll; as expandAll) {
+            <button type="button" class="gantt-chart-expand-all-button" [disabled]="collapsedTaskIds().length === 0" (click)="setAllCollapsed(false)">{{ expandAll }}</button>
+          }
+          @if (labels().collapseAll; as collapseAll) {
+            <button type="button" class="gantt-chart-collapse-all-button" [disabled]="allParentsCollapsed()" (click)="setAllCollapsed(true)">{{ collapseAll }}</button>
+          }
+        </div>
+      }
       @if (labels().zoomIn || labels().zoomOut) {
         <div class="gantt-chart-zoom" role="group" [attr.aria-label]="label()">
           @if (labels().zoomOut; as zoomOut) {
@@ -365,6 +380,7 @@ export function nextGanttChartId(): string {
               [attr.data-critical]="row.task.critical ? '' : null"
               [attr.data-slack]="row.task.slack ?? null"
               [attr.data-task-id]="row.task.id"
+              [attr.data-unscheduled]="!row.hasChildren && (!row.task.start || !row.task.end) ? '' : null"
               [attr.aria-selected]="selectedTaskId() === row.task.id ? 'true' : null"
               [attr.data-selected]="selectedTaskId() === row.task.id ? '' : null"
             >
@@ -392,7 +408,7 @@ export function nextGanttChartId(): string {
                 }
               </th>
               @for (column of columns(); track column.start; let colIndex = $index) {
-                @let inRange = rangesOverlap(column.start, column.end, rowRange.start, rowRange.end);
+                @let inRange = !!rowRange.start && !!rowRange.end && rangesOverlap(column.start, column.end, rowRange.start, rowRange.end);
                 @let isMilestone = inRange && rowRange.start === rowRange.end;
                 @let colToday = isTodayColumn(column);
                 @let isLeadingCell = inRange && rangesOverlap(column.start, column.end, rowRange.start, rowRange.start);
@@ -532,7 +548,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   private readonly injector = inject(Injector);
 
   protected readonly statusMessage = signal("");
-  protected readonly collapsedIds = signal(new Set<string>());
+  /** Ids of collapsed parent tasks. Two-way bindable: `[(collapsedTaskIds)]`; the collapse buttons, `labels.expandAll` and `labels.collapseAll` change it. */
+  readonly collapsedTaskIds = model<string[]>([]);
+  protected readonly collapsedIds = computed(() => new Set(this.collapsedTaskIds()));
   protected readonly focusedRow = signal(0);
   protected readonly focusedCol = signal(0);
 
@@ -594,8 +612,8 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
 
   protected rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
     return hasChildren
-      ? (this.ranges().get(task.id) ?? task)
-      : { start: task.start, end: task.end };
+      ? (this.ranges().get(task.id) ?? { start: "", end: "" })
+      : { start: task.start ?? "", end: task.end ?? "" };
   }
 
   /** Exposed as a bound method so the template (which can only call
@@ -640,10 +658,27 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   // ---------------------------------------------------------------
 
   protected toggleCollapse(taskId: string): void {
-    const next = new Set(this.collapsedIds());
-    if (next.has(taskId)) next.delete(taskId);
-    else next.add(taskId);
-    this.collapsedIds.set(next);
+    this.collapsedTaskIds.set(
+      this.collapsedIds().has(taskId)
+        ? this.collapsedTaskIds().filter((id) => id !== taskId)
+        : [...this.collapsedTaskIds(), taskId],
+    );
+  }
+
+  /** Every task that has children (the ones a collapse button applies to). */
+  protected readonly parentIds = computed(() => {
+    const tasks = this.tasks();
+    return Array.from(new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) =>
+      tasks.some((t) => t.id === id),
+    );
+  });
+
+  protected allParentsCollapsed(): boolean {
+    return this.parentIds().every((id) => this.collapsedIds().has(id));
+  }
+
+  protected setAllCollapsed(value: boolean): void {
+    this.collapsedTaskIds.set(value ? this.parentIds() : []);
   }
 
   // ---------------------------------------------------------------
@@ -706,8 +741,8 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   protected openEdit(task: GanttTask): void {
     if (!this.canEdit()) return;
     this.editingTaskId.set(task.id);
-    this.editStart.set(task.start);
-    this.editEnd.set(task.end);
+    this.editStart.set(task.start ?? "");
+    this.editEnd.set(task.end ?? "");
     this.editPercent.set(task.percentComplete != null ? String(task.percentComplete) : "");
     // Focus moves into the region it opened, onto the start date's field.
     this.cdr.detectChanges();
@@ -798,6 +833,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   private shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    if (!task.start || !task.end) return; // an unscheduled task has nothing to shift
     const columns = this.columns();
     if (endOnly) {
       const target = columns[this.columnIndexOf(task.end) + delta];
@@ -824,7 +860,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const task = this.tasks().find((t) => t.id === taskId);
     const edge = this.resizingEdge;
     this.resizingEdge = null;
-    if (!task) return;
+    if (!task || !task.start || !task.end) return;
     if (edge) {
       // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
       const start = edge === "start" ? column.start : task.start;
