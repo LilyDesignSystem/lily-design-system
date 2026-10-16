@@ -19,7 +19,7 @@ import {
   weekdayOf,
 } from "@lilydesignsystem/react-date-time-picker";
 
-export type CalendarView = "day" | "week" | "four-week" | "month";
+export type CalendarView = "day" | "week" | "four-week" | "month" | "agenda";
 
 /** A marked range (a holiday, a closure, a school term). `label` is text a `day` render prop can show. */
 export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -49,6 +49,10 @@ export type CalendarViewLabels = {
   weekView?: string;
   fourWeekView?: string;
   monthView?: string;
+  /** Switcher label for the agenda (list) view of the month. Gates its button. */
+  agendaView?: string;
+  /** Agenda view: the message when the shown month has no events (and `agendaEmptyDays` is off). Gates the message. */
+  agendaEmpty?: string;
   previous?: (view: CalendarView) => string;
   next?: (view: CalendarView) => string;
   today?: string;
@@ -123,6 +127,8 @@ export type Props = Omit<
   onRangeSelect?: (start: string, end: string) => void;
   /** Events to place into day cells. */
   events?: CalendarEvent[];
+  /** Agenda view: also list days with no events. Default false (only days with events). */
+  agendaEmptyDays?: boolean;
   /** Cap on events shown per day: the `day` render prop gets `visibleEvents` and `hiddenCount`. */
   maxEvents?: number;
   /** Called when an event is moved to another day, by drag-and-drop or Alt+arrow keys on a focused event element. Setting it turns the drag-and-drop on. */
@@ -172,6 +178,7 @@ export function periodDays(
   anchorDate: string,
   firstDayOfWeek: number,
 ): string[][] {
+  if (view === "agenda") return [];
   if (view === "month") {
     const parsed = parseIsoDate(anchorDate);
     if (!parsed) return [];
@@ -195,7 +202,7 @@ export function periodRange(
   anchorDate: string,
   firstDayOfWeek: number,
 ): [string, string] {
-  if (view === "month") {
+  if (view === "month" || view === "agenda") {
     const parsed = parseIsoDate(anchorDate);
     if (!parsed) return [anchorDate, anchorDate];
     return [
@@ -279,6 +286,7 @@ export function CalendarView({
   onRangeSelect,
   events = [],
   maxEvents,
+  agendaEmptyDays = false,
   onEventMove,
   hideOutsideDays = false,
   weekendDays,
@@ -333,6 +341,15 @@ export function CalendarView({
   const days = periodDays(view, anchorDate, firstDayOfWeek);
   const flatDays = days.flat();
   const eventMap = React.useMemo(() => eventsByDay(events), [events]);
+
+  // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
+  const agendaDays: string[] = [];
+  if (view === "agenda") {
+    const [start, end] = periodRange("agenda", anchorDate, firstDayOfWeek);
+    for (let d = start; d <= end; d = addDays(d, 1)) {
+      if (agendaEmptyDays || (eventMap.get(d)?.length ?? 0) > 0) agendaDays.push(d);
+    }
+  }
 
   // Keep the roving cursor inside the visible days when the period changes
   // from outside (a prop change, not our own keyboard navigation).
@@ -609,7 +626,7 @@ export function CalendarView({
       className={`calendar-view ${className}`.trim()}
       {...restProps}
     >
-      {(labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView) && (
+      {(labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView || labels?.agendaView) && (
         <div className="calendar-view-toolbar">
           <div className="calendar-view-switcher" role="group">
             {labels?.dayView && (
@@ -652,6 +669,16 @@ export function CalendarView({
                 {labels.monthView}
               </button>
             )}
+            {labels?.agendaView && (
+              <button
+                type="button"
+                className="calendar-view-switcher-button calendar-view-switcher-button-agenda"
+                aria-pressed={view === "agenda"}
+                onClick={() => changeView("agenda")}
+              >
+                {labels.agendaView}
+              </button>
+            )}
           </div>
           <div className="calendar-view-nav">
             <button
@@ -687,6 +714,64 @@ export function CalendarView({
         </div>
       )}
 
+      {view === "agenda" ? (
+        <>
+          {/* The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. */}
+          <ol className="calendar-view-agenda" aria-label={label}>
+            {agendaDays.map((d) => {
+              const weekday = weekdayOf(d);
+              const dayEvents = eventMap.get(d) ?? [];
+              const isToday = today != null && d === today;
+              const dayRanges = rangesFor(d);
+              const disabled = disabledDay(d);
+              return (
+                <li
+                  key={d}
+                  className="calendar-view-agenda-day"
+                  data-date={d}
+                  data-today={isToday ? "" : undefined}
+                  data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
+                  data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
+                  aria-current={isToday ? "date" : undefined}
+                >
+                  <time className="calendar-view-agenda-date" dateTime={d}>
+                    {labels?.day?.(d, weekday, false) ?? d}
+                  </time>
+                  {day ? (
+                    day({
+                      date: d,
+                      events: dayEvents,
+                      visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)),
+                      hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)),
+                      isToday,
+                      outsidePeriod: false,
+                      selected: false,
+                      disabled,
+                      inRange: false,
+                      ranges: dayRanges,
+                      openEvent,
+                      eventProps,
+                    })
+                  ) : dayEvents.length > 0 ? (
+                    <ul className="calendar-view-agenda-events">
+                      {dayEvents.map((calendarEvent) => (
+                        <li key={calendarEvent.id}>
+                          <button type="button" className="calendar-view-event" onClick={() => openEvent(calendarEvent)}>
+                            {typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ol>
+          {agendaDays.length === 0 && labels?.agendaEmpty && (
+            <p className="calendar-view-agenda-empty">{labels.agendaEmpty}</p>
+          )}
+        </>
+      ) : (
       <CalendarTable label={label} className="calendar-view-table" onKeyDown={onGridKeyDown}>
         <CalendarTableHead>
           <CalendarTableRow>
@@ -781,6 +866,7 @@ export function CalendarView({
           ))}
         </CalendarTableBody>
       </CalendarTable>
+      )}
 
       <div className="calendar-view-status" aria-live="polite">
         {statusMessage}
