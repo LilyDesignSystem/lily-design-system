@@ -9,6 +9,29 @@
     } from "@lilydesignsystem/svelte-headless";
     import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
+    import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { civilDateToDate, isInvalidForType, resolveColumn, type DataGridCellType, type TypedColumn } from "./cell-types";
+
+    /**
+     * A typed field a task carries (an owner, a status, an estimate), shown as a column between the task name and the timeline and
+     * read from `task.values[id]`. A bundle of display, sort and export defaults from the data grid's cell types.
+     */
+    export type GanttField = Omit<TypedColumn, "type"> & {
+        /** Visible name of the field: its column header and the header of its export column. */
+        header: string;
+        /** The kind of value: `text`, `number`, `link`, `date`, `time`, `select` or `radio` are editable; the others display and export only. */
+        type?: DataGridCellType;
+        /** Set `false` to keep this field out of an export. */
+        exportable?: boolean;
+        /** Accessible name of the field's editor. Defaults to `header`. */
+        editLabel?: string;
+    };
+
+    /** What `onExport` receives. Return `false` to take over the download. */
+    export type GanttExport = { format: ExportFormat; filename: string; taskCount: number; blob: Blob };
+
+    /** What `onFieldEdit` receives. */
+    export type GanttFieldEdit = { taskId: string; fieldId: string; value: unknown; previous: unknown };
 
     /** A dependency with its type (`e2s` finish-to-start, `s2s`, `s2e`, `e2e`) and lag in days; data and text only. */
     export type GanttDependency = { id: string; type?: "e2s" | "s2s" | "s2e" | "e2e"; lag?: number };
@@ -36,6 +59,8 @@
         critical?: boolean;
         /** Slack in days, from the consumer's own scheduling; becomes `data-slack`. */
         slack?: number;
+        /** Values of the chart's `fields`, by field id. */
+        values?: Record<string, unknown>;
     };
 
     /** A dated column marker (holiday, release, deadline). `label` is rendered as text so a marker is never colour-only. */
@@ -81,6 +106,20 @@
         zoomOut?: string;
         /** Announced after a zoom step with the new unit. */
         zoomAnnouncement?: (timeUnit: GanttTimeUnit) => string;
+        /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+        export?: string;
+        /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
+        exportCsv?: string;
+        exportTsv?: string;
+        exportExcel?: string;
+        /** Announced after an export: (format, how many tasks, file name). */
+        exportAnnouncement?: (format: ExportFormat, taskCount: number, filename: string) => string;
+        /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. The others are included only when named. */
+        exportHeaders?: { task: string; start: string; end: string; percentComplete?: string; parent?: string; dependsOn?: string; baselineStart?: string; baselineEnd?: string };
+        /** Announced after a field edit: (task label, field header, the new text). */
+        editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
+        /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
+        editInvalid?: (taskLabel: string, fieldHeader: string) => string;
     };
 
     export type Props = {
@@ -116,6 +155,20 @@
         readonly?: boolean;
         /** User-facing strings. See GanttLabels — presence gates each control. */
         labels?: GanttLabels;
+        /** Typed fields: a column per field between the task name and the timeline, read from `task.values`. Editable types edit in place (click the value, or F2 on the task's row for the first editable field; Tab moves to the next). */
+        fields?: GanttField[];
+        /** Locale for number and date fields. Never defaulted. */
+        locale?: string;
+        /** Called with each accepted field edit. The consumer updates `tasks`. A field is editable only when this is set (and the chart is not `readonly`). */
+        onFieldEdit?: (edit: GanttFieldEdit) => void;
+        /** Base of an export's file name (`.csv`, `.tsv` or `.xlsx` is added). Default `"gantt-chart"`. */
+        exportFilename?: string;
+        /** What an export holds: `"all"` (default) is every task; `"visible"` leaves out the tasks under a collapsed parent. */
+        exportScope?: "all" | "visible";
+        /** Called before the download with the finished file. Return `false` to skip the built-in download. */
+        onExport?: (info: GanttExport) => boolean | void;
+        /** Renders only the task rows in view (windowing). The chart gets a scroll area of `height` px; every row is assumed `rowHeight` px tall. */
+        virtualize?: { rowHeight: number; height: number; overscan?: number };
         /** Extra CSS class on the root. */
         class?: string;
         [key: string]: unknown;
@@ -285,6 +338,13 @@
         taskAttrs = undefined,
         onTaskSelect = undefined,
         labels = {},
+        fields = undefined,
+        locale = undefined,
+        onFieldEdit = undefined,
+        exportFilename: exportBase = "gantt-chart",
+        exportScope = "all",
+        onExport = undefined,
+        virtualize = undefined,
         ...restProps
     }: Props = $props();
 
@@ -318,9 +378,11 @@
         !readonly && !!labels.dateTimePickerLabels && !!labels.startLabel && !!labels.endLabel && !!labels.saveLabel && !!labels.cancelLabel,
     );
 
-    function markersIn(column: GanttColumn): GanttMarker[] {
-        return markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date));
-    }
+    // Markers per column, found once per `markers` / `columns` change rather than once per cell per render.
+    const markersByColumn = $derived(columns.map((column) => markers.filter((m) => rangesOverlap(column.start, column.end, m.date, m.date))));
+    const markersAt = (colIndex: number): GanttMarker[] => markersByColumn[colIndex] ?? [];
+    const todayColumns = $derived(columns.map((column) => today != null && rangesOverlap(column.start, column.end, today, today)));
+    const taskById = $derived(new Map(tasks.map((t) => [t.id, t])));
 
     function columnNonWorking(column: GanttColumn): boolean {
         if (!isNonWorking) return false;
@@ -351,6 +413,201 @@
     }
 
     // ---------------------------------------------------------------
+    // Typed fields, inline editing, export
+    // ---------------------------------------------------------------
+
+    // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per task or keystroke.
+    const resolvedFields = $derived((fields ?? []).map((f) => resolveColumn(f as GanttField & TypedColumn, locale) as GanttField & TypedColumn));
+    const EDITABLE_TYPES = new Set(["text", "number", "link", "date", "time", "select", "radio"]);
+    const isFieldEditable = (f: GanttField) => !!onFieldEdit && !readonly && f.editable !== false && EDITABLE_TYPES.has(f.type ?? "text");
+    const fieldValue = (f: GanttField & TypedColumn, task: GanttTask): unknown => (f.accessor ? f.accessor(task.values ?? {}) : (task.values ?? {})[f.id]);
+    const fieldText = (f: GanttField & TypedColumn, task: GanttTask): string => {
+        const value = fieldValue(f, task);
+        if (value === null || value === undefined || value === "") return "";
+        return f.format ? f.format(value, task.values ?? {}) : String(value);
+    };
+    const editorKind = (f: GanttField): string => f.editor ?? f.type ?? "text";
+
+    /** The field being edited, if any: the draft is the editor's text. */
+    let editingField = $state<{ taskId: string; fieldId: string; draft: string | number | null } | null>(null);
+    let committing = false;
+
+    function draftOf(f: GanttField & TypedColumn, task: GanttTask): string {
+        const value = fieldValue(f, task);
+        if (value === null || value === undefined) return "";
+        if (f.type === "link") return typeof value === "string" ? value : String((value as { href?: string }).href ?? "");
+        return String(value);
+    }
+
+    async function startFieldEdit(task: GanttTask, f: GanttField & TypedColumn): Promise<void> {
+        if (!isFieldEditable(f)) return;
+        editingTaskId = null;
+        editingField = { taskId: task.id, fieldId: f.id, draft: draftOf(f, task) };
+        await tick();
+        const editor = rootEl?.querySelector<HTMLInputElement>(".gantt-chart-field-editor");
+        editor?.focus({ preventScroll: true });
+        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+    }
+
+    function parseDraft(f: GanttField & TypedColumn, raw: string | number | null): unknown {
+        // A number input's bound value arrives as a number (or null when empty), whatever the draft was typed as.
+        const draft = raw === null || raw === undefined ? "" : String(raw);
+        if (f.parse) return f.parse(draft, {});
+        const kind = editorKind(f);
+        if (kind === "number") return draft.trim() === "" ? null : Number(draft);
+        if (kind === "date" || kind === "time" || kind === "select" || kind === "radio") return draft === "" ? null : draft;
+        return draft;
+    }
+
+    /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+    function commitFieldEdit(): boolean {
+        if (!editingField || committing) return true;
+        const { taskId, fieldId, draft } = editingField;
+        const task = taskById.get(taskId);
+        const f = resolvedFields.find((x) => x.id === fieldId);
+        if (!task || !f) {
+            editingField = null;
+            return true;
+        }
+        const value = parseDraft(f, draft);
+        if (isInvalidForType(f, value)) {
+            announce(labels.editInvalid?.(taskLabel(task), f.header));
+            return false;
+        }
+        committing = true;
+        const previous = fieldValue(f, task);
+        editingField = null;
+        if (value !== previous) {
+            onFieldEdit?.({ taskId, fieldId, value, previous });
+            announce(labels.editAnnouncement?.(taskLabel(task), f.header, value === null ? "" : String(value)));
+        }
+        committing = false;
+        return true;
+    }
+
+    function cancelFieldEdit(): void {
+        editingField = null;
+        void focusActiveCell();
+    }
+
+    function onFieldEditorKeydown(event: KeyboardEvent): void {
+        // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+        // report the confirming Enter with `isComposing` already false but keyCode 229.
+        event.stopPropagation();
+        if (event.isComposing || event.keyCode === 229) return;
+        if (event.key === "Enter") {
+            event.preventDefault();
+            if (commitFieldEdit()) void focusActiveCell();
+        } else if (event.key === "Escape") {
+            event.preventDefault();
+            cancelFieldEdit();
+        } else if (event.key === "Tab" && editingField) {
+            // Tab commits and moves to the task's next (Shift+Tab: previous) editable field; past the last, it moves on.
+            const task = taskById.get(editingField.taskId);
+            const editable = resolvedFields.filter(isFieldEditable);
+            const at = editable.findIndex((x) => x.id === editingField!.fieldId);
+            const next = editable[at + (event.shiftKey ? -1 : 1)];
+            if (task && next) {
+                event.preventDefault();
+                if (commitFieldEdit()) void startFieldEdit(task, next);
+            } else {
+                commitFieldEdit();
+            }
+        }
+    }
+
+    const exportRows = $derived(exportScope === "visible" ? rows.map((r) => r.task) : flattenTasks(tasks, new Set()).map((r) => r.task));
+    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const exportFieldList = $derived(resolvedFields.filter((f) => f.exportable !== false));
+
+    /** One field for an export: typed values stay typed, everything else is the text the chart shows. */
+    function exportFieldCell(f: GanttField & TypedColumn, task: GanttTask): unknown {
+        if (f.exportValue) return f.exportValue(task.values ?? {});
+        const value = fieldValue(f, task);
+        if (value === null || value === undefined) return null;
+        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
+        return fieldText(f, task);
+    }
+
+    /** A civil date as a real date for the spreadsheet; an unscheduled task's empty date as null. */
+    const exportDate = (iso: string | undefined): Date | null => (iso ? civilDateToDate(iso) : null);
+
+    function runExport(format: ExportFormat): void {
+        const h = labels.exportHeaders;
+        if (!h) return;
+        const headers = [h.task, h.start, h.end];
+        if (h.percentComplete) headers.push(h.percentComplete);
+        if (h.parent) headers.push(h.parent);
+        if (h.dependsOn) headers.push(h.dependsOn);
+        if (h.baselineStart) headers.push(h.baselineStart);
+        if (h.baselineEnd) headers.push(h.baselineEnd);
+        for (const f of exportFieldList) headers.push(f.header);
+        const hasChildren = new Set(tasks.filter((t) => t.parentId != null && taskById.has(t.parentId)).map((t) => t.parentId as string));
+        const body = exportRows.map((task) => {
+            const span = hasChildren.has(task.id) ? (ranges.get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
+            const cells: unknown[] = [taskLabel(task), exportDate(span.start), exportDate(span.end)];
+            if (h.percentComplete) cells.push(task.percentComplete ?? null);
+            if (h.parent) cells.push(task.parentId != null && taskById.has(task.parentId) ? taskLabel(taskById.get(task.parentId)!) : null);
+            if (h.dependsOn) {
+                cells.push(
+                    (task.dependsOn ?? [])
+                        .map((dep) => {
+                            const id = typeof dep === "string" ? dep : dep.id;
+                            const predecessor = taskById.get(id);
+                            return predecessor ? taskLabel(predecessor) : id;
+                        })
+                        .join("; "),
+                );
+            }
+            if (h.baselineStart) cells.push(exportDate(task.baseline?.start));
+            if (h.baselineEnd) cells.push(exportDate(task.baseline?.end));
+            for (const f of exportFieldList) cells.push(exportFieldCell(f, task));
+            return cells;
+        });
+        const filename = exportFilename(exportBase, format);
+        const blob = exportBlob({ headers, rows: body }, format, { sheetName: exportBase });
+        if (onExport?.({ format, filename, taskCount: body.length, blob }) === false) return;
+        downloadBlob(blob, filename);
+        announce(labels.exportAnnouncement?.(format, body.length, filename));
+    }
+
+    // ---------------------------------------------------------------
+    // Windowing (virtualize)
+    // ---------------------------------------------------------------
+
+    let scrollTop = $state(0);
+    let scrollEl: HTMLDivElement | undefined = $state();
+    type RenderItem = { kind: "spacer"; height: number; key: string } | { kind: "row"; row: FlatRow; index: number; key: string };
+    /** What renders: the rows in view plus the roving tab stop's row (so the grid never leaves the tab order), with spacers for the gaps. */
+    const renderItems = $derived.by((): RenderItem[] => {
+        if (!virtualize) return rows.map((row, index) => ({ kind: "row", row, index, key: row.task.id }));
+        const overscan = virtualize.overscan ?? 3;
+        const start = Math.max(0, Math.floor(scrollTop / virtualize.rowHeight) - overscan);
+        const end = Math.min(rows.length, Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan);
+        const indices = new Set<number>();
+        for (let i = start; i < end; i++) indices.add(i);
+        if (activeRow >= 0 && activeRow < rows.length) indices.add(activeRow);
+        const items: RenderItem[] = [];
+        let previous = -1;
+        for (const index of [...indices].sort((a, b) => a - b)) {
+            if (index - previous > 1) items.push({ kind: "spacer", height: (index - previous - 1) * virtualize.rowHeight, key: `spacer:${previous}` });
+            items.push({ kind: "row", row: rows[index], index, key: rows[index].task.id });
+            previous = index;
+        }
+        if (rows.length - 1 - previous > 0) items.push({ kind: "spacer", height: (rows.length - 1 - previous) * virtualize.rowHeight, key: `spacer:${previous}` });
+        return items;
+    });
+
+    /** Bring a row into the scroll area (a virtualized chart renders only what is in view). */
+    function revealRow(rowIndex: number): void {
+        if (!virtualize) return;
+        const top = rowIndex * virtualize.rowHeight;
+        if (top < scrollTop) scrollTop = top;
+        else if (top + virtualize.rowHeight > scrollTop + virtualize.height) scrollTop = top + virtualize.rowHeight - virtualize.height;
+        if (scrollEl) scrollEl.scrollTop = scrollTop;
+    }
+
+    // ---------------------------------------------------------------
     // Hierarchy
     // ---------------------------------------------------------------
 
@@ -359,7 +616,7 @@
     }
 
     /** Every task that has children (the ones a collapse button applies to). */
-    const parentIds = $derived(Array.from(new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) => tasks.some((t) => t.id === id)));
+    const parentIds = $derived(Array.from(new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) => taskById.has(id)));
 
     function setAllCollapsed(value: boolean): void {
         collapsedTaskIds = value ? parentIds : [];
@@ -373,7 +630,7 @@
         if (!task.dependsOn?.length) return [];
         return task.dependsOn.map((dep) => {
             const id = typeof dep === "string" ? dep : dep.id;
-            const predecessor = tasks.find((t) => t.id === id);
+            const predecessor = taskById.get(id);
             const text = predecessor ? taskLabel(predecessor) : id;
             if (typeof dep === "string" || !labels.dependencyDetail) return text;
             return labels.dependencyDetail(text, dep.type ?? "e2s", dep.lag ?? 0);
@@ -485,7 +742,7 @@
         if (readonly) return;
         const taskId = draggingTaskId ?? event.dataTransfer?.getData("text/plain");
         draggingTaskId = null;
-        const task = tasks.find((t) => t.id === taskId);
+        const task = taskId ? taskById.get(taskId) : undefined;
         const edge = resizingEdge;
         resizingEdge = null;
         if (!task || !task.start || !task.end) return;
@@ -516,7 +773,7 @@
     }
 
     function onGridClick(event: MouseEvent): void {
-        if ((event.target as HTMLElement).closest("button, input, .gantt-chart-edit-row")) return;
+        if ((event.target as HTMLElement).closest("button, input, select, .gantt-chart-edit-row, .gantt-chart-field-editor")) return;
         const taskId = (event.target as HTMLElement).closest<HTMLElement>("[data-task-id]")?.dataset.taskId;
         if (taskId) selectTask(taskId);
     }
@@ -531,6 +788,7 @@
     function moveFocus(row: number, col: number): void {
         focusedRow = Math.min(Math.max(row, 0), rows.length - 1);
         focusedCol = Math.min(Math.max(col, 0), columns.length - 1);
+        revealRow(focusedRow);
         void focusActiveCell();
     }
 
@@ -538,6 +796,16 @@
         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        if (event.key === "F2" && onFieldEdit) {
+            // F2: edit the task's first editable field (the keyboard twin of clicking its value).
+            const row = rows[activeRow];
+            const first = resolvedFields.find(isFieldEditable);
+            if (row && first) {
+                event.preventDefault();
+                void startFieldEdit(row.task, first);
+            }
+            return;
+        }
         if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
             // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end (the keyboard twins of dragging the bar and its end handle).
             const row = rows[activeRow];
@@ -606,6 +874,19 @@
             {/if}
         </div>
     {/if}
+    {#if hasExportButtons}
+        <div class="gantt-chart-export" role="group" aria-label={labels.export}>
+            {#if labels.exportCsv}
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv" disabled={exportRows.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
+            {/if}
+            {#if labels.exportTsv}
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="tsv" disabled={exportRows.length === 0} onclick={() => runExport("tsv")}>{labels.exportTsv}</button>
+            {/if}
+            {#if labels.exportExcel}
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="xlsx" disabled={exportRows.length === 0} onclick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+            {/if}
+        </div>
+    {/if}
     {#if labels.zoomIn || labels.zoomOut}
         <div class="gantt-chart-zoom" role="group" aria-label={label}>
             {#if labels.zoomOut}
@@ -616,17 +897,26 @@
             {/if}
         </div>
     {/if}
-    <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin} onclick={onGridClick}>
+    <!-- The scroll area is structural: a virtualized chart renders only the rows in view inside it. -->
+    <div
+        bind:this={scrollEl}
+        class={virtualize ? "gantt-chart-scroll" : "gantt-chart-body"}
+        style={virtualize ? `height:${virtualize.height}px;overflow:auto` : undefined}
+        onscroll={virtualize ? (e) => (scrollTop = (e.currentTarget as HTMLElement).scrollTop) : undefined}
+    >
+    <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin} onclick={onGridClick} aria-rowcount={virtualize ? rows.length + 1 : undefined}>
         <GanttTableThead>
             <GanttTableTr>
                 <GanttTableTH scope="col">{labels.taskColumnHeader ?? ""}</GanttTableTH>
-                {#each columns as column (column.start)}
-                    {@const isToday = today != null && rangesOverlap(column.start, column.end, today, today)}
-                    {@const colMarkers = markersIn(column)}
+                {#each resolvedFields as f (f.id)}
+                    <GanttTableTH scope="col" data-field={f.id}>{f.header}</GanttTableTH>
+                {/each}
+                {#each columns as column, colIndex (column.start)}
+                    {@const colMarkers = markersAt(colIndex)}
                     <GanttTableTH
                         scope="col"
-                        data-today={isToday ? "" : undefined}
-                        data-non-working={nonWorking[columns.indexOf(column)] ? "" : undefined}
+                        data-today={todayColumns[colIndex] ? "" : undefined}
+                        data-non-working={nonWorking[colIndex] ? "" : undefined}
                         data-marker={colMarkers.length ? colMarkers.map((m) => m.kind ?? "marker").join(" ") : undefined}
                     >
                         {labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start}
@@ -638,13 +928,19 @@
             </GanttTableTr>
         </GanttTableThead>
         <GanttTableTbody>
-            {#each rows as row, rowIndex (row.task.id)}
+            {#each renderItems as item (item.key)}
+                {#if item.kind === "spacer"}
+                    <tr class="gantt-chart-spacer" aria-hidden="true" style={`height:${item.height}px`}><td colspan={columns.length + 1 + resolvedFields.length}></td></tr>
+                {:else}
+                {@const row = item.row}
+                {@const rowIndex = item.index}
                 {@const { start, end } = rangeFor(row.task, row.hasChildren)}
                 {@const deps = predecessorLabels(row.task)}
                 <GanttTableTr
                     data-task-type={row.task.type}
                     data-critical={row.task.critical ? "" : undefined}
                     data-slack={row.task.slack}
+                    aria-rowindex={virtualize ? rowIndex + 2 : undefined}
                     data-task-id={row.task.id}
                     data-unscheduled={!row.hasChildren && (!row.task.start || !row.task.end) ? "" : undefined}
                     aria-selected={selectedTaskId === row.task.id ? "true" : undefined}
@@ -676,10 +972,43 @@
                             </span>
                         {/if}
                     </GanttTableTH>
+                    {#each resolvedFields as f (f.id)}
+                        {@const text = fieldText(f, row.task)}
+                        {@const editable = isFieldEditable(f)}
+                        {@const nameId = `${baseId}-fn-${row.task.id}-${f.id}`}
+                        {@const valueId = `${baseId}-fv-${row.task.id}-${f.id}`}
+                        <GanttTableTD data-field={f.id} data-type={f.type ?? "text"} data-align={f.align}>
+                            {#if editingField && editingField.taskId === row.task.id && editingField.fieldId === f.id}
+                                {#if editorKind(f) === "select" || editorKind(f) === "radio"}
+                                    <select class="gantt-chart-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editingField.draft} onkeydown={onFieldEditorKeydown} onchange={() => { if (commitFieldEdit()) void focusActiveCell(); }} onblur={commitFieldEdit}>
+                                        <option value=""></option>
+                                        {#each (f.options ?? []) as option (option.id)}
+                                            <option value={option.id} disabled={option.disabled}>{option.label}</option>
+                                        {/each}
+                                    </select>
+                                {:else}
+                                    <input
+                                        class="gantt-chart-field-editor"
+                                        aria-label={f.editLabel ?? f.header}
+                                        type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
+                                        inputmode={editorKind(f) === "number" ? "decimal" : undefined}
+                                        bind:value={editingField.draft}
+                                        onkeydown={onFieldEditorKeydown}
+                                        onblur={commitFieldEdit}
+                                    />
+                                {/if}
+                            {:else if editable}
+                                <span id={nameId} hidden>{f.header}</span>
+                                <button type="button" class="gantt-chart-field-button" id={valueId} tabindex="-1" aria-labelledby={`${nameId} ${valueId}`} onclick={() => void startFieldEdit(row.task, f)}>{text}</button>
+                            {:else}
+                                {text}
+                            {/if}
+                        </GanttTableTD>
+                    {/each}
                     {#each columns as column, colIndex (column.start)}
                         {@const inRange = !!start && !!end && rangesOverlap(column.start, column.end, start, end)}
                         {@const isMilestone = inRange && start === end}
-                        {@const isToday = today != null && rangesOverlap(column.start, column.end, today, today)}
+                        {@const isToday = todayColumns[colIndex]}
                         {@const isLeadingCell = inRange && rangesOverlap(column.start, column.end, start, start)}
                         <GanttTableTD
                             data-row={rowIndex}
@@ -689,7 +1018,7 @@
                             data-milestone={isMilestone ? "" : undefined}
                             data-today={isToday ? "" : undefined}
                             data-non-working={nonWorking[colIndex] ? "" : undefined}
-                            data-marker={markersIn(column).length ? "" : undefined}
+                            data-marker={markersAt(colIndex).length ? "" : undefined}
                             aria-describedby={describedBy(row.task, deps.length > 0)}
                             data-baseline={row.task.baseline && rangesOverlap(column.start, column.end, row.task.baseline.start, row.task.baseline.end) ? "" : undefined}
                             ondragover={onCellDragOver}
@@ -722,7 +1051,7 @@
                 </GanttTableTr>
                 {#if editingTaskId === row.task.id && canEdit && labels.dateTimePickerLabels}
                     <tr class="gantt-chart-edit-row">
-                        <td colspan={columns.length + 1} onkeydown={onEditKeydown}>
+                        <td colspan={columns.length + 1 + resolvedFields.length} onkeydown={onEditKeydown}>
                             <DateTimePicker
                                 label={labels.startLabel ?? ""}
                                 labels={labels.dateTimePickerLabels}
@@ -762,9 +1091,11 @@
                         </td>
                     </tr>
                 {/if}
+                {/if}
             {/each}
         </GanttTableTbody>
     </GanttTable>
+    </div>
 
     <p class="gantt-chart-status" aria-live="polite">{statusMessage}</p>
 </div>

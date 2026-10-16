@@ -88,6 +88,8 @@ requires it too.
   supplementary, never the only path.
 - **Keyboard**: WAI-ARIA APG Grid roving-tabindex, the same model
   `data-grid` and `kanban-board` use.
+- **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `onFieldEdit` edits them in place (click, F2, Tab). See [spec §16](./spec/index.md#16-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
+- **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
 - **Announcements**: every successful edit announces via one
   `aria-live="polite"` region.
 

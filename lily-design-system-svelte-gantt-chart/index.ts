@@ -3,6 +3,9 @@ export type {
     Props,
     GanttColumn,
     GanttDependency,
+    GanttExport,
+    GanttField,
+    GanttFieldEdit,
     GanttLabels,
     GanttMarker,
     GanttTask,
@@ -17,3 +20,7 @@ export {
     flattenTasks,
     generateColumns,
 } from "./GanttChart.svelte";
+export { MIME_TYPES, cellText, downloadBlob, exportBlob, exportFilename, toCsv, toDelimited, toTsv, toXlsx } from "./export-data";
+export type { ExportFormat, ExportFormula, ExportTable } from "./export-data";
+export { resolveColumn } from "./cell-types";
+export type { DataGridCellType, DataGridOption } from "./cell-types";
