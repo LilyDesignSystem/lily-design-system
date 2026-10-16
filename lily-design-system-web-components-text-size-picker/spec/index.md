@@ -648,3 +648,7 @@ above, so they continue the local sequence instead.
   https://testingexamples.github.io/. Maintainer-directed, applied to
   all five page-header pickers the same day. The glyph constant was
   removed, not renamed.
+
+## Open state and disabled (2026-10-16)
+
+`open` (settable property; the `open` attribute is the initial state), `disabled` (property and attribute), the bubbling `openchange` event (`detail`: the new open state) and an `onOpenChange` property, ported from the Svelte canonical and kept in step with the HTML picker (this catalog is a maintainer-directed independent copy of it). `openchange` fires once for each change of the popup and not for an initial `open` attribute. Setting `open` opens or closes the popup without moving focus. `disabled` sets the native `disabled` on the real `<button>` inside the composed `<lily-icon-button>` (which builds it only once connected, so the initial state is applied after the button exists) and closes an open popup. Tests: "open state and disabled".
