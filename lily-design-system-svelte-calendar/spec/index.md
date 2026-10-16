@@ -252,8 +252,8 @@ Each clause below gets one or more tests in `CalendarView.test.ts`.
 - **Drag-to-reschedule events** — real interaction ownership, the same
   objection class `gantt-chart` raises against dependency-arrow
   rendering.
-- **Day view and agenda/list view** — out of the v1 request; natural
-  v2 candidates.
+- **Day view and agenda/list view** — shipped since (day view and the
+  agenda in §15).
 - **Recurring-event expansion** — a consumer data-layer concern.
 - **Timezone conversion** — `events` carry ISO civil dates, the same
   convention `gantt-chart` and `date-time-picker` both use.
@@ -331,3 +331,7 @@ Tests §8.31–§8.50.
 - **`hideOutsideDays`**: month view leaves outside days empty (the cell stays in the grid with `data-outside-period`).
 - **`weekendDays`**: weekday numbers whose cells get `data-weekend`; none by default, weekends differ by country.
 - **`selectionMode="multiple"`**: a click or Enter/Space toggles a day in the bindable `selectedDates` (each `data-selected`); `onDayClick` still fires.
+
+## 15. Agenda view (0.4.0, 2026-10-16)
+
+Tests §8.64–§8.68. `view="agenda"` is the list counterpart of the month grid and covers the same period (`periodRange` treats it as the month; `periodDays` is empty). It is a plain `<ol class="calendar-view-agenda" aria-label={label}>` — ordinary tab stops, no roving cursor, no selection or range keys. Each `<li class="calendar-view-agenda-day" data-date>` carries `data-today` / `aria-current="date"` (when `today` is set), `data-weekend` and `data-range`, a `<time class="calendar-view-agenda-date" datetime>` heading (`labels.day(date, weekday, false)`, the ISO date without it) and the day's events: the `day` snippet when given (with the usual `DayArgs`), otherwise one `.calendar-view-event` button per event (its `title` when a string, else its id) that fires `onEventClick`. Only days with events are listed unless `agendaEmptyDays`; `labels.agendaEmpty` shows when there are none. Drag-to-move is a grid feature and does not apply.

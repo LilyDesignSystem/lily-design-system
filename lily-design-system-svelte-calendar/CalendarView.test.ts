@@ -667,3 +667,43 @@ describe("CalendarView — multiple selection (§8.48–§8.50)", () => {
         expect(cellFor("2026-01-07")!.hasAttribute("data-selected")).toBe(true);
     });
 });
+
+describe("CalendarView — agenda view (§8.64–§8.68)", () => {
+    const agendaProps = { label: "Agenda", view: "agenda" as const, anchorDate: "2026-01-15", events: EVENTS, today: "2026-01-09" };
+
+    test("§8.64 lists only the days with events, as an ordered list of <time> headings", () => {
+        render(CalendarView, { props: { ...agendaProps, labels: LABELS } });
+        const items = Array.from(document.querySelectorAll(".calendar-view-agenda-day"));
+        expect(items.map((li) => li.getAttribute("data-date"))).toEqual(["2026-01-06", "2026-01-09", "2026-01-10", "2026-01-11"]);
+        expect(document.querySelector("ol.calendar-view-agenda")!.getAttribute("aria-label")).toBe("Agenda");
+        expect(items[0].querySelector("time")!.getAttribute("datetime")).toBe("2026-01-06");
+        expect(document.querySelector(".calendar-view-table")).toBeNull();
+    });
+
+    test("§8.65 agendaEmptyDays lists every day of the month", () => {
+        render(CalendarView, { props: { ...agendaProps, agendaEmptyDays: true } });
+        expect(document.querySelectorAll(".calendar-view-agenda-day")).toHaveLength(31);
+    });
+
+    test("§8.66 each event is a button; clicking fires onEventClick; today carries aria-current", async () => {
+        const onEventClick = vi.fn();
+        render(CalendarView, { props: { ...agendaProps, onEventClick } });
+        await fireEvent.click(screen.getByRole("button", { name: "Single-day" }));
+        expect(onEventClick).toHaveBeenCalledWith(EVENTS[0]);
+        expect(document.querySelector('[data-date="2026-01-09"]')!.getAttribute("aria-current")).toBe("date");
+    });
+
+    test("§8.67 labels.agendaEmpty shows when the month has no events; the switcher button selects the view; next steps a month", async () => {
+        const onNavigate = vi.fn();
+        render(CalendarView, { props: { ...agendaProps, events: [], labels: { ...LABELS, agendaView: "Agenda", agendaEmpty: "Nothing this month" }, onNavigate } });
+        expect(document.querySelector(".calendar-view-agenda-empty")!.textContent).toBe("Nothing this month");
+        expect(screen.getByRole("button", { name: "Agenda" }).getAttribute("aria-pressed")).toBe("true");
+        await fireEvent.click(screen.getByRole("button", { name: "Next agenda" }));
+        expect(onNavigate).toHaveBeenLastCalledWith("agenda", "2026-02-01", "2026-02-28");
+    });
+
+    test("§8.68 periodRange treats agenda as the month; periodDays is empty", () => {
+        expect(periodRange("agenda", "2026-01-15", 0)).toEqual(["2026-01-01", "2026-01-31"]);
+        expect(periodDays("agenda", "2026-01-15", 0)).toEqual([]);
+    });
+});

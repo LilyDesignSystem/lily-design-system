@@ -19,7 +19,7 @@
         weekdayOf,
     } from "@lilydesignsystem/svelte-date-time-picker";
 
-    export type CalendarView = "day" | "week" | "four-week" | "month";
+    export type CalendarView = "day" | "week" | "four-week" | "month" | "agenda";
 
     /** A marked range (a holiday, a closure, a school term). `label` is text a `day` snippet can render. */
     export type CalendarRange = { start: string; end: string; kind?: string; label?: string };
@@ -50,6 +50,10 @@
         weekView?: string;
         fourWeekView?: string;
         monthView?: string;
+        /** Switcher label for the agenda (list) view of the month. Gates its button. */
+        agendaView?: string;
+        /** Agenda view: the message when the shown month has no events (and `agendaEmptyDays` is off). Gates the message. */
+        agendaEmpty?: string;
         previous?: (view: CalendarView) => string;
         next?: (view: CalendarView) => string;
         today?: string;
@@ -81,6 +85,8 @@
         anchorDate: string;
         /** Events to place into day cells. */
         events?: CalendarEvent[];
+        /** Agenda view: also list days with no events. Default false (only days with events). */
+        agendaEmptyDays?: boolean;
         /** Cap on events shown per day: the day snippet gets `visibleEvents` (the first `maxEvents`) and `hiddenCount` for a "+N more" control. */
         maxEvents?: number;
         /** Month view: leave days outside the shown month empty (no number, no events; the cell keeps `data-outside-period`). */
@@ -155,6 +161,7 @@
      * Week: 1 row. Four-week: 4 rows. Month: the fixed 6-row `monthMatrix`.
      */
     export function periodDays(view: CalendarView, anchorDate: string, firstDayOfWeek: number): string[][] {
+        if (view === "agenda") return [];
         if (view === "month") {
             const parsed = parseIsoDate(anchorDate);
             if (!parsed) return [];
@@ -174,7 +181,7 @@
 
     /** The inclusive [start, end] ISO range `view` covers, anchored around `anchorDate`. */
     export function periodRange(view: CalendarView, anchorDate: string, firstDayOfWeek: number): [string, string] {
-        if (view === "month") {
+        if (view === "month" || view === "agenda") {
             const parsed = parseIsoDate(anchorDate);
             if (!parsed) return [anchorDate, anchorDate];
             return [
@@ -230,6 +237,7 @@
         anchorDate = $bindable(),
         events = [],
         maxEvents = undefined,
+        agendaEmptyDays = false,
         hideOutsideDays = false,
         weekendDays = undefined,
         onEventMove = undefined,
@@ -261,6 +269,17 @@
     const days = $derived.by(() => periodDays(view, anchorDate, firstDayOfWeek));
     const flatDays = $derived(days.flat());
     const eventMap = $derived.by(() => eventsByDay(events));
+
+    // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
+    const agendaDays = $derived.by(() => {
+        if (view !== "agenda") return [] as string[];
+        const [start, end] = periodRange("agenda", anchorDate, firstDayOfWeek);
+        const out: string[] = [];
+        for (let d = start; d <= end; d = addDays(d, 1)) {
+            if (agendaEmptyDays || (eventMap.get(d)?.length ?? 0) > 0) out.push(d);
+        }
+        return out;
+    });
 
     // Keep the roving-tabindex cursor inside the currently visible days
     // whenever the period changes from outside (a prop change, not our
@@ -536,7 +555,7 @@
 
 <!-- CalendarView.svelte -->
 <div bind:this={rootEl} class={`calendar-view ${className}`.trim()} {...restProps}>
-    {#if labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView}
+    {#if labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView || labels?.agendaView}
         <div class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
                 {#if labels?.dayView}
@@ -571,6 +590,14 @@
                         onclick={() => setView("month")}
                     >{labels.monthView}</button>
                 {/if}
+                {#if labels?.agendaView}
+                    <button
+                        type="button"
+                        class="calendar-view-switcher-button calendar-view-switcher-button-agenda"
+                        aria-pressed={view === "agenda"}
+                        onclick={() => setView("agenda")}
+                    >{labels.agendaView}</button>
+                {/if}
             </div>
             <div class="calendar-view-nav">
                 <button
@@ -600,6 +627,42 @@
         </div>
     {/if}
 
+    {#if view === "agenda"}
+        <!-- The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. -->
+        <ol class="calendar-view-agenda" aria-label={label}>
+            {#each agendaDays as d (d)}
+                {@const weekday = weekdayOf(d)}
+                {@const dayEvents = eventMap.get(d) ?? []}
+                {@const isToday = today != null && d === today}
+                {@const dayRanges = rangesFor(d)}
+                {@const disabled = disabledDay(d)}
+                <li
+                    class="calendar-view-agenda-day"
+                    data-date={d}
+                    data-today={isToday ? "" : undefined}
+                    data-weekend={weekendDays?.includes(weekday) ? "" : undefined}
+                    data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
+                    aria-current={isToday ? "date" : undefined}
+                >
+                    <time class="calendar-view-agenda-date" datetime={d}>{labels?.day?.(d, weekday, false) ?? d}</time>
+                    {#if day}
+                        {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: false, selected: false, disabled, inRange: false, ranges: dayRanges, openEvent, eventProps })}
+                    {:else if dayEvents.length > 0}
+                        <ul class="calendar-view-agenda-events">
+                            {#each dayEvents as calendarEvent (calendarEvent.id)}
+                                <li>
+                                    <button type="button" class="calendar-view-event" onclick={() => openEvent(calendarEvent)}>{typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id}</button>
+                                </li>
+                            {/each}
+                        </ul>
+                    {/if}
+                </li>
+            {/each}
+        </ol>
+        {#if agendaDays.length === 0 && labels?.agendaEmpty}
+            <p class="calendar-view-agenda-empty">{labels.agendaEmpty}</p>
+        {/if}
+    {:else}
     <CalendarTable {label} class="calendar-view-table" onkeydown={onGridKeydown}>
         <CalendarTableHead>
             <CalendarTableRow>
@@ -665,6 +728,7 @@
             {/each}
         </CalendarTableBody>
     </CalendarTable>
+    {/if}
 
     <div class="calendar-view-status" aria-live="polite">{statusMessage}</div>
 </div>
