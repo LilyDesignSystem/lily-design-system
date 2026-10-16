@@ -16,9 +16,9 @@ behaviour; it ships no CSS and no English.
 
 ## 2. Scope and non-goals
 
-As the Svelte reference §2 and §9: no virtualization, inline cell editing, column reorder
-or pinning, row grouping, server-side sort/filter/pagination, CSV export, or row
-drag-reorder.
+As the Svelte reference §2 and §9: no row grouping, server-side sort/filter/pagination, or row
+drag-reorder. (Virtualization, inline cell editing, column reorder, pinning, CSV/TSV/Excel export
+and the twelve cell types shipped in 0.9.0.)
 
 ## 3. Composition
 

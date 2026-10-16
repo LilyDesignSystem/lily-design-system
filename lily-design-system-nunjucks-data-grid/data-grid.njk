@@ -1,0 +1,45 @@
+{#
+  dataGrid macro — a data grid. Server-renders a plain, readable <table> of the data (it works without JavaScript)
+  plus a JSON config; data-grid.client.js replaces it with the interactive grid.
+
+  HTML tag: <div> (root) wrapping a <table> skeleton and <script type="application/json" data-data-grid-config>
+  CSS class: data-grid
+  Companion runtime: data-grid.client.js
+
+  Params: label (required), columns (required: [{ id, header, type?, sortable?, … declarative column fields }]),
+  rows (required), labels (strings; the label functions of the canonical contract are template strings with
+  {placeholders}, e.g. "Select {rowLabel}"), selectionMode, pageSize, storageKey, mode, locale, caption, busy,
+  exportFilename, exportScope, exportFormulas, virtualize, class.
+
+  NUNJUCKS DEVIATIONS from the canonical Svelte props: a macro cannot take functions, so there is no accessor, cell,
+  headerCell, footer, empty, rowClass, validate, parse or callback; columns are declarative, label functions are
+  template strings, and everything else (events, hooks) is on the <data-grid> element the client returns.
+  The skeleton shows each cell's raw value; the typed formatting appears once the client runs.
+#}
+{% macro dataGrid(label, columns, rows, labels={}, selectionMode="none", pageSize=null, storageKey=null, mode="grid", locale=null, caption=null, busy=false, exportFilename=null, exportScope=null, exportFormulas=false, virtualize=null, class="") %}
+<div class="data-grid {{ class }}" data-data-grid>
+  <table class="data-table" aria-label="{{ label }}">
+    {% if caption %}<caption>{{ caption }}</caption>{% endif %}
+    <thead class="data-table-head">
+      <tr class="data-table-row">
+        {% for column in columns %}<th class="data-table-th" scope="col">{{ column.header }}</th>{% endfor %}
+      </tr>
+    </thead>
+    <tbody class="data-table-body">
+      {% for row in rows %}
+      <tr class="data-table-row">
+        {% for column in columns %}
+        {% set value = row[column.id] %}
+        <td class="data-table-td">{% if value is defined and value is not null %}{% if value is string or value is number %}{{ value }}{% endif %}{% endif %}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script type="application/json" data-data-grid-config>{{ {
+    label: label, caption: caption, columns: columns, rows: rows, labels: labels, selectionMode: selectionMode,
+    pageSize: pageSize, storageKey: storageKey, mode: mode, locale: locale, className: class, busy: busy,
+    exportFilename: exportFilename, exportScope: exportScope, exportFormulas: exportFormulas, virtualize: virtualize
+  } | dump | replace("<", "\\u003c") | safe }}</script>
+</div>
+{% endmacro %}

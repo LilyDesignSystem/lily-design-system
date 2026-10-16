@@ -153,6 +153,7 @@ The Web Components helpers, one top-level subproject per package since 2026-10-1
 
 The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages nunjucks`):
 
+- [`lily-design-system-nunjucks-data-grid`](../lily-design-system-nunjucks-data-grid) — `@lilydesignsystem/nunjucks-data-grid`
 - [`lily-design-system-nunjucks-date-time-picker`](../lily-design-system-nunjucks-date-time-picker) — `@lilydesignsystem/nunjucks-date-time-picker`
 - [`lily-design-system-nunjucks-link-picker`](../lily-design-system-nunjucks-link-picker) — `@lilydesignsystem/nunjucks-link-picker`
 - [`lily-design-system-nunjucks-listbox-behavior`](../lily-design-system-nunjucks-listbox-behavior) — `@lilydesignsystem/nunjucks-listbox-behavior`

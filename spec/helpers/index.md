@@ -177,6 +177,7 @@ packages above. [`bin/list-helper-packages web-components`](../../bin/list-helpe
 Until 2026-10-10 in the `lily-design-system-nunjucks-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages nunjucks`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-nunjucks-data-grid`](../../lily-design-system-nunjucks-data-grid/) — `@lilydesignsystem/nunjucks-data-grid`
 - [`lily-design-system-nunjucks-date-time-picker`](../../lily-design-system-nunjucks-date-time-picker/) — `@lilydesignsystem/nunjucks-date-time-picker`
 - [`lily-design-system-nunjucks-link-picker`](../../lily-design-system-nunjucks-link-picker/) — `@lilydesignsystem/nunjucks-link-picker`
 - [`lily-design-system-nunjucks-listbox-behavior`](../../lily-design-system-nunjucks-listbox-behavior/) — `@lilydesignsystem/nunjucks-listbox-behavior`
@@ -439,8 +440,7 @@ containing its compiled source.
 
 **Status: implemented for Svelte (2026-09-21), as
 `@lilydesignsystem/svelte-data-grid`, and ported to React (2026-10-13), as
-`@lilydesignsystem/react-data-grid`; the other six catalogs do not
-port it yet. Since 2026-10-09 the package is its own top-level
+`@lilydesignsystem/react-data-grid`, then (2026-10-16) to Vue, Blazor, Angular, HTML, Web Components and Nunjucks — all eight frameworks. Since 2026-10-09 the package is its own top-level
 subproject, `lily-design-system-svelte-data-grid`, rather than a
 directory inside `svelte-helpers`.** Specced first, before the package existed, per this
 topic's own "Spec-driven" principle — the numbered contract below
