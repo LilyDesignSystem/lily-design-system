@@ -949,3 +949,76 @@ describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
     expect(root.querySelector(".kanban-board-spacer")).toBeTruthy();
   });
 });
+
+describe("kanban-board — collapsible lanes (§8.91–§8.94)", () => {
+  const laneDefs = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+  const laneColumns = [{ id: "todo", title: "To do" }, { id: "doing", title: "Doing" }];
+  const cardsInLanes = [
+    { id: "c1", columnId: "todo", title: "One", laneId: "ann" },
+    { id: "c2", columnId: "todo", title: "Two", laneId: "bo" },
+    { id: "c3", columnId: "doing", title: "Three", laneId: "bo" },
+  ];
+  const laneLabels = { collapseLane: "Collapse {lane}", expandLane: "Expand {lane}", laneCount: "{count} cards in {lane}" };
+  const lanesBoard = (opts: Record<string, unknown> = {}, init: Record<string, unknown> = {}) =>
+    setup({ columns: laneColumns, cards: cardsInLanes, lanes: laneDefs, ...opts }, init);
+  const named = (name: string) => Array.from(document.querySelectorAll("button")).find((b) => b.getAttribute("aria-label") === name) as HTMLButtonElement;
+  const visibleCard = (id: string) => {
+    const td = document.querySelector(`[data-lily-kanban-board-card-id="${id}"]`);
+    return !!td && !td.closest("tr")!.hidden;
+  };
+
+  test("§8.91 labels.collapseLane gates a toggle with aria-expanded; clicking hides the lane's rows but keeps its header", () => {
+    lanesBoard({ labels: laneLabels });
+    expect(named("Collapse Bo").getAttribute("aria-expanded")).toBe("true");
+    named("Collapse Bo").click();
+    expect(named("Expand Bo").getAttribute("aria-expanded")).toBe("false");
+    expect(visibleCard("c2")).toBe(false);
+    expect(visibleCard("c1")).toBe(true);
+    expect(document.querySelectorAll(".kanban-board-lane")).toHaveLength(2);
+  });
+
+  test("§8.92 no toggle without labels.collapseLane / expandLane", () => {
+    lanesBoard();
+    expect(document.querySelector(".kanban-board-lane-toggle")).toBeNull();
+  });
+
+  test("§8.93 collapsedLanes starts a lane collapsed; labels.laneCount shows its count; the change is reported", () => {
+    const onLaneCollapseChange = vi.fn();
+    const { root, controller } = lanesBoard({ collapsedLanes: ["bo"], labels: laneLabels }, { onLaneCollapseChange });
+    const events: string[][] = [];
+    root.addEventListener("lanecollapsechange", (e) => events.push((e as CustomEvent).detail));
+    expect(visibleCard("c2")).toBe(false);
+    expect(Array.from(document.querySelectorAll(".kanban-board-lane-count")).map((e) => e.textContent)).toEqual(["1 cards in Ann", "2 cards in Bo"]);
+    expect(document.querySelector('[data-lane-id="bo"][data-collapsed]')).not.toBeNull();
+    expect(controller.collapsedLanes()).toEqual(["bo"]);
+    named("Expand Bo").click();
+    expect(onLaneCollapseChange).toHaveBeenCalledWith([]);
+    expect(events).toEqual([[]]);
+    expect(visibleCard("c2")).toBe(true);
+  });
+
+  test("§8.94 collapsing every lane leaves a board with only headers, no crash", () => {
+    lanesBoard({ collapsedLanes: ["ann", "bo"] });
+    expect(Array.from(document.querySelectorAll(".kanban-table-body tr[data-lane-row]:not([data-lily-kanban-board-lane-row])")).every((tr) => (tr as HTMLElement).hidden)).toBe(true);
+    expect(document.querySelectorAll(".kanban-board-lane")).toHaveLength(2);
+  });
+
+  test("§8.95 the roving tab stop is never in a hidden row, and ArrowDown steps over a collapsed lane", () => {
+    const { root } = lanesBoard({
+      collapsedLanes: ["bo"],
+      columns: [{ id: "todo", title: "To do" }],
+      cards: [
+        { id: "a1", columnId: "todo", title: "A1", laneId: "ann" },
+        { id: "b1", columnId: "todo", title: "B1", laneId: "bo" },
+        { id: "c1", columnId: "todo", title: "C1", laneId: "cy" },
+      ],
+      lanes: [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }, { id: "cy", title: "Cy" }],
+    });
+    const stop = root.querySelector('.kanban-table-td[tabindex="0"]') as HTMLElement;
+    expect(stop.closest("tr")!.hidden).toBe(false);
+    stop.focus();
+    key(stop, "ArrowDown");
+    const next = root.querySelector('.kanban-table-td[tabindex="0"]') as HTMLElement;
+    expect(next.getAttribute("data-lily-kanban-board-card-id")).toBe("c1");
+  });
+});

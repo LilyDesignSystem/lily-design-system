@@ -63,6 +63,7 @@ function textOf(el) {
  *   onReorder?: (cardId: string, toIndex: number) => void,
  *   canMove?: (cardId: string, toColumnId: string) => boolean,
  *   onCollapsedChange?: (collapsedColumns: string[]) => void,
+ *   onLaneCollapseChange?: (collapsedLanes: string[]) => void,
  *   onAddCard?: (columnId: string) => void,
  *   labels?: {
  *     moveAnnouncement?: (cardTitle: string, columnTitle: string) => string,
@@ -76,10 +77,10 @@ function textOf(el) {
  *     columnMoveAnnouncement?: (columnTitle: string, position: number, count: number) => string,
  *   },
  * }=} opts
- * @returns {{ destroy: () => void, collapsedColumns: () => string[], selected: () => string[], columnOrder: () => string[], undo: () => Promise<void> }}
+ * @returns {{ destroy: () => void, collapsedColumns: () => string[], collapsedLanes: () => string[], selected: () => string[], columnOrder: () => string[], undo: () => Promise<void> }}
  */
 export function initKanbanBoard(root, opts = {}) {
-  const noop = { destroy: () => {}, collapsedColumns: () => [], selected: () => [], columnOrder: () => [], undo: async () => {} };
+  const noop = { destroy: () => {}, collapsedColumns: () => [], collapsedLanes: () => [], selected: () => [], columnOrder: () => [], undo: async () => {} };
   if (typeof document === "undefined" || !root) return noop;
 
   const table = root.querySelector(".kanban-table");
@@ -164,11 +165,29 @@ export function initKanbanBoard(root, opts = {}) {
       if (hidden > 0) th.setAttribute("data-hidden-count", String(hidden));
       else th.removeAttribute("data-hidden-count");
     });
-    // A row with nothing left to show is hidden, so the board's height follows what is shown.
+    // A row with nothing left to show is hidden, so the board's height follows what is shown; so is every row of a collapsed lane.
     rows.filter(isDataRow).forEach((tr) => {
       const cells = cellsOfRow(tr);
       const empty = cells.every((td) => td.childNodes.length === 0);
-      tr.hidden = empty && cells.some((td) => stash.has(td));
+      const laneId = tr.getAttribute("data-lane-id");
+      tr.hidden = (empty && cells.some((td) => stash.has(td))) || (laneId !== null && isLaneCollapsed(laneId));
+    });
+    // Each lane's count follows the search: the cards still showing across its rows.
+    root.querySelectorAll("[data-lily-kanban-board-lane-count]").forEach((el) => {
+      const th = el.closest("th[data-lane-id]");
+      const template = el.getAttribute("data-template") || "";
+      if (!th) return;
+      const laneId = th.getAttribute("data-lane-id");
+      let count = 0;
+      rows.filter(isDataRow).forEach((tr) => {
+        if (tr.getAttribute("data-lane-id") !== laneId) return;
+        cellsOfRow(tr).forEach((td) => {
+          if (!td.hasAttribute("data-lily-kanban-board-card-id")) return;
+          const text = (td.getAttribute("data-lily-kanban-board-search-text") || "").toLowerCase();
+          if (!needle || text.includes(needle)) count += 1;
+        });
+      });
+      el.textContent = template.split("{lane}").join(el.getAttribute("data-lane-title") || "").split("{count}").join(String(count));
     });
     // Keep the roving tab stop on a visible row.
     const stop = focusedCellEl();
@@ -190,6 +209,29 @@ export function initKanbanBoard(root, opts = {}) {
     if (toggle) {
       toggle.setAttribute("aria-expanded", String(!collapsed));
       toggle.textContent = collapsed ? "▸" : "▾";
+    }
+    refreshVisibility();
+  }
+
+  const laneThFor = (laneId) => root.querySelector(`th.kanban-board-lane[data-lane-id="${escapeAttrValue(laneId)}"]`);
+  function isLaneCollapsed(laneId) {
+    const th = laneThFor(laneId);
+    return !!th && th.hasAttribute("data-collapsed");
+  }
+  function collapsedLaneIds() {
+    return Array.from(root.querySelectorAll("th.kanban-board-lane[data-collapsed]")).map((th) => th.getAttribute("data-lane-id"));
+  }
+  function applyLaneCollapsed(laneId, collapsed) {
+    const th = laneThFor(laneId);
+    if (!th) return;
+    if (collapsed) th.setAttribute("data-collapsed", "");
+    else th.removeAttribute("data-collapsed");
+    const toggle = th.querySelector("[data-lily-kanban-board-lane-collapse]");
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", String(!collapsed));
+      toggle.textContent = collapsed ? "▸" : "▾";
+      const template = toggle.getAttribute(collapsed ? "data-expand-template" : "data-collapse-template");
+      if (template) toggle.setAttribute("aria-label", template.split("{lane}").join(th.querySelector(".kanban-board-lane-title")?.textContent || ""));
     }
     refreshVisibility();
   }
@@ -304,7 +346,21 @@ export function initKanbanBoard(root, opts = {}) {
   }
 
   function moveFocus(row, col) {
-    const clampedRow = Math.min(Math.max(row, 0), numRows() - 1);
+    let clampedRow = Math.min(Math.max(row, 0), numRows() - 1);
+    {
+      // Step over hidden rows (a collapsed lane, a search that emptied a row) in the direction of travel.
+      const current = focusedCellEl();
+      const currentRow = current ? dataRows().indexOf(current.parentElement) : clampedRow;
+      const step = clampedRow >= currentRow ? 1 : -1;
+      const all = dataRows();
+      let probe = clampedRow;
+      while (probe >= 0 && probe < all.length && all[probe].hidden) probe += step;
+      if (probe < 0 || probe >= all.length) {
+        probe = clampedRow;
+        while (probe >= 0 && probe < all.length && all[probe].hidden) probe -= step;
+      }
+      if (probe >= 0 && probe < all.length) clampedRow = probe;
+    }
     const clampedCol = Math.min(Math.max(col, 0), numCols() - 1);
     revealRow(clampedRow);
     const target = cellAt(clampedRow, clampedCol);
@@ -625,6 +681,15 @@ export function initKanbanBoard(root, opts = {}) {
       const ids = collapsedIds();
       if (typeof opts.onCollapsedChange === "function") opts.onCollapsedChange(ids);
       root.dispatchEvent(new CustomEvent("collapsechange", { detail: ids, bubbles: true }));
+      return;
+    }
+    const laneToggle = target && target.closest("[data-lily-kanban-board-lane-collapse]");
+    if (laneToggle) {
+      const id = laneToggle.getAttribute("data-lily-kanban-board-lane-id");
+      applyLaneCollapsed(id, !isLaneCollapsed(id));
+      const ids = collapsedLaneIds();
+      if (typeof opts.onLaneCollapseChange === "function") opts.onLaneCollapseChange(ids);
+      root.dispatchEvent(new CustomEvent("lanecollapsechange", { detail: ids, bubbles: true }));
       return;
     }
     if (target && target.closest("[data-lily-kanban-board-undo]")) {
@@ -1011,6 +1076,7 @@ export function initKanbanBoard(root, opts = {}) {
 
   return {
     collapsedColumns: collapsedIds,
+    collapsedLanes: collapsedLaneIds,
     selected: selectedIds,
     columnOrder: columnIds,
     undo,

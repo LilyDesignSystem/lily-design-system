@@ -154,10 +154,21 @@
          labels.moveManyAnnouncement(count, columnTitle), labels.undoAnnouncement(cardTitle, columnTitle),
          labels.undoManyAnnouncement(count), labels.columnMoveAnnouncement(columnTitle, position, count).
 
+  11. 0.5.0 — collapsible swimlanes:
+       collapsedLanes — macro param, array of lane ids: a collapsed lane keeps its `.kanban-board-lane` header row but its
+                       card rows render `hidden` and the client keeps them hidden.
+       labels.collapseLane / labels.expandLane — template strings with a `{lane}` token (the lane's title). Each gates the
+                       `.kanban-board-lane-toggle` button (aria-expanded); either one renders it.
+       labels.laneCount — template string with `{lane}` and `{count}` tokens, a visible `.kanban-board-lane-count`; the
+                       client keeps the count in step with the search.
+       onLaneCollapseChange(ids) — client init option; the client also fires `lanecollapsechange`, and `collapsedLanes()`
+                       on the controller returns the ids. The lane title is wrapped in `.kanban-board-lane-title`.
+
   Params (single `opts` object):
     label       — string, required. aria-label for the grid table.
     columns     — array<{id, title, wipLimit?, strictLimit?}>, required.
     collapsedColumns — array<string>. Ids of collapsed columns.
+    collapsedLanes   — array<string>. Ids of collapsed swimlanes (see 11 above).
     cards       — array<{id, columnId, title}>, required. Card order
                   within a column follows the order cards appear in
                   this array (matches the Svelte canonical).
@@ -313,6 +324,7 @@
   {%- if colCards.length > maxRows -%}{%- set maxRows = colCards.length -%}{%- endif -%}
 {%- endfor -%}
 {%- set collapsedIds = opts.collapsedColumns | default([]) -%}
+{%- set collapsedLaneIds = opts.collapsedLanes | default([]) -%}
 {%- set headerRowHtml = _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels, collapsedIds, opts.readonly, opts.movableColumns) -%}
 {%- set theadHtml = (kanbanTableHead({ html: (kanbanTableRow({ html: headerRowHtml }) | safe) })) | safe -%}
 {#- Rows: one band per lane (a single anonymous band without `lanes`). `rowIndex` runs across lanes, `laneRow` within one. -#}
@@ -321,13 +333,6 @@
 {%- set rowIndex = 0 -%}
 {%- set slotIndex = 0 -%}
 {%- for lane in bands -%}
-  {%- if hasLanes -%}
-    {%- set laneThHtml = ('<th class="kanban-board-lane" scope="rowgroup" colspan="' ~ (columns | length) ~ '" data-lane-id="' ~ (lane.id | e) ~ '">' ~ (lane.title | e) ~ '</th>') | safe -%}
-    {%- set laneAttrs = [["data-lily-kanban-board-lane-row", ""]] -%}
-    {%- if opts.virtualize -%}{%- set laneAttrs = laneAttrs.concat([["aria-rowindex", slotIndex + 2]]) -%}{%- endif -%}
-    {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ attributes: laneAttrs, html: laneThHtml })) | safe -%}
-    {%- set slotIndex = slotIndex + 1 -%}
-  {%- endif -%}
   {%- set laneLists = [] -%}
   {%- set laneRows = 0 -%}
   {%- for column in columns -%}
@@ -344,10 +349,29 @@
       empty column's message even when no column has a card. -#}
   {%- if hasLanes and laneRows == 0 -%}{%- set laneRows = 1 -%}{%- endif -%}
   {%- if (not hasLanes) and laneRows == 0 and labels.emptyColumn and columns | length -%}{%- set laneRows = 1 -%}{%- endif -%}
+  {%- set laneCollapsed = hasLanes and (lane.id in collapsedLaneIds) -%}
+  {%- if hasLanes -%}
+    {%- set laneTotal = 0 -%}
+    {%- for list in laneLists -%}{%- set laneTotal = laneTotal + list.length -%}{%- endfor -%}
+    {%- set laneToggleHtml = "" -%}
+    {%- if labels.collapseLane or labels.expandLane -%}
+      {%- set laneToggleHtml = '<button type="button" class="kanban-board-lane-toggle" aria-expanded="' ~ ('false' if laneCollapsed else 'true') ~ '" aria-label="' ~ (((labels.expandLane if laneCollapsed else labels.collapseLane) | default(labels.collapseLane) | replace('{lane}', lane.title)) | e) ~ '" data-lily-kanban-board-lane-collapse data-lily-kanban-board-lane-id="' ~ (lane.id | e) ~ '" data-collapse-template="' ~ ((labels.collapseLane | default(labels.expandLane)) | e) ~ '" data-expand-template="' ~ ((labels.expandLane | default(labels.collapseLane)) | e) ~ '">' ~ ('▸' if laneCollapsed else '▾') ~ '</button>' -%}
+    {%- endif -%}
+    {%- set laneCountHtml = "" -%}
+    {%- if labels.laneCount -%}
+      {%- set laneCountHtml = '<span class="kanban-board-lane-count" data-lily-kanban-board-lane-count data-template="' ~ (labels.laneCount | e) ~ '" data-lane-title="' ~ (lane.title | e) ~ '">' ~ ((labels.laneCount | replace('{lane}', lane.title) | replace('{count}', laneTotal)) | e) ~ '</span>' -%}
+    {%- endif -%}
+    {%- set laneThHtml = ('<th class="kanban-board-lane" scope="rowgroup" colspan="' ~ (columns | length) ~ '" data-lane-id="' ~ (lane.id | e) ~ '"' ~ (' data-collapsed=""' if laneCollapsed else '') ~ '>' ~ laneToggleHtml ~ '<span class="kanban-board-lane-title">' ~ (lane.title | e) ~ '</span>' ~ laneCountHtml ~ '</th>') | safe -%}
+    {%- set laneAttrs = [["data-lily-kanban-board-lane-row", ""]] -%}
+    {%- if opts.virtualize -%}{%- set laneAttrs = laneAttrs.concat([["aria-rowindex", slotIndex + 2]]) -%}{%- endif -%}
+    {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ attributes: laneAttrs, html: laneThHtml })) | safe -%}
+    {%- set slotIndex = slotIndex + 1 -%}
+  {%- endif -%}
   {%- for laneRow in range(0, laneRows) -%}
     {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, laneRow, columns, laneLists, labels, id, glyphHtml, opts.readonly, collapsedIds, selectedIds, hasLanes) -%}
     {%- set rowAttrs = [] -%}
     {%- if hasLanes -%}{%- set rowAttrs = rowAttrs.concat([["data-lane-id", lane.id], ["data-lane-row", laneRow]]) -%}{%- endif -%}
+    {%- if laneCollapsed -%}{%- set rowAttrs = rowAttrs.concat([["hidden", ""]]) -%}{%- endif -%}
     {%- if opts.virtualize -%}{%- set rowAttrs = rowAttrs.concat([["aria-rowindex", slotIndex + 2]]) -%}{%- endif -%}
     {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ attributes: rowAttrs, html: rowCellsHtml })) | safe -%}
     {%- set rowIndex = rowIndex + 1 -%}
