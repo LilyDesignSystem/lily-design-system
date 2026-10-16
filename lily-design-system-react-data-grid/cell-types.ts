@@ -492,7 +492,7 @@ export function resolveColumn<T extends TypedColumn>(column: T, gridLocale?: str
     if (!column.type) return column;
     const defaults = typeDefaults(column, gridLocale) as Record<string, unknown>;
     const own = Object.fromEntries(Object.entries(column).filter(([, v]) => v !== undefined));
-    const resolved = { ...defaults, ...own } as Record<string, unknown>;
+    const resolved = { ...defaults, ...own } as TypedColumn;
     const locale = column.locale ?? gridLocale;
 
     if (column.type === "rollup") {
@@ -512,7 +512,7 @@ export function resolveColumn<T extends TypedColumn>(column: T, gridLocale?: str
         if (column.format === undefined) resolved.format = (v: unknown) => format(v);
         if (column.exportValue === undefined) {
             resolved.exportValue = (row: Record<string, unknown>) => {
-                const v = (resolved.accessor as (r: Record<string, unknown>) => unknown)(row);
+                const v = resolved.accessor!(row);
                 return column.resultType === "date" ? civilDateToDate(v) : isEmpty(v) ? null : v;
             };
         }
@@ -550,13 +550,13 @@ export function resolveColumn<T extends TypedColumn>(column: T, gridLocale?: str
         resolved.align = column.align ?? (column.resultType === "number" ? "end" : "start");
         if (column.format === undefined) {
             resolved.format = (v: unknown, row: Record<string, unknown>) => {
-                const message = (resolved.errorOf as (r: Record<string, unknown>) => string | undefined)(row);
+                const message = resolved.errorOf!(row);
                 return message !== undefined ? message : format(v);
             };
         }
         if (column.exportValue === undefined) {
             resolved.exportValue = (row: Record<string, unknown>) => {
-                const message = (resolved.errorOf as (r: Record<string, unknown>) => string | undefined)(row);
+                const message = resolved.errorOf!(row);
                 if (message !== undefined) return message;
                 const v = valueOf(row);
                 return column.resultType === "date" ? civilDateToDate(v) : isEmpty(v) ? null : v;
@@ -564,8 +564,8 @@ export function resolveColumn<T extends TypedColumn>(column: T, gridLocale?: str
         }
         if (column.filterText === undefined) {
             resolved.filterText = (v: unknown, row: Record<string, unknown>) =>
-                (resolved.format as (v: unknown, row: Record<string, unknown>) => string)(v, row);
+                resolved.format!(v, row);
         }
     }
-    return resolved as T;
+    return resolved as unknown as T;
 }

@@ -99,6 +99,7 @@ The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/lis
 
 The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages angular`):
 
+- [`lily-design-system-angular-data-grid`](../lily-design-system-angular-data-grid) — `@lilydesignsystem/angular-data-grid`
 - [`lily-design-system-angular-date-time-picker`](../lily-design-system-angular-date-time-picker) — `@lilydesignsystem/angular-date-time-picker`
 - [`lily-design-system-angular-kanban-board`](../lily-design-system-angular-kanban-board) — `@lilydesignsystem/angular-kanban-board`
 - [`lily-design-system-angular-link-picker`](../lily-design-system-angular-link-picker) — `@lilydesignsystem/angular-link-picker`

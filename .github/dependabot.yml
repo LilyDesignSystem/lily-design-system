@@ -71,6 +71,7 @@ updates:
   - package-ecosystem: "npm"
     # One top-level subproject per Angular helper package (2026-10-10).
     directories:
+      - "/lily-design-system-angular-data-grid"
       - "/lily-design-system-angular-date-time-picker"
       - "/lily-design-system-angular-kanban-board"
       - "/lily-design-system-angular-link-picker"
