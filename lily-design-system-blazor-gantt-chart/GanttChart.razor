@@ -36,6 +36,22 @@
 *@
 
 <div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
+    @{ var parentIds = ParentIds; var collapsedNow = _collapsed; }
+    @if (parentIds.Count > 0 && (Labels.ExpandAll is not null || Labels.CollapseAll is not null))
+    {
+        <div class="gantt-chart-collapse-all" role="group" aria-label="@Label">
+            @if (Labels.ExpandAll is not null)
+            {
+                <button type="button" class="gantt-chart-expand-all-button"
+                        disabled="@(CollapsedTaskIds.Count == 0)" @onclick="@(() => SetAllCollapsedAsync(false))">@Labels.ExpandAll</button>
+            }
+            @if (Labels.CollapseAll is not null)
+            {
+                <button type="button" class="gantt-chart-collapse-all-button"
+                        disabled="@(parentIds.All(id => collapsedNow.Contains(id)))" @onclick="@(() => SetAllCollapsedAsync(true))">@Labels.CollapseAll</button>
+            }
+        </div>
+    }
     @if (Labels.ZoomIn is not null || Labels.ZoomOut is not null)
     {
         <div class="gantt-chart-zoom" role="group" aria-label="@Label">
@@ -95,6 +111,7 @@
                               data-critical="@(row.Task.Critical ? "" : null)"
                               data-slack="@(row.Task.Slack?.ToString())"
                               data-task-id="@row.Task.Id"
+                              data-unscheduled="@(!row.HasChildren && (string.IsNullOrEmpty(row.Task.Start) || string.IsNullOrEmpty(row.Task.End)) ? "" : null)"
                               aria-selected="@(SelectedTaskId == row.Task.Id ? "true" : null)"
                               data-selected="@(SelectedTaskId == row.Task.Id ? "" : null)"
                               @attributes="@(TaskAttributes is not null ? TaskAttributes(row.Task) : null)">
@@ -109,7 +126,7 @@
                                     class="gantt-chart-collapse-button"
                                     aria-expanded="@(!isCollapsed ? "true" : "false")"
                                     aria-label="@Labels.CollapseButton(collapsibleTask, isCollapsed)"
-                                    @onclick="@(() => ToggleCollapse(collapsibleTask.Id))">
+                                    @onclick="@(() => ToggleCollapseAsync(collapsibleTask.Id))">
                                 @(isCollapsed ? "▸" : "▾")
                             </button>
                         }
@@ -131,7 +148,7 @@
                     {
                         var colNum = colIndex;
                         var column = columns[colNum];
-                        var inRange = RangesOverlap(column.Start, column.End, range.Start, range.End);
+                        var inRange = range.Start != "" && range.End != "" && RangesOverlap(column.Start, column.End, range.Start, range.End);
                         var isMilestone = inRange && range.Start == range.End;
                         var isCellToday = Today is not null && RangesOverlap(column.Start, column.End, Today, Today);
                         var isLeadingCell = inRange && RangesOverlap(column.Start, column.End, range.Start, range.Start);

@@ -34,11 +34,11 @@ public sealed class GanttTask
     /// <summary>Visible task label.</summary>
     public required string Label { get; init; }
 
-    /// <summary>ISO date (<c>YYYY-MM-DD</c>), inclusive.</summary>
-    public required string Start { get; init; }
+    /// <summary>ISO date (<c>YYYY-MM-DD</c>), inclusive. Absent (with <see cref="End"/>) means the task is unscheduled: its row shows no bar (<c>data-unscheduled</c>) and its edit region sets the dates.</summary>
+    public string? Start { get; init; }
 
     /// <summary>ISO date (<c>YYYY-MM-DD</c>), inclusive. Equal to <see cref="Start"/> means a milestone.</summary>
-    public required string End { get; init; }
+    public string? End { get; init; }
 
     /// <summary>0-100. Rendering the fill is the consumer's own CSS.</summary>
     public int? PercentComplete { get; init; }
@@ -135,6 +135,12 @@ public sealed record GanttLabels
     /// <summary>Text for a task with a baseline: (task label, baseline, days the end has slipped; negative = early).</summary>
     public Func<string, GanttBaseline, int, string>? BaselineSummary { get; init; }
     public Func<GanttTask, bool, string>? CollapseButton { get; init; }
+
+    /// <summary>Accessible name for the button that expands every parent task. Gates the button.</summary>
+    public string? ExpandAll { get; init; }
+
+    /// <summary>Accessible name for the button that collapses every parent task. Gates the button.</summary>
+    public string? CollapseAll { get; init; }
 }
 
 /// <summary>A flattened row: a task plus its tree depth and whether it has children.
@@ -170,6 +176,10 @@ public partial class GanttChart : ComponentBase
 
     /// <summary>Task data.</summary>
     [Parameter, EditorRequired] public IReadOnlyList<GanttTask> Tasks { get; set; } = Array.Empty<GanttTask>();
+
+    /// <summary>Ids of collapsed parent tasks. Bindable: <c>@bind-CollapsedTaskIds</c>; the collapse buttons, <c>Labels.ExpandAll</c> and <c>Labels.CollapseAll</c> change it.</summary>
+    [Parameter] public IReadOnlyList<string> CollapsedTaskIds { get; set; } = Array.Empty<string>();
+    [Parameter] public EventCallback<IReadOnlyList<string>> CollapsedTaskIdsChanged { get; set; }
 
     /// <summary>Column granularity. Bindable: <c>@bind-TimeUnit</c>. The zoom buttons (shown when <c>Labels.ZoomIn</c> / <c>Labels.ZoomOut</c> name them) step it month ↔ week ↔ day.</summary>
     [Parameter] public GanttTimeUnit TimeUnit { get; set; } = GanttTimeUnit.Day;
@@ -222,7 +232,7 @@ public partial class GanttChart : ComponentBase
     private readonly string _baseId = $"gantt-chart-{Interlocked.Increment(ref _uid)}";
 
     private string _statusMessage = "";
-    private readonly HashSet<string> _collapsed = new();
+    private HashSet<string> _collapsed => new(CollapsedTaskIds);
     private int _focusedRow;
     private int _focusedCol;
 
@@ -336,7 +346,7 @@ public partial class GanttChart : ComponentBase
 
     /// <summary>A parent's start/end are derived (min start / max end of descendants), never its own data.</summary>
     public static GanttDateRange EffectiveRange(GanttTask task, IReadOnlyList<GanttTask> allTasks)
-        => EffectiveRanges(allTasks).TryGetValue(task.Id, out var range) ? range : new GanttDateRange(task.Start, task.End);
+        => EffectiveRanges(allTasks).TryGetValue(task.Id, out var range) ? range : new GanttDateRange(task.Start ?? "", task.End ?? "");
 
     /// <summary>
     /// Every task's effective range in one pass over the tree — computed once
@@ -363,13 +373,14 @@ public partial class GanttChart : ComponentBase
         {
             if (ranges.TryGetValue(task.Id, out var known)) return known;
             if (!childrenOf.TryGetValue(task.Id, out var children) || onWalk.Contains(task.Id))
-                return new GanttDateRange(task.Start, task.End);
+                return new GanttDateRange(task.Start ?? "", task.End ?? "");
             onWalk.Add(task.Id);
             var start = "";
             var end = "";
             foreach (var child in children)
             {
                 var r = Visit(child);
+                if (r.Start == "") continue; // an unscheduled child does not shape its parent's span
                 if (start == "" || CompareIso(r.Start, start) < 0) start = r.Start;
                 if (end == "" || CompareIso(r.End, end) > 0) end = r.End;
             }
@@ -391,7 +402,9 @@ public partial class GanttChart : ComponentBase
     private IReadOnlyList<GanttFlatRow> Rows => FlattenTasks(Tasks, _collapsed);
 
     private static GanttDateRange RangeFor(GanttTask task, bool hasChildren, IReadOnlyDictionary<string, GanttDateRange> ranges)
-        => hasChildren && ranges.TryGetValue(task.Id, out var range) ? range : new GanttDateRange(task.Start, task.End);
+        => hasChildren
+            ? (ranges.TryGetValue(task.Id, out var range) ? range : new GanttDateRange("", ""))
+            : new GanttDateRange(task.Start ?? "", task.End ?? "");
 
     // The roving cursor, clamped to the cells that exist now: collapsing a
     // parent can remove the row it named, and the grid must never leave the
@@ -430,6 +443,7 @@ public partial class GanttChart : ComponentBase
 
     private static int VarianceDays(GanttBaseline baseline, string currentEnd)
     {
+        if (string.IsNullOrEmpty(currentEnd)) return 0;
         var a = DateTimePicker.ParseIsoDate(baseline.End);
         var b = DateTimePicker.ParseIsoDate(currentEnd);
         return a is { } x && b is { } y ? (int)(DateTimePicker.ToEpochDay(y) - DateTimePicker.ToEpochDay(x)) : 0;
@@ -460,9 +474,23 @@ public partial class GanttChart : ComponentBase
     // Hierarchy.
     // -------------------------------------------------------------------
 
-    private void ToggleCollapse(string taskId)
+    /// <summary>Every task that has children (the ones a collapse button applies to).</summary>
+    private List<string> ParentIds
+        => Tasks.Where(t => t.ParentId is not null).Select(t => t.ParentId!).Distinct().Where(id => Tasks.Any(t => t.Id == id)).ToList();
+
+    private async Task SetAllCollapsedAsync(bool value)
     {
-        if (!_collapsed.Remove(taskId)) _collapsed.Add(taskId);
+        CollapsedTaskIds = value ? ParentIds : new List<string>();
+        _focusedRow = ActiveRow;
+        await CollapsedTaskIdsChanged.InvokeAsync(CollapsedTaskIds);
+    }
+
+    private async Task ToggleCollapseAsync(string taskId)
+    {
+        CollapsedTaskIds = CollapsedTaskIds.Contains(taskId)
+            ? CollapsedTaskIds.Where(id => id != taskId).ToList()
+            : CollapsedTaskIds.Append(taskId).ToList();
+        await CollapsedTaskIdsChanged.InvokeAsync(CollapsedTaskIds);
         // Unlike grid-cell/move-menu focus, no explicit refocus is needed:
         // the collapse button is a plain <button> click target, so the
         // browser already keeps focus on it through the re-render. The
@@ -491,8 +519,8 @@ public partial class GanttChart : ComponentBase
     {
         if (!CanEdit) return;
         _editingTaskId = task.Id;
-        _editStart = task.Start;
-        _editEnd = task.End;
+        _editStart = task.Start ?? "";
+        _editEnd = task.End ?? "";
         _editPercent = task.PercentComplete?.ToString() ?? "";
         // Focus moves into the region it opened, onto the start date's field.
         _focusEditPending = true;
@@ -576,6 +604,7 @@ public partial class GanttChart : ComponentBase
 
     private async Task ShiftTaskAsync(GanttTask task, int delta, bool endOnly)
     {
+        if (string.IsNullOrEmpty(task.Start) || string.IsNullOrEmpty(task.End)) return; // an unscheduled task has nothing to shift
         var columns = Columns;
         if (endOnly)
         {
@@ -621,7 +650,7 @@ public partial class GanttChart : ComponentBase
         var task = Tasks.FirstOrDefault(t => t.Id == taskId);
         var edge = _resizingEdge;
         _resizingEdge = null;
-        if (task is null) return;
+        if (task is null || string.IsNullOrEmpty(task.Start) || string.IsNullOrEmpty(task.End)) return;
         if (edge is not null)
         {
             // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.

@@ -952,4 +952,115 @@ public class GanttChartExtrasTests : TestContext
         await cut.Find("[aria-label='Collapse Phase 1']").ClickAsync(new MouseEventArgs());
         Assert.NotEmpty(cut.FindAll("[aria-label='Expand Phase 1']"));
     }
+
+    // ---- Unscheduled tasks and collapse-all ----
+
+    private static readonly IReadOnlyList<GanttTask> WithUnscheduled = new[]
+    {
+        new GanttTask { Id = "a", Label = "Alpha", Start = "2026-10-01", End = "2026-10-02" },
+        new GanttTask { Id = "u", Label = "To be planned" },
+    };
+
+    private static readonly IReadOnlyList<GanttTask> WithParent = new[]
+    {
+        new GanttTask { Id = "design", Label = "Design", Start = "2026-10-01", End = "2026-10-03" },
+        new GanttTask { Id = "parent", Label = "Phase 1", Start = "2026-10-01", End = "2026-10-01" },
+        new GanttTask { Id = "child1", Label = "Child A", Start = "2026-10-08", End = "2026-10-08", ParentId = "parent" },
+        new GanttTask { Id = "child2", Label = "Child B", Start = "2026-10-09", End = "2026-10-09", ParentId = "parent" },
+    };
+
+    private static AngleSharp.Dom.IElement? TaskRow(IRenderedComponent<GanttChart> cut, string id)
+        => cut.FindAll($"[data-task-id='{id}']").FirstOrDefault();
+
+    [Fact]
+    public void Section_14_18_A_Task_With_No_Dates_Renders_A_Row_With_No_Bar_And_DataUnscheduled()
+    {
+        var cut = Render(tasks: WithUnscheduled);
+        var row = TaskRow(cut, "u")!;
+        Assert.NotNull(row.GetAttribute("data-unscheduled"));
+        Assert.Empty(row.QuerySelectorAll(".gantt-chart-bar"));
+        Assert.Empty(row.QuerySelectorAll("[data-in-range]"));
+        Assert.Null(TaskRow(cut, "a")!.GetAttribute("data-unscheduled"));
+    }
+
+    [Fact]
+    public void Section_14_19_An_Unscheduled_Child_Does_Not_Shape_Its_Parents_Span()
+    {
+        var tasks = new[]
+        {
+            new GanttTask { Id = "p", Label = "P" },
+            new GanttTask { Id = "c1", Label = "C1", ParentId = "p", Start = "2026-10-03", End = "2026-10-04" },
+            new GanttTask { Id = "c2", Label = "C2", ParentId = "p" },
+        };
+        Assert.Equal(new GanttDateRange("2026-10-03", "2026-10-04"), GanttChart.EffectiveRange(tasks[0], tasks));
+    }
+
+    [Fact]
+    public void Section_14_20_Enter_On_An_Unscheduled_Task_Opens_The_Edit_Region_Save_Is_Disabled_Until_Both_Dates_Are_Set()
+    {
+        var cut = Render(tasks: WithUnscheduled);
+        var cell = TaskRow(cut, "u")!.QuerySelector("[data-row][data-col='0']")!;
+        cell.FocusIn(new FocusEventArgs());
+        cell.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.NotNull(cut.Find(".gantt-chart-save-button").GetAttribute("disabled"));
+    }
+
+    [Fact]
+    public void Section_14_21_Alt_Arrow_On_An_Unscheduled_Task_Changes_Nothing()
+    {
+        var changed = false;
+        var cut = Render(p => p.Add(x => x.OnTaskChange, EventCallback.Factory.Create<(string, string, string)>(this, _ => changed = true)), WithUnscheduled);
+        var cell = TaskRow(cut, "u")!.QuerySelector("[data-row][data-col='0']")!;
+        cell.FocusIn(new FocusEventArgs());
+        cell.KeyDown(new KeyboardEventArgs { Key = "ArrowRight", AltKey = true });
+        Assert.False(changed);
+    }
+
+    [Fact]
+    public void Section_14_22_CollapsedTaskIds_Starts_Parents_Collapsed_And_The_Change_Is_Raised()
+    {
+        IReadOnlyList<string> changed = new List<string> { "unset" };
+        var cut = Render(p =>
+        {
+            p.Add(x => x.CollapsedTaskIds, new[] { "parent" });
+            p.Add(x => x.CollapsedTaskIdsChanged, EventCallback.Factory.Create<IReadOnlyList<string>>(this, v => changed = v));
+        }, WithParent);
+        Assert.Null(TaskRow(cut, "child1"));
+        Assert.Equal("false", cut.Find("button[aria-label='Expand Phase 1']").GetAttribute("aria-expanded"));
+        cut.Find("button[aria-label='Expand Phase 1']").Click();
+        Assert.Empty(changed);
+        Assert.NotNull(TaskRow(cut, "child1"));
+    }
+
+    [Fact]
+    public void Section_14_23_CollapseAll_And_ExpandAll_Gate_Buttons_That_Collapse_And_Expand_Every_Parent()
+    {
+        var cut = RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, WithParent);
+            p.Add(x => x.Labels, new GanttLabels { ExpandAll = "Expand all", CollapseAll = "Collapse all" });
+        });
+        Assert.NotNull(cut.Find(".gantt-chart-expand-all-button").GetAttribute("disabled"));
+        cut.Find(".gantt-chart-collapse-all-button").Click();
+        Assert.Null(TaskRow(cut, "child1"));
+        Assert.NotNull(cut.Find(".gantt-chart-collapse-all-button").GetAttribute("disabled"));
+        cut.Find(".gantt-chart-expand-all-button").Click();
+        Assert.NotNull(TaskRow(cut, "child1"));
+    }
+
+    [Fact]
+    public void Section_14_24_No_CollapseAll_Buttons_Without_Labels_Or_Without_Parents()
+    {
+        Assert.Empty(Render(tasks: WithParent).FindAll(".gantt-chart-collapse-all"));
+        var noParents = RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4 plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, WithUnscheduled);
+            p.Add(x => x.Labels, new GanttLabels { ExpandAll = "Expand all", CollapseAll = "Collapse all" });
+        });
+        Assert.Empty(noParents.FindAll(".gantt-chart-collapse-all"));
+    }
 }
