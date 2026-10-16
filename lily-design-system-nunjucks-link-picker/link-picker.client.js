@@ -179,25 +179,37 @@ export function initLinkPicker(root, opts = {}) {
   const list = root.querySelector("[data-lily-link-picker-list]");
   if (!trigger || !list) return noop;
 
-  let open = false;
+  let open = !list.hidden && !trigger.disabled;
 
   /** Every focusable link in the list, in DOM order. */
   function items() {
     return Array.from(list.querySelectorAll(".link-picker-link"));
   }
 
+  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+  let quiet = false;
+
+  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+  function emitOpenChange(isOpen) {
+    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
+  }
+
   function openList(focusLast = false) {
+    if (trigger.disabled) return;
     open = true;
+    emitOpenChange(true);
     list.hidden = false;
     trigger.setAttribute("aria-expanded", "true");
     const all = items();
     const target = focusLast ? all[all.length - 1] : all[0];
-    if (target) target.focus({ preventScroll: true });
+    if (!quiet) if (target) target.focus({ preventScroll: true });
   }
 
   function closeList(refocus = true) {
     if (!open) return;
     open = false;
+    emitOpenChange(false);
     list.hidden = true;
     trigger.setAttribute("aria-expanded", "false");
     if (refocus) trigger.focus({ preventScroll: true });
@@ -317,6 +329,23 @@ export function initLinkPicker(root, opts = {}) {
   const tooltipDestroy = wireTooltip(root, trigger, ".link-picker-tooltip", list);
 
   return {
+    isOpen: () => open,
+    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+    setOpen: (next) => {
+      if (!!next === open) return;
+      quiet = true;
+      try {
+        if (next) openList();
+        else closeList(false);
+      } finally {
+        quiet = false;
+      }
+    },
+    /** Disable or enable the button; disabling closes an open popup. */
+    setDisabled: (next) => {
+      trigger.disabled = !!next;
+      if (next) closeList(false);
+    },
     open: () => openList(),
     close: () => closeList(false),
     destroy: () => {

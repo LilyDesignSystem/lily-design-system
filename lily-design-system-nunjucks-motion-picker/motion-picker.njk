@@ -28,6 +28,9 @@
                     Defaults to "motion-picker-{name}". Supply an
                     explicit id when rendering two instances that share
                     a `name`.
+    open          — boolean. Render the popup open (aria-expanded and no `hidden`);
+                    ignored when `disabled`. The client reads it as the initial state.
+    disabled      — boolean. Render the button `disabled`; the popup stays closed.
     classes       — string. Extra CSS classes on the root <div>.
     attributes    — object. Extra HTML attributes spread onto the root.
 
@@ -74,6 +77,8 @@
 {%- set defaultValue = opts.defaultValue | default("") -%}
 {%- set motionLabels = opts.motionLabels | default({}) -%}
 {%- set id = opts.id | default("motion-picker-" + name) -%}
+{%- set disabled = opts.disabled | default(false) -%}
+{%- set isOpen = (opts.open | default(false)) and not disabled -%}
 {%- set listId = id + "-list" -%}
 {#- Server-side selected resolution. matchMedia is client-only — there
     is no OS signal at render time — so the client corrects this after
@@ -91,11 +96,11 @@
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-motion-picker-input>
-<button type="button" class="motion-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-motion-picker-button>
+<button type="button" class="motion-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="{{ 'true' if isOpen else 'false' }}" aria-controls="{{ listId }}" data-lily-motion-picker-button{% if disabled %} disabled{% endif %}>
 {%- if caller %}{{ caller() }}{% else %}<svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M5 3v10M11 3v10"/></svg>{% endif -%}
 </button>
 <div class="motion-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
-<ul class="motion-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-motion-picker-list>
+<ul class="motion-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1"{% if not isOpen %} hidden{% endif %} data-lily-motion-picker-list>
 {%- for slug in opts.motions -%}
   <li class="motion-picker-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if slug == selected else 'false' }}" data-value="{{ slug }}">
     {%- if motionLabels[slug] -%}

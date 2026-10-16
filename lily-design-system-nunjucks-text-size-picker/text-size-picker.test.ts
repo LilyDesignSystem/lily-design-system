@@ -977,3 +977,80 @@ describe("TextSizePicker — tooltip (§7.34–§7.41)", () => {
     remove.mockRestore();
   });
 });
+
+describe("text-size-picker (Nunjucks) — open state and disabled", () => {
+  const mount = (opts: Record<string, unknown> = {}, init: Record<string, unknown> = {}) => {
+    document.body.innerHTML = renderMacro({ ...{ label: "Text size", sizes: SIZES }, ...opts });
+    const root = document.body.querySelector("[data-lily-text-size-picker-root]") as HTMLElement;
+    const api = init1(root, init);
+    return { root, api, button: root.querySelector(".text-size-picker-button") as HTMLButtonElement };
+  };
+  const init1 = initTextSizePicker;
+  const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+
+  test("the macro renders open and disabled: open shows the popup, disabled disables the button, disabled wins", () => {
+    const open = mount({ open: true });
+    expect(open.button.getAttribute("aria-expanded")).toBe("true");
+    expect(open.root.querySelector(".text-size-picker-list, .text-size-picker-panel")!.hasAttribute("hidden")).toBe(false);
+    const disabled = mount({ disabled: true });
+    expect(disabled.button.disabled).toBe(true);
+    const both = mount({ open: true, disabled: true });
+    expect(both.button.disabled).toBe(true);
+    expect(both.button.getAttribute("aria-expanded")).toBe("false");
+    expect(mount().button.hasAttribute("disabled")).toBe(false);
+  });
+
+  test("a popup rendered open starts open and is not reported as a change", async () => {
+    const changes: boolean[] = [];
+    const { api, button } = mount({ open: true }, { onOpenChange: (o: boolean) => changes.push(o) });
+    await settle();
+    expect(api.isOpen()).toBe(true);
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(changes).toEqual([]);
+  });
+
+  test("onOpenChange and the openchange event report each open and close by the user", async () => {
+    const calls: boolean[] = [];
+    const events: boolean[] = [];
+    const { root, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
+    root.addEventListener("openchange", (e) => events.push((e as CustomEvent<boolean>).detail));
+    button.click();
+    await settle();
+    button.click();
+    await settle();
+    expect(calls).toEqual([true, false]);
+    expect(events).toEqual([true, false]);
+  });
+
+  test("setOpen opens and closes from outside without moving focus, and reports it", async () => {
+    const calls: boolean[] = [];
+    const { api, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
+    const before = document.activeElement;
+    api.setOpen(true);
+    await settle();
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(document.activeElement).toBe(before);
+    api.setOpen(false);
+    await settle();
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(calls).toEqual([true, false]);
+  });
+
+  test("setDisabled disables the button and closes an open popup; a disabled picker cannot open", async () => {
+    const calls: boolean[] = [];
+    const { api, button } = mount({}, { onOpenChange: (o: boolean) => calls.push(o) });
+    api.setOpen(true);
+    api.setDisabled(true);
+    await settle();
+    expect(button.disabled).toBe(true);
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    api.setOpen(true);
+    button.click();
+    await settle();
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(calls).toEqual([true, false]);
+    api.setDisabled(false);
+    expect(button.disabled).toBe(false);
+  });
+});
+

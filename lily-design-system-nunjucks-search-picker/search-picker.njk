@@ -34,6 +34,9 @@
     id          — string. Id prefix. Defaults to "search-picker-{name}".
                   Supply an explicit id when rendering two instances
                   that share a `name`.
+    open        — boolean. Render the popup open (aria-expanded true, no `hidden`);
+                  ignored when `disabled`. The client reads it as the initial state.
+    disabled    — boolean. Render the button `disabled`; the popup stays closed.
     classes     — string. Extra CSS classes on the root <div>.
     attributes  — object. Extra HTML attributes spread onto the root.
 
@@ -61,6 +64,8 @@
 {%- macro searchPicker(opts) -%}
 {%- set name = opts.name | default("search") -%}
 {%- set id = opts.id | default("search-picker-" + name) -%}
+{%- set disabled = opts.disabled | default(false) -%}
+{%- set isOpen = (opts.open | default(false)) and not disabled -%}
 {%- set panelId = id + "-panel" -%}
 {%- set action = opts.action | default("/") -%}
 {%- set value = opts.value | default("") -%}
@@ -70,11 +75,11 @@
   data-lily-search-picker-name="{{ name }}"
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-<button type="button" class="search-picker-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ panelId }}" data-lily-search-picker-button>
+<button type="button" class="search-picker-button" aria-label="{{ opts.label }}" aria-expanded="{{ 'true' if isOpen else 'false' }}" aria-controls="{{ panelId }}" data-lily-search-picker-button{% if disabled %} disabled{% endif %}>
 {%- if caller %}{{ caller({open: false, query: value}) }}{% else %}<svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>{% endif -%}
 </button>
 <div class="search-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
-<div class="search-picker-panel" id="{{ panelId }}" hidden data-lily-search-picker-panel>
+<div class="search-picker-panel" id="{{ panelId }}"{% if not isOpen %} hidden{% endif %} data-lily-search-picker-panel>
 {#- A real search landmark: Return-to-submit, mobile search keyboards and
     form semantics all come from the platform. action/method stay
     truthful even though the client performs the navigation itself. -#}

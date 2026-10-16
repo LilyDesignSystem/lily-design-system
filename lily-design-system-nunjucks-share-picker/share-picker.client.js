@@ -255,7 +255,7 @@ export function initSharePicker(root, opts = {}) {
   const copiedLabel = opts.copiedLabel || attr("copied-label");
   const copyFailedLabel = opts.copyFailedLabel || attr("copy-failed-label");
 
-  let open = false;
+  let open = !list.hidden && !trigger.disabled;
 
   /**
    * The URL to share. Resolved lazily at share time so the default
@@ -305,20 +305,32 @@ export function initSharePicker(root, opts = {}) {
   // Open / close
   // -----------------------------------------------------------------
 
+  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+  let quiet = false;
+
+  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+  function emitOpenChange(isOpen) {
+    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
+  }
+
   function openList(focusLast = false) {
+    if (trigger.disabled) return;
     open = true;
+    emitOpenChange(true);
     list.hidden = false;
     trigger.setAttribute("aria-expanded", "true");
     setStatus("");
     refreshHrefs();
     const all = items();
     const target = focusLast ? all[all.length - 1] : all[0];
-    if (target) target.focus({ preventScroll: true });
+    if (!quiet) if (target) target.focus({ preventScroll: true });
   }
 
   function closeList(refocus = true) {
     if (!open) return;
     open = false;
+    emitOpenChange(false);
     list.hidden = true;
     trigger.setAttribute("aria-expanded", "false");
     if (refocus) trigger.focus({ preventScroll: true });
@@ -498,6 +510,23 @@ export function initSharePicker(root, opts = {}) {
   const tooltipDestroy = wireTooltip(root, trigger, ".share-picker-tooltip", list);
 
   return {
+    isOpen: () => open,
+    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+    setOpen: (next) => {
+      if (!!next === open) return;
+      quiet = true;
+      try {
+        if (next) openList();
+        else closeList(false);
+      } finally {
+        quiet = false;
+      }
+    },
+    /** Disable or enable the button; disabling closes an open popup. */
+    setDisabled: (next) => {
+      trigger.disabled = !!next;
+      if (next) closeList(false);
+    },
     open: () => openList(),
     close: () => closeList(false),
     copy: copyUrl,

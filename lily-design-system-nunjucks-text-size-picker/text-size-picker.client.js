@@ -230,7 +230,7 @@ export function initTextSizePicker(root, opts = {}) {
   const valueAttr = root.getAttribute("data-lily-text-size-picker-value") || "";
 
   let current = "";
-  let open = false;
+  let open = !list.hidden && !button.disabled;
 
   // -----------------------------------------------------------------
   // Applying a size
@@ -269,7 +269,17 @@ export function initTextSizePicker(root, opts = {}) {
   // open/close/choose mean.
   // -----------------------------------------------------------------
 
+  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+  let quiet = false;
+
+  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+  function emitOpenChange(isOpen) {
+    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
+  }
+
   function openList(startIndex) {
+    if (button.disabled) return;
     const selected = values.indexOf(current);
     // An empty list has no option to activate; -1 keeps
     // aria-activedescendant off rather than pointing at an id that
@@ -283,17 +293,19 @@ export function initTextSizePicker(root, opts = {}) {
             ? selected
             : 0;
     open = true;
+    emitOpenChange(true);
     list.hidden = false;
     button.setAttribute("aria-expanded", "true");
     keyboard.setActive(start);
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern.
-    list.focus({ preventScroll: true });
+    if (!quiet) list.focus({ preventScroll: true });
   }
 
   function closeList(refocus = true) {
     if (!open) return;
     open = false;
+    emitOpenChange(false);
     list.hidden = true;
     button.setAttribute("aria-expanded", "false");
     keyboard.setActive(-1);
@@ -412,6 +424,23 @@ export function initTextSizePicker(root, opts = {}) {
   const tooltipDestroy = wireTooltip(root, button, ".text-size-picker-tooltip", list);
 
   return {
+    isOpen: () => open,
+    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+    setOpen: (next) => {
+      if (!!next === open) return;
+      quiet = true;
+      try {
+        if (next) openList();
+        else closeList(false);
+      } finally {
+        quiet = false;
+      }
+    },
+    /** Disable or enable the button; disabling closes an open popup. */
+    setDisabled: (next) => {
+      button.disabled = !!next;
+      if (next) closeList(false);
+    },
     setSize: applySize,
     destroy: () => {
       tooltipDestroy();

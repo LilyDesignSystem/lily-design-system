@@ -588,3 +588,7 @@ Accessibility hardening (ported from the canonical Svelte spec's
   to a bundled outline SVG. Maintainer-directed, applied to all five
   page-header pickers the same day. The glyph constant was removed,
   not renamed — there is no longer a single swappable character value.
+
+## Open state and disabled (2026-10-16)
+
+Macro params `open?: boolean` and `disabled?: boolean`; client option `onOpenChange(open)`, a bubbling `openchange` event (`detail`: the new state) and the controller methods `isOpen()`, `setOpen(next)` and `setDisabled(next)`. Idiom: the macro renders the state (a popup rendered open has `aria-expanded="true"` and no `hidden`; `disabled` wins and renders a closed popup), the client reads it as the initial state and never reports it, and the callbacks and methods carry changes after that. `setOpen` is state only (focus does not move); the keys and the pointer still move it. Tests: "open state and disabled".

@@ -216,21 +216,33 @@ export function initSearchPicker(root, opts = {}) {
   // `form.action`: the property is resolved to an absolute URL.
   const action = opts.action || form.getAttribute("action") || "/";
 
-  let open = !panel.hidden;
+  let open = !panel.hidden && !button.disabled;
+
+  /** True while an open comes from outside (`setOpen`): state only, focus stays put. */
+  let quiet = false;
+
+  /** Report an open or close to `opts.onOpenChange` and as a bubbling `openchange` event on the root. */
+  function emitOpenChange(isOpen) {
+    if (typeof opts.onOpenChange === "function") opts.onOpenChange(isOpen);
+    root.dispatchEvent(new CustomEvent("openchange", { detail: isOpen, bubbles: true }));
+  }
 
   function openPanel() {
+    if (button.disabled) return;
     open = true;
+    emitOpenChange(true);
     panel.hidden = false;
     button.setAttribute("aria-expanded", "true");
     // preventScroll: the panel is positioned by consumer CSS, and
     // focusing a field rendered partly off-screen would otherwise
     // scroll the whole page — the same fix the sibling pickers carry.
-    input.focus({ preventScroll: true });
+    if (!quiet) input.focus({ preventScroll: true });
   }
 
   function closePanel(refocus = true) {
     if (!open) return;
     open = false;
+    emitOpenChange(false);
     panel.hidden = true;
     button.setAttribute("aria-expanded", "false");
     if (refocus) button.focus({ preventScroll: true });
@@ -294,6 +306,23 @@ export function initSearchPicker(root, opts = {}) {
   const tooltipDestroy = wireTooltip(root, button, ".search-picker-tooltip", panel);
 
   return {
+    isOpen: () => open,
+    /** Open or close from outside: state only, focus stays put. Opening is ignored while disabled. */
+    setOpen: (next) => {
+      if (!!next === open) return;
+      quiet = true;
+      try {
+        if (next) openPanel();
+        else closePanel(false);
+      } finally {
+        quiet = false;
+      }
+    },
+    /** Disable or enable the button; disabling closes an open popup. */
+    setDisabled: (next) => {
+      button.disabled = !!next;
+      if (next) closePanel(false);
+    },
     open: () => openPanel(),
     close: () => closePanel(false),
     search,

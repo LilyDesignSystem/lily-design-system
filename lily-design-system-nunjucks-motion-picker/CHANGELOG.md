@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-16
+
+- Added macro params `open` and `disabled`, client option `onOpenChange`, a bubbling `openchange` event and the client methods `isOpen()`, `setOpen(next)` and `setDisabled(next)`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). A popup rendered open starts open (and is not reported); `setOpen` changes it from outside without moving focus; `disabled` disables the button and closes an open popup.
+
 ## 0.2.0 — 2026-10-04
 
 **Added: picker tooltip (minor, additive).** The macro now renders `<div class="motion-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>` as a sibling right after the icon button — the button's existing `label`, no new macro argument, no new English text, deliberately not linked with `aria-describedby`. The client wires it: shown on pointer hover (over the button or the tooltip itself) or keyboard focus (`:focus-visible`); `Escape` on the button dismisses it without moving focus; never shown while the popup is open; idempotent across repeated init. New class hook `.motion-picker-tooltip`; theme CSS for it already ships in `themes/`. Ports the canonical Svelte change.
