@@ -82,6 +82,8 @@ when at least one view-switcher label is supplied.
   cursor moves outside the visible days.
 - **Announcements**: every navigation announces the new period via one
   `aria-live="polite"` region.
+- **Typed event fields and editing** (0.5.0): `eventFields` + `event.values` show typed values in the agenda; `onFieldEdit` edits them in place. See [spec §16](./spec/index.md#16-typed-event-fields-inline-editing-export-hot-path-caching-050-2026-10-16).
+- **Export** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons for the shown period's (or every) event.
 
 ## Non-goals (v1)
 

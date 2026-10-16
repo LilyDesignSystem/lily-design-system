@@ -7,7 +7,7 @@
 -->
 <script lang="ts">
     import CalendarView from "./CalendarView.svelte";
-    import type { CalendarEvent, CalendarViewLabels } from "./CalendarView.svelte";
+    import type { CalendarEvent, CalendarEventField, CalendarViewLabels } from "./CalendarView.svelte";
 
     let {
         view = "week",
@@ -20,6 +20,7 @@
         ranges,
         maxEvents,
         onEventMove,
+        eventFields,
     }: {
         view?: "day" | "week" | "four-week" | "month";
         anchorDate?: string;
@@ -31,10 +32,11 @@
         ranges?: { start: string; end: string; kind?: string }[];
         maxEvents?: number;
         onEventMove?: (e: CalendarEvent, d: string) => void;
+        eventFields?: CalendarEventField[];
     } = $props();
 </script>
 
-<CalendarView label="Appointments" {view} {anchorDate} {events} {labels} {onEventClick} {selectedDate} {minDate} {ranges} {maxEvents} {onEventMove}>
+<CalendarView label="Appointments" {view} {anchorDate} {events} {labels} {onEventClick} {selectedDate} {minDate} {ranges} {maxEvents} {onEventMove} {eventFields}>
     {#snippet day(args)}
         <span data-testid={`events-${args.date}`}>{args.events.map((e) => e.id).join(",")}</span>
         <span data-testid={`cap-${args.date}`}>{args.visibleEvents.length}/{args.hiddenCount}</span>
@@ -43,6 +45,7 @@
         {#if args.disabled}<i data-snippet-disabled></i>{/if}
         {#each args.events as ev (ev.id)}
             <button type="button" data-event-open {...args.eventProps(ev)} onclick={() => args.openEvent(ev)}>{ev.id}</button>
+            <span data-testid={`field-${ev.id}-room`}>{args.fieldText(ev, "room")}</span>
         {/each}
     {/snippet}
 </CalendarView>

@@ -3,6 +3,9 @@ export type {
     Props,
     CalendarView as CalendarViewMode,
     CalendarEvent,
+    CalendarEventField,
+    CalendarExport,
+    CalendarFieldEdit,
     CalendarRange,
     SelectedRange,
     CalendarViewLabels,
@@ -15,3 +18,7 @@ export {
     isOutsidePeriod,
     eventsByDay,
 } from "./CalendarView.svelte";
+export { MIME_TYPES, cellText, downloadBlob, exportBlob, exportFilename, toCsv, toDelimited, toTsv, toXlsx } from "./export-data";
+export type { ExportFormat, ExportFormula, ExportTable } from "./export-data";
+export { resolveColumn } from "./cell-types";
+export type { DataGridCellType, DataGridOption } from "./cell-types";
