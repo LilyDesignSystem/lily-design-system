@@ -539,6 +539,7 @@ public partial class KanbanBoard : ComponentBase
 
     private async Task OnScrollAsync()
     {
+        if (Virtualize is null) return;
         try
         {
             _scrollTop = await JS.InvokeAsync<double>("eval", $"document.getElementById({JsonString(ScrollId)})?.scrollTop ?? 0");

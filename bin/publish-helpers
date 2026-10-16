@@ -150,6 +150,8 @@ for d in $BLAZOR_PACKAGES; do
   for proj in "$ROOT/$d"/*.csproj; do
     [ -f "$proj" ] || continue
     echo "--> pack $(basename "$proj")"
+    # A build server left over from an earlier build can produce bogus Razor errors (seen 2026-10-16); start clean.
+    dotnet build-server shutdown >/dev/null 2>&1 || true
     dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
   done
 done

@@ -49,7 +49,7 @@
     <div id="@ScrollId"
          class="@(Virtualize is not null ? "kanban-board-scroll" : "kanban-board-body")"
          style="@(Virtualize is { } vz ? $"height: {vz.Height}px; overflow: auto" : null)"
-         @onscroll="@(Virtualize is not null ? OnScrollAsync : null)">
+         @onscroll="OnScrollAsync">
     <KanbanTable Label="@Label" role="grid" aria-multiselectable="@(Selectable ? "true" : null)" aria-rowcount="@(Virtualize is not null ? (layout.Slots.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {

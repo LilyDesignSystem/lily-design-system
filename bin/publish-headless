@@ -113,6 +113,8 @@ NUPKG_OUT="$ROOT/dist-nuget"
 mkdir -p "$NUPKG_OUT"
 proj="$ROOT/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
 echo "--> pack $(basename "$proj")"
+# A build server left over from an earlier build can produce bogus Razor errors (seen 2026-10-16); start clean.
+dotnet build-server shutdown >/dev/null 2>&1 || true
 dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
 if [ -z "$DRY" ]; then
   : "${NUGET_API_KEY:?set NUGET_API_KEY to push to nuget.org}"
