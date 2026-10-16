@@ -100,3 +100,15 @@ that first (`bin/list-helper-packages react`).
 ## Svelte 0.5.0 parity (2026-10-14)
 
 Ported from the Svelte canonical spec (§12 there; clauses §8.40–§8.46): column reordering and pinned columns.
+
+## Cell editing and virtualization (2026-10-16)
+
+Ported from the Svelte canonical (its spec §13, tests §8.47–§8.56). React idioms: the editor is a controlled input whose draft lives in state, with a ref mirroring it synchronously so a blur that follows a commit in the same tick sees the edit already closed; the editor's focus is a stable callback ref that runs on mount only.
+
+## Export to CSV, TSV and Excel (2026-10-16)
+
+Ported from the Svelte canonical: see ../lily-design-system-svelte-data-grid/spec/excel-export/index.md (screen reader, IME, virtual scrolling) and its spec §14. `export-data.ts` is a byte-for-byte copy of the Svelte module and ships with its own 11 tests.
+
+## Cell types (2026-10-16)
+
+Ported from the Svelte canonical: the contract is ../lily-design-system-svelte-data-grid/spec/cell-types/index.md (tests §8.79–§8.97). Time with time zone, person, file, rollup and formulas are specified there but not implemented in either package.

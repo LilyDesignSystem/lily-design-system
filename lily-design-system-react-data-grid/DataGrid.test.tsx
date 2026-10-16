@@ -774,3 +774,493 @@ describe("DataGrid — column reordering and pinned columns (§8.40–§8.46)", 
         expect(document.querySelectorAll("[data-pinned]")).toHaveLength(2);
     });
 });
+
+describe("DataGrid — cell editing (§8.47–§8.53)", () => {
+    const EDIT_COLS: DataGridColumn[] = [
+        { id: "name", header: "Name", editable: true },
+        { id: "age", header: "Age", editable: true, editor: "number" },
+        { id: "note", header: "Note" },
+    ];
+    const EDIT_ROWS = [{ name: "Ann", age: 30, note: "n" }];
+    const cell = (col: number) => document.querySelector<HTMLElement>(`.data-table-body [data-row="0"][data-col="${col}"]`)!;
+
+    test("§8.47 F2 on an editable cell opens an editor; Enter commits through onCellEdit", async () => {
+        const onCellEdit = vi.fn();
+        renderGrid({ label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit, labels: { editAnnouncement: (h, v) => `${h} is now ${v}` } });
+        fireEvent.keyDown(cell(0), { key: "F2" });
+        const input = screen.getByRole("textbox", { name: "Name" }) as HTMLInputElement;
+        expect(document.activeElement).toBe(input);
+        fireEvent.input(input, { target: { value: "Bea" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).toHaveBeenCalledWith({ rowId: "0", row: EDIT_ROWS[0], columnId: "name", value: "Bea", previous: "Ann" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeNull();
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("Name is now Bea");
+    });
+
+    test("§8.48 Enter on an editable cell starts editing (before row activation); a non-editable cell does not", async () => {
+        const onRowActivate = vi.fn();
+        renderGrid({ label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onRowActivate });
+        fireEvent.keyDown(cell(0), { key: "Enter" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+        expect(onRowActivate).not.toHaveBeenCalled();
+        fireEvent.keyDown(document.querySelector(".data-grid-cell-editor")!, { key: "Escape" });
+        fireEvent.keyDown(cell(2), { key: "F2" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeNull();
+    });
+
+    test("§8.49 Escape cancels without calling onCellEdit and announces", async () => {
+        const onCellEdit = vi.fn();
+        renderGrid({ label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit, labels: { editCancelAnnouncement: (h) => `${h} edit cancelled` } });
+        fireEvent.keyDown(cell(0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        fireEvent.input(input, { target: { value: "Zed" } });
+        fireEvent.keyDown(input, { key: "Escape" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("Name edit cancelled");
+    });
+
+    test("§8.50 the number editor commits a number; an unchanged value commits nothing", async () => {
+        const onCellEdit = vi.fn();
+        renderGrid({ label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit });
+        fireEvent.keyDown(cell(1), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        expect(input.type).toBe("number");
+        fireEvent.input(input, { target: { value: "31" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0].value).toBe(31);
+        fireEvent.keyDown(cell(1), { key: "F2" });
+        fireEvent.keyDown(document.querySelector(".data-grid-cell-editor")!, { key: "Enter" });
+        expect(onCellEdit).toHaveBeenCalledTimes(1);
+    });
+
+    test("§8.51 validate refuses a value: the cell stays in edit mode, aria-invalid, message shown and announced", async () => {
+        const onCellEdit = vi.fn();
+        const cols: DataGridColumn[] = [{ id: "name", header: "Name", editable: true, validate: (v) => (v === "" ? "Required" : undefined) }];
+        renderGrid({ label: "G", columns: cols, rows: [{ name: "Ann" }], onCellEdit, labels: { editError: (h, m) => `${h}: ${m}` } });
+        fireEvent.keyDown(cell(0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        fireEvent.input(input, { target: { value: "" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(input.getAttribute("aria-invalid")).toBe("true");
+        expect(document.querySelector(".data-grid-cell-error")!.textContent).toBe("Required");
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("Name: Required");
+    });
+
+    test("§8.52 leaving the editor commits; a double click starts editing", async () => {
+        const onCellEdit = vi.fn();
+        renderGrid({ label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, onCellEdit });
+        fireEvent.dblClick(cell(0));
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        fireEvent.input(input, { target: { value: "Cy" } });
+        fireEvent.blur(input);
+        expect(onCellEdit).toHaveBeenCalledTimes(1);
+        expect(onCellEdit.mock.calls[0][0].value).toBe("Cy");
+    });
+
+    test("§8.53 labels.editCell gates an edit button on editable cells", async () => {
+        renderGrid({ label: "G", columns: EDIT_COLS, rows: EDIT_ROWS });
+        expect(document.querySelector(".data-grid-edit-button")).toBeNull();
+        document.body.innerHTML = "";
+        renderGrid({ label: "G", columns: EDIT_COLS, rows: EDIT_ROWS, labels: { editCell: (h, r) => `Edit ${h} of ${r}` } });
+        expect(document.querySelectorAll(".data-grid-edit-button")).toHaveLength(2);
+        fireEvent.click(screen.getByRole("button", { name: "Edit Name of Ann" }));
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+    });
+});
+
+describe("DataGrid — virtualize (§8.54–§8.56)", () => {
+    const BIG = Array.from({ length: 200 }, (_, i) => ({ name: `Row ${i}`, email: `r${i}@x` }));
+
+    test("§8.54 renders only the rows in view, with spacers, aria-rowcount and aria-rowindex", () => {
+        renderGrid({ label: "G", columns: COLUMNS, rows: BIG, virtualize: { rowHeight: 20, height: 100 } });
+        expect(bodyRows().length).toBeLessThan(20);
+        expect(document.querySelector(".data-grid-spacer")).toBeTruthy();
+        expect(document.querySelector("[role=grid]")!.getAttribute("aria-rowcount")).toBe("201");
+        expect(bodyRows()[0].getAttribute("aria-rowindex")).toBe("2");
+        const scroll = document.querySelector<HTMLElement>(".data-grid-scroll")!;
+        expect(scroll.style.height).toBe("100px");
+    });
+
+    test("§8.55 scrolling moves the window", async () => {
+        renderGrid({ label: "G", columns: COLUMNS, rows: BIG, virtualize: { rowHeight: 20, height: 100, overscan: 0 } });
+        const scroll = document.querySelector<HTMLElement>(".data-grid-scroll")!;
+        scroll.scrollTop = 1000;
+        fireEvent.scroll(scroll);
+        const first = bodyRows().find((r) => r.hasAttribute("aria-rowindex"))!;
+        expect(first.textContent).toContain("Row 50");
+    });
+
+    test("§8.56 the roving tab stop's row stays rendered even outside the window", async () => {
+        renderGrid({ label: "G", columns: COLUMNS, rows: BIG, virtualize: { rowHeight: 20, height: 100, overscan: 0 } });
+        const scroll = document.querySelector<HTMLElement>(".data-grid-scroll")!;
+        const first = document.querySelector<HTMLElement>('.data-table-body [data-row="0"][data-col="0"]')!;
+        fireEvent.focusIn(first);
+        scroll.scrollTop = 2000;
+        fireEvent.scroll(scroll);
+        expect(document.querySelector('.data-table-body [data-row="0"][data-col="0"]')!.getAttribute("tabindex")).toBe("0");
+        expect(tabbableCells()).toHaveLength(1);
+    });
+});
+
+describe("DataGrid — export (§8.67–§8.74)", () => {
+    const EXPORT_LABELS: DataGridLabels = {
+        export: "Export",
+        exportCsv: "CSV",
+        exportTsv: "TSV",
+        exportExcel: "Excel",
+        exportAnnouncement: (format, count, filename) => `${count} rows as ${format}: ${filename}`,
+    };
+    const COLS: DataGridColumn[] = [
+        { id: "name", header: "Name", sortable: true },
+        { id: "qty", header: "Qty", format: (v) => `${v} pcs` },
+        { id: "act", header: "Actions", exportable: false },
+        { id: "email", header: "Email", hidable: true },
+    ];
+    const DATA = [
+        { name: "Bo", qty: 2, act: "x", email: "bo@x" },
+        { name: "Ann", qty: 3, act: "x", email: "ann@x" },
+        { name: "Cy", qty: 1, act: "x", email: "cy@x" },
+    ];
+
+    async function exported(props: Record<string, unknown>, format: "csv" | "tsv" | "xlsx" = "csv") {
+        const onExport = vi.fn((_file: { format: string; filename: string; rowCount: number; blob: Blob }) => false as const);
+        renderGrid({ label: "G", columns: COLS, rows: DATA, labels: EXPORT_LABELS, onExport, ...props });
+        fireEvent.click(document.querySelector(`[data-grid-export-format="${format}"]`)!);
+        const file = onExport.mock.calls[0][0];
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        return { file, text, onExport };
+    }
+
+    test("§8.67 labels gate the buttons: none without them, one per label inside a named group", () => {
+        renderGrid({ label: "G", columns: COLS, rows: DATA });
+        expect(document.querySelector(".data-grid-export")).toBeNull();
+        document.body.innerHTML = "";
+        renderGrid({ label: "G", columns: COLS, rows: DATA, labels: { export: "Export", exportExcel: "Excel" } });
+        expect(screen.getByRole("group", { name: "Export" })).toBeTruthy();
+        expect(document.querySelectorAll(".data-grid-export-button")).toHaveLength(1);
+        expect(screen.getByRole("button", { name: "Excel" }).getAttribute("data-grid-export-format")).toBe("xlsx");
+    });
+
+    test("§8.68 CSV holds the visible exportable columns, typed values raw and the rest as displayed, with a BOM", async () => {
+        const { file, text } = await exported({});
+        expect(file.format).toBe("csv");
+        expect(file.filename).toBe("data-grid.csv");
+        expect(file.rowCount).toBe(3);
+        expect(text).toBe("﻿Name,Qty,Email\r\nBo,2,bo@x\r\nAnn,3,ann@x\r\nCy,1,cy@x\r\n");
+    });
+
+    test("§8.69 hidden columns are left out", async () => {
+        const onExport = vi.fn(() => false as const);
+        renderGrid({ label: "G", columns: COLS, rows: DATA, onExport, labels: { ...EXPORT_LABELS, columnVisibility: "Columns", columnVisibilityOption: (h) => `Show ${h}` } });
+        fireEvent.click(screen.getByRole("checkbox", { name: "Show Email" }));
+        fireEvent.click(document.querySelector('[data-grid-export-format="csv"]')!);
+        const file = (onExport.mock.calls[0] as unknown as [{ blob: Blob }])[0];
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        expect(text).toBe("\uFEFFName,Qty\r\nBo,2\r\nAnn,3\r\nCy,1\r\n");
+    });
+
+    test("§8.70 the export is the filtered, sorted view across every page, not just the shown page", async () => {
+        const { file, text } = await exported({ pageSize: 1, sort: { columnId: "name", direction: "ascending" }, filter: "x", labels: { ...EXPORT_LABELS, pageStatus: () => "" } });
+        expect(file.rowCount).toBe(3);
+        expect(text.split("\r\n").slice(1, 4)).toEqual(["Ann,3,ann@x", "Bo,2,bo@x", "Cy,1,cy@x"]);
+        document.body.innerHTML = "";
+        const filtered = await exported({ filter: "ann" });
+        expect(filtered.file.rowCount).toBe(1);
+    });
+
+    test("§8.71 exportScope selected exports only the selected rows", async () => {
+        const { file, text } = await exported({ exportScope: "selected", selectionMode: "multiple", selected: ["1"], labels: { ...EXPORT_LABELS, selectRow: (r: string) => r } });
+        expect(file.rowCount).toBe(1);
+        expect(text).toContain("Ann,3,ann@x");
+        expect(text).not.toContain("Bo,");
+    });
+
+    test("§8.72 TSV and Excel: the right extension and type; the xlsx blob is a ZIP", async () => {
+        const tsv = await exported({ exportFilename: "report" }, "tsv");
+        expect(tsv.file.filename).toBe("report.tsv");
+        expect(tsv.text).toContain("Name\tQty\tEmail");
+        document.body.innerHTML = "";
+        const xlsx = await exported({}, "xlsx");
+        expect(xlsx.file.filename).toBe("data-grid.xlsx");
+        expect(xlsx.file.blob.type).toContain("spreadsheetml.sheet");
+        const head = new Uint8Array(await xlsx.file.blob.arrayBuffer()).slice(0, 2);
+        expect(Array.from(head)).toEqual([0x50, 0x4b]); // "PK"
+    });
+
+    test("§8.73 column.exportValue overrides the cell; formula-looking text is defused", async () => {
+        const cols: DataGridColumn[] = [{ id: "n", header: "N", exportValue: (row) => `=${row.n}` }, { id: "m", header: "M", accessor: () => "plain" }];
+        const { text } = await exported({ columns: cols, rows: [{ n: 1 }] });
+        expect(text).toBe("﻿N,M\r\n'=1,plain\r\n");
+    });
+
+    test("§8.74 saves the file and announces unless onExport returns false; the buttons are disabled with nothing to export", async () => {
+        const created: Blob[] = [];
+        const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
+        URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
+        URL.revokeObjectURL = () => {};
+        try {
+            renderGrid({ label: "G", columns: COLS, rows: DATA, labels: EXPORT_LABELS });
+            fireEvent.click(document.querySelector('[data-grid-export-format="csv"]')!);
+            expect(created).toHaveLength(1);
+            expect(document.querySelector(".data-grid-status")!.textContent).toBe("3 rows as csv: data-grid.csv");
+            document.body.innerHTML = "";
+            renderGrid({ label: "G", columns: COLS, rows: [], labels: EXPORT_LABELS });
+            expect((document.querySelector('[data-grid-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
+        } finally {
+            URL.createObjectURL = original.create;
+            URL.revokeObjectURL = original.revoke;
+        }
+    });
+});
+
+describe("DataGrid — IME composition in the cell editor (§8.75–§8.76)", () => {
+    const cols: DataGridColumn[] = [{ id: "name", header: "Name", editable: true }];
+    const cell = () => document.querySelector<HTMLElement>('.data-table-body [data-row="0"][data-col="0"]')!;
+
+    test("§8.75 Enter while composing does not commit; Enter after composition does", async () => {
+        const onCellEdit = vi.fn();
+        renderGrid({ label: "G", columns: cols, rows: [{ name: "Ann" }], onCellEdit });
+        fireEvent.keyDown(cell(), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        fireEvent.input(input, { target: { value: "にほん" } });
+        fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+        fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).toHaveBeenCalledTimes(1);
+        expect(onCellEdit.mock.calls[0][0].value).toBe("にほん");
+    });
+
+    test("§8.76 Escape while composing leaves the edit open; Escape after composition cancels it", async () => {
+        const onCellEdit = vi.fn();
+        renderGrid({ label: "G", columns: cols, rows: [{ name: "Ann" }], onCellEdit });
+        fireEvent.keyDown(cell(), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        fireEvent.keyDown(input, { key: "Escape", isComposing: true });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeTruthy();
+        fireEvent.keyDown(input, { key: "Escape" });
+        expect(document.querySelector(".data-grid-cell-editor")).toBeNull();
+        expect(onCellEdit).not.toHaveBeenCalled();
+    });
+});
+
+describe("DataGrid — export with virtualization (§8.77)", () => {
+    test("§8.77 a virtualized grid exports every row, not only the rendered window", async () => {
+        const big = Array.from({ length: 300 }, (_, i) => ({ name: `Row ${i}` }));
+        const onExport = vi.fn(() => false as const);
+        renderGrid({ label: "G", columns: [{ id: "name", header: "Name" }], rows: big, virtualize: { rowHeight: 20, height: 100 }, labels: { exportCsv: "CSV" }, onExport });
+        expect(document.querySelectorAll(".data-table-body [data-row]").length).toBeLessThan(30);
+        fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const file = (onExport.mock.calls[0] as unknown as [{ rowCount: number; blob: Blob }])[0];
+        expect(file.rowCount).toBe(300);
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        expect(text.trim().split("\r\n")).toHaveLength(301);
+        expect(text).toContain("Row 299");
+    });
+});
+
+describe("DataGrid — cell types (§8.79–§8.97)", () => {
+    const dataCell = (row: number, col: number) =>
+        document.querySelector<HTMLElement>(`.data-table-body [data-row="${row}"][data-col="${col}"]`)!;
+    const text = (el: Element) => (el.textContent ?? "").trim();
+    const mount = (columns: DataGridColumn[], rows: Record<string, unknown>[], extra: Record<string, unknown> = {}) =>
+        renderGrid({ label: "G", columns, rows, ...extra });
+
+    test("§8.79 type sets data-cell-type on header and cells, and its alignment", () => {
+        mount([{ id: "n", header: "N", type: "number" }, { id: "t", header: "T", type: "text" }], [{ n: 1, t: "a" }]);
+        expect(document.querySelectorAll('[data-cell-type="number"]')).toHaveLength(2);
+        expect(dataCell(0, 0).getAttribute("data-align")).toBe("end");
+        expect(dataCell(0, 1).getAttribute("data-align")).toBe("start");
+    });
+
+    test("§8.80 number formats with the grid locale; a column's own format wins; no locale shows the value as stored", () => {
+        mount([{ id: "n", header: "N", type: "number" }, { id: "m", header: "M", type: "number", format: (v) => `#${v}` }], [{ n: 1200.5, m: 3 }], { locale: "en-US" });
+        expect(text(dataCell(0, 0))).toBe("1,200.5");
+        expect(text(dataCell(0, 1))).toBe("#3");
+        document.body.innerHTML = "";
+        mount([{ id: "n", header: "N", type: "number" }], [{ n: 1200.5 }]);
+        expect(text(dataCell(0, 0))).toBe("1200.5");
+    });
+
+    test("§8.81 link renders an anchor; the label is the text, the address the href", () => {
+        mount([{ id: "l", header: "L", type: "link" }], [{ l: { href: "https://example.com/a", label: "Example" } }, { l: "/docs" }]);
+        const a = dataCell(0, 0).querySelector("a")!;
+        expect(a.getAttribute("href")).toBe("https://example.com/a");
+        expect(text(a)).toBe("Example");
+        expect(dataCell(1, 0).querySelector("a")!.getAttribute("href")).toBe("/docs");
+    });
+
+    test("§8.82 an unsafe link scheme is shown as text, never as a link", () => {
+        mount([{ id: "l", header: "L", type: "link" }], [{ l: "javascript:alert(1)" }, { l: { href: "data:text/html,x", label: "Bad" } }, { l: " java\tscript:alert(1)" }]);
+        expect(document.querySelectorAll(".data-table-body a")).toHaveLength(0);
+        expect(text(dataCell(1, 0))).toBe("Bad");
+        expect(document.querySelectorAll(".data-grid-link-unsafe")).toHaveLength(3);
+    });
+
+    test("§8.83 an external link opens a new tab safely and says so", () => {
+        mount([{ id: "l", header: "L", type: "link" }], [{ l: { href: "https://example.com", label: "Ex", external: true } }], { labels: { opensInNewTab: (t: string) => `${t} opens in a new tab` } });
+        const a = dataCell(0, 0).querySelector("a")!;
+        expect(a.getAttribute("target")).toBe("_blank");
+        expect(a.getAttribute("rel")).toBe("noopener noreferrer");
+        expect(a.querySelector(".data-grid-visually-hidden")!.textContent).toBe("Ex opens in a new tab");
+        expect(a.textContent).toBe("Ex Ex opens in a new tab");
+    });
+
+    test("§8.84 links sort by label and filter on label and address", async () => {
+        mount(
+            [{ id: "l", header: "L", type: "link", sortable: true }],
+            [{ l: { href: "https://b.test", label: "Zed" } }, { l: { href: "https://a.test/special", label: "Amy" } }],
+            { labels: { search: "Search" } },
+        );
+        fireEvent.click(screen.getByRole("button", { name: "L" }));
+        expect(text(dataCell(0, 0))).toBe("Amy");
+        fireEvent.input(screen.getByRole("searchbox", { name: "Search" }), { target: { value: "special" } });
+        expect(bodyRows()).toHaveLength(1);
+    });
+
+    test("§8.85 date: a <time datetime> with locale text; ISO text without a locale; civil dates do not drift", () => {
+        mount([{ id: "d", header: "D", type: "date", dateFormat: { dateStyle: "long" } }], [{ d: "2026-10-16" }, { d: "2026-01-01" }], { locale: "en-GB" });
+        expect(dataCell(0, 0).querySelector("time")!.getAttribute("datetime")).toBe("2026-10-16");
+        expect(text(dataCell(0, 0))).toBe("16 October 2026");
+        expect(text(dataCell(1, 0))).toBe("1 January 2026");
+        document.body.innerHTML = "";
+        mount([{ id: "d", header: "D", type: "date" }], [{ d: "2026-10-16" }]);
+        expect(text(dataCell(0, 0))).toBe("2026-10-16");
+    });
+
+    test("§8.86 time: a <time> element, locale text, the stored text without a locale", () => {
+        mount([{ id: "t", header: "T", type: "time" }], [{ t: "14:30" }]);
+        expect(text(dataCell(0, 0))).toBe("14:30");
+        expect(dataCell(0, 0).querySelector("time")!.getAttribute("datetime")).toBe("14:30");
+        document.body.innerHTML = "";
+        mount([{ id: "t", header: "T", type: "time", timeFormat: { timeStyle: "short", hour12: true } }], [{ t: "14:30" }], { locale: "en-US" });
+        expect(text(dataCell(0, 0))).toMatch(/^2:30\s?PM$/);
+    });
+
+    test("§8.87 date and time editors are native date/time inputs; a bad date is refused with aria-invalid", async () => {
+        const onCellEdit = vi.fn();
+        mount([{ id: "d", header: "D", type: "date", editable: true }, { id: "t", header: "T", type: "time", editable: true }], [{ d: "2026-10-16", t: "09:00" }], { onCellEdit });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        expect(input.type).toBe("date");
+        fireEvent.input(input, { target: { value: "2027-02-03" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0].value).toBe("2027-02-03");
+        fireEvent.keyDown(dataCell(0, 1), { key: "F2" });
+        expect((document.querySelector(".data-grid-cell-editor") as HTMLInputElement).type).toBe("time");
+    });
+
+    test("§8.88 select shows the option label, a stale id shows as itself", () => {
+        const options = [{ id: "todo", label: "To do" }, { id: "done", label: "Done" }];
+        mount([{ id: "s", header: "S", type: "select", options }], [{ s: "done" }, { s: "gone" }, { s: null }]);
+        expect(text(dataCell(0, 0))).toBe("Done");
+        expect(text(dataCell(1, 0))).toBe("gone");
+        expect(text(dataCell(2, 0))).toBe("");
+    });
+
+    test("§8.89 select edits with a native select, grouped options, and reports the id", async () => {
+        const onCellEdit = vi.fn();
+        const options = [{ id: "a", label: "Alpha" }, { id: "b", label: "Beta", group: "More" }];
+        mount([{ id: "s", header: "Status", type: "select", options, editable: true }], [{ s: "a" }], { onCellEdit });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const select = screen.getByRole("combobox", { name: "Status" }) as HTMLSelectElement;
+        expect(select.querySelector("optgroup")!.getAttribute("label")).toBe("More");
+        fireEvent.change(select, { target: { value: "b" } });
+        fireEvent.keyDown(select, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0]).toMatchObject({ columnId: "s", value: "b", previous: "a" });
+    });
+
+    test("§8.90 select sorts by label, or by option order with sortBy order; filter matches the label; export is the label or the id", async () => {
+        const options = [{ id: "z", label: "Aardvark" }, { id: "a", label: "Zebra" }];
+        const rows = [{ s: "a" }, { s: "z" }];
+        mount([{ id: "s", header: "S", type: "select", options, sortable: true }], rows, { sort: { columnId: "s", direction: "ascending" }, labels: { search: "Search" } });
+        expect(text(dataCell(0, 0))).toBe("Aardvark");
+        fireEvent.input(screen.getByRole("searchbox", { name: "Search" }), { target: { value: "zeb" } });
+        expect(bodyRows()).toHaveLength(1);
+        document.body.innerHTML = "";
+        mount([{ id: "s", header: "S", type: "select", options: [{ id: "q", label: "Qux" }, { id: "b", label: "Bar" }], sortBy: "order", sortable: true }], [{ s: "b" }, { s: "q" }], { sort: { columnId: "s", direction: "ascending" } });
+        expect(text(dataCell(0, 0))).toBe("Qux");
+        for (const exportAs of ["label", "id"] as const) {
+            document.body.innerHTML = "";
+            const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+            mount([{ id: "s", header: "S", type: "select", options, exportAs }], [{ s: "a" }], { labels: { exportCsv: "CSV" }, onExport });
+            fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+            const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+            expect(out).toBe(`﻿S\r\n${exportAs === "id" ? "a" : "Zebra"}\r\n`);
+        }
+    });
+
+    test("§8.91 radio group: a fieldset with a legend, one radio per option, a name per row and column; change commits", async () => {
+        const onCellEdit = vi.fn();
+        const options = [{ id: "lo", label: "Low" }, { id: "hi", label: "High" }];
+        mount([{ id: "p", header: "Priority", type: "radio", options, editable: true }], [{ p: "lo" }, { p: "hi" }], { onCellEdit });
+        const groups = document.querySelectorAll("fieldset.data-grid-radio-group");
+        expect(groups).toHaveLength(2);
+        expect(groups[0].querySelector("legend")!.textContent).toBe("Priority");
+        const names = Array.from(document.querySelectorAll<HTMLInputElement>('input[type="radio"]')).map((r) => r.name);
+        expect(new Set(names).size).toBe(2);
+        expect((groups[0].querySelector('input[value="lo"]') as HTMLInputElement).checked).toBe(true);
+        fireEvent.click(groups[0].querySelector('input[value="hi"]')!);
+        expect(onCellEdit.mock.calls[0][0]).toMatchObject({ columnId: "p", value: "hi", previous: "lo" });
+    });
+
+    test("§8.92 a read-only radio column shows the label as text", () => {
+        mount([{ id: "p", header: "P", type: "radio", options: [{ id: "lo", label: "Low" }] }], [{ p: "lo" }]);
+        expect(document.querySelector("fieldset")).toBeNull();
+        expect(text(dataCell(0, 0))).toBe("Low");
+    });
+
+    test("§8.93 an unknown option id is refused by a radio; the typed validate message and invalidValue label show", async () => {
+        const cols: DataGridColumn[] = [{ id: "n", header: "N", type: "number", editable: true, validate: (v) => (typeof v === "number" && v < 0 ? "Too small" : undefined) }];
+        const onCellEdit = vi.fn();
+        mount(cols, [{ n: 1 }], { onCellEdit, labels: { editError: (h: string, m: string) => `${h}: ${m}` } });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        fireEvent.input(input, { target: { value: "-4" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".data-grid-status")!.textContent).toBe("N: Too small");
+    });
+
+    test("§8.94 editing a link changes the address and keeps the label; a bad scheme is refused", async () => {
+        const onCellEdit = vi.fn();
+        mount([{ id: "l", header: "L", type: "link", editable: true }], [{ l: { href: "https://a.test", label: "A" } }], { onCellEdit, labels: { invalidValue: (h: string, t: string) => `${h} is not a valid ${t}` } });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        expect(input.value).toBe("https://a.test");
+        fireEvent.input(input, { target: { value: "javascript:alert(1)" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(input.getAttribute("aria-invalid")).toBe("true");
+        expect(document.querySelector(".data-grid-cell-error")!.textContent).toBe("L is not a valid link");
+        fireEvent.input(input, { target: { value: "https://b.test" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0].value).toEqual({ href: "https://b.test", label: "A" });
+    });
+
+    test("§8.95 date exports typed (no time of day); time and link export as text; typed export of a link is its label", async () => {
+        const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+        mount(
+            [{ id: "d", header: "D", type: "date" }, { id: "t", header: "T", type: "time" }, { id: "l", header: "L", type: "link" }],
+            [{ d: "2026-10-16", t: "09:05", l: { href: "https://a.test", label: "Home" } }],
+            { labels: { exportCsv: "CSV" }, onExport },
+        );
+        fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+        expect(out).toBe("﻿D,T,L\r\n2026-10-16,09:05,Home\r\n");
+    });
+
+    test("§8.96 the column's own hooks override the type's", () => {
+        mount([{ id: "d", header: "D", type: "date", format: () => "custom", align: "end" }], [{ d: "2026-10-16" }]);
+        expect(text(dataCell(0, 0))).toBe("custom");
+        expect(dataCell(0, 0).getAttribute("data-align")).toBe("end");
+    });
+
+    test("§8.97 a column without a type is untouched", () => {
+        mount([{ id: "x", header: "X" }], [{ x: "plain" }]);
+        expect(dataCell(0, 0).hasAttribute("data-cell-type")).toBe(false);
+        expect(text(dataCell(0, 0))).toBe("plain");
+    });
+});

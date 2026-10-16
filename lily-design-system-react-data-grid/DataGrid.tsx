@@ -8,6 +8,15 @@ import {
   DataTableTD,
   DataTableTH,
 } from "@lilydesignsystem/react-headless";
+import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import {
+  isInvalidForType,
+  linkParts,
+  resolveColumn,
+  safeHref,
+  type DataGridCellType,
+  type DataGridOption,
+} from "./cell-types";
 
 export type DataGridSortDirection = "ascending" | "descending" | "none";
 
@@ -19,6 +28,28 @@ export type DataGridSort = {
 export type DataGridSelectionMode = "none" | "single" | "multiple";
 
 export type DataGridRow = Record<string, unknown>;
+
+/** What `onExport` receives, before the file is saved. */
+export type DataGridExport = {
+  format: ExportFormat;
+  /** The file name, with its extension. */
+  filename: string;
+  /** How many data rows (the header is not counted). */
+  rowCount: number;
+  /** The file. */
+  blob: Blob;
+};
+
+/** What `onCellEdit` receives after a cell edit is committed. */
+export type DataGridCellEdit = {
+  rowId: string;
+  row: DataGridRow;
+  columnId: string;
+  /** The parsed new value (a number for the `"number"` editor, the text otherwise). */
+  value: unknown;
+  /** The cell's value before the edit. */
+  previous: unknown;
+};
 
 /** Arguments a column's `cell` render prop receives. See spec/index.md §5. */
 export type DataGridCellContext = {
@@ -53,6 +84,10 @@ export type DataGridColumn = {
   movable?: boolean;
   /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no offsets. */
   pinned?: "start" | "end";
+  /** Set `false` to leave the column out of an export (an actions column, say). Default true. */
+  exportable?: boolean;
+  /** The value this column exports for a row. Default: a number, boolean or `Date` as itself, anything else as its displayed text (so `format` applies). */
+  exportValue?: (row: DataGridRow) => unknown;
   /** Column can be hidden via the column-visibility control. */
   hidable?: boolean;
   /** Initial pixel width, meaningful only when `resizable`. */
@@ -61,6 +96,32 @@ export type DataGridColumn = {
   cell?: (ctx: DataGridCellContext) => React.ReactNode;
   /** The header's content in place of the `header` text. `header` stays the accessible name. */
   headerCell?: (ctx: { column: DataGridColumn }) => React.ReactNode;
+  /** Cells can be edited in place: F2 or Enter on a focused cell, a double click, or the button `labels.editCell` gates. Enter commits, Escape cancels, leaving the field commits. */
+  editable?: boolean;
+  /** The editor's control. Default `"text"`; a `type` sets its own (`"number"`, `"link"`, `"date"`, `"time"`, `"select"`, `"radio"`). */
+  editor?: "text" | "number" | "link" | "date" | "time" | "select" | "radio";
+  /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`, plus the cell's markup. Your own props win. See spec/cell-types/index.md. */
+  type?: DataGridCellType;
+  /** BCP 47 locale for this column's formatting and collation. Falls back to the grid's `locale`; with neither, values show as stored. */
+  locale?: string;
+  /** `select` and `radio`: the choices. The label is displayed, the id is stored. */
+  options?: DataGridOption[];
+  /** `select`: sort by option label (default) or by option order. (`radio` always sorts by order.) */
+  sortBy?: "label" | "order";
+  /** `select` and `radio`: export the option's `"label"` (default) or its `"id"`. */
+  exportAs?: "label" | "id";
+  /** `number`: options for `Intl.NumberFormat`. */
+  numberFormat?: Intl.NumberFormatOptions;
+  /** `date`: options for `Intl.DateTimeFormat` (the zone is always UTC: a civil date does not shift). */
+  dateFormat?: Intl.DateTimeFormatOptions;
+  /** `time`: options for `Intl.DateTimeFormat`. */
+  timeFormat?: Intl.DateTimeFormatOptions;
+  /** The text the grid's filter matches for a value. Default: the displayed text. */
+  filterText?: (value: unknown, row: DataGridRow) => string;
+  /** Turns the editor's text into the committed value. Defaults to the text (`Number(text)`, or `null` when empty, for `"number"`). */
+  parse?: (draft: string, row: DataGridRow) => unknown;
+  /** Refuses a value: return a message and the cell stays in edit mode with `aria-invalid`; return nothing to accept. */
+  validate?: (value: unknown, row: DataGridRow) => string | undefined;
   /** Body cells of this column are `<th scope="row" role="rowheader">`. */
   rowHeader?: boolean;
   /** Horizontal alignment of the column's cells (`data-align` and `text-align`). */
@@ -93,6 +154,32 @@ export type DataGridLabels = {
   selectionAnnouncement?: (selectedCount: number) => string;
   /** Announced after a column moves: (header, 1-based position among the visible columns, how many are visible). */
   columnMoveAnnouncement?: (header: string, position: number, count: number) => string;
+  /** Accessible name of a cell's edit button: (column header, row label). Gates the button (for pointer and table-mode use). */
+  editCell?: (header: string, rowLabel: string) => string;
+  /** Accessible name of the cell editor's field. Defaults to the column header. */
+  cellEditor?: (header: string) => string;
+  /** Announced after a committed edit: (column header, formatted new value). */
+  editAnnouncement?: (header: string, value: string) => string;
+  /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+  export?: string;
+  /** Visible text of the CSV button. Gates the button. */
+  exportCsv?: string;
+  /** Visible text of the TSV button. Gates the button. */
+  exportTsv?: string;
+  /** Visible text of the Excel (.xlsx) button. Gates the button. */
+  exportExcel?: string;
+  /** Announced after an export: (format, how many rows, file name). */
+  exportAnnouncement?: (format: ExportFormat, rowCount: number, filename: string) => string;
+  /** Why a typed value was refused: (column header, the column's type). Gates the message; the cell stays in edit mode with `aria-invalid` either way. */
+  invalidValue?: (header: string, type: string) => string;
+  /** Appended, visually hidden, to a link that opens a new tab: (link text). */
+  opensInNewTab?: (text: string) => string;
+  /** Accessible name of a radio group in a cell: (column header, row label). Default the header. */
+  radioGroup?: (header: string, rowLabel: string) => string;
+  /** Announced after an edit is cancelled with Escape. */
+  editCancelAnnouncement?: (header: string) => string;
+  /** Announced when `validate` refuses a value: (column header, the message). */
+  editError?: (header: string, message: string) => string;
 };
 
 /** Public props for DataGrid. See `spec/index.md` §5 for the contract. */
@@ -105,6 +192,8 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   columns: DataGridColumn[];
   /** Row data. */
   rows: DataGridRow[];
+  /** BCP 47 locale for the typed columns' formatting and collation. Never defaulted: with none, values show as stored. */
+  locale?: string;
   /** Derives a stable id per row. Defaults to the row's index in `rows`. */
   rowId?: (row: DataGridRow, index: number) => string;
   /** Row selection mode. */
@@ -160,6 +249,20 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   busy?: boolean;
   /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
   scroll?: boolean;
+  /** The file name without its extension. Default `"data-grid"`. */
+  exportFilename?: string;
+  /** What an export holds: `"view"` (default) is every row the filter leaves, in the current sort and not just the shown page; `"selected"` is only the selected rows. Hidden columns are never exported. */
+  exportScope?: "view" | "selected";
+  /** Called with the file before it is saved. Return `false` to keep the grid from saving it (to upload it, say). */
+  onExport?: (file: DataGridExport) => boolean | void;
+  /** Called after a cell edit is committed. The consumer updates `rows`; the grid never mutates them. */
+  onCellEdit?: (edit: DataGridCellEdit) => void;
+  /**
+   * Renders only the rows in view, in a scroll region of `height` px (needs `scroll`). Every row is assumed
+   * `rowHeight` px tall; Lily measures nothing. `aria-rowcount` and every row's `aria-rowindex` are always set,
+   * so assistive technology still sees the whole grid.
+   */
+  virtualize?: { rowHeight: number; height: number; overscan?: number };
   /** Extra CSS class on the root. */
   className?: string;
 };
@@ -198,8 +301,9 @@ export function DataGrid({
   className = "",
   label,
   caption,
-  columns,
+  columns: columnsProp,
   rows,
+  locale,
   rowId = (_row: DataGridRow, index: number) => String(index),
   selectionMode = "none",
   selected: selectedProp,
@@ -228,8 +332,18 @@ export function DataGrid({
   footer,
   busy = false,
   scroll = true,
+  onCellEdit,
+  virtualize,
+  exportFilename: exportBase = "data-grid",
+  exportScope = "view",
+  onExport,
   ...restProps
 }: Props): React.ReactElement {
+  // Each column with its type's defaults filled in under its own props.
+  const columns = React.useMemo(() => columnsProp.map((c) => resolveColumn(c, locale)), [columnsProp, locale]);
+
+  const gridId = React.useId();
+
   const isGrid = mode === "grid";
 
   const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -310,7 +424,12 @@ export function DataGrid({
     if (cached && cached.key[0] === entries && cached.key[1] === columns) return cached.index;
     const filterableColumns = columns.filter((c) => c.filterable !== false);
     const index = entries.map((entry) =>
-      filterableColumns.map((column) => cellFor(column, entry.row).formatted.toLowerCase()),
+      filterableColumns.map((column) =>
+        (column.filterText
+          ? column.filterText(defaultAccessor(column, entry.row), entry.row)
+          : cellFor(column, entry.row).formatted
+        ).toLowerCase(),
+      ),
     );
     searchIndexRef.current = { key: [entries, columns], index };
     return index;
@@ -367,7 +486,44 @@ export function DataGrid({
 
   // Row position for assistive technology, only when pagination means the
   // DOM holds a subset of the rows (spec/index.md §8.21). Header row is 1.
-  const rowCount = pageSize ? sortedEntries.length + 1 : undefined;
+  const rowCount = pageSize ? sortedEntries.length + 1 : virtualize ? pageEntries.length + 1 : undefined;
+  const indexed = !!pageSize || !!virtualize;
+
+  // ---- Windowing (virtualize): only the rows in view, plus the roving tab stop's row ----
+  const [scrollTop, setScrollTop] = React.useState(0);
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+  type RenderItem = { kind: "row"; index: number } | { kind: "spacer"; rows: number; key: string };
+  const renderItems: RenderItem[] = (() => {
+    const total = pageEntries.length;
+    if (!virtualize) return pageEntries.map((_, index) => ({ kind: "row", index }) as RenderItem);
+    const overscan = virtualize.overscan ?? 3;
+    const start = Math.max(0, Math.floor(scrollTop / virtualize.rowHeight) - overscan);
+    const end = Math.min(total, Math.ceil((scrollTop + virtualize.height) / virtualize.rowHeight) + overscan);
+    const indices = new Set<number>();
+    for (let i = start; i < end; i++) indices.add(i);
+    if (activeRow >= 0 && activeRow < total) indices.add(activeRow);
+    const items: RenderItem[] = [];
+    let previous = -1;
+    for (const index of [...indices].sort((a, b) => a - b)) {
+      if (index - previous > 1) items.push({ kind: "spacer", rows: index - previous - 1, key: `spacer-${previous}` });
+      items.push({ kind: "row", index });
+      previous = index;
+    }
+    if (total - 1 - previous > 0) items.push({ kind: "spacer", rows: total - 1 - previous, key: `spacer-${previous}` });
+    return items;
+  })();
+
+  /** Bring a body row into the scroll region. */
+  function revealRow(index: number): void {
+    if (!virtualize || index < 0) return;
+    const top = index * virtualize.rowHeight;
+    let next = scrollTop;
+    if (top < scrollTop) next = top;
+    else if (top + virtualize.rowHeight > scrollTop + virtualize.height) next = top + virtualize.rowHeight - virtualize.height;
+    if (next === scrollTop) return;
+    setScrollTop(next);
+    if (scrollRef.current) scrollRef.current.scrollTop = next;
+  }
 
   // O(1) membership instead of `selected.includes` per row.
   const selectedSet = React.useMemo(() => new Set(selected), [selected]);
@@ -593,10 +749,143 @@ export function DataGrid({
   }
 
   function moveFocus(row: number, col: number): void {
-    setFocusedRow(Math.min(Math.max(row, -1), pageEntries.length - 1));
+    const nextRow = Math.min(Math.max(row, -1), pageEntries.length - 1);
+    setFocusedRow(nextRow);
     setFocusedCol(Math.min(Math.max(col, 0), lastCol));
+    revealRow(nextRow);
     pendingFocusRef.current = true;
   }
+
+  // ---------------------------------------------------------------
+  // Export (CSV / TSV / Excel)
+  // ---------------------------------------------------------------
+
+  const exportColumns = visibleColumns.filter((c) => c.exportable !== false);
+  const exportEntries = exportScope === "selected" ? sortedEntries.filter((entry) => selectedSet.has(entry.id)) : sortedEntries;
+  const hasExportButtons = !!(labels.exportCsv || labels.exportTsv || labels.exportExcel);
+
+  /** One cell for an export: typed values stay typed, everything else is the text the grid shows. */
+  function exportCell(column: DataGridColumn, row: DataGridRow): unknown {
+    if (column.exportValue) return column.exportValue(row);
+    const value = defaultAccessor(column, row);
+    if (value === null || value === undefined) return null;
+    if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
+    return formatCell(column, row);
+  }
+
+  function runExport(format: ExportFormat): void {
+    const table = {
+      headers: exportColumns.map((c) => c.header),
+      rows: exportEntries.map((entry) => exportColumns.map((c) => exportCell(c, entry.row))),
+    };
+    const filename = exportFilename(exportBase, format);
+    const blob = exportBlob(table, format, { sheetName: exportBase });
+    const count = table.rows.length;
+    if (onExport?.({ format, filename, rowCount: count, blob }) === false) return;
+    downloadBlob(blob, filename);
+    announce(labels.exportAnnouncement?.(format, count, filename));
+  }
+
+  // ---------------------------------------------------------------
+  // Cell editing
+  // ---------------------------------------------------------------
+
+  type Editing = { rowId: string; columnId: string; draft: string; error?: string; invalid?: boolean };
+  const [editing, setEditingState] = React.useState<Editing | null>(null);
+  // Mirrors `editing` synchronously, so a blur that follows a commit in the same tick sees it already closed.
+  const editingRef = React.useRef<Editing | null>(null);
+  function setEditing(next: Editing | null): void {
+    editingRef.current = next;
+    setEditingState(next);
+  }
+
+  function startEdit(entry: Entry, column: DataGridColumn): void {
+    if (!column.editable) return;
+    const raw = defaultAccessor(column, entry.row);
+    const text = column.type === "link" ? (linkParts(raw)?.href ?? "") : raw === null || raw === undefined ? "" : String(raw);
+    setEditing({ rowId: entry.id, columnId: column.id, draft: text });
+  }
+
+  function parseDraft(column: DataGridColumn, row: DataGridRow, draft: string): unknown {
+    if (column.parse) return column.parse(draft, row);
+    if (column.editor === "number") return draft.trim() === "" ? null : Number(draft);
+    if (column.editor === "date" || column.editor === "time" || column.editor === "select") return draft === "" ? null : draft;
+    return draft;
+  }
+
+  /** Two link values with the same address and label are the same edit. */
+  function isStructurallyEqual(a: unknown, b: unknown): boolean {
+    return typeof a === "object" && typeof b === "object" && a !== null && b !== null && JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  /** Validate and report one new value for a cell. Returns false (and keeps editing, if the editor is open) when it is refused. */
+  function commitValue(entry: Entry, column: DataGridColumn, value: unknown): boolean {
+    const message = column.validate?.(value, entry.row);
+    const invalidType = isInvalidForType(column, value);
+    if (message || invalidType) {
+      const text = message ?? labels.invalidValue?.(column.header, column.type ?? "") ?? "";
+      const current = editingRef.current;
+      if (current) setEditing({ ...current, error: text || undefined, invalid: true });
+      announce(labels.editError?.(column.header, text));
+      return false;
+    }
+    const previous = defaultAccessor(column, entry.row);
+    setEditing(null);
+    if (value !== previous && !isStructurallyEqual(value, previous)) {
+      onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
+      announce(labels.editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
+    }
+    return true;
+  }
+
+  function commitEdit(): void {
+    const current = editingRef.current;
+    if (!current) return;
+    const entry = entries.find((e) => e.id === current.rowId);
+    const column = columns.find((c) => c.id === current.columnId);
+    if (!entry || !column) {
+      setEditing(null);
+      return;
+    }
+    if (commitValue(entry, column, parseDraft(column, entry.row, current.draft))) pendingFocusRef.current = true;
+  }
+
+  function cancelEdit(): void {
+    const current = editingRef.current;
+    if (!current) return;
+    setEditing(null);
+    const column = columns.find((c) => c.id === current.columnId);
+    if (column) announce(labels.editCancelAnnouncement?.(column.header));
+    pendingFocusRef.current = true;
+  }
+
+  function onEditorKeydown(event: React.KeyboardEvent): void {
+    // The editor owns its keys; none may reach the grid's own handler.
+    event.stopPropagation();
+    // While an input method is composing (a candidate list is open), Enter picks the candidate and
+    // Escape cancels the composition: neither commits nor cancels the edit. Some browsers report
+    // the confirming Enter with `isComposing` already false, but keyCode 229.
+    if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commitEdit();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      cancelEdit();
+    }
+  }
+
+  function setDraft(draft: string): void {
+    const current = editingRef.current;
+    if (current) setEditing({ ...current, draft, error: undefined, invalid: false });
+  }
+
+  /** Focus and select the editor's text as it appears (a stable callback ref: it runs on mount only). */
+  const focusEditor = React.useCallback((node: HTMLInputElement | HTMLSelectElement | null) => {
+    if (!node) return;
+    node.focus();
+    if (node instanceof HTMLInputElement && node.type === "text") node.select();
+  }, []);
 
   function activateFocusedCell(): void {
     if (activeCol === 0 && hasSelection) {
@@ -638,7 +927,7 @@ export function DataGrid({
       if (cell.getAttribute("data-grid-entered") === "true") continue;
       setWidgetTabindex(cell, "-1");
     }
-  }, [pageEntries, visibleColumns, isGrid]);
+  }, [pageEntries, visibleColumns, isGrid, scrollTop]);
 
   /** Focus the first widget of a cell; its widgets are tab stops while focus stays inside it. */
   function enterCell(cell: HTMLElement): boolean {
@@ -687,6 +976,16 @@ export function DataGrid({
     if (target.closest(WIDGET_SELECTOR) || target.closest("[data-grid-own]")) return;
     const entry = pageEntries[Number(cell.dataset.row)];
     if (entry) onRowActivate(entry.row, entry.id);
+  }
+
+  /** A double click on an editable body cell starts editing it. */
+  function onGridDoubleClick(event: React.MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const cell = target.closest<HTMLElement>("[data-row][data-col]");
+    if (!cell || cell.closest(".data-table-head") || target.closest("input, button, select, textarea")) return;
+    const entry = pageEntries[Number(cell.dataset.row)];
+    const column = visibleColumns[Number(cell.dataset.col) - colOffset];
+    if (entry && column?.editable) startEdit(entry, column);
   }
 
   function onGridKeydown(event: React.KeyboardEvent): void {
@@ -746,9 +1045,26 @@ export function DataGrid({
         event.preventDefault();
         moveFocus(activeRow - (pageSize ?? 10), activeCol);
         break;
+      case "F2": {
+        const entry = pageEntries[Number(cell.dataset.row)];
+        const column = visibleColumns[Number(cell.dataset.col) - colOffset];
+        if (target === cell && entry && column?.editable) {
+          event.preventDefault();
+          startEdit(entry, column);
+        }
+        break;
+      }
       case "Enter":
       case " ":
         event.preventDefault();
+        if (event.key === "Enter" && target === cell && cell.closest(".data-table-body")) {
+          const entry = pageEntries[Number(cell.dataset.row)];
+          const column = visibleColumns[Number(cell.dataset.col) - colOffset];
+          if (entry && column?.editable) {
+            startEdit(entry, column);
+            break;
+          }
+        }
         if (target === cell && cell.closest(".data-table-body") && !cell.querySelector("[data-grid-own]")) {
           // A cell with a widget in it is entered; one without activates its row.
           if (enterCell(cell)) break;
@@ -808,6 +1124,143 @@ export function DataGrid({
   // Render
   // ---------------------------------------------------------------
 
+  /** A link value: an `<a>` only for a safe scheme, text otherwise. */
+  function linkBody(ctx: DataGridCellContext): React.ReactNode {
+    const link = linkParts(ctx.value);
+    if (!link) return null;
+    const href = safeHref(link.href);
+    if (!href) {
+      // An address with an unsafe scheme is shown as text, never as a link.
+      return <span className="data-grid-link data-grid-link-unsafe">{link.label ?? link.href}</span>;
+    }
+    return (
+      <a
+        className="data-grid-link"
+        href={href}
+        target={link.external ? "_blank" : undefined}
+        rel={link.external ? "noopener noreferrer" : undefined}
+      >
+        {link.label ?? link.href}
+        {link.external && labels.opensInNewTab && (
+          <>
+            {" "}
+            <span className="data-grid-visually-hidden">{labels.opensInNewTab(link.label ?? link.href)}</span>
+          </>
+        )}
+      </a>
+    );
+  }
+
+  function cellBody(entry: Entry, column: DataGridColumn, ctx: DataGridCellContext): React.ReactNode {
+    const rowLabel = () => (visibleColumns[0] ? cellFor(visibleColumns[0], entry.row).formatted : entry.id);
+    if (editing && editing.rowId === entry.id && editing.columnId === column.id) {
+      const errorId = `${entry.id}-${column.id}-error`;
+      const common = {
+        className: "data-grid-cell-editor",
+        "aria-label": labels.cellEditor?.(column.header) ?? column.header,
+        "aria-invalid": editing.error || editing.invalid ? ("true" as const) : undefined,
+        "aria-describedby": editing.error ? errorId : undefined,
+        onKeyDown: onEditorKeydown,
+        onBlur: () => {
+          if (editingRef.current) commitEdit();
+        },
+      };
+      const groups = [...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string))];
+      return (
+        <>
+          {column.editor === "select" ? (
+            <select
+              {...common}
+              ref={focusEditor}
+              value={editing.draft}
+              onChange={(e) => setDraft(e.target.value)}
+            >
+              <option value="" />
+              {(column.options ?? [])
+                .filter((o) => !o.group)
+                .map((option) => (
+                  <option key={option.id} value={option.id} disabled={option.disabled}>
+                    {option.label}
+                  </option>
+                ))}
+              {groups.map((group) => (
+                <optgroup key={group} label={group}>
+                  {(column.options ?? [])
+                    .filter((o) => o.group === group)
+                    .map((option) => (
+                      <option key={option.id} value={option.id} disabled={option.disabled}>
+                        {option.label}
+                      </option>
+                    ))}
+                </optgroup>
+              ))}
+            </select>
+          ) : (
+            <input
+              {...common}
+              ref={focusEditor}
+              type={column.editor === "number" ? "number" : column.editor === "date" ? "date" : column.editor === "time" ? "time" : "text"}
+              step={column.editor === "time" ? 1 : undefined}
+              inputMode={column.editor === "number" ? "decimal" : undefined}
+              value={editing.draft}
+              onChange={(e) => setDraft(e.target.value)}
+            />
+          )}
+          {editing.error && (
+            <span className="data-grid-cell-error" id={errorId}>
+              {editing.error}
+            </span>
+          )}
+        </>
+      );
+    }
+    if (column.type === "radio" && column.editable) {
+      return (
+        <fieldset className="data-grid-radio-group" data-grid-own-group="">
+          <legend className="data-grid-radio-legend">{labels.radioGroup?.(column.header, rowLabel()) ?? column.header}</legend>
+          {(column.options ?? []).map((option) => (
+            <label key={option.id} className="data-grid-radio-option">
+              <input
+                type="radio"
+                name={`${gridId}-${entry.id}-${column.id}`}
+                value={option.id}
+                checked={ctx.value === option.id}
+                disabled={option.disabled}
+                tabIndex={isGrid ? -1 : undefined}
+                onChange={() => commitValue(entry, column, option.id)}
+              />
+              {option.label}
+            </label>
+          ))}
+        </fieldset>
+      );
+    }
+    const shown = column.cell ? (
+      column.cell(ctx)
+    ) : column.type === "link" ? (
+      linkBody(ctx)
+    ) : column.type === "date" || column.type === "time" ? (
+      ctx.formatted !== "" ? <time dateTime={String(ctx.value)}>{ctx.formatted}</time> : null
+    ) : (
+      ctx.formatted
+    );
+    return (
+      <>
+        {shown}
+        {column.editable && column.type !== "radio" && labels.editCell && (
+          <button
+            type="button"
+            className="data-grid-edit-button"
+            data-grid-own=""
+            tabIndex={isGrid ? -1 : undefined}
+            aria-label={labels.editCell(column.header, rowLabel())}
+            onClick={() => startEdit(entry, column)}
+          />
+        )}
+      </>
+    );
+  }
+
   const table = (
     <DataTable
       label={label}
@@ -819,9 +1272,10 @@ export function DataGrid({
       onFocus={isGrid ? onGridFocus : undefined}
       onBlur={isGrid ? onGridBlur : undefined}
       onClick={onRowActivate ? onGridClick : undefined}
+      onDoubleClick={onGridDoubleClick}
     >
       <DataTableHead>
-        <DataTableRow aria-rowindex={pageSize ? 1 : undefined}>
+        <DataTableRow aria-rowindex={indexed ? 1 : undefined}>
           {hasSelection && (
             <DataTableTH
               data-row={-1}
@@ -853,6 +1307,7 @@ export function DataGrid({
               data-row={-1}
               data-col={colOffset + i}
               data-align={column.align}
+              data-cell-type={column.type}
               data-pinned={column.pinned}
               draggable={column.movable ? true : undefined}
               onDragStart={column.movable ? (e: React.DragEvent) => { draggingColumnId.current = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
@@ -898,7 +1353,16 @@ export function DataGrid({
         </DataTableRow>
       </DataTableHead>
       <DataTableBody>
-        {pageEntries.map((entry, rowIndex) => {
+        {renderItems.map((item) => {
+          if (item.kind === "spacer") {
+            return (
+              <tr key={item.key} className="data-grid-spacer" aria-hidden="true" style={{ height: `${item.rows * (virtualize?.rowHeight ?? 0)}px` }}>
+                <td colSpan={lastCol + 1} />
+              </tr>
+            );
+          }
+          const rowIndex = item.index;
+          const entry = pageEntries[rowIndex];
           const row = entry.row;
           const id = entry.id;
           return (
@@ -906,7 +1370,7 @@ export function DataGrid({
               key={id}
               className={rowClass?.(row)}
               aria-selected={hasSelection ? isSelected(id) : undefined}
-              aria-rowindex={pageSize ? pageStart + rowIndex + 2 : undefined}
+              aria-rowindex={indexed ? pageStart + rowIndex + 2 : undefined}
               {...(rowAttrs?.(row) ?? {})}
             >
               {hasSelection && (
@@ -936,8 +1400,9 @@ export function DataGrid({
                 const extra = column.cellAttrs?.(ctx) ?? {};
                 const extraClass =
                   typeof column.cellClass === "function" ? column.cellClass(ctx) : column.cellClass;
-                const content = column.cell ? column.cell(ctx) : ctx.formatted;
+                const content = cellBody(entry, column, ctx);
                 const isActive = activeRow === rowIndex && activeCol === colOffset + colIndex;
+                const isEditingCell = editing?.rowId === id && editing.columnId === column.id;
                 return column.rowHeader ? (
                   <DataTableTH
                     key={column.id}
@@ -947,6 +1412,7 @@ export function DataGrid({
                     data-row={rowIndex}
                     data-col={colOffset + colIndex}
                     data-align={column.align}
+                    data-cell-type={column.type}
                     data-pinned={column.pinned}
                     tabIndex={isGrid ? (isActive ? 0 : -1) : undefined}
                     style={cellStyle(column)}
@@ -961,7 +1427,10 @@ export function DataGrid({
                     data-row={rowIndex}
                     data-col={colOffset + colIndex}
                     data-align={column.align}
+                    data-cell-type={column.type}
                     data-pinned={column.pinned}
+                    data-editable={column.editable ? "" : undefined}
+                    data-editing={isEditingCell ? "" : undefined}
                     role={isGrid ? "gridcell" : "cell"}
                     {...(isGrid ? { active: isActive } : { tabIndex: undefined })}
                     style={cellStyle(column)}
@@ -997,7 +1466,7 @@ export function DataGrid({
 
   return (
     <div ref={rootRef} className={`data-grid ${className}`.trim()} {...restProps}>
-      {(labels.search || hidableColumns.length > 0) && (
+      {(labels.search || hidableColumns.length > 0 || hasExportButtons) && (
         <div className="data-grid-toolbar">
           {labels.search && (
             <input
@@ -1007,6 +1476,25 @@ export function DataGrid({
               value={filter}
               onChange={onFilterInput}
             />
+          )}
+          {hasExportButtons && (
+            <div className="data-grid-export" role="group" aria-label={labels.export}>
+              {labels.exportCsv && (
+                <button type="button" className="data-grid-export-button" data-grid-export-format="csv" disabled={exportEntries.length === 0} onClick={() => runExport("csv")}>
+                  {labels.exportCsv}
+                </button>
+              )}
+              {labels.exportTsv && (
+                <button type="button" className="data-grid-export-button" data-grid-export-format="tsv" disabled={exportEntries.length === 0} onClick={() => runExport("tsv")}>
+                  {labels.exportTsv}
+                </button>
+              )}
+              {labels.exportExcel && (
+                <button type="button" className="data-grid-export-button" data-grid-export-format="xlsx" disabled={exportEntries.length === 0} onClick={() => runExport("xlsx")}>
+                  {labels.exportExcel}
+                </button>
+              )}
+            </div>
           )}
           {hidableColumns.length > 0 && labels.columnVisibility && (
             <fieldset className="data-grid-column-visibility">
@@ -1030,10 +1518,13 @@ export function DataGrid({
         // A scrollable region must be reachable by keyboard (WCAG 2.1.1; axe `scrollable-region-focusable`).
         // In grid mode a roving cell is already a tab stop, so only table mode makes the region one.
         <div
+          ref={scrollRef}
           className="data-grid-scroll"
           role="region"
           aria-label={label}
           tabIndex={isGrid ? undefined : 0}
+          style={virtualize ? { height: `${virtualize.height}px`, overflow: "auto" } : undefined}
+          onScroll={virtualize ? (e: React.UIEvent<HTMLDivElement>) => setScrollTop(e.currentTarget.scrollTop) : undefined}
         >
           {table}
         </div>
