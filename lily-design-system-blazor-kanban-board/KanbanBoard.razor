@@ -125,7 +125,22 @@
                 if (slot.Lane is not null)
                 {
                     <KanbanTableRow data-lane-row="" aria-rowindex="@(Virtualize is not null ? (slot.SlotIndex + 2).ToString() : null)">
-                        <th class="kanban-board-lane" scope="rowgroup" colspan="@cols.Count" data-lane-id="@slot.Lane.Id">@slot.Lane.Title</th>
+                        @{ var lane = slot.Lane; var laneCollapsed = IsLaneCollapsed(lane.Id); }
+                        <th class="kanban-board-lane" scope="rowgroup" colspan="@cols.Count" data-lane-id="@lane.Id" data-collapsed="@(laneCollapsed ? "" : null)">
+                            @if (Labels.CollapseLane is not null)
+                            {
+                                <button type="button"
+                                        class="kanban-board-lane-toggle"
+                                        aria-expanded="@(laneCollapsed ? "false" : "true")"
+                                        aria-label="@Labels.CollapseLane(lane, laneCollapsed)"
+                                        @onclick="@(() => ToggleLaneAsync(lane))">@(laneCollapsed ? "▸" : "▾")</button>
+                            }
+                            <span class="kanban-board-lane-title">@lane.Title</span>
+                            @if (Labels.LaneCount is not null)
+                            {
+                                <span class="kanban-board-lane-count">@Labels.LaneCount(lane, LaneCardCount(layout, lane.Id))</span>
+                            }
+                        </th>
                     </KanbanTableRow>
                     continue;
                 }

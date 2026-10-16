@@ -281,3 +281,7 @@ Ported from the Svelte canonical spec (§13 there; clauses §8.31–§8.47): `fi
 Ported from the Svelte canonical spec (§15 there; clauses §8.63–§8.83): multi-select and group move, undo, column reordering, swimlanes, drag preview and virtualization. See the Svelte spec for the contract; idiom differences (prop casing, event vs callback, async hooks) follow this package's earlier parity sections.
 
 Blazor differences: `Selected` / `ColumnOrder` bind with `@bind-`; `OnMoveToLane` is raised in addition to `OnMove` (as `OnMoveAt` is for the drop index), so `MoveHandler`'s signature is unchanged; `DragPreviewText` is delivered as `data-kanban-drag-preview` read by a one-time document listener installed through JS eval, because Blazor's drag event cannot call `setDragImage`; `Virtualize` reads `scrollTop` through a JS-eval call in its `onscroll` handler.
+
+## Collapsible lanes (2026-10-16)
+
+Ported from the Svelte canonical (its spec "Collapsible lanes", tests §8.91–§8.94). A lane header `<th class="kanban-board-lane" scope="rowgroup" data-lane-id>` holds an optional `.kanban-board-lane-toggle` button (`aria-expanded`, named by `labels.collapseLane(lane, collapsed)`; glyph ▸ / ▾), the title in `.kanban-board-lane-title`, and an optional `.kanban-board-lane-count` (`labels.laneCount(lane, count)`, the lane's cards under the current search/filter). A collapsed lane's header carries `data-collapsed` and the lane contributes no row slots, so a board with every lane collapsed has only headers.

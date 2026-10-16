@@ -1074,4 +1074,81 @@ public class KanbanBoardInteractionTests : TestContext
         Assert.NotEmpty(cut.FindAll(".kanban-board-spacer"));
         Assert.Equal("101", cut.Find("table").GetAttribute("aria-rowcount"));
     }
+
+    // ---- Collapsible lanes ----
+
+    private static readonly KanbanLane[] LaneDefs = { new() { Id = "ann", Title = "Ann" }, new() { Id = "bo", Title = "Bo" } };
+
+    private static readonly KanbanColumn[] LaneColumns = { new() { Id = "todo", Title = "To do" }, new() { Id = "doing", Title = "Doing" } };
+
+    private static readonly KanbanCard[] CardsInLanes =
+    {
+        new() { Id = "c1", ColumnId = "todo", Title = "One", LaneId = "ann" },
+        new() { Id = "c2", ColumnId = "todo", Title = "Two", LaneId = "bo" },
+        new() { Id = "c3", ColumnId = "doing", Title = "Three", LaneId = "bo" },
+    };
+
+    private IRenderedComponent<KanbanBoard> RenderLanes(Action<ComponentParameterCollectionBuilder<KanbanBoard>>? configure = null, KanbanLabels? labels = null)
+        => RenderComponent<KanbanBoard>(p =>
+        {
+            p.Add(x => x.Label, "Board");
+            p.Add(x => x.Columns, LaneColumns);
+            p.Add(x => x.Cards, CardsInLanes);
+            p.Add(x => x.Lanes, LaneDefs);
+            if (labels is not null) p.Add(x => x.Labels, labels);
+            configure?.Invoke(p);
+        });
+
+    private static readonly KanbanLabels LaneLabels = new()
+    {
+        CollapseLane = (lane, collapsed) => $"{(collapsed ? "Expand" : "Collapse")} {lane.Title}",
+        LaneCount = (lane, n) => $"{n} cards in {lane.Title}",
+    };
+
+    private static AngleSharp.Dom.IElement? CardIn(IRenderedComponent<KanbanBoard> cut, string id)
+        => cut.FindAll($"[data-card-id='{id}']").FirstOrDefault();
+
+    [Fact]
+    public void Section_8_91_CollapseLane_Gates_A_Toggle_With_AriaExpanded_Clicking_Collapses_The_Lanes_Rows_But_Keeps_Its_Header()
+    {
+        var cut = RenderLanes(labels: LaneLabels);
+        var toggle = cut.Find("button[aria-label='Collapse Bo']");
+        Assert.Equal("true", toggle.GetAttribute("aria-expanded"));
+        toggle.Click();
+        Assert.Equal("false", cut.Find("button[aria-label='Expand Bo']").GetAttribute("aria-expanded"));
+        Assert.Null(CardIn(cut, "c2"));
+        Assert.NotNull(CardIn(cut, "c1"));
+        Assert.Equal(2, cut.FindAll(".kanban-board-lane").Count);
+    }
+
+    [Fact]
+    public void Section_8_92_No_Toggle_Without_CollapseLane()
+    {
+        var cut = RenderLanes();
+        Assert.Empty(cut.FindAll(".kanban-board-lane-toggle"));
+    }
+
+    [Fact]
+    public void Section_8_93_CollapsedLanes_Starts_A_Lane_Collapsed_LaneCount_Shows_Its_Count_And_The_Change_Is_Raised()
+    {
+        IReadOnlyList<string> changed = new List<string> { "unset" };
+        var cut = RenderLanes(p =>
+        {
+            p.Add(x => x.CollapsedLanes, new[] { "bo" });
+            p.Add(x => x.CollapsedLanesChanged, EventCallback.Factory.Create<IReadOnlyList<string>>(this, v => changed = v));
+        }, LaneLabels);
+        Assert.Null(CardIn(cut, "c2"));
+        Assert.Equal(new[] { "1 cards in Ann", "2 cards in Bo" }, cut.FindAll(".kanban-board-lane-count").Select(e => e.TextContent.Trim()).ToArray());
+        Assert.NotNull(cut.Find("[data-lane-id='bo'][data-collapsed]"));
+        cut.Find("button[aria-label='Expand Bo']").Click();
+        Assert.Empty(changed);
+    }
+
+    [Fact]
+    public void Section_8_94_Collapsing_Every_Lane_Leaves_A_Board_With_Only_Headers()
+    {
+        var cut = RenderLanes(p => p.Add(x => x.CollapsedLanes, new[] { "ann", "bo" }));
+        Assert.Empty(cut.FindAll(".kanban-table-body tr:not([data-lane-row])"));
+        Assert.Equal(2, cut.FindAll(".kanban-board-lane").Count);
+    }
 }

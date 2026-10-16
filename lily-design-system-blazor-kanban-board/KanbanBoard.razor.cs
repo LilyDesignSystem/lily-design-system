@@ -150,6 +150,12 @@ public sealed record KanbanLabels
     /// <summary>Announced when an async <c>MoveHandler</c> fails and the card goes back: (card title, column title, the exception).</summary>
     public Func<string, string, Exception, string>? MoveFailed { get; init; }
 
+    /// <summary>Accessible name for a lane's collapse toggle: (lane, collapsed). Gates the toggle.</summary>
+    public Func<KanbanLane, bool, string>? CollapseLane { get; init; }
+
+    /// <summary>Visible card count in a lane header: (lane, how many cards). Gates the count.</summary>
+    public Func<KanbanLane, int, string>? LaneCount { get; init; }
+
     /// <summary>Accessible name of the board's search field. Gates the field.</summary>
     public string? Search { get; init; }
 
@@ -228,6 +234,10 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>Swimlanes: horizontal bands of rows. Each card sits in the lane named by <c>LaneId</c> (the first lane when absent).</summary>
     [Parameter] public IReadOnlyList<KanbanLane>? Lanes { get; set; }
+
+    /// <summary>Ids of collapsed swimlanes. Bindable: <c>@bind-CollapsedLanes</c>. A collapsed lane keeps its header row (and count) but renders no card rows.</summary>
+    [Parameter] public IReadOnlyList<string> CollapsedLanes { get; set; } = Array.Empty<string>();
+    [Parameter] public EventCallback<IReadOnlyList<string>> CollapsedLanesChanged { get; set; }
 
     /// <summary>Several cards can be selected and moved together: Ctrl/Cmd+click or the <c>x</c> key toggles the card under the cursor.</summary>
     [Parameter] public bool Selectable { get; set; }
@@ -446,6 +456,8 @@ public partial class KanbanBoard : ComponentBase
         foreach (var lane in bands)
         {
             if (HasLanes) slots.Add(new Slot(lane, -1, lane.Id, -1, slots.Count));
+            // A collapsed lane keeps its header and shows no card rows.
+            if (HasLanes && IsLaneCollapsed(lane.Id)) continue;
             var n = 0;
             foreach (var column in Cols)
             {
@@ -538,6 +550,20 @@ public partial class KanbanBoard : ComponentBase
     }
 
     private bool IsCollapsed(string columnId) => CollapsedColumns.Contains(columnId);
+
+    private bool IsLaneCollapsed(string laneId) => CollapsedLanes.Contains(laneId);
+
+    private async Task ToggleLaneAsync(KanbanLane lane)
+    {
+        CollapsedLanes = IsLaneCollapsed(lane.Id)
+            ? CollapsedLanes.Where(id => id != lane.Id).ToList()
+            : CollapsedLanes.Append(lane.Id).ToList();
+        await CollapsedLanesChanged.InvokeAsync(CollapsedLanes);
+    }
+
+    /// <summary>Every card in a lane (the search/filter view still applies).</summary>
+    private int LaneCardCount(Layout layout, string laneId)
+        => Cols.Sum(column => layout.Cell.TryGetValue((column.Id, laneId), out var list) ? list.Count : 0);
 
     private async Task ToggleCollapsedAsync(KanbanColumn column)
     {
