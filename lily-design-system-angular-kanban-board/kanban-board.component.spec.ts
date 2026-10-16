@@ -929,3 +929,48 @@ describe("KanbanBoard — 0.4.0 (§8.63–§8.83)", () => {
     expect(f.nativeElement.querySelector("table")!.getAttribute("aria-rowcount")).toBe("101");
   });
 });
+
+describe("KanbanBoard — collapsible lanes (§8.91–§8.94)", () => {
+  const laneDefs = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+  const cardsInLanes = [
+    { id: "c1", columnId: "todo", title: "One", laneId: "ann" },
+    { id: "c2", columnId: "todo", title: "Two", laneId: "bo" },
+    { id: "c3", columnId: "doing", title: "Three", laneId: "bo" },
+  ];
+  const laneInputs = { columns: [{ id: "todo", title: "To do" }, { id: "doing", title: "Doing" }], lanes: laneDefs, cards: cardsInLanes };
+  const byName = (f: ComponentFixture<unknown>, name: string) =>
+    Array.from(f.nativeElement.querySelectorAll("button")).find((b) => (b as HTMLElement).getAttribute("aria-label") === name) as HTMLElement;
+  const collapseLane = (lane: { title: string }, collapsed: boolean) => `${collapsed ? "Expand" : "Collapse"} ${lane.title}`;
+
+  test("§8.91 labels.collapseLane gates a toggle with aria-expanded; clicking collapses the lane's rows but keeps its header", () => {
+    const f = mount({ ...laneInputs, labels: { collapseLane } });
+    expect(byName(f, "Collapse Bo").getAttribute("aria-expanded")).toBe("true");
+    byName(f, "Collapse Bo").click();
+    f.detectChanges();
+    expect(byName(f, "Expand Bo").getAttribute("aria-expanded")).toBe("false");
+    expect(f.nativeElement.querySelector('[data-card-id="c2"]')).toBeNull();
+    expect(f.nativeElement.querySelector('[data-card-id="c1"]')).not.toBeNull();
+    expect(f.nativeElement.querySelectorAll(".kanban-board-lane")).toHaveLength(2);
+  });
+
+  test("§8.92 no toggle without labels.collapseLane", () => {
+    const f = mount(laneInputs);
+    expect(f.nativeElement.querySelector(".kanban-board-lane-toggle")).toBeNull();
+  });
+
+  test("§8.93 collapsedLanes starts a lane collapsed; labels.laneCount shows its card count; the model updates", () => {
+    const f = mount({ ...laneInputs, collapsedLanes: ["bo"], labels: { collapseLane, laneCount: (lane: { title: string }, n: number) => `${n} cards in ${lane.title}` } });
+    expect(f.nativeElement.querySelector('[data-card-id="c2"]')).toBeNull();
+    expect(Array.from(f.nativeElement.querySelectorAll(".kanban-board-lane-count")).map((e) => (e as HTMLElement).textContent)).toEqual(["1 cards in Ann", "2 cards in Bo"]);
+    expect(f.nativeElement.querySelector('[data-lane-id="bo"][data-collapsed]')).not.toBeNull();
+    byName(f, "Expand Bo").click();
+    f.detectChanges();
+    expect(f.componentInstance.collapsedLanes()).toEqual([]);
+  });
+
+  test("§8.94 collapsing every lane leaves a board with only headers (no body rows, no crash)", () => {
+    const f = mount({ ...laneInputs, collapsedLanes: ["ann", "bo"] });
+    expect(f.nativeElement.querySelectorAll(".kanban-table-body tr:not([data-lane-row])")).toHaveLength(0);
+    expect(f.nativeElement.querySelectorAll(".kanban-board-lane")).toHaveLength(2);
+  });
+});

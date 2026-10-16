@@ -105,6 +105,10 @@ export type KanbanLabels = {
   movePending?: (cardTitle: string, columnTitle: string) => string;
   /** Announced when an async `moveHandler` rejects and the card goes back: (card title, column title, the rejection). */
   moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
+  /** Accessible name for a lane's collapse toggle: (lane, collapsed). Gates the toggle. */
+  collapseLane?: (lane: KanbanLane, collapsed: boolean) => string;
+  /** Visible card count in a lane header: (lane, how many cards). Gates the count. */
+  laneCount?: (lane: KanbanLane, count: number) => string;
   /** Accessible name of the board's search field. Gates the field. */
   search?: string;
   /** Announced after several selected cards move together: (how many moved, destination column title). */
@@ -283,7 +287,27 @@ export function nextKanbanBoardId(): string {
               <tr class="kanban-board-spacer" aria-hidden="true" [style.height.px]="item.height"><td [attr.colspan]="orderedColumns().length"></td></tr>
             } @else if (item.kind === "lane") {
               <tr lily-kanban-table-row data-lane-row="">
-                <th class="kanban-board-lane" scope="rowgroup" [attr.colspan]="orderedColumns().length" [attr.data-lane-id]="item.lane.id">{{ item.lane.title }}</th>
+                <th
+                  class="kanban-board-lane"
+                  scope="rowgroup"
+                  [attr.colspan]="orderedColumns().length"
+                  [attr.data-lane-id]="item.lane.id"
+                  [attr.data-collapsed]="isLaneCollapsed(item.lane.id) ? '' : null"
+                >
+                  @if (labels().collapseLane; as collapseLane) {
+                    <button
+                      type="button"
+                      class="kanban-board-lane-toggle"
+                      [attr.aria-expanded]="!isLaneCollapsed(item.lane.id)"
+                      [attr.aria-label]="collapseLane(item.lane, isLaneCollapsed(item.lane.id))"
+                      (click)="toggleLane(item.lane)"
+                    >{{ isLaneCollapsed(item.lane.id) ? "▸" : "▾" }}</button>
+                  }
+                  <span class="kanban-board-lane-title">{{ item.lane.title }}</span>
+                  @if (labels().laneCount; as laneCount) {
+                    <span class="kanban-board-lane-count">{{ laneCount(item.lane, laneCardCount(item.lane.id)) }}</span>
+                  }
+                </th>
               </tr>
             } @else {
             @let rowIndex = item.rowIndex;
@@ -466,6 +490,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   readonly columnFooterTemplate = input<TemplateRef<KanbanColumnContext> | undefined>(undefined);
   /** Swimlanes: horizontal bands of rows. Each card sits in the lane named by `card.laneId` (the first lane when absent). A drop into another lane's cell changes the lane: `move` carries `toLaneId`. */
   readonly lanes = input<KanbanLane[] | undefined>(undefined);
+  /** Ids of collapsed swimlanes. Two-way bindable: `[(collapsedLanes)]`. A collapsed lane keeps its header row (and count) but renders no card rows. */
+  readonly collapsedLanes = model<string[]>([]);
   /** Several cards can be selected and moved together: Ctrl/Cmd+click or the `x` key toggles the card under the cursor. */
   readonly selectable = input<boolean>(false);
   /** The selected card ids. Two-way bindable: `[(selected)]`. */
@@ -647,6 +673,25 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     );
   }
 
+  protected isLaneCollapsed(laneId: string): boolean {
+    return this.collapsedLanes().includes(laneId);
+  }
+
+  protected toggleLane(lane: KanbanLane): void {
+    this.collapsedLanes.set(
+      this.isLaneCollapsed(lane.id)
+        ? this.collapsedLanes().filter((id) => id !== lane.id)
+        : [...this.collapsedLanes(), lane.id],
+    );
+  }
+
+  /** Every card in a lane (the search/filter view still applies). */
+  protected laneCardCount(laneId: string): number {
+    let n = 0;
+    for (const column of this.orderedColumns()) n += this.cellCards().get(`${column.id}\u0000${laneId}`)?.length ?? 0;
+    return n;
+  }
+
   // ---- Rows: one band per lane (a single anonymous band without `lanes`) ----
   protected readonly hasLanes = computed(() => (this.lanes()?.length ?? 0) > 0);
   private laneOf(card: KanbanCard): string {
@@ -671,6 +716,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     let rowIndex = 0;
     for (const lane of bands) {
       if (this.hasLanes()) out.push({ kind: "lane", lane, key: `lane:${lane.id}` });
+      // A collapsed lane keeps its header and shows no card rows.
+      if (this.hasLanes() && this.isLaneCollapsed(lane.id)) continue;
       let rows = 0;
       for (const column of this.orderedColumns()) {
         if (this.isCollapsed(column.id)) continue;
