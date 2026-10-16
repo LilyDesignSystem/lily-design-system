@@ -230,3 +230,7 @@ build-time* type-checking of the five nested components — the
 types from each sibling's bare specifier, so a real consumer installing
 `@lilydesignsystem/vue-picker-bar` gets full type safety from their
 own installed copies of the five dependencies.
+
+## Default theme list: 57 themes (2026-10-16)
+
+`DEFAULT_THEMES` has 57 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.

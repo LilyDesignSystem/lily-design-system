@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-10-16
+
+- The default `themes` list now has all 57 root `themes/` slugs (49 general and design-system themes, then the 8 UK and US government themes), up from 45: adds ant-design, atlassian, cappuccino, excel, fluent, github-primer, ibm-carbon, linear, notion, salesforce, sap-fiori and vercel.
+
 ## Unreleased
 
 **Picks up the pickers' new tooltips (no code change).** The composed pickers now each render a `.{helper}-tooltip` element after their icon button and wire it in their own `init*Picker`; `pickerBar` and `initPickerBar` need no change. Verified by the bar's tests: every picker in the bar renders its tooltip and `initPickerBar` wires it.

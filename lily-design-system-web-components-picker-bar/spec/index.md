@@ -231,3 +231,7 @@ existing attributes, markup, and keyboard behaviour for
 and `<lily-share-picker>` are unchanged. It is additive: a seventh
 package in this catalog, built on top of the other six the same way a
 real consumer would compose them.
+
+## Default theme list: 57 themes (2026-10-16)
+
+`DEFAULT_THEMES` has 57 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.

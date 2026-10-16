@@ -192,3 +192,7 @@ source — the same way a real consumer composing them by hand would;
 the catalog `build.js` marks each of a package's own `dependencies` as
 external so the built `dist/` keeps those bare imports rather than
 bundling or erroring on them.
+
+## Default theme list: 57 themes (2026-10-16)
+
+`DEFAULT_THEMES` has 57 slugs in the same order as the Svelte canonical: the 49 general and design-system themes alphabetically, then the 8 UK and US government themes alphabetically. The first government theme is at index 49.

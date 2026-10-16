@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-10-16
+
+- The default `themes` list now has all 57 root `themes/` slugs (49 general and design-system themes, then the 8 UK and US government themes), up from 45: adds ant-design, atlassian, cappuccino, excel, fluent, github-primer, ibm-carbon, linear, notion, salesforce, sap-fiori and vercel.
+
 ## 0.3.0 — 2026-10-07
 
 **Added: an optional leftmost link picker (minor, additive).** New `links` (page links the app defines) and `labels.link` render a
