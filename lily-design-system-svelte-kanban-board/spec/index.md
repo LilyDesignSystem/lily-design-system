@@ -349,3 +349,25 @@ Tests §8.63–§8.83. The consumer's list of what was still missing; a card edi
 ## 16. Collapsible lanes (0.5.0, 2026-10-16)
 
 Tests §8.91–§8.94. `collapsedLanes` (bindable ids) collapses swimlanes the way `collapsedColumns` collapses columns: the lane's header row stays (`data-collapsed` on `.kanban-board-lane`), its card rows are not rendered, so they leave the keyboard grid and cannot be dropped into. `labels.collapseLane(lane, collapsed)` gates a `.kanban-board-lane-toggle` button (`aria-expanded`) in the header; `labels.laneCount(lane, count)` gates a `.kanban-board-lane-count` with the lane's shown card count (collapsed or not). The lane title is in `.kanban-board-lane-title`; the header's own text node is no longer the bare title.
+
+## 17. Typed fields, inline editing, export, hot-path caching (0.6.0, 2026-10-16)
+
+Tests §8.95–§8.108. The data grid's cell types and export, applied to cards.
+
+- **Typed fields**: `fields` is a list of `{ id, header, type?, options?, numberFormat?, dateFormat?, parse?, exportValue?, exportable?, editable?, editLabel? }`, read from `card.values[id]`.
+  `type` is a data-grid cell type (`text`, `number`, `link`, `date`, `time`, `time-zone`, `select`, `radio`, `person`, `file`, `rollup`, `formula`); `resolveColumn` fills in the
+  type's `format`, `compare` and `exportValue`, once per `fields` / `locale` change. With no `locale` a value shows as stored. A field shows as
+  `<span class="kanban-board-card-field" data-field data-type>` holding `.kanban-board-card-field-name` (the header) and the value; a read-only card omits empty fields.
+  A card `snippet` replaces all of this, as it replaces the subtitle and badges.
+- **Inline editing**: `onFieldEdit({ cardId, fieldId, value, previous })` turns it on (and not `readonly`, not a locked card, not `editable: false`). `text`, `number`, `link`, `date`, `time`, `select` and
+  `radio` fields edit; the others display and export only. The value becomes a `.kanban-board-field-button` (`tabindex="-1"`, named by the header plus the value); clicking it, or **F2** on the card
+  (first editable field), opens `.kanban-board-field-editor` (an `<input>` of the type, or a `<select>` of `options`). **Enter** commits, **Escape** cancels, blur commits.
+  The editor owns its keys (they never reach the grid), and while an IME is composing (`isComposing`, or `keyCode` 229) Enter and Escape belong to the IME. A value that does not fit the
+  type (`isInvalidForType`) is refused: the editor stays open and `labels.editInvalid` is announced. An unchanged value reports nothing. `labels.editAnnouncement(card, header, text)`.
+  After commit or cancel focus returns to the card.
+- **Export**: `labels.exportCsv` / `exportTsv` / `exportExcel` each gate a `.kanban-board-export-button` (`data-kanban-export-format`) inside a `.kanban-board-export` group named by `labels.export`;
+  none renders without `labels.exportHeaders` (there is no English header). The file holds one row per card, column by column in display order: title, column, then — when given — lane (with `lanes`),
+  subtitle, badges (`; ` joined) and flag, then every `exportable` field (typed values stay numbers, booleans and dates; the rest is the text shown). `exportScope`: `"view"` (default, what the search and filter leave)
+  or `"selected"`. `exportFilename` is the base name. Spreadsheet-formula text is defused. `onExport({ format, filename, cardCount, blob })` may return `false` to take over the download;
+  otherwise the file is saved and `labels.exportAnnouncement(format, cardCount, filename)` is announced. The buttons are disabled with nothing to export. `export-data.ts` and `cell-types.ts` are copies of the data grid's.
+- **Hot path**: selection is a `Set`, and a row's slot index comes from a map built once per layout, so a render does no per-cell scan of `selected` or `slots`.

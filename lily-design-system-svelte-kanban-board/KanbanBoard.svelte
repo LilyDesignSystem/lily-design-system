@@ -9,6 +9,23 @@
         KanbanTableTH,
         Listbox,
     } from "@lilydesignsystem/svelte-headless";
+    import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { isInvalidForType, resolveColumn, type DataGridCellType, type DataGridOption, type TypedColumn } from "./cell-types";
+
+    /**
+     * A typed field a card carries (an owner, a due date, an estimate): a bundle of display, sort and export defaults from
+     * the data grid's cell types, read from `card.values[id]`. Plain data; the board shows it as text.
+     */
+    export type KanbanField = Omit<TypedColumn, "type"> & {
+        /** Visible name of the field; also the header of its export column. */
+        header: string;
+        /** The kind of value: `text`, `number`, `link`, `date`, `time`, `select` or `radio` are editable here; the others display and export only. */
+        type?: DataGridCellType;
+        /** Set `false` to keep this field out of an export. */
+        exportable?: boolean;
+        /** Accessible name of the field's editor. Defaults to `header`. */
+        editLabel?: string;
+    };
 
     export type KanbanColumn = {
         /** Stable column identifier. */
@@ -46,6 +63,8 @@
         draggable?: boolean;
         /** The swimlane this card sits in (an id from `lanes`); the first lane when absent. */
         laneId?: string;
+        /** Values of the board's `fields`, by field id. */
+        values?: Record<string, unknown>;
     };
 
     /** A swimlane: a horizontal band of rows (an owner, an account) that cards are grouped into. */
@@ -103,7 +122,27 @@
         undoManyAnnouncement?: (count: number) => string;
         /** Announced after a column moves: (column title, 1-based position, how many columns). */
         columnMoveAnnouncement?: (columnTitle: string, position: number, count: number) => string;
+        /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+        export?: string;
+        /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
+        exportCsv?: string;
+        exportTsv?: string;
+        exportExcel?: string;
+        /** Announced after an export: (format, how many cards, file name). */
+        exportAnnouncement?: (format: ExportFormat, cardCount: number, filename: string) => string;
+        /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
+        exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
+        /** Announced after a field edit: (card title, field header, the new text). */
+        editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
+        /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
+        editInvalid?: (cardTitle: string, fieldHeader: string) => string;
     };
+
+    /** What `onExport` receives. Return `false` to take over the download. */
+    export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
+
+    /** What `onFieldEdit` receives. */
+    export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
 
     export type Props = {
         /** Accessible name for the board, passed through to KanbanTable. */
@@ -169,6 +208,18 @@
         readonly?: boolean;
         /** User-facing strings. See KanbanLabels — presence gates each control. */
         labels?: KanbanLabels;
+        /** Typed fields shown under each card's title, read from `card.values`. Editable types edit in place (click the value, or F2 on the card for the first editable field). */
+        fields?: KanbanField[];
+        /** Locale for number and date fields. Never defaulted. */
+        locale?: string;
+        /** Called with each accepted field edit. The consumer updates `cards`. A field is editable only when this is set (and the board is not `readonly`). */
+        onFieldEdit?: (edit: KanbanFieldEdit) => void;
+        /** Base of an export's file name (`.csv`, `.tsv` or `.xlsx` is added). Default `"kanban-board"`. */
+        exportFilename?: string;
+        /** What an export holds: `"view"` (default) is every card the search and filter leave, column by column; `"selected"` is only the selected cards. */
+        exportScope?: "view" | "selected";
+        /** Called before the download with the finished file. Return `false` to skip the built-in download. */
+        onExport?: (info: KanbanExport) => boolean | void;
         /** Extra CSS class on the root. */
         class?: string;
         [key: string]: unknown;
@@ -220,6 +271,12 @@
         onAddCard,
         readonly = false,
         labels = {},
+        fields = undefined,
+        locale = undefined,
+        onFieldEdit = undefined,
+        exportFilename: exportBase = "kanban-board",
+        exportScope = "view",
+        onExport = undefined,
         ...restProps
     }: Props & {
         card?: Snippet<[KanbanCardContext]>;
@@ -366,7 +423,15 @@
     // ---- Windowing (virtualize) ----
     let scrollTop = $state(0);
     let scrollEl: HTMLDivElement | undefined = $state();
-    const slotIndexOfRow = (rowIndex: number) => slots.findIndex((x) => x.kind === "row" && x.rowIndex === rowIndex);
+    // Row index → slot index, built once per layout so a render does not scan `slots` for every row.
+    const slotIndexByRow = $derived.by(() => {
+        const map = new Map<number, number>();
+        slots.forEach((x, i) => {
+            if (x.kind === "row") map.set(x.rowIndex, i);
+        });
+        return map;
+    });
+    const slotIndexOfRow = (rowIndex: number) => slotIndexByRow.get(rowIndex) ?? -1;
     type RenderItem = { kind: "spacer"; height: number; key: string } | { kind: "slot"; slot: Slot; key: string };
     /** What renders: the slots in view plus the roving tab stop's row (so the grid never leaves the tab order), with spacers for the gaps. */
     const renderItems = $derived.by(() => {
@@ -403,6 +468,147 @@
 
     function announce(message: string | undefined): void {
         if (message) statusMessage = message;
+    }
+
+    // ---------------------------------------------------------------
+    // Typed fields, inline editing, export
+    // ---------------------------------------------------------------
+
+    // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per card or keystroke.
+    const resolvedFields = $derived((fields ?? []).map((f) => resolveColumn(f as KanbanField & TypedColumn, locale) as KanbanField & TypedColumn));
+    const EDITABLE_TYPES = new Set(["text", "number", "link", "date", "time", "select", "radio"]);
+    const isFieldEditable = (f: KanbanField, card: KanbanCard) =>
+        !!onFieldEdit && !readonly && !card.locked && f.editable !== false && EDITABLE_TYPES.has(f.type ?? "text");
+    const fieldValue = (f: KanbanField & TypedColumn, card: KanbanCard): unknown => (f.accessor ? f.accessor(card.values ?? {}) : (card.values ?? {})[f.id]);
+    const fieldText = (f: KanbanField & TypedColumn, card: KanbanCard): string => {
+        const value = fieldValue(f, card);
+        if (value === null || value === undefined || value === "") return "";
+        const row = card.values ?? {};
+        return f.format ? f.format(value, row) : String(value);
+    };
+    const editorKind = (f: KanbanField): string => f.editor ?? f.type ?? "text";
+
+    /** The field being edited, if any: the draft is the editor's text. */
+    let editing = $state<{ cardId: string; fieldId: string; draft: string } | null>(null);
+    let committing = false;
+
+    function draftOf(f: KanbanField & TypedColumn, card: KanbanCard): string {
+        const value = fieldValue(f, card);
+        if (value === null || value === undefined) return "";
+        if (f.type === "link") return typeof value === "string" ? value : String((value as { href?: string }).href ?? "");
+        return String(value);
+    }
+
+    async function startFieldEdit(card: KanbanCard, f: KanbanField & TypedColumn): Promise<void> {
+        if (!isFieldEditable(f, card)) return;
+        closeMoveMenu(card.id, false);
+        editing = { cardId: card.id, fieldId: f.id, draft: draftOf(f, card) };
+        await tick();
+        const editor = rootEl?.querySelector<HTMLInputElement>(".kanban-board-field-editor");
+        editor?.focus({ preventScroll: true });
+        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+    }
+
+    function parseDraft(f: KanbanField & TypedColumn, raw: string | number | null): unknown {
+        // A number input's bound value arrives as a number (or null when empty), whatever the draft was typed as.
+        const draft = raw === null || raw === undefined ? "" : String(raw);
+        if (f.parse) return f.parse(draft, {});
+        const kind = editorKind(f);
+        if (kind === "number") return draft.trim() === "" ? null : Number(draft);
+        if (kind === "date" || kind === "time" || kind === "select" || kind === "radio") return draft === "" ? null : draft;
+        return draft;
+    }
+
+    /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. */
+    function commitFieldEdit(): void {
+        if (!editing || committing) return;
+        const { cardId, fieldId, draft } = editing;
+        const card = effectiveCards.find((c) => c.id === cardId);
+        const f = resolvedFields.find((x) => x.id === fieldId);
+        if (!card || !f) {
+            editing = null;
+            return;
+        }
+        const value = parseDraft(f, draft);
+        if (isInvalidForType(f, value)) {
+            announce(labels.editInvalid?.(cardLabel(card), f.header));
+            return;
+        }
+        committing = true;
+        const previous = fieldValue(f, card);
+        editing = null;
+        if (value !== previous) {
+            onFieldEdit?.({ cardId, fieldId, value, previous });
+            announce(labels.editAnnouncement?.(cardLabel(card), f.header, value === null ? "" : String(value)));
+        }
+        committing = false;
+        void focusCard(cardId);
+    }
+
+    function cancelFieldEdit(): void {
+        if (!editing) return;
+        const { cardId } = editing;
+        editing = null;
+        void focusCard(cardId);
+    }
+
+    function onEditorKeydown(event: KeyboardEvent): void {
+        // The editor owns its keys. While an IME composes, Enter and Escape belong to the IME: some browsers
+        // report the confirming Enter with `isComposing` already false but keyCode 229.
+        event.stopPropagation();
+        if (event.isComposing || event.keyCode === 229) return;
+        if (event.key === "Enter") {
+            event.preventDefault();
+            commitFieldEdit();
+        } else if (event.key === "Escape") {
+            event.preventDefault();
+            cancelFieldEdit();
+        }
+    }
+
+    const exportCards = $derived.by(() => {
+        const out: KanbanCard[] = [];
+        for (const column of columns) for (const card of shownByColumn.get(column.id) ?? []) if (exportScope !== "selected" || isSelected(card.id)) out.push(card);
+        return out;
+    });
+    const exportFieldList = $derived(resolvedFields.filter((f) => f.exportable !== false));
+    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
+
+    /** One field for an export: typed values stay typed, everything else is the text the board shows. */
+    function exportFieldCell(f: KanbanField & TypedColumn, card: KanbanCard): unknown {
+        const row = card.values ?? {};
+        if (f.exportValue) return f.exportValue(row);
+        const value = fieldValue(f, card);
+        if (value === null || value === undefined) return null;
+        if (typeof value === "number" || typeof value === "boolean" || value instanceof Date) return value;
+        return fieldText(f, card);
+    }
+
+    function runExport(format: ExportFormat): void {
+        const h = labels.exportHeaders;
+        if (!h) return;
+        const headers = [h.title, h.column];
+        if (hasLanes && h.lane) headers.push(h.lane);
+        if (h.subtitle) headers.push(h.subtitle);
+        if (h.badges) headers.push(h.badges);
+        if (h.flag) headers.push(h.flag);
+        for (const f of exportFieldList) headers.push(f.header);
+        const columnTitle = new Map(columnsProp.map((c) => [c.id, c.title]));
+        const laneTitle = new Map((lanes ?? []).map((l) => [l.id, l.title]));
+        const rows = exportCards.map((card) => {
+            const cells: unknown[] = [cardLabel(card), columnTitle.get(card.columnId) ?? card.columnId];
+            if (hasLanes && h.lane) cells.push(laneTitle.get(laneOf(card)) ?? "");
+            if (h.subtitle) cells.push(card.subtitle ?? null);
+            if (h.badges) cells.push((card.badges ?? []).join("; "));
+            if (h.flag) cells.push(card.flag ?? null);
+            for (const f of exportFieldList) cells.push(exportFieldCell(f, card));
+            return cells;
+        });
+        const filename = exportFilename(exportBase, format);
+        const blob = exportBlob({ headers, rows }, format, { sheetName: exportBase });
+        if (onExport?.({ format, filename, cardCount: rows.length, blob }) === false) return;
+        downloadBlob(blob, filename);
+        announce(labels.exportAnnouncement?.(format, rows.length, filename));
     }
 
     // ---------------------------------------------------------------
@@ -464,7 +670,8 @@
     }
 
     // ---- Selection: several cards move together ----
-    const isSelected = (cardId: string) => selected.includes(cardId);
+    const selectedSet = $derived(new Set(selected));
+    const isSelected = (cardId: string) => selectedSet.has(cardId);
 
     function toggleSelected(cardId: string): void {
         selected = isSelected(cardId) ? selected.filter((id) => id !== cardId) : [...selected, cardId];
@@ -730,6 +937,7 @@
         // The open move menu owns its own keys; letting them bubble here moved the
         // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
         if (target.closest(".kanban-board-move-list")) return;
+        if (target.closest(".kanban-board-field-editor")) return;
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
@@ -767,6 +975,16 @@
             if (card && !readonly) {
                 event.preventDefault();
                 toggleSelected(card.id);
+            }
+            return;
+        }
+        if (event.key === "F2" && onFieldEdit) {
+            // F2: edit the card's first editable field (the keyboard twin of clicking its value).
+            const card = cardAt(activeCol, activeRow);
+            const first = card ? resolvedFields.find((f) => isFieldEditable(f, card)) : undefined;
+            if (card && first) {
+                event.preventDefault();
+                void startFieldEdit(card, first);
             }
             return;
         }
@@ -811,6 +1029,19 @@
 <div bind:this={rootEl} class={`kanban-board ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
     {#if labels.search}
         <input type="search" class="kanban-board-search" aria-label={labels.search} bind:value={search} />
+    {/if}
+    {#if hasExportButtons}
+        <div class="kanban-board-export" role="group" aria-label={labels.export}>
+            {#if labels.exportCsv}
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="csv" disabled={exportCards.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
+            {/if}
+            {#if labels.exportTsv}
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="tsv" disabled={exportCards.length === 0} onclick={() => runExport("tsv")}>{labels.exportTsv}</button>
+            {/if}
+            {#if labels.exportExcel}
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="xlsx" disabled={exportCards.length === 0} onclick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+            {/if}
+        </div>
     {/if}
     {#if undoable && labels.undo && !readonly}
         <button type="button" class="kanban-board-undo-button" disabled={undoStack.length === 0} onclick={() => void undo()}>{labels.undo}</button>
@@ -952,6 +1183,48 @@
                                         <span class="kanban-board-card-badges">
                                             {#each card.badges as badge (badge)}
                                                 <span class="kanban-board-card-badge">{badge}</span>
+                                            {/each}
+                                        </span>
+                                    {/if}
+                                    {#if resolvedFields.length > 0}
+                                        <span class="kanban-board-card-fields">
+                                            {#each resolvedFields as f (f.id)}
+                                                {@const text = fieldText(f, card)}
+                                                {@const editable = isFieldEditable(f, card)}
+                                                {@const nameId = `${baseId}-fn-${card.id}-${f.id}`}
+                                                {@const valueId = `${baseId}-fv-${card.id}-${f.id}`}
+                                                {#if editing && editing.cardId === card.id && editing.fieldId === f.id}
+                                                    <span class="kanban-board-card-field" data-field={f.id} data-editing="">
+                                                        <span class="kanban-board-card-field-name" id={nameId}>{f.header}</span>
+                                                        {#if editorKind(f) === "select" || editorKind(f) === "radio"}
+                                                            <select class="kanban-board-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editing.draft} onkeydown={onEditorKeydown} onchange={commitFieldEdit} onblur={commitFieldEdit}>
+                                                                <option value=""></option>
+                                                                {#each (f.options ?? []) as option (option.id)}
+                                                                    <option value={option.id} disabled={option.disabled}>{option.label}</option>
+                                                                {/each}
+                                                            </select>
+                                                        {:else}
+                                                            <input
+                                                                class="kanban-board-field-editor"
+                                                                aria-label={f.editLabel ?? f.header}
+                                                                type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
+                                                                inputmode={editorKind(f) === "number" ? "decimal" : undefined}
+                                                                bind:value={editing.draft}
+                                                                onkeydown={onEditorKeydown}
+                                                                onblur={commitFieldEdit}
+                                                            />
+                                                        {/if}
+                                                    </span>
+                                                {:else if text !== "" || editable}
+                                                    <span class="kanban-board-card-field" data-field={f.id} data-type={f.type ?? "text"}>
+                                                        <span class="kanban-board-card-field-name" id={nameId}>{f.header}</span>
+                                                        {#if editable}
+                                                            <button type="button" class="kanban-board-field-button" id={valueId} tabindex="-1" aria-labelledby={`${nameId} ${valueId}`} onclick={() => void startFieldEdit(card, f)}>{text}</button>
+                                                        {:else}
+                                                            <span class="kanban-board-card-field-value">{text}</span>
+                                                        {/if}
+                                                    </span>
+                                                {/if}
                                             {/each}
                                         </span>
                                     {/if}

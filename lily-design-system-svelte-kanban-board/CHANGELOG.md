@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-16
+
+- Added typed card fields (`fields`, `card.values`, `locale`) using the data grid's cell types, shown under the title.
+- Added inline field editing (`onFieldEdit`): click a value or press F2; typed editors, Enter/Escape, IME-safe, refused when invalid for the type, announced.
+- Added export to CSV, TSV and Excel (`labels.exportCsv` etc., `labels.exportHeaders`, `exportScope`, `exportFilename`, `onExport`); the export is dependency-free and defuses formula text.
+- Selection and row lookup are O(1) per cell.
+
 ## 0.5.0 — 2026-10-16
 
 - Added collapsible swimlanes: `collapsedLanes` (bindable); `labels.collapseLane(lane, collapsed)` gates a toggle with `aria-expanded` in the lane header; a collapsed lane keeps its header and renders no card rows; `labels.laneCount(lane, count)` shows the lane's card count. The lane title is now wrapped in `.kanban-board-lane-title`.
