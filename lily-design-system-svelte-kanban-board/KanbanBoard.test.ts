@@ -1105,6 +1105,16 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         expect(document.querySelector(".kanban-board-move-list")).toBeNull();
     });
 
+    test("§8.109 Tab commits and moves to the card's next editable field", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, onFieldEdit } });
+        await fireEvent.click(cellOf("c1").querySelectorAll<HTMLElement>(".kanban-board-field-button")[0]);
+        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, { key: "Tab" });
+        expect(document.querySelector<HTMLInputElement>("input.kanban-board-field-editor")!.type).toBe("number");
+        await fireEvent.keyDown(document.querySelector(".kanban-board-field-editor")!, { key: "Tab", shiftKey: true });
+        expect(document.querySelector("select.kanban-board-field-editor")).not.toBeNull();
+    });
+
     test("§8.103 IME: Enter while composing does not commit", async () => {
         const onFieldEdit = vi.fn();
         render(KanbanBoard, { props: { ...base, fields: [{ id: "n", header: "N" }], cards: [{ id: "c1", columnId: "todo", title: "One", values: { n: "a" } }], onFieldEdit } });

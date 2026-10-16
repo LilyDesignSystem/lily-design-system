@@ -520,19 +520,19 @@
     }
 
     /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. */
-    function commitFieldEdit(): void {
-        if (!editing || committing) return;
+    function commitFieldEdit(refocus = true): boolean {
+        if (!editing || committing) return true;
         const { cardId, fieldId, draft } = editing;
         const card = effectiveCards.find((c) => c.id === cardId);
         const f = resolvedFields.find((x) => x.id === fieldId);
         if (!card || !f) {
             editing = null;
-            return;
+            return true;
         }
         const value = parseDraft(f, draft);
         if (isInvalidForType(f, value)) {
             announce(labels.editInvalid?.(cardLabel(card), f.header));
-            return;
+            return false;
         }
         committing = true;
         const previous = fieldValue(f, card);
@@ -542,7 +542,8 @@
             announce(labels.editAnnouncement?.(cardLabel(card), f.header, value === null ? "" : String(value)));
         }
         committing = false;
-        void focusCard(cardId);
+        if (refocus) void focusCard(cardId);
+        return true;
     }
 
     function cancelFieldEdit(): void {
@@ -563,6 +564,18 @@
         } else if (event.key === "Escape") {
             event.preventDefault();
             cancelFieldEdit();
+        } else if (event.key === "Tab" && editing) {
+            // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
+            const card = effectiveCards.find((c) => c.id === editing!.cardId);
+            const editable = card ? resolvedFields.filter((x) => isFieldEditable(x, card)) : [];
+            const at = editable.findIndex((x) => x.id === editing!.fieldId);
+            const next = editable[at + (event.shiftKey ? -1 : 1)];
+            if (card && next) {
+                event.preventDefault();
+                if (commitFieldEdit(false)) void startFieldEdit(card, next);
+            } else {
+                commitFieldEdit(false);
+            }
         }
     }
 
@@ -1197,7 +1210,7 @@
                                                     <span class="kanban-board-card-field" data-field={f.id} data-editing="">
                                                         <span class="kanban-board-card-field-name" id={nameId}>{f.header}</span>
                                                         {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                                            <select class="kanban-board-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editing.draft} onkeydown={onEditorKeydown} onchange={commitFieldEdit} onblur={commitFieldEdit}>
+                                                            <select class="kanban-board-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editing.draft} onkeydown={onEditorKeydown} onchange={() => commitFieldEdit()} onblur={() => commitFieldEdit(false)}>
                                                                 <option value=""></option>
                                                                 {#each (f.options ?? []) as option (option.id)}
                                                                     <option value={option.id} disabled={option.disabled}>{option.label}</option>
@@ -1211,7 +1224,7 @@
                                                                 inputmode={editorKind(f) === "number" ? "decimal" : undefined}
                                                                 bind:value={editing.draft}
                                                                 onkeydown={onEditorKeydown}
-                                                                onblur={commitFieldEdit}
+                                                                onblur={() => commitFieldEdit(false)}
                                                             />
                                                         {/if}
                                                     </span>

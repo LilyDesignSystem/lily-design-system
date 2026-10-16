@@ -980,7 +980,7 @@
                         <GanttTableTD data-field={f.id} data-type={f.type ?? "text"} data-align={f.align}>
                             {#if editingField && editingField.taskId === row.task.id && editingField.fieldId === f.id}
                                 {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                    <select class="gantt-chart-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editingField.draft} onkeydown={onFieldEditorKeydown} onchange={() => { if (commitFieldEdit()) void focusActiveCell(); }} onblur={commitFieldEdit}>
+                                    <select class="gantt-chart-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editingField.draft} onkeydown={onFieldEditorKeydown} onchange={() => { if (commitFieldEdit()) void focusActiveCell(); }} onblur={() => void commitFieldEdit()}>
                                         <option value=""></option>
                                         {#each (f.options ?? []) as option (option.id)}
                                             <option value={option.id} disabled={option.disabled}>{option.label}</option>
@@ -994,7 +994,7 @@
                                         inputmode={editorKind(f) === "number" ? "decimal" : undefined}
                                         bind:value={editingField.draft}
                                         onkeydown={onFieldEditorKeydown}
-                                        onblur={commitFieldEdit}
+                                        onblur={() => void commitFieldEdit()}
                                     />
                                 {/if}
                             {:else if editable}
