@@ -47,10 +47,10 @@ export type GanttTask = {
   id: string;
   /** Visible task label. */
   label: string;
-  /** ISO date (`YYYY-MM-DD`), inclusive. */
-  start: string;
+  /** ISO date (`YYYY-MM-DD`), inclusive. Absent (with `end`) means the task is unscheduled: its row shows no bar (`data-unscheduled`) and its edit region sets the dates. */
+  start?: string;
   /** ISO date (`YYYY-MM-DD`), inclusive. Equal to `start` means a milestone. */
-  end: string;
+  end?: string;
   /** 0-100. Rendering the fill is the consumer's own CSS. */
   percentComplete?: number;
   /** Another task's id; builds the row hierarchy. */
@@ -114,6 +114,10 @@ export type GanttLabels = {
     varianceDays: number,
   ) => string;
   collapseButton?: (task: GanttTask, collapsed: boolean) => string;
+  /** Accessible name for the button that expands every parent task. Gates the button. */
+  expandAll?: string;
+  /** Accessible name for the button that collapses every parent task. Gates the button. */
+  collapseAll?: string;
 };
 
 /** Mirrors the observed attributes / properties for typing convenience. */
@@ -228,7 +232,7 @@ export function flattenTasks(tasks: GanttTask[], collapsed: ReadonlySet<string>)
 
 /** A parent's start/end are derived (min start / max end of descendants), never its own data. */
 export function effectiveRange(task: GanttTask, allTasks: GanttTask[]): { start: string; end: string } {
-  return effectiveRanges(allTasks).get(task.id) ?? { start: task.start, end: task.end };
+  return effectiveRanges(allTasks).get(task.id) ?? { start: task.start ?? "", end: task.end ?? "" };
 }
 
 /**
@@ -251,12 +255,13 @@ export function effectiveRanges(tasks: GanttTask[]): Map<string, { start: string
     const known = ranges.get(task.id);
     if (known) return known;
     const children = childrenOf.get(task.id) ?? [];
-    if (children.length === 0 || onWalk.has(task.id)) return { start: task.start, end: task.end };
+    if (children.length === 0 || onWalk.has(task.id)) return { start: task.start ?? "", end: task.end ?? "" };
     onWalk.add(task.id);
     let start = "";
     let end = "";
     for (const child of children) {
       const r = visit(child);
+      if (!r.start) continue; // an unscheduled child does not shape its parent's span
       if (!start || compareISO(r.start, start) < 0) start = r.start;
       if (!end || compareISO(r.end, end) > 0) end = r.end;
     }
@@ -327,6 +332,7 @@ export class GanttChart extends HTMLElement {
   // ---- Internal state ----
   #statusMessage = "";
   #collapsed = new Set<string>();
+  #onCollapsedTaskIdsChange: ((collapsedTaskIds: string[]) => void) | undefined;
   #focusedRow = 0;
   #focusedCol = 0;
   #editingTaskId: string | null = null;
@@ -386,6 +392,23 @@ export class GanttChart extends HTMLElement {
   }
   set onTaskSelect(fn: ((taskId: string | undefined) => void) | undefined) {
     this.#onTaskSelect = fn;
+  }
+
+  /** Ids of collapsed parent tasks; the collapse buttons, `labels.expandAll` and `labels.collapseAll` change it. */
+  get collapsedTaskIds(): string[] {
+    return [...this.#collapsed];
+  }
+  set collapsedTaskIds(v: string[]) {
+    this.#collapsed = new Set(Array.isArray(v) ? v : []);
+    this.#render();
+  }
+
+  /** Property-only. Called with the collapsed ids when the user changes them (the `collapsechange` event also fires). */
+  get onCollapsedTaskIdsChange(): ((collapsedTaskIds: string[]) => void) | undefined {
+    return this.#onCollapsedTaskIdsChange;
+  }
+  set onCollapsedTaskIdsChange(fn: ((collapsedTaskIds: string[]) => void) | undefined) {
+    this.#onCollapsedTaskIdsChange = fn;
   }
 
   /** Extra attributes on each task's row (for example `data-team`); merged after Lily's own. */
@@ -496,7 +519,7 @@ export class GanttChart extends HTMLElement {
     hasChildren: boolean,
     ranges: Map<string, { start: string; end: string }>,
   ): { start: string; end: string } {
-    return hasChildren ? (ranges.get(task.id) ?? task) : { start: task.start, end: task.end };
+    return hasChildren ? (ranges.get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
   }
 
   /** Editing needs every label its controls show; an unnamed Save is worse than none. */
@@ -548,11 +571,32 @@ export class GanttChart extends HTMLElement {
   // Hierarchy
   // ---------------------------------------------------------------
 
+  #reportCollapsed(): void {
+    const ids = [...this.#collapsed];
+    this.#onCollapsedTaskIdsChange?.(ids);
+    this.dispatchEvent(new CustomEvent<string[]>("collapsechange", { detail: ids, bubbles: true, composed: true }));
+  }
+
+  /** Every task that has children (the ones a collapse button applies to). */
+  #parentIds(): string[] {
+    return Array.from(new Set(this.#tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) =>
+      this.#tasks.some((t) => t.id === id),
+    );
+  }
+
+  #setAllCollapsed(value: boolean, focusClass: string): void {
+    this.#collapsed = new Set(value ? this.#parentIds() : []);
+    this.#reportCollapsed();
+    this.#render();
+    this.querySelector<HTMLElement>(`.${focusClass}`)?.focus({ preventScroll: true });
+  }
+
   #toggleCollapse(taskId: string): void {
     const next = new Set(this.#collapsed);
     if (next.has(taskId)) next.delete(taskId);
     else next.add(taskId);
     this.#collapsed = next;
+    this.#reportCollapsed();
     this.#render();
     // The rebuild replaced the button that had focus; give focus to its
     // successor rather than letting it fall to <body>.
@@ -573,8 +617,8 @@ export class GanttChart extends HTMLElement {
     if (!this.#canEdit()) return;
     if (this.#editingTaskId) this.#closeEditRow();
     this.#editingTaskId = task.id;
-    this.#editStart = task.start;
-    this.#editEnd = task.end;
+    this.#editStart = task.start ?? "";
+    this.#editEnd = task.end ?? "";
     this.#insertEditRow(task);
   }
 
@@ -652,6 +696,7 @@ export class GanttChart extends HTMLElement {
     cancelButton.textContent = this.#labels.cancelLabel ?? "";
     cancelButton.addEventListener("click", () => this.#cancelEdit());
     td.appendChild(cancelButton);
+    syncSave(); // an unscheduled task opens with both dates empty
 
     tr.appendChild(td);
     taskRow.insertAdjacentElement("afterend", tr);
@@ -731,6 +776,7 @@ export class GanttChart extends HTMLElement {
   }
 
   #shiftTask(task: GanttTask, delta: 1 | -1, endOnly: boolean): void {
+    if (!task.start || !task.end) return; // an unscheduled task has nothing to shift
     const columns = this.#gridColumns();
     if (endOnly) {
       const target = columns[this.#columnIndexOf(task.end) + delta];
@@ -757,7 +803,7 @@ export class GanttChart extends HTMLElement {
     const task = this.#tasks.find((t) => t.id === taskId);
     const edge = this.#resizingEdge;
     this.#resizingEdge = null;
-    if (!task) return;
+    if (!task || !task.start || !task.end) return;
     if (edge) {
       // Resizing moves one edge to the dropped column; the other stays, and the range cannot invert.
       const start = edge === "start" ? column.start : task.start;
@@ -898,6 +944,26 @@ export class GanttChart extends HTMLElement {
     if (this.readonly) root.setAttribute("data-readonly", "");
     passThroughAttributes(this, root);
 
+    const parentIds = this.#parentIds();
+    if (parentIds.length > 0 && (this.#labels.expandAll || this.#labels.collapseAll)) {
+      const group = document.createElement("div");
+      group.className = "gantt-chart-collapse-all";
+      group.setAttribute("role", "group");
+      group.setAttribute("aria-label", this.label);
+      const mkAll = (cls: string, text: string, disabled: boolean, value: boolean) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = cls;
+        b.textContent = text;
+        b.disabled = disabled;
+        b.addEventListener("click", () => this.#setAllCollapsed(value, cls));
+        group.appendChild(b);
+      };
+      if (this.#labels.expandAll) mkAll("gantt-chart-expand-all-button", this.#labels.expandAll, this.#collapsed.size === 0, false);
+      if (this.#labels.collapseAll) mkAll("gantt-chart-collapse-all-button", this.#labels.collapseAll, parentIds.every((id) => this.#collapsed.has(id)), true);
+      root.appendChild(group);
+    }
+
     if (this.#labels.zoomIn || this.#labels.zoomOut) {
       const zoomIndex = GanttChart.#ZOOM_ORDER.indexOf(this.timeUnit);
       const group = document.createElement("div");
@@ -991,6 +1057,7 @@ export class GanttChart extends HTMLElement {
       if (row.task.critical) tr.setAttribute("data-critical", "");
       if (row.task.slack != null) tr.setAttribute("data-slack", String(row.task.slack));
       tr.dataset.taskId = row.task.id;
+      if (!row.hasChildren && (!row.task.start || !row.task.end)) tr.setAttribute("data-unscheduled", "");
       if (this.selectedTaskId === row.task.id) {
         tr.setAttribute("aria-selected", "true");
         tr.setAttribute("data-selected", "");
@@ -1038,7 +1105,7 @@ export class GanttChart extends HTMLElement {
       tr.appendChild(rowHeader);
 
       columns.forEach((column, colIndex) => {
-        const inRange = rangesOverlap(column.start, column.end, start, end);
+        const inRange = !!start && !!end && rangesOverlap(column.start, column.end, start, end);
         const isMilestone = inRange && start === end;
         const isToday = today != null && rangesOverlap(column.start, column.end, today, today);
         const isLeadingCell = inRange && rangesOverlap(column.start, column.end, start, start);
