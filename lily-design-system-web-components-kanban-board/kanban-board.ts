@@ -113,6 +113,10 @@ export type KanbanLabels = {
   movePending?: (cardTitle: string, columnTitle: string) => string;
   /** Announced when an async `moveHandler` rejects and the card goes back: (card title, column title, the rejection). */
   moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
+  /** Accessible name for a lane's collapse toggle: (lane, collapsed). Gates the toggle. */
+  collapseLane?: (lane: KanbanLane, collapsed: boolean) => string;
+  /** Visible card count in a lane header: (lane, how many cards). Gates the count. */
+  laneCount?: (lane: KanbanLane, count: number) => string;
   /** Accessible name of the board's search field. Gates the field. */
   search?: string;
   /** Announced after several selected cards move together: (how many moved, destination column title). */
@@ -197,6 +201,8 @@ export type KanbanBoardProps = {
   collapsedColumns?: string[];
   /** Property-only. Called with the new collapsed ids when a column's toggle is pressed. */
   onCollapsedChange?: (collapsedColumns: string[]) => void;
+  collapsedLanes?: string[];
+  onCollapsedLanesChange?: (collapsedLanes: string[]) => void;
   /** Property-only. Called with the column id when its add-card button is pressed. */
   onAddCard?: (columnId: string) => void;
   /** Property-only. See KanbanLabels — presence gates each control. */
@@ -318,6 +324,8 @@ export class KanbanBoard extends HTMLElement {
   #labels: KanbanLabels = {};
   #collapsed: string[] = [];
   #onCollapsedChange?: (collapsedColumns: string[]) => void;
+  #collapsedLanes: string[] = [];
+  #onCollapsedLanesChange?: (collapsedLanes: string[]) => void;
   #onAddCard?: (columnId: string) => void;
 
   // ---- Internal state ----
@@ -485,6 +493,22 @@ export class KanbanBoard extends HTMLElement {
   set collapsedColumns(v: string[]) {
     this.#collapsed = Array.isArray(v) ? v.slice() : [];
     this.#render();
+  }
+
+  /** Ids of collapsed swimlanes: a collapsed lane keeps its header row (and count) but renders no card rows. */
+  get collapsedLanes(): string[] {
+    return [...this.#collapsedLanes];
+  }
+  set collapsedLanes(v: string[]) {
+    this.#collapsedLanes = Array.isArray(v) ? v.slice() : [];
+    this.#render();
+  }
+
+  get onCollapsedLanesChange(): ((collapsedLanes: string[]) => void) | undefined {
+    return this.#onCollapsedLanesChange;
+  }
+  set onCollapsedLanesChange(fn: ((collapsedLanes: string[]) => void) | undefined) {
+    this.#onCollapsedLanesChange = fn;
   }
 
   get onCollapsedChange(): ((collapsedColumns: string[]) => void) | undefined {
@@ -665,6 +689,8 @@ export class KanbanBoard extends HTMLElement {
     let rowIndex = 0;
     for (const lane of bands) {
       if (hasLanes) slots.push({ kind: "lane", lane });
+      // A collapsed lane keeps its header and shows no card rows.
+      if (hasLanes && this.#collapsedLanes.includes(lane.id)) continue;
       let rows = 0;
       for (const column of this.#ordered()) {
         if (this.#collapsed.includes(column.id)) continue;
@@ -900,6 +926,17 @@ export class KanbanBoard extends HTMLElement {
       }
       return;
     }
+  }
+
+  #toggleLane(lane: KanbanLane): void {
+    this.#collapsedLanes = this.#collapsedLanes.includes(lane.id)
+      ? this.#collapsedLanes.filter((id) => id !== lane.id)
+      : [...this.#collapsedLanes, lane.id];
+    this.#onCollapsedLanesChange?.([...this.#collapsedLanes]);
+    this.dispatchEvent(
+      new CustomEvent<string[]>("lanecollapsechange", { detail: [...this.#collapsedLanes], bubbles: true, composed: true }),
+    );
+    this.#render();
   }
 
   #toggleCollapsed(column: KanbanColumn): void {
@@ -1482,7 +1519,30 @@ export class KanbanBoard extends HTMLElement {
         laneTh.setAttribute("scope", "rowgroup");
         laneTh.colSpan = this.#ordered().length;
         laneTh.setAttribute("data-lane-id", item.lane.id);
-        laneTh.textContent = item.lane.title;
+        const laneCollapsed = this.#collapsedLanes.includes(item.lane.id);
+        if (laneCollapsed) laneTh.setAttribute("data-collapsed", "");
+        if (this.#labels.collapseLane) {
+          const toggle = document.createElement("button");
+          toggle.type = "button";
+          toggle.className = "kanban-board-lane-toggle";
+          toggle.setAttribute("aria-expanded", String(!laneCollapsed));
+          toggle.setAttribute("aria-label", this.#labels.collapseLane(item.lane, laneCollapsed));
+          toggle.textContent = laneCollapsed ? "▸" : "▾";
+          toggle.addEventListener("click", () => this.#toggleLane(item.lane));
+          laneTh.appendChild(toggle);
+        }
+        const laneTitle = document.createElement("span");
+        laneTitle.className = "kanban-board-lane-title";
+        laneTitle.textContent = item.lane.title;
+        laneTh.appendChild(laneTitle);
+        if (this.#labels.laneCount) {
+          let laneCards = 0;
+          for (const column of this.#ordered()) laneCards += layout.cell.get(`${column.id}\u0000${item.lane.id}`)?.length ?? 0;
+          const laneCountEl = document.createElement("span");
+          laneCountEl.className = "kanban-board-lane-count";
+          laneCountEl.textContent = this.#labels.laneCount(item.lane, laneCards);
+          laneTh.appendChild(laneCountEl);
+        }
         laneRow.appendChild(laneTh);
         tbody.appendChild(laneRow);
         continue;
