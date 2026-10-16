@@ -91,6 +91,10 @@ export type KanbanLabels = {
     columnMoveAnnouncement?: (columnTitle: string, position: number, count: number) => string;
     /** Announced when an async `moveHandler` rejects and the card goes back: (card title, column title, the rejection). */
     moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
+    /** Accessible name for a lane's collapse toggle: (lane, collapsed). Gates the toggle. */
+    collapseLane?: (lane: KanbanLane, collapsed: boolean) => string;
+    /** Visible card count in a lane header: (lane, how many cards). Gates the count. */
+    laneCount?: (lane: KanbanLane, count: number) => string;
     /** Accessible name of the board's search field. Gates the field. */
     search?: string;
 };
@@ -198,6 +202,8 @@ const props = withDefaults(defineProps<Props>(), {
 // for the same contract is an emitted event, matching `picker-bar`'s
 // `theme-change` et al. and `date-time-picker`'s `change`.
 const collapsedModel = defineModel<string[]>("collapsedColumns", { default: () => [] });
+/** Ids of collapsed swimlanes (`v-model:collapsedLanes`). A collapsed lane keeps its header row (and count) but renders no card rows. */
+const collapsedLanesModel = defineModel<string[]>("collapsedLanes", { default: () => [] });
 /** Board-level search (`v-model:search`): shows only cards whose text contains it (case-insensitive). Combines with `filter`. */
 const search = defineModel<string>("search", { default: "" });
 /** The selected card ids (`v-model:selected`). */
@@ -291,6 +297,12 @@ const isEmptyColumn = (column: KanbanColumn) => !isCollapsed(column.id) && (show
 const hiddenCountFor = (column: KanbanColumn) =>
     (cardsByColumn.value.get(column.id)?.length ?? 0) - (shownByColumn.value.get(column.id)?.length ?? 0);
 
+const isLaneCollapsed = (laneId: string) => collapsedLanesModel.value.includes(laneId);
+function toggleLane(lane: KanbanLane): void {
+    collapsedLanesModel.value = isLaneCollapsed(lane.id)
+        ? collapsedLanesModel.value.filter((id) => id !== lane.id)
+        : [...collapsedLanesModel.value, lane.id];
+}
 const isCollapsed = (columnId: string) => collapsedModel.value.includes(columnId);
 
 function toggleCollapsed(column: KanbanColumn): void {
@@ -321,6 +333,8 @@ const slots = computed<Slot[]>(() => {
     let rowIndex = 0;
     for (const lane of bands) {
         if (hasLanes.value) out.push({ kind: "lane", lane });
+        // A collapsed lane keeps its header and shows no card rows.
+        if (hasLanes.value && isLaneCollapsed(lane.id)) continue;
         let rows = 0;
         for (const column of orderedColumns.value) {
             if (isCollapsed(column.id)) continue;
@@ -364,6 +378,12 @@ const scrollTop = ref(0);
 const scrollEl = ref<HTMLDivElement | null>(null);
 const slotIndexOfRow = (rowIndex: number) => slots.value.findIndex((x) => x.kind === "row" && x.rowIndex === rowIndex);
 type RenderItem = { kind: "spacer"; height: number; key: string } | { kind: "slot"; slot: Slot; key: string };
+/** Every card in a lane (the search/filter view still applies). */
+const laneCardCount = (laneId: string) => {
+    let n = 0;
+    for (const column of orderedColumns.value) n += cellCards.value.get(`${column.id}\u0000${laneId}`)?.length ?? 0;
+    return n;
+};
 const slotKey = (slot: Slot) => (slot.kind === "lane" ? `lane:${slot.lane.id}` : `row:${slot.rowIndex}`);
 const renderItems = computed<RenderItem[]>(() => {
     const all = slots.value;
@@ -899,7 +919,24 @@ function onGridKeydown(event: KeyboardEvent): void {
                 <template v-for="item in renderItems" :key="item.key">
                 <tr v-if="item.kind === 'spacer'" class="kanban-board-spacer" aria-hidden="true" :style="{ height: `${item.height}px` }"><td :colspan="orderedColumns.length"></td></tr>
                 <KanbanTableRow v-else-if="item.slot.kind === 'lane'" data-lane-row="">
-                    <th class="kanban-board-lane" scope="rowgroup" :colspan="orderedColumns.length" :data-lane-id="item.slot.lane.id">{{ item.slot.lane.title }}</th>
+                    <th
+                        class="kanban-board-lane"
+                        scope="rowgroup"
+                        :colspan="orderedColumns.length"
+                        :data-lane-id="item.slot.lane.id"
+                        :data-collapsed="isLaneCollapsed(item.slot.lane.id) ? '' : undefined"
+                    >
+                        <button
+                            v-if="labels?.collapseLane"
+                            type="button"
+                            class="kanban-board-lane-toggle"
+                            :aria-expanded="!isLaneCollapsed(item.slot.lane.id)"
+                            :aria-label="labels.collapseLane(item.slot.lane, isLaneCollapsed(item.slot.lane.id))"
+                            @click="toggleLane(item.slot.lane)"
+                        >{{ isLaneCollapsed(item.slot.lane.id) ? "▸" : "▾" }}</button>
+                        <span class="kanban-board-lane-title">{{ item.slot.lane.title }}</span>
+                        <span v-if="labels?.laneCount" class="kanban-board-lane-count">{{ labels.laneCount(item.slot.lane, laneCardCount(item.slot.lane.id)) }}</span>
+                    </th>
                 </KanbanTableRow>
                 <KanbanTableRow
                     v-else
