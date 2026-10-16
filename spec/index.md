@@ -113,7 +113,7 @@ committing.
   `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
   `share-picker`, `search-picker`, `link-picker`, `menu-picker`, `settings-picker`, and `date-time-picker` helper packages —
   80 `*-picker` packages in all.
-- A `themes/` directory of 45 ready-to-use reference theme stylesheets.
+- A `themes/` directory of 57 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
 - Modular project documentation in `AGENTS/*.md`.
@@ -203,9 +203,9 @@ Themes live in example CSS and the optional `ThemeProvider` (flat token
 object → `--theme-{path}` custom properties; variants via `data-theme`).
 The headless layer bakes in no colour, spacing, typography, or
 breakpoints — the forbidden-literal list is in the AGENTS file. The
-root [`themes/`](../themes/) directory ships 45 ready-to-use reference
+root [`themes/`](../themes/) directory ships 57 ready-to-use reference
 stylesheets (NHS England/Scotland/Wales patient + practitioner
-variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and
+variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and
 general-purpose themes) that the `theme-picker` helper loads at runtime
 by swapping a managed `<link>` and setting `data-theme`.
 
@@ -351,7 +351,7 @@ Scripts live in `bin/`:
 | `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).|
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
-| `bin/check-theme`                     | Conformance checks for the 45 reference themes; `--contrast` reports token-pair contrast (report only). |
+| `bin/check-theme`                     | Conformance checks for the 57 reference themes; `--contrast` reports token-pair contrast (report only). |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
 | `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
 | `bin/check-class-names`               | Every implementation in all 8 headless libraries carries its slug as the first token of a class list. |

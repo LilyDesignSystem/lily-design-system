@@ -27,7 +27,7 @@ lily-design-system/                              ← canonical catalog + tools
 ├── components/{slug}/                           ← per-component docs (571 dirs: index.md, README.md → index.md, AGENTS.md, spec/index.md)
 ├── component-variants.json                      ← curated extra demo states (bin/generate-examples)
 ├── css-style-sheet-template.css                 ← class-hook stylesheet template
-├── themes/                                      ← 45 reference theme stylesheets (+ tokens/)
+├── themes/                                      ← 57 reference theme stylesheets (+ tokens/)
 ├── bin/                                         ← scaffolding, listing, sync, generators, test, publish
 ├── spec/index.md, spec/{topic}/index.md         ← spec + modular topic docs
 ├── lily-design-system-{framework}-headless/     ← 8 headless libraries: html, svelte, react, vue, angular, blazor, nunjucks, web-components
@@ -66,7 +66,7 @@ Every framework's helpers are top-level subprojects, one per package (`lily-desi
 
 Every framework's helpers are one top-level subproject per package instead of one catalog (Svelte first, the other seven the same day, 2026-10-10; see [helpers](../helpers/index.md#where-the-helpers-live)). For Svelte: `lily-design-system-svelte-data-grid` moved out of `lily-design-system-svelte-helpers` on 2026-10-09, the other fourteen on 2026-10-10, and the catalog was deleted ([list](../helpers/index.md#svelte-helper-packages)). Each has its own `package.json` devDependencies, `pnpm-lock.yaml`, vite/vitest config, `build.js` and `AGENTS/`; depends on `@lilydesignsystem/svelte-headless` and, for `picker-bar`, `gantt-chart` and `calendar`, on sibling packages, all resolved in local dev/test from their built `dist/`; is built in the order `bin/list-helper-packages svelte` prints; and is published by `bin/publish-helpers` and tested by the CI `helper-packages` job.
 
-The root `themes/` directory ships 45 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes) that target the Lily class hooks and pair with the theme-select helper. See [theme](../theme/index.md).
+The root `themes/` directory ships 57 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes) that target the Lily class hooks and pair with the theme-select helper. See [theme](../theme/index.md).
 
 ## Source hosting
 

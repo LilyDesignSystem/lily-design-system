@@ -77,7 +77,7 @@ Consumer CSS reads these:
 
 ## Reference theme stylesheets (`themes/`)
 
-The root [`themes/`](../../themes/) directory ships 45 ready-to-use theme stylesheets that target the Lily™ class hooks directly. They cover public-sector reference designs (NHS England, NHS Scotland, and NHS Wales — each with `-for-patients` and `-for-practitioners` variants — GOV.UK GDS as `united-kingdom-government-digital-service`, USWDS as `united-states-web-design-system`), vendor-inspired palettes (`adobe-spectrum`, `mozilla-protocol`), and general-purpose themes (`light`, `dark`, `nord`, `dracula`, `wireframe`, and others).
+The root [`themes/`](../../themes/) directory ships 57 ready-to-use theme stylesheets that target the Lily™ class hooks directly. They cover public-sector reference designs (NHS England, NHS Scotland, and NHS Wales — each with `-for-patients` and `-for-practitioners` variants — GOV.UK GDS as `united-kingdom-government-digital-service`, USWDS as `united-states-web-design-system`), vendor-inspired palettes (`adobe-spectrum`, `mozilla-protocol`), and general-purpose themes (`light`, `dark`, `nord`, `dracula`, `wireframe`, and others).
 
 - Each file is standalone: link one stylesheet, get one complete theme.
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
@@ -129,8 +129,9 @@ Tokens Studio) can consume — the bridge the `lily-figma` decision
 ## Dark / high-contrast coverage matrix (audited 2026-08-27)
 
 Computed from `color-scheme` declarations across the 45 `themes/*.css`
-(plan P3-T8). `bin/check-theme` guards the structural contracts; this
-matrix records scheme coverage and the deliberate exclusions.
+that existed on 2026-08-27 (plan P3-T8). `bin/check-theme` guards the
+structural contracts; this matrix records scheme coverage and the
+deliberate exclusions.
 
 | Family | Light | Dark | High-contrast |
 | --- | --- | --- | --- |
@@ -138,6 +139,16 @@ matrix records scheme coverage and the deliberate exclusions.
 | NHS England / Scotland / Wales (6) | 6 | 0 | none |
 | GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol (4) | 4 | 0 | none |
 | `light` / `dark` canonical pair | 1 | 1 | — |
+
+Added 2026-10-16 (57 themes in all): eleven design-system references —
+Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Notion,
+Salesforce, SAP Fiori and Vercel (all light), and Linear (dark, the one
+upstream whose own visual language is dark-first) — and `cappuccino`, a
+Lily original in the coffee family (light). Every text pair in them
+reaches at least AA (4.5:1); where a brand colour could not carry text at
+that ratio its fill was moved along lightness, and the move is recorded
+in that theme's own spec (`lily-design-system-themes/spec/themes/{slug}/`).
+Totals: 57 themes, 42 light and 15 dark.
 
 **Deliberate exclusions.**
 

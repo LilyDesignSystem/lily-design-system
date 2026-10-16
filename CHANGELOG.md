@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Twelve new themes, a spec page for every theme — 2026-10-16
+
+- **12 new reference themes** (45 → 57): eleven design-system references — `ant-design`, `atlassian`, `excel`, `fluent`,
+  `github-primer`, `ibm-carbon`, `linear` (dark), `notion`, `salesforce`, `sap-fiori`, `vercel` — and `cappuccino`, a Lily original
+  in the coffee family. Hex tokens, the shared component body, DTCG token files under `themes/tokens/`, and `bin/check-theme`
+  clean; every text pair reaches at least AA (4.5:1), and where a brand colour could not carry text at that ratio its fill was moved
+  along lightness (recorded in that theme's spec). `picker-bar` now defaults to all 57 slugs (49 general and design-system themes,
+  then the 8 UK/US government themes) in all eight catalogs; the example apps and the docs site carry the new stylesheets.
+- **`lily-design-system-themes/spec/themes/{slug}/index.md`** — every one of the 57 themes now has its own page: summary, upstream
+  and provenance, the full palette (token value and sRGB), shape and depth, a computed contrast table, behaviour beyond the tokens
+  (the NHS practitioner density, the DHCW focus and button treatment), and usage. `@lilydesignsystem/themes` 0.5.0 ships the 57
+  stylesheets.
+
 ## Calendar in every framework; kanban, gantt and `ContentsNav` scrollspy — 2026-10-14
 
 - **`calendar`** (renamed from `calendar-view`) is now in all eight frameworks (new packages for React, Vue, Angular, HTML,

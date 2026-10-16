@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""bin/check-theme — conformance checks for the 45 reference themes.
+"""bin/check-theme — conformance checks for the 57 reference themes.
 
 Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 

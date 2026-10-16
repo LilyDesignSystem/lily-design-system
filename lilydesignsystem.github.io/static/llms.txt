@@ -51,7 +51,7 @@ actually live.
 - [Roadmap](https://lilydesignsystem.com/roadmap/): what the project
   is working on and planning next.
 - [Lily + Figma](https://lilydesignsystem.com/lily-figma/): there is
-  no maintained Lily Figma library or plugin; the 45 reference themes'
+  no maintained Lily Figma library or plugin; the 57 reference themes'
   design tokens are published in DTCG format and can be imported into
   Figma today with an existing community plugin.
 - [Lily + Claude Code](https://lilydesignsystem.com/skills/):

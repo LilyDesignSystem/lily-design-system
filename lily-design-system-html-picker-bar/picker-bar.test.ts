@@ -71,8 +71,8 @@ afterEach(() => {
 });
 
 describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-  test("has all 45 Lily reference theme slugs", () => {
-    expect(DEFAULT_THEMES).toHaveLength(45);
+  test("has all 57 Lily reference theme slugs", () => {
+    expect(DEFAULT_THEMES).toHaveLength(57);
   });
 
   test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {

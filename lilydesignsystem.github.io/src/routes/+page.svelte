@@ -292,7 +292,7 @@ pnpm install && pnpm run dev`}</code></pre>
       <p class="card-description">
         Every font, color, spacing, and breakpoint decision belongs to you —
         your CSS is the design system's look from day one. Hand-written
-        styles, Tailwind utilities, or one of Lily's 45 reference themes all
+        styles, Tailwind utilities, or one of Lily's 57 reference themes all
         work beautifully.
       </p>
     </div>
@@ -349,7 +349,7 @@ pnpm install && pnpm run dev`}</code></pre>
     <p>
       Yes — and that's the gift: everything you write applies directly, and
       every visual decision is yours. Style the class hooks yourself, or link
-      one of the 45 ready-made themes and be fully styled in one line. (This
+      one of the 57 ready-made themes and be fully styled in one line. (This
       accordion is a native <code>&lt;details&gt;</code>, styled exactly that
       way.)
     </p>

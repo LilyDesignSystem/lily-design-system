@@ -6,7 +6,7 @@ everything below is a fast index.
 ## What this package is
 
 An npm package, `@lilydesignsystem/themes`, that packages the canonical
-[`themes/`](../themes/) directory (45 reference theme stylesheets) at
+[`themes/`](../themes/) directory (57 reference theme stylesheets) at
 the monorepo root for `npm install` consumption. No source code of its
 own — `build.js` copies `../themes/*.css` into `dist/` unmodified.
 
@@ -17,7 +17,7 @@ own — `build.js` copies `../themes/*.css` into `dist/` unmodified.
 | `spec/index.md` | Specification-driven contract (canonical). |
 | `build.js` | Copies `../themes/*.css` into `dist/`. Run via `npm run build` / `prepublishOnly`. |
 | `package.json` | `@lilydesignsystem/themes`, `./*.css` subpath exports. |
-| `index.md` | User guide: install, usage, the 45 theme slugs. |
+| `index.md` | User guide: install, usage, the 57 theme slugs. |
 
 ## Public surface
 

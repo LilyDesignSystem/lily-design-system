@@ -1,10 +1,10 @@
 {
   "name": "@lilydesignsystem/themes",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "engines": {
     "node": "=26"
   },
-  "description": "Lily Design System reference theme stylesheets: 45 ready-to-use CSS themes (NHS England/Scotland/Wales, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) targeting the Lily kebab-case class hooks.",
+  "description": "Lily Design System reference theme stylesheets: 57 ready-to-use CSS themes (NHS England/Scotland/Wales, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose themes) targeting the Lily kebab-case class hooks.",
   "type": "module",
   "files": [
     "dist",

@@ -56,7 +56,7 @@
     <li>
       <strong>CSS-strategy agnostic.</strong> One stable kebab-case class per
       component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or one of
-      the 45 ready-made themes — Lily welcomes them all and stays gracefully
+      the 57 ready-made themes — Lily welcomes them all and stays gracefully
       out of the way.
     </li>
     <li>
@@ -98,7 +98,7 @@
 
   <h2>Themes for the public sector, out of the box</h2>
   <p>
-    Lily ships 45 standalone reference themes that target its class hooks
+    Lily ships 57 standalone reference themes that target its class hooks
     directly: NHS England, NHS Scotland, and NHS Wales (each in
     patient-facing and practitioner-facing variants), GOV.UK, USWDS, Adobe
     Spectrum and Mozilla Protocol inspired palettes, and a set of

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""bin/generate-theme-tokens — DTCG token source for the 45 themes.
+"""bin/generate-theme-tokens — DTCG token source for the 57 themes.
 
 The per-theme design primitives (the token block each theme declares on
 `:root` / `:root[data-theme=...]`) live as Design Tokens Community Group

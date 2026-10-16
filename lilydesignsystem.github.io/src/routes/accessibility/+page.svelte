@@ -37,7 +37,7 @@
       helper packages additionally run real-browser Playwright specs.
     </li>
     <li>
-      WCAG 2.2 target-size floors and overflow guards in all 45 themes;
+      WCAG 2.2 target-size floors and overflow guards in all 57 themes;
       skip-link, landmarks, and no horizontal overflow at four viewports per
       app; <code>lang</code>/<code>dir</code> application including the RTL
       flip.

@@ -1,6 +1,6 @@
 # Lily Design System™ — Themes
 
-`@lilydesignsystem/themes` packages the 45 reference theme stylesheets
+`@lilydesignsystem/themes` packages the 57 reference theme stylesheets
 that live at the canonical monorepo root
 ([`themes/`](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes))
 as an installable npm package, so a consumer who wants Lily's default
@@ -9,7 +9,7 @@ look does not have to clone the monorepo or hand-copy CSS files.
 Each stylesheet targets the Lily headless components' kebab-case class
 hooks (see [css-style-sheet-template.css](https://github.com/LilyDesignSystem/lily-design-system/blob/main/css-style-sheet-template.css))
 directly — no build step, no CSS framework, no JavaScript runtime.
-This package is CSS only: 45 files, one per theme, unmodified from the
+This package is CSS only: 57 files, one per theme, unmodified from the
 canonical source.
 
 ## Install
@@ -45,16 +45,20 @@ app uses, via `bin/sync`):
 cp node_modules/@lilydesignsystem/themes/*.css public/themes/
 ```
 
-## The 45 themes
+## The 57 themes
 
 Alphabetical, with the UK/US government themes grouped at the end
-(matching `picker-bar`'s default ordering):
+(matching `picker-bar`'s default ordering). Each theme has its own page
+under [`spec/themes/`](spec/themes/): palette, contrast, shape, upstream
+and notes.
 
-abyss, acid, adobe-spectrum, aqua, autumn, black, bumblebee, business,
-caramellatte, cmyk, coffee, corporate, cupcake, cyberpunk, dark, dim,
-dracula, emerald, fantasy, forest, garden, halloween, lemonade, light,
-lofi, luxury, mozilla-protocol, night, nord, pastel, retro, silk,
-sunset, synthwave, valentine, winter, wireframe,
+abyss, acid, adobe-spectrum, ant-design, aqua, atlassian, autumn, black,
+bumblebee, business, cappuccino, caramellatte, cmyk, coffee, corporate,
+cupcake, cyberpunk, dark, dim, dracula, emerald, excel, fantasy, fluent,
+forest, garden, github-primer, halloween, ibm-carbon, lemonade, light,
+linear, lofi, luxury, mozilla-protocol, night, nord, notion, pastel,
+retro, salesforce, sap-fiori, silk, sunset, synthwave, valentine,
+vercel, winter, wireframe,
 united-kingdom-government-digital-service,
 united-kingdom-national-health-service-england-for-patients,
 united-kingdom-national-health-service-england-for-practitioners,

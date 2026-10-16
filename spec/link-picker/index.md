@@ -52,7 +52,7 @@ List:
   `preventScroll`. A click outside, or focus leaving the picker, closes the list (Blazor: focus only, no document listener).
 - **Tooltip** (the picker-wide contract): hoverable, dismissable with Escape, never shown while the list is open, not linked with
   `aria-describedby`.
-- **Placement** is the theme's: the 45 `themes/` anchor the popup to the button and flip it at the window edge (see
+- **Placement** is the theme's: the 57 `themes/` anchor the popup to the button and flip it at the window edge (see
   [theme](../theme/index.md#picker-popups)).
 - **In `picker-bar`** it is the **leftmost** icon, rendered only when the app supplies `links` and `labels.link`
   ([helpers § picker-bar contract](../helpers/index.md)).

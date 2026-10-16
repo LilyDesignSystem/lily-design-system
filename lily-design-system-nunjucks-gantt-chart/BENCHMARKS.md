@@ -69,9 +69,9 @@ the website leads with it.
 
 ### Theme stylesheet size
 
-The 45 stylesheets in [`themes/`](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes) are plain CSS, loaded one at a time.
+The 57 stylesheets in [`themes/`](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes) are plain CSS, loaded one at a time.
 `theme-picker` swaps the `href` on a single managed `<link>`, so exactly one theme
-is ever fetched — switching costs one stylesheet request, not 45.
+is ever fetched — switching costs one stylesheet request, not 57.
 
 ### Test suite scale
 

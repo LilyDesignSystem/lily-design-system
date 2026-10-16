@@ -89,8 +89,8 @@ afterEach(() => {
 });
 
 describe("PickerBar — DEFAULT_THEMES (§3, §5.1)", () => {
-  test("has all 45 Lily reference theme slugs", () => {
-    expect(DEFAULT_THEMES).toHaveLength(45);
+  test("has all 57 Lily reference theme slugs", () => {
+    expect(DEFAULT_THEMES).toHaveLength(57);
   });
 
   test("is alphabetical, with the UK & US themes moved to the bottom as one alphabetical group", () => {
@@ -165,9 +165,9 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
     const options = fixture.nativeElement.querySelectorAll(
       ".theme-picker-option",
     );
-    expect(options).toHaveLength(45);
+    expect(options).toHaveLength(57);
     expect(options[0].textContent?.trim()).toBe("Abyss");
-    expect(options[37].textContent?.trim()).toBe(
+    expect(options[49].textContent?.trim()).toBe(
       "United Kingdom Government Digital Service",
     );
   });

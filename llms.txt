@@ -32,7 +32,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [AGENTS/internationalization.md](AGENTS/internationalization.md): no
   hardcoded user-facing strings, stable text-prop names.
 - [AGENTS/theme.md](AGENTS/theme.md): token shape, the headless
-  forbidden-literal list, the 45 reference theme stylesheets.
+  forbidden-literal list, the 57 reference theme stylesheets.
 - [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
   mapping, compound name-family patterns, composition templates.
 - [AGENTS/helpers.md](AGENTS/helpers.md): the seven picker helpers
@@ -90,8 +90,8 @@ searchable component catalog: https://lilydesignsystem.com/.
   HTML tag and category (content, forms, navigation, tables, …).
 - [css-style-sheet-template.css](css-style-sheet-template.css): one CSS
   class hook declared per catalog component.
-- [themes/](themes/): 45 ready-to-use reference theme stylesheets (NHS
-  England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol).
+- [themes/](themes/): 57 ready-to-use reference theme stylesheets (NHS
+  England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel).
 - [component-variants.json](component-variants.json): hand-curated extra demo
   states rendered on every demonstration page (`bin/generate-examples`).
 - [bin/](bin/): scaffolding, listing, sync, test, and publish tooling —

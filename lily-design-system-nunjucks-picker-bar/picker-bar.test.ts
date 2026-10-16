@@ -94,8 +94,8 @@ afterEach(() => {
 });
 
 describe("PickerBar — DEFAULT_THEMES / DEFAULT_SIZES agree with the macro (§3, §5.1, §5.2)", () => {
-  test("client.js DEFAULT_THEMES has 45 entries and matches the macro's rendered option order", () => {
-    expect(DEFAULT_THEMES).toHaveLength(45);
+  test("client.js DEFAULT_THEMES has 57 entries and matches the macro's rendered option order", () => {
+    expect(DEFAULT_THEMES).toHaveLength(57);
     const html = renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
     document.body.innerHTML = html;
     const values = Array.from(
@@ -184,7 +184,7 @@ describe("PickerBar — theme-picker wiring (§5.1, §7.3, §7.6)", () => {
   test("§7.3 forwards themesUrl and uses DEFAULT_THEMES when `themes` is omitted", () => {
     const { root } = setup();
     const options = root.querySelectorAll(".theme-picker-option");
-    expect(options).toHaveLength(45);
+    expect(options).toHaveLength(57);
     expect(options[0].textContent?.trim()).toBe("Abyss");
     expect(
       root

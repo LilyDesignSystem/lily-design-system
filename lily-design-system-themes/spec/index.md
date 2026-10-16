@@ -7,7 +7,7 @@ npm consumption. Anything not in this spec is out of scope.
 
 ## 1. Goal
 
-Let a consumer install Lily's 45 reference theme stylesheets with
+Let a consumer install Lily's 57 reference theme stylesheets with
 `npm install @lilydesignsystem/themes` instead of cloning the monorepo
 or hand-copying files, matching how the headless and helper packages
 are already npm-installable.
@@ -63,7 +63,7 @@ propagates.
 - [x] `build.js` copies every `.css` file from the canonical root
       `themes/` into `dist/`, erroring if none are found.
 - [x] `dist/` file count matches the canonical `themes/` directory's
-      `.css` count (45 at time of writing).
+      `.css` count (57 at time of writing).
 - [x] No file in `dist/` differs from its canonical counterpart
       (`diff` clean, file by file).
 - [x] Packed tarball (`npm pack`) installs into a scratch project and

@@ -2,7 +2,7 @@
   <title>Lily + Figma — Lily Design System</title>
   <meta
     name="description"
-    content="There is no maintained Lily Figma library or plugin. The 45 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin."
+    content="There is no maintained Lily Figma library or plugin. The 57 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin."
   />
 </svelte:head>
 
@@ -27,7 +27,7 @@
 
   <h2>What exists today</h2>
   <p>
-    Each of the 45 reference themes has its design-token primitives —
+    Each of the 57 reference themes has its design-token primitives —
     colour, radius, size, border — published in
     <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
       >DTCG 2025.10 format</a

@@ -51,7 +51,7 @@ Panel:
   `[(open)]`, React `open`/`defaultOpen`, Blazor `@bind-Open`, the HTML `open` attribute) with a change notification.
 - **Tooltip** (the picker-wide contract): hoverable, dismissable with Escape, never shown while the panel is open, not linked
   with `aria-describedby`.
-- **Placement** is the theme's: the 45 `themes/` anchor the popup to the button and flip it at the window edge (see
+- **Placement** is the theme's: the 57 `themes/` anchor the popup to the button and flip it at the window edge (see
   [theme](../theme/index.md#picker-popups)).
 - **Blazor deviations** (no JS interop, so no JS file ships): no outside-click or focus-out close and no automatic
   close-on-select (`CloseOnSelect` closes on any click inside and defaults to `false`; the content calls `context.Close()`);

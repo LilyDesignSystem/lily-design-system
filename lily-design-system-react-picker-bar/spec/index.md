@@ -83,10 +83,10 @@ way.
 
 ### 5.1 `DEFAULT_THEMES`
 
-All 45 Lily reference theme slugs (`themes/` at the repo root),
+All 57 Lily reference theme slugs (`themes/` at the repo root),
 **sorted alphabetically except that every United Kingdom and United
 States government/public-sector theme sorts last, as its own
-alphabetical group** — 37 general-purpose and public-sector themes
+alphabetical group** — 49 general-purpose, design-system and Lily-original themes
 first (`abyss` … `wireframe`), then 8 UK/US themes
 (`united-kingdom-government-digital-service` …
 `united-states-web-design-system`). This is a maintainer-directed

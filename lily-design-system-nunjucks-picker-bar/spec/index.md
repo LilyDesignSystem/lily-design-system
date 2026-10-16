@@ -140,7 +140,7 @@ outside any bar. See §3.3.
 
 ### 5.1 `DEFAULT_THEMES`
 
-All 45 Lily reference theme slugs (`themes/` at the repo root),
+All 57 Lily reference theme slugs (`themes/` at the repo root),
 alphabetical except that every United Kingdom and United States
 government/public-sector theme sorts last, as its own alphabetical
 group — identical order to the Svelte canonical's `DEFAULT_THEMES`.

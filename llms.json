@@ -59,7 +59,7 @@
         {
           "title": "AGENTS/theme.md",
           "url": "AGENTS/theme.md",
-          "description": "Token shape, the headless forbidden-literal list, the 45 reference theme stylesheets."
+          "description": "Token shape, the headless forbidden-literal list, the 57 reference theme stylesheets."
         },
         {
           "title": "AGENTS/components.md",
@@ -185,7 +185,7 @@
         {
           "title": "themes/",
           "url": "themes/",
-          "description": "45 ready-to-use reference theme stylesheets (NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol)."
+          "description": "57 ready-to-use reference theme stylesheets (NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel)."
         },
         {
           "title": "bin/",

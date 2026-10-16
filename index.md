@@ -225,10 +225,10 @@ owns one complete interaction end to end:
 
 ## Themes
 
-The [themes/](themes) directory ships 45 standalone reference theme
+The [themes/](themes) directory ships 57 standalone reference theme
 stylesheets that target the Lily™ class hooks — NHS England, NHS Scotland,
 and NHS Wales (patient and practitioner variants), GOV.UK GDS, USWDS,
-Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes.
+Adobe Spectrum, Mozilla Protocol, Ant Design, Atlassian, Excel, Fluent, GitHub Primer, IBM Carbon, Linear, Notion, Salesforce, SAP Fiori, Vercel, and general-purpose light/dark themes.
 The theme-picker helper loads them at runtime.
 
 ## Components
