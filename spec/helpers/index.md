@@ -135,6 +135,7 @@ packages above. [`bin/list-helper-packages angular`](../../bin/list-helper-packa
 Until 2026-10-10 in the `lily-design-system-html-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages html`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-html-data-grid`](../../lily-design-system-html-data-grid/) — `@lilydesignsystem/html-data-grid`
 - [`lily-design-system-html-date-time-picker`](../../lily-design-system-html-date-time-picker/) — `@lilydesignsystem/html-date-time-picker`
 - [`lily-design-system-html-kanban-board`](../../lily-design-system-html-kanban-board/) — `@lilydesignsystem/html-kanban-board`
 - [`lily-design-system-html-link-picker`](../../lily-design-system-html-link-picker/) — `@lilydesignsystem/html-link-picker`

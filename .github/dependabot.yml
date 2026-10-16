@@ -140,6 +140,7 @@ updates:
   - package-ecosystem: "npm"
     # One top-level subproject per HTML helper package (2026-10-10).
     directories:
+      - "/lily-design-system-html-data-grid"
       - "/lily-design-system-html-date-time-picker"
       - "/lily-design-system-html-kanban-board"
       - "/lily-design-system-html-link-picker"

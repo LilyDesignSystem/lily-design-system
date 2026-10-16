@@ -117,6 +117,7 @@ The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin
 
 The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages html`):
 
+- [`lily-design-system-html-data-grid`](../lily-design-system-html-data-grid) — `@lilydesignsystem/html-data-grid`
 - [`lily-design-system-html-date-time-picker`](../lily-design-system-html-date-time-picker) — `@lilydesignsystem/html-date-time-picker`
 - [`lily-design-system-html-kanban-board`](../lily-design-system-html-kanban-board) — `@lilydesignsystem/html-kanban-board`
 - [`lily-design-system-html-link-picker`](../lily-design-system-html-link-picker) — `@lilydesignsystem/html-link-picker`
