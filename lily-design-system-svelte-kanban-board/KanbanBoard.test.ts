@@ -876,7 +876,7 @@ describe("KanbanBoard — multi-select, undo, column reordering, swimlanes, drag
 
     test("§8.75 lanes render a header row per lane and group each card under its lane (the first lane when laneId is absent)", () => {
         render(KanbanBoard, { props: { ...base, lanes, cards: [...laneCards, { id: "c4", columnId: "done", title: "Card Four" }] } });
-        const headers = Array.from(document.querySelectorAll(".kanban-board-lane")).map((h) => h.textContent);
+        const headers = Array.from(document.querySelectorAll(".kanban-board-lane-title")).map((h) => h.textContent);
         expect(headers).toEqual(["Ann", "Bo"]);
         const laneOfCard = (id: string) => cell(id).closest("tr")!.getAttribute("data-lane-id");
         expect(laneOfCard("c1")).toBe("ann");
@@ -955,5 +955,46 @@ describe("KanbanBoard — multi-select, undo, column reordering, swimlanes, drag
         expect(document.querySelectorAll('.kanban-table-td[data-col="0"]')).toHaveLength(100);
         expect(document.querySelector(".kanban-board-spacer")).toBeNull();
         expect(document.querySelector(".kanban-board-scroll")).toBeNull();
+    });
+});
+
+describe("KanbanBoard — collapsible lanes (§8.91–§8.94)", () => {
+    const laneDefs = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+    const cardsInLanes = [
+        { id: "c1", columnId: "todo", title: "One", laneId: "ann" },
+        { id: "c2", columnId: "todo", title: "Two", laneId: "bo" },
+        { id: "c3", columnId: "doing", title: "Three", laneId: "bo" },
+    ];
+    const laneProps = { label: "Board", columns: [{ id: "todo", title: "To do" }, { id: "doing", title: "Doing" }], lanes: laneDefs, cards: cardsInLanes };
+
+    test("§8.91 labels.collapseLane gates a toggle with aria-expanded; clicking collapses the lane's rows but keeps its header", async () => {
+        render(KanbanBoard, { props: { ...laneProps, labels: { collapseLane: (lane, collapsed) => `${collapsed ? "Expand" : "Collapse"} ${lane.title}` } } });
+        const toggle = screen.getByRole("button", { name: "Collapse Bo" });
+        expect(toggle.getAttribute("aria-expanded")).toBe("true");
+        await fireEvent.click(toggle);
+        const after = screen.getByRole("button", { name: "Expand Bo" });
+        expect(after.getAttribute("aria-expanded")).toBe("false");
+        expect(document.querySelector('[data-card-id="c2"]')).toBeNull();
+        expect(document.querySelector('[data-card-id="c1"]')).not.toBeNull();
+        expect(document.querySelectorAll(".kanban-board-lane")).toHaveLength(2);
+    });
+
+    test("§8.92 no toggle without labels.collapseLane", () => {
+        render(KanbanBoard, { props: laneProps });
+        expect(document.querySelector(".kanban-board-lane-toggle")).toBeNull();
+    });
+
+    test("§8.93 collapsedLanes starts a lane collapsed; labels.laneCount shows its card count", () => {
+        render(KanbanBoard, { props: { ...laneProps, collapsedLanes: ["bo"], labels: { laneCount: (lane, n) => `${n} cards in ${lane.title}` } } });
+        expect(document.querySelector('[data-card-id="c2"]')).toBeNull();
+        const counts = Array.from(document.querySelectorAll(".kanban-board-lane-count")).map((e) => e.textContent);
+        expect(counts).toEqual(["1 cards in Ann", "2 cards in Bo"]);
+        expect(document.querySelector('[data-lane-id="bo"][data-collapsed]')).not.toBeNull();
+    });
+
+    test("§8.94 collapsing every lane leaves a board with only headers (no body rows, no crash)", () => {
+        render(KanbanBoard, { props: { ...laneProps, collapsedLanes: ["ann", "bo"] } });
+        expect(document.querySelectorAll(".kanban-table-body tr:not([data-lane-row])")).toHaveLength(0);
+        expect(document.querySelectorAll(".kanban-board-lane")).toHaveLength(2);
     });
 });

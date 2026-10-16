@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-10-16
+
+- Added collapsible swimlanes: `collapsedLanes` (bindable); `labels.collapseLane(lane, collapsed)` gates a toggle with `aria-expanded` in the lane header; a collapsed lane keeps its header and renders no card rows; `labels.laneCount(lane, count)` shows the lane's card count. The lane title is now wrapped in `.kanban-board-lane-title`.
+
 ## 0.4.0 — 2026-10-14
 
 - Added the boards' remaining gaps: multi-select (`selectable`, bindable `selected`, `onSelectionChange`: Ctrl/Cmd+click or the `x` key; moving one

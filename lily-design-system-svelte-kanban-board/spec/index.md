@@ -345,3 +345,7 @@ Tests §8.63–§8.83. The consumer's list of what was still missing; a card edi
 - **Virtualization**: `virtualize: { rowHeight, height, overscan = 3 }` puts the table in a `.kanban-board-scroll` area (`height` px, `overflow:auto`, the structural inline style) and renders only the rows in view,
   plus the roving tab stop's row, between `.kanban-board-spacer` rows of the right height (lane headers count as a row). Rows carry `aria-rowindex`, the table `aria-rowcount`. Keyboard focus scrolls the target row in.
   Rows are assumed `rowHeight` px tall; Lily measures nothing.
+
+## 16. Collapsible lanes (0.5.0, 2026-10-16)
+
+Tests §8.91–§8.94. `collapsedLanes` (bindable ids) collapses swimlanes the way `collapsedColumns` collapses columns: the lane's header row stays (`data-collapsed` on `.kanban-board-lane`), its card rows are not rendered, so they leave the keyboard grid and cannot be dropped into. `labels.collapseLane(lane, collapsed)` gates a `.kanban-board-lane-toggle` button (`aria-expanded`) in the header; `labels.laneCount(lane, count)` gates a `.kanban-board-lane-count` with the lane's shown card count (collapsed or not). The lane title is in `.kanban-board-lane-title`; the header's own text node is no longer the bare title.

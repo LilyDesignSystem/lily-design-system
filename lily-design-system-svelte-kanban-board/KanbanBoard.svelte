@@ -89,6 +89,10 @@
         moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
         /** Accessible name of the board's search field. Gates the field. */
         search?: string;
+        /** Accessible name for a lane's collapse toggle: (lane, collapsed). Gates the toggle. */
+        collapseLane?: (lane: KanbanLane, collapsed: boolean) => string;
+        /** Visible card count in a lane header: (lane, how many cards). Gates the count. */
+        laneCount?: (lane: KanbanLane, count: number) => string;
         /** Announced after several selected cards move together: (how many moved, destination column title). */
         moveManyAnnouncement?: (count: number, columnTitle: string) => string;
         /** Visible text of the undo button. Gates the button (with `undoable`). */
@@ -132,6 +136,8 @@
         search?: string;
         /** The text `search` looks in. Defaults to the label, subtitle and badges. */
         searchText?: (card: KanbanCard) => string;
+        /** Ids of collapsed swimlanes. Two-way bindable. A collapsed lane keeps its header row (and count) but renders no card rows. */
+        collapsedLanes?: string[];
         /** Swimlanes: horizontal bands of rows. Each card sits in the lane named by `card.laneId` (the first lane when absent). A drop into another lane's cell changes the lane: `onMove` gets the lane id as its fourth argument. */
         lanes?: KanbanLane[];
         /** Several cards can be selected and moved together: Ctrl/Cmd+click or the `x` key toggles the card under the cursor; moving one selected card moves them all. Bindable ids. */
@@ -186,6 +192,7 @@
         columns: columnsProp,
         cards,
         lanes = undefined,
+        collapsedLanes = $bindable([]),
         selectable = false,
         selected = $bindable([]),
         onSelectionChange = undefined,
@@ -308,6 +315,8 @@
         let rowIndex = 0;
         for (const lane of laneBands) {
             if (hasLanes) out.push({ kind: "lane", lane });
+            // A collapsed lane keeps its header and shows no card rows.
+            if (hasLanes && collapsedLanes.includes(lane.id)) continue;
             let rows = 0;
             for (const column of columns) {
                 if (isCollapsed(column.id)) continue;
@@ -323,6 +332,17 @@
     });
     const rowSlots = $derived(slots.filter((x): x is Extract<Slot, { kind: "row" }> => x.kind === "row"));
     const maxRows = $derived(rowSlots.length);
+
+    const isLaneCollapsed = (laneId: string) => collapsedLanes.includes(laneId);
+    /** Every card in a lane (unfiltered by collapse; the search/filter view still applies). */
+    const laneCardCount = (laneId: string) => {
+        let n = 0;
+        for (const column of columns) n += cellCards.get(`${column.id}\u0000${laneId}`)?.length ?? 0;
+        return n;
+    };
+    function toggleLane(lane: KanbanLane): void {
+        collapsedLanes = isLaneCollapsed(lane.id) ? collapsedLanes.filter((id) => id !== lane.id) : [...collapsedLanes, lane.id];
+    }
 
     function toggleCollapsed(column: KanbanColumn): void {
         collapsedColumns = isCollapsed(column.id)
@@ -851,7 +871,27 @@
                 {@const slot = item.slot}
                 {#if slot.kind === "lane"}
                     <KanbanTableRow data-lane-row>
-                        <th class="kanban-board-lane" scope="rowgroup" colspan={columns.length} data-lane-id={slot.lane.id}>{slot.lane.title}</th>
+                        <th
+                            class="kanban-board-lane"
+                            scope="rowgroup"
+                            colspan={columns.length}
+                            data-lane-id={slot.lane.id}
+                            data-collapsed={isLaneCollapsed(slot.lane.id) ? "" : undefined}
+                        >
+                            {#if labels.collapseLane}
+                                <button
+                                    type="button"
+                                    class="kanban-board-lane-toggle"
+                                    aria-expanded={!isLaneCollapsed(slot.lane.id)}
+                                    aria-label={labels.collapseLane(slot.lane, isLaneCollapsed(slot.lane.id))}
+                                    onclick={() => toggleLane(slot.lane)}
+                                >{isLaneCollapsed(slot.lane.id) ? "▸" : "▾"}</button>
+                            {/if}
+                            <span class="kanban-board-lane-title">{slot.lane.title}</span>
+                            {#if labels.laneCount}
+                                <span class="kanban-board-lane-count">{labels.laneCount(slot.lane, laneCardCount(slot.lane.id))}</span>
+                            {/if}
+                        </th>
                     </KanbanTableRow>
                 {:else}
                 {@const rowIndex = slot.rowIndex}
