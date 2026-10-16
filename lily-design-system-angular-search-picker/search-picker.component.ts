@@ -2,16 +2,16 @@ import { NgTemplateOutlet } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
-  ElementRef,
-  TemplateRef,
   computed,
   contentChild,
+  Directive,
   effect,
+  ElementRef,
   input,
   model,
   output,
   signal,
+  TemplateRef,
   viewChild,
 } from "@angular/core";
 // Only the trigger button composes a headless primitive. The panel is a
@@ -114,6 +114,7 @@ export class SearchPickerIcon {
       (focusout)="onRootFocusOut($event)"
     >
       <lily-icon-button
+        [disabled]="disabled()"
         #buttonEl
         [label]="label()"
         baseClass="search-picker-button"
@@ -256,7 +257,13 @@ export class SearchPicker {
   protected readonly panelId = `${this.baseId}-panel`;
   protected readonly returnSymbol = RETURN_SYMBOL;
 
-  protected readonly open = signal(false);
+  /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
+  readonly open = model<boolean>(false);
+  /** Disables the button; an open popup closes. */
+  readonly disabled = input<boolean>(false);
+  private readonly closeWhenDisabled = effect(() => {
+    if (this.disabled() && this.open()) this.open.set(false);
+  });
 
   // Tooltip: shown while the pointer is over the button or the tooltip
   // itself (hoverable, WCAG 1.4.13) or while the button has keyboard

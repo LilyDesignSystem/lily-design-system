@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-16
+
+- Added `[(open)]` (a `model`, with `openChange`) and `disabled`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `openChange` fires once for each change, by the user or from outside, and not for the initial value; `disabled` disables the button and closes an open popup.
+
 ## 0.1.0 — 2026-10-02, additions before first publication
 
 **Added: picker tooltip (minor, additive).** A new

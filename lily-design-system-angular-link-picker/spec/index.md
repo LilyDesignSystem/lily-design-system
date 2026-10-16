@@ -100,3 +100,7 @@ tooltip, no stylesheet / English / routes). This port's suite, `link-picker.comp
 - Version: 0.1.0 (new, 2026-10-07)
 - Framework: Angular `>=20 <23` (signals, standalone, OnPush)
 - Test runner: vitest + TestBed
+
+## Open state and disabled (2026-10-16)
+
+`open` (a `model<boolean>`, default `false`, so `[(open)]` and `(openChange)`) and `disabled` (an `input<boolean>`), ported from the Svelte canonical. `openChange` is the Angular form of `onOpenChange`: it fires for every change of the model — the user's, the parent's, or `disabled` closing the popup — and not for the initial value. `disabled` is passed to the headless `lily-icon-button` and an effect closes an open popup when it becomes true. Tests: "open state and disabled".

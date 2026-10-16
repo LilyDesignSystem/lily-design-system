@@ -3,17 +3,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Directive,
-  ElementRef,
-  TemplateRef,
   computed,
   contentChild,
+  Directive,
   effect,
+  ElementRef,
   inject,
   input,
   model,
   output,
   signal,
+  TemplateRef,
   viewChild,
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
@@ -146,6 +146,7 @@ export class ThemePickerIcon {
       <input type="hidden" [name]="name()" [value]="value()" />
 
       <lily-icon-button
+        [disabled]="disabled()"
         #buttonEl
         [label]="label()"
         baseClass="theme-picker-button"
@@ -256,7 +257,13 @@ export class ThemePicker {
   private readonly baseId = nextThemePickerId();
   protected readonly listId = `${this.baseId}-list`;
 
-  protected readonly open = signal(false);
+  /** Is the popup open? Two-way bindable: `[(open)]`; `openChange` fires for each change. */
+  readonly open = model<boolean>(false);
+  /** Disables the button; an open popup closes. */
+  readonly disabled = input<boolean>(false);
+  private readonly closeWhenDisabled = effect(() => {
+    if (this.disabled() && this.open()) this.open.set(false);
+  });
 
   // Tooltip: shown while the pointer is over the button or the tooltip
   // itself (hoverable, WCAG 1.4.13) or while the button has keyboard

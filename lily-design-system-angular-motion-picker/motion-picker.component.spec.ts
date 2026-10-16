@@ -805,3 +805,61 @@ describe("motion-picker — tooltip (§7.24–§7.29)", () => {
     }
   });
 });
+
+describe("MotionPicker — open state and disabled", () => {
+  function build(extra: Record<string, unknown> = {}): ComponentFixture<MotionPicker> {
+    const fixture = TestBed.createComponent(MotionPicker);
+    for (const [key, value] of Object.entries({ ...{ label: "Motion", motions: MOTIONS }, ...extra })) {
+      fixture.componentRef.setInput(key, value);
+    }
+    fixture.detectChanges();
+    return fixture;
+  }
+  const button = (f: ComponentFixture<unknown>) =>
+    f.nativeElement.querySelector(".motion-picker-button button, button.motion-picker-button") as HTMLButtonElement;
+  const settle = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+
+  test("open starts the popup open without emitting openChange", async () => {
+    const fixture = build({ open: true });
+    const changes: boolean[] = [];
+    fixture.componentInstance.open.subscribe((v) => changes.push(v));
+    fixture.detectChanges();
+    await settle();
+    expect(button(fixture).getAttribute("aria-expanded")).toBe("true");
+    expect(changes).toEqual([]);
+  });
+
+  test("openChange fires once for each open and close by the user", async () => {
+    const fixture = build();
+    const changes: boolean[] = [];
+    fixture.componentInstance.open.subscribe((v) => changes.push(v));
+    button(fixture).click();
+    fixture.detectChanges();
+    await settle();
+    button(fixture).click();
+    fixture.detectChanges();
+    await settle();
+    expect(changes).toEqual([true, false]);
+  });
+
+  test("disabled disables the button and it cannot open", async () => {
+    const fixture = build({ disabled: true });
+    const changes: boolean[] = [];
+    fixture.componentInstance.open.subscribe((v) => changes.push(v));
+    expect(button(fixture).disabled).toBe(true);
+    button(fixture).click();
+    fixture.detectChanges();
+    await settle();
+    expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
+    expect(changes).toEqual([]);
+  });
+
+  test("disabled closes a popup that was open", async () => {
+    const fixture = build({ open: true, disabled: true });
+    fixture.detectChanges();
+    await settle();
+    fixture.detectChanges();
+    expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
+  });
+});
+
