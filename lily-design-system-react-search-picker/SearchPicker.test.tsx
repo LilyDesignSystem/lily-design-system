@@ -38,6 +38,8 @@ afterEach(() => {
     vi.restoreAllMocks();
 });
 
+const flush = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+
 describe("SearchPicker — structure (§7.1–§7.6)", () => {
     test("§7.1 renders a named disclosure button controlling the panel", () => {
         render(<SearchPicker {...LABELS} />);
@@ -422,3 +424,56 @@ describe("SearchPicker — tooltip (§7.25–§7.32)", () => {
         remove.mockRestore();
     });
 });
+
+describe("SearchPicker — open state and disabled", () => {
+    test("open starts the popup open without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(<SearchPicker {...LABELS} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("true");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(<SearchPicker {...LABELS} onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: LABELS.label });
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("controlled: a click asks for the change and the parent applies it", async () => {
+        const onOpenChange = vi.fn();
+        const { rerender } = render(<SearchPicker {...LABELS} open={false} onOpenChange={onOpenChange} />);
+        fireEvent.click(screen.getByRole("button", { name: LABELS.label }));
+        await flush();
+        expect(onOpenChange).toHaveBeenCalledWith(true);
+        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("false");
+        rerender(<SearchPicker {...LABELS} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(<SearchPicker {...LABELS} disabled onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: LABELS.label }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(<SearchPicker {...LABELS} open disabled />);
+        await flush();
+        expect(screen.getByRole("button", { name: LABELS.label }).getAttribute("aria-expanded")).toBe("false");
+    });
+});
+

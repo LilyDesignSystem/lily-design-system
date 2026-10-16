@@ -1,5 +1,9 @@
 # CHANGELOG — @lilydesignsystem/react-text-size-picker
 
+## 0.3.0 — 2026-10-16
+
+- Added `open`, `onOpenChange` and `disabled`, ported from the Svelte package (spec "Open state and disabled"). `open` makes the popup controlled (`defaultOpen` starts an uncontrolled one); `onOpenChange(open)` is called once for each change the picker makes, and not for the initial value; `disabled` disables the button and closes an open popup.
+
 ## 0.2.0 — 2026-10-04
 
 **Added (minor, additive): a picker tooltip.** A new `.text-size-picker-tooltip` element (`role="tooltip"`, `hidden` at rest) follows the icon button and shows the button's existing `label` on pointer hover, on the tooltip itself (hoverable), and on keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus, and it is never shown while the listbox is open. No new props and no new text; deliberately not linked by `aria-describedby`, since it duplicates the button's `aria-label`. Position and appearance are theme CSS keyed on `hidden`.

@@ -47,6 +47,14 @@ export type Props = Omit<
     children?: (args: ChildArgs) => React.ReactNode;
     /** Called after the control applies a new size. */
     onChange?: (size: string) => void;
+    /** Is the popup open? Controlled when given; the popup starts as `defaultOpen` otherwise. */
+    open?: boolean;
+    /** Initial open state of an uncontrolled picker. */
+    defaultOpen?: boolean;
+    /** Called with the new open state whenever the user (or `disabled`) changes it. In controlled mode the parent applies it. */
+    onOpenChange?: (open: boolean) => void;
+    /** Disables the button; an open popup closes. */
+    disabled?: boolean;
     /** Extra CSS class on the root. */
     className?: string;
 };
@@ -164,6 +172,10 @@ export function TextSizePicker({
     children,
     onChange,
     className = "",
+    open: openProp,
+    defaultOpen = false,
+    onOpenChange,
+    disabled = false,
     ...restProps
 }: Props): React.ReactElement {
     const isControlled = value !== undefined;
@@ -185,7 +197,27 @@ export function TextSizePicker({
     const tooltipId = `${baseId}-tooltip`;
     const optionId = (i: number) => `${baseId}-option-${i}`;
 
-    const [open, setOpen] = React.useState(false);
+    // `open` is controlled when the prop is given. `onOpenChange` is called once for each change the
+    // component makes (the user's, or `disabled` closing it); mounting open is not a change.
+    const [openInner, setOpenInner] = React.useState(defaultOpen);
+    const openRaw = openProp ?? openInner;
+    const open = openRaw && !disabled;
+    const openRef = React.useRef(open);
+    openRef.current = open;
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const setOpen = React.useCallback(
+      (next: boolean): void => {
+        if (next === openRef.current) return;
+        openRef.current = next;
+        if (openProp === undefined) setOpenInner(next);
+        onOpenChangeRef.current?.(next);
+      },
+      [openProp],
+    );
+    React.useEffect(() => {
+      if (disabled && openRaw) setOpen(false);
+    }, [disabled, openRaw, setOpen]);
     const [activeIndex, setActiveIndex] = React.useState(-1);
 
     const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -396,6 +428,7 @@ export function TextSizePicker({
             <input type="hidden" name={name} value={currentValue ?? ""} />
 
             <IconButton
+                disabled={disabled}
                 ref={buttonRef}
                 {...tip.buttonProps}
                 baseClass="text-size-picker-button"

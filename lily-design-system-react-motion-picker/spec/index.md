@@ -149,3 +149,7 @@ AGENTS/helpers.md shared by `theme-picker`, `locale-picker`, and
 idempotent-apply rule, same bundled-SVG-icon convention (reversed 2026-09-16). It is additive:
 existing catalogs, counts, and contracts for the other four helpers are
 unchanged by its introduction.
+
+## Open state and disabled (2026-10-16)
+
+`open?: boolean`, `defaultOpen?: boolean`, `onOpenChange?: (open: boolean) => void` and `disabled?: boolean`, ported from the Svelte canonical (its spec section "Open state and disabled"). Idiom: a controlled-or-uncontrolled prop pair instead of a bindable. With `open` given the picker is controlled: a user action calls `onOpenChange(next)` and the parent applies it; otherwise the picker holds the state and calls `onOpenChange` for each change. Mounting open is not a change. `disabled` is passed to the headless `IconButton` and an open popup closes when it becomes true. Tests: "open state and disabled".

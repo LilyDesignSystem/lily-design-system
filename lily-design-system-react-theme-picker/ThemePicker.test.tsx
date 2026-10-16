@@ -992,3 +992,56 @@ describe("ThemePicker — tooltip (§7.26–§7.33)", () => {
         remove.mockRestore();
     });
 });
+
+describe("ThemePicker — open state and disabled", () => {
+    test("open starts the popup open without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(<ThemePicker {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe("true");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(<ThemePicker {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }} onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: "Theme" });
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("controlled: a click asks for the change and the parent applies it", async () => {
+        const onOpenChange = vi.fn();
+        const { rerender } = render(<ThemePicker {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }} open={false} onOpenChange={onOpenChange} />);
+        fireEvent.click(screen.getByRole("button", { name: "Theme" }));
+        await flush();
+        expect(onOpenChange).toHaveBeenCalledWith(true);
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe("false");
+        rerender(<ThemePicker {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(<ThemePicker {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }} disabled onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: "Theme" }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(<ThemePicker {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }} open disabled />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe("false");
+    });
+});
+

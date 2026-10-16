@@ -726,3 +726,56 @@ describe("MotionPicker — tooltip (§7.19–§7.26)", () => {
         remove.mockRestore();
     });
 });
+
+describe("MotionPicker — open state and disabled", () => {
+    test("open starts the popup open without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(<MotionPicker label="Motion" motions={MOTIONS} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("true");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(<MotionPicker label="Motion" motions={MOTIONS} onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: "Motion" });
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("controlled: a click asks for the change and the parent applies it", async () => {
+        const onOpenChange = vi.fn();
+        const { rerender } = render(<MotionPicker label="Motion" motions={MOTIONS} open={false} onOpenChange={onOpenChange} />);
+        fireEvent.click(screen.getByRole("button", { name: "Motion" }));
+        await flush();
+        expect(onOpenChange).toHaveBeenCalledWith(true);
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("false");
+        rerender(<MotionPicker label="Motion" motions={MOTIONS} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(<MotionPicker label="Motion" motions={MOTIONS} disabled onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: "Motion" }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(<MotionPicker label="Motion" motions={MOTIONS} open disabled />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("false");
+    });
+});
+

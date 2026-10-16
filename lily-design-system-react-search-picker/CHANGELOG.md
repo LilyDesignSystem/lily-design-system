@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-16
+
+- Added `open`, `onOpenChange` and `disabled`, ported from the Svelte package (spec "Open state and disabled"). `open` makes the popup controlled (`defaultOpen` starts an uncontrolled one); `onOpenChange(open)` is called once for each change the picker makes, and not for the initial value; `disabled` disables the button and closes an open popup.
+
 ## 0.1.0 — 2026-10-02, additions before first publication
 
 **Added (minor, additive): a picker tooltip.** A new `.search-picker-tooltip` element (`role="tooltip"`, `hidden` at rest) follows the icon button and shows the button's existing `label` on pointer hover, on the tooltip itself (hoverable), and on keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus, and it is never shown while the panel is open. No new props and no new text; deliberately not linked by `aria-describedby`, since it duplicates the button's `aria-label`. The existing "no user-facing text of its own" test now allows the tooltip text (the label). Position and appearance are theme CSS keyed on `hidden`.

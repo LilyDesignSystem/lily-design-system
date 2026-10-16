@@ -59,6 +59,14 @@ export type Props = Omit<
     onSearch?: (query: string, href: string) => void;
     /** Replaces the default magnifying-glass icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
+    /** Is the popup open? Controlled when given; the popup starts as `defaultOpen` otherwise. */
+    open?: boolean;
+    /** Initial open state of an uncontrolled picker. */
+    defaultOpen?: boolean;
+    /** Called with the new open state whenever the user (or `disabled`) changes it. In controlled mode the parent applies it. */
+    onOpenChange?: (open: boolean) => void;
+    /** Disables the button; an open popup closes. */
+    disabled?: boolean;
     /** Extra CSS class on the root. */
     className?: string;
 };
@@ -163,6 +171,10 @@ export function SearchPicker({
     navigate,
     onSearch,
     children,
+    open: openProp,
+    defaultOpen = false,
+    onOpenChange,
+    disabled = false,
     ...restProps
 }: Props): React.ReactElement {
     // `useId` is stable across server and client render, so the panel id
@@ -175,7 +187,27 @@ export function SearchPicker({
     const [internalValue, setInternalValue] = React.useState(defaultValue);
     const query = isControlled ? (value as string) : internalValue;
 
-    const [open, setOpen] = React.useState(false);
+    // `open` is controlled when the prop is given. `onOpenChange` is called once for each change the
+    // component makes (the user's, or `disabled` closing it); mounting open is not a change.
+    const [openInner, setOpenInner] = React.useState(defaultOpen);
+    const openRaw = openProp ?? openInner;
+    const open = openRaw && !disabled;
+    const openRef = React.useRef(open);
+    openRef.current = open;
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const setOpen = React.useCallback(
+      (next: boolean): void => {
+        if (next === openRef.current) return;
+        openRef.current = next;
+        if (openProp === undefined) setOpenInner(next);
+        onOpenChangeRef.current?.(next);
+      },
+      [openProp],
+    );
+    React.useEffect(() => {
+      if (disabled && openRaw) setOpen(false);
+    }, [disabled, openRaw, setOpen]);
 
     const rootRef = React.useRef<HTMLDivElement | null>(null);
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
@@ -288,6 +320,7 @@ export function SearchPicker({
             {...restProps}
         >
             <IconButton
+                disabled={disabled}
                 ref={buttonRef}
                 {...tip.buttonProps}
                 baseClass="search-picker-button"

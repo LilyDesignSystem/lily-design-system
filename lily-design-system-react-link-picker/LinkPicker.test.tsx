@@ -22,6 +22,8 @@ function mount(props: Record<string, unknown> = {}) {
     return render(<LinkPicker label="Pages" links={LINKS} {...(props as object)} />);
 }
 
+const flush = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
+
 describe("LinkPicker", () => {
     test("7.1 renders the root, button, tooltip and a hidden list", () => {
         const { container } = mount();
@@ -234,3 +236,56 @@ describe("LinkPicker", () => {
         expect(src).not.toMatch(/href="\//);
     });
 });
+
+describe("LinkPicker — open state and disabled", () => {
+    test("open starts the popup open without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(<LinkPicker label="Pages" links={LINKS} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe("true");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(<LinkPicker label="Pages" links={LINKS} onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: "Pages" });
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("controlled: a click asks for the change and the parent applies it", async () => {
+        const onOpenChange = vi.fn();
+        const { rerender } = render(<LinkPicker label="Pages" links={LINKS} open={false} onOpenChange={onOpenChange} />);
+        fireEvent.click(screen.getByRole("button", { name: "Pages" }));
+        await flush();
+        expect(onOpenChange).toHaveBeenCalledWith(true);
+        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe("false");
+        rerender(<LinkPicker label="Pages" links={LINKS} open onOpenChange={onOpenChange} />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(<LinkPicker label="Pages" links={LINKS} disabled onOpenChange={onOpenChange} />);
+        const button = screen.getByRole("button", { name: "Pages" }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(<LinkPicker label="Pages" links={LINKS} open disabled />);
+        await flush();
+        expect(screen.getByRole("button", { name: "Pages" }).getAttribute("aria-expanded")).toBe("false");
+    });
+});
+
