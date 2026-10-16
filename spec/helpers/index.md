@@ -156,6 +156,7 @@ packages above. [`bin/list-helper-packages html`](../../bin/list-helper-packages
 Until 2026-10-10 in the `lily-design-system-web-components-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages web-components`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-web-components-data-grid`](../../lily-design-system-web-components-data-grid/) — `@lilydesignsystem/web-components-data-grid`
 - [`lily-design-system-web-components-date-time-picker`](../../lily-design-system-web-components-date-time-picker/) — `@lilydesignsystem/web-components-date-time-picker`
 - [`lily-design-system-web-components-kanban-board`](../../lily-design-system-web-components-kanban-board/) — `@lilydesignsystem/web-components-kanban-board`
 - [`lily-design-system-web-components-link-picker`](../../lily-design-system-web-components-link-picker/) — `@lilydesignsystem/web-components-link-picker`

@@ -135,6 +135,7 @@ The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/li
 
 The Web Components helpers, one top-level subproject per package since 2026-10-10 (`bin/list-helper-packages web-components`):
 
+- [`lily-design-system-web-components-data-grid`](../lily-design-system-web-components-data-grid) — `@lilydesignsystem/web-components-data-grid`
 - [`lily-design-system-web-components-date-time-picker`](../lily-design-system-web-components-date-time-picker) — `@lilydesignsystem/web-components-date-time-picker`
 - [`lily-design-system-web-components-kanban-board`](../lily-design-system-web-components-kanban-board) — `@lilydesignsystem/web-components-kanban-board`
 - [`lily-design-system-web-components-link-picker`](../lily-design-system-web-components-link-picker) — `@lilydesignsystem/web-components-link-picker`
