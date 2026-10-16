@@ -1,5 +1,5 @@
 import * as React from "react";
-import { act, render, screen, fireEvent, within } from "@testing-library/react";
+import { act, cleanup, render, screen, fireEvent, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import DataGrid from "./DataGrid";
@@ -1262,5 +1262,217 @@ describe("DataGrid — cell types (§8.79–§8.97)", () => {
         mount([{ id: "x", header: "X" }], [{ x: "plain" }]);
         expect(dataCell(0, 0).hasAttribute("data-cell-type")).toBe(false);
         expect(text(dataCell(0, 0))).toBe("plain");
+    });
+});
+
+describe("DataGrid — time zone, person, file, rollup and formula types (§8.98–§8.113)", () => {
+    const dataCell = (row: number, col: number) =>
+        document.querySelector<HTMLElement>(`.data-table-body [data-row="${row}"][data-col="${col}"]`)!;
+    const text = (el: Element) => (el.textContent ?? "").trim();
+    const mount = (columns: DataGridColumn[], rows: Record<string, unknown>[], extra: Record<string, unknown> = {}) =>
+        renderGrid({ label: "G", columns, rows, ...extra } as never);
+    const zones = [{ id: "Europe/London", label: "London" }, { id: "America/New_York", label: "New York" }];
+
+    test("§8.98 time-zone shows the time and the zone id as given; with a locale and a reference date, the zone's short name; never converted", () => {
+        mount([{ id: "t", header: "T", type: "time-zone" }], [{ t: { time: "14:30", timeZone: "Europe/London" } }]);
+        expect(text(dataCell(0, 0))).toBe("14:30 Europe/London");
+        document.body.innerHTML = "";
+        mount([{ id: "t", header: "T", type: "time-zone", referenceDate: "2026-07-01" }], [{ t: { time: "14:30", timeZone: "Europe/London" } }], { locale: "en-GB" });
+        expect(text(dataCell(0, 0))).toMatch(/^14:30 (BST|GMT\+1)$/);
+        document.body.innerHTML = "";
+        mount([{ id: "t", header: "T", type: "time-zone" }], [{ t: { time: "09:00", timeZone: "+01:00" } }]);
+        expect(text(dataCell(0, 0))).toBe("09:00 +01:00");
+    });
+
+    test("§8.99 time-zone sorts by the UTC minute at the consumer's reference date, equal instants equal; without one, by the stated time", async () => {
+        const rows = [
+            { t: { time: "13:00", timeZone: "America/New_York" } }, // 17:00 UTC in July
+            { t: { time: "17:30", timeZone: "Europe/London" } }, // 16:30 UTC
+            { t: { time: "10:00", timeZone: "+00:00" } }, // 10:00 UTC
+        ];
+        mount([{ id: "t", header: "T", type: "time-zone", sortable: true, referenceDate: "2026-07-01" }], rows, { sort: { columnId: "t", direction: "ascending" } });
+        expect([0, 1, 2].map((i) => text(dataCell(i, 0)).slice(0, 5))).toEqual(["10:00", "17:30", "13:00"]);
+        document.body.innerHTML = "";
+        mount([{ id: "t", header: "T", type: "time-zone", sortable: true }], rows, { sort: { columnId: "t", direction: "ascending" } });
+        expect([0, 1, 2].map((i) => text(dataCell(i, 0)).slice(0, 5))).toEqual(["10:00", "13:00", "17:30"]);
+    });
+
+    test("§8.100 the time-zone editor is a time field and a zone select; commit reports { time, timeZone }; changing the zone keeps the time", async () => {
+        const onCellEdit = vi.fn();
+        mount([{ id: "t", header: "Start", type: "time-zone", editable: true, timeZones: zones }], [{ t: { time: "09:00", timeZone: "Europe/London" } }], { onCellEdit, labels: { timeZone: (h: string) => `${h} zone` } });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const time = document.querySelector<HTMLInputElement>('input[type="time"]')!;
+        const zone = screen.getByRole("combobox", { name: "Start zone" }) as HTMLSelectElement;
+        expect(time.value).toBe("09:00");
+        expect(zone.value).toBe("Europe/London");
+        fireEvent.change(zone, { target: { value: "America/New_York" } });
+        fireEvent.keyDown(zone, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0].value).toEqual({ time: "09:00", timeZone: "America/New_York" });
+    });
+
+    test("§8.101 person shows names as text, '; '-joined text for filter and export, avatars are decorative, +N through labels.morePeople", async () => {
+        const people = [{ id: "a", name: "Ann", email: "ann@x" }, { id: "b", name: "Bo" }, { id: "c" }];
+        mount([{ id: "p", header: "P", type: "person", maxPeople: 2 }], [{ p: people }, { p: { id: "z", name: "Zed" } }], { labels: { morePeople: (n: number) => `+${n} more`, search: "Search" } });
+        const names = Array.from(dataCell(0, 0).querySelectorAll(".data-grid-person-name")).map((e) => e.textContent);
+        expect(names).toEqual(["Ann", "Bo"]);
+        expect(text(dataCell(0, 0).querySelector(".data-grid-people-more")!)).toBe("+1 more");
+        fireEvent.input(screen.getByRole("searchbox", { name: "Search" }), { target: { value: "ann@x" } });
+        expect(bodyRows()).toHaveLength(1);
+    });
+
+    test("§8.102 a person with no name falls back to the id; export is the names '; '-joined", async () => {
+        const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+        mount([{ id: "p", header: "P", type: "person" }], [{ p: [{ id: "a", name: "Ann" }, { id: "u7" }] }], { labels: { exportCsv: "CSV" }, onExport });
+        expect(text(dataCell(0, 0))).toBe("Annu7");
+        fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+        expect(out).toBe("﻿P\r\nAnn; u7\r\n");
+    });
+
+    test("§8.103 file shows names, a link only for a safe href, sizes through the consumer's formatter; the input reports File objects and uploads nothing", async () => {
+        const onFilesSelected = vi.fn();
+        const onFileRemove = vi.fn();
+        const files = [{ id: "1", name: "a.pdf", size: 2048, href: "https://x.test/a.pdf" }, { id: "2", name: "b.txt", href: "javascript:alert(1)" }];
+        mount([{ id: "f", header: "Files", type: "file", editable: true, formatSize: (n: number) => `${n / 1024} KB` }], [{ f: files }], { onFilesSelected, onFileRemove, labels: { removeFile: (n: string) => `Remove ${n}` } });
+        const links = dataCell(0, 0).querySelectorAll("a");
+        expect(links).toHaveLength(1);
+        expect(links[0].getAttribute("href")).toBe("https://x.test/a.pdf");
+        expect(text(dataCell(0, 0).querySelector(".data-grid-file-size")!)).toBe("2 KB");
+        const input = dataCell(0, 0).querySelector<HTMLInputElement>('input[type="file"]')!;
+        expect(input.getAttribute("aria-label")).toBe("Files");
+        const chosen = new File(["x"], "c.png");
+        fireEvent.change(input, { target: { files: [chosen] } });
+        expect(onFilesSelected.mock.calls[0][0]).toMatchObject({ columnId: "f", files: [chosen] });
+        fireEvent.click(screen.getByRole("button", { name: "Remove b.txt" }));
+        expect(onFileRemove.mock.calls[0][0]).toMatchObject({ columnId: "f", fileId: "2" });
+    });
+
+    test("§8.104 file sorts by first name then count, filters on names, exports names '; '-joined", async () => {
+        mount([{ id: "f", header: "F", type: "file", sortable: true }], [{ f: [{ id: "1", name: "b" }] }, { f: [{ id: "2", name: "a" }, { id: "3", name: "z" }] }], { sort: { columnId: "f", direction: "ascending" } });
+        expect(text(dataCell(0, 0))).toBe("az");
+    });
+
+    test("§8.105 rollup derives its number from the related values once per row; empty is empty, count of none is 0", () => {
+        const rows = [{ h: [1, 2, 3] }, { h: [] }, { h: [null, "x"] }];
+        mount([{ id: "h", header: "Hours", type: "rollup", aggregate: "sum", resultType: "number" }, { id: "c", header: "Count", type: "rollup", aggregate: "count", relation: (r: Record<string, unknown>) => r.h as unknown[] }], rows);
+        expect(text(dataCell(0, 0))).toBe("6");
+        expect(text(dataCell(1, 0))).toBe("");
+        expect(text(dataCell(1, 1))).toBe("0");
+        expect(dataCell(0, 0).getAttribute("data-align")).toBe("end");
+    });
+
+    test("§8.106 aggregates: avg, median, min, max, range, countUnique, percentTrue, percentEmpty and a custom reduce", () => {
+        const cols = (["avg", "median", "min", "max", "range", "countUnique", "percentTrue", "percentEmpty"] as const).map((aggregate) => ({
+            id: aggregate,
+            header: aggregate,
+            type: "rollup" as const,
+            aggregate,
+            relation: (r: Record<string, unknown>) => r.v as unknown[],
+        }));
+        cols.push({ id: "x", header: "x", type: "rollup", aggregate: "count", reduce: (v: unknown[]) => v.length * 10, relation: (r: Record<string, unknown>) => r.v as unknown[] } as never);
+        mount(cols, [{ v: [1, 2, 2, 9] }]);
+        expect(cols.map((_, i) => text(dataCell(0, i)))).toEqual(["3.5", "2", "1", "9", "8", "3", "", "0", "40"]);
+    });
+
+    test("§8.107 a rollup cell is read-only: aria-readonly, data-readonly, F2 and double click do nothing; the header carries its description", async () => {
+        mount([{ id: "h", header: "Hours", type: "rollup", aggregate: "sum", editable: true }], [{ h: [1, 2] }], { labels: { rollupDescription: (h: string) => `Sum of ${h}`, editCell: () => "Edit" } });
+        const cell = dataCell(0, 0);
+        expect(cell.getAttribute("aria-readonly")).toBe("true");
+        expect(cell.hasAttribute("data-readonly")).toBe(true);
+        fireEvent.keyDown(cell, { key: "F2" });
+        fireEvent.dblClick(cell);
+        expect(document.querySelector(".data-grid-cell-editor")).toBeNull();
+        expect(document.querySelector(".data-grid-edit-button")).toBeNull();
+        const th = document.querySelector<HTMLElement>(".data-table-head th[data-col='0']")!;
+        const describedBy = th.getAttribute("aria-describedby")!;
+        expect(document.getElementById(describedBy)!.textContent).toBe("Sum of Hours");
+    });
+
+    test("§8.108 rollup sorts and exports on the typed result", async () => {
+        const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+        mount([{ id: "h", header: "H", type: "rollup", aggregate: "sum", resultType: "number", sortable: true }], [{ h: [5] }, { h: [1, 1] }], { sort: { columnId: "h", direction: "ascending" }, labels: { exportCsv: "CSV" }, onExport });
+        expect(text(dataCell(0, 0))).toBe("2");
+        fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+        expect(out).toBe("﻿H\r\n2\r\n5\r\n");
+    });
+
+    const evaluate = (expression: string, { row, rows }: { row: Record<string, unknown>; rows: Record<string, unknown>[] }) => {
+        const match = /^=\s*(\d+)\s*\/\s*(\d+)$/.exec(expression);
+        if (match) return Number(match[2]) === 0 ? { error: "Division by zero" } : { value: Number(match[1]) / Number(match[2]) };
+        if (expression === "=ROWS") return { value: rows.length };
+        if (expression === "=THROW") throw new Error("boom");
+        return { value: row.n };
+    };
+
+    test("§8.109 formula shows the result of the consumer's evaluate, computed once per row; rows store only the expression", () => {
+        const spy = vi.fn(evaluate);
+        mount([{ id: "f", header: "F", type: "formula", evaluate: spy, resultType: "number" }], [{ f: "=6/3" }, { f: "=ROWS" }]);
+        expect(text(dataCell(0, 0))).toBe("2");
+        expect(text(dataCell(1, 0))).toBe("2");
+        expect(spy).toHaveBeenCalledTimes(2);
+    });
+
+    test("§8.110 a formula error is plain text with data-error on the cell; a thrown error becomes its message", () => {
+        mount([{ id: "f", header: "F", type: "formula", evaluate }], [{ f: "=1/0" }, { f: "=THROW" }, { f: "=4/2" }]);
+        expect(text(dataCell(0, 0))).toBe("Division by zero");
+        expect(dataCell(0, 0).hasAttribute("data-error")).toBe(true);
+        expect(text(dataCell(1, 0))).toBe("boom");
+        expect(dataCell(2, 0).hasAttribute("data-error")).toBe(false);
+    });
+
+    test("§8.111 the formula editor shows the expression, commits an expression, and the result recomputes; editor named by labels.formulaEditor", async () => {
+        const onCellEdit = vi.fn();
+        mount([{ id: "f", header: "F", type: "formula", evaluate, editable: true }], [{ f: "=6/3" }], { onCellEdit, labels: { formulaEditor: (h: string) => `${h} expression` } });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = screen.getByRole("textbox", { name: "F expression" }) as HTMLInputElement;
+        expect(input.value).toBe("=6/3");
+        fireEvent.input(input, { target: { value: "=8/2" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit.mock.calls[0][0]).toMatchObject({ columnId: "f", value: "=8/2", previous: "=6/3" });
+    });
+
+    test("§8.112 validate refuses an expression with the engine's message", async () => {
+        const onCellEdit = vi.fn();
+        const validate = (v: unknown, row: Record<string, unknown>) => {
+            const r = evaluate(String(v), { row, rows: [] });
+            return "error" in r ? r.error : undefined;
+        };
+        mount([{ id: "f", header: "F", type: "formula", evaluate, editable: true, validate }], [{ f: "=6/3" }], { onCellEdit });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        const input = document.querySelector<HTMLInputElement>(".data-grid-cell-editor")!;
+        fireEvent.input(input, { target: { value: "=1/0" } });
+        fireEvent.keyDown(input, { key: "Enter" });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        expect(input.getAttribute("aria-invalid")).toBe("true");
+        expect(document.querySelector(".data-grid-cell-error")!.textContent).toBe("Division by zero");
+    });
+
+    test("§8.113 formula export is the typed result (or the error text); sort and filter use the result", async () => {
+        const onExport = vi.fn((_f: { blob: Blob }) => false as const);
+        mount([{ id: "f", header: "F", type: "formula", evaluate, sortable: true, resultType: "number" }], [{ f: "=9/3" }, { f: "=1/0" }, { f: "=4/2" }], { sort: { columnId: "f", direction: "ascending" }, labels: { exportCsv: "CSV", search: "Search" }, onExport });
+        expect(text(dataCell(0, 0))).toBe("2");
+        fireEvent.click(screen.getByRole("button", { name: "CSV" }));
+        const out = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await onExport.mock.calls[0][0].blob.arrayBuffer());
+        expect(out).toBe("﻿F\r\n2\r\n3\r\nDivision by zero\r\n");
+        fireEvent.input(screen.getByRole("searchbox", { name: "Search" }), { target: { value: "division" } });
+        expect(bodyRows()).toHaveLength(1);
+    });
+
+    test("§8.114 a person cell is read-only without personEditor; with one, the editor gets commit and cancel", () => {
+        const onCellEdit = vi.fn();
+        mount([{ id: "p", header: "P", type: "person", editable: true }], [{ p: { id: "a", name: "Ann" } }], { onCellEdit });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        expect(document.querySelector("[data-pick]")).toBeNull();
+        cleanup();
+        const personEditor = (ctx: { commit: (v: unknown) => void }) => (
+            <button type="button" data-pick onClick={() => ctx.commit({ id: "b", name: "Bo" })}>
+                pick
+            </button>
+        );
+        mount([{ id: "p", header: "P", type: "person", editable: true, personEditor }], [{ p: { id: "a", name: "Ann" } }], { onCellEdit });
+        fireEvent.keyDown(dataCell(0, 0), { key: "F2" });
+        fireEvent.click(document.querySelector("[data-pick]")!);
+        expect(onCellEdit.mock.calls[0][0]).toMatchObject({ columnId: "p", value: { id: "b", name: "Bo" }, previous: { id: "a", name: "Ann" } });
     });
 });

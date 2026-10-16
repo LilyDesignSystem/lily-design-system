@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.9.0 — 2026-10-16
+
+- Added the five remaining cell types, ported from the Svelte 0.9.0: `time-zone`, `person` (`avatar`, `personEditor` render props), `file` (`onFilesSelected`, `onFileRemove`; nothing is uploaded), `rollup` (read-only, `aggregate` / `reduce` / `relation`) and `formula` (the consumer's `evaluate`; no engine, no string evaluation). Rollup and formula results are computed once per row each time `rows` or `columns` change. New exports: `aggregateValues`, `isZonedTime`, `isValidTimeZone`, `zonedMinutes`, `peopleOf`, `personName`, `filesOf`.
+
 ## 0.8.0 — 2026-10-16
 
 - Added `column.type`, ported from the Svelte 0.8.0: `"text" | "number" | "link" | "date" | "time" | "select" | "radio"`, a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor` plus each type's markup; your own props win. `data-cell-type` on the header and cells. New column props `locale`, `options`, `sortBy`, `exportAs`, `numberFormat`, `dateFormat`, `timeFormat`, `filterText`; a grid `locale` prop (never defaulted).

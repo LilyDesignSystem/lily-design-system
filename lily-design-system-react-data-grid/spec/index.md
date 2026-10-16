@@ -112,3 +112,7 @@ Ported from the Svelte canonical: see ../lily-design-system-svelte-data-grid/spe
 ## Cell types (2026-10-16)
 
 Ported from the Svelte canonical: the contract is ../lily-design-system-svelte-data-grid/spec/cell-types/index.md (tests §8.79–§8.97). Time with time zone, person, file, rollup and formulas are specified there but not implemented in either package.
+
+## Remaining cell types (0.9.0) (2026-10-16)
+
+Ported from the Svelte canonical: the contract is ../lily-design-system-svelte-data-grid/spec/cell-types/index.md (tests §8.98–§8.114). Every one of the twelve cell types is shipped in both packages.

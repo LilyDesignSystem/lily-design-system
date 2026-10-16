@@ -13,9 +13,14 @@ import {
   isInvalidForType,
   linkParts,
   resolveColumn,
+  filesOf,
+  isZonedTime,
+  peopleOf,
+  personName,
   safeHref,
   type DataGridCellType,
   type DataGridOption,
+  type DataGridPerson,
 } from "./cell-types";
 
 export type DataGridSortDirection = "ascending" | "descending" | "none";
@@ -99,7 +104,37 @@ export type DataGridColumn = {
   /** Cells can be edited in place: F2 or Enter on a focused cell, a double click, or the button `labels.editCell` gates. Enter commits, Escape cancels, leaving the field commits. */
   editable?: boolean;
   /** The editor's control. Default `"text"`; a `type` sets its own (`"number"`, `"link"`, `"date"`, `"time"`, `"select"`, `"radio"`). */
-  editor?: "text" | "number" | "link" | "date" | "time" | "select" | "radio";
+  editor?: "text" | "number" | "link" | "date" | "time" | "time-zone" | "select" | "radio" | "person" | "formula";
+  /** `time-zone`: the zones the editor's select offers. */
+  timeZones?: DataGridOption[];
+  /** `time-zone`: the date (ISO) that orders zoned times and names a zone. Never computed by the grid. */
+  referenceDate?: string;
+  /** `rollup`: how the related values are reduced. */
+  aggregate?: "count" | "countUnique" | "sum" | "avg" | "median" | "min" | "max" | "range" | "percentTrue" | "percentEmpty";
+  /** `rollup`: a reduction the named aggregates do not cover. */
+  reduce?: (values: unknown[], row: DataGridRow) => unknown;
+  /** `rollup`: reads the related values. Defaults to the row's own array at the column id. */
+  relation?: (row: DataGridRow) => unknown[];
+  /** `rollup` and `formula`: the result's type, so it formats and sorts like one. */
+  resultType?: "number" | "date" | "text";
+  /** `formula`: evaluates an expression. Lily ships no engine and never evaluates a string itself. */
+  evaluate?: (expression: string, context: { row: DataGridRow; rows: DataGridRow[]; columnId: string }) => { value: unknown } | { error: string };
+  /** `person`: how many people show before "+N" (`labels.morePeople`). */
+  maxPeople?: number;
+  /** `person`: an avatar beside the name. Decorative: the name is always shown as text. */
+  avatar?: (ctx: { person: DataGridPerson }) => React.ReactNode;
+  /** `person`: the editor, given `{ value, commit, cancel }`. Lily cannot look people up; the consumer builds the combobox. Without it a person cell is read-only. */
+  personEditor?: (ctx: { value: unknown; commit: (value: unknown) => void; cancel: () => void }) => React.ReactNode;
+  /** `file`: formats a size in bytes (no unit strings are bundled). */
+  formatSize?: (bytes: number) => string;
+  /** `file`: the `accept` of the file input. */
+  accept?: string;
+  /** `file`: whether the input takes several files. Default true. */
+  multiple?: boolean;
+  /** Set for a `formula` column: reads the expression a row holds. */
+  source?: (row: DataGridRow) => unknown;
+  /** Set for a `formula` column: the error message for a row, if any. */
+  errorOf?: (row: DataGridRow) => string | undefined;
   /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`, plus the cell's markup. Your own props win. See spec/cell-types/index.md. */
   type?: DataGridCellType;
   /** BCP 47 locale for this column's formatting and collation. Falls back to the grid's `locale`; with neither, values show as stored. */
@@ -176,6 +211,18 @@ export type DataGridLabels = {
   opensInNewTab?: (text: string) => string;
   /** Accessible name of a radio group in a cell: (column header, row label). Default the header. */
   radioGroup?: (header: string, rowLabel: string) => string;
+  /** Accessible name of a `time-zone` editor's zone select. Defaults to the column header. */
+  timeZone?: (header: string) => string;
+  /** `person`: "+N more" text: (how many are hidden). Gates the text. */
+  morePeople?: (count: number) => string;
+  /** `file`: accessible name of a remove button: (file name). Gates the button. */
+  removeFile?: (name: string) => string;
+  /** `file`: accessible name of the file input: (column header, row label). Defaults to the header. */
+  fileInput?: (header: string, rowLabel: string) => string;
+  /** `formula`: accessible name of the expression editor. Defaults to the column header. */
+  formulaEditor?: (header: string) => string;
+  /** `rollup`: says what the derived number is ("Sum of hours"): read with the header. Gates the description. */
+  rollupDescription?: (header: string) => string;
   /** Announced after an edit is cancelled with Escape. */
   editCancelAnnouncement?: (header: string) => string;
   /** Announced when `validate` refuses a value: (column header, the message). */
@@ -255,6 +302,10 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   exportScope?: "view" | "selected";
   /** Called with the file before it is saved. Return `false` to keep the grid from saving it (to upload it, say). */
   onExport?: (file: DataGridExport) => boolean | void;
+  /** `file` columns: called with the `File` objects the person chose. Lily does not upload: the consumer does, then updates `rows`. */
+  onFilesSelected?: (event: { rowId: string; row: DataGridRow; columnId: string; files: File[] }) => void;
+  /** `file` columns: called when a file's remove button is pressed. The consumer updates `rows`. */
+  onFileRemove?: (event: { rowId: string; row: DataGridRow; columnId: string; fileId: string }) => void;
   /** Called after a cell edit is committed. The consumer updates `rows`; the grid never mutates them. */
   onCellEdit?: (edit: DataGridCellEdit) => void;
   /**
@@ -333,6 +384,8 @@ export function DataGrid({
   busy = false,
   scroll = true,
   onCellEdit,
+  onFilesSelected,
+  onFileRemove,
   virtualize,
   exportFilename: exportBase = "data-grid",
   exportScope = "view",
@@ -340,7 +393,7 @@ export function DataGrid({
   ...restProps
 }: Props): React.ReactElement {
   // Each column with its type's defaults filled in under its own props.
-  const columns = React.useMemo(() => columnsProp.map((c) => resolveColumn(c, locale)), [columnsProp, locale]);
+  const columns = React.useMemo(() => columnsProp.map((c) => resolveColumn(c, locale, rows)), [columnsProp, locale, rows]);
 
   const gridId = React.useId();
 
@@ -790,7 +843,15 @@ export function DataGrid({
   // Cell editing
   // ---------------------------------------------------------------
 
-  type Editing = { rowId: string; columnId: string; draft: string; error?: string; invalid?: boolean };
+  type Editing = { rowId: string; columnId: string; draft: string; zone?: string; error?: string; invalid?: boolean };
+
+  /** A cell the person can edit through the grid's edit model (not a rollup, a file cell with its own widgets, or a person cell with no editor). */
+  function isEditable(column: DataGridColumn): boolean {
+    if (!column.editable) return false;
+    if (column.type === "rollup" || column.type === "file") return false;
+    if (column.type === "person" && !column.personEditor) return false;
+    return true;
+  }
   const [editing, setEditingState] = React.useState<Editing | null>(null);
   // Mirrors `editing` synchronously, so a blur that follows a commit in the same tick sees it already closed.
   const editingRef = React.useRef<Editing | null>(null);
@@ -800,14 +861,21 @@ export function DataGrid({
   }
 
   function startEdit(entry: Entry, column: DataGridColumn): void {
-    if (!column.editable) return;
-    const raw = defaultAccessor(column, entry.row);
+    if (!isEditable(column)) return;
+    // A formula's editor shows the expression the row holds, not the result.
+    const raw = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
+    if (column.type === "time-zone") {
+      const zoned = isZonedTime(raw) ? raw : null;
+      setEditing({ rowId: entry.id, columnId: column.id, draft: zoned?.time ?? "", zone: zoned?.timeZone ?? column.timeZones?.[0]?.id ?? "" });
+      return;
+    }
     const text = column.type === "link" ? (linkParts(raw)?.href ?? "") : raw === null || raw === undefined ? "" : String(raw);
     setEditing({ rowId: entry.id, columnId: column.id, draft: text });
   }
 
-  function parseDraft(column: DataGridColumn, row: DataGridRow, draft: string): unknown {
+  function parseDraft(column: DataGridColumn, row: DataGridRow, draft: string, zone?: string): unknown {
     if (column.parse) return column.parse(draft, row);
+    if (column.type === "time-zone") return draft === "" ? null : { time: draft, timeZone: zone ?? "" };
     if (column.editor === "number") return draft.trim() === "" ? null : Number(draft);
     if (column.editor === "date" || column.editor === "time" || column.editor === "select") return draft === "" ? null : draft;
     return draft;
@@ -829,7 +897,7 @@ export function DataGrid({
       announce(labels.editError?.(column.header, text));
       return false;
     }
-    const previous = defaultAccessor(column, entry.row);
+    const previous = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
     setEditing(null);
     if (value !== previous && !isStructurallyEqual(value, previous)) {
       onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
@@ -847,7 +915,7 @@ export function DataGrid({
       setEditing(null);
       return;
     }
-    if (commitValue(entry, column, parseDraft(column, entry.row, current.draft))) pendingFocusRef.current = true;
+    if (commitValue(entry, column, parseDraft(column, entry.row, current.draft, current.zone))) pendingFocusRef.current = true;
   }
 
   function cancelEdit(): void {
@@ -985,7 +1053,7 @@ export function DataGrid({
     if (!cell || cell.closest(".data-table-head") || target.closest("input, button, select, textarea")) return;
     const entry = pageEntries[Number(cell.dataset.row)];
     const column = visibleColumns[Number(cell.dataset.col) - colOffset];
-    if (entry && column?.editable) startEdit(entry, column);
+    if (entry && column && isEditable(column)) startEdit(entry, column);
   }
 
   function onGridKeydown(event: React.KeyboardEvent): void {
@@ -1048,7 +1116,7 @@ export function DataGrid({
       case "F2": {
         const entry = pageEntries[Number(cell.dataset.row)];
         const column = visibleColumns[Number(cell.dataset.col) - colOffset];
-        if (target === cell && entry && column?.editable) {
+        if (target === cell && entry && column && isEditable(column)) {
           event.preventDefault();
           startEdit(entry, column);
         }
@@ -1060,7 +1128,7 @@ export function DataGrid({
         if (event.key === "Enter" && target === cell && cell.closest(".data-table-body")) {
           const entry = pageEntries[Number(cell.dataset.row)];
           const column = visibleColumns[Number(cell.dataset.col) - colOffset];
-          if (entry && column?.editable) {
+          if (entry && column && isEditable(column)) {
             startEdit(entry, column);
             break;
           }
@@ -1151,13 +1219,95 @@ export function DataGrid({
     );
   }
 
+  function personBody(column: DataGridColumn, ctx: DataGridCellContext): React.ReactNode {
+    const people = peopleOf(ctx.value);
+    if (people.length === 0) return null;
+    const shown = column.maxPeople !== undefined ? people.slice(0, Math.max(0, column.maxPeople)) : people;
+    return (
+      <ul className="data-grid-people">
+        {shown.map((person) => (
+          <li key={person.id} className="data-grid-person">
+            {column.avatar && (
+              <span className="data-grid-avatar" aria-hidden="true">
+                {column.avatar({ person })}
+              </span>
+            )}
+            <span className="data-grid-person-name">{personName(person)}</span>
+          </li>
+        ))}
+        {shown.length < people.length && labels.morePeople && (
+          <li className="data-grid-people-more">{labels.morePeople(people.length - shown.length)}</li>
+        )}
+      </ul>
+    );
+  }
+
+  function fileBody(entry: Entry, column: DataGridColumn, ctx: DataGridCellContext): React.ReactNode {
+    const files = filesOf(ctx.value);
+    const rowLabel = visibleColumns[0] ? cellFor(visibleColumns[0], entry.row).formatted : entry.id;
+    return (
+      <>
+        {files.length > 0 && (
+          <ul className="data-grid-files">
+            {files.map((file) => {
+              const href = file.href ? safeHref(file.href) : null;
+              return (
+                <li key={file.id} className="data-grid-file">
+                  {href ? (
+                    <a className="data-grid-link" href={href}>
+                      {file.name}
+                    </a>
+                  ) : (
+                    <span className="data-grid-file-name">{file.name}</span>
+                  )}
+                  {file.size !== undefined && column.formatSize && (
+                    <>
+                      {" "}
+                      <span className="data-grid-file-size">{column.formatSize(file.size)}</span>
+                    </>
+                  )}
+                  {column.editable && labels.removeFile && (
+                    <button
+                      type="button"
+                      className="data-grid-file-remove"
+                      data-grid-own=""
+                      tabIndex={isGrid ? -1 : undefined}
+                      aria-label={labels.removeFile(file.name)}
+                      onClick={() => onFileRemove?.({ rowId: entry.id, row: entry.row, columnId: column.id, fileId: file.id })}
+                    />
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        {column.editable && (
+          <input
+            type="file"
+            className="data-grid-file-input"
+            aria-label={labels.fileInput?.(column.header, rowLabel) ?? column.header}
+            multiple={column.multiple !== false}
+            accept={column.accept}
+            tabIndex={isGrid ? -1 : undefined}
+            onChange={(e) => {
+              const input = e.target;
+              const chosen = Array.from(input.files ?? []);
+              if (chosen.length > 0) onFilesSelected?.({ rowId: entry.id, row: entry.row, columnId: column.id, files: chosen });
+              input.value = "";
+            }}
+          />
+        )}
+      </>
+    );
+  }
+
   function cellBody(entry: Entry, column: DataGridColumn, ctx: DataGridCellContext): React.ReactNode {
     const rowLabel = () => (visibleColumns[0] ? cellFor(visibleColumns[0], entry.row).formatted : entry.id);
     if (editing && editing.rowId === entry.id && editing.columnId === column.id) {
       const errorId = `${entry.id}-${column.id}-error`;
       const common = {
         className: "data-grid-cell-editor",
-        "aria-label": labels.cellEditor?.(column.header) ?? column.header,
+        "aria-label": (column.type === "formula" ? labels.formulaEditor?.(column.header) : undefined) ?? labels.cellEditor?.(column.header) ?? column.header,
         "aria-invalid": editing.error || editing.invalid ? ("true" as const) : undefined,
         "aria-describedby": editing.error ? errorId : undefined,
         onKeyDown: onEditorKeydown,
@@ -1166,6 +1316,57 @@ export function DataGrid({
         },
       };
       const groups = [...new Set((column.options ?? []).filter((o) => o.group).map((o) => o.group as string))];
+      if (column.editor === "person" && column.personEditor) {
+        return <>{column.personEditor({ value: ctx.value, commit: (v: unknown) => void commitValue(entry, column, v), cancel: cancelEdit })}</>;
+      }
+      if (column.editor === "time-zone") {
+        return (
+          <>
+            <span
+              className="data-grid-zoned-editor"
+              role="group"
+              aria-label={labels.cellEditor?.(column.header) ?? column.header}
+              onBlur={(e) => {
+                if (editingRef.current && !e.currentTarget.contains(e.relatedTarget as Node | null)) commitEdit();
+              }}
+            >
+              <input
+                className="data-grid-cell-editor"
+                aria-label={labels.cellEditor?.(column.header) ?? column.header}
+                aria-invalid={editing.error || editing.invalid ? "true" : undefined}
+                aria-describedby={editing.error ? errorId : undefined}
+                onKeyDown={onEditorKeydown}
+                ref={focusEditor}
+                type="time"
+                step={1}
+                value={editing.draft}
+                onChange={(e) => setDraft(e.target.value)}
+              />
+              <select
+                className="data-grid-cell-editor data-grid-zone-editor"
+                aria-label={labels.timeZone?.(column.header) ?? column.header}
+                onKeyDown={onEditorKeydown}
+                value={editing.zone}
+                onChange={(e) => {
+                  const current = editingRef.current;
+                  if (current) setEditing({ ...current, zone: e.target.value, error: undefined, invalid: false });
+                }}
+              >
+                {(column.timeZones ?? []).map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </span>
+            {editing.error && (
+              <span className="data-grid-cell-error" id={errorId}>
+                {editing.error}
+              </span>
+            )}
+          </>
+        );
+      }
       return (
         <>
           {column.editor === "select" ? (
@@ -1237,6 +1438,10 @@ export function DataGrid({
     }
     const shown = column.cell ? (
       column.cell(ctx)
+    ) : column.type === "person" ? (
+      personBody(column, ctx)
+    ) : column.type === "file" ? (
+      fileBody(entry, column, ctx)
     ) : column.type === "link" ? (
       linkBody(ctx)
     ) : column.type === "date" || column.type === "time" ? (
@@ -1247,7 +1452,7 @@ export function DataGrid({
     return (
       <>
         {shown}
-        {column.editable && column.type !== "radio" && labels.editCell && (
+        {isEditable(column) && column.type !== "radio" && labels.editCell && (
           <button
             type="button"
             className="data-grid-edit-button"
@@ -1315,6 +1520,7 @@ export function DataGrid({
               onDrop={column.movable ? (e: React.DragEvent) => onHeaderDrop(column.id, e) : undefined}
               tabIndex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
               aria-sort={ariaSortFor(column)}
+              aria-describedby={column.type === "rollup" && labels.rollupDescription ? `${gridId}-${column.id}-description` : undefined}
               style={cellStyle(column)}
             >
               {column.sortable ? (
@@ -1331,6 +1537,11 @@ export function DataGrid({
                 column.headerCell({ column })
               ) : (
                 column.header
+              )}
+              {column.type === "rollup" && labels.rollupDescription && (
+                <span className="data-grid-visually-hidden" id={`${gridId}-${column.id}-description`}>
+                  {labels.rollupDescription(column.header)}
+                </span>
               )}
               {column.resizable && (
                 // WAI-ARIA "window splitter" pattern: role="separator" plus tabindex/aria-valuenow is
@@ -1414,6 +1625,7 @@ export function DataGrid({
                     data-align={column.align}
                     data-cell-type={column.type}
                     data-pinned={column.pinned}
+                    data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
                     tabIndex={isGrid ? (isActive ? 0 : -1) : undefined}
                     style={cellStyle(column)}
                     {...extra}
@@ -1429,7 +1641,10 @@ export function DataGrid({
                     data-align={column.align}
                     data-cell-type={column.type}
                     data-pinned={column.pinned}
-                    data-editable={column.editable ? "" : undefined}
+                    data-editable={isEditable(column) ? "" : undefined}
+                    data-readonly={column.type === "rollup" ? "" : undefined}
+                    aria-readonly={column.type === "rollup" ? true : undefined}
+                    data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
                     data-editing={isEditingCell ? "" : undefined}
                     role={isGrid ? "gridcell" : "cell"}
                     {...(isGrid ? { active: isActive } : { tabIndex: undefined })}
