@@ -653,3 +653,44 @@ describe("SharePicker — tooltip (§7.26–§7.31)", () => {
         remove.mockRestore();
     });
 });
+
+describe("SharePicker — open state and disabled (§open)", () => {
+    test("open starts the popup open (aria-expanded) without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, open: true, onOpenChange } });
+        await flush();
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("true");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, onOpenChange } });
+        const button = screen.getByRole("button", { name: "Share" });
+        await fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        await fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, disabled: true, onOpenChange } });
+        const button = screen.getByRole("button", { name: "Share" }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        await fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(SharePicker, { props: { ...{ label: "Share", targets: TARGETS, url: URL_UNDER_TEST }, open: true, disabled: true } });
+        await flush();
+        expect(screen.getByRole("button", { name: "Share" }).getAttribute("aria-expanded")).toBe("false");
+    });
+});
+

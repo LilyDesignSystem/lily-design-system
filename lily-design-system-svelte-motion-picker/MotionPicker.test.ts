@@ -583,3 +583,44 @@ describe("MotionPicker — tooltip (§7.20–§7.25)", () => {
         remove.mockRestore();
     });
 });
+
+describe("MotionPicker — open state and disabled (§open)", () => {
+    test("open starts the popup open (aria-expanded) without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, open: true, onOpenChange } });
+        await flush();
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("true");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, onOpenChange } });
+        const button = screen.getByRole("button", { name: "Motion" });
+        await fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        await fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, disabled: true, onOpenChange } });
+        const button = screen.getByRole("button", { name: "Motion" }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        await fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(MotionPicker, { props: { ...{ label: "Motion", motions: MOTIONS }, open: true, disabled: true } });
+        await flush();
+        expect(screen.getByRole("button", { name: "Motion" }).getAttribute("aria-expanded")).toBe("false");
+    });
+});
+

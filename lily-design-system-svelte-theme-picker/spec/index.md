@@ -556,3 +556,7 @@ builds the href from both forms.
   to a bundled outline SVG. Maintainer-directed, applied to all five
   page-header pickers the same day. The glyph constant was removed, not
   renamed — there is no longer a single swappable character value.
+
+## Open state and disabled (2026-10-16)
+
+`open?: boolean` (bindable, default `false`), `onOpenChange?: (open: boolean) => void` and `disabled?: boolean` — the same three props `menu-picker` and `settings-picker` already had. `open` is the popup's state: the trigger's click, the keys, Escape, a selection and an outside click all write it, and so can the parent. `onOpenChange` is called once for each change from any source and not for the initial value. `disabled` is passed to the headless `IconButton` (a native `disabled`), so the button leaves the tab order and cannot be clicked, and an open popup is closed when it becomes true. Opening from outside does not move focus; the keys and the pointer still do. Tests: "open state and disabled".

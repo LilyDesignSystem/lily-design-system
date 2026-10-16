@@ -47,6 +47,12 @@
         children?: Snippet<[ChildArgs]>;
         /** Fires after a link is chosen, with its id and href. */
         onNavigate?: (id: string, href: string) => void;
+        /** Is the popup open? Bindable. */
+        open?: boolean;
+        /** Fires whenever the open state changes, by the user or from outside. */
+        onOpenChange?: (open: boolean) => void;
+        /** Disables the button; an open popup closes. */
+        disabled?: boolean;
         /** Extra CSS class on the root. */
         class?: string;
         /** Spread props onto the root element. */
@@ -67,6 +73,7 @@
 </script>
 
 <script lang="ts">
+    import { untrack } from "svelte";
     let {
         class: className = "",
         label,
@@ -74,6 +81,9 @@
         navigate,
         children,
         onNavigate,
+        open = $bindable(false),
+        onOpenChange,
+        disabled = false,
         ...restProps
     }: Props = $props();
 
@@ -81,7 +91,17 @@
     const listId = `${baseId}-list`;
     const tooltipId = `${baseId}-tooltip`;
 
-    let open = $state(false);
+    // Every change reaches `onOpenChange` once, whether the user or the parent made it;
+    // a disabled picker cannot stay open. `lastOpen` starts at the initial value, so mounting
+    // open is not a change.
+    let lastOpen = untrack(() => open);
+    $effect(() => {
+        if (disabled && open) open = false;
+        if (open !== lastOpen) {
+            lastOpen = open;
+            onOpenChange?.(open);
+        }
+    });
 
     // Tooltip: shown while the pointer is over the button or the tooltip
     // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
@@ -241,6 +261,7 @@
     {...restProps}
 >
     <IconButton
+        {disabled}
         bind:ref={buttonEl}
         baseClass="link-picker-button"
         label={label}

@@ -135,3 +135,7 @@ Tab proceeds from the picker's position instead of restarting from
 - §7.25 It is never shown while the listbox is open.
 - §7.26 While the tooltip is visible, `Escape` pressed anywhere (e.g. on `document.body` or another element, with the pointer hovering and focus elsewhere) dismisses it without moving focus or preventing default.
 - §7.27 The document `keydown` listener exists only while the tooltip is visible: added once on show, never doubled, removed on hide and on unmount.
+
+## Open state and disabled (2026-10-16)
+
+`open?: boolean` (bindable, default `false`), `onOpenChange?: (open: boolean) => void` and `disabled?: boolean` — the same three props `menu-picker` and `settings-picker` already had. `open` is the popup's state: the trigger's click, the keys, Escape, a selection and an outside click all write it, and so can the parent. `onOpenChange` is called once for each change from any source and not for the initial value. `disabled` is passed to the headless `IconButton` (a native `disabled`), so the button leaves the tab order and cannot be clicked, and an open popup is closed when it becomes true. Opening from outside does not move focus; the keys and the pointer still do. Tests: "open state and disabled".
