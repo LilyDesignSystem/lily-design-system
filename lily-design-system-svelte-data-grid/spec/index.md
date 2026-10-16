@@ -530,3 +530,7 @@ Tests §8.57–§8.74 (`export-data.test.ts` and `DataGrid.test.ts`). The format
 Deeper notes on screen-reader support, IME input and virtual scrolling for export: [excel-export/](excel-export/index.md).
 
 The twelve cell types (text, number, link, date, time, time with time zone, select option, radio group, person, file, rollup, formulas) and how a first-class `column.type` would bundle their defaults: [cell-types/](cell-types/index.md).
+
+## Remaining cell types (0.9.0) (2026-10-16)
+
+Implements §3.6 and §3.9–§3.12 of [cell-types](cell-types/index.md) (tests §8.98–§8.114): `time-zone`, `person`, `file`, `rollup` and `formula` are now `column.type` values. Every one of the twelve cell types is shipped.

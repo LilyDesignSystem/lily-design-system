@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.9.0 — 2026-10-16
+
+- Added the five remaining cell types: `time-zone` (`{ time, timeZone }`, shown in the zone it was stated in, ordered by the UTC minute at the consumer's `referenceDate`, edited with a time field and a `timeZones` select), `person` (names as text, `maxPeople` + `labels.morePeople`, decorative `avatar` snippet, a `personEditor` snippet given `{ value, commit, cancel }`), `file` (names, safe links, `formatSize`, a native file input that reports `File` objects through `onFilesSelected` and a remove button through `onFileRemove`; the grid uploads nothing), `rollup` (`aggregate` or `reduce` over a `relation`, read-only with `aria-readonly`, `labels.rollupDescription` on the header) and `formula` (the consumer's `evaluate(expression, { row, rows, columnId })`; Lily ships no engine and evaluates no string; errors are text with `data-error`; the editor shows the expression).
+- Results of a rollup and a formula are computed once per row each time `rows` or `columns` change. New exports: `aggregateValues`, `isZonedTime`, `isValidTimeZone`, `zonedMinutes`, `peopleOf`, `personName`, `filesOf`.
+
 ## 0.8.0 — 2026-10-16
 
 - Added `column.type`: `"text" | "number" | "link" | "date" | "time" | "select" | "radio"`, a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor` plus each type's markup; your own props win. `data-cell-type` on the header and cells. New column props `locale`, `options`, `sortBy`, `exportAs`, `numberFormat`, `dateFormat`, `timeFormat`, `filterText`; a grid `locale` prop (never defaulted: with none, values show as stored).

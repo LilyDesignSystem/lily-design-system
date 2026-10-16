@@ -12,7 +12,7 @@ Today a column is described by hooks — `accessor`, `format`, `compare`, `filte
 
 - In: the twelve types above, the common contract every type follows, and a per-type table of value shape, display, sort, filter, edit, export and accessibility.
 - Out: data fetching, uploads, people search, formula evaluation engines, locale data and styling. Those belong to the consumer (see "What Lily does not do").
-- Status (0.8.0): **text, number, link, date, time, select option and radio group are shipped** as `column.type` (tests §8.79–§8.97; `cell-types.ts`). **time with time zone, person, file, rollup and formulas are proposed** — each can be built today with the `cell` snippet and the existing hooks, and a section marked *proposed* is not implemented.
+- Status (0.9.0): **all twelve types are shipped** as `column.type` (tests §8.79–§8.114; `cell-types.ts`). Each section's *Status* line lists where the shipped behaviour differs from the design above.
 
 ## 1. Principles and rules
 
@@ -136,7 +136,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: a time field plus a zone select (the grid's `timeZone` choices come from the column, like `date-time-picker`'s `timeZones` / `timeZoneLabels`). Both are named; changing the zone does not change the stated time.
 - **Export**: text `14:30 Europe/London` (lossless and sortable by a person); with a `referenceDate`, an additional UTC column is optional.
 - **Accessibility**: the zone is read as text, never icon or colour only; the zone select's options carry the consumer's labels (no English city names bundled).
-- **Status**: proposed.
+- **Status**: shipped (0.9.0) as `type: "time-zone"`. Differences: with a `locale` and a `referenceDate` the zone is its short name (`BST`), otherwise the zone id as given (a short name depends on the date, and the grid never computes one); the optional extra UTC export column is not implemented.
 
 ### 3.7 Select option
 
@@ -169,7 +169,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: choosing a person means a *lookup*, which Lily cannot do (it does no data fetching). The editor is a consumer snippet (`personEditor`) given `{ value, commit, cancel }`; Lily provides the surrounding edit model (focus, Enter/Escape, validate, announcement). The consumer builds the search as an APG combobox.
 - **Export**: the name (`; `-joined); `exportAs: "email"` or an extra email column when needed.
 - **Accessibility / privacy**: names are personal data — they are exported only because the person pressed Export; Lily stores nothing and sends nothing. Emails appear only if the column asks. A person with no name falls back to their id as text, not to a blank.
-- **Status**: proposed.
+- **Status**: shipped (0.9.0). `personEditor` is a snippet given `{ value, commit, cancel }`; a person column with no `personEditor` is read-only even with `editable`. `exportAs: "email"` and the extra email column are not implemented.
 
 ### 3.10 File
 
@@ -179,7 +179,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: a native `<input type="file">` (with `multiple`/`accept` from the column) named by the header. Lily **does not upload**: the chosen `File` objects go to `onFilesSelected({ rowId, row, columnId, files })`, and the consumer uploads, then updates `rows`. A remove control per file (a real button with `labels.removeFile(name)`) calls `onFileRemove`. Drag-and-drop onto the cell is a supplementary path, never the only one.
 - **Export**: the names, `; `-joined (no bytes, no paths).
 - **Accessibility**: the input has a visible/accessible name; progress and failure are the consumer's to announce through `labels`; the file list is a list so counts are announced.
-- **Status**: proposed.
+- **Status**: shipped (0.9.0). `onFilesSelected` and `onFileRemove` report; the file input and remove buttons are shown inline in an `editable` file cell (no separate edit mode). Drag-and-drop onto the cell is not implemented.
 
 ### 3.11 Rollup
 
@@ -189,7 +189,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Sort / filter / export**: on the **result**, typed (a numeric rollup exports a number). It is computed once per `rows` change with the hot-path rule and cached per row.
 - **Edit**: none. The cell carries `aria-readonly="true"` and `data-readonly`; F2, Enter and a double click do nothing, and an edit button is not rendered.
 - **Accessibility**: say what it is. `labels.rollupDescription?(column)` (for example "Sum of hours") is attached to the header as `aria-describedby` text, because "42" alone does not tell a screen-reader user that the number is derived.
-- **Status**: proposed.
+- **Status**: shipped (0.9.0) as `type: "rollup"` with `aggregate`, `reduce`, `relation` and `resultType`. `labels.rollupDescription(header)` is a visually hidden description on the header.
 
 ### 3.12 Formulas
 
@@ -200,7 +200,7 @@ What a type supplies (each one overridable by the column's own prop of the same 
 - **Edit**: `F2` / Enter opens the editor showing the **expression**, not the result (as a spreadsheet does); commit stores the expression and recomputes; `validate` runs the engine's parse and refuses an invalid expression with `aria-invalid` and the engine's message. The editor is a text input; autocomplete of function names is out of scope.
 - **Dependencies**: recomputation order and invalidation are the engine's; the grid re-derives a cell's result when `rows`, the expression or `evaluate` changes, once per change.
 - **Accessibility**: the cell announces its result; the editor is named `labels.formulaEditor(header)`. A cell whose result is an error says so in text. `aria-readonly` is not set on editable formula cells.
-- **Status**: proposed.
+- **Status**: shipped (0.9.0) as `type: "formula"` with `evaluate`, `resultType`; the result is derived once per row, the editor shows the expression. `exportFormulas` (`<f>` cells in `.xlsx`) is not implemented.
 
 ## 4. Behaviour across the grid's features
 
@@ -223,16 +223,16 @@ Fetch people or files, upload or store files, evaluate formulas, ship locale dat
 
 ## 6. Acceptance criteria
 
-- [ ] Each type states its value shape, display, sort, filter, edit, export and accessibility (this document, §3).
+- [x] Each type states its value shape, display, sort, filter, edit, export and accessibility (this document, §3).
 - [x] **Text** and **number** are implemented through `editor`, `format`, `parse`, `validate` and typed export (spec §13–§14; tests §8.47–§8.53, §8.67–§8.74).
 - [x] `column.type` selects a bundle of defaults and sets `data-cell-type` on the header and cells (§8.79).
 - [x] A column's own `format`, `compare`, `parse`, `validate`, `exportValue` and `cell` override a type's (§8.80, §8.96).
 - [x] Link refuses `javascript:` and other unsafe schemes (renders text) and marks new-tab links for assistive technology (§8.82, §8.83, §8.94).
 - [x] Date and time round-trip civil values without time-zone drift (§8.85–§8.87, §8.95).
-- [ ] Time with time zone never converts silently and takes its sort reference date from the consumer (proposed).
+- [x] Time with time zone never converts silently and takes its sort reference date from the consumer (§8.98–§8.100).
 - [x] Select uses a native `<select>`; radio group's inputs share a per-row, per-column `name` (§8.88–§8.93).
-- [ ] Person shows the name as text and treats an avatar as decoration; file never uploads.
-- [ ] Rollup and formula cells are derived once per change, read-only (`aria-readonly`) for rollups, and formula errors are text.
+- [x] Person shows the name as text and treats an avatar as decoration; file never uploads (§8.101–§8.104, §8.114).
+- [x] Rollup and formula cells are derived once per change, read-only (`aria-readonly`) for rollups, and formula errors are text (§8.105–§8.113).
 - [x] No shipped type writes a user-facing string of its own; every label is a `labels.*` prop (`opensInNewTab`, `invalidValue`, `radioGroup`, `cellEditor`).
 
 ## Related topics
