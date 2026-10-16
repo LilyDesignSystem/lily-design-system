@@ -28,3 +28,7 @@ Ported from the Svelte canonical spec (§13 there; clauses §8.22–§8.30): wee
 ## Svelte 0.3.0 parity, round 3 (2026-10-14)
 
 Ported from the Svelte canonical spec (§14 there; clauses §8.31–§8.50): the one-day view (`day`, `labels.dayView`), `maxEvents` (the day context gets `visibleEvents` and `hiddenCount`), event drag-and-drop with Alt+arrow keys (`onEventMove`, `eventProps`, `labels.eventMoveAnnouncement`), `labels.periodTitle`, `hideOutsideDays`, `weekendDays` (`data-weekend`) and multiple selection (`selectionMode`, `selectedDates`).
+
+## Agenda view (2026-10-16)
+
+Ported from the Svelte canonical (its spec "Agenda view", tests §8.64–§8.68): `view="agenda"` is the list counterpart of the month grid over the same period (`periodRange` treats it as the month; `periodDays` is empty). A plain `<ol class="calendar-view-agenda" aria-label>` with ordinary tab stops, no roving cursor, no selection keys. Each `<li class="calendar-view-agenda-day" data-date>` carries `data-today` / `aria-current="date"`, `data-weekend`, `data-range`, a `<time class="calendar-view-agenda-date" datetime>` heading (`labels.day(date, weekday, false)`, else the ISO date) and the day's events — `renderAgendaDay` (overridable), by default a `.calendar-view-event` button per event (its `title` when a string, else its id) that fires `eventclick`. Only days with events unless `agenda-empty-days`; `labels.agendaEmpty` shows when there are none.
