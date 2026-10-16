@@ -758,3 +758,207 @@ describe("GanttChart — unscheduled tasks and collapse-all (§14.18–§14.24)"
     expect(document.querySelector(".gantt-chart-collapse-all")).toBeNull();
   });
 });
+
+describe("GanttChart — typed fields, editing, export, virtualization (§14.25–§14.40)", () => {
+  const FIELDS = [
+    { id: "owner", header: "Owner", type: "select" as const, options: [{ id: "a", label: "Ann" }, { id: "b", label: "Bo" }] },
+    { id: "points", header: "Points", type: "number" as const },
+  ];
+  const FT: GanttTask[] = [
+    { id: "t1", label: "Design", start: "2026-10-01", end: "2026-10-03", percentComplete: 50, values: { owner: "a", points: 3 }, baseline: { start: "2026-10-01", end: "2026-10-02" } },
+    { id: "t2", label: "Build =x", start: "2026-10-04", end: "2026-10-06", dependsOn: ["t1"], values: { points: 5 } },
+    { id: "p", label: "Phase" },
+    { id: "k", label: "Kid", start: "2026-10-08", end: "2026-10-09", parentId: "p" },
+  ];
+  const EXPORT_LABELS: GanttLabels = {
+    export: "Export",
+    exportCsv: "CSV",
+    exportTsv: "TSV",
+    exportExcel: "Excel",
+    exportHeaders: { task: "Task", start: "Start", end: "End", percentComplete: "Done", parent: "Parent", dependsOn: "After" },
+    exportAnnouncement: (f, n, name) => `${n} tasks as ${f}: ${name}`,
+    editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
+    editInvalid: (t, h) => `${t}: bad ${h}`,
+  };
+  const base = { label: "Q4", range: RANGE, tasks: FT, fields: FIELDS };
+  const rowOf = (id: string) => document.querySelector<HTMLElement>(`[data-task-id="${id}"]`)!;
+  const buttons = (id: string) => rowOf(id).querySelectorAll<HTMLElement>(".gantt-chart-field-button");
+  const editor = () => document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+
+  test("§14.25 each field is a column between the task name and the timeline, with a header and formatted cells", () => {
+    render(<GanttChart {...base} />);
+    const heads = Array.from(document.querySelectorAll(".gantt-table-thead th")).slice(0, 3).map((e) => e.textContent?.trim());
+    expect(heads).toEqual(["", "Owner", "Points"]);
+    expect(Array.from(rowOf("t1").querySelectorAll("[data-field]")).map((c) => c.textContent?.trim())).toEqual(["Ann", "3"]);
+  });
+
+  test("§14.26 fields are plain text without onFieldEdit and in a readonly chart", () => {
+    const { unmount } = render(<GanttChart {...base} />);
+    expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
+    unmount();
+    render(<GanttChart {...base} onFieldEdit={vi.fn()} readonly />);
+    expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
+  });
+
+  test("§14.27 clicking a value opens a typed editor; Enter commits the parsed value and announces", () => {
+    const onFieldEdit = vi.fn();
+    render(<GanttChart {...base} onFieldEdit={onFieldEdit} labels={EXPORT_LABELS} />);
+    fireEvent.click(buttons("t1")[1]);
+    expect(editor().type).toBe("number");
+    expect(editor().getAttribute("aria-label")).toBe("Points");
+    expect(document.activeElement).toBe(editor());
+    fireEvent.change(editor(), { target: { value: "8" } });
+    fireEvent.keyDown(editor(), { key: "Enter" });
+    expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t1", fieldId: "points", value: 8, previous: 3 });
+    expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design Points is 8");
+    expect(document.querySelector(".gantt-chart-field-editor")).toBeNull();
+  });
+
+  test("§14.28 a select field edits through its options", () => {
+    const onFieldEdit = vi.fn();
+    render(<GanttChart {...base} onFieldEdit={onFieldEdit} />);
+    fireEvent.click(buttons("t2")[0]);
+    fireEvent.change(document.querySelector("select.gantt-chart-field-editor")!, { target: { value: "b" } });
+    expect(onFieldEdit).toHaveBeenCalledTimes(1);
+    expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t2", fieldId: "owner", value: "b", previous: undefined });
+  });
+
+  test("§14.29 Escape cancels; an unchanged value reports nothing", () => {
+    const onFieldEdit = vi.fn();
+    render(<GanttChart {...base} onFieldEdit={onFieldEdit} />);
+    fireEvent.click(buttons("t1")[1]);
+    fireEvent.change(editor(), { target: { value: "9" } });
+    fireEvent.keyDown(editor(), { key: "Escape" });
+    fireEvent.click(buttons("t1")[1]);
+    fireEvent.keyDown(editor(), { key: "Enter" });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+  });
+
+  test("§14.30 a value that does not fit the type is refused: the editor stays open and the refusal is announced", () => {
+    const onFieldEdit = vi.fn();
+    render(<GanttChart {...base} fields={[{ id: "p", header: "P", type: "number", parse: () => Number.NaN }]} tasks={[{ ...FT[0], values: { p: 1 } }]} onFieldEdit={onFieldEdit} labels={EXPORT_LABELS} />);
+    fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
+    fireEvent.keyDown(editor(), { key: "Enter" });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+    expect(document.querySelector(".gantt-chart-field-editor")).not.toBeNull();
+    expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design: bad P");
+  });
+
+  test("§14.31 F2 on a timeline cell edits the row's first editable field; Tab commits and moves to the next", () => {
+    const onFieldEdit = vi.fn();
+    render(<GanttChart {...base} onFieldEdit={onFieldEdit} />);
+    fireEvent.keyDown(rowOf("t1").querySelector<HTMLElement>("[data-row][data-col]")!, { key: "F2" });
+    expect(document.querySelector("select.gantt-chart-field-editor")).not.toBeNull();
+    fireEvent.change(document.querySelector("select.gantt-chart-field-editor")!, { target: { value: "b" } });
+    expect(onFieldEdit).toHaveBeenCalledTimes(1);
+    fireEvent.click(buttons("t1")[0]);
+    fireEvent.keyDown(editor(), { key: "Tab" });
+    expect(document.querySelector<HTMLInputElement>("input.gantt-chart-field-editor")!.type).toBe("number");
+  });
+
+  test("§14.32 IME: Enter while composing does not commit", () => {
+    const onFieldEdit = vi.fn();
+    render(<GanttChart {...base} fields={[{ id: "n", header: "N" }]} tasks={[{ ...FT[0], values: { n: "a" } }]} onFieldEdit={onFieldEdit} />);
+    fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
+    fireEvent.change(editor(), { target: { value: "かな" } });
+    fireEvent.keyDown(editor(), { key: "Enter", isComposing: true });
+    fireEvent.keyDown(editor(), { key: "Enter", keyCode: 229 });
+    expect(onFieldEdit).not.toHaveBeenCalled();
+    fireEvent.keyDown(editor(), { key: "Enter" });
+    expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t1", fieldId: "n", value: "かな", previous: "a" });
+  });
+
+  async function exported(props: Record<string, unknown> = {}, format: "csv" | "tsv" | "xlsx" = "csv") {
+    const onExport = vi.fn((_file: { format: string; filename: string; taskCount: number; blob: Blob }) => false as const);
+    render(<GanttChart {...base} labels={EXPORT_LABELS} onExport={onExport} {...props} />);
+    fireEvent.click(document.querySelector(`[data-gantt-export-format="${format}"]`)!);
+    const file = onExport.mock.calls[0][0];
+    const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+    cleanup();
+    return { file, text };
+  }
+
+  test("§14.33 export buttons need a label and exportHeaders; each label gates its button", () => {
+    const first = render(<GanttChart {...base} />);
+    expect(document.querySelector(".gantt-chart-export")).toBeNull();
+    first.unmount();
+    const second = render(<GanttChart {...base} labels={{ exportCsv: "CSV" }} />);
+    expect(document.querySelector(".gantt-chart-export")).toBeNull();
+    second.unmount();
+    render(<GanttChart {...base} labels={{ export: "Export", exportExcel: "Excel", exportHeaders: EXPORT_LABELS.exportHeaders }} />);
+    expect(screen.getByRole("group", { name: "Export" })).toBeTruthy();
+    expect(document.querySelectorAll(".gantt-chart-export-button")).toHaveLength(1);
+  });
+
+  test("§14.34 CSV holds task, effective start/end, percent, parent, predecessors and the fields; parents export their derived span", async () => {
+    const { file, text } = await exported();
+    expect(file.filename).toBe("gantt-chart.csv");
+    expect(file.taskCount).toBe(4);
+    const lines = text.replace("﻿", "").split("\r\n");
+    expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,Owner,Points");
+    expect(lines[1]).toBe("Design,2026-10-01,2026-10-03,50,,,Ann,3");
+    expect(lines[2]).toBe("Build =x,2026-10-04,2026-10-06,,,Design,,5");
+    expect(lines[3]).toBe("Phase,2026-10-08,2026-10-09,,,,,");
+    expect(lines[4]).toBe("Kid,2026-10-08,2026-10-09,,Phase,,,");
+  });
+
+  test("§14.35 exportScope visible leaves out tasks under a collapsed parent", async () => {
+    expect((await exported({ collapsedTaskIds: ["p"], exportScope: "visible" })).file.taskCount).toBe(3);
+  });
+
+  test("§14.36 baseline columns and exportable false", async () => {
+    const { text } = await exported({ fields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]], labels: { ...EXPORT_LABELS, exportHeaders: { ...EXPORT_LABELS.exportHeaders!, baselineStart: "BS", baselineEnd: "BE" } } });
+    const lines = text.replace("﻿", "").split("\r\n");
+    expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,BS,BE,Points");
+    expect(lines[1]).toBe("Design,2026-10-01,2026-10-03,50,,,2026-10-01,2026-10-02,3");
+  });
+
+  test("§14.37 saving announces unless onExport returns false; no tasks disables the buttons", () => {
+    const created: Blob[] = [];
+    const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
+    URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
+    URL.revokeObjectURL = () => {};
+    try {
+      const { unmount } = render(<GanttChart {...base} labels={EXPORT_LABELS} />);
+      fireEvent.click(document.querySelector('[data-gantt-export-format="tsv"]')!);
+      expect(created).toHaveLength(1);
+      expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("4 tasks as tsv: gantt-chart.tsv");
+      unmount();
+      render(<GanttChart {...base} tasks={[]} labels={EXPORT_LABELS} />);
+      expect((document.querySelector('[data-gantt-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
+    } finally {
+      URL.createObjectURL = original.create;
+      URL.revokeObjectURL = original.revoke;
+    }
+  });
+
+  const MANY: GanttTask[] = Array.from({ length: 200 }, (_, i) => ({ id: `r${i}`, label: `Task ${i}`, start: "2026-10-01", end: "2026-10-02" }));
+
+  test("§14.38 virtualize renders only the rows in view plus spacers, with aria-rowcount and aria-rowindex", () => {
+    render(<GanttChart label="Q4" range={RANGE} tasks={MANY} virtualize={{ rowHeight: 20, height: 100, overscan: 1 }} />);
+    const rendered = document.querySelectorAll("[data-task-id]").length;
+    expect(rendered).toBeGreaterThan(0);
+    expect(rendered).toBeLessThan(20);
+    expect(document.querySelector(".gantt-table")!.getAttribute("aria-rowcount")).toBe("201");
+    expect(document.querySelector('[data-task-id="r0"]')!.getAttribute("aria-rowindex")).toBe("2");
+    expect(document.querySelector(".gantt-chart-spacer")).not.toBeNull();
+    expect(document.querySelector<HTMLElement>(".gantt-chart-scroll")!.style.height).toBe("100px");
+  });
+
+  test("§14.39 scrolling brings later rows in; keyboard focus to the last row reveals it", () => {
+    render(<GanttChart label="Q4" range={RANGE} tasks={MANY} virtualize={{ rowHeight: 20, height: 100 }} />);
+    const scroll = document.querySelector<HTMLElement>(".gantt-chart-scroll")!;
+    scroll.scrollTop = 2000;
+    fireEvent.scroll(scroll);
+    expect(document.querySelector('[data-task-id="r100"]')).not.toBeNull();
+    expect(document.querySelector('[data-task-id="r1"]')).toBeNull(); // r0 stays: it holds the roving tab stop
+    fireEvent.keyDown(document.querySelector<HTMLElement>("[data-row][data-col]")!, { key: "End", ctrlKey: true });
+    expect(document.querySelector('[data-task-id="r199"]')).not.toBeNull();
+  });
+
+  test("§14.40 without virtualize every row renders, and the roving tab stop stays unique", () => {
+    render(<GanttChart label="Q4" range={RANGE} tasks={MANY} />);
+    expect(document.querySelectorAll("[data-task-id]")).toHaveLength(200);
+    expect(document.querySelectorAll('.gantt-table-td[tabindex="0"]')).toHaveLength(1);
+  });
+});

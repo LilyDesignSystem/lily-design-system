@@ -89,6 +89,8 @@ for the accessibility research this design choice is based on.
 `gantt-chart-cancel-button`, `gantt-chart-status`, plus
 `[data-in-range]`, `[data-milestone]`, `[data-today]`, and
 `[data-percent-complete]` on body cells.
+- **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `onFieldEdit` edits them in place (click, F2, Tab). See [spec §15](./spec/index.md#15-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
+- **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
 
 ## Non-goals
 

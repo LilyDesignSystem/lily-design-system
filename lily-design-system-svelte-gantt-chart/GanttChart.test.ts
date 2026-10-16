@@ -909,7 +909,7 @@ describe("GanttChart — typed fields, editing, export, virtualization (§14.25�
         expect(document.querySelectorAll(".gantt-chart-export-button")).toHaveLength(1);
     });
 
-    test("§14.34 CSV holds task, effective start/end, percent, parent, predecessors and the fields; formula text is defused; parents export their derived span", async () => {
+    test("§14.34 CSV holds task, effective start/end, percent, parent, predecessors and the fields; parents export their derived span", async () => {
         const { file, text } = await exported();
         expect(file.filename).toBe("gantt-chart.csv");
         expect(file.taskCount).toBe(4);
