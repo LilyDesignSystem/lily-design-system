@@ -583,3 +583,47 @@ describe("calendar-view — day view, maxEvents, drag-and-drop, title, weekends,
     expect(controller.getSelectedDates()).toEqual(["2026-01-06", "2026-01-08"]);
   });
 });
+
+describe("calendar-view — agenda view", () => {
+  const agenda = (macroOpts: Record<string, unknown> = {}, initOpts: Record<string, unknown> = {}) =>
+    setup({ view: "agenda", anchorDate: "2026-01-15", today: "2026-01-09", ...macroOpts }, { events: EVENTS, ...initOpts });
+
+  test("lists only the days with events, as an ordered list of <time> headings", () => {
+    agenda();
+    const items = q(".calendar-view-agenda-day");
+    expect(items.map((li) => li.getAttribute("data-date"))).toEqual(["2026-01-06", "2026-01-09", "2026-01-10", "2026-01-11"]);
+    expect(document.querySelector("ol.calendar-view-agenda")!.getAttribute("aria-label")).toBe("Appointments");
+    expect(items[0].querySelector("time")!.getAttribute("datetime")).toBe("2026-01-06");
+    expect((document.querySelector(".calendar-view-table") as HTMLElement).hidden).toBe(true);
+  });
+
+  test("agendaEmptyDays lists every day of the month", () => {
+    agenda({ agendaEmptyDays: true });
+    expect(q(".calendar-view-agenda-day")).toHaveLength(31);
+  });
+
+  test("each event is a button that fires onEventClick; today carries aria-current", () => {
+    const onEventClick = vi.fn();
+    agenda({}, { onEventClick });
+    click(q(".calendar-view-event").find((b) => b.textContent === "Single-day")!);
+    expect(onEventClick).toHaveBeenCalledWith(EVENTS[0]);
+    expect(document.querySelector('[data-date="2026-01-09"]')!.getAttribute("aria-current")).toBe("date");
+  });
+
+  test("agendaEmpty shows for an empty month; the switcher selects the view; next steps a month; leaving restores the grid", () => {
+    const onNavigate = vi.fn();
+    agenda({ labels: { ...MACRO_LABELS, agendaView: "Agenda" } }, { events: [], onNavigate, labels: { ...CLIENT_LABELS, agendaEmpty: "Nothing this month" } });
+    expect(document.querySelector(".calendar-view-agenda-empty")!.textContent).toBe("Nothing this month");
+    expect(button("Agenda").getAttribute("aria-pressed")).toBe("true");
+    click(document.querySelector("[data-lily-calendar-view-next]")!);
+    expect(onNavigate).toHaveBeenLastCalledWith("agenda", "2026-02-01", "2026-02-28");
+    click(button("Month"));
+    expect(document.querySelector(".calendar-view-agenda")).toBeNull();
+    expect((document.querySelector(".calendar-view-table") as HTMLElement).hidden).toBe(false);
+  });
+
+  test("periodRange treats agenda as the month; periodDays is empty", () => {
+    expect(periodRange("agenda", "2026-01-15", 0)).toEqual(["2026-01-01", "2026-01-31"]);
+    expect(periodDays("agenda", "2026-01-15", 0)).toEqual([]);
+  });
+});

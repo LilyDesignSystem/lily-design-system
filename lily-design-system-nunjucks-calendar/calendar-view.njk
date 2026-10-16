@@ -36,7 +36,9 @@
 
   Params (single `opts` object):
     label       — string, required. aria-label for the grid.
-    view        — "week" | "four-week" | "month", default "month".
+    view        — "day" | "week" | "four-week" | "month" | "agenda", default "month".
+                  "agenda" lists the month's days that have events as a plain list.
+    agendaEmptyDays — boolean. Agenda view: also list days with no events.
     anchorDate  — ISO date the period is computed around. Default: `today`.
     selectedDate— ISO date already picked.
     today       — ISO date; never computed here (SSR-safe).
@@ -98,18 +100,21 @@
   {%- if opts.weekendDays %} data-lily-calendar-view-weekend-days="{{ opts.weekendDays | join(',') }}"{% endif %}
   {%- if opts.selectionMode %} data-lily-calendar-view-selection-mode="{{ opts.selectionMode }}"{% endif %}
   {%- if opts.maxEvents is defined and opts.maxEvents is not none %} data-lily-calendar-view-max-events="{{ opts.maxEvents }}"{% endif %}
+  {%- if opts.agendaEmptyDays %} data-lily-calendar-view-agenda-empty-days{% endif %}
+  data-lily-calendar-view-label="{{ opts.label }}"
   {%- if opts.moveEvents %} data-lily-calendar-view-move-events{% endif %}
   {%- if opts.showWeekNumbers %} data-lily-calendar-view-show-week-numbers{% endif %}
   {%- if opts.showWeekNumbers and labels.weekNumberHeader %} data-lily-calendar-view-week-number-header="{{ labels.weekNumberHeader }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-{%- if opts.showPeriodTitle or labels.dayView or labels.weekView or labels.fourWeekView or labels.monthView %}
+{%- if opts.showPeriodTitle or labels.dayView or labels.weekView or labels.fourWeekView or labels.monthView or labels.agendaView %}
 <div class="calendar-view-toolbar">
 <div class="calendar-view-switcher" role="group">
 {%- if labels.dayView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-day" aria-pressed="{{ 'true' if view == 'day' else 'false' }}" data-lily-calendar-view-switch="day">{{ labels.dayView }}</button>{% endif %}
 {%- if labels.weekView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-week" aria-pressed="{{ 'true' if view == 'week' else 'false' }}" data-lily-calendar-view-switch="week">{{ labels.weekView }}</button>{% endif %}
 {%- if labels.fourWeekView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-four-week" aria-pressed="{{ 'true' if view == 'four-week' else 'false' }}" data-lily-calendar-view-switch="four-week">{{ labels.fourWeekView }}</button>{% endif %}
 {%- if labels.monthView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-month" aria-pressed="{{ 'true' if view == 'month' else 'false' }}" data-lily-calendar-view-switch="month">{{ labels.monthView }}</button>{% endif %}
+{%- if labels.agendaView %}<button type="button" class="calendar-view-switcher-button calendar-view-switcher-button-agenda" aria-pressed="{{ 'true' if view == 'agenda' else 'false' }}" data-lily-calendar-view-switch="agenda">{{ labels.agendaView }}</button>{% endif %}
 </div>
 <div class="calendar-view-nav">
 <button type="button" class="calendar-view-previous-button"{% if labels.previousLabel %} aria-label="{{ labels.previousLabel }}"{% endif %} data-lily-calendar-view-previous>&#8249;</button>

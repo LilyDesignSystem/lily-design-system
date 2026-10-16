@@ -30,7 +30,7 @@ import {
   weekdayOf,
 } from "@lilydesignsystem/nunjucks-date-time-picker";
 
-const VIEWS = ["day", "week", "four-week", "month"];
+const VIEWS = ["day", "week", "four-week", "month", "agenda"];
 const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
 
 /** Start of the week containing `isoDate`, for a given first-day-of-week (0 = Sunday). */
@@ -41,6 +41,7 @@ export function weekStart(isoDate, firstDayOfWeek) {
 
 /** The visible days for `view`, anchored around `anchorDate`, as rows of 7. */
 export function periodDays(view, anchorDate, firstDayOfWeek) {
+  if (view === "agenda") return [];
   if (view === "month") {
     const parsed = parseIsoDate(anchorDate);
     if (!parsed) return [];
@@ -60,7 +61,7 @@ export function periodDays(view, anchorDate, firstDayOfWeek) {
 
 /** The inclusive [start, end] ISO range `view` covers. */
 export function periodRange(view, anchorDate, firstDayOfWeek) {
-  if (view === "month") {
+  if (view === "month" || view === "agenda") {
     const parsed = parseIsoDate(anchorDate);
     if (!parsed) return [anchorDate, anchorDate];
     return [
@@ -114,6 +115,8 @@ export function eventsByDay(events) {
  *   isDisabled?: (isoDate: string) => boolean,
  *   ranges?: Array<{ start: string, end: string, kind?: string, label?: string }>,
  *   maxEvents?: number,
+ *   agendaEmptyDays?: boolean,
+ *   renderAgendaDay?: (args: object) => Node,
  *   moveEvents?: boolean,
  *   onEventMove?: (event: object, toDate: string) => void,
  *   onMoreClick?: (isoDate: string) => void,
@@ -134,6 +137,7 @@ export function eventsByDay(events) {
  *     weekNumber?: (week: number) => string,
  *     eventMoveAnnouncement?: (event: object, toDate: string) => string,
  *     periodTitle?: (view: string, start: string, end: string) => string,
+ *     agendaEmpty?: string,
  *     moreEvents?: (hiddenCount: number, isoDate: string) => string,
  *     rangeAnnouncement?: (start: string, end: string) => string,
  *   },
@@ -166,6 +170,7 @@ export function initCalendarView(root, opts = {}) {
     return raw ? raw.split(",").map(Number) : [];
   };
   const selectionMode = () => (attr("selection-mode") === "multiple" ? "multiple" : "single");
+  const agendaEmptyDays = () => !!opts.agendaEmptyDays || root.hasAttribute("data-lily-calendar-view-agenda-empty-days");
   const hideOutsideDays = () => root.hasAttribute("data-lily-calendar-view-hide-outside-days");
   const maxEvents = () => (opts.maxEvents != null ? opts.maxEvents : root.hasAttribute("data-lily-calendar-view-max-events") ? Number(attr("max-events")) : undefined);
   const movable = () => !!opts.moveEvents || typeof opts.onEventMove === "function" || root.hasAttribute("data-lily-calendar-view-move-events");
@@ -298,6 +303,85 @@ export function initCalendarView(root, opts = {}) {
     return fragment;
   }
 
+  /** The agenda: a plain list of the month's days that have events, in place of the grid. */
+  function renderAgenda(anchor, eventMap) {
+    root.querySelectorAll("[data-lily-calendar-view-agenda]").forEach((el) => el.remove());
+    table.hidden = true;
+    const holder = document.createElement("div");
+    holder.setAttribute("data-lily-calendar-view-agenda", "");
+    const list = document.createElement("ol");
+    list.className = "calendar-view-agenda";
+    list.setAttribute("aria-label", root.getAttribute("data-lily-calendar-view-label") || table.getAttribute("aria-label") || "");
+    const [start, end] = periodRange("agenda", anchor, firstDay());
+    const cap = maxEvents();
+    const todayIso = today();
+    const weekend = weekendDays();
+    let count = 0;
+    for (let d = start; d <= end; d = addDays(d, 1)) {
+      const dayEvents = eventMap.get(d) || [];
+      if (!agendaEmptyDays() && dayEvents.length === 0) continue;
+      count += 1;
+      const weekday = weekdayOf(d);
+      const isToday = !!todayIso && d === todayIso;
+      const dayRanges = ranges.filter((r) => d >= r.start && d <= r.end);
+      const li = document.createElement("li");
+      li.className = "calendar-view-agenda-day";
+      li.setAttribute("data-date", d);
+      if (isToday) {
+        li.setAttribute("data-today", "");
+        li.setAttribute("aria-current", "date");
+      }
+      if (weekend.includes(weekday)) li.setAttribute("data-weekend", "");
+      if (dayRanges.length) li.setAttribute("data-range", dayRanges.map((r) => r.kind || "range").join(" "));
+      const time = document.createElement("time");
+      time.className = "calendar-view-agenda-date";
+      time.setAttribute("datetime", d);
+      time.textContent = (typeof labels.day === "function" && labels.day(d, weekday, false)) || d;
+      li.appendChild(time);
+      if (dayEvents.length > 0) {
+        const args = {
+          date: d,
+          events: dayEvents,
+          visibleEvents: cap == null ? dayEvents : dayEvents.slice(0, Math.max(0, cap)),
+          hiddenCount: cap == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, cap)),
+          isToday,
+          outsidePeriod: false,
+          selected: false,
+          disabled: isDisabledDay(d),
+          inRange: false,
+          ranges: dayRanges,
+          openEvent,
+          attachEvent: () => {},
+        };
+        if (typeof opts.renderAgendaDay === "function") li.appendChild(opts.renderAgendaDay(args));
+        else {
+          const ul = document.createElement("ul");
+          ul.className = "calendar-view-agenda-events";
+          dayEvents.forEach((event) => {
+            const item = document.createElement("li");
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "calendar-view-event";
+            button.textContent = typeof event.title === "string" ? event.title : event.id;
+            button.addEventListener("click", () => openEvent(event));
+            item.appendChild(button);
+            ul.appendChild(item);
+          });
+          li.appendChild(ul);
+        }
+      }
+      list.appendChild(li);
+    }
+    holder.appendChild(list);
+    if (count === 0 && typeof labels.agendaEmpty === "string" && labels.agendaEmpty) {
+      const empty = document.createElement("p");
+      empty.className = "calendar-view-agenda-empty";
+      empty.textContent = labels.agendaEmpty;
+      holder.appendChild(empty);
+    }
+    table.before(holder);
+  }
+
   function render() {
     const v = view();
     const anchor = anchorDate();
@@ -308,6 +392,11 @@ export function initCalendarView(root, opts = {}) {
     const selected = attr("selected-date");
     const todayIso = today();
 
+    if (v !== "agenda") {
+      table.hidden = false;
+      root.querySelectorAll("[data-lily-calendar-view-agenda]").forEach((el) => el.remove());
+    }
+
     // Switcher state and the arrows' names (a function of the current view).
     root.querySelectorAll("[data-lily-calendar-view-switch]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.getAttribute("data-lily-calendar-view-switch") === v));
@@ -316,6 +405,16 @@ export function initCalendarView(root, opts = {}) {
     const next = root.querySelector("[data-lily-calendar-view-next]");
     if (previous && typeof labels.previous === "function") previous.setAttribute("aria-label", labels.previous(v));
     if (next && typeof labels.next === "function") next.setAttribute("aria-label", labels.next(v));
+
+    if (v === "agenda") {
+      const titleAgenda = root.querySelector("[data-lily-calendar-view-title]");
+      if (titleAgenda && typeof labels.periodTitle === "function") {
+        const [a, b] = periodRange(v, anchor, firstDay());
+        titleAgenda.textContent = labels.periodTitle(v, a, b);
+      }
+      renderAgenda(anchor, eventMap);
+      return;
+    }
 
     thead.replaceChildren();
     const headRow = document.createElement("tr");
