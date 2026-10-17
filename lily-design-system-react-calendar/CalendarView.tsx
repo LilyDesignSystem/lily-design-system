@@ -6,6 +6,8 @@ import {
   CalendarTableRow,
   CalendarTableTD,
   CalendarTableTH,
+  Mark,
+  SearchInput,
 } from "@lilydesignsystem/react-headless";
 import {
   addDays,
@@ -18,8 +20,11 @@ import {
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/react-date-time-picker";
-import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
 import { civilDateToDate } from "./cell-types";
+import { highlightSegments, matchesSearch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import {
   draftOf,
   evaluateEdit,
@@ -87,6 +92,8 @@ export type CalendarViewLabels = {
   next?: (view: CalendarView) => string;
   today?: string;
   periodAnnouncement?: (view: CalendarView, start: string, end: string) => string;
+  /** Announced when navigation stops at `minDate` or `maxDate`: (which limit, that date). Without it a stopped Previous / Next / Page key is silent. */
+  rangeLimit?: (limit: "min" | "max", date: string) => string;
   /** Full weekday name. `weekday` is 0 = Sunday … 6 = Saturday. */
   weekday?: (weekday: number) => string;
   /** Short weekday form for the column header's visible text. */
@@ -111,12 +118,28 @@ export type CalendarViewLabels = {
   exportExcel?: string;
   /** Announced after an export: (format, how many events, file name). */
   exportAnnouncement?: (format: ExportFormat, eventCount: number, filename: string) => string;
+  /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+  copy?: string;
+  /** Announced after a copy: (how many rows). */
+  copyAnnouncement?: (rowCount: number) => string;
+  /** Announced when the clipboard could not be written. */
+  copyFailed?: string;
   /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. */
   exportHeaders?: { title: string; start: string; end: string };
   /** Announced after a field edit: (event title, field header, the new text). */
   editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
   editInvalid?: (eventTitle: string, fieldHeader: string) => string;
+  /** Announced when a field's `validate` refuses a value: (event title, field header, the reason). Falls back to `editInvalid`. */
+  editRefused?: (eventTitle: string, fieldHeader: string, message: string) => string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier value back: (event title, field header, the restored text). */
+  undoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (event title, field header, the text). */
+  redoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+  /** Accessible name of the search field. Gates the field. */
+  search?: string;
+  /** Announced after the search changes: (matching events, all events). */
+  searchAnnouncement?: (matchCount: number, totalCount: number) => string;
 };
 
 export type DayArgs = {
@@ -173,6 +196,22 @@ export type Props = Omit<
   onRangeSelect?: (start: string, end: string) => void;
   /** Events to place into day cells. */
   events?: CalendarEvent[];
+  /** Search: shows only the events whose text contains every word of it (any order, ignoring case and diacritics), in every view; the agenda wraps matches in `<mark class="calendar-view-match">`. Exports hold what the search leaves. Escape in the field clears it. Controlled when given. Needs `labels.search` for the field; the prop works without. */
+  search?: string;
+  /** Initial search when uncontrolled. */
+  defaultSearch?: string;
+  /** Called with the new search after every change. */
+  onSearchChange?: (search: string) => void;
+  /** Hides events for which it returns false (a category, owner or status filter). Combines with `search`; both must pass. */
+  filter?: (event: CalendarEvent) => boolean;
+  /** Orders the events within a day (and so in the agenda). Stable. Without it events keep the order of `events`. */
+  eventCompare?: (a: CalendarEvent, b: CalendarEvent) => number;
+  /** The text `search` looks in. Defaults to the event's title and every field's text. */
+  searchText?: (event: CalendarEvent) => string;
+  /** Show the agenda on a narrow screen: a viewport narrower than this many pixels (for example `640`) reads as the agenda view, and goes back to `view` when it is wider. A view the user picks with the switcher is respected. Needs `matchMedia`; without it nothing changes. */
+  agendaBelow?: number;
+  /** Agenda view: show the date beside each day's events (default `true`). `false` hides it visually, keeping it for screen readers (a `<time>` with a `datetime`), for a layout that shows its own date. */
+  agendaDate?: boolean;
   /** Agenda view: also list days with no events. Default false (only days with events). */
   agendaEmptyDays?: boolean;
   /** Cap on events shown per day: the `day` render prop gets `visibleEvents` and `hiddenCount`. */
@@ -216,6 +255,8 @@ export type Props = Omit<
   exportScope?: "period" | "all";
   /** Called before the download with the finished file. Return `false` to skip the built-in download. */
   onExport?: (info: CalendarExport) => boolean | void;
+  /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). */
+  onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
   /** Renders one day cell's content. */
   day?: (args: DayArgs) => React.ReactNode;
   /** Extra CSS class on the root. */
@@ -340,7 +381,15 @@ export function CalendarView({
   defaultSelectedRange,
   onSelectedRangeChange,
   onRangeSelect,
-  events = [],
+  events: allEvents = [],
+  search: searchProp,
+  defaultSearch = "",
+  onSearchChange,
+  searchText,
+  filter,
+  eventCompare,
+  agendaBelow,
+  agendaDate = true,
   maxEvents,
   agendaEmptyDays = false,
   onEventMove,
@@ -364,11 +413,31 @@ export function CalendarView({
   exportFilename: exportBase = "calendar",
   exportScope = "period",
   onExport,
+  onCopy,
   day,
   className = "",
   ...restProps
 }: Props): React.ReactElement {
-  const [view, setView] = useControllable<CalendarView>(viewProp, defaultView, onViewChange);
+  const [viewState, setView] = useControllable<CalendarView>(viewProp, defaultView, onViewChange);
+  // A narrow screen shows the agenda: with `agendaBelow` set, a viewport narrower than that many pixels reads as the agenda view
+  // (the `view` prop is untouched, so a wide screen goes back to it). A view the user picks on purpose is respected.
+  const [narrow, setNarrow] = React.useState(false);
+  const [pickedOnPurpose, setPickedOnPurpose] = React.useState(false);
+  const view: CalendarView = narrow && !pickedOnPurpose ? "agenda" : viewState;
+  React.useEffect(() => {
+    if (agendaBelow === undefined || typeof matchMedia !== "function") {
+      setNarrow(false);
+      return;
+    }
+    const query = matchMedia(`(max-width: ${agendaBelow - 1}px)`);
+    const update = () => {
+      setNarrow(query.matches);
+      if (!query.matches) setPickedOnPurpose(false);
+    };
+    update();
+    query.addEventListener?.("change", update);
+    return () => query.removeEventListener?.("change", update);
+  }, [agendaBelow]);
   const [anchorDate, setAnchorDate] = useControllable<string>(
     anchorProp,
     defaultAnchorDate ?? today ?? "1970-01-01",
@@ -401,6 +470,33 @@ export function CalendarView({
   const firstDayOfWeek = firstDayOfWeekFor(locale);
   const days = periodDays(view, anchorDate, firstDayOfWeek);
   const flatDays = days.flat();
+  // Type defaults (format, compare, export value) resolved once per `eventFields` / `locale` change, never per event or keystroke.
+  const resolvedFields = React.useMemo(() => resolveFields(eventFields, locale), [eventFields, locale]);
+  const [searchInner, setSearchInner] = React.useState(defaultSearch);
+  const search = searchProp ?? searchInner;
+  const searching = search.trim() !== "";
+  const defaultSearchText = (e: CalendarEvent): string =>
+    [typeof e.title === "string" ? e.title : e.id, ...resolvedFields.map((f) => fieldTextOf(f, e.values))].join(" ");
+  /** The events the search leaves (all of them without one), found once per query / event change. */
+  const events = React.useMemo(() => {
+    const narrowed =
+      searching || filter
+        ? allEvents.filter((e) => (!filter || filter(e)) && (!searching || matchesSearch((searchText ?? defaultSearchText)(e), search)))
+        : allEvents;
+    return eventCompare ? [...narrowed].sort(eventCompare) : narrowed;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allEvents, search, filter, searchText, eventCompare, resolvedFields, searching]);
+  // Announce how many events match after the search changes (not on the first render).
+  const searchAnnouncedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (!searchAnnouncedRef.current) {
+      searchAnnouncedRef.current = true;
+      return;
+    }
+    const message = labels?.searchAnnouncement?.(events.length, allEvents.length);
+    if (message) setStatusMessage(message);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
   const eventMap = React.useMemo(() => eventsByDay(events), [events]);
 
   // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
@@ -445,6 +541,12 @@ export function CalendarView({
       ?.focus({ preventScroll: true });
   });
 
+  /** The labels of the ranges a day is in, joined for a cell's description; undefined when none has one. */
+  const rangeLabels = (dayRanges: CalendarRange[]): string | undefined => {
+    const text = dayRanges.map((r) => r.label).filter((l): l is string => !!l).join(", ");
+    return text === "" ? undefined : text;
+  };
+
   function disabledDay(isoDate: string): boolean {
     if (minDate && isoDate < minDate) return true;
     if (maxDate && isoDate > maxDate) return true;
@@ -480,7 +582,7 @@ export function CalendarView({
   const NO_RANGES: CalendarRange[] = [];
   const rangesFor = (isoDate: string) => rangesByDay.get(isoDate) ?? NO_RANGES;
   const selectedDateSet = React.useMemo(() => new Set(selectedDates), [selectedDates]);
-  const eventById = React.useMemo(() => new Map(events.map((e) => [e.id, e])), [events]);
+  const eventById = React.useMemo(() => new Map(allEvents.map((e) => [e.id, e])), [allEvents]);
 
   /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
   function weekNumberOf(row: string[]): number {
@@ -501,20 +603,43 @@ export function CalendarView({
     onDayClick?.(isoDate);
   }
 
-  function announce(nextView: CalendarView, nextAnchor: string): void {
-    if (!labels?.periodAnnouncement) return;
-    const [start, end] = periodRange(nextView, nextAnchor, firstDayOfWeek);
-    setStatusMessage(labels.periodAnnouncement(nextView, start, end));
+  // minDate / maxDate bound navigation as well as picking.
+  const periodStart = periodRange(view, anchorDate, firstDayOfWeek)[0];
+  const periodEnd = periodRange(view, anchorDate, firstDayOfWeek)[1];
+  const atMinLimit = !!minDate && periodStart <= minDate;
+  const atMaxLimit = !!maxDate && periodEnd >= maxDate;
+  const todayOutOfRange = today == null || (!!minDate && today < minDate) || (!!maxDate && today > maxDate);
+  const clampDate = (isoDate: string): string => (minDate && isoDate < minDate ? minDate : maxDate && isoDate > maxDate ? maxDate : isoDate);
+  function announceLimit(limit: "min" | "max"): void {
+    const date = limit === "min" ? minDate : maxDate;
+    const message = date ? labels?.rangeLimit?.(limit, date) : undefined;
+    if (message) setStatusMessage(message);
   }
+
+  // The period is announced whenever it changes, whatever changed it: Previous / Next / Today, a view switch, a keyboard move
+  // across the edge, or the consumer setting `anchorDate` or `view`. The first render says nothing.
+  const announcedPeriod = React.useRef<string | undefined>(undefined);
+  React.useEffect(() => {
+    const key = `${view}|${periodStart}|${periodEnd}`;
+    if (announcedPeriod.current === undefined) {
+      announcedPeriod.current = key;
+      return;
+    }
+    if (key === announcedPeriod.current) return;
+    announcedPeriod.current = key;
+    if (labels?.periodAnnouncement) setStatusMessage(labels.periodAnnouncement(view, periodStart, periodEnd));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, periodStart, periodEnd]);
 
   function navigateTo(nextAnchor: string, nextView: CalendarView = view): void {
     setAnchorDate(nextAnchor);
     const [start, end] = periodRange(nextView, nextAnchor, firstDayOfWeek);
     onNavigate?.(nextView, start, end);
-    announce(nextView, nextAnchor);
   }
 
   function stepView(delta: 1 | -1): void {
+    if (delta < 0 && atMinLimit) return announceLimit("min");
+    if (delta > 0 && atMaxLimit) return announceLimit("max");
     if (view === "day") navigateTo(addDays(anchorDate, delta));
     else if (view === "week") navigateTo(addDays(anchorDate, delta * 7));
     else if (view === "four-week") navigateTo(addDays(anchorDate, delta * 28));
@@ -522,19 +647,21 @@ export function CalendarView({
   }
 
   function goToday(): void {
-    if (today == null) return;
+    if (today == null || todayOutOfRange) return;
     navigateTo(today);
   }
 
   function changeView(next: CalendarView): void {
     setView(next);
+    setPickedOnPurpose(true);
     const [start, end] = periodRange(next, anchorDate, firstDayOfWeek);
     onNavigate?.(next, start, end);
-    announce(next, anchorDate);
   }
 
   /** Move the cursor, re-paging the visible period when it leaves it. */
-  function moveCursor(next: string): void {
+  function moveCursor(requested: string): void {
+    const next = clampDate(requested);
+    if (next !== requested) announceLimit(requested < next ? "min" : "max");
     setCursor(next);
     if (view === "month") {
       const cp = parseIsoDate(next);
@@ -611,6 +738,8 @@ export function CalendarView({
   }
 
   function onGridKeyDown(event: React.KeyboardEvent): void {
+    // The horizontal arrows are visual: in a right-to-left layout the next day is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(event.target as Element));
     if (onEventMove && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
       const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
       const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
@@ -618,7 +747,7 @@ export function CalendarView({
       if (el && fromDate && calendarEvent) {
         event.preventDefault();
         const week = view === "day" ? 1 : 7;
-        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[key]!;
         moveEventTo(calendarEvent, addDays(fromDate, delta));
         return;
       }
@@ -634,7 +763,7 @@ export function CalendarView({
       if (extending) extendTo = next;
       moveCursor(next);
     };
-    switch (event.key) {
+    switch (key) {
       case "ArrowLeft":
         event.preventDefault();
         move(addDays(effectiveCursor, -1));
@@ -708,16 +837,12 @@ export function CalendarView({
     pick(isoDate);
   }
 
-  const periodStart = periodRange(view, anchorDate, firstDayOfWeek)[0];
-  const periodEnd = periodRange(view, anchorDate, firstDayOfWeek)[1];
   const openEvent = (calendarEvent: CalendarEvent) => onEventClick?.(calendarEvent);
 
   // ---------------------------------------------------------------
   // Typed fields, inline editing (agenda), export
   // ---------------------------------------------------------------
 
-  // Type defaults (format, compare, export value) resolved once per `eventFields` / `locale` change, never per event or keystroke.
-  const resolvedFields = React.useMemo(() => resolveFields(eventFields, locale), [eventFields, locale]);
   const isFieldEditable = (f: CalendarEventField) => !!onFieldEdit && isEditableField(f);
   const eventFieldText = (f: ResolvedField, calendarEvent: CalendarEvent): string => fieldTextOf(f, calendarEvent.values);
   function fieldText(calendarEvent: CalendarEvent, fieldId: string): string {
@@ -728,7 +853,7 @@ export function CalendarView({
     typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id;
 
   /** The field being edited, if any: the draft is the editor's text. A ref mirrors it so a blur that lands in the same event as Enter sees it cleared. */
-  type Editing = { eventId: string; fieldId: string; draft: Draft };
+  type Editing = { eventId: string; fieldId: string; draft: Draft; invalid?: boolean };
   const [editing, setEditingState] = React.useState<Editing | null>(null);
   const editingRef = React.useRef<Editing | null>(null);
   function setEditing(next: Editing | null): void {
@@ -755,12 +880,14 @@ export function CalendarView({
     }
     const outcome = evaluateEdit(f, calendarEvent.values, draft);
     if (outcome.invalid) {
-      const message = labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
+      setEditing({ ...current, invalid: true });
+      const message = (outcome.message ? labels?.editRefused?.(eventTitle(calendarEvent), f.header, outcome.message) : undefined) ?? labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
       if (message) setStatusMessage(message);
       return false;
     }
     setEditing(null);
     if (outcome.changed) {
+      historyRef.current = recordEdit(historyRef.current, { ownerId: eventId, fieldId, value: outcome.value, previous: outcome.previous });
       onFieldEdit?.({ eventId, fieldId, value: outcome.value, previous: outcome.previous });
       const message = labels?.editAnnouncement?.(eventTitle(calendarEvent), f.header, outcome.text);
       if (message) setStatusMessage(message);
@@ -774,6 +901,35 @@ export function CalendarView({
     if (!current) return;
     setEditing(null);
     pendingFieldFocus.current = { kind: "field", eventId: current.eventId, fieldId: current.fieldId };
+  }
+
+  /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onFieldEdit` like any edit. */
+  const historyRef = React.useRef<EditHistory>(EMPTY_HISTORY);
+
+  /** Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (Ctrl+Y): put an earlier value back, or re-apply it, through `onFieldEdit`. */
+  function stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(historyRef.current) : redoEdit(historyRef.current);
+    if (!step.record) return;
+    historyRef.current = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    onFieldEdit?.({ eventId: ownerId, fieldId, value: restored, previous: replaced });
+    const calendarEvent = eventById.get(ownerId);
+    const f = resolvedFields.find((x) => x.id === fieldId);
+    if (!calendarEvent || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(calendarEvent.values ?? {}), [fieldId]: restored }) : String(restored);
+    const message = (direction === "undo" ? labels?.undoAnnouncement : labels?.redoAnnouncement)?.(eventTitle(calendarEvent), f.header, text);
+    if (message) setStatusMessage(message);
+  }
+
+  /** Undo / redo from anywhere in the calendar except inside a field editor (which keeps the browser's own undo). */
+  function onRootKeyDown(event: React.KeyboardEvent): void {
+    if (!onFieldEdit || (event.target as HTMLElement).closest(".calendar-view-field-editor, input, select, textarea")) return;
+    const action = historyKey(event);
+    if (!action) return;
+    event.preventDefault();
+    stepHistory(action);
   }
 
   function onFieldEditorKeyDown(event: React.KeyboardEvent): void {
@@ -820,10 +976,18 @@ export function CalendarView({
           });
     return kept.sort((a, b) => eventSpan(a)!.start.localeCompare(eventSpan(b)!.start));
   })();
-  const hasExportButtons = !!labels?.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel);
+  const hasExportButtons = !!labels?.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel);
   const exportFieldList = exportableFields(resolvedFields);
 
-  function runExport(format: ExportFormat): void {
+  async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    if (onCopy?.({ text, rowCount: table.rows.length }) === false) return;
+    const ok = await copyToClipboard(text);
+    const message = ok ? labels?.copyAnnouncement?.(table.rows.length) : labels?.copyFailed;
+    if (message) setStatusMessage(message);
+  }
+
+  function runExport(format: ExportFormat | "copy"): void {
     const h = labels?.exportHeaders;
     if (!h) return;
     const headers = [h.title, h.start, h.end, ...exportFieldList.map((f) => f.header)];
@@ -836,6 +1000,10 @@ export function CalendarView({
         ...exportFieldList.map((f) => exportFieldCell(f, calendarEvent.values)),
       ];
     });
+    if (format === "copy") {
+      void finishCopy({ headers, rows: body });
+      return;
+    }
     const filename = exportFilename(exportBase, format);
     const blob = exportBlob({ headers, rows: body }, format, { sheetName: exportBase });
     if (onExport?.({ format, filename, eventCount: body.length, blob }) === false) return;
@@ -849,6 +1017,7 @@ export function CalendarView({
     <div
       ref={rootRef}
       className={`calendar-view ${className}`.trim()}
+      onKeyDown={onRootKeyDown}
       {...restProps}
     >
       {(labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView || labels?.agendaView) && (
@@ -910,6 +1079,7 @@ export function CalendarView({
               type="button"
               className="calendar-view-previous-button"
               aria-label={labels?.previous?.(view)}
+              aria-disabled={atMinLimit ? true : undefined}
               onClick={() => stepView(-1)}
             >
               ‹
@@ -922,6 +1092,7 @@ export function CalendarView({
                 type="button"
                 className="calendar-view-today-button"
                 disabled={today == null}
+                aria-disabled={today != null && todayOutOfRange ? true : undefined}
                 onClick={goToday}
               >
                 {labels.today}
@@ -931,6 +1102,7 @@ export function CalendarView({
               type="button"
               className="calendar-view-next-button"
               aria-label={labels?.next?.(view)}
+              aria-disabled={atMaxLimit ? true : undefined}
               onClick={() => stepView(1)}
             >
               ›
@@ -939,8 +1111,30 @@ export function CalendarView({
         </div>
       )}
 
+      {labels?.search && (
+        <SearchInput
+          className="calendar-view-search"
+          label={labels.search}
+          value={search}
+          onChange={(next) => {
+            setSearchInner(next);
+            onSearchChange?.(next);
+          }}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Escape" && search !== "") {
+              e.preventDefault();
+              setSearchInner("");
+              onSearchChange?.("");
+            }
+          }}
+        />
+      )}
+
       {hasExportButtons && (
         <div className="calendar-view-export" role="group" aria-label={labels?.export}>
+          {labels?.copy && (
+            <button type="button" className="calendar-view-export-button" data-calendar-export-format="copy" disabled={exportEvents.length === 0} onClick={() => runExport("copy")}>{labels.copy}</button>
+          )}
           {labels?.exportCsv && (
             <button type="button" className="calendar-view-export-button" data-calendar-export-format="csv" disabled={exportEvents.length === 0} onClick={() => runExport("csv")}>{labels.exportCsv}</button>
           )}
@@ -973,9 +1167,17 @@ export function CalendarView({
                   data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
                   aria-current={isToday ? "date" : undefined}
                 >
-                  <time className="calendar-view-agenda-date" dateTime={d}>
+                  <time
+                    className="calendar-view-agenda-date"
+                    dateTime={d}
+                    data-visually-hidden={agendaDate ? undefined : ""}
+                    style={agendaDate ? undefined : { position: "absolute", width: 1, height: 1, overflow: "hidden", clipPath: "inset(50%)", whiteSpace: "nowrap" }}
+                  >
                     {labels?.day?.(d, weekday, false) ?? d}
                   </time>
+                  {dayRanges.map((range) => range.label && (
+                    <span key={range.start + range.end + (range.kind ?? "") + range.label} className="calendar-view-range-label">{range.label}</span>
+                  ))}
                   {day ? (
                     day({
                       date: d,
@@ -997,7 +1199,17 @@ export function CalendarView({
                       {dayEvents.map((calendarEvent) => (
                         <li key={calendarEvent.id} data-event-key={calendarEvent.id}>
                           <button type="button" className="calendar-view-event" onClick={() => openEvent(calendarEvent)}>
-                            {eventTitle(calendarEvent)}
+                            {searching
+                              ? highlightSegments(eventTitle(calendarEvent), search).map((part, i) =>
+                                  part.match ? (
+                                    <Mark key={i} className="calendar-view-match">
+                                      {part.text}
+                                    </Mark>
+                                  ) : (
+                                    <React.Fragment key={i}>{part.text}</React.Fragment>
+                                  ),
+                                )
+                              : eventTitle(calendarEvent)}
                           </button>
                           {resolvedFields.length > 0 && (
                             <span className="calendar-view-event-fields">
@@ -1015,9 +1227,10 @@ export function CalendarView({
                                         <select
                                           className="calendar-view-field-editor"
                                           aria-label={f.editLabel ?? f.header}
+                                          aria-invalid={editing.invalid ? true : undefined}
                                           value={String(editing.draft ?? "")}
                                           onChange={(e) => {
-                                            setEditing({ ...editing, draft: e.target.value });
+                                            setEditing({ ...editing, draft: e.target.value, invalid: false });
                                             commitFieldEdit();
                                           }}
                                           onKeyDown={onFieldEditorKeyDown}
@@ -1032,10 +1245,11 @@ export function CalendarView({
                                         <input
                                           className="calendar-view-field-editor"
                                           aria-label={f.editLabel ?? f.header}
+                                          aria-invalid={editing.invalid ? true : undefined}
                                           type={kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text"}
                                           inputMode={kind === "number" ? "decimal" : undefined}
                                           value={String(editing.draft ?? "")}
-                                          onChange={(e) => setEditing({ ...editing, draft: e.target.value })}
+                                          onChange={(e) => setEditing({ ...editing, draft: e.target.value, invalid: false })}
                                           onKeyDown={onFieldEditorKeyDown}
                                           onBlur={() => commitFieldEdit(false)}
                                         />
@@ -1081,7 +1295,7 @@ export function CalendarView({
             {Array.from({ length: view === "day" ? 1 : 7 }, (_, i) => {
               const weekday = view === "day" ? weekdayOf(anchorDate) : (firstDayOfWeek + i) % 7;
               return (
-                <CalendarTableTH key={i} scope="col">
+                <CalendarTableTH key={i} scope="col" data-weekend={weekendDays?.includes(weekday) ? "" : undefined}>
                   {labels?.weekdayAbbr ? (
                     <abbr title={labels.weekday?.(weekday) ?? labels.weekdayAbbr(weekday)}>
                       {labels.weekdayAbbr(weekday)}
@@ -1133,12 +1347,14 @@ export function CalendarView({
                     }
                     aria-disabled={disabled || undefined}
                     aria-label={labels?.day?.(d, weekday, outside)}
+                    aria-describedby={rangeLabels(dayRanges) ? `${baseId}-rg-${d}` : undefined}
                     onClick={(e: React.MouseEvent) => onDayCellClick(d, e)}
                     onDragOver={(e: React.DragEvent) => {
                       if (draggingEventId.current && onEventMove) e.preventDefault();
                     }}
                     onDrop={(e: React.DragEvent) => onDayDrop(d, e)}
                   >
+                    {rangeLabels(dayRanges) ? <span id={`${baseId}-rg-${d}`} hidden>{rangeLabels(dayRanges)}</span> : null}
                     {hideOutsideDays && outside
                       ? null
                       : day
@@ -1157,7 +1373,14 @@ export function CalendarView({
                           fieldText,
                           eventProps,
                         })
-                      : parseIsoDate(d)?.day}
+                      : (
+                        <>
+                          {parseIsoDate(d)?.day}
+                          {dayRanges.map((range) => range.label && (
+                            <span key={range.start + range.end + (range.kind ?? "") + range.label} className="calendar-view-range-label">{range.label}</span>
+                          ))}
+                        </>
+                      )}
                   </CalendarTableTD>
                 );
               })}
