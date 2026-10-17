@@ -5,6 +5,11 @@
 // reviewed, has exactly the English pack's keys (none empty), and keeps each string's {placeholders} (none invented or lost).
 // shared/label-pack.test.ts checks the same and builds every label; this needs no test runner, so bin/test runs it.
 //
+// It also checks the packs against the helpers: for Svelte and the five TypeScript ports (React, Vue, Angular, HTML, Web
+// Components) every pack key must be a key of that helper's `labels` type, and every templated function label must take as many
+// arguments as shared/label-pack.ts SPEC names. KNOWN_GAPS lists what the ports have not caught up with yet. Nunjucks (string
+// templates with its own placeholder names) and Blazor (typed records) are not checked here; see shared/label-packs/index.md.
+//
 // Usage: bin/check-label-packs [--list]
 
 const fs = require("fs");
@@ -50,6 +55,89 @@ else {
     }
   }
 }
+// ---- the packs against the helpers' labels types ----
+const top = path.join(__dirname, "..");
+const specSource = fs.readFileSync(path.join(top, "shared", "label-pack.ts"), "utf8");
+const specStart = specSource.indexOf("export const SPEC");
+const specBody = specSource.slice(specSource.indexOf("= {", specStart) + 2, specSource.indexOf("\n};", specStart) + 3);
+const SPEC = new Function(`return ${specBody}`)();
+// Svelte features the TypeScript ports have not received yet (2026-10-18): the labels exist in the packs and in Svelte only.
+const KNOWN_GAPS = {
+  "kanban-board": ["titleEditor", "titleEditAnnouncement"],
+  "gantt-chart": ["criticalLabel"],
+};
+const MAIN = {
+  svelte: { "data-grid": "DataGrid.svelte", "kanban-board": "KanbanBoard.svelte", calendar: "CalendarView.svelte", "gantt-chart": "GanttChart.svelte", filter: "Filter.svelte" },
+  react: { "data-grid": "DataGrid.tsx", "kanban-board": "KanbanBoard.tsx", calendar: "CalendarView.tsx", "gantt-chart": "GanttChart.tsx", filter: "Filter.tsx" },
+  vue: { "data-grid": "DataGrid.vue", "kanban-board": "KanbanBoard.vue", calendar: "CalendarView.vue", "gantt-chart": "GanttChart.vue", filter: "Filter.vue" },
+  angular: { "data-grid": "data-grid.component.ts", "kanban-board": "kanban-board.component.ts", calendar: "calendar-view.component.ts", "gantt-chart": "gantt-chart.component.ts", filter: "filter.component.ts" },
+  html: { "data-grid": "data-grid.ts", "kanban-board": "kanban-board.ts", calendar: "calendar-view.ts", "gantt-chart": "gantt-chart.ts", filter: "filter-builder.ts" },
+  "web-components": { "data-grid": "data-grid.ts", "kanban-board": "kanban-board.ts", calendar: "calendar-view.ts", "gantt-chart": "gantt-chart.ts", filter: "filter-builder.ts" },
+};
+/** The top-level properties of every `...Labels` type in a source file: name -> its type text. */
+function labelProps(src) {
+  const props = {};
+  for (const m of src.matchAll(/(?:type|interface)\s+\w*Labels\w*\s*(?:=\s*)?\{/g)) {
+    let depth = 1, j = m.index + m[0].length;
+    const start = j;
+    while (depth && j < src.length) { const c = src[j++]; depth += (c === "{") - (c === "}"); }
+    let d = 0, current = null;
+    for (const line of src.slice(start, j - 1).split("\n")) {
+      const t = line.trim();
+      if (t.startsWith("/**") || t.startsWith("*") || t.startsWith("//") || t === "") continue;
+      if (d === 0 && !current) {
+        const k = /^(\w+)\??\s*:\s*(.*)$/.exec(t);
+        if (!k) continue;
+        current = { name: k[1], text: k[2] };
+      } else current.text += " " + t;
+      for (const ch of line) { if ("({[<".includes(ch)) d++; else if (")}]>".includes(ch)) d--; }
+      // `=>` contains a `>` that is not a closer.
+      d += (line.match(/=>/g) || []).length;
+      if (d <= 0 && /[;,]\s*$/.test(t)) { if (!(current.name in props)) props[current.name] = current.text; current = null; d = 0; }
+    }
+  }
+  return props;
+}
+function arityOf(type) {
+  const m = /^\(([\s\S]*?)\)\s*=>/.exec(type.trim());
+  if (!m) return null;
+  const inner = m[1].trim().replace(/,$/, "");
+  if (!inner) return 0;
+  let d = 0, n = 1;
+  for (const c of inner) { if ("({[<".includes(c)) d++; else if (")}]>".includes(c)) d--; else if (c === "," && d === 0) n++; }
+  return n;
+}
+const commonStart = specSource.indexOf("const COMMON_FOR");
+const commonBody = specSource.slice(specSource.indexOf("= {", commonStart) + 2, specSource.indexOf("\n};", commonStart) + 3);
+const commonFor = new Function(`return ${commonBody}`)();
+const HELPERS = ["data-grid", "kanban-board", "calendar", "gantt-chart", "filter"];
+if (english) {
+  for (const [fw, files] of Object.entries(MAIN)) {
+    for (const helper of HELPERS) {
+      const dir = path.join(top, `lily-design-system-${fw}-${helper}`);
+      if (!fs.existsSync(path.join(dir, files[helper]))) { errors.push(`${fw} ${helper}: ${files[helper]} not found`); continue; }
+      // The labels type may sit beside the component (Vue's filter-context.ts, Angular's filter-host.ts), so read the package's sources.
+      const props = {};
+      for (const f of fs.readdirSync(dir)) {
+        if (!/\.(ts|tsx|vue|svelte)$/.test(f) || /\.(test|spec|stories)\./.test(f) || f.endsWith(".d.ts")) continue;
+        for (const [k, v] of Object.entries(labelProps(fs.readFileSync(path.join(dir, f), "utf8")))) if (!(k in props)) props[k] = v;
+      }
+      const common = commonFor[helper] ?? [];
+      const keys = [...Object.keys(english.common ?? {}).filter((k) => common.includes(k)), ...Object.keys(english[helper] ?? {})];
+      for (let key of new Set(keys)) {
+        if (key === "operators") key = "operatorName";
+        if (fw !== "svelte" && (KNOWN_GAPS[helper] ?? []).includes(key)) continue;
+        if (!(key in props)) { errors.push(`${fw} ${helper}: the pack has "${key}" but the helper's labels type does not`); continue; }
+        const want = (SPEC[helper] ?? {})[key];
+        if (want) {
+          const have = arityOf(props[key]);
+          if (have !== null && have !== want.length) errors.push(`${fw} ${helper}: "${key}" takes ${have} argument(s), the pack's SPEC names ${want.length}`);
+        }
+      }
+    }
+  }
+}
+
 if (process.argv.includes("--list")) {
   for (const [locale, pack] of Object.entries(packs)) console.log(`${locale}\t${pack.reviewed ? "reviewed" : "unreviewed"}\t${leaves(pack).size} strings`);
 }

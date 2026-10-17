@@ -183,7 +183,9 @@ function build(template: LabelTemplate, params: string[]): (...args: unknown[]) 
                 }
                 const [name, path] = param.includes("=") ? param.split("=") : [param, param];
                 // `card=card.title` reads `.title` of the argument; the first path segment is the parameter's own name.
-                const value = param.includes("=") ? read(arg, path.split(".").slice(1)) : arg;
+                let value = param.includes("=") ? read(arg, path.split(".").slice(1)) : arg;
+                // An object without the named property (a calendar event with no `title`) is shown by its id, as the helpers do.
+                if (param.includes("=") && (value === undefined || value === null || value === "")) value = read(arg, ["id"]);
                 values[name] = name === "format" ? text(value).toUpperCase() : text(value);
             }
         });

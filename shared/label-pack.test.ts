@@ -87,6 +87,9 @@ describe("label packs", () => {
         const gantt = labelsFor("gantt-chart", english) as Record<string, (...a: unknown[]) => string>;
         expect(gantt.dependencySummary(["A", "B"])).toBe("Depends on A, B");
         expect(gantt.baselineSummary("T", { start: "2026-01-01", end: "2026-01-05" }, 2)).toBe("T: planned 2026-01-01 to 2026-01-05, variance 2 days");
+        const calendarFb = labelsFor("calendar", english) as Record<string, (...a: unknown[]) => string>;
+        expect(calendarFb.eventMoveAnnouncement({ id: "e7" }, "2026-01-02")).toBe("e7 moved to 2026-01-02");
+        expect(calendarFb.eventMoveAnnouncement({ id: "e7", title: "Dentist" }, "2026-01-02")).toBe("Dentist moved to 2026-01-02");
         const filter = labelsFor("filter", english) as Record<string, (...a: unknown[]) => string>;
         expect(filter.operatorName("not-contains", {})).toBe("does not contain");
         expect(filter.rule(2)).toBe("Condition 2");

@@ -77,6 +77,18 @@ before it ships in a product; flip the flag only when one has. Bhojpuri has no I
 `bho`), so `bh-001` follows the requested tag. Terminology is a first pass, and screen-reader wording in particular deserves
 review.
 
+## Which frameworks they fit (checked 2026-10-18)
+
+| Catalog | Fit |
+| ------- | --- |
+| Svelte, React, Vue, Angular, HTML, Web Components | **Same shape.** The same label keys, the same argument count and order, the same union values (`four-week`, `e2s`, `ascending`, …) and the same object fields (`card.title`, `task.label`). `labelsFor(helper, pack)` output is a drop-in `labels`. `bin/check-label-packs` keeps this true. |
+| Nunjucks | **Not drop-in.** Label functions are string templates with the Svelte *parameter* names (`{matchCount}`, `{totalCount}`, `{selectedCount}`, `{rowCount}`, `{direction}`), not the pack's (`{matches}`, `{total}`, `{count}`), and a template cannot select a wording by value, so `{direction}` would show the English word `ascending`. It needs an adapter that renames placeholders and a client option that accepts functions (the filter already has one; the grid-like helpers read their labels from JSON only). |
+| Blazor | **Same shape, different names, no loader.** Typed records with `Func<…>` in the same argument order, but a few keys are named differently (`FieldUndoAnnouncement` / `FieldRedoAnnouncement` for the calendar and Gantt `undoAnnouncement` / `redoAnnouncement`), `rangeLimit` is not implemented, and nothing in C# builds a `Func` from a template yet. |
+
+Known gaps in the TypeScript ports (Svelte-only for now, listed in `KNOWN_GAPS` in `bin/check-label-packs`): the Gantt
+`criticalLabel`, and the kanban `titleEditor` and `titleEditAnnouncement` (in-place title editing). The packs hold their
+strings, so they work the day those features are ported.
+
 ## Adding or changing a pack
 
 Copy `en-001.json`, translate every value, keep every `{placeholder}` exactly as written, set `"locale"`, and set `"reviewed": false`.
