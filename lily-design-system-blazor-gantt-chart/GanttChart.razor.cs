@@ -182,6 +182,30 @@ public sealed record GanttLabels
 
     /// <summary>Announced when an edit is refused as invalid for the field's type: (task label, field header).</summary>
     public Func<string, string, string>? EditInvalid { get; init; }
+
+    /// <summary>Names the search field; it renders only when set.</summary>
+    public string? Search { get; init; }
+
+    /// <summary>Announced after a search: (matching tasks, all tasks).</summary>
+    public Func<int, int, string>? SearchAnnouncement { get; init; }
+
+    /// <summary>Announced when a field's <c>Validate</c> refused the value: (task label, field header, the reason).</summary>
+    public Func<string, string, string, string>? EditRefused { get; init; }
+
+    /// <summary>Announced after a field-edit undo: (task label, field header, the restored text).</summary>
+    public Func<string, string, string, string>? FieldUndoAnnouncement { get; init; }
+
+    /// <summary>Announced after a field-edit redo: (task label, field header, the re-applied text).</summary>
+    public Func<string, string, string, string>? FieldRedoAnnouncement { get; init; }
+
+    /// <summary>A button that puts the export (header row first, tab-separated) on the clipboard; needs <c>ExportHeaders</c>.</summary>
+    public string? Copy { get; init; }
+
+    /// <summary>Announced after a copy: (how many tasks).</summary>
+    public Func<int, string>? CopyAnnouncement { get; init; }
+
+    /// <summary>Announced when the clipboard refused the copy.</summary>
+    public string? CopyFailed { get; init; }
 }
 
 /// <summary>A flattened row: a task plus its tree depth and whether it has children.
@@ -272,6 +296,19 @@ public partial class GanttChart : ComponentBase
 
     /// <summary>Raised with each accepted field edit. The consumer updates <c>Tasks</c>. Fields are editable only with a handler (and not <c>Readonly</c>).</summary>
     [Parameter] public EventCallback<GanttFieldEdit> OnFieldEdit { get; set; }
+
+    /// <summary>The search text: shows only the tasks whose label and field text contain every word (any order, ignoring case and diacritics). Bindable: <c>@bind-SearchValue</c>.</summary>
+    [Parameter] public string SearchValue { get; set; } = "";
+    [Parameter] public EventCallback<string> SearchValueChanged { get; set; }
+
+    /// <summary>The reading direction, "ltr" (default) or "rtl": in right-to-left the horizontal arrow keys swap. Blazor cannot read the DOM's <c>dir</c> without JS interop, so the consumer says.</summary>
+    [Parameter] public string? Direction { get; set; }
+
+    /// <summary>Called with the text before it goes on the clipboard; return false to take the copy over.</summary>
+    [Parameter] public Func<DataGridCopy, bool>? CopyHandler { get; set; }
+
+    /// <summary>Called after a copy was prepared (the text, the task count).</summary>
+    [Parameter] public EventCallback<DataGridCopy> OnCopy { get; set; }
 
     /// <summary>Base of an export's file name (<c>.csv</c>, <c>.tsv</c> or <c>.xlsx</c> is added). Default <c>"gantt-chart"</c>.</summary>
     [Parameter] public string ExportFilename { get; set; } = "gantt-chart";
@@ -501,16 +538,41 @@ public partial class GanttChart : ComponentBase
     private IReadOnlyList<GanttTask>? _rowsTasks;
     private IReadOnlyList<string>? _rowsCollapsed;
     private IReadOnlyList<GanttFlatRow> _rows = Array.Empty<GanttFlatRow>();
+    private string? _rowsSearch;
+    private EditHistory _fieldHistory = EditHistory.Empty;
+    private Typeahead.State _typeahead = new("", 0);
+    private bool Rtl => string.Equals(Direction, "rtl", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>What a search looks in: the task's label and every field's text.</summary>
+    private string TaskSearchText(GanttTask task)
+        => string.Join(" ", new[] { ResolveTaskLabel(task) }.Concat(ResolvedFields.Select(f => TypedFields.Text(f, task.Values))));
+
+    private bool MatchesSearch(GanttTask task) => SearchText.Matches(TaskSearchText(task), SearchValue);
+
+    private async Task SetSearchAsync(string value)
+    {
+        SearchValue = value;
+        await SearchValueChanged.InvokeAsync(SearchValue);
+        var matched = Tasks.Count(MatchesSearch);
+        Announce(Labels.SearchAnnouncement?.Invoke(matched, Tasks.Count));
+    }
+
+    private async Task OnSearchKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Key == "Escape" && SearchValue.Length > 0) await SetSearchAsync("");
+    }
 
     private IReadOnlyList<GanttFlatRow> Rows
     {
         get
         {
-            if (!ReferenceEquals(_rowsTasks, Tasks) || !ReferenceEquals(_rowsCollapsed, CollapsedTaskIds))
+            if (!ReferenceEquals(_rowsTasks, Tasks) || !ReferenceEquals(_rowsCollapsed, CollapsedTaskIds) || _rowsSearch != SearchValue)
             {
                 _rowsTasks = Tasks;
                 _rowsCollapsed = CollapsedTaskIds;
-                _rows = FlattenTasks(Tasks, _collapsed);
+                _rowsSearch = SearchValue;
+                var flat = FlattenTasks(Tasks, _collapsed);
+                _rows = SearchValue.Trim().Length == 0 ? flat : flat.Where(r => MatchesSearch(r.Task)).ToList();
             }
             return _rows;
         }
@@ -628,7 +690,7 @@ public partial class GanttChart : ComponentBase
     private bool IsFieldEditable(DataGridColumn field) => OnFieldEdit.HasDelegate && !Readonly && TypedFields.IsEditable(field);
 
     /// <summary>The field being edited: the draft is the editor's text.</summary>
-    private sealed record FieldEditing(string TaskId, string FieldId, string Draft);
+    private sealed record FieldEditing(string TaskId, string FieldId, string Draft, bool Invalid = false);
 
     private FieldEditing? _fieldEditing;
     private bool _focusEditorPending;
@@ -648,7 +710,7 @@ public partial class GanttChart : ComponentBase
 
     private void SetFieldDraft(string draft)
     {
-        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft };
+        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft, Invalid = false };
     }
 
     /// <summary>Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged.</summary>
@@ -666,12 +728,16 @@ public partial class GanttChart : ComponentBase
         var outcome = TypedFields.Evaluate(field, task.Values, current.Draft);
         if (outcome.Invalid)
         {
-            Announce(Labels.EditInvalid?.Invoke(ResolveTaskLabel(task), field.Header));
+            _fieldEditing = current with { Invalid = true };
+            Announce(outcome.Message is not null && Labels.EditRefused is not null
+                ? Labels.EditRefused(ResolveTaskLabel(task), field.Header, outcome.Message)
+                : Labels.EditInvalid?.Invoke(ResolveTaskLabel(task), field.Header));
             return false;
         }
         _fieldEditing = null;
         if (outcome.Changed)
         {
+            _fieldHistory = _fieldHistory.Record(new EditRecord(task.Id, field.Id, outcome.Value, outcome.Previous));
             await OnFieldEdit.InvokeAsync(new GanttFieldEdit(task.Id, field.Id, outcome.Value, outcome.Previous));
             Announce(Labels.EditAnnouncement?.Invoke(ResolveTaskLabel(task), field.Header, outcome.Text));
         }
@@ -702,16 +768,36 @@ public partial class GanttChart : ComponentBase
     }
 
     private IReadOnlyList<GanttTask> ExportTasks()
-        => (ExportScope == GanttExportScope.Visible ? Rows : FlattenTasks(Tasks, new HashSet<string>())).Select(r => r.Task).ToList();
+        => (ExportScope == GanttExportScope.Visible ? Rows : FlattenTasks(Tasks, new HashSet<string>()).Where(r => MatchesSearch(r.Task)).ToList()).Select(r => r.Task).ToList();
 
-    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
+    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.Copy is not null || Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
 
     private static object? ExportDate(string? iso)
         => !string.IsNullOrEmpty(iso) && DateOnly.TryParseExact(iso, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var d) ? d : null;
 
-    private async Task RunExportAsync(DataGridExportFormat format)
+    private async Task RunCopyAsync()
     {
-        if (Labels.ExportHeaders is not { } h) return;
+        if (BuildExportTable() is not { } table) return;
+        var text = System.Text.Encoding.UTF8.GetString(ExportData.ExportBytes(table, DataGridExportFormat.Tsv, ExportFilename)).TrimStart('\uFEFF');
+        var copy = new DataGridCopy(text, table.Rows.Count);
+        await OnCopy.InvokeAsync(copy);
+        if (CopyHandler?.Invoke(copy) == false) return;
+        bool ok;
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", text);
+            ok = true;
+        }
+        catch
+        {
+            ok = false;
+        }
+        Announce(ok ? Labels.CopyAnnouncement?.Invoke(copy.RowCount) : Labels.CopyFailed);
+    }
+
+    private ExportTable? BuildExportTable()
+    {
+        if (Labels.ExportHeaders is not { } h) return null;
         var fields = TypedFields.Exportable(ResolvedFields);
         var ranges = EffectiveRanges(Tasks);
         var headers = new List<string> { h.Task, h.Start, h.End };
@@ -739,7 +825,13 @@ public partial class GanttChart : ComponentBase
             foreach (var f in fields) cells.Add(TypedFields.ExportCell(f, task.Values));
             rows.Add(cells);
         }
-        var table = new ExportTable(headers, rows);
+        return new ExportTable(headers, rows);
+    }
+
+    private async Task RunExportAsync(DataGridExportFormat format)
+    {
+        if (BuildExportTable() is not { } table) return;
+        var rows = table.Rows;
         var filename = ExportData.ExportFilename(ExportFilename, format);
         var bytes = ExportData.ExportBytes(table, format, ExportFilename);
         var file = new DataGridExport(format, filename, rows.Count, bytes);
@@ -1058,6 +1150,23 @@ public partial class GanttChart : ComponentBase
         _focusCellPending = true;
     }
 
+    /// <summary>Put an earlier field value back (or re-apply one), reported through <c>OnFieldEdit</c> like any edit: the consumer owns the data.</summary>
+    private async Task StepFieldHistoryAsync(string action)
+    {
+        var step = action == "undo" ? _fieldHistory.UndoStep() : _fieldHistory.RedoStep();
+        if (step.Record is not { } record) return;
+        _fieldHistory = step.History;
+        if (!TaskById.TryGetValue(record.OwnerId, out var task)) return;
+        var field = ResolvedFields.FirstOrDefault(f => f.Id == record.FieldId);
+        if (field is null) return;
+        var restored = action == "undo" ? record.Previous : record.Value;
+        var replaced = action == "undo" ? record.Value : record.Previous;
+        await OnFieldEdit.InvokeAsync(new GanttFieldEdit(task.Id, field.Id, restored, replaced));
+        var text = restored is null ? "" : Convert.ToString(restored, System.Globalization.CultureInfo.InvariantCulture) ?? "";
+        Announce((action == "undo" ? Labels.FieldUndoAnnouncement : Labels.FieldRedoAnnouncement)?.Invoke(ResolveTaskLabel(task), field.Header, text));
+        _focusCellPending = true;
+    }
+
     private async Task OnGridKeyDown(KeyboardEventArgs args)
     {
         // See KanbanBoard's own note on the same guard: Blazor's
@@ -1072,12 +1181,19 @@ public partial class GanttChart : ComponentBase
         var columnCount = columns.Count;
         var ctrlOrMeta = args.CtrlKey || args.MetaKey;
 
-        if (args.AltKey && (args.Key == "ArrowLeft" || args.Key == "ArrowRight"))
+        var logical = GridMotion.LogicalKey(args.Key, Rtl);
+        if (OnFieldEdit.HasDelegate && !Readonly && EditHistory.KeyAction(args.Key, args.CtrlKey, args.MetaKey, args.ShiftKey, args.AltKey) is { } historyAction)
+        {
+            await StepFieldHistoryAsync(historyAction);
+            return;
+        }
+
+        if (args.AltKey && (logical == "ArrowLeft" || logical == "ArrowRight"))
         {
             // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
             if (_focusedRow >= 0 && _focusedRow < rows.Count && !Readonly && !rows[_focusedRow].HasChildren)
             {
-                await ShiftTaskAsync(rows[_focusedRow].Task, args.Key == "ArrowLeft" ? -1 : 1, args.ShiftKey);
+                await ShiftTaskAsync(rows[_focusedRow].Task, logical == "ArrowLeft" ? -1 : 1, args.ShiftKey);
                 return;
             }
         }
@@ -1087,6 +1203,31 @@ public partial class GanttChart : ComponentBase
             // F2: edit the task's first editable field (the keyboard twin of clicking its value).
             var first = ResolvedFields.FirstOrDefault(IsFieldEditable);
             if (_focusedRow >= 0 && _focusedRow < rows.Count && first is not null) StartFieldEdit(rows[_focusedRow].Task, first);
+            return;
+        }
+
+        // Type-ahead on the task labels; "s" stays the select shortcut unless a prefix is in progress.
+        if (Typeahead.IsKey(args.Key, args.CtrlKey, args.AltKey, args.MetaKey))
+        {
+            var now = Environment.TickCount64;
+            var continuing = _typeahead.Prefix != "" && now - _typeahead.At <= Typeahead.ResetMs;
+            if (continuing || !(args.Key == "s" || args.Key == "S"))
+            {
+                var state = Typeahead.Next(_typeahead, args.Key, now);
+                var hit = Typeahead.FindMatch(rows.Select(r => ResolveTaskLabel(r.Task)).ToList(), _focusedRow, state.Prefix);
+                if (hit != -1)
+                {
+                    _typeahead = state;
+                    MoveFocus(hit, _focusedCol, columnCount, rowCount);
+                    return;
+                }
+            }
+        }
+
+        var pageStep = Virtualize is { } vz ? Math.Max(1, vz.Height / Math.Max(1, vz.RowHeight)) : 10;
+        if (GridMotion.Move(args.Key, ctrlOrMeta, new GridPosition(_focusedRow, _focusedCol), new GridNavigation(0, rowCount - 1, columnCount - 1, pageStep, Rtl: Rtl)) is { } moved)
+        {
+            MoveFocus(moved.Row, moved.Col, columnCount, rowCount);
             return;
         }
 

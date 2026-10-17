@@ -332,3 +332,9 @@ Tests §17.1–§17.11. In Blazor the parameters are `Weekends` (`IReadOnlyList<
   rows have none. The overlay is decoration: dependencies remain available as text through `labels.dependencySummary` / `dependencyDetail`, and arrows take no focus. Stroke and colour are CSS (`currentColor`).
   Lag is not drawn (no pixel-positioned bars); critical-path highlighting is still `task.critical`.
 
+## Search, copy, keyboard, validation and undo (0.7.0)
+
+- Added search: `Labels.Search` renders a field and `SearchValue` (bindable) keeps the tasks whose label and field text contain every typed word, in any order, ignoring case and diacritics; Escape clears it; `Labels.SearchAnnouncement`. The field carries the headless `search-input` class (written by hand, not composed).
+- Added copy to the clipboard: `Labels.Copy` (needs `ExportHeaders`), `Labels.CopyAnnouncement`, `Labels.CopyFailed`, `OnCopy`, `CopyHandler` (return `false` to take over).
+- Added PageUp / PageDown, type-ahead on task labels, and right-to-left arrow keys through the `Direction` parameter (Blazor cannot read the DOM's `dir` without JS interop, so the consumer says). Movement uses the new public `GridMotion` from the data-grid package.
+- Added field `Validate` messages (`Labels.EditRefused`, `aria-invalid` on the open editor, cleared when the person types) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) through `OnFieldEdit`, with `Labels.FieldUndoAnnouncement` / `FieldRedoAnnouncement`.

@@ -52,6 +52,11 @@
             }
         </div>
     }
+    @if (Labels.Search is not null)
+    {
+        <input type="search" class="search-input gantt-chart-search" aria-label="@Labels.Search" value="@SearchValue"
+               @oninput="@(e => SetSearchAsync(e.Value?.ToString() ?? ""))" @onkeydown="OnSearchKeyDownAsync" />
+    }
     @if (Labels.ZoomIn is not null || Labels.ZoomOut is not null)
     {
         <div class="gantt-chart-zoom" role="group" aria-label="@Label">
@@ -71,6 +76,10 @@
     {
         var exportTasks = ExportTasks();
         <div class="gantt-chart-export" role="group" aria-label="@Labels.Export">
+            @if (Labels.Copy is not null)
+            {
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="copy" disabled="@(exportTasks.Count == 0)" @onclick="RunCopyAsync">@Labels.Copy</button>
+            }
             @if (Labels.ExportCsv is not null)
             {
                 <button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv" disabled="@(exportTasks.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Csv))">@Labels.ExportCsv</button>
@@ -210,6 +219,7 @@
                                 else
                                 {
                                     <input id="@EditorId" class="gantt-chart-field-editor"
+                                           aria-invalid="@(_fieldEditing is { Invalid: true } ? "true" : null)"
                                            type="@(kind == DataGridEditor.Number ? "number" : kind == DataGridEditor.Date ? "date" : kind == DataGridEditor.Time ? "time" : "text")"
                                            inputmode="@(kind == DataGridEditor.Number ? "decimal" : null)"
                                            aria-label="@field.Header"
