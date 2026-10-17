@@ -391,3 +391,11 @@ Tests §8.93–§8.104.
 - **Marked ranges** (`ranges`: `{ start, end, kind?, label? }`, already there for holidays, closures and terms) now carry their `label` as real text: shown beside the day number (and the agenda date) when there is no `day` snippet, and read as the cell's description (`aria-describedby` a hidden span, several labels joined with ", "), so a screen reader hears why a day is marked and the day is never colour-only. A range without a label marks the day and adds no text. A `day` snippet still receives `ranges` and renders its own.
 - **Weekends**: the weekday header cells now carry `data-weekend` like the day cells (`weekendDays`, never defaulted).
 - **Shading** is CSS and ships in the 57 reference themes: weekend cells are tinted; a day inside a range is tinted and striped.
+
+## Narrow screens, agenda dates, today and direction (0.6.0, 2026-10-17)
+
+- **Agenda on a narrow screen.** `agendaBelow` (pixels, for example `640`) makes a viewport narrower than that read as the agenda view; the `view` prop is untouched, so a wide screen goes back to it. A view the user picks with the switcher is respected until the screen is wide again. It uses `matchMedia` after mount (a server renders `view`); without `matchMedia` nothing changes. This replaces a hand-written `matchMedia` switch in the app.
+- **Hide the agenda date.** `agendaDate={false}` hides the date beside each day's events visually (a clipped, one-pixel `<time datetime>` with `data-visually-hidden`), so a layout that shows its own date can drop it and a screen reader still gets it. Default `true`.
+- **Today holds its contrast.** The reference themes mark today with a ring in the cell's own text colour (`currentColor`) and a bold number, never a fill: it stays readable on a light page, a dark page and a selected cell, and says "today" without colour. The calendar table is `table-layout: fixed` with `min-width: 0` day cells that wrap, so a phone never clips them.
+- **Right-to-left.** The horizontal arrows are visual: in a right-to-left layout (the nearest `dir`) ArrowLeft goes to the next day, and Shift+Arrow and Alt+Arrow (moving an event) follow the arrow. Up, Down, Home, End and the page keys are unchanged. `isRtl` / `logicalKey` are exported.
+- Tests §8.131–§8.146, including a complete Chinese bundle that must leave no English in the DOM.

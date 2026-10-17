@@ -21,6 +21,7 @@
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { isRtl, logicalKey } from "./direction";
     import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import {
         draftOf as fieldDraft,
@@ -157,6 +158,10 @@
         eventCompare?: (a: CalendarEvent, b: CalendarEvent) => number;
         /** The text `search` looks in. Defaults to the event's title and every field's text. */
         searchText?: (event: CalendarEvent) => string;
+        /** Show the agenda on a narrow screen: a viewport narrower than this many pixels (for example `640`) reads as the agenda view, and goes back to `view` when it is wider. A view the user picks with the switcher is respected. SSR renders `view`; the switch happens on mount. Needs `matchMedia`; without it nothing changes. */
+        agendaBelow?: number;
+        /** Agenda view: show the date beside each day's events (default `true`). `false` hides it visually, keeping it for screen readers (a `<time>` with a `datetime`), for a layout that shows its own date. */
+        agendaDate?: boolean;
         /** Agenda view: also list days with no events. Default false (only days with events). */
         agendaEmptyDays?: boolean;
         /** Cap on events shown per day: the day snippet gets `visibleEvents` (the first `maxEvents`) and `hiddenCount` for a "+N more" control. */
@@ -326,7 +331,9 @@
     let {
         class: className = "",
         label,
-        view = $bindable("month"),
+        view: viewProp = $bindable("month"),
+        agendaBelow = undefined,
+        agendaDate = true,
         anchorDate = $bindable(),
         events: allEvents = [],
         search = $bindable(""),
@@ -370,6 +377,26 @@
     let statusMessage = $state("");
 
     const firstDayOfWeek = $derived(firstDayOfWeekFor(locale));
+    // A narrow screen shows the agenda: with `agendaBelow` set, a viewport narrower than that many pixels reads as the agenda view
+    // (the `view` prop is untouched, so a wide screen goes back to it). A view the user picks on purpose is respected.
+    let narrow = $state(false);
+    let pickedOnPurpose = $state(false);
+    const view = $derived<CalendarView>(narrow && !pickedOnPurpose ? "agenda" : viewProp);
+    $effect(() => {
+        if (agendaBelow === undefined || typeof matchMedia !== "function") {
+            narrow = false;
+            return;
+        }
+        const query = matchMedia(`(max-width: ${agendaBelow - 1}px)`);
+        const update = () => {
+            narrow = query.matches;
+            if (!query.matches) pickedOnPurpose = false;
+        };
+        update();
+        query.addEventListener?.("change", update);
+        return () => query.removeEventListener?.("change", update);
+    });
+
     const days = $derived.by(() => periodDays(view, anchorDate, firstDayOfWeek));
     const flatDays = $derived(days.flat());
     const searching = $derived(search.trim() !== "");
@@ -733,7 +760,8 @@
     }
 
     function setView(next: CalendarView): void {
-        view = next;
+        viewProp = next;
+        pickedOnPurpose = true;
         const [start, end] = periodRange(view, anchorDate, firstDayOfWeek);
         onNavigate?.(view, start, end);
     }
@@ -790,6 +818,8 @@
     }
 
     function onGridKeydown(event: KeyboardEvent): void {
+        // The horizontal arrows are visual: in a right-to-left layout the next day is on the left, so ArrowLeft goes forward.
+        const key = logicalKey(event.key, isRtl(event.target as Element));
         if (onEventMove && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
             const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
             const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
@@ -797,7 +827,7 @@
             if (el && fromDate && calendarEvent) {
                 event.preventDefault();
                 const week = view === "day" ? 1 : 7;
-                const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+                const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[key]!;
                 moveEventTo(calendarEvent, addDays(fromDate, delta));
                 return;
             }
@@ -805,7 +835,7 @@
         const extending = event.shiftKey && MOVE_KEYS.has(event.key);
         if (extending && rangeAnchor === null) rangeAnchor = selectedDate && !selectedRange ? selectedDate : cursor;
         if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor = null;
-        switch (event.key) {
+        switch (key) {
             case "ArrowLeft":
                 event.preventDefault();
                 moveCursor(addDays(cursor, -1));
@@ -1006,7 +1036,7 @@
                     data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
                     aria-current={isToday ? "date" : undefined}
                 >
-                    <time class="calendar-view-agenda-date" datetime={d}>{labels?.day?.(d, weekday, false) ?? d}</time>
+                    <time class="calendar-view-agenda-date" datetime={d} data-visually-hidden={agendaDate ? undefined : ""} style={agendaDate ? undefined : "position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap"}>{labels?.day?.(d, weekday, false) ?? d}</time>
                     {#each dayRanges as range (range.start + range.end + (range.kind ?? "") + (range.label ?? ""))}
                         {#if range.label}<span class="calendar-view-range-label">{range.label}</span>{/if}
                     {/each}

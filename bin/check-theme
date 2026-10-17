@@ -54,6 +54,8 @@ TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HELPER_PREFIXES = (
     "theme-picker", "locale-picker", "text-size-picker", "motion-picker",
     "share-picker", "date-time-picker", "search-picker", "link-picker", "menu-picker", "settings-picker",
+    # Helper packages that own class hooks of their own (their class names start with the package name).
+    "data-grid", "calendar-view", "kanban-board", "gantt-chart", "filter",
 )
 
 # The token names every theme must declare. Pinned (not recomputed) so a

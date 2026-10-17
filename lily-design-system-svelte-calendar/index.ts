@@ -29,3 +29,4 @@ export type { SearchSegment } from "./search-text";
 export { copyToClipboard, toClipboardText } from "./export-data";
 export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
 export type { EditHistory, EditRecord } from "./edit-history";
+export { isRtl, logicalKey } from "./direction";

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
-import { describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import CalendarView, {
     eventsByDay,
@@ -10,6 +10,7 @@ import CalendarView, {
 } from "./CalendarView.svelte";
 import type { CalendarEvent, CalendarRange, CalendarViewLabels } from "./CalendarView.svelte";
 import CalendarViewEventsTestHost from "./CalendarViewEventsTestHost.svelte";
+import { addDays } from "@lilydesignsystem/svelte-date-time-picker";
 
 const LABELS: CalendarViewLabels = {
     weekView: "Week",
@@ -1323,6 +1324,220 @@ describe("CalendarView — weekend, holiday and time-off indicators (§8.123–�
     test("§8.130 a day snippet still receives the ranges and renders its own", () => {
         render(CalendarViewEventsTestHost, { props: { view: "month", anchorDate: "2026-01-15", events: [], ranges: RANGES } });
         expect(document.querySelector(".calendar-view-range-label")).toBeNull();
+    });
+});
+
+describe("CalendarView — agenda on a narrow screen, hidden agenda dates, right-to-left keys (§8.131–§8.144)", () => {
+    type Listener = (e: { matches: boolean }) => void;
+    let listeners: Listener[] = [];
+    /** A matchMedia whose single query matches while the viewport is narrower than 640px; `resize(width)` fires its change. */
+    function stubMatchMedia(width: number) {
+        let current = width;
+        listeners = [];
+        vi.stubGlobal("matchMedia", (query: string) => {
+            const limit = Number(/max-width: (\d+)px/.exec(query)![1]);
+            return {
+                get matches() { return current <= limit; },
+                media: query,
+                addEventListener: (_: string, fn: Listener) => listeners.push(fn),
+                removeEventListener: (_: string, fn: Listener) => (listeners = listeners.filter((l) => l !== fn)),
+            };
+        });
+        return (next: number) => {
+            current = next;
+            for (const l of listeners) l({ matches: next <= 639 });
+        };
+    }
+    const EVS: CalendarEvent[] = [{ id: "e1", date: "2026-01-06", title: "Standup" }];
+    const base = { label: "Cal", anchorDate: "2026-01-15", events: EVS, labels: LABELS };
+    const isAgenda = () => !!document.querySelector(".calendar-view-agenda-day, .calendar-view-agenda");
+    const tick2 = () => new Promise((r) => setTimeout(r, 0));
+
+    afterEach(() => vi.unstubAllGlobals());
+
+    test("§8.131 below agendaBelow the calendar shows the agenda, whatever `view` says", async () => {
+        stubMatchMedia(390);
+        render(CalendarView, { props: { ...base, view: "month" as const, agendaBelow: 640 } });
+        await tick2();
+        expect(isAgenda()).toBe(true);
+        expect(document.querySelector(".calendar-table")).toBeNull();
+    });
+
+    test("§8.132 at or above it, the view prop applies", async () => {
+        stubMatchMedia(1024);
+        render(CalendarView, { props: { ...base, view: "month" as const, agendaBelow: 640 } });
+        await tick2();
+        expect(document.querySelector(".calendar-table")).toBeTruthy();
+        expect(isAgenda()).toBe(false);
+    });
+
+    test("§8.133 without agendaBelow nothing changes on a narrow screen", async () => {
+        stubMatchMedia(320);
+        render(CalendarView, { props: { ...base, view: "month" as const } });
+        await tick2();
+        expect(document.querySelector(".calendar-table")).toBeTruthy();
+    });
+
+    test("§8.134 widening the window goes back to the view prop, narrowing it goes to the agenda", async () => {
+        const resize = stubMatchMedia(390);
+        render(CalendarView, { props: { ...base, view: "week" as const, agendaBelow: 640 } });
+        await tick2();
+        expect(isAgenda()).toBe(true);
+        resize(1200);
+        await tick2();
+        expect(isAgenda()).toBe(false);
+        expect(document.querySelector(".calendar-table")).toBeTruthy();
+        resize(400);
+        await tick2();
+        expect(isAgenda()).toBe(true);
+    });
+
+    test("§8.135 a view the user picks on a narrow screen is respected, until the screen is wide again", async () => {
+        const resize = stubMatchMedia(390);
+        render(CalendarView, { props: { ...base, view: "month" as const, agendaBelow: 640, labels: { ...LABELS, weekView: "Week", agendaView: "Agenda" } } });
+        await tick2();
+        await fireEvent.click(screen.getByRole("button", { name: "Week" }));
+        expect(isAgenda()).toBe(false);
+        resize(1200);
+        await tick2();
+        resize(390);
+        await tick2();
+        expect(isAgenda()).toBe(true);
+    });
+
+    test("§8.136 without matchMedia (a server, an old browser) the view prop is used", async () => {
+        vi.stubGlobal("matchMedia", undefined);
+        render(CalendarView, { props: { ...base, view: "month" as const, agendaBelow: 640 } });
+        await tick2();
+        expect(document.querySelector(".calendar-table")).toBeTruthy();
+    });
+
+    test("§8.137 the agenda shows each date by default", () => {
+        render(CalendarView, { props: { ...base, view: "agenda" as const } });
+        const time = document.querySelector<HTMLElement>(".calendar-view-agenda-date")!;
+        expect(time.hasAttribute("data-visually-hidden")).toBe(false);
+        expect(time.getAttribute("style")).toBeNull();
+    });
+
+    test("§8.138 agendaDate=false hides the date visually but keeps it for a screen reader", () => {
+        render(CalendarView, { props: { ...base, view: "agenda" as const, agendaDate: false } });
+        const time = document.querySelector<HTMLElement>(".calendar-view-agenda-date")!;
+        expect(time.hasAttribute("data-visually-hidden")).toBe(true);
+        expect(time.getAttribute("datetime")).toBe("2026-01-06");
+        expect(time.textContent?.trim()).not.toBe("");
+        expect(time.getAttribute("style")).toContain("clip-path");
+        expect(time.hasAttribute("hidden")).toBe(false);
+    });
+
+    const cursorDate = () => document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')?.getAttribute("data-date");
+
+    test("§8.139 left to right: ArrowRight is the next day, ArrowLeft the previous", async () => {
+        render(CalendarView, { props: { ...base, view: "month" as const } });
+        const start = cursorDate()!;
+        await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowRight" });
+        expect(cursorDate()).toBe(addDays(start, 1));
+        await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowLeft" });
+        expect(cursorDate()).toBe(start);
+    });
+
+    test("§8.140 right to left: ArrowLeft is the next day, ArrowRight the previous", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            render(CalendarView, { props: { ...base, view: "month" as const } });
+            const start = cursorDate()!;
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowLeft" });
+            expect(cursorDate()).toBe(addDays(start, 1));
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowRight" });
+            expect(cursorDate()).toBe(start);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.141 ArrowUp, ArrowDown, Home, End and the page keys are the same in both directions", async () => {
+        for (const dir of ["ltr", "rtl"]) {
+            document.body.innerHTML = "";
+            document.body.setAttribute("dir", dir);
+            render(CalendarView, { props: { ...base, view: "month" as const } });
+            const start = cursorDate()!;
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowDown" });
+            expect(cursorDate()).toBe(addDays(start, 7));
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowUp" });
+            expect(cursorDate()).toBe(start);
+        }
+        document.body.removeAttribute("dir");
+    });
+
+    test("§8.142 Shift+Arrow extends a range in the visual direction in right-to-left", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            const onRangeSelect = vi.fn();
+            render(CalendarView, { props: { ...base, view: "month" as const, onRangeSelect } });
+            const start = cursorDate()!;
+            await fireEvent.keyDown(document.querySelector('.calendar-table-td[tabindex="0"]')!, { key: "ArrowLeft", shiftKey: true });
+            expect(cursorDate()).toBe(addDays(start, 1));
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.143 Alt+Arrow moves an event the way the arrow points: in right-to-left, ArrowLeft is later", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            const onEventMove = vi.fn();
+            render(CalendarViewEventsTestHost, { props: { view: "month", anchorDate: "2026-01-15", events: EVS, onEventMove } });
+            const event = document.querySelector<HTMLElement>("[data-event-id='e1']")!;
+            await fireEvent.keyDown(event, { key: "ArrowLeft", altKey: true });
+            expect(onEventMove).toHaveBeenCalled();
+            expect(JSON.stringify(onEventMove.mock.calls[0])).toContain("2026-01-07");
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.144 the day cells never use a physical left or right in an inline style", () => {
+        render(CalendarView, { props: { ...base, view: "month" as const } });
+        const styled = Array.from(document.querySelectorAll<HTMLElement>("[style]")).map((e) => e.getAttribute("style")!);
+        expect(styled.filter((s) => /(^|;|\s)(left|right|margin-left|margin-right|padding-left|padding-right)\s*:/.test(s))).toEqual([]);
+    });
+});
+
+describe("CalendarView — renders in another language with no English left over (§8.145–§8.146)", () => {
+    const WEEKDAYS = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+    // A complete Simplified Chinese bundle; the data is Chinese too, so any English in the DOM is Lily's.
+    const ZH: CalendarViewLabels = {
+        dayView: "日", weekView: "周", fourWeekView: "四周", monthView: "月", agendaView: "日程",
+        previous: (v) => `上一${v === "day" ? "天" : "个"}`, next: (v) => `下一${v === "day" ? "天" : "个"}`, today: "今天",
+        periodAnnouncement: (_v, s, e) => `显示 ${s} 至 ${e}`, periodTitle: (_v, s, e) => `${s} 至 ${e}`,
+        weekday: (wd) => WEEKDAYS[wd], weekdayAbbr: (wd) => WEEKDAYS[wd].slice(-1),
+        day: (iso, wd) => `${Number(iso.slice(8))}日，${WEEKDAYS[wd]}`,
+        rangeLimit: (limit, date) => `${limit === "min" ? "最早" : "最晚"}日期为 ${date}`,
+        search: "搜索活动", searchAnnouncement: (m, t) => `${t} 个活动中有 ${m} 个匹配`,
+        export: "导出", exportCsv: "CSV", exportTsv: "TSV", exportExcel: "Excel", copy: "复制", copyAnnouncement: (n) => `已复制 ${n} 个活动`, copyFailed: "复制失败",
+        exportHeaders: { title: "标题", start: "开始", end: "结束" }, exportAnnouncement: (f, n, name) => `已导出 ${n} 个活动：${name}`,
+        agendaEmpty: "本月没有活动",
+    };
+    const EVS: CalendarEvent[] = [{ id: "e1", date: "2026-01-06", title: "站会" }, { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "团建" }];
+
+    function readable(root: Element): string[] {
+        const out: string[] = [];
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) out.push(n.textContent ?? "");
+        for (const el of root.querySelectorAll("*")) for (const a of ["aria-label", "title", "placeholder", "alt"]) if (el.hasAttribute(a)) out.push(el.getAttribute(a)!);
+        return out.map((t) => t.trim()).filter(Boolean);
+    }
+    const english = (texts: string[]) => texts.filter((t) => !["CSV", "TSV", "Excel"].includes(t) && /[A-Za-z]{3,}/.test(t));
+
+    test("§8.145 the month view, toolbar, switcher, search and export read as Chinese only", () => {
+        const { container } = render(CalendarView, { props: { label: "日历", view: "month" as const, anchorDate: "2026-01-15", today: "2026-01-08", events: EVS, labels: ZH, ranges: [{ start: "2026-01-12", end: "2026-01-12", kind: "holiday", label: "休息日" }], weekendDays: [0, 6] } });
+        expect(english(readable(container))).toEqual([]);
+    });
+
+    test("§8.146 the agenda and its announcements read as Chinese only", async () => {
+        const { container } = render(CalendarView, { props: { label: "日历", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: ZH } });
+        expect(english(readable(container))).toEqual([]);
+        await fireEvent.click(screen.getByRole("button", { name: /^上一/ }));
+        expect(english([document.querySelector(".calendar-view-status")?.textContent ?? ""])).toEqual([]);
     });
 });
 
