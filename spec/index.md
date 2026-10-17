@@ -42,6 +42,7 @@ coding agents.
 | [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo (the one subtree left). |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs (plus the unpaired, Web Components catalog), per-framework file shapes and idioms, the copy-pattern. |
+| [headless-improvements](headless-improvements/index.md) | Research note: what the helpers gained that the `*-headless` libraries should own — table-part props, a grid keyboard primitive, a shared core, unused headless components. |
 | [helpers](helpers/index.md) | The helper packages (one top-level subproject each): the 10 pickers and `picker-bar`, their contracts, manifests, tooltips, and publish pipeline. |
 | [link-picker](link-picker/index.md) | The link-picker button / disclosure-of-links HTML contract: a home icon opening the page links the app defines; leftmost in `picker-bar`. |
 | [menu-picker](menu-picker/index.md) | The menu-picker button / disclosure-panel HTML contract: a hamburger icon opening a dropdown of whatever the app provides. |
