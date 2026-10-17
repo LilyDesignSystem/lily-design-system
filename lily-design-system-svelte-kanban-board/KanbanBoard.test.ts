@@ -1274,3 +1274,49 @@ describe("KanbanBoard — search: words, diacritics, fields, highlight, announce
     });
 });
 
+describe("KanbanBoard — copy to clipboard (§8.119–§8.121)", () => {
+    const cols: KanbanColumn[] = [{ id: "todo", title: "To Do" }, { id: "doing", title: "Doing" }];
+    const cards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "One" },
+        { id: "c2", columnId: "doing", title: "Two" },
+    ];
+    const L: KanbanLabels = { ...LABELS, export: "Export", copy: "Copy", exportHeaders: { title: "Title", column: "Column" }, copyAnnouncement: (n) => `${n} cards copied`, copyFailed: "Copy failed" };
+    const base = { label: "Board", columns: cols, cards, labels: L };
+    const wait = () => new Promise((r) => setTimeout(r, 0));
+
+    test("§8.119 copy needs labels.copy and exportHeaders", () => {
+        render(KanbanBoard, { props: { ...base, labels: { ...LABELS, copy: "Copy" } } });
+        expect(document.querySelector('[data-kanban-export-format="copy"]')).toBeNull();
+    });
+
+    test("§8.120 copy puts the view on the clipboard, tab-separated with a header row, and announces", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        render(KanbanBoard, { props: base });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text.split("\r\n")[0]).toBe("Title\tColumn");
+        expect(text).toContain("One\tTo Do");
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("2 cards copied");
+        vi.unstubAllGlobals();
+    });
+
+    test("§8.121 onCopy can take over, and the search narrows what is copied", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        const onCopy = vi.fn(() => false);
+        render(KanbanBoard, { props: { ...base, onCopy } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        expect(writeText).not.toHaveBeenCalled();
+        document.body.innerHTML = "";
+        render(KanbanBoard, { props: { ...base, search: "two" } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text).toContain("Two");
+        expect(text).not.toContain("One");
+        vi.unstubAllGlobals();
+    });
+});

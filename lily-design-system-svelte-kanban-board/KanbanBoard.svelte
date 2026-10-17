@@ -9,7 +9,7 @@
         KanbanTableTH,
         Listbox,
     } from "@lilydesignsystem/svelte-headless";
-    import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { highlightSegments, matchesSearch } from "./search-text";
     import {
         draftOf as fieldDraft,
@@ -137,6 +137,12 @@
         exportExcel?: string;
         /** Announced after an export: (format, how many cards, file name). */
         exportAnnouncement?: (format: ExportFormat, cardCount: number, filename: string) => string;
+        /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+        copy?: string;
+        /** Announced after a copy: (how many rows). */
+        copyAnnouncement?: (rowCount: number) => string;
+        /** Announced when the clipboard could not be written. */
+        copyFailed?: string;
         /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
         exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
         /** Announced after a field edit: (card title, field header, the new text). */
@@ -225,6 +231,8 @@
         exportFilename?: string;
         /** What an export holds: `"view"` (default) is every card the search and filter leave, column by column; `"selected"` is only the selected cards. */
         exportScope?: "view" | "selected";
+        /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). */
+        onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
         /** Called before the download with the finished file. Return `false` to skip the built-in download. */
         onExport?: (info: KanbanExport) => boolean | void;
         /** Extra CSS class on the root. */
@@ -283,6 +291,7 @@
         onFieldEdit = undefined,
         exportFilename: exportBase = "kanban-board",
         exportScope = "view",
+        onCopy = undefined,
         onExport = undefined,
         ...restProps
     }: Props & {
@@ -576,9 +585,17 @@
         return out;
     });
     const exportFieldList = $derived(exportableFields(resolvedFields));
-    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel));
 
-    function runExport(format: ExportFormat): void {
+    async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+        const text = toClipboardText(table);
+        if (onCopy?.({ text, rowCount: table.rows.length }) === false) return;
+        const ok = await copyToClipboard(text);
+        const message = ok ? labels.copyAnnouncement?.(table.rows.length) : labels.copyFailed;
+        announce(message);
+    }
+
+    function runExport(format: ExportFormat | "copy"): void {
         const h = labels.exportHeaders;
         if (!h) return;
         const headers = [h.title, h.column];
@@ -598,6 +615,10 @@
             for (const f of exportFieldList) cells.push(exportFieldCell(f, card.values));
             return cells;
         });
+        if (format === "copy") {
+            void finishCopy({ headers, rows });
+            return;
+        }
         const filename = exportFilename(exportBase, format);
         const blob = exportBlob({ headers, rows }, format, { sheetName: exportBase });
         if (onExport?.({ format, filename, cardCount: rows.length, blob }) === false) return;
@@ -1039,6 +1060,9 @@
     {/if}
     {#if hasExportButtons}
         <div class="kanban-board-export" role="group" aria-label={labels.export}>
+            {#if labels.copy}
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="copy" disabled={exportCards.length === 0} onclick={() => runExport("copy")}>{labels.copy}</button>
+            {/if}
             {#if labels.exportCsv}
                 <button type="button" class="kanban-board-export-button" data-kanban-export-format="csv" disabled={exportCards.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
             {/if}
