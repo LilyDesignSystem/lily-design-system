@@ -1,17 +1,17 @@
 {
   "name": "@lilydesignsystem/angular-gantt-chart",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "engines": {
     "node": "=26"
   },
   "description": "Lily Design System Angular 20 Gantt chart: composes the headless GanttTable grid with two composed date-time-picker instances for keyboard-accessible date editing. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-headless": "^0.5.0",
-    "@lilydesignsystem/angular-date-time-picker": "^0.2.0"
+    "@lilydesignsystem/angular-date-time-picker": "^0.2.0",
+    "@lilydesignsystem/angular-headless": "^0.5.0"
   },
   "peerDependencies": {
-    "@angular/core": ">=20.0.0 <23.0.0",
-    "@angular/common": ">=20.0.0 <23.0.0"
+    "@angular/common": ">=20.0.0 <23.0.0",
+    "@angular/core": ">=20.0.0 <23.0.0"
   },
   "sideEffects": false,
   "scripts": {
@@ -30,6 +30,7 @@
     "@angular/core": "^22.2.1",
     "@angular/platform-browser": "^22.2.1",
     "@angular/platform-browser-dynamic": "^22.2.1",
+    "@testing-library/dom": "^10.4.2",
     "@types/node": "^26.6.3",
     "jsdom": "^30.1.1",
     "ng-packagr": "^22.2.3",
