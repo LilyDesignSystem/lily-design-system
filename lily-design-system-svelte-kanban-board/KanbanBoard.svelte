@@ -10,6 +10,7 @@
         Listbox,
     } from "@lilydesignsystem/svelte-headless";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { highlightSegments, matchesSearch } from "./search-text";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -112,6 +113,8 @@
         moveFailed?: (cardTitle: string, columnTitle: string, error: unknown) => string;
         /** Accessible name of the board's search field. Gates the field. */
         search?: string;
+        /** Announced after the search changes: (matching cards, all cards). */
+        searchAnnouncement?: (matchCount: number, totalCount: number) => string;
         /** Accessible name for a lane's collapse toggle: (lane, collapsed). Gates the toggle. */
         collapseLane?: (lane: KanbanLane, collapsed: boolean) => string;
         /** Visible card count in a lane header: (lane, how many cards). Gates the count. */
@@ -175,9 +178,9 @@
         onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void;
         /** The columns a card may move to (its own column is always shown). The move menu offers only these; drops and keyboard moves elsewhere are refused. */
         allowedColumns?: (card: KanbanCard) => string[];
-        /** Board-level search, bindable: shows only cards whose text contains it (case-insensitive). Combines with `filter`. */
+        /** Board-level search, bindable: shows only cards whose text contains every word of it (any order, ignoring case and diacritics) and wraps matches in the card's title in `<mark class="kanban-board-match">`. Combines with `filter`. Escape in the field clears it. */
         search?: string;
-        /** The text `search` looks in. Defaults to the label, subtitle and badges. */
+        /** The text `search` looks in. Defaults to the label, subtitle, badges and every field's text. */
         searchText?: (card: KanbanCard) => string;
         /** Ids of collapsed swimlanes. Two-way bindable. A collapsed lane keeps its header row (and count) but renders no card rows. */
         collapsedLanes?: string[];
@@ -329,15 +332,28 @@
         return map;
     });
 
+    const searching = $derived(search.trim() !== "");
+    const defaultSearchText = (c: KanbanCard): string =>
+        [cardLabel(c), c.subtitle ?? "", ...(c.badges ?? []), ...resolvedFields.map((f) => fieldText(f, c))].join(" ");
+    let searchAnnounced = $state(false);
+    $effect(() => {
+        void search;
+        const matched = [...shownByColumn.values()].reduce((n, list) => n + list.length, 0);
+        if (!searchAnnounced) {
+            searchAnnounced = true;
+            return;
+        }
+        announce(labels.searchAnnouncement?.(matched, cards.length));
+    });
+
     // What the grid shows: the filtered, sorted view. Counts and WIP limits use `cardsByColumn` (every card).
     const shownByColumn = $derived.by(() => {
         const map = new Map<string, KanbanCard[]>();
         for (const [id, list] of cardsByColumn) {
             let shown = filter ? list.filter(filter) : list.slice();
-            const needle = search.trim().toLowerCase();
-            if (needle) {
-                const text = searchText ?? ((c: KanbanCard) => [cardLabel(c), c.subtitle ?? "", ...(c.badges ?? [])].join(" "));
-                shown = shown.filter((c) => text(c).toLowerCase().includes(needle));
+            if (searching) {
+                const text = searchText ?? defaultSearchText;
+                shown = shown.filter((c) => matchesSearch(text(c), search));
             }
             if (compare) shown = shown.sort(compare);
             map.set(id, shown);
@@ -1004,9 +1020,22 @@
     }
 </script>
 
+{#snippet titleText(card: KanbanCard)}{#if searching}{#each highlightSegments(cardLabel(card), search) as part, i (i)}{#if part.match}<mark class="kanban-board-match">{part.text}</mark>{:else}{part.text}{/if}{/each}{:else}{cardLabel(card)}{/if}{/snippet}
+
 <div bind:this={rootEl} class={`kanban-board ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
     {#if labels.search}
-        <input type="search" class="kanban-board-search" aria-label={labels.search} bind:value={search} />
+        <input
+            type="search"
+            class="kanban-board-search"
+            aria-label={labels.search}
+            bind:value={search}
+            onkeydown={(e) => {
+                if (e.key === "Escape" && search !== "") {
+                    e.preventDefault();
+                    search = "";
+                }
+            }}
+        />
     {/if}
     {#if hasExportButtons}
         <div class="kanban-board-export" role="group" aria-label={labels.export}>
@@ -1148,9 +1177,9 @@
                                     {#if cardSnippet}
                                         {@render cardSnippet({ card, label: cardLabel(card), column, pending: isPending(card.id) })}
                                     {:else if card.href}
-                                        <a class="kanban-board-card-link" href={card.href}>{cardLabel(card)}</a>
+                                        <a class="kanban-board-card-link" href={card.href}>{@render titleText(card)}</a>
                                     {:else}
-                                        {cardLabel(card)}
+                                        {@render titleText(card)}
                                     {/if}
                                 </span>
                                 {#if !cardSnippet}

@@ -1200,3 +1200,77 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         }
     });
 });
+
+describe("KanbanBoard — search: words, diacritics, fields, highlight, announce, Escape (§8.110–§8.118)", () => {
+    const cols: KanbanColumn[] = [
+        { id: "todo", title: "To Do" },
+        { id: "doing", title: "In Progress" },
+    ];
+    const cards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "Design login page", values: { owner: "Zoë" } },
+        { id: "c2", columnId: "todo", title: "Café menu", subtitle: "vip" },
+        { id: "c3", columnId: "doing", title: "Write docs" },
+    ];
+    const L: KanbanLabels = { ...LABELS, search: "Search cards", searchAnnouncement: (m, t) => `${m} of ${t} cards` };
+    const base = { label: "Board", columns: cols, cards, labels: L };
+    const ids = () => Array.from(document.querySelectorAll("[data-card-id]")).map((e) => e.getAttribute("data-card-id"));
+    const input = () => screen.getByRole("searchbox", { name: "Search cards" }) as HTMLInputElement;
+
+    test("§8.110 every word must appear, in any order", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.input(input(), { target: { value: "page LOGIN" } });
+        expect(ids()).toEqual(["c1"]);
+    });
+
+    test("§8.111 ignores diacritics both ways", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.input(input(), { target: { value: "cafe" } });
+        expect(ids()).toEqual(["c2"]);
+    });
+
+    test("§8.112 the default text includes typed field text", async () => {
+        render(KanbanBoard, { props: { ...base, fields: [{ id: "owner", header: "Owner" }] } });
+        await fireEvent.input(input(), { target: { value: "zoe" } });
+        expect(ids()).toEqual(["c1"]);
+    });
+
+    test("§8.113 matches in the title are wrapped in <mark class=kanban-board-match>, only while searching", async () => {
+        render(KanbanBoard, { props: base });
+        expect(document.querySelector("mark")).toBeNull();
+        await fireEvent.input(input(), { target: { value: "wri" } });
+        expect(document.querySelector("mark.kanban-board-match")?.textContent).toBe("Wri");
+    });
+
+    test("§8.114 the result count is announced", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.input(input(), { target: { value: "docs" } });
+        await new Promise((r) => setTimeout(r, 0));
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("1 of 3 cards");
+    });
+
+    test("§8.115 Escape in the field clears the search", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.input(input(), { target: { value: "docs" } });
+        await fireEvent.keyDown(input(), { key: "Escape" });
+        expect(input().value).toBe("");
+        expect(ids().sort()).toEqual(["c1", "c2", "c3"]);
+    });
+
+    test("§8.116 searchText replaces what is looked in", async () => {
+        render(KanbanBoard, { props: { ...base, searchText: (c: KanbanCard) => c.id } });
+        await fireEvent.input(input(), { target: { value: "c3" } });
+        expect(ids()).toEqual(["c3"]);
+    });
+
+    test("§8.117 a linked card's title highlights inside the link", async () => {
+        render(KanbanBoard, { props: { ...base, cards: cards.map((c) => (c.id === "c3" ? { ...c, href: "/docs" } : c)) } });
+        await fireEvent.input(input(), { target: { value: "docs" } });
+        expect(document.querySelector("a.kanban-board-card-link mark")?.textContent).toBe("docs");
+    });
+
+    test("§8.118 the search prop works without the field", () => {
+        render(KanbanBoard, { props: { ...base, labels: LABELS, search: "docs" } });
+        expect(ids()).toEqual(["c3"]);
+    });
+});
+

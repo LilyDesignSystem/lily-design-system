@@ -371,3 +371,11 @@ Tests §8.95–§8.108. The data grid's cell types and export, applied to cards.
   or `"selected"`. `exportFilename` is the base name. Spreadsheet-formula text is defused. `onExport({ format, filename, cardCount, blob })` may return `false` to take over the download;
   otherwise the file is saved and `labels.exportAnnouncement(format, cardCount, filename)` is announced. The buttons are disabled with nothing to export. `export-data.ts` and `cell-types.ts` are copies of the data grid's.
 - **Hot path**: selection is a `Set`, and a row's slot index comes from a map built once per layout, so a render does no per-cell scan of `selected` or `slots`.
+
+## 18. Search (0.7.0, 2026-10-17)
+
+Tests §8.110–§8.118. Shared across the data grid, kanban board, Gantt chart and calendar (`search-text.ts`, a pure module with its own tests: `foldText`, `searchTerms`, `matchesSearch`, `highlightSegments`).
+
+- **Words**: a query is split on whitespace; every word must appear (AND), in any order, ignoring case and diacritics ("cafe" finds "Café"). A blank query matches everything.
+- **In the kanban board**: `search` (bindable; `labels.search` names the field) narrows the cards. The default text is the card's label, subtitle, badges and every typed field's text. Matches in the title are wrapped in `<mark class="kanban-board-match">` (link titles too); `labels.searchAnnouncement(matches, total)` is announced; Escape in the field clears it.
+- Highlighting uses `<mark>` only while a search is active and works on the original text (never the folded one); where folding would change a string's length it marks nothing rather than the wrong span.

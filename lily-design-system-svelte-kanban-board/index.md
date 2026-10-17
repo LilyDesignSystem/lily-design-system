@@ -78,6 +78,10 @@ doesn't render (no baked-in English fallback).
 - **Typed fields and editing** (0.6.0): `fields` + `card.values` show typed values under the title; `onFieldEdit` makes editable types edit in place (click, or F2). See [spec §17](./spec/index.md#17-typed-fields-inline-editing-export-hot-path-caching-060-2026-10-16).
 - **Export** (0.6.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons for the shown (or selected) cards.
 
+## Search (0.7.0)
+
+`search` (bindable; the field renders when `labels.search` names it) narrows the cards: every word must appear, in any order, ignoring case and diacritics. The default text is the card's label, subtitle, badges and every typed field's text. Matches in the title are wrapped in `<mark class="kanban-board-match">` (link titles too); `labels.searchAnnouncement(matches, total)` is announced; Escape in the field clears it. See spec §18.
+
 ## Non-goals (v1)
 
 Drag-preview/ghost-element rendering, virtualization, undo/redo,
