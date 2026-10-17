@@ -56,6 +56,11 @@
     today       — ISO date; never computed here (SSR-safe).
     minDate, maxDate — ISO dates bounding what can be picked.
     locale      — BCP 47, picks the first day of the week.
+    labels.search — plain string: renders a search field; the client shows only the events whose title and field text
+                  contain every typed word (case, diacritics, word order ignored), marks the match in the title and
+                  announces the count (client labels.searchAnnouncement(matched, total)). `search` is its start value.
+                  Escape clears it. Client options: eventCompare(a, b) orders a day's events; onCopy({ text, rowCount });
+                  labels.copy (a plain string) adds a button that puts the export on the clipboard.
     showPeriodTitle — boolean. Renders the period-title placeholder between the
                   arrows; the client fills it from `labels.periodTitle(view, start, end)`.
     hideOutsideDays — boolean. Month view: days outside the month stay empty.
@@ -137,8 +142,12 @@
 </div>
 </div>
 {%- endif %}
-{%- if labels.exportHeaders and (labels.exportCsv or labels.exportTsv or labels.exportExcel) %}
+{%- if labels.search %}
+<input type="search" class="calendar-view-search" aria-label="{{ labels.search }}" value="{{ opts.search | default('') }}" data-lily-calendar-view-search>
+{%- endif %}
+{%- if labels.exportHeaders and (labels.copy or labels.exportCsv or labels.exportTsv or labels.exportExcel) %}
 <div class="calendar-view-export" role="group"{% if labels.export %} aria-label="{{ labels.export }}"{% endif %} data-lily-calendar-view-export-group>
+{%- if labels.copy %}<button type="button" class="calendar-view-export-button" data-calendar-export-format="copy" disabled>{{ labels.copy }}</button>{% endif %}
 {%- if labels.exportCsv %}<button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" disabled>{{ labels.exportCsv }}</button>{% endif %}
 {%- if labels.exportTsv %}<button type="button" class="calendar-view-export-button" data-calendar-export-format="tsv" disabled>{{ labels.exportTsv }}</button>{% endif %}
 {%- if labels.exportExcel %}<button type="button" class="calendar-view-export-button" data-calendar-export-format="xlsx" disabled>{{ labels.exportExcel }}</button>{% endif %}

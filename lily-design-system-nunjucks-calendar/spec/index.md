@@ -62,3 +62,12 @@ Tests §8.69–§8.82. The data grid's cell types and export, applied to events.
 - **Virtualization**: deliberately not added. A calendar period is at most 42 day cells (or 31 agenda days), so windowing would only cost the keyboard cursor; `maxEvents` is the per-day cap that bounds a busy day.
 
 **Nunjucks idioms.** The macro renders the export group (`labels.export`, `labels.exportCsv` / `exportTsv` / `exportExcel` and `labels.exportHeaders` — plain strings and an object of plain strings; the headers also go to the root's `data-lily-calendar-view-export-headers` for the client). Everything that carries data or a function is an `initCalendarView` option, as the events themselves already are: `eventFields` (functions such as a field's `parse` are allowed — it is client code), `onFieldEdit`, `exportFilename`, `exportScope`, `onExport`, and the function labels `editAnnouncement`, `editInvalid` and `exportAnnouncement`. The client fires `fieldedit` and `exportfile` on the root as well. Fields show in the agenda; `renderDay` / `renderAgendaDay` receive `fieldText(event, fieldId)` for anything else.
+
+## Search, copy, keyboard, validation and undo (0.6.0)
+
+- Added search: `labels.search` renders a field that keeps the events by title and field text; every typed word must appear (any order), ignoring case and diacritics; matches are marked with `<mark class="mark calendar-view-match">`; `labels.searchAnnouncement` announces the count; Escape clears.
+- Added right-to-left arrow keys (`isRtl`, `logicalKey`; Alt+Arrow event moves follow the arrow).
+- Added copy to the clipboard: `labels.copy` renders a button that puts the export (header row first, tab-separated) on the clipboard; `labels.copyAnnouncement`, `labels.copyFailed`, the client option `onCopy({ text, rowCount })` (return `false` to take over) and the `copy` event.
+- Added field `validate` (the editor stays open with `aria-invalid`; `labels.editRefused` announces the reason) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) reported through `onFieldEdit` and the `fieldedit` event; `labels.fieldUndoAnnouncement` / `fieldRedoAnnouncement`.
+- Added `eventCompare(a, b)`, which orders a day's events (stable).
+- Not yet ported from the Svelte package: the headless `SearchInput` / `Mark` composition (the client builds the same markup by hand), filter, `agendaBelow` / `agendaDate`, range labels as text.

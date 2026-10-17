@@ -29,7 +29,10 @@ import {
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/nunjucks-date-time-picker";
-import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText } from "./export-data";
+import { highlightSegments, matchesSearch as wordsMatch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
 import { civilDateToDate } from "./cell-types";
 import {
   draftOf,
@@ -142,6 +145,8 @@ export function eventsByDay(events) {
  *   onEventClick?: (event: object) => void,
  *   eventFields?: Array<object>,
  *   onFieldEdit?: (edit: { eventId: string, fieldId: string, value: unknown, previous: unknown }) => void,
+ *   eventCompare?: (a: object, b: object) => number,
+ *   onCopy?: (copied: { text: string, rowCount: number }) => boolean | void,
  *   exportFilename?: string,
  *   exportScope?: "period" | "all",
  *   onExport?: (file: { format: string, filename: string, eventCount: number, blob: Blob }) => boolean | void,
@@ -161,6 +166,10 @@ export function eventsByDay(events) {
  *     agendaEmpty?: string,
  *     moreEvents?: (hiddenCount: number, isoDate: string) => string,
  *     rangeAnnouncement?: (start: string, end: string) => string,
+ *     searchAnnouncement?: (matched: number, total: number) => string,
+ *     editRefused?: (eventTitle: string, fieldHeader: string, message: string) => string,
+ *     fieldUndoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string, fieldRedoAnnouncement?: same,
+ *     copyAnnouncement?: (rowCount: number) => string, copyFailed?: string,
  *   },
  * }=} opts
  * @returns {{ destroy: () => void, setEvents: (events: object[]) => void,
@@ -314,6 +323,28 @@ export function initCalendarView(root, opts = {}) {
     const f = fieldDef(fieldId);
     return f ? fieldText(f, event.values) : "";
   };
+  const searchInput = root.querySelector("[data-lily-calendar-view-search]");
+  const searchQuery = () => (searchInput ? searchInput.value : "");
+  const eventSearchText = (event) => [eventTitle(event), ...fieldList().map((f) => fieldText(f, event.values))].join(" ");
+  const matchesQuery = (event) => searchQuery().trim() === "" || wordsMatch(eventSearchText(event), searchQuery());
+  /** The events the search leaves, in `opts.eventCompare` order within a day (stable: the consumer's order breaks ties). */
+  const shownEvents = () => events.filter(matchesQuery);
+  const sortedDay = (list) => (typeof opts.eventCompare === "function" ? list.slice().sort(opts.eventCompare) : list);
+  /** An event title as nodes, the matched words wrapped in `<mark class="mark calendar-view-match">`. */
+  function titleNodes(text) {
+    const query = searchQuery();
+    if (query.trim() === "") return [document.createTextNode(text)];
+    return highlightSegments(text, query).map((part) => {
+      if (!part.match) return document.createTextNode(part.text);
+      const mark = document.createElement("mark");
+      mark.className = "mark calendar-view-match";
+      mark.textContent = part.text;
+      return mark;
+    });
+  }
+  const say = (message) => {
+    if (message && statusEl) statusEl.textContent = message;
+  };
   const isFieldEditable = (f) => typeof opts.onFieldEdit === "function" && isEditableField(f);
 
   /** The field being edited, if any: the draft is the editor's text, kept current by the editor's own events (no re-render per keystroke). */
@@ -352,12 +383,16 @@ export function initCalendarView(root, opts = {}) {
     }
     const outcome = evaluateEdit(f, event.values, draft);
     if (outcome.invalid) {
-      if (typeof labels.editInvalid === "function" && statusEl) statusEl.textContent = labels.editInvalid(eventTitle(event), f.header);
+      const editor = root.querySelector(".calendar-view-field-editor");
+      if (editor) editor.setAttribute("aria-invalid", "true");
+      if (outcome.message && typeof labels.editRefused === "function") say(labels.editRefused(eventTitle(event), f.header, outcome.message));
+      else if (typeof labels.editInvalid === "function") say(labels.editInvalid(eventTitle(event), f.header));
       return false;
     }
     editing = null;
     if (outcome.changed) {
       const edit = { eventId, fieldId, value: outcome.value, previous: outcome.previous };
+      history = recordEdit(history, { ownerId: eventId, fieldId, value: outcome.value, previous: outcome.previous });
       if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
       root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
       if (typeof labels.editAnnouncement === "function" && statusEl) statusEl.textContent = labels.editAnnouncement(eventTitle(event), f.header, outcome.text);
@@ -365,6 +400,28 @@ export function initCalendarView(root, opts = {}) {
     render();
     if (refocus) focusFieldButton(eventId, fieldId);
     return true;
+  }
+
+  /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onFieldEdit` / `fieldedit`. */
+  let history = EMPTY_HISTORY;
+
+  function stepHistory(direction) {
+    const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+    if (!step.record) return;
+    history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const event = eventById.get(ownerId);
+    const f = fieldDef(fieldId);
+    if (!event || !f) return;
+    const restored = direction === "undo" ? previous : value;
+    event.values = { ...(event.values || {}), [fieldId]: restored };
+    const edit = { eventId: ownerId, fieldId, value: restored, previous: direction === "undo" ? value : previous };
+    if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
+    root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
+    const text = fieldText(f, event.values);
+    const name = direction === "undo" ? "fieldUndoAnnouncement" : "fieldRedoAnnouncement";
+    render();
+    if (typeof labels[name] === "function") say(labels[name](eventTitle(event), f.header, text));
   }
 
   function cancelFieldEdit() {
@@ -443,6 +500,7 @@ export function initCalendarView(root, opts = {}) {
         if (kind === "number") editor.setAttribute("inputmode", "decimal");
         editor.addEventListener("input", () => {
           state.draft = editor.value;
+          editor.removeAttribute("aria-invalid");
         });
       }
       editor.className = "calendar-view-field-editor";
@@ -478,7 +536,7 @@ export function initCalendarView(root, opts = {}) {
 
   /** The events an export holds: those that touch the shown period (or every one), dated ones only, by start date. */
   function exportEvents() {
-    const dated = events.filter((e) => eventSpan(e) !== null);
+    const dated = shownEvents().filter((e) => eventSpan(e) !== null);
     const [pStart, pEnd] = periodRange(view(), anchorDate(), firstDay());
     const kept = opts.exportScope === "all" ? dated : dated.filter((e) => eventSpan(e).start <= pEnd && eventSpan(e).end >= pStart);
     return kept.sort((a, b) => eventSpan(a).start.localeCompare(eventSpan(b).start));
@@ -500,6 +558,16 @@ export function initCalendarView(root, opts = {}) {
     }
   }
 
+  async function finishCopy(table) {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    root.dispatchEvent(new CustomEvent("copy", { detail: copied, bubbles: true }));
+    if (typeof opts.onCopy === "function" && opts.onCopy(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    if (ok && typeof labels.copyAnnouncement === "function") say(labels.copyAnnouncement(table.rows.length));
+    else if (!ok && typeof labels.copyFailed === "string") say(labels.copyFailed);
+  }
+
   function runExport(format) {
     const h = exportHeaders();
     if (!h) return;
@@ -509,6 +577,10 @@ export function initCalendarView(root, opts = {}) {
       const span = eventSpan(event);
       return [eventTitle(event), civilDateToDate(span.start), civilDateToDate(span.end), ...fields.map((f) => exportFieldCell(f, event.values))];
     });
+    if (format === "copy") {
+      void finishCopy({ headers, rows: body });
+      return;
+    }
     const base = opts.exportFilename || "calendar";
     const filename = exportFilename(base, format);
     const blob = exportBlob({ headers, rows: body }, format, { sheetName: base });
@@ -527,7 +599,7 @@ export function initCalendarView(root, opts = {}) {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "calendar-view-event";
-      button.textContent = event.title;
+      button.replaceChildren(...titleNodes(event.title));
       button.addEventListener("click", (e) => {
         e.stopPropagation();
         args.openEvent(event);
@@ -611,7 +683,7 @@ export function initCalendarView(root, opts = {}) {
             const button = document.createElement("button");
             button.type = "button";
             button.className = "calendar-view-event";
-            button.textContent = eventTitle(event);
+            button.replaceChildren(...titleNodes(eventTitle(event)));
             button.addEventListener("click", () => openEvent(event));
             item.appendChild(button);
             const list = fieldList();
@@ -648,7 +720,8 @@ export function initCalendarView(root, opts = {}) {
     const days = periodDays(v, anchor, firstDay());
     const flat = days.flat();
     cursor = effectiveCursor(flat);
-    const eventMap = eventsByDay(events);
+    const eventMap = eventsByDay(shownEvents());
+    for (const [day, list] of eventMap) eventMap.set(day, sortedDay(list));
     const selected = attr("selected-date");
     const todayIso = today();
 
@@ -866,14 +939,23 @@ export function initCalendarView(root, opts = {}) {
   }
 
   function onGridKeydown(event) {
-    if (movable() && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
+    if (event.target && event.target.closest && event.target.closest(".calendar-view-field-editor")) return;
+    // The horizontal arrows are visual: in a right-to-left layout ArrowLeft goes to the next day.
+    const key = logicalKey(event.key, isRtl(table));
+    const historyAction = typeof opts.onFieldEdit === "function" ? historyKey(event) : null;
+    if (historyAction) {
+      event.preventDefault();
+      stepHistory(historyAction);
+      return;
+    }
+    if (movable() && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(key)) {
       const el = event.target.closest ? event.target.closest("[data-event-id]") : null;
       const fromCell = el && el.closest("[data-date]");
       const calendarEvent = el ? events.find((e) => e.id === el.getAttribute("data-event-id")) : undefined;
       if (el && fromCell && calendarEvent) {
         event.preventDefault();
         const week = view() === "day" ? 1 : 7;
-        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key];
+        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[key];
         moveEventTo(calendarEvent, addDays(fromCell.getAttribute("data-date"), delta));
         return;
       }
@@ -885,7 +967,7 @@ export function initCalendarView(root, opts = {}) {
       rangeAnchor = attr("selected-date") && !selectedRange ? attr("selected-date") : c;
     }
     if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor = null;
-    switch (event.key) {
+    switch (key) {
       case "ArrowLeft":
         event.preventDefault();
         moveCursor(addDays(c, -1));
@@ -986,6 +1068,30 @@ export function initCalendarView(root, opts = {}) {
     }
   }
 
+  function onSearchInput() {
+    render();
+    const matched = events.filter(matchesQuery).length;
+    if (typeof labels.searchAnnouncement === "function") say(labels.searchAnnouncement(matched, events.length));
+  }
+  function onSearchKeydown(event) {
+    if (event.key !== "Escape" || !searchInput || searchInput.value === "") return;
+    event.preventDefault();
+    searchInput.value = "";
+    onSearchInput();
+  }
+  if (searchInput) {
+    searchInput.addEventListener("input", onSearchInput);
+    searchInput.addEventListener("keydown", onSearchKeydown);
+  }
+  /** Undo/redo from the agenda, where focus sits in the list rather than the grid. */
+  function onRootKeydown(event) {
+    if (table.contains(event.target) || (event.target.closest && event.target.closest(".calendar-view-field-editor"))) return;
+    const action = typeof opts.onFieldEdit === "function" && !(event.target instanceof HTMLInputElement) ? historyKey(event) : null;
+    if (!action) return;
+    event.preventDefault();
+    stepHistory(action);
+  }
+  root.addEventListener("keydown", onRootKeydown);
   table.addEventListener("keydown", onGridKeydown);
   root.addEventListener("click", onRootClick);
   render();
@@ -994,6 +1100,11 @@ export function initCalendarView(root, opts = {}) {
     destroy: () => {
       table.removeEventListener("keydown", onGridKeydown);
       root.removeEventListener("click", onRootClick);
+      root.removeEventListener("keydown", onRootKeydown);
+      if (searchInput) {
+        searchInput.removeEventListener("input", onSearchInput);
+        searchInput.removeEventListener("keydown", onSearchKeydown);
+      }
     },
     setEvents: (next) => {
       events = Array.isArray(next) ? next.slice() : [];
