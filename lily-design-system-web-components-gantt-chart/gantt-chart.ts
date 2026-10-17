@@ -34,8 +34,14 @@ import {
   toEpochDay,
 } from "@lilydesignsystem/web-components-date-time-picker";
 import type { DateTimePickerLabels } from "@lilydesignsystem/web-components-date-time-picker";
-import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data.js";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data.js";
 import { civilDateToDate } from "./cell-types.js";
+import { highlightSegments, matchesSearch } from "./search-text.js";
+import { isRtl, logicalKey } from "./direction.js";
+import { gridMove, pageStepFor } from "./grid-navigation.js";
+import { unavailableIn, unavailableKinds, type Unavailable } from "./unavailable.js";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history.js";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead.js";
 import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows.js";
 import {
   draftOf,
@@ -158,12 +164,28 @@ export type GanttLabels = {
   exportExcel?: string;
   /** Announced after an export: (format, how many tasks, file name). */
   exportAnnouncement?: (format: ExportFormat, taskCount: number, filename: string) => string;
+  /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+  copy?: string;
+  /** Announced after a copy: (how many rows). */
+  copyAnnouncement?: (rowCount: number) => string;
+  /** Announced when the clipboard could not be written. */
+  copyFailed?: string;
+  /** Accessible name of the search field. Gates the field. */
+  search?: string;
+  /** Announced after the search changes: (matching tasks, all tasks). */
+  searchAnnouncement?: (matchCount: number, totalCount: number) => string;
   /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. The others are included only when named. */
   exportHeaders?: { task: string; start: string; end: string; percentComplete?: string; parent?: string; dependsOn?: string; baselineStart?: string; baselineEnd?: string };
   /** Announced after a field edit: (task label, field header, the new text). */
   editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
   editInvalid?: (taskLabel: string, fieldHeader: string) => string;
+  /** Announced when a field's `validate` refuses a value: (task label, field header, the reason). Falls back to `editInvalid`. */
+  editRefused?: (taskLabel: string, fieldHeader: string, message: string) => string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier value back: (task label, field header, the restored text). */
+  undoAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (task label, field header, the text). */
+  redoAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
 };
 
 /** Mirrors the observed attributes / properties for typing convenience. */
@@ -374,7 +396,7 @@ type DateTimePickerElement = HTMLElement & {
 /** Custom-element class implementing `<lily-gantt-chart>`. */
 export class GanttChart extends HTMLElement {
   static get observedAttributes(): string[] {
-    return ["label", "caption", "today", "time-unit", "class", "readonly", "selected-task-id", "dependency-arrows"];
+    return ["label", "caption", "today", "time-unit", "class", "readonly", "selected-task-id", "dependency-arrows", "search"];
   }
 
   // ---- Backing storage for property-only members ----
@@ -410,7 +432,14 @@ export class GanttChart extends HTMLElement {
   #exportScope: "all" | "visible" = "all";
   #onExport: ((file: GanttExport) => boolean | void) | undefined;
   /** The field being edited, if any: the draft is the editor's text, kept current by the editor's own events (no re-render per keystroke). */
-  #editingField: { taskId: string; fieldId: string; draft: Draft } | null = null;
+  #editingField: { taskId: string; fieldId: string; draft: Draft; invalid?: boolean } | null = null;
+  #unavailable?: Unavailable[];
+  #filter?: (task: GanttTask) => boolean;
+  #compare?: (a: GanttTask, b: GanttTask) => number;
+  #searchText?: (task: GanttTask) => string;
+  #onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
+  #history: EditHistory = EMPTY_HISTORY;
+  #typeahead: TypeaheadState = { prefix: "", at: 0 };
   #virtualize: { rowHeight: number; height: number; overscan?: number } | undefined;
   #scrollTop = 0;
   #scrollEl: HTMLDivElement | null = null;
@@ -559,6 +588,58 @@ export class GanttChart extends HTMLElement {
     this.#render();
   }
 
+  /** Days nobody works — holidays, time off, closures — as dated ranges `{ start, end?, kind?, label? }`. A column every day of which is covered gets `data-unavailable="<kinds>"` on the header and every cell; a column only partly covered gets `data-partly-unavailable`. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`). */
+  get unavailable(): Unavailable[] | undefined {
+    return this.#unavailable;
+  }
+  set unavailable(v: Unavailable[] | undefined) {
+    this.#unavailable = Array.isArray(v) ? v.slice() : undefined;
+    this.#render();
+  }
+
+  /** Search (attribute `search`): shows only the tasks whose text contains every word of it (any order, ignoring case and diacritics), plus their ancestors; matches are wrapped in `<mark class="mark gantt-chart-match">`. Escape in the field clears it. */
+  get search(): string {
+    return this.getAttribute("search") ?? "";
+  }
+  set search(v: string) {
+    this.setAttribute("search", v);
+  }
+
+  /** Hides tasks for which it returns false (a status, owner or date filter). Combines with `search`; a passing task keeps its ancestors. */
+  get filter(): ((task: GanttTask) => boolean) | undefined {
+    return this.#filter;
+  }
+  set filter(fn: ((task: GanttTask) => boolean) | undefined) {
+    this.#filter = fn;
+    this.#render();
+  }
+
+  /** Orders tasks among their siblings (stable; the hierarchy itself is kept). */
+  get compare(): ((a: GanttTask, b: GanttTask) => number) | undefined {
+    return this.#compare;
+  }
+  set compare(fn: ((a: GanttTask, b: GanttTask) => number) | undefined) {
+    this.#compare = fn;
+    this.#render();
+  }
+
+  /** The text `search` looks in. Defaults to the task's label and every field's text. */
+  get searchText(): ((task: GanttTask) => string) | undefined {
+    return this.#searchText;
+  }
+  set searchText(fn: ((task: GanttTask) => string) | undefined) {
+    this.#searchText = fn;
+  }
+
+  /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` event fires first. */
+  get onCopy(): ((copy: { text: string; rowCount: number }) => boolean | void) | undefined {
+    return this.#onCopy;
+  }
+  set onCopy(fn: ((copy: { text: string; rowCount: number }) => boolean | void) | undefined) {
+    this.#onCopy = fn;
+  }
+
+
   get dependencyArrows(): boolean {
     return this.hasAttribute("dependency-arrows");
   }
@@ -667,10 +748,16 @@ export class GanttChart extends HTMLElement {
     this.#observedTable = null;
   }
 
-  attributeChangedCallback(name: string): void {
+  attributeChangedCallback(name: string, oldValue?: string | null, newValue?: string | null): void {
     if (!this.isConnected) return;
-    if (name === "label" || name === "caption" || name === "today" || name === "time-unit" || name === "class" || name === "readonly" || name === "selected-task-id" || name === "dependency-arrows") {
+    if (name === "label" || name === "caption" || name === "today" || name === "time-unit" || name === "class" || name === "readonly" || name === "selected-task-id" || name === "dependency-arrows" || name === "search") {
       this.#render();
+    }
+    // Announce how many tasks match after the search changes (not when it is first set).
+    if (name === "search" && (oldValue ?? "") !== (newValue ?? "")) {
+      const matched = this.#matchedIds();
+      if (matched) this.#announce(this.#labels.searchAnnouncement?.(matched.size, this.#tasks.length));
+      else if ((newValue ?? "") === "") this.#announce(this.#labels.searchAnnouncement?.(this.#tasks.length, this.#tasks.length));
     }
   }
 
@@ -684,8 +771,34 @@ export class GanttChart extends HTMLElement {
     return new Map(this.#tasks.map((t) => [t.id, t]));
   }
 
+  /** The tasks the search and filter match (null when neither is in force). */
+  #matchedIds(): Set<string> | null {
+    const query = this.search;
+    const searching = query.trim() !== "";
+    if (!searching && !this.#filter) return null;
+    const text = this.#searchText ?? ((task: GanttTask) => [this.#taskLabel(task), ...this.#resolvedFields.map((f) => fieldText(f, task.values))].join(" "));
+    return new Set(this.#tasks.filter((t) => (!this.#filter || this.#filter(t)) && (!searching || matchesSearch(text(t), query))).map((t) => t.id));
+  }
+
+  /** Tasks in their sibling order (`compare`), the hierarchy kept. */
+  #orderedTasks(): GanttTask[] {
+    return this.#compare ? [...this.#tasks].sort(this.#compare) : this.#tasks;
+  }
+
   #gridRows(): GanttFlatRow[] {
-    return flattenTasks(this.#tasks, this.#collapsed);
+    const matched = this.#matchedIds();
+    if (!matched) return flattenTasks(this.#orderedTasks(), this.#collapsed);
+    // Matches plus their ancestors, so a match is never shown without its context; searching ignores collapse.
+    const byId = this.#taskById();
+    const keep = new Set(matched);
+    for (const id of matched) {
+      const seen = new Set<string>([id]);
+      for (let parent = byId.get(id)?.parentId; parent != null && byId.has(parent) && !seen.has(parent); parent = byId.get(parent)?.parentId) {
+        keep.add(parent);
+        seen.add(parent);
+      }
+    }
+    return flattenTasks(this.#orderedTasks(), new Set<string>()).filter((r) => keep.has(r.task.id));
   }
 
   #rangeFor(
@@ -770,11 +883,15 @@ export class GanttChart extends HTMLElement {
     }
     const outcome = evaluateEdit(f, task.values, draft);
     if (outcome.invalid) {
-      this.#announce(this.#labels.editInvalid?.(this.#taskLabel(task), f.header));
+      this.#editingField = { ...current, invalid: true };
+      this.#announce((outcome.message ? this.#labels.editRefused?.(this.#taskLabel(task), f.header, outcome.message) : undefined) ?? this.#labels.editInvalid?.(this.#taskLabel(task), f.header));
+      this.#render();
+      this.querySelector<HTMLElement>(".gantt-chart-field-editor")?.focus({ preventScroll: true });
       return false;
     }
     this.#editingField = null;
     if (outcome.changed) {
+      this.#history = recordEdit(this.#history, { ownerId: taskId, fieldId, value: outcome.value, previous: outcome.previous });
       const edit: GanttFieldEdit = { taskId, fieldId, value: outcome.value, previous: outcome.previous };
       this.#onFieldEdit?.(edit);
       this.dispatchEvent(new CustomEvent<GanttFieldEdit>("fieldedit", { detail: edit, bubbles: true, composed: true }));
@@ -782,6 +899,24 @@ export class GanttChart extends HTMLElement {
     }
     this.#render();
     return true;
+  }
+
+  /** Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (Ctrl+Y): put an earlier value back, or re-apply it, through `onFieldEdit` and the `fieldedit` event. */
+  #stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(this.#history) : redoEdit(this.#history);
+    if (!step.record) return;
+    this.#history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    const edit: GanttFieldEdit = { taskId: ownerId, fieldId, value: restored, previous: replaced };
+    this.#onFieldEdit?.(edit);
+    this.dispatchEvent(new CustomEvent<GanttFieldEdit>("fieldedit", { detail: edit, bubbles: true, composed: true }));
+    const task = this.#tasks.find((t) => t.id === ownerId);
+    const f = this.#resolvedFields.find((x) => x.id === fieldId);
+    if (!task || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(task.values ?? {}), [fieldId]: restored }) : String(restored);
+    this.#announce((direction === "undo" ? this.#labels.undoAnnouncement : this.#labels.redoAnnouncement)?.(this.#taskLabel(task), f.header, text));
   }
 
   #cancelFieldEdit(): void {
@@ -829,6 +964,7 @@ export class GanttChart extends HTMLElement {
         const select = document.createElement("select");
         select.className = "gantt-chart-field-editor";
         select.setAttribute("aria-label", f.editLabel ?? f.header);
+        if (editing.invalid) select.setAttribute("aria-invalid", "true");
         const blank = document.createElement("option");
         blank.value = "";
         select.appendChild(blank);
@@ -851,11 +987,14 @@ export class GanttChart extends HTMLElement {
         const input = document.createElement("input");
         input.className = "gantt-chart-field-editor";
         input.setAttribute("aria-label", f.editLabel ?? f.header);
+        if (editing.invalid) input.setAttribute("aria-invalid", "true");
         input.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
         if (kind === "number") input.setAttribute("inputmode", "decimal");
         input.value = String(editing.draft ?? "");
         input.addEventListener("input", () => {
           editing.draft = input.value;
+          editing.invalid = false;
+          input.removeAttribute("aria-invalid");
         });
         input.addEventListener("keydown", (e) => this.#onEditorKeydown(e));
         input.addEventListener("blur", () => this.#commitFieldEdit());
@@ -882,10 +1021,19 @@ export class GanttChart extends HTMLElement {
   }
 
   #exportTasks(): GanttTask[] {
-    return (this.#exportScope === "visible" ? this.#gridRows() : flattenTasks(this.#tasks, new Set<string>())).map((r) => r.task);
+    return (this.#exportScope === "visible" ? this.#gridRows() : flattenTasks(this.#orderedTasks(), new Set<string>())).map((r) => r.task);
   }
 
-  #runExport(format: ExportFormat): void {
+  async #finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    this.dispatchEvent(new CustomEvent("copy", { detail: copied, bubbles: true, composed: true }));
+    if (this.#onCopy?.(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    this.#announce(ok ? this.#labels.copyAnnouncement?.(table.rows.length) : this.#labels.copyFailed);
+  }
+
+  #runExport(format: ExportFormat | "copy"): void {
     const h = this.#labels.exportHeaders;
     if (!h) return;
     const byId = new Map(this.#tasks.map((t) => [t.id, t]));
@@ -921,6 +1069,10 @@ export class GanttChart extends HTMLElement {
       for (const f of exportFields) cells.push(exportFieldCell(f, task.values));
       return cells;
     });
+    if (format === "copy") {
+      void this.#finishCopy({ headers, rows: body });
+      return;
+    }
     const filename = exportFilename(this.#exportFilename, format);
     const blob = exportBlob({ headers, rows: body }, format, { sheetName: this.#exportFilename });
     const file: GanttExport = { format, filename, taskCount: body.length, blob };
@@ -1276,6 +1428,15 @@ export class GanttChart extends HTMLElement {
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
     const rows = this.#gridRows();
     const columns = this.#gridColumns();
+    const colCount = columns.length;
+    // The horizontal arrows are visual: in a right-to-left layout the later date is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(cell));
+    const historyAction = (this.#onFieldEdit || this.#editableFields) && !this.readonly ? historyKey(event) : null;
+    if (historyAction) {
+      event.preventDefault();
+      this.#stepHistory(historyAction);
+      return;
+    }
     if (event.key === "F2" && (this.#onFieldEdit || this.#editableFields)) {
       // F2: edit the task's first editable field (the keyboard twin of clicking its value).
       const row = rows[this.#focusedRow];
@@ -1286,42 +1447,42 @@ export class GanttChart extends HTMLElement {
       }
       return;
     }
-    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
       const row = rows[this.#focusedRow];
       if (row && !row.hasChildren && !this.readonly && (event.target as HTMLElement).closest(".gantt-chart-td")) {
         event.preventDefault();
-        this.#shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+        this.#shiftTask(row.task, key === "ArrowLeft" ? -1 : 1, event.shiftKey);
         return;
       }
     }
-    switch (event.key) {
-      case "ArrowUp":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow - 1, this.#focusedCol);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow + 1, this.#focusedCol);
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow, this.#focusedCol - 1);
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow, this.#focusedCol + 1);
-        break;
-      case "Home":
-        event.preventDefault();
-        if (ctrlOrMeta) this.#moveFocus(0, 0);
-        else this.#moveFocus(this.#focusedRow, 0);
-        break;
-      case "End":
-        event.preventDefault();
-        if (ctrlOrMeta) this.#moveFocus(rows.length - 1, columns.length - 1);
-        else this.#moveFocus(this.#focusedRow, columns.length - 1);
-        break;
+    // Type-ahead: letters typed in quick succession move to the next task whose label starts with them. A lone "s" stays the
+    // select shortcut; it joins a prefix already in progress ("ds" for "Design Sprint").
+    if (isTypeaheadKey(event) && (event.target as HTMLElement).closest(".gantt-chart-td")) {
+      const now = Date.now();
+      const continuing = this.#typeahead.prefix !== "" && now - this.#typeahead.at <= 700;
+      if (continuing || (event.key !== "s" && event.key !== "S")) {
+        const state = nextTypeaheadState(this.#typeahead, event.key, now, 700);
+        const hit = findTypeaheadMatch(rows.map((r) => this.#taskLabel(r.task)), this.#focusedRow, state.prefix);
+        if (hit !== -1) {
+          this.#typeahead = state;
+          event.preventDefault();
+          this.#moveFocus(hit, this.#focusedCol);
+          return;
+        }
+      }
+    }
+    const move = gridMove(
+      event,
+      { row: this.#focusedRow, col: this.#focusedCol },
+      { firstRow: 0, lastRow: rows.length - 1, lastCol: colCount - 1, pageStep: pageStepFor(this.#virtualize), rtl: isRtl(cell) },
+    );
+    if (move) {
+      event.preventDefault();
+      this.#moveFocus(move.row, move.col);
+      return;
+    }
+    switch (key) {
       case "s":
       case "S": {
         if (event.ctrlKey || event.metaKey || event.altKey) break;
@@ -1369,6 +1530,28 @@ export class GanttChart extends HTMLElement {
     if (this.readonly) root.setAttribute("data-readonly", "");
     passThroughAttributes(this, root);
 
+    if (this.#labels.search) {
+      const input = document.createElement("input");
+      input.type = "search";
+      input.className = "search-input gantt-chart-search";
+      input.setAttribute("aria-label", this.#labels.search);
+      input.value = this.search;
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && this.search !== "") {
+          e.preventDefault();
+          this.setAttribute("search", "");
+          this.querySelector<HTMLInputElement>(".gantt-chart-search")?.focus();
+        }
+      });
+      input.addEventListener("input", () => {
+        this.setAttribute("search", input.value);
+        const again = this.querySelector<HTMLInputElement>(".gantt-chart-search");
+        again?.focus();
+        again?.setSelectionRange(input.value.length, input.value.length);
+      });
+      root.appendChild(input);
+    }
+
     const parentIds = this.#parentIds();
     if (parentIds.length > 0 && (this.#labels.expandAll || this.#labels.collapseAll)) {
       const group = document.createElement("div");
@@ -1410,13 +1593,14 @@ export class GanttChart extends HTMLElement {
       root.appendChild(group);
     }
 
-    if (this.#labels.exportHeaders && (this.#labels.exportCsv || this.#labels.exportTsv || this.#labels.exportExcel)) {
+    if (this.#labels.exportHeaders && (this.#labels.copy || this.#labels.exportCsv || this.#labels.exportTsv || this.#labels.exportExcel)) {
       const exportRows = this.#exportTasks();
       const group = document.createElement("div");
       group.className = "gantt-chart-export";
       group.setAttribute("role", "group");
       if (this.#labels.export) group.setAttribute("aria-label", this.#labels.export);
-      const formats: [ExportFormat, string | undefined][] = [
+      const formats: [ExportFormat | "copy", string | undefined][] = [
+        ["copy", this.#labels.copy],
         ["csv", this.#labels.exportCsv],
         ["tsv", this.#labels.exportTsv],
         ["xlsx", this.#labels.exportExcel],
@@ -1486,6 +1670,7 @@ export class GanttChart extends HTMLElement {
       return !!day && weekends.includes(weekdayOfEpochDay(toEpochDay(day)));
     });
 
+    const columnUnavailable = columns.map((column) => unavailableIn(this.#unavailable, column.start, column.end));
     columns.forEach((column, columnIndex) => {
       const isToday = today != null && rangesOverlap(column.start, column.end, today, today);
       const th = document.createElement("th");
@@ -1494,6 +1679,8 @@ export class GanttChart extends HTMLElement {
       if (isToday) th.setAttribute("data-today", "");
       if (columnNonWorking[columnIndex]) th.setAttribute("data-non-working", "");
       if (columnWeekend[columnIndex]) th.setAttribute("data-weekend", "");
+      if (columnUnavailable[columnIndex].all) th.setAttribute("data-unavailable", unavailableKinds(columnUnavailable[columnIndex].items) ?? "");
+      else if (columnUnavailable[columnIndex].items.length) th.setAttribute("data-partly-unavailable", unavailableKinds(columnUnavailable[columnIndex].items) ?? "");
       const markers = columnMarkers[columnIndex];
       if (markers.length) th.setAttribute("data-marker", markers.map((m) => m.kind ?? "marker").join(" "));
       th.appendChild(
@@ -1504,6 +1691,13 @@ export class GanttChart extends HTMLElement {
         const span = document.createElement("span");
         span.className = "gantt-chart-marker-label";
         span.textContent = marker.label;
+        th.appendChild(span);
+      }
+      for (const item of columnUnavailable[columnIndex].items) {
+        if (!item.label) continue;
+        const span = document.createElement("span");
+        span.className = "gantt-chart-unavailable-label";
+        span.textContent = item.label;
         th.appendChild(span);
       }
       headRow.appendChild(th);
@@ -1568,7 +1762,21 @@ export class GanttChart extends HTMLElement {
         collapseButton.addEventListener("click", () => this.#toggleCollapse(row.task.id));
         rowHeader.appendChild(collapseButton);
       }
-      rowHeader.appendChild(document.createTextNode(this.#taskLabel(row.task)));
+
+      if (this.search.trim() === "") rowHeader.appendChild(document.createTextNode(this.#taskLabel(row.task)));
+      else {
+        for (const part of highlightSegments(this.#taskLabel(row.task), this.search)) {
+          if (!part.match) {
+            rowHeader.appendChild(document.createTextNode(part.text));
+            continue;
+          }
+          const mark = document.createElement("mark");
+          mark.className = "mark gantt-chart-match";
+          mark.textContent = part.text;
+          rowHeader.appendChild(mark);
+        }
+      }
+
       if (hasDependencySummary) {
         const summary = document.createElement("span");
         summary.id = this.#dependencyId(row.task.id);
@@ -1618,6 +1826,8 @@ export class GanttChart extends HTMLElement {
         if (isToday) td.setAttribute("data-today", "");
         if (columnNonWorking[colIndex]) td.setAttribute("data-non-working", "");
         if (columnWeekend[colIndex]) td.setAttribute("data-weekend", "");
+        if (columnUnavailable[colIndex].all) td.setAttribute("data-unavailable", unavailableKinds(columnUnavailable[colIndex].items) ?? "");
+        else if (columnUnavailable[colIndex].items.length) td.setAttribute("data-partly-unavailable", unavailableKinds(columnUnavailable[colIndex].items) ?? "");
         if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
         const describedBy = this.#describedBy(row.task, hasDependencySummary);
         if (describedBy) td.setAttribute("aria-describedby", describedBy);

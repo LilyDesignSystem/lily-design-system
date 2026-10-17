@@ -45,6 +45,17 @@ export type { DataGridCellType, DataGridOption } from "./cell-types.js";
 export { draftOf, editorKind, evaluateEdit, exportFieldCell, exportableFields, fieldText, fieldValue, isEditableField, neighbourField, parseDraft, resolveFields } from "./typed-fields.js";
 export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from "./typed-fields.js";
 
+export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text.js";
+export type { SearchSegment } from "./search-text.js";
+export { copyToClipboard, toClipboardText } from "./export-data.js";
+export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET_MS } from "./typeahead.js";
+export type { TypeaheadState } from "./typeahead.js";
+export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history.js";
+export type { EditHistory, EditRecord } from "./edit-history.js";
+export { epochDayOf, unavailableIn, unavailableKinds, unavailableOn } from "./unavailable.js";
+export type { Unavailable } from "./unavailable.js";
+export { isRtl, logicalKey } from "./direction.js";
+
 if (typeof customElements !== "undefined" && !customElements.get("lily-gantt-chart")) {
   customElements.define("lily-gantt-chart", GanttChart);
 }
