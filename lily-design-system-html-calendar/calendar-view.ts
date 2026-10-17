@@ -33,6 +33,34 @@ import {
     parseIsoDate,
     weekdayOf,
 } from "@lilydesignsystem/html-date-time-picker";
+import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data.js";
+import { civilDateToDate } from "./cell-types.js";
+import {
+    draftOf,
+    editorKind,
+    evaluateEdit,
+    exportFieldCell,
+    exportableFields,
+    fieldText,
+    isEditableField,
+    neighbourField,
+    resolveFields,
+    type Draft,
+    type FieldDef,
+    type ResolvedField,
+} from "./typed-fields.js";
+
+/**
+ * A typed field an event carries (a room, a status, a cost), shown after the event's title in the agenda and read from
+ * `event.values[id]`. A bundle of display, sort and export defaults from the data grid's cell types.
+ */
+export type CalendarEventField = FieldDef;
+
+/** What `onExport` and the `exportfile` event receive. Return `false` from `onExport` to take over the download. */
+export type CalendarExport = { format: ExportFormat; filename: string; eventCount: number; blob: Blob };
+
+/** What `onFieldEdit` and the `fieldedit` event carry. */
+export type CalendarFieldEdit = { eventId: string; fieldId: string; value: unknown; previous: unknown };
 
 export type CalendarViewMode = "day" | "week" | "four-week" | "month" | "agenda";
 
@@ -51,6 +79,8 @@ export type CalendarEvent = {
     start?: string;
     /** Multi-day event end (inclusive). */
     end?: string;
+    /** Values of the calendar's `eventFields`, by field id. */
+    values?: Record<string, unknown>;
     [key: string]: unknown;
 };
 
@@ -90,6 +120,20 @@ export type CalendarViewLabels = {
     periodTitle?: (view: CalendarViewMode, start: string, end: string) => string;
     /** Text of the "+N more" button on a day that `maxEvents` caps: (hidden count, date). Gates the button. */
     moreEvents?: (hiddenCount: number, isoDate: string) => string;
+    /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+    export?: string;
+    /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
+    exportCsv?: string;
+    exportTsv?: string;
+    exportExcel?: string;
+    /** Announced after an export: (format, how many events, file name). */
+    exportAnnouncement?: (format: ExportFormat, eventCount: number, filename: string) => string;
+    /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. */
+    exportHeaders?: { title: string; start: string; end: string };
+    /** Announced after a field edit: (event title, field header, the new text). */
+    editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+    /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
+    editInvalid?: (eventTitle: string, fieldHeader: string) => string;
 };
 
 /** What `renderDay` receives for one day cell. */
@@ -112,6 +156,8 @@ export type CalendarViewDayArgs = {
     openEvent: (calendarEvent: CalendarEvent) => void;
     /** Call with an event and its element to make it draggable and keyboard-movable (a no-op unless event moving is on). */
     attachEvent: (calendarEvent: CalendarEvent, element: HTMLElement) => void;
+    /** The formatted text of one event's typed field (empty when the event has no value for it). For a `renderDay` that shows fields. */
+    fieldText: (calendarEvent: CalendarEvent, fieldId: string) => string;
 };
 
 /** Detail of the `calendarnavigate` event. */
@@ -137,6 +183,12 @@ export type CalendarViewProps = {
     onNavigate?: (view: CalendarViewMode, start: string, end: string) => void;
     onDayClick?: (isoDate: string) => void;
     onEventClick?: (calendarEvent: CalendarEvent) => void;
+    eventFields?: CalendarEventField[];
+    onFieldEdit?: (edit: CalendarFieldEdit) => void;
+    editableFields?: boolean;
+    exportFilename?: string;
+    exportScope?: "period" | "all";
+    onExport?: (file: CalendarExport) => boolean | void;
     class?: string;
 };
 
@@ -243,6 +295,17 @@ export class CalendarView extends HTMLElement {
     #onEventMove: ((calendarEvent: CalendarEvent, toDate: string) => void) | undefined;
     #onMoreClick: ((isoDate: string) => void) | undefined;
     #draggingEventId: string | null = null;
+    #eventFields: CalendarEventField[] | undefined;
+    #resolvedFields: { locale: string | undefined; fields: ResolvedField[] } | null = null;
+    #onFieldEdit: ((edit: CalendarFieldEdit) => void) | undefined;
+    #editableFields = false;
+    #exportFilename = "calendar";
+    #exportScope: "period" | "all" = "period";
+    #onExport: ((file: CalendarExport) => boolean | void) | undefined;
+    /** The field being edited, if any: the draft is the editor's text, kept current by the editor's own events (no re-render per keystroke). */
+    #editing: { eventId: string; fieldId: string; draft: Draft } | null = null;
+    /** The events that touch the shown period, kept from the last render for export. */
+    #exportEvents: CalendarEvent[] = [];
     static readonly #MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
 
     // ---- Property accessors ----
@@ -439,6 +502,59 @@ export class CalendarView extends HTMLElement {
         this.#render();
     }
 
+    /** Typed event fields, read from `event.values`. The default agenda shows them after each event's title; `renderDay` / `renderAgendaDay` get `fieldText`. Editable types edit in the agenda (click the value; Tab moves to the next) when `onFieldEdit` is set or `editableFields` is on. */
+    get eventFields(): CalendarEventField[] | undefined {
+        return this.#eventFields ? [...this.#eventFields] : undefined;
+    }
+    set eventFields(v: CalendarEventField[] | undefined) {
+        this.#eventFields = Array.isArray(v) ? v.slice() : undefined;
+        this.#resolvedFields = null;
+        this.#render();
+    }
+
+    /** Called with each accepted field edit; the consumer updates `events`. Setting it turns field editing on. The `fieldedit` event reports the same edit. */
+    get onFieldEdit(): ((edit: CalendarFieldEdit) => void) | undefined {
+        return this.#onFieldEdit;
+    }
+    set onFieldEdit(fn: ((edit: CalendarFieldEdit) => void) | undefined) {
+        this.#onFieldEdit = fn;
+        this.#render();
+    }
+
+    /** Turns field editing on without `onFieldEdit` (for a consumer that only listens to the `fieldedit` event; an element cannot see its own listeners). */
+    get editableFields(): boolean {
+        return this.#editableFields;
+    }
+    set editableFields(v: boolean) {
+        this.#editableFields = !!v;
+        this.#render();
+    }
+
+    /** The file name without its extension. Default `"calendar"`. */
+    get exportFilename(): string {
+        return this.#exportFilename;
+    }
+    set exportFilename(v: string) {
+        this.#exportFilename = v || "calendar";
+    }
+
+    /** What an export holds: `"period"` (default) is the events that touch the shown period; `"all"` is every event. */
+    get exportScope(): "period" | "all" {
+        return this.#exportScope;
+    }
+    set exportScope(v: "period" | "all") {
+        this.#exportScope = v === "all" ? "all" : "period";
+        this.#render();
+    }
+
+    /** Called before the download with the finished file. Return `false` to skip the built-in download. The `exportfile` event reports the same file. */
+    get onExport(): ((file: CalendarExport) => boolean | void) | undefined {
+        return this.#onExport;
+    }
+    set onExport(fn: ((file: CalendarExport) => boolean | void) | undefined) {
+        this.#onExport = fn;
+    }
+
     /** Extra disabled-day test. Disabled days stay focusable but cannot be picked. */
     get isDisabled(): ((isoDate: string) => boolean) | undefined {
         return this.#isDisabled;
@@ -518,12 +634,23 @@ export class CalendarView extends HTMLElement {
         list.className = "calendar-view-agenda-events";
         for (const event of args.events) {
             const item = document.createElement("li");
+            item.setAttribute("data-event-key", event.id);
             const button = document.createElement("button");
             button.type = "button";
             button.className = "calendar-view-event";
-            button.textContent = typeof event["title"] === "string" ? (event["title"] as string) : event.id;
+            button.textContent = this.#eventTitle(event);
             button.addEventListener("click", () => args.openEvent(event));
             item.appendChild(button);
+            const fields = this.#resolved();
+            if (fields.length > 0) {
+                const fieldsEl = document.createElement("span");
+                fieldsEl.className = "calendar-view-event-fields";
+                for (const f of fields) {
+                    const node = this.#fieldNode(event, f);
+                    if (node) fieldsEl.appendChild(node);
+                }
+                item.appendChild(fieldsEl);
+            }
             list.appendChild(item);
         }
         return list;
@@ -586,6 +713,227 @@ export class CalendarView extends HTMLElement {
     /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
     #weekNumberOf(row: string[]): number {
         return isoWeek(row.find((d) => weekdayOf(d) === 4) ?? row[0]);
+    }
+
+    // ---- Typed fields, inline editing (agenda), export ----
+
+    /** Type defaults (format, compare, export value), resolved once per `eventFields` / `locale` change, never per event or keystroke. */
+    #resolved(): ResolvedField[] {
+        const locale = this.locale;
+        if (!this.#resolvedFields || this.#resolvedFields.locale !== locale) {
+            this.#resolvedFields = { locale, fields: resolveFields(this.#eventFields, locale) };
+        }
+        return this.#resolvedFields.fields;
+    }
+
+    #fieldText(calendarEvent: CalendarEvent, fieldId: string): string {
+        const f = this.#resolved().find((x) => x.id === fieldId);
+        return f ? fieldText(f, calendarEvent.values) : "";
+    }
+
+    #eventTitle(calendarEvent: CalendarEvent): string {
+        return typeof calendarEvent["title"] === "string" ? (calendarEvent["title"] as string) : calendarEvent.id;
+    }
+
+    #isFieldEditable(f: CalendarEventField): boolean {
+        return (!!this.#onFieldEdit || this.#editableFields) && isEditableField(f);
+    }
+
+    #focusFieldButton(eventId: string, fieldId: string): void {
+        const li = Array.from(this.querySelectorAll<HTMLElement>("[data-event-key]")).find((el) => el.dataset.eventKey === eventId);
+        const field = Array.from(li?.querySelectorAll<HTMLElement>("[data-field]") ?? []).find((el) => el.dataset.field === fieldId);
+        field?.querySelector<HTMLElement>(".calendar-view-field-button")?.focus({ preventScroll: true });
+    }
+
+    #startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): void {
+        if (!this.#isFieldEditable(f)) return;
+        this.#editing = { eventId: calendarEvent.id, fieldId: f.id, draft: draftOf(f, calendarEvent.values) };
+        this.#render();
+        const editor = this.querySelector<HTMLInputElement>(".calendar-view-field-editor");
+        editor?.focus({ preventScroll: true });
+        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+    }
+
+    /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+    #commitFieldEdit(refocus = true): boolean {
+        const current = this.#editing;
+        if (!current) return true;
+        const { eventId, fieldId, draft } = current;
+        const calendarEvent = this.#events.find((e) => e.id === eventId);
+        const f = this.#resolved().find((x) => x.id === fieldId);
+        if (!calendarEvent || !f) {
+            this.#editing = null;
+            this.#render();
+            return true;
+        }
+        const outcome = evaluateEdit(f, calendarEvent.values, draft);
+        if (outcome.invalid) {
+            const message = this.#labels.editInvalid?.(this.#eventTitle(calendarEvent), f.header);
+            if (message) {
+                this.#statusMessage = message;
+                const status = this.querySelector(".calendar-view-status");
+                if (status) status.textContent = message;
+            }
+            return false;
+        }
+        this.#editing = null;
+        if (outcome.changed) {
+            const edit: CalendarFieldEdit = { eventId, fieldId, value: outcome.value, previous: outcome.previous };
+            this.#onFieldEdit?.(edit);
+            this.dispatchEvent(new CustomEvent<CalendarFieldEdit>("fieldedit", { detail: edit, bubbles: true, composed: true }));
+            this.#statusMessage = this.#labels.editAnnouncement?.(this.#eventTitle(calendarEvent), f.header, outcome.text) ?? this.#statusMessage;
+        }
+        this.#render();
+        if (refocus) this.#focusFieldButton(eventId, fieldId);
+        return true;
+    }
+
+    #cancelFieldEdit(): void {
+        const current = this.#editing;
+        if (!current) return;
+        this.#editing = null;
+        this.#render();
+        this.#focusFieldButton(current.eventId, current.fieldId);
+    }
+
+    #onEditorKeydown(event: KeyboardEvent): void {
+        // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+        // report the confirming Enter with `isComposing` already false but keyCode 229.
+        event.stopPropagation();
+        if (event.isComposing || event.keyCode === 229) return;
+        if (event.key === "Enter") {
+            event.preventDefault();
+            this.#commitFieldEdit();
+        } else if (event.key === "Escape") {
+            event.preventDefault();
+            this.#cancelFieldEdit();
+        } else if (event.key === "Tab" && this.#editing) {
+            // Tab commits and moves to the event's next (Shift+Tab: previous) editable field; past the last, it moves on.
+            const current = this.#editing;
+            const calendarEvent = this.#events.find((e) => e.id === current.eventId);
+            const next = neighbourField(this.#resolved().filter((x) => this.#isFieldEditable(x)), current.fieldId, event.shiftKey);
+            if (calendarEvent && next) {
+                event.preventDefault();
+                if (this.#commitFieldEdit(false)) this.#startFieldEdit(this.#events.find((e) => e.id === calendarEvent.id) ?? calendarEvent, next);
+            } else {
+                this.#commitFieldEdit(false);
+            }
+        }
+    }
+
+    /** One field's node: its name and either the value, a button that opens the editor, or the editor itself. */
+    #fieldNode(calendarEvent: CalendarEvent, f: ResolvedField): HTMLElement | null {
+        const text = fieldText(f, calendarEvent.values);
+        const editable = this.#isFieldEditable(f);
+        const nameId = `calendar-view-fn-${calendarEvent.id}-${f.id}`;
+        const valueId = `calendar-view-fv-${calendarEvent.id}-${f.id}`;
+        const editing = this.#editing;
+        const isEditing = !!editing && editing.eventId === calendarEvent.id && editing.fieldId === f.id;
+        if (!isEditing && text === "" && !editable) return null;
+        const span = document.createElement("span");
+        span.className = "calendar-view-event-field";
+        span.setAttribute("data-field", f.id);
+        const name = document.createElement("span");
+        name.className = "calendar-view-event-field-name";
+        name.id = nameId;
+        name.textContent = f.header;
+        span.appendChild(name);
+        span.appendChild(document.createTextNode(" "));
+        if (isEditing && editing) {
+            span.setAttribute("data-editing", "");
+            const kind = editorKind(f);
+            if (kind === "select" || kind === "radio") {
+                const select = document.createElement("select");
+                select.className = "calendar-view-field-editor";
+                select.setAttribute("aria-label", f.editLabel ?? f.header);
+                const blank = document.createElement("option");
+                blank.value = "";
+                select.appendChild(blank);
+                for (const option of f.options ?? []) {
+                    const o = document.createElement("option");
+                    o.value = option.id;
+                    o.disabled = !!option.disabled;
+                    o.textContent = option.label;
+                    select.appendChild(o);
+                }
+                select.value = String(editing.draft ?? "");
+                select.addEventListener("keydown", (e) => this.#onEditorKeydown(e));
+                select.addEventListener("change", () => {
+                    editing.draft = select.value;
+                    this.#commitFieldEdit();
+                });
+                select.addEventListener("blur", () => this.#commitFieldEdit(false));
+                span.appendChild(select);
+            } else {
+                const input = document.createElement("input");
+                input.className = "calendar-view-field-editor";
+                input.setAttribute("aria-label", f.editLabel ?? f.header);
+                input.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
+                if (kind === "number") input.setAttribute("inputmode", "decimal");
+                input.value = String(editing.draft ?? "");
+                input.addEventListener("input", () => {
+                    editing.draft = input.value;
+                });
+                input.addEventListener("keydown", (e) => this.#onEditorKeydown(e));
+                input.addEventListener("blur", () => this.#commitFieldEdit(false));
+                span.appendChild(input);
+            }
+            return span;
+        }
+        span.setAttribute("data-type", f.type ?? "text");
+        if (editable) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "calendar-view-field-button";
+            button.id = valueId;
+            button.setAttribute("aria-labelledby", `${nameId} ${valueId}`);
+            button.textContent = text;
+            button.addEventListener("click", () => this.#startFieldEdit(calendarEvent, f));
+            span.appendChild(button);
+        } else {
+            const value = document.createElement("span");
+            value.className = "calendar-view-event-field-value";
+            value.textContent = text;
+            span.appendChild(value);
+        }
+        return span;
+    }
+
+    /** The first and last day an event covers. */
+    #eventSpan(calendarEvent: CalendarEvent): { start: string; end: string } | null {
+        return calendarEvent.date
+            ? { start: calendarEvent.date, end: calendarEvent.date }
+            : calendarEvent.start && calendarEvent.end
+              ? { start: calendarEvent.start, end: calendarEvent.end }
+              : null;
+    }
+
+    #runExport(format: ExportFormat): void {
+        const h = this.#labels.exportHeaders;
+        if (!h) return;
+        const fields = exportableFields(this.#resolved());
+        const headers = [h.title, h.start, h.end, ...fields.map((f) => f.header)];
+        const body = this.#exportEvents.map((calendarEvent) => {
+            const span = this.#eventSpan(calendarEvent)!;
+            return [
+                this.#eventTitle(calendarEvent),
+                civilDateToDate(span.start),
+                civilDateToDate(span.end),
+                ...fields.map((f) => exportFieldCell(f, calendarEvent.values)),
+            ];
+        });
+        const filename = exportFilename(this.#exportFilename, format);
+        const blob = exportBlob({ headers, rows: body }, format, { sheetName: this.#exportFilename });
+        const file: CalendarExport = { format, filename, eventCount: body.length, blob };
+        this.dispatchEvent(new CustomEvent<CalendarExport>("exportfile", { detail: file, bubbles: true, composed: true }));
+        if (this.#onExport?.(file) === false) return;
+        downloadBlob(blob, filename);
+        const message = this.#labels.exportAnnouncement?.(format, body.length, filename);
+        if (message) {
+            this.#statusMessage = message;
+            const status = this.querySelector(".calendar-view-status");
+            if (status) status.textContent = message;
+        }
     }
 
     // ---- Event drag-and-drop (supplementary pointer path) + Alt+arrow keys ----
@@ -844,6 +1192,34 @@ export class CalendarView extends HTMLElement {
         const cursor = this.#effectiveCursor(flatDays);
         this.#cursor = cursor;
         const eventMap = eventsByDay(this.#events);
+        // The marked ranges per visible day, found once per render rather than once per cell.
+        const rangesByDay = new Map<string, CalendarRange[]>();
+        if (this.#ranges.length > 0) {
+            const shown = view === "agenda" ? (() => {
+                const [aStart, aEnd] = periodRange("agenda", anchorDate, firstDay);
+                const out: string[] = [];
+                for (let d = aStart; d <= aEnd; d = addDays(d, 1)) out.push(d);
+                return out;
+            })() : flatDays;
+            for (const d of shown) {
+                const hit = this.#ranges.filter((r) => d >= r.start && d <= r.end);
+                if (hit.length > 0) rangesByDay.set(d, hit);
+            }
+        }
+        const NO_RANGES: CalendarRange[] = [];
+        const selectedDateSet = new Set(this.#selectedDates);
+        {
+            const dated = this.#events.filter((e) => this.#eventSpan(e) !== null);
+            const [pStart, pEnd] = periodRange(view, anchorDate, firstDay);
+            this.#exportEvents = (
+                this.#exportScope === "all"
+                    ? dated.slice()
+                    : dated.filter((e) => {
+                          const span = this.#eventSpan(e)!;
+                          return span.start <= pEnd && span.end >= pStart;
+                      })
+            ).sort((a, b) => this.#eventSpan(a)!.start.localeCompare(this.#eventSpan(b)!.start));
+        }
 
         const root = document.createElement("div");
         root.className = `calendar-view ${this.getAttribute("class") ?? ""}`.trim();
@@ -901,6 +1277,30 @@ export class CalendarView extends HTMLElement {
             root.appendChild(toolbar);
         }
 
+        if (labels.exportHeaders && (labels.exportCsv || labels.exportTsv || labels.exportExcel)) {
+            const group = document.createElement("div");
+            group.className = "calendar-view-export";
+            group.setAttribute("role", "group");
+            if (labels.export) group.setAttribute("aria-label", labels.export);
+            const formats: [ExportFormat, string | undefined][] = [
+                ["csv", labels.exportCsv],
+                ["tsv", labels.exportTsv],
+                ["xlsx", labels.exportExcel],
+            ];
+            for (const [format, text] of formats) {
+                if (!text) continue;
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "calendar-view-export-button";
+                button.setAttribute("data-calendar-export-format", format);
+                button.disabled = this.#exportEvents.length === 0;
+                button.textContent = text;
+                button.addEventListener("click", () => this.#runExport(format));
+                group.appendChild(button);
+            }
+            root.appendChild(group);
+        }
+
         if (view === "agenda") {
             // The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor.
             const [agendaStart, agendaEnd] = periodRange("agenda", anchorDate, firstDay);
@@ -915,7 +1315,7 @@ export class CalendarView extends HTMLElement {
                 count += 1;
                 const weekday = weekdayOf(d);
                 const isToday = !!this.today && d === this.today;
-                const dayRanges = this.#ranges.filter((r) => d >= r.start && d <= r.end);
+                const dayRanges = rangesByDay.get(d) ?? NO_RANGES;
                 const li = document.createElement("li");
                 li.className = "calendar-view-agenda-day";
                 li.setAttribute("data-date", d);
@@ -945,6 +1345,7 @@ export class CalendarView extends HTMLElement {
                             ranges: dayRanges,
                             openEvent: (e) => this.#openEvent(e),
                             attachEvent: () => {},
+                            fieldText: (e, id) => this.#fieldText(e, id),
                         }),
                     );
                 }
@@ -1022,10 +1423,10 @@ export class CalendarView extends HTMLElement {
                 const outside = isOutsidePeriod(view, d, anchorDate);
                 const isToday = !!this.today && d === this.today;
                 const disabled = this.#isDisabledDay(d);
-                const picked = this.selectionMode === "multiple" ? this.#selectedDates.includes(d) : this.selectedDate === d;
+                const picked = this.selectionMode === "multiple" ? selectedDateSet.has(d) : this.selectedDate === d;
                 const range = this.#selectedRange;
                 const inRange = !!range && d >= range.start && d <= range.end;
-                const dayRanges = this.#ranges.filter((r) => d >= r.start && d <= r.end);
+                const dayRanges = rangesByDay.get(d) ?? NO_RANGES;
                 const td = document.createElement("td");
                 td.className = "calendar-table-td";
                 td.setAttribute("role", "gridcell");
@@ -1091,6 +1492,7 @@ export class CalendarView extends HTMLElement {
                         ranges: dayRanges,
                         openEvent: (e) => this.#openEvent(e),
                         attachEvent: (e, el) => this.#attachEvent(e, el),
+                        fieldText: (e, id) => this.#fieldText(e, id),
                     }),
                 );
                 tr.appendChild(td);
