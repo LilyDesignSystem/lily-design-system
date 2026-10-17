@@ -98,6 +98,8 @@ WAI-ARIA APG Grid pattern throughout — see
 contract, and §3 for the small number of places this port fills a gap
 in Angular's own headless `KanbanTable` (no `role="grid"`, no
 `caption` input) rather than modifying that package.
+- **Typed fields and editing** (0.6.0): `fields` + `card.values` show typed values under the title; `fieldEdit` output with `[editableFields]="true"` makes editable types edit in place (click, or F2). See [spec §11](./spec/index.md#11-typed-fields-inline-editing-export-hot-path-caching-060-2026-10-16).
+- **Export** (0.6.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons for the shown (or selected) cards.
 
 ## Non-goals
 
