@@ -1,6 +1,7 @@
 export { default, default as Filter } from "./Filter.svelte";
 export type { FilterLabels, Props as FilterProps } from "./Filter.svelte";
 export {
+    ALL_OPERATORS,
     EMPTY_FILTER,
     FilterError,
     addNode,

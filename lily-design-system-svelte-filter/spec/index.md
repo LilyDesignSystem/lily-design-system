@@ -64,7 +64,7 @@ Pure and immutable: `createRule(fields, fieldId?)`, `createGroup(combinator, chi
 
 ## 11. Acceptance
 
-Tests §8.1–§8.25 in `Filter.test.ts`; the model's tests in `filter-model.test.ts` (operators, editing, validation, predicate, JSON round trip, the SQL dialects, quoting, escaping and the injection cases, MongoDB, OData); `search-text.test.ts` for the shared text folding.
+Tests §8.1–§8.29 in `Filter.test.ts`; the model's tests in `filter-model.test.ts` (operators, editing, validation, predicate, JSON round trip, the SQL dialects, quoting, escaping and the injection cases, MongoDB, OData); `search-text.test.ts` for the shared text folding.
 
 ## 12. Sources
 
@@ -72,3 +72,8 @@ Tests §8.1–§8.25 in `Filter.test.ts`; the model's tests in `filter-model.tes
 - [WAI-ARIA APG: Grouping and landmarks](https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/) — named groups for repeated controls.
 - [OData 4.01 URL conventions: `$filter`](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html).
 - [MongoDB query operators](https://www.mongodb.com/docs/manual/reference/operator/query/).
+
+## 13. Language and direction
+
+`ALL_OPERATORS` lists every operator id so an app can assert that its `labels.operatorName` names them all in each language (an unnamed operator would show its id). The component is tested with a complete Chinese bundle (no English word in anything a user reads or hears, other than the code in the output) and right to left (the same controls in the same order; no physical `left` / `right` in an inline style; the builder is native `<select>`s, inputs and buttons, so the browser handles their direction and there is no arrow-key model to flip).
+

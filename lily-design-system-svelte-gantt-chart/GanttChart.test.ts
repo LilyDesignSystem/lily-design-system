@@ -1500,3 +1500,92 @@ describe("unavailable days: holidays and time off", () => {
     });
 });
 
+describe("right-to-left keys and no English left over", () => {
+    const active = () => document.querySelector<HTMLElement>('.gantt-table-td[tabindex="0"]')!;
+    const colOf = (el: HTMLElement) => Number(el.dataset.col);
+    const base = { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS };
+
+    test("§18.43 left to right: ArrowRight goes to the next day, ArrowLeft back", async () => {
+        render(GanttChart, { props: base });
+        await fireEvent.keyDown(active(), { key: "ArrowRight" });
+        expect(colOf(active())).toBe(1);
+        await fireEvent.keyDown(active(), { key: "ArrowLeft" });
+        expect(colOf(active())).toBe(0);
+    });
+
+    test("§18.44 right to left: ArrowLeft goes to the next day (the later date is on the left), ArrowRight back", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            render(GanttChart, { props: base });
+            await fireEvent.keyDown(active(), { key: "ArrowLeft" });
+            expect(colOf(active())).toBe(1);
+            await fireEvent.keyDown(active(), { key: "ArrowRight" });
+            expect(colOf(active())).toBe(0);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§18.45 right to left: Alt+ArrowLeft shifts a task later, the way the arrow points", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            const onTaskChange = vi.fn();
+            render(GanttChart, { props: { ...base, onTaskChange } });
+            await fireEvent.keyDown(document.querySelector<HTMLElement>('[data-task-id="design"] .gantt-table-td[data-col]')!, { key: "ArrowLeft", altKey: true });
+            expect(onTaskChange.mock.calls[0].slice(0, 3)).toEqual(["design", "2026-10-02", "2026-10-04"]);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§18.46 Home, End, the vertical keys and the page keys are the same in both directions", async () => {
+        for (const dir of ["ltr", "rtl"]) {
+            document.body.innerHTML = "";
+            document.body.setAttribute("dir", dir);
+            render(GanttChart, { props: base });
+            await fireEvent.keyDown(active(), { key: "ArrowDown" });
+            expect(Number(active().dataset.row)).toBe(1);
+            await fireEvent.keyDown(active(), { key: "End" });
+            expect(colOf(active())).toBe(9);
+            await fireEvent.keyDown(active(), { key: "Home" });
+            expect(colOf(active())).toBe(0);
+        }
+        document.body.removeAttribute("dir");
+    });
+
+    // A complete Simplified Chinese bundle; the data is Chinese too, so any English in the DOM is Lily's.
+    const ZH: GanttLabels = {
+        columnLabel: (s) => s.slice(5), taskColumnHeader: "任务", startLabel: "开始日期", endLabel: "结束日期", dateTimePickerLabels: {
+            previousYear: "上一年", previousMonth: "上个月", previousWeek: "上一周", previousDay: "前一天", nextDay: "后一天", nextWeek: "下一周", nextMonth: "下个月", nextYear: "下一年", confirm: "确定", cancel: "取消",
+        },
+        saveLabel: "保存", cancelLabel: "取消", dependencySummary: (p) => `依赖：${p.join("、")}`, collapseButton: (t, c) => `${c ? "展开" : "折叠"}${t.label}`,
+        search: "搜索任务", searchAnnouncement: (m, t) => `${t} 个任务中有 ${m} 个匹配`, expandAll: "全部展开", collapseAll: "全部折叠", zoomIn: "放大", zoomOut: "缩小",
+        export: "导出", exportCsv: "CSV", copy: "复制", exportHeaders: { task: "任务", start: "开始", end: "结束" }, copyAnnouncement: (n) => `已复制 ${n} 个任务`, copyFailed: "复制失败",
+    };
+    const zhTasks: GanttTask[] = [
+        { id: "a", label: "设计", start: "2026-10-01", end: "2026-10-03" },
+        { id: "b", label: "开发", start: "2026-10-04", end: "2026-10-06", dependsOn: ["a"], parentId: undefined },
+        { id: "c", label: "子任务", start: "2026-10-05", end: "2026-10-05", parentId: "b" },
+    ];
+
+    function readable(root: Element): string[] {
+        const out: string[] = [];
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) out.push(n.textContent ?? "");
+        for (const el of root.querySelectorAll("*")) for (const a of ["aria-label", "title", "placeholder", "alt"]) if (el.hasAttribute(a)) out.push(el.getAttribute(a)!);
+        return out.map((t) => t.trim()).filter(Boolean);
+    }
+    const english = (texts: string[]) => texts.filter((t) => !["CSV", "TSV", "Excel"].includes(t) && /[A-Za-z]{3,}/.test(t));
+
+    test("§18.47 with a full Chinese bundle the chart, its toolbar and its headers read as Chinese only", () => {
+        const { container } = render(GanttChart, { props: { label: "项目计划", range: RANGE, tasks: zhTasks, labels: ZH, weekends: [0, 6], unavailable: [{ start: "2026-10-01", kind: "holiday", label: "国庆节" }], timeUnit: "day" } });
+        expect(english(readable(container))).toEqual([]);
+    });
+
+    test("§18.48 the search announcement is the bundle's", async () => {
+        render(GanttChart, { props: { label: "项目计划", range: RANGE, tasks: zhTasks, labels: ZH } });
+        await fireEvent.input(screen.getByRole("searchbox", { name: "搜索任务" }), { target: { value: "设计" } });
+        await waitFor(() => expect(document.querySelector(".gantt-chart-status")?.textContent).toBe("3 个任务中有 1 个匹配"));
+    });
+});
+

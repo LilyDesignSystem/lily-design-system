@@ -76,6 +76,13 @@ const OPERATORS_BY_TYPE: Record<FilterFieldType, FilterOperator[]> = {
     boolean: ["is-true", "is-false", "is-empty", "is-not-empty"],
 };
 
+/** Every operator id, so an app can check that its `labels.operatorName` names them all in each language. */
+export const ALL_OPERATORS: readonly FilterOperator[] = [
+    "contains", "not-contains", "equals", "not-equals", "starts-with", "ends-with",
+    "gt", "gte", "lt", "lte", "between", "not-between", "in", "not-in",
+    "is-empty", "is-not-empty", "is-true", "is-false",
+];
+
 export const fieldType = (field: FilterField | undefined): FilterFieldType => field?.type ?? "text";
 
 /** The operators a field offers, in order. */

@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from "vitest";
 
 import Filter from "./Filter.svelte";
 import type { FilterLabels } from "./Filter.svelte";
-import { createGroup, createRule, rulesOf, toJson, toPredicate, toSql, type FilterField, type FilterGroup, type FilterRule } from "./filter-model";
+import { ALL_OPERATORS, createGroup, createRule, rulesOf, toJson, toPredicate, toSql, type FilterField, type FilterGroup, type FilterRule } from "./filter-model";
 
 const FIELDS: FilterField[] = [
     { id: "name", label: "Name" },
@@ -281,3 +281,73 @@ describe("Filter — output and use", () => {
         expect(createRule(FIELDS).type).toBe("rule");
     });
 });
+
+describe("Filter — another language and right-to-left (§8.26–§8.29)", () => {
+    const ZH_FIELDS: FilterField[] = [
+        { id: "name", label: "姓名" },
+        { id: "age", label: "年龄", type: "number" },
+        { id: "team", label: "团队", type: "select", options: [{ id: "red", label: "红队" }, { id: "blue", label: "蓝队" }] },
+    ];
+    const ZH_OPERATORS: Record<string, string> = {
+        contains: "包含", "not-contains": "不包含", equals: "等于", "not-equals": "不等于", "starts-with": "开头是", "ends-with": "结尾是",
+        gt: "大于", gte: "至少", lt: "小于", lte: "至多", between: "介于", "not-between": "不介于", in: "属于其中之一", "not-in": "不属于其中任何一个",
+        "is-empty": "为空", "is-not-empty": "不为空", "is-true": "为是", "is-false": "为否",
+    };
+    const ZH: FilterLabels = {
+        rule: (n) => `条件 ${n}`, group: (d) => `第 ${d} 层分组`, field: "字段", operator: "运算符",
+        operatorName: (op) => ZH_OPERATORS[op] ?? op, value: "值", valueFrom: "从", valueTo: "到",
+        combinator: "匹配", and: "全部", or: "任一", not: "非", addRule: "添加条件", addGroup: "添加分组",
+        removeRule: (n) => `删除条件 ${n}`, removeGroup: (d) => `删除第 ${d} 层分组`, choose: "请选择…", empty: "没有条件", output: "筛选文本",
+        ruleAdded: (n) => `已添加条件 ${n}`, ruleRemoved: (n) => `已删除条件 ${n}`, groupAdded: (d) => `已添加第 ${d} 层分组`, groupRemoved: (d) => `已删除第 ${d} 层分组`,
+    };
+    function readable(root: Element): string[] {
+        const out: string[] = [];
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) out.push(n.textContent ?? "");
+        for (const el of root.querySelectorAll("*")) for (const a of ["aria-label", "title", "placeholder", "alt"]) if (el.hasAttribute(a)) out.push(el.getAttribute(a)!);
+        return out.map((t) => t.trim()).filter(Boolean);
+    }
+
+    test("§8.25b the bundle names every operator, which ALL_OPERATORS lets an app assert", () => {
+        for (const op of ALL_OPERATORS) expect(ZH_OPERATORS[op], op).toBeTruthy();
+    });
+
+    test("§8.26 every operator the fields offer is named by the bundle, so the builder reads as Chinese only", () => {
+        const value = start(rule("name", "contains", "王"), rule("age", "between", 18, 65), rule("team", "in", ["red"]), createGroup("or", [rule("age", "gt", 30)]));
+        const { container } = render(Filter, { props: { label: "筛选人员", fields: ZH_FIELDS, labels: ZH, value, format: "sql" } });
+        // The SQL output is code; everything else a user reads or hears must have no English word in it.
+        const texts = readable(container).filter((t) => !container.querySelector(".filter-output-text")?.textContent?.includes(t) || t.length < 3);
+        expect(texts.filter((t) => /[A-Za-z]{3,}/.test(t))).toEqual([]);
+    });
+
+    test("§8.27 announcements are the bundle's own words", async () => {
+        render(Filter, { props: { label: "筛选人员", fields: ZH_FIELDS, labels: ZH } });
+        await fireEvent.click(screen.getByText("添加条件"));
+        await tick();
+        expect(status()).toBe("已添加条件 1");
+        await fireEvent.click(screen.getByText("删除条件 1"));
+        await tick();
+        expect(status()).toBe("已删除条件 1");
+    });
+
+    test("§8.28 in right-to-left the builder still works with the same controls in the same order (no arrow-key model to flip)", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            const onChange = vi.fn();
+            render(Filter, { props: { label: "筛选人员", fields: ZH_FIELDS, labels: ZH, onChange } });
+            await fireEvent.click(screen.getByText("添加条件"));
+            expect(rulesOf(onChange.mock.calls[0][0])).toHaveLength(1);
+            const order = Array.from(document.querySelectorAll(".filter-rule > *")).map((e) => e.className.split(" ")[0]);
+            expect(order.slice(0, 3)).toEqual(["filter-field", "filter-operator", "filter-value"]);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.29 the builder sets no physical left or right in an inline style, so it mirrors with the page", () => {
+        render(Filter, { props: { ...base, value: start(rule("name", "contains", "a")) } });
+        const styled = Array.from(document.querySelectorAll<HTMLElement>("[style]")).map((e) => e.getAttribute("style")!);
+        expect(styled.filter((s) => /(^|;|\s)(left|right|margin-left|margin-right|padding-left|padding-right|text-align)\s*:/.test(s))).toEqual([]);
+    });
+});
+

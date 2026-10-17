@@ -12,6 +12,7 @@
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { isRtl, logicalKey } from "./direction";
     import { unavailableIn, unavailableKinds, type Unavailable } from "./unavailable";
     import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
@@ -941,6 +942,8 @@
         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        // The horizontal arrows are visual: in a right-to-left layout the later date is on the left, so ArrowLeft goes forward.
+        const key = logicalKey(event.key, isRtl(cell));
         const historyAction = onFieldEdit && !readonly ? historyKey(event) : null;
         if (historyAction) {
             event.preventDefault();
@@ -957,12 +960,12 @@
             }
             return;
         }
-        if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+        if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
             // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end (the keyboard twins of dragging the bar and its end handle).
             const row = rows[activeRow];
             if (row && !row.hasChildren && !readonly && (event.target as HTMLElement).closest(".gantt-table-td")) {
                 event.preventDefault();
-                shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+                shiftTask(row.task, key === "ArrowLeft" ? -1 : 1, event.shiftKey);
                 return;
             }
         }
@@ -982,7 +985,7 @@
                 }
             }
         }
-        switch (event.key) {
+        switch (key) {
             case "PageUp":
             case "PageDown": {
                 event.preventDefault();
