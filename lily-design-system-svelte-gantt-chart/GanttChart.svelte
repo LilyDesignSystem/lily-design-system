@@ -9,7 +9,7 @@
     } from "@lilydesignsystem/svelte-headless";
     import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
-    import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
     import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
@@ -121,6 +121,12 @@
         exportExcel?: string;
         /** Announced after an export: (format, how many tasks, file name). */
         exportAnnouncement?: (format: ExportFormat, taskCount: number, filename: string) => string;
+        /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+        copy?: string;
+        /** Announced after a copy: (how many rows). */
+        copyAnnouncement?: (rowCount: number) => string;
+        /** Announced when the clipboard could not be written. */
+        copyFailed?: string;
         /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. The others are included only when named. */
         exportHeaders?: { task: string; start: string; end: string; percentComplete?: string; parent?: string; dependsOn?: string; baselineStart?: string; baselineEnd?: string };
         /** Announced after a field edit: (task label, field header, the new text). */
@@ -188,6 +194,8 @@
         exportFilename?: string;
         /** What an export holds: `"all"` (default) is every task; `"visible"` leaves out the tasks under a collapsed parent. */
         exportScope?: "all" | "visible";
+        /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). */
+        onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
         /** Called before the download with the finished file. Return `false` to skip the built-in download. */
         onExport?: (info: GanttExport) => boolean | void;
         /** Renders only the task rows in view (windowing). The chart gets a scroll area of `height` px; every row is assumed `rowHeight` px tall. */
@@ -372,6 +380,7 @@
         onFieldEdit = undefined,
         exportFilename: exportBase = "gantt-chart",
         exportScope = "all",
+        onCopy = undefined,
         onExport = undefined,
         virtualize = undefined,
         ...restProps
@@ -613,13 +622,21 @@
     }
 
     const exportRows = $derived(exportScope === "visible" ? rows.map((r) => r.task) : flattenTasks(orderedTasks, new Set()).map((r) => r.task));
-    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel));
     const exportFieldList = $derived(exportableFields(resolvedFields));
 
     /** A civil date as a real date for the spreadsheet; an unscheduled task's empty date as null. */
     const exportDate = (iso: string | undefined): Date | null => (iso ? civilDateToDate(iso) : null);
 
-    function runExport(format: ExportFormat): void {
+    async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+        const text = toClipboardText(table);
+        if (onCopy?.({ text, rowCount: table.rows.length }) === false) return;
+        const ok = await copyToClipboard(text);
+        const message = ok ? labels.copyAnnouncement?.(table.rows.length) : labels.copyFailed;
+        announce(message);
+    }
+
+    function runExport(format: ExportFormat | "copy"): void {
         const h = labels.exportHeaders;
         if (!h) return;
         const headers = [h.task, h.start, h.end];
@@ -651,6 +668,10 @@
             for (const f of exportFieldList) cells.push(exportFieldCell(f, task.values));
             return cells;
         });
+        if (format === "copy") {
+            void finishCopy({ headers, rows: body });
+            return;
+        }
         const filename = exportFilename(exportBase, format);
         const blob = exportBlob({ headers, rows: body }, format, { sheetName: exportBase });
         if (onExport?.({ format, filename, taskCount: body.length, blob }) === false) return;
@@ -977,6 +998,9 @@
     {/if}
     {#if hasExportButtons}
         <div class="gantt-chart-export" role="group" aria-label={labels.export}>
+            {#if labels.copy}
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="copy" disabled={exportRows.length === 0} onclick={() => runExport("copy")}>{labels.copy}</button>
+            {/if}
             {#if labels.exportCsv}
                 <button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv" disabled={exportRows.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
             {/if}

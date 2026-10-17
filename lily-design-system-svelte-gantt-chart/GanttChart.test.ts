@@ -1232,3 +1232,43 @@ describe("compare", () => {
     });
 });
 
+describe("copy to clipboard", () => {
+    const L: GanttLabels = { ...LABELS, export: "Export", copy: "Copy", exportHeaders: { task: "Task", start: "Start", end: "End" }, copyAnnouncement: (n) => `${n} tasks copied`, copyFailed: "Copy failed" };
+    const wait = () => new Promise((r) => setTimeout(r, 0));
+
+    test("§18.19 copy needs labels.copy and exportHeaders", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: { ...LABELS, copy: "Copy" } } });
+        expect(document.querySelector('[data-gantt-export-format="copy"]')).toBeNull();
+    });
+
+    test("§18.20 copy puts the tasks on the clipboard, tab-separated with a header row, and announces", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: L } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text.split("\r\n")[0]).toBe("Task\tStart\tEnd");
+        expect(text).toContain("Design");
+        expect(document.querySelector(".gantt-chart-status")?.textContent).toBe(`${TASKS.length} tasks copied`);
+        vi.unstubAllGlobals();
+    });
+
+    test("§18.21 onCopy can take over, and the visible scope follows the search", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        const onCopy = vi.fn(() => false);
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: L, onCopy } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        expect(writeText).not.toHaveBeenCalled();
+        document.body.innerHTML = "";
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: L, exportScope: "visible", search: "launch" } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text).toContain("Launch");
+        expect(text).not.toContain("Design");
+        vi.unstubAllGlobals();
+    });
+});
