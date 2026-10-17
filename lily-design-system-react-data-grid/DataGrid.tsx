@@ -10,6 +10,7 @@ import {
 } from "@lilydesignsystem/react-headless";
 import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
 import { foldText, searchTerms } from "./search-text";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
   isInvalidForType,
@@ -238,6 +239,10 @@ export type DataGridLabels = {
   rollupDescription?: (header: string) => string;
   /** Announced after an edit is cancelled with Escape. */
   editCancelAnnouncement?: (header: string) => string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier value back: (column header, the restored text). */
+  undoAnnouncement?: (header: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (column header, the text). */
+  redoAnnouncement?: (header: string, text: string) => string;
   /** Announced when `validate` refuses a value: (column header, the message). */
   editError?: (header: string, message: string) => string;
 };
@@ -1000,6 +1005,25 @@ export function DataGrid({
     return draft;
   }
 
+  /** Accepted cell edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onCellEdit` like any edit. */
+  const historyRef = React.useRef<EditHistory>(EMPTY_HISTORY);
+
+  /** Put an earlier cell value back, or re-apply it, through `onCellEdit`. */
+  function stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(historyRef.current) : redoEdit(historyRef.current);
+    if (!step.record) return;
+    historyRef.current = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const entry = entries.find((e) => e.id === ownerId);
+    const column = columns.find((c) => c.id === fieldId);
+    if (!entry || !column) return;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value: restored, previous: replaced });
+    const text = column.format ? column.format(restored, entry.row) : String(restored ?? "");
+    announce((direction === "undo" ? labels.undoAnnouncement : labels.redoAnnouncement)?.(column.header, text));
+  }
+
   /** Two link values with the same address and label are the same edit. */
   function isStructurallyEqual(a: unknown, b: unknown): boolean {
     return typeof a === "object" && typeof b === "object" && a !== null && b !== null && JSON.stringify(a) === JSON.stringify(b);
@@ -1019,6 +1043,7 @@ export function DataGrid({
     const previous = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
     setEditing(null);
     if (value !== previous && !isStructurallyEqual(value, previous)) {
+      historyRef.current = recordEdit(historyRef.current, { ownerId: entry.id, fieldId: column.id, value, previous });
       onCellEdit?.({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
       announce(labels.editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
     }
@@ -1199,6 +1224,12 @@ export function DataGrid({
         if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
         return;
       }
+    }
+    const historyAction = onCellEdit && target === cell ? historyKey(event) : null;
+    if (historyAction) {
+      event.preventDefault();
+      stepHistory(historyAction);
+      return;
     }
     // Type-ahead in the focused column: letters typed in quick succession move to the next row whose cell text starts with them.
     if (isTypeaheadKey(event) && target === cell && activeRow >= 0) {
