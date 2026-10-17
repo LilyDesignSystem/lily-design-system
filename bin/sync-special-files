@@ -126,6 +126,7 @@ HELPER_PACKAGES = {
     "date-time-picker": "date-time-picker helper: a date/time field with an APG date-picker dialog",
     "picker-bar": "picker-bar helper: the link, search, theme, locale, text-size and share pickers in one page-header row",
     "kanban-board": "kanban-board helper: an accessible kanban board over the headless KanbanTable family",
+    "filter": "filter helper: a headless filter builder (text, number and date ranges, limits, choices; and / or / not) that outputs JSON, SQL, MongoDB, OData or a predicate",
     "gantt-chart": "gantt-chart helper: an accessible Gantt chart over the headless GanttTable family",
     "calendar": "calendar helper: a week, four-week and month calendar over the headless CalendarTable family",
     "data-grid": ("headless data grid: sort, filter, row selection, column resize and "

@@ -53,6 +53,7 @@ build order, which CI and `bin/publish-helpers` follow.
 
 - [`lily-design-system-svelte-data-grid`](../../lily-design-system-svelte-data-grid/) — `@lilydesignsystem/svelte-data-grid`
 - [`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-date-time-picker/) — `@lilydesignsystem/svelte-date-time-picker`
+- [`lily-design-system-svelte-filter`](../../lily-design-system-svelte-filter/) — `@lilydesignsystem/svelte-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (Svelte only so far)
 - [`lily-design-system-svelte-kanban-board`](../../lily-design-system-svelte-kanban-board/) — `@lilydesignsystem/svelte-kanban-board`
 - [`lily-design-system-svelte-link-picker`](../../lily-design-system-svelte-link-picker/) — `@lilydesignsystem/svelte-link-picker`
 - [`lily-design-system-svelte-locale-picker`](../../lily-design-system-svelte-locale-picker/) — `@lilydesignsystem/svelte-locale-picker`
