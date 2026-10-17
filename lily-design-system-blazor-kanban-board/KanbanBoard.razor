@@ -33,15 +33,20 @@
     @if (Labels.Search is not null)
     {
         <input type="search"
-               class="kanban-board-search"
+               class="search-input kanban-board-search"
                aria-label="@Labels.Search"
                value="@SearchValue"
-               @oninput="@(async (ChangeEventArgs e) => { SearchValue = e.Value?.ToString() ?? ""; await SearchValueChanged.InvokeAsync(SearchValue); })" />
+               @oninput="@(e => SetSearchAsync(e.Value?.ToString() ?? ""))"
+               @onkeydown="OnSearchKeyDownAsync" />
     }
     @if (HasExportButtons)
     {
         var exportCards = ExportCards(layout);
         <div class="kanban-board-export" role="group" aria-label="@Labels.Export">
+            @if (Labels.Copy is not null)
+            {
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="copy" disabled="@(exportCards.Count == 0)" @onclick="RunCopyAsync">@Labels.Copy</button>
+            }
             @if (Labels.ExportCsv is not null)
             {
                 <button type="button" class="kanban-board-export-button" data-kanban-export-format="csv" disabled="@(exportCards.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Csv))">@Labels.ExportCsv</button>
@@ -186,7 +191,8 @@
                                        data-flag="@card?.Flag"
                                        data-accent="@column.Accent"
                                        data-empty="@(card is null && !HasLanes && row == 0 && Labels.EmptyColumn is not null && IsEmptyColumn(column, layout.ByColumn) ? "" : null)"
-                                       data-drop-target="@(_dropTarget == $"{row}-{col}" ? "" : null)"
+                                       data-drop-target="@(_dropTarget == $"{row}-{col}" && !_dropBlocked ? "" : null)"
+                                       data-drop-blocked="@(_dropTarget == $"{row}-{col}" && _dropBlocked ? "" : null)"
                                        aria-describedby="@(card?.Flag is not null ? $"{_baseId}-flag-{card.Id}" : null)"
                                        @attributes="@(card is not null && CardAttributes is not null ? CardAttributes(card) : null)"
                                        tabindex="@(isActive ? "0" : "-1")"
@@ -270,6 +276,7 @@
                                                     else
                                                     {
                                                         <input id="@EditorId" class="kanban-board-field-editor"
+                                                               aria-invalid="@(_fieldEditing is { Invalid: true } ? "true" : null)"
                                                                type="@(kind == DataGridEditor.Number ? "number" : kind == DataGridEditor.Date ? "date" : kind == DataGridEditor.Time ? "time" : "text")"
                                                                inputmode="@(kind == DataGridEditor.Number ? "decimal" : null)"
                                                                aria-label="@field.Header"

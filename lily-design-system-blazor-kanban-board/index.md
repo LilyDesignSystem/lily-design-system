@@ -113,6 +113,14 @@ system flags it.
 
 See [`spec/index.md`](./spec/index.md).
 
+## Search, copy, keyboard, validation and undo (0.7.0)
+
+- Added search that matches every typed word in any order, ignoring case and diacritics, and looks in typed field text too; Escape in the field clears it; `Labels.SearchAnnouncement`. The field carries the headless `search-input` class (written by hand, not composed).
+- Added copy to the clipboard: `Labels.Copy` (needs `ExportHeaders`), `Labels.CopyAnnouncement`, `Labels.CopyFailed`, `OnCopy`, `CopyHandler` (return `false` to take over).
+- Added PageUp / PageDown, type-ahead on card titles in the focused column, and right-to-left arrow keys through the `Direction` parameter (Blazor cannot read the DOM's `dir` without JS interop, so the consumer says). Movement uses the new public `GridMotion` from the data-grid package.
+- Added field `Validate` messages (`Labels.EditRefused`, `aria-invalid` on the open editor, cleared when the person types) and undo / redo of field edits (Ctrl/Cmd+Z once no move is left to undo, Ctrl/Cmd+Shift+Z / Ctrl+Y) through `OnFieldEdit`, with `Labels.FieldUndoAnnouncement` / `FieldRedoAnnouncement`.
+- Added a live drop cue: the cell a dragged card is over carries `data-drop-blocked` (not `data-drop-target`) when `CanMove`, `AllowedColumns` or a strict WIP limit would refuse it. Blazor cannot conditionally cancel `dragover`, so the browser's not-allowed cursor is not shown.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

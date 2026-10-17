@@ -211,6 +211,20 @@ public sealed record KanbanLabels
 
     /// <summary>Announced when an edit is refused as invalid for the field's type: (card title, field header).</summary>
     public Func<string, string, string>? EditInvalid { get; init; }
+    /// <summary>Announced when a field's <c>Validate</c> refused the value: (card, field header, the reason).</summary>
+    public Func<string, string, string, string>? EditRefused { get; init; }
+    /// <summary>Announced after a field-edit undo: (card, field header, the restored text).</summary>
+    public Func<string, string, string, string>? FieldUndoAnnouncement { get; init; }
+    /// <summary>Announced after a field-edit redo: (card, field header, the re-applied text).</summary>
+    public Func<string, string, string, string>? FieldRedoAnnouncement { get; init; }
+    /// <summary>Announced after a search: (matching cards, all cards).</summary>
+    public Func<int, int, string>? SearchAnnouncement { get; init; }
+    /// <summary>A button that puts the export (header row first, tab-separated) on the clipboard; needs <c>ExportHeaders</c>.</summary>
+    public string? Copy { get; init; }
+    /// <summary>Announced after a copy: (how many cards).</summary>
+    public Func<int, string>? CopyAnnouncement { get; init; }
+    /// <summary>Announced when the clipboard refused the copy.</summary>
+    public string? CopyFailed { get; init; }
 }
 
 public partial class KanbanBoard : ComponentBase
@@ -348,6 +362,15 @@ public partial class KanbanBoard : ComponentBase
     /// <summary>Raised with each accepted field edit. The consumer updates <c>Cards</c>. Fields are editable only with a handler (and not <c>Readonly</c>).</summary>
     [Parameter] public EventCallback<KanbanFieldEdit> OnFieldEdit { get; set; }
 
+    /// <summary>The reading direction, "ltr" (default) or "rtl": in right-to-left the horizontal arrow keys swap. Blazor cannot read the DOM's <c>dir</c> without JS interop, so the consumer says.</summary>
+    [Parameter] public string? Direction { get; set; }
+
+    /// <summary>Called with the text before it goes on the clipboard; return false to take the copy over.</summary>
+    [Parameter] public Func<DataGridCopy, bool>? CopyHandler { get; set; }
+
+    /// <summary>Called after a copy was prepared (the text, the card count).</summary>
+    [Parameter] public EventCallback<DataGridCopy> OnCopy { get; set; }
+
     /// <summary>Base of an export's file name (<c>.csv</c>, <c>.tsv</c> or <c>.xlsx</c> is added). Default <c>"kanban-board"</c>.</summary>
     [Parameter] public string ExportFilename { get; set; } = "kanban-board";
 
@@ -460,23 +483,39 @@ public partial class KanbanBoard : ComponentBase
     {
         get
         {
-            var needle = (SearchValue ?? "").Trim().ToLowerInvariant();
+            var query = SearchValue ?? "";
+            var searching = query.Trim().Length > 0;
             var map = new Dictionary<string, List<KanbanCard>>();
             foreach (var (id, list) in AllByColumn)
             {
                 IEnumerable<KanbanCard> shown = Filter is null ? list : list.Where(Filter);
-                if (needle.Length > 0)
-                {
-                    shown = shown.Where(c => (SearchText?.Invoke(c)
-                        ?? string.Join(" ", new[] { ResolveCardLabel(c), c.Subtitle ?? "" }.Concat(c.Badges ?? Array.Empty<string>())))
-                        .ToLowerInvariant().Contains(needle));
-                }
+                if (searching) shown = shown.Where(c => global::LilyDesignSystem.Blazor.Helpers.SearchText.Matches(CardSearchText(c), query));
                 var result = shown.ToList();
                 if (Compare is not null) result = result.OrderBy(c => c, Comparer<KanbanCard>.Create(Compare)).ToList();
                 map[id] = result;
             }
             return map;
         }
+    }
+
+    /// <summary>What a search looks in: the consumer's <c>SearchText</c>, else the label, subtitle, badges and every field's text.</summary>
+    private string CardSearchText(KanbanCard card)
+        => SearchText?.Invoke(card)
+           ?? string.Join(" ", new[] { ResolveCardLabel(card), card.Subtitle ?? "" }
+               .Concat(card.Badges ?? Array.Empty<string>())
+               .Concat(ResolvedFields.Select(f => TypedFields.Text(f, card.Values))));
+
+    private async Task SetSearchAsync(string value)
+    {
+        SearchValue = value;
+        await SearchValueChanged.InvokeAsync(SearchValue);
+        var matched = Cards.Count(c => global::LilyDesignSystem.Blazor.Helpers.SearchText.Matches(CardSearchText(c), value));
+        Announce(Labels.SearchAnnouncement?.Invoke(matched, Cards.Count));
+    }
+
+    private async Task OnSearchKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Key == "Escape" && (SearchValue ?? "").Length > 0) await SetSearchAsync("");
     }
 
     private bool IsEmptyColumn(KanbanColumn column, IReadOnlyDictionary<string, List<KanbanCard>> shown)
@@ -681,7 +720,11 @@ public partial class KanbanBoard : ComponentBase
         => OnFieldEdit.HasDelegate && !Readonly && !card.Locked && TypedFields.IsEditable(field);
 
     /// <summary>The field being edited: the draft is the editor's text.</summary>
-    private sealed record FieldEditing(string CardId, string FieldId, string Draft);
+    private sealed record FieldEditing(string CardId, string FieldId, string Draft, bool Invalid = false);
+
+    private EditHistory _fieldHistory = EditHistory.Empty;
+    private Typeahead.State _typeahead = new("", 0);
+    private bool Rtl => string.Equals(Direction, "rtl", StringComparison.OrdinalIgnoreCase);
 
     private FieldEditing? _fieldEditing;
     private bool _focusEditorPending;
@@ -702,7 +745,7 @@ public partial class KanbanBoard : ComponentBase
 
     private void SetFieldDraft(string draft)
     {
-        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft };
+        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft, Invalid = false };
     }
 
     /// <summary>Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged.</summary>
@@ -720,12 +763,16 @@ public partial class KanbanBoard : ComponentBase
         var outcome = TypedFields.Evaluate(field, card.Values, current.Draft);
         if (outcome.Invalid)
         {
-            Announce(Labels.EditInvalid?.Invoke(ResolveCardLabel(card), field.Header));
+            _fieldEditing = current with { Invalid = true };
+            Announce(outcome.Message is not null && Labels.EditRefused is not null
+                ? Labels.EditRefused(ResolveCardLabel(card), field.Header, outcome.Message)
+                : Labels.EditInvalid?.Invoke(ResolveCardLabel(card), field.Header));
             return false;
         }
         _fieldEditing = null;
         if (outcome.Changed)
         {
+            _fieldHistory = _fieldHistory.Record(new EditRecord(card.Id, field.Id, outcome.Value, outcome.Previous));
             await OnFieldEdit.InvokeAsync(new KanbanFieldEdit(card.Id, field.Id, outcome.Value, outcome.Previous));
             Announce(Labels.EditAnnouncement?.Invoke(ResolveCardLabel(card), field.Header, outcome.Text));
         }
@@ -769,11 +816,31 @@ public partial class KanbanBoard : ComponentBase
         return cards;
     }
 
-    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
+    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.Copy is not null || Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
 
-    private async Task RunExportAsync(DataGridExportFormat format)
+    private async Task RunCopyAsync()
     {
-        if (Labels.ExportHeaders is not { } h) return;
+        if (BuildExportTable() is not { } table) return;
+        var text = System.Text.Encoding.UTF8.GetString(ExportData.ExportBytes(table, DataGridExportFormat.Tsv, ExportFilename)).TrimStart('\uFEFF');
+        var copy = new DataGridCopy(text, table.Rows.Count);
+        await OnCopy.InvokeAsync(copy);
+        if (CopyHandler?.Invoke(copy) == false) return;
+        bool ok;
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", text);
+            ok = true;
+        }
+        catch
+        {
+            ok = false;
+        }
+        Announce(ok ? Labels.CopyAnnouncement?.Invoke(copy.RowCount) : Labels.CopyFailed);
+    }
+
+    private ExportTable? BuildExportTable()
+    {
+        if (Labels.ExportHeaders is not { } h) return null;
         var layout = BuildLayout();
         var fields = TypedFields.Exportable(ResolvedFields);
         var headers = new List<string> { h.Title, h.Column };
@@ -795,7 +862,13 @@ public partial class KanbanBoard : ComponentBase
             foreach (var f in fields) cells.Add(TypedFields.ExportCell(f, card.Values));
             rows.Add(cells);
         }
-        var table = new ExportTable(headers, rows);
+        return new ExportTable(headers, rows);
+    }
+
+    private async Task RunExportAsync(DataGridExportFormat format)
+    {
+        if (BuildExportTable() is not { } table) return;
+        var rows = table.Rows;
         var filename = ExportData.ExportFilename(ExportFilename, format);
         var bytes = ExportData.ExportBytes(table, format, ExportFilename);
         var file = new DataGridExport(format, filename, rows.Count, bytes);
@@ -1069,6 +1142,7 @@ public partial class KanbanBoard : ComponentBase
         _draggingColumnId = null;
         _draggingGroup = Array.Empty<string>();
         _dropTarget = null;
+        _dropBlocked = false;
     }
 
     /// <summary>The preview text a card's drag shows: the whole selection when the card is in it.</summary>
@@ -1092,6 +1166,7 @@ public partial class KanbanBoard : ComponentBase
         _draggingCardId = null;
         _draggingGroup = Array.Empty<string>();
         _dropTarget = null;
+        _dropBlocked = false;
         if (Readonly) return;
         var card = Cards.FirstOrDefault(c => c.Id == cardId);
         if (card is null) return;
@@ -1125,10 +1200,15 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>The cell a dragged card is over, for <c>data-drop-target</c> styling.</summary>
     private string? _dropTarget;
+    private bool _dropBlocked;
 
     private void OnColumnDragEnter(int rowIndex, int colIndex)
     {
-        if (_draggingCardId is not null && !Readonly) _dropTarget = $"{rowIndex}-{colIndex}";
+        if (_draggingCardId is null || Readonly) return;
+        _dropTarget = $"{rowIndex}-{colIndex}";
+        // The live "can't drop here" cue: the cell the dragged card is over would refuse it (CanMove, AllowedColumns, a strict WIP limit).
+        var dragged = Cards.FirstOrDefault(c => c.Id == _draggingCardId);
+        _dropBlocked = dragged is not null && colIndex >= 0 && colIndex < Cols.Count && IsRefused(dragged, Cols[colIndex], Math.Max(1, _draggingGroup.Count) - 1);
     }
 
     // ---- Column reordering ----
@@ -1242,6 +1322,23 @@ public partial class KanbanBoard : ComponentBase
         _focusCardPendingId = card.Id;
     }
 
+    /// <summary>Put an earlier field value back (or re-apply one), reported through <c>OnFieldEdit</c> like any edit: the consumer owns the data.</summary>
+    private async Task StepFieldHistoryAsync(string action)
+    {
+        var step = action == "undo" ? _fieldHistory.UndoStep() : _fieldHistory.RedoStep();
+        if (step.Record is not { } record) return;
+        _fieldHistory = step.History;
+        var card = Cards.FirstOrDefault(c => c.Id == record.OwnerId);
+        var field = ResolvedFields.FirstOrDefault(f => f.Id == record.FieldId);
+        if (card is null || field is null) return;
+        var restored = action == "undo" ? record.Previous : record.Value;
+        var replaced = action == "undo" ? record.Value : record.Previous;
+        await OnFieldEdit.InvokeAsync(new KanbanFieldEdit(card.Id, field.Id, restored, replaced));
+        var text = restored is null ? "" : Convert.ToString(restored, System.Globalization.CultureInfo.InvariantCulture) ?? "";
+        Announce((action == "undo" ? Labels.FieldUndoAnnouncement : Labels.FieldRedoAnnouncement)?.Invoke(ResolveCardLabel(card), field.Header, text));
+        _focusCardPendingId = card.Id;
+    }
+
     private async Task OnGridKeyDown(KeyboardEventArgs args)
     {
         // Blazor's KeyboardEventArgs carries no event-target element info
@@ -1261,16 +1358,30 @@ public partial class KanbanBoard : ComponentBase
         var columnCount = Cols.Count;
         var ctrlOrMeta = args.CtrlKey || args.MetaKey;
 
+        var logical = GridMotion.LogicalKey(args.Key, Rtl);
+        var historyAction = OnFieldEdit.HasDelegate && !Readonly ? EditHistory.KeyAction(args.Key, args.CtrlKey, args.MetaKey, args.ShiftKey, args.AltKey) : null;
+
+        // Ctrl/Cmd+Z undoes the last move while there is one, then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
+        if (Undoable && ctrlOrMeta && !args.AltKey && !args.ShiftKey && (args.Key == "z" || args.Key == "Z") && _undoStack.Count > 0)
+        {
+            await UndoAsync();
+            return;
+        }
+        if (historyAction is not null)
+        {
+            await StepFieldHistoryAsync(historyAction);
+            return;
+        }
         if (Undoable && ctrlOrMeta && !args.AltKey && (args.Key == "z" || args.Key == "Z"))
         {
             await UndoAsync();
             return;
         }
 
-        if (MovableColumns && args.AltKey && args.ShiftKey && (args.Key == "ArrowLeft" || args.Key == "ArrowRight"))
+        if (MovableColumns && args.AltKey && args.ShiftKey && (logical == "ArrowLeft" || logical == "ArrowRight"))
         {
             // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
-            var to = _focusedCol + (args.Key == "ArrowLeft" ? -1 : 1);
+            var to = _focusedCol + (logical == "ArrowLeft" ? -1 : 1);
             if (_focusedCol >= 0 && _focusedCol < Cols.Count && await MoveColumnToAsync(Cols[_focusedCol].Id, to))
             {
                 _focusedCol = to;
@@ -1295,11 +1406,11 @@ public partial class KanbanBoard : ComponentBase
             return;
         }
 
-        if (args.AltKey && (args.Key == "ArrowLeft" || args.Key == "ArrowRight"))
+        if (args.AltKey && (logical == "ArrowLeft" || logical == "ArrowRight"))
         {
             // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
             var movingCard = CardAt(layout, _focusedCol, _focusedRow);
-            var neighbour = _focusedCol + (args.Key == "ArrowLeft" ? -1 : 1);
+            var neighbour = _focusedCol + (logical == "ArrowLeft" ? -1 : 1);
             if (movingCard is not null && neighbour >= 0 && neighbour < Cols.Count)
             {
                 await MoveCardAsync(movingCard, Cols[neighbour]);
@@ -1313,28 +1424,37 @@ public partial class KanbanBoard : ComponentBase
             return;
         }
 
+        // Type-ahead in the focused column: letters typed in quick succession move to the next card whose label starts with them.
+        // A lone "x" stays the select shortcut when cards are selectable; it joins a prefix already in progress.
+        if (Typeahead.IsKey(args.Key, args.CtrlKey, args.AltKey, args.MetaKey))
+        {
+            var now = Environment.TickCount64;
+            var continuing = _typeahead.Prefix != "" && now - _typeahead.At <= Typeahead.ResetMs;
+            var isSelectKey = Selectable && (args.Key == "x" || args.Key == "X");
+            if (continuing || !isSelectKey)
+            {
+                var state = Typeahead.Next(_typeahead, args.Key, now);
+                var labelsInColumn = Enumerable.Range(0, maxRows)
+                    .Select(r => CardAt(layout, _focusedCol, r) is { } c ? ResolveCardLabel(c) : "").ToList();
+                var hit = Typeahead.FindMatch(labelsInColumn, _focusedRow, state.Prefix);
+                if (hit != -1)
+                {
+                    _typeahead = state;
+                    MoveFocus(hit, _focusedCol, layout);
+                    return;
+                }
+            }
+        }
+
+        var pageStep = Virtualize is { } vz ? Math.Max(1, vz.Height / Math.Max(1, vz.RowHeight)) : 10;
+        if (GridMotion.Move(args.Key, ctrlOrMeta, new GridPosition(_focusedRow, _focusedCol), new GridNavigation(0, maxRows - 1, columnCount - 1, pageStep, HomeEndMovesColumn: true, Rtl: Rtl)) is { } moved)
+        {
+            MoveFocus(moved.Row, moved.Col, layout);
+            return;
+        }
+
         switch (args.Key)
         {
-            case "ArrowUp":
-                MoveFocus(_focusedRow - 1, _focusedCol, layout);
-                break;
-            case "ArrowDown":
-                MoveFocus(_focusedRow + 1, _focusedCol, layout);
-                break;
-            case "ArrowLeft":
-                MoveFocus(_focusedRow, _focusedCol - 1, layout);
-                break;
-            case "ArrowRight":
-                MoveFocus(_focusedRow, _focusedCol + 1, layout);
-                break;
-            case "Home":
-                if (ctrlOrMeta) MoveFocus(0, 0, layout);
-                else MoveFocus(0, _focusedCol, layout);
-                break;
-            case "End":
-                if (ctrlOrMeta) MoveFocus(maxRows - 1, columnCount - 1, layout);
-                else MoveFocus(maxRows - 1, _focusedCol, layout);
-                break;
             case "Enter":
             case " ":
             {

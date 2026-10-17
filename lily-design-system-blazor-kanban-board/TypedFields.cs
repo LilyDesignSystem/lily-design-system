@@ -11,7 +11,7 @@ using System.Globalization;
 namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>What committing a draft does: refused as invalid for the field's type, or accepted.</summary>
-internal sealed record FieldEditOutcome(bool Invalid, object? Value = null, object? Previous = null, bool Changed = false, string Text = "");
+internal sealed record FieldEditOutcome(bool Invalid, object? Value = null, object? Previous = null, bool Changed = false, string Text = "", string? Message = null);
 
 internal static class TypedFields
 {
@@ -113,7 +113,8 @@ internal static class TypedFields
     internal static FieldEditOutcome Evaluate(DataGridColumn f, DataGridRow? values, string draft)
     {
         var value = Parse(f, draft, values);
-        if (CellTypes.IsInvalidForType(f, value) || f.Validate?.Invoke(value, values ?? new DataGridRow()) is not null) return new FieldEditOutcome(true);
+        if (CellTypes.IsInvalidForType(f, value)) return new FieldEditOutcome(true);
+        if (f.Validate?.Invoke(value, values ?? new DataGridRow()) is { } message) return new FieldEditOutcome(true, Message: message);
         var previous = Value(f, values);
         return new FieldEditOutcome(false, value, previous, !SameValue(value, previous), value is null ? "" : Invariant(value));
     }

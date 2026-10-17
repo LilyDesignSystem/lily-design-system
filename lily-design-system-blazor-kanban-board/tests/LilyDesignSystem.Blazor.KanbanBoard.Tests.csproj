@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Compile Include="..\KanbanBoardTests.cs" />
+    <Compile Include="..\KanbanBoardFeaturesTests.cs" />
   </ItemGroup>
 
 </Project>
