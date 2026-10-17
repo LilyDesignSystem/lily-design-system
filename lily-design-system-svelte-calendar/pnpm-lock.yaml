@@ -11,10 +11,10 @@ importers:
       '@lilydesignsystem/svelte-date-time-picker':
         specifier: ^0.2.0
         version: 0.2.0(svelte@5.57.2)
-      '@lilydesignsystem/svelte-headless':
-        specifier: ^0.4.0
-        version: 0.4.0(svelte@5.57.2)
     devDependencies:
+      '@lilydesignsystem/svelte-headless':
+        specifier: ^0.5.0
+        version: 0.5.0(svelte@5.57.2)
       '@sveltejs/package':
         specifier: ^3.0.0
         version: 3.0.0(svelte@5.57.2)(typescript@6.0.3)
@@ -145,8 +145,8 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  '@lilydesignsystem/svelte-headless@0.4.0':
-    resolution: {integrity: sha512-zrHBMmliIK6ic+eKH4ZE0AJ+kWnAf5su1SRv7AlU2YcEx4Q3hm0MruApaIjgOAc2UxjJjT2UBIldw2y40CVURQ==}
+  '@lilydesignsystem/svelte-headless@0.5.0':
+    resolution: {integrity: sha512-79wGcQpsQ+FYRakkMVXNLv44G407RDhoQ8G0iCBpGC0nkqZHxefX5e8jSQtwURazxY706gnQdj3HeHALeAPi3g==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -914,7 +914,7 @@ snapshots:
       aria-query: 5.3.2
       svelte: 5.57.2
 
-  '@lilydesignsystem/svelte-headless@0.4.0(svelte@5.57.2)':
+  '@lilydesignsystem/svelte-headless@0.5.0(svelte@5.57.2)':
     dependencies:
       aria-query: 5.3.2
       svelte: 5.57.2
