@@ -3,6 +3,14 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-10-16
+
+- Added typed task fields (`fields`, `task.values`, `locale`) as columns between the task name and the timeline, using the data grid's cell types.
+- Added inline field editing (`onFieldEdit`): click a value, F2, Tab to the next field; typed editors, IME-safe, refused when invalid for the type, announced.
+- Added export to CSV, TSV and Excel (`labels.exportCsv` etc., `labels.exportHeaders`, `exportScope`, `exportFilename`, `onExport`); dates are real dates in Excel.
+- Added `virtualize` (windowed rows with spacers, `aria-rowcount` / `aria-rowindex`).
+- Marker, today and task lookups are computed once per change instead of per cell.
+
 ## 0.4.0 — 2026-10-16
 
 - Added unscheduled tasks, ported from the Svelte 0.4.0: a task with no `start` / `end` renders its row with no bar (`data-unscheduled`); Enter opens the edit region with empty dates and Save stays disabled until both are set, which schedules it through `onTaskChange`. An unscheduled child does not shape its parent's span; drag and Alt+Arrow do nothing for it.

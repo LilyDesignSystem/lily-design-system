@@ -115,3 +115,5 @@ See [spec/index.md §7](./spec/index.md#7-accessibility) and
 
 `npm test` from the workspace root runs every helper's suite,
 including this one's, under vitest + jsdom.
+- **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `onFieldEdit` edits them in place (click, F2, Tab). See [spec §11](./spec/index.md#11-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
+- **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
