@@ -1057,3 +1057,58 @@ describe("CalendarView — period announcements and minDate / maxDate limits (§
     });
 });
 
+describe("CalendarView — filter predicate (§8.105–§8.108)", () => {
+    const EVS: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "Standup", values: { team: "a" } },
+        { id: "e2", date: "2026-01-09", title: "Offsite", values: { team: "b" } },
+        { id: "e3", date: "2026-01-20", title: "Review", values: { team: "a" } },
+    ];
+    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: LABELS };
+    const keys = () => Array.from(new Set(Array.from(document.querySelectorAll("[data-event-key]")).map((e) => e.getAttribute("data-event-key"))));
+
+    test("§8.105 filter hides the events it rejects in every view", () => {
+        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "a" } });
+        expect(keys()).toEqual(["e1", "e3"]);
+    });
+
+    test("§8.106 filter reads typed values", () => {
+        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "b" } });
+        expect(keys()).toEqual(["e2"]);
+    });
+
+    test("§8.107 filter combines with search: both must pass", () => {
+        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.values?.team === "a", search: "review" } });
+        expect(keys()).toEqual(["e3"]);
+    });
+
+    test("§8.108 without a filter every event shows", () => {
+        render(CalendarView, { props: base });
+        expect(keys()).toEqual(["e1", "e2", "e3"]);
+    });
+});
+
+describe("CalendarView — eventCompare (§8.109–§8.111)", () => {
+    const EVS: CalendarEvent[] = [
+        { id: "b", date: "2026-01-06", title: "Bravo" },
+        { id: "a", date: "2026-01-06", title: "Alpha" },
+        { id: "c", date: "2026-01-07", title: "Charlie" },
+    ];
+    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: LABELS };
+    const order = () => Array.from(document.querySelectorAll("[data-event-key]")).map((e) => e.getAttribute("data-event-key"));
+
+    test("§8.109 without eventCompare events keep their input order within a day", () => {
+        render(CalendarView, { props: base });
+        expect(order()).toEqual(["b", "a", "c"]);
+    });
+
+    test("§8.110 eventCompare orders the events within each day", () => {
+        render(CalendarView, { props: { ...base, eventCompare: (x: CalendarEvent, y: CalendarEvent) => String(x.title).localeCompare(String(y.title)) } });
+        expect(order()).toEqual(["a", "b", "c"]);
+    });
+
+    test("§8.111 the order is stable and applies after the filter", () => {
+        render(CalendarView, { props: { ...base, filter: (e: CalendarEvent) => e.id !== "a", eventCompare: () => 0 } });
+        expect(order()).toEqual(["b", "c"]);
+    });
+});
+

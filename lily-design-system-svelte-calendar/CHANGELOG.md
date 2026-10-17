@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.6.0 — 2026-10-17
 
+- Added `filter` and `eventCompare`.
 - Period changes are announced however they happen (including a consumer setting `anchorDate` or `view`), through one effect; the first render stays silent.
 - `minDate` / `maxDate` now bound navigation: Previous / Next go `aria-disabled` at the limit (focus kept), Today is inert when out of range, keyboard moves are clamped, and `labels.rangeLimit(limit, date)` announces the stop.
 

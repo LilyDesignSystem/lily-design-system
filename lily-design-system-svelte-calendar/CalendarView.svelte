@@ -138,6 +138,10 @@
         events?: CalendarEvent[];
         /** Search, bindable: shows only the events whose text contains every word of it (any order, ignoring case and diacritics), in every view; the agenda wraps matches in `<mark class="calendar-view-match">`. Exports hold what the search leaves. Escape in the field clears it. Needs `labels.search` for the field; the prop works without. */
         search?: string;
+        /** Hides events for which it returns false (a category, owner or status filter). Combines with `search`; both must pass. */
+        filter?: (event: CalendarEvent) => boolean;
+        /** Orders the events within a day (and so in the agenda). Stable. Without it events keep the order of `events`. */
+        eventCompare?: (a: CalendarEvent, b: CalendarEvent) => number;
         /** The text `search` looks in. Defaults to the event's title and every field's text. */
         searchText?: (event: CalendarEvent) => string;
         /** Agenda view: also list days with no events. Default false (only days with events). */
@@ -312,6 +316,8 @@
         events: allEvents = [],
         search = $bindable(""),
         searchText = undefined,
+        filter = undefined,
+        eventCompare = undefined,
         maxEvents = undefined,
         agendaEmptyDays = false,
         hideOutsideDays = false,
@@ -353,7 +359,12 @@
     const searching = $derived(search.trim() !== "");
     const defaultSearchText = (e: CalendarEvent): string => [eventTitle(e), ...resolvedFields.map((f) => eventFieldText(f, e))].join(" ");
     /** The events the search leaves (all of them without one), found once per query / event change. */
-    const events = $derived(searching ? allEvents.filter((e) => matchesSearch((searchText ?? defaultSearchText)(e), search)) : allEvents);
+    const narrowed = $derived(
+        searching || filter
+            ? allEvents.filter((e) => (!filter || filter(e)) && (!searching || matchesSearch((searchText ?? defaultSearchText)(e), search)))
+            : allEvents,
+    );
+    const events = $derived(eventCompare ? [...narrowed].sort(eventCompare) : narrowed);
     let searchAnnounced = $state(false);
     $effect(() => {
         const query = search;

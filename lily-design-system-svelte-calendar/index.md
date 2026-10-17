@@ -89,6 +89,11 @@ when at least one view-switcher label is supplied.
 
 The shown period is announced (`labels.periodAnnouncement`) whenever it changes, however it changed. `minDate` / `maxDate` bound navigation as well as picking: Previous / Next go `aria-disabled` at the limit, Today is inert out of range, keyboard moves are clamped, and `labels.rangeLimit(limit, date)` announces the stop. See spec §18.
 
+## Filtering and sorting (0.6.0)
+
+- **`filter(event)`** hides events it rejects in every view, combining with `search` (both must pass).
+- **`eventCompare(a, b)`** orders the events within a day, and so in the agenda; stable.
+
 ## Search (0.6.0)
 
 `search` (bindable; the field renders when `labels.search` names it) narrows the events: every word must appear, in any order, ignoring case and diacritics. New: the calendar had no search. Only matching events show, in every view (week, four-week, month, agenda); the default text is the event title and every field's text (`searchText` replaces it). The agenda wraps matches in `<mark class="calendar-view-match">`; `labels.searchAnnouncement(matches, total)` is announced; Escape clears. Exports hold what the search leaves. See spec §17.

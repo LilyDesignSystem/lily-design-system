@@ -372,3 +372,7 @@ Tests §8.93–§8.104.
 - **Announcing the period**: whenever the shown period changes — Previous, Next, Today, a view switch, a keyboard move across the edge, or the consumer setting `anchorDate` or `view` — `labels.periodAnnouncement(view, start, end)` is written to the polite `.calendar-view-status` region. One effect watches `view | periodStart | periodEnd`, so no path can forget to announce, and the first render says nothing. (Before, only the buttons and keyboard paths announced; a prop-driven change was silent.)
 - **`minDate` / `maxDate` bound navigation**, not just picking: Previous is `aria-disabled="true"` once the period starts on or before `minDate` (Next likewise at `maxDate`) — `aria-disabled`, not `disabled`, so focus is not lost when the button reaches the limit — and activating it does nothing but announce `labels.rangeLimit(limit, date)` ("min" or "max"). Today is `aria-disabled` and inert when today is outside the range. Keyboard moves (arrows, Home/End, PageUp/PageDown) are clamped into the range and announce the same limit. Days outside the range still carry `aria-disabled` and stay focusable, as before. Without `labels.rangeLimit` a stopped move is silent but still stops.
 
+## Filtering and sorting (0.6.0, 2026-10-17)
+
+- **`filter(event)`** hides events it rejects in every view, combining with `search` (both must pass).
+- **`eventCompare(a, b)`** orders the events within a day, and so in the agenda; stable.
