@@ -1272,3 +1272,66 @@ describe("copy to clipboard", () => {
         vi.unstubAllGlobals();
     });
 });
+
+describe("keyboard: PageUp / PageDown and type-ahead", () => {
+    const MANY_ROWS: GanttTask[] = Array.from({ length: 40 }, (_, i) => ({ id: `t${i}`, label: i % 2 ? `Beta ${i}` : `Alpha ${i}`, start: "2026-10-01", end: "2026-10-02" }));
+    const activeRowIndex = () => Number(document.querySelector<HTMLElement>('.gantt-table-td[tabindex="0"]')?.dataset.row);
+    const first = () => document.querySelector<HTMLElement>(".gantt-table-td[data-row][data-col]")!;
+
+    test("§18.22 PageDown moves ten rows, PageUp moves back, both clamp", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: MANY_ROWS, labels: LABELS } });
+        await fireEvent.keyDown(first(), { key: "PageDown" });
+        expect(activeRowIndex()).toBe(10);
+        await fireEvent.keyDown(document.querySelector('.gantt-table-td[tabindex="0"]')!, { key: "PageUp" });
+        expect(activeRowIndex()).toBe(0);
+        await fireEvent.keyDown(document.querySelector('.gantt-table-td[tabindex="0"]')!, { key: "PageUp" });
+        expect(activeRowIndex()).toBe(0);
+    });
+
+    test("§18.23 with virtualize a page is the visible rows", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: MANY_ROWS, labels: LABELS, virtualize: { rowHeight: 20, height: 100 } } });
+        await fireEvent.keyDown(first(), { key: "PageDown" });
+        expect(activeRowIndex()).toBe(5);
+    });
+
+    test("§18.24 typing a letter moves to the next task whose label starts with it", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: MANY_ROWS, labels: LABELS } });
+        await fireEvent.keyDown(first(), { key: "b" });
+        expect(activeRowIndex()).toBe(1);
+        await fireEvent.keyDown(document.querySelector('.gantt-table-td[tabindex="0"]')!, { key: "b", ctrlKey: false });
+        expect(activeRowIndex()).toBe(3); // "bb" is one repeated letter: it steps to the next Beta
+    });
+
+    test("§18.25 letters typed in quick succession form one prefix", async () => {
+        const tasks: GanttTask[] = [
+            { id: "a", label: "Design", start: "2026-10-01", end: "2026-10-02" },
+            { id: "b", label: "Deploy", start: "2026-10-01", end: "2026-10-02" },
+            { id: "c", label: "Docs", start: "2026-10-01", end: "2026-10-02" },
+        ];
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks, labels: LABELS } });
+        await fireEvent.keyDown(first(), { key: "d" });
+        await fireEvent.keyDown(document.querySelector('.gantt-table-td[tabindex="0"]')!, { key: "e" });
+        await fireEvent.keyDown(document.querySelector('.gantt-table-td[tabindex="0"]')!, { key: "p" });
+        expect(activeRowIndex()).toBe(1);
+    });
+
+    test("§18.26 a lone s is still the select shortcut, not type-ahead", async () => {
+        const tasks: GanttTask[] = [
+            { id: "a", label: "Alpha", start: "2026-10-01", end: "2026-10-02" },
+            { id: "b", label: "Sprint", start: "2026-10-01", end: "2026-10-02" },
+        ];
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks, labels: LABELS } });
+        await fireEvent.keyDown(first(), { key: "s" });
+        expect(activeRowIndex()).toBe(0);
+        expect(document.querySelector('[data-task-id="a"]')?.getAttribute("aria-selected")).toBe("true");
+    });
+
+    test("§18.27 a key with Ctrl or Alt is never type-ahead, and an unmatched prefix does nothing", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: MANY_ROWS, labels: LABELS } });
+        await fireEvent.keyDown(first(), { key: "b", ctrlKey: true });
+        expect(activeRowIndex()).toBe(0);
+        await fireEvent.keyDown(first(), { key: "z" });
+        expect(activeRowIndex()).toBe(0);
+    });
+});
+

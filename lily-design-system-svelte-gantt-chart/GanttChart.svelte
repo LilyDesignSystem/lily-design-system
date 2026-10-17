@@ -12,6 +12,7 @@
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
     import {
         draftOf as fieldDraft,
@@ -401,6 +402,8 @@
     let editPercent = $state("");
 
     let draggingTaskId: string | null = null;
+    const TYPEAHEAD_WINDOW_MS = 700;
+    let typeahead: TypeaheadState = { prefix: "", at: 0 };
 
     const columns = $derived(generateColumns(range, timeUnit));
     const searching = $derived(search.trim() !== "");
@@ -923,7 +926,30 @@
                 return;
             }
         }
+        // Type-ahead: letters typed in quick succession move to the next task whose label starts with them. A lone "s" stays the
+        // select shortcut; it joins a prefix already in progress ("ds" for "Design Sprint").
+        if (isTypeaheadKey(event) && (event.target as HTMLElement).closest(".gantt-table-td")) {
+            const now = Date.now();
+            const continuing = typeahead.prefix !== "" && now - typeahead.at <= TYPEAHEAD_WINDOW_MS;
+            if (continuing || (event.key !== "s" && event.key !== "S")) {
+                const state = nextTypeaheadState(typeahead, event.key, now, TYPEAHEAD_WINDOW_MS);
+                const hit = findTypeaheadMatch(rows.map((r) => taskLabel(r.task)), activeRow, state.prefix);
+                if (hit !== -1) {
+                    typeahead = state;
+                    event.preventDefault();
+                    moveFocus(hit, activeCol);
+                    return;
+                }
+            }
+        }
         switch (event.key) {
+            case "PageUp":
+            case "PageDown": {
+                event.preventDefault();
+                const page = virtualize ? Math.max(1, Math.floor(virtualize.height / virtualize.rowHeight)) : 10;
+                moveFocus(activeRow + (event.key === "PageUp" ? -page : page), activeCol);
+                break;
+            }
             case "ArrowUp":
                 event.preventDefault();
                 moveFocus(activeRow - 1, activeCol);

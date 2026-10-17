@@ -31,3 +31,5 @@ export type { ArrowBox, DependencyKind } from "./dependency-arrows";
 export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
 export type { SearchSegment } from "./search-text";
 export { copyToClipboard, toClipboardText } from "./export-data";
+export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET_MS } from "./typeahead";
+export type { TypeaheadState } from "./typeahead";
