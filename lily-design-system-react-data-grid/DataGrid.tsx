@@ -9,6 +9,7 @@ import {
   DataTableTH,
 } from "@lilydesignsystem/react-headless";
 import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { foldText, searchTerms } from "./search-text";
 import {
   isInvalidForType,
   linkParts,
@@ -479,17 +480,20 @@ export function DataGrid({
   // Lowercased search text per row, built once per rows/columns change
   // rather than reformatting every cell on every keystroke. Read only
   // when a filter is active, so an unfiltered grid never builds it.
-  const searchIndexRef = React.useRef<{ key: unknown[]; index: string[][] } | null>(null);
-  function searchIndex(): string[][] {
+  const searchIndexRef = React.useRef<{ key: unknown[]; index: string[] } | null>(null);
+  function searchIndex(): string[] {
     const cached = searchIndexRef.current;
     if (cached && cached.key[0] === entries && cached.key[1] === columns) return cached.index;
     const filterableColumns = columns.filter((c) => c.filterable !== false);
     const index = entries.map((entry) =>
-      filterableColumns.map((column) =>
-        (column.filterText
-          ? column.filterText(defaultAccessor(column, entry.row), entry.row)
-          : cellFor(column, entry.row).formatted
-        ).toLowerCase(),
+      foldText(
+        filterableColumns
+          .map((column) =>
+            column.filterText
+              ? column.filterText(defaultAccessor(column, entry.row), entry.row)
+              : cellFor(column, entry.row).formatted,
+          )
+          .join(" "),
       ),
     );
     searchIndexRef.current = { key: [entries, columns], index };
@@ -497,10 +501,10 @@ export function DataGrid({
   }
 
   function filterEntries(text: string): Entry[] {
-    const needle = text.trim().toLowerCase();
-    if (!needle) return entries;
+    const terms = searchTerms(text);
+    if (terms.length === 0) return entries;
     const index = searchIndex();
-    return entries.filter((_entry, i) => index[i].some((value) => value.includes(needle)));
+    return entries.filter((_entry, i) => terms.every((term) => index[i].includes(term)));
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -633,12 +637,23 @@ export function DataGrid({
   // Filtering
   // ---------------------------------------------------------------
 
-  function onFilterInput(event: React.ChangeEvent<HTMLInputElement>): void {
-    const next = event.target.value;
+  function setFilter(next: string): void {
     setFilterState(next);
     setPage(1);
     onFilterChange?.(next);
     announce(labels.filterAnnouncement?.(filterEntries(next).length, rows.length));
+  }
+
+  function onFilterInput(event: React.ChangeEvent<HTMLInputElement>): void {
+    setFilter(event.target.value);
+  }
+
+  /** Escape in the search field clears it. */
+  function onFilterKeydown(event: React.KeyboardEvent<HTMLInputElement>): void {
+    if (event.key === "Escape" && filter !== "") {
+      event.preventDefault();
+      setFilter("");
+    }
   }
 
   // ---------------------------------------------------------------
@@ -1734,6 +1749,7 @@ export function DataGrid({
               aria-label={labels.search}
               value={filter}
               onChange={onFilterInput}
+              onKeyDown={onFilterKeydown}
             />
           )}
           {hasExportButtons && (

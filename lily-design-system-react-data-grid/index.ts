@@ -56,3 +56,5 @@ export type {
   DataGridPerson,
   DataGridZonedTime,
 } from "./cell-types";
+export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
+export type { SearchSegment } from "./search-text";
