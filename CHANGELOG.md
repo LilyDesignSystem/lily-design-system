@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Label packs, critical path, data grid and kanban follow-ups — 2026-10-17
+
+- **Label packs** (`shared/label-packs/`, `shared/label-pack.ts`): about 185 strings per locale for the data grid, kanban board, calendar, Gantt chart and filter `labels` objects, built into ready `labels` by `labelsFor(helper, pack)`. English plus ten drafts: Basque, Bhojpuri, Gujarati, Hausa, Javanese, Marathi, Persian, Punjabi, Tamil and Telugu. All ten are `"reviewed": false` machine drafts awaiting native-speaker review. `bin/check-label-packs` (in `bin/test`) enforces key and placeholder parity. Not yet a published package.
+- **Gantt**: optional `criticalPath()` / `applyCriticalPath()` (`shared/critical-path.ts`; all four dependency kinds with lags), `labels.criticalLabel`.
+- **Calendar**: `labels.periodTitle` receives `anchorDate`; docs say `eventProps` needs a focusable element for Alt+arrow.
+- **Data grid**: footer totals over all filtered rows (`allRows`, `aggregate`), `--data-grid-pinned-offset` for pinned columns, `storageKey` remembers the column order.
+- **Docs**: the Svelte grid helpers' non-goals now list only what has not shipped.
+- **Dependencies**: the Svelte widgets take `svelte-headless` as a peer dependency (`>=0.4.0 <1.0.0`).
+
 ## Simplified Chinese (zh-cn): the remaining site pages — 2026-10-17
 
 - `zh-cn` now has the nine per-framework tutorials, Lily + Figma, Lily + Claude Design, and the news, roadmap and languages pages (14 more pages, on top of the eight main pages already translated). The routes are generated; the checker verifies markup structure, byte-identical code samples and that the text is not English. News and roadmap translate their intro only (the rendered NEWS.md and plan.md stay English).

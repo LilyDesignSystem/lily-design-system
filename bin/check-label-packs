@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+// bin/check-label-packs
+//
+// Every label pack in shared/label-packs/<locale>.json must be valid JSON that names its own locale, says whether it is
+// reviewed, has exactly the English pack's keys (none empty), and keeps each string's {placeholders} (none invented or lost).
+// shared/label-pack.test.ts checks the same and builds every label; this needs no test runner, so bin/test runs it.
+//
+// Usage: bin/check-label-packs [--list]
+
+const fs = require("fs");
+const path = require("path");
+
+const dir = path.join(__dirname, "..", "shared", "label-packs");
+const SECTIONS = ["common", "data-grid", "kanban-board", "calendar", "gantt-chart", "filter"];
+const files = fs.readdirSync(dir).filter((f) => f.endsWith(".json")).sort();
+const leaves = (pack) => {
+  const out = new Map();
+  for (const s of SECTIONS) {
+    for (const [k, v] of Object.entries(pack[s] ?? {})) {
+      if (typeof v === "string") out.set(`${s}.${k}`, v);
+      else for (const [sub, t] of Object.entries(v)) out.set(`${s}.${k}.${sub}`, t);
+    }
+  }
+  return out;
+};
+const names = (s) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort().join(",");
+
+const errors = [];
+const packs = {};
+for (const f of files) {
+  try {
+    packs[f.replace(/\.json$/, "")] = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+  } catch (e) {
+    errors.push(`${f}: ${e.message}`);
+  }
+}
+const english = packs["en-001"];
+if (!english) errors.push("en-001.json is missing");
+else {
+  const base = leaves(english);
+  for (const [locale, pack] of Object.entries(packs)) {
+    if (pack.locale !== locale) errors.push(`${locale}: "locale" is ${JSON.stringify(pack.locale)}`);
+    if (typeof pack.reviewed !== "boolean") errors.push(`${locale}: "reviewed" must be true or false`);
+    const mine = leaves(pack);
+    for (const k of base.keys()) if (!mine.has(k)) errors.push(`${locale}: missing ${k}`);
+    for (const [k, t] of mine) {
+      if (!base.has(k)) errors.push(`${locale}: unknown key ${k}`);
+      else if (t.trim() === "") errors.push(`${locale}: empty ${k}`);
+      else if (names(t) !== names(base.get(k))) errors.push(`${locale}: ${k} has placeholders {${names(t)}}, English has {${names(base.get(k))}}`);
+    }
+  }
+}
+if (process.argv.includes("--list")) {
+  for (const [locale, pack] of Object.entries(packs)) console.log(`${locale}\t${pack.reviewed ? "reviewed" : "unreviewed"}\t${leaves(pack).size} strings`);
+}
+if (errors.length) {
+  console.error(errors.join("\n"));
+  process.exit(1);
+}
+console.log(`label packs ok: ${files.length} locale(s)`);
