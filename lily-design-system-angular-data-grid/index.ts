@@ -24,6 +24,8 @@ export {
   isExportFormula,
   toCsv,
   toDelimited,
+  toClipboardText,
+  copyToClipboard,
   toTsv,
   toXlsx,
   zipStore,
@@ -58,3 +60,11 @@ export type {
   DataGridPerson,
   DataGridZonedTime,
 } from "./cell-types";
+export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
+export type { SearchSegment } from "./search-text";
+export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET_MS } from "./typeahead";
+export type { TypeaheadState } from "./typeahead";
+export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
+export type { EditHistory, EditRecord } from "./edit-history";
+export { ANNOUNCEMENT_LABELS, CONTROL_LABELS, missingLabels, requiredLabels } from "./label-coverage";
+export type { LabelFeatures, LabelKind } from "./label-coverage";

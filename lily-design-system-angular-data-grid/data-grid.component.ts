@@ -36,8 +36,16 @@ import {
   DataTableRow,
   DataTableTD,
   DataTableTH,
+  PaginationNav,
+  SearchInput,
 } from "@lilydesignsystem/angular-headless";
-import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+import { foldText, searchTerms } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { gridMove } from "./grid-navigation";
+import { missingLabels, type LabelFeatures } from "./label-coverage";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
   filesOf,
   isInvalidForType,
@@ -54,6 +62,9 @@ import {
   type DataGridOption,
   type DataGridPerson,
 } from "./cell-types";
+
+/** A missing value: `null`, `undefined` or an empty string. */
+const isMissing = (value: unknown): boolean => value === null || value === undefined || value === "";
 
 export type DataGridSortDirection = "ascending" | "descending" | "none";
 
@@ -136,6 +147,8 @@ export type DataGridColumn = {
   /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`. */
   type?: DataGridCellType;
   /** BCP 47 locale for this column's formatting and collation. */
+  /** Shown instead of nothing when this column's value is missing (`null`, `undefined` or `""`). Overrides the grid's `emptyValue`. A missing value always carries `data-empty` on its cell. */
+  emptyValue?: string;
   locale?: string;
   /** `select` and `radio`: the choices. */
   options?: DataGridOption[];
@@ -203,6 +216,22 @@ export type DataGridColumn = {
  */
 export type DataGridLabels = {
   search?: string;
+  /** Accessible name of the select that limits the search to one column. Gates the select (needs `searchAllFields` too). */
+  searchField?: string;
+  /** The select's first option: search every column. */
+  searchAllFields?: string;
+  /** Accessible name of the pager. When given, the pager is a labelled `<nav>` landmark (the headless `PaginationNav`); without it the pager is a plain `<div>`. */
+  pagination?: string;
+  /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button. */
+  copy?: string;
+  /** Announced after a copy: (how many rows). */
+  copyAnnouncement?: (rowCount: number) => string;
+  /** Announced when the clipboard could not be written. */
+  copyFailed?: string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier value back: (column header, the restored text). */
+  undoAnnouncement?: (header: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (column header, the text). */
+  redoAnnouncement?: (header: string, text: string) => string;
   columnVisibility?: string;
   columnVisibilityOption?: (header: string) => string;
   resizeHandle?: (header: string) => string;
@@ -293,17 +322,28 @@ export class DataGridAttrs {
 @Component({
   selector: "lily-data-grid",
   standalone: true,
-  imports: [NgTemplateOutlet, DataGridAttrs, DataTable, DataTableBody, DataTableFoot, DataTableHead, DataTableRow, DataTableTD, DataTableTH],
+  imports: [NgTemplateOutlet, DataGridAttrs, DataTable, DataTableBody, DataTableFoot, DataTableHead, DataTableRow, DataTableTD, DataTableTH, PaginationNav, SearchInput],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #rootEl class="data-grid {{ className() }}">
       @if (labels().search || hidableColumns().length > 0 || hasExportButtons()) {
         <div class="data-grid-toolbar">
+          @if (labels().search && labels().searchField && labels().searchAllFields) {
+            <select class="data-grid-search-field" [attr.aria-label]="labels().searchField" [value]="filterField()" (change)="onFilterFieldChange($event)">
+              <option value="">{{ labels().searchAllFields }}</option>
+              @for (c of filterableColumns(); track c.id) {
+                <option [value]="c.id">{{ c.header }}</option>
+              }
+            </select>
+          }
           @if (labels().search; as searchLabel) {
-            <input class="data-grid-search" type="search" [attr.aria-label]="searchLabel" [value]="filter()" (input)="onFilterInput($event)" />
+            <lily-search-input className="data-grid-search" [label]="searchLabel" [value]="filter()" (valueChange)="setFilter($event)" (keydown)="onFilterKeydown($event)" />
           }
           @if (hasExportButtons()) {
             <div class="data-grid-export" role="group" [attr.aria-label]="labels().export ?? null">
+              @if (labels().copy; as copy) {
+                <button type="button" class="data-grid-export-button" data-grid-export-format="copy" [disabled]="exportEntries().length === 0" (click)="runCopy()">{{ copy }}</button>
+              }
               @if (labels().exportCsv; as csv) {
                 <button type="button" class="data-grid-export-button" data-grid-export-format="csv" [disabled]="exportEntries().length === 0" (click)="runExport('csv')">{{ csv }}</button>
               }
@@ -347,15 +387,25 @@ export class DataGridAttrs {
       }
 
       @if (pageSize()) {
-        <div class="data-grid-pagination">
-          <button type="button" class="data-grid-page-previous" [disabled]="clampedPage() <= 1" (click)="goToPage(clampedPage() - 1)">{{ labels().previousPage }}</button>
-          <span class="data-grid-page-status">{{ labels().pageStatus?.(clampedPage(), pageCount(), sortedEntries().length) }}</span>
-          <button type="button" class="data-grid-page-next" [disabled]="clampedPage() >= pageCount()" (click)="goToPage(clampedPage() + 1)">{{ labels().nextPage }}</button>
-        </div>
+        @if (labels().pagination; as pagination) {
+          <lily-pagination-nav className="data-grid-pagination" [label]="pagination">
+            <ng-container *ngTemplateOutlet="pager" />
+          </lily-pagination-nav>
+        } @else {
+          <div class="data-grid-pagination">
+            <ng-container *ngTemplateOutlet="pager" />
+          </div>
+        }
       }
 
       <p class="data-grid-status" aria-live="polite">{{ statusMessage() }}</p>
     </div>
+
+    <ng-template #pager>
+      <button type="button" class="data-grid-page-previous" [disabled]="clampedPage() <= 1" (click)="goToPage(clampedPage() - 1)">{{ labels().previousPage }}</button>
+      <span class="data-grid-page-status">{{ labels().pageStatus?.(clampedPage(), pageCount(), sortedEntries().length) }}</span>
+      <button type="button" class="data-grid-page-next" [disabled]="clampedPage() >= pageCount()" (click)="goToPage(clampedPage() + 1)">{{ labels().nextPage }}</button>
+    </ng-template>
 
     <ng-template #tableTemplate>
       <lily-data-table
@@ -404,15 +454,16 @@ export class DataGridAttrs {
                 [attr.data-pinned]="column.pinned ?? null"
                 [attr.tabindex]="isGrid() ? (activeRow() === -1 && activeCol() === colOffset() + i ? 0 : -1) : null"
                 [attr.aria-sort]="ariaSortFor(column)"
+                [attr.data-sort-order]="sortOrderFor(column)"
                 [attr.aria-describedby]="column.type === 'rollup' && labels().rollupDescription ? gridId + '-' + column.id + '-description' : null"
                 [attr.style]="cellStyle(column)"
-                [attr.draggable]="column.movable ? 'true' : null"
+                [attr.draggable]="isMovable(column) ? 'true' : null"
                 (dragstart)="onHeaderDragStart(column, $event)"
                 (dragover)="onHeaderDragOver($event)"
                 (drop)="onHeaderDrop(column.id, $event)"
               >
                 @if (column.sortable) {
-                  <button type="button" class="data-grid-sort-button" data-grid-own [attr.tabindex]="isGrid() ? -1 : null" (click)="toggleSort(column)">
+                  <button type="button" class="data-grid-sort-button" data-grid-own [attr.tabindex]="isGrid() ? -1 : null" (click)="toggleSort(column, $any($event).shiftKey)">
                     @if (column.headerCell; as headerTemplate) {
                       <ng-container *ngTemplateOutlet="headerTemplate; context: { $implicit: column }" />
                     } @else {<ng-container>{{ column.header }}</ng-container>}
@@ -489,6 +540,7 @@ export class DataGridAttrs {
                       [attr.data-cell-type]="column.type ?? null"
                       [attr.data-pinned]="column.pinned ?? null"
                       [attr.data-error]="column.errorOf?.(entry.row) !== undefined ? '' : null"
+                      [attr.data-empty]="isMissing(ctx.value) ? '' : null"
                       [attr.tabindex]="isGrid() ? (activeRow() === item.index && activeCol() === colOffset() + colIndex ? 0 : -1) : null"
                       [attr.style]="cellStyle(column)"
                       [lilyDataGridAttrs]="column.cellAttrs?.(ctx)"
@@ -509,6 +561,7 @@ export class DataGridAttrs {
                       [attr.data-readonly]="column.type === 'rollup' ? '' : null"
                       [attr.aria-readonly]="column.type === 'rollup' ? 'true' : null"
                       [attr.data-error]="column.errorOf?.(entry.row) !== undefined ? '' : null"
+                      [attr.data-empty]="isMissing(ctx.value) ? '' : null"
                       [attr.data-editing]="isEditingCell(entry, column) ? '' : null"
                       [attr.tabindex]="isGrid() ? (activeRow() === item.index && activeCol() === colOffset() + colIndex ? 0 : -1) : null"
                       [attr.style]="cellStyle(column)"
@@ -632,6 +685,8 @@ export class DataGridAttrs {
       } @else {
         @if (column.cell; as cellTemplate) {
           <ng-container *ngTemplateOutlet="cellTemplate; context: { $implicit: ctx }" />
+        } @else if (isMissing(ctx.value) && (column.emptyValue ?? emptyValue())) {
+          <ng-container>{{ column.emptyValue ?? emptyValue() }}</ng-container>
         } @else if (column.type === 'person') {
           @let people = peopleIn(ctx.value);
           @if (people.length > 0) {
@@ -731,6 +786,16 @@ export class DataGrid {
   readonly rows = input.required<DataGridRow[]>();
   /** BCP 47 locale for the typed columns' formatting and collation. Never defaulted: with none, values show as stored. */
   readonly locale = input<string | undefined>(undefined);
+  /** What a cell shows when its value is missing (`null`, `undefined` or `""`), for example `"—"`. A column's own `emptyValue` wins. No default: Lily ships no text. The cell always carries `data-empty`, and an export is unaffected. */
+  readonly emptyValue = input<string | undefined>(undefined);
+  /** In development, log (once per grid) the labels the grid's features call for but `labels` leaves out. Default `true`; it never logs in production. */
+  readonly warnMissingLabels = input<boolean>(true);
+  /** Where missing values sort: `"last"` (default, in both directions) or `"first"`. */
+  readonly nulls = input<"first" | "last">("last");
+  /** Make every column movable (Alt+Arrow on its header, or drag it) unless its own `movable` is `false`. Default `false`. */
+  readonly movableColumns = input<boolean>(false);
+  /** Hides rows for which it returns false (a status or date-range filter). Combines with the text filter; both must pass. */
+  readonly rowFilter = input<((row: DataGridRow) => boolean) | undefined>(undefined);
   /** Derives a stable id per row. Defaults to the row's index in `rows`. */
   readonly rowId = input<(row: DataGridRow, index: number) => string>((_row, index) => String(index));
   /** Row selection mode. */
@@ -765,6 +830,8 @@ export class DataGrid {
   readonly exportFormulas = input<boolean>(false);
   /** Called with the file before it is saved. Return `false` to keep the grid from saving it. */
   readonly exportHandler = input<((file: DataGridExport) => boolean | void) | undefined>(undefined);
+  /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` output fires first. */
+  readonly copyHandler = input<((copy: { text: string; rowCount: number }) => boolean | void) | undefined>(undefined);
   /** Renders only the rows in view, in a scroll region of `height` px (needs `scroll`). */
   readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(undefined);
   /** Extra CSS class on the root. */
@@ -776,6 +843,10 @@ export class DataGrid {
   readonly selected = model<string[]>([]);
   /** Text filter. Two-way bindable: `[(filter)]`. */
   readonly filter = model<string>("");
+  /** Limits the text filter to one column: a column id, or `""` for every filterable column. Two-way bindable: `[(filterField)]`. */
+  readonly filterField = model<string>("");
+  /** Further sort keys after `sort`, for ties: Shift+click on another sortable header adds it. Two-way bindable: `[(thenBy)]`. */
+  readonly thenBy = model<DataGridSort[]>([]);
   /** Current sort. Two-way bindable: `[(sort)]`. */
   readonly sort = model<DataGridSort>({ columnId: "", direction: "none" });
   /** Column ids in display order. Two-way bindable: `[(columnOrder)]`; columns it does not name follow in their `columns` order. */
@@ -790,6 +861,7 @@ export class DataGrid {
   readonly fileRemove = output<{ rowId: string; row: DataGridRow; columnId: string; fileId: string }>();
   readonly rowActivate = output<{ row: DataGridRow; id: string }>();
   readonly exportFile = output<DataGridExport>();
+  readonly copy = output<{ text: string; rowCount: number }>();
 
   // ---- State ----
 
@@ -860,42 +932,77 @@ export class DataGrid {
     return ctx;
   }
 
-  /** Lowercased search text per row, built once per rows/columns change. */
-  private readonly searchIndex = computed(() => {
-    const filterable = this.resolvedColumns().filter((c) => c.filterable !== false);
-    return this.entries().map((entry) =>
-      filterable.map((column) =>
-        (column.filterText ? column.filterText(this.cellFor(column, entry.row).value, entry.row) : this.cellFor(column, entry.row).formatted).toLowerCase(),
+  /** A missing value: `null`, `undefined` or an empty string. */
+  protected readonly isMissing = isMissing;
+
+  /** A column the user can move: its own `movable`, else the grid's `movableColumns`. */
+  protected isMovable(column: DataGridColumn): boolean {
+    return column.movable ?? this.movableColumns();
+  }
+
+  protected readonly filterableColumns = computed(() => this.resolvedColumns().filter((c) => c.filterable !== false));
+
+  /** One folded (lower-case, no diacritics) text per filterable cell, built once per rows/columns change. */
+  private readonly searchIndex = computed(() =>
+    this.entries().map((entry) =>
+      this.filterableColumns().map((column) =>
+        foldText(column.filterText ? column.filterText(this.cellFor(column, entry.row).value, entry.row) : this.cellFor(column, entry.row).formatted),
       ),
-    );
+    ),
+  );
+
+  // Every word of the filter must appear somewhere in the row (any order, any cells), ignoring case and diacritics.
+  private readonly filteredEntries = computed(() => {
+    const terms = searchTerms(this.filter());
+    const rowFilter = this.rowFilter();
+    if (terms.length === 0 && !rowFilter) return this.entries();
+    const index = terms.length > 0 ? this.searchIndex() : null;
+    // With a field chosen, every word must be in that field's cell; otherwise anywhere in the row.
+    const field = this.filterField();
+    const only = field ? this.filterableColumns().findIndex((c) => c.id === field) : -1;
+    const rowText = (i: number): string => (only >= 0 ? index![i][only] : index![i].join(" "));
+    return this.entries().filter((entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => rowText(i).includes(term))));
   });
 
-  private readonly filteredEntries = computed(() => {
-    const text = this.filter().trim().toLowerCase();
-    if (!text) return this.entries();
-    const index = this.searchIndex();
-    return this.entries().filter((_entry, i) => index[i].some((value) => value.includes(text)));
-  });
+  /** The sort keys in order: the primary, then `thenBy`, each with a real column and a direction. */
+  private readonly sortKeys = computed(() =>
+    [this.sort(), ...this.thenBy()]
+      .map((k) => ({ column: this.resolvedColumns().find((c) => c.id === k.columnId), dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0 }))
+      .filter((k): k is { column: DataGridColumn; dir: 1 | -1 } => !!k.column && k.dir !== 0),
+  );
 
   protected readonly sortedEntries = computed(() => {
-    const sort = this.sort();
+    const keys = this.sortKeys();
     const filtered = this.filteredEntries();
-    if (sort.direction === "none" || !sort.columnId) return filtered;
-    const column = this.resolvedColumns().find((c) => c.id === sort.columnId);
-    if (!column) return filtered;
-    const dir = sort.direction === "ascending" ? 1 : -1;
-    const compare = column.compare;
-    // Read each sort key once (n accessor calls), not twice per comparison.
-    const keyed = filtered.map((entry) => ({ entry, key: this.cellFor(column, entry.row).value }));
+    if (keys.length === 0) return filtered;
+    const nulls = this.nulls();
+    const collators = keys.map((k) => {
+      const tag = k.column.locale ?? this.locale();
+      return tag ? new Intl.Collator(tag, { numeric: true }) : null;
+    });
+    // Read each sort key once per column (n accessor calls), not twice per comparison.
+    const keyed = filtered.map((entry) => ({ entry, keys: keys.map((k) => this.cellFor(k.column, entry.row).value) }));
     keyed.sort((a, b) => {
-      const av = a.key;
-      const bv = b.key;
-      if (av === bv) return 0;
-      // Missing values sort last in both directions.
-      if (av === null || av === undefined) return 1;
-      if (bv === null || bv === undefined) return -1;
-      if (compare) return compare(av, bv) * dir;
-      return (av as never) > (bv as never) ? dir : -dir;
+      for (let i = 0; i < keys.length; i++) {
+        const { column, dir } = keys[i];
+        const av = a.keys[i];
+        const bv = b.keys[i];
+        if (av === bv) continue;
+        // Missing values sort together at one end, in both directions (`nulls`).
+        const aMissing = av === null || av === undefined;
+        const bMissing = bv === null || bv === undefined;
+        if (aMissing || bMissing) return aMissing === bMissing ? 0 : (aMissing ? 1 : -1) * (nulls === "first" ? -1 : 1);
+        const collator = collators[i];
+        const result = column.compare
+          ? column.compare(av, bv) * dir
+          : collator && typeof av === "string" && typeof bv === "string"
+            ? collator.compare(av, bv) * dir
+            : (av as never) > (bv as never)
+              ? dir
+              : -dir;
+        if (result !== 0) return result;
+      }
+      return 0;
     });
     return keyed.map((k) => k.entry);
   });
@@ -967,7 +1074,7 @@ export class DataGrid {
   );
   protected readonly hasExportButtons = computed(() => {
     const l = this.labels();
-    return !!(l.exportCsv || l.exportTsv || l.exportExcel);
+    return !!(l.exportCsv || l.exportTsv || l.exportExcel || l.copy);
   });
 
   constructor() {
@@ -992,6 +1099,35 @@ export class DataGrid {
           else table.removeAttribute("aria-busy");
         },
         { injector: this.injector },
+      );
+    });
+
+    // What the grid renders, as far as labels go, so a missing one can be named in development.
+    const reportedLabels = new Set<string>();
+    effect(() => {
+      const labels = this.labels();
+      const columns = this.resolvedColumns();
+      const features: LabelFeatures = {
+        selection: this.selectionMode() !== "none",
+        pagination: !!this.pageSize(),
+        hidableColumns: columns.some((c) => c.hidable),
+        resizableColumns: columns.some((c) => c.resizable),
+        editing: columns.some((c) => c.editable),
+        sorting: columns.some((c) => c.sortable),
+        search: !!labels.search,
+        exporting: !!(labels.exportCsv || labels.exportTsv || labels.exportExcel || labels.copy),
+      };
+      const warn = this.warnMissingLabels();
+      const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+      if (!warn || env?.["NODE_ENV"] === "production") return;
+      const fresh = missingLabels(features, labels as Record<string, unknown>).filter((m) => !reportedLabels.has(m.key));
+      if (fresh.length === 0) return;
+      for (const m of fresh) reportedLabels.add(m.key);
+      const controls = fresh.filter((m) => m.kind === "control").map((m) => m.key);
+      const announcements = fresh.filter((m) => m.kind === "announcement").map((m) => m.key);
+      console.warn(
+        `[data-grid] "${this.label()}": labels left out — ` +
+          [controls.length ? `controls with no name: ${controls.join(", ")}` : "", announcements.length ? `silent announcements: ${announcements.join(", ")}` : ""].filter(Boolean).join("; "),
       );
     });
 
@@ -1035,12 +1171,34 @@ export class DataGrid {
 
   protected ariaSortFor(column: DataGridColumn): DataGridSortDirection | null {
     if (!column.sortable) return null;
-    return this.sort().columnId === column.id ? this.sort().direction : "none";
+    if (this.sort().columnId === column.id) return this.sort().direction;
+    return this.thenBy().find((k) => k.columnId === column.id)?.direction ?? "none";
   }
 
-  protected toggleSort(column: DataGridColumn): void {
+  /** 1 for the primary key, 2… for `thenBy`, only while more than one key is in force. */
+  protected sortOrderFor(column: DataGridColumn): number | null {
+    const keys = this.sortKeys();
+    if (keys.length < 2) return null;
+    const at = keys.findIndex((k) => k.column.id === column.id);
+    return at === -1 ? null : at + 1;
+  }
+
+  protected toggleSort(column: DataGridColumn, additive = false): void {
     if (!column.sortable) return;
     const current = this.sort();
+    if (additive && current.direction !== "none" && current.columnId && current.columnId !== column.id) {
+      const thenBy = this.thenBy();
+      const existing = thenBy.find((k) => k.columnId === column.id);
+      const nextThen: DataGridSort[] = !existing
+        ? [...thenBy, { columnId: column.id, direction: "ascending" }]
+        : existing.direction === "ascending"
+          ? thenBy.map((k) => (k.columnId === column.id ? { columnId: column.id, direction: "descending" as const } : k))
+          : thenBy.filter((k) => k.columnId !== column.id);
+      this.thenBy.set(nextThen);
+      this.announce(this.labels().sortAnnouncement?.(column.header, nextThen.find((k) => k.columnId === column.id)?.direction ?? "none"));
+      return;
+    }
+    if (this.thenBy().length > 0) this.thenBy.set([]);
     const next: DataGridSort =
       current.columnId !== column.id
         ? { columnId: column.id, direction: "ascending" }
@@ -1055,8 +1213,23 @@ export class DataGrid {
 
   // ---- Filtering ----
 
-  protected onFilterInput(event: Event): void {
-    this.filter.set((event.target as HTMLInputElement).value);
+  protected setFilter(value: string): void {
+    this.filter.set(value);
+    this.page.set(1);
+    this.announce(this.labels().filterAnnouncement?.(this.filteredEntries().length, this.rows().length));
+  }
+
+  /** Escape in the search field clears it. */
+  protected onFilterKeydown(event: Event): void {
+    const e = event as KeyboardEvent;
+    if (e.key === "Escape" && this.filter() !== "") {
+      e.preventDefault();
+      this.setFilter("");
+    }
+  }
+
+  protected onFilterFieldChange(event: Event): void {
+    this.filterField.set((event.target as HTMLSelectElement).value);
     this.page.set(1);
     this.announce(this.labels().filterAnnouncement?.(this.filteredEntries().length, this.rows().length));
   }
@@ -1266,7 +1439,7 @@ export class DataGrid {
     return c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!this.labels().exportUtcHeader;
   }
 
-  protected runExport(format: ExportFormat): void {
+  private buildExportTable(format: ExportFormat) {
     const live = (c: DataGridColumn) => format === "xlsx" && this.exportFormulas() && c.type === "formula" && !!c.source;
     const headers: string[] = [];
     for (const c of this.exportColumns()) {
@@ -1286,7 +1459,23 @@ export class DataGrid {
       }
       return cells;
     });
-    const table = { headers, rows };
+    return { headers, rows };
+  }
+
+  /** Copy the export (what a download would hold) to the clipboard as tab-separated text. `copyHandler` may return false to take over. */
+  protected async runCopy(): Promise<void> {
+    const table = this.buildExportTable("tsv");
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    this.copy.emit(copied);
+    if (this.copyHandler()?.(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    this.announce(ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed);
+  }
+
+  protected runExport(format: ExportFormat): void {
+    const table = this.buildExportTable(format);
+    const rows = table.rows;
     const name = this.exportFilename();
     const filename = exportFilename(name, format);
     const blob = exportBlob(table, format, { sheetName: name });
@@ -1366,6 +1555,25 @@ export class DataGrid {
   }
 
   /** Two link values with the same address and label are the same edit. */
+  /** Accepted cell edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through the `cellEdit` output like any edit. */
+  private history: EditHistory = EMPTY_HISTORY;
+
+  /** Put an earlier cell value back, or re-apply it, through `cellEdit`. */
+  private stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(this.history) : redoEdit(this.history);
+    if (!step.record) return;
+    this.history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const entry = this.entries().find((e) => e.id === ownerId);
+    const column = this.resolvedColumns().find((c) => c.id === fieldId);
+    if (!entry || !column) return;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    this.cellEdit.emit({ rowId: entry.id, row: entry.row, columnId: column.id, value: restored, previous: replaced });
+    const text = column.format ? column.format(restored, entry.row) : String(restored ?? "");
+    this.announce((direction === "undo" ? this.labels().undoAnnouncement : this.labels().redoAnnouncement)?.(column.header, text));
+  }
+
   private isStructurallyEqual(a: unknown, b: unknown): boolean {
     return typeof a === "object" && typeof b === "object" && a !== null && b !== null && JSON.stringify(a) === JSON.stringify(b);
   }
@@ -1384,6 +1592,7 @@ export class DataGrid {
     const previous = column.type === "formula" && column.source ? column.source(entry.row) : defaultAccessor(column, entry.row);
     this.editingState.set(null);
     if (value !== previous && !this.isStructurallyEqual(value, previous)) {
+      this.history = recordEdit(this.history, { ownerId: entry.id, fieldId: column.id, value, previous });
       this.cellEdit.emit({ rowId: entry.id, row: entry.row, columnId: column.id, value, previous });
       this.announce(this.labels().editAnnouncement?.(column.header, column.format ? column.format(value, entry.row) : String(value ?? "")));
     }
@@ -1547,6 +1756,8 @@ export class DataGrid {
     if (entry && column && this.isEditable(column)) this.startEdit(entry, column);
   }
 
+  private typeahead: TypeaheadState = { prefix: "", at: 0 };
+
   protected onGridKeydown(event: Event): void {
     if (!this.isGrid()) return;
     const e = event as KeyboardEvent;
@@ -1565,51 +1776,48 @@ export class DataGrid {
     const activeRow = this.activeRow();
     const activeCol = this.activeCol();
     const colOffset = this.colOffset();
-    if (e.altKey && activeRow === -1 && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
+    // In a right-to-left layout the horizontal arrows swap: ArrowLeft goes to the next cell (`key` is the logical key).
+    const key = logicalKey(e.key, isRtl(cell));
+    if (e.altKey && activeRow === -1 && (key === "ArrowRight" || key === "ArrowLeft")) {
       const column = this.visibleColumns()[activeCol - colOffset];
-      if (column?.movable) {
+      if (column && this.isMovable(column)) {
         e.preventDefault();
-        const delta = e.key === "ArrowRight" ? 1 : -1;
+        const delta = key === "ArrowRight" ? 1 : -1;
         if (this.moveColumn(column.id, activeCol - colOffset + delta)) this.moveFocus(-1, activeCol + delta);
         return;
       }
     }
-    const size = this.pageSize();
-    switch (e.key) {
-      case "ArrowRight":
-        e.preventDefault();
-        this.moveFocus(activeRow, activeCol + 1);
-        break;
-      case "ArrowLeft":
-        e.preventDefault();
-        this.moveFocus(activeRow, activeCol - 1);
-        break;
-      case "ArrowDown":
-        e.preventDefault();
-        this.moveFocus(activeRow + 1, activeCol);
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        this.moveFocus(activeRow - 1, activeCol);
-        break;
-      case "Home":
-        e.preventDefault();
-        if (e.ctrlKey || e.metaKey) this.moveFocus(-1, 0);
-        else this.moveFocus(activeRow, 0);
-        break;
-      case "End":
-        e.preventDefault();
-        if (e.ctrlKey || e.metaKey) this.moveFocus(this.pageEntries().length - 1, this.lastCol());
-        else this.moveFocus(activeRow, this.lastCol());
-        break;
-      case "PageDown":
-        e.preventDefault();
-        this.moveFocus(activeRow + (size ?? 10), activeCol);
-        break;
-      case "PageUp":
-        e.preventDefault();
-        this.moveFocus(activeRow - (size ?? 10), activeCol);
-        break;
+    const historyAction = target === cell && this.resolvedColumns().some((c) => c.editable) ? historyKey(e) : null;
+    if (historyAction) {
+      e.preventDefault();
+      this.stepHistory(historyAction);
+      return;
+    }
+    // Type-ahead in the focused column: letters typed in quick succession move to the next row whose cell text starts with them.
+    if (isTypeaheadKey(e) && target === cell && activeRow >= 0) {
+      const column = this.visibleColumns()[activeCol - colOffset];
+      if (column) {
+        const state = nextTypeaheadState(this.typeahead, e.key, Date.now(), 700);
+        const hit = findTypeaheadMatch(this.pageEntries().map((entry) => this.cellFor(column, entry.row).formatted), activeRow, state.prefix);
+        if (hit !== -1) {
+          this.typeahead = state;
+          e.preventDefault();
+          this.moveFocus(hit, activeCol);
+          return;
+        }
+      }
+    }
+    const move = gridMove(
+      e,
+      { row: activeRow, col: activeCol },
+      { firstRow: -1, lastRow: this.pageEntries().length - 1, lastCol: this.lastCol(), pageStep: this.pageSize() ?? 10, rtl: isRtl(cell) },
+    );
+    if (move) {
+      e.preventDefault();
+      this.moveFocus(move.row, move.col);
+      return;
+    }
+    switch (key) {
       case "F2": {
         const entry = this.pageEntries()[Number(cell.dataset["row"])];
         const column = this.visibleColumns()[Number(cell.dataset["col"]) - colOffset];
