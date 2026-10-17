@@ -13,6 +13,7 @@
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
     import { isRtl, logicalKey } from "./direction";
+    import { gridMove, pageStepFor } from "./grid-navigation";
     import { unavailableIn, unavailableKinds, type Unavailable } from "./unavailable";
     import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
@@ -941,7 +942,6 @@
     function onGridKeydown(event: KeyboardEvent): void {
         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
-        const ctrlOrMeta = event.ctrlKey || event.metaKey;
         // The horizontal arrows are visual: in a right-to-left layout the later date is on the left, so ArrowLeft goes forward.
         const key = logicalKey(event.key, isRtl(cell));
         const historyAction = onFieldEdit && !readonly ? historyKey(event) : null;
@@ -985,40 +985,17 @@
                 }
             }
         }
+        const move = gridMove(
+            event,
+            { row: activeRow, col: activeCol },
+            { firstRow: 0, lastRow: rows.length - 1, lastCol: columns.length - 1, pageStep: pageStepFor(virtualize), rtl: isRtl(cell) },
+        );
+        if (move) {
+            event.preventDefault();
+            moveFocus(move.row, move.col);
+            return;
+        }
         switch (key) {
-            case "PageUp":
-            case "PageDown": {
-                event.preventDefault();
-                const page = virtualize ? Math.max(1, Math.floor(virtualize.height / virtualize.rowHeight)) : 10;
-                moveFocus(activeRow + (event.key === "PageUp" ? -page : page), activeCol);
-                break;
-            }
-            case "ArrowUp":
-                event.preventDefault();
-                moveFocus(activeRow - 1, activeCol);
-                break;
-            case "ArrowDown":
-                event.preventDefault();
-                moveFocus(activeRow + 1, activeCol);
-                break;
-            case "ArrowLeft":
-                event.preventDefault();
-                moveFocus(activeRow, activeCol - 1);
-                break;
-            case "ArrowRight":
-                event.preventDefault();
-                moveFocus(activeRow, activeCol + 1);
-                break;
-            case "Home":
-                event.preventDefault();
-                if (ctrlOrMeta) moveFocus(0, 0);
-                else moveFocus(activeRow, 0);
-                break;
-            case "End":
-                event.preventDefault();
-                if (ctrlOrMeta) moveFocus(rows.length - 1, columns.length - 1);
-                else moveFocus(activeRow, columns.length - 1);
-                break;
             case "s":
             case "S": {
                 if (event.ctrlKey || event.metaKey || event.altKey) break;

@@ -12,6 +12,7 @@
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { highlightSegments, matchesSearch } from "./search-text";
     import { isRtl, logicalKey } from "./direction";
+    import { gridMove, pageStepFor } from "./grid-navigation";
     import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import {
@@ -1084,40 +1085,17 @@
             }
             return;
         }
+        const move = gridMove(
+            event,
+            { row: activeRow, col: activeCol },
+            { firstRow: 0, lastRow: maxRows - 1, lastCol: columns.length - 1, pageStep: pageStepFor(virtualize), homeEnd: "column", rtl: isRtl(cell) },
+        );
+        if (move) {
+            event.preventDefault();
+            moveFocus(move.row, move.col);
+            return;
+        }
         switch (key) {
-            case "PageUp":
-            case "PageDown": {
-                event.preventDefault();
-                const page = virtualize ? Math.max(1, Math.floor(virtualize.height / virtualize.rowHeight)) : 10;
-                moveFocus(activeRow + (event.key === "PageUp" ? -page : page), activeCol);
-                break;
-            }
-            case "ArrowUp":
-                event.preventDefault();
-                moveFocus(activeRow - 1, activeCol);
-                break;
-            case "ArrowDown":
-                event.preventDefault();
-                moveFocus(activeRow + 1, activeCol);
-                break;
-            case "ArrowLeft":
-                event.preventDefault();
-                moveFocus(activeRow, activeCol - 1);
-                break;
-            case "ArrowRight":
-                event.preventDefault();
-                moveFocus(activeRow, activeCol + 1);
-                break;
-            case "Home":
-                event.preventDefault();
-                if (ctrlOrMeta) moveFocus(0, 0);
-                else moveFocus(0, activeCol);
-                break;
-            case "End":
-                event.preventDefault();
-                if (ctrlOrMeta) moveFocus(maxRows - 1, columns.length - 1);
-                else moveFocus(maxRows - 1, activeCol);
-                break;
             case "Enter":
             case " ": {
                 event.preventDefault();

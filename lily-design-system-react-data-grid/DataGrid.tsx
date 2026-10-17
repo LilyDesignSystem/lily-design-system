@@ -11,6 +11,7 @@ import {
 import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
 import { foldText, searchTerms } from "./search-text";
 import { isRtl, logicalKey } from "./direction";
+import { gridMove } from "./grid-navigation";
 import { missingLabels, type LabelFeatures } from "./label-coverage";
 import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
@@ -1332,41 +1333,17 @@ export function DataGrid({
         }
       }
     }
+    const move = gridMove(
+      event,
+      { row: activeRow, col: activeCol },
+      { firstRow: -1, lastRow: pageEntries.length - 1, lastCol, pageStep: pageSize ?? 10, rtl: isRtl(cell) },
+    );
+    if (move) {
+      event.preventDefault();
+      moveFocus(move.row, move.col);
+      return;
+    }
     switch (key) {
-      case "ArrowRight":
-        event.preventDefault();
-        moveFocus(activeRow, activeCol + 1);
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        moveFocus(activeRow, activeCol - 1);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        moveFocus(activeRow + 1, activeCol);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        moveFocus(activeRow - 1, activeCol);
-        break;
-      case "Home":
-        event.preventDefault();
-        if (event.ctrlKey || event.metaKey) moveFocus(-1, 0);
-        else moveFocus(activeRow, 0);
-        break;
-      case "End":
-        event.preventDefault();
-        if (event.ctrlKey || event.metaKey) moveFocus(pageEntries.length - 1, lastCol);
-        else moveFocus(activeRow, lastCol);
-        break;
-      case "PageDown":
-        event.preventDefault();
-        moveFocus(activeRow + (pageSize ?? 10), activeCol);
-        break;
-      case "PageUp":
-        event.preventDefault();
-        moveFocus(activeRow - (pageSize ?? 10), activeCol);
-        break;
       case "F2": {
         const entry = pageEntries[Number(cell.dataset.row)];
         const column = visibleColumns[Number(cell.dataset.col) - colOffset];
