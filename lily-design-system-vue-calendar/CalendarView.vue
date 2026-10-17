@@ -96,12 +96,30 @@ export type CalendarViewLabels = {
     exportExcel?: string;
     /** Announced after an export: (format, how many events, file name). */
     exportAnnouncement?: (format: ExportFormat, eventCount: number, filename: string) => string;
+    /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+    copy?: string;
+    /** Announced after a copy: (how many rows). */
+    copyAnnouncement?: (rowCount: number) => string;
+    /** Announced when the clipboard could not be written. */
+    copyFailed?: string;
+    /** Announced when navigation stops at `minDate` or `maxDate`: (which limit, that date). Without it a stopped Previous / Next / Page key is silent. */
+    rangeLimit?: (limit: "min" | "max", date: string) => string;
+    /** Accessible name of the search field. Gates the field. */
+    search?: string;
+    /** Announced after the search changes: (matching events, all events). */
+    searchAnnouncement?: (matchCount: number, totalCount: number) => string;
     /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. */
     exportHeaders?: { title: string; start: string; end: string };
     /** Announced after a field edit: (event title, field header, the new text). */
     editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
     /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
     editInvalid?: (eventTitle: string, fieldHeader: string) => string;
+    /** Announced when a field's `validate` refuses a value: (event title, field header, the reason). Falls back to `editInvalid`. */
+    editRefused?: (eventTitle: string, fieldHeader: string, message: string) => string;
+    /** Announced after Ctrl/Cmd+Z puts an earlier value back: (event title, field header, the restored text). */
+    undoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+    /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (event title, field header, the text). */
+    redoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
 };
 
 export type Props = {
@@ -111,6 +129,16 @@ export type Props = {
     today?: string;
     /** Events to place into day cells. */
     events?: CalendarEvent[];
+    /** Hides events for which it returns false (a category, owner or status filter). Combines with the search; both must pass. */
+    filter?: (event: CalendarEvent) => boolean;
+    /** Orders the events within a day (and so in the agenda). Stable. Without it events keep the order of `events`. */
+    eventCompare?: (a: CalendarEvent, b: CalendarEvent) => number;
+    /** The text the search looks in. Defaults to the event's title and every field's text. */
+    searchText?: (event: CalendarEvent) => string;
+    /** Show the agenda on a narrow screen: a viewport narrower than this many pixels (for example `640`) reads as the agenda view, and goes back to `view` when it is wider. A view the user picks with the switcher is respected. Needs `matchMedia`; without it nothing changes. */
+    agendaBelow?: number;
+    /** Agenda view: show the date beside each day's events (default `true`). `false` hides it visually, keeping it for screen readers (a `<time>` with a `datetime`), for a layout that shows its own date. */
+    agendaDate?: boolean;
     /** Agenda view: also list days with no events. Default false (only days with events). */
     agendaEmptyDays?: boolean;
     /** Cap on events shown per day: the `day` slot gets `visibleEvents` and `hiddenCount`. */
@@ -129,7 +157,7 @@ export type Props = {
     isDisabled?: (isoDate: string) => boolean;
     /** Show an ISO week-number column (a row header per week). */
     showWeekNumbers?: boolean;
-    /** Marked ranges (holidays, closures): each day inside gets `data-range="{kind}"`. */
+    /** Marked ranges (holidays, time off, closures): each day inside gets `data-range="{kind}"`. A range's `label` is real text — shown beside the day number (and the agenda date) when there is no `day` slot, and read as the cell's description (`aria-describedby`) — so a marked day is never colour-only. Shading is CSS. */
     ranges?: CalendarRange[];
     /** BCP 47 locale, passed to firstDayOfWeekFor. */
     locale?: string;
@@ -142,6 +170,8 @@ export type Props = {
     exportScope?: "period" | "all";
     /** Called before the download with the finished file. Return `false` to skip the built-in download. */
     exportHandler?: (file: CalendarExport) => boolean | void;
+    /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` event fires first. */
+    copyHandler?: (copy: { text: string; rowCount: number }) => boolean | void;
     /** Extra CSS class on the root. */
     class?: string;
 };
@@ -244,7 +274,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
 </script>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, nextTick, ref, watch } from "vue";
+import { computed, getCurrentInstance, nextTick, onMounted, onBeforeUnmount, ref, watch } from "vue";
 import {
     CalendarTable,
     CalendarTableBody,
@@ -252,8 +282,13 @@ import {
     CalendarTableRow,
     CalendarTableTD,
     CalendarTableTH,
+    Mark,
+    SearchInput,
 } from "@lilydesignsystem/vue-headless";
-import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText } from "./export-data";
+import { highlightSegments, matchesSearch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import { civilDateToDate } from "./cell-types";
 import {
     draftOf,
@@ -272,6 +307,12 @@ import {
 const props = withDefaults(defineProps<Props>(), {
     today: undefined,
     events: () => [],
+    filter: undefined,
+    eventCompare: undefined,
+    searchText: undefined,
+    agendaBelow: undefined,
+    agendaDate: true,
+    copyHandler: undefined,
     maxEvents: undefined,
     agendaEmptyDays: false,
     hideOutsideDays: false,
@@ -293,7 +334,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 // Each is a v-model: bound by the parent when `v-model:x` is used, a local
 // ref otherwise. The Svelte canonical's `$bindable` props, in Vue's idiom.
-const view = defineModel<CalendarView>("view", { default: "month" });
+const viewModel = defineModel<CalendarView>("view", { default: "month" });
+/** Search (`v-model:search`): shows only the events whose text contains every word of it (any order, ignoring case and diacritics), in every view; the agenda wraps matches in `<mark class="calendar-view-match">`. Exports hold what the search leaves. Escape in the field clears it. */
+const search = defineModel<string>("search", { default: "" });
 const anchorDate = defineModel<string>("anchorDate", { default: "1970-01-01" });
 const selectedDate = defineModel<string | undefined>("selectedDate", { default: undefined });
 /** The picked range. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. */
@@ -316,6 +359,8 @@ const emit = defineEmits<{
     (event: "field-edit", edit: CalendarFieldEdit): void;
     /** An export file, before it is saved. */
     (event: "export-file", file: CalendarExport): void;
+    /** A copy to the clipboard, before it is written. */
+    (event: "copy", copy: { text: string; rowCount: number }): void;
 }>();
 
 defineSlots<{ day?: (args: DayArgs) => unknown }>();
@@ -326,10 +371,43 @@ const cursor = ref(anchorDate.value);
 const statusMessage = ref("");
 
 const firstDayOfWeek = computed(() => firstDayOfWeekFor(props.locale));
+// A narrow screen shows the agenda: with `agendaBelow` set, a viewport narrower than that many pixels reads as the agenda view
+// (the `view` model is untouched, so a wide screen goes back to it). A view the user picks on purpose is respected.
+const narrow = ref(false);
+const pickedOnPurpose = ref(false);
+const view = computed<CalendarView>(() => (narrow.value && !pickedOnPurpose.value ? "agenda" : viewModel.value));
+let narrowQuery: MediaQueryList | null = null;
+const updateNarrow = () => {
+    narrow.value = !!narrowQuery?.matches;
+    if (!narrowQuery?.matches) pickedOnPurpose.value = false;
+};
+onMounted(() => {
+    if (props.agendaBelow === undefined || typeof matchMedia !== "function") return;
+    narrowQuery = matchMedia(`(max-width: ${props.agendaBelow - 1}px)`);
+    updateNarrow();
+    narrowQuery.addEventListener?.("change", updateNarrow);
+});
+onBeforeUnmount(() => narrowQuery?.removeEventListener?.("change", updateNarrow));
+
 const days = computed(() => periodDays(view.value, anchorDate.value, firstDayOfWeek.value));
 const flatDays = computed(() => days.value.flat());
-const eventMap = computed(() => eventsByDay(props.events));
+const searching = computed(() => search.value.trim() !== "");
+const defaultSearchText = (e: CalendarEvent): string => [eventTitle(e), ...resolvedFields.value.map((f) => eventFieldText(f, e))].join(" ");
+/** The events the search leaves (all of them without one), found once per query / event change. */
+const events = computed(() => {
+    const narrowed =
+        searching.value || props.filter
+            ? props.events.filter((e) => (!props.filter || props.filter(e)) && (!searching.value || matchesSearch((props.searchText ?? defaultSearchText)(e), search.value)))
+            : props.events;
+    return props.eventCompare ? [...narrowed].sort(props.eventCompare) : narrowed;
+});
+const eventMap = computed(() => eventsByDay(events.value));
 const eventById = computed(() => new Map(props.events.map((e) => [e.id, e])));
+// Announce how many events match after the search changes (not on the first render).
+watch(search, () => {
+    const message = props.labels?.searchAnnouncement?.(events.value.length, props.events.length);
+    if (message) statusMessage.value = message;
+});
 const selectedDateSet = computed(() => new Set(selectedDates.value));
 
 // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
@@ -419,7 +497,9 @@ const eventTitle = (calendarEvent: CalendarEvent): string => (typeof calendarEve
 const editorValue = (draft: Draft): string => String(draft ?? "");
 
 /** The field being edited, if any: the draft is the editor's text. */
-const editing = ref<{ eventId: string; fieldId: string; draft: Draft } | null>(null);
+const editing = ref<{ eventId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+/** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `field-edit` like any edit. */
+let history: EditHistory = EMPTY_HISTORY;
 
 async function startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): Promise<void> {
     if (!isFieldEditable(f)) return;
@@ -450,18 +530,46 @@ function commitFieldEdit(refocus = true): boolean {
     }
     const outcome = evaluateEdit(f, calendarEvent.values, draft);
     if (outcome.invalid) {
-        const message = props.labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
+        editing.value = { ...current, invalid: true };
+        const message = (outcome.message ? props.labels?.editRefused?.(eventTitle(calendarEvent), f.header, outcome.message) : undefined) ?? props.labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
         if (message) statusMessage.value = message;
         return false;
     }
     editing.value = null;
     if (outcome.changed) {
+        history = recordEdit(history, { ownerId: eventId, fieldId, value: outcome.value, previous: outcome.previous });
         emit("field-edit", { eventId, fieldId, value: outcome.value, previous: outcome.previous });
         const message = props.labels?.editAnnouncement?.(eventTitle(calendarEvent), f.header, outcome.text);
         if (message) statusMessage.value = message;
     }
     if (refocus) void focusFieldButton(eventId, fieldId);
     return true;
+}
+
+/** Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (Ctrl+Y): put an earlier value back, or re-apply it, through `field-edit`. */
+function stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+    if (!step.record) return;
+    history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    emit("field-edit", { eventId: ownerId, fieldId, value: restored, previous: replaced });
+    const calendarEvent = eventById.value.get(ownerId);
+    const f = resolvedFields.value.find((x) => x.id === fieldId);
+    if (!calendarEvent || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(calendarEvent.values ?? {}), [fieldId]: restored }) : String(restored);
+    const message = (direction === "undo" ? props.labels?.undoAnnouncement : props.labels?.redoAnnouncement)?.(eventTitle(calendarEvent), f.header, text);
+    if (message) statusMessage.value = message;
+}
+
+/** Undo / redo from anywhere in the calendar except inside a field editor (which keeps the browser's own undo). */
+function onRootKeydown(event: KeyboardEvent): void {
+    if (!instance?.vnode.props?.onFieldEdit || (event.target as HTMLElement).closest(".calendar-view-field-editor, input, select, textarea")) return;
+    const action = historyKey(event);
+    if (!action) return;
+    event.preventDefault();
+    stepHistory(action);
 }
 
 function cancelFieldEdit(): void {
@@ -505,7 +613,7 @@ const eventSpan = (calendarEvent: CalendarEvent): { start: string; end: string }
           : null;
 
 const exportEvents = computed(() => {
-    const dated = props.events.filter((e) => eventSpan(e) !== null);
+    const dated = events.value.filter((e) => eventSpan(e) !== null);
     const kept =
         props.exportScope === "all"
             ? dated
@@ -515,10 +623,20 @@ const exportEvents = computed(() => {
               });
     return kept.sort((a, b) => eventSpan(a)!.start.localeCompare(eventSpan(b)!.start));
 });
-const hasExportButtons = computed(() => !!props.labels?.exportHeaders && !!(props.labels.exportCsv || props.labels.exportTsv || props.labels.exportExcel));
+const hasExportButtons = computed(() => !!props.labels?.exportHeaders && !!(props.labels.copy || props.labels.exportCsv || props.labels.exportTsv || props.labels.exportExcel));
 const exportFieldList = computed(() => exportableFields(resolvedFields.value));
 
-function runExport(format: ExportFormat): void {
+async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    emit("copy", copied);
+    if (props.copyHandler?.(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    const message = ok ? props.labels?.copyAnnouncement?.(table.rows.length) : props.labels?.copyFailed;
+    if (message) statusMessage.value = message;
+}
+
+function runExport(format: ExportFormat | "copy"): void {
     const h = props.labels?.exportHeaders;
     if (!h) return;
     const headers = [h.title, h.start, h.end, ...exportFieldList.value.map((f) => f.header)];
@@ -531,6 +649,10 @@ function runExport(format: ExportFormat): void {
             ...exportFieldList.value.map((f) => exportFieldCell(f, calendarEvent.values)),
         ];
     });
+    if (format === "copy") {
+        void finishCopy({ headers, rows: body });
+        return;
+    }
     const filename = exportFilename(props.exportFilename, format);
     const blob = exportBlob({ headers, rows: body }, format, { sheetName: props.exportFilename });
     const file: CalendarExport = { format, filename, eventCount: body.length, blob };
@@ -580,21 +702,45 @@ function onDayDrop(isoDate: string, event: DragEvent): void {
     if (calendarEvent) moveEventTo(calendarEvent, isoDate);
 }
 
-function announce(): void {
-    const l = props.labels;
-    if (!l?.periodAnnouncement) return;
-    const [start, end] = periodRange(view.value, anchorDate.value, firstDayOfWeek.value);
-    statusMessage.value = l.periodAnnouncement(view.value, start, end);
+const periodStart = computed(() => periodRange(view.value, anchorDate.value, firstDayOfWeek.value)[0]);
+const periodEnd = computed(() => periodRange(view.value, anchorDate.value, firstDayOfWeek.value)[1]);
+
+// minDate / maxDate bound navigation as well as picking.
+const atMinLimit = computed(() => !!props.minDate && periodStart.value <= props.minDate);
+const atMaxLimit = computed(() => !!props.maxDate && periodEnd.value >= props.maxDate);
+const todayOutOfRange = computed(
+    () => props.today == null || (!!props.minDate && props.today < props.minDate) || (!!props.maxDate && props.today > props.maxDate),
+);
+const clampDate = (isoDate: string): string =>
+    props.minDate && isoDate < props.minDate ? props.minDate : props.maxDate && isoDate > props.maxDate ? props.maxDate : isoDate;
+function announceLimit(limit: "min" | "max"): void {
+    const date = limit === "min" ? props.minDate : props.maxDate;
+    const message = date ? props.labels?.rangeLimit?.(limit, date) : undefined;
+    if (message) statusMessage.value = message;
 }
+
+// The period is announced whenever it changes, whatever changed it: Previous / Next / Today, a view switch, a keyboard move
+// across the edge, or the consumer setting `anchorDate` or `view`. The first render says nothing.
+let announcedPeriod: string | undefined;
+watch(
+    () => `${view.value}|${periodStart.value}|${periodEnd.value}`,
+    (key) => {
+        if (key === announcedPeriod) return;
+        announcedPeriod = key;
+        if (props.labels?.periodAnnouncement) statusMessage.value = props.labels.periodAnnouncement(view.value, periodStart.value, periodEnd.value);
+    },
+);
+announcedPeriod = `${view.value}|${periodStart.value}|${periodEnd.value}`;
 
 function navigateTo(nextAnchor: string): void {
     anchorDate.value = nextAnchor;
     const [start, end] = periodRange(view.value, anchorDate.value, firstDayOfWeek.value);
     emit("navigate", view.value, start, end);
-    announce();
 }
 
 function stepView(delta: 1 | -1): void {
+    if (delta < 0 && atMinLimit.value) return announceLimit("min");
+    if (delta > 0 && atMaxLimit.value) return announceLimit("max");
     if (view.value === "day") navigateTo(addDays(anchorDate.value, delta));
     else if (view.value === "week") navigateTo(addDays(anchorDate.value, delta * 7));
     else if (view.value === "four-week") navigateTo(addDays(anchorDate.value, delta * 28));
@@ -602,15 +748,15 @@ function stepView(delta: 1 | -1): void {
 }
 
 function goToday(): void {
-    if (props.today == null) return;
+    if (props.today == null || todayOutOfRange.value) return;
     navigateTo(props.today);
 }
 
 function setView(next: CalendarView): void {
-    view.value = next;
+    viewModel.value = next;
+    pickedOnPurpose.value = true;
     const [start, end] = periodRange(view.value, anchorDate.value, firstDayOfWeek.value);
     emit("navigate", view.value, start, end);
-    announce();
 }
 
 async function focusCursor(): Promise<void> {
@@ -619,7 +765,9 @@ async function focusCursor(): Promise<void> {
 }
 
 /** Move the cursor, re-paging the visible period when it leaves it. */
-function moveCursor(next: string): void {
+function moveCursor(requested: string): void {
+    const next = clampDate(requested);
+    if (next !== requested) announceLimit(requested < next ? "min" : "max");
     cursor.value = next;
     if (view.value === "month") {
         const cp = parseIsoDate(next);
@@ -657,6 +805,8 @@ function pageCursor(delta: 1 | -1): void {
 }
 
 function onGridKeydown(event: KeyboardEvent): void {
+    // The horizontal arrows are visual: in a right-to-left layout the next day is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(event.target as Element));
     if (movable.value && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
         const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
         const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
@@ -664,7 +814,7 @@ function onGridKeydown(event: KeyboardEvent): void {
         if (el && fromDate && calendarEvent) {
             event.preventDefault();
             const week = view.value === "day" ? 1 : 7;
-            const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+            const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[key]!;
             moveEventTo(calendarEvent, addDays(fromDate, delta));
             return;
         }
@@ -675,7 +825,7 @@ function onGridKeydown(event: KeyboardEvent): void {
         rangeAnchor = selectedDate.value && !selectedRange.value ? selectedDate.value : cursor.value;
     }
     if (!extending && MOVE_KEYS.has(event.key)) rangeAnchor = null;
-    switch (event.key) {
+    switch (key) {
         case "ArrowLeft":
             event.preventDefault();
             moveCursor(addDays(cursor.value, -1));
@@ -750,8 +900,6 @@ const weekdays = computed(() =>
         ? [weekdayOf(anchorDate.value)]
         : Array.from({ length: 7 }, (_, i) => (firstDayOfWeek.value + i) % 7),
 );
-const periodStart = computed(() => periodRange(view.value, anchorDate.value, firstDayOfWeek.value)[0]);
-const periodEnd = computed(() => periodRange(view.value, anchorDate.value, firstDayOfWeek.value)[1]);
 
 // The marked ranges per visible day, found once per `ranges` / period change rather than once per cell per render.
 const rangesByDay = computed(() => {
@@ -764,6 +912,11 @@ const rangesByDay = computed(() => {
     return map;
 });
 const NO_RANGES: CalendarRange[] = [];
+/** The labels of the ranges a day is in, joined for a cell's description; undefined when none has one. */
+const rangeLabelsOf = (dayRanges: CalendarRange[]): string | undefined => {
+    const text = dayRanges.map((r) => r.label).filter((l): l is string => !!l).join(", ");
+    return text === "" ? undefined : text;
+};
 
 // A cell's view is built once per day per change; the template reads it many times per cell.
 const cellViews = computed(() => {
@@ -791,13 +944,14 @@ function buildCellView(d: string) {
         picked: props.selectionMode === "multiple" ? selectedDateSet.value.has(d) : selectedDate.value === d,
         inRange: !!selectedRange.value && d >= selectedRange.value.start && d <= selectedRange.value.end,
         ranges: rangesByDay.value.get(d) ?? NO_RANGES,
+        rangeLabels: rangeLabelsOf(rangesByDay.value.get(d) ?? NO_RANGES),
     };
 }
 </script>
 
 <template>
     <!-- CalendarView.vue -->
-    <div ref="rootEl" :class="`calendar-view ${props.class ?? ''}`.trim()">
+    <div ref="rootEl" :class="`calendar-view ${props.class ?? ''}`.trim()" @keydown="onRootKeydown">
         <div v-if="labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView || labels?.agendaView" class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
                 <button
@@ -841,6 +995,7 @@ function buildCellView(d: string) {
                     type="button"
                     class="calendar-view-previous-button"
                     :aria-label="labels?.previous?.(view)"
+                    :aria-disabled="atMinLimit ? 'true' : undefined"
                     @click="stepView(-1)"
                 >‹</button>
                 <span v-if="labels?.periodTitle" class="calendar-view-title">{{ labels.periodTitle(view, periodStart, periodEnd) }}</span>
@@ -849,18 +1004,29 @@ function buildCellView(d: string) {
                     type="button"
                     class="calendar-view-today-button"
                     :disabled="today == null"
+                    :aria-disabled="today != null && todayOutOfRange ? 'true' : undefined"
                     @click="goToday"
                 >{{ labels.today }}</button>
                 <button
                     type="button"
                     class="calendar-view-next-button"
                     :aria-label="labels?.next?.(view)"
+                    :aria-disabled="atMaxLimit ? 'true' : undefined"
                     @click="stepView(1)"
                 >›</button>
             </div>
         </div>
 
+        <SearchInput
+            v-if="labels?.search"
+            v-model="search"
+            class="calendar-view-search"
+            :label="labels.search"
+            @keydown="(e: KeyboardEvent) => { if (e.key === 'Escape' && search !== '') { e.preventDefault(); search = ''; } }"
+        />
+
         <div v-if="hasExportButtons" class="calendar-view-export" role="group" :aria-label="labels?.export">
+            <button v-if="labels?.copy" type="button" class="calendar-view-export-button" data-calendar-export-format="copy" :disabled="exportEvents.length === 0" @click="runExport('copy')">{{ labels.copy }}</button>
             <button v-if="labels?.exportCsv" type="button" class="calendar-view-export-button" data-calendar-export-format="csv" :disabled="exportEvents.length === 0" @click="runExport('csv')">{{ labels.exportCsv }}</button>
             <button v-if="labels?.exportTsv" type="button" class="calendar-view-export-button" data-calendar-export-format="tsv" :disabled="exportEvents.length === 0" @click="runExport('tsv')">{{ labels.exportTsv }}</button>
             <button v-if="labels?.exportExcel" type="button" class="calendar-view-export-button" data-calendar-export-format="xlsx" :disabled="exportEvents.length === 0" @click="runExport('xlsx')">{{ labels.exportExcel }}</button>
@@ -879,7 +1045,15 @@ function buildCellView(d: string) {
                     :data-range="cellView(d).ranges.length ? cellView(d).ranges.map((r) => r.kind ?? 'range').join(' ') : undefined"
                     :aria-current="cellView(d).isToday ? 'date' : undefined"
                 >
-                    <time class="calendar-view-agenda-date" :datetime="d">{{ labels?.day?.(d, cellView(d).weekday, false) ?? d }}</time>
+                    <time
+                        class="calendar-view-agenda-date"
+                        :datetime="d"
+                        :data-visually-hidden="agendaDate ? undefined : ''"
+                        :style="agendaDate ? undefined : 'position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap'"
+                    >{{ labels?.day?.(d, cellView(d).weekday, false) ?? d }}</time>
+                    <template v-for="range in cellView(d).ranges" :key="range.start + range.end + (range.kind ?? '') + (range.label ?? '')">
+                        <span v-if="range.label" class="calendar-view-range-label">{{ range.label }}</span>
+                    </template>
                     <slot
                         name="day"
                         :date="d"
@@ -898,7 +1072,7 @@ function buildCellView(d: string) {
                     >
                         <ul v-if="cellView(d).events.length > 0" class="calendar-view-agenda-events">
                             <li v-for="calendarEvent in cellView(d).events" :key="calendarEvent.id" :data-event-key="calendarEvent.id">
-                                <button type="button" class="calendar-view-event" @click="openEvent(calendarEvent)">{{ eventTitle(calendarEvent) }}</button>
+                                <button type="button" class="calendar-view-event" @click="openEvent(calendarEvent)"><template v-if="searching"><template v-for="(part, i) in highlightSegments(eventTitle(calendarEvent), search)" :key="i"><Mark v-if="part.match" class="calendar-view-match">{{ part.text }}</Mark><template v-else>{{ part.text }}</template></template></template><template v-else>{{ eventTitle(calendarEvent) }}</template></button>
                                 <span v-if="resolvedFields.length > 0" class="calendar-view-event-fields">
                                     <template v-for="f in resolvedFields" :key="f.id">
                                         <span
@@ -912,6 +1086,7 @@ function buildCellView(d: string) {
                                                 v-if="editorKind(f) === 'select' || editorKind(f) === 'radio'"
                                                 class="calendar-view-field-editor"
                                                 :aria-label="f.editLabel ?? f.header"
+                                                :aria-invalid="editing.invalid ? 'true' : undefined"
                                                 :value="editorValue(editing.draft)"
                                                 @change="(e) => { editing!.draft = (e.target as HTMLSelectElement).value; commitFieldEdit(); }"
                                                 @keydown="onFieldEditorKeydown"
@@ -924,10 +1099,11 @@ function buildCellView(d: string) {
                                                 v-else
                                                 class="calendar-view-field-editor"
                                                 :aria-label="f.editLabel ?? f.header"
+                                                :aria-invalid="editing.invalid ? 'true' : undefined"
                                                 :type="editorKind(f) === 'number' ? 'number' : editorKind(f) === 'date' ? 'date' : editorKind(f) === 'time' ? 'time' : 'text'"
                                                 :inputmode="editorKind(f) === 'number' ? 'decimal' : undefined"
                                                 :value="editorValue(editing.draft)"
-                                                @input="(e) => { editing!.draft = (e.target as HTMLInputElement).value; }"
+                                                @input="(e) => { editing!.draft = (e.target as HTMLInputElement).value; editing!.invalid = false; }"
                                                 @keydown="onFieldEditorKeydown"
                                                 @blur="commitFieldEdit(false)"
                                             />
@@ -962,7 +1138,7 @@ function buildCellView(d: string) {
             <CalendarTableHead>
                 <CalendarTableRow>
                     <CalendarTableTH v-if="showWeekNumbers" scope="col" data-week-number-header>{{ labels?.weekNumberHeader ?? "" }}</CalendarTableTH>
-                    <CalendarTableTH v-for="(weekday, i) in weekdays" :key="i" scope="col">
+                    <CalendarTableTH v-for="(weekday, i) in weekdays" :key="i" scope="col" :data-weekend="weekendDays?.includes(weekday) ? '' : undefined">
                         <abbr
                             v-if="labels?.weekdayAbbr"
                             :title="labels.weekday?.(weekday) ?? labels.weekdayAbbr(weekday)"
@@ -996,10 +1172,12 @@ function buildCellView(d: string) {
                         :data-range="cellView(d).ranges.length ? cellView(d).ranges.map((r) => r.kind ?? 'range').join(' ') : undefined"
                         :aria-disabled="cellView(d).disabled ? 'true' : undefined"
                         :aria-label="labels?.day?.(d, cellView(d).weekday, cellView(d).outside)"
+                        :aria-describedby="cellView(d).rangeLabels ? `${baseId}-rg-${d}` : undefined"
                         @click="(e: MouseEvent) => onDayCellClick(d, e)"
                         @dragover="onDayDragOver"
                         @drop="(e: DragEvent) => onDayDrop(d, e)"
                     >
+                        <span v-if="cellView(d).rangeLabels" :id="`${baseId}-rg-${d}`" hidden>{{ cellView(d).rangeLabels }}</span>
                         <template v-if="hideOutsideDays && cellView(d).outside"></template>
                         <slot v-else
                             name="day"
@@ -1016,7 +1194,7 @@ function buildCellView(d: string) {
                             :open-event="openEvent"
                             :field-text="fieldText"
                             :event-props="eventProps"
-                        >{{ parseIsoDate(d)?.day }}</slot>
+                        >{{ parseIsoDate(d)?.day }}<template v-for="range in cellView(d).ranges" :key="range.start + range.end + (range.kind ?? '') + (range.label ?? '')"><span v-if="range.label" class="calendar-view-range-label">{{ range.label }}</span></template></slot>
                     </CalendarTableTD>
                 </CalendarTableRow>
             </CalendarTableBody>

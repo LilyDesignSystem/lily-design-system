@@ -18,6 +18,8 @@ declare module "@lilydesignsystem/vue-headless" {
     export const CalendarTableRow: any;
     export const CalendarTableTD: any;
     export const CalendarTableTH: any;
+    export const Mark: any;
+    export const SearchInput: any;
 }
 
 declare module "@lilydesignsystem/vue-date-time-picker" {
