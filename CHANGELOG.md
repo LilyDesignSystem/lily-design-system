@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Gantt chart: weekend shading and dependency arrows — 2026-10-17
+
+- **`gantt-chart` 0.6.0** in all eight frameworks: **`weekends`** (weekdays 0–6, never defaulted — the weekend is the consumer's locale) marks day
+  columns `data-weekend` on the header and every cell, and **`dependencyArrows`** draws an `aria-hidden` SVG arrow per dependency by its type
+  (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description stays the accessible one. The 57 reference themes tint
+  `[data-weekend]` cells. In Nunjucks both are client options (like `markers`); in Blazor the arrows are measured with one JS call per change and
+  the paths computed in C#. The pure path function is the same in every framework and tested against the same strings.
+
 ## Kanban, gantt and calendar get the data grid's typed fields, editing and export — 2026-10-17
 
 - **`kanban-board` 0.6.0, `gantt-chart` 0.5.0 and `calendar` 0.5.0**, in all eight frameworks, take three things from the
