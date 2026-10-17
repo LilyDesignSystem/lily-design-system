@@ -1,6 +1,7 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { foldText, searchTerms } from "./search-text";
     import {
         isInvalidForType,
         linkParts,
@@ -434,23 +435,26 @@
     type Entry = { row: DataGridRow; id: string };
     const entries = $derived<Entry[]>(rows.map((row, index) => ({ row, id: rowId(row, index) })));
 
-    // Lowercased search text per row, built once per rows/columns change
-    // rather than reformatting every cell on every keystroke. Read only
-    // when a filter is active, so an unfiltered grid never builds it.
+    // Folded (lower-case, no diacritics) search text per row: its filterable cells joined by a space,
+    // built once per rows/columns change rather than reformatting every cell on every keystroke.
+    // Read only when a filter is active, so an unfiltered grid never builds it.
     const searchIndex = $derived.by(() => {
         const filterableColumns = columns.filter((c) => c.filterable !== false);
         return entries.map((entry) =>
-            filterableColumns.map((column) =>
-                (column.filterText ? column.filterText(defaultAccessor(column, entry.row), entry.row) : formatCell(column, entry.row)).toLowerCase(),
+            foldText(
+                filterableColumns
+                    .map((column) => (column.filterText ? column.filterText(defaultAccessor(column, entry.row), entry.row) : formatCell(column, entry.row)))
+                    .join(" "),
             ),
         );
     });
 
+    // Every word of the filter must appear somewhere in the row (any order, any cells), ignoring case and diacritics.
     const filteredEntries = $derived.by(() => {
-        const text = filter.trim().toLowerCase();
-        if (!text) return entries;
+        const terms = searchTerms(filter);
+        if (terms.length === 0) return entries;
         const index = searchIndex;
-        return entries.filter((_entry, i) => index[i].some((value) => value.includes(text)));
+        return entries.filter((_entry, i) => terms.every((term) => index[i].includes(term)));
     });
 
     const sortedEntries = $derived.by(() => {
@@ -574,11 +578,23 @@
     // Filtering
     // ---------------------------------------------------------------
 
-    function onFilterInput(event: Event): void {
-        filter = (event.target as HTMLInputElement).value;
+    function setFilter(value: string): void {
+        filter = value;
         page = 1;
         onFilterChange?.(filter);
         announce(labels.filterAnnouncement?.(filteredEntries.length, rows.length));
+    }
+
+    function onFilterInput(event: Event): void {
+        setFilter((event.target as HTMLInputElement).value);
+    }
+
+    /** Escape in the search field clears it. */
+    function onFilterKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape" && filter !== "") {
+            event.preventDefault();
+            setFilter("");
+        }
     }
 
     // ---------------------------------------------------------------
@@ -1156,6 +1172,7 @@
                     aria-label={labels.search}
                     value={filter}
                     oninput={onFilterInput}
+                    onkeydown={onFilterKeydown}
                 />
             {/if}
             {#if hasExportButtons}

@@ -534,3 +534,11 @@ The twelve cell types (text, number, link, date, time, time with time zone, sele
 ## Remaining cell types (0.9.0) (2026-10-16)
 
 Implements §3.6 and §3.9–§3.12 of [cell-types](cell-types/index.md) (tests §8.98–§8.114): `time-zone`, `person`, `file`, `rollup` and `formula` are now `column.type` values. Every one of the twelve cell types is shipped.
+
+## 18. Search (0.10.0, 2026-10-17)
+
+Tests §8.90–§8.94. Shared across the data grid, kanban board, Gantt chart and calendar (`search-text.ts`, a pure module with its own tests: `foldText`, `searchTerms`, `matchesSearch`, `highlightSegments`).
+
+- **Words**: a query is split on whitespace; every word must appear (AND), in any order, ignoring case and diacritics ("cafe" finds "Café"). A blank query matches everything.
+- **In the data grid**: the filter (`filter`, bindable; `labels.search` names the field) narrows the rows. Every word must appear somewhere in the row (any order, any filterable cells), ignoring case and diacritics; `filterText` still sets a column's text. No match highlighting: cells are rendered by their cell type, so the grid marks nothing inside them.
+- Highlighting uses `<mark>` only while a search is active and works on the original text (never the folded one); where folding would change a string's length it marks nothing rather than the wrong span.

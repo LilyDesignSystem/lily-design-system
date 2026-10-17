@@ -1511,3 +1511,49 @@ describe("DataGrid — time zone, person, file, rollup and formula types (§8.98
         expect(plain).toContain("<v>42</v>");
     });
 });
+
+describe("DataGrid — multi-word, diacritic-blind search; Escape clears (§8.90–§8.94)", () => {
+    const WORLD = [
+        { name: "Zoë Müller", email: "zoe@example.com" },
+        { name: "Bob Stone", email: "bob@example.com" },
+        { name: "Alice Stone", email: "alice@work.org" },
+    ];
+    const run = async (value: string) => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: WORLD, labels: LABELS } });
+        await fireEvent.input(screen.getByRole("searchbox", { name: "Search rows" }), { target: { value } });
+        return bodyRows().map((r) => r.textContent ?? "");
+    };
+
+    test("§8.90 every word must appear, in any order", async () => {
+        const rows = await run("stone alice");
+        expect(rows).toHaveLength(1);
+        expect(rows[0]).toContain("Alice");
+    });
+
+    test("§8.91 words may match in different cells of the same row", async () => {
+        const rows = await run("bob example");
+        expect(rows).toHaveLength(1);
+        expect(rows[0]).toContain("Bob");
+    });
+
+    test("§8.92 ignores diacritics both ways", async () => {
+        expect(await run("zoe muller")).toHaveLength(1);
+    });
+
+    test("§8.93 a word that appears nowhere matches no row", async () => {
+        expect(await run("bob work")).toHaveLength(0);
+    });
+
+    test("§8.94 Escape in the search field clears it, restores every row and announces", async () => {
+        const onFilterChange = vi.fn();
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: WORLD, labels: LABELS, onFilterChange } });
+        const search = screen.getByRole("searchbox", { name: "Search rows" }) as HTMLInputElement;
+        await fireEvent.input(search, { target: { value: "alice" } });
+        await fireEvent.keyDown(search, { key: "Escape" });
+        await tick();
+        expect(onFilterChange).toHaveBeenLastCalledWith("");
+        expect(bodyRows()).toHaveLength(3);
+        expect(search.value).toBe("");
+    });
+});
+

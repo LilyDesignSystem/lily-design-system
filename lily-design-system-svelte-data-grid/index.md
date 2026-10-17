@@ -116,6 +116,10 @@ doesn't render (no baked-in English fallback).
 - **Persistence**: `storageKey` persists column widths, hidden
   columns, and sort — never row data or selection.
 
+## Search (0.10.0)
+
+`search` (bindable; the field renders when `labels.search` names it) narrows the rows: every word must appear, in any order, ignoring case and diacritics. Every word must appear somewhere in the row (any order, any filterable cells), ignoring case and diacritics; `filterText` still sets a column's text. No match highlighting: cells are rendered by their cell type, so the grid marks nothing inside them. See spec §18.
+
 ## Non-goals (v1)
 
 Virtualization/windowing, inline cell editing, column reorder, column
