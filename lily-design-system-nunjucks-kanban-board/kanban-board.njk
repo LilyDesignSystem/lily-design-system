@@ -181,7 +181,12 @@
        labels.exportAnnouncement — template string, tokens {count}, {format}, {filename}.
        labels.editAnnouncement  — template string, tokens {card}, {field}, {value}.
        labels.editInvalid       — template string, tokens {card}, {field}.
-       Client options: onFieldEdit({cardId, fieldId, value, previous}), onExport(file) (return false to take over the download).
+       labels.editRefused       — template string, tokens {card}, {field}, {message} (a field's `validate` refused the value).
+       labels.fieldUndoAnnouncement / labels.fieldRedoAnnouncement — template strings, tokens {card}, {field}, {value}.
+       labels.copy              — plain string: a button that puts the export (header row first, tab-separated) on the clipboard.
+       labels.copyAnnouncement  — template string, token {count}; labels.copyFailed — plain string.
+       labels.searchAnnouncement — template string, tokens {matched}, {total}.
+       Client options: onFieldEdit({cardId, fieldId, value, previous}), onExport(file) (return false to take over the download), onCopy({ text, rowCount }) (return false to take over the copy).
 
   Params (single `opts` object):
     label       — string, required. aria-label for the grid table.
@@ -434,14 +439,15 @@
   {%- set scrollHtml = ('<div class="kanban-board-body">' ~ tableHtml ~ '</div>') | safe -%}
 {%- endif -%}
 {%- set exportHtml = "" -%}
-{%- if labels.exportHeaders and (labels.exportCsv or labels.exportTsv or labels.exportExcel) -%}
+{%- if labels.exportHeaders and (labels.copy or labels.exportCsv or labels.exportTsv or labels.exportExcel) -%}
   {%- set exportHtml = '<div class="kanban-board-export" role="group"' ~ ((' aria-label="' ~ (labels.export | e) ~ '"') if labels.export else '') ~ ' data-lily-kanban-board-export-group>' -%}
+  {%- if labels.copy -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="copy"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.copy | e) ~ '</button>' -%}{%- endif -%}
   {%- if labels.exportCsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="csv"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.exportCsv | e) ~ '</button>' -%}{%- endif -%}
   {%- if labels.exportTsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="tsv"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.exportTsv | e) ~ '</button>' -%}{%- endif -%}
   {%- if labels.exportExcel -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="xlsx"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.exportExcel | e) ~ '</button>' -%}{%- endif -%}
   {%- set exportHtml = exportHtml ~ '</div>' -%}
 {%- endif -%}
-{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, exportFilename: opts.exportFilename | default("kanban-board"), exportScope: opts.exportScope | default("view"), columns: opts.columns, lanes: lanes, cards: cards, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid } } | dump) -%}
+{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, exportFilename: opts.exportFilename | default("kanban-board"), exportScope: opts.exportScope | default("view"), columns: opts.columns, lanes: lanes, cards: cards, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid, editRefused: labels.editRefused, fieldUndoAnnouncement: labels.fieldUndoAnnouncement, fieldRedoAnnouncement: labels.fieldRedoAnnouncement, copyAnnouncement: labels.copyAnnouncement, copyFailed: labels.copyFailed, searchAnnouncement: labels.searchAnnouncement } } | dump) -%}
 {%- set undoHtml = ('<button type="button" class="kanban-board-undo-button" disabled data-lily-kanban-board-undo>' ~ (labels.undo | e) ~ '</button>') if (opts.undoable and labels.undo and not opts.readonly) else "" -%}
 <div
   class="kanban-board{% if opts.classes %} {{ opts.classes }}{% endif %}"
