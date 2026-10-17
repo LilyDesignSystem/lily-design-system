@@ -876,3 +876,88 @@ describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)
         }
     });
 });
+
+// =====================================================================
+// §8.83 search (0.6.0)
+// =====================================================================
+
+describe("CalendarView — search (§8.83–§8.92)", () => {
+    const SEARCH_EVENTS: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "Standup", values: { room: "Aspen" } },
+        { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "Offsite" },
+        { id: "e3", date: "2026-01-20", title: "Café review" },
+    ];
+    const L: CalendarViewLabels = { ...LABELS, search: "Search events", searchAnnouncement: (m, t) => `${m} of ${t} events` };
+    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: SEARCH_EVENTS, labels: L };
+    const keys = () => [...new Set(Array.from(document.querySelectorAll("[data-event-key]")).map((e) => e.getAttribute("data-event-key")))];
+
+    test("§8.83 the field renders only when labels.search names it", () => {
+        render(CalendarView, { props: { ...base, labels: LABELS } });
+        expect(document.querySelector(".calendar-view-search")).toBeNull();
+    });
+
+    test("§8.84 typing shows only matching events, every word, any order, ignoring case and diacritics", async () => {
+        render(CalendarView, { props: base });
+        const input = screen.getByRole("searchbox", { name: "Search events" });
+        await fireEvent.input(input, { target: { value: "CAFE" } });
+        expect(keys()).toEqual(["e3"]);
+        await fireEvent.input(input, { target: { value: "" } });
+        expect(keys()).toEqual(["e1", "e2", "e3"]);
+    });
+
+    test("§8.85 the month grid shows only matching events too", async () => {
+        render(CalendarView, { props: { ...base, view: "month" as const, day: undefined } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "offsite" } });
+        const titles = Array.from(document.querySelectorAll(".calendar-view-event")).map((e) => e.textContent);
+        expect(titles.every((t) => t === "Offsite")).toBe(true);
+    });
+
+    test("§8.86 the agenda wraps matches in <mark class=calendar-view-match>, only while searching", async () => {
+        render(CalendarView, { props: base });
+        expect(document.querySelector("mark")).toBeNull();
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "stand" } });
+        expect(document.querySelector("mark.calendar-view-match")?.textContent).toBe("Stand");
+    });
+
+    test("§8.87 the default text includes typed field text", async () => {
+        render(CalendarView, { props: { ...base, eventFields: [{ id: "room", header: "Room" }] } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "aspen" } });
+        expect(keys()).toEqual(["e1"]);
+    });
+
+    test("§8.88 searchText replaces what is looked in", async () => {
+        render(CalendarView, { props: { ...base, searchText: (e: CalendarEvent) => e.id } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "e2" } });
+        expect(keys()).toEqual(["e2"]);
+    });
+
+    test("§8.89 the result count is announced", async () => {
+        render(CalendarView, { props: base });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "stand" } });
+        await new Promise((r) => setTimeout(r, 0));
+        expect(document.querySelector(".calendar-view-status")?.textContent).toBe("1 of 3 events");
+    });
+
+    test("§8.90 Escape in the field clears the search", async () => {
+        render(CalendarView, { props: base });
+        const input = screen.getByRole("searchbox") as HTMLInputElement;
+        await fireEvent.input(input, { target: { value: "offsite" } });
+        await fireEvent.keyDown(input, { key: "Escape" });
+        expect(input.value).toBe("");
+        expect(keys()).toEqual(["e1", "e2", "e3"]);
+    });
+
+    test("§8.91 an export holds only what the search leaves", async () => {
+        const onExport = vi.fn(() => false);
+        render(CalendarView, { props: { ...base, exportScope: "all" as const, onExport, labels: { ...L, export: "Export", exportCsv: "CSV", exportHeaders: { title: "Title", start: "From", end: "To" } } } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "offsite" } });
+        await fireEvent.click(screen.getByText("CSV"));
+        expect((onExport.mock.calls[0] as unknown as [{ eventCount: number }])[0].eventCount).toBe(1);
+    });
+
+    test("§8.92 the search prop works without the field", () => {
+        render(CalendarView, { props: { ...base, labels: LABELS, search: "offsite" } });
+        expect(keys()).toEqual(["e2"]);
+    });
+});
+

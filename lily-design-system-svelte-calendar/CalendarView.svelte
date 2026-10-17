@@ -20,6 +20,7 @@
     } from "@lilydesignsystem/svelte-date-time-picker";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
+    import { highlightSegments, matchesSearch } from "./search-text";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -118,6 +119,10 @@
         editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
         /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
         editInvalid?: (eventTitle: string, fieldHeader: string) => string;
+        /** Accessible name of the search field. Gates the field. */
+        search?: string;
+        /** Announced after the search changes: (matching events, all events). */
+        searchAnnouncement?: (matchCount: number, totalCount: number) => string;
     };
 
     export type Props = {
@@ -129,6 +134,10 @@
         anchorDate: string;
         /** Events to place into day cells. */
         events?: CalendarEvent[];
+        /** Search, bindable: shows only the events whose text contains every word of it (any order, ignoring case and diacritics), in every view; the agenda wraps matches in `<mark class="calendar-view-match">`. Exports hold what the search leaves. Escape in the field clears it. Needs `labels.search` for the field; the prop works without. */
+        search?: string;
+        /** The text `search` looks in. Defaults to the event's title and every field's text. */
+        searchText?: (event: CalendarEvent) => string;
         /** Agenda view: also list days with no events. Default false (only days with events). */
         agendaEmptyDays?: boolean;
         /** Cap on events shown per day: the day snippet gets `visibleEvents` (the first `maxEvents`) and `hiddenCount` for a "+N more" control. */
@@ -298,7 +307,9 @@
         label,
         view = $bindable("month"),
         anchorDate = $bindable(),
-        events = [],
+        events: allEvents = [],
+        search = $bindable(""),
+        searchText = undefined,
         maxEvents = undefined,
         agendaEmptyDays = false,
         hideOutsideDays = false,
@@ -337,6 +348,22 @@
     const firstDayOfWeek = $derived(firstDayOfWeekFor(locale));
     const days = $derived.by(() => periodDays(view, anchorDate, firstDayOfWeek));
     const flatDays = $derived(days.flat());
+    const searching = $derived(search.trim() !== "");
+    const defaultSearchText = (e: CalendarEvent): string => [eventTitle(e), ...resolvedFields.map((f) => eventFieldText(f, e))].join(" ");
+    /** The events the search leaves (all of them without one), found once per query / event change. */
+    const events = $derived(searching ? allEvents.filter((e) => matchesSearch((searchText ?? defaultSearchText)(e), search)) : allEvents);
+    let searchAnnounced = $state(false);
+    $effect(() => {
+        const query = search;
+        const matched = events.length;
+        if (!searchAnnounced) {
+            searchAnnounced = true;
+            return;
+        }
+        void query;
+        const message = labels?.searchAnnouncement?.(matched, allEvents.length);
+        if (message) statusMessage = message;
+    });
     const eventMap = $derived.by(() => eventsByDay(events));
 
     // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
@@ -829,6 +856,21 @@
         </div>
     {/if}
 
+    {#if labels?.search}
+        <input
+            type="search"
+            class="calendar-view-search"
+            aria-label={labels.search}
+            bind:value={search}
+            onkeydown={(e) => {
+                if (e.key === "Escape" && search !== "") {
+                    e.preventDefault();
+                    search = "";
+                }
+            }}
+        />
+    {/if}
+
     {#if hasExportButtons}
         <div class="calendar-view-export" role="group" aria-label={labels?.export}>
             {#if labels?.exportCsv}
@@ -867,7 +909,7 @@
                         <ul class="calendar-view-agenda-events">
                             {#each dayEvents as calendarEvent (calendarEvent.id)}
                                 <li data-event-key={calendarEvent.id}>
-                                    <button type="button" class="calendar-view-event" onclick={() => openEvent(calendarEvent)}>{eventTitle(calendarEvent)}</button>
+                                    <button type="button" class="calendar-view-event" onclick={() => openEvent(calendarEvent)}>{#if searching}{#each highlightSegments(eventTitle(calendarEvent), search) as part, i (i)}{#if part.match}<mark class="calendar-view-match">{part.text}</mark>{:else}{part.text}{/if}{/each}{:else}{eventTitle(calendarEvent)}{/if}</button>
                                     {#if resolvedFields.length > 0}
                                         <span class="calendar-view-event-fields">
                                             {#each resolvedFields as f (f.id)}

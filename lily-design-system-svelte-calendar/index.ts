@@ -24,3 +24,5 @@ export { resolveColumn } from "./cell-types";
 export type { DataGridCellType, DataGridOption } from "./cell-types";
 export { draftOf, editorKind, evaluateEdit, exportFieldCell, exportableFields, fieldText, fieldValue, isEditableField, neighbourField, parseDraft, resolveFields } from "./typed-fields";
 export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from "./typed-fields";
+export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
+export type { SearchSegment } from "./search-text";

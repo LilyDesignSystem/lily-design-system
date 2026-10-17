@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-17
+
+- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears. The Gantt chart and calendar gain search (new).
+
 ## 0.5.0 — 2026-10-16
 
 - Added typed event fields (`eventFields`, `event.values`) shown after each event's title in the agenda, with `fieldText` handed to the `day` snippet; uses the data grid's cell types.
