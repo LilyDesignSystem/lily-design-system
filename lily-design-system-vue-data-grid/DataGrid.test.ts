@@ -1501,3 +1501,675 @@ describe("DataGrid — time zone, person, file, rollup and formula types (§8.98
         expect(plain).toContain("<v>42</v>");
     });
 });
+
+
+describe("DataGrid — multi-word, diacritic-blind search; Escape clears (§8.90–§8.94)", () => {
+    const WORLD = [
+        { name: "Zoë Müller", email: "zoe@example.com" },
+        { name: "Bob Stone", email: "bob@example.com" },
+        { name: "Alice Stone", email: "alice@work.org" },
+    ];
+    const run = async (value: string) => {
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: WORLD, labels: LABELS } });
+        await fireEvent.input(screen.getByRole("searchbox", { name: "Search rows" }), { target: { value } });
+        return bodyRows().map((r) => r.textContent ?? "");
+    };
+
+    test("§8.90 every word must appear, in any order", async () => {
+        const rows = await run("stone alice");
+        expect(rows).toHaveLength(1);
+        expect(rows[0]).toContain("Alice");
+    });
+
+    test("§8.91 words may match in different cells of the same row", async () => {
+        const rows = await run("bob example");
+        expect(rows).toHaveLength(1);
+        expect(rows[0]).toContain("Bob");
+    });
+
+    test("§8.92 ignores diacritics both ways", async () => {
+        expect(await run("zoe muller")).toHaveLength(1);
+    });
+
+    test("§8.93 a word that appears nowhere matches no row", async () => {
+        expect(await run("bob work")).toHaveLength(0);
+    });
+
+    test("§8.94 Escape in the search field clears it, restores every row and announces", async () => {
+        const onFilterChange = vi.fn();
+        render(DataGrid, { props: { label: "Users", columns: COLUMNS, rows: WORLD, labels: LABELS, "onUpdate:filter": onFilterChange } });
+        const search = screen.getByRole("searchbox", { name: "Search rows" }) as HTMLInputElement;
+        await fireEvent.input(search, { target: { value: "alice" } });
+        await fireEvent.keyDown(search, { key: "Escape" });
+        await nextTick();
+        expect(onFilterChange).toHaveBeenLastCalledWith("");
+        expect(bodyRows()).toHaveLength(3);
+        expect(search.value).toBe("");
+    });
+});
+
+describe("DataGrid — rowFilter and multi-column sort (§8.95–§8.105)", () => {
+    const ppl = [
+        { name: "Bob", team: "b", age: 30 },
+        { name: "Alice", team: "a", age: 40 },
+        { name: "Cara", team: "a", age: 30 },
+        { name: "Dan", team: "b", age: 40 },
+    ];
+    const cols: DataGridColumn[] = [
+        { id: "name", header: "Name", sortable: true },
+        { id: "team", header: "Team", sortable: true },
+        { id: "age", header: "Age", sortable: true, type: "number" },
+    ];
+    const names = () => bodyRows().map((r) => r.querySelector("td")!.textContent?.trim());
+    const header = (n: string) => screen.getByRole("button", { name: n });
+
+    test("§8.95 rowFilter hides the rows it rejects", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, rowFilter: (r: Record<string, unknown>) => r.team === "a" } });
+        expect(names()).toEqual(["Alice", "Cara"]);
+    });
+
+    test("§8.96 rowFilter combines with the text filter", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, rowFilter: (r: Record<string, unknown>) => r.team === "a", filter: "cara" } });
+        expect(names()).toEqual(["Cara"]);
+    });
+
+    test("§8.97 Shift+click adds a secondary sort key that breaks ties", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        await fireEvent.click(header("Team")); // team ascending
+        await fireEvent.click(header("Age"), { shiftKey: true }); // then age ascending
+        expect(names()).toEqual(["Cara", "Alice", "Bob", "Dan"]);
+    });
+
+    test("§8.98 the secondary key cycles ascending → descending → off", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        await fireEvent.click(header("Team"));
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        expect(names()).toEqual(["Alice", "Cara", "Dan", "Bob"]);
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        expect(names()).toEqual(["Alice", "Cara", "Bob", "Dan"]);
+    });
+
+    test("§8.99 headers carry aria-sort for every key and data-sort-order while more than one is set", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        const th = (id: string) => document.querySelector(`th:nth-child(${["name", "team", "age"].indexOf(id) + 1})`)!;
+        await fireEvent.click(header("Team"));
+        expect(th("team").hasAttribute("data-sort-order")).toBe(false);
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        expect(th("team").getAttribute("data-sort-order")).toBe("1");
+        expect(th("age").getAttribute("data-sort-order")).toBe("2");
+        expect(th("age").getAttribute("aria-sort")).toBe("ascending");
+        expect(th("name").getAttribute("aria-sort")).toBe("none");
+    });
+
+    test("§8.100 a plain click sets the primary key alone and clears the secondary ones", async () => {
+        const onThenByChange = vi.fn();
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS, "onUpdate:thenBy": onThenByChange } });
+        await fireEvent.click(header("Team"));
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        await fireEvent.click(header("Name"));
+        expect(onThenByChange).toHaveBeenLastCalledWith([]);
+        expect(names()).toEqual(["Alice", "Bob", "Cara", "Dan"]);
+    });
+
+    test("§8.101 Shift+click with no primary key behaves as a plain click", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        await fireEvent.click(header("Name"), { shiftKey: true });
+        expect(names()).toEqual(["Alice", "Bob", "Cara", "Dan"]);
+    });
+
+    test("§8.102 thenBy is bindable input: it can be preset", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, sort: { columnId: "team", direction: "ascending" }, thenBy: [{ columnId: "age", direction: "descending" }] } });
+        expect(names()).toEqual(["Alice", "Cara", "Dan", "Bob"]); // team a by age descending: Alice(40) Cara(30); team b: Dan(40) Bob(30)
+    });
+});
+
+describe("DataGrid — copy to clipboard (§8.103–§8.106)", () => {
+    const L = { ...LABELS, copy: "Copy", copyAnnouncement: (n: number) => `${n} rows copied`, copyFailed: "Copy failed" };
+
+    test("§8.103 the copy button renders only when labels.copy names it", () => {
+        render(DataGrid, { props: { label: "U", columns: COLUMNS, rows: ROWS, labels: LABELS } });
+        expect(document.querySelector('[data-grid-export-format="copy"]')).toBeNull();
+    });
+
+    test("§8.104 copy puts the export on the clipboard (header first, tab-separated) and announces", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        render(DataGrid, { props: { label: "U", columns: COLUMNS, rows: ROWS, labels: L } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await nextTick();
+        await new Promise((r) => setTimeout(r, 0));
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text.split("\r\n")[0]).toBe("Name\tEmail");
+        expect(text).toContain("Bob\tbob@example.com");
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("2 rows copied");
+        vi.unstubAllGlobals();
+    });
+
+    test("§8.105 copy holds the filtered view, as an export does", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        render(DataGrid, { props: { label: "U", columns: COLUMNS, rows: ROWS, labels: L, filter: "alice" } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await new Promise((r) => setTimeout(r, 0));
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text).toContain("Alice");
+        expect(text).not.toContain("Bob");
+        vi.unstubAllGlobals();
+    });
+
+    test("§8.106 onCopy can take over (nothing is written) and a failed write is announced", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        const onCopy = vi.fn(() => false);
+        render(DataGrid, { props: { label: "U", columns: COLUMNS, rows: ROWS, labels: L, copyHandler: onCopy } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await new Promise((r) => setTimeout(r, 0));
+        expect(onCopy).toHaveBeenCalled();
+        expect(writeText).not.toHaveBeenCalled();
+        vi.unstubAllGlobals();
+
+        vi.stubGlobal("navigator", { clipboard: { writeText: async () => { throw new Error("denied"); } } });
+        (document as unknown as { execCommand: unknown }).execCommand = () => false;
+        document.body.innerHTML = "";
+        render(DataGrid, { props: { label: "U", columns: COLUMNS, rows: ROWS, labels: L } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await new Promise((r) => setTimeout(r, 0));
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("Copy failed");
+        vi.unstubAllGlobals();
+    });
+});
+
+describe("DataGrid — type-ahead (§8.107–§8.110)", () => {
+    const people = [
+        { name: "Alice", team: "Red" },
+        { name: "Bob", team: "Blue" },
+        { name: "Bella", team: "Green" },
+        { name: "Cara", team: "Blue" },
+    ];
+    const cols: DataGridColumn[] = [
+        { id: "name", header: "Name" },
+        { id: "team", header: "Team" },
+    ];
+    const body = () => Array.from(document.querySelectorAll<HTMLElement>("tbody [data-row][data-col]"));
+    const active = () => document.querySelector<HTMLElement>('[data-row][data-col][tabindex="0"]')!;
+    const rowOf = (el: HTMLElement) => Number(el.dataset.row);
+    /** Put the cursor on the first body row (the grid starts on its header). */
+    const intoBody = async () => {
+        await fireEvent.keyDown(active(), { key: "ArrowDown" });
+        expect(rowOf(active())).toBe(0);
+    };
+
+    test("§8.107 typing a letter moves to the next row whose cell in this column starts with it", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "b" });
+        expect(rowOf(active())).toBe(1);
+        await new Promise((r) => setTimeout(r, 800));
+        await fireEvent.keyDown(active(), { key: "b" });
+        expect(rowOf(active())).toBe(2);
+    });
+
+    test("§8.108 it searches the column the cursor is in", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "ArrowRight" }); // the team column
+        await fireEvent.keyDown(active(), { key: "g" });
+        expect(rowOf(active())).toBe(2);
+        expect(Number(active().dataset.col)).toBe(1);
+    });
+
+    test("§8.109 a prefix in quick succession narrows: b, e → Bella", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "b" });
+        await fireEvent.keyDown(active(), { key: "e" });
+        expect(rowOf(active())).toBe(2);
+    });
+
+    test("§8.110 Ctrl and Alt keys and an unmatched prefix leave the cursor where it is", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "b", ctrlKey: true });
+        await fireEvent.keyDown(active(), { key: "z" });
+        expect(rowOf(active())).toBe(0);
+    });
+});
+
+describe("DataGrid — undo and redo of cell edits (§8.111–§8.116)", () => {
+    const COLS: DataGridColumn[] = [
+        { id: "name", header: "Name", editable: true },
+        { id: "age", header: "Age", editable: true, editor: "number" },
+    ];
+    const ROWS2 = [{ name: "Ann", age: 30 }, { name: "Bob", age: 40 }];
+    const L = { undoAnnouncement: (h: string, t: string) => `Undid ${h}: ${t}`, redoAnnouncement: (h: string, t: string) => `Redid ${h}: ${t}` };
+    const cell = (row: number, col: number) => document.querySelector<HTMLElement>(`.data-table-body [data-row="${row}"][data-col="${col}"]`)!;
+    const status = () => document.querySelector(".data-grid-status")?.textContent;
+
+    async function edit(row: number, col: number, value: string, name: string): Promise<void> {
+        await fireEvent.keyDown(cell(row, col), { key: "F2" });
+        const input = screen.getByRole(col === 1 ? "spinbutton" : "textbox", { name }) as HTMLInputElement;
+        await fireEvent.input(input, { target: { value } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+    }
+
+    test("§8.111 Ctrl+Z reports the earlier value through onCellEdit and announces it", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Ann", previous: "Bea" });
+        expect(status()).toBe("Undid Name: Ann");
+    });
+
+    test("§8.112 Ctrl+Shift+Z and Ctrl+Y redo", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true, shiftKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Bea", previous: "Ann" });
+        expect(status()).toBe("Redid Name: Bea");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(0, 0), { key: "y", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Bea", previous: "Ann" });
+    });
+
+    test("§8.113 undo walks back across cells, newest first", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await edit(1, 1, "41", "Age");
+        await fireEvent.keyDown(cell(1, 1), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "1", row: ROWS2[1], columnId: "age", value: 40, previous: 41 });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Ann", previous: "Bea" });
+    });
+
+    test("§8.114 with nothing to undo Ctrl+Z does nothing, and a new edit ends the redo chain", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await edit(0, 0, "Cy", "Name");
+        onCellEdit.mockClear();
+        await fireEvent.keyDown(cell(0, 0), { key: "y", ctrlKey: true });
+        expect(onCellEdit).not.toHaveBeenCalled();
+    });
+
+    test("§8.115 an undo is not itself recorded, so redo returns to the edit", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenCalledTimes(2); // the edit and one undo; the second Ctrl+Z had nothing left
+    });
+
+    test("§8.116 without onCellEdit, Ctrl+Z does nothing", async () => {
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, labels: L } });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(status() ?? "").toBe("");
+    });
+});
+
+describe("DataGrid — empty values, nulls first or last, locale-aware text sort (§8.117–§8.126)", () => {
+    const cols: DataGridColumn[] = [
+        { id: "name", header: "Name", sortable: true },
+        { id: "note", header: "Note" },
+    ];
+    const rows3 = [
+        { name: "Item 10", note: "a" },
+        { name: null, note: "" },
+        { name: "Item 2", note: null },
+        { name: "Äpfel", note: undefined },
+    ];
+    const col0 = () => bodyRows().map((r) => r.querySelector("td")!.textContent?.trim());
+    const sortBy = async (header: string) => fireEvent.click(screen.getByRole("button", { name: header }));
+
+    test("§8.117 without emptyValue a missing value shows nothing, and its cell is data-empty", () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3 } });
+        const cells = bodyRows().map((r) => r.querySelectorAll("td")[1]);
+        expect(cells.map((c) => c.textContent?.trim())).toEqual(["a", "", "", ""]);
+        expect(cells.map((c) => c.hasAttribute("data-empty"))).toEqual([false, true, true, true]);
+    });
+
+    test("§8.118 emptyValue is shown for null, undefined and an empty string, never for a real value", () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, emptyValue: "—" } });
+        expect(bodyRows().map((r) => r.querySelectorAll("td")[1].textContent?.trim())).toEqual(["a", "—", "—", "—"]);
+        expect(col0()).toEqual(["Item 10", "—", "Item 2", "Äpfel"]);
+    });
+
+    test("§8.119 a column's own emptyValue wins over the grid's", () => {
+        render(DataGrid, { props: { label: "G", columns: [cols[0], { ...cols[1], emptyValue: "n/a" }], rows: rows3, emptyValue: "—" } });
+        expect(bodyRows()[1].querySelectorAll("td")[1].textContent?.trim()).toBe("n/a");
+        expect(col0()[1]).toBe("—");
+    });
+
+    test("§8.120 emptyValue never reaches an export", async () => {
+        const onCopy = vi.fn(() => false);
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, emptyValue: "—", onCopy, labels: { ...LABELS, copy: "Copy" } } });
+        await fireEvent.click(screen.getByText("Copy"));
+        expect((onCopy.mock.calls[0] as unknown as [{ text: string }])[0].text).not.toContain("—");
+    });
+
+    test("§8.121 missing values sort last in both directions by default", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, labels: LABELS } });
+        await sortBy("Name");
+        expect(col0().at(-1)).toBe("");
+        await sortBy("Name");
+        expect(col0().at(-1)).toBe("");
+    });
+
+    test("§8.122 nulls=first puts them first in both directions", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, nulls: "first", labels: LABELS } });
+        await sortBy("Name");
+        expect(col0()[0]).toBe("");
+        await sortBy("Name");
+        expect(col0()[0]).toBe("");
+    });
+
+    test("§8.123 without a locale text sorts by code point", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, labels: LABELS } });
+        await sortBy("Name");
+        expect(col0()).toEqual(["Item 10", "Item 2", "Äpfel", ""]);
+    });
+
+    test("§8.124 with a locale text sorts with Intl.Collator: numbers by value, accents with their letter", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows3, locale: "de", labels: LABELS } });
+        await sortBy("Name");
+        expect(col0()).toEqual(["Äpfel", "Item 2", "Item 10", ""]);
+        await sortBy("Name");
+        expect(col0()).toEqual(["Item 10", "Item 2", "Äpfel", ""]);
+    });
+
+    test("§8.125 a column's own locale overrides the grid's for sorting", async () => {
+        const swedish = [{ name: "Zebra" }, { name: "Åsa" }, { name: "Anna" }];
+        render(DataGrid, { props: { label: "G", columns: [{ ...cols[0], locale: "sv" }], rows: swedish, locale: "de", labels: LABELS } });
+        await sortBy("Name");
+        expect(col0()).toEqual(["Anna", "Zebra", "Åsa"]);
+    });
+
+    test("§8.126 a column's own compare still wins over the collator", async () => {
+        render(DataGrid, { props: { label: "G", columns: [{ ...cols[0], compare: (a, b) => String(b).length - String(a).length }], rows: [{ name: "aa" }, { name: "a" }, { name: "aaa" }], locale: "de", labels: LABELS } });
+        await sortBy("Name");
+        expect(col0()).toEqual(["aaa", "aa", "a"]);
+    });
+});
+
+describe("DataGrid — missing-label warning (§8.127–§8.131)", () => {
+    const cols: DataGridColumn[] = [{ id: "name", header: "Name", sortable: true }];
+    const rows1 = [{ name: "a" }];
+    const warnings = () => (console.warn as unknown as { mock: { calls: string[][] } }).mock.calls.map((c) => c[0]).filter((m) => m.startsWith("[data-grid]"));
+
+    beforeEach(() => {
+        vi.spyOn(console, "warn").mockImplementation(() => {});
+    });
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    test("§8.127 a bare grid logs nothing", async () => {
+        render(DataGrid, { props: { label: "G", columns: [{ id: "name", header: "Name" }], rows: rows1 } });
+        await nextTick();
+        expect(warnings()).toEqual([]);
+    });
+
+    test("§8.128 features that need labels the bundle lacks are named, controls apart from announcements", async () => {
+        render(DataGrid, { props: { label: "Users", columns: cols, rows: rows1, selectionMode: "multiple", pageSize: 5 } });
+        await nextTick();
+        const [message] = warnings();
+        expect(message).toContain('"Users"');
+        expect(message).toContain("controls with no name: selectAll, selectionColumn, selectRow, previousPage, nextPage, pageStatus");
+        expect(message).toContain("silent announcements:");
+        expect(message).toContain("sortAnnouncement");
+    });
+
+    test("§8.129 a complete bundle for the features in use logs nothing", async () => {
+        const labels = {
+            selectAll: "a", selectionColumn: "b", selectRow: () => "c", selectionAnnouncement: () => "d", previousPage: "e", nextPage: "f", pageStatus: () => "g", pageAnnouncement: () => "h", sortAnnouncement: () => "i",
+        };
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows1, selectionMode: "multiple", pageSize: 5, labels } });
+        await nextTick();
+        expect(warnings()).toEqual([]);
+    });
+
+    test("§8.130 each missing label is reported once, not on every render", async () => {
+        const { rerender } = render(DataGrid, { props: { label: "G", columns: cols, rows: rows1 } });
+        await nextTick();
+        expect(warnings()).toHaveLength(1);
+        await rerender({ label: "G", columns: cols, rows: [{ name: "a" }, { name: "b" }] });
+        await nextTick();
+        expect(warnings()).toHaveLength(1);
+    });
+
+    test("§8.131 warnMissingLabels=false silences it", async () => {
+        render(DataGrid, { props: { label: "G", columns: cols, rows: rows1, selectionMode: "multiple", warnMissingLabels: false } });
+        await nextTick();
+        expect(warnings()).toEqual([]);
+    });
+});
+
+describe("DataGrid — field-specific search, movable columns, right-to-left keys (§8.132–§8.146)", () => {
+    const people = [
+        { name: "Ann Lee", team: "Lee Team" },
+        { name: "Bob", team: "Red" },
+        { name: "Cara", team: "Lee" },
+    ];
+    const cols: DataGridColumn[] = [
+        { id: "name", header: "Name" },
+        { id: "team", header: "Team" },
+    ];
+    const L = { ...LABELS, searchField: "Search in", searchAllFields: "All columns" };
+    const names = () => bodyRows().map((r) => r.querySelector("td")!.textContent?.trim());
+    const body = () => Array.from(document.querySelectorAll<HTMLElement>("tbody [data-row][data-col]"));
+    const active = () => document.querySelector<HTMLElement>('[data-row][data-col][tabindex="0"]')!;
+
+    test("§8.132 the field select shows only when labels.searchField and searchAllFields name it", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people, labels: LABELS } });
+        expect(document.querySelector(".data-grid-search-field")).toBeNull();
+        document.body.innerHTML = "";
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people, labels: { ...LABELS, searchField: "Search in" } } });
+        expect(document.querySelector(".data-grid-search-field")).toBeNull();
+    });
+
+    test("§8.133 it offers every column after an all-columns option, named by its label", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people, labels: L } });
+        const select = screen.getByRole("combobox", { name: "Search in" }) as HTMLSelectElement;
+        expect(Array.from(select.options).map((o) => o.textContent)).toEqual(["All columns", "Name", "Team"]);
+        expect(select.value).toBe("");
+    });
+
+    test("§8.134 choosing a column limits the search to it; all columns searches the row", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people, labels: L } });
+        await fireEvent.input(screen.getByRole("searchbox", { name: "Search rows" }), { target: { value: "lee" } });
+        expect(names()).toEqual(["Ann Lee", "Cara"]); // Ann in the name, Cara in the team... and Bob is out
+        await fireEvent.change(screen.getByRole("combobox", { name: "Search in" }), { target: { value: "name" } });
+        expect(names()).toEqual(["Ann Lee"]);
+        await fireEvent.change(screen.getByRole("combobox", { name: "Search in" }), { target: { value: "team" } });
+        expect(names()).toEqual(["Ann Lee", "Cara"]);
+    });
+
+    test("§8.135 changing the field reports it, announces the count and returns to page 1", async () => {
+        const onFilterFieldChange = vi.fn();
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people, labels: L, "onUpdate:filterField": onFilterFieldChange, filter: "lee" } });
+        await fireEvent.change(screen.getByRole("combobox", { name: "Search in" }), { target: { value: "name" } });
+        expect(onFilterFieldChange).toHaveBeenCalledWith("name");
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("1 of 3 rows match");
+    });
+
+    test("§8.136 filterField can be preset, and a column with filterable false is not offered", () => {
+        render(DataGrid, { props: { label: "P", columns: [cols[0], { ...cols[1], filterable: false }], rows: people, labels: L, filterField: "name", filter: "bob" } });
+        expect(Array.from((document.querySelector(".data-grid-search-field") as HTMLSelectElement).options).map((o) => o.value)).toEqual(["", "name"]);
+        expect(names()).toEqual(["Bob"]);
+    });
+
+    test("§8.137 movableColumns makes every column draggable, and a column's own movable=false opts out", () => {
+        render(DataGrid, { props: { label: "P", columns: [cols[0], { ...cols[1], movable: false }], rows: people, movableColumns: true } });
+        const heads = Array.from(document.querySelectorAll("thead th"));
+        expect(heads[0].getAttribute("draggable")).toBe("true");
+        expect(heads[1].hasAttribute("draggable")).toBe(false);
+    });
+
+    test("§8.138 without movableColumns nothing is draggable unless the column says so", () => {
+        render(DataGrid, { props: { label: "P", columns: [cols[0], { ...cols[1], movable: true }], rows: people } });
+        const heads = Array.from(document.querySelectorAll("thead th"));
+        expect(heads[0].hasAttribute("draggable")).toBe(false);
+        expect(heads[1].getAttribute("draggable")).toBe("true");
+    });
+
+    test("§8.139 Alt+ArrowRight on a movable header moves the column along", async () => {
+        const onColumnOrderChange = vi.fn();
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people, movableColumns: true, "onUpdate:columnOrder": onColumnOrderChange } });
+        await fireEvent.keyDown(document.querySelector("thead th")!, { key: "ArrowRight", altKey: true });
+        expect(Array.from(document.querySelectorAll("thead th")).map((h) => h.textContent?.trim())).toEqual(["Team", "Name"]);
+    });
+
+    test("§8.140 in left-to-right, ArrowRight goes to the next cell and ArrowLeft back", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await fireEvent.keyDown(active(), { key: "ArrowDown" });
+        await fireEvent.keyDown(active(), { key: "ArrowRight" });
+        expect(Number(active().dataset.col)).toBe(1);
+        await fireEvent.keyDown(active(), { key: "ArrowLeft" });
+        expect(Number(active().dataset.col)).toBe(0);
+    });
+
+    test("§8.141 in right-to-left the horizontal arrows swap: ArrowLeft goes to the next cell", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+            await fireEvent.keyDown(active(), { key: "ArrowDown" });
+            await fireEvent.keyDown(active(), { key: "ArrowLeft" });
+            expect(Number(active().dataset.col)).toBe(1);
+            await fireEvent.keyDown(active(), { key: "ArrowRight" });
+            expect(Number(active().dataset.col)).toBe(0);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.142 vertical keys, Home and End are the same in both directions", async () => {
+        for (const dir of ["ltr", "rtl"]) {
+            document.body.innerHTML = "";
+            document.body.setAttribute("dir", dir);
+            render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+            await fireEvent.keyDown(active(), { key: "ArrowDown" });
+            await fireEvent.keyDown(active(), { key: "ArrowDown" });
+            expect(Number(active().dataset.row)).toBe(1);
+            await fireEvent.keyDown(active(), { key: "End" });
+            expect(Number(active().dataset.col)).toBe(1);
+            await fireEvent.keyDown(active(), { key: "Home" });
+            expect(Number(active().dataset.col)).toBe(0);
+        }
+        document.body.removeAttribute("dir");
+    });
+
+    test("§8.143 Alt+Arrow column moves follow the visual direction in right-to-left", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            render(DataGrid, { props: { label: "P", columns: cols, rows: people, movableColumns: true } });
+            await fireEvent.keyDown(document.querySelector("thead th")!, { key: "ArrowLeft", altKey: true });
+            expect(Array.from(document.querySelectorAll("thead th")).map((h) => h.textContent?.trim())).toEqual(["Team", "Name"]);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.144 an inner dir=ltr island inside an rtl page reads left to right", async () => {
+        document.body.setAttribute("dir", "rtl");
+        const island = document.createElement("div");
+        island.setAttribute("dir", "ltr");
+        document.body.appendChild(island);
+        try {
+            render(DataGrid, { container: island, props: { label: "P", columns: cols, rows: people } });
+            await fireEvent.keyDown(active(), { key: "ArrowDown" });
+            await fireEvent.keyDown(active(), { key: "ArrowRight" });
+            expect(Number(active().dataset.col)).toBe(1);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.145 body cells exist for every row (sanity for the helpers above)", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        expect(body()).toHaveLength(6);
+    });
+
+    test("§8.146 rowAttrs puts test ids and data attributes on each row", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people, rowAttrs: (row: Record<string, unknown>) => ({ "data-testid": `row-${row.name}`, "data-team": row.team }) } });
+        expect(document.querySelector('[data-testid="row-Bob"]')?.getAttribute("data-team")).toBe("Red");
+        expect(bodyRows().every((r) => r.hasAttribute("data-testid"))).toBe(true);
+    });
+});
+
+describe("DataGrid — renders in another language with no English left over (§8.147–§8.148)", () => {
+    // A complete Simplified Chinese bundle, data and headers in Chinese too: any English left in the DOM is Lily's.
+    const ZH: DataGridLabels = {
+        search: "搜索行", searchField: "搜索范围", searchAllFields: "所有列",
+        columnVisibility: "显示的列", columnVisibilityOption: (h) => `显示${h}`, resizeHandle: (h) => `调整${h}的宽度`,
+        selectAll: "全选", selectionColumn: "选择", selectRow: (r) => `选择${r}`,
+        previousPage: "上一页", nextPage: "下一页", pageStatus: (p, n, c) => `第 ${p} 页，共 ${n} 页（${c} 行）`,
+        pageAnnouncement: (p, n) => `第 ${p} 页，共 ${n} 页`, sortAnnouncement: (h, d) => `${h}已排序：${d}`,
+        filterAnnouncement: (m, t) => `${t} 行中有 ${m} 行匹配`, selectionAnnouncement: (n) => `已选择 ${n} 行`,
+        export: "导出", exportCsv: "CSV", exportTsv: "TSV", exportExcel: "Excel", exportAnnouncement: (f, n, name) => `已导出 ${n} 行：${name}`,
+        copy: "复制", copyAnnouncement: (n) => `已复制 ${n} 行`, copyFailed: "复制失败",
+        editCell: (h, r) => `编辑${h}：${r}`, cellEditor: (h) => `${h}编辑器`, editAnnouncement: (h, v) => `${h}现为${v}`,
+        editCancelAnnouncement: (h) => `已取消编辑${h}`, editError: (h, m) => `${h}：${m}`, undoAnnouncement: (h, t) => `已撤销${h}：${t}`, redoAnnouncement: (h, t) => `已重做${h}：${t}`,
+    };
+    const cols: DataGridColumn[] = [
+        { id: "name", header: "姓名", sortable: true, resizable: true, hidable: true, editable: true },
+        { id: "team", header: "团队", sortable: true },
+    ];
+    const rows3 = [{ name: "王芳", team: "红队" }, { name: "李伟", team: "蓝队" }, { name: "张敏", team: "红队" }];
+
+    /** Every piece of text a user could read or hear from `root`: text nodes and the text attributes. */
+    function readable(root: Element): string[] {
+        const out: string[] = [];
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) out.push(n.textContent ?? "");
+        for (const el of root.querySelectorAll("*")) for (const a of ["aria-label", "title", "placeholder", "alt"]) if (el.hasAttribute(a)) out.push(el.getAttribute(a)!);
+        return out.map((t) => t.trim()).filter(Boolean);
+    }
+    const english = (texts: string[]) => texts.filter((t) => /[A-Za-z]{3,}/.test(t));
+
+    test("§8.147 with a full Chinese bundle the toolbar, headers, cells, selection and pagination read as Chinese only", async () => {
+        const { container } = render(DataGrid, {
+            props: { label: "用户", columns: cols, rows: rows3, labels: ZH, locale: "zh-CN", selectionMode: "multiple", pageSize: 2, onCellEdit: () => {} },
+        });
+        // CSV / TSV / Excel are file formats, not words of any language.
+        expect(english(readable(container).filter((t) => !["CSV", "TSV", "Excel"].includes(t)))).toEqual([]);
+    });
+
+    test("§8.148 every announcement is the bundle's own text, so none is English", async () => {
+        render(DataGrid, { props: { label: "用户", columns: cols, rows: rows3, labels: ZH, locale: "zh-CN" } });
+        await fireEvent.click(screen.getByRole("button", { name: "姓名" }));
+        // `sortAnnouncement` is handed the ARIA token ("ascending" / "descending" / "none"); the bundle decides what to say with it.
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("姓名已排序：ascending");
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "王" } });
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("3 行中有 1 行匹配");
+    });
+});
+
+
+describe("DataGrid — a labelled pager landmark from the headless PaginationNav (§8.148–§8.149)", () => {
+    const run = (labels: Record<string, unknown>) =>
+        render(DataGrid, { props: { label: "U", columns: COLUMNS, rows: ROWS, pageSize: 1, labels: { ...LABELS, ...labels } } });
+
+    test("§8.148 labels.pagination makes the pager a <nav> named by it, keeping the data-grid-pagination hook", () => {
+        run({ pagination: "Pages" });
+        const nav = screen.getByRole("navigation", { name: "Pages" });
+        expect(nav.tagName).toBe("NAV");
+        expect(nav.classList.contains("data-grid-pagination")).toBe(true);
+        expect(nav.querySelector(".data-grid-page-previous")).not.toBeNull();
+        expect(nav.querySelector(".data-grid-page-status")).not.toBeNull();
+    });
+
+    test("§8.149 without labels.pagination the pager is the plain div it always was", () => {
+        run({});
+        const pager = document.querySelector(".data-grid-pagination")!;
+        expect(pager.tagName).toBe("DIV");
+        expect(screen.queryByRole("navigation")).toBeNull();
+    });
+});
