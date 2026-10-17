@@ -154,7 +154,7 @@
         {
           "title": "Svelte helper packages",
           "url": "spec/helpers/index.md#svelte-helper-packages",
-          "description": "The canonical helpers, one top-level subproject each: the ten pickers, picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter (Svelte only so far)."
+          "description": "The canonical helpers, one top-level subproject each: the ten pickers, picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter."
         },
         {
           "title": "lily-design-system-skill",

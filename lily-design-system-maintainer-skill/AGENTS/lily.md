@@ -47,7 +47,7 @@ The Svelte helpers (canonical reference) are one top-level subproject per packag
 
 - [`lily-design-system-svelte-data-grid`](../lily-design-system-svelte-data-grid) — `@lilydesignsystem/svelte-data-grid`
 - [`lily-design-system-svelte-date-time-picker`](../lily-design-system-svelte-date-time-picker) — `@lilydesignsystem/svelte-date-time-picker`
-- [`lily-design-system-svelte-filter`](../lily-design-system-svelte-filter) — `@lilydesignsystem/svelte-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (Svelte only so far)
+- [`lily-design-system-svelte-filter`](../lily-design-system-svelte-filter) — `@lilydesignsystem/svelte-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17; ported to all eight catalogs)
 - [`lily-design-system-svelte-kanban-board`](../lily-design-system-svelte-kanban-board) — `@lilydesignsystem/svelte-kanban-board`
 - [`lily-design-system-svelte-link-picker`](../lily-design-system-svelte-link-picker) — `@lilydesignsystem/svelte-link-picker`
 - [`lily-design-system-svelte-locale-picker`](../lily-design-system-svelte-locale-picker) — `@lilydesignsystem/svelte-locale-picker`
@@ -66,6 +66,7 @@ The React helpers, one top-level subproject per package since 2026-10-10 (`bin/l
 
 - [`lily-design-system-react-data-grid`](../lily-design-system-react-data-grid) — `@lilydesignsystem/react-data-grid`
 - [`lily-design-system-react-date-time-picker`](../lily-design-system-react-date-time-picker) — `@lilydesignsystem/react-date-time-picker`
+- [`lily-design-system-react-filter`](../lily-design-system-react-filter) — `@lilydesignsystem/react-filter`
 - [`lily-design-system-react-kanban-board`](../lily-design-system-react-kanban-board) — `@lilydesignsystem/react-kanban-board`
 - [`lily-design-system-react-link-picker`](../lily-design-system-react-link-picker) — `@lilydesignsystem/react-link-picker`
 - [`lily-design-system-react-locale-picker`](../lily-design-system-react-locale-picker) — `@lilydesignsystem/react-locale-picker`
@@ -84,6 +85,7 @@ The Vue helpers, one top-level subproject per package since 2026-10-10 (`bin/lis
 
 - [`lily-design-system-vue-data-grid`](../lily-design-system-vue-data-grid) — `@lilydesignsystem/vue-data-grid`
 - [`lily-design-system-vue-date-time-picker`](../lily-design-system-vue-date-time-picker) — `@lilydesignsystem/vue-date-time-picker`
+- [`lily-design-system-vue-filter`](../lily-design-system-vue-filter) — `@lilydesignsystem/vue-filter`
 - [`lily-design-system-vue-kanban-board`](../lily-design-system-vue-kanban-board) — `@lilydesignsystem/vue-kanban-board`
 - [`lily-design-system-vue-link-picker`](../lily-design-system-vue-link-picker) — `@lilydesignsystem/vue-link-picker`
 - [`lily-design-system-vue-locale-picker`](../lily-design-system-vue-locale-picker) — `@lilydesignsystem/vue-locale-picker`
@@ -102,6 +104,7 @@ The Angular helpers, one top-level subproject per package since 2026-10-10 (`bin
 
 - [`lily-design-system-angular-data-grid`](../lily-design-system-angular-data-grid) — `@lilydesignsystem/angular-data-grid`
 - [`lily-design-system-angular-date-time-picker`](../lily-design-system-angular-date-time-picker) — `@lilydesignsystem/angular-date-time-picker`
+- [`lily-design-system-angular-filter`](../lily-design-system-angular-filter) — `@lilydesignsystem/angular-filter`
 - [`lily-design-system-angular-kanban-board`](../lily-design-system-angular-kanban-board) — `@lilydesignsystem/angular-kanban-board`
 - [`lily-design-system-angular-link-picker`](../lily-design-system-angular-link-picker) — `@lilydesignsystem/angular-link-picker`
 - [`lily-design-system-angular-locale-picker`](../lily-design-system-angular-locale-picker) — `@lilydesignsystem/angular-locale-picker`
@@ -120,6 +123,7 @@ The HTML helpers, one top-level subproject per package since 2026-10-10 (`bin/li
 
 - [`lily-design-system-html-data-grid`](../lily-design-system-html-data-grid) — `@lilydesignsystem/html-data-grid`
 - [`lily-design-system-html-date-time-picker`](../lily-design-system-html-date-time-picker) — `@lilydesignsystem/html-date-time-picker`
+- [`lily-design-system-html-filter`](../lily-design-system-html-filter) — `@lilydesignsystem/html-filter`
 - [`lily-design-system-html-kanban-board`](../lily-design-system-html-kanban-board) — `@lilydesignsystem/html-kanban-board`
 - [`lily-design-system-html-link-picker`](../lily-design-system-html-link-picker) — `@lilydesignsystem/html-link-picker`
 - [`lily-design-system-html-locale-picker`](../lily-design-system-html-locale-picker) — `@lilydesignsystem/html-locale-picker`
@@ -138,6 +142,7 @@ The Web Components helpers, one top-level subproject per package since 2026-10-1
 
 - [`lily-design-system-web-components-data-grid`](../lily-design-system-web-components-data-grid) — `@lilydesignsystem/web-components-data-grid`
 - [`lily-design-system-web-components-date-time-picker`](../lily-design-system-web-components-date-time-picker) — `@lilydesignsystem/web-components-date-time-picker`
+- [`lily-design-system-web-components-filter`](../lily-design-system-web-components-filter) — `@lilydesignsystem/web-components-filter`
 - [`lily-design-system-web-components-kanban-board`](../lily-design-system-web-components-kanban-board) — `@lilydesignsystem/web-components-kanban-board`
 - [`lily-design-system-web-components-link-picker`](../lily-design-system-web-components-link-picker) — `@lilydesignsystem/web-components-link-picker`
 - [`lily-design-system-web-components-locale-picker`](../lily-design-system-web-components-locale-picker) — `@lilydesignsystem/web-components-locale-picker`
@@ -156,6 +161,7 @@ The Nunjucks helpers, one top-level subproject per package since 2026-10-10 (`bi
 
 - [`lily-design-system-nunjucks-data-grid`](../lily-design-system-nunjucks-data-grid) — `@lilydesignsystem/nunjucks-data-grid`
 - [`lily-design-system-nunjucks-date-time-picker`](../lily-design-system-nunjucks-date-time-picker) — `@lilydesignsystem/nunjucks-date-time-picker`
+- [`lily-design-system-nunjucks-filter`](../lily-design-system-nunjucks-filter) — `@lilydesignsystem/nunjucks-filter`
 - [`lily-design-system-nunjucks-link-picker`](../lily-design-system-nunjucks-link-picker) — `@lilydesignsystem/nunjucks-link-picker`
 - [`lily-design-system-nunjucks-listbox-behavior`](../lily-design-system-nunjucks-listbox-behavior) — `@lilydesignsystem/nunjucks-listbox-behavior`
 - [`lily-design-system-nunjucks-menu-picker`](../lily-design-system-nunjucks-menu-picker) — `@lilydesignsystem/nunjucks-menu-picker`
@@ -175,6 +181,7 @@ The Blazor helpers, one top-level subproject per package since 2026-10-10 (`bin/
 
 - [`lily-design-system-blazor-data-grid`](../lily-design-system-blazor-data-grid) — `LilyDesignSystem.Blazor.DataGrid`
 - [`lily-design-system-blazor-date-time-picker`](../lily-design-system-blazor-date-time-picker) — `@lilydesignsystem/blazor-date-time-picker`
+- [`lily-design-system-blazor-filter`](../lily-design-system-blazor-filter) — `LilyDesignSystem.Blazor.Filter`
 - [`lily-design-system-blazor-kanban-board`](../lily-design-system-blazor-kanban-board) — `@lilydesignsystem/blazor-kanban-board`
 - [`lily-design-system-blazor-link-picker`](../lily-design-system-blazor-link-picker) — `@lilydesignsystem/blazor-link-picker`
 - [`lily-design-system-blazor-locale-picker`](../lily-design-system-blazor-locale-picker) — `@lilydesignsystem/blazor-locale-picker`
@@ -230,6 +237,7 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-theme](../bin/check-theme): Verify the 57 reference themes honour their conformance contracts; `--contrast` reports each theme's token-pair contrast against WCAG AA/AAA (report only)
 - [check-class-names](../bin/check-class-names): Every headless implementation carries its kebab-case base class (first in a class list)
+- [sync-shared-modules](../bin/sync-shared-modules): One source (`shared/`) for the pure modules the grid-like helpers copy (search, type-ahead, edit history, export, cell types, typed fields, direction, label coverage, dependency arrows, unavailable days); `--check` (in bin/test) fails on drift
 - [sync-example-components](../bin/sync-example-components): Mirror each headless library's components into its example app's copy; `--check` (in bin/test) fails on drift
 - [check-coverage](../bin/check-coverage): Coverage drift matrix — per-component file presence across all 7 headless libraries
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check

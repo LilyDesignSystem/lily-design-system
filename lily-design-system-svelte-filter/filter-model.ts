@@ -334,7 +334,7 @@ export function fromJson(json: unknown, fields: readonly FilterField[]): { group
             errors.push(`${path}: not an object`);
             return null;
         }
-        const o = node as Record<string, unknown>;
+        const o = node as { rules?: unknown; combinator?: unknown; not?: unknown; field?: unknown; operator?: unknown; value?: unknown; value2?: unknown };
         if (Array.isArray(o.rules)) {
             const combinator = o.combinator === "or" ? "or" : o.combinator === "and" || o.combinator === undefined ? "and" : null;
             if (!combinator) {

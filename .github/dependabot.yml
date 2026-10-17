@@ -73,6 +73,7 @@ updates:
     directories:
       - "/lily-design-system-angular-data-grid"
       - "/lily-design-system-angular-date-time-picker"
+      - "/lily-design-system-angular-filter"
       - "/lily-design-system-angular-kanban-board"
       - "/lily-design-system-angular-link-picker"
       - "/lily-design-system-angular-locale-picker"
@@ -142,6 +143,7 @@ updates:
     directories:
       - "/lily-design-system-html-data-grid"
       - "/lily-design-system-html-date-time-picker"
+      - "/lily-design-system-html-filter"
       - "/lily-design-system-html-kanban-board"
       - "/lily-design-system-html-link-picker"
       - "/lily-design-system-html-locale-picker"
@@ -205,6 +207,7 @@ updates:
     directories:
       - "/lily-design-system-nunjucks-data-grid"
       - "/lily-design-system-nunjucks-date-time-picker"
+      - "/lily-design-system-nunjucks-filter"
       - "/lily-design-system-nunjucks-link-picker"
       - "/lily-design-system-nunjucks-listbox-behavior"
       - "/lily-design-system-nunjucks-menu-picker"
@@ -268,6 +271,7 @@ updates:
     directories:
       - "/lily-design-system-react-data-grid"
       - "/lily-design-system-react-date-time-picker"
+      - "/lily-design-system-react-filter"
       - "/lily-design-system-react-kanban-board"
       - "/lily-design-system-react-link-picker"
       - "/lily-design-system-react-locale-picker"
@@ -439,6 +443,7 @@ updates:
     directories:
       - "/lily-design-system-vue-data-grid"
       - "/lily-design-system-vue-date-time-picker"
+      - "/lily-design-system-vue-filter"
       - "/lily-design-system-vue-kanban-board"
       - "/lily-design-system-vue-link-picker"
       - "/lily-design-system-vue-locale-picker"
@@ -617,6 +622,7 @@ updates:
     directories:
       - "/lily-design-system-blazor-data-grid/tests"
       - "/lily-design-system-blazor-date-time-picker/tests"
+      - "/lily-design-system-blazor-filter/tests"
       - "/lily-design-system-blazor-kanban-board/tests"
       - "/lily-design-system-blazor-link-picker/tests"
       - "/lily-design-system-blazor-locale-picker/tests"

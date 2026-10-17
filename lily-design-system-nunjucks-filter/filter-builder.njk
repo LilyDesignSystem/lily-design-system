@@ -1,0 +1,52 @@
+{#-
+  filterBuilder macro (Nunjucks)
+
+  A headless filter builder: the user composes conditions (a field, an operator, a value) into groups joined by
+  and / or, and the result is written out as JSON, SQL, MongoDB, OData or a predicate by the pure functions in
+  filter-model.ts. Ported from the canonical Svelte filter (spec/index.md).
+
+  The macro renders the labelled root, the configuration the client reads (data-lily-filter-builder-config) and the
+  polite status region. filter-builder.client.js builds the groups, conditions and output inside it: every control
+  needs the model's operator lists and immutable editing, which a template cannot do. NUNJUCKS DEVIATION: without
+  JavaScript the root is empty (there is no server-side rendering of the conditions).
+
+  Usage:
+
+      {% from "lily-design-system-nunjucks-filter/dist/filter-builder.njk" import filterBuilder %}
+      {{ filterBuilder({ label: "Filter people", fields: fields, labels: labels, value: saved, format: "sql" }) }}
+
+  opts:
+    label    — string, required. Accessible name of the whole filter.
+    fields   — array of { id, label, type?: "text"|"number"|"date"|"select"|"boolean", options?: [{id,label}], column?, operators? }.
+    value    — optional starting filter: { type: "group", id, combinator, not?, children } (plain data, as the model's functions produce).
+    format   — optional "json" | "sql" | "mongo" | "odata": show the filter written out (needs labels.output).
+    dialect  — SQL dialect for format "sql": ansi (default), postgres, mysql, sqlite, mssql.
+    maxDepth — deepest group nesting offered (1 = none). Default 3.
+    readonly — boolean. Show the filter without letting it be edited.
+    classes  — extra class on the root. id / attributes — extra id / attributes.
+    labels   — plain strings and templates; there are no English defaults:
+       strings:   field, operator, value, valueFrom, valueTo, combinator, and, or, not, addRule, addGroup, choose?, empty?, output?
+       templates: rule ("Condition {n}"), group ("Group, level {depth}"), removeRule ("... {n}"), removeGroup ("... {depth}"),
+                  ruleAdded ({n}), ruleRemoved ({n}), groupAdded ({depth}), groupRemoved ({depth})
+       operatorNames — object: operator id -> text (ALL_OPERATORS lists the ids).
+    A function cannot cross the template boundary, so the client option `initFilterBuilder(root, { labels })` may give any
+    label as a function instead (rule(n), group(depth), operatorName(operator, field), ...).
+
+  Client options: labels (functions), onChange(group). The client dispatches a bubbling `filterchange` event too.
+-#}
+{%- macro filterBuilder(opts) -%}
+{%- set labels = opts.labels | default({}) -%}
+{%- set configJson = ({ fields: opts.fields | default([]), value: opts.value, format: opts.format, dialect: opts.dialect | default("ansi"), maxDepth: opts.maxDepth | default(3), readonly: opts.readonly | default(false), labels: labels } | dump) -%}
+<div
+  {%- if opts.id %} id="{{ opts.id }}"{% endif %}
+  class="filter{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  role="group"
+  aria-label="{{ opts.label }}"
+  data-lily-filter-builder-root
+  data-lily-filter-builder-config="{{ configJson }}"
+  {%- if opts.readonly %} data-readonly{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<p class="filter-status" aria-live="polite" data-lily-filter-builder-status></p>
+</div>
+{%- endmacro -%}

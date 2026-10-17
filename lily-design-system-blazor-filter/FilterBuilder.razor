@@ -1,0 +1,159 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    FilterBuilder component
+
+    A headless filter builder: the user composes conditions (a field, an operator, a value) into groups joined by and / or,
+    and the result is written out as JSON, SQL, MongoDB, OData or a predicate by FilterModel. Ships no CSS and no English.
+    Root: <div class="filter {CssClass}" role="group" aria-label>. See spec/index.md.
+*@
+
+@{
+    var numbers = NumberRules(Value);
+    var fieldById = FieldById;
+}
+
+<div class="@RootClass" role="group" aria-label="@Label" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
+    @GroupView(Value, 1, null, numbers, fieldById)
+    @if (Format is { } format && Labels.Output is not null)
+    {
+        <div class="filter-output" role="group" aria-label="@Labels.Output" data-format="@FormatId(format)">
+            <pre class="filter-output-text">@Output</pre>
+        </div>
+    }
+    <p class="filter-status" aria-live="polite">@_status</p>
+</div>
+
+@code {
+    private RenderFragment GroupView(FilterGroup group, int depth, string? parentId, Dictionary<string, int> numbers, IReadOnlyDictionary<string, FilterField> fieldById) => __builder =>
+    {
+        var groupId = group.Id;
+        <div class="filter-group" role="group" aria-label="@Labels.Group(depth)" data-depth="@depth" data-group-id="@group.Id">
+            <div class="filter-group-header">
+                <select class="filter-combinator" aria-label="@Labels.Combinator" disabled="@Readonly"
+                        @onchange="@(e => SetGroupAsync(groupId, g => g with { Combinator = e.Value?.ToString() == "or" ? "or" : "and" }))">
+                    <option value="and" selected="@(group.Combinator == "and")">@Labels.And</option>
+                    <option value="or" selected="@(group.Combinator == "or")">@Labels.Or</option>
+                </select>
+                <label class="filter-not">
+                    <input type="checkbox" disabled="@Readonly" checked="@group.Not"
+                           @onchange="@(e => SetGroupAsync(groupId, g => g with { Not = e.Value is true }))" />
+                    @Labels.Not
+                </label>
+                @if (parentId is not null && !Readonly)
+                {
+                    var parent = parentId;
+                    <button type="button" class="filter-remove-group-button" @onclick="@(() => RemoveGroupAsync(group, parent, depth))">@Labels.RemoveGroup(depth)</button>
+                }
+            </div>
+            @if (group.Children.Count == 0 && Labels.Empty is not null)
+            {
+                <p class="filter-empty">@Labels.Empty</p>
+            }
+            <ul class="filter-rules">
+                @foreach (var child in group.Children)
+                {
+                    <li class="filter-item" @key="child.Id">
+                        @if (child is FilterGroup nested)
+                        {
+                            @GroupView(nested, depth + 1, group.Id, numbers, fieldById)
+                        }
+                        else
+                        {
+                            @RuleView((FilterRule)child, group, numbers, fieldById)
+                        }
+                    </li>
+                }
+            </ul>
+            @if (!Readonly)
+            {
+                <div class="filter-group-actions">
+                    <button type="button" class="filter-add-rule-button" data-filter-add-rule="@group.Id" @onclick="@(() => AddRuleAsync(groupId))">@Labels.AddRule</button>
+                    @if (depth < MaxDepth)
+                    {
+                        <button type="button" class="filter-add-group-button" @onclick="@(() => AddGroupAsync(groupId, depth))">@Labels.AddGroup</button>
+                    }
+                </div>
+            }
+        </div>
+    };
+
+    private RenderFragment RuleView(FilterRule rule, FilterGroup group, Dictionary<string, int> numbers, IReadOnlyDictionary<string, FilterField> fieldById) => __builder =>
+    {
+        var n = numbers.GetValueOrDefault(rule.Id);
+        var ruleId = rule.Id;
+        fieldById.TryGetValue(rule.Field, out var field);
+        <div class="filter-rule" role="group" aria-label="@Labels.Rule(n)" data-rule-id="@rule.Id">
+            <select class="filter-field" data-filter-field="@rule.Id" aria-label="@Labels.Field" disabled="@Readonly"
+                    @onchange="@(e => SetRuleAsync(ruleId, r => FilterModel.ChangeField(r, Fields, e.Value?.ToString() ?? "")))">
+                @foreach (var f in Fields)
+                {
+                    <option value="@f.Id" selected="@(f.Id == rule.Field)">@f.Label</option>
+                }
+            </select>
+            @if (field is not null)
+            {
+                <select class="filter-operator" aria-label="@Labels.Operator" disabled="@Readonly"
+                        @onchange="@(e => SetRuleAsync(ruleId, r => FilterModel.ChangeOperator(r, e.Value?.ToString() ?? r.Operator)))">
+                    @foreach (var op in FilterModel.OperatorsFor(field))
+                    {
+                        <option value="@op" selected="@(op == rule.Operator)">@Labels.OperatorName(op, field)</option>
+                    }
+                </select>
+                @ValueEditor(rule, field)
+            }
+            @if (!Readonly)
+            {
+                <button type="button" class="filter-remove-rule-button" @onclick="@(() => RemoveRuleAsync(rule, group.Id))">@Labels.RemoveRule(n)</button>
+            }
+        </div>
+    };
+
+    private RenderFragment ValueEditor(FilterRule rule, FilterField field) => __builder =>
+    {
+        var arity = FilterModel.ArityOf(rule.Operator);
+        var type = field.Type;
+        var ruleId = rule.Id;
+        if (arity is ValueArity.One or ValueArity.Two)
+        {
+            if (type == FilterFieldType.Select)
+            {
+                <select class="filter-value" aria-label="@Labels.Value" disabled="@Readonly"
+                        @onchange="@(e => SetRuleAsync(ruleId, r => r with { Value = ParseTyped(FilterFieldType.Text, e.Value?.ToString()) }))">
+                    <option value="" selected="@(TextOf(rule.Value) == "")">@(Labels.Choose ?? "")</option>
+                    @foreach (var option in field.Options ?? Array.Empty<FilterOption>())
+                    {
+                        <option value="@option.Id" selected="@(option.Id == TextOf(rule.Value))">@option.Label</option>
+                    }
+                </select>
+            }
+            else
+            {
+                var inputType = type == FilterFieldType.Number ? "number" : type == FilterFieldType.Date ? "date" : "text";
+                <input class="filter-value" type="@inputType" inputmode="@(type == FilterFieldType.Number ? "decimal" : null)"
+                       aria-label="@(arity == ValueArity.Two ? Labels.ValueFrom : Labels.Value)" readonly="@Readonly" value="@TextOf(rule.Value)"
+                       @oninput="@(e => SetRuleAsync(ruleId, r => r with { Value = ParseTyped(type, e.Value?.ToString()) }))" />
+                @if (arity == ValueArity.Two)
+                {
+                    <input class="filter-value filter-value-to" type="@inputType" inputmode="@(type == FilterFieldType.Number ? "decimal" : null)"
+                           aria-label="@Labels.ValueTo" readonly="@Readonly" value="@TextOf(rule.Value2)"
+                           @oninput="@(e => SetRuleAsync(ruleId, r => r with { Value2 = ParseTyped(type, e.Value?.ToString()) }))" />
+                }
+            }
+        }
+        else if (arity == ValueArity.Many)
+        {
+            <div class="filter-choices" role="group" aria-label="@Labels.Value">
+                @foreach (var option in field.Options ?? Array.Empty<FilterOption>())
+                {
+                    var optionId = option.Id;
+                    <label class="filter-choice">
+                        <input type="checkbox" disabled="@Readonly" checked="@IsChosen(rule, optionId)"
+                               @onchange="@(e => ToggleOptionAsync(rule, optionId, e.Value is true))" />
+                        @option.Label
+                    </label>
+                }
+            </div>
+        }
+    };
+}
