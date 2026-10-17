@@ -18,6 +18,34 @@ import {
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/react-date-time-picker";
+import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { civilDateToDate } from "./cell-types";
+import {
+  draftOf,
+  evaluateEdit,
+  exportFieldCell,
+  exportableFields,
+  fieldText as fieldTextOf,
+  editorKind,
+  isEditableField,
+  neighbourField,
+  resolveFields,
+  type Draft,
+  type FieldDef,
+  type ResolvedField,
+} from "./typed-fields";
+
+/**
+ * A typed field an event carries (a room, a status, a cost), shown after the event's title in the agenda and read from
+ * `event.values[id]`. A bundle of display, sort and export defaults from the data grid's cell types.
+ */
+export type CalendarEventField = FieldDef;
+
+/** What `onExport` receives. Return `false` to take over the download. */
+export type CalendarExport = { format: ExportFormat; filename: string; eventCount: number; blob: Blob };
+
+/** What `onFieldEdit` receives. */
+export type CalendarFieldEdit = { eventId: string; fieldId: string; value: unknown; previous: unknown };
 
 export type CalendarView = "day" | "week" | "four-week" | "month" | "agenda";
 
@@ -36,6 +64,8 @@ export type CalendarEvent = {
   start?: string;
   /** Multi-day event end (inclusive). */
   end?: string;
+  /** Values of the calendar's `eventFields`, by field id. */
+  values?: Record<string, unknown>;
   [key: string]: unknown;
 };
 
@@ -73,6 +103,20 @@ export type CalendarViewLabels = {
   eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
   /** Visible title of the shown period, rendered between the previous and next buttons. Gates the title. */
   periodTitle?: (view: CalendarView, start: string, end: string) => string;
+  /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+  export?: string;
+  /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
+  exportCsv?: string;
+  exportTsv?: string;
+  exportExcel?: string;
+  /** Announced after an export: (format, how many events, file name). */
+  exportAnnouncement?: (format: ExportFormat, eventCount: number, filename: string) => string;
+  /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. */
+  exportHeaders?: { title: string; start: string; end: string };
+  /** Announced after a field edit: (event title, field header, the new text). */
+  editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
+  editInvalid?: (eventTitle: string, fieldHeader: string) => string;
 };
 
 export type DayArgs = {
@@ -92,6 +136,8 @@ export type DayArgs = {
   ranges: CalendarRange[];
   /** Call from the event's own button/click handler to fire `onEventClick`. */
   openEvent: (calendarEvent: CalendarEvent) => void;
+  /** The formatted text of one event's typed field (empty when the event has no value for it). For a `day` render prop that shows fields. */
+  fieldText: (calendarEvent: CalendarEvent, fieldId: string) => string;
   /** Spread onto an event's element to make it draggable and keyboard-movable: `{...eventProps(ev)}`. Empty without `onEventMove`. */
   eventProps: (calendarEvent: CalendarEvent) => React.HTMLAttributes<HTMLElement> & Record<string, unknown>;
 };
@@ -160,6 +206,16 @@ export type Props = Omit<
   onDayClick?: (isoDate: string) => void;
   /** Fired when a rendered event is activated, via the `day` render prop's `openEvent`. */
   onEventClick?: (calendarEvent: CalendarEvent) => void;
+  /** Typed event fields, read from `event.values`. The default agenda shows them after each event's title; a `day` render prop gets `fieldText`. Editable types edit in the agenda (click the value; Tab moves to the next). */
+  eventFields?: CalendarEventField[];
+  /** Called with each accepted field edit. The consumer updates `events`. A field is editable only when this is set. */
+  onFieldEdit?: (edit: CalendarFieldEdit) => void;
+  /** Base of an export's file name (`.csv`, `.tsv` or `.xlsx` is added). Default `"calendar"`. */
+  exportFilename?: string;
+  /** What an export holds: `"period"` (default) is the events that touch the shown period; `"all"` is every event. */
+  exportScope?: "period" | "all";
+  /** Called before the download with the finished file. Return `false` to skip the built-in download. */
+  onExport?: (info: CalendarExport) => boolean | void;
   /** Renders one day cell's content. */
   day?: (args: DayArgs) => React.ReactNode;
   /** Extra CSS class on the root. */
@@ -303,6 +359,11 @@ export function CalendarView({
   onNavigate,
   onDayClick,
   onEventClick,
+  eventFields,
+  onFieldEdit,
+  exportFilename: exportBase = "calendar",
+  exportScope = "period",
+  onExport,
   day,
   className = "",
   ...restProps
@@ -359,7 +420,24 @@ export function CalendarView({
       ? anchorDate
       : flatDays[0];
 
+  const pendingFieldFocus = React.useRef<{ kind: "editor" } | { kind: "field"; eventId: string; fieldId: string } | null>(null);
+  const baseId = React.useId();
+
   React.useEffect(() => {
+    const pendingField = pendingFieldFocus.current;
+    if (pendingField) {
+      pendingFieldFocus.current = null;
+      const root = rootRef.current;
+      if (pendingField.kind === "editor") {
+        const editor = root?.querySelector<HTMLInputElement>(".calendar-view-field-editor");
+        editor?.focus({ preventScroll: true });
+        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+      } else {
+        const li = Array.from(root?.querySelectorAll<HTMLElement>("[data-event-key]") ?? []).find((el) => el.dataset.eventKey === pendingField.eventId);
+        const button = Array.from(li?.querySelectorAll<HTMLElement>("[data-field]") ?? []).find((el) => el.dataset.field === pendingField.fieldId);
+        button?.querySelector<HTMLElement>(".calendar-view-field-button")?.focus({ preventScroll: true });
+      }
+    }
     if (!focusPending.current) return;
     focusPending.current = false;
     rootRef.current
@@ -388,7 +466,21 @@ export function CalendarView({
   const inSelectedRange = (isoDate: string) =>
     !!selectedRange && isoDate >= selectedRange.start && isoDate <= selectedRange.end;
 
-  const rangesFor = (isoDate: string) => ranges.filter((r) => isoDate >= r.start && isoDate <= r.end);
+  // The marked ranges per visible day, found once per `ranges` / period change rather than once per cell per render.
+  const rangesByDay = React.useMemo(() => {
+    const map = new Map<string, CalendarRange[]>();
+    if (ranges.length === 0) return map;
+    const shown = view === "agenda" ? agendaDays : flatDays;
+    for (const d of shown) {
+      const hit = ranges.filter((r) => d >= r.start && d <= r.end);
+      if (hit.length > 0) map.set(d, hit);
+    }
+    return map;
+  }, [ranges, view, agendaDays.join(","), flatDays.join(",")]);
+  const NO_RANGES: CalendarRange[] = [];
+  const rangesFor = (isoDate: string) => rangesByDay.get(isoDate) ?? NO_RANGES;
+  const selectedDateSet = React.useMemo(() => new Set(selectedDates), [selectedDates]);
+  const eventById = React.useMemo(() => new Map(events.map((e) => [e.id, e])), [events]);
 
   /** The ISO week number of the week shown in `row` (its Thursday decides, as ISO 8601 says). */
   function weekNumberOf(row: string[]): number {
@@ -514,7 +606,7 @@ export function CalendarView({
     event.preventDefault();
     const id = draggingEventId.current ?? event.dataTransfer?.getData("text/plain");
     draggingEventId.current = null;
-    const calendarEvent = events.find((e) => e.id === id);
+    const calendarEvent = id ? eventById.get(id) : undefined;
     if (calendarEvent) moveEventTo(calendarEvent, isoDate);
   }
 
@@ -522,7 +614,7 @@ export function CalendarView({
     if (onEventMove && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
       const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
       const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset.date;
-      const calendarEvent = events.find((e) => e.id === el?.dataset.eventId);
+      const calendarEvent = el?.dataset.eventId ? eventById.get(el.dataset.eventId) : undefined;
       if (el && fromDate && calendarEvent) {
         event.preventDefault();
         const week = view === "day" ? 1 : 7;
@@ -620,6 +712,139 @@ export function CalendarView({
   const periodEnd = periodRange(view, anchorDate, firstDayOfWeek)[1];
   const openEvent = (calendarEvent: CalendarEvent) => onEventClick?.(calendarEvent);
 
+  // ---------------------------------------------------------------
+  // Typed fields, inline editing (agenda), export
+  // ---------------------------------------------------------------
+
+  // Type defaults (format, compare, export value) resolved once per `eventFields` / `locale` change, never per event or keystroke.
+  const resolvedFields = React.useMemo(() => resolveFields(eventFields, locale), [eventFields, locale]);
+  const isFieldEditable = (f: CalendarEventField) => !!onFieldEdit && isEditableField(f);
+  const eventFieldText = (f: ResolvedField, calendarEvent: CalendarEvent): string => fieldTextOf(f, calendarEvent.values);
+  function fieldText(calendarEvent: CalendarEvent, fieldId: string): string {
+    const f = resolvedFields.find((x) => x.id === fieldId);
+    return f ? eventFieldText(f, calendarEvent) : "";
+  }
+  const eventTitle = (calendarEvent: CalendarEvent): string =>
+    typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id;
+
+  /** The field being edited, if any: the draft is the editor's text. A ref mirrors it so a blur that lands in the same event as Enter sees it cleared. */
+  type Editing = { eventId: string; fieldId: string; draft: Draft };
+  const [editing, setEditingState] = React.useState<Editing | null>(null);
+  const editingRef = React.useRef<Editing | null>(null);
+  function setEditing(next: Editing | null): void {
+    editingRef.current = next;
+    setEditingState(next);
+  }
+
+  function startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): void {
+    if (!isFieldEditable(f)) return;
+    setEditing({ eventId: calendarEvent.id, fieldId: f.id, draft: draftOf(f, calendarEvent.values) });
+    pendingFieldFocus.current = { kind: "editor" };
+  }
+
+  /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+  function commitFieldEdit(refocus = true): boolean {
+    const current = editingRef.current;
+    if (!current) return true;
+    const { eventId, fieldId, draft } = current;
+    const calendarEvent = eventById.get(eventId);
+    const f = resolvedFields.find((x) => x.id === fieldId);
+    if (!calendarEvent || !f) {
+      setEditing(null);
+      return true;
+    }
+    const outcome = evaluateEdit(f, calendarEvent.values, draft);
+    if (outcome.invalid) {
+      const message = labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
+      if (message) setStatusMessage(message);
+      return false;
+    }
+    setEditing(null);
+    if (outcome.changed) {
+      onFieldEdit?.({ eventId, fieldId, value: outcome.value, previous: outcome.previous });
+      const message = labels?.editAnnouncement?.(eventTitle(calendarEvent), f.header, outcome.text);
+      if (message) setStatusMessage(message);
+    }
+    if (refocus) pendingFieldFocus.current = { kind: "field", eventId, fieldId };
+    return true;
+  }
+
+  function cancelFieldEdit(): void {
+    const current = editingRef.current;
+    if (!current) return;
+    setEditing(null);
+    pendingFieldFocus.current = { kind: "field", eventId: current.eventId, fieldId: current.fieldId };
+  }
+
+  function onFieldEditorKeyDown(event: React.KeyboardEvent): void {
+    // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+    // report the confirming Enter with `isComposing` already false but keyCode 229.
+    event.stopPropagation();
+    if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commitFieldEdit();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      cancelFieldEdit();
+    } else if (event.key === "Tab" && editingRef.current) {
+      // Tab commits and moves to the event's next (Shift+Tab: previous) editable field; past the last, it moves on.
+      const current = editingRef.current;
+      const calendarEvent = eventById.get(current.eventId);
+      const next = neighbourField(resolvedFields.filter(isFieldEditable), current.fieldId, event.shiftKey);
+      if (calendarEvent && next) {
+        event.preventDefault();
+        if (commitFieldEdit(false)) startFieldEdit(calendarEvent, next);
+      } else {
+        commitFieldEdit(false);
+      }
+    }
+  }
+
+  /** The first and last day an event covers. */
+  const eventSpan = (calendarEvent: CalendarEvent): { start: string; end: string } | null =>
+    calendarEvent.date
+      ? { start: calendarEvent.date, end: calendarEvent.date }
+      : calendarEvent.start && calendarEvent.end
+        ? { start: calendarEvent.start, end: calendarEvent.end }
+        : null;
+
+  const exportEvents = (() => {
+    const dated = events.filter((e) => eventSpan(e) !== null);
+    const kept =
+      exportScope === "all"
+        ? dated
+        : dated.filter((e) => {
+            const span = eventSpan(e)!;
+            return span.start <= periodEnd && span.end >= periodStart;
+          });
+    return kept.sort((a, b) => eventSpan(a)!.start.localeCompare(eventSpan(b)!.start));
+  })();
+  const hasExportButtons = !!labels?.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel);
+  const exportFieldList = exportableFields(resolvedFields);
+
+  function runExport(format: ExportFormat): void {
+    const h = labels?.exportHeaders;
+    if (!h) return;
+    const headers = [h.title, h.start, h.end, ...exportFieldList.map((f) => f.header)];
+    const body = exportEvents.map((calendarEvent) => {
+      const span = eventSpan(calendarEvent)!;
+      return [
+        eventTitle(calendarEvent),
+        civilDateToDate(span.start),
+        civilDateToDate(span.end),
+        ...exportFieldList.map((f) => exportFieldCell(f, calendarEvent.values)),
+      ];
+    });
+    const filename = exportFilename(exportBase, format);
+    const blob = exportBlob({ headers, rows: body }, format, { sheetName: exportBase });
+    if (onExport?.({ format, filename, eventCount: body.length, blob }) === false) return;
+    downloadBlob(blob, filename);
+    const message = labels?.exportAnnouncement?.(format, body.length, filename);
+    if (message) setStatusMessage(message);
+  }
+
+
   return (
     <div
       ref={rootRef}
@@ -714,6 +939,20 @@ export function CalendarView({
         </div>
       )}
 
+      {hasExportButtons && (
+        <div className="calendar-view-export" role="group" aria-label={labels?.export}>
+          {labels?.exportCsv && (
+            <button type="button" className="calendar-view-export-button" data-calendar-export-format="csv" disabled={exportEvents.length === 0} onClick={() => runExport("csv")}>{labels.exportCsv}</button>
+          )}
+          {labels?.exportTsv && (
+            <button type="button" className="calendar-view-export-button" data-calendar-export-format="tsv" disabled={exportEvents.length === 0} onClick={() => runExport("tsv")}>{labels.exportTsv}</button>
+          )}
+          {labels?.exportExcel && (
+            <button type="button" className="calendar-view-export-button" data-calendar-export-format="xlsx" disabled={exportEvents.length === 0} onClick={() => runExport("xlsx")}>{labels.exportExcel}</button>
+          )}
+        </div>
+      )}
+
       {view === "agenda" ? (
         <>
           {/* The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. */}
@@ -750,15 +989,74 @@ export function CalendarView({
                       inRange: false,
                       ranges: dayRanges,
                       openEvent,
+                      fieldText,
                       eventProps,
                     })
                   ) : dayEvents.length > 0 ? (
                     <ul className="calendar-view-agenda-events">
                       {dayEvents.map((calendarEvent) => (
-                        <li key={calendarEvent.id}>
+                        <li key={calendarEvent.id} data-event-key={calendarEvent.id}>
                           <button type="button" className="calendar-view-event" onClick={() => openEvent(calendarEvent)}>
-                            {typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id}
+                            {eventTitle(calendarEvent)}
                           </button>
+                          {resolvedFields.length > 0 && (
+                            <span className="calendar-view-event-fields">
+                              {resolvedFields.map((f) => {
+                                const text = eventFieldText(f, calendarEvent);
+                                const editable = isFieldEditable(f);
+                                const nameId = `${baseId}-fn-${calendarEvent.id}-${f.id}`;
+                                const valueId = `${baseId}-fv-${calendarEvent.id}-${f.id}`;
+                                if (editing && editing.eventId === calendarEvent.id && editing.fieldId === f.id) {
+                                  const kind = editorKind(f);
+                                  return (
+                                    <span key={f.id} className="calendar-view-event-field" data-field={f.id} data-editing="">
+                                      <span className="calendar-view-event-field-name" id={nameId}>{f.header}</span>{" "}
+                                      {kind === "select" || kind === "radio" ? (
+                                        <select
+                                          className="calendar-view-field-editor"
+                                          aria-label={f.editLabel ?? f.header}
+                                          value={String(editing.draft ?? "")}
+                                          onChange={(e) => {
+                                            setEditing({ ...editing, draft: e.target.value });
+                                            commitFieldEdit();
+                                          }}
+                                          onKeyDown={onFieldEditorKeyDown}
+                                          onBlur={() => commitFieldEdit(false)}
+                                        >
+                                          <option value="" />
+                                          {(f.options ?? []).map((option) => (
+                                            <option key={option.id} value={option.id} disabled={option.disabled}>{option.label}</option>
+                                          ))}
+                                        </select>
+                                      ) : (
+                                        <input
+                                          className="calendar-view-field-editor"
+                                          aria-label={f.editLabel ?? f.header}
+                                          type={kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text"}
+                                          inputMode={kind === "number" ? "decimal" : undefined}
+                                          value={String(editing.draft ?? "")}
+                                          onChange={(e) => setEditing({ ...editing, draft: e.target.value })}
+                                          onKeyDown={onFieldEditorKeyDown}
+                                          onBlur={() => commitFieldEdit(false)}
+                                        />
+                                      )}
+                                    </span>
+                                  );
+                                }
+                                if (text === "" && !editable) return null;
+                                return (
+                                  <span key={f.id} className="calendar-view-event-field" data-field={f.id} data-type={f.type ?? "text"}>
+                                    <span className="calendar-view-event-field-name" id={nameId}>{f.header}</span>{" "}
+                                    {editable ? (
+                                      <button type="button" className="calendar-view-field-button" id={valueId} aria-labelledby={`${nameId} ${valueId}`} onClick={() => startFieldEdit(calendarEvent, f)}>{text}</button>
+                                    ) : (
+                                      <span className="calendar-view-event-field-value">{text}</span>
+                                    )}
+                                  </span>
+                                );
+                              })}
+                            </span>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -814,7 +1112,7 @@ export function CalendarView({
                 const isToday = today != null && d === today;
                 const dayEvents = eventMap.get(d) ?? [];
                 const disabled = disabledDay(d);
-                const picked = selectionMode === "multiple" ? selectedDates.includes(d) : selectedDate === d;
+                const picked = selectionMode === "multiple" ? selectedDateSet.has(d) : selectedDate === d;
                 const inRange = inSelectedRange(d);
                 const dayRanges = rangesFor(d);
                 return (
@@ -856,6 +1154,7 @@ export function CalendarView({
                           inRange,
                           ranges: dayRanges,
                           openEvent,
+                          fieldText,
                           eventProps,
                         })
                       : parseIsoDate(d)?.day}
