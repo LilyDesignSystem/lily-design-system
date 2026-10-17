@@ -38,3 +38,5 @@ export type { EditHistory, EditRecord } from "./edit-history";
 export { epochDayOf, unavailableIn, unavailableKinds, unavailableOn } from "./unavailable";
 export type { Unavailable } from "./unavailable";
 export { isRtl, logicalKey } from "./direction";
+export { applyCriticalPath, criticalPath } from "./critical-path";
+export type { CriticalPathDependency, CriticalPathDependencyType, CriticalPathResult, CriticalPathTask } from "./critical-path";

@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added `criticalPath()` / `applyCriticalPath()` (optional, single-sourced in `shared/critical-path.ts`): critical flag and slack from dependencies of all four kinds with lags; 12 tests.
 - Added `labels.criticalLabel`: visible text (`.gantt-chart-critical-label`) beside the label of a task with `critical: true`, so the state is not colour-only and the task label, which "depends on" text reuses, stays unchanged.
 - `svelte-headless` is now a peer dependency (`>=0.4.0 <1.0.0`), tested on 0.5.0.
 
