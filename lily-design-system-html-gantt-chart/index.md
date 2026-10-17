@@ -155,3 +155,5 @@ announcements.
 ```sh
 npx vitest run lily-design-system-html-gantt-chart/gantt-chart.test.ts
 ```
+- **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `onFieldEdit` edits them in place (click, F2, Tab). See [spec §12](./spec/index.md#12-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
+- **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
