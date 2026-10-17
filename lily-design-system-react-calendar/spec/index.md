@@ -12,7 +12,7 @@ When the two disagree, the Svelte side wins.
   and `defaultSelectedDate`, and reports changes through `onViewChange`,
   `onAnchorDateChange` and `onSelectedDateChange`. `anchorDate` defaults to
   `today`, then `1970-01-01`, when neither is given.
-- The `day` snippet is a `day(args)` render prop; `className` replaces
+- The `day` render prop is a `day(args)` render prop; `className` replaces
   `class`.
 - Focus after a re-page moves in an effect, not a microtask.
 
@@ -40,12 +40,12 @@ Tests §8.69–§8.82. The data grid's cell types and export, applied to events.
 - **Typed fields**: `eventFields` is a list of `{ id, header, type?, options?, numberFormat?, dateFormat?, parse?, exportValue?, exportable?, editable?, editLabel? }`, read from `event.values[id]`. `type` is a
   data-grid cell type; `resolveColumn` fills in the type's `format`, `compare` and `exportValue`, once per `eventFields` / `locale` change. With no `locale` a value shows as stored. The **agenda's default markup**
   shows each event's fields after its title (`<span class="calendar-view-event-fields">` of `.calendar-view-event-field` with `.calendar-view-event-field-name` and the value; empty fields are omitted from read-only
-  events). A `day` snippet (grid views, or a custom agenda) is handed `fieldText(event, fieldId)` and draws fields itself.
+  events). A `day` render prop (grid views, or a custom agenda) is handed `fieldText(event, fieldId)` and draws fields itself.
 - **Inline editing (agenda)**: `onFieldEdit({ eventId, fieldId, value, previous })` turns it on. `text`, `number`, `link`, `date`, `time`, `select` and `radio` fields edit; the others display and export only.
   The value becomes a `.calendar-view-field-button` (an ordinary tab stop, named by the header plus the value); clicking or activating it opens `.calendar-view-field-editor` (an `<input>` of the type, or a `<select>`
   of `options`). **Enter** commits, **Escape** cancels, blur commits, **Tab** / **Shift+Tab** commit and move to the event's next / previous editable field. The editor owns its keys, and while an IME is composing
   (`isComposing`, or `keyCode` 229) Enter, Escape and Tab belong to the IME. A value that does not fit the type is refused (the editor stays open, `labels.editInvalid`); an unchanged value reports nothing;
-  `labels.editAnnouncement(title, header, text)`. After a commit or cancel focus returns to the field's button. Editing is agenda-only: the grid views have a roving date cursor and the consumer's `day` snippet owns the
+  `labels.editAnnouncement(title, header, text)`. After a commit or cancel focus returns to the field's button. Editing is agenda-only: the grid views have a roving date cursor and the consumer's `day` render prop owns the
   events inside the cells.
 - **Export**: `labels.exportCsv` / `exportTsv` / `exportExcel` each gate a `.calendar-view-export-button` (`data-calendar-export-format`) in a `.calendar-view-export` group named by `labels.export`; none renders without
   `labels.exportHeaders` (`title`, `start`, `end`). One row per dated event, by start date: title (its `title` when a string, else its id), first and last day (real dates in Excel; a single-day event repeats its date),

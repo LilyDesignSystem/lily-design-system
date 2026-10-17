@@ -6,7 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.5.0 — 2026-10-16
 
-- Added typed event fields (`eventFields`, `event.values`) shown after each event's title in the agenda, with `fieldText` handed to the `day` snippet; uses the data grid's cell types.
+- Added typed event fields (`eventFields`, `event.values`) shown after each event's title in the agenda, with `fieldText` handed to the `day` render prop; uses the data grid's cell types.
 - Added inline field editing in the agenda (`onFieldEdit`): typed editors, Enter / Escape / Tab, IME-safe, refused when invalid for the type, announced.
 - Added export to CSV, TSV and Excel (`labels.exportCsv` etc., `labels.exportHeaders`, `exportScope`, `exportFilename`, `onExport`); dates are real dates in Excel.
 - Ranges, the selected-date set and event lookups are computed once per change instead of per cell.
