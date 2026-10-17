@@ -1112,3 +1112,48 @@ describe("CalendarView — eventCompare (§8.109–§8.111)", () => {
     });
 });
 
+describe("CalendarView — copy to clipboard (§8.112–§8.114)", () => {
+    const EVS: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "Standup" },
+        { id: "e2", date: "2026-01-09", title: "Offsite" },
+    ];
+    const L: CalendarViewLabels = { ...LABELS, export: "Export", copy: "Copy", exportHeaders: { title: "Title", start: "From", end: "To" }, copyAnnouncement: (n) => `${n} events copied`, copyFailed: "Copy failed" };
+    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, labels: L };
+    const wait = () => new Promise((r) => setTimeout(r, 0));
+
+    test("§8.112 copy needs labels.copy and exportHeaders", () => {
+        render(CalendarView, { props: { ...base, labels: { ...LABELS, copy: "Copy" } } });
+        expect(document.querySelector('[data-calendar-export-format="copy"]')).toBeNull();
+    });
+
+    test("§8.113 copy puts the period's events on the clipboard, tab-separated with a header row, and announces", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        render(CalendarView, { props: base });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text.split("\r\n")[0]).toBe("Title\tFrom\tTo");
+        expect(text).toContain("Standup");
+        expect(document.querySelector(".calendar-view-status")?.textContent).toBe("2 events copied");
+        vi.unstubAllGlobals();
+    });
+
+    test("§8.114 onCopy can take over, and the search narrows what is copied", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        const onCopy = vi.fn(() => false);
+        render(CalendarView, { props: { ...base, onCopy } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        expect(writeText).not.toHaveBeenCalled();
+        document.body.innerHTML = "";
+        render(CalendarView, { props: { ...base, search: "offsite" } });
+        await fireEvent.click(screen.getByText("Copy"));
+        await wait();
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text).toContain("Offsite");
+        expect(text).not.toContain("Standup");
+        vi.unstubAllGlobals();
+    });
+});

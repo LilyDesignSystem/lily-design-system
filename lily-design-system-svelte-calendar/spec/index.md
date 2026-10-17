@@ -376,3 +376,7 @@ Tests §8.93–§8.104.
 
 - **`filter(event)`** hides events it rejects in every view, combining with `search` (both must pass).
 - **`eventCompare(a, b)`** orders the events within a day, and so in the agenda; stable.
+
+## Export: copy to clipboard (0.6.0, 2026-10-17)
+
+- **Copy to clipboard**: `labels.copy` names a button (`data-…-export-format="copy"`; for the kanban board, Gantt chart and calendar it also needs `labels.exportHeaders`, like the downloads) that puts exactly what a download would hold — the same events, scope and order, header row first — on the clipboard as tab-separated text (`toClipboardText`: no byte-order mark, formula text defused), ready to paste into a spreadsheet. `copyToClipboard` uses the async Clipboard API and falls back to a hidden, selected `<textarea>` with `execCommand("copy")`; it never throws. `labels.copyAnnouncement(rowCount)` is announced, `labels.copyFailed` when neither path worked, and `onCopy({ text, rowCount })` may return `false` to take over (nothing is copied).

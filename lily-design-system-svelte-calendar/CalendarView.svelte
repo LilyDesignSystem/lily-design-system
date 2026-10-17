@@ -18,7 +18,7 @@
         parseIsoDate,
         weekdayOf,
     } from "@lilydesignsystem/svelte-date-time-picker";
-    import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
     import {
@@ -115,6 +115,12 @@
         exportExcel?: string;
         /** Announced after an export: (format, how many events, file name). */
         exportAnnouncement?: (format: ExportFormat, eventCount: number, filename: string) => string;
+        /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+        copy?: string;
+        /** Announced after a copy: (how many rows). */
+        copyAnnouncement?: (rowCount: number) => string;
+        /** Announced when the clipboard could not be written. */
+        copyFailed?: string;
         /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. */
         exportHeaders?: { title: string; start: string; end: string };
         /** Announced after a field edit: (event title, field header, the new text). */
@@ -193,6 +199,8 @@
         exportFilename?: string;
         /** What an export holds: `"period"` (default) is the events that touch the shown period; `"all"` is every event. */
         exportScope?: "period" | "all";
+        /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). */
+        onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
         /** Called before the download with the finished file. Return `false` to skip the built-in download. */
         onExport?: (info: CalendarExport) => boolean | void;
         [key: string]: unknown;
@@ -343,6 +351,7 @@
         onFieldEdit = undefined,
         exportFilename: exportBase = "calendar",
         exportScope = "period",
+        onCopy = undefined,
         onExport = undefined,
         day,
         ...restProps
@@ -560,10 +569,18 @@
         const kept = exportScope === "all" ? dated : dated.filter((e) => { const span = eventSpan(e)!; return span.start <= periodEnd && span.end >= periodStart; });
         return kept.sort((a, b) => eventSpan(a)!.start.localeCompare(eventSpan(b)!.start));
     });
-    const hasExportButtons = $derived(!!labels?.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const hasExportButtons = $derived(!!labels?.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel));
     const exportFieldList = $derived(exportableFields(resolvedFields));
 
-    function runExport(format: ExportFormat): void {
+    async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+        const text = toClipboardText(table);
+        if (onCopy?.({ text, rowCount: table.rows.length }) === false) return;
+        const ok = await copyToClipboard(text);
+        const message = ok ? labels?.copyAnnouncement?.(table.rows.length) : labels?.copyFailed;
+        if (message) statusMessage = message;
+    }
+
+    function runExport(format: ExportFormat | "copy"): void {
         const h = labels?.exportHeaders;
         if (!h) return;
         const headers = [h.title, h.start, h.end, ...exportFieldList.map((f) => f.header)];
@@ -571,6 +588,10 @@
             const span = eventSpan(calendarEvent)!;
             return [eventTitle(calendarEvent), civilDateToDate(span.start), civilDateToDate(span.end), ...exportFieldList.map((f) => exportFieldCell(f, calendarEvent.values))];
         });
+        if (format === "copy") {
+            void finishCopy({ headers, rows: body });
+            return;
+        }
         const filename = exportFilename(exportBase, format);
         const blob = exportBlob({ headers, rows: body }, format, { sheetName: exportBase });
         if (onExport?.({ format, filename, eventCount: body.length, blob }) === false) return;
@@ -910,6 +931,9 @@
 
     {#if hasExportButtons}
         <div class="calendar-view-export" role="group" aria-label={labels?.export}>
+            {#if labels?.copy}
+                <button type="button" class="calendar-view-export-button" data-calendar-export-format="copy" disabled={exportEvents.length === 0} onclick={() => runExport("copy")}>{labels?.copy}</button>
+            {/if}
             {#if labels?.exportCsv}
                 <button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" disabled={exportEvents.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
             {/if}
