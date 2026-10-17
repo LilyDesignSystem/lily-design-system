@@ -1654,3 +1654,59 @@ describe("DataGrid — rowFilter and multi-column sort (§8.95–§8.105)", () =
     });
 });
 
+
+describe("DataGrid — copy to clipboard (§8.103–§8.106)", () => {
+    const L = { ...LABELS, copy: "Copy", copyAnnouncement: (n: number) => `${n} rows copied`, copyFailed: "Copy failed" };
+
+    test("§8.103 the copy button renders only when labels.copy names it", () => {
+        renderGrid({ label: "U", columns: COLUMNS, rows: ROWS, labels: LABELS });
+        expect(document.querySelector('[data-grid-export-format="copy"]')).toBeNull();
+    });
+
+    test("§8.104 copy puts the export on the clipboard (header first, tab-separated) and announces", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        renderGrid({ label: "U", columns: COLUMNS, rows: ROWS, labels: L });
+        await fireEvent.click(screen.getByText("Copy"));
+        await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text.split("\r\n")[0]).toBe("Name\tEmail");
+        expect(text).toContain("Bob\tbob@example.com");
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("2 rows copied");
+        vi.unstubAllGlobals();
+    });
+
+    test("§8.105 copy holds the filtered view, as an export does", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        renderGrid({ label: "U", columns: COLUMNS, rows: ROWS, labels: L, filter: "alice" });
+        await fireEvent.click(screen.getByText("Copy"));
+        await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+        const text = (writeText.mock.calls[0] as unknown as [string])[0];
+        expect(text).toContain("Alice");
+        expect(text).not.toContain("Bob");
+        vi.unstubAllGlobals();
+    });
+
+    test("§8.106 onCopy can take over (nothing is written) and a failed write is announced", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        const onCopy = vi.fn(() => false);
+        renderGrid({ label: "U", columns: COLUMNS, rows: ROWS, labels: L, onCopy });
+        await fireEvent.click(screen.getByText("Copy"));
+        await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+        expect(onCopy).toHaveBeenCalled();
+        expect(writeText).not.toHaveBeenCalled();
+        vi.unstubAllGlobals();
+
+        vi.stubGlobal("navigator", { clipboard: { writeText: async () => { throw new Error("denied"); } } });
+        (document as unknown as { execCommand: unknown }).execCommand = () => false;
+        document.body.innerHTML = "";
+        renderGrid({ label: "U", columns: COLUMNS, rows: ROWS, labels: L });
+        await fireEvent.click(screen.getByText("Copy"));
+        await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+        expect(document.querySelector(".data-grid-status")?.textContent).toBe("Copy failed");
+        vi.unstubAllGlobals();
+    });
+});
+
