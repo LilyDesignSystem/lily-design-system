@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.10.0 — 2026-10-17
 
+- Added undo and redo of cell edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) through `onCellEdit`.
 - Added type-ahead to the grid keyboard.
 - Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `onCopy`; `toClipboardText`, `copyToClipboard`).
 - Added `rowFilter` and multi-column sort (`thenBy`, Shift+click).

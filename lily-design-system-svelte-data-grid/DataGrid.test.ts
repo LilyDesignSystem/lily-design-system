@@ -1745,3 +1745,82 @@ describe("DataGrid — type-ahead (§8.107–§8.110)", () => {
     });
 });
 
+describe("DataGrid — undo and redo of cell edits (§8.111–§8.116)", () => {
+    const COLS: DataGridColumn[] = [
+        { id: "name", header: "Name", editable: true },
+        { id: "age", header: "Age", editable: true, editor: "number" },
+    ];
+    const ROWS2 = [{ name: "Ann", age: 30 }, { name: "Bob", age: 40 }];
+    const L = { undoAnnouncement: (h: string, t: string) => `Undid ${h}: ${t}`, redoAnnouncement: (h: string, t: string) => `Redid ${h}: ${t}` };
+    const cell = (row: number, col: number) => document.querySelector<HTMLElement>(`.data-table-body [data-row="${row}"][data-col="${col}"]`)!;
+    const status = () => document.querySelector(".data-grid-status")?.textContent;
+
+    async function edit(row: number, col: number, value: string, name: string): Promise<void> {
+        await fireEvent.keyDown(cell(row, col), { key: "F2" });
+        const input = screen.getByRole(col === 1 ? "spinbutton" : "textbox", { name }) as HTMLInputElement;
+        await fireEvent.input(input, { target: { value } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+    }
+
+    test("§8.111 Ctrl+Z reports the earlier value through onCellEdit and announces it", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Ann", previous: "Bea" });
+        expect(status()).toBe("Undid Name: Ann");
+    });
+
+    test("§8.112 Ctrl+Shift+Z and Ctrl+Y redo", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true, shiftKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Bea", previous: "Ann" });
+        expect(status()).toBe("Redid Name: Bea");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(0, 0), { key: "y", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Bea", previous: "Ann" });
+    });
+
+    test("§8.113 undo walks back across cells, newest first", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await edit(1, 1, "41", "Age");
+        await fireEvent.keyDown(cell(1, 1), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "1", row: ROWS2[1], columnId: "age", value: 40, previous: 41 });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenLastCalledWith({ rowId: "0", row: ROWS2[0], columnId: "name", value: "Ann", previous: "Bea" });
+    });
+
+    test("§8.114 with nothing to undo Ctrl+Z does nothing, and a new edit ends the redo chain", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).not.toHaveBeenCalled();
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await edit(0, 0, "Cy", "Name");
+        onCellEdit.mockClear();
+        await fireEvent.keyDown(cell(0, 0), { key: "y", ctrlKey: true });
+        expect(onCellEdit).not.toHaveBeenCalled();
+    });
+
+    test("§8.115 an undo is not itself recorded, so redo returns to the edit", async () => {
+        const onCellEdit = vi.fn();
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, onCellEdit, labels: L } });
+        await edit(0, 0, "Bea", "Name");
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(onCellEdit).toHaveBeenCalledTimes(2); // the edit and one undo; the second Ctrl+Z had nothing left
+    });
+
+    test("§8.116 without onCellEdit, Ctrl+Z does nothing", async () => {
+        render(DataGrid, { props: { label: "G", columns: COLS, rows: ROWS2, labels: L } });
+        await fireEvent.keyDown(cell(0, 0), { key: "z", ctrlKey: true });
+        expect(status() ?? "").toBe("");
+    });
+});
+
