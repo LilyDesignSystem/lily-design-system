@@ -293,7 +293,7 @@ public class GanttChartTests : TestContext
     {
         // Focus is not selection: the cursor cell is the tab stop only.
         var cut = RenderDefault();
-        Assert.Single(TabbableCells(cut));
+        Assert.Single(cut.FindAll(".gantt-table-td[tabindex='0']"));
         Assert.Empty(cut.FindAll("td[aria-selected]"));
     }
 
@@ -489,7 +489,7 @@ public class GanttChartTests : TestContext
         cut.Find("[aria-label='Collapse Phase 1']").Click();
 
         Assert.Equal(4, Rows(cut).Count);
-        Assert.Single(TabbableCells(cut));
+        Assert.Single(cut.FindAll(".gantt-table-td[tabindex='0']"));
     }
 
     [Fact]
@@ -1062,5 +1062,258 @@ public class GanttChartExtrasTests : TestContext
             p.Add(x => x.Labels, new GanttLabels { ExpandAll = "Expand all", CollapseAll = "Collapse all" });
         });
         Assert.Empty(noParents.FindAll(".gantt-chart-collapse-all"));
+    }
+
+    // =====================================================================
+    // §14.25-§14.40 — typed fields, inline editing, export, virtualization
+    // =====================================================================
+
+    private static readonly IReadOnlyList<DataGridColumn> FieldDefs = new[]
+    {
+        new DataGridColumn { Id = "owner", Header = "Owner", Type = DataGridCellType.Select, Editable = true, Options = new[] { new DataGridOption("a", "Ann"), new DataGridOption("b", "Bo") } },
+        new DataGridColumn { Id = "points", Header = "Points", Type = DataGridCellType.Number, Editable = true },
+    };
+
+    private static DataGridRow Values(params (string Key, object? Value)[] values)
+        => new(values.Select(v => new KeyValuePair<string, object?>(v.Key, v.Value)));
+
+    private static readonly IReadOnlyList<GanttTask> FieldTasks = new[]
+    {
+        new GanttTask { Id = "t1", Label = "Design", Start = "2026-10-01", End = "2026-10-03", PercentComplete = 50, Values = Values(("owner", "a"), ("points", 3)), Baseline = new GanttBaseline("2026-10-01", "2026-10-02") },
+        new GanttTask { Id = "t2", Label = "Build =x", Start = "2026-10-04", End = "2026-10-06", DependsOn = new[] { "t1" }, Values = Values(("points", 5)) },
+        new GanttTask { Id = "p", Label = "Phase" },
+        new GanttTask { Id = "k", Label = "Kid", Start = "2026-10-08", End = "2026-10-09", ParentId = "p" },
+    };
+
+    private static readonly GanttLabels ExportLabels = new()
+    {
+        Export = "Export",
+        ExportCsv = "CSV",
+        ExportTsv = "TSV",
+        ExportExcel = "Excel",
+        ExportHeaders = new GanttExportHeaders("Task", "Start", "End", PercentComplete: "Done", Parent: "Parent", DependsOn: "After"),
+        ExportAnnouncement = (format, count, name) => $"{count} tasks as {format.ToString().ToLowerInvariant()}: {name}",
+        EditAnnouncement = (task, field, text) => $"{task} {field} is {text}",
+        EditInvalid = (task, field) => $"{task}: bad {field}",
+    };
+
+    private IRenderedComponent<GanttChart> RenderFields(Action<ComponentParameterCollectionBuilder<GanttChart>>? configure = null, bool editable = true, List<GanttFieldEdit>? edits = null,
+        IReadOnlyList<DataGridColumn>? fields = null, IReadOnlyList<GanttTask>? tasks = null, GanttLabels? labels = null)
+        => RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, tasks ?? FieldTasks);
+            p.Add(x => x.Fields, fields ?? FieldDefs);
+            p.Add(x => x.Labels, labels ?? ExportLabels);
+            if (editable) p.Add(x => x.OnFieldEdit, EventCallback.Factory.Create<GanttFieldEdit>(this, e => edits?.Add(e)));
+            configure?.Invoke(p);
+        });
+
+    private static AngleSharp.Dom.IElement RowOf(IRenderedComponent<GanttChart> cut, string id) => cut.Find($"[data-task-id='{id}']");
+
+    [Fact]
+    public void Section_14_25_Each_Field_Is_A_Column_Between_The_Task_Name_And_The_Timeline()
+    {
+        var cut = RenderFields(editable: false);
+        var heads = cut.FindAll(".gantt-table-thead th").Take(3).Select(e => e.TextContent.Trim()).ToArray();
+        Assert.Equal(new[] { "", "Owner", "Points" }, heads);
+        var cells = RowOf(cut, "t1").QuerySelectorAll("[data-field]").Select(c => c.TextContent.Trim()).ToArray();
+        Assert.Equal(new[] { "Ann", "3" }, cells);
+    }
+
+    [Fact]
+    public void Section_14_26_Fields_Are_Plain_Text_Without_A_Handler_And_In_A_Readonly_Chart()
+    {
+        Assert.Empty(RenderFields(editable: false).FindAll(".gantt-chart-field-button"));
+        Assert.Empty(RenderFields(p => p.Add(x => x.Readonly, true)).FindAll(".gantt-chart-field-button"));
+        Assert.NotEmpty(RenderFields().FindAll(".gantt-chart-field-button"));
+    }
+
+    [Fact]
+    public void Section_14_27_Clicking_A_Value_Opens_A_Typed_Editor_And_Enter_Commits_The_Parsed_Value_And_Announces()
+    {
+        var edits = new List<GanttFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        cut.FindAll("[data-task-id='t1'] .gantt-chart-field-button")[1].Click();
+        var input = cut.Find("input.gantt-chart-field-editor");
+        Assert.Equal("number", input.GetAttribute("type"));
+        Assert.Equal("Points", input.GetAttribute("aria-label"));
+        input.Input("8");
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var edit = Assert.Single(edits);
+        Assert.Equal(("t1", "points"), (edit.TaskId, edit.FieldId));
+        Assert.Equal(8.0, edit.Value);
+        Assert.Equal(3, edit.Previous);
+        Assert.Equal("Design Points is 8", cut.Find(".gantt-chart-status").TextContent);
+        Assert.Empty(cut.FindAll(".gantt-chart-field-editor"));
+    }
+
+    [Fact]
+    public void Section_14_28_A_Select_Field_Edits_Through_Its_Options()
+    {
+        var edits = new List<GanttFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        cut.FindAll("[data-task-id='t2'] .gantt-chart-field-button")[0].Click();
+        cut.Find("select.gantt-chart-field-editor").Change("b");
+        var edit = Assert.Single(edits);
+        Assert.Equal(("t2", "owner", "b"), (edit.TaskId, edit.FieldId, (string?)edit.Value));
+        Assert.Null(edit.Previous);
+    }
+
+    [Fact]
+    public void Section_14_29_Escape_Cancels_And_An_Unchanged_Value_Reports_Nothing()
+    {
+        var edits = new List<GanttFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        void Open() => cut.FindAll("[data-task-id='t1'] .gantt-chart-field-button")[1].Click();
+        Open();
+        cut.Find(".gantt-chart-field-editor").Input("9");
+        cut.Find(".gantt-chart-field-editor").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Open();
+        cut.Find(".gantt-chart-field-editor").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(edits);
+    }
+
+    [Fact]
+    public void Section_14_30_A_Number_That_Does_Not_Fit_The_Type_Is_Refused_The_Editor_Stays_Open_And_The_Refusal_Is_Announced()
+    {
+        var edits = new List<GanttFieldEdit>();
+        var cut = RenderFields(edits: edits,
+            fields: new[] { new DataGridColumn { Id = "p", Header = "P", Type = DataGridCellType.Number, Editable = true, Parse = (_, _) => double.NaN } },
+            tasks: new[] { new GanttTask { Id = "t1", Label = "Design", Start = "2026-10-01", End = "2026-10-03", Values = Values(("p", 1)) } });
+        cut.Find(".gantt-chart-field-button").Click();
+        cut.Find(".gantt-chart-field-editor").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(edits);
+        Assert.NotNull(cut.Find(".gantt-chart-field-editor"));
+        Assert.Equal("Design: bad P", cut.Find(".gantt-chart-status").TextContent);
+    }
+
+    [Fact]
+    public void Section_14_31_F2_Edits_The_First_Editable_Field_And_The_Editors_Keys_Do_Not_Reach_The_Grid()
+    {
+        var cut = RenderFields();
+        cut.Find("[role='grid']").KeyDown(new KeyboardEventArgs { Key = "F2" });
+        var editor = cut.Find(".gantt-chart-field-editor");
+        Assert.Equal("SELECT", editor.TagName);
+        editor.KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        Assert.Equal("0", cut.Find("[data-row='0'][data-col='0']").GetAttribute("tabindex"));
+    }
+
+    [Fact]
+    public void Section_14_32_IME_Enter_While_Composing_Does_Not_Commit()
+    {
+        var edits = new List<GanttFieldEdit>();
+        var cut = RenderFields(edits: edits,
+            fields: new[] { new DataGridColumn { Id = "n", Header = "N", Editable = true } },
+            tasks: new[] { new GanttTask { Id = "t1", Label = "Design", Start = "2026-10-01", End = "2026-10-03", Values = Values(("n", "a")) } });
+        cut.Find(".gantt-chart-field-button").Click();
+        var input = cut.Find(".gantt-chart-field-editor");
+        input.Input("かな");
+        input.KeyDown(new KeyboardEventArgs { Key = "Process" });
+        Assert.Empty(edits);
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var edit = Assert.Single(edits);
+        Assert.Equal("かな", edit.Value);
+        Assert.Equal("a", edit.Previous);
+    }
+
+    private (DataGridExport File, string Text) Exported(Action<ComponentParameterCollectionBuilder<GanttChart>>? configure = null, string format = "csv",
+        IReadOnlyList<DataGridColumn>? fields = null, GanttLabels? labels = null)
+    {
+        DataGridExport? captured = null;
+        var cut = RenderFields(p =>
+        {
+            p.Add(x => x.ExportHandler, file => { captured = file; return false; });
+            configure?.Invoke(p);
+        }, fields: fields, labels: labels);
+        cut.Find($"[data-gantt-export-format='{format}']").Click();
+        Assert.NotNull(captured);
+        return (captured!, System.Text.Encoding.UTF8.GetString(captured!.Bytes));
+    }
+
+    [Fact]
+    public void Section_14_33_Export_Buttons_Need_A_Label_And_ExportHeaders_Each_Label_Gates_Its_Button()
+    {
+        Assert.Empty(RenderFields(labels: new GanttLabels()).FindAll(".gantt-chart-export"));
+        Assert.Empty(RenderFields(labels: new GanttLabels { ExportCsv = "CSV" }).FindAll(".gantt-chart-export"));
+        var cut = RenderFields(labels: new GanttLabels { Export = "Export", ExportExcel = "Excel", ExportHeaders = ExportLabels.ExportHeaders });
+        Assert.Equal("Export", cut.Find("[role='group'].gantt-chart-export").GetAttribute("aria-label"));
+        Assert.Single(cut.FindAll(".gantt-chart-export-button"));
+    }
+
+    [Fact]
+    public void Section_14_34_Csv_Holds_Task_Effective_Start_End_Percent_Parent_Predecessors_And_The_Fields()
+    {
+        var (file, text) = Exported();
+        Assert.Equal("gantt-chart.csv", file.Filename);
+        Assert.Equal(4, file.RowCount);
+        var lines = text.Replace("\uFEFF", "").Split("\r\n");
+        Assert.Equal("Task,Start,End,Done,Parent,After,Owner,Points", lines[0]);
+        Assert.Equal("Design,2026-10-01,2026-10-03,50,,,Ann,3", lines[1]);
+        Assert.Equal("Build =x,2026-10-04,2026-10-06,,,Design,,5", lines[2]);
+        Assert.StartsWith("Phase,2026-10-08,2026-10-09,,,,", lines[3]);
+        Assert.StartsWith("Kid,2026-10-08,2026-10-09,,Phase,,", lines[4]);
+    }
+
+    [Fact]
+    public void Section_14_35_ExportScope_Visible_Leaves_Out_Tasks_Under_A_Collapsed_Parent()
+    {
+        var (file, _) = Exported(p => { p.Add(x => x.CollapsedTaskIds, new[] { "p" }); p.Add(x => x.ExportScope, GanttExportScope.Visible); });
+        Assert.Equal(3, file.RowCount);
+    }
+
+    [Fact]
+    public void Section_14_36_Baseline_Columns_And_Exportable_False()
+    {
+        var (_, text) = Exported(
+            fields: new[] { FieldDefs[0] with { Exportable = false }, FieldDefs[1] },
+            labels: ExportLabels with { ExportHeaders = ExportLabels.ExportHeaders! with { BaselineStart = "BS", BaselineEnd = "BE" } });
+        var lines = text.Replace("\uFEFF", "").Split("\r\n");
+        Assert.Equal("Task,Start,End,Done,Parent,After,BS,BE,Points", lines[0]);
+        Assert.Equal("Design,2026-10-01,2026-10-03,50,,,2026-10-01,2026-10-02,3", lines[1]);
+    }
+
+    [Fact]
+    public void Section_14_37_Saving_Announces_Unless_The_Handler_Vetoes_And_No_Tasks_Disables_The_Buttons()
+    {
+        var cut = RenderFields();
+        cut.Find("[data-gantt-export-format='tsv']").Click();
+        Assert.Equal("4 tasks as tsv: gantt-chart.tsv", cut.Find(".gantt-chart-status").TextContent);
+        var empty = RenderFields(tasks: Array.Empty<GanttTask>());
+        Assert.NotNull(empty.Find("[data-gantt-export-format='csv'][disabled]"));
+    }
+
+    private static readonly IReadOnlyList<GanttTask> Many = Enumerable.Range(0, 200)
+        .Select(i => new GanttTask { Id = $"r{i}", Label = $"Task {i}", Start = "2026-10-01", End = "2026-10-02" }).ToList();
+
+    [Fact]
+    public void Section_14_38_Virtualize_Renders_Only_The_Rows_In_View_Plus_Spacers_With_AriaRowcount_And_AriaRowindex()
+    {
+        var cut = RenderFields(p => p.Add(x => x.Virtualize, new GanttVirtualize(20, 100, 1)), tasks: Many, fields: Array.Empty<DataGridColumn>());
+        var rendered = cut.FindAll("tr[data-task-id]").Count;
+        Assert.InRange(rendered, 1, 19);
+        Assert.Equal("201", cut.Find(".gantt-table").GetAttribute("aria-rowcount"));
+        Assert.Equal("2", cut.Find("[data-task-id='r0']").GetAttribute("aria-rowindex"));
+        Assert.NotNull(cut.Find(".gantt-chart-spacer"));
+        Assert.Contains("height: 100px", cut.Find(".gantt-chart-scroll").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void Section_14_39_Keyboard_Focus_To_The_Last_Row_Reveals_It()
+    {
+        var cut = RenderFields(p => p.Add(x => x.Virtualize, new GanttVirtualize(20, 100)), tasks: Many, fields: Array.Empty<DataGridColumn>());
+        Assert.Empty(cut.FindAll("[data-task-id='r199']"));
+        cut.Find("[role='grid']").KeyDown(new KeyboardEventArgs { Key = "End", CtrlKey = true });
+        Assert.NotEmpty(cut.FindAll("[data-task-id='r199']"));
+        Assert.Empty(cut.FindAll("tr[data-task-id='r1']")); // r0 left the window too, but only r199's row holds the tab stop now
+    }
+
+    [Fact]
+    public void Section_14_40_Without_Virtualize_Every_Row_Renders_And_The_Roving_Tab_Stop_Stays_Unique()
+    {
+        var cut = RenderFields(tasks: Many, fields: Array.Empty<DataGridColumn>());
+        Assert.Equal(200, cut.FindAll("tr[data-task-id]").Count);
+        Assert.Single(cut.FindAll(".gantt-table-td[tabindex='0']"));
     }
 }

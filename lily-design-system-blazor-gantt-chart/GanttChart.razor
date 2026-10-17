@@ -67,7 +67,30 @@
             }
         </div>
     }
-    <GanttTable Label="@Label" @onkeydown="OnGridKeyDown">
+    @if (HasExportButtons)
+    {
+        var exportTasks = ExportTasks();
+        <div class="gantt-chart-export" role="group" aria-label="@Labels.Export">
+            @if (Labels.ExportCsv is not null)
+            {
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv" disabled="@(exportTasks.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Csv))">@Labels.ExportCsv</button>
+            }
+            @if (Labels.ExportTsv is not null)
+            {
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="tsv" disabled="@(exportTasks.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Tsv))">@Labels.ExportTsv</button>
+            }
+            @if (Labels.ExportExcel is not null)
+            {
+                <button type="button" class="gantt-chart-export-button" data-gantt-export-format="xlsx" disabled="@(exportTasks.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Xlsx))">@Labels.ExportExcel</button>
+            }
+        </div>
+    }
+    @* The scroll area is structural: a virtualized chart gets a fixed height and renders only the rows in view. *@
+    <div id="@ScrollId"
+         class="@(Virtualize is not null ? "gantt-chart-scroll" : "gantt-chart-body")"
+         style="@(Virtualize is { } vz ? $"height: {vz.Height}px; overflow: auto" : null)"
+         @onscroll="OnScrollAsync">
+    <GanttTable Label="@Label" aria-rowcount="@(Virtualize is not null ? (Rows.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
             <caption>@Caption</caption>
@@ -75,6 +98,10 @@
         <GanttTableThead>
             <GanttTableTr>
                 <GanttTableTH scope="col">@(Labels.TaskColumnHeader ?? "")</GanttTableTH>
+                @foreach (var f in ResolvedFields)
+                {
+                    <GanttTableTH scope="col" data-field="@f.Id">@f.Header</GanttTableTH>
+                }
                 @foreach (var column in Columns)
                 {
                     var isColumnToday = Today is not null && RangesOverlap(column.Start, column.End, Today, Today);
@@ -101,8 +128,14 @@
                 var columns = Columns;
                 var ranges = EffectiveRanges(Tasks);
             }
-            @for (var rowIndex = 0; rowIndex < rows.Count; rowIndex++)
+            @foreach (var item in RenderItems(rows.Count))
             {
+                if (item.Row < 0)
+                {
+                    <tr class="gantt-chart-spacer" aria-hidden="true" style="@($"height: {item.SpacerRows * Virtualize!.RowHeight}px")"><td colspan="@(columns.Count + 1 + ResolvedFields.Count)"></td></tr>
+                    continue;
+                }
+                var rowIndex = item.Row;
                 var row = rows[rowIndex];
                 var rowNum = rowIndex;
                 var range = RangeFor(row.Task, row.HasChildren, ranges);
@@ -111,6 +144,7 @@
                               data-critical="@(row.Task.Critical ? "" : null)"
                               data-slack="@(row.Task.Slack?.ToString())"
                               data-task-id="@row.Task.Id"
+                              aria-rowindex="@(Virtualize is not null ? (rowIndex + 2).ToString() : null)"
                               data-unscheduled="@(!row.HasChildren && (string.IsNullOrEmpty(row.Task.Start) || string.IsNullOrEmpty(row.Task.End)) ? "" : null)"
                               aria-selected="@(SelectedTaskId == row.Task.Id ? "true" : null)"
                               data-selected="@(SelectedTaskId == row.Task.Id ? "" : null)"
@@ -144,6 +178,58 @@
                             </span>
                         }
                     </GanttTableTH>
+                    @foreach (var f in ResolvedFields)
+                    {
+                        var field = f;
+                        var fieldTask = row.Task;
+                        var text = TypedFields.Text(field, fieldTask.Values);
+                        var editable = IsFieldEditable(field);
+                        var nameId = $"{_baseId}-fn-{fieldTask.Id}-{field.Id}";
+                        var valueId = $"{_baseId}-fv-{fieldTask.Id}-{field.Id}";
+                        <GanttTableTD role="gridcell" data-field="@field.Id" data-type="@field.Type.ToString().ToLowerInvariant()"
+                                      data-align="@(field.Align == DataGridAlign.Default ? null : field.Align.ToString().ToLowerInvariant())">
+                            @if (IsEditingField(fieldTask, field))
+                            {
+                                var draft = _fieldEditing!.Draft;
+                                var kind = TypedFields.EditorOf(field);
+                                @if (kind == DataGridEditor.Select)
+                                {
+                                    <select id="@EditorId" class="gantt-chart-field-editor" aria-label="@field.Header"
+                                            value="@draft"
+                                            @onchange="OnFieldSelectChangedAsync"
+                                            @onkeydown="OnFieldEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                            @onblur="@(() => CommitFieldEditAsync())">
+                                        <option value=""></option>
+                                        @foreach (var option in field.Options ?? Array.Empty<DataGridOption>())
+                                        {
+                                            <option value="@option.Id" disabled="@option.Disabled" selected="@(option.Id == draft)">@option.Label</option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <input id="@EditorId" class="gantt-chart-field-editor"
+                                           type="@(kind == DataGridEditor.Number ? "number" : kind == DataGridEditor.Date ? "date" : kind == DataGridEditor.Time ? "time" : "text")"
+                                           inputmode="@(kind == DataGridEditor.Number ? "decimal" : null)"
+                                           aria-label="@field.Header"
+                                           value="@draft"
+                                           @oninput="@(e => SetFieldDraft(e.Value?.ToString() ?? ""))"
+                                           @onkeydown="OnFieldEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                           @onblur="@(() => CommitFieldEditAsync())" />
+                                }
+                            }
+                            else if (editable)
+                            {
+                                <span id="@nameId" hidden>@field.Header</span>
+                                <button type="button" class="gantt-chart-field-button" id="@valueId" tabindex="-1" aria-labelledby="@($"{nameId} {valueId}")"
+                                        @onclick="@(() => StartFieldEdit(fieldTask, field))">@text</button>
+                            }
+                            else
+                            {
+                                @text
+                            }
+                        </GanttTableTD>
+                    }
                     @for (var colIndex = 0; colIndex < columns.Count; colIndex++)
                     {
                         var colNum = colIndex;
@@ -201,7 +287,7 @@
                 {
                     var editingTask = row.Task;
                     <tr class="gantt-chart-edit-row">
-                        <td colspan="@(columns.Count + 1)">
+                        <td colspan="@(columns.Count + 1 + ResolvedFields.Count)">
                             <DateTimePicker Label="@(Labels.StartLabel ?? "")"
                                              InputId="@EditStartInputId"
                                              Labels="@Labels.DateTimePickerLabels"
@@ -236,6 +322,7 @@
             }
         </GanttTableTbody>
     </GanttTable>
+    </div>
 
     <p class="gantt-chart-status" aria-live="polite">@_statusMessage</p>
 </div>

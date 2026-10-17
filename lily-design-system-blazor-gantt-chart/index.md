@@ -7,6 +7,11 @@ editing a task's dates opens an inline region built from two composed
 hierarchy with collapse/expand, milestones, percent-complete, a today
 marker, and finish-to-start dependency data exposed as text.
 
+## Typed fields, editing and export
+
+- **Typed fields and editing** (0.5.0): `Fields` (`DataGridColumn`s) + `task.Values` show typed values; a field's `Editable` with an `OnFieldEdit` handler edits it in place. See the spec's "Typed" section.
+- **Export** (0.5.0): `Labels.ExportCsv` / `ExportTsv` / `ExportExcel` plus `Labels.ExportHeaders` add CSV, TSV and Excel buttons.
+
 ## Install
 
 ```sh

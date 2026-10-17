@@ -19,6 +19,24 @@ using Microsoft.JSInterop;
 
 namespace LilyDesignSystem.Blazor.Helpers;
 
+/// <summary>What an export holds: every task, or only the visible ones (those not under a collapsed parent).</summary>
+public enum GanttExportScope
+{
+    /// <summary>Every task.</summary>
+    All,
+    /// <summary>Leaves out the tasks under a collapsed parent.</summary>
+    Visible,
+}
+
+/// <summary>Headers of an export's own columns. An export needs <c>Task</c>, <c>Start</c> and <c>End</c>; there is no English default. The others are included only when named.</summary>
+public sealed record GanttExportHeaders(string Task, string Start, string End, string? PercentComplete = null, string? Parent = null, string? DependsOn = null, string? BaselineStart = null, string? BaselineEnd = null);
+
+/// <summary>What <c>OnFieldEdit</c> receives after a field edit is committed.</summary>
+public sealed record GanttFieldEdit(string TaskId, string FieldId, object? Value, object? Previous);
+
+/// <summary>Windowing for a long chart: only the task rows in view are rendered. See <c>spec/index.md</c>.</summary>
+public sealed record GanttVirtualize(int RowHeight, int Height, int Overscan = 3);
+
 /// <summary>A dependency with its type (<c>e2s</c> finish-to-start, <c>s2s</c>, <c>s2e</c>, <c>e2e</c>) and lag in days; data and text only.</summary>
 public sealed record GanttDependency(string Id, string? Type = null, int Lag = 0);
 
@@ -63,6 +81,9 @@ public sealed class GanttTask
 
     /// <summary>Slack in days, from the consumer's own scheduling; becomes <c>data-slack</c>.</summary>
     public int? Slack { get; init; }
+
+    /// <summary>Values of the chart's <c>Fields</c>, by field id.</summary>
+    public DataGridRow? Values { get; init; }
 }
 
 /// <summary>A dated column marker (holiday, release, deadline). <c>Label</c> is rendered as text so a marker is never colour-only.</summary>
@@ -141,6 +162,26 @@ public sealed record GanttLabels
 
     /// <summary>Accessible name for the button that collapses every parent task. Gates the button.</summary>
     public string? CollapseAll { get; init; }
+
+    /// <summary>Accessible name of the export button group. Gates the group (with at least one of the three buttons).</summary>
+    public string? Export { get; init; }
+
+    /// <summary>Visible text of the CSV, TSV and Excel export buttons. Each gates its button.</summary>
+    public string? ExportCsv { get; init; }
+    public string? ExportTsv { get; init; }
+    public string? ExportExcel { get; init; }
+
+    /// <summary>Announced after an export: (format, how many tasks, file name).</summary>
+    public Func<DataGridExportFormat, int, string, string>? ExportAnnouncement { get; init; }
+
+    /// <summary>Headers of the export's own columns. An export needs these; there is no English default.</summary>
+    public GanttExportHeaders? ExportHeaders { get; init; }
+
+    /// <summary>Announced after a field edit: (task label, field header, the new text).</summary>
+    public Func<string, string, string, string>? EditAnnouncement { get; init; }
+
+    /// <summary>Announced when an edit is refused as invalid for the field's type: (task label, field header).</summary>
+    public Func<string, string, string>? EditInvalid { get; init; }
 }
 
 /// <summary>A flattened row: a task plus its tree depth and whether it has children.
@@ -212,6 +253,34 @@ public partial class GanttChart : ComponentBase
 
     /// <summary>Raised with the new 0–100 progress (clamped, rounded) when the edit region's progress field is shown, just before <c>OnTaskChange</c>.</summary>
     [Parameter] public EventCallback<(string TaskId, int PercentComplete)> OnTaskPercentChange { get; set; }
+
+    /// <summary>
+    /// Typed fields: a column per field between the task name and the timeline, read from <c>task.Values</c>. A field is a
+    /// <see cref="DataGridColumn"/>: its <c>Type</c> fills in the display, edit and export defaults as in the data grid. A field edits in
+    /// place (click the value, or F2 on the task's row for the first editable field) when its <c>Editable</c> is set and <c>OnFieldEdit</c> has a handler.
+    /// </summary>
+    [Parameter] public IReadOnlyList<DataGridColumn>? Fields { get; set; }
+
+    /// <summary>Culture name (BCP 47) for number and date fields. Never defaulted.</summary>
+    [Parameter] public string? Locale { get; set; }
+
+    /// <summary>Raised with each accepted field edit. The consumer updates <c>Tasks</c>. Fields are editable only with a handler (and not <c>Readonly</c>).</summary>
+    [Parameter] public EventCallback<GanttFieldEdit> OnFieldEdit { get; set; }
+
+    /// <summary>Base of an export's file name (<c>.csv</c>, <c>.tsv</c> or <c>.xlsx</c> is added). Default <c>"gantt-chart"</c>.</summary>
+    [Parameter] public string ExportFilename { get; set; } = "gantt-chart";
+
+    /// <summary>What an export holds: every task (default), or only the visible ones.</summary>
+    [Parameter] public GanttExportScope ExportScope { get; set; } = GanttExportScope.All;
+
+    /// <summary>Called before the download with the finished file. Return <c>false</c> to skip the built-in download.</summary>
+    [Parameter] public Func<DataGridExport, bool>? ExportHandler { get; set; }
+
+    /// <summary>Raised with the file before it is saved (a notification; <see cref="ExportHandler"/> can veto).</summary>
+    [Parameter] public EventCallback<DataGridExport> OnExport { get; set; }
+
+    /// <summary>Renders only the task rows in view, in a scroll area of <c>Height</c> px; every row is assumed <c>RowHeight</c> px tall.</summary>
+    [Parameter] public GanttVirtualize? Virtualize { get; set; }
 
     /// <summary>User-facing strings. See <see cref="GanttLabels"/> — presence gates each control.</summary>
     [Parameter] public GanttLabels Labels { get; set; } = new();
@@ -397,9 +466,58 @@ public partial class GanttChart : ComponentBase
     // Derived data.
     // -------------------------------------------------------------------
 
-    private IReadOnlyList<GanttColumn> Columns => GenerateColumns(Range, TimeUnit);
+    // Columns, rows and the task lookup are built once per change of their inputs, not once per access.
+    private (string Start, string End, GanttTimeUnit Unit)? _columnsKey;
+    private IReadOnlyList<GanttColumn> _columns = Array.Empty<GanttColumn>();
 
-    private IReadOnlyList<GanttFlatRow> Rows => FlattenTasks(Tasks, _collapsed);
+    private IReadOnlyList<GanttColumn> Columns
+    {
+        get
+        {
+            var key = (Range.Start, Range.End, TimeUnit);
+            if (_columnsKey != key)
+            {
+                _columnsKey = key;
+                _columns = GenerateColumns(Range, TimeUnit);
+            }
+            return _columns;
+        }
+    }
+
+    private IReadOnlyList<GanttTask>? _rowsTasks;
+    private IReadOnlyList<string>? _rowsCollapsed;
+    private IReadOnlyList<GanttFlatRow> _rows = Array.Empty<GanttFlatRow>();
+
+    private IReadOnlyList<GanttFlatRow> Rows
+    {
+        get
+        {
+            if (!ReferenceEquals(_rowsTasks, Tasks) || !ReferenceEquals(_rowsCollapsed, CollapsedTaskIds))
+            {
+                _rowsTasks = Tasks;
+                _rowsCollapsed = CollapsedTaskIds;
+                _rows = FlattenTasks(Tasks, _collapsed);
+            }
+            return _rows;
+        }
+    }
+
+    private IReadOnlyList<GanttTask>? _taskByIdSource;
+    private Dictionary<string, GanttTask> _taskById = new();
+
+    private Dictionary<string, GanttTask> TaskById
+    {
+        get
+        {
+            if (!ReferenceEquals(_taskByIdSource, Tasks))
+            {
+                _taskByIdSource = Tasks;
+                _taskById = new Dictionary<string, GanttTask>();
+                foreach (var t in Tasks) _taskById.TryAdd(t.Id, t);
+            }
+            return _taskById;
+        }
+    }
 
     private static GanttDateRange RangeFor(GanttTask task, bool hasChildren, IReadOnlyDictionary<string, GanttDateRange> ranges)
         => hasChildren
@@ -428,7 +546,7 @@ public partial class GanttChart : ComponentBase
     private IReadOnlyList<string> PredecessorLabels(GanttTask task)
     {
         var labels = new List<string>();
-        string NameOf(string id) => Tasks.FirstOrDefault(t => t.Id == id) is { } predecessor ? ResolveTaskLabel(predecessor) : id;
+        string NameOf(string id) => TaskById.TryGetValue(id, out var predecessor) ? ResolveTaskLabel(predecessor) : id;
         if (task.DependsOn is { Count: > 0 } dependsOn) labels.AddRange(dependsOn.Select(NameOf));
         if (task.Dependencies is { Count: > 0 } typed)
         {
@@ -471,12 +589,235 @@ public partial class GanttChart : ComponentBase
     }
 
     // -------------------------------------------------------------------
+    // Typed fields, inline editing, export.
+    // -------------------------------------------------------------------
+
+    // Type defaults (format, compare, export value) resolved once per Fields / Locale change, never per task or keystroke.
+    private IReadOnlyList<DataGridColumn>? _fieldsSource;
+    private string? _localeSource;
+    private IReadOnlyList<DataGridColumn> _resolvedFields = Array.Empty<DataGridColumn>();
+
+    private IReadOnlyList<DataGridColumn> ResolvedFields
+    {
+        get
+        {
+            if (!ReferenceEquals(_fieldsSource, Fields) || _localeSource != Locale)
+            {
+                _fieldsSource = Fields;
+                _localeSource = Locale;
+                _resolvedFields = TypedFields.Resolve(Fields, Locale);
+            }
+            return _resolvedFields;
+        }
+    }
+
+    private bool IsFieldEditable(DataGridColumn field) => OnFieldEdit.HasDelegate && !Readonly && TypedFields.IsEditable(field);
+
+    /// <summary>The field being edited: the draft is the editor's text.</summary>
+    private sealed record FieldEditing(string TaskId, string FieldId, string Draft);
+
+    private FieldEditing? _fieldEditing;
+    private bool _focusEditorPending;
+
+    private string EditorId => $"{_baseId}-field-editor";
+
+    private bool IsEditingField(GanttTask task, DataGridColumn field)
+        => _fieldEditing is { } e && e.TaskId == task.Id && e.FieldId == field.Id;
+
+    private void StartFieldEdit(GanttTask task, DataGridColumn field)
+    {
+        if (!IsFieldEditable(field)) return;
+        _editingTaskId = null;
+        _fieldEditing = new FieldEditing(task.Id, field.Id, TypedFields.Draft(field, task.Values));
+        _focusEditorPending = true;
+    }
+
+    private void SetFieldDraft(string draft)
+    {
+        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft };
+    }
+
+    /// <summary>Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged.</summary>
+    private async Task<bool> CommitFieldEditAsync(bool refocus = false)
+    {
+        var current = _fieldEditing;
+        if (current is null) return true;
+        var task = TaskById.TryGetValue(current.TaskId, out var found) ? found : null;
+        var field = ResolvedFields.FirstOrDefault(x => x.Id == current.FieldId);
+        if (task is null || field is null)
+        {
+            _fieldEditing = null;
+            return true;
+        }
+        var outcome = TypedFields.Evaluate(field, task.Values, current.Draft);
+        if (outcome.Invalid)
+        {
+            Announce(Labels.EditInvalid?.Invoke(ResolveTaskLabel(task), field.Header));
+            return false;
+        }
+        _fieldEditing = null;
+        if (outcome.Changed)
+        {
+            await OnFieldEdit.InvokeAsync(new GanttFieldEdit(task.Id, field.Id, outcome.Value, outcome.Previous));
+            Announce(Labels.EditAnnouncement?.Invoke(ResolveTaskLabel(task), field.Header, outcome.Text));
+        }
+        if (refocus) _focusCellPending = true;
+        return true;
+    }
+
+    private void CancelFieldEdit()
+    {
+        if (_fieldEditing is null) return;
+        _fieldEditing = null;
+        _focusCellPending = true;
+    }
+
+    private async Task OnFieldEditorKeyDownAsync(KeyboardEventArgs args)
+    {
+        // An input method reports its composing keys as "Process": Enter picks a candidate and Escape cancels
+        // the composition, so neither commits nor cancels the edit.
+        if (args.Key == "Process") return;
+        if (args.Key == "Enter") await CommitFieldEditAsync(true);
+        else if (args.Key == "Escape") CancelFieldEdit();
+    }
+
+    private async Task OnFieldSelectChangedAsync(ChangeEventArgs e)
+    {
+        SetFieldDraft(e.Value?.ToString() ?? "");
+        await CommitFieldEditAsync(true);
+    }
+
+    private IReadOnlyList<GanttTask> ExportTasks()
+        => (ExportScope == GanttExportScope.Visible ? Rows : FlattenTasks(Tasks, new HashSet<string>())).Select(r => r.Task).ToList();
+
+    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
+
+    private static object? ExportDate(string? iso)
+        => !string.IsNullOrEmpty(iso) && DateOnly.TryParseExact(iso, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var d) ? d : null;
+
+    private async Task RunExportAsync(DataGridExportFormat format)
+    {
+        if (Labels.ExportHeaders is not { } h) return;
+        var fields = TypedFields.Exportable(ResolvedFields);
+        var ranges = EffectiveRanges(Tasks);
+        var headers = new List<string> { h.Task, h.Start, h.End };
+        if (h.PercentComplete is not null) headers.Add(h.PercentComplete);
+        if (h.Parent is not null) headers.Add(h.Parent);
+        if (h.DependsOn is not null) headers.Add(h.DependsOn);
+        if (h.BaselineStart is not null) headers.Add(h.BaselineStart);
+        if (h.BaselineEnd is not null) headers.Add(h.BaselineEnd);
+        foreach (var f in fields) headers.Add(f.Header);
+        var hasChildren = Tasks.Where(t => t.ParentId is not null && TaskById.ContainsKey(t.ParentId)).Select(t => t.ParentId!).ToHashSet();
+        var rows = new List<IReadOnlyList<object?>>();
+        foreach (var task in ExportTasks())
+        {
+            var span = hasChildren.Contains(task.Id) ? (ranges.TryGetValue(task.Id, out var r) ? r : new GanttDateRange("", "")) : new GanttDateRange(task.Start ?? "", task.End ?? "");
+            var cells = new List<object?> { ResolveTaskLabel(task), ExportDate(span.Start), ExportDate(span.End) };
+            if (h.PercentComplete is not null) cells.Add(task.PercentComplete);
+            if (h.Parent is not null) cells.Add(task.ParentId is not null && TaskById.TryGetValue(task.ParentId, out var parent) ? ResolveTaskLabel(parent) : null);
+            if (h.DependsOn is not null)
+            {
+                var ids = (task.DependsOn ?? Array.Empty<string>()).Concat((task.Dependencies ?? Array.Empty<GanttDependency>()).Select(d => d.Id));
+                cells.Add(string.Join("; ", ids.Select(id => TaskById.TryGetValue(id, out var predecessor) ? ResolveTaskLabel(predecessor) : id)));
+            }
+            if (h.BaselineStart is not null) cells.Add(ExportDate(task.Baseline?.Start));
+            if (h.BaselineEnd is not null) cells.Add(ExportDate(task.Baseline?.End));
+            foreach (var f in fields) cells.Add(TypedFields.ExportCell(f, task.Values));
+            rows.Add(cells);
+        }
+        var table = new ExportTable(headers, rows);
+        var filename = ExportData.ExportFilename(ExportFilename, format);
+        var bytes = ExportData.ExportBytes(table, format, ExportFilename);
+        var file = new DataGridExport(format, filename, rows.Count, bytes);
+        await OnExport.InvokeAsync(file);
+        if (ExportHandler?.Invoke(file) == false) return;
+        await DownloadAsync(file);
+        Announce(Labels.ExportAnnouncement?.Invoke(format, rows.Count, filename));
+    }
+
+    private async Task DownloadAsync(DataGridExport file)
+    {
+        var script =
+            "(function(){var b=atob(" + JsonString(Convert.ToBase64String(file.Bytes)) + ");var a=new Uint8Array(b.length);" +
+            "for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);" +
+            "var u=URL.createObjectURL(new Blob([a],{type:" + JsonString(file.MimeType) + "}));" +
+            "var l=document.createElement('a');l.href=u;l.download=" + JsonString(file.Filename) + ";document.body.appendChild(l);l.click();l.remove();" +
+            "setTimeout(function(){URL.revokeObjectURL(u)},0);})()";
+        try
+        {
+            await JS.InvokeVoidAsync("eval", script);
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
+    }
+
+    // ---- Windowing (Virtualize) ----
+
+    private double _scrollTop;
+    private double? _scrollToPending;
+    private string ScrollId => $"{_baseId}-scroll";
+
+    /// <summary>The row indices to render, with spacer heights for the rows left out (everything without <c>Virtualize</c>).</summary>
+    private List<(int Row, int SpacerRows)> RenderItems(int rowCount)
+    {
+        var items = new List<(int, int)>();
+        if (Virtualize is not { } v)
+        {
+            for (var i = 0; i < rowCount; i++) items.Add((i, 0));
+            return items;
+        }
+        var start = Math.Max(0, (int)Math.Floor(_scrollTop / v.RowHeight) - v.Overscan);
+        var end = Math.Min(rowCount, (int)Math.Ceiling((_scrollTop + v.Height) / v.RowHeight) + v.Overscan);
+        var indices = new SortedSet<int>();
+        for (var i = start; i < end; i++) indices.Add(i);
+        // The roving tab stop's row always renders, so the grid never leaves the tab order.
+        if (rowCount > 0) indices.Add(Math.Min(_focusedRow, rowCount - 1));
+        var previous = -1;
+        foreach (var index in indices)
+        {
+            if (index - previous > 1) items.Add((-1, index - previous - 1));
+            items.Add((index, 0));
+            previous = index;
+        }
+        if (rowCount - 1 - previous > 0) items.Add((-1, rowCount - 1 - previous));
+        return items;
+    }
+
+    /// <summary>Bring a row into the scroll area (a virtualized chart renders only what is in view).</summary>
+    private void RevealRow(int rowIndex)
+    {
+        if (Virtualize is not { } v) return;
+        double top = rowIndex * v.RowHeight;
+        var next = _scrollTop;
+        if (top < _scrollTop) next = top;
+        else if (top + v.RowHeight > _scrollTop + v.Height) next = top + v.RowHeight - v.Height;
+        if (next == _scrollTop) return;
+        _scrollTop = next;
+        _scrollToPending = next;
+    }
+
+    private async Task OnScrollAsync()
+    {
+        if (Virtualize is null) return;
+        try
+        {
+            _scrollTop = await JS.InvokeAsync<double>("eval", $"document.getElementById({JsonString(ScrollId)})?.scrollTop ?? 0");
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
+    }
+
+    // -------------------------------------------------------------------
     // Hierarchy.
     // -------------------------------------------------------------------
 
     /// <summary>Every task that has children (the ones a collapse button applies to).</summary>
     private List<string> ParentIds
-        => Tasks.Where(t => t.ParentId is not null).Select(t => t.ParentId!).Distinct().Where(id => Tasks.Any(t => t.Id == id)).ToList();
+        => Tasks.Where(t => t.ParentId is not null).Select(t => t.ParentId!).Distinct().Where(id => TaskById.ContainsKey(id)).ToList();
 
     private async Task SetAllCollapsedAsync(bool value)
     {
@@ -647,7 +988,7 @@ public partial class GanttChart : ComponentBase
         if (Readonly) return;
         var taskId = _draggingTaskId;
         _draggingTaskId = null;
-        var task = Tasks.FirstOrDefault(t => t.Id == taskId);
+        var task = taskId is not null && TaskById.TryGetValue(taskId, out var dropped) ? dropped : null;
         var edge = _resizingEdge;
         _resizingEdge = null;
         if (task is null || string.IsNullOrEmpty(task.Start) || string.IsNullOrEmpty(task.End)) return;
@@ -692,6 +1033,7 @@ public partial class GanttChart : ComponentBase
     {
         _focusedRow = Math.Min(Math.Max(row, 0), Math.Max(rowCount - 1, 0));
         _focusedCol = Math.Min(Math.Max(col, 0), Math.Max(columnCount - 1, 0));
+        RevealRow(_focusedRow);
         _focusCellPending = true;
     }
 
@@ -701,7 +1043,7 @@ public partial class GanttChart : ComponentBase
         // KeyboardEventArgs carries no event-target info, so while the
         // edit region is open, keyboard ownership belongs to its two
         // composed DateTimePicker instances and the Save/Cancel buttons.
-        if (_editingTaskId is not null) return;
+        if (_editingTaskId is not null || _fieldEditing is not null) return;
 
         var rows = Rows;
         var columns = Columns;
@@ -717,6 +1059,14 @@ public partial class GanttChart : ComponentBase
                 await ShiftTaskAsync(rows[_focusedRow].Task, args.Key == "ArrowLeft" ? -1 : 1, args.ShiftKey);
                 return;
             }
+        }
+
+        if (args.Key == "F2" && OnFieldEdit.HasDelegate)
+        {
+            // F2: edit the task's first editable field (the keyboard twin of clicking its value).
+            var first = ResolvedFields.FirstOrDefault(IsFieldEditable);
+            if (_focusedRow >= 0 && _focusedRow < rows.Count && first is not null) StartFieldEdit(rows[_focusedRow].Task, first);
+            return;
         }
 
         switch (args.Key)
@@ -772,6 +1122,30 @@ public partial class GanttChart : ComponentBase
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (_scrollToPending is { } scrollTo)
+        {
+            _scrollToPending = null;
+            try
+            {
+                await JS.InvokeVoidAsync("eval", $"(function(){{var e=document.getElementById({JsonString(ScrollId)});if(e)e.scrollTop={scrollTo.ToString(System.Globalization.CultureInfo.InvariantCulture)};}})()");
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
+        if (_focusEditorPending)
+        {
+            _focusEditorPending = false;
+            try
+            {
+                await JS.InvokeVoidAsync("eval", $"(function(){{var e=document.getElementById({JsonString(EditorId)});if(e){{e.focus();if(e.tagName==='INPUT'&&e.type==='text')e.select();}}}})()");
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
         if (_focusEditPending)
         {
             _focusEditPending = false;

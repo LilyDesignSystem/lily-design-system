@@ -4,6 +4,14 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-10-16
+
+- Added typed task fields (`Fields` as `DataGridColumn`s, `task.Values`, `Locale`), using the data grid's cell types, shown as a column between the task name and the timeline.
+- Added inline field editing (`OnFieldEdit`, each field's `Editable`): click a value or press F2; typed editors, Enter / Escape / blur, IME-safe, refused when invalid for the type, announced.
+- Added export to CSV, TSV and Excel (`Labels.ExportCsv` etc., `Labels.ExportHeaders`, `ExportScope`, `ExportFilename`, `OnExport` / `ExportHandler`); dates are real dates in Excel.
+- Added `Virtualize` (windowed rows with spacers, `aria-rowcount` / `aria-rowindex`).
+- The package now references `LilyDesignSystem.Blazor.DataGrid`.
+
 ## 0.4.0 — 2026-10-16
 
 - Added unscheduled tasks, ported from the Svelte 0.4.0: a task with no `start` / `end` renders its row with no bar (`data-unscheduled`); Enter opens the edit region with empty dates and Save stays disabled until both are set, which schedules it through `onTaskChange`. An unscheduled child does not shape its parent's span; drag and Alt+Arrow do nothing for it.
