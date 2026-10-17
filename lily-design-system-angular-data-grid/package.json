@@ -6,7 +6,7 @@
   },
   "description": "Lily Design System Angular interactive data grid composing the headless DataTable family: sort, filter, selection, pagination, resize, reorder, cell editing, virtualization, export to CSV, TSV and Excel, and twelve cell types. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-headless": "^0.5.0"
+    "@lilydesignsystem/angular-headless": "^0.6.0"
   },
   "peerDependencies": {
     "@angular/common": ">=20.0.0 <23.0.0",
