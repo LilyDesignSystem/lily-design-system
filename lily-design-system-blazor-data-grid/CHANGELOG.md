@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `LabelPack` (`LabelPacks.cs`): loads a label pack (the JSON files in `shared/label-packs`) and builds `DataGridLabels` with `ToDataGridLabels()`. The kanban, calendar, Gantt and filter packages add `ToKanbanLabels()`, `ToCalendarLabels()`, `ToGanttLabels()` and `ToFilterLabels()`. A key the pack lacks leaves its label null.
+
 ## 0.10.0 — 2026-10-17
 
 - Added search that matches every typed word in any order, ignoring case and diacritics (`SearchText`); Escape in the field clears it; `Labels.FilterAnnouncement` announces the count. The field carries the headless `search-input` class (written by hand, not composed).

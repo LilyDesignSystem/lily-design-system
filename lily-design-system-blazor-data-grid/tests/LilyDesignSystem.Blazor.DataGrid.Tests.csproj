@@ -31,6 +31,8 @@
     <Compile Include="..\ExportDataTests.cs" />
     <Compile Include="..\GridModulesTests.cs" />
     <Compile Include="..\DataGridFeaturesTests.cs" />
+    <Compile Include="..\LabelPacksTests.cs" />
+    <Compile Include="..\PackFilesTests.cs" />
   </ItemGroup>
 
 </Project>

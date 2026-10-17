@@ -175,6 +175,10 @@
                             </button>
                         }
                         @ResolveTaskLabel(row.Task)
+                        @if (row.Task.Critical && Labels.CriticalLabel is not null)
+                        {
+                            <span class="gantt-chart-critical-label">@Labels.CriticalLabel</span>
+                        }
                         @if (deps.Count > 0 && Labels.DependencySummary is not null)
                         {
                             <span id="@DependencyId(row.Task.Id)" class="gantt-chart-dependency-summary" hidden>

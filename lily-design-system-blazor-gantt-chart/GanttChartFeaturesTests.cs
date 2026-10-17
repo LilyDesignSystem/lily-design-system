@@ -180,4 +180,33 @@ public class GanttChartFeaturesTests : TestContext
         Assert.Equal(3, edits.Count);
         Assert.Equal(9d, Convert.ToDouble(edits[2].Value));
     }
+
+    [Fact]
+    public void Critical_Label_Is_Visible_Text_On_A_Critical_Task_Beside_Its_Unchanged_Label()
+    {
+        var tasks = new[]
+        {
+            new GanttTask { Id = "a", Label = "A", Start = "2026-10-01", End = "2026-10-02", Critical = true },
+            new GanttTask { Id = "b", Label = "B", Start = "2026-10-03", End = "2026-10-04", DependsOn = new[] { "a" } },
+        };
+        var cut = RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Plan");
+            p.Add(x => x.Range, Range);
+            p.Add(x => x.Tasks, tasks);
+            p.Add(x => x.Labels, new GanttLabels { ColumnLabel = (start, _, _) => start, CriticalLabel = "Critical path", DependencySummary = l => "Depends on " + string.Join(", ", l) });
+        });
+        var found = cut.FindAll(".gantt-chart-critical-label");
+        Assert.Single(found);
+        Assert.Equal("Critical path", found[0].TextContent);
+        Assert.Equal("Depends on A", cut.Find(".gantt-chart-dependency-summary").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Without_A_Critical_Label_No_Critical_Text_Renders()
+    {
+        var tasks = new[] { new GanttTask { Id = "a", Label = "A", Start = "2026-10-01", End = "2026-10-02", Critical = true } };
+        var cut = Render(tasks: tasks);
+        Assert.Empty(cut.FindAll(".gantt-chart-critical-label"));
+    }
 }

@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `ToGanttLabels()` builds `GanttLabels` from a label pack.
+- New `GanttLabels.CriticalLabel`: visible text (`.gantt-chart-critical-label`) beside the label of a `Critical` task.
+
 ## 0.7.0 — 2026-10-17
 
 - Added search: `Labels.Search` renders a field and `SearchValue` (bindable) keeps the tasks whose label and field text contain every typed word, in any order, ignoring case and diacritics; Escape clears it; `Labels.SearchAnnouncement`. The field carries the headless `search-input` class (written by hand, not composed).

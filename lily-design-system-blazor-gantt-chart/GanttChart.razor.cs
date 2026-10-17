@@ -144,6 +144,9 @@ public sealed record GanttLabels
 
     public string? SaveLabel { get; init; }
     public string? CancelLabel { get; init; }
+
+    /// <summary>Visible text on a task with <c>Critical</c> (for example "Critical path"), beside its label: the state is never colour-only, and the task label itself (also used in "depends on" text) stays unchanged.</summary>
+    public string? CriticalLabel { get; init; }
     public Func<IReadOnlyList<string>, string>? DependencySummary { get; init; }
     public Func<string, string, string, string>? DateAnnouncement { get; init; }
 

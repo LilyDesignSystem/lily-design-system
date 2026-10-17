@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\GanttLabelPackTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-data-grid\PackFilesTests.cs" />
     <Compile Include="..\GanttChartTests.cs" />
     <Compile Include="..\GanttChartFeaturesTests.cs" />
   </ItemGroup>

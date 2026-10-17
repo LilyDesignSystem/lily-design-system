@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\KanbanLabelPackTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-data-grid\PackFilesTests.cs" />
     <Compile Include="..\KanbanBoardTests.cs" />
     <Compile Include="..\KanbanBoardFeaturesTests.cs" />
   </ItemGroup>

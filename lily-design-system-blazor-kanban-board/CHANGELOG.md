@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `ToKanbanLabels()` builds `KanbanLabels` from a label pack.
+- In-place card title editing: `OnTitleEdit` (double-click a title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused; not for linked cards or a `CardTemplate`). New labels `TitleEditor` and `TitleEditAnnouncement`.
+
 ## 0.7.0 — 2026-10-17
 
 - Added search that matches every typed word in any order, ignoring case and diacritics, and looks in typed field text too; Escape in the field clears it; `Labels.SearchAnnouncement`. The field carries the headless `search-input` class (written by hand, not composed).

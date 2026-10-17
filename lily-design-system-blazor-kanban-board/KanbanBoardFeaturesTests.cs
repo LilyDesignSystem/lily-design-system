@@ -205,4 +205,84 @@ public class KanbanBoardFeaturesTests : TestContext
         Assert.True(Cell(2).HasAttribute("data-drop-blocked"));
         Assert.False(Cell(2).HasAttribute("data-drop-target"));
     }
+
+    // ---- in-place title editing (OnTitleEdit) ----
+
+    private static readonly IReadOnlyList<KanbanCard> TitleCards = new[]
+    {
+        new KanbanCard { Id = "c1", ColumnId = "todo", Title = "Card One" },
+        new KanbanCard { Id = "c2", ColumnId = "todo", Title = "Linked", Href = "/x" },
+    };
+
+    private IRenderedComponent<KanbanBoard> RenderTitles(List<KanbanTitleEdit> edits, bool readOnly = false, bool handler = true)
+        => RenderComponent<KanbanBoard>(p =>
+        {
+            p.Add(x => x.Label, "Board");
+            p.Add(x => x.Columns, Columns);
+            p.Add(x => x.Cards, TitleCards);
+            p.Add(x => x.Labels, new KanbanLabels { TitleEditor = t => "Title of " + t, TitleEditAnnouncement = (a, b) => a + " -> " + b });
+            p.Add(x => x.Readonly, readOnly);
+            if (handler) p.Add(x => x.OnTitleEdit, EventCallback.Factory.Create<KanbanTitleEdit>(this, e => edits.Add(e)));
+        });
+
+    private static IElement TitleOf(IRenderedComponent<KanbanBoard> cut, string text) => cut.FindAll(".kanban-board-card-title").First(t => t.TextContent.Contains(text));
+
+    [Fact]
+    public void Title_Edit_Double_Click_Opens_An_Editor_And_Enter_Commits_And_Announces()
+    {
+        var edits = new List<KanbanTitleEdit>();
+        var cut = RenderTitles(edits);
+        TitleOf(cut, "Card One").DoubleClick();
+        var input = cut.Find(".kanban-board-title-editor");
+        Assert.Equal("Card One", input.GetAttribute("value"));
+        Assert.Equal("Title of Card One", input.GetAttribute("aria-label"));
+        input.Input("  Renamed  ");
+        cut.Find(".kanban-board-title-editor").KeyDown(Key("Enter"));
+        Assert.Equal(new KanbanTitleEdit("c1", "Renamed", "Card One"), Assert.Single(edits));
+        Assert.Empty(cut.FindAll(".kanban-board-title-editor"));
+        Assert.Equal("Card One -> Renamed", Status(cut));
+    }
+
+    [Fact]
+    public void Title_Edit_Escape_Cancels_And_An_Empty_Or_Unchanged_Title_Changes_Nothing()
+    {
+        var edits = new List<KanbanTitleEdit>();
+        var cut = RenderTitles(edits);
+        TitleOf(cut, "Card One").DoubleClick();
+        cut.Find(".kanban-board-title-editor").Input("Changed");
+        cut.Find(".kanban-board-title-editor").KeyDown(Key("Escape"));
+        Assert.Empty(cut.FindAll(".kanban-board-title-editor"));
+        TitleOf(cut, "Card One").DoubleClick();
+        cut.Find(".kanban-board-title-editor").Input("   ");
+        cut.Find(".kanban-board-title-editor").KeyDown(Key("Enter"));
+        TitleOf(cut, "Card One").DoubleClick();
+        cut.Find(".kanban-board-title-editor").KeyDown(Key("Enter"));
+        Assert.Empty(edits);
+    }
+
+    [Fact]
+    public void Title_Edit_Leaving_The_Field_Commits_And_F2_On_A_Card_Opens_The_Editor()
+    {
+        var edits = new List<KanbanTitleEdit>();
+        var cut = RenderTitles(edits);
+        Active(cut).KeyDown(Key("F2"));
+        cut.Find(".kanban-board-title-editor").Input("By blur");
+        cut.Find(".kanban-board-title-editor").Blur();
+        Assert.Equal(new KanbanTitleEdit("c1", "By blur", "Card One"), Assert.Single(edits));
+    }
+
+    [Fact]
+    public void Title_Edit_Is_Off_Without_A_Handler_For_A_Linked_Card_And_When_Readonly()
+    {
+        var edits = new List<KanbanTitleEdit>();
+        var none = RenderTitles(edits, handler: false);
+        TitleOf(none, "Card One").DoubleClick();
+        Assert.Empty(none.FindAll(".kanban-board-title-editor"));
+        var linked = RenderTitles(edits);
+        TitleOf(linked, "Linked").DoubleClick();
+        Assert.Empty(linked.FindAll(".kanban-board-title-editor"));
+        var readOnly = RenderTitles(edits, readOnly: true);
+        TitleOf(readOnly, "Card One").DoubleClick();
+        Assert.Empty(readOnly.FindAll(".kanban-board-title-editor"));
+    }
 }

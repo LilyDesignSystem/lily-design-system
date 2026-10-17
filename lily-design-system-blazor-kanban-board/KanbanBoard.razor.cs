@@ -33,6 +33,9 @@ public enum KanbanExportScope
 /// <summary>Headers of an export's own columns. An export needs these; there is no English default. The optional ones are included only when named.</summary>
 public sealed record KanbanExportHeaders(string Title, string Column, string? Lane = null, string? Subtitle = null, string? Badges = null, string? Flag = null);
 
+/// <summary>What <c>OnTitleEdit</c> receives after a card is renamed in place: the card, its new title, and the title it had.</summary>
+public sealed record KanbanTitleEdit(string CardId, string Title, string Previous);
+
 /// <summary>What <c>OnFieldEdit</c> receives after a field edit is committed.</summary>
 public sealed record KanbanFieldEdit(string CardId, string FieldId, object? Value, object? Previous);
 
@@ -219,6 +222,12 @@ public sealed record KanbanLabels
     public Func<string, string, string, string>? FieldRedoAnnouncement { get; init; }
     /// <summary>Announced after a search: (matching cards, all cards).</summary>
     public Func<int, int, string>? SearchAnnouncement { get; init; }
+
+    /// <summary>Accessible name of a card's title editor: (the card's current title). Defaults to the title.</summary>
+    public Func<string, string>? TitleEditor { get; init; }
+
+    /// <summary>Announced after a title edit: (previous title, new title).</summary>
+    public Func<string, string, string>? TitleEditAnnouncement { get; init; }
     /// <summary>A button that puts the export (header row first, tab-separated) on the clipboard; needs <c>ExportHeaders</c>.</summary>
     public string? Copy { get; init; }
     /// <summary>Announced after a copy: (how many cards).</summary>
@@ -361,6 +370,13 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>Raised with each accepted field edit. The consumer updates <c>Cards</c>. Fields are editable only with a handler (and not <c>Readonly</c>).</summary>
     [Parameter] public EventCallback<KanbanFieldEdit> OnFieldEdit { get; set; }
+
+    /// <summary>
+    /// Makes card titles editable in place when it has a handler (double-click a title, or F2 on the card): Enter or leaving the
+    /// field commits, Escape cancels, an empty title is refused. Lily changes nothing itself; the consumer renames the card.
+    /// Not for cards with a link (<c>Href</c>) or a <c>CardTemplate</c>, whose title is not plain text.
+    /// </summary>
+    [Parameter] public EventCallback<KanbanTitleEdit> OnTitleEdit { get; set; }
 
     /// <summary>The reading direction, "ltr" (default) or "rtl": in right-to-left the horizontal arrow keys swap. Blazor cannot read the DOM's <c>dir</c> without JS interop, so the consumer says.</summary>
     [Parameter] public string? Direction { get; set; }
@@ -728,6 +744,60 @@ public partial class KanbanBoard : ComponentBase
 
     private FieldEditing? _fieldEditing;
     private bool _focusEditorPending;
+
+    // ---- In-place title editing (OnTitleEdit) ----
+
+    private sealed record TitleEditing(string CardId, string Draft);
+
+    private TitleEditing? _titleEditing;
+    private bool _focusTitlePending;
+    private string TitleEditorId => $"{_baseId}-title-editor";
+
+    private bool IsTitleEditable(KanbanCard card)
+        => OnTitleEdit.HasDelegate && !Readonly && !card.Locked && card.Href is null && CardTemplate is null;
+
+    private void StartTitleEdit(KanbanCard card)
+    {
+        if (!IsTitleEditable(card)) return;
+        _openCardId = null;
+        _moveActiveIndex = -1;
+        _titleEditing = new TitleEditing(card.Id, ResolveCardLabel(card));
+        _focusTitlePending = true;
+    }
+
+    private void SetTitleDraft(string draft)
+    {
+        if (_titleEditing is not null) _titleEditing = _titleEditing with { Draft = draft };
+    }
+
+    private async Task CommitTitleEditAsync(bool refocus = true)
+    {
+        var current = _titleEditing;
+        if (current is null) return;
+        _titleEditing = null;
+        var card = Cards.FirstOrDefault(c => c.Id == current.CardId);
+        var title = current.Draft.Trim();
+        if (card is not null && title.Length > 0 && title != ResolveCardLabel(card))
+        {
+            var previous = ResolveCardLabel(card);
+            await OnTitleEdit.InvokeAsync(new KanbanTitleEdit(current.CardId, title, previous));
+            Announce(Labels.TitleEditAnnouncement?.Invoke(previous, title));
+        }
+        if (refocus) _focusCardPendingId = current.CardId;
+    }
+
+    private async Task OnTitleEditorKeyDownAsync(KeyboardEventArgs args)
+    {
+        // An input method reports its composing keys as "Process": Enter picks a candidate and Escape cancels the composition.
+        if (args.Key == "Process") return;
+        if (args.Key == "Enter") await CommitTitleEditAsync();
+        else if (args.Key == "Escape")
+        {
+            var current = _titleEditing;
+            _titleEditing = null;
+            if (current is not null) _focusCardPendingId = current.CardId;
+        }
+    }
 
     private string EditorId => $"{_baseId}-field-editor";
 
@@ -1390,6 +1460,17 @@ public partial class KanbanBoard : ComponentBase
             return;
         }
 
+        if (args.Key == "F2" && OnTitleEdit.HasDelegate)
+        {
+            // F2 with title editing on: rename the card (its fields are edited by clicking them or Tab from the title).
+            var renameCard = CardAt(layout, _focusedCol, _focusedRow);
+            if (renameCard is not null && IsTitleEditable(renameCard))
+            {
+                StartTitleEdit(renameCard);
+                return;
+            }
+        }
+
         if (args.Key == "F2" && OnFieldEdit.HasDelegate)
         {
             // F2: edit the card's first editable field (the keyboard twin of clicking its value).
@@ -1480,6 +1561,18 @@ public partial class KanbanBoard : ComponentBase
             try
             {
                 await JS.InvokeVoidAsync("eval", $"(function(){{var e=document.getElementById({JsonString(ScrollId)});if(e)e.scrollTop={scrollTo.ToString(System.Globalization.CultureInfo.InvariantCulture)};}})()");
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
+        if (_focusTitlePending)
+        {
+            _focusTitlePending = false;
+            try
+            {
+                await JS.InvokeVoidAsync("eval", $"(function(){{var e=document.getElementById({JsonString(TitleEditorId)});if(e){{e.focus();e.select();}}}})()");
             }
             catch
             {

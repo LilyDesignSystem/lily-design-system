@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\FilterLabelPackTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-data-grid\PackFilesTests.cs" />
     <Compile Include="..\FilterModelTests.cs" />
     <Compile Include="..\FilterBuilderTests.cs" />
   </ItemGroup>

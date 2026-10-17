@@ -210,11 +210,21 @@
                                    of two equally-real move paths, not the accessible
                                    one — see the move-button/listbox below for that. *@
                                 <span class="kanban-board-card-title"
-                                      draggable="@(Readonly || currentCard.Locked || currentCard.Draggable == false ? null : "true")"
+                                      draggable="@(Readonly || currentCard.Locked || currentCard.Draggable == false || _titleEditing?.CardId == currentCard.Id ? null : "true")"
                                       data-kanban-drag-preview="@DragPreviewFor(currentCard)"
                                       @ondragstart="@(e => OnCardDragStart(currentCard, e))"
-                                      @ondragend="OnCardDragEnd">
-                                    @if (CardTemplate is not null)
+                                      @ondragend="OnCardDragEnd"
+                                      @ondblclick="@(() => StartTitleEdit(currentCard))">
+                                    @if (_titleEditing is { } titleEditing && titleEditing.CardId == currentCard.Id)
+                                    {
+                                        <input id="@TitleEditorId" class="kanban-board-title-editor" type="text"
+                                               aria-label="@(Labels.TitleEditor is not null ? Labels.TitleEditor(ResolveCardLabel(currentCard)) : ResolveCardLabel(currentCard))"
+                                               value="@titleEditing.Draft"
+                                               @oninput="@(e => SetTitleDraft(e.Value?.ToString() ?? ""))"
+                                               @onkeydown="OnTitleEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                               @onblur="@(() => CommitTitleEditAsync(false))" />
+                                    }
+                                    else if (CardTemplate is not null)
                                     {
                                         @CardTemplate(new KanbanCardContext { Card = currentCard, Label = ResolveCardLabel(currentCard), Column = column, Pending = IsPending(currentCard.Id) })
                                     }

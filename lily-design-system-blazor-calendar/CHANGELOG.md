@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `ToCalendarLabels()` builds `CalendarViewLabels` from a label pack (not the date-dependent labels: weekday names, day names, period titles).
+
 ## 0.6.0 — 2026-10-17
 
 - Added search: `Labels.Search` renders a field and `SearchValue` (bindable) keeps the events whose title and field text contain every typed word, in any order, ignoring case and diacritics; Escape clears it; `Labels.SearchAnnouncement`. The field carries the headless `search-input` class (written by hand, not composed).
