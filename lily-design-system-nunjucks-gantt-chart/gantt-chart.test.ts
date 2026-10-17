@@ -1031,3 +1031,245 @@ describe("GanttChart — unscheduled tasks and collapse-all (§14.18–§14.24)"
     expect(rows(root)).toHaveLength(3);
   });
 });
+
+// ---- A small harness for the ported typed-fields suite: the macro renders, the client runs, real DOM events ----
+function render(props: Record<string, unknown>): { root: HTMLElement; controller: ReturnType<typeof initGanttChart> } {
+  const { onFieldEdit, onExport, fieldHooks, ...rest } = props as Record<string, unknown> & { labels?: Record<string, unknown> };
+  const macro: Record<string, unknown> = { ...rest };
+  if (onFieldEdit) macro["editableFields"] = true;
+  // The search field renders only when `labels.search` names it.
+  if (macro["search"] !== undefined) macro["labels"] = { search: "Search", ...((macro["labels"] as object) ?? {}) };
+  const html = renderMacro(macro);
+  const root = mountIntoBody(html);
+  const controller = initGanttChart(root, { onFieldEdit, onExport, fieldHooks } as never);
+  return { root, controller };
+}
+
+const fireEvent = {
+  async click(el: Element) { (el as HTMLElement).click(); await Promise.resolve(); },
+  async input(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("input", { bubbles: true })); await Promise.resolve(); },
+  async change(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("change", { bubbles: true })); await Promise.resolve(); },
+  async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) { el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init })); await Promise.resolve(); },
+  async scroll(el: Element) { el.dispatchEvent(new Event("scroll")); await Promise.resolve(); },
+};
+
+async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
+  const deadline = Date.now() + timeout;
+  for (;;) {
+    try {
+      assertion();
+      return;
+    } catch (error) {
+      if (Date.now() > deadline) throw error;
+      await new Promise((r) => setTimeout(r, 0));
+    }
+  }
+}
+
+describe("GanttChart — typed fields, editing, export, virtualization (§14.25–§14.40)", () => {
+    const FIELDS = [
+        { id: "owner", header: "Owner", type: "select" as const, options: [{ id: "a", label: "Ann" }, { id: "b", label: "Bo" }] },
+        { id: "points", header: "Points", type: "number" as const },
+    ];
+    const FT: GanttTask[] = [
+        { id: "t1", label: "Design", start: "2026-10-01", end: "2026-10-03", percentComplete: 50, values: { owner: "a", points: 3 }, baseline: { start: "2026-10-01", end: "2026-10-02" } },
+        { id: "t2", label: "Build =x", start: "2026-10-04", end: "2026-10-06", dependsOn: ["t1"], values: { points: 5 } },
+        { id: "p", label: "Phase", parentId: undefined },
+        { id: "k", label: "Kid", start: "2026-10-08", end: "2026-10-09", parentId: "p" },
+    ];
+    const EXPORT_LABELS: GanttLabels = {
+        export: "Export",
+        exportCsv: "CSV",
+        exportTsv: "TSV",
+        exportExcel: "Excel",
+        exportHeaders: { task: "Task", start: "Start", end: "End", percentComplete: "Done", parent: "Parent", dependsOn: "After" },
+        exportAnnouncement: "{count} tasks as {format}: {filename}",
+        editAnnouncement: "{task} {field} is {value}",
+        editInvalid: "{task}: bad {field}",
+    };
+    const base = { label: "Q4", range: RANGE, tasks: FT, fields: FIELDS };
+    const rowOf = (id: string) => document.querySelector<HTMLElement>(`[data-lily-gantt-chart-task-id="${id}"]`)!;
+
+    test("§14.25 each field is a column between the task name and the timeline, with a header and formatted cells", () => {
+        render(base);
+        const heads = Array.from(document.querySelectorAll(".gantt-table-thead th")).slice(0, 3).map((e) => e.textContent?.trim());
+        expect(heads).toEqual(["", "Owner", "Points"]);
+        const cells = rowOf("t1").querySelectorAll("[data-field]");
+        expect(Array.from(cells).map((c) => c.textContent?.trim())).toEqual(["Ann", "3"]);
+    });
+
+    test("§14.26 fields are plain text without onFieldEdit and in a readonly chart", () => {
+        render(base);
+        expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
+        document.body.innerHTML = "";
+        render({ ...base, onFieldEdit: vi.fn(), readonly: true });
+        expect(document.querySelector(".gantt-chart-field-button")).toBeNull();
+    });
+
+    test("§14.27 clicking a value opens a typed editor; Enter commits the parsed value and announces", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, onFieldEdit, labels: EXPORT_LABELS });
+        await fireEvent.click(rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[1]);
+        const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+        expect(input.type).toBe("number");
+        expect(input.getAttribute("aria-label")).toBe("Points");
+        await fireEvent.input(input, { target: { value: "8" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t1", fieldId: "points", value: 8, previous: 3 });
+        expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design Points is 8");
+        expect(document.querySelector(".gantt-chart-field-editor")).toBeNull();
+    });
+
+    test("§14.28 a select field edits through its options", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, onFieldEdit });
+        await fireEvent.click(rowOf("t2").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[0]);
+        await fireEvent.change(document.querySelector("select.gantt-chart-field-editor")!, { target: { value: "b" } });
+        expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t2", fieldId: "owner", value: "b", previous: undefined });
+    });
+
+    test("§14.29 Escape cancels; an unchanged value reports nothing", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, onFieldEdit });
+        const open = () => fireEvent.click(rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[1]);
+        await open();
+        await fireEvent.input(document.querySelector(".gantt-chart-field-editor")!, { target: { value: "9" } });
+        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Escape" });
+        await open();
+        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Enter" });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+
+    test("§14.30 a value that does not fit the type is refused: the editor stays open and the refusal is announced", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, fields: [{ id: "p", header: "P", type: "number" }], fieldHooks: { p: { parse: () => Number.NaN } }, tasks: [{ ...FT[0], values: { p: 1 } }], onFieldEdit, labels: EXPORT_LABELS });
+        await fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
+        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Enter" });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".gantt-chart-field-editor")).not.toBeNull();
+        expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("Design: bad P");
+    });
+
+    test("§14.31 F2 on a timeline cell edits the row's first editable field; Tab commits and moves to the next", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, onFieldEdit });
+        const cell = rowOf("t1").querySelector<HTMLElement>("[data-row][data-col]")!;
+        await fireEvent.keyDown(cell, { key: "F2" });
+        const first = document.querySelector<HTMLSelectElement>("select.gantt-chart-field-editor")!;
+        expect(first).not.toBeNull();
+        await fireEvent.change(first, { target: { value: "b" } });
+        expect(onFieldEdit).toHaveBeenCalledTimes(1);
+        await fireEvent.click(rowOf("t1").querySelectorAll<HTMLElement>(".gantt-chart-field-button")[0]);
+        await fireEvent.keyDown(document.querySelector(".gantt-chart-field-editor")!, { key: "Tab" });
+        expect(document.querySelector<HTMLInputElement>("input.gantt-chart-field-editor")!.type).toBe("number");
+    });
+
+    test("§14.32 IME: Enter while composing does not commit", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, fields: [{ id: "n", header: "N" }], tasks: [{ ...FT[0], values: { n: "a" } }], onFieldEdit });
+        await fireEvent.click(document.querySelector(".gantt-chart-field-button")!);
+        const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+        await fireEvent.input(input, { target: { value: "かな" } });
+        await fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+        await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t1", fieldId: "n", value: "かな", previous: "a" });
+    });
+
+    async function exported(props: Record<string, unknown> = {}, format: "csv" | "tsv" | "xlsx" = "csv") {
+        const onExport = vi.fn((_file: { format: string; filename: string; taskCount: number; blob: Blob }) => false as const);
+        render({ ...base, labels: EXPORT_LABELS, onExport, ...props });
+        await fireEvent.click(document.querySelector(`[data-gantt-export-format="${format}"]`)!);
+        const file = onExport.mock.calls[0][0];
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        return { file, text };
+    }
+
+    test("§14.33 export buttons need a label and exportHeaders; each label gates its button", () => {
+        render(base);
+        expect(document.querySelector(".gantt-chart-export")).toBeNull();
+        document.body.innerHTML = "";
+        render({ ...base, labels: { exportCsv: "CSV" } });
+        expect(document.querySelector(".gantt-chart-export")).toBeNull();
+        document.body.innerHTML = "";
+        render({ ...base, labels: { export: "Export", exportExcel: "Excel", exportHeaders: EXPORT_LABELS.exportHeaders } });
+        expect(document.querySelector("[role=group][aria-label=Export]")).toBeTruthy();
+        expect(document.querySelectorAll(".gantt-chart-export-button")).toHaveLength(1);
+    });
+
+    test("§14.34 CSV holds task, effective start/end, percent, parent, predecessors and the fields; parents export their derived span", async () => {
+        const { file, text } = await exported();
+        expect(file.filename).toBe("gantt-chart.csv");
+        expect(file.taskCount).toBe(4);
+        const lines = text.replace("﻿", "").split("\r\n");
+        expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,Owner,Points");
+        expect(lines[1]).toMatch(/^Design,2026-10-01,2026-10-03,50,,,Ann,3$/);
+        expect(lines[2]).toMatch(/^'=x|^Build/);
+        expect(lines[2]).toContain("Design");
+        expect(lines[3]).toMatch(/^Phase,2026-10-08,2026-10-09,,,,/);
+        expect(lines[4]).toMatch(/^Kid,2026-10-08,2026-10-09,,Phase,,/);
+    });
+
+    test("§14.35 exportScope visible leaves out tasks under a collapsed parent", async () => {
+        const { file } = await exported({ collapsedTaskIds: ["p"], exportScope: "visible" });
+        expect(file.taskCount).toBe(3);
+    });
+
+    test("§14.36 baseline columns and exportable false", async () => {
+        const { text } = await exported({ fields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]], labels: { ...EXPORT_LABELS, exportHeaders: { ...EXPORT_LABELS.exportHeaders!, baselineStart: "BS", baselineEnd: "BE" } } });
+        const lines = text.replace("﻿", "").split("\r\n");
+        expect(lines[0]).toBe("Task,Start,End,Done,Parent,After,BS,BE,Points");
+        expect(lines[1]).toBe("Design,2026-10-01,2026-10-03,50,,,2026-10-01,2026-10-02,3");
+    });
+
+    test("§14.37 saving announces unless onExport returns false; no tasks disables the buttons", async () => {
+        const created: Blob[] = [];
+        const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
+        URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
+        URL.revokeObjectURL = () => {};
+        try {
+            render({ ...base, labels: EXPORT_LABELS });
+            await fireEvent.click(document.querySelector('[data-gantt-export-format="tsv"]')!);
+            expect(created).toHaveLength(1);
+            expect(document.querySelector(".gantt-chart-status")!.textContent).toBe("4 tasks as tsv: gantt-chart.tsv");
+            document.body.innerHTML = "";
+            render({ ...base, tasks: [], labels: EXPORT_LABELS });
+            expect((document.querySelector('[data-gantt-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
+        } finally {
+            URL.createObjectURL = original.create;
+            URL.revokeObjectURL = original.revoke;
+        }
+    });
+
+    const MANY: GanttTask[] = Array.from({ length: 200 }, (_, i) => ({ id: `r${i}`, label: `Task ${i}`, start: "2026-10-01", end: "2026-10-02" }));
+
+    test("§14.38 virtualize renders only the rows in view plus spacers, with aria-rowcount and aria-rowindex", () => {
+        render({ label: "Q4", range: RANGE, tasks: MANY, virtualize: { rowHeight: 20, height: 100, overscan: 1 } });
+        const rendered = document.querySelectorAll("tr.gantt-table-tr[data-lily-gantt-chart-task-id]").length;
+        expect(rendered).toBeGreaterThan(0);
+        expect(rendered).toBeLessThan(20);
+        expect(document.querySelector(".gantt-table")!.getAttribute("aria-rowcount")).toBe("201");
+        expect(document.querySelector('[data-lily-gantt-chart-task-id="r0"]')!.getAttribute("aria-rowindex")).toBe("2");
+        expect(document.querySelector(".gantt-chart-spacer")).not.toBeNull();
+        expect(document.querySelector(".gantt-chart-scroll")!.getAttribute("style")).toContain("height: 100px");
+    });
+
+    test("§14.39 scrolling brings later rows in; keyboard focus to the last row reveals it", async () => {
+        render({ label: "Q4", range: RANGE, tasks: MANY, virtualize: { rowHeight: 20, height: 100 } });
+        const scroll = document.querySelector<HTMLElement>(".gantt-chart-scroll")!;
+        scroll.scrollTop = 2000;
+        await fireEvent.scroll(scroll);
+        expect(document.querySelector('[data-lily-gantt-chart-task-id="r100"]')).not.toBeNull();
+        expect(document.querySelector('[data-lily-gantt-chart-task-id="r1"]')).toBeNull(); // r0 stays: it holds the roving tab stop
+        const cell = document.querySelector<HTMLElement>("[data-row][data-col]")!;
+        await fireEvent.keyDown(cell, { key: "End", ctrlKey: true });
+        await waitFor(() => expect(document.querySelector('[data-lily-gantt-chart-task-id="r199"]')).not.toBeNull());
+    });
+
+    test("§14.40 without virtualize every row renders, and the roving tab stop stays unique", () => {
+        render({ label: "Q4", range: RANGE, tasks: MANY });
+        expect(document.querySelectorAll("tr.gantt-table-tr[data-lily-gantt-chart-task-id]")).toHaveLength(200);
+        expect(document.querySelectorAll('.gantt-table-td[tabindex="0"]')).toHaveLength(1);
+    });
+});

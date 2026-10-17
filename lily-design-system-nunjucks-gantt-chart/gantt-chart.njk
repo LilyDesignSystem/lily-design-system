@@ -157,6 +157,30 @@
     - Alt+ArrowLeft/Right shifts a leaf task one column; Alt+Shift+Arrow moves only its end.
     - tasks[].attrs (object): extra attributes on the task's row (taskAttrs).
 
+  12. 0.5.0 — typed fields, inline editing, export, virtualization:
+       fields        — macro param, array<{id, header, type?, options?, editable?, editLabel?, exportable?, numberFormat?,
+                       dateFormat?}>: declarative (no functions). A task's `values` object holds each field's value by id.
+                       Each field is a column between the task name and the timeline: a `th[data-field]` in the header and a
+                       `td[data-field]` per row. The server renders the raw value (a select's option label); the client
+                       formats it by type once it runs. `locale` is the BCP 47 tag for numbers and dates (never defaulted).
+       editableFields — macro param (boolean): turns inline editing on (not for a readonly chart; a field with
+                       `editable: false`, or of a type that cannot be edited, stays text). The value becomes a
+                       `.gantt-chart-field-button`. NUNJUCKS DEVIATION: a macro cannot see a client listener, so this flag
+                       stands in for the other catalogs' `onFieldEdit` / `field-edit` listener. The client's
+                       `initGanttChart(root, { onFieldEdit })` reports each accepted edit (and fires `fieldedit`).
+       exportFilename / exportScope — macro params ("gantt-chart" / "all" or "visible").
+       labels.export, labels.exportCsv / exportTsv / exportExcel — plain strings; labels.exportHeaders — an object of plain
+                       strings ({task, start, end, percentComplete?, parent?, dependsOn?, baselineStart?, baselineEnd?}); none of the
+                       buttons renders without it. labels.exportAnnouncement — template string, tokens {count}, {format},
+                       {filename}. labels.editAnnouncement — tokens {task}, {field}, {value}. labels.editInvalid — tokens {task},
+                       {field}.
+       virtualize    — macro param {rowHeight, height, overscan?}: the table sits in a `.gantt-chart-scroll` area of that height; every
+                       row is rendered at SSR (without the client script the area is just scrollable) and the client keeps only the
+                       rows in view (and the roving tab stop's row) in the DOM, between `.gantt-chart-spacer` rows. aria-rowindex /
+                       aria-rowcount are set by the client.
+       Client options: onFieldEdit({taskId, fieldId, value, previous}), onExport(file) (return false to take over the download),
+       fieldHooks ({ [fieldId]: { parse, exportValue } } for the functions a macro cannot carry).
+
   Params (single `opts` object):
     readonly    — boolean. Disable editing and drag; navigation stays.
     label       — string, required. aria-label for the grid table.
@@ -276,7 +300,7 @@
 {{- start }},{{ end -}}
 {%- endmacro -%}
 
-{%- macro _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks) -%}
+{%- macro _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks, fields, editableFields, readonly) -%}
 {%- set thHtml = "" -%}
 {#- The collapse button only when both its labels are given: an unnamed
     button is worse than none, and the subtree then stays expanded. -#}
@@ -296,6 +320,25 @@
 {#- Depth is data for the consumer's CSS (indentation), never an inline style. -#}
 {%- set thAttrs = [["data-depth", depth]] -%}
 {%- set thContent = ganttTableTh({ scope: "row", attributes: thAttrs, html: thHtml }) -%}
+{#- One cell per typed field, between the task name and the timeline: the raw value (a select's option label); the client formats it by type. -#}
+{%- set fieldCellsHtml = "" -%}
+{%- for f in fields -%}
+  {%- set raw = (task.values[f.id]) if task.values else "" -%}
+  {%- set text = "" -%}
+  {%- if raw is defined and raw is not none and raw != "" -%}
+    {%- set text = raw | string -%}
+    {%- if f.options -%}{%- for o in f.options -%}{%- if o.id == raw -%}{%- set text = o.label -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+  {%- endif -%}
+  {%- set ftype = f.type | default("text") -%}
+  {%- set fieldEditable = editableFields and (not readonly) and (f.editable != false) and (ftype in ["text", "number", "link", "date", "time", "select", "radio"]) -%}
+  {%- set cellInner = "" -%}
+  {%- if fieldEditable -%}
+    {%- set cellInner = '<span id="' ~ id ~ '-fn-' ~ task.id ~ '-' ~ f.id ~ '" hidden>' ~ (f.header | e) ~ '</span><button type="button" class="gantt-chart-field-button" id="' ~ id ~ '-fv-' ~ task.id ~ '-' ~ f.id ~ '" tabindex="-1" aria-labelledby="' ~ id ~ '-fn-' ~ task.id ~ '-' ~ f.id ~ ' ' ~ id ~ '-fv-' ~ task.id ~ '-' ~ f.id ~ '" data-lily-gantt-chart-field-button data-lily-gantt-chart-task-id="' ~ (task.id | e) ~ '" data-field-id="' ~ (f.id | e) ~ '">' ~ (text | e) ~ '</button>' -%}
+  {%- else -%}
+    {%- set cellInner = text | e -%}
+  {%- endif -%}
+  {%- set fieldCellsHtml = fieldCellsHtml ~ '<td class="gantt-table-td" data-field="' ~ (f.id | e) ~ '" data-type="' ~ ftype ~ '"' ~ ((' data-align="' ~ f.align ~ '"') if f.align else '') ~ ' data-lily-gantt-chart-field-cell>' ~ cellInner ~ '</td>' -%}
+{%- endfor -%}
 {%- if hasChildren -%}
   {%- set effRange = (_ganttChartEffectiveRange(task.id, tasks)).split(",") -%}
   {%- set effStart = effRange[0] -%}
@@ -322,7 +365,7 @@
 {%- if task.percentComplete is defined and task.percentComplete is not none -%}
   {%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-percent-complete", task.percentComplete]]) -%}
 {%- endif -%}
-{%- set out = ganttTableTr({ attributes: rowAttrs, html: thContent }) -%}
+{%- set out = ganttTableTr({ attributes: rowAttrs, html: (thContent ~ fieldCellsHtml) | safe }) -%}
 {%- if not hasChildren and dtpLabelsPresent -%}
   {%- set out = (out ~ _ganttChartEditRowHtml(task, labels, id)) | safe -%}
 {%- endif -%}
@@ -338,7 +381,7 @@
   root call; comparing against `task.parentId | default("")` handles
   both root tasks (no parentId) and nested ones uniformly.
 -#}
-{%- macro _ganttChartRowsHtml(parentTaskId, depth, tasks, labels, id, dtpLabelsPresent, taskIds) -%}
+{%- macro _ganttChartRowsHtml(parentTaskId, depth, tasks, labels, id, dtpLabelsPresent, taskIds, fields, editableFields, readonly) -%}
 {%- set out = "" -%}
 {%- for task in tasks -%}
   {#- At the root, a task whose parentId names no task is a top-level row,
@@ -366,9 +409,9 @@
         {%- endfor -%}
       {%- endfor -%}
     {%- endif -%}
-    {%- set out = (out ~ _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks)) | safe -%}
+    {%- set out = (out ~ _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks, fields, editableFields, readonly)) | safe -%}
     {%- if hasChildren -%}
-      {%- set out = (out ~ _ganttChartRowsHtml(task.id, depth + 1, tasks, labels, id, dtpLabelsPresent, taskIds)) | safe -%}
+      {%- set out = (out ~ _ganttChartRowsHtml(task.id, depth + 1, tasks, labels, id, dtpLabelsPresent, taskIds, fields, editableFields, readonly)) | safe -%}
     {%- endif -%}
   {%- endif -%}
 {%- endfor -%}
@@ -386,12 +429,31 @@
 {%- set dtpLabelsPresent = (not opts.readonly) and (labels.dateTimePickerLabels is defined) and labels.dateTimePickerLabels and labels.startLabel and labels.endLabel and labels.saveLabel and labels.cancelLabel -%}
 {%- set taskIds = [] -%}
 {%- for t in tasks -%}{%- set taskIds = taskIds.concat([t.id]) -%}{%- endfor -%}
+{%- set fieldDefs = opts.fields | default([]) -%}
 {%- set leadingThHtml = ganttTableTh({ scope: "col", attributes: [["data-lily-gantt-chart-leading-column", ""]], text: labels.taskColumnHeader | default("") }) -%}
+{%- for f in fieldDefs -%}
+  {%- set leadingThHtml = (leadingThHtml ~ ganttTableTh({ scope: "col", attributes: [["data-field", f.id], ["data-lily-gantt-chart-field-column", ""]], text: f.header })) | safe -%}
+{%- endfor -%}
 {%- set theadRowHtml = ganttTableTr({ html: leadingThHtml, attributes: [["data-lily-gantt-chart-header-row", ""]] }) -%}
 {%- set theadHtml = ganttTableThead({ html: theadRowHtml }) -%}
-{%- set bodyRowsHtml = _ganttChartRowsHtml("", 0, tasks, labels, id, dtpLabelsPresent, taskIds) -%}
+{%- set bodyRowsHtml = _ganttChartRowsHtml("", 0, tasks, labels, id, dtpLabelsPresent, taskIds, fieldDefs, opts.editableFields, opts.readonly) -%}
 {%- set tbodyHtml = ganttTableTbody({ html: bodyRowsHtml }) -%}
 {%- set tableHtml = ganttTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml) | safe }) -%}
+{#- The scroll area is structural: a virtualized chart gets a fixed height and the client keeps only the rows in view. -#}
+{%- if opts.virtualize -%}
+  {%- set scrollHtml = ('<div class="gantt-chart-scroll" style="height: ' ~ opts.virtualize.height ~ 'px; overflow: auto" data-lily-gantt-chart-virtualize data-row-height="' ~ opts.virtualize.rowHeight ~ '" data-overscan="' ~ (opts.virtualize.overscan | default(3)) ~ '">' ~ tableHtml ~ '</div>') | safe -%}
+{%- else -%}
+  {%- set scrollHtml = ('<div class="gantt-chart-body">' ~ tableHtml ~ '</div>') | safe -%}
+{%- endif -%}
+{%- set exportHtml = "" -%}
+{%- if labels.exportHeaders and (labels.exportCsv or labels.exportTsv or labels.exportExcel) -%}
+  {%- set exportHtml = '<div class="gantt-chart-export" role="group"' ~ ((' aria-label="' ~ (labels.export | e) ~ '"') if labels.export else '') ~ ' data-lily-gantt-chart-export-group>' -%}
+  {%- if labels.exportCsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv"' ~ ('' if tasks | length else ' disabled') ~ '>' ~ (labels.exportCsv | e) ~ '</button>' -%}{%- endif -%}
+  {%- if labels.exportTsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="gantt-chart-export-button" data-gantt-export-format="tsv"' ~ ('' if tasks | length else ' disabled') ~ '>' ~ (labels.exportTsv | e) ~ '</button>' -%}{%- endif -%}
+  {%- if labels.exportExcel -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="gantt-chart-export-button" data-gantt-export-format="xlsx"' ~ ('' if tasks | length else ' disabled') ~ '>' ~ (labels.exportExcel | e) ~ '</button>' -%}{%- endif -%}
+  {%- set exportHtml = exportHtml ~ '</div>' -%}
+{%- endif -%}
+{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, exportFilename: opts.exportFilename | default("gantt-chart"), exportScope: opts.exportScope | default("all"), tasks: tasks, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid } } | dump) -%}
 <div
   class="gantt-chart{% if opts.classes %} {{ opts.classes }}{% endif %}"
   data-lily-gantt-chart-root
@@ -399,6 +461,7 @@
   data-lily-gantt-chart-range-start="{{ opts.range.start }}"
   data-lily-gantt-chart-range-end="{{ opts.range.end }}"
   data-lily-gantt-chart-time-unit="{{ timeUnit }}"
+  data-lily-gantt-chart-config="{{ configJson }}"
   {%- if opts.readonly %} data-readonly{% endif %}
   {%- if opts.today %} data-lily-gantt-chart-today="{{ opts.today }}"{% endif %}
   {%- if opts.selectedTaskId %} data-lily-gantt-chart-selected-task-id="{{ opts.selectedTaskId }}"{% endif %}
@@ -419,7 +482,7 @@
 {%- if labels.zoomIn %}<button type="button" class="gantt-chart-zoom-in-button" aria-label="{{ labels.zoomIn }}" data-lily-gantt-chart-zoom-in>+</button>{% endif %}
 </div>
 {%- endif %}
-{{ tableHtml | safe }}
+{{ exportHtml | safe }}{{ scrollHtml | safe }}
 <p class="gantt-chart-status" id="{{ statusId }}" aria-live="polite" data-lily-gantt-chart-status></p>
 </div>
 {%- endmacro -%}

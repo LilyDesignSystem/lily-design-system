@@ -59,6 +59,18 @@ import {
   toEpochDay,
   initDateTimePicker,
 } from "@lilydesignsystem/nunjucks-date-time-picker";
+import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import { civilDateToDate } from "./cell-types";
+import {
+  draftOf,
+  editorKind,
+  evaluateEdit,
+  exportFieldCell,
+  exportableFields,
+  fieldText,
+  neighbourField,
+  resolveFields,
+} from "./typed-fields";
 
 // ---------------------------------------------------------------------
 // Civil-date arithmetic not already exported by date-time-picker.
@@ -131,6 +143,9 @@ function applyTemplate(template, taskLabel) {
  * @param {HTMLElement} root - The `[data-lily-gantt-chart-root]`.
  * @param {{
  *   onTaskChange?: (taskId: string, start: string, end: string, percentComplete?: number) => void,
+ *   fieldHooks?: Record<string, Record<string, unknown>>,
+ *   onFieldEdit?: (edit: { taskId: string, fieldId: string, value: unknown, previous: unknown }) => void,
+ *   onExport?: (file: { format: string, filename: string, taskCount: number, blob: Blob }) => boolean | void,
  *   onTaskSelect?: (taskId: string | undefined) => void,
  *   labels?: {
  *     zoomAnnouncement?: (timeUnit: string) => string,
@@ -163,6 +178,20 @@ export function initGanttChart(root, opts = {}) {
 
   let columns = generateColumns(range, timeUnit);
   const readonly = root.hasAttribute("data-readonly");
+
+  // The macro's typed fields, label templates and the tasks' data, read from the root.
+  let config = {};
+  try {
+    config = JSON.parse(root.getAttribute("data-lily-gantt-chart-config") || "{}");
+  } catch {
+    config = {};
+  }
+  // Type defaults (format, compare, export value) resolved once per init, never per task or keystroke.
+  // `opts.fieldHooks` carries the functions the macro cannot (a field's `parse`, `exportValue`, …), by field id.
+  const fields = resolveFields(
+    (config.fields || []).map((f) => ({ ...f, ...((opts.fieldHooks || {})[f.id] || {}) })),
+    config.locale,
+  );
 
   // Markers and the consumer's working calendar, resolved once per column (again after a zoom).
   let columnMarkers = [];
@@ -253,18 +282,24 @@ export function initGanttChart(root, opts = {}) {
   // Row helpers
   // -----------------------------------------------------------------
 
-  function visibleTaskRows() {
-    return Array.from(tbody.querySelectorAll(":scope > .gantt-table-tr[data-lily-gantt-chart-task-id]"));
-  }
-
-  // Every task row, captured once: a collapsed subtree's rows leave the DOM,
-  // but their dates still count toward their ancestors' derived range.
-  const rowById = new Map(
-    Array.from(tbody.querySelectorAll(".gantt-table-tr[data-lily-gantt-chart-task-id]")).map((row) => [
+  // Every task row and every edit row, captured once, in document order: the DOM holds only what is shown (a collapsed
+  // subtree's rows, and with `virtualize` the rows out of view, leave it), but their dates still count toward their
+  // ancestors' derived range and they come back when needed.
+  const allRows = Array.from(tbody.querySelectorAll(":scope > .gantt-table-tr[data-lily-gantt-chart-task-id]"));
+  const rowById = new Map(allRows.map((row) => [row.getAttribute("data-lily-gantt-chart-task-id"), row]));
+  const editRows = new Map(
+    Array.from(tbody.querySelectorAll(":scope > .gantt-chart-edit-row")).map((row) => [
       row.getAttribute("data-lily-gantt-chart-task-id"),
       row,
     ]),
   );
+  /** Rows a collapsed ancestor hides. */
+  const removedRows = new Set();
+
+  /** The rows that are shown, in order: every row except the ones a collapsed ancestor hides. */
+  function visibleTaskRows() {
+    return allRows.filter((row) => !removedRows.has(row));
+  }
 
   function taskRowFor(taskId) {
     return rowById.get(taskId) || null;
@@ -312,9 +347,7 @@ export function initGanttChart(root, opts = {}) {
   }
 
   function editRowFor(taskId) {
-    return tbody.querySelector(
-      `.gantt-chart-edit-row[data-lily-gantt-chart-task-id="${escapeAttrValue(taskId)}"]`,
-    );
+    return editRows.get(taskId) || null;
   }
 
   // -----------------------------------------------------------------
@@ -358,13 +391,21 @@ export function initGanttChart(root, opts = {}) {
     return span;
   }
 
+  /** Row → the index its cells were built for; a row whose cells are current is not built again. */
+  let built = new Map();
+
   function rebuildGrid() {
     const rows = visibleTaskRows();
     focusedRow = Math.min(Math.max(focusedRow, 0), Math.max(rows.length - 1, 0));
     focusedCol = Math.min(Math.max(focusedCol, 0), Math.max(columns.length - 1, 0));
+    built = new Map();
+    applyWindow(true);
+  }
 
-    rows.forEach((row, rowIndex) => {
-      Array.from(row.querySelectorAll(".gantt-table-td")).forEach((el) => el.remove());
+  /** The timeline cells of one row, built from the row's own data attributes. */
+  function buildCells(row, rowIndex) {
+    {
+      Array.from(row.querySelectorAll(":scope > .gantt-table-td[data-col]")).forEach((el) => el.remove());
       const start = row.getAttribute("data-lily-gantt-chart-start") || "";
       const end = row.getAttribute("data-lily-gantt-chart-end") || "";
       const taskId = row.getAttribute("data-lily-gantt-chart-task-id") || "";
@@ -430,7 +471,95 @@ export function initGanttChart(root, opts = {}) {
 
         row.appendChild(td);
       });
+      if (virtualEl) row.setAttribute("aria-rowindex", String(rowIndex + 2));
+    }
+  }
+
+  // -----------------------------------------------------------------
+  // Virtualization: every row is rendered by the macro; only the rows in view (plus the roving tab stop's row) stay in
+  // the DOM, between spacer rows, and only those get their cells built. Without `virtualize` every shown row is in the DOM.
+  // -----------------------------------------------------------------
+
+  const virtualEl = root.querySelector("[data-lily-gantt-chart-virtualize]");
+  const rowHeight = virtualEl ? Number(virtualEl.getAttribute("data-row-height")) : 0;
+  const overscan = virtualEl ? Number(virtualEl.getAttribute("data-overscan") || 3) : 0;
+  const viewHeight = virtualEl ? parseFloat(virtualEl.style.height) || 0 : 0;
+  let scrollTopState = 0;
+  let windowSig = null;
+
+  function windowIndices(count) {
+    if (!virtualEl || !rowHeight) return Array.from({ length: count }, (_, i) => i);
+    const start = Math.max(0, Math.floor(scrollTopState / rowHeight) - overscan);
+    const end = Math.min(count, Math.ceil((scrollTopState + viewHeight) / rowHeight) + overscan);
+    const indices = new Set();
+    for (let i = start; i < end; i++) indices.add(i);
+    if (count > 0) indices.add(Math.min(focusedRow, count - 1));
+    return Array.from(indices).sort((a, b) => a - b);
+  }
+
+  /** Put the right rows in the tbody, building the cells of any that have none yet. */
+  function applyWindow(force) {
+    const logical = visibleTaskRows();
+    const indices = windowIndices(logical.length);
+    const sig = indices.join(",") + "|" + logical.length + "|" + columns.length;
+    if (!force && sig === windowSig) return;
+    windowSig = sig;
+    const hadFocus = !!document.activeElement && tbody.contains(document.activeElement);
+    const focused = hadFocus ? document.activeElement : null;
+    const spacer = (count) => {
+      const tr = document.createElement("tr");
+      tr.className = "gantt-chart-spacer";
+      tr.setAttribute("aria-hidden", "true");
+      tr.style.height = `${count * rowHeight}px`;
+      const td = document.createElement("td");
+      td.colSpan = columns.length + 1 + fields.length;
+      tr.appendChild(td);
+      return tr;
+    };
+    const desired = [];
+    let previous = -1;
+    for (const index of indices) {
+      if (virtualEl && index - previous > 1) desired.push(spacer(index - previous - 1));
+      const row = logical[index];
+      if (built.get(row) !== index) {
+        buildCells(row, index);
+        built.set(row, index);
+      }
+      desired.push(row);
+      const editRow = editRows.get(row.getAttribute("data-lily-gantt-chart-task-id"));
+      if (editRow) desired.push(editRow);
+      previous = index;
+    }
+    if (virtualEl && logical.length - 1 - previous > 0) desired.push(spacer(logical.length - 1 - previous));
+    // Reconcile in place so a row that stays keeps its focus: drop what is not wanted, then add what is missing.
+    const wanted = new Set(desired);
+    Array.from(tbody.children).forEach((child) => {
+      if (!wanted.has(child)) child.remove();
     });
+    let cursor = tbody.firstElementChild;
+    for (const node of desired) {
+      if (cursor === node) cursor = cursor.nextElementSibling;
+      else tbody.insertBefore(node, cursor);
+    }
+    if (virtualEl) table.setAttribute("aria-rowcount", String(logical.length + 1));
+    if (focused && focused.isConnected === false) focused.focus({ preventScroll: true });
+  }
+
+  /** Bring a row into the scroll area. */
+  function revealRow(rowIndex) {
+    if (!virtualEl || !rowHeight) return;
+    const top = rowIndex * rowHeight;
+    let next = scrollTopState;
+    if (top < scrollTopState) next = top;
+    else if (top + rowHeight > scrollTopState + viewHeight) next = top + rowHeight - viewHeight;
+    if (next === scrollTopState) return;
+    scrollTopState = next;
+    virtualEl.scrollTop = next;
+  }
+
+  function onScroll() {
+    scrollTopState = virtualEl.scrollTop;
+    applyWindow(false);
   }
 
   // -----------------------------------------------------------------
@@ -450,6 +579,8 @@ export function initGanttChart(root, opts = {}) {
     if (current) current.setAttribute("tabindex", "-1");
     focusedRow = clampedRow;
     focusedCol = clampedCol;
+    revealRow(clampedRow);
+    applyWindow(false);
     const target = table.querySelector(`.gantt-table-td[data-row="${clampedRow}"][data-col="${clampedCol}"]`);
     if (target) {
       target.setAttribute("tabindex", "0");
@@ -478,11 +609,17 @@ export function initGanttChart(root, opts = {}) {
   }
 
   function onGridKeydown(event) {
+    if (event.target && event.target.closest && event.target.closest(".gantt-chart-field-editor")) return;
     const cell = event.target && event.target.closest ? event.target.closest("[data-row][data-col]") : null;
     if (!cell) return;
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.key === "F2") {
+      // F2: edit the task's first editable field (the keyboard twin of clicking its value).
+      if (editFirstField(visibleTaskRows()[row])) event.preventDefault();
+      return;
+    }
     if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
       // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
       const taskRow = visibleTaskRows()[row];
@@ -551,37 +688,35 @@ export function initGanttChart(root, opts = {}) {
   // data-lily-gantt-chart-depth is greater than the row's.
   // -----------------------------------------------------------------
 
-  /** @type {Map<string, ChildNode[]>} taskId -> the nodes removed while collapsed. */
+  /** @type {Map<string, Element[]>} taskId -> the rows hidden while it is collapsed. */
   const collapsedChildren = new Map();
 
-  function collapseRow(taskId, row) {
+  /** The rows under `row`: the run after it in document order whose depth is greater. */
+  function descendantsOf(row) {
     const depth = Number(row.getAttribute("data-lily-gantt-chart-depth") || "0");
-    const removed = [];
-    let node = row.nextElementSibling;
-    while (node) {
-      const isTaskRow = node.classList.contains("gantt-table-tr") && node.hasAttribute("data-lily-gantt-chart-task-id");
-      const isEditRow = node.classList.contains("gantt-chart-edit-row");
-      if (isTaskRow) {
-        const d = Number(node.getAttribute("data-lily-gantt-chart-depth") || "0");
-        if (d <= depth) break;
-      } else if (!isEditRow) {
-        break;
-      }
-      const next = node.nextElementSibling;
-      node.remove();
-      removed.push(node);
-      node = next;
+    const out = [];
+    for (let i = allRows.indexOf(row) + 1; i < allRows.length; i++) {
+      if (Number(allRows[i].getAttribute("data-lily-gantt-chart-depth") || "0") <= depth) break;
+      out.push(allRows[i]);
     }
+    return out;
+  }
+
+  function collapseRow(taskId, row) {
+    const removed = descendantsOf(row);
+    removed.forEach((r) => removedRows.add(r));
     collapsedChildren.set(taskId, removed);
   }
 
-  function expandRow(taskId, row) {
+  function expandRow(taskId) {
     const removed = collapsedChildren.get(taskId);
     if (!removed) return;
-    const fragment = document.createDocumentFragment();
-    removed.forEach((node) => fragment.appendChild(node));
-    row.after(fragment);
     collapsedChildren.delete(taskId);
+    // A row stays hidden while another collapsed ancestor still covers it.
+    const stillCovered = new Set(Array.from(collapsedChildren.values()).flat());
+    removed.forEach((r) => {
+      if (!stillCovered.has(r)) removedRows.delete(r);
+    });
   }
 
   /** Collapse or expand one parent (its button, when it has one, follows). Does not rebuild the grid. */
@@ -590,7 +725,7 @@ export function initGanttChart(root, opts = {}) {
     if (!row || !row.hasAttribute("data-lily-gantt-chart-has-children")) return;
     if (collapsedChildren.has(taskId) === collapsed) return;
     if (collapsed) collapseRow(taskId, row);
-    else expandRow(taskId, row);
+    else expandRow(taskId);
     const button = row.querySelector("[data-lily-gantt-chart-collapse-button]");
     if (button) {
       const label = row.getAttribute("data-lily-gantt-chart-task-label") || "";
@@ -643,7 +778,7 @@ export function initGanttChart(root, opts = {}) {
   // -----------------------------------------------------------------
 
   function selectedId() {
-    const row = tbody.querySelector(".gantt-table-tr[data-selected]");
+    const row = allRows.find((r) => r.hasAttribute("data-selected"));
     return row ? row.getAttribute("data-lily-gantt-chart-task-id") : undefined;
   }
 
@@ -686,7 +821,7 @@ export function initGanttChart(root, opts = {}) {
 
   function onTbodyClick(event) {
     const clicked = event.target && event.target.closest ? event.target : null;
-    if (clicked && !clicked.closest("button, input, [data-lily-gantt-chart-edit-row]") && !clicked.closest("[data-lily-date-time-picker-root]")) {
+    if (clicked && !clicked.closest("button, input, select, [data-lily-gantt-chart-edit-row]") && !clicked.closest("[data-lily-date-time-picker-root]")) {
       const taskRow = clicked.closest(".gantt-table-tr[data-lily-gantt-chart-task-id]");
       if (taskRow) selectTask(taskRow.getAttribute("data-lily-gantt-chart-task-id"));
     }
@@ -746,7 +881,7 @@ export function initGanttChart(root, opts = {}) {
     resetPickerRoot(endRoot, originalEnd);
 
     const cell = editRow.querySelector("td");
-    if (cell) cell.colSpan = columns.length + 1;
+    if (cell) cell.colSpan = columns.length + 1 + fields.length;
 
     const percentInput = editRow.querySelector("[data-lily-gantt-chart-percent-input]");
     if (percentInput) {
@@ -899,6 +1034,223 @@ export function initGanttChart(root, opts = {}) {
   // Wire everything up
   // -----------------------------------------------------------------
 
+  // -----------------------------------------------------------------
+  // Typed fields, inline editing, export (the macro's `fields`, `editableFields` and export labels)
+  // -----------------------------------------------------------------
+
+  const fieldDef = (id) => fields.find((f) => f.id === id);
+  /** The consumer's data by task id; an accepted edit updates it, so the chart stays what the user sees. */
+  const dataTasks = new Map((config.tasks || []).map((t) => [t.id, { ...t, values: { ...(t.values || {}) } }]));
+  const fill = (template, tokens) => String(template).replace(/\{(\w+)\}/g, (match, name) => (name in tokens ? String(tokens[name]) : match));
+  const labelOf = (taskId) => {
+    const row = taskRowFor(taskId);
+    return (row && row.getAttribute("data-lily-gantt-chart-task-label")) || taskId;
+  };
+  const announce = (message) => {
+    if (message && statusEl) statusEl.textContent = message;
+  };
+  const fieldCellOf = (row, fieldId) =>
+    Array.from(row.querySelectorAll("[data-lily-gantt-chart-field-cell]")).find((td) => td.getAttribute("data-field") === fieldId) || null;
+
+  /** Show each field's value formatted by its type: the server rendered the raw value. */
+  function formatFields() {
+    allRows.forEach((row) => {
+      const data = dataTasks.get(row.getAttribute("data-lily-gantt-chart-task-id"));
+      if (!data) return;
+      row.querySelectorAll("[data-lily-gantt-chart-field-cell]").forEach((td) => {
+        const f = fieldDef(td.getAttribute("data-field"));
+        if (!f) return;
+        const button = td.querySelector("[data-lily-gantt-chart-field-button]");
+        const text = fieldText(f, data.values);
+        if (button) button.textContent = text;
+        else td.textContent = text;
+      });
+    });
+  }
+
+  /** @type {{ taskId: string, fieldId: string, draft: unknown, editor: HTMLElement, button: HTMLElement } | null} */
+  let editingField = null;
+
+  function startFieldEdit(taskId, fieldId) {
+    const f = fieldDef(fieldId);
+    const row = taskRowFor(taskId);
+    if (!f || !row || readonly) return;
+    const td = fieldCellOf(row, fieldId);
+    const button = td && td.querySelector("[data-lily-gantt-chart-field-button]");
+    if (!td || !button) return;
+    if (editingField) commitFieldEdit(false);
+    const data = dataTasks.get(taskId);
+    const kind = editorKind(f);
+    let editor;
+    if (kind === "select" || kind === "radio") {
+      editor = document.createElement("select");
+      const blank = document.createElement("option");
+      blank.value = "";
+      editor.appendChild(blank);
+      for (const option of f.options || []) {
+        const o = document.createElement("option");
+        o.value = option.id;
+        o.disabled = !!option.disabled;
+        o.textContent = option.label;
+        editor.appendChild(o);
+      }
+    } else {
+      editor = document.createElement("input");
+      editor.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
+      if (kind === "number") editor.setAttribute("inputmode", "decimal");
+    }
+    editor.className = "gantt-chart-field-editor";
+    editor.setAttribute("aria-label", f.editLabel || f.header);
+    const draft = draftOf(f, data ? data.values : undefined);
+    editor.value = String(draft == null ? "" : draft);
+    editingField = { taskId, fieldId, draft: editor.value, editor, button };
+    editor.addEventListener("input", () => {
+      if (editingField) editingField.draft = editor.value;
+    });
+    editor.addEventListener("keydown", onFieldEditorKeydown);
+    if (kind === "select" || kind === "radio") {
+      editor.addEventListener("change", () => {
+        if (editingField) editingField.draft = editor.value;
+        if (commitFieldEdit()) focusActiveCell();
+      });
+    }
+    editor.addEventListener("blur", () => commitFieldEdit());
+    button.replaceWith(editor);
+    editor.focus({ preventScroll: true });
+    if (editor.tagName === "INPUT" && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+  }
+
+  /** Put the value button back in place of the editor. */
+  function closeFieldEditor() {
+    if (!editingField) return null;
+    const closing = editingField;
+    editingField = null;
+    closing.editor.replaceWith(closing.button);
+    return closing;
+  }
+
+  /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+  function commitFieldEdit() {
+    if (!editingField) return true;
+    const { taskId, fieldId, draft } = editingField;
+    const f = fieldDef(fieldId);
+    const data = dataTasks.get(taskId);
+    if (!f || !data) {
+      closeFieldEditor();
+      return true;
+    }
+    const outcome = evaluateEdit(f, data.values, draft);
+    if (outcome.invalid) {
+      const template = (config.labels || {}).editInvalid;
+      if (template) announce(fill(template, { task: labelOf(taskId), field: f.header }));
+      return false;
+    }
+    const closing = closeFieldEditor();
+    if (outcome.changed) {
+      data.values[fieldId] = outcome.value;
+      if (closing) closing.button.textContent = outcome.text;
+      const edit = { taskId, fieldId, value: outcome.value, previous: outcome.previous };
+      if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
+      root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
+      const template = (config.labels || {}).editAnnouncement;
+      if (template) announce(fill(template, { task: labelOf(taskId), field: f.header, value: outcome.text }));
+    }
+    return true;
+  }
+
+  function cancelFieldEdit() {
+    if (closeFieldEditor()) focusActiveCell();
+  }
+
+  function onFieldEditorKeydown(event) {
+    // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+    // report the confirming Enter with `isComposing` already false but keyCode 229.
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (commitFieldEdit()) focusActiveCell();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      cancelFieldEdit();
+    } else if (event.key === "Tab" && editingField) {
+      // Tab commits and moves to the task's next (Shift+Tab: previous) editable field; past the last, it moves on.
+      const { taskId, fieldId } = editingField;
+      const row = taskRowFor(taskId);
+      const editable = row
+        ? Array.from(row.querySelectorAll("[data-lily-gantt-chart-field-cell]"))
+            .filter((td) => td.querySelector("[data-lily-gantt-chart-field-button], .gantt-chart-field-editor"))
+            .map((td) => fieldDef(td.getAttribute("data-field")))
+            .filter(Boolean)
+        : [];
+      const next = neighbourField(editable, fieldId, event.shiftKey);
+      if (next) {
+        event.preventDefault();
+        if (commitFieldEdit()) startFieldEdit(taskId, next.id);
+      } else {
+        commitFieldEdit();
+      }
+    }
+  }
+
+  /** F2 on a task's row: edit its first editable field. */
+  function editFirstField(taskRow) {
+    const button = taskRow && taskRow.querySelector("[data-lily-gantt-chart-field-button]");
+    if (!button) return false;
+    startFieldEdit(taskRow.getAttribute("data-lily-gantt-chart-task-id"), button.getAttribute("data-field-id"));
+    return true;
+  }
+
+  function runExport(format) {
+    const h = (config.labels || {}).exportHeaders;
+    if (!h) return;
+    const exportRows = config.exportScope === "visible" ? visibleTaskRows() : allRows;
+    const exportFields = exportableFields(fields);
+    const headers = [h.task, h.start, h.end];
+    if (h.percentComplete) headers.push(h.percentComplete);
+    if (h.parent) headers.push(h.parent);
+    if (h.dependsOn) headers.push(h.dependsOn);
+    if (h.baselineStart) headers.push(h.baselineStart);
+    if (h.baselineEnd) headers.push(h.baselineEnd);
+    for (const f of exportFields) headers.push(f.header);
+    const exportDate = (iso) => (iso ? civilDateToDate(iso) : null);
+    const body = exportRows.map((row) => {
+      const taskId = row.getAttribute("data-lily-gantt-chart-task-id");
+      const data = dataTasks.get(taskId) || { id: taskId, label: labelOf(taskId), values: {} };
+      const start = row.getAttribute("data-lily-gantt-chart-start") || "";
+      const end = row.getAttribute("data-lily-gantt-chart-end") || "";
+      const cells = [labelOf(taskId), exportDate(start), exportDate(end)];
+      if (h.percentComplete) {
+        const raw = row.getAttribute("data-lily-gantt-chart-percent-complete");
+        cells.push(raw == null || raw === "" ? null : Number(raw));
+      }
+      if (h.parent) cells.push(data.parentId != null && rowById.has(data.parentId) ? labelOf(data.parentId) : null);
+      if (h.dependsOn) {
+        cells.push(
+          (data.dependsOn || [])
+            .map((dep) => {
+              const id = typeof dep === "string" ? dep : dep.id;
+              return rowById.has(id) ? labelOf(id) : id;
+            })
+            .join("; "),
+        );
+      }
+      if (h.baselineStart) cells.push(exportDate(data.baseline && data.baseline.start));
+      if (h.baselineEnd) cells.push(exportDate(data.baseline && data.baseline.end));
+      for (const f of exportFields) cells.push(exportFieldCell(f, data.values));
+      return cells;
+    });
+    const base = config.exportFilename || "gantt-chart";
+    const filename = exportFilename(base, format);
+    const blob = exportBlob({ headers, rows: body }, format, { sheetName: base });
+    const file = { format, filename, taskCount: body.length, blob };
+    root.dispatchEvent(new CustomEvent("exportfile", { detail: file, bubbles: true }));
+    if (typeof opts.onExport === "function" && opts.onExport(file) === false) return;
+    downloadBlob(blob, filename);
+    const template = (config.labels || {}).exportAnnouncement;
+    if (template) announce(fill(template, { count: body.length, format, filename }));
+  }
+
   table.addEventListener("keydown", onGridKeydown);
   table.addEventListener("focusin", onGridFocusin);
   tbody.addEventListener("keydown", onTbodyKeydown);
@@ -910,13 +1262,20 @@ export function initGanttChart(root, opts = {}) {
   function onRootClick(event) {
     const t = event.target && event.target.closest ? event.target : null;
     if (!t) return;
-    if (t.closest("[data-lily-gantt-chart-expand-all]")) setAllCollapsed(false);
+    const fieldButton = t.closest("[data-lily-gantt-chart-field-button]");
+    const exportButton = t.closest("[data-gantt-export-format]");
+    if (fieldButton) startFieldEdit(fieldButton.getAttribute("data-lily-gantt-chart-task-id"), fieldButton.getAttribute("data-field-id"));
+    else if (exportButton) runExport(exportButton.getAttribute("data-gantt-export-format"));
+    else if (t.closest("[data-lily-gantt-chart-expand-all]")) setAllCollapsed(false);
     else if (t.closest("[data-lily-gantt-chart-collapse-all]")) setAllCollapsed(true);
     else if (t.closest("[data-lily-gantt-chart-zoom-in]")) zoom(1);
     else if (t.closest("[data-lily-gantt-chart-zoom-out]")) zoom(-1);
   }
   root.addEventListener("click", onRootClick);
+  if (virtualEl) virtualEl.addEventListener("scroll", onScroll);
 
+  // Show each field's value formatted by its type, then build the grid.
+  formatFields();
   rebuildGrid();
   syncZoomButtons();
   const initialSelected = root.getAttribute("data-lily-gantt-chart-selected-task-id");
@@ -946,6 +1305,7 @@ export function initGanttChart(root, opts = {}) {
     collapsedTaskIds,
     destroy: () => {
       root.removeEventListener("click", onRootClick);
+      if (virtualEl) virtualEl.removeEventListener("scroll", onScroll);
       openEdits.forEach((entry) => {
         entry.startController.destroy();
         entry.endController.destroy();

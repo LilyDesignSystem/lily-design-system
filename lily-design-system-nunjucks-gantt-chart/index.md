@@ -91,6 +91,11 @@ tree walk needs no calendar arithmetic), and so is each row's own
 derived date range for parent tasks — see
 [Row hierarchy](#row-hierarchy) below.
 
+## Typed fields, editing and export
+
+- **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `editableFields` edits them in place (click, F2, Tab). See [spec §11](./spec/index.md#11-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
+- **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
+
 ## Install
 
 | File | Purpose |
