@@ -263,6 +263,14 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   defaultFilter?: string;
   /** Called with the new filter text after every change. */
   onFilterChange?: (filter: string) => void;
+  /** Hides rows for which it returns false (a status or date-range filter). Combines with `filter`; both must pass. */
+  rowFilter?: (row: DataGridRow) => boolean;
+  /** Further sort keys after `sort`, for ties: Shift+click on another sortable header adds it (ascending, then descending, then off); a plain click sets `sort` alone and clears these. Controlled when given. Headers carry `data-sort-order` (1 = primary) while more than one key is set. */
+  thenBy?: DataGridSort[];
+  /** Initial `thenBy` when uncontrolled. */
+  defaultThenBy?: DataGridSort[];
+  /** Called with `thenBy` after every change. */
+  onThenByChange?: (thenBy: DataGridSort[]) => void;
   /** Current sort. When supplied, the sort is controlled. */
   sort?: DataGridSort;
   /** Initial sort when uncontrolled. */
@@ -349,6 +357,8 @@ function formatCell(column: DataGridColumn, row: DataGridRow): string {
 }
 
 /** A value the consumer may control (`value` supplied) or leave to the component (`defaultValue`). */
+const NO_SORTS: DataGridSort[] = [];
+
 function useControllable<T>(value: T | undefined, defaultValue: T): [T, (next: T) => void] {
   const [internal, setInternal] = React.useState<T>(defaultValue);
   return [value !== undefined ? value : internal, setInternal];
@@ -371,6 +381,10 @@ export function DataGrid({
   filter: filterProp,
   defaultFilter = "",
   onFilterChange,
+  rowFilter,
+  thenBy: thenByProp,
+  defaultThenBy = NO_SORTS,
+  onThenByChange,
   sort: sortProp,
   defaultSort = DEFAULT_SORT,
   onSortChange,
@@ -420,6 +434,7 @@ export function DataGrid({
   const [selected, setSelectedState] = useControllable(selectedProp, defaultSelected);
   const [filter, setFilterState] = useControllable(filterProp, defaultFilter);
   const [sort, setSortState] = useControllable(sortProp, defaultSort);
+  const [thenBy, setThenByState] = useControllable(thenByProp, defaultThenBy);
   const [page, setPageState] = useControllable(pageProp, defaultPage);
 
   const hasSelection = selectionMode !== "none";
@@ -502,35 +517,49 @@ export function DataGrid({
 
   function filterEntries(text: string): Entry[] {
     const terms = searchTerms(text);
-    if (terms.length === 0) return entries;
-    const index = searchIndex();
-    return entries.filter((_entry, i) => terms.every((term) => index[i].includes(term)));
+    if (terms.length === 0 && !rowFilter) return entries;
+    const index = terms.length > 0 ? searchIndex() : null;
+    return entries.filter(
+      (entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => index[i].includes(term))),
+    );
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const filteredEntries = React.useMemo(() => filterEntries(filter), [entries, columns, filter]);
+  const filteredEntries = React.useMemo(() => filterEntries(filter), [entries, columns, filter, rowFilter]);
+
+  /** The sort keys in order: the primary, then `thenBy`, each with a real column and a direction. */
+  const sortKeys = React.useMemo(
+    () =>
+      [sort, ...thenBy]
+        .map((k) => ({
+          column: columns.find((c) => c.id === k.columnId),
+          dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0,
+        }))
+        .filter((k): k is { column: DataGridColumn; dir: 1 | -1 } => !!k.column && k.dir !== 0),
+    [sort, thenBy, columns],
+  );
 
   const sortedEntries = React.useMemo(() => {
-    if (sort.direction === "none" || !sort.columnId) return filteredEntries;
-    const column = columns.find((c) => c.id === sort.columnId);
-    if (!column) return filteredEntries;
-    const dir = sort.direction === "ascending" ? 1 : -1;
-    const compare = column.compare;
-    // Read each sort key once (n accessor calls), not twice per comparison.
-    const keyed = filteredEntries.map((entry) => ({ entry, key: cellFor(column, entry.row).value }));
+    if (sortKeys.length === 0) return filteredEntries;
+    // Read each sort key once per column (n accessor calls), not twice per comparison.
+    const keyed = filteredEntries.map((entry) => ({ entry, keys: sortKeys.map((k) => cellFor(k.column, entry.row).value) }));
     keyed.sort((a, b) => {
-      const av = a.key;
-      const bv = b.key;
-      if (av === bv) return 0;
-      // Missing values sort last in both directions.
-      if (av === null || av === undefined) return 1;
-      if (bv === null || bv === undefined) return -1;
-      if (compare) return compare(av, bv) * dir;
-      return (av as never) > (bv as never) ? dir : -dir;
+      for (let i = 0; i < sortKeys.length; i++) {
+        const { column, dir } = sortKeys[i];
+        const av = a.keys[i];
+        const bv = b.keys[i];
+        if (av === bv) continue;
+        // Missing values sort last in both directions.
+        if (av === null || av === undefined) return 1;
+        if (bv === null || bv === undefined) return -1;
+        const result = column.compare ? column.compare(av, bv) * dir : (av as never) > (bv as never) ? dir : -dir;
+        if (result !== 0) return result;
+      }
+      return 0;
     });
     return keyed.map((k) => k.entry);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredEntries, sort, columns]);
+  }, [filteredEntries, sortKeys]);
 
   const pageCount = pageSize ? Math.max(1, Math.ceil(sortedEntries.length / pageSize)) : 1;
   const clampedPage = Math.min(Math.max(page, 1), pageCount);
@@ -616,11 +645,36 @@ export function DataGrid({
 
   function ariaSortFor(column: DataGridColumn): DataGridSortDirection | undefined {
     if (!column.sortable) return undefined;
-    return sort.columnId === column.id ? sort.direction : "none";
+    if (sort.columnId === column.id) return sort.direction;
+    return thenBy.find((k) => k.columnId === column.id)?.direction ?? "none";
   }
 
-  function toggleSort(column: DataGridColumn): void {
+  /** 1 for the primary key, 2… for `thenBy`, only while more than one key is in force. */
+  function sortOrderFor(column: DataGridColumn): number | undefined {
+    if (sortKeys.length < 2) return undefined;
+    const at = sortKeys.findIndex((k) => k.column.id === column.id);
+    return at === -1 ? undefined : at + 1;
+  }
+
+  function setThenBy(next: DataGridSort[]): void {
+    setThenByState(next);
+    onThenByChange?.(next);
+  }
+
+  function toggleSort(column: DataGridColumn, additive = false): void {
     if (!column.sortable) return;
+    if (additive && sort.direction !== "none" && sort.columnId && sort.columnId !== column.id) {
+      const current = thenBy.find((k) => k.columnId === column.id);
+      const nextThen: DataGridSort[] = !current
+        ? [...thenBy, { columnId: column.id, direction: "ascending" }]
+        : current.direction === "ascending"
+          ? thenBy.map((k) => (k.columnId === column.id ? { columnId: column.id, direction: "descending" as const } : k))
+          : thenBy.filter((k) => k.columnId !== column.id);
+      setThenBy(nextThen);
+      announce(labels.sortAnnouncement?.(column.header, nextThen.find((k) => k.columnId === column.id)?.direction ?? "none"));
+      return;
+    }
+    if (thenBy.length > 0) setThenBy([]);
     const next: DataGridSort =
       sort.columnId !== column.id
         ? { columnId: column.id, direction: "ascending" }
@@ -1571,6 +1625,7 @@ export function DataGrid({
               onDrop={column.movable ? (e: React.DragEvent) => onHeaderDrop(column.id, e) : undefined}
               tabIndex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
               aria-sort={ariaSortFor(column)}
+              data-sort-order={sortOrderFor(column)}
               aria-describedby={column.type === "rollup" && labels.rollupDescription ? `${gridId}-${column.id}-description` : undefined}
               style={cellStyle(column)}
             >
@@ -1580,7 +1635,7 @@ export function DataGrid({
                   className="data-grid-sort-button"
                   data-grid-own=""
                   tabIndex={isGrid ? -1 : undefined}
-                  onClick={() => toggleSort(column)}
+                  onClick={(e) => toggleSort(column, e.shiftKey)}
                 >
                   {column.headerCell ? column.headerCell({ column }) : column.header}
                 </button>
