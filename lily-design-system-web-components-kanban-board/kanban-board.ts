@@ -31,7 +31,12 @@
  */
 
 import "@lilydesignsystem/web-components-headless";
-import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data.js";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data.js";
+import { highlightSegments, matchesSearch } from "./search-text.js";
+import { isRtl, logicalKey } from "./direction.js";
+import { gridMove, pageStepFor } from "./grid-navigation.js";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history.js";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead.js";
 import {
   draftOf,
   editorKind,
@@ -131,12 +136,26 @@ export type KanbanLabels = {
   exportExcel?: string;
   /** Announced after an export: (format, how many cards, file name). */
   exportAnnouncement?: (format: ExportFormat, cardCount: number, filename: string) => string;
+  /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+  copy?: string;
+  /** Announced after a copy: (how many rows). */
+  copyAnnouncement?: (rowCount: number) => string;
+  /** Announced when the clipboard could not be written. */
+  copyFailed?: string;
+  /** Announced after the search changes: (matching cards, all cards). */
+  searchAnnouncement?: (matchCount: number, totalCount: number) => string;
   /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
   exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
   /** Announced after a field edit: (card title, field header, the new text). */
   editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
   editInvalid?: (cardTitle: string, fieldHeader: string) => string;
+  /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
+  editRefused?: (cardTitle: string, fieldHeader: string, message: string) => string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier field value back: (card title, field header, the restored text). */
+  fieldUndoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies a field edit: (card title, field header, the text). */
+  fieldRedoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   cardCount?: (count: number) => string;
   overLimit?: (count: number, limit: number) => string;
   moveButton?: (card: KanbanCard) => string;
@@ -353,6 +372,10 @@ export class KanbanBoard extends HTMLElement {
   #onSelectionChange?: (selected: string[]) => void;
   #dragPreviewText?: (cards: KanbanCard[]) => string;
   #undoable = false;
+  #onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
+  #history: EditHistory = EMPTY_HISTORY;
+  #typeahead: TypeaheadState = { prefix: "", at: 0 };
+  #dropBlocked = false;
   #undoStack: UndoStep[][] = [];
   #undoBtn: HTMLButtonElement | null = null;
   #movableColumns = false;
@@ -388,7 +411,7 @@ export class KanbanBoard extends HTMLElement {
   #exportScope: "view" | "selected" = "view";
   #onExport: ((file: KanbanExport) => boolean | void) | undefined;
   /** The field being edited, if any: the draft is the editor's text, kept current by the editor's own events (no re-render per keystroke). */
-  #editing: { cardId: string; fieldId: string; draft: Draft } | null = null;
+  #editing: { cardId: string; fieldId: string; draft: Draft; invalid?: boolean } | null = null;
   /** The cards a render shows, kept for export. */
   #exportCards: KanbanCard[] = [];
 
@@ -702,7 +725,15 @@ export class KanbanBoard extends HTMLElement {
     this.#render();
   }
 
-  /** Board-level search (attribute `search`): shows only cards whose text contains it (case-insensitive). */
+  /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` event fires first. */
+  get onCopy(): ((copy: { text: string; rowCount: number }) => boolean | void) | undefined {
+    return this.#onCopy;
+  }
+  set onCopy(fn: ((copy: { text: string; rowCount: number }) => boolean | void) | undefined) {
+    this.#onCopy = fn;
+  }
+
+  /** Board-level search (attribute `search`): shows only cards whose text contains every word of it (any order, ignoring case and diacritics) and wraps matches in the card's title in `<mark class="kanban-board-match">`. Escape in the field clears it. */
   get search(): string {
     return this.getAttribute("search") ?? "";
   }
@@ -710,6 +741,7 @@ export class KanbanBoard extends HTMLElement {
     this.setAttribute("search", v);
   }
 
+  /** The text `search` looks in. Defaults to the label, subtitle, badges and every field's text. */
   get searchText(): ((card: KanbanCard) => string) | undefined {
     return this.#searchText;
   }
@@ -754,10 +786,16 @@ export class KanbanBoard extends HTMLElement {
     this.#render();
   }
 
-  attributeChangedCallback(name: string): void {
+  attributeChangedCallback(name: string, oldValue?: string | null, newValue?: string | null): void {
     if (!this.isConnected) return;
     if (name === "label" || name === "caption" || name === "class" || name === "readonly" || name === "search") {
       this.#render();
+    }
+    // Announce how many cards match after the search changes (not when it is first set).
+    if (name === "search" && (oldValue ?? "") !== (newValue ?? "")) {
+      let matched = 0;
+      for (const list of this.#cardsByColumn().values()) matched += list.length;
+      this.#announce(this.#labels.searchAnnouncement?.(matched, this.#cards.length));
     }
   }
 
@@ -777,13 +815,14 @@ export class KanbanBoard extends HTMLElement {
   /** What the grid shows: the filtered, searched, sorted view. */
   #cardsByColumn(): Map<string, KanbanCard[]> {
     const map = new Map<string, KanbanCard[]>();
-    const needle = this.search.trim().toLowerCase();
+    const query = this.search;
+    const searching = query.trim() !== "";
     const text =
       this.#searchText ??
-      ((c: KanbanCard) => [this.#cardLabel(c), c.subtitle ?? "", ...(c.badges ?? [])].join(" "));
+      ((c: KanbanCard) => [this.#cardLabel(c), c.subtitle ?? "", ...(c.badges ?? []), ...this.#resolvedFields.map((f) => fieldText(f, c.values))].join(" "));
     for (const [id, list] of this.#allByColumn()) {
       let shown = this.#filter ? list.filter(this.#filter) : list.slice();
-      if (needle) shown = shown.filter((c) => text(c).toLowerCase().includes(needle));
+      if (searching) shown = shown.filter((c) => matchesSearch(text(c), query));
       if (this.#compare) shown = shown.sort(this.#compare);
       map.set(id, shown);
     }
@@ -934,11 +973,15 @@ export class KanbanBoard extends HTMLElement {
     }
     const outcome = evaluateEdit(f, card.values, draft);
     if (outcome.invalid) {
-      this.#announce(this.#labels.editInvalid?.(this.#cardLabel(card), f.header));
+      this.#editing = { ...current, invalid: true };
+      this.#announce((outcome.message ? this.#labels.editRefused?.(this.#cardLabel(card), f.header, outcome.message) : undefined) ?? this.#labels.editInvalid?.(this.#cardLabel(card), f.header));
+      this.#render();
+      this.querySelector<HTMLElement>(".kanban-board-field-editor")?.focus({ preventScroll: true });
       return false;
     }
     this.#editing = null;
     if (outcome.changed) {
+      this.#history = recordEdit(this.#history, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
       const edit: KanbanFieldEdit = { cardId, fieldId, value: outcome.value, previous: outcome.previous };
       this.#onFieldEdit?.(edit);
       this.dispatchEvent(new CustomEvent<KanbanFieldEdit>("fieldedit", { detail: edit, bubbles: true, composed: true }));
@@ -947,6 +990,24 @@ export class KanbanBoard extends HTMLElement {
     this.#render();
     if (refocus) this.#focusCard(cardId);
     return true;
+  }
+
+  /** Put an earlier field value back, or re-apply it, through `onFieldEdit` and the `fieldedit` event. */
+  #stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(this.#history) : redoEdit(this.#history);
+    if (!step.record) return;
+    this.#history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    const edit: KanbanFieldEdit = { cardId: ownerId, fieldId, value: restored, previous: replaced };
+    this.#onFieldEdit?.(edit);
+    this.dispatchEvent(new CustomEvent<KanbanFieldEdit>("fieldedit", { detail: edit, bubbles: true, composed: true }));
+    const card = this.#findCard(ownerId);
+    const f = this.#resolvedFields.find((x) => x.id === fieldId);
+    if (!card || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored }) : String(restored);
+    this.#announce((direction === "undo" ? this.#labels.fieldUndoAnnouncement : this.#labels.fieldRedoAnnouncement)?.(this.#cardLabel(card), f.header, text));
   }
 
   #cancelFieldEdit(): void {
@@ -985,6 +1046,25 @@ export class KanbanBoard extends HTMLElement {
   }
 
   /** The one field's node: its name and either the value, a button that opens the editor, or the editor itself. */
+  /** A card's title, with the words the search matched wrapped in `<mark class="mark kanban-board-match">`. */
+  #fillTitle(node: HTMLElement, card: KanbanCard): void {
+    const label = this.#cardLabel(card);
+    if (this.search.trim() === "") {
+      node.textContent = label;
+      return;
+    }
+    for (const part of highlightSegments(label, this.search)) {
+      if (!part.match) {
+        node.append(document.createTextNode(part.text));
+        continue;
+      }
+      const mark = document.createElement("mark");
+      mark.className = "mark kanban-board-match";
+      mark.textContent = part.text;
+      node.append(mark);
+    }
+  }
+
   #fieldNode(card: KanbanCard, f: ResolvedField): HTMLElement | null {
     const text = fieldText(f, card.values);
     const editable = this.#isFieldEditable(f, card);
@@ -1009,6 +1089,7 @@ export class KanbanBoard extends HTMLElement {
         const select = document.createElement("select");
         select.className = "kanban-board-field-editor";
         select.setAttribute("aria-label", f.editLabel ?? f.header);
+        if (editing.invalid) select.setAttribute("aria-invalid", "true");
         const blank = document.createElement("option");
         blank.value = "";
         select.appendChild(blank);
@@ -1031,11 +1112,14 @@ export class KanbanBoard extends HTMLElement {
         const input = document.createElement("input");
         input.className = "kanban-board-field-editor";
         input.setAttribute("aria-label", f.editLabel ?? f.header);
+        if (editing.invalid) input.setAttribute("aria-invalid", "true");
         input.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
         if (kind === "number") input.setAttribute("inputmode", "decimal");
         input.value = String(editing.draft ?? "");
         input.addEventListener("input", () => {
           editing.draft = input.value;
+          editing.invalid = false;
+          input.removeAttribute("aria-invalid");
         });
         input.addEventListener("keydown", (e) => this.#onEditorKeydown(e));
         input.addEventListener("blur", () => this.#commitFieldEdit(false));
@@ -1063,7 +1147,16 @@ export class KanbanBoard extends HTMLElement {
     return span;
   }
 
-  #runExport(format: ExportFormat): void {
+  async #finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    this.dispatchEvent(new CustomEvent("copy", { detail: copied, bubbles: true, composed: true }));
+    if (this.#onCopy?.(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    this.#announce(ok ? this.#labels.copyAnnouncement?.(table.rows.length) : this.#labels.copyFailed);
+  }
+
+  #runExport(format: ExportFormat | "copy"): void {
     const h = this.#labels.exportHeaders;
     if (!h) return;
     const hasLanes = !!this.#lanes && this.#lanes.length > 0;
@@ -1085,6 +1178,10 @@ export class KanbanBoard extends HTMLElement {
       for (const f of exportFields) cells.push(exportFieldCell(f, card.values));
       return cells;
     });
+    if (format === "copy") {
+      void this.#finishCopy({ headers, rows });
+      return;
+    }
     const filename = exportFilename(this.#exportFilename, format);
     const blob = exportBlob({ headers, rows }, format, { sheetName: this.#exportFilename });
     const file: KanbanExport = { format, filename, cardCount: rows.length, blob };
@@ -1470,6 +1567,8 @@ export class KanbanBoard extends HTMLElement {
 
   #onCardDragEnd = (): void => {
     this.#draggingCardId = null;
+    this.#dropBlocked = false;
+    this.querySelectorAll("[data-drop-blocked]").forEach((el) => el.removeAttribute("data-drop-blocked"));
     this.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
     this.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
   };
@@ -1491,18 +1590,35 @@ export class KanbanBoard extends HTMLElement {
     return true;
   }
 
-  #onColumnDragOver = (event: DragEvent, td: HTMLElement): void => {
+  #onColumnDragOver = (event: DragEvent, td: HTMLElement, column: KanbanColumn): void => {
     if (!this.#draggingCardId || this.readonly) return;
+    const card = this.#findCard(this.#draggingCardId);
+    const dragging = this.querySelectorAll("[data-dragging]").length;
+    const blocked = !!card && this.#isRefused(card, column, Math.max(0, dragging - 1));
+    this.#dropBlocked = blocked;
+    this.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
+      el.removeAttribute("data-drop-target");
+      el.removeAttribute("data-drop-blocked");
+    });
+    td.setAttribute(blocked ? "data-drop-blocked" : "data-drop-target", "");
+    // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
+    if (blocked) {
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "none";
+      return;
+    }
     event.preventDefault();
-    this.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
-    td.setAttribute("data-drop-target", "");
+    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
   };
 
   #onColumnDrop = (column: KanbanColumn, rowIndex: number, event: DragEvent): void => {
     event.preventDefault();
     const cardId = this.#draggingCardId ?? event.dataTransfer?.getData("text/plain");
     this.#draggingCardId = null;
-    this.querySelectorAll("[data-drop-target]").forEach((el) => el.removeAttribute("data-drop-target"));
+    this.#dropBlocked = false;
+    this.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
+      el.removeAttribute("data-drop-target");
+      el.removeAttribute("data-drop-blocked");
+    });
     this.querySelectorAll("[data-dragging]").forEach((el) => el.removeAttribute("data-dragging"));
     if (this.readonly) return;
     const card = this.#cards.find((c) => c.id === cardId);
@@ -1590,19 +1706,33 @@ export class KanbanBoard extends HTMLElement {
     if ((event.target as HTMLElement).closest(".kanban-board-field-editor")) return;
     const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
-    const ctrlOrMeta = event.ctrlKey || event.metaKey;
     const layout = this.#layout();
     const maxRows = layout.maxRows;
-    if (this.#undoable && ctrlOrMeta && !event.altKey && (event.key === "z" || event.key === "Z")) {
+    const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    // The horizontal arrows are visual: in a right-to-left layout the next column is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(cell));
+    // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
+    const historyAction = (this.#onFieldEdit || this.#editableFields) && !this.readonly ? historyKey(event) : null;
+    if (this.#undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && this.#undoStack.length > 0) {
       event.preventDefault();
       void this.#undo();
       return;
     }
-    if (this.#movableColumns && event.altKey && event.shiftKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (historyAction) {
+      event.preventDefault();
+      this.#stepHistory(historyAction);
+      return;
+    }
+    if (this.#undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
+      event.preventDefault();
+      void this.#undo();
+      return;
+    }
+    if (this.#movableColumns && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
       event.preventDefault();
       const column = this.#ordered()[this.#focusedCol];
-      const to = this.#focusedCol + (event.key === "ArrowLeft" ? -1 : 1);
+      const to = this.#focusedCol + (key === "ArrowLeft" ? -1 : 1);
       if (column && this.#moveColumnTo(column.id, to)) {
         this.#focusedCol = to;
         this.#render();
@@ -1620,6 +1750,27 @@ export class KanbanBoard extends HTMLElement {
       }
       return;
     }
+    // Type-ahead in the focused column: letters typed in quick succession move to the next card whose label starts with them.
+    // A lone "x" stays the select shortcut when cards are selectable; it joins a prefix already in progress.
+    if (isTypeaheadKey(event) && !event.altKey) {
+      const now = Date.now();
+      const continuing = this.#typeahead.prefix !== "" && now - this.#typeahead.at <= 700;
+      const isSelectKey = this.#selectable && (event.key === "x" || event.key === "X");
+      if (continuing || !isSelectKey) {
+        const state = nextTypeaheadState(this.#typeahead, event.key, now, 700);
+        const labelsInColumn = Array.from({ length: maxRows }, (_, row) => {
+          const c = this.#cardAt(this.#focusedCol, row, layout);
+          return c ? this.#cardLabel(c) : "";
+        });
+        const hit = findTypeaheadMatch(labelsInColumn, this.#focusedRow, state.prefix);
+        if (hit !== -1) {
+          this.#typeahead = state;
+          event.preventDefault();
+          this.#moveFocus(hit, this.#focusedCol, layout);
+          return;
+        }
+      }
+    }
     if (this.#selectable && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
       const target = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
       if (target && !this.readonly) {
@@ -1628,11 +1779,11 @@ export class KanbanBoard extends HTMLElement {
       }
       return;
     }
-    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
       event.preventDefault();
       const card = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
-      const destination = this.#ordered()[this.#focusedCol + (event.key === "ArrowLeft" ? -1 : 1)];
+      const destination = this.#ordered()[this.#focusedCol + (key === "ArrowLeft" ? -1 : 1)];
       if (card && destination) this.#moveCard(card, destination);
       return;
     }
@@ -1641,33 +1792,17 @@ export class KanbanBoard extends HTMLElement {
       this.#reorderCard(event.key === "ArrowUp" ? -1 : 1, layout);
       return;
     }
-    switch (event.key) {
-      case "ArrowUp":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow - 1, this.#focusedCol, layout);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow + 1, this.#focusedCol, layout);
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow, this.#focusedCol - 1, layout);
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        this.#moveFocus(this.#focusedRow, this.#focusedCol + 1, layout);
-        break;
-      case "Home":
-        event.preventDefault();
-        if (ctrlOrMeta) this.#moveFocus(0, 0, layout);
-        else this.#moveFocus(0, this.#focusedCol, layout);
-        break;
-      case "End":
-        event.preventDefault();
-        if (ctrlOrMeta) this.#moveFocus(maxRows - 1, this.#ordered().length - 1, layout);
-        else this.#moveFocus(maxRows - 1, this.#focusedCol, layout);
-        break;
+    const move = gridMove(
+      event,
+      { row: this.#focusedRow, col: this.#focusedCol },
+      { firstRow: 0, lastRow: maxRows - 1, lastCol: this.#ordered().length - 1, pageStep: pageStepFor(this.#virtualize), homeEnd: "column", rtl: isRtl(cell) },
+    );
+    if (move) {
+      event.preventDefault();
+      this.#moveFocus(move.row, move.col, layout);
+      return;
+    }
+    switch (key) {
       case "Enter":
       case " ": {
         event.preventDefault();
@@ -1736,9 +1871,16 @@ export class KanbanBoard extends HTMLElement {
     if (this.#labels.search) {
       const input = document.createElement("input");
       input.type = "search";
-      input.className = "kanban-board-search";
+      input.className = "search-input kanban-board-search";
       input.setAttribute("aria-label", this.#labels.search);
       input.value = this.search;
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && this.search !== "") {
+          e.preventDefault();
+          this.setAttribute("search", "");
+          this.querySelector<HTMLInputElement>(".kanban-board-search")?.focus();
+        }
+      });
       input.addEventListener("input", () => {
         this.setAttribute("search", input.value);
         const again = this.querySelector<HTMLInputElement>(".kanban-board-search");
@@ -1926,8 +2068,11 @@ export class KanbanBoard extends HTMLElement {
         if (!card && !hasLanes && rowIndex === 0 && this.#labels.emptyColumn && this.#isEmptyColumn(column, cardsByColumn)) {
           td.setAttribute("data-empty", "");
         }
-        td.addEventListener("dragover", (e) => this.#onColumnDragOver(e as DragEvent, td));
-        td.addEventListener("dragleave", () => td.removeAttribute("data-drop-target"));
+        td.addEventListener("dragover", (e) => this.#onColumnDragOver(e as DragEvent, td, column));
+        td.addEventListener("dragleave", () => {
+          td.removeAttribute("data-drop-target");
+          td.removeAttribute("data-drop-blocked");
+        });
         td.addEventListener("drop", (e) => this.#onColumnDrop(column, rowIndex, e as DragEvent));
         if (card && this.#cardAttrs) {
           for (const [name, value] of Object.entries(this.#cardAttrs(card))) td.setAttribute(name, value);
@@ -1946,10 +2091,10 @@ export class KanbanBoard extends HTMLElement {
             const link = document.createElement("a");
             link.className = "kanban-board-card-link";
             link.href = card.href;
-            link.textContent = this.#cardLabel(card);
+            this.#fillTitle(link, card);
             cardSpan.appendChild(link);
           } else {
-            cardSpan.textContent = this.#cardLabel(card);
+            this.#fillTitle(cardSpan, card);
           }
           cardSpan.addEventListener("dragstart", (e) => this.#onCardDragStart(card, e as DragEvent));
           cardSpan.addEventListener("dragend", () => this.#onCardDragEnd());
@@ -2064,12 +2209,13 @@ export class KanbanBoard extends HTMLElement {
       tfoot.appendChild(frow);
       table.appendChild(tfoot);
     }
-    if (this.#labels.exportHeaders && (this.#labels.exportCsv || this.#labels.exportTsv || this.#labels.exportExcel)) {
+    if (this.#labels.exportHeaders && (this.#labels.copy || this.#labels.exportCsv || this.#labels.exportTsv || this.#labels.exportExcel)) {
       const group = document.createElement("div");
       group.className = "kanban-board-export";
       group.setAttribute("role", "group");
       if (this.#labels.export) group.setAttribute("aria-label", this.#labels.export);
-      const formats: [ExportFormat, string | undefined][] = [
+      const formats: [ExportFormat | "copy", string | undefined][] = [
+        ["copy", this.#labels.copy],
         ["csv", this.#labels.exportCsv],
         ["tsv", this.#labels.exportTsv],
         ["xlsx", this.#labels.exportExcel],
