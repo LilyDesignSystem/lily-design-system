@@ -6,13 +6,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.7.0 — 2026-10-17
 
-- Now composed from the headless layer: the search field is the headless `SearchInput` and a match is the headless `Mark` (the `search-input` / `mark` base classes join the existing `*-search` / `*-match` hooks, so the 57 themes style them too). Keyboard movement (arrows, Home/End, page keys, right-to-left) comes from the shared `grid-navigation` module.
-- Added a live drop cue (`data-drop-target` / `data-drop-blocked`, a not-allowed cursor for a refused drop) and right-to-left arrow keys (`isRtl`, `logicalKey`); every label confirmed overridable.
-- Added field `validate` (with `aria-invalid` and `labels.editRefused`) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) through `onFieldEdit`.
-- Added PageUp / PageDown and type-ahead to the grid keyboard.
-- Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `onCopy`; `toClipboardText`, `copyToClipboard`).
-- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears. 
-- Ported from the Svelte 0.7.0; the pure modules come from `shared/` (`bin/sync-shared-modules`).
+- Added search: `labels.search` renders a field that keeps the cards by title, subtitle, badges and field text; every typed word must appear (any order), ignoring case and diacritics; matches are marked with `<mark class="mark kanban-board-match">`; `labels.searchAnnouncement` announces the count; Escape clears.
+- Added PageUp / PageDown, type-ahead on card titles in the focused column, and right-to-left arrow keys (`isRtl`, `logicalKey`; `gridMove` from `shared/`).
+- Added copy to the clipboard: `labels.copy` renders a button that puts the export (header row first, tab-separated) on the clipboard; `labels.copyAnnouncement`, `labels.copyFailed`, the client option `onCopy({ text, rowCount })` (return `false` to take over) and the `copy` event.
+- Added field `validate` (the editor stays open with `aria-invalid`; `labels.editRefused` announces the reason) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) reported through `onFieldEdit` and the `fieldedit` event; `labels.fieldUndoAnnouncement` / `fieldRedoAnnouncement`.
+- Added a live drop cue: a card dragged over a cell its `canMove`, `allowedColumns` or strict WIP limit would refuse puts `data-drop-blocked` on the cell (not `data-drop-target`) and the browser shows its not-allowed cursor.
+- Not yet ported from the Svelte package: the headless `SearchInput` / `Mark` composition (the client builds the same markup by hand), filter.
+- The pure modules come from `shared/` (`bin/sync-shared-modules`).
 
 ## 0.6.0 — 2026-10-16
 

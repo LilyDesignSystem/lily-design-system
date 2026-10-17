@@ -6,21 +6,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.7.0 — 2026-10-17
 
-- Now composed from the headless layer: the search field is the headless `SearchInput` and a match is the headless `Mark` (the `search-input` / `mark` base classes join the existing `*-search` / `*-match` hooks, so the 57 themes style them too). Keyboard movement (arrows, Home/End, page keys, right-to-left) comes from the shared `grid-navigation` module.
-- Added right-to-left arrow keys (`isRtl`, `logicalKey`).
-- Added `unavailable` (holidays, time off, closures as dated ranges): `data-unavailable` / `data-partly-unavailable` on columns and cells, label text in the header, theme shading and stripes.
-- Added field `validate` (with `aria-invalid` and `labels.editRefused`) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) through `onFieldEdit`.
-- Added PageUp / PageDown and type-ahead to the grid keyboard.
-- Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `onCopy`; `toClipboardText`, `copyToClipboard`).
-- Added `filter` and `compare` (sibling order).
-- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears. The Gantt chart and calendar gain search (new).
-
-## 0.6.0 — 2026-10-17
-
-- Added weekend shading: `weekends` (weekdays, 0 = Sunday … 6 = Saturday; never defaulted) marks day columns `data-weekend` on the header and every cell. The 57 reference themes tint them.
-- Added dependency arrows: `dependencyArrows` draws an `aria-hidden` SVG arrow per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description remains.
-- Exports `dependencyPath` and `weekdayOfEpochDay` (pure, tested).
-- Ported from the Svelte 0.7.0; the pure modules come from `shared/` (`bin/sync-shared-modules`).
+- Added search: `labels.search` renders a field that keeps the tasks by label and field text; every typed word must appear (any order), ignoring case and diacritics; matches are marked with `<mark class="mark gantt-chart-match">`; `labels.searchAnnouncement` announces the count; Escape clears.
+- Added PageUp / PageDown, type-ahead on task labels, and right-to-left arrow keys (`isRtl`, `logicalKey`; `gridMove` from `shared/`).
+- Added copy to the clipboard: `labels.copy` renders a button that puts the export (header row first, tab-separated) on the clipboard; `labels.copyAnnouncement`, `labels.copyFailed`, the client option `onCopy({ text, rowCount })` (return `false` to take over) and the `copy` event.
+- Added field `validate` (the editor stays open with `aria-invalid`; `labels.editRefused` announces the reason) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) reported through `onFieldEdit` and the `fieldedit` event; `labels.fieldUndoAnnouncement` / `fieldRedoAnnouncement`.
+- The task label is now wrapped in `<span class="gantt-chart-task-label" data-lily-gantt-chart-task-label-text>` (search marks inside it).
+- Not yet ported from the Svelte package: the headless `SearchInput` / `Mark` composition (the client builds the same markup by hand), filter, sort, unavailable days.
+- The pure modules come from `shared/` (`bin/sync-shared-modules`).
 
 ## 0.6.0 — 2026-10-17
 
