@@ -25,4 +25,6 @@ declare module "@lilydesignsystem/vue-headless" {
     export const KanbanTableTH: any;
     export const IconButton: any;
     export const Listbox: any;
+    export const Mark: any;
+    export const SearchInput: any;
 }
