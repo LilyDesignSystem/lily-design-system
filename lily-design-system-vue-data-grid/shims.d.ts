@@ -17,4 +17,6 @@ declare module "@lilydesignsystem/vue-headless" {
     export const DataTableRow: any;
     export const DataTableTD: any;
     export const DataTableTH: any;
+    export const PaginationNav: any;
+    export const SearchInput: any;
 }
