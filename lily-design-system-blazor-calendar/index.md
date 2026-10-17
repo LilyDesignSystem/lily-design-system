@@ -6,6 +6,11 @@ keyboard navigation, a picked day, disabled days and event buttons. Composes the
 
 See [spec/index.md](./spec/index.md) and [AGENTS.md](./AGENTS.md).
 
+## Typed fields, editing and export
+
+- **Typed fields and editing** (0.5.0): `EventFields` (`DataGridColumn`s) + `event.Values` show typed values; a field's `Editable` with an `OnFieldEdit` handler edits it in place. See the spec's "Typed" section.
+- **Export** (0.5.0): `Labels.ExportCsv` / `ExportTsv` / `ExportExcel` plus `Labels.ExportHeaders` add CSV, TSV and Excel buttons.
+
 ## Install
 
 ```sh

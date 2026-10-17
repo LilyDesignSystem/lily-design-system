@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.Calendar</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.Calendar</PackageId>
-    <Version>0.3.0</Version>
+    <Version>0.5.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor calendar: a week, four-week and month calendar composing the headless CalendarTable family plus the sibling DateTimePicker helper civil-date arithmetic. WAI-ARIA APG Grid keyboard model, picked and disabled days, events per day. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
@@ -60,6 +60,12 @@
   <ItemGroup>
     <ProjectReference Include="..\lily-design-system-blazor-headless\src\LilyBlazorHeadless\LilyBlazorHeadless.csproj" />
     <ProjectReference Include="..\lily-design-system-blazor-date-time-picker\LilyDesignSystem.Blazor.DateTimePicker.csproj" />
+  </ItemGroup>
+
+  <!-- The typed fields are DataGridColumns, and the export reuses the data grid's CellTypes and ExportData: a real dependency,
+       not a copy ("depend on, don't vendor"). -->
+  <ItemGroup>
+    <ProjectReference Include="..\lily-design-system-blazor-data-grid\LilyDesignSystem.Blazor.DataGrid.csproj" />
   </ItemGroup>
 
   <!-- This package's test project (tests/) exercises internal static/instance helpers directly. -->

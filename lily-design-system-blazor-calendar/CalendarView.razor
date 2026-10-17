@@ -81,6 +81,25 @@
         </div>
     }
 
+    @if (HasExportButtons)
+    {
+        var exportEvents = ExportEvents();
+        <div class="calendar-view-export" role="group" aria-label="@Labels.Export">
+            @if (Labels.ExportCsv is not null)
+            {
+                <button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" disabled="@(exportEvents.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Csv))">@Labels.ExportCsv</button>
+            }
+            @if (Labels.ExportTsv is not null)
+            {
+                <button type="button" class="calendar-view-export-button" data-calendar-export-format="tsv" disabled="@(exportEvents.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Tsv))">@Labels.ExportTsv</button>
+            }
+            @if (Labels.ExportExcel is not null)
+            {
+                <button type="button" class="calendar-view-export-button" data-calendar-export-format="xlsx" disabled="@(exportEvents.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Xlsx))">@Labels.ExportExcel</button>
+            }
+        </div>
+    }
+
     @if (View == CalendarViewMode.Agenda)
     {
         @* The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. *@
@@ -118,6 +137,7 @@
                             InRange = false,
                             Ranges = dayRanges,
                             OpenEvent = OpenEventAsync,
+                            FieldText = FieldTextOf,
                         })
                     }
                     else if (dayEvents.Count > 0)
@@ -126,10 +146,71 @@
                             @foreach (var calendarEvent in dayEvents)
                             {
                                 var ev = calendarEvent;
-                                <li>
+                                <li data-event-key="@ev.Id">
                                     <button type="button"
                                             class="calendar-view-event"
                                             @onclick="@(() => OpenEventAsync(ev))">@(string.IsNullOrEmpty(ev.Title) ? ev.Id : ev.Title)</button>
+                                    @if (ResolvedFields.Count > 0)
+                                    {
+                                        <span class="calendar-view-event-fields">
+                                            @foreach (var f in ResolvedFields)
+                                            {
+                                                var field = f;
+                                                var text = TypedFields.Text(field, ev.Values);
+                                                var editable = IsFieldEditable(field);
+                                                var nameId = $"{_baseId}-fn-{ev.Id}-{field.Id}";
+                                                var valueId = FieldButtonId(ev.Id, field.Id);
+                                                if (IsEditingField(ev, field))
+                                                {
+                                                    var draft = _fieldEditing!.Draft;
+                                                    var kind = TypedFields.EditorOf(field);
+                                                    <span class="calendar-view-event-field" data-field="@field.Id" data-editing="">
+                                                        <span class="calendar-view-event-field-name" id="@nameId">@field.Header</span>@(" ")
+                                                        @if (kind == DataGridEditor.Select)
+                                                        {
+                                                            <select id="@EditorId" class="calendar-view-field-editor" aria-label="@field.Header"
+                                                                    value="@draft"
+                                                                    @onchange="OnFieldSelectChangedAsync"
+                                                                    @onkeydown="OnFieldEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                                                    @onblur="@(() => CommitFieldEditAsync())">
+                                                                <option value=""></option>
+                                                                @foreach (var option in field.Options ?? Array.Empty<DataGridOption>())
+                                                                {
+                                                                    <option value="@option.Id" disabled="@option.Disabled" selected="@(option.Id == draft)">@option.Label</option>
+                                                                }
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="@EditorId" class="calendar-view-field-editor"
+                                                                   type="@(kind == DataGridEditor.Number ? "number" : kind == DataGridEditor.Date ? "date" : kind == DataGridEditor.Time ? "time" : "text")"
+                                                                   inputmode="@(kind == DataGridEditor.Number ? "decimal" : null)"
+                                                                   aria-label="@field.Header"
+                                                                   value="@draft"
+                                                                   @oninput="@(e => SetFieldDraft(e.Value?.ToString() ?? ""))"
+                                                                   @onkeydown="OnFieldEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                                                   @onblur="@(() => CommitFieldEditAsync())" />
+                                                        }
+                                                    </span>
+                                                }
+                                                else if (text.Length > 0 || editable)
+                                                {
+                                                    <span class="calendar-view-event-field" data-field="@field.Id" data-type="@field.Type.ToString().ToLowerInvariant()">
+                                                        <span class="calendar-view-event-field-name" id="@nameId">@field.Header</span>@(" ")
+                                                        @if (editable)
+                                                        {
+                                                            <button type="button" class="calendar-view-field-button" id="@valueId" aria-labelledby="@($"{nameId} {valueId}")"
+                                                                    @onclick="@(() => StartFieldEdit(ev, field))">@text</button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="calendar-view-event-field-value">@text</span>
+                                                        }
+                                                    </span>
+                                                }
+                                            }
+                                        </span>
+                                    }
                                 </li>
                             }
                         </ul>
@@ -233,6 +314,7 @@
                                     InRange = inRange,
                                     Ranges = dayRanges,
                                     OpenEvent = OpenEventAsync,
+                                    FieldText = FieldTextOf,
                                 })
                             }
                             else

@@ -17,6 +17,21 @@ using Microsoft.JSInterop;
 
 namespace LilyDesignSystem.Blazor.Helpers;
 
+/// <summary>What an export holds: the events that touch the shown period, or every event.</summary>
+public enum CalendarExportScope
+{
+    /// <summary>The events that touch the shown period.</summary>
+    Period,
+    /// <summary>Every dated event.</summary>
+    All,
+}
+
+/// <summary>Headers of an export's own columns. An export needs these; there is no English default.</summary>
+public sealed record CalendarExportHeaders(string Title, string Start, string End);
+
+/// <summary>What <c>OnFieldEdit</c> receives after a field edit is committed.</summary>
+public sealed record CalendarFieldEdit(string EventId, string FieldId, object? Value, object? Previous);
+
 /// <summary>Which period is shown.</summary>
 public enum CalendarViewMode
 {
@@ -51,6 +66,9 @@ public sealed class CalendarEvent
 
     /// <summary>Text for the default event button. Without it no default button renders.</summary>
     public string? Title { get; init; }
+
+    /// <summary>Values of the calendar's <c>EventFields</c>, by field id.</summary>
+    public DataGridRow? Values { get; init; }
 }
 
 /// <summary>What the <c>Day</c> template receives for one day cell.</summary>
@@ -83,6 +101,9 @@ public sealed class CalendarDayContext
 
     /// <summary>Call from an event's own click handler to raise <c>OnEventClick</c>.</summary>
     public required Func<CalendarEvent, Task> OpenEvent { get; init; }
+
+    /// <summary>The formatted text of one event's typed field (empty when the event has no value for it). For a <c>Day</c> template that shows fields.</summary>
+    public Func<CalendarEvent, string, string> FieldText { get; init; } = (_, _) => "";
 }
 
 /// <summary>
@@ -136,6 +157,26 @@ public sealed record CalendarViewLabels
 
     /// <summary>Text of the "+N more" button on a day that <c>MaxEvents</c> caps: (hidden count, date). Gates the button.</summary>
     public Func<int, string, string>? MoreEvents { get; init; }
+
+    /// <summary>Accessible name of the export button group. Gates the group (with at least one of the three buttons).</summary>
+    public string? Export { get; init; }
+
+    /// <summary>Visible text of the CSV, TSV and Excel export buttons. Each gates its button.</summary>
+    public string? ExportCsv { get; init; }
+    public string? ExportTsv { get; init; }
+    public string? ExportExcel { get; init; }
+
+    /// <summary>Announced after an export: (format, how many events, file name).</summary>
+    public Func<DataGridExportFormat, int, string, string>? ExportAnnouncement { get; init; }
+
+    /// <summary>Headers of the export's own columns. An export needs these; there is no English default.</summary>
+    public CalendarExportHeaders? ExportHeaders { get; init; }
+
+    /// <summary>Announced after a field edit: (event title, field header, the new text).</summary>
+    public Func<string, string, string, string>? EditAnnouncement { get; init; }
+
+    /// <summary>Announced when an edit is refused as invalid for the field's type: (event title, field header).</summary>
+    public Func<string, string, string>? EditInvalid { get; init; }
 }
 
 public partial class CalendarView : ComponentBase
@@ -222,6 +263,28 @@ public partial class CalendarView : ComponentBase
 
     [Parameter] public CalendarViewLabels Labels { get; set; } = new();
 
+    /// <summary>
+    /// Typed event fields, read from <c>event.Values</c>. A field is a <see cref="DataGridColumn"/>: its <c>Type</c> fills in the display, edit
+    /// and export defaults as in the data grid. The agenda shows them after each event's title; the <c>Day</c> template gets <c>FieldText</c>.
+    /// A field edits in the agenda (click the value) when its <c>Editable</c> is set and <c>OnFieldEdit</c> has a handler.
+    /// </summary>
+    [Parameter] public IReadOnlyList<DataGridColumn>? EventFields { get; set; }
+
+    /// <summary>Raised with each accepted field edit. The consumer updates <c>Events</c>. Fields are editable only with a handler.</summary>
+    [Parameter] public EventCallback<CalendarFieldEdit> OnFieldEdit { get; set; }
+
+    /// <summary>Base of an export's file name (<c>.csv</c>, <c>.tsv</c> or <c>.xlsx</c> is added). Default <c>"calendar"</c>.</summary>
+    [Parameter] public string ExportFilename { get; set; } = "calendar";
+
+    /// <summary>What an export holds: the events that touch the shown period (default), or every event.</summary>
+    [Parameter] public CalendarExportScope ExportScope { get; set; } = CalendarExportScope.Period;
+
+    /// <summary>Called before the download with the finished file. Return <c>false</c> to skip the built-in download.</summary>
+    [Parameter] public Func<DataGridExport, bool>? ExportHandler { get; set; }
+
+    /// <summary>Raised with the file before it is saved (a notification; <see cref="ExportHandler"/> can veto).</summary>
+    [Parameter] public EventCallback<DataGridExport> OnExport { get; set; }
+
     /// <summary>Raised whenever the visible period changes: (view, start, end).</summary>
     [Parameter] public EventCallback<(CalendarViewMode View, string Start, string End)> OnNavigate { get; set; }
 
@@ -281,7 +344,20 @@ public partial class CalendarView : ComponentBase
     private string? _draggingEventId;
     private bool _eventKeyHandled;
 
-    private bool IsPicked(string d) => MultipleSelection ? SelectedDates.Contains(d) : SelectedDate == d;
+    // The picked days as a set, rebuilt only when the list changes (a render asks once per cell).
+    private IReadOnlyList<string>? _selectedDatesSource;
+    private HashSet<string> _selectedDateSet = new();
+
+    private bool IsPicked(string d)
+    {
+        if (!MultipleSelection) return SelectedDate == d;
+        if (!ReferenceEquals(_selectedDatesSource, SelectedDates))
+        {
+            _selectedDatesSource = SelectedDates;
+            _selectedDateSet = new HashSet<string>(SelectedDates);
+        }
+        return _selectedDateSet.Contains(d);
+    }
 
     private IReadOnlyList<CalendarEvent> VisibleEvents(IReadOnlyList<CalendarEvent> all)
         => MaxEvents is { } max ? all.Take(Math.Max(0, max)).ToList() : all;
@@ -432,6 +508,179 @@ public partial class CalendarView : ComponentBase
         return flat.Contains(EffectiveAnchor) ? EffectiveAnchor : (flat.Count > 0 ? flat[0] : cursor);
     }
 
+    // -------------------------------------------------------------------
+    // Typed fields, inline editing (agenda), export
+    // -------------------------------------------------------------------
+
+    // Type defaults (format, compare, export value) resolved once per EventFields / Locale change, never per event or keystroke.
+    private IReadOnlyList<DataGridColumn>? _fieldsSource;
+    private string? _localeSource;
+    private IReadOnlyList<DataGridColumn> _resolvedFields = Array.Empty<DataGridColumn>();
+
+    private IReadOnlyList<DataGridColumn> ResolvedFields
+    {
+        get
+        {
+            if (!ReferenceEquals(_fieldsSource, EventFields) || _localeSource != Locale)
+            {
+                _fieldsSource = EventFields;
+                _localeSource = Locale;
+                _resolvedFields = TypedFields.Resolve(EventFields, Locale);
+            }
+            return _resolvedFields;
+        }
+    }
+
+    private bool IsFieldEditable(DataGridColumn field) => OnFieldEdit.HasDelegate && TypedFields.IsEditable(field);
+
+    private string FieldTextOf(CalendarEvent calendarEvent, string fieldId)
+        => ResolvedFields.FirstOrDefault(f => f.Id == fieldId) is { } field ? TypedFields.Text(field, calendarEvent.Values) : "";
+
+    private static string EventTitle(CalendarEvent calendarEvent) => string.IsNullOrEmpty(calendarEvent.Title) ? calendarEvent.Id : calendarEvent.Title;
+
+    /// <summary>The field being edited: the draft is the editor's text.</summary>
+    private sealed record FieldEditing(string EventId, string FieldId, string Draft);
+
+    private FieldEditing? _fieldEditing;
+    private bool _focusEditorPending;
+    private (string EventId, string FieldId)? _focusFieldPending;
+
+    private string EditorId => $"{_baseId}-field-editor";
+    private string FieldButtonId(string eventId, string fieldId) => $"{_baseId}-fv-{eventId}-{fieldId}";
+
+    private bool IsEditingField(CalendarEvent calendarEvent, DataGridColumn field)
+        => _fieldEditing is { } e && e.EventId == calendarEvent.Id && e.FieldId == field.Id;
+
+    private void StartFieldEdit(CalendarEvent calendarEvent, DataGridColumn field)
+    {
+        if (!IsFieldEditable(field)) return;
+        _fieldEditing = new FieldEditing(calendarEvent.Id, field.Id, TypedFields.Draft(field, calendarEvent.Values));
+        _focusEditorPending = true;
+    }
+
+    private void SetFieldDraft(string draft)
+    {
+        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft };
+    }
+
+    /// <summary>Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged.</summary>
+    private async Task<bool> CommitFieldEditAsync(bool refocus = false)
+    {
+        var current = _fieldEditing;
+        if (current is null) return true;
+        var calendarEvent = Events.FirstOrDefault(e => e.Id == current.EventId);
+        var field = ResolvedFields.FirstOrDefault(x => x.Id == current.FieldId);
+        if (calendarEvent is null || field is null)
+        {
+            _fieldEditing = null;
+            return true;
+        }
+        var outcome = TypedFields.Evaluate(field, calendarEvent.Values, current.Draft);
+        if (outcome.Invalid)
+        {
+            var message = Labels.EditInvalid?.Invoke(EventTitle(calendarEvent), field.Header);
+            if (message is not null) _statusMessage = message;
+            return false;
+        }
+        _fieldEditing = null;
+        if (outcome.Changed)
+        {
+            await OnFieldEdit.InvokeAsync(new CalendarFieldEdit(calendarEvent.Id, field.Id, outcome.Value, outcome.Previous));
+            var message = Labels.EditAnnouncement?.Invoke(EventTitle(calendarEvent), field.Header, outcome.Text);
+            if (message is not null) _statusMessage = message;
+        }
+        if (refocus) _focusFieldPending = (calendarEvent.Id, field.Id);
+        return true;
+    }
+
+    private void CancelFieldEdit()
+    {
+        var current = _fieldEditing;
+        if (current is null) return;
+        _fieldEditing = null;
+        _focusFieldPending = (current.EventId, current.FieldId);
+    }
+
+    private async Task OnFieldEditorKeyDownAsync(KeyboardEventArgs args)
+    {
+        // An input method reports its composing keys as "Process": Enter picks a candidate and Escape cancels
+        // the composition, so neither commits nor cancels the edit.
+        if (args.Key == "Process") return;
+        if (args.Key == "Enter") await CommitFieldEditAsync(true);
+        else if (args.Key == "Escape") CancelFieldEdit();
+    }
+
+    private async Task OnFieldSelectChangedAsync(ChangeEventArgs e)
+    {
+        SetFieldDraft(e.Value?.ToString() ?? "");
+        await CommitFieldEditAsync(true);
+    }
+
+    /// <summary>The first and last day an event covers.</summary>
+    private static (string Start, string End)? EventSpan(CalendarEvent calendarEvent)
+        => !string.IsNullOrEmpty(calendarEvent.Date) ? (calendarEvent.Date, calendarEvent.Date)
+            : !string.IsNullOrEmpty(calendarEvent.Start) && !string.IsNullOrEmpty(calendarEvent.End) ? (calendarEvent.Start, calendarEvent.End)
+            : null;
+
+    /// <summary>The events an export holds: dated ones that touch the shown period (or every one), by start date.</summary>
+    private List<CalendarEvent> ExportEvents()
+    {
+        var (periodStart, periodEnd) = PeriodRange(View, EffectiveAnchor, FirstDay);
+        return Events
+            .Where(e => EventSpan(e) is { } span && (ExportScope == CalendarExportScope.All
+                || (string.CompareOrdinal(span.Start, periodEnd) <= 0 && string.CompareOrdinal(span.End, periodStart) >= 0)))
+            .OrderBy(e => EventSpan(e)!.Value.Start, StringComparer.Ordinal)
+            .ToList();
+    }
+
+    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
+
+    private static object? ExportDate(string iso)
+        => DateOnly.TryParseExact(iso, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var d) ? d : null;
+
+    private async Task RunExportAsync(DataGridExportFormat format)
+    {
+        if (Labels.ExportHeaders is not { } h) return;
+        var fields = TypedFields.Exportable(ResolvedFields);
+        var headers = new List<string> { h.Title, h.Start, h.End };
+        foreach (var f in fields) headers.Add(f.Header);
+        var rows = new List<IReadOnlyList<object?>>();
+        foreach (var calendarEvent in ExportEvents())
+        {
+            var span = EventSpan(calendarEvent)!.Value;
+            var cells = new List<object?> { EventTitle(calendarEvent), ExportDate(span.Start), ExportDate(span.End) };
+            foreach (var f in fields) cells.Add(TypedFields.ExportCell(f, calendarEvent.Values));
+            rows.Add(cells);
+        }
+        var table = new ExportTable(headers, rows);
+        var filename = ExportData.ExportFilename(ExportFilename, format);
+        var bytes = ExportData.ExportBytes(table, format, ExportFilename);
+        var file = new DataGridExport(format, filename, rows.Count, bytes);
+        await OnExport.InvokeAsync(file);
+        if (ExportHandler?.Invoke(file) == false) return;
+        await DownloadAsync(file);
+        var message = Labels.ExportAnnouncement?.Invoke(format, rows.Count, filename);
+        if (message is not null) _statusMessage = message;
+    }
+
+    private async Task DownloadAsync(DataGridExport file)
+    {
+        var script =
+            "(function(){var b=atob(" + System.Text.Json.JsonSerializer.Serialize(Convert.ToBase64String(file.Bytes)) + ");var a=new Uint8Array(b.length);" +
+            "for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);" +
+            "var u=URL.createObjectURL(new Blob([a],{type:" + System.Text.Json.JsonSerializer.Serialize(file.MimeType) + "}));" +
+            "var l=document.createElement('a');l.href=u;l.download=" + System.Text.Json.JsonSerializer.Serialize(file.Filename) + ";document.body.appendChild(l);l.click();l.remove();" +
+            "setTimeout(function(){URL.revokeObjectURL(u)},0);})()";
+        try
+        {
+            await JS.InvokeVoidAsync("eval", script);
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
+    }
+
     private bool IsDisabledDay(string isoDate)
     {
         if (!string.IsNullOrEmpty(MinDate) && string.CompareOrdinal(isoDate, MinDate) < 0) return true;
@@ -446,8 +695,22 @@ public partial class CalendarView : ComponentBase
     private bool InSelectedRange(string d)
         => SelectedRange is { } r && string.CompareOrdinal(d, r.Start) >= 0 && string.CompareOrdinal(d, r.End) <= 0;
 
+    // The marked ranges per day, found once per day per Ranges change rather than once per cell per render.
+    private IReadOnlyList<CalendarRange>? _rangesSource;
+    private readonly Dictionary<string, IReadOnlyList<CalendarRange>> _rangesByDay = new();
+
     private IReadOnlyList<CalendarRange> RangesFor(string d)
-        => Ranges.Where(r => string.CompareOrdinal(d, r.Start) >= 0 && string.CompareOrdinal(d, r.End) <= 0).ToList();
+    {
+        if (!ReferenceEquals(_rangesSource, Ranges))
+        {
+            _rangesSource = Ranges;
+            _rangesByDay.Clear();
+        }
+        if (_rangesByDay.TryGetValue(d, out var hit)) return hit;
+        var list = Ranges.Where(r => string.CompareOrdinal(d, r.Start) >= 0 && string.CompareOrdinal(d, r.End) <= 0).ToList();
+        _rangesByDay[d] = list;
+        return list;
+    }
 
     /// <summary>The ISO week number of the week shown in <paramref name="row"/> (its Thursday decides, as ISO 8601 says).</summary>
     private static int WeekNumberOf(string[] row)
@@ -666,6 +929,30 @@ public partial class CalendarView : ComponentBase
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (_focusEditorPending)
+        {
+            _focusEditorPending = false;
+            try
+            {
+                await JS.InvokeVoidAsync("eval", $"(function(){{var e=document.getElementById({System.Text.Json.JsonSerializer.Serialize(EditorId)});if(e){{e.focus();if(e.tagName==='INPUT'&&e.type==='text')e.select();}}}})()");
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
+        if (_focusFieldPending is { } pending)
+        {
+            _focusFieldPending = null;
+            try
+            {
+                await JS.InvokeVoidAsync("eval", $"document.getElementById({System.Text.Json.JsonSerializer.Serialize(FieldButtonId(pending.EventId, pending.FieldId))})?.focus({{preventScroll:true}})");
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
         if (!_focusCursorPending) return;
         _focusCursorPending = false;
         var cursor = EffectiveCursor(Days);

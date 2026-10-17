@@ -853,4 +853,232 @@ public class CalendarViewTests : TestContext
         Assert.Equal(("2026-01-01", "2026-01-31"), CalendarView.PeriodRange(CalendarViewMode.Agenda, "2026-01-15", 0));
         Assert.Empty(CalendarView.PeriodDays(CalendarViewMode.Agenda, "2026-01-15", 0));
     }
+
+    // =====================================================================
+    // §8.69-§8.82 — typed event fields, agenda editing, export
+    // =====================================================================
+
+    private static readonly IReadOnlyList<DataGridColumn> FieldDefs = new[]
+    {
+        new DataGridColumn { Id = "room", Header = "Room", Type = DataGridCellType.Select, Editable = true, Options = new[] { new DataGridOption("a", "Aspen"), new DataGridOption("b", "Birch") } },
+        new DataGridColumn { Id = "cost", Header = "Cost", Type = DataGridCellType.Number, Editable = true },
+    };
+
+    private static DataGridRow Values(params (string Key, object? Value)[] values)
+        => new(values.Select(v => new KeyValuePair<string, object?>(v.Key, v.Value)));
+
+    private static readonly IReadOnlyList<CalendarEvent> FieldEvents = new[]
+    {
+        new CalendarEvent { Id = "e1", Date = "2026-01-06", Title = "Standup", Values = Values(("room", "a"), ("cost", 3)) },
+        new CalendarEvent { Id = "e2", Start = "2026-01-09", End = "2026-01-11", Title = "Offsite =x", Values = Values(("cost", 5)) },
+        new CalendarEvent { Id = "e3", Date = "2026-03-01", Title = "Later" },
+    };
+
+    private static readonly CalendarViewLabels ExportLabels = new()
+    {
+        AgendaView = "Agenda",
+        Export = "Export",
+        ExportCsv = "CSV",
+        ExportTsv = "TSV",
+        ExportExcel = "Excel",
+        ExportHeaders = new CalendarExportHeaders("Title", "From", "To"),
+        ExportAnnouncement = (format, count, name) => $"{count} events as {format.ToString().ToLowerInvariant()}: {name}",
+        EditAnnouncement = (title, field, text) => $"{title} {field} is {text}",
+        EditInvalid = (title, field) => $"{title}: bad {field}",
+    };
+
+    private IRenderedComponent<CalendarView> RenderFields(Action<ComponentParameterCollectionBuilder<CalendarView>>? configure = null, bool editable = true, List<CalendarFieldEdit>? edits = null,
+        IReadOnlyList<DataGridColumn>? fields = null, IReadOnlyList<CalendarEvent>? events = null, CalendarViewLabels? labels = null)
+        => RenderComponent<CalendarView>(p =>
+        {
+            p.Add(x => x.Label, "Cal");
+            p.Add(x => x.View, CalendarViewMode.Agenda);
+            p.Add(x => x.AnchorDate, "2026-01-15");
+            p.Add(x => x.Events, events ?? FieldEvents);
+            p.Add(x => x.EventFields, fields ?? FieldDefs);
+            p.Add(x => x.Labels, labels ?? ExportLabels);
+            if (editable) p.Add(x => x.OnFieldEdit, EventCallback.Factory.Create<CalendarFieldEdit>(this, e => edits?.Add(e)));
+            configure?.Invoke(p);
+        });
+
+    private static AngleSharp.Dom.IElement EventLi(IRenderedComponent<CalendarView> cut, string id) => cut.Find($"[data-event-key='{id}']");
+
+    private static string Normalise(string text) => System.Text.RegularExpressions.Regex.Replace(text, @"\s+", " ").Trim();
+
+    [Fact]
+    public void Section_8_69_The_Agenda_Shows_Each_Events_Typed_Fields_After_Its_Title_Named_By_Their_Header()
+    {
+        var cut = RenderFields(editable: false);
+        var fields = EventLi(cut, "e1").QuerySelectorAll(".calendar-view-event-field").Select(f => Normalise(f.TextContent)).ToArray();
+        Assert.Equal(new[] { "Room Aspen", "Cost 3" }, fields);
+        Assert.Single(EventLi(cut, "e2").QuerySelectorAll(".calendar-view-event-field"));
+    }
+
+    [Fact]
+    public void Section_8_70_Fields_Are_Plain_Text_Without_A_Handler()
+    {
+        Assert.Empty(RenderFields(editable: false).FindAll(".calendar-view-field-button"));
+        Assert.NotEmpty(RenderFields().FindAll(".calendar-view-field-button"));
+    }
+
+    [Fact]
+    public void Section_8_71_A_Day_Template_Reads_A_Fields_Formatted_Text_Through_FieldText()
+    {
+        var cut = RenderComponent<CalendarView>(p =>
+        {
+            p.Add(x => x.Label, "Cal");
+            p.Add(x => x.View, CalendarViewMode.Month);
+            p.Add(x => x.AnchorDate, "2026-01-15");
+            p.Add(x => x.Events, FieldEvents);
+            p.Add(x => x.EventFields, FieldDefs);
+            p.Add(x => x.Day, ctx => builder =>
+            {
+                foreach (var ev in ctx.Events)
+                {
+                    builder.OpenElement(0, "span");
+                    builder.AddAttribute(1, "data-testid", $"field-{ev.Id}-room");
+                    builder.AddContent(2, ctx.FieldText(ev, "room"));
+                    builder.CloseElement();
+                }
+            });
+        });
+        Assert.Equal("Aspen", cut.Find("[data-testid='field-e1-room']").TextContent);
+        // A multi-day event appears on each day it covers, and has no room.
+        Assert.Equal(new[] { "", "", "" }, cut.FindAll("[data-testid='field-e2-room']").Select(e => e.TextContent).ToArray());
+    }
+
+    [Fact]
+    public void Section_8_72_Clicking_A_Value_Opens_A_Typed_Editor_And_Enter_Commits_The_Parsed_Value_And_Announces()
+    {
+        var edits = new List<CalendarFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        EventLi(cut, "e1").QuerySelectorAll(".calendar-view-field-button")[1].Click();
+        var input = cut.Find("input.calendar-view-field-editor");
+        Assert.Equal("number", input.GetAttribute("type"));
+        Assert.Equal("Cost", input.GetAttribute("aria-label"));
+        input.Input("8");
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var edit = Assert.Single(edits);
+        Assert.Equal(("e1", "cost"), (edit.EventId, edit.FieldId));
+        Assert.Equal(8.0, edit.Value);
+        Assert.Equal(3, edit.Previous);
+        Assert.Equal("Standup Cost is 8", cut.Find(".calendar-view-status").TextContent);
+        Assert.Empty(cut.FindAll(".calendar-view-field-editor"));
+    }
+
+    [Fact]
+    public void Section_8_73_A_Select_Field_Edits_Through_Its_Options()
+    {
+        var edits = new List<CalendarFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        EventLi(cut, "e2").QuerySelectorAll(".calendar-view-field-button")[0].Click();
+        cut.Find("select.calendar-view-field-editor").Change("b");
+        var edit = Assert.Single(edits);
+        Assert.Equal(("e2", "room", "b"), (edit.EventId, edit.FieldId, (string?)edit.Value));
+        Assert.Null(edit.Previous);
+    }
+
+    [Fact]
+    public void Section_8_74_Escape_Cancels_And_An_Unchanged_Value_Reports_Nothing()
+    {
+        var edits = new List<CalendarFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        void Open() => EventLi(cut, "e1").QuerySelectorAll(".calendar-view-field-button")[1].Click();
+        Open();
+        cut.Find(".calendar-view-field-editor").Input("9");
+        cut.Find(".calendar-view-field-editor").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Open();
+        cut.Find(".calendar-view-field-editor").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(edits);
+    }
+
+    [Fact]
+    public void Section_8_75_A_Number_That_Does_Not_Fit_The_Type_Is_Refused_The_Editor_Stays_Open_And_The_Refusal_Is_Announced()
+    {
+        var edits = new List<CalendarFieldEdit>();
+        var cut = RenderFields(edits: edits,
+            fields: new[] { new DataGridColumn { Id = "c", Header = "C", Type = DataGridCellType.Number, Editable = true, Parse = (_, _) => double.NaN } },
+            events: new[] { new CalendarEvent { Id = "e1", Date = "2026-01-06", Title = "Standup", Values = Values(("c", 1)) } });
+        cut.Find(".calendar-view-field-button").Click();
+        cut.Find(".calendar-view-field-editor").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(edits);
+        Assert.NotNull(cut.Find(".calendar-view-field-editor"));
+        Assert.Equal("Standup: bad C", cut.Find(".calendar-view-status").TextContent);
+    }
+
+    [Fact]
+    public void Section_8_77_IME_Enter_While_Composing_Does_Not_Commit()
+    {
+        var edits = new List<CalendarFieldEdit>();
+        var cut = RenderFields(edits: edits,
+            fields: new[] { new DataGridColumn { Id = "n", Header = "N", Editable = true } },
+            events: new[] { new CalendarEvent { Id = "e1", Date = "2026-01-06", Title = "Standup", Values = Values(("n", "a")) } });
+        cut.Find(".calendar-view-field-button").Click();
+        var input = cut.Find(".calendar-view-field-editor");
+        input.Input("かな");
+        input.KeyDown(new KeyboardEventArgs { Key = "Process" });
+        Assert.Empty(edits);
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var edit = Assert.Single(edits);
+        Assert.Equal("かな", edit.Value);
+        Assert.Equal("a", edit.Previous);
+    }
+
+    private (DataGridExport File, string Text) Exported(Action<ComponentParameterCollectionBuilder<CalendarView>>? configure = null, string format = "csv",
+        IReadOnlyList<DataGridColumn>? fields = null, IReadOnlyList<CalendarEvent>? events = null)
+    {
+        DataGridExport? captured = null;
+        var cut = RenderFields(p =>
+        {
+            p.Add(x => x.ExportHandler, file => { captured = file; return false; });
+            configure?.Invoke(p);
+        }, fields: fields, events: events);
+        cut.Find($"[data-calendar-export-format='{format}']").Click();
+        Assert.NotNull(captured);
+        return (captured!, System.Text.Encoding.UTF8.GetString(captured!.Bytes));
+    }
+
+    [Fact]
+    public void Section_8_78_Export_Buttons_Need_A_Label_And_ExportHeaders_Each_Label_Gates_Its_Button()
+    {
+        Assert.Empty(RenderFields(labels: new CalendarViewLabels()).FindAll(".calendar-view-export"));
+        Assert.Empty(RenderFields(labels: new CalendarViewLabels { ExportCsv = "CSV" }).FindAll(".calendar-view-export"));
+        var cut = RenderFields(labels: new CalendarViewLabels { Export = "Export", ExportExcel = "Excel", ExportHeaders = ExportLabels.ExportHeaders });
+        Assert.Equal("Export", cut.Find("[role='group'].calendar-view-export").GetAttribute("aria-label"));
+        Assert.Single(cut.FindAll(".calendar-view-export-button"));
+    }
+
+    [Fact]
+    public void Section_8_79_Csv_Holds_The_Shown_Periods_Events_By_Start_Date_Title_From_To_And_The_Fields()
+    {
+        var (file, text) = Exported();
+        Assert.Equal("calendar.csv", file.Filename);
+        Assert.Equal(2, file.RowCount); // March's event is outside the shown January
+        Assert.Equal("\uFEFFTitle,From,To,Room,Cost\r\nStandup,2026-01-06,2026-01-06,Aspen,3\r\nOffsite =x,2026-01-09,2026-01-11,,5\r\n", text);
+    }
+
+    [Fact]
+    public void Section_8_80_ExportScope_All_Exports_Every_Dated_Event_And_Exportable_False_Drops_A_Field()
+    {
+        var all = Exported(p => p.Add(x => x.ExportScope, CalendarExportScope.All), fields: new[] { FieldDefs[0] with { Exportable = false }, FieldDefs[1] });
+        Assert.Equal(3, all.File.RowCount);
+        Assert.Equal("\uFEFFTitle,From,To,Cost", all.Text.Split("\r\n")[0]);
+    }
+
+    [Fact]
+    public void Section_8_81_Events_With_Neither_A_Date_Nor_A_Range_Are_Left_Out()
+    {
+        var (file, _) = Exported(events: new[] { new CalendarEvent { Id = "x", Title = "Undated" }, FieldEvents[0] });
+        Assert.Equal(1, file.RowCount);
+    }
+
+    [Fact]
+    public void Section_8_82_Saving_Announces_Unless_The_Handler_Vetoes_And_No_Events_Disables_The_Buttons()
+    {
+        var cut = RenderFields();
+        cut.Find("[data-calendar-export-format='tsv']").Click();
+        Assert.Equal("2 events as tsv: calendar.tsv", cut.Find(".calendar-view-status").TextContent);
+        var empty = RenderFields(events: Array.Empty<CalendarEvent>());
+        Assert.NotNull(empty.Find("[data-calendar-export-format='csv'][disabled]"));
+    }
 }

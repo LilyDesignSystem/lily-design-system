@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-10-16
+
+- Added typed event fields (`EventFields` as `DataGridColumn`s, `event.Values`, `Locale`), using the data grid's cell types, shown after each event's title in the agenda (editing is agenda-only).
+- Added inline field editing (`OnFieldEdit`, each field's `Editable`): click a value; typed editors, Enter / Escape / blur, IME-safe, refused when invalid for the type, announced.
+- Added export to CSV, TSV and Excel (`Labels.ExportCsv` etc., `Labels.ExportHeaders`, `ExportScope`, `ExportFilename`, `OnExport` / `ExportHandler`); dates are real dates in Excel.
+- The package now references `LilyDesignSystem.Blazor.DataGrid`.
+
 ## 0.3.0 — 2026-10-16
 
 - Added an agenda (list) view, ported from the Svelte 0.4.0: `View="CalendarViewMode.Agenda"` lists the days of the shown month that have events as an ordered list (each day a `<time datetime>` heading, then its events as buttons, or your `Day` template); `AgendaEmptyDays` lists every day; `Labels.AgendaView` gates the switcher button and `Labels.AgendaEmpty` the empty-month message. `previous` / `next` step by month and `OnNavigate` reports the month's range.
