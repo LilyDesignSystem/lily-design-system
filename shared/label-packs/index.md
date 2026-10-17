@@ -25,19 +25,54 @@ out, so the control stays unnamed (and says so in development) rather than showi
 
 | Locale | Language | Reviewed |
 | ------ | -------- | -------- |
-| `en-001` | English (the base) | yes |
+| `ar-001` | Arabic (right to left) | no |
+| `bg-001` | Bulgarian | no |
 | `bh-001` | Bhojpuri | no |
+| `bn-001` | Bengali | no |
+| `cs-001` | Czech | no |
+| `cy-001` | Welsh | no |
+| `da-001` | Danish | no |
+| `de-001` | German | no |
+| `el-001` | Greek | no |
+| `en-001` | English (the base) | yes |
+| `es-001` | Spanish | no |
+| `et-001` | Estonian | no |
 | `eu-001` | Basque | no |
 | `fa-001` | Persian (right to left) | no |
+| `fi-001` | Finnish | no |
+| `fr-001` | French | no |
+| `ga-001` | Irish | no |
 | `gu-001` | Gujarati | no |
 | `ha-001` | Hausa | no |
+| `hi-001` | Hindi | no |
+| `hr-001` | Croatian | no |
+| `hu-001` | Hungarian | no |
+| `id-001` | Indonesian | no |
+| `it-001` | Italian | no |
+| `ja-001` | Japanese | no |
 | `jv-001` | Javanese | no |
+| `ko-001` | Korean | no |
+| `lt-001` | Lithuanian | no |
+| `lv-001` | Latvian | no |
 | `mr-001` | Marathi | no |
+| `mt-001` | Maltese | no |
+| `nl-001` | Dutch | no |
 | `pa-001` | Punjabi (Gurmukhi) | no |
+| `pl-001` | Polish | no |
+| `pt-001` | Portuguese | no |
+| `ro-001` | Romanian | no |
+| `ru-001` | Russian | no |
+| `sk-001` | Slovak | no |
+| `sl-001` | Slovenian | no |
+| `sv-001` | Swedish | no |
 | `ta-001` | Tamil | no |
 | `te-001` | Telugu | no |
+| `tr-001` | Turkish | no |
+| `ur-001` | Urdu (right to left) | no |
+| `vi-001` | Vietnamese | no |
+| `zh-001` | Chinese | no |
 
-**Every pack except English is an unreviewed machine draft.** A `"reviewed": false` pack should be read by a native speaker
+**Every pack except English is an unreviewed machine draft** (46 of them), including Welsh, whose strings no Welsh speaker has checked. A `"reviewed": false` pack should be read by a native speaker
 before it ships in a product; flip the flag only when one has. Bhojpuri has no ISO 639-1 code (`bh` is deprecated; the language is
 `bho`), so `bh-001` follows the requested tag. Terminology is a first pass, and screen-reader wording in particular deserves
 review.
