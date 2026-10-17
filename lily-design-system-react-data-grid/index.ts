@@ -62,3 +62,5 @@ export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET
 export type { TypeaheadState } from "./typeahead";
 export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
 export type { EditHistory, EditRecord } from "./edit-history";
+export { ANNOUNCEMENT_LABELS, CONTROL_LABELS, missingLabels, requiredLabels } from "./label-coverage";
+export type { LabelFeatures, LabelKind } from "./label-coverage";

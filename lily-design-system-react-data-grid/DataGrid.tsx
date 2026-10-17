@@ -10,6 +10,8 @@ import {
 } from "@lilydesignsystem/react-headless";
 import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
 import { foldText, searchTerms } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { missingLabels, type LabelFeatures } from "./label-coverage";
 import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
@@ -143,6 +145,8 @@ export type DataGridColumn = {
   errorOf?: (row: DataGridRow) => string | undefined;
   /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`, plus the cell's markup. Your own props win. See spec/cell-types/index.md. */
   type?: DataGridCellType;
+  /** Shown instead of nothing when this column's value is missing (`null`, `undefined` or `""`). Overrides the grid's `emptyValue`. A missing value always carries `data-empty` on its cell. */
+  emptyValue?: string;
   /** BCP 47 locale for this column's formatting and collation. Falls back to the grid's `locale`; with neither, values show as stored. */
   locale?: string;
   /** `select` and `radio`: the choices. The label is displayed, the id is stored. */
@@ -183,6 +187,10 @@ export type DataGridLabels = {
   columnVisibility?: string;
   columnVisibilityOption?: (header: string) => string;
   resizeHandle?: (header: string) => string;
+  /** Accessible name of the select that limits the search to one column. Gates the select (needs `searchAllFields` too). */
+  searchField?: string;
+  /** The select's first option: search every column. */
+  searchAllFields?: string;
   selectAll?: string;
   selectionColumn?: string;
   selectRow?: (rowLabel: string) => string;
@@ -257,8 +265,22 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   columns: DataGridColumn[];
   /** Row data. */
   rows: DataGridRow[];
-  /** BCP 47 locale for the typed columns' formatting and collation. Never defaulted: with none, values show as stored. */
+  /** BCP 47 locale for the typed columns' formatting and collation, and for sorting plain text: with a locale, text sorts with `Intl.Collator(locale, { numeric: true })` ("Item 2" before "Item 10", "ä" with "a"). Never defaulted: with none, values show as stored and text sorts by code point. */
   locale?: string;
+  /** What a cell shows when its value is missing (`null`, `undefined` or `""`), for example `"—"`. A column's own `emptyValue` wins. No default: Lily ships no text. The cell always carries `data-empty`, so CSS can style it, and an export is unaffected. */
+  emptyValue?: string;
+  /** In development, log (once per grid) the labels the grid's features call for but `labels` leaves out. Default `true`; it never logs in production. See `requiredLabels` / `missingLabels` to check a locale's bundle in a test. */
+  warnMissingLabels?: boolean;
+  /** Where missing values sort: `"last"` (default, in both directions) or `"first"`. */
+  nulls?: "first" | "last";
+  /** Make every column movable (Alt+Arrow on its header, or drag it) unless its own `movable` is `false`. Default `false`. */
+  movableColumns?: boolean;
+  /** Limits the text filter to one column: a column id, or `""` (default) for every filterable column. Controlled when given. The field select shows when `labels.searchField` names it. */
+  filterField?: string;
+  /** Initial `filterField` when uncontrolled. */
+  defaultFilterField?: string;
+  /** Called with the new `filterField` after every change. */
+  onFilterFieldChange?: (columnId: string) => void;
   /** Derives a stable id per row. Defaults to the row's index in `rows`. */
   rowId?: (row: DataGridRow, index: number) => string;
   /** Row selection mode. */
@@ -364,6 +386,9 @@ function defaultAccessor(column: DataGridColumn, row: DataGridRow): unknown {
 }
 
 /** Default cell formatter: `String(value)`, `""` for null/undefined. */
+/** A missing value: `null`, `undefined` or an empty string. */
+const isMissing = (value: unknown): boolean => value === null || value === undefined || value === "";
+
 function formatCell(column: DataGridColumn, row: DataGridRow): string {
   const value = defaultAccessor(column, row);
   if (column.format) return column.format(value, row);
@@ -387,6 +412,13 @@ export function DataGrid({
   columns: columnsProp,
   rows,
   locale,
+  emptyValue,
+  nulls = "last",
+  warnMissingLabels = true,
+  movableColumns = false,
+  filterField: filterFieldProp,
+  defaultFilterField = "",
+  onFilterFieldChange,
   rowId = (_row: DataGridRow, index: number) => String(index),
   selectionMode = "none",
   selected: selectedProp,
@@ -448,11 +480,40 @@ export function DataGrid({
 
   const [selected, setSelectedState] = useControllable(selectedProp, defaultSelected);
   const [filter, setFilterState] = useControllable(filterProp, defaultFilter);
+  const [filterField, setFilterFieldState] = useControllable(filterFieldProp, defaultFilterField);
   const [sort, setSortState] = useControllable(sortProp, defaultSort);
   const [thenBy, setThenByState] = useControllable(thenByProp, defaultThenBy);
   const [page, setPageState] = useControllable(pageProp, defaultPage);
 
   const hasSelection = selectionMode !== "none";
+  // What the grid renders, as far as labels go, so a missing one can be named in development.
+  const labelFeatures: LabelFeatures = {
+    selection: selectionMode !== "none",
+    pagination: !!pageSize,
+    hidableColumns: columns.some((c) => c.hidable),
+    resizableColumns: columns.some((c) => c.resizable),
+    editing: !!onCellEdit,
+    sorting: columns.some((c) => c.sortable),
+    search: !!labels.search,
+    exporting: !!(labels.exportCsv || labels.exportTsv || labels.exportExcel || labels.copy),
+  };
+  const reportedLabels = React.useRef(new Set<string>());
+  React.useEffect(() => {
+    const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+    if (!warnMissingLabels || env?.NODE_ENV === "production") return;
+    const fresh = missingLabels(labelFeatures, labels as Record<string, unknown>).filter((m) => !reportedLabels.current.has(m.key));
+    if (fresh.length === 0) return;
+    for (const m of fresh) reportedLabels.current.add(m.key);
+    const controls = fresh.filter((m) => m.kind === "control").map((m) => m.key);
+    const announcements = fresh.filter((m) => m.kind === "announcement").map((m) => m.key);
+    console.warn(
+      `[data-grid] "${label}": labels left out — ` +
+        [controls.length ? `controls with no name: ${controls.join(", ")}` : "", announcements.length ? `silent announcements: ${announcements.join(", ")}` : ""]
+          .filter(Boolean)
+          .join("; "),
+    );
+  });
+
   const colOffset = hasSelection ? 1 : 0;
 
   const [columnOrder, setColumnOrderState] = useControllable<string[]>(columnOrderProp, defaultColumnOrder ?? []);
@@ -472,6 +533,9 @@ export function DataGrid({
     () => orderedColumns.filter((c) => !hiddenColumnIds.has(c.id)),
     [orderedColumns, hiddenColumnIds],
   );
+  /** A column the user can move: its own `movable`, else the grid's `movableColumns`. */
+  const isMovable = (column: DataGridColumn): boolean => column.movable ?? movableColumns;
+
   const hidableColumns = React.useMemo(() => columns.filter((c) => c.hidable), [columns]);
 
   // Each row's id is derived once, from its position in `rows`, so it
@@ -507,40 +571,41 @@ export function DataGrid({
     return ctx;
   }
 
-  // Lowercased search text per row, built once per rows/columns change
-  // rather than reformatting every cell on every keystroke. Read only
-  // when a filter is active, so an unfiltered grid never builds it.
-  const searchIndexRef = React.useRef<{ key: unknown[]; index: string[] } | null>(null);
-  function searchIndex(): string[] {
+  // One folded (lower-case, no diacritics) text per filterable cell, built once per rows/columns change
+  // rather than reformatting every cell on every keystroke. Read only when a filter is active.
+  const filterableColumns = React.useMemo(() => columns.filter((c) => c.filterable !== false), [columns]);
+  const searchIndexRef = React.useRef<{ key: unknown[]; index: string[][] } | null>(null);
+  function searchIndex(): string[][] {
     const cached = searchIndexRef.current;
     if (cached && cached.key[0] === entries && cached.key[1] === columns) return cached.index;
-    const filterableColumns = columns.filter((c) => c.filterable !== false);
     const index = entries.map((entry) =>
-      foldText(
-        filterableColumns
-          .map((column) =>
-            column.filterText
-              ? column.filterText(defaultAccessor(column, entry.row), entry.row)
-              : cellFor(column, entry.row).formatted,
-          )
-          .join(" "),
+      filterableColumns.map((column) =>
+        foldText(
+          column.filterText
+            ? column.filterText(defaultAccessor(column, entry.row), entry.row)
+            : cellFor(column, entry.row).formatted,
+        ),
       ),
     );
     searchIndexRef.current = { key: [entries, columns], index };
     return index;
   }
 
-  function filterEntries(text: string): Entry[] {
+  // Every word of the filter must appear somewhere in the row (any order, any cells), ignoring case and diacritics.
+  // With a field chosen, every word must be in that field's cell.
+  function filterEntries(text: string, field: string = filterField): Entry[] {
     const terms = searchTerms(text);
     if (terms.length === 0 && !rowFilter) return entries;
     const index = terms.length > 0 ? searchIndex() : null;
+    const only = field ? filterableColumns.findIndex((c) => c.id === field) : -1;
+    const rowText = (i: number): string => (only >= 0 ? index![i][only] : index![i].join(" "));
     return entries.filter(
-      (entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => index[i].includes(term))),
+      (entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => rowText(i).includes(term))),
     );
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const filteredEntries = React.useMemo(() => filterEntries(filter), [entries, columns, filter, rowFilter]);
+  const filteredEntries = React.useMemo(() => filterEntries(filter), [entries, columns, filter, filterField, rowFilter]);
 
   /** The sort keys in order: the primary, then `thenBy`, each with a real column and a direction. */
   const sortKeys = React.useMemo(
@@ -557,6 +622,10 @@ export function DataGrid({
   const sortedEntries = React.useMemo(() => {
     if (sortKeys.length === 0) return filteredEntries;
     // Read each sort key once per column (n accessor calls), not twice per comparison.
+    const collators = sortKeys.map((k) => {
+      const tag = k.column.locale ?? locale;
+      return tag ? new Intl.Collator(tag, { numeric: true }) : null;
+    });
     const keyed = filteredEntries.map((entry) => ({ entry, keys: sortKeys.map((k) => cellFor(k.column, entry.row).value) }));
     keyed.sort((a, b) => {
       for (let i = 0; i < sortKeys.length; i++) {
@@ -564,17 +633,25 @@ export function DataGrid({
         const av = a.keys[i];
         const bv = b.keys[i];
         if (av === bv) continue;
-        // Missing values sort last in both directions.
-        if (av === null || av === undefined) return 1;
-        if (bv === null || bv === undefined) return -1;
-        const result = column.compare ? column.compare(av, bv) * dir : (av as never) > (bv as never) ? dir : -dir;
+        // Missing values sort together at one end, in both directions (`nulls`).
+        const aMissing = av === null || av === undefined;
+        const bMissing = bv === null || bv === undefined;
+        if (aMissing || bMissing) return aMissing === bMissing ? 0 : (aMissing ? 1 : -1) * (nulls === "first" ? -1 : 1);
+        const collator = collators[i];
+        const result = column.compare
+          ? column.compare(av, bv) * dir
+          : collator && typeof av === "string" && typeof bv === "string"
+            ? collator.compare(av, bv) * dir
+            : (av as never) > (bv as never)
+              ? dir
+              : -dir;
         if (result !== 0) return result;
       }
       return 0;
     });
     return keyed.map((k) => k.entry);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredEntries, sortKeys]);
+  }, [filteredEntries, sortKeys, nulls, locale]);
 
   const pageCount = pageSize ? Math.max(1, Math.ceil(sortedEntries.length / pageSize)) : 1;
   const clampedPage = Math.min(Math.max(page, 1), pageCount);
@@ -705,6 +782,14 @@ export function DataGrid({
   // ---------------------------------------------------------------
   // Filtering
   // ---------------------------------------------------------------
+
+  function onFilterFieldChangeEvent(event: React.ChangeEvent<HTMLSelectElement>): void {
+    const next = event.target.value;
+    setFilterFieldState(next);
+    setPage(1);
+    onFilterFieldChange?.(next);
+    announce(labels.filterAnnouncement?.(filterEntries(filter, next).length, rows.length));
+  }
 
   function setFilter(next: string): void {
     setFilterState(next);
@@ -1216,11 +1301,13 @@ export function DataGrid({
       }
       return;
     }
-    if (event.altKey && activeRow === -1 && (event.key === "ArrowRight" || event.key === "ArrowLeft")) {
+    // In a right-to-left layout the horizontal arrows swap: ArrowLeft goes to the next cell (`key` is the logical key).
+    const key = logicalKey(event.key, isRtl(cell));
+    if (event.altKey && activeRow === -1 && (key === "ArrowRight" || key === "ArrowLeft")) {
       const column = visibleColumns[activeCol - colOffset];
-      if (column?.movable) {
+      if (column && isMovable(column)) {
         event.preventDefault();
-        const delta = event.key === "ArrowRight" ? 1 : -1;
+        const delta = key === "ArrowRight" ? 1 : -1;
         if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
         return;
       }
@@ -1245,7 +1332,7 @@ export function DataGrid({
         }
       }
     }
-    switch (event.key) {
+    switch (key) {
       case "ArrowRight":
         event.preventDefault();
         moveFocus(activeRow, activeCol + 1);
@@ -1614,6 +1701,8 @@ export function DataGrid({
     }
     const shown = column.cell ? (
       column.cell(ctx)
+    ) : isMissing(ctx.value) && (column.emptyValue ?? emptyValue) ? (
+      (column.emptyValue ?? emptyValue)
     ) : column.type === "person" ? (
       personBody(column, ctx)
     ) : column.type === "file" ? (
@@ -1690,10 +1779,10 @@ export function DataGrid({
               data-align={column.align}
               data-cell-type={column.type}
               data-pinned={column.pinned}
-              draggable={column.movable ? true : undefined}
-              onDragStart={column.movable ? (e: React.DragEvent) => { draggingColumnId.current = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
-              onDragOver={column.movable ? (e: React.DragEvent) => { if (draggingColumnId.current) e.preventDefault(); } : undefined}
-              onDrop={column.movable ? (e: React.DragEvent) => onHeaderDrop(column.id, e) : undefined}
+              draggable={isMovable(column) ? true : undefined}
+              onDragStart={isMovable(column) ? (e: React.DragEvent) => { draggingColumnId.current = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
+              onDragOver={isMovable(column) ? (e: React.DragEvent) => { if (draggingColumnId.current) e.preventDefault(); } : undefined}
+              onDrop={isMovable(column) ? (e: React.DragEvent) => onHeaderDrop(column.id, e) : undefined}
               tabIndex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
               aria-sort={ariaSortFor(column)}
               data-sort-order={sortOrderFor(column)}
@@ -1803,6 +1892,7 @@ export function DataGrid({
                     data-cell-type={column.type}
                     data-pinned={column.pinned}
                     data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
+                    data-empty={isMissing(ctx.value) ? "" : undefined}
                     tabIndex={isGrid ? (isActive ? 0 : -1) : undefined}
                     style={cellStyle(column)}
                     {...extra}
@@ -1830,6 +1920,7 @@ export function DataGrid({
                     onDrop={column.type === "file" && column.editable ? (e: React.DragEvent) => onFileDrop(entry, column, e) : undefined}
                     aria-readonly={column.type === "rollup" ? true : undefined}
                     data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
+                    data-empty={isMissing(ctx.value) ? "" : undefined}
                     data-editing={isEditingCell ? "" : undefined}
                     role={isGrid ? "gridcell" : "cell"}
                     {...(isGrid ? { active: isActive } : { tabIndex: undefined })}
@@ -1868,6 +1959,21 @@ export function DataGrid({
     <div ref={rootRef} className={`data-grid ${className}`.trim()} {...restProps}>
       {(labels.search || hidableColumns.length > 0 || hasExportButtons) && (
         <div className="data-grid-toolbar">
+          {labels.search && labels.searchField && labels.searchAllFields && (
+            <select
+              className="data-grid-search-field"
+              aria-label={labels.searchField}
+              value={filterField}
+              onChange={onFilterFieldChangeEvent}
+            >
+              <option value="">{labels.searchAllFields}</option>
+              {filterableColumns.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.header}
+                </option>
+              ))}
+            </select>
+          )}
           {labels.search && (
             <input
               className="data-grid-search"

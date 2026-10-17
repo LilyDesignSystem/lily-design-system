@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.10.0 — 2026-10-17
+
+- Ported from the Svelte 0.10.0: `emptyValue` (and a column's own) with `data-empty`, `nulls`, locale-aware sorting of plain text, field-specific search (`filterField`, `labels.searchField`), `movableColumns`, right-to-left arrow keys, the missing-label check (`requiredLabels`, `missingLabels`, `warnMissingLabels`), undo and redo of cell edits, type-ahead, copy to the clipboard, `rowFilter`, multi-column sort (`thenBy`, Shift+click), and multi-word, diacritic-blind search with Escape to clear.
+- The shared pure modules now come from `shared/` (`bin/sync-shared-modules`).
+
 ## 0.9.0 — 2026-10-16
 
 - Added the five remaining cell types, ported from the Svelte 0.9.0: `time-zone`, `person` (`avatar`, `personEditor` render props), `file` (`onFilesSelected`, `onFileRemove`; nothing is uploaded), `rollup` (read-only, `aggregate` / `reduce` / `relation`) and `formula` (the consumer's `evaluate`; no engine, no string evaluation). Rollup and formula results are computed once per row each time `rows` or `columns` change. New exports: `aggregateValues`, `isZonedTime`, `isValidTimeZone`, `zonedMinutes`, `peopleOf`, `personName`, `filesOf`.
