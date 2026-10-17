@@ -135,10 +135,12 @@ contract, and §3 for where this port fills small gaps in Angular's own
 headless `GanttTable` (no `role="grid"`, no `caption` input) rather
 than modifying that package, and for the `GanttTableTD` `active`-prop
 finding (Angular's version has none at all, unlike Svelte's).
+- **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `fieldEdit` output with `[editableFields]="true"` edits them in place (click, F2, Tab). See [spec §11](./spec/index.md#11-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
+- **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
 
 ## Non-goals
 
-Dependency-arrow rendering, virtualization, critical-path calculation,
+Dependency-arrow rendering, critical-path calculation,
 dependency types beyond finish-to-start, interactive zoom-level
 switching, weekend/holiday shading, resource/assignee columns — see
 [spec/index.md §9](./spec/index.md#9-non-goals).

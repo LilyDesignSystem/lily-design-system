@@ -33,6 +33,35 @@ import {
   type DateTimePickerLabels,
 } from "@lilydesignsystem/angular-date-time-picker";
 
+import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { civilDateToDate } from "./cell-types";
+import {
+  draftOf,
+  editorKind,
+  evaluateEdit,
+  exportFieldCell,
+  exportableFields,
+  fieldText as fieldTextOf,
+  isEditableField,
+  neighbourField,
+  resolveFields,
+  type Draft,
+  type FieldDef,
+  type ResolvedField,
+} from "./typed-fields";
+
+/**
+ * A typed field a task carries (an owner, a status, an estimate), shown as a column between the task name and the timeline and
+ * read from `task.values[id]`. A bundle of display, sort and export defaults from the data grid's cell types.
+ */
+export type GanttField = FieldDef;
+
+/** What `exportHandler` and the `exportFile` output receive. Return `false` from `exportHandler` to take over the download. */
+export type GanttExport = { format: ExportFormat; filename: string; taskCount: number; blob: Blob };
+
+/** What the `fieldEdit` output carries. */
+export type GanttFieldEdit = { taskId: string; fieldId: string; value: unknown; previous: unknown };
+
 // Re-exported so `index.ts` (and this package's own spec) can import
 // the reused civil-date arithmetic directly from this module, matching
 // how `compareISO`/`endOfMonth`/`generateColumns`/`flattenTasks`/
@@ -65,6 +94,8 @@ export type GanttTask = {
   critical?: boolean;
   /** Slack in days, from the consumer's own scheduling; becomes `data-slack`. */
   slack?: number;
+  /** Values of the chart's `fields`, by field id. */
+  values?: Record<string, unknown>;
 };
 
 /** A dated column marker (holiday, release, deadline). `label` is rendered as text so a marker is never colour-only. */
@@ -112,7 +143,25 @@ export type GanttLabels = {
   expandAll?: string;
   /** Accessible name for the button that collapses every parent task. Gates the button. */
   collapseAll?: string;
+  /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+  export?: string;
+  /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
+  exportCsv?: string;
+  exportTsv?: string;
+  exportExcel?: string;
+  /** Announced after an export: (format, how many tasks, file name). */
+  exportAnnouncement?: (format: ExportFormat, taskCount: number, filename: string) => string;
+  /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. The others are included only when named. */
+  exportHeaders?: { task: string; start: string; end: string; percentComplete?: string; parent?: string; dependsOn?: string; baselineStart?: string; baselineEnd?: string };
+  /** Announced after a field edit: (task label, field header, the new text). */
+  editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
+  /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
+  editInvalid?: (taskLabel: string, fieldHeader: string) => string;
 };
+
+type RenderItem =
+  | { kind: "spacer"; height: number; key: string }
+  | { kind: "row"; row: GanttFlatRow; index: number; key: string };
 
 /** Payload of the `taskChange` output. */
 export type GanttTaskChangeEvent = {
@@ -311,6 +360,19 @@ export function nextGanttChartId(): string {
           }
         </div>
       }
+      @if (hasExportButtons()) {
+        <div class="gantt-chart-export" role="group" [attr.aria-label]="labels().export ?? null">
+          @if (labels().exportCsv; as csv) {
+            <button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv" [disabled]="exportRows().length === 0" (click)="runExport('csv')">{{ csv }}</button>
+          }
+          @if (labels().exportTsv; as tsv) {
+            <button type="button" class="gantt-chart-export-button" data-gantt-export-format="tsv" [disabled]="exportRows().length === 0" (click)="runExport('tsv')">{{ tsv }}</button>
+          }
+          @if (labels().exportExcel; as excel) {
+            <button type="button" class="gantt-chart-export-button" data-gantt-export-format="xlsx" [disabled]="exportRows().length === 0" (click)="runExport('xlsx')">{{ excel }}</button>
+          }
+        </div>
+      }
       @if (labels().zoomIn || labels().zoomOut) {
         <div class="gantt-chart-zoom" role="group" [attr.aria-label]="label()">
           @if (labels().zoomOut; as zoomOut) {
@@ -333,6 +395,14 @@ export function nextGanttChartId(): string {
           }
         </div>
       }
+      <!-- The scroll area is structural: a virtualized chart renders only the rows in view inside it. -->
+      <div
+        #scrollEl
+        [class]="virtualize() ? 'gantt-chart-scroll' : 'gantt-chart-body'"
+        [style.height.px]="virtualize()?.height ?? null"
+        [style.overflow]="virtualize() ? 'auto' : null"
+        (scroll)="onScroll($event)"
+      >
       <lily-gantt-table
         [label]="label()"
         (keydown)="onGridKeydown($event)"
@@ -349,14 +419,17 @@ export function nextGanttChartId(): string {
         <thead lily-gantt-table-thead>
           <tr lily-gantt-table-tr>
             <th lily-gantt-table-th scope="col">{{ labels().taskColumnHeader ?? "" }}</th>
-            @for (column of columns(); track column.start) {
-              @let colToday = isTodayColumn(column);
-              @let colMarkers = markersIn(column);
+            @for (f of resolvedFields(); track f.id) {
+              <th lily-gantt-table-th scope="col" [attr.data-field]="f.id">{{ f.header }}</th>
+            }
+            @for (column of columns(); track column.start; let headIndex = $index) {
+              @let colToday = todayColumns()[headIndex];
+              @let colMarkers = markersAt(headIndex);
               <th
                 lily-gantt-table-th
                 scope="col"
                 [attr.data-today]="colToday ? '' : null"
-                [attr.data-non-working]="isNonWorkingColumn(column) ? '' : null"
+                [attr.data-non-working]="nonWorkingColumns()[headIndex] ? '' : null"
                 [attr.data-marker]="markerKinds(colMarkers)"
               >
                 {{ labels().columnLabel?.(column.start, column.end, timeUnit()) ?? column.start }}
@@ -370,7 +443,12 @@ export function nextGanttChartId(): string {
           </tr>
         </thead>
         <tbody lily-gantt-table-tbody>
-          @for (row of rows(); track row.task.id; let rowIndex = $index) {
+          @for (item of renderItems(); track item.key) {
+            @if (item.kind === "spacer") {
+              <tr class="gantt-chart-spacer" aria-hidden="true" [style.height.px]="item.height"><td [attr.colspan]="columns().length + 1 + resolvedFields().length"></td></tr>
+            } @else {
+            @let row = item.row;
+            @let rowIndex = item.index;
             @let rowRange = rangeFor(row.task, row.hasChildren);
             @let deps = predecessorLabels(row.task);
             @let hasDeps = deps.length > 0 && !!labels().dependencySummary;
@@ -380,6 +458,7 @@ export function nextGanttChartId(): string {
               [attr.data-critical]="row.task.critical ? '' : null"
               [attr.data-slack]="row.task.slack ?? null"
               [attr.data-task-id]="row.task.id"
+              [attr.aria-rowindex]="virtualize() ? rowIndex + 2 : null"
               [attr.data-unscheduled]="!row.hasChildren && (!row.task.start || !row.task.end) ? '' : null"
               [attr.aria-selected]="selectedTaskId() === row.task.id ? 'true' : null"
               [attr.data-selected]="selectedTaskId() === row.task.id ? '' : null"
@@ -407,10 +486,56 @@ export function nextGanttChartId(): string {
                   }}</span>
                 }
               </th>
+              @for (f of resolvedFields(); track f.id) {
+                @let text = fieldText(f, row.task);
+                @let editable = isFieldEditable(f);
+                <td lily-gantt-table-td [attr.data-field]="f.id" [attr.data-type]="f.type ?? 'text'" [attr.data-align]="f.align ?? null">
+                  @if (editingField(); as ed) {
+                    @if (ed.taskId === row.task.id && ed.fieldId === f.id) {
+                      @if (kindOf(f) === "select" || kindOf(f) === "radio") {
+                        <select
+                          class="gantt-chart-field-editor"
+                          [attr.aria-label]="f.editLabel ?? f.header"
+                          [value]="editorValue(ed.draft)"
+                          (change)="onFieldEditorSelectChange($event)"
+                          (keydown)="onFieldEditorKeydown($event)"
+                          (blur)="commitFieldEdit()"
+                        >
+                          <option value=""></option>
+                          @for (option of f.options ?? []; track option.id) {
+                            <option [value]="option.id" [disabled]="option.disabled ?? false" [selected]="option.id === editorValue(ed.draft)">{{ option.label }}</option>
+                          }
+                        </select>
+                      } @else {
+                        <input
+                          class="gantt-chart-field-editor"
+                          [attr.aria-label]="f.editLabel ?? f.header"
+                          [type]="kindOf(f) === 'number' ? 'number' : kindOf(f) === 'date' ? 'date' : kindOf(f) === 'time' ? 'time' : 'text'"
+                          [attr.inputmode]="kindOf(f) === 'number' ? 'decimal' : null"
+                          [value]="editorValue(ed.draft)"
+                          (input)="onFieldEditorInput($event)"
+                          (keydown)="onFieldEditorKeydown($event)"
+                          (blur)="commitFieldEdit()"
+                        />
+                      }
+                    } @else if (editable) {
+                      <span [id]="fieldNameId(row.task.id, f.id)" hidden>{{ f.header }}</span>
+                      <button type="button" class="gantt-chart-field-button" [id]="fieldValueId(row.task.id, f.id)" tabindex="-1" [attr.aria-labelledby]="fieldNameId(row.task.id, f.id) + ' ' + fieldValueId(row.task.id, f.id)" (click)="startFieldEdit(row.task, f)">{{ text }}</button>
+                    } @else {
+                      {{ text }}
+                    }
+                  } @else if (editable) {
+                    <span [id]="fieldNameId(row.task.id, f.id)" hidden>{{ f.header }}</span>
+                    <button type="button" class="gantt-chart-field-button" [id]="fieldValueId(row.task.id, f.id)" tabindex="-1" [attr.aria-labelledby]="fieldNameId(row.task.id, f.id) + ' ' + fieldValueId(row.task.id, f.id)" (click)="startFieldEdit(row.task, f)">{{ text }}</button>
+                  } @else {
+                    {{ text }}
+                  }
+                </td>
+              }
               @for (column of columns(); track column.start; let colIndex = $index) {
                 @let inRange = !!rowRange.start && !!rowRange.end && rangesOverlap(column.start, column.end, rowRange.start, rowRange.end);
                 @let isMilestone = inRange && rowRange.start === rowRange.end;
-                @let colToday = isTodayColumn(column);
+                @let colToday = todayColumns()[colIndex];
                 @let isLeadingCell = inRange && rangesOverlap(column.start, column.end, rowRange.start, rowRange.start);
                 <td
                   lily-gantt-table-td
@@ -420,8 +545,8 @@ export function nextGanttChartId(): string {
                   [attr.data-in-range]="inRange ? '' : null"
                   [attr.data-milestone]="isMilestone ? '' : null"
                   [attr.data-today]="colToday ? '' : null"
-                  [attr.data-non-working]="isNonWorkingColumn(column) ? '' : null"
-                  [attr.data-marker]="markersIn(column).length ? '' : null"
+                  [attr.data-non-working]="nonWorkingColumns()[colIndex] ? '' : null"
+                  [attr.data-marker]="markersAt(colIndex).length ? '' : null"
                   [attr.aria-describedby]="describedBy(row.task, deps.length > 0)"
                   [attr.data-baseline]="hasBaseline(row.task, column) ? '' : null"
                   (dragover)="onCellDragOver($event)"
@@ -453,7 +578,7 @@ export function nextGanttChartId(): string {
             </tr>
             @if (editingTaskId() === row.task.id && canEdit()) {
               <tr class="gantt-chart-edit-row">
-                <td [attr.colspan]="columns().length + 1" (keydown)="onEditKeydown($event)">
+                <td [attr.colspan]="columns().length + 1 + resolvedFields().length" (keydown)="onEditKeydown($event)">
                   <lily-date-time-picker
                     [label]="labels().startLabel ?? ''"
                     [labels]="labels().dateTimePickerLabels!"
@@ -494,9 +619,11 @@ export function nextGanttChartId(): string {
                 </td>
               </tr>
             }
+            }
           }
         </tbody>
       </lily-gantt-table>
+      </div>
 
       <p class="gantt-chart-status" aria-live="polite">{{ statusMessage() }}</p>
     </div>
@@ -530,6 +657,20 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   readonly taskLabel = input<(task: GanttTask) => string>((task: GanttTask) => task.label);
   /** User-facing strings. See GanttLabels — presence gates each control. */
   readonly labels = input<GanttLabels>({});
+  /** Typed fields: a column per field between the task name and the timeline, read from `task.values`. Editable types edit in place (click the value, or F2 on the task's row for the first editable field; Tab moves to the next) when `editableFields` is on. */
+  readonly fields = input<GanttField[] | undefined>(undefined);
+  /** Locale for number and date fields. Never defaulted. */
+  readonly locale = input<string | undefined>(undefined);
+  /** Turns field editing on (and not `readonly`). It stands in for "a `fieldEdit` listener is attached", which an Angular output cannot report. */
+  readonly editableFields = input<boolean>(false);
+  /** The file name without its extension. Default `"gantt-chart"`. */
+  readonly exportFilename = input<string>("gantt-chart");
+  /** What an export holds: `"all"` (default) is every task; `"visible"` leaves out the tasks under a collapsed parent. */
+  readonly exportScope = input<"all" | "visible">("all");
+  /** Called before the download with the finished file. Return `false` to skip the built-in download. */
+  readonly exportHandler = input<((file: GanttExport) => boolean | void) | undefined>(undefined);
+  /** Renders only the task rows in view (windowing). The chart gets a scroll area of `height` px; every row is assumed `rowHeight` px tall. */
+  readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(undefined);
   /** Extra CSS class on the root. */
   readonly className = input<string>("");
 
@@ -537,6 +678,10 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   readonly taskChange = output<GanttTaskChangeEvent>();
   /** Fires when selection changes: the task id, or `undefined` when it clears. */
   readonly taskSelect = output<string | undefined>();
+  /** Fires with each accepted field edit. The consumer updates `tasks`. */
+  readonly fieldEdit = output<GanttFieldEdit>();
+  /** Fires with an export file, before it is saved. */
+  readonly exportFile = output<GanttExport>();
 
   private readonly baseId = nextGanttChartId();
   protected dependencyId(taskId: string): string {
@@ -544,6 +689,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
+  private readonly scrollRef = viewChild<ElementRef<HTMLDivElement>>("scrollEl");
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly injector = inject(Injector);
 
@@ -564,6 +710,17 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   protected readonly columns = computed(() => generateColumns(this.range(), this.timeUnit()));
   protected readonly rows = computed(() => flattenTasks(this.tasks(), this.collapsedIds()));
   private readonly ranges = computed(() => effectiveRanges(this.tasks()));
+  private readonly taskById = computed(() => new Map(this.tasks().map((t) => [t.id, t])));
+  // Markers, today and non-working per column, found once per change rather than once per cell per render.
+  private readonly markersByColumn = computed(() => {
+    const markers = this.markers();
+    return this.columns().map((column) => markers.filter((m) => overlaps(column.start, column.end, m.date, m.date)));
+  });
+  protected markersAt(colIndex: number): GanttMarker[] {
+    return this.markersByColumn()[colIndex] ?? [];
+  }
+  protected readonly todayColumns = computed(() => this.columns().map((column) => this.isTodayColumn(column)));
+  protected readonly nonWorkingColumns = computed(() => this.columns().map((column) => this.isNonWorkingColumn(column)));
 
   // The roving cursor, clamped to the cells that exist now: collapsing a parent
   // can remove the row it named, and the grid must never leave the tab order.
@@ -594,6 +751,11 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
    */
   /** `taskAttrs` has no template spread in Angular: the attributes are written onto each task's row after every check. */
   ngAfterViewChecked(): void {
+    const table = this.rootRef().nativeElement.querySelector("table.gantt-table");
+    if (table) {
+      if (this.virtualize()) table.setAttribute("aria-rowcount", String(this.rows().length + 1));
+      else table.removeAttribute("aria-rowcount");
+    }
     const attrs = this.taskAttrs();
     if (!attrs) return;
     const byId = new Map(this.tasks().map((t) => [t.id, t]));
@@ -654,6 +816,219 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   // ---------------------------------------------------------------
+  // Typed fields, inline editing, export
+  // ---------------------------------------------------------------
+
+  // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per task or keystroke.
+  protected readonly resolvedFields = computed(() => resolveFields(this.fields(), this.locale()));
+  protected isFieldEditable(f: GanttField): boolean {
+    return this.editableFields() && !this.readonly() && isEditableField(f);
+  }
+  protected fieldText(f: ResolvedField, task: GanttTask): string {
+    return fieldTextOf(f, task.values);
+  }
+  protected kindOf(f: GanttField): ReturnType<typeof editorKind> {
+    return editorKind(f);
+  }
+  protected editorValue(draft: Draft): string {
+    return String(draft ?? "");
+  }
+  protected fieldNameId(taskId: string, fieldId: string): string {
+    return `${this.baseId}-fn-${taskId}-${fieldId}`;
+  }
+  protected fieldValueId(taskId: string, fieldId: string): string {
+    return `${this.baseId}-fv-${taskId}-${fieldId}`;
+  }
+
+  /** The field being edited, if any: the draft is the editor's text. */
+  protected readonly editingField = signal<{ taskId: string; fieldId: string; draft: Draft } | null>(null);
+
+  protected startFieldEdit(task: GanttTask, f: ResolvedField): void {
+    if (!this.isFieldEditable(f)) return;
+    this.editingTaskId.set(null);
+    this.editingField.set({ taskId: task.id, fieldId: f.id, draft: draftOf(f, task.values) });
+    this.cdr.detectChanges();
+    this.afterRender(() => {
+      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(".gantt-chart-field-editor");
+      editor?.focus({ preventScroll: true });
+      if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+    });
+  }
+
+  /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+  protected commitFieldEdit(): boolean {
+    const current = this.editingField();
+    if (!current) return true;
+    const { taskId, fieldId, draft } = current;
+    const task = this.taskById().get(taskId);
+    const f = this.resolvedFields().find((x) => x.id === fieldId);
+    if (!task || !f) {
+      this.editingField.set(null);
+      return true;
+    }
+    const outcome = evaluateEdit(f, task.values, draft);
+    if (outcome.invalid) {
+      this.announce(this.labels().editInvalid?.(this.taskLabel()(task), f.header));
+      return false;
+    }
+    this.editingField.set(null);
+    if (outcome.changed) {
+      this.fieldEdit.emit({ taskId, fieldId, value: outcome.value, previous: outcome.previous });
+      this.announce(this.labels().editAnnouncement?.(this.taskLabel()(task), f.header, outcome.text));
+    }
+    return true;
+  }
+
+  private cancelFieldEdit(): void {
+    this.editingField.set(null);
+    this.focusActiveCell();
+  }
+
+  protected onFieldEditorInput(event: Event): void {
+    const current = this.editingField();
+    if (current) this.editingField.set({ ...current, draft: (event.target as HTMLInputElement).value });
+  }
+
+  protected onFieldEditorSelectChange(event: Event): void {
+    this.onFieldEditorInput(event);
+    if (this.commitFieldEdit()) this.focusActiveCell();
+  }
+
+  protected onFieldEditorKeydown(event: KeyboardEvent): void {
+    // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+    // report the confirming Enter with `isComposing` already false but keyCode 229.
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (this.commitFieldEdit()) this.focusActiveCell();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      this.cancelFieldEdit();
+    } else if (event.key === "Tab" && this.editingField()) {
+      // Tab commits and moves to the task's next (Shift+Tab: previous) editable field; past the last, it moves on.
+      const current = this.editingField()!;
+      const task = this.taskById().get(current.taskId);
+      const next = neighbourField(this.resolvedFields().filter((x) => this.isFieldEditable(x)), current.fieldId, event.shiftKey);
+      if (task && next) {
+        event.preventDefault();
+        if (this.commitFieldEdit()) this.startFieldEdit(task, next);
+      } else {
+        this.commitFieldEdit();
+      }
+    }
+  }
+
+  protected readonly exportRows = computed(() =>
+    this.exportScope() === "visible"
+      ? this.rows().map((r) => r.task)
+      : flattenTasks(this.tasks(), new Set<string>()).map((r) => r.task),
+  );
+  protected readonly hasExportButtons = computed(() => {
+    const l = this.labels();
+    return !!l.exportHeaders && !!(l.exportCsv || l.exportTsv || l.exportExcel);
+  });
+
+  /** A civil date as a real date for the spreadsheet; an unscheduled task's empty date as null. */
+  private exportDate(iso: string | undefined): Date | null {
+    return iso ? civilDateToDate(iso) : null;
+  }
+
+  protected runExport(format: ExportFormat): void {
+    const h = this.labels().exportHeaders;
+    if (!h) return;
+    const tasks = this.tasks();
+    const byId = this.taskById();
+    const label = this.taskLabel();
+    const exportFields = exportableFields(this.resolvedFields());
+    const headers = [h.task, h.start, h.end];
+    if (h.percentComplete) headers.push(h.percentComplete);
+    if (h.parent) headers.push(h.parent);
+    if (h.dependsOn) headers.push(h.dependsOn);
+    if (h.baselineStart) headers.push(h.baselineStart);
+    if (h.baselineEnd) headers.push(h.baselineEnd);
+    for (const f of exportFields) headers.push(f.header);
+    const hasChildren = new Set(tasks.filter((t) => t.parentId != null && byId.has(t.parentId)).map((t) => t.parentId as string));
+    const body = this.exportRows().map((task) => {
+      const span = hasChildren.has(task.id) ? (this.ranges().get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
+      const cells: unknown[] = [label(task), this.exportDate(span.start), this.exportDate(span.end)];
+      if (h.percentComplete) cells.push(task.percentComplete ?? null);
+      if (h.parent) cells.push(task.parentId != null && byId.has(task.parentId) ? label(byId.get(task.parentId)!) : null);
+      if (h.dependsOn) {
+        cells.push(
+          (task.dependsOn ?? [])
+            .map((dep) => {
+              const id = typeof dep === "string" ? dep : dep.id;
+              const predecessor = byId.get(id);
+              return predecessor ? label(predecessor) : id;
+            })
+            .join("; "),
+        );
+      }
+      if (h.baselineStart) cells.push(this.exportDate(task.baseline?.start));
+      if (h.baselineEnd) cells.push(this.exportDate(task.baseline?.end));
+      for (const f of exportFields) cells.push(exportFieldCell(f, task.values));
+      return cells;
+    });
+    const filename = exportFilename(this.exportFilename(), format);
+    const blob = exportBlob({ headers, rows: body }, format, { sheetName: this.exportFilename() });
+    const file: GanttExport = { format, filename, taskCount: body.length, blob };
+    this.exportFile.emit(file);
+    if (this.exportHandler()?.(file) === false) return;
+    downloadBlob(blob, filename);
+    this.announce(this.labels().exportAnnouncement?.(format, body.length, filename));
+  }
+
+  // ---------------------------------------------------------------
+  // Windowing (virtualize)
+  // ---------------------------------------------------------------
+
+  protected readonly scrollTop = signal(0);
+  /** What renders: the rows in view plus the roving tab stop's row (so the grid never leaves the tab order), with spacers for the gaps. */
+  protected readonly renderItems = computed<RenderItem[]>(() => {
+    const rows = this.rows();
+    const v = this.virtualize();
+    if (!v) return rows.map((row, index) => ({ kind: "row", row, index, key: row.task.id }));
+    const overscan = v.overscan ?? 3;
+    const top = this.scrollTop();
+    const start = Math.max(0, Math.floor(top / v.rowHeight) - overscan);
+    const end = Math.min(rows.length, Math.ceil((top + v.height) / v.rowHeight) + overscan);
+    const indices = new Set<number>();
+    for (let i = start; i < end; i++) indices.add(i);
+    const active = this.activeRow();
+    if (active >= 0 && active < rows.length) indices.add(active);
+    const out: RenderItem[] = [];
+    let previous = -1;
+    for (const index of [...indices].sort((a, b) => a - b)) {
+      if (index - previous > 1) out.push({ kind: "spacer", height: (index - previous - 1) * v.rowHeight, key: `spacer:${previous}` });
+      out.push({ kind: "row", row: rows[index], index, key: rows[index].task.id });
+      previous = index;
+    }
+    if (rows.length - 1 - previous > 0) out.push({ kind: "spacer", height: (rows.length - 1 - previous) * v.rowHeight, key: `spacer:${previous}` });
+    return out;
+  });
+
+  protected onScroll(event: Event): void {
+    if (this.virtualize()) this.scrollTop.set((event.currentTarget as HTMLElement).scrollTop);
+  }
+
+  /** Bring a row into the scroll area (a virtualized chart renders only what is in view). */
+  private revealRow(rowIndex: number): void {
+    const v = this.virtualize();
+    if (!v) return;
+    const top = rowIndex * v.rowHeight;
+    const current = this.scrollTop();
+    let next = current;
+    if (top < current) next = top;
+    else if (top + v.rowHeight > current + v.height) next = top + v.rowHeight - v.height;
+    if (next !== current) {
+      this.scrollTop.set(next);
+      const el = this.scrollRef()?.nativeElement;
+      if (el) el.scrollTop = next;
+    }
+  }
+
+  // ---------------------------------------------------------------
   // Hierarchy
   // ---------------------------------------------------------------
 
@@ -669,7 +1044,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   protected readonly parentIds = computed(() => {
     const tasks = this.tasks();
     return Array.from(new Set(tasks.filter((t) => t.parentId != null).map((t) => t.parentId as string))).filter((id) =>
-      tasks.some((t) => t.id === id),
+      this.taskById().has(id),
     );
   });
 
@@ -689,7 +1064,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     if (!task.dependsOn?.length) return [];
     return task.dependsOn.map((dep) => {
       const id = typeof dep === "string" ? dep : dep.id;
-      const predecessor = this.tasks().find((t) => t.id === id);
+      const predecessor = this.taskById().get(id);
       const text = predecessor ? this.taskLabel()(predecessor) : id;
       const detail = this.labels().dependencyDetail;
       if (typeof dep === "string" || !detail) return text;
@@ -822,7 +1197,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
 
   protected onGridClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (target.closest("button, input, .gantt-chart-edit-row")) return;
+    if (target.closest("button, input, select, .gantt-chart-edit-row, .gantt-chart-field-editor")) return;
     const taskId = target.closest<HTMLElement>("[data-task-id]")?.dataset["taskId"];
     if (taskId) this.selectTask(taskId);
   }
@@ -857,7 +1232,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     event.preventDefault();
     const taskId = this.draggingTaskId ?? event.dataTransfer?.getData("text/plain");
     this.draggingTaskId = null;
-    const task = this.tasks().find((t) => t.id === taskId);
+    const task = taskId ? this.taskById().get(taskId) : undefined;
     const edge = this.resizingEdge;
     this.resizingEdge = null;
     if (!task || !task.start || !task.end) return;
@@ -895,7 +1270,9 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
 
   private moveFocus(row: number, col: number): void {
-    this.focusedRow.set(Math.min(Math.max(row, 0), this.rows().length - 1));
+    const nextRow = Math.min(Math.max(row, 0), this.rows().length - 1);
+    this.revealRow(nextRow);
+    this.focusedRow.set(nextRow);
     this.focusedCol.set(Math.min(Math.max(col, 0), this.columns().length - 1));
     this.cdr.detectChanges();
     this.focusActiveCell();
@@ -905,6 +1282,16 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.key === "F2" && this.editableFields()) {
+      // F2: edit the task's first editable field (the keyboard twin of clicking its value).
+      const row = this.rows()[this.activeRow()];
+      const first = this.resolvedFields().find((f) => this.isFieldEditable(f));
+      if (row && first) {
+        event.preventDefault();
+        this.startFieldEdit(row.task, first);
+      }
+      return;
+    }
     if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
       // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
       const row = this.rows()[this.activeRow()];

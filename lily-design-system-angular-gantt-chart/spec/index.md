@@ -308,3 +308,23 @@ Ported from the Svelte canonical spec (§14 there; clauses §14.1–§14.17): zo
 ## Unscheduled tasks and collapse-all (2026-10-16)
 
 Ported from the Svelte canonical (its spec "Unscheduled tasks and collapse-all", tests §14.18–§14.24). `start` / `end` are optional on a task: with neither, the row renders no bar and no `data-in-range` cells and carries `data-unscheduled`; the edit region opens with empty dates and Save is disabled until both are set. `effectiveRanges` skips an unscheduled child when deriving a parent's span (a parent whose children are all unscheduled has an empty range and is unscheduled itself). Drag, resize and Alt+Arrow ignore an unscheduled task, and a baseline variance with no current end is 0. `collapsedTaskIds` holds the collapsed parent ids; `labels.expandAll` / `labels.collapseAll` gate two buttons in `.gantt-chart-collapse-all` (shown only when the chart has parents), each disabled when it would change nothing.
+
+## 11. Typed fields, inline editing, export, virtualization (0.5.0, 2026-10-16)
+
+Tests §14.25–§14.40. The data grid's cell types, export and windowing, applied to tasks.
+
+- **Typed fields**: `fields` is a list of `{ id, header, type?, options?, numberFormat?, dateFormat?, parse?, exportValue?, exportable?, editable?, editLabel? }`, read from `task.values[id]`.
+  Each is a column (`th scope="col"` plus a `GanttTableTD` per row, `data-field`, `data-type`) between the task name and the timeline. `type` is a data-grid cell type; `resolveColumn` fills in the
+  type's `format`, `compare` and `exportValue`, once per `fields` / `locale` change. With no `locale` a value shows as stored. The field cells carry no `data-row` / `data-col`, so the roving timeline grid is unchanged.
+- **Inline editing**: The `fieldEdit` output (`{ taskId, fieldId, value, previous })` with `[editableFields]="true"` (which stands in for a listener, as an Angular output cannot report one) turns it on (and not `readonly`, not `editable: false`). `text`, `number`, `link`, `date`, `time`, `select` and `radio` fields edit; the others
+  display and export only. The value becomes a `.gantt-chart-field-button` (`tabindex="-1"`, named by the header plus the value); clicking it, or **F2** on a timeline cell (first editable field of the row), opens
+  `.gantt-chart-field-editor` (an `<input>` of the type, or a `<select>` of `options`). **Enter** commits, **Escape** cancels, blur commits, **Tab** / **Shift+Tab** commit and move to the row's next / previous editable field.
+  The editor owns its keys, and while an IME is composing (`isComposing`, or `keyCode` 229) Enter, Escape and Tab belong to the IME. A value that does not fit the type is refused (the editor stays open,
+  `labels.editInvalid`); an unchanged value reports nothing; `labels.editAnnouncement(task, header, text)`. Parent tasks' fields are their own data and edit like any other.
+- **Export**: `labels.exportCsv` / `exportTsv` / `exportExcel` each gate a `.gantt-chart-export-button` (`data-gantt-export-format`) in a `.gantt-chart-export` group named by `labels.export`; none renders without
+  `labels.exportHeaders`. One row per task in tree order: task label, start, end (a parent's derived span; real dates in Excel, empty for an unscheduled task), then — each only when its header is named — percent
+  complete, parent label, predecessors (`; ` joined), baseline start and end; then every `exportable` field. `exportScope` `"all"` (default) or `"visible"` (leaves out tasks under a collapsed parent).
+  Formula-looking text is defused. `exportHandler` / `exportFile` (`{ format, filename, taskCount, blob })` may return `false` to take over; otherwise the file is saved and `labels.exportAnnouncement` is announced.
+- **Virtualization**: `virtualize: { rowHeight, height, overscan = 3 }` puts the table in a `.gantt-chart-scroll` area (`height` px, `overflow: auto`, the structural inline style) and renders only the rows in view plus the
+  roving tab stop's row, between `.gantt-chart-spacer` rows. Rows carry `aria-rowindex`, the table `aria-rowcount`; keyboard focus scrolls the target row in. Rows are assumed `rowHeight` px tall.
+- **Hot path**: a task lookup map, per-column marker and today flags built once per `markers` / `columns` / `today` change, so a render does no per-cell `filter` or `find`.
