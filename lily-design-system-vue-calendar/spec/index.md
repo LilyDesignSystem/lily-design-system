@@ -30,7 +30,7 @@ Ported from the Svelte canonical spec (§14 there; clauses §8.31–§8.50): the
 
 Ported from the Svelte canonical (its spec "Agenda view", tests §8.64–§8.68): `view="agenda"` is the list counterpart of the month grid over the same period (`periodRange` treats it as the month; `periodDays` is empty). A plain `<ol class="calendar-view-agenda" aria-label>` with ordinary tab stops, no roving cursor, no selection keys. Each `<li class="calendar-view-agenda-day" data-date>` carries `data-today` / `aria-current="date"`, `data-weekend`, `data-range`, a `<time class="calendar-view-agenda-date" datetime>` heading (`labels.day(date, weekday, false)`, else the ISO date) and the day's events — the `day` slot when given, otherwise a `.calendar-view-event` button per event (its `title` when a string, else its id) that fires `onEventClick`. Only days with events unless `agendaEmptyDays`; `labels.agendaEmpty` shows when there are none.
 
-## 1. Typed event fields, inline editing, export, hot-path caching (0.5.0, 2026-10-16)
+## Typed event fields, inline editing, export, hot-path caching (0.5.0, 2026-10-16)
 
 Tests §8.69–§8.82. The data grid's cell types and export, applied to events.
 

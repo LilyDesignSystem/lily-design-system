@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.0 — 2026-10-16
+
+- Added typed event fields (`eventFields`, `event.values`) shown after each event's title in the agenda, with a public `fieldText(event, fieldId)` method (Angular has no `day` template); uses the data grid's cell types.
+- Added inline field editing in the agenda (`fieldEdit` output, with `[editableFields]="true"`): typed editors, Enter / Escape / Tab, IME-safe, refused when invalid for the type, announced.
+- Added export to CSV, TSV and Excel (`labels.exportCsv` etc., `labels.exportHeaders`, `exportScope`, `exportFilename`, `exportHandler` / `exportFile`); dates are real dates in Excel.
+- Ranges, the selected-date set and event lookups are computed once per change instead of per cell.
+
 ## 0.3.0 — 2026-10-16
 
 - Added an agenda (list) view, ported from the Svelte 0.4.0: `view="agenda"` lists the days of the shown month that have events as an ordered list (each day a `<time datetime>` heading, then its events as buttons, or `eventClick`); `agendaEmptyDays` lists every day; `labels.agendaView` gates the switcher button and `labels.agendaEmpty` the empty-month message. `previous` / `next` step by month and `onNavigate` reports the month's range.

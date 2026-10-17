@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from "@angular/common";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -33,6 +34,34 @@ import {
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/angular-date-time-picker";
+import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { civilDateToDate } from "./cell-types";
+import {
+  draftOf,
+  editorKind,
+  evaluateEdit,
+  exportFieldCell,
+  exportableFields,
+  fieldText as fieldTextOf,
+  isEditableField,
+  neighbourField,
+  resolveFields,
+  type Draft,
+  type FieldDef,
+  type ResolvedField,
+} from "./typed-fields";
+
+/**
+ * A typed field an event carries (a room, a status, a cost), shown after the event's title in the agenda and read from
+ * `event.values[id]`. A bundle of display, sort and export defaults from the data grid's cell types.
+ */
+export type CalendarEventField = FieldDef;
+
+/** What `exportHandler` and the `exportFile` output receive. Return `false` from `exportHandler` to take over the download. */
+export type CalendarExport = { format: ExportFormat; filename: string; eventCount: number; blob: Blob };
+
+/** What the `fieldEdit` output carries. */
+export type CalendarFieldEdit = { eventId: string; fieldId: string; value: unknown; previous: unknown };
 
 export type CalendarViewMode = "day" | "week" | "four-week" | "month" | "agenda";
 
@@ -51,6 +80,8 @@ export type CalendarEvent = {
   start?: string;
   /** Multi-day event end (inclusive). */
   end?: string;
+  /** Values of the calendar's `eventFields`, by field id. */
+  values?: Record<string, unknown>;
   [key: string]: unknown;
 };
 
@@ -90,6 +121,20 @@ export type CalendarViewLabels = {
   periodTitle?: (view: CalendarViewMode, start: string, end: string) => string;
   /** Text of the "+N more" button shown on a day that `maxEvents` caps: (hidden count, date). Gates the button. */
   moreEvents?: (hiddenCount: number, isoDate: string) => string;
+  /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+  export?: string;
+  /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
+  exportCsv?: string;
+  exportTsv?: string;
+  exportExcel?: string;
+  /** Announced after an export: (format, how many events, file name). */
+  exportAnnouncement?: (format: ExportFormat, eventCount: number, filename: string) => string;
+  /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. */
+  exportHeaders?: { title: string; start: string; end: string };
+  /** Announced after a field edit: (event title, field header, the new text). */
+  editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
+  editInvalid?: (eventTitle: string, fieldHeader: string) => string;
 };
 
 /** Payload of the `eventMove` output. */
@@ -110,6 +155,13 @@ export type DayArgs = {
 
 /** Payload of the `navigate` output. */
 export type CalendarNavigateEvent = { view: CalendarViewMode; start: string; end: string };
+
+let uid = 0;
+/** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
+function nextCalendarViewId(): string {
+  uid += 1;
+  return `calendar-view-${uid}`;
+}
 
 /** Start of the week containing `isoDate`, for a given first-day-of-week (0 = Sunday). */
 export function weekStart(isoDate: string, firstDayOfWeek: number): string {
@@ -220,6 +272,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
     CalendarTableRow,
     CalendarTableTD,
     CalendarTableTH,
+    NgTemplateOutlet,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -296,6 +349,20 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
         </div>
       }
 
+      @if (hasExportButtons()) {
+        <div class="calendar-view-export" role="group" [attr.aria-label]="labels().export ?? null">
+          @if (labels().exportCsv; as csv) {
+            <button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" [disabled]="exportEvents().length === 0" (click)="runExport('csv')">{{ csv }}</button>
+          }
+          @if (labels().exportTsv; as tsv) {
+            <button type="button" class="calendar-view-export-button" data-calendar-export-format="tsv" [disabled]="exportEvents().length === 0" (click)="runExport('tsv')">{{ tsv }}</button>
+          }
+          @if (labels().exportExcel; as excel) {
+            <button type="button" class="calendar-view-export-button" data-calendar-export-format="xlsx" [disabled]="exportEvents().length === 0" (click)="runExport('xlsx')">{{ excel }}</button>
+          }
+        </div>
+      }
+
       @if (view() === "agenda") {
         <!-- The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. -->
         <ol class="calendar-view-agenda" [attr.aria-label]="label()">
@@ -312,8 +379,53 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               @if (eventsFor(d).length > 0) {
                 <ul class="calendar-view-agenda-events">
                   @for (event of eventsFor(d); track event.id) {
-                    <li>
+                    <li [attr.data-event-key]="event.id">
                       <button type="button" class="calendar-view-event" (click)="openEvent(event)">{{ eventTitle(event) || event.id }}</button>
+                      @if (resolvedFields().length > 0) {
+                        <span class="calendar-view-event-fields">
+                          @for (f of resolvedFields(); track f.id) {
+                            @let text = eventFieldText(f, event);
+                            @let editable = isFieldEditable(f);
+                            @if (editing(); as ed) {
+                              @if (ed.eventId === event.id && ed.fieldId === f.id) {
+                                <span class="calendar-view-event-field" [attr.data-field]="f.id" data-editing="">
+                                  <span class="calendar-view-event-field-name" [id]="fieldNameId(event.id, f.id)">{{ f.header }}</span>{{ " " }}
+                                  @if (kindOf(f) === "select" || kindOf(f) === "radio") {
+                                    <select
+                                      class="calendar-view-field-editor"
+                                      [attr.aria-label]="f.editLabel ?? f.header"
+                                      [value]="editorValue(ed.draft)"
+                                      (change)="onEditorSelectChange($event)"
+                                      (keydown)="onEditorKeydown($event)"
+                                      (blur)="commitFieldEdit(false)"
+                                    >
+                                      <option value=""></option>
+                                      @for (option of f.options ?? []; track option.id) {
+                                        <option [value]="option.id" [disabled]="option.disabled ?? false" [selected]="option.id === editorValue(ed.draft)">{{ option.label }}</option>
+                                      }
+                                    </select>
+                                  } @else {
+                                    <input
+                                      class="calendar-view-field-editor"
+                                      [attr.aria-label]="f.editLabel ?? f.header"
+                                      [type]="kindOf(f) === 'number' ? 'number' : kindOf(f) === 'date' ? 'date' : kindOf(f) === 'time' ? 'time' : 'text'"
+                                      [attr.inputmode]="kindOf(f) === 'number' ? 'decimal' : null"
+                                      [value]="editorValue(ed.draft)"
+                                      (input)="onEditorInput($event)"
+                                      (keydown)="onEditorKeydown($event)"
+                                      (blur)="commitFieldEdit(false)"
+                                    />
+                                  }
+                                </span>
+                              } @else if (text !== "" || editable) {
+                                <ng-container *ngTemplateOutlet="fieldView; context: { f: f, event: event, text: text, editable: editable }" />
+                              }
+                            } @else if (text !== "" || editable) {
+                              <ng-container *ngTemplateOutlet="fieldView; context: { f: f, event: event, text: text, editable: editable }" />
+                            }
+                          }
+                        </span>
+                      }
                     </li>
                   }
                 </ul>
@@ -414,6 +526,22 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
 
       <div class="calendar-view-status" aria-live="polite">{{ statusMessage() }}</div>
     </div>
+    <ng-template #fieldView let-f="f" let-event="event" let-text="text" let-editable="editable">
+      <span class="calendar-view-event-field" [attr.data-field]="f.id" [attr.data-type]="f.type ?? 'text'">
+        <span class="calendar-view-event-field-name" [id]="fieldNameId(event.id, f.id)">{{ f.header }}</span>{{ " " }}
+        @if (editable) {
+          <button
+            type="button"
+            class="calendar-view-field-button"
+            [id]="fieldValueId(event.id, f.id)"
+            [attr.aria-labelledby]="fieldNameId(event.id, f.id) + ' ' + fieldValueId(event.id, f.id)"
+            (click)="startFieldEdit(event, f)"
+          >{{ text }}</button>
+        } @else {
+          <span class="calendar-view-event-field-value">{{ text }}</span>
+        }
+      </span>
+    </ng-template>
   `,
 })
 export class CalendarView implements AfterViewInit {
@@ -458,6 +586,16 @@ export class CalendarView implements AfterViewInit {
   /** BCP 47 locale, passed to firstDayOfWeekFor. */
   readonly locale = input<string | undefined>(undefined);
   readonly labels = input<CalendarViewLabels>({});
+  /** Typed event fields, read from `event.values`. The agenda shows them after each event's title; `fieldText(event, fieldId)` is a public method for anything else. Editable types edit in the agenda (click the value; Tab moves to the next) when `editableFields` is on. */
+  readonly eventFields = input<CalendarEventField[] | undefined>(undefined);
+  /** Turns field editing on. It stands in for "a `fieldEdit` listener is attached", which an Angular output cannot report. */
+  readonly editableFields = input<boolean>(false);
+  /** The file name without its extension. Default `"calendar"`. */
+  readonly exportFilename = input<string>("calendar");
+  /** What an export holds: `"period"` (default) is the events that touch the shown period; `"all"` is every event. */
+  readonly exportScope = input<"period" | "all">("period");
+  /** Called before the download with the finished file. Return `false` to skip the built-in download. */
+  readonly exportHandler = input<((file: CalendarExport) => boolean | void) | undefined>(undefined);
   /** Extra CSS class on the root. */
   readonly className = input<string>("");
 
@@ -473,6 +611,12 @@ export class CalendarView implements AfterViewInit {
   readonly eventMove = output<CalendarEventMoveEvent>();
   /** Fires with the date when a day's "+N more" button is pressed. */
   readonly moreClick = output<string>();
+  /** Fires with each accepted field edit. The consumer updates `events`. */
+  readonly fieldEdit = output<CalendarFieldEdit>();
+  /** Fires with an export file, before it is saved. */
+  readonly exportFile = output<CalendarExport>();
+
+  private readonly baseId = nextCalendarViewId();
 
   private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   private readonly cdr = inject(ChangeDetectorRef);
@@ -487,6 +631,19 @@ export class CalendarView implements AfterViewInit {
   );
   private readonly flatDays = computed(() => this.days().flat());
   private readonly eventMap = computed(() => eventsByDay(this.events()));
+  private readonly eventById = computed(() => new Map(this.events().map((e) => [e.id, e])));
+  private readonly selectedDateSet = computed(() => new Set(this.selectedDates()));
+  // The marked ranges per visible day, found once per `ranges` / period change rather than once per cell per render.
+  private readonly rangesByDay = computed(() => {
+    const map = new Map<string, CalendarRange[]>();
+    const ranges = this.ranges();
+    if (ranges.length === 0) return map;
+    for (const d of this.view() === "agenda" ? this.agendaDays() : this.flatDays()) {
+      const hit = ranges.filter((r) => d >= r.start && d <= r.end);
+      if (hit.length > 0) map.set(d, hit);
+    }
+    return map;
+  });
   // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
   protected readonly agendaDays = computed(() => {
     if (this.view() !== "agenda") return [] as string[];
@@ -548,7 +705,189 @@ export class CalendarView implements AfterViewInit {
   }
 
   protected isPicked(d: string): boolean {
-    return this.selectionMode() === "multiple" ? this.selectedDates().includes(d) : this.selectedDate() === d;
+    return this.selectionMode() === "multiple" ? this.selectedDateSet().has(d) : this.selectedDate() === d;
+  }
+
+  // ---------------------------------------------------------------
+  // Typed fields, inline editing (agenda), export
+  // ---------------------------------------------------------------
+
+  // Type defaults (format, compare, export value) resolved once per `eventFields` / `locale` change, never per event or keystroke.
+  protected readonly resolvedFields = computed(() => resolveFields(this.eventFields(), this.locale()));
+  protected isFieldEditable(f: CalendarEventField): boolean {
+    return this.editableFields() && isEditableField(f);
+  }
+  protected eventFieldText(f: ResolvedField, calendarEvent: CalendarEvent): string {
+    return fieldTextOf(f, calendarEvent.values);
+  }
+  /** The formatted text of one event's typed field (empty when the event has no value for it). */
+  fieldText(calendarEvent: CalendarEvent, fieldId: string): string {
+    const f = this.resolvedFields().find((x) => x.id === fieldId);
+    return f ? this.eventFieldText(f, calendarEvent) : "";
+  }
+  protected kindOf(f: CalendarEventField): ReturnType<typeof editorKind> {
+    return editorKind(f);
+  }
+  protected editorValue(draft: Draft): string {
+    return String(draft ?? "");
+  }
+  protected fieldNameId(eventId: string, fieldId: string): string {
+    return `${this.baseId}-fn-${eventId}-${fieldId}`;
+  }
+  protected fieldValueId(eventId: string, fieldId: string): string {
+    return `${this.baseId}-fv-${eventId}-${fieldId}`;
+  }
+  private titleOf(calendarEvent: CalendarEvent): string {
+    return this.eventTitle(calendarEvent) || calendarEvent.id;
+  }
+
+  /** The field being edited, if any: the draft is the editor's text. */
+  protected readonly editing = signal<{ eventId: string; fieldId: string; draft: Draft } | null>(null);
+
+  protected startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): void {
+    if (!this.isFieldEditable(f)) return;
+    this.editing.set({ eventId: calendarEvent.id, fieldId: f.id, draft: draftOf(f, calendarEvent.values) });
+    this.cdr.detectChanges();
+    afterNextRender(
+      () => {
+        const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(".calendar-view-field-editor");
+        editor?.focus({ preventScroll: true });
+        if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private focusFieldButton(eventId: string, fieldId: string): void {
+    this.cdr.detectChanges();
+    afterNextRender(
+      () => {
+        const li = Array.from(this.rootRef().nativeElement.querySelectorAll<HTMLElement>("[data-event-key]")).find((el) => el.dataset["eventKey"] === eventId);
+        const field = Array.from(li?.querySelectorAll<HTMLElement>("[data-field]") ?? []).find((el) => el.dataset["field"] === fieldId);
+        field?.querySelector<HTMLElement>(".calendar-view-field-button")?.focus({ preventScroll: true });
+      },
+      { injector: this.injector },
+    );
+  }
+
+  /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+  protected commitFieldEdit(refocus = true): boolean {
+    const current = this.editing();
+    if (!current) return true;
+    const { eventId, fieldId, draft } = current;
+    const calendarEvent = this.eventById().get(eventId);
+    const f = this.resolvedFields().find((x) => x.id === fieldId);
+    if (!calendarEvent || !f) {
+      this.editing.set(null);
+      return true;
+    }
+    const outcome = evaluateEdit(f, calendarEvent.values, draft);
+    if (outcome.invalid) {
+      const message = this.labels().editInvalid?.(this.titleOf(calendarEvent), f.header);
+      if (message) this.statusMessage.set(message);
+      return false;
+    }
+    this.editing.set(null);
+    if (outcome.changed) {
+      this.fieldEdit.emit({ eventId, fieldId, value: outcome.value, previous: outcome.previous });
+      const message = this.labels().editAnnouncement?.(this.titleOf(calendarEvent), f.header, outcome.text);
+      if (message) this.statusMessage.set(message);
+    }
+    if (refocus) this.focusFieldButton(eventId, fieldId);
+    return true;
+  }
+
+  private cancelFieldEdit(): void {
+    const current = this.editing();
+    if (!current) return;
+    this.editing.set(null);
+    this.focusFieldButton(current.eventId, current.fieldId);
+  }
+
+  protected onEditorInput(event: Event): void {
+    const current = this.editing();
+    if (current) this.editing.set({ ...current, draft: (event.target as HTMLInputElement).value });
+  }
+
+  protected onEditorSelectChange(event: Event): void {
+    this.onEditorInput(event);
+    this.commitFieldEdit();
+  }
+
+  protected onEditorKeydown(event: KeyboardEvent): void {
+    // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+    // report the confirming Enter with `isComposing` already false but keyCode 229.
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.commitFieldEdit();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      this.cancelFieldEdit();
+    } else if (event.key === "Tab" && this.editing()) {
+      // Tab commits and moves to the event's next (Shift+Tab: previous) editable field; past the last, it moves on.
+      const current = this.editing()!;
+      const calendarEvent = this.eventById().get(current.eventId);
+      const next = neighbourField(this.resolvedFields().filter((x) => this.isFieldEditable(x)), current.fieldId, event.shiftKey);
+      if (calendarEvent && next) {
+        event.preventDefault();
+        if (this.commitFieldEdit(false)) this.startFieldEdit(calendarEvent, next);
+      } else {
+        this.commitFieldEdit(false);
+      }
+    }
+  }
+
+  /** The first and last day an event covers. */
+  private eventSpan(calendarEvent: CalendarEvent): { start: string; end: string } | null {
+    return calendarEvent.date
+      ? { start: calendarEvent.date, end: calendarEvent.date }
+      : calendarEvent.start && calendarEvent.end
+        ? { start: calendarEvent.start, end: calendarEvent.end }
+        : null;
+  }
+
+  protected readonly exportEvents = computed(() => {
+    const dated = this.events().filter((e) => this.eventSpan(e) !== null);
+    const periodStart = this.periodStart();
+    const periodEnd = this.periodEnd();
+    const kept =
+      this.exportScope() === "all"
+        ? dated
+        : dated.filter((e) => {
+            const span = this.eventSpan(e)!;
+            return span.start <= periodEnd && span.end >= periodStart;
+          });
+    return kept.sort((a, b) => this.eventSpan(a)!.start.localeCompare(this.eventSpan(b)!.start));
+  });
+  protected readonly hasExportButtons = computed(() => {
+    const l = this.labels();
+    return !!l.exportHeaders && !!(l.exportCsv || l.exportTsv || l.exportExcel);
+  });
+
+  protected runExport(format: ExportFormat): void {
+    const h = this.labels().exportHeaders;
+    if (!h) return;
+    const fields = exportableFields(this.resolvedFields());
+    const headers = [h.title, h.start, h.end, ...fields.map((f) => f.header)];
+    const body = this.exportEvents().map((calendarEvent) => {
+      const span = this.eventSpan(calendarEvent)!;
+      return [
+        this.titleOf(calendarEvent),
+        civilDateToDate(span.start),
+        civilDateToDate(span.end),
+        ...fields.map((f) => exportFieldCell(f, calendarEvent.values)),
+      ];
+    });
+    const filename = exportFilename(this.exportFilename(), format);
+    const blob = exportBlob({ headers, rows: body }, format, { sheetName: this.exportFilename() });
+    const file: CalendarExport = { format, filename, eventCount: body.length, blob };
+    this.exportFile.emit(file);
+    if (this.exportHandler()?.(file) === false) return;
+    downloadBlob(blob, filename);
+    const message = this.labels().exportAnnouncement?.(format, body.length, filename);
+    if (message) this.statusMessage.set(message);
   }
 
   // ---------------------------------------------------------------
@@ -578,7 +917,7 @@ export class CalendarView implements AfterViewInit {
     event.preventDefault();
     const id = this.draggingEventId ?? event.dataTransfer?.getData("text/plain");
     this.draggingEventId = null;
-    const calendarEvent = this.events().find((e) => e.id === id);
+    const calendarEvent = id ? this.eventById().get(id) : undefined;
     if (calendarEvent) this.moveEventTo(calendarEvent, isoDate);
   }
 
@@ -636,9 +975,7 @@ export class CalendarView implements AfterViewInit {
   }
 
   protected rangeKinds(d: string): string | null {
-    const kinds = this.ranges()
-      .filter((r) => d >= r.start && d <= r.end)
-      .map((r) => r.kind ?? "range");
+    const kinds = (this.rangesByDay().get(d) ?? []).map((r) => r.kind ?? "range");
     return kinds.length ? kinds.join(" ") : null;
   }
 
@@ -753,7 +1090,7 @@ export class CalendarView implements AfterViewInit {
     if (this.moveEvents() && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
       const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
       const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset["date"];
-      const calendarEvent = this.events().find((e) => e.id === el?.dataset["eventId"]);
+      const calendarEvent = el?.dataset["eventId"] ? this.eventById().get(el.dataset["eventId"]) : undefined;
       if (el && fromDate && calendarEvent) {
         event.preventDefault();
         const week = this.view() === "day" ? 1 : 7;
