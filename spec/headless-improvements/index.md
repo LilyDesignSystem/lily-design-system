@@ -65,3 +65,8 @@ Adoption needs checking against each helper's accessibility behaviour; where a h
 - A core package is a new published dependency for every helper and a new thing to version; the alternative (keep copying, add a drift check) works but scales with frameworks × packages.
 - Tier 1 changes headless attributes: additive, but the example apps and 57 themes select on some of them — verify with `bin/check-theme` and the axe sweeps.
 - The keyboard primitive must keep each helper's quirks (kanban's Alt+Arrow move, the Gantt's `s` select shortcut, the data grid's header row at index −1); expose hooks rather than one rigid handler.
+
+## Status
+
+- **Done 2026-10-17 — one source for the copied modules.** `shared/` holds the pure modules and their tests; `bin/sync-shared-modules` copies each into every package that has a file of that name, and `--check` runs in `bin/test`. The first run fixed 60 stale copies (23 packages had an old `export-data.ts`, 18 an old `typed-fields.ts`). This is the note's "keep copying, add a drift check" alternative: it needs no new published package. The `@lilydesignsystem/core` package remains open as the longer-term option.
+- Open: the grid keyboard primitive (Tier 2.1) and adopting `Mark`, `SearchInput`, `Tooltip`, `PaginationNav`, `EmptyState`, `Editable`, `DataFilterForm` in the helpers (Tier 3).

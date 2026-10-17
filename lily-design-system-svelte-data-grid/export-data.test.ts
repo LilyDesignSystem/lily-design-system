@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, expect, test, vi } from "vitest";
 
 import { cellText, columnName, crc32, exportBlob, copyToClipboard, exportFilename, isExportFormula, toClipboardText, toCsv, toTsv, toXlsx } from "./export-data";

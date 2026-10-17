@@ -15,6 +15,8 @@ export type FieldDef = Omit<TypedColumn, "type"> & {
     exportable?: boolean;
     /** Accessible name of the field's editor. Defaults to `header`. */
     editLabel?: string;
+    /** Refuses a value that is the right type but not acceptable (a negative estimate, a date in the past): return the reason, or nothing to accept. The editor stays open with `aria-invalid`, and the reason is announced through `labels.editRefused`. */
+    validate?: (value: unknown, values: Record<string, unknown>) => string | undefined;
 };
 
 /** A field with its type's defaults filled in. */
@@ -71,11 +73,13 @@ export function parseDraft(f: ResolvedField, raw: Draft): unknown {
 }
 
 /** What committing a draft does: refused as invalid for the type, or accepted (and whether it differs from what was there). */
-export type EditOutcome = { invalid: true } | { invalid: false; value: unknown; previous: unknown; changed: boolean; text: string };
+export type EditOutcome = { invalid: true; message?: string } | { invalid: false; value: unknown; previous: unknown; changed: boolean; text: string };
 
 export function evaluateEdit(f: ResolvedField, values: FieldValues, raw: Draft): EditOutcome {
     const value = parseDraft(f, raw);
     if (isInvalidForType(f, value)) return { invalid: true };
+    const message = f.validate?.(value, values ?? {});
+    if (message) return { invalid: true, message };
     const previous = fieldValue(f, values);
     return { invalid: false, value, previous, changed: value !== previous, text: value === null || value === undefined ? "" : String(value) };
 }

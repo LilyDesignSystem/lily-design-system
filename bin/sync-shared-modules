@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""bin/sync-shared-modules — one source for the pure modules every grid-like helper carries.
+
+The data grid, kanban board, Gantt chart, calendar and filter helpers share
+framework-neutral modules (text folding and search, type-ahead, edit history,
+export, cell types, typed fields, right-to-left keys, label coverage,
+dependency-arrow geometry, unavailable-day matching) and the tests that pin
+them. They used to be copied by hand; by 2026-10-17 23 packages held a stale
+export-data.ts and 18 a stale typed-fields.ts (spec/headless-improvements).
+
+shared/ is the one source. A module is copied into every top-level package
+that already has a file of that name (a package adopts a module by copying it
+in once; from then on this script keeps it current).
+
+Usage:
+  bin/sync-shared-modules          copy every differing file
+  bin/sync-shared-modules --check  report drift and exit 1 (wired into bin/test)
+
+Edit shared/, then run this script; never edit a package's copy.
+"""
+import filecmp
+import shutil
+import sys
+from pathlib import Path
+
+top = Path(__file__).resolve().parent.parent
+check = "--check" in sys.argv[1:]
+drift = []
+for source in sorted((top / "shared").glob("*.ts")):
+    for target in sorted(top.glob(f"lily-design-system-*/{source.name}")):
+        if filecmp.cmp(source, target, shallow=False):
+            continue
+        drift.append(target.relative_to(top))
+        if not check:
+            shutil.copyfile(source, target)
+
+for path in drift:
+    print(("drift: " if check else "synced: ") + str(path))
+if check and drift:
+    print(f"{len(drift)} file(s) differ from shared/; run bin/sync-shared-modules")
+    sys.exit(1)
+print(f"{'checked' if check else 'synced'}: {len(drift)} difference(s)")

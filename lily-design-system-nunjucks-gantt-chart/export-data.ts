@@ -350,3 +350,44 @@ export function downloadBlob(blob: Blob, filename: string): void {
     // Revoking at once can cancel the download in some browsers.
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
+// ---------------------------------------------------------------------
+// Clipboard
+// ---------------------------------------------------------------------
+
+/** The table as tab-separated text with its header row, ready to paste into a spreadsheet (no byte-order mark, formula text defused). */
+export function toClipboardText(table: ExportTable): string {
+    return toTsv(table, { bom: false });
+}
+
+/**
+ * Write `text` to the clipboard: the async Clipboard API where there is one, otherwise a hidden, selected `<textarea>` and
+ * `document.execCommand("copy")`. Resolves true when something was copied, false when neither path worked (no permission, no
+ * secure context, no DOM). Never throws.
+ */
+export async function copyToClipboard(text: string): Promise<boolean> {
+    try {
+        if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        }
+    } catch {
+        // fall through to the textarea path
+    }
+    try {
+        if (typeof document === "undefined") return false;
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.setAttribute("readonly", "");
+        area.setAttribute("aria-hidden", "true");
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        const ok = typeof document.execCommand === "function" && document.execCommand("copy");
+        area.remove();
+        return !!ok;
+    } catch {
+        return false;
+    }
+}

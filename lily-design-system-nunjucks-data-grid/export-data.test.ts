@@ -1,6 +1,7 @@
-import { describe, expect, test } from "vitest";
+// @vitest-environment jsdom
+import { describe, expect, test, vi } from "vitest";
 
-import { cellText, columnName, crc32, exportBlob, exportFilename, isExportFormula, toCsv, toTsv, toXlsx } from "./export-data";
+import { cellText, columnName, crc32, exportBlob, copyToClipboard, exportFilename, isExportFormula, toClipboardText, toCsv, toTsv, toXlsx } from "./export-data";
 
 /** Reads a stored-only ZIP back into `{ name: text }`, checking every CRC. */
 function unzip(bytes: Uint8Array): Record<string, string> {
@@ -154,3 +155,40 @@ describe("non-ASCII text (§8.78)", () => {
         expect(isExportFormula({ formula: "=1" })).toBe(false);
     });
 });
+
+describe("clipboard", () => {
+    const table = { headers: ["Name", "Note"], rows: [["Ann", "a\tb"], ["=SUM(1)", "x"]] };
+
+    test("toClipboardText is tab-separated with a header row, no BOM, formulas defused", () => {
+        const text = toClipboardText(table);
+        expect(text.startsWith("\uFEFF")).toBe(false);
+        expect(text.split("\r\n")[0]).toBe("Name\tNote");
+        expect(text).toContain("'=SUM(1)");
+    });
+
+    test("copyToClipboard uses the async Clipboard API when there is one", async () => {
+        const writeText = vi.fn(async () => {});
+        vi.stubGlobal("navigator", { clipboard: { writeText } });
+        expect(await copyToClipboard("hello")).toBe(true);
+        expect(writeText).toHaveBeenCalledWith("hello");
+        vi.unstubAllGlobals();
+    });
+
+    test("copyToClipboard falls back to a hidden textarea and execCommand", async () => {
+        vi.stubGlobal("navigator", {});
+        const exec = vi.fn(() => true);
+        (document as unknown as { execCommand: unknown }).execCommand = exec;
+        expect(await copyToClipboard("hi")).toBe(true);
+        expect(exec).toHaveBeenCalledWith("copy");
+        expect(document.querySelector("textarea")).toBeNull();
+        vi.unstubAllGlobals();
+    });
+
+    test("copyToClipboard resolves false, never throws, when neither path works", async () => {
+        vi.stubGlobal("navigator", { clipboard: { writeText: async () => { throw new Error("denied"); } } });
+        (document as unknown as { execCommand: unknown }).execCommand = () => false;
+        expect(await copyToClipboard("x")).toBe(false);
+        vi.unstubAllGlobals();
+    });
+});
+

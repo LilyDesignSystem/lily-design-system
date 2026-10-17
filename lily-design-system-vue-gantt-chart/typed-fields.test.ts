@@ -97,3 +97,22 @@ describe("typed-fields", () => {
         expect(neighbourField(editable, "site", false)).toBeUndefined();
     });
 });
+
+describe("validate", () => {
+    const f = resolveFields([{ id: "cost", header: "Cost", type: "number", validate: (v) => (typeof v === "number" && v < 0 ? "Must not be negative" : undefined) }])[0];
+
+    test("a value the type accepts but validate refuses is invalid with the message", () => {
+        expect(evaluateEdit(f, {}, "-3")).toEqual({ invalid: true, message: "Must not be negative" });
+    });
+    test("an acceptable value passes", () => {
+        expect(evaluateEdit(f, {}, "3")).toMatchObject({ invalid: false, value: 3 });
+    });
+    test("a value of the wrong type is invalid without a message, and validate never sees it", () => {
+        expect(evaluateEdit(f, {}, "abc")).toEqual({ invalid: true });
+    });
+    test("validate receives the record's values", () => {
+        const g = resolveFields([{ id: "end", header: "End", validate: (v, values) => (String(v) < String(values.start) ? "Before start" : undefined) }])[0];
+        expect(evaluateEdit(g, { start: "2026-02-01" }, "2026-01-01")).toEqual({ invalid: true, message: "Before start" });
+    });
+});
+

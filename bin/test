@@ -388,6 +388,8 @@ test_lockfiles_are_tracked
 # headless library's components; the library is the source (P10-T13).
 "$top/bin/sync-example-components" --check >/dev/null 2>&1 \
     || err "an example app's component copy differs from its headless library; run bin/sync-example-components"
+"$top/bin/sync-shared-modules" --check >/dev/null 2>&1 \
+    || err "a package's copy of a shared module differs from shared/; run bin/sync-shared-modules"
 
 # Packages publish from the monorepo, so every published manifest must
 # name it as its source repository (npm --provenance rejects a mismatch).

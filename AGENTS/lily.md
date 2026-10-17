@@ -230,6 +230,7 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-theme](../bin/check-theme): Verify the 57 reference themes honour their conformance contracts; `--contrast` reports each theme's token-pair contrast against WCAG AA/AAA (report only)
 - [check-class-names](../bin/check-class-names): Every headless implementation carries its kebab-case base class (first in a class list)
+- [sync-shared-modules](../bin/sync-shared-modules): One source (`shared/`) for the pure modules the grid-like helpers copy (search, type-ahead, edit history, export, cell types, typed fields, direction, label coverage, dependency arrows, unavailable days); `--check` (in bin/test) fails on drift
 - [sync-example-components](../bin/sync-example-components): Mirror each headless library's components into its example app's copy; `--check` (in bin/test) fails on drift
 - [check-coverage](../bin/check-coverage): Coverage drift matrix — per-component file presence across all 7 headless libraries
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
