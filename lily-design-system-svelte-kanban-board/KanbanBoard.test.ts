@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/svelte";
+import { cleanup, render, screen, fireEvent, waitFor } from "@testing-library/svelte";
 import { describe, expect, test, vi } from "vitest";
 
 import KanbanBoard from "./KanbanBoard.svelte";
@@ -908,6 +908,123 @@ describe("KanbanBoard — multi-select, undo, column reordering, swimlanes, drag
         await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
         await fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
         expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "bo");
+    });
+
+    test("canMove receives the swimlane the card would land in", async () => {
+        const onMove = vi.fn();
+        const canMove = vi.fn(() => true);
+        render(KanbanBoard, { props: { ...base, lanes, cards: laneCards, onMove, canMove } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
+        const call = canMove.mock.calls.at(-1)! as unknown[];
+        expect((call[1] as { id: string }).id).toBe("done");
+        expect(call[2]).toEqual({ id: "bo", title: "Bo" });
+        expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "bo");
+    });
+
+    test("canMove can veto by lane: a card may not enter one owner's lane", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, lanes, cards: laneCards, onMove, canMove: (_c: unknown, _col: unknown, lane?: { id: string }) => lane?.id !== "bo" } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
+        expect(onMove).not.toHaveBeenCalled();
+    });
+
+    test("allowLaneChange={false} refuses a cross-lane drop but still allows a move within the lane", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, lanes, cards: laneCards, onMove, allowLaneChange: false } });
+        const dt = { setData: vi.fn(), getData: () => "" };
+        await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.drop(cellAt(1, 0), { dataTransfer: dt });
+        await fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
+        expect(onMove).not.toHaveBeenCalled();
+        await fireEvent.dragStart(cell("c1").querySelector(".kanban-board-card-title")!, { dataTransfer: dt });
+        await fireEvent.drop(cellAt(0, 2), { dataTransfer: dt });
+        expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "ann");
+    });
+
+    test("showSearchLabel renders labels.search as visible text tied to the search field", () => {
+        render(KanbanBoard, { props: { ...base, labels: { search: "Search cards" }, showSearchLabel: true } });
+        const visible = document.querySelector(".kanban-board-search-label")!;
+        const input = document.querySelector("input.kanban-board-search") as HTMLInputElement;
+        expect(visible.textContent).toBe("Search cards");
+        expect(visible.getAttribute("for")).toBe(input.id);
+        expect(input.getAttribute("aria-label")).toBe("Search cards");
+    });
+
+    test("without showSearchLabel there is no visible label text", () => {
+        render(KanbanBoard, { props: { ...base, labels: { search: "Search cards" } } });
+        expect(document.querySelector(".kanban-board-search-label")).toBeNull();
+    });
+
+    describe("in-place title editing (onTitleEdit)", () => {
+        const titled: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "Card One" }, { id: "c2", columnId: "todo", title: "Linked", href: "/x" }];
+
+        test("double-click opens an editor with the title; Enter commits through onTitleEdit and announces", async () => {
+            const onTitleEdit = vi.fn();
+            render(KanbanBoard, { props: { ...base, cards: titled, onTitleEdit, labels: { titleEditAnnouncement: (p: string, t: string) => `${p} -> ${t}`, titleEditor: (t: string) => `Title of ${t}` } } });
+            await fireEvent.dblClick(screen.getByText("Card One"));
+            const input = document.querySelector<HTMLInputElement>(".kanban-board-title-editor")!;
+            expect(input.value).toBe("Card One");
+            expect(input.getAttribute("aria-label")).toBe("Title of Card One");
+            await fireEvent.input(input, { target: { value: "  Renamed  " } });
+            await fireEvent.keyDown(input, { key: "Enter" });
+            expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
+            expect(document.querySelector(".kanban-board-title-editor")).toBeNull();
+            await waitFor(() => expect(document.body.textContent).toContain("Card One -> Renamed"));
+        });
+
+        test("Escape cancels; an empty or unchanged title changes nothing", async () => {
+            const onTitleEdit = vi.fn();
+            render(KanbanBoard, { props: { ...base, cards: titled, onTitleEdit } });
+            await fireEvent.dblClick(screen.getByText("Card One"));
+            let input = document.querySelector<HTMLInputElement>(".kanban-board-title-editor")!;
+            await fireEvent.input(input, { target: { value: "Changed" } });
+            await fireEvent.keyDown(input, { key: "Escape" });
+            expect(document.querySelector(".kanban-board-title-editor")).toBeNull();
+            await fireEvent.dblClick(screen.getByText("Card One"));
+            input = document.querySelector<HTMLInputElement>(".kanban-board-title-editor")!;
+            await fireEvent.input(input, { target: { value: "   " } });
+            await fireEvent.keyDown(input, { key: "Enter" });
+            await fireEvent.dblClick(screen.getByText("Card One"));
+            await fireEvent.keyDown(document.querySelector(".kanban-board-title-editor")!, { key: "Enter" });
+            expect(onTitleEdit).not.toHaveBeenCalled();
+        });
+
+        test("leaving the field commits; F2 on a card opens the editor", async () => {
+            const onTitleEdit = vi.fn();
+            render(KanbanBoard, { props: { ...base, cards: titled, onTitleEdit } });
+            await fireEvent.keyDown(cellAt(0, 0), { key: "F2" });
+            const input = await waitFor(() => document.querySelector<HTMLInputElement>(".kanban-board-title-editor")!);
+            expect(input).not.toBeNull();
+            await fireEvent.input(input, { target: { value: "By blur" } });
+            await fireEvent.blur(input);
+            expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "By blur", previous: "Card One" });
+        });
+
+        test("no editor without onTitleEdit, for a linked card, or when readonly", async () => {
+            render(KanbanBoard, { props: { ...base, cards: titled } });
+            await fireEvent.dblClick(screen.getByText("Card One"));
+            expect(document.querySelector(".kanban-board-title-editor")).toBeNull();
+            cleanup();
+            render(KanbanBoard, { props: { ...base, cards: titled, onTitleEdit: vi.fn() } });
+            await fireEvent.dblClick(screen.getByText("Linked"));
+            expect(document.querySelector(".kanban-board-title-editor")).toBeNull();
+            cleanup();
+            render(KanbanBoard, { props: { ...base, cards: titled, onTitleEdit: vi.fn(), readonly: true } });
+            await fireEvent.dblClick(screen.getByText("Card One"));
+            expect(document.querySelector(".kanban-board-title-editor")).toBeNull();
+        });
+    });
+
+    test("fieldLayout=compact sets data-field-layout on the board; the default sets nothing", () => {
+        const { unmount } = render(KanbanBoard, { props: { ...base, fieldLayout: "compact" } });
+        expect(document.querySelector(".kanban-board")!.getAttribute("data-field-layout")).toBe("compact");
+        unmount();
+        render(KanbanBoard, { props: { ...base } });
+        expect(document.querySelector(".kanban-board")!.hasAttribute("data-field-layout")).toBe(false);
     });
 
     test("§8.79 keyboard navigation moves across lanes by data-row", async () => {

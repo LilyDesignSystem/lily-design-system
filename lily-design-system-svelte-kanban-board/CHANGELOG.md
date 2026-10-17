@@ -4,6 +4,14 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `canMove(card, toColumn, toLane?)` receives the swimlane the card would land in, so a rule can depend on the owner as well as the column. New `allowLaneChange` (default true): false refuses every cross-lane drop.
+- `onTitleEdit` makes card titles editable in place (double-click, or F2 on a card): Enter or leaving the field commits, Escape cancels, an empty title is refused. Optional labels `titleEditor` and `titleEditAnnouncement`. Not for linked cards or the `card` snippet.
+- `showSearchLabel` shows `labels.search` as visible text beside the search field (`.kanban-board-search-label`).
+- `fieldLayout="compact"` sets `data-field-layout="compact"` on the board for CSS.
+- `svelte-headless` is now a peer dependency (`>=0.4.0 <1.0.0`), tested on 0.5.0.
+
 ## 0.7.0 — 2026-10-17
 
 - Now composed from the headless layer: the search field is the headless `SearchInput` and a match is the headless `Mark` (the `search-input` / `mark` base classes join the existing `*-search` / `*-match` hooks, so the 57 themes style them too). Keyboard movement (arrows, Home/End, page keys, right-to-left) comes from the shared `grid-navigation` module.

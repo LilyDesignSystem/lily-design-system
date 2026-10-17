@@ -8,6 +8,7 @@ export type {
     KanbanExport,
     KanbanField,
     KanbanFieldEdit,
+    KanbanTitleEdit,
     KanbanLane,
     KanbanLabels,
 } from "./KanbanBoard.svelte";

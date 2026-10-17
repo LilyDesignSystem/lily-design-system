@@ -98,6 +98,10 @@
      * `copyLabel` and data-grid's label-gated toolbar. See spec/index.md §5.
      */
     export type KanbanLabels = {
+        /** Accessible name of a card's title editor: (the card's current title). Defaults to the title. */
+        titleEditor?: (cardTitle: string) => string;
+        /** Announced after a title edit: (previous title, new title). */
+        titleEditAnnouncement?: (previous: string, title: string) => string;
         cardCount?: (count: number) => string;
         overLimit?: (count: number, limit: number) => string;
         moveButton?: (card: KanbanCard) => string;
@@ -166,6 +170,9 @@
     /** What `onExport` receives. Return `false` to take over the download. */
     export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
 
+    /** What `onTitleEdit` receives: the card, its new title, and the title it had. */
+    export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
+
     /** What `onFieldEdit` receives. */
     export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
 
@@ -223,14 +230,20 @@
         virtualize?: { rowHeight: number; height: number; overscan?: number };
         /** Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
         onReorder?: (cardId: string, toIndex: number) => void;
-        /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
-        canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
+        /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. `toLane` is the swimlane the card would land in (the card's own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. */
+        canMove?: (card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean;
+        /** With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop (the cue shows "not allowed"), whatever `canMove` says. */
+        allowLaneChange?: boolean;
         /** Ids of collapsed columns, bindable. A collapsed column keeps its header and count but shows no cards. */
         collapsedColumns?: string[];
         /** Fired when a column's add-card button is pressed. The consumer adds the card (Lily ships no editor). */
         onAddCard?: (columnId: string) => void;
         /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
         readonly?: boolean;
+        /** Show `labels.search` as visible text beside the search field (`.kanban-board-search-label`), not only as its accessible name. The text is the same string, so the visible label is part of the name (WCAG 2.5.3). */
+        showSearchLabel?: boolean;
+        /** How typed fields sit under a card's title. `compact` sets `data-field-layout="compact"` on the board so CSS can put each field's name and value on one line; the markup is the same either way. Default stacked. */
+        fieldLayout?: "stacked" | "compact";
         /** User-facing strings. See KanbanLabels — presence gates each control. */
         labels?: KanbanLabels;
         /** Typed fields shown under each card's title, read from `card.values`. Editable types edit in place (click the value, or F2 on the card for the first editable field). */
@@ -239,6 +252,8 @@
         locale?: string;
         /** Called with each accepted field edit. The consumer updates `cards`. A field is editable only when this is set (and the board is not `readonly`). */
         onFieldEdit?: (edit: KanbanFieldEdit) => void;
+        /** Makes card titles editable in place (double-click, or F2 on the card): Enter or leaving the field commits, Escape cancels, an empty title is refused. Lily changes nothing itself; the consumer renames the card. Not for cards with a link (`href`) or a `card` snippet, whose title is not plain text. */
+        onTitleEdit?: (edit: KanbanTitleEdit) => void;
         /** Base of an export's file name (`.csv`, `.tsv` or `.xlsx` is added). Default `"kanban-board"`. */
         exportFilename?: string;
         /** What an export holds: `"view"` (default) is every card the search and filter leave, column by column; `"selected"` is only the selected cards. */
@@ -294,13 +309,17 @@
         columnFooter = undefined,
         onReorder,
         canMove,
+        allowLaneChange = true,
         collapsedColumns = $bindable([]),
         onAddCard,
         readonly = false,
+        showSearchLabel = false,
+        fieldLayout = "stacked",
         labels = {},
         fields = undefined,
         locale = undefined,
         onFieldEdit = undefined,
+        onTitleEdit = undefined,
         exportFilename: exportBase = "kanban-board",
         exportScope = "view",
         onCopy = undefined,
@@ -580,6 +599,49 @@
         announce((direction === "undo" ? labels.fieldUndoAnnouncement : labels.fieldRedoAnnouncement)?.(cardLabel(card), f.header, text));
     }
 
+    // ---- In-place title editing (`onTitleEdit`) ----
+
+    const isTitleEditable = (card: KanbanCard) => !!onTitleEdit && !readonly && !card.locked && !card.href && !cardSnippet;
+    let editingTitle = $state<{ cardId: string; draft: string } | null>(null);
+
+    async function startTitleEdit(card: KanbanCard): Promise<void> {
+        if (!isTitleEditable(card)) return;
+        closeMoveMenu(card.id, false);
+        editingTitle = { cardId: card.id, draft: cardLabel(card) };
+        await tick();
+        const editor = rootEl?.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+        editor?.focus({ preventScroll: true });
+        editor?.select();
+    }
+
+    function commitTitleEdit(refocus = true): void {
+        if (!editingTitle) return;
+        const { cardId, draft } = editingTitle;
+        editingTitle = null;
+        const card = effectiveCards.find((c) => c.id === cardId);
+        const title = draft.trim();
+        if (card && title !== "" && title !== cardLabel(card)) {
+            const previous = cardLabel(card);
+            onTitleEdit?.({ cardId, title, previous });
+            announce(labels.titleEditAnnouncement?.(previous, title));
+        }
+        if (refocus) void focusCard(cardId);
+    }
+
+    function onTitleEditorKeydown(event: KeyboardEvent): void {
+        event.stopPropagation();
+        if (event.isComposing || event.keyCode === 229) return;
+        if (event.key === "Enter") {
+            event.preventDefault();
+            commitTitleEdit();
+        } else if (event.key === "Escape") {
+            event.preventDefault();
+            const { cardId } = editingTitle ?? { cardId: "" };
+            editingTitle = null;
+            if (cardId) void focusCard(cardId);
+        }
+    }
+
     function cancelFieldEdit(): void {
         if (!editing) return;
         const { cardId } = editing;
@@ -664,11 +726,15 @@
 
     /** Choosing the card's own column is not a move: the menu just closes. */
     /** A move is refused by the consumer's `canMove`, or by the destination's hard limit. */
-    function isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0): boolean {
-        if (toColumn.id === card.columnId) return false;
-        if (allowedColumns && !allowedColumns(card).includes(toColumn.id)) return true;
-        if (canMove && !canMove(card, toColumn)) return true;
-        return !!toColumn.strictLimit && toColumn.wipLimit != null && (cardsByColumn.get(toColumn.id)?.length ?? 0) + extra >= toColumn.wipLimit;
+    function isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0, toLaneId?: string): boolean {
+        const laneChange = hasLanes && toLaneId !== undefined && toLaneId !== laneOf(card);
+        if (laneChange && !allowLaneChange) return true;
+        const sameColumn = toColumn.id === card.columnId;
+        if (sameColumn && !laneChange) return false;
+        if (!sameColumn && allowedColumns && !allowedColumns(card).includes(toColumn.id)) return true;
+        const toLane = hasLanes ? lanes!.find((l) => l.id === (toLaneId ?? laneOf(card))) : undefined;
+        if (canMove && !canMove(card, toColumn, toLane)) return true;
+        return !sameColumn && !!toColumn.strictLimit && toColumn.wipLimit != null && (cardsByColumn.get(toColumn.id)?.length ?? 0) + extra >= toColumn.wipLimit;
     }
 
     /** The columns the move menu offers for `card`: its own, and the ones it may move to. */
@@ -794,7 +860,7 @@
             closeMoveMenu(card.id);
             return;
         }
-        if (isRefused(card, toColumn)) {
+        if (isRefused(card, toColumn, 0, toLaneId)) {
             announce(labels.moveBlocked?.(cardLabel(card), toColumn.title));
             closeMoveMenu(card.id);
             return;
@@ -882,7 +948,8 @@
     function onColumnDragOver(event: DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
         if (!draggingCardId || readonly) return;
         const card = cards.find((c) => c.id === draggingCardId);
-        const blocked = !!card && isRefused(card, column, Math.max(0, draggingGroup.length - 1));
+        const slot = rowSlots[rowIndex];
+        const blocked = !!card && isRefused(card, column, Math.max(0, draggingGroup.length - 1), hasLanes && slot ? slot.laneId : undefined);
         dropBlocked = blocked;
         dropTarget = `${rowIndex}-${colIndex}`;
         // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
@@ -1077,6 +1144,15 @@
             }
             return;
         }
+        if (event.key === "F2" && onTitleEdit) {
+            // F2 with title editing on: rename the card (its fields are edited by clicking them or Tab from the title).
+            const card = cardAt(activeCol, activeRow);
+            if (card && isTitleEditable(card)) {
+                event.preventDefault();
+                void startTitleEdit(card);
+                return;
+            }
+        }
         if (event.key === "F2" && onFieldEdit) {
             // F2: edit the card's first editable field (the keyboard twin of clicking its value).
             const card = cardAt(activeCol, activeRow);
@@ -1111,9 +1187,11 @@
 
 {#snippet titleText(card: KanbanCard)}{#if searching}{#each highlightSegments(cardLabel(card), search) as part, i (i)}{#if part.match}<Mark class="kanban-board-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{cardLabel(card)}{/if}{/snippet}
 
-<div bind:this={rootEl} class={`kanban-board ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
+<div bind:this={rootEl} class={`kanban-board ${className}`.trim()} data-readonly={readonly ? "" : undefined} data-field-layout={fieldLayout === "compact" ? "compact" : undefined} {...restProps}>
     {#if labels.search}
+        {#if showSearchLabel}<label class="kanban-board-search-label" for={`${baseId}-search`}>{labels.search}</label>{/if}
         <SearchInput
+            id={`${baseId}-search`}
             class="kanban-board-search"
             label={labels.search}
             bind:value={search}
@@ -1265,11 +1343,21 @@
                                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                                 <span
                                     class="kanban-board-card-title"
-                                    draggable={readonly || card.locked || card.draggable === false ? undefined : "true"}
+                                    draggable={readonly || card.locked || card.draggable === false || editingTitle?.cardId === card.id ? undefined : "true"}
                                     ondragstart={(e: DragEvent) => onCardDragStart(card, e)}
                                     ondragend={onCardDragEnd}
+                                    ondblclick={() => void startTitleEdit(card)}
                                 >
-                                    {#if cardSnippet}
+                                    {#if editingTitle?.cardId === card.id}
+                                        <input
+                                            class="kanban-board-title-editor"
+                                            type="text"
+                                            aria-label={labels.titleEditor ? labels.titleEditor(cardLabel(card)) : cardLabel(card)}
+                                            bind:value={editingTitle.draft}
+                                            onkeydown={onTitleEditorKeydown}
+                                            onblur={() => commitTitleEdit(false)}
+                                        />
+                                    {:else if cardSnippet}
                                         {@render cardSnippet({ card, label: cardLabel(card), column, pending: isPending(card.id) })}
                                     {:else if card.href}
                                         <a class="kanban-board-card-link" href={card.href}>{@render titleText(card)}</a>

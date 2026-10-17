@@ -104,6 +104,10 @@ doesn't render (no baked-in English fallback).
 
 `search` (bindable; the field renders when `labels.search` names it) narrows the cards: every word must appear, in any order, ignoring case and diacritics. The default text is the card's label, subtitle, badges and every typed field's text. Matches in the title are wrapped in `<mark class="kanban-board-match">` (link titles too); `labels.searchAnnouncement(matches, total)` is announced; Escape in the field clears it. See spec §18.
 
+## Lane rules, title editing, search label and field layout (unreleased)
+
+`canMove(card, toColumn, toLane?)` is also told the swimlane the card would land in; `allowLaneChange={false}` refuses cross-lane drops outright. `onTitleEdit({ cardId, title, previous })` makes titles editable in place (double-click or F2; Enter or blur commits, Escape cancels, an empty title is refused; the consumer renames the card; labels `titleEditor`, `titleEditAnnouncement`). `showSearchLabel` renders `labels.search` as a visible `<label>` for the search field. `fieldLayout="compact"` sets `data-field-layout="compact"` on the board so your CSS can show each field on one line.
+
 ## Non-goals (v1)
 
 Drag-preview/ghost-element rendering (the drop cue is shown; the browser draws the drag image). Virtualization, swimlanes, selection and bulk-move, column reordering, collapsible columns, search, undo and redo, once listed here, have shipped. See
