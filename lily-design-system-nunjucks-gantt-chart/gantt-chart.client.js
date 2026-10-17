@@ -59,7 +59,12 @@ import {
   toEpochDay,
   initDateTimePicker,
 } from "@lilydesignsystem/nunjucks-date-time-picker";
-import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText } from "./export-data";
+import { highlightSegments, matchesSearch as wordsMatch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { gridMove, pageStepFor } from "./grid-navigation";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState } from "./typeahead";
 import { civilDateToDate } from "./cell-types";
 import { dependencyPath, weekdayOfEpochDay } from "./dependency-arrows";
 import {
@@ -309,10 +314,12 @@ export function initGanttChart(root, opts = {}) {
   );
   /** Rows a collapsed ancestor hides. */
   const removedRows = new Set();
+  /** Rows the search leaves out (kept apart from `removedRows`, which a collapsed ancestor owns). */
+  const searchHidden = new Set();
 
   /** The rows that are shown, in order: every row except the ones a collapsed ancestor hides. */
   function visibleTaskRows() {
-    return allRows.filter((row) => !removedRows.has(row));
+    return allRows.filter((row) => !removedRows.has(row) && !searchHidden.has(row));
   }
 
   function taskRowFor(taskId) {
@@ -705,6 +712,8 @@ export function initGanttChart(root, opts = {}) {
     cancelEdit(editRow.getAttribute("data-lily-gantt-chart-task-id"));
   }
 
+  let typeahead = { prefix: "", at: 0 };
+
   function onGridKeydown(event) {
     if (event.target && event.target.closest && event.target.closest(".gantt-chart-field-editor")) return;
     const cell = event.target && event.target.closest ? event.target.closest("[data-row][data-col]") : null;
@@ -712,21 +721,54 @@ export function initGanttChart(root, opts = {}) {
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    const key = logicalKey(event.key, isRtl(cell));
+    const historyAction = config.editableFields && !readonly ? historyKey(event) : null;
+    if (historyAction) {
+      event.preventDefault();
+      stepHistory(historyAction);
+      return;
+    }
     if (event.key === "F2") {
       // F2: edit the task's first editable field (the keyboard twin of clicking its value).
       if (editFirstField(visibleTaskRows()[row])) event.preventDefault();
       return;
     }
-    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
       const taskRow = visibleTaskRows()[row];
       if (taskRow && !taskRow.hasAttribute("data-lily-gantt-chart-has-children") && !readonly && event.target.closest(".gantt-table-td")) {
         event.preventDefault();
-        shiftTask(taskRow, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+        shiftTask(taskRow, key === "ArrowLeft" ? -1 : 1, event.shiftKey);
         return;
       }
     }
-    switch (event.key) {
+    // Type-ahead in the focused column's row labels; "s" stays the select shortcut unless a prefix is in progress.
+    if (isTypeaheadKey(event) && !event.altKey) {
+      const now = Date.now();
+      const continuing = typeahead.prefix !== "" && now - typeahead.at <= 700;
+      if (continuing || !(event.key === "s" || event.key === "S")) {
+        const state = nextTypeaheadState(typeahead, event.key, now, 700);
+        const rows = visibleTaskRows();
+        const hit = findTypeaheadMatch(rows.map((r) => labelOf(r.getAttribute("data-lily-gantt-chart-task-id"))), row, state.prefix);
+        if (hit !== -1) {
+          typeahead = state;
+          event.preventDefault();
+          moveFocus(hit, col);
+          return;
+        }
+      }
+    }
+    const move = gridMove(
+      event,
+      { row, col },
+      { firstRow: 0, lastRow: visibleTaskRows().length - 1, lastCol: columns.length - 1, pageStep: pageStepFor(virtualEl ? { height: viewHeight, rowHeight } : undefined), rtl: isRtl(cell) },
+    );
+    if (move) {
+      event.preventDefault();
+      moveFocus(move.row, move.col);
+      return;
+    }
+    switch (key) {
       case "ArrowUp":
         event.preventDefault();
         moveFocus(row - 1, col);
@@ -1149,6 +1191,76 @@ export function initGanttChart(root, opts = {}) {
   const fieldCellOf = (row, fieldId) =>
     Array.from(row.querySelectorAll("[data-lily-gantt-chart-field-cell]")).find((td) => td.getAttribute("data-field") === fieldId) || null;
 
+  /** A label as text: the client option's function wins, else the macro's template string. */
+  function labelText(name, tokens, ...args) {
+    const fn = opts.labels && opts.labels[name];
+    if (typeof fn === "function") return fn(...args);
+    const template = (config.labels || {})[name];
+    return template ? fill(template, tokens) : undefined;
+  }
+
+  const searchInput = root.querySelector("[data-lily-gantt-chart-search]");
+  const taskSearchText = (row) => {
+    const id = row.getAttribute("data-lily-gantt-chart-task-id");
+    const data = dataTasks.get(id);
+    return [labelOf(id), ...(data ? fields.map((f) => fieldText(f, data.values)) : [])].join(" ");
+  };
+  const searchMatches = (row) => !searchInput || searchInput.value.trim() === "" || wordsMatch(taskSearchText(row), searchInput.value);
+
+  /** Wrap the matched words of each task label in `<mark class="mark gantt-chart-match">`; plain text when not searching. */
+  function highlightLabels(query) {
+    const searching = query.trim() !== "";
+    allRows.forEach((row) => {
+      const host = row.querySelector("[data-lily-gantt-chart-task-label-text]");
+      if (!host) return;
+      if (!host.hasAttribute("data-original-label")) host.setAttribute("data-original-label", host.textContent || "");
+      const original = host.getAttribute("data-original-label") || "";
+      if (!searching && !host.querySelector("mark")) return;
+      host.replaceChildren(
+        ...(!searching
+          ? [document.createTextNode(original)]
+          : highlightSegments(original, query).map((part) => {
+              if (!part.match) return document.createTextNode(part.text);
+              const mark = document.createElement("mark");
+              mark.className = "mark gantt-chart-match";
+              mark.textContent = part.text;
+              return mark;
+            })),
+      );
+    });
+  }
+
+  function applySearch() {
+    searchHidden.clear();
+    allRows.forEach((row) => {
+      if (!searchMatches(row)) searchHidden.add(row);
+    });
+    highlightLabels(searchInput ? searchInput.value : "");
+    rebuildGrid();
+    syncExport();
+  }
+
+  function syncExport() {
+    const disabled = visibleTaskRows().length === 0;
+    root.querySelectorAll("[data-gantt-export-format]").forEach((b) => {
+      b.disabled = disabled;
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      applySearch();
+      const matched = allRows.length - searchHidden.size;
+      announce(labelText("searchAnnouncement", { matched, total: allRows.length }, matched, allRows.length));
+    });
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || searchInput.value === "") return;
+      event.preventDefault();
+      searchInput.value = "";
+      searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+  }
+
   /** Show each field's value formatted by its type: the server rendered the raw value. */
   function formatFields() {
     allRows.forEach((row) => {
@@ -1203,6 +1315,7 @@ export function initGanttChart(root, opts = {}) {
     editingField = { taskId, fieldId, draft: editor.value, editor, button };
     editor.addEventListener("input", () => {
       if (editingField) editingField.draft = editor.value;
+      editor.removeAttribute("aria-invalid");
     });
     editor.addEventListener("keydown", onFieldEditorKeydown);
     if (kind === "select" || kind === "radio") {
@@ -1238,13 +1351,18 @@ export function initGanttChart(root, opts = {}) {
     }
     const outcome = evaluateEdit(f, data.values, draft);
     if (outcome.invalid) {
+      editingField.editor.setAttribute("aria-invalid", "true");
+      const refused = outcome.message
+        ? labelText("editRefused", { task: labelOf(taskId), field: f.header, message: outcome.message }, labelOf(taskId), f.header, outcome.message)
+        : undefined;
       const template = (config.labels || {}).editInvalid;
-      if (template) announce(fill(template, { task: labelOf(taskId), field: f.header }));
+      announce(refused ?? (template ? fill(template, { task: labelOf(taskId), field: f.header }) : undefined));
       return false;
     }
     const closing = closeFieldEditor();
     if (outcome.changed) {
       data.values[fieldId] = outcome.value;
+      history = recordEdit(history, { ownerId: taskId, fieldId, value: outcome.value, previous: outcome.previous });
       if (closing) closing.button.textContent = outcome.text;
       const edit = { taskId, fieldId, value: outcome.value, previous: outcome.previous };
       if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
@@ -1253,6 +1371,31 @@ export function initGanttChart(root, opts = {}) {
       if (template) announce(fill(template, { task: labelOf(taskId), field: f.header, value: outcome.text }));
     }
     return true;
+  }
+
+  /** Accepted field edits for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onFieldEdit` / `fieldedit`. */
+  let history = EMPTY_HISTORY;
+
+  function stepHistory(direction) {
+    const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+    if (!step.record) return;
+    history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const f = fieldDef(fieldId);
+    const data = dataTasks.get(ownerId);
+    const row = taskRowFor(ownerId);
+    if (!f || !data || !row) return;
+    const restored = direction === "undo" ? previous : value;
+    data.values[fieldId] = restored;
+    const text = fieldText(f, data.values);
+    const td = fieldCellOf(row, fieldId);
+    const valueEl = td && (td.querySelector("[data-lily-gantt-chart-field-button]") || td);
+    if (valueEl) valueEl.textContent = text;
+    const edit = { taskId: ownerId, fieldId, value: restored, previous: direction === "undo" ? value : previous };
+    if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
+    root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
+    const name = direction === "undo" ? "fieldUndoAnnouncement" : "fieldRedoAnnouncement";
+    announce(labelText(name, { task: labelOf(ownerId), field: f.header, value: text }, labelOf(ownerId), f.header, text));
   }
 
   function cancelFieldEdit() {
@@ -1298,10 +1441,19 @@ export function initGanttChart(root, opts = {}) {
     return true;
   }
 
+  async function finishCopy(table) {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    root.dispatchEvent(new CustomEvent("copy", { detail: copied, bubbles: true }));
+    if (typeof opts.onCopy === "function" && opts.onCopy(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    announce(ok ? labelText("copyAnnouncement", { count: table.rows.length }, table.rows.length) : labelText("copyFailed", {}));
+  }
+
   function runExport(format) {
     const h = (config.labels || {}).exportHeaders;
     if (!h) return;
-    const exportRows = config.exportScope === "visible" ? visibleTaskRows() : allRows;
+    const exportRows = config.exportScope === "visible" ? visibleTaskRows() : allRows.filter((row) => !searchHidden.has(row));
     const exportFields = exportableFields(fields);
     const headers = [h.task, h.start, h.end];
     if (h.percentComplete) headers.push(h.percentComplete);
@@ -1337,6 +1489,10 @@ export function initGanttChart(root, opts = {}) {
       for (const f of exportFields) cells.push(exportFieldCell(f, data.values));
       return cells;
     });
+    if (format === "copy") {
+      void finishCopy({ headers, rows: body });
+      return;
+    }
     const base = config.exportFilename || "gantt-chart";
     const filename = exportFilename(base, format);
     const blob = exportBlob({ headers, rows: body }, format, { sheetName: base });
@@ -1373,7 +1529,8 @@ export function initGanttChart(root, opts = {}) {
 
   // Show each field's value formatted by its type, then build the grid.
   formatFields();
-  rebuildGrid();
+  if (searchInput && searchInput.value.trim() !== "") applySearch();
+  else rebuildGrid();
   syncZoomButtons();
   const initialSelected = root.getAttribute("data-lily-gantt-chart-selected-task-id");
   if (initialSelected) {

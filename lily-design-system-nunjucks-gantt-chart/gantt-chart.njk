@@ -175,6 +175,13 @@
                        stands in for the other catalogs' `onFieldEdit` / `field-edit` listener. The client's
                        `initGanttChart(root, { onFieldEdit })` reports each accepted edit (and fires `fieldedit`).
        exportFilename / exportScope — macro params ("gantt-chart" / "all" or "visible").
+       labels.search — plain string: renders a search field; the client hides the tasks whose label and field text lack any
+                       typed word (case, diacritics and word order ignored), marks the match in the label, and announces the count
+                       (`labels.searchAnnouncement`, tokens {matched}, {total}). `search` (macro param) is its start value.
+                       labels.editRefused — template, tokens {task}, {field}, {message} (a field's `validate` refused the value);
+                       labels.fieldUndoAnnouncement / fieldRedoAnnouncement — tokens {task}, {field}, {value}; labels.copy — plain
+                       string: a button that puts the export on the clipboard; labels.copyAnnouncement — token {count};
+                       labels.copyFailed — plain string. Client option onCopy({ text, rowCount }) (return false to take over).
        labels.export, labels.exportCsv / exportTsv / exportExcel — plain strings; labels.exportHeaders — an object of plain
                        strings ({task, start, end, percentComplete?, parent?, dependsOn?, baselineStart?, baselineEnd?}); none of the
                        buttons renders without it. labels.exportAnnouncement — template string, tokens {count}, {format},
@@ -316,7 +323,7 @@
   {%- set collapseLabelSub = collapseLabelRaw | replace("{task}", task.label) -%}
   {%- set thHtml = (thHtml ~ '<button type="button" class="gantt-chart-collapse-button" aria-expanded="true" aria-label="' ~ collapseLabelSub ~ '" data-lily-gantt-chart-collapse-button data-lily-gantt-chart-task-id="' ~ task.id ~ '" data-lily-gantt-chart-collapse-label="' ~ collapseLabelRaw ~ '" data-lily-gantt-chart-expand-label="' ~ expandLabelRaw ~ '"><span aria-hidden="true">&#9662;</span></button>') | safe -%}
 {%- endif -%}
-{%- set thHtml = (thHtml ~ task.label) | safe -%}
+{%- set thHtml = (thHtml ~ '<span class="gantt-chart-task-label" data-lily-gantt-chart-task-label-text>' ~ (task.label | e) ~ '</span>') | safe -%}
 {%- set hasDeps = (deps | length) > 0 and labels.dependencySummary -%}
 {%- if hasDeps -%}
   {%- set depId = id + "-deps-" + task.id -%}
@@ -452,14 +459,16 @@
   {%- set scrollHtml = ('<div class="gantt-chart-body">' ~ tableHtml ~ '</div>') | safe -%}
 {%- endif -%}
 {%- set exportHtml = "" -%}
-{%- if labels.exportHeaders and (labels.exportCsv or labels.exportTsv or labels.exportExcel) -%}
+{%- set searchHtml = ('<input type="search" class="gantt-chart-search" aria-label="' ~ (labels.search | e) ~ '" value="' ~ (opts.search | default("") | e) ~ '" data-lily-gantt-chart-search>') if labels.search else "" -%}
+{%- if labels.exportHeaders and (labels.copy or labels.exportCsv or labels.exportTsv or labels.exportExcel) -%}
   {%- set exportHtml = '<div class="gantt-chart-export" role="group"' ~ ((' aria-label="' ~ (labels.export | e) ~ '"') if labels.export else '') ~ ' data-lily-gantt-chart-export-group>' -%}
+  {%- if labels.copy -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="gantt-chart-export-button" data-gantt-export-format="copy"' ~ ('' if tasks | length else ' disabled') ~ '>' ~ (labels.copy | e) ~ '</button>' -%}{%- endif -%}
   {%- if labels.exportCsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="gantt-chart-export-button" data-gantt-export-format="csv"' ~ ('' if tasks | length else ' disabled') ~ '>' ~ (labels.exportCsv | e) ~ '</button>' -%}{%- endif -%}
   {%- if labels.exportTsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="gantt-chart-export-button" data-gantt-export-format="tsv"' ~ ('' if tasks | length else ' disabled') ~ '>' ~ (labels.exportTsv | e) ~ '</button>' -%}{%- endif -%}
   {%- if labels.exportExcel -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="gantt-chart-export-button" data-gantt-export-format="xlsx"' ~ ('' if tasks | length else ' disabled') ~ '>' ~ (labels.exportExcel | e) ~ '</button>' -%}{%- endif -%}
   {%- set exportHtml = exportHtml ~ '</div>' -%}
 {%- endif -%}
-{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, exportFilename: opts.exportFilename | default("gantt-chart"), exportScope: opts.exportScope | default("all"), tasks: tasks, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid } } | dump) -%}
+{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, exportFilename: opts.exportFilename | default("gantt-chart"), exportScope: opts.exportScope | default("all"), tasks: tasks, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid, editRefused: labels.editRefused, fieldUndoAnnouncement: labels.fieldUndoAnnouncement, fieldRedoAnnouncement: labels.fieldRedoAnnouncement, copyAnnouncement: labels.copyAnnouncement, copyFailed: labels.copyFailed, searchAnnouncement: labels.searchAnnouncement } } | dump) -%}
 <div
   class="gantt-chart{% if opts.classes %} {{ opts.classes }}{% endif %}"
   data-lily-gantt-chart-root
@@ -488,7 +497,7 @@
 {%- if labels.zoomIn %}<button type="button" class="gantt-chart-zoom-in-button" aria-label="{{ labels.zoomIn }}" data-lily-gantt-chart-zoom-in>+</button>{% endif %}
 </div>
 {%- endif %}
-{{ exportHtml | safe }}{{ scrollHtml | safe }}
+{{ searchHtml | safe }}{{ exportHtml | safe }}{{ scrollHtml | safe }}
 <p class="gantt-chart-status" id="{{ statusId }}" aria-live="polite" data-lily-gantt-chart-status></p>
 </div>
 {%- endmacro -%}
