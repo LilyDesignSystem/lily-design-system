@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Works with the label packs: `nunjucksLabelsFor()` gives the macro `labels` and the client option `labels`.
+- In-place card title editing: the macro param `editableTitles`, the client option `onTitleEdit` and the `titleedit` event (double-click a title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused; not for linked or locked cards). Labels `titleEditor` and `titleEditAnnouncement`.
+
 ## 0.7.0 — 2026-10-17
 
 - Added search: `labels.search` renders a field that keeps the cards by title, subtitle, badges and field text; every typed word must appear (any order), ignoring case and diacritics; matches are marked with `<mark class="mark kanban-board-match">`; `labels.searchAnnouncement` announces the count; Escape clears.

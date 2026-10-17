@@ -199,11 +199,7 @@ function build(template: LabelTemplate, params: string[]): (...args: unknown[]) 
  * showing text from another language.
  */
 export function labelsFor(helper: LabelHelper, pack: LabelPack): Record<string, unknown> {
-    const own = pack[helper] ?? {};
-    const merged: Record<string, LabelTemplate | Record<string, string>> = {
-        ...Object.fromEntries(Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key))),
-        ...own,
-    };
+    const merged = mergedLabels(helper, pack);
     const spec = SPEC[helper];
     const out: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(merged)) {
@@ -216,6 +212,14 @@ export function labelsFor(helper: LabelHelper, pack: LabelPack): Record<string, 
         else if (typeof value === "string") out[key] = value;
     }
     return out;
+}
+
+/** The pack's raw label data for one helper: its own section over the shared labels that helper takes. Strings, select objects and groups, unbuilt. */
+export function mergedLabels(helper: LabelHelper, pack: LabelPack): Record<string, LabelTemplate | Record<string, string>> {
+    return {
+        ...Object.fromEntries(Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key))),
+        ...(pack[helper] ?? {}),
+    };
 }
 
 /** Every label key a helper's pack should hold (plain strings and templated functions), for coverage checks. */

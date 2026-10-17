@@ -896,7 +896,11 @@ export function initKanbanBoard(root, opts = {}) {
     // Ctrl/Cmd+Z undoes the last move while there is one, then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
     const historyAction = config.editableFields && !isReadonly() ? historyKey(event) : null;
     if (event.key === "F2") {
-      // F2: edit the card's first editable field (the keyboard twin of clicking its value).
+      // F2 with title editing on: rename the card. Otherwise edit its first editable field (the keyboard twin of clicking its value).
+      if (config.editableTitles && startTitleEdit(cell.getAttribute("data-lily-kanban-board-card-id"))) {
+        event.preventDefault();
+        return;
+      }
       if (editFirstField(cell)) event.preventDefault();
       return;
     }
@@ -1419,6 +1423,95 @@ export function initKanbanBoard(root, opts = {}) {
     }
   }
 
+  // -----------------------------------------------------------------
+  // In-place title editing (the macro's `editableTitles`): double-click a title, or F2 on the card.
+  // Enter or leaving the field commits, Escape cancels, an empty title is refused. The consumer renames the card
+  // (`opts.onTitleEdit`, or the `titleedit` event); the board keeps what the user sees.
+  // -----------------------------------------------------------------
+
+  /** @type {{ cardId: string, handle: HTMLElement, input: HTMLInputElement, original: string } | null} */
+  let titleEditing = null;
+
+  const isTitleEditable = (cell) => {
+    if (!config.editableTitles || isReadonly() || !cell || cell.hasAttribute("data-locked")) return false;
+    const handle = cell.querySelector("[data-lily-kanban-board-card-handle]");
+    return !!handle && !handle.querySelector("a.kanban-board-card-link");
+  };
+
+  function startTitleEdit(cardId) {
+    const cell = cellForCard(cardId);
+    if (!isTitleEditable(cell)) return false;
+    if (titleEditing) commitTitleEdit(false);
+    const handle = cell.querySelector("[data-lily-kanban-board-card-handle]");
+    const original = (dataCards.get(cardId) || {}).title ?? handle.getAttribute("data-original-title") ?? handle.textContent ?? "";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "kanban-board-title-editor";
+    input.value = original;
+    const named = labelText("titleEditor", { title: original }, original);
+    input.setAttribute("aria-label", named || original);
+    input.addEventListener("keydown", onTitleEditorKeydown);
+    input.addEventListener("blur", () => commitTitleEdit(false));
+    handle.removeAttribute("draggable");
+    handle.replaceChildren(input);
+    titleEditing = { cardId, handle, input, original };
+    input.focus({ preventScroll: true });
+    input.select();
+    return true;
+  }
+
+  /** Put the title text back in the handle, in place of the editor. */
+  function closeTitleEditor(title) {
+    const current = titleEditing;
+    if (!current) return null;
+    titleEditing = null;
+    current.handle.setAttribute("data-original-title", title);
+    current.handle.replaceChildren(document.createTextNode(title));
+    if (!isReadonly() && !(cellForCard(current.cardId) || document.body).hasAttribute("data-locked")) current.handle.setAttribute("draggable", "true");
+    return current;
+  }
+
+  function commitTitleEdit(refocus) {
+    const current = titleEditing;
+    if (!current) return;
+    const title = current.input.value.trim();
+    const changed = title !== "" && title !== current.original;
+    closeTitleEditor(changed ? title : current.original);
+    if (changed) {
+      const data = dataCards.get(current.cardId);
+      if (data) data.title = title;
+      const cell = cellForCard(current.cardId);
+      if (cell) {
+        const searchText = [title, data && data.subtitle ? data.subtitle : "", ...((data && data.badges) || [])].join(" ");
+        cell.setAttribute("data-lily-kanban-board-search-text", searchText);
+      }
+      const edit = { cardId: current.cardId, title, previous: current.original };
+      if (typeof opts.onTitleEdit === "function") opts.onTitleEdit(edit);
+      root.dispatchEvent(new CustomEvent("titleedit", { detail: edit, bubbles: true }));
+      announce(labelText("titleEditAnnouncement", { previous: current.original, title }, current.original, title));
+      highlightTitles(searchQuery());
+    }
+    if (refocus) focusCardTarget(current.cardId);
+  }
+
+  function onTitleEditorKeydown(event) {
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commitTitleEdit(true);
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      const closing = closeTitleEditor(titleEditing ? titleEditing.original : "");
+      if (closing) focusCardTarget(closing.cardId);
+    }
+  }
+
+  function onRootDblclick(event) {
+    const handle = event.target instanceof Element ? event.target.closest("[data-lily-kanban-board-card-handle]") : null;
+    if (handle) startTitleEdit(handle.getAttribute("data-lily-kanban-board-card-id"));
+  }
+
   /** F2 on a card: edit its first editable field. */
   function editFirstField(cell) {
     const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
@@ -1506,6 +1599,7 @@ export function initKanbanBoard(root, opts = {}) {
   table.addEventListener("keydown", onGridKeydown);
   table.addEventListener("focusin", onGridFocusin);
   root.addEventListener("click", onRootClick);
+  root.addEventListener("dblclick", onRootDblclick);
   root.addEventListener("focusout", onRootFocusOut);
   root.addEventListener("dragstart", onDragStart);
   root.addEventListener("dragover", onDragOver);

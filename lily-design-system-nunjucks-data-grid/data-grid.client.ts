@@ -51,17 +51,25 @@ export const FUNCTION_LABELS: Record<string, string[]> = {
   redoAnnouncement: ["header", "text"],
 };
 
+/** Labels whose wording depends on one argument: the value is an object keyed by that argument (its index here), as a label pack gives. */
+const SELECT_LABELS: Record<string, number> = { sortAnnouncement: 1 };
+
+const fillArgs = (template: string, params: string[], args: unknown[]): string =>
+  template.replace(/\{(\w+)\}/g, (match, name: string) => {
+    const i = params.indexOf(name);
+    return i === -1 || args[i] === undefined ? match : String(args[i]);
+  });
+
 /** Turns string labels with `{placeholders}` into the function labels the grid takes. */
 export function resolveLabels(raw: Record<string, unknown> | undefined): DataGridLabels {
   const out: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(raw ?? {})) {
     const params = FUNCTION_LABELS[key];
     if (params && typeof value === "string") {
-      out[key] = (...args: unknown[]) =>
-        value.replace(/\{(\w+)\}/g, (match, name: string) => {
-          const i = params.indexOf(name);
-          return i === -1 || args[i] === undefined ? match : String(args[i]);
-        });
+      out[key] = (...args: unknown[]) => fillArgs(value, params, args);
+    } else if (params && key in SELECT_LABELS && value && typeof value === "object") {
+      const branches = value as Record<string, string>;
+      out[key] = (...args: unknown[]) => fillArgs(branches[String(args[SELECT_LABELS[key]])] ?? branches.other ?? "", params, args);
     } else out[key] = value;
   }
   return out as DataGridLabels;

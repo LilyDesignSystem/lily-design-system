@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Works with the label packs: `nunjucksLabelsFor()` (see `shared/label-packs/index.md`) gives the macro `labels` and, for the data grid, the `sortAnnouncement` object the client now accepts, keyed by direction.
+
 ## 0.10.0 — 2026-10-17
 
 - Added `labels.pagination`: the pager becomes a labelled `<nav>` landmark, the headless `PaginationNav` (without it the pager is the plain `<div>` it was). The search field is the headless `SearchInput`.

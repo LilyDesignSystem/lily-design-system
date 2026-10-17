@@ -16,6 +16,7 @@ highlights.
 - **Calendar**: `labels.periodTitle` receives `anchorDate`; docs say `eventProps` needs a focusable element for Alt+arrow.
 - **Data grid**: footer totals over all filtered rows (`allRows`, `aggregate`), `--data-grid-pinned-offset` for pinned columns, `storageKey` remembers the column order.
 - **Docs**: the Svelte grid helpers' non-goals now list only what has not shipped.
+- **Label packs for every catalog**: `nunjucksLabelsFor()` for the Nunjucks macros and clients; `LabelPack` and `ToXLabels()` for Blazor. The Gantt `criticalLabel` and the kanban title editing now exist in all eight catalogs.
 - **Dependencies**: the Svelte widgets take `svelte-headless` as a peer dependency (`>=0.4.0 <1.0.0`).
 
 ## Simplified Chinese (zh-cn): the remaining site pages — 2026-10-17

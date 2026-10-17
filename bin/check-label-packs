@@ -7,8 +7,8 @@
 //
 // It also checks the packs against the helpers: for Svelte and the five TypeScript ports (React, Vue, Angular, HTML, Web
 // Components) every pack key must be a key of that helper's `labels` type, and every templated function label must take as many
-// arguments as shared/label-pack.ts SPEC names. KNOWN_GAPS lists what the ports have not caught up with yet. Nunjucks (string
-// templates with its own placeholder names) and Blazor (typed records) are not checked here; see shared/label-packs/index.md.
+// arguments as shared/label-pack.ts SPEC names. KNOWN_GAPS lists what the ports have not caught up with yet. Nunjucks and Blazor are
+// covered by their own tests, which build every helper's labels from every pack; see shared/label-packs/index.md.
 //
 // Usage: bin/check-label-packs [--list]
 

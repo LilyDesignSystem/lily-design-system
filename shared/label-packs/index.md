@@ -79,15 +79,18 @@ review.
 
 ## Which frameworks they fit (checked 2026-10-18)
 
-| Catalog | Fit |
-| ------- | --- |
-| Svelte, React, Vue, Angular, HTML, Web Components | **Same shape.** The same label keys, the same argument count and order, the same union values (`four-week`, `e2s`, `ascending`, …) and the same object fields (`card.title`, `task.label`). `labelsFor(helper, pack)` output is a drop-in `labels`. `bin/check-label-packs` keeps this true. |
-| Nunjucks | **Not drop-in.** Label functions are string templates with the Svelte *parameter* names (`{matchCount}`, `{totalCount}`, `{selectedCount}`, `{rowCount}`, `{direction}`), not the pack's (`{matches}`, `{total}`, `{count}`), and a template cannot select a wording by value, so `{direction}` would show the English word `ascending`. It needs an adapter that renames placeholders and a client option that accepts functions (the filter already has one; the grid-like helpers read their labels from JSON only). |
-| Blazor | **Same shape, different names, no loader.** Typed records with `Func<…>` in the same argument order, but a few keys are named differently (`FieldUndoAnnouncement` / `FieldRedoAnnouncement` for the calendar and Gantt `undoAnnouncement` / `redoAnnouncement`), `rangeLimit` is not implemented, and nothing in C# builds a `Func` from a template yet. |
+| Catalog | How a pack becomes `labels` |
+| ------- | --------------------------- |
+| Svelte, React, Vue, Angular, HTML, Web Components | **Directly.** The same label keys, the same argument count and order, the same union values (`four-week`, `e2s`, `ascending`) and the same object fields (`card.title`, `task.label`): `labelsFor(helper, pack)` is a drop-in `labels`. `bin/check-label-packs` keeps this true. |
+| Nunjucks | **Through `nunjucksLabelsFor(helper, pack)`** (`shared/label-pack-nunjucks.ts`). A macro cannot take a function and the Nunjucks helpers use their own `{token}` names and split two-state labels in two (`collapseLabel` / `expandLabel`), so it returns `{ macro, client }`: `macro` is the JSON-safe `labels` for the macro, `client` the same pack as functions for `initX(root, { labels })`. Each Nunjucks package has a `*.label-pack.test.ts` that renders the real macro with every pack. Two helpers learned to take what a pack gives: the Gantt macro accepts a `dependencyDetail` object keyed by dependency type, and the data grid client accepts a `sortAnnouncement` object keyed by direction. In Nunjucks an export announcement shows `csv` / `tsv` / `xlsx` in lower case (the helper's existing contract). |
+| Blazor | **Through `LabelPack`** (`LabelPacks.cs` in the data-grid package): `LabelPack.FromJson(json).ToDataGridLabels()`, and `ToKanbanLabels()`, `ToCalendarLabels()`, `ToGanttLabels()`, `ToFilterLabels()` in their own packages. Loading the JSON is the app's job. Each package's tests build its labels from every pack. A key the pack lacks leaves the label `null`; the filter's required labels throw instead. |
 
-The TypeScript ports have no known label gaps (the Gantt `criticalLabel` and the kanban `titleEditor` /
-`titleEditAnnouncement` reached all five on 2026-10-18); `KNOWN_GAPS` in `bin/check-label-packs` is empty and fails the
-build if a port loses a key. Svelte-only features that carry no label, such as the kanban `allowLaneChange` and the
+Not in a pack for any catalog: the labels that depend on how a locale writes dates (weekday names, day names, period titles, the Gantt
+column label, the date-time-picker labels).
+
+No catalog has a known label gap: the Gantt `criticalLabel` and the kanban `titleEditor` / `titleEditAnnouncement` reached all
+eight on 2026-10-18. `KNOWN_GAPS` in `bin/check-label-packs` is empty and the guard fails the build if one of the TypeScript
+ports loses a key. Svelte-only features that carry no label, such as the kanban `allowLaneChange` and the
 calendar `periodTitle` anchor argument, are not covered by this check.
 
 ## Adding or changing a pack

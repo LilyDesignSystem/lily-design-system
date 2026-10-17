@@ -134,7 +134,8 @@
      bars are not draggable, and `data-readonly` is set on the root.
 
   Task data hooks: a task's `type`, `critical` and `slack` become
-  `data-task-type`, `data-critical` and `data-slack` on its row.
+  `data-task-type`, `data-critical` and `data-slack` on its row. `labels.criticalLabel` (plain string)
+  adds visible text (`.gantt-chart-critical-label`) beside the label of a critical task.
 
   Round 2 — progress field, baselines, typed dependencies:
     - tasks[].baseline = {start, end}: rendered as data-lily-gantt-chart-baseline-
@@ -145,7 +146,8 @@
       it is client-side, like columnLabel).
     - tasks[].dependsOn entries are an id string or {id, type?, lag?}.
       `labels.dependencyDetail` is a template string with {predecessor},
-      {type}, {lag}; a typed dependency uses it, an id string keeps the plain
+      {type}, {lag} (or an object of such strings keyed by the dependency type, which is
+      what a label pack gives); a typed dependency uses it, an id string keeps the plain
       predecessor label (type defaults to e2s, lag to 0).
     - labels.percentLabel (plain string) adds a 0–100 number field to the edit
       region, starting at the task's percentComplete; Save passes the clamped,
@@ -324,6 +326,10 @@
   {%- set thHtml = (thHtml ~ '<button type="button" class="gantt-chart-collapse-button" aria-expanded="true" aria-label="' ~ collapseLabelSub ~ '" data-lily-gantt-chart-collapse-button data-lily-gantt-chart-task-id="' ~ task.id ~ '" data-lily-gantt-chart-collapse-label="' ~ collapseLabelRaw ~ '" data-lily-gantt-chart-expand-label="' ~ expandLabelRaw ~ '"><span aria-hidden="true">&#9662;</span></button>') | safe -%}
 {%- endif -%}
 {%- set thHtml = (thHtml ~ '<span class="gantt-chart-task-label" data-lily-gantt-chart-task-label-text>' ~ (task.label | e) ~ '</span>') | safe -%}
+{#- labels.criticalLabel: visible text beside the label of a critical task, so the state is never colour-only; the label itself stays unchanged. -#}
+{%- if task.critical and labels.criticalLabel -%}
+  {%- set thHtml = (thHtml ~ '<span class="gantt-chart-critical-label">' ~ (labels.criticalLabel | e) ~ '</span>') | safe -%}
+{%- endif -%}
 {%- set hasDeps = (deps | length) > 0 and labels.dependencySummary -%}
 {%- if hasDeps -%}
   {%- set depId = id + "-deps-" + task.id -%}
@@ -413,7 +419,9 @@
         {%- for t3 in tasks -%}
           {%- if t3.id == depId -%}
             {%- if typed and labels.dependencyDetail -%}
-              {%- set depText = labels.dependencyDetail | replace("{predecessor}", t3.label) | replace("{type}", dep.type | default("e2s")) | replace("{lag}", dep.lag | default(0)) -%}
+              {#- A label pack gives one wording per dependency type (an object keyed e2s / s2s / e2e / s2e); a plain string serves every type. -#}
+              {%- set depTemplate = labels.dependencyDetail[dep.type | default("e2s")] if labels.dependencyDetail is mapping else labels.dependencyDetail -%}
+              {%- set depText = depTemplate | default("") | replace("{predecessor}", t3.label) | replace("{type}", dep.type | default("e2s")) | replace("{lag}", dep.lag | default(0)) -%}
             {%- else -%}
               {%- set depText = t3.label -%}
             {%- endif -%}

@@ -4,6 +4,11 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Works with the label packs: `nunjucksLabelsFor()` gives the macro `labels` and the client option `labels`. `labels.dependencyDetail` may be an object of templates keyed by dependency type (`e2s`, `s2s`, `e2e`, `s2e`).
+- Added `labels.criticalLabel`: visible text (`.gantt-chart-critical-label`) beside the label of a critical task.
+
 ## 0.7.0 — 2026-10-17
 
 - Added search: `labels.search` renders a field that keeps the tasks by label and field text; every typed word must appear (any order), ignoring case and diacritics; matches are marked with `<mark class="mark gantt-chart-match">`; `labels.searchAnnouncement` announces the count; Escape clears.

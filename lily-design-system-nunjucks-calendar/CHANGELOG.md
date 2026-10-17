@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Works with the label packs: `nunjucksLabelsFor()` (see `shared/label-packs/index.md`) gives the macro `labels` and the client option `labels`.
+
 ## 0.6.0 — 2026-10-17
 
 - Added search: `labels.search` renders a field that keeps the events by title and field text; every typed word must appear (any order), ignoring case and diacritics; matches are marked with `<mark class="mark calendar-view-match">`; `labels.searchAnnouncement` announces the count; Escape clears.

@@ -186,6 +186,12 @@
        labels.copy              — plain string: a button that puts the export (header row first, tab-separated) on the clipboard.
        labels.copyAnnouncement  — template string, token {count}; labels.copyFailed — plain string.
        labels.searchAnnouncement — template string, tokens {matched}, {total}.
+       editableTitles — macro param (boolean): card titles edit in place (double-click, or F2 on the card; Enter or leaving the
+                       field commits, Escape cancels, an empty title is refused; not for linked cards). NUNJUCKS DEVIATION: a macro
+                       cannot see a client listener, so this flag stands in for the other catalogs' `onTitleEdit`. The client's
+                       `initKanbanBoard(root, { onTitleEdit })` reports each rename ({cardId, title, previous}) and fires `titleedit`.
+                       labels.titleEditor — template, token {title}: the editor's accessible name; labels.titleEditAnnouncement —
+                       template, tokens {previous}, {title}.
        Client options: onFieldEdit({cardId, fieldId, value, previous}), onExport(file) (return false to take over the download), onCopy({ text, rowCount }) (return false to take over the copy).
 
   Params (single `opts` object):
@@ -447,7 +453,7 @@
   {%- if labels.exportExcel -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="xlsx"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.exportExcel | e) ~ '</button>' -%}{%- endif -%}
   {%- set exportHtml = exportHtml ~ '</div>' -%}
 {%- endif -%}
-{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, exportFilename: opts.exportFilename | default("kanban-board"), exportScope: opts.exportScope | default("view"), columns: opts.columns, lanes: lanes, cards: cards, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid, editRefused: labels.editRefused, fieldUndoAnnouncement: labels.fieldUndoAnnouncement, fieldRedoAnnouncement: labels.fieldRedoAnnouncement, copyAnnouncement: labels.copyAnnouncement, copyFailed: labels.copyFailed, searchAnnouncement: labels.searchAnnouncement } } | dump) -%}
+{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, editableTitles: opts.editableTitles, exportFilename: opts.exportFilename | default("kanban-board"), exportScope: opts.exportScope | default("view"), columns: opts.columns, lanes: lanes, cards: cards, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid, editRefused: labels.editRefused, fieldUndoAnnouncement: labels.fieldUndoAnnouncement, fieldRedoAnnouncement: labels.fieldRedoAnnouncement, copyAnnouncement: labels.copyAnnouncement, copyFailed: labels.copyFailed, searchAnnouncement: labels.searchAnnouncement, titleEditor: labels.titleEditor, titleEditAnnouncement: labels.titleEditAnnouncement } } | dump) -%}
 {%- set undoHtml = ('<button type="button" class="kanban-board-undo-button" disabled data-lily-kanban-board-undo>' ~ (labels.undo | e) ~ '</button>') if (opts.undoable and labels.undo and not opts.readonly) else "" -%}
 <div
   class="kanban-board{% if opts.classes %} {{ opts.classes }}{% endif %}"
