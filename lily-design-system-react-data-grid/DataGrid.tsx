@@ -10,6 +10,7 @@ import {
 } from "@lilydesignsystem/react-headless";
 import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
 import { foldText, searchTerms } from "./search-text";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
   isInvalidForType,
   linkParts,
@@ -1174,6 +1175,9 @@ export function DataGrid({
     if (entry && column && isEditable(column)) startEdit(entry, column);
   }
 
+  const TYPEAHEAD_WINDOW_MS = 700;
+  const typeaheadRef = React.useRef<TypeaheadState>({ prefix: "", at: 0 });
+
   function onGridKeydown(event: React.KeyboardEvent): void {
     const target = event.target as HTMLElement;
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
@@ -1194,6 +1198,20 @@ export function DataGrid({
         const delta = event.key === "ArrowRight" ? 1 : -1;
         if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
         return;
+      }
+    }
+    // Type-ahead in the focused column: letters typed in quick succession move to the next row whose cell text starts with them.
+    if (isTypeaheadKey(event) && target === cell && activeRow >= 0) {
+      const column = visibleColumns[activeCol - colOffset];
+      if (column) {
+        const state = nextTypeaheadState(typeaheadRef.current, event.key, Date.now(), TYPEAHEAD_WINDOW_MS);
+        const hit = findTypeaheadMatch(pageEntries.map((entry) => formatCell(column, entry.row)), activeRow, state.prefix);
+        if (hit !== -1) {
+          typeaheadRef.current = state;
+          event.preventDefault();
+          moveFocus(hit, activeCol);
+          return;
+        }
       }
     }
     switch (event.key) {
