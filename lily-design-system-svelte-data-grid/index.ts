@@ -22,6 +22,8 @@ export {
     isExportFormula,
     toCsv,
     toDelimited,
+    toClipboardText,
+    copyToClipboard,
     toTsv,
     toXlsx,
     zipStore,

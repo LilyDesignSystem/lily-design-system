@@ -1,6 +1,6 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
-    import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+    import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { foldText, searchTerms } from "./search-text";
     import {
         isInvalidForType,
@@ -211,6 +211,12 @@
         exportExcel?: string;
         /** Announced after an export: (format, how many rows, file name). */
         exportAnnouncement?: (format: ExportFormat, rowCount: number, filename: string) => string;
+        /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button. */
+        copy?: string;
+        /** Announced after a copy: (how many rows). */
+        copyAnnouncement?: (rowCount: number) => string;
+        /** Announced when the clipboard could not be written. */
+        copyFailed?: string;
         /** Why a typed value was refused: (column header, the column's type). Gates the message; the cell stays in edit mode with `aria-invalid` either way. */
         invalidValue?: (header: string, type: string) => string;
         /** Appended, visually hidden, to a link that opens a new tab: (link text). */
@@ -304,6 +310,8 @@
         exportFilename?: string;
         /** What an export holds: `"view"` (default) is every row the filter leaves, in the current sort and not just the shown page; `"selected"` is only the selected rows. Hidden columns are never exported. */
         exportScope?: "view" | "selected";
+        /** Called before a copy puts text on the clipboard. Return `false` to take over (the grid then copies nothing). */
+        onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
         /** Called with the file before it is saved. Return `false` to keep the grid from saving it (to upload it, say). */
         onExport?: (file: DataGridExport) => boolean | void;
         /** `file` columns: called with the `File` objects the person chose. Lily does not upload: the consumer does, then updates `rows`. */
@@ -399,6 +407,7 @@
         virtualize,
         exportFilename: exportBase = "data-grid",
         exportScope = "view",
+        onCopy = undefined,
         exportFormulas = false,
         onExport,
         ...restProps
@@ -812,7 +821,7 @@
     const exportEntries = $derived(
         exportScope === "selected" ? sortedEntries.filter((entry) => selectedSet.has(entry.id)) : sortedEntries,
     );
-    const hasExportButtons = $derived(!!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
+    const hasExportButtons = $derived(!!(labels.exportCsv || labels.exportTsv || labels.exportExcel || labels.copy));
 
     /** One cell for an export: typed values stay typed, everything else is the text the grid shows. */
     function exportCell(column: DataGridColumn, row: DataGridRow): unknown {
@@ -826,7 +835,7 @@
     /** The extra column a `time-zone` column asks for: its UTC time of day at the reference date. */
     const hasUtcColumn = (c: DataGridColumn) => c.type === "time-zone" && !!c.exportUtc && !!c.referenceDate && !!labels.exportUtcHeader;
 
-    function runExport(format: ExportFormat): void {
+    function buildExportTable(format: ExportFormat) {
         const live = (c: DataGridColumn) => format === "xlsx" && exportFormulas && c.type === "formula" && !!c.source;
         const headers: string[] = [];
         for (const c of exportColumns) {
@@ -842,7 +851,20 @@
             }
             return cells;
         });
-        const table = { headers, rows };
+        return { headers, rows };
+    }
+
+    /** Copy the export (what a download would hold) to the clipboard as tab-separated text. `onCopy` may return false to take over. */
+    async function runCopy(): Promise<void> {
+        const table = buildExportTable("tsv");
+        const text = toClipboardText(table);
+        if (onCopy?.({ text, rowCount: table.rows.length }) === false) return;
+        const ok = await copyToClipboard(text);
+        announce(ok ? labels.copyAnnouncement?.(table.rows.length) : labels.copyFailed);
+    }
+
+    function runExport(format: ExportFormat): void {
+        const table = buildExportTable(format);
         const filename = exportFilename(exportBase, format);
         const blob = exportBlob(table, format, { sheetName: exportBase });
         const rowCount = table.rows.length;
@@ -1218,6 +1240,9 @@
             {/if}
             {#if hasExportButtons}
                 <div class="data-grid-export" role="group" aria-label={labels.export}>
+                    {#if labels.copy}
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="copy" disabled={exportEntries.length === 0} onclick={() => void runCopy()}>{labels.copy}</button>
+                    {/if}
                     {#if labels.exportCsv}
                         <button type="button" class="data-grid-export-button" data-grid-export-format="csv" disabled={exportEntries.length === 0} onclick={() => runExport("csv")}>{labels.exportCsv}</button>
                     {/if}
