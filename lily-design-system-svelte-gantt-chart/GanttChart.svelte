@@ -12,6 +12,7 @@
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
     import {
@@ -134,6 +135,12 @@
         editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
         /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
         editInvalid?: (taskLabel: string, fieldHeader: string) => string;
+        /** Announced when a field's `validate` refuses a value: (task label, field header, the reason). Falls back to `editInvalid`. */
+        editRefused?: (taskLabel: string, fieldHeader: string, message: string) => string;
+        /** Announced after Ctrl/Cmd+Z puts an earlier value back: (task label, field header, the restored text). */
+        undoAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
+        /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (task label, field header, the text). */
+        redoAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
         /** Accessible name of the search field. Gates the field. */
         search?: string;
         /** Announced after the search changes: (matching tasks, all tasks). */
@@ -557,7 +564,9 @@
     const fieldText = (f: ResolvedField, task: GanttTask): string => fieldTextOf(f, task.values);
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editingField = $state<{ taskId: string; fieldId: string; draft: Draft } | null>(null);
+    let editingField = $state<{ taskId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+    /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onFieldEdit` like any edit. */
+    let history: EditHistory = EMPTY_HISTORY;
     let committing = false;
 
     async function startFieldEdit(task: GanttTask, f: ResolvedField): Promise<void> {
@@ -582,17 +591,35 @@
         }
         const outcome = evaluateEdit(f, task.values, draft);
         if (outcome.invalid) {
-            announce(labels.editInvalid?.(taskLabel(task), f.header));
+            editingField.invalid = true;
+            announce((outcome.message ? labels.editRefused?.(taskLabel(task), f.header, outcome.message) : undefined) ?? labels.editInvalid?.(taskLabel(task), f.header));
             return false;
         }
         committing = true;
         editingField = null;
         if (outcome.changed) {
+            history = recordEdit(history, { ownerId: taskId, fieldId, value: outcome.value, previous: outcome.previous });
             onFieldEdit?.({ taskId, fieldId, value: outcome.value, previous: outcome.previous });
             announce(labels.editAnnouncement?.(taskLabel(task), f.header, outcome.text));
         }
         committing = false;
         return true;
+    }
+
+    /** Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (Ctrl+Y): put an earlier value back, or re-apply it, through `onFieldEdit`. */
+    function stepHistory(direction: "undo" | "redo"): void {
+        const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+        if (!step.record) return;
+        history = step.history;
+        const { ownerId, fieldId, value, previous } = step.record;
+        const restored = direction === "undo" ? previous : value;
+        const replaced = direction === "undo" ? value : previous;
+        onFieldEdit?.({ taskId: ownerId, fieldId, value: restored, previous: replaced });
+        const task = taskById.get(ownerId);
+        const f = resolvedFields.find((x) => x.id === fieldId);
+        if (!task || !f) return;
+        const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(task.values ?? {}), [fieldId]: restored }) : String(restored);
+        announce((direction === "undo" ? labels.undoAnnouncement : labels.redoAnnouncement)?.(taskLabel(task), f.header, text));
     }
 
     function cancelFieldEdit(): void {
@@ -907,6 +934,12 @@
         const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        const historyAction = onFieldEdit && !readonly ? historyKey(event) : null;
+        if (historyAction) {
+            event.preventDefault();
+            stepHistory(historyAction);
+            return;
+        }
         if (event.key === "F2" && onFieldEdit) {
             // F2: edit the task's first editable field (the keyboard twin of clicking its value).
             const row = rows[activeRow];
@@ -1132,7 +1165,7 @@
                         <GanttTableTD data-field={f.id} data-type={f.type ?? "text"} data-align={f.align}>
                             {#if editingField && editingField.taskId === row.task.id && editingField.fieldId === f.id}
                                 {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                    <select class="gantt-chart-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editingField.draft} onkeydown={onFieldEditorKeydown} onchange={() => { if (commitFieldEdit()) void focusActiveCell(); }} onblur={() => void commitFieldEdit()}>
+                                    <select class="gantt-chart-field-editor" aria-label={f.editLabel ?? f.header} aria-invalid={editingField.invalid ? "true" : undefined} oninput={() => { if (editingField) editingField.invalid = false; }} bind:value={editingField.draft} onkeydown={onFieldEditorKeydown} onchange={() => { if (commitFieldEdit()) void focusActiveCell(); }} onblur={() => void commitFieldEdit()}>
                                         <option value=""></option>
                                         {#each (f.options ?? []) as option (option.id)}
                                             <option value={option.id} disabled={option.disabled}>{option.label}</option>
@@ -1142,6 +1175,8 @@
                                     <input
                                         class="gantt-chart-field-editor"
                                         aria-label={f.editLabel ?? f.header}
+                                        aria-invalid={editingField.invalid ? "true" : undefined}
+                                        oninput={() => { if (editingField) editingField.invalid = false; }}
                                         type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
                                         inputmode={editorKind(f) === "number" ? "decimal" : undefined}
                                         bind:value={editingField.draft}

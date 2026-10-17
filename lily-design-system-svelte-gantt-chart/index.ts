@@ -33,3 +33,5 @@ export type { SearchSegment } from "./search-text";
 export { copyToClipboard, toClipboardText } from "./export-data";
 export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET_MS } from "./typeahead";
 export type { TypeaheadState } from "./typeahead";
+export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
+export type { EditHistory, EditRecord } from "./edit-history";

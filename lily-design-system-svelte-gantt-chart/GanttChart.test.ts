@@ -1335,3 +1335,111 @@ describe("keyboard: PageUp / PageDown and type-ahead", () => {
     });
 });
 
+describe("in-place edit: validate, undo, redo", () => {
+    const TASKS2: GanttTask[] = [{ id: "t1", label: "Design", start: "2026-10-01", end: "2026-10-03", values: { points: 3 } }];
+    const L: GanttLabels = {
+        ...LABELS,
+        editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
+        editInvalid: (t, h) => `${t}: bad ${h}`,
+        editRefused: (t, h, m) => `${t} ${h}: ${m}`,
+        undoAnnouncement: (t, h, text) => `Undid ${t} ${h}: ${text}`,
+        redoAnnouncement: (t, h, text) => `Redid ${t} ${h}: ${text}`,
+    };
+    const FIELD = { id: "points", header: "Points", type: "number" as const, validate: (v: unknown) => (typeof v === "number" && v < 0 ? "Must not be negative" : undefined) };
+    const status = () => document.querySelector(".gantt-chart-status")?.textContent;
+    const button = () => document.querySelector<HTMLElement>(".gantt-chart-field-button")!;
+    const cell = () => document.querySelector<HTMLElement>(".gantt-table-td[data-row][data-col]")!;
+
+    async function edit(value: string): Promise<HTMLInputElement> {
+        await fireEvent.click(button());
+        const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+        await fireEvent.input(input, { target: { value } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        return input;
+    }
+
+    test("§18.28 a value validate refuses keeps the editor open, marks it aria-invalid and announces the reason", async () => {
+        const onFieldEdit = vi.fn();
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [FIELD], onFieldEdit, labels: L } });
+        await fireEvent.click(button());
+        const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+        await fireEvent.input(input, { target: { value: "-4" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".gantt-chart-field-editor")?.getAttribute("aria-invalid")).toBe("true");
+        expect(status()).toBe("Design Points: Must not be negative");
+    });
+
+    test("§18.29 typing again clears aria-invalid, and an acceptable value then commits", async () => {
+        const onFieldEdit = vi.fn();
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [FIELD], onFieldEdit, labels: L } });
+        await fireEvent.click(button());
+        const input = document.querySelector<HTMLInputElement>(".gantt-chart-field-editor")!;
+        await fireEvent.input(input, { target: { value: "-4" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        await fireEvent.input(input, { target: { value: "5" } });
+        expect(input.getAttribute("aria-invalid")).toBeNull();
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).toHaveBeenCalledWith({ taskId: "t1", fieldId: "points", value: 5, previous: 3 });
+    });
+
+    test("§18.30 a wrong-type value without a validate message falls back to editInvalid", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [{ ...FIELD, parse: () => Number.NaN }], onFieldEdit: vi.fn(), labels: L } });
+        await edit("x");
+        expect(status()).toBe("Design: bad Points");
+    });
+
+    test("§18.31 Ctrl+Z reports the earlier value through onFieldEdit and announces it", async () => {
+        const onFieldEdit = vi.fn();
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [FIELD], onFieldEdit, labels: L } });
+        await edit("8");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ taskId: "t1", fieldId: "points", value: 3, previous: 8 });
+        expect(status()).toBe("Undid Design Points: 3");
+    });
+
+    test("§18.32 Ctrl+Shift+Z and Ctrl+Y redo", async () => {
+        const onFieldEdit = vi.fn();
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [FIELD], onFieldEdit, labels: L } });
+        await edit("8");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true, shiftKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ taskId: "t1", fieldId: "points", value: 8, previous: 3 });
+        expect(status()).toBe("Redid Design Points: 8");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(), { key: "y", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ taskId: "t1", fieldId: "points", value: 8, previous: 3 });
+    });
+
+    test("§18.33 undo walks back through several edits, newest first", async () => {
+        const onFieldEdit = vi.fn();
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [FIELD], onFieldEdit, labels: L } });
+        await edit("5");
+        await edit("9");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ taskId: "t1", fieldId: "points", value: 3, previous: 9 });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ taskId: "t1", fieldId: "points", value: 3, previous: 5 });
+    });
+
+    test("§18.34 with nothing to undo, Ctrl+Z does nothing, and a new edit ends the redo chain", async () => {
+        const onFieldEdit = vi.fn();
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [FIELD], onFieldEdit, labels: L } });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        await edit("5");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        await edit("7");
+        onFieldEdit.mockClear();
+        await fireEvent.keyDown(cell(), { key: "y", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+
+    test("§18.35 undo and redo do nothing in a readonly chart or without onFieldEdit", async () => {
+        const onFieldEdit = vi.fn();
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS2, fields: [FIELD], readonly: true, onFieldEdit, labels: L } });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+});
+
