@@ -14,6 +14,9 @@ export type KanbanExport = { format: ExportFormat; filename: string; cardCount: 
 /** What the `copy` event carries. */
 export type KanbanCopy = { text: string; rowCount: number };
 
+/** What the `title-edit` event carries: the card, its new title, and the title it had. */
+export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
+
 /** What the `field-edit` event carries. */
 export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
 
@@ -106,6 +109,10 @@ export type KanbanLabels = {
     editInvalid?: (cardTitle: string, fieldHeader: string) => string;
     /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
     editRefused?: (cardTitle: string, fieldHeader: string, message: string) => string;
+    /** Accessible name of a card's title editor: (the card's current title). Defaults to the title. */
+    titleEditor?: (cardTitle: string) => string;
+    /** Announced after a title edit: (previous title, new title). */
+    titleEditAnnouncement?: (previous: string, title: string) => string;
     /** Announced after Ctrl/Cmd+Z puts an earlier field value back: (card title, field header, the restored text). */
     fieldUndoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
     /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies a field edit: (card title, field header, the text). */
@@ -224,7 +231,7 @@ export function nextKanbanBoardId(): string {
 </script>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, nextTick, ref, watch } from "vue";
+import { computed, getCurrentInstance, nextTick, ref, useSlots, watch } from "vue";
 import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText } from "./export-data";
 import { highlightSegments, matchesSearch } from "./search-text";
 import { isRtl, logicalKey } from "./direction";
@@ -309,6 +316,8 @@ const emit = defineEmits<{
     (event: "reorder", cardId: string, toIndex: number): void;
     /** An accepted field edit. The consumer updates `cards`. A field is editable only when a listener is attached (and the board is not `readonly`). */
     (event: "field-edit", edit: KanbanFieldEdit): void;
+    /** Card titles are editable in place (double-click, or F2 on the card) when a listener is attached: Enter or leaving the field commits, Escape cancels, an empty title is refused. Lily changes nothing itself; the consumer renames the card. Not for cards with a link (`href`) or a `card` slot. */
+    (event: "title-edit", edit: KanbanTitleEdit): void;
     /** An export file, before it is saved. */
     (event: "export-file", file: KanbanExport): void;
     /** A copy to the clipboard, before it is written. */
@@ -317,6 +326,7 @@ const emit = defineEmits<{
 
 // The listener's presence decides whether fields are editable, so it is read from the vnode.
 const hasFieldEdit = !!(getCurrentInstance()?.vnode.props as Record<string, unknown> | null)?.onFieldEdit;
+const hasTitleEdit = !!(getCurrentInstance()?.vnode.props as Record<string, unknown> | null)?.onTitleEdit;
 
 defineSlots<{
     card?: (ctx: KanbanCardContext) => unknown;
@@ -604,6 +614,51 @@ function commitFieldEdit(refocus = true): boolean {
     }
     if (refocus) void focusCard(cardId);
     return true;
+}
+
+// ---- In-place title editing (`title-edit`) ----
+
+const componentSlots = useSlots();
+const isTitleEditable = (card: KanbanCard) => hasTitleEdit && !props.readonly && !card.locked && !card.href && !componentSlots.card;
+const editingTitle = ref<{ cardId: string; draft: string } | null>(null);
+
+async function startTitleEdit(card: KanbanCard): Promise<void> {
+    if (!isTitleEditable(card)) return;
+    openCardId.value = null;
+    moveActiveIndex.value = -1;
+    editingTitle.value = { cardId: card.id, draft: resolveCardLabel(card) };
+    await nextTick();
+    const editor = rootEl.value?.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+    editor?.focus({ preventScroll: true });
+    editor?.select();
+}
+
+function commitTitleEdit(refocus = true): void {
+    const current = editingTitle.value;
+    if (!current) return;
+    editingTitle.value = null;
+    const card = effectiveCards.value.find((c) => c.id === current.cardId);
+    const title = current.draft.trim();
+    if (card && title !== "" && title !== resolveCardLabel(card)) {
+        const previous = resolveCardLabel(card);
+        emit("title-edit", { cardId: current.cardId, title, previous });
+        announce(props.labels?.titleEditAnnouncement?.(previous, title));
+    }
+    if (refocus) void focusCard(current.cardId);
+}
+
+function onTitleEditorKeydown(event: KeyboardEvent): void {
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+        event.preventDefault();
+        commitTitleEdit();
+    } else if (event.key === "Escape") {
+        event.preventDefault();
+        const current = editingTitle.value;
+        editingTitle.value = null;
+        if (current) void focusCard(current.cardId);
+    }
 }
 
 /** Put an earlier field value back, or re-apply it, through `field-edit`. */
@@ -1102,6 +1157,15 @@ function onGridKeydown(event: KeyboardEvent): void {
         reorderCard(event.key === "ArrowUp" ? -1 : 1);
         return;
     }
+    if (event.key === "F2" && hasTitleEdit) {
+        // F2 with title editing on: rename the card (its fields are edited by clicking them or Tab from the title).
+        const card = cardAt(activeCol.value, activeRow.value);
+        if (card && isTitleEditable(card)) {
+            event.preventDefault();
+            void startTitleEdit(card);
+            return;
+        }
+    }
     if (event.key === "F2" && hasFieldEdit) {
         // F2: edit the card's first editable field (the keyboard twin of clicking its value).
         const card = cardAt(activeCol.value, activeRow.value);
@@ -1309,12 +1373,22 @@ function onGridKeydown(event: KeyboardEvent): void {
                             -->
                             <span
                                 class="kanban-board-card-title"
-                                :draggable="readonly || cell.card!.locked || cell.card!.draggable === false ? undefined : 'true'"
+                                :draggable="readonly || cell.card!.locked || cell.card!.draggable === false || editingTitle?.cardId === cell.card!.id ? undefined : 'true'"
                                 @dragstart="(e: DragEvent) => onCardDragStart(cell.card!, e)"
                                 @dragend="onCardDragEnd"
+                                @dblclick="startTitleEdit(cell.card!)"
                             >
+                                <input
+                                    v-if="editingTitle?.cardId === cell.card!.id"
+                                    class="kanban-board-title-editor"
+                                    type="text"
+                                    :aria-label="labels?.titleEditor ? labels.titleEditor(resolveCardLabel(cell.card!)) : resolveCardLabel(cell.card!)"
+                                    v-model="editingTitle.draft"
+                                    @keydown="onTitleEditorKeydown"
+                                    @blur="commitTitleEdit(false)"
+                                />
                                 <slot
-                                    v-if="$slots.card"
+                                    v-else-if="$slots.card"
                                     name="card"
                                     :card="cell.card!"
                                     :label="resolveCardLabel(cell.card!)"

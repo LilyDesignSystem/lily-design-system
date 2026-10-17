@@ -12,6 +12,7 @@ export type {
   KanbanField,
   KanbanExport,
   KanbanFieldEdit,
+  KanbanTitleEdit,
 } from "./kanban-board.component";
 export { MIME_TYPES, cellText, downloadBlob, exportBlob, exportFilename, toCsv, toDelimited, toTsv, toXlsx } from "./export-data";
 export type { ExportFormat, ExportFormula, ExportTable } from "./export-data";

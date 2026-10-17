@@ -17,6 +17,9 @@ function render(
     if (key === "onFieldEdit") {
       fixture.componentRef.setInput("editableFields", true);
       instance.fieldEdit.subscribe(value as never);
+    } else if (key === "onTitleEdit") {
+      fixture.componentRef.setInput("editableTitles", true);
+      instance.titleEdit.subscribe(value as never);
     } else if (key === "onMove") {
       instance.move.subscribe((e) => (value as (...args: unknown[]) => void)(e.cardId, e.toColumnId, e.toIndex, e.toLaneId));
     } else fixture.componentRef.setInput(key, value);
@@ -28,7 +31,7 @@ function render(
     container: fixture.nativeElement as HTMLElement,
     rerender: async (props) => {
       for (const [key, value] of Object.entries(props)) {
-        if (key === "onFieldEdit" || key === "onMove") continue;
+        if (key === "onFieldEdit" || key === "onMove" || key === "onTitleEdit") continue;
         fixture.componentRef.setInput(key, value);
       }
       fixture.detectChanges();
@@ -567,3 +570,70 @@ describe("KanbanBoard — live drop cue, right-to-left keys, no English left ove
 });
 
 
+
+describe("KanbanBoard — in-place title editing (editableTitles + titleEdit)", () => {
+    const cols: KanbanColumn[] = [{ id: "todo", title: "To Do" }, { id: "doing", title: "In Progress" }];
+    const cards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "Card One" }, { id: "c2", columnId: "todo", title: "Linked", href: "/x" }];
+    const base = { label: "Board", columns: cols, cards };
+    const titleEditor = () => document.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+
+    test("double-click opens an editor with the title; Enter commits and announces", async () => {
+        const onTitleEdit = vi.fn();
+        render(null, { props: { ...base, onTitleEdit, labels: { titleEditAnnouncement: (p: string, t: string) => `${p} -> ${t}`, titleEditor: (t: string) => `Title of ${t}` } } });
+        await fireEvent.dblClick(screen.getByText("Card One"));
+        const input = titleEditor()!;
+        expect(input.value).toBe("Card One");
+        expect(input.getAttribute("aria-label")).toBe("Title of Card One");
+        input.value = "  Renamed  ";
+        await fireEvent.input(input);
+        await fireEvent.keyDown(titleEditor()!, { key: "Enter" });
+        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
+        expect(titleEditor()).toBeNull();
+        expect(document.body.textContent).toContain("Card One -> Renamed");
+    });
+
+    test("Escape cancels; an empty or unchanged title changes nothing", async () => {
+        const onTitleEdit = vi.fn();
+        render(null, { props: { ...base, onTitleEdit } });
+        await fireEvent.dblClick(screen.getByText("Card One"));
+        let input = titleEditor()!;
+        input.value = "Changed";
+        await fireEvent.input(input);
+        await fireEvent.keyDown(titleEditor()!, { key: "Escape" });
+        expect(titleEditor()).toBeNull();
+        await fireEvent.dblClick(screen.getByText("Card One"));
+        input = titleEditor()!;
+        input.value = "   ";
+        await fireEvent.input(input);
+        await fireEvent.keyDown(titleEditor()!, { key: "Enter" });
+        await fireEvent.dblClick(screen.getByText("Card One"));
+        await fireEvent.keyDown(titleEditor()!, { key: "Enter" });
+        expect(onTitleEdit).not.toHaveBeenCalled();
+    });
+
+    test("leaving the field commits; F2 on a card opens the editor", async () => {
+        const onTitleEdit = vi.fn();
+        render(null, { props: { ...base, onTitleEdit } });
+        await fireEvent.keyDown(document.querySelector<HTMLElement>('[data-card-id="c1"]')!, { key: "F2" });
+        const input = titleEditor()!;
+        expect(input).not.toBeNull();
+        input.value = "By blur";
+        await fireEvent.input(input);
+        await fireEvent.blur(titleEditor()!);
+        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "By blur", previous: "Card One" });
+    });
+
+    test("no editor without editableTitles, for a linked card, or when readonly", async () => {
+        const first = render(null, { props: { ...base } });
+        await fireEvent.dblClick(screen.getByText("Card One"));
+        expect(titleEditor()).toBeNull();
+        first.unmount();
+        const second = render(null, { props: { ...base, onTitleEdit: vi.fn() } });
+        await fireEvent.dblClick(screen.getByText("Linked"));
+        expect(titleEditor()).toBeNull();
+        second.unmount();
+        render(null, { props: { ...base, onTitleEdit: vi.fn(), readonly: true } });
+        await fireEvent.dblClick(screen.getByText("Card One"));
+        expect(titleEditor()).toBeNull();
+    });
+});

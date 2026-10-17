@@ -85,9 +85,10 @@ review.
 | Nunjucks | **Not drop-in.** Label functions are string templates with the Svelte *parameter* names (`{matchCount}`, `{totalCount}`, `{selectedCount}`, `{rowCount}`, `{direction}`), not the pack's (`{matches}`, `{total}`, `{count}`), and a template cannot select a wording by value, so `{direction}` would show the English word `ascending`. It needs an adapter that renames placeholders and a client option that accepts functions (the filter already has one; the grid-like helpers read their labels from JSON only). |
 | Blazor | **Same shape, different names, no loader.** Typed records with `Func<…>` in the same argument order, but a few keys are named differently (`FieldUndoAnnouncement` / `FieldRedoAnnouncement` for the calendar and Gantt `undoAnnouncement` / `redoAnnouncement`), `rangeLimit` is not implemented, and nothing in C# builds a `Func` from a template yet. |
 
-Known gaps in the TypeScript ports (Svelte-only for now, listed in `KNOWN_GAPS` in `bin/check-label-packs`): the Gantt
-`criticalLabel`, and the kanban `titleEditor` and `titleEditAnnouncement` (in-place title editing). The packs hold their
-strings, so they work the day those features are ported.
+The TypeScript ports have no known label gaps (the Gantt `criticalLabel` and the kanban `titleEditor` /
+`titleEditAnnouncement` reached all five on 2026-10-18); `KNOWN_GAPS` in `bin/check-label-packs` is empty and fails the
+build if a port loses a key. Svelte-only features that carry no label, such as the kanban `allowLaneChange` and the
+calendar `periodTitle` anchor argument, are not covered by this check.
 
 ## Adding or changing a pack
 

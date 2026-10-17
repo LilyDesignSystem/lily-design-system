@@ -5,6 +5,7 @@ export type {
   KanbanExport,
   KanbanField,
   KanbanFieldEdit,
+  KanbanTitleEdit,
   KanbanCard,
   KanbanLane,
   KanbanLabels,

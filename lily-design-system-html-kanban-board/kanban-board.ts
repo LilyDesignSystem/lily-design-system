@@ -60,6 +60,9 @@ export type KanbanField = FieldDef;
 export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
 
 /** What `onFieldEdit` and the `fieldedit` event carry. */
+/** What `onTitleEdit` and the `titleedit` event carry: the card, its new title, and the title it had. */
+export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
+
 export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
 
 export type KanbanColumn = {
@@ -146,6 +149,10 @@ export type KanbanLabels = {
     editInvalid?: (cardTitle: string, fieldHeader: string) => string;
     /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
     editRefused?: (cardTitle: string, fieldHeader: string, message: string) => string;
+    /** Accessible name of a card's title editor: (the card's current title). Defaults to the title. */
+    titleEditor?: (cardTitle: string) => string;
+    /** Announced after a title edit: (previous title, new title). */
+    titleEditAnnouncement?: (previous: string, title: string) => string;
     /** Announced after Ctrl/Cmd+Z puts an earlier field value back: (card title, field header, the restored text). */
     fieldUndoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
     /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies a field edit: (card title, field header, the text). */
@@ -339,6 +346,9 @@ export class KanbanBoard extends HTMLElement {
     #locale: string | undefined;
     #onFieldEdit: ((edit: KanbanFieldEdit) => void) | undefined;
     #editableFields = false;
+    #onTitleEdit: ((edit: KanbanTitleEdit) => void) | undefined;
+    #editableTitles = false;
+    #editingTitle: { cardId: string; draft: string } | null = null;
     #exportFilename = "kanban-board";
     #exportScope: "view" | "selected" = "view";
     #onExport: ((file: KanbanExport) => boolean | void) | undefined;
@@ -587,6 +597,24 @@ export class KanbanBoard extends HTMLElement {
     }
     set editableFields(v: boolean) {
         this.#editableFields = !!v;
+        this.#render();
+    }
+
+    /** Called with each in-place title rename; the consumer renames the card. Setting it turns title editing on (double-click a title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused). Not for cards with a link (`href`) or a `renderCard`. The `titleedit` event reports the same edit. */
+    get onTitleEdit(): ((edit: KanbanTitleEdit) => void) | undefined {
+        return this.#onTitleEdit;
+    }
+    set onTitleEdit(fn: ((edit: KanbanTitleEdit) => void) | undefined) {
+        this.#onTitleEdit = fn;
+        this.#render();
+    }
+
+    /** Turns title editing on without `onTitleEdit` (for a consumer that only listens to the `titleedit` event). */
+    get editableTitles(): boolean {
+        return this.#editableTitles;
+    }
+    set editableTitles(v: boolean) {
+        this.#editableTitles = !!v;
         this.#render();
     }
 
@@ -966,6 +994,36 @@ export class KanbanBoard extends HTMLElement {
 
     #findCard(cardId: string): KanbanCard | undefined {
         return this.#cards.find((c) => c.id === cardId) ?? [...this.#allByColumn().values()].flat().find((c) => c.id === cardId);
+    }
+
+    #isTitleEditable(card: KanbanCard): boolean {
+        return (!!this.#onTitleEdit || this.#editableTitles) && !this.readonly && !card.locked && !card.href && !this.renderCard;
+    }
+
+    #startTitleEdit(card: KanbanCard): void {
+        if (!this.#isTitleEditable(card)) return;
+        this.#editingTitle = { cardId: card.id, draft: this.#cardLabel(card) };
+        this.#render();
+        const editor = this.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+        editor?.focus({ preventScroll: true });
+        editor?.select();
+    }
+
+    #commitTitleEdit(refocus = true): void {
+        const current = this.#editingTitle;
+        if (!current) return;
+        this.#editingTitle = null;
+        const card = this.#findCard(current.cardId);
+        const title = current.draft.trim();
+        if (card && title !== "" && title !== this.#cardLabel(card)) {
+            const previous = this.#cardLabel(card);
+            const edit: KanbanTitleEdit = { cardId: current.cardId, title, previous };
+            this.#onTitleEdit?.(edit);
+            this.dispatchEvent(new CustomEvent<KanbanTitleEdit>("titleedit", { detail: edit, bubbles: true, composed: true }));
+            this.#statusMessage = this.#labels.titleEditAnnouncement?.(previous, title) ?? this.#statusMessage;
+        }
+        this.#render();
+        if (refocus) this.#focusCard(current.cardId);
     }
 
     #startFieldEdit(card: KanbanCard, f: ResolvedField): void {
@@ -1733,6 +1791,15 @@ export class KanbanBoard extends HTMLElement {
             }
             return;
         }
+        if (event.key === "F2" && (this.#onTitleEdit || this.#editableTitles)) {
+            // F2 with title editing on: rename the card (its fields are edited by clicking them or Tab from the title).
+            const card = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
+            if (card && this.#isTitleEditable(card)) {
+                event.preventDefault();
+                this.#startTitleEdit(card);
+                return;
+            }
+        }
         if (event.key === "F2" && (this.#onFieldEdit || this.#editableFields)) {
             // F2: edit the card's first editable field (the keyboard twin of clicking its value).
             const card = this.#cardAt(this.#focusedCol, this.#focusedRow, layout);
@@ -2087,8 +2154,35 @@ export class KanbanBoard extends HTMLElement {
                 if (card) {
                     const titleSpan = document.createElement("span");
                     titleSpan.className = "kanban-board-card-title";
-                    if (!this.readonly && !card.locked && card.draggable !== false) titleSpan.setAttribute("draggable", "true");
-                    if (this.renderCard) {
+                    const editingThisTitle = this.#editingTitle?.cardId === card.id;
+                    if (!this.readonly && !card.locked && card.draggable !== false && !editingThisTitle) titleSpan.setAttribute("draggable", "true");
+                    titleSpan.addEventListener("dblclick", () => this.#startTitleEdit(card));
+                    if (editingThisTitle) {
+                        const input = document.createElement("input");
+                        input.className = "kanban-board-title-editor";
+                        input.type = "text";
+                        input.setAttribute("aria-label", this.#labels.titleEditor ? this.#labels.titleEditor(this.#cardLabel(card)) : this.#cardLabel(card));
+                        input.value = this.#editingTitle!.draft;
+                        input.addEventListener("input", () => {
+                            if (this.#editingTitle) this.#editingTitle.draft = input.value;
+                        });
+                        input.addEventListener("keydown", (event) => {
+                            event.stopPropagation();
+                            if (event.isComposing || event.keyCode === 229) return;
+                            if (event.key === "Enter") {
+                                event.preventDefault();
+                                this.#commitTitleEdit();
+                            } else if (event.key === "Escape") {
+                                event.preventDefault();
+                                const cardId = this.#editingTitle?.cardId;
+                                this.#editingTitle = null;
+                                this.#render();
+                                if (cardId) this.#focusCard(cardId);
+                            }
+                        });
+                        input.addEventListener("blur", () => this.#commitTitleEdit(false));
+                        titleSpan.appendChild(input);
+                    } else if (this.renderCard) {
                         titleSpan.appendChild(
                             this.renderCard({ card, label: this.#cardLabel(card), column, pending: card.id in this.#optimistic }),
                         );

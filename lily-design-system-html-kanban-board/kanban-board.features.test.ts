@@ -204,3 +204,79 @@ describe("live drop cue", () => {
         expect(blocked.defaultPrevented).toBe(false);
     });
 });
+
+describe("in-place title editing (onTitleEdit / titleedit)", () => {
+    const cards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "Card One" }, { id: "c2", columnId: "todo", title: "Linked", href: "/x" }];
+    const titleEditor = () => board.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+    const titleOf = (text: string) => Array.from(board.querySelectorAll<HTMLElement>(".kanban-board-card-title")).find((e) => e.textContent?.includes(text))!;
+    const dbl = (el: Element) => el.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+    const typeTitle = (value: string) => {
+        titleEditor()!.value = value;
+        titleEditor()!.dispatchEvent(new Event("input", { bubbles: true }));
+    };
+
+    test("double-click opens an editor with the title; Enter commits, announces and fires titleedit", () => {
+        const onTitleEdit = vi.fn();
+        const heard = vi.fn();
+        mount({ cards, onTitleEdit, labels: { titleEditAnnouncement: (p: string, t: string) => `${p} -> ${t}`, titleEditor: (t: string) => `Title of ${t}` } });
+        board.addEventListener("titleedit", (e) => heard((e as CustomEvent).detail));
+        dbl(titleOf("Card One"));
+        expect(titleEditor()!.value).toBe("Card One");
+        expect(titleEditor()!.getAttribute("aria-label")).toBe("Title of Card One");
+        typeTitle("  Renamed  ");
+        key(titleEditor()!, "Enter");
+        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
+        expect(heard).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
+        expect(titleEditor()).toBeNull();
+        expect(status()).toBe("Card One -> Renamed");
+    });
+
+    test("Escape cancels; an empty or unchanged title changes nothing", () => {
+        const onTitleEdit = vi.fn();
+        mount({ cards, onTitleEdit });
+        dbl(titleOf("Card One"));
+        typeTitle("Changed");
+        key(titleEditor()!, "Escape");
+        expect(titleEditor()).toBeNull();
+        dbl(titleOf("Card One"));
+        typeTitle("   ");
+        key(titleEditor()!, "Enter");
+        dbl(titleOf("Card One"));
+        key(titleEditor()!, "Enter");
+        expect(onTitleEdit).not.toHaveBeenCalled();
+    });
+
+    test("leaving the field commits; F2 on a card opens the editor", () => {
+        const onTitleEdit = vi.fn();
+        mount({ cards, onTitleEdit });
+        key(board.querySelector<HTMLElement>('[data-card-id="c1"]')!, "F2");
+        expect(titleEditor()).not.toBeNull();
+        typeTitle("By blur");
+        titleEditor()!.dispatchEvent(new FocusEvent("blur"));
+        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "By blur", previous: "Card One" });
+    });
+
+    test("editableTitles turns it on for a consumer that only listens to the event", () => {
+        const heard = vi.fn();
+        mount({ cards, editableTitles: true });
+        board.addEventListener("titleedit", (e) => heard((e as CustomEvent).detail));
+        dbl(titleOf("Card One"));
+        typeTitle("Heard");
+        key(titleEditor()!, "Enter");
+        expect(heard).toHaveBeenCalledWith({ cardId: "c1", title: "Heard", previous: "Card One" });
+    });
+
+    test("no editor without a handler, for a linked card, or when readonly", () => {
+        mount({ cards });
+        dbl(titleOf("Card One"));
+        expect(titleEditor()).toBeNull();
+        document.body.innerHTML = "";
+        mount({ cards, onTitleEdit: vi.fn() });
+        dbl(titleOf("Linked"));
+        expect(titleEditor()).toBeNull();
+        document.body.innerHTML = "";
+        mount({ cards, onTitleEdit: vi.fn(), readonly: true });
+        dbl(titleOf("Card One"));
+        expect(titleEditor()).toBeNull();
+    });
+});

@@ -1,5 +1,5 @@
 export { default, default as KanbanBoard, nextKanbanBoardId } from "./KanbanBoard.vue";
-export type { Props, KanbanCard, KanbanColumn, KanbanLane, KanbanLabels, KanbanField, KanbanExport, KanbanCopy, KanbanFieldEdit } from "./KanbanBoard.vue";
+export type { Props, KanbanCard, KanbanColumn, KanbanLane, KanbanLabels, KanbanField, KanbanExport, KanbanCopy, KanbanFieldEdit, KanbanTitleEdit } from "./KanbanBoard.vue";
 export { MIME_TYPES, cellText, downloadBlob, exportBlob, exportFilename, toCsv, toDelimited, toTsv, toXlsx } from "./export-data";
 export type { ExportFormat, ExportFormula, ExportTable } from "./export-data";
 export { resolveColumn } from "./cell-types";

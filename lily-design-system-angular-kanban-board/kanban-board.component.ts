@@ -60,6 +60,9 @@ export type KanbanField = FieldDef;
 /** What `exportHandler` and the `exportFile` output receive. Return `false` from `exportHandler` to take over the download. */
 export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
 
+/** What the `titleEdit` output carries: the card, its new title, and the title it had. */
+export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
+
 /** What the `fieldEdit` output carries. */
 export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
 
@@ -147,6 +150,10 @@ export type KanbanLabels = {
   editInvalid?: (cardTitle: string, fieldHeader: string) => string;
   /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
   editRefused?: (cardTitle: string, fieldHeader: string, message: string) => string;
+  /** Accessible name of a card's title editor: (the card's current title). Defaults to the title. */
+  titleEditor?: (cardTitle: string) => string;
+  /** Announced after a title edit: (previous title, new title). */
+  titleEditAnnouncement?: (previous: string, title: string) => string;
   /** Announced after Ctrl/Cmd+Z puts an earlier field value back: (card title, field header, the restored text). */
   fieldUndoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies a field edit: (card title, field header, the text). */
@@ -431,19 +438,35 @@ export function nextKanbanBoardId(): string {
                          move path is the button/listbox below. -->
                     <span
                       class="kanban-board-card-title"
-                      [attr.draggable]="readonly() || card.locked || card.draggable === false ? null : 'true'"
+                      [attr.draggable]="readonly() || card.locked || card.draggable === false || editingTitle()?.cardId === card.id ? null : 'true'"
                       (dragstart)="onCardDragStart(card, $event)"
                       (dragend)="onCardDragEnd()"
+                      (dblclick)="startTitleEdit(card)"
                     >
-                      @if (cardTemplate(); as cardTpl) {
-                        <ng-container
-                          [ngTemplateOutlet]="cardTpl"
-                          [ngTemplateOutletContext]="{ card: card, label: cardLabel()(card), column: column, pending: isPending(card.id) }"
-                        />
-                      } @else if (card.href) {
-                        <a class="kanban-board-card-link" [href]="card.href"><ng-container *ngTemplateOutlet="titleText; context: { card: card }" /></a>
-                      } @else {
-                        <ng-container *ngTemplateOutlet="titleText; context: { card: card }" />
+                      @if (editingTitle(); as et) {
+                        @if (et.cardId === card.id) {
+                          <input
+                            class="kanban-board-title-editor"
+                            type="text"
+                            [attr.aria-label]="labels().titleEditor ? labels().titleEditor!(cardLabel()(card)) : cardLabel()(card)"
+                            [value]="et.draft"
+                            (input)="onTitleEditorInput($event)"
+                            (keydown)="onTitleEditorKeydown($event)"
+                            (blur)="commitTitleEdit(false)"
+                          />
+                        }
+                      }
+                      @if (editingTitle()?.cardId !== card.id) {
+                        @if (cardTemplate(); as cardTpl) {
+                          <ng-container
+                            [ngTemplateOutlet]="cardTpl"
+                            [ngTemplateOutletContext]="{ card: card, label: cardLabel()(card), column: column, pending: isPending(card.id) }"
+                          />
+                        } @else if (card.href) {
+                          <a class="kanban-board-card-link" [href]="card.href"><ng-container *ngTemplateOutlet="titleText; context: { card: card }" /></a>
+                        } @else {
+                          <ng-container *ngTemplateOutlet="titleText; context: { card: card }" />
+                        }
                       }
                     </span>
                     @if (!cardTemplate()) {
@@ -678,6 +701,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   readonly locale = input<string | undefined>(undefined);
   /** Turns field editing on (and not `readonly`). It stands in for "a `fieldEdit` listener is attached", which an Angular output cannot report. */
   readonly editableFields = input<boolean>(false);
+  /** Turns title editing on (and not `readonly`): double-click a card's title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused. Lily changes nothing itself; the consumer renames the card on `titleEdit`. Not for cards with a link (`href`) or a `cardTemplate`. */
+  readonly editableTitles = input<boolean>(false);
   /** The file name without its extension. Default `"kanban-board"`. */
   readonly exportFilename = input<string>("kanban-board");
   /** What an export holds: `"view"` (default) is every card the search and filter leave, column by column; `"selected"` is only the selected cards. */
@@ -700,6 +725,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   /** Fires with each accepted field edit. The consumer updates `cards`. */
   readonly fieldEdit = output<KanbanFieldEdit>();
+  /** A card's title was renamed in place (needs `editableTitles`). */
+  readonly titleEdit = output<KanbanTitleEdit>();
 
   /** Fires with an export file, before it is saved. */
   readonly exportFile = output<KanbanExport>();
@@ -1091,6 +1118,59 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     }
     if (refocus) this.afterRender(() => this.focusCard(cardId));
     return true;
+  }
+
+  // ---- In-place title editing (`editableTitles` + `titleEdit`) ----
+
+  protected readonly editingTitle = signal<{ cardId: string; draft: string } | null>(null);
+  private isTitleEditable(card: KanbanCard): boolean {
+    return this.editableTitles() && !this.readonly() && !card.locked && !card.href && !this.cardTemplate();
+  }
+
+  protected startTitleEdit(card: KanbanCard): void {
+    if (!this.isTitleEditable(card)) return;
+    this.openCardId.set(null);
+    this.moveActiveIndex.set(-1);
+    this.editingTitle.set({ cardId: card.id, draft: this.cardLabel()(card) });
+    this.cdr.detectChanges();
+    this.afterRender(() => {
+      const editor = this.rootRef().nativeElement.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+      editor?.focus({ preventScroll: true });
+      editor?.select();
+    });
+  }
+
+  protected commitTitleEdit(refocus = true): void {
+    const current = this.editingTitle();
+    if (!current) return;
+    this.editingTitle.set(null);
+    const card = this.effectiveCards().find((c) => c.id === current.cardId);
+    const title = current.draft.trim();
+    if (card && title !== "" && title !== this.cardLabel()(card)) {
+      const previous = this.cardLabel()(card);
+      this.titleEdit.emit({ cardId: current.cardId, title, previous });
+      this.announce(this.labels().titleEditAnnouncement?.(previous, title));
+    }
+    if (refocus) this.afterRender(() => this.focusCard(current.cardId));
+  }
+
+  protected onTitleEditorInput(event: Event): void {
+    const current = this.editingTitle();
+    if (current) this.editingTitle.set({ ...current, draft: (event.target as HTMLInputElement).value });
+  }
+
+  protected onTitleEditorKeydown(event: KeyboardEvent): void {
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.commitTitleEdit();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      const current = this.editingTitle();
+      this.editingTitle.set(null);
+      if (current) this.afterRender(() => this.focusCard(current.cardId));
+    }
   }
 
   /** Put an earlier field value back, or re-apply it, through `fieldEdit`. */
@@ -1637,6 +1717,15 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       event.preventDefault();
       this.reorderCard(event.key === "ArrowUp" ? -1 : 1);
       return;
+    }
+    if (event.key === "F2" && this.editableTitles()) {
+      // F2 with title editing on: rename the card (its fields are edited by clicking them or Tab from the title).
+      const card = this.cardAt(this.activeCol(), this.activeRow());
+      if (card && this.isTitleEditable(card)) {
+        event.preventDefault();
+        this.startTitleEdit(card);
+        return;
+      }
     }
     if (event.key === "F2" && this.editableFields()) {
       // F2: edit the card's first editable field (the keyboard twin of clicking its value).

@@ -1102,3 +1102,84 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         }
     });
 });
+
+describe("KanbanBoard — in-place title editing (title-edit)", () => {
+    const cards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "Card One" }, { id: "c2", columnId: "todo", title: "Linked", href: "/x" }];
+    const titleEditor = () => document.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+    const titleOf = (text: string) => Array.from(document.querySelectorAll<HTMLElement>(".kanban-board-card-title")).find((e) => e.textContent?.includes(text))!;
+
+    test("double-click opens an editor with the title; Enter commits and announces", async () => {
+        const onTitleEdit = vi.fn();
+        build({ cards, onTitleEdit, labels: { titleEditAnnouncement: (p: string, t: string) => `${p} -> ${t}`, titleEditor: (t: string) => `Title of ${t}` } });
+        await titleOf("Card One").dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+        await flush();
+        const input = titleEditor()!;
+        expect(input.value).toBe("Card One");
+        expect(input.getAttribute("aria-label")).toBe("Title of Card One");
+        input.value = "  Renamed  ";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        await flush();
+        input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+        await flush();
+        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
+        expect(titleEditor()).toBeNull();
+        expect(document.body.textContent).toContain("Card One -> Renamed");
+    });
+
+    test("Escape cancels; an empty or unchanged title changes nothing", async () => {
+        const onTitleEdit = vi.fn();
+        build({ cards, onTitleEdit });
+        titleOf("Card One").dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+        await flush();
+        let input = titleEditor()!;
+        input.value = "Changed";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        await flush();
+        expect(titleEditor()).toBeNull();
+        titleOf("Card One").dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+        await flush();
+        input = titleEditor()!;
+        input.value = "   ";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+        await flush();
+        titleOf("Card One").dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+        await flush();
+        titleEditor()!.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+        await flush();
+        expect(onTitleEdit).not.toHaveBeenCalled();
+    });
+
+    test("leaving the field commits; F2 on a card opens the editor", async () => {
+        const onTitleEdit = vi.fn();
+        build({ cards, onTitleEdit });
+        document.querySelector<HTMLElement>('[data-card-id="c1"]')!.dispatchEvent(new KeyboardEvent("keydown", { key: "F2", bubbles: true }));
+        await flush();
+        const input = titleEditor()!;
+        expect(input).not.toBeNull();
+        input.value = "By blur";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        await flush();
+        input.dispatchEvent(new FocusEvent("blur"));
+        await flush();
+        expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "By blur", previous: "Card One" });
+    });
+
+    test("no editor without a listener, for a linked card, or when readonly", async () => {
+        build({ cards });
+        titleOf("Card One").dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+        await flush();
+        expect(titleEditor()).toBeNull();
+        document.body.innerHTML = "";
+        build({ cards, onTitleEdit: vi.fn() });
+        titleOf("Linked").dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+        await flush();
+        expect(titleEditor()).toBeNull();
+        document.body.innerHTML = "";
+        build({ cards, onTitleEdit: vi.fn(), readonly: true });
+        titleOf("Card One").dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+        await flush();
+        expect(titleEditor()).toBeNull();
+    });
+});

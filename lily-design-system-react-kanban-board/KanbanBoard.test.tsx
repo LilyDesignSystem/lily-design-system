@@ -1565,3 +1565,64 @@ describe("KanbanBoard — live drop cue, right-to-left keys, no English left ove
     });
 });
 
+
+describe("KanbanBoard — in-place title editing (onTitleEdit)", () => {
+  afterEach(cleanup);
+  const cards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "Card One" }, { id: "c2", columnId: "todo", title: "Linked", href: "/x" }];
+  const base = { label: "Board", columns: COLUMNS, cards };
+  const titleEditor = () => document.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+
+  test("double-click opens an editor with the title; Enter commits through onTitleEdit and announces", () => {
+    const onTitleEdit = vi.fn();
+    render(<KanbanBoard {...base} onTitleEdit={onTitleEdit} labels={{ titleEditAnnouncement: (p, t) => `${p} -> ${t}`, titleEditor: (t) => `Title of ${t}` }} />);
+    fireEvent.doubleClick(screen.getByText("Card One"));
+    const input = titleEditor()!;
+    expect(input.value).toBe("Card One");
+    expect(input.getAttribute("aria-label")).toBe("Title of Card One");
+    fireEvent.change(input, { target: { value: "  Renamed  " } });
+    fireEvent.keyDown(titleEditor()!, { key: "Enter" });
+    expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "Renamed", previous: "Card One" });
+    expect(titleEditor()).toBeNull();
+    expect(document.body.textContent).toContain("Card One -> Renamed");
+  });
+
+  test("Escape cancels; an empty or unchanged title changes nothing", () => {
+    const onTitleEdit = vi.fn();
+    render(<KanbanBoard {...base} onTitleEdit={onTitleEdit} />);
+    fireEvent.doubleClick(screen.getByText("Card One"));
+    fireEvent.change(titleEditor()!, { target: { value: "Changed" } });
+    fireEvent.keyDown(titleEditor()!, { key: "Escape" });
+    expect(titleEditor()).toBeNull();
+    fireEvent.doubleClick(screen.getByText("Card One"));
+    fireEvent.change(titleEditor()!, { target: { value: "   " } });
+    fireEvent.keyDown(titleEditor()!, { key: "Enter" });
+    fireEvent.doubleClick(screen.getByText("Card One"));
+    fireEvent.keyDown(titleEditor()!, { key: "Enter" });
+    expect(onTitleEdit).not.toHaveBeenCalled();
+  });
+
+  test("leaving the field commits; F2 on a card opens the editor", () => {
+    const onTitleEdit = vi.fn();
+    render(<KanbanBoard {...base} onTitleEdit={onTitleEdit} />);
+    fireEvent.keyDown(document.querySelector<HTMLElement>('[data-card-id="c1"]')!, { key: "F2" });
+    const input = titleEditor()!;
+    expect(input).not.toBeNull();
+    fireEvent.change(input, { target: { value: "By blur" } });
+    fireEvent.blur(titleEditor()!);
+    expect(onTitleEdit).toHaveBeenCalledWith({ cardId: "c1", title: "By blur", previous: "Card One" });
+  });
+
+  test("no editor without onTitleEdit, for a linked card, or when readonly", () => {
+    const { unmount } = render(<KanbanBoard {...base} />);
+    fireEvent.doubleClick(screen.getByText("Card One"));
+    expect(titleEditor()).toBeNull();
+    unmount();
+    const second = render(<KanbanBoard {...base} onTitleEdit={vi.fn()} />);
+    fireEvent.doubleClick(screen.getByText("Linked"));
+    expect(titleEditor()).toBeNull();
+    second.unmount();
+    render(<KanbanBoard {...base} onTitleEdit={vi.fn()} readonly />);
+    fireEvent.doubleClick(screen.getByText("Card One"));
+    expect(titleEditor()).toBeNull();
+  });
+});

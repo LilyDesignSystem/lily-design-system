@@ -41,6 +41,9 @@ export type KanbanField = FieldDef;
 /** What `onExport` receives. Return `false` to take over the download. */
 export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
 
+/** What `onTitleEdit` receives: the card, its new title, and the title it had. */
+export type KanbanTitleEdit = { cardId: string; title: string; previous: string };
+
 /** What `onFieldEdit` receives. */
 export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
 
@@ -161,6 +164,10 @@ export type KanbanLabels = {
   copyFailed?: string;
   /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
   exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
+  /** Accessible name of a card's title editor: (the card's current title). Defaults to the title. */
+  titleEditor?: (cardTitle: string) => string;
+  /** Announced after a title edit: (previous title, new title). */
+  titleEditAnnouncement?: (previous: string, title: string) => string;
   /** Announced after a field edit: (card title, field header, the new text). */
   editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
@@ -262,6 +269,8 @@ export type Props = Omit<
   locale?: string;
   /** Called with each accepted field edit. The consumer updates `cards`. A field is editable only when this is set (and the board is not `readonly`). */
   onFieldEdit?: (edit: KanbanFieldEdit) => void;
+  /** Makes card titles editable in place (double-click, or F2 on the card): Enter or leaving the field commits, Escape cancels, an empty title is refused. Lily changes nothing itself; the consumer renames the card. Not for cards with a link (`href`) or a `renderCard`, whose title is not plain text. */
+  onTitleEdit?: (edit: KanbanTitleEdit) => void;
   /** Base of an export's file name (`.csv`, `.tsv` or `.xlsx` is added). Default `"kanban-board"`. */
   exportFilename?: string;
   /** What an export holds: `"view"` (default) is every card the search and filter leave, column by column; `"selected"` is only the selected cards. */
@@ -331,6 +340,7 @@ export function KanbanBoard({
   fields,
   locale,
   onFieldEdit,
+  onTitleEdit,
   exportFilename: exportBase = "kanban-board",
   exportScope = "view",
   onExport,
@@ -372,7 +382,7 @@ export function KanbanBoard({
    * the board never takes focus from the page.
    */
   const pendingFocusRef = React.useRef<
-    { kind: "menu" } | { kind: "cell" } | { kind: "editor" } | { kind: "card"; id: string } | null
+    { kind: "menu" } | { kind: "cell" } | { kind: "editor" } | { kind: "title-editor" } | { kind: "card"; id: string } | null
   >(null);
   const draggingCardIdRef = React.useRef<string | null>(null);
   const draggingColumnIdRef = React.useRef<string | null>(null);
@@ -602,6 +612,54 @@ export function KanbanBoard({
     }
     if (refocus) pendingFocusRef.current = { kind: "card", id: cardId };
     return true;
+  }
+
+  // ---- In-place title editing (`onTitleEdit`) ----
+
+  const isTitleEditable = (card: KanbanCard) => !!onTitleEdit && !readonly && !card.locked && !card.href && !renderCard;
+  type EditingTitle = { cardId: string; draft: string };
+  const [editingTitle, setEditingTitleState] = React.useState<EditingTitle | null>(null);
+  const editingTitleRef = React.useRef<EditingTitle | null>(null);
+  function setEditingTitle(next: EditingTitle | null): void {
+    editingTitleRef.current = next;
+    setEditingTitleState(next);
+  }
+
+  function startTitleEdit(card: KanbanCard): void {
+    if (!isTitleEditable(card)) return;
+    setOpenCardId(null);
+    setMoveActiveIndex(-1);
+    setEditingTitle({ cardId: card.id, draft: cardLabel(card) });
+    pendingFocusRef.current = { kind: "title-editor" };
+  }
+
+  function commitTitleEdit(refocus = true): void {
+    const current = editingTitleRef.current;
+    if (!current) return;
+    setEditingTitle(null);
+    const card = effectiveCards.find((c) => c.id === current.cardId);
+    const title = current.draft.trim();
+    if (card && title !== "" && title !== cardLabel(card)) {
+      const previous = cardLabel(card);
+      onTitleEdit?.({ cardId: current.cardId, title, previous });
+      announce(labels.titleEditAnnouncement?.(previous, title));
+    }
+    if (refocus) pendingFocusRef.current = { kind: "card", id: current.cardId };
+  }
+
+  function onTitleEditorKeyDown(event: React.KeyboardEvent): void {
+    event.stopPropagation();
+    const native = event.nativeEvent as KeyboardEvent;
+    if (native.isComposing || native.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commitTitleEdit();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      const current = editingTitleRef.current;
+      setEditingTitle(null);
+      if (current) pendingFocusRef.current = { kind: "card", id: current.cardId };
+    }
   }
 
   /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `onFieldEdit`. */
@@ -876,6 +934,10 @@ export function KanbanBoard({
     if (!root) return;
     if (pending.kind === "menu") {
       moveListRef.current?.focus({ preventScroll: true });
+    } else if (pending.kind === "title-editor") {
+      const editor = root.querySelector<HTMLInputElement>(".kanban-board-title-editor");
+      editor?.focus({ preventScroll: true });
+      editor?.select();
     } else if (pending.kind === "editor") {
       const editor = root.querySelector<HTMLInputElement>(".kanban-board-field-editor");
       editor?.focus({ preventScroll: true });
@@ -1108,6 +1170,15 @@ export function KanbanBoard({
       event.preventDefault();
       reorderCard(event.key === "ArrowUp" ? -1 : 1);
       return;
+    }
+    if (event.key === "F2" && onTitleEdit) {
+      // F2 with title editing on: rename the card (its fields are edited by clicking them or Tab from the title).
+      const card = cardAt(activeCol, activeRow);
+      if (card && isTitleEditable(card)) {
+        event.preventDefault();
+        startTitleEdit(card);
+        return;
+      }
     }
     if (event.key === "F2" && onFieldEdit) {
       // F2: edit the card's first editable field (the keyboard twin of clicking its value).
@@ -1386,11 +1457,22 @@ export function KanbanBoard({
                         */}
                         <span
                           className="kanban-board-card-title"
-                          draggable={readonly || card.locked || card.draggable === false ? undefined : true}
+                          draggable={readonly || card.locked || card.draggable === false || editingTitle?.cardId === card.id ? undefined : true}
                           onDragStart={(e) => onCardDragStart(card, e)}
                           onDragEnd={onCardDragEnd}
+                          onDoubleClick={() => startTitleEdit(card)}
                         >
-                          {renderCard ? (
+                          {editingTitle?.cardId === card.id ? (
+                            <input
+                              className="kanban-board-title-editor"
+                              type="text"
+                              aria-label={labels.titleEditor ? labels.titleEditor(cardLabel(card)) : cardLabel(card)}
+                              value={editingTitle.draft}
+                              onChange={(e) => setEditingTitle({ cardId: card.id, draft: e.target.value })}
+                              onKeyDown={onTitleEditorKeyDown}
+                              onBlur={() => commitTitleEdit(false)}
+                            />
+                          ) : renderCard ? (
                             renderCard({ card, label: cardLabel(card), column, pending: isPending(card.id) })
                           ) : card.href ? (
                             <a className="kanban-board-card-link" href={card.href}>

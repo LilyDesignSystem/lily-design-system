@@ -61,10 +61,8 @@ const specSource = fs.readFileSync(path.join(top, "shared", "label-pack.ts"), "u
 const specStart = specSource.indexOf("export const SPEC");
 const specBody = specSource.slice(specSource.indexOf("= {", specStart) + 2, specSource.indexOf("\n};", specStart) + 3);
 const SPEC = new Function(`return ${specBody}`)();
-// Svelte features the TypeScript ports have not received yet (2026-10-18): the labels exist in the packs and in Svelte only.
-const KNOWN_GAPS = {
-  "kanban-board": ["titleEditor", "titleEditAnnouncement"],
-};
+// Labels a port has not received yet (none today). Add `"helper": ["key"]` here only while a Svelte feature is being ported.
+const KNOWN_GAPS = {};
 const MAIN = {
   svelte: { "data-grid": "DataGrid.svelte", "kanban-board": "KanbanBoard.svelte", calendar: "CalendarView.svelte", "gantt-chart": "GanttChart.svelte", filter: "Filter.svelte" },
   react: { "data-grid": "DataGrid.tsx", "kanban-board": "KanbanBoard.tsx", calendar: "CalendarView.tsx", "gantt-chart": "GanttChart.tsx", filter: "Filter.tsx" },
