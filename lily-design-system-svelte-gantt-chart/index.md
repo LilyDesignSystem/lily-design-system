@@ -81,7 +81,7 @@ requires it too.
   read-only, with a collapse button that removes descendant rows from
   the DOM outright.
 - **Dependencies**: `task.dependsOn` renders as an `aria-describedby`
-  text summary — never a drawn arrow (see Non-goals).
+  text summary; with `dependencyArrows` an `aria-hidden` SVG overlay also draws an arrow per dependency (0.6.0), so the text stays the accessible description.
 - **Edit — keyboard**: Enter/Space on a focused task row opens an
   inline region with two composed `DateTimePicker` instances.
 - **Edit — pointer**: native HTML5 drag-and-drop reschedules a task;
@@ -95,9 +95,8 @@ requires it too.
 
 ## Non-goals (v1)
 
-Dependency-arrow rendering, critical-path calculation,
-dependency types beyond finish-to-start, interactive zoom-level
-switching, weekend/holiday shading, resource/assignee columns. See
+Critical-path calculation, interactive zoom-level
+switching, holiday shading from a calendar (`isNonWorking` marks them; `weekends` marks weekdays), resource/assignee columns. See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out.
 
 ---

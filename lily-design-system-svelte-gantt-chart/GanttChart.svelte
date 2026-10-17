@@ -11,6 +11,7 @@
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
+    import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -156,6 +157,10 @@
         markers?: GanttMarker[];
         /** Consumer's own working calendar; true marks the column `data-non-working` when every day in it is non-working. */
         isNonWorking?: (isoDate: string) => boolean;
+        /** Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. Never defaulted: the weekend is the consumer's locale. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. Shading itself is CSS. */
+        weekends?: number[];
+        /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type (`e2s`, `s2s`, `s2e`, `e2e`). An `aria-hidden` SVG overlay: the dependencies stay available as text through `labels.dependencySummary`, so the arrows add to, never replace, the accessible description. Arrows are drawn only between rows that are rendered (a collapsed parent's children and a virtualized chart's off-screen rows have none). */
+        dependencyArrows?: boolean;
         /** Suppress editing, drag and the edit region; navigation and collapse still work. */
         readonly?: boolean;
         /** User-facing strings. See GanttLabels — presence gates each control. */
@@ -336,6 +341,8 @@
         today,
         markers = [],
         isNonWorking = undefined,
+        weekends = undefined,
+        dependencyArrows = false,
         readonly = false,
         taskLabel = (task: GanttTask) => task.label,
         onTaskChange,
@@ -398,6 +405,65 @@
     }
 
     const nonWorking = $derived(columns.map(columnNonWorking));
+
+    // Day columns that fall on a shaded weekday, found once per `weekends` / `columns` change.
+    const weekendColumns = $derived(
+        columns.map((column) => !!weekends?.length && column.start === column.end && weekends.includes(weekdayOfEpochDay(parseISOToEpochDay(column.start)))),
+    );
+
+    // ---------------------------------------------------------------
+    // Dependency arrows (an aria-hidden overlay measured from the rendered cells)
+    // ---------------------------------------------------------------
+
+    type Arrow = { key: string; from: string; to: string; kind: string; d: string };
+    let arrows = $state<Arrow[]>([]);
+    let overlaySize = $state({ width: 0, height: 0 });
+    const arrowHeadId = `${baseId}-arrowhead`;
+
+    function measureArrows(): void {
+        if (!dependencyArrows || !scrollEl) {
+            if (arrows.length) arrows = [];
+            return;
+        }
+        const host = scrollEl.getBoundingClientRect();
+        const dx = scrollEl.scrollLeft - host.left;
+        const dy = scrollEl.scrollTop - host.top;
+        const boxes = new Map<string, ArrowBox>();
+        for (const tr of scrollEl.querySelectorAll<HTMLElement>("tr[data-task-id]")) {
+            const cells = tr.querySelectorAll<HTMLElement>("td[data-in-range]");
+            if (!cells.length) continue;
+            const first = cells[0].getBoundingClientRect();
+            const last = cells[cells.length - 1].getBoundingClientRect();
+            boxes.set(tr.dataset.taskId ?? "", { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+        }
+        const next: Arrow[] = [];
+        for (const [id, to] of boxes) {
+            for (const dep of taskById.get(id)?.dependsOn ?? []) {
+                const predecessorId = typeof dep === "string" ? dep : dep.id;
+                const from = boxes.get(predecessorId);
+                if (!from) continue;
+                const kind: DependencyKind = (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
+                next.push({ key: `${predecessorId}>${id}`, from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+            }
+        }
+        arrows = next;
+        overlaySize = { width: scrollEl.scrollWidth, height: scrollEl.scrollHeight };
+    }
+
+    // Re-measure whenever what is drawn changes, and when the table's own size does (zoom, fonts, resize).
+    $effect(() => {
+        void [dependencyArrows, rows, columns, renderItems, resolvedFields, tasks];
+        if (!dependencyArrows) {
+            measureArrows();
+            return;
+        }
+        void tick().then(measureArrows);
+        const table = scrollEl?.querySelector("table");
+        if (!table || typeof ResizeObserver === "undefined") return;
+        const observer = new ResizeObserver(() => measureArrows());
+        observer.observe(table);
+        return () => observer.disconnect();
+    });
 
     function rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
         return hasChildren ? (ranges.get(task.id) ?? { start: "", end: "" }) : { start: task.start ?? "", end: task.end ?? "" };
@@ -870,7 +936,7 @@
     <div
         bind:this={scrollEl}
         class={virtualize ? "gantt-chart-scroll" : "gantt-chart-body"}
-        style={virtualize ? `height:${virtualize.height}px;overflow:auto` : undefined}
+        style={[virtualize ? `height:${virtualize.height}px;overflow:auto` : "", dependencyArrows ? "position:relative" : ""].filter(Boolean).join(";") || undefined}
         onscroll={virtualize ? (e) => (scrollTop = (e.currentTarget as HTMLElement).scrollTop) : undefined}
     >
     <GanttTable {label} {caption} onkeydown={onGridKeydown} onfocusin={onGridFocusin} onclick={onGridClick} aria-rowcount={virtualize ? rows.length + 1 : undefined}>
@@ -886,6 +952,7 @@
                         scope="col"
                         data-today={todayColumns[colIndex] ? "" : undefined}
                         data-non-working={nonWorking[colIndex] ? "" : undefined}
+                        data-weekend={weekendColumns[colIndex] ? "" : undefined}
                         data-marker={colMarkers.length ? colMarkers.map((m) => m.kind ?? "marker").join(" ") : undefined}
                     >
                         {labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start}
@@ -987,6 +1054,7 @@
                             data-milestone={isMilestone ? "" : undefined}
                             data-today={isToday ? "" : undefined}
                             data-non-working={nonWorking[colIndex] ? "" : undefined}
+                            data-weekend={weekendColumns[colIndex] ? "" : undefined}
                             data-marker={markersAt(colIndex).length ? "" : undefined}
                             aria-describedby={describedBy(row.task, deps.length > 0)}
                             data-baseline={row.task.baseline && rangesOverlap(column.start, column.end, row.task.baseline.start, row.task.baseline.end) ? "" : undefined}
@@ -1064,6 +1132,23 @@
             {/each}
         </GanttTableTbody>
     </GanttTable>
+    {#if dependencyArrows && arrows.length}
+        <svg
+            class="gantt-chart-dependency-arrows"
+            aria-hidden="true"
+            focusable="false"
+            width={overlaySize.width}
+            height={overlaySize.height}
+            style="position:absolute;left:0;top:0;pointer-events:none"
+        >
+            <defs>
+                <marker id={arrowHeadId} markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3L0 6z" fill="currentColor" /></marker>
+            </defs>
+            {#each arrows as arrow (arrow.key)}
+                <path class="gantt-chart-dependency-arrow" data-from={arrow.from} data-to={arrow.to} data-dependency-type={arrow.kind} d={arrow.d} fill="none" stroke="currentColor" stroke-width="1.5" marker-end={`url(#${arrowHeadId})`} />
+            {/each}
+        </svg>
+    {/if}
     </div>
 
     <p class="gantt-chart-status" aria-live="polite">{statusMessage}</p>

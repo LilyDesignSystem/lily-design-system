@@ -165,10 +165,10 @@ aria-expanded>` toggles a parent's children; collapsing removes
 descendant rows from the DOM outright, the same "remove, don't just
 hide" rule `data-grid` applies to hidden columns.
 
-**Dependencies.** `task.dependsOn` is data, not a rendered arrow: the
+**Dependencies.** `task.dependsOn` is data first (arrows are the opt-in `dependencyArrows` overlay of §17): the
 dependent task's row carries `aria-describedby` pointing at a
 generated, visually-hidden text node built from
-`labels.dependencySummary`. No dependency line is drawn — see §9 for
+`labels.dependencySummary`. By default no dependency line is drawn — see §9 for
 why.
 
 **Date/duration edit — keyboard.** The decisive design choice,
@@ -260,9 +260,8 @@ its own grid.
 
 ## 9. Non-goals
 
-Dependency-arrow rendering, virtualization, critical-path calculation,
-dependency types beyond finish-to-start, interactive zoom-level
-switching, weekend/holiday shading, resource/assignee columns. See §2
+Critical-path calculation, interactive zoom-level
+switching, calendar-derived holiday shading, resource/assignee columns. (Dependency arrows, virtualization and weekend shading, once listed here, shipped: §16, §17.) See §2
 and [spec/helpers/index.md § gantt-chart contract](../../spec/helpers/index.md)
 for the reasoning behind each — in particular, the dependency-arrow
 non-goal is backed by two commercial libraries' own accessibility
@@ -453,3 +452,19 @@ Tests §14.25–§14.40. The data grid's cell types, export and windowing, appli
 - **Virtualization**: `virtualize: { rowHeight, height, overscan = 3 }` puts the table in a `.gantt-chart-scroll` area (`height` px, `overflow: auto`, the structural inline style) and renders only the rows in view plus the
   roving tab stop's row, between `.gantt-chart-spacer` rows. Rows carry `aria-rowindex`, the table `aria-rowcount`; keyboard focus scrolls the target row in. Rows are assumed `rowHeight` px tall.
 - **Hot path**: a task lookup map, per-column marker and today flags built once per `markers` / `columns` / `today` change, so a render does no per-cell `filter` or `find`.
+
+## 17. Weekend shading and dependency arrows (0.6.0, 2026-10-17)
+
+Tests §17.1–§17.10.
+
+- **Weekend shading**: `weekends` is a list of weekdays (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. A **day** column whose date falls on one gets `data-weekend` on its header and on every body cell
+  (week and month columns are never marked: a column is not a day). It is never defaulted — the weekend is the consumer's locale — and it combines with `isNonWorking` (a holiday on a weekday is `data-non-working`;
+  both attributes can sit on one cell). The weekday is computed from the epoch day (`weekdayOfEpochDay`), never from the browser's time zone. Shading is CSS: the 57 `themes/` tint `[data-weekend]` cells.
+- **Dependency arrows**: `dependencyArrows` draws one `<path class="gantt-chart-dependency-arrow" data-from data-to data-dependency-type>` per dependency in an `<svg class="gantt-chart-dependency-arrows" aria-hidden="true">`
+  laid over the scroll area (`position:absolute; pointer-events:none` — the structural inline style; the scroll area becomes `position:relative`). Edges follow the type: `e2s` predecessor end → dependent start, `s2s`,
+  `s2e`, `e2e` likewise. The path is orthogonal and always arrives horizontally, with an arrowhead marker; when the dependent starts too close to the predecessor's end it goes round through the row gap
+  (`dependencyPath`, a pure, unit-tested function in `dependency-arrows.ts`). Positions are **measured** from the rendered cells (first and last `td[data-in-range]` of each row), after render and whenever the
+  table's size changes, so it is client-only and SSR-safe (no overlay until measured). Arrows are drawn only between rows that exist in the DOM: a collapsed parent's children and a virtualized chart's off-screen
+  rows have none. The overlay is decoration: dependencies remain available as text through `labels.dependencySummary` / `dependencyDetail`, and arrows take no focus. Stroke and colour are CSS (`currentColor`).
+  Lag is not drawn (no pixel-positioned bars); critical-path highlighting is still `task.critical`.
+

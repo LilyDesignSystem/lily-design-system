@@ -1192,6 +1192,12 @@
         background-color: var(--color-primary);
     }
 
+    /* Gantt weekend shading: day columns the consumer names in `weekends` carry
+       data-weekend on the header and every cell. */
+    :where(.gantt-table-th[data-weekend], .gantt-table-td[data-weekend]) {
+        background-color: color-mix(in srgb, var(--lily-surface) 92%, var(--lily-text));
+    }
+
     /* ==========================================================================
      * Cards, panels, surfaces
      * --------------------------------------------------------------------------
