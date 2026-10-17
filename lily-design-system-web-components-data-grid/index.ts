@@ -22,6 +22,15 @@ export type {
 export * from "./export-data.js";
 export * from "./cell-types.js";
 
+export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text.js";
+export type { SearchSegment } from "./search-text.js";
+export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET_MS } from "./typeahead.js";
+export type { TypeaheadState } from "./typeahead.js";
+export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history.js";
+export type { EditHistory, EditRecord } from "./edit-history.js";
+export { ANNOUNCEMENT_LABELS, CONTROL_LABELS, missingLabels, requiredLabels } from "./label-coverage.js";
+export type { LabelFeatures, LabelKind } from "./label-coverage.js";
+
 if (typeof customElements !== "undefined" && !customElements.get("lily-data-grid")) {
   customElements.define("lily-data-grid", DataGrid);
 }
