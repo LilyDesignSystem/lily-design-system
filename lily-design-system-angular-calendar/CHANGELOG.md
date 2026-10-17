@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-17
+
+- Now composed from the headless layer: the search field is the headless `SearchInput` and a match is the headless `Mark` (the `search-input` / `mark` base classes join the existing `*-search` / `*-match` hooks, so the 57 themes style them too).
+- Added `agendaBelow` (agenda on a narrow screen), `agendaDate` (hide the agenda date), right-to-left arrow keys (`isRtl`, `logicalKey`); the themes' today marker is a `currentColor` ring with a bold number, and the table fits a phone.
+- Marked `ranges` labels are now real text and the cell's description; weekday headers carry `data-weekend`; the themes shade weekends and ranges.
+- Added field `validate` (with `aria-invalid` and `labels.editRefused`) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) through the `fieldEdit` output.
+- Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `copyHandler`; `toClipboardText`, `copyToClipboard`).
+- Added `filter` and `eventCompare`.
+- Period changes are announced however they happen (including a consumer setting `anchorDate` or `view`), through one effect; the first render stays silent.
+- `minDate` / `maxDate` now bound navigation: Previous / Next go `aria-disabled` at the limit (focus kept), Today is inert when out of range, keyboard moves are clamped, and `labels.rangeLimit(limit, date)` announces the stop.
+
+- Search: every word must appear (any order), ignoring case and diacritics; typed field text is searched; matches are highlighted with `<mark>` (not in the data grid's cells); `labels.searchAnnouncement(matches, total)`; Escape clears. The Gantt chart and calendar gain search (new).
+- Ported from the Svelte 0.6.0; the pure modules come from `shared/` (`bin/sync-shared-modules`).
+
 ## 0.5.0 — 2026-10-16
 
 - Added typed event fields (`eventFields`, `event.values`) shown after each event's title in the agenda, with a public `fieldText(event, fieldId)` method (Angular has no `day` template); uses the data grid's cell types.

@@ -8,7 +8,9 @@ import {
   Component,
   ElementRef,
   computed,
+  effect,
   inject,
+  DestroyRef,
   input,
   model,
   output,
@@ -22,6 +24,8 @@ import {
   CalendarTableRow,
   CalendarTableTD,
   CalendarTableTH,
+  Mark,
+  SearchInput,
 } from "@lilydesignsystem/angular-headless";
 import {
   addDays,
@@ -34,8 +38,11 @@ import {
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/angular-date-time-picker";
-import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
 import { civilDateToDate } from "./cell-types";
+import { highlightSegments, matchesSearch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import {
   draftOf,
   editorKind,
@@ -129,12 +136,30 @@ export type CalendarViewLabels = {
   exportExcel?: string;
   /** Announced after an export: (format, how many events, file name). */
   exportAnnouncement?: (format: ExportFormat, eventCount: number, filename: string) => string;
+  /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+  copy?: string;
+  /** Announced after a copy: (how many rows). */
+  copyAnnouncement?: (rowCount: number) => string;
+  /** Announced when the clipboard could not be written. */
+  copyFailed?: string;
+  /** Announced when navigation stops at `minDate` or `maxDate`: (which limit, that date). Without it a stopped Previous / Next / Page key is silent. */
+  rangeLimit?: (limit: "min" | "max", date: string) => string;
+  /** Accessible name of the search field. Gates the field. */
+  search?: string;
+  /** Announced after the search changes: (matching events, all events). */
+  searchAnnouncement?: (matchCount: number, totalCount: number) => string;
   /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. */
   exportHeaders?: { title: string; start: string; end: string };
   /** Announced after a field edit: (event title, field header, the new text). */
   editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
   editInvalid?: (eventTitle: string, fieldHeader: string) => string;
+  /** Announced when a field's `validate` refuses a value: (event title, field header, the reason). Falls back to `editInvalid`. */
+  editRefused?: (eventTitle: string, fieldHeader: string, message: string) => string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier value back: (event title, field header, the restored text). */
+  undoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (event title, field header, the text). */
+  redoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
 };
 
 /** Payload of the `eventMove` output. */
@@ -272,11 +297,13 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
     CalendarTableRow,
     CalendarTableTD,
     CalendarTableTH,
+    Mark,
+    SearchInput,
     NgTemplateOutlet,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div #rootEl class="calendar-view {{ className() }}">
+    <div #rootEl class="calendar-view {{ className() }}" (keydown)="onRootKeydown($event)">
       @if (labels().periodTitle || labels().dayView || labels().weekView || labels().fourWeekView || labels().monthView || labels().agendaView) {
         <div class="calendar-view-toolbar">
           <div class="calendar-view-switcher" role="group">
@@ -284,7 +311,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               <button
                 type="button"
                 class="calendar-view-switcher-button calendar-view-switcher-button-day"
-                [attr.aria-pressed]="view() === 'day'"
+                [attr.aria-pressed]="shownView() === 'day'"
                 (click)="setView('day')"
               >{{ labels().dayView }}</button>
             }
@@ -292,7 +319,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               <button
                 type="button"
                 class="calendar-view-switcher-button calendar-view-switcher-button-week"
-                [attr.aria-pressed]="view() === 'week'"
+                [attr.aria-pressed]="shownView() === 'week'"
                 (click)="setView('week')"
               >{{ labels().weekView }}</button>
             }
@@ -300,7 +327,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               <button
                 type="button"
                 class="calendar-view-switcher-button calendar-view-switcher-button-four-week"
-                [attr.aria-pressed]="view() === 'four-week'"
+                [attr.aria-pressed]="shownView() === 'four-week'"
                 (click)="setView('four-week')"
               >{{ labels().fourWeekView }}</button>
             }
@@ -308,7 +335,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               <button
                 type="button"
                 class="calendar-view-switcher-button calendar-view-switcher-button-month"
-                [attr.aria-pressed]="view() === 'month'"
+                [attr.aria-pressed]="shownView() === 'month'"
                 (click)="setView('month')"
               >{{ labels().monthView }}</button>
             }
@@ -316,7 +343,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               <button
                 type="button"
                 class="calendar-view-switcher-button calendar-view-switcher-button-agenda"
-                [attr.aria-pressed]="view() === 'agenda'"
+                [attr.aria-pressed]="shownView() === 'agenda'"
                 (click)="setView('agenda')"
               >{{ labels().agendaView }}</button>
             }
@@ -325,32 +352,42 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
             <button
               type="button"
               class="calendar-view-previous-button"
-              [attr.aria-label]="labels().previous?.(view()) ?? null"
+              [attr.aria-label]="labels().previous?.(shownView()) ?? null"
+              [attr.aria-disabled]="atMinLimit() ? 'true' : null"
               (click)="stepView(-1)"
             >‹</button>
             @if (labels().periodTitle; as periodTitle) {
-              <span class="calendar-view-title">{{ periodTitle(view(), periodStart(), periodEnd()) }}</span>
+              <span class="calendar-view-title">{{ periodTitle(shownView(), periodStart(), periodEnd()) }}</span>
             }
             @if (labels().today) {
               <button
                 type="button"
                 class="calendar-view-today-button"
                 [disabled]="!today()"
+                [attr.aria-disabled]="today() && todayOutOfRange() ? 'true' : null"
                 (click)="goToday()"
               >{{ labels().today }}</button>
             }
             <button
               type="button"
               class="calendar-view-next-button"
-              [attr.aria-label]="labels().next?.(view()) ?? null"
+              [attr.aria-label]="labels().next?.(shownView()) ?? null"
+              [attr.aria-disabled]="atMaxLimit() ? 'true' : null"
               (click)="stepView(1)"
             >›</button>
           </div>
         </div>
       }
 
+      @if (labels().search; as searchLabel) {
+        <lily-search-input className="calendar-view-search" [label]="searchLabel" [value]="search()" (valueChange)="search.set($event)" (keydown)="onSearchKeydown($event)" />
+      }
+
       @if (hasExportButtons()) {
         <div class="calendar-view-export" role="group" [attr.aria-label]="labels().export ?? null">
+          @if (labels().copy; as copy) {
+            <button type="button" class="calendar-view-export-button" data-calendar-export-format="copy" [disabled]="exportEvents().length === 0" (click)="runExport('copy')">{{ copy }}</button>
+          }
           @if (labels().exportCsv; as csv) {
             <button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" [disabled]="exportEvents().length === 0" (click)="runExport('csv')">{{ csv }}</button>
           }
@@ -363,7 +400,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
         </div>
       }
 
-      @if (view() === "agenda") {
+      @if (shownView() === "agenda") {
         <!-- The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. -->
         <ol class="calendar-view-agenda" [attr.aria-label]="label()">
           @for (d of agendaDays(); track d) {
@@ -375,12 +412,22 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               [attr.data-range]="rangeKinds(d)"
               [attr.aria-current]="isToday(d) ? 'date' : null"
             >
-              <time class="calendar-view-agenda-date" [attr.datetime]="d">{{ dayName(d, false) || d }}</time>
+              <time
+                class="calendar-view-agenda-date"
+                [attr.datetime]="d"
+                [attr.data-visually-hidden]="agendaDate() ? null : ''"
+                [attr.style]="agendaDate() ? null : 'position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap'"
+              >{{ dayName(d, false) || d }}</time>
+              @for (range of rangesOf(d); track range.start + range.end + (range.kind ?? "") + (range.label ?? "")) {
+                @if (range.label) {
+                  <span class="calendar-view-range-label">{{ range.label }}</span>
+                }
+              }
               @if (eventsFor(d).length > 0) {
                 <ul class="calendar-view-agenda-events">
                   @for (event of eventsFor(d); track event.id) {
                     <li [attr.data-event-key]="event.id">
-                      <button type="button" class="calendar-view-event" (click)="openEvent(event)">{{ eventTitle(event) || event.id }}</button>
+                      <button type="button" class="calendar-view-event" (click)="openEvent(event)">@if (searching()) {@for (part of titleSegments(event); track $index) {@if (part.match) {<lily-mark className="calendar-view-match">{{ part.text }}</lily-mark>} @else {{{ part.text }}}}} @else {{{ eventTitle(event) || event.id }}}</button>
                       @if (resolvedFields().length > 0) {
                         <span class="calendar-view-event-fields">
                           @for (f of resolvedFields(); track f.id) {
@@ -394,6 +441,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
                                     <select
                                       class="calendar-view-field-editor"
                                       [attr.aria-label]="f.editLabel ?? f.header"
+                                      [attr.aria-invalid]="ed.invalid ? 'true' : null"
                                       [value]="editorValue(ed.draft)"
                                       (change)="onEditorSelectChange($event)"
                                       (keydown)="onEditorKeydown($event)"
@@ -408,6 +456,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
                                     <input
                                       class="calendar-view-field-editor"
                                       [attr.aria-label]="f.editLabel ?? f.header"
+                                      [attr.aria-invalid]="ed.invalid ? 'true' : null"
                                       [type]="kindOf(f) === 'number' ? 'number' : kindOf(f) === 'date' ? 'date' : kindOf(f) === 'time' ? 'time' : 'text'"
                                       [attr.inputmode]="kindOf(f) === 'number' ? 'decimal' : null"
                                       [value]="editorValue(ed.draft)"
@@ -448,7 +497,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               <th lily-calendar-table-th scope="col" data-week-number-header>{{ labels().weekNumberHeader ?? "" }}</th>
             }
             @for (weekday of weekdays(); track $index) {
-              <th lily-calendar-table-th scope="col">
+              <th lily-calendar-table-th scope="col" [attr.data-weekend]="weekendDays()?.includes(weekday) ? '' : null">
                 @if (labels().weekdayAbbr; as abbr) {
                   <abbr [attr.title]="labels().weekday?.(weekday) ?? abbr(weekday)">{{ abbr(weekday) }}</abbr>
                 } @else if (labels().weekday; as full) {
@@ -490,12 +539,21 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
                   [attr.data-range]="rangeKinds(d)"
                   [attr.aria-disabled]="disabled ? 'true' : null"
                   [attr.aria-label]="dayName(d, outside)"
+                  [attr.aria-describedby]="rangeLabelsOf(d) ? baseId + '-rg-' + d : null"
                   (click)="onDayCellClick(d, $event)"
                   (dragover)="onDayDragOver($event)"
                   (drop)="onDayDrop(d, $event)"
                 >
+                  @if (rangeLabelsOf(d); as rangeText) {
+                    <span [id]="baseId + '-rg-' + d" hidden>{{ rangeText }}</span>
+                  }
                   @if (!(hideOutsideDays() && outside)) {
                     {{ dayNumber(d) }}
+                    @for (range of rangesOf(d); track range.start + range.end + (range.kind ?? "") + (range.label ?? "")) {
+                      @if (range.label) {
+                        <span class="calendar-view-range-label">{{ range.label }}</span>
+                      }
+                    }
                     @for (event of visibleEventsFor(d); track event.id) {
                       @if (eventTitle(event); as title) {
                         <button
@@ -561,6 +619,18 @@ export class CalendarView implements AfterViewInit {
   readonly selectedRange = model<SelectedRange | undefined>(undefined);
   /** Events to place into day cells. */
   readonly events = input<CalendarEvent[]>([]);
+  /** Search: shows only the events whose text contains every word of it (any order, ignoring case and diacritics), in every view; the agenda wraps matches in `<mark class="calendar-view-match">`. Exports hold what the search leaves. Escape in the field clears it. Two-way bindable: `[(search)]`. */
+  readonly search = model<string>("");
+  /** Hides events for which it returns false (a category, owner or status filter). Combines with `search`; both must pass. */
+  readonly filter = input<((event: CalendarEvent) => boolean) | undefined>(undefined);
+  /** Orders the events within a day (and so in the agenda). Stable. Without it events keep the order of `events`. */
+  readonly eventCompare = input<((a: CalendarEvent, b: CalendarEvent) => number) | undefined>(undefined);
+  /** The text `search` looks in. Defaults to the event's title and every field's text. */
+  readonly searchText = input<((event: CalendarEvent) => string) | undefined>(undefined);
+  /** Show the agenda on a narrow screen: a viewport narrower than this many pixels (for example `640`) reads as the agenda view, and goes back to `view` when it is wider. A view the user picks with the switcher is respected. Needs `matchMedia`; without it nothing changes. */
+  readonly agendaBelow = input<number | undefined>(undefined);
+  /** Agenda view: show the date beside each day's events (default `true`). `false` hides it visually, keeping it for screen readers (a `<time>` with a `datetime`), for a layout that shows its own date. */
+  readonly agendaDate = input<boolean>(true);
   /** Agenda view: also list days with no events. Default false (only days with events). */
   readonly agendaEmptyDays = input<boolean>(false);
   /** Cap on events shown per day; a day with more shows a "+N more" button (`labels.moreEvents`) that fires `moreClick`. */
@@ -596,6 +666,8 @@ export class CalendarView implements AfterViewInit {
   readonly exportScope = input<"period" | "all">("period");
   /** Called before the download with the finished file. Return `false` to skip the built-in download. */
   readonly exportHandler = input<((file: CalendarExport) => boolean | void) | undefined>(undefined);
+  /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` output fires first. */
+  readonly copyHandler = input<((copy: { text: string; rowCount: number }) => boolean | void) | undefined>(undefined);
   /** Extra CSS class on the root. */
   readonly className = input<string>("");
 
@@ -615,8 +687,9 @@ export class CalendarView implements AfterViewInit {
   readonly fieldEdit = output<CalendarFieldEdit>();
   /** Fires with an export file, before it is saved. */
   readonly exportFile = output<CalendarExport>();
+  readonly copy = output<{ text: string; rowCount: number }>();
 
-  private readonly baseId = nextCalendarViewId();
+  protected readonly baseId = nextCalendarViewId();
 
   private readonly rootRef = viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
   private readonly cdr = inject(ChangeDetectorRef);
@@ -625,12 +698,47 @@ export class CalendarView implements AfterViewInit {
   protected readonly statusMessage = signal("");
   private readonly cursor = signal<string | null>(null);
 
+  // A narrow screen shows the agenda: with `agendaBelow` set, a viewport narrower than that many pixels reads as the agenda view
+  // (the `view` model is untouched, so a wide screen goes back to it). A view the user picks on purpose is respected.
+  private readonly narrow = signal(false);
+  private readonly pickedOnPurpose = signal(false);
+  protected readonly shownView = computed<CalendarViewMode>(() => (this.narrow() && !this.pickedOnPurpose() ? "agenda" : this.view()));
+  private narrowQuery: MediaQueryList | null = null;
+  private readonly updateNarrow = () => {
+    this.narrow.set(!!this.narrowQuery?.matches);
+    if (!this.narrowQuery?.matches) this.pickedOnPurpose.set(false);
+  };
+  private readonly narrowEffect = effect(() => {
+    const below = this.agendaBelow();
+    this.narrowQuery?.removeEventListener?.("change", this.updateNarrow);
+    this.narrowQuery = null;
+    if (below === undefined || typeof matchMedia !== "function") {
+      this.narrow.set(false);
+      return;
+    }
+    this.narrowQuery = matchMedia(`(max-width: ${below - 1}px)`);
+    this.updateNarrow();
+    this.narrowQuery.addEventListener?.("change", this.updateNarrow);
+  });
+  private readonly narrowCleanup = inject(DestroyRef).onDestroy(() => this.narrowQuery?.removeEventListener?.("change", this.updateNarrow));
+
   protected readonly firstDay = computed(() => firstDayOfWeekFor(this.locale()));
   protected readonly days = computed(() =>
-    periodDays(this.view(), this.anchorDate(), this.firstDay()),
+    periodDays(this.shownView(), this.anchorDate(), this.firstDay()),
   );
   private readonly flatDays = computed(() => this.days().flat());
-  private readonly eventMap = computed(() => eventsByDay(this.events()));
+  protected readonly searching = computed(() => this.search().trim() !== "");
+  /** The events the search leaves (all of them without one), found once per query / event change. */
+  protected readonly shownEvents = computed(() => {
+    const filter = this.filter();
+    const searching = this.searching();
+    const query = this.search();
+    const text = this.searchText() ?? ((e: CalendarEvent) => [this.titleOf(e), ...this.resolvedFields().map((f) => fieldTextOf(f, e.values))].join(" "));
+    const narrowed = searching || filter ? this.events().filter((e) => (!filter || filter(e)) && (!searching || matchesSearch(text(e), query))) : this.events();
+    const compare = this.eventCompare();
+    return compare ? [...narrowed].sort(compare) : narrowed;
+  });
+  private readonly eventMap = computed(() => eventsByDay(this.shownEvents()));
   private readonly eventById = computed(() => new Map(this.events().map((e) => [e.id, e])));
   private readonly selectedDateSet = computed(() => new Set(this.selectedDates()));
   // The marked ranges per visible day, found once per `ranges` / period change rather than once per cell per render.
@@ -638,7 +746,7 @@ export class CalendarView implements AfterViewInit {
     const map = new Map<string, CalendarRange[]>();
     const ranges = this.ranges();
     if (ranges.length === 0) return map;
-    for (const d of this.view() === "agenda" ? this.agendaDays() : this.flatDays()) {
+    for (const d of this.shownView() === "agenda" ? this.agendaDays() : this.flatDays()) {
       const hit = ranges.filter((r) => d >= r.start && d <= r.end);
       if (hit.length > 0) map.set(d, hit);
     }
@@ -646,7 +754,7 @@ export class CalendarView implements AfterViewInit {
   });
   // Agenda: the days of the shown month that have events (all of them with `agendaEmptyDays`).
   protected readonly agendaDays = computed(() => {
-    if (this.view() !== "agenda") return [] as string[];
+    if (this.shownView() !== "agenda") return [] as string[];
     const [start, end] = periodRange("agenda", this.anchorDate(), this.firstDay());
     const out: string[] = [];
     for (let d = start; d <= end; d = addDays(d, 1)) {
@@ -655,12 +763,12 @@ export class CalendarView implements AfterViewInit {
     return out;
   });
   protected readonly weekdays = computed(() =>
-    this.view() === "day"
+    this.shownView() === "day"
       ? [weekdayOf(this.anchorDate())]
       : Array.from({ length: 7 }, (_, i) => (this.firstDay() + i) % 7),
   );
-  protected readonly periodStart = computed(() => periodRange(this.view(), this.anchorDate(), this.firstDay())[0]);
-  protected readonly periodEnd = computed(() => periodRange(this.view(), this.anchorDate(), this.firstDay())[1]);
+  protected readonly periodStart = computed(() => periodRange(this.shownView(), this.anchorDate(), this.firstDay())[0]);
+  protected readonly periodEnd = computed(() => periodRange(this.shownView(), this.anchorDate(), this.firstDay())[1]);
 
   /** The roving cursor, kept inside the visible days when the period changes from outside. */
   protected readonly effectiveCursor = computed(() => {
@@ -742,7 +850,9 @@ export class CalendarView implements AfterViewInit {
   }
 
   /** The field being edited, if any: the draft is the editor's text. */
-  protected readonly editing = signal<{ eventId: string; fieldId: string; draft: Draft } | null>(null);
+  protected readonly editing = signal<{ eventId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+  /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `fieldEdit` like any edit. */
+  private history: EditHistory = EMPTY_HISTORY;
 
   protected startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): void {
     if (!this.isFieldEditable(f)) return;
@@ -783,18 +893,46 @@ export class CalendarView implements AfterViewInit {
     }
     const outcome = evaluateEdit(f, calendarEvent.values, draft);
     if (outcome.invalid) {
-      const message = this.labels().editInvalid?.(this.titleOf(calendarEvent), f.header);
+      this.editing.set({ ...current, invalid: true });
+      const message = (outcome.message ? this.labels().editRefused?.(this.titleOf(calendarEvent), f.header, outcome.message) : undefined) ?? this.labels().editInvalid?.(this.titleOf(calendarEvent), f.header);
       if (message) this.statusMessage.set(message);
       return false;
     }
     this.editing.set(null);
     if (outcome.changed) {
+      this.history = recordEdit(this.history, { ownerId: eventId, fieldId, value: outcome.value, previous: outcome.previous });
       this.fieldEdit.emit({ eventId, fieldId, value: outcome.value, previous: outcome.previous });
       const message = this.labels().editAnnouncement?.(this.titleOf(calendarEvent), f.header, outcome.text);
       if (message) this.statusMessage.set(message);
     }
     if (refocus) this.focusFieldButton(eventId, fieldId);
     return true;
+  }
+
+  /** Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (Ctrl+Y): put an earlier value back, or re-apply it, through `fieldEdit`. */
+  private stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(this.history) : redoEdit(this.history);
+    if (!step.record) return;
+    this.history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    this.fieldEdit.emit({ eventId: ownerId, fieldId, value: restored, previous: replaced });
+    const calendarEvent = this.eventById().get(ownerId);
+    const f = this.resolvedFields().find((x) => x.id === fieldId);
+    if (!calendarEvent || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(calendarEvent.values ?? {}), [fieldId]: restored }) : String(restored);
+    const message = (direction === "undo" ? this.labels().undoAnnouncement : this.labels().redoAnnouncement)?.(this.titleOf(calendarEvent), f.header, text);
+    if (message) this.statusMessage.set(message);
+  }
+
+  /** Undo / redo from anywhere in the calendar except inside a field editor (which keeps the browser's own undo). */
+  protected onRootKeydown(event: KeyboardEvent): void {
+    if (!this.editableFields() || (event.target as HTMLElement).closest(".calendar-view-field-editor, input, select, textarea")) return;
+    const action = historyKey(event);
+    if (!action) return;
+    event.preventDefault();
+    this.stepHistory(action);
   }
 
   private cancelFieldEdit(): void {
@@ -806,7 +944,7 @@ export class CalendarView implements AfterViewInit {
 
   protected onEditorInput(event: Event): void {
     const current = this.editing();
-    if (current) this.editing.set({ ...current, draft: (event.target as HTMLInputElement).value });
+    if (current) this.editing.set({ ...current, draft: (event.target as HTMLInputElement).value, invalid: false });
   }
 
   protected onEditorSelectChange(event: Event): void {
@@ -849,7 +987,7 @@ export class CalendarView implements AfterViewInit {
   }
 
   protected readonly exportEvents = computed(() => {
-    const dated = this.events().filter((e) => this.eventSpan(e) !== null);
+    const dated = this.shownEvents().filter((e) => this.eventSpan(e) !== null);
     const periodStart = this.periodStart();
     const periodEnd = this.periodEnd();
     const kept =
@@ -863,10 +1001,20 @@ export class CalendarView implements AfterViewInit {
   });
   protected readonly hasExportButtons = computed(() => {
     const l = this.labels();
-    return !!l.exportHeaders && !!(l.exportCsv || l.exportTsv || l.exportExcel);
+    return !!l.exportHeaders && !!(l.copy || l.exportCsv || l.exportTsv || l.exportExcel);
   });
 
-  protected runExport(format: ExportFormat): void {
+  private async finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    this.copy.emit(copied);
+    if (this.copyHandler()?.(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    const message = ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed;
+    if (message) this.statusMessage.set(message);
+  }
+
+  protected runExport(format: ExportFormat | "copy"): void {
     const h = this.labels().exportHeaders;
     if (!h) return;
     const fields = exportableFields(this.resolvedFields());
@@ -880,6 +1028,10 @@ export class CalendarView implements AfterViewInit {
         ...fields.map((f) => exportFieldCell(f, calendarEvent.values)),
       ];
     });
+    if (format === "copy") {
+      void this.finishCopy({ headers, rows: body });
+      return;
+    }
     const filename = exportFilename(this.exportFilename(), format);
     const blob = exportBlob({ headers, rows: body }, format, { sheetName: this.exportFilename() });
     const file: CalendarExport = { format, filename, eventCount: body.length, blob };
@@ -926,7 +1078,7 @@ export class CalendarView implements AfterViewInit {
   }
 
   protected outsidePeriod(d: string): boolean {
-    return isOutsidePeriod(this.view(), d, this.anchorDate());
+    return isOutsidePeriod(this.shownView(), d, this.anchorDate());
   }
 
   protected isToday(d: string): boolean {
@@ -974,6 +1126,15 @@ export class CalendarView implements AfterViewInit {
     return !!r && d >= r.start && d <= r.end;
   }
 
+  /** The labels of the ranges a day is in, joined for a cell's description; null when none has one. */
+  protected rangeLabelsOf(d: string): string | null {
+    const text = (this.rangesByDay().get(d) ?? []).map((r) => r.label).filter((l): l is string => !!l).join(", ");
+    return text === "" ? null : text;
+  }
+  protected rangesOf(d: string): CalendarRange[] {
+    return this.rangesByDay().get(d) ?? [];
+  }
+
   protected rangeKinds(d: string): string | null {
     const kinds = (this.rangesByDay().get(d) ?? []).map((r) => r.kind ?? "range");
     return kinds.length ? kinds.join(" ") : null;
@@ -999,39 +1160,95 @@ export class CalendarView implements AfterViewInit {
     this.eventClick.emit(event);
   }
 
-  private announce(): void {
-    const l = this.labels();
-    if (!l.periodAnnouncement) return;
-    const [start, end] = periodRange(this.view(), this.anchorDate(), this.firstDay());
-    this.statusMessage.set(l.periodAnnouncement(this.view(), start, end));
+  // minDate / maxDate bound navigation as well as picking.
+  protected readonly atMinLimit = computed(() => !!this.minDate() && this.periodStart() <= this.minDate());
+  protected readonly atMaxLimit = computed(() => !!this.maxDate() && this.periodEnd() >= this.maxDate());
+  protected readonly todayOutOfRange = computed(() => {
+    const today = this.today();
+    return !today || (!!this.minDate() && today < this.minDate()) || (!!this.maxDate() && today > this.maxDate());
+  });
+  private clampDate(isoDate: string): string {
+    const min = this.minDate();
+    const max = this.maxDate();
+    return min && isoDate < min ? min : max && isoDate > max ? max : isoDate;
+  }
+  private announceLimit(limit: "min" | "max"): void {
+    const date = limit === "min" ? this.minDate() : this.maxDate();
+    const message = date ? this.labels().rangeLimit?.(limit, date) : undefined;
+    if (message) this.statusMessage.set(message);
+  }
+
+  // The period is announced whenever it changes, whatever changed it: Previous / Next / Today, a view switch, a keyboard move
+  // across the edge, or the consumer setting `anchorDate` or `view`. The first run says nothing.
+  private announcedPeriod: string | undefined;
+  private readonly periodAnnouncement = effect(() => {
+    const view = this.shownView();
+    const start = this.periodStart();
+    const end = this.periodEnd();
+    const key = `${view}|${start}|${end}`;
+    if (this.announcedPeriod === undefined) {
+      this.announcedPeriod = key;
+      return;
+    }
+    if (key === this.announcedPeriod) return;
+    this.announcedPeriod = key;
+    const message = this.labels().periodAnnouncement?.(view, start, end);
+    if (message) this.statusMessage.set(message);
+  });
+
+  /** Announce how many events match after the search changes (not on the first run). */
+  private searchAnnounced = false;
+  private readonly searchAnnouncement = effect(() => {
+    this.search();
+    const matched = this.shownEvents().length;
+    if (!this.searchAnnounced) {
+      this.searchAnnounced = true;
+      return;
+    }
+    const message = this.labels().searchAnnouncement?.(matched, this.events().length);
+    if (message) this.statusMessage.set(message);
+  });
+
+  /** Escape in the search field clears it. */
+  protected onSearchKeydown(event: Event): void {
+    const e = event as KeyboardEvent;
+    if (e.key === "Escape" && this.search() !== "") {
+      e.preventDefault();
+      this.search.set("");
+    }
+  }
+
+  protected titleSegments(event: CalendarEvent) {
+    return highlightSegments(this.titleOf(event), this.search());
   }
 
   private navigateTo(nextAnchor: string): void {
     this.anchorDate.set(nextAnchor);
-    const [start, end] = periodRange(this.view(), nextAnchor, this.firstDay());
-    this.navigate.emit({ view: this.view(), start, end });
-    this.announce();
+    const [start, end] = periodRange(this.shownView(), nextAnchor, this.firstDay());
+    this.navigate.emit({ view: this.shownView(), start, end });
   }
 
   protected stepView(delta: 1 | -1): void {
+    if (delta < 0 && this.atMinLimit()) return this.announceLimit("min");
+    if (delta > 0 && this.atMaxLimit()) return this.announceLimit("max");
     const anchor = this.anchorDate();
-    if (this.view() === "day") this.navigateTo(addDays(anchor, delta));
-    else if (this.view() === "week") this.navigateTo(addDays(anchor, delta * 7));
-    else if (this.view() === "four-week") this.navigateTo(addDays(anchor, delta * 28));
+    if (this.shownView() === "day") this.navigateTo(addDays(anchor, delta));
+    else if (this.shownView() === "week") this.navigateTo(addDays(anchor, delta * 7));
+    else if (this.shownView() === "four-week") this.navigateTo(addDays(anchor, delta * 28));
     else this.navigateTo(addMonths(anchor, delta));
   }
 
   protected goToday(): void {
     const today = this.today();
-    if (!today) return;
+    if (!today || this.todayOutOfRange()) return;
     this.navigateTo(today);
   }
 
   protected setView(next: CalendarViewMode): void {
     this.view.set(next);
+    this.pickedOnPurpose.set(true);
     const [start, end] = periodRange(next, this.anchorDate(), this.firstDay());
     this.navigate.emit({ view: next, start, end });
-    this.announce();
   }
 
   private focusCursor(): void {
@@ -1046,9 +1263,11 @@ export class CalendarView implements AfterViewInit {
   }
 
   /** Move the cursor, re-paging the visible period when it leaves it. */
-  private moveCursor(next: string): void {
+  private moveCursor(requested: string): void {
+    const next = this.clampDate(requested);
+    if (next !== requested) this.announceLimit(requested < next ? "min" : "max");
     this.cursor.set(next);
-    const view = this.view();
+    const view = this.shownView();
     const anchorDate = this.anchorDate();
     if (view === "month") {
       const cp = parseIsoDate(next);
@@ -1080,33 +1299,35 @@ export class CalendarView implements AfterViewInit {
 
   private pageCursor(delta: 1 | -1): void {
     const cursor = this.effectiveCursor();
-    if (this.view() === "day") this.moveCursor(addDays(cursor, delta));
-    else if (this.view() === "week") this.moveCursor(addDays(cursor, delta * 7));
-    else if (this.view() === "four-week") this.moveCursor(addDays(cursor, delta * 28));
+    if (this.shownView() === "day") this.moveCursor(addDays(cursor, delta));
+    else if (this.shownView() === "week") this.moveCursor(addDays(cursor, delta * 7));
+    else if (this.shownView() === "four-week") this.moveCursor(addDays(cursor, delta * 28));
     else this.moveCursor(addMonths(cursor, delta));
   }
 
   protected onGridKeydown(event: KeyboardEvent): void {
+    // The horizontal arrows are visual: in a right-to-left layout the next day is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(event.target as Element));
     if (this.moveEvents() && event.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
       const el = (event.target as HTMLElement).closest<HTMLElement>("[data-event-id]");
       const fromDate = el?.closest<HTMLElement>("[data-date]")?.dataset["date"];
       const calendarEvent = el?.dataset["eventId"] ? this.eventById().get(el.dataset["eventId"]) : undefined;
       if (el && fromDate && calendarEvent) {
         event.preventDefault();
-        const week = this.view() === "day" ? 1 : 7;
-        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[event.key as string]!;
+        const week = this.shownView() === "day" ? 1 : 7;
+        const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -week, ArrowDown: week }[key]!;
         this.moveEventTo(calendarEvent, addDays(fromDate, delta));
         return;
       }
     }
     const cursor = this.effectiveCursor();
-    const offset = this.view() === "day" ? 0 : (weekdayOf(cursor) - this.firstDay() + 7) % 7;
+    const offset = this.shownView() === "day" ? 0 : (weekdayOf(cursor) - this.firstDay() + 7) % 7;
     const extending = event.shiftKey && CalendarView.MOVE_KEYS.has(event.key);
     if (extending && this.rangeAnchor === null) {
       this.rangeAnchor = this.selectedDate() && !this.selectedRange() ? this.selectedDate()! : cursor;
     }
     if (!extending && CalendarView.MOVE_KEYS.has(event.key)) this.rangeAnchor = null;
-    switch (event.key) {
+    switch (key) {
       case "ArrowLeft":
         event.preventDefault();
         this.moveCursor(addDays(cursor, -1));
@@ -1117,11 +1338,11 @@ export class CalendarView implements AfterViewInit {
         break;
       case "ArrowUp":
         event.preventDefault();
-        this.moveCursor(addDays(cursor, this.view() === "day" ? -1 : -7));
+        this.moveCursor(addDays(cursor, this.shownView() === "day" ? -1 : -7));
         break;
       case "ArrowDown":
         event.preventDefault();
-        this.moveCursor(addDays(cursor, this.view() === "day" ? 1 : 7));
+        this.moveCursor(addDays(cursor, this.shownView() === "day" ? 1 : 7));
         break;
       case "Home":
         event.preventDefault();
@@ -1129,7 +1350,7 @@ export class CalendarView implements AfterViewInit {
         break;
       case "End":
         event.preventDefault();
-        this.moveCursor(addDays(cursor, this.view() === "day" ? 0 : 6 - offset));
+        this.moveCursor(addDays(cursor, this.shownView() === "day" ? 0 : 6 - offset));
         break;
       case "PageUp":
         event.preventDefault();
