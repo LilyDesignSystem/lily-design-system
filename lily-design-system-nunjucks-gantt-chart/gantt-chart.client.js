@@ -61,6 +61,7 @@ import {
 } from "@lilydesignsystem/nunjucks-date-time-picker";
 import { downloadBlob, exportBlob, exportFilename } from "./export-data";
 import { civilDateToDate } from "./cell-types";
+import { dependencyPath, weekdayOfEpochDay } from "./dependency-arrows";
 import {
   draftOf,
   editorKind,
@@ -155,7 +156,13 @@ function applyTemplate(template, taskLabel) {
  *   },
  *   markers?: Array<{ date: string, kind?: string, label?: string }>,
  *   isNonWorking?: (isoDate: string) => boolean,
+ *   weekends?: number[],
+ *   dependencyArrows?: boolean,
  * }=} opts
+ *
+ * `weekends` is a list of weekdays (0 = Sunday … 6 = Saturday), never defaulted, that marks day columns
+ * `data-weekend` on the header and every cell. `dependencyArrows` draws an aria-hidden SVG arrow per
+ * dependency, by its type, measured from the rendered cells; the text description remains.
  * @returns {{ destroy: () => void, getSelectedTaskId: () => string | undefined, collapsedTaskIds: () => string[] }}
  */
 export function initGanttChart(root, opts = {}) {
@@ -196,6 +203,7 @@ export function initGanttChart(root, opts = {}) {
   // Markers and the consumer's working calendar, resolved once per column (again after a zoom).
   let columnMarkers = [];
   let columnNonWorking = [];
+  let columnWeekend = [];
   function resolveColumns() {
     columns = generateColumns(range, timeUnit);
     columnMarkers = columns.map((column) =>
@@ -203,6 +211,11 @@ export function initGanttChart(root, opts = {}) {
         rangesOverlap(column.start, column.end, m.date, m.date),
       ),
     );
+    columnWeekend = columns.map((column) => {
+      if (!Array.isArray(opts.weekends) || !opts.weekends.length || column.start !== column.end) return false;
+      const day = parseIsoDate(column.start);
+      return !!day && opts.weekends.includes(weekdayOfEpochDay(toEpochDay(day)));
+    });
     columnNonWorking = columns.map((column) => {
       if (typeof opts.isNonWorking !== "function") return false;
       for (let d = column.start; compareISO(d, column.end) <= 0; d = addDays(d, 1)) {
@@ -231,6 +244,7 @@ export function initGanttChart(root, opts = {}) {
       th.setAttribute("data-today", "");
     }
     if (columnNonWorking[index]) th.setAttribute("data-non-working", "");
+    if (columnWeekend[index]) th.setAttribute("data-weekend", "");
     const markers = columnMarkers[index];
     if (markers.length) th.setAttribute("data-marker", markers.map((m) => m.kind || "marker").join(" "));
     const columnLabelFn = opts.labels && opts.labels.columnLabel;
@@ -435,6 +449,7 @@ export function initGanttChart(root, opts = {}) {
         if (isMilestone) td.setAttribute("data-milestone", "");
         if (isToday) td.setAttribute("data-today", "");
         if (columnNonWorking[colIndex]) td.setAttribute("data-non-working", "");
+        if (columnWeekend[colIndex]) td.setAttribute("data-weekend", "");
         if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
         if (describedBy) td.setAttribute("aria-describedby", describedBy);
         if (hasBaseline && rangesOverlap(column.start, column.end, baselineStart, baselineEnd)) {
@@ -543,6 +558,88 @@ export function initGanttChart(root, opts = {}) {
     }
     if (virtualEl) table.setAttribute("aria-rowcount", String(logical.length + 1));
     if (focused && focused.isConnected === false) focused.focus({ preventScroll: true });
+    measureArrows();
+  }
+
+  // -----------------------------------------------------------------
+  // Dependency arrows — an aria-hidden SVG overlay measured from the rendered cells,
+  // rebuilt after every window change and when the table's own size changes.
+  // -----------------------------------------------------------------
+
+  let arrowObserver;
+  let observedTable = null;
+  function measureArrows() {
+    if (observedTable !== table) {
+      if (arrowObserver) arrowObserver.disconnect();
+      arrowObserver = undefined;
+      observedTable = table;
+      if (opts.dependencyArrows && typeof ResizeObserver !== "undefined") {
+        // Observing fires a first callback; it re-measures but never re-observes (same table).
+        arrowObserver = new ResizeObserver(() => measureArrows());
+        arrowObserver.observe(table);
+      }
+    }
+    const host = table.parentElement;
+    if (!host) return;
+    const old = host.querySelector(".gantt-chart-dependency-arrows");
+    if (old) old.remove();
+    if (!opts.dependencyArrows) return;
+    host.style.position = "relative";
+    const rect = host.getBoundingClientRect();
+    const dx = host.scrollLeft - rect.left;
+    const dy = host.scrollTop - rect.top;
+    const boxes = new Map();
+    tbody.querySelectorAll("tr[data-lily-gantt-chart-task-id]").forEach((tr) => {
+      const cells = tr.querySelectorAll("td[data-in-range]");
+      if (!cells.length) return;
+      const first = cells[0].getBoundingClientRect();
+      const last = cells[cells.length - 1].getBoundingClientRect();
+      boxes.set(tr.getAttribute("data-lily-gantt-chart-task-id"), { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+    });
+    const paths = [];
+    boxes.forEach((to, id) => {
+      const task = (config.tasks || []).find((t) => t.id === id);
+      (task && task.dependsOn ? task.dependsOn : []).forEach((dep) => {
+        const predecessorId = typeof dep === "string" ? dep : dep.id;
+        const from = boxes.get(predecessorId);
+        if (!from) return;
+        const kind = (typeof dep === "string" ? undefined : dep.type) || "e2s";
+        paths.push({ from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+      });
+    });
+    if (!paths.length) return;
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "gantt-chart-dependency-arrows");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    svg.setAttribute("width", String(host.scrollWidth));
+    svg.setAttribute("height", String(host.scrollHeight));
+    svg.setAttribute("style", "position:absolute;left:0;top:0;pointer-events:none");
+    const headId = `${table.id || "gantt-chart"}-arrowhead-${Math.abs(paths.length)}`;
+    const defs = document.createElementNS(NS, "defs");
+    const marker = document.createElementNS(NS, "marker");
+    Object.entries({ id: headId, markerWidth: "6", markerHeight: "6", refX: "6", refY: "3", orient: "auto", markerUnits: "userSpaceOnUse" }).forEach(([n, v]) => marker.setAttribute(n, v));
+    const head = document.createElementNS(NS, "path");
+    head.setAttribute("d", "M0 0L6 3L0 6z");
+    head.setAttribute("fill", "currentColor");
+    marker.appendChild(head);
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+    paths.forEach((p) => {
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("class", "gantt-chart-dependency-arrow");
+      path.setAttribute("data-from", p.from);
+      path.setAttribute("data-to", p.to);
+      path.setAttribute("data-dependency-type", p.kind);
+      path.setAttribute("d", p.d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "currentColor");
+      path.setAttribute("stroke-width", "1.5");
+      path.setAttribute("marker-end", `url(#${headId})`);
+      svg.appendChild(path);
+    });
+    host.appendChild(svg);
   }
 
   /** Bring a row into the scroll area. */
@@ -1306,6 +1403,7 @@ export function initGanttChart(root, opts = {}) {
     destroy: () => {
       root.removeEventListener("click", onRootClick);
       if (virtualEl) virtualEl.removeEventListener("scroll", onScroll);
+      if (arrowObserver) arrowObserver.disconnect();
       openEdits.forEach((entry) => {
         entry.startController.destroy();
         entry.endController.destroy();

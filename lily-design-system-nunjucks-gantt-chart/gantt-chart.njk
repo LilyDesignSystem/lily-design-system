@@ -123,6 +123,12 @@
      them. A column gets `data-marker` (and a `.gantt-chart-marker-label`
      text span for a marker's `label`) or `data-non-working` (only when
      every day in the column is non-working).
+  6b. weekends, dependencyArrows — client.js init options too (0.6.0):
+     `weekends` is an array of weekdays (0 = Sunday … 6 = Saturday), never
+     defaulted, marking day columns `data-weekend` on the header and every
+     cell; `dependencyArrows: true` draws an aria-hidden SVG arrow per
+     dependency (`.gantt-chart-dependency-arrow`), measured from the
+     rendered cells — the dependency summary text remains.
 
   7. readonly — a plain boolean macro param: no edit rows are rendered,
      bars are not draggable, and `data-readonly` is set on the root.

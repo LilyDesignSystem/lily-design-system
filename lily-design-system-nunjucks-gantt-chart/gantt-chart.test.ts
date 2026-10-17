@@ -1273,3 +1273,101 @@ describe("GanttChart — typed fields, editing, export, virtualization (§14.25�
         expect(document.querySelectorAll('.gantt-table-td[tabindex="0"]')).toHaveLength(1);
     });
 });
+
+// =====================================================================
+// §17 weekend shading and dependency arrows (0.6.0)
+// =====================================================================
+
+describe("weekend shading and dependency arrows", () => {
+  const headText = (root: HTMLElement) => Array.from(root.querySelectorAll("thead th[data-weekend]")).map((h) => h.textContent?.trim());
+
+  // 2026-10-03 is a Saturday, 2026-10-04 a Sunday.
+  test("§17.1 weekends marks day columns on the header and every cell, and nothing without it", () => {
+    const { root } = setup({ labels: LABELS }, { weekends: [0, 6] });
+    expect(headText(root)).toEqual(["2026-10-03", "2026-10-04", "2026-10-10"]);
+    expect(root.querySelectorAll("tbody td[data-weekend]")).toHaveLength(3 * TASKS.length);
+  });
+
+  test("§17.2 with no weekends nothing is shaded, and the weekend is never defaulted", () => {
+    const { root } = setup({ labels: LABELS });
+    expect(root.querySelector("[data-weekend]")).toBeNull();
+  });
+
+  test("§17.3 a Friday-Saturday weekend shades those days instead", () => {
+    const { root } = setup({ labels: LABELS }, { weekends: [5, 6] });
+    expect(headText(root)).toEqual(["2026-10-02", "2026-10-03", "2026-10-09", "2026-10-10"]);
+  });
+
+  test("§17.4 week and month columns are not marked", () => {
+    const { root } = setup({ labels: LABELS, range: { start: "2026-10-01", end: "2026-12-31" }, timeUnit: "week" }, { weekends: [0, 6] });
+    expect(root.querySelector("[data-weekend]")).toBeNull();
+  });
+
+  test("§17.5 weekends can combine with isNonWorking", () => {
+    const { root } = setup({ labels: LABELS }, { weekends: [6], isNonWorking: (d: string) => d === "2026-10-03" });
+    const th = (Array.from(root.querySelectorAll("thead th")) as HTMLElement[]).find((h) => h.textContent?.trim() === "2026-10-03")!;
+    expect(th.hasAttribute("data-weekend") && th.hasAttribute("data-non-working")).toBe(true);
+  });
+
+  function stubLayout(): () => void {
+    const original = Element.prototype.getBoundingClientRect;
+    Element.prototype.getBoundingClientRect = function (this: Element) {
+      const cell = this.closest("td[data-col]") as HTMLElement | null;
+      if (!cell) return original.call(this);
+      const col = Number(cell.dataset["col"]);
+      const row = Number(cell.dataset["row"]);
+      return { left: col * 20, right: col * 20 + 20, top: row * 20, bottom: row * 20 + 20, width: 20, height: 20, x: col * 20, y: row * 20, toJSON() {} } as DOMRect;
+    };
+    return () => {
+      Element.prototype.getBoundingClientRect = original;
+    };
+  }
+
+  test("§17.6 dependencyArrows draws one aria-hidden arrow per dependency, from the predecessor's end to the dependent's start", () => {
+    const restore = stubLayout();
+    try {
+      const { root } = setup({ labels: LABELS }, { dependencyArrows: true });
+      const arrows = root.querySelectorAll(".gantt-chart-dependency-arrow");
+      expect(arrows).toHaveLength(1);
+      expect(root.querySelector(".gantt-chart-dependency-arrows")!.getAttribute("aria-hidden")).toBe("true");
+      expect(arrows[0].getAttribute("data-from")).toBe("design");
+      expect(arrows[0].getAttribute("data-to")).toBe("build");
+      expect(arrows[0].getAttribute("data-dependency-type")).toBe("e2s");
+      expect(arrows[0].getAttribute("d")).toBe("M60 10H68V19H52V30H60");
+    } finally {
+      restore();
+    }
+  });
+
+  test("§17.7 the dependency stays available as text however the arrows are drawn", () => {
+    const restore = stubLayout();
+    try {
+      const { root } = setup({ labels: LABELS }, { dependencyArrows: true });
+      expect(root.querySelector("[data-lily-gantt-chart-dependency-summary]")?.textContent?.trim()).toBe("Blocked by: Design");
+    } finally {
+      restore();
+    }
+  });
+
+  test("§17.8 typed dependencies use their own edges, and a missing predecessor draws nothing", () => {
+    const restore = stubLayout();
+    try {
+      const tasks = [
+        { id: "a", label: "A", start: "2026-10-01", end: "2026-10-03" },
+        { id: "b", label: "B", start: "2026-10-05", end: "2026-10-06", dependsOn: [{ id: "a", type: "s2s" }, { id: "ghost" }] },
+      ];
+      const { root } = setup({ labels: LABELS, tasks }, { dependencyArrows: true });
+      const arrows = root.querySelectorAll(".gantt-chart-dependency-arrow");
+      expect(arrows).toHaveLength(1);
+      expect(arrows[0].getAttribute("data-dependency-type")).toBe("s2s");
+    } finally {
+      restore();
+    }
+  });
+
+  test("§17.9 without dependencyArrows there is no overlay", () => {
+    const { root } = setup({ labels: LABELS });
+    expect(root.querySelector(".gantt-chart-dependency-arrows")).toBeNull();
+  });
+});
+
