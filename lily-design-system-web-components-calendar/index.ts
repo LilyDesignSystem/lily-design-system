@@ -26,7 +26,16 @@ export type {
     CalendarViewMode,
     CalendarViewNavigateDetail,
     CalendarViewProps,
+    CalendarEventField,
+    CalendarExport,
+    CalendarFieldEdit,
 } from "./calendar-view.js";
+export { MIME_TYPES, cellText, downloadBlob, exportBlob, exportFilename, toCsv, toDelimited, toTsv, toXlsx } from "./export-data.js";
+export type { ExportFormat, ExportFormula, ExportTable } from "./export-data.js";
+export { resolveColumn } from "./cell-types.js";
+export type { DataGridCellType, DataGridOption } from "./cell-types.js";
+export { draftOf, editorKind, evaluateEdit, exportFieldCell, exportableFields, fieldText, fieldValue, isEditableField, neighbourField, parseDraft, resolveFields } from "./typed-fields.js";
+export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from "./typed-fields.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("lily-calendar-view")) {
     customElements.define("lily-calendar-view", CalendarView);

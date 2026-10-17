@@ -595,3 +595,221 @@ describe("lily-calendar-view — agenda view", () => {
         expect(periodDays("agenda", "2026-01-15", 0)).toEqual([]);
     });
 });
+
+// ---- A small harness for the ported typed-fields suite: real DOM events on a real element ----
+function render(props: Record<string, unknown>): HTMLElement & Record<string, unknown> {
+    const el = document.createElement("lily-calendar-view") as HTMLElement & Record<string, unknown>;
+    el.setAttribute("label", (props["label"] as string) ?? "Test");
+    document.body.appendChild(el);
+    for (const [key, value] of Object.entries(props)) {
+        if (key === "label") continue;
+        el[key] = value;
+    }
+    return el;
+}
+
+function cleanup(): void {
+    document.body.replaceChildren();
+}
+
+const fireEvent = {
+    async click(el: Element) { (el as HTMLElement).click(); await Promise.resolve(); },
+    async input(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("input", { bubbles: true })); await Promise.resolve(); },
+    async change(el: Element, init: { target: { value: string } }) { (el as HTMLInputElement).value = init.target.value; el.dispatchEvent(new Event("change", { bubbles: true })); await Promise.resolve(); },
+    async keyDown(el: Element, init: KeyboardEventInit & { keyCode?: number }) { el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, cancelable: true, ...init })); await Promise.resolve(); },
+    async scroll(el: Element) { el.dispatchEvent(new Event("scroll")); await Promise.resolve(); },
+};
+
+async function waitFor(assertion: () => void, timeout = 1000): Promise<void> {
+    const deadline = Date.now() + timeout;
+    for (;;) {
+        try {
+            assertion();
+            return;
+        } catch (error) {
+            if (Date.now() > deadline) throw error;
+            await new Promise((r) => setTimeout(r, 0));
+        }
+    }
+}
+
+describe("CalendarView — typed event fields, editing, export (§8.69–§8.82)", () => {
+    const FIELDS = [
+        { id: "room", header: "Room", type: "select" as const, options: [{ id: "a", label: "Aspen" }, { id: "b", label: "Birch" }] },
+        { id: "cost", header: "Cost", type: "number" as const },
+    ];
+    const FEVENTS: CalendarEvent[] = [
+        { id: "e1", date: "2026-01-06", title: "Standup", values: { room: "a", cost: 3 } },
+        { id: "e2", start: "2026-01-09", end: "2026-01-11", title: "Offsite =x", values: { cost: 5 } },
+        { id: "e3", date: "2026-03-01", title: "Later" },
+    ];
+    const XL: CalendarViewLabels = {
+        ...LABELS,
+        agendaView: "Agenda",
+        export: "Export",
+        exportCsv: "CSV",
+        exportTsv: "TSV",
+        exportExcel: "Excel",
+        exportHeaders: { title: "Title", start: "From", end: "To" },
+        exportAnnouncement: (f, n, name) => `${n} events as ${f}: ${name}`,
+        editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
+        editInvalid: (t, h) => `${t}: bad ${h}`,
+    };
+    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: FEVENTS, eventFields: FIELDS };
+    const eventLi = (id: string) => document.querySelector<HTMLElement>(`[data-event-key="${id}"]`)!;
+
+    test("§8.69 the agenda shows each event's typed fields after its title, named by their header", () => {
+        render(base);
+        const fields = eventLi("e1").querySelectorAll(".calendar-view-event-field");
+        expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual(["Room Aspen", "Cost 3"]);
+        expect(eventLi("e2").querySelectorAll(".calendar-view-event-field")).toHaveLength(1);
+    });
+
+    test("§8.70 fields are plain text without onFieldEdit", () => {
+        render(base);
+        expect(document.querySelector(".calendar-view-field-button")).toBeNull();
+    });
+
+    test("§8.71 a renderDay override reads a field's formatted text through fieldText", () => {
+        const el = render({ label: "Cal", view: "month", anchorDate: "2026-01-15" });
+        (el as unknown as { renderDay: (args: { date: string; events: { id: string }[]; fieldText: (e: { id: string }, id: string) => string }) => Node }).renderDay = (args) => {
+            const fragment = document.createDocumentFragment();
+            for (const ev of args.events) {
+                const span = document.createElement("span");
+                span.setAttribute("data-testid", `field-${ev.id}-room`);
+                span.textContent = args.fieldText(ev, "room");
+                fragment.appendChild(span);
+            }
+            return fragment;
+        };
+        el.events = FEVENTS;
+        el.eventFields = FIELDS;
+        expect(document.querySelector('[data-testid="field-e1-room"]')!.textContent).toBe("Aspen");
+        // A multi-day event appears on each day it covers, and has no room.
+        expect(Array.from(document.querySelectorAll('[data-testid="field-e2-room"]')).map((e) => e.textContent)).toEqual(["", "", ""]);
+    });
+
+    test("§8.72 clicking a value opens a typed editor; Enter commits the parsed value and announces", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, onFieldEdit, labels: XL });
+        await fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1]);
+        const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
+        expect(input.type).toBe("number");
+        expect(input.getAttribute("aria-label")).toBe("Cost");
+        await fireEvent.input(input, { target: { value: "8" } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "cost", value: 8, previous: 3 });
+        expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup Cost is 8");
+        expect(document.querySelector(".calendar-view-field-editor")).toBeNull();
+    });
+
+    test("§8.73 a select field edits through its options", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, onFieldEdit });
+        await fireEvent.click(eventLi("e2").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0]);
+        await fireEvent.change(document.querySelector("select.calendar-view-field-editor")!, { target: { value: "b" } });
+        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e2", fieldId: "room", value: "b", previous: undefined });
+    });
+
+    test("§8.74 Escape cancels; an unchanged value reports nothing", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, onFieldEdit });
+        const open = () => fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[1]);
+        await open();
+        await fireEvent.input(document.querySelector(".calendar-view-field-editor")!, { target: { value: "9" } });
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Escape" });
+        await open();
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Enter" });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+
+    test("§8.75 a value that does not fit the type is refused: the editor stays open and the refusal is announced", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, eventFields: [{ id: "c", header: "C", type: "number", parse: () => Number.NaN }], events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { c: 1 } }], onFieldEdit, labels: XL });
+        await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Enter" });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".calendar-view-field-editor")).not.toBeNull();
+        expect(document.querySelector(".calendar-view-status")!.textContent).toBe("Standup: bad C");
+    });
+
+    test("§8.76 Tab commits and moves to the event's next editable field; Shift+Tab to the previous", async () => {
+        render({ ...base, onFieldEdit: vi.fn() });
+        await fireEvent.click(eventLi("e1").querySelectorAll<HTMLElement>(".calendar-view-field-button")[0]);
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Tab" });
+        expect(document.querySelector<HTMLInputElement>("input.calendar-view-field-editor")!.type).toBe("number");
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "Tab", shiftKey: true });
+        expect(document.querySelector("select.calendar-view-field-editor")).not.toBeNull();
+    });
+
+    test("§8.77 IME: Enter while composing does not commit", async () => {
+        const onFieldEdit = vi.fn();
+        render({ ...base, eventFields: [{ id: "n", header: "N" }], events: [{ id: "e1", date: "2026-01-06", title: "Standup", values: { n: "a" } }], onFieldEdit });
+        await fireEvent.click(document.querySelector(".calendar-view-field-button")!);
+        const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
+        await fireEvent.input(input, { target: { value: "かな" } });
+        await fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+        await fireEvent.keyDown(input, { key: "Enter", keyCode: 229 });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "n", value: "かな", previous: "a" });
+    });
+
+    async function exported(props: Record<string, unknown> = {}, format: "csv" | "tsv" | "xlsx" = "csv") {
+        const onExport = vi.fn((_file: { format: string; filename: string; eventCount: number; blob: Blob }) => false as const);
+        render({ ...base, labels: XL, onExport, ...props });
+        await fireEvent.click(document.querySelector(`[data-calendar-export-format="${format}"]`)!);
+        const file = onExport.mock.calls[0][0];
+        const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(await file.blob.arrayBuffer());
+        return { file, text };
+    }
+
+    test("§8.78 export buttons need a label and exportHeaders; each label gates its button", () => {
+        render(base);
+        expect(document.querySelector(".calendar-view-export")).toBeNull();
+        document.body.innerHTML = "";
+        render({ ...base, labels: { exportCsv: "CSV" } });
+        expect(document.querySelector(".calendar-view-export")).toBeNull();
+        document.body.innerHTML = "";
+        render({ ...base, labels: { export: "Export", exportExcel: "Excel", exportHeaders: XL.exportHeaders } });
+        expect(document.querySelector("[role=group][aria-label=Export]")).toBeTruthy();
+        expect(document.querySelectorAll(".calendar-view-export-button")).toHaveLength(1);
+    });
+
+    test("§8.79 CSV holds the shown period's events by start date: title, from, to and the fields; formula text defused", async () => {
+        const { file, text } = await exported();
+        expect(file.filename).toBe("calendar.csv");
+        expect(file.eventCount).toBe(2); // March's event is outside the shown January
+        expect(text).toBe("﻿Title,From,To,Room,Cost\r\nStandup,2026-01-06,2026-01-06,Aspen,3\r\n'=x,2026-01-09,2026-01-11,,5\r\n".replace("'=x", "Offsite =x"));
+    });
+
+    test("§8.80 exportScope all exports every dated event; exportable false drops a field", async () => {
+        const all = await exported({ exportScope: "all", eventFields: [{ ...FIELDS[0], exportable: false }, FIELDS[1]] });
+        expect(all.file.eventCount).toBe(3);
+        expect(all.text.split("\r\n")[0]).toBe("﻿Title,From,To,Cost");
+    });
+
+    test("§8.81 events with neither a date nor a range are left out", async () => {
+        const { file } = await exported({ events: [{ id: "x", title: "Undated" }, FEVENTS[0]] });
+        expect(file.eventCount).toBe(1);
+    });
+
+    test("§8.82 saving announces unless onExport returns false; no events disables the buttons", async () => {
+        const created: Blob[] = [];
+        const original = { create: URL.createObjectURL, revoke: URL.revokeObjectURL };
+        URL.createObjectURL = (b: Blob | MediaSource) => (created.push(b as Blob), "blob:test");
+        URL.revokeObjectURL = () => {};
+        try {
+            render({ ...base, labels: XL });
+            await fireEvent.click(document.querySelector('[data-calendar-export-format="tsv"]')!);
+            expect(created).toHaveLength(1);
+            expect(document.querySelector(".calendar-view-status")!.textContent).toBe("2 events as tsv: calendar.tsv");
+            document.body.innerHTML = "";
+            render({ ...base, events: [], labels: XL });
+            expect((document.querySelector('[data-calendar-export-format="csv"]') as HTMLButtonElement).disabled).toBe(true);
+        } finally {
+            URL.createObjectURL = original.create;
+            URL.revokeObjectURL = original.revoke;
+        }
+    });
+});
