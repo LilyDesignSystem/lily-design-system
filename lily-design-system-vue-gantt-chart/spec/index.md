@@ -311,3 +311,19 @@ Tests §14.25–§14.40. The data grid's cell types, export and windowing, appli
 - **Virtualization**: `virtualize: { rowHeight, height, overscan = 3 }` puts the table in a `.gantt-chart-scroll` area (`height` px, `overflow: auto`, the structural inline style) and renders only the rows in view plus the
   roving tab stop's row, between `.gantt-chart-spacer` rows. Rows carry `aria-rowindex`, the table `aria-rowcount`; keyboard focus scrolls the target row in. Rows are assumed `rowHeight` px tall.
 - **Hot path**: a task lookup map, per-column marker and today flags built once per `markers` / `columns` / `today` change, so a render does no per-cell `filter` or `find`.
+
+## 17. Weekend shading and dependency arrows (0.6.0, 2026-10-17)
+
+Tests §17.1–§17.10.
+
+- **Weekend shading**: `weekends` is a list of weekdays (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. A **day** column whose date falls on one gets `data-weekend` on its header and on every body cell
+  (week and month columns are never marked: a column is not a day). It is never defaulted — the weekend is the consumer's locale — and it combines with `isNonWorking` (a holiday on a weekday is `data-non-working`;
+  both attributes can sit on one cell). The weekday is computed from the epoch day (`weekdayOfEpochDay`), never from the browser's time zone. Shading is CSS: the 57 `themes/` tint `[data-weekend]` cells.
+- **Dependency arrows**: `dependencyArrows` draws one `<path class="gantt-chart-dependency-arrow" data-from data-to data-dependency-type>` per dependency in an `<svg class="gantt-chart-dependency-arrows" aria-hidden="true">`
+  laid over the scroll area (`position:absolute; pointer-events:none` — the structural inline style; the scroll area becomes `position:relative`). Edges follow the type: `e2s` predecessor end → dependent start, `s2s`,
+  `s2e`, `e2e` likewise. The path is orthogonal and always arrives horizontally, with an arrowhead marker; when the dependent starts too close to the predecessor's end it goes round through the row gap
+  (`dependencyPath`, a pure, unit-tested function in `dependency-arrows.ts`). Positions are **measured** from the rendered cells (first and last `td[data-in-range]` of each row), after render and whenever the
+  table's size changes, so it is client-only and SSR-safe (no overlay until measured). Arrows are drawn only between rows that exist in the DOM: a collapsed parent's children and a virtualized chart's off-screen
+  rows have none. The overlay is decoration: dependencies remain available as text through `labels.dependencySummary` / `dependencyDetail`, and arrows take no focus. Stroke and colour are CSS (`currentColor`).
+  Lag is not drawn (no pixel-positioned bars); critical-path highlighting is still `task.critical`.
+

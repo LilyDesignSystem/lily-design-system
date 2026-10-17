@@ -89,7 +89,7 @@ on `labels.dateTimePickerLabels` being supplied, since
   read-only, with a collapse button that removes descendant rows from
   the DOM outright.
 - **Dependencies**: `task.dependsOn` renders as an `aria-describedby`
-  text summary — never a drawn arrow (see Non-goals).
+  text summary; with `dependencyArrows` an `aria-hidden` SVG overlay also draws an arrow per dependency (0.6.0), so the text stays the accessible description.
 - **Edit — keyboard**: Enter/Space on a focused task row opens an
   inline region with two composed `DateTimePicker` instances.
 - **Edit — pointer**: native HTML5 drag-and-drop reschedules a task;
@@ -101,11 +101,15 @@ on `labels.dateTimePickerLabels` being supplied, since
 - **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `field-edit` edits them in place (click, F2, Tab). See [spec §11](./spec/index.md#11-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
 - **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
 
+## Weekend shading and dependency arrows (0.6.0)
+
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
+
 ## Non-goals (v1)
 
-Dependency-arrow rendering, critical-path calculation,
-dependency types beyond finish-to-start, interactive zoom-level
-switching, weekend/holiday shading, resource/assignee columns. See
+Critical-path calculation, interactive zoom-level
+switching, holiday shading from a calendar (`isNonWorking` marks them; `weekends` marks weekdays), resource/assignee columns. See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out.
 
 ---

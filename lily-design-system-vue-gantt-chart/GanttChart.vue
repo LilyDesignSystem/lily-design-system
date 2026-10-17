@@ -123,6 +123,10 @@ export type Props = {
     markers?: GanttMarker[];
     /** Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
     isNonWorking?: (isoDate: string) => boolean;
+    /** Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. Never defaulted: the weekend is the consumer's locale. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. Shading itself is CSS. */
+    weekends?: number[];
+    /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type. An `aria-hidden` SVG overlay measured from the rendered cells; the dependencies stay available as text through `labels.dependencySummary`. Drawn only between rendered rows. */
+    dependencyArrows?: boolean;
     /** Suppress editing, drag and the edit region; navigation and collapse still work. */
     readonly?: boolean;
     /** Typed fields: a column per field between the task name and the timeline, read from `task.values`. Editable types edit in place (click the value, or F2 on the task's row for the first editable field; Tab moves to the next) when a `field-edit` listener is attached. */
@@ -287,7 +291,7 @@ export function nextGanttChartId(): string {
 </script>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, nextTick, ref } from "vue";
+import { computed, getCurrentInstance, nextTick, onBeforeUnmount, onMounted, onUpdated, ref, watch } from "vue";
 import {
     GanttTable,
     GanttTableTD,
@@ -299,6 +303,7 @@ import {
 import DateTimePicker, { addDays, parseIsoDate, toEpochDay } from "@lilydesignsystem/vue-date-time-picker";
 import { downloadBlob, exportBlob, exportFilename } from "./export-data";
 import { civilDateToDate } from "./cell-types";
+import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
 import {
     draftOf,
     editorKind,
@@ -319,6 +324,8 @@ const props = withDefaults(defineProps<Props>(), {
     today: undefined,
     markers: () => [],
     isNonWorking: undefined,
+    weekends: undefined,
+    dependencyArrows: false,
     readonly: false,
     fields: undefined,
     locale: undefined,
@@ -531,6 +538,64 @@ function runExport(format: ExportFormat): void {
 
 const scrollTop = ref(0);
 const scrollEl = ref<HTMLDivElement | null>(null);
+
+// ---------------------------------------------------------------
+// Dependency arrows (an aria-hidden overlay measured from the rendered cells)
+// ---------------------------------------------------------------
+
+type Arrow = { key: string; from: string; to: string; kind: string; d: string };
+const arrows = ref<Arrow[]>([]);
+const overlaySize = ref({ width: 0, height: 0 });
+const arrowHeadId = `${baseId}-arrowhead`;
+
+function measureArrows(): void {
+    const el = scrollEl.value;
+    if (!props.dependencyArrows || !el) {
+        if (arrows.value.length) arrows.value = [];
+        return;
+    }
+    const host = el.getBoundingClientRect();
+    const dx = el.scrollLeft - host.left;
+    const dy = el.scrollTop - host.top;
+    const boxes = new Map<string, ArrowBox>();
+    el.querySelectorAll<HTMLElement>("tr[data-task-id]").forEach((tr) => {
+        const cells = tr.querySelectorAll<HTMLElement>("td[data-in-range]");
+        if (!cells.length) return;
+        const first = cells[0].getBoundingClientRect();
+        const last = cells[cells.length - 1].getBoundingClientRect();
+        boxes.set(tr.dataset.taskId ?? "", { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+    });
+    const next: Arrow[] = [];
+    for (const [id, to] of boxes) {
+        for (const dep of taskById.value.get(id)?.dependsOn ?? []) {
+            const predecessorId = typeof dep === "string" ? dep : dep.id;
+            const from = boxes.get(predecessorId);
+            if (!from) continue;
+            const kind: DependencyKind = (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
+            next.push({ key: `${predecessorId}>${id}`, from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+        }
+    }
+    if (JSON.stringify(arrows.value) !== JSON.stringify(next)) arrows.value = next;
+    if (overlaySize.value.width !== el.scrollWidth || overlaySize.value.height !== el.scrollHeight) overlaySize.value = { width: el.scrollWidth, height: el.scrollHeight };
+}
+
+let arrowObserver: ResizeObserver | undefined;
+function watchTable(): void {
+    arrowObserver?.disconnect();
+    arrowObserver = undefined;
+    const table = scrollEl.value?.querySelector("table");
+    if (!props.dependencyArrows || !table || typeof ResizeObserver === "undefined") return;
+    arrowObserver = new ResizeObserver(() => measureArrows());
+    arrowObserver.observe(table);
+}
+// After every render that could move a bar (a no-op when nothing changed), and when the table's own size changes.
+onMounted(() => {
+    measureArrows();
+    watchTable();
+});
+onUpdated(measureArrows);
+watch(() => props.dependencyArrows, () => nextTick(() => { measureArrows(); watchTable(); }));
+onBeforeUnmount(() => arrowObserver?.disconnect());
 
 /** Bring a row into the scroll area (a virtualized chart renders only what is in view). */
 function revealRow(rowIndex: number): void {
@@ -863,9 +928,15 @@ function columnNonWorking(column: GanttColumn): boolean {
     return true;
 }
 
-type ColumnView = { column: GanttColumn; markers: GanttMarker[]; nonWorking: boolean };
+function columnWeekend(column: GanttColumn): boolean {
+    if (!props.weekends?.length || column.start !== column.end) return false;
+    const day = parseIsoDate(column.start);
+    return !!day && props.weekends.includes(weekdayOfEpochDay(toEpochDay(day)));
+}
+
+type ColumnView = { column: GanttColumn; markers: GanttMarker[]; nonWorking: boolean; weekend: boolean };
 const columnViews = computed<ColumnView[]>(() =>
-    columns.value.map((column) => ({ column, markers: markersIn(column), nonWorking: columnNonWorking(column) })),
+    columns.value.map((column) => ({ column, markers: markersIn(column), nonWorking: columnNonWorking(column), weekend: columnWeekend(column) })),
 );
 
 type RowView = {
@@ -884,6 +955,7 @@ type RowView = {
         isToday: boolean;
         isLeadingCell: boolean;
         nonWorking: boolean;
+        weekend: boolean;
         hasMarker: boolean;
     }[];
 };
@@ -905,6 +977,7 @@ function viewForRow(row: FlatRow, rowIndex: number): RowView {
             isToday,
             isLeadingCell,
             nonWorking: cv.nonWorking,
+            weekend: cv.weekend,
             hasMarker: cv.markers.length > 0,
         };
     });
@@ -980,7 +1053,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
         <div
             ref="scrollEl"
             :class="virtualize ? 'gantt-chart-scroll' : 'gantt-chart-body'"
-            :style="virtualize ? { height: `${virtualize.height}px`, overflow: 'auto' } : undefined"
+            :style="virtualize || dependencyArrows ? { ...(virtualize ? { height: `${virtualize.height}px`, overflow: 'auto' } : {}), ...(dependencyArrows ? { position: 'relative' } : {}) } : undefined"
             @scroll="virtualize ? (scrollTop = ($event.currentTarget as HTMLElement).scrollTop) : undefined"
         >
         <GanttTable :label="label" :caption="caption" :aria-rowcount="virtualize ? rows.length + 1 : undefined" @keydown="onGridKeydown" @focusin="onGridFocusin" @click="onGridClick">
@@ -994,6 +1067,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                         scope="col"
                         :data-today="isTodayColumn(cv.column) ? '' : undefined"
                         :data-non-working="cv.nonWorking ? '' : undefined"
+                        :data-weekend="cv.weekend ? '' : undefined"
                         :data-marker="cv.markers.length ? cv.markers.map((m) => m.kind ?? 'marker').join(' ') : undefined"
                     >
                         {{ labels?.columnLabel?.(cv.column.start, cv.column.end, timeUnit) ?? cv.column.start }}
@@ -1099,6 +1173,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                             :data-milestone="cell.isMilestone ? '' : undefined"
                             :data-today="cell.isToday ? '' : undefined"
                             :data-non-working="cell.nonWorking ? '' : undefined"
+                            :data-weekend="cell.weekend ? '' : undefined"
                             :data-marker="cell.hasMarker ? '' : undefined"
                             :aria-describedby="describedBy(view.row.task, view.deps.length > 0)"
                             :data-baseline="
@@ -1177,6 +1252,32 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                 </template>
             </GanttTableTbody>
         </GanttTable>
+        <svg
+            v-if="dependencyArrows && arrows.length"
+            class="gantt-chart-dependency-arrows"
+            aria-hidden="true"
+            focusable="false"
+            :width="overlaySize.width"
+            :height="overlaySize.height"
+            style="position:absolute;left:0;top:0;pointer-events:none"
+        >
+            <defs>
+                <marker :id="arrowHeadId" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3L0 6z" fill="currentColor" /></marker>
+            </defs>
+            <path
+                v-for="arrow in arrows"
+                :key="arrow.key"
+                class="gantt-chart-dependency-arrow"
+                :data-from="arrow.from"
+                :data-to="arrow.to"
+                :data-dependency-type="arrow.kind"
+                :d="arrow.d"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                :marker-end="`url(#${arrowHeadId})`"
+            />
+        </svg>
         </div>
 
         <p class="gantt-chart-status" aria-live="polite">{{ statusMessage }}</p>
