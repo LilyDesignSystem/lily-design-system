@@ -7,6 +7,8 @@ import {
   DataTableRow,
   DataTableTD,
   DataTableTH,
+  PaginationNav,
+  SearchInput,
 } from "@lilydesignsystem/react-headless";
 import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
 import { foldText, searchTerms } from "./search-text";
@@ -188,6 +190,8 @@ export type DataGridLabels = {
   columnVisibility?: string;
   columnVisibilityOption?: (header: string) => string;
   resizeHandle?: (header: string) => string;
+  /** Accessible name of the pager. When given, the pager is a labelled `<nav>` landmark (the headless `PaginationNav`); without it the pager is a plain `<div>`, as before. */
+  pagination?: string;
   /** Accessible name of the select that limits the search to one column. Gates the select (needs `searchAllFields` too). */
   searchField?: string;
   /** The select's first option: search every column. */
@@ -797,10 +801,6 @@ export function DataGrid({
     setPage(1);
     onFilterChange?.(next);
     announce(labels.filterAnnouncement?.(filterEntries(next).length, rows.length));
-  }
-
-  function onFilterInput(event: React.ChangeEvent<HTMLInputElement>): void {
-    setFilter(event.target.value);
   }
 
   /** Escape in the search field clears it. */
@@ -1932,6 +1932,30 @@ export function DataGrid({
     </DataTable>
   );
 
+  const pager = (
+    <>
+          <button
+            type="button"
+            className="data-grid-page-previous"
+            disabled={clampedPage <= 1}
+            onClick={() => goToPage(clampedPage - 1)}
+          >
+            {labels.previousPage}
+          </button>
+          <span className="data-grid-page-status">
+            {labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}
+          </span>
+          <button
+            type="button"
+            className="data-grid-page-next"
+            disabled={clampedPage >= pageCount}
+            onClick={() => goToPage(clampedPage + 1)}
+          >
+            {labels.nextPage}
+          </button>
+    </>
+  );
+
   return (
     <div ref={rootRef} className={`data-grid ${className}`.trim()} {...restProps}>
       {(labels.search || hidableColumns.length > 0 || hasExportButtons) && (
@@ -1952,12 +1976,11 @@ export function DataGrid({
             </select>
           )}
           {labels.search && (
-            <input
+            <SearchInput
               className="data-grid-search"
-              type="search"
-              aria-label={labels.search}
+              label={labels.search}
               value={filter}
-              onChange={onFilterInput}
+              onChange={setFilter}
               onKeyDown={onFilterKeydown}
             />
           )}
@@ -2022,27 +2045,13 @@ export function DataGrid({
       )}
 
       {pageSize ? (
-        <div className="data-grid-pagination">
-          <button
-            type="button"
-            className="data-grid-page-previous"
-            disabled={clampedPage <= 1}
-            onClick={() => goToPage(clampedPage - 1)}
-          >
-            {labels.previousPage}
-          </button>
-          <span className="data-grid-page-status">
-            {labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}
-          </span>
-          <button
-            type="button"
-            className="data-grid-page-next"
-            disabled={clampedPage >= pageCount}
-            onClick={() => goToPage(clampedPage + 1)}
-          >
-            {labels.nextPage}
-          </button>
-        </div>
+        labels.pagination ? (
+          <PaginationNav className="data-grid-pagination" label={labels.pagination}>
+            {pager}
+          </PaginationNav>
+        ) : (
+          <div className="data-grid-pagination">{pager}</div>
+        )
       ) : null}
 
       <p className="data-grid-status" aria-live="polite">

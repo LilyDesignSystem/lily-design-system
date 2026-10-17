@@ -6,6 +6,8 @@
         CalendarTableRow,
         CalendarTableTD,
         CalendarTableTH,
+        Mark,
+        SearchInput,
     } from "@lilydesignsystem/svelte-headless";
     import {
         addDays,
@@ -988,12 +990,11 @@
     {/if}
 
     {#if labels?.search}
-        <input
-            type="search"
+        <SearchInput
             class="calendar-view-search"
-            aria-label={labels.search}
+            label={labels.search}
             bind:value={search}
-            onkeydown={(e) => {
+            onkeydown={(e: KeyboardEvent) => {
                 if (e.key === "Escape" && search !== "") {
                     e.preventDefault();
                     search = "";
@@ -1046,7 +1047,7 @@
                         <ul class="calendar-view-agenda-events">
                             {#each dayEvents as calendarEvent (calendarEvent.id)}
                                 <li data-event-key={calendarEvent.id}>
-                                    <button type="button" class="calendar-view-event" onclick={() => openEvent(calendarEvent)}>{#if searching}{#each highlightSegments(eventTitle(calendarEvent), search) as part, i (i)}{#if part.match}<mark class="calendar-view-match">{part.text}</mark>{:else}{part.text}{/if}{/each}{:else}{eventTitle(calendarEvent)}{/if}</button>
+                                    <button type="button" class="calendar-view-event" onclick={() => openEvent(calendarEvent)}>{#if searching}{#each highlightSegments(eventTitle(calendarEvent), search) as part, i (i)}{#if part.match}<Mark class="calendar-view-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{eventTitle(calendarEvent)}{/if}</button>
                                     {#if resolvedFields.length > 0}
                                         <span class="calendar-view-event-fields">
                                             {#each resolvedFields as f (f.id)}

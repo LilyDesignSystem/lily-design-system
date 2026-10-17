@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.10.0 — 2026-10-17
 
+- Added `labels.pagination`: the pager becomes a labelled `<nav>` landmark, the headless `PaginationNav` (without it the pager is the plain `<div>` it was). The search field is the headless `SearchInput`.
 - Ported from the Svelte 0.10.0: `emptyValue` (and a column's own) with `data-empty`, `nulls`, locale-aware sorting of plain text, field-specific search (`filterField`, `labels.searchField`), `movableColumns`, right-to-left arrow keys, the missing-label check (`requiredLabels`, `missingLabels`, `warnMissingLabels`), undo and redo of cell edits, type-ahead, copy to the clipboard, `rowFilter`, multi-column sort (`thenBy`, Shift+click), and multi-word, diacritic-blind search with Escape to clear.
 - The shared pure modules now come from `shared/` (`bin/sync-shared-modules`).
 

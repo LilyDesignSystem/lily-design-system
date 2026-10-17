@@ -8,6 +8,8 @@
         KanbanTableTD,
         KanbanTableTH,
         Listbox,
+        Mark,
+        SearchInput,
     } from "@lilydesignsystem/svelte-headless";
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { highlightSegments, matchesSearch } from "./search-text";
@@ -1107,16 +1109,15 @@
     }
 </script>
 
-{#snippet titleText(card: KanbanCard)}{#if searching}{#each highlightSegments(cardLabel(card), search) as part, i (i)}{#if part.match}<mark class="kanban-board-match">{part.text}</mark>{:else}{part.text}{/if}{/each}{:else}{cardLabel(card)}{/if}{/snippet}
+{#snippet titleText(card: KanbanCard)}{#if searching}{#each highlightSegments(cardLabel(card), search) as part, i (i)}{#if part.match}<Mark class="kanban-board-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{cardLabel(card)}{/if}{/snippet}
 
 <div bind:this={rootEl} class={`kanban-board ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
     {#if labels.search}
-        <input
-            type="search"
+        <SearchInput
             class="kanban-board-search"
-            aria-label={labels.search}
+            label={labels.search}
             bind:value={search}
-            onkeydown={(e) => {
+            onkeydown={(e: KeyboardEvent) => {
                 if (e.key === "Escape" && search !== "") {
                     e.preventDefault();
                     search = "";

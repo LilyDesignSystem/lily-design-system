@@ -2177,3 +2177,24 @@ describe("DataGrid — renders in another language with no English left over (§
     });
 });
 
+
+describe("DataGrid — a labelled pager landmark from the headless PaginationNav (§8.148–§8.149)", () => {
+    const run = (labels: Record<string, unknown>) =>
+        renderGrid({ label: "U", columns: COLUMNS, rows: ROWS, pageSize: 1, labels: { ...LABELS, ...labels } });
+
+    test("§8.148 labels.pagination makes the pager a <nav> named by it, keeping the data-grid-pagination hook", () => {
+        run({ pagination: "Pages" });
+        const nav = screen.getByRole("navigation", { name: "Pages" });
+        expect(nav.tagName).toBe("NAV");
+        expect(nav.classList.contains("data-grid-pagination")).toBe(true);
+        expect(nav.querySelector(".data-grid-page-previous")).not.toBeNull();
+        expect(nav.querySelector(".data-grid-page-status")).not.toBeNull();
+    });
+
+    test("§8.149 without labels.pagination the pager is the plain div it always was", () => {
+        run({});
+        const pager = document.querySelector(".data-grid-pagination")!;
+        expect(pager.tagName).toBe("DIV");
+        expect(screen.queryByRole("navigation")).toBeNull();
+    });
+});

@@ -30,6 +30,8 @@
         DataTableRow,
         DataTableTD,
         DataTableTH,
+        PaginationNav,
+        SearchInput,
     } from "@lilydesignsystem/svelte-headless";
 
     export type DataGridSortDirection = "ascending" | "descending" | "none";
@@ -197,6 +199,8 @@
         selectAll?: string;
         selectionColumn?: string;
         selectRow?: (rowLabel: string) => string;
+        /** Accessible name of the pager. When given, the pager is a labelled `<nav>` landmark (the headless `PaginationNav`); without it the pager is a plain `<div>`, as before. */
+        pagination?: string;
         previousPage?: string;
         nextPage?: string;
         pageStatus?: (page: number, pageCount: number, rowCount: number) => string;
@@ -1321,6 +1325,26 @@
     });
 </script>
 
+{#snippet pager()}
+            <button
+                type="button"
+                class="data-grid-page-previous"
+                disabled={clampedPage <= 1}
+                onclick={() => goToPage(clampedPage - 1)}
+            >
+                {labels.previousPage}
+            </button>
+            <span class="data-grid-page-status">{labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}</span>
+            <button
+                type="button"
+                class="data-grid-page-next"
+                disabled={clampedPage >= pageCount}
+                onclick={() => goToPage(clampedPage + 1)}
+            >
+                {labels.nextPage}
+            </button>
+{/snippet}
+
 <div bind:this={rootEl} class={`data-grid ${className}`.trim()} {...restProps}>
     {#if labels.search || hidableColumns.length > 0 || hasExportButtons}
         <div class="data-grid-toolbar">
@@ -1343,10 +1367,9 @@
                 </select>
             {/if}
             {#if labels.search}
-                <input
+                <SearchInput
                     class="data-grid-search"
-                    type="search"
-                    aria-label={labels.search}
+                    label={labels.search}
                     value={filter}
                     oninput={onFilterInput}
                     onkeydown={onFilterKeydown}
@@ -1790,25 +1813,11 @@
     {/if}
 
     {#if pageSize}
-        <div class="data-grid-pagination">
-            <button
-                type="button"
-                class="data-grid-page-previous"
-                disabled={clampedPage <= 1}
-                onclick={() => goToPage(clampedPage - 1)}
-            >
-                {labels.previousPage}
-            </button>
-            <span class="data-grid-page-status">{labels.pageStatus?.(clampedPage, pageCount, sortedEntries.length)}</span>
-            <button
-                type="button"
-                class="data-grid-page-next"
-                disabled={clampedPage >= pageCount}
-                onclick={() => goToPage(clampedPage + 1)}
-            >
-                {labels.nextPage}
-            </button>
-        </div>
+        {#if labels.pagination}
+            <PaginationNav class="data-grid-pagination" label={labels.pagination}>{@render pager()}</PaginationNav>
+        {:else}
+            <div class="data-grid-pagination">{@render pager()}</div>
+        {/if}
     {/if}
 
     <p class="data-grid-status" aria-live="polite">{statusMessage}</p>

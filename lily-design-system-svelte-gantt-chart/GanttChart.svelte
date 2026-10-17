@@ -6,6 +6,8 @@
         GanttTableTbody,
         GanttTableThead,
         GanttTableTr,
+        Mark,
+        SearchInput,
     } from "@lilydesignsystem/svelte-headless";
     import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
@@ -1019,12 +1021,11 @@
 
 <div bind:this={rootEl} class={`gantt-chart ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
     {#if labels.search}
-        <input
-            type="search"
+        <SearchInput
             class="gantt-chart-search"
-            aria-label={labels.search}
+            label={labels.search}
             bind:value={search}
-            onkeydown={(e) => {
+            onkeydown={(e: KeyboardEvent) => {
                 if (e.key === "Escape" && search !== "") {
                     e.preventDefault();
                     search = "";
@@ -1137,7 +1138,7 @@
                                 {collapsed.has(row.task.id) ? "▸" : "▾"}
                             </button>
                         {/if}
-                        {#if searching}{#each highlightSegments(taskLabel(row.task), search) as part, i (i)}{#if part.match}<mark class="gantt-chart-match">{part.text}</mark>{:else}{part.text}{/if}{/each}{:else}{taskLabel(row.task)}{/if}
+                        {#if searching}{#each highlightSegments(taskLabel(row.task), search) as part, i (i)}{#if part.match}<Mark class="gantt-chart-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{taskLabel(row.task)}{/if}
                         {#if deps.length > 0 && labels.dependencySummary}
                             <span id={dependencyId(row.task.id)} class="gantt-chart-dependency-summary" hidden>
                                 {labels.dependencySummary(deps)}
