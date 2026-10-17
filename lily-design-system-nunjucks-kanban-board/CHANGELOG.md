@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-16
+
+- Added typed card fields (`fields`, `card.values`, `locale`) using the data grid's cell types, shown under the title.
+- Added inline field editing (the macro's `editableFields`; the client option `onFieldEdit` reports each edit): click a value or press F2; typed editors, Enter/Escape, IME-safe, refused when invalid for the type, announced.
+- Added export to CSV, TSV and Excel (`labels.exportCsv` etc., `labels.exportHeaders`, `exportScope`, `exportFilename`, `onExport`); the export is dependency-free and defuses formula text.
+
 ## 0.5.0 — 2026-10-16
 
 - Added collapsible swimlanes, ported from the Svelte 0.5.0: macro `collapsedLanes` (ids) renders those lanes' header rows with their card rows `hidden`; `labels.collapseLane` / `labels.expandLane` (templates with `{lane}`) gate a `.kanban-board-lane-toggle` button (`aria-expanded`) and `labels.laneCount` (`{lane}`, `{count}`) a visible `.kanban-board-lane-count` that follows the search. Client: `onLaneCollapseChange(ids)`, a `lanecollapsechange` event and `collapsedLanes()` on the controller. Arrow keys now step over hidden rows. The lane title is wrapped in `.kanban-board-lane-title`.

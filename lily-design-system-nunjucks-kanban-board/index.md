@@ -159,6 +159,12 @@ import { initKanbanBoard, autoInit } from "@lilydesignsystem/nunjucks-kanban-boa
 - `labels.moveAnnouncement(cardTitle, columnTitle)` — builds the
   `aria-live` announcement text. Absent means no announcement fires.
 
+## Typed fields, editing and export
+
+- **Typed fields and editing** (0.6.0): `fields` + `card.values` show typed values under the title; `editableFields` makes editable types edit in place (click, or F2). See [spec §12](./spec/index.md#12-typed-fields-inline-editing-export-060-2026-10-16).
+- **Export** (0.6.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons for the shown (or selected) cards.
+- Pass `fields` (declarative), each card's `values`, `editableFields: true` to edit in place, and `labels.exportHeaders` with `labels.exportCsv` / `exportTsv` / `exportExcel` for the export buttons. The client's `initKanbanBoard(root, { onFieldEdit, onExport, fieldHooks })` reports edits and files. See the spec for the label templates.
+
 ## Moving a card
 
 **Keyboard (the accessible path).** Enter/Space on a focused card

@@ -164,6 +164,25 @@
        onLaneCollapseChange(ids) — client init option; the client also fires `lanecollapsechange`, and `collapsedLanes()`
                        on the controller returns the ids. The lane title is wrapped in `.kanban-board-lane-title`.
 
+  12. 0.6.0 — typed fields, inline editing, export:
+       fields        — macro param, array<{id, header, type?, options?, editable?, editLabel?, exportable?, numberFormat?,
+                       dateFormat?}>: declarative (no functions). A card's `values` object holds each field's value by id. Each
+                       card cell shows `.kanban-board-card-fields` with one `.kanban-board-card-field` per field (its header,
+                       then the value). The server renders the raw value (a select's option label); the client formats it by
+                       type once it runs. `locale` is the BCP 47 tag for numbers and dates (never defaulted).
+       editableFields — macro param (boolean): turns inline editing on (not for a readonly board or a locked card; a field with
+                       `editable: false`, or of a type that cannot be edited, stays text). The value becomes a
+                       `.kanban-board-field-button`. NUNJUCKS DEVIATION: a macro cannot see a client listener, so this flag
+                       stands in for the other catalogs' `onFieldEdit` / `field-edit` listener. The client's
+                       `initKanbanBoard(root, { onFieldEdit })` reports each accepted edit (and fires `fieldedit`).
+       exportFilename / exportScope — macro params ("kanban-board" / "view" or "selected").
+       labels.export, labels.exportCsv / exportTsv / exportExcel — plain strings; labels.exportHeaders — an object of plain
+                       strings ({title, column, lane?, subtitle?, badges?, flag?}); none of the buttons renders without it.
+       labels.exportAnnouncement — template string, tokens {count}, {format}, {filename}.
+       labels.editAnnouncement  — template string, tokens {card}, {field}, {value}.
+       labels.editInvalid       — template string, tokens {card}, {field}.
+       Client options: onFieldEdit({cardId, fieldId, value, previous}), onExport(file) (return false to take over the download).
+
   Params (single `opts` object):
     label       — string, required. aria-label for the grid table.
     columns     — array<{id, title, wipLimit?, strictLimit?}>, required.
@@ -222,7 +241,7 @@
 {%- if labels.addCard and not readonly %}<button type="button" class="kanban-board-add-button" aria-label="{{ labels.addCard | replace('{column}', column.title) }}" data-lily-kanban-board-add data-lily-kanban-board-column-id="{{ column.id }}">+</button>{% endif -%}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly, emptyText) -%}
+{%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly, emptyText, fields, editableFields) -%}
 {%- if card -%}
 {%- set moveListId = id + "-move-list-" + card.id -%}
 {%- set moveButtonId = id + "-move-button-" + card.id -%}
@@ -233,6 +252,21 @@
 <span class="kanban-board-card-title"{% if movable and card.draggable != false %} draggable="true"{% endif %} data-lily-kanban-board-card-handle data-lily-kanban-board-card-id="{{ card.id }}">{% if card.href %}<a class="kanban-board-card-link" href="{{ card.href }}">{{ card.title }}</a>{% else %}{{ card.title }}{% endif %}</span>
 {%- if card.subtitle %}<span class="kanban-board-card-subtitle">{{ card.subtitle }}</span>{% endif -%}
 {%- if card.badges and card.badges | length %}<span class="kanban-board-card-badges">{% for badge in card.badges %}<span class="kanban-board-card-badge">{{ badge }}</span>{% endfor %}</span>{% endif -%}
+{%- if fields | length %}<span class="kanban-board-card-fields">
+{%- for f in fields -%}
+  {%- set raw = (card.values[f.id]) if card.values else "" -%}
+  {%- set text = "" -%}
+  {%- if raw is defined and raw is not none and raw != "" -%}
+    {%- set text = raw | string -%}
+    {%- if f.options -%}{%- for o in f.options -%}{%- if o.id == raw -%}{%- set text = o.label -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+  {%- endif -%}
+  {%- set ftype = f.type | default("text") -%}
+  {%- set fieldEditable = editableFields and movable and (f.editable != false) and (ftype in ["text", "number", "link", "date", "time", "select", "radio"]) -%}
+  {%- if text != "" or fieldEditable -%}
+  <span class="kanban-board-card-field" data-field="{{ f.id }}" data-type="{{ ftype }}" data-lily-kanban-board-field><span class="kanban-board-card-field-name" id="{{ id }}-fn-{{ card.id }}-{{ f.id }}">{{ f.header }}</span> {% if fieldEditable %}<button type="button" class="kanban-board-field-button" id="{{ id }}-fv-{{ card.id }}-{{ f.id }}" tabindex="-1" aria-labelledby="{{ id }}-fn-{{ card.id }}-{{ f.id }} {{ id }}-fv-{{ card.id }}-{{ f.id }}" data-lily-kanban-board-field-button data-lily-kanban-board-card-id="{{ card.id }}" data-field-id="{{ f.id }}">{{ text }}</button>{% else %}<span class="kanban-board-card-field-value">{{ text }}</span>{% endif %}</span>
+  {%- endif -%}
+{%- endfor -%}
+</span>{% endif -%}
 {%- if card.flag %}<span class="kanban-board-card-flag" id="{{ id }}-flag-{{ card.id }}">{{ card.flag }}</span>{% endif -%}
 {%- if movable %}{% if labels.moveButton %}<button type="button" class="kanban-board-move-button" id="{{ moveButtonId }}" tabindex="-1" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ moveListId }}" aria-label="{{ labels.moveButton | replace('{card}', card.title) }}" data-lily-kanban-board-move-button data-lily-kanban-board-card-id="{{ card.id }}">{{ glyphHtml | safe }}</button>{% endif %}<ul class="kanban-board-move-list" id="{{ moveListId }}" role="listbox" aria-label="{{ labels.moveMenuLabel | default(card.title) }}" tabindex="-1" hidden data-lily-kanban-board-move-list data-lily-kanban-board-card-id="{{ card.id }}">{%- for destination in columns -%}{%- if (not card.allowedColumns) or destination.id == card.columnId or destination.id in card.allowedColumns -%}<li class="kanban-board-move-option" id="{{ id }}-move-option-{{ card.id }}-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if destination.id == card.columnId else 'false' }}" data-value="{{ destination.id }}">{{ destination.title }}</li>{%- endif -%}{%- endfor -%}</ul>{% endif %}
 {%- elif emptyText -%}
@@ -260,7 +294,7 @@
 {{- out | safe -}}
 {%- endmacro -%}
 
-{%- macro _kanbanBoardBodyRowHtml(rowIndex, laneRow, columns, columnCardLists, labels, id, glyphHtml, readonly, collapsedColumns, selected, hasLanes) -%}
+{%- macro _kanbanBoardBodyRowHtml(rowIndex, laneRow, columns, columnCardLists, labels, id, glyphHtml, readonly, collapsedColumns, selected, hasLanes, fields, editableFields) -%}
 {%- set out = "" -%}
 {%- for column in columns -%}
   {%- set colIndex = loop.index0 -%}
@@ -279,7 +313,7 @@
   {%- endif -%}
   {%- set emptyText = (labels.emptyColumn | replace("{column}", column.title)) if ((not hasLanes) and rowIndex == 0 and not card and labels.emptyColumn and colCards.length == 0 and not (column.id in collapsedColumns)) else "" -%}
   {%- if emptyText -%}{%- set tdAttrs = tdAttrs.concat([["data-empty", ""]]) -%}{%- endif -%}
-  {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly, emptyText) -%}
+  {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml, readonly, emptyText, fields, editableFields) -%}
   {%- set out = (out ~ kanbanTableTd({ attributes: tdAttrs, html: cellHtml })) | safe -%}
 {%- endfor -%}
 {{- out | safe -}}
@@ -298,6 +332,7 @@
 {%- set lanes = opts.lanes | default([]) -%}
 {%- set hasLanes = (lanes | length) > 0 -%}
 {%- set selectedIds = opts.selected | default([]) -%}
+{%- set fieldDefs = opts.fields | default([]) -%}
 {%- set cards = opts.cards -%}
 {%- set labels = opts.labels | default({}) -%}
 {%- set name = opts.name | default("board") -%}
@@ -368,7 +403,7 @@
     {%- set slotIndex = slotIndex + 1 -%}
   {%- endif -%}
   {%- for laneRow in range(0, laneRows) -%}
-    {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, laneRow, columns, laneLists, labels, id, glyphHtml, opts.readonly, collapsedIds, selectedIds, hasLanes) -%}
+    {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, laneRow, columns, laneLists, labels, id, glyphHtml, opts.readonly, collapsedIds, selectedIds, hasLanes, fieldDefs, opts.editableFields) -%}
     {%- set rowAttrs = [] -%}
     {%- if hasLanes -%}{%- set rowAttrs = rowAttrs.concat([["data-lane-id", lane.id], ["data-lane-row", laneRow]]) -%}{%- endif -%}
     {%- if laneCollapsed -%}{%- set rowAttrs = rowAttrs.concat([["hidden", ""]]) -%}{%- endif -%}
@@ -398,11 +433,21 @@
 {%- else -%}
   {%- set scrollHtml = ('<div class="kanban-board-body">' ~ tableHtml ~ '</div>') | safe -%}
 {%- endif -%}
+{%- set exportHtml = "" -%}
+{%- if labels.exportHeaders and (labels.exportCsv or labels.exportTsv or labels.exportExcel) -%}
+  {%- set exportHtml = '<div class="kanban-board-export" role="group"' ~ ((' aria-label="' ~ (labels.export | e) ~ '"') if labels.export else '') ~ ' data-lily-kanban-board-export-group>' -%}
+  {%- if labels.exportCsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="csv"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.exportCsv | e) ~ '</button>' -%}{%- endif -%}
+  {%- if labels.exportTsv -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="tsv"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.exportTsv | e) ~ '</button>' -%}{%- endif -%}
+  {%- if labels.exportExcel -%}{%- set exportHtml = exportHtml ~ '<button type="button" class="kanban-board-export-button" data-kanban-export-format="xlsx"' ~ ('' if cards | length else ' disabled') ~ '>' ~ (labels.exportExcel | e) ~ '</button>' -%}{%- endif -%}
+  {%- set exportHtml = exportHtml ~ '</div>' -%}
+{%- endif -%}
+{%- set configJson = ({ fields: fieldDefs, locale: opts.locale, editableFields: opts.editableFields, exportFilename: opts.exportFilename | default("kanban-board"), exportScope: opts.exportScope | default("view"), columns: opts.columns, lanes: lanes, cards: cards, labels: { exportHeaders: labels.exportHeaders, exportAnnouncement: labels.exportAnnouncement, editAnnouncement: labels.editAnnouncement, editInvalid: labels.editInvalid } } | dump) -%}
 {%- set undoHtml = ('<button type="button" class="kanban-board-undo-button" disabled data-lily-kanban-board-undo>' ~ (labels.undo | e) ~ '</button>') if (opts.undoable and labels.undo and not opts.readonly) else "" -%}
 <div
   class="kanban-board{% if opts.classes %} {{ opts.classes }}{% endif %}"
   data-lily-kanban-board-root
   data-lily-kanban-board-name="{{ name }}"
+  data-lily-kanban-board-config="{{ configJson }}"
   {%- if opts.readonly %} data-readonly{% endif %}
   {%- if opts.selectable %} data-lily-kanban-board-selectable{% endif %}
   {%- if opts.undoable %} data-lily-kanban-board-undoable{% endif %}
@@ -410,7 +455,7 @@
   {%- if hasLanes %} data-lily-kanban-board-has-lanes{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-{{ searchHtml | safe }}{{ undoHtml | safe }}{{ scrollHtml | safe }}
+{{ searchHtml | safe }}{{ exportHtml | safe }}{{ undoHtml | safe }}{{ scrollHtml | safe }}
 <p class="kanban-board-status" id="{{ statusId }}" aria-live="polite" data-lily-kanban-board-status></p>
 </div>
 {%- endmacro -%}

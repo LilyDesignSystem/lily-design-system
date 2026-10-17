@@ -40,6 +40,18 @@
 // See spec/index.md §4.3 (client.js exports), §6 (behaviour).
 
 import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavior";
+import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import {
+  draftOf,
+  editorKind,
+  evaluateEdit,
+  exportFieldCell,
+  exportableFields,
+  fieldText,
+  isEditableField,
+  neighbourField,
+  resolveFields,
+} from "./typed-fields";
 
 function escapeAttrValue(value) {
   return String(value).replace(/["\\]/g, "\\$&");
@@ -65,6 +77,9 @@ function textOf(el) {
  *   onCollapsedChange?: (collapsedColumns: string[]) => void,
  *   onLaneCollapseChange?: (collapsedLanes: string[]) => void,
  *   onAddCard?: (columnId: string) => void,
+ *   fieldHooks?: Record<string, Record<string, unknown>>,
+ *   onFieldEdit?: (edit: { cardId: string, fieldId: string, value: unknown, previous: unknown }) => void,
+ *   onExport?: (file: { format: string, filename: string, cardCount: number, blob: Blob }) => boolean | void,
  *   labels?: {
  *     moveAnnouncement?: (cardTitle: string, columnTitle: string) => string,
  *     moveBlocked?: (cardTitle: string, columnTitle: string) => string,
@@ -198,6 +213,7 @@ export function initKanbanBoard(root, opts = {}) {
       if (first) first.setAttribute("tabindex", "0");
     }
     applyWindow(true);
+    syncExport();
   }
 
   function applyCollapsed(columnId, collapsed) {
@@ -553,6 +569,7 @@ export function initKanbanBoard(root, opts = {}) {
     const ids = selectedIds();
     if (typeof opts.onSelectionChange === "function") opts.onSelectionChange(ids);
     root.dispatchEvent(new CustomEvent("selectionchange", { detail: ids, bubbles: true }));
+    syncExport();
   }
 
   function toggleSelected(cardId) {
@@ -674,6 +691,16 @@ export function initKanbanBoard(root, opts = {}) {
 
   function onRootClick(event) {
     const target = event.target && event.target.closest ? event.target : null;
+    const fieldButton = target && target.closest("[data-lily-kanban-board-field-button]");
+    if (fieldButton) {
+      startFieldEdit(fieldButton.getAttribute("data-lily-kanban-board-card-id"), fieldButton.getAttribute("data-field-id"));
+      return;
+    }
+    const exportButton = target && target.closest("[data-kanban-export-format]");
+    if (exportButton) {
+      runExport(exportButton.getAttribute("data-kanban-export-format"));
+      return;
+    }
     const collapse = target && target.closest("[data-lily-kanban-board-collapse]");
     if (collapse) {
       const id = collapse.getAttribute("data-lily-kanban-board-column-id");
@@ -794,6 +821,7 @@ export function initKanbanBoard(root, opts = {}) {
     ) {
       return;
     }
+    if (event.target && event.target.closest && event.target.closest(".kanban-board-field-editor")) return;
     const cell =
       event.target && event.target.closest
         ? event.target.closest("[data-row][data-col]")
@@ -802,6 +830,11 @@ export function initKanbanBoard(root, opts = {}) {
     const row = Number(cell.getAttribute("data-row"));
     const col = Number(cell.getAttribute("data-col"));
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    if (event.key === "F2") {
+      // F2: edit the card's first editable field (the keyboard twin of clicking its value).
+      if (editFirstField(cell)) event.preventDefault();
+      return;
+    }
     if (isUndoable() && ctrlOrMeta && !event.altKey && (event.key === "z" || event.key === "Z")) {
       event.preventDefault();
       void undo();
@@ -1057,6 +1090,253 @@ export function initKanbanBoard(root, opts = {}) {
     if (event.target && event.target.closest && event.target.closest("[data-lily-kanban-board-search]")) refreshVisibility();
   }
 
+  // -----------------------------------------------------------------
+  // Typed fields, inline editing, export (the macro's `fields`, `editableFields` and export labels)
+  // -----------------------------------------------------------------
+
+  let config = {};
+  try {
+    config = JSON.parse(root.getAttribute("data-lily-kanban-board-config") || "{}");
+  } catch {
+    config = {};
+  }
+  // Type defaults (format, compare, export value) resolved once per init, never per card or keystroke.
+  // `opts.fieldHooks` carries the functions the macro cannot (a field's `parse`, `exportValue`, …), by field id.
+  const fields = resolveFields(
+    (config.fields || []).map((f) => ({ ...f, ...((opts.fieldHooks || {})[f.id] || {}) })),
+    config.locale,
+  );
+  const fieldDef = (id) => fields.find((f) => f.id === id);
+  /** The consumer's data by card id; an accepted edit updates it, so the board stays what the user sees. */
+  const dataCards = new Map((config.cards || []).map((c) => [c.id, { ...c, values: { ...(c.values || {}) } }]));
+  const fill = (template, tokens) => String(template).replace(/\{(\w+)\}/g, (match, name) => (name in tokens ? String(tokens[name]) : match));
+  const cardTitleOf = (cardId) => textOf(cardHandleFor(cardId)) || (dataCards.get(cardId) || {}).title || cardId;
+
+  /** Show each field's value formatted by its type: the server rendered the raw value. */
+  function formatFields() {
+    allCells().forEach((td) => {
+      const cardId = td.getAttribute("data-lily-kanban-board-card-id");
+      const data = cardId ? dataCards.get(cardId) : null;
+      if (!data) return;
+      td.querySelectorAll("[data-lily-kanban-board-field]").forEach((span) => {
+        const f = fieldDef(span.getAttribute("data-field"));
+        const target = span.querySelector(".kanban-board-field-button, .kanban-board-card-field-value");
+        if (f && target) target.textContent = fieldText(f, data.values);
+      });
+    });
+  }
+
+  /** @type {{ cardId: string, fieldId: string, draft: unknown, editor: HTMLElement, button: HTMLElement } | null} */
+  let editing = null;
+
+  function startFieldEdit(cardId, fieldId) {
+    const f = fieldDef(fieldId);
+    const cell = cellForCard(cardId);
+    if (!f || !cell || isReadonly() || cell.hasAttribute("data-locked")) return;
+    const span = Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]")).find((el) => el.getAttribute("data-field") === fieldId);
+    const button = span && span.querySelector("[data-lily-kanban-board-field-button]");
+    if (!span || !button) return;
+    if (editing) commitFieldEdit(false);
+    const data = dataCards.get(cardId);
+    const kind = editorKind(f);
+    let editor;
+    if (kind === "select" || kind === "radio") {
+      editor = document.createElement("select");
+      const blank = document.createElement("option");
+      blank.value = "";
+      editor.appendChild(blank);
+      for (const option of f.options || []) {
+        const o = document.createElement("option");
+        o.value = option.id;
+        o.disabled = !!option.disabled;
+        o.textContent = option.label;
+        editor.appendChild(o);
+      }
+    } else {
+      editor = document.createElement("input");
+      editor.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
+      if (kind === "number") editor.setAttribute("inputmode", "decimal");
+    }
+    editor.className = "kanban-board-field-editor";
+    editor.setAttribute("aria-label", f.editLabel || f.header);
+    const draft = draftOf(f, data ? data.values : undefined);
+    editor.value = String(draft == null ? "" : draft);
+    editing = { cardId, fieldId, draft: editor.value, editor, button };
+    editor.addEventListener("input", () => {
+      if (editing) editing.draft = editor.value;
+    });
+    editor.addEventListener("keydown", onEditorKeydown);
+    if (kind === "select" || kind === "radio") {
+      editor.addEventListener("change", () => {
+        if (editing) editing.draft = editor.value;
+        commitFieldEdit(true);
+      });
+    }
+    editor.addEventListener("blur", () => commitFieldEdit(false));
+    span.setAttribute("data-editing", "");
+    button.replaceWith(editor);
+    editor.focus({ preventScroll: true });
+    if (editor.select && editor.type !== "number" && editor.type !== "date" && editor.type !== "time" && editor.tagName === "INPUT") editor.select();
+  }
+
+  /** Put the value button back in place of the editor. */
+  function closeEditor() {
+    if (!editing) return null;
+    const closing = editing;
+    editing = null;
+    const span = closing.editor.parentElement;
+    if (span) span.removeAttribute("data-editing");
+    closing.editor.replaceWith(closing.button);
+    return closing;
+  }
+
+  /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+  function commitFieldEdit(refocus) {
+    if (!editing) return true;
+    const { cardId, fieldId, draft } = editing;
+    const f = fieldDef(fieldId);
+    const data = dataCards.get(cardId);
+    if (!f || !data) {
+      closeEditor();
+      return true;
+    }
+    const outcome = evaluateEdit(f, data.values, draft);
+    if (outcome.invalid) {
+      const template = (config.labels || {}).editInvalid;
+      if (template) announce(fill(template, { card: cardTitleOf(cardId), field: f.header }));
+      return false;
+    }
+    const closing = closeEditor();
+    if (outcome.changed) {
+      data.values[fieldId] = outcome.value;
+      if (closing) closing.button.textContent = outcome.text;
+      const edit = { cardId, fieldId, value: outcome.value, previous: outcome.previous };
+      if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
+      root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
+      const template = ((opts.labels || {}).editAnnouncement && typeof opts.labels.editAnnouncement === "function")
+        ? null
+        : (config.labels || {}).editAnnouncement;
+      if (template) announce(fill(template, { card: cardTitleOf(cardId), field: f.header, value: outcome.text }));
+      else if (opts.labels && typeof opts.labels.editAnnouncement === "function") announce(opts.labels.editAnnouncement(cardTitleOf(cardId), f.header, outcome.text));
+    }
+    if (refocus) focusCardTarget(cardId);
+    return true;
+  }
+
+  function cancelFieldEdit() {
+    const closing = closeEditor();
+    if (closing) focusCardTarget(closing.cardId);
+  }
+
+  function focusCardTarget(cardId) {
+    const entry = menus.get(cardId);
+    const target = (entry && entry.focusTarget) || cellForCard(cardId);
+    if (target) target.focus({ preventScroll: true });
+  }
+
+  function onEditorKeydown(event) {
+    // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+    // report the confirming Enter with `isComposing` already false but keyCode 229.
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commitFieldEdit(true);
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      cancelFieldEdit();
+    } else if (event.key === "Tab" && editing) {
+      // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
+      const { cardId, fieldId } = editing;
+      const cell = cellForCard(cardId);
+      const editable = cell
+        ? Array.from(cell.querySelectorAll("[data-lily-kanban-board-field]"))
+            .filter((span) => span.querySelector("[data-lily-kanban-board-field-button], .kanban-board-field-editor"))
+            .map((span) => fieldDef(span.getAttribute("data-field")))
+            .filter(Boolean)
+        : [];
+      const next = neighbourField(editable, fieldId, event.shiftKey);
+      if (next) {
+        event.preventDefault();
+        if (commitFieldEdit(false)) startFieldEdit(cardId, next.id);
+      } else {
+        commitFieldEdit(false);
+      }
+    }
+  }
+
+  /** F2 on a card: edit its first editable field. */
+  function editFirstField(cell) {
+    const cardId = cell.getAttribute("data-lily-kanban-board-card-id");
+    const button = cell.querySelector("[data-lily-kanban-board-field-button]");
+    if (!cardId || !button) return false;
+    startFieldEdit(cardId, button.getAttribute("data-field-id"));
+    return true;
+  }
+
+  const matchesSearch = (td) => {
+    const needle = searchNeedle();
+    if (!needle) return true;
+    return (td.getAttribute("data-lily-kanban-board-search-text") || "").toLowerCase().includes(needle);
+  };
+
+  /** The cards an export holds: the view (what the search leaves), column by column, or only the selected ones. */
+  function exportCardIds() {
+    const out = [];
+    const selectedOnly = config.exportScope === "selected";
+    columnIds().forEach((id, index) => {
+      cellsOfColumn(index).forEach((td) => {
+        const cardId = td.getAttribute("data-lily-kanban-board-card-id");
+        if (!cardId || !matchesSearch(td)) return;
+        if (selectedOnly && !td.hasAttribute("data-selected")) return;
+        out.push(cardId);
+      });
+    });
+    return out;
+  }
+
+  function syncExport() {
+    const disabled = exportCardIds().length === 0;
+    root.querySelectorAll("[data-kanban-export-format]").forEach((b) => {
+      b.disabled = disabled;
+    });
+  }
+
+  function runExport(format) {
+    const h = (config.labels || {}).exportHeaders;
+    if (!h) return;
+    const lanes = config.lanes || [];
+    const hasLaneColumn = lanes.length > 0 && !!h.lane;
+    const exportFields = exportableFields(fields);
+    const headers = [h.title, h.column];
+    if (hasLaneColumn) headers.push(h.lane);
+    if (h.subtitle) headers.push(h.subtitle);
+    if (h.badges) headers.push(h.badges);
+    if (h.flag) headers.push(h.flag);
+    for (const f of exportFields) headers.push(f.header);
+    const laneTitle = new Map(lanes.map((l) => [l.id, l.title]));
+    const rows = exportCardIds().map((cardId) => {
+      const data = dataCards.get(cardId) || { id: cardId, title: cardId, values: {} };
+      const cell = cellForCard(cardId);
+      const cells = [data.title, columnTitleFor(columnOfCard(cardId))];
+      if (hasLaneColumn) cells.push(laneTitle.get(laneOfCell(cell)) || "");
+      if (h.subtitle) cells.push(data.subtitle == null ? null : data.subtitle);
+      if (h.badges) cells.push((data.badges || []).join("; "));
+      if (h.flag) cells.push(data.flag == null ? null : data.flag);
+      for (const f of exportFields) cells.push(exportFieldCell(f, data.values));
+      return cells;
+    });
+    const base = config.exportFilename || "kanban-board";
+    const filename = exportFilename(base, format);
+    const blob = exportBlob({ headers, rows }, format, { sheetName: base });
+    const file = { format, filename, cardCount: rows.length, blob };
+    root.dispatchEvent(new CustomEvent("exportfile", { detail: file, bubbles: true }));
+    if (typeof opts.onExport === "function" && opts.onExport(file) === false) return;
+    downloadBlob(blob, filename);
+    const template = (config.labels || {}).exportAnnouncement;
+    if (template) announce(fill(template, { count: rows.length, format, filename }));
+  }
+
   table.addEventListener("keydown", onGridKeydown);
   table.addEventListener("focusin", onGridFocusin);
   root.addEventListener("click", onRootClick);
@@ -1069,6 +1349,8 @@ export function initKanbanBoard(root, opts = {}) {
   if (scrollEl) scrollEl.addEventListener("scroll", onScroll);
   document.addEventListener("click", onDocumentClick);
 
+  // Show each field's value formatted by its type, then take collapsed columns and searched-out cards out of the DOM.
+  formatFields();
   // Columns the macro rendered collapsed, and a search it started with: take those cards out of the DOM now.
   refreshVisibility();
 
