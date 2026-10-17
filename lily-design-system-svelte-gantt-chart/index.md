@@ -95,7 +95,7 @@ requires it too.
 
 ## Non-goals (v1)
 
-Dependency-arrow rendering, virtualization, critical-path calculation,
+Dependency-arrow rendering, critical-path calculation,
 dependency types beyond finish-to-start, interactive zoom-level
 switching, weekend/holiday shading, resource/assignee columns. See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out.

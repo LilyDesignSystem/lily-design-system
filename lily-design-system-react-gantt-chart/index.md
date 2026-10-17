@@ -94,7 +94,7 @@ for the accessibility research this design choice is based on.
 
 ## Non-goals
 
-Dependency-arrow rendering, virtualization, critical-path calculation,
+Dependency-arrow rendering, critical-path calculation,
 dependency types beyond finish-to-start, interactive zoom-level
 switching, weekend/holiday shading, resource/assignee columns — see
 spec/index.md §9.

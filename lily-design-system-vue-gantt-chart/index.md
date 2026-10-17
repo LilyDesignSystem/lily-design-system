@@ -98,10 +98,12 @@ on `labels.dateTimePickerLabels` being supplied, since
   `data-grid` and `kanban-board` use.
 - **Announcements**: every successful edit announces via one
   `aria-live="polite"` region.
+- **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `field-edit` edits them in place (click, F2, Tab). See [spec §11](./spec/index.md#11-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
+- **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
 
 ## Non-goals (v1)
 
-Dependency-arrow rendering, virtualization, critical-path calculation,
+Dependency-arrow rendering, critical-path calculation,
 dependency types beyond finish-to-start, interactive zoom-level
 switching, weekend/holiday shading, resource/assignee columns. See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out.
