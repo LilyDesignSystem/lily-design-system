@@ -12,6 +12,7 @@
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { unavailableIn, unavailableKinds, type Unavailable } from "./unavailable";
     import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
@@ -176,6 +177,8 @@
         markers?: GanttMarker[];
         /** Consumer's own working calendar; true marks the column `data-non-working` when every day in it is non-working. */
         isNonWorking?: (isoDate: string) => boolean;
+        /** Days nobody works — holidays, time off, closures — as dated ranges `{ start, end?, kind?, label? }` (`end` defaults to `start`). A column every day of which is covered gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none) on the header and every cell; a column only partly covered gets `data-partly-unavailable` instead, so a holiday inside a week is still marked. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so the day is never colour-only. Use `weekends` for the weekend and `markers` for a single dated flag. Shading and stripes are CSS. */
+        unavailable?: Unavailable[];
         /** Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. Never defaulted: the weekend is the consumer's locale. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. Shading itself is CSS. */
         weekends?: number[];
         /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type (`e2s`, `s2s`, `s2e`, `e2e`). An `aria-hidden` SVG overlay: the dependencies stay available as text through `labels.dependencySummary`, so the arrows add to, never replace, the accessible description. Arrows are drawn only between rows that are rendered (a collapsed parent's children and a virtualized chart's off-screen rows have none). */
@@ -371,6 +374,7 @@
         markers = [],
         isNonWorking = undefined,
         weekends = undefined,
+        unavailable = undefined,
         search = $bindable(""),
         searchText = undefined,
         filter = undefined,
@@ -476,6 +480,9 @@
     }
 
     const nonWorking = $derived(columns.map(columnNonWorking));
+
+    // What `unavailable` holds per column, found once per `unavailable` / `columns` change.
+    const unavailableByColumn = $derived(columns.map((column) => unavailableIn(unavailable, column.start, column.end)));
 
     // Day columns that fall on a shaded weekday, found once per `weekends` / `columns` change.
     const weekendColumns = $derived(
@@ -1102,11 +1109,16 @@
                         data-today={todayColumns[colIndex] ? "" : undefined}
                         data-non-working={nonWorking[colIndex] ? "" : undefined}
                         data-weekend={weekendColumns[colIndex] ? "" : undefined}
+                        data-unavailable={unavailableByColumn[colIndex].all ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
+                        data-partly-unavailable={!unavailableByColumn[colIndex].all && unavailableByColumn[colIndex].items.length ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
                         data-marker={colMarkers.length ? colMarkers.map((m) => m.kind ?? "marker").join(" ") : undefined}
                     >
                         {labels.columnLabel?.(column.start, column.end, timeUnit) ?? column.start}
                         {#each colMarkers as marker (marker.date + (marker.kind ?? ""))}
                             {#if marker.label}<span class="gantt-chart-marker-label">{marker.label}</span>{/if}
+                        {/each}
+                        {#each unavailableByColumn[colIndex].items as item (item.start + (item.end ?? "") + (item.kind ?? "") + (item.label ?? ""))}
+                            {#if item.label}<span class="gantt-chart-unavailable-label">{item.label}</span>{/if}
                         {/each}
                     </GanttTableTH>
                 {/each}
@@ -1206,6 +1218,8 @@
                             data-today={isToday ? "" : undefined}
                             data-non-working={nonWorking[colIndex] ? "" : undefined}
                             data-weekend={weekendColumns[colIndex] ? "" : undefined}
+                            data-unavailable={unavailableByColumn[colIndex].all ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
+                            data-partly-unavailable={!unavailableByColumn[colIndex].all && unavailableByColumn[colIndex].items.length ? unavailableKinds(unavailableByColumn[colIndex].items) : undefined}
                             data-marker={markersAt(colIndex).length ? "" : undefined}
                             aria-describedby={describedBy(row.task, deps.length > 0)}
                             data-baseline={row.task.baseline && rangesOverlap(column.start, column.end, row.task.baseline.start, row.task.baseline.end) ? "" : undefined}

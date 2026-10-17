@@ -1151,10 +1151,18 @@
         background-color: var(--color-primary);
     }
 
-    /* Gantt weekend shading: day columns the consumer names in `weekends` carry
-       data-weekend on the header and every cell. */
-    :where(.gantt-table-th[data-weekend], .gantt-table-td[data-weekend]) {
+    /* Weekend, holiday and time-off shading (Gantt chart and calendar). A weekend
+       is tinted; a day marked as a holiday or time off (data-unavailable /
+       data-range) is striped as well, so no day is told apart by colour alone;
+       a column only partly unavailable gets a bar under its header. */
+    :where(.gantt-table-th[data-weekend], .gantt-table-td[data-weekend], .calendar-table-th[data-weekend], .calendar-table-td[data-weekend]) {
         background-color: color-mix(in srgb, var(--lily-surface) 92%, var(--lily-text));
+    }
+    :where(.gantt-table-th[data-unavailable], .gantt-table-td[data-unavailable], .calendar-table-td[data-range]) {
+        background-image: repeating-linear-gradient(135deg, transparent 0 4px, color-mix(in srgb, var(--lily-text) 14%, transparent) 4px 5px);
+    }
+    :where(.gantt-table-th[data-partly-unavailable]) {
+        box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--lily-text) 45%, transparent);
     }
 
     /* ==========================================================================

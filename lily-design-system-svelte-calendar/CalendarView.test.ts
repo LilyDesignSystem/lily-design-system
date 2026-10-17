@@ -8,7 +8,7 @@ import CalendarView, {
     periodRange,
     weekStart,
 } from "./CalendarView.svelte";
-import type { CalendarEvent, CalendarViewLabels } from "./CalendarView.svelte";
+import type { CalendarEvent, CalendarRange, CalendarViewLabels } from "./CalendarView.svelte";
 import CalendarViewEventsTestHost from "./CalendarViewEventsTestHost.svelte";
 
 const LABELS: CalendarViewLabels = {
@@ -1261,6 +1261,68 @@ describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.12
         render(CalendarView, { props: base });
         await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
         expect(status()).toBe("");
+    });
+});
+
+describe("CalendarView — weekend, holiday and time-off indicators (§8.123–§8.130)", () => {
+    const RANGES: CalendarRange[] = [
+        { start: "2026-01-06", end: "2026-01-06", kind: "holiday", label: "Epiphany" },
+        { start: "2026-01-12", end: "2026-01-14", kind: "leave", label: "Ann off" },
+    ];
+    const base = { label: "Cal", view: "month" as const, anchorDate: "2026-01-15", labels: LABELS, ranges: RANGES, weekendDays: [0, 6] };
+
+    test("§8.123 a labelled range is real text beside the day number when there is no day snippet", () => {
+        render(CalendarView, { props: base });
+        expect(cellFor("2026-01-06")!.querySelector(".calendar-view-range-label")?.textContent).toBe("Epiphany");
+        expect(cellFor("2026-01-07")!.querySelector(".calendar-view-range-label")).toBeNull();
+    });
+
+    test("§8.124 a multi-day range labels every day it covers", () => {
+        render(CalendarView, { props: base });
+        for (const d of ["2026-01-12", "2026-01-13", "2026-01-14"]) {
+            expect(cellFor(d)!.querySelector(".calendar-view-range-label")?.textContent).toBe("Ann off");
+            expect(cellFor(d)!.getAttribute("data-range")).toBe("leave");
+        }
+    });
+
+    test("§8.125 the label is also the cell's description, so a screen reader hears why the day is marked", () => {
+        render(CalendarView, { props: base });
+        const cell = cellFor("2026-01-06")!;
+        const id = cell.getAttribute("aria-describedby");
+        expect(id).toBeTruthy();
+        expect(document.getElementById(id!)?.textContent).toBe("Epiphany");
+        expect(cellFor("2026-01-07")!.hasAttribute("aria-describedby")).toBe(false);
+    });
+
+    test("§8.126 several labels on one day are joined in the description", () => {
+        render(CalendarView, { props: { ...base, ranges: [{ start: "2026-01-06", end: "2026-01-06", label: "Epiphany" }, { start: "2026-01-06", end: "2026-01-07", label: "Closed" }] } });
+        const id = cellFor("2026-01-06")!.getAttribute("aria-describedby")!;
+        expect(document.getElementById(id)?.textContent).toBe("Epiphany, Closed");
+    });
+
+    test("§8.127 a range without a label marks the day but adds no text or description", () => {
+        render(CalendarView, { props: { ...base, ranges: [{ start: "2026-01-06", end: "2026-01-06", kind: "holiday" }] } });
+        expect(cellFor("2026-01-06")!.getAttribute("data-range")).toBe("holiday");
+        expect(cellFor("2026-01-06")!.querySelector(".calendar-view-range-label")).toBeNull();
+        expect(cellFor("2026-01-06")!.hasAttribute("aria-describedby")).toBe(false);
+    });
+
+    test("§8.128 the weekday header cells carry data-weekend like the day cells", () => {
+        render(CalendarView, { props: base });
+        const heads = Array.from(document.querySelectorAll("thead th"));
+        expect(heads.filter((h) => h.hasAttribute("data-weekend"))).toHaveLength(2);
+        expect(cellFor("2026-01-10")!.hasAttribute("data-weekend")).toBe(true); // a Saturday
+    });
+
+    test("§8.129 the agenda shows each labelled range beside the date", () => {
+        render(CalendarView, { props: { ...base, view: "agenda" as const, agendaEmptyDays: true } });
+        const day = document.querySelector('.calendar-view-agenda-day[data-date="2026-01-06"]')!;
+        expect(day.querySelector(".calendar-view-range-label")?.textContent).toBe("Epiphany");
+    });
+
+    test("§8.130 a day snippet still receives the ranges and renders its own", () => {
+        render(CalendarViewEventsTestHost, { props: { view: "month", anchorDate: "2026-01-15", events: [], ranges: RANGES } });
+        expect(document.querySelector(".calendar-view-range-label")).toBeNull();
     });
 });
 

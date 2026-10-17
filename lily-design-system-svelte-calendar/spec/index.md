@@ -385,3 +385,9 @@ Tests §8.93–§8.104.
 
 - **Field `validate(value, values)`** refuses a value of the right type that is not acceptable: return the reason. The editor stays open with `aria-invalid="true"` (cleared as soon as the user types again) and `labels.editRefused(event, header, reason)` is announced, falling back to `labels.editInvalid`. Undo and redo work from anywhere in the calendar.
 - **Undo and redo**: every accepted edit is remembered (the latest 100). Ctrl/Cmd+Z puts the earlier value back and Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies one, both **through `onFieldEdit`** with the restored value and the one it replaced — the consumer owns the data, so an undo is reported like an edit, and an undo is not itself recorded. A new edit ends the redo chain. Inside a field editor the browser's own undo is left alone; nothing happens in a `readonly` component or without `onFieldEdit`. `labels.undoAnnouncement(event, header, text)` / `labels.redoAnnouncement(event, header, text)` are announced. The stacks are the pure `edit-history.ts` (`recordEdit`, `undoEdit`, `redoEdit`, `historyKey`).
+
+## Weekend, holiday and time-off indicators (0.6.0, 2026-10-17)
+
+- **Marked ranges** (`ranges`: `{ start, end, kind?, label? }`, already there for holidays, closures and terms) now carry their `label` as real text: shown beside the day number (and the agenda date) when there is no `day` snippet, and read as the cell's description (`aria-describedby` a hidden span, several labels joined with ", "), so a screen reader hears why a day is marked and the day is never colour-only. A range without a label marks the day and adds no text. A `day` snippet still receives `ranges` and renders its own.
+- **Weekends**: the weekday header cells now carry `data-weekend` like the day cells (`weekendDays`, never defaulted).
+- **Shading** is CSS and ships in the 57 reference themes: weekend cells are tinted; a day inside a range is tinted and striped.

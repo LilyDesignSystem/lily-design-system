@@ -1443,3 +1443,60 @@ describe("in-place edit: validate, undo, redo", () => {
     });
 });
 
+describe("unavailable days: holidays and time off", () => {
+    const heads = () => Array.from(document.querySelectorAll<HTMLElement>("thead th")).slice(1);
+    const headOf = (date: string) => heads().find((h) => h.textContent?.includes(date))!;
+    const UN = [
+        { start: "2026-10-03", kind: "holiday", label: "Founders' Day" },
+        { start: "2026-10-06", end: "2026-10-07", kind: "leave", label: "Ann off" },
+    ];
+
+    test("§18.36 a day column fully covered is data-unavailable with its kind, on the header and every cell", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, unavailable: UN } });
+        expect(headOf("2026-10-03").getAttribute("data-unavailable")).toBe("holiday");
+        expect(headOf("2026-10-06").getAttribute("data-unavailable")).toBe("leave");
+        expect(headOf("2026-10-07").getAttribute("data-unavailable")).toBe("leave");
+        expect(headOf("2026-10-04").hasAttribute("data-unavailable")).toBe(false);
+        expect(document.querySelectorAll("tbody td[data-unavailable]")).toHaveLength(3 * TASKS.length);
+    });
+
+    test("§18.37 the label is real text in the header, so a day is never colour-only", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, unavailable: UN } });
+        expect(headOf("2026-10-03").querySelector(".gantt-chart-unavailable-label")?.textContent).toBe("Founders' Day");
+        expect(headOf("2026-10-04").querySelector(".gantt-chart-unavailable-label")).toBeNull();
+    });
+
+    test("§18.38 an entry without a kind is data-unavailable=unavailable", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, unavailable: [{ start: "2026-10-05" }] } });
+        expect(headOf("2026-10-05").getAttribute("data-unavailable")).toBe("unavailable");
+    });
+
+    test("§18.39 a week column only partly covered is data-partly-unavailable, so a holiday inside a week is still marked", () => {
+        render(GanttChart, { props: { label: "Q4", range: { start: "2026-10-01", end: "2026-10-31" }, tasks: TASKS, labels: LABELS, timeUnit: "week", unavailable: [{ start: "2026-10-03", kind: "holiday", label: "Founders' Day" }] } });
+        const marked = heads().filter((h) => h.hasAttribute("data-partly-unavailable"));
+        expect(marked).toHaveLength(1);
+        expect(marked[0].getAttribute("data-partly-unavailable")).toBe("holiday");
+        expect(marked[0].hasAttribute("data-unavailable")).toBe(false);
+        expect(marked[0].querySelector(".gantt-chart-unavailable-label")?.textContent).toBe("Founders' Day");
+    });
+
+    test("§18.40 several kinds on one column are all listed", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, unavailable: [{ start: "2026-10-06", kind: "holiday" }, { start: "2026-10-06", kind: "leave" }] } });
+        expect(headOf("2026-10-06").getAttribute("data-unavailable")).toBe("holiday leave");
+    });
+
+    test("§18.41 it combines with weekends and isNonWorking, and nothing is marked without it", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, weekends: [6], unavailable: [{ start: "2026-10-03", kind: "holiday" }] } });
+        const h = headOf("2026-10-03");
+        expect(h.hasAttribute("data-weekend") && h.hasAttribute("data-unavailable")).toBe(true);
+        document.body.innerHTML = "";
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS } });
+        expect(document.querySelector("[data-unavailable], [data-partly-unavailable]")).toBeNull();
+    });
+
+    test("§18.42 an entry with a bad date marks nothing", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, unavailable: [{ start: "2026-13-40" }] } });
+        expect(document.querySelector("[data-unavailable], [data-partly-unavailable]")).toBeNull();
+    });
+});
+

@@ -35,3 +35,5 @@ export { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, TYPEAHEAD_RESET
 export type { TypeaheadState } from "./typeahead";
 export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
 export type { EditHistory, EditRecord } from "./edit-history";
+export { epochDayOf, unavailableIn, unavailableKinds, unavailableOn } from "./unavailable";
+export type { Unavailable } from "./unavailable";

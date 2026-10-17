@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.6.0 — 2026-10-17
 
+- Marked `ranges` labels are now real text and the cell's description; weekday headers carry `data-weekend`; the themes shade weekends and ranges.
 - Added field `validate` (with `aria-invalid` and `labels.editRefused`) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y) through `onFieldEdit`.
 - Added copy to the clipboard (`labels.copy`, `copyAnnouncement`, `copyFailed`, `onCopy`; `toClipboardText`, `copyToClipboard`).
 - Added `filter` and `eventCompare`.

@@ -188,7 +188,7 @@
         isDisabled?: (isoDate: string) => boolean;
         /** Show an ISO week-number column (a row header per week). */
         showWeekNumbers?: boolean;
-        /** Marked ranges (holidays, closures): each day inside gets `data-range="{kind}"`. */
+        /** Marked ranges (holidays, time off, closures): each day inside gets `data-range="{kind}"`. A range's `label` is real text — shown beside the day number (and the agenda date) when there is no `day` snippet, and read as the cell's description (`aria-describedby`) — so a marked day is never colour-only. Shading is CSS. */
         ranges?: CalendarRange[];
         /** The picked range, bindable. Shift+arrows extend it from the cursor; Shift+click picks one; Escape clears it. */
         selectedRange?: SelectedRange;
@@ -414,6 +414,12 @@
         if (flatDays.includes(cursor)) return;
         cursor = flatDays.includes(anchorDate) ? anchorDate : flatDays[0];
     });
+
+    /** The labels of the ranges a day is in, joined for a cell's description; undefined when none has one. */
+    const rangeLabels = (dayRanges: CalendarRange[]): string | undefined => {
+        const text = dayRanges.map((r) => r.label).filter((l): l is string => !!l).join(", ");
+        return text === "" ? undefined : text;
+    };
 
     function disabledDay(isoDate: string): boolean {
         if (minDate && isoDate < minDate) return true;
@@ -1001,6 +1007,9 @@
                     aria-current={isToday ? "date" : undefined}
                 >
                     <time class="calendar-view-agenda-date" datetime={d}>{labels?.day?.(d, weekday, false) ?? d}</time>
+                    {#each dayRanges as range (range.start + range.end + (range.kind ?? "") + (range.label ?? ""))}
+                        {#if range.label}<span class="calendar-view-range-label">{range.label}</span>{/if}
+                    {/each}
                     {#if day}
                         {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: false, selected: false, disabled, inRange: false, ranges: dayRanges, openEvent, fieldText, eventProps })}
                     {:else if dayEvents.length > 0}
@@ -1071,7 +1080,7 @@
                 {/if}
                 {#each { length: view === "day" ? 1 : 7 } as _, i (i)}
                     {@const weekday = view === "day" ? weekdayOf(anchorDate) : (firstDayOfWeek + i) % 7}
-                    <CalendarTableTH scope="col">
+                    <CalendarTableTH scope="col" data-weekend={weekendDays?.includes(weekday) ? "" : undefined}>
                         {#if labels?.weekdayAbbr}
                             <abbr title={labels.weekday?.(weekday) ?? labels.weekdayAbbr(weekday)}>{labels.weekdayAbbr(weekday)}</abbr>
                         {:else if labels?.weekday}
@@ -1111,16 +1120,21 @@
                             data-range={dayRanges.length ? dayRanges.map((r) => r.kind ?? "range").join(" ") : undefined}
                             aria-disabled={disabled || undefined}
                             aria-label={labels?.day?.(d, weekday, outside)}
+                            aria-describedby={rangeLabels(dayRanges) ? `${baseId}-rg-${d}` : undefined}
                             onclick={(e: MouseEvent) => onDayCellClick(d, e)}
                             ondragover={onDayDragOver}
                             ondrop={(e: DragEvent) => onDayDrop(d, e)}
                         >
+                            {#if rangeLabels(dayRanges)}<span id={`${baseId}-rg-${d}`} hidden>{rangeLabels(dayRanges)}</span>{/if}
                             {#if hideOutsideDays && outside}
                                 <!-- a hidden outside day stays an empty, focusable cell -->
                             {:else if day}
                                 {@render day({ date: d, events: dayEvents, visibleEvents: maxEvents == null ? dayEvents : dayEvents.slice(0, Math.max(0, maxEvents)), hiddenCount: maxEvents == null ? 0 : Math.max(0, dayEvents.length - Math.max(0, maxEvents)), isToday, outsidePeriod: outside, selected: picked, disabled, inRange, ranges: dayRanges, openEvent, fieldText, eventProps })}
                             {:else}
                                 {parseIsoDate(d)?.day}
+                                {#each dayRanges as range (range.start + range.end + (range.kind ?? "") + (range.label ?? ""))}
+                                    {#if range.label}<span class="calendar-view-range-label">{range.label}</span>{/if}
+                                {/each}
                             {/if}
                         </CalendarTableTD>
                     {/each}
