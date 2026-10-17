@@ -70,6 +70,11 @@ Editing requires `Labels.DateTimePickerLabels` (a
 package) — without it, Enter/Space on a task row does nothing, per this
 catalog's label-presence-gates-control convention.
 
+## Weekend shading and dependency arrows (0.6.0)
+
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
+
 ## Keyboard
 
 WAI-ARIA APG Grid roving-tabindex, the same model `KanbanBoard` uses.

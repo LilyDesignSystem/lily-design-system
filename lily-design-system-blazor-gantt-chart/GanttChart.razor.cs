@@ -242,6 +242,12 @@ public partial class GanttChart : ComponentBase
     /// <summary>Consumer's own working calendar; a column is <c>data-non-working</c> when every day in it is non-working.</summary>
     [Parameter] public Func<string, bool>? IsNonWorking { get; set; }
 
+    /// <summary>Weekdays to shade (0 = Sunday … 6 = Saturday), for example <c>[0, 6]</c> or <c>[5, 6]</c>. Never defaulted: the weekend is the consumer's locale. Marks day columns <c>data-weekend</c> on the header and every cell; week and month columns are not marked. Shading itself is CSS.</summary>
+    [Parameter] public IReadOnlyList<int>? Weekends { get; set; }
+
+    /// <summary>Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type. An <c>aria-hidden</c> SVG overlay measured from the rendered cells (one JS call per change); the dependencies stay available as text through <c>Labels.DependencySummary</c>. Drawn only between rendered rows.</summary>
+    [Parameter] public bool DependencyArrows { get; set; }
+
     /// <summary>Suppress editing, drag and the edit region; navigation and collapse still work.</summary>
     [Parameter] public bool Readonly { get; set; }
 
@@ -311,6 +317,14 @@ public partial class GanttChart : ComponentBase
     private string _editPercent = "";
 
     private string? _draggingTaskId;
+
+    // Dependency arrows: an aria-hidden overlay measured from the rendered cells.
+    private sealed record Arrow(string Key, string From, string To, string Kind, string D);
+    private List<Arrow> _arrows = new();
+    private double _overlayWidth;
+    private double _overlayHeight;
+    private string _arrowSignature = "";
+    private string ArrowHeadId => $"{_baseId}-arrowhead";
 
     private bool _focusCellPending;
     private bool _focusEditPending;
@@ -973,6 +987,13 @@ public partial class GanttChart : ComponentBase
     private static string? MarkerKinds(IReadOnlyList<GanttMarker> markers)
         => markers.Count == 0 ? null : string.Join(" ", markers.Select(m => m.Kind ?? "marker"));
 
+    private bool IsWeekendColumn(GanttColumn column)
+    {
+        if (Weekends is not { Count: > 0 } || column.Start != column.End) return false;
+        var day = DateTimePicker.ParseIsoDate(column.Start);
+        return day is { } d && Weekends.Contains(Helpers.DependencyArrowGeometry.WeekdayOfEpochDay((long)DateTimePicker.ToEpochDay(d)));
+    }
+
     private bool IsNonWorkingColumn(GanttColumn column)
     {
         if (IsNonWorking is null) return false;
@@ -1120,8 +1141,58 @@ public partial class GanttChart : ComponentBase
         _focusedCol = ActiveCol;
     }
 
+    /// <summary>Measure each rendered row's bar (first and last in-range cell) in one call and rebuild the arrows when they changed.</summary>
+    private async Task MeasureArrowsAsync()
+    {
+        if (!DependencyArrows)
+        {
+            if (_arrows.Count > 0 || _arrowSignature != "")
+            {
+                _arrows = new();
+                _arrowSignature = "";
+                StateHasChanged();
+            }
+            return;
+        }
+        string? json;
+        try
+        {
+            json = await JS.InvokeAsync<string?>("eval", $"(function(){{var h=document.getElementById({JsonString(ScrollId)});if(!h)return null;var r=h.getBoundingClientRect(),dx=h.scrollLeft-r.left,dy=h.scrollTop-r.top,b={{}};h.querySelectorAll('tr[data-task-id]').forEach(function(tr){{var c=tr.querySelectorAll('td[data-in-range]');if(!c.length)return;var f=c[0].getBoundingClientRect(),l=c[c.length-1].getBoundingClientRect();b[tr.getAttribute('data-task-id')]=[f.left+dx,l.right+dx,f.top+dy,f.bottom+dy];}});return JSON.stringify({{w:h.scrollWidth,h:h.scrollHeight,b:b}});}})()");
+        }
+        catch
+        {
+            return; // prerender / interop failure
+        }
+        if (string.IsNullOrEmpty(json) || json == _arrowSignature) return;
+        _arrowSignature = json;
+        using var doc = System.Text.Json.JsonDocument.Parse(json);
+        var boxes = new Dictionary<string, ArrowBox>();
+        foreach (var entry in doc.RootElement.GetProperty("b").EnumerateObject())
+        {
+            var v = entry.Value;
+            boxes[entry.Name] = new ArrowBox(v[0].GetDouble(), v[1].GetDouble(), v[2].GetDouble(), v[3].GetDouble());
+        }
+        var next = new List<Arrow>();
+        foreach (var (id, to) in boxes)
+        {
+            if (!TaskById.TryGetValue(id, out var task)) continue;
+            var deps = (task.DependsOn ?? Array.Empty<string>()).Select(d => (Id: d, Type: "e2s"))
+                .Concat((task.Dependencies ?? Array.Empty<GanttDependency>()).Select(d => (d.Id, d.Type ?? "e2s")));
+            foreach (var (predecessorId, kind) in deps)
+            {
+                if (!boxes.TryGetValue(predecessorId, out var from)) continue;
+                next.Add(new Arrow($"{predecessorId}>{id}", predecessorId, id, kind, Helpers.DependencyArrowGeometry.Path(kind, from, to)));
+            }
+        }
+        _arrows = next;
+        _overlayWidth = doc.RootElement.GetProperty("w").GetDouble();
+        _overlayHeight = doc.RootElement.GetProperty("h").GetDouble();
+        StateHasChanged();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await MeasureArrowsAsync();
         if (_scrollToPending is { } scrollTo)
         {
             _scrollToPending = null;

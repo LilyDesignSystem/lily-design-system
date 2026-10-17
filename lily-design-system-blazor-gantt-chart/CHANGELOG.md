@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-17
+
+- Added weekend shading: `weekends` (weekdays, 0 = Sunday … 6 = Saturday; never defaulted) marks day columns `data-weekend` on the header and every cell. The 57 reference themes tint them.
+- Added dependency arrows: `dependencyArrows` draws an `aria-hidden` SVG arrow per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description remains.
+- Exports `dependencyPath` and `weekdayOfEpochDay` (pure, tested).
+
 ## 0.5.0 — 2026-10-16
 
 - Added typed task fields (`Fields` as `DataGridColumn`s, `task.Values`, `Locale`), using the data grid's cell types, shown as a column between the task name and the timeline.

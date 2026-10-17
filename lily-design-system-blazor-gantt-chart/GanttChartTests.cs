@@ -1317,3 +1317,151 @@ public class GanttChartExtrasTests : TestContext
         Assert.Single(cut.FindAll(".gantt-table-td[tabindex='0']"));
     }
 }
+
+// =====================================================================
+// §17 weekend shading and dependency arrows (0.6.0)
+// =====================================================================
+
+public class GanttChartWeekendAndArrowTests : TestContext
+{
+    private static readonly GanttRange Range = new() { Start = "2026-10-01", End = "2026-10-10" };
+
+    private static readonly IReadOnlyList<GanttTask> Tasks = new[]
+    {
+        new GanttTask { Id = "design", Label = "Design", Start = "2026-10-01", End = "2026-10-03" },
+        new GanttTask { Id = "build", Label = "Build", Start = "2026-10-04", End = "2026-10-06", DependsOn = new[] { "design" } },
+        new GanttTask { Id = "launch", Label = "Launch", Start = "2026-10-07", End = "2026-10-07" },
+    };
+
+    private static readonly GanttLabels Labels = new()
+    {
+        ColumnLabel = (start, _, _) => start,
+        DependencySummary = preds => $"Blocked by: {string.Join(", ", preds)}",
+    };
+
+    public GanttChartWeekendAndArrowTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
+    }
+
+    /// <summary>What the browser's measuring call would return: design ends at x=60, build starts at x=60 one row down.</summary>
+    private void Measured(string json)
+        => JSInterop.Setup<string?>("eval", i => i.Arguments[0]?.ToString()?.Contains("getBoundingClientRect") == true).SetResult(json);
+
+    private const string TwoBars = "{\"w\":400,\"h\":100,\"b\":{\"design\":[0,60,0,20],\"build\":[60,120,20,40]}}";
+
+    private IRenderedComponent<GanttChart> Render(Action<ComponentParameterCollectionBuilder<GanttChart>>? configure = null, IReadOnlyList<GanttTask>? tasks = null, GanttRange? range = null)
+        => RenderComponent<GanttChart>(p =>
+        {
+            p.Add(x => x.Label, "Q4");
+            p.Add(x => x.Range, range ?? Range);
+            p.Add(x => x.Tasks, tasks ?? Tasks);
+            p.Add(x => x.Labels, Labels);
+            configure?.Invoke(p);
+        });
+
+    private static string[] WeekendHeads(IRenderedComponent<GanttChart> cut)
+        => cut.FindAll("thead th[data-weekend]").Select(h => h.TextContent.Trim()).ToArray();
+
+    // 2026-10-03 is a Saturday, 2026-10-04 a Sunday.
+    [Fact]
+    public void Section_17_1_Weekends_Marks_Day_Columns_On_The_Header_And_Every_Cell()
+    {
+        var cut = Render(p => p.Add(x => x.Weekends, new[] { 0, 6 }));
+        Assert.Equal(new[] { "2026-10-03", "2026-10-04", "2026-10-10" }, WeekendHeads(cut));
+        Assert.Equal(3 * Tasks.Count, cut.FindAll("tbody td[data-weekend]").Count);
+    }
+
+    [Fact]
+    public void Section_17_2_Without_Weekends_Nothing_Is_Shaded()
+        => Assert.Empty(Render().FindAll("[data-weekend]"));
+
+    [Fact]
+    public void Section_17_3_A_Friday_Saturday_Weekend_Shades_Those_Days_Instead()
+        => Assert.Equal(new[] { "2026-10-02", "2026-10-03", "2026-10-09", "2026-10-10" }, WeekendHeads(Render(p => p.Add(x => x.Weekends, new[] { 5, 6 }))));
+
+    [Fact]
+    public void Section_17_4_Week_Columns_Are_Not_Marked()
+    {
+        var cut = Render(p =>
+        {
+            p.Add(x => x.TimeUnit, GanttTimeUnit.Week);
+            p.Add(x => x.Weekends, new[] { 0, 6 });
+        }, range: new GanttRange { Start = "2026-10-01", End = "2026-12-31" });
+        Assert.Empty(cut.FindAll("[data-weekend]"));
+    }
+
+    [Fact]
+    public void Section_17_5_Weekends_Combine_With_IsNonWorking()
+    {
+        var cut = Render(p =>
+        {
+            p.Add(x => x.Weekends, new[] { 6 });
+            p.Add(x => x.IsNonWorking, d => d == "2026-10-03");
+        });
+        var th = cut.FindAll("thead th").First(h => h.TextContent.Trim() == "2026-10-03");
+        Assert.True(th.HasAttribute("data-weekend") && th.HasAttribute("data-non-working"));
+    }
+
+    [Fact]
+    public void Section_17_6_DependencyArrows_Draws_One_Aria_Hidden_Arrow_From_The_Predecessors_End_To_The_Dependents_Start()
+    {
+        Measured(TwoBars);
+        var cut = Render(p => p.Add(x => x.DependencyArrows, true));
+        cut.WaitForAssertion(() => Assert.Single(cut.FindAll(".gantt-chart-dependency-arrow")));
+        Assert.Equal("true", cut.Find(".gantt-chart-dependency-arrows").GetAttribute("aria-hidden"));
+        var arrow = cut.Find(".gantt-chart-dependency-arrow");
+        Assert.Equal("design", arrow.GetAttribute("data-from"));
+        Assert.Equal("build", arrow.GetAttribute("data-to"));
+        Assert.Equal("e2s", arrow.GetAttribute("data-dependency-type"));
+        Assert.Equal("M60 10H68V19H52V30H60", arrow.GetAttribute("d"));
+    }
+
+    [Fact]
+    public void Section_17_7_The_Dependency_Stays_Available_As_Text()
+    {
+        Measured(TwoBars);
+        var cut = Render(p => p.Add(x => x.DependencyArrows, true));
+        cut.WaitForAssertion(() => Assert.NotEmpty(cut.FindAll(".gantt-chart-dependency-arrow")));
+        Assert.Equal("Blocked by: Design", cut.Find(".gantt-chart-dependency-summary").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Section_17_8_Typed_Dependencies_Use_Their_Own_Edges_And_A_Missing_Predecessor_Draws_Nothing()
+    {
+        Measured("{\"w\":400,\"h\":100,\"b\":{\"a\":[0,60,0,20],\"b\":[100,140,20,40]}}");
+        var tasks = new[]
+        {
+            new GanttTask { Id = "a", Label = "A", Start = "2026-10-01", End = "2026-10-03" },
+            new GanttTask { Id = "b", Label = "B", Start = "2026-10-05", End = "2026-10-06", Dependencies = new[] { new GanttDependency("a", "s2s"), new GanttDependency("ghost") } },
+        };
+        var cut = Render(p => p.Add(x => x.DependencyArrows, true), tasks);
+        cut.WaitForAssertion(() => Assert.Single(cut.FindAll(".gantt-chart-dependency-arrow")));
+        Assert.Equal("s2s", cut.Find(".gantt-chart-dependency-arrow").GetAttribute("data-dependency-type"));
+    }
+
+    [Fact]
+    public void Section_17_9_Without_DependencyArrows_There_Is_No_Overlay()
+    {
+        Measured(TwoBars);
+        Assert.Empty(Render().FindAll(".gantt-chart-dependency-arrows"));
+    }
+
+    [Theory]
+    [InlineData("e2s", "M50 10H58V40H70")]
+    [InlineData("s2s", "M10 10H2V29H62V40H70")]
+    [InlineData("e2e", "M50 10H58V29H128V40H120")]
+    [InlineData("s2e", "M10 10H2V29H128V40H120")]
+    public void Section_17_10_The_Path_Geometry_Matches_The_Svelte_Package(string kind, string expected)
+        => Assert.Equal(expected, DependencyArrowGeometry.Path(kind, new ArrowBox(10, 50, 0, 20), new ArrowBox(70, 120, 30, 50)));
+
+    [Fact]
+    public void Section_17_11_The_Weekday_Of_An_Epoch_Day_Is_Right()
+    {
+        Assert.Equal(4, DependencyArrowGeometry.WeekdayOfEpochDay(0));
+        Assert.Equal(3, DependencyArrowGeometry.WeekdayOfEpochDay(-1));
+        Assert.Equal(6, DependencyArrowGeometry.WeekdayOfEpochDay(20456));
+    }
+}
+

@@ -88,7 +88,7 @@
     @* The scroll area is structural: a virtualized chart gets a fixed height and renders only the rows in view. *@
     <div id="@ScrollId"
          class="@(Virtualize is not null ? "gantt-chart-scroll" : "gantt-chart-body")"
-         style="@(Virtualize is { } vz ? $"height: {vz.Height}px; overflow: auto" : null)"
+         style="@(string.Join("; ", new[] { Virtualize is { } vz ? $"height: {vz.Height}px; overflow: auto" : null, DependencyArrows ? "position: relative" : null }.Where(x => x is not null)) is { Length: > 0 } scrollStyle ? scrollStyle : null)"
          @onscroll="OnScrollAsync">
     <GanttTable Label="@Label" aria-rowcount="@(Virtualize is not null ? (Rows.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
@@ -109,6 +109,7 @@
                     <GanttTableTH scope="col"
                                   data-today="@(isColumnToday ? "" : null)"
                                   data-non-working="@(IsNonWorkingColumn(column) ? "" : null)"
+                                  data-weekend="@(IsWeekendColumn(column) ? "" : null)"
                                   data-marker="@MarkerKinds(columnMarkers)">
                         @(Labels.ColumnLabel?.Invoke(column.Start, column.End, TimeUnit) ?? column.Start)
                         @foreach (var marker in columnMarkers)
@@ -251,6 +252,7 @@
                                       data-milestone="@(isMilestone ? "" : null)"
                                       data-today="@(isCellToday ? "" : null)"
                                       data-non-working="@(IsNonWorkingColumn(column) ? "" : null)"
+                                      data-weekend="@(IsWeekendColumn(column) ? "" : null)"
                                       data-marker="@(MarkersIn(column).Count > 0 ? "" : null)"
                                       aria-describedby="@DescribedBy(currentTask, hasDescribedBy)"
                                       data-baseline="@(HasBaseline(currentTask, column) ? "" : null)"
@@ -322,6 +324,23 @@
             }
         </GanttTableTbody>
     </GanttTable>
+    @if (DependencyArrows && _arrows.Count > 0)
+    {
+        <svg class="gantt-chart-dependency-arrows" aria-hidden="true" focusable="false"
+             width="@_overlayWidth.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+             height="@_overlayHeight.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+             style="position:absolute;left:0;top:0;pointer-events:none">
+            <defs>
+                <marker id="@ArrowHeadId" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3L0 6z" fill="currentColor" /></marker>
+            </defs>
+            @foreach (var arrow in _arrows)
+            {
+                <path @key="arrow.Key" class="gantt-chart-dependency-arrow" data-from="@arrow.From" data-to="@arrow.To"
+                      data-dependency-type="@arrow.Kind" d="@arrow.D" fill="none" stroke="currentColor" stroke-width="1.5"
+                      marker-end="url(#@ArrowHeadId)" />
+            }
+        </svg>
+    }
     </div>
 
     <p class="gantt-chart-status" aria-live="polite">@_statusMessage</p>
