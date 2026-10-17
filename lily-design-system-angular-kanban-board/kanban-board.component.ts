@@ -9,6 +9,7 @@ import {
   Component,
   ElementRef,
   computed,
+  effect,
   inject,
   input,
   model,
@@ -26,8 +27,15 @@ import {
   KanbanTableTD,
   KanbanTableTH,
   Listbox,
+  Mark,
+  SearchInput,
 } from "@lilydesignsystem/angular-headless";
-import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+import { highlightSegments, matchesSearch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { gridMove, pageStepFor } from "./grid-navigation";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
   draftOf,
   editorKind,
@@ -123,12 +131,26 @@ export type KanbanLabels = {
   exportExcel?: string;
   /** Announced after an export: (format, how many cards, file name). */
   exportAnnouncement?: (format: ExportFormat, cardCount: number, filename: string) => string;
+  /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+  copy?: string;
+  /** Announced after a copy: (how many rows). */
+  copyAnnouncement?: (rowCount: number) => string;
+  /** Announced when the clipboard could not be written. */
+  copyFailed?: string;
+  /** Announced after the search changes: (matching cards, all cards). */
+  searchAnnouncement?: (matchCount: number, totalCount: number) => string;
   /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
   exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
   /** Announced after a field edit: (card title, field header, the new text). */
   editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
   editInvalid?: (cardTitle: string, fieldHeader: string) => string;
+  /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
+  editRefused?: (cardTitle: string, fieldHeader: string, message: string) => string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier field value back: (card title, field header, the restored text). */
+  fieldUndoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies a field edit: (card title, field header, the text). */
+  fieldRedoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   cardCount?: (count: number) => string;
   overLimit?: (count: number, limit: number) => string;
   moveButton?: (card: KanbanCard) => string;
@@ -216,6 +238,8 @@ export function nextKanbanBoardId(): string {
   standalone: true,
   imports: [
     IconButton,
+    Mark,
+    SearchInput,
     KanbanTable,
     KanbanTableBody,
     KanbanTableHead,
@@ -233,16 +257,19 @@ export function nextKanbanBoardId(): string {
       [attr.data-readonly]="readonly() ? '' : null"
     >
       @if (labels().search; as searchLabel) {
-        <input
-          type="search"
-          class="kanban-board-search"
-          [attr.aria-label]="searchLabel"
+        <lily-search-input
+          className="kanban-board-search"
+          [label]="searchLabel"
           [value]="search()"
-          (input)="search.set($any($event.target).value)"
+          (valueChange)="search.set($event)"
+          (keydown)="onSearchKeydown($event)"
         />
       }
       @if (hasExportButtons()) {
         <div class="kanban-board-export" role="group" [attr.aria-label]="labels().export ?? null">
+          @if (labels().copy; as copy) {
+            <button type="button" class="kanban-board-export-button" data-kanban-export-format="copy" [disabled]="exportCards().length === 0" (click)="runExport('copy')">{{ copy }}</button>
+          }
           @if (labels().exportCsv; as csv) {
             <button type="button" class="kanban-board-export-button" data-kanban-export-format="csv" [disabled]="exportCards().length === 0" (click)="runExport('csv')">{{ csv }}</button>
           }
@@ -390,11 +417,12 @@ export function nextKanbanBoardId(): string {
                   [attr.data-flag]="card?.flag ?? null"
                   [attr.data-accent]="column.accent ?? null"
                   [attr.data-empty]="!card && !hasLanes() && rowIndex === 0 && labels().emptyColumn && isEmptyColumn(column) ? '' : null"
-                  [attr.data-drop-target]="dropTarget() === rowIndex + '-' + colIndex ? '' : null"
+                  [attr.data-drop-target]="dropTarget() === rowIndex + '-' + colIndex && !dropBlocked() ? '' : null"
+                  [attr.data-drop-blocked]="dropTarget() === rowIndex + '-' + colIndex && dropBlocked() ? '' : null"
                   [attr.aria-describedby]="card?.flag ? flagId(card.id) : null"
                   [attr.tabindex]="isFocused(rowIndex, colIndex) ? 0 : -1"
-                  (dragover)="onColumnDragOver($event, rowIndex, colIndex)"
-                  (dragleave)="dropTarget.set(null)"
+                  (dragover)="onColumnDragOver($event, column, rowIndex, colIndex)"
+                  (dragleave)="dropTarget.set(null); dropBlocked.set(false)"
                   (drop)="onColumnDrop(column, rowIndex, $event)"
                 >
                   @if (card) {
@@ -413,9 +441,9 @@ export function nextKanbanBoardId(): string {
                           [ngTemplateOutletContext]="{ card: card, label: cardLabel()(card), column: column, pending: isPending(card.id) }"
                         />
                       } @else if (card.href) {
-                        <a class="kanban-board-card-link" [href]="card.href">{{ cardLabel()(card) }}</a>
+                        <a class="kanban-board-card-link" [href]="card.href"><ng-container *ngTemplateOutlet="titleText; context: { card: card }" /></a>
                       } @else {
-                        {{ cardLabel()(card) }}
+                        <ng-container *ngTemplateOutlet="titleText; context: { card: card }" />
                       }
                     </span>
                     @if (!cardTemplate()) {
@@ -443,6 +471,7 @@ export function nextKanbanBoardId(): string {
                                   <select
                                     class="kanban-board-field-editor"
                                     [attr.aria-label]="f.editLabel ?? f.header"
+                                    [attr.aria-invalid]="ed.invalid ? 'true' : null"
                                     [value]="editorValue(ed.draft)"
                                     (change)="onEditorSelectChange($event)"
                                     (keydown)="onEditorKeydown($event)"
@@ -457,6 +486,7 @@ export function nextKanbanBoardId(): string {
                                   <input
                                     class="kanban-board-field-editor"
                                     [attr.aria-label]="f.editLabel ?? f.header"
+                                    [attr.aria-invalid]="ed.invalid ? 'true' : null"
                                     [type]="kindOf(f) === 'number' ? 'number' : kindOf(f) === 'date' ? 'date' : kindOf(f) === 'time' ? 'time' : 'text'"
                                     [attr.inputmode]="kindOf(f) === 'number' ? 'decimal' : null"
                                     [value]="editorValue(ed.draft)"
@@ -551,6 +581,14 @@ export function nextKanbanBoardId(): string {
 
       <p class="kanban-board-status" aria-live="polite">{{ statusMessage() }}</p>
     </div>
+    <ng-template #titleText let-card="card">
+      @if (searching()) {
+        @for (part of titleSegments(card); track $index) {
+          @if (part.match) {<lily-mark className="kanban-board-match">{{ part.text }}</lily-mark>} @else {{{ part.text }}}
+        }
+      } @else {{{ cardLabel()(card) }}}
+    </ng-template>
+
     <ng-template #fieldView let-f="f" let-card="card" let-text="text" let-editable="editable">
       <span class="kanban-board-card-field" [attr.data-field]="f.id" [attr.data-type]="f.type ?? 'text'">
         <span class="kanban-board-card-field-name" [id]="fieldNameId(card.id, f.id)">{{ f.header }}</span>{{ " " }}
@@ -646,6 +684,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   readonly exportScope = input<"view" | "selected">("view");
   /** Called before the download with the finished file. Return `false` to skip the built-in download. */
   readonly exportHandler = input<((file: KanbanExport) => boolean | void) | undefined>(undefined);
+  /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` output fires first. */
+  readonly copyHandler = input<((copy: { text: string; rowCount: number }) => boolean | void) | undefined>(undefined);
   /** Extra CSS class on the root. */
   readonly className = input<string>("");
 
@@ -663,6 +703,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
 
   /** Fires with an export file, before it is saved. */
   readonly exportFile = output<KanbanExport>();
+  readonly copy = output<{ text: string; rowCount: number }>();
 
   /** Fires when an async `moveHandler` rejects, after the card has gone back. */
   readonly moveError = output<KanbanMoveErrorEvent>();
@@ -771,13 +812,14 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const map = new Map<string, KanbanCard[]>();
     const filter = this.filter();
     const compare = this.compare();
-    const needle = this.search().trim().toLowerCase();
+    const query = this.search();
+    const searching = query.trim() !== "";
     const text =
       this.searchText() ??
-      ((c: KanbanCard) => [this.cardLabel()(c), c.subtitle ?? "", ...(c.badges ?? [])].join(" "));
+      ((c: KanbanCard) => [this.cardLabel()(c), c.subtitle ?? "", ...(c.badges ?? []), ...this.resolvedFields().map((f) => fieldTextOf(f, c.values))].join(" "));
     for (const [id, list] of this.cardsByColumn()) {
       let shown = filter ? list.filter(filter) : list.slice();
-      if (needle) shown = shown.filter((c) => text(c).toLowerCase().includes(needle));
+      if (searching) shown = shown.filter((c) => matchesSearch(text(c), query));
       if (compare) shown = shown.sort(compare);
       map.set(id, shown);
     }
@@ -964,6 +1006,23 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     if (message) this.statusMessage.set(message);
   }
 
+  protected readonly searching = computed(() => this.search().trim() !== "");
+  protected titleSegments(card: KanbanCard) {
+    return highlightSegments(this.cardLabel()(card), this.search());
+  }
+
+  /** Announce how many cards match after the search changes (not on the first run). */
+  private searchAnnounced = false;
+  private readonly searchAnnouncement = effect(() => {
+    this.search();
+    const matched = [...this.shownByColumn().values()].reduce((n, list) => n + list.length, 0);
+    if (!this.searchAnnounced) {
+      this.searchAnnounced = true;
+      return;
+    }
+    this.announce(this.labels().searchAnnouncement?.(matched, this.cards().length));
+  });
+
   // ---------------------------------------------------------------
   // Typed fields, inline editing, export
   // ---------------------------------------------------------------
@@ -990,7 +1049,9 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   }
 
   /** The field being edited, if any: the draft is the editor's text. */
-  protected readonly editing = signal<{ cardId: string; fieldId: string; draft: Draft } | null>(null);
+  protected readonly editing = signal<{ cardId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+  /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `fieldEdit`. */
+  private history: EditHistory = EMPTY_HISTORY;
 
   protected startFieldEdit(card: KanbanCard, f: ResolvedField): void {
     if (!this.isFieldEditable(f, card)) return;
@@ -1018,16 +1079,34 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     }
     const outcome = evaluateEdit(f, card.values, draft);
     if (outcome.invalid) {
-      this.announce(this.labels().editInvalid?.(this.cardLabel()(card), f.header));
+      this.editing.set({ ...current, invalid: true });
+      this.announce((outcome.message ? this.labels().editRefused?.(this.cardLabel()(card), f.header, outcome.message) : undefined) ?? this.labels().editInvalid?.(this.cardLabel()(card), f.header));
       return false;
     }
     this.editing.set(null);
     if (outcome.changed) {
+      this.history = recordEdit(this.history, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
       this.fieldEdit.emit({ cardId, fieldId, value: outcome.value, previous: outcome.previous });
       this.announce(this.labels().editAnnouncement?.(this.cardLabel()(card), f.header, outcome.text));
     }
     if (refocus) this.afterRender(() => this.focusCard(cardId));
     return true;
+  }
+
+  /** Put an earlier field value back, or re-apply it, through `fieldEdit`. */
+  private stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(this.history) : redoEdit(this.history);
+    if (!step.record) return;
+    this.history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    this.fieldEdit.emit({ cardId: ownerId, fieldId, value: restored, previous: replaced });
+    const card = this.effectiveCards().find((c) => c.id === ownerId);
+    const f = this.resolvedFields().find((x) => x.id === fieldId);
+    if (!card || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored }) : String(restored);
+    this.announce((direction === "undo" ? this.labels().fieldUndoAnnouncement : this.labels().fieldRedoAnnouncement)?.(this.cardLabel()(card), f.header, text));
   }
 
   private cancelFieldEdit(): void {
@@ -1037,9 +1116,18 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     this.afterRender(() => this.focusCard(current.cardId));
   }
 
+  /** Escape in the search field clears it. */
+  protected onSearchKeydown(event: Event): void {
+    const e = event as KeyboardEvent;
+    if (e.key === "Escape" && this.search() !== "") {
+      e.preventDefault();
+      this.search.set("");
+    }
+  }
+
   protected onEditorInput(event: Event): void {
     const current = this.editing();
-    if (current) this.editing.set({ ...current, draft: (event.target as HTMLInputElement).value });
+    if (current) this.editing.set({ ...current, draft: (event.target as HTMLInputElement).value, invalid: false });
   }
 
   protected onEditorSelectChange(event: Event): void {
@@ -1082,10 +1170,19 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   });
   protected readonly hasExportButtons = computed(() => {
     const l = this.labels();
-    return !!l.exportHeaders && !!(l.exportCsv || l.exportTsv || l.exportExcel);
+    return !!l.exportHeaders && !!(l.copy || l.exportCsv || l.exportTsv || l.exportExcel);
   });
 
-  protected runExport(format: ExportFormat): void {
+  private async finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    this.copy.emit(copied);
+    if (this.copyHandler()?.(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    this.announce(ok ? this.labels().copyAnnouncement?.(table.rows.length) : this.labels().copyFailed);
+  }
+
+  protected runExport(format: ExportFormat | "copy"): void {
     const h = this.labels().exportHeaders;
     if (!h) return;
     const exportFields = exportableFields(this.resolvedFields());
@@ -1106,6 +1203,10 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       for (const f of exportFields) cells.push(exportFieldCell(f, card.values));
       return cells;
     });
+    if (format === "copy") {
+      void this.finishCopy({ headers, rows });
+      return;
+    }
     const filename = exportFilename(this.exportFilename(), format);
     const blob = exportBlob({ headers, rows }, format, { sheetName: this.exportFilename() });
     const file: KanbanExport = { format, filename, cardCount: rows.length, blob };
@@ -1353,6 +1454,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   protected onCardDragEnd(): void {
     this.draggingGroup.set([]);
     this.dropTarget.set(null);
+    this.dropBlocked.set(false);
   }
 
   // ---- Column reordering ----
@@ -1388,10 +1490,22 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     if (to >= 0) this.moveColumnTo(id, to);
   }
 
-  protected onColumnDragOver(event: DragEvent, rowIndex: number, colIndex: number): void {
+  /** Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue. */
+  protected readonly dropBlocked = signal(false);
+
+  protected onColumnDragOver(event: DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
     if (!this.draggingCardId || this.readonly()) return;
-    event.preventDefault();
+    const card = this.cards().find((c) => c.id === this.draggingCardId);
+    const blocked = !!card && this.isRefused(card, column, Math.max(0, this.draggingGroup().length - 1));
+    this.dropBlocked.set(blocked);
     this.dropTarget.set(`${rowIndex}-${colIndex}`);
+    // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
+    if (blocked) {
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "none";
+      return;
+    }
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
   }
 
   protected onColumnDrop(column: KanbanColumn, rowIndex: number, event: DragEvent): void {
@@ -1400,6 +1514,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     this.draggingCardId = null;
     this.draggingGroup.set([]);
     this.dropTarget.set(null);
+    this.dropBlocked.set(false);
     if (this.readonly()) return;
     const card = this.cards().find((c) => c.id === cardId);
     if (!card) return;
@@ -1468,6 +1583,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     this.afterRender(() => this.focusCard(card.id));
   }
 
+  private typeahead: TypeaheadState = { prefix: "", at: 0 };
+
   protected onGridKeydown(event: KeyboardEvent): void {
     const target = event.target as HTMLElement;
     // The open move menu owns its own keys; letting them bubble here moved the
@@ -1477,16 +1594,30 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
-    if (this.undoable() && ctrlOrMeta && !event.altKey && (event.key === "z" || event.key === "Z")) {
+    // The horizontal arrows are visual: in a right-to-left layout the next column is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(cell));
+    // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
+    const historyAction = this.editableFields() && !this.readonly() ? historyKey(event) : null;
+    if (this.undoable() && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && this.undoStack().length > 0) {
       event.preventDefault();
       void this.undo();
       return;
     }
-    if (this.movableColumns() && event.altKey && event.shiftKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (historyAction) {
+      event.preventDefault();
+      this.stepHistory(historyAction);
+      return;
+    }
+    if (this.undoable() && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
+      event.preventDefault();
+      void this.undo();
+      return;
+    }
+    if (this.movableColumns() && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
       event.preventDefault();
       const column = this.orderedColumns()[this.activeCol()];
-      const to = this.activeCol() + (event.key === "ArrowLeft" ? -1 : 1);
+      const to = this.activeCol() + (key === "ArrowLeft" ? -1 : 1);
       if (column && this.moveColumnTo(column.id, to)) {
         this.focusedCol.set(to);
         this.cdr.detectChanges();
@@ -1494,11 +1625,11 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       }
       return;
     }
-    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
       event.preventDefault();
       const card = this.cardAt(this.activeCol(), this.activeRow());
-      const destination = this.orderedColumns()[this.activeCol() + (event.key === "ArrowLeft" ? -1 : 1)];
+      const destination = this.orderedColumns()[this.activeCol() + (key === "ArrowLeft" ? -1 : 1)];
       if (card && destination) this.moveCard(card, destination);
       return;
     }
@@ -1517,6 +1648,27 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       }
       return;
     }
+    // Type-ahead in the focused column: letters typed in quick succession move to the next card whose label starts with them.
+    // A lone "x" stays the select shortcut when cards are selectable; it joins a prefix already in progress.
+    if (isTypeaheadKey(event)) {
+      const now = Date.now();
+      const continuing = this.typeahead.prefix !== "" && now - this.typeahead.at <= 700;
+      const isSelectKey = this.selectable() && (event.key === "x" || event.key === "X");
+      if (continuing || !isSelectKey) {
+        const state = nextTypeaheadState(this.typeahead, event.key, now, 700);
+        const labelsInColumn = Array.from({ length: this.maxRows() }, (_, row) => {
+          const card = this.cardAt(this.activeCol(), row);
+          return card ? this.cardLabel()(card) : "";
+        });
+        const hit = findTypeaheadMatch(labelsInColumn, this.activeRow(), state.prefix);
+        if (hit !== -1) {
+          this.typeahead = state;
+          event.preventDefault();
+          this.moveFocus(hit, this.activeCol());
+          return;
+        }
+      }
+    }
     if (this.selectable() && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
       const card = this.cardAt(this.activeCol(), this.activeRow());
       if (card && !this.readonly()) {
@@ -1525,33 +1677,17 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       }
       return;
     }
-    switch (event.key) {
-      case "ArrowUp":
-        event.preventDefault();
-        this.moveFocus(this.activeRow() - 1, this.activeCol());
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        this.moveFocus(this.activeRow() + 1, this.activeCol());
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        this.moveFocus(this.activeRow(), this.activeCol() - 1);
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        this.moveFocus(this.activeRow(), this.activeCol() + 1);
-        break;
-      case "Home":
-        event.preventDefault();
-        if (ctrlOrMeta) this.moveFocus(0, 0);
-        else this.moveFocus(0, this.activeCol());
-        break;
-      case "End":
-        event.preventDefault();
-        if (ctrlOrMeta) this.moveFocus(this.maxRows() - 1, this.orderedColumns().length - 1);
-        else this.moveFocus(this.maxRows() - 1, this.activeCol());
-        break;
+    const move = gridMove(
+      event,
+      { row: this.activeRow(), col: this.activeCol() },
+      { firstRow: 0, lastRow: this.maxRows() - 1, lastCol: this.orderedColumns().length - 1, pageStep: pageStepFor(this.virtualize()), homeEnd: "column", rtl: isRtl(cell) },
+    );
+    if (move) {
+      event.preventDefault();
+      this.moveFocus(move.row, move.col);
+      return;
+    }
+    switch (key) {
       case "Enter":
       case " ": {
         event.preventDefault();
