@@ -17,6 +17,9 @@
  *   planned and a dependency can only push a task later, never earlier.
  * - Summary rows (a task some other task names as `parentId`) take no part: only leaf tasks are scheduled.
  *   Unscheduled tasks (no dates) and dependencies on unknown ids are ignored.
+ * - Lag is in calendar days unless `options.lagUnit` is `"working-days"`: then a lag of N moves N working days, skipping
+ *   `options.weekends` (weekday numbers, 0 = Sunday; default Saturday and Sunday) and the dated `options.unavailable`
+ *   ranges (holidays, time off; the chart's `unavailable` prop). Task spans stay as dated; only the gap between tasks changes.
  * - Slack is `latest start - earliest start` against the project's last finish. Critical means slack 0.
  * - A dependency cycle has no schedule: the tasks on or behind it are reported in `cycle` and left out of `tasks`.
  */
@@ -30,6 +33,15 @@ export type CriticalPathTask = {
     end?: string;
     parentId?: string;
     dependsOn?: (string | CriticalPathDependency)[];
+};
+
+export type CriticalPathOptions = {
+    /** What a dependency's `lag` counts. Default `"days"`. */
+    lagUnit?: "days" | "working-days";
+    /** `"working-days"`: the weekdays nobody works, 0 = Sunday … 6 = Saturday. Default `[0, 6]`. */
+    weekends?: number[];
+    /** `"working-days"`: dated closures (holidays, leave): `{ start, end? }`, ISO dates, inclusive. */
+    unavailable?: readonly { start: string; end?: string }[];
 };
 
 export type CriticalPathResult = {
@@ -57,7 +69,44 @@ function fromDay(day: number): string {
 
 type Edge = { from: string; to: string; type: CriticalPathDependencyType; lag: number };
 
-export function criticalPath(tasks: readonly CriticalPathTask[]): CriticalPathResult {
+/** A function moving `n` working days from `day` (a calendar-day shift when lag counts days). */
+function lagShifter(options: CriticalPathOptions | undefined): { shift: (day: number, n: number) => number; working: (day: number) => boolean } {
+    if (options?.lagUnit !== "working-days") return { shift: (day, n) => day + n, working: () => true };
+    const weekend = new Set(options.weekends ?? [0, 6]);
+    const closed = new Set<number>();
+    for (const range of options.unavailable ?? []) {
+        const a = toDay(range.start);
+        const b = toDay(range.end ?? range.start);
+        if (a === null || b === null) continue;
+        for (let d = Math.min(a, b); d <= Math.max(a, b); d++) closed.add(d);
+    }
+    // 1970-01-01 was a Thursday.
+    const working = (d: number) => !weekend.has((((d + 4) % 7) + 7) % 7) && !closed.has(d);
+    return {
+        working,
+        shift: (day, n) => {
+            let d = day;
+            const step = n < 0 ? -1 : 1;
+            for (let left = Math.abs(n); left > 0; ) {
+                d += step;
+                if (working(d)) left--;
+            }
+            return d;
+        },
+    };
+}
+
+export function criticalPath(tasks: readonly CriticalPathTask[], options?: CriticalPathOptions): CriticalPathResult {
+    const { shift, working } = lagShifter(options);
+    // The largest x whose shifted value does not pass `limit` (the shift never decreases as x grows). `anchor` is the
+    // predecessor day that x stands for (x itself, or the day before it for finish-to-start): a predecessor does not
+    // start or finish on a day nobody works, so x steps back to a working one.
+    const latest = (lag: number, limit: number, anchor = 0): number => {
+        let x = limit - lag + Math.abs(lag) * 2 + 7;
+        while (shift(x, lag) > limit) x--;
+        while (!working(x + anchor)) x--;
+        return x;
+    };
     const parents = new Set<string>();
     for (const t of tasks) if (t.parentId) parents.add(t.parentId);
 
@@ -114,10 +163,10 @@ export function criticalPath(tasks: readonly CriticalPathTask[]): CriticalPathRe
             const p = es.get(e.from)!;
             const pd = nodes.get(e.from)!.dur;
             const bound =
-                e.type === "e2s" ? p + pd + e.lag
-                : e.type === "s2s" ? p + e.lag
-                : e.type === "e2e" ? p + pd - 1 + e.lag - dur + 1
-                : p + e.lag - dur + 1;
+                e.type === "e2s" ? shift(p + pd, e.lag)
+                : e.type === "s2s" ? shift(p, e.lag)
+                : e.type === "e2e" ? shift(p + pd - 1, e.lag) - dur + 1
+                : shift(p, e.lag) - dur + 1;
             if (bound > earliest) earliest = bound;
         }
         es.set(id, earliest);
@@ -129,23 +178,23 @@ export function criticalPath(tasks: readonly CriticalPathTask[]): CriticalPathRe
     const ls = new Map<string, number>();
     for (const id of [...order].reverse()) {
         const { dur } = nodes.get(id)!;
-        let latest = end - dur + 1;
+        let latestStart = end - dur + 1;
         for (const e of outgoing.get(id)!) {
             if (!ls.has(e.to)) continue;
             const s = ls.get(e.to)!;
             const sd = nodes.get(e.to)!.dur;
             const bound =
-                e.type === "e2s" ? s - e.lag - dur
-                : e.type === "s2s" ? s - e.lag
-                : e.type === "e2e" ? s + sd - 1 - e.lag - dur + 1
-                : s + sd - 1 - e.lag;
-            if (bound < latest) latest = bound;
+                e.type === "e2s" ? latest(e.lag, s, -1) - dur
+                : e.type === "s2s" ? latest(e.lag, s)
+                : e.type === "e2e" ? latest(e.lag, s + sd - 1) - dur + 1
+                : latest(e.lag, s + sd - 1);
+            if (bound < latestStart) latestStart = bound;
         }
-        ls.set(id, latest);
+        ls.set(id, latestStart);
     }
 
     for (const id of order) {
-        const slack = ls.get(id)! - es.get(id)!;
+        const slack = Math.max(0, ls.get(id)! - es.get(id)!);
         result.tasks.set(id, { critical: slack === 0, slack });
     }
     result.finish = fromDay(end);
@@ -153,8 +202,8 @@ export function criticalPath(tasks: readonly CriticalPathTask[]): CriticalPathRe
 }
 
 /** The tasks with `critical` and `slack` filled in for every scheduled leaf task; all else is returned unchanged. */
-export function applyCriticalPath<T extends CriticalPathTask>(tasks: readonly T[]): (T & { critical?: boolean; slack?: number })[] {
-    const { tasks: found } = criticalPath(tasks);
+export function applyCriticalPath<T extends CriticalPathTask>(tasks: readonly T[], options?: CriticalPathOptions): (T & { critical?: boolean; slack?: number })[] {
+    const { tasks: found } = criticalPath(tasks, options);
     return tasks.map((t) => {
         const r = found.get(t.id);
         return r ? { ...t, critical: r.critical, slack: r.slack } : { ...t };

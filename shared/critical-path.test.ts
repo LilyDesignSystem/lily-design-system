@@ -68,6 +68,64 @@ describe("critical-path", () => {
         expect(r.tasks.get("b")!.slack).toBe(0);
     });
 
+    describe("lag in working days", () => {
+        // 2026-01-05 is a Monday; 01-09 a Friday; 01-10 and 01-11 the weekend.
+        const wd = { lagUnit: "working-days" as const };
+        const chain = (lag: number) => [t("a", "2026-01-05", "2026-01-09"), t("b", "2026-01-05", "2026-01-05", { dependsOn: [{ id: "a", lag }] })];
+
+        it("skips the weekend that calendar-day lag lands on", () => {
+            expect(criticalPath(chain(1)).finish).toBe("2026-01-11");
+            expect(criticalPath(chain(1), wd).finish).toBe("2026-01-12");
+            expect(criticalPath(chain(2), wd).finish).toBe("2026-01-13");
+        });
+
+        it("a zero lag is unchanged: the day after", () => {
+            expect(criticalPath(chain(0), wd).finish).toBe("2026-01-10");
+        });
+
+        it("skips listed closures and honours a custom weekend", () => {
+            expect(criticalPath(chain(1), { ...wd, unavailable: [{ start: "2026-01-12" }] }).finish).toBe("2026-01-13");
+            expect(criticalPath(chain(1), { ...wd, weekends: [] }).finish).toBe("2026-01-11");
+            // Friday and Saturday off: Sunday counts as a working day.
+            expect(criticalPath(chain(1), { ...wd, weekends: [5, 6] }).finish).toBe("2026-01-11");
+        });
+
+        it("a negative lag (lead) steps back over the weekend", () => {
+            const tasks = [t("a", "2026-01-05", "2026-01-09"), t("b", "2026-01-01", "2026-01-01", { dependsOn: [{ id: "a", type: "s2s", lag: -1 }] })];
+            // b starts one working day before Monday 01-05: Friday 01-02 (but never before its own planned start 01-01).
+            expect(criticalPath(tasks, wd).tasks.get("b")).toBeDefined();
+            expect(criticalPath(tasks, wd).finish).toBe("2026-01-09");
+        });
+
+        it("the backward pass agrees: a chain is critical end to end and a short branch has slack in working days", () => {
+            const tasks = [
+                t("a", "2026-01-05", "2026-01-09"),
+                t("b", "2026-01-05", "2026-01-06", { dependsOn: [{ id: "a", lag: 1 }] }),
+                t("c", "2026-01-05", "2026-01-05", { dependsOn: [{ id: "a", lag: 1 }] }),
+            ];
+            const r = criticalPath(tasks, wd);
+            expect(r.finish).toBe("2026-01-13");
+            expect(r.tasks.get("a")).toEqual({ critical: true, slack: 0 });
+            expect(r.tasks.get("b")).toEqual({ critical: true, slack: 0 });
+            expect(r.tasks.get("c")).toEqual({ critical: false, slack: 1 });
+        });
+
+        it("all four dependency kinds stay consistent forward and backward", () => {
+            for (const type of ["e2s", "s2s", "e2e", "s2e"] as const) {
+                const tasks = [t("a", "2026-01-05", "2026-01-09"), t("b", "2026-01-05", "2026-01-07", { dependsOn: [{ id: "a", type, lag: 3 }] })];
+                const r = criticalPath(tasks, wd);
+                // The last-finishing task is always critical, and a task never has negative slack.
+                expect([...r.tasks.values()].every((v) => v.slack >= 0)).toBe(true);
+                expect([...r.tasks.values()].some((v) => v.critical)).toBe(true);
+            }
+        });
+
+        it("applyCriticalPath passes the options through", () => {
+            const out = applyCriticalPath(chain(1), wd);
+            expect(out.find((x) => x.id === "b")).toMatchObject({ critical: true, slack: 0 });
+        });
+    });
+
     it("summary rows are ignored; their children are scheduled", () => {
         const tasks = [t("p", "2026-01-01", "2026-01-10"), t("a", "2026-01-01", "2026-01-02", { parentId: "p" }), t("b", "2026-01-03", "2026-01-04", { parentId: "p", dependsOn: ["a"] })];
         const r = criticalPath(tasks);

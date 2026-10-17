@@ -12,7 +12,7 @@ highlights.
 ## Label packs, critical path, data grid and kanban follow-ups — 2026-10-17
 
 - **Label packs** (`shared/label-packs/`, `shared/label-pack.ts`): about 185 strings per locale for the data grid, kanban board, calendar, Gantt chart and filter `labels` objects, built into ready `labels` by `labelsFor(helper, pack)`. English plus ten drafts: Basque, Bhojpuri, Gujarati, Hausa, Javanese, Marathi, Persian, Punjabi, Tamil and Telugu. All ten are `"reviewed": false` machine drafts awaiting native-speaker review. `bin/check-label-packs` (in `bin/test`) enforces key and placeholder parity. Not yet a published package.
-- **Gantt**: optional `criticalPath()` / `applyCriticalPath()` (`shared/critical-path.ts`; all four dependency kinds with lags), `labels.criticalLabel`.
+- **Gantt**: optional `criticalPath()` (lag in calendar or working days) / `applyCriticalPath()` (`shared/critical-path.ts`; all four dependency kinds with lags), `labels.criticalLabel`.
 - **Calendar**: `labels.periodTitle` receives `anchorDate`; docs say `eventProps` needs a focusable element for Alt+arrow.
 - **Data grid**: footer totals over all filtered rows (`allRows`, `aggregate`), `--data-grid-pinned-offset` for pinned columns, `storageKey` remembers the column order.
 - **Docs**: the Svelte grid helpers' non-goals now list only what has not shipped.
