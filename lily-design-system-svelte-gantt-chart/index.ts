@@ -28,3 +28,5 @@ export { draftOf, editorKind, evaluateEdit, exportFieldCell, exportableFields, f
 export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from "./typed-fields";
 export { ARROW_GAP, dependencyPath, weekdayOfEpochDay } from "./dependency-arrows";
 export type { ArrowBox, DependencyKind } from "./dependency-arrows";
+export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
+export type { SearchSegment } from "./search-text";

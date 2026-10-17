@@ -11,6 +11,7 @@
     import type { DateTimePickerLabels } from "@lilydesignsystem/svelte-date-time-picker";
     import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
+    import { highlightSegments, matchesSearch } from "./search-text";
     import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
     import {
         draftOf as fieldDraft,
@@ -126,6 +127,10 @@
         editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
         /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
         editInvalid?: (taskLabel: string, fieldHeader: string) => string;
+        /** Accessible name of the search field. Gates the field. */
+        search?: string;
+        /** Announced after the search changes: (matching tasks, all tasks). */
+        searchAnnouncement?: (matchCount: number, totalCount: number) => string;
     };
 
     export type Props = {
@@ -161,6 +166,10 @@
         weekends?: number[];
         /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type (`e2s`, `s2s`, `s2e`, `e2e`). An `aria-hidden` SVG overlay: the dependencies stay available as text through `labels.dependencySummary`, so the arrows add to, never replace, the accessible description. Arrows are drawn only between rows that are rendered (a collapsed parent's children and a virtualized chart's off-screen rows have none). */
         dependencyArrows?: boolean;
+        /** Search, bindable: shows only the tasks whose text contains every word of it (any order, ignoring case and diacritics), plus their ancestors so the hierarchy stays readable; matches are wrapped in `<mark class="gantt-chart-match">`. While searching, collapsed parents show the matches under them. Escape in the field clears it. Needs `labels.search` for the field; the prop works without. */
+        search?: string;
+        /** The text `search` looks in. Defaults to the task's label and every field's text. */
+        searchText?: (task: GanttTask) => string;
         /** Suppress editing, drag and the edit region; navigation and collapse still work. */
         readonly?: boolean;
         /** User-facing strings. See GanttLabels — presence gates each control. */
@@ -342,6 +351,8 @@
         markers = [],
         isNonWorking = undefined,
         weekends = undefined,
+        search = $bindable(""),
+        searchText = undefined,
         dependencyArrows = false,
         readonly = false,
         taskLabel = (task: GanttTask) => task.label,
@@ -377,7 +388,36 @@
     let draggingTaskId: string | null = null;
 
     const columns = $derived(generateColumns(range, timeUnit));
-    const rows = $derived(flattenTasks(tasks, collapsed));
+    const searching = $derived(search.trim() !== "");
+    const defaultSearchText = (task: GanttTask): string => [taskLabel(task), ...resolvedFields.map((f) => fieldText(f, task))].join(" ");
+    /** The tasks the search matches, found once per query / task change. */
+    const matchedIds = $derived(searching ? new Set(tasks.filter((t) => matchesSearch((searchText ?? defaultSearchText)(t), search)).map((t) => t.id)) : null);
+    /** Matches plus their ancestors, so a match is never shown without its context. */
+    const shownIds = $derived.by(() => {
+        if (!matchedIds) return null;
+        const keep = new Set(matchedIds);
+        for (const id of matchedIds) {
+            const seen = new Set<string>([id]);
+            for (let parent = taskById.get(id)?.parentId; parent != null && taskById.has(parent) && !seen.has(parent); parent = taskById.get(parent)?.parentId) {
+                keep.add(parent);
+                seen.add(parent);
+            }
+        }
+        return keep;
+    });
+    // Searching ignores collapse (a match under a collapsed parent must be findable); clearing the search restores it.
+    const rows = $derived(shownIds ? flattenTasks(tasks, new Set()).filter((r) => shownIds.has(r.task.id)) : flattenTasks(tasks, collapsed));
+    let searchAnnounced = $state(false);
+    $effect(() => {
+        const query = search;
+        const matched = matchedIds;
+        if (!searchAnnounced) {
+            searchAnnounced = true;
+            return;
+        }
+        if (matched) announce(labels.searchAnnouncement?.(matched.size, tasks.length));
+        else if (query === "") announce(labels.searchAnnouncement?.(tasks.length, tasks.length));
+    });
     const ranges = $derived(effectiveRanges(tasks));
 
     // The roving cursor, clamped to the cells that exist now: collapsing a parent
@@ -899,6 +939,20 @@
 </script>
 
 <div bind:this={rootEl} class={`gantt-chart ${className}`.trim()} data-readonly={readonly ? "" : undefined} {...restProps}>
+    {#if labels.search}
+        <input
+            type="search"
+            class="gantt-chart-search"
+            aria-label={labels.search}
+            bind:value={search}
+            onkeydown={(e) => {
+                if (e.key === "Escape" && search !== "") {
+                    e.preventDefault();
+                    search = "";
+                }
+            }}
+        />
+    {/if}
     {#if parentIds.length > 0 && (labels.expandAll || labels.collapseAll)}
         <div class="gantt-chart-collapse-all" role="group" aria-label={label}>
             {#if labels.expandAll}
@@ -996,7 +1050,7 @@
                                 {collapsed.has(row.task.id) ? "▸" : "▾"}
                             </button>
                         {/if}
-                        {taskLabel(row.task)}
+                        {#if searching}{#each highlightSegments(taskLabel(row.task), search) as part, i (i)}{#if part.match}<mark class="gantt-chart-match">{part.text}</mark>{:else}{part.text}{/if}{/each}{:else}{taskLabel(row.task)}{/if}
                         {#if deps.length > 0 && labels.dependencySummary}
                             <span id={dependencyId(row.task.id)} class="gantt-chart-dependency-summary" hidden>
                                 {labels.dependencySummary(deps)}

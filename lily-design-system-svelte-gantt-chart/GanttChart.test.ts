@@ -1097,3 +1097,85 @@ describe("weekend shading and dependency arrows", () => {
     });
 });
 
+// =====================================================================
+// §18 search (0.7.0)
+// =====================================================================
+
+describe("search", () => {
+    const SEARCH_LABELS: GanttLabels = { ...LABELS, search: "Search tasks", searchAnnouncement: (m, t) => `${m} of ${t} tasks` };
+    const ids = () => Array.from(document.querySelectorAll("tbody tr[data-task-id]")).map((r) => r.getAttribute("data-task-id"));
+
+    test("§18.1 the field renders only when labels.search names it", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS } });
+        expect(document.querySelector(".gantt-chart-search")).toBeNull();
+    });
+
+    test("§18.2 typing shows only matching tasks (every word, any order, ignoring case)", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: SEARCH_LABELS } });
+        const input = screen.getByRole("searchbox", { name: "Search tasks" });
+        await fireEvent.input(input, { target: { value: "LAUNCH" } });
+        expect(ids()).toEqual(["launch"]);
+        await fireEvent.input(input, { target: { value: "" } });
+        expect(ids()).toHaveLength(TASKS.length);
+    });
+
+    test("§18.3 a match under a parent keeps its ancestors, and shows even when the parent is collapsed", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: SEARCH_LABELS, collapsedTaskIds: ["parent"] } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "child b" } });
+        expect(ids()).toEqual(["parent", "child2"]);
+    });
+
+    test("§18.4 matches are wrapped in <mark class=gantt-chart-match>, and only while searching", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: SEARCH_LABELS } });
+        expect(document.querySelector("mark")).toBeNull();
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "des" } });
+        expect(document.querySelector("mark.gantt-chart-match")?.textContent).toBe("Des");
+    });
+
+    test("§18.5 the default text includes typed field text", async () => {
+        const tasks = TASKS.map((t) => (t.id === "build" ? { ...t, values: { owner: "Zoë" } } : t));
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks, labels: SEARCH_LABELS, fields: [{ id: "owner", header: "Owner" }] } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "zoe" } });
+        expect(ids()).toEqual(["build"]);
+    });
+
+    test("§18.6 searchText replaces what is looked in", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: SEARCH_LABELS, searchText: (t: GanttTask) => t.id.toUpperCase() } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "design" } });
+        expect(ids()).toEqual(["design"]);
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "Design" } });
+        expect(ids()).toEqual(["design"]);
+    });
+
+    test("§18.7 the result count is announced, and clearing announces everything again", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: SEARCH_LABELS } });
+        const input = screen.getByRole("searchbox");
+        await fireEvent.input(input, { target: { value: "child" } });
+        await waitFor(() => expect(document.querySelector(".gantt-chart-status")?.textContent).toBe(`2 of ${TASKS.length} tasks`));
+        await fireEvent.input(input, { target: { value: "" } });
+        await waitFor(() => expect(document.querySelector(".gantt-chart-status")?.textContent).toBe(`${TASKS.length} of ${TASKS.length} tasks`));
+    });
+
+    test("§18.8 Escape in the field clears the search", async () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: SEARCH_LABELS } });
+        const input = screen.getByRole("searchbox") as HTMLInputElement;
+        await fireEvent.input(input, { target: { value: "launch" } });
+        await fireEvent.keyDown(input, { key: "Escape" });
+        expect(input.value).toBe("");
+        expect(ids()).toHaveLength(TASKS.length);
+    });
+
+    test("§18.9 an export of the visible tasks holds only the matches", async () => {
+        const onExport = vi.fn(() => false);
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: { ...SEARCH_LABELS, export: "Export", exportCsv: "CSV", exportHeaders: { task: "Task", start: "Start", end: "End" } }, exportScope: "visible", onExport } });
+        await fireEvent.input(screen.getByRole("searchbox"), { target: { value: "launch" } });
+        await fireEvent.click(screen.getByText("CSV"));
+        expect((onExport.mock.calls[0] as unknown as [{ taskCount: number }])[0].taskCount).toBe(1);
+    });
+
+    test("§18.10 the search prop works without the field", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, search: "launch" } });
+        expect(ids()).toEqual(["launch"]);
+    });
+});
+

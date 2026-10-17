@@ -93,6 +93,10 @@ requires it too.
 - **Announcements**: every successful edit announces via one
   `aria-live="polite"` region.
 
+## Search (0.7.0)
+
+`search` (bindable; the field renders when `labels.search` names it) narrows the tasks: every word must appear, in any order, ignoring case and diacritics. New: the Gantt had no search. Matching tasks show with their ancestors (so the hierarchy stays readable); searching ignores collapse so a match under a collapsed parent is found, and clearing the search restores it. The default text is the task label and every field's text (`searchText` replaces it). Matches in the label are wrapped in `<mark class="gantt-chart-match">`; `labels.searchAnnouncement(matches, total)` is announced; Escape clears. `exportScope: "visible"` exports only what the search leaves. See spec §18.
+
 ## Non-goals (v1)
 
 Critical-path calculation, interactive zoom-level
