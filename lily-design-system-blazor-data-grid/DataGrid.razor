@@ -18,11 +18,26 @@
         <div class="data-grid-toolbar">
             @if (Labels.Search is not null)
             {
-                <input class="data-grid-search" type="search" aria-label="@Labels.Search" value="@Filter" @oninput="OnFilterInputAsync" />
+                <input class="search-input data-grid-search" type="search" aria-label="@Labels.Search" value="@Filter" @oninput="OnFilterInputAsync" @onkeydown="OnSearchKeyDownAsync" />
+                @if (Labels.SearchField is not null && Labels.SearchAllFields is not null)
+                {
+                    <select class="data-grid-search-field" aria-label="@Labels.SearchField" value="@FilterField" @onchange="OnSearchFieldChangeAsync">
+                        <option value="">@Labels.SearchAllFields</option>
+                        @foreach (var searchable in _filterable)
+                        {
+                            <option value="@searchable.Id" selected="@(FilterField == searchable.Id)">@searchable.Header</option>
+                        }
+                    </select>
+                }
             }
             @if (HasExportButtons)
             {
                 <div class="data-grid-export" role="group" aria-label="@Labels.Export">
+                    @if (Labels.Copy is not null)
+                    {
+                        <button type="button" class="data-grid-export-button" data-grid-export-format="copy"
+                                disabled="@(ExportEntries.Count == 0)" @onclick="RunCopyAsync">@Labels.Copy</button>
+                    }
                     @if (Labels.ExportCsv is not null)
                     {
                         <button type="button" class="data-grid-export-button" data-grid-export-format="csv"
@@ -74,11 +89,22 @@
 
     @if (PageSize is not null)
     {
-        <div class="data-grid-pagination">
+        @if (Labels.Pagination is not null)
+        {
+            <nav class="data-grid-pagination" aria-label="@Labels.Pagination">
             <button type="button" class="data-grid-page-previous" disabled="@(ClampedPage <= 1)" @onclick="@(() => GoToPageAsync(ClampedPage - 1))">@Labels.PreviousPage</button>
             <span class="data-grid-page-status">@Labels.PageStatus?.Invoke(ClampedPage, PageCount, _sorted.Count)</span>
             <button type="button" class="data-grid-page-next" disabled="@(ClampedPage >= PageCount)" @onclick="@(() => GoToPageAsync(ClampedPage + 1))">@Labels.NextPage</button>
-        </div>
+</nav>
+        }
+        else
+        {
+            <div class="data-grid-pagination">
+            <button type="button" class="data-grid-page-previous" disabled="@(ClampedPage <= 1)" @onclick="@(() => GoToPageAsync(ClampedPage - 1))">@Labels.PreviousPage</button>
+            <span class="data-grid-page-status">@Labels.PageStatus?.Invoke(ClampedPage, PageCount, _sorted.Count)</span>
+            <button type="button" class="data-grid-page-next" disabled="@(ClampedPage >= PageCount)" @onclick="@(() => GoToPageAsync(ClampedPage + 1))">@Labels.NextPage</button>
+</div>
+        }
     }
 
     <p class="data-grid-status" aria-live="polite">@_statusMessage</p>
@@ -369,7 +395,7 @@
                                     }
                                     else
                                     {
-                                        @ctx.Formatted
+                                        @(ctx.Formatted.Length == 0 && IsMissing(ctx.Value) && EmptyTextFor(column) is { } emptyText ? emptyText : ctx.Formatted)
                                     }
                                     @if (IsEditable(column) && column.Type != DataGridCellType.Radio && Labels.EditCell is not null)
                                     {

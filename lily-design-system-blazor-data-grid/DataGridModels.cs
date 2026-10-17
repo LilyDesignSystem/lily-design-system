@@ -184,6 +184,16 @@ public sealed record DataGridPersonEditorContext(object? Value, Action<object?> 
 /// <summary>What <c>OnCellEdit</c> receives after a cell edit is committed.</summary>
 public sealed record DataGridCellEdit(string RowId, DataGridRow Row, string ColumnId, object? Value, object? Previous);
 
+/// <summary>What <c>OnCopy</c> receives: the text put on the clipboard and how many rows it holds.</summary>
+public sealed record DataGridCopy(string Text, int RowCount);
+
+/// <summary>Where missing values (null or "") sort.</summary>
+public enum DataGridNulls
+{
+    Last,
+    First,
+}
+
 /// <summary>What <c>OnFilesSelected</c> receives: the files the person chose. The grid uploads nothing.</summary>
 public sealed record DataGridFilesSelected(string RowId, DataGridRow Row, string ColumnId, IReadOnlyList<Microsoft.AspNetCore.Components.Forms.IBrowserFile> Files);
 
@@ -229,6 +239,9 @@ public sealed record DataGridColumn
 
     /// <summary>Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another.</summary>
     public bool Movable { get; init; }
+
+    /// <summary>Shown instead of nothing when this column's value is missing (null or ""). Overrides the grid's <c>EmptyValue</c>. A missing value always carries <c>data-empty</c> on its cell. No default: Lily ships no text.</summary>
+    public string? EmptyValue { get; init; }
 
     /// <summary>Pins the column: its header and cells get <c>data-pinned="start|end"</c> for the consumer's sticky CSS.</summary>
     public DataGridPinned Pinned { get; init; }
@@ -360,6 +373,22 @@ public sealed record DataGridColumn
 public sealed record DataGridLabels
 {
     public string? Search { get; init; }
+    /// <summary>Names the select that limits the search to one column; it shows when <c>Search</c>, this and <c>SearchAllFields</c> are all set.</summary>
+    public string? SearchField { get; init; }
+    /// <summary>The select's option for every filterable column.</summary>
+    public string? SearchAllFields { get; init; }
+    /// <summary>Names the pager as a <c>&lt;nav&gt;</c> landmark; without it the pager is a plain <c>&lt;div&gt;</c>.</summary>
+    public string? Pagination { get; init; }
+    /// <summary>A button that puts the export (header row first, tab-separated) on the clipboard.</summary>
+    public string? Copy { get; init; }
+    /// <summary>Announced after a copy: (how many rows).</summary>
+    public Func<int, string>? CopyAnnouncement { get; init; }
+    /// <summary>Announced when the clipboard refused the copy.</summary>
+    public string? CopyFailed { get; init; }
+    /// <summary>Announced after an undo: (header, the restored text).</summary>
+    public Func<string, string, string>? UndoAnnouncement { get; init; }
+    /// <summary>Announced after a redo: (header, the re-applied text).</summary>
+    public Func<string, string, string>? RedoAnnouncement { get; init; }
     public string? ColumnVisibility { get; init; }
     public Func<string, string>? ColumnVisibilityOption { get; init; }
     public Func<string, string>? ResizeHandle { get; init; }

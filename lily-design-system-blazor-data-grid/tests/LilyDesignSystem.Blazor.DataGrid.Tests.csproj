@@ -29,6 +29,8 @@
   <ItemGroup>
     <Compile Include="..\DataGridTests.cs" />
     <Compile Include="..\ExportDataTests.cs" />
+    <Compile Include="..\GridModulesTests.cs" />
+    <Compile Include="..\DataGridFeaturesTests.cs" />
   </ItemGroup>
 
 </Project>

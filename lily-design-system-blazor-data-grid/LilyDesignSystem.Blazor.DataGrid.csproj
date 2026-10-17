@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.DataGrid</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.DataGrid</PackageId>
-    <Version>0.9.0</Version>
+    <Version>0.10.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor interactive data grid composing the headless DataTable family: sort, filter, selection, pagination, resize, reorder, cell editing, virtualization, export to CSV, TSV and Excel, and twelve cell types. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

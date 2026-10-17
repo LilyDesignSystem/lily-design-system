@@ -40,6 +40,30 @@ public partial class DataGrid : ComponentBase
     // Parameters
     // -------------------------------------------------------------------
 
+    /// <summary>What a cell shows when its value is missing (null or ""), for example "—". A column's own <c>EmptyValue</c> wins. No default. The cell always carries <c>data-empty</c>.</summary>
+    [Parameter] public string? EmptyValue { get; set; }
+
+    /// <summary>Where missing values sort: <c>Last</c> (default) or <c>First</c>, in both directions.</summary>
+    [Parameter] public DataGridNulls Nulls { get; set; } = DataGridNulls.Last;
+
+    /// <summary>Limits the text filter to one column id, or "" (default) for every filterable column.</summary>
+    [Parameter] public string FilterField { get; set; } = "";
+
+    /// <summary>Called with the new <c>FilterField</c> after every change.</summary>
+    [Parameter] public EventCallback<string> FilterFieldChanged { get; set; }
+
+    /// <summary>A predicate over the rows, applied before the text filter; rows it rejects are not shown.</summary>
+    [Parameter] public Func<DataGridRow, bool>? RowFilter { get; set; }
+
+    /// <summary>The reading direction, "ltr" (default) or "rtl": in right-to-left the horizontal arrow keys swap. Blazor cannot read the DOM's <c>dir</c> without JS interop, so the consumer says.</summary>
+    [Parameter] public string? Direction { get; set; }
+
+    /// <summary>Called with the text before it goes on the clipboard; return false to take the copy over.</summary>
+    [Parameter] public Func<DataGridCopy, bool>? CopyHandler { get; set; }
+
+    /// <summary>Called after a copy was prepared (the text, the row count).</summary>
+    [Parameter] public EventCallback<DataGridCopy> OnCopy { get; set; }
+
     /// <summary>Accessible name for the grid, passed through to DataTable.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
 
@@ -185,6 +209,10 @@ public partial class DataGrid : ComponentBase
     private IReadOnlyList<DataGridColumn>? _resolvedFromColumns;
     private string? _resolvedFromLocale;
     private List<string[]> _searchIndex = new();
+    private IReadOnlyList<DataGridColumn> _filterable = Array.Empty<DataGridColumn>();
+    private EditHistory _history = EditHistory.Empty;
+    private Typeahead.State _typeahead = new("", 0);
+    private bool Rtl => string.Equals(Direction, "rtl", StringComparison.OrdinalIgnoreCase);
     private System.Runtime.CompilerServices.ConditionalWeakTable<DataGridRow, Dictionary<string, DataGridCellContext>> _cellCache = new();
 
     private bool IsGrid => Mode == DataGridMode.Grid;
@@ -203,7 +231,7 @@ public partial class DataGrid : ComponentBase
     private bool Indexed => PageSize is not null || Virtualize is not null;
     private int? RowCount => PageSize is not null ? _sorted.Count + 1 : Virtualize is not null ? _pageEntries.Count + 1 : null;
     private HashSet<string> SelectedSet => new(Selected);
-    private bool HasExportButtons => Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null;
+    private bool HasExportButtons => Labels.Copy is not null || Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null;
     private IReadOnlyList<DataGridColumn> HidableColumns => _resolved.Where(c => c.Hidable).ToList();
 
     // -------------------------------------------------------------------
@@ -244,10 +272,11 @@ public partial class DataGrid : ComponentBase
             var rowId = RowId ?? ((_, index) => index.ToString(CultureInfo.InvariantCulture));
             _entries = Rows.Select((row, index) => new Entry(row, rowId(row, index))).ToList();
             var filterable = _resolved.Where(c => c.Filterable).ToList();
+            _filterable = filterable;
             _searchIndex = _entries.Select(entry => filterable.Select(column =>
             {
                 var ctx = CellFor(column, entry.Row);
-                return (column.FilterText is not null ? column.FilterText(ctx.Value, entry.Row) : ctx.Formatted).ToLowerInvariant();
+                return SearchText.Fold(column.FilterText is not null ? column.FilterText(ctx.Value, entry.Row) : ctx.Formatted);
             }).ToArray()).ToList();
         }
 
@@ -261,10 +290,15 @@ public partial class DataGrid : ComponentBase
         }
         _visible = _ordered.Where(c => !_hiddenColumnIds.Contains(c.Id)).ToList();
 
-        var text = Filter.Trim().ToLowerInvariant();
-        _filtered = text.Length == 0
+        var terms = SearchText.Terms(Filter);
+        var only = FilterField.Length > 0 ? _filterable.ToList().FindIndex(c => c.Id == FilterField) : -1;
+        _filtered = terms.Count == 0 && RowFilter is null
             ? _entries
-            : _entries.Where((_, i) => _searchIndex[i].Any(value => value.Contains(text, StringComparison.Ordinal))).ToList();
+            : _entries.Where((entry, i) =>
+                (RowFilter is null || RowFilter(entry.Row)) &&
+                (terms.Count == 0 || (only >= 0
+                    ? SearchText.MatchesFolded(_searchIndex[i][only], terms)
+                    : terms.All(term => _searchIndex[i].Any(value => value.Contains(term, StringComparison.Ordinal)))))).ToList();
 
         _sorted = _filtered;
         if (Sort.Direction != DataGridSortDirection.None && Sort.ColumnId.Length > 0 && _resolved.FirstOrDefault(c => c.Id == Sort.ColumnId) is { } column)
@@ -275,8 +309,13 @@ public partial class DataGrid : ComponentBase
             keyed.Sort((a, b) =>
             {
                 if (ReferenceEquals(a.key, b.key)) return a.i.CompareTo(b.i);
-                if (a.key is null) return 1;
-                if (b.key is null) return -1;
+                var aMissing = IsMissing(a.key);
+                var bMissing = IsMissing(b.key);
+                if (aMissing || bMissing)
+                {
+                    if (aMissing && bMissing) return a.i.CompareTo(b.i);
+                    return (aMissing ? 1 : -1) * (Nulls == DataGridNulls.First ? -1 : 1);
+                }
                 var result = column.Compare is not null ? column.Compare(a.key, b.key) * dir : CellTypes.DefaultCompare(a.key, b.key) * dir;
                 return result != 0 ? result : a.i.CompareTo(b.i); // a stable sort
             });
@@ -319,9 +358,32 @@ public partial class DataGrid : ComponentBase
         await PersistAsync();
     }
 
-    private async Task OnFilterInputAsync(ChangeEventArgs args)
+    /// <summary>A value the cell treats as missing: null or an empty string.</summary>
+    private static bool IsMissing(object? value) => value is null || value is string { Length: 0 };
+
+    private string? EmptyTextFor(DataGridColumn column) => column.EmptyValue ?? EmptyValue;
+
+    private async Task OnSearchFieldChangeAsync(ChangeEventArgs args)
     {
-        Filter = args.Value?.ToString() ?? "";
+        FilterField = args.Value?.ToString() ?? "";
+        Page = 1;
+        Recompute();
+        await FilterFieldChanged.InvokeAsync(FilterField);
+        await PageChanged.InvokeAsync(Page);
+        Announce(Labels.FilterAnnouncement?.Invoke(_filtered.Count, Rows.Count));
+    }
+
+    /// <summary>Escape in the search field clears it.</summary>
+    private async Task OnSearchKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Key == "Escape" && Filter.Length > 0) await SetFilterAsync("");
+    }
+
+    private Task OnFilterInputAsync(ChangeEventArgs args) => SetFilterAsync(args.Value?.ToString() ?? "");
+
+    private async Task SetFilterAsync(string value)
+    {
+        Filter = value;
         Page = 1;
         Recompute();
         await FilterChanged.InvokeAsync(Filter);
@@ -552,7 +614,7 @@ public partial class DataGrid : ComponentBase
     private bool HasUtcColumn(DataGridColumn c)
         => c.Type == DataGridCellType.TimeZone && c.ExportUtc && !string.IsNullOrEmpty(c.ReferenceDate) && Labels.ExportUtcHeader is not null;
 
-    private async Task RunExportAsync(DataGridExportFormat format)
+    private ExportTable BuildExportTable(DataGridExportFormat format)
     {
         var live = (DataGridColumn c) => format == DataGridExportFormat.Xlsx && ExportFormulas && c.Type == DataGridCellType.Formula && c.Source is not null;
         var headers = new List<string>();
@@ -575,7 +637,33 @@ public partial class DataGrid : ComponentBase
             }
             rows.Add(cells);
         }
-        var table = new ExportTable(headers, rows);
+        return new ExportTable(headers, rows);
+    }
+
+    private async Task RunCopyAsync()
+    {
+        var table = BuildExportTable(DataGridExportFormat.Tsv);
+        var text = Encoding.UTF8.GetString(ExportData.ExportBytes(table, DataGridExportFormat.Tsv, ExportFilename)).TrimStart('\uFEFF');
+        var copy = new DataGridCopy(text, table.Rows.Count);
+        await OnCopy.InvokeAsync(copy);
+        if (CopyHandler?.Invoke(copy) == false) return;
+        bool ok;
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", text);
+            ok = true;
+        }
+        catch
+        {
+            ok = false;
+        }
+        Announce(ok ? Labels.CopyAnnouncement?.Invoke(copy.RowCount) : Labels.CopyFailed);
+    }
+
+    private async Task RunExportAsync(DataGridExportFormat format)
+    {
+        var table = BuildExportTable(format);
+        var rows = table.Rows;
         var filename = ExportData.ExportFilename(ExportFilename, format);
         var bytes = ExportData.ExportBytes(table, format, ExportFilename);
         var file = new DataGridExport(format, filename, rows.Count, bytes);
@@ -675,6 +763,7 @@ public partial class DataGrid : ComponentBase
         _editing = null;
         if (!SameValue(value, previous))
         {
+            _history = _history.Record(new EditRecord(entry.Id, column.Id, value, previous));
             await OnCellEdit.InvokeAsync(new DataGridCellEdit(entry.Id, entry.Row, column.Id, value, previous));
             Announce(Labels.EditAnnouncement?.Invoke(column.Header, column.Format is not null ? column.Format(value, entry.Row) : Convert.ToString(value, CultureInfo.InvariantCulture) ?? ""));
         }
@@ -781,32 +870,42 @@ public partial class DataGrid : ComponentBase
         // The grid's own editor owns its keys while it is open.
         if (_editing is not null) return;
         var ctrlOrMeta = args.CtrlKey || args.MetaKey;
-        if (args.AltKey && ActiveRow == -1 && (args.Key == "ArrowRight" || args.Key == "ArrowLeft"))
+        var logical = GridMotion.LogicalKey(args.Key, Rtl);
+        if (EditHistory.KeyAction(args.Key, args.CtrlKey, args.MetaKey, args.ShiftKey, args.AltKey) is { } historyAction)
+        {
+            await StepHistoryAsync(historyAction);
+            return;
+        }
+        if (args.AltKey && ActiveRow == -1 && (logical == "ArrowRight" || logical == "ArrowLeft"))
         {
             var column = _visible.ElementAtOrDefault(ActiveCol - ColOffset);
             if (column is { Movable: true })
             {
-                var delta = args.Key == "ArrowRight" ? 1 : -1;
+                var delta = logical == "ArrowRight" ? 1 : -1;
                 if (await MoveColumnAsync(column.Id, ActiveCol - ColOffset + delta)) MoveFocus(-1, ActiveCol + delta);
                 return;
             }
         }
+        // Type-ahead: letters typed in quick succession move to the next row whose first cell starts with them.
+        if (ActiveRow >= 0 && !args.AltKey && Typeahead.IsKey(args.Key, args.CtrlKey, args.AltKey, args.MetaKey))
+        {
+            var state = Typeahead.Next(_typeahead, args.Key, Environment.TickCount64);
+            var hit = Typeahead.FindMatch(_pageEntries.Select(RowLabelOf).ToList(), ActiveRow, state.Prefix);
+            if (hit != -1)
+            {
+                _typeahead = state;
+                MoveFocus(hit, ActiveCol);
+                return;
+            }
+        }
+        var pageStep = Virtualize is { } vz ? Math.Max(1, vz.Height / Math.Max(1, vz.RowHeight)) : 10;
+        if (GridMotion.Move(args.Key, ctrlOrMeta, new GridPosition(ActiveRow, ActiveCol), new GridNavigation(-1, _pageEntries.Count - 1, LastCol, pageStep, Rtl: Rtl)) is { } moved)
+        {
+            MoveFocus(moved.Row, moved.Col);
+            return;
+        }
         switch (args.Key)
         {
-            case "ArrowRight": MoveFocus(ActiveRow, ActiveCol + 1); break;
-            case "ArrowLeft": MoveFocus(ActiveRow, ActiveCol - 1); break;
-            case "ArrowDown": MoveFocus(ActiveRow + 1, ActiveCol); break;
-            case "ArrowUp": MoveFocus(ActiveRow - 1, ActiveCol); break;
-            case "Home":
-                if (ctrlOrMeta) MoveFocus(-1, 0);
-                else MoveFocus(ActiveRow, 0);
-                break;
-            case "End":
-                if (ctrlOrMeta) MoveFocus(_pageEntries.Count - 1, LastCol);
-                else MoveFocus(ActiveRow, LastCol);
-                break;
-            case "PageDown": MoveFocus(ActiveRow + (PageSize ?? 10), ActiveCol); break;
-            case "PageUp": MoveFocus(ActiveRow - (PageSize ?? 10), ActiveCol); break;
             case "F2":
             {
                 var (entry, column) = CurrentCell();
@@ -831,6 +930,23 @@ public partial class DataGrid : ComponentBase
                 break;
             }
         }
+    }
+
+    /// <summary>Put an earlier cell value back (or re-apply one), reported through <c>OnCellEdit</c> like any edit: the consumer owns the data.</summary>
+    private async Task StepHistoryAsync(string action)
+    {
+        var step = action == "undo" ? _history.UndoStep() : _history.RedoStep();
+        if (step.Record is not { } record) return;
+        _history = step.History;
+        var entry = _entries.FirstOrDefault(e => e.Id == record.OwnerId);
+        var column = _resolved.FirstOrDefault(c => c.Id == record.FieldId);
+        if (entry is null || column is null) return;
+        var restored = action == "undo" ? record.Previous : record.Value;
+        var replaced = action == "undo" ? record.Value : record.Previous;
+        await OnCellEdit.InvokeAsync(new DataGridCellEdit(entry.Id, entry.Row, column.Id, restored, replaced));
+        var text = column.Format is not null ? column.Format(restored, entry.Row) : Convert.ToString(restored, CultureInfo.InvariantCulture) ?? "";
+        Announce((action == "undo" ? Labels.UndoAnnouncement : Labels.RedoAnnouncement)?.Invoke(column.Header, text));
+        _focusPending = true;
     }
 
     private (Entry? Entry, DataGridColumn? Column) CurrentCell()
@@ -971,6 +1087,7 @@ public partial class DataGrid : ComponentBase
         if (TypeName(column) is { } type) attrs["data-cell-type"] = type;
         if (PinnedName(column) is { } pinned) attrs["data-pinned"] = pinned;
         if (column.ErrorOf?.Invoke(ctx.Row) is not null) attrs["data-error"] = "";
+        if (IsMissing(ctx.Value) && column.Type is not (DataGridCellType.Rollup or DataGridCellType.Formula or DataGridCellType.File or DataGridCellType.Person)) attrs["data-empty"] = "";
         if (CellStyle(column) is { } style) attrs["style"] = style;
         if (IsGrid) attrs["tabindex"] = ActiveRow == row && ActiveCol == ColOffset + colIndex ? "0" : "-1";
         if (column.RowHeader)
