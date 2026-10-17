@@ -56,10 +56,12 @@ This headless component uses an `<a>` element for native link semantics and keyb
 
 - Use inside ContentsListItem to create a clickable link to a related page in the guide.
 - Use concise, descriptive link text limited to approximately two lines.
+- Use it for same-page links, such as local anchors (`href="#symptoms"`): a page outline that jumps to the sections of the page being read is a fine use.
+- Use it as a same-page "scrollspy": inside a `ContentsNav` with `spy`, the link for the section in view is marked `aria-current="true"` as the reader scrolls, so the outline always shows where they are.
 
 ## When Not to Use
 
-- Do not use for the current page -- the current page should be plain text, not a link.
+- Do not use for the current page when the list links *between pages* -- there the current page should be plain text, not a link. (A same-page outline is different: its links point at anchors on this page, so every entry, including the section in view, stays a link and the section in view carries `aria-current="true"`.)
 - Do not use outside of ContentsListItem -- use ActionLink or a standard anchor for standalone links.
 
 ## Headless
@@ -81,7 +83,7 @@ The consumer provides all CSS styling. The component renders with a `.contents-l
 ## Advice
 
 - **Designers**: Visually distinguish the current section link from others. Use indentation to show section hierarchy. Ensure sufficient contrast for link text.
-- **Developers**: Update `aria-current` dynamically as the user scrolls through sections for accurate screen reader announcements.
+- **Developers**: For a same-page outline, give each section an `id` and point the links at them (`#id`); native anchors keep working without JavaScript and the scrollspy only adds the current marker. Update `aria-current` dynamically as the user scrolls through sections for accurate screen reader announcements.
 
 ## Composition
 

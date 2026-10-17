@@ -15,6 +15,7 @@
 - Uses native `<a>` element for inherent link behavior and keyboard support
 - `aria-current="true"` indicates the currently active or visible section
 - `href` attribute links to the target page or section anchor
+- Fine for same-page links (local anchors such as `#symptoms`) and as a same-page "scrollspy" entry: inside a `ContentsNav` with `spy`, the link for the section in view gets `aria-current="true"`; on a same-page outline every entry stays a link, including the current one
 - **Count (optional)**: `countLabel` renders a visible, localised count (for example "3 to do") in a
   `<span class="contents-link-count">` *inside* the link, after the text, so the link's accessible name includes it.
   `count` sets `data-count` on the link (and `data-complete` when it is 0) as CSS hooks. The count is text, never colour
