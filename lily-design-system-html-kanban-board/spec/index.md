@@ -354,3 +354,25 @@ Ported from the Svelte canonical spec (§15 there; clauses §8.63–§8.83): mul
 ## Collapsible lanes (2026-10-16)
 
 Ported from the Svelte canonical (its spec "Collapsible lanes", tests §8.91–§8.94). A lane header `<th class="kanban-board-lane" scope="rowgroup" data-lane-id>` holds an optional `.kanban-board-lane-toggle` button (`aria-expanded`, named by `labels.collapseLane(lane, collapsed)`; glyph ▸ / ▾), the title in `.kanban-board-lane-title`, and an optional `.kanban-board-lane-count` (`labels.laneCount(lane, count)`, the lane's cards under the current search/filter). A collapsed lane's header carries `data-collapsed` and the lane contributes no row slots, so a board with every lane collapsed has only headers.
+
+## 12. Typed fields, inline editing, export, hot-path caching (0.6.0, 2026-10-16)
+
+Tests §8.95–§8.108. The data grid's cell types and export, applied to cards.
+
+- **Typed fields**: `fields` is a list of `{ id, header, type?, options?, numberFormat?, dateFormat?, parse?, exportValue?, exportable?, editable?, editLabel? }`, read from `card.values[id]`.
+  `type` is a data-grid cell type (`text`, `number`, `link`, `date`, `time`, `time-zone`, `select`, `radio`, `person`, `file`, `rollup`, `formula`); `resolveColumn` fills in the
+  type's `format`, `compare` and `exportValue`, once per `fields` / `locale` change. With no `locale` a value shows as stored. A field shows as
+  `<span class="kanban-board-card-field" data-field data-type>` holding `.kanban-board-card-field-name` (the header) and the value; a read-only card omits empty fields.
+  A `renderCard` property replaces all of this, as it replaces the subtitle and badges.
+- **Inline editing**: Setting `onFieldEdit` (called with `{ cardId, fieldId, value, previous }`; the `fieldedit` event carries the same, and `editableFields` turns editing on for a consumer that only listens, since an element cannot see its own listeners) turns it on (and not `readonly`, not a locked card, not `editable: false`). `text`, `number`, `link`, `date`, `time`, `select` and
+  `radio` fields edit; the others display and export only. The value becomes a `.kanban-board-field-button` (`tabindex="-1"`, named by the header plus the value); clicking it, or **F2** on the card
+  (first editable field), opens `.kanban-board-field-editor` (an `<input>` of the type, or a `<select>` of `options`). **Enter** commits, **Escape** cancels, blur commits, **Tab** / **Shift+Tab** commit and move to the card's next / previous editable field.
+  The editor owns its keys (they never reach the grid), and while an IME is composing (`isComposing`, or `keyCode` 229) Enter and Escape belong to the IME. A value that does not fit the
+  type (`isInvalidForType`) is refused: the editor stays open and `labels.editInvalid` is announced. An unchanged value reports nothing. `labels.editAnnouncement(card, header, text)`.
+  After commit or cancel focus returns to the card.
+- **Export**: `labels.exportCsv` / `exportTsv` / `exportExcel` each gate a `.kanban-board-export-button` (`data-kanban-export-format`) inside a `.kanban-board-export` group named by `labels.export`;
+  none renders without `labels.exportHeaders` (there is no English header). The file holds one row per card, column by column in display order: title, column, then — when given — lane (with `lanes`),
+  subtitle, badges (`; ` joined) and flag, then every `exportable` field (typed values stay numbers, booleans and dates; the rest is the text shown). `exportScope`: `"view"` (default, what the search and filter leave)
+  or `"selected"`. `exportFilename` is the base name. Spreadsheet-formula text is defused. `onExport` (given `{ format, filename, cardCount, blob }`; the `exportfile` event carries the same) may return `false` to take over the download;
+  otherwise the file is saved and `labels.exportAnnouncement(format, cardCount, filename)` is announced. The buttons are disabled with nothing to export. `export-data.ts` and `cell-types.ts` are copies of the data grid's.
+- **Hot path**: selection is a `Set`, and a row's slot index comes from a map built once per layout, so a render does no per-cell scan of `selected` or `slots`.
