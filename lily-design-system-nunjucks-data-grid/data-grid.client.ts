@@ -46,6 +46,9 @@ export const FUNCTION_LABELS: Record<string, string[]> = {
   rollupDescription: ["header"],
   editCancelAnnouncement: ["header"],
   editError: ["header", "message"],
+  copyAnnouncement: ["rowCount"],
+  undoAnnouncement: ["header", "text"],
+  redoAnnouncement: ["header", "text"],
 };
 
 /** Turns string labels with `{placeholders}` into the function labels the grid takes. */
@@ -80,6 +83,11 @@ type Config = {
   exportFilename?: string;
   exportScope?: string;
   exportFormulas?: boolean;
+  emptyValue?: string;
+  nulls?: string;
+  movableColumns?: boolean;
+  warnMissingLabels?: boolean;
+  filterField?: string;
   virtualize?: { rowHeight: number; height: number; overscan?: number };
 };
 
@@ -102,9 +110,14 @@ export function initDataGrid(root: Element): DataGrid | null {
   if (config.exportFilename) grid.setAttribute("export-filename", config.exportFilename);
   if (config.exportScope) grid.setAttribute("export-scope", config.exportScope);
   if (config.exportFormulas) grid.setAttribute("export-formulas", "");
+  if (config.emptyValue) grid.setAttribute("empty-value", config.emptyValue);
+  if (config.nulls === "first") grid.setAttribute("nulls", "first");
+  if (config.movableColumns) grid.setAttribute("movable-columns", "");
+  if (config.warnMissingLabels === false) grid.setAttribute("no-warn-missing-labels", "");
   grid.columns = config.columns;
   grid.rows = config.rows;
   grid.labels = resolveLabels(config.labels);
+  if (config.filterField) grid.filterField = config.filterField;
   if (config.virtualize) grid.virtualize = config.virtualize;
   root.replaceChildren(grid);
   root.setAttribute("data-data-grid-ready", "");

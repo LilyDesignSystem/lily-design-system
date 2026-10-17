@@ -91,3 +91,29 @@ describe("client runtime", () => {
     expect(initDataGrid(document.createElement("div"))).toBeNull();
   });
 });
+
+describe("0.10.0 macro parameters reach the interactive grid", () => {
+  function renderWith(call: string, extra: Record<string, unknown> = {}): string {
+    return env.renderString(`{% from "./data-grid.njk" import dataGrid %}{{ ${call} }}`, { label: "Users", columns: COLUMNS, rows: ROWS, labels: {}, ...extra });
+  }
+  test("emptyValue, nulls, movableColumns, warnMissingLabels and filterField are in the embedded config", () => {
+    document.body.innerHTML = renderWith('dataGrid(label, columns, rows, labels, emptyValue="—", nulls="first", movableColumns=true, warnMissingLabels=false, filterField="name")');
+    const config = JSON.parse(document.querySelector("script[data-data-grid-config]")!.textContent!);
+    expect(config).toMatchObject({ emptyValue: "—", nulls: "first", movableColumns: true, warnMissingLabels: false, filterField: "name" });
+  });
+  test("initDataGrid applies them: data-empty cells show the emptyValue, columns become movable, the warning is off", () => {
+    document.body.innerHTML = renderWith('dataGrid(label, columns, rows, labels, emptyValue="—", movableColumns=true, warnMissingLabels=false)', { rows: [{ name: null, email: "a@b" }] });
+    const grid = initDataGrid(document.querySelector("[data-data-grid]")!)!;
+    expect(grid.getAttribute("empty-value")).toBe("—");
+    expect(grid.hasAttribute("movable-columns")).toBe(true);
+    expect(grid.hasAttribute("no-warn-missing-labels")).toBe(true);
+    const first = grid.querySelector(".data-table-body .data-table-td")!;
+    expect(first.hasAttribute("data-empty")).toBe(true);
+    expect(first.textContent).toBe("—");
+  });
+  test("the new label functions are template strings with placeholders", () => {
+    const labels = resolveLabels({ copyAnnouncement: "{rowCount} rows copied", undoAnnouncement: "Undid {header}: {text}" });
+    expect((labels.copyAnnouncement as (n: number) => string)(2)).toBe("2 rows copied");
+    expect((labels.undoAnnouncement as (h: string, t: string) => string)("Name", "Ann")).toBe("Undid Name: Ann");
+  });
+});
