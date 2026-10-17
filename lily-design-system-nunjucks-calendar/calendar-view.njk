@@ -34,6 +34,18 @@
   fixed strings naming the two arrows before hydration; once the client
   runs, `labels.previous(view)` / `labels.next(view)` replace them.
 
+  Typed event fields, inline editing and export (0.5.0) are client options and plain-string labels:
+    Client init options: eventFields (array of {id, header, type?, options?, parse?, exportValue?, exportable?, editable?,
+      editLabel?, numberFormat?, dateFormat?} — functions are allowed here, it is client code), read from each event's `values`;
+      onFieldEdit({eventId, fieldId, value, previous}) (an agenda field is editable only when it is set: the client can see its
+      own option), exportFilename ("calendar"), exportScope ("period" or "all"), onExport(file) (return false to take over the
+      download); labels.editAnnouncement(eventTitle, fieldHeader, text), labels.editInvalid(eventTitle, fieldHeader),
+      labels.exportAnnouncement(format, eventCount, filename). `renderDay` / `renderAgendaDay` get `fieldText(event, fieldId)`.
+      The client fires `fieldedit` and `exportfile` on the root too.
+    Macro params: labels.export, labels.exportCsv / exportTsv / exportExcel (plain strings; each gates its button) and
+      labels.exportHeaders (an object of plain strings, {title, start, end}); none of the buttons renders without it. The
+      client reads the headers from the root's `data-lily-calendar-view-export-headers`.
+
   Params (single `opts` object):
     label       — string, required. aria-label for the grid.
     view        — "day" | "week" | "four-week" | "month" | "agenda", default "month".
@@ -102,6 +114,7 @@
   {%- if opts.maxEvents is defined and opts.maxEvents is not none %} data-lily-calendar-view-max-events="{{ opts.maxEvents }}"{% endif %}
   {%- if opts.agendaEmptyDays %} data-lily-calendar-view-agenda-empty-days{% endif %}
   data-lily-calendar-view-label="{{ opts.label }}"
+  {%- if labels.exportHeaders %} data-lily-calendar-view-export-headers="{{ labels.exportHeaders | dump }}"{% endif %}
   {%- if opts.moveEvents %} data-lily-calendar-view-move-events{% endif %}
   {%- if opts.showWeekNumbers %} data-lily-calendar-view-show-week-numbers{% endif %}
   {%- if opts.showWeekNumbers and labels.weekNumberHeader %} data-lily-calendar-view-week-number-header="{{ labels.weekNumberHeader }}"{% endif %}
@@ -122,6 +135,13 @@
 {%- if labels.today %}<button type="button" class="calendar-view-today-button"{% if not opts.today %} disabled{% endif %} data-lily-calendar-view-today-button>{{ labels.today }}</button>{% endif %}
 <button type="button" class="calendar-view-next-button"{% if labels.nextLabel %} aria-label="{{ labels.nextLabel }}"{% endif %} data-lily-calendar-view-next>&#8250;</button>
 </div>
+</div>
+{%- endif %}
+{%- if labels.exportHeaders and (labels.exportCsv or labels.exportTsv or labels.exportExcel) %}
+<div class="calendar-view-export" role="group"{% if labels.export %} aria-label="{{ labels.export }}"{% endif %} data-lily-calendar-view-export-group>
+{%- if labels.exportCsv %}<button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" disabled>{{ labels.exportCsv }}</button>{% endif %}
+{%- if labels.exportTsv %}<button type="button" class="calendar-view-export-button" data-calendar-export-format="tsv" disabled>{{ labels.exportTsv }}</button>{% endif %}
+{%- if labels.exportExcel %}<button type="button" class="calendar-view-export-button" data-calendar-export-format="xlsx" disabled>{{ labels.exportExcel }}</button>{% endif %}
 </div>
 {%- endif %}
 {{ tableHtml | safe }}

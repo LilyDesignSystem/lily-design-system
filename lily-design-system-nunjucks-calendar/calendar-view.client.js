@@ -29,6 +29,19 @@ import {
   parseIsoDate,
   weekdayOf,
 } from "@lilydesignsystem/nunjucks-date-time-picker";
+import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import { civilDateToDate } from "./cell-types";
+import {
+  draftOf,
+  editorKind,
+  evaluateEdit,
+  exportFieldCell,
+  exportableFields,
+  fieldText,
+  isEditableField,
+  neighbourField,
+  resolveFields,
+} from "./typed-fields";
 
 const VIEWS = ["day", "week", "four-week", "month", "agenda"];
 const MOVE_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "PageUp", "PageDown"]);
@@ -127,6 +140,11 @@ export function eventsByDay(events) {
  *   onNavigate?: (view: string, start: string, end: string) => void,
  *   onDayClick?: (isoDate: string) => void,
  *   onEventClick?: (event: object) => void,
+ *   eventFields?: Array<object>,
+ *   onFieldEdit?: (edit: { eventId: string, fieldId: string, value: unknown, previous: unknown }) => void,
+ *   exportFilename?: string,
+ *   exportScope?: "period" | "all",
+ *   onExport?: (file: { format: string, filename: string, eventCount: number, blob: Blob }) => boolean | void,
  *   renderDay?: (args: { date: string, events: object[], isToday: boolean, outsidePeriod: boolean,
  *     selected: boolean, disabled: boolean, inRange: boolean, ranges: object[], openEvent: (event: object) => void }) => Node,
  *   labels?: {
@@ -136,6 +154,9 @@ export function eventsByDay(events) {
  *     day?: (isoDate: string, weekday: number, outsidePeriod: boolean) => string,
  *     weekNumber?: (week: number) => string,
  *     eventMoveAnnouncement?: (event: object, toDate: string) => string,
+ *     editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string,
+ *     editInvalid?: (eventTitle: string, fieldHeader: string) => string,
+ *     exportAnnouncement?: (format: string, eventCount: number, filename: string) => string,
  *     periodTitle?: (view: string, start: string, end: string) => string,
  *     agendaEmpty?: string,
  *     moreEvents?: (hiddenCount: number, isoDate: string) => string,
@@ -157,6 +178,8 @@ export function initCalendarView(root, opts = {}) {
 
   const labels = opts.labels || {};
   let events = Array.isArray(opts.events) ? opts.events.slice() : [];
+  /** The events by id, rebuilt when they change. */
+  let eventById = new Map(events.map((e) => [e.id, e]));
   let cursor = null;
   let focusPending = false;
   let ranges = Array.isArray(opts.ranges) ? opts.ranges.slice() : [];
@@ -272,6 +295,230 @@ export function initCalendarView(root, opts = {}) {
     if (typeof opts.onEventClick === "function") opts.onEventClick(event);
   }
 
+  // -----------------------------------------------------------------
+  // Typed event fields, inline editing (agenda), export
+  // -----------------------------------------------------------------
+
+  const attrLocale = () => attr("locale") || undefined;
+  let resolvedFields = null;
+  /** Type defaults (format, compare, export value), resolved once per `eventFields` / locale, never per event or keystroke. */
+  function fieldList() {
+    if (!resolvedFields || resolvedFields.locale !== attrLocale()) {
+      resolvedFields = { locale: attrLocale(), fields: resolveFields(opts.eventFields, attrLocale()) };
+    }
+    return resolvedFields.fields;
+  }
+  const fieldDef = (id) => fieldList().find((f) => f.id === id);
+  const eventTitle = (event) => (typeof event.title === "string" ? event.title : event.id);
+  const eventFieldText = (event, fieldId) => {
+    const f = fieldDef(fieldId);
+    return f ? fieldText(f, event.values) : "";
+  };
+  const isFieldEditable = (f) => typeof opts.onFieldEdit === "function" && isEditableField(f);
+
+  /** The field being edited, if any: the draft is the editor's text, kept current by the editor's own events (no re-render per keystroke). */
+  let editing = null;
+
+  function focusFieldButton(eventId, fieldId) {
+    const li = Array.from(root.querySelectorAll("[data-event-key]")).find((el) => el.getAttribute("data-event-key") === eventId);
+    const field = li && Array.from(li.querySelectorAll("[data-field]")).find((el) => el.getAttribute("data-field") === fieldId);
+    const button = field && field.querySelector(".calendar-view-field-button");
+    if (button) button.focus({ preventScroll: true });
+  }
+
+  function startFieldEdit(eventId, fieldId) {
+    const event = eventById.get(eventId);
+    const f = fieldDef(fieldId);
+    if (!event || !f || !isFieldEditable(f)) return;
+    editing = { eventId, fieldId, draft: draftOf(f, event.values) };
+    render();
+    const editor = root.querySelector(".calendar-view-field-editor");
+    if (editor) {
+      editor.focus({ preventScroll: true });
+      if (editor.tagName === "INPUT" && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+    }
+  }
+
+  /** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+  function commitFieldEdit(refocus) {
+    if (!editing) return true;
+    const { eventId, fieldId, draft } = editing;
+    const event = eventById.get(eventId);
+    const f = fieldDef(fieldId);
+    if (!event || !f) {
+      editing = null;
+      render();
+      return true;
+    }
+    const outcome = evaluateEdit(f, event.values, draft);
+    if (outcome.invalid) {
+      if (typeof labels.editInvalid === "function" && statusEl) statusEl.textContent = labels.editInvalid(eventTitle(event), f.header);
+      return false;
+    }
+    editing = null;
+    if (outcome.changed) {
+      const edit = { eventId, fieldId, value: outcome.value, previous: outcome.previous };
+      if (typeof opts.onFieldEdit === "function") opts.onFieldEdit(edit);
+      root.dispatchEvent(new CustomEvent("fieldedit", { detail: edit, bubbles: true }));
+      if (typeof labels.editAnnouncement === "function" && statusEl) statusEl.textContent = labels.editAnnouncement(eventTitle(event), f.header, outcome.text);
+    }
+    render();
+    if (refocus) focusFieldButton(eventId, fieldId);
+    return true;
+  }
+
+  function cancelFieldEdit() {
+    if (!editing) return;
+    const { eventId, fieldId } = editing;
+    editing = null;
+    render();
+    focusFieldButton(eventId, fieldId);
+  }
+
+  function onEditorKeydown(event) {
+    // The editor owns its keys. While an IME composes, Enter, Escape and Tab belong to the IME: some browsers
+    // report the confirming Enter with `isComposing` already false but keyCode 229.
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commitFieldEdit(true);
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      cancelFieldEdit();
+    } else if (event.key === "Tab" && editing) {
+      // Tab commits and moves to the event's next (Shift+Tab: previous) editable field; past the last, it moves on.
+      const { eventId, fieldId } = editing;
+      const next = neighbourField(fieldList().filter(isFieldEditable), fieldId, event.shiftKey);
+      if (next) {
+        event.preventDefault();
+        if (commitFieldEdit(false)) startFieldEdit(eventId, next.id);
+      } else {
+        commitFieldEdit(false);
+      }
+    }
+  }
+
+  /** One field's node: its name and either the value, a button that opens the editor, or the editor itself. */
+  function fieldNode(event, f) {
+    const text = fieldText(f, event.values);
+    const editable = isFieldEditable(f);
+    const nameId = `${root.id || "calendar-view"}-fn-${event.id}-${f.id}`;
+    const valueId = `${root.id || "calendar-view"}-fv-${event.id}-${f.id}`;
+    const isEditing = !!editing && editing.eventId === event.id && editing.fieldId === f.id;
+    if (!isEditing && text === "" && !editable) return null;
+    const span = document.createElement("span");
+    span.className = "calendar-view-event-field";
+    span.setAttribute("data-field", f.id);
+    const name = document.createElement("span");
+    name.className = "calendar-view-event-field-name";
+    name.id = nameId;
+    name.textContent = f.header;
+    span.appendChild(name);
+    span.appendChild(document.createTextNode(" "));
+    if (isEditing) {
+      span.setAttribute("data-editing", "");
+      const kind = editorKind(f);
+      const state = editing;
+      let editor;
+      if (kind === "select" || kind === "radio") {
+        editor = document.createElement("select");
+        const blank = document.createElement("option");
+        blank.value = "";
+        editor.appendChild(blank);
+        for (const option of f.options || []) {
+          const o = document.createElement("option");
+          o.value = option.id;
+          o.disabled = !!option.disabled;
+          o.textContent = option.label;
+          editor.appendChild(o);
+        }
+        editor.addEventListener("change", () => {
+          state.draft = editor.value;
+          commitFieldEdit(true);
+        });
+      } else {
+        editor = document.createElement("input");
+        editor.type = kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text";
+        if (kind === "number") editor.setAttribute("inputmode", "decimal");
+        editor.addEventListener("input", () => {
+          state.draft = editor.value;
+        });
+      }
+      editor.className = "calendar-view-field-editor";
+      editor.setAttribute("aria-label", f.editLabel || f.header);
+      editor.value = String(state.draft == null ? "" : state.draft);
+      editor.addEventListener("keydown", onEditorKeydown);
+      editor.addEventListener("blur", () => commitFieldEdit(false));
+      span.setAttribute("data-type", f.type || "text");
+      span.appendChild(editor);
+      return span;
+    }
+    span.setAttribute("data-type", f.type || "text");
+    if (editable) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "calendar-view-field-button";
+      button.id = valueId;
+      button.setAttribute("aria-labelledby", `${nameId} ${valueId}`);
+      button.textContent = text;
+      button.addEventListener("click", () => startFieldEdit(event.id, f.id));
+      span.appendChild(button);
+    } else {
+      const value = document.createElement("span");
+      value.className = "calendar-view-event-field-value";
+      value.textContent = text;
+      span.appendChild(value);
+    }
+    return span;
+  }
+
+  const eventSpan = (event) =>
+    event.date ? { start: event.date, end: event.date } : event.start && event.end ? { start: event.start, end: event.end } : null;
+
+  /** The events an export holds: those that touch the shown period (or every one), dated ones only, by start date. */
+  function exportEvents() {
+    const dated = events.filter((e) => eventSpan(e) !== null);
+    const [pStart, pEnd] = periodRange(view(), anchorDate(), firstDay());
+    const kept = opts.exportScope === "all" ? dated : dated.filter((e) => eventSpan(e).start <= pEnd && eventSpan(e).end >= pStart);
+    return kept.sort((a, b) => eventSpan(a).start.localeCompare(eventSpan(b).start));
+  }
+
+  function syncExport() {
+    const disabled = exportEvents().length === 0;
+    root.querySelectorAll("[data-calendar-export-format]").forEach((b) => {
+      b.disabled = disabled;
+    });
+  }
+
+  function exportHeaders() {
+    if (labels.exportHeaders) return labels.exportHeaders;
+    try {
+      return JSON.parse(root.getAttribute("data-lily-calendar-view-export-headers") || "null");
+    } catch {
+      return null;
+    }
+  }
+
+  function runExport(format) {
+    const h = exportHeaders();
+    if (!h) return;
+    const fields = exportableFields(fieldList());
+    const headers = [h.title, h.start, h.end, ...fields.map((f) => f.header)];
+    const body = exportEvents().map((event) => {
+      const span = eventSpan(event);
+      return [eventTitle(event), civilDateToDate(span.start), civilDateToDate(span.end), ...fields.map((f) => exportFieldCell(f, event.values))];
+    });
+    const base = opts.exportFilename || "calendar";
+    const filename = exportFilename(base, format);
+    const blob = exportBlob({ headers, rows: body }, format, { sheetName: base });
+    const file = { format, filename, eventCount: body.length, blob };
+    root.dispatchEvent(new CustomEvent("exportfile", { detail: file, bubbles: true }));
+    if (typeof opts.onExport === "function" && opts.onExport(file) === false) return;
+    downloadBlob(blob, filename);
+    if (typeof labels.exportAnnouncement === "function" && statusEl) statusEl.textContent = labels.exportAnnouncement(format, body.length, filename);
+  }
+
   function defaultRenderDay(args) {
     const fragment = document.createDocumentFragment();
     fragment.appendChild(document.createTextNode(String((parseIsoDate(args.date) || {}).day || "")));
@@ -352,6 +599,7 @@ export function initCalendarView(root, opts = {}) {
           ranges: dayRanges,
           openEvent,
           attachEvent: () => {},
+          fieldText: eventFieldText,
         };
         if (typeof opts.renderAgendaDay === "function") li.appendChild(opts.renderAgendaDay(args));
         else {
@@ -359,12 +607,23 @@ export function initCalendarView(root, opts = {}) {
           ul.className = "calendar-view-agenda-events";
           dayEvents.forEach((event) => {
             const item = document.createElement("li");
+            item.setAttribute("data-event-key", event.id);
             const button = document.createElement("button");
             button.type = "button";
             button.className = "calendar-view-event";
-            button.textContent = typeof event.title === "string" ? event.title : event.id;
+            button.textContent = eventTitle(event);
             button.addEventListener("click", () => openEvent(event));
             item.appendChild(button);
+            const list = fieldList();
+            if (list.length > 0) {
+              const fieldsEl = document.createElement("span");
+              fieldsEl.className = "calendar-view-event-fields";
+              for (const f of list) {
+                const node = fieldNode(event, f);
+                if (node) fieldsEl.appendChild(node);
+              }
+              item.appendChild(fieldsEl);
+            }
             ul.appendChild(item);
           });
           li.appendChild(ul);
@@ -383,6 +642,7 @@ export function initCalendarView(root, opts = {}) {
   }
 
   function render() {
+    syncExport();
     const v = view();
     const anchor = anchorDate();
     const days = periodDays(v, anchor, firstDay());
@@ -519,6 +779,7 @@ export function initCalendarView(root, opts = {}) {
           ranges: dayRanges,
           openEvent,
           attachEvent,
+          fieldText: eventFieldText,
         };
         td.appendChild(typeof opts.renderDay === "function" ? opts.renderDay(args) : defaultRenderDay(args));
         tr.appendChild(td);
@@ -696,6 +957,8 @@ export function initCalendarView(root, opts = {}) {
   function onRootClick(event) {
     const target = event.target;
     if (!target || !target.closest) return;
+    const exportButton = target.closest("[data-calendar-export-format]");
+    if (exportButton) return runExport(exportButton.getAttribute("data-calendar-export-format"));
     const switcher = target.closest("[data-lily-calendar-view-switch]");
     if (switcher) return setView(switcher.getAttribute("data-lily-calendar-view-switch"));
     if (target.closest("[data-lily-calendar-view-previous]")) return stepView(-1);
@@ -734,6 +997,7 @@ export function initCalendarView(root, opts = {}) {
     },
     setEvents: (next) => {
       events = Array.isArray(next) ? next.slice() : [];
+      eventById = new Map(events.map((e) => [e.id, e]));
       render();
     },
     setRanges: (next) => {
