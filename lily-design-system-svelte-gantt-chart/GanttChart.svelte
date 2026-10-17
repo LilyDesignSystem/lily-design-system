@@ -101,6 +101,8 @@
         dateTimePickerLabels?: DateTimePickerLabels;
         saveLabel?: string;
         cancelLabel?: string;
+        /** Visible text on a task with `critical: true` (e.g. "Critical path"), beside its label: the state is never colour-only, and the task label itself (also used in "depends on" text) stays unchanged. */
+        criticalLabel?: string;
         dependencySummary?: (predecessorLabels: string[]) => string;
         dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
         /** Label of the progress field in the edit region (0–100). Gates the field. */
@@ -1139,6 +1141,7 @@
                             </button>
                         {/if}
                         {#if searching}{#each highlightSegments(taskLabel(row.task), search) as part, i (i)}{#if part.match}<Mark class="gantt-chart-match">{part.text}</Mark>{:else}{part.text}{/if}{/each}{:else}{taskLabel(row.task)}{/if}
+                        {#if row.task.critical && labels.criticalLabel}<span class="gantt-chart-critical-label">{labels.criticalLabel}</span>{/if}
                         {#if deps.length > 0 && labels.dependencySummary}
                             <span id={dependencyId(row.task.id)} class="gantt-chart-dependency-summary" hidden>
                                 {labels.dependencySummary(deps)}

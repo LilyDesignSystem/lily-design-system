@@ -445,6 +445,24 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
         expect(row.getAttribute("data-slack")).toBe("2");
     });
 
+    test("labels.criticalLabel is visible text on a critical task, beside its unchanged label", () => {
+        const tasks: GanttTask[] = [
+            { id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true },
+            { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] },
+        ];
+        render(GanttChart, { props: { label: "Plan", range: RANGE, tasks, labels: { criticalLabel: "Critical path", dependencySummary: (l: string[]) => `Depends on ${l.join(", ")}` } } });
+        const labels = document.querySelectorAll(".gantt-chart-critical-label");
+        expect(labels).toHaveLength(1);
+        expect(labels[0].textContent).toBe("Critical path");
+        expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent!.trim()).toBe("Depends on A");
+    });
+
+    test("without labels.criticalLabel no critical text renders", () => {
+        const tasks: GanttTask[] = [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true }];
+        render(GanttChart, { props: { label: "Plan", range: RANGE, tasks } });
+        expect(document.querySelector(".gantt-chart-critical-label")).toBeNull();
+    });
+
     test("readonly: Enter opens no edit region, bars are not draggable, navigation and collapse still work", async () => {
         const onTaskChange = vi.fn();
         render(GanttChart, {

@@ -327,7 +327,7 @@ Tests §8.31–§8.50.
 - **Event drag-and-drop**: `onEventMove(event, toDate)` turns it on. The `day` snippet's `eventProps(ev)` is spread onto an event element
   to make it draggable (`data-event-id`); dropping on a day calls `onEventMove`; Alt+ArrowLeft/Right (a day) and Alt+ArrowUp/Down (a week)
   on a focused event element is the keyboard alternative (WCAG 2.5.7). Disabled days refuse a move. `labels.eventMoveAnnouncement`.
-- **`labels.periodTitle(view, start, end)`**: a visible title (`.calendar-view-title`) between the previous and next buttons.
+- **`labels.periodTitle(view, start, end, anchorDate)`**: a visible title (`.calendar-view-title`) between the previous and next buttons.
 - **`hideOutsideDays`**: month view leaves outside days empty (the cell stays in the grid with `data-outside-period`).
 - **`weekendDays`**: weekday numbers whose cells get `data-weekend`; none by default, weekends differ by country.
 - **`selectionMode="multiple"`**: a click or Enter/Space toggles a day in the bindable `selectedDates` (each `data-selected`); `onDayClick` still fires.

@@ -107,8 +107,8 @@
         weekNumber?: (week: number) => string;
         /** Announced as a range is extended with Shift+arrows or confirmed. */
         rangeAnnouncement?: (start: string, end: string) => string;
-        /** Visible title of the shown period (e.g. "January 2026"), rendered between the previous and next buttons. Gates the title. */
-        periodTitle?: (view: CalendarView, start: string, end: string) => string;
+        /** Visible title of the shown period (e.g. "January 2026"; `anchorDate` is the date the view is anchored on, so a month or agenda title can name its month), rendered between the previous and next buttons. Gates the title. */
+        periodTitle?: (view: CalendarView, start: string, end: string, anchorDate: string) => string;
         /** Announced after an event is moved to another day. */
         eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
         /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
@@ -967,7 +967,7 @@
                     onclick={() => stepView(-1)}
                 >‹</button>
                 {#if labels?.periodTitle}
-                    <span class="calendar-view-title">{labels.periodTitle(view, periodStart, periodEnd)}</span>
+                    <span class="calendar-view-title">{labels.periodTitle(view, periodStart, periodEnd, anchorDate)}</span>
                 {/if}
                 {#if labels?.today}
                     <button

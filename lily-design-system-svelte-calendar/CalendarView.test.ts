@@ -610,6 +610,15 @@ describe("CalendarView — period title and hideOutsideDays (§8.42–§8.45)", 
         expect(document.querySelector(".calendar-view-title")!.textContent).toBe("month:2026-02-01..2026-02-28");
     });
 
+    test("labels.periodTitle receives the anchor date, kept current on navigation", async () => {
+        const seen: string[] = [];
+        render(CalendarView, { props: { ...month, labels: { ...LABELS, periodTitle: (_v: string, _s: string, _e: string, anchor: string) => { seen.push(anchor); return anchor; } } } });
+        const first = document.querySelector(".calendar-view-title")!.textContent;
+        await fireEvent.click(screen.getByRole("button", { name: LABELS.next!("month") }));
+        expect(document.querySelector(".calendar-view-title")!.textContent).not.toBe(first);
+        expect(seen.length).toBeGreaterThan(1);
+    });
+
     test("§8.43 no title without labels.periodTitle", () => {
         render(CalendarView, { props: { ...month, labels: LABELS } });
         expect(document.querySelector(".calendar-view-title")).toBeNull();
