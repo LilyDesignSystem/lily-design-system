@@ -11,6 +11,7 @@
     } from "@lilydesignsystem/svelte-headless";
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import {
         draftOf as fieldDraft,
@@ -150,6 +151,12 @@
         editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
         /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
         editInvalid?: (cardTitle: string, fieldHeader: string) => string;
+        /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
+        editRefused?: (cardTitle: string, fieldHeader: string, message: string) => string;
+        /** Announced after Ctrl/Cmd+Z puts an earlier field value back: (card title, field header, the restored text). */
+        fieldUndoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
+        /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies a field edit: (card title, field header, the text). */
+        fieldRedoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
     };
 
     /** What `onExport` receives. Return `false` to take over the download. */
@@ -510,7 +517,9 @@
     const fieldText = (f: ResolvedField, card: KanbanCard): string => fieldTextOf(f, card.values);
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editing = $state<{ cardId: string; fieldId: string; draft: Draft } | null>(null);
+    let editing = $state<{ cardId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+    /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `onFieldEdit`. */
+    let history: EditHistory = EMPTY_HISTORY;
     let committing = false;
 
     async function startFieldEdit(card: KanbanCard, f: ResolvedField): Promise<void> {
@@ -535,18 +544,36 @@
         }
         const outcome = evaluateEdit(f, card.values, draft);
         if (outcome.invalid) {
-            announce(labels.editInvalid?.(cardLabel(card), f.header));
+            editing.invalid = true;
+            announce((outcome.message ? labels.editRefused?.(cardLabel(card), f.header, outcome.message) : undefined) ?? labels.editInvalid?.(cardLabel(card), f.header));
             return false;
         }
         committing = true;
         editing = null;
         if (outcome.changed) {
+            history = recordEdit(history, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
             onFieldEdit?.({ cardId, fieldId, value: outcome.value, previous: outcome.previous });
             announce(labels.editAnnouncement?.(cardLabel(card), f.header, outcome.text));
         }
         committing = false;
         if (refocus) void focusCard(cardId);
         return true;
+    }
+
+    /** Put an earlier field value back, or re-apply it, through `onFieldEdit`. */
+    function stepHistory(direction: "undo" | "redo"): void {
+        const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+        if (!step.record) return;
+        history = step.history;
+        const { ownerId, fieldId, value, previous } = step.record;
+        const restored = direction === "undo" ? previous : value;
+        const replaced = direction === "undo" ? value : previous;
+        onFieldEdit?.({ cardId: ownerId, fieldId, value: restored, previous: replaced });
+        const card = effectiveCards.find((c) => c.id === ownerId);
+        const f = resolvedFields.find((x) => x.id === fieldId);
+        if (!card || !f) return;
+        const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored }) : String(restored);
+        announce((direction === "undo" ? labels.fieldUndoAnnouncement : labels.fieldRedoAnnouncement)?.(cardLabel(card), f.header, text));
     }
 
     function cancelFieldEdit(): void {
@@ -960,7 +987,19 @@
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
-        if (undoable && ctrlOrMeta && !event.altKey && (event.key === "z" || event.key === "Z")) {
+        // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
+        const historyAction = onFieldEdit && !readonly ? historyKey(event) : null;
+        if (undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && undoStack.length > 0) {
+            event.preventDefault();
+            void undo();
+            return;
+        }
+        if (historyAction) {
+            event.preventDefault();
+            stepHistory(historyAction);
+            return;
+        }
+        if (undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
             event.preventDefault();
             void undo();
             return;
@@ -1260,7 +1299,7 @@
                                                     <span class="kanban-board-card-field" data-field={f.id} data-editing="">
                                                         <span class="kanban-board-card-field-name" id={nameId}>{f.header}</span>
                                                         {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                                            <select class="kanban-board-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editing.draft} onkeydown={onEditorKeydown} onchange={() => commitFieldEdit()} onblur={() => commitFieldEdit(false)}>
+                                                            <select class="kanban-board-field-editor" aria-label={f.editLabel ?? f.header} aria-invalid={editing.invalid ? "true" : undefined} oninput={() => { if (editing) editing.invalid = false; }} bind:value={editing.draft} onkeydown={onEditorKeydown} onchange={() => commitFieldEdit()} onblur={() => commitFieldEdit(false)}>
                                                                 <option value=""></option>
                                                                 {#each (f.options ?? []) as option (option.id)}
                                                                     <option value={option.id} disabled={option.disabled}>{option.label}</option>
@@ -1269,6 +1308,8 @@
                                                         {:else}
                                                             <input
                                                                 class="kanban-board-field-editor"
+                                                                aria-invalid={editing.invalid ? "true" : undefined}
+                                                                oninput={() => { if (editing) editing.invalid = false; }}
                                                                 aria-label={f.editLabel ?? f.header}
                                                                 type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
                                                                 inputmode={editorKind(f) === "number" ? "decimal" : undefined}

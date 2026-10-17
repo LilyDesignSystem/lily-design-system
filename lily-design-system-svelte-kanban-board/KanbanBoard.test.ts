@@ -1387,3 +1387,124 @@ describe("KanbanBoard — PageUp / PageDown and type-ahead (§8.122–§8.127)",
     });
 });
 
+describe("KanbanBoard — in-place edit: validate, undo, redo (§8.128–§8.136)", () => {
+    const cols: KanbanColumn[] = [{ id: "todo", title: "To Do" }, { id: "doing", title: "Doing" }];
+    const cards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "One", values: { points: 3 } }];
+    const FIELD = { id: "points", header: "Points", type: "number" as const, validate: (v: unknown) => (typeof v === "number" && v < 0 ? "Must not be negative" : undefined) };
+    const L: KanbanLabels = {
+        ...LABELS,
+        editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
+        editInvalid: (t, h) => `${t}: bad ${h}`,
+        editRefused: (t, h, m) => `${t} ${h}: ${m}`,
+        fieldUndoAnnouncement: (t, h, text) => `Undid ${t} ${h}: ${text}`,
+        fieldRedoAnnouncement: (t, h, text) => `Redid ${t} ${h}: ${text}`,
+    };
+    const base = { label: "Board", columns: cols, cards, fields: [FIELD], labels: L };
+    const status = () => document.querySelector(".kanban-board-status")?.textContent;
+    const button = () => document.querySelector<HTMLElement>(".kanban-board-field-button")!;
+    const cell = () => document.querySelector<HTMLElement>("[data-row][data-col]")!;
+
+    async function edit(value: string): Promise<HTMLInputElement> {
+        await fireEvent.click(button());
+        const input = document.querySelector<HTMLInputElement>(".kanban-board-field-editor")!;
+        await fireEvent.input(input, { target: { value } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        return input;
+    }
+
+    test("§8.128 a value validate refuses keeps the editor open, aria-invalid, and announces the reason", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, onFieldEdit } });
+        await edit("-4");
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".kanban-board-field-editor")?.getAttribute("aria-invalid")).toBe("true");
+        expect(status()).toBe("One Points: Must not be negative");
+    });
+
+    test("§8.129 typing again clears aria-invalid, and an acceptable value then commits", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, onFieldEdit } });
+        const input = await edit("-4");
+        await fireEvent.input(input, { target: { value: "5" } });
+        expect(input.getAttribute("aria-invalid")).toBeNull();
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).toHaveBeenCalledWith({ cardId: "c1", fieldId: "points", value: 5, previous: 3 });
+    });
+
+    test("§8.130 Ctrl+Z reports the earlier value through onFieldEdit and announces it", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, onFieldEdit } });
+        await edit("8");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "points", value: 3, previous: 8 });
+        expect(status()).toBe("Undid One Points: 3");
+    });
+
+    test("§8.131 Ctrl+Shift+Z and Ctrl+Y redo", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, onFieldEdit } });
+        await edit("8");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true, shiftKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "points", value: 8, previous: 3 });
+        expect(status()).toBe("Redid One Points: 8");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(cell(), { key: "y", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "points", value: 8, previous: 3 });
+    });
+
+    test("§8.132 undo walks back through several edits, newest first", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, onFieldEdit } });
+        await edit("5");
+        await edit("9");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "points", value: 3, previous: 9 });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "points", value: 3, previous: 5 });
+    });
+
+    test("§8.133 with nothing to undo Ctrl+Z does nothing, and a new edit ends the redo chain", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, onFieldEdit } });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        await edit("5");
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        await edit("7");
+        onFieldEdit.mockClear();
+        await fireEvent.keyDown(cell(), { key: "y", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+
+    test("§8.134 with undoable on and a move to take back, Ctrl+Z takes the move back first, then the field edit", async () => {
+        const onFieldEdit = vi.fn();
+        const onMove = vi.fn();
+        const { rerender } = render(KanbanBoard, { props: { ...base, onFieldEdit, onMove, undoable: true } });
+        await edit("8");
+        await fireEvent.keyDown(cell(), { key: "ArrowRight", altKey: true });
+        expect(onMove).toHaveBeenCalledTimes(1);
+        await rerender({ ...base, cards: cards.map((c) => ({ ...c, columnId: "doing" })), onFieldEdit, onMove, undoable: true });
+        onFieldEdit.mockClear();
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        await new Promise((r) => setTimeout(r, 0));
+        expect(onMove).toHaveBeenCalledTimes(2);
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ cardId: "c1", fieldId: "points", value: 3, previous: 8 });
+    });
+
+    test("§8.135 undo and redo do nothing in a readonly board or without onFieldEdit", async () => {
+        const onFieldEdit = vi.fn();
+        render(KanbanBoard, { props: { ...base, readonly: true, onFieldEdit } });
+        await fireEvent.keyDown(cell(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+
+    test("§8.136 a wrong-type value without a validate message falls back to editInvalid", async () => {
+        render(KanbanBoard, { props: { ...base, fields: [{ ...FIELD, parse: () => Number.NaN }], onFieldEdit: vi.fn() } });
+        await edit("x");
+        expect(status()).toBe("One: bad Points");
+    });
+});
+
