@@ -23,6 +23,8 @@ declare module "@lilydesignsystem/vue-headless" {
     export const GanttTableTbody: any;
     export const GanttTableThead: any;
     export const GanttTableTr: any;
+    export const Mark: any;
+    export const SearchInput: any;
 }
 
 declare module "@lilydesignsystem/vue-date-time-picker" {

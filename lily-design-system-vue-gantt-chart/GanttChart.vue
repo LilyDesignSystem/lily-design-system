@@ -2,6 +2,7 @@
 import type { DateTimePickerLabels } from "@lilydesignsystem/vue-date-time-picker";
 import type { ExportFormat } from "./export-data";
 import type { FieldDef } from "./typed-fields";
+import type { Unavailable } from "./unavailable";
 
 /**
  * A typed field a task carries (an owner, a status, an estimate), shown as a column between the task name and the timeline and
@@ -64,12 +65,28 @@ export type GanttLabels = {
     exportExcel?: string;
     /** Announced after an export: (format, how many tasks, file name). */
     exportAnnouncement?: (format: ExportFormat, taskCount: number, filename: string) => string;
+    /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+    copy?: string;
+    /** Announced after a copy: (how many rows). */
+    copyAnnouncement?: (rowCount: number) => string;
+    /** Announced when the clipboard could not be written. */
+    copyFailed?: string;
+    /** Accessible name of the search field. Gates the field. */
+    search?: string;
+    /** Announced after the search changes: (matching tasks, all tasks). */
+    searchAnnouncement?: (matchCount: number, totalCount: number) => string;
     /** Headers of the export's own columns. An export needs `exportHeaders`; there is no English default. The others are included only when named. */
     exportHeaders?: { task: string; start: string; end: string; percentComplete?: string; parent?: string; dependsOn?: string; baselineStart?: string; baselineEnd?: string };
     /** Announced after a field edit: (task label, field header, the new text). */
     editAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
     /** Announced when an edit is refused as invalid for the field's type: (task label, field header). */
     editInvalid?: (taskLabel: string, fieldHeader: string) => string;
+    /** Announced when a field's `validate` refuses a value: (task label, field header, the reason). Falls back to `editInvalid`. */
+    editRefused?: (taskLabel: string, fieldHeader: string, message: string) => string;
+    /** Announced after Ctrl/Cmd+Z puts an earlier value back: (task label, field header, the restored text). */
+    undoAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
+    /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (task label, field header, the text). */
+    redoAnnouncement?: (taskLabel: string, fieldHeader: string, text: string) => string;
     /** Header for the leading task-label column; an empty header cell otherwise. */
     taskColumnHeader?: string;
     columnLabel?: (start: string, end: string, timeUnit: GanttTimeUnit) => string;
@@ -125,6 +142,14 @@ export type Props = {
     isNonWorking?: (isoDate: string) => boolean;
     /** Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. Never defaulted: the weekend is the consumer's locale. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. Shading itself is CSS. */
     weekends?: number[];
+    /** Days nobody works — holidays, time off, closures — as dated ranges `{ start, end?, kind?, label? }` (`end` defaults to `start`). A column every day of which is covered gets `data-unavailable="<kinds>"` (the entries' `kind`s, `unavailable` when none) on the header and every cell; a column only partly covered gets `data-partly-unavailable` instead. A `label` is rendered as text in the header (`.gantt-chart-unavailable-label`), so the day is never colour-only. Use `weekends` for the weekend and `markers` for a single dated flag. Shading and stripes are CSS. */
+    unavailable?: Unavailable[];
+    /** Hides tasks for which it returns false (a status, owner or date filter). Combines with the search; like a search match, a passing task keeps its ancestors. */
+    filter?: (task: GanttTask) => boolean;
+    /** Orders tasks among their siblings (stable; the hierarchy itself is kept: a child stays under its parent). Without it tasks keep the order of `tasks`. */
+    compare?: (a: GanttTask, b: GanttTask) => number;
+    /** The text the search looks in. Defaults to the task's label and every field's text. */
+    searchText?: (task: GanttTask) => string;
     /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type. An `aria-hidden` SVG overlay measured from the rendered cells; the dependencies stay available as text through `labels.dependencySummary`. Drawn only between rendered rows. */
     dependencyArrows?: boolean;
     /** Suppress editing, drag and the edit region; navigation and collapse still work. */
@@ -139,6 +164,8 @@ export type Props = {
     exportScope?: "all" | "visible";
     /** Called before the download with the finished file. Return `false` to skip the built-in download. */
     exportHandler?: (file: GanttExport) => boolean | void;
+    /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). The `copy` event fires first. */
+    copyHandler?: (copy: { text: string; rowCount: number }) => boolean | void;
     /** Renders only the task rows in view (windowing). The chart gets a scroll area of `height` px; every row is assumed `rowHeight` px tall. */
     virtualize?: { rowHeight: number; height: number; overscan?: number };
     /** Resolves a task to its display label. Defaults to `task.label`. */
@@ -299,10 +326,18 @@ import {
     GanttTableTbody,
     GanttTableThead,
     GanttTableTr,
+    Mark,
+    SearchInput,
 } from "@lilydesignsystem/vue-headless";
 import DateTimePicker, { addDays, parseIsoDate, toEpochDay } from "@lilydesignsystem/vue-date-time-picker";
-import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText } from "./export-data";
 import { civilDateToDate } from "./cell-types";
+import { highlightSegments, matchesSearch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { gridMove, pageStepFor } from "./grid-navigation";
+import { unavailableIn, unavailableKinds } from "./unavailable";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
 import {
     draftOf,
@@ -325,6 +360,11 @@ const props = withDefaults(defineProps<Props>(), {
     markers: () => [],
     isNonWorking: undefined,
     weekends: undefined,
+    unavailable: undefined,
+    filter: undefined,
+    compare: undefined,
+    searchText: undefined,
+    copyHandler: undefined,
     dependencyArrows: false,
     readonly: false,
     fields: undefined,
@@ -347,6 +387,8 @@ const timeUnit = defineModel<GanttTimeUnit>("timeUnit", { default: "day" });
 const collapsedTaskIds = defineModel<string[]>("collapsedTaskIds", { default: () => [] });
 /** The selected task's id (`v-model:selectedTaskId`). A click on a task's row or the `s` key on it selects (again deselects); `aria-selected`, `data-selected`. */
 const selectedTaskId = defineModel<string | undefined>("selectedTaskId", { default: undefined });
+/** Search (`v-model:search`): shows only the tasks whose text contains every word of it (any order, ignoring case and diacritics), plus their ancestors so the hierarchy stays readable; matches are wrapped in `<mark class="gantt-chart-match">`. While searching, collapsed parents show the matches under them. Escape in the field clears it. */
+const search = defineModel<string>("search", { default: "" });
 
 const emit = defineEmits<{
     /** Selection changed: the task id, or `undefined` when it clears. */
@@ -356,6 +398,8 @@ const emit = defineEmits<{
     (event: "field-edit", edit: GanttFieldEdit): void;
     /** An export file, before it is saved. */
     (event: "export-file", file: GanttExport): void;
+    /** A copy to the clipboard, before it is written. */
+    (event: "copy", copy: { text: string; rowCount: number }): void;
 }>();
 
 // The listener's presence decides whether fields are editable, so it is read from the vnode.
@@ -378,9 +422,37 @@ const editPercent = ref("");
 let draggingTaskId: string | null = null;
 
 const columns = computed(() => generateColumns(props.range, timeUnit.value, addDays));
-const rows = computed(() => flattenTasks(props.tasks, collapsed.value));
 const ranges = computed(() => effectiveRanges(props.tasks));
 const taskById = computed(() => new Map(props.tasks.map((t) => [t.id, t])));
+const searching = computed(() => search.value.trim() !== "");
+const narrowing = computed(() => searching.value || !!props.filter);
+// Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per task or keystroke.
+const resolvedFields = computed(() => resolveFields(props.fields, props.locale));
+const defaultSearchText = (task: GanttTask): string => [resolveTaskLabel(task), ...resolvedFields.value.map((f) => fieldTextOf(f, task.values))].join(" ");
+/** The tasks the search matches, found once per query / task change. */
+const matchedIds = computed(() =>
+    narrowing.value
+        ? new Set(props.tasks.filter((t) => (!props.filter || props.filter(t)) && (!searching.value || matchesSearch((props.searchText ?? defaultSearchText)(t), search.value))).map((t) => t.id))
+        : null,
+);
+/** Matches plus their ancestors, so a match is never shown without its context. */
+const shownIds = computed(() => {
+    if (!matchedIds.value) return null;
+    const keep = new Set(matchedIds.value);
+    for (const id of matchedIds.value) {
+        const seen = new Set<string>([id]);
+        for (let parent = taskById.value.get(id)?.parentId; parent != null && taskById.value.has(parent) && !seen.has(parent); parent = taskById.value.get(parent)?.parentId) {
+            keep.add(parent);
+            seen.add(parent);
+        }
+    }
+    return keep;
+});
+// Searching ignores collapse (a match under a collapsed parent must be findable); clearing the search restores it.
+const orderedTasks = computed(() => (props.compare ? [...props.tasks].sort(props.compare) : props.tasks));
+const rows = computed(() =>
+    shownIds.value ? flattenTasks(orderedTasks.value, new Set<string>()).filter((r) => shownIds.value!.has(r.task.id)) : flattenTasks(orderedTasks.value, collapsed.value),
+);
 
 // The roving cursor, clamped to the cells that exist now: collapsing a parent
 // can remove the row it named, and the grid must never leave the tab order.
@@ -405,18 +477,24 @@ function announce(message: string | undefined): void {
     if (message) statusMessage.value = message;
 }
 
+// Announce how many tasks match after the search changes (not on the first render).
+watch(search, (query) => {
+    if (matchedIds.value) announce(props.labels?.searchAnnouncement?.(matchedIds.value.size, props.tasks.length));
+    else if (query === "") announce(props.labels?.searchAnnouncement?.(props.tasks.length, props.tasks.length));
+});
+
 // ---------------------------------------------------------------
 // Typed fields, inline editing, export
 // ---------------------------------------------------------------
 
-// Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per task or keystroke.
-const resolvedFields = computed(() => resolveFields(props.fields, props.locale));
 const isFieldEditable = (f: GanttField) => hasFieldEdit && !props.readonly && isEditableField(f);
 const fieldText = (f: ResolvedField, task: GanttTask): string => fieldTextOf(f, task.values);
 const editorValue = (draft: Draft): string => String(draft ?? "");
 
 /** The field being edited, if any: the draft is the editor's text. */
-const editingField = ref<{ taskId: string; fieldId: string; draft: Draft } | null>(null);
+const editingField = ref<{ taskId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+/** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `field-edit` like any edit. */
+let history: EditHistory = EMPTY_HISTORY;
 
 async function startFieldEdit(task: GanttTask, f: ResolvedField): Promise<void> {
     if (!isFieldEditable(f)) return;
@@ -441,15 +519,33 @@ function commitFieldEdit(): boolean {
     }
     const outcome = evaluateEdit(f, task.values, draft);
     if (outcome.invalid) {
-        announce(props.labels?.editInvalid?.(resolveTaskLabel(task), f.header));
+        editingField.value = { ...current, invalid: true };
+        announce((outcome.message ? props.labels?.editRefused?.(resolveTaskLabel(task), f.header, outcome.message) : undefined) ?? props.labels?.editInvalid?.(resolveTaskLabel(task), f.header));
         return false;
     }
     editingField.value = null;
     if (outcome.changed) {
+        history = recordEdit(history, { ownerId: taskId, fieldId, value: outcome.value, previous: outcome.previous });
         emit("field-edit", { taskId, fieldId, value: outcome.value, previous: outcome.previous });
         announce(props.labels?.editAnnouncement?.(resolveTaskLabel(task), f.header, outcome.text));
     }
     return true;
+}
+
+/** Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (Ctrl+Y): put an earlier value back, or re-apply it, through `field-edit`. */
+function stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+    if (!step.record) return;
+    history = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    emit("field-edit", { taskId: ownerId, fieldId, value: restored, previous: replaced });
+    const task = taskById.value.get(ownerId);
+    const f = resolvedFields.value.find((x) => x.id === fieldId);
+    if (!task || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(task.values ?? {}), [fieldId]: restored }) : String(restored);
+    announce((direction === "undo" ? props.labels?.undoAnnouncement : props.labels?.redoAnnouncement)?.(resolveTaskLabel(task), f.header, text));
 }
 
 function cancelFieldEdit(): void {
@@ -483,14 +579,23 @@ function onFieldEditorKeydown(event: KeyboardEvent): void {
 }
 
 const exportRows = computed(() =>
-    props.exportScope === "visible" ? rows.value.map((r) => r.task) : flattenTasks(props.tasks, new Set<string>()).map((r) => r.task),
+    props.exportScope === "visible" ? rows.value.map((r) => r.task) : flattenTasks(orderedTasks.value, new Set<string>()).map((r) => r.task),
 );
-const hasExportButtons = computed(() => !!props.labels?.exportHeaders && !!(props.labels.exportCsv || props.labels.exportTsv || props.labels.exportExcel));
+const hasExportButtons = computed(() => !!props.labels?.exportHeaders && !!(props.labels.copy || props.labels.exportCsv || props.labels.exportTsv || props.labels.exportExcel));
 
 /** A civil date as a real date for the spreadsheet; an unscheduled task's empty date as null. */
 const exportDate = (iso: string | undefined): Date | null => (iso ? civilDateToDate(iso) : null);
 
-function runExport(format: ExportFormat): void {
+async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    const copied = { text, rowCount: table.rows.length };
+    emit("copy", copied);
+    if (props.copyHandler?.(copied) === false) return;
+    const ok = await copyToClipboard(text);
+    announce(ok ? props.labels?.copyAnnouncement?.(table.rows.length) : props.labels?.copyFailed);
+}
+
+function runExport(format: ExportFormat | "copy"): void {
     const h = props.labels?.exportHeaders;
     if (!h) return;
     const exportFields = exportableFields(resolvedFields.value);
@@ -523,6 +628,10 @@ function runExport(format: ExportFormat): void {
         for (const f of exportFields) cells.push(exportFieldCell(f, task.values));
         return cells;
     });
+    if (format === "copy") {
+        void finishCopy({ headers, rows: body });
+        return;
+    }
     const filename = exportFilename(props.exportFilename, format);
     const blob = exportBlob({ headers, rows: body }, format, { sheetName: props.exportFilename });
     const file: GanttExport = { format, filename, taskCount: body.length, blob };
@@ -834,10 +943,20 @@ function onGridFocusin(event: FocusEvent): void {
     focusedCol.value = Number(cell.dataset.col);
 }
 
+const TYPEAHEAD_WINDOW_MS = 700;
+let typeahead: TypeaheadState = { prefix: "", at: 0 };
+
 function onGridKeydown(event: KeyboardEvent): void {
     const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
-    const ctrlOrMeta = event.ctrlKey || event.metaKey;
+    // The horizontal arrows are visual: in a right-to-left layout the later date is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(cell));
+    const historyAction = hasFieldEdit && !props.readonly ? historyKey(event) : null;
+    if (historyAction) {
+        event.preventDefault();
+        stepHistory(historyAction);
+        return;
+    }
     if (event.key === "F2" && hasFieldEdit) {
         // F2: edit the task's first editable field (the keyboard twin of clicking its value).
         const row = rows.value[activeRow.value];
@@ -848,42 +967,42 @@ function onGridKeydown(event: KeyboardEvent): void {
         }
         return;
     }
-    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
         // Alt+Arrow shifts the task one column; Alt+Shift+Arrow moves only its end.
         const row = rows.value[activeRow.value];
         if (row && !row.hasChildren && !props.readonly && (event.target as HTMLElement).closest(".gantt-table-td")) {
             event.preventDefault();
-            shiftTask(row.task, event.key === "ArrowLeft" ? -1 : 1, event.shiftKey);
+            shiftTask(row.task, key === "ArrowLeft" ? -1 : 1, event.shiftKey);
             return;
         }
     }
-    switch (event.key) {
-        case "ArrowUp":
-            event.preventDefault();
-            moveFocus(activeRow.value - 1, activeCol.value);
-            break;
-        case "ArrowDown":
-            event.preventDefault();
-            moveFocus(activeRow.value + 1, activeCol.value);
-            break;
-        case "ArrowLeft":
-            event.preventDefault();
-            moveFocus(activeRow.value, activeCol.value - 1);
-            break;
-        case "ArrowRight":
-            event.preventDefault();
-            moveFocus(activeRow.value, activeCol.value + 1);
-            break;
-        case "Home":
-            event.preventDefault();
-            if (ctrlOrMeta) moveFocus(0, 0);
-            else moveFocus(activeRow.value, 0);
-            break;
-        case "End":
-            event.preventDefault();
-            if (ctrlOrMeta) moveFocus(rows.value.length - 1, columns.value.length - 1);
-            else moveFocus(activeRow.value, columns.value.length - 1);
-            break;
+    // Type-ahead: letters typed in quick succession move to the next task whose label starts with them. A lone "s" stays the
+    // select shortcut; it joins a prefix already in progress ("ds" for "Design Sprint").
+    if (isTypeaheadKey(event) && (event.target as HTMLElement).closest(".gantt-table-td")) {
+        const now = Date.now();
+        const continuing = typeahead.prefix !== "" && now - typeahead.at <= TYPEAHEAD_WINDOW_MS;
+        if (continuing || (event.key !== "s" && event.key !== "S")) {
+            const state = nextTypeaheadState(typeahead, event.key, now, TYPEAHEAD_WINDOW_MS);
+            const hit = findTypeaheadMatch(rows.value.map((r) => resolveTaskLabel(r.task)), activeRow.value, state.prefix);
+            if (hit !== -1) {
+                typeahead = state;
+                event.preventDefault();
+                moveFocus(hit, activeCol.value);
+                return;
+            }
+        }
+    }
+    const move = gridMove(
+        event,
+        { row: activeRow.value, col: activeCol.value },
+        { firstRow: 0, lastRow: rows.value.length - 1, lastCol: columns.value.length - 1, pageStep: pageStepFor(props.virtualize), rtl: isRtl(cell) },
+    );
+    if (move) {
+        event.preventDefault();
+        moveFocus(move.row, move.col);
+        return;
+    }
+    switch (key) {
         case "s":
         case "S": {
             if (event.ctrlKey || event.metaKey || event.altKey) break;
@@ -934,9 +1053,9 @@ function columnWeekend(column: GanttColumn): boolean {
     return !!day && props.weekends.includes(weekdayOfEpochDay(toEpochDay(day)));
 }
 
-type ColumnView = { column: GanttColumn; markers: GanttMarker[]; nonWorking: boolean; weekend: boolean };
+type ColumnView = { column: GanttColumn; markers: GanttMarker[]; nonWorking: boolean; weekend: boolean; unavailable: ReturnType<typeof unavailableIn> };
 const columnViews = computed<ColumnView[]>(() =>
-    columns.value.map((column) => ({ column, markers: markersIn(column), nonWorking: columnNonWorking(column), weekend: columnWeekend(column) })),
+    columns.value.map((column) => ({ column, markers: markersIn(column), nonWorking: columnNonWorking(column), weekend: columnWeekend(column), unavailable: unavailableIn(props.unavailable, column.start, column.end) })),
 );
 
 type RowView = {
@@ -956,6 +1075,7 @@ type RowView = {
         isLeadingCell: boolean;
         nonWorking: boolean;
         weekend: boolean;
+        unavailable: ReturnType<typeof unavailableIn>;
         hasMarker: boolean;
     }[];
 };
@@ -978,6 +1098,7 @@ function viewForRow(row: FlatRow, rowIndex: number): RowView {
             isLeadingCell,
             nonWorking: cv.nonWorking,
             weekend: cv.weekend,
+            unavailable: cv.unavailable,
             hasMarker: cv.markers.length > 0,
         };
     });
@@ -1010,6 +1131,13 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
 
 <template>
     <div ref="rootEl" :class="`gantt-chart ${props.class ?? ''}`.trim()" :data-readonly="readonly ? '' : undefined">
+        <SearchInput
+            v-if="labels?.search"
+            v-model="search"
+            class="gantt-chart-search"
+            :label="labels.search"
+            @keydown="(e: KeyboardEvent) => { if (e.key === 'Escape' && search !== '') { e.preventDefault(); search = ''; } }"
+        />
         <div v-if="parentIds.length > 0 && (labels?.expandAll || labels?.collapseAll)" class="gantt-chart-collapse-all" role="group" :aria-label="label">
             <button
                 v-if="labels?.expandAll"
@@ -1027,6 +1155,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
             >{{ labels.collapseAll }}</button>
         </div>
         <div v-if="hasExportButtons" class="gantt-chart-export" role="group" :aria-label="labels?.export">
+            <button v-if="labels?.copy" type="button" class="gantt-chart-export-button" data-gantt-export-format="copy" :disabled="exportRows.length === 0" @click="runExport('copy')">{{ labels.copy }}</button>
             <button v-if="labels?.exportCsv" type="button" class="gantt-chart-export-button" data-gantt-export-format="csv" :disabled="exportRows.length === 0" @click="runExport('csv')">{{ labels.exportCsv }}</button>
             <button v-if="labels?.exportTsv" type="button" class="gantt-chart-export-button" data-gantt-export-format="tsv" :disabled="exportRows.length === 0" @click="runExport('tsv')">{{ labels.exportTsv }}</button>
             <button v-if="labels?.exportExcel" type="button" class="gantt-chart-export-button" data-gantt-export-format="xlsx" :disabled="exportRows.length === 0" @click="runExport('xlsx')">{{ labels.exportExcel }}</button>
@@ -1068,11 +1197,16 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                         :data-today="isTodayColumn(cv.column) ? '' : undefined"
                         :data-non-working="cv.nonWorking ? '' : undefined"
                         :data-weekend="cv.weekend ? '' : undefined"
+                        :data-unavailable="cv.unavailable.all ? unavailableKinds(cv.unavailable.items) : undefined"
+                        :data-partly-unavailable="!cv.unavailable.all && cv.unavailable.items.length ? unavailableKinds(cv.unavailable.items) : undefined"
                         :data-marker="cv.markers.length ? cv.markers.map((m) => m.kind ?? 'marker').join(' ') : undefined"
                     >
                         {{ labels?.columnLabel?.(cv.column.start, cv.column.end, timeUnit) ?? cv.column.start }}
                         <template v-for="marker in cv.markers" :key="marker.date + (marker.kind ?? '')">
                             <span v-if="marker.label" class="gantt-chart-marker-label">{{ marker.label }}</span>
+                        </template>
+                        <template v-for="item in cv.unavailable.items" :key="item.start + (item.end ?? '') + (item.kind ?? '') + (item.label ?? '')">
+                            <span v-if="item.label" class="gantt-chart-unavailable-label">{{ item.label }}</span>
                         </template>
                     </GanttTableTH>
                 </GanttTableTr>
@@ -1106,7 +1240,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                             >
                                 {{ collapsed.has(view.row.task.id) ? "▸" : "▾" }}
                             </button>
-                            {{ resolveTaskLabel(view.row.task) }}
+                            <template v-if="searching"><template v-for="(part, i) in highlightSegments(resolveTaskLabel(view.row.task), search)" :key="i"><Mark v-if="part.match" class="gantt-chart-match">{{ part.text }}</Mark><template v-else>{{ part.text }}</template></template></template><template v-else>{{ resolveTaskLabel(view.row.task) }}</template>
                             <span
                                 v-if="view.deps.length > 0 && labels?.dependencySummary"
                                 :id="dependencyId(view.row.task.id)"
@@ -1130,6 +1264,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                                     v-if="editorKind(f) === 'select' || editorKind(f) === 'radio'"
                                     class="gantt-chart-field-editor"
                                     :aria-label="f.editLabel ?? f.header"
+                                    :aria-invalid="editingField.invalid ? 'true' : undefined"
                                     :value="editorValue(editingField.draft)"
                                     @change="(e) => { editingField!.draft = (e.target as HTMLSelectElement).value; if (commitFieldEdit()) void focusActiveCell(); }"
                                     @keydown="onFieldEditorKeydown"
@@ -1142,10 +1277,11 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                                     v-else
                                     class="gantt-chart-field-editor"
                                     :aria-label="f.editLabel ?? f.header"
+                                    :aria-invalid="editingField.invalid ? 'true' : undefined"
                                     :type="editorKind(f) === 'number' ? 'number' : editorKind(f) === 'date' ? 'date' : editorKind(f) === 'time' ? 'time' : 'text'"
                                     :inputmode="editorKind(f) === 'number' ? 'decimal' : undefined"
                                     :value="editorValue(editingField.draft)"
-                                    @input="(e) => { editingField!.draft = (e.target as HTMLInputElement).value; }"
+                                    @input="(e) => { editingField!.draft = (e.target as HTMLInputElement).value; editingField!.invalid = false; }"
                                     @keydown="onFieldEditorKeydown"
                                     @blur="commitFieldEdit()"
                                 />
@@ -1174,6 +1310,8 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                             :data-today="cell.isToday ? '' : undefined"
                             :data-non-working="cell.nonWorking ? '' : undefined"
                             :data-weekend="cell.weekend ? '' : undefined"
+                            :data-unavailable="cell.unavailable.all ? unavailableKinds(cell.unavailable.items) : undefined"
+                            :data-partly-unavailable="!cell.unavailable.all && cell.unavailable.items.length ? unavailableKinds(cell.unavailable.items) : undefined"
                             :data-marker="cell.hasMarker ? '' : undefined"
                             :aria-describedby="describedBy(view.row.task, view.deps.length > 0)"
                             :data-baseline="
