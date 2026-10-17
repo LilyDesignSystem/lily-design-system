@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-16
+
+- Added typed card fields (`Fields` as `DataGridColumn`s, `card.Values`, `Locale`), using the data grid's cell types, shown under the card title.
+- Added inline field editing (`OnFieldEdit`, each field's `Editable`): click a value or press F2; typed editors, Enter / Escape / blur, IME-safe, refused when invalid for the type, announced.
+- Added export to CSV, TSV and Excel (`Labels.ExportCsv` etc., `Labels.ExportHeaders`, `ExportScope`, `ExportFilename`, `OnExport` / `ExportHandler`).
+- The package now references `LilyDesignSystem.Blazor.DataGrid`.
+
 ## 0.5.0 — 2026-10-16
 
 - Added collapsible swimlanes, ported from the Svelte 0.5.0: a collapsed lane keeps its header row but renders no card rows. `@bind-CollapsedLanes` holds the collapsed lane ids; `Labels.CollapseLane` gates a toggle button in the lane header (`aria-expanded`); `Labels.LaneCount` gates a visible card count. The lane title is now wrapped in `.kanban-board-lane-title`.

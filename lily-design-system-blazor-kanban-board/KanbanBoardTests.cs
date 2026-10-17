@@ -1151,4 +1151,261 @@ public class KanbanBoardInteractionTests : TestContext
         Assert.Empty(cut.FindAll(".kanban-table-body tr:not([data-lane-row])"));
         Assert.Equal(2, cut.FindAll(".kanban-board-lane").Count);
     }
+
+    // =====================================================================
+    // §8.95-§8.109 — typed fields, inline editing, export
+    // =====================================================================
+
+    private static readonly IReadOnlyList<DataGridColumn> FieldDefs = new[]
+    {
+        new DataGridColumn { Id = "owner", Header = "Owner", Type = DataGridCellType.Select, Editable = true, Options = new[] { new DataGridOption("a", "Ann"), new DataGridOption("b", "Bo") } },
+        new DataGridColumn { Id = "points", Header = "Points", Type = DataGridCellType.Number, Editable = true },
+        new DataGridColumn { Id = "due", Header = "Due", Type = DataGridCellType.Date, Editable = true },
+    };
+
+    private static DataGridRow Values(params (string Key, object? Value)[] values)
+        => new(values.Select(v => new KeyValuePair<string, object?>(v.Key, v.Value)));
+
+    private static readonly IReadOnlyList<KanbanCard> FieldCards = new[]
+    {
+        new KanbanCard { Id = "c1", ColumnId = "todo", Title = "One", Subtitle = "sub", Badges = new[] { "x", "y" }, Flag = "Late", Values = Values(("owner", "a"), ("points", 3), ("due", "2026-10-16")) },
+        new KanbanCard { Id = "c2", ColumnId = "todo", Title = "Two", Values = Values(("points", 5)) },
+        new KanbanCard { Id = "c3", ColumnId = "done", Title = "Three =cmd", Values = Values(("owner", "b")) },
+    };
+
+    private static readonly KanbanLabels ExportLabels = new()
+    {
+        Export = "Export",
+        ExportCsv = "CSV",
+        ExportTsv = "TSV",
+        ExportExcel = "Excel",
+        ExportHeaders = new KanbanExportHeaders("Title", "Column", Subtitle: "Sub", Badges: "Badges", Flag: "Flag"),
+        ExportAnnouncement = (format, count, name) => $"{count} cards as {format.ToString().ToLowerInvariant()}: {name}",
+        EditAnnouncement = (card, field, text) => $"{card} {field} is {text}",
+        EditInvalid = (card, field) => $"{card}: bad {field}",
+    };
+
+    private IRenderedComponent<KanbanBoard> RenderFields(Action<ComponentParameterCollectionBuilder<KanbanBoard>>? configure = null, bool editable = true, List<KanbanFieldEdit>? edits = null,
+        IReadOnlyList<DataGridColumn>? fields = null, IReadOnlyList<KanbanCard>? cards = null, KanbanLabels? labels = null)
+        => RenderComponent<KanbanBoard>(p =>
+        {
+            p.Add(x => x.Label, "B");
+            p.Add(x => x.Columns, Columns);
+            p.Add(x => x.Cards, cards ?? FieldCards);
+            p.Add(x => x.Fields, fields ?? FieldDefs);
+            p.Add(x => x.Labels, labels ?? ExportLabels);
+            if (editable) p.Add(x => x.OnFieldEdit, EventCallback.Factory.Create<KanbanFieldEdit>(this, e => edits?.Add(e)));
+            configure?.Invoke(p);
+        });
+
+    private static AngleSharp.Dom.IElement CellOf(IRenderedComponent<KanbanBoard> cut, string id) => cut.Find($"[data-card-id='{id}']");
+
+    private static string Normalise(string text) => System.Text.RegularExpressions.Regex.Replace(text, @"\s+", " ").Trim();
+
+    [Fact]
+    public void Section_8_95_Fields_Render_Under_The_Title_As_Text_Named_By_Their_Header()
+    {
+        var cut = RenderFields(editable: false);
+        var fields = CellOf(cut, "c1").QuerySelectorAll(".kanban-board-card-field").Select(f => Normalise(f.TextContent)).ToArray();
+        Assert.Equal(new[] { "Owner Ann", "Points 3", "Due 2026-10-16" }, fields);
+        Assert.Single(CellOf(cut, "c3").QuerySelectorAll(".kanban-board-card-field")); // empty fields stay out of read-only cards
+    }
+
+    [Fact]
+    public void Section_8_96_A_Field_Is_Editable_Only_With_A_Handler_And_Not_In_A_Readonly_Board()
+    {
+        Assert.Empty(RenderFields(editable: false).FindAll(".kanban-board-field-button"));
+        Assert.Empty(RenderFields(p => p.Add(x => x.Readonly, true)).FindAll(".kanban-board-field-button"));
+        Assert.NotEmpty(RenderFields().FindAll(".kanban-board-field-button"));
+    }
+
+    [Fact]
+    public void Section_8_97_Clicking_A_Value_Opens_A_Typed_Editor_And_Enter_Commits_The_Parsed_Value()
+    {
+        var edits = new List<KanbanFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        cut.FindAll("[data-card-id='c1'] .kanban-board-field-button")[1].Click();
+        var input = cut.Find("input.kanban-board-field-editor");
+        Assert.Equal("number", input.GetAttribute("type"));
+        Assert.Equal("Points", input.GetAttribute("aria-label"));
+        input.Input("8");
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var edit = Assert.Single(edits);
+        Assert.Equal(("c1", "points"), (edit.CardId, edit.FieldId));
+        Assert.Equal(8.0, edit.Value);
+        Assert.Equal(3, edit.Previous);
+        Assert.Equal("One Points is 8", cut.Find(".kanban-board-status").TextContent);
+        Assert.Empty(cut.FindAll(".kanban-board-field-editor"));
+    }
+
+    [Fact]
+    public void Section_8_98_A_Select_Field_Edits_Through_A_Select_Of_Its_Options()
+    {
+        var edits = new List<KanbanFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        cut.FindAll("[data-card-id='c2'] .kanban-board-field-button")[0].Click();
+        cut.Find("select.kanban-board-field-editor").Change("b");
+        var edit = Assert.Single(edits);
+        Assert.Equal(("c2", "owner", "b"), (edit.CardId, edit.FieldId, (string?)edit.Value));
+        Assert.Null(edit.Previous);
+    }
+
+    [Fact]
+    public void Section_8_99_Escape_Cancels_Without_Reporting_And_An_Unchanged_Value_Reports_Nothing()
+    {
+        var edits = new List<KanbanFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        void Open() => cut.FindAll("[data-card-id='c1'] .kanban-board-field-button")[1].Click();
+        Open();
+        cut.Find(".kanban-board-field-editor").Input("9");
+        cut.Find(".kanban-board-field-editor").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Empty(edits);
+        Open();
+        cut.Find(".kanban-board-field-editor").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(edits);
+    }
+
+    [Fact]
+    public void Section_8_100_A_Date_Field_Edits_Through_A_Date_Input_And_Commits_The_Civil_Date()
+    {
+        var edits = new List<KanbanFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        cut.FindAll("[data-card-id='c1'] .kanban-board-field-button")[2].Click();
+        var input = cut.Find("input.kanban-board-field-editor");
+        Assert.Equal("date", input.GetAttribute("type"));
+        input.Input("2026-10-17");
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var edit = Assert.Single(edits);
+        Assert.Equal("2026-10-17", edit.Value);
+        Assert.Equal("2026-10-16", edit.Previous);
+    }
+
+    [Fact]
+    public void Section_8_101_A_Number_That_Does_Not_Fit_The_Type_Is_Refused_The_Editor_Stays_Open_And_The_Refusal_Is_Announced()
+    {
+        var edits = new List<KanbanFieldEdit>();
+        var cut = RenderFields(edits: edits,
+            fields: new[] { new DataGridColumn { Id = "p", Header = "P", Type = DataGridCellType.Number, Editable = true, Parse = (_, _) => double.NaN } },
+            cards: new[] { new KanbanCard { Id = "c1", ColumnId = "todo", Title = "One", Values = Values(("p", 1)) } });
+        cut.Find(".kanban-board-field-button").Click();
+        cut.Find(".kanban-board-field-editor").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Empty(edits);
+        Assert.NotNull(cut.Find(".kanban-board-field-editor"));
+        Assert.Equal("One: bad P", cut.Find(".kanban-board-status").TextContent);
+    }
+
+    [Fact]
+    public void Section_8_102_F2_On_A_Card_Edits_Its_First_Editable_Field_And_The_Editors_Keys_Do_Not_Reach_The_Grid()
+    {
+        var cut = RenderFields();
+        cut.Find("[role='grid']").KeyDown(new KeyboardEventArgs { Key = "F2" });
+        var editor = cut.Find(".kanban-board-field-editor");
+        Assert.Equal("SELECT", editor.TagName);
+        editor.KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        Assert.Empty(cut.FindAll(".kanban-board-move-list"));
+        Assert.Equal("0", CellOf(cut, "c1").GetAttribute("tabindex"));
+    }
+
+    [Fact]
+    public void Section_8_103_IME_Enter_While_Composing_Does_Not_Commit()
+    {
+        var edits = new List<KanbanFieldEdit>();
+        var cut = RenderFields(edits: edits,
+            fields: new[] { new DataGridColumn { Id = "n", Header = "N", Editable = true } },
+            cards: new[] { new KanbanCard { Id = "c1", ColumnId = "todo", Title = "One", Values = Values(("n", "a")) } });
+        cut.Find(".kanban-board-field-button").Click();
+        var input = cut.Find(".kanban-board-field-editor");
+        input.Input("かな");
+        input.KeyDown(new KeyboardEventArgs { Key = "Process" });
+        Assert.Empty(edits);
+        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var edit = Assert.Single(edits);
+        Assert.Equal("かな", edit.Value);
+        Assert.Equal("a", edit.Previous);
+    }
+
+    [Fact]
+    public void Section_8_104_A_Locked_Cards_Fields_Are_Not_Editable()
+    {
+        var cut = RenderFields(cards: new[] { new KanbanCard { Id = "c1", ColumnId = "todo", Title = "One", Locked = true, Values = Values(("points", 3)) } });
+        Assert.Empty(cut.FindAll(".kanban-board-field-button"));
+    }
+
+    private (DataGridExport File, string Text) Exported(Action<ComponentParameterCollectionBuilder<KanbanBoard>>? configure = null, string format = "csv",
+        IReadOnlyList<DataGridColumn>? fields = null, KanbanLabels? labels = null)
+    {
+        DataGridExport? captured = null;
+        var cut = RenderFields(p =>
+        {
+            p.Add(x => x.ExportHandler, file => { captured = file; return false; });
+            configure?.Invoke(p);
+        }, fields: fields, labels: labels);
+        cut.Find($"[data-kanban-export-format='{format}']").Click();
+        Assert.NotNull(captured);
+        return (captured!, System.Text.Encoding.UTF8.GetString(captured!.Bytes));
+    }
+
+    [Fact]
+    public void Section_8_105_Export_Buttons_Need_A_Label_And_ExportHeaders_Each_Label_Gates_Its_Button()
+    {
+        Assert.Empty(RenderFields(labels: new KanbanLabels()).FindAll(".kanban-board-export"));
+        Assert.Empty(RenderFields(labels: new KanbanLabels { ExportCsv = "CSV" }).FindAll(".kanban-board-export"));
+        var cut = RenderFields(labels: new KanbanLabels { Export = "Export", ExportExcel = "Excel", ExportHeaders = ExportLabels.ExportHeaders });
+        Assert.Equal("Export", cut.Find("[role='group'].kanban-board-export").GetAttribute("aria-label"));
+        Assert.Single(cut.FindAll(".kanban-board-export-button"));
+    }
+
+    [Fact]
+    public void Section_8_106_Csv_Holds_Title_Column_Subtitle_Badges_Flag_And_The_Typed_Fields_Column_By_Column()
+    {
+        var (file, text) = Exported();
+        Assert.Equal("kanban-board.csv", file.Filename);
+        Assert.Equal(3, file.RowCount);
+        Assert.Equal(
+            "\uFEFFTitle,Column,Sub,Badges,Flag,Owner,Points,Due\r\n" +
+            "One,To Do,sub,x; y,Late,Ann,3,2026-10-16\r\n" +
+            "Two,To Do,,,,,5,\r\n" +
+            "Three =cmd,Done,,,,Bo,,\r\n",
+            text);
+    }
+
+    [Fact]
+    public void Section_8_107_The_View_Is_Exported_ExportScope_Selected_Exports_Only_The_Selection_And_Exportable_False_Drops_A_Field()
+    {
+        var searched = Exported(p => p.Add(x => x.SearchValue, "two"));
+        Assert.Equal(1, searched.File.RowCount);
+        var picked = Exported(p => { p.Add(x => x.Selectable, true); p.Add(x => x.Selected, new[] { "c3" }); p.Add(x => x.ExportScope, KanbanExportScope.Selected); });
+        Assert.Equal(1, picked.File.RowCount);
+        var dropped = Exported(fields: new[] { FieldDefs[0] with { Exportable = false }, FieldDefs[1] });
+        Assert.Equal("\uFEFFTitle,Column,Sub,Badges,Flag,Points", dropped.Text.Split("\r\n")[0]);
+    }
+
+    [Fact]
+    public void Section_8_108_Lanes_Add_A_Lane_Column_Saving_Announces_Unless_The_Handler_Vetoes_And_An_Empty_View_Disables_The_Buttons()
+    {
+        var lanes = new[] { new KanbanLane { Id = "l1", Title = "Lane 1" } };
+        var withLane = Exported(p => p.Add(x => x.Lanes, lanes),
+            labels: ExportLabels with { ExportHeaders = new KanbanExportHeaders("Title", "Column", "Lane", "Sub", "Badges", "Flag") });
+        Assert.Equal("\uFEFFTitle,Column,Lane,Sub,Badges,Flag,Owner,Points,Due", withLane.Text.Split("\r\n")[0]);
+
+        var cut = RenderFields();
+        cut.Find("[data-kanban-export-format='tsv']").Click();
+        Assert.Equal("3 cards as tsv: kanban-board.tsv", cut.Find(".kanban-board-status").TextContent);
+
+        var empty = RenderFields(cards: Array.Empty<KanbanCard>());
+        Assert.NotNull(empty.Find("[data-kanban-export-format='csv'][disabled]"));
+    }
+
+    [Fact]
+    public void Section_8_109_Blur_Commits_And_Moving_On_Keeps_The_Value()
+    {
+        var edits = new List<KanbanFieldEdit>();
+        var cut = RenderFields(edits: edits);
+        cut.FindAll("[data-card-id='c1'] .kanban-board-field-button")[1].Click();
+        var input = cut.Find(".kanban-board-field-editor");
+        input.Input("7");
+        input.Blur();
+        var edit = Assert.Single(edits);
+        Assert.Equal(7.0, edit.Value);
+    }
 }

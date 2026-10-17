@@ -21,6 +21,21 @@ using Microsoft.JSInterop;
 
 namespace LilyDesignSystem.Blazor.Helpers;
 
+/// <summary>What an export holds: the cards the search and filter leave, or only the selected ones.</summary>
+public enum KanbanExportScope
+{
+    /// <summary>Every card the search and filter leave, column by column.</summary>
+    View,
+    /// <summary>Only the selected cards.</summary>
+    Selected,
+}
+
+/// <summary>Headers of an export's own columns. An export needs these; there is no English default. The optional ones are included only when named.</summary>
+public sealed record KanbanExportHeaders(string Title, string Column, string? Lane = null, string? Subtitle = null, string? Badges = null, string? Flag = null);
+
+/// <summary>What <c>OnFieldEdit</c> receives after a field edit is committed.</summary>
+public sealed record KanbanFieldEdit(string CardId, string FieldId, object? Value, object? Previous);
+
 /// <summary>A kanban column. See <c>spec/index.md §5</c>.</summary>
 public sealed class KanbanColumn
 {
@@ -88,6 +103,9 @@ public sealed class KanbanCard
 
     /// <summary>The swimlane this card sits in (an id from <c>Lanes</c>); the first lane when absent.</summary>
     public string? LaneId { get; init; }
+
+    /// <summary>Values of the board's <c>Fields</c>, by field id.</summary>
+    public DataGridRow? Values { get; init; }
 }
 
 /// <summary>What the <c>CardTemplate</c> receives.</summary>
@@ -173,6 +191,26 @@ public sealed record KanbanLabels
 
     /// <summary>Announced after a column moves: (column title, 1-based position, how many columns).</summary>
     public Func<string, int, int, string>? ColumnMoveAnnouncement { get; init; }
+
+    /// <summary>Accessible name of the export button group. Gates the group (with at least one of the three buttons).</summary>
+    public string? Export { get; init; }
+
+    /// <summary>Visible text of the CSV, TSV and Excel export buttons. Each gates its button.</summary>
+    public string? ExportCsv { get; init; }
+    public string? ExportTsv { get; init; }
+    public string? ExportExcel { get; init; }
+
+    /// <summary>Announced after an export: (format, how many cards, file name).</summary>
+    public Func<DataGridExportFormat, int, string, string>? ExportAnnouncement { get; init; }
+
+    /// <summary>Headers of the export's own columns. An export needs these; there is no English default.</summary>
+    public KanbanExportHeaders? ExportHeaders { get; init; }
+
+    /// <summary>Announced after a field edit: (card title, field header, the new text).</summary>
+    public Func<string, string, string, string>? EditAnnouncement { get; init; }
+
+    /// <summary>Announced when an edit is refused as invalid for the field's type: (card title, field header).</summary>
+    public Func<string, string, string>? EditInvalid { get; init; }
 }
 
 public partial class KanbanBoard : ComponentBase
@@ -296,6 +334,31 @@ public partial class KanbanBoard : ComponentBase
 
     /// <summary>User-facing strings. See <see cref="KanbanLabels"/> — presence gates each control.</summary>
     [Parameter] public KanbanLabels Labels { get; set; } = new();
+
+    /// <summary>
+    /// Typed fields shown under each card's title, read from <c>card.Values</c>. A field is a <see cref="DataGridColumn"/>: its
+    /// <c>Type</c> fills in the display, edit and export defaults as in the data grid. A field edits in place (click the value, or F2
+    /// on the card for the first editable field) when its <c>Editable</c> is set and <c>OnFieldEdit</c> has a handler.
+    /// </summary>
+    [Parameter] public IReadOnlyList<DataGridColumn>? Fields { get; set; }
+
+    /// <summary>Culture name (BCP 47) for number and date fields. Never defaulted.</summary>
+    [Parameter] public string? Locale { get; set; }
+
+    /// <summary>Raised with each accepted field edit. The consumer updates <c>Cards</c>. Fields are editable only with a handler (and not <c>Readonly</c>).</summary>
+    [Parameter] public EventCallback<KanbanFieldEdit> OnFieldEdit { get; set; }
+
+    /// <summary>Base of an export's file name (<c>.csv</c>, <c>.tsv</c> or <c>.xlsx</c> is added). Default <c>"kanban-board"</c>.</summary>
+    [Parameter] public string ExportFilename { get; set; } = "kanban-board";
+
+    /// <summary>What an export holds: every card the search and filter leave (default), or only the selected cards.</summary>
+    [Parameter] public KanbanExportScope ExportScope { get; set; } = KanbanExportScope.View;
+
+    /// <summary>Called before the download with the finished file. Return <c>false</c> to skip the built-in download.</summary>
+    [Parameter] public Func<DataGridExport, bool>? ExportHandler { get; set; }
+
+    /// <summary>Raised with the file before it is saved (a notification; <see cref="ExportHandler"/> can veto).</summary>
+    [Parameter] public EventCallback<DataGridExport> OnExport { get; set; }
 
     /// <summary>Extra CSS class merged into the root &lt;div&gt;.</summary>
     [Parameter] public string CssClass { get; set; } = "";
@@ -428,6 +491,8 @@ public partial class KanbanBoard : ComponentBase
         public required Dictionary<(string Column, string Lane), List<KanbanCard>> Cell { get; init; }
         public required List<Slot> Slots { get; init; }
         public required List<Slot> Rows { get; init; }
+        /// <summary>Row index → slot index, so a row does not scan <c>Slots</c> to find itself.</summary>
+        public required Dictionary<int, int> SlotIndexByRow { get; init; }
         public int MaxRows => Rows.Count;
     }
 
@@ -475,7 +540,9 @@ public partial class KanbanBoard : ComponentBase
                 rows.Add(slot);
             }
         }
-        return new Layout { ByColumn = byColumn, Cell = cell, Slots = slots, Rows = rows };
+        var slotIndexByRow = new Dictionary<int, int>();
+        foreach (var slot in rows) slotIndexByRow[slot.RowIndex] = slot.SlotIndex;
+        return new Layout { ByColumn = byColumn, Cell = cell, Slots = slots, Rows = rows, SlotIndexByRow = slotIndexByRow };
     }
 
     private KanbanCard? CardAt(Layout layout, int colIndex, int rowIndex)
@@ -509,7 +576,7 @@ public partial class KanbanBoard : ComponentBase
         var indices = new SortedSet<int>();
         for (var i = start; i < end; i++) indices.Add(i);
         // The roving tab stop's row always renders, so the grid never leaves the tab order.
-        var active = layout.Slots.FindIndex(x => x.Lane is null && x.RowIndex == Math.Min(_focusedRow, layout.MaxRows - 1));
+        var active = layout.SlotIndexByRow.TryGetValue(Math.Min(_focusedRow, layout.MaxRows - 1), out var activeSlot) ? activeSlot : -1;
         if (active >= 0) indices.Add(active);
         var previous = -1;
         foreach (var index in indices)
@@ -526,7 +593,7 @@ public partial class KanbanBoard : ComponentBase
     private void RevealRow(int rowIndex, Layout layout)
     {
         if (Virtualize is not { } v) return;
-        var slotIndex = layout.Slots.FindIndex(x => x.Lane is null && x.RowIndex == rowIndex);
+        var slotIndex = layout.SlotIndexByRow.TryGetValue(rowIndex, out var found) ? found : -1;
         if (slotIndex < 0) return;
         double top = slotIndex * v.RowHeight;
         var next = _scrollTop;
@@ -585,6 +652,175 @@ public partial class KanbanBoard : ComponentBase
     private void Announce(string? message)
     {
         if (!string.IsNullOrEmpty(message)) _statusMessage = message;
+    }
+
+    // -------------------------------------------------------------------
+    // Typed fields, inline editing, export.
+    // -------------------------------------------------------------------
+
+    // Type defaults (format, compare, export value) resolved once per Fields / Locale change, never per card or keystroke.
+    private IReadOnlyList<DataGridColumn>? _fieldsSource;
+    private string? _localeSource;
+    private IReadOnlyList<DataGridColumn> _resolvedFields = Array.Empty<DataGridColumn>();
+
+    private IReadOnlyList<DataGridColumn> ResolvedFields
+    {
+        get
+        {
+            if (!ReferenceEquals(_fieldsSource, Fields) || _localeSource != Locale)
+            {
+                _fieldsSource = Fields;
+                _localeSource = Locale;
+                _resolvedFields = TypedFields.Resolve(Fields, Locale);
+            }
+            return _resolvedFields;
+        }
+    }
+
+    private bool IsFieldEditable(DataGridColumn field, KanbanCard card)
+        => OnFieldEdit.HasDelegate && !Readonly && !card.Locked && TypedFields.IsEditable(field);
+
+    /// <summary>The field being edited: the draft is the editor's text.</summary>
+    private sealed record FieldEditing(string CardId, string FieldId, string Draft);
+
+    private FieldEditing? _fieldEditing;
+    private bool _focusEditorPending;
+
+    private string EditorId => $"{_baseId}-field-editor";
+
+    private bool IsEditingField(KanbanCard card, DataGridColumn field)
+        => _fieldEditing is { } e && e.CardId == card.Id && e.FieldId == field.Id;
+
+    private void StartFieldEdit(KanbanCard card, DataGridColumn field)
+    {
+        if (!IsFieldEditable(field, card)) return;
+        _openCardId = null;
+        _moveActiveIndex = -1;
+        _fieldEditing = new FieldEditing(card.Id, field.Id, TypedFields.Draft(field, card.Values));
+        _focusEditorPending = true;
+    }
+
+    private void SetFieldDraft(string draft)
+    {
+        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft };
+    }
+
+    /// <summary>Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged.</summary>
+    private async Task<bool> CommitFieldEditAsync(bool refocus = true)
+    {
+        var current = _fieldEditing;
+        if (current is null) return true;
+        var card = Cards.FirstOrDefault(c => c.Id == current.CardId);
+        var field = ResolvedFields.FirstOrDefault(x => x.Id == current.FieldId);
+        if (card is null || field is null)
+        {
+            _fieldEditing = null;
+            return true;
+        }
+        var outcome = TypedFields.Evaluate(field, card.Values, current.Draft);
+        if (outcome.Invalid)
+        {
+            Announce(Labels.EditInvalid?.Invoke(ResolveCardLabel(card), field.Header));
+            return false;
+        }
+        _fieldEditing = null;
+        if (outcome.Changed)
+        {
+            await OnFieldEdit.InvokeAsync(new KanbanFieldEdit(card.Id, field.Id, outcome.Value, outcome.Previous));
+            Announce(Labels.EditAnnouncement?.Invoke(ResolveCardLabel(card), field.Header, outcome.Text));
+        }
+        if (refocus) _focusCardPendingId = card.Id;
+        return true;
+    }
+
+    private void CancelFieldEdit()
+    {
+        var current = _fieldEditing;
+        if (current is null) return;
+        _fieldEditing = null;
+        _focusCardPendingId = current.CardId;
+    }
+
+    private async Task OnFieldEditorKeyDownAsync(KeyboardEventArgs args)
+    {
+        // An input method reports its composing keys as "Process": Enter picks a candidate and Escape cancels
+        // the composition, so neither commits nor cancels the edit.
+        if (args.Key == "Process") return;
+        if (args.Key == "Enter") await CommitFieldEditAsync();
+        else if (args.Key == "Escape") CancelFieldEdit();
+    }
+
+    private async Task OnFieldSelectChangedAsync(ChangeEventArgs e)
+    {
+        SetFieldDraft(e.Value?.ToString() ?? "");
+        await CommitFieldEditAsync();
+    }
+
+    /// <summary>The cards an export holds: the view (what the search and filter leave), column by column, or only the selected ones.</summary>
+    private List<KanbanCard> ExportCards(Layout layout)
+    {
+        var cards = new List<KanbanCard>();
+        foreach (var column in Cols)
+        {
+            if (!layout.ByColumn.TryGetValue(column.Id, out var list)) continue;
+            foreach (var card in list)
+                if (ExportScope != KanbanExportScope.Selected || IsSelected(card.Id)) cards.Add(card);
+        }
+        return cards;
+    }
+
+    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
+
+    private async Task RunExportAsync(DataGridExportFormat format)
+    {
+        if (Labels.ExportHeaders is not { } h) return;
+        var layout = BuildLayout();
+        var fields = TypedFields.Exportable(ResolvedFields);
+        var headers = new List<string> { h.Title, h.Column };
+        if (HasLanes && h.Lane is not null) headers.Add(h.Lane);
+        if (h.Subtitle is not null) headers.Add(h.Subtitle);
+        if (h.Badges is not null) headers.Add(h.Badges);
+        if (h.Flag is not null) headers.Add(h.Flag);
+        foreach (var f in fields) headers.Add(f.Header);
+        var columnTitle = Columns.ToDictionary(c => c.Id, c => c.Title);
+        var laneTitle = (Lanes ?? Array.Empty<KanbanLane>()).ToDictionary(l => l.Id, l => l.Title);
+        var rows = new List<IReadOnlyList<object?>>();
+        foreach (var card in ExportCards(layout))
+        {
+            var cells = new List<object?> { ResolveCardLabel(card), columnTitle.TryGetValue(ColumnOf(card), out var title) ? title : ColumnOf(card) };
+            if (HasLanes && h.Lane is not null) cells.Add(laneTitle.TryGetValue(LaneOf(card), out var lane) ? lane : "");
+            if (h.Subtitle is not null) cells.Add(card.Subtitle);
+            if (h.Badges is not null) cells.Add(string.Join("; ", card.Badges ?? Array.Empty<string>()));
+            if (h.Flag is not null) cells.Add(card.Flag);
+            foreach (var f in fields) cells.Add(TypedFields.ExportCell(f, card.Values));
+            rows.Add(cells);
+        }
+        var table = new ExportTable(headers, rows);
+        var filename = ExportData.ExportFilename(ExportFilename, format);
+        var bytes = ExportData.ExportBytes(table, format, ExportFilename);
+        var file = new DataGridExport(format, filename, rows.Count, bytes);
+        await OnExport.InvokeAsync(file);
+        if (ExportHandler?.Invoke(file) == false) return;
+        await DownloadAsync(file);
+        Announce(Labels.ExportAnnouncement?.Invoke(format, rows.Count, filename));
+    }
+
+    private async Task DownloadAsync(DataGridExport file)
+    {
+        var script =
+            "(function(){var b=atob(" + JsonString(Convert.ToBase64String(file.Bytes)) + ");var a=new Uint8Array(b.length);" +
+            "for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);" +
+            "var u=URL.createObjectURL(new Blob([a],{type:" + JsonString(file.MimeType) + "}));" +
+            "var l=document.createElement('a');l.href=u;l.download=" + JsonString(file.Filename) + ";document.body.appendChild(l);l.click();l.remove();" +
+            "setTimeout(function(){URL.revokeObjectURL(u)},0);})()";
+        try
+        {
+            await JS.InvokeVoidAsync("eval", script);
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
     }
 
     // -------------------------------------------------------------------
@@ -657,7 +893,19 @@ public partial class KanbanBoard : ComponentBase
 
     // ---- Selection: several cards move together ----
 
-    private bool IsSelected(string cardId) => Selected.Contains(cardId);
+    // The selected ids as a set, rebuilt only when the list changes (a render asks once per cell).
+    private IReadOnlyList<string>? _selectedSource;
+    private HashSet<string> _selectedSet = new();
+
+    private bool IsSelected(string cardId)
+    {
+        if (!ReferenceEquals(_selectedSource, Selected))
+        {
+            _selectedSource = Selected;
+            _selectedSet = new HashSet<string>(Selected);
+        }
+        return _selectedSet.Contains(cardId);
+    }
 
     private async Task SetSelectionAsync(IReadOnlyList<string> next)
     {
@@ -1006,7 +1254,7 @@ public partial class KanbanBoard : ComponentBase
         // (which stop at their own Escape/Tab/Enter handling) — bailing
         // out here avoids the grid's roving-tabindex logic double-handling
         // a keystroke that bubbled up from inside the open menu.
-        if (_openCardId is not null) return;
+        if (_openCardId is not null || _fieldEditing is not null) return;
 
         var layout = BuildLayout();
         var maxRows = layout.MaxRows;
@@ -1028,6 +1276,15 @@ public partial class KanbanBoard : ComponentBase
                 _focusedCol = to;
                 _focusCellPending = true;
             }
+            return;
+        }
+
+        if (args.Key == "F2" && OnFieldEdit.HasDelegate)
+        {
+            // F2: edit the card's first editable field (the keyboard twin of clicking its value).
+            var editCard = CardAt(layout, _focusedCol, _focusedRow);
+            var first = editCard is null ? null : ResolvedFields.FirstOrDefault(f => IsFieldEditable(f, editCard));
+            if (editCard is not null && first is not null) StartFieldEdit(editCard, first);
             return;
         }
 
@@ -1103,6 +1360,18 @@ public partial class KanbanBoard : ComponentBase
             try
             {
                 await JS.InvokeVoidAsync("eval", $"(function(){{var e=document.getElementById({JsonString(ScrollId)});if(e)e.scrollTop={scrollTo.ToString(System.Globalization.CultureInfo.InvariantCulture)};}})()");
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
+        if (_focusEditorPending)
+        {
+            _focusEditorPending = false;
+            try
+            {
+                await JS.InvokeVoidAsync("eval", $"(function(){{var e=document.getElementById({JsonString(EditorId)});if(e){{e.focus();if(e.tagName==='INPUT'&&e.type==='text')e.select();}}}})()");
             }
             catch
             {

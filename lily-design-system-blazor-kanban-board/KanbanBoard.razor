@@ -38,6 +38,24 @@
                value="@SearchValue"
                @oninput="@(async (ChangeEventArgs e) => { SearchValue = e.Value?.ToString() ?? ""; await SearchValueChanged.InvokeAsync(SearchValue); })" />
     }
+    @if (HasExportButtons)
+    {
+        var exportCards = ExportCards(layout);
+        <div class="kanban-board-export" role="group" aria-label="@Labels.Export">
+            @if (Labels.ExportCsv is not null)
+            {
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="csv" disabled="@(exportCards.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Csv))">@Labels.ExportCsv</button>
+            }
+            @if (Labels.ExportTsv is not null)
+            {
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="tsv" disabled="@(exportCards.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Tsv))">@Labels.ExportTsv</button>
+            }
+            @if (Labels.ExportExcel is not null)
+            {
+                <button type="button" class="kanban-board-export-button" data-kanban-export-format="xlsx" disabled="@(exportCards.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Xlsx))">@Labels.ExportExcel</button>
+            }
+        </div>
+    }
     @if (Undoable && Labels.Undo is not null && !Readonly)
     {
         <button type="button"
@@ -218,6 +236,67 @@
                                             }
                                         </span>
                                     }
+                                }
+                                @if (CardTemplate is null && ResolvedFields.Count > 0)
+                                {
+                                    <span class="kanban-board-card-fields">
+                                        @foreach (var f in ResolvedFields)
+                                        {
+                                            var field = f;
+                                            var text = TypedFields.Text(field, currentCard.Values);
+                                            var editable = IsFieldEditable(field, currentCard);
+                                            var nameId = $"{_baseId}-fn-{currentCard.Id}-{field.Id}";
+                                            var valueId = $"{_baseId}-fv-{currentCard.Id}-{field.Id}";
+                                            if (IsEditingField(currentCard, field))
+                                            {
+                                                var draft = _fieldEditing!.Draft;
+                                                var kind = TypedFields.EditorOf(field);
+                                                <span class="kanban-board-card-field" data-field="@field.Id" data-editing="">
+                                                    <span class="kanban-board-card-field-name" id="@nameId">@field.Header</span>@(" ")
+                                                    @if (kind == DataGridEditor.Select)
+                                                    {
+                                                        <select id="@EditorId" class="kanban-board-field-editor" aria-label="@field.Header"
+                                                                value="@draft"
+                                                                @onchange="OnFieldSelectChangedAsync"
+                                                                @onkeydown="OnFieldEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                                                @onblur="@(() => CommitFieldEditAsync(false))">
+                                                            <option value=""></option>
+                                                            @foreach (var option in field.Options ?? Array.Empty<DataGridOption>())
+                                                            {
+                                                                <option value="@option.Id" disabled="@option.Disabled" selected="@(option.Id == draft)">@option.Label</option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="@EditorId" class="kanban-board-field-editor"
+                                                               type="@(kind == DataGridEditor.Number ? "number" : kind == DataGridEditor.Date ? "date" : kind == DataGridEditor.Time ? "time" : "text")"
+                                                               inputmode="@(kind == DataGridEditor.Number ? "decimal" : null)"
+                                                               aria-label="@field.Header"
+                                                               value="@draft"
+                                                               @oninput="@(e => SetFieldDraft(e.Value?.ToString() ?? ""))"
+                                                               @onkeydown="OnFieldEditorKeyDownAsync" @onkeydown:stopPropagation="true"
+                                                               @onblur="@(() => CommitFieldEditAsync(false))" />
+                                                    }
+                                                </span>
+                                            }
+                                            else if (text.Length > 0 || editable)
+                                            {
+                                                <span class="kanban-board-card-field" data-field="@field.Id" data-type="@field.Type.ToString().ToLowerInvariant()">
+                                                    <span class="kanban-board-card-field-name" id="@nameId">@field.Header</span>@(" ")
+                                                    @if (editable)
+                                                    {
+                                                        <button type="button" class="kanban-board-field-button" id="@valueId" tabindex="-1" aria-labelledby="@($"{nameId} {valueId}")"
+                                                                @onclick="@(() => StartFieldEdit(currentCard, field))">@text</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="kanban-board-card-field-value">@text</span>
+                                                    }
+                                                </span>
+                                            }
+                                        }
+                                    </span>
                                 }
                                 @if (currentCard.Flag is not null)
                                 {
