@@ -116,6 +116,11 @@ doesn't render (no baked-in English fallback).
 - **Persistence**: `storageKey` persists column widths, hidden
   columns, and sort — never row data or selection.
 
+## Filtering and sorting (0.10.0)
+
+- **`rowFilter(row)`** hides rows it rejects, combining with the text `filter` (both must pass).
+- **Multi-column sort**: `thenBy` (bindable, with `onThenByChange`) holds further sort keys after `sort`. Shift+click on another sortable header adds it (ascending → descending → off); a plain click sets `sort` alone and clears `thenBy`. Each sort is read once per row per key and ties fall to the next key; missing values still sort last. Headers carry `aria-sort` for every key and `data-sort-order` (1 = primary) while more than one key is set; `labels.sortAnnouncement` announces the change.
+
 ## Search (0.10.0)
 
 `search` (bindable; the field renders when `labels.search` names it) narrows the rows: every word must appear, in any order, ignoring case and diacritics. Every word must appear somewhere in the row (any order, any filterable cells), ignoring case and diacritics; `filterText` still sets a column's text. No match highlighting: cells are rendered by their cell type, so the grid marks nothing inside them. See spec §18.

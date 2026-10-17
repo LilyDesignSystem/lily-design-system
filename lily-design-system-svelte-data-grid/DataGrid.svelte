@@ -258,6 +258,12 @@
         onSelectionChange?: (ids: string[]) => void;
         /** Text filter. Two-way bindable. */
         filter?: string;
+        /** Hides rows for which it returns false (a status or date-range filter). Combines with `filter`; both must pass. */
+        rowFilter?: (row: DataGridRow) => boolean;
+        /** Further sort keys after `sort`, for ties: Shift+click on another sortable header adds it (ascending, then descending, then off); a plain click sets `sort` alone and clears these. Two-way bindable. Headers carry `data-sort-order` (1 = primary) while more than one key is set. */
+        thenBy?: DataGridSort[];
+        /** Called with `thenBy` after every change. */
+        onThenByChange?: (thenBy: DataGridSort[]) => void;
         /** Called with the new filter text after every change. */
         onFilterChange?: (filter: string) => void;
         /** Current sort. Two-way bindable. */
@@ -367,6 +373,9 @@
         selected = $bindable<string[]>([]),
         onSelectionChange,
         filter = $bindable(""),
+        rowFilter = undefined,
+        thenBy = $bindable<DataGridSort[]>([]),
+        onThenByChange = undefined,
         onFilterChange,
         sort = $bindable<DataGridSort>({ columnId: "", direction: "none" }),
         onSortChange,
@@ -452,28 +461,35 @@
     // Every word of the filter must appear somewhere in the row (any order, any cells), ignoring case and diacritics.
     const filteredEntries = $derived.by(() => {
         const terms = searchTerms(filter);
-        if (terms.length === 0) return entries;
-        const index = searchIndex;
-        return entries.filter((_entry, i) => terms.every((term) => index[i].includes(term)));
+        if (terms.length === 0 && !rowFilter) return entries;
+        const index = terms.length > 0 ? searchIndex : null;
+        return entries.filter((entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => index[i].includes(term))));
     });
 
+    /** The sort keys in order: the primary, then `thenBy`, each with a real, sortable column and a direction. */
+    const sortKeys = $derived(
+        [sort, ...thenBy]
+            .map((k) => ({ column: columns.find((c) => c.id === k.columnId), dir: k.direction === "ascending" ? 1 : k.direction === "descending" ? -1 : 0 }))
+            .filter((k): k is { column: DataGridColumn; dir: 1 | -1 } => !!k.column && k.dir !== 0),
+    );
+
     const sortedEntries = $derived.by(() => {
-        if (sort.direction === "none" || !sort.columnId) return filteredEntries;
-        const column = columns.find((c) => c.id === sort.columnId);
-        if (!column) return filteredEntries;
-        const dir = sort.direction === "ascending" ? 1 : -1;
-        const compare = column.compare;
-        // Read each sort key once (n accessor calls), not twice per comparison.
-        const keyed = filteredEntries.map((entry) => ({ entry, key: defaultAccessor(column, entry.row) }));
+        if (sortKeys.length === 0) return filteredEntries;
+        // Read each sort key once per column (n accessor calls), not twice per comparison.
+        const keyed = filteredEntries.map((entry) => ({ entry, keys: sortKeys.map((k) => defaultAccessor(k.column, entry.row)) }));
         keyed.sort((a, b) => {
-            const av = a.key;
-            const bv = b.key;
-            if (av === bv) return 0;
-            // Missing values sort last in both directions.
-            if (av === null || av === undefined) return 1;
-            if (bv === null || bv === undefined) return -1;
-            if (compare) return compare(av, bv) * dir;
-            return (av as never) > (bv as never) ? dir : -dir;
+            for (let i = 0; i < sortKeys.length; i++) {
+                const { column, dir } = sortKeys[i];
+                const av = a.keys[i];
+                const bv = b.keys[i];
+                if (av === bv) continue;
+                // Missing values sort last in both directions.
+                if (av === null || av === undefined) return 1;
+                if (bv === null || bv === undefined) return -1;
+                const result = column.compare ? column.compare(av, bv) * dir : (av as never) > (bv as never) ? dir : -dir;
+                if (result !== 0) return result;
+            }
+            return 0;
         });
         return keyed.map((k) => k.entry);
     });
@@ -554,13 +570,38 @@
     // Sorting
     // ---------------------------------------------------------------
 
+
     function ariaSortFor(column: DataGridColumn): DataGridSortDirection | undefined {
         if (!column.sortable) return undefined;
-        return sort.columnId === column.id ? sort.direction : "none";
+        if (sort.columnId === column.id) return sort.direction;
+        return thenBy.find((k) => k.columnId === column.id)?.direction ?? "none";
     }
 
-    function toggleSort(column: DataGridColumn): void {
+    /** 1 for the primary key, 2… for `thenBy`, only while more than one key is in force. */
+    function sortOrderFor(column: DataGridColumn): number | undefined {
+        if (sortKeys.length < 2) return undefined;
+        const at = sortKeys.findIndex((k) => k.column.id === column.id);
+        return at === -1 ? undefined : at + 1;
+    }
+
+    function toggleSort(column: DataGridColumn, additive = false): void {
         if (!column.sortable) return;
+        if (additive && sort.direction !== "none" && sort.columnId && sort.columnId !== column.id) {
+            const current = thenBy.find((k) => k.columnId === column.id);
+            const nextThen: DataGridSort[] = !current
+                ? [...thenBy, { columnId: column.id, direction: "ascending" }]
+                : current.direction === "ascending"
+                  ? thenBy.map((k) => (k.columnId === column.id ? { columnId: column.id, direction: "descending" as const } : k))
+                  : thenBy.filter((k) => k.columnId !== column.id);
+            thenBy = nextThen;
+            onThenByChange?.(nextThen);
+            announce(labels.sortAnnouncement?.(column.header, nextThen.find((k) => k.columnId === column.id)?.direction ?? "none"));
+            return;
+        }
+        if (thenBy.length > 0) {
+            thenBy = [];
+            onThenByChange?.([]);
+        }
         const next: DataGridSort =
             sort.columnId !== column.id
                 ? { columnId: column.id, direction: "ascending" }
@@ -1424,6 +1465,7 @@
                         data-pinned={column.pinned}
                         tabindex={isGrid ? (activeRow === -1 && activeCol === colOffset + i ? 0 : -1) : undefined}
                         aria-sort={ariaSortFor(column)}
+                        data-sort-order={sortOrderFor(column)}
                         aria-describedby={column.type === "rollup" && labels.rollupDescription ? `${gridId}-${column.id}-description` : undefined}
                         style={cellStyle(column)}
                         draggable={column.movable ? "true" : undefined}
@@ -1437,7 +1479,7 @@
                                 class="data-grid-sort-button"
                                 data-grid-own
                                 tabindex={isGrid ? -1 : undefined}
-                                onclick={() => toggleSort(column)}
+                                onclick={(e) => toggleSort(column, e.shiftKey)}
                             >
                                 {#if column.headerCell}{@render column.headerCell({ column })}{:else}{column.header}{/if}
                             </button>

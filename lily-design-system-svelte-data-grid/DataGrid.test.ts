@@ -1557,3 +1557,79 @@ describe("DataGrid — multi-word, diacritic-blind search; Escape clears (§8.90
     });
 });
 
+describe("DataGrid — rowFilter and multi-column sort (§8.95–§8.105)", () => {
+    const ppl = [
+        { name: "Bob", team: "b", age: 30 },
+        { name: "Alice", team: "a", age: 40 },
+        { name: "Cara", team: "a", age: 30 },
+        { name: "Dan", team: "b", age: 40 },
+    ];
+    const cols: DataGridColumn[] = [
+        { id: "name", header: "Name", sortable: true },
+        { id: "team", header: "Team", sortable: true },
+        { id: "age", header: "Age", sortable: true, type: "number" },
+    ];
+    const names = () => bodyRows().map((r) => r.querySelector("td")!.textContent?.trim());
+    const header = (n: string) => screen.getByRole("button", { name: n });
+
+    test("§8.95 rowFilter hides the rows it rejects", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, rowFilter: (r: Record<string, unknown>) => r.team === "a" } });
+        expect(names()).toEqual(["Alice", "Cara"]);
+    });
+
+    test("§8.96 rowFilter combines with the text filter", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, rowFilter: (r: Record<string, unknown>) => r.team === "a", filter: "cara" } });
+        expect(names()).toEqual(["Cara"]);
+    });
+
+    test("§8.97 Shift+click adds a secondary sort key that breaks ties", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        await fireEvent.click(header("Team")); // team ascending
+        await fireEvent.click(header("Age"), { shiftKey: true }); // then age ascending
+        expect(names()).toEqual(["Cara", "Alice", "Bob", "Dan"]);
+    });
+
+    test("§8.98 the secondary key cycles ascending → descending → off", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        await fireEvent.click(header("Team"));
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        expect(names()).toEqual(["Alice", "Cara", "Dan", "Bob"]);
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        expect(names()).toEqual(["Alice", "Cara", "Bob", "Dan"]);
+    });
+
+    test("§8.99 headers carry aria-sort for every key and data-sort-order while more than one is set", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        const th = (id: string) => document.querySelector(`th:nth-child(${["name", "team", "age"].indexOf(id) + 1})`)!;
+        await fireEvent.click(header("Team"));
+        expect(th("team").hasAttribute("data-sort-order")).toBe(false);
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        expect(th("team").getAttribute("data-sort-order")).toBe("1");
+        expect(th("age").getAttribute("data-sort-order")).toBe("2");
+        expect(th("age").getAttribute("aria-sort")).toBe("ascending");
+        expect(th("name").getAttribute("aria-sort")).toBe("none");
+    });
+
+    test("§8.100 a plain click sets the primary key alone and clears the secondary ones", async () => {
+        const onThenByChange = vi.fn();
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS, onThenByChange } });
+        await fireEvent.click(header("Team"));
+        await fireEvent.click(header("Age"), { shiftKey: true });
+        await fireEvent.click(header("Name"));
+        expect(onThenByChange).toHaveBeenLastCalledWith([]);
+        expect(names()).toEqual(["Alice", "Bob", "Cara", "Dan"]);
+    });
+
+    test("§8.101 Shift+click with no primary key behaves as a plain click", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, labels: LABELS } });
+        await fireEvent.click(header("Name"), { shiftKey: true });
+        expect(names()).toEqual(["Alice", "Bob", "Cara", "Dan"]);
+    });
+
+    test("§8.102 thenBy is bindable input: it can be preset", () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: ppl, sort: { columnId: "team", direction: "ascending" }, thenBy: [{ columnId: "age", direction: "descending" }] } });
+        expect(names()).toEqual(["Alice", "Cara", "Dan", "Bob"]); // team a by age descending: Alice(40) Cara(30); team b: Dan(40) Bob(30)
+    });
+});
+

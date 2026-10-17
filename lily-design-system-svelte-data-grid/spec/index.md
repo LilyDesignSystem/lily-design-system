@@ -542,3 +542,8 @@ Tests §8.90–§8.94. Shared across the data grid, kanban board, Gantt chart an
 - **Words**: a query is split on whitespace; every word must appear (AND), in any order, ignoring case and diacritics ("cafe" finds "Café"). A blank query matches everything.
 - **In the data grid**: the filter (`filter`, bindable; `labels.search` names the field) narrows the rows. Every word must appear somewhere in the row (any order, any filterable cells), ignoring case and diacritics; `filterText` still sets a column's text. No match highlighting: cells are rendered by their cell type, so the grid marks nothing inside them.
 - Highlighting uses `<mark>` only while a search is active and works on the original text (never the folded one); where folding would change a string's length it marks nothing rather than the wrong span.
+
+## Filtering and sorting (0.10.0, 2026-10-17)
+
+- **`rowFilter(row)`** hides rows it rejects, combining with the text `filter` (both must pass).
+- **Multi-column sort**: `thenBy` (bindable, with `onThenByChange`) holds further sort keys after `sort`. Shift+click on another sortable header adds it (ascending → descending → off); a plain click sets `sort` alone and clears `thenBy`. Each sort is read once per row per key and ties fall to the next key; missing values still sort last. Headers carry `aria-sort` for every key and `data-sort-order` (1 = primary) while more than one key is set; `labels.sortAnnouncement` announces the change.
