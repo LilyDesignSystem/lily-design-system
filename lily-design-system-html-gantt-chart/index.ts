@@ -57,3 +57,5 @@ export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from ".
 if (typeof customElements !== "undefined" && !customElements.get("gantt-chart")) {
     customElements.define("gantt-chart", GanttChart);
 }
+export { ARROW_GAP, dependencyPath, weekdayOfEpochDay } from "./dependency-arrows.js";
+export type { ArrowBox, DependencyKind } from "./dependency-arrows.js";

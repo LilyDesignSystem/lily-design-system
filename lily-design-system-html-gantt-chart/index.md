@@ -131,8 +131,13 @@ render read-only, with `start`/`end` derived as the min/max of their
 descendants, and a collapse button (`aria-expanded`) that removes
 descendant rows from the DOM outright. `dependsOn: string[]` (other
 tasks' ids, finish-to-start) renders as data — an `aria-describedby`
-reference to a generated text summary — never a drawn dependency arrow;
+reference to a generated text summary — a drawn arrow only with `dependencyArrows`;
 see [spec/index.md §9](./spec/index.md#9-non-goals) for why.
+
+## Weekend shading and dependency arrows (0.6.0)
+
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
 
 ## Keyboard
 
