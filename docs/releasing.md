@@ -167,6 +167,16 @@ alone didn't demote either of them from anything they could do before.
 npm `--provenance` already runs today regardless, and composes with,
 rather than substitutes for, Trusted Publishing.
 
+## A new version can be "not found" for a while
+
+npm's registry and install CDN, and NuGet's index, are eventually consistent. A version that `npm publish` (or the publish workflow) reported as done can answer `404 Not Found` — or `ETARGET: No matching version` from `npm install` — for ten minutes or more, and NuGet's search can lag longer than its direct package URL. This is registry lag, not a failed publish, and not an approval queue:
+
+- Check the publish log first (`+ @lilydesignsystem/svelte-data-grid@0.10.0` for npm, `Your package was pushed.` for NuGet). If that line is there, wait and retry.
+- `npm view @lilydesignsystem/<package>@<version> version` is the cheapest check; `npm view <package> versions --json` shows what the registry lists.
+- A `409 Conflict` ("already exists") on a retried NuGet push means the first push landed.
+- Do not republish the same version; if a publish really failed, bump the patch version.
+- A package that depends on a sibling released in the same batch (the Blazor kanban, Gantt and calendar on the data grid; every picker-bar on its pickers) should be installed only after the sibling is visible.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
