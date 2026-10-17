@@ -1320,3 +1320,70 @@ describe("KanbanBoard — copy to clipboard (§8.119–§8.121)", () => {
         vi.unstubAllGlobals();
     });
 });
+
+describe("KanbanBoard — PageUp / PageDown and type-ahead (§8.122–§8.127)", () => {
+    const cols: KanbanColumn[] = [{ id: "todo", title: "To Do" }, { id: "doing", title: "Doing" }];
+    const many: KanbanCard[] = Array.from({ length: 30 }, (_, i) => ({ id: `c${i}`, columnId: "todo", title: i % 2 ? `Beta ${i}` : `Alpha ${i}` }));
+    const base = { label: "Board", columns: cols, cards: many, labels: LABELS };
+    const cells = () => Array.from(document.querySelectorAll<HTMLElement>("[data-row][data-col]"));
+    const active = () => document.querySelector<HTMLElement>('[data-row][data-col][tabindex="0"]')!;
+    const rowOf = (el: HTMLElement) => Number(el.dataset.row);
+
+    test("§8.122 PageDown moves ten rows and PageUp moves back; both clamp", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.keyDown(cells()[0], { key: "PageDown" });
+        expect(rowOf(active())).toBe(10);
+        await fireEvent.keyDown(active(), { key: "PageUp" });
+        expect(rowOf(active())).toBe(0);
+        await fireEvent.keyDown(active(), { key: "PageUp" });
+        expect(rowOf(active())).toBe(0);
+    });
+
+    test("§8.123 typing a letter moves to the next card in the column whose label starts with it", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.keyDown(cells()[0], { key: "b" });
+        expect(rowOf(active())).toBe(1);
+    });
+
+    test("§8.124 letters typed in quick succession form one prefix", async () => {
+        const cards: KanbanCard[] = [
+            { id: "a", columnId: "todo", title: "Design" },
+            { id: "b", columnId: "todo", title: "Deploy" },
+            { id: "c", columnId: "todo", title: "Docs" },
+        ];
+        render(KanbanBoard, { props: { ...base, cards } });
+        await fireEvent.keyDown(cells()[0], { key: "d" });
+        await fireEvent.keyDown(active(), { key: "e" });
+        await fireEvent.keyDown(active(), { key: "p" });
+        expect(rowOf(active())).toBe(1);
+    });
+
+    test("§8.125 a lone x is still the select shortcut when cards are selectable", async () => {
+        const cards: KanbanCard[] = [
+            { id: "a", columnId: "todo", title: "Alpha" },
+            { id: "b", columnId: "todo", title: "Xylophone" },
+        ];
+        render(KanbanBoard, { props: { ...base, cards, selectable: true } });
+        await fireEvent.keyDown(cells()[0], { key: "x" });
+        expect(rowOf(active())).toBe(0);
+    });
+
+    test("§8.126 without selectable, x is ordinary type-ahead", async () => {
+        const cards: KanbanCard[] = [
+            { id: "a", columnId: "todo", title: "Alpha" },
+            { id: "b", columnId: "todo", title: "Xylophone" },
+        ];
+        render(KanbanBoard, { props: { ...base, cards } });
+        await fireEvent.keyDown(cells()[0], { key: "x" });
+        expect(rowOf(active())).toBe(1);
+    });
+
+    test("§8.127 a Ctrl or Alt key is never type-ahead, and an unmatched prefix does nothing", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.keyDown(cells()[0], { key: "b", ctrlKey: true });
+        expect(rowOf(active())).toBe(0);
+        await fireEvent.keyDown(cells()[0], { key: "z" });
+        expect(rowOf(active())).toBe(0);
+    });
+});
+

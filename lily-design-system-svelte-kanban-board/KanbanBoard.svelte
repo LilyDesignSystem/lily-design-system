@@ -11,6 +11,7 @@
     } from "@lilydesignsystem/svelte-headless";
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -926,6 +927,9 @@
         focusedCol = Number(cell.dataset.col);
     }
 
+    const TYPEAHEAD_WINDOW_MS = 700;
+    let typeahead: TypeaheadState = { prefix: "", at: 0 };
+
     function moveFocus(row: number, col: number): void {
         focusedCol = Math.min(Math.max(col, 0), columns.length - 1);
         focusedRow = Math.min(Math.max(row, 0), maxRows - 1);
@@ -985,6 +989,27 @@
             reorderCard(event.key === "ArrowUp" ? -1 : 1);
             return;
         }
+        // Type-ahead in the focused column: letters typed in quick succession move to the next card whose label starts with them.
+        // A lone "x" stays the select shortcut when cards are selectable; it joins a prefix already in progress.
+        if (isTypeaheadKey(event)) {
+            const now = Date.now();
+            const continuing = typeahead.prefix !== "" && now - typeahead.at <= TYPEAHEAD_WINDOW_MS;
+            const isSelectKey = selectable && (event.key === "x" || event.key === "X");
+            if (continuing || !isSelectKey) {
+                const state = nextTypeaheadState(typeahead, event.key, now, TYPEAHEAD_WINDOW_MS);
+                const labelsInColumn = Array.from({ length: maxRows }, (_, row) => {
+                    const card = cardAt(activeCol, row);
+                    return card ? cardLabel(card) : "";
+                });
+                const hit = findTypeaheadMatch(labelsInColumn, activeRow, state.prefix);
+                if (hit !== -1) {
+                    typeahead = state;
+                    event.preventDefault();
+                    moveFocus(hit, activeCol);
+                    return;
+                }
+            }
+        }
         if (selectable && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
             const card = cardAt(activeCol, activeRow);
             if (card && !readonly) {
@@ -1004,6 +1029,13 @@
             return;
         }
         switch (event.key) {
+            case "PageUp":
+            case "PageDown": {
+                event.preventDefault();
+                const page = virtualize ? Math.max(1, Math.floor(virtualize.height / virtualize.rowHeight)) : 10;
+                moveFocus(activeRow + (event.key === "PageUp" ? -page : page), activeCol);
+                break;
+            }
             case "ArrowUp":
                 event.preventDefault();
                 moveFocus(activeRow - 1, activeCol);
