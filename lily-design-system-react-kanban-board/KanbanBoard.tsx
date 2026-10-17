@@ -8,8 +8,15 @@ import {
   KanbanTableTD,
   KanbanTableTH,
   Listbox,
+  Mark,
+  SearchInput,
 } from "@lilydesignsystem/react-headless";
-import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
+import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
+import { highlightSegments, matchesSearch } from "./search-text";
+import { isRtl, logicalKey } from "./direction";
+import { gridMove, pageStepFor } from "./grid-navigation";
+import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
+import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
   draftOf,
   evaluateEdit,
@@ -126,6 +133,8 @@ export type KanbanLabels = {
   laneCount?: (lane: KanbanLane, count: number) => string;
   /** Accessible name of the board's search field. Gates the field. */
   search?: string;
+  /** Announced after the search changes: (matching cards, all cards). */
+  searchAnnouncement?: (matchCount: number, totalCount: number) => string;
   /** Announced after several selected cards move together: (how many moved, destination column title). */
   moveManyAnnouncement?: (count: number, columnTitle: string) => string;
   /** Visible text of the undo button. Gates the button (with `undoable`). */
@@ -144,10 +153,22 @@ export type KanbanLabels = {
   exportExcel?: string;
   /** Announced after an export: (format, how many cards, file name). */
   exportAnnouncement?: (format: ExportFormat, cardCount: number, filename: string) => string;
+  /** Visible text of the copy button, which puts the export (header row first, tab-separated) on the clipboard for pasting into a spreadsheet. Gates the button (with `exportHeaders`). */
+  copy?: string;
+  /** Announced after a copy: (how many rows). */
+  copyAnnouncement?: (rowCount: number) => string;
+  /** Announced when the clipboard could not be written. */
+  copyFailed?: string;
   /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
   exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
   /** Announced after a field edit: (card title, field header, the new text). */
   editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced when a field's `validate` refuses a value: (card title, field header, the reason). Falls back to `editInvalid`. */
+  editRefused?: (cardTitle: string, fieldHeader: string, message: string) => string;
+  /** Announced after Ctrl/Cmd+Z puts an earlier field value back: (card title, field header, the restored text). */
+  fieldUndoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
+  /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies a field edit: (card title, field header, the text). */
+  fieldRedoAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
   /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
   editInvalid?: (cardTitle: string, fieldHeader: string) => string;
 };
@@ -245,6 +266,8 @@ export type Props = Omit<
   exportFilename?: string;
   /** What an export holds: `"view"` (default) is every card the search and filter leave, column by column; `"selected"` is only the selected cards. */
   exportScope?: "view" | "selected";
+  /** Called before a copy puts text on the clipboard. Return `false` to take over (nothing is copied). */
+  onCopy?: (copy: { text: string; rowCount: number }) => boolean | void;
   /** Called before the download with the finished file. Return `false` to skip the built-in download. */
   onExport?: (info: KanbanExport) => boolean | void;
   /** Extra CSS class on the root. */
@@ -311,6 +334,7 @@ export function KanbanBoard({
   exportFilename: exportBase = "kanban-board",
   exportScope = "view",
   onExport,
+  onCopy,
   className = "",
   ...restProps
 }: Props): React.ReactElement {
@@ -367,15 +391,20 @@ export function KanbanBoard({
   const effectiveCards = cards.map((c) => (c.id in optimistic ? { ...c, columnId: optimistic[c.id] } : c));
   const [searchInner, setSearchInner] = React.useState(defaultSearch);
   const search = searchProp ?? searchInner;
+  const searching = search.trim() !== "";
+  // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per card or keystroke.
+  const resolvedFields = React.useMemo(() => resolveFields(fields, locale), [fields, locale]);
+  // Every card's searchable text: label, subtitle, badges and each field's text .
+  const defaultSearchText = (c: KanbanCard): string =>
+    [cardLabel(c), c.subtitle ?? "", ...(c.badges ?? []), ...resolvedFields.map((f) => fieldText(f, c.values))].join(" ");
   const cardsByColumn = groupCardsByColumn(columns, effectiveCards);
   // What the grid shows: the filtered, sorted view. Counts and WIP limits use `cardsByColumn` (every card).
   const shownByColumn = new Map<string, KanbanCard[]>();
   for (const [id, list] of cardsByColumn) {
     let shown = filter ? list.filter(filter) : list.slice();
-    const needle = search.trim().toLowerCase();
-    if (needle) {
-      const text = searchText ?? ((c: KanbanCard) => [cardLabel(c), c.subtitle ?? "", ...(c.badges ?? [])].join(" "));
-      shown = shown.filter((c) => text(c).toLowerCase().includes(needle));
+    if (searching) {
+      const text = searchText ?? defaultSearchText;
+      shown = shown.filter((c) => matchesSearch(text(c), search));
     }
     if (compare) shown = shown.sort(compare);
     shownByColumn.set(id, shown);
@@ -512,16 +541,27 @@ export function KanbanBoard({
     if (message) setStatusMessage(message);
   }
 
+  // Announce how many cards match after the search changes (not on the first render).
+  const searchAnnouncedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (!searchAnnouncedRef.current) {
+      searchAnnouncedRef.current = true;
+      return;
+    }
+    let matched = 0;
+    for (const list of shownByColumn.values()) matched += list.length;
+    announce(labels.searchAnnouncement?.(matched, cards.length));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
+
   // ---------------------------------------------------------------
   // Typed fields, inline editing, export
   // ---------------------------------------------------------------
 
-  // Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per card or keystroke.
-  const resolvedFields = React.useMemo(() => resolveFields(fields, locale), [fields, locale]);
   const isFieldEditable = (f: KanbanField, card: KanbanCard) => !!onFieldEdit && !readonly && !card.locked && isEditableField(f);
 
   /** The field being edited, if any: the draft is the editor's text. A ref mirrors it so a blur that lands in the same event as Enter sees it cleared. */
-  type Editing = { cardId: string; fieldId: string; draft: Draft };
+  type Editing = { cardId: string; fieldId: string; draft: Draft; invalid?: boolean };
   const [editing, setEditingState] = React.useState<Editing | null>(null);
   const editingRef = React.useRef<Editing | null>(null);
   function setEditing(next: Editing | null): void {
@@ -550,16 +590,37 @@ export function KanbanBoard({
     }
     const outcome = evaluateEdit(f, card.values, draft);
     if (outcome.invalid) {
-      announce(labels.editInvalid?.(cardLabel(card), f.header));
+      setEditing({ ...current, invalid: true });
+      announce((outcome.message ? labels.editRefused?.(cardLabel(card), f.header, outcome.message) : undefined) ?? labels.editInvalid?.(cardLabel(card), f.header));
       return false;
     }
     setEditing(null);
     if (outcome.changed) {
+      historyRef.current = recordEdit(historyRef.current, { ownerId: cardId, fieldId, value: outcome.value, previous: outcome.previous });
       onFieldEdit?.({ cardId, fieldId, value: outcome.value, previous: outcome.previous });
       announce(labels.editAnnouncement?.(cardLabel(card), f.header, outcome.text));
     }
     if (refocus) pendingFocusRef.current = { kind: "card", id: cardId };
     return true;
+  }
+
+  /** Accepted field edits, for Ctrl/Cmd+Z once there is no move left to undo. The consumer owns the data, so an undo is reported through `onFieldEdit`. */
+  const historyRef = React.useRef<EditHistory>(EMPTY_HISTORY);
+
+  /** Put an earlier field value back, or re-apply it, through `onFieldEdit`. */
+  function stepHistory(direction: "undo" | "redo"): void {
+    const step = direction === "undo" ? undoEdit(historyRef.current) : redoEdit(historyRef.current);
+    if (!step.record) return;
+    historyRef.current = step.history;
+    const { ownerId, fieldId, value, previous } = step.record;
+    const restored = direction === "undo" ? previous : value;
+    const replaced = direction === "undo" ? value : previous;
+    onFieldEdit?.({ cardId: ownerId, fieldId, value: restored, previous: replaced });
+    const card = effectiveCards.find((c) => c.id === ownerId);
+    const f = resolvedFields.find((x) => x.id === fieldId);
+    if (!card || !f) return;
+    const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(card.values ?? {}), [fieldId]: restored }) : String(restored);
+    announce((direction === "undo" ? labels.fieldUndoAnnouncement : labels.fieldRedoAnnouncement)?.(cardLabel(card), f.header, text));
   }
 
   function cancelFieldEdit(): void {
@@ -598,9 +659,16 @@ export function KanbanBoard({
   for (const column of columns) {
     for (const card of shownByColumn.get(column.id) ?? []) if (exportScope !== "selected" || isSelected(card.id)) exportCards.push(card);
   }
-  const hasExportButtons = !!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel);
+  const hasExportButtons = !!labels.exportHeaders && !!(labels.copy || labels.exportCsv || labels.exportTsv || labels.exportExcel);
 
-  function runExport(format: ExportFormat): void {
+  async function finishCopy(table: { headers: string[]; rows: unknown[][] }): Promise<void> {
+    const text = toClipboardText(table);
+    if (onCopy?.({ text, rowCount: table.rows.length }) === false) return;
+    const ok = await copyToClipboard(text);
+    announce(ok ? labels.copyAnnouncement?.(table.rows.length) : labels.copyFailed);
+  }
+
+  function runExport(format: ExportFormat | "copy"): void {
     const h = labels.exportHeaders;
     if (!h) return;
     const exportFields = exportableFields(resolvedFields);
@@ -621,6 +689,10 @@ export function KanbanBoard({
       for (const f of exportFields) cells.push(exportFieldCell(f, card.values));
       return cells;
     });
+    if (format === "copy") {
+      void finishCopy({ headers, rows });
+      return;
+    }
     const filename = exportFilename(exportBase, format);
     const blob = exportBlob({ headers, rows }, format, { sheetName: exportBase });
     if (onExport?.({ format, filename, cardCount: rows.length, blob }) === false) return;
@@ -854,6 +926,7 @@ export function KanbanBoard({
   function onCardDragEnd(): void {
     setDraggingGroup([]);
     setDropTarget(null);
+    setDropBlocked(false);
   }
 
   // ---- Column reordering ----
@@ -879,10 +952,22 @@ export function KanbanBoard({
     if (to >= 0) moveColumnTo(id, to);
   }
 
-  function onColumnDragOver(event: React.DragEvent, rowIndex: number, colIndex: number): void {
+  /** Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue. */
+  const [dropBlocked, setDropBlocked] = React.useState(false);
+
+  function onColumnDragOver(event: React.DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
     if (!draggingCardIdRef.current || readonly) return;
-    event.preventDefault();
+    const card = cards.find((c) => c.id === draggingCardIdRef.current);
+    const blocked = !!card && isRefused(card, column, Math.max(0, draggingGroup.length - 1));
+    setDropBlocked(blocked);
     setDropTarget(`${rowIndex}-${colIndex}`);
+    // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
+    if (blocked) {
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "none";
+      return;
+    }
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
   }
 
   function onColumnDrop(column: KanbanColumn, rowIndex: number, event: React.DragEvent): void {
@@ -892,6 +977,7 @@ export function KanbanBoard({
     draggingCardIdRef.current = null;
     setDraggingGroup([]);
     setDropTarget(null);
+    setDropBlocked(false);
     if (readonly) return;
     const card = cards.find((c) => c.id === cardId);
     if (!card) return;
@@ -954,6 +1040,23 @@ export function KanbanBoard({
     setFocusedRow(activeRow + delta);
   }
 
+  const TYPEAHEAD_WINDOW_MS = 700;
+  const typeaheadRef = React.useRef<TypeaheadState>({ prefix: "", at: 0 });
+
+  /** A card's title, with the words the search matched wrapped in `Mark`. */
+  function titleText(card: KanbanCard): React.ReactNode {
+    if (!searching) return cardLabel(card);
+    return highlightSegments(cardLabel(card), search).map((part, i) =>
+      part.match ? (
+        <Mark key={i} className="kanban-board-match">
+          {part.text}
+        </Mark>
+      ) : (
+        <React.Fragment key={i}>{part.text}</React.Fragment>
+      ),
+    );
+  }
+
   function onGridKeyDown(event: React.KeyboardEvent): void {
     const target = event.target as HTMLElement;
     // The open move menu owns its own keys; letting them bubble here moved the
@@ -963,27 +1066,41 @@ export function KanbanBoard({
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
-    if (undoable && ctrlOrMeta && !event.altKey && (event.key === "z" || event.key === "Z")) {
+    // The horizontal arrows are visual: in a right-to-left layout the next column is on the left, so ArrowLeft goes forward.
+    const key = logicalKey(event.key, isRtl(cell));
+    // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
+    const historyAction = onFieldEdit && !readonly ? historyKey(event) : null;
+    if (undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && undoStack.length > 0) {
       event.preventDefault();
       void undo();
       return;
     }
-    if (movableColumns && event.altKey && event.shiftKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (historyAction) {
+      event.preventDefault();
+      stepHistory(historyAction);
+      return;
+    }
+    if (undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z")) {
+      event.preventDefault();
+      void undo();
+      return;
+    }
+    if (movableColumns && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
       event.preventDefault();
       const column = columns[activeCol];
-      const to = activeCol + (event.key === "ArrowLeft" ? -1 : 1);
+      const to = activeCol + (key === "ArrowLeft" ? -1 : 1);
       if (column && moveColumnTo(column.id, to)) {
         setFocusedCol(to);
         pendingFocusRef.current = { kind: "cell" };
       }
       return;
     }
-    if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
       // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
       event.preventDefault();
       const card = cardAt(activeCol, activeRow);
-      const destination = columns[activeCol + (event.key === "ArrowLeft" ? -1 : 1)];
+      const destination = columns[activeCol + (key === "ArrowLeft" ? -1 : 1)];
       if (card && destination) moveCard(card, destination);
       return;
     }
@@ -1002,6 +1119,27 @@ export function KanbanBoard({
       }
       return;
     }
+    // Type-ahead in the focused column: letters typed in quick succession move to the next card whose label starts with them.
+    // A lone "x" stays the select shortcut when cards are selectable; it joins a prefix already in progress.
+    if (isTypeaheadKey(event)) {
+      const now = Date.now();
+      const continuing = typeaheadRef.current.prefix !== "" && now - typeaheadRef.current.at <= TYPEAHEAD_WINDOW_MS;
+      const isSelectKey = selectable && (event.key === "x" || event.key === "X");
+      if (continuing || !isSelectKey) {
+        const state = nextTypeaheadState(typeaheadRef.current, event.key, now, TYPEAHEAD_WINDOW_MS);
+        const labelsInColumn = Array.from({ length: maxRows }, (_, row) => {
+          const card = cardAt(activeCol, row);
+          return card ? cardLabel(card) : "";
+        });
+        const hit = findTypeaheadMatch(labelsInColumn, activeRow, state.prefix);
+        if (hit !== -1) {
+          typeaheadRef.current = state;
+          event.preventDefault();
+          moveFocus(hit, activeCol);
+          return;
+        }
+      }
+    }
     if (selectable && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
       const card = cardAt(activeCol, activeRow);
       if (card && !readonly) {
@@ -1010,33 +1148,17 @@ export function KanbanBoard({
       }
       return;
     }
-    switch (event.key) {
-      case "ArrowUp":
-        event.preventDefault();
-        moveFocus(activeRow - 1, activeCol);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        moveFocus(activeRow + 1, activeCol);
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        moveFocus(activeRow, activeCol - 1);
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        moveFocus(activeRow, activeCol + 1);
-        break;
-      case "Home":
-        event.preventDefault();
-        if (ctrlOrMeta) moveFocus(0, 0);
-        else moveFocus(0, activeCol);
-        break;
-      case "End":
-        event.preventDefault();
-        if (ctrlOrMeta) moveFocus(maxRows - 1, columns.length - 1);
-        else moveFocus(maxRows - 1, activeCol);
-        break;
+    const move = gridMove(
+      event,
+      { row: activeRow, col: activeCol },
+      { firstRow: 0, lastRow: maxRows - 1, lastCol: columns.length - 1, pageStep: pageStepFor(virtualize), homeEnd: "column", rtl: isRtl(cell) },
+    );
+    if (move) {
+      event.preventDefault();
+      moveFocus(move.row, move.col);
+      return;
+    }
+    switch (key) {
       case "Enter":
       case " ": {
         event.preventDefault();
@@ -1055,19 +1177,30 @@ export function KanbanBoard({
       {...restProps}
     >
       {labels.search && (
-        <input
-          type="search"
+        <SearchInput
           className="kanban-board-search"
-          aria-label={labels.search}
+          label={labels.search}
           value={search}
-          onChange={(e) => {
-            setSearchInner(e.target.value);
-            onSearchChange?.(e.target.value);
+          onChange={(next) => {
+            setSearchInner(next);
+            onSearchChange?.(next);
+          }}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Escape" && search !== "") {
+              e.preventDefault();
+              setSearchInner("");
+              onSearchChange?.("");
+            }
           }}
         />
       )}
       {hasExportButtons && (
         <div className="kanban-board-export" role="group" aria-label={labels.export}>
+          {labels.copy && (
+            <button type="button" className="kanban-board-export-button" data-kanban-export-format="copy" disabled={exportCards.length === 0} onClick={() => runExport("copy")}>
+              {labels.copy}
+            </button>
+          )}
           {labels.exportCsv && (
             <button type="button" className="kanban-board-export-button" data-kanban-export-format="csv" disabled={exportCards.length === 0} onClick={() => runExport("csv")}>
               {labels.exportCsv}
@@ -1229,12 +1362,16 @@ export function KanbanBoard({
                     data-accent={column.accent}
                     data-empty={!card && !hasLanes && rowIndex === 0 && labels.emptyColumn && isEmptyColumn(column) ? "" : undefined}
                     aria-describedby={card?.flag ? `${baseId}-flag-${card.id}` : undefined}
-                    data-drop-target={dropTarget === `${rowIndex}-${colIndex}` ? "" : undefined}
+                    data-drop-target={dropTarget === `${rowIndex}-${colIndex}` && !dropBlocked ? "" : undefined}
+                    data-drop-blocked={dropTarget === `${rowIndex}-${colIndex}` && dropBlocked ? "" : undefined}
                     {...(card ? (cardAttrs?.(card) ?? {}) : {})}
                     active={activeRow === rowIndex && activeCol === colIndex}
                     label={card ? cardLabel(card) : undefined}
-                    onDragOver={(e: React.DragEvent) => onColumnDragOver(e, rowIndex, colIndex)}
-                    onDragLeave={() => setDropTarget(null)}
+                    onDragOver={(e: React.DragEvent) => onColumnDragOver(e, column, rowIndex, colIndex)}
+                    onDragLeave={() => {
+                      setDropTarget(null);
+                      setDropBlocked(false);
+                    }}
                     onDrop={(e: React.DragEvent) => onColumnDrop(column, rowIndex, e)}
                   >
                     {card && (
@@ -1257,10 +1394,10 @@ export function KanbanBoard({
                             renderCard({ card, label: cardLabel(card), column, pending: isPending(card.id) })
                           ) : card.href ? (
                             <a className="kanban-board-card-link" href={card.href}>
-                              {cardLabel(card)}
+                              {titleText(card)}
                             </a>
                           ) : (
-                            cardLabel(card)
+                            titleText(card)
                           )}
                         </span>
                         {!renderCard && card.subtitle && (
@@ -1291,9 +1428,10 @@ export function KanbanBoard({
                                       <select
                                         className="kanban-board-field-editor"
                                         aria-label={f.editLabel ?? f.header}
+                                        aria-invalid={editing.invalid ? true : undefined}
                                         value={String(editing.draft ?? "")}
                                         onChange={(e) => {
-                                          setEditing({ ...editing, draft: e.target.value });
+                                          setEditing({ ...editing, draft: e.target.value, invalid: false });
                                           commitFieldEdit();
                                         }}
                                         onKeyDown={onEditorKeyDown}
@@ -1308,10 +1446,11 @@ export function KanbanBoard({
                                       <input
                                         className="kanban-board-field-editor"
                                         aria-label={f.editLabel ?? f.header}
+                                        aria-invalid={editing.invalid ? true : undefined}
                                         type={kind === "number" ? "number" : kind === "date" ? "date" : kind === "time" ? "time" : "text"}
                                         inputMode={kind === "number" ? "decimal" : undefined}
                                         value={String(editing.draft ?? "")}
-                                        onChange={(e) => setEditing({ ...editing, draft: e.target.value })}
+                                        onChange={(e) => setEditing({ ...editing, draft: e.target.value, invalid: false })}
                                         onKeyDown={onEditorKeyDown}
                                         onBlur={() => commitFieldEdit(false)}
                                       />
