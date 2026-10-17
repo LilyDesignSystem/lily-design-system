@@ -81,6 +81,11 @@ Editing is never drag-only: the edit region is always reachable by
 keyboard, independent of pointer drag-and-drop. See spec/index.md §6
 for the accessibility research this design choice is based on.
 
+## Weekend shading and dependency arrows (0.6.0)
+
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
+
 ## Styling hooks
 
 `gantt-chart`, `gantt-chart-collapse-button`,
@@ -94,7 +99,5 @@ for the accessibility research this design choice is based on.
 
 ## Non-goals
 
-Dependency-arrow rendering, critical-path calculation,
-dependency types beyond finish-to-start, interactive zoom-level
-switching, weekend/holiday shading, resource/assignee columns — see
+Critical-path calculation, interactive zoom-level switching, calendar-derived holiday shading (`isNonWorking` marks holidays), resource/assignee columns — see
 spec/index.md §9.

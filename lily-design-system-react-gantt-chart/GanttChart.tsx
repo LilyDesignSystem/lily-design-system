@@ -15,6 +15,7 @@ import DateTimePicker, {
 import type { DateTimePickerLabels } from "@lilydesignsystem/react-date-time-picker";
 import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
 import { civilDateToDate } from "./cell-types";
+import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
 import {
   draftOf,
   evaluateEdit,
@@ -168,6 +169,10 @@ export type Props = Omit<
   markers?: GanttMarker[];
   /** Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
   isNonWorking?: (isoDate: string) => boolean;
+  /** Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. Never defaulted: the weekend is the consumer's locale. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. Shading itself is CSS. */
+  weekends?: number[];
+  /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type. An `aria-hidden` SVG overlay measured from the rendered cells; the dependencies stay available as text through `labels.dependencySummary`. Drawn only between rendered rows. */
+  dependencyArrows?: boolean;
   /** Suppress editing, drag and the edit region; navigation and collapse still work. */
   readonly?: boolean;
   /** Resolves a task to its display label. Defaults to `task.label`. */
@@ -356,6 +361,8 @@ export function GanttChart({
   today,
   markers = [],
   isNonWorking,
+  weekends,
+  dependencyArrows = false,
   readonly = false,
   taskLabel = (task: GanttTask) => task.label,
   onTaskChange,
@@ -443,6 +450,16 @@ export function GanttChart({
   }
 
   const nonWorking = React.useMemo(() => columns.map(columnNonWorking), [columns, isNonWorking]);
+
+  // Day columns that fall on a shaded weekday.
+  const weekendColumns = React.useMemo(
+    () =>
+      columns.map((column) => {
+        const day = column.start === column.end ? parseIsoDate(column.start) : null;
+        return !!weekends?.length && !!day && weekends.includes(weekdayOfEpochDay(toEpochDay(day)));
+      }),
+    [columns, weekends],
+  );
 
   function rangeFor(
     task: GanttTask,
@@ -587,6 +604,15 @@ export function GanttChart({
 
   const [scrollTop, setScrollTop] = React.useState(0);
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
+
+  // ---------------------------------------------------------------
+  // Dependency arrows (an aria-hidden overlay measured from the rendered cells)
+  // ---------------------------------------------------------------
+
+  type Arrow = { key: string; from: string; to: string; kind: string; d: string };
+  const [arrows, setArrows] = React.useState<Arrow[]>([]);
+  const [overlaySize, setOverlaySize] = React.useState({ width: 0, height: 0 });
+  const arrowHeadId = `${baseId}-arrowhead`;
   type RenderItem = { kind: "spacer"; height: number; key: string } | { kind: "row"; row: (typeof rows)[number]; index: number; key: string };
   /** What renders: the rows in view plus the roving tab stop's row (so the grid never leaves the tab order), with spacers for the gaps. */
   const renderItems: RenderItem[] = [];
@@ -607,6 +633,49 @@ export function GanttChart({
     }
     if (rows.length - 1 - previous > 0) renderItems.push({ kind: "spacer", height: (rows.length - 1 - previous) * virtualize.rowHeight, key: `spacer:${previous}` });
   }
+
+  const measureArrows = React.useCallback((): void => {
+    const el = scrollRef.current;
+    if (!dependencyArrows || !el) {
+      setArrows((previous) => (previous.length ? [] : previous));
+      return;
+    }
+    const host = el.getBoundingClientRect();
+    const dx = el.scrollLeft - host.left;
+    const dy = el.scrollTop - host.top;
+    const boxes = new Map<string, ArrowBox>();
+    el.querySelectorAll<HTMLElement>("tr[data-task-id]").forEach((tr) => {
+      const cells = tr.querySelectorAll<HTMLElement>("td[data-in-range]");
+      if (!cells.length) return;
+      const first = cells[0].getBoundingClientRect();
+      const last = cells[cells.length - 1].getBoundingClientRect();
+      boxes.set(tr.dataset.taskId ?? "", { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+    });
+    const next: Arrow[] = [];
+    for (const [id, to] of boxes) {
+      for (const dep of taskById.get(id)?.dependsOn ?? []) {
+        const predecessorId = typeof dep === "string" ? dep : dep.id;
+        const from = boxes.get(predecessorId);
+        if (!from) continue;
+        const kind: DependencyKind = (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
+        next.push({ key: `${predecessorId}>${id}`, from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+      }
+    }
+    setArrows((previous) => (JSON.stringify(previous) === JSON.stringify(next) ? previous : next));
+    setOverlaySize((previous) => (previous.width === el.scrollWidth && previous.height === el.scrollHeight ? previous : { width: el.scrollWidth, height: el.scrollHeight }));
+  }, [dependencyArrows, taskById]);
+
+  // Re-measure after every render that could move a bar (a no-op when nothing changed), and when the table's own size changes.
+  React.useEffect(() => {
+    measureArrows();
+  });
+  React.useEffect(() => {
+    const table = scrollRef.current?.querySelector("table");
+    if (!dependencyArrows || !table || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => measureArrows());
+    observer.observe(table);
+    return () => observer.disconnect();
+  }, [dependencyArrows, measureArrows]);
 
   /** Bring a row into the scroll area (a virtualized chart renders only what is in view). */
   function revealRow(rowIndex: number): void {
@@ -965,7 +1034,7 @@ export function GanttChart({
       <div
         ref={scrollRef}
         className={virtualize ? "gantt-chart-scroll" : "gantt-chart-body"}
-        style={virtualize ? { height: virtualize.height, overflow: "auto" } : undefined}
+        style={virtualize || dependencyArrows ? { ...(virtualize ? { height: virtualize.height, overflow: "auto" } : {}), ...(dependencyArrows ? { position: "relative" } : {}) } : undefined}
         onScroll={virtualize ? (e) => setScrollTop((e.currentTarget as HTMLElement).scrollTop) : undefined}
       >
       <GanttTable
@@ -993,6 +1062,7 @@ export function GanttChart({
                   scope="col"
                   data-today={isToday ? "" : undefined}
                   data-non-working={nonWorking[headIndex] ? "" : undefined}
+                  data-weekend={weekendColumns[headIndex] ? "" : undefined}
                   data-marker={
                     colMarkers.length
                       ? colMarkers.map((m) => m.kind ?? "marker").join(" ")
@@ -1149,6 +1219,7 @@ export function GanttChart({
                         data-milestone={isMilestone ? "" : undefined}
                         data-today={isToday ? "" : undefined}
                         data-non-working={nonWorking[colIndex] ? "" : undefined}
+                        data-weekend={weekendColumns[colIndex] ? "" : undefined}
                         data-marker={markersAt(colIndex).length ? "" : undefined}
                         aria-describedby={describedBy(row.task, deps.length > 0)}
                         data-baseline={
@@ -1243,6 +1314,36 @@ export function GanttChart({
           })}
         </GanttTableTbody>
       </GanttTable>
+      {dependencyArrows && arrows.length > 0 && (
+        <svg
+          className="gantt-chart-dependency-arrows"
+          aria-hidden="true"
+          focusable="false"
+          width={overlaySize.width}
+          height={overlaySize.height}
+          style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none" }}
+        >
+          <defs>
+            <marker id={arrowHeadId} markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+              <path d="M0 0L6 3L0 6z" fill="currentColor" />
+            </marker>
+          </defs>
+          {arrows.map((arrow) => (
+            <path
+              key={arrow.key}
+              className="gantt-chart-dependency-arrow"
+              data-from={arrow.from}
+              data-to={arrow.to}
+              data-dependency-type={arrow.kind}
+              d={arrow.d}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              markerEnd={`url(#${arrowHeadId})`}
+            />
+          ))}
+        </svg>
+      )}
       </div>
 
       <p className="gantt-chart-status" aria-live="polite">
