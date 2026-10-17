@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Kanban, gantt and calendar get the data grid's typed fields, editing and export — 2026-10-17
+
+- **`kanban-board` 0.6.0, `gantt-chart` 0.5.0 and `calendar` 0.5.0**, in all eight frameworks, take three things from the
+  data grid (0.9.0): **typed fields** (a record's `values`, shown with the data grid's cell types — text, number, link, date,
+  time, select, radio — as text under a card, as columns in the Gantt, after an event's title in the calendar's agenda),
+  **inline editing** (click a value or press F2; Enter commits, Escape cancels, an input method's composing keys never do; a
+  value that does not fit its type is refused and announced) and **export** to CSV, TSV and Excel (dependency-free, formula text
+  defused, real dates in Excel; a label gates each button and `exportHeaders` names the columns — no English).
+- **`gantt-chart` virtualization**: `virtualize` renders only the task rows in view, with spacer rows, `aria-rowcount` and
+  `aria-rowindex`; the calendar deliberately has none (a period is at most 42 cells).
+- **Hot paths**: selection, marker, range and task lookups are built once per change instead of once per cell.
+- Idioms per framework: Svelte is canonical; React and Vue/Angular/HTML/Web Components follow its callbacks, events and
+  outputs; **Nunjucks** passes `fields` and label templates through the macro and keeps functions in client options
+  (`fieldHooks`); **Blazor** takes fields as the data grid's own `DataGridColumn`s (`Editable` opts a field in) and now
+  depends on `LilyDesignSystem.Blazor.DataGrid` — which is why the data grid is built first. Tab does not move to the next field
+  editor in Blazor (a keydown handler cannot decide `preventDefault` per event); blur commits.
+
 ## Twelve new themes, a spec page for every theme — 2026-10-16
 
 - **12 new reference themes** (45 → 57): eleven design-system references — `ant-design`, `atlassian`, `excel`, `fluent`,
