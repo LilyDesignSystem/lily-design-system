@@ -76,6 +76,11 @@ Class hooks: `.gantt-chart`, `.gantt-chart-th`,
 `.gantt-chart-edit-row`, `.gantt-chart-save-button`,
 `.gantt-chart-cancel-button`, `.gantt-chart-status`. No CSS ships.
 
+## Weekend shading and dependency arrows (0.6.0)
+
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
+
 ## Keyboard
 
 | Key | Effect |

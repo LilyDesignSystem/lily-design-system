@@ -36,6 +36,7 @@ import {
 import type { DateTimePickerLabels } from "@lilydesignsystem/web-components-date-time-picker";
 import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data.js";
 import { civilDateToDate } from "./cell-types.js";
+import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows.js";
 import {
   draftOf,
   editorKind,
@@ -183,6 +184,10 @@ export type GanttChartProps = {
   markers?: GanttMarker[];
   /** Property-only. Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
   isNonWorking?: (isoDate: string) => boolean;
+  /** Property-only. Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`; never defaulted. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. */
+  weekends?: number[];
+  /** Attribute `dependency-arrows`. Draws an `aria-hidden` SVG arrow per dependency, by its type; the dependencies stay available as text through `labels.dependencySummary`. */
+  dependencyArrows?: boolean;
   /** Attribute `readonly`. Suppresses editing, drag and the edit region; navigation and collapse still work. */
   readonly?: boolean;
   /** Property-only. Resolves a task to its display label. Defaults to `task.label`. */
@@ -369,7 +374,7 @@ type DateTimePickerElement = HTMLElement & {
 /** Custom-element class implementing `<lily-gantt-chart>`. */
 export class GanttChart extends HTMLElement {
   static get observedAttributes(): string[] {
-    return ["label", "caption", "today", "time-unit", "class", "readonly", "selected-task-id"];
+    return ["label", "caption", "today", "time-unit", "class", "readonly", "selected-task-id", "dependency-arrows"];
   }
 
   // ---- Backing storage for property-only members ----
@@ -381,6 +386,9 @@ export class GanttChart extends HTMLElement {
   #labels: GanttLabels = {};
   #markers: GanttMarker[] = [];
   #isNonWorking?: (isoDate: string) => boolean;
+  #weekends: number[] | undefined;
+  #arrowObserver: ResizeObserver | undefined;
+  #observedTable: HTMLTableElement | null = null;
 
   // ---- Internal state ----
   #statusMessage = "";
@@ -543,6 +551,22 @@ export class GanttChart extends HTMLElement {
     this.#render();
   }
 
+  get weekends(): number[] | undefined {
+    return this.#weekends;
+  }
+  set weekends(v: number[] | undefined) {
+    this.#weekends = Array.isArray(v) ? v.slice() : undefined;
+    this.#render();
+  }
+
+  get dependencyArrows(): boolean {
+    return this.hasAttribute("dependency-arrows");
+  }
+  set dependencyArrows(v: boolean) {
+    if (v) this.setAttribute("dependency-arrows", "");
+    else this.removeAttribute("dependency-arrows");
+  }
+
   get readonly(): boolean {
     return this.hasAttribute("readonly");
   }
@@ -637,9 +661,15 @@ export class GanttChart extends HTMLElement {
     this.#render();
   }
 
+  disconnectedCallback(): void {
+    this.#arrowObserver?.disconnect();
+    this.#arrowObserver = undefined;
+    this.#observedTable = null;
+  }
+
   attributeChangedCallback(name: string): void {
     if (!this.isConnected) return;
-    if (name === "label" || name === "caption" || name === "today" || name === "time-unit" || name === "class" || name === "readonly" || name === "selected-task-id") {
+    if (name === "label" || name === "caption" || name === "today" || name === "time-unit" || name === "class" || name === "readonly" || name === "selected-task-id" || name === "dependency-arrows") {
       this.#render();
     }
   }
@@ -1449,6 +1479,13 @@ export class GanttChart extends HTMLElement {
       }
       return true;
     });
+    const weekends = this.#weekends;
+    const columnWeekend = columns.map((column) => {
+      if (!weekends?.length || column.start !== column.end) return false;
+      const day = parseIsoDate(column.start);
+      return !!day && weekends.includes(weekdayOfEpochDay(toEpochDay(day)));
+    });
+
     columns.forEach((column, columnIndex) => {
       const isToday = today != null && rangesOverlap(column.start, column.end, today, today);
       const th = document.createElement("th");
@@ -1456,6 +1493,7 @@ export class GanttChart extends HTMLElement {
       th.setAttribute("scope", "col");
       if (isToday) th.setAttribute("data-today", "");
       if (columnNonWorking[columnIndex]) th.setAttribute("data-non-working", "");
+      if (columnWeekend[columnIndex]) th.setAttribute("data-weekend", "");
       const markers = columnMarkers[columnIndex];
       if (markers.length) th.setAttribute("data-marker", markers.map((m) => m.kind ?? "marker").join(" "));
       th.appendChild(
@@ -1579,6 +1617,7 @@ export class GanttChart extends HTMLElement {
         if (isMilestone) td.setAttribute("data-milestone", "");
         if (isToday) td.setAttribute("data-today", "");
         if (columnNonWorking[colIndex]) td.setAttribute("data-non-working", "");
+        if (columnWeekend[colIndex]) td.setAttribute("data-weekend", "");
         if (columnMarkers[colIndex].length) td.setAttribute("data-marker", "");
         const describedBy = this.#describedBy(row.task, hasDependencySummary);
         if (describedBy) td.setAttribute("aria-describedby", describedBy);
@@ -1650,5 +1689,81 @@ export class GanttChart extends HTMLElement {
 
     this.#statusEl = status;
     if (this.#virtualize) scroll.scrollTop = this.#scrollTop;
+    this.#measureArrows();
+  }
+
+  /** The dependency-arrow overlay: an aria-hidden SVG measured from the rendered cells, rebuilt after every render and when the table's size changes. */
+  #measureArrows(): void {
+    const scroll = this.#scrollEl;
+    const table = scroll?.querySelector("table") ?? null;
+    // Observe each rendered table once: observing fires a first callback, which must not re-observe.
+    if (table !== this.#observedTable) {
+      this.#arrowObserver?.disconnect();
+      this.#arrowObserver = undefined;
+      this.#observedTable = table;
+      if (table && this.dependencyArrows && typeof ResizeObserver !== "undefined") {
+        this.#arrowObserver = new ResizeObserver(() => this.#measureArrows());
+        this.#arrowObserver.observe(table);
+      }
+    }
+    if (!scroll) return;
+    scroll.querySelector(".gantt-chart-dependency-arrows")?.remove();
+    if (!this.dependencyArrows) return;
+    scroll.style.position = "relative";
+    const host = scroll.getBoundingClientRect();
+    const dx = scroll.scrollLeft - host.left;
+    const dy = scroll.scrollTop - host.top;
+    const boxes = new Map<string, ArrowBox>();
+    scroll.querySelectorAll<HTMLElement>("tr[data-task-id]").forEach((tr) => {
+      const cells = tr.querySelectorAll<HTMLElement>("td[data-in-range]");
+      if (!cells.length) return;
+      const first = cells[0].getBoundingClientRect();
+      const last = cells[cells.length - 1].getBoundingClientRect();
+      boxes.set(tr.dataset["taskId"] ?? "", { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+    });
+    const byId = this.#taskById();
+    const paths: { from: string; to: string; kind: DependencyKind; d: string }[] = [];
+    for (const [id, to] of boxes) {
+      for (const dep of byId.get(id)?.dependsOn ?? []) {
+        const predecessorId = typeof dep === "string" ? dep : dep.id;
+        const from = boxes.get(predecessorId);
+        if (!from) continue;
+        const kind: DependencyKind = (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
+        paths.push({ from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+      }
+    }
+    if (!paths.length) return;
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "gantt-chart-dependency-arrows");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    svg.setAttribute("width", String(scroll.scrollWidth));
+    svg.setAttribute("height", String(scroll.scrollHeight));
+    svg.setAttribute("style", "position:absolute;left:0;top:0;pointer-events:none");
+    const headId = `${this.#baseId}-arrowhead`;
+    const defs = document.createElementNS(NS, "defs");
+    const marker = document.createElementNS(NS, "marker");
+    for (const [name, value] of Object.entries({ id: headId, markerWidth: "6", markerHeight: "6", refX: "6", refY: "3", orient: "auto", markerUnits: "userSpaceOnUse" })) marker.setAttribute(name, value);
+    const head = document.createElementNS(NS, "path");
+    head.setAttribute("d", "M0 0L6 3L0 6z");
+    head.setAttribute("fill", "currentColor");
+    marker.appendChild(head);
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+    for (const p of paths) {
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("class", "gantt-chart-dependency-arrow");
+      path.setAttribute("data-from", p.from);
+      path.setAttribute("data-to", p.to);
+      path.setAttribute("data-dependency-type", p.kind);
+      path.setAttribute("d", p.d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "currentColor");
+      path.setAttribute("stroke-width", "1.5");
+      path.setAttribute("marker-end", `url(#${headId})`);
+      svg.appendChild(path);
+    }
+    scroll.appendChild(svg);
   }
 }
