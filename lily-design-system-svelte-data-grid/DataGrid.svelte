@@ -2,6 +2,8 @@
     import type { Snippet } from "svelte";
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { foldText, searchTerms } from "./search-text";
+    import { isRtl, logicalKey } from "./direction";
+    import { missingLabels, type LabelFeatures } from "./label-coverage";
     import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import {
@@ -145,6 +147,8 @@
         errorOf?: (row: DataGridRow) => string | undefined;
         /** The kind of value in this column: a bundle of defaults for `format`, `compare`, `filterText`, `exportValue`, `align` and `editor`, plus the cell's markup. Your own props win. See spec/cell-types/index.md. */
         type?: DataGridCellType;
+        /** Shown instead of nothing when this column's value is missing (`null`, `undefined` or `""`). Overrides the grid's `emptyValue`. A missing value always carries `data-empty` on its cell. */
+        emptyValue?: string;
         /** BCP 47 locale for this column's formatting and collation. Falls back to the grid's `locale`; with neither, values show as stored. */
         locale?: string;
         /** `select` and `radio`: the choices. The label is displayed, the id is stored. */
@@ -182,6 +186,10 @@
      */
     export type DataGridLabels = {
         search?: string;
+        /** Accessible name of the select that limits the search to one column. Gates the select (needs `searchAllFields` too). */
+        searchField?: string;
+        /** The select's first option: search every column. */
+        searchAllFields?: string;
         columnVisibility?: string;
         columnVisibilityOption?: (header: string) => string;
         resizeHandle?: (header: string) => string;
@@ -258,8 +266,14 @@
         columns: DataGridColumn[];
         /** Row data. */
         rows: DataGridRow[];
-        /** BCP 47 locale for the typed columns' formatting and collation. Never defaulted: with none, values show as stored. */
+        /** BCP 47 locale for the typed columns' formatting and collation, and for sorting plain text: with a locale, text sorts with `Intl.Collator(locale, { numeric: true })` ("Item 2" before "Item 10", "ä" with "a"). Never defaulted: with none, values show as stored and text sorts by code point. */
         locale?: string;
+        /** What a cell shows when its value is missing (`null`, `undefined` or `""`), for example `"—"`. A column's own `emptyValue` wins. No default: Lily ships no text. The cell always carries `data-empty`, so CSS can style it, and an export is unaffected. */
+        emptyValue?: string;
+        /** In development, log (once per grid) the labels the grid's features call for but `labels` leaves out — a control with no name, an announcement never made. Default `true`; it never logs in production. See `requiredLabels` / `missingLabels` to check a locale's bundle in a test. */
+        warnMissingLabels?: boolean;
+        /** Where missing values sort: `"last"` (default, in both directions) or `"first"`. */
+        nulls?: "first" | "last";
         /** Derives a stable id per row. Defaults to the row's index in `rows`. */
         rowId?: (row: DataGridRow, index: number) => string;
         /** Row selection mode. */
@@ -270,6 +284,12 @@
         onSelectionChange?: (ids: string[]) => void;
         /** Text filter. Two-way bindable. */
         filter?: string;
+        /** Make every column movable (Alt+Arrow on its header, or drag it) unless its own `movable` is `false`. Default `false`. */
+        movableColumns?: boolean;
+        /** Limits the text filter to one column: a column id, or `""` (default) for every filterable column. Two-way bindable. The field select shows when `labels.searchField` names it. */
+        filterField?: string;
+        /** Called with the new `filterField` after every change. */
+        onFilterFieldChange?: (columnId: string) => void;
         /** Hides rows for which it returns false (a status or date-range filter). Combines with `filter`; both must pass. */
         rowFilter?: (row: DataGridRow) => boolean;
         /** Further sort keys after `sort`, for ties: Shift+click on another sortable header adds it (ascending, then descending, then off); a plain click sets `sort` alone and clears these. Two-way bindable. Headers carry `data-sort-order` (1 = primary) while more than one key is set. */
@@ -357,6 +377,9 @@
     }
 
     /** Default cell formatter: `String(value)`, `""` for null/undefined. */
+    /** A missing value: `null`, `undefined` or an empty string. */
+    const isMissing = (value: unknown): boolean => value === null || value === undefined || value === "";
+
     function formatCell(column: DataGridColumn, row: DataGridRow): string {
         const value = defaultAccessor(column, row);
         if (column.format) return column.format(value, row);
@@ -382,12 +405,18 @@
         columns: columnsProp,
         rows,
         locale,
+        emptyValue = undefined,
+        nulls = "last",
+        warnMissingLabels = true,
         rowId = (_row: DataGridRow, index: number) => String(index),
         selectionMode = "none",
         selected = $bindable<string[]>([]),
         onSelectionChange,
         filter = $bindable(""),
         rowFilter = undefined,
+        movableColumns = false,
+        filterField = $bindable(""),
+        onFilterFieldChange = undefined,
         thenBy = $bindable<DataGridSort[]>([]),
         onThenByChange = undefined,
         onFilterChange,
@@ -436,7 +465,35 @@
     let focusedCol = $state(0);
     let lastSelectedIndex = -1; // index into sortedEntries, not into the page
 
+    /** A column the user can move: its own `movable`, else the grid's `movableColumns`. */
+    const isMovable = (column: DataGridColumn): boolean => column.movable ?? movableColumns;
+
     const hasSelection = $derived(selectionMode !== "none");
+
+    // What the grid renders, as far as labels go, so a missing one can be named in development.
+    const labelFeatures = $derived<LabelFeatures>({
+        selection: selectionMode !== "none",
+        pagination: !!pageSize,
+        hidableColumns: columns.some((c) => c.hidable),
+        resizableColumns: columns.some((c) => c.resizable),
+        editing: !!onCellEdit,
+        sorting: columns.some((c) => c.sortable),
+        search: !!labels.search,
+        exporting: !!(labels.exportCsv || labels.exportTsv || labels.exportExcel || labels.copy),
+    });
+    const reportedLabels = new Set<string>();
+    $effect(() => {
+        if (!warnMissingLabels || (typeof process !== "undefined" && process.env?.NODE_ENV === "production")) return;
+        const fresh = missingLabels(labelFeatures, labels as Record<string, unknown>).filter((m) => !reportedLabels.has(m.key));
+        if (fresh.length === 0) return;
+        for (const m of fresh) reportedLabels.add(m.key);
+        const controls = fresh.filter((m) => m.kind === "control").map((m) => m.key);
+        const announcements = fresh.filter((m) => m.kind === "announcement").map((m) => m.key);
+        console.warn(
+            `[data-grid] "${label}": labels left out — ` +
+                [controls.length ? `controls with no name: ${controls.join(", ")}` : "", announcements.length ? `silent announcements: ${announcements.join(", ")}` : ""].filter(Boolean).join("; "),
+        );
+    });
     const colOffset = $derived(hasSelection ? 1 : 0);
 
     // Columns in display order: those named in `columnOrder` first, the rest after in their own order.
@@ -462,23 +519,23 @@
     // Folded (lower-case, no diacritics) search text per row: its filterable cells joined by a space,
     // built once per rows/columns change rather than reformatting every cell on every keystroke.
     // Read only when a filter is active, so an unfiltered grid never builds it.
-    const searchIndex = $derived.by(() => {
-        const filterableColumns = columns.filter((c) => c.filterable !== false);
-        return entries.map((entry) =>
-            foldText(
-                filterableColumns
-                    .map((column) => (column.filterText ? column.filterText(defaultAccessor(column, entry.row), entry.row) : formatCell(column, entry.row)))
-                    .join(" "),
-            ),
-        );
-    });
+    const filterableColumns = $derived(columns.filter((c) => c.filterable !== false));
+    // One folded text per filterable cell, in `filterableColumns` order, so a search can look at one field or at the row.
+    const searchIndex = $derived.by(() =>
+        entries.map((entry) =>
+            filterableColumns.map((column) => foldText(column.filterText ? column.filterText(defaultAccessor(column, entry.row), entry.row) : formatCell(column, entry.row))),
+        ),
+    );
 
     // Every word of the filter must appear somewhere in the row (any order, any cells), ignoring case and diacritics.
     const filteredEntries = $derived.by(() => {
         const terms = searchTerms(filter);
         if (terms.length === 0 && !rowFilter) return entries;
         const index = terms.length > 0 ? searchIndex : null;
-        return entries.filter((entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => index[i].includes(term))));
+        // With a field chosen, every word must be in that field's cell; otherwise anywhere in the row.
+        const only = filterField ? filterableColumns.findIndex((c) => c.id === filterField) : -1;
+        const rowText = (i: number): string => (only >= 0 ? index![i][only] : index![i].join(" "));
+        return entries.filter((entry, i) => (!rowFilter || rowFilter(entry.row)) && (!index || terms.every((term) => rowText(i).includes(term))));
     });
 
     /** The sort keys in order: the primary, then `thenBy`, each with a real, sortable column and a direction. */
@@ -491,6 +548,10 @@
     const sortedEntries = $derived.by(() => {
         if (sortKeys.length === 0) return filteredEntries;
         // Read each sort key once per column (n accessor calls), not twice per comparison.
+        const collators = sortKeys.map((k) => {
+            const tag = k.column.locale ?? locale;
+            return tag ? new Intl.Collator(tag, { numeric: true }) : null;
+        });
         const keyed = filteredEntries.map((entry) => ({ entry, keys: sortKeys.map((k) => defaultAccessor(k.column, entry.row)) }));
         keyed.sort((a, b) => {
             for (let i = 0; i < sortKeys.length; i++) {
@@ -498,10 +559,16 @@
                 const av = a.keys[i];
                 const bv = b.keys[i];
                 if (av === bv) continue;
-                // Missing values sort last in both directions.
-                if (av === null || av === undefined) return 1;
-                if (bv === null || bv === undefined) return -1;
-                const result = column.compare ? column.compare(av, bv) * dir : (av as never) > (bv as never) ? dir : -dir;
+                // Missing values sort together at one end, in both directions (`nulls`).
+                const aMissing = av === null || av === undefined;
+                const bMissing = bv === null || bv === undefined;
+                if (aMissing || bMissing) return aMissing === bMissing ? 0 : (aMissing ? 1 : -1) * (nulls === "first" ? -1 : 1);
+                const collator = collators[i];
+                const result = column.compare
+                    ? column.compare(av, bv) * dir
+                    : collator && typeof av === "string" && typeof bv === "string"
+                      ? collator.compare(av, bv) * dir
+                      : (av as never) > (bv as never) ? dir : -dir;
                 if (result !== 0) return result;
             }
             return 0;
@@ -1134,11 +1201,13 @@
             }
             return;
         }
-        if (event.altKey && activeRow === -1 && (event.key === "ArrowRight" || event.key === "ArrowLeft")) {
+        // In a right-to-left layout the horizontal arrows swap: ArrowLeft goes to the next cell (`key` is the logical key).
+        const key = logicalKey(event.key, isRtl(cell));
+        if (event.altKey && activeRow === -1 && (key === "ArrowRight" || key === "ArrowLeft")) {
             const column = visibleColumns[activeCol - colOffset];
-            if (column?.movable) {
+            if (column && isMovable(column)) {
                 event.preventDefault();
-                const delta = event.key === "ArrowRight" ? 1 : -1;
+                const delta = key === "ArrowRight" ? 1 : -1;
                 if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
                 return;
             }
@@ -1163,7 +1232,7 @@
                 }
             }
         }
-        switch (event.key) {
+        switch (key) {
             case "ArrowRight":
                 event.preventDefault();
                 moveFocus(activeRow, activeCol + 1);
@@ -1277,6 +1346,24 @@
 <div bind:this={rootEl} class={`data-grid ${className}`.trim()} {...restProps}>
     {#if labels.search || hidableColumns.length > 0 || hasExportButtons}
         <div class="data-grid-toolbar">
+            {#if labels.search && labels.searchField && labels.searchAllFields}
+                <select
+                    class="data-grid-search-field"
+                    aria-label={labels.searchField}
+                    value={filterField}
+                    onchange={(e) => {
+                        filterField = e.currentTarget.value;
+                        page = 1;
+                        onFilterFieldChange?.(filterField);
+                        announce(labels.filterAnnouncement?.(filteredEntries.length, rows.length));
+                    }}
+                >
+                    <option value="">{labels.searchAllFields}</option>
+                    {#each filterableColumns as c (c.id)}
+                        <option value={c.id}>{c.header}</option>
+                    {/each}
+                </select>
+            {/if}
             {#if labels.search}
                 <input
                     class="data-grid-search"
@@ -1416,7 +1503,7 @@
                 {/each}
             </fieldset>
         {:else}
-            {#if column.cell}{@render column.cell(ctx)}{:else if column.type === "person"}{@render personBody(column, ctx)}{:else if column.type === "file"}{@render fileBody(entry, column, ctx)}{:else if column.type === "link"}{@render linkBody(ctx)}{:else if column.type === "date" || column.type === "time"}{#if ctx.formatted !== ""}<time datetime={String(ctx.value)}>{ctx.formatted}</time>{/if}{:else}{ctx.formatted}{/if}{#if isEditable(column) && column.type !== "radio" && labels.editCell}
+            {#if column.cell}{@render column.cell(ctx)}{:else if isMissing(ctx.value) && (column.emptyValue ?? emptyValue)}{column.emptyValue ?? emptyValue}{:else if column.type === "person"}{@render personBody(column, ctx)}{:else if column.type === "file"}{@render fileBody(entry, column, ctx)}{:else if column.type === "link"}{@render linkBody(ctx)}{:else if column.type === "date" || column.type === "time"}{#if ctx.formatted !== ""}<time datetime={String(ctx.value)}>{ctx.formatted}</time>{/if}{:else}{ctx.formatted}{/if}{#if isEditable(column) && column.type !== "radio" && labels.editCell}
                 <button
                     type="button"
                     class="data-grid-edit-button"
@@ -1542,10 +1629,10 @@
                         data-sort-order={sortOrderFor(column)}
                         aria-describedby={column.type === "rollup" && labels.rollupDescription ? `${gridId}-${column.id}-description` : undefined}
                         style={cellStyle(column)}
-                        draggable={column.movable ? "true" : undefined}
-                        ondragstart={column.movable ? (e: DragEvent) => { draggingColumnId = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
-                        ondragover={column.movable ? (e: DragEvent) => { if (draggingColumnId) e.preventDefault(); } : undefined}
-                        ondrop={column.movable ? (e: DragEvent) => onHeaderDrop(column.id, e) : undefined}
+                        draggable={isMovable(column) ? "true" : undefined}
+                        ondragstart={isMovable(column) ? (e: DragEvent) => { draggingColumnId = column.id; e.dataTransfer?.setData("text/plain", column.id); } : undefined}
+                        ondragover={isMovable(column) ? (e: DragEvent) => { if (draggingColumnId) e.preventDefault(); } : undefined}
+                        ondrop={isMovable(column) ? (e: DragEvent) => onHeaderDrop(column.id, e) : undefined}
                     >
                         {#if column.sortable}
                             <button
@@ -1648,6 +1735,7 @@
                         data-cell-type={column.type}
                         data-pinned={column.pinned}
                                 data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
+                                data-empty={isMissing(ctx.value) ? "" : undefined}
                                 tabindex={isGrid ? (activeRow === rowIndex && activeCol === colOffset + colIndex ? 0 : -1) : undefined}
                                 style={cellStyle(column)}
                                 {...extra}
@@ -1668,6 +1756,7 @@
                                 ondrop={column.type === "file" && column.editable ? (e: DragEvent) => onFileDrop(entry, column, e) : undefined}
                                 aria-readonly={column.type === "rollup" ? "true" : undefined}
                                 data-error={column.errorOf?.(row) !== undefined ? "" : undefined}
+                                data-empty={isMissing(ctx.value) ? "" : undefined}
                                 data-editing={editing?.rowId === id && editing.columnId === column.id ? "" : undefined}
                                 role={isGrid ? "gridcell" : "cell"}
                                 {...isGrid ? { active: activeRow === rowIndex && activeCol === colOffset + colIndex } : { tabindex: undefined }}
