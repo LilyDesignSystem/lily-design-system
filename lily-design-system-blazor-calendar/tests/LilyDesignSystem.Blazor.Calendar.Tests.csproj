@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Compile Include="..\CalendarViewTests.cs" />
+    <Compile Include="..\CalendarViewFeaturesTests.cs" />
   </ItemGroup>
 
 </Project>

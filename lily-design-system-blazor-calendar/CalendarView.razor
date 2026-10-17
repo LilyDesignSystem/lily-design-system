@@ -81,10 +81,19 @@
         </div>
     }
 
+    @if (Labels.Search is not null)
+    {
+        <input type="search" class="search-input calendar-view-search" aria-label="@Labels.Search" value="@SearchValue"
+               @oninput="@(e => SetSearchAsync(e.Value?.ToString() ?? ""))" @onkeydown="OnSearchKeyDownAsync" />
+    }
     @if (HasExportButtons)
     {
         var exportEvents = ExportEvents();
         <div class="calendar-view-export" role="group" aria-label="@Labels.Export">
+            @if (Labels.Copy is not null)
+            {
+                <button type="button" class="calendar-view-export-button" data-calendar-export-format="copy" disabled="@(exportEvents.Count == 0)" @onclick="RunCopyAsync">@Labels.Copy</button>
+            }
             @if (Labels.ExportCsv is not null)
             {
                 <button type="button" class="calendar-view-export-button" data-calendar-export-format="csv" disabled="@(exportEvents.Count == 0)" @onclick="@(() => RunExportAsync(DataGridExportFormat.Csv))">@Labels.ExportCsv</button>
@@ -103,9 +112,9 @@
     @if (View == CalendarViewMode.Agenda)
     {
         @* The agenda is a plain list of days, not a grid: ordinary tab stops, no roving cursor. *@
-        var agendaEvents = EventsByDay(Events);
+        var agendaEvents = ShownEventsByDay();
         var agendaDays = AgendaDayList(agendaEvents);
-        <ol class="calendar-view-agenda" aria-label="@Label">
+        <ol class="calendar-view-agenda" aria-label="@Label" @onkeydown="OnAgendaKeyDownAsync">
             @foreach (var agendaDate in agendaDays)
             {
                 var d = agendaDate;
@@ -183,6 +192,7 @@
                                                         else
                                                         {
                                                             <input id="@EditorId" class="calendar-view-field-editor"
+                                                               aria-invalid="@(_fieldEditing is { Invalid: true } ? "true" : null)"
                                                                    type="@(kind == DataGridEditor.Number ? "number" : kind == DataGridEditor.Date ? "date" : kind == DataGridEditor.Time ? "time" : "text")"
                                                                    inputmode="@(kind == DataGridEditor.Number ? "decimal" : null)"
                                                                    aria-label="@field.Header"
@@ -251,7 +261,7 @@
         <CalendarTableBody>
             @{
                 var weeks = Days;
-                var eventMap = EventsByDay(Events);
+                var eventMap = ShownEventsByDay();
                 var cursor = EffectiveCursor(weeks);
             }
             @foreach (var week in weeks)

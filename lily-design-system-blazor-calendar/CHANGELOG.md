@@ -4,6 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.6.0 — 2026-10-17
+
+- Added search: `Labels.Search` renders a field and `SearchValue` (bindable) keeps the events whose title and field text contain every typed word, in any order, ignoring case and diacritics; Escape clears it; `Labels.SearchAnnouncement`. The field carries the headless `search-input` class (written by hand, not composed).
+- Added `EventCompare`, which orders a day's events (stable).
+- Added copy to the clipboard: `Labels.Copy` (needs `ExportHeaders`), `Labels.CopyAnnouncement`, `Labels.CopyFailed`, `OnCopy`, `CopyHandler` (return `false` to take over).
+- Added right-to-left arrow keys through the `Direction` parameter (Blazor cannot read the DOM's `dir` without JS interop, so the consumer says); Alt+Arrow event moves follow the arrow.
+- Added field `Validate` messages (`Labels.EditRefused`, `aria-invalid` on the open editor, cleared when the person types) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y, in the grid and in the agenda list) through `OnFieldEdit`, with `Labels.FieldUndoAnnouncement` / `FieldRedoAnnouncement`.
+- Not yet ported from the Svelte package: filter, `agendaBelow` / `agendaDate`, range labels as text, composition from the headless layer.
+
 ## 0.5.0 — 2026-10-16
 
 - Added typed event fields (`EventFields` as `DataGridColumn`s, `event.Values`, `Locale`), using the data grid's cell types, shown after each event's title in the agenda (editing is agenda-only).

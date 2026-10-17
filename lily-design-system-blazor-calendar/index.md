@@ -54,3 +54,11 @@ dotnet add package LilyDesignSystem.Blazor.Calendar
 
 Arrows move the cursor by a day or a week; Home/End go to the row's ends; PageUp/PageDown step by the
 view's length; Enter/Space pick the day; `t` goes to today. Disabled days stay focusable but cannot be picked.
+
+## Search, copy, keyboard, validation and undo (0.6.0)
+
+- Added search: `Labels.Search` renders a field and `SearchValue` (bindable) keeps the events whose title and field text contain every typed word, in any order, ignoring case and diacritics; Escape clears it; `Labels.SearchAnnouncement`. The field carries the headless `search-input` class (written by hand, not composed).
+- Added `EventCompare`, which orders a day's events (stable).
+- Added copy to the clipboard: `Labels.Copy` (needs `ExportHeaders`), `Labels.CopyAnnouncement`, `Labels.CopyFailed`, `OnCopy`, `CopyHandler` (return `false` to take over).
+- Added right-to-left arrow keys through the `Direction` parameter (Blazor cannot read the DOM's `dir` without JS interop, so the consumer says); Alt+Arrow event moves follow the arrow.
+- Added field `Validate` messages (`Labels.EditRefused`, `aria-invalid` on the open editor, cleared when the person types) and undo / redo of field edits (Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z / Ctrl+Y, in the grid and in the agenda list) through `OnFieldEdit`, with `Labels.FieldUndoAnnouncement` / `FieldRedoAnnouncement`.

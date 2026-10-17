@@ -177,6 +177,30 @@ public sealed record CalendarViewLabels
 
     /// <summary>Announced when an edit is refused as invalid for the field's type: (event title, field header).</summary>
     public Func<string, string, string>? EditInvalid { get; init; }
+
+    /// <summary>Names the search field; it renders only when set.</summary>
+    public string? Search { get; init; }
+
+    /// <summary>Announced after a search: (matching events, all events).</summary>
+    public Func<int, int, string>? SearchAnnouncement { get; init; }
+
+    /// <summary>Announced when a field's <c>Validate</c> refused the value: (event title, field header, the reason).</summary>
+    public Func<string, string, string, string>? EditRefused { get; init; }
+
+    /// <summary>Announced after a field-edit undo: (event title, field header, the restored text).</summary>
+    public Func<string, string, string, string>? FieldUndoAnnouncement { get; init; }
+
+    /// <summary>Announced after a field-edit redo: (event title, field header, the re-applied text).</summary>
+    public Func<string, string, string, string>? FieldRedoAnnouncement { get; init; }
+
+    /// <summary>A button that puts the export (header row first, tab-separated) on the clipboard; needs <c>ExportHeaders</c>.</summary>
+    public string? Copy { get; init; }
+
+    /// <summary>Announced after a copy: (how many events).</summary>
+    public Func<int, string>? CopyAnnouncement { get; init; }
+
+    /// <summary>Announced when the clipboard refused the copy.</summary>
+    public string? CopyFailed { get; init; }
 }
 
 public partial class CalendarView : ComponentBase
@@ -273,6 +297,22 @@ public partial class CalendarView : ComponentBase
     /// <summary>Raised with each accepted field edit. The consumer updates <c>Events</c>. Fields are editable only with a handler.</summary>
     [Parameter] public EventCallback<CalendarFieldEdit> OnFieldEdit { get; set; }
 
+    /// <summary>The search text: shows only the events whose title and field text contain every word (any order, ignoring case and diacritics). Bindable: <c>@bind-SearchValue</c>.</summary>
+    [Parameter] public string SearchValue { get; set; } = "";
+    [Parameter] public EventCallback<string> SearchValueChanged { get; set; }
+
+    /// <summary>Orders the events within a day (stable: the consumer's order breaks ties).</summary>
+    [Parameter] public Comparison<CalendarEvent>? EventCompare { get; set; }
+
+    /// <summary>The reading direction, "ltr" (default) or "rtl": in right-to-left the horizontal arrow keys swap. Blazor cannot read the DOM's <c>dir</c> without JS interop, so the consumer says.</summary>
+    [Parameter] public string? Direction { get; set; }
+
+    /// <summary>Called with the text before it goes on the clipboard; return false to take the copy over.</summary>
+    [Parameter] public Func<DataGridCopy, bool>? CopyHandler { get; set; }
+
+    /// <summary>Called after a copy was prepared (the text, the event count).</summary>
+    [Parameter] public EventCallback<DataGridCopy> OnCopy { get; set; }
+
     /// <summary>Base of an export's file name (<c>.csv</c>, <c>.tsv</c> or <c>.xlsx</c> is added). Default <c>"calendar"</c>.</summary>
     [Parameter] public string ExportFilename { get; set; } = "calendar";
 
@@ -359,6 +399,40 @@ public partial class CalendarView : ComponentBase
         return _selectedDateSet.Contains(d);
     }
 
+    private EditHistory _fieldHistory = EditHistory.Empty;
+    private bool Rtl => string.Equals(Direction, "rtl", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>What a search looks in: the event's title and every field's text.</summary>
+    private string EventSearchText(CalendarEvent calendarEvent)
+        => string.Join(" ", new[] { EventTitle(calendarEvent) }.Concat(ResolvedFields.Select(f => TypedFields.Text(f, calendarEvent.Values))));
+
+    private bool MatchesSearch(CalendarEvent calendarEvent) => SearchText.Matches(EventSearchText(calendarEvent), SearchValue);
+
+    /// <summary>The events the search leaves.</summary>
+    private IReadOnlyList<CalendarEvent> ShownEvents => SearchValue.Trim().Length == 0 ? Events : Events.Where(MatchesSearch).ToList();
+
+    /// <summary>The shown events by day, each day in <c>EventCompare</c> order.</summary>
+    private IReadOnlyDictionary<string, IReadOnlyList<CalendarEvent>> ShownEventsByDay()
+    {
+        var map = EventsByDay(ShownEvents);
+        if (EventCompare is null) return map;
+        var cmp = Comparer<CalendarEvent>.Create(EventCompare);
+        return map.ToDictionary(kv => kv.Key, kv => (IReadOnlyList<CalendarEvent>)kv.Value.OrderBy(e => e, cmp).ToList());
+    }
+
+    private async Task SetSearchAsync(string value)
+    {
+        SearchValue = value;
+        await SearchValueChanged.InvokeAsync(SearchValue);
+        var matched = Events.Count(MatchesSearch);
+        if (Labels.SearchAnnouncement?.Invoke(matched, Events.Count) is { } message) _statusMessage = message;
+    }
+
+    private async Task OnSearchKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Key == "Escape" && SearchValue.Length > 0) await SetSearchAsync("");
+    }
+
     private IReadOnlyList<CalendarEvent> VisibleEvents(IReadOnlyList<CalendarEvent> all)
         => MaxEvents is { } max ? all.Take(Math.Max(0, max)).ToList() : all;
 
@@ -399,7 +473,7 @@ public partial class CalendarView : ComponentBase
     {
         if (!MoveEvents || !args.AltKey) return;
         var week = View == CalendarViewMode.Day ? 1 : 7;
-        int? delta = args.Key switch { "ArrowLeft" => -1, "ArrowRight" => 1, "ArrowUp" => -week, "ArrowDown" => week, _ => null };
+        int? delta = GridMotion.LogicalKey(args.Key, Rtl) switch { "ArrowLeft" => -1, "ArrowRight" => 1, "ArrowUp" => -week, "ArrowDown" => week, _ => null };
         if (delta is null) return;
         _eventKeyHandled = true;
         await MoveEventToAsync(calendarEvent, DateTimePicker.AddDays(fromDate, delta.Value));
@@ -539,7 +613,7 @@ public partial class CalendarView : ComponentBase
     private static string EventTitle(CalendarEvent calendarEvent) => string.IsNullOrEmpty(calendarEvent.Title) ? calendarEvent.Id : calendarEvent.Title;
 
     /// <summary>The field being edited: the draft is the editor's text.</summary>
-    private sealed record FieldEditing(string EventId, string FieldId, string Draft);
+    private sealed record FieldEditing(string EventId, string FieldId, string Draft, bool Invalid = false);
 
     private FieldEditing? _fieldEditing;
     private bool _focusEditorPending;
@@ -560,7 +634,7 @@ public partial class CalendarView : ComponentBase
 
     private void SetFieldDraft(string draft)
     {
-        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft };
+        if (_fieldEditing is not null) _fieldEditing = _fieldEditing with { Draft = draft, Invalid = false };
     }
 
     /// <summary>Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged.</summary>
@@ -578,13 +652,17 @@ public partial class CalendarView : ComponentBase
         var outcome = TypedFields.Evaluate(field, calendarEvent.Values, current.Draft);
         if (outcome.Invalid)
         {
-            var message = Labels.EditInvalid?.Invoke(EventTitle(calendarEvent), field.Header);
+            _fieldEditing = current with { Invalid = true };
+            var message = outcome.Message is not null && Labels.EditRefused is not null
+                ? Labels.EditRefused(EventTitle(calendarEvent), field.Header, outcome.Message)
+                : Labels.EditInvalid?.Invoke(EventTitle(calendarEvent), field.Header);
             if (message is not null) _statusMessage = message;
             return false;
         }
         _fieldEditing = null;
         if (outcome.Changed)
         {
+            _fieldHistory = _fieldHistory.Record(new EditRecord(calendarEvent.Id, field.Id, outcome.Value, outcome.Previous));
             await OnFieldEdit.InvokeAsync(new CalendarFieldEdit(calendarEvent.Id, field.Id, outcome.Value, outcome.Previous));
             var message = Labels.EditAnnouncement?.Invoke(EventTitle(calendarEvent), field.Header, outcome.Text);
             if (message is not null) _statusMessage = message;
@@ -626,21 +704,42 @@ public partial class CalendarView : ComponentBase
     private List<CalendarEvent> ExportEvents()
     {
         var (periodStart, periodEnd) = PeriodRange(View, EffectiveAnchor, FirstDay);
-        return Events
+        return ShownEvents
             .Where(e => EventSpan(e) is { } span && (ExportScope == CalendarExportScope.All
                 || (string.CompareOrdinal(span.Start, periodEnd) <= 0 && string.CompareOrdinal(span.End, periodStart) >= 0)))
             .OrderBy(e => EventSpan(e)!.Value.Start, StringComparer.Ordinal)
             .ToList();
     }
 
-    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
+    private bool HasExportButtons => Labels.ExportHeaders is not null && (Labels.Copy is not null || Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null);
 
     private static object? ExportDate(string iso)
         => DateOnly.TryParseExact(iso, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var d) ? d : null;
 
-    private async Task RunExportAsync(DataGridExportFormat format)
+    private async Task RunCopyAsync()
     {
-        if (Labels.ExportHeaders is not { } h) return;
+        if (BuildExportTable() is not { } table) return;
+        var text = System.Text.Encoding.UTF8.GetString(ExportData.ExportBytes(table, DataGridExportFormat.Tsv, ExportFilename)).TrimStart('\uFEFF');
+        var copy = new DataGridCopy(text, table.Rows.Count);
+        await OnCopy.InvokeAsync(copy);
+        if (CopyHandler?.Invoke(copy) == false) return;
+        bool ok;
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", text);
+            ok = true;
+        }
+        catch
+        {
+            ok = false;
+        }
+        var message = ok ? Labels.CopyAnnouncement?.Invoke(copy.RowCount) : Labels.CopyFailed;
+        if (message is not null) _statusMessage = message;
+    }
+
+    private ExportTable? BuildExportTable()
+    {
+        if (Labels.ExportHeaders is not { } h) return null;
         var fields = TypedFields.Exportable(ResolvedFields);
         var headers = new List<string> { h.Title, h.Start, h.End };
         foreach (var f in fields) headers.Add(f.Header);
@@ -652,7 +751,13 @@ public partial class CalendarView : ComponentBase
             foreach (var f in fields) cells.Add(TypedFields.ExportCell(f, calendarEvent.Values));
             rows.Add(cells);
         }
-        var table = new ExportTable(headers, rows);
+        return new ExportTable(headers, rows);
+    }
+
+    private async Task RunExportAsync(DataGridExportFormat format)
+    {
+        if (BuildExportTable() is not { } table) return;
+        var rows = table.Rows;
         var filename = ExportData.ExportFilename(ExportFilename, format);
         var bytes = ExportData.ExportBytes(table, format, ExportFilename);
         var file = new DataGridExport(format, filename, rows.Count, bytes);
@@ -851,11 +956,43 @@ public partial class CalendarView : ComponentBase
         }
     }
 
+    /// <summary>Put an earlier field value back (or re-apply one), reported through <c>OnFieldEdit</c> like any edit: the consumer owns the data.</summary>
+    private async Task StepFieldHistoryAsync(string action)
+    {
+        var step = action == "undo" ? _fieldHistory.UndoStep() : _fieldHistory.RedoStep();
+        if (step.Record is not { } record) return;
+        _fieldHistory = step.History;
+        var calendarEvent = Events.FirstOrDefault(e => e.Id == record.OwnerId);
+        var field = ResolvedFields.FirstOrDefault(f => f.Id == record.FieldId);
+        if (calendarEvent is null || field is null) return;
+        var restored = action == "undo" ? record.Previous : record.Value;
+        var replaced = action == "undo" ? record.Value : record.Previous;
+        await OnFieldEdit.InvokeAsync(new CalendarFieldEdit(calendarEvent.Id, field.Id, restored, replaced));
+        var text = restored is null ? "" : Convert.ToString(restored, System.Globalization.CultureInfo.InvariantCulture) ?? "";
+        var message = (action == "undo" ? Labels.FieldUndoAnnouncement : Labels.FieldRedoAnnouncement)?.Invoke(EventTitle(calendarEvent), field.Header, text);
+        if (message is not null) _statusMessage = message;
+        _focusFieldPending = (calendarEvent.Id, field.Id);
+    }
+
+    /// <summary>Undo / redo from the agenda, where focus sits in the list rather than the grid.</summary>
+    private async Task OnAgendaKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (OnFieldEdit.HasDelegate && _fieldEditing is null && EditHistory.KeyAction(args.Key, args.CtrlKey, args.MetaKey, args.ShiftKey, args.AltKey) is { } action)
+            await StepFieldHistoryAsync(action);
+    }
+
     private async Task OnGridKeyDownAsync(KeyboardEventArgs args)
     {
         if (_eventKeyHandled)
         {
             _eventKeyHandled = false;
+            return;
+        }
+        // The horizontal arrows are visual: in a right-to-left layout ArrowLeft goes to the next day.
+        var key = GridMotion.LogicalKey(args.Key, Rtl);
+        if (OnFieldEdit.HasDelegate && EditHistory.KeyAction(args.Key, args.CtrlKey, args.MetaKey, args.ShiftKey, args.AltKey) is { } historyAction)
+        {
+            await StepFieldHistoryAsync(historyAction);
             return;
         }
         var cursor = EffectiveCursor(Days);
@@ -866,7 +1003,7 @@ public partial class CalendarView : ComponentBase
             _rangeAnchor = !string.IsNullOrEmpty(SelectedDate) && SelectedRange is null ? SelectedDate : cursor;
         }
         if (!extending && MoveKeys.Contains(args.Key)) _rangeAnchor = null;
-        switch (args.Key)
+        switch (key)
         {
             case "ArrowLeft": await MoveCursorAsync(DateTimePicker.AddDays(cursor, -1)); break;
             case "ArrowRight": await MoveCursorAsync(DateTimePicker.AddDays(cursor, 1)); break;
