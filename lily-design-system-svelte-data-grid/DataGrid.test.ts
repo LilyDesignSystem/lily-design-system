@@ -1689,3 +1689,59 @@ describe("DataGrid — copy to clipboard (§8.103–§8.106)", () => {
     });
 });
 
+describe("DataGrid — type-ahead (§8.107–§8.110)", () => {
+    const people = [
+        { name: "Alice", team: "Red" },
+        { name: "Bob", team: "Blue" },
+        { name: "Bella", team: "Green" },
+        { name: "Cara", team: "Blue" },
+    ];
+    const cols: DataGridColumn[] = [
+        { id: "name", header: "Name" },
+        { id: "team", header: "Team" },
+    ];
+    const body = () => Array.from(document.querySelectorAll<HTMLElement>("tbody [data-row][data-col]"));
+    const active = () => document.querySelector<HTMLElement>('[data-row][data-col][tabindex="0"]')!;
+    const rowOf = (el: HTMLElement) => Number(el.dataset.row);
+    /** Put the cursor on the first body row (the grid starts on its header). */
+    const intoBody = async () => {
+        await fireEvent.keyDown(active(), { key: "ArrowDown" });
+        expect(rowOf(active())).toBe(0);
+    };
+
+    test("§8.107 typing a letter moves to the next row whose cell in this column starts with it", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "b" });
+        expect(rowOf(active())).toBe(1);
+        await new Promise((r) => setTimeout(r, 800));
+        await fireEvent.keyDown(active(), { key: "b" });
+        expect(rowOf(active())).toBe(2);
+    });
+
+    test("§8.108 it searches the column the cursor is in", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "ArrowRight" }); // the team column
+        await fireEvent.keyDown(active(), { key: "g" });
+        expect(rowOf(active())).toBe(2);
+        expect(Number(active().dataset.col)).toBe(1);
+    });
+
+    test("§8.109 a prefix in quick succession narrows: b, e → Bella", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "b" });
+        await fireEvent.keyDown(active(), { key: "e" });
+        expect(rowOf(active())).toBe(2);
+    });
+
+    test("§8.110 Ctrl and Alt keys and an unmatched prefix leave the cursor where it is", async () => {
+        render(DataGrid, { props: { label: "P", columns: cols, rows: people } });
+        await intoBody();
+        await fireEvent.keyDown(active(), { key: "b", ctrlKey: true });
+        await fireEvent.keyDown(active(), { key: "z" });
+        expect(rowOf(active())).toBe(0);
+    });
+});
+

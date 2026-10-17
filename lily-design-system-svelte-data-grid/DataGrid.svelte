@@ -2,6 +2,7 @@
     import type { Snippet } from "svelte";
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { foldText, searchTerms } from "./search-text";
+    import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import {
         isInvalidForType,
         linkParts,
@@ -1092,6 +1093,9 @@
         if (entry && column && isEditable(column)) startEdit(entry, column);
     }
 
+    const TYPEAHEAD_WINDOW_MS = 700;
+    let typeahead: TypeaheadState = { prefix: "", at: 0 };
+
     function onGridKeydown(event: KeyboardEvent): void {
         const target = event.target as HTMLElement;
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
@@ -1112,6 +1116,20 @@
                 const delta = event.key === "ArrowRight" ? 1 : -1;
                 if (moveColumn(column.id, activeCol - colOffset + delta)) moveFocus(-1, activeCol + delta);
                 return;
+            }
+        }
+        // Type-ahead in the focused column: letters typed in quick succession move to the next row whose cell text starts with them.
+        if (isTypeaheadKey(event) && target === cell && activeRow >= 0) {
+            const column = visibleColumns[activeCol - colOffset];
+            if (column) {
+                const state = nextTypeaheadState(typeahead, event.key, Date.now(), TYPEAHEAD_WINDOW_MS);
+                const hit = findTypeaheadMatch(pageEntries.map((entry) => formatCell(column, entry.row)), activeRow, state.prefix);
+                if (hit !== -1) {
+                    typeahead = state;
+                    event.preventDefault();
+                    moveFocus(hit, activeCol);
+                    return;
+                }
             }
         }
         switch (event.key) {
