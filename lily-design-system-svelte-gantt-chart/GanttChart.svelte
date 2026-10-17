@@ -168,6 +168,10 @@
         dependencyArrows?: boolean;
         /** Search, bindable: shows only the tasks whose text contains every word of it (any order, ignoring case and diacritics), plus their ancestors so the hierarchy stays readable; matches are wrapped in `<mark class="gantt-chart-match">`. While searching, collapsed parents show the matches under them. Escape in the field clears it. Needs `labels.search` for the field; the prop works without. */
         search?: string;
+        /** Hides tasks for which it returns false (a status, owner or date filter). Combines with `search`; like a search match, a passing task keeps its ancestors. */
+        filter?: (task: GanttTask) => boolean;
+        /** Orders tasks among their siblings (stable; the hierarchy itself is kept: a child stays under its parent). Without it tasks keep the order of `tasks`. Use it for "by start date", "by owner" and the like. */
+        compare?: (a: GanttTask, b: GanttTask) => number;
         /** The text `search` looks in. Defaults to the task's label and every field's text. */
         searchText?: (task: GanttTask) => string;
         /** Suppress editing, drag and the edit region; navigation and collapse still work. */
@@ -353,6 +357,8 @@
         weekends = undefined,
         search = $bindable(""),
         searchText = undefined,
+        filter = undefined,
+        compare = undefined,
         dependencyArrows = false,
         readonly = false,
         taskLabel = (task: GanttTask) => task.label,
@@ -389,9 +395,14 @@
 
     const columns = $derived(generateColumns(range, timeUnit));
     const searching = $derived(search.trim() !== "");
+    const narrowing = $derived(searching || !!filter);
     const defaultSearchText = (task: GanttTask): string => [taskLabel(task), ...resolvedFields.map((f) => fieldText(f, task))].join(" ");
     /** The tasks the search matches, found once per query / task change. */
-    const matchedIds = $derived(searching ? new Set(tasks.filter((t) => matchesSearch((searchText ?? defaultSearchText)(t), search)).map((t) => t.id)) : null);
+    const matchedIds = $derived(
+        narrowing
+            ? new Set(tasks.filter((t) => (!filter || filter(t)) && (!searching || matchesSearch((searchText ?? defaultSearchText)(t), search))).map((t) => t.id))
+            : null,
+    );
     /** Matches plus their ancestors, so a match is never shown without its context. */
     const shownIds = $derived.by(() => {
         if (!matchedIds) return null;
@@ -406,7 +417,8 @@
         return keep;
     });
     // Searching ignores collapse (a match under a collapsed parent must be findable); clearing the search restores it.
-    const rows = $derived(shownIds ? flattenTasks(tasks, new Set()).filter((r) => shownIds.has(r.task.id)) : flattenTasks(tasks, collapsed));
+    const orderedTasks = $derived(compare ? [...tasks].sort(compare) : tasks);
+    const rows = $derived(shownIds ? flattenTasks(orderedTasks, new Set()).filter((r) => shownIds.has(r.task.id)) : flattenTasks(orderedTasks, collapsed));
     let searchAnnounced = $state(false);
     $effect(() => {
         const query = search;
@@ -600,7 +612,7 @@
         }
     }
 
-    const exportRows = $derived(exportScope === "visible" ? rows.map((r) => r.task) : flattenTasks(tasks, new Set()).map((r) => r.task));
+    const exportRows = $derived(exportScope === "visible" ? rows.map((r) => r.task) : flattenTasks(orderedTasks, new Set()).map((r) => r.task));
     const hasExportButtons = $derived(!!labels.exportHeaders && !!(labels.exportCsv || labels.exportTsv || labels.exportExcel));
     const exportFieldList = $derived(exportableFields(resolvedFields));
 

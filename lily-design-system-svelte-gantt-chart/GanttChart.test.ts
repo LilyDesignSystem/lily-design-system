@@ -1179,3 +1179,56 @@ describe("search", () => {
     });
 });
 
+describe("filter", () => {
+    const ids = () => Array.from(document.querySelectorAll("tbody tr[data-task-id]")).map((r) => r.getAttribute("data-task-id"));
+
+    test("§18.11 filter hides the tasks it rejects, and a passing child keeps its parent", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, filter: (t: GanttTask) => t.id === "child2" } });
+        expect(ids()).toEqual(["parent", "child2"]);
+    });
+
+    test("§18.12 filter combines with search (both must pass)", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, filter: (t: GanttTask) => t.id !== "design", search: "d" } });
+        expect(ids()).not.toContain("design");
+        expect(ids()).toContain("build");
+    });
+
+    test("§18.13 filter sees typed values, so a status filter works", () => {
+        const tasks = TASKS.map((t) => ({ ...t, values: { status: t.id === "launch" ? "done" : "open" } }));
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks, labels: LABELS, filter: (t: GanttTask) => t.values?.status === "done" } });
+        expect(ids()).toEqual(["launch"]);
+    });
+
+    test("§18.14 no filter and no search shows every task as before", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS } });
+        expect(ids()).toHaveLength(TASKS.length);
+    });
+});
+
+describe("compare", () => {
+    const ids = () => Array.from(document.querySelectorAll("tbody tr[data-task-id]")).map((r) => r.getAttribute("data-task-id"));
+
+    test("§18.15 compare orders tasks among their siblings and keeps children under their parent", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, compare: (a: GanttTask, b: GanttTask) => b.label.localeCompare(a.label) } });
+        expect(ids()).toEqual(["parent", "child2", "child1", "launch", "design", "build"]);
+    });
+
+    test("§18.16 the sort is stable: equal tasks keep their input order", () => {
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: LABELS, compare: () => 0 } });
+        expect(ids()).toEqual(["design", "build", "launch", "parent", "child1", "child2"]);
+    });
+
+    test("§18.17 compare can use typed values", () => {
+        const tasks = TASKS.map((t, i) => ({ ...t, values: { rank: 10 - i } }));
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks, labels: LABELS, compare: (a: GanttTask, b: GanttTask) => Number(a.values?.rank) - Number(b.values?.rank) } });
+        expect(ids()[0]).toBe("parent");
+    });
+
+    test("§18.18 the visible export follows the order", async () => {
+        const onExport = vi.fn(() => false);
+        render(GanttChart, { props: { label: "Q4", range: RANGE, tasks: TASKS, labels: { ...LABELS, export: "Export", exportCsv: "CSV", exportHeaders: { task: "Task", start: "Start", end: "End" } }, exportScope: "visible", compare: (a: GanttTask, b: GanttTask) => b.label.localeCompare(a.label), onExport } });
+        await fireEvent.click(screen.getByText("CSV"));
+        expect(onExport).toHaveBeenCalled();
+    });
+});
+
