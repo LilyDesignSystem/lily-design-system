@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} ਦਾ ਮੁੱਲ ਗਲਤ ਹੈ",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} ਵਾਪਸ {text} ਕੀਤਾ ਗਿਆ",
-    "fieldRedoAnnouncement": "{card}: {field} ਦੁਬਾਰਾ {text} ਉੱਤੇ ਸੈੱਟ ਕੀਤਾ ਗਿਆ"
+    "fieldRedoAnnouncement": "{card}: {field} ਦੁਬਾਰਾ {text} ਉੱਤੇ ਸੈੱਟ ਕੀਤਾ ਗਿਆ",
+    "titleEditor": "ਸਿਰਲੇਖ ਸੰਪਾਦਿਤ ਕਰੋ: {title}",
+    "titleEditAnnouncement": "{previous} ਦਾ ਨਾਂ ਬਦਲ ਕੇ {title} ਕੀਤਾ ਗਿਆ"
   },
   "calendar": {
     "dayView": "ਦਿਨ",

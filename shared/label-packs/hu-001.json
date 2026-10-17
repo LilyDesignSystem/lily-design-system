@@ -91,7 +91,9 @@
     "editInvalid": "{card}: a(z) {field} értéke érvénytelen",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} visszaállítva erre: {text}",
-    "fieldRedoAnnouncement": "{card}: {field} újra beállítva erre: {text}"
+    "fieldRedoAnnouncement": "{card}: {field} újra beállítva erre: {text}",
+    "titleEditor": "Cím szerkesztése: {title}",
+    "titleEditAnnouncement": "{previous} átnevezve erre: {title}"
   },
   "calendar": {
     "dayView": "Nap",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: välja {field} väärtus ei kehti",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} taastatud: {text}",
-    "fieldRedoAnnouncement": "{card}: {field} määratud uuesti: {text}"
+    "fieldRedoAnnouncement": "{card}: {field} määratud uuesti: {text}",
+    "titleEditor": "Muuda pealkirja: {title}",
+    "titleEditAnnouncement": "{previous} nimetati ümber: {title}"
   },
   "calendar": {
     "dayView": "Päev",

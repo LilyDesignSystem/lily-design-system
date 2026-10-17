@@ -91,7 +91,9 @@
     "editInvalid": "{card}: wartość pola {field} jest nieprawidłowa",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: przywrócono {field}: {text}",
-    "fieldRedoAnnouncement": "{card}: ponownie ustawiono {field}: {text}"
+    "fieldRedoAnnouncement": "{card}: ponownie ustawiono {field}: {text}",
+    "titleEditor": "Edytuj tytuł: {title}",
+    "titleEditAnnouncement": "Zmieniono nazwę {previous} na {title}"
   },
   "calendar": {
     "dayView": "Dzień",

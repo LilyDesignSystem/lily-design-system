@@ -91,7 +91,9 @@
     "editInvalid": "{card}: nid yw gwerth {field} yn ddilys",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: adferwyd {field} i {text}",
-    "fieldRedoAnnouncement": "{card}: gosodwyd {field} eto i {text}"
+    "fieldRedoAnnouncement": "{card}: gosodwyd {field} eto i {text}",
+    "titleEditor": "Golygu'r teitl: {title}",
+    "titleEditAnnouncement": "Ailenwyd {previous} yn {title}"
   },
   "calendar": {
     "dayView": "Diwrnod",

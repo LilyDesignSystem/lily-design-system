@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} の値が無効です",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} を {text} に戻しました",
-    "fieldRedoAnnouncement": "{card}: {field} を再度 {text} に設定しました"
+    "fieldRedoAnnouncement": "{card}: {field} を再度 {text} に設定しました",
+    "titleEditor": "タイトルを編集: {title}",
+    "titleEditAnnouncement": "{previous} を {title} に名前変更しました"
   },
   "calendar": {
     "dayView": "日",

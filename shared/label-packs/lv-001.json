@@ -91,7 +91,9 @@
     "editInvalid": "{card}: lauka {field} vērtība nav derīga",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} atjaunots uz {text}",
-    "fieldRedoAnnouncement": "{card}: {field} atkal iestatīts uz {text}"
+    "fieldRedoAnnouncement": "{card}: {field} atkal iestatīts uz {text}",
+    "titleEditor": "Rediģēt nosaukumu: {title}",
+    "titleEditAnnouncement": "{previous} pārdēvēts par {title}"
   },
   "calendar": {
     "dayView": "Diena",

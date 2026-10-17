@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} का मान मान्य नहीं है",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} को वापस {text} किया गया",
-    "fieldRedoAnnouncement": "{card}: {field} को फिर से {text} पर सेट किया गया"
+    "fieldRedoAnnouncement": "{card}: {field} को फिर से {text} पर सेट किया गया",
+    "titleEditor": "शीर्षक संपादित करें: {title}",
+    "titleEditAnnouncement": "{previous} का नाम बदलकर {title} किया गया"
   },
   "calendar": {
     "dayView": "दिन",

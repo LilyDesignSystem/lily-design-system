@@ -91,7 +91,9 @@
     "editInvalid": "{card}: ƙimar {field} ba ta da inganci",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: an dawo da {field} zuwa {text}",
-    "fieldRedoAnnouncement": "{card}: an sake saita {field} zuwa {text}"
+    "fieldRedoAnnouncement": "{card}: an sake saita {field} zuwa {text}",
+    "titleEditor": "Gyara take: {title}",
+    "titleEditAnnouncement": "An sauya sunan {previous} zuwa {title}"
   },
   "calendar": {
     "dayView": "Rana",

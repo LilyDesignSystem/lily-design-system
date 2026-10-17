@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field}의 값이 올바르지 않습니다",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field}을(를) {text}(으)로 되돌렸습니다",
-    "fieldRedoAnnouncement": "{card}: {field}을(를) 다시 {text}(으)로 설정했습니다"
+    "fieldRedoAnnouncement": "{card}: {field}을(를) 다시 {text}(으)로 설정했습니다",
+    "titleEditor": "제목 편집: {title}",
+    "titleEditAnnouncement": "{previous}의 이름을 {title}(으)로 바꿨습니다"
   },
   "calendar": {
     "dayView": "일",

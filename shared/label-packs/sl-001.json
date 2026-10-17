@@ -91,7 +91,9 @@
     "editInvalid": "{card}: vrednost polja {field} ni veljavna",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} obnovljeno na {text}",
-    "fieldRedoAnnouncement": "{card}: {field} ponovno nastavljeno na {text}"
+    "fieldRedoAnnouncement": "{card}: {field} ponovno nastavljeno na {text}",
+    "titleEditor": "Uredi naslov: {title}",
+    "titleEditAnnouncement": "{previous} preimenovano v {title}"
   },
   "calendar": {
     "dayView": "Dan",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: værdien for {field} er ugyldig",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} gendannet til {text}",
-    "fieldRedoAnnouncement": "{card}: {field} sat til {text} igen"
+    "fieldRedoAnnouncement": "{card}: {field} sat til {text} igen",
+    "titleEditor": "Rediger titel: {title}",
+    "titleEditAnnouncement": "{previous} omdøbt til {title}"
   },
   "calendar": {
     "dayView": "Dag",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: värdet för {field} är ogiltigt",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} återställd till {text}",
-    "fieldRedoAnnouncement": "{card}: {field} satt till {text} igen"
+    "fieldRedoAnnouncement": "{card}: {field} satt till {text} igen",
+    "titleEditor": "Redigera rubrik: {title}",
+    "titleEditAnnouncement": "{previous} bytte namn till {title}"
   },
   "calendar": {
     "dayView": "Dag",

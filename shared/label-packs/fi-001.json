@@ -91,7 +91,9 @@
     "editInvalid": "{card}: kentän {field} arvo ei kelpaa",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} palautettu arvoon {text}",
-    "fieldRedoAnnouncement": "{card}: {field} asetettu uudelleen arvoon {text}"
+    "fieldRedoAnnouncement": "{card}: {field} asetettu uudelleen arvoon {text}",
+    "titleEditor": "Muokkaa otsikkoa: {title}",
+    "titleEditAnnouncement": "{previous} nimetty uudelleen: {title}"
   },
   "calendar": {
     "dayView": "Päivä",

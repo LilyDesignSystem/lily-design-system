@@ -91,7 +91,9 @@
     "editInvalid": "{card}: η τιμή του πεδίου {field} δεν είναι έγκυρη",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: το πεδίο {field} επανήλθε σε {text}",
-    "fieldRedoAnnouncement": "{card}: το πεδίο {field} ορίστηκε ξανά σε {text}"
+    "fieldRedoAnnouncement": "{card}: το πεδίο {field} ορίστηκε ξανά σε {text}",
+    "titleEditor": "Επεξεργασία τίτλου: {title}",
+    "titleEditAnnouncement": "{previous} μετονομάστηκε σε {title}"
   },
   "calendar": {
     "dayView": "Ημέρα",

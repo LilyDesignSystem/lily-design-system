@@ -91,7 +91,9 @@
     "editInvalid": "{card}: giá trị của {field} không hợp lệ",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: đã khôi phục {field} về {text}",
-    "fieldRedoAnnouncement": "{card}: đã đặt lại {field} thành {text}"
+    "fieldRedoAnnouncement": "{card}: đã đặt lại {field} thành {text}",
+    "titleEditor": "Sửa tiêu đề: {title}",
+    "titleEditAnnouncement": "Đã đổi tên {previous} thành {title}"
   },
   "calendar": {
     "dayView": "Ngày",

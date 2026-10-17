@@ -91,7 +91,9 @@
     "editInvalid": "{card}: níl luach {field} bailí",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: athchóiríodh {field} go {text}",
-    "fieldRedoAnnouncement": "{card}: socraíodh {field} arís go {text}"
+    "fieldRedoAnnouncement": "{card}: socraíodh {field} arís go {text}",
+    "titleEditor": "Cuir an teideal in eagar: {title}",
+    "titleEditAnnouncement": "Athainmníodh {previous} mar {title}"
   },
   "calendar": {
     "dayView": "Lá",

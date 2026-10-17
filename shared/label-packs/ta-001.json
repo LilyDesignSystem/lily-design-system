@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} க்கான மதிப்பு செல்லாதது",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} மீண்டும் {text} ஆக மாற்றப்பட்டது",
-    "fieldRedoAnnouncement": "{card}: {field} மீண்டும் {text} ஆக அமைக்கப்பட்டது"
+    "fieldRedoAnnouncement": "{card}: {field} மீண்டும் {text} ஆக அமைக்கப்பட்டது",
+    "titleEditor": "தலைப்பைத் திருத்து: {title}",
+    "titleEditAnnouncement": "{previous} பெயர் {title} என மாற்றப்பட்டது"
   },
   "calendar": {
     "dayView": "நாள்",

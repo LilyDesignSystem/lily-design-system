@@ -91,7 +91,9 @@
     "editInvalid": "{card}：{field}的值无效",
     "editRefused": "{card}：{field}：{message}",
     "fieldUndoAnnouncement": "{card}：{field}已恢复为 {text}",
-    "fieldRedoAnnouncement": "{card}：{field}已重新设置为 {text}"
+    "fieldRedoAnnouncement": "{card}：{field}已重新设置为 {text}",
+    "titleEditor": "编辑标题：{title}",
+    "titleEditAnnouncement": "已将 {previous} 重命名为 {title}"
   },
   "calendar": {
     "dayView": "日",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field}-এর মান বৈধ নয়",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} আগের মান {text}-এ ফিরিয়ে আনা হয়েছে",
-    "fieldRedoAnnouncement": "{card}: {field} আবার {text}-এ সেট করা হয়েছে"
+    "fieldRedoAnnouncement": "{card}: {field} আবার {text}-এ সেট করা হয়েছে",
+    "titleEditor": "শিরোনাম সম্পাদনা করুন: {title}",
+    "titleEditAnnouncement": "{previous}-এর নাম বদলে {title} করা হয়েছে"
   },
   "calendar": {
     "dayView": "দিন",

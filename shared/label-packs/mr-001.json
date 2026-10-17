@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} चे मूल्य अवैध आहे",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} पुन्हा {text} केले",
-    "fieldRedoAnnouncement": "{card}: {field} पुन्हा {text} वर सेट केले"
+    "fieldRedoAnnouncement": "{card}: {field} पुन्हा {text} वर सेट केले",
+    "titleEditor": "शीर्षक संपादित करा: {title}",
+    "titleEditAnnouncement": "{previous} चे नाव बदलून {title} केले"
   },
   "calendar": {
     "dayView": "दिवस",

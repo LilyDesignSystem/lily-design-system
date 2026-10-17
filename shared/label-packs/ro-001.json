@@ -91,7 +91,9 @@
     "editInvalid": "{card}: valoarea pentru {field} nu este validă",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} a fost restabilit la {text}",
-    "fieldRedoAnnouncement": "{card}: {field} a fost setat din nou la {text}"
+    "fieldRedoAnnouncement": "{card}: {field} a fost setat din nou la {text}",
+    "titleEditor": "Editează titlul: {title}",
+    "titleEditAnnouncement": "{previous} a fost redenumit în {title}"
   },
   "calendar": {
     "dayView": "Zi",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: lauko {field} reikšmė negalioja",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} atkurta į {text}",
-    "fieldRedoAnnouncement": "{card}: {field} vėl nustatyta į {text}"
+    "fieldRedoAnnouncement": "{card}: {field} vėl nustatyta į {text}",
+    "titleEditor": "Redaguoti pavadinimą: {title}",
+    "titleEditAnnouncement": "{previous} pervadinta į {title}"
   },
   "calendar": {
     "dayView": "Diena",

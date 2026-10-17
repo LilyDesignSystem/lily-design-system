@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} eremuaren balioa ez da baliozkoa",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} lehengoratu da: {text}",
-    "fieldRedoAnnouncement": "{card}: {field} berriro ezarri da: {text}"
+    "fieldRedoAnnouncement": "{card}: {field} berriro ezarri da: {text}",
+    "titleEditor": "Editatu izenburua: {title}",
+    "titleEditAnnouncement": "{previous} berrizendatu da: {title}"
   },
   "calendar": {
     "dayView": "Eguna",

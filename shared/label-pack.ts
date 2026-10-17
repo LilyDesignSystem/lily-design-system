@@ -69,6 +69,8 @@ export const SPEC: Record<LabelHelper, Record<string, string[]>> = {
     "kanban-board": {
         cardCount: ["count"],
         overLimit: ["count", "limit"],
+        titleEditor: ["title"],
+        titleEditAnnouncement: ["previous", "title"],
         moveButton: ["card=card.title"],
         moveAnnouncement: ["card", "column"],
         moveBlocked: ["card", "column"],

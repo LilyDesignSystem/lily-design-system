@@ -91,7 +91,9 @@
     "editInvalid": "{card}: hodnota poľa {field} nie je platná",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} obnovené na {text}",
-    "fieldRedoAnnouncement": "{card}: {field} znova nastavené na {text}"
+    "fieldRedoAnnouncement": "{card}: {field} znova nastavené na {text}",
+    "titleEditor": "Upraviť názov: {title}",
+    "titleEditAnnouncement": "{previous} premenované na {title}"
   },
   "calendar": {
     "dayView": "Deň",

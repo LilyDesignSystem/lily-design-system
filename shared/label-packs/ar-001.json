@@ -91,7 +91,9 @@
     "editInvalid": "{card}: قيمة {field} غير صالحة",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: أُعيد {field} إلى {text}",
-    "fieldRedoAnnouncement": "{card}: عُيّن {field} مرة أخرى إلى {text}"
+    "fieldRedoAnnouncement": "{card}: عُيّن {field} مرة أخرى إلى {text}",
+    "titleEditor": "تعديل العنوان: {title}",
+    "titleEditAnnouncement": "تمت إعادة تسمية {previous} إلى {title}"
   },
   "calendar": {
     "dayView": "يوم",

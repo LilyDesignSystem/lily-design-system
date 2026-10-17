@@ -91,7 +91,9 @@
     "editInvalid": "{card}: de waarde voor {field} is ongeldig",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} hersteld naar {text}",
-    "fieldRedoAnnouncement": "{card}: {field} opnieuw ingesteld op {text}"
+    "fieldRedoAnnouncement": "{card}: {field} opnieuw ingesteld op {text}",
+    "titleEditor": "Titel bewerken: {title}",
+    "titleEditAnnouncement": "{previous} hernoemd naar {title}"
   },
   "calendar": {
     "dayView": "Dag",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} için değer geçerli değil",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} değeri {text} olarak geri yüklendi",
-    "fieldRedoAnnouncement": "{card}: {field} değeri yeniden {text} olarak ayarlandı"
+    "fieldRedoAnnouncement": "{card}: {field} değeri yeniden {text} olarak ayarlandı",
+    "titleEditor": "Başlığı düzenle: {title}",
+    "titleEditAnnouncement": "{previous} adı {title} olarak değiştirildi"
   },
   "calendar": {
     "dayView": "Gün",

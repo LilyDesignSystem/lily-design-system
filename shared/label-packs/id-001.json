@@ -91,7 +91,9 @@
     "editInvalid": "{card}: nilai {field} tidak valid",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} dikembalikan ke {text}",
-    "fieldRedoAnnouncement": "{card}: {field} diatur kembali ke {text}"
+    "fieldRedoAnnouncement": "{card}: {field} diatur kembali ke {text}",
+    "titleEditor": "Edit judul: {title}",
+    "titleEditAnnouncement": "{previous} diganti namanya menjadi {title}"
   },
   "calendar": {
     "dayView": "Hari",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} के मान सही नइखे",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} फेर से {text} कइल गइल",
-    "fieldRedoAnnouncement": "{card}: {field} फेर से {text} पर रखल गइल"
+    "fieldRedoAnnouncement": "{card}: {field} फेर से {text} पर रखल गइल",
+    "titleEditor": "शीर्षक बदलीं: {title}",
+    "titleEditAnnouncement": "{previous} के नाम बदल के {title} कइल गइल"
   },
   "calendar": {
     "dayView": "दिन",

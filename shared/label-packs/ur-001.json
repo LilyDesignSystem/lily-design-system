@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} کی قدر درست نہیں",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} واپس {text} کر دیا گیا",
-    "fieldRedoAnnouncement": "{card}: {field} دوبارہ {text} پر سیٹ کیا گیا"
+    "fieldRedoAnnouncement": "{card}: {field} دوبارہ {text} پر سیٹ کیا گیا",
+    "titleEditor": "عنوان میں ترمیم کریں: {title}",
+    "titleEditAnnouncement": "{previous} کا نام بدل کر {title} رکھا گیا"
   },
   "calendar": {
     "dayView": "دن",

@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} નું મૂલ્ય અમાન્ય છે",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} પાછું {text} કર્યું",
-    "fieldRedoAnnouncement": "{card}: {field} ફરીથી {text} પર સેટ કર્યું"
+    "fieldRedoAnnouncement": "{card}: {field} ફરીથી {text} પર સેટ કર્યું",
+    "titleEditor": "શીર્ષક સંપાદિત કરો: {title}",
+    "titleEditAnnouncement": "{previous} નું નામ બદલીને {title} કર્યું"
   },
   "calendar": {
     "dayView": "દિવસ",

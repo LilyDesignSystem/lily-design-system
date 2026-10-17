@@ -91,7 +91,9 @@
     "editInvalid": "{card}: {field} విలువ చెల్లదు",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} తిరిగి {text} గా మార్చబడింది",
-    "fieldRedoAnnouncement": "{card}: {field} మళ్లీ {text} గా సెట్ చేయబడింది"
+    "fieldRedoAnnouncement": "{card}: {field} మళ్లీ {text} గా సెట్ చేయబడింది",
+    "titleEditor": "శీర్షికను సవరించండి: {title}",
+    "titleEditAnnouncement": "{previous} పేరు {title} గా మార్చబడింది"
   },
   "calendar": {
     "dayView": "రోజు",

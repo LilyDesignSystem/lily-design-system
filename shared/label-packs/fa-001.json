@@ -91,7 +91,9 @@
     "editInvalid": "{card}: مقدار {field} معتبر نیست",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} به {text} بازگردانده شد",
-    "fieldRedoAnnouncement": "{card}: {field} دوباره روی {text} تنظیم شد"
+    "fieldRedoAnnouncement": "{card}: {field} دوباره روی {text} تنظیم شد",
+    "titleEditor": "ویرایش عنوان: {title}",
+    "titleEditAnnouncement": "نام {previous} به {title} تغییر کرد"
   },
   "calendar": {
     "dayView": "روز",

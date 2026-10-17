@@ -91,7 +91,9 @@
     "editInvalid": "{card}: недопустимое значение поля «{field}»",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: поле «{field}» восстановлено: {text}",
-    "fieldRedoAnnouncement": "{card}: поле «{field}» снова установлено: {text}"
+    "fieldRedoAnnouncement": "{card}: поле «{field}» снова установлено: {text}",
+    "titleEditor": "Изменить заголовок: {title}",
+    "titleEditAnnouncement": "{previous} переименовано в {title}"
   },
   "calendar": {
     "dayView": "День",

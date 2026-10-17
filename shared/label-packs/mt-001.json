@@ -91,7 +91,9 @@
     "editInvalid": "{card}: il-valur ta' {field} mhuwiex validu",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} reġa' ġie ripristinat għal {text}",
-    "fieldRedoAnnouncement": "{card}: {field} reġa' ġie ssettjat għal {text}"
+    "fieldRedoAnnouncement": "{card}: {field} reġa' ġie ssettjat għal {text}",
+    "titleEditor": "Editja t-titolu: {title}",
+    "titleEditAnnouncement": "{previous} ġie rinominat bħala {title}"
   },
   "calendar": {
     "dayView": "Jum",

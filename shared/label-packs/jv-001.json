@@ -91,7 +91,9 @@
     "editInvalid": "{card}: nilai {field} ora bener",
     "editRefused": "{card}: {field}: {message}",
     "fieldUndoAnnouncement": "{card}: {field} dibalekake dadi {text}",
-    "fieldRedoAnnouncement": "{card}: {field} disetel maneh dadi {text}"
+    "fieldRedoAnnouncement": "{card}: {field} disetel maneh dadi {text}",
+    "titleEditor": "Sunting irah-irahan: {title}",
+    "titleEditAnnouncement": "{previous} diganti jenenge dadi {title}"
   },
   "calendar": {
     "dayView": "Dina",
