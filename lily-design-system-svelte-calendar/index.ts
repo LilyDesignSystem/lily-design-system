@@ -27,3 +27,5 @@ export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from ".
 export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
 export type { SearchSegment } from "./search-text";
 export { copyToClipboard, toClipboardText } from "./export-data";
+export { EMPTY_HISTORY, HISTORY_LIMIT, historyKey, recordEdit, redoEdit, undoEdit } from "./edit-history";
+export type { EditHistory, EditRecord } from "./edit-history";

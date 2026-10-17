@@ -21,6 +21,7 @@
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { civilDateToDate } from "./cell-types";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import {
         draftOf as fieldDraft,
         evaluateEdit,
@@ -127,6 +128,12 @@
         editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
         /** Announced when an edit is refused as invalid for the field's type: (event title, field header). */
         editInvalid?: (eventTitle: string, fieldHeader: string) => string;
+        /** Announced when a field's `validate` refuses a value: (event title, field header, the reason). Falls back to `editInvalid`. */
+        editRefused?: (eventTitle: string, fieldHeader: string, message: string) => string;
+        /** Announced after Ctrl/Cmd+Z puts an earlier value back: (event title, field header, the restored text). */
+        undoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
+        /** Announced after Ctrl/Cmd+Shift+Z (or Ctrl+Y) re-applies an edit: (event title, field header, the text). */
+        redoAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string;
         /** Accessible name of the search field. Gates the field. */
         search?: string;
         /** Announced after the search changes: (matching events, all events). */
@@ -484,7 +491,9 @@
     const eventTitle = (calendarEvent: CalendarEvent): string => (typeof calendarEvent.title === "string" ? calendarEvent.title : calendarEvent.id);
 
     /** The field being edited, if any: the draft is the editor's text. */
-    let editing = $state<{ eventId: string; fieldId: string; draft: Draft } | null>(null);
+    let editing = $state<{ eventId: string; fieldId: string; draft: Draft; invalid?: boolean } | null>(null);
+    /** Accepted field edits, for Ctrl/Cmd+Z. The consumer owns the data, so an undo is reported through `onFieldEdit` like any edit. */
+    let history: EditHistory = EMPTY_HISTORY;
     let committing = false;
 
     async function startFieldEdit(calendarEvent: CalendarEvent, f: ResolvedField): Promise<void> {
@@ -508,13 +517,15 @@
         }
         const outcome = evaluateEdit(f, calendarEvent.values, draft);
         if (outcome.invalid) {
-            const message = labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
+            editing.invalid = true;
+            const message = (outcome.message ? labels?.editRefused?.(eventTitle(calendarEvent), f.header, outcome.message) : undefined) ?? labels?.editInvalid?.(eventTitle(calendarEvent), f.header);
             if (message) statusMessage = message;
             return false;
         }
         committing = true;
         editing = null;
         if (outcome.changed) {
+            history = recordEdit(history, { ownerId: eventId, fieldId, value: outcome.value, previous: outcome.previous });
             onFieldEdit?.({ eventId, fieldId, value: outcome.value, previous: outcome.previous });
             const message = labels?.editAnnouncement?.(eventTitle(calendarEvent), f.header, outcome.text);
             if (message) statusMessage = message;
@@ -522,6 +533,32 @@
         committing = false;
         if (refocus) void focusFieldButton(eventId, fieldId);
         return true;
+    }
+
+    /** Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (Ctrl+Y): put an earlier value back, or re-apply it, through `onFieldEdit`. */
+    function stepHistory(direction: "undo" | "redo"): void {
+        const step = direction === "undo" ? undoEdit(history) : redoEdit(history);
+        if (!step.record) return;
+        history = step.history;
+        const { ownerId, fieldId, value, previous } = step.record;
+        const restored = direction === "undo" ? previous : value;
+        const replaced = direction === "undo" ? value : previous;
+        onFieldEdit?.({ eventId: ownerId, fieldId, value: restored, previous: replaced });
+        const calendarEvent = eventById.get(ownerId);
+        const f = resolvedFields.find((x) => x.id === fieldId);
+        if (!calendarEvent || !f) return;
+        const text = restored === null || restored === undefined ? "" : f.format ? f.format(restored, { ...(calendarEvent.values ?? {}), [fieldId]: restored }) : String(restored);
+        const message = (direction === "undo" ? labels?.undoAnnouncement : labels?.redoAnnouncement)?.(eventTitle(calendarEvent), f.header, text);
+        if (message) statusMessage = message;
+    }
+
+    /** Undo / redo from anywhere in the calendar except inside a field editor (which keeps the browser's own undo). */
+    function onRootKeydown(event: KeyboardEvent): void {
+        if (!onFieldEdit || (event.target as HTMLElement).closest(".calendar-view-field-editor, input, select, textarea")) return;
+        const action = historyKey(event);
+        if (!action) return;
+        event.preventDefault();
+        stepHistory(action);
     }
 
     function cancelFieldEdit(): void {
@@ -838,7 +875,7 @@
 </script>
 
 <!-- CalendarView.svelte -->
-<div bind:this={rootEl} class={`calendar-view ${className}`.trim()} {...restProps}>
+<div bind:this={rootEl} class={`calendar-view ${className}`.trim()} onkeydown={onRootKeydown} {...restProps}>
     {#if labels?.periodTitle || labels?.dayView || labels?.weekView || labels?.fourWeekView || labels?.monthView || labels?.agendaView}
         <div class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
@@ -982,7 +1019,7 @@
                                                     <span class="calendar-view-event-field" data-field={f.id} data-editing="">
                                                         <span class="calendar-view-event-field-name" id={nameId}>{f.header}</span>
                                                         {#if editorKind(f) === "select" || editorKind(f) === "radio"}
-                                                            <select class="calendar-view-field-editor" aria-label={f.editLabel ?? f.header} bind:value={editing.draft} onkeydown={onFieldEditorKeydown} onchange={() => commitFieldEdit()} onblur={() => commitFieldEdit(false)}>
+                                                            <select class="calendar-view-field-editor" aria-label={f.editLabel ?? f.header} aria-invalid={editing.invalid ? "true" : undefined} oninput={() => { if (editing) editing.invalid = false; }} bind:value={editing.draft} onkeydown={onFieldEditorKeydown} onchange={() => commitFieldEdit()} onblur={() => commitFieldEdit(false)}>
                                                                 <option value=""></option>
                                                                 {#each (f.options ?? []) as option (option.id)}
                                                                     <option value={option.id} disabled={option.disabled}>{option.label}</option>
@@ -992,6 +1029,8 @@
                                                             <input
                                                                 class="calendar-view-field-editor"
                                                                 aria-label={f.editLabel ?? f.header}
+                                                                aria-invalid={editing.invalid ? "true" : undefined}
+                                                                oninput={() => { if (editing) editing.invalid = false; }}
                                                                 type={editorKind(f) === "number" ? "number" : editorKind(f) === "date" ? "date" : editorKind(f) === "time" ? "time" : "text"}
                                                                 inputmode={editorKind(f) === "number" ? "decimal" : undefined}
                                                                 bind:value={editing.draft}

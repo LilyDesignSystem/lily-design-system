@@ -1157,3 +1157,110 @@ describe("CalendarView — copy to clipboard (§8.112–§8.114)", () => {
         vi.unstubAllGlobals();
     });
 });
+
+describe("CalendarView — in-place edit: validate, undo, redo (§8.115–§8.122)", () => {
+    const EVS: CalendarEvent[] = [{ id: "e1", date: "2026-01-06", title: "Standup", values: { cost: 3 } }];
+    const FIELD = { id: "cost", header: "Cost", type: "number" as const, validate: (v: unknown) => (typeof v === "number" && v < 0 ? "Must not be negative" : undefined) };
+    const L: CalendarViewLabels = {
+        ...LABELS,
+        editAnnouncement: (t, h, text) => `${t} ${h} is ${text}`,
+        editInvalid: (t, h) => `${t}: bad ${h}`,
+        editRefused: (t, h, m) => `${t} ${h}: ${m}`,
+        undoAnnouncement: (t, h, text) => `Undid ${t} ${h}: ${text}`,
+        redoAnnouncement: (t, h, text) => `Redid ${t} ${h}: ${text}`,
+    };
+    const base = { label: "Cal", view: "agenda" as const, anchorDate: "2026-01-15", events: EVS, eventFields: [FIELD], labels: L };
+    const status = () => document.querySelector(".calendar-view-status")?.textContent;
+    const fieldButton = () => document.querySelector<HTMLElement>(".calendar-view-field-button")!;
+    const root = () => document.querySelector<HTMLElement>(".calendar-view")!;
+
+    async function edit(value: string): Promise<HTMLInputElement> {
+        await fireEvent.click(fieldButton());
+        const input = document.querySelector<HTMLInputElement>(".calendar-view-field-editor")!;
+        await fireEvent.input(input, { target: { value } });
+        await fireEvent.keyDown(input, { key: "Enter" });
+        return input;
+    }
+
+    test("§8.115 a value validate refuses keeps the editor open, aria-invalid, and announces the reason", async () => {
+        const onFieldEdit = vi.fn();
+        render(CalendarView, { props: { ...base, onFieldEdit } });
+        await edit("-4");
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        expect(document.querySelector(".calendar-view-field-editor")?.getAttribute("aria-invalid")).toBe("true");
+        expect(status()).toBe("Standup Cost: Must not be negative");
+    });
+
+    test("§8.116 typing again clears aria-invalid, and an acceptable value then commits", async () => {
+        const onFieldEdit = vi.fn();
+        render(CalendarView, { props: { ...base, onFieldEdit } });
+        const input = await edit("-4");
+        await fireEvent.input(input, { target: { value: "5" } });
+        expect(input.getAttribute("aria-invalid")).toBeNull();
+        await fireEvent.keyDown(input, { key: "Enter" });
+        expect(onFieldEdit).toHaveBeenCalledWith({ eventId: "e1", fieldId: "cost", value: 5, previous: 3 });
+    });
+
+    test("§8.117 Ctrl+Z reports the earlier value through onFieldEdit and announces it", async () => {
+        const onFieldEdit = vi.fn();
+        render(CalendarView, { props: { ...base, onFieldEdit } });
+        await edit("8");
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 3, previous: 8 });
+        expect(status()).toBe("Undid Standup Cost: 3");
+    });
+
+    test("§8.118 Ctrl+Shift+Z and Ctrl+Y redo", async () => {
+        const onFieldEdit = vi.fn();
+        render(CalendarView, { props: { ...base, onFieldEdit } });
+        await edit("8");
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true, shiftKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 8, previous: 3 });
+        expect(status()).toBe("Redid Standup Cost: 8");
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        await fireEvent.keyDown(root(), { key: "y", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 8, previous: 3 });
+    });
+
+    test("§8.119 undo walks back through several edits, newest first", async () => {
+        const onFieldEdit = vi.fn();
+        render(CalendarView, { props: { ...base, onFieldEdit } });
+        await edit("5");
+        await edit("9");
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 3, previous: 9 });
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).toHaveBeenLastCalledWith({ eventId: "e1", fieldId: "cost", value: 3, previous: 5 });
+    });
+
+    test("§8.120 with nothing to undo Ctrl+Z does nothing, and a new edit ends the redo chain", async () => {
+        const onFieldEdit = vi.fn();
+        render(CalendarView, { props: { ...base, onFieldEdit } });
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+        await edit("5");
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        await edit("7");
+        onFieldEdit.mockClear();
+        await fireEvent.keyDown(root(), { key: "y", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+
+    test("§8.121 Ctrl+Z inside a field editor is left to the browser", async () => {
+        const onFieldEdit = vi.fn();
+        render(CalendarView, { props: { ...base, onFieldEdit } });
+        await edit("8");
+        onFieldEdit.mockClear();
+        await fireEvent.click(fieldButton());
+        await fireEvent.keyDown(document.querySelector(".calendar-view-field-editor")!, { key: "z", ctrlKey: true });
+        expect(onFieldEdit).not.toHaveBeenCalled();
+    });
+
+    test("§8.122 without onFieldEdit, Ctrl+Z does nothing", async () => {
+        render(CalendarView, { props: base });
+        await fireEvent.keyDown(root(), { key: "z", ctrlKey: true });
+        expect(status()).toBe("");
+    });
+});
+
