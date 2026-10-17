@@ -72,7 +72,7 @@ out, so the control stays unnamed (and says so in development) rather than showi
 | `vi-001` | Vietnamese | no |
 | `zh-001` | Chinese | no |
 
-**Every pack except English is an unreviewed machine draft** (46 of them), including Welsh, whose strings no Welsh speaker has checked. A `"reviewed": false` pack should be read by a native speaker
+**Every pack except English is an unreviewed machine draft** (45 of them), including Welsh, whose strings no Welsh speaker has checked. A `"reviewed": false` pack should be read by a native speaker
 before it ships in a product; flip the flag only when one has. Bhojpuri has no ISO 639-1 code (`bh` is deprecated; the language is
 `bho`), so `bh-001` follows the requested tag. Terminology is a first pass, and screen-reader wording in particular deserves
 review.
