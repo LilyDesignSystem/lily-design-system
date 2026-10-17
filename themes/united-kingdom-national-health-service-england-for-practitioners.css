@@ -1369,6 +1369,20 @@
         min-width: 14rem;
     }
 
+    /* Dragging a card: the column it would land in is outlined; one that refuses it
+       (canMove, allowedColumns, a full strict WIP limit) is striped and shows the
+       not-allowed cursor, so "you can't drop here" is visible before the drop. */
+    :where(.kanban-table-td[data-drop-target]) {
+        outline: 2px dashed var(--color-accent);
+        outline-offset: -3px;
+    }
+    :where(.kanban-table-td[data-drop-blocked]) {
+        outline: 2px solid var(--color-error);
+        outline-offset: -3px;
+        cursor: not-allowed;
+        background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--color-error) 18%, transparent) 6px 8px);
+    }
+
     /* --- Gantt specifics ---------------------------------------------------- */
     /* Cells marked as bars are filled with the primary colour to render the
        schedule bar inline within the grid. */

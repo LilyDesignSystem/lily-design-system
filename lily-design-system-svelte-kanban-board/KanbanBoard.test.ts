@@ -1508,3 +1508,169 @@ describe("KanbanBoard — in-place edit: validate, undo, redo (§8.128–§8.136
     });
 });
 
+describe("KanbanBoard — live drop cue, right-to-left keys, no English left over (§8.137–§8.148)", () => {
+    const cols: KanbanColumn[] = [
+        { id: "todo", title: "To Do" },
+        { id: "doing", title: "Doing" },
+        { id: "done", title: "Done" },
+    ];
+    const cards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "One" },
+        { id: "c2", columnId: "todo", title: "Two" },
+    ];
+    const base = { label: "Board", columns: cols, cards };
+    const cell = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+    const active = () => document.querySelector<HTMLElement>('[data-row][data-col][tabindex="0"]')!;
+    const dt = () => ({ setData: vi.fn(), getData: () => "", dropEffect: "" });
+    const start = async (el: HTMLElement, transfer = dt()) => fireEvent.dragStart(el.querySelector(".kanban-board-card-title")!, { dataTransfer: transfer });
+
+    test("§8.137 over a column that accepts the card, the cell is a drop target and the drag effect is move", async () => {
+        render(KanbanBoard, { props: base });
+        await start(cell(0, 0));
+        const over = dt();
+        await fireEvent.dragOver(cell(0, 1), { dataTransfer: over });
+        expect(cell(0, 1).hasAttribute("data-drop-target")).toBe(true);
+        expect(cell(0, 1).hasAttribute("data-drop-blocked")).toBe(false);
+        expect(over.dropEffect).toBe("move");
+    });
+
+    test("§8.138 over a column canMove refuses, the cell is data-drop-blocked, not a drop target, and the effect is none", async () => {
+        render(KanbanBoard, { props: { ...base, canMove: (_c: KanbanCard, to: KanbanColumn) => to.id !== "done" } });
+        await start(cell(0, 0));
+        const over = dt();
+        await fireEvent.dragOver(cell(0, 2), { dataTransfer: over });
+        expect(cell(0, 2).hasAttribute("data-drop-blocked")).toBe(true);
+        expect(cell(0, 2).hasAttribute("data-drop-target")).toBe(false);
+        expect(over.dropEffect).toBe("none");
+    });
+
+    test("§8.139 the dragover of a refused drop is not cancelled, so the browser shows its not-allowed cursor", async () => {
+        render(KanbanBoard, { props: { ...base, canMove: () => false } });
+        await start(cell(0, 0));
+        const event = new Event("dragover", { bubbles: true, cancelable: true });
+        Object.defineProperty(event, "dataTransfer", { value: dt() });
+        cell(0, 1).dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+    });
+
+    test("§8.139b the dragover of an accepted drop is cancelled, which is what allows the drop", async () => {
+        render(KanbanBoard, { props: base });
+        await start(cell(0, 0));
+        const event = new Event("dragover", { bubbles: true, cancelable: true });
+        Object.defineProperty(event, "dataTransfer", { value: dt() });
+        cell(0, 1).dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(true);
+    });
+
+    test("§8.140 the cue follows the pointer: moving to an allowed column clears the blocked cue", async () => {
+        render(KanbanBoard, { props: { ...base, canMove: (_c: KanbanCard, to: KanbanColumn) => to.id === "doing" } });
+        await start(cell(0, 0));
+        await fireEvent.dragOver(cell(0, 2), { dataTransfer: dt() });
+        expect(cell(0, 2).hasAttribute("data-drop-blocked")).toBe(true);
+        await fireEvent.dragLeave(cell(0, 2));
+        await fireEvent.dragOver(cell(0, 1), { dataTransfer: dt() });
+        expect(cell(0, 2).hasAttribute("data-drop-blocked")).toBe(false);
+        expect(cell(0, 1).hasAttribute("data-drop-target")).toBe(true);
+    });
+
+    test("§8.141 a strict WIP limit that is full also blocks, and dropping on a blocked column moves nothing", async () => {
+        const onMove = vi.fn();
+        const limited: KanbanColumn[] = [cols[0], { id: "doing", title: "Doing", wipLimit: 0, strictLimit: true }, cols[2]];
+        render(KanbanBoard, { props: { ...base, columns: limited, onMove } });
+        await start(cell(0, 0));
+        await fireEvent.dragOver(cell(0, 1), { dataTransfer: dt() });
+        expect(cell(0, 1).hasAttribute("data-drop-blocked")).toBe(true);
+        await fireEvent.drop(cell(0, 1), { dataTransfer: dt() });
+        expect(onMove).not.toHaveBeenCalled();
+        expect(cell(0, 1).hasAttribute("data-drop-blocked")).toBe(false);
+    });
+
+    test("§8.142 ending the drag clears every cue", async () => {
+        render(KanbanBoard, { props: { ...base, canMove: () => false } });
+        await start(cell(0, 0));
+        await fireEvent.dragOver(cell(0, 1), { dataTransfer: dt() });
+        await fireEvent.dragEnd(cell(0, 0).querySelector(".kanban-board-card-title")!);
+        expect(document.querySelector("[data-drop-blocked], [data-drop-target]")).toBeNull();
+    });
+
+    test("§8.143 left to right: ArrowRight goes to the next column, ArrowLeft back", async () => {
+        render(KanbanBoard, { props: base });
+        await fireEvent.keyDown(active(), { key: "ArrowRight" });
+        expect(Number(active().dataset.col)).toBe(1);
+        await fireEvent.keyDown(active(), { key: "ArrowLeft" });
+        expect(Number(active().dataset.col)).toBe(0);
+    });
+
+    test("§8.144 right to left: ArrowLeft goes to the next column, ArrowRight back", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            render(KanbanBoard, { props: base });
+            await fireEvent.keyDown(active(), { key: "ArrowLeft" });
+            expect(Number(active().dataset.col)).toBe(1);
+            await fireEvent.keyDown(active(), { key: "ArrowRight" });
+            expect(Number(active().dataset.col)).toBe(0);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.145 right to left: Alt+ArrowLeft moves the card to the column that is visually on its left, the next one", async () => {
+        document.body.setAttribute("dir", "rtl");
+        try {
+            const onMove = vi.fn();
+            render(KanbanBoard, { props: { ...base, onMove } });
+            await fireEvent.keyDown(cell(0, 0), { key: "ArrowLeft", altKey: true });
+            expect(onMove.mock.calls[0].slice(0, 2)).toEqual(["c1", "doing"]);
+        } finally {
+            document.body.removeAttribute("dir");
+        }
+    });
+
+    test("§8.146 vertical keys and Home/End are the same in both directions", async () => {
+        for (const dir of ["ltr", "rtl"]) {
+            document.body.innerHTML = "";
+            document.body.setAttribute("dir", dir);
+            render(KanbanBoard, { props: base });
+            await fireEvent.keyDown(active(), { key: "ArrowDown" });
+            expect(Number(active().dataset.row)).toBe(1);
+            await fireEvent.keyDown(active(), { key: "Home" });
+            expect(Number(active().dataset.row)).toBe(0);
+        }
+        document.body.removeAttribute("dir");
+    });
+
+    // A complete Simplified Chinese bundle; the data is Chinese too, so any English in the DOM is Lily's.
+    const ZH: KanbanLabels = {
+        cardCount: (n) => `${n} 张卡片`, overLimit: (n, l) => `超出上限：${n}/${l}`, moveButton: (c) => `移动${c.title}`, moveMenuLabel: "移动到列",
+        moveAnnouncement: (t, c) => `${t}已移到${c}`, moveBlocked: (t, c) => `${t}不能移到${c}`, emptyColumn: () => "此列没有卡片",
+        search: "搜索卡片", searchAnnouncement: (m, t) => `${t} 张卡片中有 ${m} 张匹配`, export: "导出", exportCsv: "CSV", copy: "复制",
+        exportHeaders: { title: "标题", column: "列" }, copyAnnouncement: (n) => `已复制 ${n} 张卡片`, copyFailed: "复制失败",
+        collapseColumn: (c, collapsed) => `${collapsed ? "展开" : "折叠"}${c.title}`, addCard: (c) => `向${c.title}添加卡片`,
+    };
+
+    function readable(root: Element): string[] {
+        const out: string[] = [];
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) out.push(n.textContent ?? "");
+        for (const el of root.querySelectorAll("*")) for (const a of ["aria-label", "title", "placeholder", "alt"]) if (el.hasAttribute(a)) out.push(el.getAttribute(a)!);
+        return out.map((t) => t.trim()).filter(Boolean);
+    }
+    const english = (texts: string[]) => texts.filter((t) => !["CSV", "TSV", "Excel"].includes(t) && /[A-Za-z]{3,}/.test(t));
+
+    test("§8.147 with a full Chinese bundle the board reads as Chinese only", () => {
+        const zhCols: KanbanColumn[] = [{ id: "todo", title: "待办", wipLimit: 1 }, { id: "doing", title: "进行中" }, { id: "done", title: "已完成" }];
+        const zhCards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "写文档" }, { id: "c2", columnId: "todo", title: "做评审" }];
+        const { container } = render(KanbanBoard, { props: { label: "看板", columns: zhCols, cards: zhCards, labels: ZH } });
+        expect(english(readable(container))).toEqual([]);
+    });
+
+    test("§8.148 the announcements are the bundle's, so none is English", async () => {
+        const zhCols: KanbanColumn[] = [{ id: "todo", title: "待办" }, { id: "doing", title: "进行中" }];
+        const zhCards: KanbanCard[] = [{ id: "c1", columnId: "todo", title: "写文档" }];
+        render(KanbanBoard, { props: { label: "看板", columns: zhCols, cards: zhCards, labels: ZH, onMove: () => {} } });
+        await fireEvent.input(screen.getByRole("searchbox", { name: "搜索卡片" }), { target: { value: "写" } });
+        await new Promise((r) => setTimeout(r, 0));
+        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("1 张卡片中有 1 张匹配");
+    });
+});
+

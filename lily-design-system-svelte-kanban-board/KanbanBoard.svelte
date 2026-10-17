@@ -11,6 +11,7 @@
     } from "@lilydesignsystem/svelte-headless";
     import { copyToClipboard, downloadBlob, exportBlob, exportFilename, toClipboardText, type ExportFormat } from "./export-data";
     import { highlightSegments, matchesSearch } from "./search-text";
+    import { isRtl, logicalKey } from "./direction";
     import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
     import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
     import {
@@ -872,10 +873,22 @@
     /** The cell a dragged card is over, for `data-drop-target` styling. */
     let dropTarget = $state<string | null>(null);
 
-    function onColumnDragOver(event: DragEvent, rowIndex: number, colIndex: number): void {
+    /** Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue. */
+    let dropBlocked = $state(false);
+
+    function onColumnDragOver(event: DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
         if (!draggingCardId || readonly) return;
-        event.preventDefault();
+        const card = cards.find((c) => c.id === draggingCardId);
+        const blocked = !!card && isRefused(card, column, Math.max(0, draggingGroup.length - 1));
+        dropBlocked = blocked;
         dropTarget = `${rowIndex}-${colIndex}`;
+        // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
+        if (blocked) {
+            if (event.dataTransfer) event.dataTransfer.dropEffect = "none";
+            return;
+        }
+        event.preventDefault();
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
     }
 
     function onColumnDrop(column: KanbanColumn, rowIndex: number, event: DragEvent): void {
@@ -884,6 +897,7 @@
         draggingCardId = null;
         draggingGroup = [];
         dropTarget = null;
+        dropBlocked = false;
         if (readonly) return;
         const card = cards.find((c) => c.id === cardId);
         if (!card) return;
@@ -912,6 +926,7 @@
     function onCardDragEnd(): void {
         draggingGroup = [];
         dropTarget = null;
+        dropBlocked = false;
     }
 
     // ---- Column reordering ----
@@ -987,6 +1002,8 @@
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         const ctrlOrMeta = event.ctrlKey || event.metaKey;
+        // The horizontal arrows are visual: in a right-to-left layout the next column is on the left, so ArrowLeft goes forward.
+        const key = logicalKey(event.key, isRtl(cell));
         // Ctrl/Cmd+Z undoes the last move while there is one (`undoable`), then the last field edit; Ctrl/Cmd+Shift+Z and Ctrl+Y redo field edits.
         const historyAction = onFieldEdit && !readonly ? historyKey(event) : null;
         if (undoable && ctrlOrMeta && !event.altKey && !event.shiftKey && (event.key === "z" || event.key === "Z") && undoStack.length > 0) {
@@ -1004,22 +1021,22 @@
             void undo();
             return;
         }
-        if (movableColumns && event.altKey && event.shiftKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+        if (movableColumns && event.altKey && event.shiftKey && (key === "ArrowLeft" || key === "ArrowRight")) {
             // Alt+Shift+ArrowLeft/Right: move this cell's column (the keyboard twin of dragging its header).
             event.preventDefault();
             const column = columns[activeCol];
-            const to = activeCol + (event.key === "ArrowLeft" ? -1 : 1);
+            const to = activeCol + (key === "ArrowLeft" ? -1 : 1);
             if (column && moveColumnTo(column.id, to)) {
                 focusedCol = to;
                 void focusActiveCell();
             }
             return;
         }
-        if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+        if (event.altKey && (key === "ArrowLeft" || key === "ArrowRight")) {
             // Alt+ArrowLeft/Right: move the card to the neighbouring column (the keyboard twin of dragging it there).
             event.preventDefault();
             const card = cardAt(activeCol, activeRow);
-            const destination = columns[activeCol + (event.key === "ArrowLeft" ? -1 : 1)];
+            const destination = columns[activeCol + (key === "ArrowLeft" ? -1 : 1)];
             if (card && destination) moveCard(card, destination);
             return;
         }
@@ -1067,7 +1084,7 @@
             }
             return;
         }
-        switch (event.key) {
+        switch (key) {
             case "PageUp":
             case "PageDown": {
                 event.preventDefault();
@@ -1250,9 +1267,13 @@
                             data-collapsed={isCollapsed(column.id) ? "" : undefined}
                             active={activeRow === rowIndex && activeCol === colIndex}
                             label={card ? cardLabel(card) : undefined}
-                            data-drop-target={dropTarget === `${rowIndex}-${colIndex}` ? "" : undefined}
-                            ondragover={(e: DragEvent) => onColumnDragOver(e, rowIndex, colIndex)}
-                            ondragleave={() => (dropTarget = null)}
+                            data-drop-target={dropTarget === `${rowIndex}-${colIndex}` && !dropBlocked ? "" : undefined}
+                            data-drop-blocked={dropTarget === `${rowIndex}-${colIndex}` && dropBlocked ? "" : undefined}
+                            ondragover={(e: DragEvent) => onColumnDragOver(e, column, rowIndex, colIndex)}
+                            ondragleave={() => {
+                                dropTarget = null;
+                                dropBlocked = false;
+                            }}
                             ondrop={(e: DragEvent) => onColumnDrop(column, rowIndex, e)}
                         >
                             {#if card}
