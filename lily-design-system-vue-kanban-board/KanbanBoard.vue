@@ -1,4 +1,19 @@
 <script lang="ts">
+import type { ExportFormat } from "./export-data";
+import type { FieldDef } from "./typed-fields";
+
+/**
+ * A typed field a card carries (an owner, a due date, an estimate): a bundle of display, sort and export defaults from
+ * the data grid's cell types, read from `card.values[id]`. Plain data; the board shows it as text.
+ */
+export type KanbanField = FieldDef;
+
+/** What `exportHandler` and the `export-file` event receive. Return `false` from `exportHandler` to take over the download. */
+export type KanbanExport = { format: ExportFormat; filename: string; cardCount: number; blob: Blob };
+
+/** What the `field-edit` event carries. */
+export type KanbanFieldEdit = { cardId: string; fieldId: string; value: unknown; previous: unknown };
+
 /**
  * Column definition. Card order within a column follows the order
  * cards appear in the `cards` prop array.
@@ -48,6 +63,8 @@ export type KanbanCard = {
     href?: string;
     /** `false` stops pointer dragging this card while keeping the move menu and keyboard moves. */
     draggable?: boolean;
+    /** Values of the board's `fields`, by field id. */
+    values?: Record<string, unknown>;
 };
 
 /** What the `card` slot receives. */
@@ -62,6 +79,20 @@ export type KanbanColumnContext = { column: KanbanColumn; cards: KanbanCard[]; c
  * label-presence-gates-control convention. See spec/index.md §5.
  */
 export type KanbanLabels = {
+    /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
+    export?: string;
+    /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
+    exportCsv?: string;
+    exportTsv?: string;
+    exportExcel?: string;
+    /** Announced after an export: (format, how many cards, file name). */
+    exportAnnouncement?: (format: ExportFormat, cardCount: number, filename: string) => string;
+    /** Headers of the export's own columns (card title, column, lane, subtitle, badges, flag). An export needs `exportHeaders`; there is no English default. */
+    exportHeaders?: { title: string; column: string; lane?: string; subtitle?: string; badges?: string; flag?: string };
+    /** Announced after a field edit: (card title, field header, the new text). */
+    editAnnouncement?: (cardTitle: string, fieldHeader: string, text: string) => string;
+    /** Announced when an edit is refused as invalid for the field's type: (card title, field header). */
+    editInvalid?: (cardTitle: string, fieldHeader: string) => string;
     cardCount?: (count: number) => string;
     overLimit?: (count: number, limit: number) => string;
     moveButton?: (card: KanbanCard) => string;
@@ -103,6 +134,16 @@ export type KanbanLabels = {
 export type Props = {
     /** Accessible name for the board, passed through to KanbanTable. */
     label: string;
+    /** Typed fields shown under each card's title, read from `card.values`. Editable types edit in place (click the value, or F2 on the card for the first editable field; Tab moves to the next) when a `field-edit` listener is attached. */
+    fields?: KanbanField[];
+    /** Locale for number and date fields. Never defaulted. */
+    locale?: string;
+    /** The file name without its extension. Default `"kanban-board"`. */
+    exportFilename?: string;
+    /** What an export holds: `"view"` (default) is every card the search and filter leave, column by column; `"selected"` is only the selected cards. */
+    exportScope?: "view" | "selected";
+    /** Called before the download with the finished file. Return `false` to skip the built-in download. */
+    exportHandler?: (file: KanbanExport) => boolean | void;
     /** Optional visible caption, passed through to KanbanTable. */
     caption?: string;
     /** Column definitions. */
@@ -164,7 +205,21 @@ export function nextKanbanBoardId(): string {
 </script>
 
 <script setup lang="ts">
-import { computed, nextTick, ref } from "vue";
+import { computed, getCurrentInstance, nextTick, ref } from "vue";
+import { downloadBlob, exportBlob, exportFilename } from "./export-data";
+import {
+    draftOf,
+    editorKind,
+    evaluateEdit,
+    exportFieldCell,
+    exportableFields,
+    fieldText as fieldTextOf,
+    isEditableField,
+    neighbourField,
+    resolveFields,
+    type Draft,
+    type ResolvedField,
+} from "./typed-fields";
 import {
     IconButton,
     KanbanTable,
@@ -194,6 +249,11 @@ const props = withDefaults(defineProps<Props>(), {
     canMove: undefined,
     collapsedColumns: undefined,
     readonly: false,
+    fields: undefined,
+    locale: undefined,
+    exportFilename: "kanban-board",
+    exportScope: "view",
+    exportHandler: undefined,
     labels: () => ({}),
     class: "",
 });
@@ -220,7 +280,14 @@ const emit = defineEmits<{
     (event: "add-card", columnId: string): void;
     /** Alt+ArrowUp/Down moved a card within its column; `toIndex` is 0-based. The consumer reorders `cards`. */
     (event: "reorder", cardId: string, toIndex: number): void;
+    /** An accepted field edit. The consumer updates `cards`. A field is editable only when a listener is attached (and the board is not `readonly`). */
+    (event: "field-edit", edit: KanbanFieldEdit): void;
+    /** An export file, before it is saved. */
+    (event: "export-file", file: KanbanExport): void;
 }>();
+
+// The listener's presence decides whether fields are editable, so it is read from the vnode.
+const hasFieldEdit = !!(getCurrentInstance()?.vnode.props as Record<string, unknown> | null)?.onFieldEdit;
 
 defineSlots<{
     card?: (ctx: KanbanCardContext) => unknown;
@@ -376,7 +443,15 @@ function cellsForRow(rowIndex: number) {
 // ---- Windowing (virtualize) ----
 const scrollTop = ref(0);
 const scrollEl = ref<HTMLDivElement | null>(null);
-const slotIndexOfRow = (rowIndex: number) => slots.value.findIndex((x) => x.kind === "row" && x.rowIndex === rowIndex);
+// Row index → slot index, built once per change so a row does not scan `slots` to find itself.
+const slotIndexByRow = computed(() => {
+    const map = new Map<number, number>();
+    slots.value.forEach((x, i) => {
+        if (x.kind === "row") map.set(x.rowIndex, i);
+    });
+    return map;
+});
+const slotIndexOfRow = (rowIndex: number) => slotIndexByRow.value.get(rowIndex) ?? -1;
 type RenderItem = { kind: "spacer"; height: number; key: string } | { kind: "slot"; slot: Slot; key: string };
 /** Every card in a lane (the search/filter view still applies). */
 const laneCardCount = (laneId: string) => {
@@ -438,6 +513,127 @@ function resolveCardLabel(card: KanbanCard): string {
 
 function announce(message: string | undefined): void {
     if (message) statusMessage.value = message;
+}
+
+// ---------------------------------------------------------------
+// Typed fields, inline editing, export
+// ---------------------------------------------------------------
+
+// Type defaults (format, compare, export value) resolved once per `fields` / `locale` change, never per card or keystroke.
+const resolvedFields = computed(() => resolveFields(props.fields, props.locale));
+const isFieldEditable = (f: KanbanField, card: KanbanCard) => hasFieldEdit && !props.readonly && !card.locked && isEditableField(f);
+const fieldText = (f: ResolvedField, card: KanbanCard): string => fieldTextOf(f, card.values);
+
+/** The field being edited, if any: the draft is the editor's text. */
+const editing = ref<{ cardId: string; fieldId: string; draft: Draft } | null>(null);
+
+async function startFieldEdit(card: KanbanCard, f: ResolvedField): Promise<void> {
+    if (!isFieldEditable(f, card)) return;
+    openCardId.value = null;
+    moveActiveIndex.value = -1;
+    editing.value = { cardId: card.id, fieldId: f.id, draft: draftOf(f, card.values) };
+    await nextTick();
+    const editor = rootEl.value?.querySelector<HTMLInputElement>(".kanban-board-field-editor");
+    editor?.focus({ preventScroll: true });
+    if (editor && "select" in editor && editor.type !== "number" && editor.type !== "date" && editor.type !== "time") editor.select();
+}
+
+/** Accept the edit, or refuse it (keeping the editor open) when the value does not fit the field's type. Returns whether it was accepted or unchanged. */
+function commitFieldEdit(refocus = true): boolean {
+    const current = editing.value;
+    if (!current) return true;
+    const { cardId, fieldId, draft } = current;
+    const card = effectiveCards.value.find((c) => c.id === cardId);
+    const f = resolvedFields.value.find((x) => x.id === fieldId);
+    if (!card || !f) {
+        editing.value = null;
+        return true;
+    }
+    const outcome = evaluateEdit(f, card.values, draft);
+    if (outcome.invalid) {
+        announce(props.labels?.editInvalid?.(resolveCardLabel(card), f.header));
+        return false;
+    }
+    editing.value = null;
+    if (outcome.changed) {
+        emit("field-edit", { cardId, fieldId, value: outcome.value, previous: outcome.previous });
+        announce(props.labels?.editAnnouncement?.(resolveCardLabel(card), f.header, outcome.text));
+    }
+    if (refocus) void focusCard(cardId);
+    return true;
+}
+
+function cancelFieldEdit(): void {
+    const current = editing.value;
+    if (!current) return;
+    editing.value = null;
+    void focusCard(current.cardId);
+}
+
+function onEditorKeydown(event: KeyboardEvent): void {
+    // The editor owns its keys. While an IME composes, Enter and Escape belong to the IME: some browsers
+    // report the confirming Enter with `isComposing` already false but keyCode 229.
+    event.stopPropagation();
+    if (event.isComposing || event.keyCode === 229) return;
+    if (event.key === "Enter") {
+        event.preventDefault();
+        commitFieldEdit();
+    } else if (event.key === "Escape") {
+        event.preventDefault();
+        cancelFieldEdit();
+    } else if (event.key === "Tab" && editing.value) {
+        // Tab commits and moves to the card's next (Shift+Tab: previous) editable field; past the last, it moves on.
+        const current = editing.value;
+        const card = effectiveCards.value.find((c) => c.id === current.cardId);
+        const next = card ? neighbourField(resolvedFields.value.filter((x) => isFieldEditable(x, card)), current.fieldId, event.shiftKey) : undefined;
+        if (card && next) {
+            event.preventDefault();
+            if (commitFieldEdit(false)) void startFieldEdit(card, next);
+        } else {
+            commitFieldEdit(false);
+        }
+    }
+}
+
+const editorValue = (draft: Draft): string => String(draft ?? "");
+
+const exportCards = computed(() => {
+    const out: KanbanCard[] = [];
+    for (const column of orderedColumns.value) {
+        for (const card of shownByColumn.value.get(column.id) ?? []) if (props.exportScope !== "selected" || isSelected(card.id)) out.push(card);
+    }
+    return out;
+});
+const hasExportButtons = computed(() => !!props.labels?.exportHeaders && !!(props.labels.exportCsv || props.labels.exportTsv || props.labels.exportExcel));
+
+function runExport(format: ExportFormat): void {
+    const h = props.labels?.exportHeaders;
+    if (!h) return;
+    const exportFields = exportableFields(resolvedFields.value);
+    const headers = [h.title, h.column];
+    if (hasLanes.value && h.lane) headers.push(h.lane);
+    if (h.subtitle) headers.push(h.subtitle);
+    if (h.badges) headers.push(h.badges);
+    if (h.flag) headers.push(h.flag);
+    for (const f of exportFields) headers.push(f.header);
+    const columnTitle = new Map(props.columns.map((c) => [c.id, c.title]));
+    const laneTitle = new Map((props.lanes ?? []).map((l) => [l.id, l.title]));
+    const rows = exportCards.value.map((card) => {
+        const cells: unknown[] = [resolveCardLabel(card), columnTitle.get(card.columnId) ?? card.columnId];
+        if (hasLanes.value && h.lane) cells.push(laneTitle.get(laneOf(card)) ?? "");
+        if (h.subtitle) cells.push(card.subtitle ?? null);
+        if (h.badges) cells.push((card.badges ?? []).join("; "));
+        if (h.flag) cells.push(card.flag ?? null);
+        for (const f of exportFields) cells.push(exportFieldCell(f, card.values));
+        return cells;
+    });
+    const filename = exportFilename(props.exportFilename, format);
+    const blob = exportBlob({ headers, rows }, format, { sheetName: props.exportFilename });
+    const file: KanbanExport = { format, filename, cardCount: rows.length, blob };
+    emit("export-file", file);
+    if (props.exportHandler?.(file) === false) return;
+    downloadBlob(blob, filename);
+    announce(props.labels?.exportAnnouncement?.(format, rows.length, filename));
 }
 
 // ---------------------------------------------------------------
@@ -504,7 +700,8 @@ async function runMove(card: KanbanCard, toColumn: KanbanColumn, toIndex?: numbe
 }
 
 // ---- Selection: several cards move together ----
-const isSelected = (cardId: string) => selectedModel.value.includes(cardId);
+const selectedSet = computed(() => new Set(selectedModel.value));
+const isSelected = (cardId: string) => selectedSet.value.has(cardId);
 function toggleSelected(cardId: string): void {
     selectedModel.value = isSelected(cardId)
         ? selectedModel.value.filter((id) => id !== cardId)
@@ -769,6 +966,7 @@ function onGridKeydown(event: KeyboardEvent): void {
     // The open move menu owns its own keys; letting them bubble here moved the
     // grid cursor (and focus) out of the menu, and Enter reopened it after a move.
     if (target.closest(".kanban-board-move-list")) return;
+    if (target.closest(".kanban-board-field-editor")) return;
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
@@ -799,6 +997,16 @@ function onGridKeydown(event: KeyboardEvent): void {
     if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
         event.preventDefault();
         reorderCard(event.key === "ArrowUp" ? -1 : 1);
+        return;
+    }
+    if (event.key === "F2" && hasFieldEdit) {
+        // F2: edit the card's first editable field (the keyboard twin of clicking its value).
+        const card = cardAt(activeCol.value, activeRow.value);
+        const first = card ? resolvedFields.value.find((f) => isFieldEditable(f, card)) : undefined;
+        if (card && first) {
+            event.preventDefault();
+            void startFieldEdit(card, first);
+        }
         return;
     }
     if (props.selectable && !ctrlOrMeta && !event.altKey && (event.key === "x" || event.key === "X")) {
@@ -850,6 +1058,11 @@ function onGridKeydown(event: KeyboardEvent): void {
 <template>
     <div ref="rootEl" :class="`kanban-board ${props.class ?? ''}`.trim()" :data-readonly="readonly ? '' : undefined">
         <input v-if="labels?.search" v-model="search" type="search" class="kanban-board-search" :aria-label="labels.search" />
+        <div v-if="hasExportButtons" class="kanban-board-export" role="group" :aria-label="labels?.export">
+            <button v-if="labels?.exportCsv" type="button" class="kanban-board-export-button" data-kanban-export-format="csv" :disabled="exportCards.length === 0" @click="runExport('csv')">{{ labels.exportCsv }}</button>
+            <button v-if="labels?.exportTsv" type="button" class="kanban-board-export-button" data-kanban-export-format="tsv" :disabled="exportCards.length === 0" @click="runExport('tsv')">{{ labels.exportTsv }}</button>
+            <button v-if="labels?.exportExcel" type="button" class="kanban-board-export-button" data-kanban-export-format="xlsx" :disabled="exportCards.length === 0" @click="runExport('xlsx')">{{ labels.exportExcel }}</button>
+        </div>
         <button v-if="undoable && labels?.undo && !readonly" type="button" class="kanban-board-undo-button" :disabled="undoStack.length === 0" @click="undo">{{ labels.undo }}</button>
         <!-- The scroll area is structural: a virtualized board renders only the rows in view inside it. -->
         <div
@@ -1000,6 +1213,59 @@ function onGridKeydown(event: KeyboardEvent): void {
                                     <span v-for="badge in cell.card!.badges" :key="badge" class="kanban-board-card-badge">{{ badge }}</span>
                                 </span>
                             </template>
+                            <span v-if="!$slots.card && resolvedFields.length > 0" class="kanban-board-card-fields">
+                                <template v-for="f in resolvedFields" :key="f.id">
+                                    <span
+                                        v-if="editing && editing.cardId === cell.card!.id && editing.fieldId === f.id"
+                                        class="kanban-board-card-field"
+                                        :data-field="f.id"
+                                        data-editing=""
+                                    >
+                                        <span class="kanban-board-card-field-name" :id="`${baseId}-fn-${cell.card!.id}-${f.id}`">{{ f.header }}</span>{{ " " }}
+                                        <select
+                                            v-if="editorKind(f) === 'select' || editorKind(f) === 'radio'"
+                                            class="kanban-board-field-editor"
+                                            :aria-label="f.editLabel ?? f.header"
+                                            :value="editorValue(editing.draft)"
+                                            @change="(e) => { editing!.draft = (e.target as HTMLSelectElement).value; commitFieldEdit(); }"
+                                            @keydown="onEditorKeydown"
+                                            @blur="commitFieldEdit(false)"
+                                        >
+                                            <option value=""></option>
+                                            <option v-for="option in f.options ?? []" :key="option.id" :value="option.id" :disabled="option.disabled">{{ option.label }}</option>
+                                        </select>
+                                        <input
+                                            v-else
+                                            class="kanban-board-field-editor"
+                                            :aria-label="f.editLabel ?? f.header"
+                                            :type="editorKind(f) === 'number' ? 'number' : editorKind(f) === 'date' ? 'date' : editorKind(f) === 'time' ? 'time' : 'text'"
+                                            :inputmode="editorKind(f) === 'number' ? 'decimal' : undefined"
+                                            :value="editorValue(editing.draft)"
+                                            @input="(e) => { editing!.draft = (e.target as HTMLInputElement).value; }"
+                                            @keydown="onEditorKeydown"
+                                            @blur="commitFieldEdit(false)"
+                                        />
+                                    </span>
+                                    <span
+                                        v-else-if="fieldText(f, cell.card!) !== '' || isFieldEditable(f, cell.card!)"
+                                        class="kanban-board-card-field"
+                                        :data-field="f.id"
+                                        :data-type="f.type ?? 'text'"
+                                    >
+                                        <span class="kanban-board-card-field-name" :id="`${baseId}-fn-${cell.card!.id}-${f.id}`">{{ f.header }}</span>{{ " " }}
+                                        <button
+                                            v-if="isFieldEditable(f, cell.card!)"
+                                            type="button"
+                                            class="kanban-board-field-button"
+                                            :id="`${baseId}-fv-${cell.card!.id}-${f.id}`"
+                                            tabindex="-1"
+                                            :aria-labelledby="`${baseId}-fn-${cell.card!.id}-${f.id} ${baseId}-fv-${cell.card!.id}-${f.id}`"
+                                            @click="startFieldEdit(cell.card!, f)"
+                                        >{{ fieldText(f, cell.card!) }}</button>
+                                        <span v-else class="kanban-board-card-field-value">{{ fieldText(f, cell.card!) }}</span>
+                                    </span>
+                                </template>
+                            </span>
                             <span v-if="cell.card!.flag" class="kanban-board-card-flag" :id="`${baseId}-flag-${cell.card!.id}`">{{ cell.card!.flag }}</span>
                             <!-- Gated on labels.moveButton: an unnamed button is worse than
                                  none, and Enter/Space on the cell opens the menu either way. -->
