@@ -60,6 +60,8 @@ research behind the three view periods and the keyboard model.
 
 ## Props
 
+**Rescheduling needs a focusable event element.** `eventProps(event)` makes an event draggable and carries `data-event-id`, but adds no `tabindex`: Alt+arrow only fires when focus is on (or inside) an element with `data-event-id`, so give that element `tabindex="0"` (or render a `<button>`) in your `day` snippet.
+
 See [spec/index.md §5](./spec/index.md#5-props) for the full table.
 Required: `label`, `view`, `anchorDate`. Every optional `labels.*`
 field gates the control it names — the toolbar itself renders only
@@ -123,9 +125,7 @@ The shown period is announced (`labels.periodAnnouncement`) whenever it changes,
 
 ## Non-goals (v1)
 
-Event creation/editing UI, drag-to-reschedule, day view, agenda/list
-view, recurring-event expansion, timezone conversion, virtualization,
-multi-calendar/resource views, print/export. See
+Event creation UI, recurring-event expansion, timezone conversion, virtualization, multi-calendar/resource views, print layout. (In-place field editing, drag and Alt+arrow rescheduling, the day and agenda views, and copy export, once listed here, have shipped.) See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out.
 
 ---

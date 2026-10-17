@@ -223,9 +223,7 @@ open listbox). State changes are announced through one live region.
 
 ## 9. Non-goals
 
-Drag-preview/ghost-element rendering, virtualization, undo/redo,
-column reordering, swimlanes, card selection/bulk-move, search/filter,
-collapsible columns. See §2 and
+Drag-preview/ghost-element rendering. (Virtualization, swimlanes, selection and bulk-move, column reordering, collapsible columns, search, and undo/redo, once listed here, shipped.) See §2 and
 [spec/helpers/index.md § kanban-board contract](../../spec/helpers/index.md)
 for the reasoning behind each.
 

@@ -260,8 +260,7 @@ its own grid.
 
 ## 9. Non-goals
 
-Critical-path calculation, interactive zoom-level
-switching, calendar-derived holiday shading, resource/assignee columns. (Dependency arrows, virtualization and weekend shading, once listed here, shipped: §16, §17.) See §2
+Critical-path calculation, calendar-derived holiday shading, resource/assignee columns. (Dependency arrows, virtualization and weekend shading, once listed here, shipped: §16, §17.) See §2
 and [spec/helpers/index.md § gantt-chart contract](../../spec/helpers/index.md)
 for the reasoning behind each — in particular, the dependency-arrow
 non-goal is backed by two commercial libraries' own accessibility

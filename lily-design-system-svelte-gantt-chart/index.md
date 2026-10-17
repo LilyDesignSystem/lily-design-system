@@ -129,8 +129,7 @@ requires it too.
 
 ## Non-goals (v1)
 
-Critical-path calculation, interactive zoom-level
-switching, holiday shading from a calendar (`isNonWorking` marks them; `weekends` marks weekdays), resource/assignee columns. See
+Critical-path calculation (`critical` is supplied by the consumer; Lily computes nothing), holiday shading from a calendar (`isNonWorking` marks them; `weekends` marks weekdays), resource/assignee columns. See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out.
 
 ---

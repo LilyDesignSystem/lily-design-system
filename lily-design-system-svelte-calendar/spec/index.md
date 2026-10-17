@@ -249,9 +249,9 @@ Each clause below gets one or more tests in `CalendarView.test.ts`.
 
 - **Event creation/editing UI** — a viewing helper; a consumer wires
   its own form/dialog to `onDayClick`/`onEventClick`.
-- **Drag-to-reschedule events** — real interaction ownership, the same
-  objection class `gantt-chart` raises against dependency-arrow
-  rendering.
+- **Drag-to-reschedule events** — shipped since: `onEventMove` with
+  `eventProps` (drag) and Alt+arrow (keyboard). The event element must
+  be focusable for Alt+arrow to reach it (§5).
 - **Day view and agenda/list view** — shipped since (day view and the
   agenda in §15).
 - **Recurring-event expansion** — a consumer data-layer concern.

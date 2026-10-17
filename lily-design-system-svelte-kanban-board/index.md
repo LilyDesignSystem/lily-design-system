@@ -106,9 +106,7 @@ doesn't render (no baked-in English fallback).
 
 ## Non-goals (v1)
 
-Drag-preview/ghost-element rendering, virtualization, undo/redo,
-column reordering, swimlanes, card selection/bulk-move, search/filter,
-collapsible columns. See
+Drag-preview/ghost-element rendering (the drop cue is shown; the browser draws the drag image). Virtualization, swimlanes, selection and bulk-move, column reordering, collapsible columns, search, undo and redo, once listed here, have shipped. See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out.
 
 ---

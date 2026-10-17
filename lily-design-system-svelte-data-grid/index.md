@@ -154,9 +154,7 @@ doesn't render (no baked-in English fallback).
 
 ## Non-goals (v1)
 
-Virtualization/windowing, inline cell editing, column reorder, column
-pinning, row grouping/aggregation, server-side sort/filter/pagination,
-CSV export, drag-to-reorder rows. See
+Row grouping, server-side sort/filter/pagination, drag-to-reorder rows. (Virtualization, in-place editing, column reorder, pinning, aggregates and copy export, once listed here, have shipped.) See
 [spec/index.md §9](./spec/index.md#9-non-goals) for why each is out —
 mostly because it requires real layout/scroll ownership that conflicts
 with this package staying headless.
