@@ -364,3 +364,11 @@ Tests §8.83–§8.92. Shared across the data grid, kanban board, Gantt chart an
 - **Words**: a query is split on whitespace; every word must appear (AND), in any order, ignoring case and diacritics ("cafe" finds "Café"). A blank query matches everything.
 - **In the calendar**: `search` (bindable; `labels.search` names the field) narrows the events. New: the calendar had no search. Only matching events show, in every view (week, four-week, month, agenda); the default text is the event title and every field's text (`searchText` replaces it). The agenda wraps matches in `<mark class="calendar-view-match">`; `labels.searchAnnouncement(matches, total)` is announced; Escape clears. Exports hold what the search leaves.
 - Highlighting uses `<mark>` only while a search is active and works on the original text (never the folded one); where folding would change a string's length it marks nothing rather than the wrong span.
+
+## 18. Period announcements and navigation limits (0.6.0, 2026-10-17)
+
+Tests §8.93–§8.104.
+
+- **Announcing the period**: whenever the shown period changes — Previous, Next, Today, a view switch, a keyboard move across the edge, or the consumer setting `anchorDate` or `view` — `labels.periodAnnouncement(view, start, end)` is written to the polite `.calendar-view-status` region. One effect watches `view | periodStart | periodEnd`, so no path can forget to announce, and the first render says nothing. (Before, only the buttons and keyboard paths announced; a prop-driven change was silent.)
+- **`minDate` / `maxDate` bound navigation**, not just picking: Previous is `aria-disabled="true"` once the period starts on or before `minDate` (Next likewise at `maxDate`) — `aria-disabled`, not `disabled`, so focus is not lost when the button reaches the limit — and activating it does nothing but announce `labels.rangeLimit(limit, date)` ("min" or "max"). Today is `aria-disabled` and inert when today is outside the range. Keyboard moves (arrows, Home/End, PageUp/PageDown) are clamped into the range and announce the same limit. Days outside the range still carry `aria-disabled` and stay focusable, as before. Without `labels.rangeLimit` a stopped move is silent but still stops.
+

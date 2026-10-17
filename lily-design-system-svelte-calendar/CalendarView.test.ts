@@ -961,3 +961,99 @@ describe("CalendarView — search (§8.83–§8.92)", () => {
     });
 });
 
+// =====================================================================
+// §8.93 period announcements and navigation limits (0.6.0)
+// =====================================================================
+
+describe("CalendarView — period announcements and minDate / maxDate limits (§8.93–§8.104)", () => {
+    const L: CalendarViewLabels = { ...LABELS, rangeLimit: (limit, date) => `${limit === "min" ? "Earliest" : "Latest"} date is ${date}` };
+    const base = { label: "Cal", view: "month" as const, anchorDate: "2026-02-15", events: [] as CalendarEvent[], today: "2026-02-10", labels: L };
+    const status = () => document.querySelector(".calendar-view-status")?.textContent;
+    const prev = () => document.querySelector<HTMLElement>(".calendar-view-previous-button")!;
+    const next = () => document.querySelector<HTMLElement>(".calendar-view-next-button")!;
+
+    test("§8.93 the first render announces nothing", () => {
+        render(CalendarView, { props: base });
+        expect(status()).toBe("");
+    });
+
+    test("§8.94 Next announces the new period through the polite status region", async () => {
+        render(CalendarView, { props: base });
+        await fireEvent.click(next());
+        expect(document.querySelector(".calendar-view-status")?.getAttribute("aria-live")).toBe("polite");
+        expect(status()).toBe("month: 2026-03-01 to 2026-03-31");
+    });
+
+    test("§8.95 a change of view is announced", async () => {
+        render(CalendarView, { props: base });
+        await fireEvent.click(screen.getByRole("button", { name: "Week" }));
+        expect(status()).toBe("week: 2026-02-09 to 2026-02-15");
+    });
+
+    test("§8.96 a keyboard move across the edge of the period is announced", async () => {
+        render(CalendarView, { props: { ...base, anchorDate: "2026-02-28" } });
+        const cell = document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!;
+        await fireEvent.keyDown(cell, { key: "PageDown" });
+        expect(status()).toBe("month: 2026-03-01 to 2026-03-31");
+    });
+
+    test("§8.97 a consumer changing anchorDate is announced too, not only a click", async () => {
+        const { rerender } = render(CalendarView, { props: base });
+        await rerender({ ...base, anchorDate: "2026-05-15" });
+        expect(status()).toBe("month: 2026-05-01 to 2026-05-31");
+    });
+
+    test("§8.98 Previous stops at minDate: aria-disabled, still focusable, announced, and the period does not change", async () => {
+        render(CalendarView, { props: { ...base, minDate: "2026-02-05" } });
+        expect(prev().getAttribute("aria-disabled")).toBe("true");
+        expect((prev() as HTMLButtonElement).disabled).toBe(false);
+        await fireEvent.click(prev());
+        expect(status()).toBe("Earliest date is 2026-02-05");
+        expect(cellFor("2026-02-15")).toBeTruthy();
+    });
+
+    test("§8.99 Next stops at maxDate", async () => {
+        render(CalendarView, { props: { ...base, maxDate: "2026-02-20" } });
+        expect(next().getAttribute("aria-disabled")).toBe("true");
+        await fireEvent.click(next());
+        expect(status()).toBe("Latest date is 2026-02-20");
+    });
+
+    test("§8.100 the direction with room stays enabled", () => {
+        render(CalendarView, { props: { ...base, minDate: "2025-12-01", maxDate: "2026-02-20" } });
+        expect(prev().getAttribute("aria-disabled")).toBeNull();
+        expect(next().getAttribute("aria-disabled")).toBe("true");
+    });
+
+    test("§8.101 keyboard moves are clamped to the range and the stop is announced", async () => {
+        render(CalendarView, { props: { ...base, minDate: "2026-02-05", maxDate: "2026-02-20" } });
+        const cell = document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')!;
+        await fireEvent.keyDown(cell, { key: "PageDown" });
+        expect(status()).toBe("Latest date is 2026-02-20");
+        expect(document.querySelector<HTMLElement>('.calendar-table-td[tabindex="0"]')?.getAttribute("data-date")).toBe("2026-02-20");
+    });
+
+    test("§8.102 Today is aria-disabled and does nothing when today is outside the range", async () => {
+        render(CalendarView, { props: { ...base, anchorDate: "2026-02-15", today: "2026-04-01", maxDate: "2026-03-31" } });
+        const today = screen.getByRole("button", { name: "Today" });
+        expect(today.getAttribute("aria-disabled")).toBe("true");
+        await fireEvent.click(today);
+        expect(cellFor("2026-02-15")).toBeTruthy();
+    });
+
+    test("§8.103 Today works when it is inside the range", async () => {
+        render(CalendarView, { props: { ...base, anchorDate: "2026-04-15", today: "2026-02-10", minDate: "2026-01-01" } });
+        const today = screen.getByRole("button", { name: "Today" });
+        expect(today.getAttribute("aria-disabled")).toBeNull();
+        await fireEvent.click(today);
+        expect(status()).toBe("month: 2026-02-01 to 2026-02-28");
+    });
+
+    test("§8.104 without labels.rangeLimit a stopped move is silent but still stops", async () => {
+        render(CalendarView, { props: { ...base, labels: LABELS, maxDate: "2026-02-20" } });
+        await fireEvent.click(next());
+        expect(status()).toBe("");
+        expect(next().getAttribute("aria-disabled")).toBe("true");
+    });
+});
+

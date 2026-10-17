@@ -89,6 +89,8 @@
         next?: (view: CalendarView) => string;
         today?: string;
         periodAnnouncement?: (view: CalendarView, start: string, end: string) => string;
+        /** Announced when navigation stops at `minDate` or `maxDate`: (which limit, that date). Without it a stopped Previous / Next / Page key is silent. */
+        rangeLimit?: (limit: "min" | "max", date: string) => string;
         /** Full weekday name. `weekday` is 0 = Sunday … 6 = Saturday. */
         weekday?: (weekday: number) => string;
         /** Short weekday form for the column header's visible text. */
@@ -161,9 +163,9 @@
         selectionMode?: "single" | "multiple";
         /** The picked days in `"multiple"` mode. Two-way bindable. */
         selectedDates?: string[];
-        /** Earliest pickable ISO date; earlier days get `aria-disabled`. */
+        /** Earliest pickable ISO date; earlier days get `aria-disabled`, Previous stops (`aria-disabled`, still focusable) once no earlier day exists, Today and keyboard moves are clamped to it, and `labels.rangeLimit` announces the stop. */
         minDate?: string;
-        /** Latest pickable ISO date; later days get `aria-disabled`. */
+        /** Latest pickable ISO date; later days get `aria-disabled`, Next stops once no later day exists, and moves are clamped to it as for `minDate`. */
         maxDate?: string;
         /** Extra disabled-day test (holidays, closed days). Disabled days stay focusable but cannot be picked. */
         isDisabled?: (isoDate: string) => boolean;
@@ -610,20 +612,40 @@
     const periodStart = $derived(periodRange(view, anchorDate, firstDayOfWeek)[0]);
     const periodEnd = $derived(periodRange(view, anchorDate, firstDayOfWeek)[1]);
 
-    function announce(): void {
-        if (!labels?.periodAnnouncement) return;
-        const [start, end] = periodRange(view, anchorDate, firstDayOfWeek);
-        statusMessage = labels.periodAnnouncement(view, start, end);
+    // The period is announced whenever it changes, whatever changed it: Previous / Next / Today, a view switch, a keyboard move
+    // across the edge, or the consumer setting `anchorDate` or `view`. The first render says nothing.
+    let announcedPeriod: string | undefined;
+    $effect(() => {
+        const key = `${view}|${periodStart}|${periodEnd}`;
+        if (announcedPeriod === undefined) {
+            announcedPeriod = key;
+            return;
+        }
+        if (key === announcedPeriod) return;
+        announcedPeriod = key;
+        if (labels?.periodAnnouncement) statusMessage = labels.periodAnnouncement(view, periodStart, periodEnd);
+    });
+
+    // minDate / maxDate bound navigation as well as picking.
+    const atMinLimit = $derived(!!minDate && periodStart <= minDate);
+    const atMaxLimit = $derived(!!maxDate && periodEnd >= maxDate);
+    const todayOutOfRange = $derived(today == null || (!!minDate && today < minDate) || (!!maxDate && today > maxDate));
+    const clampDate = (isoDate: string): string => (minDate && isoDate < minDate ? minDate : maxDate && isoDate > maxDate ? maxDate : isoDate);
+    function announceLimit(limit: "min" | "max"): void {
+        const date = limit === "min" ? minDate : maxDate;
+        const message = date ? labels?.rangeLimit?.(limit, date) : undefined;
+        if (message) statusMessage = message;
     }
 
     function navigateTo(nextAnchor: string): void {
         anchorDate = nextAnchor;
         const [start, end] = periodRange(view, anchorDate, firstDayOfWeek);
         onNavigate?.(view, start, end);
-        announce();
     }
 
     function stepView(delta: 1 | -1): void {
+        if (delta < 0 && atMinLimit) return announceLimit("min");
+        if (delta > 0 && atMaxLimit) return announceLimit("max");
         if (view === "day") navigateTo(addDays(anchorDate, delta));
         else if (view === "week") navigateTo(addDays(anchorDate, delta * 7));
         else if (view === "four-week") navigateTo(addDays(anchorDate, delta * 28));
@@ -631,7 +653,7 @@
     }
 
     function goToday(): void {
-        if (today == null) return;
+        if (today == null || todayOutOfRange) return;
         navigateTo(today);
     }
 
@@ -639,7 +661,6 @@
         view = next;
         const [start, end] = periodRange(view, anchorDate, firstDayOfWeek);
         onNavigate?.(view, start, end);
-        announce();
     }
 
     function focusCursor(): void {
@@ -654,7 +675,9 @@
      * `moveCursor`/`shiftMonth`/`shiftDays` re-paging for its calendar
      * dialog (spec/index.md §6.3).
      */
-    function moveCursor(next: string): void {
+    function moveCursor(requested: string): void {
+        const next = clampDate(requested);
+        if (next !== requested) announceLimit(requested < next ? "min" : "max");
         cursor = next;
         if (view === "month") {
             const cp = parseIsoDate(next);
@@ -833,6 +856,7 @@
                     type="button"
                     class="calendar-view-previous-button"
                     aria-label={labels?.previous?.(view)}
+                    aria-disabled={atMinLimit ? "true" : undefined}
                     onclick={() => stepView(-1)}
                 >‹</button>
                 {#if labels?.periodTitle}
@@ -843,6 +867,7 @@
                         type="button"
                         class="calendar-view-today-button"
                         disabled={today == null}
+                        aria-disabled={today != null && todayOutOfRange ? "true" : undefined}
                         onclick={goToday}
                     >{labels.today}</button>
                 {/if}
@@ -850,6 +875,7 @@
                     type="button"
                     class="calendar-view-next-button"
                     aria-label={labels?.next?.(view)}
+                    aria-disabled={atMaxLimit ? "true" : undefined}
                     onclick={() => stepView(1)}
                 >›</button>
             </div>
