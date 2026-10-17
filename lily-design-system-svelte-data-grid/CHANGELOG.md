@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- The `footer` snippet also receives `allRows` (every row passing the filter, across pages) and `aggregate(columnId, kind)` for totals over them, not only the current page.
+- A pinned column gets `--data-grid-pinned-offset` (the widths of the pinned columns before it, in px) for `inset-inline-start` / `-end`, once those widths are known.
+- `storageKey` also remembers `columnOrder`.
+- Tested: empty values in a number column show `emptyValue`, carry `data-empty` and are ignored by sums.
+
 ## 0.10.0 — 2026-10-17
 
 - Added `labels.pagination`: the pager becomes a labelled `<nav>` landmark, the headless `PaginationNav` (without it the pager is the plain `<div>` it was). The search field is the headless `SearchInput`.

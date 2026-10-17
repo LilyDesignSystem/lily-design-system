@@ -12,11 +12,13 @@
         linkParts,
         resolveColumn,
         safeHref,
+        aggregateValues,
         filesOf,
         isZonedTime,
         peopleOf,
         personName,
         zonedUtcTime,
+        type DataGridAggregate,
         type DataGridCellType,
         type DataGridFile,
         type DataGridOption,
@@ -98,7 +100,7 @@
         resizable?: boolean;
         /** Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another. */
         movable?: boolean;
-        /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no offsets. */
+        /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no position; when the widths of the pinned columns before it are known it sets `--data-grid-pinned-offset` (px) for `inset-inline-start` / `-end`. */
         pinned?: "start" | "end";
         /** Set `false` to leave the column out of an export (an actions column, say). Default true. */
         exportable?: boolean;
@@ -330,7 +332,7 @@
         /** Shown in one row spanning every column when no row is to be shown. */
         empty?: Snippet;
         /** Rendered inside a `<tfoot>`. */
-        footer?: Snippet<[{ columns: DataGridColumn[]; rows: DataGridRow[] }]>;
+        footer?: Snippet<[{ columns: DataGridColumn[]; rows: DataGridRow[]; allRows: DataGridRow[]; aggregate: (columnId: string, kind: DataGridAggregate) => unknown }]>;
         /** Sets `aria-busy` on the table. */
         busy?: boolean;
         /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
@@ -781,7 +783,21 @@
         const width = widthFor(column);
         if (width) parts.push(`width:${width}px`);
         if (column.align) parts.push(`text-align:${column.align}`);
+        // A pinned column's distance from its edge: the widths of the pinned columns before it (start) or after it (end), once all are known.
+        if (column.pinned) {
+            const i = visibleColumns.findIndex((c) => c.id === column.id);
+            const before = (column.pinned === "start" ? visibleColumns.slice(0, i) : visibleColumns.slice(i + 1)).filter((c) => c.pinned === column.pinned);
+            const widths = before.map((c) => widthFor(c));
+            if (widths.every((w) => w !== undefined)) parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
+        }
         return parts.length > 0 ? parts.join(";") : undefined;
+    }
+
+    /** A reduction of one column over every row that passes the filter (not only the current page), for a footer total. */
+    function footerAggregate(columnId: string, kind: DataGridAggregate): unknown {
+        const column = columns.find((c) => c.id === columnId);
+        if (!column) return undefined;
+        return aggregateValues(kind, sortedEntries.map((e) => defaultAccessor(column, e.row)));
     }
 
     function setWidth(column: DataGridColumn, width: number): void {
@@ -1299,10 +1315,12 @@
                     columnWidths?: Record<string, number>;
                     hiddenColumnIds?: string[];
                     sort?: DataGridSort;
+                    columnOrder?: string[];
                 };
                 if (saved.columnWidths) columnWidths = saved.columnWidths;
                 if (saved.hiddenColumnIds) hiddenColumnIds = new Set(saved.hiddenColumnIds);
                 if (saved.sort) sort = saved.sort;
+                if (Array.isArray(saved.columnOrder)) columnOrder = saved.columnOrder;
             }
         } catch {
             // ignore quota / privacy / parse errors
@@ -1315,6 +1333,7 @@
             columnWidths,
             hiddenColumnIds: [...hiddenColumnIds],
             sort,
+            columnOrder,
         };
         if (!storageKey || typeof localStorage === "undefined") return;
         try {
@@ -1787,7 +1806,7 @@
         </DataTableBody>
         {#if footer}
             <DataTableFoot>
-                {@render footer({ columns: visibleColumns, rows: pageEntries.map((e) => e.row) })}
+                {@render footer({ columns: visibleColumns, rows: pageEntries.map((e) => e.row), allRows: sortedEntries.map((e) => e.row), aggregate: footerAggregate })}
             </DataTableFoot>
         {/if}
     </DataTable>
