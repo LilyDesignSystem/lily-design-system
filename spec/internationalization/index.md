@@ -112,6 +112,15 @@ the binding rules are:
   that the text is not just English, and that a language is either fully covered (all eight pages) or absent. Internal links inside a
   translated page, the header nav, the footer, the home cards and the link picker all point at the same locale's pages. Only Welsh was
   checked against a term base (TermCymru); the other ten are **machine translations awaiting native-speaker review**.
+- **Further pages, per language (2026-10-17).** Beyond the eight, a language may translate any of the pages in
+  `lilydesignsystem.github.io/src/lib/extra-pages.json`: the nine per-framework tutorials (`tutorials-angular` … `tutorials-vue`, routed at
+  `/<code>/tutorials/<framework>/`), `lily-figma`, `lily-claude-design`, and `news`, `roadmap` and `locales`. Unlike the eight, a language
+  need not have them all: `bin/generate-locale-pages` writes a route for each one the language has, `localizeLinks` points a link at the
+  translated page only when it exists (otherwise it stays on the English page), and `bin/check-site-page-translations` applies the same
+  structure, code-sample and not-English checks wherever one is present. `news`, `roadmap` and `locales` are **intro-only**: the translation
+  covers the intro section, and what follows (the rendered NEWS.md and plan.md, and the list of languages from `LocaleList.svelte`) is
+  generated at build time — the NEWS.md and plan.md text stays English. `zh-cn` has all fourteen. Still English-only everywhere: the 571
+  component docs. The English page numbers are copied as written (the tutorials say "45 themes" where the repository now has 57).
 - **Labels are endonyms** — each language's own name (`Cymraeg`, `Français`, `العربية`) — except where a language has several
   regional locales: then the label adds the region after a dash (`English - Great Britain`, `Cymraeg - Prydain Fawr`), never an
   abbreviation or parenthetical.

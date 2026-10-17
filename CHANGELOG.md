@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Simplified Chinese (zh-cn): the remaining site pages — 2026-10-17
+
+- `zh-cn` now has the nine per-framework tutorials, Lily + Figma, Lily + Claude Design, and the news, roadmap and languages pages (14 more pages, on top of the eight main pages already translated). The routes are generated; the checker verifies markup structure, byte-identical code samples and that the text is not English. News and roadmap translate their intro only (the rendered NEWS.md and plan.md stay English).
+- A language can now translate the extra pages one at a time (`src/lib/extra-pages.json`); the eight main pages stay all-or-nothing. `LocaleList.svelte` is shared by the English and translated languages pages.
+- The component docs (571 pages) are still English-only.
+
 ## Gantt chart: weekend shading and dependency arrows — 2026-10-17
 
 - **`gantt-chart` 0.6.0** in all eight frameworks: **`weekends`** (weekdays 0–6, never defaulted — the weekend is the consumer's locale) marks day

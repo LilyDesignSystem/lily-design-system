@@ -7,9 +7,9 @@
   the locale's own translated pages.
 -->
 <script lang="ts">
-  import { localizeLinks, pageFor, type PageSlug } from '#lib/pages.js';
+  import { localizeLinks, pageFor, type ExtraSlug, type PageSlug } from '#lib/pages.js';
 
-  let { slug, locale }: { slug: PageSlug; locale: string } = $props();
+  let { slug, locale }: { slug: PageSlug | ExtraSlug; locale: string } = $props();
 
   const page = $derived(pageFor(slug, locale));
   const html = $derived(

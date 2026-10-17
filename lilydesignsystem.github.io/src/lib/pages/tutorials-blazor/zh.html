@@ -1,0 +1,106 @@
+<!-- title: Blazor 教程 — Lily Design System -->
+<!-- description: 使用 Lily 的 Blazor headless 组件构建一个无障碍、带样式的表单：带参数的 Razor 组件与 bUnit 测试。 -->
+<section class="page-intro">
+  <h1>Blazor 教程</h1>
+  <p class="page-intro-tagline">
+    Razor 类库组件：带参数、<code>ChildContent</code>
+    渲染片段、属性展开，以及每个组件一份 bUnit 测试。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你将构建什么</h2>
+  <p>
+    一个小型联系表单——带标签的输入框、提交按钮、
+    <code>@bind-Value</code> 绑定，以及真实的键盘和屏幕阅读器行为——先是不带样式的版本，再加上样式，大约 10 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    你需要 git 和 .NET SDK 8 或更高版本。任何 Blazor 项目都可以——Blazor Web App、Server 或 WebAssembly。
+  </p>
+
+  <h2>第 1 步——获取代码</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    组件位于 <code>src/LilyBlazorHeadless/Components/</code>——
+    <code>Button.razor</code>、<code>TextInput.razor</code>——每个组件一个 Razor 文件。在你的 Blazor 应用中引用该项目（或复制这些文件），并在
+    <code>_Imports.razor</code> 中添加 <code>@using LilyBlazorHeadless.Components</code>。
+  </p>
+
+  <h2>第 2 步——你的第一个组件</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    渲染为 <code>&lt;button class="button"&gt;</code>。通用的参数约定：<code>Label</code>（覆盖 <code>aria-label</code>）、
+    <code>CssClass</code>（追加到基础钩子之后）、
+    <code>ChildContent</code>，以及
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> 属性展开，因此任何额外的 HTML 属性都会透传。
+  </p>
+
+  <h2>第 3 步——组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> 把可见的 <code>Label</code> 作为自己的参数，而不是嵌套一个标签组件——只需在
+    <code>Field</code> 上传入一次，<code>TextInput</code> 对应的
+    <code>Label</code> 就会提供可访问名称。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已验证：</strong>早期草稿在 <code>Field</code> 里嵌套了单独的 <code>Label</code> 组件，结果渲染出<em>两个</em>标签（其中一个为空），因为 <code>Field</code>
+      已经会根据 <code>Label</code> 参数渲染自己的标签——这是通过检查组件源码发现的；<code>Form</code> 本身没有
+      <code>Label</code> 参数，所以早期草稿中 <code>&lt;Form&gt;</code> 的用法已被改正为不写该参数，而不是凭空编造一个并不存在的属性。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">联系表单组合路由</a>
+      采用同样的模式，并经过真实的端到端测试和 axe 测试。
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查你的成果：</strong>运行应用，表单看起来很朴素——这正是预期：样式还在后面。按下
+      <kbd>Tab</kbd>：焦点会依次经过每个控件，标签会被朗读，提交也能正常工作。行为已经完成；外观由你决定，这就是下一步。
+    </p>
+  </div>
+
+  <h2>第 4 步——添加样式</h2>
+  <p>
+    在 <code>app.css</code> 中为这些类名钩子设置样式——<code>.button</code>、<code>.text-input</code>、
+    <code>.label</code>、<code>.field</code>——或者在 <code>App.razor</code> /
+    <code>index.html</code> 中链接一个现成的主题：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>第 5 步——看看它的完整效果</h2>
+  <p>
+    <a href="/examples/">Blazor Web 示例应用</a>展示完整目录的带样式演示版本，带有 Playwright 端到端测试：
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主题</a>——用 Blazor 的 theme-picker 辅助包在运行时切换主题（NuGet 上的 Razor 类库）。</li>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——语言与文字大小。</li>
+    <li><a href="/components/">组件目录</a>——每个组件的 props、ARIA 和键盘操作。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉我们</a>，我们很乐意改进教程。
+  </p>
+</section>

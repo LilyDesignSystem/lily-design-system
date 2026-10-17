@@ -21,17 +21,26 @@ const path = require("path");
 const top = path.join(__dirname, "..");
 const site = path.join(top, "lilydesignsystem.github.io");
 const PAGES = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+// Further pages a language may translate (src/lib/extra-pages.json): the nine tutorials, Figma, Claude Design, and the
+// news, roadmap and locales pages, whose bodies are rendered at build time, so only their intro section is a source.
+const EXTRA = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8"));
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-function extract(slug) {
-  let src = fs.readFileSync(path.join(site, "src/routes", slug, "+page.svelte"), "utf8");
+function extract(slug, route = slug, introOnly = false) {
+  let src = fs.readFileSync(path.join(site, "src/routes", route, "+page.svelte"), "utf8");
   const head = src.match(/<svelte:head>([\s\S]*?)<\/svelte:head>/);
   if (!head) throw new Error(slug + ": no <svelte:head>");
   const title = (head[1].match(/<title>([\s\S]*?)<\/title>/) || [])[1];
   const desc = (head[1].match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/?>/) || [])[1];
   if (!title) throw new Error(slug + ": missing <title>");
   let body = src.slice(head.index + head[0].length);
+  if (introOnly) {
+    // The page's own text is its intro section; what follows (a rendered NEWS.md, a plan, a list of languages) is dynamic.
+    const intro = body.match(/<section class="page-intro">[\s\S]*?<\/section>/);
+    if (!intro) throw new Error(slug + ": no page-intro section");
+    body = intro[0];
+  }
   // Code samples: <pre …><code>{EXPR}</code></pre>
   body = body.replace(/<pre([^>]*)><code>\{([\s\S]*?)\}<\/code><\/pre>/g, (_, attrs, expr) => {
     const value = new Function("return (" + expr + ");")();
@@ -50,9 +59,10 @@ function extract(slug) {
 }
 
 let changed = 0;
-for (const slug of PAGES) {
+const ALL = [...PAGES.map((slug) => ({ slug, route: slug })), ...EXTRA];
+for (const { slug, route, introOnly } of ALL) {
   const out = path.join(site, "src/lib/pages", slug, "en.html");
-  const html = extract(slug);
+  const html = extract(slug, route, !!introOnly);
   const have = fs.existsSync(out) ? fs.readFileSync(out, "utf8") : null;
   if (have !== html) {
     changed++;

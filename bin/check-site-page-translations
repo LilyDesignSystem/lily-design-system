@@ -22,6 +22,8 @@ const top = path.join(__dirname, "..");
 const site = path.join(top, "lilydesignsystem.github.io");
 const pagesDir = path.join(site, "src/lib/pages");
 const SLUGS = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+// Extra pages (src/lib/extra-pages.json) are checked the same way wherever a language has them, but a language need not have them all.
+const EXTRA = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8")).map((p) => p.slug);
 // Pages that are mostly proper nouns / values, so identical text is expected.
 const MOSTLY_NAMES = new Set(["comparisons"]);
 const KEEP_ATTRS = new Set(["href", "id", "class", "type", "target", "rel", "tabindex", "style", "role", "colspan", "rowspan"]);
@@ -69,15 +71,24 @@ const localeLangs = new Set(
   fs.readdirSync(path.join(site, "src/routes"), { withFileTypes: true }).filter((e) => e.isDirectory() && /^[a-z]{2,3}-([a-z]{2}|[0-9]{3})(-[a-z0-9]+)?$/.test(e.name)).map((e) => e.name.split("-")[0])
 );
 
+const extraLangs = new Set();
+for (const slug of EXTRA) {
+  for (const f of fs.readdirSync(path.join(pagesDir, slug))) if (f.endsWith(".html") && f !== "en.html") extraLangs.add(f.slice(0, -5));
+}
+for (const lang of extraLangs) if (!langs.has(lang)) err(`${lang}: has extra pages but not the eight main pages`);
+let extraCount = 0;
+
 for (const lang of [...langs].sort()) {
   if (!localeLangs.has(lang)) err(`${lang}: no /${lang}-*/ directory uses this language`);
-  for (const slug of SLUGS) {
+  for (const slug of [...SLUGS, ...EXTRA]) {
     const file = path.join(pagesDir, slug, lang + ".html");
     const label = `${slug}/${lang}.html`;
+    const isExtra = EXTRA.includes(slug);
     if (!fs.existsSync(file)) {
-      err(`${label}: missing (a language needs all eight pages)`);
+      if (!isExtra) err(`${label}: missing (a language needs all eight pages)`);
       continue;
     }
+    if (isExtra) extraCount++;
     const en = read(path.join(pagesDir, slug, "en.html"));
     const tr = read(file);
     if (!/<!--\s*title:\s*\S/.test(tr)) err(`${label}: no title comment`);
@@ -106,4 +117,4 @@ if (errors.length) {
   console.error(`check-site-page-translations: ${errors.length} problem(s)`);
   process.exit(1);
 }
-console.log(`check-site-page-translations: OK (${langs.size} language(s) × ${SLUGS.length} pages)`);
+console.log(`check-site-page-translations: OK (${langs.size} language(s) × ${SLUGS.length} pages, ${extraCount} extra page(s))`);

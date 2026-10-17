@@ -1,0 +1,16 @@
+[
+  { "slug": "tutorials-angular", "route": "tutorials/angular" },
+  { "slug": "tutorials-blazor", "route": "tutorials/blazor" },
+  { "slug": "tutorials-helpers", "route": "tutorials/helpers" },
+  { "slug": "tutorials-html", "route": "tutorials/html" },
+  { "slug": "tutorials-nunjucks", "route": "tutorials/nunjucks" },
+  { "slug": "tutorials-react", "route": "tutorials/react" },
+  { "slug": "tutorials-svelte", "route": "tutorials/svelte" },
+  { "slug": "tutorials-theming", "route": "tutorials/theming" },
+  { "slug": "tutorials-vue", "route": "tutorials/vue" },
+  { "slug": "lily-figma", "route": "lily-figma" },
+  { "slug": "lily-claude-design", "route": "lily-claude-design" },
+  { "slug": "news", "route": "news", "introOnly": true },
+  { "slug": "roadmap", "route": "roadmap", "introOnly": true },
+  { "slug": "locales", "route": "locales", "introOnly": true }
+]

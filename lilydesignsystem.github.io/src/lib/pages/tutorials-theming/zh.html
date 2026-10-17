@@ -1,0 +1,111 @@
+<!-- title: 主题教程 — Lily Design System -->
+<!-- description: 用三种方式为 Lily 设置主题：链接 45 套现成主题之一，用你自己的 CSS 覆盖它，并通过 theme-picker 辅助包添加运行时主题切换。 -->
+<section class="page-intro">
+  <h1>主题</h1>
+  <p class="page-intro-tagline">
+    Lily 组件带有稳定的类名钩子和零 CSS——所以主题只是一份样式表。本教程从“链接一个文件”开始，一直到“让用户在运行时切换主题，并且保存下来”。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你将构建什么</h2>
+  <p>
+    一个整体外观都可由用户更改的应用——从链接一份样式表开始，到带持久化的运行时主题切换器结束——大约 15 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    请先完成你所用技术栈的<a href="/tutorials/">框架教程</a>，这样你就有一个可以套用主题的小型 Lily 表单。这里的一切都适用于全部七种框架；代码示例展示 Svelte 和纯 HTML。
+  </p>
+
+  <h2>第 1 步——链接一套现成的主题</h2>
+  <p>
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    目录提供 45 份独立的样式表。把它们复制到你应用的静态资源中，并链接其中一份：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>这套主题的亮点：</p>
+  <ul>
+    <li>
+      <strong>公共部门</strong>——NHS England / Scotland / Wales，每个都有面向患者和面向从业者的变体；GOV.UK
+      （<code>united-kingdom-government-digital-service</code>）；USWDS
+      （<code>united-states-web-design-system</code>）。
+    </li>
+    <li><strong>受厂商启发</strong>——<code>adobe-spectrum</code>、<code>mozilla-protocol</code>。</li>
+    <li>
+      <strong>通用</strong>——<code>light</code>、<code>dark</code>、
+      <code>nord</code>、<code>dracula</code>、<code>wireframe</code>、
+      <code>corporate</code>、<code>synthwave</code>，还有更多。
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查你的成果：</strong>重新加载页面。你在框架教程中构建的同一份标记，现在已经完全有了样式——按钮、输入框、标签、焦点环。这只是一行 HTML 的功劳——每个组件都保持原样。
+    </p>
+  </div>
+
+  <h2>第 2 步——覆盖任何内容</h2>
+  <p>
+    主题选择器都包裹在 <code>:where(...)</code> 中，它的优先级为零——因此你写的任何规则都会生效，简单直接：
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>第 3 步——用 theme-picker 实现运行时切换</h2>
+  <p>
+    <code>theme-picker</code> 辅助包是一个 headless 的图标按钮加列表框，负责整个主题的生命周期：它通过替换一个受管理的 <code>&lt;link&gt;</code>
+    来加载所选的样式表（只会获取当前启用的主题），在文档上设置
+    <code>data-theme="&#123;slug&#125;"</code>，并且可以选择保存到 <code>localStorage</code>。这里展示的是 Svelte；React、Vue、Angular、HTML、Nunjucks 和 Blazor 的移植版在契约上逐条一致：
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    整个集成就是这些。键盘行为遵循 WAI-ARIA APG 列表框模式；控件本身是 headless 的（类名钩子是
+    <code>.theme-picker</code>），所以它会采用当前启用的任何主题。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已验证：</strong>这段代码经 <code>svelte/server</code>，针对已发布的 <code>0.1.1</code> 包编译通过。
+    </p>
+  </div>
+
+  <h2>第 4 步——在你自己的 CSS 中响应主题</h2>
+  <p>
+    因为辅助包会在文档根元素上设置 <code>data-theme</code>，你自己的样式可以据此分支：
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>服务端渲染的注意事项</h2>
+  <p>
+    辅助包的所有 DOM 写入都在框架的挂载/副作用生命周期内进行，因此从构造上就是 SSR 安全的。为了避免首次绘制时的闪烁，请在服务端渲染初始主题的 <code>&lt;link&gt;</code> 和
+    <code>data-theme</code>（例如根据 cookie）——Svelte 辅助包仓库提供了一个可运行的 SvelteKit cookie 示例，其他目录也记录了适用于各自技术栈的相同模式。
+  </p>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——同样的模式，用于语言、文字大小、分享以及日期/时间输入。</li>
+    <li>
+      贡献一套主题——每套主题都是一份针对这些类名钩子的独立样式表；参见<a href="/help/#contributing">参与贡献</a>。
+    </li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉我们</a>，我们很乐意改进教程。
+  </p>
+</section>

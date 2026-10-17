@@ -1,0 +1,125 @@
+<!-- title: Angular 教程 — Lily Design System -->
+<!-- description: 使用 Lily 的 Angular 20 headless 组件构建一个无障碍、带样式的表单：带 signal 输入的独立组件。 -->
+<section class="page-intro">
+  <h1>Angular 教程</h1>
+  <p class="page-intro-tagline">
+    Angular 20 独立组件——signal 输入、OnPush 变更检测、内联模板、零 NgModule、零 CSS。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你将构建什么</h2>
+  <p>
+    一个小型联系表单——带标签的输入框、提交按钮、双向绑定，以及真实的键盘和屏幕阅读器行为——先是不带样式的版本，再加上样式，大约 10 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    你需要 git、Node 22 或更高版本，以及 pnpm 10 或更高版本。任何 Angular 20 项目都可以——Angular CLI 或 Analog。
+  </p>
+
+  <h2>第 1 步——获取代码</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    组件是 <code>components/</code> 中的扁平文件——
+    <code>Button.ts</code>、<code>TextInput.ts</code>——每个都是带内联模板的独立组件，另有它的测试规范和 story。入口文件
+    <code>index.ts</code> 重新导出每个组件；<code>pnpm build</code>
+    通过 ng-packagr 生成 Angular Package Format 的打包产物。
+  </p>
+
+  <h2>第 2 步——你的第一个组件</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    每个组件都声明一个 <code>lily-*</code> 选择器，并渲染带有类名钩子的语义化元素——这里是
+    <code>&lt;button class="button" type="button"&gt;</code>。输入基于 signal：用 <code>label()</code> 覆盖
+    <code>aria-label</code>，用 <code>className()</code> 追加类名。
+  </p>
+
+  <h2>第 3 步——组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> 把可见的标签作为自己的
+    <code>label</code> 输入，而不是嵌套一个标签组件——只需在 field 上传入一次，<code>lily-text-input</code> 对应的
+    <code>label</code> 就会提供可访问名称。类输入组件暴露 <code>model()</code> 值，所以“香蕉盒”写法 <code>[(value)]</code>
+    的双向绑定开箱即用——全程兼容 zoneless。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已验证：</strong>早期草稿在 <code>lily-field</code> 里嵌套了单独的 <code>Label</code> 组件，结果渲染出<em>两个</em>标签（其中一个为空），因为
+      <code>lily-field</code> 已经会根据 <code>label</code> 输入渲染自己的标签——这是通过检查组件源码发现的。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">联系表单组合路由</a>
+      采用同样的模式，并经过真实的端到端测试和 axe 测试。
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查你的成果：</strong>运行应用，表单看起来很朴素——这正是预期：样式还在后面。按下
+      <kbd>Tab</kbd>：焦点会依次经过每个控件，标签会被朗读，提交也能正常工作。行为已经完成；外观由你决定，这就是下一步。
+    </p>
+  </div>
+
+  <h2>第 4 步——添加样式</h2>
+  <p>
+    在 <code>styles.css</code> 中为这些类名钩子设置样式——<code>.button</code>、<code>.text-input</code>、
+    <code>.label</code>、<code>.field</code>——或者把一个现成的主题加入 <code>angular.json</code> 的
+    <code>styles</code> 数组，或在 <code>index.html</code> 中链接它：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>第 5 步——看看它的完整效果</h2>
+  <p>
+    <a href="/examples/">Angular + Analog 示例应用</a>用基于文件的路由和 Vite 展示完整目录：
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主题</a>——用 Angular 的 theme-picker 辅助包在运行时切换主题。</li>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——语言与文字大小。</li>
+    <li><a href="/components/">组件目录</a>——每个组件的 props、ARIA 和键盘操作。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉我们</a>，我们很乐意改进教程。
+  </p>
+</section>

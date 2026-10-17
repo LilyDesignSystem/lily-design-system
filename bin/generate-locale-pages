@@ -16,6 +16,7 @@ const path = require("path");
 const top = path.join(__dirname, "..");
 const site = path.join(top, "lilydesignsystem.github.io");
 const SLUGS = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+const EXTRA = JSON.parse(fs.readFileSync(path.join(site, "src/lib/extra-pages.json"), "utf8"));
 const check = process.argv.includes("--check");
 
 const localesDir = path.join(site, "src/routes");
@@ -51,6 +52,72 @@ for (const code of codes) {
       if (!check) {
         fs.rmSync(path.dirname(file), { recursive: true });
       }
+    }
+  }
+}
+// Extra pages: one route per page a language has translated (a language need not have them all).
+const extraRoute = (code, page) => {
+  const bare = `<LocalizedPage slug="${page.slug}" locale="${code}" />`;
+  const imports = `  import LocalizedPage from '#lib/components/LocalizedPage.svelte';`;
+  if (page.slug === "locales") {
+    return `<script lang="ts">
+${imports}
+  import LocaleList from '#lib/components/LocaleList.svelte';
+</script>
+
+${bare}
+
+<LocaleList />
+`;
+  }
+  if (page.introOnly) {
+    return `<script lang="ts">
+${imports}
+
+  let { data } = $props();
+</script>
+
+${bare}
+
+<section class="prose doc-render">
+  {@html data.html}
+</section>
+`;
+  }
+  return `<script lang="ts">
+${imports}
+</script>
+
+${bare}
+`;
+};
+for (const code of codes) {
+  const lang = code.split("-")[0];
+  if (lang === "en") continue;
+  for (const page of EXTRA) {
+    const has = fs.existsSync(path.join(site, "src/lib/pages", page.slug, lang + ".html"));
+    const dir = path.join(localesDir, code, page.route);
+    const file = path.join(dir, "+page.svelte");
+    const loader = path.join(dir, "+page.ts");
+    const wantLoader = page.introOnly && page.slug !== "locales" ? `export { load, prerender } from '${"../".repeat(page.route.split("/").length + 1)}${page.route}/+page.js';\n` : null;
+    const want = extraRoute(code, page);
+    const have = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : null;
+    const haveLoader = fs.existsSync(loader) ? fs.readFileSync(loader, "utf8") : null;
+    if (has) {
+      if (have !== want) {
+        note((check ? "would write " : "wrote ") + path.relative(top, file));
+        if (!check) {
+          fs.mkdirSync(dir, { recursive: true });
+          fs.writeFileSync(file, want);
+        }
+      }
+      if (wantLoader !== null && haveLoader !== wantLoader) {
+        note((check ? "would write " : "wrote ") + path.relative(top, loader));
+        if (!check) fs.writeFileSync(loader, wantLoader);
+      }
+    } else if (have !== null || haveLoader !== null) {
+      note((check ? "would remove " : "removed ") + path.relative(top, dir));
+      if (!check) fs.rmSync(dir, { recursive: true });
     }
   }
 }

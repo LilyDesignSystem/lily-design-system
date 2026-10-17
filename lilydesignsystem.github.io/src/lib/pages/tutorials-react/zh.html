@@ -1,0 +1,107 @@
+<!-- title: React 教程 — Lily Design System -->
+<!-- description: 使用 Lily 的 React headless 组件构建一个无障碍、带样式的表单：带类型的函数组件，配合 value + onChange。 -->
+<section class="page-intro">
+  <h1>React 教程</h1>
+  <p class="page-intro-tagline">
+    带类型的函数组件，每个组件一个文件，用标准的
+    <code>value</code> + <code>onChange</code> 模式受控——一切都按 React 本来的方式工作。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你将构建什么</h2>
+  <p>
+    一个小型联系表单——带标签的输入框、提交按钮、受控状态，以及真实的键盘和屏幕阅读器行为——先是不带样式的版本，再加上样式，大约 10 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    你需要 git、Node 22 或更高版本，以及 pnpm 10 或更高版本。任何 React 18+ 项目都可以——Next.js、Vite 或纯 React。
+  </p>
+
+  <h2>第 1 步——获取代码</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    组件是 <code>components/</code> 中的扁平文件——
+    <code>Button.tsx</code>、<code>TextInput.tsx</code>——每个文件旁边都有它的测试、story 和文档。把你需要的文件复制到自己的应用中，或者把该仓库纳入自己的代码库并从中导入。
+  </p>
+
+  <h2>第 2 步——你的第一个组件</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    渲染为 <code>&lt;button class="button" type="button"&gt;</code>。props：
+    <code>type</code>、<code>disabled</code>、<code>pressed</code>（渲染
+    <code>aria-pressed</code>）、<code>label</code>（覆盖
+    <code>aria-label</code>）、<code>className</code>，任何额外的属性都会展开到根元素上。
+  </p>
+
+  <h2>第 3 步——组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> 把可见的 <code>label</code> 作为自己的 prop，而不是嵌套一个标签组件——只需在
+    <code>Field</code> 上传入一次，<code>TextInput</code> 对应的
+    <code>label</code> 就会提供可访问名称。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已验证：</strong>早期草稿在 <code>Field</code> 里嵌套了单独的 <code>Label</code>，结果渲染出<em>两个</em>标签（其中一个为空），因为 <code>Field</code> 已经会根据 <code>label</code> prop 渲染自己的标签——这是通过编译这段代码发现的。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">联系表单组合路由</a>
+      采用同样的模式，并经过真实的端到端测试和 axe 测试。
+    </p>
+  </div>
+
+  <h2>第 4 步——添加样式</h2>
+  <p>
+    以上所有内容渲染出来都是纯结构，随时可以套用你的样式。在你的样式表中为这些钩子设置样式——<code>.button</code>、
+    <code>.text-input</code>、<code>.label</code>、<code>.field</code>——或者通过 <code>className</code> 叠加 Tailwind 工具类，或者链接一个现成的主题：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>第 5 步——看看它的完整效果</h2>
+  <p>
+    <a href="/examples/">Next.js 示例应用</a>是完整目录的带样式演示版本，带有 Playwright 端到端测试和 axe-core 基线：
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主题</a>——用 React 的 theme-picker 辅助包在运行时切换主题。</li>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——语言与文字大小。</li>
+    <li><a href="/components/">组件目录</a>——每个组件的 props、ARIA 和键盘操作。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉我们</a>，我们很乐意改进教程。
+  </p>
+</section>

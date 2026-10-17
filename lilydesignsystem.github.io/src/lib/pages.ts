@@ -7,6 +7,8 @@
 //
 // Each file starts with `<!-- title: … -->` and `<!-- description: … -->` comments, then the page body.
 
+import extraPages from './extra-pages.json';
+
 const raw = import.meta.glob('/src/lib/pages/*/*.html', {
   query: '?raw',
   import: 'default',
@@ -26,6 +28,20 @@ export const PAGE_SLUGS = [
 ] as const;
 
 export type PageSlug = (typeof PAGE_SLUGS)[number];
+
+/**
+ * Further pages a language may translate, one at a time (src/lib/extra-pages.json): the nine tutorials, Figma, Claude Design,
+ * and the news, roadmap and locales pages. Unlike the eight above, a language need not have all of them; a locale's route exists
+ * for each one it has. `introOnly` pages translate their intro section only — the rest (a rendered NEWS.md, a plan, a list
+ * of languages) is generated at build time.
+ */
+export const EXTRA_PAGES = extraPages as { slug: string; route: string; introOnly?: boolean }[];
+export type ExtraSlug = string;
+
+/** Does this locale's language have a translation of this extra page? */
+export function hasExtraPage(slug: ExtraSlug, locale: string): boolean {
+  return `/src/lib/pages/${slug}/${pageLanguage(locale)}.html` in raw;
+}
 
 export type TranslatedPage = { title: string; description: string; html: string };
 
@@ -48,7 +64,7 @@ function parse(source: string): TranslatedPage {
 }
 
 /** The translated page, or null when this locale has none for the slug. */
-export function pageFor(slug: PageSlug, locale: string): TranslatedPage | null {
+export function pageFor(slug: PageSlug | ExtraSlug, locale: string): TranslatedPage | null {
   const source = raw[`/src/lib/pages/${slug}/${pageLanguage(locale)}.html`];
   return source === undefined ? null : parse(source);
 }
@@ -60,9 +76,16 @@ export function pageFor(slug: PageSlug, locale: string): TranslatedPage | null {
  */
 export function localizeLinks(html: string, locale: string): string {
   const slugs = PAGE_SLUGS.join('|');
-  return html.replace(
+  const translated = html.replace(
     new RegExp(`href="/(${slugs})/"`, 'g'),
     (_, slug) => `href="/${locale}/${slug}/"`
+  );
+  // An extra page's link follows only when this language has translated that page.
+  const extras = EXTRA_PAGES.filter((p) => hasExtraPage(p.slug, locale)).map((p) => p.route);
+  if (extras.length === 0) return translated;
+  return translated.replace(
+    new RegExp(`href="/(${extras.join('|')})/"`, 'g'),
+    (_, route) => `href="/${locale}/${route}/"`
   );
 }
 
