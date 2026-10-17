@@ -33,3 +33,5 @@ export { resolveColumn } from "./cell-types";
 export type { DataGridCellType, DataGridOption } from "./cell-types";
 export { draftOf, editorKind, evaluateEdit, exportFieldCell, exportableFields, fieldText, fieldValue, isEditableField, neighbourField, parseDraft, resolveFields } from "./typed-fields";
 export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from "./typed-fields";
+export { ARROW_GAP, dependencyPath, weekdayOfEpochDay } from "./dependency-arrows";
+export type { ArrowBox, DependencyKind } from "./dependency-arrows";

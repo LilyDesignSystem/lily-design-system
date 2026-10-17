@@ -138,9 +138,12 @@ finding (Angular's version has none at all, unlike Svelte's).
 - **Typed fields and editing** (0.5.0): `fields` + `task.values` add typed columns; `fieldEdit` output with `[editableFields]="true"` edits them in place (click, F2, Tab). See [spec §11](./spec/index.md#11-typed-fields-inline-editing-export-virtualization-050-2026-10-16).
 - **Export and virtualization** (0.5.0): `labels.exportCsv` / `exportTsv` / `exportExcel` plus `labels.exportHeaders` add CSV, TSV and Excel buttons; `virtualize` windows long task lists.
 
+## Weekend shading and dependency arrows (0.6.0)
+
+- **`weekends`** (weekdays, 0 = Sunday … 6 = Saturday, never defaulted) marks day columns `data-weekend` on the header and every cell; the 57 `themes/` tint them. Week and month columns are not marked.
+- **`dependencyArrows`** draws an `aria-hidden` SVG arrow (`.gantt-chart-dependency-arrow`, `data-from`, `data-to`, `data-dependency-type`) per dependency by its type (`e2s`, `s2s`, `s2e`, `e2e`), measured from the rendered cells; the text description (`labels.dependencySummary`) remains. See spec §17.
+
 ## Non-goals
 
-Dependency-arrow rendering, critical-path calculation,
-dependency types beyond finish-to-start, interactive zoom-level
-switching, weekend/holiday shading, resource/assignee columns — see
+Critical-path calculation, interactive zoom-level switching, calendar-derived holiday shading (`isNonWorking` marks holidays), resource/assignee columns — see
 [spec/index.md §9](./spec/index.md#9-non-goals).

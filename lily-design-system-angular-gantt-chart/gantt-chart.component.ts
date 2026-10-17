@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   Injector,
   afterNextRender,
   ElementRef,
@@ -35,6 +36,7 @@ import {
 
 import { downloadBlob, exportBlob, exportFilename, type ExportFormat } from "./export-data";
 import { civilDateToDate } from "./cell-types";
+import { dependencyPath, weekdayOfEpochDay, type ArrowBox, type DependencyKind } from "./dependency-arrows";
 import {
   draftOf,
   editorKind,
@@ -401,6 +403,7 @@ export function nextGanttChartId(): string {
         [class]="virtualize() ? 'gantt-chart-scroll' : 'gantt-chart-body'"
         [style.height.px]="virtualize()?.height ?? null"
         [style.overflow]="virtualize() ? 'auto' : null"
+        [style.position]="dependencyArrows() ? 'relative' : null"
         (scroll)="onScroll($event)"
       >
       <lily-gantt-table
@@ -430,6 +433,7 @@ export function nextGanttChartId(): string {
                 scope="col"
                 [attr.data-today]="colToday ? '' : null"
                 [attr.data-non-working]="nonWorkingColumns()[headIndex] ? '' : null"
+                [attr.data-weekend]="weekendColumns()[headIndex] ? '' : null"
                 [attr.data-marker]="markerKinds(colMarkers)"
               >
                 {{ labels().columnLabel?.(column.start, column.end, timeUnit()) ?? column.start }}
@@ -546,6 +550,7 @@ export function nextGanttChartId(): string {
                   [attr.data-milestone]="isMilestone ? '' : null"
                   [attr.data-today]="colToday ? '' : null"
                   [attr.data-non-working]="nonWorkingColumns()[colIndex] ? '' : null"
+                  [attr.data-weekend]="weekendColumns()[colIndex] ? '' : null"
                   [attr.data-marker]="markersAt(colIndex).length ? '' : null"
                   [attr.aria-describedby]="describedBy(row.task, deps.length > 0)"
                   [attr.data-baseline]="hasBaseline(row.task, column) ? '' : null"
@@ -623,6 +628,33 @@ export function nextGanttChartId(): string {
           }
         </tbody>
       </lily-gantt-table>
+      @if (dependencyArrows() && arrows().length) {
+        <svg
+          class="gantt-chart-dependency-arrows"
+          aria-hidden="true"
+          focusable="false"
+          [attr.width]="overlaySize().width"
+          [attr.height]="overlaySize().height"
+          style="position:absolute;left:0;top:0;pointer-events:none"
+        >
+          <defs>
+            <marker [attr.id]="arrowHeadId" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3L0 6z" fill="currentColor" /></marker>
+          </defs>
+          @for (arrow of arrows(); track arrow.key) {
+            <path
+              class="gantt-chart-dependency-arrow"
+              [attr.data-from]="arrow.from"
+              [attr.data-to]="arrow.to"
+              [attr.data-dependency-type]="arrow.kind"
+              [attr.d]="arrow.d"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              [attr.marker-end]="'url(#' + arrowHeadId + ')'"
+            />
+          }
+        </svg>
+      }
       </div>
 
       <p class="gantt-chart-status" aria-live="polite">{{ statusMessage() }}</p>
@@ -651,6 +683,10 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   readonly markers = input<GanttMarker[]>([]);
   /** Consumer's own working calendar; a column is `data-non-working` when every day in it is non-working. */
   readonly isNonWorking = input<((isoDate: string) => boolean) | undefined>(undefined);
+  /** Weekdays to shade (0 = Sunday … 6 = Saturday), for example `[0, 6]` or `[5, 6]`. Never defaulted: the weekend is the consumer's locale. Marks day columns `data-weekend` on the header and every cell; week and month columns are not marked. Shading itself is CSS. */
+  readonly weekends = input<number[] | undefined>(undefined);
+  /** Draw an arrow from each predecessor's bar to its dependent task's, by the dependency's type. An `aria-hidden` SVG overlay measured from the rendered cells; the dependencies stay available as text through `labels.dependencySummary`. Drawn only between rendered rows. */
+  readonly dependencyArrows = input<boolean>(false);
   /** Suppress editing, drag and the edit region; navigation and collapse still work. */
   readonly readonly = input<boolean>(false);
   /** Resolves a task to its display label. Defaults to `task.label`. */
@@ -692,6 +728,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   private readonly scrollRef = viewChild<ElementRef<HTMLDivElement>>("scrollEl");
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly statusMessage = signal("");
   /** Ids of collapsed parent tasks. Two-way bindable: `[(collapsedTaskIds)]`; the collapse buttons, `labels.expandAll` and `labels.collapseAll` change it. */
@@ -721,6 +758,52 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
   }
   protected readonly todayColumns = computed(() => this.columns().map((column) => this.isTodayColumn(column)));
   protected readonly nonWorkingColumns = computed(() => this.columns().map((column) => this.isNonWorkingColumn(column)));
+  protected readonly weekendColumns = computed(() => {
+    const weekends = this.weekends();
+    return this.columns().map((column) => {
+      if (!weekends?.length || column.start !== column.end) return false;
+      const day = parseIsoDate(column.start);
+      return !!day && weekends.includes(weekdayOfEpochDay(toEpochDay(day)));
+    });
+  });
+
+  // Dependency arrows: an aria-hidden overlay measured from the rendered cells.
+  protected readonly arrows = signal<{ key: string; from: string; to: string; kind: string; d: string }[]>([]);
+  protected readonly overlaySize = signal({ width: 0, height: 0 });
+  protected readonly arrowHeadId = `${this.baseId}-arrowhead`;
+  private arrowObserver: ResizeObserver | undefined;
+
+  private measureArrows(): void {
+    const el = this.scrollRef()?.nativeElement;
+    if (!this.dependencyArrows() || !el) {
+      if (this.arrows().length) this.arrows.set([]);
+      return;
+    }
+    const host = el.getBoundingClientRect();
+    const dx = el.scrollLeft - host.left;
+    const dy = el.scrollTop - host.top;
+    const boxes = new Map<string, ArrowBox>();
+    el.querySelectorAll<HTMLElement>("tr[data-task-id]").forEach((tr) => {
+      const cells = tr.querySelectorAll<HTMLElement>("td[data-in-range]");
+      if (!cells.length) return;
+      const first = cells[0].getBoundingClientRect();
+      const last = cells[cells.length - 1].getBoundingClientRect();
+      boxes.set(tr.dataset["taskId"] ?? "", { left: first.left + dx, right: last.right + dx, top: first.top + dy, bottom: first.bottom + dy });
+    });
+    const next: { key: string; from: string; to: string; kind: string; d: string }[] = [];
+    for (const [id, to] of boxes) {
+      for (const dep of this.taskById().get(id)?.dependsOn ?? []) {
+        const predecessorId = typeof dep === "string" ? dep : dep.id;
+        const from = boxes.get(predecessorId);
+        if (!from) continue;
+        const kind: DependencyKind = (typeof dep === "string" ? undefined : dep.type) ?? "e2s";
+        next.push({ key: `${predecessorId}>${id}`, from: predecessorId, to: id, kind, d: dependencyPath(kind, from, to) });
+      }
+    }
+    if (JSON.stringify(this.arrows()) !== JSON.stringify(next)) this.arrows.set(next);
+    const size = this.overlaySize();
+    if (size.width !== el.scrollWidth || size.height !== el.scrollHeight) this.overlaySize.set({ width: el.scrollWidth, height: el.scrollHeight });
+  }
 
   // The roving cursor, clamped to the cells that exist now: collapsing a parent
   // can remove the row it named, and the grid must never leave the tab order.
@@ -756,6 +839,7 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
       if (this.virtualize()) table.setAttribute("aria-rowcount", String(this.rows().length + 1));
       else table.removeAttribute("aria-rowcount");
     }
+    this.measureArrows();
     const attrs = this.taskAttrs();
     if (!attrs) return;
     const byId = new Map(this.tasks().map((t) => [t.id, t]));
@@ -770,6 +854,13 @@ export class GanttChart implements AfterViewInit, AfterViewChecked {
     this.rootRef()
       .nativeElement.querySelector("table.gantt-table")
       ?.setAttribute("role", "grid");
+    // Re-measure when the table's own size changes (zoom, fonts, resize); ngAfterViewChecked covers re-renders.
+    const table = this.scrollRef()?.nativeElement.querySelector("table");
+    if (table && typeof ResizeObserver !== "undefined") {
+      this.arrowObserver = new ResizeObserver(() => this.measureArrows());
+      this.arrowObserver.observe(table);
+      this.destroyRef.onDestroy(() => this.arrowObserver?.disconnect());
+    }
   }
 
   protected rangeFor(task: GanttTask, hasChildren: boolean): { start: string; end: string } {
