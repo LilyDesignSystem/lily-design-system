@@ -104,6 +104,8 @@ export type GanttLabels = {
    */
   dateTimePickerLabels?: DateTimePickerLabels;
   saveLabel?: string;
+  /** Visible text on a task with `critical: true` (e.g. "Critical path"), beside its label: the state is never colour-only, and the task label itself (also used in "depends on" text) stays unchanged. */
+  criticalLabel?: string;
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
@@ -1308,6 +1310,9 @@ export function GanttChart({
                           ),
                         )
                       : taskLabel(row.task)}
+                    {row.task.critical && labels.criticalLabel && (
+                      <span className="gantt-chart-critical-label">{labels.criticalLabel}</span>
+                    )}
                     {hasDependencySummary && (
                       <span
                         id={dependencyId(row.task.id)}

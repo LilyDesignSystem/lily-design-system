@@ -130,6 +130,8 @@ export type GanttLabels = {
   /** Reused for both composed DateTimePicker instances. Editing is gated on this. */
   dateTimePickerLabels?: DateTimePickerLabels;
   saveLabel?: string;
+  /** Visible text on a task with `critical: true` (e.g. "Critical path"), beside its label: the state is never colour-only, and the task label itself (also used in "depends on" text) stays unchanged. */
+  criticalLabel?: string;
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
@@ -523,6 +525,9 @@ export function nextGanttChartId(): string {
                     @if (part.match) {<lily-mark className="gantt-chart-match">{{ part.text }}</lily-mark>} @else {{{ part.text }}}
                   }
                 } @else {{{ taskLabel()(row.task) }}}
+                @if (row.task.critical && labels().criticalLabel) {
+                  <span class="gantt-chart-critical-label">{{ labels().criticalLabel }}</span>
+                }
                 @if (hasDeps) {
                   <span [id]="dependencyId(row.task.id)" class="gantt-chart-dependency-summary" hidden>{{
                     labels().dependencySummary!(deps)

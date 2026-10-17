@@ -585,6 +585,22 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
     expect(row.getAttribute("data-slack")).toBe("2");
   });
 
+  test("labels.criticalLabel is visible text on a critical task, beside its unchanged label", () => {
+    const fixture = mount({
+      tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true }, { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] }] as GanttTask[],
+      labels: { criticalLabel: "Critical path", dependencySummary: (l: string[]) => `Depends on ${l.join(", ")}` },
+    });
+    const found = fixture.nativeElement.querySelectorAll(".gantt-chart-critical-label");
+    expect(found.length).toBe(1);
+    expect(found[0].textContent).toBe("Critical path");
+    expect(fixture.nativeElement.querySelector(".gantt-chart-dependency-summary").textContent.trim()).toBe("Depends on A");
+  });
+
+  test("without labels.criticalLabel no critical text renders", () => {
+    const fixture = mount({ tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true }, { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] }] as GanttTask[] });
+    expect(fixture.nativeElement.querySelector(".gantt-chart-critical-label")).toBeNull();
+  });
+
   test("readonly: no edit region, no drag, navigation and collapse still work", () => {
     const fixture = mount({ labels: LABELS, readonly: true });
     press(fixture, tabbableCells(fixture)[0], "Enter");

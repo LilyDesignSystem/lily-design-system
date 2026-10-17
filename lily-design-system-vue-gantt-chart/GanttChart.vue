@@ -96,6 +96,8 @@ export type GanttLabels = {
     /** Reused for both composed DateTimePicker instances. Editing is gated on this. */
     dateTimePickerLabels?: DateTimePickerLabels;
     saveLabel?: string;
+    /** Visible text on a task with `critical: true` (e.g. "Critical path"), beside its label: the state is never colour-only, and the task label itself (also used in "depends on" text) stays unchanged. */
+    criticalLabel?: string;
     cancelLabel?: string;
     dependencySummary?: (predecessorLabels: string[]) => string;
     dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
@@ -1241,6 +1243,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
                                 {{ collapsed.has(view.row.task.id) ? "▸" : "▾" }}
                             </button>
                             <template v-if="searching"><template v-for="(part, i) in highlightSegments(resolveTaskLabel(view.row.task), search)" :key="i"><Mark v-if="part.match" class="gantt-chart-match">{{ part.text }}</Mark><template v-else>{{ part.text }}</template></template></template><template v-else>{{ resolveTaskLabel(view.row.task) }}</template>
+                            <span v-if="view.row.task.critical && labels?.criticalLabel" class="gantt-chart-critical-label">{{ labels.criticalLabel }}</span>
                             <span
                                 v-if="view.deps.length > 0 && labels?.dependencySummary"
                                 :id="dependencyId(view.row.task.id)"

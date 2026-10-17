@@ -64,7 +64,6 @@ const SPEC = new Function(`return ${specBody}`)();
 // Svelte features the TypeScript ports have not received yet (2026-10-18): the labels exist in the packs and in Svelte only.
 const KNOWN_GAPS = {
   "kanban-board": ["titleEditor", "titleEditAnnouncement"],
-  "gantt-chart": ["criticalLabel"],
 };
 const MAIN = {
   svelte: { "data-grid": "DataGrid.svelte", "kanban-board": "KanbanBoard.svelte", calendar: "CalendarView.svelte", "gantt-chart": "GanttChart.svelte", filter: "Filter.svelte" },

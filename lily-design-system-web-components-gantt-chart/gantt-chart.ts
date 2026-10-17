@@ -132,6 +132,8 @@ export type GanttLabels = {
   /** Reused for both composed DateTimePicker instances. Editing is gated on this. */
   dateTimePickerLabels?: DateTimePickerLabels;
   saveLabel?: string;
+  /** Visible text on a task with `critical: true` (e.g. "Critical path"), beside its label: the state is never colour-only, and the task label itself (also used in "depends on" text) stays unchanged. */
+  criticalLabel?: string;
   cancelLabel?: string;
   dependencySummary?: (predecessorLabels: string[]) => string;
   dateAnnouncement?: (taskLabel: string, start: string, end: string) => string;
@@ -1775,6 +1777,13 @@ export class GanttChart extends HTMLElement {
           mark.textContent = part.text;
           rowHeader.appendChild(mark);
         }
+      }
+
+      if (row.task.critical && this.#labels.criticalLabel) {
+        const critical = document.createElement("span");
+        critical.className = "gantt-chart-critical-label";
+        critical.textContent = this.#labels.criticalLabel;
+        rowHeader.appendChild(critical);
       }
 
       if (hasDependencySummary) {

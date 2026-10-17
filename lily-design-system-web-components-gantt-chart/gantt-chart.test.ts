@@ -502,6 +502,19 @@ describe("GanttChart — markers, working calendar, task data, readonly", () => 
     expect(row.getAttribute("data-slack")).toBe("2");
   });
 
+  test("labels.criticalLabel is visible text on a critical task, beside its unchanged label", () => {
+    mount({ tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true }, { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] }], labels: { criticalLabel: "Critical path", dependencySummary: (l: string[]) => `Depends on ${l.join(", ")}` } });
+    const found = document.querySelectorAll(".gantt-chart-critical-label");
+    expect(found).toHaveLength(1);
+    expect(found[0].textContent).toBe("Critical path");
+    expect(document.querySelector(".gantt-chart-dependency-summary")!.textContent).toBe("Depends on A");
+  });
+
+  test("without labels.criticalLabel no critical text renders", () => {
+    mount({ tasks: [{ id: "a", label: "A", start: "2026-10-01", end: "2026-10-02", critical: true }, { id: "b", label: "B", start: "2026-10-03", end: "2026-10-04", dependsOn: ["a"] }] });
+    expect(document.querySelector(".gantt-chart-critical-label")).toBeNull();
+  });
+
   test("readonly: no edit region, no drag, navigation and collapse still work", () => {
     const el = mount({ labels: LABELS });
     el.readonly = true;
