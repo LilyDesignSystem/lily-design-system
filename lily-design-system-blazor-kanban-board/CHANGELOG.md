@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Fixed: a card's cell no longer carries an `aria-label` of the title alone. Its accessible name was the title while a sighted user also saw the subtitle, badges and fields (WCAG 2.5.3, label in name; reported against a waitlist board). The cell is now named by its content, so the name includes everything visible. `cardLabel` still drives the title text, the title editor and the announcements.
+
 ## 0.8.0 — 2026-10-18
 
 - Added `CanMoveToLane` (like `CanMove` plus the lane the card would land in; both vetoes apply, so existing `CanMove` code is unchanged), `AllowLaneChange`, `ShowSearchLabel` and `FieldLayout`. `AllowLaneChange=false` refuses every cross-lane drop; `ShowSearchLabel` shows `Labels.Search` as visible text tied to the search field (WCAG 2.5.3); `FieldLayout="compact"` sets `data-field-layout="compact"` on the board. Ported from the Svelte package.

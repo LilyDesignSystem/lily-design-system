@@ -201,7 +201,6 @@
                                        aria-describedby="@(card?.Flag is not null ? $"{_baseId}-flag-{card.Id}" : null)"
                                        @attributes="@(card is not null && CardAttributes is not null ? CardAttributes(card) : null)"
                                        tabindex="@(isActive ? "0" : "-1")"
-                                       Label="@(card is not null ? ResolveCardLabel(card) : null)"
                                        @ondragover:preventDefault="true"
                                        @ondragenter="@(() => OnColumnDragEnter(row, col))"
                                        @ondrop="@(e => OnColumnDropAsync(column, row, e))"

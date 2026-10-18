@@ -827,6 +827,14 @@ public class KanbanBoardInteractionTests : TestContext
     }
 
     [Fact]
+    public void The_Card_Cell_Is_Named_By_Its_Content_So_Subtitle_And_Badges_Are_In_The_Name()
+    {
+        var cell = CardCell(RenderRich(), "c1");
+        Assert.True(string.IsNullOrEmpty(cell.GetAttribute("aria-label")));  // KanbanTableTD renders an empty aria-label, which names nothing
+        foreach (var visible in new[] { "Card One", "Source · 80", "P1", "VIP" }) Assert.Contains(visible, cell.TextContent);
+    }
+
+    [Fact]
     public void Subtitle_Badges_A_Link_Title_A_Flag_With_Aria_Describedby_And_Column_Flag_And_Accent_Render()
     {
         var cut = RenderRich();

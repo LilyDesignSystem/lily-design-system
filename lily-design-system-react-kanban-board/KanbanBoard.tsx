@@ -1459,7 +1459,6 @@ export function KanbanBoard({
                     data-drop-blocked={dropTarget === `${rowIndex}-${colIndex}` && dropBlocked ? "" : undefined}
                     {...(card ? (cardAttrs?.(card) ?? {}) : {})}
                     active={activeRow === rowIndex && activeCol === colIndex}
-                    label={card ? cardLabel(card) : undefined}
                     onDragOver={(e: React.DragEvent) => onColumnDragOver(e, column, rowIndex, colIndex)}
                     onDragLeave={() => {
                       setDropTarget(null);

@@ -642,6 +642,14 @@ describe("KanbanBoard — filter, drop position, locked, Alt+Arrow, cardAttrs, c
         expect(cell("c2").getAttribute("data-priority")).toBe("low");
     });
 
+    test("§8.48a the card cell is named by its content, so the subtitle and badges a sighted user sees are in the name (WCAG 2.5.3)", async () => {
+        build({ cards: rich, columns: cols });
+        await flush();
+        expect(cell("c1").hasAttribute("aria-label")).toBe(false);
+        const text = cell("c1").textContent!;
+        for (const visible of ["Card One", "Source · 80", "P1", "VIP"]) expect(text).toContain(visible);
+    });
+
     test("§8.48 subtitle, badges and a link title render; §8.50 the flag is text, data-flag and aria-describedby; §8.51 column flag and accent", async () => {
         build({ cards: rich, columns: cols });
         await flush();

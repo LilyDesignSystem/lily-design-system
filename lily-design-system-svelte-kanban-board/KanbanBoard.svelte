@@ -1323,7 +1323,6 @@
                             {...(card ? (cardAttrs?.(card) ?? {}) : {})}
                             data-collapsed={isCollapsed(column.id) ? "" : undefined}
                             active={activeRow === rowIndex && activeCol === colIndex}
-                            label={card ? cardLabel(card) : undefined}
                             data-drop-target={dropTarget === `${rowIndex}-${colIndex}` && !dropBlocked ? "" : undefined}
                             data-drop-blocked={dropTarget === `${rowIndex}-${colIndex}` && dropBlocked ? "" : undefined}
                             ondragover={(e: DragEvent) => onColumnDragOver(e, column, rowIndex, colIndex)}

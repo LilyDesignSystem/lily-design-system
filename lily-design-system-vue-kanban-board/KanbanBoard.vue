@@ -1374,7 +1374,6 @@ function onGridKeydown(event: KeyboardEvent): void {
                         :aria-describedby="cell.card?.flag ? `${baseId}-flag-${cell.card.id}` : undefined"
                         v-bind="cell.card ? (cardAttrs?.(cell.card) ?? {}) : {}"
                         :active="activeRow === rowOf(item) && activeCol === cell.colIndex"
-                        :label="cell.card ? resolveCardLabel(cell.card) : ''"
                         @dragover="(e: DragEvent) => onColumnDragOver(e, cell.column, rowOf(item), cell.colIndex)"
                         @dragleave="() => { dropTarget = null; dropBlocked = false; }"
                         @drop="(e: DragEvent) => onColumnDrop(cell.column, rowOf(item), e)"

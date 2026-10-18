@@ -2159,7 +2159,6 @@ export class KanbanBoard extends HTMLElement {
                 const active = this.#focusedRow === rowIndex && this.#focusedCol === colIndex;
                 td.setAttribute("tabindex", active ? "0" : "-1");
                 if (card) {
-                    td.setAttribute("aria-label", this.#cardLabel(card));
                     td.dataset.cardId = card.id;
                 }
                 if (column.accent) td.setAttribute("data-accent", column.accent);
