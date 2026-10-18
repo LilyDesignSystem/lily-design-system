@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/vue-headless':
-        specifier: ^0.4.0
-        version: 0.4.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.5.0
+        version: 0.5.0(vue@3.5.44(typescript@5.9.3))
     devDependencies:
       '@testing-library/vue':
         specifier: ^8.1.0
         version: 8.1.0(@vue/compiler-dom@3.5.44)(@vue/compiler-sfc@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@5.9.3))
       '@vitejs/plugin-vue':
-        specifier: ^6.0.9
+        specifier: ^6.0.10
         version: 6.0.10(vite@8.3.4)(vue@3.5.44(typescript@5.9.3))
       '@vue/test-utils':
         specifier: ^2.5.1
@@ -31,10 +31,10 @@ importers:
         specifier: ^8.3.1
         version: 8.3.4
       vitest:
-        specifier: ^5.0.3
+        specifier: ^5.0.4
         version: 5.0.5(jsdom@30.1.3)(vite@8.3.4)
       vue:
-        specifier: ^3.5.43
+        specifier: ^3.5.44
         version: 3.5.44(typescript@5.9.3)
       vue-tsc:
         specifier: ^3.3.11
@@ -134,8 +134,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/vue-headless@0.4.0':
-    resolution: {integrity: sha512-CdpabsvwGPVef7R2BQT5xxcmyUeMDEdZXQ1cAdCBwaWSjeXMfUuMKW9itKEExtrCfvEOrqY3vAUX8Ilpx2W4TQ==}
+  '@lilydesignsystem/vue-headless@0.5.0':
+    resolution: {integrity: sha512-f6mh6rI9Bv9A3f4oVJljgYj4c1iR5zFkxtnfz/0TC7Ia9DoI+VbF99SQLdfT6pS8/PVF6AXxZcdrc5+1E1cgXg==}
     engines: {node: '=26'}
     peerDependencies:
       vue: ^3.4.0
@@ -1164,7 +1164,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/vue-headless@0.4.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-headless@0.5.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)

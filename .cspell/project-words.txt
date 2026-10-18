@@ -31,6 +31,7 @@ prerendering
 prerenders
 resx
 rsyncs
+scrollspy
 scrollytelling
 sockpuppets
 sparkline
@@ -42,6 +43,7 @@ unhead
 unimportable
 unlayered
 unpiped
+unthemed
 
 # Acronyms and initialisms
 CSUN
@@ -73,6 +75,8 @@ Deque
 designsystem
 designsystems
 designsystemscoalition
+ETARGET
+Fiori
 govuk
 Hashnode
 infoq
