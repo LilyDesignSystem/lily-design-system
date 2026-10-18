@@ -124,7 +124,8 @@ if [ -z "$NUGET_ONLY" ]; then
   # per package, Svelte first, 2026-10-10): each is its own pnpm root, so
   # install and publish it in place (its `prepublishOnly` runs its own
   # build). --only names the package directory itself.
-  for d in $(for fw in svelte react vue html web-components nunjucks; do "$ROOT/bin/list-helper-packages" "$fw"; done); do
+  # lily-design-system-locale-translations belongs to no framework (the label packs, one npm package for every catalog).
+  for d in $(for fw in svelte react vue html web-components nunjucks; do "$ROOT/bin/list-helper-packages" "$fw"; done) lily-design-system-locale-translations; do
     d="$ROOT/$d"
     [ -f "$d/package.json" ] || continue
     only_matches "$d" || continue

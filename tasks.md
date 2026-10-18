@@ -2310,7 +2310,7 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
   (Blazor: `PeriodTitleWithAnchor`, so 3-argument code still compiles), the kanban lane rules (`canMove` lane argument,
   `allowLaneChange`; Nunjucks passes a lane id, Blazor adds `CanMoveToLane`), `showSearchLabel` and `fieldLayout`, and the data grid
   footer totals (`allRows` / `aggregate`; Blazor `AllRows` / `Total`), `--data-grid-pinned-offset` and remembered column order.
-- [x] **P11-T10 (built 2026-10-18, awaiting publish: `@lilydesignsystem/locale-translations` and `LilyDesignSystem.Blazor.LocaleTranslations`, flat exports, no drafts path, plus `endonym` / `exonyms` / `direction` from locales.tsv) Publish the label packs as a package** (one export per locale; English stable, drafts under a separate path), with the
+- [x] **P11-T10 (done 2026-10-18, published and verified: `@lilydesignsystem/locale-translations` and `LilyDesignSystem.Blazor.LocaleTranslations`, flat exports, no drafts path, plus `endonym` / `exonyms` / `direction` from locales.tsv) Publish the label packs as a package** (one export per locale; English stable, drafts under a separate path), with the
   loaders; decide the name and whether Blazor ships the JSON as an embedded resource.
 - [x] **P11-T11 Release** (done 2026-10-18: data-grid 0.11.0, kanban-board and gantt-chart 0.8.0, calendar 0.7.0 in all eight catalogs; `bin/verify-published` reports all 129 versions on their registries; the README now ships in the tarballs). Original note: patch release for the unreleased items (versions bumped per package, changelogs already written), then
   `bin/publish-helpers` and `bin/verify-published --wait 900`. Needs the maintainer's go-ahead. npm publishes from the maintainer's

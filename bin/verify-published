@@ -78,6 +78,11 @@ def main() -> int:
     interval = int(arg("--interval", "30") or 30)
     chosen = [f for f in FRAMEWORKS if only_framework in (None, f)]
     todo = [p for f in chosen for p in packages(f) if only is None or only in p[0]]
+    if only_framework is None:
+        # The label packs belong to no framework: one npm package for every catalog.
+        manifest = json.load(open(os.path.join(TOP, "lily-design-system-locale-translations", "package.json")))
+        if only is None or only in "lily-design-system-locale-translations":
+            todo.append(("lily-design-system-locale-translations", "npm", manifest["name"], manifest["version"]))
     deadline = time.time() + wait
     missing = list(todo)
     while True:
