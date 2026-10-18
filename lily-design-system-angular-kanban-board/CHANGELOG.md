@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.1 — 2026-10-18
+
+- No code change; the version follows the other catalogs, whose card cell no longer carries a title-only `aria-label`. This catalog already named the cell by its content.
+
 ## 0.8.0 — 2026-10-18
 
 - Added `allowLaneChange`, `showSearchLabel` and `fieldLayout` inputs; `canMove` also receives the swimlane the card would land in; `allowLaneChange` (default true) refuses every cross-lane drop when false; `showSearchLabel` shows `labels.search` as visible text tied to the search field (WCAG 2.5.3); `fieldLayout="compact"` sets `data-field-layout="compact"` on the board. Ported from the Svelte package.

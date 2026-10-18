@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.KanbanBoard</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.KanbanBoard</PackageId>
-    <Version>0.8.0</Version>
+    <Version>0.8.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor kanban board: a keyboard-accessible kanban board composing the headless KanbanTable family plus IconButton/Listbox for a per-card "Move to..." menu. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

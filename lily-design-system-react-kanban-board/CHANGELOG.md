@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.1 — 2026-10-18
 
 - Fixed: a card's cell no longer carries an `aria-label` of the title alone. Its accessible name was the title while a sighted user also saw the subtitle, badges and fields (WCAG 2.5.3, label in name; reported against a waitlist board). The cell is now named by its content, so the name includes everything visible. `cardLabel` still drives the title text, the title editor and the announcements.
 
@@ -48,7 +48,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 - Added `readonly`, `canMove` (with `labels.moveBlocked`) and within-column reorder (Alt+ArrowUp/Down fires `onReorder`, with `labels.reorderAnnouncement`), ported from the Svelte 0.2.0.
 
-## Unreleased — 2026-10-11
+## 0.8.1 — 2026-10-18 — 2026-10-11
 
 Fixed: keys in an open move menu no longer reach the grid; focus and the roving cursor follow a moved card to its new
 column; clicking a cell moves the cursor; the tab stop survives the board shrinking; choosing or dropping on a card's own
