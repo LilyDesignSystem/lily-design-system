@@ -15,11 +15,11 @@
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
-    "@storybook/html-vite": "^10.6.1",
-    "jsdom": "^30.1.1",
+    "@storybook/html-vite": "^10.6.2",
+    "jsdom": "^30.1.3",
     "storybook": "^10.6.2",
-    "vite": "^8.3.1",
-    "vitest": "^5.0.4"
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
   },
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
