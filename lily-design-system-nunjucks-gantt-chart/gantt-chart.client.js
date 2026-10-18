@@ -67,6 +67,9 @@ import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit } from "./edi
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState } from "./typeahead";
 import { civilDateToDate } from "./cell-types";
 import { dependencyPath, weekdayOfEpochDay } from "./dependency-arrows";
+
+// Optional: fills each leaf task's `critical` / `slack` (shared/critical-path.ts); the template renders them.
+export { applyCriticalPath, criticalPath } from "./critical-path";
 import {
   draftOf,
   editorKind,

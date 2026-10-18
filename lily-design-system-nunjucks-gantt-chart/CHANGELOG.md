@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added `criticalPath()` and `applyCriticalPath()` (all four dependency kinds, lags and leads in calendar or working days), exported from the package and copied from `shared/critical-path.ts`. Ported from the Svelte package.
 - Works with the label packs: `nunjucksLabelsFor()` gives the macro `labels` and the client option `labels`. `labels.dependencyDetail` may be an object of templates keyed by dependency type (`e2s`, `s2s`, `e2e`, `s2e`).
 - Added `labels.criticalLabel`: visible text (`.gantt-chart-critical-label`) beside the label of a critical task.
 
