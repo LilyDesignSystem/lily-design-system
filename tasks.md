@@ -2315,7 +2315,7 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
   machine until an `NPM_TOKEN` secret exists.
 - [ ] **P11-T12 Decide the `engines.node` range for published packages.** The pin `=26` follows `spec/node-current-version`; a
   consumer on another Node fails `pnpm install` under engine-strict. A range such as `>=26` is safer for published packages.
-- [ ] **P11-T13 Packaging.** `README.md` is a symlink to `index.md` and npm leaves symlinks out of the tarball, so the `files`
+- [x] **P11-T13 Packaging** (done 2026-10-18: `bin/publish-headless` and `bin/publish-helpers` publish a real `README.md` copy, then restore the symlink). `README.md` is a symlink to `index.md` and npm leaves symlinks out of the tarball, so the `files`
   entry `README.md` in the helper packages' manifests ships nothing; ship a real copy at pack time or drop the entry (checked with `npm pack --dry-run` for svelte-calendar).
 - [x] **P11-T14 Fix the headless `Editable`'s accessible name (WCAG 2.5.3, label in name)** — done 2026-10-18. `@axe-core/playwright` 4.14 reported
   `label-content-name-mismatch` on the display-mode `role="button"` whose visible value was not in its `aria-label`. The display-mode name is now

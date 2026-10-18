@@ -28,6 +28,8 @@ export { draftOf, editorKind, evaluateEdit, exportFieldCell, exportableFields, f
 export type { Draft, EditOutcome, FieldDef, FieldValues, ResolvedField } from "./typed-fields";
 export { ARROW_GAP, dependencyPath, weekdayOfEpochDay } from "./dependency-arrows";
 export type { ArrowBox, DependencyKind } from "./dependency-arrows";
+export { applyCriticalPath, criticalPath } from "./critical-path";
+export type { CriticalPathDependency, CriticalPathDependencyType, CriticalPathResult, CriticalPathTask } from "./critical-path";
 export { foldText, highlightSegments, matchesSearch, searchTerms } from "./search-text";
 export type { SearchSegment } from "./search-text";
 export { copyToClipboard, toClipboardText } from "./export-data";

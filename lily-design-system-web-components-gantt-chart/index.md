@@ -156,3 +156,14 @@ including this one's, under vitest + jsdom.
 ## Search (0.7.0)
 
 `search` (a property; the field renders when `labels.search` names it) narrows the tasks: every word must appear, in any order, ignoring case and diacritics. New: the Gantt had no search. Matching tasks show with their ancestors (so the hierarchy stays readable); searching ignores collapse so a match under a collapsed parent is found, and clearing the search restores it. The default text is the task label and every field's text (`searchText` replaces it). Matches in the label are wrapped in `<mark class="gantt-chart-match">`; `labels.searchAnnouncement(matches, total)` is announced; Escape clears. `exportScope: "visible"` exports only what the search leaves. See spec §18.
+
+## Critical path (optional helper)
+
+The chart renders `critical` and `slack`; it computes nothing. `applyCriticalPath(tasks)` (or `criticalPath(tasks)` for the raw result) fills them in: a forward and backward pass over leaf tasks, all four dependency kinds (`e2s`, `s2s`, `e2e`, `s2e`) with lags and leads in calendar days. A task's own `start` is a floor, so dependencies only push tasks later; summary rows, unscheduled tasks and unknown ids are ignored; a dependency cycle is reported in `cycle` and left out. Show it with `labels.criticalLabel`.
+
+Lag is in calendar days by default. For schedules that count business days, pass `{ lagUnit: "working-days", weekends, unavailable }` (the same `weekends` and `unavailable` you give the chart for shading): a lag of N then moves N working days, skipping weekends (default Saturday and Sunday) and the listed holidays, and the backward pass keeps a predecessor off non-working days so a weekend is never reported as slack. Task spans stay as dated; only the gaps between tasks change.
+
+```ts
+import { applyCriticalPath } from "@lilydesignsystem/web-components-gantt-chart";
+const tasks = applyCriticalPath(rawTasks); // each leaf task gains critical / slack
+```

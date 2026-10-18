@@ -61,3 +61,5 @@ if (typeof customElements !== "undefined" && !customElements.get("lily-gantt-cha
 }
 export { ARROW_GAP, dependencyPath, weekdayOfEpochDay } from "./dependency-arrows.js";
 export type { ArrowBox, DependencyKind } from "./dependency-arrows.js";
+export { applyCriticalPath, criticalPath } from "./critical-path.js";
+export type { CriticalPathDependency, CriticalPathDependencyType, CriticalPathResult, CriticalPathTask } from "./critical-path.js";
