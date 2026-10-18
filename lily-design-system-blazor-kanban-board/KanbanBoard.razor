@@ -29,10 +29,15 @@
 *@
 
 @{ var layout = BuildLayout(); var cols = Cols; }
-<div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" @attributes="AdditionalAttributes">
+<div id="@RootId" class="@RootClass" data-readonly="@(Readonly ? "" : null)" data-field-layout="@(FieldLayout == "compact" ? "compact" : null)" @attributes="AdditionalAttributes">
     @if (Labels.Search is not null)
     {
+        @if (ShowSearchLabel)
+        {
+            <label class="kanban-board-search-label" for="@(RootId)-search">@Labels.Search</label>
+        }
         <input type="search"
+               id="@(RootId)-search"
                class="search-input kanban-board-search"
                aria-label="@Labels.Search"
                value="@SearchValue"

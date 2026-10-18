@@ -280,3 +280,78 @@ describe("in-place title editing (onTitleEdit / titleedit)", () => {
         expect(titleEditor()).toBeNull();
     });
 });
+
+describe("swimlane move rules, visible search label and field layout (ported from Svelte)", () => {
+    const lanes = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+    const laneCards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "Card One", laneId: "ann" },
+        { id: "c2", columnId: "todo", title: "Card Two", laneId: "bo" },
+        { id: "c3", columnId: "doing", title: "Card Three", laneId: "ann" },
+    ];
+    const dragEvent = (type: string, d: unknown) => {
+        const e = new Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperty(e, "dataTransfer", { value: d, configurable: true });
+        return e;
+    };
+    const startDrag = () => {
+        const d = { setData: () => {}, getData: () => "", dropEffect: "" };
+        cell(0, 0).querySelector(".kanban-board-card-title")!.dispatchEvent(dragEvent("dragstart", d));
+        return d;
+    };
+    const dropOn = (d: unknown, to: HTMLElement) => {
+        to.dispatchEvent(dragEvent("dragover", d));
+        to.dispatchEvent(dragEvent("drop", d));
+    };
+
+    test("canMove receives the swimlane the card would land in", () => {
+        const onMove = vi.fn();
+        const canMove = vi.fn(() => true);
+        mount({ cards: laneCards, lanes, onMove, canMove });
+        dropOn(startDrag(), cell(1, 2));
+        const call = canMove.mock.calls.at(-1)! as unknown[];
+        expect((call[1] as { id: string }).id).toBe("done");
+        expect(call[2]).toEqual({ id: "bo", title: "Bo" });
+        expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "bo");
+    });
+
+    test("canMove can veto by lane: a card may not enter one owner's lane", () => {
+        const onMove = vi.fn();
+        mount({ cards: laneCards, lanes, onMove, canMove: (_c: KanbanCard, _col: KanbanColumn, lane?: { id: string }) => lane?.id !== "bo" });
+        dropOn(startDrag(), cell(1, 2));
+        expect(onMove).not.toHaveBeenCalled();
+    });
+
+    test("allowLaneChange=false refuses a cross-lane drop but still allows a move within the lane", () => {
+        const onMove = vi.fn();
+        mount({ cards: laneCards, lanes, onMove, allowLaneChange: false });
+        const d = startDrag();
+        dropOn(d, cell(1, 0));
+        expect(d.dropEffect).toBe("none");
+        dropOn(d, cell(1, 2));
+        expect(onMove).not.toHaveBeenCalled();
+        dropOn(startDrag(), cell(0, 2));
+        expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "ann");
+    });
+
+    test("showSearchLabel renders labels.search as visible text tied to the search field", () => {
+        mount({ cards: laneCards, lanes, showSearchLabel: true });
+        const visible = board.querySelector(".kanban-board-search-label")!;
+        expect(visible.textContent).toBe("Search cards");
+        expect(visible.getAttribute("for")).toBe(input().id);
+        expect(input().id).not.toBe("");
+        expect(input().getAttribute("aria-label")).toBe("Search cards");
+    });
+
+    test("without showSearchLabel there is no visible label text", () => {
+        mount({ cards: laneCards, lanes });
+        expect(board.querySelector(".kanban-board-search-label")).toBeNull();
+    });
+
+    test("fieldLayout=compact sets data-field-layout on the board; the default sets nothing", () => {
+        mount({ fieldLayout: "compact" });
+        expect(board.querySelector(".kanban-board")!.getAttribute("data-field-layout")).toBe("compact");
+        document.body.innerHTML = "";
+        mount();
+        expect(board.querySelector(".kanban-board")!.hasAttribute("data-field-layout")).toBe(false);
+    });
+});

@@ -85,7 +85,7 @@
      the same story as #4 and #5: all callbacks, so all
      `initKanbanBoard(root, {...})` options, never macro params.
        onReorder(cardId, toIndex)   — Alt+ArrowUp/Down within a column.
-       canMove(cardId, toColumnId)  — veto; refused options get
+       canMove(cardId, toColumnId, toLaneId)  — veto (`toLaneId` is the swimlane the card would land in: its own unless dropped into another); refused options get
                                       aria-disabled when the menu opens.
        labels.moveBlocked(cardTitle, columnTitle)
        labels.reorderAnnouncement(cardTitle, position, total)
@@ -206,6 +206,9 @@
     labels      — object. See deviations above. Every field optional;
                   its presence gates the control/text it names.
     readonly    — boolean. Disable every mutating interaction.
+    showSearchLabel — boolean. Show `labels.search` as visible text (`.kanban-board-search-label`) tied to the search field, not only as its accessible name (WCAG 2.5.3).
+    fieldLayout — "stacked" (default) or "compact": `compact` sets `data-field-layout="compact"` on the root so CSS can put each field's name and value on one line.
+    (The client option `allowLaneChange: false` refuses every cross-lane drop; see the client script.)
     selectable, selected, undoable, movableColumns, columnOrder, lanes, virtualize — see 10 above.
     name        — string, default "board". Discriminator for ids.
     id          — string, default "kanban-board-{name}".
@@ -433,7 +436,8 @@
   {%- for column in columns -%}{%- set tfootHtml = tfootHtml ~ '<td class="kanban-table-td kanban-board-column-footer"' ~ (' data-accent="' ~ column.accent ~ '"' if column.accent else '') ~ '>' ~ (column.footerHtml if column.footerHtml else '') ~ '</td>' -%}{%- endfor -%}
   {%- set tfootHtml = tfootHtml ~ '</tr></tfoot>' -%}
 {%- endif -%}
-{%- set searchHtml = ('<input type="search" class="kanban-board-search" aria-label="' ~ labels.search ~ '" value="' ~ (opts.search | default("")) ~ '" data-lily-kanban-board-search>') if labels.search else "" -%}
+{%- set searchLabelHtml = ('<label class="kanban-board-search-label" for="' ~ id ~ '-search">' ~ (labels.search | e) ~ '</label>') if (labels.search and opts.showSearchLabel) else "" -%}
+{%- set searchHtml = searchLabelHtml ~ ('<input type="search" id="' ~ id ~ '-search" class="kanban-board-search" aria-label="' ~ labels.search ~ '" value="' ~ (opts.search | default("")) ~ '" data-lily-kanban-board-search>') if labels.search else "" -%}
 {%- set tableAttrs = [["role", "grid"]] -%}
 {%- if opts.selectable -%}{%- set tableAttrs = tableAttrs.concat([["aria-multiselectable", "true"]]) -%}{%- endif -%}
 {%- if opts.virtualize -%}{%- set tableAttrs = tableAttrs.concat([["aria-rowcount", slotIndex + 1]]) -%}{%- endif -%}
@@ -465,6 +469,7 @@
   {%- if opts.undoable %} data-lily-kanban-board-undoable{% endif %}
   {%- if opts.movableColumns %} data-lily-kanban-board-movable-columns{% endif %}
   {%- if hasLanes %} data-lily-kanban-board-has-lanes{% endif %}
+  {%- if opts.fieldLayout == "compact" %} data-field-layout="compact"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 {{ searchHtml | safe }}{{ exportHtml | safe }}{{ undoHtml | safe }}{{ scrollHtml | safe }}

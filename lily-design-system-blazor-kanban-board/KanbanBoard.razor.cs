@@ -345,6 +345,18 @@ public partial class KanbanBoard : ComponentBase
     /// <summary>Veto a move (a hard WIP limit, a workflow rule). Refused columns show <c>aria-disabled</c> in the move menu.</summary>
     [Parameter] public Func<KanbanCard, KanbanColumn, bool>? CanMove { get; set; }
 
+    /// <summary>Like <see cref="CanMove"/> with the swimlane the card would land in (the card's own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. Both vetoes apply: a move needs <c>CanMove</c> and <c>CanMoveToLane</c> to allow it.</summary>
+    [Parameter] public Func<KanbanCard, KanbanColumn, KanbanLane?, bool>? CanMoveToLane { get; set; }
+
+    /// <summary>With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop (the cue shows "not allowed"), whatever <c>CanMove</c> says.</summary>
+    [Parameter] public bool AllowLaneChange { get; set; } = true;
+
+    /// <summary>Show <c>Labels.Search</c> as visible text beside the search field (<c>.kanban-board-search-label</c>), not only as its accessible name. The text is the same string, so the visible label is part of the name (WCAG 2.5.3).</summary>
+    [Parameter] public bool ShowSearchLabel { get; set; }
+
+    /// <summary>How typed fields sit under a card's title: <c>stacked</c> (default) or <c>compact</c>, which sets <c>data-field-layout="compact"</c> on the board so CSS can put each field's name and value on one line. The markup is the same either way.</summary>
+    [Parameter] public string FieldLayout { get; set; } = "stacked";
+
     /// <summary>Ids of collapsed columns. Bindable: <c>@bind-CollapsedColumns</c>. A collapsed column keeps its header and count but shows no cards.</summary>
     [Parameter] public IReadOnlyList<string> CollapsedColumns { get; set; } = Array.Empty<string>();
     [Parameter] public EventCallback<IReadOnlyList<string>> CollapsedColumnsChanged { get; set; }
@@ -971,12 +983,20 @@ public partial class KanbanBoard : ComponentBase
     // -------------------------------------------------------------------
 
     /// <summary>Choosing the card's own column is not a move: the menu just closes.</summary>
-    private bool IsRefused(KanbanCard card, KanbanColumn toColumn, int extra = 0)
+    private bool IsRefused(KanbanCard card, KanbanColumn toColumn, int extra = 0, string? toLaneId = null)
     {
-        if (toColumn.Id == card.ColumnId) return false;
-        if (AllowedColumns is not null && !AllowedColumns(card).Contains(toColumn.Id)) return true;
+        var laneChange = HasLanes && toLaneId is not null && toLaneId != LaneOf(card);
+        if (laneChange && !AllowLaneChange) return true;
+        var sameColumn = toColumn.Id == card.ColumnId;
+        if (sameColumn && !laneChange) return false;
+        if (!sameColumn && AllowedColumns is not null && !AllowedColumns(card).Contains(toColumn.Id)) return true;
         if (CanMove is not null && !CanMove(card, toColumn)) return true;
-        return toColumn.StrictLimit
+        if (CanMoveToLane is not null)
+        {
+            var toLane = HasLanes ? Lanes!.FirstOrDefault(l => l.Id == (toLaneId ?? LaneOf(card))) : null;
+            if (!CanMoveToLane(card, toColumn, toLane)) return true;
+        }
+        return !sameColumn && toColumn.StrictLimit
             && toColumn.WipLimit is { } limit
             && (AllByColumn.TryGetValue(toColumn.Id, out var list) ? list.Count : 0) + extra >= limit;
     }
@@ -1146,7 +1166,7 @@ public partial class KanbanBoard : ComponentBase
             await CloseMoveMenuAsync();
             return;
         }
-        if (IsRefused(card, toColumn))
+        if (IsRefused(card, toColumn, 0, toLaneId))
         {
             Announce(Labels.MoveBlocked?.Invoke(ResolveCardLabel(card), toColumn.Title));
             await CloseMoveMenuAsync();
@@ -1272,13 +1292,21 @@ public partial class KanbanBoard : ComponentBase
     private string? _dropTarget;
     private bool _dropBlocked;
 
+    /// <summary>The swimlane of the row a dragged card is over, or null without swimlanes.</summary>
+    private string? OverLaneId(int rowIndex)
+    {
+        if (!HasLanes) return null;
+        var rows = BuildLayout().Rows;
+        return rowIndex >= 0 && rowIndex < rows.Count ? rows[rowIndex].LaneId : null;
+    }
+
     private void OnColumnDragEnter(int rowIndex, int colIndex)
     {
         if (_draggingCardId is null || Readonly) return;
         _dropTarget = $"{rowIndex}-{colIndex}";
         // The live "can't drop here" cue: the cell the dragged card is over would refuse it (CanMove, AllowedColumns, a strict WIP limit).
         var dragged = Cards.FirstOrDefault(c => c.Id == _draggingCardId);
-        _dropBlocked = dragged is not null && colIndex >= 0 && colIndex < Cols.Count && IsRefused(dragged, Cols[colIndex], Math.Max(1, _draggingGroup.Count) - 1);
+        _dropBlocked = dragged is not null && colIndex >= 0 && colIndex < Cols.Count && IsRefused(dragged, Cols[colIndex], Math.Max(1, _draggingGroup.Count) - 1, OverLaneId(rowIndex));
     }
 
     // ---- Column reordering ----

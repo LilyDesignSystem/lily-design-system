@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added `CanMoveToLane` (like `CanMove` plus the lane the card would land in; both vetoes apply, so existing `CanMove` code is unchanged), `AllowLaneChange`, `ShowSearchLabel` and `FieldLayout`. `AllowLaneChange=false` refuses every cross-lane drop; `ShowSearchLabel` shows `Labels.Search` as visible text tied to the search field (WCAG 2.5.3); `FieldLayout="compact"` sets `data-field-layout="compact"` on the board. Ported from the Svelte package.
 - `ToKanbanLabels()` builds `KanbanLabels` from a label pack.
 - In-place card title editing: `OnTitleEdit` (double-click a title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused; not for linked cards or a `CardTemplate`). New labels `TitleEditor` and `TitleEditAnnouncement`.
 

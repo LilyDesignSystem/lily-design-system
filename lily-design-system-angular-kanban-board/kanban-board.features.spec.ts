@@ -637,3 +637,83 @@ describe("KanbanBoard — in-place title editing (editableTitles + titleEdit)", 
         expect(titleEditor()).toBeNull();
     });
 });
+
+describe("KanbanBoard — swimlane move rules, visible search label and field layout (ported from Svelte)", () => {
+    const cols: KanbanColumn[] = [
+        { id: "todo", title: "To Do" },
+        { id: "doing", title: "Doing" },
+        { id: "done", title: "Done" },
+    ];
+    const lanes = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+    const laneCards: KanbanCard[] = [
+        { id: "c1", columnId: "todo", title: "Card One", laneId: "ann" },
+        { id: "c2", columnId: "todo", title: "Card Two", laneId: "bo" },
+        { id: "c3", columnId: "doing", title: "Card Three", laneId: "ann" },
+    ];
+    const base = { label: "Board", columns: cols, cards: laneCards, lanes };
+    const cellAt = (row: number, col: number) => document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+    const dt = () => ({ setData: vi.fn(), getData: () => "", dropEffect: "" });
+    const start = async (transfer = dt()) => {
+        await fireEvent.dragStart(cellAt(0, 0).querySelector(".kanban-board-card-title")!, { dataTransfer: transfer });
+        return transfer;
+    };
+
+    test("canMove receives the swimlane the card would land in", async () => {
+        const onMove = vi.fn();
+        const canMove = vi.fn(() => true);
+        render(KanbanBoard, { props: { ...base, onMove, canMove } });
+        const transfer = await start();
+        await fireEvent.drop(cellAt(1, 2), { dataTransfer: transfer });
+        const call = canMove.mock.calls.at(-1)! as unknown[];
+        expect((call[1] as { id: string }).id).toBe("done");
+        expect(call[2]).toEqual({ id: "bo", title: "Bo" });
+        expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "bo");
+    });
+
+    test("canMove can veto by lane: a card may not enter one owner's lane", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove, canMove: (_c: KanbanCard, _col: KanbanColumn, lane?: { id: string }) => lane?.id !== "bo" } });
+        const transfer = await start();
+        await fireEvent.drop(cellAt(1, 2), { dataTransfer: transfer });
+        expect(onMove).not.toHaveBeenCalled();
+    });
+
+    test("allowLaneChange=false refuses a cross-lane drop but still allows a move within the lane", async () => {
+        const onMove = vi.fn();
+        render(KanbanBoard, { props: { ...base, onMove, allowLaneChange: false } });
+        const transfer = await start();
+        await fireEvent.dragOver(cellAt(1, 0), { dataTransfer: transfer });
+        expect(transfer.dropEffect).toBe("none");
+        await fireEvent.drop(cellAt(1, 0), { dataTransfer: transfer });
+        await fireEvent.drop(cellAt(1, 2), { dataTransfer: transfer });
+        expect(onMove).not.toHaveBeenCalled();
+        const again = await start();
+        await fireEvent.drop(cellAt(0, 2), { dataTransfer: again });
+        expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "ann");
+    });
+
+    test("showSearchLabel renders labels.search as visible text tied to the search field", async () => {
+        render(KanbanBoard, { props: { ...base, labels: { search: "Search cards" }, showSearchLabel: true } });
+        await nextTick();
+        settle();
+        const visible = document.querySelector(".kanban-board-search-label")!;
+        const input = document.querySelector("input.kanban-board-search") as HTMLInputElement;
+        expect(visible.textContent).toBe("Search cards");
+        expect(input.id).not.toBe("");
+        expect(visible.getAttribute("for")).toBe(input.id);
+        expect(input.getAttribute("aria-label")).toBe("Search cards");
+    });
+
+    test("without showSearchLabel there is no visible label text", () => {
+        render(KanbanBoard, { props: { ...base, labels: { search: "Search cards" } } });
+        expect(document.querySelector(".kanban-board-search-label")).toBeNull();
+    });
+
+    test("fieldLayout=compact sets data-field-layout on the board; the default sets nothing", () => {
+        const { unmount } = render(KanbanBoard, { props: { ...base, fieldLayout: "compact" } });
+        expect(document.querySelector(".kanban-board")!.getAttribute("data-field-layout")).toBe("compact");
+        unmount();
+        render(KanbanBoard, { props: { ...base } });
+        expect(document.querySelector(".kanban-board")!.hasAttribute("data-field-layout")).toBe(false);
+    });
+});

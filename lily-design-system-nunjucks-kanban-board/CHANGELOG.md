@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added the `showSearchLabel` and `fieldLayout` macro parameters and the `allowLaneChange` client option; the client `canMove` also receives the lane id the card would land in (third argument); `allowLaneChange: false` refuses every cross-lane drop; `showSearchLabel` shows `labels.search` as visible text tied to the search field (WCAG 2.5.3); `fieldLayout: "compact"` sets `data-field-layout="compact"` on the root. Ported from the Svelte package.
 - Works with the label packs: `nunjucksLabelsFor()` gives the macro `labels` and the client option `labels`.
 - In-place card title editing: the macro param `editableTitles`, the client option `onTitleEdit` and the `titleedit` event (double-click a title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused; not for linked or locked cards). Labels `titleEditor` and `titleEditAnnouncement`.
 

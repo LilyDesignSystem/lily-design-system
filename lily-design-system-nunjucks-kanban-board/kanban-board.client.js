@@ -78,7 +78,8 @@ function textOf(el) {
  *   dragPreviewText?: (cards: Array<{ id: string, title: string }>) => string,
  *   onMoveError?: (cardId: string, toColumnId: string, error: unknown) => void,
  *   onReorder?: (cardId: string, toIndex: number) => void,
- *   canMove?: (cardId: string, toColumnId: string) => boolean,
+ *   canMove?: (cardId: string, toColumnId: string, toLaneId?: string) => boolean,
+ *   allowLaneChange?: boolean,
  *   onCollapsedChange?: (collapsedColumns: string[]) => void,
  *   onLaneCollapseChange?: (collapsedLanes: string[]) => void,
  *   onAddCard?: (columnId: string) => void,
@@ -319,12 +320,16 @@ export function initKanbanBoard(root, opts = {}) {
   const cellForCard = (cardId) => allCells().find((td) => td.getAttribute("data-lily-kanban-board-card-id") === String(cardId)) || null;
 
   /** A move is refused by the card's allowed columns, the consumer's veto or by a full hard-limited column. */
-  function isRefused(cardId, toColumnId, extra = 0) {
+  function isRefused(cardId, toColumnId, extra = 0, toLaneId) {
     const owner = cellForCard(cardId);
+    // With swimlanes: a drop into another lane is a lane change, which `allowLaneChange: false` refuses whatever `canMove` says.
+    const ownLane = owner ? laneOfCell(owner) : null;
+    const laneChange = ownLane != null && toLaneId != null && toLaneId !== ownLane;
+    if (laneChange && opts.allowLaneChange === false) return true;
     const allowed = owner && owner.getAttribute("data-lily-kanban-board-allowed-columns");
     const ownColumn = owner ? columnIds()[Number(owner.getAttribute("data-col"))] : null;
     if (allowed != null && toColumnId !== ownColumn && !allowed.split(",").includes(toColumnId)) return true;
-    if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId)) return true;
+    if (typeof opts.canMove === "function" && !opts.canMove(cardId, toColumnId, toLaneId != null ? toLaneId : ownLane != null ? ownLane : undefined)) return true;
     const th = headerFor(toColumnId);
     if (!th || !th.hasAttribute("data-strict-limit")) return false;
     const limit = Number(th.getAttribute("data-wip-limit"));
@@ -723,7 +728,7 @@ export function initKanbanBoard(root, opts = {}) {
       recordUndo(moved);
       return;
     }
-    if (isRefused(cardId, toColumnId)) {
+    if (isRefused(cardId, toColumnId, 0, toLaneId)) {
       if (typeof labelsObj.moveBlocked === "function") announce(labelsObj.moveBlocked(textOf(cardHandleFor(cardId)), columnTitleFor(toColumnId)));
       return;
     }
@@ -1135,7 +1140,7 @@ export function initKanbanBoard(root, opts = {}) {
     if (!cell || isReadonly()) return;
     // Whether the cell a dragged card is over would refuse it (`canMove`, `allowedColumns`, a strict WIP limit): the live "can't drop here" cue.
     const group = Math.max(1, root.querySelectorAll("[data-dragging]").length);
-    const blocked = isRefused(draggingCardId, columnIds()[Number(cell.getAttribute("data-col"))], group - 1);
+    const blocked = isRefused(draggingCardId, columnIds()[Number(cell.getAttribute("data-col"))], group - 1, laneOfCell(cell) || undefined);
     root.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
       el.removeAttribute("data-drop-target");
       el.removeAttribute("data-drop-blocked");

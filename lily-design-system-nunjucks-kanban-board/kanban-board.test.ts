@@ -1259,3 +1259,68 @@ describe("KanbanBoard — typed fields, editing, export (§8.95–§8.108)", () 
         }
     });
 });
+
+describe("kanban-board — swimlane move rules, visible search label and field layout (ported from Svelte)", () => {
+  const lanes = [{ id: "a", title: "A" }, { id: "b", title: "B" }];
+  const laneCards = [{ id: "c1", columnId: "todo", title: "One", laneId: "a" }];
+  const board = (opts: Record<string, unknown>, init: Record<string, unknown> = {}) => {
+    const root = mountIntoBody(renderMacro(defaultOpts({ cards: laneCards, lanes, ...opts })));
+    initKanbanBoard(root, init);
+    return root;
+  };
+  const startDrag = (root: HTMLElement) => {
+    const dt = { setData: vi.fn(), getData: () => "c1", dropEffect: "" };
+    root.querySelector("[data-lily-kanban-board-card-handle]")!.dispatchEvent(dragEvent("dragstart", dt));
+    return dt;
+  };
+  const cellAt = (root: HTMLElement, row: number, col: number) => root.querySelector(`[data-row="${row}"][data-col="${col}"]`)!;
+
+  test("canMove receives the lane id the card would land in", () => {
+    const onMove = vi.fn();
+    const canMove = vi.fn(() => true);
+    const root = board({}, { onMove, canMove });
+    cellAt(root, 1, 1).dispatchEvent(dragEvent("drop", startDrag(root)));
+    expect(canMove).toHaveBeenLastCalledWith("c1", "doing", "b");
+    expect(onMove).toHaveBeenCalledWith("c1", "doing", undefined, "b");
+  });
+
+  test("canMove can veto by lane: a card may not enter one owner's lane", () => {
+    const onMove = vi.fn();
+    const root = board({}, { onMove, canMove: (_id: string, _col: string, lane?: string) => lane !== "b" });
+    cellAt(root, 1, 1).dispatchEvent(dragEvent("drop", startDrag(root)));
+    expect(onMove).not.toHaveBeenCalled();
+  });
+
+  test("allowLaneChange: false refuses a cross-lane drop but still allows a move within the lane", () => {
+    const onMove = vi.fn();
+    const root = board({}, { onMove, allowLaneChange: false });
+    const dt = startDrag(root);
+    cellAt(root, 1, 1).dispatchEvent(dragEvent("dragover", dt));
+    expect(cellAt(root, 1, 1).hasAttribute("data-drop-blocked")).toBe(true);
+    cellAt(root, 1, 1).dispatchEvent(dragEvent("drop", dt));
+    expect(onMove).not.toHaveBeenCalled();
+    cellAt(root, 0, 1).dispatchEvent(dragEvent("drop", startDrag(root)));
+    expect(onMove).toHaveBeenCalledWith("c1", "doing", undefined, "a");
+  });
+
+  test("showSearchLabel renders labels.search as visible text tied to the search field", () => {
+    const root = board({ labels: { search: "Search cards" }, showSearchLabel: true });
+    const visible = root.querySelector(".kanban-board-search-label")!;
+    const input = root.querySelector("input.kanban-board-search") as HTMLInputElement;
+    expect(visible.textContent).toBe("Search cards");
+    expect(input.id).not.toBe("");
+    expect(visible.getAttribute("for")).toBe(input.id);
+    expect(input.getAttribute("aria-label")).toBe("Search cards");
+  });
+
+  test("without showSearchLabel there is no visible label text", () => {
+    const root = board({ labels: { search: "Search cards" } });
+    expect(root.querySelector(".kanban-board-search-label")).toBeNull();
+  });
+
+  test("fieldLayout=compact sets data-field-layout on the root; the default sets nothing", () => {
+    expect(board({ fieldLayout: "compact" }).getAttribute("data-field-layout")).toBe("compact");
+    document.body.innerHTML = "";
+    expect(board({}).hasAttribute("data-field-layout")).toBe(false);
+  });
+});

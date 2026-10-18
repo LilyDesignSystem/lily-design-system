@@ -2306,9 +2306,10 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
 - [ ] **P11-T8 Native-speaker review of the 45 draft label packs**, Welsh first. Flip a pack's `"reviewed"` to `true` only when a
   native speaker has read it, screen-reader wording especially.
 - [ ] **P11-T9 Port the Svelte-only items** listed in plan.md § Current state to the other catalogs. Done 2026-10-18 in all seven
-  other catalogs: the Gantt critical path (`criticalPath()` / `applyCriticalPath()`, Blazor `CriticalPath.Compute()` / `Apply()`) and the
-  calendar `periodTitle` anchor argument (Blazor: `PeriodTitleWithAnchor`, so 3-argument code still compiles). **Open:** kanban lane
-  rules / `showSearchLabel` / `fieldLayout`; data grid footer totals / pinned offset / column-order storage.
+  other catalogs: the Gantt critical path (`criticalPath()` / `applyCriticalPath()`, Blazor `CriticalPath.Compute()` / `Apply()`), the
+  calendar `periodTitle` anchor argument (Blazor: `PeriodTitleWithAnchor`, so 3-argument code still compiles) and the kanban lane rules
+  (`canMove` lane argument, `allowLaneChange`; Nunjucks passes a lane id, Blazor adds `CanMoveToLane`), `showSearchLabel` and
+  `fieldLayout`. **Open:** data grid footer totals / pinned offset / column-order storage.
 - [ ] **P11-T10 Publish the label packs as a package** (one export per locale; English stable, drafts under a separate path), with the
   loaders; decide the name and whether Blazor ships the JSON as an embedded resource.
 - [ ] **P11-T11 Patch release** for the unreleased items (versions bumped per package, changelogs already written), then

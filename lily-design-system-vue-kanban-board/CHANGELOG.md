@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added `allowLaneChange`, `showSearchLabel` and `fieldLayout`; `canMove` also receives the swimlane the card would land in; `allowLaneChange` (default true) refuses every cross-lane drop when false; `showSearchLabel` shows `labels.search` as visible text tied to the search field (WCAG 2.5.3); `fieldLayout="compact"` sets `data-field-layout="compact"` on the board. Ported from the Svelte package.
 - In-place card title editing, ported from the Svelte package: a `title-edit` listener (double-click a title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused; not for linked cards or a custom card renderer). Optional labels `titleEditor` and `titleEditAnnouncement`.
 
 ## 0.7.0 — 2026-10-17

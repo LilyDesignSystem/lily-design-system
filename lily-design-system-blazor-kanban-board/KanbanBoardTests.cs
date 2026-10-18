@@ -1064,6 +1064,91 @@ public class KanbanBoardInteractionTests : TestContext
         Assert.Equal(new[] { ("c1", "doing", "b") }, landed.ToArray());
     }
 
+    private static readonly KanbanLane[] AB = { new() { Id = "a", Title = "A" }, new() { Id = "b", Title = "B" } };
+    private static readonly KanbanCard[] LaneCard = { new() { Id = "c1", ColumnId = "todo", Title = "One", LaneId = "a" } };
+
+    [Fact]
+    public void CanMoveToLane_Receives_The_Lane_The_Card_Would_Land_In()
+    {
+        var landed = new List<(string, string, string)>();
+        KanbanLane? seen = null;
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Lanes, AB);
+            p.Add(x => x.CanMoveToLane, (card, column, lane) => { seen = lane; return true; });
+            p.Add(x => x.OnMoveToLane, EventCallback.Factory.Create<(string, string, string)>(this, m => landed.Add(m)));
+        }, LaneCard);
+        cut.Find(".kanban-board-card-title").DragStart(new DragEventArgs());
+        cut.Find("[data-row='1'][data-col='1']").Drop(new DragEventArgs());
+        Assert.Equal("b", seen?.Id);
+        Assert.Equal(new[] { ("c1", "doing", "b") }, landed.ToArray());
+    }
+
+    [Fact]
+    public void CanMoveToLane_Can_Veto_By_Lane()
+    {
+        var landed = new List<(string, string, string)>();
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Lanes, AB);
+            p.Add(x => x.CanMoveToLane, (card, column, lane) => lane?.Id != "b");
+            p.Add(x => x.OnMoveToLane, EventCallback.Factory.Create<(string, string, string)>(this, m => landed.Add(m)));
+        }, LaneCard);
+        cut.Find(".kanban-board-card-title").DragStart(new DragEventArgs());
+        cut.Find("[data-row='1'][data-col='1']").Drop(new DragEventArgs());
+        Assert.Empty(landed);
+    }
+
+    [Fact]
+    public void AllowLaneChange_False_Refuses_A_Cross_Lane_Drop_But_Allows_A_Move_Within_The_Lane()
+    {
+        var landed = new List<(string, string, string)>();
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Lanes, AB);
+            p.Add(x => x.AllowLaneChange, false);
+            p.Add(x => x.OnMoveToLane, EventCallback.Factory.Create<(string, string, string)>(this, m => landed.Add(m)));
+        }, LaneCard);
+        cut.Find(".kanban-board-card-title").DragStart(new DragEventArgs());
+        cut.Find("[data-row='1'][data-col='1']").TriggerEvent("ondragenter", new DragEventArgs());
+        Assert.True(cut.Find("[data-row='1'][data-col='1']").HasAttribute("data-drop-blocked"));
+        cut.Find("[data-row='1'][data-col='1']").Drop(new DragEventArgs());
+        Assert.Empty(landed);
+        cut.Find(".kanban-board-card-title").DragStart(new DragEventArgs());
+        cut.Find("[data-row='0'][data-col='1']").Drop(new DragEventArgs());
+        Assert.Equal(new[] { ("c1", "doing", "a") }, landed.ToArray());
+    }
+
+    [Fact]
+    public void ShowSearchLabel_Renders_Labels_Search_As_Visible_Text_Tied_To_The_Search_Field()
+    {
+        var cut = RenderV4(p =>
+        {
+            p.Add(x => x.Labels, new KanbanLabels { Search = "Search cards" });
+            p.Add(x => x.ShowSearchLabel, true);
+        });
+        var visible = cut.Find(".kanban-board-search-label");
+        var input = cut.Find("input.kanban-board-search");
+        Assert.Equal("Search cards", visible.TextContent);
+        Assert.False(string.IsNullOrEmpty(input.Id));
+        Assert.Equal(input.Id, visible.GetAttribute("for"));
+        Assert.Equal("Search cards", input.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Without_ShowSearchLabel_There_Is_No_Visible_Label_Text()
+    {
+        var cut = RenderV4(p => p.Add(x => x.Labels, new KanbanLabels { Search = "Search cards" }));
+        Assert.Empty(cut.FindAll(".kanban-board-search-label"));
+    }
+
+    [Fact]
+    public void FieldLayout_Compact_Sets_Data_Field_Layout_On_The_Board_And_The_Default_Sets_Nothing()
+    {
+        Assert.Equal("compact", RenderV4(p => p.Add(x => x.FieldLayout, "compact")).Find(".kanban-board").GetAttribute("data-field-layout"));
+        Assert.False(RenderV4().Find(".kanban-board").HasAttribute("data-field-layout"));
+    }
+
     [Fact]
     public void Virtualize_Renders_A_Window_With_Spacers_And_AriaRowcount()
     {

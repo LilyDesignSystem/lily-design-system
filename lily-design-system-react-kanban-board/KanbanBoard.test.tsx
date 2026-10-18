@@ -1626,3 +1626,81 @@ describe("KanbanBoard — in-place title editing (onTitleEdit)", () => {
     expect(titleEditor()).toBeNull();
   });
 });
+
+describe("KanbanBoard — swimlane move rules, visible search label and field layout (ported from Svelte)", () => {
+  const lanes = [{ id: "ann", title: "Ann" }, { id: "bo", title: "Bo" }];
+  const laneCards: KanbanCard[] = [
+    { id: "c1", columnId: "todo", title: "Card One", laneId: "ann" },
+    { id: "c2", columnId: "todo", title: "Card Two", laneId: "bo" },
+    { id: "c3", columnId: "doing", title: "Card Three", laneId: "ann" },
+  ];
+  const base = { label: "Sprint board", columns: COLUMNS, cards: laneCards, lanes };
+  const cellAt = (row: number, col: number) =>
+    document.querySelector<HTMLElement>(`.kanban-table-td[data-row="${row}"][data-col="${col}"]`)!;
+  const dragFirstCard = () => {
+    const dt = { setData: vi.fn(), getData: () => "" };
+    fireEvent.dragStart(screen.getByText("Card One"), { dataTransfer: dt });
+    return dt;
+  };
+
+  test("canMove receives the swimlane the card would land in", () => {
+    const onMove = vi.fn();
+    const canMove = vi.fn(() => true);
+    render(<KanbanBoard {...base} onMove={onMove} canMove={canMove} />);
+    const dt = dragFirstCard();
+    fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
+    const call = canMove.mock.calls.at(-1)! as unknown[];
+    expect((call[1] as { id: string }).id).toBe("done");
+    expect(call[2]).toEqual({ id: "bo", title: "Bo" });
+    expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "bo");
+  });
+
+  test("canMove can veto by lane: a card may not enter one owner's lane", () => {
+    const onMove = vi.fn();
+    render(<KanbanBoard {...base} onMove={onMove} canMove={(_c, _col, lane) => lane?.id !== "bo"} />);
+    const dt = dragFirstCard();
+    fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
+    expect(onMove).not.toHaveBeenCalled();
+  });
+
+  test("allowLaneChange={false} refuses a cross-lane drop but still allows a move within the lane", () => {
+    const onMove = vi.fn();
+    render(<KanbanBoard {...base} onMove={onMove} allowLaneChange={false} />);
+    let dt = dragFirstCard();
+    fireEvent.drop(cellAt(1, 0), { dataTransfer: dt });
+    fireEvent.drop(cellAt(1, 2), { dataTransfer: dt });
+    expect(onMove).not.toHaveBeenCalled();
+    dt = dragFirstCard();
+    fireEvent.drop(cellAt(0, 2), { dataTransfer: dt });
+    expect(onMove).toHaveBeenCalledWith("c1", "done", undefined, "ann");
+  });
+
+  test("allowLaneChange={false} shows the not-allowed cue over another lane's cell", () => {
+    render(<KanbanBoard {...base} onMove={vi.fn()} allowLaneChange={false} />);
+    const dt = dragFirstCard();
+    fireEvent.dragOver(cellAt(1, 2), { dataTransfer: dt });
+    expect((dt as { dropEffect?: string }).dropEffect).toBe("none");
+  });
+
+  test("showSearchLabel renders labels.search as visible text tied to the search field", () => {
+    render(<KanbanBoard {...base} labels={{ search: "Search cards" }} showSearchLabel />);
+    const visible = document.querySelector(".kanban-board-search-label")!;
+    const input = document.querySelector("input.kanban-board-search") as HTMLInputElement;
+    expect(visible.textContent).toBe("Search cards");
+    expect(visible.getAttribute("for")).toBe(input.id);
+    expect(input.getAttribute("aria-label")).toBe("Search cards");
+  });
+
+  test("without showSearchLabel there is no visible label text", () => {
+    render(<KanbanBoard {...base} labels={{ search: "Search cards" }} />);
+    expect(document.querySelector(".kanban-board-search-label")).toBeNull();
+  });
+
+  test("fieldLayout=compact sets data-field-layout on the board; the default sets nothing", () => {
+    const { unmount } = render(<KanbanBoard {...base} fieldLayout="compact" />);
+    expect(document.querySelector(".kanban-board")!.getAttribute("data-field-layout")).toBe("compact");
+    unmount();
+    render(<KanbanBoard {...base} />);
+    expect(document.querySelector(".kanban-board")!.hasAttribute("data-field-layout")).toBe(false);
+  });
+});

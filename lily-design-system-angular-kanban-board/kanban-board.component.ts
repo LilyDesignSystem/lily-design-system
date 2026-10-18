@@ -262,8 +262,12 @@ export function nextKanbanBoardId(): string {
       #rootEl
       class="kanban-board {{ className() }}"
       [attr.data-readonly]="readonly() ? '' : null"
+      [attr.data-field-layout]="fieldLayout() === 'compact' ? 'compact' : null"
     >
       @if (labels().search; as searchLabel) {
+        @if (showSearchLabel()) {
+          <label class="kanban-board-search-label" [attr.for]="searchFieldId">{{ searchLabel }}</label>
+        }
         <lily-search-input
           className="kanban-board-search"
           [label]="searchLabel"
@@ -685,10 +689,16 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   readonly columnOrder = model<string[]>([]);
   /** Renders only the rows in view. The board gets a scroll area of `height` px; every row is assumed `rowHeight` px tall (lane headers count as a row). */
   readonly virtualize = input<{ rowHeight: number; height: number; overscan?: number } | undefined>(undefined);
-  /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
-  readonly canMove = input<((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined>(
+  /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. `toLane` is the swimlane the card would land in (the card's own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. */
+  readonly canMove = input<((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined>(
     undefined,
   );
+  /** With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop (the cue shows "not allowed"), whatever `canMove` says. */
+  readonly allowLaneChange = input<boolean>(true);
+  /** Show `labels.search` as visible text beside the search field (`.kanban-board-search-label`), not only as its accessible name. The text is the same string, so the visible label is part of the name (WCAG 2.5.3). */
+  readonly showSearchLabel = input<boolean>(false);
+  /** How typed fields sit under a card's title. `compact` sets `data-field-layout="compact"` on the board so CSS can put each field's name and value on one line; the markup is the same either way. Default stacked. */
+  readonly fieldLayout = input<"stacked" | "compact">("stacked");
   /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
   readonly readonly = input<boolean>(false);
   /** Ids of collapsed columns. Two-way bindable: `[(collapsedColumns)]`. A collapsed column keeps its header and count but shows no cards. */
@@ -736,6 +746,17 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   readonly moveError = output<KanbanMoveErrorEvent>();
 
   private readonly baseId = nextKanbanBoardId();
+  /** The id tying the visible search label to the search field. */
+  protected readonly searchFieldId = `${this.baseId}-search`;
+  /** The headless SearchInput takes no `id`, so the field is given it after each render that could have changed the field. */
+  private readonly searchFieldIdentity = effect(() => {
+    if (!this.labels().search) return;
+    this.showSearchLabel();
+    this.afterRender(() => {
+      const field = this.rootRef().nativeElement.querySelector<HTMLInputElement>("input.kanban-board-search");
+      if (field) field.id = this.searchFieldId;
+    });
+  });
   protected readonly moveListId = `${this.baseId}-move-list`;
   protected moveOptionId(index: number): string {
     return `${this.baseId}-move-option-${index}`;
@@ -1301,13 +1322,18 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   // ---------------------------------------------------------------
 
   /** Choosing the card's own column is not a move: the menu just closes. */
-  protected isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0): boolean {
-    if (toColumn.id === card.columnId) return false;
+  protected isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0, toLaneId?: string): boolean {
+    const laneChange = this.hasLanes() && toLaneId !== undefined && toLaneId !== this.laneOf(card);
+    if (laneChange && !this.allowLaneChange()) return true;
+    const sameColumn = toColumn.id === card.columnId;
+    if (sameColumn && !laneChange) return false;
     const allowed = this.allowedColumns();
-    if (allowed && !allowed(card).includes(toColumn.id)) return true;
+    if (!sameColumn && allowed && !allowed(card).includes(toColumn.id)) return true;
+    const toLane = this.hasLanes() ? this.lanes()!.find((l) => l.id === (toLaneId ?? this.laneOf(card))) : undefined;
     const canMove = this.canMove();
-    if (canMove && !canMove(card, toColumn)) return true;
+    if (canMove && !canMove(card, toColumn, toLane)) return true;
     return (
+      !sameColumn &&
       !!toColumn.strictLimit &&
       toColumn.wipLimit != null &&
       this.cardCountFor(toColumn.id) + extra >= toColumn.wipLimit
@@ -1442,7 +1468,7 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
       this.closeMoveMenu(card.id);
       return;
     }
-    if (this.isRefused(card, toColumn)) {
+    if (this.isRefused(card, toColumn, 0, toLaneId)) {
       this.announce(this.labels().moveBlocked?.(this.cardLabel()(card), toColumn.title));
       this.closeMoveMenu(card.id);
       return;
@@ -1576,7 +1602,8 @@ export class KanbanBoard implements AfterViewInit, AfterViewChecked {
   protected onColumnDragOver(event: DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
     if (!this.draggingCardId || this.readonly()) return;
     const card = this.cards().find((c) => c.id === this.draggingCardId);
-    const blocked = !!card && this.isRefused(card, column, Math.max(0, this.draggingGroup().length - 1));
+    const slot = this.rowSlots()[rowIndex];
+    const blocked = !!card && this.isRefused(card, column, Math.max(0, this.draggingGroup().length - 1), this.hasLanes() && slot ? slot.laneId : undefined);
     this.dropBlocked.set(blocked);
     this.dropTarget.set(`${rowIndex}-${colIndex}`);
     // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.

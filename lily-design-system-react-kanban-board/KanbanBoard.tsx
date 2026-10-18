@@ -257,10 +257,16 @@ export type Props = Omit<
   onCollapsedColumnsChange?: (collapsedColumns: string[]) => void;
   /** Fired when a column's add-card button is pressed. The consumer adds the card (Lily ships no editor). */
   onAddCard?: (columnId: string) => void;
-  /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. */
-  canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
+  /** Veto a move (a hard WIP limit, a workflow rule). Refused columns show `aria-disabled` in the move menu. `toLane` is the swimlane the card would land in (the card's own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. */
+  canMove?: (card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean;
+  /** With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop (the cue shows "not allowed"), whatever `canMove` says. */
+  allowLaneChange?: boolean;
   /** Disable every mutating interaction: move menu, drag and reorder. Navigation still works. */
   readonly?: boolean;
+  /** Show `labels.search` as visible text beside the search field (`.kanban-board-search-label`), not only as its accessible name. The text is the same string, so the visible label is part of the name (WCAG 2.5.3). */
+  showSearchLabel?: boolean;
+  /** How typed fields sit under a card's title. `compact` sets `data-field-layout="compact"` on the board so CSS can put each field's name and value on one line; the markup is the same either way. Default stacked. */
+  fieldLayout?: "stacked" | "compact";
   /** User-facing strings. See KanbanLabels — presence gates each control. */
   labels?: KanbanLabels;
   /** Typed fields shown under each card's title, read from `card.values`. Editable types edit in place (click the value, or F2 on the card for the first editable field; Tab moves to the next). */
@@ -331,11 +337,14 @@ export function KanbanBoard({
   columnFooter,
   onReorder,
   canMove,
+  allowLaneChange = true,
   collapsedColumns: collapsedProp,
   defaultCollapsedColumns = [],
   onCollapsedColumnsChange,
   onAddCard,
   readonly = false,
+  showSearchLabel = false,
+  fieldLayout = "stacked",
   labels = {},
   fields,
   locale,
@@ -764,11 +773,16 @@ export function KanbanBoard({
 
   /** Choosing the card's own column is not a move: the menu just closes. */
   /** A move is refused by the consumer's `canMove`, or by the destination's hard limit. */
-  function isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0): boolean {
-    if (toColumn.id === card.columnId) return false;
-    if (allowedColumns && !allowedColumns(card).includes(toColumn.id)) return true;
-    if (canMove && !canMove(card, toColumn)) return true;
+  function isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0, toLaneId?: string): boolean {
+    const laneChange = hasLanes && toLaneId !== undefined && toLaneId !== laneOf(card);
+    if (laneChange && !allowLaneChange) return true;
+    const sameColumn = toColumn.id === card.columnId;
+    if (sameColumn && !laneChange) return false;
+    if (!sameColumn && allowedColumns && !allowedColumns(card).includes(toColumn.id)) return true;
+    const toLane = hasLanes ? lanes!.find((l) => l.id === (toLaneId ?? laneOf(card))) : undefined;
+    if (canMove && !canMove(card, toColumn, toLane)) return true;
     return (
+      !sameColumn &&
       !!toColumn.strictLimit &&
       toColumn.wipLimit != null &&
       (cardsByColumn.get(toColumn.id)?.length ?? 0) + extra >= toColumn.wipLimit
@@ -894,7 +908,7 @@ export function KanbanBoard({
       closeMoveMenu(card.id);
       return;
     }
-    if (isRefused(card, toColumn)) {
+    if (isRefused(card, toColumn, 0, toLaneId)) {
       announce(labels.moveBlocked?.(cardLabel(card), toColumn.title));
       closeMoveMenu(card.id);
       return;
@@ -1020,7 +1034,8 @@ export function KanbanBoard({
   function onColumnDragOver(event: React.DragEvent, column: KanbanColumn, rowIndex: number, colIndex: number): void {
     if (!draggingCardIdRef.current || readonly) return;
     const card = cards.find((c) => c.id === draggingCardIdRef.current);
-    const blocked = !!card && isRefused(card, column, Math.max(0, draggingGroup.length - 1));
+    const slot = rowSlots[rowIndex];
+    const blocked = !!card && isRefused(card, column, Math.max(0, draggingGroup.length - 1), hasLanes && slot ? slot.laneId : undefined);
     setDropBlocked(blocked);
     setDropTarget(`${rowIndex}-${colIndex}`);
     // A refused drop is not a drop target: leaving dragover un-prevented makes the browser show its "not allowed" cursor.
@@ -1245,10 +1260,17 @@ export function KanbanBoard({
       ref={rootRef}
       className={`kanban-board ${className}`.trim()}
       data-readonly={readonly ? "" : undefined}
+      data-field-layout={fieldLayout === "compact" ? "compact" : undefined}
       {...restProps}
     >
+      {labels.search && showSearchLabel && (
+        <label className="kanban-board-search-label" htmlFor={`${baseId}-search`}>
+          {labels.search}
+        </label>
+      )}
       {labels.search && (
         <SearchInput
+          id={`${baseId}-search`}
           className="kanban-board-search"
           label={labels.search}
           value={search}

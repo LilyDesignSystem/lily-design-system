@@ -264,10 +264,16 @@ export type KanbanBoardProps = {
   searchText?: (card: KanbanCard) => string;
   /** Property-only. Called when Alt+ArrowUp/Down moves a card within its column; `toIndex` is 0-based. */
   onReorder?: (cardId: string, toIndex: number) => void;
-  /** Property-only. Veto a move; refused columns show `aria-disabled` in the move menu. */
-  canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
+  /** Property-only. Veto a move; refused columns show `aria-disabled` in the move menu. `toLane` is the swimlane the card would land in. */
+  canMove?: (card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean;
+  /** Property-only. With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop. */
+  allowLaneChange?: boolean;
   /** Attribute `readonly`. Disables the move menu, drag and reorder; navigation still works. */
   readonly?: boolean;
+  /** Property-only. Show `labels.search` as visible text beside the search field. */
+  showSearchLabel?: boolean;
+  /** Property-only. `compact` sets `data-field-layout="compact"` on the board. Default stacked. */
+  fieldLayout?: "stacked" | "compact";
   /** Property-only. Ids of collapsed columns; a collapsed column keeps its header and count but shows no cards. */
   collapsedColumns?: string[];
   /** Property-only. Called with the new collapsed ids when a column's toggle is pressed. */
@@ -402,7 +408,10 @@ export class KanbanBoard extends HTMLElement {
   /** Cards moved optimistically by an async `moveHandler` that has not settled: id → destination column. */
   #optimistic: Record<string, string> = {};
   #onReorder?: (cardId: string, toIndex: number) => void;
-  #canMove?: (card: KanbanCard, toColumn: KanbanColumn) => boolean;
+  #canMove?: (card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean;
+  #allowLaneChange = true;
+  #showSearchLabel = false;
+  #fieldLayout: "stacked" | "compact" = "stacked";
   #labels: KanbanLabels = {};
   #collapsed: string[] = [];
   #onCollapsedChange?: (collapsedColumns: string[]) => void;
@@ -784,11 +793,39 @@ export class KanbanBoard extends HTMLElement {
   /** Rendered in a `<tfoot>` cell per column: sums per stage. */
   renderColumnFooter?: (ctx: KanbanColumnContext) => Node;
 
-  get canMove(): ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined {
+  get canMove(): ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined {
     return this.#canMove;
   }
-  set canMove(fn: ((card: KanbanCard, toColumn: KanbanColumn) => boolean) | undefined) {
+  /** Veto a move. `toLane` is the swimlane the card would land in (its own lane unless it is dropped into another), so a rule can depend on the owner as well as the column. */
+  set canMove(fn: ((card: KanbanCard, toColumn: KanbanColumn, toLane?: KanbanLane) => boolean) | undefined) {
     this.#canMove = fn;
+    this.#render();
+  }
+
+  get allowLaneChange(): boolean {
+    return this.#allowLaneChange;
+  }
+  /** With swimlanes: may a card be dropped into another lane? Default true. False refuses every cross-lane drop (the cue shows "not allowed"), whatever `canMove` says. */
+  set allowLaneChange(v: boolean) {
+    this.#allowLaneChange = v;
+    this.#render();
+  }
+
+  get showSearchLabel(): boolean {
+    return this.#showSearchLabel;
+  }
+  /** Show `labels.search` as visible text beside the search field (`.kanban-board-search-label`), not only as its accessible name. The text is the same string, so the visible label is part of the name (WCAG 2.5.3). */
+  set showSearchLabel(v: boolean) {
+    this.#showSearchLabel = v;
+    this.#render();
+  }
+
+  get fieldLayout(): "stacked" | "compact" {
+    return this.#fieldLayout;
+  }
+  /** How typed fields sit under a card's title. `compact` sets `data-field-layout="compact"` on the board so CSS can put each field's name and value on one line; the markup is the same either way. Default stacked. */
+  set fieldLayout(v: "stacked" | "compact") {
+    this.#fieldLayout = v;
     this.#render();
   }
 
@@ -1259,11 +1296,17 @@ export class KanbanBoard extends HTMLElement {
    * `cards` update rebuilds the board — and then focuses the card wherever
    * it now is, so focus is never left on a node the rebuild removed.
    */
-  #isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0): boolean {
-    if (toColumn.id === card.columnId) return false;
-    if (this.#allowedColumns && !this.#allowedColumns(card).includes(toColumn.id)) return true;
-    if (this.#canMove && !this.#canMove(card, toColumn)) return true;
+  #isRefused(card: KanbanCard, toColumn: KanbanColumn, extra = 0, toLaneId?: string): boolean {
+    const hasLanes = !!this.#lanes && this.#lanes.length > 0;
+    const laneChange = hasLanes && toLaneId !== undefined && toLaneId !== this.#laneOf(card);
+    if (laneChange && !this.#allowLaneChange) return true;
+    const sameColumn = toColumn.id === card.columnId;
+    if (sameColumn && !laneChange) return false;
+    if (!sameColumn && this.#allowedColumns && !this.#allowedColumns(card).includes(toColumn.id)) return true;
+    const toLane = hasLanes ? this.#lanes!.find((l) => l.id === (toLaneId ?? this.#laneOf(card))) : undefined;
+    if (this.#canMove && !this.#canMove(card, toColumn, toLane)) return true;
     return (
+      !sameColumn &&
       !!toColumn.strictLimit &&
       toColumn.wipLimit != null &&
       (this.#allByColumn().get(toColumn.id)?.length ?? 0) + extra >= toColumn.wipLimit
@@ -1437,7 +1480,7 @@ export class KanbanBoard extends HTMLElement {
       void this.#moveGroup(group, toColumn);
       return;
     }
-    if (this.#isRefused(card, toColumn)) {
+    if (this.#isRefused(card, toColumn, 0, toLaneId)) {
       this.#closeMoveMenu();
       this.#announce(this.#labels.moveBlocked?.(this.#cardLabel(card), toColumn.title));
       return;
@@ -1652,7 +1695,8 @@ export class KanbanBoard extends HTMLElement {
     if (!this.#draggingCardId || this.readonly) return;
     const card = this.#findCard(this.#draggingCardId);
     const dragging = this.querySelectorAll("[data-dragging]").length;
-    const blocked = !!card && this.#isRefused(card, column, Math.max(0, dragging - 1));
+    const overSlot = this.#layout().rows[Number(td.getAttribute("data-row"))];
+    const blocked = !!card && this.#isRefused(card, column, Math.max(0, dragging - 1), this.#lanes && this.#lanes.length > 0 && overSlot ? overSlot.laneId : undefined);
     this.#dropBlocked = blocked;
     this.querySelectorAll("[data-drop-target], [data-drop-blocked]").forEach((el) => {
       el.removeAttribute("data-drop-target");
@@ -1917,6 +1961,7 @@ export class KanbanBoard extends HTMLElement {
     root.className = `kanban-board ${extraClass}`.trim();
     passThroughAttributes(this, root);
     if (this.readonly) root.setAttribute("data-readonly", "");
+    if (this.#fieldLayout === "compact") root.setAttribute("data-field-layout", "compact");
 
     const table = document.createElement("lily-kanban-table");
     table.setAttribute("label", this.label);
@@ -1936,8 +1981,16 @@ export class KanbanBoard extends HTMLElement {
     table.addEventListener("focusin", this.#onGridFocusin);
 
     if (this.#labels.search) {
+      if (this.#showSearchLabel) {
+        const visible = document.createElement("label");
+        visible.className = "kanban-board-search-label";
+        visible.htmlFor = `${this.#baseId}-search`;
+        visible.textContent = this.#labels.search;
+        root.appendChild(visible);
+      }
       const input = document.createElement("input");
       input.type = "search";
+      input.id = `${this.#baseId}-search`;
       input.className = "search-input kanban-board-search";
       input.setAttribute("aria-label", this.#labels.search);
       input.value = this.search;
