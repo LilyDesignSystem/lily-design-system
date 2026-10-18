@@ -2312,7 +2312,7 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
   footer totals (`allRows` / `aggregate`; Blazor `AllRows` / `Total`), `--data-grid-pinned-offset` and remembered column order.
 - [ ] **P11-T10 Publish the label packs as a package** (one export per locale; English stable, drafts under a separate path), with the
   loaders; decide the name and whether Blazor ships the JSON as an embedded resource.
-- [ ] **P11-T11 Patch release** for the unreleased items (versions bumped per package, changelogs already written), then
+- [x] **P11-T11 Release** (done 2026-10-18: data-grid 0.11.0, kanban-board and gantt-chart 0.8.0, calendar 0.7.0 in all eight catalogs; `bin/verify-published` reports all 129 versions on their registries; the README now ships in the tarballs). Original note: patch release for the unreleased items (versions bumped per package, changelogs already written), then
   `bin/publish-helpers` and `bin/verify-published --wait 900`. Needs the maintainer's go-ahead. npm publishes from the maintainer's
   machine until an `NPM_TOKEN` secret exists.
 - [ ] **P11-T12 Decide the `engines.node` range for published packages.** The pin `=26` follows `spec/node-current-version`; a
