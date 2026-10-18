@@ -117,3 +117,64 @@ describe("0.10.0 macro parameters reach the interactive grid", () => {
     expect((labels.undoAnnouncement as (h: string, t: string) => string)("Name", "Ann")).toBe("Undid Name: Ann");
   });
 });
+
+describe("footer totals, pinned offset, remembered order (ported from Svelte)", () => {
+  const MONEY_COLUMNS = [
+    { id: "name", header: "Name", filterable: true },
+    { id: "amount", header: "Amount", type: "number" },
+  ];
+  const MONEY = [
+    { name: "a", amount: 10 },
+    { name: "ab", amount: 20 },
+    { name: "abc", amount: null },
+    { name: "abcd", amount: "" },
+    { name: "z", amount: 1000 },
+  ];
+  const mount = (call: string, ctx: Record<string, unknown>) => {
+    document.body.innerHTML = env.renderString(`{% from "./data-grid.njk" import dataGrid %}{{ ${call} }}`, ctx);
+    return initDataGrid(document.querySelector("[data-data-grid]")!)!;
+  };
+
+  test("the footer's aggregate covers every filtered row, not only the current page", () => {
+    const grid = mount("dataGrid(label, columns, rows, labels, 'none', 2)", { label: "Money", columns: MONEY_COLUMNS, rows: MONEY, labels: { pagination: "Pages" } });
+    grid.filter = "a";
+    grid.footer = (ctx) => {
+      const tr = document.createElement("tr");
+      tr.className = "f-row";
+      for (const [cls, text] of [["f-page", ctx.rows.length], ["f-all", ctx.allRows.length], ["f-sum", ctx.aggregate("amount", "sum")]] as const) {
+        const td = document.createElement("td");
+        td.className = cls;
+        td.textContent = String(text);
+        tr.appendChild(td);
+      }
+      return tr;
+    };
+    expect(document.querySelector(".f-page")!.textContent).toBe("2");
+    expect(document.querySelector(".f-all")!.textContent).toBe("4");
+    expect(document.querySelector(".f-sum")!.textContent).toBe("30");
+  });
+
+  test("a pinned column gets --data-grid-pinned-offset from the widths of the pinned columns before it", () => {
+    mount("dataGrid(label, columns, rows, {})", {
+      label: "Pins",
+      columns: [
+        { id: "a", header: "A", pinned: "start", width: 100 },
+        { id: "b", header: "B", pinned: "start", width: 50 },
+        { id: "c", header: "C" },
+      ],
+      rows: [{ a: 1, b: 2, c: 3 }],
+    });
+    const ths = document.querySelectorAll<HTMLElement>("thead th");
+    expect(ths[0].style.getPropertyValue("--data-grid-pinned-offset")).toBe("0px");
+    expect(ths[1].style.getPropertyValue("--data-grid-pinned-offset")).toBe("100px");
+    expect(ths[2].style.getPropertyValue("--data-grid-pinned-offset")).toBe("");
+  });
+
+  test("storageKey remembers the column order", () => {
+    const first = mount("dataGrid(label, columns, rows, {}, 'none', null, 'order-k')", { label: "Users", columns: COLUMNS, rows: ROWS });
+    first.columnOrder = ["email", "name"];
+    expect(JSON.parse(localStorage.getItem("order-k")!).columnOrder).toEqual(["email", "name"]);
+    mount("dataGrid(label, columns, rows, {}, 'none', null, 'order-k')", { label: "Users", columns: COLUMNS, rows: ROWS });
+    expect(document.querySelector(".data-table-body .data-table-row .data-table-td")!.textContent).toBe("bob@example.com");
+  });
+});

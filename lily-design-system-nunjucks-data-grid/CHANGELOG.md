@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added (the client runtime is the HTML element): the footer receives `allRows` (every row that passes the filter) and an `aggregate(columnId, kind)` reduction over them, so a footer total does not change with the page; a pinned column gets `--data-grid-pinned-offset` (px) from the widths of the pinned columns before it, for `inset-inline-start` / `-end`; `storageKey` also remembers `columnOrder`. Ported from the Svelte package.
 - Works with the label packs: `nunjucksLabelsFor()` (see `shared/label-packs/index.md`) gives the macro `labels` and, for the data grid, the `sortAnnouncement` object the client now accepts, keyed by direction.
 
 ## 0.10.0 — 2026-10-17

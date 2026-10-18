@@ -2198,3 +2198,54 @@ describe("DataGrid — a labelled pager landmark from the headless PaginationNav
         expect(screen.queryByRole("navigation")).toBeNull();
     });
 });
+
+describe("DataGrid — footer totals, pinned offset, remembered order (ported from Svelte)", () => {
+    const AMOUNTS: DataGridColumn[] = [
+        { id: "name", header: "Name", filterable: true },
+        { id: "amount", header: "Amount", type: "number" },
+    ];
+    const MONEY = [
+        { name: "a", amount: 10 },
+        { name: "ab", amount: 20 },
+        { name: "abc", amount: null },
+        { name: "abcd", amount: "" },
+        { name: "z", amount: 1000 },
+    ];
+    const totalFooter = (ctx: { rows: unknown[]; allRows: unknown[]; aggregate: (id: string, kind: "sum" | "count") => unknown }) => (
+        <tr className="f-row">
+            <td className="f-page">{ctx.rows.length}</td>
+            <td className="f-all">{ctx.allRows.length}</td>
+            <td className="f-sum">{String(ctx.aggregate("amount", "sum"))}</td>
+        </tr>
+    );
+
+    test("the footer's aggregate covers every filtered row, not only the current page", () => {
+        renderGrid({ label: "Money", columns: AMOUNTS, rows: MONEY, pageSize: 2, footer: totalFooter, filter: "a", labels: { ...LABELS, pagination: "Pages" } });
+        expect(document.querySelector(".f-page")!.textContent).toBe("2");
+        expect(document.querySelector(".f-all")!.textContent).toBe("4");
+        expect(document.querySelector(".f-sum")!.textContent).toBe("30");
+    });
+
+    test("a pinned column gets --data-grid-pinned-offset from the widths of the pinned columns before it", () => {
+        const cols: DataGridColumn[] = [
+            { id: "a", header: "A", pinned: "start", width: 100 },
+            { id: "b", header: "B", pinned: "start", width: 50 },
+            { id: "c", header: "C" },
+        ];
+        renderGrid({ label: "Pins", columns: cols, rows: [{ a: 1, b: 2, c: 3 }] });
+        const ths = document.querySelectorAll("thead th");
+        const offsetOf = (el: Element) => /--data-grid-pinned-offset:\s*([^;]+)/.exec(el.getAttribute("style") ?? "")?.[1]?.trim();
+        expect(offsetOf(ths[0])).toBe("0px");
+        expect(offsetOf(ths[1])).toBe("100px");
+        expect(offsetOf(ths[2])).toBeUndefined();
+    });
+
+    test("storageKey remembers the column order", () => {
+        const key = "lily-data-grid-order-test";
+        const { unmount } = renderGrid({ label: "Users", columns: COLUMNS, rows: ROWS, columnOrder: ["email", "name"], storageKey: key });
+        unmount();
+        expect(JSON.parse(localStorage.getItem(key)!).columnOrder).toEqual(["email", "name"]);
+        renderGrid({ label: "Users", columns: COLUMNS, rows: ROWS, storageKey: key });
+        expect(bodyRows()[0].querySelectorAll(".data-table-td")[0].textContent).toBe("bob@example.com");
+    });
+});

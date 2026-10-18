@@ -431,7 +431,7 @@
             @if (Footer is not null)
             {
                 <DataTableFoot>
-                    @Footer(new DataGridFooterContext(_visible, _pageEntries.Select(e => e.Row).ToList()))
+                    @Footer(new DataGridFooterContext(_visible, _pageEntries.Select(e => e.Row).ToList(), _sorted.Select(e => e.Row).ToList(), FooterAggregate))
                 </DataTableFoot>
             }
         </DataTable>

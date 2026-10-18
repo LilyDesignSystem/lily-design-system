@@ -10,6 +10,7 @@ import { missingLabels, type LabelFeatures } from "./label-coverage";
 import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
+    aggregateValues,
     filesOf,
     isInvalidForType,
     isZonedTime,
@@ -19,6 +20,7 @@ import {
     resolveColumn,
     safeHref,
     zonedUtcTime,
+    type DataGridAggregate,
     type DataGridCellType,
     type DataGridOption,
     type DataGridPerson,
@@ -87,7 +89,7 @@ export type DataGridColumn = {
     resizable?: boolean;
     /** Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another. */
     movable?: boolean;
-    /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. */
+    /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no position; when the widths of the pinned columns before it are known it sets `--data-grid-pinned-offset` (px) for `inset-inline-start` / `-end`. */
     pinned?: "start" | "end";
     /** Set `false` to leave the column out of an export. Default true. */
     exportable?: boolean;
@@ -387,7 +389,8 @@ const emit = defineEmits<{
 
 defineSlots<{
     empty?: () => unknown;
-    footer?: (ctx: { columns: DataGridColumn[]; rows: DataGridRow[] }) => unknown;
+    /** `rows` is the current page; `allRows` is every row that passes the filter, and `aggregate(columnId, kind)` reduces one column over `allRows` (a footer total that does not change with the page). */
+    footer?: (ctx: { columns: DataGridColumn[]; rows: DataGridRow[]; allRows: DataGridRow[]; aggregate: (columnId: string, kind: DataGridAggregate) => unknown }) => unknown;
 }>();
 
 // The listener's presence changes behaviour (Enter on a cell, a click on a row), so it is read from the vnode.
@@ -730,7 +733,21 @@ function cellStyle(column: DataGridColumn): string | undefined {
     const width = widthFor(column);
     if (width) parts.push(`width:${width}px`);
     if (column.align) parts.push(`text-align:${column.align}`);
+    // A pinned column's distance from its edge: the widths of the pinned columns before it (start) or after it (end), once all are known.
+    if (column.pinned) {
+        const i = visibleColumns.value.findIndex((c) => c.id === column.id);
+        const before = (column.pinned === "start" ? visibleColumns.value.slice(0, i) : visibleColumns.value.slice(i + 1)).filter((c) => c.pinned === column.pinned);
+        const widths = before.map((c) => widthFor(c));
+        if (widths.every((w) => w !== undefined)) parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
+    }
     return parts.length > 0 ? parts.join(";") : undefined;
+}
+
+/** A reduction of one column over every row that passes the filter (not only the current page), for a footer total. */
+function footerAggregate(columnId: string, kind: DataGridAggregate): unknown {
+    const column = columns.value.find((c) => c.id === columnId);
+    if (!column) return undefined;
+    return aggregateValues(kind, sortedEntries.value.map((e) => defaultAccessor(column, e.row)));
 }
 
 function setWidth(column: DataGridColumn, width: number): void {
@@ -1262,10 +1279,12 @@ function restoreView(): void {
                 columnWidths?: Record<string, number>;
                 hiddenColumnIds?: string[];
                 sort?: DataGridSort;
+                columnOrder?: string[];
             };
             if (saved.columnWidths) columnWidths.value = saved.columnWidths;
             if (saved.hiddenColumnIds) hiddenColumnIds.value = new Set(saved.hiddenColumnIds);
             if (saved.sort) sort.value = saved.sort;
+            if (Array.isArray(saved.columnOrder)) columnOrder.value = saved.columnOrder;
         }
     } catch {
         // ignore quota / privacy / parse errors
@@ -1274,13 +1293,13 @@ function restoreView(): void {
 restoreView();
 
 watch(
-    [columnWidths, hiddenColumnIds, sort],
+    [columnWidths, hiddenColumnIds, sort, columnOrder],
     () => {
         if (!props.storageKey || typeof localStorage === "undefined") return;
         try {
             localStorage.setItem(
                 props.storageKey,
-                JSON.stringify({ columnWidths: columnWidths.value, hiddenColumnIds: [...hiddenColumnIds.value], sort: sort.value }),
+                JSON.stringify({ columnWidths: columnWidths.value, hiddenColumnIds: [...hiddenColumnIds.value], sort: sort.value, columnOrder: columnOrder.value }),
             );
         } catch {
             // ignore quota / privacy errors
@@ -1696,7 +1715,7 @@ function entryById(id: string): Entry | undefined {
                     </DataTableRow>
                 </DataTableBody>
                 <DataTableFoot v-if="$slots.footer">
-                    <slot name="footer" :columns="visibleColumns" :rows="pageEntries.map((e) => e.row)" />
+                    <slot name="footer" :columns="visibleColumns" :rows="pageEntries.map((e) => e.row)" :allRows="sortedEntries.map((e) => e.row)" :aggregate="footerAggregate" />
                 </DataTableFoot>
             </DataTable>
         </component>

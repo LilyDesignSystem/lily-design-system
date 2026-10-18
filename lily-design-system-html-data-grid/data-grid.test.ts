@@ -302,3 +302,58 @@ describe("virtualization, persistence, export, types", () => {
     expect(cell(0, 1).getAttribute("aria-readonly")).toBe("true");
   });
 });
+
+describe("footer totals, pinned offset, remembered order (ported from Svelte)", () => {
+  const AMOUNTS: DataGridColumn[] = [
+    { id: "name", header: "Name", filterable: true },
+    { id: "amount", header: "Amount", type: "number" },
+  ];
+  const MONEY = [
+    { name: "a", amount: 10 },
+    { name: "ab", amount: 20 },
+    { name: "abc", amount: null },
+    { name: "abcd", amount: "" },
+    { name: "z", amount: 1000 },
+  ];
+  const totalFooter = (ctx: { rows: unknown[]; allRows: unknown[]; aggregate: (id: string, kind: "sum" | "count") => unknown }) => {
+    const tr = document.createElement("tr");
+    tr.className = "f-row";
+    for (const [cls, text] of [["f-page", ctx.rows.length], ["f-all", ctx.allRows.length], ["f-sum", ctx.aggregate("amount", "sum")]] as const) {
+      const td = document.createElement("td");
+      td.className = cls;
+      td.textContent = String(text);
+      tr.appendChild(td);
+    }
+    return tr;
+  };
+
+  test("the footer's aggregate covers every filtered row, not only the current page", () => {
+    mount({ columns: AMOUNTS, rows: MONEY, pageSize: 2, footer: totalFooter, filter: "a", labels: { ...LABELS, pagination: "Pages" } });
+    expect(grid.querySelector(".f-page")!.textContent).toBe("2");
+    expect(grid.querySelector(".f-all")!.textContent).toBe("4");
+    expect(grid.querySelector(".f-sum")!.textContent).toBe("30");
+  });
+
+  test("a pinned column gets --data-grid-pinned-offset from the widths of the pinned columns before it", () => {
+    mount({
+      columns: [
+        { id: "a", header: "A", pinned: "start", width: 100 },
+        { id: "b", header: "B", pinned: "start", width: 50 },
+        { id: "c", header: "C" },
+      ],
+      rows: [{ a: 1, b: 2, c: 3 }],
+    });
+    const ths = grid.querySelectorAll<HTMLElement>("thead th");
+    expect(ths[0].style.getPropertyValue("--data-grid-pinned-offset")).toBe("0px");
+    expect(ths[1].style.getPropertyValue("--data-grid-pinned-offset")).toBe("100px");
+    expect(ths[2].style.getPropertyValue("--data-grid-pinned-offset")).toBe("");
+  });
+
+  test("storageKey remembers the column order", () => {
+    mount({ columnOrder: ["email", "name"] }, { "storage-key": "order-k" });
+    expect(JSON.parse(localStorage.getItem("order-k")!).columnOrder).toEqual(["email", "name"]);
+    document.body.innerHTML = "";
+    mount({}, { "storage-key": "order-k" });
+    expect(bodyRows()[0].querySelectorAll(".data-table-td")[0].textContent).toBe("bob@example.com");
+  });
+});

@@ -47,6 +47,7 @@ import { missingLabels, type LabelFeatures } from "./label-coverage";
 import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
+  aggregateValues,
   filesOf,
   isInvalidForType,
   isZonedTime,
@@ -56,6 +57,7 @@ import {
   resolveColumn,
   safeHref,
   zonedUtcTime,
+  type DataGridAggregate,
   type DataGridCellType,
   type DataGridFile,
   type DataGridLink,
@@ -126,7 +128,7 @@ export type DataGridColumn = {
   resizable?: boolean;
   /** Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another. */
   movable?: boolean;
-  /** Pins the column: its header and cells get `data-pinned="start"` / `"end"` for the consumer's sticky CSS. */
+  /** Pins the column: its header and cells get `data-pinned="start"` / `"end"` for the consumer's sticky CSS. Lily sets no position; when the widths of the pinned columns before it are known it sets `--data-grid-pinned-offset` (px) for `inset-inline-start` / `-end`. */
   pinned?: "start" | "end";
   /** Set `false` to leave the column out of an export. Default true. */
   exportable?: boolean;
@@ -269,7 +271,15 @@ export type DataGridLabels = {
 };
 
 /** What a footer template receives (as `$implicit`). */
-export type DataGridFooterContext = { columns: DataGridColumn[]; rows: DataGridRow[] };
+export type DataGridFooterContext = {
+  columns: DataGridColumn[];
+  /** The current page. */
+  rows: DataGridRow[];
+  /** Every row that passes the filter. */
+  allRows: DataGridRow[];
+  /** Reduces one column over `allRows` (a footer total that does not change with the page). */
+  aggregate: (columnId: string, kind: DataGridAggregate) => unknown;
+};
 
 export type DataGridEntry = { row: DataGridRow; id: string };
 
@@ -1066,7 +1076,16 @@ export class DataGrid {
   protected readonly footerContext = computed<DataGridFooterContext>(() => ({
     columns: this.visibleColumns(),
     rows: this.pageEntries().map((e) => e.row),
+    allRows: this.sortedEntries().map((e) => e.row),
+    aggregate: (columnId, kind) => this.footerAggregate(columnId, kind),
   }));
+
+  /** A reduction of one column over every row that passes the filter (not only the current page), for a footer total. */
+  private footerAggregate(columnId: string, kind: DataGridAggregate): unknown {
+    const column = this.resolvedColumns().find((c) => c.id === columnId);
+    if (!column) return undefined;
+    return aggregateValues(kind, this.sortedEntries().map((e) => defaultAccessor(column, e.row)));
+  }
 
   protected readonly exportColumns = computed(() => this.visibleColumns().filter((c) => c.exportable !== false));
   protected readonly exportEntries = computed(() =>
@@ -1151,7 +1170,7 @@ export class DataGrid {
     });
     effect(() => {
       const key = this.storageKey();
-      const snapshot = { columnWidths: this.columnWidths(), hiddenColumnIds: [...this.hiddenColumnIds()], sort: this.sort() };
+      const snapshot = { columnWidths: this.columnWidths(), hiddenColumnIds: [...this.hiddenColumnIds()], sort: this.sort(), columnOrder: this.columnOrder() };
       if (!key || typeof localStorage === "undefined") return;
       try {
         localStorage.setItem(key, JSON.stringify(snapshot));
@@ -1289,6 +1308,14 @@ export class DataGrid {
     const width = this.widthFor(column);
     if (width) parts.push(`width:${width}px`);
     if (column.align) parts.push(`text-align:${column.align}`);
+    // A pinned column's distance from its edge: the widths of the pinned columns before it (start) or after it (end), once all are known.
+    if (column.pinned) {
+      const visible = this.visibleColumns();
+      const i = visible.findIndex((c) => c.id === column.id);
+      const before = (column.pinned === "start" ? visible.slice(0, i) : visible.slice(i + 1)).filter((c) => c.pinned === column.pinned);
+      const widths = before.map((c) => this.widthFor(c));
+      if (widths.every((w) => w !== undefined)) parts.push(`--data-grid-pinned-offset:${widths.reduce((a, w) => a + (w ?? 0), 0)}px`);
+    }
     return parts.length > 0 ? parts.join(";") : null;
   }
 
@@ -1858,10 +1885,11 @@ export class DataGrid {
     try {
       const raw = localStorage.getItem(key);
       if (raw) {
-        const saved = JSON.parse(raw) as { columnWidths?: Record<string, number>; hiddenColumnIds?: string[]; sort?: DataGridSort };
+        const saved = JSON.parse(raw) as { columnWidths?: Record<string, number>; hiddenColumnIds?: string[]; sort?: DataGridSort; columnOrder?: string[] };
         if (saved.columnWidths) this.columnWidths.set(saved.columnWidths);
         if (saved.hiddenColumnIds) this.hiddenColumnIds.set(new Set(saved.hiddenColumnIds));
         if (saved.sort) this.sort.set(saved.sort);
+        if (Array.isArray(saved.columnOrder)) this.columnOrder.set(saved.columnOrder);
       }
     } catch {
       // ignore quota / privacy / parse errors

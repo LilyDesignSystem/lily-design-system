@@ -29,7 +29,15 @@ using Microsoft.JSInterop;
 namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>What a footer fragment receives.</summary>
-public sealed record DataGridFooterContext(IReadOnlyList<DataGridColumn> Columns, IReadOnlyList<DataGridRow> Rows);
+public sealed record DataGridFooterContext(
+    IReadOnlyList<DataGridColumn> Columns,
+    IReadOnlyList<DataGridRow> Rows,
+    IReadOnlyList<DataGridRow>? AllRows = null,
+    Func<string, DataGridAggregate, object?>? Aggregate = null)
+{
+    /// <summary>A reduction of one column over every row that passes the filter (not only the current page), for a footer total; null when the column is unknown.</summary>
+    public object? Total(string columnId, DataGridAggregate kind) => Aggregate?.Invoke(columnId, kind);
+}
 
 /// <summary>An interactive data grid over the headless DataTable family. See <c>spec/index.md</c>.</summary>
 public partial class DataGrid : ComponentBase
@@ -454,7 +462,23 @@ public partial class DataGrid : ComponentBase
         if (WidthFor(column) is { } width && width > 0) parts.Add($"width:{width}px");
         var align = column.Align switch { DataGridAlign.Start => "start", DataGridAlign.Center => "center", DataGridAlign.End => "end", _ => null };
         if (align is not null) parts.Add($"text-align:{align}");
+        // A pinned column's distance from its edge: the widths of the pinned columns before it (start) or after it (end), once all are known.
+        if (column.Pinned != DataGridPinned.None)
+        {
+            var i = _visible.ToList().FindIndex(c => c.Id == column.Id);
+            var before = (column.Pinned == DataGridPinned.Start ? _visible.Take(i) : _visible.Skip(i + 1)).Where(c => c.Pinned == column.Pinned).ToList();
+            var widths = before.Select(WidthFor).ToList();
+            if (widths.All(w => w is not null)) parts.Add($"--data-grid-pinned-offset:{widths.Sum(w => w ?? 0)}px");
+        }
         return parts.Count > 0 ? string.Join(";", parts) : null;
+    }
+
+    /// <summary>A reduction of one column over every row that passes the filter (not only the current page), for a footer total.</summary>
+    private object? FooterAggregate(string columnId, DataGridAggregate kind)
+    {
+        var column = _resolved.FirstOrDefault(c => c.Id == columnId);
+        if (column is null) return null;
+        return CellTypes.AggregateValues(kind, _sorted.Select(e => column.Accessor is not null ? column.Accessor(e.Row) : e.Row.TryGetValue(column.Id, out var v) ? v : null).ToList());
     }
 
     private static string? AlignName(DataGridColumn column)
@@ -516,6 +540,7 @@ public partial class DataGrid : ComponentBase
         ColumnOrder = order;
         Recompute();
         await ColumnOrderChanged.InvokeAsync(order);
+        await PersistAsync();
         var column = _resolved.First(c => c.Id == columnId);
         Announce(Labels.ColumnMoveAnnouncement?.Invoke(column.Header, to + 1, ids.Count));
         return true;
@@ -971,7 +996,7 @@ public partial class DataGrid : ComponentBase
     // Persistence (view state only: widths, hidden columns, sort — never rows/selection)
     // -------------------------------------------------------------------
 
-    private sealed record SavedView(Dictionary<string, int>? ColumnWidths, List<string>? HiddenColumnIds, SavedSort? Sort);
+    private sealed record SavedView(Dictionary<string, int>? ColumnWidths, List<string>? HiddenColumnIds, SavedSort? Sort, List<string>? ColumnOrder = null);
     private sealed record SavedSort(string ColumnId, string Direction);
 
     private async Task RestoreAsync()
@@ -991,6 +1016,7 @@ public partial class DataGrid : ComponentBase
                     Sort = new DataGridSort(s.ColumnId, direction);
                     await SortChanged.InvokeAsync(Sort);
                 }
+                if (saved?.ColumnOrder is not null) ColumnOrder = saved.ColumnOrder;
                 Recompute();
                 StateHasChanged();
             }
@@ -1012,6 +1038,7 @@ public partial class DataGrid : ComponentBase
                 columnWidths = _columnWidths,
                 hiddenColumnIds = _hiddenColumnIds.ToList(),
                 sort = new { columnId = Sort.ColumnId, direction = Sort.Direction.ToString().ToLowerInvariant() },
+                columnOrder = ColumnOrder,
             });
             await JS.InvokeVoidAsync("eval", $"localStorage.setItem({JsonString(StorageKey)}, {JsonString(snapshot)})");
         }

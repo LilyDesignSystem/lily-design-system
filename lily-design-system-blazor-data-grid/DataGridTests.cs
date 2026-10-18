@@ -445,6 +445,78 @@ public class DataGridTests : TestContext
         Assert.DoesNotContain("bob@example.com", last);
     }
 
+    private static readonly IReadOnlyList<DataGridColumn> MoneyColumns = new[]
+    {
+        new DataGridColumn { Id = "name", Header = "Name", Filterable = true },
+        new DataGridColumn { Id = "amount", Header = "Amount", Type = DataGridCellType.Number },
+    };
+
+    private static readonly IReadOnlyList<DataGridRow> Money = new[]
+    {
+        R(("name", "a"), ("amount", 10)),
+        R(("name", "ab"), ("amount", 20)),
+        R(("name", "abc"), ("amount", null)),
+        R(("name", "abcd"), ("amount", "")),
+        R(("name", "z"), ("amount", 1000)),
+    };
+
+    [Fact]
+    public void The_Footers_Total_Covers_Every_Filtered_Row_Not_Only_The_Current_Page()
+    {
+        RenderFragment<DataGridFooterContext> footer = ctx => b =>
+        {
+            b.OpenElement(0, "tr");
+            b.OpenElement(1, "td"); b.AddAttribute(2, "class", "f-page"); b.AddContent(3, ctx.Rows.Count); b.CloseElement();
+            b.OpenElement(4, "td"); b.AddAttribute(5, "class", "f-all"); b.AddContent(6, ctx.AllRows!.Count); b.CloseElement();
+            b.OpenElement(7, "td"); b.AddAttribute(8, "class", "f-sum"); b.AddContent(9, ctx.Total("amount", DataGridAggregate.Sum)); b.CloseElement();
+            b.CloseElement();
+        };
+        var cut = Render(MoneyColumns, Money, p =>
+        {
+            p.Add(x => x.PageSize, 2);
+            p.Add(x => x.Footer, footer);
+            p.Add(x => x.Filter, "a");
+            p.Add(x => x.Labels, new DataGridLabels { Pagination = "Pages", PageStatus = (a, b, c) => $"{a}/{b}" });
+        });
+        Assert.Equal("2", cut.Find(".f-page").TextContent);
+        Assert.Equal("4", cut.Find(".f-all").TextContent);
+        Assert.Equal("30", cut.Find(".f-sum").TextContent);
+    }
+
+    [Fact]
+    public void A_Pinned_Column_Gets_Pinned_Offset_From_The_Widths_Of_The_Pinned_Columns_Before_It()
+    {
+        var cols = new[]
+        {
+            new DataGridColumn { Id = "a", Header = "A", Pinned = DataGridPinned.Start, Width = 100 },
+            new DataGridColumn { Id = "b", Header = "B", Pinned = DataGridPinned.Start, Width = 50 },
+            new DataGridColumn { Id = "c", Header = "C" },
+        };
+        var cut = Render(cols, new[] { R(("a", 1), ("b", 2), ("c", 3)) });
+        var ths = cut.FindAll("thead th");
+        Assert.Contains("--data-grid-pinned-offset:0px", ths[0].GetAttribute("style"));
+        Assert.Contains("--data-grid-pinned-offset:100px", ths[1].GetAttribute("style"));
+        Assert.DoesNotContain("--data-grid-pinned-offset", ths[2].GetAttribute("style") ?? "");
+    }
+
+    [Fact]
+    public void StorageKey_Remembers_The_Column_Order()
+    {
+        var writes = new List<string>();
+        JSInterop.SetupVoid("eval", i => { var s = i.Arguments[0]?.ToString() ?? ""; if (s.Contains("setItem")) writes.Add(s); return true; }).SetVoidResult();
+        Render(configure: p =>
+        {
+            p.Add(x => x.StorageKey, "lily-dg-order");
+            p.Add(x => x.ColumnOrder, new[] { "email", "name" });
+        });
+        Assert.Contains("columnOrder", writes.Last());
+        Assert.Contains("email", writes.Last());
+
+        JSInterop.Setup<string?>("eval", i => (i.Arguments[0]?.ToString() ?? "").Contains("getItem")).SetResult("{\"columnOrder\":[\"email\",\"name\"]}");
+        var restored = Render(configure: p => p.Add(x => x.StorageKey, "lily-dg-order"));
+        Assert.Equal("bob@example.com", Text(BodyRows(restored)[0].QuerySelectorAll(".data-table-td")[0]));
+    }
+
     [Fact]
     public void Section_8_14_With_No_StorageKey_Nothing_Is_Written()
     {

@@ -18,6 +18,7 @@ import { missingLabels, type LabelFeatures } from "./label-coverage";
 import { EMPTY_HISTORY, historyKey, recordEdit, redoEdit, undoEdit, type EditHistory } from "./edit-history";
 import { findTypeaheadMatch, isTypeaheadKey, nextTypeaheadState, type TypeaheadState } from "./typeahead";
 import {
+  aggregateValues,
   isInvalidForType,
   linkParts,
   resolveColumn,
@@ -27,6 +28,7 @@ import {
   personName,
   safeHref,
   zonedUtcTime,
+  type DataGridAggregate,
   type DataGridCellType,
   type DataGridOption,
   type DataGridPerson,
@@ -96,7 +98,7 @@ export type DataGridColumn = {
   resizable?: boolean;
   /** Column can be reordered: Alt+ArrowLeft/Right on its focused header, or dragging the header onto another. */
   movable?: boolean;
-  /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no offsets. */
+  /** Pins the column to one side: its header and cells get `data-pinned="start"` / `"end"` for the consumer's `position: sticky` CSS. Lily sets no position; when the widths of the pinned columns before it are known it sets `--data-grid-pinned-offset` (px) for `inset-inline-start` / `-end`. */
   pinned?: "start" | "end";
   /** Set `false` to leave the column out of an export (an actions column, say). Default true. */
   exportable?: boolean;
@@ -343,8 +345,13 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   onRowActivate?: (row: DataGridRow, id: string) => void;
   /** Shown in one row spanning every column when no row is to be shown. */
   empty?: React.ReactNode;
-  /** Rendered inside a `<tfoot>`. */
-  footer?: (ctx: { columns: DataGridColumn[]; rows: DataGridRow[] }) => React.ReactNode;
+  /** Rendered inside a `<tfoot>`. `rows` is the current page; `allRows` is every row that passes the filter, and `aggregate(columnId, kind)` reduces one column over `allRows` (a footer total that does not change with the page). */
+  footer?: (ctx: {
+    columns: DataGridColumn[];
+    rows: DataGridRow[];
+    allRows: DataGridRow[];
+    aggregate: (columnId: string, kind: DataGridAggregate) => unknown;
+  }) => React.ReactNode;
   /** Sets `aria-busy` on the table. */
   busy?: boolean;
   /** Wrap the table in a scrollable `data-grid-scroll` region. Default true. */
@@ -871,7 +878,21 @@ export function DataGrid({
     const width = widthFor(column);
     if (width) style.width = `${width}px`;
     if (column.align) style.textAlign = column.align;
+    // A pinned column's distance from its edge: the widths of the pinned columns before it (start) or after it (end), once all are known.
+    if (column.pinned) {
+      const i = visibleColumns.findIndex((c) => c.id === column.id);
+      const before = (column.pinned === "start" ? visibleColumns.slice(0, i) : visibleColumns.slice(i + 1)).filter((c) => c.pinned === column.pinned);
+      const widths = before.map((c) => widthFor(c));
+      if (widths.every((w) => w !== undefined)) style["--data-grid-pinned-offset"] = `${widths.reduce((a, w) => a + (w ?? 0), 0)}px`;
+    }
     return Object.keys(style).length > 0 ? (style as React.CSSProperties) : undefined;
+  }
+
+  /** A reduction of one column over every row that passes the filter (not only the current page), for a footer total. */
+  function footerAggregate(columnId: string, kind: DataGridAggregate): unknown {
+    const column = columns.find((c) => c.id === columnId);
+    if (!column) return undefined;
+    return aggregateValues(kind, sortedEntries.map((e) => defaultAccessor(column, e.row)));
   }
 
   function setWidth(column: DataGridColumn, width: number): void {
@@ -1395,10 +1416,12 @@ export function DataGrid({
           columnWidths?: Record<string, number>;
           hiddenColumnIds?: string[];
           sort?: DataGridSort;
+          columnOrder?: string[];
         };
         if (saved.columnWidths) setColumnWidths(saved.columnWidths);
         if (saved.hiddenColumnIds) setHiddenColumnIds(new Set(saved.hiddenColumnIds));
         if (saved.sort) setSort(saved.sort);
+        if (Array.isArray(saved.columnOrder)) setColumnOrderState(saved.columnOrder);
       }
     } catch {
       // ignore quota / privacy / parse errors
@@ -1412,12 +1435,12 @@ export function DataGrid({
     try {
       localStorage.setItem(
         storageKey,
-        JSON.stringify({ columnWidths, hiddenColumnIds: [...hiddenColumnIds], sort }),
+        JSON.stringify({ columnWidths, hiddenColumnIds: [...hiddenColumnIds], sort, columnOrder }),
       );
     } catch {
       // ignore quota / privacy errors
     }
-  }, [storageKey, hydrated, columnWidths, hiddenColumnIds, sort]);
+  }, [storageKey, hydrated, columnWidths, hiddenColumnIds, sort, columnOrder]);
 
   // ---------------------------------------------------------------
   // Render
@@ -1926,7 +1949,7 @@ export function DataGrid({
       </DataTableBody>
       {footer && (
         <DataTableFoot>
-          {footer({ columns: visibleColumns, rows: pageEntries.map((e) => e.row) })}
+          {footer({ columns: visibleColumns, rows: pageEntries.map((e) => e.row), allRows: sortedEntries.map((e) => e.row), aggregate: footerAggregate })}
         </DataTableFoot>
       )}
     </DataTable>
