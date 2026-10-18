@@ -57,7 +57,7 @@ In edit mode:
 
 ## ARIA
 
-- `aria-label={label}` -- provides an accessible name in both display and edit modes
+- `aria-label` -- the accessible name: in edit mode the `label`; in display mode `"value, label"` (the label alone when the value is empty), so the visible text is part of the name (WCAG 2.5.3 label in name)
 - `role="button"` -- on the display span, indicates it is an activatable element
 - `aria-disabled={disabled}` -- on the display span when disabled, communicates the disabled state
 - `tabindex="0"` / `tabindex="-1"` -- controls focusability based on disabled state
@@ -90,7 +90,7 @@ The consumer provides all CSS styling. The component renders with a `.editable` 
 
 
 - Verify the component renders a `<div>` element with class `editable`
-- Verify aria-label={label}` -- provides an accessible name in both display and edit modes
+- Verify the display-mode button's `aria-label` is `"value, label"` and the edit-mode input's is the `label`
 - Verify role="button"` -- on the display span, indicates it is an activatable element
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

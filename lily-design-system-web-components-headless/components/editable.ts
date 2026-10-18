@@ -85,7 +85,7 @@ export class Editable extends HTMLElement {
         const input = this.#input!;
 
         if (label !== null) {
-            display.setAttribute("aria-label", label);
+            display.setAttribute("aria-label", value ? `${value}, ${label}` : label);
             input.setAttribute("aria-label", label);
         }
         display.textContent = value;

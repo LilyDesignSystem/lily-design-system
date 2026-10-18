@@ -34,4 +34,23 @@ public class EditableTests : TestContext
         var root = cut.Find(".editable");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Accessible_name_includes_the_visible_value()
+    {
+        var cut = RenderComponent<Editable>(p => p
+            .Add(x => x.Label, "Project title")
+            .Add(x => x.Value, "Q1 plan")
+            .AddChildContent("Q1 plan"));
+        Assert.Equal("Q1 plan, Project title", cut.Find(".editable").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Accessible_name_is_the_label_when_there_is_no_value()
+    {
+        var cut = RenderComponent<Editable>(p => p
+            .Add(x => x.Label, "Project title")
+            .AddChildContent("body"));
+        Assert.Equal("Project title", cut.Find(".editable").GetAttribute("aria-label"));
+    }
 }

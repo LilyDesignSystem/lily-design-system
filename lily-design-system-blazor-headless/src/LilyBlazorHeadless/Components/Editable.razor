@@ -5,11 +5,15 @@
     an inline-editable text element that toggles between view and edit modes
 *@
 
-<div class="@($"editable {CssClass}".Trim())" role="button" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"editable {CssClass}".Trim())" role="button" aria-label="@AccessibleName" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The visible text. When given, the accessible name is "value, label" so the visible text is part of the name (WCAG 2.5.3).</summary>
+    [Parameter] public string Value { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
+    private string AccessibleName => string.IsNullOrEmpty(Value) ? Label : $"{Value}, {Label}";
+
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

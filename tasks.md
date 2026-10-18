@@ -2317,13 +2317,9 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
   consumer on another Node fails `pnpm install` under engine-strict. A range such as `>=26` is safer for published packages.
 - [ ] **P11-T13 Packaging.** `README.md` is a symlink to `index.md` and npm leaves symlinks out of the tarball, so the `files`
   entry `README.md` in the helper packages' manifests ships nothing; ship a real copy at pack time or drop the entry (checked with `npm pack --dry-run` for svelte-calendar).
-- [ ] **P11-T14 Fix the headless `Editable`'s accessible name (WCAG 2.5.3, label in name).** `@axe-core/playwright` 4.14 reports
-  `label-content-name-mismatch` (serious) on `<span class="editable" role="button" aria-label="Project title">Q1 Care Quality
-  Improvement</span>`: the visible value is not part of the accessible name. Found 2026-10-18 on `/task-management` in the SvelteKit
-  examples (CI job "example-app Playwright smoke"); the other example apps run the same axe check and would hit it too. Fix in all eight
-  headless libraries (Svelte, React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components) — name the button by its value and its label
-  (for example `aria-label` of `value, label`, or `aria-labelledby` over the visible text and a hidden label) — plus the example copies
-  (`bin/sync-example-components`), their unit and e2e tests that assert the old `aria-label`, and `components/editable/`. Until then
-  `@axe-core/playwright` is held at `~4.13.0` in the Angular, Next and SvelteKit examples and ignored from 4.14 in `.github/dependabot.yml`;
-  remove both when this is done.
-
+- [x] **P11-T14 Fix the headless `Editable`'s accessible name (WCAG 2.5.3, label in name)** — done 2026-10-18. `@axe-core/playwright` 4.14 reported
+  `label-content-name-mismatch` on the display-mode `role="button"` whose visible value was not in its `aria-label`. The display-mode name is now
+  `"value, label"` (the label alone when the value is empty) in Svelte, React, Vue and Web Components; Blazor's `Editable` gained an optional `Value`
+  parameter that does the same (pass the text you render). The edit-mode input keeps the label. Angular, HTML and Nunjucks render a non-button
+  wrapper or a `textbox`, which the rule does not flag, so they are unchanged. Tests, the example copies (`bin/sync-example-components`) and
+  `components/editable/` are updated, and the `@axe-core/playwright` `~4.13.0` pin and its `dependabot.yml` ignore are gone.

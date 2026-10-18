@@ -28,10 +28,10 @@ describe("Editable", () => {
         expect(input.hidden).toBe(true);
     });
 
-    test("uses label as the accessible name on both display and edit elements", () => {
+    test("names the display with the value then the label, and the edit element by its label", () => {
         const host = render('<lily-editable label="Name" value="Ada"></lily-editable>');
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Name");
+        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Ada, Name");
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Name");
     });
 

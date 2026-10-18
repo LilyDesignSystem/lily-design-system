@@ -82,7 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name in both display and edit modes</li>
+      <li><code>aria-label</code> -- the accessible name: in edit mode the <code>label</code>; in display mode <code>"value, label"</code> (the label alone when the value is empty), so the visible text is part of the name (WCAG 2.5.3 label in name)</li>
       <li><code>role="button"</code> -- on the display span, indicates it is an activatable element</li>
       <li><code>aria-disabled=&#123;disabled&#125;</code> -- on the display span when disabled, communicates the disabled state</li>
       <li><code>tabindex="0"</code> / <code>tabindex="-1"</code> -- controls focusability based on disabled state</li>

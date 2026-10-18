@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Editable accessible name — 2026-10-18
+
+- **`Editable` (headless, WCAG 2.5.3 label in name)**: the display-mode button is named `"value, label"` (the label alone when empty) in Svelte, React, Vue and Web Components; Blazor gains an optional `Value` parameter. Found by `@axe-core/playwright` 4.14, which is un-pinned again.
+
 ## Label packs, critical path, data grid and kanban follow-ups — 2026-10-17
 
 - **Label packs** (`shared/label-packs/`, `shared/label-pack.ts`): about 185 strings per locale for the data grid, kanban board, calendar, Gantt chart and filter `labels` objects, built into ready `labels` by `labelsFor(helper, pack)`. English plus 45 drafts covering 46 locales (ar, bg, bh, bn, cs, cy, da, de, el, es, et, eu, fa, fi, fr, ga, gu, ha, hi, hr, hu, id, it, ja, jv, ko, lt, lv, mr, mt, nl, pa, pl, pt, ro, ru, sk, sl, sv, ta, te, tr, ur, vi, zh). All 45 are `"reviewed": false` machine drafts awaiting native-speaker review, Welsh included. `bin/check-label-packs` (in `bin/test`) enforces key and placeholder parity. Not yet a published package.

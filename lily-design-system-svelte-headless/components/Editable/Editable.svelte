@@ -110,7 +110,7 @@
         class={`editable ${className}`}
         role="button"
         tabindex={disabled ? -1 : 0}
-        aria-label={label}
+        aria-label={value ? `${value}, ${label}` : label}
         aria-disabled={disabled || undefined}
         onclick={startEditing}
         onkeydown={(e) => {

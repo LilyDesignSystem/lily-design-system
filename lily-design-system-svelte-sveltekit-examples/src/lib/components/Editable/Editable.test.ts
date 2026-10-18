@@ -12,6 +12,16 @@ describe("Editable", () => {
 
     test("text element has button role", () => {
         render(Subject, { props: { label: "Name", value: "Alice" } });
+        expect(screen.getByRole("button", { name: "Alice, Name" })).toBeTruthy();
+    });
+
+    test("the accessible name starts with the visible value (WCAG 2.5.3 label in name)", () => {
+        render(Subject, { props: { label: "Name", value: "Alice" } });
+        expect(screen.getByRole("button").getAttribute("aria-label")).toBe("Alice, Name");
+    });
+
+    test("an empty value names the button by its label alone", () => {
+        render(Subject, { props: { label: "Name", value: "" } });
         expect(screen.getByRole("button", { name: "Name" })).toBeTruthy();
     });
 

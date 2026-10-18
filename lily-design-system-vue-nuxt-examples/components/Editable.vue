@@ -33,7 +33,8 @@
     //
     // Accessibility:
     //   - role="button" on the display span indicates it is activatable
-    //   - aria-label provides the accessible name in both modes
+    //   - aria-label provides the accessible name in both modes; in view mode it is "value, label" so the visible
+    //     text is part of the name (WCAG 2.5.3 label in name)
     //   - aria-disabled on the span when disabled
     //   - tabindex="0" when enabled, tabindex="-1" when disabled
     //
@@ -113,7 +114,7 @@
             class="editable"
             role="button"
             :tabindex="disabled ? -1 : 0"
-            :aria-label="label"
+            :aria-label="modelValue ? `${modelValue}, ${label}` : label"
             :aria-disabled="disabled || undefined"
             @click="startEditing"
             @keydown="onDisplayKeydown"
