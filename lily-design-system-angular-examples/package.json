@@ -23,7 +23,7 @@
     "@angular/core": "^22.2.2",
     "@angular/forms": "^22.2.2",
     "@angular/platform-browser": "^22.2.2",
-    "@angular/platform-browser-dynamic": "^22.2.1",
+    "@angular/platform-browser-dynamic": "^22.2.3",
     "@angular/router": "^22.2.2",
     "@lilydesignsystem/angular-locale-picker": "0.2.0",
     "@lilydesignsystem/angular-text-size-picker": "0.2.0",
@@ -32,9 +32,9 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@analogjs/platform": "^2.8.0",
-    "@analogjs/router": "^2.8.0",
-    "@analogjs/vite-plugin-angular": "^2.8.0",
+    "@analogjs/platform": "^2.8.1",
+    "@analogjs/router": "^2.8.1",
+    "@analogjs/vite-plugin-angular": "^2.8.1",
     "@angular/platform-server": "^22.2.2",
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.64.1",
