@@ -30,6 +30,10 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      "Upstream tracked:" line naming the design system and version it
      follows (plan P3-T7), so a future refresh knows its baseline.
 
+  7. Today is marked, never filled. A rule for `[aria-current="date"]` sets no
+     background: a solid fill on the current day's cell hides the events in it
+     (reported 2026-10-17 against an app theme; all 57 themes use an outline).
+
 Exits non-zero listing every violation. Wired into bin/test.
 
 `bin/check-theme --contrast` (plan P10-T4) is a separate, report-only pass:
@@ -331,6 +335,11 @@ def main() -> int:
         if f':root[data-theme="{slug}"]' not in css.replace("\n", " ") and \
            f'[data-theme="{slug}"]' not in css:
             errors.append(f"{base}: no :root[data-theme=\"{slug}\"] guard")
+
+        # 7. today's cell is marked, never filled: a solid fill on the current day hides the events inside it
+        for m in re.finditer(r"([^{}]*\[aria-current=\"date\"\][^{}]*)\{([^{}]*)\}", css):
+            if re.search(r"\bbackground(-color|-image)?\s*:", m.group(2)):
+                errors.append(f"{base}: the current-day rule {m.group(1).strip()[:60]!r} sets a background (use an outline or a border)")
 
     if errors:
         for e in errors:
