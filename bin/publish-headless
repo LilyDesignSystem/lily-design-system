@@ -67,7 +67,7 @@ ensure_installed() {
 # run go green while publishing nothing). "Cannot publish over" is
 # tolerated in both modes as an idempotent release, exactly as NuGet's
 # --skip-duplicate below; every other failure aborts.
-publish_npm_package() {
+publish_npm_package_inner() {
   dir="$1"
   if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
     printf '%s\n' "$output"
@@ -82,6 +82,23 @@ publish_npm_package() {
     echo "    publish FAILED (exit $status) -- aborting; this is not the already-published case" >&2
     return "$status"
   fi
+}
+
+# npm skips symlinks when packing, so a package whose README.md is a symlink to index.md ships without a
+# README (npmjs.com shows none). Swap in a real copy for the publish and put the symlink back afterwards.
+publish_npm_package() {
+  dir="$1"
+  link=""
+  if [ -L "$dir/README.md" ]; then
+    link="$(readlink "$dir/README.md")"
+    rm "$dir/README.md" && cp "$dir/$link" "$dir/README.md"
+  fi
+  status=0
+  publish_npm_package_inner "$dir" || status=$?
+  if [ -n "$link" ]; then
+    rm -f "$dir/README.md" && ln -s "$link" "$dir/README.md"
+  fi
+  return "$status"
 }
 
 if [ -z "$NUGET_ONLY" ]; then
