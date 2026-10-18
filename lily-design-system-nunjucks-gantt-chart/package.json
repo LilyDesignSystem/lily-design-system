@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/nunjucks-gantt-chart",
   "version": "0.8.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Nunjucks Gantt chart: a keyboard-and-pointer-accessible Gantt chart (WAI-ARIA APG Grid, row hierarchy, milestones, percent-complete, finish-to-start dependency data, keyboard-accessible edit region composing date-time-picker, drag-and-drop supplementary). Headless, SSR-safe, no CSS.",
   "type": "module",

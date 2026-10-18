@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/angular-data-grid",
   "version": "0.11.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Angular interactive data grid composing the headless DataTable family: sort, filter, selection, pagination, resize, reorder, cell editing, virtualization, export to CSV, TSV and Excel, and twelve cell types. Headless, SSR-safe, no CSS.",
   "dependencies": {

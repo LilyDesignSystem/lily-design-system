@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/web-components-picker-bar",
   "version": "0.4.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Web Components picker bar: composes lily-link-picker (optional), lily-search-picker, lily-theme-picker, lily-locale-picker, lily-text-size-picker, and lily-share-picker into one page-header row.",
   "type": "module",

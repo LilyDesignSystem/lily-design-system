@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/react-calendar",
   "version": "0.7.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System React calendar: a week, four-week and month calendar composing the headless CalendarTable family plus the sibling date-time-picker's civil-date arithmetic. Headless, SSR-safe, no CSS.",
   "type": "module",

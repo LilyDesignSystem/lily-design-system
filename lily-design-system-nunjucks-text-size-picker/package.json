@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/nunjucks-text-size-picker",
   "version": "0.3.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - Nunjucks 3 text size picker",
   "type": "module",

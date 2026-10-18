@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/nunjucks-data-grid",
   "version": "0.11.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Nunjucks data grid: sort, filter, selection, pagination, editing, virtualization, export and twelve cell types. Headless, SSR skeleton, no CSS.",
   "type": "module",

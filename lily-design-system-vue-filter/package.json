@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/vue-filter",
   "version": "0.1.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Vue 3 filter: a headless filter builder (conditions and groups over text, number, date, choice and yes/no fields; and / or / not) that outputs JSON, SQL, MongoDB, OData or a predicate. Headless, SSR-safe, no CSS.",
   "type": "module",

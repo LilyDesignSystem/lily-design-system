@@ -119,7 +119,7 @@ Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
 - **Open backlog**: the deferred Baby UI ideas (`attachment`, `tool-chips`, the remaining agent, advanced and
   primitive components — tasks P9-T12, each needing a design pass first); native-speaker review of the 45 draft
   label packs; publishing the packs as a package; porting the Svelte-only items above; a patch release for the
-  unreleased items; the `engines.node` pin (`=26`) for published packages, which is a maintainer decision.
+  unreleased items; the `engines.node` range for published packages (decided 2026-10-18: `>=26`).
   Security-posture settings, GitHub topics and README screenshots were **not re-verified**.
 
 ## Research findings (2026-08)

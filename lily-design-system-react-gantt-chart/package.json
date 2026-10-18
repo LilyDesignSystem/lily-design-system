@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/react-gantt-chart",
   "version": "0.8.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System React Gantt chart: composes the headless GanttTable family plus two composed date-time-picker instances for keyboard-accessible task editing. Headless, SSR-safe, no CSS.",
   "type": "module",

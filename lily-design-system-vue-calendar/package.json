@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/vue-calendar",
   "version": "0.7.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Vue 3 headless calendar (week, four-week and month views over CalendarTable, keyboard navigation, picked and disabled days)",
   "type": "module",

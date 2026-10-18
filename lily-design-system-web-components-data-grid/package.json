@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/web-components-data-grid",
   "version": "0.11.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - Web Components data grid",
   "type": "module",

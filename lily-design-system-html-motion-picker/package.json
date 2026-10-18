@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/html-motion-picker",
   "version": "0.3.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - HTML custom element motion (reduced-motion) picker",
   "type": "module",

@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/react-kanban-board",
   "version": "0.8.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System React kanban board: composes the headless KanbanTable family plus IconButton/Listbox for a keyboard-accessible per-card move menu. Headless, SSR-safe, no CSS.",
   "type": "module",

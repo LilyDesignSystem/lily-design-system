@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/web-components-link-picker",
   "version": "0.2.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Web Components link picker: a <lily-link-picker> home-icon button opening a disclosure of app-defined page links",
   "type": "module",

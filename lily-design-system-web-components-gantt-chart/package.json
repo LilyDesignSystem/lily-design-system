@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/web-components-gantt-chart",
   "version": "0.8.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - HTML custom element Gantt chart: composes the headless <lily-gantt-table> plus <lily-date-time-picker> (twice, start/end) for keyboard-accessible task rescheduling. Headless, SSR-safe, no CSS.",
   "type": "module",

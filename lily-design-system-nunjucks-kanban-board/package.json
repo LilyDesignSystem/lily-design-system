@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/nunjucks-kanban-board",
   "version": "0.8.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Nunjucks kanban board: a keyboard-and-pointer-accessible kanban board (WAI-ARIA APG Grid, per-card move menu, drag-and-drop supplementary). Headless, SSR-safe, no CSS.",
   "type": "module",

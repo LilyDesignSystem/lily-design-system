@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/svelte-kanban-board",
   "version": "0.8.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - Svelte 5 headless kanban board (pointer + keyboard-accessible card move over KanbanTable)",
   "type": "module",

@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/nunjucks-settings-picker",
   "version": "0.1.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Nunjucks settings picker: an icon button (a cog icon) opening a dropdown of whatever the app provides. Headless, SSR-safe, no CSS.",
   "type": "module",

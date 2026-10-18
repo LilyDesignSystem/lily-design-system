@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/nunjucks-listbox-behavior",
   "version": "0.1.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Nunjucks shared listbox keyboard behaviour: the WAI-ARIA APG active-descendant contract (clamp, typeahead, paging) factored out of the theme/locale/text-size/motion picker client.js files. Behaviour only, no markup, no CSS.",
   "type": "module",

@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/angular-link-picker",
   "version": "0.2.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Angular link picker: an icon button (a home icon) opening a disclosure of app-defined page links. Headless, SSR-safe, no CSS.",
   "dependencies": {

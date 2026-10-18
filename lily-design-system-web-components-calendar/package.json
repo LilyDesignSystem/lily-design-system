@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/web-components-calendar",
   "version": "0.7.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - Web Components calendar (week, four-week and month views over the CalendarTable markup contract)",
   "type": "module",

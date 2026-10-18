@@ -2315,7 +2315,7 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
 - [x] **P11-T11 Release** (done 2026-10-18: data-grid 0.11.0, kanban-board and gantt-chart 0.8.0, calendar 0.7.0 in all eight catalogs; `bin/verify-published` reports all 129 versions on their registries; the README now ships in the tarballs). Original note: patch release for the unreleased items (versions bumped per package, changelogs already written), then
   `bin/publish-helpers` and `bin/verify-published --wait 900`. Needs the maintainer's go-ahead. npm publishes from the maintainer's
   machine until an `NPM_TOKEN` secret exists.
-- [ ] **P11-T12 Decide the `engines.node` range for published packages.** The pin `=26` follows `spec/node-current-version`; a
+- [x] **P11-T12 (done 2026-10-18: `>=26` in all 129 manifests and in `spec/node-current-version`; takes effect on npm/nuget.org at each package's next release) Decide the `engines.node` range for published packages.** The pin `=26` follows `spec/node-current-version`; a
   consumer on another Node fails `pnpm install` under engine-strict. A range such as `>=26` is safer for published packages.
 - [x] **P11-T13 Packaging** (done 2026-10-18: `bin/publish-headless` and `bin/publish-helpers` publish a real `README.md` copy, then restore the symlink). `README.md` is a symlink to `index.md` and npm leaves symlinks out of the tarball, so the `files`
   entry `README.md` in the helper packages' manifests ships nothing; ship a real copy at pack time or drop the entry (checked with `npm pack --dry-run` for svelte-calendar).

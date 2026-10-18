@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/svelte-filter",
   "version": "0.1.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - Svelte 5 headless filter builder: rules and groups over typed fields (text, number range, date range, upper/lower limit, choices), output as JSON, SQL, MongoDB or OData, or a predicate",
   "type": "module",

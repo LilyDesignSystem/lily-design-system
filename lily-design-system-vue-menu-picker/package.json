@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/vue-menu-picker",
   "version": "0.1.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System Vue 3 menu picker: an icon button (a hamburger icon) opening a dropdown of whatever the app provides. Headless, SSR-safe, no CSS.",
   "type": "module",

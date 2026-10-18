@@ -2,7 +2,7 @@
   "name": "@lilydesignsystem/svelte-calendar",
   "version": "0.7.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "description": "Lily Design System - Svelte 5 headless calendar view (week / four-week / month browse over CalendarTable, civil-date arithmetic via date-time-picker)",
   "type": "module",

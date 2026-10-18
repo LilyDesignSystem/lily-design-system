@@ -2,7 +2,7 @@
   "name": "lilydesignsystem.github.io",
   "version": "0.1.0",
   "engines": {
-    "node": "=26"
+    "node": ">=26"
   },
   "private": true,
   "type": "module",
