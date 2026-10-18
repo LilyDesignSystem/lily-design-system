@@ -138,6 +138,10 @@ import { applyCriticalPath } from "@lilydesignsystem/svelte-gantt-chart";
 const tasks = applyCriticalPath(rawTasks); // each leaf task gains critical / slack
 ```
 
+## Export file name
+
+`exportFilename` (default `"gantt-chart"`) is the base of an export's file name; `.csv`, `.tsv` or `.xlsx` is added.
+
 ## Non-goals (v1)
 
 Holiday shading from a calendar (`isNonWorking` marks them; `weekends` marks weekdays), resource/assignee columns. See

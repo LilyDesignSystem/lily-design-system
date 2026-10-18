@@ -123,6 +123,10 @@ The shown period is announced (`labels.periodAnnouncement`) whenever it changes,
 
 `search` (bindable; the field renders when `labels.search` names it) narrows the events: every word must appear, in any order, ignoring case and diacritics. New: the calendar had no search. Only matching events show, in every view (week, four-week, month, agenda); the default text is the event title and every field's text (`searchText` replaces it). The agenda wraps matches in `<mark class="calendar-view-match">`; `labels.searchAnnouncement(matches, total)` is announced; Escape clears. Exports hold what the search leaves. See spec §17.
 
+## Export file name
+
+`exportFilename` (default `"calendar"`) is the base of an export's file name; `.csv`, `.tsv` or `.xlsx` is added.
+
 ## Non-goals (v1)
 
 Event creation UI, recurring-event expansion, timezone conversion, virtualization, multi-calendar/resource views, print layout. (In-place field editing, drag and Alt+arrow rescheduling, the day and agenda views, and copy export, once listed here, have shipped.) See

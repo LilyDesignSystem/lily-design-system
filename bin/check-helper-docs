@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""bin/check-helper-docs — the canonical Svelte helpers document every prop they have.
+
+The grid-like helpers' `index.md` / `spec/index.md` fell behind the code more than once: shipped features
+stayed listed as non-goals, and props existed that no document named (reported 2026-10-17). This reads each
+Svelte helper's `Props` type and fails when a prop name appears in neither the package's `index.md` nor its
+`spec/index.md`, and when a "Non-goals" section still names something the package exports.
+
+  bin/check-helper-docs            check, exit 1 on a problem
+  bin/check-helper-docs --list     print each package's prop count
+
+Scope: the Svelte packages are canonical (the other catalogs port their contract), so they are the ones checked.
+Wired into bin/test.
+"""
+import glob
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Package -> its component file. A package whose component has no `type Props` is skipped, not failed.
+PACKAGES = {
+    "data-grid": "DataGrid.svelte",
+    "kanban-board": "KanbanBoard.svelte",
+    "calendar": "CalendarView.svelte",
+    "gantt-chart": "GanttChart.svelte",
+    "filter": "Filter.svelte",
+}
+
+
+def props_of(source: str):
+    """The top-level property names of the component's `Props` type, or None when it has none."""
+    m = re.search(r"(?:export\s+)?type Props\s*=\s*\{", source) or re.search(r"interface Props\s*\{", source)
+    if not m:
+        return None
+    i = m.end()
+    depth = 1
+    j = i
+    while depth:
+        c = source[j]
+        depth += (c == "{") - (c == "}")
+        j += 1
+    out = []
+    nested = 0
+    for line in source[i : j - 1].split("\n"):
+        t = line.strip()
+        if nested == 0:
+            k = re.match(r"(\w+)\??\s*:", t)
+            if k:
+                out.append(k.group(1))
+        nested += line.count("{") + line.count("(") + line.count("[") - line.count("}") - line.count(")") - line.count("]")
+        nested = max(nested, 0)
+    return out
+
+
+def non_goals(markdown: str) -> str:
+    """The text of a `## Non-goals` section (to the next heading), or ''."""
+    m = re.search(r"^##+ +(?:\d+\.\s*)?Non-goals[^\n]*\n(.*?)(?=^#{1,3} |\Z)", markdown, re.M | re.S)
+    return m.group(1) if m else ""
+
+
+def main() -> int:
+    errors = []
+    for helper, component in PACKAGES.items():
+        package = os.path.join(TOP, f"lily-design-system-svelte-{helper}")
+        source = open(os.path.join(package, component)).read()
+        props = props_of(source)
+        if props is None:
+            continue
+        docs = open(os.path.join(package, "index.md")).read() + "\n" + open(os.path.join(package, "spec", "index.md")).read()
+        if "--list" in sys.argv[1:]:
+            print(f"{helper}\t{len(props)} props")
+        for prop in props:
+            if prop in ("class", "children", "restProps"):
+                # Plumbing every helper shares; named once in the root docs.
+                continue
+            if not re.search(r"\b" + re.escape(prop) + r"\b", docs):
+                errors.append(f"svelte-{helper}: prop `{prop}` is in {component} but in neither index.md nor spec/index.md")
+        # A shipped prop named in the non-goals is a stale non-goal.
+        for md in ("index.md", os.path.join("spec", "index.md")):
+            text = non_goals(open(os.path.join(package, md)).read())
+            # A bullet or paragraph that says the feature shipped is the note that took it off the list; a parenthetical
+            # is an explanation ("`weekends` marks weekdays"), not an item.
+            chunks = [c for c in re.split(r"\n\s*\n|\n(?=- )", text) if not re.search(r"shipped|left this list|once listed", c)]
+            # A spec bullet "- **Item** — reason" names its item in bold; the reason may point at the props that do the job.
+            chunks = [re.match(r"-\s*\*\*(.*?)\*\*", c.strip(), re.S).group(1) if re.match(r"-\s*\*\*", c.strip()) else c for c in chunks]
+            text = re.sub(r"\([^)]*\)", "", " ".join(chunks), flags=re.S)
+            for prop in props:
+                if len(prop) > 6 and re.search(r"`" + re.escape(prop) + r"`", text):
+                    errors.append(f"svelte-{helper}: {md} lists `{prop}` as a non-goal, but the component has that prop")
+    if errors:
+        for e in errors:
+            print("Error:", e, file=sys.stderr)
+        print(f"check-helper-docs: FAILED ({len(errors)} problems)", file=sys.stderr)
+        return 1
+    print(f"check-helper-docs: OK ({len(PACKAGES)} packages)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

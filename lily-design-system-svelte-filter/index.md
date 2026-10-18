@@ -91,6 +91,10 @@ const labels: FilterLabels = {
 
 `filter`, `filter-group`, `filter-group-header`, `filter-combinator`, `filter-not`, `filter-rules`, `filter-item`, `filter-rule`, `filter-field`, `filter-operator`, `filter-value`, `filter-value-to`, `filter-choices`, `filter-choice`, `filter-add-rule-button`, `filter-add-group-button`, `filter-remove-rule-button`, `filter-remove-group-button`, `filter-empty`, `filter-output`, `filter-output-text`, `filter-status`; `data-depth`, `data-readonly`, `data-format`.
 
+## Class hook
+
+`class` adds your own class to the root beside `filter`; every other attribute is spread onto it.
+
 ## Non-goals
 
 Saved filters and persistence, a server round trip, free-text query parsing, locale-aware number and date entry (the consumer's input), and drawing — all the consumer's.

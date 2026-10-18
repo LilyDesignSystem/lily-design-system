@@ -390,6 +390,8 @@ test_lockfiles_are_tracked
     || err "an example app's component copy differs from its headless library; run bin/sync-example-components"
 "$top/bin/sync-shared-modules" --check >/dev/null 2>&1 \
     || err "a package's copy of a shared module differs from shared/; run bin/sync-shared-modules"
+"$top/bin/check-helper-docs" >/dev/null 2>&1 \
+    || err "a Svelte helper's docs are out of step with its props or non-goals; run bin/check-helper-docs"
 "$top/bin/check-label-packs" >/dev/null 2>&1 \
     || err "a label pack in shared/label-packs differs from the English pack (keys or placeholders); run bin/check-label-packs"
 

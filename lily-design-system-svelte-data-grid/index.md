@@ -152,6 +152,10 @@ doesn't render (no baked-in English fallback).
 
 `search` (bindable; the field renders when `labels.search` names it) narrows the rows: every word must appear, in any order, ignoring case and diacritics. Every word must appear somewhere in the row (any order, any filterable cells), ignoring case and diacritics; `filterText` still sets a column's text. No match highlighting: cells are rendered by their cell type, so the grid marks nothing inside them. See spec §18.
 
+## Export formulas and file columns
+
+`exportFormulas` (`.xlsx` only): a `formula` column's cells keep the live expression with the result cached, so a spreadsheet user keeps the formula; CSV and TSV always carry the result. A `file` column calls `onFilesSelected({ rowId, row, columnId, files })` with the `File` objects the person chose and `onFileRemove({ rowId, row, columnId, fileId })` when a remove button is pressed. Lily uploads nothing: the consumer does, then updates `rows`.
+
 ## Non-goals (v1)
 
 Row grouping, server-side sort/filter/pagination, drag-to-reorder rows. (Virtualization, in-place editing, column reorder, pinning, aggregates and copy export, once listed here, have shipped.) See
