@@ -100,4 +100,4 @@ Copy `en-001.json`, translate every value, keep every `{placeholder}` exactly as
 `reviewed` flag; `label-pack.test.ts` also builds every label from every pack. A new string means a new key in `en-001.json`
 first, then in each locale.
 
-Not yet published as a package: the packs and `label-pack.ts` live in `shared/`.
+Published as `@lilydesignsystem/locale-translations` (`lily-design-system-locale-translations/`, copied by `bin/sync-shared-modules`; every pack is a flat export, `…/locale-translations/cy-001`). Each pack also holds `direction`, `endonym` and `exonyms` (the language named in each pack language), from `~/git/sixarm/locales/locales.tsv`; Bhojpuri has no exonym entries yet.

@@ -34,6 +34,16 @@ for source in sorted((top / "shared").glob("*.ts")):
         if not check:
             shutil.copyfile(source, target)
 
+# The label packs themselves ship in one package, @lilydesignsystem/locale-translations.
+for source in sorted((top / "shared" / "label-packs").glob("*.json")):
+    target = top / "lily-design-system-locale-translations" / "label-packs" / source.name
+    if target.exists() and filecmp.cmp(source, target, shallow=False):
+        continue
+    drift.append(target.relative_to(top))
+    if not check:
+        target.parent.mkdir(exist_ok=True)
+        shutil.copyfile(source, target)
+
 for path in drift:
     print(("drift: " if check else "synced: ") + str(path))
 if check and drift:

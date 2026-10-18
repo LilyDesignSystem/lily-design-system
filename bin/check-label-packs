@@ -46,6 +46,13 @@ else {
   for (const [locale, pack] of Object.entries(packs)) {
     if (pack.locale !== locale) errors.push(`${locale}: "locale" is ${JSON.stringify(pack.locale)}`);
     if (typeof pack.reviewed !== "boolean") errors.push(`${locale}: "reviewed" must be true or false`);
+    if (typeof pack.endonym !== "string" || pack.endonym.trim() === "") errors.push(`${locale}: "endonym" must be a non-empty string`);
+    if (pack.direction !== "ltr" && pack.direction !== "rtl") errors.push(`${locale}: "direction" must be "ltr" or "rtl"`);
+    for (const [l, name] of Object.entries(pack.exonyms ?? {})) {
+      if (!(l in packs)) errors.push(`${locale}: exonym for ${l}, which has no pack`);
+      if (typeof name !== "string" || name.trim() === "") errors.push(`${locale}: empty exonym for ${l}`);
+    }
+    if (!pack.exonyms || !pack.exonyms[locale]) errors.push(`${locale}: "exonyms" must name the language in its own pack language`);
     const mine = leaves(pack);
     for (const k of base.keys()) if (!mine.has(k)) errors.push(`${locale}: missing ${k}`);
     for (const [k, t] of mine) {

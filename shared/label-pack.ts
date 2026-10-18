@@ -26,6 +26,12 @@ export type LabelPack = {
     locale: string;
     /** Has a native speaker checked it? False for machine-drafted packs. */
     reviewed: boolean;
+    /** Writing direction of the locale's script. */
+    direction?: "ltr" | "rtl";
+    /** The language's name in itself (`Cymraeg`). */
+    endonym?: string;
+    /** The language's name in each other pack's language, keyed by locale (`en-001`: `Welsh`). Bhojpuri has none yet. */
+    exonyms?: Record<string, string>;
     common?: Record<string, LabelTemplate | Record<string, string>>;
     "data-grid"?: Record<string, LabelTemplate | Record<string, string>>;
     "kanban-board"?: Record<string, LabelTemplate | Record<string, string>>;
