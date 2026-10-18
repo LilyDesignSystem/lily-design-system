@@ -64,7 +64,7 @@ placeholders in logical order.
 - [x] Every Blazor package builds its labels from every pack (`*LabelPackTests.cs`).
 - [x] `shared/label-pack.test.ts` and `shared/label-pack-nunjucks.test.ts` build every label from every pack.
 - [ ] Native-speaker review of the 45 draft packs (Welsh included).
-- [ ] Published as a package (an npm package with one export per locale; English stable, drafts under a separate path).
+- [x] Packaged (2026-10-18, not yet published): `@lilydesignsystem/locale-translations` (npm, one flat export per locale; the `reviewed` flag, not a path, marks a draft) and `LilyDesignSystem.Blazor.LocaleTranslations` (NuGet, packs embedded). Each pack also holds `direction`, `endonym` and `exonyms`.
 
 ## Related topics
 

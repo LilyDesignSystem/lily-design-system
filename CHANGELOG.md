@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Locale translations packages — 2026-10-18
+
+- New `@lilydesignsystem/locale-translations` 0.1.0 (npm) and `LilyDesignSystem.Blazor.LocaleTranslations` 0.1.0 (NuGet): the 46 label packs as flat per-locale exports (Blazor: embedded resources) with `labelsFor` / `nunjucksLabelsFor`. Not yet published.
+- Every pack gains `direction`, `endonym` and `exonyms` (the language named in each pack language, from `locales.tsv`; Bhojpuri has none yet); `bin/check-label-packs` checks them.
+- Published packages now declare `engines.node` `>=26` instead of the `=26` pin (P11-T12).
+
 ## Editable accessible name — 2026-10-18
 
 - **`Editable` (headless, WCAG 2.5.3 label in name)**, released as svelte/react/vue-headless 0.5.1, web-components-headless 0.6.1 and Blazor headless 0.5.1: the display-mode button is named `"value, label"` (the label alone when empty) in Svelte, React, Vue and Web Components; Blazor gains an optional `Value` parameter. Found by `@axe-core/playwright` 4.14, which is un-pinned again.
