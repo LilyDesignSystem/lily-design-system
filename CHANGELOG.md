@@ -17,6 +17,7 @@ highlights.
 - **Data grid**: footer totals over all filtered rows (`allRows`, `aggregate`), `--data-grid-pinned-offset` for pinned columns, `storageKey` remembers the column order.
 - **Docs**: the Svelte grid helpers' non-goals now list only what has not shipped.
 - **Label packs for every catalog**: `nunjucksLabelsFor()` for the Nunjucks macros and clients; `LabelPack` and `ToXLabels()` for Blazor. The Gantt `criticalLabel` and the kanban title editing now exist in all eight catalogs.
+- **Documentation sweep (2026-10-18)**: counts corrected everywhere (129 helper packages, 144 implementation subprojects, 172 subprojects); the four stale non-goal rows in `spec/helpers` rewritten; new topic `spec/label-packs/`; `AGENTS/helpers.md`, `AGENTS/internationalization.md`, `AGENTS/nunjucks.md` and `AGENTS/lily.md` brought up to date (every `AGENTS/*.md` is under 40 KB; `spec/index.md` is 39,998 bytes, so older §14.1 highlights moved to `spec/history`); `llms.txt` / `llms.json` (root and docs site); the eight `*-helpers-skill` files (they covered six pickers) and the maintainer and general skills; the root `index.md` per-framework helper lists regenerated from `bin/list-helper-packages`; `plan.md` "Current state" re-verified; `tasks.md` Phase 11; a Label packs page on the docs site.
 - **Dependencies**: the Svelte widgets take `svelte-headless` as a peer dependency (`>=0.4.0 <1.0.0`).
 
 ## Simplified Chinese (zh-cn): the remaining site pages — 2026-10-17

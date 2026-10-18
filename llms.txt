@@ -35,13 +35,13 @@ searchable component catalog: https://lilydesignsystem.com/.
   forbidden-literal list, the 57 reference theme stylesheets.
 - [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
   mapping, compound name-family patterns, composition templates.
-- [AGENTS/helpers.md](AGENTS/helpers.md): the seven picker helpers
-  (theme, locale, text-size, motion, share, search, date-time), picker-bar and the
-  tooltip contract.
+- [AGENTS/helpers.md](AGENTS/helpers.md): the ten picker helpers
+  (theme, locale, text-size, motion, share, search, link, menu, settings, date-time), picker-bar,
+  the tooltip contract, the label packs and the grid-like helper rules.
 - [AGENTS/citations.md](AGENTS/citations.md): design systems and headless
   libraries Lily learns from.
 - [AGENTS/lily.md](AGENTS/lily.md): the full subproject list (8
-  headless, 7 example, 114 helper packages) and the `bin/` tool reference.
+  headless, 7 example, 129 helper packages) and the `bin/` tool reference.
 
 ## Specification topics (spec/)
 
@@ -54,7 +54,11 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
   the 140 national personal identifier components, validation algorithms.
 - [spec/helpers/index.md](spec/helpers/index.md): the ten `*-picker`
-  helper contracts in full, picker-bar, and the tooltip contract.
+  helper contracts in full, picker-bar, the tooltip contract, and the data-grid,
+  kanban-board, gantt-chart, calendar and filter contracts.
+- [spec/label-packs/index.md](spec/label-packs/index.md): the 46 per-locale
+  `labels` packs (English plus 45 unreviewed drafts), their loaders for every
+  catalog and the checks that keep them in step.
 - [spec/frameworks/index.md](spec/frameworks/index.md): the seven
   framework pairs, per-framework file shapes, the copy-pattern.
 - [spec/agent-skills/index.md](spec/agent-skills/index.md): the 26 Claude
@@ -76,7 +80,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [Svelte helper packages](spec/helpers/index.md#svelte-helper-packages):
   the canonical helpers, one top-level subproject each — the ten pickers,
   picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter.
-- The remaining 20 headless/example/helper subprojects (React, Vue,
+- The remaining headless, example and helper subprojects (React, Vue,
   Angular, Blazor, HTML, Nunjucks, Web Components) follow the same
   shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.
 - [lily-design-system-skill](lily-design-system-skill/SKILL.md): general-purpose Claude Skill
@@ -95,7 +99,9 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [component-variants.json](component-variants.json): hand-curated extra demo
   states rendered on every demonstration page (`bin/generate-examples`).
 - [bin/](bin/): scaffolding, listing, sync, test, and publish tooling —
-  start with `bin/test` to verify a working tree.
+  start with `bin/test` to verify a working tree; `bin/verify-published` checks a release is on the registries.
+- [shared/label-packs/](shared/label-packs/index.md): one JSON `labels` pack per locale for
+  the data grid, kanban board, calendar, Gantt chart and filter.
 - [CONTRIBUTING.md](CONTRIBUTING.md): how to propose a change.
 - [LICENSE.md](LICENSE.md): MIT OR Apache-2.0 OR GPL-2.0-only OR
   GPL-3.0-only OR BSD-3-Clause.

@@ -48,6 +48,9 @@ actually live.
   is not verified by anything, and how to report a problem.
 - [News](https://lilydesignsystem.com/news/): announcements, release
   highlights, project status, and press contacts.
+- [Label packs](https://lilydesignsystem.com/label-packs/): ready-made `labels` for the data grid,
+  kanban board, calendar, Gantt chart and filter in 46 locales (45 are unreviewed drafts), and how
+  to load one in every framework.
 - [Roadmap](https://lilydesignsystem.com/roadmap/): what the project
   is working on and planning next.
 - [Lily + Figma](https://lilydesignsystem.com/lily-figma/): there is
@@ -69,7 +72,7 @@ actually live.
 - [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv):
   the canonical 571-component catalog (slug, PascalCase name, description).
 - [Canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system):
-  all 122 framework subprojects (8 headless, 7 example, 107 helper packages),
+  all 172 subprojects (144 implementation subprojects — 8 headless, 7 example, 129 helper packages — plus 26 Claude Skills),
   the `bin/` tooling, and full change history.
 
 ## Optional

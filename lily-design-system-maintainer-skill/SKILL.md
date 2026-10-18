@@ -14,18 +14,19 @@ the canonical monorepo with `spec/index.md` as the living specification and
 
 ## Repository shape
 
-- **21 implementation subprojects**: 7 headless libraries, 7 example apps, 7
-  helper catalogs, one per framework (HTML, Svelte, React, Vue, Angular,
-  Blazor, Nunjucks). Each is also a `git subtree` pushed to its own
-  standalone public repo — directory names all start with the
-  `lily-design-system-` prefix, which is exactly what `bin/list-implementations`
-  and `bin/sync-special-files` scope on. Don't create a top-level dir with
-  that prefix unless it genuinely is a subtree-pushed subproject.
+- **144 implementation subprojects**: 8 headless libraries (HTML, Svelte, React, Vue, Angular,
+  Blazor, Nunjucks and Web Components), 7 example apps and 129 helper packages, one top-level
+  subproject each (`bin/list-helper-packages <framework>` lists a framework's, in build order). Packages
+  publish from this monorepo; the per-subproject subtree mirrors were deleted 2026-10-10 and only the docs
+  site is still pushed to its own repository (`make github-pages`). Directory names all start with the
+  `lily-design-system-` prefix, which is exactly what `bin/list-implementations` and
+  `bin/sync-special-files` scope on. Beside them: 26 Claude Skills, `lily-design-system-themes` and
+  `lilydesignsystem.github.io` (172 subprojects in all).
 - **571 component directories** under `components/{slug}/`.
 - **Root canon**: `components.tsv` (the catalog), `css-style-sheet-template.css`
   (one class hook per component), `AGENTS/*.md` (design-principle rules,
   loaded into every subproject's own `AGENTS.md` via `@AGENTS/{file}.md`),
-  `themes/` (45 reference stylesheets), `spec/` (the specification, entered
+  `themes/` (57 reference stylesheets), `spec/` (the specification, entered
   via `spec/index.md`).
 
 ## Required files, and how to get them right the first time
@@ -101,8 +102,12 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `generate-registries` | Regenerate every example app's component registry from `components.tsv` + the canonical demo map. |
 | `generate-storybook-stories.mjs` | Generate Storybook stories for a headless library. |
 | `check-links` | Verify relative markdown links resolve. |
-| `check-theme` | Conformance checks for the 45 reference themes. |
+| `check-theme` | Conformance checks for the 57 reference themes (class hooks, zero specificity, tokens, data-theme guard, shared sections, provenance, no filled current-day cell). |
 | `check-class-names` | Audit that every implementation in all 8 headless libraries carries its slug as the base class (first token of a class list); part of `bin/test`. |
+| `check-helper-docs` | The Svelte grid-like helpers document every prop and list no shipped feature as a non-goal; part of `bin/test`. |
+| `check-label-packs` | The 46 label packs in `shared/label-packs/` match the English pack, and the Svelte and TypeScript-port helpers still have every key they hold; part of `bin/test`. |
+| `sync-shared-modules` | One source (`shared/`) for the pure modules the grid-like helpers copy; `--check` fails on drift. Edit `shared/`, never a package's copy. |
+| `verify-published` | After `publish-helpers`: is every helper package's local version on npm / nuget.org? `--wait 900` polls through registry lag. |
 | `check-coverage` | Coverage drift matrix: per-component file presence across all 7 headless libraries (beyond `bin/test`'s 3). |
 | `generate-theme-tokens` | DTCG token source under `themes/tokens/` — extract, generate, drift-check. |
 | `generate-component-categories` | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |

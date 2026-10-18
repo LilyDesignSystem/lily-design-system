@@ -31,6 +31,7 @@
       "links": [
         { "title": "Accessibility statement", "url": "https://lilydesignsystem.com/accessibility/", "description": "What targeting WCAG 2.2 AAA means here: what is verified, by what, what is not verified by anything, and how to report a problem." },
         { "title": "News", "url": "https://lilydesignsystem.com/news/", "description": "Announcements, release highlights, project status, and press contacts." },
+        { "title": "Label packs", "url": "https://lilydesignsystem.com/label-packs/", "description": "Ready-made labels for the data grid, kanban board, calendar, Gantt chart and filter in 46 locales (45 are unreviewed drafts), and how to load one in every framework." },
         { "title": "Roadmap", "url": "https://lilydesignsystem.com/roadmap/", "description": "What the project is working on and planning next." },
         { "title": "Lily + Figma", "url": "https://lilydesignsystem.com/lily-figma/", "description": "There is no maintained Lily Figma library or plugin; the 57 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin." },
         { "title": "Lily + Claude Code", "url": "https://lilydesignsystem.com/skills/", "description": "26 Claude Skills — general, per-framework umbrella, and per-subproject headless/helpers — give Claude Code a curated, loadable entry point into Lily; how to add one, and links to all 26." }
@@ -42,7 +43,7 @@
         { "title": "spec/index.md", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/index.md", "description": "The specification: vision, scope, architecture, naming conventions, composition patterns, acceptance criteria, roadmap." },
         { "title": "AGENTS.md", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md", "description": "Binding design-principle rules for AI coding agents." },
         { "title": "components.tsv", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv", "description": "The canonical 571-component catalog (slug, PascalCase name, description)." },
-        { "title": "Canonical monorepo", "url": "https://github.com/LilyDesignSystem/lily-design-system", "description": "All 122 framework subprojects (8 headless, 7 example, 107 helper packages), the bin/ tooling, and full change history." }
+        { "title": "Canonical monorepo", "url": "https://github.com/LilyDesignSystem/lily-design-system", "description": "All 172 subprojects (144 implementation subprojects: 8 headless, 7 example, 129 helper packages; plus 26 Claude Skills), the bin/ tooling, and full change history." }
       ]
     },
     {

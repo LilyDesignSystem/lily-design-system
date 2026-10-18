@@ -31,7 +31,7 @@ lily-design-system/                              ← canonical catalog + tools
 ├── bin/                                         ← scaffolding, listing, sync, generators, test, publish
 ├── spec/index.md, spec/{topic}/index.md         ← spec + modular topic docs
 ├── lily-design-system-{framework}-headless/     ← 8 headless libraries: html, svelte, react, vue, angular, blazor, nunjucks, web-components
-├── lily-design-system-{framework}-{package}/ ← 114 helper packages, one subproject each (bin/list-helper-packages <framework>)
+├── lily-design-system-{framework}-{package}/ ← 129 helper packages, one subproject each (bin/list-helper-packages <framework>)
 ├── lily-design-system-html-css-js-examples/     ← examples: vanilla HTML+CSS+JS
 ├── lily-design-system-svelte-sveltekit-examples/ ← examples: SvelteKit
 ├── lily-design-system-react-next-examples/      ← examples: Next.js
@@ -105,7 +105,7 @@ Every `components/{slug}/` directory (571 of them) carries:
 
 - [x] All 7 headless and 7 example subprojects exist at the documented paths.
 - [x] `@lilydesignsystem/web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491; 536/571 as of 2026-10-06 — the full achievable scope) accounting.
-- [x] Helper packages exist for all eight frameworks, one top-level subproject each (114 in all; the per-framework catalogs were dissolved into them 2026-10-10).
+- [x] Helper packages exist for all eight frameworks, one top-level subproject each (129 in all; the per-framework catalogs were dissolved into them 2026-10-10).
 - [x] All 571 component directories carry the required component files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`; `CLAUDE.md` was retired 2026-09-19).
 - [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, and spec/plan/tasks.
 - [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.

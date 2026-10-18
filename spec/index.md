@@ -31,7 +31,7 @@ coding agents.
 | Topic | What it covers |
 | ----- | -------------- |
 | [overview](overview/index.md) | Vision, scope, the headless vs. example layers, key facts. |
-| [architecture](architecture/index.md) | Monorepo layout, the 129 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 114 top-level helper packages), `themes/`, source hosting, required files. |
+| [architecture](architecture/index.md) | Monorepo layout, the 144 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 129 top-level helper packages), `themes/`, source hosting, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect). |
@@ -54,6 +54,7 @@ coding agents.
 | [share-picker](share-picker/index.md) | The share-picker button / disclosure-of-links HTML contract, bare glyph ➤, no `aria-haspopup`. |
 | [search-picker](search-picker/index.md) | The search-picker button / search-form disclosure HTML contract: magnifying-glass icon, ⏎ submit, GET to `/?<text>`. |
 | [date-time-picker](date-time-picker/index.md) | The date-time-picker field + trigger + APG dialog HTML contract, bare glyph 📅︎ — the one picker that is a form control. |
+| [label-packs](label-packs/index.md) | The 46 per-locale label packs for the data grid, kanban, calendar, Gantt and filter, their loaders (TypeScript, Nunjucks, Blazor) and the checks. |
 | [national-identifiers](national-identifiers/index.md) | The 140 national personal identifier components, normalization, validation algorithms. |
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
@@ -133,10 +134,10 @@ committing.
 
 The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
-`AGENTS/*.md`, `themes/`); 129 implementation subprojects hang off it —
+`AGENTS/*.md`, `themes/`); 144 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 headless library at its full
 achievable scope (Web Components, 536/571), 7 example apps and
-114 helper packages, one top-level
+129 helper packages, one top-level
 subproject each (the per-framework catalogs were dissolved into them 2026-10-10;
 `bin/list-helper-packages <framework>`). Packages publish from this
 monorepo; the per-subproject subtree mirrors were deleted 2026-10-10, and
@@ -151,7 +152,7 @@ multi-forge source hosting: [spec/architecture/](architecture/index.md).
   (Web Components mirrors 456 of it): unstyled, accessible, zero CSS.
 - **Examples** (7 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
-- **Helpers** (114 top-level packages) — opinionated packages,
+- **Helpers** (129 top-level packages) — opinionated packages,
   each owning one complete interaction end to end: `theme-picker`,
   `locale-picker`, `text-size-picker`, `motion-picker` (icon button +
   APG listbox, own a user preference), `share-picker`, `search-picker`, `link-picker`, `menu-picker` and `settings-picker`
@@ -445,7 +446,7 @@ checked is considered live work; anything unchecked is queued in §12.
       `motion-picker` added 2026-09-03, `search-picker` 2026-10-02).
       Per-catalog test counts: [spec/testing/](testing/index.md); the
       accessibility-hardening sweeps that produced the current counts: §14.1.
-- [x] All 129 subprojects have required files (`index.md`, `README.md`
+- [x] All 144 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `spec/index.md`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
       standardised on (it replaces the older split plan.md / tasks.md).
@@ -611,26 +612,13 @@ The dated, per-event narrative moved to [history](history/index.md) on 2026-10-0
 grown to more than half of this file). [CHANGELOG.md](../CHANGELOG.md) remains the
 canonical release record. Most recent events, newest first:
 
+- **Label packs, critical path and parity (2026-10-18)** — 46 per-locale `labels` packs (45 unreviewed drafts) with loaders for every catalog; the optional Gantt critical-path helper (calendar or working-day lag); the Gantt `criticalLabel` and kanban title editing in all eight catalogs; `bin/check-helper-docs`, `bin/check-label-packs`, `bin/verify-published`. See [label-packs](label-packs/index.md).
 - **`menu-picker` and `settings-picker` (2026-10-08)** — two more `*-picker`s: a hamburger and a cog icon button opening a
   dropdown of whatever the app provides, in all eight catalogs. See [menu-picker](menu-picker/index.md),
   [settings-picker](settings-picker/index.md).
 - **`link-picker` and a leftmost link picker in `picker-bar` (2026-10-07)** — an eighth `*-picker`: a home icon opening a
   disclosure of page links the app defines (Home, About Us, Contact Us, Privacy Policy, …), in all eight catalogs, with
   `picker-bar` 0.3.0 rendering it first when given `links`. See [link-picker](link-picker/index.md).
-- **Documentation sweep (2026-10-06)** — counts, versions, contracts and AI-facing files
-  brought up to date across the spec, `AGENTS/`, READMEs, `llms.txt`/`llms.json`, the Claude
-  Skills and the docs site; `spec/index.md` cut from 68 KB to a size that loads into context.
-- **Demonstration pages render real examples (2026-10-06)** — every example app and the docs
-  site show the demo's markup, live-rendered variants and a real usage example;
-  `bin/generate-examples` and `bin/generate-site-pages`; the 80 placeholder docs-site pages
-  were rebuilt from `components/{slug}/index.md`. See [examples](examples/index.md).
-- **Headless 0.4.0 released (2026-10-06)** — 16 new components (catalog 555 → 571): seven
-  charts, `streaming-text`, `tool-call` + five inner parts, `mark`, `chat-composer`.
-- **Headless 0.3.0 released (2026-10-05)** — 16 components from the Baby UI triage plus the
-  breaking graphic + data-table structure for all charts; the picker tooltips; `NUGET_USER`
-  must be the policy creator's username, not the owning organization.
-- **Picker tooltips (2026-10-04)** — every picker gains a hoverable, dismissable
-  `role="tooltip"`; see [helpers](helpers/index.md).
 
 ---
 

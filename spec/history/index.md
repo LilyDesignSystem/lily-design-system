@@ -541,6 +541,20 @@ record: CHANGELOG.md.
       still worked around with direct class-hook markup in
       `timeline-and-cards.ts`.
 
+### Moved from spec/index.md §14.1 on 2026-10-18
+
+- **Demonstration pages render real examples (2026-10-06)** — every example app and the docs
+  site show the demo's markup, live-rendered variants and a real usage example;
+  `bin/generate-examples` and `bin/generate-site-pages`; the 80 placeholder docs-site pages
+  were rebuilt from `components/{slug}/index.md`. See [examples](../examples/index.md).
+- **Headless 0.4.0 released (2026-10-06)** — 16 new components (catalog 555 → 571): seven
+  charts, `streaming-text`, `tool-call` + five inner parts, `mark`, `chat-composer`.
+- **Headless 0.3.0 released (2026-10-05)** — 16 components from the Baby UI triage plus the
+  breaking graphic + data-table structure for all charts; the picker tooltips; `NUGET_USER`
+  must be the policy creator's username, not the owning organization.
+- **Picker tooltips (2026-10-04)** — every picker gains a hoverable, dismissable
+  `role="tooltip"`; see [helpers](../helpers/index.md).
+
 ## Related topics
 
 - [overview](../overview/index.md)

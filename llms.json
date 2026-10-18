@@ -69,7 +69,7 @@
         {
           "title": "AGENTS/helpers.md",
           "url": "AGENTS/helpers.md",
-          "description": "The seven picker helpers (theme, locale, text-size, motion, share, search, date-time), picker-bar and the tooltip contract."
+          "description": "The ten picker helpers (theme, locale, text-size, motion, share, search, link, menu, settings, date-time), picker-bar, the tooltip contract, the label packs and the grid-like helper rules."
         },
         {
           "title": "AGENTS/citations.md",
@@ -79,7 +79,7 @@
         {
           "title": "AGENTS/lily.md",
           "url": "AGENTS/lily.md",
-          "description": "The full subproject list (8 headless, 7 example, 114 helper packages) and the bin/ tool reference."
+          "description": "The full subproject list (8 headless, 7 example, 129 helper packages) and the bin/ tool reference."
         }
       ]
     },
@@ -109,7 +109,12 @@
         {
           "title": "spec/helpers/index.md",
           "url": "spec/helpers/index.md",
-          "description": "The ten `*-picker` helper contracts in full, picker-bar, and the tooltip contract every picker carries."
+          "description": "The ten *-picker helper contracts in full, picker-bar, the tooltip contract, and the data-grid, kanban-board, gantt-chart, calendar and filter contracts."
+        },
+        {
+          "title": "spec/label-packs/index.md",
+          "url": "spec/label-packs/index.md",
+          "description": "The 46 per-locale labels packs (English plus 45 unreviewed drafts), their loaders for every catalog and the checks that keep them in step."
         },
         {
           "title": "spec/frameworks/index.md",
@@ -190,7 +195,12 @@
         {
           "title": "bin/",
           "url": "bin/",
-          "description": "Scaffolding, listing, sync, test, and publish tooling; start with bin/test to verify a working tree."
+          "description": "Scaffolding, listing, sync, test, and publish tooling; start with bin/test to verify a working tree; bin/verify-published checks a release is on the registries."
+        },
+        {
+          "title": "shared/label-packs/",
+          "url": "shared/label-packs/index.md",
+          "description": "One JSON labels pack per locale for the data grid, kanban board, calendar, Gantt chart and filter."
         },
         {
           "title": "CONTRIBUTING.md",

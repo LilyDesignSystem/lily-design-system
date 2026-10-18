@@ -80,6 +80,15 @@ Re-verified 2026-09-03 as the `motion-picker` helper landed in all seven catalog
 | angular  | 290                            | 345                           |
 | blazor   | 203                            | 234                           |
 
+## Label-pack tests (2026-10-18)
+
+The 46 label packs are tested three ways, all against the real files in `shared/label-packs/`. `bin/check-label-packs` (in `bin/test`)
+checks key and placeholder parity with English and that the Svelte and TypeScript-port helpers still have every key a pack holds.
+`shared/label-pack.test.ts` and `shared/label-pack-nunjucks.test.ts` build every label from every pack (run with
+`pnpm exec vitest run --root ../shared` from any package that has vitest). Each Nunjucks package has a `*.label-pack.test.ts` that renders
+its real macro with every pack and finds no placeholder left in a visible label; each Blazor package has a `*LabelPackTests.cs` that builds
+its labels record from every pack. See [label-packs](../label-packs/index.md).
+
 ## axe-core accessibility baseline
 
 axe-core / Playwright integration runs across all seven example apps. Rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA (spec/index.md §11.5). Re-verified 2026-09-02 (plan P1-T6) — angular-examples added to the table (already covered by its own 1,542-spec suite, just not previously listed here); nunjucks-eleventy-examples grew from 17 routes to 31 as it gained composed-page coverage.

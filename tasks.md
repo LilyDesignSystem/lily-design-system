@@ -11,8 +11,9 @@ Rules for the executing agent:
   also exit 0 at the end of every session.
 - Follow `AGENTS/*.md` binding rules. Svelte subprojects are canonical;
   implement there first, then port to the other frameworks.
-- The helpers are the seven `*-picker` packages (`motion-picker` joined
-  2026-09-03, `search-picker` 2026-10-02) plus `picker-bar`; `*-select` naming is obsolete.
+- The helpers are ten `*-picker` packages (`motion-picker` joined 2026-09-03, `search-picker` 2026-10-02,
+  `link-picker` 2026-10-07, `menu-picker` and `settings-picker` 2026-10-08) plus `picker-bar` and the grid-like
+  `data-grid`, `kanban-board`, `gantt-chart`, `calendar` and `filter` (129 packages across eight catalogs); `*-select` naming is obsolete.
 - Run `bin/sync-special-files` after touching any root special file.
 - Reference completed task IDs in commit messages. When a task changes
   something the spec claims, update `spec/index.md` (and the relevant
@@ -2215,7 +2216,7 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
   popups, whose Escape/Tab/focus-return contracts must survive unchanged. Record current browser support for the
   Popover API, the `source` option and CSS anchor positioning before deciding; positioning (`position-area`,
   `position-try-fallbacks`) would live in the themes, not the headless layer.
-- [ ] **P10-T3 Coarse-pointer target sizes in the 45 themes.** The themes already share a WCAG 2.5.8 (AA) floor —
+- [ ] **P10-T3 Coarse-pointer target sizes in the 57 themes.** The themes already share a WCAG 2.5.8 (AA) floor —
   every interactive hook at least 24×24 CSS px (the "target-size (minimum) floor" section `bin/check-theme` pins).
   Add the AAA step: a `@media (pointer: coarse)` rule giving interactive controls (buttons, picker triggers, options,
   form fields, links in lists) at least 44×44 CSS px (WCAG 2.5.5), as a new shared section the same check pins.
@@ -2278,3 +2279,42 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## Phase 11 — Grid-like helpers, label packs and parity (2026-10-17/18)
+
+Work from a developer's two rounds of feedback on the Svelte grid-like helpers, and what followed from it. Detail per change
+is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
+
+- [x] **P11-T1 Docs follow the code.** The Svelte helpers' non-goals listed shipped features; six props were undocumented.
+  Fixed, and `bin/check-helper-docs` (in `bin/test`) now fails on an undocumented prop or a shipped prop listed as a non-goal.
+- [x] **P11-T2 Dependency ranges.** The Svelte widgets took `svelte-headless ^0.4.0`, which a 0.x caret never lets reach 0.5.0, so
+  several copies installed side by side. Now a peer dependency (`>=0.4.0 <1.0.0`), tested on 0.5.0.
+- [x] **P11-T3 Gantt critical path and working-day lag.** `criticalPath()` / `applyCriticalPath()` (`shared/critical-path.ts`,
+  Svelte Gantt package) with all four dependency kinds, lags and leads, and `{ lagUnit: "working-days", weekends, unavailable }`;
+  `labels.criticalLabel` makes the state visible text in all eight catalogs. **Open:** port the calculation to the other
+  catalogs (P11-T9).
+- [x] **P11-T4 Data grid and kanban additions (Svelte).** Footer totals over every filtered row, `--data-grid-pinned-offset`,
+  remembered column order; kanban `canMove` lane argument, `allowLaneChange`, in-place title editing (all eight catalogs),
+  `showSearchLabel`, `fieldLayout="compact"`; calendar `periodTitle` anchor argument and the focusable-event note.
+- [x] **P11-T5 Theme collisions.** Not reproducible in the 57 themes (today's cell is an outline everywhere; no theme sets a link
+  colour that could override `.button`). `bin/check-theme` now fails a filled current-day cell.
+- [x] **P11-T6 Label packs.** 46 locales in `shared/label-packs/` (English plus 45 unreviewed drafts); `labelsFor()`,
+  `nunjucksLabelsFor()` and Blazor's `LabelPack` / `ToXLabels()`; `bin/check-label-packs`; per-package tests with every pack.
+  Spec: `spec/label-packs/`.
+- [x] **P11-T7 Release hygiene.** `bin/verify-published [--wait N]` checks that every helper version is on npm / nuget.org;
+  `bin/publish-helpers` prints the reminder.
+- [ ] **P11-T8 Native-speaker review of the 45 draft label packs**, Welsh first. Flip a pack's `"reviewed"` to `true` only when a
+  native speaker has read it, screen-reader wording especially.
+- [ ] **P11-T9 Port the Svelte-only items** listed in plan.md § Current state to the other catalogs: critical path, kanban lane
+  rules / `showSearchLabel` / `fieldLayout`, calendar `periodTitle` anchor, data grid footer totals / pinned offset / column-order
+  storage.
+- [ ] **P11-T10 Publish the label packs as a package** (one export per locale; English stable, drafts under a separate path), with the
+  loaders; decide the name and whether Blazor ships the JSON as an embedded resource.
+- [ ] **P11-T11 Patch release** for the unreleased items (versions bumped per package, changelogs already written), then
+  `bin/publish-helpers` and `bin/verify-published --wait 900`. Needs the maintainer's go-ahead. npm publishes from the maintainer's
+  machine until an `NPM_TOKEN` secret exists.
+- [ ] **P11-T12 Decide the `engines.node` range for published packages.** The pin `=26` follows `spec/node-current-version`; a
+  consumer on another Node fails `pnpm install` under engine-strict. A range such as `>=26` is safer for published packages.
+- [ ] **P11-T13 Packaging.** `README.md` is a symlink to `index.md` and npm leaves symlinks out of the tarball, so the `files`
+  entry `README.md` in the helper packages' manifests ships nothing; ship a real copy at pack time or drop the entry (checked with `npm pack --dry-run` for svelte-calendar).
+

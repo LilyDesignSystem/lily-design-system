@@ -73,39 +73,54 @@ Recorded so the delta is auditable; details in
   comparisons — and a placeholder `lily-figma` route (P5 decides its
   fate).
 
-## Current state (verified 2026-10-06)
+## Current state (verified 2026-10-18)
 
-The 2026-08-26 snapshot that stood here (491 rows, 22 repos, "themes inert", "no
-tags", "nothing published but three libraries") described a project that no longer
-exists; it is kept in `CHANGELOG.md` and `spec/history/`. As of 2026-10-06:
+Facts below were read from the tree, the registries or a command run on 2026-10-18, except where marked *not re-verified*.
+Earlier snapshots are kept in `CHANGELOG.md` and `spec/history/`.
 
-- **Catalog**: **571 rows** in `components.tsv` — 491 plus the 48 national-identifier
-  components (2026-09-22) and 32 components added 2026-10-05/06 from a Baby UI survey
-  and maintainer requests. All 8 headless libraries implement every row except Web
-  Components, which implements 536 (the 35 table sub-elements and interactive `*ListItem`
-  families are permanently excluded). `bin/check-coverage` reports 0 drift.
-- **Subprojects**: 150 — 129 implementation subprojects (8 headless,
-  7 example apps, 114 helper packages, one each since 2026-10-10), 26 Claude Skills,
-  `lily-design-system-themes` and the docs site. `bin/test` and `bin/check-links` (12,425 markdown files) are clean.
-- **Published** (2026-10-06): headless npm `svelte`/`react`/`vue` 0.4.0, `angular`/`web-components`
-  0.5.0, `html` 0.6.0, `nunjucks` 0.4.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.4.0;
-  `@lilydesignsystem/themes` 0.3.0; every helper package (npm and NuGet), including the
-  eight pickers and `picker-bar`. NuGet publishes through OIDC trusted publishing from
-  `publish.yml` (`NUGET_USER` must be the policy creator's username).
-- **Releases**: monorepo tags `v0.2.0`–`v0.8.0` exist (`v0.7.0` and `v0.8.0` both cut 2026-10-06, each with a
-  GitHub Release); all 50 subtrees were pushed at 0.8.0.
-- **Themes live**: 45 themes ship, the docs site mounts `picker-bar`, and every picker has a
-  tooltip. `bin/sync` now keeps the site's copy of the themes in step (it had drifted).
-- **Demonstration pages**: every example app and the docs site render the live demo, rendered
-  variants and a real usage example (`bin/generate-examples`, `bin/generate-site-pages`).
-- **CI**: `.github/workflows/ci.yml` defines jobs `verify`, `helpers`, `headless`,
-  `html-headless`, `dotnet-tests`, `example-smoke`, `consumer-smoke` and `spell-check`
-  (job list read from the file 2026-10-06; run history not re-checked).
-- **Open backlog**: only the deferred Baby UI ideas (`attachment`, `tool-chips`, the remaining agent,
-  advanced and primitive components — tasks P9-T12, each needing a design pass first). Closed 2026-10-06:
-  the `DateRange`/`ReviewDate` contracts, error-text contrast in all 45 themes, `bin/check-class-names`, the
-  monorepo tags. Security-posture settings, GitHub topics and README screenshots were **not re-verified**
-  on 2026-10-06.
+- **Catalog**: **571 rows** in `components.tsv`. All 8 headless libraries implement every row except Web
+  Components, which implements 536 (the 35 table sub-elements and interactive `*ListItem` families are permanently
+  excluded). `bin/check-coverage` reports no drift.
+- **Subprojects**: 172 — 144 implementation subprojects (8 headless, 7 example apps, 129 helper packages, one each
+  since 2026-10-10), 26 Claude Skills, `lily-design-system-themes` and the docs site. `bin/check-links` is clean
+  (13,655 markdown files).
+- **Helper packages** (129): in every framework, the ten `*-picker`s, `picker-bar`, `data-grid`, `kanban-board`,
+  `gantt-chart`, `calendar` and `filter` (Nunjucks also has `listbox-behavior`). The grid-like helpers are at the
+  same feature level in all eight catalogs for what carries a label: typed fields, inline editing with undo/redo,
+  export and copy, search, the Gantt `criticalLabel` and kanban title editing. **Svelte-only for now**: the optional
+  Gantt critical-path calculation (`shared/critical-path.ts`, calendar or working-day lag), the kanban
+  `allowLaneChange`, the lane argument to `canMove`, `showSearchLabel` and `fieldLayout`, the calendar `periodTitle`
+  anchor argument, and the data grid's footer totals over filtered rows, `--data-grid-pinned-offset` and
+  remembered column order.
+- **Label packs** (2026-10-18): 46 per-locale `labels` packs in `shared/label-packs/`, loaders for every
+  catalog, and `bin/check-label-packs`. **45 are unreviewed machine drafts**, Welsh included. Not yet a published
+  package. Contract: `spec/label-packs/`.
+- **Published** (registry state read 2026-10-18): headless npm `svelte`/`react`/`vue`/`nunjucks` 0.5.0,
+  `angular` 0.6.0, `web-components` 0.6.0, `html` 0.7.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.5.0;
+  `@lilydesignsystem/themes` 0.5.0. Every helper package version in the tree is on its registry
+  (`bin/verify-published`). **Unreleased in the tree**, committed but not versioned or published: the Svelte
+  widgets' peer dependency on `svelte-headless`, `criticalLabel`, `periodTitle`'s anchor argument, the data grid
+  and kanban additions, the title-edit and `criticalLabel` ports, and the label-pack loaders.
+- **Releases**: monorepo tags `v0.2.0`–`v0.9.0` exist (latest `v0.9.0`). *Not re-verified*: the GitHub Releases
+  and which subtree/forge pushes are current.
+- **Publishing**: NuGet publishes through OIDC trusted publishing from `publish.yml` (`NUGET_USER` must be the
+  policy creator's username). npm publishes from the maintainer's machine (`bin/publish-helpers`): the repository
+  has **no `NPM_TOKEN` secret**, so the workflow's npm step fails with `ENEEDAUTH` (2026-10-17). Check a release
+  with `bin/verify-published --wait 900`.
+- **Themes**: 57 ship (`bin/check-theme` also forbids a filled current-day cell); the docs site mounts
+  `picker-bar`; `bin/sync` keeps the site's and the example apps' copies in step.
+- **Demonstration pages**: every example app and the docs site render the live demo, rendered variants and a
+  real usage example (`bin/generate-examples`, `bin/generate-site-pages`). The site also has a Label packs page.
+- **CI**: `.github/workflows/ci.yml` defines jobs `verify`, `helper-packages`, `headless`, `html-headless`,
+  `dotnet-tests`, `dotnet-helper-packages`, `example-smoke`, `eleventy-example`, `consumer-smoke` and
+  `spell-check` (job list read from the file; run history not re-checked).
+- **Docs checks** (in `bin/test`): `bin/check-helper-docs` (Svelte helpers document every prop, list no shipped
+  feature as a non-goal), `bin/check-label-packs`, `bin/check-theme`, `bin/check-links`.
+- **Open backlog**: the deferred Baby UI ideas (`attachment`, `tool-chips`, the remaining agent, advanced and
+  primitive components — tasks P9-T12, each needing a design pass first); native-speaker review of the 45 draft
+  label packs; publishing the packs as a package; porting the Svelte-only items above; a patch release for the
+  unreleased items; the `engines.node` pin (`=26`) for published packages, which is a maintainer decision.
+  Security-posture settings, GitHub topics and README screenshots were **not re-verified**.
 
 ## Research findings (2026-08)
 

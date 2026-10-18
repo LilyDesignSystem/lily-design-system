@@ -78,6 +78,14 @@ All seven implement the full 571-component catalog with the same slugs,
 props, and ARIA/keyboard contracts — pick whichever matches your stack, the
 concepts and naming transfer directly.
 
+## Helpers and label packs
+
+Above the headless catalog sit the **helper packages**, one top-level package each: ten icon-button pickers (theme, locale, text size,
+motion, share, search, link, menu, settings, and the date-time field), `picker-bar`, and the grid-like `data-grid`, `kanban-board`,
+`gantt-chart`, `calendar` and `filter`, in all eight catalogs. The grid-like helpers take a large `labels` object and ship no English; the
+repository's `shared/label-packs/` holds that object ready-made for 46 locales (English reviewed, 45 machine drafts awaiting native-speaker
+review). Ask for `spec/label-packs/index.md` before writing labels by hand.
+
 ## What Lily deliberately doesn't do
 
 No bundled CSS, fonts, icons, or images in the headless layer. No data

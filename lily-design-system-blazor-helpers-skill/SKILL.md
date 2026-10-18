@@ -18,7 +18,7 @@ one complete interaction end to end: selection, applying it to the document,
 and (for four of the six) optional persistence. Svelte is the canonical
 reference; Blazor is a direct port with framework idioms swapped.
 
-## The six helpers
+## The first six helpers
 
 | Helper | Root markup | Applies | Persists |
 | --- | --- | --- | --- |
@@ -123,12 +123,33 @@ Two helpers deliberately don't fit that shape:
   write, no change callback — the same rule the canonical Svelte contract
   enforces, to avoid a re-entrant apply loop.
 
+Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
+disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
+real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## The grid-like helpers and label packs
+
+Beyond the pickers, the Blazor catalog has `data-grid`, `kanban-board`, `gantt-chart`, `calendar` and `filter` (a filter builder whose
+output is JSON, SQL, MongoDB, OData or a predicate) as separate packages (LilyDesignSystem.Blazor.DataGrid (NuGet) and so on;
+`bin/list-helper-packages blazor` lists them in build order). They follow the Svelte package's contract: where Blazor and Svelte disagree,
+Svelte wins.
+
+They take a large `labels` object and ship no English, so do not write it by hand per locale. `shared/label-packs/` holds one JSON
+pack for each of 46 locales (English plus 45 **unreviewed machine drafts**; have a native speaker check screen-reader wording).
+`LabelPack.FromJson(json).ToDataGridLabels()` (and `ToKanbanLabels()`, `ToCalendarLabels()`, `ToGanttLabels()`, `ToFilterLabels()`) builds the typed `Labels` record. A string a pack lacks leaves the label unset rather than showing another language, and date-dependent labels (weekday names,
+period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
+
+The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
+with lag in calendar or working days) ships in the Svelte Gantt package.
+
 ## When this isn't the right skill
 
 - For the headless component catalog itself (`Button`, `TextInput`,
   `BreadcrumbNav`, and the rest of the 571-component catalog) use
   [`lily-design-system-blazor-headless-skill`](../lily-design-system-blazor-headless-skill/)
-  instead — these six helpers are a separate, higher-level catalog that sits
+  instead — these helpers are a separate, higher-level catalog that sits
   alongside it.
 - For framework-agnostic Lily concepts use
   [`lily-design-system-skill`](../lily-design-system-skill/) instead.

@@ -7,3 +7,4 @@
 - Anchors and links never embed default visible text. The content comes from `children` (slot / `ChildContent`) or, for icon-only links, an explicit `label` prop that drives `aria-label`.
 - Plural forms, gendered phrasing, and conditional copy are the consumer's concern. Components do not embed `count !== 1 ? "items" : "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the consumer's `dir` attribute and CSS — components do not assume LTR layout in their structural HTML.
+- Apps do not hand-write the `labels` of the grid-like helpers (`data-grid`, `kanban-board`, `calendar`, `gantt-chart`, `filter`): they load a locale's pack from `shared/label-packs/` (46 locales; 45 are unreviewed machine drafts — say so, and have a native speaker check screen-reader wording). A pack never falls back to another language, and date-dependent labels come from `Intl`. See [spec/label-packs](../spec/label-packs/index.md).

@@ -38,7 +38,8 @@ with links: `spec/helpers/index.md` § "Svelte helper packages".
 | `data-grid` | grid state and behaviour | over the headless `DataTable` family |
 | `kanban-board` | board state and keyboard moves | over the headless `KanbanTable` family |
 | `gantt-chart` | schedule state and editing | over the headless `GanttTable` family + `date-time-picker` |
-| `calendar` | week / four-week / month browsing | over the headless `CalendarTable` family + `date-time-picker` |
+| `calendar` | day / week / four-week / month / agenda browsing | over the headless `CalendarTable` family + `date-time-picker` |
+| `filter` | a filter tree (conditions and groups) | outputs JSON, SQL, MongoDB, OData or a predicate |
 
 The four preference pickers share one contract: root
 `<div class="{helper} {class}">` with a hidden input for form
@@ -71,9 +72,9 @@ pnpm add @lilydesignsystem/svelte-theme-picker
 </script>
 ```
 
-Every package's `peerDependencies` requires `svelte` `^5.0.0`. Most also
-depend on `@lilydesignsystem/svelte-headless`; `picker-bar`,
-`gantt-chart` and `calendar` also depend on sibling helper packages.
+Every package's `peerDependencies` requires `svelte` `^5.0.0`; most also
+list `@lilydesignsystem/svelte-headless` (`>=0.4.0 <1.0.0`) as a peer dependency, so install it
+once. `picker-bar`, `gantt-chart` and `calendar` also depend on sibling helper packages.
 
 ## The idempotent-apply rule
 
@@ -100,6 +101,21 @@ with rest-props, `$bindable()`, `Snippet` children, no `<style>` blocks)
 — see `lily-design-system-svelte-headless-skill` for the idiom itself,
 and `AGENTS/sveltekit.md` for the general Svelte 5 + SvelteKit 2
 conventions this repository follows.
+
+## The grid-like helpers and label packs
+
+Beyond the pickers, the Svelte catalog has `data-grid`, `kanban-board`, `gantt-chart`, `calendar` and `filter` (a filter builder whose
+output is JSON, SQL, MongoDB, OData or a predicate) as separate packages (@lilydesignsystem/svelte-data-grid and so on;
+`bin/list-helper-packages svelte` lists them in build order). They follow the Svelte package's contract: where Svelte and Svelte disagree,
+Svelte wins.
+
+They take a large `labels` object and ship no English, so do not write it by hand per locale. `shared/label-packs/` holds one JSON
+pack for each of 46 locales (English plus 45 **unreviewed machine drafts**; have a native speaker check screen-reader wording).
+`labelsFor("data-grid", pack)` from `shared/label-pack.ts` gives a drop-in `labels`. A string a pack lacks leaves the label unset rather than showing another language, and date-dependent labels (weekday names,
+period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
+
+The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
+with lag in calendar or working days) ships in the Svelte Gantt package.
 
 ## When NOT this skill
 

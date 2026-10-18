@@ -31,6 +31,26 @@ reversed 2026-09-16 to bundled SVGs (`viewBox="0 0 16 16"`, stroke-based,
 calendar trigger is unaffected — still the U+1F4C5 + U+FE0E Unicode glyph.
 See the Rules below for why.
 
+## Label packs (added 2026-10-18)
+
+The grid-like helpers (`data-grid`, `kanban-board`, `calendar`, `gantt-chart`, `filter`) take a large `labels` object and ship no
+English. [`shared/label-packs/`](../shared/label-packs/index.md) holds one JSON pack per locale (46, English plus 45 **unreviewed
+machine drafts**); `labelsFor(helper, pack)` builds a ready `labels`, `nunjucksLabelsFor()` does it for the Nunjucks macros and clients,
+and Blazor's `LabelPack` + `ToXLabels()` for the typed records. A key a pack lacks leaves the label unset, never another language;
+dates stay out of packs (use `Intl`). Never edit one pack alone: add a string to `en-001` first, then every locale, and run
+`bin/check-label-packs`. Full contract: [spec/label-packs](../spec/label-packs/index.md).
+
+## Grid-like helper rules worth knowing
+
+- **Docs follow props.** `bin/check-helper-docs` fails when a Svelte helper has a prop its `index.md` / `spec/index.md` never names, or
+  lists a shipped prop as a non-goal. Ports follow Svelte; do not add a prop to a port first.
+- **Shared pure modules** live in `shared/` (search, type-ahead, edit history, export, typed fields, filter model, `critical-path.ts`, …)
+  and are copied by `bin/sync-shared-modules`; edit `shared/`, never a package's copy.
+- **Critical path is optional.** The Gantt chart renders `critical` / `slack` (and `labels.criticalLabel` as visible text) and computes
+  nothing; `criticalPath()` / `applyCriticalPath()` fill them, with dependency lag in calendar days or `{ lagUnit: "working-days" }`.
+- **Release check.** After `bin/publish-helpers`, run `bin/verify-published --wait 900`: a publish can succeed while the registry answers
+  404 for ten minutes.
+
 ## picker-bar (a composition, not another preference/action/form-value)
 
 `picker-bar` (added 2026-09-15, shipped first in `svelte-helpers` then

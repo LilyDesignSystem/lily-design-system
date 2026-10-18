@@ -24,7 +24,7 @@ pnpm add @lilydesignsystem/angular-share-picker
 pnpm add @lilydesignsystem/angular-date-time-picker
 ```
 
-## The six helpers and their contracts
+## The first six helpers and their contracts
 
 Most helpers own a **user preference** — selection + DOM application +
 optional persistence. `share-picker` owns an **action** instead, and
@@ -100,6 +100,27 @@ already-applied value is a no-op, no repeated DOM write and no repeated
 change callback — which matters in Angular because `effect()` re-runs on
 every relevant signal change, and a non-idempotent apply that writes back
 into the same signal it read would loop.
+
+Also in the catalog, added after the six above (the contracts are in `spec/helpers/index.md`): `search-picker` (an icon button opening a
+disclosure that holds a `<form role="search">`; submitting navigates, GET, to `/?<text>`), `link-picker` (a home icon opening a disclosure of
+real `<a>` links the app defines), `menu-picker` and `settings-picker` (a hamburger and a cog icon opening a panel that holds whatever the
+app provides), and `picker-bar` (link, search, theme, locale, text-size and share pickers in one row, with the 57 themes and the seven
+text sizes pre-wired and one required `labels` object). Every picker has a hoverable, dismissable tooltip.
+
+## The grid-like helpers and label packs
+
+Beyond the pickers, the Angular catalog has `data-grid`, `kanban-board`, `gantt-chart`, `calendar` and `filter` (a filter builder whose
+output is JSON, SQL, MongoDB, OData or a predicate) as separate packages (@lilydesignsystem/angular-data-grid and so on;
+`bin/list-helper-packages angular` lists them in build order). They follow the Svelte package's contract: where Angular and Svelte disagree,
+Svelte wins.
+
+They take a large `labels` object and ship no English, so do not write it by hand per locale. `shared/label-packs/` holds one JSON
+pack for each of 46 locales (English plus 45 **unreviewed machine drafts**; have a native speaker check screen-reader wording).
+`labelsFor("data-grid", pack)` gives a drop-in `labels` input. A string a pack lacks leaves the label unset rather than showing another language, and date-dependent labels (weekday names,
+period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
+
+The Gantt chart can render a critical path (`critical`, `slack`, `labels.criticalLabel`); the optional calculation (`criticalPath()`,
+with lag in calendar or working days) ships in the Svelte Gantt package.
 
 ## When NOT this skill
 

@@ -72,3 +72,7 @@ nunjucks.configure([
 
 Sanitise any HTML passed to `params.html` to protect against cross-site
 scripting (XSS).
+
+## Labels (grid-like helpers)
+
+A macro cannot take a function, so the Nunjucks grid-like helpers use string templates with their own `{token}` names. Do not write them by hand per locale: `nunjucksLabelsFor(helper, pack)` (`shared/label-pack-nunjucks.ts`) returns `{ macro, client }` — pass `macro` as the macro's `labels` and `client` as `initX(root, { labels })`. See [spec/label-packs](../spec/label-packs/index.md).
