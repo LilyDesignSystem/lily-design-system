@@ -1238,7 +1238,7 @@ describe("copy to clipboard", () => {
         vi.stubGlobal("navigator", { clipboard: { writeText } });
         render(<GanttChart {...({ label: "Q4", range: RANGE, tasks: TASKS, labels: L } as React.ComponentProps<typeof GanttChart>)} />);
         await fireEvent.click(screen.getByText("Copy"));
-        await wait();
+        await waitFor(() => expect(writeText).toHaveBeenCalled());
         const text = (writeText.mock.calls[0] as unknown as [string])[0];
         expect(text.split("\r\n")[0]).toBe("Task\tStart\tEnd");
         expect(text).toContain("Design");
@@ -1257,7 +1257,7 @@ describe("copy to clipboard", () => {
         document.body.innerHTML = "";
         render(<GanttChart {...({ label: "Q4", range: RANGE, tasks: TASKS, labels: L, exportScope: "visible", search: "launch" } as React.ComponentProps<typeof GanttChart>)} />);
         await fireEvent.click(screen.getByText("Copy"));
-        await wait();
+        await waitFor(() => expect(writeText).toHaveBeenCalled());
         const text = (writeText.mock.calls[0] as unknown as [string])[0];
         expect(text).toContain("Launch");
         expect(text).not.toContain("Design");

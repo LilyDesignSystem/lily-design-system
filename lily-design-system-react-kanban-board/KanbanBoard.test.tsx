@@ -1185,11 +1185,11 @@ describe("KanbanBoard — copy to clipboard (§8.119–§8.121)", () => {
         vi.stubGlobal("navigator", { clipboard: { writeText } });
         render(<KanbanBoard {...(base as React.ComponentProps<typeof KanbanBoard>)} />);
         await fireEvent.click(screen.getByText("Copy"));
-        await wait();
+        await waitFor(() => expect(writeText).toHaveBeenCalled());
         const text = (writeText.mock.calls[0] as unknown as [string])[0];
         expect(text.split("\r\n")[0]).toBe("Title\tColumn");
         expect(text).toContain("One\tTo Do");
-        expect(document.querySelector(".kanban-board-status")?.textContent).toBe("2 cards copied");
+        await waitFor(() => expect(document.querySelector(".kanban-board-status")?.textContent).toBe("2 cards copied"));;
         vi.unstubAllGlobals();
     });
 
@@ -1204,7 +1204,7 @@ describe("KanbanBoard — copy to clipboard (§8.119–§8.121)", () => {
         document.body.innerHTML = "";
         render(<KanbanBoard {...({ ...base, search: "two" } as React.ComponentProps<typeof KanbanBoard>)} />);
         await fireEvent.click(screen.getByText("Copy"));
-        await wait();
+        await waitFor(() => expect(writeText).toHaveBeenCalled());
         const text = (writeText.mock.calls[0] as unknown as [string])[0];
         expect(text).toContain("Two");
         expect(text).not.toContain("One");

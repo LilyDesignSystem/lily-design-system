@@ -1,5 +1,5 @@
 import * as React from "react";
-import { act, render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { act, render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 afterEach(cleanup);
@@ -1079,11 +1079,11 @@ describe("CalendarView — copy to clipboard (§8.112–§8.114)", () => {
         vi.stubGlobal("navigator", { clipboard: { writeText } });
         render(<CalendarView {...(base as React.ComponentProps<typeof CalendarView>)} />);
         await fireEvent.click(screen.getByText("Copy"));
-        await wait();
+        await waitFor(() => expect(writeText).toHaveBeenCalled());
         const text = (writeText.mock.calls[0] as unknown as [string])[0];
         expect(text.split("\r\n")[0]).toBe("Title\tFrom\tTo");
         expect(text).toContain("Standup");
-        expect(document.querySelector(".calendar-view-status")?.textContent).toBe("2 events copied");
+        await waitFor(() => expect(document.querySelector(".calendar-view-status")?.textContent).toBe("2 events copied"));;
         vi.unstubAllGlobals();
     });
 
@@ -1098,7 +1098,7 @@ describe("CalendarView — copy to clipboard (§8.112–§8.114)", () => {
         document.body.innerHTML = "";
         render(<CalendarView {...({ ...base, defaultSearch: "offsite" } as React.ComponentProps<typeof CalendarView>)} />);
         await fireEvent.click(screen.getByText("Copy"));
-        await wait();
+        await waitFor(() => expect(writeText).toHaveBeenCalled());
         const text = (writeText.mock.calls[0] as unknown as [string])[0];
         expect(text).toContain("Offsite");
         expect(text).not.toContain("Standup");
