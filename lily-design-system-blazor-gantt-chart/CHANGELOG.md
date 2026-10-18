@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added `CriticalPath.Compute()` and `CriticalPath.Apply()` (all four dependency kinds, lags and leads in calendar or working days), a line-for-line port of the Svelte `critical-path.ts` with the same test cases. Ported from the Svelte package.
 - `ToGanttLabels()` builds `GanttLabels` from a label pack.
 - New `GanttLabels.CriticalLabel`: visible text (`.gantt-chart-critical-label`) beside the label of a `Critical` task.
 
