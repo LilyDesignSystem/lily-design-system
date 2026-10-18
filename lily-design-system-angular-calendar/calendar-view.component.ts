@@ -125,7 +125,7 @@ export type CalendarViewLabels = {
   /** Announced after an event is moved to another day. */
   eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
   /** Visible title of the shown period, rendered between the previous and next buttons. Gates the title. */
-  periodTitle?: (view: CalendarViewMode, start: string, end: string) => string;
+  periodTitle?: (view: CalendarViewMode, start: string, end: string, anchorDate: string) => string;
   /** Text of the "+N more" button shown on a day that `maxEvents` caps: (hidden count, date). Gates the button. */
   moreEvents?: (hiddenCount: number, isoDate: string) => string;
   /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
@@ -357,7 +357,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
               (click)="stepView(-1)"
             >‹</button>
             @if (labels().periodTitle; as periodTitle) {
-              <span class="calendar-view-title">{{ periodTitle(shownView(), periodStart(), periodEnd()) }}</span>
+              <span class="calendar-view-title">{{ periodTitle(shownView(), periodStart(), periodEnd(), anchorDate()) }}</span>
             }
             @if (labels().today) {
               <button

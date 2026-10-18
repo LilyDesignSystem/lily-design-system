@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Added `CalendarViewLabels.PeriodTitleWithAnchor`: like `PeriodTitle` with the anchor date as a fourth argument, so a month or agenda title can name its month. It wins over `PeriodTitle` when both are set; `PeriodTitle` keeps its three arguments, so existing code compiles unchanged. Ported from the Svelte package.
 - `ToCalendarLabels()` builds `CalendarViewLabels` from a label pack (not the date-dependent labels: weekday names, day names, period titles).
 
 ## 0.6.0 — 2026-10-17

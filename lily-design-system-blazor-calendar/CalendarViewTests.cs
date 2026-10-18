@@ -758,6 +758,15 @@ public class CalendarViewTests : TestContext
     }
 
     [Fact]
+    public void Section_8_42b_Labels_PeriodTitleWithAnchor_Receives_The_Anchor_Date_And_Wins_Over_PeriodTitle()
+    {
+        var cut = RenderMonth(p => p.Add(x => x.Labels, Labels with { PeriodTitle = (v, s, e) => "three", PeriodTitleWithAnchor = (v, s, e, anchor) => $"{v}@{anchor[..7]}" }));
+        Assert.Equal("Month@2026-01", cut.Find(".calendar-view-title").TextContent);
+        Button(cut, "Next Month").Click();
+        Assert.Equal("Month@2026-02", cut.Find(".calendar-view-title").TextContent);
+    }
+
+    [Fact]
     public void Section_8_44_HideOutsideDays_Leaves_Outside_Cells_Empty_But_In_The_Grid()
     {
         var cut = RenderMonth(p => p.Add(x => x.HideOutsideDays, true));

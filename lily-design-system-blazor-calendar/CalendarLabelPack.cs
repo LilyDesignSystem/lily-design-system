@@ -1,6 +1,6 @@
 // The calendar's labels from a label pack. See LabelPacks.cs in LilyDesignSystem.Blazor.DataGrid.
 //
-// Not in a pack, because they depend on how the locale writes dates: Weekday, WeekdayAbbr, Day, PeriodAnnouncement, PeriodTitle,
+// Not in a pack, because they depend on how the locale writes dates: Weekday, WeekdayAbbr, Day, PeriodAnnouncement, PeriodTitle, PeriodTitleWithAnchor,
 // RangeAnnouncement and MoreEvents. Build those with the culture and set them on the record the builder returns (`with { … }`).
 
 using LilyDesignSystem.Blazor.Helpers;

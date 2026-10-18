@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `labels.periodTitle` receives a fourth argument, `anchorDate`, so a month or agenda title can name its month without the consumer tracking the date. Existing three-argument functions keep working. Ported from the Svelte package.
+
 ## 0.6.0 — 2026-10-17
 
 - Now composed from the headless layer: the search field is the headless `SearchInput` and a match is the headless `Mark` (the `search-input` / `mark` base classes join the existing `*-search` / `*-match` hooks, so the 57 themes style them too).

@@ -6,6 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- `labels.periodTitle` receives a fourth argument, `anchorDate`, so a month or agenda title can name its month without the consumer tracking the date. Existing three-argument functions keep working. Ported from the Svelte package.
 - Works with the label packs: `nunjucksLabelsFor()` (see `shared/label-packs/index.md`) gives the macro `labels` and the client option `labels`.
 
 ## 0.6.0 — 2026-10-17

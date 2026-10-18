@@ -109,7 +109,7 @@ export type CalendarViewLabels = {
   /** Announced after an event is moved to another day. */
   eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
   /** Visible title of the shown period, rendered between the previous and next buttons. Gates the title. */
-  periodTitle?: (view: CalendarView, start: string, end: string) => string;
+  periodTitle?: (view: CalendarView, start: string, end: string, anchorDate: string) => string;
   /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
   export?: string;
   /** Visible text of the CSV, TSV and Excel export buttons. Each gates its button. */
@@ -1085,7 +1085,7 @@ export function CalendarView({
               ‹
             </button>
             {labels?.periodTitle && (
-              <span className="calendar-view-title">{labels.periodTitle(view, periodStart, periodEnd)}</span>
+              <span className="calendar-view-title">{labels.periodTitle(view, periodStart, periodEnd, anchorDate)}</span>
             )}
             {labels?.today && (
               <button

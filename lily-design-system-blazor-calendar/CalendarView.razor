@@ -16,7 +16,7 @@
 *@
 
 <div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
-    @if (Labels.PeriodTitle is not null || Labels.DayView is not null || Labels.WeekView is not null || Labels.FourWeekView is not null || Labels.MonthView is not null || Labels.AgendaView is not null)
+    @if (Labels.PeriodTitle is not null || Labels.PeriodTitleWithAnchor is not null || Labels.DayView is not null || Labels.WeekView is not null || Labels.FourWeekView is not null || Labels.MonthView is not null || Labels.AgendaView is not null)
     {
         <div class="calendar-view-toolbar">
             <div class="calendar-view-switcher" role="group">
@@ -61,10 +61,10 @@
                         class="calendar-view-previous-button"
                         aria-label="@Labels.Previous?.Invoke(View)"
                         @onclick="@(() => StepViewAsync(-1))">&#8249;</button>
-                @if (Labels.PeriodTitle is not null)
+                @if (Labels.PeriodTitle is not null || Labels.PeriodTitleWithAnchor is not null)
                 {
                     var (titleStart, titleEnd) = PeriodRange(View, EffectiveAnchor, FirstDay);
-                    <span class="calendar-view-title">@Labels.PeriodTitle(View, titleStart, titleEnd)</span>
+                    <span class="calendar-view-title">@(Labels.PeriodTitleWithAnchor is { } withAnchor ? withAnchor(View, titleStart, titleEnd, EffectiveAnchor) : Labels.PeriodTitle!(View, titleStart, titleEnd))</span>
                 }
                 @if (Labels.Today is not null)
                 {

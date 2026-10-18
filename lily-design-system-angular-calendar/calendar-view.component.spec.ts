@@ -503,10 +503,10 @@ describe("CalendarView — day view, maxEvents, event drag-and-drop, title, week
   });
 
   test("§8.42 labels.periodTitle renders the shown period's title and updates on navigation", () => {
-    const f = mount({ view: "month", anchorDate: "2026-01-15", labels: { ...LABELS, periodTitle: (v: string, s: string, e: string) => `${v}:${s}..${e}` } });
-    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-01-01..2026-01-31");
+    const f = mount({ view: "month", anchorDate: "2026-01-15", labels: { ...LABELS, periodTitle: (v: string, s: string, e: string, a: string) => `${v}:${s}..${e}@${a.slice(0, 7)}` } });
+    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-01-01..2026-01-31@2026-01");
     click(f, button(f, "Next month"));
-    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-02-01..2026-02-28");
+    expect(q(f, ".calendar-view-title")[0].textContent).toBe("month:2026-02-01..2026-02-28@2026-02");
   });
 
   test("§8.44 hideOutsideDays leaves outside cells empty but in the grid", () => {

@@ -120,7 +120,7 @@ export type CalendarViewLabels = {
     /** Announced after an event is moved to another day. */
     eventMoveAnnouncement?: (calendarEvent: CalendarEvent, toDate: string) => string;
     /** Visible title of the shown period, rendered between the previous and next buttons. Gates the title. */
-    periodTitle?: (view: CalendarViewMode, start: string, end: string) => string;
+    periodTitle?: (view: CalendarViewMode, start: string, end: string, anchorDate: string) => string;
     /** Text of the "+N more" button on a day that `maxEvents` caps: (hidden count, date). Gates the button. */
     moreEvents?: (hiddenCount: number, isoDate: string) => string;
     /** Accessible name of the export button group. Gates the group (with at least one of the three buttons). */
@@ -1493,7 +1493,7 @@ export class CalendarView extends HTMLElement {
                 const [titleStart, titleEnd] = periodRange(view, anchorDate, firstDay);
                 const title = document.createElement("span");
                 title.className = "calendar-view-title";
-                title.textContent = labels.periodTitle(view, titleStart, titleEnd);
+                title.textContent = labels.periodTitle(view, titleStart, titleEnd, anchorDate);
                 nav.appendChild(title);
             }
             if (labels.today) {

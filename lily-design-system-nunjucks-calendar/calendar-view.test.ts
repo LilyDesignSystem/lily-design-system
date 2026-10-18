@@ -548,11 +548,11 @@ describe("calendar-view — day view, maxEvents, drag-and-drop, title, weekends,
 
   test("§8.42 showPeriodTitle with labels.periodTitle renders the shown period's title and updates on navigation", () => {
     setup({ view: "month", anchorDate: "2026-01-15", showPeriodTitle: true, labels: MACRO_LABELS }, {
-      labels: { ...CLIENT_LABELS, periodTitle: (v: string, s: string, e: string) => `${v}:${s}..${e}` },
+      labels: { ...CLIENT_LABELS, periodTitle: (v: string, s: string, e: string, a: string) => `${v}:${s}..${e}@${a.slice(0, 7)}` },
     });
-    expect(q(".calendar-view-title")[0].textContent).toBe("month:2026-01-01..2026-01-31");
+    expect(q(".calendar-view-title")[0].textContent).toBe("month:2026-01-01..2026-01-31@2026-01");
     click(button("Next month"));
-    expect(q(".calendar-view-title")[0].textContent).toBe("month:2026-02-01..2026-02-28");
+    expect(q(".calendar-view-title")[0].textContent).toBe("month:2026-02-01..2026-02-28@2026-02");
   });
 
   test("§8.44 hideOutsideDays leaves outside cells empty but in the grid", () => {

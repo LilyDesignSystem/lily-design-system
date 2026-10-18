@@ -162,7 +162,7 @@ export function eventsByDay(events) {
  *     editAnnouncement?: (eventTitle: string, fieldHeader: string, text: string) => string,
  *     editInvalid?: (eventTitle: string, fieldHeader: string) => string,
  *     exportAnnouncement?: (format: string, eventCount: number, filename: string) => string,
- *     periodTitle?: (view: string, start: string, end: string) => string,
+ *     periodTitle?: (view: string, start: string, end: string, anchorDate: string) => string,
  *     agendaEmpty?: string,
  *     moreEvents?: (hiddenCount: number, isoDate: string) => string,
  *     rangeAnnouncement?: (start: string, end: string) => string,
@@ -743,7 +743,7 @@ export function initCalendarView(root, opts = {}) {
       const titleAgenda = root.querySelector("[data-lily-calendar-view-title]");
       if (titleAgenda && typeof labels.periodTitle === "function") {
         const [a, b] = periodRange(v, anchor, firstDay());
-        titleAgenda.textContent = labels.periodTitle(v, a, b);
+        titleAgenda.textContent = labels.periodTitle(v, a, b, anchor);
       }
       renderAgenda(anchor, eventMap);
       return;
@@ -764,7 +764,7 @@ export function initCalendarView(root, opts = {}) {
     const titleEl = root.querySelector("[data-lily-calendar-view-title]");
     if (titleEl && typeof labels.periodTitle === "function") {
       const [titleStart, titleEnd] = periodRange(v, anchor, firstDay());
-      titleEl.textContent = labels.periodTitle(v, titleStart, titleEnd);
+      titleEl.textContent = labels.periodTitle(v, titleStart, titleEnd, anchor);
     }
     for (let i = 0; i < (v === "day" ? 1 : 7); i++) {
       const weekday = v === "day" ? weekdayOf(anchor) : (firstDay() + i) % 7;

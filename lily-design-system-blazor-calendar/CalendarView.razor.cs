@@ -155,6 +155,9 @@ public sealed record CalendarViewLabels
     /// <summary>Visible title of the shown period, rendered between the previous and next buttons: (view, start, end). Gates the title.</summary>
     public Func<CalendarViewMode, string, string, string>? PeriodTitle { get; init; }
 
+    /// <summary>Like <see cref="PeriodTitle"/> with the date the view is anchored on as a fourth argument, so a month or agenda title can name its month without the consumer tracking the date. Wins over <see cref="PeriodTitle"/> when both are set. Gates the title.</summary>
+    public Func<CalendarViewMode, string, string, string, string>? PeriodTitleWithAnchor { get; init; }
+
     /// <summary>Text of the "+N more" button on a day that <c>MaxEvents</c> caps: (hidden count, date). Gates the button.</summary>
     public Func<int, string, string>? MoreEvents { get; init; }
 

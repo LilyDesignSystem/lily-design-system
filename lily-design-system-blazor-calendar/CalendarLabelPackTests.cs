@@ -19,6 +19,7 @@ public class CalendarLabelPackTests
         Assert.Equal("Title", l.ExportHeaders!.Title);
         Assert.Null(l.Weekday);
         Assert.Null(l.PeriodTitle);
+        Assert.Null(l.PeriodTitleWithAnchor);
     }
 
     [Fact]
