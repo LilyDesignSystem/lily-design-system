@@ -125,7 +125,7 @@ if [ -z "$NUGET_ONLY" ]; then
   # install and publish it in place (its `prepublishOnly` runs its own
   # build). --only names the package directory itself.
   # lily-design-system-locale-translations belongs to no framework (the label packs, one npm package for every catalog).
-  for d in $(for fw in svelte react vue html web-components nunjucks; do "$ROOT/bin/list-helper-packages" "$fw"; done) lily-design-system-locale-translations; do
+  for d in $(for fw in svelte react vue html web-components nunjucks; do "$ROOT/bin/list-helper-packages" "$fw"; done) lily-design-system-locale-translations lily-design-system-angular-locale-translations; do
     d="$ROOT/$d"
     [ -f "$d/package.json" ] || continue
     only_matches "$d" || continue
@@ -139,6 +139,8 @@ if [ -z "$NUGET_ONLY" ]; then
   # dist/. Its own package.json's prepublishOnly refuses a publish from the
   # source directory, which ships no compiled code.
   for d in $("$ROOT/bin/list-helper-packages" angular); do
+    # The Angular label packs are plain JSON plus one tsc-built module, published from the package directory above.
+    [ "$d" = "lily-design-system-angular-locale-translations" ] && continue
     d="$ROOT/$d"
     only_matches "$d" || continue
     ensure_installed "$d"

@@ -12,6 +12,7 @@ highlights.
 ## Locale translations packages — 2026-10-18
 
 - New `@lilydesignsystem/locale-translations` 0.1.0 (npm) and `LilyDesignSystem.Blazor.LocaleTranslations` 0.1.0 (NuGet): the 46 label packs as flat per-locale exports (Blazor: embedded resources) with `labelsFor` / `nunjucksLabelsFor`. Not yet published.
+- Per-framework copies so the choice is obvious: `@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-locale-translations` 0.1.0 (the Blazor NuGet package already is one). Same packs; the Nunjucks one also exports `nunjucksLabelsFor`. Not yet published.
 - Every pack gains `direction`, `endonym` and `exonyms` (the language named in each pack language, from `locales.tsv`; Bhojpuri has none yet); `bin/check-label-packs` checks them.
 - Published packages now declare `engines.node` `>=26` instead of the `=26` pin (P11-T12).
 

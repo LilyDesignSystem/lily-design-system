@@ -11,6 +11,8 @@ import cy from "@lilydesignsystem/locale-translations/cy-001";
 <DataGrid label="…" labels={labelsFor("data-grid", cy)} … />
 ```
 
+Most developers should install the package named for their framework — `@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-locale-translations` (npm) or `LilyDesignSystem.Blazor.LocaleTranslations` (NuGet). They hold the same packs; this generic package carries both loaders and suits tooling that serves no single framework.
+
 ## What is in it
 
 | Export | What it is |
