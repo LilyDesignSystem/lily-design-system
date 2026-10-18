@@ -36,6 +36,11 @@ updates:
         patterns:
           - "*"
     ignore:
+      # @axe-core/playwright 4.14 (axe-core 4.14) reports label-content-name-mismatch (WCAG 2.5.3) on the headless
+      # Editable, whose visible value is not in its accessible name. Held at the 4.13 line until Editable is
+      # fixed in all eight libraries (tasks.md P11-T14); then delete this entry.
+      - dependency-name: "@axe-core/playwright"
+        versions: [">=4.14.0"]
       # TypeScript 7 is too new for parts of this ecosystem's build
       # tooling right now -- confirmed breakage in the Angular
       # directories (@analogjs/vite-plugin-angular's
@@ -318,6 +323,11 @@ updates:
         patterns:
           - "*"
     ignore:
+      # @axe-core/playwright 4.14 (axe-core 4.14) reports label-content-name-mismatch (WCAG 2.5.3) on the headless
+      # Editable, whose visible value is not in its accessible name. Held at the 4.13 line until Editable is
+      # fixed in all eight libraries (tasks.md P11-T14); then delete this entry.
+      - dependency-name: "@axe-core/playwright"
+        versions: [">=4.14.0"]
       # TypeScript 7 is too new for parts of this ecosystem's build
       # tooling right now -- confirmed breakage in the Angular
       # directories (@analogjs/vite-plugin-angular's
@@ -404,6 +414,11 @@ updates:
         patterns:
           - "*"
     ignore:
+      # @axe-core/playwright 4.14 (axe-core 4.14) reports label-content-name-mismatch (WCAG 2.5.3) on the headless
+      # Editable, whose visible value is not in its accessible name. Held at the 4.13 line until Editable is
+      # fixed in all eight libraries (tasks.md P11-T14); then delete this entry.
+      - dependency-name: "@axe-core/playwright"
+        versions: [">=4.14.0"]
       # TypeScript 7 is too new for parts of this ecosystem's build
       # tooling right now -- confirmed breakage in the Angular
       # directories (@analogjs/vite-plugin-angular's
