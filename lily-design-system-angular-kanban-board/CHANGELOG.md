@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.0 — 2026-10-18
 
 - Added `allowLaneChange`, `showSearchLabel` and `fieldLayout` inputs; `canMove` also receives the swimlane the card would land in; `allowLaneChange` (default true) refuses every cross-lane drop when false; `showSearchLabel` shows `labels.search` as visible text tied to the search field (WCAG 2.5.3); `fieldLayout="compact"` sets `data-field-layout="compact"` on the board. Ported from the Svelte package.
 - In-place card title editing, ported from the Svelte package: `editableTitles` and the `titleEdit` output (double-click a title, or F2 on the card; Enter or leaving the field commits, Escape cancels, an empty title is refused; not for linked cards or a custom card renderer). Optional labels `titleEditor` and `titleEditAnnouncement`.

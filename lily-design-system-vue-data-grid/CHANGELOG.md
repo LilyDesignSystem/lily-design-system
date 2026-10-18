@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.11.0 — 2026-10-18
 
 - Added: the footer receives `allRows` (every row that passes the filter) and an `aggregate(columnId, kind)` reduction (slot props `allRows` and `aggregate`) over them, so a footer total does not change with the page; a pinned column gets `--data-grid-pinned-offset` (px) from the widths of the pinned columns before it, for `inset-inline-start` / `-end`; `storageKey` also remembers `columnOrder`. Ported from the Svelte package.
 

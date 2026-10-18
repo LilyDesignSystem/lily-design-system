@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.0 — 2026-10-18
 
 - Added `criticalPath()` / `applyCriticalPath()` (optional, single-sourced in `shared/critical-path.ts`): critical flag and slack from dependencies of all four kinds with lags; 12 tests.
 - `criticalPath()` / `applyCriticalPath()` take `{ lagUnit: "working-days", weekends, unavailable }`: dependency lag counted in business days, skipping weekends and holidays. Calendar days stay the default.

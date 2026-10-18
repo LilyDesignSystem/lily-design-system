@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.7.0 — 2026-10-18
 
 - `labels.periodTitle` receives a fourth argument, `anchorDate`, so a month or agenda title can name its month without the consumer tracking the date. Existing three-argument functions keep working. Ported from the Svelte package.
 

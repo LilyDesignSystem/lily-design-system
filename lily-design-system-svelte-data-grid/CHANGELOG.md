@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.11.0 — 2026-10-18
 
 - The `footer` snippet also receives `allRows` (every row passing the filter, across pages) and `aggregate(columnId, kind)` for totals over them, not only the current page.
 - A pinned column gets `--data-grid-pinned-offset` (the widths of the pinned columns before it, in px) for `inset-inline-start` / `-end`, once those widths are known.

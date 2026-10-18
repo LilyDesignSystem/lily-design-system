@@ -3,7 +3,7 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.0 — 2026-10-18
 
 - Added `criticalPath()` and `applyCriticalPath()` (all four dependency kinds, lags and leads in calendar or working days), copied from `shared/critical-path.ts`. Ported from the Svelte package.
 - Added `labels.criticalLabel`: visible text (`.gantt-chart-critical-label`) beside the label of a task with `critical: true`, so the state is not colour-only and the task label, which "depends on" text reuses, stays unchanged. Ported from the Svelte package.

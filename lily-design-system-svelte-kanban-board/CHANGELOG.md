@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.0 — 2026-10-18
 
 - `canMove(card, toColumn, toLane?)` receives the swimlane the card would land in, so a rule can depend on the owner as well as the column. New `allowLaneChange` (default true): false refuses every cross-lane drop.
 - `onTitleEdit` makes card titles editable in place (double-click, or F2 on a card): Enter or leaving the field commits, Escape cancels, an empty title is refused. Optional labels `titleEditor` and `titleEditAnnouncement`. Not for linked cards or the `card` snippet.

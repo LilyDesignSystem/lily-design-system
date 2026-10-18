@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.11.0 — 2026-10-18
 
 - Added: `DataGridFooterContext` gains `AllRows` and `Total(columnId, kind)` (every row that passes the filter; existing two-argument construction still compiles); a pinned column gets `--data-grid-pinned-offset` (px) from the widths of the pinned columns before it; `StorageKey` also remembers `ColumnOrder`. Ported from the Svelte package.
 - `LabelPack` (`LabelPacks.cs`): loads a label pack (the JSON files in `shared/label-packs`) and builds `DataGridLabels` with `ToDataGridLabels()`. The kanban, calendar, Gantt and filter packages add `ToKanbanLabels()`, `ToCalendarLabels()`, `ToGanttLabels()` and `ToFilterLabels()`. A key the pack lacks leaves its label null.

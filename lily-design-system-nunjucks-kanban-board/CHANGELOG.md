@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.0 — 2026-10-18
 
 - Added the `showSearchLabel` and `fieldLayout` macro parameters and the `allowLaneChange` client option; the client `canMove` also receives the lane id the card would land in (third argument); `allowLaneChange: false` refuses every cross-lane drop; `showSearchLabel` shows `labels.search` as visible text tied to the search field (WCAG 2.5.3); `fieldLayout: "compact"` sets `data-field-layout="compact"` on the root. Ported from the Svelte package.
 - Works with the label packs: `nunjucksLabelsFor()` gives the macro `labels` and the client option `labels`.

@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.8.0 — 2026-10-18
 
 - Added `criticalPath()` and `applyCriticalPath()` (all four dependency kinds, lags and leads in calendar or working days), exported from the package and copied from `shared/critical-path.ts`. Ported from the Svelte package.
 - Works with the label packs: `nunjucksLabelsFor()` gives the macro `labels` and the client option `labels`. `labels.dependencyDetail` may be an object of templates keyed by dependency type (`e2s`, `s2s`, `e2e`, `s2e`).
