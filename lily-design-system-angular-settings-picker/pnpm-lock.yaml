@@ -22,23 +22,23 @@ importers:
         specifier: ^22.2.0
         version: 22.2.2(@angular/compiler-cli@22.2.3(@angular/compiler@22.2.3)(typescript@6.0.3))(@angular/compiler@22.2.3)(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)))(@types/node@26.6.4)(less@4.9.1(supports-color@8.1.1))(ng-packagr@22.2.4(@angular/compiler-cli@22.2.3(@angular/compiler@22.2.3)(typescript@6.0.3))(supports-color@8.1.1)(tslib@2.8.1)(typescript@6.0.3))(postcss@8.5.28)(supports-color@8.1.1)(tslib@2.8.1)(typescript@6.0.3)(vitest@5.0.5(@types/node@26.6.4)(jsdom@30.1.2)(vite@8.3.0(@types/node@26.6.4)(esbuild@0.28.2)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.104.1)(sass@1.104.1)))
       '@angular/common':
-        specifier: ^22.2.2
+        specifier: ^22.2.3
         version: 22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/compiler':
-        specifier: ^22.2.2
+        specifier: ^22.2.3
         version: 22.2.3
       '@angular/compiler-cli':
-        specifier: ^22.2.2
+        specifier: ^22.2.3
         version: 22.2.3(@angular/compiler@22.2.3)(typescript@6.0.3)
       '@angular/core':
-        specifier: ^22.2.2
+        specifier: ^22.2.3
         version: 22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)
       '@angular/platform-browser':
-        specifier: ^22.2.2
+        specifier: ^22.2.3
         version: 22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))
       '@angular/platform-browser-dynamic':
-        specifier: ^22.2.1
-        version: 22.2.1(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/compiler@22.2.3)(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)))
+        specifier: ^22.2.3
+        version: 22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/compiler@22.2.3)(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)))
       '@types/node':
         specifier: ^26.6.3
         version: 26.6.4
@@ -210,15 +210,14 @@ packages:
       zone.js:
         optional: true
 
-  '@angular/platform-browser-dynamic@22.2.1':
-    resolution: {integrity: sha512-Yg0JcTy3OzhvAM0LQT/XCx8eN3gFsR/BmnQ75Fg0Cvyog7NvFxVXxv/MWE2DNW96lRZNV8ECaVNdcU893ZITTw==}
+  '@angular/platform-browser-dynamic@22.2.3':
+    resolution: {integrity: sha512-+WBe2JjaEeK0NpMlBzV7UBkO+ltUBYTDtMfGYkew2xHdIviITnzXX7yUXijB1Y6jxALgz3jEuJa9iLid8s11rg==}
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
-    deprecated: '@angular/platform-browser-dynamic is deprecated. Use `@angular/platform-browser` instead.'
     peerDependencies:
-      '@angular/common': 22.2.1
-      '@angular/compiler': 22.2.1
-      '@angular/core': 22.2.1
-      '@angular/platform-browser': 22.2.1
+      '@angular/common': 22.2.3
+      '@angular/compiler': 22.2.3
+      '@angular/core': 22.2.3
+      '@angular/platform-browser': 22.2.3
 
   '@angular/platform-browser@22.2.3':
     resolution: {integrity: sha512-eWZGsbG4bSrSg9UB/NE8wORGVrh1u+x6rirPGpMWqq/mTi6q+nS+pnPxAxmiEs8wmPH5nCz5b2pRKQeYUkhAGA==}
@@ -2894,7 +2893,7 @@ snapshots:
       '@angular/compiler': 22.2.3
       zone.js: 0.16.3
 
-  '@angular/platform-browser-dynamic@22.2.1(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/compiler@22.2.3)(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)))':
+  '@angular/platform-browser-dynamic@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/compiler@22.2.3)(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.3(@angular/common@22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3)))':
     dependencies:
       '@angular/common': 22.2.3(@angular/core@22.2.3(@angular/compiler@22.2.3)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/compiler': 22.2.3
