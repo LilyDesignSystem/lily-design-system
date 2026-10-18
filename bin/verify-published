@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+"""bin/verify-published — is every helper package's local version visible on its registry?
+
+A publish can succeed and the registry still answer 404 for ten minutes or more (npm and NuGet are both eventually
+consistent: `npm view` for a fresh version failed for several minutes on 2026-10-17 although the publish had worked).
+Run this after bin/publish-helpers, and before announcing a release, to see which versions are really there:
+
+  bin/verify-published                       check every helper package once
+  bin/verify-published --wait 900            keep polling for up to 900 seconds (default interval 30)
+  bin/verify-published --framework svelte    only one framework (svelte react vue angular html web-components nunjucks blazor)
+  bin/verify-published --only svelte-filter  only packages whose directory name contains this
+
+Exit status: 0 when every checked version is published, 1 otherwise. It never publishes anything and writes nothing.
+npm packages are checked with `npm view`; the Blazor (NuGet) packages with the nuget.org flat-container index.
+"""
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FRAMEWORKS = ["svelte", "react", "vue", "angular", "html", "web-components", "nunjucks", "blazor"]
+
+
+def arg(name: str, default=None):
+    if name in sys.argv:
+        i = sys.argv.index(name)
+        return sys.argv[i + 1] if i + 1 < len(sys.argv) else default
+    return default
+
+
+def packages(framework: str):
+    """(directory, kind, id, version) for one framework's helper packages."""
+    listing = subprocess.run([os.path.join(TOP, "bin", "list-helper-packages"), framework], capture_output=True, text=True, check=True).stdout.split()
+    out = []
+    for directory in listing:
+        base = os.path.join(TOP, directory)
+        manifest = os.path.join(base, "package.json")
+        if os.path.isfile(manifest):
+            data = json.load(open(manifest))
+            if not data.get("private"):
+                out.append((directory, "npm", data["name"], data["version"]))
+            continue
+        for f in os.listdir(base):
+            if f.endswith(".csproj"):
+                text = open(os.path.join(base, f)).read()
+                package_id = re.search(r"<PackageId>([^<]+)</PackageId>", text)
+                version = re.search(r"<Version>([^<]+)</Version>", text)
+                if package_id and version:
+                    out.append((directory, "nuget", package_id.group(1), version.group(1)))
+    return out
+
+
+def npm_has(name: str, version: str) -> bool:
+    result = subprocess.run(["npm", "view", f"{name}@{version}", "version"], capture_output=True, text=True)
+    return result.returncode == 0 and result.stdout.strip() == version
+
+
+def nuget_has(package_id: str, version: str) -> bool:
+    url = f"https://api.nuget.org/v3-flatcontainer/{package_id.lower()}/index.json"
+    try:
+        with urllib.request.urlopen(url, timeout=20) as response:
+            return version.lower() in [v.lower() for v in json.load(response).get("versions", [])]
+    except urllib.error.HTTPError:
+        return False
+    except OSError:
+        return False
+
+
+def main() -> int:
+    only_framework = arg("--framework")
+    only = arg("--only")
+    wait = int(arg("--wait", "0") or 0)
+    interval = int(arg("--interval", "30") or 30)
+    chosen = [f for f in FRAMEWORKS if only_framework in (None, f)]
+    todo = [p for f in chosen for p in packages(f) if only is None or only in p[0]]
+    deadline = time.time() + wait
+    missing = list(todo)
+    while True:
+        missing = [p for p in missing if not (npm_has(p[2], p[3]) if p[1] == "npm" else nuget_has(p[2], p[3]))]
+        if not missing or time.time() >= deadline:
+            break
+        print(f"{len(missing)} of {len(todo)} not visible yet; checking again in {interval}s", file=sys.stderr)
+        time.sleep(interval)
+    for directory, kind, name, version in todo:
+        state = "MISSING" if (directory, kind, name, version) in missing else "ok"
+        print(f"{state}\t{kind}\t{name}@{version}")
+    if missing:
+        print(f"verify-published: {len(missing)} of {len(todo)} versions are not on the registry", file=sys.stderr)
+        return 1
+    print(f"verify-published: all {len(todo)} versions are on their registries", file=sys.stderr)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -164,3 +164,6 @@ if [ -z "$DRY" ]; then
 else
   echo "(dry run: packed .nupkg into $NUPKG_OUT, did not push)"
 fi
+
+# A publish can succeed while the registry still answers 404 for ten minutes or more. Check what is really visible:
+echo "Next: bin/verify-published --wait 900   (every helper version on its registry, polling through registry lag)"

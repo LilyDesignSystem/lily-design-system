@@ -352,6 +352,9 @@ Scripts live in `bin/`:
 | `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).|
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
+| `bin/check-helper-docs`               | Every Svelte grid-like helper documents each prop and lists no shipped feature as a non-goal. |
+| `bin/check-label-packs`               | The 46 label packs match the English pack; the helpers still take every key a pack holds. |
+| `bin/verify-published`                | After a publish: is every helper package's local version on npm / nuget.org? `--wait` polls through registry lag. |
 | `bin/check-theme`                     | Conformance checks for the 57 reference themes; `--contrast` reports token-pair contrast (report only). |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
 | `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
