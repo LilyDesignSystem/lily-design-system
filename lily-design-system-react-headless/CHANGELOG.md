@@ -3,6 +3,10 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.5.1 — 2026-10-18 (Editable accessible name)
+
+- `Editable`: the display-mode button is named "value, label" (the label alone when the value is empty) so its visible text is part of its accessible name (WCAG 2.5.3).
+
 ## 0.5.0 — 2026-10-14 (scrollspy, link counts)
 
 - `ContentsNav` gains scrollspy (`spy`): the link of the section in view gets `aria-current` and `data-active`. Props `spy`, `offset`, `root`, `current`, `onActiveChange`.

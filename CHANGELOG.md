@@ -11,7 +11,7 @@ highlights.
 
 ## Editable accessible name — 2026-10-18
 
-- **`Editable` (headless, WCAG 2.5.3 label in name)**: the display-mode button is named `"value, label"` (the label alone when empty) in Svelte, React, Vue and Web Components; Blazor gains an optional `Value` parameter. Found by `@axe-core/playwright` 4.14, which is un-pinned again.
+- **`Editable` (headless, WCAG 2.5.3 label in name)**, released as svelte/react/vue-headless 0.5.1, web-components-headless 0.6.1 and Blazor headless 0.5.1: the display-mode button is named `"value, label"` (the label alone when empty) in Svelte, React, Vue and Web Components; Blazor gains an optional `Value` parameter. Found by `@axe-core/playwright` 4.14, which is un-pinned again.
 
 ## Label packs, critical path, data grid and kanban follow-ups — 2026-10-17
 
