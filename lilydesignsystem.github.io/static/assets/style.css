@@ -402,6 +402,10 @@ html[data-text-size='largest'] { font-size: 150%; }
 .framework-icon-link img {
   width: 2.5rem;
   height: 2.5rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  /* Some logos (Angular, Nunjucks) are dark: on a dark scheme give every one a light tile. */
+  background: light-dark(transparent, #f1f5f9);
 }
 
 /* Card grids */
