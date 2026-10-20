@@ -1,6 +1,6 @@
 # Angular locale translations — specification
 
-`@lilydesignsystem/angular-locale-translations` 0.1.0 (2026-10-18). A per-framework copy of `@lilydesignsystem/locale-translations`, so a developer picks the package named for their framework.
+`@lilydesignsystem/angular-locale-translations` 0.2.0 (2026-10-20). A per-framework copy of `@lilydesignsystem/locale-translations`, so a developer picks the package named for their framework.
 
 1. Every pack is importable as `@lilydesignsystem/angular-locale-translations/<locale>` (JSON), all 46 at one level.
 2. Each pack states `locale`, `reviewed`, `direction`, `endonym` and `exonyms`.

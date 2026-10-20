@@ -1,6 +1,6 @@
 # Locale translations — specification
 
-`@lilydesignsystem/locale-translations` 0.1.0 (2026-10-18). The label packs and loaders, published.
+`@lilydesignsystem/locale-translations` 0.2.0 (2026-10-20). The label packs and loaders, published.
 
 ## 1. Goal
 

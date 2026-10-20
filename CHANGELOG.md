@@ -11,6 +11,7 @@ highlights.
 
 ## Label packs for 15 more languages — 2026-10-20
 
+- Released `@lilydesignsystem/{svelte,react,vue,angular,html,nunjucks,web-components}-locale-translations` and `@lilydesignsystem/locale-translations` 0.2.0 (and `LilyDesignSystem.Blazor.LocaleTranslations` 0.2.0, version bumped; NuGet push via the workflow).
 - Added `gd`, `is`, `uk`, `ms`, `he`, `pcm`, `yue`, `tl`, `wuu`, `kn`, `nb`, `lo`, `km`, `sco` and `kw` label packs (64 locales in all; `eu-001` already had one). All 63 non-English packs are unreviewed machine drafts. Hebrew is `direction: rtl`.
 
 ## Docs site: 16 more languages, 14 extra pages for every language — 2026-10-20

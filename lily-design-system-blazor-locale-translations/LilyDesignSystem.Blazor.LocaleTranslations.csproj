@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.LocaleTranslations</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.LocaleTranslations</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.LocaleTranslations</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System locale translations for Blazor: the 46 per-locale label packs (data grid, kanban board, calendar, Gantt chart, filter) embedded as resources, with each language's endonym and exonyms. Pairs with LabelPack.FromJson in the helper packages.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
