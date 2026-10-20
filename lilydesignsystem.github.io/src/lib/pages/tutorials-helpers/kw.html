@@ -1,0 +1,276 @@
+<!-- title: Dyskans gweresoryon dewisyow — Lily Design System -->
+<!-- description: Keworrewgh dewisyow yeth ha myns an skrif an devnydhyer gans gweresoryon locale-picker ha text-size-picker Lily: kontrollys botton-ikon + listbox heb pen gans pesyans ha diogeledh SSR. -->
+<section class="page-intro">
+  <h1>Gweresoryon dewisyow</h1>
+  <p class="page-intro-tagline">
+    Seyth pakkya byghan dre framwyth, pub onan ow perthi unn oberenn devnydhyer a dhalleth dhe worfenn, ha bar a gesstrew pymp anedha. Ty a wrug metya
+    <a href="/tutorials/theming/">theme-picker</a>seulajys; omma yw locale-picker, text-size-picker ha motion-picker (dewisyow), share-picker ha search-picker (gwriansow), date-time-picker (gwerth furv), ha picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pyth a wrewgh drehevel</h2>
+  <p>
+    Panel settyansow may tewisydh an devnydhyoryon aga yeth ha myns skrif — dewisyow a wrer dhe'n skrif kowl, a bes dres gweles, ha a gost dhiso dew darn ha nebes linennow CSS. A-dro dhe 15 mynysenn.
+  </p>
+
+  <h2>Kyns dalleth</h2>
+  <p>
+    Gorfennewgh an <a href="/tutorials/">dyskans framwyth</a> rag dha stakk. An sampylyow a-woeles yw Svelte; gweresoryon React, Vue, Angular, HTML, Nunjucks, ha Blazor a gessenva kevambos orth kevambos.
+  </p>
+
+  <h2>An furv a rannons</h2>
+  <ul>
+    <li>Botton-ikon heb pen a idzhek listbox WAI-ARIA APG (po, rag date-time-picker, kowtys dewis-deiz) — heb genesek <code>&lt;select&gt;</code>, may kyf peub framwyth an keth hwedhel klavyer ha krogow stil.</li>
+    <li>Unn krok klass dre bakkya (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), CSS hwath ny vydh danvonys.</li>
+    <li>Diogel dhe SSR: skrifans DOM a hwarvidh unnik y'n kylgh-bewnans mount/effect.</li>
+    <li>Glan dhe i18n: pub linenn a wel an devnydhyer yw perthynas.</li>
+    <li>
+      Kefys rag Svelte (kenedhlek), React, Vue, Angular, elven dhe-wul HTML, Nunjucks, ha Blazor — an keth kevambos yn pub onan.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker, ha text-size-picker a berth pub onan unn
+    <em>dewis</em> devnydhyer a dhalleth dhe worfenn (dewisyans, devnydh war DOM, ilvyn
+    <code>localStorage</code> pesyans <code>storageKey</code>
+    dre berthynas). share-picker ha date-time-picker yw dyffrans yn kynda: share-picker a berth <em>gwrians</em> — ny wra devnydh vyth war an skrif ha ny with tra — ha date-time-picker a berth
+    <em>gwerth furv</em>drefen deiz yn furv yw data, nyns yw dewis.
+  </p>
+
+  <h2>locale-picker — yeth ha tu</h2>
+  <p>
+    A asow an devnydhyer dhe dhewis yeth, ena skrifa <code>lang</code> ha
+    <code>dir</code> dhe wreydh an skrif may sewyo dha lyverva i18n, dha CSS, ha teknologieth gweres. RTL yw ertheges yn awtomatek rag Arabek, Hebrow, ha skrifow erell dhiworth dhyghow dhe gledh. Hi a ressa unnik war sinyans — dha lyverva i18n a dhyghtya an treylyans.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    An dewisyow a gev lavell dhiworth tabel yn-bos a hynwyn yeth (a yll bos gorholys dre <code>localeLabels</code>), pub dewis a dhon y
+    <code>lang</code> perthynas may lavaro skrin-redyoryon “Français” yn Frenkek, ha kodhow gans striken a-woeles avel <code>en_US</code>
+    a dreylyas heb kellys dhe BCP 47 <code>en-US</code>. Gorrewgh
+    <code>onChange</code> (po an gwerth kelmys) dhe i18next, Paraglide, vue-i18n po pyth a usyewgh.
+  </p>
+
+  <h2>text-size-picker — myns kontrollys gans an redyer</h2>
+  <p>
+    Gwayn hedhesadewder a gemmer mynysennow: an gweresor a sett
+    <code>data-text-size="&#123;slug&#125;"</code> war wreydh an skrif ha dha CSS a vapp pub gwerth dhe vyns.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Maythwgh dha dyllans yn <code>rem</code> ha'n app kowl a skalyas gans dewis an devnydhyer. Lavellow a vydh kapital dhiworth an slugs (“X Large”) po gorholys gans <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hwithrewgh dha oberenn:</strong> dewisewgh “Large” dhiworth an dewisyer, ha tekst an folen a gressa. Hwithrewgh — yma hwath bras: an dewis a besyas yn
+      <code>localStorage</code>. Chanjewgh dha dhewisyer yeth dhe Arabek ha
+      <code>dir="rtl"</code> a dheu war an skrif yn awtomatek.
+    </p>
+  </div>
+
+  <h2>share-picker — danvonewgh an folen ma</h2>
+  <p>
+    Botton unn-glif a idzhek folen-rannans genesek an gwel le may fo, ha ow kodha war rol a dhestinasyons a rewgh, ha gwrians kopi-URL. Ny wra danvon URLs rosweyth sokyel — pyth rosweyth a dal yn dha dhiskwedhyans yw dha dowl dha honan, nyns yw an system dyllans.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> dhe ragosodhys <code>location.href</code>rag henna an kas kemmyn nyns eus othom a wiasow. Fors fordh gans <code>strategy="list"</code> po
+    <code>strategy="native"</code> pan vo othom a hwedhel kehevelys dres leurennow rag previow po skrinshots.
+  </p>
+
+  <h2>date-time-picker — deiz, termyn, po an dhew</h2>
+  <p>
+    Hwel tekst may hyllowgh skrifa ino, ha botton-ikon a idzhek kowtys dewis-deiz WAI-ARIA APG. Ewn dhe'n yeth dre dhrehevyans — hynwyn mis, hynwyn dydh an seythun, kynsa dydh an seythun, ha klock 12 po 24 our a dheu oll dhiworth <code>Intl</code> — ha'n gwerth yw pub prys linenn ISO ranngadow heb gorholl-termyn: <code>"2026-03-15"</code> rag
+    <code>mode="date"</code>, <code>"09:30"</code> rag
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> rag
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    An gwerth ISO yw an keth avel an pyth a <code>&lt;input type="date"&gt;</code>
+    a bostya, may hyllowgh chanjya an kontroll genesek a-berth po in-mes heb tuchya dha backend.
+  </p>
+
+  <h2>motion-picker — gwithewgh gwayans lehes</h2>
+  <p>
+    An gweresor a sett <code>data-motion="&#123;slug&#125;"</code> war wreydh an skrif. Y wreydh kynsa a dheu dhiworth settyans system-oberi an gwelyer
+    <code>prefers-reduced-motion</code> — pub prys, heb baner-dewis, drefen gwayans yw othom hedhesadewder gwir (WCAG 2.3.3). Dha CSS ha skrypow a dhewis pyth a vydh dyslywys.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — kowtys whelas na wra lettya</h2>
+  <p>
+    Botton-ikon a idzhek hwel whelas. Gwaskans Return, po botton &#9166; ryb an hwel, a lewy gans govyn GET plen dhe
+    <code>/?&lt;text&gt;</code> (an tekst yw trimys ha URI-kodys; govynn gwag ny gerdh dhe unnik le). Y dri hanow hedhesys yw ilvyn, drefen ny dhanvon an gweresor Sawsnek.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> a chanj an fordh (<code>/search?foo</code>), ha
+    <code>navigate</code> a with an lewyans y'n app; heb henna an gweresor a elwys <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — an rew pennfolen kowl unweyth</h2>
+  <p>
+    <code>picker-bar</code> a dhyskwedh whelas, tebel, yeth, myns skrif ha rannans yn unn rew, gans an set kowl a debelyow kehevelys ha skal tekst seyth-kamm kevrys a-rag. Pub hanow hedhesys a dheu yn unn
+    <code>labels</code> objekt ilvyn.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Kevewgh dhe bub dewisyer lapys gans <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> ha <code>shareProps</code>.
+  </p>
+
+  <h2>Tooltips a dheu yn-bos</h2>
+  <p>
+    Pub dewisyer a dhyskwedh y lavell yn tooltip pan vo an poyntyer ow powes war y botton po pan vo fokus klavyer orto. An tooltip a berth pan wayn an poyntyer warnodho, Escape a'n dhistroy ple pynag y fo fokus, ha ny vydh bythkweth displetys pan vo popup an dewisyer ygor. Ev a dhon an keth tekst avel hanow hedhesys an botton, rag henna nyns eus tra vyth dhe settya na dhe dhreylya diwweyth; an tebelyow kehevelys a'n stil.
+  </p>
+
+  <h2>Panel settyansow yn unn le</h2>
+  <p>An peswar gweresor dewisyow a gesstrew yn naturel:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriys:</strong> an snippets locale-picker, text-size-picker, share-picker, date-time-picker ha'n panel kesstrewys a veu kesolyes yn unnik orth an <code>0.1.1</code> pakkyow dyllys dre
+      <code>svelte/server</code> (2026-08-29); an snippets motion-picker, search-picker ha picker-bar a veu dyskwedhys orth darnow an pakkyow aga honan 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Le may kyffir anedha</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Pub pakkya a'n jeves y spec y honan, previow mappys dhe gleusow spec, ensamplow kerdhus (gans patromow cookie SSR), ha fordh-drehevel + dyllans. Pakkyow Svelte yw kenedhlek; mar kyhyl, aga hevambosow a wayn.
+  </p>
+
+  <h2>Kammow nessa</h2>
+  <ul>
+    <li><a href="/components/">Rolyans darnow</a> — an dhogynnans kowl a'n 571 darn.</li>
+    <li><a href="/help/">Skoodhya</a> — kudynnow ha FAQ.</li>
+    <li><a href="/why/">Prag Lily</a> — ha fatell yllir skoodhya an raglen.</li>
+  </ul>
+  <p>
+    Govynnow war an fordh? An
+    <a href="/help/#troubleshooting">folen skoodhya</a> yw leun a worthebow — ha mar pe kamm moy splann,
+    <a href="https://github.com/LilyDesignSystem">leverewgh dhyn</a> ha ni a wellha an dyskans yn lowen.
+  </p>
+</section>

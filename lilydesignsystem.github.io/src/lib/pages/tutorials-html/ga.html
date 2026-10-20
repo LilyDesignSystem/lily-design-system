@@ -1,0 +1,106 @@
+<!-- title: Teagasc HTML — Lily Design System -->
+<!-- description: Tóg foirm inrochtana, stíl-chóirithe le comhpháirteanna gan cheann Lily do HTML — marcáil shimplí, go díreach ó chomhad. -->
+<section class="page-intro">
+  <h1>Teagasc HTML</h1>
+  <p class="page-intro-tagline">
+    An tús is simplí is féidir: cóipeáil HTML séimeantach le crúcaí aicme Lily, cuir bileog stíle amháin leis, foilsigh. Comhaid shimplí a oibríonn gach áit a n-oibríonn HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    Foirm theagmhála bheag — réimsí le lipéid, cnaipe cur isteach, fíor-iompar méarchláir agus léitheora scáileáin — nocht ar dtús, ansin stíl-chóirithe, i thart ar 10 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Tá brabhsálaí agus eagarthóir téacs ag teastáil uait. Sin uile. (Cabhraíonn git le comhaid na gcomhpháirteanna a fháil, ach is féidir leat iad a chóipeáil ó GitHub sa bhrabhsálaí freisin.)
+  </p>
+
+  <h2>Céim 1 — Faigh an cód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Is comhad neamhspleách é gach comhpháirt i <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>agus mar sin de — le tuairim cheanntásc a dhoiciméadaíonn a chlib HTML, a chrúca aicme, a iompar méarchláir agus a chonradh inrochtaineachta. Is iad na comhaid <em>an</em> leabharlann — cóipeáil an méid atá ag teastáil uait agus téigh.
+  </p>
+
+  <h2>Céim 2 — Do chéad chomhpháirt</h2>
+  <p>Oscail <code>components/button.html</code>, nó scríobh an marcáil go simplí — is é an crúca aicme an conradh:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Toisc gur <code>&lt;button&gt;</code>fíor atá ann, tá fócas méarchláir, gníomhachtú le Enter agus Space, agus ról intuigthe an chnaipe ceart cheana féin.
+  </p>
+
+  <h2>Céim 3 — Cuir foirm bheag le chéile</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Tabhair faoi deara an patrún: nascann gach rialú a <code>&lt;label for&gt;</code>féin, úsáideann sé an cineál ionchuir is sainiúla agus iompraíonn sé crúca aicme kebab-case amháin go díreach.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> oscail an leathanach i mbrabhsálaí. Tá sé le feiceáil nocht — go díreach mar a bhí beartaithe: tá an stíliú fós le teacht. Brúigh
+      <kbd>Tab</kbd>: gluaiseann an fócas trí gach rialú, fógraítear na lipéid agus oibríonn an cur isteach. Tá an t-iompar déanta; is leatsa an cuma agus is é an chéad chéim eile é.
+    </p>
+  </div>
+
+  <h2>Céim 4 — Stíligh é</h2>
+  <p>Scríobh CSS i gcoinne na gcrúcaí:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Nó scipeáil scríobh CSS de láimh go hiomlán — nasc ceann de na 45 téama réamhdhéanta agus lasann an marcáil chéanna:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Céim 5 — Féach níos faide</h2>
+  <ul>
+    <li>Ritheann tástálacha an stórais i mbrabhsálaithe fíora: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook do gach comhpháirt: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">App samplach HTML+CSS+JS</a> taispeánann sé na 571 comhpháirt ar fad stíl-chóirithe, inchuardaithe agus léirithe.
+    </li>
+  </ul>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Téamaí</a> — malartú téama ag am rite le theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Cúntóirí sainroghanna</a> — teanga agus méid téacs.</li>
+    <li><a href="/components/">Catalóg na gcomhpháirteanna</a> — an tagairt iomlán.</li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

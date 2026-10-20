@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Hooldatavat Lily Figma teeki ega pistikprogrammi pole. 57 viiteteema disainitokenid avaldatakse DTCG vormingus ja need saab täna olemasoleva kogukonna pistikprogrammiga Figmasse importida. -->
+<section class="page-intro">
+  <h1>Hooldatavat Figma teeki pole — siin on, mis selle asemel on</h1>
+  <p class="page-intro-tagline">
+    Sellel lehel oli varem "tulekul." Enam ei ole, sest keegi ei ehitanud seda. Siin on aus seis ja päris tee, mis töötab täna.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Mida ei ole</h2>
+  <p>
+    Figmas pole ametlikku Lily komponenditeeki ega hooldatavat Figma pistikprogrammi. Disainitööriista teegi hästi ehitamine ja hooldamine on päris, pidev kohustus — Figma komponentide struktuur, variantide nimetamine, automaatne paigutus, oma avaldamistoru — eraldi koodi hooldamisest, ja see projekt pole seda enda peale võtnud.
+  </p>
+
+  <h2>Mis on täna</h2>
+  <p>
+    Igal 57 viiteteemal on oma disainitokeni algelemendid — värv, raadius, suurus, ääris — avaldatud
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 vormingus</a
+    >
+    aadressil
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. See vorming on täpselt see, mida kaasaegsed tokenitööriistad loevad. Sa saad Lily teema paleti ise Figmasse tuua, kohe praegu, ilma selle projekti pistikprogrammita:
+  </p>
+  <ol>
+    <li>
+      Paigalda kogukonna
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      pistikprogramm (või Figma enda Variables'i import, kui su pakett toetab DTCG importi).
+    </li>
+    <li>
+      Impordi <code>themes/tokens/{theme-slug}.json</code> soovitud teema jaoks — näiteks
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio loob DTCG väärtustest Figma muutujad, mida saad seejärel oma komponentidele rakendada.
+    </li>
+  </ol>
+  <p>
+    See toob Figmasse Lily värvi- ja kujutokenid. See ei too Lily tegelikke komponente Figma komponentidena — keegi pole seda ehitanud ja see leht ei teeskle teisiti.
+  </p>
+
+  <h2>Kas päris Figma teek on plaanis?</h2>
+  <p>
+    Praegu mitte ja seda pole tasuta lubada: vaata
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    avatud küsimuse ja selle kohta, mis projekti meelt muudaks — kõige kasulikum on disainer, kes ütleb täpselt, mida ta sellelt kihilt vajab. Kui see oled sina,
+    <a href="mailto:joel@joelparkerhenderson.com">anna meile teada</a>
+    või ava issue.
+  </p>
+</section>

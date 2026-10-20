@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Ekkert viðhaldið Lily Figma-safn eða viðbót er til. Hönnunargildi 57 viðmiðunarþema eru gefin út á DTCG-sniði og hægt er að flytja þau inn í Figma í dag með fyrirliggjandi samfélagsviðbót. -->
+<section class="page-intro">
+  <h1>Ekkert viðhaldið Figma-safn — hér er það sem er til í staðinn</h1>
+  <p class="page-intro-tagline">
+    Þessi síða sagði áður „væntanlegt“. Það gerir hún ekki lengur, því enginn var að byggja það. Hér er heiðarleg staðan og raunveruleg leið sem virkar í dag.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Það sem er ekki til</h2>
+  <p>
+    Ekkert opinbert Lily íhlutasafn er til í Figma og engin viðhaldin Figma-viðbót. Að byggja og viðhalda hönnunartólasafni vel er raunveruleg, viðvarandi skuldbinding — uppbygging Figma-íhluta, heiti afbrigða, auto-layout, eigið útgáfuferli — aðskilin frá viðhaldi kóða, og þetta verkefni hefur ekki tekið hana að sér.
+  </p>
+
+  <h2>Það sem er til í dag</h2>
+  <p>
+    Hvert þeirra 57 viðmiðunarþema hefur sín eigin hönnunargildi — litur, radíus, stærð, rammi — gefin út á
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 sniði</a
+    >
+    á
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Það snið er nákvæmlega það sem nútíma gildatól lesa. Þú getur dregið litaspjald Lily-þema inn í Figma sjálf(ur), núna strax, án viðbótar frá þessu verkefni:
+  </p>
+  <ol>
+    <li>
+      Settu upp samfélagsviðbótina
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (eða Variables-innflutning Figma sjálfs, þar sem áskriftin þín styður DTCG-innflutning).
+    </li>
+    <li>
+      Fluttu inn <code>themes/tokens/{theme-slug}.json</code> fyrir hvaða þema sem þú vilt — til dæmis
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio býr til Figma-breytur úr DTCG-gildunum, sem þú getur svo beitt á þína eigin íhluti.
+    </li>
+  </ol>
+  <p>
+    Þetta gefur þér liti og formgildi Lily í Figma. Það gefur þér ekki raunverulega íhluti Lily sem Figma-íhluti — enginn hefur byggt það og þessi síða mun ekki þykjast annað.
+  </p>
+
+  <h2>Er raunverulegt Figma-safn á dagskrá?</h2>
+  <p>
+    Ekki sem stendur, og það er ekki ókeypis að lofa: sjá
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    fyrir opnu spurninguna og hvað myndi breyta afstöðu verkefnisins — gagnlegast væri hönnuður sem segir nákvæmlega hvað hann þarf úr þessu lagi. Ef það ert þú,
+    <a href="mailto:joel@joelparkerhenderson.com">segðu okkur</a>
+    eða opnaðu vandamál.
+  </p>
+</section>

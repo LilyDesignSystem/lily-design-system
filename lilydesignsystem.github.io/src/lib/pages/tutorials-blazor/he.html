@@ -1,0 +1,107 @@
+<!-- title: מדריך Blazor — Lily Design System -->
+<!-- description: בנו טופס נגיש ומעוצב עם הרכיבים ללא הראש של Lily ל-Blazor: רכיבי Razor עם פרמטרים ובדיקות bUnit. -->
+<section class="page-intro">
+  <h1>מדריך Blazor</h1>
+  <p class="page-intro-tagline">
+    רכיבי ספריית מחלקות Razor עם פרמטרים, <code>ChildContent</code>
+    קטעי רינדור, פיזור מאפיינים ובדיקת bUnit לכל רכיב.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>מה תבנו</h2>
+  <p>
+    טופס יצירת קשר קטן — קלט עם תווית, כפתור שליחה,
+    <code>@bind-Value</code> קשירה, התנהגות אמיתית של מקלדת וקורא מסך — קודם חשוף, אחר כך מעוצב, בכ-10 דקות.
+  </p>
+
+  <h2>לפני שמתחילים</h2>
+  <p>
+    אתם צריכים git ו-.NET SDK 8 ומעלה. כל פרויקט Blazor מתאים — Blazor Web App, Server או WebAssembly.
+  </p>
+
+  <h2>שלב 1 — קבלו את הקוד</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    הרכיבים חיים ב- <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — קובץ Razor אחד לכל רכיב. הפנו לפרויקט (או העתיקו את הקבצים) מאפליקציית ה-Blazor שלכם והוסיפו <code>@using LilyBlazorHeadless.Components</code> אל
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>שלב 2 — הרכיב הראשון שלכם</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    מציג <code>&lt;button class="button"&gt;</code>. מוסכמות הפרמטרים המשותפות: <code>Label</code> ( <code>aria-label</code> עקיפה),
+    <code>CssClass</code> (מצורף לוו הבסיס),
+    <code>ChildContent</code>, ו
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> פיזור מאפיינים כך שכל מאפיין HTML נוסף עובר הלאה.
+  </p>
+
+  <h2>שלב 3 — הרכיבו טופס קטן</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> לוקח את ה <code>Label</code> הגלויה כפרמטר משלו ולא כרכיב תווית מקונן — העבירו אותה פעם אחת, על
+    <code>Field</code>, ו <code>TextInput</code>התואם ב-
+    <code>Label</code> מספק את השם הנגיש.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>אומת ב-2026-08-29:</strong> טיוטה מוקדמת קיננה רכיב נפרד <code>Label</code> בתוך <code>Field</code>, מה שהציג <em>שתי</em> תוויות (אחת ריקה) משום ש- <code>Field</code>
+      כבר מציג תווית משלו מתוך <code>Label</code> פרמטר — התגלה על ידי בדיקת קוד המקור של הרכיב; <code>Form</code> אין <code>Label</code> פרמטר משלו, ולכן השימוש ב-
+      <code>&lt;Form&gt;</code> בטיוטה המוקדמת תוקן והוסר, במקום להמציא מאפיין שאינו קיים.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">נתיב טופס יצירת הקשר המורכב</a>
+      הוא אותה תבנית, שנבדקה בבדיקות e2e ו-axe אמיתיות.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>בדקו את העבודה שלכם:</strong> הריצו את האפליקציה והטופס נראה פשוט — בדיוק כמתוכנן: העיצוב עוד לפנינו. לחצו על
+      <kbd>Tab</kbd>: המיקוד עובר בכל פקד, התווית מוכרזת והשליחה עובדת. ההתנהגות מוכנה; המראה שלכם והוא הבא בתור.
+    </p>
+  </div>
+
+  <h2>שלב 4 — עצבו אותו</h2>
+  <p>
+    עצבו את ווי המחלקה — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ב- <code>app.css</code>, או קשרו ערכת נושא מוכנה ב- <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>שלב 5 — ראו הכול עובד</h2>
+  <p>
+     <a href="/examples/">אפליקציית הדוגמה Blazor Web</a> מציגה את הקטלוג המלא מעוצב ומודגם, עם בדיקות e2e של Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>השלבים הבאים</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ערכות נושא</a> — החלפה בזמן ריצה עם העוזר theme-picker של Blazor (ספריית מחלקות Razor ב-NuGet).</li>
+    <li><a href="/tutorials/helpers/">עוזרי העדפות</a> — שפה וגודל טקסט.</li>
+    <li><a href="/components/">קטלוג הרכיבים</a> — מאפיינים, ARIA ומקלדת לכל רכיב.</li>
+  </ul>
+  <p>
+    שאלות בדרך?
+    <a href="/help/#troubleshooting">עמוד העזרה</a> מלא בתשובות — ואם שלב יכול להיות ברור יותר,
+    <a href="https://github.com/LilyDesignSystem">ספרו לנו</a> ונשמח לשפר את המדריך.
+  </p>
+</section>

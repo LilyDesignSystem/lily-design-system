@@ -1,0 +1,106 @@
+<!-- title: Ръководство за HTML — Lily Design System -->
+<!-- description: Изградете достъпна, стилизирана форма с headless компонентите на Lily за HTML — обикновена маркировка, направо от файл. -->
+<section class="page-intro">
+  <h1>Ръководство за HTML</h1>
+  <p class="page-intro-tagline">
+    Най-простото възможно начало: копирайте семантичен HTML с класовите куки на Lily, добавете една таблица със стилове, публикувайте. Обикновени файлове, които работят навсякъде, където работи HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Какво ще изградите</h2>
+  <p>
+    Малка форма за контакт — полета с етикети, бутон за изпращане, истинско поведение на клавиатурата и екранния четец — първо гола, после стилизирана, за около 10 минути.
+  </p>
+
+  <h2>Преди да започнете</h2>
+  <p>
+    Нужни са ви браузър и текстов редактор. Това е всичко. (git помага да вземете файловете на компонентите, но можете да ги копирате и от GitHub в браузъра.)
+  </p>
+
+  <h2>Стъпка 1 — Вземете кода</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Всеки компонент е самостоятелен файл в <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>и така нататък — с коментар в заглавката, документиращ неговия HTML таг, класова кука, поведение на клавиатурата и договор за достъпност. Файловете <em>са</em> библиотеката — копирайте каквото ви трябва и действайте.
+  </p>
+
+  <h2>Стъпка 2 — Първият ви компонент</h2>
+  <p>Отворете <code>components/button.html</code>или просто напишете маркировката — класовата кука е договорът:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Тъй като е истински <code>&lt;button&gt;</code>, фокусът от клавиатурата, активирането с Enter и Space и подразбиращата се роля на бутон вече са правилни.
+  </p>
+
+  <h2>Стъпка 3 — Съставете малка форма</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Забележете модела: всеки контрол свързва своя <code>&lt;label for&gt;</code>, използва най-конкретния тип input и носи точно една класова кука в kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверете работата си:</strong> отворете страницата в браузър. Изглежда гола — точно както е предвидено: стилизирането предстои. Натиснете
+      <kbd>Tab</kbd>: фокусът минава през всеки контрол, етикетите се обявяват и изпращането работи. Поведението е готово; външният вид е ваш и е следващата стъпка.
+    </p>
+  </div>
+
+  <h2>Стъпка 4 — Стилизирайте го</h2>
+  <p>Напишете CSS срещу куките:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Или изобщо пропуснете ръчното писане на CSS — свържете една от 45-те готови теми и същата маркировка светва:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Стъпка 5 — Разгледайте още</h2>
+  <ul>
+    <li>Тестовете на хранилището работят в истински браузъри: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook за всеки компонент: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Примерното приложение HTML+CSS+JS</a> показва всичките 571 компонента стилизирани, с търсене и демонстрирани.
+    </li>
+  </ul>
+
+  <h2>Следващи стъпки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — превключване на тема по време на изпълнение с theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Помощници за предпочитания</a> — език и размер на текста.</li>
+    <li><a href="/components/">Каталог на компонентите</a> — пълната справка.</li>
+  </ul>
+  <p>
+    Въпроси по пътя?
+    <a href="/help/#troubleshooting">Страницата за помощ</a> е пълна с отговори — а ако някоя стъпка може да е по-ясна,
+    <a href="https://github.com/LilyDesignSystem">кажете ни</a> и с радост ще подобрим ръководството.
+  </p>
+</section>

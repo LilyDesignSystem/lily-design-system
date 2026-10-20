@@ -1,0 +1,107 @@
+<!-- title: Mafunzo ya Blazor — Lily Design System -->
+<!-- description: Jenga fomu inayofikika na yenye mapambo kwa vipengele visivyo na mwonekano vya Lily vya Blazor: vipengele vya Razor vyenye vigezo na majaribio ya bUnit. -->
+<section class="page-intro">
+  <h1>Mafunzo ya Blazor</h1>
+  <p class="page-intro-tagline">
+    Vipengele vya maktaba ya darasa ya Razor vyenye vigezo, <code>ChildContent</code>
+    vipande vya uonyeshaji, ugawaji wa sifa, na jaribio la bUnit kwa kila kipengele.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Utakachojenga</h2>
+  <p>
+    Fomu ndogo ya mawasiliano — pembejeo yenye lebo, kitufe cha kutuma,
+    <code>@bind-Value</code> uunganishaji, tabia halisi ya kibodi na kisomaji skrini — kwanza bila mapambo, kisha ikiwa na mapambo, kwa takriban dakika 10.
+  </p>
+
+  <h2>Kabla ya kuanza</h2>
+  <p>
+    Unahitaji git na .NET SDK 8 au zaidi. Mradi wowote wa Blazor unafaa — Blazor Web App, Server, au WebAssembly.
+  </p>
+
+  <h2>Hatua ya 1 — Pata msimbo</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Vipengele viko katika <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — faili moja ya Razor kwa kila kimoja. Rejelea mradi huo (au nakili faili) kutoka kwenye programu yako ya Blazor na ongeza <code>@using LilyBlazorHeadless.Components</code> kwenye
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Hatua ya 2 — Kipengele chako cha kwanza</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Huonyesha <code>&lt;button class="button"&gt;</code>. Kanuni za pamoja za vigezo: <code>Label</code> ( <code>aria-label</code> kubatilisha),
+    <code>CssClass</code> (huongezwa kwenye kishikio cha msingi),
+    <code>ChildContent</code>, na
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> ugawaji wa sifa ili sifa yoyote ya ziada ya HTML ipite.
+  </p>
+
+  <h2>Hatua ya 3 — Unda fomu ndogo</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> huchukua <code>Label</code> inayoonekana kama kigezo chake chenyewe badala ya kipengele cha lebo kilichowekwa ndani — ipitishe mara moja, kwenye
+    <code>Field</code>, na <code>TextInput</code>inayolingana
+    <code>Label</code> hutoa jina linalofikika.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Imethibitishwa 2026-08-29:</strong> rasimu ya awali iliweka kipengele tofauti cha <code>Label</code> ndani ya <code>Field</code>, ambacho kilionyesha <em>mbili</em> lebo (moja tupu) kwa sababu <code>Field</code>
+      tayari huonyesha lebo yake yenyewe kutoka kwenye <code>Label</code> kigezo — ilibainika kwa kukagua chanzo cha kipengele; <code>Form</code> yenyewe haina <code>Label</code> kigezo, hivyo matumizi ya
+      <code>&lt;Form&gt;</code> katika rasimu ya awali yalirekebishwa kuliacha badala ya kubuni sifa isiyokuwepo.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Njia ya fomu ya mawasiliano iliyounganishwa</a>
+      ni mchoro uleule, uliojaribiwa kwa majaribio halisi ya e2e na axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hakiki kazi yako:</strong> endesha programu na fomu inaonekana ya kawaida — kama ilivyokusudiwa: mapambo bado yanakuja. Bonyeza
+      <kbd>Tab</kbd>: umakini husogea kwenye kila kidhibiti, lebo inatangazwa, na kutuma kunafanya kazi. Tabia imekamilika; mwonekano ni wako, na ndio unaofuata.
+    </p>
+  </div>
+
+  <h2>Hatua ya 4 — Ipambe</h2>
+  <p>
+    Pamba vishikio vya darasa — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — katika <code>app.css</code>, au unganisha mandhari yaliyo tayari katika <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Hatua ya 5 — Ona kila kitu kikifanya kazi</h2>
+  <p>
+     <a href="/examples/">Programu ya mifano ya Blazor Web</a> inaonyesha orodha kamili ikiwa na mapambo na maonyesho, pamoja na majaribio ya Playwright e2e:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Hatua zinazofuata</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Mandhari</a> — kubadili wakati wa utekelezaji kwa kisaidizi cha theme-picker cha Blazor (maktaba ya darasa ya Razor kwenye NuGet).</li>
+    <li><a href="/tutorials/helpers/">Visaidizi vya mapendeleo</a> — lugha na ukubwa wa maandishi.</li>
+    <li><a href="/components/">Orodha ya vipengele</a> — sifa, ARIA, na kibodi kwa kila kipengele.</li>
+  </ul>
+  <p>
+    Una maswali njiani?
+    <a href="/help/#troubleshooting">Ukurasa wa msaada</a> umejaa majibu — na kama hatua inaweza kuwa wazi zaidi,
+    <a href="https://github.com/LilyDesignSystem">tuambie</a> na tutafurahi kuboresha mafunzo.
+  </p>
+</section>

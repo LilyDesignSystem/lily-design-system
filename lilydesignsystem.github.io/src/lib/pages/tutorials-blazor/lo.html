@@ -1,0 +1,107 @@
+<!-- title: ບົດສອນ Blazor — Lily Design System -->
+<!-- description: ສ້າງແບບຟອມທີ່ເຂົ້າເຖິງໄດ້ງ່າຍ ແລະມີຮູບແບບດ້ວຍອົງປະກອບແບບບໍ່ມີຫົວ Blazor ຂອງ Lily: ອົງປະກອບ Razor ພ້ອມພາຣາມິເຕີ ແລະການທົດສອບ bUnit. -->
+<section class="page-intro">
+  <h1>ບົດສອນ Blazor</h1>
+  <p class="page-intro-tagline">
+    ອົງປະກອບໄລບຣາຣີຄລາສ Razor ພ້ອມພາຣາມິເຕີ, <code>ChildContent</code>
+    render fragment, ການກະຈາຍຄຸນລັກສະນະ ແລະການທົດສອບ bUnit ໜຶ່ງອັນຕໍ່ອົງປະກອບ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ສິ່ງທີ່ທ່ານຈະສ້າງ</h2>
+  <p>
+    ແບບຟອມຕິດຕໍ່ນ້ອຍໆ — ຊ່ອງປ້ອນທີ່ມີປ້າຍ, ປຸ່ມສົ່ງ,
+    <code>@bind-Value</code> ການຜູກ, ພຶດຕິກຳແປ້ນພິມ ແລະໂປຣແກຣມອ່ານໜ້າຈໍຈິງ — ທຳອິດເປົ່າ, ຈາກນັ້ນມີຮູບແບບ, ໃນປະມານ 10 ນາທີ.
+  </p>
+
+  <h2>ກ່ອນທ່ານເລີ່ມ</h2>
+  <p>
+    ທ່ານຕ້ອງການ git ແລະ .NET SDK 8 ຫຼືໃໝ່ກວ່າ. ໂຄງການ Blazor ໃດກໍໃຊ້ໄດ້ — Blazor Web App, Server ຫຼື WebAssembly.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 1 — ເອົາໂຄດ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    ອົງປະກອບຢູ່ໃນ <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — ໄຟລ໌ Razor ອັນລະໜຶ່ງ. ອ້າງອີງໂຄງການ (ຫຼືສຳເນົາໄຟລ໌) ຈາກແອັບ Blazor ຂອງທ່ານ ແລະເພີ່ມ <code>@using LilyBlazorHeadless.Components</code> ເຂົ້າໃນ
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 2 — ອົງປະກອບທຳອິດຂອງທ່ານ</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    ສະແດງ <code>&lt;button class="button"&gt;</code>. ຂໍ້ຕົກລົງພາຣາມິເຕີທີ່ແບ່ງປັນ: <code>Label</code> ( <code>aria-label</code> ການແທນທີ່),
+    <code>CssClass</code> (ຕໍ່ທ້າຍ base hook),
+    <code>ChildContent</code>, ແລະ
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> ການກະຈາຍຄຸນລັກສະນະ ເພື່ອໃຫ້ຄຸນລັກສະນະ HTML ພິເສດໃດໆຜ່ານໄດ້.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 3 — ປະກອບແບບຟອມນ້ອຍໆ</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> ເອົາ <code>Label</code> ທີ່ເຫັນເປັນພາຣາມິເຕີຂອງຕົນເອງ ແທນທີ່ຈະເປັນອົງປະກອບປ້າຍທີ່ຊ້ອນກັນ — ສົ່ງຜ່ານຄັ້ງດຽວ, ທີ່
+    <code>Field</code>, ແລະ <code>TextInput</code>ທີ່ກົງກັນໃນ
+    <code>Label</code> ໃຫ້ຊື່ທີ່ເຂົ້າເຖິງໄດ້.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດສອບແລ້ວ 2026-08-29:</strong> ຮ່າງກ່ອນໜ້າໄດ້ຊ້ອນອົງປະກອບແຍກຕ່າງຫາກ <code>Label</code> ພາຍໃນ <code>Field</code>, ເຊິ່ງສະແດງ <em>ສອງ</em> ປ້າຍ (ອັນໜຶ່ງຫວ່າງ) ເພາະ <code>Field</code>
+      ສະແດງຂອງຕົນເອງແລ້ວຈາກ <code>Label</code> ພາຣາມິເຕີ — ພົບໂດຍການກວດແຫຼ່ງອົງປະກອບ; <code>Form</code> ບໍ່ມີ <code>Label</code> ພາຣາມິເຕີຂອງຕົນເອງ, ດັ່ງນັ້ນການໃຊ້
+      <code>&lt;Form&gt;</code> ຂອງຮ່າງກ່ອນໜ້າຖືກແກ້ໄຂໂດຍການເອົາອອກ ແທນທີ່ຈະສ້າງຄຸນລັກສະນະທີ່ບໍ່ມີ.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">ເສັ້ນທາງແບບຟອມຕິດຕໍ່ແບບປະກອບ</a>
+      ເປັນຮູບແບບດຽວກັນ, ໃຊ້ດ້ວຍການທົດສອບ e2e ແລະ axe ຈິງ.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດງານຂອງທ່ານ:</strong> ແລ່ນແອັບ ແລະແບບຟອມເບິ່ງທຳມະດາ — ຕາມທີ່ຕັ້ງໃຈ: ການໃສ່ຮູບແບບຍັງຢູ່ຂ້າງໜ້າ. ກົດ
+      <kbd>Tab</kbd>: ຈຸດສຸມເຄື່ອນຜ່ານທຸກການຄວບຄຸມ, ປ້າຍຖືກປະກາດ ແລະການສົ່ງເຮັດວຽກ. ພຶດຕິກຳສຳເລັດແລ້ວ; ລັກສະນະເປັນຂອງທ່ານ ແລະເປັນຂັ້ນຕໍ່ໄປ.
+    </p>
+  </div>
+
+  <h2>ຂັ້ນຕອນ 4 — ໃສ່ຮູບແບບ</h2>
+  <p>
+    ໃສ່ຮູບແບບ class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ໃນ <code>app.css</code>, ຫຼືເຊື່ອມຕໍ່ຮູບແບບສີສັນສຳເລັດຮູບໃນ <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>ຂັ້ນຕອນ 5 — ເບິ່ງທຸກຢ່າງເຮັດວຽກ</h2>
+  <p>
+     <a href="/examples/">ແອັບຕົວຢ່າງ Blazor Web</a> ສະແດງແຄັດຕາລັອກເຕັມທີ່ມີຮູບແບບ ແລະສາທິດ, ພ້ອມການທົດສອບ Playwright e2e:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>ຂັ້ນຕອນຕໍ່ໄປ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ຮູບແບບສີສັນ</a> — ການສະຫຼັບຕອນແລ່ນດ້ວຍຕົວຊ່ວຍ Blazor theme-picker (ໄລບຣາຣີຄລາສ Razor ໃນ NuGet).</li>
+    <li><a href="/tutorials/helpers/">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a> — ພາສາ ແລະຂະໜາດຕົວອັກສອນ.</li>
+    <li><a href="/components/">ແຄັດຕາລັອກອົງປະກອບ</a> — ຄຸນສົມບັດ, ARIA ແລະແປ້ນພິມຕໍ່ອົງປະກອບ.</li>
+  </ul>
+  <p>
+    ມີຄຳຖາມລະຫວ່າງທາງບໍ?
+    <a href="/help/#troubleshooting">ໜ້າຊ່ວຍເຫຼືອ</a> ເຕັມໄປດ້ວຍຄຳຕອບ — ແລະຖ້າຂັ້ນຕອນໃດຊັດເຈນຂຶ້ນໄດ້,
+    <a href="https://github.com/LilyDesignSystem">ບອກພວກເຮົາ</a> ແລະພວກເຮົາຍິນດີປັບປຸງບົດສອນ.
+  </p>
+</section>

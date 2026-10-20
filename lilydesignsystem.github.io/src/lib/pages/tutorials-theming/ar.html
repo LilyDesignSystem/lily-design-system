@@ -1,0 +1,111 @@
+<!-- title: دليل السمات — Lily Design System -->
+<!-- description: أضف سمة إلى Lily بثلاث طرق: اربط إحدى السمات الجاهزة الـ 45، وتجاوزها بـ CSS لديك، وأضف تبديل السمة أثناء التشغيل بمساعد theme-picker. -->
+<section class="page-intro">
+  <h1>السمات</h1>
+  <p class="page-intro-tagline">
+    مكوّنات Lily لها خطّافات أصناف ثابتة وصفر CSS — فالسمة مجرد ورقة أنماط. يمضي هذا الدليل من «اربط ملفًا واحدًا» إلى «دع المستخدم يبدّل السمة أثناء التشغيل، مع الحفظ».
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    تطبيق يستطيع المستخدم تغيير مظهره كله — بدءًا من ورقة أنماط واحدة مربوطة وانتهاءً بمبدّل سمات ثابت أثناء التشغيل — في نحو 15 دقيقة.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    أنهِ أولًا <a href="/tutorials/">دليل إطار العمل</a> لمجموعتك التقنية أولًا، ليكون لديك نموذج Lily صغير تضيف إليه السمة. كل ما هنا يعمل في أطر العمل السبعة كلها؛ وتعرض أمثلة الشيفرة Svelte وHTML العادي.
+  </p>
+
+  <h2>الخطوة 1 — اربط سمة جاهزة</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    يضم المجلد 45 ورقة أنماط مستقلة. انسخها إلى الأصول الساكنة لتطبيقك واربط واحدة:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>أبرز ما في المجموعة:</p>
+  <ul>
+    <li>
+      <strong>القطاع العام</strong> — NHS England / Scotland / Wales، كلٌّ بنسختين موجّهتين للمرضى وللممارسين؛ GOV.UK (<code>united-kingdom-government-digital-service</code>)؛ USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>مستوحاة من الموردين</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>للأغراض العامة</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>، والكثير غيرها.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقق من عملك:</strong> أعد تحميل الصفحة. الترميز نفسه الذي بنيته في دليل إطار العمل منسَّق الآن بالكامل — الأزرار والمدخلات والتسميات وحلقات التركيز. سطر HTML واحد فعل ذلك — وبقي كل مكوّن كما كان تمامًا.
+    </p>
+  </div>
+
+  <h2>الخطوة 2 — تجاوز أي شيء</h2>
+  <p>
+    محدِّدات السمة ملفوفة في <code>:where(...)</code>وهو ذو خصوصية صفر — فأي قاعدة تكتبها تفوز، ببساطة:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>الخطوة 3 — التبديل أثناء التشغيل بـ theme-picker</h2>
+  <p>
+     <code>theme-picker</code> المساعد زر أيقونة عديم الرأس + قائمة منسدلة يملك دورة حياة السمة كلها: يحمّل ورقة الأنماط المختارة بتبديل <code>&lt;link&gt;</code>
+    مُدار واحد (لا تُجلب إلا السمة النشطة)، ويضبط
+    <code>data-theme="&#123;slug&#125;"</code> على المستند، ويحفظ اختياريًا في <code>localStorage</code>. يظهر Svelte هنا؛ ومنافذ React وVue وAngular وHTML وNunjucks وBlazor تطابقه عقدًا بعقد:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    هذا هو التكامل كله. يتبع سلوك لوحة المفاتيح نمط القائمة في WAI-ARIA APG؛ وعنصر التحكم نفسه عديم الرأس (خطّاف الصنف
+    <code>.theme-picker</code>)، فيلتقط أي سمة نشطة.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تم التحقق في 2026-08-29:</strong> جُمّع هذا المقتطف نفسه مقابل الحزمة <code>0.1.1</code> المنشورة عبر
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — تفاعل مع السمة في CSS الخاص بك</h2>
+  <p>
+    لأن المساعد يضبط <code>data-theme</code> على جذر المستند، يمكن لأنماطك أن تتفرع عليه:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>ملاحظات للعرض على الخادم</h2>
+  <p>
+    ينفّذ المساعد كل كتابات DOM داخل دورة حياة mount/effect في الإطار، فهو آمن لـ SSR بالبناء. ولتجنّب وميض الرسم الأول، اعرض <code>&lt;link&gt;</code> و
+    <code>data-theme</code> للسمة الأولية على الخادم (مثلًا من ملف تعريف ارتباط) — يأتي مستودع مساعد Svelte بمثال قابل للتشغيل لملف تعريف ارتباط SvelteKit، وتوثّق الفهارس الأخرى النمط نفسه لمجموعاتها.
+  </p>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">مساعدات التفضيلات</a> — النمط نفسه للغة وحجم النص والمشاركة وإدخال التاريخ/الوقت.</li>
+    <li>
+      ساهم بسمة — كلٌّ منها ورقة أنماط مستقلة واحدة تستهدف خطّافات الأصناف؛ انظر <a href="/help/#contributing">المساهمة</a>.
+    </li>
+  </ul>
+  <p>
+    أسئلة في الطريق؟
+    <a href="/help/#troubleshooting">صفحة المساعدة</a> مليئة بالإجابات — وإن أمكن توضيح خطوة أكثر،
+    <a href="https://github.com/LilyDesignSystem">أخبرنا</a> وسنحسّن الدليل بكل سرور.
+  </p>
+</section>

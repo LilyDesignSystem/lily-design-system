@@ -1,0 +1,127 @@
+<!-- title: Angular ਟਿਊਟੋਰਿਅਲ — Lily Design System -->
+<!-- description: Lily ਦੇ Angular 20 ਹੈੱਡਲੈੱਸ ਕੰਪੋਨੈਂਟਾਂ ਨਾਲ ਪਹੁੰਚਯੋਗ, ਸਟਾਈਲ ਕੀਤਾ ਫ਼ਾਰਮ ਬਣਾਓ: ਸਿਗਨਲ ਇਨਪੁੱਟਾਂ ਵਾਲੇ ਸਟੈਂਡਅਲੋਨ ਕੰਪੋਨੈਂਟ। -->
+<section class="page-intro">
+  <h1>Angular ਟਿਊਟੋਰਿਅਲ</h1>
+  <p class="page-intro-tagline">
+    Angular 20 ਸਟੈਂਡਅਲੋਨ ਕੰਪੋਨੈਂਟ — ਸਿਗਨਲ ਇਨਪੁੱਟ, OnPush ਤਬਦੀਲੀ ਪਛਾਣ, ਇਨਲਾਈਨ ਟੈਂਪਲੇਟ, ਜ਼ੀਰੋ NgModules, ਜ਼ੀਰੋ CSS।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ਤੁਸੀਂ ਕੀ ਬਣਾਓਗੇ</h2>
+  <p>
+    ਇੱਕ ਛੋਟਾ ਸੰਪਰਕ ਫ਼ਾਰਮ — ਲੇਬਲ ਵਾਲਾ ਖੇਤਰ, ਜਮ੍ਹਾਂ ਕਰਨ ਦਾ ਬਟਨ, ਦੋ-ਪਾਸੀ ਬਾਈਂਡਿੰਗ, ਅਸਲੀ ਕੀਬੋਰਡ ਅਤੇ ਸਕ੍ਰੀਨ-ਰੀਡਰ ਵਿਹਾਰ — ਪਹਿਲਾਂ ਨੰਗਾ, ਫਿਰ ਸਟਾਈਲ ਕੀਤਾ, ਲਗਭਗ 10 ਮਿੰਟਾਂ ਵਿੱਚ।
+  </p>
+
+  <h2>ਸ਼ੁਰੂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ</h2>
+  <p>
+    ਤੁਹਾਨੂੰ git, Node 22 ਜਾਂ ਨਵਾਂ, ਅਤੇ pnpm 10 ਜਾਂ ਨਵਾਂ ਚਾਹੀਦਾ ਹੈ। ਕੋਈ ਵੀ Angular 20 ਪ੍ਰੋਜੈਕਟ ਚੱਲੇਗਾ — Angular CLI ਜਾਂ Analog।
+  </p>
+
+  <h2>ਪੜਾਅ 1 — ਕੋਡ ਪ੍ਰਾਪਤ ਕਰੋ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    ਕੰਪੋਨੈਂਟ ਇਸ ਵਿੱਚ ਸਮਤਲ ਫ਼ਾਈਲਾਂ ਹਨ: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — ਹਰ ਇੱਕ ਇਨਲਾਈਨ ਟੈਂਪਲੇਟ ਵਾਲਾ ਸਟੈਂਡਅਲੋਨ ਕੰਪੋਨੈਂਟ ਹੈ, ਨਾਲ ਉਸਦੀ spec ਅਤੇ story। ਬੈਰਲ
+    <code>index.ts</code> ਹਰ ਕੰਪੋਨੈਂਟ ਨੂੰ ਮੁੜ-ਨਿਰਯਾਤ ਕਰਦਾ ਹੈ; <code>pnpm build</code>
+    ng-packagr ਰਾਹੀਂ Angular Package Format ਬੰਡਲ ਬਣਾਉਂਦਾ ਹੈ।
+  </p>
+
+  <h2>ਪੜਾਅ 2 — ਤੁਹਾਡਾ ਪਹਿਲਾ ਕੰਪੋਨੈਂਟ</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    ਹਰ ਕੰਪੋਨੈਂਟ ਇੱਕ <code>lily-*</code> ਚੋਣਕਾਰ ਐਲਾਨਦਾ ਹੈ ਅਤੇ ਆਪਣੇ ਕਲਾਸ ਹੁੱਕ ਨਾਲ ਅਰਥਪੂਰਨ ਤੱਤ ਦਿਖਾਉਂਦਾ ਹੈ —
+    <code>&lt;button class="button" type="button"&gt;</code> ਇੱਥੇ। ਇਨਪੁੱਟ ਸਿਗਨਲ-ਆਧਾਰਿਤ ਹਨ: <code>label()</code> ਇੱਕ ਲਈ <code>aria-label</code>
+    ਓਵਰਰਾਈਡ ਕਰਨ ਲਈ, <code>className()</code> ਕਲਾਸਾਂ ਜੋੜਨ ਲਈ।
+  </p>
+
+  <h2>ਪੜਾਅ 3 — ਇੱਕ ਛੋਟਾ ਫ਼ਾਰਮ ਬਣਾਓ</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> ਦਿੱਸਦੇ ਲੇਬਲ ਨੂੰ ਆਪਣੇ
+    <code>label</code> ਇਨਪੁੱਟ ਵਜੋਂ ਲੈਂਦਾ ਹੈ, ਨਾ ਕਿ ਅੰਦਰ ਰੱਖੇ ਲੇਬਲ ਕੰਪੋਨੈਂਟ ਵਜੋਂ — ਇਸਨੂੰ ਇੱਕ ਵਾਰ ਖੇਤਰ ਉੱਤੇ ਦਿਓ, ਅਤੇ ਮੇਲ ਖਾਂਦਾ <code>lily-text-input</code>ਦਾ
+    <code>label</code> ਪਹੁੰਚਯੋਗ ਨਾਮ ਦਿੰਦਾ ਹੈ। ਇਨਪੁੱਟ ਵਰਗੇ ਕੰਪੋਨੈਂਟ <code>model()</code> ਮੁੱਲ ਪੇਸ਼ ਕਰਦੇ ਹਨ, ਇਸ ਲਈ banana-box <code>[(value)]</code>
+    ਦੋ-ਪਾਸੀ ਬਾਈਂਡਿੰਗ ਤੁਰੰਤ ਕੰਮ ਕਰਦੀ ਹੈ — ਹਰ ਥਾਂ zoneless-ਅਨੁਕੂਲ।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 ਨੂੰ ਪੁਸ਼ਟੀ ਕੀਤੀ:</strong> ਇੱਕ ਪਹਿਲੇ ਖਰੜੇ ਨੇ ਵੱਖਰਾ <code>Label</code> ਕੰਪੋਨੈਂਟ <code>lily-field</code>ਦੇ ਅੰਦਰ ਰੱਖਿਆ, ਜਿਸ ਨੇ <em>ਦੋ</em> ਲੇਬਲ (ਇੱਕ ਖਾਲੀ) ਦਿਖਾਏ ਕਿਉਂਕਿ
+      <code>lily-field</code> ਪਹਿਲਾਂ ਹੀ ਆਪਣਾ ਲੇਬਲ
+      <code>label</code> ਇਨਪੁੱਟ ਤੋਂ ਦਿਖਾ ਦਿੰਦਾ ਹੈ — ਕੰਪੋਨੈਂਟ ਦਾ ਸਰੋਤ ਕੋਡ ਜਾਂਚ ਕੇ ਪਤਾ ਲੱਗਾ।
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">ਸੰਯੁਕਤ ਸੰਪਰਕ-ਫ਼ਾਰਮ ਰੂਟ</a>
+      ਉਹੀ ਪੈਟਰਨ ਹੈ, ਅਸਲੀ e2e ਅਤੇ axe ਟੈਸਟਾਂ ਨਾਲ ਪਰਖਿਆ।
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ਆਪਣਾ ਕੰਮ ਜਾਂਚੋ:</strong> ਐਪ ਚਲਾਓ ਅਤੇ ਫ਼ਾਰਮ ਸਾਦਾ ਦਿਸਦਾ ਹੈ — ਬਿਲਕੁਲ ਜਿਵੇਂ ਇਰਾਦਾ ਸੀ: ਸਟਾਈਲਿੰਗ ਅਜੇ ਅੱਗੇ ਹੈ। ਦਬਾਓ
+      <kbd>Tab</kbd>: ਫੋਕਸ ਹਰ ਕੰਟਰੋਲ ਵਿੱਚੋਂ ਲੰਘਦਾ ਹੈ, ਲੇਬਲ ਬੋਲਿਆ ਜਾਂਦਾ ਹੈ ਅਤੇ ਜਮ੍ਹਾਂ ਕਰਨਾ ਕੰਮ ਕਰਦਾ ਹੈ। ਵਿਹਾਰ ਪੂਰਾ ਹੈ; ਦਿੱਖ ਤੁਹਾਡੀ ਹੈ ਅਤੇ ਅਗਲਾ ਕਦਮ ਹੈ।
+    </p>
+  </div>
+
+  <h2>ਪੜਾਅ 4 — ਇਸਨੂੰ ਸਟਾਈਲ ਕਰੋ</h2>
+  <p>
+    ਕਲਾਸ ਹੁੱਕਾਂ ਨੂੰ ਸਟਾਈਲ ਕਰੋ — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ਇਸ ਵਿੱਚ <code>styles.css</code>, ਜਾਂ ਇੱਕ ਤਿਆਰ ਥੀਮ ਨੂੰ ਐਰੇ ਵਿੱਚ ਜੋੜੋ <code>styles</code> ਵਿੱਚ
+    <code>angular.json</code> / ਇਸਨੂੰ ਇੱਥੇ ਲਿੰਕ ਕਰੋ <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>ਪੜਾਅ 5 — ਸਭ ਕੁਝ ਕੰਮ ਕਰਦਾ ਵੇਖੋ</h2>
+  <p>
+     <a href="/examples/">Angular + Analog ਉਦਾਹਰਨ ਐਪ</a> ਫ਼ਾਈਲ-ਆਧਾਰਿਤ ਰੂਟਿੰਗ ਅਤੇ Vite ਨਾਲ ਪੂਰਾ ਕੈਟਾਲਾਗ ਦਿਖਾਉਂਦੀ ਹੈ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ਅਗਲੇ ਕਦਮ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ਥੀਮ</a> — Angular theme-picker ਸਹਾਇਕ ਨਾਲ ਚੱਲਦੇ ਸਮੇਂ ਬਦਲਣਾ।</li>
+    <li><a href="/tutorials/helpers/">ਤਰਜੀਹ ਸਹਾਇਕ</a> — ਭਾਸ਼ਾ ਅਤੇ ਲਿਖਤ ਦਾ ਆਕਾਰ।</li>
+    <li><a href="/components/">ਕੰਪੋਨੈਂਟ ਕੈਟਾਲਾਗ</a> — ਹਰ ਕੰਪੋਨੈਂਟ ਲਈ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ, ARIA ਅਤੇ ਕੀਬੋਰਡ।</li>
+  </ul>
+  <p>
+    ਰਾਹ ਵਿੱਚ ਸਵਾਲ ਹਨ?
+    <a href="/help/#troubleshooting">ਮਦਦ ਪੰਨਾ</a> ਜਵਾਬਾਂ ਨਾਲ ਭਰਿਆ ਹੈ — ਅਤੇ ਜੇ ਕੋਈ ਕਦਮ ਹੋਰ ਸਾਫ਼ ਹੋ ਸਕਦਾ ਹੈ,
+    <a href="https://github.com/LilyDesignSystem">ਸਾਨੂੰ ਦੱਸੋ</a> ਅਤੇ ਅਸੀਂ ਖ਼ੁਸ਼ੀ ਨਾਲ ਟਿਊਟੋਰਿਅਲ ਸੁਧਾਰਾਂਗੇ।
+  </p>
+</section>

@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills jagħtu lil Claude Code punt ta’ dħul ikkurat u li jista’ jitgħabba għal Lily Design System — kunċetti ġenerali, ħiliet ta’ umbrella għal kull framework u ħiliet fil-fond għal kull sottoproġett għal-librerija headless u l-għajnuniet *-picker. -->
+<section class="page-intro">
+  <h1>Il-ħiliet fuq l-aġenti AI jagħmlu lil Lily saħansitra aktar faċli</h1>
+  <p class="page-intro-tagline">
+    Lily tibgħat ħiliet iffukati — ġenerali, għal kull framework u għal kull sottoproġett — biex aġent iġorr eżattament il-kuntest li għandu bżonn u xejn li ma għandux bżonn.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Liema ħila trid?</h2>
+  <p>
+    Kull livell iwieġeb mistoqsija differenti. Itgħabbi l-ħila ġenerali meta ma tafx lil Lily għadek. Itgħabbi ħila ta’ framework meta tkun taf il-framework tiegħek imma mhux liema sottoproġett għandek bżonn. Itgħabbi headless-skill jew helpers-skill direttament meta diġà taf eżattament fuq xiex qed taħdem.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Ġenerali / manutentur</strong> — “X’inhi Lily?” / “Kif inhu mibni dan il-monorepo?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Umbrella tal-framework</strong> — “X’hemm disponibbli għal {framework}, u liema parti għandi bżonn?” — 8, <code>{framework}-skill</code> wieħed kull wieħed
+    </li>
+    <li>
+      <strong>Headless / għajnuniet</strong> — “Kif eżattament nuża l-komponenti / l-għajnuniet *-picker ta’ {framework}?” — 16, <code>{framework}-headless-skill</code> wieħed u <code>{framework}-helpers-skill</code> wieħed kull wieħed
+    </li>
+  </ul>
+
+  <h2>It-tmien frameworks</h2>
+  <p>
+    Kull framework jieħu l-istess stack ta’ tliet livelli. Il-ħila umbrella timmappa s-sottoproġetti reali kollha ta’ dak il-framework — inkluża l-applikazzjoni ta’ eżempju, li l-ebda waħda miż-żewġ ħiliet oħtha ma tkopri — u tipponta ’l isfel lejhom minflok ma tirrepeti l-kuntratti tagħhom.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Umbrella</th>
+        <th>Headless</th>
+        <th>Għajnuniet</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Ħila umbrella ta’ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">ħila</a></td>
+        <td><a aria-label="Ħila headless ta’ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">ħila</a></td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">ħila</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Ħila umbrella ta’ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">ħila</a></td>
+        <td><a aria-label="Ħila headless ta’ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">ħila</a></td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">ħila</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Ħila umbrella ta’ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">ħila</a></td>
+        <td><a aria-label="Ħila headless ta’ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">ħila</a></td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">ħila</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Ħila umbrella ta’ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">ħila</a></td>
+        <td><a aria-label="Ħila headless ta’ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">ħila</a></td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">ħila</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Ħila umbrella ta’ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">ħila</a></td>
+        <td><a aria-label="Ħila headless ta’ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">ħila</a></td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">ħila</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Ħila umbrella ta’ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">ħila</a></td>
+        <td><a aria-label="Ħila headless ta’ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">ħila</a></td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">ħila</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Ħila umbrella ta’ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">ħila</a></td>
+        <td><a aria-label="Ħila headless ta’ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">ħila</a></td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">ħila</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Ħila umbrella ta’ Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">ħila</a></td>
+        <td>
+          <a
+            aria-label="Ħila headless ta’ Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >ħila</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Ħila tal-għajnuniet ta’ Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">ħila</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components huwa l-uniku eċċezzjoni fiż-żewġ direzzjonijiet: il-katalgu headless tiegħu għandu ambitu deliberat ta’ 536 minn 571 (elementi personalizzati nattivi, l-ebda runtime ta’ framework; il-35 komponent l-oħra huma esklużi b’mod permanenti), u għad m’hemmx applikazzjoni ta’ eżempju Web Components — il-ħila umbrella tiegħu tgħid hekk minflok ma timplika li teżisti waħda.
+  </p>
+
+  <h2>Żid ħila waħda</h2>
+  <p>
+    Kull ħila hija fajl <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> — flimkien ma’ fajls ta’ appoġġ, l-ebda pass tal-bini. Ikklona dik li għandek bżonn fejn is-setup tiegħek ta’ Claude Code jgħabbi ħiliet (ara d-dokumentazzjoni uffiċjali marbuta hawn fuq għad-direttorju tal-ħiliet tal-proġett jew tal-kont tiegħek):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Qed taħdem fuq diversi frameworks, jew fuq il-monorepo innifsu? Ikklona minflok il-<a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kanoniku</a> — it-26 ħila kollha diġà jinsabu fl-għerq tiegħu, ħdejn il-libreriji headless, il-katalgi tal-għajnuniet u l-applikazzjonijiet ta’ eżempju li jiddeskrivu.
+  </p>
+</section>

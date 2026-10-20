@@ -1,0 +1,97 @@
+<!-- title: មេរៀន Nunjucks — Lily Design System -->
+<!-- description: សាងសង់ទំព័រដែលអាចចូលប្រើបាន មានរចនាប័ទ្ម និងបង្ហាញលើម៉ាស៊ីនមេជាមួយម៉ាក្រូ Nunjucks របស់ Lily — ល្អឥតខ្ចោះសម្រាប់ Eleventy។ -->
+<section class="page-intro">
+  <h1>មេរៀន Nunjucks</h1>
+  <p class="page-intro-tagline">
+    ម៉ាក្រូដែលបង្ហាញលើម៉ាស៊ីនមេសម្រាប់ Eleventy, Express ឬបំពង់គំរូ Node ណាមួយ — វិធីសាស្ត្រតាមរបៀប GOV.UK ជាមួយកាតាឡុក និង class hook របស់ Lily។
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>អ្វីដែលអ្នកនឹងសាងសង់</h2>
+  <p>
+    ទម្រង់ទំនាក់ទំនងតូចមួយដែលបង្ហាញលើម៉ាស៊ីនមេ — វាលបញ្ចូលដែលមានស្លាក ប៊ូតុងដាក់ស្នើ បន្ទុក JavaScript សូន្យ — ដំបូងទទេស្អាត បន្ទាប់មកមានរចនាប័ទ្ម ក្នុងរយៈពេលប្រហែល ១០ នាទី។
+  </p>
+
+  <h2>មុនពេលអ្នកចាប់ផ្តើម</h2>
+  <p>
+    អ្នកត្រូវការ git, Node 22 ឬថ្មីជាងនេះ និង pnpm 10 ឬថ្មីជាងនេះ។ បំពង់ Nunjucks ណាក៏បាន — Eleventy, Express ឬ Nunjucks ធម្មតា។
+  </p>
+
+  <h2>ជំហាន ១ — យកកូដ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    សមាសភាគនីមួយៗជាថតក្នុង <code>components/</code> ជាមួយ
+    <code>macro.njk</code>តេស្តរបស់វា និងឯកសាររបស់វា — ឧទាហរណ៍
+    <code>components/button/macro.njk</code>។ ចង្អុលកម្មវិធីផ្ទុក Nunjucks របស់អ្នកទៅ
+    <code>components/</code> (ក្នុង Eleventy បន្ថែមវាទៅផ្លូវ includes) ហើយនាំចូលអ្វីដែលអ្នកត្រូវការ។
+  </p>
+
+  <h2>ជំហាន ២ — សមាសភាគដំបូងរបស់អ្នក</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    បង្ហាញ <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>។ ម៉ាក្រូទទួលវត្ថុ params តែមួយ៖ <code>text</code> (ត្រូវបាន escape) ឬ
+    <code>html</code> (ឆៅ) <code>type</code>, <code>label</code> សម្រាប់
+    <code>aria-label</code>និងឧបករណ៍បន្ថែម class hook។
+  </p>
+
+  <h2>ជំហាន ៣ — ផ្សំទម្រង់តូចមួយ</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    ដោយសារអ្វីៗទាំងអស់បង្ហាញលើម៉ាស៊ីនមេ កម្មវិធីរុករកទទួលបាន HTML ន័យវិទ្យាសុទ្ធជាមួយ class hook — បន្ទុក JavaScript សូន្យបៃ។
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ពិនិត្យការងាររបស់អ្នក៖</strong> ផ្ទុកទំព័រ ហើយទម្រង់មើលទៅធម្មតា — ដូចដែលបានគ្រោងទុក៖ រចនាប័ទ្មនៅខាងមុខ។ ចុច
+      <kbd>Tab</kbd>៖ ការផ្តោតផ្លាស់ទីតាមការគ្រប់គ្រងនីមួយៗ ស្លាកត្រូវបានប្រកាស ហើយការដាក់ស្នើដំណើរការ។ អាកប្បកិរិយាបានចប់; រូបរាងជារបស់អ្នក ហើយជាជំហានបន្ទាប់។
+    </p>
+  </div>
+
+  <h2>ជំហាន ៤ — ដាក់រចនាប័ទ្ម</h2>
+  <p>
+    ដាក់រចនាប័ទ្ម hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ក្នុងសន្លឹករចនាប័ទ្មរបស់អ្នក ឬភ្ជាប់ស្បែករួចជាស្រេចក្នុងប្លង់មូលដ្ឋានរបស់អ្នក៖
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>ជំហាន ៥ — មើលអ្វីៗទាំងអស់ដំណើរការ</h2>
+  <p>
+     <a href="/examples/">កម្មវិធីគំរូ Nunjucks + Eleventy</a> សាងសង់កាតាឡុកពេញលេញជាគេហទំព័រឋិតិតជាមួយទំព័របង្ហាញក្នុងមួយសមាសភាគ៖
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ជំហានបន្ទាប់</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ស្បែក</a> — រួមទាំងលំនាំ cookie Eleventy សម្រាប់ការប្តូរស្បែក SSR គ្មានការភ្លឹបភ្លែត។</li>
+    <li><a href="/tutorials/helpers/">ជំនួយការចំណូលចិត្ត</a> — ភាសា និងទំហំអក្សរ។</li>
+    <li><a href="/components/">កាតាឡុកសមាសភាគ</a> — លក្ខណៈសម្បត្តិ ARIA និងក្តារចុចសម្រាប់សមាសភាគនីមួយៗ។</li>
+  </ul>
+  <p>
+    មានសំណួរតាមផ្លូវ?
+    <a href="/help/#troubleshooting">ទំព័រជំនួយ</a> ពេញដោយចម្លើយ — ហើយប្រសិនបើជំហានណាអាចច្បាស់ជាងនេះ
+    <a href="https://github.com/LilyDesignSystem">ប្រាប់យើង</a> ហើយយើងនឹងកែលម្អមេរៀនដោយអំណរ។
+  </p>
+</section>

@@ -1,0 +1,63 @@
+<!-- title: Accesibilitate — Lily Design System -->
+<!-- description: Declarația de accesibilitate a Lily: ce înseamnă aici să țintești WCAG 2.2 AAA — ce este verificat, cu ce, ce nu este verificat de nimic și cum raportezi o problemă. -->
+<section class="page-intro">
+  <h1>Ce înseamnă aici „țintește WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Cuvântul <em>țintește</em> este ales deliberat. Această pagină spune exact ce este verificat, cu ce, ce nu este verificat de nimic și ce intenționăm să facem în privința acestui gol. Lily nu pretinde niciodată „conformitate” cu WCAG — niciun audit nu o susține.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Verificat continuu</h2>
+  <ul>
+    <li>
+      Elementul semantic canonic, atributele ARIA și cârligele de clasă ale fiecărei componente — confirmate de suite de teste unitare pentru fiecare framework (peste 15.000 de cazuri în șapte framework-uri).
+    </li>
+    <li>
+      Fiecare dintre cele 571 de pagini demo de componente din aplicația-exemplu SvelteKit este curată conform axe (seturile de reguli WCAG 2.0/2.1 A+AA și 2.2 AA) — parcurgerea întregului catalog, stabilită prima dată ca linie de bază la 2026-08-27 și rulată din nou la 2026-10-06 — plus linii de bază pe aplicație pentru pagina principală, catalog și rutele compuse din toate cele șapte aplicații-exemplu.
+    </li>
+    <li>
+      Contracte de tastatură pentru fiecare componentă interactivă, documentate în metadatele canonice ale fiecărei componente și exersate de suite; pachetele de ajutor rulează în plus specificații Playwright în browsere reale.
+    </li>
+    <li>
+      Praguri minime pentru dimensiunea țintei conform WCAG 2.2 și protecții împotriva depășirii în toate cele 57 de teme; link de salt, repere și fără depășire orizontală la patru viewport-uri pe aplicație; <code>lang</code>/<code>dir</code> aplicarea, inclusiv inversarea RTL.
+    </li>
+  </ul>
+
+  <h2>Neverificat de nimic</h2>
+  <ul>
+    <li>
+      <strong>Niciodată nu a fost efectuat un audit de conformitate.</strong> Fără VPAT, fără certificare. Instrumentele automate acoperă o minoritate din criteriile de succes WCAG.
+    </li>
+    <li>
+      Criteriile specifice AAA (contrast îmbunătățit și altele) sunt intenții de design, nu proprietăți verificate; seturile de reguli axe rulează A/AA. Încă nu există o temă dedicată de contrast ridicat.
+    </li>
+    <li>
+      <strong>Comportamentul cititoarelor de ecran este în mare parte netestat.</strong> Suitele afirmă atribute ARIA, nu ce anunță VoiceOver, NVDA sau JAWS — iar acest proiect a livrat de mai multe ori suite verzi peste defecte reale, fiecare consemnat în jurnalul de modificări tocmai pentru că suitele nu le puteau vedea.
+    </li>
+  </ul>
+
+  <h2>Ce intenționăm să facem în această privință</h2>
+  <p>
+    Un audit independent de accesibilitate este prima utilizare menționată a oricărei finanțări a proiectului, iar domeniul de care are nevoie un auditor este deja pregătit. Până atunci, rapoartele de la cititoarele de ecran sunt contribuția pe care acest proiect o dorește cel mai mult: „componenta X anunță Y, ceea ce este greșit pentru că Z” poate fi tratat direct.
+  </p>
+
+  <h2>Raportează o problemă</h2>
+  <p>
+    Deschide un issue la
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    sau trimite un e-mail la
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Menționarea unui criteriu WCAG ajută, dar nu este obligatorie — „nu am putut folosi X cu tastatura” este un raport complet.
+  </p>
+  <p>
+    Declarația completă, cu tabelul de verificare și istoricul său de revizuire, se află în depozit:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

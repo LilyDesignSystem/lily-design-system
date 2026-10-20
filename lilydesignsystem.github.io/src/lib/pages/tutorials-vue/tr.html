@@ -1,0 +1,122 @@
+<!-- title: Vue eğitimi — Lily Design System -->
+<!-- description: Lily'nin Vue 3 başsız bileşenleriyle erişilebilir, biçimlendirilmiş bir form oluşturun: v-model'li tek dosyalı bileşenler. -->
+<section class="page-intro">
+  <h1>Vue eğitimi</h1>
+  <p class="page-intro-tagline">
+    Tipli prop'lu Vue 3 tek dosyalı bileşenler, <code>defineModel</code>
+    çift yönlü bağlama ve <code>v-bind="$attrs"</code> geçişi.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ne oluşturacaksınız</h2>
+  <p>
+    Küçük bir iletişim formu — etiketli girdi, gönder düğmesi, <code>v-model</code>
+    bağlama, gerçek klavye ve ekran okuyucu davranışı — önce çıplak, sonra biçimlendirilmiş olarak, yaklaşık 10 dakikada.
+  </p>
+
+  <h2>Başlamadan önce</h2>
+  <p>
+    git, Node 22 veya üstü ve pnpm 10 veya üstü gerekir. Herhangi bir Vue 3 projesi olur — Nuxt, Vite veya düz Vue.
+  </p>
+
+  <h2>Adım 1 — Kodu edinin</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Bileşenler şurada düz dosyalar olarak durur: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — her birinin testi, story'si ve belgeleri yanındadır. İhtiyacınız olan dosyaları kopyalayın ya da depoyu getirin.
+  </p>
+
+  <h2>Adım 2 — İlk bileşeniniz</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Şunu işler: <code>&lt;button class="button" type="button"&gt;</code>. Prop'lar diğer çerçevelerle aynıdır: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, artı geri kalan her şey için öznitelik aktarımı.
+  </p>
+
+  <h2>Adım 3 — Küçük bir form oluşturun</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> görünür <code>label</code> kendi prop'u olarak alır, iç içe bir etiket bileşeni olarak değil — bir kez geçirin,
+    <code>Field</code>ve <code>TextInput</code>ile eşleşen
+    <code>label</code> erişilebilir adı sağlar.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29'da doğrulandı:</strong> önceki bir taslak <code>Label</code> içinde <code>Field</code>bileşeni yerleştirmişti; bu da
+      <em>iki</em> etiket (biri boş) işlenmesine yol açtı, çünkü <code>Field</code> kendi etiketini zaten <code>label</code> prop'u — tam kod parçası derlenerek yakalandı. Şu rota:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Bileşik iletişim formu rotası</a>
+      aynı kalıptır ve gerçek e2e ve axe testleriyle sınanır.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> şunu kullanır: <code>defineModel</code>, bu yüzden düz
+    <code>v-model</code> kutudan çıktığı gibi çalışır.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Çalışmanızı kontrol edin:</strong> uygulamayı çalıştırın; form sade görünür — tam olarak amaçlandığı gibi: biçimlendirme henüz ileride. Şuna basın:
+      <kbd>Tab</kbd>: odak her denetimde ilerler, etiket duyurulur ve gönderme çalışır. Davranış tamam; görünüm sizin ve sıradaki adım.
+    </p>
+  </div>
+
+  <h2>Adım 4 — Biçimlendirin</h2>
+  <p>
+    Sınıf kancalarını biçimlendirin — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — stil sayfanızda ya da hazır bir temayı şurada bağlayın: <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Adım 5 — Hepsinin çalıştığını görün</h2>
+  <p>
+     <a href="/examples/">Nuxt örnek uygulaması</a> tüm kataloğu biçimli ve demolu olarak, Playwright e2e ve axe-core taban çizgisiyle sunar:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Sonraki adımlar</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temalar</a> — Vue theme-picker yardımcısıyla çalışma anında geçiş.</li>
+    <li><a href="/tutorials/helpers/">Tercih yardımcıları</a> — dil ve metin boyutu.</li>
+    <li><a href="/components/">Bileşen kataloğu</a> — bileşen başına özellikler, ARIA ve klavye.</li>
+  </ul>
+  <p>
+    Yol boyunca sorunuz mu var?
+    <a href="/help/#troubleshooting">Yardım sayfası</a> yanıtlarla dolu — ve bir adım daha açık olabilirse,
+    <a href="https://github.com/LilyDesignSystem">bize söyleyin</a> ve eğitimi memnuniyetle iyileştirelim.
+  </p>
+</section>

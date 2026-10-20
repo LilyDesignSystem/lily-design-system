@@ -1,0 +1,106 @@
+<!-- title: Dyskans HTML — Lily Design System -->
+<!-- description: Drehevewgh furv hedhesys ha stylys gans darnow heb pen HTML Lily — markup plen, dhiworth restren yn tevri. -->
+<section class="page-intro">
+  <h1>Dyskans HTML</h1>
+  <p class="page-intro-tagline">
+    An dalleth sempla possybyl: kopiewgh HTML a dhiswelyans gans krogow klass Lily, keworrewgh unn folen-stil, delivrewgh. Restrennow plen a ober pypynag may ober HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pyth a wrewgh drehevel</h2>
+  <p>
+    Furv kestava byghan — mewnosow gans lavellow, botton danvon, hwedhel klavyer ha skrin-redyer gwir — kynsa noeth, ena stylys, yn a-dro dhe 10 mynysenn.
+  </p>
+
+  <h2>Kyns dalleth</h2>
+  <p>
+    Ty a'n jeves othom a wiaskodhor ha golyoryer tekst. Henna yw oll. (git a weres dhe gafos restrennow an darn, mes ty a yll aga hopia dhiworth GitHub y'n gwiaskodhor ynwedh.)
+  </p>
+
+  <h2>Kamm 1 — Kevewgh an koodh</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Pub darn yw restren dre-honan yn <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, ha mar pella — gans kampol-lavar a ddisplet y dag HTML, krok klass, hwedhel klavyer, ha kevambos hedhesadewder. An restrennow <em>yw</em> an lyverva — kopiewgh an pyth a'n jeves othom ha ewgh.
+  </p>
+
+  <h2>Kamm 2 — Dha dharn kynsa</h2>
+  <p>Igorewgh <code>components/button.html</code>, po skrifewgh an markup hepken — an krok klass yw an kevambos:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Drefen yw <code>&lt;button&gt;</code>gwir, fokus klavyer, aktivans Enter ha Space, ha rol botton kudhys yw ewn seulajys.
+  </p>
+
+  <h2>Kamm 3 — Kesstrewewgh furv byghan</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Merkewgh an patrom: pub kontroll a gevrew y <code>&lt;label for&gt;</code>, a wra devnydh a'n par mewnos moyha arbennik, ha dhe dhon ewn unn krok klass kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hwithrewgh dha oberenn:</strong> igorewgh an folen yn gwiaskodhor. Hi a hevel plen — yn ewn herwydh bryntyans: an stylyans yw hwath a-rag. Gwaskewgh
+      <kbd>Tab</kbd>: fokus a wayn dres pub kontroll, an lavellow yw displetys, ha'n danvon a ober. An hwedhel yw gwrys; an semlant yw dhiso ha henna yw nessa.
+    </p>
+  </div>
+
+  <h2>Kamm 4 — Stylyewgh</h2>
+  <p>Skrifewgh CSS orth an krogow:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Po omholyewgh a skrifa CSS dre leuv yn tien — kevrewgh onan a'n 45 tebel parys ha'n keth markup a wra golowi:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Kamm 5 — Whelewgh pella</h2>
+  <ul>
+    <li>Previow an gwithva a gerdh yn gwiaskodhoryon gwir: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook rag pub darn: <code>pnpm run storybook</code>.</li>
+    <li>
+      An <a href="/examples/">App ensampel HTML+CSS+JS</a> a dhyskwedh oll an 571 darn stylys, hwelasadow, ha displetys.
+    </li>
+  </ul>
+
+  <h2>Kammow nessa</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tebelyow</a> — chanj tebel y'n termyn-dyrghas gans theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Gweresoryon dewisyow</a> — yeth ha myns an skrif.</li>
+    <li><a href="/components/">Rolyans darnow</a> — an dhogynnans kowl.</li>
+  </ul>
+  <p>
+    Govynnow war an fordh? An
+    <a href="/help/#troubleshooting">folen skoodhya</a> yw leun a worthebow — ha mar pe kamm moy splann,
+    <a href="https://github.com/LilyDesignSystem">leverewgh dhyn</a> ha ni a wellha an dyskans yn lowen.
+  </p>
+</section>

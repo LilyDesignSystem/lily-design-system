@@ -1,0 +1,432 @@
+<!-- title: راهنما — Lily Design System -->
+<!-- description: با Lily شروع کنید: بستهٔ بدون‌سر را برای چارچوبتان نصب کنید، مؤلفه‌ای را رونوشت کنید، سبک‌دهی کنید، پوسته بدهید و منتشر کنید. عیب‌یابی، پرسش‌های متداول و پشتیبانی. -->
+<section class="page-intro">
+  <h1>شروع کار با Lily</h1>
+  <p class="page-intro-tagline">
+    چارچوبی انتخاب کنید، مونورپو را کلون و کتابخانهٔ بدون‌سر یا برنامهٔ نمونه‌اش را باز کنید و ساختن صفحه‌های خودتان را آغاز کنید. مسیر هدایت‌شده را ترجیح می‌دهید؟ با
+    <a href="/tutorials/">آموزش‌ها</a>.
+  </p>
+</section>
+
+<nav aria-label="در این صفحه" class="prose" style="margin: 0 auto;">
+  <p><strong>در این صفحه:</strong></p>
+  <ul>
+    <li><a href="#install">نصب</a></li>
+    <li><a href="#use-headless">استفاده از یک مؤلفهٔ بدون‌سر</a></li>
+    <li><a href="#use-styled">استفاده از یک نمونهٔ سبک‌داده‌شده</a></li>
+    <li><a href="#styling">سبک‌دهی و توکن‌های طراحی</a></li>
+    <li><a href="#themes">پوسته‌های آماده</a></li>
+    <li><a href="#helpers">یاریگرهای ترجیحات</a></li>
+    <li><a href="#a11y">دسترس‌پذیری</a></li>
+    <li><a href="#i18n">بین‌المللی‌سازی</a></li>
+    <li><a href="#testing">آزمون</a></li>
+    <li><a href="#ai-agents">عامل‌های هوش مصنوعی</a></li>
+    <li><a href="#troubleshooting">عیب‌یابی</a></li>
+    <li><a href="#contributing">مشارکت</a></li>
+    <li><a href="#community">جامعه و پشتیبانی</a></li>
+    <li><a href="#faq">پرسش‌های متداول</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>نصب</h2>
+  <p>
+    Lily در یک مونورپوی Git زندگی می‌کند، با یک پوشه برای کتابخانهٔ بدون‌سر، بسته‌های یاریگر و برنامهٔ نمونهٔ هر چارچوب. سریع‌ترین راه برای امتحان کردن، کلون کردن مونورپو و باز کردن کتابخانهٔ بدون‌سر برای پشتهٔ شماست:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>همین الگو برای چارچوب‌های دیگر هم کار می‌کند:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — نیازی به نصب نیست؛ فایل‌های <code>.html</code> را رونوشت کنید</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    کتابخانه‌های بدون‌سر برای کلون یا درج‌شدن طراحی شده‌اند — کد منبع را منبع حقیقت بدانید و آنچه نیاز دارید رونوشت کنید.
+    <a href="#helpers">یاریگرهای ترجیحات</a> افزون بر آن به‌صورت بسته‌های قابل‌نصب با خط لولهٔ ساخت و انتشار (npm برای چارچوب‌های JS، NuGet برای Blazor) عرضه می‌شوند.
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>استفاده از یک مؤلفهٔ بدون‌سر</h2>
+  <p>
+    مؤلفه‌های بدون‌سر HTML معنایی، ARIA و ویژگی‌ها را عرضه می‌کنند — اما CSS ندارند. این هم یک Button در هر چارچوب:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>استفاده از یک نمونهٔ سبک‌داده‌شده</h2>
+  <p>
+    برنامه‌های نمونه شامل CSS، مسیرها و صفحه‌های نمایشی کامل‌اند. سریع‌ترین راه آزمایش، راه‌اندازی برنامهٔ نمونهٔ SvelteKit، Next، Nuxt، Analog یا Eleventy و دیدن نمایش در <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    سپس <code>http://localhost:5173</code> را باز کنید و در <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>سبک‌دهی و توکن‌های طراحی</h2>
+  <p>
+    هر مؤلفه با یک کلاس kebab-case روی عنصر ریشه‌اش رندر می‌شود. برای نمونه، <code>&lt;Button&gt;</code> به‌صورت <code>&lt;button class="button"&gt;</code>رندر می‌شود. آن را هر طور که می‌خواهید سبک‌دهی کنید:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>پالت رنگ پیش‌فرض Lily (مورد استفاده در برنامه‌های نمونه) این است:</p>
+  <ul>
+    <li>اصلی: <code>#2563eb</code></li>
+    <li>خطر: <code>#dc2626</code></li>
+    <li>هشدار: <code>#f59e0b</code></li>
+    <li>موفقیت: <code>#16a34a</code></li>
+    <li>پس‌زمینهٔ صفحه: <code>#f9fafb</code></li>
+    <li>پس‌زمینهٔ کارت: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    این‌ها پیشنهادند، نه الزام. آن‌ها را با پالت برند خودتان عوض کنید و Lily با خوشحالی همراه می‌شود.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>پوسته‌های آماده</h2>
+  <p>
+    نمی‌خواهید CSS را از صفر بنویسید؟ Lily
+    <strong>۵۷ پوستهٔ مرجع مستقل</strong> را در پوشهٔ
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    عرضه می‌کند. هر کدام یک برگهٔ سبک است که قلاب‌های کلاس Lily را هدف می‌گیرد — پیوندش دهید و سبک‌دهی شده‌اید:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>این مجموعه پوشش می‌دهد:</p>
+  <ul>
+    <li>
+      <strong>بخش عمومی</strong> — NHS England، NHS Scotland و NHS Wales (هر کدام در گونه‌های بیمارمحور و متخصص‌محور)، GOV.UK GDS و U.S. Web Design System.
+    </li>
+    <li><strong>الهام‌گرفته از فروشندگان</strong> — Adobe Spectrum، Mozilla Protocol.</li>
+    <li>
+      <strong>عمومی</strong> — light، dark، nord، dracula، wireframe و حدود سی مورد دیگر.
+    </li>
+  </ul>
+  <p>
+    انتخابگرهای پوسته از <code>:where(...)</code> استفاده می‌کنند، پس CSS خودتان همیشه در ویژگی‌خاصی برنده است. آن‌ها را با یاریگر <code>theme-picker</code> زیر برای تعویض در زمان اجرا جفت کنید، یا
+    <a href="/tutorials/theming/">آموزش پوسته‌سازی</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>یاریگرهای ترجیحات</h2>
+  <p>
+    هر چارچوب هشت انتخابگر کوچک دارد، هر کدام بستهٔ
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> خودش (و یک <code>picker-bar</code> که آن‌ها را سرهم می‌کند). هر کدام دکمهٔ نمادی بدون‌سر است که پنجرهٔ بازشو باز می‌کند — لیست‌باکس، فهرست پیوندها، فرم جست‌وجو یا (برای date-time-picker) گفت‌وگوی انتخاب تاریخ — نه
+    <code>&lt;select&gt;</code> بومی؛ ایمن برای SSR است؛ و CSS عرضه نمی‌کند:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — برگه‌های سبک پوسته را در زمان اجرا با تعویض یک <code>&lt;link&gt;</code>مدیریت‌شده بارگذاری می‌کند، روی سند
+      <code>data-theme</code> را تنظیم می‌کند و به‌صورت اختیاری در
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — تنظیم می‌کند <code>lang</code> و
+      <code>dir</code> (با تشخیص خودکار RTL) تا کتابخانهٔ i18n شما بتواند پیروی کند؛ خودش چیزی ترجمه نمی‌کند.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — تنظیم می‌کند <code>data-text-size</code> روی سند؛ CSS شما هر مقدار را به اندازهٔ قلم نگاشت می‌کند.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — تنظیم می‌کند <code>data-motion</code> روی سند، با شروع از تنظیم کاهش حرکت بازدیدکننده؛ CSS و اسکریپت‌های شما تصمیم می‌گیرند چه چیزی سرکوب شود.
+    </li>
+    <li>
+      <strong>search-picker</strong> — دکمهٔ نمادی که فیلد جست‌وجو باز می‌کند؛ ارسال به صفحهٔ جست‌وجو می‌رود. مالک یک کنش است، نه یک ترجیح.
+    </li>
+    <li>
+      <strong>link-picker</strong> — نماد خانه‌ای که منوی پیوندهای صفحه‌ای را که برنامه‌تان تعریف می‌کند (خانه، دربارهٔ ما، تماس با ما، سیاست حریم خصوصی، …) باز می‌کند. مالک یک کنش است، نه یک ترجیح.
+    </li>
+    <li>
+      <strong>share-picker</strong> — برگهٔ اشتراک‌گذاری بومی یا فهرست مقصدهای ارائه‌شده توسط مصرف‌کننده را باز می‌کند، به‌علاوهٔ رونوشت نشانی. مالک یک کنش است، نه یک ترجیح: چیزی اعمال نمی‌کند، چیزی ذخیره نمی‌کند.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — یک فیلد متنی به‌علاوهٔ گفت‌وگوی انتخاب تاریخ APG برای تاریخ، زمان یا هر دو. مالک یک مقدار فرم است، نه یک ترجیح: رشتهٔ ISO رفت‌وبرگشتی به
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    فهرست Svelte مرجع متعارف است؛ درگاه‌های React، Vue، Angular، HTML، Nunjucks، Web Components و Blazor قرارداد به قرارداد با آن مطابقت دارند. ببینید
+    <a href="/tutorials/helpers/">آموزش یاریگرها</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>دسترس‌پذیری</h2>
+  <p>مؤلفه‌ها هدفشان <strong>WCAG 2.2 AAA</strong>است. آن‌ها از این الگوها پیروی می‌کنند:</p>
+  <ul>
+    <li>عناصر HTML معنایی به‌جای <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> عمومی، که برچسب‌ها را به ورودی‌ها پیوند می‌دهند.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> برای ارجاع‌های متقابل.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> برای حالت‌های خطا.</li>
+    <li><code>role="alert"</code> و <code>aria-live</code> برای محتوای پویا.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> برای حالت.</li>
+    <li>تب‌ایندکس سیار <code>tabindex</code> برای جدول‌های شبکه‌ای.</li>
+  </ul>
+  <p>
+    نشانگرهای تمرکز عمداً توسط مصرف‌کننده تأمین می‌شوند — Lily هرگز حلقهٔ تمرکز پیش‌فرضی نمی‌کشد که با طراحی شما تعارض داشته باشد. برنامه‌های نمونه خط پایهٔ axe-core پاکی را در همهٔ مسیرهایشان حفظ می‌کنند.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>بین‌المللی‌سازی</h2>
+  <p>
+    هر برچسب، جای‌نگهدار، پیام خطا و متن دکمه یک ویژگی است. رشتهٔ ثابت‌نوشته‌ای وجود ندارد. چارچوب ترجمهٔ دلخواهتان را وصل کنید — Paraglide، i18next، vue-i18n، react-intl، فایل‌های .resx، هر چیزی.
+  </p>
+  <p>
+    برای تاریخ‌ها، اعداد و ارزها، مؤلفه‌ها رشته‌های از پیش قالب‌بندی‌شده می‌پذیرند: شما با <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / کتابخانهٔ دلخواهتان قالب‌بندی می‌کنید و نتیجه را می‌دهید.
+  </p>
+  <p>
+    یاریگر <code>locale-picker</code> با تنظیم <code>lang</code> و <code>dir</code> روی ریشهٔ سند، محلی انتخاب‌شده را به کتابخانهٔ i18n شما اعلام می‌کند.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>آزمون</h2>
+  <p>هر زیرپروژهٔ چارچوب آزمون‌های خودش را با پشتهٔ مرسوم خود عرضه می‌کند:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO که مرورگرهای واقعی را اجرا می‌کند.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (از طریق افزونهٔ Vite در Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest با یک یاریگر رندر.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    آزمون‌ها <strong>فقط از تطبیق‌دهنده‌های داخلی Vitest</strong> استفاده می‌کنند — هرگز تطبیق‌دهنده‌های
+    <code>jest-dom</code> نه. این کار مجموعه‌های آزمون را قابل‌حمل نگه می‌دارد. برنامه‌های نمونه مجموعه‌های سرتاسری Playwright، خط پایه‌های دسترس‌پذیری axe-core و پیمایش نماهای دید واکنش‌گرا را می‌افزایند.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>عامل‌های هوش مصنوعی</h2>
+  <p>
+    این سایت در ریشه‌اش <a href="/llms.txt">llms.txt</a> و
+    <a href="/llms.json">llms.json</a> را منتشر می‌کند — نقشه‌ای گزینش‌شده از مهم‌ترین صفحه‌هایش، برای هر ابزاری که از
+    <a href="https://llmstxt.org">قرارداد llms.txt</a>.
+  </p>
+  <p>
+    پیروی می‌کند. مونورپوی متعارف افزون بر آن دو
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code> عرضه می‌کند: مهارتی عمومی که مفاهیم، واژگان و الگوهای ترکیب Lily را برای هر کسی که با این سامانه می‌سازد پوشش می‌دهد، و <code>lily-design-system-maintainer-skill</code>، مهارتی فنی که چیدمان فایل‌های الزامی و ابزارهای مونورپو را برای هر کسی که روی آن کار می‌کند پوشش می‌دهد. هر دو در ریشهٔ
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">مونورپوی متعارف</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>عیب‌یابی</h2>
+
+  <details class="faq-item">
+    <summary>مؤلفه‌ای رندر می‌شود اما بدون سبک به نظر می‌رسد</summary>
+    <p>
+      این بدون‌سر است که طبق نیت کار می‌کند — هیچ CSS همراه مؤلفه نمی‌آید. یا CSS را برای کلاس kebab-case مؤلفه بنویسید (که در هر <a href="/components/">صفحهٔ فهرست</a>نشان داده شده) یا یکی از
+      <a href="#themes">۵۷ پوستهٔ آماده</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>به نظر می‌رسد CSS من روی یک پوسته اعمال نمی‌شود</summary>
+    <p>
+      باید بشود — انتخابگرهای پوسته در <code>:where(...)</code>پیچیده شده‌اند که ویژگی‌خاصی صفر دارد. اگر قاعده‌ای باز هم می‌بازد، بررسی کنید برگهٔ سبک شما بعد از <code>&lt;link&gt;</code> پوسته بارگذاری شود و انتخابگر واقعاً با قلاب کلاس مؤلفه تطابق داشته باشد.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install با خطای peer یا نسخه شکست می‌خورد</summary>
+    <p>
+      از pnpm روز (v10+) و Node 22+ استفاده کنید. هر زیرپروژه نسخه‌های چارچوبش را در <code>package.json</code>خودش سنجاق می‌کند؛ اگر زنجیرهٔ ابزار سراسری شما قدیمی‌تر است، <code>pnpm env use --global lts</code> سریع‌ترین راه‌حل است.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>صفحه‌خوان نام نادرستی برای یک کنترل اعلام می‌کند</summary>
+    <p>
+      ویژگی الزامی <code>label</code> مؤلفه را بررسی کنید — مؤلفه‌های فاقد متن مرئی به یکی نیاز دارند، و
+      <code>aria-label</code> / <code>aria-labelledby</code> ارائه‌شده توسط مصرف‌کننده که از طریق rest-props عبور داده می‌شود عمداً بر سیم‌کشی داخلی غلبه می‌کند. هر صفحهٔ فهرست قرارداد ARIA مؤلفه را مستند می‌کند.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>یاریگر theme-picker برگه‌های سبک را عوض نمی‌کند</summary>
+    <p>
+      تأیید کنید که <code>themesUrl</code> به پوشه‌ای اشاره می‌کند که مرورگر بتواند بگیرد (فایل‌های <code>themes/</code> را به‌عنوان دارایی ایستا سرو کنید) و اینکه شناسه‌های پوسته در ویژگی <code>themes</code> شما با نام فایل‌ها مطابقت دارد. یاریگر <code>href</code> یک
+      <code>&lt;link data-lily-theme-picker&gt;</code> مدیریت‌شده را عوض می‌کند — آن را در devtools بررسی کنید تا نشانی درخواست‌شده را ببینید.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>چیز دیگری خراب است</summary>
+    <p>
+      یک issue با حداقل بازتولید باز کنید در
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — یا ببینید <a href="#community">جامعه و پشتیبانی</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>مشارکت</h2>
+  <p>Lily جوان است و از همکاری استقبال می‌کند. مفیدترین مشارکت‌ها اکنون این‌ها هستند:</p>
+  <ul>
+    <li>مؤلفه‌های جدید (به‌ویژه الگوهایی از سامانه‌های طراحی جاافتاده).</li>
+    <li>پوسته‌های جدید — هر کدام یک برگهٔ سبک مستقل، یک PR اول خوب‌تعریف‌شده.</li>
+    <li>سبک‌دهی بهتر نمونه‌ها — نشان دهید چه چیزی ممکن است.</li>
+    <li>ترجمهٔ رشته‌های برنامهٔ نمونه.</li>
+    <li>گزارش اشکال با حداقل بازتولید.</li>
+    <li>ممیزی دسترس‌پذیری با صفحه‌خوان‌ها و فناوری‌های کمکی.</li>
+  </ul>
+  <p>
+    issue و PR باز کنید در
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>جامعه و پشتیبانی</h2>
+  <ul>
+    <li>
+      <strong>پرسش‌ها و گزارش‌های اشکال</strong> — یک issue باز کنید در
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>ایمیل</strong> — نگهدار می‌خواند
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      و از همکاری، راهنمایی و بازخورد استقبال می‌کند.
+    </li>
+    <li>
+      <strong>آینه‌ها</strong> — Lily همچنین به
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> و
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a> فرستاده می‌شود، تا بتوانید از فورجی که ترجیح می‌دهید مشارکت کنید.
+    </li>
+    <li>
+      <strong>رفتار</strong> — پروژه از یک آیین‌نامهٔ رفتاری استاندارد پیروی می‌کند؛ مهربان باشید، حسن نیت را فرض کنید.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>پرسش‌های متداول</h2>
+
+  <details class="faq-item">
+    <summary>چرا بدون‌سر به‌جای سبک‌داده‌شده؟</summary>
+    <p>
+      مؤلفه‌های از پیش سبک‌داده‌شده راحت‌اند — تا وقتی که با برندتان نخوانند. مؤلفه‌های بدون‌سر در آغاز کمی کار بیشتر می‌خواهند اما کنترل کامل طراحی بصری را به شما می‌دهند. برنامه‌های نمونه و ۵۷ پوسته راه‌هایی برای سبک‌دهی آن‌ها نشان می‌دهند؛ می‌توانید آن‌ها را بگیرید یا کاملاً عوض کنید. استدلال مفصل‌تر در <a href="/why/">چرا Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>چرا این‌همه مؤلفه؟</summary>
+    <p>
+      Lily می‌خواهد الگوهایی را که بیشتر برنامه‌ها نیاز دارند پوشش دهد بی‌آنکه شما را مجبور کند از صفر بسازیدشان — از جمله چیزهای تخصصی مانند ورودی‌های شناسهٔ ملی و scrollytelling ویراستاری. فهرست از یک دوجین سامانهٔ طراحی جاافتاده به‌علاوهٔ کار اصیل بهره می‌گیرد — ببینید <a href="/about/">درباره</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>آیا می‌توانم Lily را با Tailwind به کار ببرم؟</summary>
+    <p>
+      بله. هر مؤلفه یک کلاس ریشهٔ kebab-case به‌علاوهٔ <code>className</code> / <code>class</code>ارائه‌شده توسط مصرف‌کننده ارائه می‌دهد. ابزارک‌های Tailwind را هر طور که می‌خواهید روی آن بنشانید.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>آیا می‌توانم Lily را با چارچوب‌های CSS معنایی مثل DaisyUI به کار ببرم؟</summary>
+    <p>
+      بله. نام کلاس‌های kebab-case روی عنصر ریشه به‌عنوان قلاب‌های CSS معنایی عمل می‌کنند. Lily را با یک چارچوب معنایی جفت کنید و مؤلفه‌های از پیش سبک‌داده‌شده‌ای می‌گیرید که همچنان به ARIA و i18n احترام می‌گذارند.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>آیا بستهٔ npm وجود دارد؟</summary>
+    <p>
+       <a href="#helpers">یاریگرهای ترجیحات</a> به‌صورت بسته‌هایی با خط لولهٔ انتشار npm/NuGet عرضه می‌شوند. کتابخانه‌های مؤلفهٔ بدون‌سر برای کلون یا درج‌شدن طراحی شده‌اند — کد منبع همان محصول تحویلی است، پس می‌توانید دقیقاً آنچه را منتشر می‌کنید بخوانید، هرس کنید و مالک باشید. انتشار کتابخانه‌های بدون‌سر در رجیستری همچنان در نقشهٔ راه است.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>چرا چندمجوزی؟</summary>
+    <p>
+      پروژه‌های مختلف نیازهای مجوز متفاوتی دارند. BSD و MIT آزادمنش‌اند، Apache-2.0 اعطای حق اختراع دارد، و گزینه‌های GPL از کپی‌لفت پشتیبانی می‌کنند. آنچه با وضعیت شما می‌خواند انتخاب کنید.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>چگونه اشکالی را گزارش یا قابلیتی را درخواست کنم؟</summary>
+    <p>
+      یک issue در مخزن GitHub باز کنید، یا ایمیل بزنید به
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

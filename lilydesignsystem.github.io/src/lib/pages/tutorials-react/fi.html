@@ -1,0 +1,109 @@
+<!-- title: React-opas — Lily Design System -->
+<!-- description: Rakenna saavutettava, tyylitelty lomake Lilyn React-headless-komponenteilla: tyypitetyt funktiokomponentit value + onChange -parilla. -->
+<section class="page-intro">
+  <h1>React-opas</h1>
+  <p class="page-intro-tagline">
+    Tyypitetyt funktiokomponentit, yksi tiedosto kutakin, ohjattuna vakiomallilla
+    <code>value</code> + <code>onChange</code> — kaikki toimii niin kuin React jo toimii.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Pieni yhteydenottolomake — nimiöity kenttä, lähetyspainike, hallittu tila, aito näppäimistö- ja ruudunlukijakäyttäytyminen — ensin paljaana, sitten tyylitellen, noin 10 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Tarvitset gitin, Node 22:n tai uudemman ja pnpm 10:n tai uudemman. Mikä tahansa React 18+ -projekti kelpaa — Next.js, Vite tai pelkkä React.
+  </p>
+
+  <h2>Vaihe 1 — Hae koodi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentit ovat litteitä tiedostoja hakemistossa <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — kullakin on testinsä, storynsa ja dokumentaationsa vieressään. Kopioi tarvitsemasi tiedostot sovellukseesi tai tuo repo mukaan ja tuo siitä.
+  </p>
+
+  <h2>Vaihe 2 — Ensimmäinen komponenttisi</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Renderöi <code>&lt;button class="button" type="button"&gt;</code>. Propit:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (renderöi
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> ohittamiseen), <code>className</code>, ja mikä tahansa ylimääräinen attribuutti levitetään juurielementille.
+  </p>
+
+  <h2>Vaihe 3 — Kokoa pieni lomake</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> ottaa näkyvän <code>label</code> omana proppinaan sisäkkäisen nimiökomponentin sijaan — välitä se kerran elementille
+    <code>Field</code>ja <code>TextInput</code>elementistä
+    <code>label</code> antaa saavutettavan nimen.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Varmistettu 2026-08-29:</strong> aiempi luonnos sijoitti erillisen <code>Label</code> sisällä <code>Field</code>sisään, mikä renderöi
+      <em>kaksi</em> nimiötä (toinen tyhjä), koska <code>Field</code> renderöi jo oman nimiönsä <code>label</code> -prop — havaittu kääntämällä täsmällinen koodinpätkä. Reitti
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Koottu yhteydenottolomakkeen reitti</a>
+      on sama malli, jota on koeteltu oikeilla e2e- ja axe-testeillä.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Tyylittele se</h2>
+  <p>
+    Kaikki yllä renderöityy puhtaana rakenteena, valmiina tyyleillesi. Tyylittele koukut — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — tyylitiedostossasi, kerrosta Tailwind-apuluokkia kautta <code>className</code>, tai linkitä valmis teema:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Vaihe 5 — Katso kaiken toimivan</h2>
+  <p>
+     <a href="/examples/">Next.js-esimerkkisovellus</a> on koko luettelo tyyliteltynä ja esiteltynä, Playwright e2e:llä ja axe-core-lähtötasolla:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemat</a> — vaihto ajon aikana Reactin theme-picker-apuvälineellä.</li>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — kieli ja tekstikoko.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — ominaisuudet, ARIA ja näppäimistö komponenteittain.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

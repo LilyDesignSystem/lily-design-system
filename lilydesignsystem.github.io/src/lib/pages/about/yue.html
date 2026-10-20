@@ -1,0 +1,94 @@
+<!-- title: 關於 — Lily Design System -->
+<!-- description: Lily 係乜嘢、背後嘅原則,同埋佢參考嘅設計系統。 -->
+<section class="page-intro">
+  <h1>Lily 係乜嘢?</h1>
+  <p class="page-intro-tagline">
+    一套免費、開源、以無障礙為先嘅設計系統,喺你寫程式嘅地方同你會合 — 而當你唔需要佢嘅時候就識得讓路。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>簡單講</h2>
+  <p>
+    Lily 係一個 <strong>網頁元件</strong>嘅目錄,每個元件都有八種無頭版本(HTML、Svelte、React、Vue、Angular、Blazor、Nunjucks 同 Web Components),另外仲有一套功能齊全嘅範例應用程式,示範點樣加上樣式。
+  </p>
+  <p>
+    無頭版本附帶 <em>零 CSS</em>。佢哋提供語義化 HTML、ARIA 角色同狀態、鍵盤支援,同埋對國際化友善嘅屬性。視覺設計由你自己帶。
+  </p>
+
+  <h2>設計原則</h2>
+
+  <h3>無障礙</h3>
+  <p>
+    每個元件都由語義化 HTML 開始。淨係喺 HTML 本身表達唔到模式嘅時候先加 ARIA。元件嘅目標係
+    <strong>WCAG 2.2 AAA</strong> — 顏色、間距、焦點同鍵盤導覽全部都有考慮。
+  </p>
+
+  <h3>可組合</h3>
+  <p>
+    Lily 偏好細細個、單一用途、可以扣埋一齊嘅元件。複合模式不斷重複出現:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — 用於麵包屑、內容列表、摺疊選單、樹狀選單同分頁</li>
+    <li><code>Form → Field → Input</code> — 用於任何有標籤、提示同錯誤嘅表單版面</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — 用於表格、日曆、甘特圖同看板</li>
+    <li><code>Bar → BarButton</code> — 用於工具列、分頁列、工作列、動作列同選單列</li>
+    <li><code>Picker → PickerButton</code> — 用於顏色選擇器、評分選擇器、主題選擇器</li>
+  </ul>
+
+  <h3>可國際化</h3>
+  <p>
+    冇一個使用者睇到嘅字串係寫死嘅。標籤、佔位文字、錯誤訊息、按鈕文字 — 全部都係參數。放入你自己嘅翻譯系統,Lily 就會講你講嘅任何語言。
+  </p>
+
+  <h3>無頭</h3>
+  <p>
+    無頭元件冇 <strong>CSS</strong>,冇
+    <code>&lt;style&gt;</code> 區塊,亦冇你冇揀過嘅設計令牌。佢哋喺每個根元素上公開一個 kebab-case 類別名,等你可以照自己意思去針對 — 語義化 CSS、Tailwind、CSS-in-JS,由你揀。
+  </p>
+
+  <h3>功能齊全嘅範例</h3>
+  <p>
+    範例應用程式示範點樣為真實使用去加上元件樣式 — 要設定咩設計令牌、加咩變體、點樣組合頁面。佢哋係完整嘅 SvelteKit、Next.js、Nuxt、Blazor 同 Eleventy 應用程式,唔係淨係沙盒。
+  </p>
+
+  <h2 id="inspirations">靈感來源</h2>
+  <p>
+    Lily 從一批特意揀得好廣泛嘅設計系統入面汲取模式同語言:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU(澳洲政府)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">路透社圖像元件</a></li>
+  </ul>
+
+  <h2>授權</h2>
+  <p>
+    Lily 採用多重授權,包括 <strong>BSD、MIT、Apache-2.0、GPL-2.0 或 GPL-3.0</strong>。揀啱你項目嘅授權。如果全部都唔啱,請聯絡我哋。
+  </p>
+
+  <h2>聯絡</h2>
+  <p>
+    項目負責人:Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    發現咗錯誤、有諗頭、想貢獻元件?請喺
+    <a href="https://github.com/LilyDesignSystem">GitHub 開 issue 或 pull request</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>狀態:</strong> Lily 係全新嘅工作,我哋歡迎協作、指引同意見。事情會不斷變動同演進。
+    </p>
+  </div>
+</section>

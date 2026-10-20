@@ -1,0 +1,276 @@
+<!-- title: Ръководство за помощниците за предпочитания — Lily Design System -->
+<!-- description: Добавете потребителски предпочитания за език и размер на текста с помощниците на Lily locale-picker и text-size-picker: headless контроли с бутон-икона + listbox, със запазване и SSR безопасност. -->
+<section class="page-intro">
+  <h1>Помощници за предпочитания</h1>
+  <p class="page-intro-tagline">
+    Седем малки пакета на фреймуърк, всеки от които притежава една потребителска задача от начало до край, плюс лента, която събира пет от тях. Вече се запознахте с
+    <a href="/tutorials/theming/">theme-picker</a>; ето locale-picker, text-size-picker и motion-picker (предпочитания), share-picker и search-picker (действия), date-time-picker (стойност на форма) и picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Какво ще изградите</h2>
+  <p>
+    Панел с настройки, в който потребителите избират език и размер на текста — избори, които важат за целия документ, запазват се между посещенията и ви струват два компонента и няколко реда CSS. Около 15 минути.
+  </p>
+
+  <h2>Преди да започнете</h2>
+  <p>
+    Първо завършете <a href="/tutorials/">ръководството за фреймуърка</a> за вашия стек. Примерите по-долу са на Svelte; помощниците за React, Vue, Angular, HTML, Nunjucks и Blazor съответстват договор по договор.
+  </p>
+
+  <h2>Формата, която споделят</h2>
+  <ul>
+    <li>Headless бутон-икона, който отваря WAI-ARIA APG listbox (или, за date-time-picker, диалог за избор на дата) — без роден <code>&lt;select&gt;</code>, така че всеки фреймуърк получава еднакво поведение на клавиатурата и стилови куки.</li>
+    <li>Една класова кука на пакет (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), нула доставен CSS.</li>
+    <li>Безопасно за SSR: записите в DOM стават само в жизнения цикъл mount/effect.</li>
+    <li>Чисто за i18n: всеки низ, видим за потребителя, е prop.</li>
+    <li>
+      Налично за Svelte (каноничен), React, Vue, Angular, персонализиран HTML елемент, Nunjucks и Blazor — един и същ договор във всеки.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker и text-size-picker притежават всеки по едно потребителско
+    <em>предпочитание</em> от начало до край (избор, прилагане към DOM, незадължително
+    <code>localStorage</code> запазване чрез prop-а <code>storageKey</code>
+    ). share-picker и date-time-picker са различни по вид: share-picker притежава <em>действие</em> — не прилага нищо към документа и не запазва нищо — а date-time-picker притежава
+    <em>стойност на форма</em>, защото датата във форма са данни, а не предпочитание.
+  </p>
+
+  <h2>locale-picker — език и посока</h2>
+  <p>
+    Позволява на потребителя да избере локал, после записва <code>lang</code> и
+    <code>dir</code> върху корена на документа, така че вашата i18n библиотека, вашият CSS и помощните технологии да го следват. RTL се открива автоматично за арабски, иврит и други писмености отдясно наляво. Занимава се само със сигнализиране — преводът е работа на вашата i18n библиотека.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Опциите се означават от вградена таблица с имена на локали (презаписва се чрез <code>localeLabels</code>), всяка опция носи собствен атрибут
+    <code>lang</code> , за да произнасят екранните четци „Français“ на френски, а кодовете с долна черта като <code>en_US</code>
+    се преобразуват без загуби към BCP 47 и обратно <code>en-US</code>. Свържете
+    <code>onChange</code> (или обвързаната стойност) с i18next, Paraglide, vue-i18n или каквото използвате.
+  </p>
+
+  <h2>text-size-picker — размер, контролиран от читателя</h2>
+  <p>
+    Победа за достъпността за минути: помощникът задава
+    <code>data-text-size="&#123;slug&#125;"</code> върху корена на документа, а вашият CSS съпоставя всяка стойност с размер.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Оразмерете оформлението си в <code>rem</code> и цялото приложение се мащабира според избора на потребителя. Етикетите се образуват от слъговете с главна буква („X Large“) или се презаписват с <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверете работата си:</strong> изберете „Large“ от селектора и текстът на страницата расте. Презаредете — още е голям: изборът е запазен в
+      <code>localStorage</code>. Превключете селектора на език на арабски и
+      <code>dir="rtl"</code> се задава автоматично върху документа.
+    </p>
+  </div>
+
+  <h2>share-picker — изпратете тази страница</h2>
+  <p>
+    Бутон с един глиф, който отваря родния лист за споделяне на устройството, където има такъв, а иначе се връща към списък с дестинации, които вие доставяте, плюс действие за копиране на URL. Не доставя URL адреси на социални мрежи — кои мрежи принадлежат на вашия продукт е ваше решение, не на дизайн системата.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> по подразбиране е <code>location.href</code>, така че обичайният случай не изисква свързване. Наложете път с <code>strategy="list"</code> или
+    <code>strategy="native"</code> когато ви трябва последователно поведение между платформите за тестове или снимки на екрана.
+  </p>
+
+  <h2>date-time-picker — дата, час или и двете</h2>
+  <p>
+    Текстово поле, в което можете да пишете, плюс бутон-икона, който отваря диалог за избор на дата по WAI-ARIA APG. Правилен за локала по конструкция — имената на месеците, имената на дните, първият ден от седмицата и 12- или 24-часовият часовник идват от <code>Intl</code> — а стойността винаги е сортируем ISO низ без часова зона: <code>"2026-03-15"</code> за
+    <code>mode="date"</code>, <code>"09:30"</code> за
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> за
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO стойността е идентична с това, което <code>&lt;input type="date"&gt;</code>
+    изпраща, така че можете да смените родния контрол вътре или вън, без да пипате бекенда.
+  </p>
+
+  <h2>motion-picker — уважавайте намаленото движение</h2>
+  <p>
+    Помощникът задава <code>data-motion="&#123;slug&#125;"</code> върху корена на документа. Първата му стойност идва от настройката
+    <code>prefers-reduced-motion</code> на операционната система на посетителя — винаги, без флаг за включване, защото движението е реална нужда от достъпност (WCAG 2.3.3). Вашият CSS и скриптове решават какво да се потисне.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — поле за търсене, което не пречи</h2>
+  <p>
+    Бутон-икона, който отваря поле за търсене. Натискането на Return или на бутона &#9166; до полето навигира с обикновена GET заявка към
+    <code>/?&lt;text&gt;</code> (текстът се подрязва и се кодира като URI; празна заявка не води никъде). Трите му достъпни имена са задължителни, защото помощникът не доставя английски.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> променя пътя (<code>/search?foo</code>), а
+    <code>navigate</code> задържа навигацията вътре в приложението; без него помощникът извиква <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — целият ред на заглавката наведнъж</h2>
+  <p>
+    <code>picker-bar</code> рендира търсене, тема, локал, размер на текста и споделяне в един ред, с пълния набор референтни теми и седемстепенната скала за текст предварително свързани. Всяко достъпно име идва в един задължителен
+    <code>labels</code> обект.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Достигнете всеки обвит селектор с <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> и <code>shareProps</code>.
+  </p>
+
+  <h2>Подсказките са вградени</h2>
+  <p>
+    Всеки селектор показва етикета си в подсказка, когато показалецът почива върху бутона му или бутонът има фокус от клавиатурата. Подсказката остава, докато показалецът се премества върху нея, Escape я затваря, където и да е фокусът, и никога не се показва, докато изскачащият прозорец на селектора е отворен. Носи същия текст като достъпното име на бутона, така че няма какво да се конфигурира и няма какво да се превежда два пъти; референтните теми я стилизират.
+  </p>
+
+  <h2>Панел с настройки на едно място</h2>
+  <p>Четирите помощника за предпочитания се комбинират естествено:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверено:</strong> фрагментите за locale-picker, text-size-picker, share-picker, date-time-picker и комбинирания панел бяха компилирани поотделно спрямо публикуваните <code>0.1.1</code> пакети, чрез
+      <code>svelte/server</code> (2026-08-29); фрагментите за motion-picker, search-picker и picker-bar бяха рендирани спрямо собствените компоненти на пакетите на 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Откъде да ги вземете</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Всеки пакет има собствен spec, тестове, съпоставени към клаузите на spec-а, изпълними примери (включително модели с бисквитки за SSR) и конвейер за изграждане и публикуване. Пакетите за Svelte са каноничните; при съмнение техните договори печелят.
+  </p>
+
+  <h2>Следващи стъпки</h2>
+  <ul>
+    <li><a href="/components/">Каталог на компонентите</a> — пълната справка за 571-те компонента.</li>
+    <li><a href="/help/">Помощ</a> — отстраняване на неизправности и често задавани въпроси.</li>
+    <li><a href="/why/">Защо Lily</a> — и как да подкрепите проекта.</li>
+  </ul>
+  <p>
+    Въпроси по пътя?
+    <a href="/help/#troubleshooting">Страницата за помощ</a> е пълна с отговори — а ако някоя стъпка може да е по-ясна,
+    <a href="https://github.com/LilyDesignSystem">кажете ни</a> и с радост ще подобрим ръководството.
+  </p>
+</section>

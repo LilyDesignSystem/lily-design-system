@@ -1,0 +1,117 @@
+<!-- title: Teagasc Svelte — Lily Design System -->
+<!-- description: Tóg foirm inrochtana, stíl-chóirithe le comhpháirteanna gan cheann Lily do Svelte 5: runes, snippets agus bind:value. -->
+<section class="page-intro">
+  <h1>Teagasc Svelte</h1>
+  <p class="page-intro-tagline">
+    Is é leabharlann Svelte Lily an cur i bhfeidhm canónach: runes Svelte 5, props clóscríofa, scaipeadh na bprops eile agus ceangal dhá-bhealach le
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    Foirm theagmhála bheag — réimse le lipéad, cnaipe cur isteach, ceangal dhá-bhealach, fíor-iompar méarchláir agus léitheora scáileáin — nocht ar dtús, ansin stíl-chóirithe, i thart ar 10 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Tá git, Node 22 nó níos nuaí, agus pnpm 10 nó níos nuaí ag teastáil uait. Oibríonn aon tionscadal Svelte 5 — is leor app úrnua <code>npx sv create</code> .
+  </p>
+
+  <h2>Céim 1 — Faigh an cód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Tá na comhpháirteanna i <code>src/lib/components/&#123;Name&#125;/</code>, eolaire amháin in aghaidh na comhpháirte leis an gcomhad <code>.svelte</code> , a thástálacha, a scéalta agus a dhoiciméadú taobh le taobh. Cóipeáil na heolairí atá ag teastáil isteach i d'app, nó bí ag brath ar an stóras agus iompórtáil go díreach.
+  </p>
+
+  <h2>Céim 2 — Do chéad chomhpháirt</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rindreálann <code>&lt;button class="button" type="button"&gt;</code>. Tá na props clóscríofa: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (rindreálann <code>aria-pressed</code> (rindreálann <code>label</code> ( <code>aria-label</code> do chnaipí scoránaithe),
+  </p>
+
+  <h2>Céim 3 — Cuir foirm bheag le chéile</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> glacann sé leis an <code>label</code> mar phrop dá chuid féin in ionad comhpháirt lipéid neadaithe — pas é uair amháin, ar <code>Field</code>agus <code>TextInput</code>comhfhreagrach ó <code>label</code> soláthraíonn an t-ainm inrochtana. <code>TextInput</code>'s <code>value</code> chun sárú), agus scaipeann aon aitreabúid bhreise ar an bhfréamh.
+    <code>$bindable</code> is prop <code>bind:value</code> rune é, mar sin
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Fíoraithe 2026-08-29:</strong> tugann sé ceangal dhá-bhealach duit láithreach. <code>svelte/server</code> tiomsaíodh an blúire cruinn seo trí <code>&lt;label for&gt;</code> agus seiceáladh é le haghaidh lipéad amháin, nasctha i gceart <code>Label</code> taobh istigh de <code>Field</code>— chuir dréacht roimhe sin
+      <em>dhá</em> lipéad (ceann amháin folamh) mar go rindreálann <code>Field</code> a cheann féin cheana ón ionchur <code>label</code> ar leith taobh istigh, rud a rindreáil
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">An bealach comhshuite foirm teagmhála</a>
+      an patrún céanna, tástáilte le fíor-thástálacha e2e agus axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> rith an app agus tá an fhoirm le feiceáil nocht — go díreach mar a bhí beartaithe: tá an stíliú fós le teacht. Brúigh
+      <kbd>Tab</kbd>: gluaiseann an fócas trí gach rialú, fógraítear an lipéad agus oibríonn an cur isteach. Tá an t-iompar déanta; is leatsa an cuma agus is é an chéad chéim eile é.
+    </p>
+  </div>
+
+  <h2>Céim 4 — Stíligh é</h2>
+  <p>
+    Rindreáiltear gach rud thuas mar struchtúr glan, réidh do do stíleanna. Stíligh na crúcaí aicme —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — i do bhileog stíle ghlobhal, nó nasc téama réamhdhéanta in <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Téann coigeartuithe in aghaidh an chása tríd an <code>class</code> prop, a chuirtear leis an gcrúca bunúsach: <code>&lt;Button class="wide"&gt;</code> rindreálann
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Céim 5 — Féach air ag obair ar fad</h2>
+  <p>
+     <a href="/examples/">App samplach SvelteKit</a> an catalóg chéanna go hiomlán stíl-chóirithe, le taispeántais bheo, tástálacha Playwright e2e agus bonnlíne inrochtaineachta axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Téamaí</a> — malartú ag am rite leis an gcúntóir theme-picker do Svelte.</li>
+    <li><a href="/tutorials/helpers/">Cúntóirí sainroghanna</a> — teanga agus méid téacs.</li>
+    <li><a href="/components/">Catalóg na gcomhpháirteanna</a> — airíonna, ARIA agus méarchlár in aghaidh na comhpháirte.</li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

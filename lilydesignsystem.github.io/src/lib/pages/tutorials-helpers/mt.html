@@ -1,0 +1,276 @@
+<!-- title: Tutorja tal-għajnuniet tal-preferenzi — Lily Design System -->
+<!-- description: Żid preferenzi tal-lingwa u tad-daqs tat-test tal-utent bl-għajnuniet ta' Lily locale-picker u text-size-picker: kontrolli headless b'buttuna-ikona + listbox, b'persistenza u sigurtà SSR. -->
+<section class="page-intro">
+  <h1>Għajnuniet tal-preferenzi</h1>
+  <p class="page-intro-tagline">
+    Seba' pakketti żgħar għal kull framework, kull wieħed igawdi kompitu wieħed tal-utent mill-bidu sal-aħħar, flimkien ma' bar li jlaqqa' ħamsa minnhom. Diġà ltqajt ma'
+    <a href="/tutorials/theming/">theme-picker</a>; hawn huma locale-picker, text-size-picker u motion-picker (preferenzi), share-picker u search-picker (azzjonijiet), date-time-picker (valur ta' formola) u picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>X'se tibni</h2>
+  <p>
+    Pannell tal-issettjar fejn l-utenti jagħżlu l-lingwa u d-daqs tat-test — għażliet li japplikaw għad-dokument kollu, jibqgħu bejn żjarat u jiswewk żewġ komponenti u ftit linji CSS. Madwar 15-il minuta.
+  </p>
+
+  <h2>Qabel ma tibda</h2>
+  <p>
+    Lesti l-ewwel <a href="/tutorials/">it-tutorja tal-framework</a> għall-istack tiegħek. L-eżempji hawn taħt huma Svelte; l-għajnuniet għal React, Vue, Angular, HTML, Nunjucks u Blazor jaqblu kuntratt b'kuntratt.
+  </p>
+
+  <h2>Il-forma li jaqsmu</h2>
+  <ul>
+    <li>Buttuna-ikona headless li tiftaħ listbox WAI-ARIA APG (jew, għal date-time-picker, djalogu għall-għażla tad-data) — l-ebda <code>&lt;select&gt;</code>nattiv, biex kull framework jieħu l-istess mġiba tat-tastiera u ganċijiet tal-istil.</li>
+    <li>Ganċ tal-klassi wieħed għal kull pakkett (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), żero CSS mibgħut.</li>
+    <li>Sigur għal SSR: il-kitbiet fid-DOM isiru biss fmiċ-ċiklu tal-ħajja mount/effect.</li>
+    <li>Nadif għal i18n: kull string li jara l-utent huwa prop.</li>
+    <li>
+      Disponibbli għal Svelte (kanoniku), React, Vue, Angular, element personalizzat HTML, Nunjucks u Blazor — l-istess kuntratt f'kull wieħed.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker u text-size-picker kull wieħed igawdi
+    <em>preferenza</em> waħda tal-utent mill-bidu sal-aħħar (għażla, applikazzjoni għad-DOM,
+    <code>localStorage</code> persistenza fakultattiva permezz tal-prop <code>storageKey</code>
+    ). share-picker u date-time-picker huma differenti fit-tip: share-picker igawdi <em>azzjoni</em> — ma japplika xejn għad-dokument u ma jżomm xejn — u date-time-picker igawdi
+    <em>valur ta' formola</em>, peress li data f'formola hija data u mhux preferenza.
+  </p>
+
+  <h2>locale-picker — lingwa u direzzjoni</h2>
+  <p>
+    Iħalli lill-utent jagħżel lokal, imbagħad jikteb <code>lang</code> u
+    <code>dir</code> fuq l-għerq tad-dokument biex il-librerija i18n tiegħek, is-CSS tiegħek u t-teknoloġiji ta' assistenza kollha jsegwuh. L-RTL jinkixef awtomatikament għall-Għarbi, l-Ebrajk u kitbiet oħra mill-lemin għax-xellug. Jiffoka biss fuq is-sinjalar — il-librerija i18n tiegħek tieħu ħsieb it-traduzzjoni.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    L-għażliet jinkitbu minn tabella mibnija bl-ismijiet tal-lokali (tista' tissostitwixxi permezz ta' <code>localeLabels</code>), kull għażla għandha l-attribut tagħha
+    <code>lang</code> biex il-qarrejja tal-iskrin jippronunzjaw "Français" bil-Franċiż, u kodiċijiet b'sottolinja bħal <code>en_US</code>
+    jinbidlu mingħajr telf lejn BCP 47 u lura <code>en-US</code>. Qabbad
+    <code>onChange</code> (jew il-valur marbut) ma' i18next, Paraglide, vue-i18n jew dak li tuża.
+  </p>
+
+  <h2>text-size-picker — daqs ikkontrollat mill-qarrej</h2>
+  <p>
+    Rebħa għall-aċċessibbiltà li tieħu minuti: l-għajnuna tiffissa
+    <code>data-text-size="&#123;slug&#125;"</code> fuq l-għerq tad-dokument u s-CSS tiegħek jaqsam kull valur ma' daqs.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Dimensjona l-layout tiegħek bi <code>rem</code> u l-app kollha tiskala mal-għażla tal-utent. It-tikketti jinbnew mill-slugs bl-ewwel ittra kapitali ("X Large") jew jinbidlu permezz ta' <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Iċċekkja x-xogħol tiegħek:</strong> agħżel "Large" mill-għażiel, u t-test tal-paġna jikber. Erġa' ttella' — għadu kbir: l-għażla nżammet f'
+      <code>localStorage</code>. Aqleb l-għażiel tal-lingwa għall-Għarbi u
+      <code>dir="rtl"</code> jiġi ffissat awtomatikament fuq id-dokument.
+    </p>
+  </div>
+
+  <h2>share-picker — ibgħat din il-paġna</h2>
+  <p>
+    Buttuna b'karattru wieħed li tiftaħ il-folja nattiva tal-qsim tal-apparat fejn teżisti, u inkella terġa' lura għal lista ta' destinazzjonijiet li inti tipprovdi, flimkien ma' azzjoni biex tikkopja l-URL. Ma tibgħatx l-ebda URL ta' netwerks soċjali — liema netwerks jappartjenu fil-prodott tiegħek hija d-deċiżjoni tiegħek, mhux tas-sistema tad-disinn.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> b'mod awtomatiku huwa <code>location.href</code>għalhekk il-każ komuni ma jeħtieġ l-ebda wajering. Ġiegħel triq b' <code>strategy="list"</code> jew
+    <code>strategy="native"</code> meta teħtieġ mġiba konsistenti bejn il-pjattaformi għal testijiet jew screenshots.
+  </p>
+
+  <h2>date-time-picker — data, ħin jew it-tnejn</h2>
+  <p>
+    Qasam tat-test fejn tista' tiktep, flimkien ma' buttuna-ikona li tiftaħ djalogu għall-għażla tad-data WAI-ARIA APG. Korrett għal-lokal b'mod strutturali — l-ismijiet tax-xhur, l-ismijiet tal-jiem, l-ewwel jum tal-ġimgħa u arloġġ ta' 12 jew 24 siegħa kollha jiġu minn <code>Intl</code> — u l-valur huwa dejjem string ISO li jista' jiġi ordnat u mingħajr żona tal-ħin: <code>"2026-03-15"</code> għal
+    <code>mode="date"</code>, <code>"09:30"</code> għal
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> għal
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Il-valur ISO huwa identiku għal dak li <code>&lt;input type="date"&gt;</code>
+    jibgħat, biex tkun tista' tbiddel il-kontroll nattiv ġewwa jew barra mingħajr ma tmiss il-backend tiegħek.
+  </p>
+
+  <h2>motion-picker — irrispetta l-moviment imnaqqas</h2>
+  <p>
+    L-għajnuna tiffissa <code>data-motion="&#123;slug&#125;"</code> fuq l-għerq tad-dokument. L-ewwel valur tiegħu jiġi mill-issettjar
+    <code>prefers-reduced-motion</code> tas-sistema operattiva tal-viżitatur — dejjem, mingħajr flag ta' opt-in, għax il-moviment huwa bżonn reali ta' aċċessibbiltà (WCAG 2.3.3). Is-CSS u l-iskripts tiegħek jiddeċiedu x'jiġi mrażżan.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — kaxxa tal-ġħażla li ma tiġix fit-triq</h2>
+  <p>
+    Buttuna-ikona li tiftaħ qasam tat-tfittxija. Meta tagħfas Return, jew il-buttuna &#9166; maġenb il-qasam, tinnaviga b'talba GET sempliċi lejn
+    <code>/?&lt;text&gt;</code> (it-test jitnaqqas mill-ispazji u jiġi kodifikat bħala URI; mistoqsija vojta ma tmur imkien). It-tliet ismijiet aċċessibbli tagħha huma meħtieġa, għax l-għajnuna ma tibgħatx l-Ingliż.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> tbiddel it-triq (<code>/search?foo</code>), u
+    <code>navigate</code> iżomm in-navigazzjoni ġewwa l-app; mingħajru l-għajnuna tsejjaħ <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — ir-ringiela sħiħa tal-header f'daqqa</h2>
+  <p>
+    <code>picker-bar</code> tirrendi t-tfittxija, it-tema, il-lokal, id-daqs tat-test u l-qsim f'ringiela waħda, bis-sett sħiħ ta' temi ta' referenza u l-iskala ta' seba' passi tat-test imqabbdin minn qabel. Kull isem aċċessibbli jaslu f'oġġett wieħed meħtieġ
+    <code>labels</code> .
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Wasal għal kwalunkwe għażiel mgeżwer b' <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> u <code>shareProps</code>.
+  </p>
+
+  <h2>It-tooltips huma inkorporati</h2>
+  <p>
+    Kull għażiel juri t-tikketta tiegħu f'tooltip meta l-pointer jistrieħ fuq il-buttuna tiegħu jew il-buttuna jkollha focus tat-tastiera. It-tooltip jibqa' waqt li l-pointer jiċċaqlaq fuqu, Escape jagħlqu fejn jinsab il-focus, u qatt ma jidher waqt li l-popup tal-għażiel ikun miftuħ. Iġorr l-istess test bħall-isem aċċessibbli tal-buttuna, għalhekk m'hemm xejn xi tikkonfigura jew titraduċi darbtejn; it-temi ta' referenza jagħtuh l-istil.
+  </p>
+
+  <h2>Pannell tal-issettjar f'post wieħed</h2>
+  <p>L-erba' għajnuniet tal-preferenzi jikkomponu b'mod naturali:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ivverifikat:</strong> l-isnippets ta' locale-picker, text-size-picker, share-picker, date-time-picker u tal-pannell magħqud ġew ikkompilati individwalment kontra l-pakketti <code>0.1.1</code> ppubblikati permezz ta'
+      <code>svelte/server</code> (2026-08-29); l-isnippets ta' motion-picker, search-picker u picker-bar ġew rrenderjati kontra l-komponenti proprji tal-pakketti fl-2026-10-06.
+    </p>
+  </div>
+
+  <h2>Fejn tikseb</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Kull pakkett għandu l-ispec tiegħu, testijiet immappjati mal-klawżoli tal-ispec, eżempji li jistgħu jitmexxew (inklużi mudelli ta' cookies għal SSR) u pipeline tal-bini u tal-pubblikazzjoni. Il-pakketti Svelte huma kanoniċi; fil-każ ta' dubju, il-kuntratti tagħhom jirbħu.
+  </p>
+
+  <h2>Passi li jmiss</h2>
+  <ul>
+    <li><a href="/components/">Katalogu tal-komponenti</a> — ir-referenza sħiħa tal-571 komponent.</li>
+    <li><a href="/help/">Għajnuna</a> — issolvi l-problemi u mistoqsijiet frekwenti.</li>
+    <li><a href="/why/">Għaliex Lily</a> — u kif tappoġġja l-proġett.</li>
+  </ul>
+  <p>
+    Mistoqsijiet matul it-triq?
+    <a href="/help/#troubleshooting">Il-paġna tal-għajnuna</a> hija mimlija tweġibiet — u jekk pass jista' jkun iktar ċar,
+    <a href="https://github.com/LilyDesignSystem">għidilna</a> u nħossuna kuntenti ntejbu t-tutorja.
+  </p>
+</section>

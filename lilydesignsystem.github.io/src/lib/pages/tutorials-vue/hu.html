@@ -1,0 +1,122 @@
+<!-- title: Vue oktatóanyag — Lily Design System -->
+<!-- description: Építs hozzáférhető, stílusos űrlapot a Lily Vue 3 fej nélküli komponenseivel: egyfájlos komponensek v-modellel. -->
+<section class="page-intro">
+  <h1>Vue oktatóanyag</h1>
+  <p class="page-intro-tagline">
+    Vue 3 egyfájlos komponensek típusos propokkal, <code>defineModel</code>
+    kétirányú kötéssel és <code>v-bind="$attrs"</code> átengedéssel.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy kis kapcsolatfelvételi űrlap — címkézett mező, küldés gomb, <code>v-model</code>
+    kötés, valódi billentyűzet- és képernyőolvasó-viselkedés — először csupaszon, aztán stílusosan, nagyjából 10 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Szükséged van gitre, Node 22-re vagy újabbra és pnpm 10-re vagy újabbra. Bármelyik Vue 3 projekt megfelel — Nuxt, Vite vagy sima Vue.
+  </p>
+
+  <h2>1. lépés — Szerezd meg a kódot</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    A komponensek lapos fájlok itt: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — mindegyik saját teszttel, story-val és dokumentációval a háta mögött. Másold a szükséges fájlokat, vagy hozd be a tárolót.
+  </p>
+
+  <h2>2. lépés — Az első komponensed</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Ezt rendereli: <code>&lt;button class="button" type="button"&gt;</code>. A propok megfelelnek a többi keretrendszernek: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plusz attribútum-átengedés mindenre, ami marad.
+  </p>
+
+  <h2>3. lépés — Állíts össze egy kis űrlapot</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> a látható <code>label</code> a saját propjaként beágyazott címkekomponens helyett — add át egyszer, a
+    <code>Field</code>és <code>TextInput</code>a
+    <code>label</code> biztosítja a hozzáférhető nevet.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizve 2026-08-29:</strong> egy korábbi vázlat külön <code>Label</code> belül a <code>Field</code>elembe, ami
+      <em>két</em> címkét renderelt (az egyik üres), mert a <code>Field</code> már magától rendereli a sajátját a <code>label</code> prop — a pontos kódrészlet lefordításával derült ki. A
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Az összeállított kapcsolatfelvételi űrlap útvonala</a>
+      ugyanez a minta, valódi e2e- és axe-tesztekkel kipróbálva.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> ezt használja: <code>defineModel</code>, így egy sima
+    <code>v-model</code> dobozból kivéve működik.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> indítsd el az alkalmazást, és az űrlap csupasznak látszik — pontosan úgy, ahogy szántuk: a stílus még hátravan. Nyomd meg a
+      <kbd>Tab</kbd>billentyűt: a fókusz végigmegy minden vezérlőn, a címkét bemondja, és a küldés működik. A viselkedés kész; a megjelenés a tiéd, és a következő lépés.
+    </p>
+  </div>
+
+  <h2>4. lépés — Stílus hozzá</h2>
+  <p>
+    Stílusozd az osztálykampókat — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — a stíluslapodban, vagy hivatkozz egy kész témára itt: <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>5. lépés — Nézd meg, ahogy az egész működik</h2>
+  <p>
+     <a href="/examples/">A Nuxt példaalkalmazás</a> a teljes katalógus stílusosan és bemutatva, Playwright e2e-vel és axe-core alapvonallal:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témák</a> — váltás futásidőben a Vue theme-picker segédjével.</li>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — nyelv és szövegméret.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — tulajdonságok, ARIA és billentyűzet komponensenként.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

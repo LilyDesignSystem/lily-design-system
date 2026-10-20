@@ -1,0 +1,111 @@
+<!-- title: થીમ ટ્યુટોરિયલ — Lily Design System -->
+<!-- description: Lily ને ત્રણ રીતે થીમ આપો: 45 તૈયાર થીમમાંથી એક લિંક કરો, તમારા CSS થી ઓવરરાઇડ કરો, અને theme-picker સહાયક સાથે ચાલતી વખતે થીમ બદલવું ઉમેરો. -->
+<section class="page-intro">
+  <h1>થીમ</h1>
+  <p class="page-intro-tagline">
+    Lily ઘટકોમાં સ્થિર ક્લાસ હૂક અને શૂન્ય CSS છે — તેથી થીમ ફક્ત એક સ્ટાઇલશીટ છે. આ ટ્યુટોરિયલ "એક ફાઇલ લિંક કરો" થી "વપરાશકર્તાને ચાલતી વખતે થીમ બદલવા દો, સાચવીને" સુધી જાય છે.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>તમે શું બનાવશો</h2>
+  <p>
+    એક એપ જેનો આખો દેખાવ વપરાશકર્તા બદલી શકે — એક લિંક કરેલી સ્ટાઇલશીટથી શરૂ કરી, સાચવાતા ચાલતી-વખતના થીમ બદલનાર સુધી — લગભગ 15 મિનિટમાં.
+  </p>
+
+  <h2>શરૂ કરતા પહેલાં</h2>
+  <p>
+    પહેલાં પૂર્ણ કરો <a href="/tutorials/">ફ્રેમવર્ક ટ્યુટોરિયલ</a> પહેલાં તમારા સ્ટૅક માટે, જેથી થીમ આપવા માટે તમારી પાસે એક નાનું Lily ફોર્મ હોય. અહીં બધું સાતેય ફ્રેમવર્કમાં કામ કરે છે; કોડ નમૂના Svelte અને સાદું HTML દર્શાવે છે.
+  </p>
+
+  <h2>પગલું 1 — તૈયાર થીમ લિંક કરો</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ડિરેક્ટરીમાં 45 સ્વતંત્ર સ્ટાઇલશીટ છે. તેમને તમારી એપની સ્થિર અસ્કયામતોમાં કૉપી કરો અને એક લિંક કરો:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>સમૂહની મુખ્ય બાબતો:</p>
+  <ul>
+    <li>
+      <strong>જાહેર ક્ષેત્ર</strong> — NHS England / Scotland / Wales, દરેક દર્દી-કેન્દ્રિત અને વ્યવસાયી-કેન્દ્રિત સ્વરૂપોમાં; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>વિક્રેતાઓથી પ્રેરિત</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>સામાન્ય ઉપયોગ</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, અને બીજી ઘણી.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>તમારું કામ તપાસો:</strong> પૃષ્ઠ ફરી લોડ કરો. ફ્રેમવર્ક ટ્યુટોરિયલમાં તમે બનાવેલું એ જ માર્કઅપ હવે સંપૂર્ણ શૈલીબદ્ધ છે — બટન, ઇનપુટ, લેબલ, ફોકસ રિંગ. HTML ની એક પંક્તિએ આ કર્યું — દરેક ઘટક બરાબર જેવો હતો તેવો જ રહ્યો.
+    </p>
+  </div>
+
+  <h2>પગલું 2 — કંઈ પણ ઓવરરાઇડ કરો</h2>
+  <p>
+    થીમ પસંદગીકારો આમાં વીંટેલા છે <code>:where(...)</code>જેની વિશિષ્ટતા શૂન્ય છે — તેથી તમે લખેલો કોઈ પણ નિયમ જીતે છે, સીધી વાત:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>પગલું 3 — theme-picker સાથે ચાલતી વખતે બદલવું</h2>
+  <p>
+     <code>theme-picker</code> સહાયક એ હેડલેસ આઇકન-બટન + લિસ્ટબોક્સ છે જે થીમના આખા જીવનચક્રનો માલિક છે: તે એક સંચાલિત <code>&lt;link&gt;</code>
+    બદલીને પસંદ કરેલી સ્ટાઇલશીટ લોડ કરે છે (ફક્ત સક્રિય થીમ જ લાવવામાં આવે છે), દસ્તાવેજ પર
+    <code>data-theme="&#123;slug&#125;"</code> સેટ કરે છે, અને વૈકલ્પિક રીતે અહીં સાચવે છે <code>localStorage</code>. અહીં Svelte દર્શાવ્યું છે; React, Vue, Angular, HTML, Nunjucks અને Blazor પોર્ટ કરાર-દર-કરાર મેળ ખાય છે:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    બસ એટલું જ સંપૂર્ણ એકીકરણ છે. કીબોર્ડ વર્તન WAI-ARIA APG લિસ્ટબોક્સ પેટર્નને અનુસરે છે; નિયંત્રણ પોતે હેડલેસ છે (ક્લાસ હૂક
+    <code>.theme-picker</code>), તેથી જે થીમ સક્રિય હોય તે તે લઈ લે છે.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 ના રોજ ચકાસ્યું:</strong> આ ચોક્કસ ટુકડો પ્રકાશિત <code>0.1.1</code> પેકેજ સામે કમ્પાઇલ કરાયો, આના દ્વારા
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>પગલું 4 — તમારા પોતાના CSS માં થીમને પ્રતિસાદ આપો</h2>
+  <p>
+    કારણ કે સહાયક દસ્તાવેજના મૂળ પર <code>data-theme</code> સેટ કરે છે, તમારી પોતાની શૈલીઓ તેના પર ફાંટા પાડી શકે છે:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>સર્વર રેન્ડરિંગ માટે નોંધો</h2>
+  <p>
+    સહાયક બધું DOM લખાણ ફ્રેમવર્કના mount/effect જીવનચક્રની અંદર કરે છે, તેથી બંધારણથી જ SSR-સુરક્ષિત છે. પહેલા રંગકામમાં ઝબકારો ટાળવા, સર્વર પર પ્રારંભિક થીમનું <code>&lt;link&gt;</code> અને
+    <code>data-theme</code> રેન્ડર કરો (ઉદાહરણ તરીકે કૂકીમાંથી) — Svelte સહાયક રિપો ચલાવી શકાય તેવું SvelteKit કૂકી ઉદાહરણ મોકલે છે, અને બીજા કેટલોગ તેમના સ્ટૅક માટે આ જ પેટર્ન નોંધે છે.
+  </p>
+
+  <h2>આગળનાં પગલાં</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">પસંદગી સહાયકો</a> — ભાષા, લખાણ કદ, શેરિંગ અને તારીખ/સમય દાખલ માટે એ જ પેટર્ન.</li>
+    <li>
+      થીમ ફાળો આપો — દરેક એક સ્વતંત્ર સ્ટાઇલશીટ છે જે ક્લાસ હૂકને લક્ષ્ય બનાવે છે; જુઓ <a href="/help/#contributing">ફાળો આપવો</a>.
+    </li>
+  </ul>
+  <p>
+    રસ્તામાં પ્રશ્નો છે?
+    <a href="/help/#troubleshooting">મદદ પૃષ્ઠ</a> જવાબોથી ભરેલું છે — અને જો કોઈ પગલું વધુ સ્પષ્ટ થઈ શકે,
+    <a href="https://github.com/LilyDesignSystem">અમને કહો</a> અને અમે ખુશીથી ટ્યુટોરિયલ સુધારીશું.
+  </p>
+</section>

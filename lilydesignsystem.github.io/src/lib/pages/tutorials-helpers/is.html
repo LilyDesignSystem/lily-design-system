@@ -1,0 +1,276 @@
+<!-- title: Kennsluefni um stillingahjálpartæki — Lily Design System -->
+<!-- description: Bættu við tungumáls- og textastærðarstillingum notanda með locale-picker og text-size-picker hjálpartækjum Lily: höfuðlausar táknhnappa- + valmöguleikalistastýringar með þrautseigju og SSR-öryggi. -->
+<section class="page-intro">
+  <h1>Stillingahjálpartæki</h1>
+  <p class="page-intro-tagline">
+    Sjö litlir pakkar fyrir hvern ramma, hver á eitt notendaverkefni frá upphafi til enda, auk stiku sem setur fimm þeirra saman. Þú hefur þegar kynnst
+    <a href="/tutorials/theming/">theme-picker</a>; hér eru locale-picker, text-size-picker og motion-picker (stillingar), share-picker og search-picker (aðgerðir), date-time-picker (formgildi) og picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Stillingaspjald þar sem notendur velja tungumál og textastærð — val sem gilda um allt skjalið, haldast milli heimsókna og kosta þig tvo íhluti og fáeinar línur af CSS. Um 15 mínútur.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Ljúktu við <a href="/tutorials/">rammakennsluefnið</a> fyrir þinn stafla. Sýnishornin hér að neðan eru í Svelte; React-, Vue-, Angular-, HTML-, Nunjucks- og Blazor-hjálpartækin samsvara samningur fyrir samning.
+  </p>
+
+  <h2>Lögunin sem þau deila</h2>
+  <ul>
+    <li>Höfuðlaus táknhnappur sem opnar WAI-ARIA APG valmöguleikalista (eða, fyrir date-time-picker, dagsetningarvalsglugga) — ekkert innbyggt <code>&lt;select&gt;</code>, svo hver rammi fær eins lyklaborðshegðun og stílkróka.</li>
+    <li>Einn klasakrókur á hvern pakka (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), ekkert CSS fylgir.</li>
+    <li>SSR-öruggt: DOM-skrif gerast aðeins í mount/effect lífsferlinum.</li>
+    <li>Hreint gagnvart i18n: hver texti sem notandinn sér er eiginleiki.</li>
+    <li>
+      Fáanlegt fyrir Svelte (kanónískt), React, Vue, Angular, HTML sérþátt, Nunjucks og Blazor — sami samningur í hverju.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker og text-size-picker eiga hver eina notanda
+    <em>stillingu</em> frá upphafi til enda (val, beitingu á DOM, valfrjálsa
+    <code>localStorage</code> þrautseigju með <code>storageKey</code>
+    eigindinni). share-picker og date-time-picker eru ólíkir að eðli: share-picker á <em>aðgerð</em> — hann beitir engu á skjalið og vistar ekkert — og date-time-picker á
+    <em>formgildi</em>, þar sem dagsetning í eyðublaði eru gögn en ekki stilling.
+  </p>
+
+  <h2>locale-picker — tungumál og stefna</h2>
+  <p>
+    Leyfir notandanum að velja staðfærslu og skrifar svo <code>lang</code> og
+    <code>dir</code> í rót skjalsins svo i18n-safnið þitt, CSS og hjálpartækni fylgi öll. RTL er greint sjálfkrafa fyrir arabísku, hebresku og önnur ritkerfi frá hægri til vinstri. Hann einbeitir sér eingöngu að merkjagjöf — i18n-safnið sér um þýðinguna.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Valkostir fá merkimiða úr innbyggðri töflu staðfærsluheita (hægt að yfirskrifa með <code>localeLabels</code>), hver valkostur ber sína eigin
+    <code>lang</code> eigind svo skjálesarar beri „Français“ fram á frönsku, og kóðar með undirstriki eins og <code>en_US</code>
+    fara taplaust fram og til baka til BCP 47 <code>en-US</code>. Tengdu
+    <code>onChange</code> (eða bundna gildið) við i18next, Paraglide, vue-i18n eða hvað sem þú notar.
+  </p>
+
+  <h2>text-size-picker — stærð í höndum lesandans</h2>
+  <p>
+    Aðgengisávinningur sem tekur mínútur: hjálpartækið stillir
+    <code>data-text-size="&#123;slug&#125;"</code> á rót skjalsins og CSS-ið þitt varpar hverju gildi á stærð.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Stærðarsettu uppsetninguna í <code>rem</code> og allt forritið kvarðast með vali notandans. Merkimiðar eru gerðir með stórum upphafsstaf úr slugs („X Large“) eða yfirskrifaðir með <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Athugaðu verkið:</strong> veldu „Large“ úr veljaranum og textinn á síðunni stækkar. Endurhladdu — hún er enn stór: valið var vistað í
+      <code>localStorage</code>. Skiptu tungumálsveljaranum yfir á arabísku og
+      <code>dir="rtl"</code> er sett á skjalið sjálfkrafa.
+    </p>
+  </div>
+
+  <h2>share-picker — sendu þessa síðu</h2>
+  <p>
+    Eins tákns hnappur sem opnar innbyggðan deilingarglugga tækisins þar sem hann er til, en annars lista yfir áfangastaði sem þú gefur, auk aðgerðar til að afrita vefslóðina. Hann sendir engar vefslóðir samfélagsneta — hvaða net eiga heima í vörunni þinni er þín ákvörðun, ekki hönnunarkerfisins.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> er sjálfgefið <code>location.href</code>svo algengasta tilvikið þarf enga tengingu. Þvingaðu fram leið með <code>strategy="list"</code> eða
+    <code>strategy="native"</code> þegar þú þarft samræmda hegðun milli vettvanga fyrir próf eða skjámyndir.
+  </p>
+
+  <h2>date-time-picker — dagsetning, tími eða hvort tveggja</h2>
+  <p>
+    Textareitur sem þú getur skrifað í, auk táknhnapps sem opnar WAI-ARIA APG dagsetningarvalsglugga. Réttur miðað við staðfærslu frá grunni — mánaðaheiti, vikudagaheiti, fyrsti dagur vikunnar og 12- eða 24 stunda klukka koma allt frá <code>Intl</code> — og gildið er alltaf raðanlegur ISO-strengur án tímabeltis: <code>"2026-03-15"</code> fyrir
+    <code>mode="date"</code>, <code>"09:30"</code> fyrir
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> fyrir
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO-gildið er það sama og <code>&lt;input type="date"&gt;</code>
+    sendir, svo þú getur skipt innbyggðu stýringunni inn eða út án þess að snerta bakendann.
+  </p>
+
+  <h2>motion-picker — virtu minni hreyfingu</h2>
+  <p>
+    Hjálpartækið stillir <code>data-motion="&#123;slug&#125;"</code> á rót skjalsins. Fyrsta gildi þess kemur úr stillingu stýrikerfis gestsins
+    <code>prefers-reduced-motion</code> — alltaf, án valfánans, því hreyfing er raunveruleg aðgengisþörf (WCAG 2.3.3). CSS og skriftur þínar ákveða hvað er bælt.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — leitarreitur sem heldur sig til hlés</h2>
+  <p>
+    Táknhnappur sem opnar leitarreit. Að ýta á Return, eða &#9166; hnappinn við hlið reitsins, fer með einfaldri GET-beiðni á
+    <code>/?&lt;text&gt;</code> (textinn er klipptur og URI-kóðaður; tóm fyrirspurn fer hvergi). Heitin þrjú sem hjálpartæki þurfa eru nauðsynleg, því hjálpartækið sendir ekki ensku.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> breytir slóðinni (<code>/search?foo</code>), og
+    <code>navigate</code> heldur leiðsögninni innan forritsins; án þess kallar hjálpartækið á <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — alla hausröðina í einu</h2>
+  <p>
+    <code>picker-bar</code> birtir leit, þema, staðfærslu, textastærð og deilingu í einni röð, með öllu safni viðmiðunarþema og sjö þrepa textakvarða forstilltu. Hvert aðgengilegt heiti kemur í einum nauðsynlegum
+    <code>labels</code> hlut.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Náðu í hvaða vafða veljara sem er með <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> og <code>shareProps</code>.
+  </p>
+
+  <h2>Tooltips eru innbyggðir</h2>
+  <p>
+    Hver veljari sýnir merkimiða sinn í tooltip þegar bendillinn hvílir á hnappnum eða hnappurinn hefur lyklaborðsfókus. Tooltipið helst þegar bendillinn færist yfir á það, Escape lokar því hvar sem fókusinn er og það birtist aldrei á meðan sprettgluggi veljarans er opinn. Það ber sama texta og aðgengilegt heiti hnappsins, svo ekkert þarf að stilla og ekkert að þýða tvisvar; viðmiðunarþemun stílsetja það.
+  </p>
+
+  <h2>Stillingaspjald á einum stað</h2>
+  <p>Hjálpartækin fjögur fyrir stillingar fara eðlilega saman:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staðfest:</strong> snifsin fyrir locale-picker, text-size-picker, share-picker, date-time-picker og samsetta spjaldið voru hvert um sig þýdd gegn útgefnu <code>0.1.1</code> pökkunum í gegnum
+      <code>svelte/server</code> (2026-08-29); snifsin fyrir motion-picker, search-picker og picker-bar voru birt gegn eigin íhlutum pakkanna 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Hvar á að nálgast þá</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Hver pakki hefur sína eigin spec, próf varpað á spec-ákvæði, keyranleg dæmi (þar á meðal SSR-kökumynstur) og byggingar- og útgáfuferli. Svelte-pakkarnir eru kanónískir; ef vafi leikur á gilda samningar þeirra.
+  </p>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/components/">Íhlutasafn</a> — full viðmiðun allra 571 íhlutanna.</li>
+    <li><a href="/help/">Hjálp</a> — bilanaleit og algengar spurningar.</li>
+    <li><a href="/why/">Af hverju Lily</a> — og hvernig á að styðja verkefnið.</li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

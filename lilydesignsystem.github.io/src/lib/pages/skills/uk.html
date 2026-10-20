@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 навичок Claude надають Claude Code добірну, придатну до завантаження точку входу до Lily Design System — загальні поняття, парасолькові навички для кожного фреймворку та глибокі навички для кожного підпроєкту «безголової» бібліотеки й допоміжних засобів *-picker. -->
+<section class="page-intro">
+  <h1>Навички для ШІ-агентів роблять Lily ще простішою</h1>
+  <p class="page-intro-tagline">
+    Lily постачає сфокусовані навички — загальні, для кожного фреймворку та для кожного підпроєкту, — щоб агент завантажував рівно той контекст, який йому потрібен, і нічого зайвого.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Яка навичка вам потрібна?</h2>
+  <p>
+    Кожен рівень відповідає на інше запитання. Завантажте загальну навичку, коли ще не знаєте Lily. Завантажте навичку фреймворку, коли знаєте свій фреймворк, але не знаєте, який підпроєкт вам потрібен. Завантажте headless-skill або helpers-skill напряму, коли вже точно знаєте, над чим працюєте.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Загальна / для супровідника</strong> — «Що таке Lily?» / «Як влаштовано цей монорепозиторій?» —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Парасолькова для фреймворку</strong> — «Що доступно для {framework} і який елемент мені потрібен?» — 8, по одній <code>{framework}-skill</code> на кожен
+    </li>
+    <li>
+      <strong>«Безголова» / допоміжні засоби</strong> — «Як саме користуватися компонентами / допоміжними засобами *-picker для {framework}?» — 16, по одній <code>{framework}-headless-skill</code> і одній <code>{framework}-helpers-skill</code> на кожен
+    </li>
+  </ul>
+
+  <h2>Вісім фреймворків</h2>
+  <p>
+    Кожен фреймворк отримує той самий триглибинний стек. Парасолькова навичка зіставляє всі справжні підпроєкти цього фреймворку — включно з прикладом застосунку, якого не охоплює жодна з двох сусідніх навичок — і вказує вниз на них, а не повторює їхні контракти.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Фреймворк</th>
+        <th>Парасолькова</th>
+        <th>«Безголова»</th>
+        <th>Допоміжні засоби</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Парасолькова навичка Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">навичка</a></td>
+        <td><a aria-label="«Безголова» навичка Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">навичка</a></td>
+        <td><a aria-label="Навичка допоміжних засобів Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">навичка</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Парасолькова навичка Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">навичка</a></td>
+        <td><a aria-label="«Безголова» навичка Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">навичка</a></td>
+        <td><a aria-label="Навичка допоміжних засобів Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">навичка</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Парасолькова навичка HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">навичка</a></td>
+        <td><a aria-label="«Безголова» навичка HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">навичка</a></td>
+        <td><a aria-label="Навичка допоміжних засобів HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">навичка</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Парасолькова навичка Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">навичка</a></td>
+        <td><a aria-label="«Безголова» навичка Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">навичка</a></td>
+        <td><a aria-label="Навичка допоміжних засобів Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">навичка</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Парасолькова навичка React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">навичка</a></td>
+        <td><a aria-label="«Безголова» навичка React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">навичка</a></td>
+        <td><a aria-label="Навичка допоміжних засобів React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">навичка</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Парасолькова навичка Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">навичка</a></td>
+        <td><a aria-label="«Безголова» навичка Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">навичка</a></td>
+        <td><a aria-label="Навичка допоміжних засобів Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">навичка</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Парасолькова навичка Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">навичка</a></td>
+        <td><a aria-label="«Безголова» навичка Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">навичка</a></td>
+        <td><a aria-label="Навичка допоміжних засобів Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">навичка</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Парасолькова навичка Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">навичка</a></td>
+        <td>
+          <a
+            aria-label="«Безголова» навичка Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >навичка</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Навичка допоміжних засобів Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">навичка</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components — єдиний виняток в обидва боки: його «безголовий» каталог навмисно охоплює 536 із 571 (нативні кастомні елементи, без середовища виконання фреймворку; решта 35 компонентів назавжди виключені), а прикладу застосунку Web Components поки немає — його парасолькова навичка так і каже, а не натякає, що він існує.
+  </p>
+
+  <h2>Додайте одну навичку</h2>
+  <p>
+    Кожна навичка — це файл <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> плюс допоміжні файли, без кроку збирання. Клонуйте потрібну туди, звідки ваше налаштування Claude Code завантажує навички (див. офіційну документацію за посиланням вище щодо каталогу навичок вашого проєкту чи облікового запису):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Працюєте з кількома фреймворками чи над самим монорепозиторієм? Клонуйте натомість <a href="https://github.com/LilyDesignSystem/lily-design-system">канонічний монорепозиторій</a> — усі 26 навичок уже лежать у його корені поруч із «безголовими» бібліотеками, каталогами допоміжних засобів і прикладами застосунків, які вони описують.
+  </p>
+</section>

@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills Claude Code के Lily Design System में चुनल, लोड करे लायक प्रवेश बिंदु देलें — सामान्य अवधारणा, फ्रेमवर्क-वार छतरी कौशल, आ हेडलेस लाइब्रेरी आ *-picker सहायक खातिर उप-परियोजना-वार गहिरा कौशल। -->
+<section class="page-intro">
+  <h1>AI एजेंट पर कौशल Lily के अउर आसान बना देलें</h1>
+  <p class="page-intro-tagline">
+    Lily केंद्रित कौशल देला — सामान्य, फ्रेमवर्क-वार, आ उप-परियोजना-वार — ताकि एजेंट ठीक ओहि संदर्भ के लोड करे जे ओकरा के चाहीं आ कुछुओ अइसन ना जे ना चाहीं।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>रउआ के कवन कौशल चाहीं?</h2>
+  <p>
+    हर स्तर अलग सवाल के जवाब देला। जब रउआ Lily के अबहीं ना जानीले त सामान्य कौशल लोड करीं। जब रउआ आपन फ्रेमवर्क जानीले बाकिर ना जानीले कि कवन उप-परियोजना चाहीं त फ्रेमवर्क कौशल लोड करीं। जब रउआ ठीक-ठीक जानीले कि का पर काम कर रहल बानी त headless-skill भा helpers-skill सीधे लोड करीं।
+  </p>
+
+  <ul>
+    <li>
+      <strong>सामान्य / अनुरक्षक</strong> — “Lily का ह?” / “ई मोनोरेपो कइसे बनल बा?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>फ्रेमवर्क छतरी</strong> — “{framework} खातिर का उपलब्ध बा, आ हमरा कवन हिस्सा चाहीं?” — 8, हर एक खातिर एगो <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>हेडलेस / सहायक</strong> — “हम {framework} के घटक / *-picker सहायक के ठीक-ठीक कइसे प्रयोग करीं?” — 16, हर एक खातिर एगो <code>{framework}-headless-skill</code> आ एगो <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>आठ फ्रेमवर्क</h2>
+  <p>
+    हर फ्रेमवर्क के उहे तीन-स्तरीय स्टैक मिलेला। छतरी कौशल ओह फ्रेमवर्क के सब असली उप-परियोजना के नक्शा बनावेला — उदाहरण ऐप समेत, जेकरा के एकरा दूनो सहोदर कौशल में से कवनो कवर ना करेला — आ उनहन के करार दोहरावे के बदले उनहन के ओर नीचे इशारा करेला।
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>फ्रेमवर्क</th>
+        <th>छतरी</th>
+        <th>हेडलेस</th>
+        <th>सहायक</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">कौशल</a></td>
+        <td><a aria-label="Angular हेडलेस कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">कौशल</a></td>
+        <td><a aria-label="Angular सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">कौशल</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">कौशल</a></td>
+        <td><a aria-label="Blazor हेडलेस कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">कौशल</a></td>
+        <td><a aria-label="Blazor सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">कौशल</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">कौशल</a></td>
+        <td><a aria-label="HTML हेडलेस कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">कौशल</a></td>
+        <td><a aria-label="HTML सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">कौशल</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">कौशल</a></td>
+        <td><a aria-label="Nunjucks हेडलेस कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">कौशल</a></td>
+        <td><a aria-label="Nunjucks सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">कौशल</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">कौशल</a></td>
+        <td><a aria-label="React हेडलेस कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">कौशल</a></td>
+        <td><a aria-label="React सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">कौशल</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">कौशल</a></td>
+        <td><a aria-label="Svelte हेडलेस कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">कौशल</a></td>
+        <td><a aria-label="Svelte सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">कौशल</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">कौशल</a></td>
+        <td><a aria-label="Vue हेडलेस कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">कौशल</a></td>
+        <td><a aria-label="Vue सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">कौशल</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components छतरी कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">कौशल</a></td>
+        <td>
+          <a
+            aria-label="Web Components हेडलेस कौशल"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >कौशल</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components सहायक कौशल" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">कौशल</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components दूनो दिशा में एकमात्र अपवाद ह: एकर हेडलेस कैटलॉग के जानबूझ के दायरा 571 में से 536 बा (मूल कस्टम तत्व, फ्रेमवर्क रनटाइम ना; बाकी 35 घटक स्थायी रूप से बाहर बाड़ें), आ अबहीं कवनो Web Components उदाहरण ऐप नइखे — एकर छतरी कौशल एगो होखे के संकेत देवे के बदले ई कहेला।
+  </p>
+
+  <h2>एगो कौशल जोड़ीं</h2>
+  <p>
+    हर कौशल एगो <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> फाइल ह — संगे सहायक फाइल, बिल्ड कदम ना। जवन रउआ के चाहीं ऊ ओहिजा क्लोन करीं जहाँ से रउआ के Claude Code सेटअप कौशल लोड करेला (रउआ के परियोजना भा खाता के कौशल डायरेक्टरी खातिर ऊपर जोड़ल आधिकारिक दस्तावेज देखीं):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    कई फ्रेमवर्क में, भा मोनोरेपो पर ही काम कर रहल बानी? एकरा बदले <a href="https://github.com/LilyDesignSystem/lily-design-system">मानक मोनोरेपो</a> क्लोन करीं — सब 26 कौशल पहिले से एकरा रूट पर बाड़ें, ओह हेडलेस लाइब्रेरी, सहायक कैटलॉग आ उदाहरण ऐप के बगल में जेकर ऊ वर्णन करेलें।
+  </p>
+</section>

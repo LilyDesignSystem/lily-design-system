@@ -1,0 +1,432 @@
+<!-- title: Laguntza — Lily Design System -->
+<!-- description: Hasi Lilyrekin: instalatu zure framework-aren pakete buru gabea, kopiatu osagai bat, estilatu, jarri gai bat, argitaratu. Arazoen konponbidea, ohiko galderak eta laguntza. -->
+<section class="page-intro">
+  <h1>Lilyrekin hasten</h1>
+  <p class="page-intro-tagline">
+    Aukeratu framework bat, klonatu monorepoa eta ireki bere liburutegi buru gabea edo adibide-aplikazioa, eta hasi zure orriak osatzen. Bide gidatua nahi? Hasi
+    <a href="/tutorials/">tutorialekin</a>.
+  </p>
+</section>
+
+<nav aria-label="Orri honetan" class="prose" style="margin: 0 auto;">
+  <p><strong>Orri honetan:</strong></p>
+  <ul>
+    <li><a href="#install">Instalatu</a></li>
+    <li><a href="#use-headless">Erabili osagai buru gabe bat</a></li>
+    <li><a href="#use-styled">Erabili adibide estilatu bat</a></li>
+    <li><a href="#styling">Estiloa eta diseinu-tokenak</a></li>
+    <li><a href="#themes">Prest dauden gaiak</a></li>
+    <li><a href="#helpers">Lehentasun-laguntzaileak</a></li>
+    <li><a href="#a11y">Irisgarritasuna</a></li>
+    <li><a href="#i18n">Nazioartekotzea</a></li>
+    <li><a href="#testing">Probak</a></li>
+    <li><a href="#ai-agents">IA agenteak</a></li>
+    <li><a href="#troubleshooting">Arazoen konponbidea</a></li>
+    <li><a href="#contributing">Ekarpenak</a></li>
+    <li><a href="#community">Komunitatea eta laguntza</a></li>
+    <li><a href="#faq">Ohiko galderak</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Instalatu</h2>
+  <p>
+    Lily Git monorepo batean bizi da, framework bakoitzaren liburutegi buru gabearen, laguntzaile-paketeen eta adibide-aplikazioaren direktorio batekin. Probatzeko modurik azkarrena monorepoa klonatu eta zure stack-erako liburutegi buru gabea irekitzea da:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Patroi bera balio du beste framework-etarako:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — instalaziorik ez; kopiatu <code>.html</code> fitxategiak</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Liburutegi buru gabeak klonatzeko edo vendoring egiteko diseinatuta daude — tratatu iturburua egia-iturri gisa eta kopiatu behar duzuna.
+    <a href="#helpers">lehentasun-laguntzaileak</a> gainera pakete instalagarri gisa datoz, eraikitze eta argitaratze kanalizazioarekin (npm JS framework-entzat, NuGet Blazor-entzat).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Erabili osagai buru gabe bat</h2>
+  <p>
+    Osagai buru gabeek HTML semantikoa, ARIA eta propak ematen dituzte — baina CSSrik ez. Hona Button bat framework bakoitzean:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Erabili adibide estilatu bat</h2>
+  <p>
+    Adibide-aplikazioek CSSa, ibilbideak eta demo-orri osoak dituzte. Esperimentatzeko modurik azkarrena SvelteKit, Next, Nuxt, Analog edo Eleventy adibide-aplikazioa abiaraztea eta demoa hemen ikustea da: <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Ondoren ireki <code>http://localhost:5173</code> eta arakatu <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Estiloa eta diseinu-tokenak</h2>
+  <p>
+    Osagai bakoitza klase kebab-case bakar batekin errendatzen da bere erro-elementuan. Adibidez, <code>&lt;Button&gt;</code> errendatzen du <code>&lt;button class="button"&gt;</code>. Estilatu nahi duzun moduan:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lilyren kolore-paleta lehenetsia (adibide-aplikazioetan erabilia) hau da:</p>
+  <ul>
+    <li>Nagusia: <code>#2563eb</code></li>
+    <li>Arriskua: <code>#dc2626</code></li>
+    <li>Abisua: <code>#f59e0b</code></li>
+    <li>Arrakasta: <code>#16a34a</code></li>
+    <li>Orriaren atzeko planoa: <code>#f9fafb</code></li>
+    <li>Txartelaren atzeko planoa: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Hauek iradokizunak dira, ez eskakizunak. Ordezkatu zure marka-paletarekin eta Lily pozik datorkizu.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Prest dauden gaiak</h2>
+  <p>
+    CSSa hutsetik idatzi nahi ez? Lilyk
+    <strong>57 erreferentzia-gai independente</strong> ditu
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    direktorioan. Bakoitza Lily klase-gakoak helburu dituen estilo-orri bakarra da — lotu eta estilatuta zaude:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Multzoak hauek biltzen ditu:</p>
+  <ul>
+    <li>
+      <strong>Sektore publikoa</strong> — NHS England, NHS Scotland eta NHS Wales (pazienteentzako eta profesionalentzako aldaerak bakoitza), GOV.UK GDS eta U.S. Web Design System.
+    </li>
+    <li><strong>Saltzaileek inspiratua</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Xede orokorra</strong> — light, dark, nord, dracula, wireframe eta hogeita hamar bat gehiago.
+    </li>
+  </ul>
+  <p>
+    Gai-hautatzaileek erabiltzen dute <code>:where(...)</code>, beraz zure CSSak beti irabazten du espezifikotasunean. Parekatu behean dagoen laguntzailearekin <code>theme-picker</code> exekuzio-garaiko aldaketarako, edo jarraitu
+    <a href="/tutorials/theming/">gaien tutoriala</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Lehentasun-laguntzaileak</h2>
+  <p>
+    Framework bakoitzak zortzi hautatzaile txiki ditu, bakoitza bere
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> paketean (eta <code>picker-bar</code> haiek biltzen dituena). Bakoitza popup bat irekitzen duen ikono-botoi buru gabea da — zerrenda-koadroa, esteken zerrenda, bilaketa-formularioa edo (date-time-picker-erako) data-hautatzaile elkarrizketa — ez natiboa
+    <code>&lt;select&gt;</code>; SSR-rako segurua da; eta ez dakar CSSrik:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — gai-estilo-orriak exekuzio-garaian kargatzen ditu kudeatutako <code>&lt;link&gt;</code>bat aldatuz, ezartzen du
+      <code>data-theme</code> dokumentuan, eta aukeran hemen gordetzen du:
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — ezartzen ditu <code>lang</code> eta
+      <code>dir</code> (RTL detekzio automatikoarekin) zure i18n liburutegiak jarrai dezan; ez du itzulpenik egiten.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — ezartzen ditu <code>data-text-size</code> dokumentuan; zure CSSak balio bakoitza letra-tamaina batera mapatzen du.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — ezartzen ditu <code>data-motion</code> dokumentuan, bisitariaren mugimendu-murrizketaren ezarpenetik abiatuta; zure CSSak eta script-ek erabakitzen dute zer kentzen den.
+    </li>
+    <li>
+      <strong>search-picker</strong> — bilaketa-eremu bat irekitzen duen ikono-botoia; bidaltzeak bilaketa-orri batera nabigatzen du. Ekintza baten jabe da, ez lehentasun baten.
+    </li>
+    <li>
+      <strong>link-picker</strong> — zure aplikazioak definitzen dituen orri-esteken menu bat irekitzen duen etxe-ikonoa (Hasiera, Gutaz, Kontaktua, Pribatutasun-politika, …). Ekintza baten jabe da, ez lehentasun baten.
+    </li>
+    <li>
+      <strong>share-picker</strong> — partekatze-orri natiboa edo erabiltzaileak emandako helmuga-zerrenda irekitzen du, gehi URLa kopiatzea. Ekintza baten jabe da, ez lehentasun baten: ez du ezer aplikatzen, ez du ezer gordetzen.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — testu-eremu bat gehi APG data-hautatzaile elkarrizketa bat data, ordu edo biarentzat. Formulario-balio baten jabe da, ez lehentasun baten: ISO katea joan-etorrian doa hona:
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte katalogoa erreferentzia kanonikoa da; React, Vue, Angular, HTML, Nunjucks, Web Components eta Blazor portuak kontratuz kontratu datoz bat. Ikusi
+    <a href="/tutorials/helpers/">laguntzaileen tutoriala</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Irisgarritasuna</h2>
+  <p>Osagaiek helburu dute <strong>WCAG 2.2 AAA</strong>. Patroi hauek jarraitzen dituzte:</p>
+  <ul>
+    <li>HTML elementu semantikoak generikoen aldean <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> etiketak sarrerekin lotzen dituena.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> erreferentzia gurutzatuetarako.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> errore-egoeretarako.</li>
+    <li><code>role="alert"</code> eta <code>aria-live</code> eduki dinamikorako.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> egoerarako.</li>
+    <li>Roving <code>tabindex</code> sareetarako.</li>
+  </ul>
+  <p>
+    Foku-adierazleak nahita erabiltzaileak ematen ditu — Lilyk ez du inoiz zure diseinuarekin talka egingo duen foku-eraztun lehenetsirik margotzen. Adibide-aplikazioek axe-core oinarri-lerro garbia mantentzen dute ibilbide guztietan.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Nazioartekotzea</h2>
+  <p>
+    Etiketa, leku-marka, errore-mezu eta botoi-testu guztiak propa dira. Ez dago kate gogor kodetuik. Sartu zure aukerako itzulpen-framework-a — Paraglide, i18next, vue-i18n, react-intl, .resx fitxategiak, edozer.
+  </p>
+  <p>
+    Datak, zenbakiak eta monetak direla eta, osagaiek aldez aurretik formateatutako kateak onartzen dituzte: zuk formateatzen duzu honekin: <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / zure liburutegi hobetsiarekin eta emaitza pasatzen duzu.
+  </p>
+  <p>
+    Laguntzaileak <code>locale-picker</code> aukeratutako locale-a zure i18n liburutegiari adierazten dio ezarriz <code>lang</code> eta <code>dir</code> dokumentuaren erroan.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Probak</h2>
+  <p>Framework-azpiproiektu bakoitzak bere probak ditu bere stack idiomatikoarekin:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO benetako nabigatzaileak exekutatzen.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (Analog Vite pluginaren bidez).</li>
+    <li><strong>Nunjucks</strong>: Vitest errendatze-laguntzaile batekin.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Probek erabiltzen dute <strong>Vitest-en matcher integratuak soilik</strong> — inoiz ez
+    <code>jest-dom</code> matcherrak. Honek test multzoak eramangarri mantentzen ditu. Adibide-aplikazioek Playwright amaieratik amaierarako multzoak, axe-core irisgarritasun oinarri-lerroak eta ikuspegi-miaketa erantsi dituzte.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>IA agenteak</h2>
+  <p>
+    Gune honek argitaratzen ditu <a href="/llms.txt">llms.txt</a> eta
+    <a href="/llms.json">llms.json</a> bere erroan — bere orrialderik garrantzitsuenen mapa zainduta, honi jarraitzen dion edozein tresnarentzat:
+    <a href="https://llmstxt.org">llms.txt konbentzioa</a>.
+  </p>
+  <p>
+    Monorepo kanonikoak gainera bi bidaltzen ditu
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>, sistemarekin eraikitzen duen edonorentzat Lilyren kontzeptuak, terminologia eta konposizio-patroiak estaltzen dituen trebetasun orokor bat, eta <code>lily-design-system-maintainer-skill</code>, monorepoan lan egiten duen edonorentzat beharrezko fitxategi-diseinua eta tresnak estaltzen dituen trebetasun tekniko bat. Biak hemen daude, erroan:
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kanonikoa</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Arazoen konponbidea</h2>
+
+  <details class="faq-item">
+    <summary>Osagai bat errendatzen da baina estilorik gabe ageri da</summary>
+    <p>
+      Hori da buru gabekoa nahi bezala funtzionatzen — osagaiarekin ez da CSSrik datorren. Idatzi CSSa osagaiaren kebab-case klasearen kontra (ageri da <a href="/components/">katalogo-orri</a>bakoitzean) edo lotu
+      <a href="#themes">prest dauden 57 gaietako bat</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nire CSSak ez dirudi gai baten gainean aplikatzen denik</summary>
+    <p>
+      Aplikatu beharko luke — gai-hautatzaileak hemen biltzen dira <code>:where(...)</code>, espezifikotasun nulua duena. Arau batek oraindik galtzen badu, egiaztatu zure estilo-orria gaiarenaren ondoren kargatzen dela <code>&lt;link&gt;</code> eta hautatzaileak benetan bat datorrela osagaiaren klase-gakoarekin.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install huts egiten du peer edo bertsio errorearekin</summary>
+    <p>
+      Erabili pnpm egungo bat (v10+) eta Node 22+. Azpiproiektu bakoitzak bere framework bertsioak finkatzen ditu bere <code>package.json</code>-n; zure tresna-kate globala zaharragoa bada, <code>pnpm env use --global lts</code> da konponbiderik azkarrena.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pantaila-irakurgailuak kontrol baten izen okerra iragartzen du</summary>
+    <p>
+      Egiaztatu osagaiaren beharrezko <code>label</code> propa — testu ikusgairik ez duten osagaiek bat behar dute, eta rest-props bidez pasatutako erabiltzaileak emandako
+      <code>aria-label</code> / <code>aria-labelledby</code> nahita irabazten du barneko kableatuaren aurretik. Katalogo-orri bakoitzak osagaiaren ARIA kontratua dokumentatzen du.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Theme-picker laguntzaileak ez ditu estilo-orriak aldatzen</summary>
+    <p>
+      Berretsi <code>themesUrl</code> nabigatzaileak eskura dezakeen direktorio bat seinalatzen duela (zerbitzatu <code>themes/</code> fitxategiak baliabide estatiko gisa) eta zure <code>themes</code> propako gai-slug-ak fitxategi-izenekin bat datozela. Laguntzaileak aldatzen du <code>href</code> kudeatutako
+      <code>&lt;link data-lily-theme-picker&gt;</code> baten — ikuskatu devtools-en eskatzen ari den URLa ikusteko.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Beste zerbait hautsita dago</summary>
+    <p>
+      Ireki issue bat erreprodukzio minimo batekin hemen:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — edo ikusi <a href="#community">komunitatea eta laguntza</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Ekarpenak</h2>
+  <p>Lily gaztea da eta lankidetza ongi hartzen du. Une honetako ekarpen erabilgarrienak hauek dira:</p>
+  <ul>
+    <li>Osagai berriak (bereziki diseinu-sistema finkatuetako patroiak).</li>
+    <li>Gai berriak — bakoitza estilo-orri autonomo bakarra da, lehen PR ongi mugatua.</li>
+    <li>Adibideen estilo hobea — erakutsi zer den posible.</li>
+    <li>Adibide-aplikazioen kateen itzulpenak.</li>
+    <li>Akats-txostenak erreprodukzio minimo batekin.</li>
+    <li>Irisgarritasun-auditoretzak pantaila-irakurgailuekin eta teknologia lagungarriekin.</li>
+  </ul>
+  <p>
+    Ireki issue-ak eta PR-ak hemen:
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Komunitatea eta laguntza</h2>
+  <ul>
+    <li>
+      <strong>Galderak eta akats-txostenak</strong> — ireki issue bat hemen:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Posta elektronikoa</strong> — arduradunak irakurtzen du
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      eta lankidetza, orientazioa eta iritziak ongi hartzen ditu.
+    </li>
+    <li>
+      <strong>Ispiluak</strong> — Lily hona ere bultzatzen da:
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> eta
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, nahiago duzun forgetik parte hartu ahal izateko.
+    </li>
+    <li>
+      <strong>Jokabidea</strong> — proiektuak jokabide-kode estandar bat jarraitzen du; izan atsegina, suposatu fede ona.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Ohiko galderak</h2>
+
+  <details class="faq-item">
+    <summary>Zergatik buru gabea estilatuaren ordez?</summary>
+    <p>
+      Aldez aurretik estilatutako osagaiak erosoak dira — zure markarekin bat egiten ez duten arte. Osagai buru gabeek lan apur bat gehiago eskatzen dute hasieran baina diseinu bisualaren gaineko kontrol osoa ematen dizute. Adibide-aplikazioek eta 57 gaiek estilatzeko moduak erakusten dituzte; haiek hartu ditzakezu edo erabat ordezkatu. Argudio luzeagoa hemen dago: <a href="/why/">Zergatik Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Zergatik hainbeste osagai?</summary>
+    <p>
+      Lilyk aplikazio gehienek behar dituzten patroiak estali nahi ditu hutsetik eraikitzera behartu gabe — nortasun-identifikatzaile nazionalen sarrerak eta edizio-scrollytelling bezalako eduki sakonak barne. Katalogoak hamabi diseinu-sistema finkatutik hartzen du, gehi lan originala — ikusi <a href="/about/">Honi buruz</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily Tailwind-ekin erabil dezaket?</summary>
+    <p>
+      Bai. Osagai bakoitzak kebab-case erro-klase bakarra erakusten du, gehi <code>className</code> / <code>class</code>erabiltzaileak emandakoa. Jarri Tailwind utilitateak gainean nahi duzun moduan.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily CSS framework semantikoekin erabil dezaket, DaisyUI bezala?</summary>
+    <p>
+      Bai. Erro-elementuko kebab-case klase-izenek CSS gako semantiko gisa funtzionatzen dute. Parekatu Lily framework semantiko batekin eta aldez aurretik estilatutako osagaiak lortuko dituzu, ARIA eta i18n errespetatzen dituztenak.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Badago npm paketerik?</summary>
+    <p>
+      Laguntzaileak <a href="#helpers">lehentasun-laguntzaileak</a> paketeak dira, npm/NuGet argitaratze-kanalizazioarekin. Osagai-liburutegi buru gabeak klonatzeko edo vendoring egiteko diseinatuta daude — iturburua da entregagaia, argitaratzen duzuna irakurri, moztu eta zurea egin ahal izateko. Liburutegi buru gabeen erregistro-argitalpena bide-orrian dago oraindik.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Zergatik lizentzia anitz?</summary>
+    <p>
+      Proiektu desberdinek lizentzia-behar desberdinak dituzte. BSD eta MIT permisiboak dira, Apache-2.0-k patente-emakida du, eta GPL aukerek copyleft-a onartzen dute. Aukeratu zure egoerari egokitzen zaiona.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nola jakinarazi akats bat edo eskatu ezaugarri bat?</summary>
+    <p>
+      Ireki issue bat GitHub biltegian, edo idatzi hona:
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

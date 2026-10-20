@@ -1,0 +1,106 @@
+<!-- title: Tiwtorial HTML — Lily Design System -->
+<!-- description: Adeiladwch ffurflen hygyrch, wedi'i steilio gyda chydrannau di-ben Lily ar gyfer HTML — marcio syml, yn syth o ffeil. -->
+<section class="page-intro">
+  <h1>Tiwtorial HTML</h1>
+  <p class="page-intro-tagline">
+    Y dechrau symlaf posibl: copïwch HTML semantig gyda bachau dosbarth Lily, ychwanegwch un daflen arddull, cyhoeddwch. Ffeiliau syml sy'n gweithio ble bynnag y mae HTML yn gweithio.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gyswllt fach — meysydd â labeli, botwm cyflwyno, ymddygiad bysellfwrdd a darllenydd sgrin go iawn — yn noeth yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae arnoch angen porwr a golygydd testun. Dyna i gyd. (Mae git yn helpu i gael y ffeiliau cydrannau, ond gallwch eu copïo o GitHub yn y porwr hefyd.)
+  </p>
+
+  <h2>Cam 1 — Cael y cod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Mae pob cydran yn ffeil annibynnol yn <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>ac yn y blaen — gyda sylw pennawd sy'n cofnodi ei dag HTML, ei fachyn dosbarth, ei ymddygiad bysellfwrdd a'i gontract hygyrchedd. Y ffeiliau <em>yw'r</em> llyfrgell — copïwch yr hyn sydd ei angen arnoch a ewch.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  <p>Agorwch <code>components/button.html</code>, neu ysgrifennwch y marcio — y bachyn dosbarth yw'r contract:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Gan ei fod yn <code>&lt;button&gt;</code>go iawn, mae ffocws bysellfwrdd, actifadu gydag Enter a Space, a'r rôl botwm ymhlyg eisoes yn gywir.
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Sylwch ar y patrwm: mae pob rheolydd yn cysylltu ei <code>&lt;label for&gt;</code>ei hun, yn defnyddio'r math input mwyaf penodol ac yn cario un bachyn dosbarth kebab-case yn union.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> agorwch y dudalen mewn porwr. Mae'n edrych yn noeth — yn union fel y bwriadwyd: mae'r steilio eto i ddod. Pwyswch
+      <kbd>Tab</kbd>: mae ffocws yn symud trwy bob rheolydd, caiff y labeli eu cyhoeddi ac mae cyflwyno'n gweithio. Mae'r ymddygiad wedi'i orffen; eich un chi yw'r olwg a dyma'r cam nesaf.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>Ysgrifennwch CSS yn erbyn y bachau:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Neu hepgorwch ysgrifennu CSS â llaw yn gyfan gwbl — cysylltwch un o'r 45 thema barod ac mae'r un marcio yn goleuo:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Cam 5 — Archwilio ymhellach</h2>
+  <ul>
+    <li>Mae profion y gadwrfa yn rhedeg mewn porwyr go iawn: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook ar gyfer pob cydran: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Ap enghreifftiol HTML+CSS+JS</a> yn dangos pob un o'r 571 cydran wedi'u steilio, yn chwiliadwy ac wedi'u dangos.
+    </li>
+  </ul>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themâu</a> — newid thema yn ystod rhedeg gyda theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Cynorthwywyr dewisiadau</a> — iaith a maint testun.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — y cyfeirnod llawn.</li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

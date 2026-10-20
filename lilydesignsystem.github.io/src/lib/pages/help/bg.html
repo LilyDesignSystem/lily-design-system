@@ -1,0 +1,432 @@
+<!-- title: Помощ — Lily Design System -->
+<!-- description: Започнете с Lily: инсталирайте безглавия пакет за вашия фреймуърк, копирайте компонент, стилизирайте го, дайте му тема и го пуснете. Отстраняване на неизправности, често задавани въпроси и поддръжка. -->
+<section class="page-intro">
+  <h1>Първи стъпки с Lily</h1>
+  <p class="page-intro-tagline">
+    Изберете фреймуърк, клонирайте монорепото и отворете неговата безглава библиотека или примерно приложение, и започнете да съставяте собствени страници. Предпочитате воден път? Започнете с
+    <a href="/tutorials/">уроците</a>.
+  </p>
+</section>
+
+<nav aria-label="На тази страница" class="prose" style="margin: 0 auto;">
+  <p><strong>На тази страница:</strong></p>
+  <ul>
+    <li><a href="#install">Инсталиране</a></li>
+    <li><a href="#use-headless">Използване на безглав компонент</a></li>
+    <li><a href="#use-styled">Използване на стилизиран пример</a></li>
+    <li><a href="#styling">Стилизиране и дизайн токени</a></li>
+    <li><a href="#themes">Готови теми</a></li>
+    <li><a href="#helpers">Помощници за предпочитания</a></li>
+    <li><a href="#a11y">Достъпност</a></li>
+    <li><a href="#i18n">Интернационализация</a></li>
+    <li><a href="#testing">Тестване</a></li>
+    <li><a href="#ai-agents">AI агенти</a></li>
+    <li><a href="#troubleshooting">Отстраняване на неизправности</a></li>
+    <li><a href="#contributing">Принос</a></li>
+    <li><a href="#community">Общност и поддръжка</a></li>
+    <li><a href="#faq">Често задавани въпроси</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Инсталиране</h2>
+  <p>
+    Lily живее в едно Git монорепо, с директория за безглавата библиотека, пакетите-помощници и примерното приложение на всеки фреймуърк. Най-бързият начин да го изпробвате е да клонирате монорепото и да отворите безглавата библиотека за вашия стек:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Същият модел работи и за другите фреймуърци:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — не е нужна инсталация; копирайте файловете <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Безглавите библиотеки са проектирани да бъдат клонирани или включвани в проекта — приемайте изходния код за източник на истината и копирайте каквото ви трябва.
+    <a href="#helpers">помощниците за предпочитания</a> допълнително се доставят като инсталируеми пакети с конвейер за изграждане и публикуване (npm за JS фреймуърците, NuGet за Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Използване на безглав компонент</h2>
+  <p>
+    Безглавите компоненти предоставят семантичен HTML, ARIA и свойства — но не и CSS. Ето един Button във всеки фреймуърк:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Използване на стилизиран пример</h2>
+  <p>
+    Примерните приложения включват CSS, маршрути и пълни демо страници. Най-бързият начин за експериментиране е да стартирате примерното приложение на SvelteKit, Next, Nuxt, Analog или Eleventy и да видите демото на <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    След това отворете <code>http://localhost:5173</code> и разгледайте <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Стилизиране и дизайн токени</h2>
+  <p>
+    Всеки компонент се изобразява с един клас в kebab-case на своя коренов елемент. Например, <code>&lt;Button&gt;</code> се изобразява като <code>&lt;button class="button"&gt;</code>. Стилизирайте го както желаете:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Палитрата с цветове по подразбиране на Lily (използвана в примерните приложения) е:</p>
+  <ul>
+    <li>Основен: <code>#2563eb</code></li>
+    <li>Опасност: <code>#dc2626</code></li>
+    <li>Предупреждение: <code>#f59e0b</code></li>
+    <li>Успех: <code>#16a34a</code></li>
+    <li>Фон на страницата: <code>#f9fafb</code></li>
+    <li>Фон на картата: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Това са предложения, не изисквания. Заменете ги с палитрата на вашата марка и Lily с радост ще ви последва.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Готови теми</h2>
+  <p>
+    Не искате да пишете CSS от нулата? Lily се доставя с
+    <strong>57 самостоятелни референтни теми</strong> в директорията
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Всяка е един стилов лист, насочен към куките за клас на Lily — свържете го и сте стилизирани:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Наборът обхваща:</p>
+  <ul>
+    <li>
+      <strong>Публичен сектор</strong> — NHS England, NHS Scotland и NHS Wales (всяка във варианти за пациенти и за практикуващи), GOV.UK GDS и U.S. Web Design System.
+    </li>
+    <li><strong>Вдъхновени от доставчици</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>С общо предназначение</strong> — light, dark, nord, dracula, wireframe и още трийсетина.
+    </li>
+  </ul>
+  <p>
+    Селекторите на темите използват <code>:where(...)</code>, така че вашият собствен CSS винаги печели по специфичност. Съчетайте ги с помощника <code>theme-picker</code> по-долу за превключване по време на изпълнение или следвайте
+    <a href="/tutorials/theming/">урока за темите</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Помощници за предпочитания</h2>
+  <p>
+    Всеки фреймуърк има осем малки селектора, всеки собствен пакет
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (и един <code>picker-bar</code> , който ги сглобява). Всеки е безглав бутон с икона, който отваря изскачащ прозорец — списъчно поле, списък с връзки, формуляр за търсене или (за date-time-picker) диалог за избор на дата — не родно
+    <code>&lt;select&gt;</code>; е безопасен за SSR; и не доставя CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — зарежда стилови листове на теми по време на изпълнение, като сменя управляван <code>&lt;link&gt;</code>, задава
+      <code>data-theme</code> на документа и по желание запазва устойчиво в
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — задава <code>lang</code> и
+      <code>dir</code> (с автоматично откриване на RTL), за да може вашата i18n библиотека да следва; сам не превежда нищо.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — задава <code>data-text-size</code> на документа; вашият CSS съпоставя всяка стойност с размер на шрифта.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — задава <code>data-motion</code> на документа, като тръгва от настройката за намалено движение на посетителя; вашият CSS и скриптове решават какво да се потисне.
+    </li>
+    <li>
+      <strong>search-picker</strong> — бутон с икона, който отваря поле за търсене; изпращането води до страница за търсене. Притежава действие, не предпочитание.
+    </li>
+    <li>
+      <strong>link-picker</strong> — икона на къща, която отваря меню с връзките към страници, които вашето приложение дефинира (Начало, За нас, Контакти, Политика за поверителност, …). Притежава действие, не предпочитание.
+    </li>
+    <li>
+      <strong>share-picker</strong> — отваря родния лист за споделяне или списък с дестинации, предоставен от потребителя, плюс копиране на URL. Притежава действие, не предпочитание: не прилага нищо, не запазва нищо.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — текстово поле плюс диалог за избор на дата по APG за дата, час или и двете. Притежава стойност на формуляр, не предпочитание: низът ISO се преобразува напред-назад в
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Каталогът на Svelte е каноничната референция; портовете за React, Vue, Angular, HTML, Nunjucks, Web Components и Blazor му съответстват договор по договор. Вижте
+    <a href="/tutorials/helpers/">урока за помощниците</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Достъпност</h2>
+  <p>Компонентите целят <strong>WCAG 2.2 AAA</strong>. Те следват тези шаблони:</p>
+  <ul>
+    <li>Семантични HTML елементи вместо общи <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> , които свързват етикетите с полетата за въвеждане.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> за кръстосани препратки.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> за състояния на грешка.</li>
+    <li><code>role="alert"</code> и <code>aria-live</code> за динамично съдържание.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> за състояние.</li>
+    <li>Roving <code>tabindex</code> за мрежи.</li>
+  </ul>
+  <p>
+    Индикаторите за фокус умишлено се предоставят от потребителя — Lily никога не рисува фокусен пръстен по подразбиране, който да е в конфликт с вашия дизайн. Примерните приложения поддържат чиста база axe-core на всички свои маршрути.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Интернационализация</h2>
+  <p>
+    Всеки етикет, заместител, съобщение за грешка и текст на бутон е свойство. Няма твърдо зададени низове. Включете избрания от вас фреймуърк за превод — Paraglide, i18next, vue-i18n, react-intl, .resx файлове, всичко.
+  </p>
+  <p>
+    За дати, числа и валути компонентите приемат предварително форматирани низове: вие форматирате с <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / предпочитаната от вас библиотека и подавате резултата.
+  </p>
+  <p>
+    Помощникът <code>locale-picker</code> сигнализира избрания локал на вашата i18n библиотека, като задава <code>lang</code> и <code>dir</code> на корена на документа.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Тестване</h2>
+  <p>Всеки подпроект на фреймуърк се доставя със собствени тестове, използващи неговия идиоматичен стек:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO, изпълняващ реални браузъри.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (чрез приставката Vite на Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest с помощник за изобразяване.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Тестовете използват <strong>само вградените съпоставители на Vitest</strong> — никога съпоставителите на
+    <code>jest-dom</code> . Това запазва наборите от тестове преносими. Примерните приложения добавят набори на Playwright от край до край, бази за достъпност с axe-core и преглед на отзивчиви viewport-ове.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI агенти</h2>
+  <p>
+    Този сайт публикува <a href="/llms.txt">llms.txt</a> и
+    <a href="/llms.json">llms.json</a> в своя корен — подбрана карта на най-важните си страници, за всеки инструмент, който следва
+    <a href="https://llmstxt.org">конвенцията llms.txt</a>.
+  </p>
+  <p>
+    Каноничното монорепо допълнително доставя две
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: умение с общо предназначение, покриващо понятията, терминологията и шаблоните за съставяне на Lily за всеки, който гради със системата, и <code>lily-design-system-maintainer-skill</code>, техническо умение, покриващо структурата на задължителните файлове и инструментите на монорепото за всеки, който работи по него. И двете са в корена на
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">каноничното монорепо</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Отстраняване на неизправности</h2>
+
+  <details class="faq-item">
+    <summary>Компонент се изобразява, но изглежда нестилизиран</summary>
+    <p>
+      Това е безглавият режим, работещ по замисъл — с компонента не се доставя CSS. Или напишете CSS за класа на компонента в kebab-case (показан на всяка <a href="/components/">страница на каталога</a>) или свържете една от
+      <a href="#themes">57-те готови теми</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Моят CSS изглежда не се прилага над тема</summary>
+    <p>
+      Би трябвало — селекторите на темите са обвити в <code>:where(...)</code>, което има нулева специфичност. Ако правило все пак губи, проверете дали стиловият ви лист се зарежда след <code>&lt;link&gt;</code> на темата и дали селекторът наистина съвпада с куката за клас на компонента.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install се проваля с грешка за peer или версия</summary>
+    <p>
+      Използвайте актуален pnpm (v10+) и Node 22+. Всеки подпроект фиксира версиите на своя фреймуърк в собствения си <code>package.json</code>; ако глобалната ви верига от инструменти е по-стара, <code>pnpm env use --global lts</code> е най-бързата поправка.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Екранният четец обявява грешно име за контрол</summary>
+    <p>
+      Проверете задължителното свойство <code>label</code> на компонента — компонентите без видим текст изискват такова, а предоставените от потребителя
+      <code>aria-label</code> / <code>aria-labelledby</code> подадени чрез rest-props умишлено печелят над вградената връзка. Всяка страница на каталога документира договора за ARIA на компонента.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Помощникът theme-picker не превключва стилови листове</summary>
+    <p>
+      Потвърдете, че <code>themesUrl</code> сочи към директория, която браузърът може да извлече (сервирайте файловете <code>themes/</code> като статични ресурси) и че идентификаторите на темите във вашето свойство <code>themes</code> съвпадат с имената на файловете. Помощникът сменя <code>href</code> на един управляван
+      <code>&lt;link data-lily-theme-picker&gt;</code> — огледайте го в инструментите за разработчици, за да видите заявявания URL.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Нещо друго е счупено</summary>
+    <p>
+      Отворете issue с минимално възпроизвеждане в
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — или вижте <a href="#community">общност и поддръжка</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Принос</h2>
+  <p>Lily е млад и приветства сътрудничество. Най-полезните приноси в момента са:</p>
+  <ul>
+    <li>Нови компоненти (особено шаблони от утвърдени дизайн системи).</li>
+    <li>Нови теми — всяка е един самостоятелен стилов лист, добре очертан първи PR.</li>
+    <li>По-добро стилизиране на примерите — покажете какво е възможно.</li>
+    <li>Преводи на низовете на примерните приложения.</li>
+    <li>Доклади за грешки с минимално възпроизвеждане.</li>
+    <li>Одити на достъпността с екранни четци и помощни технологии.</li>
+  </ul>
+  <p>
+    Отваряйте issue и PR в
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Общност и поддръжка</h2>
+  <ul>
+    <li>
+      <strong>Въпроси и доклади за грешки</strong> — отворете issue в
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Имейл</strong> — поддържащият чете
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      и приветства сътрудничество, насоки и обратна връзка.
+    </li>
+    <li>
+      <strong>Огледала</strong> — Lily се изпраща и към
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> и
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, за да можете да участвате от форджа, който предпочитате.
+    </li>
+    <li>
+      <strong>Поведение</strong> — проектът следва стандартен кодекс за поведение; бъдете любезни, предполагайте добра воля.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Често задавани въпроси</h2>
+
+  <details class="faq-item">
+    <summary>Защо безглав вместо стилизиран?</summary>
+    <p>
+      Предварително стилизираните компоненти са удобни — докато не се впишат в марката ви. Безглавите компоненти изискват малко повече работа отначало, но ви дават пълен контрол над визуалния дизайн. Примерните приложения и 57-те теми показват начини за стилизиране; можете да ги вземете или да ги замените изцяло. По-дългият аргумент е на <a href="/why/">Защо Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Защо толкова много компоненти?</summary>
+    <p>
+      Lily цели да покрие шаблоните, от които се нуждаят повечето приложения, без да ви принуждава да ги градите от нулата — включително специфични неща като полета за национални идентификатори и редакционен scrollytelling. Каталогът черпи от дузина утвърдени дизайн системи плюс оригинална работа — вижте <a href="/about/">За проекта</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Мога ли да използвам Lily с Tailwind?</summary>
+    <p>
+      Да. Всеки компонент излага един коренов клас в kebab-case плюс предоставен от потребителя <code>className</code> / <code>class</code>. Наслагвайте помощните класове на Tailwind както желаете.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Мога ли да използвам Lily със семантични CSS фреймуърци като DaisyUI?</summary>
+    <p>
+      Да. Имената на класове в kebab-case на кореновия елемент работят като семантични CSS куки. Съчетайте Lily със семантичен фреймуърк и получавате предварително стилизирани компоненти, които все пак уважават ARIA и i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Има ли npm пакет?</summary>
+    <p>
+       <a href="#helpers">Помощниците за предпочитания</a> се доставят като пакети с конвейер за публикуване npm/NuGet. Безглавите библиотеки с компоненти са проектирани да бъдат клонирани или включвани в проекта — изходният код е доставяното, така че можете да четете, подрязвате и притежавате точно това, което пускате. Публикуването на безглавите библиотеки в регистри остава в пътната карта.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Защо множество лицензи?</summary>
+    <p>
+      Различните проекти имат различни лицензионни нужди. BSD и MIT са разрешителни, Apache-2.0 има патентно разрешение, а опциите на GPL подкрепят copyleft. Изберете каквото подхожда на ситуацията ви.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Как да докладвам грешка или да поискам функция?</summary>
+    <p>
+      Отворете issue в хранилището на GitHub или пишете на
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

@@ -1,0 +1,111 @@
+<!-- title: Οδηγός θεμάτων — Lily Design System -->
+<!-- description: Δώστε θέμα στη Lily με τρεις τρόπους: συνδέστε ένα από τα 45 έτοιμα θέματα, παρακάμψτε το με το CSS σας και προσθέστε εναλλαγή θέματος κατά την εκτέλεση με τον βοηθό theme-picker. -->
+<section class="page-intro">
+  <h1>Θέματα</h1>
+  <p class="page-intro-tagline">
+    Τα στοιχεία της Lily έχουν σταθερά αγκίστρια κλάσης και μηδέν CSS — άρα ένα θέμα είναι απλώς ένα φύλλο στυλ. Αυτός ο οδηγός πηγαίνει από το «συνδέστε ένα αρχείο» στο «αφήστε τον χρήστη να αλλάζει θέμα κατά την εκτέλεση, με διατήρηση».
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Τι θα φτιάξετε</h2>
+  <p>
+    Μια εφαρμογή της οποίας ολόκληρη την εμφάνιση μπορεί να αλλάξει ο χρήστης — ξεκινώντας από ένα συνδεδεμένο φύλλο στυλ και καταλήγοντας σε έναν διατηρούμενο εναλλάκτη θέματος κατά την εκτέλεση — σε περίπου 15 λεπτά.
+  </p>
+
+  <h2>Πριν ξεκινήσετε</h2>
+  <p>
+    Ολοκληρώστε πρώτα τον <a href="/tutorials/">οδηγό του framework</a> για τη στοίβα σας πρώτα, ώστε να έχετε μια μικρή φόρμα Lily να της δώσετε θέμα. Όλα εδώ δουλεύουν και στα επτά frameworks· τα δείγματα κώδικα δείχνουν Svelte και απλό HTML.
+  </p>
+
+  <h2>Βήμα 1 — Συνδέστε ένα έτοιμο θέμα</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ο κατάλογος περιέχει 45 αυτόνομα φύλλα στυλ. Αντιγράψτε τα στους στατικούς πόρους της εφαρμογής σας και συνδέστε ένα:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Κορυφαία σημεία του συνόλου:</p>
+  <ul>
+    <li>
+      <strong>Δημόσιος τομέας</strong> — NHS England / Scotland / Wales, καθένα σε παραλλαγές για ασθενείς και για επαγγελματίες· GOV.UK (<code>united-kingdom-government-digital-service</code>)· USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Εμπνευσμένα από προμηθευτές</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Γενικής χρήσης</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>και πολλά ακόμη.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ελέγξτε τη δουλειά σας:</strong> επαναφορτώστε τη σελίδα. Η ίδια σήμανση που φτιάξατε στον οδηγό του framework είναι τώρα πλήρως μορφοποιημένη — κουμπιά, πεδία, ετικέτες, δακτύλιοι εστίασης. Μία γραμμή HTML το έκανε — κάθε στοιχείο έμεινε ακριβώς όπως ήταν.
+    </p>
+  </div>
+
+  <h2>Βήμα 2 — Παρακάμψτε οτιδήποτε</h2>
+  <p>
+    Οι επιλογείς του θέματος είναι τυλιγμένοι σε <code>:where(...)</code>που έχει μηδενική ειδικότητα — άρα κάθε κανόνας που γράφετε κερδίζει, απλά:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Βήμα 3 — Εναλλαγή κατά την εκτέλεση με το theme-picker</h2>
+  <p>
+     <code>theme-picker</code> ο βοηθός είναι ένα headless κουμπί-εικονίδιο + listbox που κατέχει ολόκληρο τον κύκλο ζωής του θέματος: φορτώνει το επιλεγμένο φύλλο στυλ αλλάζοντας ένα διαχειριζόμενο <code>&lt;link&gt;</code>
+    (μόνο το ενεργό θέμα φέρνεται ποτέ), ορίζει το
+    <code>data-theme="&#123;slug&#125;"</code> στο έγγραφο και προαιρετικά το διατηρεί στο <code>localStorage</code>. Εδώ φαίνεται το Svelte· οι θύρες για React, Vue, Angular, HTML, Nunjucks και Blazor αντιστοιχούν σύμβαση προς σύμβαση:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Αυτή είναι ολόκληρη η ενσωμάτωση. Η συμπεριφορά πληκτρολογίου ακολουθεί το μοτίβο listbox του WAI-ARIA APG· το ίδιο το στοιχείο ελέγχου είναι headless (αγκίστρι κλάσης
+    <code>.theme-picker</code>), οπότε παίρνει όποιο θέμα είναι ενεργό.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Επαληθεύτηκε στις 2026-08-29:</strong> αυτό ακριβώς το απόσπασμα μεταγλωττίστηκε απέναντι στο δημοσιευμένο <code>0.1.1</code> πακέτο μέσω
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Βήμα 4 — Αντιδράστε στο θέμα στο δικό σας CSS</h2>
+  <p>
+    Επειδή ο βοηθός ορίζει το <code>data-theme</code> στη ρίζα του εγγράφου, τα δικά σας στυλ μπορούν να διακλαδίζονται με βάση αυτό:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Σημειώσεις για απόδοση στον διακομιστή</h2>
+  <p>
+    Ο βοηθός κάνει όλες τις εγγραφές στο DOM μέσα στον κύκλο ζωής mount/effect του framework, άρα είναι ασφαλής για SSR εκ κατασκευής. Για να αποφύγετε αναλαμπή στην πρώτη ζωγραφική, αποδώστε στον διακομιστή το <code>&lt;link&gt;</code> και
+    <code>data-theme</code> του αρχικού θέματος (για παράδειγμα από cookie) — το αποθετήριο του βοηθού Svelte περιλαμβάνει εκτελέσιμο παράδειγμα cookie για SvelteKit, και οι άλλοι κατάλογοι τεκμηριώνουν το ίδιο μοτίβο για τις στοίβες τους.
+  </p>
+
+  <h2>Επόμενα βήματα</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Βοηθοί προτιμήσεων</a> — το ίδιο μοτίβο για γλώσσα, μέγεθος κειμένου, κοινοποίηση και εισαγωγή ημερομηνίας/ώρας.</li>
+    <li>
+      Συνεισφέρετε ένα θέμα — καθένα είναι ένα αυτόνομο φύλλο στυλ που στοχεύει τα αγκίστρια κλάσης· δείτε <a href="/help/#contributing">τη συνεισφορά</a>.
+    </li>
+  </ul>
+  <p>
+    Ερωτήσεις στην πορεία; Η
+    <a href="/help/#troubleshooting">σελίδα βοήθειας</a> είναι γεμάτη απαντήσεις — και αν ένα βήμα μπορεί να γίνει πιο σαφές,
+    <a href="https://github.com/LilyDesignSystem">πείτε μας</a> και θα βελτιώσουμε με χαρά τον οδηγό.
+  </p>
+</section>

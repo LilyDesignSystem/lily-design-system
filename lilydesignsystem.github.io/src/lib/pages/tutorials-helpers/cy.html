@@ -1,0 +1,276 @@
+<!-- title: Tiwtorial cynorthwywyr dewisiadau — Lily Design System -->
+<!-- description: Ychwanegwch ddewisiadau iaith a maint testun y defnyddiwr gyda chynorthwywyr Lily locale-picker a text-size-picker: rheolyddion di-ben botwm-eicon + blwch rhestr gyda pharhad a diogelwch SSR. -->
+<section class="page-intro">
+  <h1>Cynorthwywyr dewisiadau</h1>
+  <p class="page-intro-tagline">
+    Saith pecyn bach i bob fframwaith, pob un yn berchen ar un dasg defnyddiwr o'r dechrau i'r diwedd, a bar sy'n casglu pump ohonynt. Rydych eisoes wedi cwrdd â
+    <a href="/tutorials/theming/">theme-picker</a>; dyma locale-picker, text-size-picker a motion-picker (dewisiadau), share-picker a search-picker (gweithredoedd), date-time-picker (gwerth ffurflen) a picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Panel gosodiadau lle mae defnyddwyr yn dewis eu hiaith a maint eu testun — dewisiadau sy'n berthnasol i'r ddogfen gyfan, yn parhau rhwng ymweliadau, ac yn costio dwy gydran a rhai llinellau o CSS i chi. Tua 15 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Gorffennwch yn gyntaf y <a href="/tutorials/">tiwtorial fframwaith</a> ar gyfer eich pentwr. Svelte yw'r samplau isod; mae cynorthwywyr React, Vue, Angular, HTML, Nunjucks a Blazor yn cyfateb contract wrth gontract.
+  </p>
+
+  <h2>Y ffurf maen nhw'n ei rhannu</h2>
+  <ul>
+    <li>Botwm eicon di-ben sy'n agor blwch rhestr WAI-ARIA APG (neu, ar gyfer date-time-picker, deialog dewis dyddiad) — dim <code>&lt;select&gt;</code>brodorol, fel bod pob fframwaith yn cael yr un ymddygiad bysellfwrdd a bachau steilio.</li>
+    <li>Un bachyn dosbarth i bob pecyn (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), sero CSS wedi'i gludo.</li>
+    <li>Diogel ar gyfer SSR: dim ond yng nghylch bywyd mount/effect y mae ysgrifennu DOM yn digwydd.</li>
+    <li>Glân o ran i18n: mae pob llinyn y mae'r defnyddiwr yn ei weld yn prop.</li>
+    <li>
+      Ar gael ar gyfer Svelte (canonaidd), React, Vue, Angular, elfen bersonol HTML, Nunjucks a Blazor — yr un contract ym mhob un.
+    </li>
+  </ul>
+  <p>
+    Mae theme-picker, locale-picker a text-size-picker bob un yn berchen ar un
+    <em>dewis</em> defnyddiwr o'r dechrau i'r diwedd (dewis, cymhwyso i'r DOM,
+    <code>localStorage</code> parhad dewisol drwy'r prop <code>storageKey</code>
+    ). Mae share-picker a date-time-picker yn wahanol o ran math: mae share-picker yn berchen ar <em>weithred</em> — nid yw'n cymhwyso dim i'r ddogfen ac nid yw'n parhau dim — ac mae date-time-picker yn berchen ar
+    <em>werth ffurflen</em>, gan fod dyddiad mewn ffurflen yn ddata, nid yn ddewis.
+  </p>
+
+  <h2>locale-picker — iaith a chyfeiriad</h2>
+  <p>
+    Yn gadael i'r defnyddiwr ddewis locale, yna'n ysgrifennu <code>lang</code> a
+    <code>dir</code> ar wraidd y ddogfen fel bod eich llyfrgell i18n, eich CSS a thechnolegau cynorthwyol i gyd yn ei ddilyn. Caiff RTL ei ganfod yn awtomatig ar gyfer Arabeg, Hebraeg a sgriptiau eraill o'r dde i'r chwith. Mae'n canolbwyntio'n llwyr ar signalu — eich llyfrgell i18n sy'n trin y cyfieithu.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Caiff yr opsiynau eu labelu o dabl adeiledig o enwau locale (gellir ei ddiystyru drwy <code>localeLabels</code>), mae pob opsiwn yn cario ei briodoledd
+    <code>lang</code> ei hun fel bod darllenwyr sgrin yn ynganu "Français" yn Ffrangeg, a chaiff codau â thanlinell fel <code>en_US</code>
+    eu trosi'n ddi-golled i BCP 47 ac yn ôl <code>en-US</code>. Cysylltwch
+    <code>onChange</code> (neu'r gwerth rhwymedig) ag i18next, Paraglide, vue-i18n neu beth bynnag a ddefnyddiwch.
+  </p>
+
+  <h2>text-size-picker — maint dan reolaeth y darllenydd</h2>
+  <p>
+    Mantais hygyrchedd sy'n cymryd munudau: mae'r cynorthwyydd yn gosod
+    <code>data-text-size="&#123;slug&#125;"</code> ar wraidd y ddogfen ac mae eich CSS yn mapio pob gwerth i faint.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Maint eich cynllun yn <code>rem</code> ac mae'r ap cyfan yn graddio gyda dewis y defnyddiwr. Caiff labeli eu ffurfio o'r slugs gyda phrif lythyren ("X Large") neu eu diystyru gyda <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> dewiswch "Large" o'r dewisydd, ac mae testun y dudalen yn tyfu. Ail-lwythwch — mae'n dal yn fawr: cafodd y dewis ei barhau i
+      <code>localStorage</code>. Newidiwch eich dewisydd iaith i Arabeg a
+      <code>dir="rtl"</code> caiff ei osod ar y ddogfen yn awtomatig.
+    </p>
+  </div>
+
+  <h2>share-picker — anfonwch y dudalen hon</h2>
+  <p>
+    Botwm un glyff sy'n agor taflen rannu brodorol y ddyfais lle mae un, ac fel arall yn disgyn yn ôl i restr o gyrchfannau a ddarparwch, ynghyd â gweithred copïo'r URL. Nid yw'n cludo unrhyw URLau rhwydweithiau cymdeithasol — pa rwydweithiau sy'n perthyn yn eich cynnyrch yw eich penderfyniad chi, nid penderfyniad y system ddylunio.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> yw ei ragosodiad <code>location.href</code>felly nid oes angen unrhyw wifrau ar y cyflwr cyffredin. Gorfodwch lwybr gyda <code>strategy="list"</code> neu
+    <code>strategy="native"</code> pan fo angen ymddygiad cyson ar draws llwyfannau ar gyfer profion neu sgrinluniau.
+  </p>
+
+  <h2>date-time-picker — dyddiad, amser, neu'r ddau</h2>
+  <p>
+    Maes testun y gallwch deipio ynddo, ynghyd â botwm eicon sy'n agor deialog dewis dyddiad WAI-ARIA APG. Cywir o ran locale yn ôl cynllun — daw enwau misoedd, enwau diwrnodau'r wythnos, diwrnod cyntaf yr wythnos a chloc 12 neu 24 awr i gyd o <code>Intl</code> — ac mae'r gwerth bob amser yn llinyn ISO trefnadwy heb barth amser: <code>"2026-03-15"</code> ar gyfer
+    <code>mode="date"</code>, <code>"09:30"</code> ar gyfer
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> ar gyfer
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Mae'r gwerth ISO yn union yr un fath â'r hyn y mae <code>&lt;input type="date"&gt;</code>
+    yn ei anfon, felly gallwch gyfnewid y rheolydd brodorol i mewn neu allan heb gyffwrdd â'ch ôl-wyneb.
+  </p>
+
+  <h2>motion-picker — parchwch symudiad llai</h2>
+  <p>
+    Mae'r cynorthwyydd yn gosod <code>data-motion="&#123;slug&#125;"</code> ar wraidd y ddogfen. Daw ei werth cyntaf o osodiad
+    <code>prefers-reduced-motion</code> system weithredu'r ymwelydd — bob amser, heb faner optio i mewn, oherwydd bod symudiad yn angen hygyrchedd go iawn (WCAG 2.3.3). Eich CSS a'ch sgriptiau sy'n penderfynu beth a gaiff ei fygu.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — blwch chwilio nad yw'n rhwystro</h2>
+  <p>
+    Botwm eicon sy'n agor maes chwilio. Mae pwyso Return, neu'r botwm &#9166; wrth ymyl y maes, yn llywio gyda chais GET syml i
+    <code>/?&lt;text&gt;</code> (caiff y testun ei docio a'i amgodio fel URI; nid yw ymholiad gwag yn mynd i unman). Mae ei dri enw hygyrch yn ofynnol, oherwydd nid yw'r cynorthwyydd yn cludo Saesneg.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> yn newid y llwybr (<code>/search?foo</code>), ac mae
+    <code>navigate</code> yn cadw'r llywio y tu mewn i'r ap; hebddo mae'r cynorthwyydd yn galw <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — y rhes pennawd gyfan ar unwaith</h2>
+  <p>
+    <code>picker-bar</code> yn rendro chwilio, thema, locale, maint testun a rhannu mewn un rhes, gyda'r set lawn o themâu cyfeirio a'r raddfa testun saith cam wedi'u gwifro ymlaen llaw. Mae pob enw hygyrch yn cyrraedd mewn un gwrthrych
+    <code>labels</code> gofynnol.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Cyrhaeddwch unrhyw ddewisydd wedi'i lapio gyda <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> a <code>shareProps</code>.
+  </p>
+
+  <h2>Mae awgrymiadau offer wedi'u hadeiladu i mewn</h2>
+  <p>
+    Mae pob dewisydd yn dangos ei label mewn awgrym offer pan fo'r pwyntydd yn gorffwys ar ei fotwm neu pan fo ffocws bysellfwrdd ar y botwm. Mae'r awgrym offer yn aros tra bo'r pwyntydd yn symud arno, mae Escape yn ei gau ble bynnag y bo'r ffocws, ac nid yw byth yn dangos tra bo naidlen y dewisydd ar agor. Mae'n cario'r un testun ag enw hygyrch y botwm, felly nid oes dim i'w ffurfweddu na'i gyfieithu ddwywaith; mae'r themâu cyfeirio yn ei steilio.
+  </p>
+
+  <h2>Panel gosodiadau mewn un lle</h2>
+  <p>Mae'r pedwar cynorthwyydd dewisiadau yn cyfansoddi'n naturiol:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwyd:</strong> cafodd darnau locale-picker, text-size-picker, share-picker, date-time-picker a'r panel cyfun eu llunio'n unigol yn erbyn y pecynnau <code>0.1.1</code> cyhoeddedig, drwy
+      <code>svelte/server</code> (2026-08-29); cafodd darnau motion-picker, search-picker a picker-bar eu rendro yn erbyn cydrannau'r pecynnau eu hunain ar 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Ble i'w cael</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Mae gan bob pecyn ei spec ei hun, profion wedi'u mapio i gymalau'r spec, enghreifftiau y gellir eu rhedeg (gan gynnwys patrymau cwcis SSR) a phibell adeiladu + cyhoeddi. Y pecynnau Svelte yw'r rhai canonaidd; os oes amheuaeth, eu contractau sy'n ennill.
+  </p>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/components/">Catalog cydrannau</a> — cyfeirnod llawn y 571 cydran.</li>
+    <li><a href="/help/">Cymorth</a> — datrys problemau a chwestiynau cyffredin.</li>
+    <li><a href="/why/">Pam Lily</a> — a sut i gefnogi'r prosiect.</li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

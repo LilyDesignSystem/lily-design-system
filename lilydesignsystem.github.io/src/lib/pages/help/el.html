@@ -1,0 +1,432 @@
+<!-- title: Βοήθεια — Lily Design System -->
+<!-- description: Ξεκίνα με το Lily: εγκατάστησε το κεφαλοχωρίς πακέτο για το πλαίσιό σου, αντίγραψε ένα στοιχείο, μορφοποίησέ το, δώσε του θέμα και δημοσίευσέ το. Αντιμετώπιση προβλημάτων, συχνές ερωτήσεις και υποστήριξη. -->
+<section class="page-intro">
+  <h1>Πρώτα βήματα με το Lily</h1>
+  <p class="page-intro-tagline">
+    Διάλεξε ένα πλαίσιο, κλωνοποίησε το monorepo και άνοιξε την κεφαλοχωρίς βιβλιοθήκη ή την εφαρμογή-παράδειγμά του, και ξεκίνα να συνθέτεις τις δικές σου σελίδες. Προτιμάς καθοδηγούμενη διαδρομή; Ξεκίνα με τα
+    <a href="/tutorials/">σεμινάρια</a>.
+  </p>
+</section>
+
+<nav aria-label="Σε αυτή τη σελίδα" class="prose" style="margin: 0 auto;">
+  <p><strong>Σε αυτή τη σελίδα:</strong></p>
+  <ul>
+    <li><a href="#install">Εγκατάσταση</a></li>
+    <li><a href="#use-headless">Χρήση κεφαλοχωρίς στοιχείου</a></li>
+    <li><a href="#use-styled">Χρήση μορφοποιημένου παραδείγματος</a></li>
+    <li><a href="#styling">Μορφοποίηση και design tokens</a></li>
+    <li><a href="#themes">Έτοιμα θέματα</a></li>
+    <li><a href="#helpers">Βοηθοί προτιμήσεων</a></li>
+    <li><a href="#a11y">Προσβασιμότητα</a></li>
+    <li><a href="#i18n">Διεθνοποίηση</a></li>
+    <li><a href="#testing">Δοκιμές</a></li>
+    <li><a href="#ai-agents">Πράκτορες AI</a></li>
+    <li><a href="#troubleshooting">Αντιμετώπιση προβλημάτων</a></li>
+    <li><a href="#contributing">Συνεισφορά</a></li>
+    <li><a href="#community">Κοινότητα και υποστήριξη</a></li>
+    <li><a href="#faq">Συχνές ερωτήσεις</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Εγκατάσταση</h2>
+  <p>
+    Το Lily ζει σε ένα μόνο monorepo Git, με έναν κατάλογο για την κεφαλοχωρίς βιβλιοθήκη, τα βοηθητικά πακέτα και την εφαρμογή-παράδειγμα κάθε πλαισίου. Ο ταχύτερος τρόπος να το δοκιμάσεις είναι να κλωνοποιήσεις το monorepo και να ανοίξεις την κεφαλοχωρίς βιβλιοθήκη για τη στοίβα σου:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Το ίδιο μοτίβο ισχύει και για τα υπόλοιπα πλαίσια:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — δεν χρειάζεται εγκατάσταση· αντίγραψε τα αρχεία <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Οι κεφαλοχωρίς βιβλιοθήκες σχεδιάστηκαν για να κλωνοποιούνται ή να ενσωματώνονται — θεώρησε τον πηγαίο κώδικα πηγή αλήθειας και αντίγραψε ό,τι χρειάζεσαι.
+    <a href="#helpers">βοηθοί προτιμήσεων</a> παρέχονται επιπλέον ως εγκαταστάσιμα πακέτα με αγωγό δόμησης και δημοσίευσης (npm για τα πλαίσια JS, NuGet για το Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Χρήση κεφαλοχωρίς στοιχείου</h2>
+  <p>
+    Τα κεφαλοχωρίς στοιχεία παρέχουν σημασιολογικό HTML, ARIA και ιδιότητες — αλλά όχι CSS. Να ένα Button σε κάθε πλαίσιο:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Χρήση μορφοποιημένου παραδείγματος</h2>
+  <p>
+    Οι εφαρμογές-παραδείγματα περιλαμβάνουν CSS, διαδρομές και πλήρεις σελίδες επίδειξης. Ο ταχύτερος τρόπος πειραματισμού είναι να ξεκινήσεις την εφαρμογή-παράδειγμα SvelteKit, Next, Nuxt, Analog ή Eleventy και να δεις την επίδειξη στο <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Έπειτα άνοιξε το <code>http://localhost:5173</code> και περιηγήσου στο <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Μορφοποίηση και design tokens</h2>
+  <p>
+    Κάθε στοιχείο αποδίδεται με μία μόνο κλάση kebab-case στο ριζικό του στοιχείο. Για παράδειγμα, το <code>&lt;Button&gt;</code> αποδίδεται ως <code>&lt;button class="button"&gt;</code>. Μορφοποίησέ το όπως θέλεις:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Η προεπιλεγμένη παλέτα χρωμάτων του Lily (που χρησιμοποιείται στις εφαρμογές-παραδείγματα) είναι:</p>
+  <ul>
+    <li>Πρωτεύον: <code>#2563eb</code></li>
+    <li>Κίνδυνος: <code>#dc2626</code></li>
+    <li>Προειδοποίηση: <code>#f59e0b</code></li>
+    <li>Επιτυχία: <code>#16a34a</code></li>
+    <li>Φόντο σελίδας: <code>#f9fafb</code></li>
+    <li>Φόντο κάρτας: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Αυτές είναι προτάσεις, όχι απαιτήσεις. Αντικατάστησέ τες με την παλέτα της δικής σου επωνυμίας και το Lily ακολουθεί με χαρά.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Έτοιμα θέματα</h2>
+  <p>
+    Δεν θέλεις να γράψεις CSS από το μηδέν; Το Lily περιλαμβάνει
+    <strong>57 αυτόνομα θέματα αναφοράς</strong> στον κατάλογο
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Καθένα είναι ένα φύλλο στυλ που στοχεύει τα αγκίστρια κλάσεων του Lily — σύνδεσέ το και είσαι μορφοποιημένος:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Το σύνολο καλύπτει:</p>
+  <ul>
+    <li>
+      <strong>Δημόσιος τομέας</strong> — NHS England, NHS Scotland και NHS Wales (το καθένα σε παραλλαγές για ασθενείς και για επαγγελματίες), GOV.UK GDS και το U.S. Web Design System.
+    </li>
+    <li><strong>Εμπνευσμένα από προμηθευτές</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Γενικής χρήσης</strong> — light, dark, nord, dracula, wireframe και άλλα τριάντα περίπου.
+    </li>
+  </ul>
+  <p>
+    Οι επιλογείς θεμάτων χρησιμοποιούν <code>:where(...)</code>, οπότε το δικό σου CSS κερδίζει πάντα στην ειδικότητα. Συνδύασέ τα με τον βοηθό <code>theme-picker</code> παρακάτω για εναλλαγή κατά την εκτέλεση ή ακολούθησε το
+    <a href="/tutorials/theming/">σεμινάριο θεμάτων</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Βοηθοί προτιμήσεων</h2>
+  <p>
+    Κάθε πλαίσιο έχει οκτώ μικρούς επιλογείς, καθένας δικό του πακέτο
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (και ένα <code>picker-bar</code> που τους συναρμολογεί). Καθένας είναι ένα κεφαλοχωρίς κουμπί εικονιδίου που ανοίγει αναδυόμενο παράθυρο — λίστα επιλογής, λίστα συνδέσμων, φόρμα αναζήτησης ή (για το date-time-picker) διάλογο επιλογής ημερομηνίας — όχι εγγενές
+    <code>&lt;select&gt;</code>· είναι ασφαλής για SSR· και δεν περιλαμβάνει CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — φορτώνει φύλλα στυλ θεμάτων κατά την εκτέλεση αλλάζοντας ένα διαχειριζόμενο <code>&lt;link&gt;</code>, ορίζει το
+      <code>data-theme</code> στο έγγραφο και προαιρετικά αποθηκεύει σταθερά στο
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — ορίζει τα <code>lang</code> και
+      <code>dir</code> (με αυτόματη ανίχνευση RTL) ώστε η βιβλιοθήκη i18n σου να ακολουθεί· δεν μεταφράζει τίποτα μόνο του.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — ορίζει το <code>data-text-size</code> στο έγγραφο· το CSS σου αντιστοιχίζει κάθε τιμή σε μέγεθος γραμματοσειράς.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — ορίζει το <code>data-motion</code> στο έγγραφο, ξεκινώντας από τη ρύθμιση μειωμένης κίνησης του επισκέπτη· το CSS και τα scripts σου αποφασίζουν τι θα καταστείλουν.
+    </li>
+    <li>
+      <strong>search-picker</strong> — ένα κουμπί εικονιδίου που ανοίγει πεδίο αναζήτησης· η υποβολή οδηγεί σε σελίδα αναζήτησης. Κατέχει μια ενέργεια, όχι μια προτίμηση.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ένα εικονίδιο σπιτιού που ανοίγει μενού με τους συνδέσμους σελίδων που ορίζει η εφαρμογή σου (Αρχική, Σχετικά με εμάς, Επικοινωνία, Πολιτική απορρήτου, …). Κατέχει μια ενέργεια, όχι μια προτίμηση.
+    </li>
+    <li>
+      <strong>share-picker</strong> — ανοίγει το εγγενές φύλλο κοινοποίησης ή λίστα προορισμών που παρέχει ο καταναλωτής, συν αντιγραφή του URL. Κατέχει μια ενέργεια, όχι μια προτίμηση: δεν εφαρμόζει τίποτα, δεν αποθηκεύει τίποτα.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — ένα πεδίο κειμένου συν ένας διάλογος επιλογής ημερομηνίας κατά APG για ημερομηνία, ώρα ή και τα δύο. Κατέχει μια τιμή φόρμας, όχι μια προτίμηση: η συμβολοσειρά ISO μετατρέπεται εκατέρωθεν σε
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Ο κατάλογος Svelte είναι η κανονική αναφορά· οι μεταφορές για React, Vue, Angular, HTML, Nunjucks, Web Components και Blazor του αντιστοιχούν συμβόλαιο προς συμβόλαιο. Δες το
+    <a href="/tutorials/helpers/">σεμινάριο βοηθών</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Προσβασιμότητα</h2>
+  <p>Τα στοιχεία στοχεύουν στο <strong>WCAG 2.2 AAA</strong>. Ακολουθούν αυτά τα μοτίβα:</p>
+  <ul>
+    <li>Σημασιολογικά στοιχεία HTML αντί για γενικά <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> που συνδέουν ετικέτες με πεδία εισόδου.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> για παραπομπές.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> για καταστάσεις σφάλματος.</li>
+    <li><code>role="alert"</code> και <code>aria-live</code> για δυναμικό περιεχόμενο.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> για κατάσταση.</li>
+    <li>Roving <code>tabindex</code> για πλέγματα.</li>
+  </ul>
+  <p>
+    Οι δείκτες εστίασης παρέχονται σκόπιμα από τον καταναλωτή — το Lily δεν ζωγραφίζει ποτέ προεπιλεγμένο δαχτυλίδι εστίασης που συγκρούεται με τον σχεδιασμό σου. Οι εφαρμογές-παραδείγματα διατηρούν καθαρή βάση axe-core σε όλες τις διαδρομές τους.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Διεθνοποίηση</h2>
+  <p>
+    Κάθε ετικέτα, κειμενοφύλακας, μήνυμα σφάλματος και κείμενο κουμπιού είναι ιδιότητα. Δεν υπάρχουν συμβολοσειρές γραμμένες στον κώδικα. Σύνδεσε το πλαίσιο μετάφρασης της επιλογής σου — Paraglide, i18next, vue-i18n, react-intl, αρχεία .resx, οτιδήποτε.
+  </p>
+  <p>
+    Για ημερομηνίες, αριθμούς και νομίσματα, τα στοιχεία δέχονται προμορφοποιημένες συμβολοσειρές: μορφοποιείς εσύ με <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / τη βιβλιοθήκη που προτιμάς και περνάς το αποτέλεσμα.
+  </p>
+  <p>
+    Ο βοηθός <code>locale-picker</code> επισημαίνει την επιλεγμένη τοπική ρύθμιση στη βιβλιοθήκη i18n σου ορίζοντας <code>lang</code> και <code>dir</code> στη ρίζα του εγγράφου.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Δοκιμές</h2>
+  <p>Κάθε υποέργο πλαισίου παρέχει τις δικές του δοκιμές με τη δική του ιδιωματική στοίβα:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO που τρέχει πραγματικούς περιηγητές.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (μέσω του πρόσθετου Vite του Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest με βοηθό απόδοσης.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Οι δοκιμές χρησιμοποιούν <strong>μόνο τους ενσωματωμένους matchers του Vitest</strong> — ποτέ τους matchers του
+    <code>jest-dom</code> . Αυτό κρατά τις σουίτες δοκιμών φορητές. Οι εφαρμογές-παραδείγματα προσθέτουν σουίτες Playwright end-to-end, βάσεις προσβασιμότητας axe-core και σάρωση ανταποκρινόμενων viewports.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Πράκτορες AI</h2>
+  <p>
+    Αυτός ο ιστότοπος δημοσιεύει <a href="/llms.txt">llms.txt</a> και
+    <a href="/llms.json">llms.json</a> στη ρίζα του — έναν επιμελημένο χάρτη των σημαντικότερων σελίδων του, για οποιοδήποτε εργαλείο ακολουθεί
+    <a href="https://llmstxt.org">τη σύμβαση llms.txt</a>.
+  </p>
+  <p>
+    Το κανονικό monorepo παρέχει επιπλέον δύο
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: μια δεξιότητα γενικής χρήσης που καλύπτει τις έννοιες, την ορολογία και τα μοτίβα σύνθεσης του Lily για όποιον χτίζει με το σύστημα, και <code>lily-design-system-maintainer-skill</code>, μια τεχνική δεξιότητα που καλύπτει τη διάταξη των απαιτούμενων αρχείων και τα εργαλεία του monorepo για όποιον δουλεύει σε αυτό. Και οι δύο βρίσκονται στη ρίζα του
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">κανονικού monorepo</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Αντιμετώπιση προβλημάτων</h2>
+
+  <details class="faq-item">
+    <summary>Ένα στοιχείο αποδίδεται αλλά φαίνεται αμορφοποίητο</summary>
+    <p>
+      Αυτό είναι το κεφαλοχωρίς που λειτουργεί όπως προβλέπεται — κανένα CSS δεν συνοδεύει το στοιχείο. Είτε γράψε CSS για την κλάση kebab-case του στοιχείου (εμφανίζεται σε κάθε <a href="/components/">σελίδα του καταλόγου</a>) είτε σύνδεσε ένα από τα
+      <a href="#themes">57 έτοιμα θέματα</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Το CSS μου δεν φαίνεται να εφαρμόζεται πάνω από ένα θέμα</summary>
+    <p>
+      Θα έπρεπε — οι επιλογείς των θεμάτων είναι τυλιγμένοι σε <code>:where(...)</code>, που έχει μηδενική ειδικότητα. Αν ένας κανόνας εξακολουθεί να χάνει, έλεγξε ότι το φύλλο στυλ σου φορτώνει μετά το <code>&lt;link&gt;</code> του θέματος και ότι ο επιλογέας ταιριάζει πράγματι με το αγκίστρι κλάσης του στοιχείου.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Το pnpm install αποτυγχάνει με σφάλμα peer ή έκδοσης</summary>
+    <p>
+      Χρησιμοποίησε ένα τρέχον pnpm (v10+) και Node 22+. Κάθε υποέργο καρφιτσώνει τις εκδόσεις του πλαισίου του στο δικό του <code>package.json</code>· αν η καθολική αλυσίδα εργαλείων σου είναι παλαιότερη, το <code>pnpm env use --global lts</code> είναι η ταχύτερη διόρθωση.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ο αναγνώστης οθόνης ανακοινώνει λάθος όνομα για ένα στοιχείο ελέγχου</summary>
+    <p>
+      Έλεγξε την απαιτούμενη ιδιότητα <code>label</code> του στοιχείου — τα στοιχεία που δεν έχουν ορατό κείμενο απαιτούν μία, και τα
+      <code>aria-label</code> / <code>aria-labelledby</code> που παρέχει ο καταναλωτής και περνούν μέσω rest-props υπερισχύουν σκόπιμα της ενσωματωμένης καλωδίωσης. Κάθε σελίδα του καταλόγου τεκμηριώνει το συμβόλαιο ARIA του στοιχείου.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ο βοηθός theme-picker δεν εναλλάσσει φύλλα στυλ</summary>
+    <p>
+      Επιβεβαίωσε ότι το <code>themesUrl</code> δείχνει σε κατάλογο που μπορεί να ανακτήσει ο περιηγητής (σέρβιρε τα αρχεία <code>themes/</code> ως στατικούς πόρους) και ότι τα slugs των θεμάτων στην ιδιότητα <code>themes</code> ταιριάζουν με τα ονόματα των αρχείων. Ο βοηθός αλλάζει το <code>href</code> ενός διαχειριζόμενου
+      <code>&lt;link data-lily-theme-picker&gt;</code> — έλεγξέ το στα εργαλεία προγραμματιστή για να δεις το URL που ζητείται.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Κάτι άλλο είναι χαλασμένο</summary>
+    <p>
+      Άνοιξε ένα issue με ελάχιστη αναπαραγωγή στο
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ή δες την <a href="#community">κοινότητα και υποστήριξη</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Συνεισφορά</h2>
+  <p>Το Lily είναι νεαρό και καλωσορίζει τη συνεργασία. Οι πιο χρήσιμες συνεισφορές αυτή τη στιγμή είναι:</p>
+  <ul>
+    <li>Νέα στοιχεία (ιδίως μοτίβα από καθιερωμένα συστήματα σχεδίασης).</li>
+    <li>Νέα θέματα — καθένα είναι ένα αυτόνομο φύλλο στυλ, ένα καλά οριοθετημένο πρώτο PR.</li>
+    <li>Καλύτερη μορφοποίηση παραδειγμάτων — δείξε τι είναι δυνατό.</li>
+    <li>Μεταφράσεις των συμβολοσειρών των εφαρμογών-παραδειγμάτων.</li>
+    <li>Αναφορές σφαλμάτων με ελάχιστη αναπαραγωγή.</li>
+    <li>Έλεγχοι προσβασιμότητας με αναγνώστες οθόνης και υποστηρικτικές τεχνολογίες.</li>
+  </ul>
+  <p>
+    Άνοιξε issues και PRs στο
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Κοινότητα και υποστήριξη</h2>
+  <ul>
+    <li>
+      <strong>Ερωτήσεις και αναφορές σφαλμάτων</strong> — άνοιξε ένα issue στο
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Email</strong> — ο συντηρητής διαβάζει το
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      και καλωσορίζει τη συνεργασία, την καθοδήγηση και τα σχόλια.
+    </li>
+    <li>
+      <strong>Καθρέφτες</strong> — Το Lily προωθείται επίσης στα
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> και
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, ώστε να συμμετέχεις από το forge που προτιμάς.
+    </li>
+    <li>
+      <strong>Συμπεριφορά</strong> — το έργο ακολουθεί έναν τυπικό κώδικα δεοντολογίας· να είσαι ευγενικός, υπόθετε καλή πίστη.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Συχνές ερωτήσεις</h2>
+
+  <details class="faq-item">
+    <summary>Γιατί κεφαλοχωρίς αντί για μορφοποιημένο;</summary>
+    <p>
+      Τα προ-μορφοποιημένα στοιχεία είναι βολικά — μέχρι να μην ταιριάζουν με την επωνυμία σου. Τα κεφαλοχωρίς στοιχεία απαιτούν λίγη περισσότερη δουλειά εξαρχής, αλλά σου δίνουν πλήρη έλεγχο του οπτικού σχεδιασμού. Οι εφαρμογές-παραδείγματα και τα 57 θέματα δείχνουν τρόπους μορφοποίησης· μπορείς να τους πάρεις ή να τους αντικαταστήσεις εντελώς. Το πιο εκτενές επιχείρημα βρίσκεται στο <a href="/why/">Γιατί Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Γιατί τόσα πολλά στοιχεία;</summary>
+    <p>
+      Το Lily στοχεύει να καλύψει τα μοτίβα που χρειάζονται οι περισσότερες εφαρμογές χωρίς να σε αναγκάζει να τα χτίσεις από το μηδέν — συμπεριλαμβανομένων εξειδικευμένων πραγμάτων όπως εισόδων εθνικών αναγνωριστικών και συντακτικού scrollytelling. Ο κατάλογος αντλεί από δώδεκα καθιερωμένα συστήματα σχεδίασης συν πρωτότυπη δουλειά — δες το <a href="/about/">Σχετικά</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Μπορώ να χρησιμοποιήσω το Lily με Tailwind;</summary>
+    <p>
+      Ναι. Κάθε στοιχείο εκθέτει μία μόνο ριζική κλάση kebab-case συν ένα <code>className</code> / <code>class</code>που παρέχει ο καταναλωτής. Στρώσε βοηθητικές κλάσεις Tailwind από πάνω όπως θέλεις.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Μπορώ να χρησιμοποιήσω το Lily με σημασιολογικά πλαίσια CSS όπως το DaisyUI;</summary>
+    <p>
+      Ναι. Τα ονόματα κλάσεων kebab-case στο ριζικό στοιχείο λειτουργούν ως σημασιολογικά αγκίστρια CSS. Συνδύασε το Lily με ένα σημασιολογικό πλαίσιο και παίρνεις προ-μορφοποιημένα στοιχεία που εξακολουθούν να σέβονται το ARIA και το i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Υπάρχει πακέτο npm;</summary>
+    <p>
+      Οι <a href="#helpers">βοηθοί προτιμήσεων</a> παρέχονται ως πακέτα με αγωγό δημοσίευσης npm/NuGet. Οι κεφαλοχωρίς βιβλιοθήκες στοιχείων σχεδιάστηκαν για να κλωνοποιούνται ή να ενσωματώνονται — ο πηγαίος κώδικας είναι το παραδοτέο, ώστε να διαβάζεις, να κόβεις και να κατέχεις ακριβώς ό,τι αποστέλλεις. Η δημοσίευση των κεφαλοχωρίς βιβλιοθηκών σε μητρώα παραμένει στον οδικό χάρτη.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Γιατί πολλαπλές άδειες;</summary>
+    <p>
+      Διαφορετικά έργα έχουν διαφορετικές ανάγκες αδειοδότησης. Οι BSD και MIT είναι επιτρεπτικές, η Apache-2.0 έχει παραχώρηση ευρεσιτεχνίας και οι επιλογές GPL υποστηρίζουν copyleft. Διάλεξε ό,τι ταιριάζει στην περίπτωσή σου.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Πώς αναφέρω ένα σφάλμα ή ζητώ μια λειτουργία;</summary>
+    <p>
+      Άνοιξε ένα issue στο αποθετήριο GitHub ή στείλε email στο
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

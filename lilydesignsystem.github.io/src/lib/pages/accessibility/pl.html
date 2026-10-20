@@ -1,0 +1,63 @@
+<!-- title: Dostępność — Lily Design System -->
+<!-- description: Deklaracja dostępności Lily: co tutaj znaczy dążenie do WCAG 2.2 AAA — co jest weryfikowane, czym, czego nie weryfikuje nic i jak zgłosić problem. -->
+<section class="page-intro">
+  <h1>Co tutaj znaczy „dąży do WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Słowo <em>dąży</em> jest wybrane celowo. Ta strona mówi dokładnie, co jest weryfikowane, czym, czego nie weryfikuje nic i co zamierzamy zrobić z tą luką. Lily nigdy nie twierdzi, że jest „zgodny” z WCAG — żaden audyt tego nie potwierdza.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Weryfikowane w sposób ciągły</h2>
+  <ul>
+    <li>
+      Kanoniczny element semantyczny, atrybuty ARIA i haki klas każdego komponentu — potwierdzane przez zestawy testów jednostkowych dla każdego frameworka (ponad 15 000 przypadków w siedmiu frameworkach).
+    </li>
+    <li>
+      Każda z 571 stron demonstracyjnych komponentów w aplikacji przykładowej SvelteKit jest czysta według axe (zestawy reguł WCAG 2.0/2.1 A+AA oraz 2.2 AA) — przegląd całego katalogu, po raz pierwszy ustalony jako baza 2026-08-27 i uruchomiony ponownie 2026-10-06 — plus bazy dla każdej aplikacji dla strony głównej, katalogu i tras złożonych we wszystkich siedmiu aplikacjach przykładowych.
+    </li>
+    <li>
+      Kontrakty klawiatury dla każdego interaktywnego komponentu, udokumentowane w kanonicznych metadanych każdego komponentu i sprawdzane przez zestawy testów; pakiety pomocnicze dodatkowo uruchamiają specyfikacje Playwright w prawdziwych przeglądarkach.
+    </li>
+    <li>
+      Dolne granice rozmiaru celu według WCAG 2.2 i zabezpieczenia przed przepełnieniem we wszystkich 57 motywach; link pomijający, punkty orientacyjne i brak przepełnienia poziomego w czterech widokach na aplikację; <code>lang</code>/<code>dir</code> stosowanie, w tym odwrócenie RTL.
+    </li>
+  </ul>
+
+  <h2>Niezweryfikowane przez nic</h2>
+  <ul>
+    <li>
+      <strong>Nigdy nie przeprowadzono audytu zgodności.</strong> Brak VPAT, brak certyfikacji. Narzędzia automatyczne obejmują mniejszość kryteriów sukcesu WCAG.
+    </li>
+    <li>
+      Kryteria specyficzne dla AAA (podwyższony kontrast i inne) są zamierzeniami projektowymi, a nie zweryfikowanymi właściwościami; zestawy reguł axe działają na poziomie A/AA. Nie ma jeszcze dedykowanego motywu wysokiego kontrastu.
+    </li>
+    <li>
+      <strong>Zachowanie czytników ekranu jest w dużej mierze nietestowane.</strong> Zestawy testów potwierdzają atrybuty ARIA, a nie to, co ogłaszają VoiceOver, NVDA czy JAWS — i ten projekt więcej niż raz wydał zielone zestawy testów mimo rzeczywistych defektów, z których każdy opisano w dzienniku zmian właśnie dlatego, że zestawy ich nie widziały.
+    </li>
+  </ul>
+
+  <h2>Co zamierzamy z tym zrobić</h2>
+  <p>
+    Niezależny audyt dostępności to pierwsze nazwane przeznaczenie jakiegokolwiek finansowania projektu, a zakres potrzebny audytorowi jest już przygotowany. Do tego czasu raporty z czytników ekranu to wkład, którego ten projekt pragnie najbardziej: „komponent X ogłasza Y, co jest błędne, ponieważ Z” nadaje się do bezpośredniego działania.
+  </p>
+
+  <h2>Zgłoś problem</h2>
+  <p>
+    Otwórz zgłoszenie na
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    lub napisz na
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Podanie kryterium WCAG pomaga, ale nie jest wymagane — „nie mogłem obsługiwać X klawiaturą” to kompletne zgłoszenie.
+  </p>
+  <p>
+    Pełna deklaracja, z tabelą weryfikacji i historią przeglądów, znajduje się w repozytorium:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

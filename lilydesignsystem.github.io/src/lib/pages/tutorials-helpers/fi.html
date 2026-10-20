@@ -1,0 +1,276 @@
+<!-- title: Asetusapuvälineiden opas — Lily Design System -->
+<!-- description: Lisää käyttäjän kieli- ja tekstikokoasetukset Lilyn locale-picker- ja text-size-picker-apuvälineillä: headless-ohjaimet kuvakepainike + listbox, pysyvyydellä ja SSR-turvallisuudella. -->
+<section class="page-intro">
+  <h1>Asetusapuvälineet</h1>
+  <p class="page-intro-tagline">
+    Seitsemän pientä pakettia kehystä kohden, joista kukin omistaa yhden käyttäjän tehtävän alusta loppuun, sekä palkki, joka kokoaa viisi niistä. Olet jo tavannut
+    <a href="/tutorials/theming/">theme-picker</a>:in; tässä ovat locale-picker, text-size-picker ja motion-picker (asetukset), share-picker ja search-picker (toiminnot), date-time-picker (lomakkeen arvo) sekä picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Asetuspaneeli, jossa käyttäjät valitsevat kielensä ja tekstikokonsa — valinnat, jotka koskevat koko dokumenttia, säilyvät käyntien välillä ja maksavat sinulle kaksi komponenttia ja muutaman rivin CSS:ää. Noin 15 minuuttia.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Suorita ensin <a href="/tutorials/">kehysopas</a> omalle pinollesi. Alla olevat esimerkit ovat Sveltellä; React-, Vue-, Angular-, HTML-, Nunjucks- ja Blazor-apuvälineet vastaavat niitä sopimus sopimukselta.
+  </p>
+
+  <h2>Muoto, jonka ne jakavat</h2>
+  <ul>
+    <li>Headless-kuvakepainike, joka avaa WAI-ARIA APG -listboxin (tai date-time-pickerin tapauksessa päivämäärän valintaikkunan) — ei natiivia <code>&lt;select&gt;</code>-elementtiä, joten jokainen kehys saa saman näppäimistökäyttäytymisen ja tyylikoukut.</li>
+    <li>Yksi luokkakoukku pakettia kohden (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), nolla toimitettua CSS:ää.</li>
+    <li>SSR-turvallinen: DOM-kirjoitukset tapahtuvat vain mount-/effect-elinkaaressa.</li>
+    <li>i18n-puhdas: jokainen käyttäjälle näkyvä merkkijono on prop.</li>
+    <li>
+      Saatavilla Sveltelle (kanoninen), Reactille, Vuelle, Angularille, HTML-mukautetulle elementille, Nunjucksille ja Blazorille — sama sopimus jokaisessa.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker ja text-size-picker omistavat kukin yhden käyttäjän
+    <em>asetuksen</em> alusta loppuun (valinta, soveltaminen DOMiin, valinnainen
+    <code>localStorage</code> pysyvyys <code>storageKey</code>
+    -propin kautta). share-picker ja date-time-picker ovat luonteeltaan erilaisia: share-picker omistaa <em>toiminnon</em> — se ei sovella mitään dokumenttiin eikä säilytä mitään — ja date-time-picker omistaa
+    <em>lomakkeen arvon</em>, koska lomakkeen päivämäärä on dataa, ei asetus.
+  </p>
+
+  <h2>locale-picker — kieli ja suunta</h2>
+  <p>
+    Antaa käyttäjän valita kieliasetuksen ja kirjoittaa sitten <code>lang</code> ja
+    <code>dir</code> dokumentin juureen, jotta i18n-kirjastosi, CSS:äsi ja apuvälineteknologiat seuraavat kaikki mukana. RTL tunnistetaan automaattisesti arabialle, heprealle ja muille oikealta vasemmalle kirjoitettaville kirjoitusjärjestelmille. Se keskittyy pelkkään signalointiin — i18n-kirjastosi hoitaa käännöksen.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Valinnat nimetään sisäänrakennetusta kieliasetusnimien taulukosta (ohitettavissa <code>localeLabels</code>-propilla), jokaisella valinnalla on oma
+    <code>lang</code> -attribuuttinsa, jotta ruudunlukijat ääntävät "Français" ranskaksi, ja alaviivakoodit kuten <code>en_US</code>
+    muunnetaan häviöttä BCP 47:ksi ja takaisin <code>en-US</code>. Yhdistä
+    <code>onChange</code> (tai sidottu arvo) i18nextiin, Paraglideen, vue-i18n:ään tai mitä ikinä käytätkin.
+  </p>
+
+  <h2>text-size-picker — lukijan hallitsema koko</h2>
+  <p>
+    Saavutettavuusvoitto, joka vie minuutteja: apuväline asettaa
+    <code>data-text-size="&#123;slug&#125;"</code> dokumentin juureen, ja CSS:äsi yhdistää jokaisen arvon kokoon.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Mitoita asettelusi yksiköllä <code>rem</code> ja koko sovellus skaalautuu käyttäjän valinnan mukana. Nimiöt muodostetaan slugeista isoin alkukirjaimin ("X Large") tai ohitetaan propilla <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> valitse valitsimesta "Large", ja sivun teksti kasvaa. Lataa uudelleen — se on yhä suuri: valinta tallennettiin pysyvästi kohteeseen
+      <code>localStorage</code>. Vaihda kielivalitsin arabiaksi, ja
+      <code>dir="rtl"</code> asetetaan dokumenttiin automaattisesti.
+    </p>
+  </div>
+
+  <h2>share-picker — lähetä tämä sivu</h2>
+  <p>
+    Yhden merkin painike, joka avaa laitteen natiivin jakoarkin, jos sellainen on, ja muuten palaa antamaasi kohdeluetteloon sekä URL:n kopiointitoimintoon. Se ei toimita sosiaalisten verkostojen URL-osoitteita — mitkä verkostot kuuluvat tuotteeseesi, on sinun päätöksesi, ei suunnittelujärjestelmän.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> oletusarvo on <code>location.href</code>, joten tavallinen tapaus ei vaadi johdotusta. Pakota polku propilla <code>strategy="list"</code> tai
+    <code>strategy="native"</code> kun tarvitset johdonmukaista käyttäytymistä eri alustoilla testejä tai kuvakaappauksia varten.
+  </p>
+
+  <h2>date-time-picker — päivämäärä, kellonaika tai molemmat</h2>
+  <p>
+    Tekstikenttä, johon voi kirjoittaa, sekä kuvakepainike, joka avaa WAI-ARIA APG -päivämäärävalitsimen. Kieliasetuksen mukainen rakenteensa puolesta — kuukausien nimet, viikonpäivien nimet, viikon ensimmäinen päivä ja 12 tai 24 tunnin kello tulevat kaikki kohteesta <code>Intl</code> — ja arvo on aina lajiteltavissa oleva, aikavyöhykkeetön ISO-merkkijono: <code>"2026-03-15"</code> elementille
+    <code>mode="date"</code>, <code>"09:30"</code> elementille
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> elementille
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO-arvo on identtinen sen kanssa, minkä <code>&lt;input type="date"&gt;</code>
+    lähettää, joten voit vaihtaa natiivin ohjaimen sisään tai ulos koskematta taustajärjestelmääsi.
+  </p>
+
+  <h2>motion-picker — kunnioita vähennettyä liikettä</h2>
+  <p>
+    Apuväline asettaa <code>data-motion="&#123;slug&#125;"</code> dokumentin juureen. Sen ensimmäinen arvo tulee vierailijan käyttöjärjestelmän
+    <code>prefers-reduced-motion</code> -asetuksesta — aina, ilman käyttöönottolippua, koska liike on todellinen saavutettavuustarve (WCAG 2.3.3). CSS:äsi ja skriptisi päättävät, mitä tukahdutetaan.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — hakukenttä, joka pysyy poissa tieltä</h2>
+  <p>
+    Kuvakepainike, joka avaa hakukentän. Return-näppäimen tai kentän vieressä olevan &#9166;-painikkeen painaminen siirtyy tavallisella GET-pyynnöllä osoitteeseen
+    <code>/?&lt;text&gt;</code> (teksti trimmataan ja URI-koodataan; tyhjä haku ei vie minnekään). Sen kolme saavutettavaa nimeä ovat pakollisia, koska apuväline ei toimita englantia.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> muuttaa polkua (<code>/search?foo</code>), ja
+    <code>navigate</code> pitää siirtymän sovelluksen sisällä; ilman sitä apuväline kutsuu <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — koko ylätunnisterivi kerralla</h2>
+  <p>
+    <code>picker-bar</code> renderöi haun, teeman, kielen, tekstikoon ja jaon yhdelle riville, ja täysi viiteteemojen joukko sekä seitsenportainen tekstiasteikko on valmiiksi kytketty. Jokainen saavutettava nimi tulee yhdessä pakollisessa
+    <code>labels</code> -oliossa.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Tavoita mikä tahansa kääritty valitsin propilla <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> ja <code>shareProps</code>.
+  </p>
+
+  <h2>Työkaluvihjeet ovat valmiina</h2>
+  <p>
+    Jokainen valitsin näyttää nimiönsä työkaluvihjeessä, kun osoitin lepää sen painikkeen päällä tai painikkeella on näppäimistökohdistus. Työkaluvihje pysyy, kun osoitin siirtyy sen päälle, Escape sulkee sen missä tahansa kohdistus onkaan, eikä se näy koskaan, kun valitsimen ponnahdusikkuna on auki. Se kantaa saman tekstin kuin painikkeen saavutettava nimi, joten ei ole mitään konfiguroitavaa eikä mitään käännettävää kahdesti; viiteteemat tyylittelevät sen.
+  </p>
+
+  <h2>Asetuspaneeli yhdessä paikassa</h2>
+  <p>Neljä asetusapuvälinettä sopivat luontevasti yhteen:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Varmistettu:</strong> locale-pickerin, text-size-pickerin, share-pickerin, date-time-pickerin ja yhdistetyn paneelin koodinpätkät käännettiin erikseen julkaistuja <code>0.1.1</code> -paketteja vastaan komennolla
+      <code>svelte/server</code> (2026-08-29); motion-pickerin, search-pickerin ja picker-barin koodinpätkät renderöitiin pakettien omilla komponenteilla 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Mistä ne saa</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Jokaisella paketilla on oma specinsä, spec-lausekkeisiin kytketyt testit, ajettavat esimerkit (mukaan lukien SSR-evästemallit) sekä build- ja julkaisuputki. Svelte-paketit ovat kanonisia; epäselvässä tapauksessa niiden sopimukset ratkaisevat.
+  </p>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/components/">Komponenttiluettelo</a> — kaikkien 571 komponentin täysi viite.</li>
+    <li><a href="/help/">Ohje</a> — vianmääritys ja usein kysytyt kysymykset.</li>
+    <li><a href="/why/">Miksi Lily</a> — ja miten tuet projektia.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

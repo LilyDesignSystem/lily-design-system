@@ -1,0 +1,432 @@
+<!-- title: עזרה — Lily Design System -->
+<!-- description: התחילו עם Lily: התקינו את החבילה ללא הראש עבור המסגרת שלכם, העתיקו רכיב, עצבו אותו, הוסיפו ערכת נושא, שחררו. פתרון בעיות, שאלות נפוצות ותמיכה. -->
+<section class="page-intro">
+  <h1>תחילת העבודה עם Lily</h1>
+  <p class="page-intro-tagline">
+    בחרו מסגרת, שכפלו את המונוריפו ופתחו את הספרייה ללא הראש או את אפליקציית הדוגמה שלה, והתחילו להרכיב עמודים משלכם. מעדיפים מסלול מודרך? התחילו עם
+    <a href="/tutorials/">המדריכים</a>.
+  </p>
+</section>
+
+<nav aria-label="בעמוד זה" class="prose" style="margin: 0 auto;">
+  <p><strong>בעמוד זה:</strong></p>
+  <ul>
+    <li><a href="#install">התקנה</a></li>
+    <li><a href="#use-headless">שימוש ברכיב ללא ראש</a></li>
+    <li><a href="#use-styled">שימוש בדוגמה מעוצבת</a></li>
+    <li><a href="#styling">עיצוב ואסימוני עיצוב</a></li>
+    <li><a href="#themes">ערכות נושא מוכנות</a></li>
+    <li><a href="#helpers">עוזרי העדפות</a></li>
+    <li><a href="#a11y">נגישות</a></li>
+    <li><a href="#i18n">בינאום</a></li>
+    <li><a href="#testing">בדיקות</a></li>
+    <li><a href="#ai-agents">סוכני בינה מלאכותית</a></li>
+    <li><a href="#troubleshooting">פתרון בעיות</a></li>
+    <li><a href="#contributing">תרומה</a></li>
+    <li><a href="#community">קהילה ותמיכה</a></li>
+    <li><a href="#faq">שאלות נפוצות</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>התקנה</h2>
+  <p>
+    Lily חיה במונוריפו Git אחד, עם ספרייה לכל מסגרת עבור הספרייה ללא הראש, חבילות העוזרים ואפליקציית הדוגמה. הדרך המהירה ביותר לנסות היא לשכפל את המונוריפו ולפתוח את הספרייה ללא הראש עבור הסביבה שלכם:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>אותה תבנית עובדת עבור שאר המסגרות:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — אין צורך בהתקנה; העתיקו <code>.html</code> קבצים</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    הספריות ללא הראש מתוכננות לשכפול או ל-vendoring — התייחסו למקור כאל מקור האמת והעתיקו את מה שאתם צריכים.
+    <a href="#helpers">עוזרי ההעדפות</a> מגיעים בנוסף כחבילות הניתנות להתקנה עם צינור בנייה ופרסום (npm למסגרות JS, NuGet ל-Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>שימוש ברכיב ללא ראש</h2>
+  <p>
+    רכיבים ללא ראש מגיעים עם HTML סמנטי, ARIA ומאפיינים — אך ללא CSS. הנה Button בכל מסגרת:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>שימוש בדוגמה מעוצבת</h2>
+  <p>
+    אפליקציות הדוגמה כוללות CSS, נתיבים ודפי הדגמה מלאים. הדרך המהירה ביותר להתנסות היא להפעיל את אפליקציית הדוגמה של SvelteKit, Next, Nuxt, Analog או Eleventy ולצפות בהדגמה ב- <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    לאחר מכן פתחו את <code>http://localhost:5173</code> ועיינו ב <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>עיצוב ואסימוני עיצוב</h2>
+  <p>
+    כל רכיב מוצג עם מחלקת kebab-case אחת באלמנט השורש שלו. לדוגמה, <code>&lt;Button&gt;</code> מציג <code>&lt;button class="button"&gt;</code>. עצבו אותו איך שתרצו:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>פלטת הצבעים ברירת המחדל של Lily (בשימוש באפליקציות הדוגמה) היא:</p>
+  <ul>
+    <li>ראשי: <code>#2563eb</code></li>
+    <li>סכנה: <code>#dc2626</code></li>
+    <li>אזהרה: <code>#f59e0b</code></li>
+    <li>הצלחה: <code>#16a34a</code></li>
+    <li>רקע העמוד: <code>#f9fafb</code></li>
+    <li>רקע הכרטיס: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    אלה הצעות, לא דרישות. החליפו אותן בפלטת המותג שלכם ו-Lily תסתגל בשמחה.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>ערכות נושא מוכנות</h2>
+  <p>
+    לא רוצים לכתוב CSS מאפס? Lily כוללת
+    <strong>57 ערכות ייחוס עצמאיות</strong> בספרייה
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . כל אחת היא גיליון סגנון אחד שמכוון אל ווי המחלקה של Lily — קשרו אותו ואתם מעוצבים:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>הסט מכסה:</p>
+  <ul>
+    <li>
+      <strong>מגזר ציבורי</strong> — NHS England, NHS Scotland ו-NHS Wales (גרסאות למטופלים ולאנשי מקצוע לכל אחת), GOV.UK GDS ו-U.S. Web Design System.
+    </li>
+    <li><strong>בהשראת ספקים</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>שימוש כללי</strong> — light, dark, nord, dracula, wireframe ועוד שלושים ומשהו.
+    </li>
+  </ul>
+  <p>
+    בוחרי ערכות הנושא משתמשים ב- <code>:where(...)</code>, כך שה-CSS שלכם תמיד מנצח בספציפיות. שלבו אותם עם העוזר <code>theme-picker</code> שלהלן להחלפה בזמן ריצה, או עקבו אחר
+    <a href="/tutorials/theming/">מדריך ערכות נושא</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>עוזרי העדפות</h2>
+  <p>
+    לכל מסגרת שמונה בוחרים קטנים, כל אחד בחבילה
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> משלו (ו- <code>picker-bar</code> שמרכיב אותם). כל אחד הוא כפתור אייקון ללא ראש שפותח חלונית — תיבת רשימה, רשימת קישורים, טופס חיפוש או (עבור date-time-picker) דיאלוג בחירת תאריך — לא
+    <code>&lt;select&gt;</code>מקורי; בטוח ל-SSR; ומגיע ללא CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — טוען גיליונות סגנון של ערכות נושא בזמן ריצה על ידי החלפת <code>&lt;link&gt;</code>מנוהל, מגדיר
+      <code>data-theme</code> במסמך, ושומר אופציונלית ב-
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — מגדיר <code>lang</code> ו-
+      <code>dir</code> (עם זיהוי RTL אוטומטי) כדי שספריית ה-i18n שלכם תוכל לעקוב; הוא עצמו אינו מתרגם.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — מגדיר <code>data-text-size</code> במסמך; ה-CSS שלכם ממפה כל ערך לגודל גופן.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — מגדיר <code>data-motion</code> במסמך, החל מהגדרת התנועה המופחתת של המבקר; ה-CSS והסקריפטים שלכם מחליטים מה לדכא.
+    </li>
+    <li>
+      <strong>search-picker</strong> — כפתור אייקון שפותח שדה חיפוש; השליחה מנווטת לעמוד חיפוש. מחזיק בפעולה, לא בהעדפה.
+    </li>
+    <li>
+      <strong>link-picker</strong> — אייקון בית שפותח תפריט של קישורי עמודים שהאפליקציה שלכם מגדירה (בית, אודותינו, צור קשר, מדיניות פרטיות, …). מחזיק בפעולה, לא בהעדפה.
+    </li>
+    <li>
+      <strong>share-picker</strong> — פותח את חלון השיתוף המקורי או רשימת יעדים שסופקה על ידי הצרכן, ובנוסף העתקת כתובת. מחזיק בפעולה, לא בהעדפה: אינו מחיל דבר, אינו שומר דבר.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — שדה טקסט ועוד דיאלוג בחירת תאריך של APG לתאריך, שעה או שניהם. מחזיק בערך טופס, לא בהעדפה: מחרוזת ה-ISO עוברת הלוך ושוב אל
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    קטלוג Svelte הוא הייחוס הקנוני; יציאות React, Vue, Angular, HTML, Nunjucks, Web Components ו-Blazor תואמות אותו חוזה אחר חוזה. ראו את
+    <a href="/tutorials/helpers/">מדריך העוזרים</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>נגישות</h2>
+  <p>רכיבים מכוונים אל <strong>WCAG 2.2 AAA</strong>. הם עוקבים אחר התבניות האלה:</p>
+  <ul>
+    <li>אלמנטים סמנטיים של HTML על פני כלליים <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> שמקשר תוויות לקלטים.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> להפניות צולבות.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> למצבי שגיאה.</li>
+    <li><code>role="alert"</code> ו- <code>aria-live</code> לתוכן דינמי.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> למצב.</li>
+    <li>Roving <code>tabindex</code> לרשתות.</li>
+  </ul>
+  <p>
+    מחווני מיקוד מסופקים בכוונה על ידי הצרכן — Lily לעולם אינה מציירת טבעת מיקוד ברירת מחדל שמתנגשת בעיצוב שלכם. אפליקציות הדוגמה שומרות על קו בסיס נקי של axe-core בכל הנתיבים שלהן.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>בינאום</h2>
+  <p>
+    כל תווית, מציין מיקום, הודעת שגיאה וטקסט כפתור הם מאפיין. אין מחרוזות מקודדות. חברו את מסגרת התרגום שלכם — Paraglide, i18next, vue-i18n, react-intl, קובצי .resx, כל דבר.
+  </p>
+  <p>
+    עבור תאריכים, מספרים ומטבעות, הרכיבים מקבלים מחרוזות מעוצבות מראש: אתם מעצבים עם <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / הספרייה המועדפת עליכם ומעבירים את התוצאה.
+  </p>
+  <p>
+    העוזר <code>locale-picker</code> מאותת על אזור השפה שנבחר לספריית ה-i18n שלכם על ידי הגדרת <code>lang</code> ו- <code>dir</code> בשורש המסמך.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>בדיקות</h2>
+  <p>כל תת-פרויקט מסגרת שולח בדיקות משלו באמצעות הערימה האידיומטית שלו:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO שמריץ דפדפנים אמיתיים.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (דרך תוסף Analog Vite).</li>
+    <li><strong>Nunjucks</strong>: Vitest עם עוזר רינדור.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    הבדיקות משתמשות <strong>רק בהתאמות המובנות של Vitest</strong> — לעולם לא
+    <code>jest-dom</code> התאמות. כך חבילות הבדיקות נשארות ניידות. אפליקציות הדוגמה מוסיפות חבילות Playwright מקצה לקצה, קווי בסיס נגישות של axe-core וסריקת חלונות תצוגה רספונסיבית.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>סוכני בינה מלאכותית</h2>
+  <p>
+    אתר זה מפרסם <a href="/llms.txt">llms.txt</a> ו-
+    <a href="/llms.json">llms.json</a> בשורשו — מפה אצורה של העמודים החשובים ביותר שלו, לכל כלי שעוקב אחר
+    <a href="https://llmstxt.org">מוסכמת llms.txt</a>.
+  </p>
+  <p>
+    המונוריפו הקנוני שולח בנוסף שתי
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>, מיומנות לשימוש כללי המכסה את מושגי Lily, המינוח ותבניות ההרכבה עבור כל מי שבונה עם המערכת, ו <code>lily-design-system-maintainer-skill</code>, מיומנות טכנית המכסה את פריסת הקבצים הנדרשת וכלי המונוריפו עבור כל מי שעובד עליו. שתיהן יושבות בשורש
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">המונוריפו הקנוני</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>פתרון בעיות</h2>
+
+  <details class="faq-item">
+    <summary>רכיב מוצג אך נראה לא מעוצב</summary>
+    <p>
+      זה ה-headless שעובד כמתוכנן — שום CSS לא מגיע עם הרכיב. או שכתבו CSS מול מחלקת ה-kebab-case של הרכיב (מוצגת בכל <a href="/components/">עמוד קטלוג</a>) או קשרו אחת מ
+      <a href="#themes">57 ערכות הנושא המוכנות</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>נראה שה-CSS שלי לא חל מעל ערכת נושא</summary>
+    <p>
+      הוא אמור — בוחרי ערכות הנושא עטופים ב- <code>:where(...)</code>, שיש לו ספציפיות אפס. אם כלל עדיין מפסיד, ודאו שגיליון הסגנון שלכם נטען אחרי זה של ערכת הנושא <code>&lt;link&gt;</code> ושהבורר באמת תואם לווי המחלקה של הרכיב.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install נכשל עם שגיאת peer או גרסה</summary>
+    <p>
+      השתמשו ב-pnpm עדכני (v10+) וב-Node 22+. כל תת-פרויקט מקבע את גרסאות המסגרת שלו ב- <code>package.json</code>שלו; אם ערכת הכלים הגלובלית שלכם ישנה יותר, <code>pnpm env use --global lts</code> הוא התיקון המהיר ביותר.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>קורא המסך מכריז על שם שגוי עבור פקד</summary>
+    <p>
+      בדקו את המאפיין הנדרש של הרכיב <code>label</code> — רכיבים ללא טקסט גלוי דורשים אחד, ו
+      <code>aria-label</code> / <code>aria-labelledby</code> שסופק על ידי הצרכן ועובר דרך rest-props גובר בכוונה על החיווט המובנה. כל עמוד קטלוג מתעד את חוזה ה-ARIA של הרכיב.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>עוזר theme-picker אינו מחליף גיליונות סגנון</summary>
+    <p>
+      ודאו ש <code>themesUrl</code> מצביע על ספרייה שהדפדפן יכול לאחזר (הגישו את קובצי <code>themes/</code> כנכסים סטטיים) ושמזהי ערכות הנושא במאפיין <code>themes</code> תואמים לשמות הקבצים. העוזר מחליף את <code>href</code> של
+      <code>&lt;link data-lily-theme-picker&gt;</code> אחד מנוהל — בדקו אותו ב-devtools כדי לראות את הכתובת המבוקשת.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>משהו אחר שבור</summary>
+    <p>
+      פתחו issue עם שחזור מינימלי ב-
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — או ראו <a href="#community">קהילה ותמיכה</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>תרומה</h2>
+  <p>Lily צעירה ומקבלת בברכה שיתוף פעולה. התרומות השימושיות ביותר כרגע הן:</p>
+  <ul>
+    <li>רכיבים חדשים (במיוחד תבניות ממערכות עיצוב מבוססות).</li>
+    <li>ערכות נושא חדשות — כל אחת היא גיליון סגנון עצמאי אחד, PR ראשון מוגדר היטב.</li>
+    <li>עיצוב דוגמאות טוב יותר — הראו מה אפשרי.</li>
+    <li>תרגומי מחרוזות של אפליקציות הדוגמה.</li>
+    <li>דיווחי באגים עם שחזור מינימלי.</li>
+    <li>ביקורות נגישות עם קוראי מסך וטכנולוגיות מסייעות.</li>
+  </ul>
+  <p>
+    פתחו issues ו-PRs ב-
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>קהילה ותמיכה</h2>
+  <ul>
+    <li>
+      <strong>שאלות ודיווחי באגים</strong> — פתחו issue ב-
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>דוא״ל</strong> — המתחזק קורא את
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ומקבל בברכה שיתוף פעולה, הכוונה ומשוב.
+    </li>
+    <li>
+      <strong>מראות</strong> — Lily נדחפת גם אל
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> ו-
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, כך שתוכלו להשתתף מהפורג׳ שאתם מעדיפים.
+    </li>
+    <li>
+      <strong>התנהגות</strong> — הפרויקט עוקב אחר קוד התנהגות סטנדרטי; היו אדיבים, הניחו תום לב.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>שאלות נפוצות</h2>
+
+  <details class="faq-item">
+    <summary>למה ללא ראש ולא מעוצב?</summary>
+    <p>
+      רכיבים מעוצבים מראש נוחים — עד שהם לא תואמים את המותג שלכם. רכיבים ללא ראש דורשים קצת יותר עבודה מראש אך נותנים שליטה מלאה בעיצוב החזותי. אפליקציות הדוגמה ו-57 ערכות הנושא מראות דרכים לעצב אותם; אפשר לקחת אותן או להחליף אותן לחלוטין. הטיעון הארוך יותר נמצא ב <a href="/why/">למה Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>למה כל כך הרבה רכיבים?</summary>
+    <p>
+      Lily שואפת לכסות את התבניות שרוב האפליקציות זקוקות להן בלי לאלץ אתכם לבנות אותן מאפס — כולל נושאים עמוקים כמו קלט מזהים לאומיים וסיפורי גלילה עריכתיים. הקטלוג שואב מתריסר מערכות עיצוב מבוססות ועבודה מקורית — ראו <a href="/about/">אודות</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>האם אפשר להשתמש ב-Lily עם Tailwind?</summary>
+    <p>
+      כן. כל רכיב חושף מחלקת שורש kebab-case אחת בתוספת <code>className</code> / <code>class</code>שסופק על ידי הצרכן. שכבו כלי עזר של Tailwind מעל איך שתרצו.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>האם אפשר להשתמש ב-Lily עם מסגרות CSS סמנטיות כמו DaisyUI?</summary>
+    <p>
+      כן. שמות מחלקות ה-kebab-case באלמנט השורש עובדים כווי CSS סמנטיים. צרפו את Lily למסגרת סמנטית וקבלו רכיבים מעוצבים מראש שעדיין מכבדים ARIA ו-i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>האם יש חבילת npm?</summary>
+    <p>
+      העוזר <a href="#helpers">עוזרי ההעדפות</a> מגיעים כחבילות עם צינור פרסום npm/NuGet. ספריות הרכיבים ללא ראש מתוכננות לשכפול או ל-vendoring — המקור הוא התוצר, כך שתוכלו לקרוא, לקצץ ולהחזיק בדיוק את מה ששולחים. פרסום ברישום לספריות ללא ראש נשאר במפת הדרכים.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>למה מספר רישיונות?</summary>
+    <p>
+      לפרויקטים שונים צרכי רישוי שונים. BSD ו-MIT מתירניים, ל-Apache-2.0 יש הענקת פטנטים, ואפשרויות ה-GPL תומכות ב-copyleft. בחרו את זה שמתאים למצבכם.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>איך מדווחים על באג או מבקשים תכונה?</summary>
+    <p>
+      פתחו issue במאגר GitHub, או שלחו מייל אל
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

@@ -1,0 +1,432 @@
+<!-- title: Bantuan — Lily Design System -->
+<!-- description: Mulakan dengan Lily: pasang pakej tanpa kepala untuk rangka kerja anda, salin komponen, gayakan, letakkan tema, lancarkan. Penyelesaian masalah, FAQ dan sokongan. -->
+<section class="page-intro">
+  <h1>Bermula dengan Lily</h1>
+  <p class="page-intro-tagline">
+    Pilih rangka kerja, klon monorepo dan buka perpustakaan tanpa kepala atau aplikasi contohnya, dan mula menggubah halaman anda sendiri. Mahu laluan berpandu? Mulakan dengan
+    <a href="/tutorials/">tutorial</a>.
+  </p>
+</section>
+
+<nav aria-label="Pada halaman ini" class="prose" style="margin: 0 auto;">
+  <p><strong>Pada halaman ini:</strong></p>
+  <ul>
+    <li><a href="#install">Pasang</a></li>
+    <li><a href="#use-headless">Gunakan komponen tanpa kepala</a></li>
+    <li><a href="#use-styled">Gunakan contoh bergaya</a></li>
+    <li><a href="#styling">Penggayaan dan token reka bentuk</a></li>
+    <li><a href="#themes">Tema siap pakai</a></li>
+    <li><a href="#helpers">Pembantu keutamaan</a></li>
+    <li><a href="#a11y">Kebolehcapaian</a></li>
+    <li><a href="#i18n">Pengantarabangsaan</a></li>
+    <li><a href="#testing">Ujian</a></li>
+    <li><a href="#ai-agents">Ejen AI</a></li>
+    <li><a href="#troubleshooting">Penyelesaian masalah</a></li>
+    <li><a href="#contributing">Menyumbang</a></li>
+    <li><a href="#community">Komuniti dan sokongan</a></li>
+    <li><a href="#faq">Soalan lazim</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Pasang</h2>
+  <p>
+    Lily tinggal dalam satu monorepo Git, dengan direktori bagi setiap perpustakaan tanpa kepala rangka kerja, pakej pembantu dan aplikasi contoh. Cara terpantas mencuba ialah mengklon monorepo dan membuka perpustakaan tanpa kepala untuk tindanan anda:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Corak yang sama berfungsi untuk rangka kerja lain:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — tiada pemasangan diperlukan; salin <code>.html</code> fail</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Perpustakaan tanpa kepala direka untuk diklon atau divendor — anggap sumber sebagai punca kebenaran dan salin apa yang anda perlukan.
+    <a href="#helpers">pembantu keutamaan</a> turut disediakan sebagai pakej boleh dipasang dengan saluran binaan dan penerbitan (npm untuk rangka kerja JS, NuGet untuk Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Gunakan komponen tanpa kepala</h2>
+  <p>
+    Komponen tanpa kepala menyediakan HTML semantik, ARIA dan prop — tetapi tiada CSS. Berikut ialah Button dalam setiap rangka kerja:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Gunakan contoh bergaya</h2>
+  <p>
+    Aplikasi contoh termasuk CSS, laluan dan halaman demo penuh. Cara terpantas bereksperimen ialah memulakan aplikasi contoh SvelteKit, Next, Nuxt, Analog atau Eleventy dan melihat demo di <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Kemudian buka <code>http://localhost:5173</code> dan layari <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Penggayaan dan token reka bentuk</h2>
+  <p>
+    Setiap komponen dipaparkan dengan satu kelas kebab-case pada elemen akarnya. Contohnya, <code>&lt;Button&gt;</code> memaparkan <code>&lt;button class="button"&gt;</code>. Gayakan sesuka hati:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Palet warna Lily lalai (digunakan dalam aplikasi contoh) ialah:</p>
+  <ul>
+    <li>Utama: <code>#2563eb</code></li>
+    <li>Bahaya: <code>#dc2626</code></li>
+    <li>Amaran: <code>#f59e0b</code></li>
+    <li>Kejayaan: <code>#16a34a</code></li>
+    <li>Latar halaman: <code>#f9fafb</code></li>
+    <li>Latar kad: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Ini cadangan, bukan keperluan. Gantikannya dengan palet jenama anda sendiri dan Lily akan menyesuaikan diri dengan senang hati.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Tema siap pakai</h2>
+  <p>
+    Tidak mahu menulis CSS dari kosong? Lily disertakan dengan
+    <strong>57 tema rujukan kendiri</strong> dalam direktori
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Setiap satu ialah satu helaian gaya yang menyasarkan cangkuk kelas Lily — pautkan dan anda sudah digayakan:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Set ini meliputi:</p>
+  <ul>
+    <li>
+      <strong>Sektor awam</strong> — NHS England, NHS Scotland dan NHS Wales (varian untuk pesakit dan pengamal masing-masing), GOV.UK GDS dan U.S. Web Design System.
+    </li>
+    <li><strong>Diilhamkan vendor</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Serba guna</strong> — light, dark, nord, dracula, wireframe, dan tiga puluhan lagi.
+    </li>
+  </ul>
+  <p>
+    Pemilih tema menggunakan <code>:where(...)</code>, jadi CSS anda sendiri sentiasa menang dari segi kekhususan. Pasangkan dengan pembantu <code>theme-picker</code> di bawah untuk penukaran runtime, atau ikuti
+    <a href="/tutorials/theming/">tutorial tema</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Pembantu keutamaan</h2>
+  <p>
+    Setiap rangka kerja mempunyai lapan pemilih kecil, masing-masing dalam pakej
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> tersendiri (dan <code>picker-bar</code> yang menghimpunkannya). Setiap satu ialah butang ikon tanpa kepala yang membuka popup — kotak senarai, senarai pautan, borang carian, atau (untuk date-time-picker) dialog pemilih tarikh — bukan natif
+    <code>&lt;select&gt;</code>; selamat untuk SSR; dan disertakan tanpa CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — memuatkan helaian gaya tema semasa runtime dengan menukar <code>&lt;link&gt;</code>yang diurus, menetapkan
+      <code>data-theme</code> pada dokumen, dan secara pilihan menyimpan ke
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — menetapkan <code>lang</code> dan
+      <code>dir</code> (dengan pengesanan RTL automatik) supaya perpustakaan i18n anda boleh mengikutinya; ia sendiri tidak menerjemah.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — menetapkan <code>data-text-size</code> pada dokumen; CSS anda memetakan setiap nilai kepada saiz fon.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — menetapkan <code>data-motion</code> pada dokumen, bermula daripada tetapan gerakan dikurangkan pelawat; CSS dan skrip anda memutuskan apa yang ditindas.
+    </li>
+    <li>
+      <strong>search-picker</strong> — butang ikon yang membuka medan carian; penghantaran menavigasi ke halaman carian. Memiliki tindakan, bukan keutamaan.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ikon rumah yang membuka menu pautan halaman yang ditakrifkan aplikasi anda (Utama, Perihal Kami, Hubungi Kami, Dasar Privasi, …). Memiliki tindakan, bukan keutamaan.
+    </li>
+    <li>
+      <strong>share-picker</strong> — membuka helaian kongsi natif atau senarai destinasi yang dibekalkan pengguna, ditambah salin-URL. Memiliki tindakan, bukan keutamaan: tidak menggunakan apa-apa, tidak menyimpan apa-apa.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — medan teks ditambah dialog pemilih tarikh APG untuk tarikh, masa, atau kedua-duanya. Memiliki nilai borang, bukan keutamaan: rentetan ISO berulang-alik ke
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Katalog Svelte ialah rujukan kanonik; port React, Vue, Angular, HTML, Nunjucks, Web Components dan Blazor sepadan dengannya kontrak demi kontrak. Lihat
+    <a href="/tutorials/helpers/">tutorial pembantu</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Kebolehcapaian</h2>
+  <p>Komponen menyasarkan <strong>WCAG 2.2 AAA</strong>. Mereka mengikut corak ini:</p>
+  <ul>
+    <li>Elemen HTML semantik berbanding generik <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> memaut label kepada input.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> untuk rujukan silang.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> untuk keadaan ralat.</li>
+    <li><code>role="alert"</code> dan <code>aria-live</code> untuk kandungan dinamik.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> untuk keadaan.</li>
+    <li>Roving <code>tabindex</code> untuk grid.</li>
+  </ul>
+  <p>
+    Penunjuk fokus sengaja dibekalkan oleh pengguna — Lily tidak pernah melukis gelang fokus lalai yang bertembung dengan reka bentuk anda. Aplikasi contoh mengekalkan garis dasar axe-core yang bersih merentas laluan mereka.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Pengantarabangsaan</h2>
+  <p>
+    Setiap label, pemegang tempat, mesej ralat dan teks butang ialah prop. Tiada rentetan dikodkan keras. Masukkan rangka kerja terjemahan pilihan anda — Paraglide, i18next, vue-i18n, react-intl, fail .resx, apa sahaja.
+  </p>
+  <p>
+    Untuk tarikh, nombor dan mata wang, komponen menerima rentetan yang telah diformat: anda memformat dengan <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / perpustakaan pilihan anda dan menghantar hasilnya.
+  </p>
+  <p>
+    Pembantu <code>locale-picker</code> memberi isyarat lokal yang dipilih kepada perpustakaan i18n anda dengan menetapkan <code>lang</code> dan <code>dir</code> pada akar dokumen.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Ujian</h2>
+  <p>Setiap subprojek rangka kerja menghantar ujiannya sendiri menggunakan tindanan idiomatiknya:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO menjalankan pelayar sebenar.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (melalui pemalam Analog Vite).</li>
+    <li><strong>Nunjucks</strong>: Vitest dengan pembantu paparan.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Ujian menggunakan <strong>hanya pemadan terbina dalam Vitest</strong> — tidak pernah
+    <code>jest-dom</code> pemadan. Ini memastikan suite ujian mudah alih. Aplikasi contoh menambah suite hujung-ke-hujung Playwright, garis dasar kebolehcapaian axe-core dan sapuan viewport responsif.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Ejen AI</h2>
+  <p>
+    Tapak ini menerbitkan <a href="/llms.txt">llms.txt</a> dan
+    <a href="/llms.json">llms.json</a> pada akarnya — peta terkurasi halaman terpentingnya, untuk mana-mana alat yang mengikuti
+    <a href="https://llmstxt.org">konvensyen llms.txt</a>.
+  </p>
+  <p>
+    Monorepo kanonik turut menghantar dua
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>, kemahiran serba guna yang meliputi konsep, istilah dan corak gubahan Lily untuk sesiapa yang membina dengan sistem ini, dan <code>lily-design-system-maintainer-skill</code>, kemahiran teknikal yang meliputi susun atur fail wajib dan perkakasan monorepo untuk sesiapa yang bekerja padanya. Kedua-duanya terletak pada akar
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kanonik</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Penyelesaian masalah</h2>
+
+  <details class="faq-item">
+    <summary>Komponen dipaparkan tetapi kelihatan tidak bergaya</summary>
+    <p>
+      Itulah tanpa kepala berfungsi seperti yang dimaksudkan — tiada CSS disertakan dengan komponen. Sama ada tulis CSS terhadap kelas kebab-case komponen (ditunjukkan pada setiap <a href="/components/">halaman katalog</a>) atau pautkan salah satu daripada
+      <a href="#themes">57 tema siap pakai</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS saya nampaknya tidak digunakan di atas tema</summary>
+    <p>
+      Ia sepatutnya — pemilih tema dibalut dalam <code>:where(...)</code>, yang mempunyai kekhususan sifar. Jika peraturan masih kalah, semak bahawa helaian gaya anda dimuatkan selepas helaian gaya tema <code>&lt;link&gt;</code> dan bahawa pemilih benar-benar sepadan dengan cangkuk kelas komponen.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install gagal dengan ralat peer atau versi</summary>
+    <p>
+      Gunakan pnpm semasa (v10+) dan Node 22+. Setiap subprojek mengepin versi rangka kerjanya dalam <code>package.json</code>sendiri; jika rantai alat global anda lebih lama, <code>pnpm env use --global lts</code> ialah penyelesaian terpantas.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pembaca skrin mengumumkan nama yang salah untuk kawalan</summary>
+    <p>
+      Semak prop wajib komponen <code>label</code> — komponen yang tiada teks kelihatan memerlukannya, dan
+      <code>aria-label</code> / <code>aria-labelledby</code> yang dibekalkan pengguna dan dihantar melalui rest-props sengaja menang atas pendawaian terbina dalam. Setiap halaman katalog mendokumenkan kontrak ARIA komponen.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pembantu theme-picker tidak menukar helaian gaya</summary>
+    <p>
+      Sahkan bahawa <code>themesUrl</code> menunjuk ke direktori yang boleh diambil pelayar (hidangkan <code>themes/</code> fail sebagai aset statik) dan bahawa slug tema dalam prop <code>themes</code> sepadan dengan nama fail. Pembantu menukar <code>href</code> satu
+      <code>&lt;link data-lily-theme-picker&gt;</code> yang diurus — periksa dalam devtools untuk melihat URL yang diminta.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Sesuatu yang lain rosak</summary>
+    <p>
+      Buka isu dengan pengeluaran semula minimum di
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — atau lihat <a href="#community">komuniti dan sokongan</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Menyumbang</h2>
+  <p>Lily masih muda dan mengalu-alukan kerjasama. Sumbangan paling berguna sekarang ialah:</p>
+  <ul>
+    <li>Komponen baharu (terutamanya corak daripada sistem reka bentuk yang mantap).</li>
+    <li>Tema baharu — masing-masing satu helaian gaya kendiri, PR pertama yang berskop baik.</li>
+    <li>Penggayaan contoh yang lebih baik — tunjukkan apa yang mungkin.</li>
+    <li>Terjemahan rentetan aplikasi contoh.</li>
+    <li>Laporan pepijat dengan pengeluaran semula minimum.</li>
+    <li>Audit kebolehcapaian dengan pembaca skrin dan teknologi bantuan.</li>
+  </ul>
+  <p>
+    Buka isu dan PR di
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Komuniti dan sokongan</h2>
+  <ul>
+    <li>
+      <strong>Soalan dan laporan pepijat</strong> — buka isu di
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-mel</strong> — penyelenggara membaca
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      dan mengalu-alukan kerjasama, bimbingan dan maklum balas.
+    </li>
+    <li>
+      <strong>Cermin</strong> — Lily turut ditolak ke
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> dan
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, supaya anda boleh mengambil bahagian dari forge pilihan anda.
+    </li>
+    <li>
+      <strong>Tatakelakuan</strong> — projek ini mengikuti kod tatakelakuan standard; berbaik-baiklah, anggap niat baik.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Soalan lazim</h2>
+
+  <details class="faq-item">
+    <summary>Mengapa tanpa kepala dan bukan bergaya?</summary>
+    <p>
+      Komponen pra-gaya memang mudah — sehingga ia tidak sepadan dengan jenama anda. Komponen tanpa kepala memerlukan sedikit lebih kerja di awal tetapi memberi anda kawalan penuh ke atas reka bentuk visual. Aplikasi contoh dan 57 tema menunjukkan cara menggayakannya; anda boleh mengambilnya atau menggantikannya sepenuhnya. Hujah yang lebih panjang terdapat di <a href="/why/">Mengapa Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mengapa begitu banyak komponen?</summary>
+    <p>
+      Lily bertujuan meliputi corak yang diperlukan kebanyakan aplikasi tanpa memaksa anda membinanya dari awal — termasuk perkara mendalam seperti input pengecam kebangsaan dan scrollytelling editorial. Katalog ini diambil daripada sedozen sistem reka bentuk mantap serta kerja asli — lihat <a href="/about/">Perihal</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bolehkah saya menggunakan Lily dengan Tailwind?</summary>
+    <p>
+      Ya. Setiap komponen mendedahkan satu kelas akar kebab-case ditambah <code>className</code> / <code>class</code>yang dibekalkan pengguna. Letakkan utiliti Tailwind di atasnya sesuka hati.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bolehkah saya menggunakan Lily dengan rangka kerja CSS semantik seperti DaisyUI?</summary>
+    <p>
+      Ya. Nama kelas kebab-case pada elemen akar berfungsi sebagai cangkuk CSS semantik. Pasangkan Lily dengan rangka kerja semantik dan anda mendapat komponen pra-gaya yang masih menghormati ARIA dan i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Adakah terdapat pakej npm?</summary>
+    <p>
+      Pembantu <a href="#helpers">pembantu keutamaan</a> disediakan sebagai pakej dengan saluran penerbitan npm/NuGet. Perpustakaan komponen tanpa kepala direka untuk diklon atau divendor — sumber ialah serahan, supaya anda boleh membaca, memangkas dan memiliki tepat apa yang anda hantar. Penerbitan registri untuk perpustakaan tanpa kepala kekal dalam peta jalan.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mengapa berbilang lesen?</summary>
+    <p>
+      Projek berbeza mempunyai keperluan lesen berbeza. BSD dan MIT bersifat permisif, Apache-2.0 mempunyai pemberian paten, dan pilihan GPL menyokong copyleft. Pilih yang sesuai dengan situasi anda.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bagaimana saya melaporkan pepijat atau meminta ciri?</summary>
+    <p>
+      Buka isu di repositori GitHub, atau e-mel
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

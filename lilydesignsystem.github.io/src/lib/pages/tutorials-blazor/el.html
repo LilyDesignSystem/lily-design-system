@@ -1,0 +1,107 @@
+<!-- title: Οδηγός Blazor — Lily Design System -->
+<!-- description: Φτιάξτε μια προσβάσιμη, μορφοποιημένη φόρμα με τα headless στοιχεία της Lily για Blazor: στοιχεία Razor με παραμέτρους και δοκιμές bUnit. -->
+<section class="page-intro">
+  <h1>Οδηγός Blazor</h1>
+  <p class="page-intro-tagline">
+    Στοιχεία βιβλιοθήκης κλάσεων Razor με παραμέτρους, <code>ChildContent</code>
+    θραύσματα απόδοσης, διασπορά χαρακτηριστικών και μία δοκιμή bUnit ανά στοιχείο.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Τι θα φτιάξετε</h2>
+  <p>
+    Μια μικρή φόρμα επικοινωνίας — πεδίο με ετικέτα, κουμπί υποβολής,
+    <code>@bind-Value</code> δέσμευση, πραγματική συμπεριφορά πληκτρολογίου και προγράμματος ανάγνωσης οθόνης — πρώτα γυμνή, μετά μορφοποιημένη, σε περίπου 10 λεπτά.
+  </p>
+
+  <h2>Πριν ξεκινήσετε</h2>
+  <p>
+    Χρειάζεστε git και .NET SDK 8 ή νεότερο. Κάθε έργο Blazor κάνει — Blazor Web App, Server ή WebAssembly.
+  </p>
+
+  <h2>Βήμα 1 — Πάρτε τον κώδικα</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Τα στοιχεία βρίσκονται στο <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — ένα αρχείο Razor το καθένα. Αναφερθείτε στο έργο (ή αντιγράψτε τα αρχεία) από την εφαρμογή Blazor και προσθέστε <code>@using LilyBlazorHeadless.Components</code> στο
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Βήμα 2 — Το πρώτο σας στοιχείο</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Αποδίδει <code>&lt;button class="button"&gt;</code>. Οι κοινές συμβάσεις παραμέτρων: <code>Label</code> (ένα <code>aria-label</code> για παράκαμψη),
+    <code>CssClass</code> (προστίθεται στο βασικό αγκίστρι),
+    <code>ChildContent</code>και
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> διασπορά χαρακτηριστικών ώστε κάθε επιπλέον χαρακτηριστικό HTML να περνά.
+  </p>
+
+  <h2>Βήμα 3 — Συνθέστε μια μικρή φόρμα</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> παίρνει την ορατή <code>Label</code> ως δική του παράμετρο αντί για ένθετο στοιχείο ετικέτας — περάστε την μία φορά, στο
+    <code>Field</code>και <code>TextInput</code>του
+    <code>Label</code> δίνει το προσβάσιμο όνομα.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Επαληθεύτηκε στις 2026-08-29:</strong> ένα προηγούμενο προσχέδιο ένθετε ξεχωριστό στοιχείο <code>Label</code> μέσα στο <code>Field</code>, το οποίο απέδιδε <em>δύο</em> ετικέτες (η μία κενή) επειδή το <code>Field</code>
+      αποδίδει ήδη τη δική του από την είσοδο <code>Label</code> παράμετρος — εντοπίστηκε ελέγχοντας τον πηγαίο κώδικα του στοιχείου· <code>Form</code> το ίδιο δεν έχει παράμετρο <code>Label</code> , οπότε η χρήση του
+      <code>&lt;Form&gt;</code> στο προηγούμενο προσχέδιο διορθώθηκε ώστε να την παραλείπει, αντί να επινοηθεί ένα χαρακτηριστικό που δεν υπάρχει.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Η σύνθετη διαδρομή της φόρμας επικοινωνίας</a>
+      είναι το ίδιο μοτίβο, δοκιμασμένο με πραγματικά τεστ e2e και axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ελέγξτε τη δουλειά σας:</strong> τρέξτε την εφαρμογή και η φόρμα φαίνεται γυμνή — ακριβώς όπως προβλέπεται: η μορφοποίηση έρχεται μετά. Πατήστε
+      <kbd>Tab</kbd>: η εστίαση περνά από κάθε στοιχείο ελέγχου, η ετικέτα ανακοινώνεται και η υποβολή δουλεύει. Η συμπεριφορά είναι έτοιμη· η εμφάνιση είναι δική σας και είναι το επόμενο βήμα.
+    </p>
+  </div>
+
+  <h2>Βήμα 4 — Μορφοποιήστε την</h2>
+  <p>
+    Μορφοποιήστε τα αγκίστρια κλάσης — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — στο <code>app.css</code>, ή συνδέστε ένα έτοιμο θέμα στο <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Βήμα 5 — Δείτε τα πάντα να δουλεύουν</h2>
+  <p>
+     <a href="/examples/">Η εφαρμογή-παράδειγμα Blazor Web</a> δείχνει ολόκληρο τον κατάλογο μορφοποιημένο και επιδεδειγμένο, με δοκιμές e2e Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Επόμενα βήματα</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Θέματα</a> — εναλλαγή κατά την εκτέλεση με τον βοηθό theme-picker για Blazor (βιβλιοθήκη κλάσεων Razor στο NuGet).</li>
+    <li><a href="/tutorials/helpers/">Βοηθοί προτιμήσεων</a> — γλώσσα και μέγεθος κειμένου.</li>
+    <li><a href="/components/">Κατάλογος στοιχείων</a> — ιδιότητες, ARIA και πληκτρολόγιο ανά στοιχείο.</li>
+  </ul>
+  <p>
+    Ερωτήσεις στην πορεία; Η
+    <a href="/help/#troubleshooting">σελίδα βοήθειας</a> είναι γεμάτη απαντήσεις — και αν ένα βήμα μπορεί να γίνει πιο σαφές,
+    <a href="https://github.com/LilyDesignSystem">πείτε μας</a> και θα βελτιώσουμε με χαρά τον οδηγό.
+  </p>
+</section>

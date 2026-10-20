@@ -1,0 +1,109 @@
+<!-- title: Οδηγός React — Lily Design System -->
+<!-- description: Φτιάξτε μια προσβάσιμη, μορφοποιημένη φόρμα με τα headless στοιχεία της Lily για React: τυποποιημένα στοιχεία συνάρτησης με value + onChange. -->
+<section class="page-intro">
+  <h1>Οδηγός React</h1>
+  <p class="page-intro-tagline">
+    Τυποποιημένα στοιχεία συνάρτησης, ένα αρχείο το καθένα, ελεγχόμενα με το τυπικό μοτίβο
+    <code>value</code> + <code>onChange</code> — όλα δουλεύουν όπως ήδη δουλεύει το React.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Τι θα φτιάξετε</h2>
+  <p>
+    Μια μικρή φόρμα επικοινωνίας — πεδίο με ετικέτα, κουμπί υποβολής, ελεγχόμενη κατάσταση, πραγματική συμπεριφορά πληκτρολογίου και προγράμματος ανάγνωσης οθόνης — πρώτα γυμνή, μετά μορφοποιημένη, σε περίπου 10 λεπτά.
+  </p>
+
+  <h2>Πριν ξεκινήσετε</h2>
+  <p>
+    Χρειάζεστε git, Node 22 ή νεότερο και pnpm 10 ή νεότερο. Κάθε έργο React 18+ κάνει — Next.js, Vite ή απλό React.
+  </p>
+
+  <h2>Βήμα 1 — Πάρτε τον κώδικα</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Τα στοιχεία είναι επίπεδα αρχεία στο <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — καθένα με τη δοκιμή, το story και την τεκμηρίωσή του δίπλα του. Αντιγράψτε τα αρχεία που χρειάζεστε στην εφαρμογή σας ή φέρτε το αποθετήριο και εισαγάγετε από αυτό.
+  </p>
+
+  <h2>Βήμα 2 — Το πρώτο σας στοιχείο</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Αποδίδει <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (αποδίδει
+    <code>aria-pressed</code>), <code>label</code> (ένα
+    <code>aria-label</code> για παράκαμψη), <code>className</code>, και κάθε επιπλέον χαρακτηριστικό διασπείρεται στο στοιχείο ρίζας.
+  </p>
+
+  <h2>Βήμα 3 — Συνθέστε μια μικρή φόρμα</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> παίρνει την ορατή <code>label</code> ως δικό του prop αντί για ένθετο στοιχείο ετικέτας — περάστε την μία φορά, στο
+    <code>Field</code>και <code>TextInput</code>του
+    <code>label</code> δίνει το προσβάσιμο όνομα.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Επαληθεύτηκε στις 2026-08-29:</strong> ένα προηγούμενο προσχέδιο ένθετε ξεχωριστό στοιχείο <code>Label</code> μέσα στο <code>Field</code>, το οποίο απέδιδε
+      <em>δύο</em> ετικέτες (η μία κενή) επειδή το <code>Field</code> αποδίδει ήδη τη δική του από την είσοδο <code>label</code> prop — εντοπίστηκε μεταγλωττίζοντας το ακριβές απόσπασμα. Η διαδρομή
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Η σύνθετη διαδρομή της φόρμας επικοινωνίας</a>
+      είναι το ίδιο μοτίβο, δοκιμασμένο με πραγματικά τεστ e2e και axe.
+    </p>
+  </div>
+
+  <h2>Βήμα 4 — Μορφοποιήστε την</h2>
+  <p>
+    Όλα τα παραπάνω αποδίδονται ως καθαρή δομή, έτοιμη για τα στυλ σας. Μορφοποιήστε τα αγκίστρια — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — στο φύλλο στυλ σας, στρώστε βοηθητικά Tailwind μέσω <code>className</code>, ή συνδέστε ένα έτοιμο θέμα:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Βήμα 5 — Δείτε τα πάντα να δουλεύουν</h2>
+  <p>
+     <a href="/examples/">Η εφαρμογή-παράδειγμα Next.js</a> είναι ολόκληρος ο κατάλογος μορφοποιημένος και επιδεδειγμένος, με Playwright e2e και βάση αναφοράς axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Επόμενα βήματα</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Θέματα</a> — εναλλαγή κατά την εκτέλεση με τον βοηθό theme-picker για React.</li>
+    <li><a href="/tutorials/helpers/">Βοηθοί προτιμήσεων</a> — γλώσσα και μέγεθος κειμένου.</li>
+    <li><a href="/components/">Κατάλογος στοιχείων</a> — ιδιότητες, ARIA και πληκτρολόγιο ανά στοιχείο.</li>
+  </ul>
+  <p>
+    Ερωτήσεις στην πορεία; Η
+    <a href="/help/#troubleshooting">σελίδα βοήθειας</a> είναι γεμάτη απαντήσεις — και αν ένα βήμα μπορεί να γίνει πιο σαφές,
+    <a href="https://github.com/LilyDesignSystem">πείτε μας</a> και θα βελτιώσουμε με χαρά τον οδηγό.
+  </p>
+</section>

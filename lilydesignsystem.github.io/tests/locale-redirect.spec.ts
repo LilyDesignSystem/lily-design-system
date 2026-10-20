@@ -22,7 +22,7 @@ test.describe('pickLocaleRoute', () => {
   });
   test('no invented fallbacks', () => {
     expect(pick('zh-TW')).toBeNull();
-    expect(pick('de-DE')).toBeNull();
+    expect(pick('zu-ZA')).toBeNull();
     expect(pick('')).toBeNull();
   });
   test('English variants without their own route go to the international en-001', () => {
@@ -32,8 +32,8 @@ test.describe('pickLocaleRoute', () => {
     expect(pick('en-GB')).toBe('en-gb');
   });
   test('earlier preferences win, and unmatched ones are skipped', () => {
-    expect(pick('de-DE', 'fr-CA', 'cy-GB')).toBe('fr-001');
-    expect(pick('de-DE', 'en-AU')).toBe('en-001');
+    expect(pick('zu-ZA', 'fr-CA', 'cy-GB')).toBe('fr-001');
+    expect(pick('zu-ZA', 'en-AU')).toBe('en-001');
   });
 });
 
@@ -59,7 +59,7 @@ test.describe('home page redirect', () => {
     });
   });
   test.describe('unsupported language browser', () => {
-    test.use({ locale: 'de-DE' });
+    test.use({ locale: 'zu-ZA' });
     test('"/" stays', async ({ page }) => {
       await page.goto('/');
       await page.waitForTimeout(800);

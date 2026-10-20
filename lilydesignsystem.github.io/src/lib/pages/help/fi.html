@@ -1,0 +1,432 @@
+<!-- title: Ohje — Lily Design System -->
+<!-- description: Aloita Lilyn käyttö: asenna kehyksesi päätön paketti, kopioi komponentti, tyylittele se, anna sille teema ja julkaise. Vianmääritys, UKK ja tuki. -->
+<section class="page-intro">
+  <h1>Lilyn käytön aloittaminen</h1>
+  <p class="page-intro-tagline">
+    Valitse kehys, kloonaa monorepo ja avaa sen päätön kirjasto tai esimerkkisovellus ja ala koota omia sivujasi. Haluatko ohjatun reitin? Aloita
+    <a href="/tutorials/">opetusohjelmista</a>.
+  </p>
+</section>
+
+<nav aria-label="Tällä sivulla" class="prose" style="margin: 0 auto;">
+  <p><strong>Tällä sivulla:</strong></p>
+  <ul>
+    <li><a href="#install">Asennus</a></li>
+    <li><a href="#use-headless">Päättömän komponentin käyttö</a></li>
+    <li><a href="#use-styled">Tyylitellyn esimerkin käyttö</a></li>
+    <li><a href="#styling">Tyylittely ja suunnittelutunnisteet</a></li>
+    <li><a href="#themes">Valmiit teemat</a></li>
+    <li><a href="#helpers">Asetusapurit</a></li>
+    <li><a href="#a11y">Saavutettavuus</a></li>
+    <li><a href="#i18n">Kansainvälistäminen</a></li>
+    <li><a href="#testing">Testaus</a></li>
+    <li><a href="#ai-agents">Tekoälyagentit</a></li>
+    <li><a href="#troubleshooting">Vianmääritys</a></li>
+    <li><a href="#contributing">Osallistuminen</a></li>
+    <li><a href="#community">Yhteisö ja tuki</a></li>
+    <li><a href="#faq">UKK</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Asennus</h2>
+  <p>
+    Lily asuu yhdessä Git-monorepossa, jossa on hakemisto jokaisen kehyksen päättömälle kirjastolle, apupaketeille ja esimerkkisovellukselle. Nopein tapa kokeilla on kloonata monorepo ja avata oman pinosi päätön kirjasto:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Sama malli toimii muille kehyksille:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> – asennusta ei tarvita; kopioi <code>.html</code> -tiedostot</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Päättömät kirjastot on suunniteltu kloonattaviksi tai kopioitaviksi projektiin – pidä lähdekoodia totuuden lähteenä ja kopioi tarvitsemasi.
+    <a href="#helpers">asetusapurit</a> toimitetaan lisäksi asennettavina paketteina rakennus- ja julkaisuputkella (npm JS-kehyksille, NuGet Blazorille).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Päättömän komponentin käyttö</h2>
+  <p>
+    Päättömät komponentit sisältävät semanttisen HTML:n, ARIA:n ja ominaisuudet – mutta eivät CSS:ää. Tässä Button kussakin kehyksessä:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Tyylitellyn esimerkin käyttö</h2>
+  <p>
+    Esimerkkisovellukset sisältävät CSS:n, reitit ja täydet demosivut. Nopein tapa kokeilla on käynnistää SvelteKit-, Next-, Nuxt-, Analog- tai Eleventy-esimerkkisovellus ja katsoa demoa osoitteessa <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Avaa sitten <code>http://localhost:5173</code> ja selaa <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Tyylittely ja suunnittelutunnisteet</h2>
+  <p>
+    Jokainen komponentti renderöidään yhdellä kebab-case-luokalla juurielementissään. Esimerkiksi <code>&lt;Button&gt;</code> renderöityy muotoon <code>&lt;button class="button"&gt;</code>. Tyylittele se haluamallasi tavalla:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lilyn oletusvaripaletti (käytössä esimerkkisovelluksissa) on:</p>
+  <ul>
+    <li>Ensisijainen: <code>#2563eb</code></li>
+    <li>Vaara: <code>#dc2626</code></li>
+    <li>Varoitus: <code>#f59e0b</code></li>
+    <li>Onnistuminen: <code>#16a34a</code></li>
+    <li>Sivun tausta: <code>#f9fafb</code></li>
+    <li>Kortin tausta: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Nämä ovat ehdotuksia, eivät vaatimuksia. Korvaa ne oman brändisi paletilla, niin Lily seuraa mukana mielellään.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Valmiit teemat</h2>
+  <p>
+    Etkö halua kirjoittaa CSS:ää alusta alkaen? Lily toimittaa
+    <strong>57 itsenäistä viiteteemaa</strong> hakemistossa
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Jokainen on yksi tyylitiedosto, joka kohdistuu Lilyn luokkakoukkuihin – linkitä se, ja olet tyylitelty:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Joukko kattaa:</p>
+  <ul>
+    <li>
+      <strong>Julkinen sektori</strong> – NHS England, NHS Scotland ja NHS Wales (kukin potilas- ja ammattilaisversiona), GOV.UK GDS ja U.S. Web Design System.
+    </li>
+    <li><strong>Toimittajista innoituksensa saaneet</strong> – Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Yleiskäyttöiset</strong> – light, dark, nord, dracula, wireframe ja parikymmentä muuta.
+    </li>
+  </ul>
+  <p>
+    Teemavalitsimet käyttävät <code>:where(...)</code>:ia, joten oma CSS:äsi voittaa aina spesifisyydessä. Yhdistä ne alla olevaan <code>theme-picker</code> -apuriin ajonaikaista vaihtoa varten tai seuraa
+    <a href="/tutorials/theming/">teemaopetusohjelmaa</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Asetusapurit</h2>
+  <p>
+    Jokaisella kehyksellä on kahdeksan pientä valitsinta, kukin omana
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -pakettinaan (ja <code>picker-bar</code> , joka kokoaa ne yhteen). Jokainen on päätön kuvakepainike, joka avaa ponnahdusikkunan – luettelon, linkkiluettelon, hakulomakkeen tai (date-time-pickerin tapauksessa) päivämäärävalintaikkunan – ei natiivi
+    <code>&lt;select&gt;</code>; on SSR-turvallinen; eikä sisällä CSS:ää:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> – lataa teemojen tyylitiedostot ajon aikana vaihtamalla hallittua <code>&lt;link&gt;</code>:ia, asettaa
+      <code>data-theme</code> -attribuutin dokumentille ja tallentaa halutessa kohteeseen
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> – asettaa <code>lang</code> ja
+      <code>dir</code> (automaattisella RTL-tunnistuksella), jotta i18n-kirjastosi voi seurata; ei käännä itse mitään.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> – asettaa <code>data-text-size</code> -attribuutin dokumentille; CSS:äsi kohdistaa jokaisen arvon fonttikokoon.
+    </li>
+    <li>
+      <strong>motion-picker</strong> – asettaa <code>data-motion</code> -attribuutin dokumentille lähtien kävijän vähennetyn liikkeen asetuksesta; CSS:äsi ja skriptisi päättävät, mitä vaimennetaan.
+    </li>
+    <li>
+      <strong>search-picker</strong> – kuvakepainike, joka avaa hakukentän; lähettäminen siirtyy hakusivulle. Omistaa toiminnon, ei asetusta.
+    </li>
+    <li>
+      <strong>link-picker</strong> – kotikuvake, joka avaa valikon sovelluksesi määrittelemistä sivulinkeistä (Etusivu, Tietoa meistä, Ota yhteyttä, Tietosuojakäytäntö, …). Omistaa toiminnon, ei asetusta.
+    </li>
+    <li>
+      <strong>share-picker</strong> – avaa natiivin jakoikkunan tai kuluttajan antaman kohdeluettelon sekä URL:n kopioinnin. Omistaa toiminnon, ei asetusta: ei sovella mitään, ei tallenna mitään.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> – tekstikenttä ja APG-päivämäärävalintaikkuna päivämäärälle, ajalle tai molemmille. Omistaa lomakkeen arvon, ei asetusta: ISO-merkkijono muuntuu edestakaisin muotoon
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte-luettelo on kanoninen viite; React-, Vue-, Angular-, HTML-, Nunjucks-, Web Components- ja Blazor-portit vastaavat sitä sopimus sopimukselta. Katso
+    <a href="/tutorials/helpers/">apuriopetusohjelma</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Saavutettavuus</h2>
+  <p>Komponentit tavoittelevat <strong>WCAG 2.2 AAA</strong>-tasoa. Ne noudattavat näitä malleja:</p>
+  <ul>
+    <li>Semanttiset HTML-elementit yleisten <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> -elementtien sijaan, jotka yhdistävät nimiöt syötteisiin.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> ristiviittauksiin.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> virhetiloihin.</li>
+    <li><code>role="alert"</code> ja <code>aria-live</code> dynaamiseen sisältöön.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> tilaan.</li>
+    <li>Liikkuva <code>tabindex</code> ruudukoille.</li>
+  </ul>
+  <p>
+    Kohdistuksen ilmaisimet ovat tarkoituksella kuluttajan toimittamia – Lily ei koskaan piirrä oletuskohdistusrengasta, joka olisi ristiriidassa suunnittelusi kanssa. Esimerkkisovellukset pitävät puhtaan axe-core-perustason kaikilla reiteillään.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Kansainvälistäminen</h2>
+  <p>
+    Jokainen nimiö, paikkamerkki, virheilmoitus ja painiketeksti on ominaisuus. Kovakoodattuja merkkijonoja ei ole. Liitä valitsemasi käännyskehys – Paraglide, i18next, vue-i18n, react-intl, .resx-tiedostot, mikä tahansa.
+  </p>
+  <p>
+    Päivämäärille, luvuille ja valuutoille komponentit hyväksyvät valmiiksi muotoiltuja merkkijonoja: muotoilet itse käyttäen <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / haluamaasi kirjastoa ja välität tuloksen.
+  </p>
+  <p>
+    Apuri <code>locale-picker</code> ilmoittaa valitun kielen i18n-kirjastollesi asettamalla <code>lang</code> ja <code>dir</code> dokumentin juureen.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testaus</h2>
+  <p>Jokainen kehyksen aliprojekti toimittaa omat testinsä käyttäen sen omaa tyypillistä pinoa:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO, joka ajaa oikeita selaimia.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (Analog Vite -laajennuksen kautta).</li>
+    <li><strong>Nunjucks</strong>: Vitest renderöintiapurilla.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testit käyttävät <strong>vain Vitestin sisäänrakennettuja vertaajia</strong> – ei koskaan
+    <code>jest-dom</code> -vertaajia. Tämä pitää testisarjat siirrettävinä. Esimerkkisovellukset lisäävät Playwright-päästä päähän -sarjat, axe-core-saavutettavuusperustasot ja responsiivisen näkymäalueen läpikäynnin.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Tekoälyagentit</h2>
+  <p>
+    Tämä sivusto julkaisee <a href="/llms.txt">llms.txt</a> ja
+    <a href="/llms.json">llms.json</a> juuressaan – kuratoidun kartan tärkeimmistä sivuistaan, mille tahansa työkalulle, joka noudattaa
+    <a href="https://llmstxt.org">llms.txt-käytäntöä</a>.
+  </p>
+  <p>
+    Kanoninen monorepo toimittaa lisäksi kaksi
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: yleiskäyttöinen taito, joka kattaa Lilyn käsitteet, terminologian ja kokoamismallit kaikille, jotka rakentavat järjestelmällä, ja <code>lily-design-system-maintainer-skill</code>, tekninen taito, joka kattaa monorepon pakollisten tiedostojen rakenteen ja työkalut kaikille, jotka työskentelevät sen parissa. Molemmat sijaitsevat
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonisen monorepon juuressa</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Vianmääritys</h2>
+
+  <details class="faq-item">
+    <summary>Komponentti renderöityy mutta näyttää tyylittelemättömältä</summary>
+    <p>
+      Päätön toimii tarkoitetulla tavalla – komponentin mukana ei tule CSS:ää. Kirjoita CSS komponentin kebab-case-luokalle (näkyy jokaisella <a href="/components/">luettelosivulla</a>) tai linkitä yksi
+      <a href="#themes">57 valmiista teemasta</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS:äni ei näytä vaikuttavan teeman päällä</summary>
+    <p>
+      Sen pitäisi – teemavalitsimet on kääritty <code>:where(...)</code>:iin, jolla on nolla spesifisyyttä. Jos sääntö silti häviää, tarkista, että tyylitiedostosi latautuu teeman <code>&lt;link&gt;</code> -elementin jälkeen ja että valitsin todella vastaa komponentin luokkakoukkua.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install epäonnistuu peer- tai versiovirheeseen</summary>
+    <p>
+      Käytä ajantasaista pnpm:ää (v10+) ja Node 22+:aa. Jokainen aliprojekti kiinnittää kehysversionsa omaan <code>package.json</code>-tiedostoonsa; jos globaali työkaluketjusi on vanhempi, <code>pnpm env use --global lts</code> on nopein korjaus.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Näytönlukija ilmoittaa ohjaimelle väärän nimen</summary>
+    <p>
+      Tarkista komponentin pakollinen <code>label</code> -ominaisuus – komponentit, joilla ei ole näkyvää tekstiä, vaativat sellaisen, ja kuluttajan antama
+      <code>aria-label</code> / <code>aria-labelledby</code> joka välitetään rest-propsien kautta, voittaa tarkoituksella sisäänrakennetun kytkennän. Jokainen luettelosivu dokumentoi komponentin ARIA-sopimuksen.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker-apuri ei vaihda tyylitiedostoja</summary>
+    <p>
+      Varmista, että <code>themesUrl</code> osoittaa hakemistoon, jonka selain voi hakea (tarjoa <code>themes/</code> -tiedostot staattisina resursseina) ja että teemojen tunnisteet <code>themes</code> -ominaisuudessasi vastaavat tiedostonimiä. Apuri vaihtaa yhden hallitun <code>href</code> -elementin
+      <code>&lt;link data-lily-theme-picker&gt;</code> -attribuuttia – tarkista se kehittäjätyökaluista nähdäksesi pyydettävän URL:n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Jokin muu on rikki</summary>
+    <p>
+      Avaa issue minimaalisella toistotavalla osoitteessa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> – tai katso <a href="#community">yhteisö ja tuki</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Osallistuminen</h2>
+  <p>Lily on nuori ja toivottaa yhteistyön tervetulleeksi. Hyödyllisimmät panokset juuri nyt ovat:</p>
+  <ul>
+    <li>Uudet komponentit (erityisesti vakiintuneiden suunnittelujärjestelmien mallit).</li>
+    <li>Uudet teemat – kukin on yksi itsenäinen tyylitiedosto, hyvin rajattu ensimmäinen PR.</li>
+    <li>Parempi esimerkkien tyylittely – näytä, mikä on mahdollista.</li>
+    <li>Esimerkkisovellusten merkkijonojen käännökset.</li>
+    <li>Virheraportit minimaalisella toistotavalla.</li>
+    <li>Saavutettavuusauditoinnit näytönlukijoilla ja apuvälineteknologialla.</li>
+  </ul>
+  <p>
+    Avaa issuet ja PR:t osoitteessa
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Yhteisö ja tuki</h2>
+  <ul>
+    <li>
+      <strong>Kysymykset ja virheraportit</strong> – avaa issue osoitteessa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Sähköposti</strong> – ylläpitäjä lukee osoitetta
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ja toivottaa tervetulleeksi yhteistyön, ohjauksen ja palautteen.
+    </li>
+    <li>
+      <strong>Peilit</strong> – Lily työnnetään myös palveluihin
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> ja
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, jotta voit osallistua haluamastasi forgesta.
+    </li>
+    <li>
+      <strong>Käytös</strong> – projekti noudattaa tavallista käytännesääntöä; ole ystävällinen, oleta hyvää tahtoa.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>UKK</h2>
+
+  <details class="faq-item">
+    <summary>Miksi päätön eikä tyylitelty?</summary>
+    <p>
+      Valmiiksi tyylitellyt komponentit ovat käteviä – kunnes ne eivät sovi brändiisi. Päättömät komponentit vaativat hieman enemmän työtä alussa, mutta antavat täyden hallinnan visuaaliseen suunnitteluun. Esimerkkisovellukset ja 57 teemaa näyttävät tapoja tyylitellä ne; voit ottaa ne käyttöösi tai korvata ne kokonaan. Pidempi perustelu on sivulla <a href="/why/">Miksi Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Miksi niin monta komponenttia?</summary>
+    <p>
+      Lily pyrkii kattamaan mallit, joita useimmat sovellukset tarvitsevat, pakottamatta sinua rakentamaan niitä alusta – mukaan lukien syvälliset jutut, kuten kansallisten tunnisteiden syötteet ja toimituksellinen scrollytelling. Luettelo ammentaa tusinasta vakiintunutta suunnittelujärjestelmää sekä omasta työstä – katso <a href="/about/">Tietoa</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Voinko käyttää Lilyä Tailwindin kanssa?</summary>
+    <p>
+      Kyllä. Jokainen komponentti tarjoaa yhden kebab-case-juuriluokan sekä kuluttajan antaman <code>className</code> / <code>class</code>:n. Kerro Tailwind-apuluokat päälle haluamallasi tavalla.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Voinko käyttää Lilyä semanttisten CSS-kehysten, kuten DaisyUI:n, kanssa?</summary>
+    <p>
+      Kyllä. Juurielementin kebab-case-luokkanimet toimivat semanttisina CSS-koukkuina. Yhdistä Lily semanttiseen kehykseen, niin saat valmiiksi tyylitellyt komponentit, jotka silti kunnioittavat ARIA:a ja i18n:ää.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Onko npm-pakettia?</summary>
+    <p>
+       <a href="#helpers">asetusapurit</a> toimitetaan paketteina npm/NuGet-julkaisuputkella. Päättömät komponenttikirjastot on suunniteltu kloonattaviksi tai kopioitaviksi projektiin – lähdekoodi on toimitettava tuote, joten voit lukea, karsia ja omistaa täsmälleen sen, minkä toimitat. Päättömien kirjastojen julkaisu rekistereihin on edelleen tiekartalla.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Miksi useita lisenssejä?</summary>
+    <p>
+      Eri projekteilla on erilaiset lisenssitarpeet. BSD ja MIT ovat salliavia, Apache-2.0:ssa on patenttimyöntö, ja GPL-vaihtoehdot tukevat copyleftiä. Valitse se, joka sopii tilanteeseesi.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Miten ilmoitan virheestä tai pyydän ominaisuutta?</summary>
+    <p>
+      Avaa issue GitHub-repossa tai lähetä sähköpostia osoitteeseen
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

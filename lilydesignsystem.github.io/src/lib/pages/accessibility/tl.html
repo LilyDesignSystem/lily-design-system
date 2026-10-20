@@ -1,0 +1,63 @@
+<!-- title: Pagiging Accessible — Lily Design System -->
+<!-- description: Pahayag ng accessibility ng Lily: ano ang ibig sabihin ng pag-target sa WCAG 2.2 AAA dito — ano ang napatutunayan, gamit ang ano, ano ang hindi napatutunayan ng anuman, at paano mag-ulat ng problema. -->
+<section class="page-intro">
+  <h1>Ano ang ibig sabihin ng “tinatarget ang WCAG 2.2 AAA” dito</h1>
+  <p class="page-intro-tagline">
+    Ang salitang <em>tinatarget</em> ay sinadya. Sinasabi ng pahinang ito nang eksakto kung ano ang napatutunayan, gamit ang ano, ano ang hindi napatutunayan ng anuman, at ano ang balak naming gawin sa puwang. Hindi kailanman nagke-claim ang Lily ng “pagsunod” sa WCAG — walang audit na sumusuporta rito.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Napatutunayan, tuloy-tuloy</h2>
+  <ul>
+    <li>
+      Ang canonical na semantic element ng bawat component, mga attribute ng ARIA, at class hook — pinatutunayan ng mga unit suite bawat framework (mahigit 15,000 kaso sa pitong framework).
+    </li>
+    <li>
+      Ang bawat isa sa 571 demo page ng component sa SvelteKit example app ay axe-clean (mga rule set ng WCAG 2.0/2.1 A+AA at 2.2 AA) — ang buong sweep ng catalog, unang na-baseline noong 2026-08-27 at muling pinatakbo noong 2026-10-06 — kasama ang mga baseline bawat app sa home, catalog, at composed na ruta sa lahat ng pitong example app.
+    </li>
+    <li>
+      Mga kontrata ng keyboard para sa bawat interactive na component, dokumentado sa canonical na metadata ng bawat component at sinusubukan ng mga suite; ang mga helper package ay nagpapatakbo rin ng mga Playwright spec sa tunay na browser.
+    </li>
+    <li>
+      Mga floor ng target-size ng WCAG 2.2 at overflow guard sa lahat ng 57 tema; skip-link, landmark, at walang pahalang na overflow sa apat na viewport bawat app; <code>lang</code>/<code>dir</code> application at ang RTL flip.
+    </li>
+  </ul>
+
+  <h2>Hindi napatutunayan ng anuman</h2>
+  <ul>
+    <li>
+      <strong>Wala pang conformance audit na naisagawa kailanman.</strong> Walang VPAT, walang sertipikasyon. Sinasaklaw ng mga automated na tool ang minorya ng mga success criteria ng WCAG.
+    </li>
+    <li>
+      Ang mga criteria na partikular sa AAA (pinahusay na contrast, at iba pa) ay mga layunin ng disenyo, hindi mga napatunayang katangian; ang mga rule set ng axe ay A/AA ang pinapatakbo. Wala pang nakalaang high-contrast na tema.
+    </li>
+    <li>
+      <strong>Halos hindi pa nasusubukan ang gawi ng screen-reader.</strong> Pinatutunayan ng mga suite ang mga attribute ng ARIA, hindi ang ibinabalita ng VoiceOver, NVDA, o JAWS — at higit sa isang beses nang nagpadala ng berdeng mga suite ang proyektong ito sa ibabaw ng tunay na mga depekto, na bawat isa ay isinulat sa changelog dahil mismo hindi sila nakita ng mga suite.
+    </li>
+  </ul>
+
+  <h2>Ano ang balak naming gawin tungkol dito</h2>
+  <p>
+    Ang independiyenteng accessibility audit ang unang pinangalanang gamit ng anumang pondo ng proyekto, at nakahanda na ang saklaw na kailangan ng auditor. Hanggang doon, ang mga ulat ng screen-reader ang kontribusyong pinakagusto ng proyektong ito: “ang component X ay nagbabalita ng Y, na mali dahil sa Z” ay direktang magagawan ng aksyon.
+  </p>
+
+  <h2>Mag-ulat ng problema</h2>
+  <p>
+    Magbukas ng issue sa
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    o mag-email sa
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Nakakatulong ang pagbanggit ng criterion ng WCAG pero hindi kinakailangan — ang “Hindi ko magamit ang X gamit ang keyboard” ay kumpletong ulat.
+  </p>
+  <p>
+    Ang buong pahayag, kasama ang talaan ng pagpapatunay at kasaysayan ng pagsusuri nito, ay nasa repository:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

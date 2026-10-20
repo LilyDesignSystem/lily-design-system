@@ -1,0 +1,106 @@
+<!-- title: HTML-kennsluefni — Lily Design System -->
+<!-- description: Byggðu aðgengilegt, stílað eyðublað með höfuðlausum HTML íhlutum Lily — einfalt markup, beint úr skrá. -->
+<section class="page-intro">
+  <h1>HTML-kennsluefni</h1>
+  <p class="page-intro-tagline">
+    Einfaldasta mögulega byrjun: afritaðu merkingarfræðilegt HTML með klasakrókum Lily, bættu við einu stílblaði, gefðu út. Einfaldar skrár sem virka hvar sem HTML virkar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Lítið tengiliðaeyðublað — innsláttarreitir með merkimiðum, sendihnappur, raunveruleg lyklaborðs- og skjálesarahegðun — fyrst ber, svo stílað, á um 10 mínútum.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Þú þarft vafra og textaritil. Það er allt. (git hjálpar til við að ná í íhlutaskrárnar, en þú getur líka afritað þær af GitHub í vafranum.)
+  </p>
+
+  <h2>Skref 1 — Náðu í kóðann</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Hver íhlutur er sjálfstæð skrá í <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>og svo framvegis — með haushugleiðingu sem skjalfestir HTML-merki, klasakrók, lyklaborðshegðun og aðgengissamning. Skrárnar <em>eru</em> safnið — afritaðu það sem þú þarft og farðu af stað.
+  </p>
+
+  <h2>Skref 2 — Fyrsti íhluturinn þinn</h2>
+  <p>Opnaðu <code>components/button.html</code>, eða skrifaðu bara markupið — klasakrókurinn er samningurinn:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Þar sem þetta er raunverulegur <code>&lt;button&gt;</code>eru lyklaborðsfókus, virkjun með Enter og Space og undirliggjandi hnappahlutverk þegar rétt.
+  </p>
+
+  <h2>Skref 3 — Settu saman lítið eyðublað</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Taktu eftir mynstrinu: hver stýring tengir sinn <code>&lt;label for&gt;</code>, notar sértækustu innsláttartegundina og ber nákvæmlega einn kebab-case klasakrók.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Athugaðu verkið:</strong> opnaðu síðuna í vafra. Hún lítur einföld út — nákvæmlega eins og ætlað er: stíllinn er enn framundan. Ýttu á
+      <kbd>Tab</kbd>: fókusinn færist í gegnum hverja stýringu, merkimiðar eru lesnir upp og sending virkar. Hegðunin er tilbúin; útlitið er þitt og er næst.
+    </p>
+  </div>
+
+  <h2>Skref 4 — Stílaðu það</h2>
+  <p>Skrifaðu CSS gegn krókunum:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Eða slepptu handskrifuðu CSS alveg — tengdu eitt af 45 tilbúnu þemunum og sama markup lifnar við:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Skref 5 — Kannaðu frekar</h2>
+  <ul>
+    <li>Próf geymslunnar keyra í raunverulegum vöfrum: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook fyrir hvern íhlut: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS dæmaforritið</a> sýnir alla 571 íhlutina stílaða, leitarhæfa og sýnda.
+    </li>
+  </ul>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Þemu</a> — skipti á þema á keyrslutíma með theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Stillingahjálpartæki</a> — tungumál og textastærð.</li>
+    <li><a href="/components/">Íhlutasafn</a> — full viðmiðun.</li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

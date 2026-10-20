@@ -1,0 +1,63 @@
+<!-- title: Pieejamība — Lily Design System -->
+<!-- description: Lily pieejamības paziņojums: ko šeit nozīmē mērķēt uz WCAG 2.2 AAA — kas tiek pārbaudīts, ar ko, ko nepārbauda nekas un kā ziņot par problēmu. -->
+<section class="page-intro">
+  <h1>Ko šeit nozīmē „mērķē uz WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Vārds <em>mērķē</em> ir izvēlēts apzināti. Šī lapa precīzi norāda, kas tiek pārbaudīts, ar ko, ko nepārbauda nekas un ko mēs plānojam darīt ar šo robu. Lily nekad neapgalvo WCAG „atbilstību” — neviens audits to neatbalsta.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Pārbaudīts nepārtraukti</h2>
+  <ul>
+    <li>
+      Katras komponentes kanoniskais semantiskais elements, ARIA atribūti un klases āķi — apstiprināti ar vienību testu komplektiem katram ietvaram (vairāk nekā 15 000 gadījumu septiņos ietvaros).
+    </li>
+    <li>
+      Katra no 571 komponentes demonstrācijas lapām SvelteKit paraugu lietotnē ir tīra pēc axe (WCAG 2.0/2.1 A+AA un 2.2 AA noteikumu kopas) — visa kataloga pārskats, pirmoreiz fiksēts kā bāzes līnija 2026-08-27 un atkārtoti palaists 2026-10-06 — plus bāzes līnijas katrai lietotnei sākumlapai, katalogam un saliktajiem maršrutiem visās septiņās paraugu lietotnēs.
+    </li>
+    <li>
+      Tastatūras līgumi katrai interaktīvajai komponentei, dokumentēti katras komponentes kanoniskajos metadatos un pārbaudīti ar komplektiem; palīgu pakotnes papildus palaiž Playwright specifikācijas īstās pārlūkprogrammās.
+    </li>
+    <li>
+      WCAG 2.2 mērķa izmēra apakšējās robežas un pārplūdes aizsardzība visās 57 tēmās; izlaišanas saite, orientieri un nekādas horizontālās pārplūdes četros skatlogos uz lietotni; <code>lang</code>/<code>dir</code> piemērošana, ieskaitot RTL apgriešanu.
+    </li>
+  </ul>
+
+  <h2>Nekas nepārbauda</h2>
+  <ul>
+    <li>
+      <strong>Atbilstības audits nekad nav veikts.</strong> Nav VPAT, nav sertifikācijas. Automatizētie rīki aptver mazākumu WCAG panākumu kritēriju.
+    </li>
+    <li>
+      AAA specifiskie kritēriji (uzlabots kontrasts un citi) ir dizaina nodomi, nevis pārbaudītas īpašības; axe noteikumu kopas darbojas A/AA līmenī. Atsevišķas augsta kontrasta tēmas vēl nav.
+    </li>
+    <li>
+      <strong>Ekrāna lasītāju uzvedība lielā mērā nav pārbaudīta.</strong> Komplekti apstiprina ARIA atribūtus, nevis to, ko VoiceOver, NVDA vai JAWS paziņo — un šis projekts ir vairāk nekā vienu reizi piegādājis zaļus komplektus virs īstiem defektiem, katrs atzīmēts izmaiņu žurnālā tieši tāpēc, ka komplekti tos neredzēja.
+    </li>
+  </ul>
+
+  <h2>Ko mēs plānojam darīt</h2>
+  <p>
+    Neatkarīgs pieejamības audits ir pirmā nosauktā jebkura projekta finansējuma izmantošana, un apjoms, kas nepieciešams auditoram, jau ir sagatavots. Līdz tam ziņojumi no ekrāna lasītājiem ir ieguldījums, ko šis projekts vēlas visvairāk: „komponente X paziņo Y, kas ir nepareizi, jo Z” ir tieši izmantojams.
+  </p>
+
+  <h2>Ziņojiet par problēmu</h2>
+  <p>
+    Atveriet issue vietnē
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    vai rakstiet uz
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. WCAG kritērija nosaukšana palīdz, bet nav obligāta — „es nevarēju lietot X ar tastatūru” ir pilnvērtīgs ziņojums.
+  </p>
+  <p>
+    Pilns paziņojums ar pārbaudes tabulu un tās pārskatīšanas vēsturi atrodas krātuvē:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

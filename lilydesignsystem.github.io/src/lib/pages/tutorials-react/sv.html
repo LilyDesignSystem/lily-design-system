@@ -1,0 +1,109 @@
+<!-- title: React-handledning — Lily Design System -->
+<!-- description: Bygg ett tillgängligt, formgivet formulär med Lilys headless-komponenter för React: typade funktionskomponenter med value + onChange. -->
+<section class="page-intro">
+  <h1>React-handledning</h1>
+  <p class="page-intro-tagline">
+    Typade funktionskomponenter, en fil vardera, styrda med standardmönstret
+    <code>value</code> + <code>onChange</code> — allt fungerar som React redan gör.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Det här bygger du</h2>
+  <p>
+    Ett litet kontaktformulär — fält med etikett, skicka-knapp, kontrollerat tillstånd, verkligt tangentbords- och skärmläsarbeteende — först naket, sedan formgivet, på ungefär 10 minuter.
+  </p>
+
+  <h2>Innan du börjar</h2>
+  <p>
+    Du behöver git, Node 22 eller senare och pnpm 10 eller senare. Alla React 18+-projekt fungerar — Next.js, Vite eller vanlig React.
+  </p>
+
+  <h2>Steg 1 — Hämta koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponenterna är platta filer i <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — var och en med sitt test, sin story och sin dokumentation bredvid. Kopiera de filer du behöver till din app, eller hämta förvaret och importera därifrån.
+  </p>
+
+  <h2>Steg 2 — Din första komponent</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Renderar <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (renderar
+    <code>aria-pressed</code>), <code>label</code> (ett
+    <code>aria-label</code> för att åsidosätta), <code>className</code>, och varje extra attribut sprids på rotelementet.
+  </p>
+
+  <h2>Steg 3 — Sätt ihop ett litet formulär</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> tar den synliga <code>label</code> som sin egen prop i stället för en nästlad etikettkomponent — skicka den en gång, på
+    <code>Field</code>och <code>TextInput</code>från
+    <code>label</code> ger det tillgängliga namnet.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifierat 2026-08-29:</strong> ett tidigare utkast nästlade en separat <code>Label</code> inuti <code>Field</code>, vilket renderar
+      <em>två</em> etiketter (en tom) eftersom <code>Field</code> redan renderar sin egen från <code>label</code> -prop — upptäckt genom att kompilera det exakta kodavsnittet. Rutten
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Den sammansatta kontaktformulärsrutten</a>
+      är samma mönster, prövat med riktiga e2e- och axe-tester.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Formge det</h2>
+  <p>
+    Allt ovan renderas som ren struktur, redo för dina stilar. Formge krokarna — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — i din stilmall, lägg Tailwind-verktyg ovanpå via <code>className</code>, eller länka ett färdigt tema:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Steg 5 — Se allt fungera</h2>
+  <p>
+     <a href="/examples/">Exempelappen Next.js</a> är hela katalogen formgiven och demonstrerad, med Playwright e2e och en axe-core-baslinje:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nästa steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teman</a> — byte under körning med React-hjälparen theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Inställningshjälpare</a> — språk och textstorlek.</li>
+    <li><a href="/components/">Komponentkatalog</a> — egenskaper, ARIA och tangentbord per komponent.</li>
+  </ul>
+  <p>
+    Frågor på vägen?
+    <a href="/help/#troubleshooting">Hjälpsidan</a> är full av svar — och om ett steg kan bli tydligare,
+    <a href="https://github.com/LilyDesignSystem">berätta för oss</a> så förbättrar vi gärna handledningen.
+  </p>
+</section>

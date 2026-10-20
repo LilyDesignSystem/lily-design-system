@@ -1,0 +1,106 @@
+<!-- title: HTML tutoriala — Lily Design System -->
+<!-- description: Eraiki formulario irisgarri eta estilatu bat Lilyren HTML osagai buru gabeekin — markaketa soila, zuzenean fitxategitik. -->
+<section class="page-intro">
+  <h1>HTML tutoriala</h1>
+  <p class="page-intro-tagline">
+    Hasiera sinpleena: kopiatu HTML semantikoa Lilyren klase-gakoekin, gehitu estilo-orri bat, argitaratu. HTMLk funtzionatzen duen edonon funtzionatzen duten fitxategi soilak.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Harremanetarako formulario txiki bat — etiketadun sarrerak, bidaltze-botoia, teklatu eta pantaila-irakurgailu portaera erreala — lehenik biluzik, gero estilatuta, 10 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    Nabigatzaile bat eta testu-editore bat behar dituzu. Hori da dena. (git-ek osagai-fitxategiak lortzen laguntzen du, baina nabigatzailean GitHub-etik ere kopia ditzakezu.)
+  </p>
+
+  <h2>1. pausoa — Lortu kodea</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Osagai bakoitza fitxategi autonomoa da hemen: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, eta abar — goiburuko iruzkin batekin, bere HTML etiketa, klase-gakoa, teklatu-portaera eta irisgarritasun-kontratua dokumentatzen dituena. Fitxategiak <em>dira</em> liburutegia — kopiatu behar duzuna eta aurrera.
+  </p>
+
+  <h2>2. pausoa — Zure lehen osagaia</h2>
+  <p>Ireki <code>components/button.html</code>, edo idatzi markaketa — klase-gakoa da kontratua:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Benetako <code>&lt;button&gt;</code>delako, teklatu-fokua, Enter eta Space bidezko aktibazioa eta botoi-rol inplizitua zuzenak dira jada.
+  </p>
+
+  <h2>3. pausoa — Osatu formulario txiki bat</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Ohartu patroiaz: kontrol bakoitzak bere <code>&lt;label for&gt;</code>lotzen du, sarrera-mota zehatzena erabiltzen du eta kebab-case klase-gako bakar bat darama.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> ireki orria nabigatzaile batean. Soila ageri da — hain zuzen nahi bezala: estiloa oraindik aurrean dago. Sakatu
+      <kbd>Tab</kbd>: fokua kontrol guztietatik pasatzen da, etiketak iragartzen dira eta bidalketak funtzionatzen du. Portaera prest dago; itxura zurea da eta hurrengoa da.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Estilatu</h2>
+  <p>Idatzi CSSa gakoen kontra:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Edo saltatu CSSa eskuz idaztea osorik — lotu prest dauden 45 gaietako bat eta markaketa bera argitzen da:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>5. pausoa — Esploratu gehiago</h2>
+  <ul>
+    <li>Biltegiko probak benetako nabigatzaileetan exekutatzen dira: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook osagai bakoitzeko: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS adibide-aplikazioak</a> 571 osagaiak erakusten ditu estilatuta, bilagarri eta demostratuta.
+    </li>
+  </ul>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Gaiak</a> — exekuzio-garaiko gai-aldaketa theme-picker-ekin.</li>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — hizkuntza eta testu-tamaina.</li>
+    <li><a href="/components/">Osagai-katalogoa</a> — erreferentzia osoa.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

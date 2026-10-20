@@ -1,0 +1,74 @@
+<!-- title: 접근성 — Lily Design System -->
+<!-- description: Lily의 접근성 성명: 여기서 "WCAG 2.2 AAA를 목표로 한다"는 것이 무슨 뜻인지. 무엇이 어떻게 검증되고, 무엇이 어떤 것으로도 검증되지 않으며, 문제를 어떻게 보고하는지. -->
+<section class="page-intro">
+  <h1>여기서 “WCAG 2.2 AAA를 목표로 한다”는 것의 의미</h1>
+  <p class="page-intro-tagline">
+    <em>목표로 한다</em>는 표현은 일부러 골랐습니다. 이 페이지는 무엇이 어떻게 검증되는지, 무엇이 어떤 것으로도 검증되지 않는지,
+    그 간극에 대해 무엇을 할 계획인지를 정확히 밝힙니다. Lily는 WCAG “준수”를 주장하지 않습니다. 그것을 뒷받침하는 감사가 없기 때문입니다.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>지속적으로 검증되는 것</h2>
+  <ul>
+    <li>
+      모든 컴포넌트의 표준 시맨틱 요소, ARIA 속성, 클래스 훅. 프레임워크별 단위 테스트 모음
+      (일곱 개 프레임워크에서 15,000건 이상)이 확인합니다.
+    </li>
+    <li>
+      SvelteKit 예제 앱의 571개 컴포넌트 데모 페이지가 모두 axe 검사를 통과합니다
+      (WCAG 2.0/2.1 A+AA 및 2.2 AA 규칙 집합). 전체 카탈로그 점검은 2026-08-27에 처음 기준선을 잡았고 2026-10-06에 다시 실행했습니다.
+      여기에 일곱 개 예제 앱 모두에서 홈, 카탈로그, 조합 경로별 기준선이 더해집니다.
+    </li>
+    <li>
+      상호작용하는 컴포넌트별 키보드 규약. 각 컴포넌트의 표준 메타데이터에 문서화되어 있고 테스트 모음이 실행합니다.
+      도우미 패키지는 추가로 실제 브라우저 Playwright 테스트도 실행합니다.
+    </li>
+    <li>
+      57개 테마 모두에서 WCAG 2.2 대상 크기 하한과 넘침 방지. 건너뛰기 링크, 랜드마크,
+      앱마다 네 가지 뷰포트에서 가로 넘침 없음. RTL 전환을 포함한 <code>lang</code>/<code>dir</code> 적용.
+    </li>
+  </ul>
+
+  <h2>어떤 것으로도 검증되지 않는 것</h2>
+  <ul>
+    <li>
+      <strong>적합성 감사는 한 번도 수행된 적이 없습니다.</strong> VPAT도 인증도 없습니다. 자동화 도구가 다루는 것은 WCAG 성공 기준의 일부에 불과합니다.
+    </li>
+    <li>
+      AAA 고유 기준(강화된 대비 등)은 설계 의도이지 검증된 속성이 아닙니다. axe 규칙 집합은 A/AA로 실행됩니다.
+      전용 고대비 테마는 아직 없습니다.
+    </li>
+    <li>
+      <strong>스크린 리더 동작은 대부분 검증되지 않았습니다.</strong> 테스트 모음이 확인하는 것은 ARIA 속성이지
+      VoiceOver, NVDA, JAWS가 무엇을 읽어 주는지가 아닙니다. 이 프로젝트는 테스트가 모두 통과했는데도 실제 결함이 있었던 적이 한 번이 아니며,
+      테스트로는 보이지 않았기 때문에 그때마다 변경 내역에 기록했습니다.
+    </li>
+  </ul>
+
+  <h2>이 간극에 대해 하려는 일</h2>
+  <p>
+    독립적인 접근성 감사는 프로젝트 자금의 첫 번째 사용처로 정해 둔 것이며, 감사자에게 필요한 범위는 이미 준비되어 있습니다.
+    그때까지는 스크린 리더 보고가 이 프로젝트가 가장 원하는 기여입니다.
+    “컴포넌트 X가 Y라고 읽는데, Z 때문에 잘못되었다”는 보고는 바로 조치할 수 있습니다.
+  </p>
+
+  <h2>문제 보고하기</h2>
+  <p>
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    에서 이슈를 열거나
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >
+    으로 이메일을 보내 주세요. WCAG 기준을 밝혀 주시면 도움이 되지만 필수는 아닙니다. “X를 키보드로 조작할 수 없었다”만으로도 완전한 보고입니다.
+  </p>
+  <p>
+    검증 표와 검토 이력이 담긴 성명 전문은 저장소에 있습니다.
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >
+  </p>
+</section>

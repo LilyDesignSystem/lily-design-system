@@ -1,0 +1,97 @@
+<!-- title: Nunjucks 教學 — Lily Design System -->
+<!-- description: 用 Lily 嘅 Nunjucks 巨集建立無障礙、有樣式、伺服器渲染嘅頁面 — 非常適合 Eleventy。 -->
+<section class="page-intro">
+  <h1>Nunjucks 教學</h1>
+  <p class="page-intro-tagline">
+    為 Eleventy、Express 或者任何 Node 範本流程而設嘅伺服器端渲染巨集 — GOV.UK 風格嘅做法,配合 Lily 嘅目錄同類別掛鉤。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你會建立啲乜</h2>
+  <p>
+    一個細細個嘅伺服器渲染聯絡表單 — 有標籤嘅輸入欄、提交按鈕、零 JavaScript 負載 — 先裸奔,再加樣式,大約 10 分鐘。
+  </p>
+
+  <h2>開始之前</h2>
+  <p>
+    你需要 git、Node 22 或以上,同 pnpm 10 或以上。任何 Nunjucks 流程都得 — Eleventy、Express 或者純 Nunjucks。
+  </p>
+
+  <h2>步驟 1 — 攞到程式碼</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    每個元件都係一個目錄,位於 <code>components/</code> 附有
+    <code>macro.njk</code>、佢嘅測試同文件 — 例如
+    <code>components/button/macro.njk</code>。將你嘅 Nunjucks 載入器指向
+    <code>components/</code> (喺 Eleventy 入面,加入 includes 路徑),然後匯入你需要嘅。
+  </p>
+
+  <h2>步驟 2 — 你第一個元件</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    渲染成 <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>。巨集接受單一 params 物件: <code>text</code> (已跳脫)或者
+    <code>html</code> (原始), <code>type</code>, <code>label</code> 用於
+    <code>aria-label</code>,同一個類別掛鉤附加器。
+  </p>
+
+  <h2>步驟 3 — 組合一個細表單</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    因為所有嘢都喺伺服器渲染,瀏覽器收到嘅係帶類別掛鉤嘅純語義化 HTML — 零位元組嘅 JavaScript 負載。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>檢查你嘅成果:</strong> 載入頁面,表單睇落好簡單 — 正如預期:樣式仲喺前面。按
+      <kbd>Tab</kbd>:焦點會移過每個控制項,標籤會被讀出,提交都運作。行為已經完成;外觀屬於你,而且係下一步。
+    </p>
+  </div>
+
+  <h2>步驟 4 — 加樣式</h2>
+  <p>
+    為掛鉤加樣式 — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 喺你嘅樣式表,或者喺你嘅基礎版面連結現成主題:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>步驟 5 — 睇晒佢運作</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy 範例應用程式</a> 將完整目錄建置成靜態網站,每個元件都有示範頁面:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主題</a> — 包括用於無閃爍 SSR 主題切換嘅 Eleventy cookie 模式。</li>
+    <li><a href="/tutorials/helpers/">偏好輔助工具</a> — 語言同文字大細。</li>
+    <li><a href="/components/">元件目錄</a> — 每個元件嘅屬性、ARIA 同鍵盤。</li>
+  </ul>
+  <p>
+    一路上有問題?
+    <a href="/help/#troubleshooting">幫助頁面</a> 有好多答案 — 如果某個步驟可以更清楚,
+    <a href="https://github.com/LilyDesignSystem">話畀我哋知</a> 我哋會好樂意改進教學。
+  </p>
+</section>

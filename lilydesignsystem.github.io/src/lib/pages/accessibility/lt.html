@@ -1,0 +1,63 @@
+<!-- title: Prieinamumas — Lily Design System -->
+<!-- description: Lily prieinamumo deklaracija: ką čia reiškia taikytis į WCAG 2.2 AAA — kas tikrinama, kuo, ko netikrina niekas ir kaip pranešti apie problemą. -->
+<section class="page-intro">
+  <h1>Ką čia reiškia „taikosi į WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Žodis <em>taikosi</em> pasirinktas sąmoningai. Šis puslapis tiksliai sako, kas tikrinama, kuo, ko netikrina niekas ir ką ketiname daryti dėl šios spragos. Lily niekada nesako, kad atitinka WCAG — joks auditas to nepatvirtina.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Tikrinama nuolat</h2>
+  <ul>
+    <li>
+      Kiekvieno komponento kanoninis semantinis elementas, ARIA atributai ir klasės kabliukai — patvirtinami vienetų testų rinkiniais kiekvienam karkasui (daugiau nei 15 000 atvejų septyniuose karkasuose).
+    </li>
+    <li>
+      Kiekvienas iš 571 komponento demonstracinių puslapių SvelteKit pavyzdinėje programoje yra švarus pagal axe (WCAG 2.0/2.1 A+AA ir 2.2 AA taisyklių rinkiniai) — viso katalogo peržiūra, pirmą kartą nustatyta kaip bazinė linija 2026-08-27 ir paleista iš naujo 2026-10-06 — taip pat bazinės linijos kiekvienai programai pagrindiniam puslapiui, katalogui ir sudėtiniams maršrutams visose septyniose pavyzdinėse programose.
+    </li>
+    <li>
+      Klaviatūros sutartys kiekvienam interaktyviam komponentui, dokumentuotos kiekvieno komponento kanoniniuose metaduomenyse ir išbandomos rinkiniais; pagalbinių paketų papildomai paleidžiamos Playwright specifikacijos tikrose naršyklėse.
+    </li>
+    <li>
+      WCAG 2.2 tikslo dydžio apatinės ribos ir perpildymo apsaugos visose 57 temose; praleidimo nuoroda, orientyrai ir jokio horizontalaus perpildymo keturiuose peržiūros languose kiekvienai programai; <code>lang</code>/<code>dir</code> taikymas, įskaitant RTL apvertimą.
+    </li>
+  </ul>
+
+  <h2>Netikrina niekas</h2>
+  <ul>
+    <li>
+      <strong>Atitikties auditas niekada nebuvo atliktas.</strong> Jokio VPAT, jokio sertifikavimo. Automatiniai įrankiai apima mažumą WCAG sėkmės kriterijų.
+    </li>
+    <li>
+      AAA specifiniai kriterijai (pagerintas kontrastas ir kiti) yra dizaino ketinimai, o ne patikrintos savybės; axe taisyklių rinkiniai paleidžiami A/AA lygiu. Atskiros didelio kontrasto temos dar nėra.
+    </li>
+    <li>
+      <strong>Ekrano skaitytuvų elgsena didžiąja dalimi nepatikrinta.</strong> Rinkiniai patvirtina ARIA atributus, o ne tai, ką praneša VoiceOver, NVDA ar JAWS — ir šis projektas ne kartą pateikė žalius rinkinius virš tikrų defektų, kiekvienas jų aprašytas pakeitimų žurnale būtent todėl, kad rinkiniai jų nematė.
+    </li>
+  </ul>
+
+  <h2>Ką ketiname dėl to daryti</h2>
+  <p>
+    Nepriklausomas prieinamumo auditas yra pirmasis įvardytas bet kokio projekto finansavimo panaudojimas, o audito vykdytojui reikalinga apimtis jau paruošta. Iki tol ekrano skaitytuvų ataskaitos yra indėlis, kurio šis projektas nori labiausiai: „komponentas X praneša Y, o tai klaidinga, nes Z” yra tiesiogiai pritaikoma.
+  </p>
+
+  <h2>Pranešti apie problemą</h2>
+  <p>
+    Atidarykite issue adresu
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    arba rašykite el. paštu
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. WCAG kriterijaus nurodymas padeda, bet nėra privalomas — „negalėjau valdyti X klaviatūra” yra išsami ataskaita.
+  </p>
+  <p>
+    Visa deklaracija, su patikros lentele ir jos peržiūrų istorija, yra saugykloje:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

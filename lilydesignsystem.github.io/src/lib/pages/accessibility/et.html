@@ -1,0 +1,63 @@
+<!-- title: Juurdepääsetavus — Lily Design System -->
+<!-- description: Lily juurdepääsetavuse avaldus: mida tähendab siin WCAG 2.2 AAA taotlemine – mida kontrollitakse, millega, mida ei kontrolli miski ja kuidas probleemist teatada. -->
+<section class="page-intro">
+  <h1>Mida tähendab siin „taotleb WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Sõna <em>taotleb</em> on valitud tahtlikult. See leht ütleb täpselt, mida kontrollitakse, millega, mida ei kontrolli miski ja mida me kavatseme selle lüngaga ette võtta. Lily ei väida kunagi WCAG-„vastavust” – ükski audit seda ei toeta.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Pidevalt kontrollitud</h2>
+  <ul>
+    <li>
+      Iga komponendi kanooniline semantiline element, ARIA atribuudid ja klassihaagid – kinnitatud raamistikupõhiste ühikutestide komplektidega (üle 15 000 juhtumi seitsmes raamistikus).
+    </li>
+    <li>
+      Kõik 571 komponendi demolehte SvelteKit'i näiterakenduses on axe-puhtad (WCAG 2.0/2.1 A+AA ja 2.2 AA reeglistikud) – kogu kataloogi läbivaatus, esmakordselt baasjoonena mõõdetud 2026-08-27 ja uuesti käivitatud 2026-10-06 – pluss rakenduse põhised baasjooned avalehe, kataloogi ja komponeeritud marsruutide jaoks kõigis seitsmes näiterakenduses.
+    </li>
+    <li>
+      Klaviatuurilepingud interaktiivse komponendi kohta, dokumenteeritud iga komponendi kanoonilises metaandmestikus ja testikomplektidega läbi proovitud; abipaketid käivitavad lisaks päris-brauseri Playwrighti spetsifikatsioone.
+    </li>
+    <li>
+      WCAG 2.2 sihtmärgi suuruse alampiirid ja ülevoolukaitsed kõigis 57 teemas; vahelejätmislink, maamärgid ja horisontaalse ülevooluta neljas vaateaknas rakenduse kohta; <code>lang</code>/<code>dir</code> rakendamine, sealhulgas RTL-i ümberpööramine.
+    </li>
+  </ul>
+
+  <h2>Mitte millegagi kontrollitud</h2>
+  <ul>
+    <li>
+      <strong>Vastavusauditit pole kunagi tehtud.</strong> Ei mingit VPAT-i, ei mingit sertifitseerimist. Automatiseeritud tööriistad katavad vähemuse WCAG edukriteeriumidest.
+    </li>
+    <li>
+      AAA-spetsiifilised kriteeriumid (täiustatud kontrast ja muud) on disainikavatsused, mitte kontrollitud omadused; axe reeglistikud töötavad A/AA tasemel. Spetsiaalset kõrge kontrastsusega teemat veel pole.
+    </li>
+    <li>
+      <strong>Ekraanilugeja käitumine on suuresti testimata.</strong> Testikomplektid kinnitavad ARIA atribuute, mitte seda, mida VoiceOver, NVDA või JAWS teatavad – ja see projekt on rohkem kui korra välja andnud rohelised testikomplektid tõeliste defektide kohal, millest igaüks on muudatuslogis kirja pandud just seetõttu, et testikomplektid ei suutnud neid näha.
+    </li>
+  </ul>
+
+  <h2>Mida me sellega kavatseme teha</h2>
+  <p>
+    Sõltumatu juurdepääsetavuse audit on projekti rahastuse esimene nimetatud kasutus ning audiitori jaoks vajalik ulatus on juba ette valmistatud. Seni on ekraanilugeja aruanded panus, mida see projekt kõige rohkem soovib: „komponent X teatab Y, mis on vale, sest Z” on vahetult rakendatav.
+  </p>
+
+  <h2>Teata probleemist</h2>
+  <p>
+    Ava teema aadressil
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    või saada e-kiri aadressile
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. WCAG kriteeriumi nimetamine aitab, kuid pole kohustuslik – „ma ei saanud X-i klaviatuuriga kasutada” on täielik aruanne.
+  </p>
+  <p>
+    Täielik avaldus koos kontrollitabeli ja selle ülevaatuste ajalooga asub hoidlas:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

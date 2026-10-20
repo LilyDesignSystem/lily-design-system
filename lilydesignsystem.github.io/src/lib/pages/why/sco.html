@@ -1,0 +1,102 @@
+<!-- title: Why Lily (Hoo come) — Lily Design System -->
+<!-- description: The case for Lily: headless components ye style yersel, WCAG 2.2 AAA accessibility biggit in, nae hardcodit strings, aicht frameworks, ae catalog, free forever. -->
+<section class="page-intro">
+  <h1>The case for Lily</h1>
+  <p class="page-intro-tagline">
+    Lily hauns ye the sair pairts — semantics, accessibility, keyboard behaviour, internationalization — an leaves the look entirely, happily, tae yersel.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Stairt frae yer design</h2>
+  <p>
+    Yer team aareadies kens hoo yer product shuid look. Lily stairts exactly there: it supplies the pairts that are genuinely sair tae git richt an dear tae redae — the richt semantic element, the ARIA states, the keyboard contract, focus management — an leaves ilka visual decision entirely, joyfully, yours. Yer CSS is the design system's look, frae day ane.
+  </p>
+  <p>
+    Because ilka component cairries a stable class hook an pure structure, yer styling bides cleanly yours through ilka upgrade — an the accessibility unnerneath keeps wirkin, version efter version.
+  </p>
+
+  <h2>Whit Lily commits tae</h2>
+  <ul>
+    <li>
+      <strong>Accessible bi defauld.</strong> WCAG 2.2 AAA is the target for ilka component. Patterns follae the WAI-ARIA Authoring Practices; ilka interactive component is keyboard-operable wi a documentit contract; the example apps haud a clean axe-core baseline.
+    </li>
+    <li>
+      <strong>Internationalizable bi construction.</strong> Ilka uiser-facin string — ilka label, error, an announcement — is a prop wi stable names athort frameworks, sae translation flows naturally. RTL an bidirectional text inherit frae yer <code>dir</code>. Locale-awaur components tak the locale as a prop, aye explicitly.
+    </li>
+    <li>
+      <strong>Ae catalog, aicht frameworks.</strong> The same 571 components (536 as native Web Components) wi the same class hooks an prop conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, an Web Components. Yer CSS an yer team's knowledge transfer athort stacks.
+    </li>
+    <li>
+      <strong>CSS-strategy agnostic.</strong> Ae stable kebab-case class per component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or ane o the 57 ready-made themes — Lily walcomes them aw an gits oot the road gracefully.
+    </li>
+    <li>
+      <strong>Free, forever, on yer ain terms.</strong> Open source unner yer choice o BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0. Nae pro tier, nae seat licences, nae telemetry.
+    </li>
+  </ul>
+
+  <h2>Depth whaur it maitters</h2>
+  <p>
+    Ayont the usual buttons an dialogs, the catalog reaches further than maist:
+  </p>
+  <ul>
+    <li>
+      <strong>Public-sector patterns</strong> researched frae the NHS UK, GOV.UK, USWDS, an ONS design systems — error summaries, warnin callouts, summary lists, phase banners, skip links.
+    </li>
+    <li>
+      <strong>140 national personal identifier components</strong> coverin healthcare, national-ID, tax, an passport identifiers athort 50+ kintras, ilkane documentin its format an validation algorithm.
+    </li>
+    <li>
+      <strong>Editorial an scrollytelling primitives</strong> adaptit frae Reuters Graphics — article layoots, scrollers, timelines, tile maps.
+    </li>
+    <li>
+      <strong>Picker helpers</strong> — wee packages that ain ae interaction frae stairt tae feenish: theme switchin (wi runtime stylesheet loadin), leid, text size, reduced motion, seek, page links, sharin, an date-time entry. Ilkane is a headless icon button that opens a popup — no a native <code>&lt;select&gt;</code> — wi persistence an SSR safety biggit in.
+    </li>
+  </ul>
+
+  <h2>Themes for the public sector, oot the box</h2>
+  <p>
+    Lily ships wi 57 standalane reference themes that target its class hooks directly: NHS England, NHS Scotland, an NHS Wales (ilkane in patient-facin an practitioner-facin variants), GOV.UK, USWDS, Adobe Spectrum an Mozilla Protocol inspired palettes, an a set o general-purpose licht an daurk themes. Link ae stylesheet an a govrenment-grade look is on; the <code>theme-picker</code> helper swaps them at runtime.
+  </p>
+
+  <h2>Hoo Lily compares</h2>
+  <p>
+    We keep an honest, component-bi-component
+    <a href="/comparisons/">comparison against ither design systems</a> — styled an headless, commercial an public-sector. Whaur anither library is a better fit for ye, the comparison will shaw it; Lily lears frae them aw an cites its inspirations in the open.
+  </p>
+
+  <h2>Wha's ahint it</h2>
+  <p>
+    Lily is a young, independent open-source project that walcomes collaboration, guidance, an feedback — see
+    <a href="/about/">Aboot</a> for the story an the inspirations. Aathing — the specification, the tests, the roadmap, even the audit tooling — is in the open at
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Help Lily grow</h2>
+  <p>If Lily is uiseful tae ye, the maist valuable things ye can dae:</p>
+  <ul>
+    <li>
+      <strong>Stairn an share.</strong> Stairn the
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">main repo</a>
+      an shaw a colleague the <a href="/components/">catalog</a> — awaurness is the scarcest resource a young project haes.
+    </li>
+    <li>
+      <strong>Big something an tell us.</strong> Real-warld uiss reports — whit warked, whit could be smoother — shape the roadmap mair than onything else.
+    </li>
+    <li>
+      <strong>Audit accessibility.</strong> Screen-reader passes (VoiceOver, NVDA, JAWS) on the <a href="/examples/">example apps</a> are gowd; file whit ye find.
+    </li>
+    <li>
+      <strong>Contribute a theme or a translation.</strong> Baith are self-contained, weel-scopit first contributions.
+    </li>
+    <li>
+      <strong>Share whit ye find, wi a minimal reproduction,</strong> on the GitHub repository, or email
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Stairt the tutorial</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Stairn on GitHub</a>
+  </div>
+</section>

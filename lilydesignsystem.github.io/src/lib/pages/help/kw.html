@@ -1,0 +1,432 @@
+<!-- title: Skoodhya — Lily Design System -->
+<!-- description: Dallethewgh gans Lily: stallewgh an pakkya heb pen rag dha framwyth, kopiewgh darn, stylyewgh, rewgh tebel, delivrewgh. Kudynnow, FAQ, ha skoodhyans. -->
+<section class="page-intro">
+  <h1>Dalleth gans Lily</h1>
+  <p class="page-intro-tagline">
+    Dewisewgh framwyth, klonewgh an monorepo hag igorewgh y lyverva heb pen po y app ensampel, ha dallethewgh kesstrewi dha folennow dha honan. Kar es fordh hembrynkys? Dallethewgh gans an
+    <a href="/tutorials/">dyskansow</a>.
+  </p>
+</section>
+
+<nav aria-label="War an folen ma" class="prose" style="margin: 0 auto;">
+  <p><strong>War an folen ma:</strong></p>
+  <ul>
+    <li><a href="#install">Stallya</a></li>
+    <li><a href="#use-headless">Devnydhyewgh darn heb pen</a></li>
+    <li><a href="#use-styled">Devnydhyewgh ensampel stylys</a></li>
+    <li><a href="#styling">Stylyans ha tokenys dyllans</a></li>
+    <li><a href="#themes">Tebelyow parys</a></li>
+    <li><a href="#helpers">Gweresoryon dewisyow</a></li>
+    <li><a href="#a11y">Hedhesadewder</a></li>
+    <li><a href="#i18n">Ynter-ranngeneledhegeth</a></li>
+    <li><a href="#testing">Previ</a></li>
+    <li><a href="#ai-agents">Ahentys AI</a></li>
+    <li><a href="#troubleshooting">Kudynnow</a></li>
+    <li><a href="#contributing">Kevrenna</a></li>
+    <li><a href="#community">Kemmynedh ha skoodhyans</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Stallya</h2>
+  <p>
+    Lily a trig yn unn monorepo Git, gans kuntelleth rag lyverva heb pen, pakkyow gweresoryon, hag app ensampel pub framwyth. An fordh kyns dhe assaya yw klonya an monorepo hag igeri an lyverva heb pen rag dha stakk:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>An keth patrom a oberow rag an framwyth erell:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — heb othom stallya; kopiewgh <code>.html</code> restrennow</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    An lyvervaow heb pen yw dyllys dhe vos klonys po vendorys — kemerewgh an fenten avel fenten an gwiryonedh ha kopiewgh an pyth a'n jeves othom.
+    <a href="#helpers">gweresoryon dewisyow</a> a dheu ynwedh avel pakkyow stallys gans fordh-drehevel ha fordh-dyllans (npm rag framwyth JS, NuGet rag Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Devnydhyewgh darn heb pen</h2>
+  <p>
+    Darnow heb pen a re HTML a dhiswelyans, ARIA, ha perthynasow — mes heb CSS. Omma yw Button yn pub framwyth:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Devnydhyewgh ensampel stylys</h2>
+  <p>
+    An appys ensampel a'n jeves CSS, fordhow, ha folennow dyskwedhyans kowl. An fordh vyttha dhe assaya yw dalleth an app ensampel SvelteKit, Next, Nuxt, Analog, po Eleventy ha gweles an dyskwedhyans orth <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Ena igorewgh <code>http://localhost:5173</code> ha whelewgh <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stylyans ha tokenys dyllans</h2>
+  <p>
+    Pub darn a vydh dyskwedhys gans unn klass kebab-case war y elven wreydh. Rag ensampel, <code>&lt;Button&gt;</code> a dhyskwedh <code>&lt;button class="button"&gt;</code>. Stylyewgh herwydh dha vodh:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Palet liw Lily ragosodhys (devnydhys y'n appys ensampel) yw:</p>
+  <ul>
+    <li>Kynsa: <code>#2563eb</code></li>
+    <li>Peryl: <code>#dc2626</code></li>
+    <li>Gwarnyans: <code>#f59e0b</code></li>
+    <li>Sewena: <code>#16a34a</code></li>
+    <li>Dadhel folen: <code>#f9fafb</code></li>
+    <li>Dadhel kard: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Hemma yw arghyow, nyns yw othomow. Chanjewgh anedha gans dha balet marghek dha honan ha Lily a dheu yn lowen.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Tebelyow parys</h2>
+  <p>
+    Na vynnewgh skrifa CSS dhiworth nagonan? Lily a dheu gans
+    <strong>57 tebel dre-honan kehevelys</strong> y'n kuntelleth
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Pub onan yw unn folen-stil a hwel krogow klass Lily — kevrewgh hi ha ty yw stylys:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>An set a wra kuntell:</p>
+  <ul>
+    <li>
+      <strong>Sektour poblek</strong> — NHS England, NHS Scotland, ha NHS Wales (versyonow rag klavyoryon ha gwithyoryon pub onan), GOV.UK GDS, ha'n U.S. Web Design System.
+    </li>
+    <li><strong>Enspyrys gans gwerther</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Amkan kenedhlek</strong> — light, dark, nord, dracula, wireframe, ha deg ha trigans moy.
+    </li>
+  </ul>
+  <p>
+    Dewisyoryon tebel a wra devnydh a <code>:where(...)</code>, rag henna dha CSS dha honan a wayn pub prys war an arbennigrwydh. Junyewgh anedha gans an gweresor <code>theme-picker</code> a-woeles rag chanj y'n termyn-dyrghas, po sewyewgh an
+    <a href="/tutorials/theming/">dyskans tebelyow</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Gweresoryon dewisyow</h2>
+  <p>
+    Pub framwyth a'n jeves eth dewisyer byghan, pub onan y'y bakkya dha honan
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (ha <code>picker-bar</code> a vynn aga junya). Pub onan yw botton-ikon heb pen a idzhek popup — listbox, rol kevrennow, furv whelas, po (rag date-time-picker) kowtys dewis-deiz — nyns yw genesek
+    <code>&lt;select&gt;</code>; yw diogel dhe SSR; ha dheu heb CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — a gar folennow-stil tebel y'n termyn-dyrghas dre chanjya <code>&lt;link&gt;</code>governys, a sett
+      <code>data-theme</code> war an skrif, ha yn kuntellys a with dhe
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — a sett <code>lang</code> ha
+      <code>dir</code> (gans ertheg RTL awtomatek) may hyll dha lyverva i18n sewya; ny wra treylyans yn honan.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — a sett <code>data-text-size</code> war an skrif; dha CSS a vapp pub gwerth dhe vyns-lytherenn.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — a sett <code>data-motion</code> war an skrif, ow talleth dhiworth settyans gwayans-lehes an gwelyer; dha CSS ha skrypow a dhewis pyth a vydh dyslywys.
+    </li>
+    <li>
+      <strong>search-picker</strong> — botton-ikon a idzhek hwel-whelas; danvon a dhre dhe folen whelas. A'n jeves gwrians, nyns yw dewis.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ikon-chi a idzhek menu a gevrennow folen a styr dha app (Tre, A-dro dhyn, Kestewgh genen, Polisi Privetter, …). A'n jeves gwrians, nyns yw dewis.
+    </li>
+    <li>
+      <strong>share-picker</strong> — a idzhek an folen-rannans genesek po rol-pennow-lyes dhiworth devnydhyer, ha kopi an URL. A'n jeves gwrians, nyns yw dewis: ny wra gul neppyth, ny with neppyth.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — hwel-tekst ha kowtys dewis-deiz APG rag deiz, termyn, po an dhew. A'n jeves gwerth furv, nyns yw dewis: an linenn ISO a dhreyl dhe
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    An rolyans Svelte yw an dhogenn kenedhlek; porthow React, Vue, Angular, HTML, Nunjucks, Web Components, ha Blazor a gessenva orto kevambos orth kevambos. Gwelewgh an
+    <a href="/tutorials/helpers/">dyskans gweresoryon</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Hedhesadewder</h2>
+  <p>Darnow a hwel <strong>WCAG 2.2 AAA</strong>. Y a sew an patromow ma:</p>
+  <ul>
+    <li>Elvennow HTML a dhiswelyans dres kenedhlek <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> ow kevrewi lavellow orth hwelyow.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> rag kesresegyansow.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> rag stadys gwall.</li>
+    <li><code>role="alert"</code> ha <code>aria-live</code> rag dalgh kevrennus.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> rag stad.</li>
+    <li>Roving <code>tabindex</code> rag grydhow.</li>
+  </ul>
+  <p>
+    Dyskwedhoryon fokus yw arbennik provyes gans an devnydhyer — Lily ny wra bythkweth peynta kylgh-fokus ragosodhys a rydh gans dha dyllans. An appys ensampel a with linenn-selys axe-core glan dres aga fordhow.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Ynter-ranngeneledhegeth</h2>
+  <p>
+    Pub lavell, gwithyer-le, messaj wall, ha tekst botton yw perthynas. Nyns eus linennow kowl yn koodh. Gorrewgh dha framwyth treylyans dewisys — Paraglide, i18next, vue-i18n, react-intl, restrennow .resx, pubtra.
+  </p>
+  <p>
+    Rag deiziow, niverow, ha mona, an darnow a gemmer linennow furvys a-rag: ty a furv gans <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / dha lyverva dewisys ha passya an sewyans.
+  </p>
+  <p>
+    An <code>locale-picker</code> gweresor a sinyas an yeth dewisys dhe'th lyverva i18n dre settya <code>lang</code> ha <code>dir</code> war wreydh an skrif.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Previ</h2>
+  <p>Pub isravel framwyth a dhanvon y brevow y honan ow ura y stakk usys:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO ow kerdhes gwiaskodhoryon gwir.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (dre'n plugin Analog Vite).</li>
+    <li><strong>Nunjucks</strong>: Vitest gans gweresor dyskwedhes.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Previow a wra devnydh a <strong>unnik matchyoryon yn-bos Vitest</strong> — bythkweth
+    <code>jest-dom</code> matchyoryon. Hemma a with an rollow previ hewejyel. An appys ensampel a geworr rollow Playwright pennhwedh-dhe-bennhwedh, linennow-selys hedhesadewder axe-core, ha skubyans viewport gorthebus.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Ahentys AI</h2>
+  <p>
+    An gwiasva ma a dhelergh <a href="/llms.txt">llms.txt</a> ha
+    <a href="/llms.json">llms.json</a> orth y wreydh — mappa dewisys a'y folennow moyha a brys, rag toul vyth a sew an
+    <a href="https://llmstxt.org">usadow llms.txt</a>.
+  </p>
+  <p>
+    An monorepo kenedhlek a dhanvon ynwedh dew
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>, skians kenedhlek a dhalgh dyskansow, geryow-ober, ha patromow kesstrewi Lily rag peub a dhrehev gans an system, ha <code>lily-design-system-maintainer-skill</code>, skians teknyk a dhalgh gorfarth restrennow ilvyn ha toulys an monorepo rag peub a ober warnodho. An dhew a drig orth gwreydh an
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kenedhlek</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Kudynnow</h2>
+
+  <details class="faq-item">
+    <summary>Darn a vydh dyskwedhys mes a hevel heb stil</summary>
+    <p>
+      Hemma yw an heb pen ow ’ober herwydh an bryntyans — nyns eus CSS gans an darn. Skrifewgh CSS orth klass kebab-case an darn (dyskwedhys war pub <a href="/components/">folen rolyans</a>) po kevrewgh onan a'n
+      <a href="#themes">57 tebel parys</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ny hevel dha CSS bos gweythys a-ugh tebel</summary>
+    <p>
+      Y tal — dewisyoryon tebel yw lappys yn <code>:where(...)</code>, a'n jeves arbennigrwydh nagonan. Mar kyllyr hwath rol, hwithrewgh may fo dha folen-stil kargys wosa hwedh an tebel <code>&lt;link&gt;</code> ha may hevelep an dewisyer yn tevri orth krok klass an darn.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install a fyll gans gwall peer po versyon</summary>
+    <p>
+      Devnydhyewgh pnpm ownek (v10+) ha Node 22+. Pub isravel a dhegh y versyonow framwyth y'y <code>package.json</code>dha honan; mar pe dha doul-chayn kenedhlek hen, <code>pnpm env use --global lts</code> yw an fordh-wella skaffa.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Skrin-redyer a lever hanow kamm rag kontroll</summary>
+    <p>
+      Hwithrewgh perthynas ilvyn an darn <code>label</code> — darnow heb tekst hewelus a'n jeves othom a unn, ha
+      <code>aria-label</code> / <code>aria-labelledby</code> provyes gans an devnydhyer, passyes dre rest-props, a wayn yn arbennik a-ugh an gwiaswigow gwrys ino. Pub folen rolyans a ddisplet kevambos ARIA an darn.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>An gweresor theme-picker ny chanj folennow-stil</summary>
+    <p>
+      Gwiriewgh may <code>themesUrl</code> a bonts dhe gunteleth a yll an gwiaskodhor kyrghes (servyewgh an <code>themes/</code> restrennow avel gwaryowyow stedhek) ha may hevel an slugs tebel y'th <code>themes</code> perthynas orth henwyn restrennow. An gweresor a gevyska an <code>href</code> a unn
+      <code>&lt;link data-lily-theme-picker&gt;</code> governys — hwithrewgh y'n devtools rag gweles an URL a vydh govynnys.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Neppyth aral yw terrys</summary>
+    <p>
+      Igorewgh mater gans ynnyas mynnys-leha orth
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — po gwelewgh <a href="#community">kemmynedh ha skoodhyans</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Kevrenna</h2>
+  <p>Lily yw yowynk ha a dhynnergh kesoberi. An gweres moyha poesek lemmyn yw:</p>
+  <ul>
+    <li>Darnow nowydh (arbennik patromow dhiworth systemow dyllans selys).</li>
+    <li>Tebelyow nowydh — pub onan yw unn folen-stil dre-honan, kynsa PR kowl-ranngys.</li>
+    <li>Stylyans ensampel gwell — diskwedhewgh pyth yw possybyl.</li>
+    <li>Treylyansow a linennow an appys ensampel.</li>
+    <li>Derivasow gwall gans ynnyas mynnys-leha.</li>
+    <li>Awditow hedhesadewder gans skrin-redyoryon ha teknologieth gweres.</li>
+  </ul>
+  <p>
+    Igorewgh materow ha PRs orth
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Kemmynedh ha skoodhyans</h2>
+  <ul>
+    <li>
+      <strong>Govynnow ha derivasow gwall</strong> — igorewgh mater orth
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Ebost</strong> — an gwithyer a red
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ha a dhynnergh kesoberi, hembronk, ha bolla.
+    </li>
+    <li>
+      <strong>Gwydrow</strong> — Lily yw ynwedh gwrys push dhe
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> ha
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, may hyllowgh kemeres rann dhiworth an forge a garewgh.
+    </li>
+    <li>
+      <strong>Kerdhes</strong> — an raglen a sew kodh kerdhes ynbann; bedhewgh hegar, gesewgh fydh da.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Prag heb pen yn le stylys?</summary>
+    <p>
+      Darnow rag-stylys yw hegar — bys pan na gessenvons gans dha vark. Darnow heb pen yw nebes moy a ober orth an kynsa mes a re dhis governans tien war an dyllans hewelus. An appys ensampel ha'n 57 tebel a dhiskwedh fordhow dhe aga stylya; ty a yll aga kemeres po aga chanjya yn tien. An kaws hirrah yw orth <a href="/why/">Prag Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Prag kemmys darnow?</summary>
+    <p>
+      Lily a wra hweles an patromow a'n jeves othom an moyha a appys heb dha dhrehevel dhiworth nagonan — a-ji doll kefyow downa avel entrys aswonnyoryon kenedhlek ha hwedhlow-skrollya dyllans-skrifer. An rolyans a gemmer dhiworth dhewdhek system dyllans selys ha'n oberenn gynsa — gwelewgh <a href="/about/">A-dro dhe</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>A yllav usya Lily gans Tailwind?</summary>
+    <p>
+      Yllir. Pub darn a dhiskwedh unn klass gwreydh kebab-case ha <code>className</code> / <code>class</code>provyes gans an devnydhyer. Gorrewgh toulys Tailwind a-ughto herwydh dha vodh.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>A yllav usya Lily gans framwyth CSS a dhiswelyans avel DaisyUI?</summary>
+    <p>
+      Yllir. An hynwyn klass kebab-case war an elven wreydh a ober avel krogow CSS a dhiswelyans. Junyewgh Lily gans framwyth a dhiswelyans ha ty a gev darnow rag-stylys a with hwath ARIA ha i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>A eus pakkya npm?</summary>
+    <p>
+      An <a href="#helpers">gweresoryon dewisyow</a> a dheu avel pakkyow gans fordh-dyllans npm/NuGet. An lyvervaow darnow heb pen yw dyllys dhe vos klonys po vendorys — an fenten yw an delivrans, may hyllowgh redya, trimya, ha perthi an pyth a delivrowgh. Dyllans y'n gwithva rag an lyvervaow heb pen a berth hwath war an fordh-gwayans.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Prag lies kummyas?</summary>
+    <p>
+      Raglenow dyffrans a'n jeves othomow kummyas dyffrans. BSD ha MIT yw leth, Apache-2.0 a'n jeves rann breynans, ha dewisyow GPL a skoodh copyleft. Dewisewgh an pyth a gormel orth dha stat.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Fatell dhrederevav gwall po govyn perthynas?</summary>
+    <p>
+      Igorewgh mater war an gwithva GitHub, po danvonewgh ebost dhe
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

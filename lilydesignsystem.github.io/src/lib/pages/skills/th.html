@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: Claude Skills 26 รายการให้ Claude Code มีจุดเข้าที่คัดสรรและโหลดได้สู่ Lily Design System — แนวคิดทั่วไป skill ร่มของแต่ละเฟรมเวิร์ก และ skill เจาะลึกของแต่ละโครงการย่อยสำหรับไลบรารี headless และตัวช่วย *-picker -->
+<section class="page-intro">
+  <h1>Skill บนเอเจนต์ AI ทำให้ Lily ใช้ง่ายขึ้นอีก</h1>
+  <p class="page-intro-tagline">
+    Lily มี skill ที่เจาะจง — ทั่วไป ต่อเฟรมเวิร์ก และต่อโครงการย่อย — เอเจนต์จึงโหลดเฉพาะบริบทที่ต้องการ และไม่โหลดสิ่งที่ไม่ต้องการ
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>คุณต้องการ skill ไหน?</h2>
+  <p>
+    แต่ละระดับตอบคำถามที่ต่างกัน โหลด skill ทั่วไปเมื่อคุณยังไม่รู้จัก Lily โหลด skill ของเฟรมเวิร์กเมื่อคุณรู้จักเฟรมเวิร์กของคุณแต่ไม่รู้ว่าต้องใช้โครงการย่อยใด โหลด headless-skill หรือ helpers-skill โดยตรงเมื่อคุณรู้แน่ชัดอยู่แล้วว่ากำลังทำงานกับอะไร
+  </p>
+
+  <ul>
+    <li>
+      <strong>ทั่วไป / ผู้ดูแล</strong> — “Lily คืออะไร?” / “โมโนรีโพนี้ประกอบกันอย่างไร?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>skill ร่มของเฟรมเวิร์ก</strong> — “มีอะไรให้ใช้สำหรับ {framework} และฉันต้องการส่วนไหน?” — 8 รายการ เฟรมเวิร์กละหนึ่ง <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Headless / ตัวช่วย</strong> — “ฉันใช้คอมโพเนนต์ / ตัวช่วย *-picker ของ {framework} อย่างไรกันแน่?” — 16 รายการ เฟรมเวิร์กละหนึ่ง <code>{framework}-headless-skill</code> และหนึ่ง <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>แปดเฟรมเวิร์ก</h2>
+  <p>
+    ทุกเฟรมเวิร์กมีสแตกสามชั้นเหมือนกัน skill ร่มจะแมปโครงการย่อยจริงทั้งหมดของเฟรมเวิร์กนั้น — รวมถึงแอปตัวอย่างซึ่ง skill พี่น้องทั้งสองไม่ครอบคลุม — และชี้ลงไปยังโครงการเหล่านั้นแทนที่จะพูดซ้ำข้อตกลงของมัน
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>เฟรมเวิร์ก</th>
+        <th>ร่ม</th>
+        <th>Headless</th>
+        <th>ตัวช่วย</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="skill ร่มของ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="skill headless ของ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="skill ตัวช่วยของ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="skill ร่มของ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="skill headless ของ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="skill ตัวช่วยของ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="skill ร่มของ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="skill headless ของ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="skill ตัวช่วยของ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="skill ร่มของ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="skill headless ของ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="skill ตัวช่วยของ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="skill ร่มของ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="skill headless ของ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="skill ตัวช่วยของ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="skill ร่มของ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="skill headless ของ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="skill ตัวช่วยของ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="skill ร่มของ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="skill headless ของ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="skill ตัวช่วยของ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="skill ร่มของ Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">skill</a></td>
+        <td>
+          <a
+            aria-label="skill headless ของ Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >skill</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="skill ตัวช่วยของ Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components เป็นข้อยกเว้นเพียงรายเดียวทั้งสองทาง: แคตตาล็อก headless ของมันมีขอบเขตตั้งใจที่ 536 จาก 571 (custom element แบบเนทีฟ ไม่มีรันไทม์ของเฟรมเวิร์ก ส่วนอีก 35 คอมโพเนนต์ถูกยกเว้นถาวร) และยังไม่มีแอปตัวอย่าง Web Components — skill ร่มของมันบอกเช่นนั้นแทนที่จะบอกเป็นนัยว่ามี
+  </p>
+
+  <h2>เพิ่มหนึ่ง skill</h2>
+  <p>
+    แต่ละ skill คือไฟล์ <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> พร้อมไฟล์สนับสนุน ไม่มีขั้นตอนบิลด์ โคลนอันที่คุณต้องการไปไว้ที่ที่การตั้งค่า Claude Code ของคุณโหลด skill (ดูเอกสารทางการที่ลิงก์ไว้ด้านบนสำหรับไดเรกทอรี skill ของโปรเจกต์หรือบัญชีของคุณ):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    ทำงานข้ามหลายเฟรมเวิร์ก หรือทำงานกับโมโนรีโพเองใช่ไหม? ให้โคลน<a href="https://github.com/LilyDesignSystem/lily-design-system">โมโนรีโพหลัก</a>แทน — ทั้ง 26 skill อยู่ที่รากของมันอยู่แล้ว เคียงข้างไลบรารี headless แคตตาล็อกตัวช่วย และแอปตัวอย่างที่มันอธิบาย
+  </p>
+</section>

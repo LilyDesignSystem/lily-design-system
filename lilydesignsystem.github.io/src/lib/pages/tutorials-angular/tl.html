@@ -1,0 +1,127 @@
+<!-- title: Tutorial sa Angular — Lily Design System -->
+<!-- description: Bumuo ng accessible at may istilong form gamit ang mga headless na component ng Lily para sa Angular 20: mga standalone na component na may signal input. -->
+<section class="page-intro">
+  <h1>Tutorial sa Angular</h1>
+  <p class="page-intro-tagline">
+    Mga standalone na component ng Angular 20 — signal input, OnPush na change detection, inline na template, zero NgModules, zero CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ang bubuuin mo</h2>
+  <p>
+    Isang maliit na contact form — input na may label, submit button, two-way binding, tunay na gawi ng keyboard at screen reader — una ay hubad, pagkatapos ay may istilo, sa humigit-kumulang 10 minuto.
+  </p>
+
+  <h2>Bago ka magsimula</h2>
+  <p>
+    Kailangan mo ng git, Node 22 o mas bago, at pnpm 10 o mas bago. Gumagana ang anumang proyektong Angular 20 — Angular CLI o Analog.
+  </p>
+
+  <h2>Hakbang 1 — Kunin ang code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Ang mga component ay mga flat na file sa <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — bawat isa ay standalone na component na may inline na template, kasama ang spec at story nito. Ang barrel
+    <code>index.ts</code> ay muling nag-e-export ng bawat component; <code>pnpm build</code>
+    ay gumagawa ng Angular Package Format bundle sa pamamagitan ng ng-packagr.
+  </p>
+
+  <h2>Hakbang 2 — Ang una mong component</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Nagdedeklara ang bawat component ng <code>lily-*</code> selector at nagre-render ng semantic element na may class hook nito —
+    <code>&lt;button class="button" type="button"&gt;</code> dito. Batay sa signal ang mga input: <code>label()</code> para sa <code>aria-label</code>
+    override, <code>className()</code> para magdagdag ng mga klase.
+  </p>
+
+  <h2>Hakbang 3 — Bumuo ng maliit na form</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> ay kumukuha ng nakikitang label bilang sarili nitong
+    <code>label</code> input sa halip na nested na label component — ipasa ito nang isang beses, sa field, at ang katugmang <code>lily-text-input</code>sa
+    <code>label</code> ay nagbibigay ng accessible na pangalan. Naglalantad ang mga component na katulad ng input ng mga <code>model()</code> halaga, kaya ang banana-box <code>[(value)]</code>
+    two-way binding ay gumagana agad — compatible sa zoneless sa kabuuan.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Napatunayan noong 2026-08-29:</strong> nag-nest ang naunang draft ng hiwalay na <code>Label</code> component sa loob ng <code>lily-field</code>, na nagre-render ng <em>dalawang</em> label (isang walang laman) dahil
+      <code>lily-field</code> ay nagre-render na ng sarili nito mula sa
+      <code>label</code> input — nahuli sa pamamagitan ng pagsusuri sa source ng component. Ang
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">composed na ruta ng contact-form</a>
+      ay parehong pattern, sinubukan ng tunay na e2e at axe na pagsusuri.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Suriin ang gawa mo:</strong> patakbuhin ang app at mukhang payak ang form — eksakto ayon sa layunin: ang istilo ay nasa unahan pa. Pindutin ang
+      <kbd>Tab</kbd>: gumagalaw ang focus sa bawat kontrol, naba-balita ang label, at gumagana ang pagsumite. Tapos na ang gawi; sa iyo ang hitsura at iyon ang susunod.
+    </p>
+  </div>
+
+  <h2>Hakbang 4 — Bigyan ng istilo</h2>
+  <p>
+    Bigyan ng istilo ang mga class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — sa <code>styles.css</code>, o magdagdag ng handa nang tema sa array na <code>styles</code> sa
+    <code>angular.json</code> / i-link ito sa <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Hakbang 5 — Tingnan ang lahat na gumagana</h2>
+  <p>
+    Ang <a href="/examples/">Angular + Analog na halimbawang app</a> ay nagpapakita ng buong catalog na may file-based na routing at Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Mga susunod na hakbang</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime na pagpapalit gamit ang Angular theme-picker helper.</li>
+    <li><a href="/tutorials/helpers/">Mga preference helper</a> — wika at laki ng teksto.</li>
+    <li><a href="/components/">Catalog ng component</a> — mga prop, ARIA, at keyboard para sa bawat component.</li>
+  </ul>
+  <p>
+    May mga tanong habang nasa daan? Ang
+    <a href="/help/#troubleshooting">pahina ng tulong</a> ay puno ng mga sagot — at kung maaaring maging mas malinaw ang isang hakbang,
+    <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> at masaya naming pagbubutihin ang tutorial.
+  </p>
+</section>

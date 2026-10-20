@@ -1,0 +1,97 @@
+<!-- title: Samouczek Nunjucks — Lily Design System -->
+<!-- description: Buduj dostępne, ostylowane, renderowane po stronie serwera strony za pomocą makr Nunjucks Lily — idealne dla Eleventy. -->
+<section class="page-intro">
+  <h1>Samouczek Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Makra renderowane po stronie serwera dla Eleventy, Expressa lub dowolnego potoku szablonów Node — podejście w stylu GOV.UK, z katalogiem i haczykami klas Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co zbudujesz</h2>
+  <p>
+    Mały formularz kontaktowy renderowany po stronie serwera — pole z etykietą, przycisk wysyłania, zero ładunku JavaScript — najpierw surowy, potem ostylowany, w około 10 minut.
+  </p>
+
+  <h2>Zanim zaczniesz</h2>
+  <p>
+    Potrzebujesz gita, Node 22 lub nowszego i pnpm 10 lub nowszego. Dowolny potok Nunjucks się nadaje — Eleventy, Express lub czysty Nunjucks.
+  </p>
+
+  <h2>Krok 1 — Pobierz kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Każdy komponent to katalog w <code>components/</code> z
+    <code>macro.njk</code>, jego testem i dokumentacją — na przykład
+    <code>components/button/macro.njk</code>. Wskaż swój loader Nunjucks na
+    <code>components/</code> (w Eleventy dodaj go do ścieżki include) i importuj, czego potrzebujesz.
+  </p>
+
+  <h2>Krok 2 — Twój pierwszy komponent</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Renderuje <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makra przyjmują jeden obiekt params: <code>text</code> (z escapowaniem) lub
+    <code>html</code> (surowy), <code>type</code>, <code>label</code> dla elementu
+    <code>aria-label</code>oraz dopisywacz haczyka klasy.
+  </p>
+
+  <h2>Krok 3 — Złóż mały formularz</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Ponieważ wszystko renderuje się na serwerze, przeglądarka dostaje czysty semantyczny HTML z haczykami klas — zerobajtowy ładunek JavaScript.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sprawdź swoją pracę:</strong> załaduj stronę, a formularz wygląda surowo — dokładnie tak, jak zamierzono: stylowanie jest jeszcze przed nami. Naciśnij
+      <kbd>Tab</kbd>: fokus przechodzi przez każdą kontrolkę, etykieta jest odczytywana, a wysyłanie działa. Zachowanie jest gotowe; wygląd należy do ciebie i jest następnym krokiem.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostyluj go</h2>
+  <p>
+    Ostyluj haczyki — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — w swoim arkuszu stylów lub podlinkuj gotowy motyw w układzie bazowym:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Zobacz, jak to wszystko działa</h2>
+  <p>
+     <a href="/examples/">Aplikacja przykładowa Nunjucks + Eleventy</a> buduje cały katalog jako statyczną witrynę ze stronami demo dla każdego komponentu:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Następne kroki</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motywy</a> — w tym wzorzec ciasteczek Eleventy dla bezmigotliwego przełączania motywu w SSR.</li>
+    <li><a href="/tutorials/helpers/">Pomocniki preferencji</a> — język i rozmiar tekstu.</li>
+    <li><a href="/components/">Katalog komponentów</a> — właściwości, ARIA i klawiatura dla każdego komponentu.</li>
+  </ul>
+  <p>
+    Pytania po drodze?
+    <a href="/help/#troubleshooting">Strona pomocy</a> jest pełna odpowiedzi — a jeśli jakiś krok mógłby być jaśniejszy,
+    <a href="https://github.com/LilyDesignSystem">daj nam znać</a> a chętnie ulepszymy samouczek.
+  </p>
+</section>

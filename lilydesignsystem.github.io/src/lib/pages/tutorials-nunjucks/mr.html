@@ -1,0 +1,97 @@
+<!-- title: Nunjucks ट्युटोरियल — Lily Design System -->
+<!-- description: Lily च्या Nunjucks मॅक्रोंनी सुलभ, शैलीबद्ध, सर्व्हर-रेंडर पृष्ठे तयार करा — Eleventy साठी आदर्श. -->
+<section class="page-intro">
+  <h1>Nunjucks ट्युटोरियल</h1>
+  <p class="page-intro-tagline">
+    Eleventy, Express किंवा कोणत्याही Node टेम्पलेट पाइपलाइनसाठी सर्व्हर-रेंडर मॅक्रो — Lily च्या कॅटलॉग आणि क्लास हुकसह GOV.UK-शैलीचा दृष्टिकोन.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>तुम्ही काय बनवाल</h2>
+  <p>
+    एक छोटा सर्व्हर-रेंडर संपर्क फॉर्म — लेबल असलेले क्षेत्र, सबमिट बटण, शून्य JavaScript भार — आधी साधा, मग शैलीबद्ध, सुमारे १० मिनिटांत.
+  </p>
+
+  <h2>सुरू करण्यापूर्वी</h2>
+  <p>
+    तुम्हाला git, Node 22 किंवा नवीन, आणि pnpm 10 किंवा नवीन लागेल. कोणतीही Nunjucks पाइपलाइन चालेल — Eleventy, Express किंवा साधे Nunjucks.
+  </p>
+
+  <h2>पायरी १ — कोड मिळवा</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    प्रत्येक घटक येथे एक डिरेक्टरी आहे: <code>components/</code> एका
+    <code>macro.njk</code>सह, त्याची चाचणी आणि त्याचे दस्तऐवज — उदाहरणार्थ
+    <code>components/button/macro.njk</code>. तुमचा Nunjucks लोडर येथे दाखवा
+    <code>components/</code> (Eleventy मध्ये ते includes मार्गात जोडा) आणि हवे ते आयात करा.
+  </p>
+
+  <h2>पायरी २ — तुमचा पहिला घटक</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    हे दाखवते <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. मॅक्रो एकच params ऑब्जेक्ट घेतात: <code>text</code> (एस्केप केलेले) किंवा
+    <code>html</code> (कच्चे), <code>type</code>, <code>label</code> साठी
+    <code>aria-label</code>आणि एक क्लास हुक जोडणारा.
+  </p>
+
+  <h2>पायरी ३ — एक छोटा फॉर्म बनवा</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    कारण सर्व काही सर्व्हरवर रेंडर होते, ब्राउझरला क्लास हुकसह शुद्ध अर्थपूर्ण HTML मिळते — शून्य बाइटचा JavaScript भार.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>तुमचे काम तपासा:</strong> पृष्ठ लोड करा आणि फॉर्म साधा दिसतो — अगदी ठरल्याप्रमाणे: शैली अजून पुढे आहे. दाबा
+      <kbd>Tab</kbd>: फोकस प्रत्येक नियंत्रणातून जातो, लेबल जाहीर होते आणि सबमिट चालते. वर्तन पूर्ण आहे; देखावा तुमचा आहे आणि पुढची पायरी आहे.
+    </p>
+  </div>
+
+  <h2>पायरी ४ — त्याला शैली द्या</h2>
+  <p>
+    हुकना शैली द्या — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — तुमच्या स्टाइलशीटमध्ये, किंवा तुमच्या मूळ लेआउटमध्ये तयार थीम लिंक करा:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>पायरी ५ — सगळे चालताना पहा</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy उदाहरण अॅप</a> प्रत्येक घटकाच्या प्रात्यक्षिक पृष्ठांसह संपूर्ण कॅटलॉग स्थिर साइट म्हणून बनवते:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>पुढील पायऱ्या</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">थीम</a> — झगमगाटाशिवाय SSR थीम बदलासाठी Eleventy कुकी नमुन्यासह.</li>
+    <li><a href="/tutorials/helpers/">पसंती साहाय्यक</a> — भाषा आणि मजकुराचा आकार.</li>
+    <li><a href="/components/">घटक कॅटलॉग</a> — प्रत्येक घटकासाठी गुणधर्म, ARIA आणि कीबोर्ड.</li>
+  </ul>
+  <p>
+    वाटेत प्रश्न आहेत?
+    <a href="/help/#troubleshooting">मदत पृष्ठ</a> उत्तरांनी भरलेले आहे — आणि एखादी पायरी अधिक स्पष्ट करता आली तर,
+    <a href="https://github.com/LilyDesignSystem">आम्हाला सांगा</a> आणि आम्ही आनंदाने ट्युटोरियल सुधारू.
+  </p>
+</section>

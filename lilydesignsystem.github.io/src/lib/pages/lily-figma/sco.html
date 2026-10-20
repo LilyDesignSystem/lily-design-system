@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: There's nae maintained Lily Figma library or plugin. The design tokens o the 57 reference themes are publishit in DTCG format an can be importit intae Figma the day wi an existin community plugin. -->
+<section class="page-intro">
+  <h1>Nae maintained Figma library — here's whit exists insteid</h1>
+  <p class="page-intro-tagline">
+    This page uised tae say “comin soon.” It disnae onie mair, because naebody wis biggin it. Here is the honest state, an a real path that wirks the day.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Whit disnae exist</h2>
+  <p>
+    There is nae official Lily component library in Figma, an nae maintained Figma plugin. Biggin an maintainin a design-tool library weel is a real, ongaun commitment — Figma component structure, variant namin, auto-layout, a publish pipeline o its ain — separate frae maintainin code, an this project hasnae taen it on.
+  </p>
+
+  <h2>Whit exists the day</h2>
+  <p>
+    Ilka ane o the 57 reference themes haes its ain design-token primitives — colour, radius, size, border — publishit in
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 format</a
+    >
+    at
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. That format is exactly whit modern token tooling reads. Ye can pull a Lily theme's palette intae Figma yersel, richt noo, wi nae plugin frae this project:
+  </p>
+  <ol>
+    <li>
+      Install the community
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      plugin (or Figma's ain Variables import, whaur yer plan supports DTCG import).
+    </li>
+    <li>
+      Import <code>themes/tokens/{theme-slug}.json</code> for whichever theme ye want — for example
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio creates Figma variables frae the DTCG values, which ye can then apply tae yer ain components.
+    </li>
+  </ol>
+  <p>
+    This gies ye Lily's colour an shape tokens in Figma. It disnae gie ye Lily's actual components as Figma components — naebody haes biggit that, an this page willnae pretend itherwise.
+  </p>
+
+  <h2>Is a real Figma library plannit?</h2>
+  <p>
+    No currently, an it isnae free tae promise: see
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    for the open question an whit wid chynge the project's mind — maist uiseful, a designer sayin specifically whit they need frae this layer. If that's ye,
+    <a href="mailto:joel@joelparkerhenderson.com">say sae</a>
+    or open an issue.
+  </p>
+</section>

@@ -1,0 +1,107 @@
+<!-- title: „Blazor“ vadovas — Lily Design System -->
+<!-- description: Sukurkite prieinamą, apipavidalintą formą su „Lily“ „Blazor“ bekūniais komponentais: „Razor“ komponentai su parametrais ir bUnit testais. -->
+<section class="page-intro">
+  <h1>„Blazor“ vadovas</h1>
+  <p class="page-intro-tagline">
+    „Razor“ klasių bibliotekos komponentai su parametrais, <code>ChildContent</code>
+    atvaizdavimo fragmentai, atributų paskleidimas ir vienas bUnit testas kiekvienam komponentui.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Nedidelė kontaktų forma — laukas su žyma, siuntimo mygtukas,
+    <code>@bind-Value</code> susiejimas, tikras klaviatūros ir ekrano skaitytuvo elgesys — pirma plika, paskui apipavidalinta, per maždaug 10 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Reikia git ir .NET SDK 8 ar naujesnio. Tinka bet kuris „Blazor“ projektas — „Blazor Web App“, „Server“ arba „WebAssembly“.
+  </p>
+
+  <h2>1 žingsnis — Gaukite kodą</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Komponentai yra aplanke <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — po vieną „Razor“ bylą. Nurodykite projektą (arba nukopijuokite bylas) iš savo „Blazor“ programos ir pridėkite <code>@using LilyBlazorHeadless.Components</code> į
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>2 žingsnis — Jūsų pirmasis komponentas</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Atvaizduoja <code>&lt;button class="button"&gt;</code>. Bendros parametrų konvencijos: <code>Label</code> ( <code>aria-label</code> norint pakeisti),
+    <code>CssClass</code> (pridedamas prie bazinio kablio),
+    <code>ChildContent</code>ir
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> atributų paskleidimas, kad bet koks papildomas HTML atributas praeitų.
+  </p>
+
+  <h2>3 žingsnis — Sudėkite nedidelę formą</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> priima matomą <code>Label</code> kaip savo parametrą vietoj įdėto žymos komponento — perduokite ją vieną kartą, prie
+    <code>Field</code>ir <code>TextInput</code>iš
+    <code>Label</code> suteikia prieinamą pavadinimą.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinta 2026-08-29:</strong> ankstesnis juodraštis įdėjo atskirą <code>Label</code> komponentą į <code>Field</code>, todėl buvo atvaizduotos <em>dvi</em> žymos (viena tuščia), nes <code>Field</code>
+      jau pats atvaizduoja savo iš <code>Label</code> parametras — pastebėta patikrinus komponento šaltinio kodą; <code>Form</code> pats neturi <code>Label</code> parametro, todėl ankstesnio juodraščio
+      <code>&lt;Form&gt;</code> naudojimas buvo pataisytas jį praleidžiant, užuot sugalvojus neegzistuojantį atributą.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Sudėtinis kontaktų formos maršrutas</a>
+      yra tas pats šablonas, išbandytas tikrais e2e ir axe testais.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> paleiskite programą ir forma atrodo plika — kaip ir numatyta: stilius dar laukia. Paspauskite
+      <kbd>Tab</kbd>: fokusas pereina per kiekvieną valdiklį, žyma paskelbiama, o siuntimas veikia. Elgesys baigtas; išvaizda jūsų ir yra kitas žingsnis.
+    </p>
+  </div>
+
+  <h2>4 žingsnis — Apipavidalinkite</h2>
+  <p>
+    Apipavidalinkite klasių kablius — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — faile <code>app.css</code>arba susiekite paruoštą temą faile <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>5 žingsnis — Pažiūrėkite, kaip viskas veikia</h2>
+  <p>
+     <a href="/examples/">„Blazor Web“ pavyzdinė programa</a> rodo visą katalogą apipavidalintą ir pademonstruotą, su „Playwright“ e2e testais:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temos</a> — perjungimas vykdymo metu su „Blazor“ pagalbininku theme-picker („Razor“ klasių biblioteka NuGet).</li>
+    <li><a href="/tutorials/helpers/">Nuostatų pagalbininkai</a> — kalba ir teksto dydis.</li>
+    <li><a href="/components/">Komponentų katalogas</a> — savybės, ARIA ir klaviatūra kiekvienam komponentui.</li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

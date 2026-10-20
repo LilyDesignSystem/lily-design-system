@@ -1,0 +1,109 @@
+<!-- title: React apmācība — Lily Design System -->
+<!-- description: Izveidojiet pieejamu, noformētu veidlapu ar Lily React bezgalvas komponentēm: tipizētas funkciju komponentes ar value + onChange. -->
+<section class="page-intro">
+  <h1>React apmācība</h1>
+  <p class="page-intro-tagline">
+    Tipizētas funkciju komponentes, katra vienā datnē, kontrolētas ar standarta modeli
+    <code>value</code> + <code>onChange</code> — viss darbojas tā, kā React jau darbojas.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Neliela kontaktu veidlapa — lauks ar iezīmi, iesniegšanas poga, kontrolēts stāvoklis, īsta tastatūras un ekrāna lasītāja darbība — vispirms kaila, tad noformēta, apmēram 10 minūtēs.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Nepieciešams git, Node 22 vai jaunāks un pnpm 10 vai jaunāks. Der jebkurš React 18+ projekts — Next.js, Vite vai tīrs React.
+  </p>
+
+  <h2>1. solis — Iegūstiet kodu</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentes ir plakanas datnes direktorijā <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — katra ar savu testu, story un dokumentāciju blakus. Nokopējiet vajadzīgās datnes savā lietotnē vai ievelciet repozitoriju un importējiet no tā.
+  </p>
+
+  <h2>2. solis — Jūsu pirmā komponente</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Attēlo <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (attēlo
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> lai pārrakstītu), <code>className</code>, un jebkurš papildu atribūts tiek izklāts uz saknes elementa.
+  </p>
+
+  <h2>3. solis — Salieciet nelielu veidlapu</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> pieņem redzamo <code>label</code> kā savu propu, nevis iekļautu iezīmes komponenti — nododiet to vienreiz, pie
+    <code>Field</code>un <code>TextInput</code>no
+    <code>label</code> nodrošina pieejamo nosaukumu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudīts 2026-08-29:</strong> agrāks melnraksts iekļāva atsevišķu <code>Label</code> iekšā <code>Field</code>, kas attēloja
+      <em>divas</em> iezīmes (vienu tukšu), jo <code>Field</code> jau pati attēlo savu no <code>label</code> prop — atklāts, kompilējot precīzo fragmentu. Maršruts
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Salikto kontaktu veidlapas maršrutu</a>
+      ir tas pats modelis, pārbaudīts ar īstiem e2e un axe testiem.
+    </p>
+  </div>
+
+  <h2>4. solis — Noformējiet to</h2>
+  <p>
+    Viss iepriekš tiek attēlots kā tīra struktūra, gatava jūsu stiliem. Noformējiet āķus — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — savā stilu lapā, uzklājiet Tailwind utilītas ar <code>className</code>vai saistiet gatavu motīvu:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>5. solis — Redziet, kā viss darbojas</h2>
+  <p>
+     <a href="/examples/">Next.js paraugu lietotne</a> ir viss katalogs noformēts un demonstrēts, ar Playwright e2e un axe-core bāzlīniju:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motīvi</a> — pārslēgšana izpildes laikā ar React palīgu theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Preferenču palīgi</a> — valoda un teksta izmērs.</li>
+    <li><a href="/components/">Komponenšu katalogs</a> — īpašības, ARIA un tastatūra katrai komponentei.</li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

@@ -1,0 +1,107 @@
+<!-- title: Blazor ట్యుటోరియల్ — Lily Design System -->
+<!-- description: Lily యొక్క Blazor హెడ్‌లెస్ కాంపోనెంట్లతో అందుబాటులో ఉండే, శైలీకరించిన ఫారమ్‌ను నిర్మించండి: పారామీటర్లు మరియు bUnit పరీక్షలతో Razor కాంపోనెంట్లు. -->
+<section class="page-intro">
+  <h1>Blazor ట్యుటోరియల్</h1>
+  <p class="page-intro-tagline">
+    పారామీటర్లతో Razor క్లాస్ లైబ్రరీ కాంపోనెంట్లు, <code>ChildContent</code>
+    రెండర్ ఫ్రాగ్మెంట్లు, గుణ వ్యాప్తి మరియు ప్రతి కాంపోనెంట్‌కు ఒక bUnit పరీక్ష.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>మీరు ఏమి నిర్మిస్తారు</h2>
+  <p>
+    ఒక చిన్న సంప్రదింపు ఫారమ్ — లేబుల్ ఉన్న ఫీల్డ్, సమర్పించే బటన్,
+    <code>@bind-Value</code> బైండింగ్, నిజమైన కీబోర్డ్ మరియు స్క్రీన్-రీడర్ ప్రవర్తన — మొదట ఖాళీగా, తర్వాత శైలీకరించి, సుమారు 10 నిమిషాల్లో.
+  </p>
+
+  <h2>ప్రారంభించే ముందు</h2>
+  <p>
+    మీకు git మరియు .NET SDK 8 లేదా కొత్తది కావాలి. ఏ Blazor ప్రాజెక్ట్ అయినా పనిచేస్తుంది — Blazor Web App, Server లేదా WebAssembly.
+  </p>
+
+  <h2>దశ 1 — కోడ్ పొందండి</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    కాంపోనెంట్లు ఇక్కడ ఉంటాయి: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — ప్రతిదానికి ఒక Razor ఫైల్. మీ Blazor యాప్ నుండి ప్రాజెక్ట్‌ను సూచించండి (లేదా ఫైళ్లను కాపీ చేయండి) మరియు జోడించండి <code>@using LilyBlazorHeadless.Components</code> కు
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>దశ 2 — మీ మొదటి కాంపోనెంట్</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    ఇది చూపిస్తుంది <code>&lt;button class="button"&gt;</code>. భాగస్వామ్య పారామీటర్ సంప్రదాయాలు: <code>Label</code> (ఒక <code>aria-label</code> ఓవర్‌రైడ్ చేయడానికి),
+    <code>CssClass</code> (ప్రాథమిక హుక్‌కు జోడించబడుతుంది),
+    <code>ChildContent</code>మరియు
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> గుణ వ్యాప్తి, తద్వారా ఏ అదనపు HTML గుణమైనా దాటిపోతుంది.
+  </p>
+
+  <h2>దశ 3 — ఒక చిన్న ఫారమ్‌ను కూర్చండి</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> కనిపించే <code>Label</code> ను దాని స్వంత పారామీటర్‌గా తీసుకుంటుంది, లోపల ఉంచిన లేబుల్ కాంపోనెంట్‌గా కాదు — దాన్ని ఒకసారి ఇవ్వండి, పై
+    <code>Field</code>మరియు <code>TextInput</code>యొక్క
+    <code>Label</code> అందుబాటులో ఉండే పేరును అందిస్తుంది.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29న ధృవీకరించబడింది:</strong> ముందటి చిత్తుప్రతి ఒక ప్రత్యేక <code>Label</code> కాంపోనెంట్‌ను <code>Field</code>లోపల ఉంచింది, దాని వల్ల <em>రెండు</em> లేబుళ్లు (ఒకటి ఖాళీ) కనిపించాయి ఎందుకంటే <code>Field</code>
+      ఇప్పటికే తన స్వంతదాన్ని <code>Label</code> పారామీటర్ — కాంపోనెంట్ సోర్స్ కోడ్ తనిఖీ చేయడం ద్వారా గుర్తించబడింది; <code>Form</code> కు స్వయంగా <code>Label</code> పారామీటర్ లేదు, కాబట్టి ముందటి చిత్తుప్రతిలోని
+      <code>&lt;Form&gt;</code> వాడకం లేని గుణాన్ని కనిపెట్టడానికి బదులు దాన్ని వదిలివేసేలా సరిదిద్దబడింది.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">సంయుక్త సంప్రదింపు-ఫారమ్ మార్గం</a>
+      అదే నమూనా, నిజమైన e2e మరియు axe పరీక్షలతో పరీక్షించబడింది.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>మీ పనిని తనిఖీ చేయండి:</strong> యాప్‌ను నడపండి, ఫారమ్ సాదాగా కనిపిస్తుంది — సరిగ్గా అనుకున్నట్లే: శైలీకరణ ఇంకా ముందుంది. నొక్కండి
+      <kbd>Tab</kbd>: ఫోకస్ ప్రతి నియంత్రణ గుండా వెళుతుంది, లేబుల్ ప్రకటించబడుతుంది మరియు సమర్పణ పనిచేస్తుంది. ప్రవర్తన పూర్తయింది; రూపం మీది మరియు తదుపరి దశ.
+    </p>
+  </div>
+
+  <h2>దశ 4 — శైలీకరించండి</h2>
+  <p>
+    క్లాస్ హుక్‌లను శైలీకరించండి — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ఇందులో <code>app.css</code>, లేదా సిద్ధమైన థీమ్‌ను ఇక్కడ లింక్ చేయండి <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>దశ 5 — అంతా పనిచేయడం చూడండి</h2>
+  <p>
+     <a href="/examples/">Blazor Web ఉదాహరణ యాప్</a> పూర్తి కేటలాగ్‌ను శైలీకరించి, ప్రదర్శనతో చూపిస్తుంది, Playwright e2e పరీక్షలతో:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>తదుపరి దశలు</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">థీమ్‌లు</a> — Blazor theme-picker సహాయకంతో రన్‌టైమ్‌లో మార్చడం (NuGet లో Razor క్లాస్ లైబ్రరీ).</li>
+    <li><a href="/tutorials/helpers/">ప్రాధాన్యత సహాయకాలు</a> — భాష మరియు టెక్స్ట్ పరిమాణం.</li>
+    <li><a href="/components/">కాంపోనెంట్ కేటలాగ్</a> — ప్రతి కాంపోనెంట్‌కు లక్షణాలు, ARIA మరియు కీబోర్డ్.</li>
+  </ul>
+  <p>
+    దారిలో ప్రశ్నలా?
+    <a href="/help/#troubleshooting">సహాయ పేజీ</a> సమాధానాలతో నిండి ఉంది — మరియు ఏదైనా దశను మరింత స్పష్టంగా చేయవచ్చంటే,
+    <a href="https://github.com/LilyDesignSystem">మాకు చెప్పండి</a> మరియు మేము సంతోషంగా ట్యుటోరియల్‌ను మెరుగుపరుస్తాము.
+  </p>
+</section>

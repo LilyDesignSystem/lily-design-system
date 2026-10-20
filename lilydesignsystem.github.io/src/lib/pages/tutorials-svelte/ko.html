@@ -1,0 +1,117 @@
+<!-- title: Svelte 튜토리얼 — Lily Design System -->
+<!-- description: Lily의 Svelte 5 헤드리스 컴포넌트로 접근성 있고 스타일이 적용된 폼을 만듭니다. 룬, 스니펫, bind:value를 씁니다. -->
+<section class="page-intro">
+  <h1>Svelte 튜토리얼</h1>
+  <p class="page-intro-tagline">
+    Lily의 Svelte 라이브러리가 기준 구현입니다: Svelte 5 룬, 타입이 지정된 props, 나머지 props 펼치기, 그리고 다음을 통한 양방향 바인딩:
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>만들 것</h2>
+  <p>
+    작은 문의 폼 — 레이블이 있는 입력, 제출 버튼, 양방향 바인딩, 실제 키보드 및 스크린 리더 동작 — 먼저 꾸미지 않은 상태로, 그다음 스타일을 입혀서 약 10분 안에 만듭니다.
+  </p>
+
+  <h2>시작하기 전에</h2>
+  <p>
+    git, Node 22 이상, pnpm 10 이상이 필요합니다. Svelte 5 프로젝트라면 무엇이든 괜찮습니다 — 새로 만든 <code>npx sv create</code> 앱이면 충분합니다.
+  </p>
+
+  <h2>1단계 — 코드 가져오기</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    컴포넌트는 다음 위치에 있습니다: <code>src/lib/components/&#123;Name&#125;/</code>, 컴포넌트마다 디렉터리 하나가 있고 그 안에 <code>.svelte</code> 파일, 테스트, 스토리, 문서가 나란히 있습니다. 필요한 디렉터리를 앱에 복사하거나, 저장소에 의존해 바로 import하세요.
+  </p>
+
+  <h2>2단계 — 첫 번째 컴포넌트</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    렌더링하는 요소: <code>&lt;button class="button" type="button"&gt;</code>. props에는 타입이 지정되어 있습니다: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (렌더링하는 요소: <code>aria-pressed</code> (토글 버튼에서는 <code>label</code> ( <code>aria-label</code> 재정의용), 추가 특성은 루트로 펼쳐집니다.
+  </p>
+
+  <h2>3단계 — 작은 폼 구성하기</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> 은 보이는 <code>label</code> 을 중첩된 레이블 컴포넌트가 아니라 별도의 prop으로 받습니다 — 한 번만 전달하면 <code>Field</code>, 그리고 <code>TextInput</code>의 대응하는 <code>label</code> 이 접근 가능한 이름을 제공합니다. <code>TextInput</code>'s <code>value</code> 는
+    <code>$bindable</code> 룬 prop이므로 <code>bind:value</code> 를 쓰면 바로 양방향 바인딩이 됩니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 확인 완료:</strong> 이 스니펫 그대로를 다음을 통해 컴파일하고 <code>svelte/server</code> 올바르게 연결된 레이블이 하나뿐임을 확인했습니다 <code>&lt;label for&gt;</code> — 이전 초안에서는 별도의 <code>Label</code> 안의 <code>Field</code>를 중첩해서, 렌더링 결과는
+      <em>두 개의</em> 레이블(하나는 비어 있음)이 렌더링되었습니다. <code>Field</code> 가 <code>label</code> prop. 
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">문의 폼 조합 라우트</a>
+      도 같은 패턴이며, 실제 e2e 및 axe 테스트로 검증됩니다.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>작동 확인:</strong> 앱을 실행하면 폼이 밋밋해 보입니다 — 의도한 대로이며 스타일은 앞으로 입힙니다.
+      <kbd>Tab</kbd>키를 눌러 보세요. 포커스가 모든 컨트롤을 따라 이동하고, 레이블이 읽히며, 제출도 동작합니다. 동작은 완성되었고, 모양은 당신 몫이며 다음 단계입니다.
+    </p>
+  </div>
+
+  <h2>4단계 — 스타일 입히기</h2>
+  <p>
+    위의 모든 것은 순수한 구조로 렌더링되며 스타일을 기다립니다. 클래스 훅에 스타일을 입힙니다 —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — 전역 스타일시트에서, 또는 준비된 테마를 다음에서 링크합니다: <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    인스턴스별 조정은 다음을 통해 합니다: <code>class</code> prop으로 하며, 기본 훅에 덧붙습니다: <code>&lt;Button class="wide"&gt;</code> 렌더링 결과:
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>5단계 — 전체가 동작하는 모습 보기</h2>
+  <p>
+     <a href="/examples/">SvelteKit 예제 앱</a> 은 같은 카탈로그를 완전히 스타일링하여 라이브 데모, Playwright e2e 테스트, axe-core 접근성 기준선과 함께 보여 줍니다:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>다음 단계</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">테마 적용</a> — Svelte theme-picker 헬퍼로 하는 런타임 전환.</li>
+    <li><a href="/tutorials/helpers/">환경설정 헬퍼</a> — 언어와 텍스트 크기.</li>
+    <li><a href="/components/">컴포넌트 카탈로그</a> — 컴포넌트별 props, ARIA, 키보드.</li>
+  </ul>
+  <p>
+    진행하다가 궁금한 점이 있다면
+    <a href="/help/#troubleshooting">도움말 페이지</a> 에 답이 많이 있습니다. 어떤 단계가 더 명확해질 수 있다면
+    <a href="https://github.com/LilyDesignSystem">알려 주세요</a> . 기꺼이 튜토리얼을 개선하겠습니다.
+  </p>
+</section>

@@ -1,0 +1,106 @@
+<!-- title: HTML tutorial — Lily Design System -->
+<!-- description: Big an accessible, styled form wi Lily's HTML headless components — plain markup, straucht frae a file. -->
+<section class="page-intro">
+  <h1>HTML tutorial</h1>
+  <p class="page-intro-tagline">
+    The simplest possible stairt: copy semantic HTML wi Lily's class hooks, add ae stylesheet, ship. Plain files that wirk whaurever HTML wirks.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Whit ye'll big</h2>
+  <p>
+    A wee contact form — labelled inputs, a submit button, real keyboard an screen-reader behaviour — first bare, then styled, in aboot 10 minutes.
+  </p>
+
+  <h2>Afore ye stairt</h2>
+  <p>
+    Ye need a browser an a text editor. That's aw. (git helps for grabbin the component files, but ye can copy them frae GitHub in the browser tae.)
+  </p>
+
+  <h2>Step 1 — Git the code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Ilka component is a standalane file in <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, an sae on — wi a header comment documentin its HTML tag, class hook, keyboard behaviour, an accessibility contract. The files <em>are</em> the library — copy whit ye need an gang.
+  </p>
+
+  <h2>Step 2 — Yer first component</h2>
+  <p>Open <code>components/button.html</code>, or juist write the markup — the class hook is the contract:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Because it's a real <code>&lt;button&gt;</code>, keyboard focus, Enter an Space activation, an the implicit button role are aareadies correct.
+  </p>
+
+  <h2>Step 3 — Compose a wee form</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Note the pattern: ilka control links its <code>&lt;label for&gt;</code>, uises the maist specific input type, an cairries exactly ae kebab-case class hook.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check yer wirk:</strong> open the page in a browser. It looks plain — exactly as intendit: styling is still aheid. Press
+      <kbd>Tab</kbd>: focus muives through ilka control, the labels are announced, an submit wirks. The behaviour is deen; the look is yours, an it's neist.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style it</h2>
+  <p>Write CSS against the hooks:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Or skip scrievin CSS bi haund entirely — link ane o the 45 ready-made themes an the same markup lichts up:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Step 5 — Explore further</h2>
+  <ul>
+    <li>The repo's tests rin real browsers: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook for ilka component: <code>pnpm run storybook</code>.</li>
+    <li>
+      The <a href="/examples/">HTML+CSS+JS example app</a> shaws aw 571 components styled, searchable, an demoed.
+    </li>
+  </ul>
+
+  <h2>Neist steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime theme switchin wi theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — leid an text size.</li>
+    <li><a href="/components/">Component catalog</a> — the full reference.</li>
+  </ul>
+  <p>
+    Questions alang the wey? The
+    <a href="/help/#troubleshooting">help page</a> is fu o answers — an if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> an we'll gladly improve the tutorial.
+  </p>
+</section>

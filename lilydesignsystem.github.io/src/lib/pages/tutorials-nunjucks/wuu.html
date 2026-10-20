@@ -1,0 +1,96 @@
+<!-- title: Nunjucks 教程 — Lily Design System -->
+<!-- description: 使用 Lily 个 Nunjucks 宏构建无障碍、带样式、服务端渲染个页面——交关适合 Eleventy。 -->
+<section class="page-intro">
+  <h1>Nunjucks 教程</h1>
+  <p class="page-intro-tagline">
+    适用于 Eleventy、Express 或任何 Node 模板流水线个服务端渲染宏——采用 GOV.UK 风格个做法，搭配 Lily 个目录搭类名钩子。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>侬将构建啥</h2>
+  <p>
+    一个小型服务端渲染个联系表单——带标签个输入框、提交按钮、零 JavaScript 负载——先是勿带样式个版本，再加上样式，大约 10 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    侬需要 git、Node 22 或更高版本，以及 pnpm 10 或更高版本。任何 Nunjucks 流水线侪可以——Eleventy、Express 或纯 Nunjucks。
+  </p>
+
+  <h2>第 1 步——获取代码</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    每个组件侪是 <code>components/</code> 中个一个目录，包含一个
+    <code>macro.njk</code>、伊个测试搭伊个文档——例如
+    <code>components/button/macro.njk</code>。把侬个 Nunjucks 加载器指向
+    <code>components/</code>（在 Eleventy 中，把伊加入 includes 路径），然后导入侬需要个宏。
+  </p>
+
+  <h2>第 2 步——侬个第一个组件</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    渲染为 <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>。
+    宏接收单个参数对象：<code>text</code>（会转义）或
+    <code>html</code>（原样输出）、<code>type</code>、用于 <code>aria-label</code> 个 <code>label</code>，以及追加类名钩子个参数。
+  </p>
+
+  <h2>第 3 步——组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    因为一切侪在服务端渲染，浏览器收到个是带有类名钩子个纯语义化 HTML——JavaScript 负载为零字节。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查侬个成果：</strong>加载页面，表单看起来老朴素——这正是预期：样式还在后面。按下
+      <kbd>Tab</kbd>：焦点会依次经过每个控件，标签会被朗读，提交也能正常工作。行为已经完成；外观由侬决定，这就是下一步。
+    </p>
+  </div>
+
+  <h2>第 4 步——添加样式</h2>
+  <p>
+    在侬个样式表中为搿眼钩子设置样式——<code>.button</code>、<code>.text-input</code>、
+    <code>.label</code>、<code>.field</code>——或者在基础布局中链接一个现成个主题：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>第 5 步——看看伊个完整效果</h2>
+  <p>
+    <a href="/examples/">Nunjucks + Eleventy 示例应用</a>把完整目录构建成静态站点，并为每个组件提供演示页面：
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主题</a>——包括用于无闪烁服务端渲染主题切换个 Eleventy cookie 模式。</li>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——语言与文字大小。</li>
+    <li><a href="/components/">组件目录</a>——每个组件个 props、ARIA 搭键盘操作。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉阿拉</a>，阿拉老乐意改进教程。
+  </p>
+</section>

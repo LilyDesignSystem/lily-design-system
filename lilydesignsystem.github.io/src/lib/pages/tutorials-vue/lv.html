@@ -1,0 +1,122 @@
+<!-- title: Vue apmācība — Lily Design System -->
+<!-- description: Izveidojiet pieejamu, noformētu veidlapu ar Lily Vue 3 bezgalvas komponentēm: vienas datnes komponentes ar v-model. -->
+<section class="page-intro">
+  <h1>Vue apmācība</h1>
+  <p class="page-intro-tagline">
+    Vue 3 vienas datnes komponentes ar tipizētiem props, <code>defineModel</code>
+    divvirzienu saistīšana un <code>v-bind="$attrs"</code> caurlaide.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Neliela kontaktu veidlapa — lauks ar iezīmi, iesniegšanas poga, <code>v-model</code>
+    saistīšana, īsta tastatūras un ekrāna lasītāja darbība — vispirms kaila, tad noformēta, apmēram 10 minūtēs.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Nepieciešams git, Node 22 vai jaunāks un pnpm 10 vai jaunāks. Der jebkurš Vue 3 projekts — Nuxt, Vite vai tīrs Vue.
+  </p>
+
+  <h2>1. solis — Iegūstiet kodu</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentes ir plakanas datnes direktorijā <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — katra ar savu testu, story un dokumentāciju blakus. Nokopējiet vajadzīgās datnes vai ievelciet repozitoriju.
+  </p>
+
+  <h2>2. solis — Jūsu pirmā komponente</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Attēlo <code>&lt;button class="button" type="button"&gt;</code>. Props atbilst citiem ietvariem: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plus atribūtu caurlaide visam pārējam.
+  </p>
+
+  <h2>3. solis — Salieciet nelielu veidlapu</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> pieņem redzamo <code>label</code> kā savu propu, nevis iekļautu iezīmes komponenti — nododiet to vienreiz, pie
+    <code>Field</code>un <code>TextInput</code>no
+    <code>label</code> nodrošina pieejamo nosaukumu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudīts 2026-08-29:</strong> agrāks melnraksts iekļāva atsevišķu <code>Label</code> iekšā <code>Field</code>, kas attēloja
+      <em>divas</em> iezīmes (vienu tukšu), jo <code>Field</code> jau pati attēlo savu no <code>label</code> prop — atklāts, kompilējot precīzo fragmentu. Maršruts
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Salikto kontaktu veidlapas maršrutu</a>
+      ir tas pats modelis, pārbaudīts ar īstiem e2e un axe testiem.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> izmanto <code>defineModel</code>, tāpēc vienkāršs
+    <code>v-model</code> darbojas uzreiz.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudiet savu darbu:</strong> palaidiet lietotni, un veidlapa izskatās kaila — tieši kā paredzēts: noformēšana vēl priekšā. Nospiediet
+      <kbd>Tab</kbd>: fokuss iet cauri katrai vadīklai, iezīme tiek paziņota, un iesniegšana darbojas. Uzvedība ir gatava; izskats ir jūsu un ir nākamais solis.
+    </p>
+  </div>
+
+  <h2>4. solis — Noformējiet to</h2>
+  <p>
+    Noformējiet klases āķus — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — savā stilu lapā vai saistiet gatavu motīvu failā <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>5. solis — Redziet, kā viss darbojas</h2>
+  <p>
+     <a href="/examples/">Nuxt paraugu lietotne</a> ir viss katalogs noformēts un demonstrēts, ar Playwright e2e un axe-core bāzlīniju:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motīvi</a> — pārslēgšana izpildes laikā ar Vue palīgu theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Preferenču palīgi</a> — valoda un teksta izmērs.</li>
+    <li><a href="/components/">Komponenšu katalogs</a> — īpašības, ARIA un tastatūra katrai komponentei.</li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

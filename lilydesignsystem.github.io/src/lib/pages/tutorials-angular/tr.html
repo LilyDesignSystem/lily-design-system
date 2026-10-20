@@ -1,0 +1,127 @@
+<!-- title: Angular eğitimi — Lily Design System -->
+<!-- description: Lily'nin Angular 20 başsız bileşenleriyle erişilebilir, biçimlendirilmiş bir form oluşturun: sinyal girdili bağımsız bileşenler. -->
+<section class="page-intro">
+  <h1>Angular eğitimi</h1>
+  <p class="page-intro-tagline">
+    Angular 20 bağımsız bileşenleri — sinyal girdileri, OnPush değişiklik algılama, satır içi şablonlar, sıfır NgModule, sıfır CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ne oluşturacaksınız</h2>
+  <p>
+    Küçük bir iletişim formu — etiketli girdi, gönder düğmesi, çift yönlü bağlama, gerçek klavye ve ekran okuyucu davranışı — önce çıplak, sonra biçimlendirilmiş olarak, yaklaşık 10 dakikada.
+  </p>
+
+  <h2>Başlamadan önce</h2>
+  <p>
+    git, Node 22 veya üstü ve pnpm 10 veya üstü gerekir. Herhangi bir Angular 20 projesi olur — Angular CLI veya Analog.
+  </p>
+
+  <h2>Adım 1 — Kodu edinin</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Bileşenler şurada düz dosyalar olarak durur: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — her biri satır içi şablonlu bağımsız bir bileşendir ve spec ile story dosyası yanında gelir. Barrel dosyası
+    <code>index.ts</code> her bileşeni yeniden dışa aktarır; <code>pnpm build</code>
+    ng-packagr ile bir Angular Package Format paketi üretir.
+  </p>
+
+  <h2>Adım 2 — İlk bileşeniniz</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Her bileşen bir <code>lily-*</code> seçicisi bildirir ve anlamsal öğeyi sınıf kancasıyla işler —
+    <code>&lt;button class="button" type="button"&gt;</code> burada. Girdiler sinyal tabanlıdır: <code>label()</code> için <code>aria-label</code>
+    geçersiz kılmak, <code>className()</code> sınıf eklemek için.
+  </p>
+
+  <h2>Adım 3 — Küçük bir form oluşturun</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> görünür etiketi iç içe bir etiket bileşeni yerine kendi
+    <code>label</code> girdisi olarak alır — alanda bir kez geçirin ve <code>lily-text-input</code>ile eşleşen
+    <code>label</code> erişilebilir adı sağlar. Girdi benzeri bileşenler <code>model()</code> değerlerini açığa çıkarır, böylece banana-box <code>[(value)]</code>
+    çift yönlü bağlama hemen çalışır — baştan sona zoneless uyumludur.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29'da doğrulandı:</strong> önceki bir taslak <code>Label</code> içine ayrı bir <code>lily-field</code>bileşeni yerleştirmişti; bu da <em>iki</em> etiket (biri boş) işlenmesine yol açtı, çünkü
+      <code>lily-field</code> kendi etiketini zaten
+      <code>label</code> girdisinden işler — bileşen kaynağı kontrol edilerek yakalandı.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Bileşik iletişim formu rotası</a>
+      aynı kalıptır ve gerçek e2e ve axe testleriyle sınanır.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Çalışmanızı kontrol edin:</strong> uygulamayı çalıştırın; form sade görünür — tam olarak amaçlandığı gibi: biçimlendirme henüz ileride. Şuna basın:
+      <kbd>Tab</kbd>: odak her denetimde ilerler, etiket duyurulur ve gönderme çalışır. Davranış tamam; görünüm sizin ve sıradaki adım.
+    </p>
+  </div>
+
+  <h2>Adım 4 — Biçimlendirin</h2>
+  <p>
+    Sınıf kancalarını biçimlendirin — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — şurada: <code>styles.css</code>, ya da hazır bir temayı şu diziye ekleyin: <code>styles</code> içinde
+    <code>angular.json</code> / şurada bağlayın: <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Adım 5 — Hepsinin çalıştığını görün</h2>
+  <p>
+     <a href="/examples/">Angular + Analog örnek uygulaması</a> tüm kataloğu dosya tabanlı yönlendirme ve Vite ile gösterir:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Sonraki adımlar</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temalar</a> — Angular theme-picker yardımcısıyla çalışma anında geçiş.</li>
+    <li><a href="/tutorials/helpers/">Tercih yardımcıları</a> — dil ve metin boyutu.</li>
+    <li><a href="/components/">Bileşen kataloğu</a> — bileşen başına özellikler, ARIA ve klavye.</li>
+  </ul>
+  <p>
+    Yol boyunca sorunuz mu var?
+    <a href="/help/#troubleshooting">Yardım sayfası</a> yanıtlarla dolu — ve bir adım daha açık olabilirse,
+    <a href="https://github.com/LilyDesignSystem">bize söyleyin</a> ve eğitimi memnuniyetle iyileştirelim.
+  </p>
+</section>

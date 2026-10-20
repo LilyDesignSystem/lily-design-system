@@ -1,0 +1,106 @@
+<!-- title: Посібник з HTML — Lily Design System -->
+<!-- description: Створіть доступну стилізовану форму за допомогою «безголових» компонентів Lily для HTML — проста розмітка, прямо з файлу. -->
+<section class="page-intro">
+  <h1>Посібник з HTML</h1>
+  <p class="page-intro-tagline">
+    Найпростіший старт: скопіюйте семантичний HTML з клас-гачками Lily, додайте одну таблицю стилів і публікуйте. Прості файли, що працюють усюди, де працює HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Що ви створите</h2>
+  <p>
+    Невелика контактна форма — поля з мітками, кнопка надсилання, справжня поведінка клавіатури та зчитувача екрана — спочатку «гола», потім стилізована, приблизно за 10 хвилин.
+  </p>
+
+  <h2>Перш ніж почати</h2>
+  <p>
+    Вам потрібні браузер і текстовий редактор. Це все. (git допомагає забрати файли компонентів, але ви можете скопіювати їх із GitHub прямо в браузері.)
+  </p>
+
+  <h2>Крок 1 — Отримайте код</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Кожен компонент — окремий самодостатній файл у <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>і так далі — із коментарем-заголовком, що документує його тег HTML, клас-гачок, поведінку клавіатури та контракт доступності. Файли <em>це і є</em> бібліотека — копіюйте потрібне й рушайте.
+  </p>
+
+  <h2>Крок 2 — Ваш перший компонент</h2>
+  <p>Відкрийте <code>components/button.html</code>або просто напишіть розмітку — клас-гачок і є контрактом:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Оскільки це справжній <code>&lt;button&gt;</code>, фокус клавіатури, активація Enter і Space та неявна роль кнопки вже коректні.
+  </p>
+
+  <h2>Крок 3 — Складіть невелику форму</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Зверніть увагу на шаблон: кожен елемент керування пов’язує свій <code>&lt;label for&gt;</code>, використовує найточніший тип поля й має рівно один клас-гачок kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірте свою роботу:</strong> відкрийте сторінку в браузері. Вона виглядає простою, саме як і задумано: стилізація ще попереду. Натисніть
+      <kbd>Tab</kbd>: фокус проходить через кожен елемент керування, мітки озвучуються, а надсилання працює. Поведінка готова; вигляд — ваш, і він наступний.
+    </p>
+  </div>
+
+  <h2>Крок 4 — Стилізуйте</h2>
+  <p>Напишіть CSS для гачків:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Або взагалі не пишіть CSS вручну — підключіть одну з 45 готових тем, і та сама розмітка оживе:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Крок 5 — Досліджуйте далі</h2>
+  <ul>
+    <li>Тести репозиторію запускаються в справжніх браузерах: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook для кожного компонента: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Приклад застосунку HTML+CSS+JS</a> показує всі 571 компонентів стилізованими, з пошуком і демонстраціями.
+    </li>
+  </ul>
+
+  <h2>Наступні кроки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — перемикання теми під час виконання за допомогою theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Допоміжні засоби налаштувань</a> — мова та розмір тексту.</li>
+    <li><a href="/components/">Каталог компонентів</a> — повний довідник.</li>
+  </ul>
+  <p>
+    Питання по дорозі?
+    <a href="/help/#troubleshooting">сторінка допомоги</a> повна відповідей — а якщо якийсь крок може бути зрозумілішим,
+    <a href="https://github.com/LilyDesignSystem">повідомте нам</a> і ми із задоволенням покращимо посібник.
+  </p>
+</section>

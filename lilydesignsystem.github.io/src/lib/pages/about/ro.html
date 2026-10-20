@@ -1,0 +1,94 @@
+<!-- title: Despre — Lily Design System -->
+<!-- description: Ce este Lily, principiile din spatele lui și sistemele de design de la care se inspiră. -->
+<section class="page-intro">
+  <h1>Ce este Lily?</h1>
+  <p class="page-intro-tagline">
+    Un sistem de design gratuit, open source, care pune accesibilitatea pe primul loc: te întâlnește acolo unde scrii cod și se dă la o parte când nu ai nevoie de el.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pe scurt</h2>
+  <p>
+    Lily este un catalog de <strong>componente web</strong>, fiecare implementată în opt variante headless (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks și Web Components), plus un set de aplicații-exemplu complete care arată cum se stilizează.
+  </p>
+  <p>
+    Versiunile headless vin cu <em>zero CSS</em>. Îți oferă HTML semantic, roluri și stări ARIA, suport pentru tastatură și proprietăți prietenoase cu internaționalizarea. Designul vizual îl aduci tu.
+  </p>
+
+  <h2>Principii de design</h2>
+
+  <h3>Accesibil</h3>
+  <p>
+    Fiecare componentă pornește de la HTML semantic. ARIA se adaugă doar acolo unde HTML-ul singur nu poate exprima modelul. Componentele țintesc
+    <strong>WCAG 2.2 AAA</strong> — culorile, spațierea, focalizarea și navigarea cu tastatura sunt toate luate în considerare.
+  </p>
+
+  <h3>Compozabil</h3>
+  <p>
+    Lily preferă componente mici, cu un singur scop, care se potrivesc între ele. Modelele compuse apar iar și iar:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — pentru breadcrumbs, liste de conținut, meniuri acordeon, meniuri arborescente și paginare</li>
+    <li><code>Form → Field → Input</code> — pentru orice aranjament de formular cu etichete, indicii și erori</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — pentru tabele, calendare, diagrame Gantt și panouri kanban</li>
+    <li><code>Bar → BarButton</code> — pentru bare de instrumente, bare de file, bare de sarcini, bare de acțiuni și bare de meniu</li>
+    <li><code>Picker → PickerButton</code> — pentru selectoare de culoare, selectoare de evaluare, selectoare de temă</li>
+  </ul>
+
+  <h3>Internaționalizabil</h3>
+  <p>
+    Niciun șir vizibil utilizatorului nu este scris direct în cod. Etichetele, substituenții, mesajele de eroare, textul butoanelor — toate sunt parametri. Conectează-ți propriul sistem de traducere și Lily vorbește orice limbă vorbești tu.
+  </p>
+
+  <h3>Headless</h3>
+  <p>
+    Componentele headless au <strong>zero CSS</strong>, niciun bloc
+    <code>&lt;style&gt;</code> , niciun token de design pe care să nu-l fi ales tu. Expun un singur nume de clasă în kebab-case pe fiecare element rădăcină, ca să le poți ținti cum dorești — CSS semantic, Tailwind, CSS-in-JS, alegerea ta.
+  </p>
+
+  <h3>Exemple complete</h3>
+  <p>
+    Aplicațiile-exemplu arată cum se stilizează componentele pentru utilizare reală — ce tokenuri de design să setezi, ce variante să adaugi, cum să compui pagini. Sunt aplicații complete SvelteKit, Next.js, Nuxt, Blazor și Eleventy, nu doar medii de testare.
+  </p>
+
+  <h2 id="inspirations">Surse de inspirație</h2>
+  <p>
+    Lily preia modele și limbaj dintr-un set intenționat larg de sisteme de design:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>Licență</h2>
+  <p>
+    Lily are mai multe licențe: <strong>BSD, MIT, Apache-2.0, GPL-2.0 sau GPL-3.0</strong>. Alege-o pe cea care se potrivește proiectului tău. Dacă niciuna nu merge, contactează-ne.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Liderul proiectului: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Ai găsit o eroare, ai o idee, vrei să contribui cu o componentă? Deschide un issue sau un pull request pe
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Stare:</strong> Lily este o lucrare complet nouă și primim cu drag colaborare, îndrumare și feedback. Lucrurile se vor schimba și vor evolua.
+    </p>
+  </div>
+</section>

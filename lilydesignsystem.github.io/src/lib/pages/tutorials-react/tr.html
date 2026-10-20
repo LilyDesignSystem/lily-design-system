@@ -1,0 +1,109 @@
+<!-- title: React eğitimi — Lily Design System -->
+<!-- description: Lily'nin React başsız bileşenleriyle erişilebilir, biçimlendirilmiş bir form oluşturun: value + onChange'li tipli işlev bileşenleri. -->
+<section class="page-intro">
+  <h1>React eğitimi</h1>
+  <p class="page-intro-tagline">
+    Tipli işlev bileşenleri, dosya başına bir tane, standart
+    <code>value</code> + <code>onChange</code> kalıbıyla denetlenir — her şey React'in zaten çalıştığı biçimde çalışır.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ne oluşturacaksınız</h2>
+  <p>
+    Küçük bir iletişim formu — etiketli girdi, gönder düğmesi, denetimli durum, gerçek klavye ve ekran okuyucu davranışı — önce çıplak, sonra biçimlendirilmiş olarak, yaklaşık 10 dakikada.
+  </p>
+
+  <h2>Başlamadan önce</h2>
+  <p>
+    git, Node 22 veya üstü ve pnpm 10 veya üstü gerekir. Herhangi bir React 18+ projesi olur — Next.js, Vite veya düz React.
+  </p>
+
+  <h2>Adım 1 — Kodu edinin</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Bileşenler şurada düz dosyalar olarak durur: <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — her birinin testi, story'si ve belgeleri yanındadır. İhtiyacınız olan dosyaları uygulamanıza kopyalayın ya da depoyu getirip oradan içe aktarın.
+  </p>
+
+  <h2>Adım 2 — İlk bileşeniniz</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Şunu işler: <code>&lt;button class="button" type="button"&gt;</code>. Prop'lar:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (şunu işler:
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> geçersiz kılmak), <code>className</code>ve fazladan her öznitelik kök öğeye yayılır.
+  </p>
+
+  <h2>Adım 3 — Küçük bir form oluşturun</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> görünür <code>label</code> kendi prop'u olarak alır, iç içe bir etiket bileşeni olarak değil — bir kez geçirin,
+    <code>Field</code>ve <code>TextInput</code>ile eşleşen
+    <code>label</code> erişilebilir adı sağlar.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29'da doğrulandı:</strong> önceki bir taslak <code>Label</code> içinde <code>Field</code>bileşeni yerleştirmişti; bu da
+      <em>iki</em> etiket (biri boş) işlenmesine yol açtı, çünkü <code>Field</code> kendi etiketini zaten <code>label</code> prop'u — tam kod parçası derlenerek yakalandı. Şu rota:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Bileşik iletişim formu rotası</a>
+      aynı kalıptır ve gerçek e2e ve axe testleriyle sınanır.
+    </p>
+  </div>
+
+  <h2>Adım 4 — Biçimlendirin</h2>
+  <p>
+    Yukarıdaki her şey saf yapı olarak işlenir, stillerinize hazırdır. Kancaları biçimlendirin — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — stil sayfanızda, Tailwind yardımcılarını şunun üzerinden katmanlayın: <code>className</code>veya hazır bir temayı bağlayın:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Adım 5 — Hepsinin çalıştığını görün</h2>
+  <p>
+     <a href="/examples/">Next.js örnek uygulaması</a> tüm kataloğu biçimli ve demolu olarak, Playwright e2e ve axe-core taban çizgisiyle sunar:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Sonraki adımlar</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temalar</a> — React theme-picker yardımcısıyla çalışma anında geçiş.</li>
+    <li><a href="/tutorials/helpers/">Tercih yardımcıları</a> — dil ve metin boyutu.</li>
+    <li><a href="/components/">Bileşen kataloğu</a> — bileşen başına özellikler, ARIA ve klavye.</li>
+  </ul>
+  <p>
+    Yol boyunca sorunuz mu var?
+    <a href="/help/#troubleshooting">Yardım sayfası</a> yanıtlarla dolu — ve bir adım daha açık olabilirse,
+    <a href="https://github.com/LilyDesignSystem">bize söyleyin</a> ve eğitimi memnuniyetle iyileştirelim.
+  </p>
+</section>

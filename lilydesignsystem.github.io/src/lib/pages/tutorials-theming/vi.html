@@ -1,0 +1,111 @@
+<!-- title: Hướng dẫn chủ đề — Lily Design System -->
+<!-- description: Tạo chủ đề cho Lily theo ba cách: liên kết một trong 45 chủ đề dựng sẵn, ghi đè bằng CSS của bạn và thêm chuyển đổi chủ đề khi chạy bằng trợ giúp theme-picker. -->
+<section class="page-intro">
+  <h1>Chủ đề</h1>
+  <p class="page-intro-tagline">
+    Các thành phần Lily có class hook ổn định và không có CSS — nên một chủ đề chỉ là một bảng kiểu. Hướng dẫn này đi từ "liên kết một tệp" đến "để người dùng đổi chủ đề khi chạy và được lưu lại".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một ứng dụng mà toàn bộ diện mạo người dùng có thể thay đổi — bắt đầu bằng một bảng kiểu được liên kết, kết thúc bằng bộ chuyển chủ đề khi chạy được lưu lại — trong khoảng 15 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Hãy hoàn thành <a href="/tutorials/">hướng dẫn framework</a> cho bộ công nghệ của bạn trước, để có một biểu mẫu Lily nhỏ làm chủ đề. Mọi thứ ở đây hoạt động trong cả bảy framework; các mẫu mã dùng Svelte và HTML thuần.
+  </p>
+
+  <h2>Bước 1 — Liên kết một chủ đề dựng sẵn</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    thư mục chứa 45 bảng kiểu độc lập. Sao chép chúng vào tài nguyên tĩnh của ứng dụng và liên kết một cái:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Điểm nổi bật của bộ chủ đề:</p>
+  <ul>
+    <li>
+      <strong>Khu vực công</strong> — NHS England / Scotland / Wales, mỗi nơi có bản dành cho bệnh nhân và bản dành cho người hành nghề; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Lấy cảm hứng từ nhà cung cấp</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Mục đích chung</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, và nhiều nữa.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> tải lại trang. Cùng phần đánh dấu bạn đã dựng trong hướng dẫn framework giờ đã có kiểu dáng đầy đủ — nút, ô nhập, nhãn, vòng tiêu điểm. Một dòng HTML đã làm được điều đó — mọi thành phần vẫn y nguyên như trước.
+    </p>
+  </div>
+
+  <h2>Bước 2 — Ghi đè bất cứ thứ gì</h2>
+  <p>
+    Các bộ chọn của chủ đề được bọc trong <code>:where(...)</code>vốn có độ đặc hiệu bằng không — nên bất kỳ quy tắc nào bạn viết đều thắng, đơn giản vậy thôi:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Bước 3 — Chuyển đổi khi chạy bằng theme-picker</h2>
+  <p>
+     <code>theme-picker</code> trợ giúp là một nút biểu tượng + listbox headless sở hữu toàn bộ vòng đời của chủ đề: nó tải bảng kiểu đã chọn bằng cách đổi một <code>&lt;link&gt;</code>
+    được quản lý (chỉ chủ đề đang dùng mới được tải), đặt
+    <code>data-theme="&#123;slug&#125;"</code> trên tài liệu, và tùy chọn lưu vào <code>localStorage</code>. Ở đây dùng Svelte; các bản chuyển sang React, Vue, Angular, HTML, Nunjucks và Blazor khớp từng hợp đồng một:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Vậy là toàn bộ phần tích hợp. Hành vi bàn phím theo mẫu listbox của WAI-ARIA APG; bản thân điều khiển là headless (class hook
+    <code>.theme-picker</code>), nên nó nhận bất cứ chủ đề nào đang dùng.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Đã xác minh 2026-08-29:</strong> đoạn mã chính xác này đã được biên dịch với <code>0.1.1</code> gói đã xuất bản thông qua
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Phản ứng với chủ đề trong CSS của bạn</h2>
+  <p>
+    Vì trợ giúp đặt <code>data-theme</code> trên gốc tài liệu, kiểu dáng của chính bạn có thể rẽ nhánh theo đó:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Lưu ý cho hiển thị phía máy chủ</h2>
+  <p>
+    Trợ giúp thực hiện mọi thao tác ghi DOM trong vòng đời mount/effect của framework, nên an toàn với SSR về mặt cấu trúc. Để tránh nhấp nháy ở lần vẽ đầu, hãy hiển thị <code>&lt;link&gt;</code> và
+    <code>data-theme</code> của chủ đề ban đầu trên máy chủ (ví dụ từ cookie) — kho mã trợ giúp Svelte kèm một ví dụ cookie SvelteKit chạy được, và các danh mục khác ghi lại cùng mẫu cho bộ công nghệ của chúng.
+  </p>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — cùng mẫu cho ngôn ngữ, cỡ chữ, chia sẻ và nhập ngày/giờ.</li>
+    <li>
+      Đóng góp một chủ đề — mỗi chủ đề là một bảng kiểu độc lập nhắm vào các class hook; xem <a href="/help/#contributing">hướng dẫn đóng góp</a>.
+    </li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

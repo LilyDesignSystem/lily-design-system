@@ -1,0 +1,109 @@
+<!-- title: Koyarwar React — Lily Design System -->
+<!-- description: Gina fom mai sauƙin isa kuma mai tsari da abubuwan Lily marasa kai na React: abubuwan aiki masu rubutu da value + onChange. -->
+<section class="page-intro">
+  <h1>Koyarwar React</h1>
+  <p class="page-intro-tagline">
+    Abubuwan aiki masu rubutu, fayil ɗaya kowanne, da ake sarrafawa da tsarin al'ada
+    <code>value</code> + <code>onChange</code> — komai yana aiki kamar yadda React ke aiki tuni.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Abin da za ka gina</h2>
+  <p>
+    Ƙaramin fom na tuntuɓa — fili mai lakabi, maɓallin aikawa, yanayin da ake sarrafawa, ainihin halayyar maɓallan rubutu da na'urar karanta allo — da farko ba tare da tsari ba, sannan da tsari, cikin kusan mintuna 10.
+  </p>
+
+  <h2>Kafin ka fara</h2>
+  <p>
+    Kana buƙatar git, Node 22 ko sabo, da pnpm 10 ko sabo. Kowane aikin React 18+ yana aiki — Next.js, Vite ko React mai sauƙi.
+  </p>
+
+  <h2>Mataki na 1 — Ɗauki lambar</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Abubuwan fayiloli ne masu shimfiɗe a cikin <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — kowanne da gwajinsa, story da takardunsa a gefensa. Kwafi fayilolin da kake buƙata zuwa app ɗinka, ko ɗauko ma'ajiyar ka shigo daga gare ta.
+  </p>
+
+  <h2>Mataki na 2 — Abu na farko naka</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Yana nuna <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (yana nuna
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> don gyara), <code>className</code>, kuma kowace ƙarin sifa tana yaɗuwa a kan sinadarin tushe.
+  </p>
+
+  <h2>Mataki na 3 — Haɗa ƙaramin fom</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> yana ɗaukar <code>label</code> a matsayin prop nasa maimakon abin lakabi da aka saka a ciki — ka ba shi sau ɗaya, a kan
+    <code>Field</code>da <code>TextInput</code>mai dacewa na
+    <code>label</code> yana ba da suna mai sauƙin isa.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>An tabbatar a 2026-08-29:</strong> wani daftarin da ya gabata ya saka wani abu <code>Label</code> a cikin <code>Field</code>, wanda ya nuna
+      <em>lakabi</em> biyu (ɗaya fanko) saboda <code>Field</code> tuni yana nuna nasa daga shigarwar <code>label</code> prop — an gano ta hanyar haɗa ainihin gutsuren. Hanyar
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Hanyar fom ɗin tuntuɓa da aka haɗa</a>
+      tsari ɗaya ne, wanda aka gwada da ainihin gwaje-gwajen e2e da axe.
+    </p>
+  </div>
+
+  <h2>Mataki na 4 — Ba shi tsari</h2>
+  <p>
+    Komai da ke sama ana zana shi a matsayin tsari tsantsa, a shirye don salonka. Ba ƙugiyoyin tsari — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — a takardar salonka, shimfiɗa kayan aikin Tailwind ta <code>className</code>, ko haɗa jigon da aka shirya:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Mataki na 5 — Kalli komai yana aiki</h2>
+  <p>
+     <a href="/examples/">App ɗin misali na Next.js</a> shi ne cikakken kundin da tsari da nunawa, tare da Playwright e2e da tushen axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Matakai na gaba</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Jigogi</a> — sauyawa lokacin aiki da mai taimakon theme-picker na React.</li>
+    <li><a href="/tutorials/helpers/">Masu taimakon abubuwan so</a> — harshe da girman rubutu.</li>
+    <li><a href="/components/">Kundin abubuwa</a> — siffofi, ARIA da maɓallan rubutu ga kowane abu.</li>
+  </ul>
+  <p>
+    Tambayoyi a hanya?
+    <a href="/help/#troubleshooting">Shafin taimako</a> cike yake da amsoshi — kuma idan wani mataki zai iya zama mafi bayyana,
+    <a href="https://github.com/LilyDesignSystem">gaya mana</a> kuma za mu gyara koyarwar da farin ciki.
+  </p>
+</section>

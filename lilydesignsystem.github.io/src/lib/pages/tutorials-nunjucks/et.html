@@ -1,0 +1,97 @@
+<!-- title: Nunjucksi õpetus — Lily Design System -->
+<!-- description: Ehita ligipääsetavaid, kujundatud, serveris renderdatud lehti Lily Nunjucksi makrodega — ideaalne Eleventy jaoks. -->
+<section class="page-intro">
+  <h1>Nunjucksi õpetus</h1>
+  <p class="page-intro-tagline">
+    Serveris renderdatud makrod Eleventy, Expressi või mis tahes Node'i malli-torustiku jaoks — GOV.UK stiilis lähenemine Lily kataloogi ja klassikonksudega.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mida sa ehitad</h2>
+  <p>
+    Väike serveris renderdatud kontaktivorm — sildiga väli, saatmisnupp, null JavaScripti koormust — esmalt paljas, seejärel kujundatud, umbes 10 minutiga.
+  </p>
+
+  <h2>Enne alustamist</h2>
+  <p>
+    Vaja on gitti, Node 22 või uuemat ja pnpm 10 või uuemat. Sobib iga Nunjucksi torustik — Eleventy, Express või lihtne Nunjucks.
+  </p>
+
+  <h2>Samm 1 — Hangi kood</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Iga komponent on kaust asukohas <code>components/</code> koos
+    <code>macro.njk</code>, selle testi ja dokumentatsiooniga — näiteks
+    <code>components/button/macro.njk</code>. Suuna oma Nunjucksi laadija asukohta
+    <code>components/</code> (Eleventys lisa see includes-teele) ja impordi, mida vajad.
+  </p>
+
+  <h2>Samm 2 — Sinu esimene komponent</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Renderdab <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makrod võtavad ühe params-objekti: <code>text</code> (paojadega) või
+    <code>html</code> (toores), <code>type</code>, <code>label</code> elemendile
+    <code>aria-label</code>ja klassikonksu lisaja.
+  </p>
+
+  <h2>Samm 3 — Kombineeri väike vorm</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Kuna kõik renderdatakse serveris, saab brauser puhast semantilist HTML-i koos klassikonksudega — null baiti JavaScripti koormust.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolli oma tööd:</strong> laadi leht ja vorm paistab paljas — täpselt nagu ette nähtud: kujundamine on alles ees. Vajuta
+      <kbd>Tab</kbd>: fookus liigub läbi iga juhtelemendi, silt kuulutatakse ette ja saatmine töötab. Käitumine on valmis; välimus on sinu ja järgmine samm.
+    </p>
+  </div>
+
+  <h2>Samm 4 — Kujunda see</h2>
+  <p>
+    Kujunda konksud — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — oma laadilehes või lingi valmis teema oma baaspaigutuses:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Samm 5 — Vaata kõike töötamas</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy näiterakendus</a> ehitab kogu kataloogi staatilise saidina komponendi kohta demolehtedega:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Järgmised sammud</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemad</a> — sealhulgas Eleventy küpsisemuster vilkumisvaba SSR-teema vahetamiseks.</li>
+    <li><a href="/tutorials/helpers/">Eelistuste abilised</a> — keel ja teksti suurus.</li>
+    <li><a href="/components/">Komponentide kataloog</a> — omadused, ARIA ja klaviatuur komponendi kohta.</li>
+  </ul>
+  <p>
+    Küsimusi teel?
+    <a href="/help/#troubleshooting">Abileht</a> on täis vastuseid — ja kui mõni samm saaks olla selgem,
+    <a href="https://github.com/LilyDesignSystem">anna meile teada</a> ja me parandame õpetust hea meelega.
+  </p>
+</section>

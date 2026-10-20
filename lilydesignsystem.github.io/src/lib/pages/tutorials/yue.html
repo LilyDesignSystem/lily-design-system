@@ -1,0 +1,136 @@
+<!-- title: 教學 — Lily Design System -->
+<!-- description: 一步一步嘅 Lily 教學:你第一個元件、樣式、現成主題同偏好輔助工具 — 適用於 HTML、Svelte、React、Vue、Angular、Blazor 同 Nunjucks。 -->
+<section class="page-intro">
+  <h1>一步一步學 Lily</h1>
+  <p class="page-intro-tagline">
+    歡迎!每個教學都由零開始,搭建同一樣細嘢 — 一個無障礙而有樣式嘅表單 — 大約 10 分鐘,等你可以公平咁比較各個框架。之後再深入主題同使用者偏好。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>開始之前</h2>
+  <p>你需要嘅嘢少得令人驚訝:</p>
+  <ul>
+    <li>
+      <strong>HTML 教學</strong> — 淨係一個瀏覽器同一個文字編輯器。呢個就係成套工具。
+    </li>
+    <li>
+      <strong>Svelte、React、Vue、Angular 或 Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>、Node 26 同 pnpm 10 或以上。
+    </li>
+    <li>
+      <strong>Blazor</strong> — git 同
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 或以上。
+    </li>
+  </ul>
+  <p>
+    第一次接觸無頭元件?你嚟啱地方 — 每個教學都會一邊行一邊解釋發生緊乜事,每一步都會顯示要複製嘅準確程式碼。
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>四步由零到發佈</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>你第一個元件</strong> (約 5 分鐘)— 喺下面揀你嘅框架,攞到程式碼,然後渲染一個 Button。
+      </li>
+      <li>
+        <strong>組合同加樣式</strong> (約 5 分鐘)— 搭建一個有標籤嘅表單,並針對 kebab-case 類別掛鉤加樣式(每個框架教學嘅一部分)。
+      </li>
+      <li>
+        <strong>加主題</strong> (約 15 分鐘)— 用 57 個現成主題之一取代你手寫嘅 CSS,然後讓使用者喺執行時切換: <a href="/tutorials/theming/">主題教學</a>.
+      </li>
+      <li>
+        <strong>尊重偏好</strong> (約 15 分鐘)— 用偏好輔助工具加入語言同文字大細選擇:
+        <a href="/tutorials/helpers/">輔助工具教學</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>揀你嘅框架</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">複製帶有類別掛鉤嘅語義化 HTML 即可上路 — 一個瀏覽器同一個編輯器就夠。</p>
+      <p class="card-meta">約 10 分鐘 · 最簡單嘅起步</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 runes、snippets,同 <code>bind:value</code> 雙向綁定。</p>
+      <p class="card-meta">約 10 分鐘</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">函式元件加 <code>value</code> + <code>onChange</code> 同 rest-prop 展開。</p>
+      <p class="card-meta">約 10 分鐘</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Vue 3 單檔案元件,支援 <code>v-model</code> 。</p>
+      <p class="card-meta">約 10 分鐘</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Angular 獨立元件,配合 signal 輸入同 <code>[(value)]</code>.</p>
+      <p class="card-meta">約 10 分鐘</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Razor 元件,附帶參數、 <code>ChildContent</code>,同 bUnit 測試。</p>
+      <p class="card-meta">約 10 分鐘</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">為 Eleventy 同任何 Node 範本流程而設嘅伺服器端渲染巨集。</p>
+      <p class="card-meta">約 10 分鐘</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    唔知點揀?由 <a href="/tutorials/html/">HTML</a> 開始 — 佢教你所有其他框架共用嘅類別掛鉤合約,而且直接由檔案運行。
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>深入啲</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">主題</h3>
+      <p class="card-description">
+        連結 57 個現成主題之一 — NHS、GOV.UK、USWDS、淺色、深色等等 — 用你自己嘅 CSS 覆蓋佢,並用 theme-picker 輔助工具加入執行時主題切換。
+      </p>
+      <p class="card-meta">約 15 分鐘</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">偏好輔助工具</h3>
+      <p class="card-description">
+        用 theme-picker、locale-picker、text-size-picker、motion-picker、search-picker、link-picker、share-picker 同 date-time-picker 畀使用者控制主題、語言、文字大細、動態、搜尋、頁面連結、分享同日期/時間輸入:附帶持久性、SSR 安全同自動 RTL 偵測嘅無頭控制項。
+      </p>
+      <p class="card-meta">約 15 分鐘</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>教學之後</h2>
+  <ul>
+    <li>
+      瀏覽 <a href="/components/">元件目錄</a> — 每個元件都記錄咗佢嘅屬性、ARIA 合約同鍵盤行為。
+    </li>
+    <li>
+      複製一個 <a href="/examples/">範例應用程式</a> 睇吓全部 571 個元件加咗樣式並一齊運作 — CSS 針對你啱啱用過嘅同一批類別掛鉤,所以可以將任何部分複製入你嘅項目,隨意調整。
+    </li>
+    <li>
+      有問題? <a href="/help/">幫助頁面</a> 有答案、常見問題,同聯絡一個友善嘅真人嘅方法。如果教學可以更清晰,
+      <a href="https://github.com/LilyDesignSystem">話畀我哋知</a> — 我哋好樂意改進。
+    </li>
+  </ul>
+</section>

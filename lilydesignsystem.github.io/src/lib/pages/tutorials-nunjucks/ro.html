@@ -1,0 +1,97 @@
+<!-- title: Tutorial Nunjucks — Lily Design System -->
+<!-- description: Construiește pagini accesibile, stilizate, randate pe server cu macrocomenzile Nunjucks Lily — ideale pentru Eleventy. -->
+<section class="page-intro">
+  <h1>Tutorial Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Macrocomenzi randate pe server pentru Eleventy, Express sau orice conductă de șabloane Node — abordarea în stil GOV.UK, cu catalogul și cârligele de clasă Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce vei construi</h2>
+  <p>
+    Un mic formular de contact randat pe server — câmp cu etichetă, buton de trimitere, zero sarcină JavaScript — mai întâi simplu, apoi stilizat, în aproximativ 10 minute.
+  </p>
+
+  <h2>Înainte să începi</h2>
+  <p>
+    Ai nevoie de git, Node 22 sau mai nou și pnpm 10 sau mai nou. Orice conductă Nunjucks merge — Eleventy, Express sau Nunjucks simplu.
+  </p>
+
+  <h2>Pasul 1 — Obține codul</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Fiecare componentă este un director în <code>components/</code> cu un
+    <code>macro.njk</code>, testul și documentația sa — de exemplu
+    <code>components/button/macro.njk</code>. Îndreaptă încărcătorul tău Nunjucks către
+    <code>components/</code> (în Eleventy, adaugă-l la calea de includere) și importă ce ai nevoie.
+  </p>
+
+  <h2>Pasul 2 — Prima ta componentă</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Randează <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Macrocomenzile primesc un singur obiect params: <code>text</code> (cu escape) sau
+    <code>html</code> (brut), <code>type</code>, <code>label</code> pentru un
+    <code>aria-label</code>și un adăugător de cârlig de clasă.
+  </p>
+
+  <h2>Pasul 3 — Compune un formular mic</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Deoarece totul este randat pe server, browserul primește HTML semantic pur cu cârligele de clasă — o sarcină JavaScript de zero octeți.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifică-ți munca:</strong> încarcă pagina și formularul arată simplu — exact cum era intenționat: stilizarea urmează. Apasă
+      <kbd>Tab</kbd>: focalizarea trece prin fiecare control, eticheta este anunțată, iar trimiterea funcționează. Comportamentul este gata; aspectul este al tău și urmează.
+    </p>
+  </div>
+
+  <h2>Pasul 4 — Stilizează-l</h2>
+  <p>
+    Stilizează cârligele — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — în foaia ta de stil sau leagă o temă gata făcută în aspectul tău de bază:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Pasul 5 — Vezi totul funcționând</h2>
+  <p>
+     <a href="/examples/">Aplicația-exemplu Nunjucks + Eleventy</a> construiește catalogul complet ca site static cu pagini demonstrative pentru fiecare componentă:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Pașii următori</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — inclusiv tiparul cookie-urilor Eleventy pentru comutarea temei SSR fără clipire.</li>
+    <li><a href="/tutorials/helpers/">Ajutoare pentru preferințe</a> — limbă și dimensiunea textului.</li>
+    <li><a href="/components/">Catalogul de componente</a> — proprietăți, ARIA și tastatură pentru fiecare componentă.</li>
+  </ul>
+  <p>
+    Întrebări pe parcurs?
+    <a href="/help/#troubleshooting">Pagina de ajutor</a> este plină de răspunsuri — iar dacă un pas poate fi mai clar,
+    <a href="https://github.com/LilyDesignSystem">spune-ne</a> și vom îmbunătăți cu plăcere tutorialul.
+  </p>
+</section>

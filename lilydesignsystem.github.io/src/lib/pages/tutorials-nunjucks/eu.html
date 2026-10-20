@@ -1,0 +1,97 @@
+<!-- title: Nunjucks tutoriala — Lily Design System -->
+<!-- description: Eraiki orri irisgarri, estilatu eta zerbitzarian errendatuak Lilyren Nunjucks makroekin — Eleventy-rako ezin hobea. -->
+<section class="page-intro">
+  <h1>Nunjucks tutoriala</h1>
+  <p class="page-intro-tagline">
+    Zerbitzarian errendatutako makroak Eleventy, Express edo edozein Node txantiloi-kanalizaziorako — GOV.UK estiloko ikuspegia, Lilyren katalogo eta klase-gakoekin.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Zerbitzarian errendatutako harremanetarako formulario txiki bat — etiketadun sarrera, bidaltze-botoia, zero JavaScript karga — lehenik biluzik, gero estilatuta, 10 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    git, Node 22 edo berriagoa eta pnpm 10 edo berriagoa behar dituzu. Edozein Nunjucks kanalizaziok balio du — Eleventy, Express edo Nunjucks soila.
+  </p>
+
+  <h2>1. pausoa — Lortu kodea</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Osagai bakoitza direktorio bat da hemen: <code>components/</code> honekin:
+    <code>macro.njk</code>, bere proba eta bere dokumentazioa — adibidez
+    <code>components/button/macro.njk</code>. Seinalatu zure Nunjucks kargatzailea hona:
+    <code>components/</code> (Eleventy-n, gehitu includes bidera) eta inportatu behar duzuna.
+  </p>
+
+  <h2>2. pausoa — Zure lehen osagaia</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Errendatzen du <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makroek params objektu bakarra hartzen dute: <code>text</code> (ihes eginda) edo
+    <code>html</code> (gordina), <code>type</code>, <code>label</code> honetarako:
+    <code>aria-label</code>, eta klase-gako erantsle bat.
+  </p>
+
+  <h2>3. pausoa — Osatu formulario txiki bat</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Dena zerbitzarian errendatzen denez, nabigatzaileak HTML semantiko hutsa jasotzen du klase-gakoekin — zero byteko JavaScript karga.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> kargatu orria eta formularioa soila ageri da — hain zuzen nahi bezala: estiloa oraindik aurrean dago. Sakatu
+      <kbd>Tab</kbd>: fokua kontrol guztietatik pasatzen da, etiketa iragartzen da eta bidalketak funtzionatzen du. Portaera prest dago; itxura zurea da eta hurrengoa da.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Estilatu</h2>
+  <p>
+    Estilatu gakoak — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — zure estilo-orrian, edo lotu prest dagoen gai bat zure oinarrizko diseinuan:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>5. pausoa — Ikusi dena funtzionatzen</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy adibide-aplikazioak</a> katalogo osoa gune estatiko gisa eraikitzen du osagai bakoitzaren demo-orriekin:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Gaiak</a> — SSR gai-aldaketa keinurik gabe lortzeko Eleventy cookie-patroia barne.</li>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — hizkuntza eta testu-tamaina.</li>
+    <li><a href="/components/">Osagai-katalogoa</a> — osagai bakoitzaren propak, ARIA eta teklatua.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

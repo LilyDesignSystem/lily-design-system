@@ -1,0 +1,97 @@
+<!-- title: ບົດສອນ Nunjucks — Lily Design System -->
+<!-- description: ສ້າງໜ້າທີ່ເຂົ້າເຖິງໄດ້ງ່າຍ, ມີຮູບແບບ, ແລະສະແດງຜົນຢູ່ເຊີບເວີດ້ວຍມາກຣໂຄ Nunjucks ຂອງ Lily — ເໝາະສຳລັບ Eleventy. -->
+<section class="page-intro">
+  <h1>ບົດສອນ Nunjucks</h1>
+  <p class="page-intro-tagline">
+    ມາກຣໂຄທີ່ສະແດງຜົນຢູ່ເຊີບເວີສຳລັບ Eleventy, Express ຫຼືທໍ່ແມ່ແບບ Node ໃດໆ — ວິທີແບບ GOV.UK, ພ້ອມແຄັດຕາລັອກ ແລະ class hook ຂອງ Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ສິ່ງທີ່ທ່ານຈະສ້າງ</h2>
+  <p>
+    ແບບຟອມຕິດຕໍ່ນ້ອຍໆທີ່ສະແດງຜົນຢູ່ເຊີບເວີ — ຊ່ອງປ້ອນທີ່ມີປ້າຍ, ປຸ່ມສົ່ງ, ບໍ່ມີ JavaScript payload — ທຳອິດເປົ່າ, ຈາກນັ້ນມີຮູບແບບ, ໃນປະມານ 10 ນາທີ.
+  </p>
+
+  <h2>ກ່ອນທ່ານເລີ່ມ</h2>
+  <p>
+    ທ່ານຕ້ອງການ git, Node 22 ຫຼືໃໝ່ກວ່າ, ແລະ pnpm 10 ຫຼືໃໝ່ກວ່າ. ທໍ່ Nunjucks ໃດກໍໃຊ້ໄດ້ — Eleventy, Express ຫຼື Nunjucks ທຳມະດາ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 1 — ເອົາໂຄດ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    ທຸກອົງປະກອບເປັນໄດເຣັກທໍຣີໃນ <code>components/</code> ພ້ອມ
+    <code>macro.njk</code>, ການທົດສອບຂອງມັນ ແລະເອກະສານຂອງມັນ — ຕົວຢ່າງ
+    <code>components/button/macro.njk</code>. ຊີ້ຕົວໂຫຼດ Nunjucks ຂອງທ່ານໄປທີ່
+    <code>components/</code> (ໃນ Eleventy, ເພີ່ມມັນໃສ່ເສັ້ນທາງ includes) ແລະນຳເຂົ້າສິ່ງທີ່ທ່ານຕ້ອງການ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 2 — ອົງປະກອບທຳອິດຂອງທ່ານ</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    ສະແດງ <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. ມາກຣໂຄຮັບອອບເຈັກ params ດຽວ: <code>text</code> (ຖືກ escape) ຫຼື
+    <code>html</code> (ດິບ), <code>type</code>, <code>label</code> ສຳລັບ
+    <code>aria-label</code>, ແລະຕົວຕໍ່ class hook.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 3 — ປະກອບແບບຟອມນ້ອຍໆ</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    ເນື່ອງຈາກທຸກຢ່າງສະແດງຜົນຢູ່ເຊີບເວີ, ບຣາວເຊີໄດ້ຮັບ HTML ທີ່ມີຄວາມໝາຍລ້ວນພ້ອມ class hook — JavaScript payload ສູນໄບຕ໌.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດງານຂອງທ່ານ:</strong> ໂຫຼດໜ້າ ແລະແບບຟອມເບິ່ງທຳມະດາ — ຕາມທີ່ຕັ້ງໃຈ: ການໃສ່ຮູບແບບຍັງຢູ່ຂ້າງໜ້າ. ກົດ
+      <kbd>Tab</kbd>: ຈຸດສຸມເຄື່ອນຜ່ານທຸກການຄວບຄຸມ, ປ້າຍຖືກປະກາດ ແລະການສົ່ງເຮັດວຽກ. ພຶດຕິກຳສຳເລັດແລ້ວ; ລັກສະນະເປັນຂອງທ່ານ ແລະເປັນຂັ້ນຕໍ່ໄປ.
+    </p>
+  </div>
+
+  <h2>ຂັ້ນຕອນ 4 — ໃສ່ຮູບແບບ</h2>
+  <p>
+    ໃສ່ຮູບແບບ hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ໃນ stylesheet ຂອງທ່ານ, ຫຼືເຊື່ອມຕໍ່ຮູບແບບສີສັນສຳເລັດຮູບໃນໂຄງຮ່າງພື້ນຖານຂອງທ່ານ:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>ຂັ້ນຕອນ 5 — ເບິ່ງທຸກຢ່າງເຮັດວຽກ</h2>
+  <p>
+     <a href="/examples/">ແອັບຕົວຢ່າງ Nunjucks + Eleventy</a> ສ້າງແຄັດຕາລັອກເຕັມເປັນເວັບໄຊຄົງທີ່ພ້ອມໜ້າສາທິດຕໍ່ອົງປະກອບ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ຂັ້ນຕອນຕໍ່ໄປ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ຮູບແບບສີສັນ</a> — ລວມທັງຮູບແບບ cookie ຂອງ Eleventy ສຳລັບການສະຫຼັບຮູບແບບສີສັນ SSR ແບບບໍ່ກະພິບ.</li>
+    <li><a href="/tutorials/helpers/">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a> — ພາສາ ແລະຂະໜາດຕົວອັກສອນ.</li>
+    <li><a href="/components/">ແຄັດຕາລັອກອົງປະກອບ</a> — ຄຸນສົມບັດ, ARIA ແລະແປ້ນພິມຕໍ່ອົງປະກອບ.</li>
+  </ul>
+  <p>
+    ມີຄຳຖາມລະຫວ່າງທາງບໍ?
+    <a href="/help/#troubleshooting">ໜ້າຊ່ວຍເຫຼືອ</a> ເຕັມໄປດ້ວຍຄຳຕອບ — ແລະຖ້າຂັ້ນຕອນໃດຊັດເຈນຂຶ້ນໄດ້,
+    <a href="https://github.com/LilyDesignSystem">ບອກພວກເຮົາ</a> ແລະພວກເຮົາຍິນດີປັບປຸງບົດສອນ.
+  </p>
+</section>

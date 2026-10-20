@@ -1,0 +1,111 @@
+<!-- title: Gaien tutoriala — Lily Design System -->
+<!-- description: Eman gaia Lilyri hiru modutan: lotu prest dauden 45 gaietako bat, gainidatzi zure CSSarekin, eta gehitu exekuzio-garaiko gai-aldaketa theme-picker laguntzailearekin. -->
+<section class="page-intro">
+  <h1>Gaiak</h1>
+  <p class="page-intro-tagline">
+    Lily osagaiek klase-gako egonkorrak dituzte eta CSSrik ez — beraz gai bat estilo-orri bat besterik ez da. Tutorial honek “lotu fitxategi bat”-etik “utzi erabiltzaileari gaiak exekuzio-garaian aldatzen, gordeta”-ra doa.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Erabiltzaileak itxura osoa alda dezakeen aplikazio bat — estilo-orri lotu batekin hasi eta gai-aldatzaile iraunkor batekin amaituz — 15 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    Osatu <a href="/tutorials/">framework tutoriala</a> lehenik zure stack-erako, Lily formulario txiki bat izan dezazun gaia emateko. Hemengo guztia zazpi framework-etan funtzionatzen du; kode-laginek Svelte eta HTML soila erakusten dituzte.
+  </p>
+
+  <h2>1. pausoa — Lotu prest dagoen gai bat</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    direktorioak 45 estilo-orri independente ditu. Kopiatu zure aplikazioaren baliabide estatikoetara eta lotu bat:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Multzoaren nabarmenak:</p>
+  <ul>
+    <li>
+      <strong>Sektore publikoa</strong> — NHS England / Scotland / Wales, bakoitza pazienteentzako eta profesionalentzako aldaeretan; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Saltzaileek inspiratua</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Xede orokorra</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, eta beste asko.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> birkargatu orria. Framework tutorialean eraiki zenuen markaketa bera guztiz estilatuta dago orain — botoiak, sarrerak, etiketak, foku-eraztunak. HTML lerro batek egin zuen hori — osagai bakoitzak zegoen bezala jarraitu zuen.
+    </p>
+  </div>
+
+  <h2>2. pausoa — Gainidatzi edozer</h2>
+  <p>
+    Gai-hautatzaileak hemen biltzen dira <code>:where(...)</code>honek espezifikotasun nulua du — beraz idazten duzun edozein arau irabazten du, sinpleki:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>3. pausoa — Exekuzio-garaiko aldaketa theme-picker-ekin</h2>
+  <p>
+     <code>theme-picker</code> laguntzailea ikono-botoi + zerrenda-koadro buru gabea da, gaiaren bizi-ziklo osoa bere gain hartzen duena: aukeratutako estilo-orria kudeatutako bat aldatuz kargatzen du <code>&lt;link&gt;</code>
+    (gai aktiboa bakarrik eskuratzen da), ezartzen du
+    <code>data-theme="&#123;slug&#125;"</code> dokumentuan, eta aukeran hemen gordetzen du: <code>localStorage</code>. Hemen Svelte erakusten da; React, Vue, Angular, HTML, Nunjucks eta Blazor portuak kontratuz kontratu datoz bat:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Hori da integrazio osoa. Teklatu-portaerak WAI-ARIA APG zerrenda-koadro patroia jarraitzen du; kontrola bera buru gabea da (klase-gakoa
+    <code>.theme-picker</code>), beraz gai aktiboa dena hartzen du.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29an egiaztatua:</strong> snippet zehatz hau argitaratutako pakete honen aurka konpilatu zen <code>0.1.1</code> honen bidez:
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Erantzun gaiari zure CSS propioan</h2>
+  <p>
+    Laguntzaileak ezartzen duenez <code>data-theme</code> dokumentuaren erroan, zure estilo propioak horren arabera adar daitezke:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Zerbitzari bidezko errendatzeari buruzko oharrak</h2>
+  <p>
+    Laguntzaileak DOM idazketa guztiak framework-aren mount/effect bizi-zikloaren barruan egiten ditu, beraz SSR-rako segurua da eraikuntzaz. Lehen pintaketan keinua saihesteko, errendatu hasierako gaiaren <code>&lt;link&gt;</code> eta
+    <code>data-theme</code> zerbitzarian (adibidez cookie batetik) — Svelte laguntzaile-biltegiak SvelteKit cookie adibide exekutagarri bat dakar, eta beste katalogoek patroi bera dokumentatzen dute beren stack-etarako.
+  </p>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — patroi bera hizkuntza, testu-tamaina, partekatzea eta data/ordu sarrerarako.</li>
+    <li>
+      Eman gai bat — bakoitza klase-gakoak helburu dituen estilo-orri independente bat da; ikusi <a href="/help/#contributing">ekarpenak</a>.
+    </li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

@@ -1,0 +1,97 @@
+<!-- title: Tiwtorial Nunjucks — Lily Design System -->
+<!-- description: Adeiladwch dudalennau hygyrch, wedi'u steilio, wedi'u rendro ar y gweinydd gyda macros Nunjucks Lily — delfrydol ar gyfer Eleventy. -->
+<section class="page-intro">
+  <h1>Tiwtorial Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Macros wedi'u rendro ar y gweinydd ar gyfer Eleventy, Express neu unrhyw bibell templedi Node — y dull arddull GOV.UK, gyda chatalog a bachau dosbarth Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gyswllt fach wedi'i rendro ar y gweinydd — maes â label, botwm cyflwyno, sero llwyth JavaScript — yn noeth yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae arnoch angen git, Node 22 neu'n hwyrach, a pnpm 10 neu'n hwyrach. Mae unrhyw bibell Nunjucks yn gweithio — Eleventy, Express neu Nunjucks syml.
+  </p>
+
+  <h2>Cam 1 — Cael y cod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Mae pob cydran yn gyfeiriadur yn <code>components/</code> gyda
+    <code>macro.njk</code>, ei phrawf a'i dogfennaeth — er enghraifft
+    <code>components/button/macro.njk</code>. Pwyntiwch eich llwythwr Nunjucks at
+    <code>components/</code> (yn Eleventy, ychwanegwch ef at lwybr includes) a mewnforiwch yr hyn sydd ei angen arnoch.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Yn dangos <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Mae macros yn cymryd un gwrthrych params: <code>text</code> (wedi'i ddianc) neu
+    <code>html</code> (crai), <code>type</code>, <code>label</code> ar gyfer
+    <code>aria-label</code>ac atodydd bachyn dosbarth.
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Gan fod popeth yn cael ei rendro ar y gweinydd, mae'r porwr yn cael HTML semantig pur gyda'r bachau dosbarth — llwyth JavaScript o sero beit.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> llwythwch y dudalen ac mae'r ffurflen yn edrych yn noeth — yn union fel y bwriadwyd: mae'r steilio eto i ddod. Pwyswch
+      <kbd>Tab</kbd>: mae ffocws yn symud trwy bob rheolydd, caiff y label ei gyhoeddi ac mae cyflwyno'n gweithio. Mae'r ymddygiad wedi'i orffen; eich un chi yw'r olwg a dyma'r cam nesaf.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>
+    Steiliwch y bachau — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — yn eich taflen arddull, neu cysylltwch thema barod yn eich cynllun sylfaenol:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Cam 5 — Ei weld yn gweithio i gyd</h2>
+  <p>
+     <a href="/examples/">Ap enghreifftiol Nunjucks + Eleventy</a> yn adeiladu'r catalog llawn fel gwefan statig gyda thudalennau arddangos ar gyfer pob cydran:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themâu</a> — gan gynnwys patrwm cwcis Eleventy ar gyfer newid thema SSR heb fflachio.</li>
+    <li><a href="/tutorials/helpers/">Cynorthwywyr dewisiadau</a> — iaith a maint testun.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — priodweddau, ARIA a bysellfwrdd ar gyfer pob cydran.</li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

@@ -1,0 +1,117 @@
+<!-- title: Vodnik za Svelte — Lily Design System -->
+<!-- description: Ustvarite dostopen, oblikovan obrazec z Lilyjinimi brezglavimi komponentami za Svelte 5: rune, snippeti in bind:value. -->
+<section class="page-intro">
+  <h1>Vodnik za Svelte</h1>
+  <p class="page-intro-tagline">
+    Lilyjina knjižnica Svelte je kanonična implementacija: rune Svelte 5, tipizirani propi, razprševanje preostalih propov in dvosmerna vezava z
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Kaj boste ustvarili</h2>
+  <p>
+    Majhen kontaktni obrazec — polje z oznako, gumb za pošiljanje, dvosmerna vezava, resnično vedenje tipkovnice in bralnika zaslona — najprej gol, nato oblikovan, v približno 10 minutah.
+  </p>
+
+  <h2>Preden začnete</h2>
+  <p>
+    Potrebujete git, Node 22 ali novejši in pnpm 10 ali novejši. Primeren je vsak projekt Svelte 5 — povsem nova <code>npx sv create</code> aplikacija zadostuje.
+  </p>
+
+  <h2>Korak 1 — Pridobite kodo</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponente so v <code>src/lib/components/&#123;Name&#125;/</code>, ena mapa na komponento z datoteko <code>.svelte</code> , njenimi testi, storyji in dokumentacijo drug ob drugem. Kopirajte potrebne mape v svojo aplikacijo ali se zanesite na repozitorij in uvažajte neposredno.
+  </p>
+
+  <h2>Korak 2 — Vaša prva komponenta</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Izriše <code>&lt;button class="button" type="button"&gt;</code>. Propi so tipizirani: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (izriše <code>aria-pressed</code> (izriše <code>label</code> ( <code>aria-label</code> za preklopne gumbe),
+  </p>
+
+  <h2>Korak 3 — Sestavite majhen obrazec</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> sprejme vidno <code>label</code> kot lasten prop namesto gnezdene komponente oznake — posredujte jo enkrat, pri <code>Field</code>in <code>TextInput</code>iz <code>label</code> zagotovi dostopno ime. <code>TextInput</code>'s <code>value</code> za preglasitev), vsak dodaten atribut pa se razprši na koren.
+    <code>$bindable</code> je prop <code>bind:value</code> rune, zato
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverjeno 2026-08-29:</strong> vam takoj da dvosmerno vezavo. <code>svelte/server</code> natanko ta izrezek je bil preveden prek <code>&lt;label for&gt;</code> in preverjen na eno samo, pravilno povezano oznako <code>Label</code> znotraj <code>Field</code>— prejšnji osnutek je gnezdil ločen
+      <em>dve</em> oznaki (eno prazno), ker <code>Field</code> že izriše svojo iz vhoda <code>label</code> znotraj, kar je izrisalo
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Sestavljena pot kontaktnega obrazca</a>
+      je isti vzorec, preizkušen z resničnimi testi e2e in axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverite svoje delo:</strong> zaženite aplikacijo in obrazec je videti gol — natanko kot je bilo načrtovano: oblikovanje šele sledi. Pritisnite
+      <kbd>Tab</kbd>: fokus gre skozi vsak kontrolnik, oznaka se izgovori in pošiljanje deluje. Vedenje je končano; videz je vaš in je naslednji korak.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Oblikujte ga</h2>
+  <p>
+    Vse zgoraj se izriše kot čista struktura, pripravljena na vaše sloge. Oblikujte razredne kavlje —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — v svoji globalni slogovni datoteki ali povežite že pripravljeno temo v <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Prilagoditve za posamezno instanco gredo prek <code>class</code> propa, ki se doda osnovnemu kavlju: <code>&lt;Button class="wide"&gt;</code> izriše
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Korak 5 — Poglejte, kako vse deluje</h2>
+  <p>
+     <a href="/examples/">Vzorčna aplikacija SvelteKit</a> je isti katalog povsem oblikovan, z živimi predstavitvami, testi Playwright e2e in izhodiščem dostopnosti axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Naslednji koraki</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — preklapljanje med izvajanjem s pomočnikom theme-picker za Svelte.</li>
+    <li><a href="/tutorials/helpers/">Pomočniki za nastavitve</a> — jezik in velikost besedila.</li>
+    <li><a href="/components/">Katalog komponent</a> — lastnosti, ARIA in tipkovnica za vsako komponento.</li>
+  </ul>
+  <p>
+    Vprašanja na poti?
+    <a href="/help/#troubleshooting">Stran s pomočjo</a> je polna odgovorov — in če bi bil kakšen korak lahko jasnejši,
+    <a href="https://github.com/LilyDesignSystem">sporočite nam</a> in vodnik bomo z veseljem izboljšali.
+  </p>
+</section>

@@ -1,0 +1,127 @@
+<!-- title: „Angular“ vadovas — Lily Design System -->
+<!-- description: Sukurkite prieinamą, apipavidalintą formą su „Lily“ „Angular 20“ bekūniais komponentais: savarankiški komponentai su signalų įvestimis. -->
+<section class="page-intro">
+  <h1>„Angular“ vadovas</h1>
+  <p class="page-intro-tagline">
+    „Angular 20“ savarankiški komponentai — signalų įvestys, OnPush pokyčių aptikimas, įterptieji šablonai, nulis NgModules, nulis CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Nedidelė kontaktų forma — laukas su žyma, siuntimo mygtukas, dvipusis susiejimas, tikras klaviatūros ir ekrano skaitytuvo elgesys — pirma plika, paskui apipavidalinta, per maždaug 10 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Reikia git, Node 22 ar naujesnės ir pnpm 10 ar naujesnio. Tinka bet kuris „Angular 20“ projektas — „Angular CLI“ arba „Analog“.
+  </p>
+
+  <h2>1 žingsnis — Gaukite kodą</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponentai yra plokščios bylos aplanke <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — kiekvienas yra savarankiškas komponentas su įterptuoju šablonu, plius jo spec ir story. Barrel
+    <code>index.ts</code> iš naujo eksportuoja kiekvieną komponentą; <code>pnpm build</code>
+    sukuria „Angular Package Format“ paketą per ng-packagr.
+  </p>
+
+  <h2>2 žingsnis — Jūsų pirmasis komponentas</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Kiekvienas komponentas deklaruoja <code>lily-*</code> parinkiklį ir atvaizduoja semantinį elementą su jo klasės kabliu —
+    <code>&lt;button class="button" type="button"&gt;</code> čia. Įvestys paremtos signalais: <code>label()</code> elementui <code>aria-label</code>
+    norint pakeisti, <code>className()</code> norint pridėti klasių.
+  </p>
+
+  <h2>3 žingsnis — Sudėkite nedidelę formą</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> priima matomą žymą kaip savo
+    <code>label</code> įvestį vietoj įdėto žymos komponento — perduokite ją vieną kartą, prie lauko, o atitinkamas <code>lily-text-input</code>iš
+    <code>label</code> suteikia prieinamą pavadinimą. Į įvestis panašūs komponentai atveria <code>model()</code> reikšmes, todėl banana-box <code>[(value)]</code>
+    dvipusis susiejimas veikia iš karto — visur suderinamas su zoneless.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinta 2026-08-29:</strong> ankstesnis juodraštis įdėjo atskirą <code>Label</code> komponentą į <code>lily-field</code>, todėl buvo atvaizduotos <em>dvi</em> žymos (viena tuščia), nes
+      <code>lily-field</code> jau pats atvaizduoja savo iš
+      <code>label</code> įvesties — pastebėta patikrinus komponento šaltinio kodą.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Sudėtinis kontaktų formos maršrutas</a>
+      yra tas pats šablonas, išbandytas tikrais e2e ir axe testais.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> paleiskite programą ir forma atrodo plika — kaip ir numatyta: stilius dar laukia. Paspauskite
+      <kbd>Tab</kbd>: fokusas pereina per kiekvieną valdiklį, žyma paskelbiama, o siuntimas veikia. Elgesys baigtas; išvaizda jūsų ir yra kitas žingsnis.
+    </p>
+  </div>
+
+  <h2>4 žingsnis — Apipavidalinkite</h2>
+  <p>
+    Apipavidalinkite klasių kablius — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — faile <code>styles.css</code>arba pridėkite paruoštą temą į masyvą <code>styles</code> faile
+    <code>angular.json</code> / susiekite ją faile <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>5 žingsnis — Pažiūrėkite, kaip viskas veikia</h2>
+  <p>
+     <a href="/examples/">„Angular“ + „Analog“ pavyzdinė programa</a> rodo visą katalogą su maršrutizavimu pagal bylas ir „Vite“:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temos</a> — perjungimas vykdymo metu su „Angular“ pagalbininku theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Nuostatų pagalbininkai</a> — kalba ir teksto dydis.</li>
+    <li><a href="/components/">Komponentų katalogas</a> — savybės, ARIA ir klaviatūra kiekvienam komponentui.</li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

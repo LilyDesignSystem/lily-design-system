@@ -1,0 +1,111 @@
+<!-- title: Temų vadovas — Lily Design System -->
+<!-- description: Pritaikykite „Lily“ temą trimis būdais: susiekite vieną iš 45 paruoštų temų, pakeiskite ją savo CSS ir pridėkite temos perjungimą vykdymo metu su pagalbininku theme-picker. -->
+<section class="page-intro">
+  <h1>Temos</h1>
+  <p class="page-intro-tagline">
+    „Lily“ komponentai turi stabilius klasių kablius ir nulį CSS — taigi tema yra tiesiog stilių lentelė. Šis vadovas eina nuo „susiekite vieną bylą“ iki „leiskite naudotojui keisti temą vykdymo metu, su išsaugojimu“.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Programa, kurios visą išvaizdą naudotojas gali keisti — pradedant viena susieta stilių lentele ir baigiant išsaugomu temos perjungikliu vykdymo metu — per maždaug 15 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Pirmiausia užbaikite <a href="/tutorials/">sistemos vadovą</a> savo technologijų rinkiniui pirmiausia, kad turėtumėte nedidelę „Lily“ formą temai pritaikyti. Viskas čia veikia visose septyniose sistemose; kodo pavyzdžiai rodo „Svelte“ ir paprastą HTML.
+  </p>
+
+  <h2>1 žingsnis — Susiekite paruoštą temą</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    kataloge yra 45 savarankiškos stilių lentelės. Nukopijuokite jas į savo programos statinius išteklius ir susiekite vieną:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Rinkinio akcentai:</p>
+  <ul>
+    <li>
+      <strong>Viešasis sektorius</strong> — NHS England / Scotland / Wales, kiekviena pacientams ir specialistams skirtomis versijomis; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Tiekėjų įkvėptos</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Bendrosios paskirties</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>ir daug kitų.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> perkraukite puslapį. Tas pats žymėjimas, kurį sukūrėte sistemos vadove, dabar visiškai apipavidalintas — mygtukai, laukai, žymos, fokuso žiedai. Tai padarė viena HTML eilutė — kiekvienas komponentas liko būtent toks, koks buvo.
+    </p>
+  </div>
+
+  <h2>2 žingsnis — Pakeiskite bet ką</h2>
+  <p>
+    Temos parinkikliai apgaubti <code>:where(...)</code>kuris turi nulinį specifiškumą — taigi bet kuri jūsų parašyta taisyklė laimi, paprastai:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>3 žingsnis — Perjungimas vykdymo metu su theme-picker</h2>
+  <p>
+     <code>theme-picker</code> pagalbininkas yra bekūnis piktogramos mygtukas + listbox, valdantis visą temos gyvavimo ciklą: jis įkelia pasirinktą stilių lentelę pakeisdamas vieną valdomą <code>&lt;link&gt;</code>
+    (parsisiunčiama tik aktyvi tema), nustato
+    <code>data-theme="&#123;slug&#125;"</code> dokumente ir pasirinktinai išsaugo <code>localStorage</code>. Čia rodomas „Svelte“; „React“, „Vue“, „Angular“, HTML, „Nunjucks“ ir „Blazor“ portai atitinka sutartis po sutarties:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Tai visa integracija. Klaviatūros elgesys seka WAI-ARIA APG listbox šabloną; pats valdiklis yra bekūnis (klasės kablys
+    <code>.theme-picker</code>), todėl perima bet kurią aktyvią temą.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinta 2026-08-29:</strong> būtent šis fragmentas buvo sukompiliuotas pagal paskelbtą <code>0.1.1</code> paketą per
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>4 žingsnis — Reaguokite į temą savo CSS</h2>
+  <p>
+    Kadangi pagalbininkas nustato <code>data-theme</code> dokumento šaknyje, jūsų pačių stiliai gali šakotis pagal tai:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Pastabos apie atvaizdavimą serveryje</h2>
+  <p>
+    Pagalbininkas atlieka visus DOM rašymus sistemos mount/effect gyvavimo cikle, todėl pagal konstrukciją saugus SSR. Kad išvengtumėte blykstelėjimo pirmojo piešimo metu, serveryje atvaizduokite <code>&lt;link&gt;</code> ir
+    <code>data-theme</code> pradinės temos (pavyzdžiui, iš slapuko) — „Svelte“ pagalbininko saugykla pristato vykdomą „SvelteKit“ slapuko pavyzdį, o kiti katalogai dokumentuoja tą patį šabloną savo technologijų rinkiniams.
+  </p>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Nuostatų pagalbininkai</a> — tas pats šablonas kalbai, teksto dydžiui, bendrinimui ir datos/laiko įvedimui.</li>
+    <li>
+      Prisidėkite tema — kiekviena yra viena savarankiška stilių lentelė, taikanti klasių kablius; žr. <a href="/help/#contributing">prisidėjimą</a>.
+    </li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

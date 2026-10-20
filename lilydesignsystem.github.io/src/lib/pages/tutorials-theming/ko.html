@@ -1,0 +1,111 @@
+<!-- title: 테마 적용 튜토리얼 — Lily Design System -->
+<!-- description: Lily를 세 가지 방법으로 테마 적용합니다: 준비된 45개 테마 중 하나를 링크하고, 자신의 CSS로 재정의하고, theme-picker 헬퍼로 런타임 테마 전환을 추가합니다. -->
+<section class="page-intro">
+  <h1>테마 적용</h1>
+  <p class="page-intro-tagline">
+    Lily 컴포넌트는 안정적인 클래스 훅을 가지며 CSS가 전혀 없으므로, 테마는 그저 스타일시트입니다. 이 튜토리얼은 "파일 하나 링크하기"에서 "사용자가 런타임에 테마를 바꾸고 그것이 유지되게 하기"까지 나아갑니다.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>만들 것</h2>
+  <p>
+    모양 전체를 사용자가 바꿀 수 있는 앱 — 스타일시트 하나를 링크하는 데서 시작해 유지되는 런타임 테마 전환기로 끝납니다 — 약 15분 걸립니다.
+  </p>
+
+  <h2>시작하기 전에</h2>
+  <p>
+    먼저 사용하는 스택의 <a href="/tutorials/">프레임워크 튜토리얼</a> 을 먼저 마쳐서, 테마를 입힐 작은 Lily 폼을 준비하세요. 여기 있는 내용은 일곱 프레임워크 모두에서 동작하며, 코드 예제는 Svelte와 일반 HTML로 보여 줍니다.
+  </p>
+
+  <h2>1단계 — 준비된 테마 링크하기</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    디렉터리에는 독립된 스타일시트 45개가 들어 있습니다. 앱의 정적 자산으로 복사한 뒤 하나를 링크하세요:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>대표적인 테마:</p>
+  <ul>
+    <li>
+      <strong>공공 부문</strong> — NHS England / Scotland / Wales(각각 환자용과 실무자용 변형), GOV.UK(<code>united-kingdom-government-digital-service</code>), USWDS(<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>벤더에서 영감을 받은 테마</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>범용</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, 그리고 그 밖에도 많습니다.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>작동 확인:</strong> 페이지를 새로 고칩니다. 프레임워크 튜토리얼에서 만든 같은 마크업이 이제 버튼, 입력, 레이블, 포커스 링까지 완전히 스타일링되어 있습니다. HTML 한 줄이 그 일을 했고, 컴포넌트는 모두 그대로입니다.
+    </p>
+  </div>
+
+  <h2>2단계 — 무엇이든 재정의하기</h2>
+  <p>
+    테마 셀렉터는 다음으로 감싸져 있습니다: <code>:where(...)</code>명시도가 0이므로 직접 작성한 규칙이 항상 이깁니다. 간단합니다:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>3단계 — theme-picker로 하는 런타임 전환</h2>
+  <p>
+     <code>theme-picker</code> 헬퍼는 아이콘 버튼 + 리스트박스로 된 헤드리스 컴포넌트이며 테마의 전체 수명 주기를 맡습니다. 관리되는 하나의 <code>&lt;link&gt;</code>
+    를 바꿔서 선택한 스타일시트를 불러오고(활성 테마만 가져옵니다), 문서에
+    <code>data-theme="&#123;slug&#125;"</code> 를 설정하며, 선택적으로 다음에 유지합니다: <code>localStorage</code>. 여기서는 Svelte로 보여 줍니다. React, Vue, Angular, HTML, Nunjucks, Blazor 포트도 계약 단위로 똑같이 맞춰져 있습니다:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    이것이 통합의 전부입니다. 키보드 동작은 WAI-ARIA APG 리스트박스 패턴을 따르며, 컨트롤 자체는 헤드리스(클래스 훅
+    <code>.theme-picker</code>)이므로 활성 테마가 무엇이든 그대로 적용됩니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 확인 완료:</strong> 이 스니펫 그대로를 공개된 <code>0.1.1</code> 패키지를 대상으로 다음을 통해 컴파일했습니다:
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>4단계 — 자신의 CSS에서 테마에 반응하기</h2>
+  <p>
+    헬퍼가 문서 루트에 <code>data-theme</code> 를 설정하므로 자신의 스타일에서 그 값으로 분기할 수 있습니다:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>서버 렌더링 관련 참고</h2>
+  <p>
+    이 헬퍼는 모든 DOM 쓰기를 프레임워크의 마운트/이펙트 수명 주기 안에서 수행하므로 구조적으로 SSR에 안전합니다. 첫 페인트 때의 깜빡임을 피하려면, 서버에서(예: 쿠키를 보고) 초기 테마의 <code>&lt;link&gt;</code> 와
+    <code>data-theme</code> 를 렌더링하세요. Svelte 헬퍼 저장소에는 실행 가능한 SvelteKit 쿠키 예제가 있고, 다른 카탈로그도 각자의 스택에 맞는 같은 패턴을 문서화하고 있습니다.
+  </p>
+
+  <h2>다음 단계</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">환경설정 헬퍼</a> — 언어, 텍스트 크기, 공유, 날짜/시간 입력에도 같은 패턴이 쓰입니다.</li>
+    <li>
+      테마 기여하기 — 각 테마는 클래스 훅을 대상으로 하는 독립된 스타일시트 하나입니다. 다음을 보세요: <a href="/help/#contributing">기여 안내</a>.
+    </li>
+  </ul>
+  <p>
+    진행하다가 궁금한 점이 있다면
+    <a href="/help/#troubleshooting">도움말 페이지</a> 에 답이 많이 있습니다. 어떤 단계가 더 명확해질 수 있다면
+    <a href="https://github.com/LilyDesignSystem">알려 주세요</a> . 기꺼이 튜토리얼을 개선하겠습니다.
+  </p>
+</section>

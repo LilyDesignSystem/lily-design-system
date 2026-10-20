@@ -1,0 +1,105 @@
+<!-- title: Exempel — Lily Design System -->
+<!-- description: Färdiga exempelappar som visar hur Lily-komponenter formges i HTML, Svelte, React, Vue, Angular, Blazor och Eleventy. -->
+<section class="page-intro">
+  <h1>Se Lily i verkliga appar</h1>
+  <p class="page-intro-tagline">
+    Sju färdiga exempelprojekt visar hur du tar de huvudlösa komponenterna, lägger på formgivning och levererar en riktig webbplats. Välj det ramverk du använder.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Demoappar med fullständig CSS och routing</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Vanliga HTML-sidor, ren JavaScript, inga byggverktyg. Fungerar på vilken statisk värd som helst – perfekt för små webbplatser och progressiv förbättring.
+      </p>
+      <p class="card-meta">→ Visa på GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        SvelteKit 3-app som använder Svelte 5-runor. Komponentrutter, filbaserad routing och en formgiven storybook över varje komponent.
+      </p>
+      <p class="card-meta">→ Visa på GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Next.js 16-app som visar varje komponent i sitt sammanhang, med TypeScript genomgående och demosidor för sammansatta mönster.
+      </p>
+      <p class="card-meta">→ Visa på GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Nuxt 4-app. <code>&lt;script setup&gt;</code> och Composition API på varje demorutt.
+      </p>
+      <p class="card-meta">→ Visa på GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 22 + Analog.js-app. Filbaserad routing, signaler, zonlös ändringsdetektering och fullständig SSG-förrendering.
+      </p>
+      <p class="card-meta">→ Visa på GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Blazor Web-app med Razor-komponenter. Fungerar med både server och WebAssembly, med .NET 10 som baslinje.
+      </p>
+      <p class="card-meta">→ Visa på GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Eleventy-webbplats som använder Nunjucks-makron. Idealisk för innehållstunga statiska webbplatser som ändå vill ha ett riktigt komponentsystem.
+      </p>
+      <p class="card-meta">→ Visa på GitHub</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Varje exempelapp har samma form</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>För att det ska kännas bekant att hoppa mellan ramverk har varje exempelapp:</p>
+    <ul>
+      <li>En välkomstrutt på <code>/</code> som presenterar projektet.</li>
+      <li>Ett komponentindex på <code>/components</code> som listar varje komponent.</li>
+      <li>En demosida per komponent på <code>/components/&lt;component&gt;</code>.</li>
+      <li>Riktig CSS – inte abstrakta designtokens – så att du kan hämta stilar direkt.</li>
+      <li>Fungerande tangentbordsnavigering och fokushantering direkt.</li>
+    </ul>
+
+    <h3>Behöver du se hur en enskild komponent formges?</h3>
+    <p>
+      Öppna den aktuella exempelappen, gå till
+      <code>/components/&lt;name&gt;</code>och kopiera markup och CSS till ditt eget projekt. Exempelapparna använder medvetet ren (eller nästan ren) CSS så att du kan anpassa dem till vilket system du föredrar.
+    </p>
+
+    <h3>Vill du hellre ha huvudlöst?</h3>
+    <p>
+      Para ihop vilken exempelapp som helst med motsvarande <em>huvudlösa</em>
+      paket – de publicerar samma komponenter utan någon CSS, redo för dina egna designtokens.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Bläddra i katalogen →</a>
+      <a class="button button-secondary" href="/help/">Läs installationsguiden</a>
+    </p>
+  </div>
+</section>

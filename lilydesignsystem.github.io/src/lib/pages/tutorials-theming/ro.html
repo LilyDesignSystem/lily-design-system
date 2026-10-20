@@ -1,0 +1,111 @@
+<!-- title: Tutorial despre teme — Lily Design System -->
+<!-- description: Aplică o temă pe Lily în trei moduri: leagă una dintre cele 45 de teme gata făcute, suprascrie-o cu CSS-ul tău și adaugă comutarea temei în timpul rulării cu ajutorul theme-picker. -->
+<section class="page-intro">
+  <h1>Teme</h1>
+  <p class="page-intro-tagline">
+    Componentele Lily au cârlige de clasă stabile și zero CSS — deci o temă este doar o foaie de stil. Acest tutorial merge de la „leagă un fișier” la „lasă utilizatorul să schimbe tema în timpul rulării, cu persistență”.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce vei construi</h2>
+  <p>
+    O aplicație al cărei aspect întreg îl poate schimba utilizatorul — pornind de la o singură foaie de stil legată și ajungând la un comutator de teme persistent în timpul rulării — în aproximativ 15 minute.
+  </p>
+
+  <h2>Înainte să începi</h2>
+  <p>
+    Termină mai întâi <a href="/tutorials/">tutorialul frameworkului</a> pentru stiva ta mai întâi, ca să ai un mic formular Lily de tematizat. Tot ce este aici funcționează în toate cele șapte frameworkuri; exemplele de cod arată Svelte și HTML simplu.
+  </p>
+
+  <h2>Pasul 1 — Leagă o temă gata făcută</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    directorul conține 45 de foi de stil independente. Copiază-le în resursele statice ale aplicației și leagă una:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Repere ale setului:</p>
+  <ul>
+    <li>
+      <strong>Sectorul public</strong> — NHS England / Scotland / Wales, fiecare în variante pentru pacienți și pentru practicieni; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Inspirate de furnizori</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Uz general</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>și multe altele.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifică-ți munca:</strong> reîncarcă pagina. Același marcaj pe care l-ai construit în tutorialul frameworkului este acum complet stilizat — butoane, câmpuri, etichete, inele de focalizare. O singură linie de HTML a făcut asta — fiecare componentă a rămas exact cum era.
+    </p>
+  </div>
+
+  <h2>Pasul 2 — Suprascrie orice</h2>
+  <p>
+    Selectorii temei sunt învăluiți în <code>:where(...)</code>care are specificitate zero — deci orice regulă scrii câștigă, simplu:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Pasul 3 — Comutare în timpul rulării cu theme-picker</h2>
+  <p>
+     <code>theme-picker</code> ajutorul este un buton-pictogramă headless + listbox care deține întregul ciclu de viață al temei: încarcă foaia de stil aleasă schimbând un singur <code>&lt;link&gt;</code>
+    gestionat (doar tema activă este descărcată), setează
+    <code>data-theme="&#123;slug&#125;"</code> pe document și, opțional, persistă în <code>localStorage</code>. Aici e arătat Svelte; porturile pentru React, Vue, Angular, HTML, Nunjucks și Blazor corespund contract cu contract:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Asta e toată integrarea. Comportamentul tastaturii urmează tiparul listbox WAI-ARIA APG; controlul în sine este headless (cârlig de clasă
+    <code>.theme-picker</code>), deci preia orice temă este activă.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificat la 2026-08-29:</strong> acest fragment exact a fost compilat față de pachetul publicat <code>0.1.1</code> prin
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Pasul 4 — Reacționează la temă în propriul CSS</h2>
+  <p>
+    Deoarece ajutorul setează <code>data-theme</code> pe rădăcina documentului, propriile tale stiluri se pot ramifica după el:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Note pentru randarea pe server</h2>
+  <p>
+    Ajutorul face toate scrierile în DOM în ciclul de viață mount/effect al frameworkului, deci este sigur pentru SSR prin construcție. Pentru a evita o clipire la prima desenare, randează <code>&lt;link&gt;</code> și
+    <code>data-theme</code> al temei inițiale pe server (de exemplu dintr-un cookie) — depozitul ajutorului Svelte livrează un exemplu executabil de cookie SvelteKit, iar celelalte cataloage documentează același tipar pentru stivele lor.
+  </p>
+
+  <h2>Pașii următori</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Ajutoare pentru preferințe</a> — același tipar pentru limbă, dimensiunea textului, partajare și introducerea datei/orei.</li>
+    <li>
+      Contribuie cu o temă — fiecare este o singură foaie de stil independentă care vizează cârligele de clasă; vezi <a href="/help/#contributing">contribuția</a>.
+    </li>
+  </ul>
+  <p>
+    Întrebări pe parcurs?
+    <a href="/help/#troubleshooting">Pagina de ajutor</a> este plină de răspunsuri — iar dacă un pas poate fi mai clar,
+    <a href="https://github.com/LilyDesignSystem">spune-ne</a> și vom îmbunătăți cu plăcere tutorialul.
+  </p>
+</section>

@@ -1,0 +1,109 @@
+<!-- title: Vodič za React — Lily Design System -->
+<!-- description: Izradite pristupačan, stiliziran obrazac s Lilynim headless komponentama za React: tipizirane funkcijske komponente s value + onChange. -->
+<section class="page-intro">
+  <h1>Vodič za React</h1>
+  <p class="page-intro-tagline">
+    Tipizirane funkcijske komponente, po jedna datoteka, kontrolirane standardnim uzorkom
+    <code>value</code> + <code>onChange</code> — sve radi onako kako React već radi.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Što ćete izraditi</h2>
+  <p>
+    Mali kontaktni obrazac — polje s oznakom, gumb za slanje, kontrolirano stanje, stvarno ponašanje tipkovnice i čitača zaslona — najprije golo, zatim stilizirano, za otprilike 10 minuta.
+  </p>
+
+  <h2>Prije nego počnete</h2>
+  <p>
+    Trebaju vam git, Node 22 ili noviji i pnpm 10 ili noviji. Odgovara bilo koji projekt React 18+ — Next.js, Vite ili obični React.
+  </p>
+
+  <h2>Korak 1 — Preuzmite kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponente su ravne datoteke u <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — svaka s vlastitim testom, storyjem i dokumentacijom uz sebe. Kopirajte potrebne datoteke u svoju aplikaciju ili dovucite repozitorij i uvezite iz njega.
+  </p>
+
+  <h2>Korak 2 — Vaša prva komponenta</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Iscrtava <code>&lt;button class="button" type="button"&gt;</code>. Propovi:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (iscrtava
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> za nadjačavanje), <code>className</code>, a svaki dodatni atribut raspršuje se na korijenski element.
+  </p>
+
+  <h2>Korak 3 — Sastavite mali obrazac</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> prima vidljivu <code>label</code> kao vlastiti prop umjesto ugniježđene komponente oznake — proslijedite je jednom, na
+    <code>Field</code>i <code>TextInput</code>iz
+    <code>label</code> daje pristupačno ime.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Provjereno 2026-08-29:</strong> raniji nacrt ugnijezdio je zasebnu komponentu <code>Label</code> unutar <code>Field</code>, što je iscrtalo
+      <em>dvije</em> oznake (jednu praznu) jer <code>Field</code> već iscrtava vlastitu iz ulaza <code>label</code> prop — otkriveno kompiliranjem točnog isječka. Ruta
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Složena ruta kontaktnog obrasca</a>
+      isti je uzorak, isproban stvarnim e2e i axe testovima.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Stilizirajte ga</h2>
+  <p>
+    Sve gore iscrtava se kao čista struktura, spremna za vaše stilove. Stilizirajte kuke — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — u svojoj stilskoj tablici, slojite Tailwind uslužne klase preko <code>className</code>, ili povežite gotovu temu:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Korak 5 — Pogledajte kako sve radi</h2>
+  <p>
+     <a href="/examples/">Primjer aplikacija Next.js</a> je cijeli katalog stiliziran i demonstriran, s Playwright e2e i axe-core polaznom linijom:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Sljedeći koraci</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — prebacivanje tijekom izvođenja pomoćnikom theme-picker za React.</li>
+    <li><a href="/tutorials/helpers/">Pomoćnici za postavke</a> — jezik i veličina teksta.</li>
+    <li><a href="/components/">Katalog komponenti</a> — svojstva, ARIA i tipkovnica po komponenti.</li>
+  </ul>
+  <p>
+    Pitanja usput?
+    <a href="/help/#troubleshooting">Stranica pomoći</a> puna je odgovora — a ako neki korak može biti jasniji,
+    <a href="https://github.com/LilyDesignSystem">javite nam</a> i rado ćemo poboljšati vodič.
+  </p>
+</section>

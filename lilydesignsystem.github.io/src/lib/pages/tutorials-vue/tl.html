@@ -1,0 +1,122 @@
+<!-- title: Tutorial sa Vue — Lily Design System -->
+<!-- description: Bumuo ng accessible at may istilong form gamit ang mga headless na component ng Lily para sa Vue 3: mga single-file component na may v-model. -->
+<section class="page-intro">
+  <h1>Tutorial sa Vue</h1>
+  <p class="page-intro-tagline">
+    Mga single-file component ng Vue 3 na may typed na prop, <code>defineModel</code>
+    two-way binding, at <code>v-bind="$attrs"</code> pass-through.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ang bubuuin mo</h2>
+  <p>
+    Isang maliit na contact form — input na may label, submit button, <code>v-model</code>
+    binding, tunay na gawi ng keyboard at screen reader — una ay hubad, pagkatapos ay may istilo, sa humigit-kumulang 10 minuto.
+  </p>
+
+  <h2>Bago ka magsimula</h2>
+  <p>
+    Kailangan mo ng git, Node 22 o mas bago, at pnpm 10 o mas bago. Gumagana ang anumang proyektong Vue 3 — Nuxt, Vite, o payak na Vue.
+  </p>
+
+  <h2>Hakbang 1 — Kunin ang code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Ang mga component ay mga flat na file sa <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — bawat isa ay may test, story, at mga dokumento sa tabi nito. Kopyahin ang mga file na kailangan mo, o i-vendor ang repo.
+  </p>
+
+  <h2>Hakbang 2 — Ang una mong component</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Nagre-render ng <code>&lt;button class="button" type="button"&gt;</code>. Tumutugma ang mga prop sa ibang framework: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, kasama ang attribute fall-through para sa lahat ng iba pa.
+  </p>
+
+  <h2>Hakbang 3 — Bumuo ng maliit na form</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> ay kumukuha ng nakikitang <code>label</code> bilang sarili nitong prop sa halip na nested na label component — ipasa ito nang isang beses, sa
+    <code>Field</code>, at <code>TextInput</code>sa
+    <code>label</code> ay nagbibigay ng accessible na pangalan.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Napatunayan noong 2026-08-29:</strong> nag-nest ang naunang draft ng hiwalay na <code>Label</code> sa loob ng <code>Field</code>, na nagre-render ng
+      <em>dalawang</em> label (isang walang laman) dahil <code>Field</code> ay nagre-render na ng sarili nito mula sa <code>label</code> prop — nahuli sa pamamagitan ng pag-compile ng eksaktong snippet. Ang
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">composed na ruta ng contact-form</a>
+      ay parehong pattern, sinubukan ng tunay na e2e at axe na pagsusuri.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> ay gumagamit ng <code>defineModel</code>, kaya ang payak na
+    <code>v-model</code> ay gumagana agad.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Suriin ang gawa mo:</strong> patakbuhin ang app at mukhang payak ang form — eksakto ayon sa layunin: ang istilo ay nasa unahan pa. Pindutin ang
+      <kbd>Tab</kbd>: gumagalaw ang focus sa bawat kontrol, naba-balita ang label, at gumagana ang pagsumite. Tapos na ang gawi; sa iyo ang hitsura at iyon ang susunod.
+    </p>
+  </div>
+
+  <h2>Hakbang 4 — Bigyan ng istilo</h2>
+  <p>
+    Bigyan ng istilo ang mga class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — sa iyong stylesheet, o mag-link ng handa nang tema sa <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Hakbang 5 — Tingnan ang lahat na gumagana</h2>
+  <p>
+    Ang <a href="/examples/">Nuxt na halimbawang app</a> ay ang buong catalog na may istilo at demo, na may Playwright e2e at axe-core baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Mga susunod na hakbang</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime na pagpapalit gamit ang Vue theme-picker helper.</li>
+    <li><a href="/tutorials/helpers/">Mga preference helper</a> — wika at laki ng teksto.</li>
+    <li><a href="/components/">Catalog ng component</a> — mga prop, ARIA, at keyboard para sa bawat component.</li>
+  </ul>
+  <p>
+    May mga tanong habang nasa daan? Ang
+    <a href="/help/#troubleshooting">pahina ng tulong</a> ay puno ng mga sagot — at kung maaaring maging mas malinaw ang isang hakbang,
+    <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> at masaya naming pagbubutihin ang tutorial.
+  </p>
+</section>

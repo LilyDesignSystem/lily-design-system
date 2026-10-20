@@ -49,7 +49,7 @@ actually live.
 - [News](https://lilydesignsystem.com/news/): announcements, release
   highlights, project status, and press contacts.
 - [Label packs](https://lilydesignsystem.com/label-packs/): ready-made `labels` for the data grid,
-  kanban board, calendar, Gantt chart and filter in 46 locales (45 are unreviewed drafts), and how
+  kanban board, calendar, Gantt chart and filter in 64 locales (63 are unreviewed drafts), and how
   to load one in every framework.
 - [Roadmap](https://lilydesignsystem.com/roadmap/): what the project
   is working on and planning next.

@@ -1,0 +1,127 @@
+<!-- title: Návod pre Angular — Lily Design System -->
+<!-- description: Vytvorte prístupný, ostylovaný formulár pomocou bezhlavých komponentov Lily pre Angular 20: samostatné komponenty so signálovými vstupmi. -->
+<section class="page-intro">
+  <h1>Návod pre Angular</h1>
+  <p class="page-intro-tagline">
+    Samostatné komponenty Angularu 20 — signálové vstupy, detekcia zmien OnPush, vložené šablóny, nula NgModules, nula CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Čo vytvoríte</h2>
+  <p>
+    Malý kontaktný formulár — pole s popisom, tlačidlo odoslať, obojsmerná väzba, skutočné správanie klávesnice a čítačky obrazovky — najprv holý, potom ostylovaný, približne za 10 minút.
+  </p>
+
+  <h2>Skôr než začnete</h2>
+  <p>
+    Potrebujete git, Node 22 alebo novší a pnpm 10 alebo novší. Hodí sa akýkoľvek projekt Angular 20 — Angular CLI alebo Analog.
+  </p>
+
+  <h2>Krok 1 — Získajte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponenty sú ploché súbory v <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — každý je samostatný komponent s vloženou šablónou, plus jeho spec a story. Barrel
+    <code>index.ts</code> znova exportuje každý komponent; <code>pnpm build</code>
+    vytvára balík vo formáte Angular Package Format cez ng-packagr.
+  </p>
+
+  <h2>Krok 2 — Váš prvý komponent</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Každý komponent deklaruje selektor <code>lily-*</code> a vykresľuje sémantický prvok s jeho triednym háčikom —
+    <code>&lt;button class="button" type="button"&gt;</code> tu. Vstupy sú založené na signáloch: <code>label()</code> pre <code>aria-label</code>
+    na prepísanie, <code>className()</code> na pridanie tried.
+  </p>
+
+  <h2>Krok 3 — Zložte malý formulár</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> prijíma viditeľný popis ako vlastný
+    <code>label</code> vstup namiesto vnoreného komponentu popisu — odovzdajte ho raz, pri poli, a zodpovedajúci <code>lily-text-input</code>z
+    <code>label</code> poskytne prístupný názov. Komponenty podobné vstupom zverejňujú hodnoty <code>model()</code> takže banana-box <code>[(value)]</code>
+    obojsmerná väzba funguje hneď — kompatibilné so zoneless v celom rozsahu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Overené 2026-08-29:</strong> skorší koncept vnáral samostatný komponent <code>Label</code> dovnútra <code>lily-field</code>, čo vykreslilo <em>dva</em> popisy (jeden prázdny), pretože
+      <code>lily-field</code> už vykresľuje svoj vlastný zo vstupu
+      <code>label</code> — zistené kontrolou zdrojového kódu komponentu.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Zložená trasa kontaktného formulára</a>
+      je rovnaký vzor, preverený skutočnými testami e2e a axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Skontrolujte svoju prácu:</strong> spustite aplikáciu a formulár vyzerá holo — presne podľa zámeru: štýlovanie ešte len príde. Stlačte
+      <kbd>Tab</kbd>: fokus prechádza každým ovládacím prvkom, popis sa oznamuje a odoslanie funguje. Správanie je hotové; vzhľad je váš a je ďalším krokom.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>
+    Ostylujte triedne háčiky — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — v <code>styles.css</code>, alebo pridajte hotovú tému do poľa <code>styles</code> v
+    <code>angular.json</code> / pripojte ju v <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Pozrite sa, ako to celé funguje</h2>
+  <p>
+     <a href="/examples/">Ukážková aplikácia Angular + Analog</a> ukazuje celý katalóg s routovaním založeným na súboroch a Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Ďalšie kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témy</a> — prepínanie za behu pomocníkom theme-picker pre Angular.</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pre predvoľby</a> — jazyk a veľkosť textu.</li>
+    <li><a href="/components/">Katalóg komponentov</a> — vlastnosti, ARIA a klávesnica pre každý komponent.</li>
+  </ul>
+  <p>
+    Otázky po ceste?
+    <a href="/help/#troubleshooting">Stránka pomocníka</a> je plná odpovedí — a ak by niektorý krok mohol byť jasnejší,
+    <a href="https://github.com/LilyDesignSystem">dajte nám vedieť</a> a návod radi vylepšíme.
+  </p>
+</section>

@@ -1,0 +1,105 @@
+<!-- title: Приклади — Lily Design System -->
+<!-- description: Робочі приклади застосунків, що показують, як стилізувати компоненти Lily в HTML, Svelte, React, Vue, Angular, Blazor і Eleventy. -->
+<section class="page-intro">
+  <h1>Побачте Lily в реальних застосунках</h1>
+  <p class="page-intro-tagline">
+    Сім робочих прикладних проєктів показують, як узяти «безголові» компоненти, додати стилізацію та випустити справжній вебсайт. Оберіть фреймворк, яким ви користуєтеся.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Демозастосунки з повним CSS і маршрутизацією</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Прості HTML-сторінки, ванільний JavaScript, жодних інструментів збирання. Підходить для будь-якого статичного хостингу — ідеально для невеликих сайтів і прогресивного вдосконалення.
+      </p>
+      <p class="card-meta">→ Переглянути на GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        Застосунок SvelteKit 3 на runes Svelte 5. Маршрути компонентів, файлова маршрутизація та стилізований storybook кожного компонента.
+      </p>
+      <p class="card-meta">→ Переглянути на GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Застосунок Next.js 16, що показує кожен компонент у контексті, з TypeScript усюди та демосторінками складених шаблонів.
+      </p>
+      <p class="card-meta">→ Переглянути на GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Застосунок Nuxt 4. <code>&lt;script setup&gt;</code> і Composition API на кожному демомаршруті.
+      </p>
+      <p class="card-meta">→ Переглянути на GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Застосунок Angular 22 + Analog.js. Файлова маршрутизація, сигнали, виявлення змін без зон і повний SSG-пререндеринг.
+      </p>
+      <p class="card-meta">→ Переглянути на GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Застосунок Blazor Web з компонентами Razor. Дружній до сервера та WebAssembly, з базою .NET 10.
+      </p>
+      <p class="card-meta">→ Переглянути на GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Сайт Eleventy з макросами Nunjucks. Ідеально для статичних сайтів із великою кількістю контенту, яким усе ж потрібна справжня система компонентів.
+      </p>
+      <p class="card-meta">→ Переглянути на GitHub</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Кожен приклад застосунку має однакову форму</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Щоб перехід між фреймворками здавався знайомим, кожен приклад застосунку містить:</p>
+    <ul>
+      <li>Вітальний маршрут за адресою <code>/</code> що знайомить із проєктом.</li>
+      <li>Індекс компонентів за адресою <code>/components</code> що перелічує кожен компонент.</li>
+      <li>Демосторінку для кожного компонента за адресою <code>/components/&lt;component&gt;</code>.</li>
+      <li>Справжній CSS — не абстрактні дизайн-токени — щоб ви могли переймати стилі безпосередньо.</li>
+      <li>Робочу навігацію клавіатурою та керування фокусом «з коробки».</li>
+    </ul>
+
+    <h3>Потрібно побачити, як стилізовано один компонент?</h3>
+    <p>
+      Відкрийте відповідний приклад застосунку, перейдіть до
+      <code>/components/&lt;name&gt;</code>і скопіюйте розмітку та CSS у свій проєкт. Приклади застосунків навмисно використовують звичайний CSS (або майже звичайний), щоб ви могли адаптувати їх до будь-якої системи на ваш смак.
+    </p>
+
+    <h3>Хочете «безголове» натомість?</h3>
+    <p>
+      Поєднайте будь-який приклад застосунку з відповідним <em>«безголовим»</em>
+      пакетом — вони публікують ті самі компоненти без жодного CSS, готові до ваших власних дизайн-токенів.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Переглянути каталог →</a>
+      <a class="button button-secondary" href="/help/">Прочитайте посібник із налаштування</a>
+    </p>
+  </div>
+</section>

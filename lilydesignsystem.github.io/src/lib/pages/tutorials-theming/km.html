@@ -1,0 +1,111 @@
+<!-- title: មេរៀនស្បែក — Lily Design System -->
+<!-- description: ដាក់ស្បែកឱ្យ Lily តាមបីវិធី៖ ភ្ជាប់ស្បែករួចជាស្រេច ៤៥ មួយ បដិសេធវាដោយ CSS របស់អ្នក និងបន្ថែមការប្តូរស្បែកពេលដំណើរការជាមួយជំនួយការ theme-picker។ -->
+<section class="page-intro">
+  <h1>ស្បែក</h1>
+  <p class="page-intro-tagline">
+    សមាសភាគ Lily មាន class hook ស្ថិរភាព និង CSS សូន្យ — ដូច្នេះស្បែកគ្រាន់តែជាសន្លឹករចនាប័ទ្ម។ មេរៀននេះចាប់ពី “ភ្ជាប់ឯកសារមួយ” ទៅ “អនុញ្ញាតឱ្យអ្នកប្រើប្តូរស្បែកពេលដំណើរការ រក្សាទុក”។
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>អ្វីដែលអ្នកនឹងសាងសង់</h2>
+  <p>
+    កម្មវិធីដែលអ្នកប្រើអាចផ្លាស់ប្តូររូបរាងទាំងមូល — ចាប់ផ្តើមជាមួយសន្លឹករចនាប័ទ្មភ្ជាប់មួយ បញ្ចប់ជាមួយឧបករណ៍ប្តូរស្បែកពេលដំណើរការដែលស្ថិតស្ថេរ — ក្នុងរយៈពេលប្រហែល ១៥ នាទី។
+  </p>
+
+  <h2>មុនពេលអ្នកចាប់ផ្តើម</h2>
+  <p>
+    បញ្ចប់ <a href="/tutorials/">មេរៀនក្របខណ្ឌ</a> ជាមុនសម្រាប់ស្ទែករបស់អ្នក ដើម្បីឱ្យអ្នកមានទម្រង់ Lily តូចមួយដើម្បីដាក់ស្បែក។ អ្វីៗទាំងអស់នៅទីនេះដំណើរការក្នុងក្របខណ្ឌទាំងប្រាំពីរ; គំរូកូដបង្ហាញ Svelte និង HTML ធម្មតា។
+  </p>
+
+  <h2>ជំហាន ១ — ភ្ជាប់ស្បែករួចជាស្រេច</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ថតផ្ទុកសន្លឹករចនាប័ទ្មឯករាជ្យ ៤៥។ ចម្លងវាទៅទ្រព្យឋិតិតរបស់កម្មវិធីអ្នក ហើយភ្ជាប់មួយ៖
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>ចំណុចសំខាន់នៃសំណុំ៖</p>
+  <ul>
+    <li>
+      <strong>វិស័យសាធារណៈ</strong> — NHS England / Scotland / Wales នីមួយៗក្នុងកំណែសម្រាប់អ្នកជំងឺ និងអ្នកអនុវត្ត; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>បំផុសដោយអ្នកលក់</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>គោលបំណងទូទៅ</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>ហើយច្រើនទៀត។
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ពិនិត្យការងាររបស់អ្នក៖</strong> ផ្ទុកទំព័រឡើងវិញ។ ម៉ាកអាប់ដូចគ្នាដែលអ្នកបានសាងសង់ក្នុងមេរៀនក្របខណ្ឌឥឡូវមានរចនាប័ទ្មពេញលេញ — ប៊ូតុង វាលបញ្ចូល ស្លាក រង្វង់ផ្តោត។ HTML មួយជួរបានធ្វើអ្វីៗទាំងនេះ — សមាសភាគនីមួយៗនៅដដែលដូចមុន។
+    </p>
+  </div>
+
+  <h2>ជំហាន ២ — បដិសេធអ្វីក៏បាន</h2>
+  <p>
+    ឧបករណ៍ជ្រើសស្បែកត្រូវបានរុំក្នុង <code>:where(...)</code>ដែលមានភាពជាក់លាក់សូន្យ — ដូច្នេះច្បាប់ណាមួយដែលអ្នកសរសេរឈ្នះ យ៉ាងសាមញ្ញ៖
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>ជំហាន ៣ — ការប្តូរពេលដំណើរការជាមួយ theme-picker</h2>
+  <p>
+     <code>theme-picker</code> ជំនួយការគឺជាប៊ូតុងរូបតំណាង + ប្រអប់បញ្ជីគ្មានក្បាលដែលជាម្ចាស់វដ្តជីវិតស្បែកទាំងមូល៖ វាផ្ទុកសន្លឹករចនាប័ទ្មដែលបានជ្រើសរើសដោយប្តូរមួយ <code>&lt;link&gt;</code>
+    ដែលគ្រប់គ្រង (មានតែស្បែកសកម្មប៉ុណ្ណោះដែលត្រូវបានទាញយក) កំណត់
+    <code>data-theme="&#123;slug&#125;"</code> នៅលើឯកសារ ហើយជាជម្រើសរក្សាទុកទៅ <code>localStorage</code>។ Svelte បានបង្ហាញនៅទីនេះ; ច្រក React, Vue, Angular, HTML, Nunjucks និង Blazor ត្រូវគ្នាកិច្ចសន្យាដោយកិច្ចសន្យា៖
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    នោះជាការរួមបញ្ចូលទាំងមូល។ អាកប្បកិរិយាក្តារចុចធ្វើតាមលំនាំប្រអប់បញ្ជី WAI-ARIA APG; ការគ្រប់គ្រងខ្លួនឯងគ្មានក្បាល (class hook
+    <code>.theme-picker</code>) ដូច្នេះវាយកស្បែកណាដែលសកម្ម។
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>បានផ្ទៀងផ្ទាត់ 2026-08-29៖</strong> កំណាត់ពិតប្រាកដនេះត្រូវបានចងក្រងប្រឆាំងនឹងកញ្ចប់ដែលបានបោះពុម្ព <code>0.1.1</code> តាមរយៈ
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>ជំហាន ៤ — ឆ្លើយតបនឹងស្បែកក្នុង CSS ផ្ទាល់ខ្លួនរបស់អ្នក</h2>
+  <p>
+    ដោយសារជំនួយការកំណត់ <code>data-theme</code> នៅលើឫសឯកសារ រចនាប័ទ្មផ្ទាល់ខ្លួនរបស់អ្នកអាចចេញសាខាលើវា៖
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>កំណត់ចំណាំសម្រាប់ការបង្ហាញលើម៉ាស៊ីនមេ</h2>
+  <p>
+    ជំនួយការអនុវត្តការសរសេរ DOM ទាំងអស់ក្នុងវដ្តជីវិត mount/effect របស់ក្របខណ្ឌ ដូច្នេះវាសុវត្ថិភាព SSR តាមការរចនា។ ដើម្បីជៀសវាងការភ្លឹបភ្លែតនៅការគូរដំបូង សូមបង្ហាញ <code>&lt;link&gt;</code> និង
+    <code>data-theme</code> នៃស្បែកដំបូងលើម៉ាស៊ីនមេ (ឧទាហរណ៍ពី cookie) — ឃ្លាំងជំនួយការ Svelte ដឹកជញ្ជូនឧទាហរណ៍ cookie SvelteKit ដែលអាចដំណើរការបាន ហើយកាតាឡុកផ្សេងទៀតចងក្រងឯកសារលំនាំដូចគ្នាសម្រាប់ស្ទែករបស់ពួកគេ។
+  </p>
+
+  <h2>ជំហានបន្ទាប់</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">ជំនួយការចំណូលចិត្ត</a> — លំនាំដូចគ្នាសម្រាប់ភាសា ទំហំអក្សរ ការចែករំលែក និងការបញ្ចូលកាលបរិច្ឆេទ/ពេលវេលា។</li>
+    <li>
+      ចូលរួមចំណែកស្បែក — នីមួយៗជាសន្លឹករចនាប័ទ្មឯករាជ្យមួយដែលកំណត់គោលដៅ class hook; មើល <a href="/help/#contributing">ការចូលរួមចំណែក</a>.
+    </li>
+  </ul>
+  <p>
+    មានសំណួរតាមផ្លូវ?
+    <a href="/help/#troubleshooting">ទំព័រជំនួយ</a> ពេញដោយចម្លើយ — ហើយប្រសិនបើជំហានណាអាចច្បាស់ជាងនេះ
+    <a href="https://github.com/LilyDesignSystem">ប្រាប់យើង</a> ហើយយើងនឹងកែលម្អមេរៀនដោយអំណរ។
+  </p>
+</section>

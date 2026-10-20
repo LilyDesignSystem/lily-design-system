@@ -1,0 +1,102 @@
+<!-- title: Miksi Lily — Lily Design System -->
+<!-- description: Perustelut Lilylle: päättömät komponentit, jotka tyylittelet itse, sisäänrakennettu WCAG 2.2 AAA -saavutettavuus, ei kovakoodattuja merkkijonoja, kahdeksan kehystä, yksi luettelo, ilmainen ikuisesti. -->
+<section class="page-intro">
+  <h1>Perustelut Lilylle</h1>
+  <p class="page-intro-tagline">
+    Lily hoitaa vaikeat osat – semantiikan, saavutettavuuden, näppäimistökäyttäytymisen, kansainvälistämisen – ja jättää ulkoasun kokonaan ja ilolla sinulle.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Aloita omasta suunnittelustasi</h2>
+  <p>
+    Tiimisi tietää jo, miltä tuotteesi pitäisi näyttää. Lily alkaa täsmälleen siitä: se tarjoaa osat, joiden tekeminen oikein on todella vaikeaa ja uudelleen tekeminen kallista – oikean semanttisen elementin, ARIA-tilat, näppäimistösopimuksen, kohdistuksen hallinnan – ja jättää jokaisen visuaalisen päätöksen kokonaan ja ilolla sinulle. Sinun CSS:äsi on suunnittelujärjestelmän ulkoasu ensimmäisestä päivästä.
+  </p>
+  <p>
+    Koska jokaisessa komponentissa on vakaa luokkakoukku ja puhdas rakenne, tyylittelysi pysyy puhtaasti omanasi jokaisen päivityksen läpi – ja sen alla oleva saavutettavuus jatkaa toimintaansa versiosta toiseen.
+  </p>
+
+  <h2>Mihin Lily sitoutuu</h2>
+  <ul>
+    <li>
+      <strong>Saavutettava oletuksena.</strong> WCAG 2.2 AAA on jokaisen komponentin tavoite. Mallit noudattavat WAI-ARIA Authoring Practices -ohjeita, jokainen vuorovaikutteinen komponentti on käytettävissä näppäimistöllä dokumentoidun sopimuksen mukaan, ja esimerkkisovellukset pitävät puhtaan axe-core-perustason.
+    </li>
+    <li>
+      <strong>Kansainvälistettävä rakenteeltaan.</strong> Jokainen käyttäjälle näkyvä merkkijono – jokainen nimiö, virhe ja ilmoitus – on ominaisuus, jonka nimet ovat vakaita kaikissa kehyksissä, joten kääntäminen sujuu luontevasti. RTL ja kaksisuuntainen teksti perivät <code>dir</code>-attribuuttisi. Kielitietoiset komponentit saavat kielen ominaisuutena, aina nimenomaisesti.
+    </li>
+    <li>
+      <strong>Yksi luettelo, kahdeksan kehystä.</strong> Samat 571 komponenttia (536 natiivina Web Components -komponentteina) samoilla luokkakoukuilla ja ominaisuuskäytännöillä HTML:ssä, Sveltessä, Reactissa, Vuessa, Angularissa, Blazorissa, Nunjucksissa ja Web Componentsissa. CSS:äsi ja tiimisi osaaminen siirtyvät teknologiapinojen välillä.
+    </li>
+    <li>
+      <strong>CSS-strategiasta riippumaton.</strong> Yksi vakaa kebab-case-luokka komponentin juurta kohti. Semanttinen CSS, Tailwind-apuluokat, CSS-in-JS tai yksi 57 valmiista teemasta – Lily toivottaa kaikki tervetulleiksi ja pysyy sulavasti poissa tieltä.
+    </li>
+    <li>
+      <strong>Ilmainen, ikuisesti, sinun ehdoillasi.</strong> Avointa lähdekoodia valitsemallasi lisenssillä: BSD, MIT, Apache-2.0, GPL-2.0 tai GPL-3.0. Ei pro-tasoa, ei käyttäjäkohtaisia lisenssejä, ei telemetriaa.
+    </li>
+  </ul>
+
+  <h2>Syvyyttä siellä, missä sillä on väliä</h2>
+  <p>
+    Tavallisten painikkeiden ja valintaikkunoiden lisäksi luettelo ulottuu pidemmälle kuin useimmat:
+  </p>
+  <ul>
+    <li>
+      <strong>Julkisen sektorin mallit</strong> tutkittu NHS UK:n, GOV.UK:n, USWDS:n ja ONS:n suunnittelujärjestelmistä – virheyhteenvedot, varoituskorostukset, yhteenvetoluettelot, vaihebannerit ja ohituslinkit.
+    </li>
+    <li>
+      <strong>140 kansallisen henkilötunnisteen komponenttia</strong> jotka kattavat terveydenhuollon, kansalliset henkilöllisyys-, vero- ja passitunnisteet yli 50 maassa, kukin dokumentoituine muotoineen ja validointialgoritmeineen.
+    </li>
+    <li>
+      <strong>Toimituksellisen sisällön ja scrollytellingin perusosat</strong> mukautettu Reuters Graphicsilta – artikkeliasettelut, vierittäjät, aikajanat, laattakartat.
+    </li>
+    <li>
+      <strong>Valitsinapurit</strong> – pienet paketit, jotka omistavat yhden vuorovaikutuksen alusta loppuun: teeman vaihto (ajonaikaisella tyylitiedoston latauksella), kieli, tekstikoko, vähennetty liike, haku, sivulinkit, jakaminen sekä päivämäärän ja ajan syöttö. Jokainen on päätön kuvakepainike, joka avaa ponnahdusikkunan – ei natiivi <code>&lt;select&gt;</code> – pysyvyys ja SSR-turvallisuus sisäänrakennettuina.
+    </li>
+  </ul>
+
+  <h2>Julkisen sektorin teemat valmiina</h2>
+  <p>
+    Lily toimittaa 57 itsenäistä viiteteemaa, jotka kohdistuvat suoraan sen luokkakoukkuihin: NHS England, NHS Scotland ja NHS Wales (kukin potilas- ja ammattilaisversiona), GOV.UK, USWDS, Adobe Spectrumista ja Mozilla Protocolista innoituksensa saaneet paletit sekä joukko yleiskäyttöisiä vaaleita ja tummia teemoja. Linkitä yksi tyylitiedosto, ja viranomaistason ulkoasu on käytössä; apuri <code>theme-picker</code> vaihtaa niitä ajon aikana.
+  </p>
+
+  <h2>Miten Lily pärjää vertailussa</h2>
+  <p>
+    Pidämme rehellistä, komponentti komponentilta etenevää
+    <a href="/comparisons/">vertailua muihin suunnittelujärjestelmiin</a> – tyyliteltyihin ja päättömiin, kaupallisiin ja julkisen sektorin järjestelmiin. Missä jokin toinen kirjasto sopii sinulle paremmin, vertailu näyttää sen; Lily oppii kaikista ja mainitsee vaikuttimensa avoimesti.
+  </p>
+
+  <h2>Ketkä ovat taustalla</h2>
+  <p>
+    Lily on nuori, riippumaton avoimen lähdekoodin projekti, joka toivottaa tervetulleeksi yhteistyön, ohjauksen ja palautteen – katso
+    <a href="/about/">Tietoa</a> tarinasta ja vaikutteista. Kaikki – määrittely, testit, tiekartta, jopa auditointityökalut – on avoimena osoitteessa
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Auta Lilyä kasvamaan</h2>
+  <p>Jos Lily on sinulle hyödyllinen, arvokkaimmat asiat, joita voit tehdä:</p>
+  <ul>
+    <li>
+      <strong>Anna tähti ja jaa.</strong> Anna tähti
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">päärepositoriolle</a>
+      ja näytä kollegalle <a href="/components/">luettelon</a> – tunnettuus on nuoren projektin niukin resurssi.
+    </li>
+    <li>
+      <strong>Rakenna jotain ja kerro meille.</strong> Käytännön käyttöraportit – mikä toimi, mikä voisi sujua sujuvammin – muokkaavat tiekarttaa enemmän kuin mikään muu.
+    </li>
+    <li>
+      <strong>Auditoi saavutettavuus.</strong> Näytönlukijakäynnit (VoiceOver, NVDA, JAWS) <a href="/examples/">esimerkkisovelluksissa</a> ovat kultaa; ilmoita löytämäsi.
+    </li>
+    <li>
+      <strong>Lahjoita teema tai käännös.</strong> Molemmat ovat itsenäisiä, hyvin rajattuja ensimmäisiä panoksia.
+    </li>
+    <li>
+      <strong>Jaa löytämäsi minimaalisen toistotavan kanssa</strong> GitHub-repossa tai lähetä sähköpostia osoitteeseen
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Aloita opetusohjelma</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Anna tähti GitHubissa</a>
+  </div>
+</section>

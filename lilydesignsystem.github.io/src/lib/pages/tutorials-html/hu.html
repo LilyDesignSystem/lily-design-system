@@ -1,0 +1,106 @@
+<!-- title: HTML oktatóanyag — Lily Design System -->
+<!-- description: Építs hozzáférhető, stílusos űrlapot a Lily HTML fej nélküli komponenseivel — sima jelölés, közvetlenül fájlból. -->
+<section class="page-intro">
+  <h1>HTML oktatóanyag</h1>
+  <p class="page-intro-tagline">
+    A lehető legegyszerűbb kezdés: másolj szemantikus HTML-t a Lily osztálykampóival, adj hozzá egy stíluslapot, tedd közzé. Sima fájlok, amelyek mindenhol működnek, ahol a HTML működik.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy kis kapcsolatfelvételi űrlap — címkézett mezők, egy küldés gomb, valódi billentyűzet- és képernyőolvasó-viselkedés — először csupaszon, aztán stílusosan, nagyjából 10 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Egy böngészőre és egy szövegszerkesztőre van szükséged. Ennyi. (A git segít a komponensfájlok megszerzésében, de a böngészőben is lemásolhatod őket a GitHubról.)
+  </p>
+
+  <h2>1. lépés — Szerezd meg a kódot</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Minden komponens önálló fájl itt: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>és így tovább — fejlécmegjegyzéssel, amely dokumentálja a HTML-címkéjét, az osztálykampót, a billentyűzet-viselkedést és a hozzáférhetőségi szerződést. A fájlok <em>maguk</em> a könyvtár — másold, amire szükséged van, és indulj.
+  </p>
+
+  <h2>2. lépés — Az első komponensed</h2>
+  <p>Nyisd meg: <code>components/button.html</code>, vagy egyszerűen írd meg a jelölést — az osztálykampó a szerződés:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Mivel ez valódi <code>&lt;button&gt;</code>, a billentyűzetfókusz, az Enter és a Szóköz általi aktiválás és az implicit gombszerep már helyes.
+  </p>
+
+  <h2>3. lépés — Állíts össze egy kis űrlapot</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Figyeld meg a mintát: minden vezérlő összeköti a saját <code>&lt;label for&gt;</code>elemét, a legspecifikusabb beviteli típust használja, és pontosan egy kebab-case osztálykampót hordoz.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> nyisd meg az oldalt egy böngészőben. Csupasznak látszik — pontosan úgy, ahogy szántuk: a stílus még hátravan. Nyomd meg a
+      <kbd>Tab</kbd>billentyűt: a fókusz végigmegy minden vezérlőn, a címkéket bemondja, és a küldés működik. A viselkedés kész; a megjelenés a tiéd, és a következő lépés.
+    </p>
+  </div>
+
+  <h2>4. lépés — Stílus hozzá</h2>
+  <p>Írj CSS-t a kampókra:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Vagy hagyd ki teljesen a CSS kézzel írását — hivatkozz a 45 kész téma egyikére, és ugyanaz a jelölés kivilágosodik:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>5. lépés — Fedezz fel többet</h2>
+  <ul>
+    <li>A tároló tesztjei valódi böngészőkben futnak: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook minden komponenshez: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">A HTML+CSS+JS példaalkalmazás</a> mind az 571 komponenst stílusosan, kereshetően és bemutatva mutatja.
+    </li>
+  </ul>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témák</a> — témaváltás futásidőben a theme-pickerrel.</li>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — nyelv és szövegméret.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — a teljes referencia.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

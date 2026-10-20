@@ -1,0 +1,432 @@
+<!-- title: Hjælp — Lily Design System -->
+<!-- description: Kom i gang med Lily: installér den hovedløse pakke til dit framework, kopiér en komponent, stil den, giv den et tema og udgiv den. Fejlfinding, FAQ og support. -->
+<section class="page-intro">
+  <h1>Kom i gang med Lily</h1>
+  <p class="page-intro-tagline">
+    Vælg et framework, klon monorepoet og åbn dets hovedløse bibliotek eller eksempelapp, og begynd at sammensætte dine egne sider. Foretrækker du en guidet vej? Start med
+    <a href="/tutorials/">vejledningerne</a>.
+  </p>
+</section>
+
+<nav aria-label="På denne side" class="prose" style="margin: 0 auto;">
+  <p><strong>På denne side:</strong></p>
+  <ul>
+    <li><a href="#install">Installation</a></li>
+    <li><a href="#use-headless">Brug en hovedløs komponent</a></li>
+    <li><a href="#use-styled">Brug et stilet eksempel</a></li>
+    <li><a href="#styling">Stilarter og designtokens</a></li>
+    <li><a href="#themes">Færdige temaer</a></li>
+    <li><a href="#helpers">Præferencehjælpere</a></li>
+    <li><a href="#a11y">Tilgængelighed</a></li>
+    <li><a href="#i18n">Internationalisering</a></li>
+    <li><a href="#testing">Test</a></li>
+    <li><a href="#ai-agents">AI-agenter</a></li>
+    <li><a href="#troubleshooting">Fejlfinding</a></li>
+    <li><a href="#contributing">Bidrag</a></li>
+    <li><a href="#community">Fællesskab og support</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Installation</h2>
+  <p>
+    Lily bor i ét Git-monorepo med en mappe til hvert frameworks hovedløse bibliotek, hjælperpakker og eksempelapp. Den hurtigste måde at prøve det på er at klone monorepoet og åbne det hovedløse bibliotek til din stak:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Det samme mønster virker for de andre frameworks:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> – ingen installation nødvendig; kopiér <code>.html</code> -filer</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    De hovedløse biblioteker er udformet til at blive klonet eller indlemmet – betragt kildekoden som sandhedskilden og kopiér det, du har brug for.
+    <a href="#helpers">præferencehjælperne</a> leveres desuden som installerbare pakker med en bygge- og udgivelsespipeline (npm til JS-frameworks, NuGet til Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Brug en hovedløs komponent</h2>
+  <p>
+    Hovedløse komponenter leveres med semantisk HTML, ARIA og props – men ingen CSS. Her er en Button i hvert framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Brug et stilet eksempel</h2>
+  <p>
+    Eksempelapps indeholder CSS, ruter og fulde demosider. Den hurtigste måde at eksperimentere på er at starte eksempelappen til SvelteKit, Next, Nuxt, Analog eller Eleventy og se demoen på <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Åbn derefter <code>http://localhost:5173</code> og gennemse <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stilarter og designtokens</h2>
+  <p>
+    Hver komponent gengives med én enkelt kebab-case-klasse på sit rodelement. For eksempel gengiver <code>&lt;Button&gt;</code> som <code>&lt;button class="button"&gt;</code>. Stil det, som du vil:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lilys standardfarvepalet (brugt i eksempelapps) er:</p>
+  <ul>
+    <li>Primær: <code>#2563eb</code></li>
+    <li>Fare: <code>#dc2626</code></li>
+    <li>Advarsel: <code>#f59e0b</code></li>
+    <li>Succes: <code>#16a34a</code></li>
+    <li>Sidebaggrund: <code>#f9fafb</code></li>
+    <li>Kortbaggrund: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Det er forslag, ikke krav. Erstat dem med din egen brandpalet, så følger Lily gerne med.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Færdige temaer</h2>
+  <p>
+    Vil du ikke skrive CSS fra bunden? Lily leveres med
+    <strong>57 selvstændige referencetemaer</strong> i mappen
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Hvert er ét typografiark, der retter sig mod Lilys klassekroge – link det, og du er stilet:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Sættet omfatter:</p>
+  <ul>
+    <li>
+      <strong>Offentlig sektor</strong> – NHS England, NHS Scotland og NHS Wales (hver med varianter til patienter og fagpersoner), GOV.UK GDS og U.S. Web Design System.
+    </li>
+    <li><strong>Inspireret af leverandører</strong> – Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Almen brug</strong> – light, dark, nord, dracula, wireframe og tredive-og-lidt flere.
+    </li>
+  </ul>
+  <p>
+    Temaselektorer bruger <code>:where(...)</code>, så din egen CSS altid vinder på specificitet. Par dem med <code>theme-picker</code> -hjælperen nedenfor til skift under kørsel, eller følg
+    <a href="/tutorials/theming/">temavejledningen</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Præferencehjælpere</h2>
+  <p>
+    Hvert framework har otte små vælgere, hver sin egen
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -pakke (og en <code>picker-bar</code> der samler dem). Hver er en hovedløs ikonknap, der åbner en popup – en listeboks, en liste med links, en søgeformular eller (for date-time-picker) en datovælgerdialog – ikke en indbygget
+    <code>&lt;select&gt;</code>; er SSR-sikker; og leveres uden CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> – indlæser tema-typografiark under kørsel ved at skifte et administreret <code>&lt;link&gt;</code>, sætter
+      <code>data-theme</code> på dokumentet og gemmer eventuelt i
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> – sætter <code>lang</code> og
+      <code>dir</code> (med automatisk RTL-registrering), så dit i18n-bibliotek kan følge med; oversætter ikke selv noget.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> – sætter <code>data-text-size</code> på dokumentet; din CSS knytter hver værdi til en skriftstørrelse.
+    </li>
+    <li>
+      <strong>motion-picker</strong> – sætter <code>data-motion</code> på dokumentet, med udgangspunkt i den besøgendes indstilling for reduceret bevægelse; din CSS og dine scripts afgør, hvad der undertrykkes.
+    </li>
+    <li>
+      <strong>search-picker</strong> – en ikonknap, der åbner et søgefelt; afsendelse navigerer til en søgeside. Ejer en handling, ikke en præference.
+    </li>
+    <li>
+      <strong>link-picker</strong> – et hjemikon, der åbner en menu med de sidelinks, din app definerer (Hjem, Om os, Kontakt os, Privatlivspolitik, …). Ejer en handling, ikke en præference.
+    </li>
+    <li>
+      <strong>share-picker</strong> – åbner det indbyggede delingsark eller en liste over destinationer leveret af forbrugeren, plus kopiér URL. Ejer en handling, ikke en præference: anvender intet, gemmer intet.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> – et tekstfelt plus en APG-datovælgerdialog til en dato, et tidspunkt eller begge dele. Ejer en formularværdi, ikke en præference: ISO-strengen omsættes frem og tilbage til
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte-kataloget er den kanoniske reference; portene til React, Vue, Angular, HTML, Nunjucks, Web Components og Blazor matcher det kontrakt for kontrakt. Se
+    <a href="/tutorials/helpers/">hjælpervejledningen</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Tilgængelighed</h2>
+  <p>Komponenterne sigter mod <strong>WCAG 2.2 AAA</strong>. De følger disse mønstre:</p>
+  <ul>
+    <li>Semantiske HTML-elementer frem for generiske <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> der knytter etiketter til input.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> til krydsreferencer.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> til fejltilstande.</li>
+    <li><code>role="alert"</code> og <code>aria-live</code> til dynamisk indhold.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> til tilstand.</li>
+    <li>Roving <code>tabindex</code> til gitre.</li>
+  </ul>
+  <p>
+    Fokusindikatorer leveres bevidst af forbrugeren – Lily tegner aldrig en standardfokusring, der strider mod dit design. Eksempelapps holder en ren axe-core-baseline på alle deres ruter.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internationalisering</h2>
+  <p>
+    Hver etiket, pladsholder, fejlmeddelelse og knaptekst er en prop. Der er ingen hårdkodede strenge. Sæt det oversættelsesframework ind, du foretrækker – Paraglide, i18next, vue-i18n, react-intl, .resx-filer, hvad som helst.
+  </p>
+  <p>
+    For datoer, tal og valutaer modtager komponenterne færdigformaterede strenge: du formaterer med <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / dit foretrukne bibliotek og sender resultatet videre.
+  </p>
+  <p>
+    Hjælperen <code>locale-picker</code> signalerer det valgte sprog til dit i18n-bibliotek ved at sætte <code>lang</code> og <code>dir</code> på dokumentroden.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Test</h2>
+  <p>Hvert frameworks delprojekt leveres med egne tests, der bruger dets idiomatiske stak:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO, der kører rigtige browsere.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (via Analog Vite-plugin'et).</li>
+    <li><strong>Nunjucks</strong>: Vitest med en gengivelseshjælper.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Tests bruger <strong>kun Vitests indbyggede matchere</strong> – aldrig
+    <code>jest-dom</code> -matchere. Det holder testsuiterne bærbare. Eksempelapps tilføjer Playwright-ende-til-ende-suiter, axe-core-tilgængelighedsbaselines og en gennemgang af responsive viewporte.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI-agenter</h2>
+  <p>
+    Dette websted udgiver <a href="/llms.txt">llms.txt</a> og
+    <a href="/llms.json">llms.json</a> i sin rod – et kurateret kort over de vigtigste sider, til ethvert værktøj, der følger
+    <a href="https://llmstxt.org">llms.txt-konventionen</a>.
+  </p>
+  <p>
+    Det kanoniske monorepo leverer desuden to
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: en alment anvendelig skill, der dækker Lilys begreber, terminologi og sammensætningsmønstre for alle, der bygger med systemet, og <code>lily-design-system-maintainer-skill</code>, en teknisk skill, der dækker monorepoets layout af påkrævede filer og værktøjer for alle, der arbejder på det. Begge ligger i roden af det
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanoniske monorepo</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Fejlfinding</h2>
+
+  <details class="faq-item">
+    <summary>En komponent gengives, men ser ustilet ud</summary>
+    <p>
+      Det er hovedløs, som det skal være – der følger ingen CSS med komponenten. Skriv enten CSS mod komponentens kebab-case-klasse (vist på hver <a href="/components/">katalogside</a>) eller link et af de
+      <a href="#themes">57 færdige temaer</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Min CSS ser ikke ud til at gælde over et tema</summary>
+    <p>
+      Det burde den – temaselektorer er pakket ind i <code>:where(...)</code>, som har nul specificitet. Hvis en regel stadig taber, så tjek, at dit typografiark indlæses efter temaets <code>&lt;link&gt;</code> og at selektoren faktisk matcher komponentens klassekrog.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install fejler med en peer- eller versionsfejl</summary>
+    <p>
+      Brug en aktuel pnpm (v10+) og Node 22+. Hvert delprojekt fastlåser sine frameworkversioner i sin egen <code>package.json</code>; hvis din globale værktøjskæde er ældre, er <code>pnpm env use --global lts</code> den hurtigste løsning.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Skærmlæseren oplæser det forkerte navn for en kontrol</summary>
+    <p>
+      Tjek komponentens påkrævede <code>label</code> -prop – komponenter uden synlig tekst kræver en, og forbrugerleveret
+      <code>aria-label</code> / <code>aria-labelledby</code> som sendes videre via rest-props, vinder bevidst over den indbyggede forbindelse. Hver katalogside dokumenterer komponentens ARIA-kontrakt.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker-hjælperen skifter ikke typografiark</summary>
+    <p>
+      Bekræft, at <code>themesUrl</code> peger på en mappe, som browseren kan hente (server <code>themes/</code> -filerne som statiske aktiver), og at temaernes slugs i din <code>themes</code> -prop matcher filnavnene. Hjælperen skifter <code>href</code> på ét administreret
+      <code>&lt;link data-lily-theme-picker&gt;</code> – inspicér det i udviklerværktøjerne for at se den URL, der anmodes om.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Noget andet er i stykker</summary>
+    <p>
+      Opret en issue med en minimal gengivelse på
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> – eller se <a href="#community">fællesskab og support</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Bidrag</h2>
+  <p>Lily er ungt og byder samarbejde velkommen. De mest nyttige bidrag lige nu er:</p>
+  <ul>
+    <li>Nye komponenter (især mønstre fra etablerede designsystemer).</li>
+    <li>Nye temaer – hvert er ét selvstændigt typografiark, en velafgrænset første PR.</li>
+    <li>Bedre eksempelstil – vis, hvad der er muligt.</li>
+    <li>Oversættelser af eksempelappens strenge.</li>
+    <li>Fejlrapporter med en minimal gengivelse.</li>
+    <li>Tilgængelighedsrevisioner med skærmlæsere og hjælpeteknologi.</li>
+  </ul>
+  <p>
+    Opret issues og PR'er på
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Fællesskab og support</h2>
+  <ul>
+    <li>
+      <strong>Spørgsmål og fejlrapporter</strong> – opret en issue på
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-mail</strong> – vedligeholderen læser
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      og byder samarbejde, vejledning og feedback velkommen.
+    </li>
+    <li>
+      <strong>Spejle</strong> – Lily pushes også til
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> og
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, så du kan deltage fra den forge, du foretrækker.
+    </li>
+    <li>
+      <strong>Adfærd</strong> – projektet følger en standardadfærdskodeks; vær venlig og antag god tro.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Hvorfor hovedløs i stedet for stilet?</summary>
+    <p>
+      Forhåndsstilede komponenter er praktiske – indtil de ikke passer til dit brand. Hovedløse komponenter kræver lidt mere arbejde i starten, men giver dig fuld kontrol over det visuelle design. Eksempelapps og de 57 temaer viser måder at style dem på; du kan tage dem eller erstatte dem helt. Det længere argument findes på <a href="/why/">Hvorfor Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hvorfor så mange komponenter?</summary>
+    <p>
+      Lily sigter mod at dække de mønstre, de fleste apps har brug for, uden at tvinge dig til at bygge dem fra bunden – herunder dybe sager som input til nationale identifikatorer og redaktionel scrollytelling. Kataloget trækker på et dusin etablerede designsystemer plus eget arbejde – se <a href="/about/">Om</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kan jeg bruge Lily med Tailwind?</summary>
+    <p>
+      Ja. Hver komponent udstiller én enkelt rodklasse i kebab-case plus en forbrugerleveret <code>className</code> / <code>class</code>. Læg Tailwind-utilities ovenpå, som du vil.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kan jeg bruge Lily med semantiske CSS-frameworks som DaisyUI?</summary>
+    <p>
+      Ja. Klassenavnene i kebab-case på rodelementet fungerer som semantiske CSS-kroge. Par Lily med et semantisk framework, så får du forhåndsstilede komponenter, der stadig respekterer ARIA og i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Findes der en npm-pakke?</summary>
+    <p>
+       <a href="#helpers">præferencehjælperne</a> leveres som pakker med en npm/NuGet-udgivelsespipeline. De hovedløse komponentbiblioteker er udformet til at blive klonet eller indlemmet – kildekoden er leverancen, så du kan læse, trimme og eje præcis det, du leverer. Registerudgivelse af de hovedløse biblioteker står stadig på køreplanen.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hvorfor flere licenser?</summary>
+    <p>
+      Forskellige projekter har forskellige licensbehov. BSD og MIT er tilladende, Apache-2.0 har en patentbevilling, og GPL-mulighederne understøtter copyleft. Vælg det, der passer til din situation.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hvordan rapporterer jeg en fejl eller anmoder om en funktion?</summary>
+    <p>
+      Opret en issue i GitHub-repositoriet, eller skriv til
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Nav uzturētas Lily Figma bibliotēkas vai spraudņa. 57 atsauces motīvu dizaina tokeni ir publicēti DTCG formātā, un tos var importēt Figma jau šodien ar esošu kopienas spraudni. -->
+<section class="page-intro">
+  <h1>Nav uzturētas Figma bibliotēkas — lūk, kas pastāv tās vietā</h1>
+  <p class="page-intro-tagline">
+    Šī lapa agrāk teica „drīzumā”. Vairs neteic, jo neviens to neveidoja. Lūk, godīgais stāvoklis un reāls ceļš, kas darbojas šodien.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Kā nav</h2>
+  <p>
+    Nav oficiālas Lily komponenšu bibliotēkas Figma un nav uzturēta Figma spraudņa. Labi izveidot un uzturēt dizaina rīka bibliotēku ir reāls, ilgstošs pienākums — Figma komponenšu struktūra, variantu nosaukumi, auto-layout, savs publicēšanas cauruļvads — atsevišķi no koda uzturēšanas, un šis projekts to nav uzņēmies.
+  </p>
+
+  <h2>Kas ir šodien</h2>
+  <p>
+    Katram no 57 atsauces motīviem ir savi dizaina tokenu pamatelementi — krāsa, rādiuss, izmērs, apmale — publicēti
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 formātā</a
+    >
+    vietnē
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Šis formāts ir tieši tas, ko lasa mūsdienu tokenu rīki. Lily motīva paleti varat ievilkt Figma pats, tūlīt, bez šī projekta spraudņa:
+  </p>
+  <ol>
+    <li>
+      Instalējiet kopienas
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      spraudni (vai paša Figma Variables importu, ja jūsu plāns atbalsta DTCG importu).
+    </li>
+    <li>
+      Importējiet <code>themes/tokens/{theme-slug}.json</code> vēlamajam motīvam — piemēram,
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio no DTCG vērtībām izveido Figma mainīgos, ko pēc tam varat piemērot saviem komponentiem.
+    </li>
+  </ol>
+  <p>
+    Tas dod jums Lily krāsu un formu tokenus Figma. Tas nedod jums Lily patiesās komponentes kā Figma komponentes — neviens to nav izveidojis, un šī lapa neizlikīsies citādi.
+  </p>
+
+  <h2>Vai ir plānota īsta Figma bibliotēka?</h2>
+  <p>
+    Pašlaik nē, un solīt to nav par brīvu: skatiet
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    par atvērto jautājumu un to, kas mainītu projekta viedokli — visnoderīgāk ir, ja dizaineris konkrēti pasaka, kas viņam vajadzīgs no šī slāņa. Ja tas esat jūs,
+    <a href="mailto:joel@joelparkerhenderson.com">pastāstiet mums</a>
+    vai atveriet issue.
+  </p>
+</section>

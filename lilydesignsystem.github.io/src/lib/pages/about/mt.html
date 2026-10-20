@@ -1,0 +1,94 @@
+<!-- title: Dwar — Lily Design System -->
+<!-- description: X’inhi Lily, il-prinċipji warajha u s-sistemi tad-disinn li minnhom tieħu ispirazzjoni. -->
+<section class="page-intro">
+  <h1>X’inhi Lily?</h1>
+  <p class="page-intro-tagline">
+    Sistema tad-disinn b’xejn u b’sors miftuħ, li tqiegħed l-aċċessibbiltà l-ewwel: tiltaqa’ miegħek fejn tikteb il-kodiċi, u titbiegħed meta ma jkollokx bżonnha.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Fil-qosor</h2>
+  <p>
+    Lily hija katalgu ta’ <strong>komponenti tal-web</strong>, li kull wieħed minnhom huwa implimentat f’tmien verżjonijiet headless (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks u Web Components), flimkien ma’ sett ta’ applikazzjonijiet ta’ eżempju kompluti li juru kif tistilizzahom.
+  </p>
+  <p>
+    Il-verżjonijiet headless jiġu bi <em>xejn CSS</em>. Jagħtuk HTML semantiku, rwoli u stati ARIA, appoġġ għat-tastiera u proprjetajiet adattati għall-internazzjonalizzazzjoni. Id-disinn viżwali inti ġġibu.
+  </p>
+
+  <h2>Prinċipji tad-disinn</h2>
+
+  <h3>Aċċessibbli</h3>
+  <p>
+    Kull komponent jibda minn HTML semantiku. L-ARIA tiżdied biss fejn l-HTML waħdu ma jistax jesprimi x-xejra. Il-komponenti jimmiraw lejn
+    <strong>WCAG 2.2 AAA</strong> — il-kuluri, l-ispazji, il-fokus u n-navigazzjoni bit-tastiera huma kollha kkunsidrati.
+  </p>
+
+  <h3>Jista’ jinġabar</h3>
+  <p>
+    Lily tippreferi komponenti żgħar b’skop wieħed li jidħlu f’xulxin. Ix-xejriet komposti jidhru għal darba wara l-oħra:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — għal breadcrumbs, listi tal-kontenut, menus akkordjun, menus tas-siġra u paġinazzjoni</li>
+    <li><code>Form → Field → Input</code> — għal kull dispożizzjoni ta’ formola bi tikketti, suġġerimenti u żbalji</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — għal tabelli, kalendarji, dijagrammi Gantt u bords kanban</li>
+    <li><code>Bar → BarButton</code> — għal toolbars, tab bars, task bars, action bars u menu bars</li>
+    <li><code>Picker → PickerButton</code> — għal għażla tal-kulur, għażla tal-klassifikazzjoni, għażla tat-tema</li>
+  </ul>
+
+  <h3>Jista’ jiġi internazzjonalizzat</h3>
+  <p>
+    L-ebda sekwenza viżibbli għall-utent mhi miktuba direttament fil-kodiċi. It-tikketti, il-placeholders, il-messaġġi tal-iżball, it-test tal-buttuni — kollha parametri. Qabbad is-sistema tat-traduzzjoni tiegħek u Lily titkellem kwalunkwe lingwa titkellem int.
+  </p>
+
+  <h3>Headless</h3>
+  <p>
+    Il-komponenti headless għandhom <strong>xejn CSS</strong>, l-ebda blokki
+    <code>&lt;style&gt;</code> , l-ebda tokens tad-disinn li ma għażiltx int. Jesponu isem wieħed ta’ klassi f’kebab-case fuq kull element għerq, biex tkun tista’ timmirhom kif trid — CSS semantiku, Tailwind, CSS-in-JS, id-deċiżjoni tiegħek.
+  </p>
+
+  <h3>Eżempji kompluti</h3>
+  <p>
+    L-applikazzjonijiet ta’ eżempju juru kif tistilizza l-komponenti għal użu reali — liema tokens tad-disinn tistabbilixxi, liema varjazzjonijiet iżżid, kif tikkomponi paġni. Huma applikazzjonijiet SvelteKit, Next.js, Nuxt, Blazor u Eleventy sħaħ, mhux biss sandboxes.
+  </p>
+
+  <h2 id="inspirations">Sorsi ta’ ispirazzjoni</h2>
+  <p>
+    Lily tieħu x-xejriet u l-lingwaġġ minn sett wiesa’ apposta ta’ sistemi tad-disinn:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>Liċenzja</h2>
+  <p>
+    Lily għandha liċenzji multipli: <strong>BSD, MIT, Apache-2.0, GPL-2.0 jew GPL-3.0</strong>. Agħżel dik li taqbel mal-proġett tiegħek. Jekk l-ebda waħda ma taqbel, ikkuntattjana.
+  </p>
+
+  <h2>Kuntatt</h2>
+  <p>
+    Mexxej tal-proġett: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Sibt bug, għandek idea, trid tikkontribwixxi komponent? Iftaħ issue jew pull request fuq
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Stat:</strong> Lily hija xogħol ġdid ġdid u nilqgħu l-kollaborazzjoni, il-gwida u l-feedback. L-affarijiet se jinbidlu u se jevolvu.
+    </p>
+  </div>
+</section>

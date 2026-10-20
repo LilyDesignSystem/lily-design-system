@@ -1,0 +1,432 @@
+<!-- title: Ajutor — Lily Design System -->
+<!-- description: Începe cu Lily: instalează pachetul headless pentru framework-ul tău, copiază o componentă, stilizeaz-o, aplică o temă și livreaz-o. Depanare, FAQ și asistență. -->
+<section class="page-intro">
+  <h1>Primii pași cu Lily</h1>
+  <p class="page-intro-tagline">
+    Alege un framework, clonează monorepo-ul și deschide biblioteca sa headless sau aplicația-exemplu, apoi începe să-ți compui propriile pagini. Preferi un traseu ghidat? Începe cu
+    <a href="/tutorials/">tutorialele</a>.
+  </p>
+</section>
+
+<nav aria-label="Pe această pagină" class="prose" style="margin: 0 auto;">
+  <p><strong>Pe această pagină:</strong></p>
+  <ul>
+    <li><a href="#install">Instalare</a></li>
+    <li><a href="#use-headless">Folosește o componentă headless</a></li>
+    <li><a href="#use-styled">Folosește un exemplu stilizat</a></li>
+    <li><a href="#styling">Stilizare și tokenuri de design</a></li>
+    <li><a href="#themes">Teme gata făcute</a></li>
+    <li><a href="#helpers">Ajutoare pentru preferințe</a></li>
+    <li><a href="#a11y">Accesibilitate</a></li>
+    <li><a href="#i18n">Internaționalizare</a></li>
+    <li><a href="#testing">Testare</a></li>
+    <li><a href="#ai-agents">Agenți AI</a></li>
+    <li><a href="#troubleshooting">Depanare</a></li>
+    <li><a href="#contributing">Contribuie</a></li>
+    <li><a href="#community">Comunitate și asistență</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Instalare</h2>
+  <p>
+    Lily trăiește într-un singur monorepo Git, cu un director pentru biblioteca headless, pachetele de ajutor și aplicația-exemplu ale fiecărui framework. Cea mai rapidă cale de a-l încerca este să clonezi monorepo-ul și să deschizi biblioteca headless pentru stack-ul tău:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Același tipar funcționează și pentru celelalte framework-uri:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — nu e nevoie de instalare; copiază fișierele <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Bibliotecile headless sunt concepute pentru a fi clonate sau incluse în proiect — tratează sursa ca sursă a adevărului și copiază ce îți trebuie.
+    <a href="#helpers">ajutoarele pentru preferințe</a> sunt livrate suplimentar ca pachete instalabile, cu un flux de build și publicare (npm pentru framework-urile JS, NuGet pentru Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Folosește o componentă headless</h2>
+  <p>
+    Componentele headless oferă HTML semantic, ARIA și proprietăți — dar niciun CSS. Iată un Button în fiecare framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Folosește un exemplu stilizat</h2>
+  <p>
+    Aplicațiile-exemplu includ CSS, rute și pagini demo complete. Cea mai rapidă cale de a experimenta este să pornești aplicația-exemplu SvelteKit, Next, Nuxt, Analog sau Eleventy și să vezi demo-ul la <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Apoi deschide <code>http://localhost:5173</code> și răsfoiește <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stilizare și tokenuri de design</h2>
+  <p>
+    Fiecare componentă se randează cu o singură clasă în kebab-case pe elementul rădăcină. De exemplu, <code>&lt;Button&gt;</code> se randează ca <code>&lt;button class="button"&gt;</code>. Stilizează-o cum dorești:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Paleta de culori implicită Lily (folosită în aplicațiile-exemplu) este:</p>
+  <ul>
+    <li>Primar: <code>#2563eb</code></li>
+    <li>Pericol: <code>#dc2626</code></li>
+    <li>Avertisment: <code>#f59e0b</code></li>
+    <li>Succes: <code>#16a34a</code></li>
+    <li>Fundalul paginii: <code>#f9fafb</code></li>
+    <li>Fundalul cardului: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Acestea sunt sugestii, nu cerințe. Înlocuiește-le cu paleta propriului brand și Lily te urmează bucuros.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Teme gata făcute</h2>
+  <p>
+    Nu vrei să scrii CSS de la zero? Lily include
+    <strong>57 de teme de referință independente</strong> în directorul
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Fiecare este o foaie de stil care țintește cârligele de clasă Lily — leag-o și ești stilizat:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Setul cuprinde:</p>
+  <ul>
+    <li>
+      <strong>Sector public</strong> — NHS England, NHS Scotland și NHS Wales (fiecare în variante pentru pacienți și pentru practicieni), GOV.UK GDS și U.S. Web Design System.
+    </li>
+    <li><strong>Inspirate de furnizori</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Uz general</strong> — light, dark, nord, dracula, wireframe și încă vreo treizeci.
+    </li>
+  </ul>
+  <p>
+    Selectorii temelor folosesc <code>:where(...)</code>, deci propriul tău CSS câștigă mereu la specificitate. Asociază-le cu ajutorul <code>theme-picker</code> de mai jos pentru schimbare la rulare sau urmează
+    <a href="/tutorials/theming/">tutorialul despre teme</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Ajutoare pentru preferințe</h2>
+  <p>
+    Fiecare framework are opt selectoare mici, fiecare un pachet
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> propriu (și un <code>picker-bar</code> care le asamblează). Fiecare este un buton-pictogramă headless care deschide o fereastră pop-up — o casetă de listă, o listă de linkuri, un formular de căutare sau (pentru date-time-picker) un dialog de selectare a datei — nu un
+    <code>&lt;select&gt;</code>nativ; este sigur pentru SSR; și nu include CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — încarcă foile de stil ale temelor la rulare schimbând un <code>&lt;link&gt;</code>gestionat, setează
+      <code>data-theme</code> pe document și, opțional, salvează persistent în
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — setează <code>lang</code> și
+      <code>dir</code> (cu detectare automată RTL) pentru ca biblioteca ta i18n să poată urma; nu traduce nimic singur.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — setează <code>data-text-size</code> pe document; CSS-ul tău asociază fiecare valoare cu o dimensiune a fontului.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — setează <code>data-motion</code> pe document, pornind de la setarea de mișcare redusă a vizitatorului; CSS-ul și scripturile tale decid ce se suprimă.
+    </li>
+    <li>
+      <strong>search-picker</strong> — un buton-pictogramă care deschide un câmp de căutare; trimiterea navighează la o pagină de căutare. Deține o acțiune, nu o preferință.
+    </li>
+    <li>
+      <strong>link-picker</strong> — o pictogramă de casă care deschide un meniu cu linkurile de pagină definite de aplicația ta (Acasă, Despre noi, Contact, Politica de confidențialitate, …). Deține o acțiune, nu o preferință.
+    </li>
+    <li>
+      <strong>share-picker</strong> — deschide foaia nativă de partajare sau o listă de destinații furnizată de consumator, plus copierea URL-ului. Deține o acțiune, nu o preferință: nu aplică nimic, nu salvează nimic.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — un câmp de text plus un dialog APG de selectare a datei pentru o dată, o oră sau ambele. Deține o valoare de formular, nu o preferință: șirul ISO se convertește dus-întors în
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Catalogul Svelte este referința canonică; porturile React, Vue, Angular, HTML, Nunjucks, Web Components și Blazor îl respectă contract cu contract. Vezi
+    <a href="/tutorials/helpers/">tutorialul despre ajutoare</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Accesibilitate</h2>
+  <p>Componentele țintesc <strong>WCAG 2.2 AAA</strong>. Urmează aceste modele:</p>
+  <ul>
+    <li>Elemente HTML semantice în loc de <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> generice, care leagă etichetele de câmpuri.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> pentru trimiteri încrucișate.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> pentru stări de eroare.</li>
+    <li><code>role="alert"</code> și <code>aria-live</code> pentru conținut dinamic.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> pentru stare.</li>
+    <li>Roving <code>tabindex</code> pentru grile.</li>
+  </ul>
+  <p>
+    Indicatorii de focalizare sunt furnizați intenționat de consumator — Lily nu desenează niciodată un inel de focalizare implicit care să intre în conflict cu designul tău. Aplicațiile-exemplu mențin o linie de bază axe-core curată pe toate rutele lor.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internaționalizare</h2>
+  <p>
+    Fiecare etichetă, substituent, mesaj de eroare și text de buton este o proprietate. Nu există șiruri scrise direct în cod. Conectează framework-ul de traducere preferit — Paraglide, i18next, vue-i18n, react-intl, fișiere .resx, orice.
+  </p>
+  <p>
+    Pentru date, numere și valute, componentele acceptă șiruri preformatate: tu formatezi cu <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / biblioteca ta preferată și transmiți rezultatul.
+  </p>
+  <p>
+    Ajutorul <code>locale-picker</code> semnalează localizarea aleasă bibliotecii tale i18n setând <code>lang</code> și <code>dir</code> pe rădăcina documentului.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testare</h2>
+  <p>Fiecare subproiect de framework livrează propriile teste, folosind stack-ul său idiomatic:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO care rulează browsere reale.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (prin pluginul Vite Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest cu un ajutor de randare.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testele folosesc <strong>doar potrivitorii încorporați ai Vitest</strong> — niciodată potrivitorii
+    <code>jest-dom</code> . Aceasta păstrează suitele de teste portabile. Aplicațiile-exemplu adaugă suite end-to-end Playwright, linii de bază de accesibilitate axe-core și o parcurgere a viewport-urilor responsive.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Agenți AI</h2>
+  <p>
+    Acest site publică <a href="/llms.txt">llms.txt</a> și
+    <a href="/llms.json">llms.json</a> la rădăcina sa — o hartă selectată a celor mai importante pagini, pentru orice instrument care urmează
+    <a href="https://llmstxt.org">convenția llms.txt</a>.
+  </p>
+  <p>
+    Monorepo-ul canonic livrează în plus două
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: o competență de uz general care acoperă conceptele, terminologia și modelele de compoziție ale Lily pentru oricine construiește cu sistemul, și <code>lily-design-system-maintainer-skill</code>, o competență tehnică care acoperă structura fișierelor obligatorii și instrumentele monorepo-ului pentru oricine lucrează la el. Ambele se află la rădăcina
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo-ului canonic</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Depanare</h2>
+
+  <details class="faq-item">
+    <summary>O componentă se randează, dar arată nestilizată</summary>
+    <p>
+      Asta e headless funcționând conform intenției — niciun CSS nu vine cu componenta. Fie scrii CSS pentru clasa în kebab-case a componentei (afișată pe fiecare <a href="/components/">pagină de catalog</a>) fie legi una dintre cele
+      <a href="#themes">57 de teme gata făcute</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS-ul meu nu pare să se aplice peste o temă</summary>
+    <p>
+      Ar trebui — selectorii temelor sunt înfășurați în <code>:where(...)</code>, care are specificitate zero. Dacă o regulă tot pierde, verifică dacă foaia ta de stil se încarcă după <code>&lt;link&gt;</code> temei și dacă selectorul se potrivește cu adevărat cu cârligul de clasă al componentei.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install eșuează cu o eroare de peer sau de versiune</summary>
+    <p>
+      Folosește un pnpm actual (v10+) și Node 22+. Fiecare subproiect își fixează versiunile framework-ului în propriul <code>package.json</code>; dacă lanțul tău global de instrumente este mai vechi, <code>pnpm env use --global lts</code> este remedierea cea mai rapidă.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Cititorul de ecran anunță un nume greșit pentru un control</summary>
+    <p>
+      Verifică proprietatea obligatorie <code>label</code> a componentei — componentele fără text vizibil au nevoie de una, iar
+      <code>aria-label</code> / <code>aria-labelledby</code> furnizate de consumator și transmise prin rest-props câștigă intenționat în fața legăturii încorporate. Fiecare pagină de catalog documentează contractul ARIA al componentei.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ajutorul theme-picker nu schimbă foile de stil</summary>
+    <p>
+      Confirmă că <code>themesUrl</code> indică un director pe care browserul îl poate prelua (servește fișierele <code>themes/</code> ca resurse statice) și că slug-urile temelor din proprietatea <code>themes</code> se potrivesc cu numele fișierelor. Ajutorul schimbă <code>href</code> unui singur
+      <code>&lt;link data-lily-theme-picker&gt;</code> gestionat — inspectează-l în instrumentele pentru dezvoltatori ca să vezi URL-ul solicitat.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Altceva este defect</summary>
+    <p>
+      Deschide un issue cu o reproducere minimă la
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — sau vezi <a href="#community">comunitate și asistență</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Contribuie</h2>
+  <p>Lily este tânăr și primește cu drag colaborarea. Cele mai utile contribuții acum sunt:</p>
+  <ul>
+    <li>Componente noi (mai ales modele din sisteme de design consacrate).</li>
+    <li>Teme noi — fiecare este o foaie de stil autonomă, un prim PR bine delimitat.</li>
+    <li>Stilizare mai bună a exemplelor — arată ce este posibil.</li>
+    <li>Traduceri ale șirurilor aplicațiilor-exemplu.</li>
+    <li>Rapoarte de erori cu o reproducere minimă.</li>
+    <li>Audituri de accesibilitate cu cititoare de ecran și tehnologii de asistență.</li>
+  </ul>
+  <p>
+    Deschide issue-uri și PR-uri la
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Comunitate și asistență</h2>
+  <ul>
+    <li>
+      <strong>Întrebări și rapoarte de erori</strong> — deschide un issue la
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-mail</strong> — responsabilul citește
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      și primește cu drag colaborare, îndrumare și feedback.
+    </li>
+    <li>
+      <strong>Oglinzi</strong> — Lily este trimis și către
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> și
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, ca să poți participa din forja preferată.
+    </li>
+    <li>
+      <strong>Conduită</strong> — proiectul urmează un cod de conduită standard; fii amabil, presupune bună-credință.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>De ce headless în loc de stilizat?</summary>
+    <p>
+      Componentele pre-stilizate sunt comode — până când nu se potrivesc brandului tău. Componentele headless cer puțin mai multă muncă la început, dar îți dau control total asupra designului vizual. Aplicațiile-exemplu și cele 57 de teme arată moduri de a le stiliza; le poți prelua sau le poți înlocui complet. Argumentul mai lung este la <a href="/why/">De ce Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>De ce atât de multe componente?</summary>
+    <p>
+      Lily își propune să acopere modelele de care au nevoie majoritatea aplicațiilor, fără să te oblige să le construiești de la zero — inclusiv lucruri aprofundate precum câmpurile pentru identificatori naționali și scrollytelling editorial. Catalogul se inspiră dintr-o duzină de sisteme de design consacrate plus muncă originală — vezi <a href="/about/">Despre</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pot folosi Lily cu Tailwind?</summary>
+    <p>
+      Da. Fiecare componentă expune o singură clasă rădăcină în kebab-case plus un <code>className</code> / <code>class</code>furnizat de consumator. Suprapune utilitarele Tailwind cum dorești.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pot folosi Lily cu framework-uri CSS semantice precum DaisyUI?</summary>
+    <p>
+      Da. Numele de clasă în kebab-case de pe elementul rădăcină funcționează ca cârlige CSS semantice. Asociază Lily cu un framework semantic și obții componente pre-stilizate care respectă totuși ARIA și i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Există un pachet npm?</summary>
+    <p>
+       <a href="#helpers">Ajutoarele pentru preferințe</a> sunt livrate ca pachete cu un flux de publicare npm/NuGet. Bibliotecile de componente headless sunt concepute pentru a fi clonate sau incluse în proiect — sursa este livrabilul, așa că poți citi, tăia și deține exact ce livrezi. Publicarea în registre a bibliotecilor headless rămâne pe foaia de parcurs.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>De ce mai multe licențe?</summary>
+    <p>
+      Proiectele diferite au nevoi diferite de licențiere. BSD și MIT sunt permisive, Apache-2.0 are o acordare de brevet, iar opțiunile GPL susțin copyleft. Alege ce se potrivește situației tale.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Cum raportez o eroare sau cer o funcționalitate?</summary>
+    <p>
+      Deschide un issue în depozitul GitHub sau trimite un e-mail la
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

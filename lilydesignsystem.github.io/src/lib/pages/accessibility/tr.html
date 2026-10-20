@@ -1,0 +1,63 @@
+<!-- title: Erişilebilirlik — Lily Design System -->
+<!-- description: Lily'nin erişilebilirlik beyanı: burada WCAG 2.2 AAA'yı hedeflemek ne anlama gelir — neyin neyle doğrulandığı, neyin hiçbir şeyle doğrulanmadığı ve bir sorunun nasıl bildirileceği. -->
+<section class="page-intro">
+  <h1>Burada “WCAG 2.2 AAA'yı hedefler” ne anlama gelir</h1>
+  <p class="page-intro-tagline">
+     <em>Hedefler</em> sözcüğü bilinçli seçilmiştir. Bu sayfa tam olarak neyin neyle doğrulandığını, neyin hiçbir şeyle doğrulanmadığını ve bu boşlukla ilgili ne yapmayı düşündüğümüzü söyler. Lily asla WCAG “uyumluluğu” iddia etmez — hiçbir denetim bunu desteklemez.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Sürekli doğrulananlar</h2>
+  <ul>
+    <li>
+      Her bileşenin kanonik anlamsal öğesi, ARIA öznitelikleri ve sınıf kancaları — çerçeve başına birim test takımlarıyla doğrulanır (yedi çerçevede 15.000'den fazla durum).
+    </li>
+    <li>
+      SvelteKit örnek uygulamasındaki 571 bileşen demo sayfasının her biri axe açısından temizdir (WCAG 2.0/2.1 A+AA ve 2.2 AA kural kümeleri) — tüm kataloğu kapsayan tarama, ilk kez 2026-08-27'de temel çizgiye alındı ve 2026-10-06'da yeniden çalıştırıldı — ayrıca yedi örnek uygulamanın tamamında ana sayfa, katalog ve birleşik rotalar için uygulama başına temel çizgiler.
+    </li>
+    <li>
+      Etkileşimli bileşen başına klavye sözleşmeleri; her bileşenin kanonik meta verisinde belgelenir ve takımlarca sınanır; yardımcı paketler ayrıca gerçek tarayıcıda Playwright belirtimleri çalıştırır.
+    </li>
+    <li>
+      Tüm 57 temada WCAG 2.2 hedef boyutu alt sınırları ve taşma korumaları; atlama bağlantısı, ana hatlar ve uygulama başına dört görünüm alanında yatay taşma olmaması; <code>lang</code>/<code>dir</code> uygulaması, RTL çevirmesi dahil.
+    </li>
+  </ul>
+
+  <h2>Hiçbir şeyle doğrulanmayanlar</h2>
+  <ul>
+    <li>
+      <strong>Hiçbir zaman bir uyumluluk denetimi yapılmadı.</strong> VPAT yok, sertifika yok. Otomatik araçlar WCAG başarı ölçütlerinin azınlığını kapsar.
+    </li>
+    <li>
+      AAA'ya özgü ölçütler (gelişmiş karşıtlık ve diğerleri) tasarım niyetleridir, doğrulanmış özellikler değil; axe kural kümeleri A/AA için çalışır. Henüz özel bir yüksek karşıtlık teması yok.
+    </li>
+    <li>
+      <strong>Ekran okuyucu davranışı büyük ölçüde sınanmamıştır.</strong> Takımlar ARIA özniteliklerini doğrular; VoiceOver, NVDA veya JAWS'ın ne okuduğunu değil — ve bu proje, gerçek kusurların üzerinde birden fazla kez yeşil takımlar yayımladı; her biri, takımlar onları göremediği için tam da bu yüzden değişiklik günlüğüne yazıldı.
+    </li>
+  </ul>
+
+  <h2>Bu konuda ne yapmayı düşünüyoruz</h2>
+  <p>
+    Bağımsız bir erişilebilirlik denetimi, herhangi bir proje fonunun adı geçen ilk kullanım alanıdır ve denetçinin ihtiyaç duyduğu kapsam zaten hazırlanmıştır. O zamana kadar, ekran okuyucu raporları bu projenin en çok istediği katkıdır: “X bileşeni Y diye okuyor, bu Z nedeniyle yanlış” doğrudan işleme alınabilir.
+  </p>
+
+  <h2>Sorun bildirin</h2>
+  <p>
+    Şurada bir issue açın:
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    veya şu adrese e-posta gönderin:
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Bir WCAG ölçütünü belirtmek yardımcı olur ama zorunlu değildir — “X'i klavyeyle kullanamadım” eksiksiz bir rapordur.
+  </p>
+  <p>
+    Doğrulama tablosu ve gözden geçirme geçmişiyle birlikte tam beyan depoda bulunur:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

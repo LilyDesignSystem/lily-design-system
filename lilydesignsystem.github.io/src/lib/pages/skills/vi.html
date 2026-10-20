@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills cung cấp cho Claude Code một lối vào được tuyển chọn, có thể tải vào Lily Design System — khái niệm chung, skill bao quát theo framework, và skill chuyên sâu theo dự án con cho thư viện headless và các trợ thủ *-picker. -->
+<section class="page-intro">
+  <h1>Skill trên các tác tử AI giúp Lily dễ dùng hơn nữa</h1>
+  <p class="page-intro-tagline">
+    Lily cung cấp các skill tập trung — chung, theo framework và theo dự án con — để một tác tử tải đúng ngữ cảnh nó cần và không tải thứ nó không cần.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn muốn skill nào?</h2>
+  <p>
+    Mỗi tầng trả lời một câu hỏi khác nhau. Hãy tải skill chung khi bạn chưa biết Lily. Hãy tải skill framework khi bạn biết framework của mình nhưng không biết cần dự án con nào. Hãy tải trực tiếp headless-skill hoặc helpers-skill khi bạn đã biết chính xác mình đang làm gì.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Chung / người bảo trì</strong> — “Lily là gì?” / “Monorepo này được tổ chức ra sao?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Skill bao quát theo framework</strong> — “Có gì cho {framework}, và tôi cần phần nào?” — 8 skill, mỗi framework một <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Headless / trợ thủ</strong> — “Tôi dùng chính xác các thành phần / trợ thủ *-picker của {framework} thế nào?” — 16 skill, mỗi framework một <code>{framework}-headless-skill</code> và một <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>Tám framework</h2>
+  <p>
+    Mỗi framework có cùng một ngăn xếp ba tầng. Skill bao quát ánh xạ mọi dự án con thực của framework đó — kể cả ứng dụng ví dụ mà không skill nào trong hai skill anh em bao phủ — và trỏ xuống chúng thay vì lặp lại hợp đồng của chúng.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Bao quát</th>
+        <th>Headless</th>
+        <th>Trợ thủ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Skill bao quát Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="Skill headless Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="Skill trợ thủ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Skill bao quát Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="Skill headless Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="Skill trợ thủ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Skill bao quát HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="Skill headless HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="Skill trợ thủ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Skill bao quát Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="Skill headless Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="Skill trợ thủ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Skill bao quát React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="Skill headless React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="Skill trợ thủ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Skill bao quát Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="Skill headless Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="Skill trợ thủ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Skill bao quát Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="Skill headless Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="Skill trợ thủ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Skill bao quát Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">skill</a></td>
+        <td>
+          <a
+            aria-label="Skill headless Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >skill</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Skill trợ thủ Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components là ngoại lệ duy nhất ở cả hai chiều: danh mục headless của nó có phạm vi cố ý là 536 trên 571 (phần tử tùy chỉnh gốc, không có môi trường chạy framework; 35 thành phần còn lại bị loại trừ vĩnh viễn), và hiện chưa có ứng dụng ví dụ Web Components — skill bao quát của nó nói rõ điều đó thay vì ngầm ý rằng có.
+  </p>
+
+  <h2>Thêm một skill</h2>
+  <p>
+    Mỗi skill là một tệp <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> — cộng với các tệp hỗ trợ, không có bước build. Hãy sao chép skill bạn cần vào nơi thiết lập Claude Code của bạn tải skill (xem tài liệu chính thức được liên kết ở trên để biết thư mục skill của dự án hoặc tài khoản):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Làm việc trên nhiều framework, hoặc trên chính monorepo? Hãy sao chép <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo chuẩn</a> thay vào đó — cả 26 skill đã nằm sẵn ở gốc của nó, cạnh các thư viện headless, danh mục trợ thủ và ứng dụng ví dụ mà chúng mô tả.
+  </p>
+</section>

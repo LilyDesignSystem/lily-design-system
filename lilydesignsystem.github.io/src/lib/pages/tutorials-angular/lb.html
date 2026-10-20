@@ -1,0 +1,127 @@
+<!-- title: Angular-Tutorial — Lily Design System -->
+<!-- description: Baut e zougängleche, gestalte Formulaire mat de Headless-Komponente vu Lily fir Angular 20: eegestänneg Komponenten mat Signal-Inputen. -->
+<section class="page-intro">
+  <h1>Angular-Tutorial</h1>
+  <p class="page-intro-tagline">
+    Angular 20 eegestänneg Komponenten — Signal-Inputen, OnPush-Ännerungserkennung, agebonne Schablounen, null NgModules, null CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    E klengt Kontaktformulaire — Feld mat Etikett, Schécken-Knäppchen, Zwee-Weeër-Bindung, richtegt Tastatur- an Écranliesser-Verhalen — fir d'éischt nackeg, duerno gestalt, an ongeféier 10 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Dir braucht git, Node 22 oder méi nei a pnpm 10 oder méi nei. All Angular 20 Projet funktionéiert — Angular CLI oder Analog.
+  </p>
+
+  <h2>Schrëtt 1 — D'Code kréien</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    D'Komponenten sinn flaach Dateien am <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — jidd ass eng eegestänneg Komponent mat agebonner Schabloun, plus hir Spec a Story. De Barrel
+    <code>index.ts</code> exportéiert all Komponent nach eng Kéier; <code>pnpm build</code>
+    produzéiert e Package a Form vum Angular Package Format iwwer ng-packagr.
+  </p>
+
+  <h2>Schrëtt 2 — Är éischt Komponent</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    All Komponent deklaréiert e <code>lily-*</code> Selector a rendert dat semantescht Element mat sengem Klassen-Hook —
+    <code>&lt;button class="button" type="button"&gt;</code> hei. D'Inputen baséieren op Signaler: <code>label()</code> fir en <code>aria-label</code>
+    zum Iwwerschreiwen, <code>className()</code> fir Klassen unzehänken.
+  </p>
+
+  <h2>Schrëtt 3 — E klengt Formulaire zesummestellen</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> hëlt dat siichtbart Etikett als säin eegenen
+    <code>label</code> -Input amplaz vun enger verschachtelter Etikett-Komponent — gitt et eemol weider, um Feld, an dat passend <code>lily-text-input</code>vun
+    <code>label</code> liwwert den zougänglechen Numm. Input-ähnlech Komponente stellen <code>model()</code> -Wäerter zur Verfügung, sou datt banana-box <code>[(value)]</code>
+    -Zwee-Weeër-Bindung direkt funktionéiert — duerchgängeg zoneless-kompatibel.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gepréift den 2026-08-29:</strong> en ale Brouillon huet eng separat <code>Label</code> -Komponent an <code>lily-field</code>verschachtelt, wat <em>zwee</em> Etiketten (eng eidel) gerendert huet, well
+      <code>lily-field</code> schonn säin eegenen aus dem
+      <code>label</code> -Input rendert — entdeckt duerch d'Kontroll vum Quellcode vun der Komponent.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Déi zesummegesat Kontaktformulaire-Route</a>
+      ass datselwecht Muster, getest mat richtegen e2e- an axe-Tester.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> start d'App an d'Formulaire gesäit nackeg aus — genee wéi geduecht: d'Gestaltung kënnt nach. Dréckt
+      <kbd>Tab</kbd>: de Fokus geet duerch all Kontroll, d'Etikett gëtt ugekënnegt an d'Schécken funktionéiert. D'Verhalen ass fäerdeg; d'Ausgesi ass Är a kënnt als Nächst.
+    </p>
+  </div>
+
+  <h2>Schrëtt 4 — Gestalt et</h2>
+  <p>
+    Gestalt d'Klassen-Hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — am <code>styles.css</code>, oder füügt en fäerdegt Thema an d'Array <code>styles</code> am
+    <code>angular.json</code> / verlinkt et am <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Schrëtt 5 — Alles am Aktioun gesinn</h2>
+  <p>
+     <a href="/examples/">Angular + Analog Beispill-App</a> weist de ganze Katalog mat dateibaséierter Routing a Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themen</a> — Wiessel zur Laafzäit mam Angular-Helper theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Astellungs-Helperen</a> — Sprooch a Textgréisst.</li>
+    <li><a href="/components/">Komponentekatalog</a> — Eegeschaften, ARIA an Tastatur pro Komponent.</li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

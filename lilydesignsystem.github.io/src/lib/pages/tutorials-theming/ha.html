@@ -1,0 +1,111 @@
+<!-- title: Koyarwar jigogi — Lily Design System -->
+<!-- description: Ba Lily jigo ta hanyoyi uku: haɗa ɗaya daga cikin jigogi 45 da aka shirya, gyara shi da CSS ɗinka, da ƙara sauya jigo lokacin aiki da mai taimakon theme-picker. -->
+<section class="page-intro">
+  <h1>Jigogi</h1>
+  <p class="page-intro-tagline">
+    Abubuwan Lily suna da ƙugiyoyin aji masu tsayayye da sifili CSS — don haka jigo takardar salo ce kawai. Wannan koyarwar tana tafiya daga "haɗa fayil ɗaya" zuwa "bar mai amfani ya sauya jigo lokacin aiki, tare da dawwama".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Abin da za ka gina</h2>
+  <p>
+    App wanda mai amfani zai iya canza dukan kamanninsa — farawa da takardar salo ɗaya da aka haɗa, ƙarewa da mai sauya jigo mai dawwama lokacin aiki — cikin kusan mintuna 15.
+  </p>
+
+  <h2>Kafin ka fara</h2>
+  <p>
+    Fara gama <a href="/tutorials/">koyarwar tsarin</a> don tarin fasahar ka da farko, don ka sami ƙaramin fom na Lily da za ka ba jigo. Komai a nan yana aiki a dukan tsare-tsare bakwai; samfuran lamba suna nuna Svelte da HTML mai sauƙi.
+  </p>
+
+  <h2>Mataki na 1 — Haɗa jigon da aka shirya</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    kundin adireshin yana ɗauke da takardun salo 45 masu cin gashin kansu. Kwafe su zuwa kadarorin tsaye na app ɗinka ka haɗa ɗaya:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Muhimman abubuwan saitin:</p>
+  <ul>
+    <li>
+      <strong>Fannin jama'a</strong> — NHS England / Scotland / Wales, kowanne a nau'ukan da suka karkata ga marasa lafiya da ƙwararru; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Masu samun kwarin gwiwa daga masu sayarwa</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Amfani gama gari</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, da wasu da yawa.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Duba aikinka:</strong> sake loda shafin. Alamar rubutun guda ɗaya da ka gina a koyarwar tsarin yanzu tana da cikakken tsari — maɓallai, shigarwa, lakabi, zoben mayar da hankali. Layin HTML ɗaya ne ya yi haka — kowane abu ya kasance daidai kamar yadda yake.
+    </p>
+  </div>
+
+  <h2>Mataki na 2 — Gyara kowane abu</h2>
+  <p>
+    An naɗe masu zaɓen jigo a cikin <code>:where(...)</code>wanda ba shi da ƙayyadewa — don haka kowace doka da ka rubuta tana nasara, kai tsaye:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Mataki na 3 — Sauyawa lokacin aiki da theme-picker</h2>
+  <p>
+     <code>theme-picker</code> mai taimakon maɓallin alama ne maras kai + listbox da ke mallakar dukan zagayen rayuwar jigo: yana loda takardar salon da aka zaɓa ta musanya <code>&lt;link&gt;</code>
+    ɗaya da ake gudanarwa (ana ɗauko jigo mai aiki kawai), yana saita
+    <code>data-theme="&#123;slug&#125;"</code> a kan takardar, kuma na zaɓi yana riƙe a cikin <code>localStorage</code>. An nuna Svelte a nan; tashoshin React, Vue, Angular, HTML, Nunjucks da Blazor suna daidaita yarjejeniya da yarjejeniya:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Wannan shi ne dukan haɗin. Halayyar maɓallan rubutu tana bin tsarin listbox na WAI-ARIA APG; abin sarrafawar da kansa maras kai ne (ƙugiyar aji
+    <code>.theme-picker</code>), don haka yana ɗaukar duk jigon da ke aiki.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>An tabbatar a 2026-08-29:</strong> an haɗa ainihin wannan gutsuren da fakitin <code>0.1.1</code> da aka wallafa ta
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Mataki na 4 — Amsa jigon a CSS ɗinka</h2>
+  <p>
+    Saboda mai taimakon yana saita <code>data-theme</code> a tushen takardar, salonka na kanka yana iya rassa a kan sa:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Bayanai don zana a sabar</h2>
+  <p>
+    Mai taimakon yana yin dukan rubuce-rubucen DOM a cikin zagayen rayuwar mount/effect na tsarin, don haka yana da aminci ga SSR ta tsari. Don guje wa walƙiya a zane na farko, zana <code>&lt;link&gt;</code> da
+    <code>data-theme</code> na jigon farko a sabar (misali daga kuki) — ma'ajiyar mai taimakon Svelte tana zuwa da misalin kuki na SvelteKit da za a iya gudanarwa, kuma sauran kundayen suna rubuta tsari iri ɗaya ga tarin fasaharsu.
+  </p>
+
+  <h2>Matakai na gaba</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Masu taimakon abubuwan so</a> — tsari iri ɗaya don harshe, girman rubutu, rabawa da shigar kwanan wata/lokaci.</li>
+    <li>
+      Ba da gudummawar jigo — kowanne takardar salo ce mai cin gashin kanta guda ɗaya da ke nufin ƙugiyoyin aji; duba <a href="/help/#contributing">ba da gudummawa</a>.
+    </li>
+  </ul>
+  <p>
+    Tambayoyi a hanya?
+    <a href="/help/#troubleshooting">Shafin taimako</a> cike yake da amsoshi — kuma idan wani mataki zai iya zama mafi bayyana,
+    <a href="https://github.com/LilyDesignSystem">gaya mana</a> kuma za mu gyara koyarwar da farin ciki.
+  </p>
+</section>

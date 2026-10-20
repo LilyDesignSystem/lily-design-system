@@ -1,0 +1,109 @@
+<!-- title: React ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के React हेडलेस घटकों से सुलभ, शैलीबद्ध फ़ॉर्म बनाएँ: value + onChange वाले टाइप किए हुए फ़ंक्शन घटक। -->
+<section class="page-intro">
+  <h1>React ट्यूटोरियल</h1>
+  <p class="page-intro-tagline">
+    टाइप किए हुए फ़ंक्शन घटक, एक-एक फ़ाइल, मानक पैटर्न से नियंत्रित
+    <code>value</code> + <code>onChange</code> — सब कुछ वैसे ही काम करता है जैसे React पहले से करता है।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>आप क्या बनाएँगे</h2>
+  <p>
+    एक छोटा संपर्क फ़ॉर्म — लेबल वाला क्षेत्र, सबमिट बटन, नियंत्रित स्थिति, असली कीबोर्ड और स्क्रीन-रीडर व्यवहार — पहले सादा, फिर शैलीबद्ध, लगभग 10 मिनट में।
+  </p>
+
+  <h2>शुरू करने से पहले</h2>
+  <p>
+    आपको git, Node 22 या नया, और pnpm 10 या नया चाहिए। कोई भी React 18+ प्रोजेक्ट चलेगा — Next.js, Vite या सादा React।
+  </p>
+
+  <h2>चरण 1 — कोड प्राप्त करें</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    घटक यहाँ सपाट फ़ाइलों के रूप में हैं: <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — हर एक के बग़ल में उसका परीक्षण, story और दस्तावेज़। जो फ़ाइलें चाहिए उन्हें अपने ऐप में कॉपी करें, या रेपो ले आएँ और उससे आयात करें।
+  </p>
+
+  <h2>चरण 2 — आपका पहला घटक</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    यह दिखाता है <code>&lt;button class="button" type="button"&gt;</code>। Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (दिखाता है
+    <code>aria-pressed</code>), <code>label</code> (एक
+    <code>aria-label</code> अधिलेखित करने के लिए), <code>className</code>, और कोई भी अतिरिक्त गुण मूल तत्व पर फैल जाता है।
+  </p>
+
+  <h2>चरण 3 — एक छोटा फ़ॉर्म बनाएँ</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> दिखने वाले <code>label</code> अपने prop के रूप में, भीतर रखे लेबल घटक के रूप में नहीं — इसे एक बार दें, पर
+    <code>Field</code>और <code>TextInput</code>का
+    <code>label</code> सुलभ नाम देता है।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 को सत्यापित:</strong> पिछले मसौदे ने अलग <code>Label</code> के भीतर <code>Field</code>के भीतर रखा था, जिससे
+      <em>दो</em> लेबल (एक खाली) दिखे क्योंकि <code>Field</code> पहले से अपना <code>label</code> prop — सटीक टुकड़े को कंपाइल करके पता चला। रूट
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">संयुक्त संपर्क-फ़ॉर्म रूट</a>
+      वही पैटर्न है, असली e2e और axe परीक्षणों से परखा हुआ।
+    </p>
+  </div>
+
+  <h2>चरण 4 — इसे शैली दें</h2>
+  <p>
+    ऊपर का सब कुछ शुद्ध संरचना के रूप में रेंडर होता है, आपकी शैलियों के लिए तैयार। हुक को शैली दें — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — अपनी स्टाइलशीट में, इसके माध्यम से Tailwind यूटिलिटी की परत चढ़ाएँ <code>className</code>, या कोई तैयार थीम लिंक करें:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>चरण 5 — सब कुछ चलते हुए देखें</h2>
+  <p>
+     <a href="/examples/">Next.js उदाहरण ऐप</a> पूरा कैटलॉग शैली और प्रदर्शन के साथ है, Playwright e2e और axe-core आधाररेखा के साथ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>अगले चरण</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">थीम</a> — React theme-picker सहायक से चलते समय बदलाव।</li>
+    <li><a href="/tutorials/helpers/">वरीयता सहायक</a> — भाषा और पाठ का आकार।</li>
+    <li><a href="/components/">घटक कैटलॉग</a> — हर घटक के लिए गुण, ARIA और कीबोर्ड।</li>
+  </ul>
+  <p>
+    रास्ते में सवाल हैं?
+    <a href="/help/#troubleshooting">सहायता पृष्ठ</a> उत्तरों से भरा है — और अगर कोई चरण और स्पष्ट हो सकता है,
+    <a href="https://github.com/LilyDesignSystem">हमें बताएँ</a> और हम खुशी से ट्यूटोरियल सुधारेंगे।
+  </p>
+</section>

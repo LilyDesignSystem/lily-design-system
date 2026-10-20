@@ -1,0 +1,63 @@
+<!-- title: Aksesibilitas — Lily Design System -->
+<!-- description: Pratelan aksesibilitas Lily: apa tegesé ngarah menyang WCAG 2.2 AAA ing kéné — apa sing diverifikasi, nganggo apa, apa sing ora diverifikasi dening apa waé, lan carané nglaporaké masalah. -->
+<section class="page-intro">
+  <h1>Apa tegesé “ngarah menyang WCAG 2.2 AAA” ing kéné</h1>
+  <p class="page-intro-tagline">
+    Tembung <em>ngarah</em> iku dipilih kanthi sengaja. Kaca iki ngandhakaké persis apa sing diverifikasi, nganggo apa, apa sing ora diverifikasi dening apa waé, lan apa sing arep kita lakoni babagan kekosongan kuwi. Lily ora tau ngaku “kapatuhan” WCAG — ora ana audit sing ndhukung.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Diverifikasi terus-terusan</h2>
+  <ul>
+    <li>
+      Elemèn semantik kanonik, atribut ARIA, lan pancingan kelas saben komponèn — dikonfirmasi dening suite tés unit saben framework (luwih saka 15.000 kasus ing pitu framework).
+    </li>
+    <li>
+      Saben saka 571 kaca demo komponèn ing aplikasi conto SvelteKit resik miturut axe (set aturan WCAG 2.0/2.1 A+AA lan 2.2 AA) — sapuan katalog kabèh, pisanan didasaraké ing 2026-08-27 lan dijalanaké manèh ing 2026-10-06 — ditambah dasar saben aplikasi kanggo beranda, katalog, lan rute gabungan ing kabèh pitu aplikasi conto.
+    </li>
+    <li>
+      Kontrak keyboard saben komponèn interaktif, didokumentasi ing metadata kanonik saben komponèn lan dilatih dening suite; paket pembantu uga njalanaké spesifikasi Playwright ing browser nyata.
+    </li>
+    <li>
+      Wates ngisor ukuran target WCAG 2.2 lan pangreksa luber ing kabèh 57 tema; tautan nglangkahi, tetenger, lan ora ana luber horizontal ing papat viewport saben aplikasi; <code>lang</code>/<code>dir</code> panrapan, kalebu pambalikan RTL.
+    </li>
+  </ul>
+
+  <h2>Ora diverifikasi dening apa waé</h2>
+  <ul>
+    <li>
+      <strong>Audit kapatuhan durung tau dilakoni.</strong> Ora ana VPAT, ora ana sertifikasi. Piranti otomatis nyakup minoritas kriteria sukses WCAG.
+    </li>
+    <li>
+      Kriteria khusus AAA (kontras sing ditingkataké lan liyané) iku niat desain, dudu properti sing diverifikasi; set aturan axe mlaku A/AA. Durung ana tema kontras dhuwur khusus.
+    </li>
+    <li>
+      <strong>Prilaku pembaca layar umumé durung dites.</strong> Suite ngonfirmasi atribut ARIA, dudu apa sing diumumaké VoiceOver, NVDA, utawa JAWS — lan proyèk iki wis ngeculaké suite ijo ing ndhuwur cacat nyata luwih saka sepisan, saben siji dicathet ing changelog persis amarga suite ora bisa ndeleng kuwi.
+    </li>
+  </ul>
+
+  <h2>Apa sing arep kita lakoni babagan kuwi</h2>
+  <p>
+    Audit aksesibilitas mandiri iku panggunaan kapisan sing disebutaké saka dana proyèk apa waé, lan wilayah sing dibutuhaké auditor wis disiapaké. Nganti kuwi, laporan saka pembaca layar iku sumbangan sing paling dikarepaké proyèk iki: “komponèn X ngumumaké Y, sing salah amarga Z” bisa langsung ditindakaké.
+  </p>
+
+  <h2>Laporna masalah</h2>
+  <p>
+    Bukak issue ing
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    utawa kirim email menyang
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Nyebutaké kriteria WCAG mbantu nanging ora wajib — “aku ora bisa ngoperasikaké X nganggo keyboard” iku laporan lengkap.
+  </p>
+  <p>
+    Pratelan lengkap, kanthi tabel verifikasi lan riwayat tinjauané, ana ing repositori:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

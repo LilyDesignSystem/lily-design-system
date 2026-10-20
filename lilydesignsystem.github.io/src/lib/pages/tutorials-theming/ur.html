@@ -1,0 +1,111 @@
+<!-- title: تھیم ٹیوٹوریل — Lily Design System -->
+<!-- description: Lily کو تین طریقوں سے تھیم دیں: 45 تیار تھیموں میں سے ایک لنک کریں، اپنی CSS سے زیرِ اثر لائیں، اور theme-picker معاون کے ساتھ چلتے وقت تھیم کی تبدیلی شامل کریں۔ -->
+<section class="page-intro">
+  <h1>تھیمز</h1>
+  <p class="page-intro-tagline">
+    Lily اجزاء میں مستحکم کلاس ہُکس اور صفر CSS ہے — اس لیے تھیم بس ایک اسٹائل شیٹ ہے۔ یہ ٹیوٹوریل "ایک فائل لنک کریں" سے "صارف کو چلتے وقت تھیم بدلنے دیں، محفوظ کر کے" تک جاتا ہے۔
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>آپ کیا بنائیں گے</h2>
+  <p>
+    ایک ایپ جس کی پوری شکل صارف بدل سکتا ہے — ایک لنک کی گئی اسٹائل شیٹ سے شروع ہو کر، محفوظ رہنے والے چلتے-وقت کے تھیم بدلنے والے پر ختم — تقریباً 15 منٹ میں۔
+  </p>
+
+  <h2>شروع کرنے سے پہلے</h2>
+  <p>
+    پہلے مکمل کریں <a href="/tutorials/">فریم ورک ٹیوٹوریل</a> پہلے اپنے اسٹیک کے لیے، تاکہ تھیم دینے کے لیے آپ کے پاس ایک چھوٹا Lily فارم ہو۔ یہاں سب کچھ ساتوں فریم ورکس میں کام کرتا ہے؛ کوڈ نمونے Svelte اور سادہ HTML دکھاتے ہیں۔
+  </p>
+
+  <h2>مرحلہ 1 — تیار تھیم لنک کریں</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ڈائریکٹری میں 45 آزاد اسٹائل شیٹیں ہیں۔ انہیں اپنی ایپ کے جامد اثاثوں میں کاپی کریں اور ایک لنک کریں:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>سیٹ کی نمایاں باتیں:</p>
+  <ul>
+    <li>
+      <strong>سرکاری شعبہ</strong> — NHS England / Scotland / Wales، ہر ایک مریض مرکوز اور معالج مرکوز صورتوں میں؛ GOV.UK (<code>united-kingdom-government-digital-service</code>)؛ USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>فروشندگان سے متاثر</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>عمومی مقصد</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>، اور بہت سی اور۔
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>اپنا کام جانچیں:</strong> صفحہ دوبارہ لوڈ کریں۔ فریم ورک ٹیوٹوریل میں آپ کا بنایا وہی مارک اپ اب مکمل اسلوب شدہ ہے — بٹن، ان پٹ، لیبل، فوکس کے حلقے۔ HTML کی ایک سطر نے یہ کیا — ہر جزو بالکل ویسا ہی رہا جیسا تھا۔
+    </p>
+  </div>
+
+  <h2>مرحلہ 2 — کچھ بھی زیرِ اثر لائیں</h2>
+  <p>
+    تھیم منتخب کنندگان اس میں لپٹے ہیں <code>:where(...)</code>جس کی خصوصیت صفر ہے — اس لیے آپ کا لکھا کوئی بھی اصول جیتتا ہے، سیدھی بات:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>مرحلہ 3 — theme-picker کے ساتھ چلتے وقت تبدیلی</h2>
+  <p>
+     <code>theme-picker</code> معاون ایک بے سر آئیکن-بٹن + لسٹ باکس ہے جو تھیم کے پورے زندگی چکر کا مالک ہے: یہ ایک زیرِ انتظام <code>&lt;link&gt;</code>
+    بدل کر منتخب اسٹائل شیٹ لوڈ کرتا ہے (صرف فعال تھیم ہی منگوائی جاتی ہے)، دستاویز پر
+    <code>data-theme="&#123;slug&#125;"</code> مقرر کرتا ہے، اور اختیاری طور پر یہاں محفوظ کرتا ہے <code>localStorage</code>۔ یہاں Svelte دکھایا گیا ہے؛ React، Vue، Angular، HTML، Nunjucks اور Blazor پورٹس معاہدے بہ معاہدہ مطابقت رکھتے ہیں:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    یہی پوری یکجائی ہے۔ کی بورڈ رویہ WAI-ARIA APG لسٹ باکس نمونے کی پیروی کرتا ہے؛ کنٹرول خود بے سر ہے (کلاس ہُک
+    <code>.theme-picker</code>)، اس لیے جو بھی تھیم فعال ہو اسے اٹھا لیتا ہے۔
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 کو تصدیق شدہ:</strong> یہی عین ٹکڑا شائع شدہ <code>0.1.1</code> پیکیج کے خلاف مرتب کیا گیا، اس کے ذریعے
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>مرحلہ 4 — اپنی CSS میں تھیم کا جواب دیں</h2>
+  <p>
+    کیونکہ معاون دستاویز کی جڑ پر <code>data-theme</code> مقرر کرتا ہے، آپ کے اپنے اسلوب اس پر شاخیں بنا سکتے ہیں:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>سرور رینڈرنگ کے لیے نوٹس</h2>
+  <p>
+    معاون تمام DOM تحریریں فریم ورک کے mount/effect زندگی چکر کے اندر کرتا ہے، اس لیے ساخت سے ہی SSR کے لیے محفوظ ہے۔ پہلی رنگائی میں جھلک سے بچنے کے لیے، سرور پر ابتدائی تھیم کا <code>&lt;link&gt;</code> اور
+    <code>data-theme</code> رینڈر کریں (مثلاً کوکی سے) — Svelte معاون ریپو چلانے کے قابل SvelteKit کوکی مثال بھیجتا ہے، اور دیگر کیٹلاگ اپنے اسٹیکس کے لیے یہی نمونہ درج کرتے ہیں۔
+  </p>
+
+  <h2>اگلے مراحل</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">ترجیحی معاونین</a> — زبان، متن کے سائز، شیئرنگ اور تاریخ/وقت کے اندراج کے لیے یہی نمونہ۔</li>
+    <li>
+      ایک تھیم کا حصہ ڈالیں — ہر ایک کلاس ہُکس کو ہدف بنانے والی ایک آزاد اسٹائل شیٹ ہے؛ دیکھیں <a href="/help/#contributing">حصہ ڈالنا</a>.
+    </li>
+  </ul>
+  <p>
+    راستے میں سوالات ہیں؟
+    <a href="/help/#troubleshooting">مدد کا صفحہ</a> جوابات سے بھرا ہے — اور اگر کوئی مرحلہ مزید واضح ہو سکتا ہے،
+    <a href="https://github.com/LilyDesignSystem">ہمیں بتائیں</a> اور ہم خوشی سے ٹیوٹوریل بہتر بنائیں گے۔
+  </p>
+</section>

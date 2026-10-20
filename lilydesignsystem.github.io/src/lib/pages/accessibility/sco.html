@@ -1,0 +1,63 @@
+<!-- title: Accessibility (Aabody Can Uise It) — Lily Design System -->
+<!-- description: Lily's accessibility statement: whit targetin WCAG 2.2 AAA means here — whit is verified, bi whit, whit is no verified bi onything, an hoo tae report a problem. -->
+<section class="page-intro">
+  <h1>Whit “targets WCAG 2.2 AAA” means here</h1>
+  <p class="page-intro-tagline">
+    The wird <em>targets</em> is deliberate. This page says precisely whit is verified, bi whit, whit is no verified bi onything, an whit we intend tae dae aboot the gap. Lily never claims WCAG “compliance” — nae audit supports it.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Verified, continuously</h2>
+  <ul>
+    <li>
+      Ilka component's canonical semantic element, ARIA attributes, an class hooks — asserted bi per-framework unit suites (15,000+ cases athort seiven frameworks).
+    </li>
+    <li>
+      Ilka ane o the 571 component demo pages in the SvelteKit example app is axe-clean (WCAG 2.0/2.1 A+AA an 2.2 AA rule sets) — the full-catalog sweep, first baselined 2026-08-27 an re-run 2026-10-06 — plus per-app baselines on hame, catalog, an composed routes in aw seiven example apps.
+    </li>
+    <li>
+      Keyboard contracts per interactive component, documentit in ilka component's canonical metadata an exercised bi the suites; the helper packages additionally rin real-browser Playwright specs.
+    </li>
+    <li>
+      WCAG 2.2 target-size flairs an overflow guairds in aw 57 themes; skip-link, landmarks, an nae horizontal overflow at fower viewports per app; <code>lang</code>/<code>dir</code> application an the RTL flip.
+    </li>
+  </ul>
+
+  <h2>No verified bi onything</h2>
+  <ul>
+    <li>
+      <strong>Nae conformance audit haes ever been performed.</strong> Nae VPAT, nae certification. Automatit tooling covers a minority o WCAG success criteria.
+    </li>
+    <li>
+      AAA-specific criteria (enhanced contrast, an ithers) are design intents, no verified properties; the axe rule sets rin A/AA. There is nae dedicatit high-contrast theme yet.
+    </li>
+    <li>
+      <strong>Screen-reader behaviour is lairgely untestit.</strong> The suites assert ARIA attributes, no whit VoiceOver, NVDA, or JAWS announce — an this project haes shipped green suites ower real defects mair than anes, ilkane scrievit up in the changelog juist because the suites couldnae see them.
+    </li>
+  </ul>
+
+  <h2>Whit we intend tae dae aboot it</h2>
+  <p>
+    An independent accessibility audit is the first namit uiss o onie project funding, an the scope an auditor needs is aareadies prepared. Till then, screen-reader reports are the contribution this project wants maist: “component X announces Y, which is wrang because Z” is directly actionable.
+  </p>
+
+  <h2>Report a problem</h2>
+  <p>
+    Open an issue at
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    or email
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Namin a WCAG criterion helps but isnae required — “I couldnae operate X wi the keyboard” is a complete report.
+  </p>
+  <p>
+    The full statement, wi the verification table an its review history, lives in the repository:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

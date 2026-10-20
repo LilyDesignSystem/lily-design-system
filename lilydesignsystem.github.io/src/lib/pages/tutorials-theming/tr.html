@@ -1,0 +1,111 @@
+<!-- title: Tema eğitimi — Lily Design System -->
+<!-- description: Lily'yi üç yolla temalandırın: hazır 45 temadan birini bağlayın, kendi CSS'inizle geçersiz kılın ve theme-picker yardımcısıyla çalışma anında tema geçişi ekleyin. -->
+<section class="page-intro">
+  <h1>Temalar</h1>
+  <p class="page-intro-tagline">
+    Lily bileşenlerinin kararlı sınıf kancaları vardır ve sıfır CSS taşırlar — yani bir tema yalnızca bir stil sayfasıdır. Bu eğitim "tek bir dosya bağlama"dan "kullanıcının çalışma anında tema değiştirmesine ve bunun kalıcı olmasına" kadar uzanır.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ne oluşturacaksınız</h2>
+  <p>
+    Tüm görünümünü kullanıcının değiştirebildiği bir uygulama — tek bir bağlı stil sayfasıyla başlayıp kalıcı bir çalışma anı tema değiştiriciyle biten — yaklaşık 15 dakikada.
+  </p>
+
+  <h2>Başlamadan önce</h2>
+  <p>
+    Önce yığınınız için <a href="/tutorials/">çerçeve eğitimini</a> için önce yığınınızı seçin; böylece temalandıracak küçük bir Lily formunuz olur. Buradaki her şey yedi çerçevenin hepsinde çalışır; kod örnekleri Svelte ve düz HTML gösterir.
+  </p>
+
+  <h2>Adım 1 — Hazır bir tema bağlayın</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    dizini 45 bağımsız stil sayfası içerir. Bunları uygulamanızın statik varlıklarına kopyalayın ve birini bağlayın:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Kümenin öne çıkanları:</p>
+  <ul>
+    <li>
+      <strong>Kamu sektörü</strong> — NHS England / Scotland / Wales, her biri hasta odaklı ve uygulayıcı odaklı biçimlerde; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Satıcılardan esinlenen</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Genel amaçlı</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>ve daha birçoğu.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Çalışmanızı kontrol edin:</strong> sayfayı yeniden yükleyin. Çerçeve eğitiminde oluşturduğunuz aynı işaretleme artık tamamen biçimli — düğmeler, girdiler, etiketler, odak halkaları. Bunu bir satır HTML yaptı — her bileşen tam olarak olduğu gibi kaldı.
+    </p>
+  </div>
+
+  <h2>Adım 2 — Her şeyi geçersiz kılın</h2>
+  <p>
+    Tema seçicileri şuna sarılıdır: <code>:where(...)</code>ki bunun özgüllüğü sıfırdır — yani yazdığınız her kural kazanır, kısa ve net:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Adım 3 — theme-picker ile çalışma anında geçiş</h2>
+  <p>
+     <code>theme-picker</code> yardımcı, tema yaşam döngüsünün tamamına sahip, başsız bir simge düğmesi + listbox'tır: seçilen stil sayfasını yönetilen tek bir <code>&lt;link&gt;</code>
+    değiştirerek yükler (yalnızca etkin tema getirilir), belgeye
+    <code>data-theme="&#123;slug&#125;"</code> ayarlar ve isteğe bağlı olarak şuraya kalıcı yazar: <code>localStorage</code>. Burada Svelte gösteriliyor; React, Vue, Angular, HTML, Nunjucks ve Blazor taşımaları sözleşme sözleşme eşleşir:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Entegrasyonun tamamı bu. Klavye davranışı WAI-ARIA APG listbox kalıbını izler; denetimin kendisi başsızdır (sınıf kancası
+    <code>.theme-picker</code>), bu yüzden hangi tema etkinse onu alır.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29'da doğrulandı:</strong> tam bu kod parçası, yayımlanmış <code>0.1.1</code> paketine karşı derlendi; şunun aracılığıyla:
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Adım 4 — Temaya kendi CSS'inizde tepki verin</h2>
+  <p>
+    Yardımcı belge köküne <code>data-theme</code> ayarladığı için kendi stilleriniz buna göre dallanabilir:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Sunucu tarafı işleme için notlar</h2>
+  <p>
+    Yardımcı tüm DOM yazımlarını çerçevenin mount/effect yaşam döngüsü içinde yapar, dolayısıyla yapısı gereği SSR güvenlidir. İlk boyamadaki titremeyi önlemek için ilk temanın <code>&lt;link&gt;</code> ve
+    <code>data-theme</code> değerini sunucuda işleyin (örneğin bir çerezden) — Svelte yardımcı deposu çalıştırılabilir bir SvelteKit çerez örneği içerir, diğer kataloglar da kendi yığınları için aynı kalıbı belgeler.
+  </p>
+
+  <h2>Sonraki adımlar</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Tercih yardımcıları</a> — dil, metin boyutu, paylaşım ve tarih/saat girişi için aynı kalıp.</li>
+    <li>
+      Bir tema katkıda bulunun — her biri sınıf kancalarını hedefleyen bağımsız bir stil sayfasıdır; bkz. <a href="/help/#contributing">katkı rehberi</a>.
+    </li>
+  </ul>
+  <p>
+    Yol boyunca sorunuz mu var?
+    <a href="/help/#troubleshooting">Yardım sayfası</a> yanıtlarla dolu — ve bir adım daha açık olabilirse,
+    <a href="https://github.com/LilyDesignSystem">bize söyleyin</a> ve eğitimi memnuniyetle iyileştirelim.
+  </p>
+</section>

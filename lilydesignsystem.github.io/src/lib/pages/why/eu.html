@@ -1,0 +1,102 @@
+<!-- title: Zergatik Lily — Lily Design System -->
+<!-- description: Lilyren aldeko argudioa: zuk estilatzen dituzun osagai buru gabeak, WCAG 2.2 AAA irisgarritasuna barnean, kate gogor kodetuak gabe, zortzi framework, katalogo bakarra, betiko doakoa. -->
+<section class="page-intro">
+  <h1>Lilyren aldeko argudioa</h1>
+  <p class="page-intro-tagline">
+    Lilyk zati zailak ematen dizkizu — semantika, irisgarritasuna, teklatuaren portaera, nazioartekotzea — eta itxura osoa, pozik, zuri uzten dizu.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hasi zure diseinutik</h2>
+  <p>
+    Zure taldeak badaki jada zer itxura izan behar duen zure produktuak. Lily toki horretatik abiatzen da: ondo egiteko benetan zailak eta berregiteko garestiak diren zatiak ematen ditu — elementu semantiko zuzena, ARIA egoerak, teklatu-kontratua, fokuaren kudeaketa — eta erabaki bisual guztiak osorik, pozik, zureak uzten ditu. Zure CSSa da diseinu-sistemaren itxura, lehen egunetik.
+  </p>
+  <p>
+    Osagai bakoitzak klase-gako egonkorra eta egitura garbia duenez, zure estiloa garbi zurea izaten jarraitzen du eguneraketa guztietan — eta azpiko irisgarritasunak funtzionatzen jarraitzen du, bertsioz bertsio.
+  </p>
+
+  <h2>Lilyk zer konpromiso hartzen duen</h2>
+  <ul>
+    <li>
+      <strong>Irisgarria lehenespenez.</strong> WCAG 2.2 AAA da osagai bakoitzaren helburua. Patroiek WAI-ARIA Authoring Practices jarraitzen dituzte; osagai interaktibo guztiak teklatuarekin erabil daitezke kontratu dokumentatu batekin; adibide-aplikazioek axe-core oinarri-lerro garbia mantentzen dute.
+    </li>
+    <li>
+      <strong>Nazioartekotu daiteke eraikuntzaz.</strong> Erabiltzaileak ikusten duen kate guztia — etiketa, errore eta jakinarazpen bakoitza — framework-etan izen egonkorrak dituen propa da, eta itzulpena modu naturalean doa. RTL eta bi noranzkoko testua zure <code>dir</code>-tik heredatzen dira. Locale-a ezagutzen duten osagaiek locale-a propa gisa hartzen dute, beti esplizituki.
+    </li>
+    <li>
+      <strong>Katalogo bat, zortzi framework.</strong> 571 osagai berak (536 Web Components natibo gisa) klase-gako eta propa-hitzarmen berdinekin HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks eta Web Components-en. Zure CSSa eta zure taldearen ezagutza stack batetik bestera pasatzen dira.
+    </li>
+    <li>
+      <strong>CSS estrategiarekiko neutrala.</strong> Kebab-case klase egonkor bat osagai-erro bakoitzeko. CSS semantikoa, Tailwind utilitateak, CSS-in-JS edo prest dauden 57 gaietako bat — Lilyk guztiak ongi hartzen ditu eta dotore kentzen da bidetik.
+    </li>
+    <li>
+      <strong>Doakoa, betiko, zure baldintzetan.</strong> Kode irekia zure aukerako lizentziapean: BSD, MIT, Apache-2.0, GPL-2.0 edo GPL-3.0. Pro mailarik ez, eserleku-lizentziarik ez, telemetriarik ez.
+    </li>
+  </ul>
+
+  <h2>Sakontasuna axola duen tokian</h2>
+  <p>
+    Botoi eta elkarrizketa-koadro ohikoetatik harago, katalogoak gehienek baino urrutiago iristen da:
+  </p>
+  <ul>
+    <li>
+      <strong>Sektore publikoko patroiak</strong> NHS UK, GOV.UK, USWDS eta ONS diseinu-sistemetan ikertuak — errore-laburpenak, ohar-koadroak, laburpen-zerrendak, fase-bannerrak, saltoko estekak.
+    </li>
+    <li>
+      <strong>140 nortasun-identifikatzaile nazionaleko osagai</strong> 50 herrialde baino gehiagotako osasun, nortasun-agiri, zerga eta pasaporte identifikatzaileak biltzen dituztenak, bakoitzak bere formatua eta baliozkotze-algoritmoa dokumentatuta.
+    </li>
+    <li>
+      <strong>Edizio- eta scrollytelling-primitiboak</strong> Reuters Graphics-etik egokituak — artikulu-diseinuak, scroll-gailuak, denbora-lerroak, lauza-mapak.
+    </li>
+    <li>
+      <strong>Hautatzaile-laguntzaileak</strong> — elkarrekintza bat hasieratik amaierara bere gain hartzen duten pakete txikiak: gai-aldaketa (exekuzio-garaiko estilo-orrien karga barne), hizkuntza, testu-tamaina, mugimendu murriztua, bilaketa, orri-estekak, partekatzea eta data-ordu sarrera. Bakoitza popup bat irekitzen duen ikono-botoi buru gabea da — ez natiboa <code>&lt;select&gt;</code> — iraunkortasun eta SSR segurtasun integratuarekin.
+    </li>
+  </ul>
+
+  <h2>Sektore publikorako gaiak, kutxatik atera berri</h2>
+  <p>
+    Lilyk 57 erreferentzia-gai independente ditu, bere klase-gakoak zuzenean helburu dituztenak: NHS England, NHS Scotland eta NHS Wales (bakoitza pazienteentzako eta profesionalentzako aldaeretan), GOV.UK, USWDS, Adobe Spectrum eta Mozilla Protocol-ek inspiratutako paletak, eta gai argi eta ilun orokorren multzo bat. Lotu estilo-orri bat eta gobernu-mailako itxura martxan dago; <code>theme-picker</code> laguntzaileak exekuzio-garaian aldatzen ditu.
+  </p>
+
+  <h2>Nola konparatzen den Lily</h2>
+  <p>
+    Konparazio
+    <a href="/comparisons/">zintzoa mantentzen dugu, osagaiz osagai, beste diseinu-sistema batzuekin</a> — estilatuak eta buru gabeak, komertzialak eta sektore publikokoak. Beste liburutegi bat egokiagoa bada zuretzat, konparazioak erakutsiko du; Lilyk guztietatik ikasten du eta bere inspirazioak argi aipatzen ditu.
+  </p>
+
+  <h2>Nor dago atzean</h2>
+  <p>
+    Lily proiektu gazte eta independente bat da, kode irekikoa, lankidetza, orientazioa eta iritziak ongi hartzen dituena — ikusi
+    <a href="/about/">Honi buruz</a> istorioa eta inspirazioak ezagutzeko. Dena — espezifikazioa, probak, bide-orria, auditoretza-tresnak ere — irekia dago hemen:
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Lagundu Lilyri hazten</h2>
+  <p>Lily baliagarria baduzu, egin dezakezun gauzarik baliotsuenak:</p>
+  <ul>
+    <li>
+      <strong>Eman izarra eta partekatu.</strong> Eman izarra
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">biltegi nagusiari</a>
+      eta erakutsi lankide bati <a href="/components/">katalogoa</a> — ezagutza da proiektu gazte batek duen baliabide eskasena.
+    </li>
+    <li>
+      <strong>Eraiki zerbait eta kontatu.</strong> Benetako erabileraren txostenek — zerk funtzionatu duen, zerk hobetu daitekeen — bide-orria beste ezerk baino gehiago osatzen dute.
+    </li>
+    <li>
+      <strong>Auditatu irisgarritasuna.</strong> Pantaila-irakurgailuekin (VoiceOver, NVDA, JAWS) egindako probak <a href="/examples/">adibide-aplikazioetan</a> urre hutsa dira; eman berri aurkitzen duzuna.
+    </li>
+    <li>
+      <strong>Eman gai bat edo itzulpen bat.</strong> Biak dira lehen ekarpen autonomo eta ongi mugatuak.
+    </li>
+    <li>
+      <strong>Partekatu aurkitzen duzuna, erreprodukzio minimo batekin,</strong> GitHub biltegian, edo idatzi hona:
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Hasi tutoriala</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Eman izarra GitHub-en</a>
+  </div>
+</section>

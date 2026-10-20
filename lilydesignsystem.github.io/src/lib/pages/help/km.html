@@ -1,0 +1,432 @@
+<!-- title: ជំនួយ — Lily Design System -->
+<!-- description: ចាប់ផ្តើមជាមួយ Lily៖ ដំឡើងកញ្ចប់គ្មានក្បាលសម្រាប់ក្របខណ្ឌរបស់អ្នក ចម្លងសមាសភាគ ដាក់រចនាប័ទ្ម ដាក់ស្បែក ដឹកជញ្ជូន។ ការដោះស្រាយបញ្ហា សំណួរញឹកញាប់ និងការគាំទ្រ។ -->
+<section class="page-intro">
+  <h1>ចាប់ផ្តើមជាមួយ Lily</h1>
+  <p class="page-intro-tagline">
+    ជ្រើសរើសក្របខណ្ឌ ក្លូន monorepo ហើយបើកបណ្ណាល័យគ្មានក្បាល ឬកម្មវិធីគំរូរបស់វា ហើយចាប់ផ្តើមផ្សំទំព័រផ្ទាល់ខ្លួនរបស់អ្នក។ ចូលចិត្តផ្លូវដែលមានការណែនាំ? ចាប់ផ្តើមជាមួយ
+    <a href="/tutorials/">មេរៀន</a>.
+  </p>
+</section>
+
+<nav aria-label="នៅលើទំព័រនេះ" class="prose" style="margin: 0 auto;">
+  <p><strong>នៅលើទំព័រនេះ៖</strong></p>
+  <ul>
+    <li><a href="#install">ដំឡើង</a></li>
+    <li><a href="#use-headless">ប្រើសមាសភាគគ្មានក្បាល</a></li>
+    <li><a href="#use-styled">ប្រើឧទាហរណ៍មានរចនាប័ទ្ម</a></li>
+    <li><a href="#styling">រចនាប័ទ្ម និងតូខឹនរចនា</a></li>
+    <li><a href="#themes">ស្បែករួចជាស្រេច</a></li>
+    <li><a href="#helpers">ជំនួយការចំណូលចិត្ត</a></li>
+    <li><a href="#a11y">ភាពងាយស្រួលចូលប្រើ</a></li>
+    <li><a href="#i18n">អន្តរជាតិកម្ម</a></li>
+    <li><a href="#testing">ការធ្វើតេស្ត</a></li>
+    <li><a href="#ai-agents">ភ្នាក់ងារ AI</a></li>
+    <li><a href="#troubleshooting">ការដោះស្រាយបញ្ហា</a></li>
+    <li><a href="#contributing">ការចូលរួមចំណែក</a></li>
+    <li><a href="#community">សហគមន៍ និងការគាំទ្រ</a></li>
+    <li><a href="#faq">សំណួរញឹកញាប់</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>ដំឡើង</h2>
+  <p>
+    Lily រស់នៅក្នុង monorepo Git មួយ ជាមួយថតសម្រាប់បណ្ណាល័យគ្មានក្បាល កញ្ចប់ជំនួយការ និងកម្មវិធីគំរូរបស់ក្របខណ្ឌនីមួយៗ។ វិធីលឿនបំផុតក្នុងការសាកល្បងគឺក្លូន monorepo ហើយបើកបណ្ណាល័យគ្មានក្បាលសម្រាប់ស្ទែករបស់អ្នក៖
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>លំនាំដូចគ្នាដំណើរការសម្រាប់ក្របខណ្ឌផ្សេងទៀត៖</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — មិនត្រូវការដំឡើងទេ; ចម្លង <code>.html</code> ឯកសារ</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    បណ្ណាល័យគ្មានក្បាលត្រូវបានរចនាឱ្យក្លូន ឬ vendor — ចាត់ទុកប្រភពជាប្រភពនៃសេចក្តីពិត ហើយចម្លងអ្វីដែលអ្នកត្រូវការ។
+    <a href="#helpers">ជំនួយការចំណូលចិត្ត</a> ក៏មកជាកញ្ចប់ដែលអាចដំឡើងបានដោយមានបំពង់សាងសង់ និងផ្សាយ (npm សម្រាប់ក្របខណ្ឌ JS, NuGet សម្រាប់ Blazor)។
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>ប្រើសមាសភាគគ្មានក្បាល</h2>
+  <p>
+    សមាសភាគគ្មានក្បាលដឹកជញ្ជូន HTML ន័យវិទ្យា ARIA និងលក្ខណៈសម្បត្តិ — ប៉ុន្តែគ្មាន CSS ទេ។ នេះជា Button ក្នុងក្របខណ្ឌនីមួយៗ៖
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>ប្រើឧទាហរណ៍មានរចនាប័ទ្ម</h2>
+  <p>
+    កម្មវិធីគំរូរួមមាន CSS ផ្លូវ និងទំព័របង្ហាញពេញលេញ។ វិធីលឿនបំផុតក្នុងការពិសោធន៍គឺចាប់ផ្តើមកម្មវិធីគំរូ SvelteKit, Next, Nuxt, Analog ឬ Eleventy ហើយមើលការបង្ហាញនៅ <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    បន្ទាប់មកបើក <code>http://localhost:5173</code> ហើយរុករក <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>រចនាប័ទ្ម និងតូខឹនរចនា</h2>
+  <p>
+    សមាសភាគនីមួយៗបង្ហាញជាមួយថ្នាក់ kebab-case មួយនៅលើធាតុឫសរបស់វា។ ឧទាហរណ៍ <code>&lt;Button&gt;</code> បង្ហាញ <code>&lt;button class="button"&gt;</code>។ ដាក់រចនាប័ទ្មវាតាមចិត្ត៖
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>ក្បាលពណ៌ Lily លំនាំដើម (ប្រើក្នុងកម្មវិធីគំរូ) គឺ៖</p>
+  <ul>
+    <li>ចម្បង៖ <code>#2563eb</code></li>
+    <li>គ្រោះថ្នាក់៖ <code>#dc2626</code></li>
+    <li>ការព្រមាន៖ <code>#f59e0b</code></li>
+    <li>ជោគជ័យ៖ <code>#16a34a</code></li>
+    <li>ផ្ទៃខាងក្រោយទំព័រ៖ <code>#f9fafb</code></li>
+    <li>ផ្ទៃខាងក្រោយកាត៖ <code>#ffffff</code></li>
+  </ul>
+  <p>
+    ទាំងនេះជាការណែនាំ មិនមែនតម្រូវការទេ។ ជំនួសវាដោយក្បាលពណ៌ម៉ាកផ្ទាល់ខ្លួនរបស់អ្នក ហើយ Lily នឹងមកតាមដោយអំណរ។
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>ស្បែករួចជាស្រេច</h2>
+  <p>
+    មិនចង់សរសេរ CSS ពីសូន្យ? Lily មកជាមួយ
+    <strong>ស្បែកយោងឯករាជ្យ ៥៧</strong> ក្នុងថត
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ។ នីមួយៗជាសន្លឹករចនាប័ទ្មមួយដែលកំណត់គោលដៅ class hook របស់ Lily — ភ្ជាប់វា ហើយអ្នកមានរចនាប័ទ្ម៖
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>សំណុំនេះគ្របដណ្តប់៖</p>
+  <ul>
+    <li>
+      <strong>វិស័យសាធារណៈ</strong> — NHS England, NHS Scotland និង NHS Wales (កំណែសម្រាប់អ្នកជំងឺ និងអ្នកអនុវត្តនីមួយៗ) GOV.UK GDS និង U.S. Web Design System។
+    </li>
+    <li><strong>បំផុសដោយអ្នកលក់</strong> — Adobe Spectrum, Mozilla Protocol។</li>
+    <li>
+      <strong>គោលបំណងទូទៅ</strong> — light, dark, nord, dracula, wireframe និងប្រហែលសាមសិបទៀត។
+    </li>
+  </ul>
+  <p>
+    ឧបករណ៍ជ្រើសស្បែកប្រើ <code>:where(...)</code>ដូច្នេះ CSS របស់អ្នកឈ្នះជានិច្ចលើភាពជាក់លាក់។ ផ្គូផ្គងពួកវាជាមួយជំនួយការ <code>theme-picker</code> ខាងក្រោមសម្រាប់ការប្តូរពេលដំណើរការ ឬធ្វើតាម
+    <a href="/tutorials/theming/">មេរៀនស្បែក</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>ជំនួយការចំណូលចិត្ត</h2>
+  <p>
+    ក្របខណ្ឌនីមួយៗមានឧបករណ៍ជ្រើសតូចៗប្រាំបី ដែលនីមួយៗនៅក្នុងកញ្ចប់
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> ផ្ទាល់ខ្លួន (និង <code>picker-bar</code> ដែលផ្គុំពួកវា)។ នីមួយៗជាប៊ូតុងរូបតំណាងគ្មានក្បាលដែលបើកផ្ទាំងលេចឡើង — ប្រអប់បញ្ជី បញ្ជីតំណ ទម្រង់ស្វែងរក ឬ (សម្រាប់ date-time-picker) ប្រអប់ជ្រើសកាលបរិច្ឆេទ — មិនមែនជា
+    <code>&lt;select&gt;</code>ដើមទេ; សុវត្ថិភាព SSR; ហើយមកដោយគ្មាន CSS៖
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — ផ្ទុកសន្លឹករចនាប័ទ្មស្បែកពេលដំណើរការដោយប្តូរ <code>&lt;link&gt;</code>ដែលគ្រប់គ្រង កំណត់
+      <code>data-theme</code> នៅលើឯកសារ ហើយជាជម្រើសរក្សាទុកទៅ
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — កំណត់ <code>lang</code> និង
+      <code>dir</code> (ជាមួយការរកឃើញ RTL ស្វ័យប្រវត្តិ) ដើម្បីឱ្យបណ្ណាល័យ i18n របស់អ្នកអាចតាម; វាមិនបកប្រែដោយខ្លួនឯងទេ។
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — កំណត់ <code>data-text-size</code> នៅលើឯកសារ; CSS របស់អ្នកផ្គូផ្គងតម្លៃនីមួយៗទៅនឹងទំហំពុម្ពអក្សរ។
+    </li>
+    <li>
+      <strong>motion-picker</strong> — កំណត់ <code>data-motion</code> នៅលើឯកសារ ចាប់ផ្តើមពីការកំណត់ចលនាថយចុះរបស់អ្នកទស្សនា; CSS និងស្គ្រីបរបស់អ្នកសម្រេចថាអ្វីត្រូវបង្ក្រាប។
+    </li>
+    <li>
+      <strong>search-picker</strong> — ប៊ូតុងរូបតំណាងដែលបើកវាលស្វែងរក; ការដាក់ស្នើរុករកទៅទំព័រស្វែងរក។ ជាម្ចាស់សកម្មភាពមួយ មិនមែនចំណូលចិត្តទេ។
+    </li>
+    <li>
+      <strong>link-picker</strong> — រូបតំណាងផ្ទះដែលបើកម៉ឺនុយនៃតំណទំព័រដែលកម្មវិធីរបស់អ្នកកំណត់ (ទំព័រដើម អំពីយើង ទាក់ទងយើង គោលការណ៍ឯកជនភាព …)។ ជាម្ចាស់សកម្មភាពមួយ មិនមែនចំណូលចិត្តទេ។
+    </li>
+    <li>
+      <strong>share-picker</strong> — បើកសន្លឹកចែករំលែកដើម ឬបញ្ជីគោលដៅដែលអ្នកប្រើប្រាស់ផ្តល់ បូកចម្លង URL។ ជាម្ចាស់សកម្មភាពមួយ មិនមែនចំណូលចិត្តទេ៖ មិនអនុវត្តអ្វី មិនរក្សាទុកអ្វីទេ។
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — វាលអត្ថបទបូកប្រអប់ជ្រើសកាលបរិច្ឆេទ APG សម្រាប់កាលបរិច្ឆេទ ពេលវេលា ឬទាំងពីរ។ ជាម្ចាស់តម្លៃទម្រង់មួយ មិនមែនចំណូលចិត្តទេ៖ ខ្សែអក្សរ ISO ធ្វើដំណើរទៅមកទៅ
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    កាតាឡុក Svelte ជាឯកសារយោងស្តង់ដារ; ច្រកផ្សេងទៀត React, Vue, Angular, HTML, Nunjucks, Web Components និង Blazor ត្រូវគ្នានឹងវាកិច្ចសន្យាដោយកិច្ចសន្យា។ មើល
+    <a href="/tutorials/helpers/">មេរៀនជំនួយការ</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>ភាពងាយស្រួលចូលប្រើ</h2>
+  <p>សមាសភាគមានគោលដៅ <strong>WCAG 2.2 AAA</strong>។ ពួកវាធ្វើតាមលំនាំទាំងនេះ៖</p>
+  <ul>
+    <li>ធាតុ HTML ន័យវិទ្យាជាជាងទូទៅ <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> ភ្ជាប់ស្លាកទៅនឹងវាលបញ្ចូល។</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> សម្រាប់ឯកសារយោងឆ្លង។</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> សម្រាប់ស្ថានភាពកំហុស។</li>
+    <li><code>role="alert"</code> និង <code>aria-live</code> សម្រាប់មាតិកាថាមវន្ត។</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> សម្រាប់ស្ថានភាព។</li>
+    <li>Roving <code>tabindex</code> សម្រាប់ក្រឡាចត្រង្គ។</li>
+  </ul>
+  <p>
+    សូចនាកររូបតំណាងការផ្តោតត្រូវបានផ្តល់ដោយអ្នកប្រើប្រាស់ដោយចេតនា — Lily មិនដែលគូររង្វង់ផ្តោតលំនាំដើមដែលប៉ះទង្គិចនឹងការរចនារបស់អ្នកទេ។ កម្មវិធីគំរូរក្សា axe-core baseline ស្អាតនៅទូទាំងផ្លូវរបស់វា។
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>អន្តរជាតិកម្ម</h2>
+  <p>
+    ស្លាកនីមួយៗ អត្ថបទជំនួស សារកំហុស និងអត្ថបទប៊ូតុងជាលក្ខណៈសម្បត្តិ។ គ្មានអក្សរសរសេរជាប់ក្នុងកូដទេ។ ដាក់ក្របខណ្ឌបកប្រែដែលអ្នកចូលចិត្ត — Paraglide, i18next, vue-i18n, react-intl, ឯកសារ .resx អ្វីក៏បាន។
+  </p>
+  <p>
+    សម្រាប់កាលបរិច្ឆេទ លេខ និងរូបិយប័ណ្ណ សមាសភាគទទួលខ្សែអក្សរដែលបានធ្វើទ្រង់ទ្រាយរួច៖ អ្នកធ្វើទ្រង់ទ្រាយជាមួយ <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / បណ្ណាល័យដែលអ្នកចូលចិត្ត ហើយបញ្ជូនលទ្ធផល។
+  </p>
+  <p>
+    ជំនួយការ <code>locale-picker</code> ផ្តល់សញ្ញាតំបន់ភាសាដែលបានជ្រើសរើសដល់បណ្ណាល័យ i18n របស់អ្នកដោយកំណត់ <code>lang</code> និង <code>dir</code> នៅលើឫសឯកសារ។
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>ការធ្វើតេស្ត</h2>
+  <p>ក្របខណ្ឌគម្រោងរងនីមួយៗដឹកជញ្ជូនតេស្តផ្ទាល់ខ្លួនដោយប្រើស្ទែកបែបតាមមាត់របស់វា៖</p>
+  <ul>
+    <li><strong>HTML</strong>៖ WebDriverIO ដំណើរការកម្មវិធីរុករកពិតប្រាកដ។</li>
+    <li><strong>Svelte</strong>៖ Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>៖ Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>៖ Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>៖ Vitest + TestBed (តាមរយៈ Analog Vite plugin)។</li>
+    <li><strong>Nunjucks</strong>៖ Vitest ជាមួយជំនួយការបង្ហាញ។</li>
+    <li><strong>Blazor</strong>៖ bUnit។</li>
+  </ul>
+  <p>
+    តេស្តប្រើ <strong>តែ matcher ដែលភ្ជាប់មកជាមួយរបស់ Vitest ប៉ុណ្ណោះ</strong> — មិនដែល
+    <code>jest-dom</code> matcher ទេ។ នេះរក្សាសំណុំតេស្តឱ្យអាចចល័តបាន។ កម្មវិធីគំរូបន្ថែមសំណុំ Playwright ពីចុងដល់ចុង baseline ភាពងាយស្រួលចូលប្រើ axe-core និងការស្កេន viewport ឆ្លើយតប។
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>ភ្នាក់ងារ AI</h2>
+  <p>
+    គេហទំព័រនេះបោះពុម្ព <a href="/llms.txt">llms.txt</a> និង
+    <a href="/llms.json">llms.json</a> នៅឫសរបស់វា — ផែនទីជ្រើសរើសនៃទំព័រសំខាន់បំផុតរបស់វា សម្រាប់ឧបករណ៍ណាមួយដែលធ្វើតាម
+    <a href="https://llmstxt.org">អនុសញ្ញា llms.txt</a>.
+  </p>
+  <p>
+    monorepo ស្តង់ដារក៏ដឹកជញ្ជូនពីរ
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>ជំនាញទូទៅដែលគ្របដណ្តប់គំនិត វាក្យស័ព្ទ និងលំនាំនៃការផ្សំរបស់ Lily សម្រាប់អ្នកដែលសាងសង់ជាមួយប្រព័ន្ធ និង <code>lily-design-system-maintainer-skill</code>ជំនាញបច្ចេកទេសដែលគ្របដណ្តប់ប្លង់ឯកសារតម្រូវ និងឧបករណ៍របស់ monorepo សម្រាប់អ្នកដែលធ្វើការលើវា។ ទាំងពីរស្ថិតនៅឫសនៃ
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo ស្តង់ដារ</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>ការដោះស្រាយបញ្ហា</h2>
+
+  <details class="faq-item">
+    <summary>សមាសភាគបង្ហាញប៉ុន្តែមើលទៅគ្មានរចនាប័ទ្ម</summary>
+    <p>
+      នោះគឺជាគ្មានក្បាលដំណើរការតាមការរំពឹង — គ្មាន CSS មកជាមួយសមាសភាគទេ។ ឬសរសេរ CSS ប្រឆាំងនឹងថ្នាក់ kebab-case របស់សមាសភាគ (បង្ហាញនៅលើ <a href="/components/">ទំព័រកាតាឡុក</a>នីមួយៗ) ឬភ្ជាប់មួយក្នុងចំណោម
+      <a href="#themes">ស្បែករួចជាស្រេច ៥៧</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS របស់ខ្ញុំហាក់ដូចជាមិនអនុវត្តលើស្បែកទេ</summary>
+    <p>
+      វាគួរតែអនុវត្ត — ឧបករណ៍ជ្រើសស្បែកត្រូវបានរុំក្នុង <code>:where(...)</code>ដែលមានភាពជាក់លាក់សូន្យ។ ប្រសិនបើច្បាប់នៅតែចាញ់ សូមពិនិត្យថាសន្លឹករចនាប័ទ្មរបស់អ្នកផ្ទុកបន្ទាប់ពីរបស់ស្បែក <code>&lt;link&gt;</code> ហើយថាឧបករណ៍ជ្រើសពិតជាត្រូវនឹង class hook របស់សមាសភាគ។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install បរាជ័យដោយមានកំហុស peer ឬកំណែ</summary>
+    <p>
+      ប្រើ pnpm បច្ចុប្បន្ន (v10+) និង Node 22+។ គម្រោងរងនីមួយៗខ្ទាស់កំណែក្របខណ្ឌរបស់វាក្នុង <code>package.json</code>ផ្ទាល់ខ្លួន; ប្រសិនបើ toolchain សកលរបស់អ្នកចាស់ជាងនេះ <code>pnpm env use --global lts</code> គឺជាដំណោះស្រាយលឿនបំផុត។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>កម្មវិធីអានអេក្រង់ប្រកាសឈ្មោះខុសសម្រាប់ការគ្រប់គ្រង</summary>
+    <p>
+      ពិនិត្យលក្ខណៈសម្បត្តិតម្រូវរបស់សមាសភាគ <code>label</code> — សមាសភាគដែលគ្មានអត្ថបទមើលឃើញត្រូវការមួយ ហើយ
+      <code>aria-label</code> / <code>aria-labelledby</code> ដែលអ្នកប្រើប្រាស់ផ្តល់ដែលបញ្ជូនតាម rest-props ឈ្នះដោយចេតនាលើខ្សែភ្ជាប់ដែលភ្ជាប់មកស្រាប់។ ទំព័រកាតាឡុកនីមួយៗចងក្រងឯកសារកិច្ចសន្យា ARIA របស់សមាសភាគ។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ជំនួយការ theme-picker មិនប្តូរសន្លឹករចនាប័ទ្មទេ</summary>
+    <p>
+      បញ្ជាក់ថា <code>themesUrl</code> ចង្អុលទៅថតដែលកម្មវិធីរុករកអាចទាញយក (បម្រើ <code>themes/</code> ឯកសារជាទ្រព្យឋិតិត) ហើយថា slug ស្បែកក្នុង <code>themes</code> លក្ខណៈសម្បត្តិត្រូវនឹងឈ្មោះឯកសារ។ ជំនួយការប្តូរ <code>href</code> នៃមួយ
+      <code>&lt;link data-lily-theme-picker&gt;</code> ដែលគ្រប់គ្រង — ពិនិត្យវាក្នុង devtools ដើម្បីមើល URL ដែលកំពុងស្នើសុំ។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>មានអ្វីផ្សេងទៀតខូច</summary>
+    <p>
+      បើក issue ជាមួយការផលិតឡើងវិញតិចតួចបំផុតនៅ
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ឬមើល <a href="#community">សហគមន៍ និងការគាំទ្រ</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>ការចូលរួមចំណែក</h2>
+  <p>Lily នៅវ័យក្មេង ហើយស្វាគមន៍ការសហការ។ ការចូលរួមចំណែកមានប្រយោជន៍បំផុតនៅពេលនេះគឺ៖</p>
+  <ul>
+    <li>សមាសភាគថ្មី (ជាពិសេសលំនាំពីប្រព័ន្ធរចនាដែលបានបង្កើតឡើង)។</li>
+    <li>ស្បែកថ្មី — នីមួយៗជាសន្លឹករចនាប័ទ្មឯករាជ្យមួយ PR ដំបូងដែលមានវិសាលភាពល្អ។</li>
+    <li>រចនាប័ទ្មឧទាហរណ៍ល្អជាងមុន — បង្ហាញអ្វីដែលអាចធ្វើបាន។</li>
+    <li>ការបកប្រែអក្សរកម្មវិធីគំរូ។</li>
+    <li>របាយការណ៍កំហុសជាមួយការផលិតឡើងវិញតិចតួចបំផុត។</li>
+    <li>សវនកម្មភាពងាយស្រួលចូលប្រើជាមួយកម្មវិធីអានអេក្រង់ និងបច្ចេកវិទ្យាជំនួយ។</li>
+  </ul>
+  <p>
+    បើក issue និង PR នៅ
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>សហគមន៍ និងការគាំទ្រ</h2>
+  <ul>
+    <li>
+      <strong>សំណួរ និងរបាយការណ៍កំហុស</strong> — បើក issue នៅ
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>អ៊ីមែល</strong> — អ្នកថែទាំអាន
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ហើយស្វាគមន៍ការសហការ ការណែនាំ និងមតិកែលម្អ។
+    </li>
+    <li>
+      <strong>កញ្ចក់</strong> — Lily ក៏ត្រូវបានរុញទៅ
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> និង
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>ដូច្នេះអ្នកអាចចូលរួមពី forge ដែលអ្នកចូលចិត្ត។
+    </li>
+    <li>
+      <strong>អាកប្បកិរិយា</strong> — គម្រោងធ្វើតាមក្រមប្រតិបត្តិស្តង់ដារ; សូមមានចិត្តល្អ សន្មត់ថាមានចេតនាល្អ។
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>សំណួរញឹកញាប់</h2>
+
+  <details class="faq-item">
+    <summary>ហេតុអ្វីគ្មានក្បាលជំនួសឱ្យមានរចនាប័ទ្ម?</summary>
+    <p>
+      សមាសភាគមានរចនាប័ទ្មជាមុនងាយស្រួល — រហូតដល់ពួកវាមិនត្រូវនឹងម៉ាករបស់អ្នក។ សមាសភាគគ្មានក្បាលត្រូវការការងារបន្ថែមបន្តិចនៅពេលដំបូង ប៉ុន្តែផ្តល់ឱ្យអ្នកនូវការគ្រប់គ្រងពេញលេញលើការរចនាដែលមើលឃើញ។ កម្មវិធីគំរូ និងស្បែក ៥៧ បង្ហាញវិធីដាក់រចនាប័ទ្មពួកវា; អ្នកអាចយកវា ឬជំនួសវាទាំងស្រុង។ អំណះអំណាងវែងជាងនេះគឺនៅលើ <a href="/why/">ហេតុអ្វី Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ហេតុអ្វីមានសមាសភាគច្រើនម្ល៉េះ?</summary>
+    <p>
+      Lily មានគោលបំណងគ្របដណ្តប់លំនាំដែលកម្មវិធីភាគច្រើនត្រូវការ ដោយមិនបង្ខំអ្នកឱ្យសាងសង់ពីសូន្យ — រួមទាំងរឿងជ្រៅៗដូចជាការបញ្ចូលអត្តសញ្ញាណជាតិ និង scrollytelling វិចារណកថា។ កាតាឡុកទាញយកពីប្រព័ន្ធរចនាដែលបានបង្កើតឡើងមួយឌូហ្សែន បូកការងារដើម — មើល <a href="/about/">អំពី</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>តើខ្ញុំអាចប្រើ Lily ជាមួយ Tailwind បានទេ?</summary>
+    <p>
+      បាន។ សមាសភាគនីមួយៗបង្ហាញថ្នាក់ឫស kebab-case មួយ បូក <code>className</code> / <code>class</code>ដែលអ្នកប្រើប្រាស់ផ្តល់។ ដាក់ឧបករណ៍ប្រើប្រាស់ Tailwind នៅលើតាមចិត្ត។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>តើខ្ញុំអាចប្រើ Lily ជាមួយក្របខណ្ឌ CSS ន័យវិទ្យាដូចជា DaisyUI បានទេ?</summary>
+    <p>
+      បាន។ ឈ្មោះថ្នាក់ kebab-case លើធាតុឫសដំណើរការជា CSS hook ន័យវិទ្យា។ ផ្គូផ្គង Lily ជាមួយក្របខណ្ឌន័យវិទ្យា ហើយអ្នកទទួលបានសមាសភាគមានរចនាប័ទ្មជាមុនដែលនៅតែគោរព ARIA និង i18n។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>តើមានកញ្ចប់ npm ទេ?</summary>
+    <p>
+      ជំនួយការ <a href="#helpers">ជំនួយការចំណូលចិត្ត</a> ដឹកជញ្ជូនជាកញ្ចប់ដោយមានបំពង់ផ្សាយ npm/NuGet។ បណ្ណាល័យសមាសភាគគ្មានក្បាលត្រូវបានរចនាឱ្យក្លូន ឬ vendor — ប្រភពគឺជាអ្វីដែលត្រូវប្រគល់ ដូច្នេះអ្នកអាចអាន កាត់ និងជាម្ចាស់ចំពោះអ្វីដែលអ្នកដឹកជញ្ជូន។ ការផ្សាយក្នុងបញ្ជីសម្រាប់បណ្ណាល័យគ្មានក្បាលនៅតែស្ថិតក្នុងផែនទីបង្ហាញផ្លូវ។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ហេតុអ្វីមានអាជ្ញាប័ណ្ណច្រើន?</summary>
+    <p>
+      គម្រោងផ្សេងគ្នាមានតម្រូវការអាជ្ញាប័ណ្ណខុសគ្នា។ BSD និង MIT អនុញ្ញាត Apache-2.0 មានការផ្តល់ប៉ាតង់ ហើយជម្រើស GPL គាំទ្រ copyleft។ ជ្រើសរើសអ្វីដែលសមនឹងស្ថានភាពរបស់អ្នក។
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>តើខ្ញុំរាយការណ៍កំហុស ឬស្នើសុំមុខងារដោយរបៀបណា?</summary>
+    <p>
+      បើក issue នៅលើឃ្លាំង GitHub ឬផ្ញើអ៊ីមែលទៅ
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

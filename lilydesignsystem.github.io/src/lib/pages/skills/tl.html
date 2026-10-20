@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: Binibigyan ng 26 na Claude Skill ang Claude Code ng piniling, mai-load na pasukan sa Lily Design System — mga pangkalahatang konsepto, payong bawat framework, at malalimang pagsisid bawat subproject para sa headless na library at mga *-picker helper. -->
+<section class="page-intro">
+  <h1>Ginagawang mas madali ng mga skill sa mga AI agent ang Lily</h1>
+  <p class="page-intro-tagline">
+    Nagpapadala ang Lily ng mga nakatutok na skill — pangkalahatan, bawat framework, at bawat subproject — para mai-load ng agent ang eksaktong kontekstong kailangan nito at wala nang iba.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Anong skill ang gusto mo?</h2>
+  <p>
+    Bawat antas ay sumasagot sa ibang tanong. I-load ang pangkalahatang skill kapag hindi mo pa kilala ang Lily. I-load ang skill ng framework kapag kilala mo ang framework mo pero hindi mo alam kung aling subproject ang kailangan mo. I-load nang direkta ang headless-skill o helpers-skill kapag alam mo na nang eksakto kung ano ang ginagawa mo.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Pangkalahatan / maintainer</strong> — “Ano ang Lily?” / “Paano binuo ang monorepo na ito?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Payong ng framework</strong> — “Ano ang available para sa {framework}, at aling piraso ang kailangan ko?” — 8, tig-isang <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Headless / mga helper</strong> — “Paano eksaktong gagamitin ang mga component / *-picker helper ng {framework}?” — 16, tig-isang <code>{framework}-headless-skill</code> at <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>Ang walong framework</h2>
+  <p>
+    Nakakakuha ang bawat framework ng parehong tatlong-antas na stack. Imamapa ng payong na skill ang lahat ng tunay na subproject ng framework na iyon — kasama ang halimbawang app, na hindi sinasaklaw ng alinman sa dalawang kapatid nitong skill — at tutukoy pababa sa mga ito sa halip na ulitin ang kanilang mga kontrata.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Payong</th>
+        <th>Headless</th>
+        <th>Mga helper</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Payong na skill ng Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="Headless na skill ng Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="Skill ng mga helper ng Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Payong na skill ng Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="Headless na skill ng Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="Skill ng mga helper ng Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Payong na skill ng HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="Headless na skill ng HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="Skill ng mga helper ng HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Payong na skill ng Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="Headless na skill ng Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="Skill ng mga helper ng Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Payong na skill ng React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="Headless na skill ng React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="Skill ng mga helper ng React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Payong na skill ng Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="Headless na skill ng Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="Skill ng mga helper ng Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Payong na skill ng Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="Headless na skill ng Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="Skill ng mga helper ng Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Payong na skill ng Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">skill</a></td>
+        <td>
+          <a
+            aria-label="Headless na skill ng Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >skill</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Skill ng mga helper ng Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Ang Web Components ang nag-iisang eksepsiyon sa magkabilang direksyon: ang headless na catalog nito ay sadyang saklaw na 536 sa 571 (mga native na custom element, walang framework runtime; ang iba pang 35 component ay permanenteng hindi kasama), at wala pang halimbawang app ng Web Components — sinasabi iyon ng payong na skill nito sa halip na ipahiwatig na mayroon.
+  </p>
+
+  <h2>Magdagdag ng isang skill</h2>
+  <p>
+    Ang bawat skill ay isang <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> na file — kasama ang mga sumusuportang file, walang build step. I-clone ang kailangan mo sa kahit saan nilo-load ng iyong setup ng Claude Code ang mga skill (tingnan ang opisyal na dokumentong naka-link sa itaas para sa direktoryo ng skill ng iyong proyekto o account):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Nagtatrabaho sa ilang framework, o sa monorepo mismo? I-clone na lang ang <a href="https://github.com/LilyDesignSystem/lily-design-system">canonical na monorepo</a> — ang lahat ng 26 na skill ay nasa root na nito, katabi ng mga headless na library, catalog ng mga helper, at halimbawang app na inilalarawan nila.
+  </p>
+</section>

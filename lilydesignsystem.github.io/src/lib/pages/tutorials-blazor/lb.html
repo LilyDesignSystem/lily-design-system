@@ -1,0 +1,107 @@
+<!-- title: Blazor-Tutorial — Lily Design System -->
+<!-- description: Baut e zougängleche, gestalte Formulaire mat de Headless-Komponente vu Lily fir Blazor: Razor-Komponenten mat Parameteren a bUnit-Tester. -->
+<section class="page-intro">
+  <h1>Blazor-Tutorial</h1>
+  <p class="page-intro-tagline">
+    Komponente vun enger Razor-Klassebibliothéik mat Parameteren, <code>ChildContent</code>
+    Render-Fragmenter, Attribut-Splatting an ee bUnit-Test pro Komponent.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    E klengt Kontaktformulaire — Feld mat Etikett, Schécken-Knäppchen,
+    <code>@bind-Value</code> -Bindung, richtegt Tastatur- an Écranliesser-Verhalen — fir d'éischt nackeg, duerno gestalt, an ongeféier 10 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Dir braucht git an den .NET SDK 8 oder méi nei. All Blazor Projet funktionéiert — Blazor Web App, Server oder WebAssembly.
+  </p>
+
+  <h2>Schrëtt 1 — D'Code kréien</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    D'Komponente sinn am <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — eng Razor-Datei jidd. Referenzéiert de Projet (oder kopéiert d'Dateien) aus Ärer Blazor-App a füügt <code>@using LilyBlazorHeadless.Components</code> bäi zu
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Schrëtt 2 — Är éischt Komponent</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button"&gt;</code>. D'gemeinsam Parameterkonventiounen: <code>Label</code> (en <code>aria-label</code> zum Iwwerschreiwen),
+    <code>CssClass</code> (gëtt un de Basis-Hook ugehaang),
+    <code>ChildContent</code>an
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> Attribut-Splatting, sou datt all zousätzlechen HTML-Attribut duerchgeleet gëtt.
+  </p>
+
+  <h2>Schrëtt 3 — E klengt Formulaire zesummestellen</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> hëlt dat siichtbart <code>Label</code> als säin eegene Parameter amplaz vun enger verschachtelter Etikett-Komponent — gitt et eemol weider, bei
+    <code>Field</code>an <code>TextInput</code>vun
+    <code>Label</code> liwwert den zougänglechen Numm.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gepréift den 2026-08-29:</strong> en ale Brouillon huet eng separat <code>Label</code> -Komponent an <code>Field</code>verschachtelt, wat <em>zwee</em> Etiketten (eng eidel) gerendert huet, well <code>Field</code>
+      schonn säin eegenen aus dem <code>Label</code> -Parameter — entdeckt duerch d'Kontroll vum Quellcode vun der Komponent; <code>Form</code> selwer huet keen <code>Label</code> -Parameter, dofir gouf d'Benotzung vun
+      <code>&lt;Form&gt;</code> aus dem ale Brouillon korrigéiert andeems et ewechgelooss gouf, amplaz en Attribut z'erfannen, dat net existéiert.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Déi zesummegesat Kontaktformulaire-Route</a>
+      ass datselwecht Muster, getest mat richtegen e2e- an axe-Tester.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> start d'App an d'Formulaire gesäit nackeg aus — genee wéi geduecht: d'Gestaltung kënnt nach. Dréckt
+      <kbd>Tab</kbd>: de Fokus geet duerch all Kontroll, d'Etikett gëtt ugekënnegt an d'Schécken funktionéiert. D'Verhalen ass fäerdeg; d'Ausgesi ass Är a kënnt als Nächst.
+    </p>
+  </div>
+
+  <h2>Schrëtt 4 — Gestalt et</h2>
+  <p>
+    Gestalt d'Klassen-Hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — am <code>app.css</code>, oder verlinkt en fäerdegt Thema am <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Schrëtt 5 — Alles am Aktioun gesinn</h2>
+  <p>
+     <a href="/examples/">Blazor-Web Beispill-App</a> weist de ganze Katalog gestalt an demonstréiert, mat Playwright e2e-Tester:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themen</a> — Wiessel zur Laafzäit mam Blazor-Helper theme-picker (eng Razor-Klassebibliothéik op NuGet).</li>
+    <li><a href="/tutorials/helpers/">Astellungs-Helperen</a> — Sprooch a Textgréisst.</li>
+    <li><a href="/components/">Komponentekatalog</a> — Eegeschaften, ARIA an Tastatur pro Komponent.</li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

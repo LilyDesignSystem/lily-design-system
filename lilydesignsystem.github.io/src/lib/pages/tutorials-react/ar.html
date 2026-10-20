@@ -1,0 +1,109 @@
+<!-- title: دليل React — Lily Design System -->
+<!-- description: ابنِ نموذجًا سهل الوصول ومنسَّقًا بمكوّنات Lily عديمة الرأس لـ React: مكوّنات دالّية مُنمَّطة بـ value + onChange. -->
+<section class="page-intro">
+  <h1>دليل React</h1>
+  <p class="page-intro-tagline">
+    مكوّنات دالّية مُنمَّطة، ملف لكل منها، تُدار بالنمط القياسي
+    <code>value</code> + <code>onChange</code> — كل شيء يعمل كما يعمل React أصلًا.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج اتصال صغير — حقل بتسمية، زر إرسال، حالة مضبوطة، سلوك حقيقي للوحة المفاتيح وقارئ الشاشة — عاريًا أولًا ثم منسَّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى git وNode 22 أو أحدث وpnpm 10 أو أحدث. يصلح أي مشروع React 18+ — Next.js أو Vite أو React العادي.
+  </p>
+
+  <h2>الخطوة 1 — احصل على الشيفرة</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    المكوّنات ملفات مسطّحة في <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — لكل منها اختباره وstory ووثائقه بجانبه. انسخ الملفات التي تحتاجها إلى تطبيقك، أو اجلب المستودع واستورد منه.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    يعرض <code>&lt;button class="button" type="button"&gt;</code>. الخصائص:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (يعرض
+    <code>aria-pressed</code>), <code>label</code> (أي
+    <code>aria-label</code> للتجاوز)، <code>className</code>، وأي سمة إضافية تُنشر على العنصر الجذري.
+  </p>
+
+  <h2>الخطوة 3 — ركّب نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> يأخذ <code>label</code> كخاصية خاصة به لا كمكوّن تسمية متداخل — مرّرها مرة واحدة على
+    <code>Field</code>و <code>TextInput</code>المطابق من
+    <code>label</code> يوفّر الاسم القابل للوصول.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تم التحقق في 2026-08-29:</strong> كانت مسودة سابقة تضع مكوّن <code>Label</code> داخل <code>Field</code>فيعرض
+      <em>تسميتين</em> (إحداهما فارغة) لأن <code>Field</code> يعرض تسميته بنفسه من المدخل <code>label</code> خاصية — اكتُشف بتجميع المقتطف نفسه. المسار
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">مسار نموذج الاتصال المركّب</a>
+      هو النمط نفسه، جُرّب باختبارات e2e وaxe حقيقية.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسِّقه</h2>
+  <p>
+    كل ما سبق يُعرض كبنية خالصة، جاهزة لأنماطك. نسِّق الخطّافات — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — في ورقة الأنماط لديك، وضع طبقة أدوات Tailwind عبر <code>className</code>، أو اربط سمة جاهزة:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>الخطوة 5 — شاهد كل شيء يعمل</h2>
+  <p>
+     <a href="/examples/">تطبيق المثال Next.js</a> هو الفهرس الكامل منسَّقًا ومعروضًا، مع Playwright e2e وخط أساس axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">السمات</a> — التبديل أثناء التشغيل بمساعد theme-picker لـ React.</li>
+    <li><a href="/tutorials/helpers/">مساعدات التفضيلات</a> — اللغة وحجم النص.</li>
+    <li><a href="/components/">فهرس المكوّنات</a> — الخصائص وARIA ولوحة المفاتيح لكل مكوّن.</li>
+  </ul>
+  <p>
+    أسئلة في الطريق؟
+    <a href="/help/#troubleshooting">صفحة المساعدة</a> مليئة بالإجابات — وإن أمكن توضيح خطوة أكثر،
+    <a href="https://github.com/LilyDesignSystem">أخبرنا</a> وسنحسّن الدليل بكل سرور.
+  </p>
+</section>

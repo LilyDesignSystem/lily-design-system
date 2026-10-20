@@ -1,0 +1,122 @@
+<!-- title: Tutorial de Vue — Lily Design System -->
+<!-- description: Construye un formulario accesible y con estilo con los componentes sin cabeza de Lily para Vue 3: componentes de archivo único con v-model. -->
+<section class="page-intro">
+  <h1>Tutorial de Vue</h1>
+  <p class="page-intro-tagline">
+    Componentes de archivo único de Vue 3 con props tipadas, <code>defineModel</code>
+    enlace bidireccional y transferencia de <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Qué vas a construir</h2>
+  <p>
+    Un pequeño formulario de contacto: campo con etiqueta, botón de envío, <code>v-model</code>
+    enlace, comportamiento real de teclado y lector de pantalla; primero desnudo, luego con estilo, en unos 10 minutos.
+  </p>
+
+  <h2>Antes de empezar</h2>
+  <p>
+    Necesitas git, Node 22 o posterior y pnpm 10 o posterior. Sirve cualquier proyecto de Vue 3: Nuxt, Vite o Vue simple.
+  </p>
+
+  <h2>Paso 1: Obtén el código</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Los componentes son archivos planos en <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> ; cada uno con su prueba, su story y su documentación al lado. Copia los archivos que necesites, o trae el repositorio.
+  </p>
+
+  <h2>Paso 2: Tu primer componente</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Renderiza <code>&lt;button class="button" type="button"&gt;</code>. Las props coinciden con los demás frameworks: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, más transferencia de atributos para todo lo demás.
+  </p>
+
+  <h2>Paso 3: Compón un formulario pequeño</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> toma el <code>label</code> como su propia prop en lugar de un componente de etiqueta anidado: pásala una vez, en
+    <code>Field</code>y <code>TextInput</code>correspondiente de
+    <code>label</code> aporta el nombre accesible.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificado el 2026-08-29:</strong> un borrador anterior anidaba un componente <code>Label</code> dentro de <code>Field</code>, lo que renderizaba
+      <em>dos</em> etiquetas (una vacía) porque <code>Field</code> ya renderiza la suya propia a partir de la entrada <code>label</code> prop; se detectó compilando el fragmento exacto. La ruta
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">La ruta compuesta del formulario de contacto</a>
+      es el mismo patrón, ejercitado con pruebas e2e y axe reales.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> usa <code>defineModel</code>así que un
+    <code>v-model</code> simple funciona de fábrica.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Comprueba tu trabajo:</strong> ejecuta la aplicación y el formulario se ve sencillo, tal como se pretendía: el estilo aún está por venir. Pulsa
+      <kbd>Tab</kbd>: el foco recorre cada control, se anuncia la etiqueta y el envío funciona. El comportamiento está hecho; el aspecto es tuyo y es el siguiente paso.
+    </p>
+  </div>
+
+  <h2>Paso 4: Dale estilo</h2>
+  <p>
+    Da estilo a los ganchos de clase: <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> , en tu hoja de estilos, o enlaza un tema ya hecho en <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Paso 5: Míralo todo funcionando</h2>
+  <p>
+     <a href="/examples/">La aplicación de ejemplo Nuxt</a> es el catálogo completo con estilo y demostrado, con Playwright e2e y una línea base de axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Próximos pasos</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temas</a> : cambio en tiempo de ejecución con el asistente theme-picker de Vue.</li>
+    <li><a href="/tutorials/helpers/">Asistentes de preferencias</a> : idioma y tamaño del texto.</li>
+    <li><a href="/components/">Catálogo de componentes</a> : propiedades, ARIA y teclado por componente.</li>
+  </ul>
+  <p>
+    ¿Dudas por el camino? La
+    <a href="/help/#troubleshooting">página de ayuda</a> está llena de respuestas, y si algún paso puede ser más claro,
+    <a href="https://github.com/LilyDesignSystem">cuéntanoslo</a> y con gusto mejoraremos el tutorial.
+  </p>
+</section>

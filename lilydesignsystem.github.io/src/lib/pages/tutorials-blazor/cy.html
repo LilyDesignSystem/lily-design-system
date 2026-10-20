@@ -1,0 +1,107 @@
+<!-- title: Tiwtorial Blazor — Lily Design System -->
+<!-- description: Adeiladwch ffurflen hygyrch, wedi'i steilio gyda chydrannau di-ben Lily ar gyfer Blazor: cydrannau Razor gyda pharamedrau a phrofion bUnit. -->
+<section class="page-intro">
+  <h1>Tiwtorial Blazor</h1>
+  <p class="page-intro-tagline">
+    Cydrannau llyfrgell dosbarthiadau Razor gyda pharamedrau, <code>ChildContent</code>
+    darnau rendro, lledaenu priodoleddau a phrawf bUnit fesul cydran.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gyswllt fach — maes â label, botwm cyflwyno,
+    <code>@bind-Value</code> rhwymo, ymddygiad bysellfwrdd a darllenydd sgrin go iawn — yn noeth yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae arnoch angen git a'r .NET SDK 8 neu'n hwyrach. Mae unrhyw brosiect Blazor yn gweithio — Blazor Web App, Server neu WebAssembly.
+  </p>
+
+  <h2>Cam 1 — Cael y cod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Mae'r cydrannau'n byw yn <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — un ffeil Razor yr un. Cyfeiriwch at y prosiect (neu copïwch y ffeiliau) o'ch ap Blazor ac ychwanegwch <code>@using LilyBlazorHeadless.Components</code> at
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Yn dangos <code>&lt;button class="button"&gt;</code>. Y confensiynau paramedr a rennir: <code>Label</code> ( <code>aria-label</code> i'w ddiystyru),
+    <code>CssClass</code> (wedi'i atodi at y bachyn sylfaenol),
+    <code>ChildContent</code>a
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> lledaenu priodoleddau fel bod unrhyw briodoledd HTML ychwanegol yn mynd drwodd.
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> yn cymryd y <code>Label</code> gweladwy fel ei baramedr ei hun yn lle cydran label nythedig — pasiwch ef unwaith, ar
+    <code>Field</code>a <code>TextInput</code>cyfatebol o
+    <code>Label</code> yn darparu'r enw hygyrch.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwyd 2026-08-29:</strong> roedd drafft cynharach yn nythu cydran <code>Label</code> ar wahân y tu mewn i <code>Field</code>, a oedd yn dangos <em>dau</em> label (un yn wag) oherwydd bod <code>Field</code>
+      eisoes yn dangos ei un ei hun o'r mewnbwn <code>Label</code> paramedr — darganfuwyd drwy wirio cod ffynhonnell y gydran; <code>Form</code> nid oes gan <code>Label</code> baramedr
+      <code>&lt;Form&gt;</code> ei hun, felly cywirwyd defnydd y drafft cynharach drwy ei hepgor, yn hytrach na dyfeisio priodoledd nad yw'n bodoli.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Y llwybr ffurflen gyswllt cyfansawdd</a>
+      yw'r un patrwm, wedi'i brofi gyda phrofion e2e ac axe go iawn.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> rhedwch yr ap ac mae'r ffurflen yn edrych yn noeth — yn union fel y bwriadwyd: mae'r steilio eto i ddod. Pwyswch
+      <kbd>Tab</kbd>: mae ffocws yn symud trwy bob rheolydd, caiff y label ei gyhoeddi ac mae cyflwyno'n gweithio. Mae'r ymddygiad wedi'i orffen; eich un chi yw'r olwg a dyma'r cam nesaf.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>
+    Steiliwch y bachau dosbarth — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — yn <code>app.css</code>, neu cysylltwch thema barod yn <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Cam 5 — Ei weld yn gweithio i gyd</h2>
+  <p>
+     <a href="/examples/">Ap enghreifftiol Blazor Web</a> yn dangos y catalog llawn wedi'i steilio a'i ddangos, gyda phrofion e2e Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themâu</a> — newid yn ystod rhedeg gyda'r cynorthwyydd theme-picker ar gyfer Blazor (llyfrgell dosbarthiadau Razor ar NuGet).</li>
+    <li><a href="/tutorials/helpers/">Cynorthwywyr dewisiadau</a> — iaith a maint testun.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — priodweddau, ARIA a bysellfwrdd ar gyfer pob cydran.</li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

@@ -1,0 +1,127 @@
+<!-- title: Vodnik za Angular — Lily Design System -->
+<!-- description: Ustvarite dostopen, oblikovan obrazec z Lilyjinimi brezglavimi komponentami za Angular 20: samostojne komponente s signalnimi vhodi. -->
+<section class="page-intro">
+  <h1>Vodnik za Angular</h1>
+  <p class="page-intro-tagline">
+    Samostojne komponente Angularja 20 — signalni vhodi, zaznavanje sprememb OnPush, vgrajene predloge, nič NgModules, nič CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Kaj boste ustvarili</h2>
+  <p>
+    Majhen kontaktni obrazec — polje z oznako, gumb za pošiljanje, dvosmerna vezava, resnično vedenje tipkovnice in bralnika zaslona — najprej gol, nato oblikovan, v približno 10 minutah.
+  </p>
+
+  <h2>Preden začnete</h2>
+  <p>
+    Potrebujete git, Node 22 ali novejši in pnpm 10 ali novejši. Primeren je vsak projekt Angular 20 — Angular CLI ali Analog.
+  </p>
+
+  <h2>Korak 1 — Pridobite kodo</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponente so ravne datoteke v <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — vsaka je samostojna komponenta z vgrajeno predlogo, poleg tega njen spec in story. Barrel
+    <code>index.ts</code> znova izvozi vsako komponento; <code>pnpm build</code>
+    ustvari paket v formatu Angular Package Format prek ng-packagr.
+  </p>
+
+  <h2>Korak 2 — Vaša prva komponenta</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Vsaka komponenta deklarira izbirnik <code>lily-*</code> in izriše semantični element z njegovim razrednim kavljem —
+    <code>&lt;button class="button" type="button"&gt;</code> tukaj. Vhodi temeljijo na signalih: <code>label()</code> za <code>aria-label</code>
+    za preglasitev, <code>className()</code> za dodajanje razredov.
+  </p>
+
+  <h2>Korak 3 — Sestavite majhen obrazec</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> sprejme vidno oznako kot svoj
+    <code>label</code> vhod namesto gnezdene komponente oznake — posredujte jo enkrat, pri polju, ustrezni <code>lily-text-input</code>iz
+    <code>label</code> pa zagotovi dostopno ime. Komponente, podobne vhodom, izpostavljajo vrednosti <code>model()</code> zato banana-box <code>[(value)]</code>
+    dvosmerna vezava deluje takoj — zoneless-združljivo v celoti.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverjeno 2026-08-29:</strong> prejšnji osnutek je gnezdil ločeno komponento <code>Label</code> znotraj <code>lily-field</code>, kar je izrisalo <em>dve</em> oznaki (eno prazno), ker
+      <code>lily-field</code> že izriše svojo iz vhoda
+      <code>label</code> — odkrito s pregledom izvorne kode komponente.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Sestavljena pot kontaktnega obrazca</a>
+      je isti vzorec, preizkušen z resničnimi testi e2e in axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverite svoje delo:</strong> zaženite aplikacijo in obrazec je videti gol — natanko kot je bilo načrtovano: oblikovanje šele sledi. Pritisnite
+      <kbd>Tab</kbd>: fokus gre skozi vsak kontrolnik, oznaka se izgovori in pošiljanje deluje. Vedenje je končano; videz je vaš in je naslednji korak.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Oblikujte ga</h2>
+  <p>
+    Oblikujte razredne kavlje — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — v <code>styles.css</code>ali dodajte že pripravljeno temo v polje <code>styles</code> v
+    <code>angular.json</code> / povežite jo v <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Korak 5 — Poglejte, kako vse deluje</h2>
+  <p>
+     <a href="/examples/">Vzorčna aplikacija Angular + Analog</a> prikazuje celoten katalog z usmerjanjem na podlagi datotek in Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Naslednji koraki</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — preklapljanje med izvajanjem s pomočnikom theme-picker za Angular.</li>
+    <li><a href="/tutorials/helpers/">Pomočniki za nastavitve</a> — jezik in velikost besedila.</li>
+    <li><a href="/components/">Katalog komponent</a> — lastnosti, ARIA in tipkovnica za vsako komponento.</li>
+  </ul>
+  <p>
+    Vprašanja na poti?
+    <a href="/help/#troubleshooting">Stran s pomočjo</a> je polna odgovorov — in če bi bil kakšen korak lahko jasnejši,
+    <a href="https://github.com/LilyDesignSystem">sporočite nam</a> in vodnik bomo z veseljem izboljšali.
+  </p>
+</section>

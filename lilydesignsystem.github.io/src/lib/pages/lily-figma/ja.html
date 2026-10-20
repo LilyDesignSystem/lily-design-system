@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: メンテナンスされている Lily の Figma ライブラリやプラグインはありません。57 の参照テーマのデザイントークンは DTCG 形式で公開されており、既存のコミュニティプラグインを使って今すぐ Figma に取り込めます。 -->
+<section class="page-intro">
+  <h1>メンテナンスされている Figma ライブラリはありません — 代わりにあるもの</h1>
+  <p class="page-intro-tagline">
+    このページには以前「近日公開」と書かれていました。作っている人がいなかったので、もう書いていません。ここでは正直な現状と、今日から使える現実的な方法をご紹介します。
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>存在しないもの</h2>
+  <p>
+    Figma に公式の Lily コンポーネントライブラリはなく、メンテナンスされている Figma プラグインもありません。デザインツールのライブラリをきちんと作り維持するのは、本当に継続的な負担です — Figma のコンポーネント構造、バリアントの命名、オートレイアウト、独自の公開パイプラインが必要で、コードの保守とは別の仕事であり、このプロジェクトでは引き受けていません。
+  </p>
+
+  <h2>今あるもの</h2>
+  <p>
+    57 の参照テーマにはそれぞれ、デザイントークンの基本要素 — 色、角丸、サイズ、境界線 — があり、次の形式で公開されています:
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 形式</a
+    >
+    場所:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >。この形式は、現代のトークンツールがそのまま読み込めるものです。このプロジェクトのプラグインを使わなくても、今すぐ自分で Lily のテーマのパレットを Figma に取り込めます:
+  </p>
+  <ol>
+    <li>
+      コミュニティの
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      プラグインをインストールします(プランが DTCG のインポートに対応している場合は、Figma 自身の Variables インポートでも構いません)。
+    </li>
+    <li>
+      インポートするもの: <code>themes/tokens/{theme-slug}.json</code> (使いたいテーマのもの)— たとえば
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio は DTCG の値から Figma の変数を作成するので、それを自分のコンポーネントに適用できます。
+    </li>
+  </ol>
+  <p>
+    これで Lily の色と形のトークンを Figma に取り込めます。Lily の実際のコンポーネントを Figma のコンポーネントとして得られるわけではありません — それを作った人はおらず、このページもそうは言いません。
+  </p>
+
+  <h2>本格的な Figma ライブラリの計画はありますか?</h2>
+  <p>
+    今のところありません。約束するのは簡単ではないからです。次を参照してください:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    未解決の問題と、プロジェクトの考えを変えるものについて書かれています — とくに役立つのは、このレイヤーに何が必要かをデザイナーが具体的に伝えてくれることです。もしあなたがそうなら、
+    <a href="mailto:joel@joelparkerhenderson.com">ぜひ声を聞かせてください</a>
+    か、issue を開いてください。
+  </p>
+</section>

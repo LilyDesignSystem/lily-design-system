@@ -1,0 +1,109 @@
+<!-- title: React tutoriala — Lily Design System -->
+<!-- description: Eraiki formulario irisgarri eta estilatu bat Lilyren React osagai buru gabeekin: value + onChange duten funtzio-osagai tipatuak. -->
+<section class="page-intro">
+  <h1>React tutoriala</h1>
+  <p class="page-intro-tagline">
+    Funtzio-osagai tipatuak, fitxategi bat bakoitza, patroi estandarrarekin kontrolatuak
+    <code>value</code> + <code>onChange</code> — dena React-ek dagoeneko egiten duen bezala funtzionatzen du.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Harremanetarako formulario txiki bat — etiketadun sarrera, bidaltze-botoia, egoera kontrolatua, teklatu eta pantaila-irakurgailu portaera erreala — lehenik biluzik, gero estilatuta, 10 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    git, Node 22 edo berriagoa eta pnpm 10 edo berriagoa behar dituzu. Edozein React 18+ proiektuk balio du — Next.js, Vite edo React soila.
+  </p>
+
+  <h2>1. pausoa — Lortu kodea</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Osagaiak fitxategi lau gisa daude hemen: <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — bakoitza bere proba, story eta dokumentazioarekin batera. Kopiatu behar dituzun fitxategiak zure aplikaziora, edo egin vendoring biltegiari eta inportatu handik.
+  </p>
+
+  <h2>2. pausoa — Zure lehen osagaia</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Errendatzen du <code>&lt;button class="button" type="button"&gt;</code>. Propak:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (errendatzen du
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> gainidazketa), <code>className</code>, eta atributu gehigarri oro erro-elementuan hedatzen da.
+  </p>
+
+  <h2>3. pausoa — Osatu formulario txiki bat</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> etiketa ikusgarria <code>label</code> bere propa gisa, etiketa-osagai habiaratu gisa baino — eman behin,
+    <code>Field</code>, eta <code>TextInput</code>-ak
+    <code>label</code> -n
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29an egiaztatua:</strong> aurreko zirriborro batek <code>Label</code> -ren barruan <code>Field</code>barruan, eta honek
+      <em>bi</em> etiketa errendatzen zituen (bat hutsik) zeren <code>Field</code> -k jada bere etiketa errendatzen baitu <code>label</code> propa — snippet zehatza konpilatuz atzeman zen.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">harremanetarako formulario konposatuaren ibilbideak</a>
+      patroi bera du, benetako e2e eta axe probekin erabilia.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Estilatu</h2>
+  <p>
+    Gainean dagoen guztia egitura huts gisa errendatzen da, zure estilorako prest. Estilatu gakoak — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — zure estilo-orrian, jarri Tailwind utilitateak honen bidez: <code>className</code>, edo lotu prest dagoen gai bat:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>5. pausoa — Ikusi dena funtzionatzen</h2>
+  <p>
+     <a href="/examples/">Next.js adibide-aplikazioa</a> katalogo osoa da estilatuta eta demostratuta, Playwright e2e eta axe-core oinarri-lerroarekin:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Gaiak</a> — exekuzio-garaiko aldaketa React theme-picker laguntzailearekin.</li>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — hizkuntza eta testu-tamaina.</li>
+    <li><a href="/components/">Osagai-katalogoa</a> — osagai bakoitzaren propak, ARIA eta teklatua.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

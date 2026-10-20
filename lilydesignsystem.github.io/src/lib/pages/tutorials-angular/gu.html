@@ -1,0 +1,127 @@
+<!-- title: Angular ટ્યુટોરિયલ — Lily Design System -->
+<!-- description: Lily ના Angular 20 હેડલેસ ઘટકો સાથે સુલભ, શૈલીબદ્ધ ફોર્મ બનાવો: સિગ્નલ ઇનપુટ સાથેના સ્વતંત્ર ઘટકો. -->
+<section class="page-intro">
+  <h1>Angular ટ્યુટોરિયલ</h1>
+  <p class="page-intro-tagline">
+    Angular 20 સ્વતંત્ર ઘટકો — સિગ્નલ ઇનપુટ, OnPush ફેરફાર શોધ, ઇનલાઇન ટેમ્પલેટ, શૂન્ય NgModules, શૂન્ય CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>તમે શું બનાવશો</h2>
+  <p>
+    એક નાનું સંપર્ક ફોર્મ — લેબલ સાથેનું ક્ષેત્ર, સબમિટ બટન, બે-તરફી બાઇન્ડિંગ, સાચું કીબોર્ડ અને સ્ક્રીન-રીડર વર્તન — પહેલાં સાદું, પછી શૈલીબદ્ધ, લગભગ 10 મિનિટમાં.
+  </p>
+
+  <h2>શરૂ કરતા પહેલાં</h2>
+  <p>
+    તમને git, Node 22 કે નવું, અને pnpm 10 કે નવું જોઈએ. કોઈ પણ Angular 20 પ્રોજેક્ટ ચાલશે — Angular CLI અથવા Analog.
+  </p>
+
+  <h2>પગલું 1 — કોડ મેળવો</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    ઘટકો અહીં સપાટ ફાઇલો તરીકે છે: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — દરેક ઇનલાઇન ટેમ્પલેટ સાથેનો સ્વતંત્ર ઘટક છે, તેની spec અને story સાથે. બેરલ
+    <code>index.ts</code> દરેક ઘટકને ફરીથી નિકાસ કરે છે; <code>pnpm build</code>
+    ng-packagr દ્વારા Angular Package Format બંડલ બનાવે છે.
+  </p>
+
+  <h2>પગલું 2 — તમારો પહેલો ઘટક</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    દરેક ઘટક એક <code>lily-*</code> સિલેક્ટર જાહેર કરે છે અને તેના ક્લાસ હૂક સાથે અર્થપૂર્ણ તત્ત્વ દર્શાવે છે —
+    <code>&lt;button class="button" type="button"&gt;</code> અહીં. ઇનપુટ સિગ્નલ-આધારિત છે: <code>label()</code> માટે <code>aria-label</code>
+    ઓવરરાઇડ કરવા, <code>className()</code> ક્લાસ ઉમેરવા.
+  </p>
+
+  <h2>પગલું 3 — એક નાનું ફોર્મ બનાવો</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> દેખાતા લેબલને પોતાના
+    <code>label</code> ઇનપુટ તરીકે લે છે, અંદર મૂકેલા લેબલ ઘટક તરીકે નહીં — તેને એક વાર ક્ષેત્ર પર આપો, અને મેળ ખાતું <code>lily-text-input</code>નું
+    <code>label</code> સુલભ નામ પૂરું પાડે છે. ઇનપુટ જેવા ઘટકો <code>model()</code> મૂલ્યો ખુલ્લા મૂકે છે, તેથી banana-box <code>[(value)]</code>
+    બે-તરફી બાઇન્ડિંગ તરત કામ કરે છે — સર્વત્ર zoneless-સુસંગત.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 ના રોજ ચકાસ્યું:</strong> અગાઉના મુસદ્દાએ અલગ <code>Label</code> ઘટકને <code>lily-field</code>ની અંદર મૂક્યો હતો, જેનાથી <em>બે</em> લેબલ (એક ખાલી) દેખાયા કારણ કે
+      <code>lily-field</code> પહેલેથી પોતાનું
+      <code>label</code> ઇનપુટમાંથી દર્શાવે છે — ઘટકનો સ્રોત કોડ તપાસીને ખબર પડી.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">સંયુક્ત સંપર્ક-ફોર્મ રૂટ</a>
+      એ જ પેટર્ન છે, સાચા e2e અને axe પરીક્ષણોથી ચકાસાયેલ.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>તમારું કામ તપાસો:</strong> એપ ચલાવો અને ફોર્મ સાદું દેખાય છે — બરાબર ધાર્યા મુજબ: શૈલી હજી આગળ છે. દબાવો
+      <kbd>Tab</kbd>: ફોકસ દરેક નિયંત્રણમાંથી પસાર થાય છે, લેબલ જાહેર થાય છે અને સબમિટ કામ કરે છે. વર્તન પૂર્ણ છે; દેખાવ તમારો છે અને આગલું પગલું છે.
+    </p>
+  </div>
+
+  <h2>પગલું 4 — તેને શૈલી આપો</h2>
+  <p>
+    ક્લાસ હૂકને શૈલી આપો — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — આમાં <code>styles.css</code>, અથવા તૈયાર થીમ એરેમાં ઉમેરો <code>styles</code> માં
+    <code>angular.json</code> / તેને અહીં લિંક કરો <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>પગલું 5 — બધું કામ કરતું જુઓ</h2>
+  <p>
+     <a href="/examples/">Angular + Analog ઉદાહરણ એપ</a> ફાઇલ-આધારિત રૂટિંગ અને Vite સાથે સંપૂર્ણ કેટલોગ દર્શાવે છે:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>આગળનાં પગલાં</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">થીમ</a> — Angular theme-picker સહાયક સાથે ચાલતી વખતે બદલવું.</li>
+    <li><a href="/tutorials/helpers/">પસંદગી સહાયકો</a> — ભાષા અને લખાણનું કદ.</li>
+    <li><a href="/components/">ઘટક કેટલોગ</a> — દરેક ઘટક માટે ગુણધર્મો, ARIA અને કીબોર્ડ.</li>
+  </ul>
+  <p>
+    રસ્તામાં પ્રશ્નો છે?
+    <a href="/help/#troubleshooting">મદદ પૃષ્ઠ</a> જવાબોથી ભરેલું છે — અને જો કોઈ પગલું વધુ સ્પષ્ટ થઈ શકે,
+    <a href="https://github.com/LilyDesignSystem">અમને કહો</a> અને અમે ખુશીથી ટ્યુટોરિયલ સુધારીશું.
+  </p>
+</section>

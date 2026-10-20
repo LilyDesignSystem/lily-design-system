@@ -1,0 +1,127 @@
+<!-- title: មេរៀន Angular — Lily Design System -->
+<!-- description: សាងសង់ទម្រង់ដែលអាចចូលប្រើបាន និងមានរចនាប័ទ្មជាមួយសមាសភាគគ្មានក្បាល Angular 20 របស់ Lily៖ សមាសភាគឯករាជ្យដែលមាន signal inputs។ -->
+<section class="page-intro">
+  <h1>មេរៀន Angular</h1>
+  <p class="page-intro-tagline">
+    សមាសភាគឯករាជ្យ Angular 20 — signal inputs, ការរកឃើញការផ្លាស់ប្តូរ OnPush, គំរូក្នុងបន្ទាត់, គ្មាន NgModules, CSS សូន្យ។
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>អ្វីដែលអ្នកនឹងសាងសង់</h2>
+  <p>
+    ទម្រង់ទំនាក់ទំនងតូចមួយ — វាលបញ្ចូលដែលមានស្លាក ប៊ូតុងដាក់ស្នើ ការចងពីរទិស អាកប្បកិរិយាក្តារចុច និងកម្មវិធីអានអេក្រង់ពិតប្រាកដ — ដំបូងទទេស្អាត បន្ទាប់មកមានរចនាប័ទ្ម ក្នុងរយៈពេលប្រហែល ១០ នាទី។
+  </p>
+
+  <h2>មុនពេលអ្នកចាប់ផ្តើម</h2>
+  <p>
+    អ្នកត្រូវការ git, Node 22 ឬថ្មីជាងនេះ និង pnpm 10 ឬថ្មីជាងនេះ។ គម្រោង Angular 20 ណាក៏បាន — Angular CLI ឬ Analog។
+  </p>
+
+  <h2>ជំហាន ១ — យកកូដ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    សមាសភាគជាឯកសារសំប៉ែតក្នុង <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — នីមួយៗជាសមាសភាគឯករាជ្យដែលមានគំរូក្នុងបន្ទាត់ បូក spec និង story របស់វា។ barrel
+    <code>index.ts</code> នាំចេញឡើងវិញនូវសមាសភាគនីមួយៗ; <code>pnpm build</code>
+    បង្កើតកញ្ចប់ Angular Package Format តាមរយៈ ng-packagr។
+  </p>
+
+  <h2>ជំហាន ២ — សមាសភាគដំបូងរបស់អ្នក</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    សមាសភាគនីមួយៗប្រកាស <code>lily-*</code> ឧបករណ៍ជ្រើស ហើយបង្ហាញធាតុន័យវិទ្យាជាមួយ class hook របស់វា —
+    <code>&lt;button class="button" type="button"&gt;</code> នៅទីនេះ។ ធាតុបញ្ចូលផ្អែកលើ signal៖ <code>label()</code> សម្រាប់ <code>aria-label</code>
+    ការបដិសេធ <code>className()</code> ដើម្បីបន្ថែមថ្នាក់។
+  </p>
+
+  <h2>ជំហាន ៣ — ផ្សំទម្រង់តូចមួយ</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> យកស្លាកដែលមើលឃើញជា
+    <code>label</code> ធាតុបញ្ចូលផ្ទាល់ខ្លួន ជាជាងសមាសភាគស្លាកដែលជាប់គ្នា — ឆ្លងវាម្តងនៅលើវាល ហើយ <code>lily-text-input</code>ដែលត្រូវគ្នានៅលើ
+    <code>label</code> ផ្តល់ឈ្មោះដែលអាចចូលប្រើបាន។ សមាសភាគដូចធាតុបញ្ចូលបង្ហាញ <code>model()</code> តម្លៃ ដូច្នេះ banana-box <code>[(value)]</code>
+    ការចងពីរទិសដំណើរការភ្លាមៗ — ត្រូវគ្នាជាមួយ zoneless ពេញមួយ។
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>បានផ្ទៀងផ្ទាត់ 2026-08-29៖</strong> សេចក្តីព្រាងដំបូងបានដាក់សមាសភាគដាច់ដោយឡែក <code>Label</code> នៅខាងក្នុង <code>lily-field</code>ដែលបង្ហាញ <em>ពីរ</em> ស្លាក (មួយទទេ) ពីព្រោះ
+      <code>lily-field</code> បានបង្ហាញរបស់ខ្លួនរួចហើយពី
+      <code>label</code> ធាតុបញ្ចូល — បានរកឃើញដោយពិនិត្យប្រភពសមាសភាគ។
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">ផ្លូវទម្រង់ទំនាក់ទំនងផ្សំ</a>
+      ជាលំនាំដូចគ្នា ដែលធ្វើតេស្តដោយ e2e និង axe ពិតប្រាកដ។
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ពិនិត្យការងាររបស់អ្នក៖</strong> ដំណើរការកម្មវិធី ហើយទម្រង់មើលទៅធម្មតា — ដូចដែលបានគ្រោងទុក៖ រចនាប័ទ្មនៅខាងមុខ។ ចុច
+      <kbd>Tab</kbd>៖ ការផ្តោតផ្លាស់ទីតាមការគ្រប់គ្រងនីមួយៗ ស្លាកត្រូវបានប្រកាស ហើយការដាក់ស្នើដំណើរការ។ អាកប្បកិរិយាបានចប់; រូបរាងជារបស់អ្នក ហើយជាជំហានបន្ទាប់។
+    </p>
+  </div>
+
+  <h2>ជំហាន ៤ — ដាក់រចនាប័ទ្ម</h2>
+  <p>
+    ដាក់រចនាប័ទ្ម class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ក្នុង <code>styles.css</code>ឬបន្ថែមស្បែករួចជាស្រេចទៅអារេ <code>styles</code> ក្នុង
+    <code>angular.json</code> / ភ្ជាប់វាក្នុង <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>ជំហាន ៥ — មើលអ្វីៗទាំងអស់ដំណើរការ</h2>
+  <p>
+     <a href="/examples/">កម្មវិធីគំរូ Angular + Analog</a> បង្ហាញកាតាឡុកពេញលេញជាមួយការរុករកផ្អែកលើឯកសារ និង Vite៖
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ជំហានបន្ទាប់</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ស្បែក</a> — ការប្តូរពេលដំណើរការជាមួយជំនួយការ Angular theme-picker។</li>
+    <li><a href="/tutorials/helpers/">ជំនួយការចំណូលចិត្ត</a> — ភាសា និងទំហំអក្សរ។</li>
+    <li><a href="/components/">កាតាឡុកសមាសភាគ</a> — លក្ខណៈសម្បត្តិ ARIA និងក្តារចុចសម្រាប់សមាសភាគនីមួយៗ។</li>
+  </ul>
+  <p>
+    មានសំណួរតាមផ្លូវ?
+    <a href="/help/#troubleshooting">ទំព័រជំនួយ</a> ពេញដោយចម្លើយ — ហើយប្រសិនបើជំហានណាអាចច្បាស់ជាងនេះ
+    <a href="https://github.com/LilyDesignSystem">ប្រាប់យើង</a> ហើយយើងនឹងកែលម្អមេរៀនដោយអំណរ។
+  </p>
+</section>

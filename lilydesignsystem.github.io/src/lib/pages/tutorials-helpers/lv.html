@@ -1,0 +1,276 @@
+<!-- title: Preferenču palīgu apmācība — Lily Design System -->
+<!-- description: Pievienojiet lietotāja valodas un teksta izmēra preferences ar Lily palīgiem locale-picker un text-size-picker: bezgalvas vadīklas no ikonas pogas + listbox, ar saglabāšanu un SSR drošību. -->
+<section class="page-intro">
+  <h1>Preferenču palīgi</h1>
+  <p class="page-intro-tagline">
+    Septiņas mazas paketes katram ietvaram, katra no kurām pārvalda vienu lietotāja uzdevumu no sākuma līdz beigām, plus josla, kas apvieno piecas no tām. Jūs jau esat saticis
+    <a href="/tutorials/theming/">theme-picker</a>; lūk locale-picker, text-size-picker un motion-picker (preferences), share-picker un search-picker (darbības), date-time-picker (veidlapas vērtība) un picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Iestatījumu panelis, kurā lietotāji izvēlas valodu un teksta izmēru — izvēles, kas attiecas uz visu dokumentu, saglabājas starp apmeklējumiem un jums izmaksā divas komponentes un dažas CSS rindiņas. Apmēram 15 minūtes.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Vispirms pabeidziet <a href="/tutorials/">ietvara apmācību</a> savam stekam. Tālāk redzamie paraugi ir Svelte; React, Vue, Angular, HTML, Nunjucks un Blazor palīgi tiem atbilst līgums pēc līguma.
+  </p>
+
+  <h2>Forma, ko tie dala</h2>
+  <ul>
+    <li>Bezgalvas ikonas poga, kas atver WAI-ARIA APG listbox (vai date-time-picker gadījumā datuma izvēles dialogu) — bez vietējā <code>&lt;select&gt;</code>, tāpēc katrs ietvars iegūst vienādu tastatūras uzvedību un stila āķus.</li>
+    <li>Viens klases āķis uz paketi (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), nulle piegādāta CSS.</li>
+    <li>Drošs SSR: DOM rakstīšana notiek tikai mount/effect dzīves ciklā.</li>
+    <li>Tīrs i18n ziņā: katra lietotājam redzamā virkne ir prop.</li>
+    <li>
+      Pieejams Svelte (kanoniskais), React, Vue, Angular, HTML pielāgotam elementam, Nunjucks un Blazor — katrā tas pats līgums.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker un text-size-picker katrs pārvalda vienu lietotāja
+    <em>preferenci</em> no sākuma līdz beigām (izvēle, pielietošana DOM, neobligāta
+    <code>localStorage</code> saglabāšana ar <code>storageKey</code>
+    propu). share-picker un date-time-picker ir cita veida: share-picker pārvalda <em>darbību</em> — tas neko nepielieto dokumentam un neko nesaglabā — bet date-time-picker pārvalda
+    <em>veidlapas vērtību</em>, jo datums veidlapā ir dati, nevis preference.
+  </p>
+
+  <h2>locale-picker — valoda un virziens</h2>
+  <p>
+    Ļauj lietotājam izvēlēties lokāli, pēc tam ieraksta <code>lang</code> un
+    <code>dir</code> dokumenta saknē, lai jūsu i18n bibliotēka, CSS un atbalsta tehnoloģijas tai visas sekotu. RTL tiek noteikts automātiski arābu, ivrita un citām no labās uz kreiso rakstāmām rakstībām. Tas pievēršas tikai signalizēšanai — tulkošanu veic jūsu i18n bibliotēka.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Opcijas tiek apzīmētas no iebūvētas lokāļu nosaukumu tabulas (var pārrakstīt ar <code>localeLabels</code>), katra opcija nes savu
+    <code>lang</code> atribūtu, lai ekrāna lasītāji izrunātu „Français” franču valodā, un kodi ar pasvītru, piemēram, <code>en_US</code>
+    tiek bez zudumiem konvertēti uz BCP 47 un atpakaļ <code>en-US</code>. Savienojiet
+    <code>onChange</code> (vai saistīto vērtību) ar i18next, Paraglide, vue-i18n vai ko vien izmantojat.
+  </p>
+
+  <h2>text-size-picker — izmērs, ko kontrolē lasītājs</h2>
+  <p>
+    Pieejamības uzvara, kas aizņem minūtes: palīgs iestata
+    <code>data-text-size="&#123;slug&#125;"</code> dokumenta saknē, un jūsu CSS katru vērtību piesaista izmēram.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Izmērojiet savu izkārtojumu <code>rem</code> un visa lietotne mērogojas līdz ar lietotāja izvēli. Iezīmes veido no slug’iem ar lielo sākumburtu („X Large”) vai pārraksta ar <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudiet savu darbu:</strong> izvēlieties „Large” izvēlnē, un lapas teksts pieaug. Pārlādējiet — tas joprojām ir liels: izvēle tika saglabāta
+      <code>localStorage</code>. Pārslēdziet valodas izvēli uz arābu, un
+      <code>dir="rtl"</code> tiek automātiski iestatīts dokumentā.
+    </p>
+  </div>
+
+  <h2>share-picker — nosūtiet šo lapu</h2>
+  <p>
+    Viena glifa poga, kas atver ierīces vietējo kopīgošanas lapu, kur tāda ir, un citādi atkāpjas uz jūsu norādīto galamērķu sarakstu, plus URL kopēšanas darbību. Tā nepiegādā nevienu sociālo tīklu URL — kuri tīkli pieder jūsu produktam, ir jūsu, nevis dizaina sistēmas lēmums.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> noklusējums ir <code>location.href</code>tāpēc parastajam gadījumam nav vajadzīga nekāda savienošana. Piespiediet ceļu ar <code>strategy="list"</code> vai
+    <code>strategy="native"</code> kad nepieciešama konsekventa uzvedība starp platformām testiem vai ekrānuzņēmumiem.
+  </p>
+
+  <h2>date-time-picker — datums, laiks vai abi</h2>
+  <p>
+    Teksta lauks, kurā var rakstīt, plus ikonas poga, kas atver WAI-ARIA APG datuma izvēles dialogu. Pareizs lokālei pēc konstrukcijas — mēnešu nosaukumi, nedēļas dienu nosaukumi, nedēļas pirmā diena un 12 vai 24 stundu pulkstenis visi nāk no <code>Intl</code> — un vērtība vienmēr ir kārtojama ISO virkne bez laika joslas: <code>"2026-03-15"</code> elementam
+    <code>mode="date"</code>, <code>"09:30"</code> elementam
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> elementam
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO vērtība ir identiska tai, ko <code>&lt;input type="date"&gt;</code>
+    nosūta, tāpēc vietējo vadīklu varat ievietot vai izņemt, nepieskaroties aizmugursistēmai.
+  </p>
+
+  <h2>motion-picker — ievērojiet samazinātu kustību</h2>
+  <p>
+    Palīgs iestata <code>data-motion="&#123;slug&#125;"</code> dokumenta saknē. Tā pirmā vērtība nāk no apmeklētāja operētājsistēmas
+    <code>prefers-reduced-motion</code> iestatījuma — vienmēr, bez ieslēgšanas karoga, jo kustība ir īsta pieejamības vajadzība (WCAG 2.3.3). Jūsu CSS un skripti izlemj, kas tiek nomākts.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — meklēšanas lodziņš, kas netraucē</h2>
+  <p>
+    Ikonas poga, kas atver meklēšanas lauku. Nospiežot Return vai pogu &#9166; blakus laukam, tiek pārvietots ar vienkāršu GET pieprasījumu uz
+    <code>/?&lt;text&gt;</code> (teksts tiek apgriezts un kodēts kā URI; tukšs vaicājums nekur neved). Tā trīs pieejamie nosaukumi ir obligāti, jo palīgs nepiegādā angļu valodu.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> maina ceļu (<code>/search?foo</code>), un
+    <code>navigate</code> notur navigāciju lietotnes iekšienē; bez tā palīgs izsauc <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — visa galvenes rinda uzreiz</h2>
+  <p>
+    <code>picker-bar</code> attēlo meklēšanu, motīvu, lokāli, teksta izmēru un kopīgošanu vienā rindā, ar pilnu atsauces motīvu kopu un septiņpakāpju teksta skalu iepriekš savienotiem. Katrs pieejamais nosaukums nāk vienā obligātā
+    <code>labels</code> objektā.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Sasniedziet jebkuru ietītu izvēlni ar <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> un <code>shareProps</code>.
+  </p>
+
+  <h2>Rīka padomi ir iebūvēti</h2>
+  <p>
+    Katra izvēlne rāda savu iezīmi rīka padomā, kad rādītājs atrodas uz tās pogas vai pogai ir tastatūras fokuss. Rīka padoms paliek, kamēr rādītājs pārvietojas uz to, Escape to aizver, kur vien atrastos fokuss, un tas nekad netiek rādīts, kamēr izvēlnes uznirstošais logs ir atvērts. Tas nes to pašu tekstu kā pogas pieejamais nosaukums, tāpēc nav ko konfigurēt vai tulkot divreiz; atsauces motīvi to noformē.
+  </p>
+
+  <h2>Iestatījumu panelis vienuviet</h2>
+  <p>Četri preferenču palīgi dabiski saliekas kopā:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudīts:</strong> locale-picker, text-size-picker, share-picker, date-time-picker un apvienotā paneļa fragmenti tika sakompilēti atsevišķi pret publicētajām <code>0.1.1</code> paketēm, izmantojot
+      <code>svelte/server</code> (2026-08-29); motion-picker, search-picker un picker-bar fragmenti tika attēloti pret pašu paku komponentēm 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Kur tos iegūt</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Katrai paketei ir savs spec, testi, kas piesaistīti spec klauzulām, izpildāmi piemēri (ieskaitot SSR sīkdatņu modeļus) un būvēšanas un publicēšanas cauruļvads. Svelte paketes ir kanoniskās; šaubu gadījumā to līgumi uzvar.
+  </p>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/components/">Komponenšu katalogs</a> — pilna 571 komponentes atsauce.</li>
+    <li><a href="/help/">Palīdzība</a> — problēmu novēršana un biežāk uzdotie jautājumi.</li>
+    <li><a href="/why/">Kāpēc Lily</a> — un kā atbalstīt projektu.</li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

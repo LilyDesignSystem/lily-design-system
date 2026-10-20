@@ -1,0 +1,97 @@
+<!-- title: Nunjucks oktatóanyag — Lily Design System -->
+<!-- description: Építs hozzáférhető, stílusos, szerveroldalon renderelt oldalakat a Lily Nunjucks-makróival — ideális az Eleventyhez. -->
+<section class="page-intro">
+  <h1>Nunjucks oktatóanyag</h1>
+  <p class="page-intro-tagline">
+    Szerveroldalon renderelt makrók az Eleventyhez, az Expresshez vagy bármely Node sablon-csővezetékhez — a GOV.UK-féle megközelítés a Lily katalógusával és osztálykampóival.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy kis szerveroldalon renderelt kapcsolatfelvételi űrlap — címkézett mező, küldés gomb, nulla JavaScript-teher — először csupaszon, aztán stílusosan, nagyjából 10 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Szükséged van gitre, Node 22-re vagy újabbra és pnpm 10-re vagy újabbra. Bármelyik Nunjucks-csővezeték megfelel — Eleventy, Express vagy sima Nunjucks.
+  </p>
+
+  <h2>1. lépés — Szerezd meg a kódot</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Minden komponens egy könyvtár itt: <code>components/</code> egy
+    <code>macro.njk</code>, a tesztje és a dokumentációja — például
+    <code>components/button/macro.njk</code>. Állítsd a Nunjucks-betöltődet erre:
+    <code>components/</code> (Eleventyben add hozzá az include-útvonalhoz), és importáld, amire szükséged van.
+  </p>
+
+  <h2>2. lépés — Az első komponensed</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Ezt rendereli: <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. A makrók egyetlen params objektumot fogadnak: <code>text</code> (escape-elt) vagy
+    <code>html</code> (nyers), <code>type</code>, <code>label</code> az
+    <code>aria-label</code>és egy osztálykampó-hozzáfűző.
+  </p>
+
+  <h2>3. lépés — Állíts össze egy kis űrlapot</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Mivel minden a szerveren renderelődik, a böngésző tiszta szemantikus HTML-t kap az osztálykampókkal — nulla bájtnyi JavaScript-teherrel.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> töltsd be az oldalt, és az űrlap csupasznak látszik — pontosan úgy, ahogy szántuk: a stílus még hátravan. Nyomd meg a
+      <kbd>Tab</kbd>billentyűt: a fókusz végigmegy minden vezérlőn, a címkét bemondja, és a küldés működik. A viselkedés kész; a megjelenés a tiéd, és a következő lépés.
+    </p>
+  </div>
+
+  <h2>4. lépés — Stílus hozzá</h2>
+  <p>
+    Stílusozd a kampókat — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — a stíluslapodban, vagy hivatkozz egy kész témára az alapelrendezésedben:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>5. lépés — Nézd meg, ahogy az egész működik</h2>
+  <p>
+     <a href="/examples/">A Nunjucks + Eleventy példaalkalmazás</a> statikus oldalként építi fel a teljes katalógust komponensenkénti bemutatóoldalakkal:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témák</a> — beleértve az Eleventy süti-mintáját a villogásmentes SSR-témaváltáshoz.</li>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — nyelv és szövegméret.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — tulajdonságok, ARIA és billentyűzet komponensenként.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

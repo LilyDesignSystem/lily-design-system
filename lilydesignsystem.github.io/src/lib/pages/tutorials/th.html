@@ -1,0 +1,136 @@
+<!-- title: บทเรียน — Lily Design System -->
+<!-- description: บทเรียน Lily ทีละขั้นตอน: คอมโพเนนต์แรกของคุณ การจัดสไตล์ ธีมสำเร็จรูป และตัวช่วยการตั้งค่า — สำหรับ HTML, Svelte, React, Vue, Angular, Blazor และ Nunjucks -->
+<section class="page-intro">
+  <h1>เรียนรู้ Lily ทีละขั้นตอน</h1>
+  <p class="page-intro-tagline">
+    ยินดีต้อนรับ! ทุกบทเรียนเริ่มจากศูนย์และสร้างสิ่งเล็ก ๆ เหมือนกัน — ฟอร์มที่เข้าถึงได้และมีสไตล์ — ในเวลาประมาณ 10 นาที เพื่อให้คุณเปรียบเทียบเฟรมเวิร์กได้อย่างเท่าเทียม จากนั้นไปต่อให้ลึกขึ้นกับการจัดธีมและการตั้งค่าของผู้ใช้
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ก่อนเริ่ม</h2>
+  <p>สิ่งที่ต้องใช้น้อยอย่างน่าประหลาดใจ:</p>
+  <ul>
+    <li>
+      <strong>สำหรับบทเรียน HTML</strong>  — แค่เบราว์เซอร์และโปรแกรมแก้ไขข้อความ นั่นคือเครื่องมือทั้งหมด
+    </li>
+    <li>
+      <strong>สำหรับ Svelte, React, Vue, Angular หรือ Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a> Node 26 และ pnpm 10 ขึ้นไป
+    </li>
+    <li>
+      <strong>สำหรับ Blazor</strong>  — git และ
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 ขึ้นไป
+    </li>
+  </ul>
+  <p>
+    เพิ่งรู้จักคอมโพเนนต์แบบ headless ใช่ไหม คุณมาถูกที่แล้ว — ทุกบทเรียนอธิบายสิ่งที่เกิดขึ้นระหว่างทาง และทุกขั้นตอนแสดงโค้ดที่ต้องคัดลอกอย่างครบถ้วน
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>สี่ขั้นตอนจากศูนย์สู่การใช้งานจริง</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>คอมโพเนนต์แรกของคุณ</strong>  (ประมาณ 5 นาที) — เลือกเฟรมเวิร์กด้านล่าง ดึงโค้ด แล้วแสดง Button
+      </li>
+      <li>
+        <strong>ประกอบและจัดสไตล์</strong>  (ประมาณ 5 นาที) — สร้างฟอร์มที่มีป้ายกำกับและจัดสไตล์ผ่านคลาสฮุกแบบ kebab-case (เป็นส่วนหนึ่งของบทเรียนแต่ละเฟรมเวิร์ก)
+      </li>
+      <li>
+        <strong>ใส่ธีม</strong>  (ประมาณ 15 นาที) — เปลี่ยน CSS ที่เขียนเองเป็นหนึ่งใน 57 ธีมสำเร็จรูป แล้วให้ผู้ใช้สลับขณะรันไทม์: <a href="/tutorials/theming/">บทเรียนการจัดธีม</a>.
+      </li>
+      <li>
+        <strong>เคารพการตั้งค่า</strong>  (ประมาณ 15 นาที) — เพิ่มการเลือกภาษาและขนาดข้อความด้วยตัวช่วยการตั้งค่า:
+        <a href="/tutorials/helpers/">บทเรียนตัวช่วย</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>เลือกเฟรมเวิร์กของคุณ</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">คัดลอก HTML เชิงความหมายพร้อมคลาสฮุกแล้วไปต่อ — มีเบราว์เซอร์กับโปรแกรมแก้ไขก็พอ</p>
+      <p class="card-meta">ประมาณ 10 นาที · เริ่มง่ายที่สุด</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 runes สนิปเป็ต และการผูกสองทางด้วย <code>bind:value</code> </p>
+      <p class="card-meta">ประมาณ 10 นาที</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">คอมโพเนนต์แบบฟังก์ชันกับ <code>value</code> + <code>onChange</code> และการกระจาย prop ที่เหลือ</p>
+      <p class="card-meta">ประมาณ 10 นาที</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">คอมโพเนนต์ไฟล์เดียวของ Vue 3 พร้อมรองรับ <code>v-model</code> </p>
+      <p class="card-meta">ประมาณ 10 นาที</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">คอมโพเนนต์แบบ standalone ของ Angular กับอินพุตแบบ signal และ <code>[(value)]</code>.</p>
+      <p class="card-meta">ประมาณ 10 นาที</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">คอมโพเนนต์ Razor พร้อมพารามิเตอร์ <code>ChildContent</code> และการทดสอบ bUnit</p>
+      <p class="card-meta">ประมาณ 10 นาที</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">มาโครที่เรนเดอร์ฝั่งเซิร์ฟเวอร์สำหรับ Eleventy และไปป์ไลน์เทมเพลต Node ใด ๆ</p>
+      <p class="card-meta">ประมาณ 10 นาที</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    ลังเลอยู่ใช่ไหม? เริ่มกับ <a href="/tutorials/html/">HTML</a>  — สอนข้อตกลงคลาสฮุกที่ทุกเฟรมเวิร์กอื่นใช้ร่วมกัน และรันได้จากไฟล์โดยตรง
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>ไปให้ลึกขึ้น</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">การจัดธีม</h3>
+      <p class="card-description">
+        ลิงก์หนึ่งใน 57 ธีมสำเร็จรูป — NHS, GOV.UK, USWDS, สว่าง, มืด และอื่น ๆ — แทนที่ด้วย CSS ของคุณเอง และเพิ่มการสลับธีมขณะรันไทม์ด้วยตัวช่วย theme-picker
+      </p>
+      <p class="card-meta">ประมาณ 15 นาที</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">ตัวช่วยการตั้งค่า</h3>
+      <p class="card-description">
+        ให้ผู้ใช้ควบคุมธีม ภาษา ขนาดข้อความ การเคลื่อนไหว การค้นหา ลิงก์หน้า การแชร์ และการป้อนวันที่/เวลา ด้วย theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker และ date-time-picker: ตัวควบคุมแบบ headless พร้อมการเก็บค่าถาวร ความปลอดภัยต่อ SSR และการตรวจจับ RTL อัตโนมัติ
+      </p>
+      <p class="card-meta">ประมาณ 15 นาที</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>หลังจบบทเรียน</h2>
+  <ul>
+    <li>
+      เรียกดู <a href="/components/">แคตตาล็อกคอมโพเนนต์</a>  — ทุกคอมโพเนนต์มีเอกสารระบุ props ข้อตกลง ARIA และพฤติกรรมแป้นพิมพ์
+    </li>
+    <li>
+      โคลน <a href="/examples/">แอปตัวอย่าง</a> เพื่อดูคอมโพเนนต์ทั้ง 571 ตัวที่มีสไตล์และทำงานร่วมกัน — CSS มุ่งเป้าไปที่คลาสฮุกเดียวกับที่คุณเพิ่งใช้ ดังนั้นคัดลอกส่วนใดก็ได้ไปใส่ในโปรเจกต์แล้วปรับตามใจชอบ
+    </li>
+    <li>
+      มีคำถาม? <a href="/help/">หน้าช่วยเหลือ</a> มีคำตอบ คำถามที่พบบ่อย และช่องทางติดต่อมนุษย์ที่เป็นมิตร และหากบทเรียนใดทำให้ชัดเจนกว่านี้ได้
+      <a href="https://github.com/LilyDesignSystem">บอกเรา</a>  — เรายินดีปรับปรุง
+    </li>
+  </ul>
+</section>

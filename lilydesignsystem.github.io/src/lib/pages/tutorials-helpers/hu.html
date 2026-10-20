@@ -1,0 +1,276 @@
+<!-- title: Beállítási segédek oktatóanyag — Lily Design System -->
+<!-- description: Add hozzá a felhasználó nyelvi és szövegméret-beállításait a Lily locale-picker és text-size-picker segédeivel: fej nélküli ikongomb + listbox vezérlők tartóssággal és SSR-biztonsággal. -->
+<section class="page-intro">
+  <h1>Beállítási segédek</h1>
+  <p class="page-intro-tagline">
+    Keretrendszerenként hét kis csomag, mindegyik egy felhasználói feladatot birtokol elejétől a végéig, plusz egy sáv, amely ötöt közülük összefog. A
+    <a href="/tutorials/theming/">theme-picker</a>már ismerős; itt a locale-picker, a text-size-picker és a motion-picker (beállítások), a share-picker és a search-picker (műveletek), a date-time-picker (űrlapérték) és a picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy beállítási panel, ahol a felhasználók kiválasztják a nyelvüket és a szövegméretüket — a választások az egész dokumentumra vonatkoznak, látogatások között megmaradnak, és két komponensbe meg néhány sor CSS-be kerülnek. Nagyjából 15 perc.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Előbb fejezd be a <a href="/tutorials/">keretrendszer-oktatóanyagot</a> a saját technológiai készletedhez. Az alábbi minták Svelte-ben vannak; a React, Vue, Angular, HTML, Nunjucks és Blazor segédek szerződésről szerződésre megfelelnek nekik.
+  </p>
+
+  <h2>A közös forma</h2>
+  <ul>
+    <li>Egy fej nélküli ikongomb, amely WAI-ARIA APG listboxot nyit (vagy a date-time-picker esetében dátumválasztó párbeszédablakot) — nincs natív <code>&lt;select&gt;</code>, így minden keretrendszer ugyanazt a billentyűzet-viselkedést és stílusozási kampókat kapja.</li>
+    <li>Csomagonként egy osztálykampó (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), nulla szállított CSS.</li>
+    <li>SSR-biztonságos: a DOM-írások csak a mount/effect életciklusban történnek.</li>
+    <li>i18n-tiszta: minden, a felhasználónak látható karakterlánc egy prop.</li>
+    <li>
+      Elérhető Svelte (kanonikus), React, Vue, Angular, HTML egyedi elem, Nunjucks és Blazor számára — mindegyikben ugyanaz a szerződés.
+    </li>
+  </ul>
+  <p>
+    A theme-picker, a locale-picker és a text-size-picker mindegyike egy felhasználói
+    <em>beállítást</em> birtokol elejétől a végéig (kiválasztás, alkalmazás a DOM-ra, opcionális
+    <code>localStorage</code> tartósság a <code>storageKey</code>
+    propon keresztül). A share-picker és a date-time-picker más természetű: a share-picker egy <em>műveletet</em> birtokol — semmit sem alkalmaz a dokumentumra és semmit sem tart meg — a date-time-picker pedig egy
+    <em>űrlapértéket</em>, mert az űrlapban lévő dátum adat, nem beállítás.
+  </p>
+
+  <h2>locale-picker — nyelv és irány</h2>
+  <p>
+    Lehetővé teszi a felhasználónak, hogy területi beállítást válasszon, majd kiírja a <code>lang</code> és
+    <code>dir</code> értéket a dokumentum gyökerére, hogy az i18n-könyvtárad, a CSS-ed és a kisegítő technológiák mind kövessék. Az RTL automatikusan felismerhető arab, héber és más jobbról balra író írásrendszereknél. Kizárólag jelzésre koncentrál — a fordítást az i18n-könyvtárad végzi.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    A lehetőségek címkéi egy beépített területi beállítás-névtáblából származnak (felülírható a <code>localeLabels</code>propon keresztül), minden lehetőség saját
+    <code>lang</code> attribútumot hordoz, hogy a képernyőolvasók a „Français” szót franciául ejtsék, és az aláhúzásos kódok, például <code>en_US</code>
+    veszteség nélkül oda-vissza alakíthatók BCP 47-re <code>en-US</code>. Kösd a
+    <code>onChange</code> értéket (vagy a kötött értéket) az i18next-hez, a Paraglide-hoz, a vue-i18n-hez vagy bármihez, amit használsz.
+  </p>
+
+  <h2>text-size-picker — az olvasó által vezérelt méret</h2>
+  <p>
+    Percek alatt elérhető akadálymentességi nyereség: a segéd beállítja a
+    <code>data-text-size="&#123;slug&#125;"</code> értéket a dokumentum gyökerén, a CSS-ed pedig minden értéket mérethez rendel.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Méretezd az elrendezésedet <code>rem</code> egységben, és az egész alkalmazás a felhasználó választásával skálázódik. A címkék a slugokból készülnek nagy kezdőbetűvel („X Large”), vagy a <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> propbal írhatók felül. Válaszd a „Large” elemet a választóban, és az oldal szövege megnő. Töltsd újra — még mindig nagy: a választás tartósan elmentődött ide:
+      <code>localStorage</code>. Állítsd át a nyelvválasztót arabra, és a
+      <code>dir="rtl"</code> automatikusan beállítódik a dokumentumon.
+    </p>
+  </div>
+
+  <h2>share-picker — küldd el ezt az oldalt</h2>
+  <p>
+    Egyetlen jelet tartalmazó gomb, amely megnyitja az eszköz natív megosztólapját, ahol van ilyen, máskülönben az általad megadott célok listájára esik vissza, plusz egy URL-másoló művelet. Nem szállít közösségi hálózati URL-eket — hogy mely hálózatok illenek a termékedhez, az a te döntésed, nem a tervezési rendszeré.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> alapértéke <code>location.href</code>így a gyakori eset nem igényel bekötést. Kényszeríts egy útvonalat a <code>strategy="list"</code> vagy a
+    <code>strategy="native"</code> értékkel, ha platformok közötti következetes viselkedésre van szükséged tesztekhez vagy képernyőképekhez.
+  </p>
+
+  <h2>date-time-picker — dátum, időpont vagy mindkettő</h2>
+  <p>
+    Egy szövegmező, amelybe gépelhetsz, plusz egy ikongomb, amely WAI-ARIA APG dátumválasztó párbeszédablakot nyit. Szerkezetéből adódóan területi beállítás szerint helyes — a hónapnevek, a hétköznapnevek, a hét első napja és a 12 vagy 24 órás óra mind innen jön: <code>Intl</code> — az érték pedig mindig rendezhető, időzóna nélküli ISO karakterlánc: <code>"2026-03-15"</code> a
+    <code>mode="date"</code>, <code>"09:30"</code> a
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> a
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Az ISO-érték azonos azzal, amit a <code>&lt;input type="date"&gt;</code>
+    elküld, így a natív vezérlőt a háttérrendszer érintése nélkül cserélheted be vagy ki.
+  </p>
+
+  <h2>motion-picker — tartsd tiszteletben a csökkentett mozgást</h2>
+  <p>
+    A segéd beállítja a <code>data-motion="&#123;slug&#125;"</code> értéket a dokumentum gyökerén. Az első érték a látogató operációs rendszerének
+    <code>prefers-reduced-motion</code> beállításából jön — mindig, bekapcsolási jelző nélkül, mert a mozgás valós akadálymentességi igény (WCAG 2.3.3). A CSS-ed és a szkriptjeid döntik el, mi kerül elnyomásra.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — egy keresőmező, amely nem áll útban</h2>
+  <p>
+    Egy ikongomb, amely keresőmezőt nyit. A Return vagy a mező melletti &#9166; gomb megnyomása egyszerű GET-kéréssel navigál ide:
+    <code>/?&lt;text&gt;</code> (a szöveg le van vágva és URI-kódolva; üres lekérdezés sehová sem vezet). A három hozzáférhető név kötelező, mert a segéd nem szállít angol szöveget.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> módosítja az útvonalat (<code>/search?foo</code>), a
+    <code>navigate</code> pedig az alkalmazáson belül tartja a navigációt; nélküle a segéd hívja: <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — az egész fejlécsor egyszerre</h2>
+  <p>
+    <code>picker-bar</code> egy sorban rendereli a keresést, a témát, a területi beállítást, a szövegméretet és a megosztást, a referenciatémák teljes készletével és a hétfokozatú szövegskálával előre bekötve. Minden hozzáférhető név egyetlen kötelező
+    <code>labels</code> objektumban érkezik.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Bármely becsomagolt választót elérhetsz a <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> és <code>shareProps</code>.
+  </p>
+
+  <h2>A buboréksúgók be vannak építve</h2>
+  <p>
+    Minden választó buboréksúgóban mutatja a címkéjét, ha a mutató a gombján pihen, vagy a gombnak billentyűzetfókusza van. A buboréksúgó megmarad, amíg a mutató rámozdul, az Escape bezárja, bárhol is van a fókusz, és soha nem jelenik meg, amíg a választó felugró ablaka nyitva van. Ugyanazt a szöveget hordozza, mint a gomb hozzáférhető neve, így nincs mit beállítani, és nincs mit kétszer lefordítani; a referenciatémák stílusozzák.
+  </p>
+
+  <h2>Egy beállítási panel egy helyen</h2>
+  <p>A négy beállítási segéd természetesen összeáll:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizve:</strong> a locale-picker, text-size-picker, share-picker, date-time-picker és az összevont panel kódrészletei külön-külön lettek lefordítva a közzétett <code>0.1.1</code> csomagokkal szemben, ezzel:
+      <code>svelte/server</code> (2026-08-29); a motion-picker, search-picker és picker-bar kódrészletei a csomagok saját komponenseivel lettek renderelve 2026-10-06-án.
+    </p>
+  </div>
+
+  <h2>Hol szerezheted be</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Minden csomagnak saját specje, a spec-szakaszokhoz rendelt tesztjei, futtatható példái (az SSR sütimintákat is beleértve) és build- és közzétételi csővezetéke van. A Svelte csomagok kanonikusak; kétség esetén az ő szerződéseik döntenek.
+  </p>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/components/">Komponenskatalógus</a> — mind az 571 komponens teljes referenciája.</li>
+    <li><a href="/help/">Súgó</a> — hibaelhárítás és GYIK.</li>
+    <li><a href="/why/">Miért a Lily</a> — és hogyan támogathatod a projektet.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

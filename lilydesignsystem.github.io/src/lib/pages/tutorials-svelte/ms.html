@@ -1,0 +1,117 @@
+<!-- title: Tutorial Svelte — Lily Design System -->
+<!-- description: Bina borang yang mudah diakses dan digayakan dengan komponen tanpa kepala Svelte 5 Lily: runes, snippets dan bind:value. -->
+<section class="page-intro">
+  <h1>Tutorial Svelte</h1>
+  <p class="page-intro-tagline">
+    Perpustakaan Svelte Lily ialah pelaksanaan kanonik: runes Svelte 5, prop bertaip, taburan rest-prop dan pengikatan dua hala dengan
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan anda bina</h2>
+  <p>
+    Borang hubungan kecil — input berlabel, butang hantar, pengikatan dua hala, tingkah laku papan kekunci dan pembaca skrin yang sebenar — mula-mula kosong, kemudian digayakan, dalam kira-kira 10 minit.
+  </p>
+
+  <h2>Sebelum anda bermula</h2>
+  <p>
+    Anda memerlukan git, Node 22 atau lebih baharu, dan pnpm 10 atau lebih baharu. Mana-mana projek Svelte 5 boleh digunakan — aplikasi <code>npx sv create</code> baharu pun mencukupi.
+  </p>
+
+  <h2>Langkah 1 — Dapatkan kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponen terletak dalam <code>src/lib/components/&#123;Name&#125;/</code>, satu direktori bagi setiap komponen dengan fail <code>.svelte</code> , ujiannya, story dan dokumennya bersebelahan. Salin direktori yang anda perlukan ke aplikasi anda, atau bergantung pada repo dan import terus.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama anda</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Memaparkan <code>&lt;button class="button" type="button"&gt;</code>. Prop dipertaipkan: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (memaparkan <code>aria-pressed</code> untuk butang togol), <code>label</code> ( <code>aria-label</code> penggantian), dan sebarang atribut tambahan ditabur pada akar.
+  </p>
+
+  <h2>Langkah 3 — Gubah borang kecil</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> mengambil <code>label</code> sebagai propnya sendiri dan bukannya komponen label bersarang — hantar sekali, pada <code>Field</code>, dan <code>TextInput</code>yang sepadan pada <code>label</code> membekalkan nama boleh diakses. <code>TextInput</code>'s <code>value</code> ialah prop rune
+    <code>$bindable</code> jadi <code>bind:value</code> memberi anda pengikatan dua hala serta-merta.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Disahkan 2026-08-29:</strong> serpihan tepat ini dikompil melalui <code>svelte/server</code> dan disemak untuk satu <code>&lt;label for&gt;</code> yang dipaut dengan betul — draf awal menyarangkan <code>Label</code> di dalam <code>Field</code>berasingan, yang memaparkan
+      <em>dua</em> label (satu kosong) kerana <code>Field</code> sudah memaparkan labelnya sendiri daripada <code>label</code> prop. Yang
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">laluan borang hubungan gubahan</a>
+      ialah corak yang sama, diuji dengan e2e dan ujian axe sebenar.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Semak kerja anda:</strong> jalankan aplikasi dan borang kelihatan biasa sahaja — tepat seperti dimaksudkan: penggayaan masih di hadapan. Tekan
+      <kbd>Tab</kbd>: fokus bergerak melalui setiap kawalan, label diumumkan dan penghantaran berfungsi. Tingkah laku sudah siap; rupanya milik anda dan itu seterusnya.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Gayakan</h2>
+  <p>
+    Segala-galanya di atas dipaparkan sebagai struktur tulen, sedia untuk gaya anda. Gayakan cangkuk kelas —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — dalam helaian gaya global anda, atau pautkan tema siap pakai dalam <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Pelarasan bagi setiap tika dilalui melalui <code>class</code> prop, yang ditambah pada cangkuk asas: <code>&lt;Button class="wide"&gt;</code> memaparkan
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Langkah 5 — Lihat semuanya berfungsi</h2>
+  <p>
+     <a href="/examples/">Aplikasi contoh SvelteKit</a> ialah katalog yang sama sepenuhnya digayakan, dengan demo langsung, ujian e2e Playwright dan garis dasar kebolehcapaian axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah seterusnya</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — penukaran runtime dengan pembantu Svelte theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pembantu keutamaan</a> — bahasa dan saiz teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — prop, ARIA dan papan kekunci bagi setiap komponen.</li>
+  </ul>
+  <p>
+    Ada soalan di sepanjang jalan?
+    <a href="/help/#troubleshooting">halaman bantuan</a> penuh dengan jawapan — dan jika sesuatu langkah boleh dijelaskan lagi,
+    <a href="https://github.com/LilyDesignSystem">beritahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial.
+  </p>
+</section>

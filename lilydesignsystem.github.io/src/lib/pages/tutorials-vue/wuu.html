@@ -1,0 +1,119 @@
+<!-- title: Vue 教程 — Lily Design System -->
+<!-- description: 使用 Lily 个 Vue 3 headless 组件构建一个无障碍、带样式个表单：单文件组件与 v-model。 -->
+<section class="page-intro">
+  <h1>Vue 教程</h1>
+  <p class="page-intro-tagline">
+    Vue 3 单文件组件，带类型个 props、用 <code>defineModel</code> 实现个双向绑定，以及 <code>v-bind="$attrs"</code> 透传。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>侬将构建啥</h2>
+  <p>
+    一个小型联系表单——带标签个输入框、提交按钮、<code>v-model</code>
+    绑定，以及真实个键盘搭屏幕阅读器行为——先是勿带样式个版本，再加上样式，大约 10 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    侬需要 git、Node 22 或更高版本，以及 pnpm 10 或更高版本。任何 Vue 3 项目侪可以——Nuxt、Vite 或纯 Vue。
+  </p>
+
+  <h2>第 1 步——获取代码</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    组件是 <code>components/</code> 中个扁平文件——
+    <code>Button.vue</code>、<code>TextInput.vue</code>——每个文件旁边侪有伊个测试、story 搭文档。把侬需要个文件复制过去，或者把该仓库纳入自己个代码库。
+  </p>
+
+  <h2>第 2 步——侬个第一个组件</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    渲染为 <code>&lt;button class="button" type="button"&gt;</code>。props 与其伊框架保持一致：<code>type</code>、<code>disabled</code>、
+    <code>pressed</code>、<code>label</code>，其余一切侪通过属性透传。
+  </p>
+
+  <h2>第 3 步——组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> 把可见个 <code>label</code> 作为自己个 prop，而不是嵌套一个标签组件——只需在
+    <code>Field</code> 上传入一次，<code>TextInput</code> 对应个
+    <code>label</code> 就会提供可访问名称。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已验证：</strong>早期草稿在 <code>Field</code> 里嵌套了单独个 <code>Label</code>，结果渲染出<em>两个</em>标签（其中一个为空），因为 <code>Field</code> 已经会根据 <code>label</code> prop 渲染自己个标签——这是通过编译这段代码发现个。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">联系表单组合路由</a>
+      采用同样个模式，并经过真实个端到端测试搭 axe 测试。
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> 使用 <code>defineModel</code>，所以普通个
+    <code>v-model</code> 开箱即用。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查侬个成果：</strong>运行应用，表单看起来老朴素——这正是预期：样式还在后面。按下
+      <kbd>Tab</kbd>：焦点会依次经过每个控件，标签会被朗读，提交也能正常工作。行为已经完成；外观由侬决定，这就是下一步。
+    </p>
+  </div>
+
+  <h2>第 4 步——添加样式</h2>
+  <p>
+    在侬个样式表中为搿眼类名钩子设置样式——<code>.button</code>、<code>.text-input</code>、
+    <code>.label</code>、<code>.field</code>——或者在 <code>index.html</code> / <code>nuxt.config</code> 中链接一个现成个主题：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>第 5 步——看看伊个完整效果</h2>
+  <p>
+    <a href="/examples/">Nuxt 示例应用</a>是完整目录个带样式演示版本，带有 Playwright 端到端测试搭 axe-core 基线：
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主题</a>——用 Vue 个 theme-picker 辅助包在运行时切换主题。</li>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——语言与文字大小。</li>
+    <li><a href="/components/">组件目录</a>——每个组件个 props、ARIA 搭键盘操作。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉阿拉</a>，阿拉老乐意改进教程。
+  </p>
+</section>

@@ -1,0 +1,105 @@
+<!-- title: Példák — Lily Design System -->
+<!-- description: Kidolgozott példaalkalmazások, amelyek megmutatják, hogyan stílusozd a Lily-komponenseket HTML-ben, Svelte-ben, Reactben, Vue-ban, Angularban, Blazorban és Eleventyben. -->
+<section class="page-intro">
+  <h1>Lásd a Lilyt valódi alkalmazásokban</h1>
+  <p class="page-intro-tagline">
+    Hét kidolgozott példaprojekt mutatja meg, hogyan vedd a fej nélküli komponenseket, rétegezz rájuk stílust, és adj ki egy valódi webhelyet. Válaszd ki a használt keretrendszert.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Demóalkalmazások teljes CSS-sel és útválasztással</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Sima HTML-oldalak, vanília JavaScript, build-eszközök nélkül. Bármely statikus tárhelyre ráfér – ideális kis webhelyekhez és fokozatos továbbfejlesztéshez.
+      </p>
+      <p class="card-meta">→ Megtekintés a GitHubon</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        Svelte 5 rúnákat használó SvelteKit 3 alkalmazás. Komponensútvonalak, fájlalapú útválasztás és minden komponens stílusozott storybookja.
+      </p>
+      <p class="card-meta">→ Megtekintés a GitHubon</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Next.js 16 alkalmazás, amely minden komponenst környezetében mutat be, végig TypeScripttel és demóoldalakkal az összetett mintákhoz.
+      </p>
+      <p class="card-meta">→ Megtekintés a GitHubon</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Nuxt 4 alkalmazás. <code>&lt;script setup&gt;</code> és a Composition API minden demóútvonalon.
+      </p>
+      <p class="card-meta">→ Megtekintés a GitHubon</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 22 + Analog.js alkalmazás. Fájlalapú útválasztás, signalok, zónamentes változásészlelés és teljes SSG-előrenderelés.
+      </p>
+      <p class="card-meta">→ Megtekintés a GitHubon</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Blazor Web alkalmazás Razor-komponensekkel. Kiszolgáló- és WebAssembly-barát, .NET 10 alappal.
+      </p>
+      <p class="card-meta">→ Megtekintés a GitHubon</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Nunjucks-makrókat használó Eleventy-webhely. Ideális tartalomgazdag statikus webhelyekhez, amelyek mégis valódi komponensrendszert szeretnének.
+      </p>
+      <p class="card-meta">→ Megtekintés a GitHubon</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Minden példaalkalmazás ugyanolyan felépítésű</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Hogy a keretrendszerek közti ugrálás ismerősnek hasson, minden példaalkalmazás biztosít:</p>
+    <ul>
+      <li>Üdvözlő útvonalat itt: <code>/</code> amely bemutatja a projektet.</li>
+      <li>Komponensindexet itt: <code>/components</code> amely felsorol minden komponenst.</li>
+      <li>Komponensenként egy demóoldalt itt: <code>/components/&lt;component&gt;</code>.</li>
+      <li>Valódi CSS-t – nem absztrakt tervezési tokeneket –, hogy közvetlenül átvehesd a stílusokat.</li>
+      <li>Működő billentyűzetes navigációt és fókuszkezelést dobozból.</li>
+    </ul>
+
+    <h3>Látnod kell, hogyan van stílusozva egyetlen komponens?</h3>
+    <p>
+      Nyisd meg a megfelelő példaalkalmazást, navigálj ide:
+      <code>/components/&lt;name&gt;</code>és másold a jelölést és a CSS-t a saját projektedbe. A példaalkalmazások szándékosan egyszerű (vagy majdnem egyszerű) CSS-t használnak, hogy bármilyen általad preferált rendszerhez igazíthasd őket.
+    </p>
+
+    <h3>Inkább fej nélkülit szeretnél?</h3>
+    <p>
+      Párosíts bármely példaalkalmazást a megfelelő <em>fej nélküli</em>
+      csomaggal – ezek ugyanazokat a komponenseket teszik közzé CSS nélkül, készen a saját tervezési tokenjeidre.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Katalógus böngészése →</a>
+      <a class="button button-secondary" href="/help/">A beállítási útmutató elolvasása</a>
+    </p>
+  </div>
+</section>

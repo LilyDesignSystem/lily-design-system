@@ -1,0 +1,281 @@
+<!-- title: 偏好设置辅助包教程 — Lily Design System -->
+<!-- description: 用 Lily 个 locale-picker 搭 text-size-picker 辅助包添加用户个语言搭文字大小偏好：headless 个图标按钮加列表框控件，支持持久化并且 SSR 安全。 -->
+<section class="page-intro">
+  <h1>偏好设置辅助包</h1>
+  <p class="page-intro-tagline">
+    每种框架有七个小型包，每个包从头到尾负责一项用户任务，另有一个把其中五个组装起来个栏。侬已经见过
+    <a href="/tutorials/theming/">theme-picker</a>；搿搭是 locale-picker、
+    text-size-picker 搭 motion-picker（偏好设置），share-picker 搭
+    search-picker（操作），date-time-picker（表单值），以及
+    picker-bar。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>侬将构建啥</h2>
+  <p>
+    一个设置面板，用户可以在其中选择语言搭文字大小——搿眼选择作用于整个文档，在多次访问之间保持，而侬只需要两个组件搭几行 CSS。大约 15 分钟。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    请先完成侬所用技术栈个<a href="/tutorials/">框架教程</a>。下面个示例使用 Svelte；React、Vue、Angular、HTML、Nunjucks 搭 Blazor 个辅助包在契约上逐条一致。
+  </p>
+
+  <h2>伊拉共有个形态</h2>
+  <ul>
+    <li>一个 headless 图标按钮，打开 WAI-ARIA APG 列表框（对于 date-time-picker 则是日期选择器对话框）——勿使用原生个 <code>&lt;select&gt;</code>，所以每种框架侪有完全相同个键盘行为搭样式钩子。</li>
+    <li>每个包一个类名钩子（<code>.locale-picker</code>、<code>.text-size-picker</code>、<code>.share-picker</code>、<code>.date-time-picker</code>），勿附带任何 CSS。</li>
+    <li>SSR 安全：DOM 写入只发生在挂载/副作用生命周期中。</li>
+    <li>国际化友好：每一条面向用户个字符串侪是 prop。</li>
+    <li>
+      提供 Svelte（规范版本）、React、Vue、Angular、HTML 自定义元素、Nunjucks 搭 Blazor 版本——每个版本个契约相同。
+    </li>
+  </ul>
+  <p>
+    theme-picker、locale-picker 搭 text-size-picker 各自从头到尾负责一项用户<em>偏好</em>（选择、应用到 DOM、通过 <code>storageKey</code>
+    prop 可选个 <code>localStorage</code> 持久化）。share-picker 搭 date-time-picker 则性质不同：
+    share-picker 负责一个<em>操作</em>——伊勿对文档应用任何内容，也勿保存任何内容——而 date-time-picker 负责一个
+    <em>表单值</em>，因为表单中个日期是数据，而不是偏好。
+  </p>
+
+  <h2>locale-picker——语言与方向</h2>
+  <p>
+    让用户选择一种语言环境，然后把 <code>lang</code> 搭
+    <code>dir</code> 写到文档根元素上，让侬个国际化库、侬个 CSS 搭辅助技术侪跟着变化。阿拉伯语、希伯来语及其伊从右到左个文字会被自动检测为 RTL。伊只专注于发出信号——翻译由侬个国际化库负责。
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    选项个标签来自内置个语言环境名称表（可通过
+    <code>localeLabels</code> 覆盖），每个选项侪带有自己个
+    <code>lang</code> 属性，因此屏幕阅读器会用法语读出
+    “Français”，而像 <code>en_US</code> 这样带下划线个代码可以无损地往返转换为 BCP 47 个 <code>en-US</code>。把
+    <code>onChange</code>（或绑定个值）接入 i18next、Paraglide、
+    vue-i18n，或者侬正在使用个任何库。
+  </p>
+
+  <h2>text-size-picker——由读者控制个字号</h2>
+  <p>
+    一项几分钟就能完成个无障碍改进：辅助包会在文档根元素上设置
+    <code>data-text-size="&#123;slug&#125;"</code>，侬个 CSS 把每个值映射为具体个大小。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    用 <code>rem</code> 来设定布局尺寸，整个应用就会随用户个选择而缩放。标签由 slug 转为首字母大写形式
+    （“X Large”），或用 <code>sizeLabels</code> 覆盖。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查侬个成果：</strong>在选择器中选择“Large”，页面文字就会变大。重新加载——伊仍然是大号：搿个选择已经保存到
+      <code>localStorage</code>。把语言选择器切换为阿拉伯语，
+      <code>dir="rtl"</code> 会自动应用到文档上。
+    </p>
+  </div>
+
+  <h2>share-picker——分享搿个页面</h2>
+  <p>
+    一个单图标按钮，在设备有原生分享面板时打开伊，否则回退为侬提供个目标列表，外加一个复制网址个操作。伊勿附带任何社交网络个网址——侬个产品应该包含哪些网络，由侬决定，而不是由设计系统决定。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> 默认为 <code>location.href</code>，所以常见情况无需额外配置。当侬为了测试或截图需要跨平台一致个行为时，可以用 <code>strategy="list"</code> 或
+    <code>strategy="native"</code> 强制走某条路径。
+  </p>
+
+  <h2>date-time-picker——日期、时间，或两者兼有</h2>
+  <p>
+    一个可以键入个文本框，加上一个打开 WAI-ARIA APG 日期选择器对话框个图标按钮。从构造上就符合所在地区习惯——月份名称、星期名称、每周个第一天，以及 12 小时制还是 24 小时制，全侪来自
+    <code>Intl</code>——而值始终是可排序、勿含时区个 ISO 字符串：<code>mode="date"</code> 时为
+    <code>"2026-03-15"</code>，<code>mode="time"</code> 时为 <code>"09:30"</code>，
+    <code>mode="datetime"</code> 时为 <code>"2026-03-15T09:30"</code>。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    搿个 ISO 值与 <code>&lt;input type="date"&gt;</code> 提交个值完全一致，所以侬可以随意换入或换出原生控件，而无需改动后端。
+  </p>
+
+  <h2>motion-picker——尊重“减少动态效果”</h2>
+  <p>
+    辅助包会在文档根元素上设置 <code>data-motion="&#123;slug&#125;"</code>。伊个初始值来自访客操作系统个
+    <code>prefers-reduced-motion</code> 设置——始终如此，呒没可选开关，因为动态效果是真实个无障碍需求（WCAG 2.3.3）。要抑制哪些内容，由侬个 CSS 搭脚本决定。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker——勿碍事个搜索框</h2>
+  <p>
+    一个打开搜索框个图标按钮。按下回车键，或字段旁边个 &#9166; 按钮，就会用一次普通个 GET 请求导航到
+    <code>/?&lt;text&gt;</code>（文本会去掉首尾空白并进行 URI 编码；空查询不会跳转到任何地方）。伊个三个可访问名称是必填个，因为辅助包勿附带英文。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> 用于更改路径（<code>/search?foo</code>），
+    <code>navigate</code> 让导航保持在应用内；呒没伊时，辅助包会调用 <code>location.assign</code>。
+  </p>
+
+  <h2>picker-bar——一次得到整个页眉行</h2>
+  <p>
+    <code>picker-bar</code> 在一行中渲染搜索、主题、语言、文字大小搭分享，并预先接好了全套参考主题搭七级文字大小比例。所有可访问名称侪通过一个必填个
+    <code>labels</code> 对象传入。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    可通过 <code>searchProps</code>、
+    <code>themeProps</code>、<code>localeProps</code>、
+    <code>textSizeProps</code> 搭 <code>shareProps</code> 访问其中包装个任何一个选择器。
+  </p>
+
+  <h2>内置工具提示</h2>
+  <p>
+    每个选择器在指针停在伊个按钮上，或按钮获得键盘焦点时，侪会在工具提示中显示伊个标签。指针移到工具提示上时伊会保持显示，无论焦点在哪里，按 Escape 侪会将其关闭，而且在选择器个弹出层打开时伊从勿显示。伊个文字与按钮个可访问名称相同，所以无需配置，也勿必翻译两遍；参考主题已经为伊设置了样式。
+  </p>
+
+  <h2>把设置面板集中在一处</h2>
+  <p>这四个偏好设置辅助包可以自然地组合在一起：</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>已验证：</strong>locale-picker、text-size-picker、
+      share-picker、date-time-picker 以及组合面板个代码片段，已于 2026-08-29 针对已发布个 <code>0.1.1</code> 包，经
+      <code>svelte/server</code> 逐个编译通过；motion-picker、search-picker
+      搭 picker-bar 个代码片段则于 2026-10-06 针对搿眼包自带个组件完成渲染验证。
+    </p>
+  </div>
+
+  <h2>从哪里获取</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    每个包侪有自己个规范、对应规范条款个测试、可运行个示例（包括 SSR cookie 模式），以及构建与发布流水线。Svelte 版本是规范版本；有疑问时，以伊拉个契约为准。
+  </p>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/components/">组件目录</a>——完整个 571 个组件参考。</li>
+    <li><a href="/help/">帮助</a>——故障排除与常见问题。</li>
+    <li><a href="/why/">为啥选择 Lily</a>——以及如何支持搿个项目。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉阿拉</a>，阿拉老乐意改进教程。
+  </p>
+</section>

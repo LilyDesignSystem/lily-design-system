@@ -1,0 +1,123 @@
+<!-- title: Lily를 선택하는 이유 — Lily Design System -->
+<!-- description: Lily를 선택하는 이유: 직접 스타일을 입히는 헤드리스 컴포넌트, 기본 내장된 WCAG 2.2 AAA 접근성, 하드코딩된 문자열 없음, 여덟 가지 프레임워크, 하나의 카탈로그, 영원히 무료. -->
+<section class="page-intro">
+  <h1>Lily를 선택하는 이유</h1>
+  <p class="page-intro-tagline">
+    시맨틱, 접근성, 키보드 동작, 다국어화처럼 어려운 부분은 Lily가 맡습니다.
+    겉모습은 전적으로 여러분의 몫입니다.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>여러분의 디자인에서 시작하세요</h2>
+  <p>
+    여러분의 팀은 제품이 어떻게 보여야 하는지 이미 알고 있습니다. Lily는 바로 그 지점에서 시작합니다.
+    제대로 만들기 정말 어렵고 다시 하면 비용이 큰 부분, 즉 올바른 시맨틱 요소, ARIA 상태, 키보드 규약, 포커스 관리를 제공하고,
+    시각적인 결정은 모두 여러분께 맡깁니다. 첫날부터 여러분의 CSS가 곧 디자인 시스템의 모습입니다.
+  </p>
+  <p>
+    모든 컴포넌트가 안정적인 클래스 훅과 순수한 구조를 갖고 있어서, 업그레이드를 거듭해도 스타일은 계속 여러분의 것으로 남고,
+    그 아래의 접근성도 버전이 바뀌어도 계속 동작합니다.
+  </p>
+
+  <h2>Lily가 약속하는 것</h2>
+  <ul>
+    <li>
+      <strong>기본적으로 접근 가능합니다.</strong> 모든 컴포넌트가 WCAG 2.2 AAA를 목표로 합니다.
+      패턴은 WAI-ARIA 작성 관행을 따르고, 상호작용하는 모든 컴포넌트는 문서화된 규약에 따라 키보드로 조작할 수 있으며,
+      예제 앱은 axe-core의 깨끗한 기준선을 유지합니다.
+    </li>
+    <li>
+      <strong>구조적으로 다국어화가 가능합니다.</strong> 사용자에게 보이는 모든 문자열(레이블, 오류, 안내)은
+      프레임워크마다 이름이 같은 속성이므로 번역이 자연스럽게 이어집니다. RTL과 양방향 텍스트는
+      <code>dir</code>를 그대로 따릅니다. 로케일에 의존하는 컴포넌트는 항상 로케일을 명시적인 속성으로 받습니다.
+    </li>
+    <li>
+      <strong>하나의 카탈로그, 여덟 가지 프레임워크.</strong> 같은 571개 컴포넌트
+      (네이티브 Web Components로는 536개)가 HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, Web Components에서
+      같은 클래스 훅과 속성 규칙으로 제공됩니다. 여러분의 CSS와 팀의 지식을 스택이 달라도 그대로 쓸 수 있습니다.
+    </li>
+    <li>
+      <strong>CSS 방식에 구애받지 않습니다.</strong> 컴포넌트 루트마다 안정적인 케밥 케이스 클래스가 하나 있습니다.
+      시맨틱 CSS, Tailwind 유틸리티, CSS-in-JS, 57가지 기성 테마 중 무엇이든 Lily는 받아들이고 조용히 물러납니다.
+    </li>
+    <li>
+      <strong>영원히 무료, 조건은 여러분이 정합니다.</strong> BSD, MIT, Apache-2.0, GPL-2.0, GPL-3.0 중에서 고를 수 있는 오픈 소스입니다.
+      유료 등급도, 좌석 라이선스도, 원격 측정도 없습니다.
+    </li>
+  </ul>
+
+  <h2>중요한 곳에는 깊이를</h2>
+  <p>
+    흔한 버튼과 대화 상자를 넘어, 이 카탈로그는 대부분보다 더 멀리 나아갑니다.
+  </p>
+  <ul>
+    <li>
+      <strong>공공 부문 패턴.</strong> NHS UK, GOV.UK, USWDS, ONS 디자인 시스템을 조사해서 만든
+      오류 요약, 경고 콜아웃, 요약 목록, 단계 배너, 건너뛰기 링크 등.
+    </li>
+    <li>
+      <strong>140개의 국가별 개인 식별자 컴포넌트.</strong> 50개국 이상의 의료, 국민 ID, 세금, 여권 식별자를 다루며,
+      각각 형식과 검증 알고리즘을 문서화합니다.
+    </li>
+    <li>
+      <strong>편집 및 스크롤리텔링용 기본 요소.</strong> Reuters Graphics에서 가져온 기사 레이아웃, 스크롤러, 타임라인, 타일 맵.
+    </li>
+    <li>
+      <strong>선택기 도우미.</strong> 하나의 상호작용을 처음부터 끝까지 맡는 작은 패키지들입니다. 테마 전환(런타임 스타일시트 로딩 포함),
+      언어, 글자 크기, 동작 줄이기, 검색, 페이지 링크, 공유, 날짜·시간 입력이 있습니다.
+      각각 팝업을 여는 헤드리스 아이콘 버튼이며(네이티브 <code>&lt;select&gt;</code>가 아닙니다),
+      영속성과 SSR 안전성이 내장되어 있습니다.
+    </li>
+  </ul>
+
+  <h2>공공 부문용 테마를 기본으로</h2>
+  <p>
+    Lily에는 클래스 훅을 직접 겨냥하는 독립된 57가지 참조 테마가 포함되어 있습니다.
+    NHS England, NHS Scotland, NHS Wales(각각 환자용과 실무자용), GOV.UK, USWDS, Adobe Spectrum과 Mozilla Protocol에서 영감을 받은 팔레트,
+    그리고 범용 라이트·다크 테마 모음입니다. 스타일시트 하나만 연결하면 정부 수준의 모습이 적용됩니다.
+    <code>theme-picker</code> 도우미는 이것들을 런타임에 전환합니다.
+  </p>
+
+  <h2>Lily와의 비교</h2>
+  <p>
+    우리는 다른 디자인 시스템과의 솔직한 컴포넌트별
+    <a href="/comparisons/">비교</a>를 공개합니다. 스타일이 적용된 것과 헤드리스, 상용과 공공 부문을 모두 포함합니다.
+    다른 라이브러리가 여러분께 더 잘 맞는다면 이 비교가 그렇게 보여 줄 것입니다. Lily는 그 모두에게서 배우며 영감의 원천을 공개적으로 밝힙니다.
+  </p>
+
+  <h2>누가 만들고 있나요</h2>
+  <p>
+    Lily는 협업, 조언, 피드백을 환영하는 젊고 독립적인 오픈 소스 프로젝트입니다. 이야기와 영감의 원천은
+    <a href="/about/">소개</a>를 참고하세요. 명세, 테스트, 로드맵, 감사 도구까지 모든 것이
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>에 공개되어 있습니다.
+  </p>
+
+  <h2>Lily의 성장을 도와주세요</h2>
+  <p>Lily가 도움이 되었다면, 가장 가치 있는 일은 다음과 같습니다.</p>
+  <ul>
+    <li>
+      <strong>별을 누르고 알리세요.</strong>
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">메인 저장소</a>에 별을 누르고 동료에게
+      <a href="/components/">카탈로그</a>를 보여 주세요. 인지도는 젊은 프로젝트에게 가장 부족한 자원입니다.
+    </li>
+    <li>
+      <strong>무언가를 만들고 알려 주세요.</strong> 잘 된 점, 더 매끄러워질 수 있는 점 같은 실제 사용 보고가 무엇보다 로드맵을 만듭니다.
+    </li>
+    <li>
+      <strong>접근성을 감사해 주세요.</strong> <a href="/examples/">예제 앱</a>에서 하는 스크린 리더 점검(VoiceOver, NVDA, JAWS)은 보석 같습니다. 발견한 것을 알려 주세요.
+    </li>
+    <li>
+      <strong>테마나 번역을 기여해 주세요.</strong> 둘 다 독립적이고 범위가 분명해서 첫 기여로 알맞습니다.
+    </li>
+    <li>
+      <strong>발견한 것을 최소한의 재현 방법과 함께 공유해 주세요.</strong> GitHub 저장소에서, 또는 이메일
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>로 보내 주세요.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">튜토리얼 시작하기</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">GitHub에서 별 누르기</a>
+  </div>
+</section>

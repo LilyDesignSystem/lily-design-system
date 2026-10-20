@@ -1,0 +1,122 @@
+<!-- title: Vue チュートリアル — Lily Design System -->
+<!-- description: Lily の Vue 3 ヘッドレスコンポーネントで、アクセシブルでスタイル付きのフォームを作ります。v-model を使う単一ファイルコンポーネントです。 -->
+<section class="page-intro">
+  <h1>Vue チュートリアル</h1>
+  <p class="page-intro-tagline">
+    型付きプロパティを持つ Vue 3 の単一ファイルコンポーネント、 <code>defineModel</code>
+    双方向バインディング、そして <code>v-bind="$attrs"</code> のパススルー。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    小さなお問い合わせフォーム — ラベル付き入力、送信ボタン、 <code>v-model</code>
+    バインディング、本物のキーボードとスクリーンリーダーの動作 — まずは装飾なしで、次にスタイルを付けて、約 10 分で作ります。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    git、Node 22 以降、pnpm 10 以降が必要です。Vue 3 のプロジェクトならどれでも使えます — Nuxt、Vite、素の Vue のいずれでも構いません。
+  </p>
+
+  <h2>ステップ 1 — コードを入手する</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    コンポーネントは次の場所にフラットなファイルとして置かれています: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — それぞれテスト、ストーリー、ドキュメントが隣に置かれています。必要なファイルをコピーするか、リポジトリを取り込みます。
+  </p>
+
+  <h2>ステップ 2 — 最初のコンポーネント</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    描画する要素: <code>&lt;button class="button" type="button"&gt;</code>。プロパティはほかのフレームワークと同じです: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>、そのほかの属性はすべてフォールスルーします。
+  </p>
+
+  <h2>ステップ 3 — 小さなフォームを組み立てる</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> は、表示用の <code>label</code> を、ネストしたラベルコンポーネントではなく専用のプロパティとして受け取ります — 一度だけ渡せば、
+    <code>Field</code>、そして <code>TextInput</code>の対応する
+    <code>label</code> がアクセシブルな名前を与えます。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 に確認済み:</strong> 以前の下書きでは、別の <code>Label</code> の中の <code>Field</code>の中にネストしていたため、
+      <em>2 つの</em> ラベル(1 つは空)が描画されていました。 <code>Field</code> は <code>label</code> プロパティ — 実際のスニペットをコンパイルして見つけました。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">お問い合わせフォームの組み合わせルート</a>
+      も同じパターンで、本物の e2e テストと axe テストで検証されています。
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> は次を使うので: <code>defineModel</code>、素の
+    <code>v-model</code> がそのまま動きます。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>動作の確認:</strong> アプリを実行すると、フォームは飾りのない見た目になります — 意図どおりで、スタイルはこれからです。
+      <kbd>Tab</kbd>キーを押してみましょう。フォーカスがすべてのコントロールを移動し、ラベルが読み上げられ、送信も動きます。動作は完成しています。見た目はあなた次第で、次のステップです。
+    </p>
+  </div>
+
+  <h2>ステップ 4 — スタイルを付ける</h2>
+  <p>
+    クラスフックにスタイルを付けます — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — スタイルシートで、または既成のテーマを次でリンクします: <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>ステップ 5 — 動いているところを見る</h2>
+  <p>
+     <a href="/examples/">Nuxt サンプルアプリ</a> は、スタイル付きでデモ付きの完全なカタログで、Playwright e2e と axe-core のベースラインを備えています:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">テーマ設定</a> — Vue の theme-picker ヘルパーによる実行時切り替え。</li>
+    <li><a href="/tutorials/helpers/">設定ヘルパー</a> — 言語とテキストサイズ。</li>
+    <li><a href="/components/">コンポーネントカタログ</a> — コンポーネントごとのプロパティ、ARIA、キーボード操作。</li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

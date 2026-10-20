@@ -1,0 +1,97 @@
+<!-- title: Nunjucks-handleiding — Lily Design System -->
+<!-- description: Bouw toegankelijke, vormgegeven, server-gerenderde pagina's met Lily's Nunjucks-macro's — ideaal voor Eleventy. -->
+<section class="page-intro">
+  <h1>Nunjucks-handleiding</h1>
+  <p class="page-intro-tagline">
+    Server-gerenderde macro's voor Eleventy, Express of elke Node-templatepijplijn — de aanpak in GOV.UK-stijl, met Lily's catalogus en klassehaken.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat je gaat bouwen</h2>
+  <p>
+    Een klein server-gerenderd contactformulier — invoerveld met label, verzendknop, nul JavaScript-lading — eerst kaal, dan vormgegeven, in ongeveer 10 minuten.
+  </p>
+
+  <h2>Voordat je begint</h2>
+  <p>
+    Je hebt git, Node 22 of nieuwer en pnpm 10 of nieuwer nodig. Elke Nunjucks-pijplijn werkt — Eleventy, Express of gewone Nunjucks.
+  </p>
+
+  <h2>Stap 1 — Haal de code op</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Elke component is een map in <code>components/</code> met een
+    <code>macro.njk</code>, zijn test en zijn documentatie — bijvoorbeeld
+    <code>components/button/macro.njk</code>. Wijs je Nunjucks-loader naar
+    <code>components/</code> (in Eleventy voeg je het toe aan het includes-pad) en importeer wat je nodig hebt.
+  </p>
+
+  <h2>Stap 2 — Je eerste component</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Macro's nemen één params-object: <code>text</code> (geëscaped) of
+    <code>html</code> (rauw), <code>type</code>, <code>label</code> voor een
+    <code>aria-label</code>en een klassehaak-toevoeger.
+  </p>
+
+  <h2>Stap 3 — Stel een klein formulier samen</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Omdat alles op de server wordt gerenderd, krijgt de browser pure semantische HTML met de klassehaken — een JavaScript-lading van nul bytes.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controleer je werk:</strong> laad de pagina en het formulier ziet er kaal uit — precies zoals bedoeld: de vormgeving komt nog. Druk op
+      <kbd>Tab</kbd>: de focus beweegt door elk bedieningselement, het label wordt voorgelezen en verzenden werkt. Het gedrag is klaar; het uiterlijk is aan jou en komt hierna.
+    </p>
+  </div>
+
+  <h2>Stap 4 — Geef het vorm</h2>
+  <p>
+    Geef de haken vorm — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in je stylesheet, of koppel een kant-en-klaar thema in je basislayout:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Stap 5 — Zie alles werken</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy voorbeeld-app</a> bouwt de volledige catalogus als statische site met demopagina's per component:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Volgende stappen</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Thema's</a> — inclusief het cookiepatroon van Eleventy voor flikkervrij SSR-thema wisselen.</li>
+    <li><a href="/tutorials/helpers/">Voorkeurenhelpers</a> — taal en tekstgrootte.</li>
+    <li><a href="/components/">Componentencatalogus</a> — props, ARIA en toetsenbord per component.</li>
+  </ul>
+  <p>
+    Vragen onderweg? De
+    <a href="/help/#troubleshooting">helppagina</a> staat vol antwoorden — en als een stap duidelijker kan,
+    <a href="https://github.com/LilyDesignSystem">laat het ons weten</a> en we verbeteren de handleiding graag.
+  </p>
+</section>

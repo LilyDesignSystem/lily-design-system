@@ -1,0 +1,106 @@
+<!-- title: HTML eğitimi — Lily Design System -->
+<!-- description: Lily'nin HTML başsız bileşenleriyle erişilebilir, biçimlendirilmiş bir form oluşturun — düz işaretleme, doğrudan bir dosyadan. -->
+<section class="page-intro">
+  <h1>HTML eğitimi</h1>
+  <p class="page-intro-tagline">
+    En basit başlangıç: Lily'nin sınıf kancalarıyla anlamsal HTML'i kopyalayın, bir stil sayfası ekleyin, yayımlayın. HTML'in çalıştığı her yerde çalışan düz dosyalar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ne oluşturacaksınız</h2>
+  <p>
+    Küçük bir iletişim formu — etiketli girdiler, bir gönder düğmesi, gerçek klavye ve ekran okuyucu davranışı — önce çıplak, sonra biçimlendirilmiş olarak, yaklaşık 10 dakikada.
+  </p>
+
+  <h2>Başlamadan önce</h2>
+  <p>
+    Bir tarayıcı ve bir metin düzenleyici yeter. Hepsi bu. (git bileşen dosyalarını almaya yardımcı olur ama bunları tarayıcıda GitHub'dan da kopyalayabilirsiniz.)
+  </p>
+
+  <h2>Adım 1 — Kodu edinin</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Her bileşen şurada bağımsız bir dosyadır: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>ve benzerleri — HTML etiketini, sınıf kancasını, klavye davranışını ve erişilebilirlik sözleşmesini belgeleyen bir başlık yorumuyla. Bu dosyalar <em>kütüphanenin</em> kendisidir — ihtiyacınız olanı kopyalayın ve gidin.
+  </p>
+
+  <h2>Adım 2 — İlk bileşeniniz</h2>
+  <p>Açın: <code>components/button.html</code>ya da sadece işaretlemeyi yazın — sınıf kancası sözleşmedir:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Gerçek bir <code>&lt;button&gt;</code>olduğu için klavye odağı, Enter ve Space ile etkinleştirme ve örtük düğme rolü zaten doğrudur.
+  </p>
+
+  <h2>Adım 3 — Küçük bir form oluşturun</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Kalıba dikkat edin: her denetim kendi <code>&lt;label for&gt;</code>öğesine bağlanır, en özel girdi türünü kullanır ve tam olarak bir kebab-case sınıf kancası taşır.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Çalışmanızı kontrol edin:</strong> sayfayı bir tarayıcıda açın. Sade görünür — tam olarak amaçlandığı gibi: biçimlendirme henüz ileride. Şuna basın:
+      <kbd>Tab</kbd>: odak her denetimde ilerler, etiketler duyurulur ve gönderme çalışır. Davranış tamam; görünüm sizin ve sıradaki adım.
+    </p>
+  </div>
+
+  <h2>Adım 4 — Biçimlendirin</h2>
+  <p>Kancalara karşı CSS yazın:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Ya da CSS'i elle yazmayı tamamen atlayın — hazır 45 temadan birini bağlayın, aynı işaretleme canlanır:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Adım 5 — Daha fazlasını keşfedin</h2>
+  <ul>
+    <li>Deponun testleri gerçek tarayıcılarda çalışır: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Her bileşen için Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS örnek uygulaması</a> 571 bileşenin hepsini biçimli, aranabilir ve demolu olarak gösterir.
+    </li>
+  </ul>
+
+  <h2>Sonraki adımlar</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temalar</a> — theme-picker ile çalışma anında tema geçişi.</li>
+    <li><a href="/tutorials/helpers/">Tercih yardımcıları</a> — dil ve metin boyutu.</li>
+    <li><a href="/components/">Bileşen kataloğu</a> — tam başvuru.</li>
+  </ul>
+  <p>
+    Yol boyunca sorunuz mu var?
+    <a href="/help/#troubleshooting">Yardım sayfası</a> yanıtlarla dolu — ve bir adım daha açık olabilirse,
+    <a href="https://github.com/LilyDesignSystem">bize söyleyin</a> ve eğitimi memnuniyetle iyileştirelim.
+  </p>
+</section>

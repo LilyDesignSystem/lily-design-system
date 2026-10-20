@@ -1,0 +1,127 @@
+<!-- title: Mafunzo ya Angular — Lily Design System -->
+<!-- description: Jenga fomu inayofikika na yenye mapambo kwa vipengele visivyo na mwonekano vya Lily vya Angular 20: vipengele huru vyenye pembejeo za mawimbi. -->
+<section class="page-intro">
+  <h1>Mafunzo ya Angular</h1>
+  <p class="page-intro-tagline">
+    Vipengele huru vya Angular 20 — pembejeo za mawimbi, utambuzi wa mabadiliko wa OnPush, violezo vilivyopachikwa, bila NgModules, bila CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Utakachojenga</h2>
+  <p>
+    Fomu ndogo ya mawasiliano — pembejeo yenye lebo, kitufe cha kutuma, uunganishaji wa pande mbili, tabia halisi ya kibodi na kisomaji skrini — kwanza bila mapambo, kisha ikiwa na mapambo, kwa takriban dakika 10.
+  </p>
+
+  <h2>Kabla ya kuanza</h2>
+  <p>
+    Unahitaji git, Node 22 au zaidi, na pnpm 10 au zaidi. Mradi wowote wa Angular 20 unafaa — Angular CLI au Analog.
+  </p>
+
+  <h2>Hatua ya 1 — Pata msimbo</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Vipengele ni faili tambarare katika <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — kila kimoja ni kipengele huru chenye kiolezo kilichopachikwa, pamoja na spec na hadithi yake. Pipa
+    <code>index.ts</code> hutoa tena kila kipengele; <code>pnpm build</code>
+    huzalisha kifurushi cha Angular Package Format kupitia ng-packagr.
+  </p>
+
+  <h2>Hatua ya 2 — Kipengele chako cha kwanza</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Kila kipengele hutangaza kichaguzi cha <code>lily-*</code> na huonyesha kipengele cha kisemantiki chenye kishikio chake cha darasa —
+    <code>&lt;button class="button" type="button"&gt;</code> hapa. Pembejeo zinatokana na mawimbi: <code>label()</code> kwa <code>aria-label</code>
+    kubatilisha, <code>className()</code> kuongeza madarasa.
+  </p>
+
+  <h2>Hatua ya 3 — Unda fomu ndogo</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> huchukua lebo inayoonekana kama
+    <code>label</code> pembejeo yake yenyewe badala ya kipengele cha lebo kilichowekwa ndani — ipitishe mara moja, kwenye sehemu, na <code>lily-text-input</code>inayolingana
+    <code>label</code> hutoa jina linalofikika. Vipengele vinavyofanana na pembejeo hufichua thamani za <code>model()</code> hivyo banana-box <code>[(value)]</code>
+    uunganishaji wa pande mbili hufanya kazi tu — vinaoana na zoneless kote.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Imethibitishwa 2026-08-29:</strong> rasimu ya awali iliweka kipengele tofauti cha <code>Label</code> ndani ya <code>lily-field</code>, ambacho kilionyesha <em>mbili</em> lebo (moja tupu) kwa sababu
+      <code>lily-field</code> tayari huonyesha lebo yake yenyewe kutoka kwenye
+      <code>label</code> pembejeo — ilibainika kwa kukagua chanzo cha kipengele.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Njia ya fomu ya mawasiliano iliyounganishwa</a>
+      ni mchoro uleule, uliojaribiwa kwa majaribio halisi ya e2e na axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hakiki kazi yako:</strong> endesha programu na fomu inaonekana ya kawaida — kama ilivyokusudiwa: mapambo bado yanakuja. Bonyeza
+      <kbd>Tab</kbd>: umakini husogea kwenye kila kidhibiti, lebo inatangazwa, na kutuma kunafanya kazi. Tabia imekamilika; mwonekano ni wako, na ndio unaofuata.
+    </p>
+  </div>
+
+  <h2>Hatua ya 4 — Ipambe</h2>
+  <p>
+    Pamba vishikio vya darasa — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — katika <code>styles.css</code>, au ongeza mandhari yaliyo tayari kwenye safu ya <code>styles</code> katika
+    <code>angular.json</code> / iunganishe katika <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Hatua ya 5 — Ona kila kitu kikifanya kazi</h2>
+  <p>
+     <a href="/examples/">Programu ya mifano ya Angular + Analog</a> inaonyesha orodha kamili ikiwa na uelekezaji wa faili na Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Hatua zinazofuata</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Mandhari</a> — kubadili wakati wa utekelezaji kwa kisaidizi cha theme-picker cha Angular.</li>
+    <li><a href="/tutorials/helpers/">Visaidizi vya mapendeleo</a> — lugha na ukubwa wa maandishi.</li>
+    <li><a href="/components/">Orodha ya vipengele</a> — sifa, ARIA, na kibodi kwa kila kipengele.</li>
+  </ul>
+  <p>
+    Una maswali njiani?
+    <a href="/help/#troubleshooting">Ukurasa wa msaada</a> umejaa majibu — na kama hatua inaweza kuwa wazi zaidi,
+    <a href="https://github.com/LilyDesignSystem">tuambie</a> na tutafurahi kuboresha mafunzo.
+  </p>
+</section>

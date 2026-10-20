@@ -1,0 +1,432 @@
+<!-- title: Hëllef — Lily Design System -->
+<!-- description: Fänkt un mat Lily: installéiert d’Headless-Pakéit fir Äre Framework, kopéiert eng Komponent, stylt se, gitt hir en Thema a verëffentlecht se. Feelersich, FAQ an Ënnerstëtzung. -->
+<section class="page-intro">
+  <h1>Ufänke mat Lily</h1>
+  <p class="page-intro-tagline">
+    Wielt e Framework, klonéiert d’Monorepo an maacht seng Headless-Bibliothéik oder Beispillapplikatioun op, a fänkt un, Är eege Säiten ze kompoyéieren. Léiwer e gefouerte Wee? Fänkt un mat
+    <a href="/tutorials/">den Tutorialen</a>.
+  </p>
+</section>
+
+<nav aria-label="Op dëser Säit" class="prose" style="margin: 0 auto;">
+  <p><strong>Op dëser Säit:</strong></p>
+  <ul>
+    <li><a href="#install">Installatioun</a></li>
+    <li><a href="#use-headless">Eng Headless-Komponent benotzen</a></li>
+    <li><a href="#use-styled">E gestylt Beispill benotzen</a></li>
+    <li><a href="#styling">Stylung an Design-Tokens</a></li>
+    <li><a href="#themes">Fäerdeg Themen</a></li>
+    <li><a href="#helpers">Astellungshelfer</a></li>
+    <li><a href="#a11y">Zougänglechkeet</a></li>
+    <li><a href="#i18n">Internationaliséierung</a></li>
+    <li><a href="#testing">Testen</a></li>
+    <li><a href="#ai-agents">KI-Agenten</a></li>
+    <li><a href="#troubleshooting">Feelersich</a></li>
+    <li><a href="#contributing">Matmaachen</a></li>
+    <li><a href="#community">Gemeinschaft an Ënnerstëtzung</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Installatioun</h2>
+  <p>
+    Lily lieft an enger eenzeger Git-Monorepo, mat engem Verzeechnes fir d’Headless-Bibliothéik, d’Helferpakéiten an d’Beispillapplikatioun vun all Framework. Dee schnellste Wee fir et auszeprobéieren ass, d’Monorepo ze klonen an d’Headless-Bibliothéik fir Äre Stack opzemaachen:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Dat selwecht Muster funktionéiert fir déi aner Frameworken:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — keng Installatioun néideg; kopéiert d’ <code>.html</code> -Dateien</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    D’Headless-Bibliothéike sinn dofir geduecht, gekloont oder agebonnen ze ginn — behandelt de Quellcode als Quell vun der Wourecht a kopéiert, wat Dir braucht.
+    <a href="#helpers">Astellungshelfer</a> ginn zousätzlech als installéierbar Pakéite mat Build- a Verëffentlechungspipeline geliwwert (npm fir d’JS-Frameworken, NuGet fir Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Eng Headless-Komponent benotzen</h2>
+  <p>
+    Headless-Komponenten liwwere semantescht HTML, ARIA an Eegenschaften — awer kee CSS. Hei ass e Button a jidder Framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>E gestylt Beispill benotzen</h2>
+  <p>
+    D’Beispillapplikatioune enthalen CSS, Routen a voll Demosäiten. Dee schnellste Wee fir ze experimentéieren ass, d’SvelteKit-, Next-, Nuxt-, Analog- oder Eleventy-Beispillapplikatioun ze starten an d’Demo ze kucken op <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Dann maacht <code>http://localhost:5173</code> op a stéiert duerch <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stylung an Design-Tokens</h2>
+  <p>
+    All Komponent gëtt mat enger eenzeger Kebab-Case-Klass op hirem Wuerzelelement gerendert. Zum Beispill gëtt <code>&lt;Button&gt;</code> gerendert als <code>&lt;button class="button"&gt;</code>. Stylt et, wéi Dir wëllt:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Dem Lily seng Standardfaarfpalette (a Beispillapplikatiounen benotzt) ass:</p>
+  <ul>
+    <li>Primär: <code>#2563eb</code></li>
+    <li>Gefor: <code>#dc2626</code></li>
+    <li>Warnung: <code>#f59e0b</code></li>
+    <li>Erfolleg: <code>#16a34a</code></li>
+    <li>Säitenhannergrond: <code>#f9fafb</code></li>
+    <li>Kaartenhannergrond: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Dat sinn Virschléi, keng Viraussetzungen. Ersetzt se duerch Är eege Markepalette a Lily kënnt gär mat.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Fäerdeg Themen</h2>
+  <p>
+    Wëllt Dir CSS net vun Null un schreiwen? Lily liwwert
+    <strong>57 eegestänneg Referenzthemen</strong> am Verzeechnes
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . All ass e Stylesheet, dat op d’Klassenhake vu Lily zielt — verlénkt et an Dir sidd gestylt:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>De Set deckt of:</p>
+  <ul>
+    <li>
+      <strong>Ëffentleche Secteur</strong> — NHS England, NHS Scotland an NHS Wales (all a Patienten- a Fachpersounevarianten), GOV.UK GDS an d’U.S. Web Design System.
+    </li>
+    <li><strong>Vun Ubidder inspiréiert</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Allgemengen Zweck</strong> — light, dark, nord, dracula, wireframe an nach drësseg anerer.
+    </li>
+  </ul>
+  <p>
+    Thema-Selektore benotzen <code>:where(...)</code>, sou dass Äre eegene CSS ëmmer an der Spezifizitéit gewënnt. Kombinéiert se mam Helfer <code>theme-picker</code> ënnen fir Wiessel während der Lafzäit, oder follegt dem
+    <a href="/tutorials/theming/">Themen-Tutorial</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Astellungshelfer</h2>
+  <p>
+    All Framework huet aacht kleng Wieler, jiddereen e Pakéit
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> fir sech (an e <code>picker-bar</code> , dee se zesummebaut). All ass en Headless-Ikonknäppchen, dat e Popup opmécht — eng Lëscht, eng Linklëscht, e Sichformulaire oder (bei date-time-picker) en Datumsauswiel-Dialog — net e native
+    <code>&lt;select&gt;</code>; ass SSR-sécher; a liwwert kee CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — lued Thema-Stylesheets während der Lafzäit, andeems en en geréierte <code>&lt;link&gt;</code>austauscht, setzt
+      <code>data-theme</code> um Dokument an späichert optional persistent an
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — setzt <code>lang</code> an
+      <code>dir</code> (mat automatescher RTL-Erkennung), sou dass Är i18n-Bibliothéik nokënnt; iwwersetzt selwer näischt.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — setzt <code>data-text-size</code> um Dokument; Äre CSS bilt all Wäert op eng Schrëftgréisst of.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — setzt <code>data-motion</code> um Dokument, ausgoend vun der Astellung vum Besucher fir reduzéiert Bewegung; Äre CSS an Är Skripte entscheeden, wat ënnerdréckt gëtt.
+    </li>
+    <li>
+      <strong>search-picker</strong> — e Ikonknäppchen, dat e Sichfeld opmécht; d’Aschécken navigéiert op eng Sichsäit. Besëtzt eng Aktioun, keng Astellung.
+    </li>
+    <li>
+      <strong>link-picker</strong> — eng Haus-Ikon, déi e Menü mat de Säitelénken opmécht, déi Är Applikatioun definéiert (Startsäit, Iwwer eis, Kontaktéiert eis, Dateschutzrichtlinn, …). Besëtzt eng Aktioun, keng Astellung.
+    </li>
+    <li>
+      <strong>share-picker</strong> — mécht d’native Deelen-Blat oder eng vum Konsument geliwwert Zillëscht op, plus URL kopéieren. Besëtzt eng Aktioun, keng Astellung: wend näischt un, späichert näischt.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — en Textfeld plus en APG-Datumsauswiel-Dialog fir en Datum, eng Zäit oder béides. Besëtzt e Formulairewäert, keng Astellung: de ISO-String gëtt hin an hier ëmgewandelt an
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    De Svelte-Katalog ass d’kanonesch Referenz; d’Ports fir React, Vue, Angular, HTML, Nunjucks, Web Components a Blazor entspriechen him Kontrakt fir Kontrakt. Kuckt den
+    <a href="/tutorials/helpers/">Helfer-Tutorial</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Zougänglechkeet</h2>
+  <p>D’Komponente ziilen op <strong>WCAG 2.2 AAA</strong>. Si follegen dëse Mustere:</p>
+  <ul>
+    <li>Semantesch HTML-Elementer amplaz generesch <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> -Elementer, déi Etiketten mat Inputen verbannen.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> fir Quervirweiser.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> fir Feelerzoustänn.</li>
+    <li><code>role="alert"</code> an <code>aria-live</code> fir dynamesch Inhalter.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> fir den Zoustand.</li>
+    <li>Roving <code>tabindex</code> fir Gitter.</li>
+  </ul>
+  <p>
+    Fokusindikatore ginn bewosst vum Konsument geliwwert — Lily zeechent ni e Standard-Fokusring, deen mat Ärem Design kollidéiert. D’Beispillapplikatioune halen eng propper axe-core-Basislinn op all hire Routen.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internationaliséierung</h2>
+  <p>
+    All Etikett, Platzhalter, Feelermeldung an Knäppertext ass eng Eegenschaft. Et ginn keng fest geschriwwe Zeechefolgen. Verbannt de Iwwersetzungs-Framework Ärer Wiel — Paraglide, i18next, vue-i18n, react-intl, .resx-Dateien, alles.
+  </p>
+  <p>
+    Fir Datumer, Zuelen a Währunge huelen d’Komponenten virformatéiert Zeechefolgen un: Dir formatéiert mat <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / Ärer léifste Bibliothéik a gitt d’Resultat weider.
+  </p>
+  <p>
+    Den <code>locale-picker</code> -Helfer signaliséiert d’gewielt Lokal un Är i18n-Bibliothéik, andeems en <code>lang</code> an <code>dir</code> op der Dokumentwuerzel setzt.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testen</h2>
+  <p>All Framework-Ënnerprojet liwwert seng eege Tester mat sengem idiomateschen Stack:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO, dat richteg Browser lafe léisst.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (iwwer de Analog-Vite-Plugin).</li>
+    <li><strong>Nunjucks</strong>: Vitest mat engem Render-Helfer.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    D’Tester benotzen <strong>just déi agebaute Matcher vu Vitest</strong> — ni
+    <code>jest-dom</code> -Matcher. Dat hält d’Test-Suiten portabel. D’Beispillapplikatioune füügen Playwright-End-to-End-Suiten, axe-core-Zougänglechkeetsbasislinnen an e Sweep duerch responsiv Viewports derbäi.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>KI-Agenten</h2>
+  <p>
+    Dës Säit verëffentlecht <a href="/llms.txt">llms.txt</a> an
+    <a href="/llms.json">llms.json</a> op senger Wuerzel — eng kuratéiert Kaart vu senge wichtegste Säiten, fir all Geschir, dat der
+    <a href="https://llmstxt.org">llms.txt-Konventioun</a>.
+  </p>
+  <p>
+    follegt. Déi kanonesch Monorepo liwwert zousätzlech zwou
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: eng allgemeng Fäegkeet, déi dem Lily seng Konzepter, Terminologie a Kompositiounsmuster fir jiddereen ofdeckt, deen mam System baut, an <code>lily-design-system-maintainer-skill</code>, eng technesch Fäegkeet, déi dem Monorepo säi Layout vun néidegen Dateien a Geschirer fir jiddereen ofdeckt, deen drun schafft. Béid leie op der Wuerzel vun der
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonescher Monorepo</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Feelersich</h2>
+
+  <details class="faq-item">
+    <summary>Eng Komponent gëtt gerendert, gesäit awer net gestylt aus</summary>
+    <p>
+      Dat ass Headless, wéi geduecht — mat der Komponent kënnt kee CSS. Entweder schreift CSS géint d’Kebab-Case-Klass vun der Komponent (op all <a href="/components/">Katalogsäit</a>ugewisen) oder verlénkt ee vun de
+      <a href="#themes">57 fäerdegen Themen</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mäi CSS schéngt net iwwer engem Thema ze gëllen</summary>
+    <p>
+      Et sollt — Thema-Selektore sinn a <code>:where(...)</code>gepak, wat null Spezifizitéit huet. Wann eng Regel trotzdem verléiert, kontrolléiert, ob Äre Stylesheet no dem <code>&lt;link&gt;</code> vum Thema gelueden gëtt an ob de Selektor wierklech mam Klassenhaken vun der Komponent iwwereneestëmmt.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install schléit mat engem Peer- oder Versiounsfeeler fehl</summary>
+    <p>
+      Benotzt e rezente pnpm (v10+) a Node 22+. All Ënnerprojet fixéiert seng Framework-Versiounen a sengem eegene <code>package.json</code>; wann Är global Toolchain méi al ass, ass <code>pnpm env use --global lts</code> de schnellste Fix.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Den Écran-Lieser kënnegt de falschen Numm fir e Steierelement un</summary>
+    <p>
+      Kontrolléiert déi néideg <code>label</code> -Eegenschaft vun der Komponent — Komponenten ouni sichtbare Text verlaangen eng, a vum Konsument geliwwert
+      <code>aria-label</code> / <code>aria-labelledby</code> iwwer Rest-Props weidergi gewënnen bewosst iwwer déi agebaute Verdrahtung. All Katalogsäit dokumentéiert den ARIA-Kontrakt vun der Komponent.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Den theme-picker-Helfer wiesselt keng Stylesheets</summary>
+    <p>
+      Bestätegt, dass <code>themesUrl</code> op e Verzeechnes weist, dee de Browser ofruffe kann (stellt d’ <code>themes/</code> -Dateien als statesch Assets zur Verfügung) an dass d’Thema-Slugs an Ärer <code>themes</code> -Eegenschaft mat den Dateinimm iwwereneestëmmen. Den Helfer tauscht d’ <code>href</code> vun engem geréierten
+      <code>&lt;link data-lily-theme-picker&gt;</code> aus — inspizéiert en an den Entwécklergeschirer, fir déi ugefrote URL ze gesinn.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Soss eppes ass futtis</summary>
+    <p>
+      Maacht en Issue mat enger minimaler Reproduktioun op
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — oder kuckt <a href="#community">Gemeinschaft an Ënnerstëtzung</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Matmaachen</h2>
+  <p>Lily ass jonk a begréisst Zesummenaarbecht. Déi nëtzlechst Bäiträg am Moment sinn:</p>
+  <ul>
+    <li>Nei Komponenten (besonnesch Muster aus etabléierten Designsystemer).</li>
+    <li>Nei Themen — all ass ee selbstänneg Stylesheet, en gutt ofgegrenzte éischte PR.</li>
+    <li>Besser Beispillstylung — weist, wat méiglech ass.</li>
+    <li>Iwwersetzunge vun de Zeechefolge vun de Beispillapplikatiounen.</li>
+    <li>Feelerberichter mat enger minimaler Reproduktioun.</li>
+    <li>Zougänglechkeetsauditen mat Écran-Lieser an assistive Technologie.</li>
+  </ul>
+  <p>
+    Maacht Issues a PRs op
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Gemeinschaft an Ënnerstëtzung</h2>
+  <ul>
+    <li>
+      <strong>Froen a Feelerberichter</strong> — maacht en Issue op
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-Mail</strong> — de Maintainer liest
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      a begréisst Zesummenaarbecht, Orientéierung a Feedback.
+    </li>
+    <li>
+      <strong>Spigelen</strong> — Lily gëtt och op
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> an
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>gepusht, sou dass Dir vum Forge aus matmaache kënnt, dee Dir léiwer hutt.
+    </li>
+    <li>
+      <strong>Verhalen</strong> — de Projet follegt engem Standard-Verhaltenskodex; sidd frëndlech, gitt vu gudde Wëlle aus.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Firwat headless amplaz gestylt?</summary>
+    <p>
+      Virgestylte Komponente sinn praktesch — bis se net méi bei Är Mark passen. Headless-Komponente brauche am Ufank e bëssen méi Aarbecht, ginn Iech awer total Kontroll iwwer dat visuellt Design. D’Beispillapplikatioun an déi 57 Themen weisen Weeër, se ze stylen; Dir kënnt se iwwerhuelen oder komplett ersetzen. Dat méi laangt Argument ass op <a href="/why/">Firwat Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Firwat sou vill Komponenten?</summary>
+    <p>
+      Lily wëll d’Muster ofdecken, déi déi meescht Applikatioune brauchen, ouni Iech ze zwéngen, se vun Null un ze bauen — dorënner déif Saachen wéi Inputen fir national Identifikateuren a redaktionelle Scrollytelling. De Katalog schöpft aus enger Dose etabléierte Designsystemer plus Eegenaarbecht — kuckt <a href="/about/">Iwwer</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kann ech Lily mat Tailwind benotzen?</summary>
+    <p>
+      Jo. All Komponent stellt eng eenzeg Kebab-Case-Wuerzelklass plus e vum Konsument geliwwerte <code>className</code> / <code>class</code>zur Verfügung. Leet Tailwind-Utilities drop, wéi Dir wëllt.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kann ech Lily mat semanteschen CSS-Frameworken wéi DaisyUI benotzen?</summary>
+    <p>
+      Jo. D’Kebab-Case-Klassennimm um Wuerzelelement funktionéieren als semantesch CSS-Haken. Kombinéiert Lily mat engem semanteschen Framework a Dir kritt virgestylt Komponenten, déi trotzdem ARIA an i18n respektéieren.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Gëtt et e npm-Pakéit?</summary>
+    <p>
+      D’ <a href="#helpers">Astellungshelfer</a> ginn als Pakéite mat enger npm-/NuGet-Verëffentlechungspipeline geliwwert. D’Headless-Komponentebibliothéike sinn dofir geduecht, gekloont oder agebonnen ze ginn — de Quellcode ass d’Liwwerung, sou dass Dir genee dat liese, ofspecke a besëtze kënnt, wat Dir ausliwwert. D’Verëffentlechung vun den Headless-Bibliothéiken a Registries bleift op der Roadmap.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Firwat méi Lizenzen?</summary>
+    <p>
+      Verschidde Projete hunn ënnerschiddlech Lizenzbedierfnesser. BSD a MIT si permissiv, Apache-2.0 huet eng Patentgewärung, an d’GPL-Optiounen ënnerstëtzen Copyleft. Wielt dat, wat bei Är Situatioun passt.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Wéi mellen ech e Feeler oder froen eng Funktioun un?</summary>
+    <p>
+      Maacht en Issue am GitHub-Repository op, oder schéckt eng E-Mail un
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

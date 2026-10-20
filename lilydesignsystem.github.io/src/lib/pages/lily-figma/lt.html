@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Nėra prižiūrimos „Lily“ „Figma“ bibliotekos ar įskiepio. 57 etalonų temų dizaino žetonai paskelbti DTCG formatu ir šiandien gali būti importuoti į „Figma“ esamu bendruomenės įskiepiu. -->
+<section class="page-intro">
+  <h1>Nėra prižiūrimos „Figma“ bibliotekos — štai kas yra vietoj jos</h1>
+  <p class="page-intro-tagline">
+    Šiame puslapyje anksčiau buvo parašyta „netrukus“. Dabar nebe, nes niekas to nekūrė. Štai sąžiningas būvis ir tikras kelias, veikiantis šiandien.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Ko nėra</h2>
+  <p>
+    Nėra oficialios „Lily“ komponentų bibliotekos „Figma“ ir nėra prižiūrimo „Figma“ įskiepio. Gerai sukurti ir prižiūrėti dizaino įrankio biblioteką yra tikras, nuolatinis įsipareigojimas — „Figma“ komponentų struktūra, variantų pavadinimai, auto-layout, savas paskelbimo vamzdynas — atskirai nuo kodo priežiūros, o šis projektas jo neprisiėmė.
+  </p>
+
+  <h2>Kas yra šiandien</h2>
+  <p>
+    Kiekviena iš 57 etalonų temų turi savo dizaino žetonų pagrindus — spalvą, spindulį, dydį, rėmelį — paskelbtus
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 formatu</a
+    >
+    adresu
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Tas formatas yra būtent tai, ką skaito šiuolaikiniai žetonų įrankiai. „Lily“ temos paletę į „Figma“ galite įtraukti patys, dabar pat, be jokio šio projekto įskiepio:
+  </p>
+  <ol>
+    <li>
+      Įdiekite bendruomenės
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      įskiepį (arba pačios „Figma“ Variables importą, jei jūsų planas palaiko DTCG importą).
+    </li>
+    <li>
+      Importuokite <code>themes/tokens/{theme-slug}.json</code> norimai temai — pavyzdžiui
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      „Tokens Studio“ sukuria „Figma“ kintamuosius iš DTCG reikšmių, kuriuos paskui galite taikyti savo komponentams.
+    </li>
+  </ol>
+  <p>
+    Tai suteikia „Lily“ spalvų ir formų žetonus „Figma“. Tai nesuteikia tikrų „Lily“ komponentų kaip „Figma“ komponentų — to niekas nesukūrė, ir šis puslapis nesimuliuos kitaip.
+  </p>
+
+  <h2>Ar planuojama tikra „Figma“ biblioteka?</h2>
+  <p>
+    Šiuo metu ne, o jos žadėti nėra nemokama: žr.
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    dėl atviro klausimo ir to, kas pakeistų projekto nuomonę — naudingiausia, kad dizaineris konkrečiai pasakytų, ko jam reikia iš šio sluoksnio. Jei tai jūs,
+    <a href="mailto:joel@joelparkerhenderson.com">pasakykite mums</a>
+    arba atidarykite issue.
+  </p>
+</section>

@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Neexistuje udržiavaná knižnica ani plugin Lily pre Figmu. Dizajnové tokeny 57 referenčných tém sú publikované vo formáte DTCG a dajú sa dnes importovať do Figmy existujúcim pluginom komunity. -->
+<section class="page-intro">
+  <h1>Žiadna udržiavaná knižnica Figmy — tu je, čo existuje namiesto nej</h1>
+  <p class="page-intro-tagline">
+    Táto stránka predtým hovorila „čoskoro“. Už nehovorí, pretože to nikto nestaval. Tu je úprimný stav a skutočná cesta, ktorá funguje dnes.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Čo neexistuje</h2>
+  <p>
+    Neexistuje oficiálna knižnica komponentov Lily vo Figme ani udržiavaný plugin Figmy. Dobre postaviť a udržiavať knižnicu pre dizajnový nástroj je skutočný, trvalý záväzok — štruktúra komponentov Figmy, pomenovanie variantov, auto-layout, vlastná publikačná pipeline — oddelený od údržby kódu, a tento projekt ho na seba nevzal.
+  </p>
+
+  <h2>Čo existuje dnes</h2>
+  <p>
+    Každá zo 57 referenčných tém má svoje primitívne dizajnové tokeny — farbu, polomer, veľkosť, orámovanie — publikované vo
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >formáte DTCG 2025.10</a
+    >
+    na
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Tento formát je presne to, čo moderné nástroje pre tokeny čítajú. Paletu témy Lily si môžete do Figmy stiahnuť sami, hneď teraz, bez pluginu z tohto projektu:
+  </p>
+  <ol>
+    <li>
+      Nainštalujte plugin komunity
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (alebo vlastný import Variables vo Figme, ak váš plán podporuje import DTCG).
+    </li>
+    <li>
+      Importujte <code>themes/tokens/{theme-slug}.json</code> pre tému, ktorú chcete — napríklad
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio vytvorí z hodnôt DTCG premenné Figmy, ktoré potom môžete použiť na vlastné komponenty.
+    </li>
+  </ol>
+  <p>
+    Tým získate farebné tokeny a tokeny tvarov Lily vo Figme. Nezískate skutočné komponenty Lily ako komponenty Figmy — nikto ich nepostavil a táto stránka nebude predstierať opak.
+  </p>
+
+  <h2>Plánuje sa skutočná knižnica Figmy?</h2>
+  <p>
+    Momentálne nie a sľubovať ju nie je zadarmo: pozri
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    pre otvorenú otázku a to, čo by zmenilo názor projektu — najužitočnejší je dizajnér, ktorý konkrétne povie, čo od tejto vrstvy potrebuje. Ak ste to vy,
+    <a href="mailto:joel@joelparkerhenderson.com">dajte nám vedieť</a>
+    alebo otvorte issue.
+  </p>
+</section>

@@ -1,0 +1,127 @@
+<!-- title: Angular tutorial — Lily Design System -->
+<!-- description: Big an accessible, styled form wi Lily's Angular 20 headless components: standalane components wi signal inputs. -->
+<section class="page-intro">
+  <h1>Angular tutorial</h1>
+  <p class="page-intro-tagline">
+    Angular 20 standalane components — signal inputs, OnPush change detection, inline templates, zero NgModules, zero CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Whit ye'll big</h2>
+  <p>
+    A wee contact form — labelled input, submit button, two-wey binding, real keyboard an screen-reader behaviour — first bare, then styled, in aboot 10 minutes.
+  </p>
+
+  <h2>Afore ye stairt</h2>
+  <p>
+    Ye need git, Node 22 or later, an pnpm 10 or later. Onie Angular 20 project wirks — Angular CLI or Analog.
+  </p>
+
+  <h2>Step 1 — Git the code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    The components are flat files in <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — ilkane a standalane component wi an inline template, plus its spec an story. The barrel
+    <code>index.ts</code> re-exports ilka component; <code>pnpm build</code>
+    produces an Angular Package Format bundle bi ng-packagr.
+  </p>
+
+  <h2>Step 2 — Yer first component</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Ilka component declares a <code>lily-*</code> selector an renders the semantic element wi its class hook —
+    <code>&lt;button class="button" type="button"&gt;</code> here. Inputs are signal-based: <code>label()</code> for an <code>aria-label</code>
+    owerride, <code>className()</code> tae append classes.
+  </p>
+
+  <h2>Step 3 — Compose a wee form</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> taks the visible label as its ain
+    <code>label</code> input raither than a nestit label component — pass it ance, on the field, an the matchin <code>lily-text-input</code>on
+    <code>label</code> supplies the accessible name. Input-like components expose <code>model()</code> values, sae banana-box <code>[(value)]</code>
+    two-wey binding juist wirks — zoneless-compatible throughoot.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> an earlier draft nestit a separate <code>Label</code> component inside <code>lily-field</code>, which renders <em>twa</em> labels (ane empty) because
+      <code>lily-field</code> aareadies renders its ain frae the
+      <code>label</code> input — catcht bi checkin the component source. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">contact-form composed route</a>
+      is the same pattern, exercised bi real e2e an axe tests.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check yer wirk:</strong> rin the app an the form looks plain — exactly as intendit: styling is still aheid. Press
+      <kbd>Tab</kbd>: focus muives through ilka control, the label is announced, an submit wirks. The behaviour is deen; the look is yours, an it's neist.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style it</h2>
+  <p>
+    Style the class hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in <code>styles.css</code>, or add a ready-made theme tae the <code>styles</code> array in
+    <code>angular.json</code> / link it in <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Step 5 — See it aw wirkin</h2>
+  <p>
+    The <a href="/examples/">Angular + Analog example app</a> shaws the full catalog wi file-based routin an Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Neist steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switchin wi the Angular theme-picker helper.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — leid an text size.</li>
+    <li><a href="/components/">Component catalog</a> — props, ARIA, an keyboard per component.</li>
+  </ul>
+  <p>
+    Questions alang the wey? The
+    <a href="/help/#troubleshooting">help page</a> is fu o answers — an if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> an we'll gladly improve the tutorial.
+  </p>
+</section>

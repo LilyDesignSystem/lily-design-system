@@ -1,0 +1,109 @@
+<!-- title: React oktatóanyag — Lily Design System -->
+<!-- description: Építs hozzáférhető, stílusos űrlapot a Lily React fej nélküli komponenseivel: típusos függvénykomponensek value + onChange párral. -->
+<section class="page-intro">
+  <h1>React oktatóanyag</h1>
+  <p class="page-intro-tagline">
+    Típusos függvénykomponensek, mindegyik egy fájl, a szabványos mintával vezérelve
+    <code>value</code> + <code>onChange</code> — minden úgy működik, ahogy a React már eleve működik.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy kis kapcsolatfelvételi űrlap — címkézett mező, küldés gomb, vezérelt állapot, valódi billentyűzet- és képernyőolvasó-viselkedés — először csupaszon, aztán stílusosan, nagyjából 10 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Szükséged van gitre, Node 22-re vagy újabbra és pnpm 10-re vagy újabbra. Bármelyik React 18+ projekt megfelel — Next.js, Vite vagy sima React.
+  </p>
+
+  <h2>1. lépés — Szerezd meg a kódot</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    A komponensek lapos fájlok itt: <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — mindegyik saját teszttel, story-val és dokumentációval a háta mögött. Másold a szükséges fájlokat az alkalmazásodba, vagy hozd be a tárolót és importálj belőle.
+  </p>
+
+  <h2>2. lépés — Az első komponensed</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Ezt rendereli: <code>&lt;button class="button" type="button"&gt;</code>. Propok:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (ezt rendereli:
+    <code>aria-pressed</code>), <code>label</code> (egy
+    <code>aria-label</code> felülíráshoz), <code>className</code>, és minden további attribútum a gyökérelemre szóródik.
+  </p>
+
+  <h2>3. lépés — Állíts össze egy kis űrlapot</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> a látható <code>label</code> a saját propjaként beágyazott címkekomponens helyett — add át egyszer, a
+    <code>Field</code>és <code>TextInput</code>a
+    <code>label</code> biztosítja a hozzáférhető nevet.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizve 2026-08-29:</strong> egy korábbi vázlat külön <code>Label</code> belül a <code>Field</code>elembe, ami
+      <em>két</em> címkét renderelt (az egyik üres), mert a <code>Field</code> már magától rendereli a sajátját a <code>label</code> prop — a pontos kódrészlet lefordításával derült ki. A
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Az összeállított kapcsolatfelvételi űrlap útvonala</a>
+      ugyanez a minta, valódi e2e- és axe-tesztekkel kipróbálva.
+    </p>
+  </div>
+
+  <h2>4. lépés — Stílus hozzá</h2>
+  <p>
+    Minden fent tiszta szerkezetként renderelődik, készen a stílusaidra. Stílusozd a kampókat — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — a stíluslapodban, rétegezz Tailwind-segédosztályokat a <code>className</code>segítségével, vagy hivatkozz egy kész témára:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>5. lépés — Nézd meg, ahogy az egész működik</h2>
+  <p>
+     <a href="/examples/">A Next.js példaalkalmazás</a> a teljes katalógus stílusosan és bemutatva, Playwright e2e-vel és axe-core alapvonallal:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témák</a> — váltás futásidőben a React theme-picker segédjével.</li>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — nyelv és szövegméret.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — tulajdonságok, ARIA és billentyűzet komponensenként.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

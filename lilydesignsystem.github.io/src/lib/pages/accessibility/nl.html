@@ -1,0 +1,63 @@
+<!-- title: Toegankelijkheid — Lily Design System -->
+<!-- description: De toegankelijkheidsverklaring van Lily: wat streven naar WCAG 2.2 AAA hier betekent – wat er wordt geverifieerd, waarmee, wat door niets wordt geverifieerd, en hoe je een probleem meldt. -->
+<section class="page-intro">
+  <h1>Wat „streven naar WCAG 2.2 AAA” hier betekent</h1>
+  <p class="page-intro-tagline">
+    Het woord <em>streven naar</em> is bewust gekozen. Deze pagina zegt precies wat er wordt geverifieerd, waarmee, wat door niets wordt geverifieerd en wat we aan die kloof willen doen. Lily beweert nooit WCAG-„conformiteit” – geen enkele audit onderbouwt dat.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Doorlopend geverifieerd</h2>
+  <ul>
+    <li>
+      Het canonieke semantische element, de ARIA-attributen en de klassenhaken van elke component – vastgesteld door unittestsuites per framework (meer dan 15.000 gevallen in zeven frameworks).
+    </li>
+    <li>
+      Elk van de 571 democomponentpagina's in de SvelteKit-voorbeeldapp is axe-schoon (de regelsets WCAG 2.0/2.1 A+AA en 2.2 AA) – de sweep over de hele catalogus, voor het eerst gemeten op 2026-08-27 en opnieuw uitgevoerd op 2026-10-06 – plus basislijnen per app voor home, catalogus en samengestelde routes in alle zeven voorbeeldapps.
+    </li>
+    <li>
+      Toetsenbordcontracten per interactieve component, vastgelegd in de canonieke metadata van elke component en beproefd door de suites; de helperpakketten draaien daarnaast Playwright-specs in echte browsers.
+    </li>
+    <li>
+      Ondergrenzen voor doelgrootte volgens WCAG 2.2 en overflowbeveiligingen in alle 57 thema's; skip-link, landmarks en geen horizontale overflow bij vier viewports per app; <code>lang</code>/<code>dir</code> -toepassing inclusief de RTL-omkering.
+    </li>
+  </ul>
+
+  <h2>Door niets geverifieerd</h2>
+  <ul>
+    <li>
+      <strong>Er is nooit een conformiteitsaudit uitgevoerd.</strong> Geen VPAT, geen certificering. Geautomatiseerde tooling dekt een minderheid van de WCAG-succescriteria.
+    </li>
+    <li>
+      AAA-specifieke criteria (verbeterd contrast en andere) zijn ontwerpintenties, geen geverifieerde eigenschappen; de axe-regelsets draaien A/AA. Er is nog geen speciaal hoogcontrastthema.
+    </li>
+    <li>
+      <strong>Het gedrag van schermlezers is grotendeels niet getest.</strong> De suites controleren ARIA-attributen, niet wat VoiceOver, NVDA of JAWS voorlezen – en dit project heeft meer dan eens groene suites opgeleverd boven echte gebreken, elk vastgelegd in het changelog juist omdat de suites ze niet konden zien.
+    </li>
+  </ul>
+
+  <h2>Wat we eraan willen doen</h2>
+  <p>
+    Een onafhankelijke toegankelijkheidsaudit is de eerste genoemde besteding van enige projectfinanciering, en de scope die een auditor nodig heeft is al voorbereid. Tot dan zijn meldingen van schermlezers de bijdrage die dit project het liefst heeft: „component X leest Y voor, wat fout is omdat Z” is direct uitvoerbaar.
+  </p>
+
+  <h2>Meld een probleem</h2>
+  <p>
+    Open een issue op
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    of mail naar
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Een WCAG-criterium noemen helpt, maar is niet verplicht – „ik kon X niet met het toetsenbord bedienen” is een volledige melding.
+  </p>
+  <p>
+    De volledige verklaring, met de verificatietabel en de beoordelingsgeschiedenis, staat in de repository:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

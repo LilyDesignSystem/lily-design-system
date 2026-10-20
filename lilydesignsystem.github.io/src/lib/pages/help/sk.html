@@ -1,0 +1,432 @@
+<!-- title: Pomocník — Lily Design System -->
+<!-- description: Začnite s Lily: nainštalujte bezhlavý balíček pre svoj framework, skopírujte komponent, naštýlujte ho, dajte mu tému a nasaďte. Riešenie problémov, FAQ a podpora. -->
+<section class="page-intro">
+  <h1>Prvé kroky s Lily</h1>
+  <p class="page-intro-tagline">
+    Vyberte framework, naklonujte monorepozitár a otvorte jeho bezhlavú knižnicu alebo ukážkovú aplikáciu, a začnite skladať vlastné stránky. Uprednostňujete vedenú cestu? Začnite s
+    <a href="/tutorials/">návodmi</a>.
+  </p>
+</section>
+
+<nav aria-label="Na tejto stránke" class="prose" style="margin: 0 auto;">
+  <p><strong>Na tejto stránke:</strong></p>
+  <ul>
+    <li><a href="#install">Inštalácia</a></li>
+    <li><a href="#use-headless">Použitie bezhlavého komponentu</a></li>
+    <li><a href="#use-styled">Použitie naštýlovaného príkladu</a></li>
+    <li><a href="#styling">Štýlovanie a dizajnové tokeny</a></li>
+    <li><a href="#themes">Hotové témy</a></li>
+    <li><a href="#helpers">Pomocníci pre predvoľby</a></li>
+    <li><a href="#a11y">Prístupnosť</a></li>
+    <li><a href="#i18n">Internacionalizácia</a></li>
+    <li><a href="#testing">Testovanie</a></li>
+    <li><a href="#ai-agents">Agenti AI</a></li>
+    <li><a href="#troubleshooting">Riešenie problémov</a></li>
+    <li><a href="#contributing">Prispievanie</a></li>
+    <li><a href="#community">Komunita a podpora</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Inštalácia</h2>
+  <p>
+    Lily žije v jednom monorepozitári Gitu, s adresárom pre bezhlavú knižnicu, balíčky pomocníkov a ukážkovú aplikáciu každého frameworku. Najrýchlejší spôsob, ako to vyskúšať, je naklonovať monorepozitár a otvoriť bezhlavú knižnicu pre váš stack:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Rovnaký postup funguje pre ostatné frameworky:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — inštalácia nie je potrebná; skopírujte súbory <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Bezhlavé knižnice sú navrhnuté tak, aby sa klonovali alebo vendorovali — berte zdrojový kód ako zdroj pravdy a kopírujte, čo potrebujete.
+    <a href="#helpers">pomocníci pre predvoľby</a> sú navyše dodávaní ako inštalovateľné balíčky s reťazcom zostavenia a publikácie (npm pre frameworky JS, NuGet pre Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Použitie bezhlavého komponentu</h2>
+  <p>
+    Bezhlavé komponenty dodávajú sémantické HTML, ARIA a vlastnosti — ale žiadne CSS. Tu je Button v každom frameworku:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Použitie naštýlovaného príkladu</h2>
+  <p>
+    Ukážkové aplikácie obsahujú CSS, trasy a plné ukážkové stránky. Najrýchlejší spôsob experimentovania je spustiť ukážkovú aplikáciu SvelteKit, Next, Nuxt, Analog alebo Eleventy a pozrieť si ukážku na <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Potom otvorte <code>http://localhost:5173</code> a prehliadajte <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Štýlovanie a dizajnové tokeny</h2>
+  <p>
+    Každý komponent sa vykresľuje s jedinou triedou v kebab-case na svojom koreňovom prvku. Napríklad <code>&lt;Button&gt;</code> sa vykreslí ako <code>&lt;button class="button"&gt;</code>. Naštýlujte ho, ako chcete:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Predvolená farebná paleta Lily (používaná v ukážkových aplikáciách) je:</p>
+  <ul>
+    <li>Primárna: <code>#2563eb</code></li>
+    <li>Nebezpečenstvo: <code>#dc2626</code></li>
+    <li>Varovanie: <code>#f59e0b</code></li>
+    <li>Úspech: <code>#16a34a</code></li>
+    <li>Pozadie stránky: <code>#f9fafb</code></li>
+    <li>Pozadie karty: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Sú to návrhy, nie požiadavky. Nahraďte ich paletou vlastnej značky a Lily sa rád prispôsobí.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Hotové témy</h2>
+  <p>
+    Nechcete písať CSS od nuly? Lily dodáva
+    <strong>57 samostatných referenčných tém</strong> v adresári
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Každá je jeden štýlový hárok cieliaci na háčiky tried Lily — prepojte ho a ste naštýlovaní:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Sada zahŕňa:</p>
+  <ul>
+    <li>
+      <strong>Verejný sektor</strong> — NHS England, NHS Scotland a NHS Wales (každý vo variantoch pre pacientov a pre odborníkov), GOV.UK GDS a U.S. Web Design System.
+    </li>
+    <li><strong>Inšpirované dodávateľmi</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Všeobecné použitie</strong> — light, dark, nord, dracula, wireframe a ďalších tridsať.
+    </li>
+  </ul>
+  <p>
+    Selektory tém používajú <code>:where(...)</code>, takže vaše vlastné CSS vždy vyhráva v špecifickosti. Spárujte ich s pomocníkom <code>theme-picker</code> nižšie na prepínanie za behu, alebo sa riaďte
+    <a href="/tutorials/theming/">návodom k témam</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Pomocníci pre predvoľby</h2>
+  <p>
+    Každý framework má osem malých výberov, každý je samostatný balíček
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (a <code>picker-bar</code> , ktorý ich zostavuje). Každý je bezhlavé tlačidlo s ikonou, ktoré otvára vyskakovacie okno — zoznam, zoznam odkazov, vyhľadávací formulár alebo (pri date-time-picker) dialóg výberu dátumu — nie natívne
+    <code>&lt;select&gt;</code>; je bezpečný pre SSR; a nedodáva žiadne CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — načítava štýlové hárky tém za behu výmenou spravovaného <code>&lt;link&gt;</code>, nastavuje
+      <code>data-theme</code> na dokumente a voliteľne ukladá do
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — nastavuje <code>lang</code> a
+      <code>dir</code> (s automatickou detekciou RTL), aby ho mohla nasledovať vaša knižnica i18n; sám nič neprekladá.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — nastavuje <code>data-text-size</code> na dokumente; vaše CSS mapuje každú hodnotu na veľkosť písma.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — nastavuje <code>data-motion</code> na dokumente, vychádza z nastavenia obmedzeného pohybu návštevníka; vaše CSS a skripty rozhodujú, čo potlačiť.
+    </li>
+    <li>
+      <strong>search-picker</strong> — tlačidlo s ikonou, ktoré otvára vyhľadávacie pole; odoslanie prejde na stránku hľadania. Vlastní akciu, nie predvoľbu.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ikona domu, ktorá otvára ponuku odkazov na stránky, ktoré vaša aplikácia definuje (Domov, O nás, Kontakt, Zásady ochrany osobných údajov, …). Vlastní akciu, nie predvoľbu.
+    </li>
+    <li>
+      <strong>share-picker</strong> — otvára natívny zdieľací list alebo zoznam cieľov dodaný konzumentom, plus kopírovanie URL. Vlastní akciu, nie predvoľbu: nič neaplikuje, nič neukladá.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — textové pole plus dialóg výberu dátumu podľa APG pre dátum, čas alebo oboje. Vlastní hodnotu formulára, nie predvoľbu: reťazec ISO sa prevádza tam a späť na
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Katalóg Svelte je kanonická referencia; porty pre React, Vue, Angular, HTML, Nunjucks, Web Components a Blazor mu zodpovedajú zmluvu po zmluve. Pozrite
+    <a href="/tutorials/helpers/">návod k pomocníkom</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Prístupnosť</h2>
+  <p>Komponenty cielia na <strong>WCAG 2.2 AAA</strong>. Riadia sa týmito vzormi:</p>
+  <ul>
+    <li>Sémantické prvky HTML namiesto všeobecných <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> prepájajúcich štítky so vstupmi.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> pre krížové odkazy.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> pre chybové stavy.</li>
+    <li><code>role="alert"</code> a <code>aria-live</code> pre dynamický obsah.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> pre stav.</li>
+    <li>Roving <code>tabindex</code> pre mriežky.</li>
+  </ul>
+  <p>
+    Indikátory fokusu zámerne dodáva konzument — Lily nikdy nevykresľuje predvolený fokusový krúžok, ktorý by kolidoval s vaším dizajnom. Ukážkové aplikácie udržiavajú čistý základ axe-core na všetkých svojich trasách.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internacionalizácia</h2>
+  <p>
+    Každý štítok, zástupný text, chybové hlásenie a text tlačidla je vlastnosť. Žiadne reťazce zapísané napevno. Zapojte prekladový framework podľa vlastného výberu — Paraglide, i18next, vue-i18n, react-intl, súbory .resx, čokoľvek.
+  </p>
+  <p>
+    Pre dátumy, čísla a meny komponenty prijímajú predformátované reťazce: formátujete pomocou <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / svojej obľúbenej knižnice a výsledok odovzdáte.
+  </p>
+  <p>
+    Pomocník <code>locale-picker</code> signalizuje zvolené národné prostredie vašej knižnici i18n nastavením <code>lang</code> a <code>dir</code> na koreni dokumentu.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testovanie</h2>
+  <p>Každý podprojekt frameworku dodáva vlastné testy využívajúce jeho idiomatický stack:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO spúšťajúci skutočné prehliadače.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (cez plugin Vite od Analogu).</li>
+    <li><strong>Nunjucks</strong>: Vitest s pomocníkom na vykresľovanie.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testy používajú <strong>iba vstavané matchery Vitestu</strong> — nikdy matchery
+    <code>jest-dom</code> . To udržiava sady testov prenosné. Ukážkové aplikácie pridávajú sady Playwright end-to-end, základy prístupnosti axe-core a prechod responzívnymi viewportmi.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Agenti AI</h2>
+  <p>
+    Tento web publikuje <a href="/llms.txt">llms.txt</a> a
+    <a href="/llms.json">llms.json</a> vo svojom koreni — kurátorskú mapu svojich najdôležitejších stránok, pre akýkoľvek nástroj, ktorý sa riadi
+    <a href="https://llmstxt.org">konvenciou llms.txt</a>.
+  </p>
+  <p>
+    Kanonický monorepozitár navyše dodáva dve
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: univerzálnu zručnosť pokrývajúcu pojmy, terminológiu a vzory skladania Lily pre každého, kto so systémom stavia, a <code>lily-design-system-maintainer-skill</code>, technickú zručnosť pokrývajúcu rozloženie povinných súborov a nástroje monorepozitára pre každého, kto na ňom pracuje. Obe ležia v koreni
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonického monorepozitára</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Riešenie problémov</h2>
+
+  <details class="faq-item">
+    <summary>Komponent sa vykreslí, ale vyzerá nenaštýlovane</summary>
+    <p>
+      To je bezhlavosť fungujúca tak, ako má — s komponentom neprichádza žiadne CSS. Buď napíšte CSS pre triedu komponentu v kebab-case (zobrazenú na každej <a href="/components/">stránke katalógu</a>) alebo prepojte jednu z
+      <a href="#themes">57 hotových tém</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Moje CSS sa na téme zrejme neuplatňuje</summary>
+    <p>
+      Malo by — selektory tém sú obalené v <code>:where(...)</code>, ktoré má nulovú špecifickosť. Ak pravidlo napriek tomu prehráva, skontrolujte, či sa váš štýlový hárok načítava po <code>&lt;link&gt;</code> témy a či selektor skutočne zodpovedá háčiku triedy komponentu.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install zlyháva s chybou peer alebo verzie</summary>
+    <p>
+      Použite aktuálny pnpm (v10+) a Node 22+. Každý podprojekt pripína verzie svojho frameworku vo vlastnom <code>package.json</code>; ak je váš globálny nástrojový reťazec starší, <code>pnpm env use --global lts</code> je najrýchlejšia oprava.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Čítačka obrazovky oznamuje zlý názov ovládacieho prvku</summary>
+    <p>
+      Skontrolujte povinnú vlastnosť <code>label</code> komponentu — komponenty bez viditeľného textu ju vyžadujú a konzumentom dodané
+      <code>aria-label</code> / <code>aria-labelledby</code> odovzdané cez rest-props zámerne vyhrávajú nad vstavaným prepojením. Každá stránka katalógu dokumentuje zmluvu ARIA komponentu.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pomocník theme-picker neprepína štýlové hárky</summary>
+    <p>
+      Overte, že <code>themesUrl</code> ukazuje na adresár, ktorý prehliadač dokáže načítať (servírujte súbory <code>themes/</code> ako statické zdroje) a že skratky tém vo vašej vlastnosti <code>themes</code> zodpovedajú názvom súborov. Pomocník vymieňa <code>href</code> jedného spravovaného
+      <code>&lt;link data-lily-theme-picker&gt;</code> — preskúmajte ho vo vývojárskych nástrojoch a uvidíte požadované URL.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Niečo iné je pokazené</summary>
+    <p>
+      Otvorte issue s minimálnou reprodukciou na
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — alebo pozrite <a href="#community">komunita a podpora</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Prispievanie</h2>
+  <p>Lily je mladý a víta spoluprácu. Najužitočnejšie príspevky práve teraz sú:</p>
+  <ul>
+    <li>Nové komponenty (najmä vzory zo zavedených dizajnových systémov).</li>
+    <li>Nové témy — každá je jeden samostatný štýlový hárok, dobre vymedzený prvý PR.</li>
+    <li>Lepšie štýlovanie príkladov — ukážte, čo je možné.</li>
+    <li>Preklady reťazcov ukážkových aplikácií.</li>
+    <li>Hlásenia chýb s minimálnou reprodukciou.</li>
+    <li>Audity prístupnosti s čítačkami obrazovky a asistenčnými technológiami.</li>
+  </ul>
+  <p>
+    Otvárajte issue a PR na
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Komunita a podpora</h2>
+  <ul>
+    <li>
+      <strong>Otázky a hlásenia chýb</strong> — otvorte issue na
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-mail</strong> — správca číta
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      a víta spoluprácu, vedenie a spätnú väzbu.
+    </li>
+    <li>
+      <strong>Zrkadlá</strong> — Lily sa tiež odosiela na
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> a
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, takže sa môžete zúčastniť z forge, ktorý uprednostňujete.
+    </li>
+    <li>
+      <strong>Správanie</strong> — projekt sa riadi štandardným kódexom správania; buďte láskaví, predpokladajte dobrú vieru.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Prečo bezhlavé, a nie naštýlované?</summary>
+    <p>
+      Predštýlované komponenty sú pohodlné — kým nesedia k vašej značke. Bezhlavé komponenty vyžadujú spočiatku trochu viac práce, ale dávajú vám plnú kontrolu nad vizuálnym dizajnom. Ukážkové aplikácie a 57 tém ukazujú spôsoby, ako ich štýlovať; môžete ich prevziať, alebo úplne nahradiť. Dlhší argument je na <a href="/why/">Prečo Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Prečo toľko komponentov?</summary>
+    <p>
+      Lily sa snaží pokryť vzory, ktoré potrebuje väčšina aplikácií, bez toho, aby vás nútil stavať ich od nuly — vrátane hlbších vecí, ako sú vstupy pre národné identifikátory a redakčný scrollytelling. Katalóg čerpá z tucta zavedených dizajnových systémov plus pôvodnej práce — pozrite <a href="/about/">O projekte</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Môžem používať Lily s Tailwindom?</summary>
+    <p>
+      Áno. Každý komponent sprístupňuje jednu koreňovú triedu v kebab-case plus konzumentom dodané <code>className</code> / <code>class</code>. Navrstvte utility Tailwindu, ako chcete.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Môžem používať Lily so sémantickými CSS frameworkmi ako DaisyUI?</summary>
+    <p>
+      Áno. Názvy tried v kebab-case na koreňovom prvku fungujú ako sémantické háčiky CSS. Spárujte Lily so sémantickým frameworkom a získate predštýlované komponenty, ktoré predsa rešpektujú ARIA a i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Existuje balíček npm?</summary>
+    <p>
+       <a href="#helpers">Pomocníci pre predvoľby</a> sú dodávaní ako balíčky s publikačným reťazcom npm/NuGet. Bezhlavé knižnice komponentov sú navrhnuté tak, aby sa klonovali alebo vendorovali — dodávkou je zdrojový kód, takže môžete čítať, skracovať a vlastniť presne to, čo nasadzujete. Publikovanie bezhlavých knižníc do registrov zostáva v pláne.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Prečo viac licencií?</summary>
+    <p>
+      Rôzne projekty majú rôzne licenčné potreby. BSD a MIT sú permisívne, Apache-2.0 obsahuje patentové udelenie a možnosti GPL podporujú copyleft. Vyberte to, čo vyhovuje vašej situácii.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ako nahlásiť chybu alebo požiadať o funkciu?</summary>
+    <p>
+      Otvorte issue v repozitári GitHub, alebo pošlite e-mail na
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

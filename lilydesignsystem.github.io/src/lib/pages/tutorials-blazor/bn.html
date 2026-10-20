@@ -1,0 +1,107 @@
+<!-- title: Blazor টিউটোরিয়াল — Lily Design System -->
+<!-- description: Lily-র Blazor হেডলেস কম্পোনেন্ট দিয়ে সহজে ব্যবহারযোগ্য, স্টাইল করা ফর্ম তৈরি করুন: প্যারামিটার ও bUnit পরীক্ষাসহ Razor কম্পোনেন্ট। -->
+<section class="page-intro">
+  <h1>Blazor টিউটোরিয়াল</h1>
+  <p class="page-intro-tagline">
+    প্যারামিটারসহ Razor ক্লাস লাইব্রেরি কম্পোনেন্ট, <code>ChildContent</code>
+    রেন্ডার খণ্ড, অ্যাট্রিবিউট ছড়িয়ে দেওয়া এবং প্রতিটি কম্পোনেন্টের জন্য একটি bUnit পরীক্ষা।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>আপনি কী তৈরি করবেন</h2>
+  <p>
+    একটি ছোট যোগাযোগ ফর্ম — লেবেলসহ ক্ষেত্র, জমা দেওয়ার বোতাম,
+    <code>@bind-Value</code> বাইন্ডিং, প্রকৃত কিবোর্ড ও স্ক্রিন-রিডার আচরণ — প্রথমে সাদামাটা, তারপর স্টাইলসহ, প্রায় ১০ মিনিটে।
+  </p>
+
+  <h2>শুরু করার আগে</h2>
+  <p>
+    আপনার git এবং .NET SDK 8 বা নতুন লাগবে। যেকোনো Blazor প্রকল্প চলবে — Blazor Web App, Server বা WebAssembly।
+  </p>
+
+  <h2>ধাপ ১ — কোড নিন</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    কম্পোনেন্টগুলো এখানে থাকে: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — প্রতিটির জন্য একটি Razor ফাইল। আপনার Blazor অ্যাপ থেকে প্রকল্পের রেফারেন্স দিন (বা ফাইল কপি করুন) এবং যোগ করুন <code>@using LilyBlazorHeadless.Components</code> -এ
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>ধাপ ২ — আপনার প্রথম কম্পোনেন্ট</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    দেখায় <code>&lt;button class="button"&gt;</code>। ভাগ করা প্যারামিটার রীতি: <code>Label</code> (একটি <code>aria-label</code> ওভাররাইড করতে),
+    <code>CssClass</code> (মূল হুকে যুক্ত হয়),
+    <code>ChildContent</code>এবং
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> অ্যাট্রিবিউট ছড়িয়ে দেওয়া, যাতে যেকোনো বাড়তি HTML অ্যাট্রিবিউট পার হয়ে যায়।
+  </p>
+
+  <h2>ধাপ ৩ — একটি ছোট ফর্ম তৈরি করুন</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> দৃশ্যমান <code>Label</code> -কে নিজের প্যারামিটার হিসেবে নেয়, ভেতরে রাখা লেবেল কম্পোনেন্ট হিসেবে নয় — একবার দিন,
+    <code>Field</code>এবং <code>TextInput</code>-এর
+    <code>Label</code> -এ সহজে ব্যবহারযোগ্য নাম জোগায়।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>২০২৬-০৮-২৯ তারিখে যাচাইকৃত:</strong> আগের একটি খসড়া আলাদা <code>Label</code> কম্পোনেন্টকে <code>Field</code>-এর ভেতরে রেখেছিল, ফলে <em>দুটি</em> লেবেল (একটি খালি) দেখাত, কারণ <code>Field</code>
+      ইতিমধ্যেই নিজের লেবেল <code>Label</code> প্যারামিটার — কম্পোনেন্টের সোর্স কোড দেখে ধরা পড়েছে; <code>Form</code> -এর নিজের কোনো <code>Label</code> প্যারামিটার নেই, তাই আগের খসড়ার
+      <code>&lt;Form&gt;</code> ব্যবহার বাদ দিয়ে ঠিক করা হয়েছে, যে অ্যাট্রিবিউট নেই তা উদ্ভাবন না করে।
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">সংযুক্ত যোগাযোগ-ফর্ম রুট</a>
+      একই প্যাটার্ন, প্রকৃত e2e ও axe পরীক্ষায় যাচাই করা।
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>আপনার কাজ পরীক্ষা করুন:</strong> অ্যাপ চালান, আর ফর্মটি সাদামাটা দেখায় — ঠিক যেমন উদ্দেশ্য ছিল: স্টাইলিং এখনো সামনে। চাপুন
+      <kbd>Tab</kbd>: ফোকাস প্রতিটি নিয়ন্ত্রণের মধ্য দিয়ে যায়, লেবেল ঘোষিত হয় এবং জমা দেওয়া কাজ করে। আচরণ সম্পূর্ণ; চেহারা আপনার, আর সেটাই পরবর্তী ধাপ।
+    </p>
+  </div>
+
+  <h2>ধাপ ৪ — স্টাইল দিন</h2>
+  <p>
+    ক্লাস হুকগুলোতে স্টাইল দিন — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — এতে <code>app.css</code>, অথবা একটি তৈরি থিম এখানে লিংক করুন <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>ধাপ ৫ — সবকিছু কাজ করতে দেখুন</h2>
+  <p>
+     <a href="/examples/">Blazor Web উদাহরণ অ্যাপ</a> পূর্ণ ক্যাটালগ স্টাইল ও প্রদর্শনসহ দেখায়, Playwright e2e পরীক্ষাসহ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>পরবর্তী ধাপ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">থিম</a> — Blazor theme-picker সহায়ক দিয়ে চলার সময় বদল (NuGet-এ Razor ক্লাস লাইব্রেরি)।</li>
+    <li><a href="/tutorials/helpers/">পছন্দ সহায়ক</a> — ভাষা ও লেখার আকার।</li>
+    <li><a href="/components/">কম্পোনেন্ট ক্যাটালগ</a> — প্রতিটি কম্পোনেন্টের বৈশিষ্ট্য, ARIA ও কিবোর্ড।</li>
+  </ul>
+  <p>
+    পথে প্রশ্ন আছে?
+    <a href="/help/#troubleshooting">সহায়তা পাতা</a> উত্তরে ভরা — আর কোনো ধাপ আরও পরিষ্কার হতে পারলে,
+    <a href="https://github.com/LilyDesignSystem">আমাদের জানান</a> আর আমরা খুশি মনে টিউটোরিয়াল উন্নত করব।
+  </p>
+</section>

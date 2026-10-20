@@ -1,0 +1,276 @@
+<!-- title: 設定ヘルパーのチュートリアル — Lily Design System -->
+<!-- description: Lily の locale-picker と text-size-picker ヘルパーで、ユーザーの言語とテキストサイズの設定を追加します。永続化と SSR 対応を備えた、ヘッドレスのアイコンボタン + リストボックスのコントロールです。 -->
+<section class="page-intro">
+  <h1>設定ヘルパー</h1>
+  <p class="page-intro-tagline">
+    各フレームワークに 7 つの小さなパッケージがあり、それぞれが 1 つのユーザーの用途を最初から最後まで受け持ちます。さらに、そのうち 5 つをまとめるバーもあります。すでに
+    <a href="/tutorials/theming/">theme-picker</a>は紹介しました。ここでは locale-picker、text-size-picker、motion-picker(設定)、share-picker、search-picker(アクション)、date-time-picker(フォームの値)、そして picker-bar を扱います。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    ユーザーが言語とテキストサイズを選べる設定パネル — 選択はドキュメント全体に適用され、訪問をまたいで保持され、必要なのは 2 つのコンポーネントと数行の CSS だけです。所要時間は約 15 分です。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    先に、お使いのスタックの <a href="/tutorials/">フレームワークチュートリアル</a> を終えてください。以下のサンプルは Svelte ですが、React、Vue、Angular、HTML、Nunjucks、Blazor のヘルパーも、契約ごとに同じ内容になっています。
+  </p>
+
+  <h2>共通する形</h2>
+  <ul>
+    <li>WAI-ARIA APG のリストボックス(date-time-picker の場合は日付選択ダイアログ)を開くヘッドレスのアイコンボタンです — ネイティブの <code>&lt;select&gt;</code>は使わないので、どのフレームワークでも同じキーボード操作とスタイルフックになります。</li>
+    <li>パッケージごとに 1 つのクラスフック(<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>)で、CSS は一切同梱しません。</li>
+    <li>SSR 対応: DOM への書き込みはマウント/エフェクトのライフサイクル内だけで行われます。</li>
+    <li>i18n に対応: ユーザーに見える文字列はすべてプロパティです。</li>
+    <li>
+      Svelte(基準実装)、React、Vue、Angular、HTML カスタム要素、Nunjucks、Blazor で利用でき、どれも同じ契約です。
+    </li>
+  </ul>
+  <p>
+    theme-picker、locale-picker、text-size-picker は、それぞれ 1 つのユーザー
+    <em>設定</em> を最初から最後まで(選択、DOM への適用、任意の
+    <code>localStorage</code> 永続化を <code>storageKey</code>
+    プロパティ経由で)受け持ちます。share-picker と date-time-picker は種類が異なります。share-picker は <em>アクション</em> を受け持ち — ドキュメントには何も適用せず、何も保持しません — date-time-picker は
+    <em>フォームの値</em>を受け持ちます。フォーム内の日付は設定ではなくデータだからです。
+  </p>
+
+  <h2>locale-picker — 言語と文字方向</h2>
+  <p>
+    ユーザーにロケールを選ばせ、 <code>lang</code> と
+    <code>dir</code> をドキュメントのルートに書き込みます。これにより、i18n ライブラリ、CSS、支援技術のすべてが追従します。アラビア語やヘブライ語などの右から左の文字は自動的に検出されます。役割はあくまで通知であり、翻訳は i18n ライブラリが行います。
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    選択肢のラベルは組み込みのロケール名の表から付けられ( <code>localeLabels</code>で上書きできます)、各選択肢は自前の
+    <code>lang</code> 属性を持つので、スクリーンリーダーは「Français」をフランス語で発音します。また、次のようなアンダースコア形式のコードは、 <code>en_US</code>
+    BCP 47 へ損失なく往復変換されます <code>en-US</code>。
+    <code>onChange</code> (またはバインドされた値)を i18next、Paraglide、vue-i18n など、お使いのものに接続してください。
+  </p>
+
+  <h2>text-size-picker — 読む人が操作できるサイズ</h2>
+  <p>
+    数分でできるアクセシビリティの改善です。このヘルパーはドキュメントのルートに
+    <code>data-text-size="&#123;slug&#125;"</code> を設定し、CSS が各値をサイズに対応付けます。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    レイアウトを <code>rem</code> で組めば、アプリ全体がユーザーの選択に合わせて拡大縮小します。ラベルはスラッグからタイトルケースで作られます(「X Large」)。 <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>動作の確認:</strong> で上書きもできます。ピッカーから「Large」を選ぶと、ページのテキストが大きくなります。再読み込みしても大きいままです — 選択が次に保存されたからです:
+      <code>localStorage</code>。言語ピッカーをアラビア語に切り替えると、
+      <code>dir="rtl"</code> が自動的にドキュメントに設定されます。
+    </p>
+  </div>
+
+  <h2>share-picker — このページを送る</h2>
+  <p>
+    1 文字のボタンで、利用できる環境ではデバイスのネイティブな共有シートを開き、そうでなければ、あなたが用意した送信先の一覧とURL のコピー操作に切り替わります。ソーシャルネットワークの URL は同梱しません — どのネットワークが自社の製品にふさわしいかは、デザインシステムではなくあなたが決めることだからです。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> の既定値は <code>location.href</code>なので、一般的な場合は配線が不要です。テストやスクリーンショットで、プラットフォームをまたいで一貫した動作が必要なときは、 <code>strategy="list"</code> または
+    <code>strategy="native"</code> で経路を強制できます。
+  </p>
+
+  <h2>date-time-picker — 日付、時刻、またはその両方</h2>
+  <p>
+    入力できるテキストフィールドと、WAI-ARIA APG の日付選択ダイアログを開くアイコンボタンです。ロケールに合わせて作られており — 月名、曜日名、週の開始日、12 時間制か 24 時間制かはすべて <code>Intl</code> から決まり — 値は常に、並べ替え可能でタイムゾーンを含まない ISO 文字列です: <code>"2026-03-15"</code> は
+    <code>mode="date"</code>, <code>"09:30"</code> は
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> は
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO の値は、次が送信する値と同じです: <code>&lt;input type="date"&gt;</code>
+    なので、バックエンドに手を加えずにネイティブのコントロールと入れ替えられます。
+  </p>
+
+  <h2>motion-picker — 視覚効果の軽減を尊重する</h2>
+  <p>
+    このヘルパーはドキュメントのルートに <code>data-motion="&#123;slug&#125;"</code> を設定します。最初の値は訪問者のオペレーティングシステムの
+    <code>prefers-reduced-motion</code> 設定から取得します — 常に、有効化のフラグなしで行います。動きの多さは実際のアクセシビリティ上の必要性(WCAG 2.3.3)だからです。何を抑えるかは、CSS とスクリプトが決めます。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — 邪魔にならない検索ボックス</h2>
+  <p>
+    検索フィールドを開くアイコンボタンです。Return キーか、フィールド横の &#9166; ボタンを押すと、プレーンな GET リクエストで次へ移動します:
+    <code>/?&lt;text&gt;</code> (テキストは前後の空白を除き URI エンコードされ、空のクエリでは何も起きません)。アクセシブルな名前は 3 つとも必須です。このヘルパーには英語が同梱されていないからです。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> はパスを変更し(<code>/search?foo</code>)、
+    <code>navigate</code> はナビゲーションをアプリ内に留めます。これがない場合、ヘルパーは次を呼び出します: <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — ヘッダー行をまるごと</h2>
+  <p>
+    <code>picker-bar</code> 検索、テーマ、ロケール、テキストサイズ、共有を 1 行で描画し、参照テーマの全セットと 7 段階のテキストスケールがあらかじめ組み込まれています。アクセシブルな名前はすべて、必須の 1 つの
+    <code>labels</code> オブジェクトで渡します。
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    内包されたピッカーには、次でアクセスできます: <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> と <code>shareProps</code>.
+  </p>
+
+  <h2>ツールチップは標準装備</h2>
+  <p>
+    各ピッカーは、ポインターがボタンの上にあるとき、またはボタンにキーボードフォーカスがあるときに、ラベルをツールチップで表示します。ポインターがツールチップに移ってもそのまま表示され、フォーカスがどこにあっても Escape で閉じられ、ピッカーのポップアップが開いている間は表示されません。ボタンのアクセシブルな名前と同じテキストを使うので、設定するものも、二度翻訳するものもありません。スタイルは参照テーマが付けます。
+  </p>
+
+  <h2>設定パネルを 1 か所に</h2>
+  <p>4 つの設定ヘルパーは自然に組み合わせられます:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>確認済み:</strong> locale-picker、text-size-picker、share-picker、date-time-picker、およびまとめたパネルのスニペットは、公開済みの <code>0.1.1</code> パッケージに対して、個別にコンパイルして確認しました。次を通して:
+      <code>svelte/server</code> (2026-08-29)。motion-picker、search-picker、picker-bar のスニペットは、2026-10-06 にパッケージ自身のコンポーネントで描画して確認しました。
+    </p>
+  </div>
+
+  <h2>入手先</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    各パッケージには、専用の仕様、仕様の条項に対応したテスト、実行できるサンプル(SSR のクッキーのパターンを含む)、ビルドと公開のパイプラインがあります。Svelte のパッケージが基準で、迷ったときはその契約が優先されます。
+  </p>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/components/">コンポーネントカタログ</a> — 571 コンポーネントの完全なリファレンス。</li>
+    <li><a href="/help/">ヘルプ</a> — トラブルシューティングと FAQ。</li>
+    <li><a href="/why/">Lily を選ぶ理由</a> — そしてプロジェクトを支援する方法。</li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

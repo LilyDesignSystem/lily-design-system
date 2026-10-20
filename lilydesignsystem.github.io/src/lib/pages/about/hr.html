@@ -1,0 +1,94 @@
+<!-- title: O projektu — Lily Design System -->
+<!-- description: Što je Lily, načela koja stoje iza njega i dizajnerski sustavi iz kojih crpi inspiraciju. -->
+<section class="page-intro">
+  <h1>Što je Lily?</h1>
+  <p class="page-intro-tagline">
+    Besplatan dizajnerski sustav otvorenog koda koji pristupačnost stavlja na prvo mjesto: dočeka vas ondje gdje programirate i makne vam se s puta kad vam ne treba.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ukratko</h2>
+  <p>
+    Lily je katalog <strong>web komponenti</strong>, od kojih je svaka implementirana u osam bezglavih varijanti (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks i Web Components), uz skup gotovih primjera aplikacija koji pokazuju kako ih stilizirati.
+  </p>
+  <p>
+    Bezglave verzije dolaze s <em>nula CSS-a</em>. Daju vam semantički HTML, ARIA uloge i stanja, podršku za tipkovnicu i svojstva prilagođena internacionalizaciji. Vizualni dizajn donosite vi.
+  </p>
+
+  <h2>Dizajnerska načela</h2>
+
+  <h3>Pristupačno</h3>
+  <p>
+    Svaka komponenta kreće od semantičkog HTML-a. ARIA se dodaje samo ondje gdje sam HTML ne može izraziti obrazac. Komponente ciljaju na
+    <strong>WCAG 2.2 AAA</strong> — boje, razmaci, fokus i navigacija tipkovnicom svi su uzeti u obzir.
+  </p>
+
+  <h3>Složivo</h3>
+  <p>
+    Lily preferira male komponente s jednom namjenom koje se uklapaju jedna u drugu. Složeni obrasci javljaju se uvijek iznova:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — za navigacijske mrvice, popise sadržaja, harmonika izbornike, stablaste izbornike i straničenje</li>
+    <li><code>Form → Field → Input</code> — za svaki raspored obrasca s oznakama, savjetima i pogreškama</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — za tablice, kalendare, Ganttove dijagrame i kanban ploče</li>
+    <li><code>Bar → BarButton</code> — za alatne trake, trake kartica, trake zadataka, trake radnji i trake izbornika</li>
+    <li><code>Picker → PickerButton</code> — za birače boja, birače ocjena, birače tema</li>
+  </ul>
+
+  <h3>Moguća internacionalizacija</h3>
+  <p>
+    Nijedan niz vidljiv korisniku nije zapisan izravno u kodu. Oznake, rezervirana mjesta, poruke o pogreškama, tekst gumba — sve su parametri. Uključite vlastiti sustav prevođenja i Lily govori bilo koji jezik kojim govorite i vi.
+  </p>
+
+  <h3>Bezglavo</h3>
+  <p>
+    Bezglave komponente imaju <strong>nula CSS-a</strong>, nikakve blokove
+    <code>&lt;style&gt;</code> , nikakve dizajnerske tokene koje niste sami odabrali. Izlažu jedan naziv klase u kebab-caseu na svakom korijenskom elementu da ih možete ciljati kako želite — semantički CSS, Tailwind, CSS-in-JS, vaša odluka.
+  </p>
+
+  <h3>Gotovi primjeri</h3>
+  <p>
+    Primjeri aplikacija pokazuju kako stilizirati komponente za stvarnu upotrebu — koje dizajnerske tokene postaviti, koje varijacije dodati, kako slagati stranice. To su potpune aplikacije SvelteKit, Next.js, Nuxt, Blazor i Eleventy, a ne samo pješčanici.
+  </p>
+
+  <h2 id="inspirations">Izvori inspiracije</h2>
+  <p>
+    Lily crpi obrasce i jezik iz namjerno širokog skupa dizajnerskih sustava:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>Licenca</h2>
+  <p>
+    Lily ima više licenci: <strong>BSD, MIT, Apache-2.0, GPL-2.0 ili GPL-3.0</strong>. Odaberite onu koja odgovara vašem projektu. Ako nijedna ne odgovara, javite nam se.
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    Voditelj projekta: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Pronašli ste grešku, imate ideju, želite doprinijeti komponentom? Otvorite issue ili pull request na
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Status:</strong> Lily je posve novi rad i pozdravljamo suradnju, smjernice i povratne informacije. Stvari će se mijenjati i razvijati.
+    </p>
+  </div>
+</section>

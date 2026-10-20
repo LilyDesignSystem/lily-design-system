@@ -1,0 +1,63 @@
+<!-- title: Aðgengi — Lily Design System -->
+<!-- description: Aðgengisyfirlýsing Lily: hvað það þýðir að miða við WCAG 2.2 AAA hér — hvað er sannprófað, með hverju, hvað er ekki sannprófað af neinu og hvernig á að tilkynna vandamál. -->
+<section class="page-intro">
+  <h1>Hvað „miðar við WCAG 2.2 AAA“ þýðir hér</h1>
+  <p class="page-intro-tagline">
+    Orðið <em>miðar</em> er valið af ásettu ráði. Þessi síða segir nákvæmlega hvað er sannprófað, með hverju, hvað er ekki sannprófað af neinu og hvað við hyggjumst gera í bilinu. Lily heldur því aldrei fram að það „uppfylli“ WCAG — engin úttekt styður það.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Sannprófað, stöðugt</h2>
+  <ul>
+    <li>
+      Kjarnamerkingarþáttur hvers íhlutar, ARIA-eigindi og klasakrókar — staðfest með einingaprófum fyrir hvern ramma (yfir 15.000 tilvik í sjö römmum).
+    </li>
+    <li>
+      Hver og ein af 571 sýnisíðu íhluta í SvelteKit-dæmaforritinu er laus við axe-athugasemdir (regluflokkar WCAG 2.0/2.1 A+AA og 2.2 AA) — úttekt á öllu safninu, fyrst grunnlínumæld 2026-08-27 og endurkeyrð 2026-10-06 — auk grunnlína fyrir hvert forrit á heimasíðu, safni og samsettum leiðum í öllum sjö dæmaforritunum.
+    </li>
+    <li>
+      Lyklaborðssamningar fyrir hvern gagnvirkan íhlut, skjalfestir í kjarnagögnum hvers íhlutar og prófaðir með prófasöfnunum; hjálparpakkarnir keyra að auki Playwright-prófanir í raunverulegum vöfrum.
+    </li>
+    <li>
+      Lágmörk markstærðar samkvæmt WCAG 2.2 og yfirflæðisvarnir í öllum 57 þemunum; stökktengill, kennileiti og ekkert lárétt yfirflæði í fjórum sjónarhornum fyrir hvert forrit; <code>lang</code>/<code>dir</code> notkun og RTL-snúningurinn.
+    </li>
+  </ul>
+
+  <h2>Ekki sannprófað af neinu</h2>
+  <ul>
+    <li>
+      <strong>Engin samræmisúttekt hefur nokkru sinni verið gerð.</strong> Ekkert VPAT, engin vottun. Sjálfvirk tól ná yfir minnihluta árangursviðmiða WCAG.
+    </li>
+    <li>
+      Sérstök AAA-viðmið (aukinn birtuskil og fleiri) eru hönnunarmarkmið, ekki sannprófaðir eiginleikar; axe-regluflokkarnir keyra A/AA. Enn er ekkert sérstakt hábirtuskilaþema.
+    </li>
+    <li>
+      <strong>Hegðun skjálesara er að mestu óprófuð.</strong> Prófin staðfesta ARIA-eigindi, ekki það sem VoiceOver, NVDA eða JAWS tilkynna — og þetta verkefni hefur oftar en einu sinni sent frá sér græn próf yfir raunverulegum göllum, hver skráður í breytingaskrána einmitt vegna þess að prófin sáu þá ekki.
+    </li>
+  </ul>
+
+  <h2>Hvað við hyggjumst gera í því</h2>
+  <p>
+    Óháð aðgengisúttekt er fyrsta nefnda notkun hvers kyns fjármögnunar verkefnisins og umfangið sem úttektaraðili þarf er þegar undirbúið. Þar til það gerist eru skjálesaraskýrslur framlagið sem þetta verkefni vill mest: „íhlutur X tilkynnir Y, sem er rangt vegna Z“ er beint framkvæmanlegt.
+  </p>
+
+  <h2>Tilkynntu vandamál</h2>
+  <p>
+    Opnaðu vandamál á
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    eða sendu tölvupóst til
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Gott er að nefna WCAG-viðmið en það er ekki nauðsynlegt — „ég gat ekki notað X með lyklaborði“ er fullgild skýrsla.
+  </p>
+  <p>
+    Öll yfirlýsingin, með sannprófunartöflunni og endurskoðunarsögu hennar, er í geymslunni:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

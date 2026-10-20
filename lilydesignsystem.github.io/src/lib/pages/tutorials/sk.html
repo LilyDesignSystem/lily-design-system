@@ -1,0 +1,136 @@
+<!-- title: Návody — Lily Design System -->
+<!-- description: Návody k Lily krok za krokom: váš prvý komponent, štýlovanie, hotové témy a pomocníci pre predvoľby — pre HTML, Svelte, React, Vue, Angular, Blazor a Nunjucks. -->
+<section class="page-intro">
+  <h1>Naučte sa Lily krok za krokom</h1>
+  <p class="page-intro-tagline">
+    Vitajte! Každý návod začína od nuly a stavia tú istú malú vec — prístupný, naštýlovaný formulár — asi za 10 minút, aby ste mohli frameworky porovnať za rovnakých podmienok. Potom choďte hlbšie k témam a používateľským predvoľbám.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Skôr než začnete</h2>
+  <p>Potrebujete prekvapivo málo:</p>
+  <ul>
+    <li>
+      <strong>Pre návod k HTML</strong> — len prehliadač a textový editor. To je celá sada nástrojov.
+    </li>
+    <li>
+      <strong>Pre Svelte, React, Vue, Angular alebo Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 a pnpm 10 alebo novší.
+    </li>
+    <li>
+      <strong>Pre Blazor</strong> — git a
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 alebo novší.
+    </li>
+  </ul>
+  <p>
+    Ste v bezhlavých komponentoch noví? Ste na správnom mieste — každý návod vysvetľuje, čo sa deje, a každý krok ukazuje presný kód na skopírovanie.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Štyri kroky od nuly k nasadeniu</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Váš prvý komponent</strong> (~5 minút) — vyberte nižšie svoj framework, získajte kód a vykreslite Button.
+      </li>
+      <li>
+        <strong>Skladanie a štýlovanie</strong> (~5 minút) — postavte formulár so štítkami a naštýlujte ho pomocou háčikov tried v kebab-case (súčasť každého návodu k frameworku).
+      </li>
+      <li>
+        <strong>Dajte mu tému</strong> (~15 minút) — vymeňte ručne písané CSS za jednu z 57 hotových tém a potom nechajte používateľov prepínať za behu: <a href="/tutorials/theming/">návod k témam</a>.
+      </li>
+      <li>
+        <strong>Rešpektujte predvoľby</strong> (~15 minút) — pridajte výber jazyka a veľkosti textu pomocou pomocníkov pre predvoľby:
+        <a href="/tutorials/helpers/">návod k pomocníkom</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Vyberte svoj framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Skopírujte sémantické HTML s háčikmi tried a ideme na to — stačí prehliadač a editor.</p>
+      <p class="card-meta">~10 minút · najjednoduchší štart</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Runy Svelte 5, snippety a obojsmerná väzba <code>bind:value</code> .</p>
+      <p class="card-meta">~10 minút</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Funkčné komponenty s <code>value</code> + <code>onChange</code> a rozprestretím zvyšných vlastností.</p>
+      <p class="card-meta">~10 minút</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Jednosúborové komponenty Vue 3 s podporou <code>v-model</code> .</p>
+      <p class="card-meta">~10 minút</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Samostatné komponenty Angularu so signálovými vstupmi a <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minút</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Komponenty Razor s parametrami, <code>ChildContent</code>a testami bUnit.</p>
+      <p class="card-meta">~10 minút</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Makrá renderované na serveri pre Eleventy a akýkoľvek šablónovací reťazec Node.</p>
+      <p class="card-meta">~10 minút</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Neviete sa rozhodnúť? Začnite s <a href="/tutorials/html/">HTML</a> — učí zmluvu o háčikoch tried, ktorú zdieľajú všetky ostatné frameworky, a beží priamo zo súboru.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Choďte hlbšie</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Témy</h3>
+      <p class="card-description">
+        Prepojte jednu z 57 hotových tém — NHS, GOV.UK, USWDS, svetlú, tmavú a ďalšie — prepíšte ju vlastným CSS a pridajte prepínanie tém za behu pomocníkom theme-picker.
+      </p>
+      <p class="card-meta">~15 minút</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Pomocníci pre predvoľby</h3>
+      <p class="card-description">
+        Dajte používateľom kontrolu nad témou, jazykom, veľkosťou textu, pohybom, hľadaním, odkazmi na stránky, zdieľaním a zadávaním dátumu/času pomocou theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker a date-time-picker: bezhlavé ovládacie prvky s perzistenciou, bezpečnosťou SSR a automatickou detekciou RTL.
+      </p>
+      <p class="card-meta">~15 minút</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Po návodoch</h2>
+  <ul>
+    <li>
+      Prezrite si <a href="/components/">katalóg komponentov</a> — každý komponent dokumentuje svoje vlastnosti, zmluvu ARIA a správanie klávesnice.
+    </li>
+    <li>
+      Naklonujte <a href="/examples/">ukážkovú aplikáciu</a> , aby ste videli všetkých 571 komponentov naštýlovaných a spolupracujúcich — CSS cieli na rovnaké háčiky tried, ktoré ste práve použili, takže skopírujte ľubovoľnú časť do svojho projektu a upravte ju podľa chuti.
+    </li>
+    <li>
+      Otázky? <a href="/help/">Stránka pomocníka</a> má odpovede, často kladené otázky a spôsoby, ako sa spojiť s priateľským človekom. A ak by niektorý návod mohol byť jasnejší,
+      <a href="https://github.com/LilyDesignSystem">povedzte nám</a> — radi ho vylepšíme.
+    </li>
+  </ul>
+</section>

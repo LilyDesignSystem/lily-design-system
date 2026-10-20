@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: No hay una biblioteca ni un complemento de Lily para Figma que se mantengan. Los tokens de diseño de los 57 temas de referencia se publican en formato DTCG y pueden importarse a Figma hoy mismo con un complemento comunitario existente. -->
+<section class="page-intro">
+  <h1>No hay una biblioteca de Figma mantenida: esto es lo que existe en su lugar</h1>
+  <p class="page-intro-tagline">
+    Esta página solía decir «próximamente». Ya no lo dice, porque nadie la estaba construyendo. Este es el estado sincero y un camino real que funciona hoy.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Lo que no existe</h2>
+  <p>
+    No hay una biblioteca oficial de componentes de Lily en Figma ni un complemento de Figma mantenido. Construir y mantener bien una biblioteca para una herramienta de diseño es un compromiso real y continuo (estructura de componentes de Figma, nombres de variantes, auto-layout, una canalización de publicación propia), distinto de mantener código, y este proyecto no lo ha asumido.
+  </p>
+
+  <h2>Lo que existe hoy</h2>
+  <p>
+    Cada uno de los 57 temas de referencia tiene sus primitivas de tokens de diseño (color, radio, tamaño, borde) publicadas en
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >formato DTCG 2025.10</a
+    >
+    en
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Ese formato es exactamente lo que leen las herramientas modernas de tokens. Puedes traer tú mismo la paleta de un tema de Lily a Figma, ahora mismo, sin ningún complemento de este proyecto:
+  </p>
+  <ol>
+    <li>
+      Instala el complemento comunitario
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (o la propia importación de Variables de Figma, donde tu plan admita la importación DTCG).
+    </li>
+    <li>
+      Importa <code>themes/tokens/{theme-slug}.json</code> del tema que quieras; por ejemplo
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio crea variables de Figma a partir de los valores DTCG, que luego puedes aplicar a tus propios componentes.
+    </li>
+  </ol>
+  <p>
+    Esto te da los tokens de color y forma de Lily en Figma. No te da los componentes reales de Lily como componentes de Figma: nadie los ha construido, y esta página no fingirá lo contrario.
+  </p>
+
+  <h2>¿Se planea una biblioteca real de Figma?</h2>
+  <p>
+    Por ahora no, y prometerla no es gratis: consulta
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    para la pregunta abierta y lo que cambiaría la opinión del proyecto; lo más útil sería que una persona diseñadora diga específicamente qué necesita de esta capa. Si eres tú,
+    <a href="mailto:joel@joelparkerhenderson.com">dínoslo</a>
+    o abre un issue.
+  </p>
+</section>

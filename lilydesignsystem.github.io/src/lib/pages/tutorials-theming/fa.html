@@ -1,0 +1,111 @@
+<!-- title: آموزش تم‌ها — Lily Design System -->
+<!-- description: به سه روش به Lily تم بدهید: یکی از ۴۵ تم آماده را پیوند دهید، با CSS خود بازنویسی کنید و با کمکی theme-picker تعویض تم در زمان اجرا بیفزایید. -->
+<section class="page-intro">
+  <h1>تم‌ها</h1>
+  <p class="page-intro-tagline">
+    مؤلفه‌های Lily قلاب‌های کلاس پایدار و صفر CSS دارند — پس تم فقط یک شیوه‌نامه است. این آموزش از «یک فایل را پیوند دهید» تا «بگذارید کاربر در زمان اجرا تم را عوض کند، ماندگار» می‌رود.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>چه چیزی می‌سازید</h2>
+  <p>
+    برنامه‌ای که کاربر می‌تواند کل ظاهرش را عوض کند — از یک شیوه‌نامه پیوندشده آغاز می‌شود و به یک تعویض‌گر تم ماندگار در زمان اجرا می‌رسد — در حدود ۱۵ دقیقه.
+  </p>
+
+  <h2>پیش از شروع</h2>
+  <p>
+    نخست <a href="/tutorials/">آموزش چارچوب</a> نخست برای پشته خود، تا یک فرم کوچک Lily برای تم‌دادن داشته باشید. همه‌چیز این‌جا در هر هفت چارچوب کار می‌کند؛ نمونه‌های کد Svelte و HTML ساده را نشان می‌دهند.
+  </p>
+
+  <h2>گام ۱ — یک تم آماده را پیوند دهید</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    پوشه ۴۵ شیوه‌نامه مستقل دارد. آن‌ها را در دارایی‌های ایستای برنامه خود کپی کنید و یکی را پیوند دهید:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>نکات برجسته مجموعه:</p>
+  <ul>
+    <li>
+      <strong>بخش دولتی</strong> — NHS England / Scotland / Wales، هر کدام در گونه‌های بیمارمحور و متخصص‌محور؛ GOV.UK (<code>united-kingdom-government-digital-service</code>)؛ USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>الهام‌گرفته از فروشندگان</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>همه‌منظوره</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>، و بسیاری دیگر.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>کارتان را بررسی کنید:</strong> صفحه را دوباره بارگذاری کنید. همان نشانه‌گذاری که در آموزش چارچوب ساختید اکنون کاملاً استایل‌دار است — دکمه‌ها، ورودی‌ها، برچسب‌ها، حلقه‌های تمرکز. یک خط HTML این کار را کرد — هر مؤلفه دقیقاً همان‌گونه که بود ماند.
+    </p>
+  </div>
+
+  <h2>گام ۲ — هر چیزی را بازنویسی کنید</h2>
+  <p>
+    انتخابگرهای تم درون <code>:where(...)</code>پیچیده شده‌اند که ویژگی‌داری صفر دارد — پس هر قاعده‌ای که بنویسید برنده است، ساده:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>گام ۳ — تعویض در زمان اجرا با theme-picker</h2>
+  <p>
+     <code>theme-picker</code> کمکی یک دکمه‌نماد بدون‌سر + فهرست‌کشویی است که کل چرخه عمر تم را در اختیار دارد: شیوه‌نامه برگزیده را با عوض‌کردن یک <code>&lt;link&gt;</code>
+    مدیریت‌شده بارگذاری می‌کند (فقط تم فعال گرفته می‌شود)، روی سند
+    <code>data-theme="&#123;slug&#125;"</code> را تنظیم می‌کند، و اختیاری در این‌جا ماندگار می‌کند <code>localStorage</code>. این‌جا Svelte نشان داده شده؛ پورت‌های React، Vue، Angular، HTML، Nunjucks و Blazor قرارداد به قرارداد مطابقت دارند:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    این کل یکپارچه‌سازی است. رفتار صفحه‌کلید از الگوی فهرست‌کشویی WAI-ARIA APG پیروی می‌کند؛ خود کنترل بدون‌سر است (قلاب کلاس
+    <code>.theme-picker</code>)، پس هر تمی که فعال باشد را می‌گیرد.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تأییدشده در ۲۰۲۶-۰۸-۲۹:</strong> دقیقاً همین قطعه در برابر بسته منتشرشده <code>0.1.1</code> کامپایل شد، از طریق
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>گام ۴ — در CSS خودتان به تم واکنش نشان دهید</h2>
+  <p>
+    چون کمکی <code>data-theme</code> را روی ریشه سند تنظیم می‌کند، استایل‌های خودتان می‌توانند بر آن شاخه شوند:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>نکاتی برای رندر سمت سرور</h2>
+  <p>
+    کمکی همه نوشتن‌های DOM را درون چرخه عمر mount/effect چارچوب انجام می‌دهد، پس از بنیاد ایمن برای SSR است. برای پرهیز از چشمک در نخستین نقاشی، در سرور <code>&lt;link&gt;</code> و
+    <code>data-theme</code> تم آغازین را رندر کنید (برای نمونه از یک کوکی) — مخزن کمکی Svelte یک نمونه اجراشدنی کوکی SvelteKit دارد، و فهرست‌های دیگر همین الگو را برای پشته‌های خود مستند می‌کنند.
+  </p>
+
+  <h2>گام‌های بعدی</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">کمکی‌های ترجیحات</a> — همین الگو برای زبان، اندازه متن، اشتراک‌گذاری و ورود تاریخ/زمان.</li>
+    <li>
+      یک تم مشارکت کنید — هر کدام یک شیوه‌نامه مستقل است که قلاب‌های کلاس را هدف می‌گیرد؛ ببینید <a href="/help/#contributing">مشارکت</a>.
+    </li>
+  </ul>
+  <p>
+    در مسیر پرسشی دارید؟
+    <a href="/help/#troubleshooting">صفحه راهنما</a> پر از پاسخ است — و اگر گامی می‌تواند روشن‌تر باشد،
+    <a href="https://github.com/LilyDesignSystem">به ما بگویید</a> و ما با کمال میل آموزش را بهبود می‌دهیم.
+  </p>
+</section>

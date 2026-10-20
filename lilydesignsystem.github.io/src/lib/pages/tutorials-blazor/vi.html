@@ -1,0 +1,107 @@
+<!-- title: Hướng dẫn Blazor — Lily Design System -->
+<!-- description: Xây dựng biểu mẫu dễ tiếp cận, có kiểu dáng bằng các thành phần headless Blazor của Lily: thành phần Razor với tham số và kiểm thử bUnit. -->
+<section class="page-intro">
+  <h1>Hướng dẫn Blazor</h1>
+  <p class="page-intro-tagline">
+    Thành phần thư viện lớp Razor với tham số, <code>ChildContent</code>
+    render fragment, attribute splatting và một bài kiểm thử bUnit cho mỗi thành phần.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một biểu mẫu liên hệ nhỏ — ô nhập có nhãn, nút gửi,
+    <code>@bind-Value</code> liên kết, hành vi bàn phím và trình đọc màn hình thật — lúc đầu để trơn, sau đó thêm kiểu dáng, trong khoảng 10 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Bạn cần git và .NET SDK 8 trở lên. Dự án Blazor nào cũng được — Blazor Web App, Server hoặc WebAssembly.
+  </p>
+
+  <h2>Bước 1 — Lấy mã</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Các thành phần nằm trong <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — mỗi cái một tệp Razor. Tham chiếu dự án đó (hoặc sao chép các tệp) từ ứng dụng Blazor của bạn và thêm <code>@using LilyBlazorHeadless.Components</code> vào
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Bước 2 — Thành phần đầu tiên của bạn</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Hiển thị <code>&lt;button class="button"&gt;</code>. Các quy ước tham số dùng chung: <code>Label</code> ( <code>aria-label</code> để ghi đè),
+    <code>CssClass</code> (nối thêm vào hook cơ sở),
+    <code>ChildContent</code>và
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> attribute splatting để mọi thuộc tính HTML bổ sung đều được chuyển qua.
+  </p>
+
+  <h2>Bước 3 — Ghép một biểu mẫu nhỏ</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> nhận <code>Label</code> hiển thị làm tham số riêng thay vì thành phần nhãn lồng bên trong — chỉ truyền một lần, trên
+    <code>Field</code>và <code>TextInput</code>tương ứng
+    <code>Label</code> cung cấp tên có thể tiếp cận.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Đã xác minh 2026-08-29:</strong> bản nháp trước lồng một thành phần <code>Label</code> riêng bên trong <code>Field</code>, khiến hiển thị <em>hai</em> nhãn (một cái rỗng) vì <code>Field</code>
+      đã tự hiển thị nhãn của nó từ <code>Label</code> tham số — phát hiện nhờ kiểm tra mã nguồn thành phần; <code>Form</code> tự nó không có <code>Label</code> tham số, nên cách dùng
+      <code>&lt;Form&gt;</code> trong bản nháp trước đã được sửa để bỏ nó đi thay vì bịa ra một thuộc tính không tồn tại.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Tuyến biểu mẫu liên hệ ghép sẵn</a>
+      cũng theo mẫu này, được kiểm chứng bằng các bài kiểm thử e2e và axe thật.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> chạy ứng dụng và biểu mẫu trông trơ — đúng như dự định: kiểu dáng còn ở phía trước. Nhấn
+      <kbd>Tab</kbd>: tiêu điểm di chuyển qua mọi điều khiển, nhãn được đọc lên và việc gửi hoạt động. Hành vi đã xong; diện mạo là của bạn và là bước tiếp theo.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Tạo kiểu dáng</h2>
+  <p>
+    Tạo kiểu cho các class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — trong <code>app.css</code>hoặc liên kết một chủ đề dựng sẵn trong <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Bước 5 — Xem mọi thứ hoạt động</h2>
+  <p>
+     <a href="/examples/">Ứng dụng ví dụ Blazor Web</a> hiển thị toàn bộ danh mục có kiểu dáng và bản demo, cùng các bài kiểm thử Playwright e2e:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Chủ đề</a> — chuyển đổi khi chạy bằng trợ giúp theme-picker của Blazor (thư viện lớp Razor trên NuGet).</li>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — ngôn ngữ và cỡ chữ.</li>
+    <li><a href="/components/">Danh mục thành phần</a> — thuộc tính, ARIA và bàn phím của từng thành phần.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

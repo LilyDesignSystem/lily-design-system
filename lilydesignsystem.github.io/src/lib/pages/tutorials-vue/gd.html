@@ -1,0 +1,122 @@
+<!-- title: Oideachadh Vue — Lily Design System -->
+<!-- description: Tog foirm so-ruigsinneach le stoidhle le co-phàirtean gun cheann Vue 3 aig Lily: co-phàirtean aon-fhaidhle le v-model. -->
+<section class="page-intro">
+  <h1>Oideachadh Vue</h1>
+  <p class="page-intro-tagline">
+    Co-phàirtean aon-fhaidhle Vue 3 le props le seòrsachadh, <code>defineModel</code>
+    ceangal dà-shlighe, agus <code>v-bind="$attrs"</code> dol-troimhe.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Na thogas tu</h2>
+  <p>
+    Foirm fios-thugainn bheag — in-chur le leubail, putan cur-a-steach, <code>v-model</code>
+    ceangal, giùlan clàr-iuchrach is leughadair-sgrìn fìor — an toiseach lom, an uairsin le stoidhle, ann an timcheall air 10 mionaidean.
+  </p>
+
+  <h2>Mus tòisich thu</h2>
+  <p>
+    Feumaidh tu git, Node 22 no nas ùire, agus pnpm 10 no nas ùire. Obraichidh pròiseact Vue 3 sam bith — Nuxt, Vite no Vue sìmplidh.
+  </p>
+
+  <h2>Ceum 1 — Faigh an còd</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Tha na co-phàirtean nam faidhlichean rèidh ann an <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — gach fear le a dheuchainn, story agus sgrìobhainnean ri thaobh. Dèan lethbhreac dhe na faidhlichean a tha a dhìth ort, no dèan vendoring air an stòr.
+  </p>
+
+  <h2>Ceum 2 — A’ chiad cho-phàirt agad</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    A’ reandaradh <code>&lt;button class="button" type="button"&gt;</code>. Tha props a’ freagairt ris na frèamaichean eile: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, a bharrachd air tuiteam-troimhe bhuadhan airson a h-uile càil eile.
+  </p>
+
+  <h2>Ceum 3 — Cuir foirm bheag ri chèile</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> a’ gabhail an <code>label</code> mar a prop fhèin seach co-phàirt leubail neadaichte — thoir seachad e aon turas, air
+    <code>Field</code>, agus <code>TextInput</code>a tha a’ maidseadh
+    <code>label</code> a’ solarachadh an ainm so-ruigsinneach.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dearbhte 2026-08-29:</strong> bha dreachd na bu thràithe air co-phàirt air leth neadachadh <code>Label</code> am broinn <code>Field</code>, a’ reandaradh
+      <em>dà</em> leubail (fear falamh) oir bidh <code>Field</code> mu thràth a’ reandaradh a fhir fhèin bhon <code>label</code> prop — chaidh a ghlacadh le bhith a’ trusadh na criomaig cheart. An
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">slighe measgaichte foirm fios-thugainn</a>
+      an aon phàtran, air a chleachdadh le deuchainnean e2e is axe fìor.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> a’ cleachdadh <code>defineModel</code>, agus mar sin
+    <code>v-model</code> ag obair sa bhad.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dèan cinnteach air d’ obair:</strong> ruith an tagradh agus tha an fhoirm a’ coimhead lom — dìreach mar a bha dùil: tha an stoidhle fhathast romhainn. Brùth
+      <kbd>Tab</kbd>: bidh am fòcas a’ gluasad tro gach smachd, tha an leubail air ainmeachadh, agus obraichidh cur-a-steach. Tha an giùlan deiseil; is leatsa an coltas, agus is e an ath rud.
+    </p>
+  </div>
+
+  <h2>Ceum 4 — Cuir stoidhle air</h2>
+  <p>
+    Cuir stoidhle air na crochaidhean clas — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — anns a’ bhileag-stoidhle agad, no ceangail ùrlar deiseil ann an <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Ceum 5 — Faic a h-uile càil ag obair</h2>
+  <p>
+    Tha an <a href="/examples/">tagradh eisimpleir Nuxt</a> an catalog slàn le stoidhle is taisbeanadh, le Playwright e2e agus bun-loidhne axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Na ceumannan a leanas</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Ùrlaran</a> — atharrachadh aig àm ruith leis a’ chuideachadh theme-picker Vue.</li>
+    <li><a href="/tutorials/helpers/">Cuideachaidhean roghainnean</a> — cànan agus meud teacsa.</li>
+    <li><a href="/components/">Catalog cho-phàirtean</a> — props, ARIA, agus clàr-iuchrach airson gach co-phàirt.</li>
+  </ul>
+  <p>
+    Ceistean air an t-slighe? Tha an
+    <a href="/help/#troubleshooting">duilleag chuideachaidh</a> làn fhreagairtean — agus nam b’ urrainn ceum a bhith nas soilleire,
+    <a href="https://github.com/LilyDesignSystem">innis dhuinn</a> agus nì sinn an t-oideachadh nas fheàrr le toileachas.
+  </p>
+</section>

@@ -1,0 +1,109 @@
+<!-- title: מדריך React — Lily Design System -->
+<!-- description: בנו טופס נגיש ומעוצב עם הרכיבים ללא הראש של Lily ל-React: רכיבי פונקציה מוקלדים עם value + onChange. -->
+<section class="page-intro">
+  <h1>מדריך React</h1>
+  <p class="page-intro-tagline">
+    רכיבי פונקציה מוקלדים, קובץ אחד לכל רכיב, נשלטים בתבנית הסטנדרטית
+    <code>value</code> + <code>onChange</code> — הכול עובד כפי ש-React כבר עובד.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>מה תבנו</h2>
+  <p>
+    טופס יצירת קשר קטן — קלט עם תווית, כפתור שליחה, מצב נשלט, התנהגות אמיתית של מקלדת וקורא מסך — קודם חשוף, אחר כך מעוצב, בכ-10 דקות.
+  </p>
+
+  <h2>לפני שמתחילים</h2>
+  <p>
+    אתם צריכים git, Node 22 ומעלה ו-pnpm 10 ומעלה. כל פרויקט React 18+ מתאים — Next.js, Vite או React פשוט.
+  </p>
+
+  <h2>שלב 1 — קבלו את הקוד</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    הרכיבים הם קבצים שטוחים ב- <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — כל אחד עם הבדיקה, ה-story והתיעוד שלו לצדו. העתיקו את הקבצים שאתם צריכים לאפליקציה שלכם, או עשו vendoring למאגר וייבאו ממנו.
+  </p>
+
+  <h2>שלב 2 — הרכיב הראשון שלכם</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    מציג <code>&lt;button class="button" type="button"&gt;</code>. מאפיינים:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (מציג
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> עקיפה), <code>className</code>, וכל מאפיין נוסף מתפזר על אלמנט השורש.
+  </p>
+
+  <h2>שלב 3 — הרכיבו טופס קטן</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> לוקח את ה <code>label</code> כמאפיין משלו ולא כרכיב תווית מקונן — העבירו אותה פעם אחת, על
+    <code>Field</code>, ו <code>TextInput</code>התואם ב-
+    <code>label</code> מספק את השם הנגיש.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>אומת ב-2026-08-29:</strong> טיוטה מוקדמת קיננה רכיב נפרד <code>Label</code> בתוך <code>Field</code>, מה שהציג
+      <em>שתי</em> תוויות (אחת ריקה) משום ש- <code>Field</code> כבר מציג תווית משלו מתוך <code>label</code> מאפיין — התגלה על ידי הידור הקטע המדויק.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">נתיב טופס יצירת הקשר המורכב</a>
+      הוא אותה תבנית, שנבדקה בבדיקות e2e ו-axe אמיתיות.
+    </p>
+  </div>
+
+  <h2>שלב 4 — עצבו אותו</h2>
+  <p>
+    כל מה שלמעלה מוצג כמבנה טהור, מוכן לעיצוב שלכם. עצבו את הווים — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — בגיליון הסגנון שלכם, שכבו כלי עזר של Tailwind דרך <code>className</code>, או קשרו ערכת נושא מוכנה:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>שלב 5 — ראו הכול עובד</h2>
+  <p>
+     <a href="/examples/">אפליקציית הדוגמה Next.js</a> היא הקטלוג המלא מעוצב ומודגם, עם Playwright e2e וקו בסיס axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>השלבים הבאים</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ערכות נושא</a> — החלפה בזמן ריצה עם העוזר theme-picker של React.</li>
+    <li><a href="/tutorials/helpers/">עוזרי העדפות</a> — שפה וגודל טקסט.</li>
+    <li><a href="/components/">קטלוג הרכיבים</a> — מאפיינים, ARIA ומקלדת לכל רכיב.</li>
+  </ul>
+  <p>
+    שאלות בדרך?
+    <a href="/help/#troubleshooting">עמוד העזרה</a> מלא בתשובות — ואם שלב יכול להיות ברור יותר,
+    <a href="https://github.com/LilyDesignSystem">ספרו לנו</a> ונשמח לשפר את המדריך.
+  </p>
+</section>

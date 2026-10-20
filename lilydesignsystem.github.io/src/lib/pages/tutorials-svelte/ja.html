@@ -1,0 +1,117 @@
+<!-- title: Svelte チュートリアル — Lily Design System -->
+<!-- description: Lily の Svelte 5 ヘッドレスコンポーネントで、アクセシブルでスタイル付きのフォームを作ります。ルーン、スニペット、bind:value を使います。 -->
+<section class="page-intro">
+  <h1>Svelte チュートリアル</h1>
+  <p class="page-intro-tagline">
+    Lily の Svelte ライブラリが基準の実装です: Svelte 5 のルーン、型付きプロパティ、残りのプロパティの展開、そして次による双方向バインディング:
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    小さなお問い合わせフォーム — ラベル付き入力、送信ボタン、双方向バインディング、本物のキーボードとスクリーンリーダーの動作 — まずは装飾なしで、次にスタイルを付けて、約 10 分で作ります。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    git、Node 22 以降、pnpm 10 以降が必要です。Svelte 5 のプロジェクトならどれでも使えます — 新規の <code>npx sv create</code> アプリで構いません。
+  </p>
+
+  <h2>ステップ 1 — コードを入手する</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    コンポーネントは次の場所にあります: <code>src/lib/components/&#123;Name&#125;/</code>、コンポーネントごとに 1 つのディレクトリがあり、その中に <code>.svelte</code> ファイル、テスト、ストーリー、ドキュメントが並んでいます。必要なディレクトリをアプリにコピーするか、リポジトリに依存して直接インポートします。
+  </p>
+
+  <h2>ステップ 2 — 最初のコンポーネント</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    描画する要素: <code>&lt;button class="button" type="button"&gt;</code>。プロパティには型が付いています: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (描画する要素: <code>aria-pressed</code> (トグルボタンでは <code>label</code> ( <code>aria-label</code> の上書き用)、追加の属性はルートに展開されます。
+  </p>
+
+  <h2>ステップ 3 — 小さなフォームを組み立てる</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> は、表示用の <code>label</code> を、ネストしたラベルコンポーネントではなく専用のプロパティとして受け取ります — 一度だけ渡せば、 <code>Field</code>、そして <code>TextInput</code>の対応する <code>label</code> がアクセシブルな名前を与えます。 <code>TextInput</code>'s <code>value</code> は
+    <code>$bindable</code> ルーンのプロパティなので、 <code>bind:value</code> を使えばすぐに双方向バインディングが得られます。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 に確認済み:</strong> このスニペットそのものを、次を通してコンパイルして <code>svelte/server</code> 正しくひも付いたラベルが 1 つだけであることを確認しました <code>&lt;label for&gt;</code> — 以前の下書きでは別の <code>Label</code> の中の <code>Field</code>をネストしていたため、描画された結果は
+      <em>2 つの</em> ラベル(1 つは空)が描画されていました。 <code>Field</code> は <code>label</code> プロパティ。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">お問い合わせフォームの組み合わせルート</a>
+      も同じパターンで、本物の e2e テストと axe テストで検証されています。
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>動作の確認:</strong> アプリを実行すると、フォームは飾りのない見た目になります — 意図どおりで、スタイルはこれからです。
+      <kbd>Tab</kbd>キーを押してみましょう。フォーカスがすべてのコントロールを移動し、ラベルが読み上げられ、送信も動きます。動作は完成しています。見た目はあなた次第で、次のステップです。
+    </p>
+  </div>
+
+  <h2>ステップ 4 — スタイルを付ける</h2>
+  <p>
+    上のコードはすべて純粋な構造として描画され、スタイルを待っています。クラスフックにスタイルを付けます —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — グローバルのスタイルシートで、または既成のテーマを次でリンクします: <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    インスタンスごとの調整は次を通します: <code>class</code> プロパティで、基本のフックに追加されます: <code>&lt;Button class="wide"&gt;</code> 描画結果:
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>ステップ 5 — 動いているところを見る</h2>
+  <p>
+     <a href="/examples/">SvelteKit サンプルアプリ</a> は、同じカタログをスタイル付きで表示したもので、ライブデモ、Playwright e2e テスト、axe-core のアクセシビリティのベースラインを備えています:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">テーマ設定</a> — Svelte の theme-picker ヘルパーによる実行時切り替え。</li>
+    <li><a href="/tutorials/helpers/">設定ヘルパー</a> — 言語とテキストサイズ。</li>
+    <li><a href="/components/">コンポーネントカタログ</a> — コンポーネントごとのプロパティ、ARIA、キーボード操作。</li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

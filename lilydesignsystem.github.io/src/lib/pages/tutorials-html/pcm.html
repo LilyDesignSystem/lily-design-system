@@ -1,0 +1,106 @@
+<!-- title: HTML tutorial — Lily Design System -->
+<!-- description: Build accessible, styled form with Lily HTML headless components — plain markup, straight from file. -->
+<section class="page-intro">
+  <h1>HTML tutorial</h1>
+  <p class="page-intro-tagline">
+    Di simplest start wey possible: copy semantic HTML with Lily class hooks, add one stylesheet, ship. Plain files wey dey work anywhere HTML dey work.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wetin you go build</h2>
+  <p>
+    Small contact form — inputs wey get labels, submit button, real keyboard and screen-reader behaviour — first bare, then styled, for about 10 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    You need browser and text editor. Na all. (git dey help to grab di component files, but you fit copy dem from GitHub for browser too.)
+  </p>
+
+  <h2>Step 1 — Get di code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Every component na standalone file inside <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, and so on — with header comment wey document im HTML tag, class hook, keyboard behaviour, and accessibility contract. Di files <em>na</em> di library — copy wetin you need and go.
+  </p>
+
+  <h2>Step 2 — Your first component</h2>
+  <p>Open <code>components/button.html</code>, or just write di markup — di class hook na di contract:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Because na real <code>&lt;button&gt;</code>, keyboard focus, Enter and Space activation, and di implicit button role don already correct.
+  </p>
+
+  <h2>Step 3 — Compose small form</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Notice di pattern: every control dey link im <code>&lt;label for&gt;</code>, dey use di most specific input type, and dey carry exactly one kebab-case class hook.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> open di page for browser. E look plain — exactly as dem plan am: di styling still dey come. Press
+      <kbd>Tab</kbd>: focus go move through every control, di labels go dey announced, and submit dey work. Di behaviour don finish; di look na yours and e be next.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style am</h2>
+  <p>Write CSS against di hooks:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Or skip to write CSS by hand completely — link one of di 45 ready-made themes and di same markup go light up:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Step 5 — Explore further</h2>
+  <ul>
+    <li>Di repo tests dey run for real browsers: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook for every component: <code>pnpm run storybook</code>.</li>
+    <li>
+      Di <a href="/examples/">HTML+CSS+JS example app</a> show all 571 components styled, searchable, and demoed.
+    </li>
+  </ul>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime theme switching with theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
+    <li><a href="/components/">Component catalog</a> — di full reference.</li>
+  </ul>
+  <p>
+    You get questions as you dey go? Di
+    <a href="/help/#troubleshooting">help page</a> full of answers — and if any step fit clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we go gladly improve di tutorial.
+  </p>
+</section>

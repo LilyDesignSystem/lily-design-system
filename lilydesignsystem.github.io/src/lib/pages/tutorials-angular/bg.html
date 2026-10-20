@@ -1,0 +1,127 @@
+<!-- title: Ръководство за Angular — Lily Design System -->
+<!-- description: Изградете достъпна, стилизирана форма с headless компонентите на Lily за Angular 20: самостоятелни компоненти със сигнални входове. -->
+<section class="page-intro">
+  <h1>Ръководство за Angular</h1>
+  <p class="page-intro-tagline">
+    Самостоятелни компоненти на Angular 20 — сигнални входове, откриване на промени OnPush, вградени шаблони, нула NgModules, нула CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Какво ще изградите</h2>
+  <p>
+    Малка форма за контакт — поле с етикет, бутон за изпращане, двупосочно свързване, истинско поведение на клавиатурата и екранния четец — първо гола, после стилизирана, за около 10 минути.
+  </p>
+
+  <h2>Преди да започнете</h2>
+  <p>
+    Нужни са ви git, Node 22 или по-нов и pnpm 10 или по-нов. Подходящ е всеки проект на Angular 20 — Angular CLI или Analog.
+  </p>
+
+  <h2>Стъпка 1 — Вземете кода</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Компонентите са плоски файлове в <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — всеки е самостоятелен компонент с вграден шаблон, плюс неговия spec и story. Barrel файлът
+    <code>index.ts</code> реекспортира всеки компонент; <code>pnpm build</code>
+    произвежда пакет във формат Angular Package Format чрез ng-packagr.
+  </p>
+
+  <h2>Стъпка 2 — Първият ви компонент</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Всеки компонент декларира селектор <code>lily-*</code> и рендира семантичния елемент със своята класова кука —
+    <code>&lt;button class="button" type="button"&gt;</code> тук. Входовете са базирани на сигнали: <code>label()</code> за <code>aria-label</code>
+    за презаписване, <code>className()</code> за добавяне на класове.
+  </p>
+
+  <h2>Стъпка 3 — Съставете малка форма</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> приема видимия етикет като свой собствен
+    <code>label</code> вход вместо вложен компонент за етикет — подайте го веднъж, на полето, и съответният <code>lily-text-input</code>от
+    <code>label</code> осигурява достъпното име. Компонентите, подобни на полета, разкриват <code>model()</code> стойности, така че banana-box <code>[(value)]</code>
+    двупосочното свързване работи веднага — съвместимо със zoneless навсякъде.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверено на 2026-08-29:</strong> по-ранна чернова влагаше отделен компонент <code>Label</code> вътре в <code>lily-field</code>, което рендираше <em>два</em> етикета (единият празен), защото
+      <code>lily-field</code> вече рендира собствения си от входа
+      <code>label</code> — открито чрез проверка на изходния код на компонента.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Съставният маршрут на формата за контакт</a>
+      е същият модел, изпитан с истински e2e и axe тестове.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверете работата си:</strong> стартирайте приложението и формата изглежда гола — точно както е предвидено: стилизирането предстои. Натиснете
+      <kbd>Tab</kbd>: фокусът минава през всеки контрол, етикетът се обявява и изпращането работи. Поведението е готово; външният вид е ваш и е следващата стъпка.
+    </p>
+  </div>
+
+  <h2>Стъпка 4 — Стилизирайте го</h2>
+  <p>
+    Стилизирайте класовите куки — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — в <code>styles.css</code>, или добавете готова тема към масива <code>styles</code> в
+    <code>angular.json</code> / свържете я в <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Стъпка 5 — Вижте всичко в действие</h2>
+  <p>
+     <a href="/examples/">Примерното приложение Angular + Analog</a> показва пълния каталог с маршрутизиране по файлове и Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Следващи стъпки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — превключване по време на изпълнение с помощника theme-picker за Angular.</li>
+    <li><a href="/tutorials/helpers/">Помощници за предпочитания</a> — език и размер на текста.</li>
+    <li><a href="/components/">Каталог на компонентите</a> — свойства, ARIA и клавиатура за всеки компонент.</li>
+  </ul>
+  <p>
+    Въпроси по пътя?
+    <a href="/help/#troubleshooting">Страницата за помощ</a> е пълна с отговори — а ако някоя стъпка може да е по-ясна,
+    <a href="https://github.com/LilyDesignSystem">кажете ни</a> и с радост ще подобрим ръководството.
+  </p>
+</section>

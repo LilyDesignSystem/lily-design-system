@@ -1,0 +1,127 @@
+<!-- title: Angular-opas — Lily Design System -->
+<!-- description: Rakenna saavutettava, tyylitelty lomake Lilyn Angular 20 -headless-komponenteilla: itsenäiset komponentit signaalisyötteillä. -->
+<section class="page-intro">
+  <h1>Angular-opas</h1>
+  <p class="page-intro-tagline">
+    Angular 20 -itsenäiset komponentit — signaalisyötteet, OnPush-muutostunnistus, sisäiset mallit, nolla NgModulea, nolla CSS:ää.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Pieni yhteydenottolomake — nimiöity kenttä, lähetyspainike, kaksisuuntainen sidonta, aito näppäimistö- ja ruudunlukijakäyttäytyminen — ensin paljaana, sitten tyylitellen, noin 10 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Tarvitset gitin, Node 22:n tai uudemman ja pnpm 10:n tai uudemman. Mikä tahansa Angular 20 -projekti kelpaa — Angular CLI tai Analog.
+  </p>
+
+  <h2>Vaihe 1 — Hae koodi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponentit ovat litteitä tiedostoja hakemistossa <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — jokainen on itsenäinen komponentti, jossa on sisäinen malli, sekä sen spec ja story. Barrel
+    <code>index.ts</code> vie kaikki komponentit uudelleen; <code>pnpm build</code>
+    tuottaa Angular Package Format -paketin ng-packagrin kautta.
+  </p>
+
+  <h2>Vaihe 2 — Ensimmäinen komponenttisi</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Jokainen komponentti julistaa <code>lily-*</code> -valitsimen ja renderöi semanttisen elementin luokkakoukkuineen —
+    <code>&lt;button class="button" type="button"&gt;</code> tässä. Syötteet perustuvat signaaleihin: <code>label()</code> elementille <code>aria-label</code>
+    ohittamiseen, <code>className()</code> luokkien lisäämiseen.
+  </p>
+
+  <h2>Vaihe 3 — Kokoa pieni lomake</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> ottaa näkyvän nimiön omana
+    <code>label</code> -syötteenään sisäkkäisen nimiökomponentin sijaan — välitä se kerran kentälle, niin vastaava <code>lily-text-input</code>elementistä
+    <code>label</code> antaa saavutettavan nimen. Syötteen kaltaiset komponentit paljastavat <code>model()</code> -arvot, joten banana-box <code>[(value)]</code>
+    -kaksisuuntainen sidonta toimii heti — zoneless-yhteensopiva läpi koko.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Varmistettu 2026-08-29:</strong> aiempi luonnos sijoitti erillisen <code>Label</code> -komponentin elementin <code>lily-field</code>sisään, mikä renderöi <em>kaksi</em> nimiötä (toinen tyhjä), koska
+      <code>lily-field</code> renderöi jo oman nimiönsä
+      <code>label</code> -syötteestä — havaittu tarkistamalla komponentin lähdekoodi.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Koottu yhteydenottolomakkeen reitti</a>
+      on sama malli, jota on koeteltu oikeilla e2e- ja axe-testeillä.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> käynnistä sovellus, ja lomake näyttää paljaalta — juuri niin kuin on tarkoitus: tyylittely on vielä edessä. Paina
+      <kbd>Tab</kbd>: kohdistus liikkuu jokaisen ohjaimen läpi, nimiö ilmoitetaan ja lähettäminen toimii. Toiminta on valmis; ulkoasu on sinun ja seuraava vaihe.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Tyylittele se</h2>
+  <p>
+    Tyylittele luokkakoukut — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — tiedostossa <code>styles.css</code>, tai lisää valmis teema taulukkoon <code>styles</code> tiedostossa
+    <code>angular.json</code> / linkitä se tiedostossa <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Vaihe 5 — Katso kaiken toimivan</h2>
+  <p>
+     <a href="/examples/">Angular + Analog -esimerkkisovellus</a> näyttää koko luettelon tiedostopohjaisella reitityksellä ja Vitellä:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemat</a> — vaihto ajon aikana Angularin theme-picker-apuvälineellä.</li>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — kieli ja tekstikoko.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — ominaisuudet, ARIA ja näppäimistö komponenteittain.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

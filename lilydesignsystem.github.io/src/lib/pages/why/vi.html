@@ -1,0 +1,102 @@
+<!-- title: Vì sao chọn Lily — Lily Design System -->
+<!-- description: Lý do chọn Lily: thành phần headless do bạn tự tạo kiểu, khả năng tiếp cận WCAG 2.2 AAA tích hợp sẵn, không có chuỗi viết cứng, tám framework, một danh mục, miễn phí mãi mãi. -->
+<section class="page-intro">
+  <h1>Lý do chọn Lily</h1>
+  <p class="page-intro-tagline">
+    Lily lo những phần khó — ngữ nghĩa, khả năng tiếp cận, hành vi bàn phím, quốc tế hóa — và để phần diện mạo hoàn toàn, vui vẻ, thuộc về bạn.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bắt đầu từ thiết kế của bạn</h2>
+  <p>
+    Đội của bạn đã biết sản phẩm nên trông như thế nào. Lily bắt đầu chính xác từ đó: cung cấp những phần thật sự khó làm đúng và tốn kém khi làm lại — phần tử ngữ nghĩa chính xác, các trạng thái ARIA, hợp đồng bàn phím, quản lý tiêu điểm — và để mọi quyết định về hình ảnh hoàn toàn, vui vẻ, thuộc về bạn. CSS của bạn là diện mạo của hệ thống thiết kế ngay từ ngày đầu.
+  </p>
+  <p>
+    Vì mỗi thành phần đều có một móc lớp ổn định và cấu trúc thuần túy, phần tạo kiểu của bạn vẫn thuộc về bạn một cách gọn gàng qua mọi lần nâng cấp — và khả năng tiếp cận bên dưới tiếp tục hoạt động, hết phiên bản này đến phiên bản khác.
+  </p>
+
+  <h2>Lily cam kết điều gì</h2>
+  <ul>
+    <li>
+      <strong>Dễ tiếp cận theo mặc định.</strong> WCAG 2.2 AAA là mục tiêu cho mọi thành phần. Các mẫu tuân theo WAI-ARIA Authoring Practices; mọi thành phần tương tác đều thao tác được bằng bàn phím theo một hợp đồng có tài liệu; các ứng dụng ví dụ giữ đường cơ sở axe-core sạch.
+    </li>
+    <li>
+      <strong>Có thể quốc tế hóa ngay từ thiết kế.</strong> Mọi chuỗi hiển thị cho người dùng — mỗi nhãn, lỗi và thông báo — là một prop có tên ổn định giữa các framework, nên việc dịch diễn ra tự nhiên. RTL và văn bản hai chiều kế thừa từ <code>dir</code>của bạn. Các thành phần nhận biết ngôn ngữ nhận ngôn ngữ làm prop, luôn một cách tường minh.
+    </li>
+    <li>
+      <strong>Một danh mục, tám framework.</strong> Cùng 571 thành phần (536 là Web Components gốc) với cùng móc lớp và quy ước prop trong HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks và Web Components. CSS của bạn và kiến thức của đội chuyển được giữa các ngăn xếp công nghệ.
+    </li>
+    <li>
+      <strong>Không phụ thuộc chiến lược CSS.</strong> Một lớp kebab-case ổn định cho mỗi gốc thành phần. CSS ngữ nghĩa, tiện ích Tailwind, CSS-in-JS, hoặc một trong 57 giao diện làm sẵn — Lily đón nhận tất cả và nhẹ nhàng tránh đường.
+    </li>
+    <li>
+      <strong>Miễn phí, mãi mãi, theo điều kiện của bạn.</strong> Mã nguồn mở theo giấy phép bạn chọn: BSD, MIT, Apache-2.0, GPL-2.0 hoặc GPL-3.0. Không có bậc pro, không có giấy phép theo chỗ ngồi, không có telemetry.
+    </li>
+  </ul>
+
+  <h2>Chiều sâu ở nơi quan trọng</h2>
+  <p>
+    Ngoài các nút và hộp thoại thông thường, danh mục này đi xa hơn hầu hết:
+  </p>
+  <ul>
+    <li>
+      <strong>Mẫu cho khu vực công</strong> được nghiên cứu từ các hệ thống thiết kế của NHS UK, GOV.UK, USWDS và ONS — tóm tắt lỗi, hộp cảnh báo, danh sách tóm tắt, biểu ngữ giai đoạn, liên kết bỏ qua.
+    </li>
+    <li>
+      <strong>140 thành phần định danh cá nhân quốc gia</strong> bao gồm định danh y tế, căn cước quốc gia, thuế và hộ chiếu ở hơn 50 quốc gia, mỗi thành phần có tài liệu về định dạng và thuật toán xác thực.
+    </li>
+    <li>
+      <strong>Thành phần cơ bản cho biên tập và scrollytelling</strong> được điều chỉnh từ Reuters Graphics — bố cục bài viết, trình cuộn, dòng thời gian, bản đồ ô.
+    </li>
+    <li>
+      <strong>Trợ thủ bộ chọn</strong> — các gói nhỏ sở hữu một tương tác từ đầu đến cuối: chuyển giao diện (kèm tải stylesheet lúc chạy), ngôn ngữ, cỡ chữ, giảm chuyển động, tìm kiếm, liên kết trang, chia sẻ và nhập ngày giờ. Mỗi cái là một nút biểu tượng headless mở ra một cửa sổ bật lên — không phải <code>&lt;select&gt;</code> gốc — với tính lưu trữ bền và an toàn SSR tích hợp sẵn.
+    </li>
+  </ul>
+
+  <h2>Giao diện cho khu vực công, dùng ngay</h2>
+  <p>
+    Lily cung cấp 57 giao diện tham chiếu độc lập nhắm trực tiếp vào các móc lớp của nó: NHS England, NHS Scotland và NHS Wales (mỗi nơi có bản dành cho bệnh nhân và bản dành cho người hành nghề), GOV.UK, USWDS, bảng màu lấy cảm hứng từ Adobe Spectrum và Mozilla Protocol, và một bộ giao diện sáng và tối đa dụng. Liên kết một stylesheet là có ngay diện mạo cấp chính phủ; trợ thủ <code>theme-picker</code> đổi chúng lúc chạy.
+  </p>
+
+  <h2>Lily so sánh thế nào</h2>
+  <p>
+    Chúng tôi duy trì một bản
+    <a href="/comparisons/">so sánh với các hệ thống thiết kế khác</a> trung thực, từng thành phần một — có kiểu và headless, thương mại và khu vực công. Nơi một thư viện khác phù hợp với bạn hơn, bản so sánh sẽ cho thấy; Lily học từ tất cả và công khai nêu nguồn cảm hứng.
+  </p>
+
+  <h2>Ai đứng sau</h2>
+  <p>
+    Lily là một dự án mã nguồn mở độc lập còn trẻ, hoan nghênh sự hợp tác, hướng dẫn và phản hồi — xem
+    <a href="/about/">Giới thiệu</a> để biết câu chuyện và nguồn cảm hứng. Mọi thứ — đặc tả, các bài kiểm thử, lộ trình, cả công cụ kiểm toán — đều công khai tại
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Giúp Lily lớn mạnh</h2>
+  <p>Nếu Lily hữu ích với bạn, những việc có giá trị nhất bạn có thể làm là:</p>
+  <ul>
+    <li>
+      <strong>Gắn sao và chia sẻ.</strong> Gắn sao cho
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">kho chính</a>
+      và cho đồng nghiệp xem <a href="/components/">danh mục</a> — sự nhận biết là nguồn lực khan hiếm nhất của một dự án còn trẻ.
+    </li>
+    <li>
+      <strong>Xây dựng gì đó và cho chúng tôi biết.</strong> Báo cáo sử dụng thực tế — điều gì hiệu quả, điều gì có thể mượt hơn — định hình lộ trình hơn bất cứ thứ gì khác.
+    </li>
+    <li>
+      <strong>Kiểm tra khả năng tiếp cận.</strong> Các lượt thử với trình đọc màn hình (VoiceOver, NVDA, JAWS) trên <a href="/examples/">ứng dụng ví dụ</a> là vàng; hãy báo lại những gì bạn tìm thấy.
+    </li>
+    <li>
+      <strong>Đóng góp một giao diện hoặc một bản dịch.</strong> Cả hai đều là những đóng góp đầu tiên khép kín và có phạm vi rõ ràng.
+    </li>
+    <li>
+      <strong>Chia sẻ những gì bạn tìm thấy, kèm cách tái hiện tối thiểu,</strong> trên kho GitHub, hoặc gửi email tới
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Bắt đầu hướng dẫn</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Gắn sao trên GitHub</a>
+  </div>
+</section>

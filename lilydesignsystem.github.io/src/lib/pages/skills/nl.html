@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills geven Claude Code een samengestelde, laadbare ingang tot Lily Design System – algemene concepten, paraplu's per framework en verdieping per subproject voor de headless bibliotheek en de *-picker-helpers. -->
+<section class="page-intro">
+  <h1>Skills voor AI-agenten maken Lily nog makkelijker</h1>
+  <p class="page-intro-tagline">
+    Lily levert gerichte skills – algemeen, per framework en per subproject – zodat een agent precies de context laadt die hij nodig heeft en niets wat hij niet nodig heeft.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Welke skill wil je?</h2>
+  <p>
+    Elke laag beantwoordt een andere vraag. Laad de algemene skill als je Lily nog niet kent. Laad een frameworkskill als je je framework kent maar niet welk subproject je nodig hebt. Laad een headless-skill of helpers-skill rechtstreeks als je al precies weet waaraan je werkt.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Algemeen / beheerder</strong> – „Wat is Lily?” / „Hoe is deze monorepo opgebouwd?” –
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Frameworkparaplu</strong> – „Wat is er beschikbaar voor {framework}, en welk onderdeel heb ik nodig?” – 8, telkens één <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Headless / helpers</strong> – „Hoe gebruik ik precies de componenten / *-picker-helpers van {framework}?” – 16, telkens één <code>{framework}-headless-skill</code> en één <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>De acht frameworks</h2>
+  <p>
+    Elk framework krijgt dezelfde stapel van drie lagen. De paraplu-skill brengt alle echte subprojecten van dat framework in kaart – inclusief de voorbeeldapp, die geen van zijn twee zusterskills dekt – en wijst naar beneden naar die subprojecten in plaats van hun contracten te herhalen.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Paraplu</th>
+        <th>Headless</th>
+        <th>Helpers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Paraplu-skill voor Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="Headless skill voor Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="Helpers-skill voor Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Paraplu-skill voor Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="Headless skill voor Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="Helpers-skill voor Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Paraplu-skill voor HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="Headless skill voor HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="Helpers-skill voor HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Paraplu-skill voor Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="Headless skill voor Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="Helpers-skill voor Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Paraplu-skill voor React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="Headless skill voor React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="Helpers-skill voor React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Paraplu-skill voor Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="Headless skill voor Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="Helpers-skill voor Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Paraplu-skill voor Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="Headless skill voor Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="Helpers-skill voor Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Paraplu-skill voor Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">skill</a></td>
+        <td>
+          <a
+            aria-label="Headless skill voor Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >skill</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Helpers-skill voor Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components is de enige uitzondering in beide richtingen: de headless catalogus heeft een bewuste scope van 536 van 571 (native custom elements, geen framework-runtime; de overige 35 componenten zijn permanent uitgesloten), en er is nog geen voorbeeldapp voor Web Components – de paraplu-skill zegt dat in plaats van te suggereren dat die er is.
+  </p>
+
+  <h2>Voeg één skill toe</h2>
+  <p>
+    Elke skill is een <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a>-bestand – plus ondersteunende bestanden, geen buildstap. Kloon degene die je nodig hebt naar de plek waar je Claude Code-configuratie skills laadt (zie de hierboven gelinkte officiële documentatie voor de skillsmap van je project of account):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Werk je met meerdere frameworks, of aan de monorepo zelf? Kloon dan de <a href="https://github.com/LilyDesignSystem/lily-design-system">canonieke monorepo</a> – alle 26 skills staan al in de root, naast de headless bibliotheken, de helpercatalogi en de voorbeeldapps die ze beschrijven.
+  </p>
+</section>

@@ -1,0 +1,102 @@
+<!-- title: Kāpēc Lily — Lily Design System -->
+<!-- description: Argumenti par labu Lily: bezgalvas komponentes, ko stilizējat paši, iebūvēta WCAG 2.2 AAA pieejamība, nekādu iekodētu virkņu, astoņi ietvari, viens katalogs, bez maksas uz visiem laikiem. -->
+<section class="page-intro">
+  <h1>Argumenti par labu Lily</h1>
+  <p class="page-intro-tagline">
+    Lily uzņemas grūtās daļas — semantiku, pieejamību, tastatūras uzvedību, internacionalizāciju — un izskatu pilnībā, ar prieku, atstāj jums.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Sāciet no sava dizaina</h2>
+  <p>
+    Jūsu komanda jau zina, kā jūsu produktam jāizskatās. Lily sākas tieši no turienes: tā sniedz daļas, kuras patiešām grūti izdarīt pareizi un dārgi pārtaisīt — pareizo semantisko elementu, ARIA stāvokļus, tastatūras līgumu, fokusa pārvaldību — un katru vizuālo lēmumu pilnībā un priecīgi atstāj jums. Jūsu CSS ir dizaina sistēmas izskats no pirmās dienas.
+  </p>
+  <p>
+    Tā kā katrai komponentei ir stabils klases āķis un tīra struktūra, jūsu stilizēšana katrā jauninājumā paliek tīri jūsu — un tās apakšā esošā pieejamība turpina darboties, versiju pēc versijas.
+  </p>
+
+  <h2>Uz ko Lily apņemas</h2>
+  <ul>
+    <li>
+      <strong>Pieejams pēc noklusējuma.</strong> WCAG 2.2 AAA ir katras komponentes mērķis. Paraugi seko WAI-ARIA Authoring Practices; katra interaktīvā komponente ir lietojama ar tastatūru pēc dokumentēta līguma; paraugu lietotnes uztur tīru axe-core bāzes līniju.
+    </li>
+    <li>
+      <strong>Internacionalizējams pēc konstrukcijas.</strong> Katra lietotājam redzama virkne — katra etiķete, kļūda un paziņojums — ir īpašība ar stabiliem nosaukumiem visos ietvaros, tāpēc tulkošana plūst dabiski. RTL un divvirzienu teksts manto no jūsu <code>dir</code>. Lokalizācijas apzinošās komponentes saņem lokāli kā īpašību, vienmēr skaidri.
+    </li>
+    <li>
+      <strong>Viens katalogs, astoņi ietvari.</strong> Tās pašas 571 komponentes (536 kā dabiskie Web Components) ar tiem pašiem klases āķiem un īpašību konvencijām HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks un Web Components. Jūsu CSS un komandas zināšanas pārnesas starp tehnoloģiju kaudzēm.
+    </li>
+    <li>
+      <strong>Neatkarīgs no CSS stratēģijas.</strong> Viena stabila kebab-case klase uz komponentes sakni. Semantisks CSS, Tailwind palīgklases, CSS-in-JS vai viena no 57 gatavajām tēmām — Lily sveic tās visas un graciozi atkāpjas.
+    </li>
+    <li>
+      <strong>Bez maksas, uz visiem laikiem, uz jūsu noteikumiem.</strong> Atvērtais kods ar jūsu izvēlētu licenci: BSD, MIT, Apache-2.0, GPL-2.0 vai GPL-3.0. Nav pro līmeņa, nav licenču uz vietu, nav telemetrijas.
+    </li>
+  </ul>
+
+  <h2>Dziļums tur, kur tas ir svarīgi</h2>
+  <p>
+    Ārpus parastajām pogām un dialoglodziņiem katalogs sniedzas tālāk nekā vairums:
+  </p>
+  <ul>
+    <li>
+      <strong>Publiskā sektora paraugi</strong> izpētīti no NHS UK, GOV.UK, USWDS un ONS dizaina sistēmām — kļūdu kopsavilkumi, brīdinājuma lodziņi, kopsavilkuma saraksti, posmu baneri, izlaišanas saites.
+    </li>
+    <li>
+      <strong>140 nacionālo personas identifikatoru komponentes</strong> kas aptver veselības, nacionālo personu apliecinošu dokumentu, nodokļu un pasu identifikatorus vairāk nekā 50 valstīs, katra ar dokumentētu formātu un validācijas algoritmu.
+    </li>
+    <li>
+      <strong>Redakcionālā satura un scrollytelling pamatelementi</strong> pielāgoti no Reuters Graphics — rakstu izkārtojumi, ritinātāji, laika joslas, flīžu kartes.
+    </li>
+    <li>
+      <strong>Atlasītāju palīgi</strong> — mazas pakotnes, kas īpašumā ņem vienu mijiedarbību no sākuma līdz beigām: tēmas pārslēgšana (ar stilu lapas ielādi izpildes laikā), valoda, teksta izmērs, samazināta kustība, meklēšana, lapu saites, kopīgošana un datuma un laika ievade. Katrs ir bezgalvas ikonas poga, kas atver uznirstošo logu — nevis dabiskais <code>&lt;select&gt;</code> — ar iebūvētu noturību un SSR drošību.
+    </li>
+  </ul>
+
+  <h2>Publiskā sektora tēmas, uzreiz gatavas</h2>
+  <p>
+    Lily piegādā 57 patstāvīgas atsauces tēmas, kas mērķē tieši uz tās klases āķiem: NHS England, NHS Scotland un NHS Wales (katra pacientu un praktiķu variantos), GOV.UK, USWDS, paletes, kas iedvesmotas no Adobe Spectrum un Mozilla Protocol, un vispārējas gaišo un tumšo tēmu kopa. Saistiet vienu stilu lapu, un valdības līmeņa izskats ir ieslēgts; palīgs <code>theme-picker</code> tās pārslēdz izpildes laikā.
+  </p>
+
+  <h2>Kā Lily salīdzinās</h2>
+  <p>
+    Mēs uzturam godīgu, komponentes pa komponentei
+    <a href="/comparisons/">salīdzinājumu ar citām dizaina sistēmām</a> — stilizētām un bezgalvas, komerciālām un publiskā sektora. Kur cita bibliotēka jums der labāk, salīdzinājums to parādīs; Lily mācās no tām visām un atklāti min savus iedvesmas avotus.
+  </p>
+
+  <h2>Kas stāv aiz tā</h2>
+  <p>
+    Lily ir jauns, neatkarīgs atvērtā koda projekts, kas sveic sadarbību, norādījumus un atsauksmes — skatiet
+    <a href="/about/">Par</a> stāstam un iedvesmas avotiem. Viss — specifikācija, testi, ceļvedis, pat audita rīki — ir atklāti vietnē
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Palīdziet Lily augt</h2>
+  <p>Ja Lily jums ir noderīgs, vērtīgākās lietas, ko varat darīt:</p>
+  <ul>
+    <li>
+      <strong>Piešķiriet zvaigznīti un dalieties.</strong> Piešķiriet zvaigznīti
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">galvenajai krātuvei</a>
+      un parādiet kolēģim <a href="/components/">katalogu</a> — zināmība ir jauna projekta retākais resurss.
+    </li>
+    <li>
+      <strong>Uzbūvējiet kaut ko un pastāstiet mums.</strong> Reālās lietošanas ziņojumi — kas darbojās, kas varētu būt gludāk — veido ceļvedi vairāk nekā jebkas cits.
+    </li>
+    <li>
+      <strong>Auditējiet pieejamību.</strong> Pārbaudes ar ekrāna lasītājiem (VoiceOver, NVDA, JAWS) <a href="/examples/">paraugu lietotnēs</a> ir zelta vērtībā; ziņojiet par atrasto.
+    </li>
+    <li>
+      <strong>Pievienojiet tēmu vai tulkojumu.</strong> Abi ir patstāvīgi, labi norobežoti pirmie ieguldījumi.
+    </li>
+    <li>
+      <strong>Dalieties ar atrasto, ar minimālu atkārtojumu,</strong> GitHub krātuvē vai rakstiet uz
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Sākt apmācību</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Piešķirt zvaigznīti GitHub</a>
+  </div>
+</section>

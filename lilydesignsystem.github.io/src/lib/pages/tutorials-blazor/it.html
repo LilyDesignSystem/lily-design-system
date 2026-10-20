@@ -1,0 +1,107 @@
+<!-- title: Tutorial Blazor — Lily Design System -->
+<!-- description: Crea un modulo accessibile e stilizzato con i componenti headless Blazor di Lily: componenti Razor con parametri e test bUnit. -->
+<section class="page-intro">
+  <h1>Tutorial Blazor</h1>
+  <p class="page-intro-tagline">
+    Componenti di libreria di classi Razor con parametri, <code>ChildContent</code>
+    render fragment, attribute splatting e un test bUnit per componente.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Cosa costruirai</h2>
+  <p>
+    Un piccolo modulo di contatto — campo con etichetta, pulsante di invio,
+    <code>@bind-Value</code> binding, comportamento reale di tastiera e screen reader — prima spoglio, poi stilizzato, in circa 10 minuti.
+  </p>
+
+  <h2>Prima di iniziare</h2>
+  <p>
+    Servono git e .NET SDK 8 o successivo. Va bene qualsiasi progetto Blazor — Blazor Web App, Server o WebAssembly.
+  </p>
+
+  <h2>Passo 1 — Ottieni il codice</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    I componenti si trovano in <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — un file Razor ciascuno. Fai riferimento al progetto (o copia i file) dalla tua app Blazor e aggiungi <code>@using LilyBlazorHeadless.Components</code> a
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Passo 2 — Il tuo primo componente</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rende <code>&lt;button class="button"&gt;</code>. Le convenzioni dei parametri condivise: <code>Label</code> (un <code>aria-label</code> per sostituire),
+    <code>CssClass</code> (aggiunto all'hook di base),
+    <code>ChildContent</code>e
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> attribute splatting, così qualsiasi attributo HTML in più passa attraverso.
+  </p>
+
+  <h2>Passo 3 — Componi un piccolo modulo</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> riceve l' <code>Label</code> visibile come proprio parametro invece di un componente etichetta annidato — passalo una sola volta, su
+    <code>Field</code>e <code>TextInput</code>corrispondente
+    <code>Label</code> fornisce il nome accessibile.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificato il 2026-08-29:</strong> una bozza precedente annidava un componente <code>Label</code> separato dentro <code>Field</code>, che rendeva <em>due</em> etichette (una vuota) perché <code>Field</code>
+      rende già la propria dall'input <code>Label</code> parametro — individuato controllando il sorgente del componente; <code>Form</code> non ha un parametro <code>Label</code> , quindi l'uso di
+      <code>&lt;Form&gt;</code> della bozza precedente è stato corretto omettendolo, invece di inventare un attributo inesistente.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">La rotta composta del modulo di contatto</a>
+      è lo stesso schema, collaudato da veri test e2e e axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controlla il lavoro:</strong> avvia l'app e il modulo appare spoglio — esattamente come previsto: lo stile deve ancora venire. Premi
+      <kbd>Tab</kbd>: il focus si sposta su ogni controllo, l'etichetta viene annunciata e l'invio funziona. Il comportamento è fatto; l'aspetto è tuo, ed è il prossimo passo.
+    </p>
+  </div>
+
+  <h2>Passo 4 — Dagli uno stile</h2>
+  <p>
+    Stilizza gli hook di classe — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in <code>app.css</code>, oppure collega un tema pronto in <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Passo 5 — Guarda tutto in funzione</h2>
+  <p>
+     <a href="/examples/">App di esempio Blazor Web</a> mostra il catalogo completo stilizzato e dimostrato, con test e2e Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Prossimi passi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — cambio a runtime con l'helper theme-picker per Blazor (una libreria di classi Razor su NuGet).</li>
+    <li><a href="/tutorials/helpers/">Helper delle preferenze</a> — lingua e dimensione del testo.</li>
+    <li><a href="/components/">Catalogo dei componenti</a> — proprietà, ARIA e tastiera per ogni componente.</li>
+  </ul>
+  <p>
+    Domande lungo la strada? La
+    <a href="/help/#troubleshooting">pagina di aiuto</a> è piena di risposte — e se un passo può essere più chiaro,
+    <a href="https://github.com/LilyDesignSystem">faccelo sapere</a> e miglioreremo volentieri il tutorial.
+  </p>
+</section>

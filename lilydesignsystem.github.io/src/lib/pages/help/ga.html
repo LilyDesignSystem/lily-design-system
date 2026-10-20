@@ -1,0 +1,432 @@
+<!-- title: Cabhair — Lily Design System -->
+<!-- description: Tosú le Lily: suiteáil an pacáiste gan cheann do do chreat, cóipeáil comhpháirt, stíligh í, tabhair téama di agus seol í. Fabhtcheartú, CC agus tacaíocht. -->
+<section class="page-intro">
+  <h1>Tosú le Lily</h1>
+  <p class="page-intro-tagline">
+    Roghnaigh creat, cloin an monorepo agus oscail a leabharlann gan cheann nó a aip shamplach, agus tosaigh ar do leathanaigh féin a chumadh. An fearr leat conair threoraithe? Tosaigh leis na
+    <a href="/tutorials/">teagasc</a>.
+  </p>
+</section>
+
+<nav aria-label="Ar an leathanach seo" class="prose" style="margin: 0 auto;">
+  <p><strong>Ar an leathanach seo:</strong></p>
+  <ul>
+    <li><a href="#install">Suiteáil</a></li>
+    <li><a href="#use-headless">Úsáid comhpháirt gan cheann</a></li>
+    <li><a href="#use-styled">Úsáid sampla stílithe</a></li>
+    <li><a href="#styling">Stíliú agus comharthaí dearaidh</a></li>
+    <li><a href="#themes">Téamaí réamhdhéanta</a></li>
+    <li><a href="#helpers">Cúntóirí sainroghanna</a></li>
+    <li><a href="#a11y">Inrochtaineacht</a></li>
+    <li><a href="#i18n">Idirnáisiúnú</a></li>
+    <li><a href="#testing">Tástáil</a></li>
+    <li><a href="#ai-agents">Gníomhairí AI</a></li>
+    <li><a href="#troubleshooting">Fabhtcheartú</a></li>
+    <li><a href="#contributing">Rannchuidiú</a></li>
+    <li><a href="#community">Pobal agus tacaíocht</a></li>
+    <li><a href="#faq">CC</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Suiteáil</h2>
+  <p>
+    Tá Lily i monorepo Git amháin, le comhadlann do leabharlann gan cheann, do phacáistí cúntóra agus d’aip shamplach gach creata. Is é an bealach is tapúla le triail a bhaint as ná an monorepo a chlónáil agus an leabharlann gan cheann do do chruach a oscailt:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Oibríonn an patrún céanna do na creataí eile:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — níl aon suiteáil de dhíth; cóipeáil na comhaid <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Tá na leabharlanna gan cheann deartha le clónáil nó le gabháil isteach — caith leis an bhfoinse mar fhoinse na fírinne agus cóipeáil an méid atá uait.
+    <a href="#helpers">cúntóirí sainroghanna</a> a sheoltar mar phacáistí insuiteáilte le píblíne tógála agus foilsithe (npm do chreataí JS, NuGet do Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Úsáid comhpháirt gan cheann</h2>
+  <p>
+    Seolann comhpháirteanna gan cheann HTML séimeantach, ARIA agus airíonna — ach gan CSS. Seo Button i ngach creat:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Úsáid sampla stílithe</h2>
+  <p>
+    Cuimsíonn na haipeanna samplacha CSS, bealaí agus leathanaigh taispeána iomlána. Is é an bealach is tapúla le triail a bhaint as ná aip shamplach SvelteKit, Next, Nuxt, Analog nó Eleventy a thosú agus féachaint ar an taispeántas ag <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Ansin oscail <code>http://localhost:5173</code> agus brabhsáil <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stíliú agus comharthaí dearaidh</h2>
+  <p>
+    Rindreáiltear gach comhpháirt le haicme amháin i kebab-case ar a heilimint fréimhe. Mar shampla, rindreáiltear <code>&lt;Button&gt;</code> mar <code>&lt;button class="button"&gt;</code>. Stílígh é mar is mian leat:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Is é pailéad dathanna réamhshocraithe Lily (a úsáidtear sna haipeanna samplacha):</p>
+  <ul>
+    <li>Príomhúil: <code>#2563eb</code></li>
+    <li>Contúirt: <code>#dc2626</code></li>
+    <li>Rabhadh: <code>#f59e0b</code></li>
+    <li>Rath: <code>#16a34a</code></li>
+    <li>Cúlra an leathanaigh: <code>#f9fafb</code></li>
+    <li>Cúlra an chárta: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Moltaí iad seo, ní riachtanais. Cuir pailéad do bhranda féin ina n-ionad agus leanann Lily go sásta.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Téamaí réamhdhéanta</h2>
+  <p>
+    Nach bhfuil tú ag iarraidh CSS a scríobh ón tús? Seolann Lily
+    <strong>57 téama tagartha neamhspleách</strong> sa chomhadlann
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Is bileog stíle amháin gach ceann a dhíríonn ar chrúcaí aicme Lily — nasc í agus tá tú stílithe:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Clúdaíonn an tacar:</p>
+  <ul>
+    <li>
+      <strong>Earnáil phoiblí</strong> — NHS England, NHS Scotland agus NHS Wales (gach ceann i leaganacha d’othair agus do chleachtóirí), GOV.UK GDS, agus an U.S. Web Design System.
+    </li>
+    <li><strong>Spreagtha ag díoltóirí</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Úsáid ghinearálta</strong> — light, dark, nord, dracula, wireframe, agus tríocha eile nó mar sin.
+    </li>
+  </ul>
+  <p>
+    Úsáideann roghnóirí téama <code>:where(...)</code>, mar sin bíonn do CSS féin i gcónaí ar dhroim an bhua i sonraíocht. Péireáil iad leis an gcúntóir <code>theme-picker</code> thíos le haghaidh athraithe ag am rite, nó lean an
+    <a href="/tutorials/theming/">teagasc na dtéamaí</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Cúntóirí sainroghanna</h2>
+  <p>
+    Tá ocht roghnóir bheaga ag gach creat, gach ceann acu ina phacáiste
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> dá chuid féin (agus <code>picker-bar</code> a chuireann le chéile iad). Is cnaipe deilbhín gan cheann gach ceann a osclaíonn preabfhuinneog — bosca liosta, liosta naisc, foirm cuardaigh nó (do date-time-picker) dialóg roghnóra dáta — ní
+    <code>&lt;select&gt;</code>dúchasach; tá sé sábháilte do SSR; agus ní sheolann CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — luchtaíonn bileoga stíle téamaí ag am rite trí <code>&lt;link&gt;</code>bainistithe a mhalartú, socraíonn
+      <code>data-theme</code> ar an doiciméad, agus sábhálann go marthanach in
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — socraíonn <code>lang</code> agus
+      <code>dir</code> (le brath RTL uathoibríoch) ionas gur féidir le do leabharlann i18n leanúint; ní aistríonn sé aon rud leis féin.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — socraíonn <code>data-text-size</code> ar an doiciméad; mapálann do CSS gach luach ar mhéid cló.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — socraíonn <code>data-motion</code> ar an doiciméad, ag tosú ó shocrú gluaiseachta laghdaithe an chuairteora; socraíonn do CSS agus do scripteanna cad a chuirfear faoi chois.
+    </li>
+    <li>
+      <strong>search-picker</strong> — cnaipe deilbhín a osclaíonn réimse cuardaigh; nascleanann an tíolacadh chuig leathanach cuardaigh. Tá seilbh aige ar ghníomh, ní ar shainrogha.
+    </li>
+    <li>
+      <strong>link-picker</strong> — deilbhín tí a osclaíonn roghchlár de na naisc leathanaigh a shainíonn d’aip (Baile, Fúinn, Déan teagmháil linn, Polasaí príobháideachais, …). Tá seilbh aige ar ghníomh, ní ar shainrogha.
+    </li>
+    <li>
+      <strong>share-picker</strong> — osclaíonn sé an bileog chomhroinnte dhúchasach nó liosta cuspóirí a sholáthraíonn an tomhaltóir, móide cóipeáil an URL. Tá seilbh aige ar ghníomh, ní ar shainrogha: ní chuireann sé aon rud i bhfeidhm, ní shábhálann sé aon rud.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — réimse téacs móide dialóg roghnóra dáta APG do dháta, d’am, nó don dá cheann. Tá seilbh aige ar luach foirme, ní ar shainrogha: aistrítear an teaghrán ISO anonn is anall go
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Is é an chatalóg Svelte an tagairt chanónach; comhoiriúnaíonn calafoirt React, Vue, Angular, HTML, Nunjucks, Web Components agus Blazor léi conradh ar chonradh. Féach an
+    <a href="/tutorials/helpers/">teagasc na gcúntóirí</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Inrochtaineacht</h2>
+  <p>Díríonn na comhpháirteanna ar <strong>WCAG 2.2 AAA</strong>. Leanann siad na patrúin seo:</p>
+  <ul>
+    <li>Eilimintí HTML séimeantacha seachas <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> ginearálta a nascann lipéid le hionchuir.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> le haghaidh trasthagairtí.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> le haghaidh staideanna earráide.</li>
+    <li><code>role="alert"</code> agus <code>aria-live</code> le haghaidh ábhar dinimiciúil.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> le haghaidh staide.</li>
+    <li>Roving <code>tabindex</code> le haghaidh greillí.</li>
+  </ul>
+  <p>
+    Soláthraíonn an tomhaltóir táscairí fócais d’aon ghnó — ní tharraingíonn Lily fáinne fócais réamhshocraithe a bhíonn i gcoimhlint le do dhearadh. Coinníonn na haipeanna samplacha bunlíne ghlan axe-core ar fud a mbealaí go léir.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Idirnáisiúnú</h2>
+  <p>
+    Is airí é gach lipéad, sealbhóir áite, teachtaireacht earráide agus téacs cnaipe. Níl aon teaghráin scríofa go docht. Plugáil isteach an creat aistrithe is rogha leat — Paraglide, i18next, vue-i18n, react-intl, comhaid .resx, rud ar bith.
+  </p>
+  <p>
+    I gcás dátaí, uimhreacha agus airgeadraí, glacann na comhpháirteanna le teaghráin réamhfhormáidithe: déanann tú an fhormáidiú le <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / do leabharlann is fearr leat agus cuireann tú an toradh ar aghaidh.
+  </p>
+  <p>
+    Cuireann an cúntóir <code>locale-picker</code> an logchaighdeán roghnaithe in iúl do do leabharlann i18n trí <code>lang</code> agus <code>dir</code> a shocrú ar fhréamh an doiciméid.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Tástáil</h2>
+  <p>Seolann gach fophroiséad creata a thástálacha féin ag úsáid a chruaiche idiomaí:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO ag rith brabhsálaithe fíor.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (tríd an breiseán Analog Vite).</li>
+    <li><strong>Nunjucks</strong>: Vitest le cúntóir rindreála.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Úsáideann na tástálacha <strong>matchers ionsuite Vitest amháin</strong> — choíche matchers
+    <code>jest-dom</code> . Coinníonn sé seo na sraitheanna tástála iniompartha. Cuireann na haipeanna samplacha sraitheanna ceann go ceann Playwright, bunlínte inrochtaineachta axe-core agus scuabadh fuinneoga amhairc freagrúla leo.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Gníomhairí AI</h2>
+  <p>
+    Foilsíonn an suíomh seo <a href="/llms.txt">llms.txt</a> agus
+    <a href="/llms.json">llms.json</a> ina fhréamh — léarscáil churtha de na leathanaigh is tábhachtaí aige, d’aon uirlis a leanann an
+    <a href="https://llmstxt.org">gnás llms.txt</a>.
+  </p>
+  <p>
+    Seolann an monorepo canónach dhá
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code> freisin: scil ghinearálta a chlúdaíonn coincheapa, téarmaíocht agus patrúin chumadóireachta Lily do dhuine ar bith atá ag tógáil leis an gcóras, agus <code>lily-design-system-maintainer-skill</code>, scil theicniúil a chlúdaíonn leagan amach na gcomhad riachtanach agus uirlisí an mhonorepo do dhuine ar bith atá ag obair air. Tá an dá cheann i bhfréamh an
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">mhonorepo chanónaigh</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Fabhtcheartú</h2>
+
+  <details class="faq-item">
+    <summary>Rindreáiltear comhpháirt ach tá cuma gan stíliú uirthi</summary>
+    <p>
+      Sin gan cheann ag obair mar a bhí beartaithe — ní thagann aon CSS leis an gcomhpháirt. Scríobh CSS in aghaidh aicme kebab-case na comhpháirte (le feiceáil ar gach <a href="/components/">leathanach catalóige</a>) nó nasc ceann de na
+      <a href="#themes">57 téama réamhdhéanta</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Is cosúil nach bhfuil mo CSS ag feidhmiú thar théama</summary>
+    <p>
+      Ba chóir dó — tá roghnóirí téama fillte i <code>:where(...)</code>, a bhfuil nialas sonraíochta aige. Má chailleann riail fós, seiceáil go luchtaíonn do bhileog stíle tar éis <code>&lt;link&gt;</code> an téama agus go bhfreagraíonn an roghnóir i ndáiríre do chrúca aicme na comhpháirte.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Teipeann ar pnpm install le hearráid piaraí nó leagain</summary>
+    <p>
+      Úsáid pnpm reatha (v10+) agus Node 22+. Greamaíonn gach fophroiséad leaganacha a chreata ina <code>package.json</code>féin; má tá do chuasbhóthar uirlisí domhanda níos sine, <code>pnpm env use --global lts</code> is é an réiteach is tapúla.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Fógraíonn an léitheoir scáileáin ainm mícheart ar rialú</summary>
+    <p>
+      Seiceáil airí riachtanach na comhpháirte <code>label</code> — éilíonn comhpháirteanna nach bhfuil téacs infheicthe acu ceann, agus buaigh
+      <code>aria-label</code> / <code>aria-labelledby</code> a sholáthraíonn an tomhaltóir agus a rithtear trí rest-props d’aon ghnó thar an gcáblaí ionsuite. Doiciméadaíonn gach leathanach catalóige conradh ARIA na comhpháirte.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ní athraíonn an cúntóir theme-picker bileoga stíle</summary>
+    <p>
+      Deimhnigh go <code>themesUrl</code> pointeálann sé ar chomhadlann is féidir leis an mbrabhsálaí a fháil (freastail na comhaid <code>themes/</code> mar shócmhainní statacha) agus go bhfreagraíonn slugs na dtéamaí i d’airí <code>themes</code> d’ainmneacha na gcomhad. Malartaíonn an cúntóir an <code>href</code> de
+      <code>&lt;link data-lily-theme-picker&gt;</code> bainistithe amháin — scrúdaigh é in uirlisí forbróra chun an URL a iarrtar a fheiceáil.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Tá rud éigin eile briste</summary>
+    <p>
+      Oscail issue le hathchruthú íosta ar
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — nó féach <a href="#community">pobal agus tacaíocht</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Rannchuidiú</h2>
+  <p>Tá Lily óg agus fáiltíonn sé roimh chomhoibriú. Is iad na rannchuidithe is úsáidí faoi láthair:</p>
+  <ul>
+    <li>Comhpháirteanna nua (go háirithe patrúin ó chórais dearaidh bhunaithe).</li>
+    <li>Téamaí nua — is bileog stíle neamhspleách amháin gach ceann, an chéad PR sainmhínithe go maith.</li>
+    <li>Stíliú samplaí níos fearr — taispeáin cad atá indéanta.</li>
+    <li>Aistriúcháin ar theaghráin na n-aipeanna samplacha.</li>
+    <li>Tuairiscí fabhtanna le hathchruthú íosta.</li>
+    <li>Iniúchtaí inrochtaineachta le léitheoirí scáileáin agus teicneolaíocht chúnta.</li>
+  </ul>
+  <p>
+    Oscail issues agus PRs ar
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Pobal agus tacaíocht</h2>
+  <ul>
+    <li>
+      <strong>Ceisteanna agus tuairiscí fabhtanna</strong> — oscail issue ar
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>R-phost</strong> — léann an cothabhálaí
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      agus fáiltíonn sé roimh chomhoibriú, treoir agus aiseolas.
+    </li>
+    <li>
+      <strong>Scáthanna</strong> — brúitear Lily chuig
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> agus
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a> freisin, ionas gur féidir leat páirt a ghlacadh ón bhforge is fearr leat.
+    </li>
+    <li>
+      <strong>Iompar</strong> — leanann an tionscadal cód iompair caighdeánach; bí cineálta, glac go bhfuil dea-chreideamh ann.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>CC</h2>
+
+  <details class="faq-item">
+    <summary>Cén fáth gan cheann seachas stílithe?</summary>
+    <p>
+      Tá comhpháirteanna réamhstílithe áisiúil — go dtí nach n-oirfidh siad do do bhranda. Éilíonn comhpháirteanna gan cheann beagán níos mó oibre ar dtús ach tugann siad rialú iomlán duit ar an dearadh amhairc. Taispeánann na haipeanna samplacha agus na 57 téama bealaí chun iad a stíliú; is féidir leat iad sin a ghlacadh nó iad a chur ina n-ionad go hiomlán. Tá an argóint is faide ar <a href="/why/">Cén fáth Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Cén fáth an oiread sin comhpháirteanna?</summary>
+    <p>
+      Tá sé mar aidhm ag Lily na patrúin a theastaíonn ó fhormhór na n-aipeanna a chlúdach gan iallach a chur ort iad a thógáil ón tús — lena n-áirítear rudaí domhain cosúil le hionchuir aitheantóirí náisiúnta agus scrollytelling eagarthóireachta. Tarraingíonn an chatalóg ó dhosaen córas dearaidh bunaithe móide obair bhunaidh — féach <a href="/about/">Maidir leis</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>An féidir liom Lily a úsáid le Tailwind?</summary>
+    <p>
+      Is féidir. Nochtann gach comhpháirt aicme fréimhe amháin i kebab-case móide <code>className</code> / <code>class</code>a sholáthraíonn an tomhaltóir. Sraith fóntais Tailwind air mar is mian leat.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>An féidir liom Lily a úsáid le creataí CSS séimeantacha cosúil le DaisyUI?</summary>
+    <p>
+      Is féidir. Oibríonn na hainmneacha aicme kebab-case ar an eilimint fréimhe mar chrúcaí CSS séimeantacha. Péireáil Lily le creat séimeantach agus faigheann tú comhpháirteanna réamhstílithe a thugann meas fós ar ARIA agus i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>An bhfuil pacáiste npm ann?</summary>
+    <p>
+      Seoltar na <a href="#helpers">cúntóirí sainroghanna</a> mar phacáistí le píblíne foilsithe npm/NuGet. Tá na leabharlanna comhpháirteanna gan cheann deartha le clónáil nó le gabháil isteach — is é an fhoinse an tseachadadh, ionas gur féidir leat go beacht an méid a sheolann tú a léamh, a laghdú agus a bheith i seilbh air. Tá foilsiú na leabharlann gan cheann i gcláir fós ar an treochlár.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Cén fáth ilcheadúnais?</summary>
+    <p>
+      Tá riachtanais ceadúnaithe éagsúla ag tionscadail éagsúla. Tá BSD agus MIT ceadaitheach, tá deonú paitinne ag Apache-2.0, agus tacaíonn na roghanna GPL le copyleft. Roghnaigh cibé ceann a oireann do do chás.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Conas a thuairisciú fabht nó gné a iarraidh?</summary>
+    <p>
+      Oscail issue ar thaisclann GitHub, nó seol r-phost chuig
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

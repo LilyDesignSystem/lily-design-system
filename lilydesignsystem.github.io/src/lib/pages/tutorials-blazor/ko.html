@@ -1,0 +1,107 @@
+<!-- title: Blazor 튜토리얼 — Lily Design System -->
+<!-- description: Lily의 Blazor 헤드리스 컴포넌트로 접근성 있고 스타일이 적용된 폼을 만듭니다. 매개변수와 bUnit 테스트를 갖춘 Razor 컴포넌트입니다. -->
+<section class="page-intro">
+  <h1>Blazor 튜토리얼</h1>
+  <p class="page-intro-tagline">
+    매개변수를 가진 Razor 클래스 라이브러리 컴포넌트, <code>ChildContent</code>
+    렌더 프래그먼트, 특성 스플래팅, 컴포넌트마다 하나의 bUnit 테스트.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>만들 것</h2>
+  <p>
+    작은 문의 폼 — 레이블이 있는 입력, 제출 버튼,
+    <code>@bind-Value</code> 바인딩, 실제 키보드 및 스크린 리더 동작 — 먼저 꾸미지 않은 상태로, 그다음 스타일을 입혀서 약 10분 안에 만듭니다.
+  </p>
+
+  <h2>시작하기 전에</h2>
+  <p>
+    git과 .NET SDK 8 이상이 필요합니다. Blazor 프로젝트라면 무엇이든 괜찮습니다 — Blazor Web App, Server, WebAssembly 모두 됩니다.
+  </p>
+
+  <h2>1단계 — 코드 가져오기</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    컴포넌트는 다음 위치에 있습니다: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — 컴포넌트마다 Razor 파일 하나입니다. Blazor 앱에서 그 프로젝트를 참조하거나(또는 파일을 복사하고) <code>@using LilyBlazorHeadless.Components</code> 를 다음 파일에 추가합니다:
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>2단계 — 첫 번째 컴포넌트</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    렌더링하는 요소: <code>&lt;button class="button"&gt;</code>. 공통 매개변수 규칙: <code>Label</code> ( <code>aria-label</code> 재정의용),
+    <code>CssClass</code> (기본 훅에 덧붙음),
+    <code>ChildContent</code>, 그리고
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> 특성 스플래팅으로 추가 HTML 특성이 그대로 전달됩니다.
+  </p>
+
+  <h2>3단계 — 작은 폼 구성하기</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> 은 보이는 <code>Label</code> 을 중첩된 레이블 컴포넌트가 아니라 별도의 매개변수로 받습니다 — 한 번만 전달하면
+    <code>Field</code>, 그리고 <code>TextInput</code>의 대응하는
+    <code>Label</code> 이 접근 가능한 이름을 제공합니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 확인 완료:</strong> 이전 초안에서는 별도의 <code>Label</code> 컴포넌트를 <code>Field</code>안에 중첩했는데, 그러면 <em>두 개의</em> 레이블(하나는 비어 있음)이 렌더링되었습니다. <code>Field</code>
+      가 <code>Label</code> 매개변수 — 컴포넌트 소스를 확인하다가 발견했습니다. <code>Form</code> 자체에는 <code>Label</code> 매개변수가 없으므로, 이전 초안의
+      <code>&lt;Form&gt;</code> 사용법은 존재하지 않는 특성을 지어내는 대신 해당 부분을 뺀 형태로 고쳤습니다.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">문의 폼 조합 라우트</a>
+      도 같은 패턴이며, 실제 e2e 및 axe 테스트로 검증됩니다.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>작동 확인:</strong> 앱을 실행하면 폼이 밋밋해 보입니다 — 의도한 대로이며 스타일은 앞으로 입힙니다.
+      <kbd>Tab</kbd>키를 눌러 보세요. 포커스가 모든 컨트롤을 따라 이동하고, 레이블이 읽히며, 제출도 동작합니다. 동작은 완성되었고, 모양은 당신 몫이며 다음 단계입니다.
+    </p>
+  </div>
+
+  <h2>4단계 — 스타일 입히기</h2>
+  <p>
+    클래스 훅에 스타일을 입힙니다 — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 다음 위치에서: <code>app.css</code>, 또는 준비된 테마를 다음 위치에서 링크합니다: <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>5단계 — 전체가 동작하는 모습 보기</h2>
+  <p>
+     <a href="/examples/">Blazor Web 예제 앱</a> 은 스타일과 데모를 갖춘 전체 카탈로그를 보여 주며, Playwright e2e 테스트도 있습니다:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>다음 단계</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">테마 적용</a> — Blazor theme-picker 헬퍼(NuGet의 Razor 클래스 라이브러리)로 하는 런타임 전환.</li>
+    <li><a href="/tutorials/helpers/">환경설정 헬퍼</a> — 언어와 텍스트 크기.</li>
+    <li><a href="/components/">컴포넌트 카탈로그</a> — 컴포넌트별 props, ARIA, 키보드.</li>
+  </ul>
+  <p>
+    진행하다가 궁금한 점이 있다면
+    <a href="/help/#troubleshooting">도움말 페이지</a> 에 답이 많이 있습니다. 어떤 단계가 더 명확해질 수 있다면
+    <a href="https://github.com/LilyDesignSystem">알려 주세요</a> . 기꺼이 튜토리얼을 개선하겠습니다.
+  </p>
+</section>

@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: 目前呒没维护中个 Lily Figma 组件库或插件。57 套参考主题个设计令牌以 DTCG 格式发布，现在就可以通过现有个社区插件导入 Figma。 -->
+<section class="page-intro">
+  <h1>呒没维护中个 Figma 组件库——现有个替代方案如下</h1>
+  <p class="page-intro-tagline">
+    搿个页面以前写个是“即将推出”。现在勿再这样写了，因为并呒没人在做。下面如实说明现状，以及一条今天就能走通个路径。
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>目前呒没个东西</h2>
+  <p>
+    Figma 中呒没官方个 Lily 组件库，也呒没维护中个 Figma 插件。把一个设计工具组件库做好并长期维护，是一项真实而持续个投入——Figma 组件结构、变体命名、自动布局，以及伊自己个发布流程——这与维护代码是两回事，而本项目并呒没承担这项工作。
+  </p>
+
+  <h2>现在有啥</h2>
+  <p>
+    57 套参考主题中个每一套，侪把伊个设计令牌基础项——颜色、圆角、尺寸、边框——以
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 格式</a
+    >
+    发布在
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >。这种格式正是现代令牌工具所读取个格式。侬现在就可以自己把某个 Lily 主题个调色板导入 Figma，无需本项目提供任何插件：
+  </p>
+  <ol>
+    <li>
+      安装社区插件
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      （或者在侬个套餐支持 DTCG 导入时，使用 Figma 自带个变量导入）。
+    </li>
+    <li>
+      为侬想要个主题导入 <code>themes/tokens/{theme-slug}.json</code>——例如
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>。
+    </li>
+    <li>
+      Tokens Studio 会根据 DTCG 个取值创建 Figma 变量，之后侬就可以把伊拉应用到自己个组件上。
+    </li>
+  </ol>
+  <p>
+    这样侬得到个是 Figma 中个 Lily 颜色搭形状令牌，而不是作为 Figma 组件个 Lily 真实组件——还呒没人做过这件事，本页面也不会假装做过。
+  </p>
+
+  <h2>有呒没计划做真正个 Figma 组件库？</h2>
+  <p>
+    目前呒没，而且搿个承诺不能随口许下：悬而未决个问题，以及啥情况会改变项目的想法，请见
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    ——其中最有帮助个，是设计师明确说出伊拉需要这一层提供啥。如果侬就是这样个设计师，
+    <a href="mailto:joel@joelparkerhenderson.com">请告诉阿拉</a>
+    或提交一个 issue。
+  </p>
+</section>

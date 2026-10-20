@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: ທັກສະ Claude 26 ອັນໃຫ້ Claude Code ມີທາງເຂົ້າທີ່ຄັດເລືອກ ແລະໂຫຼດໄດ້ໄປຫາ Lily Design System — ແນວຄິດທົ່ວໄປ, ຮົ່ມສຳລັບແຕ່ລະເຟຣມເວີກ, ແລະການເຈາະເລິກຕໍ່ໂຄງການຍ່ອຍສຳລັບໄລບຣາຣີແບບບໍ່ມີຫົວ ແລະຕົວຊ່ວຍ *-picker. -->
+<section class="page-intro">
+  <h1>ທັກສະໃນຕົວແທນ AI ເຮັດໃຫ້ Lily ງ່າຍຂຶ້ນອີກ</h1>
+  <p class="page-intro-tagline">
+    Lily ສົ່ງທັກສະທີ່ເນັ້ນຈຸດສຸມ — ທົ່ວໄປ, ຕໍ່ເຟຣມເວີກ, ແລະຕໍ່ໂຄງການຍ່ອຍ — ເພື່ອໃຫ້ຕົວແທນໂຫຼດບໍລິບົດທີ່ມັນຕ້ອງການພໍດີ ແລະບໍ່ມີຫຍັງທີ່ມັນບໍ່ຕ້ອງການ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ທ່ານຕ້ອງການທັກສະອັນໃດ?</h2>
+  <p>
+    ແຕ່ລະຊັ້ນຕອບຄຳຖາມທີ່ແຕກຕ່າງກັນ. ໂຫຼດທັກສະທົ່ວໄປເມື່ອທ່ານຍັງບໍ່ຮູ້ຈັກ Lily. ໂຫຼດທັກສະເຟຣມເວີກເມື່ອທ່ານຮູ້ຈັກເຟຣມເວີກຂອງທ່ານແຕ່ບໍ່ຮູ້ວ່າຕ້ອງການໂຄງການຍ່ອຍໃດ. ໂຫຼດ headless-skill ຫຼື helpers-skill ໂດຍກົງເມື່ອທ່ານຮູ້ຢ່າງແນ່ນອນວ່າກຳລັງເຮັດວຽກຫຍັງ.
+  </p>
+
+  <ul>
+    <li>
+      <strong>ທົ່ວໄປ / ຜູ້ບຳລຸງຮັກສາ</strong> — “Lily ແມ່ນຫຍັງ?” / “monorepo ນີ້ຖືກປະກອບແນວໃດ?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>ຮົ່ມເຟຣມເວີກ</strong> — “ມີຫຍັງສຳລັບ {framework}, ແລະຂ້ອຍຕ້ອງການຊິ້ນໃດ?” — 8, ອັນລະ <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>ບໍ່ມີຫົວ / ຕົວຊ່ວຍ</strong> — “ໃຊ້ອົງປະກອບ / ຕົວຊ່ວຍ *-picker ຂອງ {framework} ຢ່າງແນ່ນອນແນວໃດ?” — 16, ອັນລະ <code>{framework}-headless-skill</code> ແລະ <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>ແປດເຟຣມເວີກ</h2>
+  <p>
+    ທຸກເຟຣມເວີກໄດ້ສະແຕັກສາມຊັ້ນດຽວກັນ. ທັກສະຮົ່ມແມັບທຸກໂຄງການຍ່ອຍຈິງຂອງເຟຣມເວີກນັ້ນ — ລວມທັງແອັບຕົວຢ່າງ, ທີ່ທັກສະພີ່ນ້ອງທັງສອງບໍ່ໄດ້ກວມເອົາ — ແລະຊີ້ລົງໄປຫາພວກມັນແທນທີ່ຈະເວົ້າຊ້ຳສັນຍາຂອງພວກມັນ.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ເຟຣມເວີກ</th>
+        <th>ຮົ່ມ</th>
+        <th>ບໍ່ມີຫົວ</th>
+        <th>ຕົວຊ່ວຍ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="ທັກສະຮົ່ມ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະແບບບໍ່ມີຫົວ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">ທັກສະ</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="ທັກສະຮົ່ມ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະແບບບໍ່ມີຫົວ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">ທັກສະ</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="ທັກສະຮົ່ມ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະແບບບໍ່ມີຫົວ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">ທັກສະ</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="ທັກສະຮົ່ມ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະແບບບໍ່ມີຫົວ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">ທັກສະ</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="ທັກສະຮົ່ມ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະແບບບໍ່ມີຫົວ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">ທັກສະ</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="ທັກສະຮົ່ມ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະແບບບໍ່ມີຫົວ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">ທັກສະ</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="ທັກສະຮົ່ມ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະແບບບໍ່ມີຫົວ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">ທັກສະ</a></td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">ທັກສະ</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="ທັກສະຮົ່ມ Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">ທັກສະ</a></td>
+        <td>
+          <a
+            aria-label="ທັກສະແບບບໍ່ມີຫົວ Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >ທັກສະ</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="ທັກສະຕົວຊ່ວຍ Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">ທັກສະ</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components ແມ່ນຂໍ້ຍົກເວັ້ນດຽວໃນທັງສອງທິດທາງ: ແຄັດຕາລັອກແບບບໍ່ມີຫົວຂອງມັນຕັ້ງໃຈມີຂອບເຂດ 536 ຈາກ 571 (ອົງປະກອບກຳນົດເອງພື້ນເມືອງ, ບໍ່ມີ runtime ເຟຣມເວີກ; 35 ອົງປະກອບທີ່ເຫຼືອຖືກຍົກເວັ້ນຖາວອນ), ແລະຍັງບໍ່ມີແອັບຕົວຢ່າງ Web Components — ທັກສະຮົ່ມຂອງມັນບອກແນວນັ້ນແທນທີ່ຈະບອກເປັນນັຍວ່າມີ.
+  </p>
+
+  <h2>ເພີ່ມທັກສະໜຶ່ງອັນ</h2>
+  <p>
+    ແຕ່ລະທັກສະແມ່ນໄຟລ໌ <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> — ບວກໄຟລ໌ສະໜັບສະໜູນ, ບໍ່ມີຂັ້ນຕອນສ້າງ. Clone ອັນທີ່ທ່ານຕ້ອງການໄປບ່ອນທີ່ການຕັ້ງຄ່າ Claude Code ຂອງທ່ານໂຫຼດທັກສະ (ເບິ່ງເອກະສານທາງການທີ່ເຊື່ອມຕໍ່ຂ້າງເທິງສຳລັບໄດເຣັກທໍຣີທັກສະຂອງໂຄງການ ຫຼືບັນຊີຂອງທ່ານ):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    ເຮັດວຽກຂ້າມຫຼາຍເຟຣມເວີກ, ຫຼືກັບ monorepo ເອງບໍ? Clone <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo ມາດຕະຖານ</a> ແທນ — ທັກສະທັງ 26 ຢູ່ທີ່ຮາກຂອງມັນແລ້ວ, ຄຽງຂ້າງໄລບຣາຣີແບບບໍ່ມີຫົວ, ແຄັດຕາລັອກຕົວຊ່ວຍ, ແລະແອັບຕົວຢ່າງທີ່ພວກມັນອະທິບາຍ.
+  </p>
+</section>

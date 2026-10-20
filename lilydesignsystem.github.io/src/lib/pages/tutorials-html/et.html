@@ -1,0 +1,106 @@
+<!-- title: HTML-i õpetus — Lily Design System -->
+<!-- description: Ehita ligipääsetav, kujundatud vorm Lily HTML-i peata komponentidega — lihtne märgistus otse failist. -->
+<section class="page-intro">
+  <h1>HTML-i õpetus</h1>
+  <p class="page-intro-tagline">
+    Lihtsaim võimalik algus: kopeeri semantiline HTML Lily klassikonksudega, lisa üks laadileht, avalda. Lihtsad failid, mis töötavad kõikjal, kus HTML töötab.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mida sa ehitad</h2>
+  <p>
+    Väike kontaktivorm — sildiga väljad, saatmisnupp, tõeline klaviatuuri- ja ekraanilugeja käitumine — esmalt paljas, seejärel kujundatud, umbes 10 minutiga.
+  </p>
+
+  <h2>Enne alustamist</h2>
+  <p>
+    Vaja on brauserit ja tekstiredaktorit. Ongi kõik. (git aitab komponentfaile kätte saada, aga neid saab brauseris ka GitHubist kopeerida.)
+  </p>
+
+  <h2>Samm 1 — Hangi kood</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Iga komponent on eraldiseisev fail kaustas <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>ja nii edasi — päisekommentaariga, mis dokumenteerib selle HTML-sildi, klassikonksu, klaviatuurikäitumise ja ligipääsetavuse lepingu. Failid <em>on</em> teek — kopeeri, mida vajad, ja mine.
+  </p>
+
+  <h2>Samm 2 — Sinu esimene komponent</h2>
+  <p>Ava <code>components/button.html</code>või kirjuta lihtsalt märgistus — klassikonks on leping:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Kuna see on päris <code>&lt;button&gt;</code>, on klaviatuurifookus, aktiveerimine Enteri ja tühikuga ning kaudne nupurolli õige juba olemas.
+  </p>
+
+  <h2>Samm 3 — Kombineeri väike vorm</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Pane tähele mustrit: iga juhtelement seob oma <code>&lt;label for&gt;</code>, kasutab kõige täpsemat sisendi tüüpi ja kannab täpselt ühte kebab-case klassikonksu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolli oma tööd:</strong> ava leht brauseris. See paistab paljas — täpselt nagu ette nähtud: kujundamine on alles ees. Vajuta
+      <kbd>Tab</kbd>: fookus liigub läbi iga juhtelemendi, sildid kuulutatakse ette ja saatmine töötab. Käitumine on valmis; välimus on sinu ja järgmine samm.
+    </p>
+  </div>
+
+  <h2>Samm 4 — Kujunda see</h2>
+  <p>Kirjuta CSS konksude vastu:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Või jäta CSS-i käsitsi kirjutamine üldse vahele — lingi üks 45 valmis teemast ja sama märgistus süttib:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Samm 5 — Uuri edasi</h2>
+  <ul>
+    <li>Repo testid jooksevad päris brauserites: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook igale komponendile: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS näiterakendus</a> näitab kõiki 571 komponenti kujundatuna, otsitavana ja demonstreeritult.
+    </li>
+  </ul>
+
+  <h2>Järgmised sammud</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemad</a> — teema vahetamine töö ajal theme-pickeriga.</li>
+    <li><a href="/tutorials/helpers/">Eelistuste abilised</a> — keel ja teksti suurus.</li>
+    <li><a href="/components/">Komponentide kataloog</a> — täielik viide.</li>
+  </ul>
+  <p>
+    Küsimusi teel?
+    <a href="/help/#troubleshooting">Abileht</a> on täis vastuseid — ja kui mõni samm saaks olla selgem,
+    <a href="https://github.com/LilyDesignSystem">anna meile teada</a> ja me parandame õpetust hea meelega.
+  </p>
+</section>

@@ -1,0 +1,136 @@
+<!-- title: Tutoriale — Lily Design System -->
+<!-- description: Tutoriale Lily pas cu pas: prima ta componentă, stilizarea, temele gata făcute și ajutoarele pentru preferințe — pentru HTML, Svelte, React, Vue, Angular, Blazor și Nunjucks. -->
+<section class="page-intro">
+  <h1>Învață Lily, pas cu pas</h1>
+  <p class="page-intro-tagline">
+    Bun venit! Fiecare tutorial pornește de la zero și construiește același lucru mic — un formular accesibil, stilizat — în circa 10 minute, ca să poți compara framework-urile pe picior de egalitate. Apoi mergi mai adânc cu teme și preferințele utilizatorului.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Înainte să începi</h2>
+  <p>Ai nevoie de surprinzător de puțin:</p>
+  <ul>
+    <li>
+      <strong>Pentru tutorialul HTML</strong> — doar un browser și un editor de text. Atât este întregul set de instrumente.
+    </li>
+    <li>
+      <strong>Pentru Svelte, React, Vue, Angular sau Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 și pnpm 10 sau mai nou.
+    </li>
+    <li>
+      <strong>Pentru Blazor</strong> — git și
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 sau mai nou.
+    </li>
+  </ul>
+  <p>
+    Ești nou în componentele headless? Ești în locul potrivit — fiecare tutorial explică ce se întâmplă pe parcurs, iar fiecare pas arată exact codul de copiat.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Patru pași de la zero la livrare</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Prima ta componentă</strong> (~5 minute) — alege mai jos framework-ul tău, obține codul și afișează un Button.
+      </li>
+      <li>
+        <strong>Compune și stilizează</strong> (~5 minute) — construiește un formular cu etichete și stilizează-l pe baza cârligelor de clasă în kebab-case (parte din fiecare tutorial de framework).
+      </li>
+      <li>
+        <strong>Aplică o temă</strong> (~15 minute) — înlocuiește CSS-ul scris de mână cu una dintre cele 57 de teme gata făcute, apoi lasă utilizatorii să schimbe la rulare: <a href="/tutorials/theming/">tutorialul despre teme</a>.
+      </li>
+      <li>
+        <strong>Respectă preferințele</strong> (~15 minute) — adaugă selecția limbii și a dimensiunii textului cu ajutoarele pentru preferințe:
+        <a href="/tutorials/helpers/">tutorialul despre ajutoare</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Alege-ți framework-ul</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Copiază HTML semantic cu cârligele de clasă și pornește — un browser și un editor sunt tot ce îți trebuie.</p>
+      <p class="card-meta">~10 minute · cel mai ușor început</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Rune Svelte 5, snippeturi și legare bidirecțională cu <code>bind:value</code> .</p>
+      <p class="card-meta">~10 minute</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Componente funcționale cu <code>value</code> + <code>onChange</code> și răspândirea proprietăților rămase.</p>
+      <p class="card-meta">~10 minute</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Componente Vue 3 dintr-un singur fișier cu suport pentru <code>v-model</code> .</p>
+      <p class="card-meta">~10 minute</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Componente standalone Angular cu intrări de tip signal și <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minute</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Componente Razor cu parametri, <code>ChildContent</code>și teste bUnit.</p>
+      <p class="card-meta">~10 minute</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Macrouri randate pe server pentru Eleventy și orice flux de șabloane Node.</p>
+      <p class="card-meta">~10 minute</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Ești indecis? Începe cu <a href="/tutorials/html/">HTML</a> — te învață contractul cârligelor de clasă pe care îl împart toate celelalte framework-uri și rulează direct dintr-un fișier.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Mergi mai adânc</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Teme</h3>
+      <p class="card-description">
+        Leagă una dintre cele 57 de teme gata făcute — NHS, GOV.UK, USWDS, luminos, întunecat și altele — suprascrie-o cu propriul CSS și adaugă schimbarea temei la rulare cu ajutorul theme-picker.
+      </p>
+      <p class="card-meta">~15 minute</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Ajutoare pentru preferințe</h3>
+      <p class="card-description">
+        Dă utilizatorilor control asupra temei, limbii, dimensiunii textului, mișcării, căutării, linkurilor de pagină, partajării și introducerii datei/orei cu theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker și date-time-picker: controale headless cu persistență, siguranță SSR și detectare automată RTL.
+      </p>
+      <p class="card-meta">~15 minute</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>După tutoriale</h2>
+  <ul>
+    <li>
+      Răsfoiește <a href="/components/">catalogul de componente</a> — fiecare componentă își documentează proprietățile, contractul ARIA și comportamentul de tastatură.
+    </li>
+    <li>
+      Clonează o <a href="/examples/">aplicație-exemplu</a> pentru a vedea toate cele 571 de componente stilizate și funcționând împreună — CSS-ul țintește aceleași cârlige de clasă pe care tocmai le-ai folosit, deci copiază orice parte în proiectul tău și ajustează-o cum dorești.
+    </li>
+    <li>
+      Ai întrebări? <a href="/help/">Pagina de ajutor</a> are răspunsuri, un FAQ și modalități de a ajunge la un om prietenos. Iar dacă un tutorial ar putea fi mai clar,
+      <a href="https://github.com/LilyDesignSystem">spune-ne</a> — îl vom îmbunătăți cu plăcere.
+    </li>
+  </ul>
+</section>

@@ -1,0 +1,106 @@
+<!-- title: Návod pro HTML — Lily Design System -->
+<!-- description: Vytvořte přístupný, ostylovaný formulář pomocí bezhlavých komponent Lily pro HTML — obyčejné značky, přímo ze souboru. -->
+<section class="page-intro">
+  <h1>Návod pro HTML</h1>
+  <p class="page-intro-tagline">
+    Nejjednodušší možný začátek: zkopírujte sémantické HTML s třídními háčky Lily, přidejte jeden stylopis, publikujte. Obyčejné soubory, které fungují všude, kde funguje HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co vytvoříte</h2>
+  <p>
+    Malý kontaktní formulář — pole se štítky, tlačítko odeslat, skutečné chování klávesnice a čtečky obrazovky — nejprve holý, potom ostylovaný, zhruba za 10 minut.
+  </p>
+
+  <h2>Než začnete</h2>
+  <p>
+    Potřebujete prohlížeč a textový editor. To je vše. (git pomáhá při získání souborů komponent, ale můžete je zkopírovat i z GitHubu v prohlížeči.)
+  </p>
+
+  <h2>Krok 1 — Získejte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Každá komponenta je samostatný soubor v <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>a tak dále — se záhlavním komentářem dokumentujícím její značku HTML, třídní háček, chování klávesnice a smlouvu o přístupnosti. Soubory <em>jsou</em> knihovna — zkopírujte, co potřebujete, a jeďte.
+  </p>
+
+  <h2>Krok 2 — Vaše první komponenta</h2>
+  <p>Otevřete <code>components/button.html</code>, nebo prostě napište značky — třídní háček je smlouva:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Protože je to skutečný <code>&lt;button&gt;</code>, fokus klávesnice, aktivace klávesami Enter a mezerník i implicitní role tlačítka jsou už správně.
+  </p>
+
+  <h2>Krok 3 — Sestavte malý formulář</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Všimněte si vzoru: každý ovládací prvek propojí svůj <code>&lt;label for&gt;</code>, použije nejpřesnější typ vstupu a nese přesně jeden třídní háček v kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Zkontrolujte svou práci:</strong> otevřete stránku v prohlížeči. Vypadá holě — přesně jak bylo zamýšleno: stylování teprve přijde. Stiskněte
+      <kbd>Tab</kbd>: fokus prochází každým ovládacím prvkem, štítky se oznamují a odeslání funguje. Chování je hotové; vzhled je váš a je další na řadě.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>Napište CSS proti háčkům:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Nebo ruční psaní CSS úplně přeskočte — připojte jedno z 45 hotových témat a stejné značky se rozsvítí:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Prozkoumejte dál</h2>
+  <ul>
+    <li>Testy repozitáře běží ve skutečných prohlížečích: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook pro každou komponentu: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Ukázková aplikace HTML+CSS+JS</a> ukazuje všech 571 komponent ostylovaných, prohledávatelných a předvedených.
+    </li>
+  </ul>
+
+  <h2>Další kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témata</a> — přepínání tématu za běhu pomocí theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pro předvolby</a> — jazyk a velikost textu.</li>
+    <li><a href="/components/">Katalog komponent</a> — úplná reference.</li>
+  </ul>
+  <p>
+    Otázky cestou?
+    <a href="/help/#troubleshooting">Stránka nápovědy</a> je plná odpovědí — a pokud by nějaký krok mohl být jasnější,
+    <a href="https://github.com/LilyDesignSystem">dejte nám vědět</a> a návod rádi vylepšíme.
+  </p>
+</section>

@@ -1,0 +1,127 @@
+<!-- title: Angular oktatóanyag — Lily Design System -->
+<!-- description: Építs hozzáférhető, stílusos űrlapot a Lily Angular 20 fej nélküli komponenseivel: önálló komponensek jelzőbemenetekkel. -->
+<section class="page-intro">
+  <h1>Angular oktatóanyag</h1>
+  <p class="page-intro-tagline">
+    Angular 20 önálló komponensek — jelzőbemenetek, OnPush változásészlelés, beágyazott sablonok, nulla NgModule, nulla CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy kis kapcsolatfelvételi űrlap — címkézett mező, küldés gomb, kétirányú kötés, valódi billentyűzet- és képernyőolvasó-viselkedés — először csupaszon, aztán stílusosan, nagyjából 10 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Szükséged van gitre, Node 22-re vagy újabbra és pnpm 10-re vagy újabbra. Bármelyik Angular 20 projekt megfelel — Angular CLI vagy Analog.
+  </p>
+
+  <h2>1. lépés — Szerezd meg a kódot</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    A komponensek lapos fájlok itt: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — mindegyik önálló komponens beágyazott sablonnal, plusz a hozzá tartozó spec és story. A barrel
+    <code>index.ts</code> újra exportál minden komponenst; <code>pnpm build</code>
+    az ng-packagr segítségével Angular Package Format csomagot készít.
+  </p>
+
+  <h2>2. lépés — Az első komponensed</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Minden komponens egy <code>lily-*</code> szelektort deklarál, és a szemantikus elemet rendereli az osztálykampójával —
+    <code>&lt;button class="button" type="button"&gt;</code> itt. A bemenetek jelzőalapúak: <code>label()</code> az <code>aria-label</code>
+    felülíráshoz, <code>className()</code> osztályok hozzáfűzéséhez.
+  </p>
+
+  <h2>3. lépés — Állíts össze egy kis űrlapot</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> a látható címkét a saját
+    <code>label</code> bemeneteként veszi át beágyazott címkekomponens helyett — add át egyszer, a mezőnél, és a hozzá tartozó <code>lily-text-input</code>a
+    <code>label</code> biztosítja a hozzáférhető nevet. A beviteli mezőszerű komponensek <code>model()</code> értékeket tesznek közzé, így a banana-box <code>[(value)]</code>
+    kétirányú kötés rögtön működik — végig zoneless-kompatibilis.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizve 2026-08-29:</strong> egy korábbi vázlat külön <code>Label</code> komponenst ágyazott be a <code>lily-field</code>elembe, ami <em>két</em> címkét renderelt (az egyik üres), mert a
+      <code>lily-field</code> már magától rendereli a sajátját a
+      <code>label</code> bemenetből — a komponens forráskódjának ellenőrzésével derült ki.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Az összeállított kapcsolatfelvételi űrlap útvonala</a>
+      ugyanez a minta, valódi e2e- és axe-tesztekkel kipróbálva.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> indítsd el az alkalmazást, és az űrlap csupasznak látszik — pontosan úgy, ahogy szántuk: a stílus még hátravan. Nyomd meg a
+      <kbd>Tab</kbd>billentyűt: a fókusz végigmegy minden vezérlőn, a címkét bemondja, és a küldés működik. A viselkedés kész; a megjelenés a tiéd, és a következő lépés.
+    </p>
+  </div>
+
+  <h2>4. lépés — Stílus hozzá</h2>
+  <p>
+    Stílusozd az osztálykampókat — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — itt: <code>styles.css</code>, vagy adj hozzá egy kész témát a tömbhöz <code>styles</code> itt:
+    <code>angular.json</code> / hivatkozd itt: <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>5. lépés — Nézd meg, ahogy az egész működik</h2>
+  <p>
+     <a href="/examples/">Az Angular + Analog példaalkalmazás</a> a teljes katalógust mutatja fájlalapú útválasztással és Vite-tel:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témák</a> — váltás futásidőben az Angular theme-picker segédjével.</li>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — nyelv és szövegméret.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — tulajdonságok, ARIA és billentyűzet komponensenként.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

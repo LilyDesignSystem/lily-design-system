@@ -1,0 +1,106 @@
+<!-- title: HTML チュートリアル — Lily Design System -->
+<!-- description: Lily の HTML ヘッドレスコンポーネントで、アクセシブルでスタイル付きのフォームを作ります — プレーンなマークアップを、ファイルからそのまま使います。 -->
+<section class="page-intro">
+  <h1>HTML チュートリアル</h1>
+  <p class="page-intro-tagline">
+    いちばん簡単な始め方: Lily のクラスフックを付けた意味のある HTML をコピーし、スタイルシートを 1 つ追加して、公開します。HTML が動く場所ならどこでも動くプレーンなファイルです。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    小さなお問い合わせフォーム — ラベル付き入力、送信ボタン、本物のキーボードとスクリーンリーダーの動作 — まずは装飾なしで、次にスタイルを付けて、約 10 分で作ります。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    必要なのはブラウザーとテキストエディターだけです。(コンポーネントのファイルを取得するには git が便利ですが、ブラウザーで GitHub からコピーすることもできます。)
+  </p>
+
+  <h2>ステップ 1 — コードを入手する</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    すべてのコンポーネントは、次の場所に単独のファイルとして置かれています: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>など — 先頭のコメントに、HTML タグ、クラスフック、キーボード操作、アクセシビリティの契約が書かれています。これらのファイルは <em>ライブラリそのものです</em> — 必要なものをコピーして始めましょう。
+  </p>
+
+  <h2>ステップ 2 — 最初のコンポーネント</h2>
+  <p>開く: <code>components/button.html</code>、またはマークアップをそのまま書きます — クラスフックが契約です:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    本物の <code>&lt;button&gt;</code>なので、キーボードフォーカス、Enter と Space による操作、暗黙のボタンロールは、すでに正しく動作します。
+  </p>
+
+  <h2>ステップ 3 — 小さなフォームを組み立てる</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    パターンに注目してください: すべてのコントロールが自分の <code>&lt;label for&gt;</code>にひも付き、最も具体的な input タイプを使い、ケバブケースのクラスフックをちょうど 1 つだけ持ちます。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>動作の確認:</strong> ブラウザーでページを開きます。見た目は素っ気ないはずです — 意図どおりで、スタイルはこれからです。
+      <kbd>Tab</kbd>: フォーカスがすべてのコントロールを移動し、ラベルが読み上げられ、送信も動きます。動作は完成しています。見た目はあなた次第で、次のステップです。
+    </p>
+  </div>
+
+  <h2>ステップ 4 — スタイルを付ける</h2>
+  <p>フックに対して CSS を書きます:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    あるいは CSS を自分で書くのをやめて、45 の既成テーマのどれかをリンクすれば、同じマークアップがそのまま装飾されます:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>ステップ 5 — さらに探る</h2>
+  <ul>
+    <li>このリポジトリのテストは、本物のブラウザーで実行されます: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO)。</li>
+    <li>すべてのコンポーネントの Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS サンプルアプリ</a> は、571 のコンポーネントすべてを、スタイル付きで、検索可能に、デモ付きで表示します。
+    </li>
+  </ul>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">テーマ設定</a> — theme-picker による実行時のテーマ切り替え。</li>
+    <li><a href="/tutorials/helpers/">設定ヘルパー</a> — 言語とテキストサイズ。</li>
+    <li><a href="/components/">コンポーネントカタログ</a> — 完全なリファレンス。</li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

@@ -1,0 +1,107 @@
+<!-- title: Посібник з Blazor — Lily Design System -->
+<!-- description: Створіть доступну стилізовану форму за допомогою «безголових» компонентів Lily для Blazor: компоненти Razor з параметрами та тестами bUnit. -->
+<section class="page-intro">
+  <h1>Посібник з Blazor</h1>
+  <p class="page-intro-tagline">
+    Компоненти бібліотеки класів Razor з параметрами, <code>ChildContent</code>
+    фрагментами рендерингу, розповсюдженням атрибутів і тестом bUnit для кожного компонента.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Що ви створите</h2>
+  <p>
+    Невелика контактна форма — поле з міткою, кнопка надсилання,
+    <code>@bind-Value</code> зв’язування, справжня поведінка клавіатури та зчитувача екрана — спочатку «гола», потім стилізована, приблизно за 10 хвилин.
+  </p>
+
+  <h2>Перш ніж почати</h2>
+  <p>
+    Вам потрібні git і .NET SDK 8 або новіший. Підійде будь-який проєкт Blazor — Blazor Web App, Server або WebAssembly.
+  </p>
+
+  <h2>Крок 1 — Отримайте код</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Компоненти живуть у <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — по одному файлу Razor на кожен. Посилайтеся на проєкт (або копіюйте файли) зі свого застосунку Blazor і додайте <code>@using LilyBlazorHeadless.Components</code> до
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Крок 2 — Ваш перший компонент</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Рендерить <code>&lt;button class="button"&gt;</code>. Спільні угоди про параметри: <code>Label</code> ( <code>aria-label</code> перевизначення),
+    <code>CssClass</code> (додається до базового гачка),
+    <code>ChildContent</code>, і
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> розповсюдження атрибутів, щоб будь-який додатковий атрибут HTML проходив далі.
+  </p>
+
+  <h2>Крок 3 — Складіть невелику форму</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> приймає видиму <code>Label</code> як власний параметр, а не як вкладений компонент мітки — передайте її один раз, на
+    <code>Field</code>, і <code>TextInput</code>у
+    <code>Label</code> надає доступну назву.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірено 2026-08-29:</strong> ранній чернетковий варіант вкладав окремий компонент <code>Label</code> всередину <code>Field</code>, що рендерило <em>дві</em> мітки (одну порожню), оскільки <code>Field</code>
+      уже рендерить власну з <code>Label</code> параметр — виявлено перевіркою вихідного коду компонента; <code>Form</code> не має власного <code>Label</code> параметра, тож використання
+      <code>&lt;Form&gt;</code> у попередній чернетці виправлено — його прибрано, замість того щоб вигадувати неіснуючий атрибут.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">складений маршрут контактної форми</a>
+      — той самий шаблон, перевірений справжніми e2e- та axe-тестами.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірте свою роботу:</strong> запустіть застосунок — форма виглядає простою, саме як і задумано: стилізація ще попереду. Натисніть
+      <kbd>Tab</kbd>: фокус проходить через кожен елемент керування, мітка озвучується, а надсилання працює. Поведінка готова; вигляд — ваш, і він наступний.
+    </p>
+  </div>
+
+  <h2>Крок 4 — Стилізуйте</h2>
+  <p>
+    Стилізуйте клас-гачки — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — у <code>app.css</code>, або підключіть готову тему в <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Крок 5 — Побачте все в дії</h2>
+  <p>
+     <a href="/examples/">Приклад застосунку Blazor Web</a> показує весь каталог зі стилями та демонстраціями, з e2e-тестами Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Наступні кроки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — перемикання під час виконання за допомогою допоміжного засобу Blazor theme-picker (бібліотека класів Razor у NuGet).</li>
+    <li><a href="/tutorials/helpers/">Допоміжні засоби налаштувань</a> — мова та розмір тексту.</li>
+    <li><a href="/components/">Каталог компонентів</a> — властивості, ARIA та клавіатура для кожного компонента.</li>
+  </ul>
+  <p>
+    Питання по дорозі?
+    <a href="/help/#troubleshooting">сторінка допомоги</a> повна відповідей — а якщо якийсь крок може бути зрозумілішим,
+    <a href="https://github.com/LilyDesignSystem">повідомте нам</a> і ми із задоволенням покращимо посібник.
+  </p>
+</section>

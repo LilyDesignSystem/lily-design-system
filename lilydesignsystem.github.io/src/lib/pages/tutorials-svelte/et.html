@@ -1,0 +1,117 @@
+<!-- title: Svelte'i õpetus — Lily Design System -->
+<!-- description: Ehita ligipääsetav, kujundatud vorm Lily Svelte 5 peata komponentidega: runed, snippetid ja bind:value. -->
+<section class="page-intro">
+  <h1>Svelte'i õpetus</h1>
+  <p class="page-intro-tagline">
+    Lily Svelte'i teek on kanooniline teostus: Svelte 5 runed, tüübitud propid, ülejäänud proppide laiali jagamine ja kahesuunaline sidumine
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mida sa ehitad</h2>
+  <p>
+    Väike kontaktivorm — sildiga väli, saatmisnupp, kahesuunaline sidumine, tõeline klaviatuuri- ja ekraanilugeja käitumine — esmalt paljas, seejärel kujundatud, umbes 10 minutiga.
+  </p>
+
+  <h2>Enne alustamist</h2>
+  <p>
+    Vaja on gitti, Node 22 või uuemat ja pnpm 10 või uuemat. Sobib iga Svelte 5 projekt — täiesti uus <code>npx sv create</code> rakendus on piisav.
+  </p>
+
+  <h2>Samm 1 — Hangi kood</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponendid asuvad kaustas <code>src/lib/components/&#123;Name&#125;/</code>, üks kaust komponendi kohta koos <code>.svelte</code> failiga, selle testide, storyde ja dokumentatsiooniga kõrvuti. Kopeeri vajalikud kaustad oma rakendusse või sõltu repost ja impordi otse.
+  </p>
+
+  <h2>Samm 2 — Sinu esimene komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Renderdab <code>&lt;button class="button" type="button"&gt;</code>. Propid on tüübitud: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (renderdab <code>aria-pressed</code> (renderdab <code>label</code> ( <code>aria-label</code> lülitusnuppudele),
+  </p>
+
+  <h2>Samm 3 — Kombineeri väike vorm</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> võtab nähtava <code>label</code> oma propina pesastatud sildikomponendi asemel — anna see üks kord edasi, elemendile <code>Field</code>ja <code>TextInput</code>elemendist <code>label</code> annab ligipääsetava nime. <code>TextInput</code>'s <code>value</code> ülekirjutamiseks) ja iga lisaatribuut jagatakse juurele laiali.
+    <code>$bindable</code> on <code>bind:value</code> rune'i prop, seega
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollitud 2026-08-29:</strong> annab sulle kohe kahesuunalise sidumise. <code>svelte/server</code> just see koodilõik kompileeriti käsuga <code>&lt;label for&gt;</code> ja kontrolliti ühe, õigesti seotud sildi suhtes <code>Label</code> sees <code>Field</code>— varasem mustand pesastas eraldi
+      <em>kaks</em> silti (üks tühi), sest <code>Field</code> renderdab juba oma sildi <code>label</code> selle sisse, mis renderdas
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Koostatud kontaktivormi marsruut</a>
+      on sama muster, proovitud päris e2e- ja axe-testidega.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolli oma tööd:</strong> käivita rakendus ja vorm paistab paljas — täpselt nagu ette nähtud: kujundamine on alles ees. Vajuta
+      <kbd>Tab</kbd>: fookus liigub läbi iga juhtelemendi, silt kuulutatakse ette ja saatmine töötab. Käitumine on valmis; välimus on sinu ja järgmine samm.
+    </p>
+  </div>
+
+  <h2>Samm 4 — Kujunda see</h2>
+  <p>
+    Kõik ülaltoodu renderdatakse puhta struktuurina, valmis sinu stiilidele. Kujunda klassikonksud —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — oma globaalses laadilehes või lingi valmis teema failis <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Instantsipõhised kohandused käivad läbi <code>class</code> propi, mis lisatakse baaskonksule: <code>&lt;Button class="wide"&gt;</code> renderdab
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Samm 5 — Vaata kõike töötamas</h2>
+  <p>
+     <a href="/examples/">SvelteKiti näiterakendus</a> on sama kataloog täielikult kujundatuna, elavate demode, Playwright e2e-testide ja axe-core ligipääsetavuse baasjoonega:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Järgmised sammud</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemad</a> — vahetamine töö ajal Svelte'i theme-picker abiga.</li>
+    <li><a href="/tutorials/helpers/">Eelistuste abilised</a> — keel ja teksti suurus.</li>
+    <li><a href="/components/">Komponentide kataloog</a> — omadused, ARIA ja klaviatuur komponendi kohta.</li>
+  </ul>
+  <p>
+    Küsimusi teel?
+    <a href="/help/#troubleshooting">Abileht</a> on täis vastuseid — ja kui mõni samm saaks olla selgem,
+    <a href="https://github.com/LilyDesignSystem">anna meile teada</a> ja me parandame õpetust hea meelega.
+  </p>
+</section>

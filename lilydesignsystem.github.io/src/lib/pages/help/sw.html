@@ -1,0 +1,432 @@
+<!-- title: Msaada — Lily Design System -->
+<!-- description: Anza na Lily: sakinisha kifurushi kisicho na mwonekano cha mfumo wako wa kazi, nakili kipengele, kipambe, kipe mandhari, na ukichapishe. Utatuzi wa matatizo, maswali yanayoulizwa mara kwa mara, na msaada. -->
+<section class="page-intro">
+  <h1>Kuanza na Lily</h1>
+  <p class="page-intro-tagline">
+    Chagua mfumo wa kazi, nakili hifadhi kuu na ufungue maktaba yake isiyo na mwonekano au programu ya mifano, kisha anza kuunda kurasa zako mwenyewe. Unapendelea njia yenye mwongozo? Anza na
+    <a href="/tutorials/">mafunzo</a>.
+  </p>
+</section>
+
+<nav aria-label="Kwenye ukurasa huu" class="prose" style="margin: 0 auto;">
+  <p><strong>Kwenye ukurasa huu:</strong></p>
+  <ul>
+    <li><a href="#install">Sakinisha</a></li>
+    <li><a href="#use-headless">Tumia kipengele kisicho na mwonekano</a></li>
+    <li><a href="#use-styled">Tumia mfano wenye mapambo</a></li>
+    <li><a href="#styling">Mapambo na tokeni za usanifu</a></li>
+    <li><a href="#themes">Mandhari yaliyo tayari</a></li>
+    <li><a href="#helpers">Visaidizi vya mapendeleo</a></li>
+    <li><a href="#a11y">Ufikivu</a></li>
+    <li><a href="#i18n">Tafsiri kwa lugha nyingi</a></li>
+    <li><a href="#testing">Majaribio</a></li>
+    <li><a href="#ai-agents">Mawakala wa AI</a></li>
+    <li><a href="#troubleshooting">Utatuzi wa matatizo</a></li>
+    <li><a href="#contributing">Kuchangia</a></li>
+    <li><a href="#community">Jumuiya na msaada</a></li>
+    <li><a href="#faq">Maswali yanayoulizwa mara kwa mara</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Sakinisha</h2>
+  <p>
+    Lily iko kwenye hifadhi kuu moja ya Git, yenye saraka kwa kila maktaba isiyo na mwonekano ya mfumo wa kazi, vifurushi vya visaidizi na programu ya mifano. Njia ya haraka zaidi ya kujaribu ni kunakili hifadhi kuu na kufungua maktaba isiyo na mwonekano ya mfumo wako:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Mchoro uleule unafanya kazi kwa mifumo mingine ya kazi:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — hakuna usakinishaji unaohitajika; nakili <code>.html</code> faili</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Maktaba zisizo na mwonekano zimeundwa ziigwe au zichukuliwe moja kwa moja — chukulia msimbo chanzo kama chanzo cha ukweli na nakili unachohitaji.
+    <a href="#helpers">visaidizi vya mapendeleo</a> pia hutolewa kama vifurushi vinavyoweza kusakinishwa vyenye mfumo wa ujenzi na uchapishaji (npm kwa mifumo ya JS, NuGet kwa Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Tumia kipengele kisicho na mwonekano</h2>
+  <p>
+    Vipengele visivyo na mwonekano hutoa HTML ya kisemantiki, ARIA, na sifa — lakini hakuna CSS. Hii hapa Button katika kila mfumo wa kazi:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Tumia mfano wenye mapambo</h2>
+  <p>
+    Programu za mifano zinajumuisha CSS, njia, na kurasa kamili za maonyesho. Njia ya haraka zaidi ya kujaribu ni kuanzisha programu ya mifano ya SvelteKit, Next, Nuxt, Analog, au Eleventy na kutazama onyesho kwenye <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Kisha fungua <code>http://localhost:5173</code> na pitia <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Mapambo na tokeni za usanifu</h2>
+  <p>
+    Kila kipengele huonyeshwa kwa darasa moja la herufi ndogo zilizotenganishwa kwa kistari kwenye kipengele chake cha mzizi. Kwa mfano, <code>&lt;Button&gt;</code> huonyesha <code>&lt;button class="button"&gt;</code>. Pamba upendavyo:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Paleti chaguo-msingi ya rangi ya Lily (inayotumika kwenye programu za mifano) ni:</p>
+  <ul>
+    <li>Msingi: <code>#2563eb</code></li>
+    <li>Hatari: <code>#dc2626</code></li>
+    <li>Onyo: <code>#f59e0b</code></li>
+    <li>Mafanikio: <code>#16a34a</code></li>
+    <li>Mandharinyuma ya ukurasa: <code>#f9fafb</code></li>
+    <li>Mandharinyuma ya kadi: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Haya ni mapendekezo, si masharti. Yabadilishe na paleti ya chapa yako mwenyewe na Lily itaenda nawe kwa furaha.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Mandhari yaliyo tayari</h2>
+  <p>
+    Hutaki kuandika CSS tangu mwanzo? Lily inakuja na
+    <strong>mandhari 57 huru ya marejeo</strong> kwenye saraka ya
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Kila moja ni karatasi moja ya mitindo inayolenga vishikio vya darasa vya Lily — iunganishe na umepambwa:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Seti hii inahusu:</p>
+  <ul>
+    <li>
+      <strong>Sekta ya umma</strong> — NHS England, NHS Scotland, na NHS Wales (matoleo ya wagonjwa na ya watendaji kwa kila moja), GOV.UK GDS, na U.S. Web Design System.
+    </li>
+    <li><strong>Yaliyochochewa na wauzaji</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Matumizi ya jumla</strong> — light, dark, nord, dracula, wireframe, na zaidi ya thelathini mengine.
+    </li>
+  </ul>
+  <p>
+    Vichaguzi vya mandhari hutumia <code>:where(...)</code>, hivyo CSS yako mwenyewe daima hushinda kwa umaalum. Viunganishe na kisaidizi cha <code>theme-picker</code> hapa chini kwa kubadili wakati wa utekelezaji, au fuata
+    <a href="/tutorials/theming/">somo la mandhari</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Visaidizi vya mapendeleo</h2>
+  <p>
+    Kila mfumo wa kazi una vichaguzi vidogo vinane, kila kimoja kikiwa na
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> chake (na <code>picker-bar</code> inayovikusanya). Kila kimoja ni kitufe cha ikoni kisicho na mwonekano kinachofungua dirisha ibukizi — kisanduku cha orodha, orodha ya viungo, fomu ya utafutaji, au (kwa date-time-picker) kisanduku cha mazungumzo cha kuchagua tarehe — si
+    <code>&lt;select&gt;</code>asilia; ni salama kwa SSR; na hakina CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — hupakia karatasi za mitindo za mandhari wakati wa utekelezaji kwa kubadilisha <code>&lt;link&gt;</code>inayosimamiwa, huweka
+      <code>data-theme</code> kwenye hati, na hiari huhifadhi kwenye
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — huweka <code>lang</code> na
+      <code>dir</code> (pamoja na utambuzi wa kiotomatiki wa RTL) ili maktaba yako ya i18n iweze kufuata; haifanyi tafsiri yenyewe.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — huweka <code>data-text-size</code> kwenye hati; CSS yako huunganisha kila thamani na ukubwa wa fonti.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — huweka <code>data-motion</code> kwenye hati, ikianzia kwenye mpangilio wa mwendo uliopunguzwa wa mgeni; CSS na hati zako huamua cha kuzuia.
+    </li>
+    <li>
+      <strong>search-picker</strong> — kitufe cha ikoni kinachofungua sehemu ya utafutaji; kuwasilisha huenda kwenye ukurasa wa utafutaji. Kinamiliki kitendo, si pendeleo.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ikoni ya nyumbani inayofungua menyu ya viungo vya kurasa ambavyo programu yako inavifafanua (Mwanzo, Kutuhusu, Wasiliana Nasi, Sera ya Faragha, …). Inamiliki kitendo, si pendeleo.
+    </li>
+    <li>
+      <strong>share-picker</strong> — hufungua karatasi asilia ya kushiriki au orodha ya maeneo iliyotolewa na mtumiaji wa maktaba, pamoja na kunakili URL. Inamiliki kitendo, si pendeleo: haitumii chochote, haihifadhi chochote.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — sehemu ya maandishi pamoja na kisanduku cha mazungumzo cha APG cha kuchagua tarehe, saa, au vyote viwili. Inamiliki thamani ya fomu, si pendeleo: mfuatano wa ISO hubadilishana na
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Orodha ya Svelte ndiyo marejeo rasmi; matoleo ya React, Vue, Angular, HTML, Nunjucks, Web Components, na Blazor yanalingana nayo mkataba kwa mkataba. Tazama
+    <a href="/tutorials/helpers/">somo la visaidizi</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Ufikivu</h2>
+  <p>Vipengele vinalenga <strong>WCAG 2.2 AAA</strong>. Vinafuata michoro hii:</p>
+  <ul>
+    <li>Vipengele vya HTML vya kisemantiki badala ya <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> inayounganisha lebo na pembejeo.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> kwa marejeleo mtambuka.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> kwa hali za makosa.</li>
+    <li><code>role="alert"</code> na <code>aria-live</code> kwa maudhui yanayobadilika.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> kwa hali.</li>
+    <li>Roving <code>tabindex</code> kwa gridi.</li>
+  </ul>
+  <p>
+    Viashiria vya umakini kwa makusudi vinatolewa na mtumiaji wa maktaba — Lily haichori kamwe kielekezi cha umakini chaguo-msingi kinachogongana na usanifu wako. Programu za mifano zinadumisha msingi safi wa axe-core kwenye njia zake zote.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Tafsiri kwa lugha nyingi</h2>
+  <p>
+    Kila lebo, kishikilia nafasi, ujumbe wa kosa, na maandishi ya kitufe ni sifa. Hakuna maandishi yaliyowekwa moja kwa moja kwenye msimbo. Weka mfumo wa tafsiri unaoupenda — Paraglide, i18next, vue-i18n, react-intl, faili za .resx, chochote.
+  </p>
+  <p>
+    Kwa tarehe, nambari, na sarafu, vipengele hupokea maandishi yaliyopangwa tayari: wewe hupanga kwa <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / maktaba unayoipendelea na kupitisha matokeo.
+  </p>
+  <p>
+    Kisaidizi cha <code>locale-picker</code> huashiria lugha na eneo lililochaguliwa kwa maktaba yako ya i18n kwa kuweka <code>lang</code> na <code>dir</code> kwenye mzizi wa hati.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Majaribio</h2>
+  <p>Kila mradi mdogo wa mfumo wa kazi una majaribio yake kwa kutumia mpangilio unaofaa mfumo huo:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO inayoendesha vivinjari halisi.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (kupitia programu jalizi ya Analog Vite).</li>
+    <li><strong>Nunjucks</strong>: Vitest na kisaidizi cha kuonyesha.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Majaribio hutumia <strong>vilinganishi vilivyojengewa ndani vya Vitest pekee</strong> — kamwe
+    <code>jest-dom</code> vilinganishi. Hii huweka seti za majaribio zinazobebeka. Programu za mifano huongeza seti za Playwright za mwanzo hadi mwisho, misingi ya ufikivu ya axe-core, na ukaguzi wa mionekano inayojirekebisha.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Mawakala wa AI</h2>
+  <p>
+    Tovuti hii huchapisha <a href="/llms.txt">llms.txt</a> na
+    <a href="/llms.json">llms.json</a> kwenye mzizi wake — ramani iliyochaguliwa ya kurasa zake muhimu zaidi, kwa zana yoyote inayofuata
+    <a href="https://llmstxt.org">mkataba wa llms.txt</a>.
+  </p>
+  <p>
+    Hifadhi kuu rasmi pia ina
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>mbili: skili ya matumizi ya jumla inayoshughulikia dhana, istilahi, na michoro ya mchanganyiko ya Lily kwa yeyote anayejenga kwa mfumo huu, na <code>lily-design-system-maintainer-skill</code>, skili ya kiufundi inayoshughulikia mpangilio wa faili zinazohitajika wa hifadhi kuu na zana kwa yeyote anayeifanyia kazi. Zote mbili ziko kwenye mzizi wa
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">hifadhi kuu rasmi</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Utatuzi wa matatizo</h2>
+
+  <details class="faq-item">
+    <summary>Kipengele kinaonyeshwa lakini kinaonekana kisicho na mapambo</summary>
+    <p>
+      Hivyo ndivyo bila mwonekano inavyofanya kazi kama ilivyokusudiwa — hakuna CSS inayokuja na kipengele. Andika CSS kwa darasa la kipengele (linaloonyeshwa kwenye kila <a href="/components/">ukurasa wa orodha</a>) au unganisha mojawapo ya
+      <a href="#themes">mandhari 57 yaliyo tayari</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS yangu haionekani kutumika juu ya mandhari</summary>
+    <p>
+      Inapaswa kutumika — vichaguzi vya mandhari vimefungwa kwa <code>:where(...)</code>, ambayo haina umaalum wowote. Kama kanuni bado inashindwa, hakikisha karatasi yako ya mitindo inapakiwa baada ya <code>&lt;link&gt;</code> ya mandhari na kwamba kichaguzi kinalingana kweli na kishikio cha darasa cha kipengele.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install inashindwa kwa kosa la utegemezi au toleo</summary>
+    <p>
+      Tumia pnpm ya sasa (v10+) na Node 22+. Kila mradi mdogo hubandika matoleo ya mfumo wake wa kazi kwenye <code>package.json</code>yake; kama zana zako za kimataifa ni za zamani, <code>pnpm env use --global lts</code> ndiyo suluhisho la haraka zaidi.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kisomaji skrini kinatangaza jina lisilo sahihi kwa kidhibiti</summary>
+    <p>
+      Angalia sifa inayohitajika ya <code>label</code> ya kipengele — vipengele visivyo na maandishi yanayoonekana vinahitaji moja, na
+      <code>aria-label</code> / <code>aria-labelledby</code> inayotolewa na mtumiaji na kupitishwa kupitia rest-props kwa makusudi hushinda uunganishaji uliojengewa ndani. Kila ukurasa wa orodha unaeleza mkataba wa ARIA wa kipengele.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kisaidizi cha theme-picker hakibadilishi karatasi za mitindo</summary>
+    <p>
+      Thibitisha kwamba <code>themesUrl</code> inaelekeza kwenye saraka ambayo kivinjari kinaweza kuipata (toa faili za <code>themes/</code> kama mali tuli) na kwamba majina ya mandhari kwenye sifa yako ya <code>themes</code> yanalingana na majina ya faili. Kisaidizi hubadilisha <code>href</code> ya
+      <code>&lt;link data-lily-theme-picker&gt;</code> moja inayosimamiwa — ikague kwenye zana za msanidi kuona URL inayoombwa.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kitu kingine kimeharibika</summary>
+    <p>
+      Fungua suala lenye hatua ndogo za kulirudia kwenye
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — au tazama <a href="#community">jumuiya na msaada</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Kuchangia</h2>
+  <p>Lily ni changa na inakaribisha ushirikiano. Michango yenye manufaa zaidi kwa sasa ni:</p>
+  <ul>
+    <li>Vipengele vipya (hasa michoro kutoka mifumo ya usanifu iliyoimarika).</li>
+    <li>Mandhari mapya — kila moja ni karatasi moja huru ya mitindo, ombi la kwanza lenye wigo mzuri.</li>
+    <li>Mapambo bora ya mifano — onyesha kinachowezekana.</li>
+    <li>Tafsiri za maandishi ya programu za mifano.</li>
+    <li>Ripoti za hitilafu zenye hatua ndogo za kuzirudia.</li>
+    <li>Ukaguzi wa ufikivu kwa visomaji skrini na teknolojia saidizi.</li>
+  </ul>
+  <p>
+    Fungua masuala na maombi ya kuvuta kwenye
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Jumuiya na msaada</h2>
+  <ul>
+    <li>
+      <strong>Maswali na ripoti za hitilafu</strong> — fungua suala kwenye
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Barua pepe</strong> — mtunzaji husoma
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      na hukaribisha ushirikiano, mwongozo, na maoni.
+    </li>
+    <li>
+      <strong>Vioo</strong> — Lily pia husukumwa kwenye
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> na
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, ili uweze kushiriki kutoka kwenye jukwaa unalopendelea.
+    </li>
+    <li>
+      <strong>Maadili</strong> — mradi unafuata kanuni za kawaida za maadili; kuwa mwema, chukulia nia njema.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Maswali yanayoulizwa mara kwa mara</h2>
+
+  <details class="faq-item">
+    <summary>Kwa nini bila mwonekano badala ya kuwa na mapambo?</summary>
+    <p>
+      Vipengele vilivyopambwa tayari ni vya kufaa — hadi vinaposhindwa kuendana na chapa yako. Vipengele visivyo na mwonekano vinahitaji kazi kidogo zaidi mwanzoni lakini vinakupa udhibiti kamili wa usanifu wa kuona. Programu za mifano na mandhari 57 zinaonyesha njia za kuvipamba; unaweza kuchukua hizo au kuzibadilisha kabisa. Hoja ndefu zaidi iko kwenye <a href="/why/">Kwa nini Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kwa nini vipengele vingi hivi?</summary>
+    <p>
+      Lily inalenga kufunika michoro ambayo programu nyingi zinahitaji bila kukulazimisha kuyajenga kutoka mwanzo — ikiwa ni pamoja na mambo ya kina kama pembejeo za vitambulisho vya kitaifa na usimulizi wa kusogeza wa kihariri. Orodha hii inatokana na mifumo kumi na miwili ya usanifu iliyoimarika pamoja na kazi asilia — tazama <a href="/about/">Kuhusu</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Naweza kutumia Lily na Tailwind?</summary>
+    <p>
+      Ndiyo. Kila kipengele kinaonyesha darasa moja la mzizi la herufi ndogo zilizotenganishwa kwa kistari pamoja na <code>className</code> / <code>class</code>inayotolewa na mtumiaji. Weka huduma za Tailwind juu upendavyo.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Naweza kutumia Lily na mifumo ya CSS ya kisemantiki kama DaisyUI?</summary>
+    <p>
+      Ndiyo. Majina ya madarasa ya herufi ndogo zilizotenganishwa kwa kistari kwenye kipengele cha mzizi hufanya kazi kama vishikio vya CSS ya kisemantiki. Unganisha Lily na mfumo wa kisemantiki na utapata vipengele vilivyopambwa tayari vinavyoheshimu ARIA na i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Je, kuna kifurushi cha npm?</summary>
+    <p>
+       <a href="#helpers">visaidizi vya mapendeleo</a> hutolewa kama vifurushi vyenye mfumo wa uchapishaji wa npm/NuGet. Maktaba za vipengele zisizo na mwonekano zimeundwa ziigwe au zichukuliwe moja kwa moja — msimbo chanzo ndio kinachotolewa, ili uweze kusoma, kupunguza, na kumiliki hasa unachokisafirisha. Uchapishaji kwenye rejista kwa maktaba zisizo na mwonekano bado uko kwenye ramani ya njia.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kwa nini leseni nyingi?</summary>
+    <p>
+      Miradi tofauti ina mahitaji tofauti ya leseni. BSD na MIT ni huru, Apache-2.0 ina ruzuku ya hataza, na chaguzi za GPL zinaunga mkono copyleft. Chagua inayofaa hali yako.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ninaripotije hitilafu au kuomba kipengele?</summary>
+    <p>
+      Fungua suala kwenye hifadhi ya GitHub, au tuma barua pepe kwa
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

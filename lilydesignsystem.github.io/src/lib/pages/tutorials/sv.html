@@ -1,0 +1,136 @@
+<!-- title: Handledningar — Lily Design System -->
+<!-- description: Steg-för-steg-handledningar för Lily: din första komponent, formgivning, färdiga teman och inställningshjälpare – för HTML, Svelte, React, Vue, Angular, Blazor och Nunjucks. -->
+<section class="page-intro">
+  <h1>Lär dig Lily, steg för steg</h1>
+  <p class="page-intro-tagline">
+    Välkommen! Varje handledning börjar från noll och bygger samma lilla sak – ett tillgängligt, formgivet formulär – på ungefär 10 minuter, så att du kan jämföra ramverk på lika villkor. Gå sedan djupare med teman och användarinställningar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Innan du börjar</h2>
+  <p>Du behöver förvånansvärt lite:</p>
+  <ul>
+    <li>
+      <strong>För HTML-handledningen</strong> – bara en webbläsare och en textredigerare. Det är hela verktygslådan.
+    </li>
+    <li>
+      <strong>För Svelte, React, Vue, Angular eller Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 och pnpm 10 eller senare.
+    </li>
+    <li>
+      <strong>För Blazor</strong> – git och
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 eller senare.
+    </li>
+  </ul>
+  <p>
+    Ny med huvudlösa komponenter? Då är du på rätt plats – varje handledning förklarar vad som händer medan du går, och varje steg visar exakt den kod du ska kopiera.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Fyra steg från noll till leverans</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Din första komponent</strong> (ca 5 minuter) – välj ramverk nedan, hämta koden och rendera en Button.
+      </li>
+      <li>
+        <strong>Sätt ihop och formge</strong> (ca 5 minuter) – bygg ett formulär med etiketter och formge det mot klasskrokarna i kebab-case (en del av varje ramverkshandledning).
+      </li>
+      <li>
+        <strong>Ge det ett tema</strong> (ca 15 minuter) – byt ut din handskrivna CSS mot något av de 57 färdiga temana och låt sedan användare växla vid körning: <a href="/tutorials/theming/">temahandledningen</a>.
+      </li>
+      <li>
+        <strong>Respektera inställningar</strong> (ca 15 minuter) – lägg till språk- och textstorleksval med inställningshjälparna:
+        <a href="/tutorials/helpers/">hjälparhandledningen</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Välj ramverk</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Kopiera semantisk HTML med klasskrokarna och kör – en webbläsare och en redigerare är allt som krävs.</p>
+      <p class="card-meta">ca 10 minuter · enklaste starten</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5-runor, snippets och <code>bind:value</code> tvåvägsbindning.</p>
+      <p class="card-meta">ca 10 minuter</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Funktionskomponenter med <code>value</code> + <code>onChange</code> och spridning av övriga egenskaper.</p>
+      <p class="card-meta">ca 10 minuter</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Vue 3-enfilskomponenter med stöd för <code>v-model</code> .</p>
+      <p class="card-meta">ca 10 minuter</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Fristående Angular-komponenter med signalindata och <code>[(value)]</code>.</p>
+      <p class="card-meta">ca 10 minuter</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Razor-komponenter med parametrar, <code>ChildContent</code>och bUnit-tester.</p>
+      <p class="card-meta">ca 10 minuter</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Serverrenderade makron för Eleventy och valfri Node-mallpipeline.</p>
+      <p class="card-meta">ca 10 minuter</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Kan du inte välja? Börja med <a href="/tutorials/html/">HTML</a> – den lär ut kontraktet för klasskrokar som alla andra ramverk delar, och den körs direkt från en fil.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Gå djupare</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Teman</h3>
+      <p class="card-description">
+        Länka ett av 57 färdiga teman – NHS, GOV.UK, USWDS, ljust, mörkt och fler – åsidosätt det med din egen CSS och lägg till temabyte vid körning med hjälparen theme-picker.
+      </p>
+      <p class="card-meta">ca 15 minuter</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Inställningshjälpare</h3>
+      <p class="card-description">
+        Ge användarna kontroll över tema, språk, textstorlek, rörelse, sökning, sidlänkar, delning och inmatning av datum/tid med theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker och date-time-picker: huvudlösa kontroller med beständighet, SSR-säkerhet och automatisk RTL-identifiering.
+      </p>
+      <p class="card-meta">ca 15 minuter</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Efter handledningarna</h2>
+  <ul>
+    <li>
+      Bläddra i <a href="/components/">komponentkatalogen</a> – varje komponent dokumenterar sina egenskaper, ARIA-kontrakt och tangentbordsbeteende.
+    </li>
+    <li>
+      Klona en <a href="/examples/">exempelapp</a> för att se alla 571 komponenter formgivna och fungera tillsammans – CSS:en riktar sig mot samma klasskrokar som du just använde, så kopiera vad du vill till ditt projekt och justera det som du önskar.
+    </li>
+    <li>
+      Frågor? <a href="/help/">Hjälpsidan</a> har svar, vanliga frågor och sätt att nå en vänlig människa. Och om en handledning kunde vara tydligare,
+      <a href="https://github.com/LilyDesignSystem">berätta för oss</a> – vi förbättrar den gärna.
+    </li>
+  </ul>
+</section>

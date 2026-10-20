@@ -1,0 +1,111 @@
+<!-- title: Tutorial tema — Lily Design System -->
+<!-- description: Menehi tema Lily kanthi telung cara: sambungna siji saka 45 tema sing wis siap, timpa nganggo CSS sampeyan, lan tambahna ganti tema nalika mlaku nganggo pembantu theme-picker. -->
+<section class="page-intro">
+  <h1>Tema</h1>
+  <p class="page-intro-tagline">
+    Komponen Lily nduwé pancingan kelas sing stabil lan nol CSS — mula tema mung lembar gaya. Tutorial iki saka "sambungna siji berkas" nganti "ayo pangguna ngganti tema nalika mlaku, disimpen".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa sing bakal sampeyan gawé</h2>
+  <p>
+    Aplikasi sing kabèh tampilané bisa diganti pangguna — diwiwiti saka siji lembar gaya sing disambungaké, rampung nganggo pengganti tema nalika mlaku sing tetep — kira-kira 15 menit.
+  </p>
+
+  <h2>Sadurunge miwiti</h2>
+  <p>
+    Rampungna dhisik <a href="/tutorials/">tutorial kerangka</a> kanggo tumpukan sampeyan dhisik, supaya sampeyan nduwé formulir Lily cilik kanggo diwènèhi tema. Kabèh ing kéné mlaku ing kabèh pitu kerangka; conto kode nuduhaké Svelte lan HTML biasa.
+  </p>
+
+  <h2>Langkah 1 — Sambungna tema sing wis siap</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    direktori ngemot 45 lembar gaya mandiri. Salin menyang aset statis aplikasi sampeyan lan sambungna siji:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Sorotan saka set:</p>
+  <ul>
+    <li>
+      <strong>Sektor umum</strong> — NHS England / Scotland / Wales, saben siji ing varian kanggo pasién lan praktisi; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Diilhami vendor</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Tujuan umum</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, lan akèh liyané.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Priksa pagawéan sampeyan:</strong> muat maneh kaca. Markup sing padha sing sampeyan gawé ing tutorial kerangka saiki wis ditata lengkap — tombol, input, label, cincin fokus. Siji baris HTML sing nglakoni — saben komponen tetep persis kaya sadurungé.
+    </p>
+  </div>
+
+  <h2>Langkah 2 — Timpa apa wae</h2>
+  <p>
+    Pamilih tema dibungkus ing <code>:where(...)</code>sing nduwé spesifisitas nol — mula aturan apa wae sing sampeyan tulis menang, prasaja:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Langkah 3 — Ganti nalika mlaku nganggo theme-picker</h2>
+  <p>
+     <code>theme-picker</code> pembantu iku tombol-ikon headless + listbox sing nduwèni kabèh siklus urip tema: ngemot lembar gaya sing dipilih kanthi ngganti siji <code>&lt;link&gt;</code>
+    sing dikelola (mung tema aktif sing dijupuk), nyetel
+    <code>data-theme="&#123;slug&#125;"</code> ing dokumen, lan opsional nyimpen ing <code>localStorage</code>. Svelte dituduhaké ing kéné; port React, Vue, Angular, HTML, Nunjucks lan Blazor cocog kontrak mawon:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Iku kabèh integrasiné. Prilaku keyboard ngetutaké pola listbox WAI-ARIA APG; kontrol dhéwé iku headless (pancingan kelas
+    <code>.theme-picker</code>), mula njupuk tema apa wae sing aktif.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dikonfirmasi 2026-08-29:</strong> potongan persis iki dikompilasi nglawan paket <code>0.1.1</code> sing wis diterbitaké liwat
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Nanggepi tema ing CSS sampeyan dhéwé</h2>
+  <p>
+    Amarga pembantu nyetel <code>data-theme</code> ing oyod dokumen, gaya sampeyan dhéwé bisa cabang miturut iku:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Cathetan kanggo rendering ing server</h2>
+  <p>
+    Pembantu nindakaké kabèh panulisan DOM ing siklus urip mount/effect kerangka, mula aman kanggo SSR saka rancangan. Supaya ora ana kedhip ing lukisan pisanan, render ing server <code>&lt;link&gt;</code> lan
+    <code>data-theme</code> saka tema awal (contoné saka cookie) — repositori pembantu Svelte ngirim conto cookie SvelteKit sing bisa dijalanaké, lan katalog liyané nyathet pola sing padha kanggo tumpukané.
+  </p>
+
+  <h2>Langkah sabanjuré</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — pola sing padha kanggo basa, ukuran teks, nuduhaké lan input tanggal/wektu.</li>
+    <li>
+      Nyumbang tema — saben siji iku siji lembar gaya mandiri sing nargetaké pancingan kelas; deleng <a href="/help/#contributing">nyumbang</a>.
+    </li>
+  </ul>
+  <p>
+    Ana pitakon ing dalan?
+    <a href="/help/#troubleshooting">Kaca pitulung</a> kebak wangsulan — lan menawa ana langkah sing bisa luwih cetha,
+    <a href="https://github.com/LilyDesignSystem">kandhanana kita</a> lan kita bakal seneng nyaosi tutorial luwih apik.
+  </p>
+</section>

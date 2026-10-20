@@ -1,0 +1,276 @@
+<!-- title: Tutorial sa mga preference helper — Lily Design System -->
+<!-- description: Magdagdag ng mga preference sa wika at laki ng teksto ng user gamit ang locale-picker at text-size-picker helper ng Lily: mga headless na icon-button + listbox na kontrol na may persistence at kaligtasan sa SSR. -->
+<section class="page-intro">
+  <h1>Mga preference helper</h1>
+  <p class="page-intro-tagline">
+    Pitong maliliit na package bawat framework, bawat isa ay may-ari ng isang trabaho ng user mula simula hanggang wakas, kasama ang isang bar na nag-aassemble ng lima sa mga ito. Nakilala mo na ang
+    <a href="/tutorials/theming/">theme-picker</a>; narito ang locale-picker, text-size-picker at motion-picker (mga preference), share-picker at search-picker (mga aksyon), date-time-picker (halaga ng form), at picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ang bubuuin mo</h2>
+  <p>
+    Isang settings panel kung saan pinipili ng mga user ang kanilang wika at laki ng teksto — mga pagpiling ina-apply sa buong dokumento, nananatili sa pagitan ng mga pagbisita, at nagkakahalaga lang ng dalawang component at ilang linya ng CSS. Mga 15 minuto.
+  </p>
+
+  <h2>Bago ka magsimula</h2>
+  <p>
+    Tapusin muna ang <a href="/tutorials/">tutorial ng framework</a> para sa iyong stack. Svelte ang mga sample sa ibaba; tumutugma ang mga helper ng React, Vue, Angular, HTML, Nunjucks, at Blazor kontrata-kontrata.
+  </p>
+
+  <h2>Ang hugis na pinagsasaluhan nila</h2>
+  <ul>
+    <li>Isang headless na icon button na nagbubukas ng WAI-ARIA APG listbox (o, para sa date-time-picker, isang date-picker dialog) — walang native na <code>&lt;select&gt;</code>, kaya pare-pareho ang gawi ng keyboard at mga styling hook ng bawat framework.</li>
+    <li>Isang class hook bawat package (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), zero CSS ang ipinapadala.</li>
+    <li>Ligtas sa SSR: nangyayari lang ang mga DOM write sa lifecycle ng mount/effect.</li>
+    <li>Malinis sa i18n: bawat string na nakikita ng user ay prop.</li>
+    <li>
+      Available para sa Svelte (canonical), React, Vue, Angular, HTML custom element, Nunjucks, at Blazor — iisang kontrata sa bawat isa.
+    </li>
+  </ul>
+  <p>
+    Ang theme-picker, locale-picker, at text-size-picker ay bawat isa may-ari ng isang
+    <em>preference</em> ng user mula simula hanggang wakas (pagpili, aplikasyon sa DOM, opsyonal na
+    <code>localStorage</code> persistence <code>storageKey</code>
+    sa pamamagitan ng prop). Magkaiba ng uri ang share-picker at date-time-picker: ang share-picker ay may-ari ng isang <em>aksyon</em> — wala itong inilalapat sa dokumento at wala itong pinapanatili — at ang date-time-picker ay may-ari ng isang
+    <em>halaga ng form</em>, dahil ang petsa sa isang form ay datos, hindi preference.
+  </p>
+
+  <h2>locale-picker — wika at direksyon</h2>
+  <p>
+    Hinahayaan ang user na pumili ng locale, pagkatapos ay isinusulat ang <code>lang</code> at
+    <code>dir</code> sa root ng dokumento para sundan ito ng iyong i18n library, iyong CSS, at assistive technology. Awtomatikong natutukoy ang RTL para sa Arabic, Hebrew, at iba pang right-to-left na script. Nakatuon ito sa pagbibigay-signal lamang — ang iyong i18n library ang bahala sa pagsasalin.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Ang mga opsyon ay nilalagyan ng label mula sa built-in na talahanayan ng mga pangalan ng locale (maaaring i-override sa pamamagitan ng <code>localeLabels</code>), bawat opsyon ay may sariling
+    <code>lang</code> attribute para bigkasin ng mga screen reader ang “Français” sa Pranses, at ang mga code na may underscore tulad ng <code>en_US</code>
+    ay walang-pagkawalang bumabalik-balik sa BCP 47 <code>en-US</code>. Ikabit ang
+    <code>onChange</code> (o ang bound na halaga) sa i18next, Paraglide, vue-i18n, o anuman ang ginagamit mo.
+  </p>
+
+  <h2>text-size-picker — laki na kontrolado ng mambabasa</h2>
+  <p>
+    Isang panalo sa accessibility na tumatagal ng ilang minuto: itinatakda ng helper ang
+    <code>data-text-size="&#123;slug&#125;"</code> sa root ng dokumento at imamapa ng iyong CSS ang bawat halaga sa laki.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Sukatin ang iyong layout sa <code>rem</code> at susukat ang buong app ayon sa pinili ng user. Ang mga label ay ginagawang title-case mula sa mga slug (“X Large”) o ino-override gamit ang <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Suriin ang gawa mo:</strong> piliin ang “Large” mula sa picker, at lalaki ang teksto ng pahina. Mag-reload — malaki pa rin: nanatili ang pinili sa
+      <code>localStorage</code>. Ilipat ang iyong picker ng wika sa Arabic at ang
+      <code>dir="rtl"</code> ay awtomatikong mapupunta sa dokumento.
+    </p>
+  </div>
+
+  <h2>share-picker — ipadala ang pahinang ito</h2>
+  <p>
+    Isang single-glyph na button na nagbubukas ng native na share sheet ng device kung saan mayroon, at kung hindi ay bumabalik sa listahan ng mga destinasyong ibibigay mo, kasama ang aksyon ng pagkopya ng URL. Hindi ito nagpapadala ng anumang URL ng social network — kung aling mga network ang nararapat sa produkto mo ay desisyon mo, hindi ng design system.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> ay default sa <code>location.href</code>kaya hindi na kailangan ng wiring sa karaniwang kaso. Pilitin ang isang path gamit ang <code>strategy="list"</code> o
+    <code>strategy="native"</code> kapag kailangan mo ng pare-parehong gawi sa lahat ng platform para sa pagsusuri o mga screenshot.
+  </p>
+
+  <h2>date-time-picker — petsa, oras, o pareho</h2>
+  <p>
+    Isang text field na maaari mong i-type, kasama ang isang icon button na nagbubukas ng WAI-ARIA APG date-picker dialog. Tama sa locale sa disenyo — ang mga pangalan ng buwan, pangalan ng araw ng linggo, unang araw ng linggo, at 12- o 24-oras na orasan ay lahat nanggagaling sa <code>Intl</code> — at ang halaga ay palaging isang masusuri at walang-timezone na ISO string: <code>"2026-03-15"</code> para sa
+    <code>mode="date"</code>, <code>"09:30"</code> para sa
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> para sa
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Kapareho ang halagang ISO ng ipinopost ng <code>&lt;input type="date"&gt;</code>
+    , kaya maaari mong ipasok o alisin ang native na kontrol nang hindi ginagalaw ang backend mo.
+  </p>
+
+  <h2>motion-picker — igalang ang nabawasang galaw</h2>
+  <p>
+    Itinatakda ng helper ang <code>data-motion="&#123;slug&#125;"</code> sa root ng dokumento. Ang unang halaga nito ay nanggagaling sa setting ng operating system ng bisita
+    <code>prefers-reduced-motion</code> — palagi, nang walang opt-in na flag, dahil tunay na pangangailangan sa accessibility ang galaw (WCAG 2.3.3). Ang iyong CSS at mga script ang magpapasya kung ano ang pipigilan.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — isang search box na umiiwas sa daan</h2>
+  <p>
+    Isang icon button na nagbubukas ng search field. Ang pagpindot sa Return, o ang &#9166; na button sa tabi ng field, ay nagna-navigate gamit ang payak na GET request sa
+    <code>/?&lt;text&gt;</code> (tinatanggalan ng sobra ang teksto at URI-encoded; ang walang-lamang query ay hindi pumupunta saanman). Kinakailangan ang tatlong accessible na pangalan nito, dahil hindi nagpapadala ng Ingles ang helper.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> ay nagbabago ng path (<code>/search?foo</code>), at
+    <code>navigate</code> ay pinananatili ang navigation sa loob ng app; kung wala ito, tinatawag ng helper ang <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — ang buong header row nang sabay-sabay</h2>
+  <p>
+    <code>picker-bar</code> ay nagre-render ng search, tema, locale, laki ng teksto at pagbabahagi sa isang row, na may buong hanay ng mga reference na tema at pitong-hakbang na text scale na naka-wire na. Dumarating ang bawat accessible na pangalan sa isang kinakailangang
+    <code>labels</code> object.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Abutin ang anumang nakabalot na picker gamit ang <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> at <code>shareProps</code>.
+  </p>
+
+  <h2>Kasama na ang mga tooltip</h2>
+  <p>
+    Ipinapakita ng bawat picker ang label nito sa isang tooltip kapag nakapatong ang pointer sa button nito o may keyboard focus ang button. Nananatili ang tooltip habang lumilipat ang pointer papunta rito, ibinababa ito ng Escape saanman naroon ang focus, at hindi ito kailanman lumilitaw habang bukas ang popup ng picker. Dala nito ang parehong teksto ng accessible na pangalan ng button, kaya walang kailangang i-configure at walang isasaling dalawang beses; ang mga reference na tema ang nagbibigay ng istilo nito.
+  </p>
+
+  <h2>Isang settings panel sa isang lugar</h2>
+  <p>Natural na nagsasama ang apat na preference helper:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Napatunayan:</strong> ang mga snippet ng locale-picker, text-size-picker, share-picker, date-time-picker at pinagsamang panel ay isa-isang na-compile laban sa nailathalang <code>0.1.1</code> mga package sa pamamagitan ng
+      <code>svelte/server</code> (2026-08-29); ang mga snippet ng motion-picker, search-picker at picker-bar ay na-render laban sa sariling mga component ng mga package noong 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Saan ito makukuha</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Bawat package ay may sariling spec, mga pagsusuring nakamapa sa mga clause ng spec, mga halimbawang maaaring patakbuhin (kasama ang mga SSR cookie pattern), at build + publish pipeline. Canonical ang mga Svelte package; kapag may pagdududa, nananaig ang kanilang mga kontrata.
+  </p>
+
+  <h2>Mga susunod na hakbang</h2>
+  <ul>
+    <li><a href="/components/">Catalog ng component</a> — ang buong reference ng 571 component.</li>
+    <li><a href="/help/">Tulong</a> — pag-troubleshoot at FAQ.</li>
+    <li><a href="/why/">Bakit Lily</a> — at paano suportahan ang proyekto.</li>
+  </ul>
+  <p>
+    May mga tanong habang nasa daan? Ang
+    <a href="/help/#troubleshooting">pahina ng tulong</a> ay puno ng mga sagot — at kung maaaring maging mas malinaw ang isang hakbang,
+    <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> at masaya naming pagbubutihin ang tutorial.
+  </p>
+</section>

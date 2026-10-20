@@ -1,0 +1,106 @@
+<!-- title: Samouczek HTML — Lily Design System -->
+<!-- description: Zbuduj dostępny, ostylowany formularz za pomocą bezstylowych komponentów Lily dla HTML — zwykły znacznik, prosto z pliku. -->
+<section class="page-intro">
+  <h1>Samouczek HTML</h1>
+  <p class="page-intro-tagline">
+    Najprostszy możliwy start: skopiuj semantyczny HTML z haczykami klas Lily, dodaj jeden arkusz stylów, opublikuj. Zwykłe pliki, które działają wszędzie tam, gdzie działa HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co zbudujesz</h2>
+  <p>
+    Mały formularz kontaktowy — pola z etykietami, przycisk wysyłania, prawdziwe działanie klawiatury i czytnika ekranu — najpierw surowy, potem ostylowany, w około 10 minut.
+  </p>
+
+  <h2>Zanim zaczniesz</h2>
+  <p>
+    Potrzebujesz przeglądarki i edytora tekstu. To wszystko. (git pomaga pobrać pliki komponentów, ale możesz je też skopiować z GitHuba w przeglądarce.)
+  </p>
+
+  <h2>Krok 1 — Pobierz kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Każdy komponent to samodzielny plik w <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>i tak dalej — z komentarzem nagłówkowym dokumentującym jego znacznik HTML, haczyk klasy, działanie klawiatury i kontrakt dostępności. Pliki <em>są</em> biblioteką — skopiuj, co potrzebujesz, i jedź.
+  </p>
+
+  <h2>Krok 2 — Twój pierwszy komponent</h2>
+  <p>Otwórz <code>components/button.html</code>lub po prostu napisz znacznik — haczyk klasy jest kontraktem:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Ponieważ to prawdziwy <code>&lt;button&gt;</code>, fokus klawiatury, aktywacja klawiszami Enter i Spacja oraz niejawna rola przycisku są już poprawne.
+  </p>
+
+  <h2>Krok 3 — Złóż mały formularz</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Zwróć uwagę na wzorzec: każda kontrolka łączy swój <code>&lt;label for&gt;</code>, używa najbardziej szczegółowego typu input i niesie dokładnie jeden haczyk klasy w kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sprawdź swoją pracę:</strong> otwórz stronę w przeglądarce. Wygląda surowo — dokładnie tak, jak zamierzono: stylowanie jest jeszcze przed nami. Naciśnij
+      <kbd>Tab</kbd>: fokus przechodzi przez każdą kontrolkę, etykiety są odczytywane, a wysyłanie działa. Zachowanie jest gotowe; wygląd należy do ciebie i jest następnym krokiem.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostyluj go</h2>
+  <p>Napisz CSS względem haczyków:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Albo w ogóle pomiń ręczne pisanie CSS — podlinkuj jeden z 45 gotowych motywów, a ten sam znacznik się rozjaśni:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Poznawaj dalej</h2>
+  <ul>
+    <li>Testy repozytorium działają w prawdziwych przeglądarkach: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook dla każdego komponentu: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Aplikacja przykładowa HTML+CSS+JS</a> pokazuje wszystkie 571 komponentów ostylowane, przeszukiwalne i zademonstrowane.
+    </li>
+  </ul>
+
+  <h2>Następne kroki</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motywy</a> — przełączanie motywu w czasie działania przez theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pomocniki preferencji</a> — język i rozmiar tekstu.</li>
+    <li><a href="/components/">Katalog komponentów</a> — pełna dokumentacja.</li>
+  </ul>
+  <p>
+    Pytania po drodze?
+    <a href="/help/#troubleshooting">Strona pomocy</a> jest pełna odpowiedzi — a jeśli jakiś krok mógłby być jaśniejszy,
+    <a href="https://github.com/LilyDesignSystem">daj nam znać</a> a chętnie ulepszymy samouczek.
+  </p>
+</section>

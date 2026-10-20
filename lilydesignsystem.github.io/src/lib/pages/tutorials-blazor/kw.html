@@ -1,0 +1,107 @@
+<!-- title: Dyskans Blazor — Lily Design System -->
+<!-- description: Drehevewgh furv hedhesys ha stylys gans darnow heb pen Blazor Lily: darnow Razor gans parametrow ha previow bUnit. -->
+<section class="page-intro">
+  <h1>Dyskans Blazor</h1>
+  <p class="page-intro-tagline">
+    Darnow lyverva klass Razor gans parametrow, <code>ChildContent</code>
+    darnow dyskwedhes, lesans perthynasow, ha prov bUnit dre bub darn.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pyth a wrewgh drehevel</h2>
+  <p>
+    Furv kestava byghan — mewnos gans lavell, botton danvon,
+    <code>@bind-Value</code> kesyanns, hwedhel klavyer ha skrin-redyer gwir — kynsa noeth, ena stylys, yn a-dro dhe 10 mynysenn.
+  </p>
+
+  <h2>Kyns dalleth</h2>
+  <p>
+    Ty a'n jeves othom a git ha'n .NET SDK 8 po nowodhyes. Raglen Blazor vyth a ober — Blazor Web App, Server, po WebAssembly.
+  </p>
+
+  <h2>Kamm 1 — Kevewgh an koodh</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    An darnow a drig yn <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — unn restren Razor dre bub onan. Gwrewgh kedhlow dhe'n raglen (po kopiewgh an restrennow) dhiworth dha app Blazor ha keworrewgh <code>@using LilyBlazorHeadless.Components</code> dhe
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Kamm 2 — Dha dharn kynsa</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Dyskwedh <code>&lt;button class="button"&gt;</code>. An usadow parametrow rannys: <code>Label</code> ( <code>aria-label</code> gorholans),
+    <code>CssClass</code> (keworrys dhe'n krok selys),
+    <code>ChildContent</code>ha
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> lesans perthynasow may hyll perthynas HTML ekstra vyth passya.
+  </p>
+
+  <h2>Kamm 3 — Kesstrewewgh furv byghan</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> a gemmer an <code>Label</code> hewelus avel parametrow y honan yn le darn lavell nessys — passewgh hi unnweyth, war
+    <code>Field</code>ha <code>TextInput</code>kehevelys war
+    <code>Label</code> a re an hanow hedhesys.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriys 2026-08-29:</strong> kynsa towl a nesas darn dyvers <code>Label</code> a-berth <code>Field</code>, hag a dhyskwedhas <em>dew</em> lavell (unn gwag) drefen <code>Field</code>
+      seulajys a dhyskwedh y honan dhiworth an <code>Label</code> parametrow — kefys dre hwithra fenten an darn; <code>Form</code> nyns eus gans <code>Label</code> parametrow y honan, rag henna devnydh kynsa towl a
+      <code>&lt;Form&gt;</code> o amendys dre y asa yn le a ynventya perthynas na eus. An
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">fordh furv-kestava kesstrewys</a>
+      yw an keth patrom, previys gans e2e ha axe gwir.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hwithrewgh dha oberenn:</strong> kerdhewgh an app ha'n furv a hevel plen — yn ewn herwydh bryntyans: an stylyans yw hwath a-rag. Gwaskewgh
+      <kbd>Tab</kbd>: fokus a wayn dres pub kontroll, an lavell yw displetys, ha'n danvon a ober. An hwedhel yw gwrys; an semlant yw dhiso ha henna yw nessa.
+    </p>
+  </div>
+
+  <h2>Kamm 4 — Stylyewgh</h2>
+  <p>
+    Stylyewgh an krogow klass — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — yn <code>app.css</code>, po kevrewgh tebel parys yn <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Kamm 5 — Gwelewgh pubtra ow ’oberi</h2>
+  <p>
+    An <a href="/examples/">App ensampel Blazor Web</a> a dhyskwedh an rolyans kowl stylys ha displetys, gans previow Playwright e2e:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Kammow nessa</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tebelyow</a> — chanj y'n termyn-dyrghas gans an gweresor Blazor theme-picker (lyverva klass Razor war NuGet).</li>
+    <li><a href="/tutorials/helpers/">Gweresoryon dewisyow</a> — yeth ha myns an skrif.</li>
+    <li><a href="/components/">Rolyans darnow</a> — perthynasow, ARIA, ha klavyer dre bub darn.</li>
+  </ul>
+  <p>
+    Govynnow war an fordh? An
+    <a href="/help/#troubleshooting">folen skoodhya</a> yw leun a worthebow — ha mar pe kamm moy splann,
+    <a href="https://github.com/LilyDesignSystem">leverewgh dhyn</a> ha ni a wellha an dyskans yn lowen.
+  </p>
+</section>

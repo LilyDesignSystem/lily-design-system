@@ -1,0 +1,122 @@
+<!-- title: Vue 教學 — Lily Design System -->
+<!-- description: 用 Lily 嘅 Vue 3 無頭元件建立無障礙又有樣式嘅表單:附 v-model 嘅單檔案元件。 -->
+<section class="page-intro">
+  <h1>Vue 教學</h1>
+  <p class="page-intro-tagline">
+    附型別屬性嘅 Vue 3 單檔案元件、 <code>defineModel</code>
+    雙向綁定,同 <code>v-bind="$attrs"</code> 穿透。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你會建立啲乜</h2>
+  <p>
+    一個細細個嘅聯絡表單 — 有標籤嘅輸入欄、提交按鈕、 <code>v-model</code>
+    綁定、真實嘅鍵盤同螢幕閱讀器行為 — 先裸奔,再加樣式,大約 10 分鐘。
+  </p>
+
+  <h2>開始之前</h2>
+  <p>
+    你需要 git、Node 22 或以上,同 pnpm 10 或以上。任何 Vue 3 項目都得 — Nuxt、Vite 或者純 Vue。
+  </p>
+
+  <h2>步驟 1 — 攞到程式碼</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    元件係平放嘅檔案,位於 <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — 每個旁邊都有佢嘅測試、story 同文件。複製你需要嘅檔案,或者 vendor 倉庫。
+  </p>
+
+  <h2>步驟 2 — 你第一個元件</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    渲染成 <code>&lt;button class="button" type="button"&gt;</code>。屬性同其他框架一致: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>,另加其他所有屬性嘅屬性穿透。
+  </p>
+
+  <h2>步驟 3 — 組合一個細表單</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> 將可見嘅 <code>label</code> 當作佢自己嘅屬性,而唔係嵌套嘅標籤元件 — 傳入一次,喺
+    <code>Field</code>,同 <code>TextInput</code>喺
+    <code>label</code> 提供無障礙名稱。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已驗證:</strong> 較早嘅草稿喺 <code>Label</code> 入面嘅 <code>Field</code>元件,令佢渲染咗
+      <em>兩個</em> 標籤(其中一個係空嘅),因為 <code>Field</code> 已經由 <code>label</code> 屬性 — 編譯準確片段先發現。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">組合聯絡表單路由</a>
+      係同一個模式,由真實嘅 e2e 同 axe 測試驗證過。
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> 使用 <code>defineModel</code>,所以純粹嘅
+    <code>v-model</code> 開箱即用。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>檢查你嘅成果:</strong> 運行應用程式,表單睇落好簡單 — 正如預期:樣式仲喺前面。按
+      <kbd>Tab</kbd>:焦點會移過每個控制項,標籤會被讀出,提交都運作。行為已經完成;外觀屬於你,而且係下一步。
+    </p>
+  </div>
+
+  <h2>步驟 4 — 加樣式</h2>
+  <p>
+    為類別掛鉤加樣式 — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 喺你嘅樣式表,或者喺 <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>步驟 5 — 睇晒佢運作</h2>
+  <p>
+     <a href="/examples/">Nuxt 範例應用程式</a> 係完整目錄嘅樣式同示範,附 Playwright e2e 同 axe-core 基線:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主題</a> — 使用 Vue theme-picker 輔助工具喺執行時切換。</li>
+    <li><a href="/tutorials/helpers/">偏好輔助工具</a> — 語言同文字大細。</li>
+    <li><a href="/components/">元件目錄</a> — 每個元件嘅屬性、ARIA 同鍵盤。</li>
+  </ul>
+  <p>
+    一路上有問題?
+    <a href="/help/#troubleshooting">幫助頁面</a> 有好多答案 — 如果某個步驟可以更清楚,
+    <a href="https://github.com/LilyDesignSystem">話畀我哋知</a> 我哋會好樂意改進教學。
+  </p>
+</section>

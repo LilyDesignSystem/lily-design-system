@@ -1,0 +1,106 @@
+<!-- title: HTML ట్యుటోరియల్ — Lily Design System -->
+<!-- description: Lily యొక్క HTML హెడ్‌లెస్ కాంపోనెంట్లతో అందుబాటులో ఉండే, శైలీకరించిన ఫారమ్‌ను నిర్మించండి — సాదా మార్కప్, నేరుగా ఫైల్ నుండి. -->
+<section class="page-intro">
+  <h1>HTML ట్యుటోరియల్</h1>
+  <p class="page-intro-tagline">
+    అత్యంత సులభమైన ప్రారంభం: Lily యొక్క క్లాస్ హుక్‌లతో అర్థవంతమైన HTML కాపీ చేయండి, ఒక స్టైల్‌షీట్ జోడించండి, ప్రచురించండి. HTML పనిచేసే ప్రతిచోటా పనిచేసే సాదా ఫైళ్లు.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>మీరు ఏమి నిర్మిస్తారు</h2>
+  <p>
+    ఒక చిన్న సంప్రదింపు ఫారమ్ — లేబుళ్లు ఉన్న ఫీల్డ్‌లు, ఒక సమర్పించే బటన్, నిజమైన కీబోర్డ్ మరియు స్క్రీన్-రీడర్ ప్రవర్తన — మొదట ఖాళీగా, తర్వాత శైలీకరించి, సుమారు 10 నిమిషాల్లో.
+  </p>
+
+  <h2>ప్రారంభించే ముందు</h2>
+  <p>
+    మీకు ఒక బ్రౌజర్ మరియు ఒక టెక్స్ట్ ఎడిటర్ కావాలి. అంతే. (కాంపోనెంట్ ఫైళ్లు పొందడానికి git సహాయపడుతుంది, కానీ బ్రౌజర్‌లో GitHub నుండి కూడా కాపీ చేయవచ్చు.)
+  </p>
+
+  <h2>దశ 1 — కోడ్ పొందండి</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    ప్రతి కాంపోనెంట్ ఇక్కడ ఒక స్వతంత్ర ఫైల్: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>మొదలైనవి — దాని HTML ట్యాగ్, క్లాస్ హుక్, కీబోర్డ్ ప్రవర్తన మరియు అందుబాటు ఒప్పందాన్ని నమోదు చేసే హెడర్ వ్యాఖ్యతో. ఫైళ్లే <em>ఆ</em> లైబ్రరీ — మీకు కావలసింది కాపీ చేసి ముందుకు సాగండి.
+  </p>
+
+  <h2>దశ 2 — మీ మొదటి కాంపోనెంట్</h2>
+  <p>తెరవండి <code>components/button.html</code>, లేదా కేవలం మార్కప్ రాయండి — క్లాస్ హుక్కే ఒప్పందం:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    ఇది నిజమైన <code>&lt;button&gt;</code>కాబట్టి, కీబోర్డ్ ఫోకస్, Enter మరియు Space తో క్రియాశీలం చేయడం, మరియు అంతర్లీన బటన్ పాత్ర ఇప్పటికే సరిగ్గా ఉన్నాయి.
+  </p>
+
+  <h2>దశ 3 — ఒక చిన్న ఫారమ్‌ను కూర్చండి</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    నమూనాను గమనించండి: ప్రతి నియంత్రణ తన <code>&lt;label for&gt;</code>ను అనుసంధానిస్తుంది, అత్యంత నిర్దిష్టమైన input రకాన్ని ఉపయోగిస్తుంది మరియు సరిగ్గా ఒక kebab-case క్లాస్ హుక్ కలిగి ఉంటుంది.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>మీ పనిని తనిఖీ చేయండి:</strong> పేజీని బ్రౌజర్‌లో తెరవండి. ఇది సాదాగా కనిపిస్తుంది — సరిగ్గా అనుకున్నట్లే: శైలీకరణ ఇంకా ముందుంది. నొక్కండి
+      <kbd>Tab</kbd>: ఫోకస్ ప్రతి నియంత్రణ గుండా వెళుతుంది, లేబుళ్లు ప్రకటించబడతాయి మరియు సమర్పణ పనిచేస్తుంది. ప్రవర్తన పూర్తయింది; రూపం మీది మరియు తదుపరి దశ.
+    </p>
+  </div>
+
+  <h2>దశ 4 — శైలీకరించండి</h2>
+  <p>హుక్‌లకు వ్యతిరేకంగా CSS రాయండి:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    లేదా చేతితో CSS రాయడాన్ని పూర్తిగా వదిలేయండి — 45 సిద్ధమైన థీమ్‌లలో ఒకదాన్ని లింక్ చేయండి, అదే మార్కప్ వెలుగుతుంది:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>దశ 5 — మరింత అన్వేషించండి</h2>
+  <ul>
+    <li>రిపో పరీక్షలు నిజమైన బ్రౌజర్లలో నడుస్తాయి: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>ప్రతి కాంపోనెంట్ కోసం Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS ఉదాహరణ యాప్</a> మొత్తం 571 కాంపోనెంట్లను శైలీకరించి, వెతకగలిగేలా, ప్రదర్శనతో చూపిస్తుంది.
+    </li>
+  </ul>
+
+  <h2>తదుపరి దశలు</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">థీమ్‌లు</a> — theme-picker తో రన్‌టైమ్‌లో థీమ్ మార్పు.</li>
+    <li><a href="/tutorials/helpers/">ప్రాధాన్యత సహాయకాలు</a> — భాష మరియు టెక్స్ట్ పరిమాణం.</li>
+    <li><a href="/components/">కాంపోనెంట్ కేటలాగ్</a> — పూర్తి సూచన.</li>
+  </ul>
+  <p>
+    దారిలో ప్రశ్నలా?
+    <a href="/help/#troubleshooting">సహాయ పేజీ</a> సమాధానాలతో నిండి ఉంది — మరియు ఏదైనా దశను మరింత స్పష్టంగా చేయవచ్చంటే,
+    <a href="https://github.com/LilyDesignSystem">మాకు చెప్పండి</a> మరియు మేము సంతోషంగా ట్యుటోరియల్‌ను మెరుగుపరుస్తాము.
+  </p>
+</section>

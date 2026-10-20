@@ -1,0 +1,109 @@
+<!-- title: Tutorial React — Lily Design System -->
+<!-- description: Construiește un formular accesibil și stilizat cu componentele headless Lily pentru React: componente funcționale tipizate cu value + onChange. -->
+<section class="page-intro">
+  <h1>Tutorial React</h1>
+  <p class="page-intro-tagline">
+    Componente funcționale tipizate, câte un fișier fiecare, controlate cu tiparul standard
+    <code>value</code> + <code>onChange</code> — totul funcționează așa cum React deja o face.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce vei construi</h2>
+  <p>
+    Un mic formular de contact — câmp cu etichetă, buton de trimitere, stare controlată, comportament real al tastaturii și al cititorului de ecran — mai întâi simplu, apoi stilizat, în aproximativ 10 minute.
+  </p>
+
+  <h2>Înainte să începi</h2>
+  <p>
+    Ai nevoie de git, Node 22 sau mai nou și pnpm 10 sau mai nou. Orice proiect React 18+ merge — Next.js, Vite sau React simplu.
+  </p>
+
+  <h2>Pasul 1 — Obține codul</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Componentele sunt fișiere plate în <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — fiecare cu testul, story-ul și documentația alături. Copiază fișierele de care ai nevoie în aplicația ta sau adu depozitul și importă din el.
+  </p>
+
+  <h2>Pasul 2 — Prima ta componentă</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Randează <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (randează
+    <code>aria-pressed</code>), <code>label</code> (un
+    <code>aria-label</code> pentru suprascriere), <code>className</code>, iar orice atribut suplimentar este distribuit pe elementul rădăcină.
+  </p>
+
+  <h2>Pasul 3 — Compune un formular mic</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> primește <code>label</code> ca propriul prop, în loc de o componentă etichetă imbricată — transmite-o o singură dată, pe
+    <code>Field</code>și <code>TextInput</code>corespunzător din
+    <code>label</code> oferă numele accesibil.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificat la 2026-08-29:</strong> o ciornă anterioară imbrica o componentă <code>Label</code> în interiorul <code>Field</code>, ceea ce randa
+      <em>două</em> etichete (una goală) deoarece <code>Field</code> randează deja propria etichetă din intrarea <code>label</code> prop — descoperit compilând fragmentul exact. Ruta
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Ruta compusă a formularului de contact</a>
+      este același tipar, exersat cu teste e2e și axe reale.
+    </p>
+  </div>
+
+  <h2>Pasul 4 — Stilizează-l</h2>
+  <p>
+    Tot ce e mai sus se randează ca structură pură, gata pentru stilurile tale. Stilizează cârligele — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — în foaia ta de stil, stratifică utilitare Tailwind prin <code>className</code>sau leagă o temă gata făcută:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Pasul 5 — Vezi totul funcționând</h2>
+  <p>
+     <a href="/examples/">Aplicația-exemplu Next.js</a> este catalogul complet stilizat și demonstrat, cu Playwright e2e și o linie de bază axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Pașii următori</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — comutare în timpul rulării cu ajutorul theme-picker pentru React.</li>
+    <li><a href="/tutorials/helpers/">Ajutoare pentru preferințe</a> — limbă și dimensiunea textului.</li>
+    <li><a href="/components/">Catalogul de componente</a> — proprietăți, ARIA și tastatură pentru fiecare componentă.</li>
+  </ul>
+  <p>
+    Întrebări pe parcurs?
+    <a href="/help/#troubleshooting">Pagina de ajutor</a> este plină de răspunsuri — iar dacă un pas poate fi mai clar,
+    <a href="https://github.com/LilyDesignSystem">spune-ne</a> și vom îmbunătăți cu plăcere tutorialul.
+  </p>
+</section>

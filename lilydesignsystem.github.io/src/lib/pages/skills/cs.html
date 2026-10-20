@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills dává Claude Code kurátorský, načitatelný vstup do Lily Design System — obecné pojmy, zastřešující dovednosti pro každý framework a hloubkové dovednosti pro každý podprojekt, pro bezhlavou knihovnu a pomocníky *-picker. -->
+<section class="page-intro">
+  <h1>Dovednosti u AI agentů dělají Lily ještě snazší</h1>
+  <p class="page-intro-tagline">
+    Lily dodává cílené dovednosti — obecné, pro každý framework a pro každý podprojekt — takže agent načte přesně ten kontext, který potřebuje, a nic navíc.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Jakou dovednost chcete?</h2>
+  <p>
+    Každá úroveň odpovídá na jinou otázku. Načtěte obecnou dovednost, když Lily ještě neznáte. Načtěte dovednost frameworku, když znáte svůj framework, ale nevíte, který podprojekt potřebujete. Načtěte přímo headless-skill nebo helpers-skill, když už přesně víte, na čem pracujete.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Obecná / správce</strong> — „Co je Lily?” / „Jak je tento monorepozitář sestaven?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Zastřešení frameworku</strong> — „Co je k dispozici pro {framework} a kterou část potřebuji?” — 8, vždy jedna <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Bezhlavé / pomocníci</strong> — „Jak přesně používám komponenty / pomocníky *-picker pro {framework}?” — 16, vždy jedna <code>{framework}-headless-skill</code> a jedna <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>Osm frameworků</h2>
+  <p>
+    Každý framework dostává stejný třívrstvý stack. Zastřešující dovednost mapuje všechny skutečné podprojekty daného frameworku — včetně ukázkové aplikace, kterou nepokrývá žádná z jejích dvou sesterských dovedností — a odkazuje na ně dolů, místo aby opakovala jejich smlouvy.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Zastřešení</th>
+        <th>Bezhlavé</th>
+        <th>Pomocníci</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Zastřešující dovednost Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">dovednost</a></td>
+        <td><a aria-label="Bezhlavá dovednost Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">dovednost</a></td>
+        <td><a aria-label="Dovednost pomocníků Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">dovednost</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Zastřešující dovednost Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">dovednost</a></td>
+        <td><a aria-label="Bezhlavá dovednost Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">dovednost</a></td>
+        <td><a aria-label="Dovednost pomocníků Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">dovednost</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Zastřešující dovednost HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">dovednost</a></td>
+        <td><a aria-label="Bezhlavá dovednost HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">dovednost</a></td>
+        <td><a aria-label="Dovednost pomocníků HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">dovednost</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Zastřešující dovednost Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">dovednost</a></td>
+        <td><a aria-label="Bezhlavá dovednost Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">dovednost</a></td>
+        <td><a aria-label="Dovednost pomocníků Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">dovednost</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Zastřešující dovednost React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">dovednost</a></td>
+        <td><a aria-label="Bezhlavá dovednost React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">dovednost</a></td>
+        <td><a aria-label="Dovednost pomocníků React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">dovednost</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Zastřešující dovednost Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">dovednost</a></td>
+        <td><a aria-label="Bezhlavá dovednost Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">dovednost</a></td>
+        <td><a aria-label="Dovednost pomocníků Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">dovednost</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Zastřešující dovednost Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">dovednost</a></td>
+        <td><a aria-label="Bezhlavá dovednost Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">dovednost</a></td>
+        <td><a aria-label="Dovednost pomocníků Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">dovednost</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Zastřešující dovednost Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">dovednost</a></td>
+        <td>
+          <a
+            aria-label="Bezhlavá dovednost Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >dovednost</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Dovednost pomocníků Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">dovednost</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components je jedinou výjimkou v obou směrech: jeho bezhlavý katalog má záměrný rozsah 536 z 571 (nativní vlastní prvky, žádný runtime frameworku; zbývajících 35 komponent je trvale vyloučeno) a ukázková aplikace Web Components zatím neexistuje — jeho zastřešující dovednost to říká, místo aby naznačovala, že nějaká je.
+  </p>
+
+  <h2>Přidejte jednu dovednost</h2>
+  <p>
+    Každá dovednost je soubor <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> — plus podpůrné soubory, žádný krok sestavení. Naklonujte tu, kterou potřebujete, tam, odkud vaše nastavení Claude Code načítá dovednosti (viz oficiální dokumentace odkázaná výše pro adresář dovedností vašeho projektu nebo účtu):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Pracujete napříč několika frameworky, nebo na samotném monorepozitáři? Naklonujte místo toho <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonický monorepozitář</a> — všech 26 dovedností už leží v jeho kořeni, vedle bezhlavých knihoven, katalogů pomocníků a ukázkových aplikací, které popisují.
+  </p>
+</section>

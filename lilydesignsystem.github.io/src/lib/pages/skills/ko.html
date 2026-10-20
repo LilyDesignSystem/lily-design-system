@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26개의 Claude Skills가 Claude Code에 Lily Design System으로 들어가는 엄선된 진입점을 제공합니다. 일반 개념, 프레임워크별 통합 스킬, 헤드리스 라이브러리와 *-picker 도우미의 하위 프로젝트별 심층 스킬입니다. -->
+<section class="page-intro">
+  <h1>AI 에이전트의 스킬이 Lily를 더 쉽게 만듭니다</h1>
+  <p class="page-intro-tagline">
+    Lily는 일반, 프레임워크별, 하위 프로젝트별로 초점을 맞춘 스킬을 제공하므로, 에이전트는 필요한 맥락만 불러오고 필요 없는 것은 불러오지 않습니다.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>어떤 스킬이 필요하신가요?</h2>
+  <p>
+    각 계층은 서로 다른 질문에 답합니다. Lily를 아직 모를 때는 일반 스킬을 불러오세요. 프레임워크는 알지만 어떤 하위 프로젝트가 필요한지 모를 때는 프레임워크 스킬을 불러오세요. 무엇을 작업하는지 정확히 알 때는 headless-skill이나 helpers-skill을 바로 불러오세요.
+  </p>
+
+  <ul>
+    <li>
+      <strong>일반 / 유지관리자</strong> — “Lily란 무엇인가?” / “이 모노레포는 어떻게 구성되어 있는가?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>프레임워크 통합 스킬</strong> — “{framework}에는 무엇이 있고, 어떤 부분이 필요한가?” — 8개. 프레임워크마다 <code>{framework}-skill</code> 하나씩
+    </li>
+    <li>
+      <strong>헤드리스 / 도우미</strong> — “{framework}의 컴포넌트와 *-picker 도우미를 정확히 어떻게 쓰는가?” — 16개. 프레임워크마다 <code>{framework}-headless-skill</code>과 <code>{framework}-helpers-skill</code> 하나씩
+    </li>
+  </ul>
+
+  <h2>여덟 가지 프레임워크</h2>
+  <p>
+    모든 프레임워크는 같은 3단 구성을 갖습니다. 통합 스킬은 그 프레임워크의 실제 하위 프로젝트를 모두 대응시키며, 자매 스킬 두 개가 모두 다루지 않는 예제 앱도 포함합니다. 그리고 규약을 반복하는 대신 각 하위 프로젝트를 가리킵니다.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>프레임워크</th>
+        <th>통합</th>
+        <th>헤드리스</th>
+        <th>도우미</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">스킬</a></td>
+        <td><a aria-label="Angular 헤드리스 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">스킬</a></td>
+        <td><a aria-label="Angular 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">스킬</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">스킬</a></td>
+        <td><a aria-label="Blazor 헤드리스 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">스킬</a></td>
+        <td><a aria-label="Blazor 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">스킬</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">스킬</a></td>
+        <td><a aria-label="HTML 헤드리스 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">스킬</a></td>
+        <td><a aria-label="HTML 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">스킬</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">스킬</a></td>
+        <td><a aria-label="Nunjucks 헤드리스 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">스킬</a></td>
+        <td><a aria-label="Nunjucks 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">스킬</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">스킬</a></td>
+        <td><a aria-label="React 헤드리스 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">스킬</a></td>
+        <td><a aria-label="React 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">스킬</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">스킬</a></td>
+        <td><a aria-label="Svelte 헤드리스 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">스킬</a></td>
+        <td><a aria-label="Svelte 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">스킬</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">스킬</a></td>
+        <td><a aria-label="Vue 헤드리스 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">스킬</a></td>
+        <td><a aria-label="Vue 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">스킬</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components 통합 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">스킬</a></td>
+        <td>
+          <a
+            aria-label="Web Components 헤드리스 스킬"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >스킬</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components 도우미 스킬" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">스킬</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components는 양쪽 모두에서 유일한 예외입니다. 헤드리스 카탈로그는 의도적으로 571개 중 536개 범위이며(네이티브 커스텀 엘리먼트이고 프레임워크 런타임이 없으며, 나머지 35개 컴포넌트는 영구적으로 제외됩니다), Web Components 예제 앱은 아직 없습니다. 통합 스킬은 있는 것처럼 암시하지 않고 그대로 그렇게 밝힙니다.
+  </p>
+
+  <h2>스킬 하나 추가하기</h2>
+  <p>
+    각 스킬은 <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> 파일과 보조 파일로 이루어져 있으며 빌드 단계가 없습니다. 필요한 것을 Claude Code가 스킬을 불러오는 위치에 복제하세요(프로젝트나 계정의 스킬 디렉터리는 위에 링크한 공식 문서를 참고하세요).
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    여러 프레임워크에 걸쳐 작업하거나 모노레포 자체를 다루나요? 대신 <a href="https://github.com/LilyDesignSystem/lily-design-system">정식 모노레포</a>를 복제하세요. 26개의 스킬이 모두 루트에 있으며, 그것들이 설명하는 헤드리스 라이브러리, 도우미 카탈로그, 예제 앱과 나란히 있습니다.
+  </p>
+</section>

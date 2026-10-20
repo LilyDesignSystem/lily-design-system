@@ -1,0 +1,276 @@
+<!-- title: Preference helpers tutorial — Lily Design System -->
+<!-- description: Add user language and text-size preferences with Lily locale-picker and text-size-picker helpers: headless icon-button + listbox controls wey get persistence and SSR safety. -->
+<section class="page-intro">
+  <h1>Preference helpers</h1>
+  <p class="page-intro-tagline">
+    Seven small packages for each framework, each one own one user job from start to finish, plus bar wey put five of dem together. You don meet
+    <a href="/tutorials/theming/">theme-picker</a>; here na locale-picker, text-size-picker and motion-picker (preferences), share-picker and search-picker (actions), date-time-picker (form value), and picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wetin you go build</h2>
+  <p>
+    Settings panel where users go pick dia language and text size — choices wey apply to di whole document, wey dey stay between visits and wey cost you two components and few lines of CSS. About 15 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    Finish di <a href="/tutorials/">framework tutorial</a> for your stack. Di samples below na Svelte; di React, Vue, Angular, HTML, Nunjucks, and Blazor helpers match contract-for-contract.
+  </p>
+
+  <h2>Di shape wey dem share</h2>
+  <ul>
+    <li>Headless icon button wey open WAI-ARIA APG listbox (or, for date-time-picker, date-picker dialog) — no native <code>&lt;select&gt;</code>, so every framework go get identical keyboard behaviour and styling hooks.</li>
+    <li>One class hook for each package (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), zero CSS shipped.</li>
+    <li>SSR-safe: DOM writes dey happen only inside di mount/effect lifecycle.</li>
+    <li>i18n-clean: every user-facing string na prop.</li>
+    <li>
+      E dey available for Svelte (canonical), React, Vue, Angular, HTML custom element, Nunjucks, and Blazor — di same contract for each one.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker, and text-size-picker each one own one user
+    <em>preference</em> from start to finish (selection, DOM application, optional
+    <code>localStorage</code> persistence <code>storageKey</code>
+    through prop). share-picker and date-time-picker different for kind: share-picker own <em>action</em> — e no apply anything to di document and e no persist anything — and date-time-picker own
+    <em>form value</em>, because date inside form na data, no be preference.
+  </p>
+
+  <h2>locale-picker — language and direction</h2>
+  <p>
+    E let di user pick locale, then e write <code>lang</code> and
+    <code>dir</code> to di document root so your i18n library, your CSS, and assistive technology go follow. RTL dey detected automatically for Arabic, Hebrew, and other right-to-left scripts. E focus only on signalling — your i18n library go handle di translation.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Options dey labelled from built-in table of locale names (you fit override am through <code>localeLabels</code>), each option carry im own
+    <code>lang</code> attribute so screen readers go pronounce “Français” for French, and underscore codes like <code>en_US</code>
+    dey round-trip losslessly to BCP 47 <code>en-US</code>. Wire
+    <code>onChange</code> (or di bound value) enter i18next, Paraglide, vue-i18n, or anyone wey you dey use.
+  </p>
+
+  <h2>text-size-picker — reader-controlled sizing</h2>
+  <p>
+    Accessibility win wey take minutes: di helper dey set
+    <code>data-text-size="&#123;slug&#125;"</code> for di document root and your CSS dey map each value to sizing.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Size your layout inside <code>rem</code> and di whole app go scale with di user choice. Labels dey title-cased from di slugs (“X Large”) or dem override am with <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> pick “Large” from di picker, and di page text go grow. Reload — e still large: di choice persist to
+      <code>localStorage</code>. Switch your language picker to Arabic and
+      <code>dir="rtl"</code> go land for di document automatically.
+    </p>
+  </div>
+
+  <h2>share-picker — send dis page</h2>
+  <p>
+    Single-glyph button wey open di device native share sheet where one dey, and if no dey, e fall back to list of destinations wey you supply, plus copy-di-URL action. E no ship any social-network URLs — which networks belong inside your product na your call, no be di design system own.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> default to <code>location.href</code>so di common case no need any wiring. Force path with <code>strategy="list"</code> or
+    <code>strategy="native"</code> when you need consistent behaviour across platforms for testing or screenshots.
+  </p>
+
+  <h2>date-time-picker — date, time, or both</h2>
+  <p>
+    Text field wey you fit type inside, plus icon button wey open WAI-ARIA APG date-picker dialog. Locale-correct by construction — month names, weekday names, first day of week, and 12- vs 24-hour clock all dey come from <code>Intl</code> — and di value na always sortable, timezone-free ISO string: <code>"2026-03-15"</code> for
+    <code>mode="date"</code>, <code>"09:30"</code> for
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> for
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Di ISO value dey identical to wetin <code>&lt;input type="date"&gt;</code>
+    post, so you fit swap di native control in or out without to touch your backend.
+  </p>
+
+  <h2>motion-picker — respect reduced motion</h2>
+  <p>
+    Di helper dey set <code>data-motion="&#123;slug&#125;"</code> for di document root. Im first value dey come from di visitor operating-system
+    <code>prefers-reduced-motion</code> setting — always, without opt-in flag, because motion na real accessibility need (WCAG 2.3.3). Your CSS and scripts go decide wetin dem go suppress.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — search box wey no dey disturb</h2>
+  <p>
+    Icon button wey open search field. To press Return, or di &#9166; button beside di field, go navigate with plain GET request to
+    <code>/?&lt;text&gt;</code> (di text dey trimmed and URI-encoded; empty query no dey go anywhere). Im three accessible names dey required, because di helper no ship English.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> dey change di path (<code>/search?foo</code>), and
+    <code>navigate</code> dey keep di navigation inside di app; without am di helper dey call <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — di whole header row at once</h2>
+  <p>
+    <code>picker-bar</code> dey render search, theme, locale, text-size and share for one row, with di full set of reference themes and di seven-step text scale already wired. Every accessible name come inside one required
+    <code>labels</code> object.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Reach any wrapped picker with <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> and <code>shareProps</code>.
+  </p>
+
+  <h2>Tooltips come built in</h2>
+  <p>
+    Every picker dey show im label inside tooltip when di pointer rest on im button or di button get keyboard focus. Di tooltip dey stay as di pointer move enter am, Escape dey dismiss am wherever focus dey, and e no dey ever show while di picker popup open. E carry di same text as di button accessible name, so nothing dey to configure and nothing dey to translate twice; di reference themes dey style am.
+  </p>
+
+  <h2>Settings panel for one place</h2>
+  <p>Di four preference helpers dey compose naturally:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified:</strong> di locale-picker, text-size-picker, share-picker, date-time-picker and combined-panel snippets dem compile individually against di published <code>0.1.1</code> packages through
+      <code>svelte/server</code> (2026-08-29); di motion-picker, search-picker and picker-bar snippets dem render against di packages own components on 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Where to get dem</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Each package get im own spec, tests wey map to di spec clauses, runnable examples (including SSR cookie patterns), and build + publish pipeline. Di Svelte packages na canonical; when doubt dey, dia contracts go win.
+  </p>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li><a href="/components/">Component catalog</a> — di full 571-component reference.</li>
+    <li><a href="/help/">Help</a> — troubleshooting and FAQ.</li>
+    <li><a href="/why/">Why Lily</a> — and how to support di project.</li>
+  </ul>
+  <p>
+    You get questions as you dey go? Di
+    <a href="/help/#troubleshooting">help page</a> full of answers — and if any step fit clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we go gladly improve di tutorial.
+  </p>
+</section>

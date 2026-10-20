@@ -1,0 +1,106 @@
+<!-- title: サンプル — Lily Design System -->
+<!-- description: HTML、Svelte、React、Vue、Angular、Blazor、Eleventy で Lily のコンポーネントにスタイルを付ける方法を示す、動作するサンプルアプリ。 -->
+<section class="page-intro">
+  <h1>実際のアプリで Lily を見る</h1>
+  <p class="page-intro-tagline">
+    7 つの動作するサンプルプロジェクトで、ヘッドレスコンポーネントにスタイルを重ね、実際のウェブサイトとして公開するまでの流れを紹介します。
+    お使いのフレームワークを選んでください。
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>完全な CSS とルーティングを備えたデモアプリ</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        素の HTML ページとバニラ JavaScript で、ビルドツールは不要です。どんな静的ホストにも置けるので、小さなサイトやプログレッシブエンハンスメントに最適です。
+      </p>
+      <p class="card-meta">→ GitHub で見る</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        Svelte 5 のルーンを使う SvelteKit 3 アプリ。コンポーネントのルート、ファイルベースのルーティング、全コンポーネントのスタイル付き Storybook があります。
+      </p>
+      <p class="card-meta">→ GitHub で見る</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        各コンポーネントを文脈の中で示す Next.js 16 アプリ。全体が TypeScript で、複合パターンのデモページもあります。
+      </p>
+      <p class="card-meta">→ GitHub で見る</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Nuxt 4 アプリ。すべてのデモルートで <code>&lt;script setup&gt;</code> と Composition API を使っています。
+      </p>
+      <p class="card-meta">→ GitHub で見る</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 22 + Analog.js アプリ。ファイルベースのルーティング、シグナル、ゾーンレスの変更検知、完全な SSG プリレンダリング。
+      </p>
+      <p class="card-meta">→ GitHub で見る</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Razor コンポーネントを使う Blazor Web アプリ。サーバーにも WebAssembly にも対応し、.NET 10 を基準にしています。
+      </p>
+      <p class="card-meta">→ GitHub で見る</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Nunjucks のマクロを使う Eleventy サイト。コンテンツが多い静的サイトでありながら、本格的なコンポーネントシステムが欲しい場合に最適です。
+      </p>
+      <p class="card-meta">→ GitHub で見る</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>どのサンプルアプリも同じ構成です</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>フレームワークを渡り歩いても違和感がないよう、どのサンプルアプリにも次のものがあります。</p>
+    <ul>
+      <li>プロジェクトを紹介する、<code>/</code> のウェルカムルート。</li>
+      <li>すべてのコンポーネントを一覧にする、<code>/components</code> のコンポーネント索引。</li>
+      <li>コンポーネントごとのデモページ、<code>/components/&lt;component&gt;</code>。</li>
+      <li>抽象的なデザイントークンではない実際の CSS。そのままスタイルを拝借できます。</li>
+      <li>最初から動作するキーボード操作とフォーカス管理。</li>
+    </ul>
+
+    <h3>1 つのコンポーネントのスタイルを知りたいときは？</h3>
+    <p>
+      該当するサンプルアプリを開き、<code>/components/&lt;name&gt;</code> に移動して、マークアップと CSS を自分のプロジェクトにコピーしてください。
+      サンプルアプリは意図的に素の CSS（またはそれに近いもの）を使っているので、お好みのどんなシステムにも合わせられます。
+    </p>
+
+    <h3>ヘッドレスのほうが良いですか？</h3>
+    <p>
+      どのサンプルアプリも、対応する<em>ヘッドレス</em>パッケージと組み合わせられます。そちらは同じコンポーネントを CSS なしで公開しており、
+      あなた自身のデザイントークンをそのまま使えます。
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">カタログを見る →</a>
+      <a class="button button-secondary" href="/help/">セットアップガイドを読む</a>
+    </p>
+  </div>
+</section>

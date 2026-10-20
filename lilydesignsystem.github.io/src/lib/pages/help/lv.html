@@ -1,0 +1,432 @@
+<!-- title: Palīdzība — Lily Design System -->
+<!-- description: Sāciet ar Lily: instalējiet bezgalvas pakotni savam ietvaram, nokopējiet komponenti, stilizējiet to, piešķiriet tai tēmu un izlaidiet. Problēmu novēršana, BUJ un atbalsts. -->
+<section class="page-intro">
+  <h1>Darba sākšana ar Lily</h1>
+  <p class="page-intro-tagline">
+    Izvēlieties ietvaru, klonējiet monorepo un atveriet tā bezgalvas bibliotēku vai paraugu lietotni, un sāciet veidot savas lapas. Vēlaties vadītu ceļu? Sāciet ar
+    <a href="/tutorials/">apmācībām</a>.
+  </p>
+</section>
+
+<nav aria-label="Šajā lapā" class="prose" style="margin: 0 auto;">
+  <p><strong>Šajā lapā:</strong></p>
+  <ul>
+    <li><a href="#install">Instalēšana</a></li>
+    <li><a href="#use-headless">Bezgalvas komponentes izmantošana</a></li>
+    <li><a href="#use-styled">Stilizēta piemēra izmantošana</a></li>
+    <li><a href="#styling">Stilizēšana un dizaina marķieri</a></li>
+    <li><a href="#themes">Gatavās tēmas</a></li>
+    <li><a href="#helpers">Iestatījumu palīgi</a></li>
+    <li><a href="#a11y">Pieejamība</a></li>
+    <li><a href="#i18n">Internacionalizācija</a></li>
+    <li><a href="#testing">Testēšana</a></li>
+    <li><a href="#ai-agents">MI aģenti</a></li>
+    <li><a href="#troubleshooting">Problēmu novēršana</a></li>
+    <li><a href="#contributing">Ieguldījums</a></li>
+    <li><a href="#community">Kopiena un atbalsts</a></li>
+    <li><a href="#faq">BUJ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Instalēšana</h2>
+  <p>
+    Lily dzīvo vienā Git monorepo ar direktoriju katra ietvara bezgalvas bibliotēkai, palīgu pakotnēm un paraugu lietotnei. Ātrākais veids, kā to izmēģināt, ir klonēt monorepo un atvērt bezgalvas bibliotēku savai tehnoloģiju kaudzei:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Tas pats paraugs darbojas citiem ietvariem:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — instalēšana nav vajadzīga; kopējiet <code>.html</code>  failus</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Bezgalvas bibliotēkas ir paredzētas klonēšanai vai iekļaušanai projektā — uzskatiet pirmkodu par patiesības avotu un kopējiet, kas jums vajadzīgs.
+    <a href="#helpers">iestatījumu palīgi</a> papildus tiek piegādāti kā instalējamas pakotnes ar būvēšanas un publicēšanas konveijeru (npm JS ietvariem, NuGet Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Bezgalvas komponentes izmantošana</h2>
+  <p>
+    Bezgalvas komponentes piegādā semantisku HTML, ARIA un īpašības — bet ne CSS. Lūk, Button katrā ietvarā:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Stilizēta piemēra izmantošana</h2>
+  <p>
+    Paraugu lietotnes ietver CSS, maršrutus un pilnas demonstrācijas lapas. Ātrākais veids eksperimentēšanai ir palaist SvelteKit, Next, Nuxt, Analog vai Eleventy paraugu lietotni un apskatīt demonstrāciju uz <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Pēc tam atveriet <code>http://localhost:5173</code> un pārlūkojiet <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stilizēšana un dizaina marķieri</h2>
+  <p>
+    Katra komponente tiek renderēta ar vienu kebab-case klasi savā saknes elementā. Piemēram, <code>&lt;Button&gt;</code> renderējas kā <code>&lt;button class="button"&gt;</code>. Stilizējiet, kā vēlaties:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily noklusējuma krāsu palete (izmantota paraugu lietotnēs) ir:</p>
+  <ul>
+    <li>Primārā: <code>#2563eb</code></li>
+    <li>Briesmas: <code>#dc2626</code></li>
+    <li>Brīdinājums: <code>#f59e0b</code></li>
+    <li>Panākumi: <code>#16a34a</code></li>
+    <li>Lapas fons: <code>#f9fafb</code></li>
+    <li>Kartes fons: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Tie ir ieteikumi, nevis prasības. Nomainiet tos pret sava zīmola paleti, un Lily priecīgi sekos.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Gatavās tēmas</h2>
+  <p>
+    Nevēlaties rakstīt CSS no nulles? Lily piegādā
+    <strong>57 patstāvīgas atsauces tēmas</strong> direktorijā
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Katra ir viena stilu lapa, kas mērķē uz Lily klases āķiem — saistiet to, un esat stilizēts:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Kopa aptver:</p>
+  <ul>
+    <li>
+      <strong>Publiskais sektors</strong> — NHS England, NHS Scotland un NHS Wales (katra pacientu un praktiķu variantos), GOV.UK GDS un U.S. Web Design System.
+    </li>
+    <li><strong>Piegādātāju iedvesmotas</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Vispārīgai lietošanai</strong> — light, dark, nord, dracula, wireframe un vēl trīsdesmit.
+    </li>
+  </ul>
+  <p>
+    Tēmu selektori izmanto <code>:where(...)</code>, tāpēc jūsu pašu CSS vienmēr uzvar specifiskumā. Savienojiet tos ar palīgu <code>theme-picker</code> zemāk pārslēgšanai izpildes laikā vai sekojiet
+    <a href="/tutorials/theming/">tēmu apmācībai</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Iestatījumu palīgi</h2>
+  <p>
+    Katram ietvaram ir astoņi mazi atlasītāji, katrs sava
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> pakotne (un <code>picker-bar</code> , kas tos saliek kopā). Katrs ir bezgalvas ikonas poga, kas atver uznirstošo logu — saraksta lodziņu, saišu sarakstu, meklēšanas veidlapu vai (date-time-picker gadījumā) datuma izvēles dialogu — nevis dabiskais
+    <code>&lt;select&gt;</code>; ir drošs SSR; un nepiegādā CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — ielādē tēmu stilu lapas izpildes laikā, nomainot pārvaldītu <code>&lt;link&gt;</code>, iestata
+      <code>data-theme</code> dokumentā un pēc izvēles saglabā
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — iestata <code>lang</code> un
+      <code>dir</code> (ar automātisku RTL noteikšanu), lai jūsu i18n bibliotēka varētu sekot; pats neko netulko.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — iestata <code>data-text-size</code> dokumentā; jūsu CSS katru vērtību sasaista ar fonta izmēru.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — iestata <code>data-motion</code> dokumentā, sākot no apmeklētāja samazinātas kustības iestatījuma; jūsu CSS un skripti izlemj, ko apspiest.
+    </li>
+    <li>
+      <strong>search-picker</strong> — ikonas poga, kas atver meklēšanas lauku; iesniegšana pāriet uz meklēšanas lapu. Pieder darbība, nevis iestatījums.
+    </li>
+    <li>
+      <strong>link-picker</strong> — mājas ikona, kas atver izvēlni ar lapu saitēm, ko definē jūsu lietotne (Sākums, Par mums, Sazināties, Privātuma politika, …). Pieder darbība, nevis iestatījums.
+    </li>
+    <li>
+      <strong>share-picker</strong> — atver dabisko kopīgošanas lapu vai lietotāja nodrošinātu galamērķu sarakstu, plus URL kopēšanu. Pieder darbība, nevis iestatījums: neko nepiemēro, neko nesaglabā.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — teksta lauks plus APG datuma izvēles dialogs datumam, laikam vai abiem. Pieder veidlapas vērtība, nevis iestatījums: ISO virkne tiek pārveidota turp un atpakaļ uz
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte katalogs ir kanoniskā atsauce; React, Vue, Angular, HTML, Nunjucks, Web Components un Blazor porti tam atbilst līgums pa līgumam. Skatiet
+    <a href="/tutorials/helpers/">palīgu apmācību</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Pieejamība</h2>
+  <p>Komponentes mērķē uz <strong>WCAG 2.2 AAA</strong>. Tās seko šiem paraugiem:</p>
+  <ul>
+    <li>Semantiski HTML elementi, nevis vispārīgi <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> , kas saista etiķetes ar ievadēm.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> savstarpējām atsaucēm.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> kļūdu stāvokļiem.</li>
+    <li><code>role="alert"</code> un <code>aria-live</code> dinamiskam saturam.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> stāvoklim.</li>
+    <li>Roving <code>tabindex</code> režģiem.</li>
+  </ul>
+  <p>
+    Fokusa indikatorus apzināti nodrošina lietotājs — Lily nekad nezīmē noklusējuma fokusa gredzenu, kas ietu pretrunā ar jūsu dizainu. Paraugu lietotnes uztur tīru axe-core bāzes līniju visos savos maršrutos.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internacionalizācija</h2>
+  <p>
+    Katra etiķete, vietturis, kļūdas ziņojums un pogas teksts ir īpašība. Iekodētu virkņu nav. Pieslēdziet izvēlēto tulkošanas ietvaru — Paraglide, i18next, vue-i18n, react-intl, .resx faili, jebkas.
+  </p>
+  <p>
+    Datumiem, skaitļiem un valūtām komponentes pieņem iepriekš formatētas virknes: jūs formatējat ar <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / savu iecienīto bibliotēku un nododat rezultātu.
+  </p>
+  <p>
+    Palīgs <code>locale-picker</code> signalizē izvēlēto lokāli jūsu i18n bibliotēkai, iestatot <code>lang</code> un <code>dir</code> dokumenta saknē.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testēšana</h2>
+  <p>Katrs ietvara apakšprojekts piegādā savus testus, izmantojot tā idiomātisko kaudzi:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO, kas palaiž īstas pārlūkprogrammas.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (izmantojot Analog Vite spraudni).</li>
+    <li><strong>Nunjucks</strong>: Vitest ar renderēšanas palīgu.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testi izmanto <strong>tikai Vitest iebūvētos salīdzinātājus</strong> — nekad
+    <code>jest-dom</code> salīdzinātājus. Tas uztur testu komplektus pārnēsājamus. Paraugu lietotnes pievieno Playwright pilnās ķēdes komplektus, axe-core pieejamības bāzes līnijas un adaptīvo skatlogu pārskatu.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>MI aģenti</h2>
+  <p>
+    Šī vietne publicē <a href="/llms.txt">llms.txt</a> un
+    <a href="/llms.json">llms.json</a> savā saknē — kurētu savu svarīgāko lapu karti, jebkuram rīkam, kas seko
+    <a href="https://llmstxt.org">llms.txt konvencijai</a>.
+  </p>
+  <p>
+    Kanoniskais monorepo papildus piegādā divas
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: vispārīgas nozīmes prasmi, kas aptver Lily jēdzienus, terminoloģiju un salikšanas paraugus ikvienam, kas būvē ar sistēmu, un <code>lily-design-system-maintainer-skill</code>, tehnisku prasmi, kas aptver monorepo obligāto failu izkārtojumu un rīkus ikvienam, kas ar to strādā. Abas atrodas
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanoniskā monorepo saknē</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Problēmu novēršana</h2>
+
+  <details class="faq-item">
+    <summary>Komponente renderējas, bet izskatās nestilizēta</summary>
+    <p>
+      Tā ir bezgalvas darbība, kā paredzēts — līdz komponentei nenāk neviens CSS. Vai nu uzrakstiet CSS komponentes kebab-case klasei (parādīta katrā <a href="/components/">kataloga lapā</a>) vai saistiet vienu no
+      <a href="#themes">57 gatavajām tēmām</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Šķiet, mans CSS neattiecas uz tēmu</summary>
+    <p>
+      Tam vajadzētu — tēmu selektori ir ietīti <code>:where(...)</code>, kam ir nulles specifiskums. Ja noteikums tomēr zaudē, pārbaudiet, vai jūsu stilu lapa tiek ielādēta pēc tēmas <code>&lt;link&gt;</code> un vai selektors tiešām atbilst komponentes klases āķim.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install neizdodas ar peer vai versijas kļūdu</summary>
+    <p>
+      Izmantojiet aktuālu pnpm (v10+) un Node 22+. Katrs apakšprojekts piesprauž sava ietvara versijas savā <code>package.json</code>; ja jūsu globālā rīku ķēde ir vecāka, <code>pnpm env use --global lts</code> ir ātrākais risinājums.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ekrāna lasītājs paziņo nepareizu vadīklas nosaukumu</summary>
+    <p>
+      Pārbaudiet komponentes obligāto <code>label</code> īpašību — komponentes bez redzama teksta to prasa, un lietotāja nodrošinātais
+      <code>aria-label</code> / <code>aria-labelledby</code> kas nodots caur rest-props, apzināti uzvar iebūvēto savienojumu. Katra kataloga lapa dokumentē komponentes ARIA līgumu.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker palīgs nepārslēdz stilu lapas</summary>
+    <p>
+      Pārliecinieties, ka <code>themesUrl</code> norāda uz direktoriju, ko pārlūkprogramma var iegūt (pasniedziet <code>themes/</code> failus kā statiskus resursus), un ka tēmu īsie nosaukumi jūsu <code>themes</code> īpašībā atbilst failu nosaukumiem. Palīgs maina <code>href</code> vienam pārvaldītam
+      <code>&lt;link data-lily-theme-picker&gt;</code> — apskatiet to izstrādātāju rīkos, lai redzētu pieprasīto URL.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kaut kas cits ir salauzts</summary>
+    <p>
+      Atveriet issue ar minimālu atkārtojumu vietnē
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — vai skatiet <a href="#community">kopiena un atbalsts</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Ieguldījums</h2>
+  <p>Lily ir jauns un sveic sadarbību. Visnoderīgākie ieguldījumi pašlaik ir:</p>
+  <ul>
+    <li>Jaunas komponentes (īpaši paraugi no iedibinātām dizaina sistēmām).</li>
+    <li>Jaunas tēmas — katra ir viena patstāvīga stilu lapa, labi norobežots pirmais PR.</li>
+    <li>Labāka piemēru stilizēšana — parādiet, kas ir iespējams.</li>
+    <li>Paraugu lietotņu virkņu tulkojumi.</li>
+    <li>Kļūdu ziņojumi ar minimālu atkārtojumu.</li>
+    <li>Pieejamības auditi ar ekrāna lasītājiem un palīgtehnoloģijām.</li>
+  </ul>
+  <p>
+    Atveriet issue un PR vietnē
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Kopiena un atbalsts</h2>
+  <ul>
+    <li>
+      <strong>Jautājumi un kļūdu ziņojumi</strong> — atveriet issue vietnē
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-pasts</strong> — uzturētājs lasa
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      un sveic sadarbību, norādījumus un atsauksmes.
+    </li>
+    <li>
+      <strong>Spoguļi</strong> — Lily tiek arī nosūtīts uz
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> un
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, lai varētu piedalīties no jums vēlamā forge.
+    </li>
+    <li>
+      <strong>Uzvedība</strong> — projekts seko standarta uzvedības kodeksam; esiet laipni, pieņemiet labticību.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>BUJ</h2>
+
+  <details class="faq-item">
+    <summary>Kāpēc bezgalvas, nevis stilizēts?</summary>
+    <p>
+      Iepriekš stilizētas komponentes ir ērtas — kamēr tās neatbilst jūsu zīmolam. Bezgalvas komponentes sākumā prasa nedaudz vairāk darba, bet dod pilnīgu kontroli pār vizuālo dizainu. Paraugu lietotnes un 57 tēmas rāda veidus, kā tās stilizēt; varat tās paņemt vai pilnībā aizstāt. Garāks arguments ir uz <a href="/why/">Kāpēc Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kāpēc tik daudz komponenšu?</summary>
+    <p>
+      Lily mērķis ir aptvert paraugus, kas vajadzīgi vairumam lietotņu, nespiežot jūs tos būvēt no nulles — ieskaitot dziļas lietas kā nacionālo identifikatoru ievades un redakcionālo scrollytelling. Katalogs smeļas no desmitiem iedibinātu dizaina sistēmu plus oriģināla darba — skatiet <a href="/about/">Par</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Vai varu izmantot Lily ar Tailwind?</summary>
+    <p>
+      Jā. Katra komponente atklāj vienu kebab-case saknes klasi plus lietotāja nodrošināto <code>className</code> / <code>class</code>. Uzklājiet Tailwind palīgklases, kā vēlaties.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Vai varu izmantot Lily ar semantiskiem CSS ietvariem kā DaisyUI?</summary>
+    <p>
+      Jā. Kebab-case klašu nosaukumi saknes elementā darbojas kā semantiski CSS āķi. Savienojiet Lily ar semantisku ietvaru, un iegūsiet iepriekš stilizētas komponentes, kas tomēr cienī ARIA un i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Vai ir npm pakotne?</summary>
+    <p>
+       <a href="#helpers">Iestatījumu palīgi</a> tiek piegādāti kā pakotnes ar npm/NuGet publicēšanas konveijeru. Bezgalvas komponenšu bibliotēkas ir paredzētas klonēšanai vai iekļaušanai projektā — pirmkods ir piegādājamais, tāpēc varat lasīt, apgriezt un īpašumā turēt tieši to, ko izlaižat. Bezgalvas bibliotēku publicēšana reģistros paliek ceļvedī.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kāpēc vairākas licences?</summary>
+    <p>
+      Dažādiem projektiem ir dažādas licencēšanas vajadzības. BSD un MIT ir pieļaujošas, Apache-2.0 ir patenta piešķīrums, un GPL iespējas atbalsta copyleft. Izvēlieties, kas der jūsu situācijai.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kā ziņot par kļūdu vai pieprasīt funkciju?</summary>
+    <p>
+      Atveriet issue GitHub krātuvē vai rakstiet uz
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

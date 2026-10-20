@@ -1,0 +1,63 @@
+<!-- title: Tilgjengelighet — Lily Design System -->
+<!-- description: Lilys tilgjengelighetserklæring: hva det betyr å sikte mot WCAG 2.2 AAA her — hva som er verifisert, av hva, hva som ikke er verifisert av noe, og hvordan man rapporterer et problem. -->
+<section class="page-intro">
+  <h1>Hva «sikter mot WCAG 2.2 AAA» betyr her</h1>
+  <p class="page-intro-tagline">
+    Ordet <em>sikter</em> er valgt med vilje. Denne siden sier nøyaktig hva som er verifisert, av hva, hva som ikke er verifisert av noe, og hva vi har til hensikt å gjøre med gapet. Lily hevder aldri WCAG-«samsvar» — ingen revisjon støtter det.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Verifisert, kontinuerlig</h2>
+  <ul>
+    <li>
+      Hver komponents kanoniske semantiske element, ARIA-attributter og klassekroker — bekreftet av enhetstestsuiter per rammeverk (over 15 000 tilfeller på tvers av syv rammeverk).
+    </li>
+    <li>
+      Hver av de 571 komponentdemosidene i SvelteKit-eksempelappen er axe-ren (regelsettene WCAG 2.0/2.1 A+AA og 2.2 AA) — fullkatalogsveipet, først baselinet 2026-08-27 og kjørt på nytt 2026-10-06 — pluss baselines per app på hjem, katalog og sammensatte ruter i alle syv eksempelapper.
+    </li>
+    <li>
+      Tastaturkontrakter per interaktiv komponent, dokumentert i hver komponents kanoniske metadata og kjørt av suitene; hjelperpakkene kjører i tillegg Playwright-spesifikasjoner i ekte nettleser.
+    </li>
+    <li>
+      WCAG 2.2-gulv for målstørrelse og overflytsvern i alle 57 temaer; hopp-lenke, landemerker og ingen horisontal overflyt ved fire visningsporter per app; <code>lang</code>/<code>dir</code> anvendelse og RTL-flippen.
+    </li>
+  </ul>
+
+  <h2>Ikke verifisert av noe</h2>
+  <ul>
+    <li>
+      <strong>Ingen samsvarsrevisjon har noen gang blitt utført.</strong> Ingen VPAT, ingen sertifisering. Automatiserte verktøy dekker et mindretall av WCAGs suksesskriterier.
+    </li>
+    <li>
+      AAA-spesifikke kriterier (forbedret kontrast og andre) er designintensjoner, ikke verifiserte egenskaper; axe-regelsettene kjører A/AA. Det finnes ennå ikke noe dedikert høykontrasttema.
+    </li>
+    <li>
+      <strong>Skjermleseroppførsel er stort sett ikke testet.</strong> Suitene bekrefter ARIA-attributter, ikke hva VoiceOver, NVDA eller JAWS kunngjør — og dette prosjektet har mer enn én gang sendt grønne suiter over ekte feil, hver skrevet opp i endringsloggen nettopp fordi suitene ikke kunne se dem.
+    </li>
+  </ul>
+
+  <h2>Hva vi har til hensikt å gjøre med det</h2>
+  <p>
+    En uavhengig tilgjengelighetsrevisjon er den første navngitte bruken av enhver prosjektfinansiering, og omfanget en revisor trenger er allerede klart. Inntil da er skjermleserrapporter bidraget dette prosjektet ønsker mest: «komponent X kunngjør Y, noe som er feil fordi Z» kan følges opp direkte.
+  </p>
+
+  <h2>Rapporter et problem</h2>
+  <p>
+    Åpne en sak på
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    eller send e-post til
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Å nevne et WCAG-kriterium hjelper, men er ikke påkrevd — «Jeg kunne ikke betjene X med tastaturet» er en fullstendig rapport.
+  </p>
+  <p>
+    Den fullstendige erklæringen, med verifiseringstabellen og gjennomgangshistorikken, ligger i repoet:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

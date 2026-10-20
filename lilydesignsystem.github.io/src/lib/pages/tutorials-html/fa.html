@@ -1,0 +1,106 @@
+<!-- title: آموزش HTML — Lily Design System -->
+<!-- description: با مؤلفه‌های بدون‌سر Lily برای HTML یک فرم در دسترس و استایل‌دار بسازید — نشانه‌گذاری ساده، مستقیم از یک فایل. -->
+<section class="page-intro">
+  <h1>آموزش HTML</h1>
+  <p class="page-intro-tagline">
+    ساده‌ترین شروع ممکن: HTML معنایی را با قلاب‌های کلاس Lily کپی کنید، یک شیوه‌نامه بیفزایید، منتشر کنید. فایل‌های ساده‌ای که هرجا HTML کار می‌کند کار می‌کنند.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>چه چیزی می‌سازید</h2>
+  <p>
+    یک فرم تماس کوچک — فیلدهای دارای برچسب، یک دکمه ارسال، رفتار واقعی صفحه‌کلید و صفحه‌خوان — ابتدا ساده، سپس استایل‌دار، در حدود ۱۰ دقیقه.
+  </p>
+
+  <h2>پیش از شروع</h2>
+  <p>
+    به یک مرورگر و یک ویرایشگر متن نیاز دارید. همین. (git به گرفتن فایل‌های مؤلفه کمک می‌کند، اما می‌توانید آن‌ها را در مرورگر از GitHub هم کپی کنید.)
+  </p>
+
+  <h2>گام ۱ — کد را بگیرید</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    هر مؤلفه یک فایل مستقل است در <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>و غیره — با یک توضیح سرفایل که برچسب HTML، قلاب کلاس، رفتار صفحه‌کلید و قرارداد دسترس‌پذیری آن را مستند می‌کند. فایل‌ها <em>همان</em> کتابخانه‌اند — آنچه لازم دارید کپی کنید و بروید.
+  </p>
+
+  <h2>گام ۲ — نخستین مؤلفه شما</h2>
+  <p>باز کنید <code>components/button.html</code>، یا فقط نشانه‌گذاری را بنویسید — قلاب کلاس همان قرارداد است:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    چون یک <code>&lt;button&gt;</code>واقعی است، تمرکز صفحه‌کلید، فعال‌سازی با Enter و Space و نقش ضمنی دکمه از پیش درست‌اند.
+  </p>
+
+  <h2>گام ۳ — یک فرم کوچک بسازید</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    الگو را ببینید: هر کنترل <code>&lt;label for&gt;</code>خودش را پیوند می‌دهد، دقیق‌ترین نوع input را به کار می‌برد و دقیقاً یک قلاب کلاس kebab-case دارد.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>کارتان را بررسی کنید:</strong> صفحه را در مرورگر باز کنید. ساده به نظر می‌رسد — دقیقاً همان‌طور که قصد شده: استایل‌دهی هنوز در پیش است. بزنید
+      <kbd>Tab</kbd>: تمرکز از هر کنترل می‌گذرد، برچسب‌ها اعلام می‌شوند و ارسال کار می‌کند. رفتار کامل است؛ ظاهر مال شماست و گام بعدی است.
+    </p>
+  </div>
+
+  <h2>گام ۴ — استایل بدهید</h2>
+  <p>CSS را بر قلاب‌ها بنویسید:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    یا نوشتن CSS با دست را یکسره کنار بگذارید — یکی از ۴۵ تم آماده را پیوند دهید و همان نشانه‌گذاری روشن می‌شود:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>گام ۵ — بیشتر کاوش کنید</h2>
+  <ul>
+    <li>آزمون‌های مخزن در مرورگرهای واقعی اجرا می‌شوند: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook برای هر مؤلفه: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">برنامه نمونه HTML+CSS+JS</a> هر ۵۷۱ مؤلفه را استایل‌دار، جست‌وجوپذیر و نمایش‌داده نشان می‌دهد.
+    </li>
+  </ul>
+
+  <h2>گام‌های بعدی</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">تم‌ها</a> — تعویض تم در زمان اجرا با theme-picker.</li>
+    <li><a href="/tutorials/helpers/">کمکی‌های ترجیحات</a> — زبان و اندازه متن.</li>
+    <li><a href="/components/">فهرست مؤلفه‌ها</a> — مرجع کامل.</li>
+  </ul>
+  <p>
+    در مسیر پرسشی دارید؟
+    <a href="/help/#troubleshooting">صفحه راهنما</a> پر از پاسخ است — و اگر گامی می‌تواند روشن‌تر باشد،
+    <a href="https://github.com/LilyDesignSystem">به ما بگویید</a> و ما با کمال میل آموزش را بهبود می‌دهیم.
+  </p>
+</section>

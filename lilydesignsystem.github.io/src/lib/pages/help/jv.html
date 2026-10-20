@@ -1,0 +1,432 @@
+<!-- title: Bantuan — Lily Design System -->
+<!-- description: Miwiti karo Lily: instal paket tanpa sirah kanggo framework sampéyan, salin komponèn, gayani, wènèhana tema, lan rilis. Pemecahan masalah, FAQ, lan dhukungan. -->
+<section class="page-intro">
+  <h1>Miwiti karo Lily</h1>
+  <p class="page-intro-tagline">
+    Pilih framework, kloning monorepo lan bukak pustaka tanpa sirah utawa aplikasi contoné, lan wiwiti nyusun kaca sampéyan dhéwé. Seneng dalan sing dituntun? Wiwiti karo
+    <a href="/tutorials/">tutorial</a>.
+  </p>
+</section>
+
+<nav aria-label="Ing kaca iki" class="prose" style="margin: 0 auto;">
+  <p><strong>Ing kaca iki:</strong></p>
+  <ul>
+    <li><a href="#install">Instalasi</a></li>
+    <li><a href="#use-headless">Nganggo komponèn tanpa sirah</a></li>
+    <li><a href="#use-styled">Nganggo conto sing digayani</a></li>
+    <li><a href="#styling">Gaya lan token desain</a></li>
+    <li><a href="#themes">Tema siap</a></li>
+    <li><a href="#helpers">Pembantu preferensi</a></li>
+    <li><a href="#a11y">Aksesibilitas</a></li>
+    <li><a href="#i18n">Internasionalisasi</a></li>
+    <li><a href="#testing">Tés</a></li>
+    <li><a href="#ai-agents">Agèn AI</a></li>
+    <li><a href="#troubleshooting">Pemecahan masalah</a></li>
+    <li><a href="#contributing">Nyumbang</a></li>
+    <li><a href="#community">Komunitas lan dhukungan</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Instalasi</h2>
+  <p>
+    Lily manggon ing siji monorepo Git, kanthi direktori kanggo pustaka tanpa sirah, paket pembantu, lan aplikasi conto saben framework. Cara paling cepet kanggo nyoba yaiku kloning monorepo lan mbukak pustaka tanpa sirah kanggo tumpukan sampéyan:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Pola sing padha makarya kanggo framework liyané:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — ora perlu instalasi; salinen berkas <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Pustaka tanpa sirah dirancang kanggo dikloning utawa dilebokaké — anggep kode sumber minangka sumber kebeneran lan salinen apa sing sampéyan butuhaké.
+    <a href="#helpers">pembantu preferensi</a> uga dikirim minangka paket sing bisa diinstal kanthi pipeline build lan publikasi (npm kanggo framework JS, NuGet kanggo Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Nganggo komponèn tanpa sirah</h2>
+  <p>
+    Komponèn tanpa sirah nyedhiyakaké HTML semantik, ARIA, lan properti — nanging ora ana CSS. Iki Button ing saben framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Nganggo conto sing digayani</h2>
+  <p>
+    Aplikasi conto kalebu CSS, rute, lan kaca demo lengkap. Cara paling cepet kanggo ékspérimèn yaiku miwiti aplikasi conto SvelteKit, Next, Nuxt, Analog, utawa Eleventy lan ndeleng demoné ing <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Banjur bukak <code>http://localhost:5173</code> lan jelajahi <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Gaya lan token desain</h2>
+  <p>
+    Saben komponèn dirender kanthi siji kelas kebab-case ing elemèn oyodé. Contoné, <code>&lt;Button&gt;</code> dirender minangka <code>&lt;button class="button"&gt;</code>. Gayani kaya sing sampéyan karepake:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Palet warna baku Lily (dienggo ing aplikasi conto) yaiku:</p>
+  <ul>
+    <li>Utama: <code>#2563eb</code></li>
+    <li>Bebaya: <code>#dc2626</code></li>
+    <li>Pènget: <code>#f59e0b</code></li>
+    <li>Kasil: <code>#16a34a</code></li>
+    <li>Latar kaca: <code>#f9fafb</code></li>
+    <li>Latar kertu: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Iki saran, dudu syarat. Ganti nganggo palet mérek sampéyan dhéwé lan Lily melu kanthi bungah.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Tema siap</h2>
+  <p>
+    Ora péngin nulis CSS saka nol? Lily nyedhiyakaké
+    <strong>57 tema rujukan mandiri</strong> ing direktori
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Saben siji iku siji stylesheet sing nargetaké pancingan kelas Lily — sambungna lan sampéyan wis digayani:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Setèl iki nyakup:</p>
+  <ul>
+    <li>
+      <strong>Sektor umum</strong> — NHS England, NHS Scotland, lan NHS Wales (saben siji ing varian kanggo pasien lan praktisi), GOV.UK GDS, lan U.S. Web Design System.
+    </li>
+    <li><strong>Kainspirasi vendor</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Tujuan umum</strong> — light, dark, nord, dracula, wireframe, lan telung puluhan liyané.
+    </li>
+  </ul>
+  <p>
+    Selektor tema nganggo <code>:where(...)</code>, dadi CSS sampéyan dhéwé tansah menang ing spesifisitas. Pasangna karo pembantu <code>theme-picker</code> ing ngisor kanggo ganti nalika mlaku, utawa tututi
+    <a href="/tutorials/theming/">tutorial tema</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Pembantu preferensi</h2>
+  <p>
+    Saben framework duwé wolung pamilih cilik, saben siji paket
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> dhéwé (lan <code>picker-bar</code> sing nyusun kuwi). Saben siji iku tombol ikon tanpa sirah sing mbukak popup — kothak dhaptar, dhaptar tautan, formulir panelusuran, utawa (kanggo date-time-picker) dialog pamilih tanggal — dudu
+    <code>&lt;select&gt;</code>asli; aman kanggo SSR; lan ora ngirim CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — muat stylesheet tema nalika mlaku kanthi ngganti <code>&lt;link&gt;</code>sing dikelola, nyetèl
+      <code>data-theme</code> ing dokumèn, lan opsional nyimpen kanthi permanèn ing
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — nyetèl <code>lang</code> lan
+      <code>dir</code> (kanthi deteksi RTL otomatis) supaya pustaka i18n sampéyan bisa nututi; ora nerjemahaké apa waé dhéwé.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — nyetèl <code>data-text-size</code> ing dokumèn; CSS sampéyan mapakaké saben nilai menyang ukuran font.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — nyetèl <code>data-motion</code> ing dokumèn, diwiwiti saka setelan gerakan dikurangi pengunjung; CSS lan skrip sampéyan sing mutusaké apa sing ditahan.
+    </li>
+    <li>
+      <strong>search-picker</strong> — tombol ikon sing mbukak kolom panelusuran; ngirim bakal menyang kaca panelusuran. Nduwèni aksi, dudu preferensi.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ikon omah sing mbukak menu tautan kaca sing ditetepaké aplikasi sampéyan (Beranda, Babagan Kita, Hubungi Kita, Kabijakan Privasi, …). Nduwèni aksi, dudu preferensi.
+    </li>
+    <li>
+      <strong>share-picker</strong> — mbukak lembar nuduhaké asli utawa dhaptar tujuan sing diwènèhaké konsumen, ditambah nyalin URL. Nduwèni aksi, dudu preferensi: ora nrapaké apa waé, ora nyimpen apa waé.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — kolom tèks plus dialog pamilih tanggal APG kanggo tanggal, wektu, utawa loro-loroné. Nduwèni nilai formulir, dudu preferensi: string ISO diowahi bolak-balik menyang
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Katalog Svelte iku rujukan kanonik; port React, Vue, Angular, HTML, Nunjucks, Web Components, lan Blazor cocog karo kuwi kontrak demi kontrak. Delengen
+    <a href="/tutorials/helpers/">tutorial pembantu</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Aksesibilitas</h2>
+  <p>Komponèn ngarah menyang <strong>WCAG 2.2 AAA</strong>. Kuwi nututi pola-pola iki:</p>
+  <ul>
+    <li>Elemèn HTML semantik tinimbang <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> umum sing nyambungaké labèl karo input.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> kanggo rujukan silang.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> kanggo kahanan kesalahan.</li>
+    <li><code>role="alert"</code> lan <code>aria-live</code> kanggo isi dinamis.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> kanggo kahanan.</li>
+    <li>Roving <code>tabindex</code> kanggo kisi.</li>
+  </ul>
+  <p>
+    Indikator fokus sengaja diwènèhaké konsumen — Lily ora tau nggambar cincin fokus baku sing bentrok karo desain sampéyan. Aplikasi conto njaga dasar axe-core sing resik ing kabèh rutené.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internasionalisasi</h2>
+  <p>
+    Saben labèl, placeholder, pesen kesalahan, lan tèks tombol iku properti. Ora ana string permanèn. Sambungna framework terjemahan pilihan sampéyan — Paraglide, i18next, vue-i18n, react-intl, berkas .resx, apa waé.
+  </p>
+  <p>
+    Kanggo tanggal, angka, lan mata uang, komponèn nampa string sing wis diformat: sampéyan ngformat nganggo <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / pustaka kesenengan sampéyan lan ngirim asilé.
+  </p>
+  <p>
+    Pembantu <code>locale-picker</code> menehi sinyal lokal sing dipilih marang pustaka i18n sampéyan kanthi nyetèl <code>lang</code> lan <code>dir</code> ing oyod dokumèn.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Tés</h2>
+  <p>Saben subproyèk framework ngirim tés dhéwé nganggo tumpukan idiomatiké:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO sing njalanaké browser nyata.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (liwat plugin Vite Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest nganggo pembantu render.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Tés nganggo <strong>mung matcher bawaan Vitest</strong> — ora tau matcher
+    <code>jest-dom</code> . Iki njaga suite tés bisa dipindhah. Aplikasi conto nambahaké suite end-to-end Playwright, dasar aksesibilitas axe-core, lan sapuan viewport responsif.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Agèn AI</h2>
+  <p>
+    Situs iki nerbitaké <a href="/llms.txt">llms.txt</a> lan
+    <a href="/llms.json">llms.json</a> ing oyodé — peta pilihan saka kaca-kaca paling pentingé, kanggo piranti apa waé sing nututi
+    <a href="https://llmstxt.org">konvènsi llms.txt</a>.
+  </p>
+  <p>
+    Monorepo kanonik uga ngirim loro
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: kaprigelan tujuan umum sing nyakup konsèp, terminologi, lan pola komposisi Lily kanggo sapa waé sing mbangun nganggo sistem, lan <code>lily-design-system-maintainer-skill</code>, kaprigelan teknis sing nyakup tata letak berkas wajib lan piranti monorepo kanggo sapa waé sing makarya ing kono. Loro-loroné ana ing oyod
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kanonik</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Pemecahan masalah</h2>
+
+  <details class="faq-item">
+    <summary>Komponèn dirender nanging katon ora digayani</summary>
+    <p>
+      Kuwi tanpa sirah sing makarya kaya sing dikarepaké — ora ana CSS sing teka karo komponèn. Tulisen CSS kanggo kelas kebab-case komponèn (dituduhaké ing saben <a href="/components/">kaca katalog</a>) utawa sambungna salah siji saka
+      <a href="#themes">57 tema siap</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS-ku ora katon ditrapaké ing ndhuwur tema</summary>
+    <p>
+      Mestiné ditrapaké — selektor tema dibungkus ing <code>:where(...)</code>, sing duwé spesifisitas nol. Yèn aturan tetep kalah, priksa yèn stylesheet sampéyan dimuat sawisé <code>&lt;link&gt;</code> saka tema lan selektoré pancèn cocog karo pancingan kelas komponèn.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install gagal kanthi kesalahan peer utawa versi</summary>
+    <p>
+      Gunakna pnpm saiki (v10+) lan Node 22+. Saben subproyèk nancepaké versi frameworké ing <code>package.json</code>dhéwé; yèn rantai piranti global sampéyan luwih lawas, <code>pnpm env use --global lts</code> iku pangapura paling cepet.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pembaca layar ngumumaké jeneng sing salah kanggo kontrol</summary>
+    <p>
+      Priksa properti wajib <code>label</code> komponèn — komponèn tanpa tèks katon mbutuhaké siji, lan
+      <code>aria-label</code> / <code>aria-labelledby</code> sing diwènèhaké konsumen lan dilewatké liwat rest-props sengaja ngalahaké kabel bawaan. Saben kaca katalog ndokumentasiaké kontrak ARIA komponèn.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pembantu theme-picker ora ngganti stylesheet</summary>
+    <p>
+      Pastikna yèn <code>themesUrl</code> nuding menyang direktori sing bisa dijupuk browser (sajèkna berkas <code>themes/</code> minangka aset statis) lan yèn slug tema ing properti <code>themes</code> sampéyan cocog karo jeneng berkas. Pembantu ngganti <code>href</code> saka siji
+      <code>&lt;link data-lily-theme-picker&gt;</code> sing dikelola — priksanen ing devtools kanggo ndeleng URL sing dijaluk.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ana liyané sing rusak</summary>
+    <p>
+      Bukak issue kanthi réproduksi minimal ing
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — utawa delengen <a href="#community">komunitas lan dhukungan</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Nyumbang</h2>
+  <p>Lily iku enom lan nampa kolaborasi. Sumbangan sing paling migunani saiki yaiku:</p>
+  <ul>
+    <li>Komponèn anyar (utamané pola saka sistem desain sing wis mapan).</li>
+    <li>Tema anyar — saben siji iku siji stylesheet mandiri, PR kapisan sing wangun jelas.</li>
+    <li>Gaya conto sing luwih apik — tuduhna apa sing bisa.</li>
+    <li>Terjemahan string aplikasi conto.</li>
+    <li>Laporan bug kanthi réproduksi minimal.</li>
+    <li>Audit aksesibilitas nganggo pembaca layar lan teknologi bantu.</li>
+  </ul>
+  <p>
+    Bukak issue lan PR ing
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Komunitas lan dhukungan</h2>
+  <ul>
+    <li>
+      <strong>Pitakon lan laporan bug</strong> — bukak issue ing
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Email</strong> — pangreksa maca
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      lan nampa kolaborasi, tuntunan, lan umpan balik.
+    </li>
+    <li>
+      <strong>Pangilon</strong> — Lily uga di-push menyang
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> lan
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, supaya sampéyan bisa melu saka forge kesenengan sampéyan.
+    </li>
+    <li>
+      <strong>Prilaku</strong> — proyèk iki nututi kode etik standar; dadi ramah, anggepen niat apik.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Kenging punapa tanpa sirah tinimbang digayani?</summary>
+    <p>
+      Komponèn sing wis digayani iku kepénak — nganti ora cocog karo mérek sampéyan. Komponèn tanpa sirah mbutuhaké tenaga rada luwih ing wiwitan nanging menehi kontrol kabèh ing desain visual. Aplikasi conto lan 57 tema nuduhaké cara menehi gaya; sampéyan bisa njupuk kuwi utawa ngganti kabèh. Argumen sing luwih dawa ana ing <a href="/why/">Kenging punapa Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kenging punapa komponèné akèh banget?</summary>
+    <p>
+      Lily ngarahaké nyakup pola sing dibutuhaké akèh aplikasi tanpa meksa sampéyan mbangun saka nol — kalebu bab-bab jero kaya input pangenal nasional lan scrollytelling editorial. Katalog njupuk saka selusin sistem desain sing wis mapan ditambah karya asli — delengen <a href="/about/">Babagan</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Apa aku bisa nganggo Lily karo Tailwind?</summary>
+    <p>
+      Bisa. Saben komponèn mbukak siji kelas oyod kebab-case ditambah <code>className</code> / <code>class</code>sing diwènèhaké konsumen. Tumpukna utilitas Tailwind ing ndhuwur kaya sing sampéyan karepake.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Apa aku bisa nganggo Lily karo framework CSS semantik kaya DaisyUI?</summary>
+    <p>
+      Bisa. Jeneng kelas kebab-case ing elemèn oyod makarya minangka pancingan CSS semantik. Pasangna Lily karo framework semantik lan sampéyan entuk komponèn sing wis digayani sing tetep ngajèni ARIA lan i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Apa ana paket npm?</summary>
+    <p>
+       <a href="#helpers">Pembantu preferensi</a> dikirim minangka paket kanthi pipeline publikasi npm/NuGet. Pustaka komponèn tanpa sirah dirancang kanggo dikloning utawa dilebokaké — kode sumber iku sing dikirim, supaya sampéyan bisa maca, nyuda, lan nduwèni persis apa sing sampéyan rilis. Publikasi pustaka tanpa sirah menyang registri tetep ana ing peta dalan.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kenging punapa pirang-pirang lisènsi?</summary>
+    <p>
+      Proyèk sing béda duwé kabutuhan lisènsi sing béda. BSD lan MIT iku permisif, Apache-2.0 duwé pemberian paten, lan opsi GPL ndhukung copyleft. Pilih apa sing cocog karo kahanan sampéyan.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kepriyé carané nglaporaké bug utawa njaluk fitur?</summary>
+    <p>
+      Bukak issue ing repositori GitHub, utawa kirim email menyang
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

@@ -1,0 +1,111 @@
+<!-- title: บทเรียนการกำหนดธีม — Lily Design System -->
+<!-- description: กำหนดธีมให้ Lily สามวิธี: ลิงก์ธีมสำเร็จรูปหนึ่งใน 45 ธีม ปรับแทนที่ด้วย CSS ของคุณ และเพิ่มการสลับธีมขณะรันไทม์ด้วยตัวช่วย theme-picker -->
+<section class="page-intro">
+  <h1>การกำหนดธีม</h1>
+  <p class="page-intro-tagline">
+    คอมโพเนนต์ของ Lily มี class hook ที่คงที่และไม่มี CSS — ธีมจึงเป็นเพียงสไตล์ชีต บทเรียนนี้พาจาก "ลิงก์ไฟล์เดียว" ไปจนถึง "ให้ผู้ใช้สลับธีมขณะรันไทม์และเก็บค่าไว้"
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>สิ่งที่คุณจะสร้าง</h2>
+  <p>
+    แอปที่ผู้ใช้เปลี่ยนรูปลักษณ์ทั้งหมดได้ — เริ่มจากสไตล์ชีตที่ลิงก์ไว้หนึ่งไฟล์ ไปจนถึงตัวสลับธีมขณะรันไทม์ที่เก็บค่าไว้ — ภายในประมาณ 15 นาที
+  </p>
+
+  <h2>ก่อนเริ่ม</h2>
+  <p>
+    ทำให้เสร็จก่อน <a href="/tutorials/">บทเรียนเฟรมเวิร์ก</a> สำหรับสแต็กของคุณก่อน เพื่อให้มีฟอร์ม Lily เล็ก ๆ ไว้ใส่ธีม ทุกอย่างที่นี่ใช้ได้กับทั้งเจ็ดเฟรมเวิร์ก ตัวอย่างโค้ดแสดงเป็น Svelte และ HTML ล้วน
+  </p>
+
+  <h2>ขั้นที่ 1 — ลิงก์ธีมสำเร็จรูป</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ไดเรกทอรีมีสไตล์ชีตแบบแยกอิสระ 45 ไฟล์ คัดลอกเข้าไปในสินทรัพย์สแตติกของแอปแล้วลิงก์หนึ่งไฟล์:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>จุดเด่นของชุดนี้:</p>
+  <ul>
+    <li>
+      <strong>ภาครัฐ</strong> — NHS England / Scotland / Wales แต่ละแห่งมีแบบสำหรับผู้ป่วยและสำหรับผู้ปฏิบัติงาน; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>ได้แรงบันดาลใจจากผู้ให้บริการ</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>ใช้งานทั่วไป</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>และอีกมากมาย
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ตรวจสอบงานของคุณ:</strong> โหลดหน้าซ้ำ มาร์กอัปเดิมที่คุณสร้างในบทเรียนเฟรมเวิร์กตอนนี้มีสไตล์ครบ — ปุ่ม ช่องกรอก ป้ายกำกับ วงโฟกัส HTML เพียงบรรทัดเดียวทำให้เกิดทั้งหมดนี้ — คอมโพเนนต์ทุกตัวยังเหมือนเดิม
+    </p>
+  </div>
+
+  <h2>ขั้นที่ 2 — ปรับแทนที่อะไรก็ได้</h2>
+  <p>
+    ตัวเลือกของธีมถูกห่อด้วย <code>:where(...)</code>ซึ่งมีความจำเพาะเป็นศูนย์ — กฎใดที่คุณเขียนจึงชนะเสมอ ง่าย ๆ เท่านี้:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>ขั้นที่ 3 — การสลับขณะรันไทม์ด้วย theme-picker</h2>
+  <p>
+     <code>theme-picker</code> ตัวช่วยเป็นปุ่มไอคอน + listbox แบบ headless ที่ดูแลวงจรชีวิตของธีมทั้งหมด: โหลดสไตล์ชีตที่เลือกโดยสลับ <code>&lt;link&gt;</code>
+    ที่จัดการไว้หนึ่งตัว (ดึงเฉพาะธีมที่ใช้งานอยู่) ตั้งค่า
+    <code>data-theme="&#123;slug&#125;"</code> บนเอกสาร และเก็บค่าไว้ที่ <code>localStorage</code>ได้ตามต้องการ แสดงเป็น Svelte ที่นี่ ส่วนพอร์ตของ React, Vue, Angular, HTML, Nunjucks และ Blazor ตรงกันทีละสัญญา:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    นั่นคือการเชื่อมต่อทั้งหมด พฤติกรรมแป้นพิมพ์เป็นไปตามรูปแบบ listbox ของ WAI-ARIA APG ตัวควบคุมเองเป็น headless (class hook
+    <code>.theme-picker</code>) จึงรับธีมใดก็ตามที่ใช้งานอยู่
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ตรวจสอบเมื่อ 2026-08-29:</strong> ตัวอย่างโค้ดนี้ถูกคอมไพล์เทียบกับ <code>0.1.1</code> แพ็กเกจที่เผยแพร่แล้ว ผ่าน
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>ขั้นที่ 4 — ตอบสนองต่อธีมใน CSS ของคุณเอง</h2>
+  <p>
+    เพราะตัวช่วยตั้งค่า <code>data-theme</code> ที่รากของเอกสาร สไตล์ของคุณเองจึงแตกกิ่งตามค่านั้นได้:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>หมายเหตุสำหรับการเรนเดอร์บนเซิร์ฟเวอร์</h2>
+  <p>
+    ตัวช่วยทำการเขียน DOM ทั้งหมดภายในวงจรชีวิต mount/effect ของเฟรมเวิร์ก จึงปลอดภัยสำหรับ SSR โดยโครงสร้าง เพื่อหลีกเลี่ยงการกะพริบในการวาดครั้งแรก ให้เรนเดอร์ <code>&lt;link&gt;</code> และ
+    <code>data-theme</code> ของธีมเริ่มต้นบนเซิร์ฟเวอร์ (เช่นจากคุกกี้) — รีโพของตัวช่วย Svelte มีตัวอย่างคุกกี้ SvelteKit ที่รันได้ และแคตตาล็อกอื่นบันทึกรูปแบบเดียวกันสำหรับสแต็กของตน
+  </p>
+
+  <h2>ขั้นต่อไป</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">ตัวช่วยการตั้งค่า</a> — รูปแบบเดียวกันสำหรับภาษา ขนาดตัวอักษร การแชร์ และการกรอกวันที่/เวลา</li>
+    <li>
+      มีส่วนร่วมกับธีม — แต่ละธีมเป็นสไตล์ชีตแยกอิสระหนึ่งไฟล์ที่มุ่งเป้าไปที่ class hook ดู <a href="/help/#contributing">แนวทางการมีส่วนร่วม</a>.
+    </li>
+  </ul>
+  <p>
+    มีคำถามระหว่างทางไหม?
+    <a href="/help/#troubleshooting">หน้าช่วยเหลือ</a> เต็มไปด้วยคำตอบ — และถ้าขั้นตอนไหนทำให้ชัดเจนกว่านี้ได้
+    <a href="https://github.com/LilyDesignSystem">บอกเรา</a> แล้วเรายินดีปรับปรุงบทเรียน
+  </p>
+</section>

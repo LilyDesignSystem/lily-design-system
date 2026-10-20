@@ -1,0 +1,97 @@
+<!-- title: Tutorial Nunjucks — Lily Design System -->
+<!-- description: Bina halaman yang mudah diakses, digayakan dan dirender pelayan dengan makro Nunjucks Lily — sesuai untuk Eleventy. -->
+<section class="page-intro">
+  <h1>Tutorial Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Makro dirender pelayan untuk Eleventy, Express atau mana-mana saluran templat Node — pendekatan gaya GOV.UK, dengan katalog dan cangkuk kelas Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan anda bina</h2>
+  <p>
+    Borang hubungan kecil dirender pelayan — input berlabel, butang hantar, muatan JavaScript sifar — mula-mula kosong, kemudian digayakan, dalam kira-kira 10 minit.
+  </p>
+
+  <h2>Sebelum anda bermula</h2>
+  <p>
+    Anda memerlukan git, Node 22 atau lebih baharu, dan pnpm 10 atau lebih baharu. Mana-mana saluran Nunjucks boleh digunakan — Eleventy, Express atau Nunjucks biasa.
+  </p>
+
+  <h2>Langkah 1 — Dapatkan kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Setiap komponen ialah direktori dalam <code>components/</code> dengan
+    <code>macro.njk</code>, ujiannya dan dokumennya — contohnya
+    <code>components/button/macro.njk</code>. Halakan pemuat Nunjucks anda ke
+    <code>components/</code> (dalam Eleventy, tambah ke laluan includes) dan import apa yang anda perlukan.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama anda</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Memaparkan <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makro mengambil satu objek params: <code>text</code> (dilepaskan) atau
+    <code>html</code> (mentah), <code>type</code>, <code>label</code> untuk
+    <code>aria-label</code>dan penambah cangkuk kelas.
+  </p>
+
+  <h2>Langkah 3 — Gubah borang kecil</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Kerana semuanya dirender di pelayan, pelayar menerima HTML semantik tulen dengan cangkuk kelas — muatan JavaScript sifar bait.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Semak kerja anda:</strong> muat halaman dan borang kelihatan biasa sahaja — tepat seperti dimaksudkan: penggayaan masih di hadapan. Tekan
+      <kbd>Tab</kbd>: fokus bergerak melalui setiap kawalan, label diumumkan dan penghantaran berfungsi. Tingkah laku sudah siap; rupanya milik anda dan itu seterusnya.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Gayakan</h2>
+  <p>
+    Gayakan cangkuk — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — dalam helaian gaya anda, atau pautkan tema siap pakai dalam susun atur asas anda:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Lihat semuanya berfungsi</h2>
+  <p>
+     <a href="/examples/">Aplikasi contoh Nunjucks + Eleventy</a> membina katalog penuh sebagai tapak statik dengan halaman demo bagi setiap komponen:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah seterusnya</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — termasuk corak kuki Eleventy untuk penukaran tema SSR tanpa kelipan.</li>
+    <li><a href="/tutorials/helpers/">Pembantu keutamaan</a> — bahasa dan saiz teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — prop, ARIA dan papan kekunci bagi setiap komponen.</li>
+  </ul>
+  <p>
+    Ada soalan di sepanjang jalan?
+    <a href="/help/#troubleshooting">halaman bantuan</a> penuh dengan jawapan — dan jika sesuatu langkah boleh dijelaskan lagi,
+    <a href="https://github.com/LilyDesignSystem">beritahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial.
+  </p>
+</section>

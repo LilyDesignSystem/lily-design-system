@@ -1,0 +1,97 @@
+<!-- title: מדריך Nunjucks — Lily Design System -->
+<!-- description: בנו עמודים נגישים, מעוצבים ומוצגים בשרת עם המאקרואים של Lily ל-Nunjucks — אידיאלי ל-Eleventy. -->
+<section class="page-intro">
+  <h1>מדריך Nunjucks</h1>
+  <p class="page-intro-tagline">
+    מאקרואים שמוצגים בשרת עבור Eleventy, Express או כל צינור תבניות של Node — הגישה בסגנון GOV.UK, עם הקטלוג וווי המחלקה של Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>מה תבנו</h2>
+  <p>
+    טופס יצירת קשר קטן שמוצג בשרת — קלט עם תווית, כפתור שליחה, אפס מטען JavaScript — קודם חשוף, אחר כך מעוצב, בכ-10 דקות.
+  </p>
+
+  <h2>לפני שמתחילים</h2>
+  <p>
+    אתם צריכים git, Node 22 ומעלה ו-pnpm 10 ומעלה. כל צינור Nunjucks מתאים — Eleventy, Express או Nunjucks פשוט.
+  </p>
+
+  <h2>שלב 1 — קבלו את הקוד</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    כל רכיב הוא ספרייה ב- <code>components/</code> עם
+    <code>macro.njk</code>, הבדיקה שלו והתיעוד שלו — לדוגמה
+    <code>components/button/macro.njk</code>. הפנו את טוען ה-Nunjucks שלכם אל
+    <code>components/</code> (ב-Eleventy, הוסיפו אותו לנתיב ה-includes) וייבאו את מה שאתם צריכים.
+  </p>
+
+  <h2>שלב 2 — הרכיב הראשון שלכם</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    מציג <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. מאקרואים מקבלים אובייקט params יחיד: <code>text</code> (עם הימלטות) או
+    <code>html</code> (גולמי), <code>type</code>, <code>label</code> עבור
+    <code>aria-label</code>ומוסיף וו מחלקה.
+  </p>
+
+  <h2>שלב 3 — הרכיבו טופס קטן</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    מכיוון שהכול מוצג בשרת, הדפדפן מקבל HTML סמנטי טהור עם ווי המחלקה — מטען JavaScript של אפס בתים.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>בדקו את העבודה שלכם:</strong> טענו את העמוד והטופס נראה פשוט — בדיוק כמתוכנן: העיצוב עוד לפנינו. לחצו על
+      <kbd>Tab</kbd>: המיקוד עובר בכל פקד, התווית מוכרזת והשליחה עובדת. ההתנהגות מוכנה; המראה שלכם והוא הבא בתור.
+    </p>
+  </div>
+
+  <h2>שלב 4 — עצבו אותו</h2>
+  <p>
+    עצבו את הווים — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — בגיליון הסגנון שלכם, או קשרו ערכת נושא מוכנה בפריסת הבסיס שלכם:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>שלב 5 — ראו הכול עובד</h2>
+  <p>
+     <a href="/examples/">אפליקציית הדוגמה Nunjucks + Eleventy</a> בונה את הקטלוג המלא כאתר סטטי עם עמוד הדגמה לכל רכיב:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>השלבים הבאים</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ערכות נושא</a> — כולל תבנית העוגיות של Eleventy להחלפת ערכת נושא ב-SSR ללא הבהוב.</li>
+    <li><a href="/tutorials/helpers/">עוזרי העדפות</a> — שפה וגודל טקסט.</li>
+    <li><a href="/components/">קטלוג הרכיבים</a> — מאפיינים, ARIA ומקלדת לכל רכיב.</li>
+  </ul>
+  <p>
+    שאלות בדרך?
+    <a href="/help/#troubleshooting">עמוד העזרה</a> מלא בתשובות — ואם שלב יכול להיות ברור יותר,
+    <a href="https://github.com/LilyDesignSystem">ספרו לנו</a> ונשמח לשפר את המדריך.
+  </p>
+</section>

@@ -1,0 +1,94 @@
+<!-- title: के बारे में — Lily Design System -->
+<!-- description: Lily का ह, एकरा पीछे के सिद्धांत, आ ऊ डिजाइन प्रणाली जिनसे ई प्रेरणा लेला। -->
+<section class="page-intro">
+  <h1>Lily का ह?</h1>
+  <p class="page-intro-tagline">
+    सुलभता के पहिले रखे वाली मुफ्त, ओपन-सोर्स डिजाइन प्रणाली, जे रउआ जहाँ कोड लिखीले उहाँ मिलेला — आ जब जरूरत ना होखे त रास्ता से हट जाला।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>छोट में</h2>
+  <p>
+    Lily <strong>वेब घटक</strong> के एगो कैटलॉग ह, जवना में हर घटक आठ हेडलेस रूप (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks आ Web Components) में बनल बा, संगे पूरा उदाहरण ऐप के सेट जे देखावेला कि उनहन के शैली कइसे दिहल जाला।
+  </p>
+  <p>
+    हेडलेस संस्करण आवेला <em>शून्य CSS</em> के साथे। ई रउआ के सेमांटिक HTML, ARIA भूमिका आ स्थिति, कीबोर्ड समर्थन आ अंतरराष्ट्रीयकरण के अनुकूल प्रॉप देला। दृश्य डिजाइन रउआ ले आईं।
+  </p>
+
+  <h2>डिजाइन सिद्धांत</h2>
+
+  <h3>सुलभ</h3>
+  <p>
+    हर घटक सेमांटिक HTML से शुरू होला। ARIA खाली ओहिजा जोड़ल जाला जहाँ HTML अकेले पैटर्न के ना कह सके। घटक निशाना बनावेला:
+    <strong>WCAG 2.2 AAA</strong> — रंग, दूरी, फोकस आ कीबोर्ड नेविगेशन सब पर ध्यान दिहल जाला।
+  </p>
+
+  <h3>जोड़े लायक</h3>
+  <p>
+    Lily छोट, एक-मकसद वाला घटक पसंद करेला जे एक दोसरा में बइठेलें। संयुक्त पैटर्न बार-बार आवेलें:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — ब्रेडक्रंब, सामग्री सूची, अकॉर्डियन मेनू, ट्री मेनू आ पन्ना बाँटे खातिर</li>
+    <li><code>Form → Field → Input</code> — लेबल, संकेत आ गलती वाला कवनो फॉर्म लेआउट खातिर</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — तालिका, कैलेंडर, गैंट चार्ट आ कानबन बोर्ड खातिर</li>
+    <li><code>Bar → BarButton</code> — टूल बार, टैब बार, टास्क बार, एक्शन बार आ मेनू बार खातिर</li>
+    <li><code>Picker → PickerButton</code> — रंग चुनवइया, रेटिंग चुनवइया, थीम चुनवइया खातिर</li>
+  </ul>
+
+  <h3>अंतरराष्ट्रीयकरण लायक</h3>
+  <p>
+    प्रयोगकर्ता के लउके वाला एको स्ट्रिंग कोड में पक्का नइखे लिखल। लेबल, प्लेसहोल्डर, गलती संदेश, बटन टेक्स्ट — सब पैरामीटर बा। आपन अनुवाद प्रणाली जोड़ीं आ रउआ जवन भाषा बोलीले ऊ Lily बोली।
+  </p>
+
+  <h3>हेडलेस</h3>
+  <p>
+    हेडलेस घटक में <strong>CSS ना होला</strong>, कवनो
+    <code>&lt;style&gt;</code>  ब्लॉक ना, रउआ ना चुनल कवनो डिजाइन टोकन ना। ऊ हर रूट तत्व पर एगो केबाब-केस क्लास नाम खोलेलें ताकि रउआ उनहन के जइसे चाहीं निशाना बना सकीं — सेमांटिक CSS, Tailwind, CSS-in-JS, रउआ के मर्जी।
+  </p>
+
+  <h3>पूरा उदाहरण</h3>
+  <p>
+    उदाहरण ऐप देखावेलें कि असली इस्तेमाल खातिर घटक के शैली कइसे दिहल जाला — कवन डिजाइन टोकन सेट कइल जाव, कवन रूप जोड़ल जाव, पन्ना कइसे बनावल जाव। ई पूरा SvelteKit, Next.js, Nuxt, Blazor आ Eleventy ऐप बाड़ें, खाली सैंडबॉक्स ना।
+  </p>
+
+  <h2 id="inspirations">प्रेरणा के स्रोत</h2>
+  <p>
+    Lily जानबूझ के चुनल चौड़ा डिजाइन प्रणाली के सेट से पैटर्न आ भाषा लेला:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>लाइसेंस</h2>
+  <p>
+    Lily बहु-लाइसेंस वाला ह: <strong>BSD, MIT, Apache-2.0, GPL-2.0, भा GPL-3.0</strong>। जवन रउआ के परियोजना के सूट करे ऊ चुनीं। अगर कुछ ना चले त हमनी से संपर्क करीं।
+  </p>
+
+  <h2>संपर्क</h2>
+  <p>
+    परियोजना प्रमुख: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    बग मिलल, कवनो विचार बा, घटक जोड़े के चाहत बा? इहाँ issue भा pull request खोलीं:
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>स्थिति:</strong> Lily एकदम नया काम ह आ हमनी सहयोग, मार्गदर्शन आ प्रतिक्रिया के स्वागत करीले। चीज बदली आ विकसित होई।
+    </p>
+  </div>
+</section>

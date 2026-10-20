@@ -1,0 +1,127 @@
+<!-- title: دليل Angular — Lily Design System -->
+<!-- description: ابنِ نموذجًا سهل الوصول ومنسَّقًا بمكوّنات Lily عديمة الرأس لـ Angular 20: مكوّنات مستقلة بمدخلات إشارية. -->
+<section class="page-intro">
+  <h1>دليل Angular</h1>
+  <p class="page-intro-tagline">
+    مكوّنات Angular 20 المستقلة — مدخلات إشارية، كشف تغييرات OnPush، قوالب مضمّنة، صفر NgModules، صفر CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج اتصال صغير — حقل بتسمية، زر إرسال، ربط ثنائي الاتجاه، سلوك حقيقي للوحة المفاتيح وقارئ الشاشة — عاريًا أولًا ثم منسَّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى git وNode 22 أو أحدث وpnpm 10 أو أحدث. يصلح أي مشروع Angular 20 — Angular CLI أو Analog.
+  </p>
+
+  <h2>الخطوة 1 — احصل على الشيفرة</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    المكوّنات ملفات مسطّحة في <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — كل واحد مكوّن مستقل بقالب مضمّن، مع spec وstory الخاصين به. الـ barrel
+    <code>index.ts</code> يعيد تصدير كل مكوّن؛ <code>pnpm build</code>
+    وينتج حزمة بصيغة Angular Package Format عبر ng-packagr.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    يعلن كل مكوّن عن محدِّد <code>lily-*</code> ويعرض العنصر الدلالي مع خطّاف الصنف الخاص به —
+    <code>&lt;button class="button" type="button"&gt;</code> هنا. المدخلات قائمة على الإشارات: <code>label()</code> لـ <code>aria-label</code>
+    للتجاوز، <code>className()</code> لإلحاق أصناف.
+  </p>
+
+  <h2>الخطوة 3 — ركّب نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> يأخذ التسمية المرئية كمدخل
+    <code>label</code> خاص به لا كمكوّن تسمية متداخل — مرّرها مرة واحدة على الحقل، و <code>lily-text-input</code>المطابق من
+    <code>label</code> يوفّر الاسم القابل للوصول. المكوّنات الشبيهة بالمدخلات تكشف قيم <code>model()</code> فيعمل الربط الثنائي banana-box <code>[(value)]</code>
+    فورًا — متوافق مع zoneless في كل مكان.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تم التحقق في 2026-08-29:</strong> كانت مسودة سابقة تضع مكوّن <code>Label</code> منفصلًا داخل <code>lily-field</code>فيعرض <em>تسميتين</em> (إحداهما فارغة) لأن
+      <code>lily-field</code> يعرض تسميته بنفسه من المدخل
+      <code>label</code> — اكتُشف بفحص شيفرة مصدر المكوّن.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">مسار نموذج الاتصال المركّب</a>
+      هو النمط نفسه، جُرّب باختبارات e2e وaxe حقيقية.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقق من عملك:</strong> شغّل التطبيق فيبدو النموذج بسيطًا — تمامًا كما هو مقصود: التنسيق لا يزال قادمًا. اضغط
+      <kbd>Tab</kbd>: ينتقل التركيز عبر كل عنصر تحكم، وتُعلن التسمية، ويعمل الإرسال. السلوك مكتمل؛ والمظهر لك وهو الخطوة التالية.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسِّقه</h2>
+  <p>
+    نسِّق خطّافات الأصناف — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — في <code>styles.css</code>، أو أضف سمة جاهزة إلى المصفوفة <code>styles</code> في
+    <code>angular.json</code> / اربطها في <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>الخطوة 5 — شاهد كل شيء يعمل</h2>
+  <p>
+     <a href="/examples/">تطبيق المثال Angular + Analog</a> يعرض الفهرس الكامل بتوجيه قائم على الملفات وVite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">السمات</a> — التبديل أثناء التشغيل بمساعد theme-picker لـ Angular.</li>
+    <li><a href="/tutorials/helpers/">مساعدات التفضيلات</a> — اللغة وحجم النص.</li>
+    <li><a href="/components/">فهرس المكوّنات</a> — الخصائص وARIA ولوحة المفاتيح لكل مكوّن.</li>
+  </ul>
+  <p>
+    أسئلة في الطريق؟
+    <a href="/help/#troubleshooting">صفحة المساعدة</a> مليئة بالإجابات — وإن أمكن توضيح خطوة أكثر،
+    <a href="https://github.com/LilyDesignSystem">أخبرنا</a> وسنحسّن الدليل بكل سرور.
+  </p>
+</section>

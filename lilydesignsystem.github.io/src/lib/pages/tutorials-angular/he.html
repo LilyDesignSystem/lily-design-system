@@ -1,0 +1,127 @@
+<!-- title: מדריך Angular — Lily Design System -->
+<!-- description: בנו טופס נגיש ומעוצב עם הרכיבים ללא הראש של Lily ל-Angular 20: רכיבים עצמאיים עם קלטי signal. -->
+<section class="page-intro">
+  <h1>מדריך Angular</h1>
+  <p class="page-intro-tagline">
+    רכיבים עצמאיים של Angular 20 — קלטי signal, זיהוי שינויים OnPush, תבניות מוטבעות, אפס NgModules, אפס CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>מה תבנו</h2>
+  <p>
+    טופס יצירת קשר קטן — קלט עם תווית, כפתור שליחה, קשירה דו-כיוונית, התנהגות אמיתית של מקלדת וקורא מסך — קודם חשוף, אחר כך מעוצב, בכ-10 דקות.
+  </p>
+
+  <h2>לפני שמתחילים</h2>
+  <p>
+    אתם צריכים git, Node 22 ומעלה ו-pnpm 10 ומעלה. כל פרויקט Angular 20 מתאים — Angular CLI או Analog.
+  </p>
+
+  <h2>שלב 1 — קבלו את הקוד</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    הרכיבים הם קבצים שטוחים ב- <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — כל אחד רכיב עצמאי עם תבנית מוטבעת, בצירוף ה-spec וה-story שלו. ה-barrel
+    <code>index.ts</code> מייצא מחדש כל רכיב; <code>pnpm build</code>
+    מייצר חבילת Angular Package Format באמצעות ng-packagr.
+  </p>
+
+  <h2>שלב 2 — הרכיב הראשון שלכם</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    כל רכיב מצהיר על <code>lily-*</code> בורר ומציג את האלמנט הסמנטי עם ווי המחלקה שלו —
+    <code>&lt;button class="button" type="button"&gt;</code> כאן. הקלטים מבוססי signal: <code>label()</code> עבור <code>aria-label</code>
+    עקיפה, <code>className()</code> כדי להוסיף מחלקות.
+  </p>
+
+  <h2>שלב 3 — הרכיבו טופס קטן</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> לוקח את התווית הגלויה כ
+    <code>label</code> קלט משלו ולא כרכיב תווית מקונן — העבירו אותה פעם אחת, על השדה, וה- <code>lily-text-input</code>התואם ב-
+    <code>label</code> מספק את השם הנגיש. רכיבים דמויי קלט חושפים <code>model()</code> ערכים, ולכן banana-box <code>[(value)]</code>
+    קשירה דו-כיוונית פשוט עובדת — תואם zoneless לכל אורכו.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>אומת ב-2026-08-29:</strong> טיוטה מוקדמת קיננה רכיב נפרד <code>Label</code> בתוך <code>lily-field</code>, מה שהציג <em>שתי</em> תוויות (אחת ריקה) משום ש-
+      <code>lily-field</code> כבר מציג תווית משלו מתוך
+      <code>label</code> הקלט — התגלה על ידי בדיקת קוד המקור של הרכיב.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">נתיב טופס יצירת הקשר המורכב</a>
+      הוא אותה תבנית, שנבדקה בבדיקות e2e ו-axe אמיתיות.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>בדקו את העבודה שלכם:</strong> הריצו את האפליקציה והטופס נראה פשוט — בדיוק כמתוכנן: העיצוב עוד לפנינו. לחצו על
+      <kbd>Tab</kbd>: המיקוד עובר בכל פקד, התווית מוכרזת והשליחה עובדת. ההתנהגות מוכנה; המראה שלכם והוא הבא בתור.
+    </p>
+  </div>
+
+  <h2>שלב 4 — עצבו אותו</h2>
+  <p>
+    עצבו את ווי המחלקה — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ב- <code>styles.css</code>, או הוסיפו ערכת נושא מוכנה למערך <code>styles</code> ב-
+    <code>angular.json</code> / קשרו אותה ב- <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>שלב 5 — ראו הכול עובד</h2>
+  <p>
+     <a href="/examples/">אפליקציית הדוגמה Angular + Analog</a> מציגה את הקטלוג המלא עם ניתוב מבוסס קבצים ו-Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>השלבים הבאים</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ערכות נושא</a> — החלפה בזמן ריצה עם העוזר theme-picker של Angular.</li>
+    <li><a href="/tutorials/helpers/">עוזרי העדפות</a> — שפה וגודל טקסט.</li>
+    <li><a href="/components/">קטלוג הרכיבים</a> — מאפיינים, ARIA ומקלדת לכל רכיב.</li>
+  </ul>
+  <p>
+    שאלות בדרך?
+    <a href="/help/#troubleshooting">עמוד העזרה</a> מלא בתשובות — ואם שלב יכול להיות ברור יותר,
+    <a href="https://github.com/LilyDesignSystem">ספרו לנו</a> ונשמח לשפר את המדריך.
+  </p>
+</section>

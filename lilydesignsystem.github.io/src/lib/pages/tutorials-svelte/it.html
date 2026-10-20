@@ -1,0 +1,117 @@
+<!-- title: Tutorial Svelte — Lily Design System -->
+<!-- description: Crea un modulo accessibile e stilizzato con i componenti headless Svelte 5 di Lily: rune, snippet e bind:value. -->
+<section class="page-intro">
+  <h1>Tutorial Svelte</h1>
+  <p class="page-intro-tagline">
+    La libreria Svelte di Lily è l'implementazione canonica: rune di Svelte 5, prop tipizzate, propagazione delle prop restanti e binding bidirezionale con
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Cosa costruirai</h2>
+  <p>
+    Un piccolo modulo di contatto — campo con etichetta, pulsante di invio, binding bidirezionale, comportamento reale di tastiera e screen reader — prima spoglio, poi stilizzato, in circa 10 minuti.
+  </p>
+
+  <h2>Prima di iniziare</h2>
+  <p>
+    Servono git, Node 22 o successivo e pnpm 10 o successivo. Va bene qualsiasi progetto Svelte 5 — una nuova <code>npx sv create</code> app va benissimo.
+  </p>
+
+  <h2>Passo 1 — Ottieni il codice</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    I componenti si trovano in <code>src/lib/components/&#123;Name&#125;/</code>, una directory per componente con il file <code>.svelte</code> i suoi test, le sue story e la sua documentazione affiancati. Copia le directory che ti servono nella tua app, oppure dipendi dal repository e importa direttamente.
+  </p>
+
+  <h2>Passo 2 — Il tuo primo componente</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rende <code>&lt;button class="button" type="button"&gt;</code>. Le prop sono tipizzate: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (rende <code>aria-pressed</code> (rende <code>label</code> (un <code>aria-label</code> per i pulsanti a commutazione),
+  </p>
+
+  <h2>Passo 3 — Componi un piccolo modulo</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> riceve l' <code>label</code> come prop propria invece di un componente etichetta annidato — passala una sola volta, su <code>Field</code>e <code>TextInput</code>corrispondente <code>label</code> fornisce il nome accessibile. <code>TextInput</code>'s <code>value</code> per sostituire), e qualsiasi attributo in più si propaga sulla radice.
+    <code>$bindable</code> è una prop <code>bind:value</code> rune, quindi
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificato il 2026-08-29:</strong> ti dà subito il binding bidirezionale. <code>svelte/server</code> questo snippet esatto è stato compilato tramite <code>&lt;label for&gt;</code> e controllato per avere una sola etichetta, collegata correttamente <code>Label</code> dentro <code>Field</code>— una bozza precedente annidava un
+      <em>due</em> etichette (una vuota) perché <code>Field</code> rende già la propria dall'input <code>label</code> separato dentro, che rendeva
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">La rotta composta del modulo di contatto</a>
+      è lo stesso schema, collaudato da veri test e2e e axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controlla il lavoro:</strong> avvia l'app e il modulo appare spoglio — esattamente come previsto: lo stile deve ancora venire. Premi
+      <kbd>Tab</kbd>: il focus si sposta su ogni controllo, l'etichetta viene annunciata e l'invio funziona. Il comportamento è fatto; l'aspetto è tuo, ed è il prossimo passo.
+    </p>
+  </div>
+
+  <h2>Passo 4 — Dagli uno stile</h2>
+  <p>
+    Tutto quanto sopra viene reso come pura struttura, pronta per i tuoi stili. Stilizza gli hook di classe —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — nel tuo foglio di stile globale, oppure collega un tema pronto in <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Le modifiche per singola istanza passano per la <code>class</code> prop, che si aggiunge all'hook di base: <code>&lt;Button class="wide"&gt;</code> rende
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Passo 5 — Guarda tutto in funzione</h2>
+  <p>
+     <a href="/examples/">App di esempio SvelteKit</a> è lo stesso catalogo completamente stilizzato, con demo dal vivo, test e2e Playwright e una baseline di accessibilità axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Prossimi passi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — cambio a runtime con l'helper theme-picker per Svelte.</li>
+    <li><a href="/tutorials/helpers/">Helper delle preferenze</a> — lingua e dimensione del testo.</li>
+    <li><a href="/components/">Catalogo dei componenti</a> — proprietà, ARIA e tastiera per ogni componente.</li>
+  </ul>
+  <p>
+    Domande lungo la strada? La
+    <a href="/help/#troubleshooting">pagina di aiuto</a> è piena di risposte — e se un passo può essere più chiaro,
+    <a href="https://github.com/LilyDesignSystem">faccelo sapere</a> e miglioreremo volentieri il tutorial.
+  </p>
+</section>

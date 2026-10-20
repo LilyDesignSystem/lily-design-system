@@ -1,0 +1,432 @@
+<!-- title: Trợ giúp — Lily Design System -->
+<!-- description: Bắt đầu với Lily: cài gói headless cho framework của bạn, sao chép một thành phần, tạo kiểu, áp dụng giao diện và phát hành. Khắc phục sự cố, hỏi đáp và hỗ trợ. -->
+<section class="page-intro">
+  <h1>Bắt đầu với Lily</h1>
+  <p class="page-intro-tagline">
+    Chọn một framework, sao chép monorepo và mở thư viện headless hoặc ứng dụng ví dụ của nó, rồi bắt đầu ghép các trang của riêng bạn. Thích một lộ trình có hướng dẫn? Hãy bắt đầu với
+    <a href="/tutorials/">các hướng dẫn</a>.
+  </p>
+</section>
+
+<nav aria-label="Trên trang này" class="prose" style="margin: 0 auto;">
+  <p><strong>Trên trang này:</strong></p>
+  <ul>
+    <li><a href="#install">Cài đặt</a></li>
+    <li><a href="#use-headless">Dùng một thành phần headless</a></li>
+    <li><a href="#use-styled">Dùng một ví dụ có kiểu</a></li>
+    <li><a href="#styling">Kiểu dáng và token thiết kế</a></li>
+    <li><a href="#themes">Giao diện làm sẵn</a></li>
+    <li><a href="#helpers">Trợ thủ tùy chọn</a></li>
+    <li><a href="#a11y">Khả năng tiếp cận</a></li>
+    <li><a href="#i18n">Quốc tế hóa</a></li>
+    <li><a href="#testing">Kiểm thử</a></li>
+    <li><a href="#ai-agents">Tác tử AI</a></li>
+    <li><a href="#troubleshooting">Khắc phục sự cố</a></li>
+    <li><a href="#contributing">Đóng góp</a></li>
+    <li><a href="#community">Cộng đồng và hỗ trợ</a></li>
+    <li><a href="#faq">Hỏi đáp</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Cài đặt</h2>
+  <p>
+    Lily nằm trong một monorepo Git duy nhất, với một thư mục cho thư viện headless, các gói trợ thủ và ứng dụng ví dụ của từng framework. Cách nhanh nhất để thử là sao chép monorepo và mở thư viện headless cho ngăn xếp của bạn:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Cùng khuôn mẫu đó áp dụng cho các framework khác:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — không cần cài đặt; sao chép các tệp <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Các thư viện headless được thiết kế để sao chép hoặc đưa vào dự án — hãy coi mã nguồn là nguồn chân lý và sao chép những gì bạn cần.
+    <a href="#helpers">trợ thủ tùy chọn</a> còn được phát hành dưới dạng gói cài đặt được với quy trình build và phát hành (npm cho các framework JS, NuGet cho Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Dùng một thành phần headless</h2>
+  <p>
+    Thành phần headless cung cấp HTML ngữ nghĩa, ARIA và prop — nhưng không có CSS. Đây là một Button trong từng framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Dùng một ví dụ có kiểu</h2>
+  <p>
+    Các ứng dụng ví dụ bao gồm CSS, tuyến và các trang demo đầy đủ. Cách nhanh nhất để thử nghiệm là khởi động ứng dụng ví dụ SvelteKit, Next, Nuxt, Analog hoặc Eleventy và xem bản demo tại <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Sau đó mở <code>http://localhost:5173</code> và duyệt <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Kiểu dáng và token thiết kế</h2>
+  <p>
+    Mỗi thành phần được hiển thị với một lớp kebab-case duy nhất trên phần tử gốc. Ví dụ, <code>&lt;Button&gt;</code> hiển thị thành <code>&lt;button class="button"&gt;</code>. Hãy tạo kiểu theo cách bạn muốn:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Bảng màu mặc định của Lily (dùng trong các ứng dụng ví dụ) là:</p>
+  <ul>
+    <li>Chính: <code>#2563eb</code></li>
+    <li>Nguy hiểm: <code>#dc2626</code></li>
+    <li>Cảnh báo: <code>#f59e0b</code></li>
+    <li>Thành công: <code>#16a34a</code></li>
+    <li>Nền trang: <code>#f9fafb</code></li>
+    <li>Nền thẻ: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Đây là gợi ý, không phải yêu cầu. Hãy thay chúng bằng bảng màu thương hiệu của bạn, Lily sẽ vui vẻ đi theo.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Giao diện làm sẵn</h2>
+  <p>
+    Không muốn viết CSS từ đầu? Lily cung cấp
+    <strong>57 giao diện tham chiếu độc lập</strong> trong thư mục
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Mỗi giao diện là một stylesheet nhắm vào các móc lớp của Lily — liên kết nó và bạn đã có kiểu:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Bộ giao diện bao gồm:</p>
+  <ul>
+    <li>
+      <strong>Khu vực công</strong> — NHS England, NHS Scotland và NHS Wales (mỗi nơi có bản dành cho bệnh nhân và bản dành cho người hành nghề), GOV.UK GDS và U.S. Web Design System.
+    </li>
+    <li><strong>Lấy cảm hứng từ nhà cung cấp</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Đa dụng</strong> — light, dark, nord, dracula, wireframe và khoảng ba chục giao diện nữa.
+    </li>
+  </ul>
+  <p>
+    Bộ chọn của giao diện dùng <code>:where(...)</code>, nên CSS của chính bạn luôn thắng về độ ưu tiên. Hãy ghép chúng với trợ thủ <code>theme-picker</code> bên dưới để chuyển đổi lúc chạy, hoặc làm theo
+    <a href="/tutorials/theming/">hướng dẫn giao diện</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Trợ thủ tùy chọn</h2>
+  <p>
+    Mỗi framework có tám bộ chọn nhỏ, mỗi bộ là một gói
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> riêng (và một <code>picker-bar</code> để lắp ráp chúng). Mỗi bộ là một nút biểu tượng headless mở ra một cửa sổ bật lên — hộp danh sách, danh sách liên kết, biểu mẫu tìm kiếm hoặc (với date-time-picker) hộp thoại chọn ngày — không phải
+    <code>&lt;select&gt;</code>gốc; an toàn SSR; và không kèm CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — tải stylesheet giao diện lúc chạy bằng cách đổi một <code>&lt;link&gt;</code>được quản lý, đặt
+      <code>data-theme</code> trên tài liệu và tùy chọn lưu bền vào
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — đặt <code>lang</code> và
+      <code>dir</code> (với tự động phát hiện RTL) để thư viện i18n của bạn có thể theo sau; bản thân nó không dịch gì.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — đặt <code>data-text-size</code> trên tài liệu; CSS của bạn ánh xạ từng giá trị sang cỡ chữ.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — đặt <code>data-motion</code> trên tài liệu, bắt đầu từ thiết lập giảm chuyển động của khách truy cập; CSS và script của bạn quyết định cái gì bị ngăn chặn.
+    </li>
+    <li>
+      <strong>search-picker</strong> — một nút biểu tượng mở ra ô tìm kiếm; gửi đi sẽ chuyển tới trang tìm kiếm. Sở hữu một hành động, không phải một tùy chọn.
+    </li>
+    <li>
+      <strong>link-picker</strong> — biểu tượng ngôi nhà mở ra menu các liên kết trang mà ứng dụng của bạn định nghĩa (Trang chủ, Về chúng tôi, Liên hệ, Chính sách bảo mật, …). Sở hữu một hành động, không phải một tùy chọn.
+    </li>
+    <li>
+      <strong>share-picker</strong> — mở bảng chia sẻ gốc hoặc danh sách đích do bên dùng cung cấp, cộng với sao chép URL. Sở hữu một hành động, không phải một tùy chọn: không áp dụng gì, không lưu gì.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — một ô văn bản cùng hộp thoại chọn ngày APG cho một ngày, một giờ hoặc cả hai. Sở hữu một giá trị biểu mẫu, không phải một tùy chọn: chuỗi ISO được chuyển qua lại với
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Danh mục Svelte là tham chiếu chuẩn; các bản chuyển sang React, Vue, Angular, HTML, Nunjucks, Web Components và Blazor khớp với nó từng hợp đồng một. Xem
+    <a href="/tutorials/helpers/">hướng dẫn trợ thủ</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Khả năng tiếp cận</h2>
+  <p>Các thành phần hướng tới <strong>WCAG 2.2 AAA</strong>. Chúng tuân theo các mẫu sau:</p>
+  <ul>
+    <li>Phần tử HTML ngữ nghĩa thay vì <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> chung chung, liên kết nhãn với ô nhập.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> cho các tham chiếu chéo.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> cho trạng thái lỗi.</li>
+    <li><code>role="alert"</code> và <code>aria-live</code> cho nội dung động.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> cho trạng thái.</li>
+    <li>Roving <code>tabindex</code> cho lưới.</li>
+  </ul>
+  <p>
+    Chỉ báo tiêu điểm được bên dùng cung cấp một cách có chủ ý — Lily không bao giờ vẽ vòng tiêu điểm mặc định xung đột với thiết kế của bạn. Các ứng dụng ví dụ giữ đường cơ sở axe-core sạch trên mọi tuyến của chúng.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Quốc tế hóa</h2>
+  <p>
+    Mỗi nhãn, văn bản gợi ý, thông báo lỗi và chữ trên nút đều là prop. Không có chuỗi nào bị viết cứng. Hãy gắn framework dịch bạn chọn — Paraglide, i18next, vue-i18n, react-intl, tệp .resx, bất cứ thứ gì.
+  </p>
+  <p>
+    Với ngày, số và tiền tệ, các thành phần nhận chuỗi đã định dạng sẵn: bạn định dạng bằng <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / thư viện bạn ưa thích rồi truyền kết quả vào.
+  </p>
+  <p>
+    Trợ thủ <code>locale-picker</code> báo ngôn ngữ đã chọn cho thư viện i18n của bạn bằng cách đặt <code>lang</code> và <code>dir</code> trên gốc tài liệu.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Kiểm thử</h2>
+  <p>Mỗi dự án con framework phát hành kèm các bài kiểm thử riêng dùng ngăn xếp quen thuộc của nó:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO chạy trình duyệt thật.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (qua plugin Vite của Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest với một trợ thủ hiển thị.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Các bài kiểm thử dùng <strong>chỉ các matcher tích hợp sẵn của Vitest</strong> — không bao giờ dùng matcher của
+    <code>jest-dom</code> . Điều này giữ cho các bộ kiểm thử có tính di động. Các ứng dụng ví dụ bổ sung bộ Playwright đầu-cuối, đường cơ sở khả năng tiếp cận axe-core và đợt quét khung nhìn đáp ứng.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Tác tử AI</h2>
+  <p>
+    Trang này công bố <a href="/llms.txt">llms.txt</a> và
+    <a href="/llms.json">llms.json</a> ở gốc — một bản đồ được tuyển chọn của các trang quan trọng nhất, dành cho mọi công cụ tuân theo
+    <a href="https://llmstxt.org">quy ước llms.txt</a>.
+  </p>
+  <p>
+    Monorepo chuẩn còn cung cấp thêm hai
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: một skill đa dụng bao quát khái niệm, thuật ngữ và mẫu ghép của Lily dành cho bất kỳ ai xây dựng với hệ thống, và <code>lily-design-system-maintainer-skill</code>, một skill kỹ thuật bao quát bố cục tệp bắt buộc và công cụ của monorepo dành cho bất kỳ ai làm việc trên đó. Cả hai nằm ở gốc của
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo chuẩn</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Khắc phục sự cố</h2>
+
+  <details class="faq-item">
+    <summary>Một thành phần hiển thị nhưng trông không có kiểu</summary>
+    <p>
+      Đó là headless hoạt động đúng như dự định — không có CSS đi kèm thành phần. Hãy viết CSS cho lớp kebab-case của thành phần (hiển thị trên mọi <a href="/components/">trang danh mục</a>) hoặc liên kết một trong
+      <a href="#themes">57 giao diện làm sẵn</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS của tôi dường như không có hiệu lực trên giao diện</summary>
+    <p>
+      Lẽ ra phải có — bộ chọn của giao diện được bọc trong <code>:where(...)</code>, vốn có độ ưu tiên bằng không. Nếu một quy tắc vẫn thua, hãy kiểm tra stylesheet của bạn được tải sau <code>&lt;link&gt;</code> của giao diện và bộ chọn thực sự khớp với móc lớp của thành phần.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install thất bại với lỗi peer hoặc phiên bản</summary>
+    <p>
+      Hãy dùng pnpm hiện hành (v10+) và Node 22+. Mỗi dự án con ghim phiên bản framework của nó trong <code>package.json</code>riêng; nếu bộ công cụ toàn cục của bạn cũ hơn, <code>pnpm env use --global lts</code> là cách khắc phục nhanh nhất.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Trình đọc màn hình đọc sai tên của một điều khiển</summary>
+    <p>
+      Hãy kiểm tra prop bắt buộc <code>label</code> của thành phần — thành phần không có văn bản hiển thị đều yêu cầu nó, và
+      <code>aria-label</code> / <code>aria-labelledby</code> do bên dùng cung cấp và truyền qua rest-props cố ý thắng phần nối dây tích hợp sẵn. Mỗi trang danh mục ghi lại hợp đồng ARIA của thành phần.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Trợ thủ theme-picker không đổi stylesheet</summary>
+    <p>
+      Hãy xác nhận <code>themesUrl</code> trỏ tới thư mục mà trình duyệt có thể lấy (phục vụ các tệp <code>themes/</code> như tài nguyên tĩnh) và các slug giao diện trong prop <code>themes</code> của bạn khớp với tên tệp. Trợ thủ đổi <code>href</code> của một
+      <code>&lt;link data-lily-theme-picker&gt;</code> được quản lý — hãy kiểm tra nó trong công cụ nhà phát triển để thấy URL đang được yêu cầu.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Có thứ khác bị hỏng</summary>
+    <p>
+      Hãy mở một issue kèm cách tái hiện tối thiểu tại
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — hoặc xem <a href="#community">cộng đồng và hỗ trợ</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Đóng góp</h2>
+  <p>Lily còn trẻ và hoan nghênh sự hợp tác. Những đóng góp hữu ích nhất hiện nay là:</p>
+  <ul>
+    <li>Thành phần mới (đặc biệt là các mẫu từ những hệ thống thiết kế đã được khẳng định).</li>
+    <li>Giao diện mới — mỗi cái là một stylesheet độc lập, một PR đầu tiên có phạm vi rõ ràng.</li>
+    <li>Tạo kiểu ví dụ tốt hơn — cho thấy điều gì là khả thi.</li>
+    <li>Bản dịch các chuỗi của ứng dụng ví dụ.</li>
+    <li>Báo cáo lỗi kèm cách tái hiện tối thiểu.</li>
+    <li>Kiểm toán khả năng tiếp cận bằng trình đọc màn hình và công nghệ hỗ trợ.</li>
+  </ul>
+  <p>
+    Mở issue và PR tại
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Cộng đồng và hỗ trợ</h2>
+  <ul>
+    <li>
+      <strong>Câu hỏi và báo cáo lỗi</strong> — mở một issue tại
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Email</strong> — người bảo trì đọc
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      và hoan nghênh sự hợp tác, hướng dẫn và phản hồi.
+    </li>
+    <li>
+      <strong>Bản sao</strong> — Lily cũng được đẩy lên
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> và
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, để bạn có thể tham gia từ nền tảng mã nguồn bạn ưa thích.
+    </li>
+    <li>
+      <strong>Quy tắc ứng xử</strong> — dự án theo một bộ quy tắc ứng xử chuẩn; hãy tử tế, hãy giả định thiện chí.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Hỏi đáp</h2>
+
+  <details class="faq-item">
+    <summary>Vì sao headless chứ không phải có kiểu sẵn?</summary>
+    <p>
+      Thành phần có kiểu sẵn thì tiện — cho đến khi chúng không hợp với thương hiệu của bạn. Thành phần headless đòi hỏi thêm chút công sức ban đầu nhưng trao cho bạn toàn quyền kiểm soát thiết kế hình ảnh. Các ứng dụng ví dụ và 57 giao diện cho thấy cách tạo kiểu cho chúng; bạn có thể dùng chúng hoặc thay hoàn toàn. Lập luận đầy đủ hơn nằm ở <a href="/why/">Vì sao chọn Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Vì sao có nhiều thành phần như vậy?</summary>
+    <p>
+      Lily nhằm bao quát các mẫu mà hầu hết ứng dụng cần mà không bắt bạn phải xây từ đầu — bao gồm cả những thứ chuyên sâu như ô nhập định danh quốc gia và scrollytelling biên tập. Danh mục lấy từ hàng chục hệ thống thiết kế đã được khẳng định cùng công trình gốc — xem <a href="/about/">Giới thiệu</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Tôi có thể dùng Lily với Tailwind không?</summary>
+    <p>
+      Có. Mỗi thành phần phơi ra một lớp gốc kebab-case duy nhất cộng với <code>className</code> / <code>class</code>do bên dùng cung cấp. Hãy chồng các tiện ích Tailwind lên tùy ý.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Tôi có thể dùng Lily với các framework CSS ngữ nghĩa như DaisyUI không?</summary>
+    <p>
+      Có. Tên lớp kebab-case trên phần tử gốc hoạt động như móc CSS ngữ nghĩa. Ghép Lily với một framework ngữ nghĩa và bạn có các thành phần có kiểu sẵn mà vẫn tôn trọng ARIA và i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Có gói npm không?</summary>
+    <p>
+       <a href="#helpers">Trợ thủ tùy chọn</a> được phát hành dưới dạng gói với quy trình phát hành npm/NuGet. Các thư viện thành phần headless được thiết kế để sao chép hoặc đưa vào dự án — mã nguồn chính là sản phẩm giao, nên bạn có thể đọc, tinh gọn và sở hữu chính xác những gì bạn phát hành. Việc phát hành các thư viện headless lên registry vẫn nằm trong lộ trình.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Vì sao có nhiều giấy phép?</summary>
+    <p>
+      Các dự án khác nhau có nhu cầu giấy phép khác nhau. BSD và MIT cho phép rộng rãi, Apache-2.0 có cấp phép bằng sáng chế, và các tùy chọn GPL hỗ trợ copyleft. Hãy chọn cái phù hợp với tình huống của bạn.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Làm sao để báo lỗi hoặc yêu cầu tính năng?</summary>
+    <p>
+      Mở một issue trên kho GitHub, hoặc gửi email tới
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

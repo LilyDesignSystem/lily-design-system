@@ -1,0 +1,136 @@
+<!-- title: Tutorial — Lily Design System -->
+<!-- description: Tutorial passo dopo passo su Lily: il tuo primo componente, gli stili, i temi pronti e gli helper per le preferenze – per HTML, Svelte, React, Vue, Angular, Blazor e Nunjucks. -->
+<section class="page-intro">
+  <h1>Impara Lily, passo dopo passo</h1>
+  <p class="page-intro-tagline">
+    Benvenuto! Ogni tutorial parte da zero e costruisce la stessa piccola cosa – un modulo accessibile e con stili – in circa 10 minuti, così puoi confrontare i framework alla pari. Poi vai più a fondo con i temi e le preferenze dell'utente.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Prima di iniziare</h2>
+  <p>Serve sorprendentemente poco:</p>
+  <ul>
+    <li>
+      <strong>Per il tutorial HTML</strong> – solo un browser e un editor di testo. È l'intera cassetta degli attrezzi.
+    </li>
+    <li>
+      <strong>Per Svelte, React, Vue, Angular o Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 e pnpm 10 o successivi.
+    </li>
+    <li>
+      <strong>Per Blazor</strong> – git e il
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 o successivo.
+    </li>
+  </ul>
+  <p>
+    Sei nuovo ai componenti headless? Sei nel posto giusto – ogni tutorial spiega cosa accade man mano che procedi, e ogni passaggio mostra il codice esatto da copiare.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Quattro passi da zero alla pubblicazione</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Il tuo primo componente</strong> (~5 minuti) – scegli il tuo framework qui sotto, ottieni il codice e visualizza un Button.
+      </li>
+      <li>
+        <strong>Componi e applica gli stili</strong> (~5 minuti) – costruisci un modulo con etichette e applica gli stili tramite gli hook di classe in kebab-case (parte di ogni tutorial di framework).
+      </li>
+      <li>
+        <strong>Applica un tema</strong> (~15 minuti) – sostituisci il tuo CSS scritto a mano con uno dei 57 temi pronti, poi lascia che gli utenti cambino a runtime: <a href="/tutorials/theming/">tutorial sui temi</a>.
+      </li>
+      <li>
+        <strong>Rispetta le preferenze</strong> (~15 minuti) – aggiungi la scelta di lingua e dimensione del testo con gli helper per le preferenze:
+        <a href="/tutorials/helpers/">tutorial sugli helper</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Scegli il tuo framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Copia l'HTML semantico con gli hook di classe e parti – bastano un browser e un editor.</p>
+      <p class="card-meta">~10 minuti · il modo più facile per iniziare</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Rune di Svelte 5, snippet e associazione bidirezionale con <code>bind:value</code> .</p>
+      <p class="card-meta">~10 minuti</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Componenti funzione con <code>value</code> + <code>onChange</code> e diffusione delle prop rimanenti.</p>
+      <p class="card-meta">~10 minuti</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Componenti a file singolo di Vue 3 con supporto a <code>v-model</code> .</p>
+      <p class="card-meta">~10 minuti</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Componenti standalone di Angular con input a signal e <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minuti</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Componenti Razor con parametri, <code>ChildContent</code>e test bUnit.</p>
+      <p class="card-meta">~10 minuti</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Macro renderizzate lato server per Eleventy e qualsiasi pipeline di template Node.</p>
+      <p class="card-meta">~10 minuti</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Indeciso? Inizia con <a href="/tutorials/html/">HTML</a> – insegna il contratto degli hook di classe che ogni altro framework condivide e funziona direttamente da un file.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Vai più a fondo</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Temi</h3>
+      <p class="card-description">
+        Collega uno dei 57 temi pronti – NHS, GOV.UK, USWDS, chiaro, scuro e altri – sovrascrivilo con il tuo CSS e aggiungi il cambio di tema a runtime con l'helper theme-picker.
+      </p>
+      <p class="card-meta">~15 minuti</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Helper per le preferenze</h3>
+      <p class="card-description">
+        Dai agli utenti il controllo di tema, lingua, dimensione del testo, movimento, ricerca, link alle pagine, condivisione e inserimento di data/ora con theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker e date-time-picker: controlli headless con persistenza, sicurezza SSR e rilevamento RTL automatico.
+      </p>
+      <p class="card-meta">~15 minuti</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Dopo i tutorial</h2>
+  <ul>
+    <li>
+      Sfoglia il <a href="/components/">catalogo dei componenti</a> – ogni componente documenta le sue prop, il contratto ARIA e il comportamento da tastiera.
+    </li>
+    <li>
+      Clona un' <a href="/examples/">app di esempio</a> per vedere tutti i 571 componenti con gli stili e al lavoro insieme – il CSS punta agli stessi hook di classe che hai appena usato, quindi copia qualsiasi parte nel tuo progetto e adattala come preferisci.
+    </li>
+    <li>
+      Domande? La <a href="/help/">pagina di aiuto</a> ha risposte, una FAQ e modi per raggiungere un essere umano gentile. E se un tutorial potesse essere più chiaro,
+      <a href="https://github.com/LilyDesignSystem">faccelo sapere</a> – lo miglioreremo volentieri.
+    </li>
+  </ul>
+</section>

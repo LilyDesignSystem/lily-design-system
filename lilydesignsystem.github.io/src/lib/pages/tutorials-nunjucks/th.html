@@ -1,0 +1,97 @@
+<!-- title: บทเรียน Nunjucks — Lily Design System -->
+<!-- description: สร้างหน้าเว็บที่เข้าถึงได้ มีสไตล์ และเรนเดอร์บนเซิร์ฟเวอร์ด้วยแมโคร Nunjucks ของ Lily — เหมาะกับ Eleventy -->
+<section class="page-intro">
+  <h1>บทเรียน Nunjucks</h1>
+  <p class="page-intro-tagline">
+    แมโครที่เรนเดอร์บนเซิร์ฟเวอร์สำหรับ Eleventy, Express หรือไปป์ไลน์เทมเพลต Node ใดก็ได้ — แนวทางแบบ GOV.UK พร้อมแคตตาล็อกและ class hook ของ Lily
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>สิ่งที่คุณจะสร้าง</h2>
+  <p>
+    ฟอร์มติดต่อขนาดเล็กที่เรนเดอร์บนเซิร์ฟเวอร์ — ช่องกรอกที่มีป้ายกำกับ, ปุ่มส่ง, ไม่มี JavaScript payload — เริ่มจากแบบไม่ตกแต่งก่อน แล้วค่อยใส่สไตล์ ภายในประมาณ 10 นาที
+  </p>
+
+  <h2>ก่อนเริ่ม</h2>
+  <p>
+    คุณต้องมี git, Node 22 ขึ้นไป และ pnpm 10 ขึ้นไป ไปป์ไลน์ Nunjucks ใดก็ได้ — Eleventy, Express หรือ Nunjucks ล้วน ๆ
+  </p>
+
+  <h2>ขั้นที่ 1 — รับโค้ด</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    คอมโพเนนต์แต่ละตัวเป็นไดเรกทอรีใน <code>components/</code> ที่มี
+    <code>macro.njk</code>การทดสอบ และเอกสารของมัน — ตัวอย่างเช่น
+    <code>components/button/macro.njk</code>ชี้ตัวโหลด Nunjucks ของคุณไปที่
+    <code>components/</code> (ใน Eleventy ให้เพิ่มลงในพาธ includes) แล้วนำเข้าสิ่งที่ต้องการ
+  </p>
+
+  <h2>ขั้นที่ 2 — คอมโพเนนต์แรกของคุณ</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    แสดงผล <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>แมโครรับออบเจ็กต์ params เพียงหนึ่งตัว: <code>text</code> (ถูกเอสเคป) หรือ
+    <code>html</code> (ดิบ) <code>type</code>, <code>label</code> สำหรับ
+    <code>aria-label</code>และตัวต่อท้าย class hook
+  </p>
+
+  <h2>ขั้นที่ 3 — ประกอบฟอร์มเล็ก ๆ</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    เพราะทุกอย่างเรนเดอร์บนเซิร์ฟเวอร์ เบราว์เซอร์จึงได้รับ HTML เชิงความหมายล้วน ๆ พร้อม class hook — JavaScript payload ศูนย์ไบต์
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ตรวจสอบงานของคุณ:</strong> โหลดหน้าแล้วฟอร์มจะดูธรรมดา — ตามที่ตั้งใจ สไตล์ยังรออยู่ข้างหน้า กด
+      <kbd>Tab</kbd>โฟกัสจะเลื่อนผ่านทุกตัวควบคุม ป้ายกำกับถูกอ่านออกเสียง และการส่งทำงานได้ พฤติกรรมเสร็จแล้ว ส่วนรูปลักษณ์เป็นของคุณ และเป็นขั้นต่อไป
+    </p>
+  </div>
+
+  <h2>ขั้นที่ 4 — ใส่สไตล์</h2>
+  <p>
+    ใส่สไตล์ให้ hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ในสไตล์ชีตของคุณ หรือลิงก์ธีมสำเร็จรูปในเลย์เอาต์พื้นฐานของคุณ:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>ขั้นที่ 5 — ดูทุกอย่างทำงาน</h2>
+  <p>
+     <a href="/examples/">แอปตัวอย่าง Nunjucks + Eleventy</a> สร้างแคตตาล็อกทั้งหมดเป็นเว็บไซต์สแตติกพร้อมหน้าเดโมของแต่ละคอมโพเนนต์:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ขั้นต่อไป</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">การกำหนดธีม</a> — รวมถึงรูปแบบคุกกี้ของ Eleventy สำหรับการสลับธีมบน SSR โดยไม่กะพริบ</li>
+    <li><a href="/tutorials/helpers/">ตัวช่วยการตั้งค่า</a> — ภาษาและขนาดตัวอักษร</li>
+    <li><a href="/components/">แคตตาล็อกคอมโพเนนต์</a> — props, ARIA และแป้นพิมพ์ของแต่ละคอมโพเนนต์</li>
+  </ul>
+  <p>
+    มีคำถามระหว่างทางไหม?
+    <a href="/help/#troubleshooting">หน้าช่วยเหลือ</a> เต็มไปด้วยคำตอบ — และถ้าขั้นตอนไหนทำให้ชัดเจนกว่านี้ได้
+    <a href="https://github.com/LilyDesignSystem">บอกเรา</a> แล้วเรายินดีปรับปรุงบทเรียน
+  </p>
+</section>

@@ -1,0 +1,106 @@
+<!-- title: HTML-handleiding — Lily Design System -->
+<!-- description: Bouw een toegankelijk, vormgegeven formulier met Lily's headless-componenten voor HTML — gewone markup, rechtstreeks uit een bestand. -->
+<section class="page-intro">
+  <h1>HTML-handleiding</h1>
+  <p class="page-intro-tagline">
+    De eenvoudigst denkbare start: kopieer semantische HTML met Lily's klassehaken, voeg één stylesheet toe, publiceer. Gewone bestanden die overal werken waar HTML werkt.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat je gaat bouwen</h2>
+  <p>
+    Een klein contactformulier — invoervelden met labels, een verzendknop, echt toetsenbord- en schermlezergedrag — eerst kaal, dan vormgegeven, in ongeveer 10 minuten.
+  </p>
+
+  <h2>Voordat je begint</h2>
+  <p>
+    Je hebt een browser en een teksteditor nodig. Meer niet. (git helpt om de componentbestanden op te halen, maar je kunt ze ook in de browser vanaf GitHub kopiëren.)
+  </p>
+
+  <h2>Stap 1 — Haal de code op</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Elke component is een los bestand in <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, enzovoort — met een kopcommentaar dat zijn HTML-tag, klassehaak, toetsenbordgedrag en toegankelijkheidscontract documenteert. De bestanden <em>zijn</em> de bibliotheek — kopieer wat je nodig hebt en ga.
+  </p>
+
+  <h2>Stap 2 — Je eerste component</h2>
+  <p>Open <code>components/button.html</code>, of schrijf gewoon de markup — de klassehaak is het contract:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Omdat het een echte <code>&lt;button&gt;</code>is, kloppen toetsenbordfocus, activering met Enter en Spatie en de impliciete knoprol al.
+  </p>
+
+  <h2>Stap 3 — Stel een klein formulier samen</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Let op het patroon: elk bedieningselement koppelt zijn <code>&lt;label for&gt;</code>, gebruikt het meest specifieke invoertype en draagt precies één klassehaak in kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controleer je werk:</strong> open de pagina in een browser. Hij ziet er kaal uit — precies zoals bedoeld: de vormgeving komt nog. Druk op
+      <kbd>Tab</kbd>: de focus beweegt door elk bedieningselement, de labels worden voorgelezen en verzenden werkt. Het gedrag is klaar; het uiterlijk is aan jou en komt hierna.
+    </p>
+  </div>
+
+  <h2>Stap 4 — Geef het vorm</h2>
+  <p>Schrijf CSS tegen de haken:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Of sla het met de hand schrijven van CSS helemaal over — koppel een van de 45 kant-en-klare thema's en dezelfde markup licht op:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Stap 5 — Verken verder</h2>
+  <ul>
+    <li>De tests van de repo draaien in echte browsers: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook voor elke component: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS voorbeeld-app</a> toont alle 571 componenten vormgegeven, doorzoekbaar en gedemonstreerd.
+    </li>
+  </ul>
+
+  <h2>Volgende stappen</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Thema's</a> — thema wisselen tijdens het draaien met theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Voorkeurenhelpers</a> — taal en tekstgrootte.</li>
+    <li><a href="/components/">Componentencatalogus</a> — de volledige referentie.</li>
+  </ul>
+  <p>
+    Vragen onderweg? De
+    <a href="/help/#troubleshooting">helppagina</a> staat vol antwoorden — en als een stap duidelijker kan,
+    <a href="https://github.com/LilyDesignSystem">laat het ons weten</a> en we verbeteren de handleiding graag.
+  </p>
+</section>

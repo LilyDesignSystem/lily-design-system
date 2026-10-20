@@ -1,0 +1,111 @@
+<!-- title: Teemaopas — Lily Design System -->
+<!-- description: Teemoita Lily kolmella tavalla: linkitä yksi 45 valmiista teemasta, ohita se omalla CSS:lläsi ja lisää teeman vaihto ajon aikana theme-picker-apuvälineellä. -->
+<section class="page-intro">
+  <h1>Teemat</h1>
+  <p class="page-intro-tagline">
+    Lily-komponenteilla on vakaat luokkakoukut ja nolla CSS:ää — joten teema on vain tyylitiedosto. Tämä opas etenee kohdasta "linkitä yksi tiedosto" kohtaan "anna käyttäjän vaihtaa teemaa ajon aikana, pysyvästi tallennettuna".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Sovellus, jonka koko ulkoasun käyttäjä voi muuttaa — alkaen yhdestä linkitetystä tyylitiedostosta ja päättyen pysyvään ajonaikaiseen teemanvaihtajaan — noin 15 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Suorita ensin <a href="/tutorials/">kehysopas</a> ensin omalle pinollesi, jotta sinulla on pieni Lily-lomake teemoitettavaksi. Kaikki täällä toimii kaikissa seitsemässä kehyksessä; koodiesimerkit näyttävät Sveltea ja pelkkää HTML:ää.
+  </p>
+
+  <h2>Vaihe 1 — Linkitä valmis teema</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    hakemisto sisältää 45 itsenäistä tyylitiedostoa. Kopioi ne sovelluksesi staattisiin resursseihin ja linkitä yksi:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Joukon kohokohtia:</p>
+  <ul>
+    <li>
+      <strong>Julkinen sektori</strong> — NHS England / Scotland / Wales, kukin potilas- ja ammattilaissuuntautuneina muunnelmina; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Toimittajien inspiroimat</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Yleiskäyttöiset</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>ja monia muita.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> lataa sivu uudelleen. Sama merkintä, jonka rakensit kehysoppaassa, on nyt täysin tyylitelty — painikkeet, kentät, nimiöt, kohdistusrenkaat. Yksi HTML-rivi teki sen — jokainen komponentti pysyi täsmälleen entisellään.
+    </p>
+  </div>
+
+  <h2>Vaihe 2 — Ohita mikä tahansa</h2>
+  <p>
+    Teemavalitsimet on kääritty <code>:where(...)</code>jolla on nolla spesifisyyttä — joten mikä tahansa kirjoittamasi sääntö voittaa, yksinkertaisesti:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Vaihe 3 — Vaihto ajon aikana theme-pickerillä</h2>
+  <p>
+     <code>theme-picker</code> apuväline on headless-kuvakepainike + listbox, joka omistaa koko teeman elinkaaren: se lataa valitun tyylitiedoston vaihtamalla yhden hallitun <code>&lt;link&gt;</code>
+    -elementin (vain aktiivinen teema haetaan), asettaa
+    <code>data-theme="&#123;slug&#125;"</code> dokumenttiin ja tallentaa halutessa pysyvästi kohteeseen <code>localStorage</code>. Tässä näytetään Svelte; React-, Vue-, Angular-, HTML-, Nunjucks- ja Blazor-portit vastaavat sopimus sopimukselta:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Siinä koko integraatio. Näppäimistökäyttäytyminen noudattaa WAI-ARIA APG -listbox-mallia; itse ohjain on headless (luokkakoukku
+    <code>.theme-picker</code>), joten se omaksuu minkä tahansa aktiivisen teeman.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Varmistettu 2026-08-29:</strong> tämä täsmällinen koodinpätkä käännettiin julkaistua <code>0.1.1</code> -pakettia vastaan komennolla
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Reagoi teemaan omassa CSS:ssäsi</h2>
+  <p>
+    Koska apuväline asettaa <code>data-theme</code> dokumentin juureen, omat tyylisi voivat haarautua sen mukaan:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Huomioita palvelinrenderöintiin</h2>
+  <p>
+    Apuväline tekee kaikki DOM-kirjoitukset kehyksen mount-/effect-elinkaaressa, joten se on rakenteeltaan SSR-turvallinen. Välttääksesi välähdyksen ensimmäisessä maalauksessa renderöi alkuteeman <code>&lt;link&gt;</code> ja
+    <code>data-theme</code> palvelimella (esimerkiksi evästeestä) — Svelte-apuvälineen repossa on ajettava SvelteKit-evästeesimerkki, ja muut luettelot dokumentoivat saman mallin omille pinoilleen.
+  </p>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — sama malli kielelle, tekstikoolle, jaolle ja päivämäärän/ajan syötölle.</li>
+    <li>
+      Lahjoita teema — kukin on yksi itsenäinen tyylitiedosto, joka kohdistuu luokkakoukkuihin; katso <a href="/help/#contributing">osallistuminen</a>.
+    </li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

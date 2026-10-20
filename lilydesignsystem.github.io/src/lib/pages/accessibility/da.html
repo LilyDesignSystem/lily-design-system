@@ -1,0 +1,63 @@
+<!-- title: Tilgængelighed — Lily Design System -->
+<!-- description: Lilys tilgængelighedserklæring: hvad det vil sige at sigte mod WCAG 2.2 AAA her – hvad der verificeres, med hvad, hvad der ikke verificeres af noget, og hvordan du rapporterer et problem. -->
+<section class="page-intro">
+  <h1>Hvad „sigter mod WCAG 2.2 AAA” betyder her</h1>
+  <p class="page-intro-tagline">
+    Ordet <em>sigter mod</em> er valgt bevidst. Denne side siger præcist, hvad der verificeres, med hvad, hvad der ikke verificeres af noget, og hvad vi agter at gøre ved hullet. Lily påstår aldrig WCAG-„overholdelse” – ingen revision understøtter det.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Løbende verificeret</h2>
+  <ul>
+    <li>
+      Hver komponents kanoniske semantiske element, ARIA-attributter og klassekroge – bekræftet af enhedstestsuiter pr. framework (over 15.000 tilfælde på tværs af syv frameworks).
+    </li>
+    <li>
+      Hver af de 571 komponentdemosider i SvelteKit-eksempelappen er axe-ren (regelsættene WCAG 2.0/2.1 A+AA og 2.2 AA) – gennemgangen af hele kataloget, første gang målt som baseline 2026-08-27 og kørt igen 2026-10-06 – plus baselines pr. app for forside, katalog og sammensatte ruter i alle syv eksempelapps.
+    </li>
+    <li>
+      Tastaturkontrakter pr. interaktiv komponent, dokumenteret i hver komponents kanoniske metadata og afprøvet af suiterne; hjælperpakkerne kører desuden Playwright-specifikationer i rigtige browsere.
+    </li>
+    <li>
+      Nedre grænser for målstørrelse efter WCAG 2.2 og overløbsbeskyttelse i alle 57 temaer; spring-over-link, landemærker og intet vandret overløb ved fire viewporte pr. app; <code>lang</code>/<code>dir</code> -anvendelse inklusive RTL-vendingen.
+    </li>
+  </ul>
+
+  <h2>Ikke verificeret af noget</h2>
+  <ul>
+    <li>
+      <strong>Der er aldrig udført en overensstemmelsesrevision.</strong> Ingen VPAT, ingen certificering. Automatiserede værktøjer dækker et mindretal af WCAG's succeskriterier.
+    </li>
+    <li>
+      AAA-specifikke kriterier (forbedret kontrast og andre) er designintentioner, ikke verificerede egenskaber; axe-regelsættene kører A/AA. Der er endnu intet dedikeret højkontrasttema.
+    </li>
+    <li>
+      <strong>Skærmlæserens adfærd er stort set ikke testet.</strong> Suiterne kontrollerer ARIA-attributter, ikke hvad VoiceOver, NVDA eller JAWS oplæser – og projektet har mere end én gang leveret grønne suiter over reelle fejl, hver nedskrevet i ændringsloggen netop fordi suiterne ikke kunne se dem.
+    </li>
+  </ul>
+
+  <h2>Hvad vi agter at gøre ved det</h2>
+  <p>
+    En uafhængig tilgængelighedsrevision er den første nævnte anvendelse af enhver projektfinansiering, og det omfang, en revisor har brug for, er allerede forberedt. Indtil da er skærmlæserrapporter det bidrag, projektet helst vil have: „komponent X oplæser Y, hvilket er forkert, fordi Z” kan handles på direkte.
+  </p>
+
+  <h2>Rapportér et problem</h2>
+  <p>
+    Opret en issue på
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    eller skriv til
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. At nævne et WCAG-kriterium hjælper, men er ikke et krav – „jeg kunne ikke betjene X med tastaturet” er en komplet rapport.
+  </p>
+  <p>
+    Den fulde erklæring, med verifikationstabellen og dens gennemgangshistorik, ligger i repositoriet:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

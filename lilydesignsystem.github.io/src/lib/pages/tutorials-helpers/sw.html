@@ -1,0 +1,276 @@
+<!-- title: Mafunzo ya visaidizi vya mapendeleo — Lily Design System -->
+<!-- description: Ongeza mapendeleo ya lugha na ukubwa wa maandishi ya mtumiaji kwa visaidizi vya Lily vya locale-picker na text-size-picker: vidhibiti visivyo na mwonekano vya kitufe cha ikoni + kisanduku cha orodha vyenye uhifadhi na usalama wa SSR. -->
+<section class="page-intro">
+  <h1>Visaidizi vya mapendeleo</h1>
+  <p class="page-intro-tagline">
+    Vifurushi vidogo saba kwa kila mfumo wa kazi, kila kimoja kikimiliki kazi moja ya mtumiaji kuanzia mwanzo hadi mwisho, pamoja na upau unaokusanya vitano kati yake. Umekutana na
+    <a href="/tutorials/theming/">theme-picker</a>; hapa kuna locale-picker, text-size-picker na motion-picker (mapendeleo), share-picker na search-picker (vitendo), date-time-picker (thamani ya fomu), na picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Utakachojenga</h2>
+  <p>
+    Paneli ya mipangilio ambapo watumiaji huchagua lugha na ukubwa wa maandishi — chaguo zinazotumika kwenye hati nzima, hudumu kati ya ziara, na zinagharimu vipengele viwili na mistari michache ya CSS. Takriban dakika 15.
+  </p>
+
+  <h2>Kabla ya kuanza</h2>
+  <p>
+    Maliza <a href="/tutorials/">mafunzo ya mfumo wa kazi</a> kwa teknolojia yako. Mifano iliyo hapa chini ni ya Svelte; visaidizi vya React, Vue, Angular, HTML, Nunjucks, na Blazor vinalingana mkataba kwa mkataba.
+  </p>
+
+  <h2>Umbo wanaloshiriki</h2>
+  <ul>
+    <li>Kitufe cha ikoni kisicho na mwonekano kinachofungua kisanduku cha orodha cha WAI-ARIA APG (au, kwa date-time-picker, dirisha la kuchagua tarehe) — bila <code>&lt;select&gt;</code>asilia, hivyo kila mfumo wa kazi hupata tabia ileile ya kibodi na vishikio vya mitindo.</li>
+    <li>Kishikio kimoja cha darasa kwa kila kifurushi (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), hakuna CSS inayosafirishwa.</li>
+    <li>Salama kwa SSR: uandishi wa DOM hutokea tu katika mzunguko wa maisha wa kupachika/athari.</li>
+    <li>Safi kwa i18n: kila maandishi ya mtumiaji ni sifa.</li>
+    <li>
+      Zinapatikana kwa Svelte (msingi), React, Vue, Angular, kipengele maalum cha HTML, Nunjucks, na Blazor — mkataba uleule katika kila moja.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker, na text-size-picker kila kimoja humiliki
+    <em>pendeleo</em> moja la mtumiaji kuanzia mwanzo hadi mwisho (uchaguzi, utumiaji kwenye DOM,
+    <code>localStorage</code> uhifadhi wa hiari kupitia <code>storageKey</code>
+    sifa). share-picker na date-time-picker ni tofauti kwa aina: share-picker humiliki <em>kitendo</em> — hakitumii chochote kwenye hati wala hakihifadhi chochote — na date-time-picker humiliki
+    <em>thamani ya fomu</em>, kwa kuwa tarehe kwenye fomu ni data, si pendeleo.
+  </p>
+
+  <h2>locale-picker — lugha na mwelekeo</h2>
+  <p>
+    Humwezesha mtumiaji kuchagua lugha-eneo, kisha huandika <code>lang</code> na
+    <code>dir</code> kwenye mzizi wa hati ili maktaba yako ya i18n, CSS yako, na teknolojia saidizi zifuate. RTL hutambuliwa kiotomatiki kwa Kiarabu, Kiebrania, na maandishi mengine ya kulia-kwenda-kushoto. Hujikita kwenye kuashiria tu — maktaba yako ya i18n hushughulikia tafsiri.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Chaguo huwekewa lebo kutoka jedwali lililojengewa ndani la majina ya lugha-eneo (linaweza kubatilishwa kupitia <code>localeLabels</code>), kila chaguo lina sifa yake ya
+    <code>lang</code> ili visomaji skrini vitamke "Français" kwa Kifaransa, na misimbo yenye mstari wa chini kama <code>en_US</code>
+    hubadilishwa kwenda BCP 47 na kurudi bila hasara <code>en-US</code>. Unganisha
+    <code>onChange</code> (au thamani iliyofungwa) kwenye i18next, Paraglide, vue-i18n, au chochote unachotumia.
+  </p>
+
+  <h2>text-size-picker — ukubwa unaodhibitiwa na msomaji</h2>
+  <p>
+    Ushindi wa ufikivu unaochukua dakika chache: kisaidizi huweka
+    <code>data-text-size="&#123;slug&#125;"</code> kwenye mzizi wa hati na CSS yako huunganisha kila thamani na ukubwa.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Panga mpangilio wako kwa <code>rem</code> na programu nzima hupanuka au kupungua kulingana na chaguo la mtumiaji. Lebo hutengenezwa kwa herufi kubwa za kichwa kutoka kwenye slug ("X Large") au hubatilishwa kwa <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hakiki kazi yako:</strong> chagua "Large" kutoka kwenye kichaguzi, na maandishi ya ukurasa yanakua. Pakia upya — bado ni makubwa: chaguo lilihifadhiwa kwenye
+      <code>localStorage</code>. Badilisha kichaguzi chako cha lugha kiwe Kiarabu na
+      <code>dir="rtl"</code> huwekwa kwenye hati kiotomatiki.
+    </p>
+  </div>
+
+  <h2>share-picker — tuma ukurasa huu</h2>
+  <p>
+    Kitufe cha alama moja kinachofungua karatasi ya kushiriki ya kifaa pale ilipo, na vinginevyo hurudi kwenye orodha ya maeneo unayotoa, pamoja na kitendo cha kunakili URL. Hakisafirishi URL za mitandao ya kijamii — ni mitandao ipi inafaa bidhaa yako ni uamuzi wako, si wa mfumo wa usanifu.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> chaguo-msingi lake ni <code>location.href</code>, hivyo hali ya kawaida haihitaji uunganishaji wowote. Lazimisha njia kwa <code>strategy="list"</code> au
+    <code>strategy="native"</code> unapohitaji tabia thabiti katika majukwaa kwa ajili ya majaribio au picha za skrini.
+  </p>
+
+  <h2>date-time-picker — tarehe, saa, au vyote viwili</h2>
+  <p>
+    Sehemu ya maandishi unayoweza kuandika ndani yake, pamoja na kitufe cha ikoni kinachofungua dirisha la kuchagua tarehe la WAI-ARIA APG. Sahihi kwa lugha-eneo kwa muundo — majina ya miezi, majina ya siku za wiki, siku ya kwanza ya wiki, na saa za saa 12 au 24 zote hutoka kwenye <code>Intl</code> — na thamani huwa daima ni mfuatano wa ISO unaoweza kupangwa na usio na ukanda wa saa: <code>"2026-03-15"</code> kwa
+    <code>mode="date"</code>, <code>"09:30"</code> kwa
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> kwa
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Thamani ya ISO ni sawa na ile inayotumwa na <code>&lt;input type="date"&gt;</code>
+    hivyo unaweza kubadilishana na kidhibiti asilia bila kugusa seva yako.
+  </p>
+
+  <h2>motion-picker — heshimu mwendo uliopunguzwa</h2>
+  <p>
+    Kisaidizi huweka <code>data-motion="&#123;slug&#125;"</code> kwenye mzizi wa hati. Thamani yake ya kwanza hutoka kwenye mpangilio wa mfumo wa uendeshaji wa mgeni wa
+    <code>prefers-reduced-motion</code> — daima, bila bendera ya kuchagua, kwa sababu mwendo ni hitaji halisi la ufikivu (WCAG 2.3.3). CSS na hati zako huamua nini kinazuiwa.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — kisanduku cha utafutaji kisichosumbua</h2>
+  <p>
+    Kitufe cha ikoni kinachofungua sehemu ya utafutaji. Kubonyeza Return, au kitufe cha &#9166; kando ya sehemu hiyo, huelekeza kwa ombi la GET la kawaida kwa
+    <code>/?&lt;text&gt;</code> (maandishi hupunguzwa nafasi na kusimbwa kwa URI; hoja tupu haiendi popote). Majina yake matatu yanayofikika ni ya lazima, kwa sababu kisaidizi hakisafirishi Kiingereza.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> hubadilisha njia (<code>/search?foo</code>), na
+    <code>navigate</code> huweka urambazaji ndani ya programu; bila hiyo kisaidizi huita <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — safu nzima ya kichwa kwa mara moja</h2>
+  <p>
+    <code>picker-bar</code> huonyesha utafutaji, mandhari, lugha-eneo, ukubwa wa maandishi na kushiriki katika safu moja, na seti kamili ya mandhari ya marejeo na kipimo cha hatua saba cha maandishi kimeunganishwa awali. Kila jina linalofikika huja katika kitu kimoja cha lazima cha
+    <code>labels</code> kitu.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Fikia kichaguzi chochote kilichofungwa kwa <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> na <code>shareProps</code>.
+  </p>
+
+  <h2>Vidokezo vya zana vimejengewa ndani</h2>
+  <p>
+    Kila kichaguzi huonyesha lebo yake katika kidokezo cha zana kielekezi kinapokaa juu ya kitufe chake au kitufe kina umakini wa kibodi. Kidokezo hubaki kielekezi kinaposogea juu yake, Escape hukifunga popote umakini ulipo, na hakionekani kamwe wakati dirisha ibukizi la kichaguzi liko wazi. Hubeba maandishi yaleyale ya jina linalofikika la kitufe, hivyo hakuna cha kusanidi wala cha kutafsiri mara mbili; mandhari ya marejeo huipamba.
+  </p>
+
+  <h2>Paneli ya mipangilio mahali pamoja</h2>
+  <p>Visaidizi vinne vya mapendeleo vinaungana kwa kawaida:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Imethibitishwa:</strong> vijisehemu vya locale-picker, text-size-picker, share-picker, date-time-picker na paneli iliyounganishwa vilikusanywa moja moja dhidi ya <code>0.1.1</code> vifurushi vilivyochapishwa kupitia
+      <code>svelte/server</code> (2026-08-29); vijisehemu vya motion-picker, search-picker na picker-bar vilionyeshwa dhidi ya vipengele vya vifurushi vyenyewe tarehe 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Mahali pa kuvipata</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Kila kifurushi kina spec yake, majaribio yaliyounganishwa na vifungu vya spec, mifano inayoweza kuendeshwa (ikiwemo mifumo ya vidakuzi vya SSR), na mfumo wa ujenzi na uchapishaji. Vifurushi vya Svelte ndivyo vya msingi; ukiwa na shaka, mikataba yake hushinda.
+  </p>
+
+  <h2>Hatua zinazofuata</h2>
+  <ul>
+    <li><a href="/components/">Orodha ya vipengele</a> — marejeo kamili ya vipengele 571.</li>
+    <li><a href="/help/">Msaada</a> — utatuzi wa matatizo na maswali yanayoulizwa mara kwa mara.</li>
+    <li><a href="/why/">Kwa nini Lily</a> — na jinsi ya kuunga mkono mradi.</li>
+  </ul>
+  <p>
+    Una maswali njiani?
+    <a href="/help/#troubleshooting">Ukurasa wa msaada</a> umejaa majibu — na kama hatua inaweza kuwa wazi zaidi,
+    <a href="https://github.com/LilyDesignSystem">tuambie</a> na tutafurahi kuboresha mafunzo.
+  </p>
+</section>

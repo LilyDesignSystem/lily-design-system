@@ -1,0 +1,106 @@
+<!-- title: HTML-veiledning — Lily Design System -->
+<!-- description: Bygg et tilgjengelig, stilet skjema med Lilys hodeløse HTML-komponenter — ren markup, rett fra en fil. -->
+<section class="page-intro">
+  <h1>HTML-veiledning</h1>
+  <p class="page-intro-tagline">
+    Den enklest mulige starten: kopier semantisk HTML med Lilys klassekroker, legg til ett stilark, lever. Vanlige filer som fungerer overalt der HTML fungerer.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hva du skal bygge</h2>
+  <p>
+    Et lite kontaktskjema — inndatafelt med etiketter, en send-knapp, ekte tastatur- og skjermleseroppførsel — først bart, så stilet, på omtrent 10 minutter.
+  </p>
+
+  <h2>Før du begynner</h2>
+  <p>
+    Du trenger en nettleser og et tekstredigeringsprogram. Det er alt. (git hjelper med å hente komponentfilene, men du kan også kopiere dem fra GitHub i nettleseren.)
+  </p>
+
+  <h2>Steg 1 — Hent koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Hver komponent er en frittstående fil i <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, og så videre — med en toppkommentar som dokumenterer HTML-taggen, klassekroken, tastaturoppførselen og tilgjengelighetskontrakten. Filene <em>er</em> biblioteket — kopier det du trenger og kom i gang.
+  </p>
+
+  <h2>Steg 2 — Din første komponent</h2>
+  <p>Åpne <code>components/button.html</code>, eller bare skriv markupen — klassekroken er kontrakten:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Fordi det er en ekte <code>&lt;button&gt;</code>, er tastaturfokus, Enter- og Space-aktivering og den implisitte knapperollen allerede riktige.
+  </p>
+
+  <h2>Steg 3 — Sett sammen et lite skjema</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Legg merke til mønsteret: hver kontroll knytter sin <code>&lt;label for&gt;</code>, bruker den mest spesifikke inndatatypen og bærer nøyaktig én kebab-case-klassekrok.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sjekk arbeidet ditt:</strong> åpne siden i en nettleser. Den ser enkel ut — akkurat som tiltenkt: stilingen ligger fortsatt foran. Trykk
+      <kbd>Tab</kbd>: fokus beveger seg gjennom hver kontroll, etikettene kunngjøres og innsending fungerer. Oppførselen er ferdig; utseendet er ditt og er neste.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Stil det</h2>
+  <p>Skriv CSS mot krokene:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Eller hopp over håndskrevet CSS helt — lenk til ett av de 45 ferdige temaene, så lyser den samme markupen opp:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Steg 5 — Utforsk videre</h2>
+  <ul>
+    <li>Repoets tester kjører i ekte nettlesere: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook for hver komponent: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS-eksempelappen</a> viser alle 571 komponentene stilet, søkbare og demonstrert.
+    </li>
+  </ul>
+
+  <h2>Neste steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — temabytte ved kjøretid med theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Preferansehjelpere</a> — språk og tekststørrelse.</li>
+    <li><a href="/components/">Komponentkatalog</a> — hele referansen.</li>
+  </ul>
+  <p>
+    Spørsmål underveis?
+    <a href="/help/#troubleshooting">hjelpesiden</a> er full av svar — og hvis et steg kan bli tydeligere,
+    <a href="https://github.com/LilyDesignSystem">fortell oss</a> så forbedrer vi gjerne veiledningen.
+  </p>
+</section>

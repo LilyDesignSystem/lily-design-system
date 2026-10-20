@@ -1,0 +1,97 @@
+<!-- title: Nunjucks ట్యుటోరియల్ — Lily Design System -->
+<!-- description: Lily యొక్క Nunjucks మాక్రోలతో అందుబాటులో ఉండే, శైలీకరించిన, సర్వర్-రెండర్ పేజీలను నిర్మించండి — Eleventy కు అనువైనది. -->
+<section class="page-intro">
+  <h1>Nunjucks ట్యుటోరియల్</h1>
+  <p class="page-intro-tagline">
+    Eleventy, Express లేదా ఏ Node టెంప్లేట్ పైప్‌లైన్‌కైనా సర్వర్-రెండర్ మాక్రోలు — Lily యొక్క కేటలాగ్ మరియు క్లాస్ హుక్‌లతో GOV.UK-శైలి విధానం.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>మీరు ఏమి నిర్మిస్తారు</h2>
+  <p>
+    ఒక చిన్న సర్వర్-రెండర్ సంప్రదింపు ఫారమ్ — లేబుల్ ఉన్న ఫీల్డ్, సమర్పించే బటన్, సున్నా JavaScript భారం — మొదట ఖాళీగా, తర్వాత శైలీకరించి, సుమారు 10 నిమిషాల్లో.
+  </p>
+
+  <h2>ప్రారంభించే ముందు</h2>
+  <p>
+    మీకు git, Node 22 లేదా కొత్తది, మరియు pnpm 10 లేదా కొత్తది కావాలి. ఏ Nunjucks పైప్‌లైన్ అయినా పనిచేస్తుంది — Eleventy, Express లేదా సాదా Nunjucks.
+  </p>
+
+  <h2>దశ 1 — కోడ్ పొందండి</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    ప్రతి కాంపోనెంట్ ఇక్కడ ఒక డైరెక్టరీ: <code>components/</code> ఒక
+    <code>macro.njk</code>తో, దాని పరీక్ష మరియు దాని డాక్యుమెంటేషన్ — ఉదాహరణకు
+    <code>components/button/macro.njk</code>. మీ Nunjucks లోడర్‌ను ఇక్కడికి చూపండి
+    <code>components/</code> (Eleventy లో దాన్ని includes మార్గానికి జోడించండి) మరియు కావలసినది దిగుమతి చేసుకోండి.
+  </p>
+
+  <h2>దశ 2 — మీ మొదటి కాంపోనెంట్</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    ఇది చూపిస్తుంది <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. మాక్రోలు ఒకే params ఆబ్జెక్ట్‌ను తీసుకుంటాయి: <code>text</code> (ఎస్కేప్ చేసినది) లేదా
+    <code>html</code> (ముడి), <code>type</code>, <code>label</code> కోసం
+    <code>aria-label</code>మరియు ఒక క్లాస్ హుక్ జోడింపు.
+  </p>
+
+  <h2>దశ 3 — ఒక చిన్న ఫారమ్‌ను కూర్చండి</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    అంతా సర్వర్‌లో రెండర్ అవుతుంది కాబట్టి, బ్రౌజర్ క్లాస్ హుక్‌లతో స్వచ్ఛమైన అర్థవంతమైన HTML ను అందుకుంటుంది — సున్నా బైట్ల JavaScript భారం.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>మీ పనిని తనిఖీ చేయండి:</strong> పేజీని లోడ్ చేయండి, ఫారమ్ సాదాగా కనిపిస్తుంది — సరిగ్గా అనుకున్నట్లే: శైలీకరణ ఇంకా ముందుంది. నొక్కండి
+      <kbd>Tab</kbd>: ఫోకస్ ప్రతి నియంత్రణ గుండా వెళుతుంది, లేబుల్ ప్రకటించబడుతుంది మరియు సమర్పణ పనిచేస్తుంది. ప్రవర్తన పూర్తయింది; రూపం మీది మరియు తదుపరి దశ.
+    </p>
+  </div>
+
+  <h2>దశ 4 — శైలీకరించండి</h2>
+  <p>
+    హుక్‌లను శైలీకరించండి — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — మీ స్టైల్‌షీట్‌లో, లేదా మీ ప్రాథమిక లేఅవుట్‌లో సిద్ధమైన థీమ్‌ను లింక్ చేయండి:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>దశ 5 — అంతా పనిచేయడం చూడండి</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy ఉదాహరణ యాప్</a> ప్రతి కాంపోనెంట్ ప్రదర్శన పేజీలతో పూర్తి కేటలాగ్‌ను స్థిర సైట్‌గా నిర్మిస్తుంది:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>తదుపరి దశలు</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">థీమ్‌లు</a> — మిణుకు లేని SSR థీమ్ మార్పుకు Eleventy కుకీ నమూనాతో సహా.</li>
+    <li><a href="/tutorials/helpers/">ప్రాధాన్యత సహాయకాలు</a> — భాష మరియు టెక్స్ట్ పరిమాణం.</li>
+    <li><a href="/components/">కాంపోనెంట్ కేటలాగ్</a> — ప్రతి కాంపోనెంట్‌కు లక్షణాలు, ARIA మరియు కీబోర్డ్.</li>
+  </ul>
+  <p>
+    దారిలో ప్రశ్నలా?
+    <a href="/help/#troubleshooting">సహాయ పేజీ</a> సమాధానాలతో నిండి ఉంది — మరియు ఏదైనా దశను మరింత స్పష్టంగా చేయవచ్చంటే,
+    <a href="https://github.com/LilyDesignSystem">మాకు చెప్పండి</a> మరియు మేము సంతోషంగా ట్యుటోరియల్‌ను మెరుగుపరుస్తాము.
+  </p>
+</section>

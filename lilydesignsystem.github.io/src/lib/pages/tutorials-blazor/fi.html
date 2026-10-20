@@ -1,0 +1,107 @@
+<!-- title: Blazor-opas — Lily Design System -->
+<!-- description: Rakenna saavutettava, tyylitelty lomake Lilyn Blazor-headless-komponenteilla: Razor-komponentit parametreilla ja bUnit-testeillä. -->
+<section class="page-intro">
+  <h1>Blazor-opas</h1>
+  <p class="page-intro-tagline">
+    Razor-luokkakirjaston komponentit parametreilla, <code>ChildContent</code>
+    renderöintilohkot, attribuuttien levitys ja yksi bUnit-testi komponenttia kohden.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Pieni yhteydenottolomake — nimiöity kenttä, lähetyspainike,
+    <code>@bind-Value</code> -sidonta, aito näppäimistö- ja ruudunlukijakäyttäytyminen — ensin paljaana, sitten tyylitellen, noin 10 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Tarvitset gitin ja .NET SDK 8:n tai uudemman. Mikä tahansa Blazor-projekti kelpaa — Blazor Web App, Server tai WebAssembly.
+  </p>
+
+  <h2>Vaihe 1 — Hae koodi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Komponentit sijaitsevat hakemistossa <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — yksi Razor-tiedosto kutakin. Viittaa projektiin (tai kopioi tiedostot) Blazor-sovelluksestasi ja lisää <code>@using LilyBlazorHeadless.Components</code> tiedostoon
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Vaihe 2 — Ensimmäinen komponenttisi</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Renderöi <code>&lt;button class="button"&gt;</code>. Yhteiset parametrisopimukset: <code>Label</code> ( <code>aria-label</code> ohittamiseen),
+    <code>CssClass</code> (lisätään peruskoukkuun),
+    <code>ChildContent</code>ja
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> attribuuttien levitys, jotta mikä tahansa ylimääräinen HTML-attribuutti välittyy läpi.
+  </p>
+
+  <h2>Vaihe 3 — Kokoa pieni lomake</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> ottaa näkyvän <code>Label</code> omana parametrinaan sisäkkäisen nimiökomponentin sijaan — välitä se kerran elementille
+    <code>Field</code>ja <code>TextInput</code>elementistä
+    <code>Label</code> antaa saavutettavan nimen.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Varmistettu 2026-08-29:</strong> aiempi luonnos sijoitti erillisen <code>Label</code> -komponentin elementin <code>Field</code>sisään, mikä renderöi <em>kaksi</em> nimiötä (toinen tyhjä), koska <code>Field</code>
+      renderöi jo oman nimiönsä <code>Label</code> -parametri — havaittu tarkistamalla komponentin lähdekoodi; <code>Form</code> ei itse sisällä <code>Label</code> -parametria, joten aiemman luonnoksen
+      <code>&lt;Form&gt;</code> -käyttö korjattiin jättämään se pois sen sijaan, että olisi keksitty olematon attribuutti.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Koottu yhteydenottolomakkeen reitti</a>
+      on sama malli, jota on koeteltu oikeilla e2e- ja axe-testeillä.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> käynnistä sovellus, ja lomake näyttää paljaalta — juuri niin kuin on tarkoitus: tyylittely on vielä edessä. Paina
+      <kbd>Tab</kbd>: kohdistus liikkuu jokaisen ohjaimen läpi, nimiö ilmoitetaan ja lähettäminen toimii. Toiminta on valmis; ulkoasu on sinun ja seuraava vaihe.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Tyylittele se</h2>
+  <p>
+    Tyylittele luokkakoukut — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — tiedostossa <code>app.css</code>, tai linkitä valmis teema tiedostossa <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Vaihe 5 — Katso kaiken toimivan</h2>
+  <p>
+     <a href="/examples/">Blazor Web -esimerkkisovellus</a> näyttää koko luettelon tyyliteltynä ja esiteltynä, Playwright e2e -testeineen:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemat</a> — vaihto ajon aikana Blazorin theme-picker-apuvälineellä (Razor-luokkakirjasto NuGetissä).</li>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — kieli ja tekstikoko.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — ominaisuudet, ARIA ja näppäimistö komponenteittain.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

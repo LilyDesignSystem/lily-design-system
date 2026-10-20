@@ -1,0 +1,106 @@
+<!-- title: HTML টিউটোরিয়াল — Lily Design System -->
+<!-- description: Lily-র HTML হেডলেস কম্পোনেন্ট দিয়ে সহজে ব্যবহারযোগ্য, স্টাইল করা ফর্ম তৈরি করুন — সাধারণ মার্কআপ, সরাসরি ফাইল থেকে। -->
+<section class="page-intro">
+  <h1>HTML টিউটোরিয়াল</h1>
+  <p class="page-intro-tagline">
+    সবচেয়ে সহজ শুরু: Lily-র ক্লাস হুকসহ অর্থবোধক HTML কপি করুন, একটি স্টাইলশিট যোগ করুন, প্রকাশ করুন। সাধারণ ফাইল যা HTML যেখানে চলে সেখানেই চলে।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>আপনি কী তৈরি করবেন</h2>
+  <p>
+    একটি ছোট যোগাযোগ ফর্ম — লেবেলসহ ক্ষেত্র, একটি জমা দেওয়ার বোতাম, প্রকৃত কিবোর্ড ও স্ক্রিন-রিডার আচরণ — প্রথমে সাদামাটা, তারপর স্টাইলসহ, প্রায় ১০ মিনিটে।
+  </p>
+
+  <h2>শুরু করার আগে</h2>
+  <p>
+    আপনার একটি ব্রাউজার ও একটি টেক্সট এডিটর লাগবে। ব্যস। (কম্পোনেন্ট ফাইল আনতে git সাহায্য করে, তবে ব্রাউজারে GitHub থেকেও কপি করতে পারেন।)
+  </p>
+
+  <h2>ধাপ ১ — কোড নিন</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    প্রতিটি কম্পোনেন্ট এখানে একটি স্বতন্ত্র ফাইল: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>ইত্যাদি — একটি হেডার মন্তব্যসহ যা তার HTML ট্যাগ, ক্লাস হুক, কিবোর্ড আচরণ ও সহজগম্যতা চুক্তি নথিভুক্ত করে। ফাইলগুলোই <em>সেই</em> লাইব্রেরি — যা দরকার কপি করে চলুন।
+  </p>
+
+  <h2>ধাপ ২ — আপনার প্রথম কম্পোনেন্ট</h2>
+  <p>খুলুন <code>components/button.html</code>, বা শুধু মার্কআপ লিখুন — ক্লাস হুকই চুক্তি:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    কারণ এটি প্রকৃত <code>&lt;button&gt;</code>, কিবোর্ড ফোকাস, Enter ও Space দিয়ে সক্রিয়করণ এবং অন্তর্নিহিত বোতাম ভূমিকা আগে থেকেই সঠিক।
+  </p>
+
+  <h2>ধাপ ৩ — একটি ছোট ফর্ম তৈরি করুন</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    প্যাটার্নটি লক্ষ্য করুন: প্রতিটি নিয়ন্ত্রণ নিজের <code>&lt;label for&gt;</code>জোড়ে, সবচেয়ে নির্দিষ্ট input ধরন ব্যবহার করে এবং ঠিক একটি kebab-case ক্লাস হুক বহন করে।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>আপনার কাজ পরীক্ষা করুন:</strong> পাতাটি ব্রাউজারে খুলুন। এটি সাদামাটা দেখায় — ঠিক যেমন উদ্দেশ্য ছিল: স্টাইলিং এখনো সামনে। চাপুন
+      <kbd>Tab</kbd>: ফোকাস প্রতিটি নিয়ন্ত্রণের মধ্য দিয়ে যায়, লেবেল ঘোষিত হয় এবং জমা দেওয়া কাজ করে। আচরণ সম্পূর্ণ; চেহারা আপনার, আর সেটাই পরবর্তী ধাপ।
+    </p>
+  </div>
+
+  <h2>ধাপ ৪ — স্টাইল দিন</h2>
+  <p>হুকের বিরুদ্ধে CSS লিখুন:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    অথবা হাতে CSS লেখা পুরোপুরি বাদ দিন — ৪৫টি তৈরি থিমের একটি লিংক করুন আর একই মার্কআপ জ্বলে ওঠে:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>ধাপ ৫ — আরও অন্বেষণ করুন</h2>
+  <ul>
+    <li>রিপোর পরীক্ষা প্রকৃত ব্রাউজারে চলে: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO)।</li>
+    <li>প্রতিটি কম্পোনেন্টের জন্য Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS উদাহরণ অ্যাপ</a> সব ৫৭১টি কম্পোনেন্ট স্টাইল করা, অনুসন্ধানযোগ্য ও প্রদর্শনসহ দেখায়।
+    </li>
+  </ul>
+
+  <h2>পরবর্তী ধাপ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">থিম</a> — theme-picker দিয়ে চলার সময় থিম বদল।</li>
+    <li><a href="/tutorials/helpers/">পছন্দ সহায়ক</a> — ভাষা ও লেখার আকার।</li>
+    <li><a href="/components/">কম্পোনেন্ট ক্যাটালগ</a> — পূর্ণ রেফারেন্স।</li>
+  </ul>
+  <p>
+    পথে প্রশ্ন আছে?
+    <a href="/help/#troubleshooting">সহায়তা পাতা</a> উত্তরে ভরা — আর কোনো ধাপ আরও পরিষ্কার হতে পারলে,
+    <a href="https://github.com/LilyDesignSystem">আমাদের জানান</a> আর আমরা খুশি মনে টিউটোরিয়াল উন্নত করব।
+  </p>
+</section>

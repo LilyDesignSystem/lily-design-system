@@ -1,0 +1,117 @@
+<!-- title: „Svelte“ vadovas — Lily Design System -->
+<!-- description: Sukurkite prieinamą, apipavidalintą formą su „Lily“ „Svelte 5“ bekūniais komponentais: runos, snippet’ai ir bind:value. -->
+<section class="page-intro">
+  <h1>„Svelte“ vadovas</h1>
+  <p class="page-intro-tagline">
+    „Lily“ „Svelte“ biblioteka yra kanoninis įgyvendinimas: „Svelte 5“ runos, tipizuoti propai, likusių propų paskleidimas ir dvipusis susiejimas su
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Nedidelė kontaktų forma — laukas su žyma, siuntimo mygtukas, dvipusis susiejimas, tikras klaviatūros ir ekrano skaitytuvo elgesys — pirma plika, paskui apipavidalinta, per maždaug 10 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Reikia git, Node 22 ar naujesnės ir pnpm 10 ar naujesnio. Tinka bet kuris „Svelte 5“ projektas — visiškai nauja <code>npx sv create</code> programa pakanka.
+  </p>
+
+  <h2>1 žingsnis — Gaukite kodą</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentai yra aplanke <code>src/lib/components/&#123;Name&#125;/</code>, vienas katalogas kiekvienam komponentui su <code>.svelte</code> byla, jo testais, story ir dokumentacija greta. Nukopijuokite reikalingus katalogus į savo programą arba priklausykite nuo saugyklos ir importuokite tiesiogiai.
+  </p>
+
+  <h2>2 žingsnis — Jūsų pirmasis komponentas</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Atvaizduoja <code>&lt;button class="button" type="button"&gt;</code>. Propai tipizuoti: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (atvaizduoja <code>aria-pressed</code> (atvaizduoja <code>label</code> ( <code>aria-label</code> perjungimo mygtukams),
+  </p>
+
+  <h2>3 žingsnis — Sudėkite nedidelę formą</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> priima matomą <code>label</code> kaip savo prop vietoj įdėto žymos komponento — perduokite ją vieną kartą, prie <code>Field</code>ir <code>TextInput</code>iš <code>label</code> suteikia prieinamą pavadinimą. <code>TextInput</code>'s <code>value</code> norint pakeisti), o bet koks papildomas atributas paskleidžiamas ant šaknies.
+    <code>$bindable</code> yra <code>bind:value</code> rune prop, todėl
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinta 2026-08-29:</strong> iš karto suteikia dvipusį susiejimą. <code>svelte/server</code> būtent šis fragmentas buvo sukompiliuotas per <code>&lt;label for&gt;</code> ir patikrintas dėl vienintelės, teisingai susietos žymos <code>Label</code> viduje <code>Field</code>— ankstesnis juodraštis įdėjo atskirą
+      <em>dvi</em> žymos (viena tuščia), nes <code>Field</code> jau pats atvaizduoja savo iš <code>label</code> viduje, kuris atvaizdavo
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Sudėtinis kontaktų formos maršrutas</a>
+      yra tas pats šablonas, išbandytas tikrais e2e ir axe testais.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> paleiskite programą ir forma atrodo plika — kaip ir numatyta: stilius dar laukia. Paspauskite
+      <kbd>Tab</kbd>: fokusas pereina per kiekvieną valdiklį, žyma paskelbiama, o siuntimas veikia. Elgesys baigtas; išvaizda jūsų ir yra kitas žingsnis.
+    </p>
+  </div>
+
+  <h2>4 žingsnis — Apipavidalinkite</h2>
+  <p>
+    Viskas aukščiau atvaizduojama kaip gryna struktūra, paruošta jūsų stiliams. Apipavidalinkite klasių kablius —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — savo visuotinėje stilių lentelėje arba susiekite paruoštą temą faile <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Koregavimai kiekvienam egzemplioriui eina per <code>class</code> prop, kuris pridedamas prie bazinio kablio: <code>&lt;Button class="wide"&gt;</code> atvaizduoja
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>5 žingsnis — Pažiūrėkite, kaip viskas veikia</h2>
+  <p>
+     <a href="/examples/">„SvelteKit“ pavyzdinė programa</a> yra tas pats katalogas visiškai apipavidalintas, su gyvomis demonstracijomis, „Playwright“ e2e testais ir axe-core prieinamumo pradine riba:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temos</a> — perjungimas vykdymo metu su „Svelte“ pagalbininku theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Nuostatų pagalbininkai</a> — kalba ir teksto dydis.</li>
+    <li><a href="/components/">Komponentų katalogas</a> — savybės, ARIA ir klaviatūra kiekvienam komponentui.</li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

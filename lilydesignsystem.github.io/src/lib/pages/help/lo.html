@@ -1,0 +1,432 @@
+<!-- title: ຊ່ວຍເຫຼືອ — Lily Design System -->
+<!-- description: ເລີ່ມຕົ້ນກັບ Lily: ຕິດຕັ້ງແພັກເກັດແບບບໍ່ມີຫົວສຳລັບເຟຣມເວີກຂອງທ່ານ, ສຳເນົາອົງປະກອບ, ໃສ່ຮູບແບບ, ໃສ່ຮູບແບບສີສັນ, ສົ່ງມອບ. ການແກ້ໄຂບັນຫາ, ຄຳຖາມທີ່ພົບເລື້ອຍ ແລະການຮອງຮັບ. -->
+<section class="page-intro">
+  <h1>ເລີ່ມຕົ້ນກັບ Lily</h1>
+  <p class="page-intro-tagline">
+    ເລືອກເຟຣມເວີກ, clone monorepo ແລະເປີດໄລບຣາຣີແບບບໍ່ມີຫົວ ຫຼືແອັບຕົວຢ່າງຂອງມັນ, ແລະເລີ່ມປະກອບໜ້າຂອງທ່ານເອງ. ຕ້ອງການເສັ້ນທາງທີ່ມີຜູ້ນຳບໍ? ເລີ່ມດ້ວຍ
+    <a href="/tutorials/">ບົດສອນ</a>.
+  </p>
+</section>
+
+<nav aria-label="ໃນໜ້ານີ້" class="prose" style="margin: 0 auto;">
+  <p><strong>ໃນໜ້ານີ້:</strong></p>
+  <ul>
+    <li><a href="#install">ຕິດຕັ້ງ</a></li>
+    <li><a href="#use-headless">ໃຊ້ອົງປະກອບແບບບໍ່ມີຫົວ</a></li>
+    <li><a href="#use-styled">ໃຊ້ຕົວຢ່າງທີ່ມີຮູບແບບ</a></li>
+    <li><a href="#styling">ການໃສ່ຮູບແບບ ແລະໂທເຄັນການອອກແບບ</a></li>
+    <li><a href="#themes">ຮູບແບບສີສັນສຳເລັດຮູບ</a></li>
+    <li><a href="#helpers">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a></li>
+    <li><a href="#a11y">ການເຂົ້າເຖິງໄດ້ງ່າຍ</a></li>
+    <li><a href="#i18n">ການແປເປັນສາກົນ</a></li>
+    <li><a href="#testing">ການທົດສອບ</a></li>
+    <li><a href="#ai-agents">ຕົວແທນ AI</a></li>
+    <li><a href="#troubleshooting">ການແກ້ໄຂບັນຫາ</a></li>
+    <li><a href="#contributing">ການປະກອບສ່ວນ</a></li>
+    <li><a href="#community">ຊຸມຊົນ ແລະການຮອງຮັບ</a></li>
+    <li><a href="#faq">ຄຳຖາມທີ່ພົບເລື້ອຍ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>ຕິດຕັ້ງ</h2>
+  <p>
+    Lily ຢູ່ໃນ Git monorepo ດຽວ, ມີໄດເຣັກທໍຣີສຳລັບໄລບຣາຣີແບບບໍ່ມີຫົວ, ແພັກເກັດຕົວຊ່ວຍ ແລະແອັບຕົວຢ່າງຂອງແຕ່ລະເຟຣມເວີກ. ວິທີທີ່ໄວທີ່ສຸດໃນການທົດລອງແມ່ນ clone monorepo ແລະເປີດໄລບຣາຣີແບບບໍ່ມີຫົວສຳລັບສະແຕັກຂອງທ່ານ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>ຮູບແບບດຽວກັນໃຊ້ໄດ້ກັບເຟຣມເວີກອື່ນ:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — ບໍ່ຕ້ອງຕິດຕັ້ງ; ສຳເນົາ <code>.html</code> ໄຟລ໌</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    ໄລບຣາຣີແບບບໍ່ມີຫົວຖືກອອກແບບໃຫ້ clone ຫຼື vendor — ຖືວ່າແຫຼ່ງເປັນແຫຼ່ງຄວາມຈິງ ແລະສຳເນົາສິ່ງທີ່ທ່ານຕ້ອງການ.
+    <a href="#helpers">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a> ຍັງມາເປັນແພັກເກັດທີ່ຕິດຕັ້ງໄດ້ພ້ອມທໍ່ສ້າງ ແລະເຜີຍແຜ່ (npm ສຳລັບເຟຣມເວີກ JS, NuGet ສຳລັບ Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>ໃຊ້ອົງປະກອບແບບບໍ່ມີຫົວ</h2>
+  <p>
+    ອົງປະກອບແບບບໍ່ມີຫົວສົ່ງ HTML ທີ່ມີຄວາມໝາຍ, ARIA ແລະຄຸນສົມບັດ — ແຕ່ບໍ່ມີ CSS. ນີ້ແມ່ນ Button ໃນແຕ່ລະເຟຣມເວີກ:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>ໃຊ້ຕົວຢ່າງທີ່ມີຮູບແບບ</h2>
+  <p>
+    ແອັບຕົວຢ່າງລວມ CSS, ເສັ້ນທາງ ແລະໜ້າສາທິດເຕັມ. ວິທີທີ່ໄວທີ່ສຸດໃນການທົດລອງແມ່ນເລີ່ມແອັບຕົວຢ່າງ SvelteKit, Next, Nuxt, Analog ຫຼື Eleventy ແລະເບິ່ງການສາທິດທີ່ <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    ຈາກນັ້ນເປີດ <code>http://localhost:5173</code> ແລະທ່ອງເບິ່ງ <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>ການໃສ່ຮູບແບບ ແລະໂທເຄັນການອອກແບບ</h2>
+  <p>
+    ແຕ່ລະອົງປະກອບສະແດງຜົນດ້ວຍຄລາສ kebab-case ໜຶ່ງອັນໃນອົງປະກອບຮາກຂອງມັນ. ຕົວຢ່າງ, <code>&lt;Button&gt;</code> ສະແດງຜົນ <code>&lt;button class="button"&gt;</code>. ໃສ່ຮູບແບບຕາມທີ່ທ່ານມັກ:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>ຊຸດສີ Lily ເລີ່ມຕົ້ນ (ໃຊ້ໃນແອັບຕົວຢ່າງ) ແມ່ນ:</p>
+  <ul>
+    <li>ຫຼັກ: <code>#2563eb</code></li>
+    <li>ອັນຕະລາຍ: <code>#dc2626</code></li>
+    <li>ຄຳເຕືອນ: <code>#f59e0b</code></li>
+    <li>ຄວາມສຳເລັດ: <code>#16a34a</code></li>
+    <li>ພື້ນຫຼັງໜ້າ: <code>#f9fafb</code></li>
+    <li>ພື້ນຫຼັງບັດ: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    ເຫຼົ່ານີ້ແມ່ນຄຳແນະນຳ, ບໍ່ແມ່ນຄວາມຕ້ອງການ. ປ່ຽນພວກມັນດ້ວຍຊຸດສີແບຣນຂອງທ່ານເອງ ແລະ Lily ຈະມາຕາມຢ່າງຍິນດີ.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>ຮູບແບບສີສັນສຳເລັດຮູບ</h2>
+  <p>
+    ບໍ່ຢາກຂຽນ CSS ຈາກສູນບໍ? Lily ມາພ້ອມ
+    <strong>57 ຮູບແບບສີສັນອ້າງອີງທີ່ເປັນອິດສະຫຼະ</strong> ໃນໄດເຣັກທໍຣີ
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . ແຕ່ລະອັນແມ່ນ stylesheet ໜຶ່ງອັນທີ່ຕັ້ງເປົ້າໝາຍ class hook ຂອງ Lily — ເຊື່ອມຕໍ່ມັນ ແລ້ວທ່ານມີຮູບແບບ:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>ຊຸດນີ້ກວມເອົາ:</p>
+  <ul>
+    <li>
+      <strong>ພາກລັດ</strong> — NHS England, NHS Scotland ແລະ NHS Wales (ແຕ່ລະອັນມີສະບັບສຳລັບຜູ້ປ່ວຍ ແລະຜູ້ປະຕິບັດ), GOV.UK GDS, ແລະ U.S. Web Design System.
+    </li>
+    <li><strong>ໄດ້ແຮງບັນດານໃຈຈາກຜູ້ຂາຍ</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>ວັດຖຸປະສົງທົ່ວໄປ</strong> — light, dark, nord, dracula, wireframe, ແລະອີກສາມສິບກວ່າອັນ.
+    </li>
+  </ul>
+  <p>
+    ຕົວເລືອກຮູບແບບສີສັນໃຊ້ <code>:where(...)</code>, ສະນັ້ນ CSS ຂອງທ່ານເອງຊະນະສະເໝີໃນຄວາມສະເພາະ. ຈັບຄູ່ພວກມັນກັບຕົວຊ່ວຍ <code>theme-picker</code> ຂ້າງລຸ່ມສຳລັບການສະຫຼັບຕອນແລ່ນ, ຫຼືຕາມ
+    <a href="/tutorials/theming/">ບົດສອນຮູບແບບສີສັນ</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>ຕົວຊ່ວຍການຕັ້ງຄ່າ</h2>
+  <p>
+    ແຕ່ລະເຟຣມເວີກມີຕົວເລືອກນ້ອຍໆແປດອັນ, ແຕ່ລະອັນຢູ່ໃນແພັກເກັດ
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> ຂອງຕົນເອງ (ແລະ <code>picker-bar</code> ທີ່ປະກອບພວກມັນ). ແຕ່ລະອັນແມ່ນປຸ່ມໄອຄອນແບບບໍ່ມີຫົວທີ່ເປີດປັອບອັບ — listbox, ລາຍການລິ້ງ, ແບບຟອມຄົ້ນຫາ, ຫຼື (ສຳລັບ date-time-picker) ກ່ອງໂຕ້ຕອບເລືອກວັນທີ — ບໍ່ແມ່ນ
+    <code>&lt;select&gt;</code>ພື້ນເມືອງ; ປອດໄພສຳລັບ SSR; ແລະມາໂດຍບໍ່ມີ CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — ໂຫຼດ stylesheet ຮູບແບບສີສັນຕອນແລ່ນໂດຍການສະຫຼັບ <code>&lt;link&gt;</code>ທີ່ຖືກຈັດການ, ຕັ້ງ
+      <code>data-theme</code> ໃນເອກະສານ, ແລະເກັບໄວ້ໃນ
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — ຕັ້ງ <code>lang</code> ແລະ
+      <code>dir</code> (ພ້ອມການກວດພົບ RTL ອັດຕະໂນມັດ) ເພື່ອໃຫ້ໄລບຣາຣີ i18n ຂອງທ່ານຕາມໄດ້; ມັນເອງບໍ່ແປ.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — ຕັ້ງ <code>data-text-size</code> ໃນເອກະສານ; CSS ຂອງທ່ານແມັບແຕ່ລະຄ່າໄປຫາຂະໜາດຕົວອັກສອນ.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — ຕັ້ງ <code>data-motion</code> ໃນເອກະສານ, ເລີ່ມຈາກການຕັ້ງຄ່າການເຄື່ອນໄຫວທີ່ຫຼຸດລົງຂອງຜູ້ເຂົ້າຊົມ; CSS ແລະສະຄຣິບຂອງທ່ານຕັດສິນວ່າຈະສະກັດອັນໃດ.
+    </li>
+    <li>
+      <strong>search-picker</strong> — ປຸ່ມໄອຄອນທີ່ເປີດຊ່ອງຄົ້ນຫາ; ການສົ່ງນຳທາງໄປໜ້າຄົ້ນຫາ. ເປັນເຈົ້າຂອງການກະທຳ, ບໍ່ແມ່ນການຕັ້ງຄ່າ.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ໄອຄອນເຮືອນທີ່ເປີດເມນູລິ້ງໜ້າທີ່ແອັບຂອງທ່ານກຳນົດ (ໜ້າຫຼັກ, ກ່ຽວກັບພວກເຮົາ, ຕິດຕໍ່ພວກເຮົາ, ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ, …). ເປັນເຈົ້າຂອງການກະທຳ, ບໍ່ແມ່ນການຕັ້ງຄ່າ.
+    </li>
+    <li>
+      <strong>share-picker</strong> — ເປີດແຜ່ນແບ່ງປັນພື້ນເມືອງ ຫຼືລາຍການປາຍທາງທີ່ຜູ້ບໍລິໂພກສະໜອງ, ບວກການສຳເນົາ URL. ເປັນເຈົ້າຂອງການກະທຳ, ບໍ່ແມ່ນການຕັ້ງຄ່າ: ບໍ່ນຳໃຊ້ຫຍັງ, ບໍ່ເກັບຫຍັງ.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — ຊ່ອງຂໍ້ຄວາມບວກກ່ອງໂຕ້ຕອບເລືອກວັນທີ APG ສຳລັບວັນທີ, ເວລາ, ຫຼືທັງສອງ. ເປັນເຈົ້າຂອງຄ່າແບບຟອມ, ບໍ່ແມ່ນການຕັ້ງຄ່າ: ສາຍ ISO ໄປ-ກັບໄປທີ່
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    ແຄັດຕາລັອກ Svelte ແມ່ນການອ້າງອີງມາດຕະຖານ; ພອດ React, Vue, Angular, HTML, Nunjucks, Web Components ແລະ Blazor ກົງກັບມັນສັນຍາຕໍ່ສັນຍາ. ເບິ່ງ
+    <a href="/tutorials/helpers/">ບົດສອນຕົວຊ່ວຍ</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>ການເຂົ້າເຖິງໄດ້ງ່າຍ</h2>
+  <p>ອົງປະກອບຕັ້ງເປົ້າໝາຍ <strong>WCAG 2.2 AAA</strong>. ພວກມັນປະຕິບັດຕາມຮູບແບບເຫຼົ່ານີ້:</p>
+  <ul>
+    <li>ອົງປະກອບ HTML ທີ່ມີຄວາມໝາຍແທນທົ່ວໄປ <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> ເຊື່ອມປ້າຍກັບ input.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> ສຳລັບການອ້າງອີງຂ້າມ.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> ສຳລັບສະຖານະຂໍ້ຜິດພາດ.</li>
+    <li><code>role="alert"</code> ແລະ <code>aria-live</code> ສຳລັບເນື້ອໃນແບບໄດນາມິກ.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> ສຳລັບສະຖານະ.</li>
+    <li>Roving <code>tabindex</code> ສຳລັບຕາຕະລາງຕາໜ່າງ.</li>
+  </ul>
+  <p>
+    ຕົວຊີ້ບອກຈຸດສຸມຖືກສະໜອງໂດຍຜູ້ບໍລິໂພກຢ່າງຕັ້ງໃຈ — Lily ບໍ່ເຄີຍທາວົງແຫວນຈຸດສຸມເລີ່ມຕົ້ນທີ່ຂັດກັບການອອກແບບຂອງທ່ານ. ແອັບຕົວຢ່າງຮັກສາ axe-core baseline ທີ່ສະອາດຕະຫຼອດເສັ້ນທາງຂອງມັນ.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>ການແປເປັນສາກົນ</h2>
+  <p>
+    ທຸກປ້າຍ, ຕົວແທນບ່ອນຫວ່າງ, ຂໍ້ຄວາມຜິດພາດ ແລະຂໍ້ຄວາມປຸ່ມແມ່ນຄຸນສົມບັດ. ບໍ່ມີສາຍອັກສອນຕາຍຕົວ. ໃສ່ເຟຣມເວີກແປພາສາທີ່ທ່ານເລືອກ — Paraglide, i18next, vue-i18n, react-intl, ໄຟລ໌ .resx, ອັນໃດກໍໄດ້.
+  </p>
+  <p>
+    ສຳລັບວັນທີ, ຕົວເລກ ແລະສະກຸນເງິນ, ອົງປະກອບຮັບສາຍທີ່ຈັດຮູບແບບແລ້ວ: ທ່ານຈັດຮູບແບບດ້ວຍ <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / ໄລບຣາຣີທີ່ທ່ານມັກ ແລະສົ່ງຜົນລັບ.
+  </p>
+  <p>
+    ຕົວຊ່ວຍ <code>locale-picker</code> ສົ່ງສັນຍານໂລແຄລທີ່ເລືອກໄປຫາໄລບຣາຣີ i18n ຂອງທ່ານໂດຍການຕັ້ງ <code>lang</code> ແລະ <code>dir</code> ໃນຮາກເອກະສານ.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>ການທົດສອບ</h2>
+  <p>ແຕ່ລະໂຄງການຍ່ອຍຂອງເຟຣມເວີກສົ່ງການທົດສອບຂອງຕົນເອງໂດຍໃຊ້ສະແຕັກທີ່ເປັນເອກະລັກຂອງມັນ:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO ແລ່ນບຣາວເຊີຈິງ.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (ຜ່ານປລັກອິນ Analog Vite).</li>
+    <li><strong>Nunjucks</strong>: Vitest ພ້ອມຕົວຊ່ວຍສະແດງຜົນ.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    ການທົດສອບໃຊ້ <strong>ສະເພາະ matcher ໃນຕົວຂອງ Vitest</strong> — ບໍ່ເຄີຍ
+    <code>jest-dom</code> matcher. ນີ້ເຮັດໃຫ້ຊຸດທົດສອບເຄື່ອນຍ້າຍໄດ້. ແອັບຕົວຢ່າງເພີ່ມຊຸດ Playwright ແຕ່ຕົ້ນຈົນຈົບ, axe-core accessibility baseline ແລະການກວາດ viewport ແບບຕອບສະໜອງ.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>ຕົວແທນ AI</h2>
+  <p>
+    ເວັບໄຊນີ້ເຜີຍແຜ່ <a href="/llms.txt">llms.txt</a> ແລະ
+    <a href="/llms.json">llms.json</a> ທີ່ຮາກຂອງມັນ — ແຜນທີ່ທີ່ຄັດເລືອກຂອງໜ້າທີ່ສຳຄັນທີ່ສຸດຂອງມັນ, ສຳລັບເຄື່ອງມືໃດໆທີ່ປະຕິບັດຕາມ
+    <a href="https://llmstxt.org">ຂໍ້ຕົກລົງ llms.txt</a>.
+  </p>
+  <p>
+    monorepo ມາດຕະຖານຍັງສົ່ງສອງ
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>, ທັກສະທົ່ວໄປທີ່ກວມເອົາແນວຄິດ, ຄຳສັບ ແລະຮູບແບບການປະກອບຂອງ Lily ສຳລັບທຸກຄົນທີ່ສ້າງດ້ວຍລະບົບ, ແລະ <code>lily-design-system-maintainer-skill</code>, ທັກສະດ້ານເຕັກນິກທີ່ກວມເອົາໂຄງຮ່າງໄຟລ໌ທີ່ຕ້ອງມີ ແລະເຄື່ອງມືຂອງ monorepo ສຳລັບທຸກຄົນທີ່ເຮັດວຽກກັບມັນ. ທັງສອງຢູ່ທີ່ຮາກຂອງ
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo ມາດຕະຖານ</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>ການແກ້ໄຂບັນຫາ</h2>
+
+  <details class="faq-item">
+    <summary>ອົງປະກອບສະແດງຜົນແຕ່ເບິ່ງບໍ່ມີຮູບແບບ</summary>
+    <p>
+      ນັ້ນແມ່ນແບບບໍ່ມີຫົວທີ່ເຮັດວຽກຕາມທີ່ຕັ້ງໃຈ — ບໍ່ມີ CSS ມາພ້ອມອົງປະກອບ. ຂຽນ CSS ຕໍ່ຄລາສ kebab-case ຂອງອົງປະກອບ (ສະແດງໃນທຸກ <a href="/components/">ໜ້າແຄັດຕາລັອກ</a>) ຫຼືເຊື່ອມຕໍ່ໜຶ່ງໃນ
+      <a href="#themes">57 ຮູບແບບສີສັນສຳເລັດຮູບ</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS ຂອງຂ້ອຍເບິ່ງຄືບໍ່ນຳໃຊ້ເໜືອຮູບແບບສີສັນ</summary>
+    <p>
+      ມັນຄວນຈະນຳໃຊ້ — ຕົວເລືອກຮູບແບບສີສັນຖືກຫໍ່ໃນ <code>:where(...)</code>, ເຊິ່ງມີຄວາມສະເພາະສູນ. ຖ້າກົດຍັງແພ້, ກວດວ່າ stylesheet ຂອງທ່ານໂຫຼດຫຼັງຂອງຮູບແບບສີສັນ <code>&lt;link&gt;</code> ແລະຕົວເລືອກກົງກັບ class hook ຂອງອົງປະກອບແທ້ໆ.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install ລົ້ມເຫຼວດ້ວຍຂໍ້ຜິດພາດ peer ຫຼືເວີຊັນ</summary>
+    <p>
+      ໃຊ້ pnpm ປັດຈຸບັນ (v10+) ແລະ Node 22+. ແຕ່ລະໂຄງການຍ່ອຍປັກເວີຊັນເຟຣມເວີກຂອງມັນໃນ <code>package.json</code>ຂອງຕົນເອງ; ຖ້າຊຸດເຄື່ອງມືທົ່ວໂລກຂອງທ່ານເກົ່າກວ່າ, <code>pnpm env use --global lts</code> ແມ່ນການແກ້ໄຂທີ່ໄວທີ່ສຸດ.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ໂປຣແກຣມອ່ານໜ້າຈໍປະກາດຊື່ຜິດສຳລັບການຄວບຄຸມ</summary>
+    <p>
+      ກວດສອບ <code>label</code> ຄຸນສົມບັດທີ່ຈຳເປັນຂອງອົງປະກອບ — ອົງປະກອບທີ່ບໍ່ມີຂໍ້ຄວາມທີ່ເຫັນໄດ້ຕ້ອງການໜຶ່ງ, ແລະ
+      <code>aria-label</code> / <code>aria-labelledby</code> ທີ່ຜູ້ບໍລິໂພກສະໜອງທີ່ຜ່ານທາງ rest-props ຊະນະຢ່າງຕັ້ງໃຈເໜືອການເຊື່ອມຕໍ່ໃນຕົວ. ທຸກໜ້າແຄັດຕາລັອກບັນທຶກສັນຍາ ARIA ຂອງອົງປະກອບ.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ຕົວຊ່ວຍ theme-picker ບໍ່ສະຫຼັບ stylesheet</summary>
+    <p>
+      ຢືນຢັນວ່າ <code>themesUrl</code> ຊີ້ໄປຫາໄດເຣັກທໍຣີທີ່ບຣາວເຊີດຶງໄດ້ (ໃຫ້ບໍລິການ <code>themes/</code> ໄຟລ໌ເປັນຊັບສິນຄົງທີ່) ແລະສະລັກຮູບແບບສີສັນໃນ <code>themes</code> ຄຸນສົມບັດກົງກັບຊື່ໄຟລ໌. ຕົວຊ່ວຍສະຫຼັບ <code>href</code> ຂອງ
+      <code>&lt;link data-lily-theme-picker&gt;</code> ທີ່ຖືກຈັດການໜຶ່ງ — ກວດສອບມັນໃນ devtools ເພື່ອເບິ່ງ URL ທີ່ກຳລັງຖືກຮ້ອງຂໍ.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ມີບາງຢ່າງອື່ນເສຍ</summary>
+    <p>
+      ເປີດ issue ພ້ອມການຈຳລອງຂັ້ນຕ່ຳທີ່
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ຫຼືເບິ່ງ <a href="#community">ຊຸມຊົນ ແລະການຮອງຮັບ</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>ການປະກອບສ່ວນ</h2>
+  <p>Lily ຍັງໜຸ່ມ ແລະຍິນດີຕ້ອນຮັບການຮ່ວມມື. ການປະກອບສ່ວນທີ່ມີປະໂຫຍດທີ່ສຸດຕອນນີ້ແມ່ນ:</p>
+  <ul>
+    <li>ອົງປະກອບໃໝ່ (ໂດຍສະເພາະຮູບແບບຈາກລະບົບການອອກແບບທີ່ສ້າງຕັ້ງແລ້ວ).</li>
+    <li>ຮູບແບບສີສັນໃໝ່ — ແຕ່ລະອັນແມ່ນ stylesheet ເອກະລາດໜຶ່ງ, PR ທຳອິດທີ່ມີຂອບເຂດດີ.</li>
+    <li>ການໃສ່ຮູບແບບຕົວຢ່າງທີ່ດີກວ່າ — ສະແດງສິ່ງທີ່ເປັນໄປໄດ້.</li>
+    <li>ການແປສາຍອັກສອນແອັບຕົວຢ່າງ.</li>
+    <li>ລາຍງານບັກພ້ອມການຈຳລອງຂັ້ນຕ່ຳ.</li>
+    <li>ການກວດສອບການເຂົ້າເຖິງໄດ້ງ່າຍດ້ວຍໂປຣແກຣມອ່ານໜ້າຈໍ ແລະເຕັກໂນໂລຢີຊ່ວຍເຫຼືອ.</li>
+  </ul>
+  <p>
+    ເປີດ issue ແລະ PR ທີ່
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>ຊຸມຊົນ ແລະການຮອງຮັບ</h2>
+  <ul>
+    <li>
+      <strong>ຄຳຖາມ ແລະລາຍງານບັກ</strong> — ເປີດ issue ທີ່
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>ອີເມວ</strong> — ຜູ້ບຳລຸງຮັກສາອ່ານ
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ແລະຍິນດີຕ້ອນຮັບການຮ່ວມມື, ຄຳແນະນຳ ແລະຄຳຕິຊົມ.
+    </li>
+    <li>
+      <strong>ກະຈົກ</strong> — Lily ຍັງຖືກ push ໄປທີ່
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> ແລະ
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, ເພື່ອໃຫ້ທ່ານເຂົ້າຮ່ວມຈາກ forge ທີ່ທ່ານມັກ.
+    </li>
+    <li>
+      <strong>ຄວາມປະພຶດ</strong> — ໂຄງການປະຕິບັດຕາມຈັນຍາບັນມາດຕະຖານ; ຈົ່ງເປັນມິດ, ສົມມຸດເຈດຕະນາດີ.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>ຄຳຖາມທີ່ພົບເລື້ອຍ</h2>
+
+  <details class="faq-item">
+    <summary>ເປັນຫຍັງແບບບໍ່ມີຫົວແທນທີ່ຈະມີຮູບແບບ?</summary>
+    <p>
+      ອົງປະກອບທີ່ມີຮູບແບບມາກ່ອນສະດວກ — ຈົນກວ່າມັນບໍ່ກົງກັບແບຣນຂອງທ່ານ. ອົງປະກອບແບບບໍ່ມີຫົວຕ້ອງໃຊ້ວຽກເພີ່ມເລັກນ້ອຍໃນຕອນຕົ້ນ ແຕ່ໃຫ້ທ່ານຄວບຄຸມການອອກແບບທີ່ເຫັນດ້ວຍຕາໄດ້ເຕັມທີ່. ແອັບຕົວຢ່າງ ແລະ 57 ຮູບແບບສີສັນສະແດງວິທີໃສ່ຮູບແບບໃຫ້ພວກມັນ; ທ່ານສາມາດເອົາພວກມັນ ຫຼືປ່ຽນໃໝ່ທັງໝົດ. ຂໍ້ໂຕ້ແຍ້ງທີ່ຍາວກວ່າຢູ່ທີ່ <a href="/why/">ເປັນຫຍັງຕ້ອງ Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ເປັນຫຍັງຈຶ່ງມີອົງປະກອບຫຼາຍແທ້?</summary>
+    <p>
+      Lily ມີເປົ້າໝາຍກວມເອົາຮູບແບບທີ່ແອັບສ່ວນໃຫຍ່ຕ້ອງການ ໂດຍບໍ່ບັງຄັບໃຫ້ທ່ານສ້າງມັນຈາກສູນ — ລວມທັງສິ່ງທີ່ເລິກຄືການປ້ອນຕົວລະບຸແຫ່ງຊາດ ແລະ scrollytelling ບັນນາທິການ. ແຄັດຕາລັອກດຶງຈາກລະບົບການອອກແບບທີ່ສ້າງຕັ້ງແລ້ວໜຶ່ງໂຫລ ບວກກັບງານຕົ້ນສະບັບ — ເບິ່ງ <a href="/about/">ກ່ຽວກັບ</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ຂ້ອຍໃຊ້ Lily ກັບ Tailwind ໄດ້ບໍ?</summary>
+    <p>
+      ໄດ້. ແຕ່ລະອົງປະກອບເປີດເຜີຍຄລາສຮາກ kebab-case ໜຶ່ງອັນບວກ <code>className</code> / <code>class</code>ທີ່ຜູ້ບໍລິໂພກສະໜອງ. ວາງຢູທິລິຕີ Tailwind ທັບຢູ່ເທິງຕາມທີ່ທ່ານມັກ.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ຂ້ອຍໃຊ້ Lily ກັບເຟຣມເວີກ CSS ທີ່ມີຄວາມໝາຍເຊັ່ນ DaisyUI ໄດ້ບໍ?</summary>
+    <p>
+      ໄດ້. ຊື່ຄລາສ kebab-case ໃນອົງປະກອບຮາກເຮັດວຽກເປັນ CSS hook ທີ່ມີຄວາມໝາຍ. ຈັບຄູ່ Lily ກັບເຟຣມເວີກທີ່ມີຄວາມໝາຍ ແລ້ວທ່ານໄດ້ອົງປະກອບທີ່ມີຮູບແບບມາກ່ອນທີ່ຍັງເຄົາລົບ ARIA ແລະ i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ມີແພັກເກັດ npm ບໍ?</summary>
+    <p>
+      ຕົວຊ່ວຍ <a href="#helpers">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a> ສົ່ງເປັນແພັກເກັດພ້ອມທໍ່ເຜີຍແຜ່ npm/NuGet. ໄລບຣາຣີອົງປະກອບແບບບໍ່ມີຫົວຖືກອອກແບບໃຫ້ clone ຫຼື vendor — ແຫຼ່ງແມ່ນສິ່ງທີ່ສົ່ງມອບ, ເພື່ອໃຫ້ທ່ານອ່ານ, ຕັດ ແລະເປັນເຈົ້າຂອງສິ່ງທີ່ທ່ານສົ່ງໄດ້ຢ່າງແນ່ນອນ. ການເຜີຍແຜ່ registry ສຳລັບໄລບຣາຣີແບບບໍ່ມີຫົວຍັງຢູ່ໃນແຜນງານ.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ເປັນຫຍັງຈຶ່ງມີຫຼາຍໃບອະນຸຍາດ?</summary>
+    <p>
+      ໂຄງການທີ່ແຕກຕ່າງກັນມີຄວາມຕ້ອງການໃບອະນຸຍາດທີ່ແຕກຕ່າງກັນ. BSD ແລະ MIT ແມ່ນຜ່ອນຜັນ, Apache-2.0 ມີການໃຫ້ສິດທິບັດ, ແລະຕົວເລືອກ GPL ສະໜັບສະໜູນ copyleft. ເລືອກອັນທີ່ເໝາະກັບສະຖານະການຂອງທ່ານ.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ຂ້ອຍລາຍງານບັກ ຫຼືຮ້ອງຂໍຄຸນສົມບັດແນວໃດ?</summary>
+    <p>
+      ເປີດ issue ໃນຄັງ GitHub, ຫຼືສົ່ງອີເມວຫາ
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

@@ -1,0 +1,105 @@
+<!-- title: Piemēri — Lily Design System -->
+<!-- description: Pabeigtas paraugu lietotnes, kas rāda, kā stilizēt Lily komponentes HTML, Svelte, React, Vue, Angular, Blazor un Eleventy. -->
+<section class="page-intro">
+  <h1>Skatiet Lily īstās lietotnēs</h1>
+  <p class="page-intro-tagline">
+    Septiņi pabeigti paraugu projekti rāda, kā paņemt bezgalvas komponentes, uzlikt stilizēšanu un izlaist īstu vietni. Izvēlieties ietvaru, ko izmantojat.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Demonstrācijas lietotnes ar pilnu CSS un maršrutēšanu</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Vienkāršas HTML lapas, tīrs JavaScript, nekādu būvēšanas rīku. Der jebkuram statiskam hostam — lieliski mazām vietnēm un pakāpeniskai uzlabošanai.
+      </p>
+      <p class="card-meta">→ Skatīt GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        SvelteKit 3 lietotne, kas izmanto Svelte 5 runas. Komponenšu maršruti, uz failiem balstīta maršrutēšana un katras komponentes stilizēts storybook.
+      </p>
+      <p class="card-meta">→ Skatīt GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Next.js 16 lietotne, kas rāda katru komponenti kontekstā, ar TypeScript visur un demonstrācijas lapām saliktiem paraugiem.
+      </p>
+      <p class="card-meta">→ Skatīt GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Nuxt 4 lietotne. <code>&lt;script setup&gt;</code> un Composition API katrā demonstrācijas maršrutā.
+      </p>
+      <p class="card-meta">→ Skatīt GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 22 + Analog.js lietotne. Uz failiem balstīta maršrutēšana, signāli, izmaiņu noteikšana bez zonām un pilna SSG priekšrenderēšana.
+      </p>
+      <p class="card-meta">→ Skatīt GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Blazor Web lietotne ar Razor komponentēm. Piemērota gan serverim, gan WebAssembly, ar .NET 10 kā bāzi.
+      </p>
+      <p class="card-meta">→ Skatīt GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Eleventy vietne, kas izmanto Nunjucks makro. Ideāla saturā bagātām statiskām vietnēm, kas tomēr vēlas īstu komponenšu sistēmu.
+      </p>
+      <p class="card-meta">→ Skatīt GitHub</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Katrai paraugu lietotnei ir viena un tā pati forma</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Lai pārlēkšana starp ietvariem šķistu pazīstama, katra paraugu lietotne nodrošina:</p>
+    <ul>
+      <li>Sveiciena maršrutu uz <code>/</code> kas iepazīstina ar projektu.</li>
+      <li>Komponenšu indeksu uz <code>/components</code> kas uzskaita katru komponenti.</li>
+      <li>Demonstrācijas lapu katrai komponentei uz <code>/components/&lt;component&gt;</code>.</li>
+      <li>Īstu CSS — nevis abstraktus dizaina marķierus — lai varētu tieši aizņemties stilus.</li>
+      <li>Darbojošos navigāciju ar tastatūru un fokusa pārvaldību uzreiz.</li>
+    </ul>
+
+    <h3>Jāredz, kā ir stilizēta atsevišķa komponente?</h3>
+    <p>
+      Atveriet attiecīgo paraugu lietotni, dodieties uz
+      <code>/components/&lt;name&gt;</code>un nokopējiet marķējumu un CSS savā projektā. Paraugu lietotnes apzināti izmanto vienkāršu (vai gandrīz vienkāršu) CSS, lai varētu tās pielāgot jebkurai jūsu vēlamai sistēmai.
+    </p>
+
+    <h3>Vēlaties drīzāk bezgalvas?</h3>
+    <p>
+      Savienojiet jebkuru paraugu lietotni ar atbilstošo <em>bezgalvas</em>
+      pakotni — tās publicē tās pašas komponentes bez jebkāda CSS, gatavas jūsu pašu dizaina marķieriem.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Pārlūkot katalogu →</a>
+      <a class="button button-secondary" href="/help/">Lasīt iestatīšanas rokasgrāmatu</a>
+    </p>
+  </div>
+</section>

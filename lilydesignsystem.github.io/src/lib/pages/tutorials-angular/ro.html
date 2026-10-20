@@ -1,0 +1,127 @@
+<!-- title: Tutorial Angular — Lily Design System -->
+<!-- description: Construiește un formular accesibil și stilizat cu componentele headless Lily pentru Angular 20: componente independente cu intrări de tip semnal. -->
+<section class="page-intro">
+  <h1>Tutorial Angular</h1>
+  <p class="page-intro-tagline">
+    Componente independente Angular 20 — intrări de tip semnal, detectare a modificărilor OnPush, șabloane inline, zero NgModules, zero CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce vei construi</h2>
+  <p>
+    Un mic formular de contact — câmp cu etichetă, buton de trimitere, legare bidirecțională, comportament real al tastaturii și al cititorului de ecran — mai întâi simplu, apoi stilizat, în aproximativ 10 minute.
+  </p>
+
+  <h2>Înainte să începi</h2>
+  <p>
+    Ai nevoie de git, Node 22 sau mai nou și pnpm 10 sau mai nou. Orice proiect Angular 20 merge — Angular CLI sau Analog.
+  </p>
+
+  <h2>Pasul 1 — Obține codul</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Componentele sunt fișiere plate în <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — fiecare este o componentă independentă cu șablon inline, plus spec-ul și story-ul ei. Barrel-ul
+    <code>index.ts</code> reexportă fiecare componentă; <code>pnpm build</code>
+    produce un pachet în Angular Package Format prin ng-packagr.
+  </p>
+
+  <h2>Pasul 2 — Prima ta componentă</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Fiecare componentă declară un selector <code>lily-*</code> și randează elementul semantic cu cârligul ei de clasă —
+    <code>&lt;button class="button" type="button"&gt;</code> aici. Intrările sunt bazate pe semnale: <code>label()</code> pentru un <code>aria-label</code>
+    pentru suprascriere, <code>className()</code> pentru a adăuga clase.
+  </p>
+
+  <h2>Pasul 3 — Compune un formular mic</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> primește eticheta vizibilă ca propria
+    <code>label</code> intrare, în loc de o componentă etichetă imbricată — transmite-o o singură dată, pe câmp, iar <code>lily-text-input</code>corespunzător din
+    <code>label</code> oferă numele accesibil. Componentele asemănătoare câmpurilor expun valori <code>model()</code> deci banana-box <code>[(value)]</code>
+    legarea bidirecțională funcționează pe loc — compatibilă zoneless peste tot.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificat la 2026-08-29:</strong> o ciornă anterioară imbrica o componentă <code>Label</code> separată în <code>lily-field</code>, ceea ce randa <em>două</em> etichete (una goală) deoarece
+      <code>lily-field</code> randează deja propria etichetă din intrarea
+      <code>label</code> — descoperit verificând codul sursă al componentei.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Ruta compusă a formularului de contact</a>
+      este același tipar, exersat cu teste e2e și axe reale.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifică-ți munca:</strong> rulează aplicația și formularul arată simplu — exact cum era intenționat: stilizarea urmează. Apasă
+      <kbd>Tab</kbd>: focalizarea trece prin fiecare control, eticheta este anunțată, iar trimiterea funcționează. Comportamentul este gata; aspectul este al tău și urmează.
+    </p>
+  </div>
+
+  <h2>Pasul 4 — Stilizează-l</h2>
+  <p>
+    Stilizează cârligele de clasă — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — în <code>styles.css</code>sau adaugă o temă gata făcută în matricea <code>styles</code> din
+    <code>angular.json</code> / leag-o în <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Pasul 5 — Vezi totul funcționând</h2>
+  <p>
+     <a href="/examples/">Aplicația-exemplu Angular + Analog</a> arată catalogul complet cu rutare bazată pe fișiere și Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Pașii următori</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — comutare în timpul rulării cu ajutorul theme-picker pentru Angular.</li>
+    <li><a href="/tutorials/helpers/">Ajutoare pentru preferințe</a> — limbă și dimensiunea textului.</li>
+    <li><a href="/components/">Catalogul de componente</a> — proprietăți, ARIA și tastatură pentru fiecare componentă.</li>
+  </ul>
+  <p>
+    Întrebări pe parcurs?
+    <a href="/help/#troubleshooting">Pagina de ajutor</a> este plină de răspunsuri — iar dacă un pas poate fi mai clar,
+    <a href="https://github.com/LilyDesignSystem">spune-ne</a> și vom îmbunătăți cu plăcere tutorialul.
+  </p>
+</section>

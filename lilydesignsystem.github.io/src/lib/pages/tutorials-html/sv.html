@@ -1,0 +1,106 @@
+<!-- title: HTML-handledning — Lily Design System -->
+<!-- description: Bygg ett tillgängligt, formgivet formulär med Lilys headless-komponenter för HTML — vanlig markup, direkt från en fil. -->
+<section class="page-intro">
+  <h1>HTML-handledning</h1>
+  <p class="page-intro-tagline">
+    Den enklaste tänkbara starten: kopiera semantisk HTML med Lilys klasskrokar, lägg till en stilmall, publicera. Vanliga filer som fungerar överallt där HTML fungerar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Det här bygger du</h2>
+  <p>
+    Ett litet kontaktformulär — fält med etiketter, en skicka-knapp, verkligt tangentbords- och skärmläsarbeteende — först naket, sedan formgivet, på ungefär 10 minuter.
+  </p>
+
+  <h2>Innan du börjar</h2>
+  <p>
+    Du behöver en webbläsare och en textredigerare. Det är allt. (git hjälper till att hämta komponentfilerna, men du kan också kopiera dem från GitHub i webbläsaren.)
+  </p>
+
+  <h2>Steg 1 — Hämta koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Varje komponent är en fristående fil i <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, och så vidare — med en huvudkommentar som dokumenterar dess HTML-tagg, klasskrok, tangentbordsbeteende och tillgänglighetskontrakt. Filerna <em>är</em> biblioteket — kopiera det du behöver och kör.
+  </p>
+
+  <h2>Steg 2 — Din första komponent</h2>
+  <p>Öppna <code>components/button.html</code>, eller skriv bara markupen — klasskroken är kontraktet:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Eftersom det är ett riktigt <code>&lt;button&gt;</code>är tangentbordsfokus, aktivering med Enter och Mellanslag och den underförstådda knappens roll redan korrekta.
+  </p>
+
+  <h2>Steg 3 — Sätt ihop ett litet formulär</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Lägg märke till mönstret: varje kontroll länkar sin <code>&lt;label for&gt;</code>, använder den mest specifika indatatypen och bär exakt en klasskrok i kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollera ditt arbete:</strong> öppna sidan i en webbläsare. Den ser kargt ut — precis som tänkt: formgivningen återstår. Tryck på
+      <kbd>Tab</kbd>: fokus flyttas genom varje kontroll, etiketterna läses upp och inskickning fungerar. Beteendet är klart; utseendet är ditt och kommer härnäst.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Formge det</h2>
+  <p>Skriv CSS mot krokarna:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Eller hoppa över att skriva CSS för hand helt — länka ett av de 45 färdiga temana så lyser samma markup upp:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Steg 5 — Utforska vidare</h2>
+  <ul>
+    <li>Förvarets tester körs i riktiga webbläsare: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook för varje komponent: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Exempelappen HTML+CSS+JS</a> visar alla 571 komponenter formgivna, sökbara och demonstrerade.
+    </li>
+  </ul>
+
+  <h2>Nästa steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teman</a> — temabyte under körning med theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Inställningshjälpare</a> — språk och textstorlek.</li>
+    <li><a href="/components/">Komponentkatalog</a> — den fullständiga referensen.</li>
+  </ul>
+  <p>
+    Frågor på vägen?
+    <a href="/help/#troubleshooting">Hjälpsidan</a> är full av svar — och om ett steg kan bli tydligare,
+    <a href="https://github.com/LilyDesignSystem">berätta för oss</a> så förbättrar vi gärna handledningen.
+  </p>
+</section>

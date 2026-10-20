@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Nincs karbantartott Lily Figma-könyvtár vagy -bővítmény. A 57 referenciatéma tervezési tokenjei DTCG formátumban vannak közzétéve, és ma egy meglévő közösségi bővítménnyel importálhatók a Figmába. -->
+<section class="page-intro">
+  <h1>Nincs karbantartott Figma-könyvtár — ez van helyette</h1>
+  <p class="page-intro-tagline">
+    Ezen az oldalon régen az állt: „hamarosan”. Ma már nem áll, mert senki sem építette. Itt a őszinte helyzet, és egy valódi út, amely ma működik.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Ami nincs</h2>
+  <p>
+    Nincs hivatalos Lily komponenskönyvtár a Figmában, és nincs karbantartott Figma-bővítmény. Egy tervezőeszköz-könyvtár jó megépítése és karbantartása valódi, folyamatos vállalás — Figma komponensszerkezet, variánsnevezés, auto-layout, saját közzétételi csővezeték — a kód karbantartásától elkülönülve, és ez a projekt nem vállalta.
+  </p>
+
+  <h2>Ami ma van</h2>
+  <p>
+    Az 57 referenciatéma mindegyikének megvannak a tervezési token-alapelemei — szín, sugár, méret, szegély — közzétéve
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 formátumban</a
+    >
+    itt:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Ez a formátum pontosan az, amit a modern tokeneszközök olvasnak. Egy Lily-téma palettáját magad is behúzhatod a Figmába, most azonnal, ettől a projekttől származó bővítmény nélkül:
+  </p>
+  <ol>
+    <li>
+      Telepítsd a közösségi
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      bővítményt (vagy a Figma saját Variables-importját, ha a csomagod támogatja a DTCG-importot).
+    </li>
+    <li>
+      Importáld a <code>themes/tokens/{theme-slug}.json</code> fájlt a kívánt témához — például
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      A Tokens Studio Figma-változókat hoz létre a DTCG-értékekből, amelyeket aztán a saját komponenseidre alkalmazhatsz.
+    </li>
+  </ol>
+  <p>
+    Ez megadja a Lily szín- és formatokenjeit a Figmában. Nem adja meg a Lily tényleges komponenseit Figma-komponensekként — senki sem építette meg, és ez az oldal nem fog úgy tenni, mintha mást állítana.
+  </p>
+
+  <h2>Tervben van egy valódi Figma-könyvtár?</h2>
+  <p>
+    Jelenleg nem, és megígérni sem ingyen van: lásd
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    a nyitott kérdésért és azért, ami megváltoztatná a projekt véleményét — a leghasznosabb egy tervező, aki konkrétan megmondja, mire van szüksége ettől a rétegtől. Ha te vagy az,
+    <a href="mailto:joel@joelparkerhenderson.com">szólj nekünk</a>
+    vagy nyiss egy issue-t.
+  </p>
+</section>

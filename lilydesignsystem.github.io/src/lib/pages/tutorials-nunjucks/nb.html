@@ -1,0 +1,97 @@
+<!-- title: Nunjucks-veiledning — Lily Design System -->
+<!-- description: Bygg tilgjengelige, stilede, server-gjengitte sider med Lilys Nunjucks-makroer — ideelt for Eleventy. -->
+<section class="page-intro">
+  <h1>Nunjucks-veiledning</h1>
+  <p class="page-intro-tagline">
+    Server-gjengitte makroer for Eleventy, Express eller enhver Node-malrørledning — GOV.UK-aktig tilnærming, med Lilys katalog og klassekroker.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hva du skal bygge</h2>
+  <p>
+    Et lite server-gjengitt kontaktskjema — inndatafelt med etikett, send-knapp, null JavaScript-nyttelast — først bart, så stilet, på omtrent 10 minutter.
+  </p>
+
+  <h2>Før du begynner</h2>
+  <p>
+    Du trenger git, Node 22 eller nyere og pnpm 10 eller nyere. Enhver Nunjucks-rørledning fungerer — Eleventy, Express eller ren Nunjucks.
+  </p>
+
+  <h2>Steg 1 — Hent koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Hver komponent er en katalog i <code>components/</code> med en
+    <code>macro.njk</code>, testen sin og dokumentasjonen sin — for eksempel
+    <code>components/button/macro.njk</code>. Pek Nunjucks-lasteren din på
+    <code>components/</code> (i Eleventy legger du den til includes-stien) og importer det du trenger.
+  </p>
+
+  <h2>Steg 2 — Din første komponent</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Gjengir <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makroer tar ett params-objekt: <code>text</code> (escapet) eller
+    <code>html</code> (rå), <code>type</code>, <code>label</code> for en
+    <code>aria-label</code>og en klassekrok-tilføyer.
+  </p>
+
+  <h2>Steg 3 — Sett sammen et lite skjema</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Fordi alt gjengis på serveren, mottar nettleseren ren semantisk HTML med klassekrokene — en JavaScript-nyttelast på null byte.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sjekk arbeidet ditt:</strong> last siden, og skjemaet ser enkelt ut — akkurat som tiltenkt: stilingen ligger fortsatt foran. Trykk
+      <kbd>Tab</kbd>: fokus beveger seg gjennom hver kontroll, etiketten kunngjøres og innsending fungerer. Oppførselen er ferdig; utseendet er ditt og er neste.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Stil det</h2>
+  <p>
+    Stil krokene — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — i stilarket ditt, eller lenk et ferdig tema i baseoppsettet ditt:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Steg 5 — Se alt fungere</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy-eksempelappen</a> bygger hele katalogen som et statisk nettsted med demosider per komponent:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Neste steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — inkludert Eleventy-informasjonskapselmønsteret for flimmerfritt SSR-temabytte.</li>
+    <li><a href="/tutorials/helpers/">Preferansehjelpere</a> — språk og tekststørrelse.</li>
+    <li><a href="/components/">Komponentkatalog</a> — egenskaper, ARIA og tastatur per komponent.</li>
+  </ul>
+  <p>
+    Spørsmål underveis?
+    <a href="/help/#troubleshooting">hjelpesiden</a> er full av svar — og hvis et steg kan bli tydeligere,
+    <a href="https://github.com/LilyDesignSystem">fortell oss</a> så forbedrer vi gjerne veiledningen.
+  </p>
+</section>

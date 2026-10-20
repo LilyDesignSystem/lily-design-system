@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 個 Claude 技能為 Claude Code 提供一個策劃好、可載入嘅入口去認識 Lily Design System — 通用概念、每個框架嘅總覽,以及無頭函式庫同 *-picker 輔助工具各個子項目嘅深入技能。 -->
+<section class="page-intro">
+  <h1>AI 代理嘅技能令 Lily 更容易用</h1>
+  <p class="page-intro-tagline">
+    Lily 附帶專注嘅技能 — 通用、每個框架同每個子項目 — 等代理載入佢真正需要嘅上下文,唔多唔少。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你想要邊個技能?</h2>
+  <p>
+    每一層回答唔同嘅問題。唔識 Lily 嘅時候載入通用技能。識你嘅框架但唔知需要邊個子項目嘅時候載入框架技能。已經清楚知道自己做緊乜嘅時候,直接載入 headless-skill 或 helpers-skill。
+  </p>
+
+  <ul>
+    <li>
+      <strong>通用 / 維護者</strong> — 「Lily 係乜?」/「呢個單一倉庫係點組成嘅?」—
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>框架總覽</strong> — 「{framework} 有啲乜,我需要邊一部分?」— 8 個,每個框架一個 <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>無頭 / 輔助工具</strong> — 「{framework} 嘅元件 / *-picker 輔助工具到底點用?」— 16 個,每個框架一個 <code>{framework}-headless-skill</code> 同一個 <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>八個框架</h2>
+  <p>
+    每個框架都有同樣嘅三層結構。總覽技能映射該框架所有真實嘅子項目 — 包括範例應用程式,呢個係兩個兄弟技能都冇覆蓋嘅 — 並指向下層,而唔係重複佢哋嘅合約。
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>框架</th>
+        <th>總覽</th>
+        <th>無頭</th>
+        <th>輔助工具</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">技能</a></td>
+        <td><a aria-label="Angular 無頭技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">技能</a></td>
+        <td><a aria-label="Angular 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">技能</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">技能</a></td>
+        <td><a aria-label="Blazor 無頭技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">技能</a></td>
+        <td><a aria-label="Blazor 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">技能</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">技能</a></td>
+        <td><a aria-label="HTML 無頭技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">技能</a></td>
+        <td><a aria-label="HTML 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">技能</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">技能</a></td>
+        <td><a aria-label="Nunjucks 無頭技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">技能</a></td>
+        <td><a aria-label="Nunjucks 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">技能</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">技能</a></td>
+        <td><a aria-label="React 無頭技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">技能</a></td>
+        <td><a aria-label="React 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">技能</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">技能</a></td>
+        <td><a aria-label="Svelte 無頭技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">技能</a></td>
+        <td><a aria-label="Svelte 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">技能</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">技能</a></td>
+        <td><a aria-label="Vue 無頭技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">技能</a></td>
+        <td><a aria-label="Vue 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">技能</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components 總覽技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">技能</a></td>
+        <td>
+          <a
+            aria-label="Web Components 無頭技能"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >技能</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components 輔助工具技能" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">技能</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components 係兩個方向上唯一嘅例外:佢嘅無頭目錄係刻意嘅 571 個中嘅 536 個範圍(原生自訂元素,冇框架運行時;其餘 35 個元件永久排除),而且仲未有 Web Components 範例應用程式 — 佢嘅總覽技能會直接講明,而唔係暗示有一個。
+  </p>
+
+  <h2>加入一個技能</h2>
+  <p>
+    每個技能都係一個 <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> 檔案 — 加上輔助檔案,冇建置步驟。將你需要嘅複製到你嘅 Claude Code 設定載入技能嘅位置(睇上面連結嘅官方文件,了解你項目或帳戶嘅技能目錄):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    跨幾個框架工作,或者喺單一倉庫本身工作?改為複製<a href="https://github.com/LilyDesignSystem/lily-design-system">標準單一倉庫</a> — 全部 26 個技能已經喺佢嘅根部,同佢哋描述嘅無頭函式庫、輔助工具目錄同範例應用程式放埋一齊。
+  </p>
+</section>

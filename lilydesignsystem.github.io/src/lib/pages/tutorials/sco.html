@@ -1,0 +1,136 @@
+<!-- title: Tutorials (Lear It) — Lily Design System -->
+<!-- description: Stap-bi-stap Lily tutorials: yer first component, stylin, ready-made themes, an preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, an Nunjucks. -->
+<section class="page-intro">
+  <h1>Lear Lily, stap bi stap</h1>
+  <p class="page-intro-tagline">
+    Walcome! Ilka tutorial stairts frae scart an bigs the same wee thing — an accessible, styled form — in aboot 10 minutes, sae ye can compare frameworks apples-tae-apples. Then gang deeper wi theming an uiser preferences.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Afore ye stairt</h2>
+  <p>Ye need surprisingly little:</p>
+  <ul>
+    <li>
+      <strong>For the HTML tutorial</strong> — juist a browser an a text editor. That's the hail toolkit.
+    </li>
+    <li>
+      <strong>For Svelte, React, Vue, Angular, or Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26, an pnpm 10 or later.
+    </li>
+    <li>
+      <strong>For Blazor</strong> — git an the
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 or later.
+    </li>
+  </ul>
+  <p>
+    New tae headless components? Ye're in the richt place — ilka tutorial explains whit's happenin as ye gang, an ilka step shaws the exact code tae copy.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Fower steps frae zero tae shipped</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Yer first component</strong> (~5 minutes) — pick yer framework ablow, git the code, an render a Button.
+      </li>
+      <li>
+        <strong>Compose an style</strong> (~5 minutes) — big a labelled form an style it against the kebab-case class hooks (pairt o ilka framework tutorial).
+      </li>
+      <li>
+        <strong>Theme it</strong> (~15 minutes) — swap yer haund-written CSS for ane o the 57 ready-made themes, then let uisers switch at runtime: <a href="/tutorials/theming/">theming tutorial</a>.
+      </li>
+      <li>
+        <strong>Respect preferences</strong> (~15 minutes) — add leid an text-size selection wi the preference helpers:
+        <a href="/tutorials/helpers/">helpers tutorial</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Pick yer framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Copy semantic HTML wi the class hooks an gang — a browser an an editor are aw it taks.</p>
+      <p class="card-meta">~10 minutes · easiest stairt</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 runes, snippets, an <code>bind:value</code> two-wey binding.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Function components wi <code>value</code> + <code>onChange</code> an rest-prop spreid.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Vue 3 single-file components wi <code>v-model</code> support.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Angular standalane components wi signal inputs an <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Razor components wi parameters, <code>ChildContent</code>, an bUnit tests.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Server-rendert macros for Eleventy an onie Node templating pipeline.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Torn atween them? Stairt wi <a href="/tutorials/html/">HTML</a> — it teaches the class-hook contract ilka ither framework shares, an it rins straucht frae a file.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Gang deeper</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Theming</h3>
+      <p class="card-description">
+        Link ane o 57 ready-made themes — NHS, GOV.UK, USWDS, licht, daurk, an mair — owerride it wi yer ain CSS, an add runtime theme switchin wi the theme-picker helper.
+      </p>
+      <p class="card-meta">~15 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Preference helpers</h3>
+      <p class="card-description">
+        Gie uisers control o theme, leid, text size, motion, seek, page links, sharin, an date/time entry wi theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker, an date-time-picker: headless controls wi persistence, SSR safety, an automatic RTL detection.
+      </p>
+      <p class="card-meta">~15 minutes</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Efter the tutorials</h2>
+  <ul>
+    <li>
+      Brouse the <a href="/components/">component catalog</a> — ilka component documents its props, ARIA contract, an keyboard behaviour.
+    </li>
+    <li>
+      Clone an <a href="/examples/">example app</a> tae see aw 571 components styled an wirkin thegither — the CSS targets the same class hooks ye juist uised, sae copy onie pairt o it intae yer project an adjust it as ye wish.
+    </li>
+    <li>
+      Questions? The <a href="/help/">help page</a> haes answers, an FAQ, an weys tae reach a freendly human. An if a tutorial could be clearer,
+      <a href="https://github.com/LilyDesignSystem">tell us</a> — we'll gladly improve it.
+    </li>
+  </ul>
+</section>

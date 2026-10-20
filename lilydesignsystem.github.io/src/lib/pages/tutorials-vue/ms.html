@@ -1,0 +1,122 @@
+<!-- title: Tutorial Vue — Lily Design System -->
+<!-- description: Bina borang yang mudah diakses dan digayakan dengan komponen tanpa kepala Vue 3 Lily: komponen fail tunggal dengan v-model. -->
+<section class="page-intro">
+  <h1>Tutorial Vue</h1>
+  <p class="page-intro-tagline">
+    Komponen fail tunggal Vue 3 dengan prop bertaip, <code>defineModel</code>
+    pengikatan dua hala, dan <code>v-bind="$attrs"</code> lalu-lalang.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan anda bina</h2>
+  <p>
+    Borang hubungan kecil — input berlabel, butang hantar, <code>v-model</code>
+    pengikatan, tingkah laku papan kekunci dan pembaca skrin yang sebenar — mula-mula kosong, kemudian digayakan, dalam kira-kira 10 minit.
+  </p>
+
+  <h2>Sebelum anda bermula</h2>
+  <p>
+    Anda memerlukan git, Node 22 atau lebih baharu, dan pnpm 10 atau lebih baharu. Mana-mana projek Vue 3 boleh digunakan — Nuxt, Vite atau Vue biasa.
+  </p>
+
+  <h2>Langkah 1 — Dapatkan kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponen ialah fail rata dalam <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — masing-masing dengan ujian, story dan dokumennya di sebelah. Salin fail yang anda perlukan, atau vendor repo.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama anda</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Memaparkan <code>&lt;button class="button" type="button"&gt;</code>. Prop sepadan dengan rangka kerja lain: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, ditambah atribut lalu-lalang untuk yang lain.
+  </p>
+
+  <h2>Langkah 3 — Gubah borang kecil</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> mengambil <code>label</code> sebagai propnya sendiri dan bukannya komponen label bersarang — hantar sekali, pada
+    <code>Field</code>, dan <code>TextInput</code>yang sepadan pada
+    <code>label</code> membekalkan nama boleh diakses.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Disahkan 2026-08-29:</strong> draf awal menyarangkan komponen <code>Label</code> di dalam <code>Field</code>, yang memaparkan
+      <em>dua</em> label (satu kosong) kerana <code>Field</code> sudah memaparkan labelnya sendiri daripada <code>label</code> prop — dikesan dengan mengkompil serpihan tepat itu.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">laluan borang hubungan gubahan</a>
+      ialah corak yang sama, diuji dengan e2e dan ujian axe sebenar.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> menggunakan <code>defineModel</code>, jadi
+    <code>v-model</code> biasa berfungsi terus.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Semak kerja anda:</strong> jalankan aplikasi dan borang kelihatan biasa sahaja — tepat seperti dimaksudkan: penggayaan masih di hadapan. Tekan
+      <kbd>Tab</kbd>: fokus bergerak melalui setiap kawalan, label diumumkan dan penghantaran berfungsi. Tingkah laku sudah siap; rupanya milik anda dan itu seterusnya.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Gayakan</h2>
+  <p>
+    Gayakan cangkuk kelas — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — dalam helaian gaya anda, atau pautkan tema siap pakai dalam <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Lihat semuanya berfungsi</h2>
+  <p>
+     <a href="/examples/">Aplikasi contoh Nuxt</a> ialah katalog penuh yang digayakan dan didemonstrasikan, dengan e2e Playwright dan garis dasar axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah seterusnya</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — penukaran runtime dengan pembantu Vue theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pembantu keutamaan</a> — bahasa dan saiz teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — prop, ARIA dan papan kekunci bagi setiap komponen.</li>
+  </ul>
+  <p>
+    Ada soalan di sepanjang jalan?
+    <a href="/help/#troubleshooting">halaman bantuan</a> penuh dengan jawapan — dan jika sesuatu langkah boleh dijelaskan lagi,
+    <a href="https://github.com/LilyDesignSystem">beritahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial.
+  </p>
+</section>

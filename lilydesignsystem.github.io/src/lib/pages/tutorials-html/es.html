@@ -1,0 +1,106 @@
+<!-- title: Tutorial de HTML — Lily Design System -->
+<!-- description: Construye un formulario accesible y con estilo con los componentes sin cabeza de Lily para HTML: marcado sencillo, directamente desde un archivo. -->
+<section class="page-intro">
+  <h1>Tutorial de HTML</h1>
+  <p class="page-intro-tagline">
+    El comienzo más simple posible: copia HTML semántico con los ganchos de clase de Lily, añade una hoja de estilos y publica. Archivos sencillos que funcionan en cualquier lugar donde funcione HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Qué vas a construir</h2>
+  <p>
+    Un pequeño formulario de contacto: campos con etiquetas, un botón de envío, comportamiento real de teclado y lector de pantalla; primero desnudo, luego con estilo, en unos 10 minutos.
+  </p>
+
+  <h2>Antes de empezar</h2>
+  <p>
+    Necesitas un navegador y un editor de texto. Eso es todo. (git ayuda a obtener los archivos de los componentes, pero también puedes copiarlos desde GitHub en el navegador.)
+  </p>
+
+  <h2>Paso 1: Obtén el código</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Cada componente es un archivo independiente en <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>y así sucesivamente, con un comentario de cabecera que documenta su etiqueta HTML, su gancho de clase, su comportamiento de teclado y su contrato de accesibilidad. Los archivos <em>son</em> la biblioteca: copia lo que necesites y adelante.
+  </p>
+
+  <h2>Paso 2: Tu primer componente</h2>
+  <p>Abre <code>components/button.html</code>, o simplemente escribe el marcado: el gancho de clase es el contrato:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Como es un <code>&lt;button&gt;</code>real, el foco de teclado, la activación con Intro y Espacio y el rol implícito de botón ya son correctos.
+  </p>
+
+  <h2>Paso 3: Compón un formulario pequeño</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Fíjate en el patrón: cada control enlaza su propio <code>&lt;label for&gt;</code>, usa el tipo de input más específico y lleva exactamente un gancho de clase en kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Comprueba tu trabajo:</strong> abre la página en un navegador. Se ve sencilla, tal como se pretendía: el estilo aún está por venir. Pulsa
+      <kbd>Tab</kbd>: el foco recorre cada control, se anuncian las etiquetas y el envío funciona. El comportamiento está hecho; el aspecto es tuyo y es el siguiente paso.
+    </p>
+  </div>
+
+  <h2>Paso 4: Dale estilo</h2>
+  <p>Escribe CSS contra los ganchos:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    O salta por completo el escribir CSS a mano: enlaza uno de los 45 temas ya hechos y el mismo marcado se ilumina:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Paso 5: Explora más</h2>
+  <ul>
+    <li>Las pruebas del repositorio se ejecutan en navegadores reales: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook para cada componente: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">La aplicación de ejemplo HTML+CSS+JS</a> muestra los 571 componentes con estilo, con búsqueda y demostrados.
+    </li>
+  </ul>
+
+  <h2>Próximos pasos</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temas</a> : cambio de tema en tiempo de ejecución con theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Asistentes de preferencias</a> : idioma y tamaño del texto.</li>
+    <li><a href="/components/">Catálogo de componentes</a> : la referencia completa.</li>
+  </ul>
+  <p>
+    ¿Dudas por el camino? La
+    <a href="/help/#troubleshooting">página de ayuda</a> está llena de respuestas, y si algún paso puede ser más claro,
+    <a href="https://github.com/LilyDesignSystem">cuéntanoslo</a> y con gusto mejoraremos el tutorial.
+  </p>
+</section>

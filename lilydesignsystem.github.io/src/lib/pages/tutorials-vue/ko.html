@@ -1,0 +1,122 @@
+<!-- title: Vue 튜토리얼 — Lily Design System -->
+<!-- description: Lily의 Vue 3 헤드리스 컴포넌트로 접근성 있고 스타일이 적용된 폼을 만듭니다. v-model을 쓰는 단일 파일 컴포넌트입니다. -->
+<section class="page-intro">
+  <h1>Vue 튜토리얼</h1>
+  <p class="page-intro-tagline">
+    타입이 지정된 props를 가진 Vue 3 단일 파일 컴포넌트, <code>defineModel</code>
+    양방향 바인딩, 그리고 <code>v-bind="$attrs"</code> 통과 전달.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>만들 것</h2>
+  <p>
+    작은 문의 폼 — 레이블이 있는 입력, 제출 버튼, <code>v-model</code>
+    바인딩, 실제 키보드 및 스크린 리더 동작 — 먼저 꾸미지 않은 상태로, 그다음 스타일을 입혀서 약 10분 안에 만듭니다.
+  </p>
+
+  <h2>시작하기 전에</h2>
+  <p>
+    git, Node 22 이상, pnpm 10 이상이 필요합니다. Vue 3 프로젝트라면 무엇이든 괜찮습니다 — Nuxt, Vite, 순수 Vue 모두 됩니다.
+  </p>
+
+  <h2>1단계 — 코드 가져오기</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    컴포넌트는 다음 위치에 평평한 파일로 있습니다: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — 각각 테스트, 스토리, 문서가 바로 옆에 있습니다. 필요한 파일을 복사하거나 저장소를 가져오세요.
+  </p>
+
+  <h2>2단계 — 첫 번째 컴포넌트</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    렌더링하는 요소: <code>&lt;button class="button" type="button"&gt;</code>. props는 다른 프레임워크와 같습니다: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, 그 밖의 모든 특성은 폴스루됩니다.
+  </p>
+
+  <h2>3단계 — 작은 폼 구성하기</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> 은 보이는 <code>label</code> 을 중첩된 레이블 컴포넌트가 아니라 별도의 prop으로 받습니다 — 한 번만 전달하면
+    <code>Field</code>, 그리고 <code>TextInput</code>의 대응하는
+    <code>label</code> 이 접근 가능한 이름을 제공합니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 확인 완료:</strong> 이전 초안에서는 별도의 <code>Label</code> 안의 <code>Field</code>안에 중첩했는데, 그러면
+      <em>두 개의</em> 레이블(하나는 비어 있음)이 렌더링되었습니다. <code>Field</code> 가 <code>label</code> prop — 정확한 스니펫을 컴파일해 보다가 발견했습니다.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">문의 폼 조합 라우트</a>
+      도 같은 패턴이며, 실제 e2e 및 axe 테스트로 검증됩니다.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> 는 다음을 쓰므로: <code>defineModel</code>, 일반
+    <code>v-model</code> 이 바로 동작합니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>작동 확인:</strong> 앱을 실행하면 폼이 밋밋해 보입니다 — 의도한 대로이며 스타일은 앞으로 입힙니다.
+      <kbd>Tab</kbd>키를 눌러 보세요. 포커스가 모든 컨트롤을 따라 이동하고, 레이블이 읽히며, 제출도 동작합니다. 동작은 완성되었고, 모양은 당신 몫이며 다음 단계입니다.
+    </p>
+  </div>
+
+  <h2>4단계 — 스타일 입히기</h2>
+  <p>
+    클래스 훅에 스타일을 입힙니다 — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 스타일시트에서, 또는 준비된 테마를 다음에서 링크합니다: <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>5단계 — 전체가 동작하는 모습 보기</h2>
+  <p>
+     <a href="/examples/">Nuxt 예제 앱</a> 은 스타일과 데모를 갖춘 전체 카탈로그이며, Playwright e2e와 axe-core 기준선이 있습니다:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>다음 단계</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">테마 적용</a> — Vue theme-picker 헬퍼로 하는 런타임 전환.</li>
+    <li><a href="/tutorials/helpers/">환경설정 헬퍼</a> — 언어와 텍스트 크기.</li>
+    <li><a href="/components/">컴포넌트 카탈로그</a> — 컴포넌트별 props, ARIA, 키보드.</li>
+  </ul>
+  <p>
+    진행하다가 궁금한 점이 있다면
+    <a href="/help/#troubleshooting">도움말 페이지</a> 에 답이 많이 있습니다. 어떤 단계가 더 명확해질 수 있다면
+    <a href="https://github.com/LilyDesignSystem">알려 주세요</a> . 기꺼이 튜토리얼을 개선하겠습니다.
+  </p>
+</section>

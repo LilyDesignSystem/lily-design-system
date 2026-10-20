@@ -1,0 +1,276 @@
+<!-- title: Nuostatų pagalbininkų vadovas — Lily Design System -->
+<!-- description: Pridėkite naudotojo kalbos ir teksto dydžio nuostatas su „Lily“ pagalbininkais locale-picker ir text-size-picker: bekūniai valdikliai iš piktogramos mygtuko + listbox, su išsaugojimu ir SSR sauga. -->
+<section class="page-intro">
+  <h1>Nuostatų pagalbininkai</h1>
+  <p class="page-intro-tagline">
+    Septyni maži paketai kiekvienai sistemai, kurių kiekvienas valdo vieną naudotojo užduotį nuo pradžios iki pabaigos, plius juosta, surenkanti penkis iš jų. Jau susipažinote su
+    <a href="/tutorials/theming/">theme-picker</a>; štai locale-picker, text-size-picker ir motion-picker (nuostatos), share-picker ir search-picker (veiksmai), date-time-picker (formos reikšmė) bei picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Nustatymų skydelis, kuriame naudotojai renkasi kalbą ir teksto dydį — pasirinkimai, taikomi visam dokumentui, išliekantys tarp apsilankymų ir kainuojantys jums du komponentus bei kelias CSS eilutes. Maždaug 15 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Pirmiausia užbaikite <a href="/tutorials/">sistemos vadovą</a> savo technologijų rinkiniui. Toliau pateikti pavyzdžiai yra „Svelte“; „React“, „Vue“, „Angular“, HTML, „Nunjucks“ ir „Blazor“ pagalbininkai jiems atitinka sutartis po sutarties.
+  </p>
+
+  <h2>Forma, kurią jie dalijasi</h2>
+  <ul>
+    <li>Bekūnis piktogramos mygtukas, atidarantis WAI-ARIA APG listbox (arba, date-time-picker atveju, datos pasirinkimo dialogą) — be gimtojo <code>&lt;select&gt;</code>, todėl kiekviena sistema gauna tą patį klaviatūros elgesį ir stiliaus kablius.</li>
+    <li>Vienas klasės kablys vienam paketui (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), nulis pristatomo CSS.</li>
+    <li>Saugu SSR: DOM rašymai vyksta tik mount/effect gyvavimo ciklu.</li>
+    <li>Švaru i18n požiūriu: kiekviena naudotojui matoma eilutė yra prop.</li>
+    <li>
+      Prieinama „Svelte“ (kanoninė), „React“, „Vue“, „Angular“, HTML pasirinktiniam elementui, „Nunjucks“ ir „Blazor“ — kiekvienoje ta pati sutartis.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker ir text-size-picker kiekvienas valdo po vieną naudotojo
+    <em>nuostatą</em> nuo pradžios iki pabaigos (pasirinkimas, taikymas DOM, pasirenkamas
+    <code>localStorage</code> išsaugojimas per <code>storageKey</code>
+    prop). share-picker ir date-time-picker yra kitokio pobūdžio: share-picker valdo <em>veiksmą</em> — jis nieko netaiko dokumentui ir nieko neišsaugo — o date-time-picker valdo
+    <em>formos reikšmę</em>, nes data formoje yra duomenys, o ne nuostata.
+  </p>
+
+  <h2>locale-picker — kalba ir kryptis</h2>
+  <p>
+    Leidžia naudotojui pasirinkti lokalę, tada įrašo <code>lang</code> ir
+    <code>dir</code> į dokumento šaknį, kad jūsų i18n biblioteka, CSS ir pagalbinės technologijos visi ją sektų. RTL aptinkamas automatiškai arabų, hebrajų ir kitoms iš dešinės į kairę rašomoms rašmenų sistemoms. Jis tik signalizuoja — vertimą atlieka jūsų i18n biblioteka.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Parinktys pažymimos iš įtaisytos lokalių pavadinimų lentelės (galima pakeisti per <code>localeLabels</code>), kiekviena parinktis turi savo
+    <code>lang</code> atributą, kad ekrano skaitytuvai ištartų „Français“ prancūziškai, o kodai su pabraukimu, tokie kaip <code>en_US</code>
+    be nuostolių konvertuojami į BCP 47 ir atgal <code>en-US</code>. Susiekite
+    <code>onChange</code> (arba susietą reikšmę) su i18next, „Paraglide“, vue-i18n ar kuo tik naudojatės.
+  </p>
+
+  <h2>text-size-picker — skaitytojo valdomas dydis</h2>
+  <p>
+    Prieinamumo laimėjimas, trunkantis minutes: pagalbininkas nustato
+    <code>data-text-size="&#123;slug&#125;"</code> dokumento šaknyje, o jūsų CSS kiekvieną reikšmę susieja su dydžiu.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Matuokite savo išdėstymą <code>rem</code> ir visa programa keičia mastelį pagal naudotojo pasirinkimą. Žymos sudaromos iš slug’ų didžiąja pradine raide („X Large“) arba pakeičiamos per <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> pasirinkite „Large“ parinkiklyje ir puslapio tekstas padidėja. Perkraukite — vis dar didelis: pasirinkimas išsaugotas
+      <code>localStorage</code>. Perjunkite kalbos parinkiklį į arabų kalbą ir
+      <code>dir="rtl"</code> automatiškai nustatomas dokumente.
+    </p>
+  </div>
+
+  <h2>share-picker — išsiųskite šį puslapį</h2>
+  <p>
+    Vieno simbolio mygtukas, atidarantis įrenginio gimtąjį bendrinimo lapą, kur jis yra, o kitaip grįžtantis prie jūsų pateikto paskirčių sąrašo, plius URL kopijavimo veiksmas. Jis nepristato jokių socialinių tinklų URL — kokie tinklai tinka jūsų produktui, yra jūsų, o ne dizaino sistemos, sprendimas.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> numatytoji reikšmė yra <code>location.href</code>, todėl įprastam atvejui nereikia jokio sujungimo. Priverskite kelią su <code>strategy="list"</code> arba
+    <code>strategy="native"</code> kai reikia nuoseklaus elgesio skirtingose platformose testams ar ekrano nuotraukoms.
+  </p>
+
+  <h2>date-time-picker — data, laikas arba abu</h2>
+  <p>
+    Teksto laukas, į kurį galima rašyti, plius piktogramos mygtukas, atidarantis WAI-ARIA APG datos pasirinkimo dialogą. Teisingas lokalei pagal konstrukciją — mėnesių pavadinimai, savaitės dienų pavadinimai, pirma savaitės diena ir 12 ar 24 valandų laikrodis visi gaunami iš <code>Intl</code> — o reikšmė visada yra rūšiuojama ISO eilutė be laiko juostos: <code>"2026-03-15"</code> elementui
+    <code>mode="date"</code>, <code>"09:30"</code> elementui
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> elementui
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO reikšmė tokia pati, kokią siunčia <code>&lt;input type="date"&gt;</code>
+    todėl gimtąjį valdiklį galite įdėti ar išimti nelies serverio dalies.
+  </p>
+
+  <h2>motion-picker — gerbkite sumažintą judesį</h2>
+  <p>
+    Pagalbininkas nustato <code>data-motion="&#123;slug&#125;"</code> dokumento šaknyje. Jo pirmoji reikšmė imama iš lankytojo operacinės sistemos
+    <code>prefers-reduced-motion</code> nustatymo — visada, be įjungimo vėliavėlės, nes judesys yra tikras prieinamumo poreikis (WCAG 2.3.3). Jūsų CSS ir scenarijai nusprendžia, kas slopinama.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — paieškos laukelis, kuris netrukdo</h2>
+  <p>
+    Piktogramos mygtukas, atidarantis paieškos lauką. Paspaudus Return arba šalia lauko esantį &#9166; mygtuką, einama paprasta GET užklausa į
+    <code>/?&lt;text&gt;</code> (tekstas apkerpamas ir koduojamas kaip URI; tuščia užklausa niekur nenuveda). Jo trys prieinami pavadinimai privalomi, nes pagalbininkas nepristato anglų kalbos.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> keičia kelią (<code>/search?foo</code>), o
+    <code>navigate</code> išlaiko naršymą programos viduje; be jo pagalbininkas iškviečia <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — visa antraštės eilutė iš karto</h2>
+  <p>
+    <code>picker-bar</code> atvaizduoja paiešką, temą, lokalę, teksto dydį ir bendrinimą vienoje eilutėje, su visu etalonų temų rinkiniu ir septynių pakopų teksto skale iš anksto sujungtais. Kiekvienas prieinamas pavadinimas ateina viename privalomame
+    <code>labels</code> objekte.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Pasiekite bet kurį apgaubtą parinkiklį per <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> ir <code>shareProps</code>.
+  </p>
+
+  <h2>Patarimai įtaisyti</h2>
+  <p>
+    Kiekvienas parinkiklis rodo savo žymą patarime, kai žymeklis ilsisi ant jo mygtuko arba mygtukas turi klaviatūros fokusą. Patarimas lieka, kol žymeklis juda ant jo, Escape jį uždaro, kad ir kur būtų fokusas, ir niekada nerodomas, kol parinkiklio iškylantysis langas atidarytas. Jis turi tą patį tekstą kaip mygtuko prieinamas pavadinimas, todėl nėra ko konfigūruoti ar versti du kartus; etalonų temos jį apipavidalina.
+  </p>
+
+  <h2>Nustatymų skydelis vienoje vietoje</h2>
+  <p>Keturi nuostatų pagalbininkai natūraliai dera:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinta:</strong> locale-picker, text-size-picker, share-picker, date-time-picker ir sujungto skydelio fragmentai buvo sukompiliuoti atskirai pagal paskelbtus <code>0.1.1</code> paketus per
+      <code>svelte/server</code> (2026-08-29); motion-picker, search-picker ir picker-bar fragmentai buvo atvaizduoti pagal pačių paketų komponentus 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Kur juos gauti</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Kiekvienas paketas turi savo spec, testus, susietus su spec sąlygomis, vykdomus pavyzdžius (įskaitant SSR slapukų šablonus) ir kūrimo bei paskelbimo vamzdyną. „Svelte“ paketai yra kanoniniai; abejojant jų sutartys nugali.
+  </p>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/components/">Komponentų katalogas</a> — visas 571 komponento žinynas.</li>
+    <li><a href="/help/">Pagalba</a> — trikčių šalinimas ir DUK.</li>
+    <li><a href="/why/">Kodėl „Lily“</a> — ir kaip paremti projektą.</li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

@@ -1,0 +1,97 @@
+<!-- title: Ръководство за Nunjucks — Lily Design System -->
+<!-- description: Изграждайте достъпни, стилизирани, рендирани на сървъра страници с Nunjucks макросите на Lily — идеално за Eleventy. -->
+<section class="page-intro">
+  <h1>Ръководство за Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Макроси, рендирани на сървъра, за Eleventy, Express или всеки Node конвейер за шаблони — подходът в стила на GOV.UK, с каталога и класовите куки на Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Какво ще изградите</h2>
+  <p>
+    Малка форма за контакт, рендирана на сървъра — поле с етикет, бутон за изпращане, нула JavaScript товар — първо гола, после стилизирана, за около 10 минути.
+  </p>
+
+  <h2>Преди да започнете</h2>
+  <p>
+    Нужни са ви git, Node 22 или по-нов и pnpm 10 или по-нов. Подходящ е всеки Nunjucks конвейер — Eleventy, Express или чист Nunjucks.
+  </p>
+
+  <h2>Стъпка 1 — Вземете кода</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Всеки компонент е директория в <code>components/</code> с
+    <code>macro.njk</code>, неговия тест и неговата документация — например
+    <code>components/button/macro.njk</code>. Насочете вашия Nunjucks зареждач към
+    <code>components/</code> (в Eleventy го добавете към пътя за include) и импортирайте каквото ви трябва.
+  </p>
+
+  <h2>Стъпка 2 — Първият ви компонент</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Рендира <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Макросите приемат един params обект: <code>text</code> (с екраниране) или
+    <code>html</code> (суров), <code>type</code>, <code>label</code> за
+    <code>aria-label</code>и добавка за класова кука.
+  </p>
+
+  <h2>Стъпка 3 — Съставете малка форма</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Тъй като всичко се рендира на сървъра, браузърът получава чист семантичен HTML с класовите куки — JavaScript товар от нула байта.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверете работата си:</strong> заредете страницата и формата изглежда гола — точно както е предвидено: стилизирането предстои. Натиснете
+      <kbd>Tab</kbd>: фокусът минава през всеки контрол, етикетът се обявява и изпращането работи. Поведението е готово; външният вид е ваш и е следващата стъпка.
+    </p>
+  </div>
+
+  <h2>Стъпка 4 — Стилизирайте го</h2>
+  <p>
+    Стилизирайте куките — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — във вашата таблица със стилове или свържете готова тема във вашето базово оформление:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Стъпка 5 — Вижте всичко в действие</h2>
+  <p>
+     <a href="/examples/">Примерното приложение Nunjucks + Eleventy</a> изгражда целия каталог като статичен сайт с демо страници за всеки компонент:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Следващи стъпки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — включително модела с бисквитки на Eleventy за SSR превключване на тема без трептене.</li>
+    <li><a href="/tutorials/helpers/">Помощници за предпочитания</a> — език и размер на текста.</li>
+    <li><a href="/components/">Каталог на компонентите</a> — свойства, ARIA и клавиатура за всеки компонент.</li>
+  </ul>
+  <p>
+    Въпроси по пътя?
+    <a href="/help/#troubleshooting">Страницата за помощ</a> е пълна с отговори — а ако някоя стъпка може да е по-ясна,
+    <a href="https://github.com/LilyDesignSystem">кажете ни</a> и с радост ще подобрим ръководството.
+  </p>
+</section>

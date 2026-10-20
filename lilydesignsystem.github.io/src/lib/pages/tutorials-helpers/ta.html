@@ -1,0 +1,276 @@
+<!-- title: விருப்ப உதவியாளர்கள் பயிற்சி — Lily Design System -->
+<!-- description: Lily இன் locale-picker மற்றும் text-size-picker உதவியாளர்களால் பயனரின் மொழி மற்றும் உரை-அளவு விருப்பங்களைச் சேர்க்கவும்: நிலைப்பு மற்றும் SSR பாதுகாப்புடன் தலையற்ற சின்னப் பொத்தான் + பட்டியல்பெட்டி கட்டுப்பாடுகள். -->
+<section class="page-intro">
+  <h1>விருப்ப உதவியாளர்கள்</h1>
+  <p class="page-intro-tagline">
+    ஒவ்வொரு கட்டமைப்புக்கும் ஏழு சிறிய தொகுப்புகள், ஒவ்வொன்றும் ஒரு பயனர் வேலையை தொடக்கம் முதல் இறுதிவரை சொந்தமாகக் கொண்டுள்ளது, அவற்றில் ஐந்தைத் திரட்டும் பட்டையுடன். நீங்கள் ஏற்கனவே சந்தித்துள்ளீர்கள்
+    <a href="/tutorials/theming/">theme-picker</a>ஐ; இதோ locale-picker, text-size-picker மற்றும் motion-picker (விருப்பங்கள்), share-picker மற்றும் search-picker (செயல்கள்), date-time-picker (படிவ மதிப்பு) மற்றும் picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>நீங்கள் என்ன உருவாக்குவீர்கள்</h2>
+  <p>
+    பயனர்கள் தங்கள் மொழி மற்றும் உரை அளவைத் தேர்ந்தெடுக்கும் அமைப்புகள் பலகம் — முழு ஆவணத்திற்கும் பொருந்தும், வருகைகளுக்கு இடையே நிலைத்திருக்கும், உங்களுக்கு இரண்டு கூறுகளும் சில CSS வரிகளுமே செலவாகும் தேர்வுகள். சுமார் 15 நிமிடங்கள்.
+  </p>
+
+  <h2>தொடங்குவதற்கு முன்</h2>
+  <p>
+    முதலில் முடியுங்கள் <a href="/tutorials/">கட்டமைப்புப் பயிற்சியை</a> உங்கள் அடுக்கிற்கு. கீழுள்ள மாதிரிகள் Svelte இல் உள்ளன; React, Vue, Angular, HTML, Nunjucks மற்றும் Blazor உதவியாளர்கள் ஒப்பந்தத்துக்கு ஒப்பந்தம் பொருந்துகின்றன.
+  </p>
+
+  <h2>அவை பகிரும் வடிவம்</h2>
+  <ul>
+    <li>WAI-ARIA APG பட்டியல்பெட்டியைத் திறக்கும் தலையற்ற சின்னப் பொத்தான் (அல்லது date-time-picker க்கு தேதி தேர்வு உரையாடல்) — சொந்த <code>&lt;select&gt;</code>இல்லை, அதனால் ஒவ்வொரு கட்டமைப்பும் ஒரே விசைப்பலகை நடத்தையையும் பாணிக் கொக்கிகளையும் பெறுகிறது.</li>
+    <li>ஒவ்வொரு தொகுப்புக்கும் ஒரு வகுப்புக் கொக்கி (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), பூஜ்ஜிய CSS அனுப்பப்படுகிறது.</li>
+    <li>SSR-பாதுகாப்பானது: DOM எழுத்துகள் mount/effect வாழ்க்கைச் சுழற்சியில் மட்டுமே நடக்கின்றன.</li>
+    <li>i18n-தூய்மையானது: பயனருக்குத் தெரியும் ஒவ்வொரு சரமும் ஒரு prop.</li>
+    <li>
+      Svelte (நியமம்), React, Vue, Angular, HTML தனிப்பயன் உறுப்பு, Nunjucks மற்றும் Blazor க்குக் கிடைக்கிறது — ஒவ்வொன்றிலும் ஒரே ஒப்பந்தம்.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker மற்றும் text-size-picker ஒவ்வொன்றும் ஒரு பயனர்
+    <em>விருப்பத்தை</em> தொடக்கம் முதல் இறுதிவரை சொந்தமாகக் கொண்டுள்ளன (தேர்வு, DOM இல் பயன்படுத்தல், விருப்பத்திற்குரிய
+    <code>localStorage</code> நிலைப்பு <code>storageKey</code>
+    prop வழியாக). share-picker மற்றும் date-time-picker வகையில் வேறுபட்டவை: share-picker ஒரு <em>செயலை</em> சொந்தமாகக் கொண்டுள்ளது — ஆவணத்தில் எதையும் பயன்படுத்தாது, எதையும் நிலைநிறுத்தாது — date-time-picker ஒரு
+    <em>படிவ மதிப்பை</em>சொந்தமாகக் கொண்டுள்ளது, ஏனெனில் படிவத்தில் உள்ள தேதி தரவு, விருப்பம் அல்ல.
+  </p>
+
+  <h2>locale-picker — மொழி மற்றும் திசை</h2>
+  <p>
+    பயனரை ஒரு இடமொழியைத் தேர்ந்தெடுக்க விடுகிறது, பிறகு எழுதுகிறது <code>lang</code> மற்றும்
+    <code>dir</code> ஆவணத்தின் வேரில், உங்கள் i18n நூலகம், உங்கள் CSS மற்றும் உதவித் தொழில்நுட்பங்கள் எல்லாம் பின்தொடரும்படி. அரபு, ஹீப்ரு மற்றும் வலமிருந்து இடமாக எழுதப்படும் பிற எழுத்துகளுக்கு RTL தானாகக் கண்டறியப்படுகிறது. இது சமிக்ஞை செய்வதில் மட்டுமே கவனம் செலுத்துகிறது — மொழிபெயர்ப்பை உங்கள் i18n நூலகம் கையாளுகிறது.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    விருப்பங்கள் உள்ளமைந்த இடமொழிப் பெயர்கள் அட்டவணையிலிருந்து லேபிளிடப்படுகின்றன (இதன் மூலம் மேலெழுதலாம் <code>localeLabels</code>), ஒவ்வொரு விருப்பமும் அதன் சொந்த
+    <code>lang</code> பண்பைக் கொண்டுள்ளது, அதனால் திரை வாசிப்பான்கள் "Français" ஐ பிரெஞ்சில் உச்சரிக்கும், மற்றும் அடிக்கோடு குறியீடுகள் போன்றவை <code>en_US</code>
+    BCP 47 க்கு இழப்பின்றி மாற்றப்பட்டு திரும்பும் <code>en-US</code>. இணைக்கவும்
+    <code>onChange</code> (அல்லது பிணைக்கப்பட்ட மதிப்பு) ஐ i18next, Paraglide, vue-i18n அல்லது நீங்கள் பயன்படுத்துவதற்கு.
+  </p>
+
+  <h2>text-size-picker — வாசகரால் கட்டுப்படுத்தப்படும் அளவு</h2>
+  <p>
+    நிமிடங்கள் எடுக்கும் அணுகல் வெற்றி: உதவியாளர் ஆவணத்தின் வேரில்
+    <code>data-text-size="&#123;slug&#125;"</code> அமைக்கிறது, உங்கள் CSS ஒவ்வொரு மதிப்பையும் ஒரு அளவுடன் இணைக்கிறது.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    உங்கள் தளவமைப்பை இதில் அளவிடுங்கள் <code>rem</code> முழு பயன்பாடும் பயனரின் தேர்வுடன் அளவு மாறுகிறது. லேபிள்கள் slug களிலிருந்து தலைப்பு எழுத்து வடிவில் உருவாக்கப்படுகின்றன ("X Large") அல்லது இதனால் மேலெழுதப்படுகின்றன <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>உங்கள் வேலையைச் சரிபார்க்கவும்:</strong> தேர்வியிலிருந்து "Large" ஐத் தேர்ந்தெடுங்கள், பக்க உரை பெரிதாகிறது. மீண்டும் ஏற்றுங்கள் — இன்னும் பெரிதாகவே உள்ளது: தேர்வு இங்கே நிலைநிறுத்தப்பட்டது
+      <code>localStorage</code>. உங்கள் மொழித் தேர்வியை அரபுக்கு மாற்றுங்கள்
+      <code>dir="rtl"</code> ஆவணத்தில் தானாக அமைக்கப்படுகிறது.
+    </p>
+  </div>
+
+  <h2>share-picker — இந்தப் பக்கத்தை அனுப்புங்கள்</h2>
+  <p>
+    ஒரு-குறி பொத்தான், கிடைக்கும் இடத்தில் சாதனத்தின் சொந்த பகிர்வுத் தாளைத் திறக்கிறது, இல்லையெனில் நீங்கள் வழங்கும் இலக்குகளின் பட்டியலுக்குத் திரும்புகிறது, மேலும் URL நகலெடுக்கும் செயல். இது எந்த சமூக வலைப்பின்னல் URL ஐயும் அனுப்பாது — எந்த வலைப்பின்னல்கள் உங்கள் தயாரிப்புக்கு உரியவை என்பது உங்கள் முடிவு, வடிவமைப்பு அமைப்பின் முடிவு அல்ல.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> இன் இயல்புநிலை <code>location.href</code>எனவே பொதுவான சூழலுக்கு எந்த இணைப்பும் தேவையில்லை. ஒரு பாதையை வலியுறுத்துங்கள் <code>strategy="list"</code> அல்லது
+    <code>strategy="native"</code> சோதனைகள் அல்லது திரைப்பிடிப்புகளுக்கு தளங்கள் முழுவதும் சீரான நடத்தை தேவைப்படும் போது.
+  </p>
+
+  <h2>date-time-picker — ஒரு தேதி, ஒரு நேரம், அல்லது இரண்டும்</h2>
+  <p>
+    நீங்கள் தட்டச்சு செய்யக்கூடிய உரைப் புலம், மற்றும் WAI-ARIA APG தேதி தேர்வு உரையாடலைத் திறக்கும் சின்னப் பொத்தான். கட்டமைப்பிலேயே இடமொழிக்குச் சரியானது — மாதப் பெயர்கள், வாரநாள் பெயர்கள், வாரத்தின் முதல் நாள் மற்றும் 12 அல்லது 24 மணி நேரக் கடிகாரம் எல்லாம் இதிலிருந்து வருகின்றன <code>Intl</code> — மதிப்பு எப்போதும் வரிசைப்படுத்தக்கூடிய, நேர மண்டலம் இல்லாத ISO சரம்: <code>"2026-03-15"</code> க்காக
+    <code>mode="date"</code>, <code>"09:30"</code> க்காக
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> க்காக
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO மதிப்பு <code>&lt;input type="date"&gt;</code>
+    அனுப்புவதற்கு ஒத்ததாகவே உள்ளது, அதனால் உங்கள் பின்தளத்தைத் தொடாமல் சொந்தக் கட்டுப்பாட்டை உள்ளே அல்லது வெளியே மாற்றலாம்.
+  </p>
+
+  <h2>motion-picker — குறைந்த இயக்கத்தை மதியுங்கள்</h2>
+  <p>
+    உதவியாளர் ஆவணத்தின் வேரில் <code>data-motion="&#123;slug&#125;"</code> அமைக்கிறது. அதன் முதல் மதிப்பு பார்வையாளரின் இயக்க முறைமையின்
+    <code>prefers-reduced-motion</code> அமைப்பிலிருந்து வருகிறது — எப்போதும், ஒப்புதல் கொடி இல்லாமல், ஏனெனில் இயக்கம் உண்மையான அணுகல் தேவை (WCAG 2.3.3). எதை அடக்குவது என்பதை உங்கள் CSS மற்றும் ஸ்கிரிப்ட்கள் தீர்மானிக்கின்றன.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — வழியில் வராத தேடல் பெட்டி</h2>
+  <p>
+    தேடல் புலத்தைத் திறக்கும் சின்னப் பொத்தான். Return அல்லது புலத்தின் அருகிலுள்ள &#9166; பொத்தானை அழுத்தினால், எளிய GET கோரிக்கையுடன் இங்கே செல்கிறது
+    <code>/?&lt;text&gt;</code> (உரை ஒழுங்குபடுத்தப்பட்டு URI-குறியாக்கப்படுகிறது; வெற்றுக் கேள்வி எங்கும் செல்லாது). அதன் மூன்று அணுகத்தக்க பெயர்கள் கட்டாயம், ஏனெனில் உதவியாளர் ஆங்கிலத்தை அனுப்புவதில்லை.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> பாதையை மாற்றுகிறது (<code>/search?foo</code>), மற்றும்
+    <code>navigate</code> வழிசெலுத்தலைப் பயன்பாட்டிற்குள்ளேயே வைத்திருக்கிறது; அது இல்லாமல் உதவியாளர் அழைக்கிறது <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — முழு தலைப்பு வரிசை ஒரே நேரத்தில்</h2>
+  <p>
+    <code>picker-bar</code> தேடல், தீம், இடமொழி, உரை அளவு மற்றும் பகிர்வை ஒரு வரிசையில் வழங்குகிறது, முழு குறிப்புத் தீம் தொகுப்பு மற்றும் ஏழு-படி உரை அளவுகோல் முன்கூட்டியே இணைக்கப்பட்டவை. ஒவ்வொரு அணுகத்தக்க பெயரும் ஒரு கட்டாய
+    <code>labels</code> பொருளில் வருகிறது.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    சுற்றப்பட்ட எந்தத் தேர்வியையும் இதனால் அடையுங்கள் <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> மற்றும் <code>shareProps</code>.
+  </p>
+
+  <h2>கருவிக்குறிப்புகள் உள்ளமைந்தவை</h2>
+  <p>
+    ஒவ்வொரு தேர்வியும் சுட்டி அதன் பொத்தானில் தங்கும்போது அல்லது பொத்தானுக்கு விசைப்பலகைக் குவியம் இருக்கும்போது அதன் லேபிளை கருவிக்குறிப்பில் காட்டுகிறது. சுட்டி அதன் மீது நகரும்போது கருவிக்குறிப்பு நிலைத்திருக்கும், குவியம் எங்கிருந்தாலும் Escape அதை மூடும், தேர்வியின் பாப்அப் திறந்திருக்கும்போது அது ஒருபோதும் காட்டப்படாது. இது பொத்தானின் அணுகத்தக்க பெயரின் அதே உரையைக் கொண்டுள்ளது, அதனால் கட்டமைக்கவோ இருமுறை மொழிபெயர்க்கவோ எதுவும் இல்லை; குறிப்புத் தீம்கள் அதற்குப் பாணியிடுகின்றன.
+  </p>
+
+  <h2>ஒரே இடத்தில் அமைப்புகள் பலகம்</h2>
+  <p>நான்கு விருப்ப உதவியாளர்களும் இயல்பாகவே இணைகின்றன:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>சரிபார்க்கப்பட்டது:</strong> locale-picker, text-size-picker, share-picker, date-time-picker மற்றும் இணைந்த பலகத்தின் துணுக்குகள் வெளியிடப்பட்ட <code>0.1.1</code> தொகுப்புகளுக்கு எதிராகத் தனித்தனியாகத் தொகுக்கப்பட்டன, இதன் வழியாக
+      <code>svelte/server</code> (2026-08-29); motion-picker, search-picker மற்றும் picker-bar துணுக்குகள் தொகுப்புகளின் சொந்தக் கூறுகளுக்கு எதிராக 2026-10-06 அன்று ரெண்டர் செய்யப்பட்டன.
+    </p>
+  </div>
+
+  <h2>அவற்றை எங்கே பெறுவது</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    ஒவ்வொரு தொகுப்புக்கும் அதன் சொந்த spec, spec பிரிவுகளுடன் இணைக்கப்பட்ட சோதனைகள், இயக்கக்கூடிய எடுத்துக்காட்டுகள் (SSR குக்கீ முறைகள் உட்பட) மற்றும் கட்டமைப்பு + வெளியீட்டுக் குழாய் உள்ளன. Svelte தொகுப்புகள் நியமமானவை; சந்தேகம் இருந்தால் அவற்றின் ஒப்பந்தங்களே வெல்லும்.
+  </p>
+
+  <h2>அடுத்த படிகள்</h2>
+  <ul>
+    <li><a href="/components/">கூறுப் பட்டியல்</a> — 571 கூறுகளின் முழு குறிப்பு.</li>
+    <li><a href="/help/">உதவி</a> — சிக்கல் தீர்வு மற்றும் FAQ.</li>
+    <li><a href="/why/">ஏன் Lily</a> — மற்றும் திட்டத்தை எப்படி ஆதரிப்பது.</li>
+  </ul>
+  <p>
+    வழியில் கேள்விகளா?
+    <a href="/help/#troubleshooting">உதவிப் பக்கம்</a> பதில்களால் நிறைந்தது — ஒரு படி இன்னும் தெளிவாக இருக்க முடிந்தால்,
+    <a href="https://github.com/LilyDesignSystem">எங்களிடம் சொல்லுங்கள்</a> நாங்கள் மகிழ்ச்சியுடன் பயிற்சியை மேம்படுத்துவோம்.
+  </p>
+</section>

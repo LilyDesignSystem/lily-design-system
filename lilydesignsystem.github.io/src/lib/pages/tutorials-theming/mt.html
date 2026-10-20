@@ -1,0 +1,111 @@
+<!-- title: Tutorja tat-temi — Lily Design System -->
+<!-- description: Agħti tema lil Lily b'tliet modi: evita waħda mill-45 tema lesti, issostitwixxiha bis-CSS tiegħek, u żid bdil tat-tema waqt it-tħaddim bl-għajnuna theme-picker. -->
+<section class="page-intro">
+  <h1>Temi</h1>
+  <p class="page-intro-tagline">
+    Il-komponenti ta' Lily għandhom ganċijiet tal-klassi stabbli u żero CSS — allura tema hija sempliċement stylesheet. Din it-tutorja tmur minn "evita fajl wieħed" għal "ħalli l-utent ibiddel it-tema waqt it-tħaddim, b'persistenza".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>X'se tibni</h2>
+  <p>
+    App li d-dehra kollha tagħha l-utent jista' jibdel — jibda b'stylesheet wieħed marbut, jintemm b'bidla persistenti tat-tema waqt it-tħaddim — f'madwar 15-il minuta.
+  </p>
+
+  <h2>Qabel ma tibda</h2>
+  <p>
+    Lesti l-ewwel <a href="/tutorials/">it-tutorja tal-framework</a> għall-istack tiegħek l-ewwel, biex ikollok formola żgħira ta' Lily li tagħtiha tema. Kollox hawn jaħdem fis-seba' frameworks kollha; l-eżempji tal-kodiċi juru Svelte u HTML sempliċi.
+  </p>
+
+  <h2>Pass 1 — Evita tema lesta</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    id-direttorju fih 45 stylesheet indipendenti. Ikkopjahom fl-assi statiċi tal-app tiegħek u evita wieħed:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Għoli tas-sett:</p>
+  <ul>
+    <li>
+      <strong>Settur pubbliku</strong> — NHS England / Scotland / Wales, kull wieħed f'verżjonijiet għall-pazjenti u għall-professjonisti; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Ispirati minn fornituri</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Użu ġenerali</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, u ħafna oħra.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Iċċekkja x-xogħol tiegħek:</strong> erġa' ttella' l-paġna. L-istess markup li bnejt fit-tutorja tal-framework issa huwa bi stil sħiħ — buttuni, inputs, tikketti, ċrieki tal-focus. Linja HTML waħda għamlet dan — kull komponent baqa' eżattament kif kien.
+    </p>
+  </div>
+
+  <h2>Pass 2 — Issostitwixxi kwalunkwe ħaġa</h2>
+  <p>
+    L-għażlieri tat-tema huma mgeżwra fi <code>:where(...)</code>li għandu speċifiċità żero — allura kwalunkwe regola li tikteb tirbaħ, sempliċement:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Pass 3 — Bdil waqt it-tħaddim b'theme-picker</h2>
+  <p>
+     <code>theme-picker</code> l-għajnuna hija buttuna-ikona headless + listbox li tgawdi ċ-ċiklu sħiħ tal-ħajja tat-tema: tgħabbi l-istylesheet magħżul billi tbiddel <code>&lt;link&gt;</code>
+    ġestit wieħed (it-tema attiva biss tinġieb), tiffissa
+    <code>data-theme="&#123;slug&#125;"</code> fuq id-dokument u b'għażla żżomm f' <code>localStorage</code>. Hawn jidher Svelte; il-ports għal React, Vue, Angular, HTML, Nunjucks u Blazor jaqblu kuntratt b'kuntratt:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Dik hija l-integrazzjoni kollha. Il-mġiba tat-tastiera ssegwi l-mudell listbox WAI-ARIA APG; il-kontroll innifsu huwa headless (ganċ tal-klassi
+    <code>.theme-picker</code>), allura jieħu kwalunkwe tema li tkun attiva.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ivverifikat fl-2026-08-29:</strong> dan is-snippet eżatt ġie kkompilat kontra l-pakkett ippubblikat <code>0.1.1</code> permezz ta'
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Pass 4 — Irreaġixxi għat-tema fis-CSS tiegħek stess</h2>
+  <p>
+    Peress li l-għajnuna tiffissa <code>data-theme</code> fuq l-għerq tad-dokument, l-istili tiegħek stess jistgħu jiffurkaw fuqu:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Noti għar-rendering fuq is-server</h2>
+  <p>
+    L-għajnuna tagħmel il-kitbiet kollha fid-DOM fiċ-ċiklu tal-ħajja mount/effect tal-framework, allura hija sigura għal SSR b'mod strutturali. Biex tevita tleqqija fl-ewwel pittura, irrendi fuq is-server <code>&lt;link&gt;</code> u
+    <code>data-theme</code> tat-tema inizjali (pereżempju minn cookie) — ir-repożitorju tal-għajnuna Svelte jinkludi eżempju li jista' jitmexxa ta' cookie għal SvelteKit, u l-kataloġi l-oħra jiddokumentaw l-istess mudell għall-istacks tagħhom.
+  </p>
+
+  <h2>Passi li jmiss</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Għajnuniet tal-preferenzi</a> — l-istess mudell għal-lingwa, id-daqs tat-test, il-qsim u d-dħul tad-data/ħin.</li>
+    <li>
+      Ikkontribwixxi tema — kull waħda hija stylesheet indipendenti waħda li timmira lejn il-ganċijiet tal-klassi; ara <a href="/help/#contributing">il-kontribuzzjoni</a>.
+    </li>
+  </ul>
+  <p>
+    Mistoqsijiet matul it-triq?
+    <a href="/help/#troubleshooting">Il-paġna tal-għajnuna</a> hija mimlija tweġibiet — u jekk pass jista' jkun iktar ċar,
+    <a href="https://github.com/LilyDesignSystem">għidilna</a> u nħossuna kuntenti ntejbu t-tutorja.
+  </p>
+</section>

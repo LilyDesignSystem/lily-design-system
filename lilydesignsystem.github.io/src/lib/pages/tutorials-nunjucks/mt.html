@@ -1,0 +1,97 @@
+<!-- title: Tutorja tan-Nunjucks — Lily Design System -->
+<!-- description: Ibni paġni aċċessibbli, bi stil, rrenderjati fuq is-server bil-makro Nunjucks ta' Lily — ideali għal Eleventy. -->
+<section class="page-intro">
+  <h1>Tutorja tan-Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Makro rrenderjati fuq is-server għal Eleventy, Express jew kwalunkwe pipeline ta' mudelli Node — l-approċċ b'stil GOV.UK, bil-katalogu u l-ganċijiet tal-klassi ta' Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>X'se tibni</h2>
+  <p>
+    Formola żgħira ta' kuntatt rrenderjata fuq is-server — qasam b'tikketta, buttuna biex tibgħat, żero tagħbija JavaScript — l-ewwel għarwiena, imbagħad bi stil, f'madwar 10 minuti.
+  </p>
+
+  <h2>Qabel ma tibda</h2>
+  <p>
+    Għandek bżonn git, Node 22 jew iktar ġdid, u pnpm 10 jew iktar ġdid. Kwalunkwe pipeline Nunjucks jaħdem — Eleventy, Express jew Nunjucks sempliċi.
+  </p>
+
+  <h2>Pass 1 — Ġib il-kodiċi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Kull komponent huwa direttorju fi <code>components/</code> b'
+    <code>macro.njk</code>, it-test tiegħu u d-dokumentazzjoni tiegħu — pereżempju
+    <code>components/button/macro.njk</code>. Immira l-loader Nunjucks tiegħek lejn
+    <code>components/</code> (f'Eleventy, żidu mat-triq tal-includes) u importa dak li għandek bżonn.
+  </p>
+
+  <h2>Pass 2 — L-ewwel komponent tiegħek</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Jirrendi <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Il-makro jieħdu oġġett params wieħed: <code>text</code> (b'escape) jew
+    <code>html</code> (mhux ipproċessat), <code>type</code>, <code>label</code> għal
+    <code>aria-label</code>u mqabbad tal-ganċ tal-klassi.
+  </p>
+
+  <h2>Pass 3 — Ikkomponi formola żgħira</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Peress li kollox jiġi rrenderjat fuq is-server, il-browser jirċievi HTML semantiku pur bil-ganċijiet tal-klassi — tagħbija JavaScript ta' żero bytes.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Iċċekkja x-xogħol tiegħek:</strong> tella' l-paġna u l-formola tidher għarwiena — eżattament kif intenzjonat: l-istil għad irid jiġi. Agħfas
+      <kbd>Tab</kbd>: il-focus jgħaddi minn kull kontroll, it-tikketta tiġi mħabbra u l-ibgħat jaħdem. Il-mġiba lesta; id-dehra hija tiegħek u hija l-pass li jmiss.
+    </p>
+  </div>
+
+  <h2>Pass 4 — Agħtiha stil</h2>
+  <p>
+    Agħti stil lill-ganċijiet — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — fl-istylesheet tiegħek, jew evita tema lesta fil-layout bażi tiegħek:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Pass 5 — Ara kollox jaħdem</h2>
+  <p>
+     <a href="/examples/">L-app eżempju Nunjucks + Eleventy</a> tibni l-katalogu sħiħ bħala sit statiku b'paġni ta' dimostrazzjoni għal kull komponent:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Passi li jmiss</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — inkluż il-mudell tal-cookies ta' Eleventy għal bdil tat-tema SSR mingħajr titbit.</li>
+    <li><a href="/tutorials/helpers/">Għajnuniet tal-preferenzi</a> — lingwa u daqs tat-test.</li>
+    <li><a href="/components/">Katalogu tal-komponenti</a> — proprjetajiet, ARIA u tastiera għal kull komponent.</li>
+  </ul>
+  <p>
+    Mistoqsijiet matul it-triq?
+    <a href="/help/#troubleshooting">Il-paġna tal-għajnuna</a> hija mimlija tweġibiet — u jekk pass jista' jkun iktar ċar,
+    <a href="https://github.com/LilyDesignSystem">għidilna</a> u nħossuna kuntenti ntejbu t-tutorja.
+  </p>
+</section>

@@ -1,0 +1,107 @@
+<!-- title: Tutorial Blazor — Lily Design System -->
+<!-- description: Bangun formulir yang mudah diakses dan bergaya dengan komponen headless Lily untuk Blazor: komponen Razor dengan parameter dan pengujian bUnit. -->
+<section class="page-intro">
+  <h1>Tutorial Blazor</h1>
+  <p class="page-intro-tagline">
+    Komponen pustaka kelas Razor dengan parameter, <code>ChildContent</code>
+    fragmen render, penyebaran atribut, dan satu pengujian bUnit per komponen.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan Anda bangun</h2>
+  <p>
+    Formulir kontak kecil — kolom berlabel, tombol kirim,
+    <code>@bind-Value</code> pengikatan, perilaku papan ketik dan pembaca layar yang nyata — pertama polos, lalu bergaya, dalam sekitar 10 menit.
+  </p>
+
+  <h2>Sebelum memulai</h2>
+  <p>
+    Anda memerlukan git dan .NET SDK 8 atau lebih baru. Proyek Blazor mana pun bisa — Blazor Web App, Server, atau WebAssembly.
+  </p>
+
+  <h2>Langkah 1 — Dapatkan kodenya</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Komponen berada di <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — satu berkas Razor masing-masing. Rujuk proyek (atau salin berkas) dari aplikasi Blazor Anda dan tambahkan <code>@using LilyBlazorHeadless.Components</code> ke
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama Anda</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Merender <code>&lt;button class="button"&gt;</code>. Konvensi parameter bersama: <code>Label</code> (sebuah <code>aria-label</code> untuk menimpa),
+    <code>CssClass</code> (ditambahkan ke kait dasar),
+    <code>ChildContent</code>dan
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> penyebaran atribut sehingga atribut HTML tambahan apa pun diteruskan.
+  </p>
+
+  <h2>Langkah 3 — Susun formulir kecil</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> menerima <code>Label</code> yang terlihat sebagai parameternya sendiri, bukan komponen label bersarang — teruskan sekali, pada
+    <code>Field</code>dan <code>TextInput</code>yang cocok dari
+    <code>Label</code> memberikan nama yang dapat diakses.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Diverifikasi 2026-08-29:</strong> draf sebelumnya menyarangkan komponen <code>Label</code> terpisah di dalam <code>Field</code>, yang merender <em>dua</em> label (satu kosong) karena <code>Field</code>
+      sudah merender labelnya sendiri dari input <code>Label</code> parameter — ditemukan dengan memeriksa kode sumber komponen; <code>Form</code> sendiri tidak memiliki <code>Label</code> parameter, jadi penggunaan
+      <code>&lt;Form&gt;</code> pada draf sebelumnya diperbaiki dengan menghilangkannya, alih-alih mengarang atribut yang tidak ada.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Rute formulir kontak gabungan</a>
+      adalah pola yang sama, diuji dengan pengujian e2e dan axe yang nyata.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Periksa pekerjaan Anda:</strong> jalankan aplikasi dan formulir tampak polos — persis seperti yang dimaksudkan: penataan gaya masih akan datang. Tekan
+      <kbd>Tab</kbd>: fokus berpindah melalui setiap kontrol, label diumumkan, dan pengiriman berfungsi. Perilakunya selesai; tampilan adalah milik Anda dan menjadi langkah berikutnya.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Beri gaya</h2>
+  <p>
+    Beri gaya pada kait kelas — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — di <code>app.css</code>, atau tautkan tema siap pakai di <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Lihat semuanya bekerja</h2>
+  <p>
+     <a href="/examples/">Aplikasi contoh Blazor Web</a> menampilkan katalog lengkap yang bergaya dan didemonstrasikan, dengan pengujian e2e Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Langkah berikutnya</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — pengalihan saat berjalan dengan pembantu theme-picker Blazor (pustaka kelas Razor di NuGet).</li>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — bahasa dan ukuran teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — properti, ARIA, dan papan ketik per komponen.</li>
+  </ul>
+  <p>
+    Ada pertanyaan di tengah jalan?
+    <a href="/help/#troubleshooting">Halaman bantuan</a> penuh jawaban — dan jika suatu langkah bisa lebih jelas,
+    <a href="https://github.com/LilyDesignSystem">beri tahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial ini.
+  </p>
+</section>

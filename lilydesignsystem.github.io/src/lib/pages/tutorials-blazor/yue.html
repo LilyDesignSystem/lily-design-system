@@ -1,0 +1,107 @@
+<!-- title: Blazor 教學 — Lily Design System -->
+<!-- description: 用 Lily 嘅 Blazor 無頭元件建立無障礙又有樣式嘅表單:附參數同 bUnit 測試嘅 Razor 元件。 -->
+<section class="page-intro">
+  <h1>Blazor 教學</h1>
+  <p class="page-intro-tagline">
+    附參數嘅 Razor 類別庫元件、 <code>ChildContent</code>
+    渲染片段、屬性展開,同每個元件一個 bUnit 測試。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你會建立啲乜</h2>
+  <p>
+    一個細細個嘅聯絡表單 — 有標籤嘅輸入欄、提交按鈕、
+    <code>@bind-Value</code> 綁定、真實嘅鍵盤同螢幕閱讀器行為 — 先裸奔,再加樣式,大約 10 分鐘。
+  </p>
+
+  <h2>開始之前</h2>
+  <p>
+    你需要 git 同 .NET SDK 8 或以上。任何 Blazor 項目都得 — Blazor Web App、Server 或者 WebAssembly。
+  </p>
+
+  <h2>步驟 1 — 攞到程式碼</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    元件放喺 <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — 每個一個 Razor 檔案。從你嘅 Blazor 應用程式引用該項目(或者複製檔案),然後將 <code>@using LilyBlazorHeadless.Components</code> 加入
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>步驟 2 — 你第一個元件</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    渲染成 <code>&lt;button class="button"&gt;</code>。共用嘅參數慣例: <code>Label</code> (一個 <code>aria-label</code> 覆蓋),
+    <code>CssClass</code> (附加到基礎掛鉤),
+    <code>ChildContent</code>,同
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> 屬性展開,令任何額外嘅 HTML 屬性都可以傳過去。
+  </p>
+
+  <h2>步驟 3 — 組合一個細表單</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> 將可見嘅 <code>Label</code> 當作佢自己嘅參數,而唔係嵌套嘅標籤元件 — 傳入一次,喺
+    <code>Field</code>,同 <code>TextInput</code>喺
+    <code>Label</code> 提供無障礙名稱。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已驗證:</strong> 較早嘅草稿喺 <code>Label</code> 入面嵌套咗一個獨立嘅 <code>Field</code>元件,令佢渲染咗 <em>兩個</em> 標籤(其中一個係空嘅),因為 <code>Field</code>
+      已經由 <code>Label</code> 參數 — 檢查元件原始碼先發現; <code>Form</code> 本身冇 <code>Label</code> 參數,所以較早草稿入面
+      <code>&lt;Form&gt;</code> 嘅用法已經更正,將佢刪走,而唔係發明一個唔存在嘅屬性。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">組合聯絡表單路由</a>
+      係同一個模式,由真實嘅 e2e 同 axe 測試驗證過。
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>檢查你嘅成果:</strong> 運行應用程式,表單睇落好簡單 — 正如預期:樣式仲喺前面。按
+      <kbd>Tab</kbd>:焦點會移過每個控制項,標籤會被讀出,提交都運作。行為已經完成;外觀屬於你,而且係下一步。
+    </p>
+  </div>
+
+  <h2>步驟 4 — 加樣式</h2>
+  <p>
+    為類別掛鉤加樣式 — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 喺 <code>app.css</code>,或者喺 <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>步驟 5 — 睇晒佢運作</h2>
+  <p>
+     <a href="/examples/">Blazor Web 範例應用程式</a> 展示完整目錄嘅樣式同示範,附 Playwright e2e 測試:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主題</a> — 使用 Blazor theme-picker 輔助工具喺執行時切換(NuGet 上嘅 Razor 類別庫)。</li>
+    <li><a href="/tutorials/helpers/">偏好輔助工具</a> — 語言同文字大細。</li>
+    <li><a href="/components/">元件目錄</a> — 每個元件嘅屬性、ARIA 同鍵盤。</li>
+  </ul>
+  <p>
+    一路上有問題?
+    <a href="/help/#troubleshooting">幫助頁面</a> 有好多答案 — 如果某個步驟可以更清楚,
+    <a href="https://github.com/LilyDesignSystem">話畀我哋知</a> 我哋會好樂意改進教學。
+  </p>
+</section>

@@ -1,0 +1,106 @@
+<!-- title: Tutorial sa HTML — Lily Design System -->
+<!-- description: Bumuo ng accessible at may istilong form gamit ang mga headless na component ng Lily para sa HTML — payak na markup, diretso mula sa isang file. -->
+<section class="page-intro">
+  <h1>Tutorial sa HTML</h1>
+  <p class="page-intro-tagline">
+    Ang pinakasimpleng simula: kopyahin ang semantic HTML na may mga class hook ng Lily, magdagdag ng isang stylesheet, i-ship. Mga payak na file na gumagana kahit saan gumagana ang HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ang bubuuin mo</h2>
+  <p>
+    Isang maliit na contact form — mga input na may label, submit button, tunay na gawi ng keyboard at screen reader — una ay hubad, pagkatapos ay may istilo, sa humigit-kumulang 10 minuto.
+  </p>
+
+  <h2>Bago ka magsimula</h2>
+  <p>
+    Kailangan mo ng browser at text editor. Iyon lang. (Nakakatulong ang git sa pagkuha ng mga file ng component, pero maaari mo rin silang kopyahin mula sa GitHub sa browser.)
+  </p>
+
+  <h2>Hakbang 1 — Kunin ang code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Bawat component ay standalone na file sa <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, at iba pa — na may header comment na nagdodokumento ng HTML tag, class hook, gawi ng keyboard, at kontrata ng accessibility nito. Ang mga file <em>ay ang</em> library — kopyahin ang kailangan mo at umandar na.
+  </p>
+
+  <h2>Hakbang 2 — Ang una mong component</h2>
+  <p>Buksan ang <code>components/button.html</code>, o isulat na lang ang markup — ang class hook ang kontrata:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Dahil totoong <code>&lt;button&gt;</code>ito, tama na ang keyboard focus, Enter at Space na activation, at ang implicit na role ng button.
+  </p>
+
+  <h2>Hakbang 3 — Bumuo ng maliit na form</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Pansinin ang pattern: iniuugnay ng bawat kontrol ang <code>&lt;label for&gt;</code>nito, ginagamit ang pinakaespesipikong uri ng input, at may eksaktong isang kebab-case na class hook.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Suriin ang gawa mo:</strong> buksan ang pahina sa browser. Mukhang payak ito — eksakto ayon sa layunin: ang istilo ay nasa unahan pa. Pindutin ang
+      <kbd>Tab</kbd>: gumagalaw ang focus sa bawat kontrol, naba-balita ang mga label, at gumagana ang pagsumite. Tapos na ang gawi; sa iyo ang hitsura at iyon ang susunod.
+    </p>
+  </div>
+
+  <h2>Hakbang 4 — Bigyan ng istilo</h2>
+  <p>Magsulat ng CSS laban sa mga hook:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    O laktawan na ang pagsusulat ng CSS nang mano-mano — mag-link ng isa sa 45 handa nang tema at magliliwanag ang parehong markup:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Hakbang 5 — Tuklasin pa</h2>
+  <ul>
+    <li>Tumatakbo ang mga pagsusuri ng repo sa tunay na mga browser: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook para sa bawat component: <code>pnpm run storybook</code>.</li>
+    <li>
+      Ang <a href="/examples/">HTML+CSS+JS na halimbawang app</a> ay nagpapakita ng lahat ng 571 component na may istilo, mahahanap, at may demo.
+    </li>
+  </ul>
+
+  <h2>Mga susunod na hakbang</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime na pagpapalit ng tema gamit ang theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Mga preference helper</a> — wika at laki ng teksto.</li>
+    <li><a href="/components/">Catalog ng component</a> — ang buong reference.</li>
+  </ul>
+  <p>
+    May mga tanong habang nasa daan? Ang
+    <a href="/help/#troubleshooting">pahina ng tulong</a> ay puno ng mga sagot — at kung maaaring maging mas malinaw ang isang hakbang,
+    <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> at masaya naming pagbubutihin ang tutorial.
+  </p>
+</section>

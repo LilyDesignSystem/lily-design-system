@@ -1,0 +1,117 @@
+<!-- title: บทเรียน Svelte — Lily Design System -->
+<!-- description: สร้างฟอร์มที่เข้าถึงได้และมีสไตล์ด้วยคอมโพเนนต์ headless Svelte 5 ของ Lily: runes, snippets และ bind:value -->
+<section class="page-intro">
+  <h1>บทเรียน Svelte</h1>
+  <p class="page-intro-tagline">
+    ไลบรารี Svelte ของ Lily คือการนำไปใช้ตัวหลัก: runes ของ Svelte 5, props ที่มีชนิดข้อมูล, การกระจาย props ที่เหลือ และการผูกข้อมูลสองทางด้วย
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>สิ่งที่คุณจะสร้าง</h2>
+  <p>
+    ฟอร์มติดต่อขนาดเล็ก — ช่องกรอกที่มีป้ายกำกับ, ปุ่มส่ง, การผูกข้อมูลสองทาง, พฤติกรรมของแป้นพิมพ์และโปรแกรมอ่านหน้าจอจริง — เริ่มจากแบบไม่ตกแต่งก่อน แล้วค่อยใส่สไตล์ ภายในประมาณ 10 นาที
+  </p>
+
+  <h2>ก่อนเริ่ม</h2>
+  <p>
+    คุณต้องมี git, Node 22 ขึ้นไป และ pnpm 10 ขึ้นไป โปรเจกต์ Svelte 5 ใดก็ได้ — โปรเจกต์ใหม่ <code>npx sv create</code> ก็เพียงพอ
+  </p>
+
+  <h2>ขั้นที่ 1 — รับโค้ด</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    คอมโพเนนต์อยู่ใน <code>src/lib/components/&#123;Name&#125;/</code>หนึ่งไดเรกทอรีต่อคอมโพเนนต์ พร้อมไฟล์ <code>.svelte</code> การทดสอบ story และเอกสารของมันอยู่เคียงกัน คัดลอกไดเรกทอรีที่ต้องการเข้าแอปของคุณ หรือพึ่งพารีโพแล้วนำเข้าโดยตรง
+  </p>
+
+  <h2>ขั้นที่ 2 — คอมโพเนนต์แรกของคุณ</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    แสดงผล <code>&lt;button class="button" type="button"&gt;</code>props มีชนิดข้อมูล: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (แสดงผล <code>aria-pressed</code> (แสดงผล <code>label</code> ( <code>aria-label</code> สำหรับปุ่มสลับ)
+  </p>
+
+  <h2>ขั้นที่ 3 — ประกอบฟอร์มเล็ก ๆ</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> รับ <code>label</code> เป็น prop ของตัวเอง แทนที่จะเป็นคอมโพเนนต์ป้ายกำกับที่ซ้อนอยู่ข้างใน — ส่งเพียงครั้งเดียวที่ <code>Field</code>และ <code>TextInput</code>ที่ตรงกัน <code>label</code> ให้ชื่อที่เข้าถึงได้ <code>TextInput</code>'s <code>value</code> ใช้แทนที่) และแอตทริบิวต์เพิ่มเติมใด ๆ จะกระจายไปที่ราก
+    <code>$bindable</code> เป็น prop แบบ <code>bind:value</code> rune ดังนั้น
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ตรวจสอบเมื่อ 2026-08-29:</strong> ให้การผูกข้อมูลสองทางได้ทันที <code>svelte/server</code> ตัวอย่างโค้ดนี้ถูกคอมไพล์ผ่าน <code>&lt;label for&gt;</code> และตรวจสอบว่ามีป้ายกำกับที่เชื่อมถูกต้องเพียงอันเดียว <code>Label</code> ภายใน <code>Field</code>— ร่างก่อนหน้านี้ซ้อน
+      <em>ป้ายกำกับ</em> สองอัน (อันหนึ่งว่างเปล่า) เพราะ <code>Field</code> แสดงป้ายกำกับของตัวเองอยู่แล้วจาก <code>label</code> แยกต่างหากไว้ข้างใน ซึ่งทำให้แสดงผลได้
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">เส้นทางฟอร์มติดต่อแบบประกอบ</a>
+      เป็นรูปแบบเดียวกัน และผ่านการทดสอบ e2e และ axe จริง
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ตรวจสอบงานของคุณ:</strong> รันแอปแล้วฟอร์มจะดูธรรมดา — ตามที่ตั้งใจ สไตล์ยังรออยู่ข้างหน้า กด
+      <kbd>Tab</kbd>โฟกัสจะเลื่อนผ่านทุกตัวควบคุม ป้ายกำกับถูกอ่านออกเสียง และการส่งทำงานได้ พฤติกรรมเสร็จแล้ว ส่วนรูปลักษณ์เป็นของคุณ และเป็นขั้นต่อไป
+    </p>
+  </div>
+
+  <h2>ขั้นที่ 4 — ใส่สไตล์</h2>
+  <p>
+    ทุกอย่างข้างบนเรนเดอร์เป็นโครงสร้างล้วน พร้อมรับสไตล์ของคุณ ใส่สไตล์ให้ class hook —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — ในสไตล์ชีตส่วนกลางของคุณ หรือลิงก์ธีมสำเร็จรูปใน <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    การปรับแต่งรายอินสแตนซ์ทำผ่าน <code>class</code> prop ซึ่งต่อท้าย hook พื้นฐาน: <code>&lt;Button class="wide"&gt;</code> แสดงผล
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>ขั้นที่ 5 — ดูทุกอย่างทำงาน</h2>
+  <p>
+     <a href="/examples/">แอปตัวอย่าง SvelteKit</a> คือแคตตาล็อกเดียวกันที่ใส่สไตล์ครบ พร้อมเดโมสด การทดสอบ Playwright e2e และเส้นฐานการเข้าถึง axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ขั้นต่อไป</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">การกำหนดธีม</a> — การสลับขณะรันไทม์ด้วยตัวช่วย theme-picker ของ Svelte</li>
+    <li><a href="/tutorials/helpers/">ตัวช่วยการตั้งค่า</a> — ภาษาและขนาดตัวอักษร</li>
+    <li><a href="/components/">แคตตาล็อกคอมโพเนนต์</a> — props, ARIA และแป้นพิมพ์ของแต่ละคอมโพเนนต์</li>
+  </ul>
+  <p>
+    มีคำถามระหว่างทางไหม?
+    <a href="/help/#troubleshooting">หน้าช่วยเหลือ</a> เต็มไปด้วยคำตอบ — และถ้าขั้นตอนไหนทำให้ชัดเจนกว่านี้ได้
+    <a href="https://github.com/LilyDesignSystem">บอกเรา</a> แล้วเรายินดีปรับปรุงบทเรียน
+  </p>
+</section>

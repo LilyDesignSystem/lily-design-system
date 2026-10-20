@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills antaa Claude Codelle kuratoidun, ladattavan sisäänkäynnin Lily Design Systemiin – yleiset käsitteet, kehyskohtaiset kattotaidot ja aliprojektikohtaiset syväsukellukset päättömälle kirjastolle ja *-picker-apureille. -->
+<section class="page-intro">
+  <h1>Tekoälyagenttien taidot tekevät Lilystä vielä helpomman</h1>
+  <p class="page-intro-tagline">
+    Lily toimittaa kohdennettuja taitoja – yleisiä, kehyskohtaisia ja aliprojektikohtaisia – jotta agentti lataa täsmälleen tarvitsemansa kontekstin eikä mitään, mitä se ei tarvitse.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Minkä taidon haluat?</h2>
+  <p>
+    Jokainen taso vastaa eri kysymykseen. Lataa yleinen taito, kun et vielä tunne Lilyä. Lataa kehystaito, kun tunnet kehyksesi mutta et tiedä, mitä aliprojektia tarvitset. Lataa headless-skill tai helpers-skill suoraan, kun tiedät jo tarkalleen, minkä parissa työskentelet.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Yleinen / ylläpitäjä</strong> – ”Mikä on Lily?” / ”Miten tämä monorepo on rakennettu?” –
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Kehyksen katto</strong> – ”Mitä {framework}:lle on saatavilla, ja mitä osaa tarvitsen?” – 8, kullakin yksi <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Päätön / apurit</strong> – ”Miten tarkalleen käytän {framework}:n komponentteja / *-picker-apureita?” – 16, kullakin yksi <code>{framework}-headless-skill</code> ja yksi <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>Kahdeksan kehystä</h2>
+  <p>
+    Jokainen kehys saa saman kolmitasoisen pinon. Kattotaito kartoittaa kaikki kyseisen kehyksen todelliset aliprojektit – mukaan lukien esimerkkisovelluksen, jota kumpikaan sen kahdesta sisartaidosta ei kata – ja osoittaa alaspäin niihin sen sijaan, että toistaisi niiden sopimuksia.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Kehys</th>
+        <th>Katto</th>
+        <th>Päätön</th>
+        <th>Apurit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">taito</a></td>
+        <td><a aria-label="Angular: päätön taito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">taito</a></td>
+        <td><a aria-label="Angular: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">taito</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">taito</a></td>
+        <td><a aria-label="Blazor: päätön taito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">taito</a></td>
+        <td><a aria-label="Blazor: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">taito</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">taito</a></td>
+        <td><a aria-label="HTML: päätön taito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">taito</a></td>
+        <td><a aria-label="HTML: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">taito</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">taito</a></td>
+        <td><a aria-label="Nunjucks: päätön taito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">taito</a></td>
+        <td><a aria-label="Nunjucks: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">taito</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">taito</a></td>
+        <td><a aria-label="React: päätön taito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">taito</a></td>
+        <td><a aria-label="React: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">taito</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">taito</a></td>
+        <td><a aria-label="Svelte: päätön taito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">taito</a></td>
+        <td><a aria-label="Svelte: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">taito</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">taito</a></td>
+        <td><a aria-label="Vue: päätön taito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">taito</a></td>
+        <td><a aria-label="Vue: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">taito</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components: kattotaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">taito</a></td>
+        <td>
+          <a
+            aria-label="Web Components: päätön taito"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >taito</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components: apuritaito" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">taito</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components on ainoa poikkeus molempiin suuntiin: sen päätön luettelo on tarkoituksellisesti rajattu 536 komponenttiin 571:stä (natiivit mukautetut elementit, ei kehyksen ajonaikaista osaa; muut 35 komponenttia on jätetty pysyvästi pois), eikä Web Components -esimerkkisovellusta ole vielä – sen kattotaito sanoo näin sen sijaan, että antaisi ymmärtää sellaisen olevan.
+  </p>
+
+  <h2>Lisää yksi taito</h2>
+  <p>
+    Jokainen taito on <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a>-tiedosto – sekä tukitiedostot, ei rakennusvaihetta. Kloonaa tarvitsemasi sinne, mistä Claude Code -asetuksesi lataa taitoja (katso yllä linkitetty virallinen dokumentaatio projektisi tai tilisi taitohakemistosta):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Työskenteletkö usean kehyksen parissa tai itse monorepon parissa? Kloonaa sen sijaan <a href="https://github.com/LilyDesignSystem/lily-design-system">kanoninen monorepo</a> – kaikki 26 taitoa ovat jo sen juuressa päättömien kirjastojen, apuriluetteloiden ja niiden kuvaamien esimerkkisovellusten vieressä.
+  </p>
+</section>

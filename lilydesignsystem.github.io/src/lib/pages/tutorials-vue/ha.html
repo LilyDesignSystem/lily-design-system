@@ -1,0 +1,122 @@
+<!-- title: Koyarwar Vue — Lily Design System -->
+<!-- description: Gina fom mai sauƙin isa kuma mai tsari da abubuwan Lily marasa kai na Vue 3: abubuwan fayil ɗaya masu v-model. -->
+<section class="page-intro">
+  <h1>Koyarwar Vue</h1>
+  <p class="page-intro-tagline">
+    Abubuwan fayil ɗaya na Vue 3 masu props masu rubutu, <code>defineModel</code>
+    ɗaurin hanyoyi biyu, da wucewa ta <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Abin da za ka gina</h2>
+  <p>
+    Ƙaramin fom na tuntuɓa — fili mai lakabi, maɓallin aikawa, <code>v-model</code>
+    ɗaure, ainihin halayyar maɓallan rubutu da na'urar karanta allo — da farko ba tare da tsari ba, sannan da tsari, cikin kusan mintuna 10.
+  </p>
+
+  <h2>Kafin ka fara</h2>
+  <p>
+    Kana buƙatar git, Node 22 ko sabo, da pnpm 10 ko sabo. Kowane aikin Vue 3 yana aiki — Nuxt, Vite ko Vue mai sauƙi.
+  </p>
+
+  <h2>Mataki na 1 — Ɗauki lambar</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Abubuwan fayiloli ne masu shimfiɗe a cikin <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — kowanne da gwajinsa, story da takardunsa a gefensa. Kwafi fayilolin da kake buƙata, ko ɗauko ma'ajiyar.
+  </p>
+
+  <h2>Mataki na 2 — Abu na farko naka</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Yana nuna <code>&lt;button class="button" type="button"&gt;</code>. Props suna daidaita da sauran tsare-tsare: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, tare da wucewar sifofi ga duk sauran abubuwa.
+  </p>
+
+  <h2>Mataki na 3 — Haɗa ƙaramin fom</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> yana ɗaukar <code>label</code> a matsayin prop nasa maimakon abin lakabi da aka saka a ciki — ka ba shi sau ɗaya, a kan
+    <code>Field</code>da <code>TextInput</code>mai dacewa na
+    <code>label</code> yana ba da suna mai sauƙin isa.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>An tabbatar a 2026-08-29:</strong> wani daftarin da ya gabata ya saka wani abu <code>Label</code> a cikin <code>Field</code>, wanda ya nuna
+      <em>lakabi</em> biyu (ɗaya fanko) saboda <code>Field</code> tuni yana nuna nasa daga shigarwar <code>label</code> prop — an gano ta hanyar haɗa ainihin gutsuren. Hanyar
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Hanyar fom ɗin tuntuɓa da aka haɗa</a>
+      tsari ɗaya ne, wanda aka gwada da ainihin gwaje-gwajen e2e da axe.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> yana amfani da <code>defineModel</code>, don haka
+    <code>v-model</code> mai sauƙi yana aiki daga akwati.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Duba aikinka:</strong> gudanar da app ɗin kuma fom ɗin yana kama da maras tsari — daidai kamar yadda aka nufa: tsarin yana nan gaba. Danna
+      <kbd>Tab</kbd>: mayar da hankali yana ratsa kowane abin sarrafawa, ana sanar da lakabin, kuma aikawa yana aiki. An gama halayyar; kamannin naka ne kuma shi ne mataki na gaba.
+    </p>
+  </div>
+
+  <h2>Mataki na 4 — Ba shi tsari</h2>
+  <p>
+    Ba ƙugiyoyin aji tsari — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — a takardar salonka, ko haɗa jigon da aka shirya a cikin <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Mataki na 5 — Kalli komai yana aiki</h2>
+  <p>
+     <a href="/examples/">App ɗin misali na Nuxt</a> shi ne cikakken kundin da tsari da nunawa, tare da Playwright e2e da tushen axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Matakai na gaba</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Jigogi</a> — sauyawa lokacin aiki da mai taimakon theme-picker na Vue.</li>
+    <li><a href="/tutorials/helpers/">Masu taimakon abubuwan so</a> — harshe da girman rubutu.</li>
+    <li><a href="/components/">Kundin abubuwa</a> — siffofi, ARIA da maɓallan rubutu ga kowane abu.</li>
+  </ul>
+  <p>
+    Tambayoyi a hanya?
+    <a href="/help/#troubleshooting">Shafin taimako</a> cike yake da amsoshi — kuma idan wani mataki zai iya zama mafi bayyana,
+    <a href="https://github.com/LilyDesignSystem">gaya mana</a> kuma za mu gyara koyarwar da farin ciki.
+  </p>
+</section>

@@ -1,0 +1,107 @@
+<!-- title: មេរៀន Blazor — Lily Design System -->
+<!-- description: សាងសង់ទម្រង់ដែលអាចចូលប្រើបាន និងមានរចនាប័ទ្មជាមួយសមាសភាគគ្មានក្បាល Blazor របស់ Lily៖ សមាសភាគ Razor ដែលមានប៉ារ៉ាម៉ែត្រ និងតេស្ត bUnit។ -->
+<section class="page-intro">
+  <h1>មេរៀន Blazor</h1>
+  <p class="page-intro-tagline">
+    សមាសភាគបណ្ណាល័យថ្នាក់ Razor ដែលមានប៉ារ៉ាម៉ែត្រ <code>ChildContent</code>
+    បំណែកបង្ហាញ ការរាលដាលគុណលក្ខណៈ និងតេស្ត bUnit មួយក្នុងមួយសមាសភាគ។
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>អ្វីដែលអ្នកនឹងសាងសង់</h2>
+  <p>
+    ទម្រង់ទំនាក់ទំនងតូចមួយ — វាលបញ្ចូលដែលមានស្លាក ប៊ូតុងដាក់ស្នើ
+    <code>@bind-Value</code> ការចង អាកប្បកិរិយាក្តារចុច និងកម្មវិធីអានអេក្រង់ពិតប្រាកដ — ដំបូងទទេស្អាត បន្ទាប់មកមានរចនាប័ទ្ម ក្នុងរយៈពេលប្រហែល ១០ នាទី។
+  </p>
+
+  <h2>មុនពេលអ្នកចាប់ផ្តើម</h2>
+  <p>
+    អ្នកត្រូវការ git និង .NET SDK 8 ឬថ្មីជាងនេះ។ គម្រោង Blazor ណាក៏បាន — Blazor Web App, Server ឬ WebAssembly។
+  </p>
+
+  <h2>ជំហាន ១ — យកកូដ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    សមាសភាគរស់នៅក្នុង <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — ឯកសារ Razor មួយក្នុងមួយសមាសភាគ។ យោងគម្រោង (ឬចម្លងឯកសារ) ពីកម្មវិធី Blazor របស់អ្នក ហើយបន្ថែម <code>@using LilyBlazorHeadless.Components</code> ទៅ
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>ជំហាន ២ — សមាសភាគដំបូងរបស់អ្នក</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    បង្ហាញ <code>&lt;button class="button"&gt;</code>។ អនុសញ្ញាប៉ារ៉ាម៉ែត្រចែករំលែក៖ <code>Label</code> (មួយ <code>aria-label</code> ការបដិសេធ)
+    <code>CssClass</code> (បន្ថែមទៅ hook មូលដ្ឋាន)
+    <code>ChildContent</code>និង
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> ការរាលដាលគុណលក្ខណៈ ដើម្បីឱ្យគុណលក្ខណៈ HTML បន្ថែមណាក៏ឆ្លងកាត់។
+  </p>
+
+  <h2>ជំហាន ៣ — ផ្សំទម្រង់តូចមួយ</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> យកការមើលឃើញ <code>Label</code> ជាប៉ារ៉ាម៉ែត្រផ្ទាល់ខ្លួន ជាជាងសមាសភាគស្លាកដែលជាប់គ្នា — ឆ្លងវាម្តងនៅលើ
+    <code>Field</code>និង <code>TextInput</code>ដែលត្រូវគ្នានៅលើ
+    <code>Label</code> ផ្តល់ឈ្មោះដែលអាចចូលប្រើបាន។
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>បានផ្ទៀងផ្ទាត់ 2026-08-29៖</strong> សេចក្តីព្រាងដំបូងបានដាក់សមាសភាគដាច់ដោយឡែក <code>Label</code> នៅខាងក្នុង <code>Field</code>ដែលបង្ហាញ <em>ពីរ</em> ស្លាក (មួយទទេ) ពីព្រោះ <code>Field</code>
+      បានបង្ហាញរបស់ខ្លួនរួចហើយពី <code>Label</code> ប៉ារ៉ាម៉ែត្រ — បានរកឃើញដោយពិនិត្យប្រភពសមាសភាគ; <code>Form</code> គ្មាន <code>Label</code> ប៉ារ៉ាម៉ែត្រផ្ទាល់ខ្លួនទេ ដូច្នេះការប្រើប្រាស់របស់សេចក្តីព្រាងដំបូងនៃ
+      <code>&lt;Form&gt;</code> ត្រូវបានកែតម្រូវដោយដកវាចេញ ជាជាងបង្កើតគុណលក្ខណៈដែលមិនមាន។ ការ
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">ផ្លូវទម្រង់ទំនាក់ទំនងផ្សំ</a>
+      ជាលំនាំដូចគ្នា ដែលធ្វើតេស្តដោយ e2e និង axe ពិតប្រាកដ។
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ពិនិត្យការងាររបស់អ្នក៖</strong> ដំណើរការកម្មវិធី ហើយទម្រង់មើលទៅធម្មតា — ដូចដែលបានគ្រោងទុក៖ រចនាប័ទ្មនៅខាងមុខ។ ចុច
+      <kbd>Tab</kbd>៖ ការផ្តោតផ្លាស់ទីតាមការគ្រប់គ្រងនីមួយៗ ស្លាកត្រូវបានប្រកាស ហើយការដាក់ស្នើដំណើរការ។ អាកប្បកិរិយាបានចប់; រូបរាងជារបស់អ្នក ហើយជាជំហានបន្ទាប់។
+    </p>
+  </div>
+
+  <h2>ជំហាន ៤ — ដាក់រចនាប័ទ្ម</h2>
+  <p>
+    ដាក់រចនាប័ទ្ម class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ក្នុង <code>app.css</code>ឬភ្ជាប់ស្បែករួចជាស្រេចក្នុង <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>ជំហាន ៥ — មើលអ្វីៗទាំងអស់ដំណើរការ</h2>
+  <p>
+     <a href="/examples/">កម្មវិធីគំរូ Blazor Web</a> បង្ហាញកាតាឡុកពេញលេញដែលមានរចនាប័ទ្ម និងបង្ហាញ ជាមួយតេស្ត Playwright e2e៖
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>ជំហានបន្ទាប់</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ស្បែក</a> — ការប្តូរពេលដំណើរការជាមួយជំនួយការ Blazor theme-picker (បណ្ណាល័យថ្នាក់ Razor លើ NuGet)។</li>
+    <li><a href="/tutorials/helpers/">ជំនួយការចំណូលចិត្ត</a> — ភាសា និងទំហំអក្សរ។</li>
+    <li><a href="/components/">កាតាឡុកសមាសភាគ</a> — លក្ខណៈសម្បត្តិ ARIA និងក្តារចុចសម្រាប់សមាសភាគនីមួយៗ។</li>
+  </ul>
+  <p>
+    មានសំណួរតាមផ្លូវ?
+    <a href="/help/#troubleshooting">ទំព័រជំនួយ</a> ពេញដោយចម្លើយ — ហើយប្រសិនបើជំហានណាអាចច្បាស់ជាងនេះ
+    <a href="https://github.com/LilyDesignSystem">ប្រាប់យើង</a> ហើយយើងនឹងកែលម្អមេរៀនដោយអំណរ។
+  </p>
+</section>

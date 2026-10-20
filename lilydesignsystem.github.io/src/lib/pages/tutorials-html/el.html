@@ -1,0 +1,106 @@
+<!-- title: Οδηγός HTML — Lily Design System -->
+<!-- description: Φτιάξτε μια προσβάσιμη, μορφοποιημένη φόρμα με τα headless στοιχεία HTML της Lily — απλή σήμανση, κατευθείαν από αρχείο. -->
+<section class="page-intro">
+  <h1>Οδηγός HTML</h1>
+  <p class="page-intro-tagline">
+    Η απλούστερη δυνατή αρχή: αντιγράψτε σημασιολογικό HTML με τα αγκίστρια κλάσης της Lily, προσθέστε ένα φύλλο στυλ, δημοσιεύστε. Απλά αρχεία που δουλεύουν παντού όπου δουλεύει το HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Τι θα φτιάξετε</h2>
+  <p>
+    Μια μικρή φόρμα επικοινωνίας — πεδία με ετικέτες, ένα κουμπί υποβολής, πραγματική συμπεριφορά πληκτρολογίου και προγράμματος ανάγνωσης οθόνης — πρώτα γυμνή, μετά μορφοποιημένη, σε περίπου 10 λεπτά.
+  </p>
+
+  <h2>Πριν ξεκινήσετε</h2>
+  <p>
+    Χρειάζεστε ένα πρόγραμμα περιήγησης και έναν επεξεργαστή κειμένου. Αυτό είναι όλο. (Το git βοηθά να πάρετε τα αρχεία των στοιχείων, αλλά μπορείτε να τα αντιγράψετε και από το GitHub μέσα στο πρόγραμμα περιήγησης.)
+  </p>
+
+  <h2>Βήμα 1 — Πάρτε τον κώδικα</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Κάθε στοιχείο είναι ένα αυτόνομο αρχείο στο <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>και ούτω καθεξής — με σχόλιο κεφαλίδας που τεκμηριώνει την ετικέτα HTML, το αγκίστρι κλάσης, τη συμπεριφορά πληκτρολογίου και τη σύμβαση προσβασιμότητάς του. Τα αρχεία <em>είναι</em> η βιβλιοθήκη — αντιγράψτε ό,τι χρειάζεστε και ξεκινήστε.
+  </p>
+
+  <h2>Βήμα 2 — Το πρώτο σας στοιχείο</h2>
+  <p>Ανοίξτε το <code>components/button.html</code>ή απλώς γράψτε τη σήμανση — το αγκίστρι κλάσης είναι η σύμβαση:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Επειδή είναι πραγματικό <code>&lt;button&gt;</code>, η εστίαση πληκτρολογίου, η ενεργοποίηση με Enter και Space και ο σιωπηρός ρόλος κουμπιού είναι ήδη σωστά.
+  </p>
+
+  <h2>Βήμα 3 — Συνθέστε μια μικρή φόρμα</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Προσέξτε το μοτίβο: κάθε στοιχείο ελέγχου συνδέει το δικό του <code>&lt;label for&gt;</code>, χρησιμοποιεί τον πιο συγκεκριμένο τύπο input και φέρει ακριβώς ένα αγκίστρι κλάσης σε kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ελέγξτε τη δουλειά σας:</strong> ανοίξτε τη σελίδα σε πρόγραμμα περιήγησης. Φαίνεται γυμνή — ακριβώς όπως προβλέπεται: η μορφοποίηση έρχεται μετά. Πατήστε
+      <kbd>Tab</kbd>: η εστίαση περνά από κάθε στοιχείο ελέγχου, οι ετικέτες ανακοινώνονται και η υποβολή δουλεύει. Η συμπεριφορά είναι έτοιμη· η εμφάνιση είναι δική σας και είναι το επόμενο βήμα.
+    </p>
+  </div>
+
+  <h2>Βήμα 4 — Μορφοποιήστε την</h2>
+  <p>Γράψτε CSS πάνω στα αγκίστρια:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Ή παραλείψτε εντελώς το γράψιμο CSS με το χέρι — συνδέστε ένα από τα 45 έτοιμα θέματα και η ίδια σήμανση φωτίζεται:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Βήμα 5 — Εξερευνήστε περαιτέρω</h2>
+  <ul>
+    <li>Οι δοκιμές του αποθετηρίου τρέχουν σε πραγματικά προγράμματα περιήγησης: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook για κάθε στοιχείο: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Η εφαρμογή-παράδειγμα HTML+CSS+JS</a> δείχνει και τα 571 στοιχεία μορφοποιημένα, αναζητήσιμα και επιδεδειγμένα.
+    </li>
+  </ul>
+
+  <h2>Επόμενα βήματα</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Θέματα</a> — εναλλαγή θέματος κατά την εκτέλεση με το theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Βοηθοί προτιμήσεων</a> — γλώσσα και μέγεθος κειμένου.</li>
+    <li><a href="/components/">Κατάλογος στοιχείων</a> — ο πλήρης οδηγός αναφοράς.</li>
+  </ul>
+  <p>
+    Ερωτήσεις στην πορεία; Η
+    <a href="/help/#troubleshooting">σελίδα βοήθειας</a> είναι γεμάτη απαντήσεις — και αν ένα βήμα μπορεί να γίνει πιο σαφές,
+    <a href="https://github.com/LilyDesignSystem">πείτε μας</a> και θα βελτιώσουμε με χαρά τον οδηγό.
+  </p>
+</section>

@@ -1,0 +1,432 @@
+<!-- title: Pomoć — Lily Design System -->
+<!-- description: Počnite s Lilyjem: instalirajte bezglavi paket za svoj framework, kopirajte komponentu, stilizirajte je, dajte joj temu i objavite. Rješavanje problema, česta pitanja i podrška. -->
+<section class="page-intro">
+  <h1>Prvi koraci s Lilyjem</h1>
+  <p class="page-intro-tagline">
+    Odaberite framework, klonirajte monorepozitorij i otvorite njegovu bezglavu biblioteku ili primjernu aplikaciju, pa počnite slagati vlastite stranice. Preferirate vođeni put? Počnite s
+    <a href="/tutorials/">vodičima</a>.
+  </p>
+</section>
+
+<nav aria-label="Na ovoj stranici" class="prose" style="margin: 0 auto;">
+  <p><strong>Na ovoj stranici:</strong></p>
+  <ul>
+    <li><a href="#install">Instalacija</a></li>
+    <li><a href="#use-headless">Upotreba bezglave komponente</a></li>
+    <li><a href="#use-styled">Upotreba stiliziranog primjera</a></li>
+    <li><a href="#styling">Stiliziranje i dizajnerski tokeni</a></li>
+    <li><a href="#themes">Gotove teme</a></li>
+    <li><a href="#helpers">Pomoćnici za postavke</a></li>
+    <li><a href="#a11y">Pristupačnost</a></li>
+    <li><a href="#i18n">Internacionalizacija</a></li>
+    <li><a href="#testing">Testiranje</a></li>
+    <li><a href="#ai-agents">AI agenti</a></li>
+    <li><a href="#troubleshooting">Rješavanje problema</a></li>
+    <li><a href="#contributing">Doprinos</a></li>
+    <li><a href="#community">Zajednica i podrška</a></li>
+    <li><a href="#faq">Česta pitanja</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Instalacija</h2>
+  <p>
+    Lily živi u jednom Git monorepozitoriju, s direktorijem za bezglavu biblioteku, pomoćne pakete i primjernu aplikaciju svakog frameworka. Najbrži način da ga isprobate je klonirati monorepozitorij i otvoriti bezglavu biblioteku za vaš stack:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Isti obrazac radi za ostale frameworke:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — instalacija nije potrebna; kopirajte datoteke <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Bezglave biblioteke dizajnirane su da se kloniraju ili ugrađuju — izvorni kod smatrajte izvorom istine i kopirajte što vam treba.
+    <a href="#helpers">pomoćnici za postavke</a> dodatno se isporučuju kao instalabilni paketi s cjevovodom za izgradnju i objavu (npm za JS frameworke, NuGet za Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Upotreba bezglave komponente</h2>
+  <p>
+    Bezglave komponente isporučuju semantički HTML, ARIA i svojstva — ali ne i CSS. Evo Buttona u svakom frameworku:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Upotreba stiliziranog primjera</h2>
+  <p>
+    Primjerne aplikacije uključuju CSS, rute i potpune demo stranice. Najbrži način eksperimentiranja je pokrenuti primjernu aplikaciju za SvelteKit, Next, Nuxt, Analog ili Eleventy i pogledati demo na <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Zatim otvorite <code>http://localhost:5173</code> i pregledavajte <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stiliziranje i dizajnerski tokeni</h2>
+  <p>
+    Svaka se komponenta renderira s jednom klasom u kebab-caseu na svom korijenskom elementu. Na primjer, <code>&lt;Button&gt;</code> se renderira kao <code>&lt;button class="button"&gt;</code>. Stilizirajte ga kako želite:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Zadana paleta boja Lilyja (korištena u primjernim aplikacijama) je:</p>
+  <ul>
+    <li>Primarna: <code>#2563eb</code></li>
+    <li>Opasnost: <code>#dc2626</code></li>
+    <li>Upozorenje: <code>#f59e0b</code></li>
+    <li>Uspjeh: <code>#16a34a</code></li>
+    <li>Pozadina stranice: <code>#f9fafb</code></li>
+    <li>Pozadina kartice: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    To su prijedlozi, a ne zahtjevi. Zamijenite ih paletom vlastitog brenda i Lily rado slijedi.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Gotove teme</h2>
+  <p>
+    Ne želite pisati CSS od nule? Lily isporučuje
+    <strong>57 samostalnih referentnih tema</strong> u direktoriju
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Svaka je jedan stilski list koji cilja kuke klasa Lilyja — povežite ga i stilizirani ste:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Skup obuhvaća:</p>
+  <ul>
+    <li>
+      <strong>Javni sektor</strong> — NHS England, NHS Scotland i NHS Wales (svaka u varijantama za pacijente i za praktičare), GOV.UK GDS i U.S. Web Design System.
+    </li>
+    <li><strong>Nadahnuto dobavljačima</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Opća namjena</strong> — light, dark, nord, dracula, wireframe i tridesetak drugih.
+    </li>
+  </ul>
+  <p>
+    Selektori tema koriste <code>:where(...)</code>, pa vaš vlastiti CSS uvijek pobjeđuje u specifičnosti. Uparite ih s pomoćnikom <code>theme-picker</code> u nastavku za promjenu tijekom izvođenja ili slijedite
+    <a href="/tutorials/theming/">vodič o temama</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Pomoćnici za postavke</h2>
+  <p>
+    Svaki framework ima osam malih birača, svaki je zaseban paket
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> (i jedan <code>picker-bar</code> koji ih sastavlja). Svaki je bezglavi gumb s ikonom koji otvara skočni prozor — popis, popis poveznica, obrazac za pretraživanje ili (za date-time-picker) dijalog za odabir datuma — ne nativni
+    <code>&lt;select&gt;</code>; siguran je za SSR; i ne isporučuje CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — učitava stilske listove tema tijekom izvođenja zamjenom upravljanog <code>&lt;link&gt;</code>, postavlja
+      <code>data-theme</code> na dokumentu i po želji trajno sprema u
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — postavlja <code>lang</code> i
+      <code>dir</code> (s automatskim otkrivanjem RTL-a) da vaša i18n biblioteka može pratiti; sam ništa ne prevodi.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — postavlja <code>data-text-size</code> na dokumentu; vaš CSS preslikava svaku vrijednost na veličinu fonta.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — postavlja <code>data-motion</code> na dokumentu, polazeći od posjetiteljeve postavke smanjenog kretanja; vaš CSS i skripte odlučuju što potisnuti.
+    </li>
+    <li>
+      <strong>search-picker</strong> — gumb s ikonom koji otvara polje za pretraživanje; slanje vodi na stranicu pretraživanja. Posjeduje radnju, a ne postavku.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ikona kuće koja otvara izbornik poveznica stranica koje definira vaša aplikacija (Početna, O nama, Kontakt, Pravila privatnosti, …). Posjeduje radnju, a ne postavku.
+    </li>
+    <li>
+      <strong>share-picker</strong> — otvara nativni list za dijeljenje ili popis odredišta koji daje potrošač, plus kopiranje URL-a. Posjeduje radnju, a ne postavku: ništa ne primjenjuje, ništa ne sprema.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — tekstno polje plus APG dijalog za odabir datuma za datum, vrijeme ili oboje. Posjeduje vrijednost obrasca, a ne postavku: ISO niz pretvara se naprijed-natrag u
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte katalog je kanonska referenca; portovi za React, Vue, Angular, HTML, Nunjucks, Web Components i Blazor odgovaraju mu ugovor po ugovor. Pogledajte
+    <a href="/tutorials/helpers/">vodič o pomoćnicima</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Pristupačnost</h2>
+  <p>Komponente ciljaju na <strong>WCAG 2.2 AAA</strong>. Slijede ove obrasce:</p>
+  <ul>
+    <li>Semantički HTML elementi umjesto općih <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> koji povezuju oznake s ulazima.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> za unakrsne reference.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> za stanja pogreške.</li>
+    <li><code>role="alert"</code> i <code>aria-live</code> za dinamički sadržaj.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> za stanje.</li>
+    <li>Roving <code>tabindex</code> za rešetke.</li>
+  </ul>
+  <p>
+    Pokazatelje fokusa namjerno daje potrošač — Lily nikada ne crta zadani prsten fokusa koji bi se sukobljavao s vašim dizajnom. Primjerne aplikacije održavaju čistu axe-core osnovicu na svim svojim rutama.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internacionalizacija</h2>
+  <p>
+    Svaka oznaka, rezervirano mjesto, poruka o pogrešci i tekst gumba svojstvo je. Nema tvrdo zapisanih nizova. Uključite framework za prevođenje po svom izboru — Paraglide, i18next, vue-i18n, react-intl, .resx datoteke, bilo što.
+  </p>
+  <p>
+    Za datume, brojeve i valute komponente primaju unaprijed oblikovane nizove: oblikujete pomoću <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / svoje omiljene biblioteke i prosljeđujete rezultat.
+  </p>
+  <p>
+    Pomoćnik <code>locale-picker</code> signalizira odabrani lokal vašoj i18n biblioteci postavljanjem <code>lang</code> i <code>dir</code> na korijenu dokumenta.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testiranje</h2>
+  <p>Svaki podprojekt frameworka isporučuje vlastite testove koristeći svoj idiomatski stack:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO koji pokreće stvarne preglednike.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (preko Analog Vite dodatka).</li>
+    <li><strong>Nunjucks</strong>: Vitest s pomoćnikom za renderiranje.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testovi koriste <strong>samo Vitestove ugrađene matchere</strong> — nikada matchere
+    <code>jest-dom</code> . To održava skupove testova prenosivima. Primjerne aplikacije dodaju Playwright end-to-end skupove, axe-core osnovice pristupačnosti i pregled responzivnih viewporta.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI agenti</h2>
+  <p>
+    Ova stranica objavljuje <a href="/llms.txt">llms.txt</a> i
+    <a href="/llms.json">llms.json</a> u svom korijenu — kuriranu kartu svojih najvažnijih stranica, za bilo koji alat koji slijedi
+    <a href="https://llmstxt.org">konvenciju llms.txt</a>.
+  </p>
+  <p>
+    Kanonski monorepozitorij dodatno isporučuje dvije
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: općenamjensku vještinu koja pokriva Lilyjeve pojmove, terminologiju i obrasce slaganja za svakoga tko gradi sustavom, i <code>lily-design-system-maintainer-skill</code>, tehničku vještinu koja pokriva raspored obveznih datoteka i alate monorepozitorija za svakoga tko radi na njemu. Obje se nalaze u korijenu
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonskog monorepozitorija</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Rješavanje problema</h2>
+
+  <details class="faq-item">
+    <summary>Komponenta se renderira, ali izgleda nestilizirano</summary>
+    <p>
+      To je bezglavost koja radi kako je zamišljeno — uz komponentu ne dolazi nikakav CSS. Ili napišite CSS za klasu komponente u kebab-caseu (prikazanu na svakoj <a href="/components/">stranici kataloga</a>) ili povežite jednu od
+      <a href="#themes">57 gotovih tema</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Čini se da se moj CSS ne primjenjuje preko teme</summary>
+    <p>
+      Trebao bi — selektori tema omotani su u <code>:where(...)</code>, što ima nultu specifičnost. Ako pravilo ipak gubi, provjerite učitava li se vaš stilski list nakon <code>&lt;link&gt;</code> teme i odgovara li selektor doista kuki klase komponente.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install ne uspijeva s pogreškom peera ili verzije</summary>
+    <p>
+      Koristite aktualni pnpm (v10+) i Node 22+. Svaki podprojekt učvršćuje verzije svog frameworka u vlastitom <code>package.json</code>; ako je vaš globalni lanac alata stariji, <code>pnpm env use --global lts</code> je najbrži popravak.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Čitač zaslona izgovara pogrešan naziv za kontrolu</summary>
+    <p>
+      Provjerite obvezno svojstvo <code>label</code> komponente — komponente bez vidljivog teksta zahtijevaju ga, a potrošačevo
+      <code>aria-label</code> / <code>aria-labelledby</code> proslijeđeno preko rest-propsa namjerno pobjeđuje ugrađeno ožičenje. Svaka stranica kataloga dokumentira ARIA ugovor komponente.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pomoćnik theme-picker ne mijenja stilske listove</summary>
+    <p>
+      Potvrdite da <code>themesUrl</code> pokazuje na direktorij koji preglednik može dohvatiti (posluživajte datoteke <code>themes/</code> kao statične resurse) i da se kratki nazivi tema u vašem svojstvu <code>themes</code> podudaraju s nazivima datoteka. Pomoćnik zamjenjuje <code>href</code> jednog upravljanog
+      <code>&lt;link data-lily-theme-picker&gt;</code> — pregledajte ga u razvojnim alatima da vidite traženi URL.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nešto drugo je pokvareno</summary>
+    <p>
+      Otvorite issue s minimalnom reprodukcijom na
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ili pogledajte <a href="#community">zajednica i podrška</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Doprinos</h2>
+  <p>Lily je mlad i pozdravlja suradnju. Najkorisniji doprinosi trenutno su:</p>
+  <ul>
+    <li>Nove komponente (osobito obrasci iz uhodanih dizajnerskih sustava).</li>
+    <li>Nove teme — svaka je jedan samostalan stilski list, dobro ograničen prvi PR.</li>
+    <li>Bolje stiliziranje primjera — pokažite što je moguće.</li>
+    <li>Prijevodi nizova primjernih aplikacija.</li>
+    <li>Prijave grešaka s minimalnom reprodukcijom.</li>
+    <li>Revizije pristupačnosti s čitačima zaslona i pomoćnim tehnologijama.</li>
+  </ul>
+  <p>
+    Otvarajte issue-e i PR-ove na
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Zajednica i podrška</h2>
+  <ul>
+    <li>
+      <strong>Pitanja i prijave grešaka</strong> — otvorite issue na
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-pošta</strong> — održavatelj čita
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      i pozdravlja suradnju, smjernice i povratne informacije.
+    </li>
+    <li>
+      <strong>Zrcala</strong> — Lily se također šalje na
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> i
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, kako biste mogli sudjelovati s forgea koji preferirate.
+    </li>
+    <li>
+      <strong>Ponašanje</strong> — projekt slijedi standardni kodeks ponašanja; budite ljubazni, pretpostavite dobru vjeru.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Česta pitanja</h2>
+
+  <details class="faq-item">
+    <summary>Zašto bezglavo umjesto stilizirano?</summary>
+    <p>
+      Unaprijed stilizirane komponente su praktične — dok ne odgovaraju vašem brendu. Bezglave komponente traže malo više posla na početku, ali vam daju potpunu kontrolu nad vizualnim dizajnom. Primjerne aplikacije i 57 tema pokazuju načine stiliziranja; možete ih preuzeti ili u potpunosti zamijeniti. Dulji argument je na <a href="/why/">Zašto Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Zašto toliko komponenti?</summary>
+    <p>
+      Lily želi pokriti obrasce koji su potrebni većini aplikacija bez prisiljavanja da ih gradite od nule — uključujući duboke stvari poput unosa nacionalnih identifikatora i uredničkog scrollytellinga. Katalog crpi iz desetak uhodanih dizajnerskih sustava plus vlastitog rada — pogledajte <a href="/about/">O projektu</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mogu li koristiti Lily s Tailwindom?</summary>
+    <p>
+      Da. Svaka komponenta izlaže jednu korijensku klasu u kebab-caseu plus potrošačevo <code>className</code> / <code>class</code>. Slažite Tailwind uslužne klase povrh kako želite.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mogu li koristiti Lily sa semantičkim CSS frameworkima poput DaisyUI-ja?</summary>
+    <p>
+      Da. Nazivi klasa u kebab-caseu na korijenskom elementu rade kao semantičke CSS kuke. Uparite Lily sa semantičkim frameworkom i dobivate unaprijed stilizirane komponente koje ipak poštuju ARIA i i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Postoji li npm paket?</summary>
+    <p>
+       <a href="#helpers">Pomoćnici za postavke</a> isporučuju se kao paketi s npm/NuGet cjevovodom objave. Bezglave biblioteke komponenti dizajnirane su da se kloniraju ili ugrađuju — izvorni kod je isporuka, pa možete čitati, kratiti i posjedovati točno ono što isporučujete. Objava bezglavih biblioteka u registre ostaje na planu razvoja.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Zašto više licenci?</summary>
+    <p>
+      Različiti projekti imaju različite licencne potrebe. BSD i MIT su permisivne, Apache-2.0 ima patentnu dozvolu, a GPL opcije podupiru copyleft. Odaberite što odgovara vašoj situaciji.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kako prijaviti grešku ili zatražiti značajku?</summary>
+    <p>
+      Otvorite issue u GitHub repozitoriju ili pošaljite e-poštu na
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

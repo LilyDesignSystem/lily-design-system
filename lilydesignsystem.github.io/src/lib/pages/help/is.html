@@ -1,0 +1,432 @@
+<!-- title: Hjálp — Lily Design System -->
+<!-- description: Byrjaðu með Lily: settu upp höfuðlausa pakkann fyrir þinn ramma, afritaðu íhlut, stílaðu hann, settu þema á hann, gefðu hann út. Bilanaleit, algengar spurningar og stuðningur. -->
+<section class="page-intro">
+  <h1>Byrjað með Lily</h1>
+  <p class="page-intro-tagline">
+    Veldu ramma, klónaðu einrepóið og opnaðu höfuðlausa safnið eða dæmaforritið, og byrjaðu að setja saman þínar eigin síður. Viltu leiðsögn? Byrjaðu á
+    <a href="/tutorials/">kennsluefninu</a>.
+  </p>
+</section>
+
+<nav aria-label="Á þessari síðu" class="prose" style="margin: 0 auto;">
+  <p><strong>Á þessari síðu:</strong></p>
+  <ul>
+    <li><a href="#install">Uppsetning</a></li>
+    <li><a href="#use-headless">Notaðu höfuðlausan íhlut</a></li>
+    <li><a href="#use-styled">Notaðu stílað dæmi</a></li>
+    <li><a href="#styling">Stílun og hönnunargildi</a></li>
+    <li><a href="#themes">Tilbúin þemu</a></li>
+    <li><a href="#helpers">Stillingahjálpartæki</a></li>
+    <li><a href="#a11y">Aðgengi</a></li>
+    <li><a href="#i18n">Alþjóðavæðing</a></li>
+    <li><a href="#testing">Prófanir</a></li>
+    <li><a href="#ai-agents">Gervigreindarfulltrúar</a></li>
+    <li><a href="#troubleshooting">Bilanaleit</a></li>
+    <li><a href="#contributing">Að leggja til</a></li>
+    <li><a href="#community">Samfélag og stuðningur</a></li>
+    <li><a href="#faq">Algengar spurningar</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Uppsetning</h2>
+  <p>
+    Lily býr í einu Git-einrepói, með möppu fyrir höfuðlausa safn, hjálparpakka og dæmaforrit hvers ramma. Fljótlegasta leiðin til að prófa er að klóna einrepóið og opna höfuðlausa safnið fyrir þinn ramma:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Sama mynstur gildir fyrir hina rammana:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — engin uppsetning nauðsynleg; afritaðu <code>.html</code> skrárnar</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Höfuðlausu söfnin eru hönnuð til að vera klónuð eða tekin inn — líttu á upprunann sem sannleiksgjafa og afritaðu það sem þú þarft.
+    <a href="#helpers">stillingahjálpartækin</a> koma auk þess sem uppsetjanlegir pakkar með byggingar- og útgáfuferli (npm fyrir JS-ramma, NuGet fyrir Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Notaðu höfuðlausan íhlut</h2>
+  <p>
+    Höfuðlausir íhlutir koma með merkingarfræðilegu HTML, ARIA og eiginleikum — en ekkert CSS. Hér er Button í hverjum ramma:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Notaðu stílað dæmi</h2>
+  <p>
+    Dæmaforritin innihalda CSS, leiðir og fullar sýnisíður. Fljótlegasta leiðin til að gera tilraunir er að ræsa SvelteKit-, Next-, Nuxt-, Analog- eða Eleventy-dæmaforritið og skoða sýnið á <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Opnaðu svo <code>http://localhost:5173</code> og skoðaðu <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stílun og hönnunargildi</h2>
+  <p>
+    Hver íhlutur birtist með einum kebab-case klasa á rótarþættinum. Til dæmis <code>&lt;Button&gt;</code> birtir <code>&lt;button class="button"&gt;</code>. Stílaðu hann eins og þú vilt:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Sjálfgefið Lily-litaspjald (notað í dæmaforritunum) er:</p>
+  <ul>
+    <li>Aðallitur: <code>#2563eb</code></li>
+    <li>Hætta: <code>#dc2626</code></li>
+    <li>Viðvörun: <code>#f59e0b</code></li>
+    <li>Árangur: <code>#16a34a</code></li>
+    <li>Bakgrunnur síðu: <code>#f9fafb</code></li>
+    <li>Bakgrunnur korts: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Þetta eru tillögur, ekki kröfur. Skiptu þeim út fyrir þitt eigið vörumerkjalitaspjald og Lily fylgir með glöð.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Tilbúin þemu</h2>
+  <p>
+    Viltu ekki skrifa CSS frá grunni? Lily inniheldur
+    <strong>57 sjálfstæð viðmiðunarþemu</strong> í möppunni
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Hvert er eitt stílblað sem miðar á Lily-klasakrókana — tengdu það og þú ert stíluð(ur):
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Settið nær yfir:</p>
+  <ul>
+    <li>
+      <strong>Opinber geiri</strong> — NHS England, NHS Scotland og NHS Wales (útgáfur fyrir sjúklinga og fagfólk hvert), GOV.UK GDS og U.S. Web Design System.
+    </li>
+    <li><strong>Innblásið af söluaðilum</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Almenn notkun</strong> — light, dark, nord, dracula, wireframe og þrjátíu til viðbótar.
+    </li>
+  </ul>
+  <p>
+    Þemaveljarar nota <code>:where(...)</code>, svo þitt eigið CSS vinnur alltaf á sértækni. Paraðu þau við hjálpartækið <code>theme-picker</code> hér að neðan fyrir skipti á keyrslutíma, eða fylgdu
+    <a href="/tutorials/theming/">þemakennsluefni</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Stillingahjálpartæki</h2>
+  <p>
+    Hver rammi er með átta litla veljara, hver sinn eigin
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> pakka (og <code>picker-bar</code> sem setur þá saman). Hver er höfuðlaus táknhnappur sem opnar sprettglugga — valmöguleikalista, tengla, leitarform eða (fyrir date-time-picker) dagsetningarvalsglugga — ekki innbyggt
+    <code>&lt;select&gt;</code>; er SSR-öruggur; og kemur án CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — hleður þemastílblöðum á keyrslutíma með því að skipta um stýrt <code>&lt;link&gt;</code>, setur
+      <code>data-theme</code> á skjalið og vistar valfrjálst í
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — setur <code>lang</code> og
+      <code>dir</code> (með sjálfvirkri RTL-greiningu) svo i18n-safnið þitt geti fylgt; framkvæmir enga þýðingu sjálft.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — setur <code>data-text-size</code> á skjalinu; CSS-ið þitt varpar hverju gildi á leturstærð.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — setur <code>data-motion</code> á skjalinu, með upphafsgildi úr stillingu gesta um minni hreyfingu; CSS og skriftur þínar ákveða hvað er bælt.
+    </li>
+    <li>
+      <strong>search-picker</strong> — táknhnappur sem opnar leitarreit; innsending leiðir á leitarsíðu. Á aðgerð, ekki stillingu.
+    </li>
+    <li>
+      <strong>link-picker</strong> — heimatákn sem opnar valmynd með síðutenglum sem forritið þitt skilgreinir (Heim, Um okkur, Hafðu samband, Persónuverndarstefna, …). Á aðgerð, ekki stillingu.
+    </li>
+    <li>
+      <strong>share-picker</strong> — opnar innbyggðan deilingarglugga eða lista yfir áfangastaði frá notanda, auk þess að afrita vefslóð. Á aðgerð, ekki stillingu: beitir engu, vistar ekkert.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — textareitur auk APG-dagsetningarvalsglugga fyrir dagsetningu, tíma eða hvort tveggja. Á formgildi, ekki stillingu: ISO-strengurinn fer fram og til baka til
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte-safnið er kjarnaviðmiðið; React-, Vue-, Angular-, HTML-, Nunjucks-, Web Components- og Blazor-færslur samsvara því samningur fyrir samning. Sjá
+    <a href="/tutorials/helpers/">hjálpartækjakennsluefni</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Aðgengi</h2>
+  <p>Íhlutir miða við <strong>WCAG 2.2 AAA</strong>. Þeir fylgja þessum mynstrum:</p>
+  <ul>
+    <li>Merkingarfræðilega HTML-þætti frekar en almenna <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> sem tengja merkimiða við innslætti.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> fyrir víxlvísanir.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> fyrir villustöður.</li>
+    <li><code>role="alert"</code> og <code>aria-live</code> fyrir kvikt efni.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> fyrir stöðu.</li>
+    <li>Roving <code>tabindex</code> fyrir ristir.</li>
+  </ul>
+  <p>
+    Fókusvísar eru viljandi í höndum notandans — Lily málar aldrei sjálfgefinn fókushring sem rekst á hönnun þína. Dæmaforritin halda hreinni axe-core grunnlínu á öllum leiðum sínum.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Alþjóðavæðing</h2>
+  <p>
+    Hver merkimiði, staðgengiltexti, villuskilaboð og hnappatexti er eiginleiki. Enginn textastrengur er harðkóðaður. Notaðu þýðingarrammann að eigin vali — Paraglide, i18next, vue-i18n, react-intl, .resx-skrár, hvað sem er.
+  </p>
+  <p>
+    Fyrir dagsetningar, tölur og gjaldmiðla taka íhlutirnir við forsniðnum strengjum: þú sniðgerir með <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / safninu sem þú kýst og sendir niðurstöðuna.
+  </p>
+  <p>
+    Hjálpartækið <code>locale-picker</code> gefur i18n-safninu þínu til kynna valda staðfærslu með því að stilla <code>lang</code> og <code>dir</code> á rót skjalsins.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Prófanir</h2>
+  <p>Hvert rammaundirverkefni sendir sín eigin próf með eigin hefðbundnu tækjum:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO sem keyrir raunverulega vafra.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (í gegnum Analog Vite-viðbótina).</li>
+    <li><strong>Nunjucks</strong>: Vitest með birtingarhjálp.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Próf nota <strong>aðeins innbyggða samsvörun Vitest</strong> — aldrei
+    <code>jest-dom</code> samsvörun. Þetta heldur prófasöfnunum færanlegum. Dæmaforritin bæta við Playwright-prófum frá enda til enda, axe-core aðgengisgrunnlínum og sjónarhornakönnun.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Gervigreindarfulltrúar</h2>
+  <p>
+    Þessi vefur gefur út <a href="/llms.txt">llms.txt</a> og
+    <a href="/llms.json">llms.json</a> í rótinni — vandað kort yfir mikilvægustu síður hans, fyrir hvaða tól sem fylgir
+    <a href="https://llmstxt.org">llms.txt-venjunni</a>.
+  </p>
+  <p>
+    Hið kanóníska einrepó sendir að auki tvö
+    <a href="https://code.claude.com/docs/en/skills">Claude-skill</a>:
+    <code>lily-design-system-skill</code>, almenn færni sem nær yfir hugtök, orðaforða og samsetningarmynstur Lily fyrir alla sem byggja með kerfinu, og <code>lily-design-system-maintainer-skill</code>, tæknileg færni sem nær yfir nauðsynlegt skráaskipulag og tól einrepósins fyrir alla sem vinna í því. Bæði eru í rót
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanóníska einrepósins</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Bilanaleit</h2>
+
+  <details class="faq-item">
+    <summary>Íhlutur birtist en lítur óstílaður út</summary>
+    <p>
+      Það er höfuðleysið að virka eins og til er ætlast — ekkert CSS fylgir íhlutnum. Skrifaðu annaðhvort CSS gegn kebab-case klasa íhlutarins (sýndur á hverri <a href="/components/">safnsíðu</a>) eða tengdu eitt af
+      <a href="#themes">57 tilbúnu þemunum</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS-ið mitt virðist ekki gilda yfir þema</summary>
+    <p>
+      Það ætti að gera það — þemaveljarar eru vafðir í <code>:where(...)</code>, sem hefur núll sértækni. Ef regla tapar enn, athugaðu að stílblaðið þitt hlaðist á eftir stílblaði þemans <code>&lt;link&gt;</code> og að veljarinn passi í raun við klasakrók íhlutarins.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install mistekst með jafningja- eða útgáfuvillu</summary>
+    <p>
+      Notaðu núverandi pnpm (v10+) og Node 22+. Hvert undirverkefni festir rammaútgáfur sínar í eigin <code>package.json</code>; ef alþjóðlegt verkfærasett þitt er eldra, <code>pnpm env use --global lts</code> er fljótlegasta lausnin.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Skjálesari tilkynnir rangt heiti fyrir stýringu</summary>
+    <p>
+      Athugaðu nauðsynlegan <code>label</code> eiginleika íhlutarins — íhlutir sem hafa engan sýnilegan texta krefjast eins, og
+      <code>aria-label</code> / <code>aria-labelledby</code> frá notanda sem sent er í gegnum rest-props gildir viljandi umfram innbyggðu tengingarnar. Hver safnsíða skjalfestir ARIA-samning íhlutarins.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Theme-picker hjálpartækið skiptir ekki um stílblöð</summary>
+    <p>
+      Staðfestu að <code>themesUrl</code> bendi á möppu sem vafrinn getur sótt (þjónaðu <code>themes/</code> skránum sem kyrrstæðum eignum) og að þemaheitin í <code>themes</code> eiginleikanum passi við skráarheitin. Hjálpartækið skiptir um <code>href</code> á einu stýrðu
+      <code>&lt;link data-lily-theme-picker&gt;</code> — skoðaðu það í devtools til að sjá vefslóðina sem beðið er um.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Eitthvað annað er bilað</summary>
+    <p>
+      Opnaðu vandamál með lágmarksendurgerð á
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — eða sjá <a href="#community">samfélag og stuðning</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Að leggja til</h2>
+  <p>Lily er ungt og tekur fagnandi samstarfi. Gagnlegustu framlögin núna eru:</p>
+  <ul>
+    <li>Nýir íhlutir (sérstaklega mynstur úr rótgrónum hönnunarkerfum).</li>
+    <li>Ný þemu — hvert er eitt sjálfstætt stílblað, vel afmörkuð fyrsta sameiningarbeiðni.</li>
+    <li>Betri stíll dæmaforrita — sýndu hvað er hægt.</li>
+    <li>Þýðingar á textum dæmaforrita.</li>
+    <li>Villuskýrslur með lágmarksendurgerð.</li>
+    <li>Aðgengisúttektir með skjálesurum og hjálpartækni.</li>
+  </ul>
+  <p>
+    Opnaðu vandamál og sameiningarbeiðnir á
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Samfélag og stuðningur</h2>
+  <ul>
+    <li>
+      <strong>Spurningar og villuskýrslur</strong> — opnaðu vandamál á
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Tölvupóstur</strong> — umsjónarmaðurinn les
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      og tekur fagnandi samstarfi, leiðsögn og endurgjöf.
+    </li>
+    <li>
+      <strong>Speglar</strong> — Lily er einnig send á
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> og
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, svo þú getir tekið þátt frá þeirri forge-þjónustu sem þú kýst.
+    </li>
+    <li>
+      <strong>Hegðun</strong> — verkefnið fylgir hefðbundnum siðareglum; vertu vingjarnleg(ur), gerðu ráð fyrir góðum ásetningi.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Algengar spurningar</h2>
+
+  <details class="faq-item">
+    <summary>Af hverju höfuðlaust frekar en stílað?</summary>
+    <p>
+      Forstíluð íhlutasöfn eru þægileg — þar til þau passa ekki við vörumerkið þitt. Höfuðlausir íhlutir kosta örlítið meiri vinnu í upphafi en veita þér fulla stjórn á sjónrænni hönnun. Dæmaforritin og 57 þemun sýna leiðir til að stíla þá; þú getur tekið þær eða skipt þeim alveg út. Lengri rökin eru á <a href="/why/">Af hverju Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Af hverju svona margir íhlutir?</summary>
+    <p>
+      Lily stefnir að því að ná yfir mynstrin sem flest forrit þurfa án þess að þú þurfir að byggja þau frá grunni — þar á meðal sérhæfða hluti eins og innslátt landsauðkenna og ritstjórnarskrunsögur. Safnið sækir í tugi rótgróinna hönnunarkerfa auk frumlegrar vinnu — sjá <a href="/about/">Um</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Get ég notað Lily með Tailwind?</summary>
+    <p>
+      Já. Hver íhlutur birtir einn kebab-case rótarklasa auk <code>className</code> / <code>class</code>frá notanda. Leggðu Tailwind-tól ofan á eins og þú vilt.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Get ég notað Lily með merkingarfræðilegum CSS-römmum eins og DaisyUI?</summary>
+    <p>
+      Já. Kebab-case klasaheitin á rótarþættinum virka sem merkingarfræðilegir CSS-krókar. Paraðu Lily við merkingarfræðilegan ramma og þú færð forstílaða íhluti sem virða samt ARIA og i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Er til npm-pakki?</summary>
+    <p>
+      Hjálpartækið <a href="#helpers">stillingahjálpartækin</a> koma sem pakkar með npm/NuGet útgáfuferli. Höfuðlausu íhlutasöfnin eru hönnuð til að vera klónuð eða tekin inn — upprunakóðinn er afurðin, svo þú getir lesið, snyrt og átt nákvæmlega það sem þú gefur út. Útgáfa höfuðlausu safnanna í skrám er enn á vegvísinum.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Af hverju mörg leyfi?</summary>
+    <p>
+      Mismunandi verkefni hafa mismunandi leyfisþarfir. BSD og MIT eru frjálslynd, Apache-2.0 hefur einkaleyfisveitingu og GPL-valkostirnir styðja copyleft. Veldu það sem hentar þinni stöðu.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hvernig tilkynni ég villu eða óska eftir eiginleika?</summary>
+    <p>
+      Opnaðu vandamál í GitHub-geymslunni, eða sendu tölvupóst til
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

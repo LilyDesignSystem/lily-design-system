@@ -1,0 +1,94 @@
+<!-- title: Um — Lily Design System -->
+<!-- description: Hvað Lily er, meginreglurnar að baki og hönnunarkerfin sem það sækir innblástur í. -->
+<section class="page-intro">
+  <h1>Hvað er Lily?</h1>
+  <p class="page-intro-tagline">
+    Ókeypis, opið og aðgengi-fyrst hönnunarkerfi sem mætir þér þar sem þú skrifar kóða — og víkur úr vegi þegar þú þarft ekki á því að halda.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Stutta útgáfan</h2>
+  <p>
+    Lily er safn <strong>vefíhluta</strong>, hver útfærður í átta höfuðlausum útgáfum (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks og Web Components) ásamt safni fullbúinna dæmaforrita sem sýna hvernig á að stíla þá.
+  </p>
+  <p>
+    Höfuðlausu útgáfurnar innihalda <em>ekkert CSS</em>. Þær gefa þér merkingarfræðilegt HTML, ARIA-hlutverk og -stöður, lyklaborðsstuðning og eiginleika sem henta alþjóðavæðingu. Þú sérð um útlitið.
+  </p>
+
+  <h2>Hönnunarreglur</h2>
+
+  <h3>Aðgengilegt</h3>
+  <p>
+    Hver íhlutur byrjar á merkingarfræðilegu HTML. ARIA er aðeins bætt við þar sem HTML eitt og sér getur ekki lýst mynstrinu. Íhlutirnir miða við
+    <strong>WCAG 2.2 AAA</strong> — litir, bil, fókus og lyklaborðsleiðsögn eru öll höfð í huga.
+  </p>
+
+  <h3>Samsetjanlegt</h3>
+  <p>
+    Lily kýs litla íhluti með eitt hlutverk sem smella saman. Samsett mynstur birtast aftur og aftur:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — fyrir brauðmola, efnisyfirlit, harmonikkuvalmyndir, trévalmyndir og blaðsíðuskiptingu</li>
+    <li><code>Form → Field → Input</code> — fyrir hvaða eyðublaðsuppsetningu sem er með merkimiðum, vísbendingum og villum</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — fyrir töflur, dagatöl, Gantt-töflur og kanban-töflur</li>
+    <li><code>Bar → BarButton</code> — fyrir verkfærastikur, flipastikur, verkstikur, aðgerðastikur og valmyndastikur</li>
+    <li><code>Picker → PickerButton</code> — fyrir litaveljara, einkunnaveljara, þemaveljara</li>
+  </ul>
+
+  <h3>Alþjóðavæðanlegt</h3>
+  <p>
+    Enginn texti sem notandinn sér er harðkóðaður. Merkimiðar, staðgengiltexti, villuskilaboð, hnappatexti — allt eru þetta færibreytur. Notaðu þitt eigið þýðingarkerfi og Lily talar hvaða tungumál sem þú talar.
+  </p>
+
+  <h3>Höfuðlaust</h3>
+  <p>
+    Höfuðlausir íhlutir hafa <strong>ekkert CSS</strong>, engar
+    <code>&lt;style&gt;</code> blokkir og engin hönnunargildi sem þú valdir ekki sjálf(ur). Þeir birta eitt kebab-case klasaheiti á hverjum rótarþætti svo þú getir miðað á þá eins og þér hentar — merkingarfræðilegt CSS, Tailwind, CSS-in-JS, þitt er valið.
+  </p>
+
+  <h3>Fullbúin dæmi</h3>
+  <p>
+    Dæmaforritin sýna hvernig á að stíla íhlutina fyrir raunverulega notkun — hvaða hönnunargildi á að stilla, hvaða afbrigðum á að bæta við og hvernig á að setja saman síður. Þau eru fullgild SvelteKit-, Next.js-, Nuxt-, Blazor- og Eleventy-forrit, ekki bara tilraunasvæði.
+  </p>
+
+  <h2 id="inspirations">Innblástur</h2>
+  <p>
+    Lily sækir mynstur og orðalag í viljandi breiðan hóp hönnunarkerfa:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (ríkisstjórn Ástralíu)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Grafíkíhlutir Reuters</a></li>
+  </ul>
+
+  <h2>Leyfi</h2>
+  <p>
+    Lily er með mörg leyfi, þar á meðal <strong>BSD, MIT, Apache-2.0, GPL-2.0 eða GPL-3.0</strong>. Veldu það leyfi sem hentar verkefninu þínu. Ef ekkert þeirra gengur, hafðu samband.
+  </p>
+
+  <h2>Samband</h2>
+  <p>
+    Verkefnisstjóri: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Fannstu villu, ertu með hugmynd, viltu leggja til íhlut? Opnaðu vandamál eða sameiningarbeiðni á
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staða:</strong> Lily er glænýtt verk og við bjóðum samstarf, leiðsögn og endurgjöf velkomin. Hlutirnir munu hreyfast og þróast.
+    </p>
+  </div>
+</section>

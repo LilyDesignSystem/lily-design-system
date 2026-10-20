@@ -1,0 +1,106 @@
+<!-- title: HTML 튜토리얼 — Lily Design System -->
+<!-- description: Lily의 HTML 헤드리스 컴포넌트로 접근성 있고 스타일이 적용된 폼을 만듭니다 — 일반 마크업을 파일에서 바로 씁니다. -->
+<section class="page-intro">
+  <h1>HTML 튜토리얼</h1>
+  <p class="page-intro-tagline">
+    가장 간단한 시작: Lily의 클래스 훅이 붙은 의미 있는 HTML을 복사하고, 스타일시트 하나를 추가해서 배포합니다. HTML이 동작하는 곳이면 어디서든 되는 일반 파일입니다.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>만들 것</h2>
+  <p>
+    작은 문의 폼 — 레이블이 있는 입력, 제출 버튼, 실제 키보드 및 스크린 리더 동작 — 먼저 꾸미지 않은 상태로, 그다음 스타일을 입혀서 약 10분 안에 만듭니다.
+  </p>
+
+  <h2>시작하기 전에</h2>
+  <p>
+    브라우저와 텍스트 편집기만 있으면 됩니다. (컴포넌트 파일을 가져오는 데는 git이 편하지만, 브라우저에서 GitHub의 파일을 복사해도 됩니다.)
+  </p>
+
+  <h2>1단계 — 코드 가져오기</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    모든 컴포넌트는 다음 위치에 독립된 파일로 있습니다: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>등 — 파일 맨 위 주석에 HTML 태그, 클래스 훅, 키보드 동작, 접근성 계약이 적혀 있습니다. 이 파일들이 <em>곧 라이브러리입니다</em> — 필요한 것을 복사해서 시작하세요.
+  </p>
+
+  <h2>2단계 — 첫 번째 컴포넌트</h2>
+  <p>열기: <code>components/button.html</code>, 또는 마크업을 그냥 작성하세요 — 클래스 훅이 계약입니다:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    진짜 <code>&lt;button&gt;</code>이므로 키보드 포커스, Enter와 Space 활성화, 암묵적 버튼 역할이 이미 올바르게 동작합니다.
+  </p>
+
+  <h2>3단계 — 작은 폼 구성하기</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    패턴을 보세요: 모든 컨트롤이 자기 <code>&lt;label for&gt;</code>에 연결되고, 가장 구체적인 input 타입을 쓰며, 케밥 케이스 클래스 훅을 정확히 하나만 가집니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>작동 확인:</strong> 브라우저에서 페이지를 엽니다. 밋밋해 보일 텐데 — 의도한 대로이며 스타일은 앞으로 입힙니다.
+      <kbd>Tab</kbd>: 포커스가 모든 컨트롤을 따라 이동하고, 레이블이 읽히며, 제출도 동작합니다. 동작은 완성되었고, 모양은 당신 몫이며 다음 단계입니다.
+    </p>
+  </div>
+
+  <h2>4단계 — 스타일 입히기</h2>
+  <p>훅에 맞춰 CSS를 작성합니다:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    아니면 CSS를 직접 쓰는 일을 아예 건너뛰고, 준비된 45개 테마 중 하나를 링크하면 같은 마크업이 그대로 꾸며집니다:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>5단계 — 더 둘러보기</h2>
+  <ul>
+    <li>이 저장소의 테스트는 실제 브라우저에서 실행됩니다: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>모든 컴포넌트의 Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS 예제 앱</a> 은 571개 컴포넌트 모두를 스타일이 적용되고 검색 가능하며 데모와 함께 보여 줍니다.
+    </li>
+  </ul>
+
+  <h2>다음 단계</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">테마 적용</a> — theme-picker로 하는 런타임 테마 전환.</li>
+    <li><a href="/tutorials/helpers/">환경설정 헬퍼</a> — 언어와 텍스트 크기.</li>
+    <li><a href="/components/">컴포넌트 카탈로그</a> — 전체 레퍼런스.</li>
+  </ul>
+  <p>
+    진행하다가 궁금한 점이 있다면
+    <a href="/help/#troubleshooting">도움말 페이지</a> 에 답이 많이 있습니다. 어떤 단계가 더 명확해질 수 있다면
+    <a href="https://github.com/LilyDesignSystem">알려 주세요</a> . 기꺼이 튜토리얼을 개선하겠습니다.
+  </p>
+</section>

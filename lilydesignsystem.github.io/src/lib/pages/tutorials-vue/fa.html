@@ -1,0 +1,122 @@
+<!-- title: آموزش Vue — Lily Design System -->
+<!-- description: با مؤلفه‌های بدون‌سر Lily برای Vue 3 یک فرم در دسترس و استایل‌دار بسازید: مؤلفه‌های تک‌فایلی با v-model. -->
+<section class="page-intro">
+  <h1>آموزش Vue</h1>
+  <p class="page-intro-tagline">
+    مؤلفه‌های تک‌فایلی Vue 3 با props نوع‌دار، <code>defineModel</code>
+    پیوند دوطرفه و عبور <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>چه چیزی می‌سازید</h2>
+  <p>
+    یک فرم تماس کوچک — فیلد دارای برچسب، دکمه ارسال، <code>v-model</code>
+    پیوند، رفتار واقعی صفحه‌کلید و صفحه‌خوان — ابتدا ساده، سپس استایل‌دار، در حدود ۱۰ دقیقه.
+  </p>
+
+  <h2>پیش از شروع</h2>
+  <p>
+    به git، Node 22 یا جدیدتر و pnpm 10 یا جدیدتر نیاز دارید. هر پروژه Vue 3 کار می‌کند — Nuxt، Vite یا Vue ساده.
+  </p>
+
+  <h2>گام ۱ — کد را بگیرید</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    مؤلفه‌ها فایل‌های تخت هستند در <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — هر کدام با آزمون، story و مستنداتش در کنارش. فایل‌های لازم را کپی کنید، یا مخزن را بیاورید.
+  </p>
+
+  <h2>گام ۲ — نخستین مؤلفه شما</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    نمایش می‌دهد <code>&lt;button class="button" type="button"&gt;</code>. props با چارچوب‌های دیگر مطابقت دارند: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>، به‌علاوه عبور ویژگی‌ها برای هر چیز دیگر.
+  </p>
+
+  <h2>گام ۳ — یک فرم کوچک بسازید</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code>  <code>label</code> را به‌عنوان prop خودش، نه مؤلفه برچسب تودرتو — آن را یک‌بار بدهید، روی
+    <code>Field</code>و <code>TextInput</code>متناظر
+    <code>label</code> نام قابل‌دسترس را فراهم می‌کند.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تأییدشده در ۲۰۲۶-۰۸-۲۹:</strong> یک پیش‌نویس قبلی مؤلفه <code>Label</code> درون <code>Field</code>قرار داده بود که
+      <em>دو</em> برچسب (یکی خالی) نمایش می‌داد، چون <code>Field</code> خودش از ورودی <code>label</code> prop — با کامپایل قطعه دقیق کشف شد. مسیر
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">مسیر ترکیبی فرم تماس</a>
+      همین الگوست، با آزمون‌های واقعی e2e و axe سنجیده شده.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> از این استفاده می‌کند <code>defineModel</code>، پس یک
+    <code>v-model</code> ساده از همان ابتدا کار می‌کند.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>کارتان را بررسی کنید:</strong> برنامه را اجرا کنید و فرم ساده به نظر می‌رسد — دقیقاً همان‌طور که قصد شده: استایل‌دهی هنوز در پیش است. بزنید
+      <kbd>Tab</kbd>: تمرکز از هر کنترل می‌گذرد، برچسب اعلام می‌شود و ارسال کار می‌کند. رفتار کامل است؛ ظاهر مال شماست و گام بعدی است.
+    </p>
+  </div>
+
+  <h2>گام ۴ — استایل بدهید</h2>
+  <p>
+    قلاب‌های کلاس را استایل بدهید — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — در شیوه‌نامه خود، یا یک تم آماده را در این‌جا پیوند دهید <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>گام ۵ — همه‌چیز را در حال کار ببینید</h2>
+  <p>
+     <a href="/examples/">برنامه نمونه Nuxt</a> کل فهرست استایل‌دار و نمایش‌داده است، با Playwright e2e و خط پایه axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>گام‌های بعدی</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">تم‌ها</a> — تعویض در زمان اجرا با کمکی theme-picker برای Vue.</li>
+    <li><a href="/tutorials/helpers/">کمکی‌های ترجیحات</a> — زبان و اندازه متن.</li>
+    <li><a href="/components/">فهرست مؤلفه‌ها</a> — ویژگی‌ها، ARIA و صفحه‌کلید برای هر مؤلفه.</li>
+  </ul>
+  <p>
+    در مسیر پرسشی دارید؟
+    <a href="/help/#troubleshooting">صفحه راهنما</a> پر از پاسخ است — و اگر گامی می‌تواند روشن‌تر باشد،
+    <a href="https://github.com/LilyDesignSystem">به ما بگویید</a> و ما با کمال میل آموزش را بهبود می‌دهیم.
+  </p>
+</section>

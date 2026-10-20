@@ -1,0 +1,107 @@
+<!-- title: Teagasc Blazor — Lily Design System -->
+<!-- description: Tóg foirm inrochtana, stíl-chóirithe le comhpháirteanna gan cheann Lily do Blazor: comhpháirteanna Razor le paraiméadair agus tástálacha bUnit. -->
+<section class="page-intro">
+  <h1>Teagasc Blazor</h1>
+  <p class="page-intro-tagline">
+    Comhpháirteanna leabharlainne aicme Razor le paraiméadair, <code>ChildContent</code>
+    blúirí rindreála, scaipeadh aitreabúidí agus tástáil bUnit in aghaidh na comhpháirte.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    Foirm theagmhála bheag — réimse le lipéad, cnaipe cur isteach,
+    <code>@bind-Value</code> ceangal, fíor-iompar méarchláir agus léitheora scáileáin — nocht ar dtús, ansin stíl-chóirithe, i thart ar 10 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Tá git agus .NET SDK 8 nó níos nuaí ag teastáil uait. Oibríonn aon tionscadal Blazor — Blazor Web App, Server nó WebAssembly.
+  </p>
+
+  <h2>Céim 1 — Faigh an cód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Tá na comhpháirteanna i <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — comhad Razor amháin an ceann. Tagair don tionscadal (nó cóipeáil na comhaid) ó d'app Blazor agus cuir <code>@using LilyBlazorHeadless.Components</code> le
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Céim 2 — Do chéad chomhpháirt</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rindreálann <code>&lt;button class="button"&gt;</code>. Na gnáthaimh paraiméadar roinnte: <code>Label</code> ( <code>aria-label</code> chun sárú),
+    <code>CssClass</code> (cuirtear leis an gcrúca bunúsach),
+    <code>ChildContent</code>agus
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> scaipeadh aitreabúidí ionas go rachaidh aon aitreabúid HTML breise tríd.
+  </p>
+
+  <h2>Céim 3 — Cuir foirm bheag le chéile</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> glacann sé leis an <code>Label</code> infheicthe mar pharaiméadar dá chuid féin in ionad comhpháirt lipéid neadaithe — pas é uair amháin, ar
+    <code>Field</code>agus <code>TextInput</code>comhfhreagrach ó
+    <code>Label</code> soláthraíonn an t-ainm inrochtana.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Fíoraithe 2026-08-29:</strong> chuir dréacht roimhe sin comhpháirt <code>Label</code> ar leith taobh istigh de <code>Field</code>, rud a rindreáil <em>dhá</em> lipéad (ceann amháin folamh) mar go rindreálann <code>Field</code>
+      a cheann féin cheana ón ionchur <code>Label</code> paraiméadar — faighte trí chód foinse na comhpháirte a sheiceáil; <code>Form</code> níl <code>Label</code> paraiméadar ag
+      <code>&lt;Form&gt;</code> féin, mar sin ceartaíodh úsáid an dréachta roimhe sin trína fhágáil ar lár in ionad aitreabúid nach bhfuil ann a chumadh.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">An bealach comhshuite foirm teagmhála</a>
+      an patrún céanna, tástáilte le fíor-thástálacha e2e agus axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> rith an app agus tá an fhoirm le feiceáil nocht — go díreach mar a bhí beartaithe: tá an stíliú fós le teacht. Brúigh
+      <kbd>Tab</kbd>: gluaiseann an fócas trí gach rialú, fógraítear an lipéad agus oibríonn an cur isteach. Tá an t-iompar déanta; is leatsa an cuma agus is é an chéad chéim eile é.
+    </p>
+  </div>
+
+  <h2>Céim 4 — Stíligh é</h2>
+  <p>
+    Stíligh na crúcaí aicme — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in <code>app.css</code>, nó nasc téama réamhdhéanta in <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Céim 5 — Féach air ag obair ar fad</h2>
+  <p>
+     <a href="/examples/">App samplach Blazor Web</a> taispeánann sé an catalóg iomlán stíl-chóirithe agus léirithe, le tástálacha e2e Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Téamaí</a> — malartú ag am rite leis an gcúntóir theme-picker do Blazor (leabharlann aicme Razor ar NuGet).</li>
+    <li><a href="/tutorials/helpers/">Cúntóirí sainroghanna</a> — teanga agus méid téacs.</li>
+    <li><a href="/components/">Catalóg na gcomhpháirteanna</a> — airíonna, ARIA agus méarchlár in aghaidh na comhpháirte.</li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

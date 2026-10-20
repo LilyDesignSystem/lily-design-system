@@ -1,0 +1,107 @@
+<!-- title: Blazor ટ્યુટોરિયલ — Lily Design System -->
+<!-- description: Lily ના Blazor હેડલેસ ઘટકો સાથે સુલભ, શૈલીબદ્ધ ફોર્મ બનાવો: પેરામીટર અને bUnit પરીક્ષણો સાથેના Razor ઘટકો. -->
+<section class="page-intro">
+  <h1>Blazor ટ્યુટોરિયલ</h1>
+  <p class="page-intro-tagline">
+    પેરામીટર સાથેના Razor ક્લાસ લાઇબ્રેરી ઘટકો, <code>ChildContent</code>
+    રેન્ડર ફ્રેગમેન્ટ, ગુણધર્મ ફેલાવો અને દરેક ઘટક માટે એક bUnit પરીક્ષણ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>તમે શું બનાવશો</h2>
+  <p>
+    એક નાનું સંપર્ક ફોર્મ — લેબલ સાથેનું ક્ષેત્ર, સબમિટ બટન,
+    <code>@bind-Value</code> બાઇન્ડિંગ, સાચું કીબોર્ડ અને સ્ક્રીન-રીડર વર્તન — પહેલાં સાદું, પછી શૈલીબદ્ધ, લગભગ 10 મિનિટમાં.
+  </p>
+
+  <h2>શરૂ કરતા પહેલાં</h2>
+  <p>
+    તમને git અને .NET SDK 8 કે નવું જોઈએ. કોઈ પણ Blazor પ્રોજેક્ટ ચાલશે — Blazor Web App, Server અથવા WebAssembly.
+  </p>
+
+  <h2>પગલું 1 — કોડ મેળવો</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    ઘટકો અહીં રહે છે: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — દરેક માટે એક Razor ફાઇલ. તમારી Blazor એપમાંથી પ્રોજેક્ટનો સંદર્ભ આપો (અથવા ફાઇલો કૉપી કરો) અને ઉમેરો <code>@using LilyBlazorHeadless.Components</code> માં
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>પગલું 2 — તમારો પહેલો ઘટક</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    આ દર્શાવે છે <code>&lt;button class="button"&gt;</code>. વહેંચાયેલા પેરામીટર નિયમો: <code>Label</code> (એક <code>aria-label</code> ઓવરરાઇડ કરવા),
+    <code>CssClass</code> (મૂળ હૂકમાં ઉમેરાય છે),
+    <code>ChildContent</code>અને
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> ગુણધર્મ ફેલાવો જેથી કોઈ પણ વધારાનો HTML ગુણધર્મ પસાર થાય.
+  </p>
+
+  <h2>પગલું 3 — એક નાનું ફોર્મ બનાવો</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> દેખાતા <code>Label</code> ને પોતાના પેરામીટર તરીકે લે છે, અંદર મૂકેલા લેબલ ઘટક તરીકે નહીં — તેને એક વાર આપો, પર
+    <code>Field</code>અને <code>TextInput</code>નું
+    <code>Label</code> સુલભ નામ પૂરું પાડે છે.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 ના રોજ ચકાસ્યું:</strong> અગાઉના મુસદ્દાએ અલગ <code>Label</code> ઘટકને <code>Field</code>ની અંદર મૂક્યો હતો, જેનાથી <em>બે</em> લેબલ (એક ખાલી) દેખાયા કારણ કે <code>Field</code>
+      પહેલેથી પોતાનું <code>Label</code> પેરામીટર — ઘટકનો સ્રોત કોડ તપાસીને ખબર પડી; <code>Form</code> ને પોતાને <code>Label</code> પેરામીટર નથી, તેથી અગાઉના મુસદ્દાના
+      <code>&lt;Form&gt;</code> ઉપયોગને તેને છોડીને સુધારવામાં આવ્યો, જે ગુણધર્મ અસ્તિત્વમાં નથી તે ઘડવાને બદલે.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">સંયુક્ત સંપર્ક-ફોર્મ રૂટ</a>
+      એ જ પેટર્ન છે, સાચા e2e અને axe પરીક્ષણોથી ચકાસાયેલ.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>તમારું કામ તપાસો:</strong> એપ ચલાવો અને ફોર્મ સાદું દેખાય છે — બરાબર ધાર્યા મુજબ: શૈલી હજી આગળ છે. દબાવો
+      <kbd>Tab</kbd>: ફોકસ દરેક નિયંત્રણમાંથી પસાર થાય છે, લેબલ જાહેર થાય છે અને સબમિટ કામ કરે છે. વર્તન પૂર્ણ છે; દેખાવ તમારો છે અને આગલું પગલું છે.
+    </p>
+  </div>
+
+  <h2>પગલું 4 — તેને શૈલી આપો</h2>
+  <p>
+    ક્લાસ હૂકને શૈલી આપો — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — આમાં <code>app.css</code>, અથવા તૈયાર થીમ અહીં લિંક કરો <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>પગલું 5 — બધું કામ કરતું જુઓ</h2>
+  <p>
+     <a href="/examples/">Blazor Web ઉદાહરણ એપ</a> સંપૂર્ણ કેટલોગ શૈલીબદ્ધ અને નિદર્શન સાથે દર્શાવે છે, Playwright e2e પરીક્ષણો સાથે:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>આગળનાં પગલાં</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">થીમ</a> — Blazor theme-picker સહાયક સાથે ચાલતી વખતે બદલવું (NuGet પર Razor ક્લાસ લાઇબ્રેરી).</li>
+    <li><a href="/tutorials/helpers/">પસંદગી સહાયકો</a> — ભાષા અને લખાણનું કદ.</li>
+    <li><a href="/components/">ઘટક કેટલોગ</a> — દરેક ઘટક માટે ગુણધર્મો, ARIA અને કીબોર્ડ.</li>
+  </ul>
+  <p>
+    રસ્તામાં પ્રશ્નો છે?
+    <a href="/help/#troubleshooting">મદદ પૃષ્ઠ</a> જવાબોથી ભરેલું છે — અને જો કોઈ પગલું વધુ સ્પષ્ટ થઈ શકે,
+    <a href="https://github.com/LilyDesignSystem">અમને કહો</a> અને અમે ખુશીથી ટ્યુટોરિયલ સુધારીશું.
+  </p>
+</section>

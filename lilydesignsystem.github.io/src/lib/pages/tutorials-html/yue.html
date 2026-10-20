@@ -1,0 +1,106 @@
+<!-- title: HTML 教學 — Lily Design System -->
+<!-- description: 用 Lily 嘅 HTML 無頭元件建立無障礙又有樣式嘅表單 — 純標記,直接由檔案開始。 -->
+<section class="page-intro">
+  <h1>HTML 教學</h1>
+  <p class="page-intro-tagline">
+    最簡單嘅起步:複製帶有 Lily 類別掛鉤嘅語義化 HTML,加一份樣式表,發佈。喺任何 HTML 可以運作嘅地方都可以運作嘅純檔案。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你會建立啲乜</h2>
+  <p>
+    一個細細個嘅聯絡表單 — 有標籤嘅輸入欄、提交按鈕、真實嘅鍵盤同螢幕閱讀器行為 — 先裸奔,再加樣式,大約 10 分鐘。
+  </p>
+
+  <h2>開始之前</h2>
+  <p>
+    你需要一個瀏覽器同一個文字編輯器。就係咁。(git 幫手攞元件檔案,但你都可以喺瀏覽器入面由 GitHub 複製。)
+  </p>
+
+  <h2>步驟 1 — 攞到程式碼</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    每個元件都係獨立檔案,位於 <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>,如此類推 — 附帶標頭註解,記錄佢嘅 HTML 標籤、類別掛鉤、鍵盤行為同無障礙合約。呢啲檔案 <em>就係</em> 函式庫 — 複製你需要嘅部分,然後上路。
+  </p>
+
+  <h2>步驟 2 — 你第一個元件</h2>
+  <p>打開 <code>components/button.html</code>,或者直接寫標記 — 類別掛鉤就係合約:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    因為佢係真正嘅 <code>&lt;button&gt;</code>,鍵盤焦點、Enter 同 Space 啟動,同埋隱含嘅按鈕角色已經正確。
+  </p>
+
+  <h2>步驟 3 — 組合一個細表單</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    留意呢個模式:每個控制項都連結佢嘅 <code>&lt;label for&gt;</code>,使用最具體嘅輸入類型,並且剛好帶一個 kebab-case 類別掛鉤。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>檢查你嘅成果:</strong> 喺瀏覽器打開頁面。佢睇落好簡單 — 正如預期:樣式仲喺前面。按
+      <kbd>Tab</kbd>:焦點會移過每個控制項,標籤會被讀出,提交都運作。行為已經完成;外觀屬於你,而且係下一步。
+    </p>
+  </div>
+
+  <h2>步驟 4 — 加樣式</h2>
+  <p>針對掛鉤寫 CSS:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    或者完全唔使手寫 CSS — 連結 45 個現成主題之一,同樣嘅標記即刻亮起:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>步驟 5 — 進一步探索</h2>
+  <ul>
+    <li>倉庫嘅測試喺真實瀏覽器入面運行: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO)。</li>
+    <li>每個元件嘅 Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS 範例應用程式</a> 展示全部 571 個元件,附樣式、可搜尋同示範。
+    </li>
+  </ul>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主題</a> — 用 theme-picker 喺執行時切換主題。</li>
+    <li><a href="/tutorials/helpers/">偏好輔助工具</a> — 語言同文字大細。</li>
+    <li><a href="/components/">元件目錄</a> — 完整參考。</li>
+  </ul>
+  <p>
+    一路上有問題?
+    <a href="/help/#troubleshooting">幫助頁面</a> 有好多答案 — 如果某個步驟可以更清楚,
+    <a href="https://github.com/LilyDesignSystem">話畀我哋知</a> 我哋會好樂意改進教學。
+  </p>
+</section>

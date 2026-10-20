@@ -1,0 +1,432 @@
+<!-- title: Tulong — Lily Design System -->
+<!-- description: Magsimula sa Lily: i-install ang headless na package para sa iyong framework, kopyahin ang isang component, bigyan ng istilo, lagyan ng tema, i-ship. Pag-troubleshoot, FAQ, at suporta. -->
+<section class="page-intro">
+  <h1>Pagsisimula sa Lily</h1>
+  <p class="page-intro-tagline">
+    Pumili ng framework, i-clone ang monorepo at buksan ang headless na library o halimbawang app nito, at simulan ang pagbuo ng sarili mong mga pahina. Mas gusto ang may gabay na landas? Magsimula sa mga
+    <a href="/tutorials/">tutorial</a>.
+  </p>
+</section>
+
+<nav aria-label="Sa pahinang ito" class="prose" style="margin: 0 auto;">
+  <p><strong>Sa pahinang ito:</strong></p>
+  <ul>
+    <li><a href="#install">I-install</a></li>
+    <li><a href="#use-headless">Gumamit ng headless na component</a></li>
+    <li><a href="#use-styled">Gumamit ng halimbawang may istilo</a></li>
+    <li><a href="#styling">Istilo at mga design token</a></li>
+    <li><a href="#themes">Mga handa nang tema</a></li>
+    <li><a href="#helpers">Mga preference helper</a></li>
+    <li><a href="#a11y">Accessibility</a></li>
+    <li><a href="#i18n">Internationalization</a></li>
+    <li><a href="#testing">Pagsusuri</a></li>
+    <li><a href="#ai-agents">Mga AI agent</a></li>
+    <li><a href="#troubleshooting">Pag-troubleshoot</a></li>
+    <li><a href="#contributing">Pag-aambag</a></li>
+    <li><a href="#community">Komunidad at suporta</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>I-install</h2>
+  <p>
+    Nakatira ang Lily sa isang Git monorepo, na may direktoryo para sa headless na library, mga helper package, at halimbawang app ng bawat framework. Ang pinakamabilis na paraan para subukan ito ay i-clone ang monorepo at buksan ang headless na library para sa iyong stack:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Gumagana ang parehong pattern para sa iba pang framework:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — hindi kailangan ng install; kopyahin ang <code>.html</code> mga file</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Ang mga headless na library ay idinisenyo para i-clone o i-vendor — ituring ang source bilang pinagmumulan ng katotohanan at kopyahin ang kailangan mo. Ang
+    <a href="#helpers">mga preference helper</a> ay dumarating din bilang mga mai-install na package na may build at publish pipeline (npm para sa mga JS framework, NuGet para sa Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Gumamit ng headless na component</h2>
+  <p>
+    Naghahatid ang mga headless na component ng semantic HTML, ARIA, at mga prop — pero walang CSS. Narito ang isang Button sa bawat framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Gumamit ng halimbawang may istilo</h2>
+  <p>
+    Kasama sa mga halimbawang app ang CSS, mga ruta, at buong demo page. Ang pinakamabilis na paraan para mag-eksperimento ay simulan ang SvelteKit, Next, Nuxt, Analog, o Eleventy na halimbawang app at tingnan ang demo sa <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Pagkatapos ay buksan ang <code>http://localhost:5173</code> at mag-browse sa <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Istilo at mga design token</h2>
+  <p>
+    Nire-render ang bawat component na may isang kebab-case na klase sa root element nito. Halimbawa, <code>&lt;Button&gt;</code> ay nagre-render ng <code>&lt;button class="button"&gt;</code>. Bigyan ito ng istilo ayon sa gusto mo:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Ang default na color palette ng Lily (ginagamit sa mga halimbawang app) ay:</p>
+  <ul>
+    <li>Primary: <code>#2563eb</code></li>
+    <li>Panganib: <code>#dc2626</code></li>
+    <li>Babala: <code>#f59e0b</code></li>
+    <li>Tagumpay: <code>#16a34a</code></li>
+    <li>Background ng pahina: <code>#f9fafb</code></li>
+    <li>Background ng card: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Mga mungkahi ang mga ito, hindi mga kinakailangan. Palitan ang mga ito ng sarili mong brand palette at sasabay ang Lily nang masaya.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Mga handa nang tema</h2>
+  <p>
+    Ayaw mong magsulat ng CSS mula sa simula? May kasamang
+    <strong>57 standalone na reference na tema</strong> ang Lily sa direktoryong
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Bawat isa ay isang stylesheet na tumututok sa mga class hook ng Lily — i-link ito at may istilo ka na:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Saklaw ng hanay:</p>
+  <ul>
+    <li>
+      <strong>Pampublikong sektor</strong> — NHS England, NHS Scotland, at NHS Wales (bawat isa ay may variant para sa pasyente at practitioner), GOV.UK GDS, at ang U.S. Web Design System.
+    </li>
+    <li><strong>Inspirasyon ng vendor</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Pangkalahatang gamit</strong> — light, dark, nord, dracula, wireframe, at tatlumpung iba pa.
+    </li>
+  </ul>
+  <p>
+    Gumagamit ang mga selector ng tema ng <code>:where(...)</code>, kaya palaging mananalo ang sarili mong CSS sa specificity. Ipares ang mga ito sa <code>theme-picker</code> helper sa ibaba para sa runtime na pagpapalit, o sundan ang
+    <a href="/tutorials/theming/">tutorial sa theming</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Mga preference helper</h2>
+  <p>
+    May walong maliliit na picker ang bawat framework, bawat isa ay nasa sarili nitong
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> package (at isang <code>picker-bar</code> na nag-aassemble sa kanila). Bawat isa ay headless na icon button na nagbubukas ng popup — listbox, listahan ng mga link, search form, o (para sa date-time-picker) date-picker dialog — hindi native na
+    <code>&lt;select&gt;</code>; ligtas sa SSR; at walang kasamang CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — naglo-load ng mga stylesheet ng tema sa runtime sa pamamagitan ng pagpapalit ng pinamamahalaang <code>&lt;link&gt;</code>, nagtatakda ng
+      <code>data-theme</code> sa dokumento, at opsyonal na nagpe-persist sa
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — nagtatakda ng <code>lang</code> at
+      <code>dir</code> (na may awtomatikong pagtukoy ng RTL) para masundan ito ng iyong i18n library; hindi ito mismo nagsasalin.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — nagtatakda ng <code>data-text-size</code> sa dokumento; imamapa ng iyong CSS ang bawat halaga sa laki ng font.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — nagtatakda ng <code>data-motion</code> sa dokumento, simula sa setting ng nabawasang galaw ng bisita; ang iyong CSS at mga script ang magpapasya kung ano ang pipigilan.
+    </li>
+    <li>
+      <strong>search-picker</strong> — isang icon button na nagbubukas ng search field; ang pagsumite ay nagna-navigate sa isang search page. May-ari ng isang aksyon, hindi ng preference.
+    </li>
+    <li>
+      <strong>link-picker</strong> — isang home icon na nagbubukas ng menu ng mga link ng pahina na tinutukoy ng iyong app (Home, Tungkol sa Amin, Makipag-ugnayan, Patakaran sa Privacy, …). May-ari ng isang aksyon, hindi ng preference.
+    </li>
+    <li>
+      <strong>share-picker</strong> — nagbubukas ng native na share sheet o listahan ng mga destinasyon na ibinigay ng consumer, kasama ang pagkopya ng URL. May-ari ng isang aksyon, hindi ng preference: walang inilalapat, walang pinapanatili.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — isang text field kasama ang APG date-picker dialog para sa petsa, oras, o pareho. May-ari ng isang halaga ng form, hindi ng preference: ang ISO string ay bumabalik-balik sa
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Ang Svelte catalog ang canonical na reference; tumutugma ang mga port ng React, Vue, Angular, HTML, Nunjucks, Web Components, at Blazor dito kontrata-kontrata. Tingnan ang
+    <a href="/tutorials/helpers/">tutorial sa mga helper</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Accessibility</h2>
+  <p>Tinututukan ng mga component ang <strong>WCAG 2.2 AAA</strong>. Sinusunod nila ang mga pattern na ito:</p>
+  <ul>
+    <li>Mga semantic na HTML element kaysa sa pangkalahatang <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> na nag-uugnay ng mga label sa mga input.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> para sa mga cross-reference.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> para sa mga state ng error.</li>
+    <li><code>role="alert"</code> at <code>aria-live</code> para sa dinamikong nilalaman.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> para sa state.</li>
+    <li>Roving <code>tabindex</code> para sa mga grid.</li>
+  </ul>
+  <p>
+    Sadyang ibinibigay ng consumer ang mga tagapagpahiwatig ng focus — hindi kailanman nagpipinta ang Lily ng default na focus ring na maaaring sumalungat sa disenyo mo. Pinapanatili ng mga halimbawang app ang malinis na axe-core baseline sa lahat ng ruta nila.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internationalization</h2>
+  <p>
+    Bawat label, placeholder, mensahe ng error, at teksto ng button ay prop. Walang naka-hardcode na string. Ilagay ang iyong piniling translation framework — Paraglide, i18next, vue-i18n, react-intl, mga .resx file, anuman.
+  </p>
+  <p>
+    Para sa mga petsa, numero, at pera, tumatanggap ang mga component ng mga string na naka-format na: ikaw ang magfo-format gamit ang <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / iyong paboritong library at ipapasa ang resulta.
+  </p>
+  <p>
+    Ang <code>locale-picker</code> helper ay nagsisignal ng napiling locale sa iyong i18n library sa pamamagitan ng pagtatakda ng <code>lang</code> at <code>dir</code> sa root ng dokumento.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Pagsusuri</h2>
+  <p>Nagpapadala ang bawat subproject ng framework ng sarili nitong mga pagsusuri gamit ang idiomatic na stack nito:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO na nagpapatakbo ng tunay na browser.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (sa pamamagitan ng Analog Vite plugin).</li>
+    <li><strong>Nunjucks</strong>: Vitest na may render helper.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Gumagamit ang mga pagsusuri ng <strong>mga built-in na matcher lang ng Vitest</strong> — hindi kailanman
+    <code>jest-dom</code> mga matcher. Pinananatili nitong portable ang mga test suite. Nagdaragdag ang mga halimbawang app ng mga Playwright end-to-end suite, axe-core accessibility baseline, at responsive viewport sweep.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Mga AI agent</h2>
+  <p>
+    Naglalathala ang site na ito ng <a href="/llms.txt">llms.txt</a> at
+    <a href="/llms.json">llms.json</a> sa root nito — isang piniling mapa ng pinakamahahalagang pahina nito, para sa anumang tool na sumusunod sa
+    <a href="https://llmstxt.org">kombensyon ng llms.txt</a>.
+  </p>
+  <p>
+    Nagpapadala rin ang canonical na monorepo ng dalawang
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>, isang pangkalahatang kasanayan na sumasaklaw sa mga konsepto, terminolohiya, at pattern ng komposisyon ng Lily para sa sinumang bumubuo gamit ang sistema, at <code>lily-design-system-maintainer-skill</code>, isang teknikal na kasanayan na sumasaklaw sa kinakailangang layout ng mga file at tooling ng monorepo para sa sinumang nagtatrabaho rito. Parehong nasa root ng
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">canonical na monorepo</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Pag-troubleshoot</h2>
+
+  <details class="faq-item">
+    <summary>Nagre-render ang isang component pero mukhang walang istilo</summary>
+    <p>
+      Iyan ang headless na gumagana ayon sa nilalayon — walang CSS na kasama ng component. Magsulat ng CSS laban sa kebab-case na klase ng component (ipinapakita sa bawat <a href="/components/">pahina ng catalog</a>) o mag-link ng isa sa
+      <a href="#themes">57 handa nang tema</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hindi mukhang naa-apply ang CSS ko sa ibabaw ng tema</summary>
+    <p>
+      Dapat — nakabalot ang mga selector ng tema sa <code>:where(...)</code>, na may zero na specificity. Kung natatalo pa rin ang isang rule, tingnan kung naglo-load ang stylesheet mo pagkatapos ng sa tema <code>&lt;link&gt;</code> at kung talagang tumutugma ang selector sa class hook ng component.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nabibigo ang pnpm install na may peer o version error</summary>
+    <p>
+      Gumamit ng kasalukuyang pnpm (v10+) at Node 22+. Pino-pin ng bawat subproject ang mga bersyon ng framework nito sa sarili nitong <code>package.json</code>; kung mas luma ang global toolchain mo, <code>pnpm env use --global lts</code> ang pinakamabilis na solusyon.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Maling pangalan ang binabalita ng screen reader para sa isang kontrol</summary>
+    <p>
+      Tingnan ang kinakailangang <code>label</code> prop ng component — nangangailangan ng isa ang mga component na walang nakikitang teksto, at ang
+      <code>aria-label</code> / <code>aria-labelledby</code> na ibinigay ng consumer na ipinasa sa rest-props ay sadyang nananaig sa built-in na wiring. Idinodokumento ng bawat pahina ng catalog ang kontrata ng ARIA ng component.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hindi nagpapalit ng stylesheet ang theme-picker helper</summary>
+    <p>
+      Tiyaking ang <code>themesUrl</code> ay tumuturo sa direktoryong makukuha ng browser (i-serve ang mga <code>themes/</code> file bilang static asset) at ang mga slug ng tema sa iyong <code>themes</code> prop ay tumutugma sa mga pangalan ng file. Pinapalitan ng helper ang <code>href</code> ng isang pinamamahalaang
+      <code>&lt;link data-lily-theme-picker&gt;</code> — siyasatin ito sa devtools para makita ang URL na hinihiling.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>May iba pang sira</summary>
+    <p>
+      Magbukas ng issue na may minimal na reproduction sa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — o tingnan ang <a href="#community">komunidad at suporta</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Pag-aambag</h2>
+  <p>Bata pa ang Lily at malugod na tumatanggap ng pakikipagtulungan. Ang pinakakapaki-pakinabang na kontribusyon ngayon ay:</p>
+  <ul>
+    <li>Mga bagong component (lalo na ang mga pattern mula sa mga matatag na design system).</li>
+    <li>Mga bagong tema — bawat isa ay isang standalone na stylesheet, mahusay ang saklaw na unang PR.</li>
+    <li>Mas magandang istilo ng halimbawa — ipakita kung ano ang posible.</li>
+    <li>Mga pagsasalin ng mga string ng halimbawang app.</li>
+    <li>Mga ulat ng bug na may minimal na reproduction.</li>
+    <li>Mga accessibility audit gamit ang screen reader at assistive tech.</li>
+  </ul>
+  <p>
+    Magbukas ng mga issue at PR sa
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Komunidad at suporta</h2>
+  <ul>
+    <li>
+      <strong>Mga tanong at ulat ng bug</strong> — magbukas ng issue sa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Email</strong> — binabasa ng maintainer ang
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      at malugod na tinatanggap ang pakikipagtulungan, gabay, at puna.
+    </li>
+    <li>
+      <strong>Mga mirror</strong> — Itinutulak din ang Lily sa
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> at
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, para makalahok ka mula sa forge na gusto mo.
+    </li>
+    <li>
+      <strong>Asal</strong> — sinusunod ng proyekto ang karaniwang code of conduct; maging mabait, ipalagay ang mabuting layunin.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Bakit headless sa halip na may istilo?</summary>
+    <p>
+      Maginhawa ang mga naunang istilong component — hanggang hindi na tumugma sa brand mo. Medyo mas maraming trabaho sa simula ang mga headless na component pero binibigyan ka ng kumpletong kontrol sa visual na disenyo. Ipinapakita ng mga halimbawang app at ng 57 tema ang mga paraan para bigyan sila ng istilo; maaari mong kunin ang mga iyon o palitan nang buo. Ang mas mahabang argumento ay nasa <a href="/why/">Bakit Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bakit ang daming component?</summary>
+    <p>
+      Layunin ng Lily na saklawin ang mga pattern na kailangan ng karamihan ng app nang hindi ka pinipilit na buuin ang mga ito mula sa simula — kasama ang mga malalalim na bagay tulad ng pambansang identifier input at editorial scrollytelling. Kumukuha ang catalog sa isang dosenang matatag na design system kasama ang orihinal na gawa — tingnan ang <a href="/about/">Tungkol</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Magagamit ko ba ang Lily sa Tailwind?</summary>
+    <p>
+      Oo. Naglalantad ang bawat component ng isang kebab-case na root class kasama ang <code>className</code> / <code>class</code>na ibinigay ng consumer. Patungan ng mga utility ng Tailwind ayon sa gusto mo.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Magagamit ko ba ang Lily sa mga semantic CSS framework tulad ng DaisyUI?</summary>
+    <p>
+      Oo. Gumagana ang mga kebab-case na pangalan ng klase sa root element bilang semantic CSS hook. Ipares ang Lily sa isang semantic framework at makakakuha ka ng mga component na may naunang istilo na gumagalang pa rin sa ARIA at i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>May npm package ba?</summary>
+    <p>
+      Ang <a href="#helpers">mga preference helper</a> ay inihahatid bilang mga package na may npm/NuGet publish pipeline. Ang mga headless na library ng component ay idinisenyo para i-clone o i-vendor — ang source ang deliverable, para mabasa, ma-trim, at maangkin mo ang eksaktong ini-ship mo. Nasa roadmap pa rin ang pag-publish sa registry ng mga headless na library.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bakit maraming lisensya?</summary>
+    <p>
+      Magkakaiba ang pangangailangan sa lisensya ng iba't ibang proyekto. Maluwag ang BSD at MIT, may patent grant ang Apache-2.0, at sinusuportahan ng mga opsyon ng GPL ang copyleft. Piliin ang akma sa sitwasyon mo.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Paano ako mag-uulat ng bug o hihiling ng feature?</summary>
+    <p>
+      Magbukas ng issue sa GitHub repository, o mag-email sa
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

@@ -1,0 +1,111 @@
+<!-- title: Mafunzo ya mandhari — Lily Design System -->
+<!-- description: Weka mandhari ya Lily kwa njia tatu: unganisha mojawapo ya mandhari 45 yaliyo tayari, ibatilishe kwa CSS yako, na ongeza kubadili mandhari wakati wa utekelezaji kwa kisaidizi cha theme-picker. -->
+<section class="page-intro">
+  <h1>Mandhari</h1>
+  <p class="page-intro-tagline">
+    Vipengele vya Lily vina vishikio thabiti vya darasa na hakuna CSS — kwa hivyo mandhari ni karatasi ya mitindo tu. Mafunzo haya yanatoka "unganisha faili moja" hadi "mwache mtumiaji abadilishe mandhari wakati wa utekelezaji, na ihifadhiwe".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Utakachojenga</h2>
+  <p>
+    Programu ambayo mwonekano wake wote mtumiaji anaweza kubadilisha — kuanzia karatasi moja ya mitindo iliyounganishwa, hadi kibadilishaji cha mandhari cha wakati wa utekelezaji kinachohifadhiwa — kwa takriban dakika 15.
+  </p>
+
+  <h2>Kabla ya kuanza</h2>
+  <p>
+    Maliza <a href="/tutorials/">mafunzo ya mfumo wa kazi</a> kwa teknolojia yako kwanza, ili uwe na fomu ndogo ya Lily ya kuwekea mandhari. Kila kitu hapa kinafanya kazi katika mifumo yote saba ya kazi; mifano ya msimbo inaonyesha Svelte na HTML ya kawaida.
+  </p>
+
+  <h2>Hatua ya 1 — Unganisha mandhari yaliyo tayari</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    saraka ina karatasi 45 huru za mitindo. Zinakili kwenye mali tuli za programu yako na uunganishe moja:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Mambo muhimu ya seti hiyo:</p>
+  <ul>
+    <li>
+      <strong>Sekta ya umma</strong> — NHS England / Scotland / Wales, kila moja katika matoleo ya wagonjwa na ya watendaji; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Yaliyotokana na wauzaji</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Matumizi ya jumla</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, na mengine mengi.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hakiki kazi yako:</strong> pakia ukurasa upya. Alama zilezile ulizojenga kwenye mafunzo ya mfumo wa kazi sasa zimepambwa kikamilifu — vitufe, pembejeo, lebo, pete za umakini. Mstari mmoja wa HTML ulifanya hivyo — kila kipengele kilibaki kama kilivyokuwa.
+    </p>
+  </div>
+
+  <h2>Hatua ya 2 — Batilisha chochote</h2>
+  <p>
+    Vichaguzi vya mandhari vimefungwa katika <code>:where(...)</code>ambayo ina umahususi sifuri — kwa hivyo kanuni yoyote unayoandika hushinda, kwa urahisi kabisa:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Hatua ya 3 — Kubadili wakati wa utekelezaji kwa theme-picker</h2>
+  <p>
+     <code>theme-picker</code> kisaidizi ni kitufe cha ikoni + kisanduku cha orodha kisicho na mwonekano kinachomiliki mzunguko mzima wa maisha wa mandhari: hupakia karatasi ya mitindo iliyochaguliwa kwa kubadilisha <code>&lt;link&gt;</code>
+    moja inayosimamiwa (ni mandhari amilifu pekee hupakuliwa), huweka
+    <code>data-theme="&#123;slug&#125;"</code> kwenye hati, na hiari huhifadhi kwenye <code>localStorage</code>. Svelte imeonyeshwa hapa; matoleo ya React, Vue, Angular, HTML, Nunjucks, na Blazor yanalingana mkataba kwa mkataba:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Huo ndio ujumuishaji wote. Tabia ya kibodi hufuata mchoro wa kisanduku cha orodha cha WAI-ARIA APG; kidhibiti chenyewe hakina mwonekano (kishikio cha darasa
+    <code>.theme-picker</code>), hivyo huchukua mandhari yoyote iliyo amilifu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Imethibitishwa 2026-08-29:</strong> kijisehemu hiki hasa kilikusanywa dhidi ya <code>0.1.1</code> kifurushi kilichochapishwa kupitia
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Hatua ya 4 — Itikia mandhari katika CSS yako mwenyewe</h2>
+  <p>
+    Kwa kuwa kisaidizi huweka <code>data-theme</code> kwenye mzizi wa hati, mitindo yako mwenyewe inaweza kutawanyika kulingana nayo:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Maelezo kwa uonyeshaji wa seva</h2>
+  <p>
+    Kisaidizi hufanya uandishi wote wa DOM ndani ya mzunguko wa maisha wa kupachika/athari wa mfumo wa kazi, hivyo ni salama kwa SSR kwa muundo. Ili kuepuka kuvuma kwa mchoro wa kwanza, onyesha <code>&lt;link&gt;</code> na
+    <code>data-theme</code> ya mandhari ya awali kwenye seva (kwa mfano kutoka kwenye kidakuzi) — hifadhi ya kisaidizi cha Svelte ina mfano wa kidakuzi wa SvelteKit unaoweza kuendeshwa, na orodha nyingine huandika mchoro uleule kwa teknolojia zao.
+  </p>
+
+  <h2>Hatua zinazofuata</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Visaidizi vya mapendeleo</a> — mchoro uleule kwa lugha, ukubwa wa maandishi, kushiriki, na uingizaji wa tarehe/saa.</li>
+    <li>
+      Changia mandhari — kila moja ni karatasi moja huru ya mitindo inayolenga vishikio vya darasa; tazama <a href="/help/#contributing">mwongozo wa kuchangia</a>.
+    </li>
+  </ul>
+  <p>
+    Una maswali njiani?
+    <a href="/help/#troubleshooting">Ukurasa wa msaada</a> umejaa majibu — na kama hatua inaweza kuwa wazi zaidi,
+    <a href="https://github.com/LilyDesignSystem">tuambie</a> na tutafurahi kuboresha mafunzo.
+  </p>
+</section>

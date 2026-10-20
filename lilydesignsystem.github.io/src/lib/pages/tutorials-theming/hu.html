@@ -1,0 +1,111 @@
+<!-- title: Témázási oktatóanyag — Lily Design System -->
+<!-- description: Témázd a Lilyt három módon: hivatkozz a 45 kész téma egyikére, írd felül a saját CSS-eddel, és adj hozzá futásidejű témaváltást a theme-picker segéddel. -->
+<section class="page-intro">
+  <h1>Témák</h1>
+  <p class="page-intro-tagline">
+    A Lily komponenseinek stabil osztálykampóik vannak és nulla CSS — így egy téma csak egy stíluslap. Ez az oktatóanyag az „egy fájl hivatkozásától” a „hagyd, hogy a felhasználó futásidőben témát váltson, tartósan elmentve” állapotig vezet.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy alkalmazás, amelynek a teljes megjelenését a felhasználó megváltoztathatja — egyetlen hivatkozott stíluslappal kezdve, tartós futásidejű témaváltóval végezve — nagyjából 15 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Előbb fejezd be a <a href="/tutorials/">keretrendszer-oktatóanyagot</a> a saját technológiai készletedhez először, hogy legyen egy kis Lily-űrlapod a témázáshoz. Itt minden működik mind a hét keretrendszerben; a kódminták Svelte-et és sima HTML-t mutatnak.
+  </p>
+
+  <h2>1. lépés — Hivatkozz egy kész témára</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    könyvtár 45 önálló stíluslapot tartalmaz. Másold őket az alkalmazásod statikus erőforrásai közé, és hivatkozz egyre:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>A készlet kiemelései:</p>
+  <ul>
+    <li>
+      <strong>Közszféra</strong> — NHS England / Scotland / Wales, mindegyik betegközpontú és szakemberközpontú változatban; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Szállítók által ihletett</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Általános célú</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>és még sok más.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> töltsd újra az oldalt. Ugyanaz a jelölés, amelyet a keretrendszer-oktatóanyagban építettél, most teljesen stílusos — gombok, mezők, címkék, fókuszgyűrűk. Egyetlen HTML-sor tette — minden komponens pontosan olyan maradt, amilyen volt.
+    </p>
+  </div>
+
+  <h2>2. lépés — Írj felül bármit</h2>
+  <p>
+    A témaszelektorok ebbe vannak csomagolva: <code>:where(...)</code>aminek nulla a specificitása — így bármelyik szabály, amit írsz, nyer, egyszerűen:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>3. lépés — Futásidejű váltás a theme-pickerrel</h2>
+  <p>
+     <code>theme-picker</code> segéd egy fej nélküli ikongomb + listbox, amely a téma teljes életciklusát birtokolja: betölti a kiválasztott stíluslapot egyetlen felügyelt <code>&lt;link&gt;</code>
+    cseréjével (csak az aktív témát tölti le), beállítja a
+    <code>data-theme="&#123;slug&#125;"</code> értéket a dokumentumon, és igény szerint tartósan elmenti ide: <code>localStorage</code>. Itt Svelte látható; a React, Vue, Angular, HTML, Nunjucks és Blazor portok szerződésről szerződésre megfelelnek:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Ez a teljes integráció. A billentyűzet-viselkedés a WAI-ARIA APG listbox-mintát követi; maga a vezérlő fej nélküli (osztálykampó
+    <code>.theme-picker</code>), így átveszi, bármelyik téma aktív.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizve 2026-08-29:</strong> pontosan ez a kódrészlet le lett fordítva a közzétett <code>0.1.1</code> csomaggal szemben ezzel:
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>4. lépés — Reagálj a témára a saját CSS-edben</h2>
+  <p>
+    Mivel a segéd beállítja a <code>data-theme</code> értéket a dokumentum gyökerén, a saját stílusaid is elágazhatnak rá:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Megjegyzések a szerveroldali rendereléshez</h2>
+  <p>
+    A segéd minden DOM-írást a keretrendszer mount/effect életciklusán belül végez, így szerkezetéből adódóan SSR-biztonságos. Az első kirajzolás villanásának elkerüléséhez renderelj a szerveren <code>&lt;link&gt;</code> és
+    <code>data-theme</code> a kezdeti témához (például egy sütiből) — a Svelte segéd tárolója futtatható SvelteKit sütipéldát tartalmaz, a többi katalógus pedig ugyanezt a mintát dokumentálja a saját technológiai készletéhez.
+  </p>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — ugyanaz a minta a nyelvhez, szövegmérethez, megosztáshoz és dátum-/időbevitelhez.</li>
+    <li>
+      Járulj hozzá egy témával — mindegyik egy önálló stíluslap, amely az osztálykampókat célozza; lásd <a href="/help/#contributing">a közreműködést</a>.
+    </li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

@@ -1,0 +1,127 @@
+<!-- title: Angular பயிற்சி — Lily Design System -->
+<!-- description: Lily இன் Angular 20 தலையற்ற கூறுகளைக் கொண்டு அணுகத்தக்க, பாணியிடப்பட்ட படிவத்தை உருவாக்குங்கள்: சிக்னல் உள்ளீடுகளுடன் தனித்து இயங்கும் கூறுகள். -->
+<section class="page-intro">
+  <h1>Angular பயிற்சி</h1>
+  <p class="page-intro-tagline">
+    Angular 20 தனித்து இயங்கும் கூறுகள் — சிக்னல் உள்ளீடுகள், OnPush மாற்றக் கண்டறிதல், இன்லைன் வார்ப்புருக்கள், பூஜ்ஜிய NgModules, பூஜ்ஜிய CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>நீங்கள் என்ன உருவாக்குவீர்கள்</h2>
+  <p>
+    ஒரு சிறிய தொடர்புப் படிவம் — லேபிளுடன் கூடிய புலம், சமர்ப்பிக்கும் பொத்தான், இருவழி பிணைப்பு, உண்மையான விசைப்பலகை மற்றும் திரை வாசிப்பான் நடத்தை — முதலில் வெறுமையாக, பிறகு பாணியுடன், சுமார் 10 நிமிடங்களில்.
+  </p>
+
+  <h2>தொடங்குவதற்கு முன்</h2>
+  <p>
+    உங்களுக்கு git, Node 22 அல்லது புதியது, மற்றும் pnpm 10 அல்லது புதியது தேவை. எந்த Angular 20 திட்டமும் வேலை செய்யும் — Angular CLI அல்லது Analog.
+  </p>
+
+  <h2>படி 1 — குறியீட்டைப் பெறுங்கள்</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    கூறுகள் இங்கே தட்டையான கோப்புகளாக உள்ளன: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — ஒவ்வொன்றும் இன்லைன் வார்ப்புருவுடன் தனித்து இயங்கும் கூறு, அதன் spec மற்றும் story உடன். பேரல்
+    <code>index.ts</code> ஒவ்வொரு கூறையும் மீண்டும் ஏற்றுமதி செய்கிறது; <code>pnpm build</code>
+    ng-packagr வழியாக Angular Package Format தொகுப்பை உருவாக்குகிறது.
+  </p>
+
+  <h2>படி 2 — உங்கள் முதல் கூறு</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    ஒவ்வொரு கூறும் ஒரு <code>lily-*</code> தேர்வியை அறிவித்து, அதன் வகுப்பு கொக்கியுடன் பொருள்தரு உறுப்பை வழங்குகிறது —
+    <code>&lt;button class="button" type="button"&gt;</code> இங்கே. உள்ளீடுகள் சிக்னல் அடிப்படையிலானவை: <code>label()</code> க்காக <code>aria-label</code>
+    மேலெழுத, <code>className()</code> வகுப்புகளைச் சேர்க்க.
+  </p>
+
+  <h2>படி 3 — ஒரு சிறிய படிவத்தை உருவாக்குங்கள்</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> தெரியும் லேபிளை அதன் சொந்த
+    <code>label</code> உள்ளீடாக எடுக்கிறது, உள்ளமைந்த லேபிள் கூறாக அல்ல — அதை ஒருமுறை புலத்தில் கொடுங்கள், பொருந்தும் <code>lily-text-input</code>இன்
+    <code>label</code> அணுகத்தக்க பெயரை வழங்குகிறது. உள்ளீடு போன்ற கூறுகள் <code>model()</code> மதிப்புகளை வெளிப்படுத்துகின்றன, எனவே banana-box <code>[(value)]</code>
+    இருவழி பிணைப்பு உடனே வேலை செய்கிறது — முழுவதும் zoneless-இணக்கமானது.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 அன்று சரிபார்க்கப்பட்டது:</strong> முந்தைய வரைவு தனி <code>Label</code> கூறை <code>lily-field</code>உள்ளே வைத்தது, அதனால் <em>இரண்டு</em> லேபிள்கள் (ஒன்று காலி) வழங்கப்பட்டன, ஏனெனில்
+      <code>lily-field</code> ஏற்கனவே தன் சொந்தத்தை
+      <code>label</code> உள்ளீட்டிலிருந்து வழங்குகிறது — கூறின் மூலக் குறியீட்டைச் சோதித்ததன் மூலம் கண்டறியப்பட்டது.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">இணைந்த தொடர்புப் படிவ வழி</a>
+      அதே முறைதான், உண்மையான e2e மற்றும் axe சோதனைகளால் சோதிக்கப்பட்டது.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>உங்கள் வேலையைச் சரிபார்க்கவும்:</strong> பயன்பாட்டை இயக்குங்கள், படிவம் வெறுமையாகத் தெரிகிறது — சரியாக நோக்கப்பட்டபடி: பாணியிடல் இன்னும் வரவுள்ளது. அழுத்துங்கள்
+      <kbd>Tab</kbd>: குவியம் ஒவ்வொரு கட்டுப்பாட்டின் வழியாகவும் செல்கிறது, லேபிள் அறிவிக்கப்படுகிறது, சமர்ப்பிப்பு வேலை செய்கிறது. நடத்தை முடிந்தது; தோற்றம் உங்களுடையது, அடுத்த படி அதுவே.
+    </p>
+  </div>
+
+  <h2>படி 4 — பாணியிடுங்கள்</h2>
+  <p>
+    வகுப்புக் கொக்கிகளுக்குப் பாணியிடுங்கள் — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — இதில் <code>styles.css</code>, அல்லது தயார் தீமை வரிசையில் சேர்க்கவும் <code>styles</code> இல்
+    <code>angular.json</code> / இதில் இணைக்கவும் <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>படி 5 — எல்லாம் வேலை செய்வதைப் பாருங்கள்</h2>
+  <p>
+     <a href="/examples/">Angular + Analog எடுத்துக்காட்டுப் பயன்பாடு</a> கோப்பு அடிப்படையிலான வழிசெலுத்தல் மற்றும் Vite உடன் முழு பட்டியலைக் காட்டுகிறது:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>அடுத்த படிகள்</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">தீம்கள்</a> — Angular theme-picker உதவியாளருடன் இயங்கும் போதே மாற்றுதல்.</li>
+    <li><a href="/tutorials/helpers/">விருப்ப உதவியாளர்கள்</a> — மொழி மற்றும் உரை அளவு.</li>
+    <li><a href="/components/">கூறுப் பட்டியல்</a> — ஒவ்வொரு கூறுக்கும் பண்புகள், ARIA மற்றும் விசைப்பலகை.</li>
+  </ul>
+  <p>
+    வழியில் கேள்விகளா?
+    <a href="/help/#troubleshooting">உதவிப் பக்கம்</a> பதில்களால் நிறைந்தது — ஒரு படி இன்னும் தெளிவாக இருக்க முடிந்தால்,
+    <a href="https://github.com/LilyDesignSystem">எங்களிடம் சொல்லுங்கள்</a> நாங்கள் மகிழ்ச்சியுடன் பயிற்சியை மேம்படுத்துவோம்.
+  </p>
+</section>

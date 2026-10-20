@@ -1,0 +1,111 @@
+<!-- title: Návod k tématům — Lily Design System -->
+<!-- description: Dejte Lily téma třemi způsoby: připojte jedno z 45 hotových témat, přepište ho svým CSS a přidejte přepínání tématu za běhu pomocníkem theme-picker. -->
+<section class="page-intro">
+  <h1>Témata</h1>
+  <p class="page-intro-tagline">
+    Komponenty Lily mají stabilní třídní háčky a nulové CSS — takže téma je jen stylopis. Tento návod vede od „připojte jeden soubor“ k „nechte uživatele přepínat téma za běhu, s trvalým uložením“.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co vytvoříte</h2>
+  <p>
+    Aplikace, jejíž celý vzhled může uživatel měnit — od jednoho připojeného stylopisu až po trvale uložený přepínač témat za běhu — zhruba za 15 minut.
+  </p>
+
+  <h2>Než začnete</h2>
+  <p>
+    Nejprve dokončete <a href="/tutorials/">návod k frameworku</a> pro svůj stack nejdřív, ať máte malý formulář Lily, na který téma aplikujete. Vše zde funguje ve všech sedmi frameworcích; ukázky kódu ukazují Svelte a čisté HTML.
+  </p>
+
+  <h2>Krok 1 — Připojte hotové téma</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    adresář obsahuje 45 samostatných stylopisů. Zkopírujte je do statických zdrojů své aplikace a připojte jeden:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Z toho, co sada nabízí:</p>
+  <ul>
+    <li>
+      <strong>Veřejný sektor</strong> — NHS England / Scotland / Wales, každé ve variantách pro pacienty i pro odborníky; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Inspirovaná dodavateli</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Univerzální</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>a mnoho dalších.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Zkontrolujte svou práci:</strong> znovu načtěte stránku. Stejné značky, které jste postavili v návodu k frameworku, jsou teď plně ostylované — tlačítka, vstupy, štítky, fokusové obruby. Udělal to jeden řádek HTML — každá komponenta zůstala přesně taková, jaká byla.
+    </p>
+  </div>
+
+  <h2>Krok 2 — Přepište cokoli</h2>
+  <p>
+    Selektory témat jsou obaleny v <code>:where(...)</code>která má nulovou specifičnost — takže jakékoli pravidlo, které napíšete, vyhraje, prostě:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Krok 3 — Přepínání za běhu pomocí theme-picker</h2>
+  <p>
+     <code>theme-picker</code> pomocník je bezhlavé tlačítko s ikonou + listbox, který vlastní celý životní cyklus tématu: načte vybraný stylopis výměnou jednoho spravovaného <code>&lt;link&gt;</code>
+    (stahuje se jen aktivní téma), nastaví
+    <code>data-theme="&#123;slug&#125;"</code> na dokumentu a volitelně trvale uloží do <code>localStorage</code>. Zde je ukázán Svelte; porty pro React, Vue, Angular, HTML, Nunjucks a Blazor odpovídají smlouvu po smlouvě:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    To je celá integrace. Chování klávesnice sleduje vzor listboxu WAI-ARIA APG; samotný ovládací prvek je bezhlavý (třídní háček
+    <code>.theme-picker</code>), takže převezme jakékoli aktivní téma.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ověřeno 2026-08-29:</strong> přesně tato ukázka byla zkompilována proti publikovanému balíčku <code>0.1.1</code> přes
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Reagujte na téma ve vlastním CSS</h2>
+  <p>
+    Protože pomocník nastavuje <code>data-theme</code> na kořen dokumentu, vaše vlastní styly se podle toho mohou větvit:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Poznámky k vykreslování na serveru</h2>
+  <p>
+    Pomocník provádí všechny zápisy do DOM v životním cyklu mount/effect frameworku, takže je z konstrukce bezpečný pro SSR. Aby nedošlo k probliknutí při prvním vykreslení, vykreslete na serveru <code>&lt;link&gt;</code> a
+    <code>data-theme</code> počátečního tématu (například z cookie) — repozitář pomocníka Svelte dodává spustitelný příklad cookie pro SvelteKit a ostatní katalogy dokumentují stejný vzor pro své stacky.
+  </p>
+
+  <h2>Další kroky</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Pomocníci pro předvolby</a> — stejný vzor pro jazyk, velikost textu, sdílení a zadávání data/času.</li>
+    <li>
+      Přispějte tématem — každé je jeden samostatný stylopis cílící na třídní háčky; viz <a href="/help/#contributing">přispívání</a>.
+    </li>
+  </ul>
+  <p>
+    Otázky cestou?
+    <a href="/help/#troubleshooting">Stránka nápovědy</a> je plná odpovědí — a pokud by nějaký krok mohl být jasnější,
+    <a href="https://github.com/LilyDesignSystem">dejte nám vědět</a> a návod rádi vylepšíme.
+  </p>
+</section>

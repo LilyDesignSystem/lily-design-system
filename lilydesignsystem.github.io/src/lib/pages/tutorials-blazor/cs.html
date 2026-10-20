@@ -1,0 +1,107 @@
+<!-- title: Návod pro Blazor — Lily Design System -->
+<!-- description: Vytvořte přístupný, ostylovaný formulář pomocí bezhlavých komponent Lily pro Blazor: komponenty Razor s parametry a testy bUnit. -->
+<section class="page-intro">
+  <h1>Návod pro Blazor</h1>
+  <p class="page-intro-tagline">
+    Komponenty knihovny tříd Razor s parametry, <code>ChildContent</code>
+    fragmenty vykreslování, rozprostírání atributů a jeden test bUnit na komponentu.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co vytvoříte</h2>
+  <p>
+    Malý kontaktní formulář — pole se štítkem, tlačítko odeslat,
+    <code>@bind-Value</code> vazba, skutečné chování klávesnice a čtečky obrazovky — nejprve holý, potom ostylovaný, zhruba za 10 minut.
+  </p>
+
+  <h2>Než začnete</h2>
+  <p>
+    Potřebujete git a .NET SDK 8 nebo novější. Hodí se jakýkoli projekt Blazor — Blazor Web App, Server nebo WebAssembly.
+  </p>
+
+  <h2>Krok 1 — Získejte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Komponenty jsou v <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — každá v jednom souboru Razor. Odkažte na projekt (nebo zkopírujte soubory) ze své aplikace Blazor a přidejte <code>@using LilyBlazorHeadless.Components</code> do
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Krok 2 — Vaše první komponenta</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Vykresluje <code>&lt;button class="button"&gt;</code>. Společné konvence parametrů: <code>Label</code> ( <code>aria-label</code> k přepsání),
+    <code>CssClass</code> (připojí se k základnímu háčku),
+    <code>ChildContent</code>a
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> rozprostírání atributů, takže jakýkoli další atribut HTML projde dál.
+  </p>
+
+  <h2>Krok 3 — Sestavte malý formulář</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> přijímá viditelný <code>Label</code> jako vlastní parametr místo vnořené komponenty štítku — předejte ho jednou, u
+    <code>Field</code>a <code>TextInput</code>z
+    <code>Label</code> dodá přístupný název.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ověřeno 2026-08-29:</strong> dřívější koncept vnořoval samostatnou komponentu <code>Label</code> dovnitř <code>Field</code>, což vykreslilo <em>dva</em> štítky (jeden prázdný), protože <code>Field</code>
+      už vykresluje svůj vlastní ze vstupu <code>Label</code> parametr — zjištěno kontrolou zdrojového kódu komponenty; <code>Form</code> samo nemá parametr <code>Label</code> , takže použití
+      <code>&lt;Form&gt;</code> z dřívějšího konceptu bylo opraveno vynecháním, místo aby se vymýšlel neexistující atribut.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Složená trasa kontaktního formuláře</a>
+      je stejný vzor, prověřený skutečnými testy e2e a axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Zkontrolujte svou práci:</strong> spusťte aplikaci a formulář vypadá holě — přesně jak bylo zamýšleno: stylování teprve přijde. Stiskněte
+      <kbd>Tab</kbd>: fokus prochází každým ovládacím prvkem, štítek se oznamuje a odeslání funguje. Chování je hotové; vzhled je váš a je další na řadě.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>
+    Ostylujte třídní háčky — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — v <code>app.css</code>, nebo připojte hotové téma v <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Podívejte se, jak to celé funguje</h2>
+  <p>
+     <a href="/examples/">Ukázková aplikace Blazor Web</a> ukazuje celý katalog ostylovaný a předvedený, s testy e2e Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Další kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témata</a> — přepínání za běhu pomocníkem theme-picker pro Blazor (knihovna tříd Razor na NuGetu).</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pro předvolby</a> — jazyk a velikost textu.</li>
+    <li><a href="/components/">Katalog komponent</a> — vlastnosti, ARIA a klávesnice pro každou komponentu.</li>
+  </ul>
+  <p>
+    Otázky cestou?
+    <a href="/help/#troubleshooting">Stránka nápovědy</a> je plná odpovědí — a pokud by nějaký krok mohl být jasnější,
+    <a href="https://github.com/LilyDesignSystem">dejte nám vědět</a> a návod rádi vylepšíme.
+  </p>
+</section>

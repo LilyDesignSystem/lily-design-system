@@ -1,0 +1,97 @@
+<!-- title: Koyarwar Nunjucks — Lily Design System -->
+<!-- description: Gina shafuka masu sauƙin isa, masu tsari, da aka zana a sabar da macros na Nunjucks na Lily — ya dace da Eleventy. -->
+<section class="page-intro">
+  <h1>Koyarwar Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Macros da aka zana a sabar don Eleventy, Express ko kowane bututun samfurin Node — hanyar salon GOV.UK, tare da kundin Lily da ƙugiyoyin aji.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Abin da za ka gina</h2>
+  <p>
+    Ƙaramin fom na tuntuɓa da aka zana a sabar — fili mai lakabi, maɓallin aikawa, sifili nauyin JavaScript — da farko ba tare da tsari ba, sannan da tsari, cikin kusan mintuna 10.
+  </p>
+
+  <h2>Kafin ka fara</h2>
+  <p>
+    Kana buƙatar git, Node 22 ko sabo, da pnpm 10 ko sabo. Kowane bututun Nunjucks yana aiki — Eleventy, Express ko Nunjucks mai sauƙi.
+  </p>
+
+  <h2>Mataki na 1 — Ɗauki lambar</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Kowane abu kundin adireshi ne a cikin <code>components/</code> mai
+    <code>macro.njk</code>, gwajinsa da takardunsa — misali
+    <code>components/button/macro.njk</code>. Nuna mai ɗora Nunjucks ɗinka zuwa
+    <code>components/</code> (a Eleventy, ƙara shi zuwa hanyar includes) kuma shigo da abin da kake buƙata.
+  </p>
+
+  <h2>Mataki na 2 — Abu na farko naka</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Yana nuna <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Macros suna ɗaukar abu params ɗaya: <code>text</code> (an kauce) ko
+    <code>html</code> (ɗanye), <code>type</code>, <code>label</code> don
+    <code>aria-label</code>da mai ƙara ƙugiyar aji.
+  </p>
+
+  <h2>Mataki na 3 — Haɗa ƙaramin fom</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Saboda komai ana zana shi a sabar, mai bincike yana karɓar HTML mai ma'ana tsantsa da ƙugiyoyin aji — nauyin JavaScript na bytes sifili.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Duba aikinka:</strong> loda shafin kuma fom ɗin yana kama da maras tsari — daidai kamar yadda aka nufa: tsarin yana nan gaba. Danna
+      <kbd>Tab</kbd>: mayar da hankali yana ratsa kowane abin sarrafawa, ana sanar da lakabin, kuma aikawa yana aiki. An gama halayyar; kamannin naka ne kuma shi ne mataki na gaba.
+    </p>
+  </div>
+
+  <h2>Mataki na 4 — Ba shi tsari</h2>
+  <p>
+    Ba ƙugiyoyin tsari — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — a takardar salonka, ko haɗa jigon da aka shirya a tsarin tushenka:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Mataki na 5 — Kalli komai yana aiki</h2>
+  <p>
+     <a href="/examples/">App ɗin misali na Nunjucks + Eleventy</a> yana gina cikakken kundin a matsayin shafin tsaye mai shafukan nuni ga kowane abu:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Matakai na gaba</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Jigogi</a> — ciki har da tsarin kuki na Eleventy don sauya jigon SSR ba tare da kyalkyali ba.</li>
+    <li><a href="/tutorials/helpers/">Masu taimakon abubuwan so</a> — harshe da girman rubutu.</li>
+    <li><a href="/components/">Kundin abubuwa</a> — siffofi, ARIA da maɓallan rubutu ga kowane abu.</li>
+  </ul>
+  <p>
+    Tambayoyi a hanya?
+    <a href="/help/#troubleshooting">Shafin taimako</a> cike yake da amsoshi — kuma idan wani mataki zai iya zama mafi bayyana,
+    <a href="https://github.com/LilyDesignSystem">gaya mana</a> kuma za mu gyara koyarwar da farin ciki.
+  </p>
+</section>

@@ -1,0 +1,63 @@
+<!-- title: Aċċessibbiltà — Lily Design System -->
+<!-- description: Id-dikjarazzjoni tal-aċċessibbiltà ta’ Lily: x’tfisser hawn li timmira lejn WCAG 2.2 AAA — x’jiġi vverifikat, b’xiex, x’ma jivverifikah xejn, u kif tirrapporta problema. -->
+<section class="page-intro">
+  <h1>X’tfisser hawn “timmira lejn WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Il-kelma <em>timmira</em> intgħażlet apposta. Din il-paġna tgħid eżattament x’jiġi vverifikat, b’xiex, x’ma jivverifikah xejn u x’qed ninħsbu li nagħmlu dwar it-toqba. Lily qatt ma tafferma “konformità” ma’ WCAG — l-ebda awditjar ma jappoġġjaha.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Ivverifikat kontinwament</h2>
+  <ul>
+    <li>
+      L-element semantiku kanoniku, l-attributi ARIA u l-ganċijiet tal-klassi ta’ kull komponent — ikkonfermati minn suites ta’ testijiet unitarji għal kull framework (aktar minn 15,000 każ f’seba’ framework).
+    </li>
+    <li>
+      Kull waħda mill-571 paġna demo tal-komponenti fl-applikazzjoni ta’ eżempju SvelteKit hija nadifa għal axe (settijiet ta’ regoli WCAG 2.0/2.1 A+AA u 2.2 AA) — l-iskannjar tal-katalgu sħiħ, l-ewwel stabbilit bħala linja bażi fl-2026-08-27 u mdaħħal mill-ġdid fl-2026-10-06 — flimkien ma’ linji bażi għal kull applikazzjoni għall-paġna prinċipali, il-katalgu u r-rotot komposti fis-seba’ applikazzjonijiet ta’ eżempju kollha.
+    </li>
+    <li>
+      Kuntratti tat-tastiera għal kull komponent interattiv, iddokumentati fil-metadata kanonika ta’ kull komponent u eżerċitati mis-suites; il-pakketti tal-għajnuna jaħdmu wkoll speċifikazzjonijiet Playwright f’browsers reali.
+    </li>
+    <li>
+      Limiti baxxi tad-daqs tal-mira WCAG 2.2 u protezzjonijiet kontra l-overflow fit-57 tema kollha; link biex taqbeż, punti ta’ referenza u l-ebda overflow orizzontali f’erba’ viewports għal kull applikazzjoni; <code>lang</code>/<code>dir</code> applikazzjoni inkluż il-qlib RTL.
+    </li>
+  </ul>
+
+  <h2>Mhux ivverifikat minn xejn</h2>
+  <ul>
+    <li>
+      <strong>Qatt ma sar awditjar ta’ konformità.</strong> L-ebda VPAT, l-ebda ċertifikazzjoni. L-għodod awtomatizzati jkopru minoranza tal-kriterji ta’ suċċess WCAG.
+    </li>
+    <li>
+      Il-kriterji speċifiċi għal AAA (kuntrast imtejjeb u oħrajn) huma intenzjonijiet tad-disinn, mhux proprjetajiet ivverifikati; is-settijiet ta’ regoli axe jaħdmu A/AA. M’hemm l-ebda tema ddedikata b’kuntrast għoli għadu.
+    </li>
+    <li>
+      <strong>L-imġieba tal-qarrejja tal-iskrin hija fil-biċċa l-kbira mhux ittestjata.</strong> Is-suites jivverifikaw attributi ARIA, mhux dak li jħabbru VoiceOver, NVDA jew JAWS — u dan il-proġett kien ħareġ suites ħodor fuq difetti reali aktar minn darba, kull wieħed irreġistrat fil-changelog preċiżament għax is-suites ma setgħux jarawh.
+    </li>
+  </ul>
+
+  <h2>X’qed ninħsbu li nagħmlu dwar dan</h2>
+  <p>
+    Awditjar indipendenti tal-aċċessibbiltà huwa l-ewwel użu msemmi ta’ kwalunkwe finanzjament tal-proġett, u l-ambitu li jeħtieġ awditur diġà huwa mħejji. Sa dak iż-żmien, ir-rapporti mill-qarrejja tal-iskrin huma l-kontribuzzjoni li dan il-proġett irid l-aktar: “il-komponent X iħabbar Y, li huwa ħażin minħabba Z” jista’ jiġi aġixxit direttament.
+  </p>
+
+  <h2>Irrapporta problema</h2>
+  <p>
+    Iftaħ issue fuq
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    jew ibgħat email lil
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Li tsemmi kriterju WCAG jgħin imma mhux meħtieġ — “ma stajtx nopera X bit-tastiera” huwa rapport komplut.
+  </p>
+  <p>
+    Id-dikjarazzjoni sħiħa, bit-tabella tal-verifika u l-istorja tar-reviżjonijiet tagħha, tinsab fir-repożitorju:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

@@ -1,0 +1,106 @@
+<!-- title: HTML-Tutorial — Lily Design System -->
+<!-- description: Erstelle ein barrierefreies, gestaltetes Formular mit den Headless-HTML-Komponenten von Lily — schlichtes Markup, direkt aus einer Datei. -->
+<section class="page-intro">
+  <h1>HTML-Tutorial</h1>
+  <p class="page-intro-tagline">
+    Der einfachste denkbare Start: semantisches HTML mit Lilys Klassen-Hooks kopieren, ein Stylesheet hinzufügen, veröffentlichen. Schlichte Dateien, die überall funktionieren, wo HTML funktioniert.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Was du baust</h2>
+  <p>
+    Ein kleines Kontaktformular — beschriftete Eingabefelder, eine Absenden-Schaltfläche, echtes Tastatur- und Screenreader-Verhalten — zuerst nackt, dann gestaltet, in etwa 10 Minuten.
+  </p>
+
+  <h2>Bevor du anfängst</h2>
+  <p>
+    Du brauchst einen Browser und einen Texteditor. Das ist alles. (git hilft beim Holen der Komponentendateien, aber du kannst sie auch im Browser von GitHub kopieren.)
+  </p>
+
+  <h2>Schritt 1 — Den Code holen</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Jede Komponente ist eine eigenständige Datei in <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>und so weiter — mit einem Kopfkommentar, der ihr HTML-Tag, den Klassen-Hook, das Tastaturverhalten und den Barrierefreiheitsvertrag dokumentiert. Die Dateien <em>sind</em> die Bibliothek — kopiere, was du brauchst, und leg los.
+  </p>
+
+  <h2>Schritt 2 — Deine erste Komponente</h2>
+  <p>Öffne <code>components/button.html</code>, oder schreib einfach das Markup — der Klassen-Hook ist der Vertrag:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Weil es ein echtes <code>&lt;button&gt;</code>ist, stimmen Tastaturfokus, Aktivierung mit Enter und Leertaste und die implizite Button-Rolle bereits.
+  </p>
+
+  <h2>Schritt 3 — Ein kleines Formular zusammensetzen</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Beachte das Muster: Jedes Bedienelement verknüpft sein <code>&lt;label for&gt;</code>, nutzt den spezifischsten Input-Typ und trägt genau einen Klassen-Hook in Kebab-Case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Prüfe deine Arbeit:</strong> öffne die Seite in einem Browser. Sie sieht schlicht aus — genau wie beabsichtigt: Die Gestaltung kommt noch. Drücke
+      <kbd>Tab</kbd>: Der Fokus wandert durch jedes Bedienelement, die Labels werden angesagt und das Absenden funktioniert. Das Verhalten ist fertig; das Aussehen gehört dir und kommt als Nächstes.
+    </p>
+  </div>
+
+  <h2>Schritt 4 — Gestalten</h2>
+  <p>Schreibe CSS gegen die Hooks:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Oder spar dir das Handschreiben von CSS ganz — binde eines der 45 fertigen Themes ein, und dasselbe Markup leuchtet auf:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Schritt 5 — Weiter erkunden</h2>
+  <ul>
+    <li>Die Tests des Repos laufen in echten Browsern: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook für jede Komponente: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS-Beispiel-App</a> zeigt alle 571 Komponenten gestaltet, durchsuchbar und vorgeführt.
+    </li>
+  </ul>
+
+  <h2>Nächste Schritte</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — Theme-Umschaltung zur Laufzeit mit theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Einstellungs-Helper</a> — Sprache und Textgröße.</li>
+    <li><a href="/components/">Komponentenkatalog</a> — die vollständige Referenz.</li>
+  </ul>
+  <p>
+    Fragen unterwegs? Die
+    <a href="/help/#troubleshooting">Hilfeseite</a> steckt voller Antworten — und wenn ein Schritt klarer sein könnte,
+    <a href="https://github.com/LilyDesignSystem">sag es uns</a> und wir verbessern das Tutorial gern.
+  </p>
+</section>

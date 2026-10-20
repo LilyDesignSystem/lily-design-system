@@ -1,0 +1,106 @@
+<!-- title: מדריך HTML — Lily Design System -->
+<!-- description: בנו טופס נגיש ומעוצב עם הרכיבים ללא הראש של Lily ל-HTML — סימון פשוט, ישירות מקובץ. -->
+<section class="page-intro">
+  <h1>מדריך HTML</h1>
+  <p class="page-intro-tagline">
+    ההתחלה הפשוטה ביותר האפשרית: העתיקו HTML סמנטי עם ווי המחלקה של Lily, הוסיפו גיליון סגנון אחד, שחררו. קבצים פשוטים שעובדים בכל מקום ש-HTML עובד.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>מה תבנו</h2>
+  <p>
+    טופס יצירת קשר קטן — קלטים עם תוויות, כפתור שליחה, התנהגות אמיתית של מקלדת וקורא מסך — קודם חשוף, אחר כך מעוצב, בכ-10 דקות.
+  </p>
+
+  <h2>לפני שמתחילים</h2>
+  <p>
+    אתם צריכים דפדפן ועורך טקסט. זהו. (git עוזר להשיג את קובצי הרכיבים, אבל אפשר גם להעתיק אותם מ-GitHub בדפדפן.)
+  </p>
+
+  <h2>שלב 1 — קבלו את הקוד</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    כל רכיב הוא קובץ עצמאי ב- <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>וכן הלאה — עם הערת כותרת שמתעדת את תג ה-HTML שלו, וו המחלקה, התנהגות המקלדת וחוזה הנגישות. הקבצים <em>הם</em> הספרייה — העתיקו את מה שאתם צריכים והמשיכו.
+  </p>
+
+  <h2>שלב 2 — הרכיב הראשון שלכם</h2>
+  <p>פתחו את <code>components/button.html</code>, או פשוט כתבו את הסימון — וו המחלקה הוא החוזה:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    מכיוון שזהו <code>&lt;button&gt;</code>אמיתי, מיקוד מקלדת, הפעלה ב-Enter וב-Space ותפקיד הכפתור המשתמע כבר נכונים.
+  </p>
+
+  <h2>שלב 3 — הרכיבו טופס קטן</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    שימו לב לתבנית: כל פקד מקשר את ה- <code>&lt;label for&gt;</code>שלו, משתמש בסוג הקלט הספציפי ביותר ונושא בדיוק וו מחלקה אחד בסגנון kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>בדקו את העבודה שלכם:</strong> פתחו את העמוד בדפדפן. הוא נראה פשוט — בדיוק כמתוכנן: העיצוב עוד לפנינו. לחצו על
+      <kbd>Tab</kbd>: המיקוד עובר בכל פקד, התוויות מוכרזות והשליחה עובדת. ההתנהגות מוכנה; המראה שלכם והוא הבא בתור.
+    </p>
+  </div>
+
+  <h2>שלב 4 — עצבו אותו</h2>
+  <p>כתבו CSS מול הווים:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    או דלגו לגמרי על כתיבת CSS ביד — קשרו אחת מ-45 ערכות הנושא המוכנות ואותו סימון נדלק:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>שלב 5 — המשיכו לחקור</h2>
+  <ul>
+    <li>הבדיקות של המאגר רצות בדפדפנים אמיתיים: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook לכל רכיב: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">אפליקציית הדוגמה HTML+CSS+JS</a> מציגה את כל 571 הרכיבים מעוצבים, ניתנים לחיפוש ומודגמים.
+    </li>
+  </ul>
+
+  <h2>השלבים הבאים</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ערכות נושא</a> — החלפת ערכת נושא בזמן ריצה עם theme-picker.</li>
+    <li><a href="/tutorials/helpers/">עוזרי העדפות</a> — שפה וגודל טקסט.</li>
+    <li><a href="/components/">קטלוג הרכיבים</a> — ההפניה המלאה.</li>
+  </ul>
+  <p>
+    שאלות בדרך?
+    <a href="/help/#troubleshooting">עמוד העזרה</a> מלא בתשובות — ואם שלב יכול להיות ברור יותר,
+    <a href="https://github.com/LilyDesignSystem">ספרו לנו</a> ונשמח לשפר את המדריך.
+  </p>
+</section>

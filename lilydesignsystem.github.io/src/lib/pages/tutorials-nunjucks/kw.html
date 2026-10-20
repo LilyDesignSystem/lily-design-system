@@ -1,0 +1,97 @@
+<!-- title: Dyskans Nunjucks — Lily Design System -->
+<!-- description: Drehevewgh folennow hedhesys, stylys, dyskwedhys war servyer gans makros Nunjucks Lily — ideal rag Eleventy. -->
+<section class="page-intro">
+  <h1>Dyskans Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Makros dyskwedhys war servyer rag Eleventy, Express, po peub fordh-skantlynyow Node — an fordh dhe-wiw GOV.UK, gans rolyans ha krogow klass Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pyth a wrewgh drehevel</h2>
+  <p>
+    Furv kestava byghan dyskwedhys war servyer — mewnos gans lavell, botton danvon, kargh JavaScript hwath — kynsa noeth, ena stylys, yn a-dro dhe 10 mynysenn.
+  </p>
+
+  <h2>Kyns dalleth</h2>
+  <p>
+    Ty a'n jeves othom a git, Node 22 po nowodhyes, ha pnpm 10 po nowodhyes. Fordh Nunjucks vyth a ober — Eleventy, Express, po Nunjucks plen.
+  </p>
+
+  <h2>Kamm 1 — Kevewgh an koodh</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Pub darn yw kuntelleth yn <code>components/</code> gans
+    <code>macro.njk</code>, y brov, ha'y dhogynnans — rag ensampel
+    <code>components/button/macro.njk</code>. Poyntewgh dha gargyer Nunjucks orth
+    <code>components/</code> (yn Eleventy, keworrewgh dhe'n fordh includes) hag enporthewgh an pyth a'n jeves othom.
+  </p>
+
+  <h2>Kamm 2 — Dha dharn kynsa</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Dyskwedh <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makros a gemmer unn objekt params: <code>text</code> (ihesys) po
+    <code>html</code> (ha), <code>type</code>, <code>label</code> rag
+    <code>aria-label</code>ha keworrer krok klass.
+  </p>
+
+  <h2>Kamm 3 — Kesstrewewgh furv byghan</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Drefen pubtra yw dyskwedhys war an servyer, an gwiaskodhor a dhelergh HTML a dhiswelyans pur gans an krogow klass — kargh JavaScript a hwath bytes.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hwithrewgh dha oberenn:</strong> kargewgh an folen ha'n furv a hevel plen — yn ewn herwydh bryntyans: an stylyans yw hwath a-rag. Gwaskewgh
+      <kbd>Tab</kbd>: fokus a wayn dres pub kontroll, an lavell yw displetys, ha'n danvon a ober. An hwedhel yw gwrys; an semlant yw dhiso ha henna yw nessa.
+    </p>
+  </div>
+
+  <h2>Kamm 4 — Stylyewgh</h2>
+  <p>
+    Stylyewgh an krogow — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — yn dha folen-stil, po kevrewgh tebel parys yn dha dhyllans selys:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Kamm 5 — Gwelewgh pubtra ow ’oberi</h2>
+  <p>
+    An <a href="/examples/">App ensampel Nunjucks + Eleventy</a> a dreh an rolyans kowl avel gwiasva stedhek gans folennow dyskwedhyans dre bub darn:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Kammow nessa</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tebelyow</a> — gans an patrom cookie Eleventy rag chanj tebel SSR heb splan.</li>
+    <li><a href="/tutorials/helpers/">Gweresoryon dewisyow</a> — yeth ha myns an skrif.</li>
+    <li><a href="/components/">Rolyans darnow</a> — perthynasow, ARIA, ha klavyer dre bub darn.</li>
+  </ul>
+  <p>
+    Govynnow war an fordh? An
+    <a href="/help/#troubleshooting">folen skoodhya</a> yw leun a worthebow — ha mar pe kamm moy splann,
+    <a href="https://github.com/LilyDesignSystem">leverewgh dhyn</a> ha ni a wellha an dyskans yn lowen.
+  </p>
+</section>

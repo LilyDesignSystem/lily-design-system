@@ -1,0 +1,117 @@
+<!-- title: Svelte-opas — Lily Design System -->
+<!-- description: Rakenna saavutettava, tyylitelty lomake Lilyn Svelte 5 -headless-komponenteilla: runet, snippetit ja bind:value. -->
+<section class="page-intro">
+  <h1>Svelte-opas</h1>
+  <p class="page-intro-tagline">
+    Lilyn Svelte-kirjasto on kanoninen toteutus: Svelte 5 -runet, tyypitetyt propit, jäljellä olevien proppien levitys ja kaksisuuntainen sidonta
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Pieni yhteydenottolomake — nimiöity kenttä, lähetyspainike, kaksisuuntainen sidonta, aito näppäimistö- ja ruudunlukijakäyttäytyminen — ensin paljaana, sitten tyylitellen, noin 10 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Tarvitset gitin, Node 22:n tai uudemman ja pnpm 10:n tai uudemman. Mikä tahansa Svelte 5 -projekti kelpaa — aivan uusi <code>npx sv create</code> -sovellus riittää.
+  </p>
+
+  <h2>Vaihe 1 — Hae koodi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentit sijaitsevat hakemistossa <code>src/lib/components/&#123;Name&#125;/</code>, yksi hakemisto komponenttia kohden, jossa <code>.svelte</code> -tiedosto, sen testit, storyt ja dokumentaatio vierekkäin. Kopioi tarvitsemasi hakemistot sovellukseesi tai riipu reposta ja tuo suoraan.
+  </p>
+
+  <h2>Vaihe 2 — Ensimmäinen komponenttisi</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Renderöi <code>&lt;button class="button" type="button"&gt;</code>. Propit on tyypitetty: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (renderöi <code>aria-pressed</code> (renderöi <code>label</code> ( <code>aria-label</code> kytkinpainikkeille),
+  </p>
+
+  <h2>Vaihe 3 — Kokoa pieni lomake</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> ottaa näkyvän <code>label</code> omana proppinaan sisäkkäisen nimiökomponentin sijaan — välitä se kerran elementille <code>Field</code>ja <code>TextInput</code>elementistä <code>label</code> antaa saavutettavan nimen. <code>TextInput</code>'s <code>value</code> ohittamiseen) ja mikä tahansa ylimääräinen attribuutti levitetään juureen.
+    <code>$bindable</code> on <code>bind:value</code> -rune-prop, joten
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Varmistettu 2026-08-29:</strong> antaa heti kaksisuuntaisen sidonnan. <code>svelte/server</code> tämä täsmällinen koodinpätkä käännettiin komennolla <code>&lt;label for&gt;</code> ja tarkistettiin yhden, oikein linkitetyn nimiön osalta <code>Label</code> sisällä <code>Field</code>— aiempi luonnos sijoitti erillisen
+      <em>kaksi</em> nimiötä (toinen tyhjä), koska <code>Field</code> renderöi jo oman nimiönsä <code>label</code> sen sisään, mikä renderöi
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Koottu yhteydenottolomakkeen reitti</a>
+      on sama malli, jota on koeteltu oikeilla e2e- ja axe-testeillä.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> käynnistä sovellus, ja lomake näyttää paljaalta — juuri niin kuin on tarkoitus: tyylittely on vielä edessä. Paina
+      <kbd>Tab</kbd>: kohdistus liikkuu jokaisen ohjaimen läpi, nimiö ilmoitetaan ja lähettäminen toimii. Toiminta on valmis; ulkoasu on sinun ja seuraava vaihe.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Tyylittele se</h2>
+  <p>
+    Kaikki yllä renderöityy puhtaana rakenteena, valmiina tyyleillesi. Tyylittele luokkakoukut —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — globaalissa tyylitiedostossasi, tai linkitä valmis teema tiedostossa <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Instanssikohtaiset säädöt kulkevat <code>class</code> -propin kautta, joka lisätään peruskoukkuun: <code>&lt;Button class="wide"&gt;</code> renderöi
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Vaihe 5 — Katso kaiken toimivan</h2>
+  <p>
+     <a href="/examples/">SvelteKit-esimerkkisovellus</a> on sama luettelo täysin tyyliteltynä, live-demoineen, Playwright e2e -testeineen ja axe-core-saavutettavuuslähtötasoineen:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemat</a> — vaihto ajon aikana Sveltellä theme-picker-apuvälineellä.</li>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — kieli ja tekstikoko.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — ominaisuudet, ARIA ja näppäimistö komponenteittain.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

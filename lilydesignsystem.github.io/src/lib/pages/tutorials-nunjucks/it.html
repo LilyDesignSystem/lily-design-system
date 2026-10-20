@@ -1,0 +1,97 @@
+<!-- title: Tutorial Nunjucks — Lily Design System -->
+<!-- description: Crea pagine accessibili, stilizzate e renderizzate lato server con le macro Nunjucks di Lily — ideale per Eleventy. -->
+<section class="page-intro">
+  <h1>Tutorial Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Macro renderizzate lato server per Eleventy, Express o qualsiasi pipeline di template Node — l'approccio in stile GOV.UK, con il catalogo e gli hook di classe di Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Cosa costruirai</h2>
+  <p>
+    Un piccolo modulo di contatto renderizzato lato server — campo con etichetta, pulsante di invio, zero JavaScript inviato — prima spoglio, poi stilizzato, in circa 10 minuti.
+  </p>
+
+  <h2>Prima di iniziare</h2>
+  <p>
+    Servono git, Node 22 o successivo e pnpm 10 o successivo. Va bene qualsiasi pipeline Nunjucks — Eleventy, Express o Nunjucks semplice.
+  </p>
+
+  <h2>Passo 1 — Ottieni il codice</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Ogni componente è una directory in <code>components/</code> con un
+    <code>macro.njk</code>, il suo test e la sua documentazione — ad esempio
+    <code>components/button/macro.njk</code>. Punta il tuo loader Nunjucks a
+    <code>components/</code> (in Eleventy, aggiungilo al percorso degli include) e importa ciò che ti serve.
+  </p>
+
+  <h2>Passo 2 — Il tuo primo componente</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Rende <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Le macro prendono un unico oggetto params: <code>text</code> (con escape) oppure
+    <code>html</code> (grezzo), <code>type</code>, <code>label</code> per un
+    <code>aria-label</code>e un accodatore di hook di classe.
+  </p>
+
+  <h2>Passo 3 — Componi un piccolo modulo</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Poiché tutto viene renderizzato sul server, il browser riceve HTML semantico puro con gli hook di classe — zero byte di JavaScript.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controlla il lavoro:</strong> carica la pagina e il modulo appare spoglio — esattamente come previsto: lo stile deve ancora venire. Premi
+      <kbd>Tab</kbd>: il focus si sposta su ogni controllo, l'etichetta viene annunciata e l'invio funziona. Il comportamento è fatto; l'aspetto è tuo, ed è il prossimo passo.
+    </p>
+  </div>
+
+  <h2>Passo 4 — Dagli uno stile</h2>
+  <p>
+    Stilizza gli hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — nel tuo foglio di stile, oppure collega un tema pronto nel layout di base:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Passo 5 — Guarda tutto in funzione</h2>
+  <p>
+     <a href="/examples/">App di esempio Nunjucks + Eleventy</a> costruisce l'intero catalogo come sito statico con pagine dimostrative per componente:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Prossimi passi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — incluso il pattern con cookie di Eleventy per cambiare tema in SSR senza sfarfallio.</li>
+    <li><a href="/tutorials/helpers/">Helper delle preferenze</a> — lingua e dimensione del testo.</li>
+    <li><a href="/components/">Catalogo dei componenti</a> — proprietà, ARIA e tastiera per ogni componente.</li>
+  </ul>
+  <p>
+    Domande lungo la strada? La
+    <a href="/help/#troubleshooting">pagina di aiuto</a> è piena di risposte — e se un passo può essere più chiaro,
+    <a href="https://github.com/LilyDesignSystem">faccelo sapere</a> e miglioreremo volentieri il tutorial.
+  </p>
+</section>

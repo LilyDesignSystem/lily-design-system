@@ -1,0 +1,106 @@
+<!-- title: Koyarwar HTML — Lily Design System -->
+<!-- description: Gina fom mai sauƙin isa kuma mai tsari da abubuwan Lily marasa kai na HTML — alamar rubutu mai sauƙi, kai tsaye daga fayil. -->
+<section class="page-intro">
+  <h1>Koyarwar HTML</h1>
+  <p class="page-intro-tagline">
+    Farawa mafi sauƙi: kwafi HTML mai ma'ana da ƙugiyoyin aji na Lily, ƙara takardar salo ɗaya, wallafa. Fayiloli masu sauƙi da ke aiki a ko'ina da HTML ke aiki.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Abin da za ka gina</h2>
+  <p>
+    Ƙaramin fom na tuntuɓa — filaye masu lakabi, maɓallin aikawa, ainihin halayyar maɓallan rubutu da na'urar karanta allo — da farko ba tare da tsari ba, sannan da tsari, cikin kusan mintuna 10.
+  </p>
+
+  <h2>Kafin ka fara</h2>
+  <p>
+    Kana buƙatar mai bincike da editan rubutu. Shi ke nan. (git yana taimakawa wajen samun fayilolin abubuwan, amma za ka iya kwafar su daga GitHub a cikin mai bincike ma.)
+  </p>
+
+  <h2>Mataki na 1 — Ɗauki lambar</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Kowane abu fayil ne mai cin gashin kansa a cikin <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>da sauransu — tare da sharhin kai da ke bayyana tambarin HTML ɗinsa, ƙugiyar aji, halayyar maɓallan rubutu da yarjejeniyar sauƙin isa. Fayilolin <em>su ne</em> ɗakin karatun — kwafi abin da kake buƙata ka tafi.
+  </p>
+
+  <h2>Mataki na 2 — Abu na farko naka</h2>
+  <p>Buɗe <code>components/button.html</code>, ko kawai rubuta alamar rubutun — ƙugiyar aji ita ce yarjejeniya:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Saboda ainihin <code>&lt;button&gt;</code>ne, mayar da hankali na maɓallan rubutu, kunnawa da Enter da Space, da matsayin maɓalli mai ma'ana duk sun riga sun daidaita.
+  </p>
+
+  <h2>Mataki na 3 — Haɗa ƙaramin fom</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Lura da tsarin: kowane abin sarrafawa yana haɗa <code>&lt;label for&gt;</code>nasa, yana amfani da nau'in input mafi ƙayyadewa kuma yana ɗauke da ƙugiyar aji ta kebab-case guda ɗaya daidai.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Duba aikinka:</strong> buɗe shafin a cikin mai bincike. Yana kama da maras tsari — daidai kamar yadda aka nufa: tsarin yana nan gaba. Danna
+      <kbd>Tab</kbd>: mayar da hankali yana ratsa kowane abin sarrafawa, ana sanar da lakabi, kuma aikawa yana aiki. An gama halayyar; kamannin naka ne kuma shi ne mataki na gaba.
+    </p>
+  </div>
+
+  <h2>Mataki na 4 — Ba shi tsari</h2>
+  <p>Rubuta CSS a kan ƙugiyoyin:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Ko ka tsallake rubuta CSS da hannu gaba ɗaya — haɗa ɗaya daga cikin jigogi 45 da aka shirya kuma alamar rubutu iri ɗaya tana haskakawa:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Mataki na 5 — Bincika gaba</h2>
+  <ul>
+    <li>Gwaje-gwajen ma'ajiyar suna gudana a masu bincike na gaske: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook ga kowane abu: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">App ɗin misali na HTML+CSS+JS</a> yana nuna dukan abubuwa 571 da tsari, masu bincikuwa da nuni.
+    </li>
+  </ul>
+
+  <h2>Matakai na gaba</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Jigogi</a> — sauya jigo lokacin aiki da theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Masu taimakon abubuwan so</a> — harshe da girman rubutu.</li>
+    <li><a href="/components/">Kundin abubuwa</a> — cikakken bayani.</li>
+  </ul>
+  <p>
+    Tambayoyi a hanya?
+    <a href="/help/#troubleshooting">Shafin taimako</a> cike yake da amsoshi — kuma idan wani mataki zai iya zama mafi bayyana,
+    <a href="https://github.com/LilyDesignSystem">gaya mana</a> kuma za mu gyara koyarwar da farin ciki.
+  </p>
+</section>

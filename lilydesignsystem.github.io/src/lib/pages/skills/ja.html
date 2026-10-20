@@ -1,0 +1,132 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 個の Claude Skills が、Claude Code に Lily Design System への厳選された読み込み可能な入り口を提供します。一般的な概念、フレームワークごとの総合スキル、ヘッドレスライブラリと *-picker ヘルパーのサブプロジェクトごとの詳細スキルです。 -->
+<section class="page-intro">
+  <h1>AI エージェントのスキルで、Lily はさらに使いやすくなります</h1>
+  <p class="page-intro-tagline">
+    Lily は、一般向け、フレームワークごと、サブプロジェクトごとの的を絞ったスキルを提供します。
+    エージェントは必要な文脈だけを読み込み、不要なものは読み込みません。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>どのスキルが必要ですか？</h2>
+  <p>
+    各階層は、それぞれ異なる問いに答えます。Lily をまだ知らないときは、一般向けスキルを読み込みます。
+    フレームワークは分かっていても、どのサブプロジェクトが必要か分からないときは、フレームワークのスキルを読み込みます。
+    取り組む対象が正確に分かっているときは、headless-skill か helpers-skill を直接読み込みます。
+  </p>
+
+  <ul>
+    <li>
+      <strong>一般 / メンテナー</strong> — 「Lily とは何か？」/「このモノレポはどう構成されているか？」 —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>フレームワークの総合スキル</strong> — 「{framework} には何があり、どの部品が必要か？」 — 8 個。
+      各フレームワークに <code>{framework}-skill</code> が 1 つずつ
+    </li>
+    <li>
+      <strong>ヘッドレス / ヘルパー</strong> — 「{framework} のコンポーネントや *-picker ヘルパーを正確にどう使うか？」 — 16 個。
+      各フレームワークに <code>{framework}-headless-skill</code> と
+      <code>{framework}-helpers-skill</code> が 1 つずつ
+    </li>
+  </ul>
+
+  <h2>8 つのフレームワーク</h2>
+  <p>
+    どのフレームワークにも、同じ 3 階層の構成があります。総合スキルは、そのフレームワークの実在するすべてのサブプロジェクトを対応づけます。
+    これには、兄弟の 2 つのスキルがどちらも扱わないサンプルアプリも含まれます。そして約束事を繰り返さず、各サブプロジェクトを指し示します。
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>フレームワーク</th>
+        <th>総合</th>
+        <th>ヘッドレス</th>
+        <th>ヘルパー</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">スキル</a></td>
+        <td><a aria-label="Angular ヘッドレススキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">スキル</a></td>
+        <td><a aria-label="Angular ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">スキル</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">スキル</a></td>
+        <td><a aria-label="Blazor ヘッドレススキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">スキル</a></td>
+        <td><a aria-label="Blazor ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">スキル</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">スキル</a></td>
+        <td><a aria-label="HTML ヘッドレススキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">スキル</a></td>
+        <td><a aria-label="HTML ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">スキル</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">スキル</a></td>
+        <td><a aria-label="Nunjucks ヘッドレススキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">スキル</a></td>
+        <td><a aria-label="Nunjucks ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">スキル</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">スキル</a></td>
+        <td><a aria-label="React ヘッドレススキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">スキル</a></td>
+        <td><a aria-label="React ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">スキル</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">スキル</a></td>
+        <td><a aria-label="Svelte ヘッドレススキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">スキル</a></td>
+        <td><a aria-label="Svelte ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">スキル</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">スキル</a></td>
+        <td><a aria-label="Vue ヘッドレススキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">スキル</a></td>
+        <td><a aria-label="Vue ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">スキル</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components 総合スキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">スキル</a></td>
+        <td>
+          <a
+            aria-label="Web Components ヘッドレススキル"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >スキル</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components ヘルパースキル" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">スキル</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components は、両方向での唯一の例外です。ヘッドレスカタログは意図的に 571 個中 536 個の範囲で（ネイティブのカスタム要素で、フレームワークのランタイムはなく、
+    残りの 35 個のコンポーネントは恒久的に対象外です）、Web Components のサンプルアプリもまだありません。総合スキルは、あるかのようにほのめかさず、ありのままにそう述べています。
+  </p>
+
+  <h2>スキルを 1 つ追加する</h2>
+  <p>
+    各スキルは <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a>
+    ファイルと補助ファイルで構成され、ビルド手順はありません。必要なものを、お使いの Claude Code がスキルを読み込む場所にクローンしてください
+    （プロジェクトやアカウントのスキルディレクトリについては、上にリンクした公式ドキュメントを参照）。
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    複数のフレームワークにまたがって作業する場合や、モノレポ自体を扱う場合は、代わりに
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">正式なモノレポ</a>をクローンしてください。
+    26 個のスキルはすべてそのルートにあり、それらが説明するヘッドレスライブラリ、ヘルパーのカタログ、サンプルアプリと並んでいます。
+  </p>
+</section>

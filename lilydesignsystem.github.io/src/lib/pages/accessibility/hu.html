@@ -1,0 +1,63 @@
+<!-- title: Hozzáférhetőség — Lily Design System -->
+<!-- description: A Lily hozzáférhetőségi nyilatkozata: mit jelent itt a WCAG 2.2 AAA célzása – mit ellenőriznek, mivel, mit nem ellenőriz semmi, és hogyan jelents problémát. -->
+<section class="page-intro">
+  <h1>Mit jelent itt a „WCAG 2.2 AAA-t célozza”</h1>
+  <p class="page-intro-tagline">
+    A <em>célzás</em> szó tudatosan van választva. Ez az oldal pontosan elmondja, mit ellenőriznek, mivel, mit nem ellenőriz semmi, és mit szándékozunk tenni a hiánnyal. A Lily soha nem állít WCAG-„megfelelőséget” – nincs olyan audit, amely alátámasztaná.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Folyamatosan ellenőrzött</h2>
+  <ul>
+    <li>
+      Minden komponens kanonikus szemantikus eleme, ARIA-attribútumai és osztályhorgai – keretrendszerenkénti egységteszt-csomagokkal ellenőrizve (több mint 15 000 eset hét keretrendszerben).
+    </li>
+    <li>
+      A SvelteKit példaalkalmazás mind az 571 komponens-demóoldala axe-tiszta (WCAG 2.0/2.1 A+AA és 2.2 AA szabályhalmazok) – a teljes katalógus átvizsgálása, első alkalommal 2026-08-27-én rögzítve alapvonalként, és 2026-10-06-án újra lefuttatva – plusz alkalmazásonkénti alapvonalak a főoldalra, a katalógusra és az összetett útvonalakra mind a hét példaalkalmazásban.
+    </li>
+    <li>
+      Interaktív komponensenkénti billentyűzetszerződések, amelyeket minden komponens kanonikus metaadatai dokumentálnak, és a csomagok gyakorolnak; a segédcsomagok ezenfelül valódi böngészős Playwright-specifikációkat is futtatnak.
+    </li>
+    <li>
+      WCAG 2.2 célméret-alsó határok és túlcsordulás-védelmek mind az 57 témában; ugrólink, tájékozódási pontok és nincs vízszintes túlcsordulás alkalmazásonként négy nézetablakban; <code>lang</code>/<code>dir</code> alkalmazása, az RTL-megfordítással együtt.
+    </li>
+  </ul>
+
+  <h2>Semmi által nem ellenőrzött</h2>
+  <ul>
+    <li>
+      <strong>Soha nem végeztek megfelelőségi auditot.</strong> Nincs VPAT, nincs tanúsítvány. Az automatizált eszközök a WCAG sikerkritériumainak kisebbségét fedik le.
+    </li>
+    <li>
+      Az AAA-specifikus kritériumok (fokozott kontraszt és mások) tervezési szándékok, nem ellenőrzött tulajdonságok; az axe szabályhalmazai A/AA szinten futnak. Külön nagy kontrasztú téma még nincs.
+    </li>
+    <li>
+      <strong>A képernyőolvasók viselkedése nagyrészt tesztelés nélküli.</strong> A csomagok az ARIA-attribútumokat ellenőrzik, nem azt, amit a VoiceOver, az NVDA vagy a JAWS felolvas – és ez a projekt nem egyszer szállított zöld csomagokat valódi hibák fölött, mindegyiket a változásnaplóban rögzítve, éppen mert a csomagok nem látták őket.
+    </li>
+  </ul>
+
+  <h2>Mit szándékozunk tenni ezzel</h2>
+  <p>
+    A független hozzáférhetőségi audit a projekt bármely finanszírozásának első megnevezett felhasználása, és az auditor számára szükséges hatókör már elő van készítve. Addig a képernyőolvasói jelentések azok a hozzájárulások, amelyeket ez a projekt a legjobban szeretne: „az X komponens Y-t jelent be, ami helytelen, mert Z” közvetlenül hasznosítható.
+  </p>
+
+  <h2>Probléma jelentése</h2>
+  <p>
+    Nyiss egy issue-t itt:
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    vagy írj e-mailt ide:
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. A WCAG-kritérium megnevezése segít, de nem kötelező – „nem tudtam billentyűzettel kezelni az X-et” teljes értékű jelentés.
+  </p>
+  <p>
+    A teljes nyilatkozat az ellenőrzési táblázattal és annak felülvizsgálati előzményeivel a tárolóban található:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

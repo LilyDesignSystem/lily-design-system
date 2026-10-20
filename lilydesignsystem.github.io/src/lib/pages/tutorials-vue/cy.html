@@ -1,0 +1,122 @@
+<!-- title: Tiwtorial Vue — Lily Design System -->
+<!-- description: Adeiladwch ffurflen hygyrch, wedi'i steilio gyda chydrannau di-ben Lily ar gyfer Vue 3: cydrannau ffeil sengl gyda v-model. -->
+<section class="page-intro">
+  <h1>Tiwtorial Vue</h1>
+  <p class="page-intro-tagline">
+    Cydrannau ffeil sengl Vue 3 gyda props teipiedig, <code>defineModel</code>
+    rhwymo dwyffordd, a phasio <code>v-bind="$attrs"</code> drwodd.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gyswllt fach — maes â label, botwm cyflwyno, <code>v-model</code>
+    rhwymo, ymddygiad bysellfwrdd a darllenydd sgrin go iawn — yn noeth yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae arnoch angen git, Node 22 neu'n hwyrach, a pnpm 10 neu'n hwyrach. Mae unrhyw brosiect Vue 3 yn gweithio — Nuxt, Vite neu Vue syml.
+  </p>
+
+  <h2>Cam 1 — Cael y cod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Ffeiliau gwastad yw'r cydrannau yn <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — pob un â'i brawf, ei story a'i ddogfennaeth wrth ei ochr. Copïwch y ffeiliau sydd eu hangen arnoch, neu tynnwch y gadwrfa i mewn.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Yn dangos <code>&lt;button class="button" type="button"&gt;</code>. Mae'r props yn cyfateb i'r fframweithiau eraill: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, ynghyd â threiddio priodoleddau ar gyfer popeth arall.
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> yn cymryd y <code>label</code> fel ei prop ei hun yn lle cydran label nythedig — pasiwch ef unwaith, ar
+    <code>Field</code>a <code>TextInput</code>cyfatebol o
+    <code>label</code> yn darparu'r enw hygyrch.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwyd 2026-08-29:</strong> roedd drafft cynharach yn nythu cydran <code>Label</code> y tu mewn i <code>Field</code>, a oedd yn dangos
+      <em>dau</em> label (un yn wag) oherwydd bod <code>Field</code> eisoes yn dangos ei un ei hun o'r mewnbwn <code>label</code> prop — darganfuwyd drwy lunio'r darn yn union. Y llwybr
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Y llwybr ffurflen gyswllt cyfansawdd</a>
+      yw'r un patrwm, wedi'i brofi gyda phrofion e2e ac axe go iawn.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> yn defnyddio <code>defineModel</code>, felly mae
+    <code>v-model</code> syml yn gweithio'n syth.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> rhedwch yr ap ac mae'r ffurflen yn edrych yn noeth — yn union fel y bwriadwyd: mae'r steilio eto i ddod. Pwyswch
+      <kbd>Tab</kbd>: mae ffocws yn symud trwy bob rheolydd, caiff y label ei gyhoeddi ac mae cyflwyno'n gweithio. Mae'r ymddygiad wedi'i orffen; eich un chi yw'r olwg a dyma'r cam nesaf.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>
+    Steiliwch y bachau dosbarth — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — yn eich taflen arddull, neu cysylltwch thema barod yn <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Cam 5 — Ei weld yn gweithio i gyd</h2>
+  <p>
+     <a href="/examples/">Ap enghreifftiol Nuxt</a> yw'r catalog llawn wedi'i steilio a'i ddangos, gyda Playwright e2e a llinell sylfaen axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themâu</a> — newid yn ystod rhedeg gyda'r cynorthwyydd theme-picker ar gyfer Vue.</li>
+    <li><a href="/tutorials/helpers/">Cynorthwywyr dewisiadau</a> — iaith a maint testun.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — priodweddau, ARIA a bysellfwrdd ar gyfer pob cydran.</li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

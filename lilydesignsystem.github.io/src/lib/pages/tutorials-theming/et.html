@@ -1,0 +1,111 @@
+<!-- title: Teemade õpetus — Lily Design System -->
+<!-- description: Anna Lilyle teema kolmel viisil: lingi üks 45 valmis teemast, kirjuta see üle oma CSS-iga ja lisa teema vahetamine töö ajal theme-picker abiga. -->
+<section class="page-intro">
+  <h1>Teemad</h1>
+  <p class="page-intro-tagline">
+    Lily komponentidel on stabiilsed klassikonksud ja null CSS-i — seega on teema lihtsalt laadileht. See õpetus läheb "lingi üks fail" juurest kuni "lase kasutajal teemat töö ajal vahetada, püsivalt salvestatult".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mida sa ehitad</h2>
+  <p>
+    Rakendus, mille kogu välimust kasutaja saab muuta — alates ühest lingitud laadilehest kuni püsiva töönaegse teemavahetajani — umbes 15 minutiga.
+  </p>
+
+  <h2>Enne alustamist</h2>
+  <p>
+    Lõpeta esmalt <a href="/tutorials/">raamistiku õpetus</a> oma tehnoloogiapaki jaoks esmalt, et sul oleks väike Lily vorm teemastamiseks. Kõik siin töötab kõigis seitsmes raamistikus; koodinäited näitavad Svelte'i ja lihtsat HTML-i.
+  </p>
+
+  <h2>Samm 1 — Lingi valmis teema</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    kaust sisaldab 45 eraldiseisvat laadilehte. Kopeeri need oma rakenduse staatilistesse varadesse ja lingi üks:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Komplekti tipphetked:</p>
+  <ul>
+    <li>
+      <strong>Avalik sektor</strong> — NHS England / Scotland / Wales, igaüks patsiendi- ja praktiseerijale suunatud variantides; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Tarnijatest inspireeritud</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Üldotstarbelised</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>ja palju muid.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolli oma tööd:</strong> laadi leht uuesti. Sama märgistus, mille ehitasid raamistiku õpetuses, on nüüd täielikult kujundatud — nupud, sisendid, sildid, fookusrõngad. Üks HTML-i rida tegi selle — iga komponent jäi täpselt selliseks, nagu oli.
+    </p>
+  </div>
+
+  <h2>Samm 2 — Kirjuta üle mis tahes</h2>
+  <p>
+    Teema valijad on mähitud <code>:where(...)</code>millel on null spetsiifilisus — nii et iga sinu kirjutatud reegel võidab, lihtsalt:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Samm 3 — Vahetamine töö ajal theme-pickeriga</h2>
+  <p>
+     <code>theme-picker</code> abiline on peata ikoonnupp + listbox, mis omab kogu teema elutsüklit: see laadib valitud laadilehe, vahetades ühe hallatud <code>&lt;link&gt;</code>
+    (tõmmatakse ainult aktiivne teema), seab
+    <code>data-theme="&#123;slug&#125;"</code> dokumendile ja valikuliselt salvestab püsivalt kohta <code>localStorage</code>. Siin on näidatud Svelte'i; Reacti, Vue, Angulari, HTML-i, Nunjucksi ja Blazori pordid vastavad lepingu haaval:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    See ongi kogu integratsioon. Klaviatuurikäitumine järgib WAI-ARIA APG listboxi mustrit; juhtelement ise on peata (klassikonks
+    <code>.theme-picker</code>), nii et see võtab üle, milline teema iganes aktiivne on.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollitud 2026-08-29:</strong> just see koodilõik kompileeriti avaldatud <code>0.1.1</code> paketi vastu käsuga
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Samm 4 — Reageeri teemale oma CSS-is</h2>
+  <p>
+    Kuna abiline seab <code>data-theme</code> dokumendi juurele, saavad sinu enda stiilid selle järgi hargneda:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Märkmed serveri renderduse kohta</h2>
+  <p>
+    Abiline teeb kõik DOM-i kirjutamised raamistiku mount-/effect-elutsükli sees, seega on see ülesehituselt SSR-ohutu. Esimese joonistuse vilkumise vältimiseks renderda algteema <code>&lt;link&gt;</code> ja
+    <code>data-theme</code> serveris (näiteks küpsisest) — Svelte'i abilise repos on käivitatav SvelteKiti küpsisenäide ja teised kataloogid dokumenteerivad sama mustri oma tehnoloogiapakkidele.
+  </p>
+
+  <h2>Järgmised sammud</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Eelistuste abilised</a> — sama muster keele, teksti suuruse, jagamise ja kuupäeva/kellaaja sisestuse jaoks.</li>
+    <li>
+      Panusta teema — igaüks on üks eraldiseisev laadileht, mis sihib klassikonkse; vaata <a href="/help/#contributing">panustamine</a>.
+    </li>
+  </ul>
+  <p>
+    Küsimusi teel?
+    <a href="/help/#troubleshooting">Abileht</a> on täis vastuseid — ja kui mõni samm saaks olla selgem,
+    <a href="https://github.com/LilyDesignSystem">anna meile teada</a> ja me parandame õpetust hea meelega.
+  </p>
+</section>

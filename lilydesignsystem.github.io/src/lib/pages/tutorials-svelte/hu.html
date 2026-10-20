@@ -1,0 +1,117 @@
+<!-- title: Svelte oktatóanyag — Lily Design System -->
+<!-- description: Építs hozzáférhető, stílusos űrlapot a Lily Svelte 5 fej nélküli komponenseivel: runák, snippetek és bind:value. -->
+<section class="page-intro">
+  <h1>Svelte oktatóanyag</h1>
+  <p class="page-intro-tagline">
+    A Lily Svelte-könyvtára a kanonikus megvalósítás: Svelte 5 runák, típusos propok, a maradék propok szórása és kétirányú kötés ezzel:
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy kis kapcsolatfelvételi űrlap — címkézett mező, küldés gomb, kétirányú kötés, valódi billentyűzet- és képernyőolvasó-viselkedés — először csupaszon, aztán stílusosan, nagyjából 10 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Szükséged van gitre, Node 22-re vagy újabbra és pnpm 10-re vagy újabbra. Bármelyik Svelte 5 projekt megfelel — egy vadonatúj <code>npx sv create</code> alkalmazás is elég.
+  </p>
+
+  <h2>1. lépés — Szerezd meg a kódot</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    A komponensek itt vannak: <code>src/lib/components/&#123;Name&#125;/</code>, komponensenként egy könyvtár a <code>.svelte</code> fájllal, a tesztjeivel, a story-jaival és a dokumentációjával egymás mellett. Másold a szükséges könyvtárakat az alkalmazásodba, vagy függj a tárolótól, és importálj közvetlenül.
+  </p>
+
+  <h2>2. lépés — Az első komponensed</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Ezt rendereli: <code>&lt;button class="button" type="button"&gt;</code>. A propok típusosak: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (ezt rendereli: <code>aria-pressed</code> (ezt rendereli: <code>label</code> (egy <code>aria-label</code> a kapcsológombokhoz),
+  </p>
+
+  <h2>3. lépés — Állíts össze egy kis űrlapot</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> a látható <code>label</code> a saját propjaként beágyazott címkekomponens helyett — add át egyszer, a <code>Field</code>és <code>TextInput</code>a <code>label</code> biztosítja a hozzáférhető nevet. <code>TextInput</code>'s <code>value</code> felülíráshoz), és minden további attribútum a gyökérre szóródik.
+    <code>$bindable</code> egy <code>bind:value</code> rune prop, így a
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizve 2026-08-29:</strong> azonnal kétirányú kötést ad. <code>svelte/server</code> pontosan ez a kódrészlet le lett fordítva ezzel: <code>&lt;label for&gt;</code> és ellenőrizve lett egyetlen, helyesen kapcsolt címkére <code>Label</code> belül a <code>Field</code>— egy korábbi vázlat külön
+      <em>két</em> címkét renderelt (az egyik üres), mert a <code>Field</code> már magától rendereli a sajátját a <code>label</code> ágyazott bele, ami ezt renderelte:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Az összeállított kapcsolatfelvételi űrlap útvonala</a>
+      ugyanez a minta, valódi e2e- és axe-tesztekkel kipróbálva.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> indítsd el az alkalmazást, és az űrlap csupasznak látszik — pontosan úgy, ahogy szántuk: a stílus még hátravan. Nyomd meg a
+      <kbd>Tab</kbd>billentyűt: a fókusz végigmegy minden vezérlőn, a címkét bemondja, és a küldés működik. A viselkedés kész; a megjelenés a tiéd, és a következő lépés.
+    </p>
+  </div>
+
+  <h2>4. lépés — Stílus hozzá</h2>
+  <p>
+    Minden fent tiszta szerkezetként renderelődik, készen a stílusaidra. Stílusozd az osztálykampókat —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — a globális stíluslapodban, vagy hivatkozz egy kész témára itt: <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    A példányonkénti finomhangolások a <code>class</code> propon keresztül mennek, amely hozzáfűződik az alapkampóhoz: <code>&lt;Button class="wide"&gt;</code> ezt rendereli:
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>5. lépés — Nézd meg, ahogy az egész működik</h2>
+  <p>
+     <a href="/examples/">A SvelteKit példaalkalmazás</a> ugyanez a katalógus teljesen stílusosan, élő demókkal, Playwright e2e tesztekkel és axe-core akadálymentességi alapvonallal:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témák</a> — váltás futásidőben a Svelte theme-picker segédjével.</li>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — nyelv és szövegméret.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — tulajdonságok, ARIA és billentyűzet komponensenként.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

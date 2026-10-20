@@ -1,0 +1,122 @@
+<!-- title: មេរៀន Vue — Lily Design System -->
+<!-- description: សាងសង់ទម្រង់ដែលអាចចូលប្រើបាន និងមានរចនាប័ទ្មជាមួយសមាសភាគគ្មានក្បាល Vue 3 របស់ Lily៖ សមាសភាគឯកសារតែមួយជាមួយ v-model។ -->
+<section class="page-intro">
+  <h1>មេរៀន Vue</h1>
+  <p class="page-intro-tagline">
+    សមាសភាគឯកសារតែមួយ Vue 3 ជាមួយលក្ខណៈសម្បត្តិមានប្រភេទ <code>defineModel</code>
+    ការចងពីរទិស និង <code>v-bind="$attrs"</code> ការឆ្លងកាត់។
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>អ្វីដែលអ្នកនឹងសាងសង់</h2>
+  <p>
+    ទម្រង់ទំនាក់ទំនងតូចមួយ — វាលបញ្ចូលដែលមានស្លាក ប៊ូតុងដាក់ស្នើ <code>v-model</code>
+    ការចង អាកប្បកិរិយាក្តារចុច និងកម្មវិធីអានអេក្រង់ពិតប្រាកដ — ដំបូងទទេស្អាត បន្ទាប់មកមានរចនាប័ទ្ម ក្នុងរយៈពេលប្រហែល ១០ នាទី។
+  </p>
+
+  <h2>មុនពេលអ្នកចាប់ផ្តើម</h2>
+  <p>
+    អ្នកត្រូវការ git, Node 22 ឬថ្មីជាងនេះ និង pnpm 10 ឬថ្មីជាងនេះ។ គម្រោង Vue 3 ណាក៏បាន — Nuxt, Vite ឬ Vue ធម្មតា។
+  </p>
+
+  <h2>ជំហាន ១ — យកកូដ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    សមាសភាគជាឯកសារសំប៉ែតក្នុង <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — នីមួយៗមានតេស្ត story និងឯកសាររបស់វានៅក្បែរ។ ចម្លងឯកសារដែលអ្នកត្រូវការ ឬ vendor ឃ្លាំង។
+  </p>
+
+  <h2>ជំហាន ២ — សមាសភាគដំបូងរបស់អ្នក</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    បង្ហាញ <code>&lt;button class="button" type="button"&gt;</code>។ លក្ខណៈសម្បត្តិត្រូវគ្នានឹងក្របខណ្ឌផ្សេងទៀត៖ <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>បូកការឆ្លងកាត់គុណលក្ខណៈសម្រាប់អ្វីៗផ្សេងទៀត។
+  </p>
+
+  <h2>ជំហាន ៣ — ផ្សំទម្រង់តូចមួយ</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> យកការមើលឃើញ <code>label</code> ជាលក្ខណៈសម្បត្តិផ្ទាល់ខ្លួន ជាជាងសមាសភាគស្លាកដែលជាប់គ្នា — ឆ្លងវាម្តងនៅលើ
+    <code>Field</code>និង <code>TextInput</code>ដែលត្រូវគ្នានៅលើ
+    <code>label</code> ផ្តល់ឈ្មោះដែលអាចចូលប្រើបាន។
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>បានផ្ទៀងផ្ទាត់ 2026-08-29៖</strong> សេចក្តីព្រាងដំបូងបានដាក់សមាសភាគដាច់ដោយឡែក <code>Label</code> ខាងក្នុង <code>Field</code>ដែលបង្ហាញ
+      <em>ពីរ</em> ស្លាក (មួយទទេ) ពីព្រោះ <code>Field</code> បានបង្ហាញរបស់ខ្លួនរួចហើយពី <code>label</code> លក្ខណៈសម្បត្តិ — បានរកឃើញដោយចងក្រងកំណាត់ពិតប្រាកដ។
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">ផ្លូវទម្រង់ទំនាក់ទំនងផ្សំ</a>
+      ជាលំនាំដូចគ្នា ដែលធ្វើតេស្តដោយ e2e និង axe ពិតប្រាកដ។
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> ប្រើ <code>defineModel</code>ដូច្នេះធម្មតា
+    <code>v-model</code> ដំណើរការចេញពីប្រអប់។
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ពិនិត្យការងាររបស់អ្នក៖</strong> ដំណើរការកម្មវិធី ហើយទម្រង់មើលទៅធម្មតា — ដូចដែលបានគ្រោងទុក៖ រចនាប័ទ្មនៅខាងមុខ។ ចុច
+      <kbd>Tab</kbd>៖ ការផ្តោតផ្លាស់ទីតាមការគ្រប់គ្រងនីមួយៗ ស្លាកត្រូវបានប្រកាស ហើយការដាក់ស្នើដំណើរការ។ អាកប្បកិរិយាបានចប់; រូបរាងជារបស់អ្នក ហើយជាជំហានបន្ទាប់។
+    </p>
+  </div>
+
+  <h2>ជំហាន ៤ — ដាក់រចនាប័ទ្ម</h2>
+  <p>
+    ដាក់រចនាប័ទ្ម class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ក្នុងសន្លឹករចនាប័ទ្មរបស់អ្នក ឬភ្ជាប់ស្បែករួចជាស្រេចក្នុង <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>ជំហាន ៥ — មើលអ្វីៗទាំងអស់ដំណើរការ</h2>
+  <p>
+     <a href="/examples/">កម្មវិធីគំរូ Nuxt</a> ជាកាតាឡុកពេញលេញដែលមានរចនាប័ទ្ម និងបង្ហាញ ជាមួយ Playwright e2e និង axe-core baseline៖
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ជំហានបន្ទាប់</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ស្បែក</a> — ការប្តូរពេលដំណើរការជាមួយជំនួយការ Vue theme-picker។</li>
+    <li><a href="/tutorials/helpers/">ជំនួយការចំណូលចិត្ត</a> — ភាសា និងទំហំអក្សរ។</li>
+    <li><a href="/components/">កាតាឡុកសមាសភាគ</a> — លក្ខណៈសម្បត្តិ ARIA និងក្តារចុចសម្រាប់សមាសភាគនីមួយៗ។</li>
+  </ul>
+  <p>
+    មានសំណួរតាមផ្លូវ?
+    <a href="/help/#troubleshooting">ទំព័រជំនួយ</a> ពេញដោយចម្លើយ — ហើយប្រសិនបើជំហានណាអាចច្បាស់ជាងនេះ
+    <a href="https://github.com/LilyDesignSystem">ប្រាប់យើង</a> ហើយយើងនឹងកែលម្អមេរៀនដោយអំណរ។
+  </p>
+</section>

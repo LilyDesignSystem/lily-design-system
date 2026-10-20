@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skill, Claude Code'a Lily Design System'e derlenmiş, yüklenebilir bir giriş noktası sunar — genel kavramlar, çerçeve başına şemsiye skill'ler ve başsız kütüphane ile *-picker yardımcıları için alt proje başına derinlemesine skill'ler. -->
+<section class="page-intro">
+  <h1>Yapay zekâ ajanlarındaki skill'ler Lily'yi daha da kolaylaştırır</h1>
+  <p class="page-intro-tagline">
+    Lily odaklı skill'ler sunar — genel, çerçeve başına ve alt proje başına — böylece bir ajan tam olarak ihtiyaç duyduğu bağlamı yükler, ihtiyaç duymadığı hiçbir şeyi yüklemez.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hangi skill'i istiyorsunuz?</h2>
+  <p>
+    Her katman farklı bir soruyu yanıtlar. Lily'yi henüz tanımıyorsanız genel skill'i yükleyin. Çerçevenizi biliyor ama hangi alt projeye ihtiyacınız olduğunu bilmiyorsanız bir çerçeve skill'i yükleyin. Üzerinde ne çalıştığınızı tam olarak biliyorsanız doğrudan bir headless-skill veya helpers-skill yükleyin.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Genel / bakımcı</strong> — “Lily nedir?” / “Bu monorepo nasıl kurulmuş?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Çerçeve şemsiyesi</strong> — “{framework} için neler var ve hangi parçaya ihtiyacım var?” — 8 adet, her biri için bir <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Başsız / yardımcılar</strong> — “{framework} bileşenlerini / *-picker yardımcılarını tam olarak nasıl kullanırım?” — 16 adet, her biri için bir <code>{framework}-headless-skill</code> ve bir <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>Sekiz çerçeve</h2>
+  <p>
+    Her çerçeve aynı üç katmanlı yığına sahiptir. Şemsiye skill, o çerçevenin gerçek alt projelerinin tümünü eşler — iki kardeş skill'in de kapsamadığı örnek uygulama dahil — ve sözleşmelerini tekrarlamak yerine aşağıdaki bunlara yönlendirir.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Çerçeve</th>
+        <th>Şemsiye</th>
+        <th>Başsız</th>
+        <th>Yardımcılar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="Angular başsız skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="Angular yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="Blazor başsız skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="Blazor yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="HTML başsız skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="HTML yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="Nunjucks başsız skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="Nunjucks yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="React başsız skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="React yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="Svelte başsız skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="Svelte yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="Vue başsız skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="Vue yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components şemsiye skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">skill</a></td>
+        <td>
+          <a
+            aria-label="Web Components başsız skill'i"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >skill</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components yardımcılar skill'i" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components her iki yönde de tek istisnadır: başsız kataloğu bilinçli olarak 571'in 536'sı kapsamındadır (yerel özel öğeler, çerçeve çalışma zamanı yok; diğer 35 bileşen kalıcı olarak dışarıda bırakılmıştır) ve henüz bir Web Components örnek uygulaması yoktur — şemsiye skill'i bir tane varmış gibi ima etmek yerine bunu söyler.
+  </p>
+
+  <h2>Bir skill ekleyin</h2>
+  <p>
+    Her skill bir <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> dosyasıdır — artı destek dosyaları, derleme adımı yok. İhtiyacınız olanı, Claude Code kurulumunuzun skill'leri yüklediği yere klonlayın (projenizin veya hesabınızın skill dizini için yukarıda bağlantısı verilen resmî belgelere bakın):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Birden çok çerçevede veya monorepo'nun kendisinde mi çalışıyorsunuz? Bunun yerine <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonik monorepo'yu</a> klonlayın — 26 skill'in tümü, açıkladıkları başsız kütüphanelerin, yardımcı kataloglarının ve örnek uygulamaların yanında zaten kökünde yer alır.
+  </p>
+</section>

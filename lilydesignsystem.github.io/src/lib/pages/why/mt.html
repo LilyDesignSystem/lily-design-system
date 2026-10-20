@@ -1,0 +1,102 @@
+<!-- title: Għaliex Lily — Lily Design System -->
+<!-- description: L-argument għal Lily: komponenti headless li tistilizza int, aċċessibbiltà WCAG 2.2 AAA integrata, l-ebda sekwenzi miktuba direttament, tmien framework, katalgu wieħed, b’xejn għal dejjem. -->
+<section class="page-intro">
+  <h1>L-argument għal Lily</h1>
+  <p class="page-intro-tagline">
+    Lily tieħu f’idejha l-partijiet diffiċli — is-semantika, l-aċċessibbiltà, l-imġieba tat-tastiera, l-internazzjonalizzazzjoni — u tħalli d-dehra kollha, bi pjaċir, f’idejk.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ibda mid-disinn tiegħek</h2>
+  <p>
+    It-tim tiegħek diġà jaf kif għandu jidher il-prodott tiegħek. Lily tibda eżattament minn hemm: tipprovdi l-partijiet li huma verament diffiċli biex isiru sew u għaljin biex jerġgħu jsiru — l-element semantiku korrett, l-istati ARIA, il-kuntratt tat-tastiera, il-ġestjoni tal-fokus — u tħalli kull deċiżjoni viżwali kompletament, bil-ferħ, f’idejk. Is-CSS tiegħek huwa d-dehra tas-sistema tad-disinn mill-ewwel jum.
+  </p>
+  <p>
+    Peress li kull komponent għandu ganċ tal-klassi stabbli u struttura nadifa, l-istilizzazzjoni tiegħek tibqa’ nadifa tiegħek permezz ta’ kull aġġornament — u l-aċċessibbiltà ta’ taħtha tibqa’ taħdem, verżjoni wara l-oħra.
+  </p>
+
+  <h2>Dak li Lily timpenja ruħha għalih</h2>
+  <ul>
+    <li>
+      <strong>Aċċessibbli awtomatikament.</strong> WCAG 2.2 AAA huwa l-mira għal kull komponent. Ix-xejriet isegwu l-WAI-ARIA Authoring Practices; kull komponent interattiv jista’ jiġi operat bit-tastiera b’kuntratt iddokumentat; l-applikazzjonijiet ta’ eżempju jżommu linja bażi axe-core nadifa.
+    </li>
+    <li>
+      <strong>Internazzjonalizzabbli mid-disinn.</strong> Kull sekwenza viżibbli għall-utent — kull tikketta, żball u anunċju — hija proprjetà b’ismijiet stabbli fil-framework kollha, għalhekk it-traduzzjoni tgħaddi b’mod naturali. L-RTL u t-test bidirezzjonali jirtu mid- <code>dir</code> tiegħek. Il-komponenti li jafu l-lokal jirċievu l-lokal bħala proprjetà, dejjem b’mod espliċitu.
+    </li>
+    <li>
+      <strong>Katalgu wieħed, tmien framework.</strong> L-istess 571 komponent (536 bħala Web Components nattivi) bl-istess ganċijiet tal-klassi u konvenzjonijiet tal-proprjetajiet f’HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks u Web Components. Is-CSS tiegħek u l-għarfien tat-tim tiegħek jinbidlu bejn stacks.
+    </li>
+    <li>
+      <strong>Indipendenti mill-istrateġija CSS.</strong> Klassi stabbli waħda f’kebab-case għal kull għerq ta’ komponent. CSS semantiku, utilitajiet Tailwind, CSS-in-JS jew waħda mit-57 tema lesta — Lily tilqa’ lil kollha u titbiegħed bil-grazzja.
+    </li>
+    <li>
+      <strong>B’xejn, għal dejjem, bit-termini tiegħek.</strong> Sors miftuħ taħt l-għażla tiegħek ta’ BSD, MIT, Apache-2.0, GPL-2.0 jew GPL-3.0. L-ebda livell pro, l-ebda liċenzji għal kull siġġu, l-ebda telemetrija.
+    </li>
+  </ul>
+
+  <h2>Fond fejn jgħodd</h2>
+  <p>
+    Lil hinn mill-buttuni u d-dialogi tas-soltu, il-katalgu jaqbeż ħafna aktar minn ħafna oħrajn:
+  </p>
+  <ul>
+    <li>
+      <strong>Xejriet tas-settur pubbliku</strong> riċerkati mis-sistemi tad-disinn tal-NHS UK, GOV.UK, USWDS u ONS — sommarji tal-iżbalji, kaxxi ta’ twissija, listi sommarji, banners tal-fażi, links biex taqbeż.
+    </li>
+    <li>
+      <strong>140 komponent tal-identifikaturi personali nazzjonali</strong> li jkopru identifikaturi tas-saħħa, tal-ID nazzjonali, tat-taxxa u tal-passaport f’aktar minn 50 pajjiż, kull wieħed jiddokumenta l-format u l-algoritmu tal-validazzjoni tiegħu.
+    </li>
+    <li>
+      <strong>Elementi bażiċi editorjali u ta’ scrollytelling</strong> adattati minn Reuters Graphics — dispożizzjonijiet ta’ artikli, scrollers, timelines, mapep tat-tiles.
+    </li>
+    <li>
+      <strong>Għajnuniet tal-għażla</strong> — pakketti żgħar li huma sidien ta’ interazzjoni waħda mill-bidu sat-tmiem: tibdil tat-tema (b’tagħbija tal-istylesheet waqt it-tħaddim), lingwa, daqs tat-test, moviment imnaqqas, tfittxija, links tal-paġni, qsim u daħla tad-data u l-ħin. Kull wieħed huwa buttuna headless b’ikona li tiftaħ popup — mhux <code>&lt;select&gt;</code> nattiv — bi persistenza u sigurtà SSR integrati.
+    </li>
+  </ul>
+
+  <h2>Temi għas-settur pubbliku, lesti mill-kaxxa</h2>
+  <p>
+    Lily tibgħat 57 tema ta’ referenza awtonoma li jimmiraw direttament lejn il-ganċijiet tal-klassi tagħha: NHS England, NHS Scotland u NHS Wales (kull waħda f’varjanti għall-pazjenti u għall-prattikanti), GOV.UK, USWDS, paletti ispirati minn Adobe Spectrum u Mozilla Protocol, u sett ta’ temi ġenerali ċari u skuri. Qabbad stylesheet wieħed u dehra ta’ livell governattiv hija mixgħula; l-għajnuna <code>theme-picker</code> tbiddilhom waqt it-tħaddim.
+  </p>
+
+  <h2>Kif Lily tqabbel</h2>
+  <p>
+    Inżommu
+    <a href="/comparisons/">tqabbil onest, komponent b’komponent, ma’ sistemi oħra tad-disinn</a> — stilizzati u headless, kummerċjali u tas-settur pubbliku. Fejn librerija oħra taqbel aħjar miegħek, it-tqabbil juri; Lily titgħallem minn kollha u tikkwota l-ispirazzjonijiet tagħha b’mod miftuħ.
+  </p>
+
+  <h2>Min hu warajha</h2>
+  <p>
+    Lily hija proġett żagħżugħ u indipendenti b’sors miftuħ li jilqa’ l-kollaborazzjoni, il-gwida u l-feedback — ara
+    <a href="/about/">Dwar</a> għall-istorja u s-sorsi ta’ ispirazzjoni. Kollox — l-ispeċifikazzjoni, it-testijiet, il-pjan, anki l-għodod tal-awditjar — huwa miftuħ fuq
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Għin lil Lily tikber</h2>
+  <p>Jekk Lily hija utli għalik, l-aktar affarijiet siewja li tista’ tagħmel huma:</p>
+  <ul>
+    <li>
+      <strong>Agħti stilla u qsam.</strong> Agħti stilla lill-
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">repożitorju prinċipali</a>
+      u uri lil kollega l- <a href="/components/">katalgu</a> — l-għarfien huwa r-riżors l-aktar skars ta’ proġett żagħżugħ.
+    </li>
+    <li>
+      <strong>Ibni xi ħaġa u għidilna.</strong> Rapporti ta’ użu reali — x’ħadem, x’jista’ jkun aktar bla xkiel — jiffurmaw il-pjan aktar minn kull ħaġa oħra.
+    </li>
+    <li>
+      <strong>Awdita l-aċċessibbiltà.</strong> Passaġġi b’qarrejja tal-iskrin (VoiceOver, NVDA, JAWS) fuq l- <a href="/examples/">applikazzjonijiet ta’ eżempju</a> huma deheb; irrapporta dak li ssib.
+    </li>
+    <li>
+      <strong>Ikkontribwixxi tema jew traduzzjoni.</strong> It-tnejn huma kontribuzzjonijiet kompluti u mdefiniti sew għall-ewwel darba.
+    </li>
+    <li>
+      <strong>Qsam dak li ssib, b’riproduzzjoni minima,</strong> fir-repożitorju GitHub, jew ibgħat email lil
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Ibda t-tutorja</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Agħti stilla fuq GitHub</a>
+  </div>
+</section>

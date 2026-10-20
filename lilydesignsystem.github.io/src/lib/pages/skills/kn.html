@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude ಕೌಶಲ್ಯಗಳು Claude Code ಗೆ Lily Design System ಗೆ ಆಯ್ದ, ಲೋಡ್ ಮಾಡಬಹುದಾದ ಪ್ರವೇಶ ಬಿಂದುವನ್ನು ನೀಡುತ್ತವೆ — ಸಾಮಾನ್ಯ ಪರಿಕಲ್ಪನೆಗಳು, ಪ್ರತಿ ಫ್ರೇಮ್‌ವರ್ಕ್‌ನ ಛತ್ರಿಗಳು, ಮತ್ತು ಹೆಡ್‌ಲೆಸ್ ಲೈಬ್ರರಿ ಹಾಗೂ *-picker ಸಹಾಯಕಗಳಿಗೆ ಪ್ರತಿ ಉಪಯೋಜನೆಯ ಆಳ ಅಧ್ಯಯನ. -->
+<section class="page-intro">
+  <h1>AI ಏಜೆಂಟ್‌ಗಳಲ್ಲಿ ಕೌಶಲ್ಯಗಳು Lily ಯನ್ನು ಇನ್ನೂ ಸುಲಭಗೊಳಿಸುತ್ತವೆ</h1>
+  <p class="page-intro-tagline">
+    Lily ಕೇಂದ್ರೀಕೃತ ಕೌಶಲ್ಯಗಳನ್ನು ಕಳುಹಿಸುತ್ತದೆ — ಸಾಮಾನ್ಯ, ಪ್ರತಿ ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗೆ ಮತ್ತು ಪ್ರತಿ ಉಪಯೋಜನೆಗೆ — ಹೀಗಾಗಿ ಏಜೆಂಟ್ ತನಗೆ ಬೇಕಾದ ಸಂದರ್ಭವನ್ನು ಮಾತ್ರ ಲೋಡ್ ಮಾಡುತ್ತದೆ, ಬೇಡದ್ದನ್ನು ಅಲ್ಲ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ನಿಮಗೆ ಯಾವ ಕೌಶಲ್ಯ ಬೇಕು?</h2>
+  <p>
+    ಪ್ರತಿ ಹಂತವೂ ಬೇರೆ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರಿಸುತ್ತದೆ. Lily ಯನ್ನು ಇನ್ನೂ ತಿಳಿಯದಿದ್ದಾಗ ಸಾಮಾನ್ಯ ಕೌಶಲ್ಯವನ್ನು ಲೋಡ್ ಮಾಡಿ. ನಿಮ್ಮ ಫ್ರೇಮ್‌ವರ್ಕ್ ತಿಳಿದಿದ್ದು ಯಾವ ಉಪಯೋಜನೆ ಬೇಕೆಂದು ತಿಳಿಯದಿದ್ದಾಗ ಫ್ರೇಮ್‌ವರ್ಕ್ ಕೌಶಲ್ಯವನ್ನು ಲೋಡ್ ಮಾಡಿ. ನೀವು ಏನು ಮಾಡುತ್ತಿದ್ದೀರಿ ಎಂದು ನಿಖರವಾಗಿ ತಿಳಿದಿರುವಾಗ headless-skill ಅಥವಾ helpers-skill ಅನ್ನು ನೇರವಾಗಿ ಲೋಡ್ ಮಾಡಿ.
+  </p>
+
+  <ul>
+    <li>
+      <strong>ಸಾಮಾನ್ಯ / ನಿರ್ವಾಹಕ</strong> — “Lily ಎಂದರೇನು?” / “ಈ ಮೊನೊರೆಪೊ ಹೇಗೆ ಜೋಡಿಸಲ್ಪಟ್ಟಿದೆ?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>ಫ್ರೇಮ್‌ವರ್ಕ್ ಛತ್ರಿ</strong> — “{framework} ಗೆ ಏನಿದೆ, ಮತ್ತು ನನಗೆ ಯಾವ ಭಾಗ ಬೇಕು?” — 8, ತಲಾ ಒಂದು <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>ಹೆಡ್‌ಲೆಸ್ / ಸಹಾಯಕಗಳು</strong> — “{framework} ನ ಘಟಕಗಳು / *-picker ಸಹಾಯಕಗಳನ್ನು ನಿಖರವಾಗಿ ಹೇಗೆ ಬಳಸುವುದು?” — 16, ತಲಾ ಒಂದು <code>{framework}-headless-skill</code> ಮತ್ತು ಒಂದು <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>ಎಂಟು ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳು</h2>
+  <p>
+    ಪ್ರತಿ ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗೂ ಅದೇ ಮೂರು-ಆಳದ ಸ್ಟ್ಯಾಕ್ ಸಿಗುತ್ತದೆ. ಛತ್ರಿ ಕೌಶಲ್ಯವು ಆ ಫ್ರೇಮ್‌ವರ್ಕ್‌ನ ಎಲ್ಲಾ ನಿಜವಾದ ಉಪಯೋಜನೆಗಳನ್ನು — ಅದರ ಎರಡೂ ಸಹೋದರ ಕೌಶಲ್ಯಗಳು ಒಳಗೊಳ್ಳದ ಉದಾಹರಣೆ ಅಪ್ಲಿಕೇಶನ್ ಸೇರಿದಂತೆ — ನಕ್ಷೆ ಮಾಡುತ್ತದೆ ಮತ್ತು ಅವುಗಳ ಒಪ್ಪಂದಗಳನ್ನು ಪುನರಾವರ್ತಿಸುವ ಬದಲು ಅವುಗಳತ್ತ ಕೆಳಮುಖವಾಗಿ ಸೂಚಿಸುತ್ತದೆ.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ಫ್ರೇಮ್‌ವರ್ಕ್</th>
+        <th>ಛತ್ರಿ</th>
+        <th>ಹೆಡ್‌ಲೆಸ್</th>
+        <th>ಸಹಾಯಕಗಳು</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Angular ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Angular ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Blazor ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Blazor ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="HTML ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="HTML ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Nunjucks ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Nunjucks ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="React ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="React ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Svelte ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Svelte ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Vue ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">ಕೌಶಲ್ಯ</a></td>
+        <td><a aria-label="Vue ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components ಛತ್ರಿ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">ಕೌಶಲ್ಯ</a></td>
+        <td>
+          <a
+            aria-label="Web Components ಹೆಡ್‌ಲೆಸ್ ಕೌಶಲ್ಯ"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >ಕೌಶಲ್ಯ</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components ಸಹಾಯಕ ಕೌಶಲ್ಯ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">ಕೌಶಲ್ಯ</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components ಎರಡೂ ದಿಕ್ಕುಗಳಲ್ಲಿ ಏಕೈಕ ಅಪವಾದ: ಅದರ ಹೆಡ್‌ಲೆಸ್ ಕ್ಯಾಟಲಾಗ್ ಉದ್ದೇಶಪೂರ್ವಕ 571 ರಲ್ಲಿ 536 ವ್ಯಾಪ್ತಿ (ಸ್ಥಳೀಯ ಕಸ್ಟಮ್ ಎಲಿಮೆಂಟ್‌ಗಳು, ಫ್ರೇಮ್‌ವರ್ಕ್ ರನ್‌ಟೈಮ್ ಇಲ್ಲ; ಉಳಿದ 35 ಘಟಕಗಳು ಶಾಶ್ವತವಾಗಿ ಹೊರಗಿವೆ), ಮತ್ತು ಇನ್ನೂ Web Components ಉದಾಹರಣೆ ಅಪ್ಲಿಕೇಶನ್ ಇಲ್ಲ — ಅದರ ಛತ್ರಿ ಕೌಶಲ್ಯ ಒಂದಿದೆ ಎಂದು ಸೂಚಿಸುವ ಬದಲು ಹಾಗೆಂದು ಹೇಳುತ್ತದೆ.
+  </p>
+
+  <h2>ಒಂದು ಕೌಶಲ್ಯವನ್ನು ಸೇರಿಸಿ</h2>
+  <p>
+    ಪ್ರತಿ ಕೌಶಲ್ಯವು ಒಂದು <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> ಫೈಲ್ — ಜೊತೆಗೆ ಬೆಂಬಲ ಫೈಲ್‌ಗಳು, ಬಿಲ್ಡ್ ಹಂತವಿಲ್ಲ. ನಿಮ್ಮ Claude Code ಸೆಟಪ್ ಕೌಶಲ್ಯಗಳನ್ನು ಲೋಡ್ ಮಾಡುವ ಎಲ್ಲಿಗಾದರೂ ನಿಮಗೆ ಬೇಕಾದದ್ದನ್ನು ಕ್ಲೋನ್ ಮಾಡಿ (ನಿಮ್ಮ ಯೋಜನೆ ಅಥವಾ ಖಾತೆಯ ಕೌಶಲ್ಯ ಡೈರೆಕ್ಟರಿಗಾಗಿ ಮೇಲೆ ಲಿಂಕ್ ಮಾಡಿದ ಅಧಿಕೃತ ದಾಖಲೆಗಳನ್ನು ನೋಡಿ):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    ಹಲವಾರು ಫ್ರೇಮ್‌ವರ್ಕ್‌ಗಳಲ್ಲಿ ಅಥವಾ ಮೊನೊರೆಪೊದಲ್ಲೇ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದೀರಾ? ಬದಲಿಗೆ <a href="https://github.com/LilyDesignSystem/lily-design-system">ಅಧಿಕೃತ ಮೊನೊರೆಪೊ</a> ಕ್ಲೋನ್ ಮಾಡಿ — ಎಲ್ಲಾ 26 ಕೌಶಲ್ಯಗಳು ಈಗಾಗಲೇ ಅದರ ರೂಟ್‌ನಲ್ಲಿವೆ, ಅವು ವಿವರಿಸುವ ಹೆಡ್‌ಲೆಸ್ ಲೈಬ್ರರಿಗಳು, ಸಹಾಯಕ ಕ್ಯಾಟಲಾಗ್‌ಗಳು ಮತ್ತು ಉದಾಹರಣೆ ಅಪ್ಲಿಕೇಶನ್‌ಗಳ ಪಕ್ಕದಲ್ಲಿ.
+  </p>
+</section>

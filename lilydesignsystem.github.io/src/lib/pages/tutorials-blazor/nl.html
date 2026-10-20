@@ -1,0 +1,107 @@
+<!-- title: Blazor-handleiding — Lily Design System -->
+<!-- description: Bouw een toegankelijk, vormgegeven formulier met Lily's headless-componenten voor Blazor: Razor-componenten met parameters en bUnit-tests. -->
+<section class="page-intro">
+  <h1>Blazor-handleiding</h1>
+  <p class="page-intro-tagline">
+    Razor-klassenbibliotheekcomponenten met parameters, <code>ChildContent</code>
+    renderfragmenten, attribute splatting en een bUnit-test per component.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat je gaat bouwen</h2>
+  <p>
+    Een klein contactformulier — invoerveld met label, verzendknop,
+    <code>@bind-Value</code> -binding, echt toetsenbord- en schermlezergedrag — eerst kaal, dan vormgegeven, in ongeveer 10 minuten.
+  </p>
+
+  <h2>Voordat je begint</h2>
+  <p>
+    Je hebt git en de .NET SDK 8 of nieuwer nodig. Elk Blazor-project werkt — Blazor Web App, Server of WebAssembly.
+  </p>
+
+  <h2>Stap 1 — Haal de code op</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    De componenten staan in <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — elk één Razor-bestand. Verwijs vanuit je Blazor-app naar het project (of kopieer de bestanden) en voeg <code>@using LilyBlazorHeadless.Components</code> toe aan
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Stap 2 — Je eerste component</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button"&gt;</code>. De gedeelde parameterconventies: <code>Label</code> (een <code>aria-label</code> om te overschrijven),
+    <code>CssClass</code> (wordt aan de basishaak toegevoegd),
+    <code>ChildContent</code>en
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> attribute splatting zodat elk extra HTML-attribuut wordt doorgegeven.
+  </p>
+
+  <h2>Stap 3 — Stel een klein formulier samen</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> neemt het zichtbare <code>Label</code> als eigen parameter in plaats van een geneste labelcomponent — geef het één keer door, op
+    <code>Field</code>en <code>TextInput</code>van
+    <code>Label</code> levert de toegankelijke naam.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Geverifieerd op 2026-08-29:</strong> een eerder concept nestelde een aparte <code>Label</code> -component in <code>Field</code>, wat <em>twee</em> labels (een leeg) rendert omdat <code>Field</code>
+      zijn eigen label al rendert vanuit de <code>Label</code> -parameter — ontdekt door de broncode van de component te controleren; <code>Form</code> heeft zelf geen <code>Label</code> -parameter, dus het gebruik van
+      <code>&lt;Form&gt;</code> in het eerdere concept is gecorrigeerd door het weg te laten in plaats van een niet-bestaand attribuut te verzinnen.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">De samengestelde contactformulierroute</a>
+      is hetzelfde patroon, beproefd met echte e2e- en axe-tests.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controleer je werk:</strong> start de app en het formulier ziet er kaal uit — precies zoals bedoeld: de vormgeving komt nog. Druk op
+      <kbd>Tab</kbd>: de focus beweegt door elk bedieningselement, het label wordt voorgelezen en verzenden werkt. Het gedrag is klaar; het uiterlijk is aan jou en komt hierna.
+    </p>
+  </div>
+
+  <h2>Stap 4 — Geef het vorm</h2>
+  <p>
+    Geef de klassehaken vorm — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in <code>app.css</code>, of koppel een kant-en-klaar thema in <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Stap 5 — Zie alles werken</h2>
+  <p>
+     <a href="/examples/">Blazor Web voorbeeld-app</a> toont de volledige catalogus vormgegeven en gedemonstreerd, met Playwright e2e-tests:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Volgende stappen</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Thema's</a> — wisselen tijdens het draaien met de Blazor-helper theme-picker (een Razor-klassenbibliotheek op NuGet).</li>
+    <li><a href="/tutorials/helpers/">Voorkeurenhelpers</a> — taal en tekstgrootte.</li>
+    <li><a href="/components/">Componentencatalogus</a> — props, ARIA en toetsenbord per component.</li>
+  </ul>
+  <p>
+    Vragen onderweg? De
+    <a href="/help/#troubleshooting">helppagina</a> staat vol antwoorden — en als een stap duidelijker kan,
+    <a href="https://github.com/LilyDesignSystem">laat het ons weten</a> en we verbeteren de handleiding graag.
+  </p>
+</section>

@@ -1,0 +1,111 @@
+<!-- title: Ръководство за темите — Lily Design System -->
+<!-- description: Дайте тема на Lily по три начина: свържете една от 45-те готови теми, презапишете я със своя CSS и добавете превключване на тема по време на изпълнение с помощника theme-picker. -->
+<section class="page-intro">
+  <h1>Теми</h1>
+  <p class="page-intro-tagline">
+    Компонентите на Lily имат стабилни класови куки и нула CSS — така че темата е просто таблица със стилове. Това ръководство върви от „свържете един файл“ до „оставете потребителя да сменя темата по време на изпълнение, със запазване“.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Какво ще изградите</h2>
+  <p>
+    Приложение, чийто целия външен вид потребителят може да променя — започвайки с една свързана таблица със стилове и завършвайки с запазващ се превключвател на теми по време на изпълнение — за около 15 минути.
+  </p>
+
+  <h2>Преди да започнете</h2>
+  <p>
+    Първо завършете <a href="/tutorials/">ръководството за фреймуърка</a> за вашия стек първо, за да имате малка форма на Lily, на която да дадете тема. Всичко тук работи във всичките седем фреймуърка; кодовите примери показват Svelte и чист HTML.
+  </p>
+
+  <h2>Стъпка 1 — Свържете готова тема</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    директорията съдържа 45 самостоятелни таблици със стилове. Копирайте ги в статичните ресурси на приложението си и свържете една:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Акценти от набора:</p>
+  <ul>
+    <li>
+      <strong>Публичен сектор</strong> — NHS England / Scotland / Wales, всяка във варианти за пациенти и за специалисти; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Вдъхновени от доставчици</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>С общо предназначение</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>и много други.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверете работата си:</strong> презаредете страницата. Същата маркировка, която изградихте в ръководството за фреймуърка, вече е напълно стилизирана — бутони, полета, етикети, фокусни рамки. Един ред HTML го направи — всеки компонент остана точно какъвто беше.
+    </p>
+  </div>
+
+  <h2>Стъпка 2 — Презапишете каквото и да е</h2>
+  <p>
+    Селекторите на темата са обвити в <code>:where(...)</code>която има нулева специфичност — така че всяко правило, което напишете, печели, просто:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Стъпка 3 — Превключване по време на изпълнение с theme-picker</h2>
+  <p>
+     <code>theme-picker</code> помощникът е headless бутон-икона + listbox, който притежава целия жизнен цикъл на темата: зарежда избраната таблица със стилове, като сменя един управляван <code>&lt;link&gt;</code>
+    (само активната тема се изтегля), задава
+    <code>data-theme="&#123;slug&#125;"</code> върху документа и по желание я запазва в <code>localStorage</code>. Тук е показан Svelte; портовете за React, Vue, Angular, HTML, Nunjucks и Blazor съответстват договор по договор:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Това е цялата интеграция. Поведението на клавиатурата следва модела listbox на WAI-ARIA APG; самият контрол е headless (класова кука
+    <code>.theme-picker</code>), така че поема която и да е активна тема.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверено на 2026-08-29:</strong> точно този фрагмент беше компилиран спрямо публикувания <code>0.1.1</code> пакет чрез
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Стъпка 4 — Реагирайте на темата в собствения си CSS</h2>
+  <p>
+    Тъй като помощникът задава <code>data-theme</code> върху корена на документа, вашите собствени стилове могат да се разклоняват по него:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Бележки за рендиране на сървъра</h2>
+  <p>
+    Помощникът извършва всички записи в DOM в жизнения цикъл mount/effect на фреймуърка, така че е безопасен за SSR по конструкция. За да избегнете проблясване при първото рисуване, рендирайте на сървъра <code>&lt;link&gt;</code> и
+    <code>data-theme</code> на началната тема (например от бисквитка) — хранилището на Svelte помощника включва изпълним пример с бисквитка за SvelteKit, а другите каталози документират същия модел за своите стекове.
+  </p>
+
+  <h2>Следващи стъпки</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Помощници за предпочитания</a> — същият модел за език, размер на текста, споделяне и въвеждане на дата/час.</li>
+    <li>
+      Допринесете с тема — всяка е една самостоятелна таблица със стилове, насочена към класовите куки; вижте <a href="/help/#contributing">приноса</a>.
+    </li>
+  </ul>
+  <p>
+    Въпроси по пътя?
+    <a href="/help/#troubleshooting">Страницата за помощ</a> е пълна с отговори — а ако някоя стъпка може да е по-ясна,
+    <a href="https://github.com/LilyDesignSystem">кажете ни</a> и с радост ще подобрим ръководството.
+  </p>
+</section>

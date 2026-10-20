@@ -1,0 +1,111 @@
+<!-- title: Theming tutorial — Lily Design System -->
+<!-- description: Theme Lily in three weys: link ane o 45 ready-made themes, owerride it wi yer CSS, an add runtime theme switchin wi the theme-picker helper. -->
+<section class="page-intro">
+  <h1>Theming</h1>
+  <p class="page-intro-tagline">
+    Lily components cairry stable class hooks an zero CSS — sae a theme is juist a stylesheet. This tutorial gangs frae “link ae file” tae “let the uiser switch themes at runtime, persistit”.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Whit ye'll big</h2>
+  <p>
+    An app whase entire look the uiser can chynge — stairtin wi ae linkit stylesheet, endin wi a persistit runtime theme switcher — in aboot 15 minutes.
+  </p>
+
+  <h2>Afore ye stairt</h2>
+  <p>
+    Feenish the <a href="/tutorials/">framework tutorial</a> first for yer stack, sae ye hae a wee Lily form tae theme. Aathing here wirks in aw seiven frameworks; code samples shaw Svelte an plain HTML.
+  </p>
+
+  <h2>Step 1 — Link a ready-made theme</h2>
+  <p>
+    The <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    directory ships 45 standalane stylesheets. Copy them intae yer app's static assets an link ane:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Highlichts o the set:</p>
+  <ul>
+    <li>
+      <strong>Public sector</strong> — NHS England / Scotland / Wales, ilkane in patient-facin an practitioner-facin variants; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Vendor-inspired</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>General purpose</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, an mony mair.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check yer wirk:</strong> reload the page. The same markup ye biggit in the framework tutorial is noo fully styled — buttons, inputs, labels, focus rings. Ae line o HTML did that — ilka component bade exactly as it wis.
+    </p>
+  </div>
+
+  <h2>Step 2 — Owerride onything</h2>
+  <p>
+    Theme selectors are wrappit in <code>:where(...)</code>, which haes zero specificity — sae onie rule ye write wins, plain an simple:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Step 3 — Runtime switchin wi theme-picker</h2>
+  <p>
+    The <code>theme-picker</code> helper is a headless icon-button + listbox that owns the hail theme lifecycle: it loads the chosen stylesheet bi swappin ae managed <code>&lt;link&gt;</code>
+    (anely the active theme is ever fetched), sets
+    <code>data-theme="&#123;slug&#125;"</code> on the document, an optionally persists tae <code>localStorage</code>. Svelte shawn here; React, Vue, Angular, HTML, Nunjucks, an Blazor ports match contract-for-contract:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    That's the hail integration. Keyboard behaviour follaes the WAI-ARIA APG listbox pattern; the control itsel is headless (class hook
+    <code>.theme-picker</code>), sae it picks up whitever theme is active.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> this exact snippet wis compilit against the publishit <code>0.1.1</code> package through
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Step 4 — React tae the theme in yer ain CSS</h2>
+  <p>
+    Because the helper sets <code>data-theme</code> on the document root, yer ain styles can branch on it:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Notes for server renderin</h2>
+  <p>
+    The helper performs aw DOM writes inside the framework's mount/effect lifecycle, sae it is SSR-safe bi construction. Tae avoid a first-paint flash, render the initial theme's <code>&lt;link&gt;</code> an
+    <code>data-theme</code> on the server (for example frae a cookie) — the Svelte helper repo ships a runnable SvelteKit cookie example, an the ither catalogs document the same pattern for their stacks.
+  </p>
+
+  <h2>Neist steps</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — the same pattern for leid, text size, sharin, an date/time entry.</li>
+    <li>
+      Contribute a theme — ilkane is ae standalane stylesheet targetin the class hooks; see <a href="/help/#contributing">contributin</a>.
+    </li>
+  </ul>
+  <p>
+    Questions alang the wey? The
+    <a href="/help/#troubleshooting">help page</a> is fu o answers — an if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> an we'll gladly improve the tutorial.
+  </p>
+</section>

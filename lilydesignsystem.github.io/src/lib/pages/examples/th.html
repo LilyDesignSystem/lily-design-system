@@ -1,0 +1,105 @@
+<!-- title: ตัวอย่าง — Lily Design System -->
+<!-- description: แอปตัวอย่างที่ทำเสร็จแล้ว แสดงวิธีจัดสไตล์คอมโพเนนต์ Lily ใน HTML, Svelte, React, Vue, Angular, Blazor และ Eleventy -->
+<section class="page-intro">
+  <h1>ดู Lily ในแอปจริง</h1>
+  <p class="page-intro-tagline">
+    โครงการตัวอย่างที่ทำเสร็จแล้วเจ็ดโครงการแสดงวิธีนำคอมโพเนนต์ headless มาเพิ่มสไตล์และนำเว็บไซต์จริงขึ้นใช้งาน เลือกเฟรมเวิร์กที่คุณใช้
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>แอปเดโมพร้อม CSS เต็มรูปแบบและการกำหนดเส้นทาง</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        หน้า HTML ธรรมดา JavaScript ล้วน ไม่มีเครื่องมือบิลด์ วางบนโฮสต์สแตติกใดก็ได้ — เหมาะกับเว็บไซต์เล็ก ๆ และการพัฒนาแบบค่อยเป็นค่อยไป
+      </p>
+      <p class="card-meta">→ ดูบน GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        แอป SvelteKit 3 ที่ใช้ Svelte 5 runes เส้นทางของคอมโพเนนต์ การกำหนดเส้นทางตามไฟล์ และ storybook ที่มีสไตล์ของทุกคอมโพเนนต์
+      </p>
+      <p class="card-meta">→ ดูบน GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        แอป Next.js 16 ที่แสดงแต่ละคอมโพเนนต์ในบริบท ใช้ TypeScript ตลอดและมีหน้าเดโมสำหรับรูปแบบเชิงประกอบ
+      </p>
+      <p class="card-meta">→ ดูบน GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        แอป Nuxt 4 <code>&lt;script setup&gt;</code>  และ Composition API ในทุกเส้นทางเดโม
+      </p>
+      <p class="card-meta">→ ดูบน GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        แอป Angular 22 + Analog.js การกำหนดเส้นทางตามไฟล์ signals การตรวจจับการเปลี่ยนแปลงแบบไม่มี zone และการเรนเดอร์ล่วงหน้า SSG เต็มรูปแบบ
+      </p>
+      <p class="card-meta">→ ดูบน GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        แอป Blazor Web พร้อมคอมโพเนนต์ Razor เป็นมิตรกับทั้งเซิร์ฟเวอร์และ WebAssembly โดยมี .NET 10 เป็นพื้นฐาน
+      </p>
+      <p class="card-meta">→ ดูบน GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        ไซต์ Eleventy ที่ใช้มาโครของ Nunjucks เหมาะกับไซต์สแตติกที่เน้นเนื้อหาซึ่งยังต้องการระบบคอมโพเนนต์จริง
+      </p>
+      <p class="card-meta">→ ดูบน GitHub</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>ทุกแอปตัวอย่างมีรูปแบบเดียวกัน</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>เพื่อให้การเปลี่ยนเฟรมเวิร์กรู้สึกคุ้นเคย ทุกแอปตัวอย่างมี:</p>
+    <ul>
+      <li>เส้นทางต้อนรับที่ <code>/</code>  ซึ่งแนะนำโครงการ</li>
+      <li>ดัชนีคอมโพเนนต์ที่ <code>/components</code>  ซึ่งแสดงรายการทุกคอมโพเนนต์</li>
+      <li>หน้าเดโมสำหรับแต่ละคอมโพเนนต์ที่ <code>/components/&lt;component&gt;</code>.</li>
+      <li>CSS จริง — ไม่ใช่โทเค็นการออกแบบเชิงนามธรรม — เพื่อให้คุณหยิบสไตล์ไปใช้ได้โดยตรง</li>
+      <li>การนำทางด้วยแป้นพิมพ์และการจัดการโฟกัสที่ใช้งานได้ตั้งแต่แรก</li>
+    </ul>
+
+    <h3>อยากดูว่าคอมโพเนนต์ตัวเดียวถูกจัดสไตล์อย่างไร?</h3>
+    <p>
+      เปิดแอปตัวอย่างที่เกี่ยวข้อง ไปที่
+      <code>/components/&lt;name&gt;</code> แล้วคัดลอกมาร์กอัปและ CSS ไปใส่ในโปรเจกต์ของคุณเอง แอปตัวอย่างใช้ CSS ธรรมดา (หรือเกือบธรรมดา) โดยตั้งใจ เพื่อให้คุณปรับให้เข้ากับระบบใดก็ได้ที่คุณชอบ
+    </p>
+
+    <h3>ต้องการแบบ headless มากกว่าไหม?</h3>
+    <p>
+      จับคู่แอปตัวอย่างใดก็ได้กับแพ็กเกจ <em>headless</em>
+       ที่ตรงกัน — แพ็กเกจเหล่านั้นเผยแพร่คอมโพเนนต์ชุดเดียวกันโดยไม่มี CSS พร้อมสำหรับโทเค็นการออกแบบของคุณเอง
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">เรียกดูแคตตาล็อก →</a>
+      <a class="button button-secondary" href="/help/">อ่านคู่มือการตั้งค่า</a>
+    </p>
+  </div>
+</section>

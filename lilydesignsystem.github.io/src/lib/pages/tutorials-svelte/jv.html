@@ -1,0 +1,117 @@
+<!-- title: Tutorial Svelte — Lily Design System -->
+<!-- description: Gawé formulir sing gampang diakses lan wis ditata nganggo komponen headless Lily kanggo Svelte 5: runes, snippets lan bind:value. -->
+<section class="page-intro">
+  <h1>Tutorial Svelte</h1>
+  <p class="page-intro-tagline">
+    Pustaka Svelte Lily iku implementasi kanonik: runes Svelte 5, props kanthi tipe, panyebaran props sisa, lan pengikatan loro arah karo
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa sing bakal sampeyan gawé</h2>
+  <p>
+    Formulir kontak cilik — kolom nganggo label, tombol kirim, pengikatan loro arah, prilaku keyboard lan pamaca layar sing nyata — dhisik polosan, banjur ditata, kira-kira 10 menit.
+  </p>
+
+  <h2>Sadurunge miwiti</h2>
+  <p>
+    Sampeyan butuh git, Node 22 utawa luwih anyar, lan pnpm 10 utawa luwih anyar. Proyek Svelte 5 apa wae bisa — aplikasi anyar <code>npx sv create</code> wis cukup.
+  </p>
+
+  <h2>Langkah 1 — Njupuk kode</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponen manggon ing <code>src/lib/components/&#123;Name&#125;/</code>, siji direktori saben komponen kanthi berkas <code>.svelte</code> , tesé, story-né lan dokumentasiné bebarengan. Salin direktori sing dibutuhaké menyang aplikasi sampeyan, utawa gumantung ing repositori lan impor langsung.
+  </p>
+
+  <h2>Langkah 2 — Komponen pisanan sampeyan</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Nampilaké <code>&lt;button class="button" type="button"&gt;</code>. Props kanthi tipe: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (nampilaké <code>aria-pressed</code> (nampilaké <code>label</code> ( <code>aria-label</code> kanggo tombol toggle),
+  </p>
+
+  <h2>Langkah 3 — Nyusun formulir cilik</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> nampa <code>label</code> minangka prop dhéwé, dudu komponen label sing disarangaké — lulusna sepisan, ing <code>Field</code>lan <code>TextInput</code>sing cocog saka <code>label</code> nyedhiyakaké jeneng sing bisa diakses. <code>TextInput</code>'s <code>value</code> kanggo nimpa), lan atribut tambahan apa wae nyebar ing oyod.
+    <code>$bindable</code> iku prop <code>bind:value</code> rune, mula
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dikonfirmasi 2026-08-29:</strong> langsung menehi pengikatan loro arah. <code>svelte/server</code> potongan persis iki dikompilasi liwat <code>&lt;label for&gt;</code> lan dipriksa kanggo siji label sing disambungaké kanthi bener <code>Label</code> ing njero <code>Field</code>— konsep sadurungé nyarangaké
+      <em>rong</em> label (siji kosong) amarga <code>Field</code> wis nampilaké dhéwé saka input <code>label</code> kapisah ing njero, sing nampilaké
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Rute formulir kontak gabungan</a>
+      iku pola sing padha, diuji nganggo tes e2e lan axe nyata.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Priksa pagawéan sampeyan:</strong> jalanna aplikasi lan formulir katon polosan — persis kaya sing dikarepaké: penataan isih ing ngarep. Pencet
+      <kbd>Tab</kbd>: fokus mlaku liwat saben kontrol, label diumumaké lan kirim mlaku. Prilaku wis rampung; tampilan iku duwèkmu lan dadi langkah sabanjuré.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Tata</h2>
+  <p>
+    Kabèh ing ndhuwur dirender minangka struktur murni, siap kanggo gaya sampeyan. Tata pancingan kelas —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — ing lembar gaya global sampeyan, utawa sambungna tema sing wis siap ing <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Panyetelan saben instans liwat <code>class</code> prop, sing ditambahaké menyang pancingan dhasar: <code>&lt;Button class="wide"&gt;</code> nampilaké
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Langkah 5 — Deleng kabèh mlaku</h2>
+  <p>
+     <a href="/examples/">Aplikasi conto SvelteKit</a> iku katalog sing padha sing wis ditata lengkap, kanthi demo langsung, tes Playwright e2e lan garis dhasar aksesibilitas axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah sabanjuré</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — ganti nalika mlaku nganggo pembantu theme-picker Svelte.</li>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — basa lan ukuran teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — properti, ARIA lan keyboard saben komponen.</li>
+  </ul>
+  <p>
+    Ana pitakon ing dalan?
+    <a href="/help/#troubleshooting">Kaca pitulung</a> kebak wangsulan — lan menawa ana langkah sing bisa luwih cetha,
+    <a href="https://github.com/LilyDesignSystem">kandhanana kita</a> lan kita bakal seneng nyaosi tutorial luwih apik.
+  </p>
+</section>

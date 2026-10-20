@@ -1,0 +1,111 @@
+<!-- title: థీమ్‌ల ట్యుటోరియల్ — Lily Design System -->
+<!-- description: Lily కి మూడు విధాలుగా థీమ్ ఇవ్వండి: 45 సిద్ధమైన థీమ్‌లలో ఒకదాన్ని లింక్ చేయండి, మీ CSS తో ఓవర్‌రైడ్ చేయండి, మరియు theme-picker సహాయకంతో రన్‌టైమ్ థీమ్ మార్పు జోడించండి. -->
+<section class="page-intro">
+  <h1>థీమ్‌లు</h1>
+  <p class="page-intro-tagline">
+    Lily కాంపోనెంట్లకు స్థిరమైన క్లాస్ హుక్‌లు ఉన్నాయి మరియు సున్నా CSS — కాబట్టి థీమ్ అంటే కేవలం ఒక స్టైల్‌షీట్. ఈ ట్యుటోరియల్ "ఒక ఫైల్ లింక్ చేయండి" నుండి "వినియోగదారుని రన్‌టైమ్‌లో థీమ్ మార్చనివ్వండి, నిలుపుకుని" వరకు సాగుతుంది.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>మీరు ఏమి నిర్మిస్తారు</h2>
+  <p>
+    వినియోగదారు మొత్తం రూపాన్ని మార్చగల యాప్ — ఒక లింక్ చేసిన స్టైల్‌షీట్‌తో మొదలై, నిలిచి ఉండే రన్‌టైమ్ థీమ్ మార్పిడితో ముగుస్తుంది — సుమారు 15 నిమిషాల్లో.
+  </p>
+
+  <h2>ప్రారంభించే ముందు</h2>
+  <p>
+    ముందుగా పూర్తి చేయండి <a href="/tutorials/">ఫ్రేమ్‌వర్క్ ట్యుటోరియల్</a> ముందుగా మీ స్టాక్ కోసం, తద్వారా థీమ్ ఇవ్వడానికి మీ వద్ద ఒక చిన్న Lily ఫారమ్ ఉంటుంది. ఇక్కడ అంతా ఏడు ఫ్రేమ్‌వర్క్‌లలోనూ పనిచేస్తుంది; కోడ్ నమూనాలు Svelte మరియు సాదా HTML చూపిస్తాయి.
+  </p>
+
+  <h2>దశ 1 — సిద్ధమైన థీమ్‌ను లింక్ చేయండి</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    డైరెక్టరీలో 45 స్వతంత్ర స్టైల్‌షీట్‌లు ఉన్నాయి. వాటిని మీ యాప్ స్థిర ఆస్తుల్లోకి కాపీ చేసి ఒకదాన్ని లింక్ చేయండి:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>సెట్‌లోని ముఖ్యాంశాలు:</p>
+  <ul>
+    <li>
+      <strong>ప్రజా రంగం</strong> — NHS England / Scotland / Wales, ప్రతి ఒక్కటి రోగి-కేంద్రీకృత మరియు వైద్యుల-కేంద్రీకృత రూపాల్లో; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>విక్రేతల నుండి ప్రేరణ పొందినవి</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>సాధారణ ప్రయోజనం</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, మరియు ఇంకా చాలా.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>మీ పనిని తనిఖీ చేయండి:</strong> పేజీని రీలోడ్ చేయండి. ఫ్రేమ్‌వర్క్ ట్యుటోరియల్‌లో మీరు నిర్మించిన అదే మార్కప్ ఇప్పుడు పూర్తిగా శైలీకరించబడింది — బటన్లు, ఇన్‌పుట్‌లు, లేబుళ్లు, ఫోకస్ రింగ్‌లు. HTML యొక్క ఒక వరుస ఆ పని చేసింది — ప్రతి కాంపోనెంట్ ఎలా ఉందో అలాగే ఉంది.
+    </p>
+  </div>
+
+  <h2>దశ 2 — దేన్నైనా ఓవర్‌రైడ్ చేయండి</h2>
+  <p>
+    థీమ్ సెలెక్టర్లు దీనిలో చుట్టబడ్డాయి <code>:where(...)</code>దీనికి విశిష్టత సున్నా — కాబట్టి మీరు రాసే ఏ నియమమైనా గెలుస్తుంది, సరళంగా:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>దశ 3 — theme-picker తో రన్‌టైమ్ మార్పు</h2>
+  <p>
+     <code>theme-picker</code> సహాయకం ఒక హెడ్‌లెస్ ఐకాన్-బటన్ + లిస్ట్‌బాక్స్, థీమ్ జీవనచక్రం మొత్తాన్ని నిర్వహిస్తుంది: ఒక నిర్వహించే <code>&lt;link&gt;</code>
+    ను మార్చడం ద్వారా ఎంచుకున్న స్టైల్‌షీట్‌ను లోడ్ చేస్తుంది (క్రియాశీల థీమ్ మాత్రమే తెప్పించబడుతుంది), పత్రంపై
+    <code>data-theme="&#123;slug&#125;"</code> సెట్ చేస్తుంది, మరియు ఐచ్ఛికంగా ఇక్కడ నిలుపుతుంది <code>localStorage</code>. ఇక్కడ Svelte చూపబడింది; React, Vue, Angular, HTML, Nunjucks మరియు Blazor పోర్ట్‌లు ఒప్పందం-ఒప్పందంగా సరిపోతాయి:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    అదే మొత్తం ఏకీకరణ. కీబోర్డ్ ప్రవర్తన WAI-ARIA APG లిస్ట్‌బాక్స్ నమూనాను అనుసరిస్తుంది; నియంత్రణ స్వయంగా హెడ్‌లెస్ (క్లాస్ హుక్
+    <code>.theme-picker</code>), కాబట్టి ఏ థీమ్ క్రియాశీలంగా ఉంటే దాన్ని తీసుకుంటుంది.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29న ధృవీకరించబడింది:</strong> సరిగ్గా ఈ స్నిప్పెట్ ప్రచురించిన <code>0.1.1</code> ప్యాకేజీకి వ్యతిరేకంగా కంపైల్ చేయబడింది, దీని ద్వారా
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>దశ 4 — మీ స్వంత CSS లో థీమ్‌కు స్పందించండి</h2>
+  <p>
+    సహాయకం పత్రం మూలంపై <code>data-theme</code> సెట్ చేస్తుంది కాబట్టి, మీ స్వంత శైలులు దానిపై శాఖలు చేయవచ్చు:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>సర్వర్ రెండరింగ్ కోసం గమనికలు</h2>
+  <p>
+    సహాయకం అన్ని DOM రాతలను ఫ్రేమ్‌వర్క్ mount/effect జీవనచక్రం లోపలే చేస్తుంది, కాబట్టి నిర్మాణపరంగా SSR-సురక్షితం. మొదటి పెయింట్‌లో మెరుపు నివారించడానికి, సర్వర్‌లో ప్రారంభ థీమ్ యొక్క <code>&lt;link&gt;</code> మరియు
+    <code>data-theme</code> ను రెండర్ చేయండి (ఉదాహరణకు కుకీ నుండి) — Svelte సహాయక రిపో నడపగల SvelteKit కుకీ ఉదాహరణను అందిస్తుంది, ఇతర కేటలాగ్‌లు తమ స్టాక్‌ల కోసం అదే నమూనాను నమోదు చేస్తాయి.
+  </p>
+
+  <h2>తదుపరి దశలు</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">ప్రాధాన్యత సహాయకాలు</a> — భాష, టెక్స్ట్ పరిమాణం, షేరింగ్ మరియు తేదీ/సమయ ఎంట్రీకి అదే నమూనా.</li>
+    <li>
+      ఒక థీమ్‌ను అందించండి — ప్రతిదీ క్లాస్ హుక్‌లను లక్ష్యంగా చేసుకునే ఒక స్వతంత్ర స్టైల్‌షీట్; చూడండి <a href="/help/#contributing">సహకారం</a>.
+    </li>
+  </ul>
+  <p>
+    దారిలో ప్రశ్నలా?
+    <a href="/help/#troubleshooting">సహాయ పేజీ</a> సమాధానాలతో నిండి ఉంది — మరియు ఏదైనా దశను మరింత స్పష్టంగా చేయవచ్చంటే,
+    <a href="https://github.com/LilyDesignSystem">మాకు చెప్పండి</a> మరియు మేము సంతోషంగా ట్యుటోరియల్‌ను మెరుగుపరుస్తాము.
+  </p>
+</section>

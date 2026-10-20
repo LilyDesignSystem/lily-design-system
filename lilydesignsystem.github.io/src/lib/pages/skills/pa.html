@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills, Claude Code ਨੂੰ Lily Design System ਵਿੱਚ ਇੱਕ ਚੁਣਿਆ, ਲੋਡ ਕਰਨ ਯੋਗ ਪ੍ਰਵੇਸ਼ ਬਿੰਦੂ ਦਿੰਦੇ ਹਨ — ਆਮ ਸੰਕਲਪ, ਪ੍ਰਤੀ-ਫ੍ਰੇਮਵਰਕ ਛਤਰੀ ਹੁਨਰ, ਅਤੇ ਹੈੱਡਲੈੱਸ ਲਾਇਬ੍ਰੇਰੀ ਤੇ *-picker ਸਹਾਇਕਾਂ ਲਈ ਪ੍ਰਤੀ-ਉਪ-ਪ੍ਰੋਜੈਕਟ ਡੂੰਘੇ ਹੁਨਰ। -->
+<section class="page-intro">
+  <h1>AI ਏਜੰਟਾਂ ਉੱਤੇ ਹੁਨਰ Lily ਨੂੰ ਹੋਰ ਵੀ ਆਸਾਨ ਬਣਾਉਂਦੇ ਹਨ</h1>
+  <p class="page-intro-tagline">
+    Lily ਕੇਂਦ੍ਰਿਤ ਹੁਨਰ ਦਿੰਦਾ ਹੈ — ਆਮ, ਪ੍ਰਤੀ-ਫ੍ਰੇਮਵਰਕ, ਅਤੇ ਪ੍ਰਤੀ-ਉਪ-ਪ੍ਰੋਜੈਕਟ — ਤਾਂ ਜੋ ਏਜੰਟ ਠੀਕ ਉਹੀ ਪ੍ਰਸੰਗ ਲੋਡ ਕਰੇ ਜਿਸ ਦੀ ਉਸ ਨੂੰ ਲੋੜ ਹੈ ਅਤੇ ਕੁਝ ਵੀ ਨਹੀਂ ਜਿਸ ਦੀ ਨਹੀਂ।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ਤੁਹਾਨੂੰ ਕਿਹੜਾ ਹੁਨਰ ਚਾਹੀਦਾ ਹੈ?</h2>
+  <p>
+    ਹਰ ਦਰਜਾ ਵੱਖਰੇ ਸਵਾਲ ਦਾ ਜਵਾਬ ਦਿੰਦਾ ਹੈ। ਜਦੋਂ ਤੁਸੀਂ Lily ਨੂੰ ਅਜੇ ਨਹੀਂ ਜਾਣਦੇ ਤਾਂ ਆਮ ਹੁਨਰ ਲੋਡ ਕਰੋ। ਜਦੋਂ ਤੁਸੀਂ ਆਪਣਾ ਫ੍ਰੇਮਵਰਕ ਜਾਣਦੇ ਹੋ ਪਰ ਇਹ ਨਹੀਂ ਕਿ ਤੁਹਾਨੂੰ ਕਿਹੜਾ ਉਪ-ਪ੍ਰੋਜੈਕਟ ਚਾਹੀਦਾ ਹੈ ਤਾਂ ਫ੍ਰੇਮਵਰਕ ਹੁਨਰ ਲੋਡ ਕਰੋ। ਜਦੋਂ ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਠੀਕ ਜਾਣਦੇ ਹੋ ਕਿ ਤੁਸੀਂ ਕਿਸ ਉੱਤੇ ਕੰਮ ਕਰ ਰਹੇ ਹੋ ਤਾਂ headless-skill ਜਾਂ helpers-skill ਸਿੱਧਾ ਲੋਡ ਕਰੋ।
+  </p>
+
+  <ul>
+    <li>
+      <strong>ਆਮ / ਸੰਭਾਲਕਰਤਾ</strong> — “Lily ਕੀ ਹੈ?” / “ਇਹ ਮੋਨੋਰੈਪੋ ਕਿਵੇਂ ਬਣਿਆ ਹੈ?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>ਫ੍ਰੇਮਵਰਕ ਛਤਰੀ</strong> — “{framework} ਲਈ ਕੀ ਉਪਲਬਧ ਹੈ, ਅਤੇ ਮੈਨੂੰ ਕਿਹੜਾ ਹਿੱਸਾ ਚਾਹੀਦਾ ਹੈ?” — 8, ਹਰੇਕ ਲਈ ਇੱਕ <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>ਹੈੱਡਲੈੱਸ / ਸਹਾਇਕ</strong> — “ਮੈਂ {framework} ਦੇ ਕੰਪੋਨੈਂਟ / *-picker ਸਹਾਇਕ ਠੀਕ ਕਿਵੇਂ ਵਰਤਾਂ?” — 16, ਹਰੇਕ ਲਈ ਇੱਕ <code>{framework}-headless-skill</code> ਅਤੇ ਇੱਕ <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>ਅੱਠ ਫ੍ਰੇਮਵਰਕ</h2>
+  <p>
+    ਹਰ ਫ੍ਰੇਮਵਰਕ ਨੂੰ ਉਹੀ ਤਿੰਨ-ਪਰਤ ਸਟੈਕ ਮਿਲਦਾ ਹੈ। ਛਤਰੀ ਹੁਨਰ ਉਸ ਫ੍ਰੇਮਵਰਕ ਦੇ ਸਾਰੇ ਅਸਲ ਉਪ-ਪ੍ਰੋਜੈਕਟਾਂ ਦਾ ਨਕਸ਼ਾ ਬਣਾਉਂਦਾ ਹੈ — ਉਦਾਹਰਨ ਐਪ ਸਮੇਤ, ਜਿਸ ਨੂੰ ਇਸ ਦੇ ਦੋਵੇਂ ਭੈਣ ਹੁਨਰਾਂ ਵਿੱਚੋਂ ਕੋਈ ਵੀ ਕਵਰ ਨਹੀਂ ਕਰਦਾ — ਅਤੇ ਉਨ੍ਹਾਂ ਦੇ ਇਕਰਾਰਨਾਮੇ ਦੁਹਰਾਉਣ ਦੀ ਬਜਾਏ ਉਨ੍ਹਾਂ ਵੱਲ ਹੇਠਾਂ ਇਸ਼ਾਰਾ ਕਰਦਾ ਹੈ।
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ਫ੍ਰੇਮਵਰਕ</th>
+        <th>ਛਤਰੀ</th>
+        <th>ਹੈੱਡਲੈੱਸ</th>
+        <th>ਸਹਾਇਕ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Angular ਹੈੱਡਲੈੱਸ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Angular ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Blazor ਹੈੱਡਲੈੱਸ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Blazor ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="HTML ਹੈੱਡਲੈੱਸ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="HTML ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Nunjucks ਹੈੱਡਲੈੱਸ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Nunjucks ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="React ਹੈੱਡਲੈੱਸ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="React ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Svelte ਹੈੱਡਲੈੱਸ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Svelte ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Vue ਹੈੱਡਲੈੱਸ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">ਹੁਨਰ</a></td>
+        <td><a aria-label="Vue ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components ਛਤਰੀ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">ਹੁਨਰ</a></td>
+        <td>
+          <a
+            aria-label="Web Components ਹੈੱਡਲੈੱਸ ਹੁਨਰ"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >ਹੁਨਰ</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components ਸਹਾਇਕ ਹੁਨਰ" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">ਹੁਨਰ</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components ਦੋਵੇਂ ਦਿਸ਼ਾਵਾਂ ਵਿੱਚ ਇਕੱਲਾ ਅਪਵਾਦ ਹੈ: ਇਸ ਦਾ ਹੈੱਡਲੈੱਸ ਕੈਟਾਲਾਗ 571 ਵਿੱਚੋਂ 536 ਦਾ ਜਾਣ-ਬੁੱਝ ਕੇ ਦਾਇਰਾ ਹੈ (ਨੇਟਿਵ ਕਸਟਮ ਐਲੀਮੈਂਟ, ਕੋਈ ਫ੍ਰੇਮਵਰਕ ਰਨਟਾਈਮ ਨਹੀਂ; ਬਾਕੀ 35 ਕੰਪੋਨੈਂਟ ਸਥਾਈ ਤੌਰ ਤੇ ਬਾਹਰ ਹਨ), ਅਤੇ ਅਜੇ ਕੋਈ Web Components ਉਦਾਹਰਨ ਐਪ ਨਹੀਂ ਹੈ — ਇਸ ਦਾ ਛਤਰੀ ਹੁਨਰ ਇਹ ਦੱਸਦਾ ਹੈ ਬਜਾਏ ਇਹ ਇਸ਼ਾਰਾ ਕਰਨ ਦੇ ਕਿ ਇੱਕ ਹੈ।
+  </p>
+
+  <h2>ਇੱਕ ਹੁਨਰ ਜੋੜੋ</h2>
+  <p>
+    ਹਰ ਹੁਨਰ ਇੱਕ <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> ਫਾਈਲ ਹੈ — ਨਾਲ ਸਹਾਇਕ ਫਾਈਲਾਂ, ਕੋਈ ਬਿਲਡ ਕਦਮ ਨਹੀਂ। ਜੋ ਤੁਹਾਨੂੰ ਚਾਹੀਦਾ ਹੈ ਉਹ ਉੱਥੇ ਕਲੋਨ ਕਰੋ ਜਿੱਥੋਂ ਤੁਹਾਡਾ Claude Code ਸੈੱਟਅੱਪ ਹੁਨਰ ਲੋਡ ਕਰਦਾ ਹੈ (ਆਪਣੇ ਪ੍ਰੋਜੈਕਟ ਜਾਂ ਖਾਤੇ ਦੀ ਹੁਨਰ ਡਾਇਰੈਕਟਰੀ ਲਈ ਉੱਪਰ ਲਿੰਕ ਕੀਤੇ ਅਧਿਕਾਰਤ ਦਸਤਾਵੇਜ਼ ਵੇਖੋ):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    ਕਈ ਫ੍ਰੇਮਵਰਕਾਂ ਵਿੱਚ, ਜਾਂ ਮੋਨੋਰੈਪੋ ਉੱਤੇ ਹੀ ਕੰਮ ਕਰ ਰਹੇ ਹੋ? ਇਸ ਦੀ ਬਜਾਏ <a href="https://github.com/LilyDesignSystem/lily-design-system">ਮਿਆਰੀ ਮੋਨੋਰੈਪੋ</a> ਕਲੋਨ ਕਰੋ — ਸਾਰੇ 26 ਹੁਨਰ ਪਹਿਲਾਂ ਹੀ ਇਸ ਦੀ ਰੂਟ ਵਿੱਚ ਹਨ, ਹੈੱਡਲੈੱਸ ਲਾਇਬ੍ਰੇਰੀਆਂ, ਸਹਾਇਕ ਕੈਟਾਲਾਗਾਂ ਅਤੇ ਉਦਾਹਰਨ ਐਪਾਂ ਦੇ ਨਾਲ ਜਿਨ੍ਹਾਂ ਦਾ ਇਹ ਵਰਣਨ ਕਰਦੇ ਹਨ।
+  </p>
+</section>

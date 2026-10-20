@@ -1,0 +1,94 @@
+<!-- title: Teave — Lily Design System -->
+<!-- description: Mis on Lily, selle põhimõtted ja disainisüsteemid, millest see inspiratsiooni saab. -->
+<section class="page-intro">
+  <h1>Mis on Lily?</h1>
+  <p class="page-intro-tagline">
+    Tasuta avatud lähtekoodiga disainisüsteem, kus juurdepääsetavus on esikohal – see kohtub sinuga seal, kus sa koodi kirjutad, ja astub kõrvale, kui sul seda vaja pole.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Lühidalt</h2>
+  <p>
+    Lily on <strong>veebikomponentide</strong> kataloog, mille iga komponent on realiseeritud kaheksas päisteta variandis (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks ja Web Components), pluss hulk valmis näiterakendusi, mis näitavad, kuidas neid kujundada.
+  </p>
+  <p>
+    Päisteta versioonid sisaldavad <em>null CSS-i</em>. Need annavad sulle semantilise HTML-i, ARIA rollid ja olekud, klaviatuuritoe ning rahvusvahelistamist toetavad atribuudid. Visuaalse kujunduse tood ise.
+  </p>
+
+  <h2>Disainipõhimõtted</h2>
+
+  <h3>Juurdepääsetav</h3>
+  <p>
+    Iga komponent lähtub semantilisest HTML-ist. ARIA lisatakse ainult seal, kus HTML üksi mustrit väljendada ei suuda. Komponendid taotlevad
+    <strong>WCAG 2.2 AAA</strong> taset – värve, vahesid, fookust ja klaviatuurinavigatsiooni arvestatakse kõike.
+  </p>
+
+  <h3>Kombineeritav</h3>
+  <p>
+    Lily eelistab väikseid ühe eesmärgiga komponente, mis sobituvad kokku. Liitmustrid kordunud tuhandeid kordi:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> – lisalehe teekondade, sisukordade, akordionmenüüde, puumenüüde ja lehekülgede jaoks</li>
+    <li><code>Form → Field → Input</code> – mis tahes vormipaigutuse jaoks siltide, vihjete ja vigadega</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> – tabelite, kalendrite, Gantti diagrammide ja kanban-tahvlite jaoks</li>
+    <li><code>Bar → BarButton</code> – tööriistaribade, vahekaardiribade, tegumiribade, toimingute ribade ja menüüribade jaoks</li>
+    <li><code>Picker → PickerButton</code> – värvivalijate, hindamisvalijate ja teemavalijate jaoks</li>
+  </ul>
+
+  <h3>Rahvusvahelistatav</h3>
+  <p>
+    Mitte ainsatki kasutajale nähtavat stringi pole koodi kirjutatud. Sildid, kohatäited, veateated, nuppude tekstid – kõik on parameetrid. Ühenda oma tõlkesüsteem ja Lily räägib iga keelt, mida sinagi.
+  </p>
+
+  <h3>Päisteta</h3>
+  <p>
+    Päisteta komponentidel on <strong>ei mingit CSS-i</strong>, ei mingeid
+    <code>&lt;style&gt;</code> -plokke ega disainitunnuseid, mida sa pole ise valinud. Need pakuvad igal juurelemendil ühte kebab-case klassinime, nii et saad neid sihtida, nagu soovid – semantiline CSS, Tailwind, CSS-in-JS, sinu otsus.
+  </p>
+
+  <h3>Valmis näited</h3>
+  <p>
+    Näiterakendused näitavad, kuidas komponente päriskasutuseks kujundada – milliseid disainitunnuseid seada, milliseid variatsioone lisada, kuidas lehti koostada. Need on täisväärtuslikud SvelteKit-, Next.js-, Nuxt-, Blazor- ja Eleventy-rakendused, mitte pelgalt liivakastid.
+  </p>
+
+  <h2 id="inspirations">Inspiratsiooniallikad</h2>
+  <p>
+    Lily võtab mustreid ja keelt teadlikult laiast disainisüsteemide valikust:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>Litsents</h2>
+  <p>
+    Lilyl on mitu litsentsi: <strong>BSD, MIT, Apache-2.0, GPL-2.0 või GPL-3.0</strong>. Vali see, mis sinu projektile sobib. Kui ükski ei sobi, võta ühendust.
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    Projektijuht: Joel Parker Henderson –
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Leidsid vea, sul on idee või tahad komponendi panustada? Ava teema või tõmbepäring aadressil
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staatus:</strong> Lily on täiesti uus töö ning me tervitame koostööd, juhiseid ja tagasisidet. Asjad liiguvad ja arenevad.
+    </p>
+  </div>
+</section>

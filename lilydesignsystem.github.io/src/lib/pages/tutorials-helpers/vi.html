@@ -1,0 +1,276 @@
+<!-- title: Hướng dẫn trợ giúp tùy chọn — Lily Design System -->
+<!-- description: Thêm tùy chọn ngôn ngữ và cỡ chữ của người dùng bằng các trợ giúp locale-picker và text-size-picker của Lily: điều khiển headless dạng nút biểu tượng + listbox, có lưu trữ và an toàn với SSR. -->
+<section class="page-intro">
+  <h1>Trợ giúp tùy chọn</h1>
+  <p class="page-intro-tagline">
+    Bảy gói nhỏ cho mỗi framework, mỗi gói lo trọn một việc của người dùng, cộng với một thanh gom năm gói trong số đó. Bạn đã biết
+    <a href="/tutorials/theming/">theme-picker</a>; đây là locale-picker, text-size-picker và motion-picker (tùy chọn), share-picker và search-picker (hành động), date-time-picker (giá trị biểu mẫu), và picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một bảng cài đặt nơi người dùng chọn ngôn ngữ và cỡ chữ — các lựa chọn áp dụng cho toàn tài liệu, được giữ lại giữa các lần truy cập, và chỉ tốn hai thành phần cùng vài dòng CSS. Khoảng 15 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Hãy hoàn thành <a href="/tutorials/">hướng dẫn framework</a> cho bộ công nghệ của bạn. Các ví dụ dưới đây dùng Svelte; các trợ giúp React, Vue, Angular, HTML, Nunjucks và Blazor khớp từng hợp đồng một.
+  </p>
+
+  <h2>Hình dạng chung</h2>
+  <ul>
+    <li>Một nút biểu tượng headless mở listbox theo WAI-ARIA APG (hoặc, với date-time-picker, một hộp thoại chọn ngày) — không dùng <code>&lt;select&gt;</code>gốc, nên mọi framework đều có cùng hành vi bàn phím và class hook kiểu dáng.</li>
+    <li>Một class hook cho mỗi gói (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), không đi kèm CSS.</li>
+    <li>An toàn với SSR: việc ghi DOM chỉ xảy ra trong vòng đời mount/effect.</li>
+    <li>Thân thiện với i18n: mọi chuỗi người dùng nhìn thấy đều là thuộc tính.</li>
+    <li>
+      Có cho Svelte (chuẩn), React, Vue, Angular, phần tử tùy chỉnh HTML, Nunjucks và Blazor — cùng một hợp đồng ở mỗi nơi.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker và text-size-picker mỗi cái lo trọn một
+    <em>tùy chọn</em> của người dùng (lựa chọn, áp dụng vào DOM,
+    <code>localStorage</code> lưu trữ tùy chọn qua thuộc tính <code>storageKey</code>
+    ). share-picker và date-time-picker khác về bản chất: share-picker lo một <em>hành động</em> — nó không áp dụng gì vào tài liệu và không lưu gì — còn date-time-picker lo một
+    <em>giá trị biểu mẫu</em>, vì một ngày trong biểu mẫu là dữ liệu chứ không phải tùy chọn.
+  </p>
+
+  <h2>locale-picker — ngôn ngữ và hướng viết</h2>
+  <p>
+    Cho phép người dùng chọn ngôn ngữ-khu vực, rồi ghi <code>lang</code> và
+    <code>dir</code> vào gốc tài liệu để thư viện i18n, CSS và công nghệ hỗ trợ đều theo đó. RTL được tự động phát hiện cho tiếng Ả Rập, tiếng Do Thái và các chữ viết từ phải sang trái khác. Nó chỉ làm nhiệm vụ báo hiệu — thư viện i18n của bạn lo việc dịch.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Nhãn tùy chọn lấy từ bảng tên ngôn ngữ-khu vực có sẵn (có thể ghi đè qua <code>localeLabels</code>), mỗi tùy chọn mang thuộc tính
+    <code>lang</code> riêng để trình đọc màn hình phát âm "Français" bằng tiếng Pháp, và mã dùng dấu gạch dưới như <code>en_US</code>
+    chuyển đổi qua lại với BCP 47 không mất dữ liệu <code>en-US</code>. Nối
+    <code>onChange</code> (hoặc giá trị được liên kết) vào i18next, Paraglide, vue-i18n hoặc bất cứ thứ gì bạn dùng.
+  </p>
+
+  <h2>text-size-picker — cỡ chữ do người đọc điều khiển</h2>
+  <p>
+    Một chiến thắng về khả năng tiếp cận chỉ mất vài phút: trợ giúp đặt
+    <code>data-text-size="&#123;slug&#125;"</code> trên gốc tài liệu và CSS của bạn ánh xạ mỗi giá trị sang kích thước.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Đặt kích thước bố cục bằng <code>rem</code> và toàn bộ ứng dụng co giãn theo lựa chọn của người dùng. Nhãn được viết hoa chữ cái đầu từ slug ("X Large") hoặc ghi đè bằng <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> chọn "Large" từ bộ chọn, và chữ trên trang to ra. Tải lại — vẫn to: lựa chọn đã được lưu vào
+      <code>localStorage</code>. Chuyển bộ chọn ngôn ngữ sang tiếng Ả Rập và
+      <code>dir="rtl"</code> được đặt lên tài liệu tự động.
+    </p>
+  </div>
+
+  <h2>share-picker — gửi trang này</h2>
+  <p>
+    Một nút một ký hiệu mở bảng chia sẻ gốc của thiết bị nếu có, và nếu không thì chuyển sang danh sách đích do bạn cung cấp, cùng hành động sao chép URL. Nó không kèm URL mạng xã hội nào — mạng nào phù hợp với sản phẩm của bạn là quyết định của bạn, không phải của hệ thống thiết kế.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> mặc định là <code>location.href</code>nên trường hợp thông thường không cần nối dây gì. Buộc một đường dẫn bằng <code>strategy="list"</code> hoặc
+    <code>strategy="native"</code> khi bạn cần hành vi nhất quán giữa các nền tảng để kiểm thử hoặc chụp ảnh màn hình.
+  </p>
+
+  <h2>date-time-picker — một ngày, một giờ, hoặc cả hai</h2>
+  <p>
+    Một ô văn bản bạn có thể gõ vào, cùng nút biểu tượng mở hộp thoại chọn ngày theo WAI-ARIA APG. Đúng theo ngôn ngữ-khu vực từ cấu trúc — tên tháng, tên thứ, ngày đầu tuần và đồng hồ 12 hay 24 giờ đều lấy từ <code>Intl</code> — và giá trị luôn là chuỗi ISO sắp xếp được và không có múi giờ: <code>"2026-03-15"</code> cho
+    <code>mode="date"</code>, <code>"09:30"</code> cho
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> cho
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Giá trị ISO giống hệt những gì <code>&lt;input type="date"&gt;</code>
+    gửi đi, nên bạn có thể thay điều khiển gốc vào hay ra mà không đụng đến backend.
+  </p>
+
+  <h2>motion-picker — tôn trọng giảm chuyển động</h2>
+  <p>
+    Trợ giúp đặt <code>data-motion="&#123;slug&#125;"</code> trên gốc tài liệu. Giá trị đầu tiên lấy từ cài đặt
+    <code>prefers-reduced-motion</code> của hệ điều hành người truy cập — luôn luôn, không cần cờ bật, vì chuyển động là một nhu cầu tiếp cận thật sự (WCAG 2.3.3). CSS và tập lệnh của bạn quyết định cái gì bị chặn.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — ô tìm kiếm không chiếm chỗ</h2>
+  <p>
+    Một nút biểu tượng mở trường tìm kiếm. Nhấn Return, hoặc nút &#9166; bên cạnh trường, sẽ điều hướng bằng một yêu cầu GET thường đến
+    <code>/?&lt;text&gt;</code> (văn bản được cắt khoảng trắng và mã hóa URI; truy vấn rỗng không đi đâu cả). Ba tên có thể tiếp cận của nó là bắt buộc, vì trợ giúp không kèm tiếng Anh.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> thay đổi đường dẫn (<code>/search?foo</code>), và
+    <code>navigate</code> giữ việc điều hướng trong ứng dụng; nếu không có thì trợ giúp gọi <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — cả hàng đầu trang cùng lúc</h2>
+  <p>
+    <code>picker-bar</code> hiển thị tìm kiếm, chủ đề, ngôn ngữ, cỡ chữ và chia sẻ trên một hàng, với bộ chủ đề tham chiếu đầy đủ và thang cỡ chữ bảy bậc được nối sẵn. Mọi tên có thể tiếp cận đến trong một đối tượng
+    <code>labels</code> bắt buộc.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Truy cập bất kỳ bộ chọn nào được bọc bằng <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> và <code>shareProps</code>.
+  </p>
+
+  <h2>Chú giải công cụ có sẵn</h2>
+  <p>
+    Mỗi bộ chọn hiển thị nhãn của nó trong chú giải công cụ khi con trỏ dừng trên nút hoặc nút có tiêu điểm bàn phím. Chú giải vẫn hiện khi con trỏ di chuyển lên nó, Escape đóng nó dù tiêu điểm ở đâu, và nó không bao giờ hiện khi cửa sổ bật lên của bộ chọn đang mở. Nó mang cùng văn bản với tên có thể tiếp cận của nút, nên không có gì phải cấu hình và không phải dịch hai lần; các chủ đề tham chiếu tạo kiểu cho nó.
+  </p>
+
+  <h2>Một bảng cài đặt ở một chỗ</h2>
+  <p>Bốn trợ giúp tùy chọn kết hợp với nhau một cách tự nhiên:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Đã xác minh:</strong> các đoạn mã locale-picker, text-size-picker, share-picker, date-time-picker và bảng kết hợp được biên dịch riêng lẻ với các <code>0.1.1</code> gói đã xuất bản thông qua
+      <code>svelte/server</code> (2026-08-29); các đoạn mã motion-picker, search-picker và picker-bar được hiển thị bằng chính các thành phần của gói vào ngày 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Lấy ở đâu</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Mỗi gói có spec riêng, các bài kiểm thử gắn với điều khoản của spec, ví dụ chạy được (gồm cả mẫu cookie cho SSR) và quy trình build + xuất bản. Các gói Svelte là chuẩn; khi nghi ngờ, hợp đồng của chúng được ưu tiên.
+  </p>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/components/">Danh mục thành phần</a> — tài liệu tham chiếu đầy đủ của 571 thành phần.</li>
+    <li><a href="/help/">Trợ giúp</a> — khắc phục sự cố và câu hỏi thường gặp.</li>
+    <li><a href="/why/">Vì sao chọn Lily</a> — và cách ủng hộ dự án.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

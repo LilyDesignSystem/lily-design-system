@@ -1,0 +1,111 @@
+<!-- title: Tutorial sa theming — Lily Design System -->
+<!-- description: Lagyan ng tema ang Lily sa tatlong paraan: mag-link ng isa sa 45 handa nang tema, i-override ito gamit ang iyong CSS, at magdagdag ng runtime na pagpapalit ng tema gamit ang theme-picker helper. -->
+<section class="page-intro">
+  <h1>Theming</h1>
+  <p class="page-intro-tagline">
+    May matatag na class hook at zero CSS ang mga component ng Lily — kaya stylesheet lang ang tema. Mula sa “mag-link ng isang file” hanggang sa “hayaang magpalit ng tema ang user sa runtime, nai-save” ang tutorial na ito.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ang bubuuin mo</h2>
+  <p>
+    Isang app na ang buong hitsura ay mababago ng user — nagsisimula sa isang naka-link na stylesheet, nagtatapos sa isang nananatiling runtime na theme switcher — sa humigit-kumulang 15 minuto.
+  </p>
+
+  <h2>Bago ka magsimula</h2>
+  <p>
+    Tapusin muna ang <a href="/tutorials/">tutorial ng framework</a> muna para sa iyong stack, para may maliit kang Lily form na lalagyan ng tema. Gumagana ang lahat dito sa lahat ng pitong framework; Svelte at payak na HTML ang ipinapakita ng mga sample ng code.
+  </p>
+
+  <h2>Hakbang 1 — Mag-link ng handa nang tema</h2>
+  <p>
+    Ang <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ang direktoryo ay may 45 standalone na stylesheet. Kopyahin ang mga ito sa mga static asset ng app mo at mag-link ng isa:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Mga tampok ng hanay:</p>
+  <ul>
+    <li>
+      <strong>Pampublikong sektor</strong> — NHS England / Scotland / Wales, bawat isa sa mga variant para sa pasyente at practitioner; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Inspirasyon ng vendor</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Pangkalahatang gamit</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, at marami pang iba.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Suriin ang gawa mo:</strong> i-reload ang pahina. Ang parehong markup na binuo mo sa tutorial ng framework ay ganap nang may istilo — mga button, input, label, focus ring. Isang linya ng HTML ang gumawa niyon — nanatiling eksakto ang bawat component.
+    </p>
+  </div>
+
+  <h2>Hakbang 2 — I-override ang anuman</h2>
+  <p>
+    Nakabalot ang mga selector ng tema sa <code>:where(...)</code>na may zero na specificity — kaya nananalo ang anumang rule na isusulat mo, simple lang:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Hakbang 3 — Runtime na pagpapalit gamit ang theme-picker</h2>
+  <p>
+    Ang <code>theme-picker</code> ang helper ay isang headless na icon-button + listbox na may-ari ng buong lifecycle ng tema: nilo-load nito ang napiling stylesheet sa pamamagitan ng pagpapalit ng isang pinamamahalaang <code>&lt;link&gt;</code>
+    (ang aktibong tema lang ang kinukuha), itinatakda ang
+    <code>data-theme="&#123;slug&#125;"</code> sa dokumento, at opsyonal na nagpe-persist sa <code>localStorage</code>. Svelte ang ipinapakita rito; tumutugma ang mga port ng React, Vue, Angular, HTML, Nunjucks, at Blazor kontrata-kontrata:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Iyon na ang buong integrasyon. Sinusunod ng gawi ng keyboard ang WAI-ARIA APG listbox pattern; headless ang kontrol mismo (class hook
+    <code>.theme-picker</code>), kaya kinukuha nito kung anong tema ang aktibo.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Napatunayan noong 2026-08-29:</strong> ang eksaktong snippet na ito ay na-compile laban sa nailathalang <code>0.1.1</code> package sa pamamagitan ng
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Hakbang 4 — Tumugon sa tema sa sarili mong CSS</h2>
+  <p>
+    Dahil itinatakda ng helper ang <code>data-theme</code> sa root ng dokumento, maaaring sumanga rito ang sarili mong mga istilo:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Mga tala para sa server rendering</h2>
+  <p>
+    Ginagawa ng helper ang lahat ng DOM write sa loob ng mount/effect lifecycle ng framework, kaya ligtas ito sa SSR sa disenyo. Para maiwasan ang flash sa unang paint, i-render ang <code>&lt;link&gt;</code> at
+    <code>data-theme</code> ng paunang tema sa server (halimbawa mula sa cookie) — nagpapadala ang repo ng Svelte helper ng tumatakbong SvelteKit cookie example, at idinodokumento ng ibang catalog ang parehong pattern para sa kanilang mga stack.
+  </p>
+
+  <h2>Mga susunod na hakbang</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Mga preference helper</a> — ang parehong pattern para sa wika, laki ng teksto, pagbabahagi, at pagpasok ng petsa/oras.</li>
+    <li>
+      Mag-ambag ng tema — bawat isa ay isang standalone na stylesheet na tumututok sa mga class hook; tingnan ang <a href="/help/#contributing">pag-aambag</a>.
+    </li>
+  </ul>
+  <p>
+    May mga tanong habang nasa daan? Ang
+    <a href="/help/#troubleshooting">pahina ng tulong</a> ay puno ng mga sagot — at kung maaaring maging mas malinaw ang isang hakbang,
+    <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> at masaya naming pagbubutihin ang tutorial.
+  </p>
+</section>

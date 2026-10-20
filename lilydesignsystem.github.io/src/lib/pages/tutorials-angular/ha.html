@@ -1,0 +1,127 @@
+<!-- title: Koyarwar Angular — Lily Design System -->
+<!-- description: Gina fom mai sauƙin isa kuma mai tsari da abubuwan Lily marasa kai na Angular 20: abubuwa masu cin gashin kansu masu shigarwar sigina. -->
+<section class="page-intro">
+  <h1>Koyarwar Angular</h1>
+  <p class="page-intro-tagline">
+    Abubuwa masu cin gashin kansu na Angular 20 — shigarwar sigina, gano canji na OnPush, samfura na cikin layi, sifili NgModules, sifili CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Abin da za ka gina</h2>
+  <p>
+    Ƙaramin fom na tuntuɓa — fili mai lakabi, maɓallin aikawa, ɗaurin hanyoyi biyu, ainihin halayyar maɓallan rubutu da na'urar karanta allo — da farko ba tare da tsari ba, sannan da tsari, cikin kusan mintuna 10.
+  </p>
+
+  <h2>Kafin ka fara</h2>
+  <p>
+    Kana buƙatar git, Node 22 ko sabo, da pnpm 10 ko sabo. Kowane aikin Angular 20 yana aiki — Angular CLI ko Analog.
+  </p>
+
+  <h2>Mataki na 1 — Ɗauki lambar</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Abubuwan fayiloli ne masu shimfiɗe a cikin <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — kowanne abu ne mai cin gashin kansa mai samfurin cikin layi, tare da spec da story ɗinsa. Barrel ɗin
+    <code>index.ts</code> yana sake fitar da kowane abu; <code>pnpm build</code>
+    yana samar da fakitin Angular Package Format ta ng-packagr.
+  </p>
+
+  <h2>Mataki na 2 — Abu na farko naka</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Kowane abu yana bayyana mai zaɓe <code>lily-*</code> kuma yana nuna sinadari mai ma'ana da ƙugiyar aji — 
+    <code>&lt;button class="button" type="button"&gt;</code> a nan. Shigarwar suna bisa sigina: <code>label()</code> don <code>aria-label</code>
+    don gyara, <code>className()</code> don ƙara azuzuwa.
+  </p>
+
+  <h2>Mataki na 3 — Haɗa ƙaramin fom</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> yana ɗaukar lakabin da ake gani a matsayin shigarwar
+    <code>label</code> nasa maimakon abin lakabi da aka saka a ciki — ka ba shi sau ɗaya, a filin, kuma <code>lily-text-input</code>mai dacewa na
+    <code>label</code> yana ba da suna mai sauƙin isa. Abubuwa masu kama da shigarwa suna bayyana ƙima <code>model()</code> don haka ɗaurin hanyoyi biyu na banana-box <code>[(value)]</code>
+    yana aiki nan take — ya dace da zoneless gaba ɗaya.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>An tabbatar a 2026-08-29:</strong> wani daftarin da ya gabata ya saka wani abu <code>Label</code> daban a cikin <code>lily-field</code>, wanda ya nuna <em>lakabi</em> biyu (ɗaya fanko) saboda
+      <code>lily-field</code> tuni yana nuna nasa daga shigarwar
+      <code>label</code> — an gano ta hanyar duba lambar tushe ta abun.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Hanyar fom ɗin tuntuɓa da aka haɗa</a>
+      tsari ɗaya ne, wanda aka gwada da ainihin gwaje-gwajen e2e da axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Duba aikinka:</strong> gudanar da app ɗin kuma fom ɗin yana kama da maras tsari — daidai kamar yadda aka nufa: tsarin yana nan gaba. Danna
+      <kbd>Tab</kbd>: mayar da hankali yana ratsa kowane abin sarrafawa, ana sanar da lakabin, kuma aikawa yana aiki. An gama halayyar; kamannin naka ne kuma shi ne mataki na gaba.
+    </p>
+  </div>
+
+  <h2>Mataki na 4 — Ba shi tsari</h2>
+  <p>
+    Ba ƙugiyoyin aji tsari — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — a cikin <code>styles.css</code>, ko ƙara jigon da aka shirya zuwa jerin <code>styles</code> a cikin
+    <code>angular.json</code> / haɗa shi a cikin <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Mataki na 5 — Kalli komai yana aiki</h2>
+  <p>
+     <a href="/examples/">App ɗin misali na Angular + Analog</a> yana nuna cikakken kundin tare da tsarin hanya na fayiloli da Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Matakai na gaba</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Jigogi</a> — sauyawa lokacin aiki da mai taimakon theme-picker na Angular.</li>
+    <li><a href="/tutorials/helpers/">Masu taimakon abubuwan so</a> — harshe da girman rubutu.</li>
+    <li><a href="/components/">Kundin abubuwa</a> — siffofi, ARIA da maɓallan rubutu ga kowane abu.</li>
+  </ul>
+  <p>
+    Tambayoyi a hanya?
+    <a href="/help/#troubleshooting">Shafin taimako</a> cike yake da amsoshi — kuma idan wani mataki zai iya zama mafi bayyana,
+    <a href="https://github.com/LilyDesignSystem">gaya mana</a> kuma za mu gyara koyarwar da farin ciki.
+  </p>
+</section>

@@ -1,0 +1,109 @@
+<!-- title: Reacti õpetus — Lily Design System -->
+<!-- description: Ehita ligipääsetav, kujundatud vorm Lily Reacti peata komponentidega: tüübitud funktsioonikomponendid value + onChange'iga. -->
+<section class="page-intro">
+  <h1>Reacti õpetus</h1>
+  <p class="page-intro-tagline">
+    Tüübitud funktsioonikomponendid, igaüks üks fail, juhitud standardmustriga
+    <code>value</code> + <code>onChange</code> — kõik töötab nii, nagu React juba töötab.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mida sa ehitad</h2>
+  <p>
+    Väike kontaktivorm — sildiga väli, saatmisnupp, kontrollitud olek, tõeline klaviatuuri- ja ekraanilugeja käitumine — esmalt paljas, seejärel kujundatud, umbes 10 minutiga.
+  </p>
+
+  <h2>Enne alustamist</h2>
+  <p>
+    Vaja on gitti, Node 22 või uuemat ja pnpm 10 või uuemat. Sobib iga React 18+ projekt — Next.js, Vite või lihtne React.
+  </p>
+
+  <h2>Samm 1 — Hangi kood</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponendid on lamedad failid kaustas <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — igaühel oma test, story ja dokumentatsioon kõrval. Kopeeri vajalikud failid oma rakendusse või too repo kaasa ja impordi sealt.
+  </p>
+
+  <h2>Samm 2 — Sinu esimene komponent</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Renderdab <code>&lt;button class="button" type="button"&gt;</code>. Propid:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (renderdab
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> ülekirjutamiseks), <code>className</code>ja iga lisaatribuut jagatakse juurelemendile laiali.
+  </p>
+
+  <h2>Samm 3 — Kombineeri väike vorm</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> võtab nähtava <code>label</code> oma propina pesastatud sildikomponendi asemel — anna see üks kord edasi, elemendile
+    <code>Field</code>ja <code>TextInput</code>elemendist
+    <code>label</code> annab ligipääsetava nime.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollitud 2026-08-29:</strong> varasem mustand pesastas eraldi <code>Label</code> sees <code>Field</code>, mis renderdab
+      <em>kaks</em> silti (üks tühi), sest <code>Field</code> renderdab juba oma sildi <code>label</code> prop — avastatud täpse koodilõigu kompileerimisel. Marsruut
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Koostatud kontaktivormi marsruut</a>
+      on sama muster, proovitud päris e2e- ja axe-testidega.
+    </p>
+  </div>
+
+  <h2>Samm 4 — Kujunda see</h2>
+  <p>
+    Kõik ülaltoodu renderdatakse puhta struktuurina, valmis sinu stiilidele. Kujunda konksud — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — oma laadilehes, kihi Tailwindi utiliidid kaudu <code>className</code>või lingi valmis teema:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Samm 5 — Vaata kõike töötamas</h2>
+  <p>
+     <a href="/examples/">Next.js näiterakendus</a> on kogu kataloog kujundatuna ja demonstreeritult, Playwright e2e ja axe-core baasjoonega:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Järgmised sammud</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemad</a> — vahetamine töö ajal Reacti theme-picker abiga.</li>
+    <li><a href="/tutorials/helpers/">Eelistuste abilised</a> — keel ja teksti suurus.</li>
+    <li><a href="/components/">Komponentide kataloog</a> — omadused, ARIA ja klaviatuur komponendi kohta.</li>
+  </ul>
+  <p>
+    Küsimusi teel?
+    <a href="/help/#troubleshooting">Abileht</a> on täis vastuseid — ja kui mõni samm saaks olla selgem,
+    <a href="https://github.com/LilyDesignSystem">anna meile teada</a> ja me parandame õpetust hea meelega.
+  </p>
+</section>

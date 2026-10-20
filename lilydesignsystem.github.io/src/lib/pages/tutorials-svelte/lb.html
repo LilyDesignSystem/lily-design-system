@@ -1,0 +1,117 @@
+<!-- title: Svelte-Tutorial — Lily Design System -->
+<!-- description: Baut e zougängleche, gestalte Formulaire mat de Headless-Komponente vu Lily fir Svelte 5: Runen, Snippeten a bind:value. -->
+<section class="page-intro">
+  <h1>Svelte-Tutorial</h1>
+  <p class="page-intro-tagline">
+    D'Svelte-Bibliothéik vu Lily ass déi kanonesch Implementatioun: Svelte-5-Runen, typiséiert Props, Verspreeche vun de Rescht-Props an Zwee-Weeër-Bindung mat
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    E klengt Kontaktformulaire — Feld mat Etikett, Schécken-Knäppchen, Zwee-Weeër-Bindung, richtegt Tastatur- an Écranliesser-Verhalen — fir d'éischt nackeg, duerno gestalt, an ongeféier 10 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Dir braucht git, Node 22 oder méi nei a pnpm 10 oder méi nei. All Svelte-5-Projet funktionéiert — eng brandneu <code>npx sv create</code> -App reecht.
+  </p>
+
+  <h2>Schrëtt 1 — D'Code kréien</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    D'Komponente sinn am <code>src/lib/components/&#123;Name&#125;/</code>, ee Verzeechnes pro Komponent mat der <code>.svelte</code> -Datei, hiren Tester, hire Stories a hirer Dokumentatioun niewenee. Kopéiert d'Verzeechnesser, déi Dir braucht, an Är App, oder hänkt vum Repo of an importéiert direkt.
+  </p>
+
+  <h2>Schrëtt 2 — Är éischt Komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button" type="button"&gt;</code>. D'Props sinn typiséiert: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (rendert <code>aria-pressed</code> (rendert <code>label</code> (en <code>aria-label</code> fir Toggle-Knäppercher),
+  </p>
+
+  <h2>Schrëtt 3 — E klengt Formulaire zesummestellen</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> hëlt dat siichtbart <code>label</code> als seng eege Prop amplaz vun enger verschachtelter Etikett-Komponent — gitt et eemol weider, bei <code>Field</code>an <code>TextInput</code>vun <code>label</code> liwwert den zougänglechen Numm. <code>TextInput</code>'s <code>value</code> zum Iwwerschreiwen), an all zousätzlechen Attribut gëtt op d'Wuerzel verspreet.
+    <code>$bindable</code> ass eng <code>bind:value</code> -Rune-Prop, sou datt
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gepréift den 2026-08-29:</strong> Iech direkt Zwee-Weeër-Bindung gëtt. <code>svelte/server</code> dësen exakte Snippet gouf iwwer <code>&lt;label for&gt;</code> kompiléiert a gepréift op ee eenzegt, korrekt verlinkt Etikett <code>Label</code> bannen <code>Field</code>— en ale Brouillon huet e separaten
+      <em>zwee</em> Etiketten (eng eidel) gerendert huet, well <code>Field</code> schonn säin eegenen aus dem <code>label</code> dran verschachtelt, wat gerendert huet
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Déi zesummegesat Kontaktformulaire-Route</a>
+      ass datselwecht Muster, getest mat richtegen e2e- an axe-Tester.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> start d'App an d'Formulaire gesäit nackeg aus — genee wéi geduecht: d'Gestaltung kënnt nach. Dréckt
+      <kbd>Tab</kbd>: de Fokus geet duerch all Kontroll, d'Etikett gëtt ugekënnegt an d'Schécken funktionéiert. D'Verhalen ass fäerdeg; d'Ausgesi ass Är a kënnt als Nächst.
+    </p>
+  </div>
+
+  <h2>Schrëtt 4 — Gestalt et</h2>
+  <p>
+    Alles hei uewen gëtt als pur Struktur gerendert, prett fir Är Stiler. Gestalt d'Klassen-Hooks —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — an Ärem globale Stylesheet, oder verlinkt e fäerdegt Thema am <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Upassunge pro Instanz ginn iwwer d' <code>class</code> -Prop, déi un de Basis-Hook ugehaang gëtt: <code>&lt;Button class="wide"&gt;</code> rendert
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Schrëtt 5 — Alles am Aktioun gesinn</h2>
+  <p>
+     <a href="/examples/">SvelteKit Beispill-App</a> ass datselwecht Katalog voll gestalt, mat Live-Demoen, Playwright-e2e-Tester an enger axe-core-Zougänglechkeetsbaseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themen</a> — Wiessel zur Laafzäit mam Svelte-Helper theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Astellungs-Helperen</a> — Sprooch a Textgréisst.</li>
+    <li><a href="/components/">Komponentekatalog</a> — Eegeschaften, ARIA an Tastatur pro Komponent.</li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

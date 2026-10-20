@@ -1,0 +1,109 @@
+<!-- title: React tutorial — Lily Design System -->
+<!-- description: Big an accessible, styled form wi Lily's React headless components: typed function components wi value + onChange. -->
+<section class="page-intro">
+  <h1>React tutorial</h1>
+  <p class="page-intro-tagline">
+    Typed function components, ae file ilkane, controllit wi the standard
+    <code>value</code> + <code>onChange</code> pattern — aathing wirks the wey React aareadies does.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Whit ye'll big</h2>
+  <p>
+    A wee contact form — labelled input, submit button, controllit state, real keyboard an screen-reader behaviour — first bare, then styled, in aboot 10 minutes.
+  </p>
+
+  <h2>Afore ye stairt</h2>
+  <p>
+    Ye need git, Node 22 or later, an pnpm 10 or later. Onie React 18+ project wirks — Next.js, Vite, or plain React.
+  </p>
+
+  <h2>Step 1 — Git the code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    The components are flat files in <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — ilkane wi its test, story, an docs alangside. Copy the files ye need intae yer app, or vendor the repo an import frae it.
+  </p>
+
+  <h2>Step 2 — Yer first component</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Renders <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (renders
+    <code>aria-pressed</code>), <code>label</code> (an
+    <code>aria-label</code> owerride), <code>className</code>, an onie extra attribute spreids ontae the root element.
+  </p>
+
+  <h2>Step 3 — Compose a wee form</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> taks the visible <code>label</code> as its ain prop raither than a nestit label component — pass it ance, on
+    <code>Field</code>, an <code>TextInput</code>on
+    <code>label</code> supplies the accessible name.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> an earlier draft nestit a separate <code>Label</code> inside <code>Field</code>, which renders
+      <em>twa</em> labels (ane empty) because <code>Field</code> aareadies renders its ain frae the <code>label</code> prop — catcht bi compilin the exact snippet. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">contact-form composed route</a>
+      is the same pattern, exercised bi real e2e an axe tests.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style it</h2>
+  <p>
+    Aathing abune renders as pure structure, ready for yer styles. Style the hooks — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — in yer stylesheet, layer Tailwind utilities through <code>className</code>, or link a ready-made theme:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Step 5 — See it aw wirkin</h2>
+  <p>
+    The <a href="/examples/">Next.js example app</a> is the full catalog styled an demoed, wi Playwright e2e an an axe-core baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Neist steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switchin wi the React theme-picker helper.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — leid an text size.</li>
+    <li><a href="/components/">Component catalog</a> — props, ARIA, an keyboard per component.</li>
+  </ul>
+  <p>
+    Questions alang the wey? The
+    <a href="/help/#troubleshooting">help page</a> is fu o answers — an if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> an we'll gladly improve the tutorial.
+  </p>
+</section>

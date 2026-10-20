@@ -1,0 +1,107 @@
+<!-- title: Blazor-Tutorial — Lily Design System -->
+<!-- description: Erstelle ein barrierefreies, gestaltetes Formular mit den Headless-Komponenten von Lily für Blazor: Razor-Komponenten mit Parametern und bUnit-Tests. -->
+<section class="page-intro">
+  <h1>Blazor-Tutorial</h1>
+  <p class="page-intro-tagline">
+    Komponenten einer Razor-Klassenbibliothek mit Parametern, <code>ChildContent</code>
+    Render-Fragmenten, Attribute-Splatting und einem bUnit-Test pro Komponente.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Was du baust</h2>
+  <p>
+    Ein kleines Kontaktformular — beschriftetes Eingabefeld, Absenden-Schaltfläche,
+    <code>@bind-Value</code> -Bindung, echtes Tastatur- und Screenreader-Verhalten — zuerst nackt, dann gestaltet, in etwa 10 Minuten.
+  </p>
+
+  <h2>Bevor du anfängst</h2>
+  <p>
+    Du brauchst git und das .NET SDK 8 oder neuer. Jedes Blazor-Projekt funktioniert — Blazor Web App, Server oder WebAssembly.
+  </p>
+
+  <h2>Schritt 1 — Den Code holen</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Die Komponenten liegen in <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — je eine Razor-Datei. Referenziere das Projekt (oder kopiere die Dateien) aus deiner Blazor-App und füge <code>@using LilyBlazorHeadless.Components</code> zu
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Schritt 2 — Deine erste Komponente</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button"&gt;</code>. Die gemeinsamen Parameterkonventionen: <code>Label</code> (ein <code>aria-label</code> zum Überschreiben),
+    <code>CssClass</code> (wird an den Basis-Hook angehängt),
+    <code>ChildContent</code>und
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> Attribute-Splatting, sodass jedes zusätzliche HTML-Attribut durchgereicht wird.
+  </p>
+
+  <h2>Schritt 3 — Ein kleines Formular zusammensetzen</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> nimmt das sichtbare <code>Label</code> als eigenen Parameter entgegen statt als verschachtelte Label-Komponente — gib es einmal an, bei
+    <code>Field</code>und <code>TextInput</code>von
+    <code>Label</code> liefert den zugänglichen Namen.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Geprüft am 2026-08-29:</strong> ein früherer Entwurf verschachtelte eine separate <code>Label</code> -Komponente in <code>Field</code>, was <em>zwei</em> Labels (eines leer) rendert, weil <code>Field</code>
+      bereits ein eigenes aus dem <code>Label</code> -Parameter — durch Prüfen des Komponenten-Quellcodes entdeckt; <code>Form</code> selbst hat keinen <code>Label</code> -Parameter, daher wurde die
+      <code>&lt;Form&gt;</code> -Verwendung des früheren Entwurfs korrigiert und ohne sie belassen, statt ein nicht existierendes Attribut zu erfinden.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Die zusammengesetzte Kontaktformular-Route</a>
+      ist dasselbe Muster, getestet mit echten e2e- und axe-Tests.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Prüfe deine Arbeit:</strong> Starte die App, und das Formular sieht schlicht aus — genau wie beabsichtigt: Die Gestaltung kommt noch. Drücke
+      <kbd>Tab</kbd>: Der Fokus wandert durch jedes Bedienelement, das Label wird angesagt und das Absenden funktioniert. Das Verhalten ist fertig; das Aussehen gehört dir und kommt als Nächstes.
+    </p>
+  </div>
+
+  <h2>Schritt 4 — Gestalten</h2>
+  <p>
+    Gestalte die Klassen-Hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in <code>app.css</code>, oder binde ein fertiges Theme ein in <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Schritt 5 — Alles in Aktion sehen</h2>
+  <p>
+     <a href="/examples/">Blazor-Web-Beispiel-App</a> zeigt den vollständigen Katalog gestaltet und demonstriert, mit Playwright-e2e-Tests:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Nächste Schritte</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — Umschalten zur Laufzeit mit dem Blazor-Helper theme-picker (eine Razor-Klassenbibliothek auf NuGet).</li>
+    <li><a href="/tutorials/helpers/">Einstellungs-Helper</a> — Sprache und Textgröße.</li>
+    <li><a href="/components/">Komponentenkatalog</a> — Props, ARIA und Tastatur pro Komponente.</li>
+  </ul>
+  <p>
+    Fragen unterwegs? Die
+    <a href="/help/#troubleshooting">Hilfeseite</a> steckt voller Antworten — und wenn ein Schritt klarer sein könnte,
+    <a href="https://github.com/LilyDesignSystem">sag es uns</a> und wir verbessern das Tutorial gern.
+  </p>
+</section>

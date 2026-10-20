@@ -1,0 +1,109 @@
+<!-- title: Hướng dẫn React — Lily Design System -->
+<!-- description: Xây dựng biểu mẫu dễ tiếp cận, có kiểu dáng bằng các thành phần headless React của Lily: thành phần hàm có kiểu với value + onChange. -->
+<section class="page-intro">
+  <h1>Hướng dẫn React</h1>
+  <p class="page-intro-tagline">
+    Thành phần hàm có kiểu, mỗi cái một tệp, được điều khiển theo mẫu chuẩn
+    <code>value</code> + <code>onChange</code> — mọi thứ hoạt động đúng như React vốn làm.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một biểu mẫu liên hệ nhỏ — ô nhập có nhãn, nút gửi, trạng thái được điều khiển, hành vi bàn phím và trình đọc màn hình thật — lúc đầu để trơn, sau đó thêm kiểu dáng, trong khoảng 10 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Bạn cần git, Node 22 trở lên và pnpm 10 trở lên. Dự án React 18+ nào cũng được — Next.js, Vite hoặc React thuần.
+  </p>
+
+  <h2>Bước 1 — Lấy mã</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Các thành phần là những tệp phẳng trong <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — mỗi cái có bài kiểm thử, story và tài liệu bên cạnh. Sao chép các tệp bạn cần vào ứng dụng, hoặc đưa kho mã vào rồi nhập từ đó.
+  </p>
+
+  <h2>Bước 2 — Thành phần đầu tiên của bạn</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Hiển thị <code>&lt;button class="button" type="button"&gt;</code>. Thuộc tính:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (hiển thị
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> để ghi đè), <code>className</code>, và mọi thuộc tính bổ sung được trải lên phần tử gốc.
+  </p>
+
+  <h2>Bước 3 — Ghép một biểu mẫu nhỏ</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> nhận <code>label</code> làm thuộc tính riêng thay vì thành phần nhãn lồng bên trong — chỉ truyền một lần, trên
+    <code>Field</code>và <code>TextInput</code>tương ứng
+    <code>label</code> cung cấp tên có thể tiếp cận.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Đã xác minh 2026-08-29:</strong> bản nháp trước lồng một thành phần <code>Label</code> bên trong <code>Field</code>, khiến hiển thị
+      <em>hai</em> nhãn (một cái rỗng) vì <code>Field</code> đã tự hiển thị nhãn của nó từ <code>label</code> thuộc tính — phát hiện nhờ biên dịch đoạn mã chính xác. Tuyến
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Tuyến biểu mẫu liên hệ ghép sẵn</a>
+      cũng theo mẫu này, được kiểm chứng bằng các bài kiểm thử e2e và axe thật.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Tạo kiểu dáng</h2>
+  <p>
+    Mọi thứ ở trên hiển thị thành cấu trúc thuần, sẵn sàng cho kiểu dáng của bạn. Tạo kiểu cho các hook — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — trong bảng kiểu của bạn, xếp lớp tiện ích Tailwind qua <code>className</code>, hoặc liên kết một chủ đề dựng sẵn:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Bước 5 — Xem mọi thứ hoạt động</h2>
+  <p>
+     <a href="/examples/">Ứng dụng ví dụ Next.js</a> là toàn bộ danh mục có kiểu dáng và bản demo, cùng Playwright e2e và đường cơ sở axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Chủ đề</a> — chuyển đổi khi chạy bằng trợ giúp theme-picker của React.</li>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — ngôn ngữ và cỡ chữ.</li>
+    <li><a href="/components/">Danh mục thành phần</a> — thuộc tính, ARIA và bàn phím của từng thành phần.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

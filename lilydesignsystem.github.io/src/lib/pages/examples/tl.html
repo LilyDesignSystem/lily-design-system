@@ -1,0 +1,105 @@
+<!-- title: Mga Halimbawa — Lily Design System -->
+<!-- description: Mga halimbawang app na gumagana na nagpapakita kung paano bigyan ng istilo ang mga component ng Lily sa HTML, Svelte, React, Vue, Angular, Blazor, at Eleventy. -->
+<section class="page-intro">
+  <h1>Tingnan ang Lily sa mga tunay na app</h1>
+  <p class="page-intro-tagline">
+    Ipinapakita ng pitong halimbawang proyekto kung paano kunin ang mga headless na component, magdagdag ng istilo, at mag-ship ng tunay na website. Piliin ang framework na ginagamit mo.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Mga demo app na may buong CSS at routing</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Karaniwang HTML page, vanilla JavaScript, walang build tool. Kasya sa anumang static host — perpekto para sa maliliit na site at progressive enhancement.
+      </p>
+      <p class="card-meta">→ Tingnan sa GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        SvelteKit 3 app na gumagamit ng mga rune ng Svelte 5. Mga ruta ng component, file-based na routing, at may istilong storybook ng bawat component.
+      </p>
+      <p class="card-meta">→ Tingnan sa GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Next.js 16 app na nagpapakita ng bawat component sa konteksto, na may TypeScript sa kabuuan at mga demo page para sa mga compound na pattern.
+      </p>
+      <p class="card-meta">→ Tingnan sa GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Nuxt 4 app. <code>&lt;script setup&gt;</code> at ang Composition API sa bawat demo route.
+      </p>
+      <p class="card-meta">→ Tingnan sa GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 22 + Analog.js app. File-based na routing, mga signal, zoneless na change detection, at buong SSG prerendering.
+      </p>
+      <p class="card-meta">→ Tingnan sa GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Blazor Web app na may mga Razor component. Magiliw sa server at WebAssembly, na may .NET 10 baseline.
+      </p>
+      <p class="card-meta">→ Tingnan sa GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Eleventy site na gumagamit ng mga Nunjucks macro. Mainam para sa mga static site na mabigat sa nilalaman na gusto pa rin ng tunay na sistema ng component.
+      </p>
+      <p class="card-meta">→ Tingnan sa GitHub</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Pareho ang hugis ng bawat halimbawang app</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Para maging pamilyar ang paglipat-lipat ng framework, bawat halimbawang app ay nagbibigay ng:</p>
+    <ul>
+      <li>Isang welcome route sa <code>/</code> na nagpapakilala sa proyekto.</li>
+      <li>Isang index ng component sa <code>/components</code> na naglilista ng bawat component.</li>
+      <li>Isang demo page para sa bawat component sa <code>/components/&lt;component&gt;</code>.</li>
+      <li>Tunay na CSS — hindi abstract na design token — para direkta mong makopya ang mga istilo.</li>
+      <li>Gumaganang pag-navigate gamit ang keyboard at pamamahala ng focus agad-agad.</li>
+    </ul>
+
+    <h3>Kailangan mong makita kung paano binigyan ng istilo ang isang component?</h3>
+    <p>
+      Buksan ang kaukulang halimbawang app, pumunta sa
+      <code>/components/&lt;name&gt;</code>, at kopyahin ang markup at CSS sa sarili mong proyekto. Sadyang gumagamit ng simpleng CSS (o halos simple) ang mga halimbawang app para maiangkop mo ang mga ito sa anumang sistemang gusto mo.
+    </p>
+
+    <h3>Gusto mo ng headless sa halip?</h3>
+    <p>
+      Ipares ang anumang halimbawang app sa katumbas nitong <em>headless</em>
+      na package — inilalathala nila ang parehong mga component na walang anumang CSS, handa para sa sarili mong mga design token.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">I-browse ang catalog →</a>
+      <a class="button button-secondary" href="/help/">Basahin ang gabay sa setup</a>
+    </p>
+  </div>
+</section>

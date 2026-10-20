@@ -1,0 +1,97 @@
+<!-- title: Nunjucks tutorial — Lily Design System -->
+<!-- description: Build accessible, styled, server-rendered pages with Lily Nunjucks macros — perfect for Eleventy. -->
+<section class="page-intro">
+  <h1>Nunjucks tutorial</h1>
+  <p class="page-intro-tagline">
+    Server-rendered macros for Eleventy, Express, or any Node templating pipeline — di GOV.UK-style approach, with Lily catalog and class hooks.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wetin you go build</h2>
+  <p>
+    Small server-rendered contact form — input wey get label, submit button, zero JavaScript payload — first bare, then styled, for about 10 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    You need git, Node 22 or newer, and pnpm 10 or newer. Any Nunjucks pipeline dey work — Eleventy, Express, or plain Nunjucks.
+  </p>
+
+  <h2>Step 1 — Get di code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Each component na directory inside <code>components/</code> wey get
+    <code>macro.njk</code>, im test, and im docs — for example
+    <code>components/button/macro.njk</code>. Point your Nunjucks loader to
+    <code>components/</code> (for Eleventy, add am to di includes path) and import wetin you need.
+  </p>
+
+  <h2>Step 2 — Your first component</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    E dey render <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Macros dey take single params object: <code>text</code> (escaped) or
+    <code>html</code> (raw), <code>type</code>, <code>label</code> for
+    <code>aria-label</code>, and class hook appender.
+  </p>
+
+  <h2>Step 3 — Compose small form</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Because everything dey render for di server, di browser go receive pure semantic HTML with di class hooks — JavaScript payload of zero bytes.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> load di page and di form go look plain — exactly as dem plan am: di styling still dey come. Press
+      <kbd>Tab</kbd>: focus go move through every control, di label go dey announced, and submit dey work. Di behaviour don finish; di look na yours and e be next.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style am</h2>
+  <p>
+    Style di hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — inside your stylesheet, or link ready-made theme inside your base layout:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Step 5 — See everything dey work</h2>
+  <p>
+    Di <a href="/examples/">Nunjucks + Eleventy example app</a> dey build di full catalog as static site with per-component demo pages:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — including di Eleventy cookie pattern for flash-free SSR theme switching.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
+    <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard for each component.</li>
+  </ul>
+  <p>
+    You get questions as you dey go? Di
+    <a href="/help/#troubleshooting">help page</a> full of answers — and if any step fit clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we go gladly improve di tutorial.
+  </p>
+</section>

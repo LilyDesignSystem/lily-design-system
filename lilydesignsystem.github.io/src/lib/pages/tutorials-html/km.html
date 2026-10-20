@@ -1,0 +1,106 @@
+<!-- title: មេរៀន HTML — Lily Design System -->
+<!-- description: សាងសង់ទម្រង់ដែលអាចចូលប្រើបាន និងមានរចនាប័ទ្មជាមួយសមាសភាគគ្មានក្បាល HTML របស់ Lily — ម៉ាកអាប់ធម្មតា ដោយផ្ទាល់ពីឯកសារ។ -->
+<section class="page-intro">
+  <h1>មេរៀន HTML</h1>
+  <p class="page-intro-tagline">
+    ការចាប់ផ្តើមសាមញ្ញបំផុតដែលអាចធ្វើបាន៖ ចម្លង HTML ន័យវិទ្យាជាមួយ class hook របស់ Lily បន្ថែមសន្លឹករចនាប័ទ្មមួយ ដឹកជញ្ជូន។ ឯកសារធម្មតាដែលដំណើរការគ្រប់ទីកន្លែងដែល HTML ដំណើរការ។
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>អ្វីដែលអ្នកនឹងសាងសង់</h2>
+  <p>
+    ទម្រង់ទំនាក់ទំនងតូចមួយ — វាលបញ្ចូលដែលមានស្លាក ប៊ូតុងដាក់ស្នើ អាកប្បកិរិយាក្តារចុច និងកម្មវិធីអានអេក្រង់ពិតប្រាកដ — ដំបូងទទេស្អាត បន្ទាប់មកមានរចនាប័ទ្ម ក្នុងរយៈពេលប្រហែល ១០ នាទី។
+  </p>
+
+  <h2>មុនពេលអ្នកចាប់ផ្តើម</h2>
+  <p>
+    អ្នកត្រូវការកម្មវិធីរុករក និងកម្មវិធីកែអត្ថបទ។ ប៉ុណ្ណឹងហើយ។ (git ជួយក្នុងការយកឯកសារសមាសភាគ ប៉ុន្តែអ្នកក៏អាចចម្លងវាពី GitHub ក្នុងកម្មវិធីរុករកផងដែរ។)
+  </p>
+
+  <h2>ជំហាន ១ — យកកូដ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    សមាសភាគនីមួយៗជាឯកសារឯករាជ្យក្នុង <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>ហើយបន្តបែបនេះ — ជាមួយមតិយោបល់ក្បាលដែលចងក្រងឯកសារស្លាក HTML class hook អាកប្បកិរិយាក្តារចុច និងកិច្ចសន្យាភាពងាយស្រួលចូលប្រើរបស់វា។ ឯកសារ <em>គឺ</em> បណ្ណាល័យ — ចម្លងអ្វីដែលអ្នកត្រូវការ ហើយទៅ។
+  </p>
+
+  <h2>ជំហាន ២ — សមាសភាគដំបូងរបស់អ្នក</h2>
+  <p>បើក <code>components/button.html</code>ឬគ្រាន់តែសរសេរម៉ាកអាប់ — class hook ជាកិច្ចសន្យា៖</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    ដោយសារវាជា <code>&lt;button&gt;</code>ពិតប្រាកដ ការផ្តោតក្តារចុច ការធ្វើឱ្យសកម្មដោយ Enter និង Space និងតួនាទីប៊ូតុងដោយអចេតនាត្រឹមត្រូវរួចហើយ។
+  </p>
+
+  <h2>ជំហាន ៣ — ផ្សំទម្រង់តូចមួយ</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    កត់សម្គាល់លំនាំ៖ ការគ្រប់គ្រងនីមួយៗភ្ជាប់ <code>&lt;label for&gt;</code>របស់វា ប្រើប្រភេទបញ្ចូលជាក់លាក់បំផុត និងមាន class hook kebab-case ពិតជាមួយ។
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ពិនិត្យការងាររបស់អ្នក៖</strong> បើកទំព័រក្នុងកម្មវិធីរុករក។ វាមើលទៅធម្មតា — ដូចដែលបានគ្រោងទុក៖ រចនាប័ទ្មនៅខាងមុខ។ ចុច
+      <kbd>Tab</kbd>៖ ការផ្តោតផ្លាស់ទីតាមការគ្រប់គ្រងនីមួយៗ ស្លាកត្រូវបានប្រកាស ហើយការដាក់ស្នើដំណើរការ។ អាកប្បកិរិយាបានចប់; រូបរាងជារបស់អ្នក ហើយជាជំហានបន្ទាប់។
+    </p>
+  </div>
+
+  <h2>ជំហាន ៤ — ដាក់រចនាប័ទ្ម</h2>
+  <p>សរសេរ CSS ប្រឆាំងនឹង hook៖</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    ឬរំលងការសរសេរ CSS ដោយដៃទាំងស្រុង — ភ្ជាប់ស្បែករួចជាស្រេចមួយក្នុងចំណោម ៤៥ ហើយម៉ាកអាប់ដដែលនឹងភ្លឺឡើង៖
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>ជំហាន ៥ — ស្វែងយល់បន្ថែម</h2>
+  <ul>
+    <li>តេស្តរបស់ឃ្លាំងដំណើរការក្នុងកម្មវិធីរុករកពិតប្រាកដ៖ <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO)។</li>
+    <li>Storybook សម្រាប់សមាសភាគនីមួយៗ៖ <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">កម្មវិធីគំរូ HTML+CSS+JS</a> បង្ហាញសមាសភាគទាំង ៥៧១ ដែលមានរចនាប័ទ្ម អាចស្វែងរកបាន និងបង្ហាញ។
+    </li>
+  </ul>
+
+  <h2>ជំហានបន្ទាប់</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ស្បែក</a> — ការប្តូរស្បែកពេលដំណើរការជាមួយ theme-picker។</li>
+    <li><a href="/tutorials/helpers/">ជំនួយការចំណូលចិត្ត</a> — ភាសា និងទំហំអក្សរ។</li>
+    <li><a href="/components/">កាតាឡុកសមាសភាគ</a> — ឯកសារយោងពេញលេញ។</li>
+  </ul>
+  <p>
+    មានសំណួរតាមផ្លូវ?
+    <a href="/help/#troubleshooting">ទំព័រជំនួយ</a> ពេញដោយចម្លើយ — ហើយប្រសិនបើជំហានណាអាចច្បាស់ជាងនេះ
+    <a href="https://github.com/LilyDesignSystem">ប្រាប់យើង</a> ហើយយើងនឹងកែលម្អមេរៀនដោយអំណរ។
+  </p>
+</section>

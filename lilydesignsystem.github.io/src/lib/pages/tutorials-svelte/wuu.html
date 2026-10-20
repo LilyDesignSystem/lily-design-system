@@ -1,0 +1,114 @@
+<!-- title: Svelte 教程 — Lily Design System -->
+<!-- description: 使用 Lily 个 Svelte 5 headless 组件构建一个无障碍、带样式个表单：runes、snippets 与 bind:value。 -->
+<section class="page-intro">
+  <h1>Svelte 教程</h1>
+  <p class="page-intro-tagline">
+    Lily 个 Svelte 组件库是规范实现：Svelte 5 runes、带类型个 props、剩余属性展开，以及用
+    <code>bind:value</code> 实现个双向绑定。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>侬将构建啥</h2>
+  <p>
+    一个小型联系表单——带标签个输入框、提交按钮、双向绑定，以及真实个键盘搭屏幕阅读器行为——先是勿带样式个版本，再加上样式，大约 10 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    侬需要 git、Node 22 或更高版本，以及 pnpm 10 或更高版本。任何 Svelte 5 项目侪可以——用 <code>npx sv create</code> 新建个应用就行。
+  </p>
+
+  <h2>第 1 步——获取代码</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    组件位于 <code>src/lib/components/&#123;Name&#125;/</code>，每个组件一个目录，<code>.svelte</code> 文件、伊个测试、伊个 stories 搭伊个文档并排放在一起。把侬需要个目录复制到自己个应用中，或者依赖该仓库并直接导入。
+  </p>
+
+  <h2>第 2 步——侬个第一个组件</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    渲染为 <code>&lt;button class="button" type="button"&gt;</code>。props 带有类型：<code>type</code>、<code>disabled</code>、
+    <code>pressed</code>（为切换按钮渲染 <code>aria-pressed</code>）、<code>label</code>（覆盖 <code>aria-label</code>），任何额外个属性侪会展开到根元素上。
+  </p>
+
+  <h2>第 3 步——组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> 把可见个 <code>label</code> 作为自己个 prop，而不是嵌套一个标签组件——只需在 <code>Field</code> 上传入一次，<code>TextInput</code> 对应个 <code>label</code> 就会提供可访问名称。<code>TextInput</code> 个 <code>value</code> 是一个 <code>$bindable</code> rune prop，所以 <code>bind:value</code> 立刻就能给侬双向绑定。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 已验证：</strong>这段代码经 <code>svelte/server</code> 编译，并检查得到唯一且正确关联个 <code>&lt;label for&gt;</code>——早期草稿在 <code>Field</code> 里嵌套了单独个 <code>Label</code>，结果渲染出<em>两个</em>标签（其中一个为空），因为 <code>Field</code> 已经会根据 <code>label</code> prop 渲染自己个标签。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">联系表单组合路由</a>
+      采用同样个模式，并经过真实个端到端测试搭 axe 测试。
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查侬个成果：</strong>运行应用，表单看起来老朴素——这正是预期：样式还在后面。按下
+      <kbd>Tab</kbd>：焦点会依次经过每个控件，标签会被朗读，提交也能正常工作。行为已经完成；外观由侬决定，这就是下一步。
+    </p>
+  </div>
+
+  <h2>第 4 步——添加样式</h2>
+  <p>
+    以上所有内容渲染出来侪是纯结构，随时可以套用侬个样式。在全局样式表中为搿眼类名钩子设置样式——
+    <code>.button</code>、<code>.text-input</code>、<code>.label</code>、
+    <code>.field</code>——或者在 <code>app.html</code> 中链接一个现成个主题：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    针对单个实例个微调通过 <code>class</code> prop 完成，伊会追加到基础钩子之后：<code>&lt;Button class="wide"&gt;</code> 渲染为
+    <code>class="button wide"</code>。
+  </p>
+
+  <h2>第 5 步——看看伊个完整效果</h2>
+  <p>
+    <a href="/examples/">SvelteKit 示例应用</a>是同一套目录个完整带样式版本，带有现场演示、Playwright 端到端测试搭 axe-core 无障碍基线：
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主题</a>——用 Svelte 个 theme-picker 辅助包在运行时切换主题。</li>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——语言与文字大小。</li>
+    <li><a href="/components/">组件目录</a>——每个组件个 props、ARIA 搭键盘操作。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉阿拉</a>，阿拉老乐意改进教程。
+  </p>
+</section>

@@ -1,0 +1,127 @@
+<!-- title: Angular tutoriala — Lily Design System -->
+<!-- description: Eraiki formulario irisgarri eta estilatu bat Lilyren Angular 20 osagai buru gabeekin: seinale-sarrerak dituzten osagai autonomoak. -->
+<section class="page-intro">
+  <h1>Angular tutoriala</h1>
+  <p class="page-intro-tagline">
+    Angular 20 osagai autonomoak — seinale-sarrerak, OnPush aldaketa-detekzioa, txantiloi txertatuak, NgModulesik gabe, CSSrik gabe.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Harremanetarako formulario txiki bat — etiketadun sarrera, bidaltze-botoia, bi norabideko lotura, teklatu eta pantaila-irakurgailu portaera erreala — lehenik biluzik, gero estilatuta, 10 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    git, Node 22 edo berriagoa eta pnpm 10 edo berriagoa behar dituzu. Edozein Angular 20 proiektuk balio du — Angular CLI edo Analog.
+  </p>
+
+  <h2>1. pausoa — Lortu kodea</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Osagaiak fitxategi lau gisa daude hemen: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — bakoitza txantiloi txertatua duen osagai autonomoa da, bere spec eta story-arekin. Barrel-ak
+    <code>index.ts</code> osagai guztiak berresportatzen ditu; <code>pnpm build</code>
+    Angular Package Format bundle bat sortzen du ng-packagr bidez.
+  </p>
+
+  <h2>2. pausoa — Zure lehen osagaia</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Osagai bakoitzak <code>lily-*</code> hautatzaile bat deklaratzen du eta elementu semantikoa errendatzen du bere klase-gakoarekin —
+    <code>&lt;button class="button" type="button"&gt;</code> hemen. Sarrerak seinaleetan oinarrituak dira: <code>label()</code> honetarako: <code>aria-label</code>
+    gainidazteko, <code>className()</code> klaseak gehitzeko.
+  </p>
+
+  <h2>3. pausoa — Osatu formulario txiki bat</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> etiketa ikusgarria bere
+    <code>label</code> sarrera gisa hartzen du, etiketa-osagai habiaratu gisa baino — eman behin, eremuan, eta dagokion <code>lily-text-input</code>-ak
+    <code>label</code> izen irisgarria ematen du. Sarrera-itxurako osagaiek <code>model()</code> balioak erakusten dituzte, beraz banana-box <code>[(value)]</code>
+    bi norabideko loturak berehala funtzionatzen du — zoneless-ekin bateragarria osoan zehar.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29an egiaztatua:</strong> aurreko zirriborro batek <code>Label</code> osagai bereizi bat habiaratzen zuen <code>lily-field</code>barruan, eta honek <em>bi</em> etiketa errendatzen zituen (bat hutsik) zeren
+      <code>lily-field</code> -k jada bere etiketa errendatzen baitu
+      <code>label</code> sarreratik — osagaiaren iturburua begiratuz atzeman zen.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">harremanetarako formulario konposatuaren ibilbideak</a>
+      patroi bera du, benetako e2e eta axe probekin erabilia.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> exekutatu aplikazioa eta formularioa soila ageri da — hain zuzen nahi bezala: estiloa oraindik aurrean dago. Sakatu
+      <kbd>Tab</kbd>: fokua kontrol guztietatik pasatzen da, etiketa iragartzen da eta bidalketak funtzionatzen du. Portaera prest dago; itxura zurea da eta hurrengoa da.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Estilatu</h2>
+  <p>
+    Estilatu klase-gakoak — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — hemen: <code>styles.css</code>, edo gehitu prest dagoen gai bat <code>styles</code> array-ra
+    <code>angular.json</code> hemen / lotu hemen: <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>5. pausoa — Ikusi dena funtzionatzen</h2>
+  <p>
+     <a href="/examples/">Angular + Analog adibide-aplikazioak</a> katalogo osoa erakusten du fitxategietan oinarritutako bideratzearekin eta Vite-rekin:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Gaiak</a> — exekuzio-garaiko aldaketa Angular theme-picker laguntzailearekin.</li>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — hizkuntza eta testu-tamaina.</li>
+    <li><a href="/components/">Osagai-katalogoa</a> — osagai bakoitzaren propak, ARIA eta teklatua.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

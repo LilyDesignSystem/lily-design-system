@@ -1,0 +1,136 @@
+<!-- title: Mga Tutorial — Lily Design System -->
+<!-- description: Mga hakbang-hakbang na tutorial ng Lily: ang una mong component, pagbibigay ng istilo, mga handa nang tema, at mga preference helper — para sa HTML, Svelte, React, Vue, Angular, Blazor, at Nunjucks. -->
+<section class="page-intro">
+  <h1>Matutunan ang Lily, hakbang-hakbang</h1>
+  <p class="page-intro-tagline">
+    Maligayang pagdating! Nagsisimula sa wala ang bawat tutorial at binubuo ang parehong maliit na bagay — isang accessible at may istilong form — sa humigit-kumulang 10 minuto, para maikumpara mo ang mga framework nang patas. Pagkatapos ay lumalim sa theming at mga preference ng user.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bago ka magsimula</h2>
+  <p>Kakaunti lang ang kailangan mo:</p>
+  <ul>
+    <li>
+      <strong>Para sa HTML na tutorial</strong> — browser at text editor lang. Iyon na ang buong toolkit.
+    </li>
+    <li>
+      <strong>Para sa Svelte, React, Vue, Angular, o Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26, at pnpm 10 o mas bago.
+    </li>
+    <li>
+      <strong>Para sa Blazor</strong> — git at ang
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 o mas bago.
+    </li>
+  </ul>
+  <p>
+    Bago sa mga headless na component? Nasa tamang lugar ka — ipinaliliwanag ng bawat tutorial ang nangyayari habang sumusulong ka, at ipinapakita ng bawat hakbang ang eksaktong code na kokopyahin.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Apat na hakbang mula sa wala hanggang sa pag-ship</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Ang una mong component</strong> (~5 minuto) — piliin ang iyong framework sa ibaba, kunin ang code, at i-render ang isang Button.
+      </li>
+      <li>
+        <strong>Buuin at bigyan ng istilo</strong> (~5 minuto) — bumuo ng form na may label at bigyan ito ng istilo laban sa mga kebab-case na class hook (bahagi ng bawat tutorial ng framework).
+      </li>
+      <li>
+        <strong>Lagyan ng tema</strong> (~15 minuto) — palitan ang iyong sulat-kamay na CSS ng isa sa 57 handa nang tema, pagkatapos ay hayaang magpalit ang mga user sa runtime: <a href="/tutorials/theming/">tutorial sa theming</a>.
+      </li>
+      <li>
+        <strong>Igalang ang mga preference</strong> (~15 minuto) — magdagdag ng pagpili ng wika at laki ng teksto gamit ang mga preference helper:
+        <a href="/tutorials/helpers/">tutorial sa mga helper</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Piliin ang iyong framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Kopyahin ang semantic HTML na may mga class hook at umandar — sapat na ang browser at editor.</p>
+      <p class="card-meta">~10 minuto · pinakamadaling simula</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Mga rune ng Svelte 5, snippet, at <code>bind:value</code> two-way binding.</p>
+      <p class="card-meta">~10 minuto</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Mga function component na may <code>value</code> + <code>onChange</code> at rest-prop spread.</p>
+      <p class="card-meta">~10 minuto</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Mga single-file component ng Vue 3 na may suporta sa <code>v-model</code> .</p>
+      <p class="card-meta">~10 minuto</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Mga standalone component ng Angular na may signal input at <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minuto</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Mga Razor component na may mga parameter, <code>ChildContent</code>, at mga pagsusuri ng bUnit.</p>
+      <p class="card-meta">~10 minuto</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Mga macro na nire-render sa server para sa Eleventy at anumang Node templating pipeline.</p>
+      <p class="card-meta">~10 minuto</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Hindi makapili? Magsimula sa <a href="/tutorials/html/">HTML</a> — itinuturo nito ang kontrata ng class hook na pinagsasaluhan ng lahat ng ibang framework, at tumatakbo ito diretso mula sa isang file.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Lumalim pa</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Theming</h3>
+      <p class="card-description">
+        Mag-link ng isa sa 57 handa nang tema — NHS, GOV.UK, USWDS, maliwanag, madilim, at iba pa — i-override ito gamit ang sarili mong CSS, at magdagdag ng runtime na pagpapalit ng tema gamit ang theme-picker helper.
+      </p>
+      <p class="card-meta">~15 minuto</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Mga preference helper</h3>
+      <p class="card-description">
+        Bigyan ang mga user ng kontrol sa tema, wika, laki ng teksto, galaw, paghahanap, mga link ng pahina, pagbabahagi, at pagpasok ng petsa/oras gamit ang theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker, at date-time-picker: mga headless na kontrol na may persistence, kaligtasan sa SSR, at awtomatikong pagtukoy ng RTL.
+      </p>
+      <p class="card-meta">~15 minuto</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pagkatapos ng mga tutorial</h2>
+  <ul>
+    <li>
+      Mag-browse sa <a href="/components/">catalog ng component</a> — idinodokumento ng bawat component ang mga prop, kontrata ng ARIA, at gawi ng keyboard nito.
+    </li>
+    <li>
+      I-clone ang isang <a href="/examples/">halimbawang app</a> para makita ang lahat ng 571 component na may istilo at gumagana nang magkakasama — tinututukan ng CSS ang parehong class hook na ginamit mo lang, kaya kopyahin ang anumang bahagi nito sa proyekto mo at ayusin ayon sa gusto mo.
+    </li>
+    <li>
+      May mga tanong? Ang <a href="/help/">pahina ng tulong</a> ay may mga sagot, FAQ, at paraan para makontak ang isang magiliw na tao. At kung maaaring maging mas malinaw ang isang tutorial,
+      <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> — masaya naming pagbubutihin ito.
+    </li>
+  </ul>
+</section>

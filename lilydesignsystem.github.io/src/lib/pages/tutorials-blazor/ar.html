@@ -1,0 +1,107 @@
+<!-- title: دليل Blazor — Lily Design System -->
+<!-- description: ابنِ نموذجًا سهل الوصول ومنسَّقًا بمكوّنات Lily عديمة الرأس لـ Blazor: مكوّنات Razor بمعاملات واختبارات bUnit. -->
+<section class="page-intro">
+  <h1>دليل Blazor</h1>
+  <p class="page-intro-tagline">
+    مكوّنات مكتبة أصناف Razor بمعاملات، <code>ChildContent</code>
+    وأجزاء العرض ونشر السمات واختبار bUnit لكل مكوّن.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج اتصال صغير — حقل بتسمية، زر إرسال،
+    <code>@bind-Value</code> ربط، سلوك حقيقي للوحة المفاتيح وقارئ الشاشة — عاريًا أولًا ثم منسَّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى git وSDK لـ .NET 8 أو أحدث. يصلح أي مشروع Blazor — Blazor Web App أو Server أو WebAssembly.
+  </p>
+
+  <h2>الخطوة 1 — احصل على الشيفرة</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    توجد المكوّنات في <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — ملف Razor واحد لكل منها. أشِر إلى المشروع (أو انسخ الملفات) من تطبيق Blazor وأضف <code>@using LilyBlazorHeadless.Components</code> إلى
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    يعرض <code>&lt;button class="button"&gt;</code>. اصطلاحات المعاملات المشتركة: <code>Label</code> (أي <code>aria-label</code> للتجاوز)،
+    <code>CssClass</code> (يُلحق بالخطّاف الأساسي)،
+    <code>ChildContent</code>و
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> نشر السمات ليمرّ أي سمة HTML إضافية.
+  </p>
+
+  <h2>الخطوة 3 — ركّب نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> يأخذ <code>Label</code> المرئية كمعامل خاص به لا كمكوّن تسمية متداخل — مرّرها مرة واحدة على
+    <code>Field</code>و <code>TextInput</code>المطابق من
+    <code>Label</code> يوفّر الاسم القابل للوصول.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تم التحقق في 2026-08-29:</strong> كانت مسودة سابقة تضع مكوّن <code>Label</code> منفصلًا داخل <code>Field</code>فيعرض <em>تسميتين</em> (إحداهما فارغة) لأن <code>Field</code>
+      يعرض تسميته بنفسه من المدخل <code>Label</code> معامل — اكتُشف بفحص شيفرة مصدر المكوّن؛ <code>Form</code> نفسه ليس له معامل <code>Label</code> ، لذا صُحّح استخدام
+      <code>&lt;Form&gt;</code> في المسودة السابقة بحذفه بدل اختراع سمة غير موجودة.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">مسار نموذج الاتصال المركّب</a>
+      هو النمط نفسه، جُرّب باختبارات e2e وaxe حقيقية.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقق من عملك:</strong> شغّل التطبيق فيبدو النموذج بسيطًا — تمامًا كما هو مقصود: التنسيق لا يزال قادمًا. اضغط
+      <kbd>Tab</kbd>: ينتقل التركيز عبر كل عنصر تحكم، وتُعلن التسمية، ويعمل الإرسال. السلوك مكتمل؛ والمظهر لك وهو الخطوة التالية.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسِّقه</h2>
+  <p>
+    نسِّق خطّافات الأصناف — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — في <code>app.css</code>، أو اربط سمة جاهزة في <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>الخطوة 5 — شاهد كل شيء يعمل</h2>
+  <p>
+     <a href="/examples/">تطبيق المثال Blazor Web</a> يعرض الفهرس الكامل منسَّقًا ومعروضًا، مع اختبارات e2e بـ Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">السمات</a> — التبديل أثناء التشغيل بمساعد theme-picker لـ Blazor (مكتبة أصناف Razor على NuGet).</li>
+    <li><a href="/tutorials/helpers/">مساعدات التفضيلات</a> — اللغة وحجم النص.</li>
+    <li><a href="/components/">فهرس المكوّنات</a> — الخصائص وARIA ولوحة المفاتيح لكل مكوّن.</li>
+  </ul>
+  <p>
+    أسئلة في الطريق؟
+    <a href="/help/#troubleshooting">صفحة المساعدة</a> مليئة بالإجابات — وإن أمكن توضيح خطوة أكثر،
+    <a href="https://github.com/LilyDesignSystem">أخبرنا</a> وسنحسّن الدليل بكل سرور.
+  </p>
+</section>

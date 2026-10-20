@@ -1,0 +1,106 @@
+<!-- title: HTML ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के HTML हेडलेस घटकों से सुलभ, शैलीबद्ध फ़ॉर्म बनाएँ — सादा मार्कअप, सीधे फ़ाइल से। -->
+<section class="page-intro">
+  <h1>HTML ट्यूटोरियल</h1>
+  <p class="page-intro-tagline">
+    सबसे सरल शुरुआत: Lily के क्लास हुक के साथ अर्थपूर्ण HTML कॉपी करें, एक स्टाइलशीट जोड़ें, प्रकाशित करें। सादी फ़ाइलें जो HTML जहाँ चलता है वहाँ चलती हैं।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>आप क्या बनाएँगे</h2>
+  <p>
+    एक छोटा संपर्क फ़ॉर्म — लेबल वाले क्षेत्र, एक सबमिट बटन, असली कीबोर्ड और स्क्रीन-रीडर व्यवहार — पहले सादा, फिर शैलीबद्ध, लगभग 10 मिनट में।
+  </p>
+
+  <h2>शुरू करने से पहले</h2>
+  <p>
+    आपको एक ब्राउज़र और एक टेक्स्ट एडिटर चाहिए। बस। (git घटक फ़ाइलें लाने में मदद करता है, पर आप उन्हें ब्राउज़र में GitHub से भी कॉपी कर सकते हैं।)
+  </p>
+
+  <h2>चरण 1 — कोड प्राप्त करें</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    हर घटक यहाँ एक स्वतंत्र फ़ाइल है: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>और इसी तरह — हेडर टिप्पणी के साथ जो उसका HTML टैग, क्लास हुक, कीबोर्ड व्यवहार और सुलभता अनुबंध दर्ज करती है। फ़ाइलें <em>ही हैं</em> लाइब्रेरी — जो चाहिए कॉपी करें और चल पड़ें।
+  </p>
+
+  <h2>चरण 2 — आपका पहला घटक</h2>
+  <p>खोलें <code>components/button.html</code>, या बस मार्कअप लिखें — क्लास हुक ही अनुबंध है:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    क्योंकि यह असली <code>&lt;button&gt;</code>है, कीबोर्ड फ़ोकस, Enter और Space से सक्रिय करना, और अप्रत्यक्ष बटन भूमिका पहले से सही हैं।
+  </p>
+
+  <h2>चरण 3 — एक छोटा फ़ॉर्म बनाएँ</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    पैटर्न देखें: हर नियंत्रण अपना <code>&lt;label for&gt;</code>जोड़ता है, सबसे विशिष्ट input प्रकार का उपयोग करता है और ठीक एक kebab-case क्लास हुक रखता है।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>अपना काम जाँचें:</strong> पृष्ठ को ब्राउज़र में खोलें। यह सादा दिखता है — ठीक वैसा ही जैसा इरादा था: शैली अभी आगे है। दबाएँ
+      <kbd>Tab</kbd>: फ़ोकस हर नियंत्रण से गुज़रता है, लेबल घोषित होते हैं और सबमिट काम करता है। व्यवहार पूरा है; रूप आपका है और अगला चरण है।
+    </p>
+  </div>
+
+  <h2>चरण 4 — इसे शैली दें</h2>
+  <p>हुक के विरुद्ध CSS लिखें:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    या हाथ से CSS लिखना पूरी तरह छोड़ दें — 45 तैयार थीम में से एक लिंक करें और वही मार्कअप चमक उठता है:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>चरण 5 — आगे खोजें</h2>
+  <ul>
+    <li>रेपो के परीक्षण असली ब्राउज़रों में चलते हैं: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO)।</li>
+    <li>हर घटक के लिए Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS उदाहरण ऐप</a> सभी 571 घटक शैली, खोज योग्य और प्रदर्शन के साथ दिखाता है।
+    </li>
+  </ul>
+
+  <h2>अगले चरण</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">थीम</a> — theme-picker से चलते समय थीम बदलाव।</li>
+    <li><a href="/tutorials/helpers/">वरीयता सहायक</a> — भाषा और पाठ का आकार।</li>
+    <li><a href="/components/">घटक कैटलॉग</a> — पूरा संदर्भ।</li>
+  </ul>
+  <p>
+    रास्ते में सवाल हैं?
+    <a href="/help/#troubleshooting">सहायता पृष्ठ</a> उत्तरों से भरा है — और अगर कोई चरण और स्पष्ट हो सकता है,
+    <a href="https://github.com/LilyDesignSystem">हमें बताएँ</a> और हम खुशी से ट्यूटोरियल सुधारेंगे।
+  </p>
+</section>

@@ -1,0 +1,117 @@
+<!-- title: Svelte-handledning — Lily Design System -->
+<!-- description: Bygg ett tillgängligt, formgivet formulär med Lilys headless-komponenter för Svelte 5: runes, snippets och bind:value. -->
+<section class="page-intro">
+  <h1>Svelte-handledning</h1>
+  <p class="page-intro-tagline">
+    Lilys Svelte-bibliotek är den kanoniska implementationen: Svelte 5-runes, typade props, spridning av övriga props och tvåvägsbindning med
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Det här bygger du</h2>
+  <p>
+    Ett litet kontaktformulär — fält med etikett, skicka-knapp, tvåvägsbindning, verkligt tangentbords- och skärmläsarbeteende — först naket, sedan formgivet, på ungefär 10 minuter.
+  </p>
+
+  <h2>Innan du börjar</h2>
+  <p>
+    Du behöver git, Node 22 eller senare och pnpm 10 eller senare. Alla Svelte 5-projekt fungerar — en alldeles ny <code>npx sv create</code> -app räcker.
+  </p>
+
+  <h2>Steg 1 — Hämta koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponenterna finns i <code>src/lib/components/&#123;Name&#125;/</code>, en katalog per komponent med <code>.svelte</code> -filen, dess tester, dess stories och dess dokumentation sida vid sida. Kopiera de kataloger du behöver till din app, eller beror på förvaret och importera direkt.
+  </p>
+
+  <h2>Steg 2 — Din första komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Renderar <code>&lt;button class="button" type="button"&gt;</code>. Propsen är typade: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (renderar <code>aria-pressed</code> (renderar <code>label</code> (ett <code>aria-label</code> för växlingsknappar),
+  </p>
+
+  <h2>Steg 3 — Sätt ihop ett litet formulär</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> tar den synliga <code>label</code> som sin egen prop i stället för en nästlad etikettkomponent — skicka den en gång, på <code>Field</code>och <code>TextInput</code>från <code>label</code> ger det tillgängliga namnet. <code>TextInput</code>'s <code>value</code> för att åsidosätta) och varje extra attribut sprids på roten.
+    <code>$bindable</code> är en <code>bind:value</code> -rune-prop, så
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifierat 2026-08-29:</strong> ger dig tvåvägsbindning direkt. <code>svelte/server</code> det här exakta kodavsnittet kompilerades via <code>&lt;label for&gt;</code> och kontrollerades för en enda, korrekt länkad etikett <code>Label</code> inuti <code>Field</code>— ett tidigare utkast nästlade en separat
+      <em>två</em> etiketter (en tom) eftersom <code>Field</code> redan renderar sin egen från <code>label</code> inuti, vilket renderade
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Den sammansatta kontaktformulärsrutten</a>
+      är samma mönster, prövat med riktiga e2e- och axe-tester.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollera ditt arbete:</strong> kör appen så ser formuläret kargt ut — precis som tänkt: formgivningen återstår. Tryck på
+      <kbd>Tab</kbd>: fokus flyttas genom varje kontroll, etiketten läses upp och inskickning fungerar. Beteendet är klart; utseendet är ditt och kommer härnäst.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Formge det</h2>
+  <p>
+    Allt ovan renderas som ren struktur, redo för dina stilar. Formge klasskrokarna —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — i din globala stilmall, eller länka ett färdigt tema i <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Justeringar per instans går via <code>class</code> -propen, som läggs till på baskroken: <code>&lt;Button class="wide"&gt;</code> renderar
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Steg 5 — Se allt fungera</h2>
+  <p>
+     <a href="/examples/">Exempelappen SvelteKit</a> är samma katalog fullt formgiven, med levande demos, Playwright e2e-tester och en axe-core-tillgänglighetsbaslinje:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nästa steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teman</a> — byte under körning med Svelte-hjälparen theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Inställningshjälpare</a> — språk och textstorlek.</li>
+    <li><a href="/components/">Komponentkatalog</a> — egenskaper, ARIA och tangentbord per komponent.</li>
+  </ul>
+  <p>
+    Frågor på vägen?
+    <a href="/help/#troubleshooting">Hjälpsidan</a> är full av svar — och om ett steg kan bli tydligare,
+    <a href="https://github.com/LilyDesignSystem">berätta för oss</a> så förbättrar vi gärna handledningen.
+  </p>
+</section>

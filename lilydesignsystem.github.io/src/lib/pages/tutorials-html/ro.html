@@ -1,0 +1,106 @@
+<!-- title: Tutorial HTML — Lily Design System -->
+<!-- description: Construiește un formular accesibil și stilizat cu componentele headless Lily pentru HTML — marcaj simplu, direct dintr-un fișier. -->
+<section class="page-intro">
+  <h1>Tutorial HTML</h1>
+  <p class="page-intro-tagline">
+    Cel mai simplu început cu putință: copiază HTML semantic cu cârligele de clasă Lily, adaugă o foaie de stil, publică. Fișiere simple care funcționează oriunde funcționează HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce vei construi</h2>
+  <p>
+    Un mic formular de contact — câmpuri cu etichete, un buton de trimitere, comportament real al tastaturii și al cititorului de ecran — mai întâi simplu, apoi stilizat, în aproximativ 10 minute.
+  </p>
+
+  <h2>Înainte să începi</h2>
+  <p>
+    Ai nevoie de un browser și de un editor de text. Atât. (git ajută la obținerea fișierelor componentelor, dar le poți copia și de pe GitHub în browser.)
+  </p>
+
+  <h2>Pasul 1 — Obține codul</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Fiecare componentă este un fișier de sine stătător în <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>și așa mai departe — cu un comentariu de antet care documentează eticheta HTML, cârligul de clasă, comportamentul tastaturii și contractul de accesibilitate. Fișierele <em>sunt</em> biblioteca — copiază ce ai nevoie și pornește.
+  </p>
+
+  <h2>Pasul 2 — Prima ta componentă</h2>
+  <p>Deschide <code>components/button.html</code>sau scrie pur și simplu marcajul — cârligul de clasă este contractul:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Fiindcă este un <code>&lt;button&gt;</code>real, focalizarea tastaturii, activarea cu Enter și Space și rolul implicit de buton sunt deja corecte.
+  </p>
+
+  <h2>Pasul 3 — Compune un formular mic</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Observă tiparul: fiecare control își leagă <code>&lt;label for&gt;</code>, folosește cel mai specific tip de input și poartă exact un cârlig de clasă în kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifică-ți munca:</strong> deschide pagina într-un browser. Arată simplu — exact cum era intenționat: stilizarea urmează. Apasă
+      <kbd>Tab</kbd>: focalizarea trece prin fiecare control, etichetele sunt anunțate, iar trimiterea funcționează. Comportamentul este gata; aspectul este al tău și urmează.
+    </p>
+  </div>
+
+  <h2>Pasul 4 — Stilizează-l</h2>
+  <p>Scrie CSS pe cârlige:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Sau sari complet peste scrisul CSS-ului de mână — leagă una dintre cele 45 de teme gata făcute și același marcaj se luminează:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Pasul 5 — Explorează mai departe</h2>
+  <ul>
+    <li>Testele depozitului rulează în browsere reale: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook pentru fiecare componentă: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Aplicația-exemplu HTML+CSS+JS</a> arată toate cele 571 de componente stilizate, căutabile și demonstrate.
+    </li>
+  </ul>
+
+  <h2>Pașii următori</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — comutare de temă în timpul rulării cu theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Ajutoare pentru preferințe</a> — limbă și dimensiunea textului.</li>
+    <li><a href="/components/">Catalogul de componente</a> — referința completă.</li>
+  </ul>
+  <p>
+    Întrebări pe parcurs?
+    <a href="/help/#troubleshooting">Pagina de ajutor</a> este plină de răspunsuri — iar dacă un pas poate fi mai clar,
+    <a href="https://github.com/LilyDesignSystem">spune-ne</a> și vom îmbunătăți cu plăcere tutorialul.
+  </p>
+</section>

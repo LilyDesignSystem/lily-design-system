@@ -1,0 +1,127 @@
+<!-- title: Dyskans Angular — Lily Design System -->
+<!-- description: Drehevewgh furv hedhesys ha stylys gans darnow heb pen Angular 20 Lily: darnow dre-honan gans mewnosow-sin. -->
+<section class="page-intro">
+  <h1>Dyskans Angular</h1>
+  <p class="page-intro-tagline">
+    Darnow dre-honan Angular 20 — mewnosow-sin, ertheg chanj OnPush, skantlynyow yn-linenn, heb NgModules, heb CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pyth a wrewgh drehevel</h2>
+  <p>
+    Furv kestava byghan — mewnos gans lavell, botton danvon, kesyanns diwo-fordh, hwedhel klavyer ha skrin-redyer gwir — kynsa noeth, ena stylys, yn a-dro dhe 10 mynysenn.
+  </p>
+
+  <h2>Kyns dalleth</h2>
+  <p>
+    Ty a'n jeves othom a git, Node 22 po nowodhyes, ha pnpm 10 po nowodhyes. Raglen Angular 20 vyth a ober — Angular CLI po Analog.
+  </p>
+
+  <h2>Kamm 1 — Kevewgh an koodh</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    An darnow yw restrennow plat yn <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — pub onan yw darn dre-honan gans skantlyn yn-linenn, ha'y spec ha story. An barrel
+    <code>index.ts</code> a dhe-worth pub darn; <code>pnpm build</code>
+    a wra pakkya Angular Package Format dre ng-packagr.
+  </p>
+
+  <h2>Kamm 2 — Dha dharn kynsa</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Pub darn a styr <code>lily-*</code> dewisyer hag a dhyskwedh an elven dhiswelyans gans y grok klass —
+    <code>&lt;button class="button" type="button"&gt;</code> omma. An mewnosow yw selys war sinow: <code>label()</code> rag <code>aria-label</code>
+    gorholans, <code>className()</code> rag keworra klassys.
+  </p>
+
+  <h2>Kamm 3 — Kesstrewewgh furv byghan</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> a gemmer an lavell hewelus avel y
+    <code>label</code> mewnos dha honan yn le darn lavell nessys — passewgh hi unnweyth, war an hwel, ha'n <code>lily-text-input</code>kehevelys war
+    <code>label</code> a re an hanow hedhesys. Darnow haval orth mewnos a dhiskwedh <code>model()</code> gwerthow, rag henna banana-box <code>[(value)]</code>
+    kesyanns diwo-fordh a ober yn unnweyth — kesobrys gans zoneless dres-oll.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriys 2026-08-29:</strong> kynsa towl a nesas darn dyvers <code>Label</code> a-berth <code>lily-field</code>, hag a dhyskwedhas <em>dew</em> lavell (unn gwag) drefen
+      <code>lily-field</code> seulajys a dhyskwedh y honan dhiworth an
+      <code>label</code> mewnos — kefys dre hwithra fenten an darn. An
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">fordh furv-kestava kesstrewys</a>
+      yw an keth patrom, previys gans e2e ha axe gwir.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hwithrewgh dha oberenn:</strong> kerdhewgh an app ha'n furv a hevel plen — yn ewn herwydh bryntyans: an stylyans yw hwath a-rag. Gwaskewgh
+      <kbd>Tab</kbd>: fokus a wayn dres pub kontroll, an lavell yw displetys, ha'n danvon a ober. An hwedhel yw gwrys; an semlant yw dhiso ha henna yw nessa.
+    </p>
+  </div>
+
+  <h2>Kamm 4 — Stylyewgh</h2>
+  <p>
+    Stylyewgh an krogow klass — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — yn <code>styles.css</code>, po keworrewgh tebel parys dhe'n rew <code>styles</code> yn
+    <code>angular.json</code> / kevrewgh yn <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Kamm 5 — Gwelewgh pubtra ow ’oberi</h2>
+  <p>
+    An <a href="/examples/">app ensampel Angular + Analog</a> a dhyskwedh an rolyans kowl gans fordhyans herwydh restren ha Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Kammow nessa</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tebelyow</a> — chanj y'n termyn-dyrghas gans an gweresor Angular theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Gweresoryon dewisyow</a> — yeth ha myns an skrif.</li>
+    <li><a href="/components/">Rolyans darnow</a> — perthynasow, ARIA, ha klavyer dre bub darn.</li>
+  </ul>
+  <p>
+    Govynnow war an fordh? An
+    <a href="/help/#troubleshooting">folen skoodhya</a> yw leun a worthebow — ha mar pe kamm moy splann,
+    <a href="https://github.com/LilyDesignSystem">leverewgh dhyn</a> ha ni a wellha an dyskans yn lowen.
+  </p>
+</section>

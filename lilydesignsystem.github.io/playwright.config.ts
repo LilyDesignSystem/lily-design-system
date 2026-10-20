@@ -9,7 +9,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4173',
     // A language with no /locales/ route, so "/" is not redirected (en-US, Playwright's default, is).
-    locale: 'de-DE',
+    locale: 'zu-ZA',
     trace: 'on-first-retry'
   },
   projects: [

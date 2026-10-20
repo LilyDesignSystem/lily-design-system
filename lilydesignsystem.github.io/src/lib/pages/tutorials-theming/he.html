@@ -1,0 +1,111 @@
+<!-- title: מדריך ערכות נושא — Lily Design System -->
+<!-- description: תנו ל-Lily ערכת נושא בשלוש דרכים: קשרו אחת מ-45 ערכות הנושא המוכנות, עקפו אותה עם ה-CSS שלכם, והוסיפו החלפת ערכת נושא בזמן ריצה עם העוזר theme-picker. -->
+<section class="page-intro">
+  <h1>ערכות נושא</h1>
+  <p class="page-intro-tagline">
+    לרכיבי Lily יש ווי מחלקה יציבים ואפס CSS — ולכן ערכת נושא היא פשוט גיליון סגנון. מדריך זה עובר מ“קשרו קובץ אחד” אל “תנו למשתמש להחליף ערכות נושא בזמן ריצה, עם שמירה”.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>מה תבנו</h2>
+  <p>
+    אפליקציה שכל המראה שלה ניתן לשינוי על ידי המשתמש — החל בגיליון סגנון אחד מקושר ועד מחליף ערכות נושא בזמן ריצה שנשמר — בכ-15 דקות.
+  </p>
+
+  <h2>לפני שמתחילים</h2>
+  <p>
+    השלימו את <a href="/tutorials/">מדריך המסגרת</a> תחילה עבור הערימה שלכם, כדי שיהיה לכם טופס Lily קטן לעצב. כל מה שכאן עובד בכל שבע המסגרות; דוגמאות הקוד מציגות Svelte ו-HTML פשוט.
+  </p>
+
+  <h2>שלב 1 — קשרו ערכת נושא מוכנה</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    הספרייה כוללת 45 גיליונות סגנון עצמאיים. העתיקו אותם לנכסים הסטטיים של האפליקציה וקשרו אחד:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>עיקרי הסט:</p>
+  <ul>
+    <li>
+      <strong>מגזר ציבורי</strong> — NHS England / Scotland / Wales, כל אחת בגרסאות למטופלים ולאנשי מקצוע; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>בהשראת ספקים</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>שימוש כללי</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, ועוד רבות.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>בדקו את העבודה שלכם:</strong> טענו מחדש את העמוד. אותו סימון שבניתם במדריך המסגרת מעוצב כעת במלואו — כפתורים, קלטים, תוויות, טבעות מיקוד. שורת HTML אחת עשתה זאת — כל רכיב נשאר בדיוק כפי שהיה.
+    </p>
+  </div>
+
+  <h2>שלב 2 — עקפו כל דבר</h2>
+  <p>
+    בוחרי ערכות הנושא עטופים ב- <code>:where(...)</code>שיש לו ספציפיות אפס — ולכן כל כלל שתכתבו מנצח, פשוט וברור:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>שלב 3 — החלפה בזמן ריצה עם theme-picker</h2>
+  <p>
+     <code>theme-picker</code> העוזר הוא כפתור אייקון + תיבת רשימה ללא ראש שמחזיק במחזור החיים המלא של ערכת הנושא: הוא טוען את גיליון הסגנון שנבחר על ידי החלפת <code>&lt;link&gt;</code>
+    מנוהל אחד (רק ערכת הנושא הפעילה נשלפת אי פעם), מגדיר
+    <code>data-theme="&#123;slug&#125;"</code> במסמך, ושומר אופציונלית ב- <code>localStorage</code>. כאן מוצג Svelte; יציאות React, Vue, Angular, HTML, Nunjucks ו-Blazor תואמות חוזה אחר חוזה:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    זו האינטגרציה כולה. התנהגות המקלדת עוקבת אחר תבנית תיבת הרשימה של WAI-ARIA APG; הפקד עצמו ללא ראש (וו מחלקה
+    <code>.theme-picker</code>), ולכן הוא קולט כל ערכת נושא שפעילה.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>אומת ב-2026-08-29:</strong> הקטע המדויק הזה הועבר הידור מול החבילה שפורסמה <code>0.1.1</code> באמצעות
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>שלב 4 — הגיבו לערכת הנושא ב-CSS שלכם</h2>
+  <p>
+    מכיוון שהעוזר מגדיר <code>data-theme</code> בשורש המסמך, הסגנונות שלכם יכולים להסתעף לפיו:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>הערות לרינדור בשרת</h2>
+  <p>
+    העוזר מבצע את כל כתיבות ה-DOM בתוך מחזור החיים mount/effect של המסגרת, ולכן הוא בטוח ל-SSR מעצם תכנונו. כדי להימנע מהבהוב בצביעה הראשונה, הציגו את <code>&lt;link&gt;</code> ואת
+    <code>data-theme</code> של ערכת הנושא ההתחלתית בשרת (למשל מעוגיה) — מאגר העוזרים של Svelte שולח דוגמת עוגיות SvelteKit שניתנת להרצה, והקטלוגים האחרים מתעדים את אותה תבנית לערימות שלהם.
+  </p>
+
+  <h2>השלבים הבאים</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">עוזרי העדפות</a> — אותה תבנית לשפה, גודל טקסט, שיתוף והזנת תאריך/שעה.</li>
+    <li>
+      תרמו ערכת נושא — כל אחת היא גיליון סגנון עצמאי אחד שמכוון לווי המחלקה; ראו <a href="/help/#contributing">תרומה</a>.
+    </li>
+  </ul>
+  <p>
+    שאלות בדרך?
+    <a href="/help/#troubleshooting">עמוד העזרה</a> מלא בתשובות — ואם שלב יכול להיות ברור יותר,
+    <a href="https://github.com/LilyDesignSystem">ספרו לנו</a> ונשמח לשפר את המדריך.
+  </p>
+</section>

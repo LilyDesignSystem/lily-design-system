@@ -1,0 +1,111 @@
+<!-- title: Teagasc téamaí — Lily Design System -->
+<!-- description: Tabhair téama do Lily ar thrí bhealach: nasc ceann de na 45 téama réamhdhéanta, sáraigh é le do CSS féin agus cuir malartú téama ag am rite leis le theme-picker. -->
+<section class="page-intro">
+  <h1>Téamaí</h1>
+  <p class="page-intro-tagline">
+    Tá crúcaí aicme cobhsaí agus nialas CSS ag comhpháirteanna Lily — mar sin is bileog stíle amháin é téama. Téann an teagasc seo ó "nasc comhad amháin" go "lig don úsáideoir téama a athrú ag am rite, le marthanacht".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    App a bhfuil a chuma ar fad inathraithe ag an úsáideoir — ag tosú le bileog stíle nasctha amháin agus ag críochnú le hathraitheoir téama marthanach ag am rite — i thart ar 15 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Críochnaigh an <a href="/tutorials/">teagasc creata</a> le haghaidh do chruach ar dtús, ionas go mbeidh foirm bheag Lily agat le téama a chur uirthi. Oibríonn gach rud anseo sna seacht gcreat; léiríonn na samplaí cóid Svelte agus HTML simplí.
+  </p>
+
+  <h2>Céim 1 — Nasc téama réamhdhéanta</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    tá 45 bileog stíle neamhspleácha san eolaire. Cóipeáil iad isteach i sócmhainní statacha d'app agus nasc ceann amháin:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Buaicphointí an tsraith:</p>
+  <ul>
+    <li>
+      <strong>Earnáil phoiblí</strong> — NHS England / Scotland / Wales, gach ceann i leaganacha dírithe ar othair agus ar chleachtóirí; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Spreagtha ag díoltóirí</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Úsáid ghinearálta</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, agus go leor eile.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> athlódáil an leathanach. Tá an marcáil chéanna a thóg tú sa teagasc creata anois go hiomlán stíl-chóirithe — cnaipí, ionchuir, lipéid, fáinní fócais. Rinne líne HTML amháin é sin — d'fhan gach comhpháirt go díreach mar a bhí.
+    </p>
+  </div>
+
+  <h2>Céim 2 — Sáraigh aon rud</h2>
+  <p>
+    Tá roghnóirí an téama fillte i <code>:where(...)</code>a bhfuil sainiúlacht nialasach aige — mar sin buann aon riail a scríobhann tú, go simplí:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Céim 3 — Malartú ag am rite le theme-picker</h2>
+  <p>
+     <code>theme-picker</code> is cnaipe deilbhín gan cheann + listbox é an cúntóir a bhfuil úinéireacht aige ar thimthriall saoil iomlán an téama: luchtaíonn sé an bhileog stíle roghnaithe trí <code>&lt;link&gt;</code>
+    bainistithe amháin a mhalartú (ní tharraingítear ach an téama gníomhach), socraíonn sé
+    <code>data-theme="&#123;slug&#125;"</code> ar an doiciméad agus coinníonn sé go roghnach i <code>localStorage</code>. Taispeántar Svelte anseo; tá calafoirt React, Vue, Angular, HTML, Nunjucks agus Blazor ag teacht leis conradh i ndiaidh conartha:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Sin an lánimeascadh. Leanann iompar an mhéarchláir an patrún listbox WAI-ARIA APG; tá an rialú féin gan cheann (crúca aicme
+    <code>.theme-picker</code>), mar sin glacann sé le cibé téama atá gníomhach.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Fíoraithe 2026-08-29:</strong> tiomsaíodh an blúire cruinn seo i gcoinne an phacáiste <code>0.1.1</code> foilsithe trí
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Céim 4 — Freagair don téama i do CSS féin</h2>
+  <p>
+    Toisc go socraíonn an cúntóir <code>data-theme</code> ar fhréamh an doiciméid, is féidir le do stíleanna féin brainsiú air:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Nótaí do rindreáil ar an bhfreastalaí</h2>
+  <p>
+    Déanann an cúntóir gach scríobh DOM taobh istigh de thimthriall saoil mount/effect an chreata, mar sin tá sé sábháilte do SSR de réir dearaidh. Chun splanc a sheachaint ar an gcéad phéinteáil, rindreáil ar an bhfreastalaí an <code>&lt;link&gt;</code> agus
+    <code>data-theme</code> den téama tosaigh (mar shampla ó fhianán) — seolann stóras an chúntóra Svelte sampla inrite fianáin SvelteKit, agus doiciméadaíonn na catalóga eile an patrún céanna dá gcruacha.
+  </p>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Cúntóirí sainroghanna</a> — an patrún céanna le haghaidh teanga, méide téacs, roinnte agus iontrála dáta/ama.</li>
+    <li>
+      Ranníoc téama — is bileog stíle neamhspleách amháin gach ceann a dhíríonn ar na crúcaí aicme; féach <a href="/help/#contributing">ranníoc</a>.
+    </li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

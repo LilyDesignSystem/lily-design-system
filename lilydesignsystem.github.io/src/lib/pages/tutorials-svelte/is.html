@@ -1,0 +1,117 @@
+<!-- title: Svelte-kennsluefni — Lily Design System -->
+<!-- description: Byggðu aðgengilegt, stílað eyðublað með höfuðlausum Svelte 5 íhlutum Lily: runes, snippets og bind:value. -->
+<section class="page-intro">
+  <h1>Svelte-kennsluefni</h1>
+  <p class="page-intro-tagline">
+    Svelte-safn Lily er kanónísk útfærsla: Svelte 5 runes, tegundum bundnir props, dreifing rest-prop og tvíátta binding með
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Lítið tengiliðaeyðublað — innsláttarreitur með merkimiða, sendihnappur, tvíátta binding, raunveruleg lyklaborðs- og skjálesarahegðun — fyrst ber, svo stílað, á um 10 mínútum.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Þú þarft git, Node 22 eða nýrra og pnpm 10 eða nýrra. Hvaða Svelte 5 verkefni sem er virkar — nýtt <code>npx sv create</code> forrit dugar.
+  </p>
+
+  <h2>Skref 1 — Náðu í kóðann</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Íhlutirnir eru í <code>src/lib/components/&#123;Name&#125;/</code>, ein mappa fyrir hvern íhlut með <code>.svelte</code> skránni, prófum hennar, stories og skjölum hlið við hlið. Afritaðu möppurnar sem þú þarft í forritið þitt, eða hafðu geymsluna sem háð og fluttu inn beint.
+  </p>
+
+  <h2>Skref 2 — Fyrsti íhluturinn þinn</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Birtir <code>&lt;button class="button" type="button"&gt;</code>. Propsin eru tegundabundin: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (birtir <code>aria-pressed</code> fyrir rofahnappa), <code>label</code> ( <code>aria-label</code> yfirskrift) og hvaða aukaeigind sem er dreifist á rótina.
+  </p>
+
+  <h2>Skref 3 — Settu saman lítið eyðublað</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> tekur sýnilega <code>label</code> sem sinn eigin prop frekar en innfelldan merkimiðaíhlut — gefðu hann einu sinni, á <code>Field</code>og <code>TextInput</code>á <code>label</code> sér um aðgengilega heitið. <code>TextInput</code>'s <code>value</code> er
+    <code>$bindable</code> rune prop, svo <code>bind:value</code> gefur þér tvíátta bindingu strax.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staðfest 2026-08-29:</strong> þetta nákvæma snifs var þýtt í gegnum <code>svelte/server</code> og athugað með tilliti til eins, rétt tengds <code>&lt;label for&gt;</code> — fyrri drög innfeldu sérstakan <code>Label</code> inni í <code>Field</code>, sem birti
+      <em>tvo</em> merkimiða (annan tóman) því <code>Field</code> birtir þegar sinn eigin út frá <code>label</code> prop. Sá
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">samsetta tengiliðaeyðublaðsleiðin</a>
+      er sama mynstur, prófað með raunverulegum e2e- og axe-prófum.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Athugaðu verkið:</strong> keyrðu forritið og eyðublaðið lítur einfalt út — nákvæmlega eins og ætlað er: stíllinn er enn framundan. Ýttu á
+      <kbd>Tab</kbd>: fókusinn færist í gegnum hverja stýringu, merkimiðinn er lesinn upp og sending virkar. Hegðunin er tilbúin; útlitið er þitt og er næst.
+    </p>
+  </div>
+
+  <h2>Skref 4 — Stílaðu það</h2>
+  <p>
+    Allt hér að ofan birtist sem hrein uppbygging, tilbúin fyrir stílana þína. Stílaðu klasakrókana —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — í altæka stílblaðinu þínu, eða tengdu tilbúið þema í <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Lagfæringar fyrir hverja tilvik fara um <code>class</code> prop, sem bætist við grunnkrókinn: <code>&lt;Button class="wide"&gt;</code> birtir
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Skref 5 — Sjáðu allt virka</h2>
+  <p>
+     <a href="/examples/">SvelteKit dæmaforritið</a> er sama safnið fullstílað, með lifandi sýnidæmum, Playwright e2e-prófum og axe-core aðgengisgrunnlínu:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Þemu</a> — skipti á keyrslutíma með Svelte theme-picker hjálpartækinu.</li>
+    <li><a href="/tutorials/helpers/">Stillingahjálpartæki</a> — tungumál og textastærð.</li>
+    <li><a href="/components/">Íhlutasafn</a> — eiginleikar, ARIA og lyklaborð fyrir hvern íhlut.</li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

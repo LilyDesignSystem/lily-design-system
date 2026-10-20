@@ -1,0 +1,111 @@
+<!-- title: Samouczek motywów — Lily Design System -->
+<!-- description: Nadaj Lily motyw na trzy sposoby: podlinkuj jeden z 45 gotowych motywów, nadpisz go własnym CSS i dodaj przełączanie motywu w czasie działania pomocnikiem theme-picker. -->
+<section class="page-intro">
+  <h1>Motywy</h1>
+  <p class="page-intro-tagline">
+    Komponenty Lily mają stabilne haczyki klas i zero CSS — więc motyw to po prostu arkusz stylów. Ten samouczek prowadzi od „podlinkuj jeden plik” do „pozwól użytkownikowi przełączać motyw w czasie działania, z zapamiętywaniem”.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co zbudujesz</h2>
+  <p>
+    Aplikacja, której cały wygląd użytkownik może zmienić — zaczynając od jednego podlinkowanego arkusza stylów, a kończąc na trwałym przełączniku motywu w czasie działania — w około 15 minut.
+  </p>
+
+  <h2>Zanim zaczniesz</h2>
+  <p>
+    Najpierw ukończ <a href="/tutorials/">samouczek frameworka</a> dla swojego stosu najpierw, żebyś miał mały formularz Lily do nałożenia motywu. Wszystko tutaj działa we wszystkich siedmiu frameworkach; przykłady kodu pokazują Svelte i czysty HTML.
+  </p>
+
+  <h2>Krok 1 — Podlinkuj gotowy motyw</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    katalog zawiera 45 samodzielnych arkuszy stylów. Skopiuj je do statycznych zasobów aplikacji i podlinkuj jeden:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Najważniejsze z zestawu:</p>
+  <ul>
+    <li>
+      <strong>Sektor publiczny</strong> — NHS England / Scotland / Wales, każdy w wariantach dla pacjentów i dla praktyków; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Inspirowane dostawcami</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Ogólnego przeznaczenia</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>i wiele innych.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sprawdź swoją pracę:</strong> odśwież stronę. Ten sam znacznik, który zbudowałeś w samouczku frameworka, jest teraz w pełni ostylowany — przyciski, pola, etykiety, pierścienie fokusu. Zrobił to jeden wiersz HTML — każdy komponent pozostał dokładnie taki, jaki był.
+    </p>
+  </div>
+
+  <h2>Krok 2 — Nadpisz cokolwiek</h2>
+  <p>
+    Selektory motywów są opakowane w <code>:where(...)</code>które ma zerową swoistość — więc każda reguła, którą napiszesz, wygrywa, po prostu:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Krok 3 — Przełączanie w czasie działania przez theme-picker</h2>
+  <p>
+     <code>theme-picker</code> pomocnik to bezstylowy przycisk-ikona z listboksem, który posiada cały cykl życia motywu: ładuje wybrany arkusz stylów, podmieniając jeden zarządzany <code>&lt;link&gt;</code>
+    (pobierany jest tylko aktywny motyw), ustawia
+    <code>data-theme="&#123;slug&#125;"</code> na dokumencie i opcjonalnie zapisuje w <code>localStorage</code>. Tu pokazano Svelte; porty dla Reacta, Vue, Angulara, HTML, Nunjucks i Blazora odpowiadają mu kontrakt po kontrakcie:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    To cała integracja. Działanie klawiatury podąża za wzorcem listboksa WAI-ARIA APG; sama kontrolka jest bezstylowa (haczyk klasy
+    <code>.theme-picker</code>), więc przejmuje dowolny aktywny motyw.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Zweryfikowano 2026-08-29:</strong> dokładnie ten fragment został skompilowany względem opublikowanego pakietu <code>0.1.1</code> przez
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Reaguj na motyw we własnym CSS</h2>
+  <p>
+    Ponieważ pomocnik ustawia <code>data-theme</code> na korzeniu dokumentu, twoje własne style mogą się według tego rozgałęziać:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Uwagi dotyczące renderowania po stronie serwera</h2>
+  <p>
+    Pomocnik wykonuje wszystkie zapisy do DOM w cyklu życia mount/effect frameworka, więc jest bezpieczny dla SSR z założenia. Aby uniknąć błysku przy pierwszym malowaniu, wyrenderuj <code>&lt;link&gt;</code> i
+    <code>data-theme</code> motywu początkowego na serwerze (na przykład z ciasteczka) — repozytorium pomocnika Svelte zawiera uruchamialny przykład ciasteczek SvelteKit, a pozostałe katalogi dokumentują ten sam wzorzec dla swoich stosów.
+  </p>
+
+  <h2>Następne kroki</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Pomocniki preferencji</a> — ten sam wzorzec dla języka, rozmiaru tekstu, udostępniania i wprowadzania daty/godziny.</li>
+    <li>
+      Wnieś motyw — każdy to jeden samodzielny arkusz stylów celujący w haczyki klas; zobacz <a href="/help/#contributing">współtworzenie</a>.
+    </li>
+  </ul>
+  <p>
+    Pytania po drodze?
+    <a href="/help/#troubleshooting">Strona pomocy</a> jest pełna odpowiedzi — a jeśli jakiś krok mógłby być jaśniejszy,
+    <a href="https://github.com/LilyDesignSystem">daj nam znać</a> a chętnie ulepszymy samouczek.
+  </p>
+</section>

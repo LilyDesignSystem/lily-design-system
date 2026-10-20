@@ -1,0 +1,111 @@
+<!-- title: Oideachadh ùrlaran — Lily Design System -->
+<!-- description: Cuir ùrlar air Lily ann an trì dòighean: ceangail fear dhe na 45 ùrlar deiseil, tar-sgrìobh e le do CSS, agus cuir atharrachadh ùrlair aig àm ruith ris leis a’ chuideachadh theme-picker. -->
+<section class="page-intro">
+  <h1>Ùrlaran</h1>
+  <p class="page-intro-tagline">
+    Tha crochaidhean clas seasmhach aig co-phàirtean Lily agus gun CSS — agus mar sin chan eil ùrlar ach bileag-stoidhle. Bidh an t-oideachadh seo a’ dol bho “ceangail aon fhaidhle” gu “leig leis a’ chleachdaiche ùrlaran atharrachadh aig àm ruith, gan cumail”.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Na thogas tu</h2>
+  <p>
+    Tagradh far an urrainn dhan chleachdaiche an coltas gu lèir atharrachadh — a’ tòiseachadh le aon bhileag-stoidhle ceangailte, a’ crìochnachadh le atharraichear ùrlair aig àm ruith a mhaireas — ann an timcheall air 15 mionaidean.
+  </p>
+
+  <h2>Mus tòisich thu</h2>
+  <p>
+    Cuir crìoch air an <a href="/tutorials/">oideachadh frèam</a> an toiseach airson do stac, gus am bi foirm bheag Lily agad airson ùrlar a chur oirre. Obraichidh a h-uile càil an seo anns na seachd frèamaichean; seallaidh sampaill còd Svelte agus HTML sìmplidh.
+  </p>
+
+  <h2>Ceum 1 — Ceangail ùrlar deiseil</h2>
+  <p>
+    Tha an <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    tha 45 bileag-stoidhle neo-eisimeileach san eòlaire. Dèan lethbhreac dhiubh dha na stòrasan statach aig an tagradh agad agus ceangail fear:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Prìomh phuingean an t-seata:</p>
+  <ul>
+    <li>
+      <strong>Roinn phoblach</strong> — NHS England / Scotland / Wales, gach fear ann an caochlaidhean airson euslaintich is luchd-cleachdaidh; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Air am brosnachadh le reiceadairean</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Adhbhar coitcheann</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, agus mòran eile.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dèan cinnteach air d’ obair:</strong> ath-luchdaich an duilleag. Tha an aon mharcachadh a thog thu san oideachadh frèam a-nis làn-stoidhle — putanan, in-chuiridhean, leubailean, cearcaill fòcais. Rinn aon loidhne HTML sin — dh’fhan gach co-phàirt dìreach mar a bha i.
+    </p>
+  </div>
+
+  <h2>Ceum 2 — Tar-sgrìobh rud sam bith</h2>
+  <p>
+    Tha roghnaichean ùrlair air an cuartachadh ann an <code>:where(...)</code>aig nach eil mionaideachd — agus mar sin buannaichidh riaghailt sam bith a sgrìobhas tu, gu sìmplidh:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Ceum 3 — Atharrachadh aig àm ruith le theme-picker</h2>
+  <p>
+    Tha an <code>theme-picker</code> ’S e putan-ìomhaigh + bogsa-liosta gun cheann a th’ anns a’ chuideachadh a tha a’ gabhail seilbh air cuairt-beatha slàn an ùrlair: bidh e a’ luchdadh na bileige-stoidhle taghte le bhith ag atharrachadh aon <code>&lt;link&gt;</code>
+    air a riaghladh (chan fhaighear ach an ùrlar gnìomhach a-chaoidh), a’ suidheachadh
+    <code>data-theme="&#123;slug&#125;"</code> air an sgrìobhainn, agus ga chumail ann an <code>localStorage</code>ma thogras tu. Svelte air a shealltainn an seo; tha puirt React, Vue, Angular, HTML, Nunjucks agus Blazor a’ freagairt cùmhnant air chùmhnant:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Sin an t-amalachadh gu lèir. Tha giùlan a’ chlàr-iuchrach a’ leantainn pàtran bogsa-liosta WAI-ARIA APG; tha an smachd fhèin gun cheann (crochadh clas
+    <code>.theme-picker</code>), agus mar sin bidh e a’ togail ge bith dè an t-ùrlar a tha gnìomhach.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dearbhte 2026-08-29:</strong> chaidh an criomag cheart seo a thrusadh an aghaidh a’ phasgain fhoillsichte <code>0.1.1</code> tro
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Ceum 4 — Freagair don ùrlar sa CSS agad fhèin</h2>
+  <p>
+    Leis gu bheil an cuideachadh a’ suidheachadh <code>data-theme</code> air freumh an sgrìobhainn, faodaidh na stoidhlean agad fhèin geugachadh air:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Notaichean airson reandaradh frithealaiche</h2>
+  <p>
+    Bidh an cuideachadh a’ dèanamh a h-uile sgrìobhadh DOM taobh a-staigh cuairt-beatha mount/effect an fhrèam, agus mar sin tha e sàbhailte do SSR le dealbhadh. Gus priobadh a sheachnadh air a’ chiad pheantadh, reandaraich <code>&lt;link&gt;</code> agus
+    <code>data-theme</code> an ùrlair tòiseachaidh air an fhrithealaiche (mar eisimpleir bho cookie) — tha stòr cuideachaidh Svelte a’ lìbhrigeadh eisimpleir cookie SvelteKit a ghabhas ruith, agus tha na catalogan eile a’ clàradh an aon phàtrain airson na stacan aca.
+  </p>
+
+  <h2>Na ceumannan a leanas</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Cuideachaidhean roghainnean</a> — an aon phàtran airson cànan, meud teacsa, co-roinn, agus cur-a-steach cinn-latha/ama.</li>
+    <li>
+      Cuir ùrlar ris — tha gach fear na bhileag-stoidhle neo-eisimeileach a’ targaideachadh nan crochaidhean clas; faic <a href="/help/#contributing">cur-ris</a>.
+    </li>
+  </ul>
+  <p>
+    Ceistean air an t-slighe? Tha an
+    <a href="/help/#troubleshooting">duilleag chuideachaidh</a> làn fhreagairtean — agus nam b’ urrainn ceum a bhith nas soilleire,
+    <a href="https://github.com/LilyDesignSystem">innis dhuinn</a> agus nì sinn an t-oideachadh nas fheàrr le toileachas.
+  </p>
+</section>

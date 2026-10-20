@@ -1,0 +1,106 @@
+<!-- title: HTML ટ્યુટોરિયલ — Lily Design System -->
+<!-- description: Lily ના HTML હેડલેસ ઘટકો સાથે સુલભ, શૈલીબદ્ધ ફોર્મ બનાવો — સાદું માર્કઅપ, સીધું ફાઇલમાંથી. -->
+<section class="page-intro">
+  <h1>HTML ટ્યુટોરિયલ</h1>
+  <p class="page-intro-tagline">
+    સૌથી સરળ શરૂઆત: Lily ના ક્લાસ હૂક સાથે અર્થપૂર્ણ HTML કૉપી કરો, એક સ્ટાઇલશીટ ઉમેરો, પ્રકાશિત કરો. સાદી ફાઇલો જે HTML ચાલે ત્યાં બધે ચાલે છે.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>તમે શું બનાવશો</h2>
+  <p>
+    એક નાનું સંપર્ક ફોર્મ — લેબલ સાથેનાં ક્ષેત્રો, એક સબમિટ બટન, સાચું કીબોર્ડ અને સ્ક્રીન-રીડર વર્તન — પહેલાં સાદું, પછી શૈલીબદ્ધ, લગભગ 10 મિનિટમાં.
+  </p>
+
+  <h2>શરૂ કરતા પહેલાં</h2>
+  <p>
+    તમને એક બ્રાઉઝર અને એક ટેક્સ્ટ એડિટર જોઈએ. બસ એટલું જ. (git ઘટક ફાઇલો મેળવવામાં મદદ કરે છે, પણ તમે તેમને બ્રાઉઝરમાં GitHub પરથી પણ કૉપી કરી શકો.)
+  </p>
+
+  <h2>પગલું 1 — કોડ મેળવો</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    દરેક ઘટક અહીં એક સ્વતંત્ર ફાઇલ છે: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>અને એમ આગળ — હેડર ટિપ્પણી સાથે જે તેનો HTML ટૅગ, ક્લાસ હૂક, કીબોર્ડ વર્તન અને સુલભતા કરાર નોંધે છે. ફાઇલો <em>એ જ</em> લાઇબ્રેરી છે — જે જોઈએ તે કૉપી કરો અને ચાલો.
+  </p>
+
+  <h2>પગલું 2 — તમારો પહેલો ઘટક</h2>
+  <p>ખોલો <code>components/button.html</code>, અથવા ફક્ત માર્કઅપ લખો — ક્લાસ હૂક એ જ કરાર છે:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    કારણ કે તે સાચું <code>&lt;button&gt;</code>છે, કીબોર્ડ ફોકસ, Enter અને Space થી સક્રિય કરવું, અને પરોક્ષ બટન ભૂમિકા પહેલેથી સાચાં છે.
+  </p>
+
+  <h2>પગલું 3 — એક નાનું ફોર્મ બનાવો</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    પેટર્ન નોંધો: દરેક નિયંત્રણ પોતાનું <code>&lt;label for&gt;</code>જોડે છે, સૌથી ચોક્કસ input પ્રકાર વાપરે છે અને બરાબર એક kebab-case ક્લાસ હૂક ધરાવે છે.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>તમારું કામ તપાસો:</strong> પૃષ્ઠ બ્રાઉઝરમાં ખોલો. તે સાદું દેખાય છે — બરાબર ધાર્યા મુજબ: શૈલી હજી આગળ છે. દબાવો
+      <kbd>Tab</kbd>: ફોકસ દરેક નિયંત્રણમાંથી પસાર થાય છે, લેબલ જાહેર થાય છે અને સબમિટ કામ કરે છે. વર્તન પૂર્ણ છે; દેખાવ તમારો છે અને આગલું પગલું છે.
+    </p>
+  </div>
+
+  <h2>પગલું 4 — તેને શૈલી આપો</h2>
+  <p>હૂક સામે CSS લખો:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    અથવા હાથે CSS લખવાનું સંપૂર્ણપણે છોડી દો — 45 તૈયાર થીમમાંથી એક લિંક કરો અને એ જ માર્કઅપ ઝળકી ઊઠે છે:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>પગલું 5 — આગળ શોધો</h2>
+  <ul>
+    <li>રિપોના પરીક્ષણો સાચા બ્રાઉઝરમાં ચાલે છે: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>દરેક ઘટક માટે Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS ઉદાહરણ એપ</a> બધા 571 ઘટકો શૈલીબદ્ધ, શોધી શકાય તેવા અને નિદર્શન સાથે દર્શાવે છે.
+    </li>
+  </ul>
+
+  <h2>આગળનાં પગલાં</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">થીમ</a> — theme-picker સાથે ચાલતી વખતે થીમ બદલવી.</li>
+    <li><a href="/tutorials/helpers/">પસંદગી સહાયકો</a> — ભાષા અને લખાણનું કદ.</li>
+    <li><a href="/components/">ઘટક કેટલોગ</a> — સંપૂર્ણ સંદર્ભ.</li>
+  </ul>
+  <p>
+    રસ્તામાં પ્રશ્નો છે?
+    <a href="/help/#troubleshooting">મદદ પૃષ્ઠ</a> જવાબોથી ભરેલું છે — અને જો કોઈ પગલું વધુ સ્પષ્ટ થઈ શકે,
+    <a href="https://github.com/LilyDesignSystem">અમને કહો</a> અને અમે ખુશીથી ટ્યુટોરિયલ સુધારીશું.
+  </p>
+</section>

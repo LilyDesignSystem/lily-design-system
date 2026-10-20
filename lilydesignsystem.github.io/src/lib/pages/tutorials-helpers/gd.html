@@ -1,0 +1,276 @@
+<!-- title: Oideachadh cuideachaidhean roghainnean — Lily Design System -->
+<!-- description: Cuir roghainnean cànain is meud teacsa a’ chleachdaiche ris le cuideachaidhean locale-picker is text-size-picker aig Lily: smachdan putan-ìomhaigh + bogsa-liosta gun cheann le seasmhachd agus sàbhailteachd SSR. -->
+<section class="page-intro">
+  <h1>Cuideachaidhean roghainnean</h1>
+  <p class="page-intro-tagline">
+    Seachd pasganan beaga airson gach frèam, gach fear a’ gabhail seilbh air aon obair cleachdaiche bho thoiseach gu deireadh, agus bàr a chuireas còig dhiubh ri chèile. Choinnich thu ri
+    <a href="/tutorials/theming/">theme-picker</a>mu thràth; seo locale-picker, text-size-picker agus motion-picker (roghainnean), share-picker agus search-picker (gnìomhan), date-time-picker (luach foirm), agus picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Na thogas tu</h2>
+  <p>
+    Panal roghainnean far an tagh cleachdaichean an cànan agus meud teacsa — roghainnean a tha an sàs air an sgrìobhainn gu lèir, a mhaireas eadar tadhalan agus nach cosg ach dà cho-phàirt is beagan loidhnichean CSS. Timcheall air 15 mionaidean.
+  </p>
+
+  <h2>Mus tòisich thu</h2>
+  <p>
+    Cuir crìoch air an <a href="/tutorials/">oideachadh frèam</a> airson do stac. Tha na sampaill gu h-ìosal ann an Svelte; tha cuideachaidhean React, Vue, Angular, HTML, Nunjucks agus Blazor a’ freagairt cùmhnant air chùmhnant.
+  </p>
+
+  <h2>An cumadh a tha iad a’ roinn</h2>
+  <ul>
+    <li>Putan-ìomhaigh gun cheann a dh’fhosglas bogsa-liosta WAI-ARIA APG (no, airson date-time-picker, còmhradh roghnaiche-cinn-latha) — gun dùthchasach <code>&lt;select&gt;</code>, gus am faigh gach frèam an aon ghiùlan clàr-iuchrach is crochaidhean stoidhle.</li>
+    <li>Aon chrochadh clas airson gach pasgan (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), gun CSS air a lìbhrigeadh.</li>
+    <li>Sàbhailte do SSR: bidh sgrìobhaidhean DOM a’ tachairt a-mhàin ann an cuairt-beatha mount/effect.</li>
+    <li>Glan do i18n: tha gach sreang a chì cleachdaiche na prop.</li>
+    <li>
+      Ri fhaighinn airson Svelte (canonta), React, Vue, Angular, eileamaid ghnàthaichte HTML, Nunjucks agus Blazor — an aon chùmhnant anns gach fear.
+    </li>
+  </ul>
+  <p>
+    Tha theme-picker, locale-picker agus text-size-picker gach fear a’ gabhail seilbh air aon
+    <em>roghainn</em> cleachdaiche bho thoiseach gu deireadh (taghadh, cur an sàs air an DOM, a bharrachd
+    <code>localStorage</code> seasmhachd tro <code>storageKey</code>
+    prop). Tha share-picker agus date-time-picker eadar-dhealaichte ann an gnè: tha share-picker a’ gabhail seilbh air <em>gnìomh</em> — chan eil e a’ cur dad an sàs air an sgrìobhainn agus chan eil e a’ cumail dad — agus tha date-time-picker a’ gabhail seilbh air
+    <em>luach foirm</em>, oir is e dàta a th’ ann an ceann-latha ann am foirm seach roghainn.
+  </p>
+
+  <h2>locale-picker — cànan is stiùireadh</h2>
+  <p>
+    Leigidh e leis a’ chleachdaiche locale a thaghadh, agus an uairsin sgrìobhaidh e <code>lang</code> agus
+    <code>dir</code> gu freumh an sgrìobhainn gus an lean an leabharlann i18n agad, do CSS agus teicneòlas taiceil. Tha RTL air a lorg gu fèin-obrachail airson Arabais, Eabhra agus sgrìobhadh eile deas-gu-clì. Cuiridh e fòcas dìreach air comharrachadh — làimhsichidh an leabharlann i18n agad an t-eadar-theangachadh.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Tha na roghainnean air an leubailean à clàr togte a-staigh de dh’ainmean locale (ri tar-sgrìobhadh tro <code>localeLabels</code>), tha an
+    <code>lang</code> buadh fhèin aig gach roghainn gus an can leughadairean-sgrìn “Français” sa Fhraingis, agus bidh còdan le fo-loidhne leithid <code>en_US</code>
+    a’ dol air turas-chuairt gun chall gu BCP 47 <code>en-US</code>. Ceangail
+    <code>onChange</code> (no an luach ceangailte) ri i18next, Paraglide, vue-i18n no rud sam bith eile a chleachdas tu.
+  </p>
+
+  <h2>text-size-picker — meud fo smachd an leughadair</h2>
+  <p>
+    Buannachd so-ruigsinneachd a bheir mionaidean: bidh an cuideachadh a’ suidheachadh
+    <code>data-text-size="&#123;slug&#125;"</code> air freumh an sgrìobhainn agus bidh do CSS a’ mapadh gach luach gu meud.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Meudaich do chruth-dhealbh ann an <code>rem</code> agus bidh an tagradh gu lèir a’ sgèileadh le roghainn a’ chleachdaiche. Tha na leubailean air an dèanamh le litir mhòr bho na slugs (“X Large”) no air an tar-sgrìobhadh le <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dèan cinnteach air d’ obair:</strong> tagh “Large” on roghnaiche, agus fàsaidh teacsa na duilleige. Ath-luchdaich — tha e fhathast mòr: mhair an roghainn gu
+      <code>localStorage</code>. Atharraich do roghnaiche cànain gu Arabais agus
+      <code>dir="rtl"</code> tuiteaidh e air an sgrìobhainn gu fèin-obrachail.
+    </p>
+  </div>
+
+  <h2>share-picker — cuir an duilleag seo</h2>
+  <p>
+    Putan aon-ghlyph a dh’fhosglas duilleag co-roinn dhùthchasach an uidheim far a bheil fear ann, agus mur eil, a thuiteas air ais air liosta de cheann-uidhean a sholaraicheas tu, a bharrachd air gnìomh lethbhreac-an-URL. Chan eil URLaichean lìonraidhean sòisealta ann — ’s e do cho-dhùnadh-sa a th’ ann dè na lìonraidhean a bhuineas don toradh agad, chan e co-dhùnadh an t-siostaim dealbhaidh.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> bunaiteach air <code>location.href</code>, agus mar sin chan eil feum air uèirleadh sa chùis àbhaisteach. Èignich slighe le <code>strategy="list"</code> no
+    <code>strategy="native"</code> nuair a tha feum air giùlan cunbhalach thar àrd-ùrlaran airson deuchainnean no glacaidhean-sgrìn.
+  </p>
+
+  <h2>date-time-picker — ceann-latha, àm, no an dà chuid</h2>
+  <p>
+    Raon teacsa as urrainn dhut sgrìobhadh a-steach, a bharrachd air putan ìomhaigh a dh’fhosglas còmhradh roghnaiche-cinn-latha WAI-ARIA APG. Ceart a thaobh locale le dealbhadh — ainmean mhìosan, ainmean làithean na seachdain, a’ chiad latha dhen t-seachdain, agus cloc 12 no 24 uair, uile a’ tighinn bho <code>Intl</code> — agus tha an luach an-còmhnaidh na shreang ISO a ghabhas rèiteachadh, gun sòn-ama: <code>"2026-03-15"</code> airson
+    <code>mode="date"</code>, <code>"09:30"</code> airson
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> airson
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Tha an luach ISO co-ionnan ris na phostas <code>&lt;input type="date"&gt;</code>
+    , agus mar sin faodaidh tu an smachd dùthchasach a thoirt a-steach no a-mach gun beantainn ris a’ chùl-cheann agad.
+  </p>
+
+  <h2>motion-picker — thoir urram do ghluasad lùghdaichte</h2>
+  <p>
+    Bidh an cuideachadh a’ suidheachadh <code>data-motion="&#123;slug&#125;"</code> air freumh an sgrìobhainn. Tha a’ chiad luach aige a’ tighinn bho shuidheachadh siostam-obrachaidh an neach-tadhail
+    <code>prefers-reduced-motion</code> — an-còmhnaidh, gun bhratach ro-ghlacaidh, oir tha gluasad na fhìor fheum so-ruigsinneachd (WCAG 2.3.3). Co-dhùnaidh do CSS is sgriobtaichean dè a thèid a chur dheth.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — bogsa luirg a fhanas a-mach às an rathad</h2>
+  <p>
+    Putan ìomhaigh a dh’fhosglas raon luirg. Le bhith a’ brùthadh Return, no am putan &#9166; ri taobh an raoin, seòlaidh e le iarrtas GET sìmplidh gu
+    <code>/?&lt;text&gt;</code> (an teacsa air a thrimeadh is air a chòdachadh URI; chan fhalbh ceist fhalamh gu àite sam bith). Tha feum air a thrì ainmean so-ruigsinneach, oir chan eil an cuideachadh a’ lìbhrigeadh Beurla.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> ag atharrachadh na slighe (<code>/search?foo</code>), agus
+    <code>navigate</code> a’ cumail an t-seòlaidh san tagradh; às aonais, bidh an cuideachadh a’ gairm <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — an t-sreath-cinn gu lèir aig an aon àm</h2>
+  <p>
+    <code>picker-bar</code> a’ reandaradh lorg, ùrlar, locale, meud teacsa agus co-roinn ann an aon sreath, leis an t-seata slàn de dh’ùrlaran-tùsais agus sgèile teacsa seachd-ceumannach ro-uèirichte. Tha gach ainm so-ruigsinneach a’ tighinn ann an aon
+    <code>labels</code> nì riatanach.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Ruig roghnaiche sam bith cuartaichte le <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> agus <code>shareProps</code>.
+  </p>
+
+  <h2>Tha tooltips togte a-staigh</h2>
+  <p>
+    Bidh gach roghnaiche a’ sealltainn a leubail ann an tooltip nuair a laigheas am putan-sràide air a phutan no nuair a tha fòcas clàr-iuchrach air a’ phutan. Fanaidh an tooltip nuair a ghluaiseas am putan-sràide air, bidh Escape ga sguabadh air falbh ge bith càite a bheil am fòcas, agus cha nochd e a-chaoidh fhad ’s a tha priob-uinneag an roghnaiche fosgailte. Tha an aon teacsa ann ri ainm so-ruigsinneach a’ phutain, agus mar sin chan eil dad ri rèiteachadh no ri eadar-theangachadh dà uair; bidh na h-ùrlaran-tùsais a’ cur stoidhle air.
+  </p>
+
+  <h2>Panal roghainnean na aon àite</h2>
+  <p>Bidh na ceithir cuideachaidhean roghainnean a’ co-chur gu nàdarra:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dearbhte:</strong> chaidh na criomagan locale-picker, text-size-picker, share-picker, date-time-picker agus panal measgaichte a thrusadh fa leth an aghaidh nam pasganan foillsichte <code>0.1.1</code> tro
+      <code>svelte/server</code> (2026-08-29); chaidh na criomagan motion-picker, search-picker agus picker-bar a reandaradh an aghaidh co-phàirtean fhèin nam pasganan 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Càite am faigh thu iad</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Tha spec, deuchainnean air am mapadh gu clàsan an spec, eisimpleirean a ghabhas ruith (a’ gabhail a-steach pàtranan cookie SSR), agus loidhne togail + foillseachaidh aig gach pasgan. Tha na pasganan Svelte canonta; ma tha teagamh ann, buannaichidh na cùmhnantan aca.
+  </p>
+
+  <h2>Na ceumannan a leanas</h2>
+  <ul>
+    <li><a href="/components/">Catalog cho-phàirtean</a> — an tùs-iùl slàn de na 571 co-phàirt.</li>
+    <li><a href="/help/">Cuideachadh</a> — fuasgladh dhuilgheadasan is ceistean cumanta.</li>
+    <li><a href="/why/">Carson Lily</a> — agus ciamar a chuireas tu taic ris a’ phròiseact.</li>
+  </ul>
+  <p>
+    Ceistean air an t-slighe? Tha an
+    <a href="/help/#troubleshooting">duilleag chuideachaidh</a> làn fhreagairtean — agus nam b’ urrainn ceum a bhith nas soilleire,
+    <a href="https://github.com/LilyDesignSystem">innis dhuinn</a> agus nì sinn an t-oideachadh nas fheàrr le toileachas.
+  </p>
+</section>

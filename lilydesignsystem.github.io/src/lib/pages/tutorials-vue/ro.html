@@ -1,0 +1,122 @@
+<!-- title: Tutorial Vue — Lily Design System -->
+<!-- description: Construiește un formular accesibil și stilizat cu componentele headless Lily pentru Vue 3: componente într-un singur fișier cu v-model. -->
+<section class="page-intro">
+  <h1>Tutorial Vue</h1>
+  <p class="page-intro-tagline">
+    Componente într-un singur fișier Vue 3 cu props tipizate, <code>defineModel</code>
+    legare bidirecțională și transmitere <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce vei construi</h2>
+  <p>
+    Un mic formular de contact — câmp cu etichetă, buton de trimitere, <code>v-model</code>
+    legare, comportament real al tastaturii și al cititorului de ecran — mai întâi simplu, apoi stilizat, în aproximativ 10 minute.
+  </p>
+
+  <h2>Înainte să începi</h2>
+  <p>
+    Ai nevoie de git, Node 22 sau mai nou și pnpm 10 sau mai nou. Orice proiect Vue 3 merge — Nuxt, Vite sau Vue simplu.
+  </p>
+
+  <h2>Pasul 1 — Obține codul</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Componentele sunt fișiere plate în <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — fiecare cu testul, story-ul și documentația alături. Copiază fișierele de care ai nevoie sau adu depozitul.
+  </p>
+
+  <h2>Pasul 2 — Prima ta componentă</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Randează <code>&lt;button class="button" type="button"&gt;</code>. Props corespund celorlalte frameworkuri: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plus transmiterea atributelor pentru orice altceva.
+  </p>
+
+  <h2>Pasul 3 — Compune un formular mic</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> primește <code>label</code> ca propriul prop, în loc de o componentă etichetă imbricată — transmite-o o singură dată, pe
+    <code>Field</code>și <code>TextInput</code>corespunzător din
+    <code>label</code> oferă numele accesibil.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificat la 2026-08-29:</strong> o ciornă anterioară imbrica o componentă <code>Label</code> în interiorul <code>Field</code>, ceea ce randa
+      <em>două</em> etichete (una goală) deoarece <code>Field</code> randează deja propria etichetă din intrarea <code>label</code> prop — descoperit compilând fragmentul exact. Ruta
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Ruta compusă a formularului de contact</a>
+      este același tipar, exersat cu teste e2e și axe reale.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> folosește <code>defineModel</code>, deci un simplu
+    <code>v-model</code> funcționează din prima.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifică-ți munca:</strong> rulează aplicația și formularul arată simplu — exact cum era intenționat: stilizarea urmează. Apasă
+      <kbd>Tab</kbd>: focalizarea trece prin fiecare control, eticheta este anunțată, iar trimiterea funcționează. Comportamentul este gata; aspectul este al tău și urmează.
+    </p>
+  </div>
+
+  <h2>Pasul 4 — Stilizează-l</h2>
+  <p>
+    Stilizează cârligele de clasă — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — în foaia ta de stil sau leagă o temă gata făcută în <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Pasul 5 — Vezi totul funcționând</h2>
+  <p>
+     <a href="/examples/">Aplicația-exemplu Nuxt</a> este catalogul complet stilizat și demonstrat, cu Playwright e2e și o linie de bază axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Pașii următori</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — comutare în timpul rulării cu ajutorul theme-picker pentru Vue.</li>
+    <li><a href="/tutorials/helpers/">Ajutoare pentru preferințe</a> — limbă și dimensiunea textului.</li>
+    <li><a href="/components/">Catalogul de componente</a> — proprietăți, ARIA și tastatură pentru fiecare componentă.</li>
+  </ul>
+  <p>
+    Întrebări pe parcurs?
+    <a href="/help/#troubleshooting">Pagina de ajutor</a> este plină de răspunsuri — iar dacă un pas poate fi mai clar,
+    <a href="https://github.com/LilyDesignSystem">spune-ne</a> și vom îmbunătăți cu plăcere tutorialul.
+  </p>
+</section>

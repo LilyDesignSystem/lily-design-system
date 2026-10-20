@@ -1,0 +1,117 @@
+<!-- title: Návod pre Svelte — Lily Design System -->
+<!-- description: Vytvorte prístupný, ostylovaný formulár pomocou bezhlavých komponentov Lily pre Svelte 5: runy, snippety a bind:value. -->
+<section class="page-intro">
+  <h1>Návod pre Svelte</h1>
+  <p class="page-intro-tagline">
+    Knižnica Svelte od Lily je kanonická implementácia: runy Svelte 5, typované props, rozprestieranie zvyšných props a obojsmerná väzba s
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Čo vytvoríte</h2>
+  <p>
+    Malý kontaktný formulár — pole s popisom, tlačidlo odoslať, obojsmerná väzba, skutočné správanie klávesnice a čítačky obrazovky — najprv holý, potom ostylovaný, približne za 10 minút.
+  </p>
+
+  <h2>Skôr než začnete</h2>
+  <p>
+    Potrebujete git, Node 22 alebo novší a pnpm 10 alebo novší. Hodí sa akýkoľvek projekt Svelte 5 — stačí nová <code>npx sv create</code> aplikácia.
+  </p>
+
+  <h2>Krok 1 — Získajte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponenty sú v <code>src/lib/components/&#123;Name&#125;/</code>, jeden adresár na komponent so súborom <code>.svelte</code> , jeho testami, story a dokumentáciou vedľa seba. Skopírujte potrebné adresáre do svojej aplikácie, alebo sa na repozitári závislite a importujte priamo.
+  </p>
+
+  <h2>Krok 2 — Váš prvý komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Vykresľuje <code>&lt;button class="button" type="button"&gt;</code>. Props sú typované: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (vykresľuje <code>aria-pressed</code> (vykresľuje <code>label</code> ( <code>aria-label</code> pre prepínacie tlačidlá),
+  </p>
+
+  <h2>Krok 3 — Zložte malý formulár</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> prijíma viditeľný <code>label</code> ako vlastný prop namiesto vnoreného komponentu popisu — odovzdajte ho raz, pri <code>Field</code>a <code>TextInput</code>z <code>label</code> poskytne prístupný názov. <code>TextInput</code>'s <code>value</code> na prepísanie) a akýkoľvek ďalší atribút sa rozprestrie na koreň.
+    <code>$bindable</code> je prop <code>bind:value</code> rune, takže
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Overené 2026-08-29:</strong> vám hneď dáva obojsmernú väzbu. <code>svelte/server</code> presne táto ukážka bola skompilovaná cez <code>&lt;label for&gt;</code> a skontrolovaná na jediný, správne prepojený popis <code>Label</code> vnútri <code>Field</code>— skorší koncept vnáral samostatné
+      <em>dva</em> popisy (jeden prázdny), pretože <code>Field</code> už vykresľuje svoj vlastný zo vstupu <code>label</code> dovnútra, čo vykreslilo
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Zložená trasa kontaktného formulára</a>
+      je rovnaký vzor, preverený skutočnými testami e2e a axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Skontrolujte svoju prácu:</strong> spustite aplikáciu a formulár vyzerá holo — presne podľa zámeru: štýlovanie ešte len príde. Stlačte
+      <kbd>Tab</kbd>: fokus prechádza každým ovládacím prvkom, popis sa oznamuje a odoslanie funguje. Správanie je hotové; vzhľad je váš a je ďalším krokom.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>
+    Všetko vyššie sa vykresľuje ako čistá štruktúra, pripravená na vaše štýly. Ostylujte triedne háčiky —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — vo svojej globálnej štýlovej šablóne, alebo pripojte hotovú tému v <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Úpravy pre jednotlivú inštanciu prechádzajú cez <code>class</code> prop, ktorý sa pripojí k základnému háčiku: <code>&lt;Button class="wide"&gt;</code> vykresľuje
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Krok 5 — Pozrite sa, ako to celé funguje</h2>
+  <p>
+     <a href="/examples/">Ukážková aplikácia SvelteKit</a> je ten istý katalóg plne ostylovaný, so živými ukážkami, testami Playwright e2e a základnou líniou prístupnosti axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Ďalšie kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témy</a> — prepínanie za behu pomocníkom theme-picker pre Svelte.</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pre predvoľby</a> — jazyk a veľkosť textu.</li>
+    <li><a href="/components/">Katalóg komponentov</a> — vlastnosti, ARIA a klávesnica pre každý komponent.</li>
+  </ul>
+  <p>
+    Otázky po ceste?
+    <a href="/help/#troubleshooting">Stránka pomocníka</a> je plná odpovedí — a ak by niektorý krok mohol byť jasnejší,
+    <a href="https://github.com/LilyDesignSystem">dajte nám vedieť</a> a návod radi vylepšíme.
+  </p>
+</section>

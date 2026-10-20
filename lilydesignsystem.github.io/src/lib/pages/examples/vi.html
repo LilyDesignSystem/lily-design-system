@@ -1,0 +1,105 @@
+<!-- title: Ví dụ — Lily Design System -->
+<!-- description: Các ứng dụng ví dụ hoàn chỉnh cho thấy cách tạo kiểu cho thành phần Lily trong HTML, Svelte, React, Vue, Angular, Blazor và Eleventy. -->
+<section class="page-intro">
+  <h1>Xem Lily trong ứng dụng thực tế</h1>
+  <p class="page-intro-tagline">
+    Bảy dự án ví dụ hoàn chỉnh cho thấy cách lấy các thành phần headless, thêm kiểu và phát hành một website thật. Hãy chọn framework bạn dùng.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Ứng dụng demo với CSS đầy đủ và định tuyến</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Trang HTML thuần, JavaScript thuần, không có công cụ build. Đặt được trên mọi máy chủ tĩnh — hoàn hảo cho các trang nhỏ và cải tiến lũy tiến.
+      </p>
+      <p class="card-meta">→ Xem trên GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        Ứng dụng SvelteKit 3 dùng rune của Svelte 5. Các tuyến thành phần, định tuyến theo tệp và một storybook có kiểu cho mọi thành phần.
+      </p>
+      <p class="card-meta">→ Xem trên GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Ứng dụng Next.js 16 trình bày từng thành phần trong ngữ cảnh, dùng TypeScript xuyên suốt và có trang demo cho các mẫu ghép.
+      </p>
+      <p class="card-meta">→ Xem trên GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Ứng dụng Nuxt 4. <code>&lt;script setup&gt;</code> và Composition API trên mọi tuyến demo.
+      </p>
+      <p class="card-meta">→ Xem trên GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Ứng dụng Angular 22 + Analog.js. Định tuyến theo tệp, signal, phát hiện thay đổi không zone và kết xuất trước SSG đầy đủ.
+      </p>
+      <p class="card-meta">→ Xem trên GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Ứng dụng Blazor Web với các thành phần Razor. Thân thiện với cả máy chủ và WebAssembly, lấy .NET 10 làm nền.
+      </p>
+      <p class="card-meta">→ Xem trên GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Trang Eleventy dùng macro Nunjucks. Lý tưởng cho các trang tĩnh nhiều nội dung mà vẫn muốn có hệ thống thành phần thực thụ.
+      </p>
+      <p class="card-meta">→ Xem trên GitHub</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Mọi ứng dụng ví dụ đều có cùng hình dạng</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Để việc chuyển qua lại giữa các framework quen thuộc, mỗi ứng dụng ví dụ cung cấp:</p>
+    <ul>
+      <li>Một tuyến chào mừng tại <code>/</code> giới thiệu dự án.</li>
+      <li>Một chỉ mục thành phần tại <code>/components</code> liệt kê mọi thành phần.</li>
+      <li>Một trang demo cho mỗi thành phần tại <code>/components/&lt;component&gt;</code>.</li>
+      <li>CSS thật — không phải token thiết kế trừu tượng — để bạn có thể lấy kiểu trực tiếp.</li>
+      <li>Điều hướng bằng bàn phím và quản lý tiêu điểm hoạt động ngay từ đầu.</li>
+    </ul>
+
+    <h3>Cần xem một thành phần đơn lẻ được tạo kiểu thế nào?</h3>
+    <p>
+      Mở ứng dụng ví dụ tương ứng, điều hướng tới
+      <code>/components/&lt;name&gt;</code>và sao chép mã đánh dấu cùng CSS vào dự án của bạn. Các ứng dụng ví dụ cố ý dùng CSS thuần (hoặc gần thuần) để bạn có thể điều chỉnh cho bất kỳ hệ thống nào bạn thích.
+    </p>
+
+    <h3>Muốn headless hơn?</h3>
+    <p>
+      Ghép bất kỳ ứng dụng ví dụ nào với gói <em>headless</em>
+      tương ứng — chúng phát hành cùng các thành phần mà không có CSS nào, sẵn sàng cho token thiết kế của riêng bạn.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Duyệt danh mục →</a>
+      <a class="button button-secondary" href="/help/">Đọc hướng dẫn thiết lập</a>
+    </p>
+  </div>
+</section>

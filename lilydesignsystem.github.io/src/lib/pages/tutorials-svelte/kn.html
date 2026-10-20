@@ -1,0 +1,117 @@
+<!-- title: Svelte ಟ್ಯುಟೋರಿಯಲ್ — Lily Design System -->
+<!-- description: Lily ಯ Svelte 5 ಹೆಡ್‌ಲೆಸ್ ಘಟಕಗಳೊಂದಿಗೆ ಪ್ರವೇಶಿಸಬಹುದಾದ, ಶೈಲೀಕೃತ ಫಾರ್ಮ್ ನಿರ್ಮಿಸಿ: runes, snippets, ಮತ್ತು bind:value. -->
+<section class="page-intro">
+  <h1>Svelte ಟ್ಯುಟೋರಿಯಲ್</h1>
+  <p class="page-intro-tagline">
+    Lily ಯ Svelte ಲೈಬ್ರರಿ ಅಧಿಕೃತ ಅನುಷ್ಠಾನ: Svelte 5 runes, ಟೈಪ್ ಮಾಡಿದ ಪ್ರಾಪ್‌ಗಳು, rest-prop ಹರಡುವಿಕೆ, ಮತ್ತು ಇದರೊಂದಿಗೆ ಎರಡು-ಮಾರ್ಗ ಬೈಂಡಿಂಗ್
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ನೀವು ಏನನ್ನು ನಿರ್ಮಿಸುತ್ತೀರಿ</h2>
+  <p>
+    ಒಂದು ಸಣ್ಣ ಸಂಪರ್ಕ ಫಾರ್ಮ್ — ಲೇಬಲ್ ಇರುವ ಇನ್‌ಪುಟ್, ಸಲ್ಲಿಸು ಬಟನ್, ಎರಡು-ಮಾರ್ಗ ಬೈಂಡಿಂಗ್, ನಿಜವಾದ ಕೀಬೋರ್ಡ್ ಮತ್ತು ಸ್ಕ್ರೀನ್-ರೀಡರ್ ವರ್ತನೆ — ಮೊದಲು ಬೆತ್ತಲೆ, ನಂತರ ಶೈಲೀಕೃತ, ಸುಮಾರು 10 ನಿಮಿಷಗಳಲ್ಲಿ.
+  </p>
+
+  <h2>ಆರಂಭಿಸುವ ಮೊದಲು</h2>
+  <p>
+    ನಿಮಗೆ git, Node 22 ಅಥವಾ ನಂತರದ್ದು, ಮತ್ತು pnpm 10 ಅಥವಾ ನಂತರದ್ದು ಬೇಕು. ಯಾವುದೇ Svelte 5 ಯೋಜನೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ — ಹೊಚ್ಚಹೊಸ <code>npx sv create</code> ಅಪ್ಲಿಕೇಶನ್ ಸಾಕು.
+  </p>
+
+  <h2>ಹಂತ 1 — ಕೋಡ್ ಪಡೆಯಿರಿ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    ಘಟಕಗಳು ಇಲ್ಲಿ ವಾಸಿಸುತ್ತವೆ <code>src/lib/components/&#123;Name&#125;/</code>, ಪ್ರತಿ ಘಟಕಕ್ಕೆ ಒಂದು ಡೈರೆಕ್ಟರಿ, ಅದರಲ್ಲಿ <code>.svelte</code> ಫೈಲ್, ಅದರ ಪರೀಕ್ಷೆಗಳು, stories ಮತ್ತು ದಾಖಲೆಗಳು ಅಕ್ಕಪಕ್ಕ. ನಿಮಗೆ ಬೇಕಾದ ಡೈರೆಕ್ಟರಿಗಳನ್ನು ನಿಮ್ಮ ಅಪ್ಲಿಕೇಶನ್‌ಗೆ ನಕಲಿಸಿ, ಅಥವಾ ರೆಪೊವನ್ನು ಅವಲಂಬಿಸಿ ನೇರವಾಗಿ ಆಮದು ಮಾಡಿ.
+  </p>
+
+  <h2>ಹಂತ 2 — ನಿಮ್ಮ ಮೊದಲ ಘಟಕ</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    ರೆಂಡರ್ ಮಾಡುತ್ತದೆ <code>&lt;button class="button" type="button"&gt;</code>. ಪ್ರಾಪ್‌ಗಳು ಟೈಪ್ ಮಾಡಲ್ಪಟ್ಟಿವೆ: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (ರೆಂಡರ್ ಮಾಡುತ್ತದೆ <code>aria-pressed</code> ಟಾಗಲ್ ಬಟನ್‌ಗಳಿಗೆ), <code>label</code> (ಒಂದು <code>aria-label</code> ಅತಿಕ್ರಮಣ), ಮತ್ತು ಯಾವುದೇ ಹೆಚ್ಚುವರಿ ಆಟ್ರಿಬ್ಯೂಟ್ ರೂಟ್‌ಗೆ ಹರಡುತ್ತದೆ.
+  </p>
+
+  <h2>ಹಂತ 3 — ಸಣ್ಣ ಫಾರ್ಮ್ ಸಂಯೋಜಿಸಿ</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> ಗೋಚರ <code>label</code> ತನ್ನದೇ ಪ್ರಾಪ್ ಆಗಿ, ನೆಸ್ಟ್ ಮಾಡಿದ ಲೇಬಲ್ ಘಟಕವಾಗಿ ಅಲ್ಲ — ಅದನ್ನು ಒಮ್ಮೆ ಕೊಡಿ, <code>Field</code>, ಮತ್ತು <code>TextInput</code>ನಲ್ಲಿ <code>label</code> ಪ್ರವೇಶಿಸಬಹುದಾದ ಹೆಸರನ್ನು ಒದಗಿಸುತ್ತದೆ. <code>TextInput</code>'s <code>value</code> ಒಂದು
+    <code>$bindable</code> rune ಪ್ರಾಪ್, ಹೀಗಾಗಿ <code>bind:value</code> ನಿಮಗೆ ತಕ್ಷಣ ಎರಡು-ಮಾರ್ಗ ಬೈಂಡಿಂಗ್ ನೀಡುತ್ತದೆ.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 ರಂದು ಪರಿಶೀಲಿಸಲಾಗಿದೆ:</strong> ಈ ನಿಖರ ತುಣುಕನ್ನು ಇದರ ಮೂಲಕ ಕಂಪೈಲ್ ಮಾಡಲಾಯಿತು <code>svelte/server</code> ಮತ್ತು ಒಂದೇ, ಸರಿಯಾಗಿ ಲಿಂಕ್ ಮಾಡಿದ್ದಕ್ಕಾಗಿ ಪರಿಶೀಲಿಸಲಾಯಿತು <code>&lt;label for&gt;</code> — ಹಿಂದಿನ ಕರಡು ಪ್ರತ್ಯೇಕ <code>Label</code> ಒಳಗೆ <code>Field</code>ಅನ್ನು ನೆಸ್ಟ್ ಮಾಡಿತ್ತು, ಇದು ರೆಂಡರ್ ಮಾಡಿತು
+      <em>ಎರಡು</em> ಲೇಬಲ್‌ಗಳನ್ನು (ಒಂದು ಖಾಲಿ) ರೆಂಡರ್ ಮಾಡಿತು ಏಕೆಂದರೆ <code>Field</code> ಈಗಾಗಲೇ <code>label</code> ಪ್ರಾಪ್.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">ಸಂಯೋಜಿತ ಸಂಪರ್ಕ-ಫಾರ್ಮ್ ಮಾರ್ಗ</a>
+      ಅದೇ ಮಾದರಿ, ನಿಜವಾದ e2e ಮತ್ತು axe ಪರೀಕ್ಷೆಗಳಿಂದ ಬಳಸಲ್ಪಟ್ಟಿದೆ.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ನಿಮ್ಮ ಕೆಲಸವನ್ನು ಪರಿಶೀಲಿಸಿ:</strong> ಅಪ್ಲಿಕೇಶನ್ ನಡೆಸಿ, ಫಾರ್ಮ್ ಸರಳವಾಗಿ ಕಾಣುತ್ತದೆ — ನಿಖರವಾಗಿ ಉದ್ದೇಶಿಸಿದಂತೆ: ಶೈಲೀಕರಣ ಇನ್ನೂ ಮುಂದಿದೆ. ಒತ್ತಿರಿ
+      <kbd>Tab</kbd>: ಫೋಕಸ್ ಪ್ರತಿ ನಿಯಂತ್ರಣದ ಮೂಲಕ ಚಲಿಸುತ್ತದೆ, ಲೇಬಲ್ ಘೋಷಿಸಲ್ಪಡುತ್ತದೆ, ಮತ್ತು ಸಲ್ಲಿಕೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ. ವರ್ತನೆ ಮುಗಿದಿದೆ; ನೋಟ ನಿಮ್ಮದು ಮತ್ತು ಅದು ಮುಂದಿನದು.
+    </p>
+  </div>
+
+  <h2>ಹಂತ 4 — ಶೈಲೀಕರಿಸಿ</h2>
+  <p>
+    ಮೇಲಿನ ಎಲ್ಲವೂ ಶುದ್ಧ ರಚನೆಯಾಗಿ ರೆಂಡರ್ ಆಗುತ್ತದೆ, ನಿಮ್ಮ ಶೈಲಿಗಳಿಗೆ ಸಿದ್ಧ. ಕ್ಲಾಸ್ ಹುಕ್‌ಗಳನ್ನು ಶೈಲೀಕರಿಸಿ —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — ನಿಮ್ಮ ಜಾಗತಿಕ ಸ್ಟೈಲ್‌ಶೀಟ್‌ನಲ್ಲಿ, ಅಥವಾ ಸಿದ್ಧ ಥೀಮ್ ಅನ್ನು ಇದರಲ್ಲಿ ಲಿಂಕ್ ಮಾಡಿ <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    ಪ್ರತಿ-ಉದಾಹರಣೆ ಹೊಂದಾಣಿಕೆಗಳು ಇದರ ಮೂಲಕ ಹೋಗುತ್ತವೆ <code>class</code> ಪ್ರಾಪ್, ಇದು ಮೂಲ ಹುಕ್‌ಗೆ ಸೇರಿಸಲ್ಪಡುತ್ತದೆ: <code>&lt;Button class="wide"&gt;</code> ರೆಂಡರ್ ಮಾಡುತ್ತದೆ
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>ಹಂತ 5 — ಎಲ್ಲವೂ ಕೆಲಸ ಮಾಡುವುದನ್ನು ನೋಡಿ</h2>
+  <p>
+     <a href="/examples/">SvelteKit ಉದಾಹರಣೆ ಅಪ್ಲಿಕೇಶನ್</a> ಅದೇ ಕ್ಯಾಟಲಾಗ್ ಸಂಪೂರ್ಣ ಶೈಲೀಕೃತ, ಲೈವ್ ಡೆಮೊಗಳು, Playwright e2e ಪರೀಕ್ಷೆಗಳು ಮತ್ತು axe-core ಪ್ರವೇಶಿಸುವಿಕೆ ಮೂಲರೇಖೆಯೊಂದಿಗೆ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ಮುಂದಿನ ಹಂತಗಳು</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ಥೀಮಿಂಗ್</a> — Svelte theme-picker ಸಹಾಯಕದೊಂದಿಗೆ ರನ್‌ಟೈಮ್ ಬದಲಾವಣೆ.</li>
+    <li><a href="/tutorials/helpers/">ಆದ್ಯತೆ ಸಹಾಯಕಗಳು</a> — ಭಾಷೆ ಮತ್ತು ಪಠ್ಯ ಗಾತ್ರ.</li>
+    <li><a href="/components/">ಘಟಕ ಕ್ಯಾಟಲಾಗ್</a> — ಪ್ರತಿ ಘಟಕಕ್ಕೆ ಪ್ರಾಪ್‌ಗಳು, ARIA, ಮತ್ತು ಕೀಬೋರ್ಡ್.</li>
+  </ul>
+  <p>
+    ದಾರಿಯಲ್ಲಿ ಪ್ರಶ್ನೆಗಳಿವೆಯೇ?
+    <a href="/help/#troubleshooting">ಸಹಾಯ ಪುಟ</a> ಉತ್ತರಗಳಿಂದ ತುಂಬಿದೆ — ಮತ್ತು ಯಾವುದೇ ಹಂತ ಸ್ಪಷ್ಟವಾಗಬಹುದಾದರೆ,
+    <a href="https://github.com/LilyDesignSystem">ನಮಗೆ ತಿಳಿಸಿ</a> ಮತ್ತು ನಾವು ಸಂತೋಷದಿಂದ ಟ್ಯುಟೋರಿಯಲ್ ಸುಧಾರಿಸುತ್ತೇವೆ.
+  </p>
+</section>

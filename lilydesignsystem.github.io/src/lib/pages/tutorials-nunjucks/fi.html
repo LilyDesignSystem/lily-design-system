@@ -1,0 +1,97 @@
+<!-- title: Nunjucks-opas — Lily Design System -->
+<!-- description: Rakenna saavutettavia, tyyliteltyjä, palvelimella renderöityjä sivuja Lilyn Nunjucks-makroilla — ihanteellinen Eleventylle. -->
+<section class="page-intro">
+  <h1>Nunjucks-opas</h1>
+  <p class="page-intro-tagline">
+    Palvelimella renderöidyt makrot Eleventylle, Expressille tai mille tahansa Node-mallipohjaputkelle — GOV.UK-tyylinen lähestymistapa Lilyn luettelolla ja luokkakoukuilla.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Pieni palvelimella renderöity yhteydenottolomake — nimiöity kenttä, lähetyspainike, nolla JavaScript-kuormaa — ensin paljaana, sitten tyylitellen, noin 10 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Tarvitset gitin, Node 22:n tai uudemman ja pnpm 10:n tai uudemman. Mikä tahansa Nunjucks-putki kelpaa — Eleventy, Express tai pelkkä Nunjucks.
+  </p>
+
+  <h2>Vaihe 1 — Hae koodi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Jokainen komponentti on hakemisto kohteessa <code>components/</code> jossa on
+    <code>macro.njk</code>, sen testi ja sen dokumentaatio — esimerkiksi
+    <code>components/button/macro.njk</code>. Osoita Nunjucks-lataajasi kohteeseen
+    <code>components/</code> (Eleventyssä lisää se include-polkuun) ja tuo tarvitsemasi.
+  </p>
+
+  <h2>Vaihe 2 — Ensimmäinen komponenttisi</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Renderöi <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makrot ottavat yhden params-olion: <code>text</code> (escapattu) tai
+    <code>html</code> (raaka), <code>type</code>, <code>label</code> elementille
+    <code>aria-label</code>ja luokkakoukun lisääjän.
+  </p>
+
+  <h2>Vaihe 3 — Kokoa pieni lomake</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Koska kaikki renderöidään palvelimella, selain saa puhdasta semanttista HTML:ää luokkakoukkuineen — nollatavuinen JavaScript-kuorma.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> lataa sivu, ja lomake näyttää paljaalta — juuri niin kuin on tarkoitus: tyylittely on vielä edessä. Paina
+      <kbd>Tab</kbd>: kohdistus liikkuu jokaisen ohjaimen läpi, nimiö ilmoitetaan ja lähettäminen toimii. Toiminta on valmis; ulkoasu on sinun ja seuraava vaihe.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Tyylittele se</h2>
+  <p>
+    Tyylittele koukut — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — tyylitiedostossasi, tai linkitä valmis teema perusasettelussasi:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Vaihe 5 — Katso kaiken toimivan</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy -esimerkkisovellus</a> rakentaa koko luettelon staattiseksi sivustoksi, jossa on esittelysivut komponenteittain:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemat</a> — mukaan lukien Eleventyn evästemalli välkkymättömään SSR-teeman vaihtoon.</li>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — kieli ja tekstikoko.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — ominaisuudet, ARIA ja näppäimistö komponenteittain.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

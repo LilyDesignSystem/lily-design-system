@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Ni vzdrževane knjižnice ali vtičnika Lily za Figmo. Oblikovalski žetoni 57 referenčnih tem so objavljeni v formatu DTCG in jih je mogoče danes uvoziti v Figmo z obstoječim vtičnikom skupnosti. -->
+<section class="page-intro">
+  <h1>Ni vzdrževane knjižnice za Figmo — tukaj je, kaj obstaja namesto nje</h1>
+  <p class="page-intro-tagline">
+    Ta stran je prej pisala „kmalu“. Zdaj ne več, ker tega nihče ni gradil. Tukaj je pošteno stanje in resnična pot, ki deluje danes.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Česa ni</h2>
+  <p>
+    Ni uradne knjižnice komponent Lily v Figmi in ni vzdrževanega vtičnika za Figmo. Dobro zgraditi in vzdrževati knjižnico za oblikovalsko orodje je resnična, trajna zaveza — struktura komponent v Figmi, poimenovanje različic, auto-layout, lasten cevovod za objavo — ločena od vzdrževanja kode, in tega projekt ni prevzel.
+  </p>
+
+  <h2>Kaj obstaja danes</h2>
+  <p>
+    Vsaka od 57 referenčnih tem ima svoje osnovne oblikovalske žetone — barvo, polmer, velikost, obrobo — objavljene v
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >formatu DTCG 2025.10</a
+    >
+    na
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Ta format je natanko tisto, kar berejo sodobna orodja za žetone. Paleto teme Lily lahko v Figmo povlečete sami, takoj, brez vtičnika iz tega projekta:
+  </p>
+  <ol>
+    <li>
+      Namestite vtičnik skupnosti
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (ali Figmin lastni uvoz Variables, kjer vaš paket podpira uvoz DTCG).
+    </li>
+    <li>
+      Uvozite <code>themes/tokens/{theme-slug}.json</code> za temo, ki jo želite — na primer
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio iz vrednosti DTCG ustvari spremenljivke Figme, ki jih nato lahko uporabite za svoje komponente.
+    </li>
+  </ol>
+  <p>
+    S tem dobite Lilyjine žetone barv in oblik v Figmi. Ne dobite pa pravih komponent Lily kot komponent Figme — tega nihče ni zgradil in ta stran ne bo pretvarjala drugače.
+  </p>
+
+  <h2>Ali je načrtovana prava knjižnica za Figmo?</h2>
+  <p>
+    Trenutno ne, in obljubljati je ni zastonj: glejte
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    za odprto vprašanje in to, kaj bi spremenilo mnenje projekta — najbolj koristno je, da oblikovalec konkretno pove, kaj potrebuje od te plasti. Če ste to vi,
+    <a href="mailto:joel@joelparkerhenderson.com">sporočite nam</a>
+    ali odprite issue.
+  </p>
+</section>

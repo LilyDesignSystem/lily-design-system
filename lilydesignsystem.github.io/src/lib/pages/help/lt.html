@@ -1,0 +1,432 @@
+<!-- title: Pagalba — Lily Design System -->
+<!-- description: Pradėkite su Lily: įdiekite bevaigį paketą savo karkasui, nukopijuokite komponentą, stilizuokite jį, suteikite jam temą ir paleiskite. Trikčių šalinimas, DUK ir palaikymas. -->
+<section class="page-intro">
+  <h1>Darbo su Lily pradžia</h1>
+  <p class="page-intro-tagline">
+    Pasirinkite karkasą, klonuokite monorepo ir atidarykite jo bevaigę biblioteką ar pavyzdinę programą, tada pradėkite kurti savo puslapius. Norite vedamo kelio? Pradėkite nuo
+    <a href="/tutorials/">mokymų</a>.
+  </p>
+</section>
+
+<nav aria-label="Šiame puslapyje" class="prose" style="margin: 0 auto;">
+  <p><strong>Šiame puslapyje:</strong></p>
+  <ul>
+    <li><a href="#install">Diegimas</a></li>
+    <li><a href="#use-headless">Bevaigio komponento naudojimas</a></li>
+    <li><a href="#use-styled">Stilizuoto pavyzdžio naudojimas</a></li>
+    <li><a href="#styling">Stilizavimas ir dizaino žetonai</a></li>
+    <li><a href="#themes">Paruoštos temos</a></li>
+    <li><a href="#helpers">Nuostatų pagalbininkai</a></li>
+    <li><a href="#a11y">Prieinamumas</a></li>
+    <li><a href="#i18n">Internacionalizacija</a></li>
+    <li><a href="#testing">Testavimas</a></li>
+    <li><a href="#ai-agents">DI agentai</a></li>
+    <li><a href="#troubleshooting">Trikčių šalinimas</a></li>
+    <li><a href="#contributing">Prisidėjimas</a></li>
+    <li><a href="#community">Bendruomenė ir palaikymas</a></li>
+    <li><a href="#faq">DUK</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Diegimas</h2>
+  <p>
+    Lily gyvena viename Git monorepo su katalogu kiekvieno karkaso bevaigei bibliotekai, pagalbiniams paketams ir pavyzdinei programai. Greičiausias būdas išbandyti — klonuoti monorepo ir atidaryti bevaigę biblioteką savo technologijų rinkiniui:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Tas pats šablonas veikia ir kitiems karkasams:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — diegti nereikia; nukopijuokite <code>.html</code> failus</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Bevaigės bibliotekos sukurtos klonuoti ar įtraukti į projektą — laikykite pirminį kodą tiesos šaltiniu ir kopijuokite, ko reikia.
+    <a href="#helpers">nuostatų pagalbininkai</a> papildomai tiekiami kaip diegiami paketai su kūrimo ir skelbimo konvejeriu (npm JS karkasams, NuGet Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Bevaigio komponento naudojimas</h2>
+  <p>
+    Bevaigiai komponentai tiekia semantinį HTML, ARIA ir savybes — bet ne CSS. Štai Button kiekviename karkase:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Stilizuoto pavyzdžio naudojimas</h2>
+  <p>
+    Pavyzdinės programos apima CSS, maršrutus ir pilnus demonstracinius puslapius. Greičiausias būdas eksperimentuoti — paleisti SvelteKit, Next, Nuxt, Analog ar Eleventy pavyzdinę programą ir pamatyti demonstraciją adresu <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Tada atidarykite <code>http://localhost:5173</code> ir naršykite <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stilizavimas ir dizaino žetonai</h2>
+  <p>
+    Kiekvienas komponentas atvaizduojamas su viena kebab-case klase savo šakniniame elemente. Pavyzdžiui, <code>&lt;Button&gt;</code> atvaizduojamas kaip <code>&lt;button class="button"&gt;</code>. Stilizuokite kaip norite:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Numatytoji Lily spalvų paletė (naudojama pavyzdinėse programose) yra:</p>
+  <ul>
+    <li>Pagrindinė: <code>#2563eb</code></li>
+    <li>Pavojus: <code>#dc2626</code></li>
+    <li>Įspėjimas: <code>#f59e0b</code></li>
+    <li>Sėkmė: <code>#16a34a</code></li>
+    <li>Puslapio fonas: <code>#f9fafb</code></li>
+    <li>Kortelės fonas: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Tai pasiūlymai, o ne reikalavimai. Pakeiskite juos savo prekės ženklo paletė, ir Lily mielai prisitaikys.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Paruoštos temos</h2>
+  <p>
+    Nenorite rašyti CSS nuo nulio? Lily tiekia
+    <strong>57 savarankiškas pavyzdines temas</strong> kataloge
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Kiekviena yra vienas stilių lapas, taikantis Lily klasės kabliukus — susiekite jį ir esate stilizuoti:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Rinkinys apima:</p>
+  <ul>
+    <li>
+      <strong>Viešasis sektorius</strong> — NHS England, NHS Scotland ir NHS Wales (kiekviena pacientams ir praktikams skirtais variantais), GOV.UK GDS ir U.S. Web Design System.
+    </li>
+    <li><strong>Tiekėjų įkvėptos</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Bendrosios paskirties</strong> — light, dark, nord, dracula, wireframe ir dar trisdešimt.
+    </li>
+  </ul>
+  <p>
+    Temų selektoriai naudoja <code>:where(...)</code>, todėl jūsų paties CSS visada laimi specifiškumu. Suporuokite jas su žemiau esančiu pagalbininku <code>theme-picker</code> perjungimui vykdymo metu arba vadovaukitės
+    <a href="/tutorials/theming/">temų mokymu</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Nuostatų pagalbininkai</h2>
+  <p>
+    Kiekvienas karkasas turi aštuonis mažus parinkiklius, kiekvienas — atskiras
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> paketas (ir <code>picker-bar</code> , juos sujungiantis). Kiekvienas yra bevaigis piktogramos mygtukas, atidarantis iškylantįjį langą — sąrašo langelį, nuorodų sąrašą, paieškos formą ar (date-time-picker atveju) datos pasirinkimo dialogą — ne vietinis
+    <code>&lt;select&gt;</code>; yra saugus SSR; ir netiekia CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — vykdymo metu įkelia temų stilių lapus pakeisdamas valdomą <code>&lt;link&gt;</code>, nustato
+      <code>data-theme</code> dokumente ir pasirinktinai išsaugo
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — nustato <code>lang</code> ir
+      <code>dir</code> (su automatiniu RTL aptikimu), kad jūsų i18n biblioteka galėtų sekti; pats nieko neverčia.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — nustato <code>data-text-size</code> dokumente; jūsų CSS susieja kiekvieną reikšmę su šrifto dydžiu.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — nustato <code>data-motion</code> dokumente, pradėdamas nuo lankytojo sumažinto judesio nustatymo; jūsų CSS ir scenarijai sprendžia, ką slopinti.
+    </li>
+    <li>
+      <strong>search-picker</strong> — piktogramos mygtukas, atidarantis paieškos lauką; pateikimas nukreipia į paieškos puslapį. Valdo veiksmą, o ne nuostatą.
+    </li>
+    <li>
+      <strong>link-picker</strong> — namo piktograma, atidaranti jūsų programos apibrėžtų puslapių nuorodų meniu (Pagrindinis, Apie mus, Kontaktai, Privatumo politika, …). Valdo veiksmą, o ne nuostatą.
+    </li>
+    <li>
+      <strong>share-picker</strong> — atidaro vietinį dalijimosi lapą arba vartotojo pateiktą paskirčių sąrašą, plius URL kopijavimą. Valdo veiksmą, o ne nuostatą: nieko netaiko, nieko neišsaugo.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — teksto laukas plius APG datos pasirinkimo dialogas datai, laikui ar abiem. Valdo formos reikšmę, o ne nuostatą: ISO eilutė konvertuojama pirmyn ir atgal į
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte katalogas yra kanoninė nuoroda; React, Vue, Angular, HTML, Nunjucks, Web Components ir Blazor perkėlimai atitinka jį sutartis po sutarties. Žr.
+    <a href="/tutorials/helpers/">pagalbininkų mokymą</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Prieinamumas</h2>
+  <p>Komponentai taikosi į <strong>WCAG 2.2 AAA</strong>. Jie laikosi šių šablonų:</p>
+  <ul>
+    <li>Semantiniai HTML elementai vietoj bendrų <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> , susiejančių etiketes su įvestimis.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> kryžminėms nuorodoms.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> klaidų būsenoms.</li>
+    <li><code>role="alert"</code> ir <code>aria-live</code> dinaminiam turiniui.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> būsenai.</li>
+    <li>Roving <code>tabindex</code> tinkleliams.</li>
+  </ul>
+  <p>
+    Fokuso indikatorius sąmoningai pateikia vartotojas — Lily niekada nepiešia numatytojo fokuso žiedo, kuris prieštarautų jūsų dizainui. Pavyzdinės programos visuose savo maršrutuose išlaiko švarią axe-core bazinę liniją.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internacionalizacija</h2>
+  <p>
+    Kiekviena etiketė, vietos žymeklis, klaidos pranešimas ir mygtuko tekstas yra savybė. Į kodą įrašytų eilučių nėra. Prijunkite pasirinktą vertimo karkasą — Paraglide, i18next, vue-i18n, react-intl, .resx failus, bet ką.
+  </p>
+  <p>
+    Datoms, skaičiams ir valiutoms komponentai priima iš anksto suformatuotas eilutes: formatuojate su <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / jūsų mėgstama biblioteka ir perduodate rezultatą.
+  </p>
+  <p>
+    Pagalbininkas <code>locale-picker</code> praneša pasirinktą lokalę jūsų i18n bibliotekai nustatydamas <code>lang</code> ir <code>dir</code> dokumento šaknyje.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testavimas</h2>
+  <p>Kiekvienas karkaso paprojektis tiekia savo testus naudodamas savo idiomatinį technologijų rinkinį:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO, paleidžiantis tikras naršykles.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (per Analog Vite papildinį).</li>
+    <li><strong>Nunjucks</strong>: Vitest su atvaizdavimo pagalbininku.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testai naudoja <strong>tik Vitest įmontuotus atitikmenis</strong> — niekada
+    <code>jest-dom</code> atitikmenų. Tai išlaiko testų rinkinius perkeliamus. Pavyzdinės programos prideda Playwright pilnos grandinės rinkinius, axe-core prieinamumo bazines linijas ir adaptyvių peržiūros langų peržiūrą.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>DI agentai</h2>
+  <p>
+    Ši svetainė skelbia <a href="/llms.txt">llms.txt</a> ir
+    <a href="/llms.json">llms.json</a> savo šaknyje — kuruotą svarbiausių puslapių žemėlapį, bet kuriam įrankiui, kuris laikosi
+    <a href="https://llmstxt.org">llms.txt konvencijos</a>.
+  </p>
+  <p>
+    Kanoninis monorepo papildomai tiekia du
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: bendrosios paskirties įgūdį, apimantį Lily sąvokas, terminologiją ir sudėjimo šablonus visiems, kurie kuria su sistema, ir <code>lily-design-system-maintainer-skill</code>, techninį įgūdį, apimantį privalomų failų išdėstymą ir monorepo įrankius visiems, kurie dirba su juo. Abu yra
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanoninio monorepo šaknyje</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Trikčių šalinimas</h2>
+
+  <details class="faq-item">
+    <summary>Komponentas atvaizduojamas, bet atrodo nestilizuotas</summary>
+    <p>
+      Tai bevaigiškumas, veikiantis kaip numatyta — su komponentu nėra tiekiamas jokis CSS. Arba parašykite CSS komponento kebab-case klasei (rodomai kiekviename <a href="/components/">katalogo puslapyje</a>) arba susiekite vieną iš
+      <a href="#themes">57 paruoštų temų</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Atrodo, mano CSS netaikomas virš temos</summary>
+    <p>
+      Turėtų — temų selektoriai apgaubti <code>:where(...)</code>, kuris turi nulinį specifiškumą. Jei taisyklė vis tiek pralaimi, patikrinkite, ar jūsų stilių lapas įkeliamas po temos <code>&lt;link&gt;</code> ir ar selektorius iš tikrųjų atitinka komponento klasės kabliuką.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install nepavyksta su peer arba versijos klaida</summary>
+    <p>
+      Naudokite dabartinį pnpm (v10+) ir Node 22+. Kiekvienas paprojektis savo karkaso versijas fiksuoja savo <code>package.json</code>; jei jūsų visuotinė įrankių grandinė senesnė, <code>pnpm env use --global lts</code> yra greičiausias sprendimas.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ekrano skaitytuvas praneša neteisingą valdiklio pavadinimą</summary>
+    <p>
+      Patikrinkite komponento privalomą <code>label</code> savybę — komponentai be matomo teksto jos reikalauja, o vartotojo pateikti
+      <code>aria-label</code> / <code>aria-labelledby</code> perduoti per rest-props sąmoningai laimi prieš integruotą sujungimą. Kiekvienas katalogo puslapis dokumentuoja komponento ARIA sutartį.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker pagalbininkas neperjungia stilių lapų</summary>
+    <p>
+      Patvirtinkite, kad <code>themesUrl</code> nurodo katalogą, kurį naršyklė gali gauti (teikite <code>themes/</code> failus kaip statinius išteklius) ir kad temų trumpieji pavadinimai jūsų <code>themes</code> savybėje atitinka failų pavadinimus. Pagalbininkas keičia <code>href</code> vieno valdomo
+      <code>&lt;link data-lily-theme-picker&gt;</code> — apžiūrėkite jį kūrėjo įrankiuose, kad pamatytumėte prašomą URL.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kažkas kita sugedo</summary>
+    <p>
+      Atidarykite issue su minimaliu atkūrimu adresu
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — arba žr. <a href="#community">bendruomenė ir palaikymas</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Prisidėjimas</h2>
+  <p>Lily yra jaunas ir sveikina bendradarbiavimą. Naudingiausi indėliai dabar:</p>
+  <ul>
+    <li>Nauji komponentai (ypač šablonai iš nusistovėjusių dizaino sistemų).</li>
+    <li>Naujos temos — kiekviena yra vienas savarankiškas stilių lapas, gerai apibrėžtas pirmasis PR.</li>
+    <li>Geresnis pavyzdžių stilizavimas — parodykite, kas įmanoma.</li>
+    <li>Pavyzdinių programų eilučių vertimai.</li>
+    <li>Klaidų ataskaitos su minimaliu atkūrimu.</li>
+    <li>Prieinamumo auditai su ekrano skaitytuvais ir pagalbinėmis technologijomis.</li>
+  </ul>
+  <p>
+    Atidarykite issue ir PR adresu
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Bendruomenė ir palaikymas</h2>
+  <ul>
+    <li>
+      <strong>Klausimai ir klaidų ataskaitos</strong> — atidarykite issue adresu
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>El. paštas</strong> — prižiūrėtojas skaito
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ir sveikina bendradarbiavimą, patarimus ir atsiliepimus.
+    </li>
+    <li>
+      <strong>Veidrodžiai</strong> — Lily taip pat siunčiamas į
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> ir
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, kad galėtumėte dalyvauti iš jums patinkančios forge.
+    </li>
+    <li>
+      <strong>Elgesys</strong> — projektas laikosi standartinio elgesio kodekso; būkite malonūs, pripažinkite gerą valią.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>DUK</h2>
+
+  <details class="faq-item">
+    <summary>Kodėl bevaigis, o ne stilizuotas?</summary>
+    <p>
+      Iš anksto stilizuoti komponentai yra patogūs — kol neatitinka jūsų prekės ženklo. Bevaigiai komponentai pradžioje reikalauja šiek tiek daugiau darbo, bet suteikia visišką vizualinio dizaino kontrolę. Pavyzdinės programos ir 57 temos rodo stilizavimo būdus; galite juos pasiimti arba visiškai pakeisti. Ilgesnis argumentas yra <a href="/why/">Kodėl Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kodėl tiek daug komponentų?</summary>
+    <p>
+      Lily siekia apimti šablonus, kurių reikia daugumai programų, neversdamas jūsų jų kurti nuo nulio — įskaitant gilesnius dalykus, tokius kaip nacionalinių identifikatorių įvestis ir redakcinis scrollytelling. Katalogas semiasi iš tuzino nusistovėjusių dizaino sistemų ir originalaus darbo — žr. <a href="/about/">Apie</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ar galiu naudoti Lily su Tailwind?</summary>
+    <p>
+      Taip. Kiekvienas komponentas atskleidžia vieną kebab-case šaknies klasę plius vartotojo pateiktą <code>className</code> / <code>class</code>. Sluoksniuokite Tailwind pagalbines klases viršuje, kaip norite.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ar galiu naudoti Lily su semantiniais CSS karkasais, tokiais kaip DaisyUI?</summary>
+    <p>
+      Taip. Kebab-case klasių pavadinimai šakniniame elemente veikia kaip semantiniai CSS kabliukai. Suporuokite Lily su semantiniu karkasu, ir gausite iš anksto stilizuotus komponentus, kurie vis tiek gerbia ARIA ir i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ar yra npm paketas?</summary>
+    <p>
+       <a href="#helpers">Nuostatų pagalbininkai</a> tiekiami kaip paketai su npm/NuGet skelbimo konvejeriu. Bevaigės komponentų bibliotekos sukurtos klonuoti ar įtraukti į projektą — pirminis kodas yra tiekiamas produktas, todėl galite skaityti, genėti ir valdyti būtent tai, ką išleidžiate. Bevaigių bibliotekų skelbimas registruose tebėra plane.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kodėl kelios licencijos?</summary>
+    <p>
+      Skirtingi projektai turi skirtingus licencijavimo poreikius. BSD ir MIT yra leidžiančios, Apache-2.0 turi patento suteikimą, o GPL parinktys palaiko copyleft. Pasirinkite tai, kas tinka jūsų situacijai.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kaip pranešti apie klaidą ar paprašyti funkcijos?</summary>
+    <p>
+      Atidarykite issue GitHub saugykloje arba rašykite el. paštu
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

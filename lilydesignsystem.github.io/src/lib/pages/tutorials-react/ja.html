@@ -1,0 +1,109 @@
+<!-- title: React チュートリアル — Lily Design System -->
+<!-- description: Lily の React ヘッドレスコンポーネントで、アクセシブルでスタイル付きのフォームを作ります。value と onChange を備えた、型付きの関数コンポーネントです。 -->
+<section class="page-intro">
+  <h1>React チュートリアル</h1>
+  <p class="page-intro-tagline">
+    型付きの関数コンポーネントで、1 ファイルに 1 つ、標準の
+    <code>value</code> + <code>onChange</code> パターンで制御します — すべて React ですでに慣れた動きをします。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    小さなお問い合わせフォーム — ラベル付き入力、送信ボタン、制御された状態、本物のキーボードとスクリーンリーダーの動作 — まずは装飾なしで、次にスタイルを付けて、約 10 分で作ります。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    git、Node 22 以降、pnpm 10 以降が必要です。React 18 以降のプロジェクトならどれでも使えます — Next.js、Vite、素の React のいずれでも構いません。
+  </p>
+
+  <h2>ステップ 1 — コードを入手する</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    コンポーネントは次の場所にフラットなファイルとして置かれています: <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — それぞれテスト、ストーリー、ドキュメントが隣に置かれています。必要なファイルをアプリにコピーするか、リポジトリを取り込んでそこからインポートします。
+  </p>
+
+  <h2>ステップ 2 — 最初のコンポーネント</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    描画する要素: <code>&lt;button class="button" type="button"&gt;</code>。プロパティ:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (描画する要素:
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> の上書き用)、 <code>className</code>)、追加の属性はルート要素に展開されます。
+  </p>
+
+  <h2>ステップ 3 — 小さなフォームを組み立てる</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> は、表示用の <code>label</code> を、ネストしたラベルコンポーネントではなく専用のプロパティとして受け取ります — 一度だけ渡せば、
+    <code>Field</code>、そして <code>TextInput</code>の対応する
+    <code>label</code> がアクセシブルな名前を与えます。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 に確認済み:</strong> 以前の下書きでは、別の <code>Label</code> の中の <code>Field</code>の中にネストしていたため、
+      <em>2 つの</em> ラベル(1 つは空)が描画されていました。 <code>Field</code> は <code>label</code> プロパティ — 実際のスニペットをコンパイルして見つけました。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">お問い合わせフォームの組み合わせルート</a>
+      も同じパターンで、本物の e2e テストと axe テストで検証されています。
+    </p>
+  </div>
+
+  <h2>ステップ 4 — スタイルを付ける</h2>
+  <p>
+    上のコードはすべて純粋な構造として描画され、スタイルを待っています。フックにスタイルを付けます — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — スタイルシートで、 <code>className</code>経由で Tailwind のユーティリティを重ねるか、既成のテーマをリンクします:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>ステップ 5 — 動いているところを見る</h2>
+  <p>
+     <a href="/examples/">Next.js サンプルアプリ</a> は、スタイル付きでデモ付きの完全なカタログで、Playwright e2e と axe-core のベースラインを備えています:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">テーマ設定</a> — React の theme-picker ヘルパーによる実行時切り替え。</li>
+    <li><a href="/tutorials/helpers/">設定ヘルパー</a> — 言語とテキストサイズ。</li>
+    <li><a href="/components/">コンポーネントカタログ</a> — コンポーネントごとのプロパティ、ARIA、キーボード操作。</li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

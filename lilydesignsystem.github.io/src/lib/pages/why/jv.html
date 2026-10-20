@@ -1,0 +1,102 @@
+<!-- title: Kenging punapa Lily — Lily Design System -->
+<!-- description: Alesan kanggo Lily: komponèn tanpa sirah sing sampéyan gaya dhéwé, aksesibilitas WCAG 2.2 AAA sing wis ana, ora ana string permanèn, wolung framework, siji katalog, gratis salawasé. -->
+<section class="page-intro">
+  <h1>Alesan kanggo Lily</h1>
+  <p class="page-intro-tagline">
+    Lily nggawa bagéan-bagéan sing angèl — semantik, aksesibilitas, prilaku keyboard, internasionalisasi — lan ninggal tampilan kabèh, kanthi bungah, marang sampéyan.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Miwiti saka desain sampéyan dhéwé</h2>
+  <p>
+    Tim sampéyan wis ngerti kepriyé produk sampéyan kudu katon. Lily miwiti persis saka kana: nyedhiyakaké bagéan sing pancèn angèl dilakoni kanthi bener lan larang yèn kudu diulang — elemèn semantik sing bener, kahanan ARIA, kontrak keyboard, manajemen fokus — lan ninggal saben kaputusan visual kabèh, kanthi bungah, marang sampéyan. CSS sampéyan iku tampilan sistem desain wiwit dina kapisan.
+  </p>
+  <p>
+    Amarga saben komponèn nggawa pancingan kelas sing stabil lan struktur murni, gaya sampéyan tetep resik dadi duwèk sampéyan ing saben nganyaraké — lan aksesibilitas ing ngisor kuwi terus makarya, versi sawisé versi.
+  </p>
+
+  <h2>Sing dijanjèkaké Lily</h2>
+  <ul>
+    <li>
+      <strong>Bisa diaksès kanthi baku.</strong> WCAG 2.2 AAA iku target kanggo saben komponèn. Pola-pola nututi WAI-ARIA Authoring Practices; saben komponèn interaktif bisa dioperasikaké nganggo keyboard kanthi kontrak sing didokumentasi; aplikasi conto njaga dasar axe-core sing resik.
+    </li>
+    <li>
+      <strong>Bisa diinternasionalisasi saka dhasaré.</strong> Saben string sing katon pangguna — saben labèl, kesalahan, lan woro-woro — iku properti kanthi jeneng stabil ing kabèh framework, dadi terjemahan mili kanthi alami. RTL lan tèks rong arah nurunaké saka <code>dir</code> sampéyan. Komponèn sing ngerti lokal nampa lokal minangka properti, tansah kanthi jelas.
+    </li>
+    <li>
+      <strong>Siji katalog, wolung framework.</strong> 571 komponèn sing padha (536 minangka Web Components asli) kanthi pancingan kelas lan konvènsi properti sing padha ing HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, lan Web Components. CSS sampéyan lan kawruh tim bisa dipindhah antar tumpukan.
+    </li>
+    <li>
+      <strong>Ora gumantung strategi CSS.</strong> Siji kelas kebab-case sing stabil saben oyod komponèn. CSS semantik, utilitas Tailwind, CSS-in-JS, utawa salah siji saka 57 tema sing wis siap — Lily nampa kabèh lan minggir kanthi alus.
+    </li>
+    <li>
+      <strong>Gratis, salawasé, miturut sarat sampéyan.</strong> Sumber terbuka miturut pilihan sampéyan antara BSD, MIT, Apache-2.0, GPL-2.0, utawa GPL-3.0. Ora ana tingkat pro, ora ana lisènsi kursi, ora ana telemetri.
+    </li>
+  </ul>
+
+  <h2>Ambane ing panggonan sing penting</h2>
+  <p>
+    Ngluwihi tombol lan dialog biasa, katalog tekan luwih adoh tinimbang umumé:
+  </p>
+  <ul>
+    <li>
+      <strong>Pola sektor umum</strong> sing ditliti saka sistem desain NHS UK, GOV.UK, USWDS, lan ONS — ringkesan kesalahan, kothak pènget, dhaptar ringkesan, spanduk fase, tautan nglangkahi.
+    </li>
+    <li>
+      <strong>140 komponèn pangenal pribadi nasional</strong> sing nyakup pangenal kesehatan, KTP nasional, pajak, lan paspor ing luwih saka 50 negara, saben siji ndokumentasiaké format lan algoritma validasiné.
+    </li>
+    <li>
+      <strong>Unsur dhasar editorial lan scrollytelling</strong> disesuaikan saka Reuters Graphics — tata letak artikel, scroller, lini wektu, peta ubin.
+    </li>
+    <li>
+      <strong>Pembantu pamilih</strong> — paket cilik sing nduwèni siji interaksi saka wiwitan nganti pungkasan: ganti tema (kanthi muat stylesheet nalika mlaku), basa, ukuran tèks, gerakan dikurangi, panelusuran, tautan kaca, nuduhaké, lan input tanggal lan wektu. Saben siji iku tombol ikon tanpa sirah sing mbukak popup — dudu <code>&lt;select&gt;</code> asli — kanthi persistensi lan keamanan SSR sing wis ana.
+    </li>
+  </ul>
+
+  <h2>Tema kanggo sektor umum, langsung siap</h2>
+  <p>
+    Lily nyedhiyakaké 57 tema rujukan mandiri sing langsung nargetaké pancingan kelasé: NHS England, NHS Scotland, lan NHS Wales (saben siji ing varian kanggo pasien lan praktisi), GOV.UK, USWDS, palet sing kainspirasi Adobe Spectrum lan Mozilla Protocol, lan sakumpulan tema umum padhang lan peteng. Sambungna siji stylesheet lan tampilan tingkat pamaréntah urip; pembantu <code>theme-picker</code>  ngganti kuwi nalika mlaku.
+  </p>
+
+  <h2>Kepriyé Lily dibandhingaké</h2>
+  <p>
+    Kita njaga
+    <a href="/comparisons/">pandhengan jujur karo sistem desain liyané</a> , komponèn demi komponèn — sing digayani lan tanpa sirah, komersial lan sektor umum. Ing ngendi pustaka liya luwih cocog kanggo sampéyan, pandhengan bakal nuduhaké; Lily sinau saka kabèh lan nyebutaké sumber inspirasiné kanthi terbuka.
+  </p>
+
+  <h2>Sapa ing wingkingé</h2>
+  <p>
+    Lily iku proyèk sumber terbuka sing enom lan mandiri sing nampa sinau, tuntunan, lan umpan balik — delengen
+    <a href="/about/">Babagan</a> kanggo critané lan sumber inspirasi. Kabèh — spesifikasi, tés, peta dalan, malah piranti audit — terbuka ing
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Bantu Lily thukul</h2>
+  <p>Yèn Lily migunani kanggo sampéyan, perkara paling larang sing bisa sampéyan lakoni:</p>
+  <ul>
+    <li>
+      <strong>Wènèhana lintang lan nuduhaké.</strong> Wènèhana lintang marang
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">repo utama</a>
+      lan tuduhna marang kanca kerja <a href="/components/">katalog</a> — kawruh iku sumber daya paling langka sing diduwèni proyèk enom.
+    </li>
+    <li>
+      <strong>Gawéa apa waé lan kandhanana kita.</strong> Laporan panggunaan nyata — apa sing kasil, apa sing bisa luwih lancar — mbentuk peta dalan luwih akèh tinimbang apa waé.
+    </li>
+    <li>
+      <strong>Audit aksesibilitas.</strong> Pandhuan nganggo pembaca layar (VoiceOver, NVDA, JAWS) ing <a href="/examples/">aplikasi conto</a> iku emas; laporna apa sing sampéyan temokaké.
+    </li>
+    <li>
+      <strong>Sumbang tema utawa terjemahan.</strong> Loro-loroné iku sumbangan kapisan sing mandiri lan wangun jelas.
+    </li>
+    <li>
+      <strong>Nuduhaké apa sing sampéyan temokaké, kanthi réproduksi minimal,</strong> ing repositori GitHub, utawa kirim email menyang
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Wiwiti tutorial</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Wènèhana lintang ing GitHub</a>
+  </div>
+</section>

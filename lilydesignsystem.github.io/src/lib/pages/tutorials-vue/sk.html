@@ -1,0 +1,122 @@
+<!-- title: Návod pre Vue — Lily Design System -->
+<!-- description: Vytvorte prístupný, ostylovaný formulár pomocou bezhlavých komponentov Lily pre Vue 3: jednosúborové komponenty s v-model. -->
+<section class="page-intro">
+  <h1>Návod pre Vue</h1>
+  <p class="page-intro-tagline">
+    Jednosúborové komponenty Vue 3 s typovanými props, <code>defineModel</code>
+    obojsmernou väzbou a prenášaním <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Čo vytvoríte</h2>
+  <p>
+    Malý kontaktný formulár — pole s popisom, tlačidlo odoslať, <code>v-model</code>
+    väzba, skutočné správanie klávesnice a čítačky obrazovky — najprv holý, potom ostylovaný, približne za 10 minút.
+  </p>
+
+  <h2>Skôr než začnete</h2>
+  <p>
+    Potrebujete git, Node 22 alebo novší a pnpm 10 alebo novší. Hodí sa akýkoľvek projekt Vue 3 — Nuxt, Vite alebo čistý Vue.
+  </p>
+
+  <h2>Krok 1 — Získajte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponenty sú ploché súbory v <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — každý s vlastným testom, story a dokumentáciou po boku. Skopírujte potrebné súbory, alebo si repozitár vezmite.
+  </p>
+
+  <h2>Krok 2 — Váš prvý komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Vykresľuje <code>&lt;button class="button" type="button"&gt;</code>. Props zodpovedajú ostatným frameworkom: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plus prepúšťanie atribútov pre všetko ostatné.
+  </p>
+
+  <h2>Krok 3 — Zložte malý formulár</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> prijíma viditeľný <code>label</code> ako vlastný prop namiesto vnoreného komponentu popisu — odovzdajte ho raz, pri
+    <code>Field</code>a <code>TextInput</code>z
+    <code>label</code> poskytne prístupný názov.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Overené 2026-08-29:</strong> skorší koncept vnáral samostatný komponent <code>Label</code> vnútri <code>Field</code>, čo vykreslilo
+      <em>dva</em> popisy (jeden prázdny), pretože <code>Field</code> už vykresľuje svoj vlastný zo vstupu <code>label</code> prop — zistené kompiláciou presnej ukážky. Trasa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Zložená trasa kontaktného formulára</a>
+      je rovnaký vzor, preverený skutočnými testami e2e a axe.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> používa <code>defineModel</code>, takže obyčajný
+    <code>v-model</code> funguje hneď.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Skontrolujte svoju prácu:</strong> spustite aplikáciu a formulár vyzerá holo — presne podľa zámeru: štýlovanie ešte len príde. Stlačte
+      <kbd>Tab</kbd>: fokus prechádza každým ovládacím prvkom, popis sa oznamuje a odoslanie funguje. Správanie je hotové; vzhľad je váš a je ďalším krokom.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>
+    Ostylujte triedne háčiky — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — vo svojej štýlovej šablóne, alebo pripojte hotovú tému v <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Pozrite sa, ako to celé funguje</h2>
+  <p>
+     <a href="/examples/">Ukážková aplikácia Nuxt</a> je celý katalóg ostylovaný a predvedený, s Playwright e2e a základnou líniou axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Ďalšie kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témy</a> — prepínanie za behu pomocníkom theme-picker pre Vue.</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pre predvoľby</a> — jazyk a veľkosť textu.</li>
+    <li><a href="/components/">Katalóg komponentov</a> — vlastnosti, ARIA a klávesnica pre každý komponent.</li>
+  </ul>
+  <p>
+    Otázky po ceste?
+    <a href="/help/#troubleshooting">Stránka pomocníka</a> je plná odpovedí — a ak by niektorý krok mohol byť jasnejší,
+    <a href="https://github.com/LilyDesignSystem">dajte nám vedieť</a> a návod radi vylepšíme.
+  </p>
+</section>

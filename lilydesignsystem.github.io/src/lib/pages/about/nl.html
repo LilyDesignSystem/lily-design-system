@@ -1,0 +1,94 @@
+<!-- title: Over — Lily Design System -->
+<!-- description: Wat Lily is, de principes erachter en de designsystemen waarvan het inspiratie put. -->
+<section class="page-intro">
+  <h1>Wat is Lily?</h1>
+  <p class="page-intro-tagline">
+    Een gratis, opensource designsysteem waarin toegankelijkheid voorop staat: het ontmoet je waar je codeert en gaat uit de weg als je het niet nodig hebt.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>De korte versie</h2>
+  <p>
+    Lily is een catalogus van <strong>webcomponenten</strong>, elk geïmplementeerd in acht headless varianten (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks en Web Components), plus een set kant-en-klare voorbeeldapps die laten zien hoe je ze opmaakt.
+  </p>
+  <p>
+    De headless versies bevatten <em>nul CSS</em>. Ze geven je semantische HTML, ARIA-rollen en -statussen, toetsenbordondersteuning en props die geschikt zijn voor internationalisering. Het visuele ontwerp breng jij mee.
+  </p>
+
+  <h2>Ontwerpprincipes</h2>
+
+  <h3>Toegankelijk</h3>
+  <p>
+    Elke component begint bij semantische HTML. ARIA wordt er alleen bovenop gelegd waar HTML alleen het patroon niet kan uitdrukken. De componenten streven naar
+    <strong>WCAG 2.2 AAA</strong> – kleuren, ruimte, focus en toetsenbordnavigatie worden allemaal meegenomen.
+  </p>
+
+  <h3>Combineerbaar</h3>
+  <p>
+    Lily geeft de voorkeur aan kleine componenten met één doel die in elkaar klikken. Samengestelde patronen keren steeds terug:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> – voor kruimelpaden, inhoudslijsten, accordeonmenu's, boommenu's en paginering</li>
+    <li><code>Form → Field → Input</code> – voor elke formulierindeling met labels, hints en fouten</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> – voor tabellen, agenda's, gantt-diagrammen en kanbanborden</li>
+    <li><code>Bar → BarButton</code> – voor werkbalken, tabbalken, taakbalken, actiebalken en menubalken</li>
+    <li><code>Picker → PickerButton</code> – voor kleurkiezers, waarderingskiezers en themakiezers</li>
+  </ul>
+
+  <h3>Internationaliseerbaar</h3>
+  <p>
+    Geen enkele voor de gebruiker zichtbare tekenreeks is hardgecodeerd. Labels, plaatsaanduidingen, foutmeldingen en knopteksten zijn allemaal parameters. Koppel je eigen vertaalsysteem en Lily spreekt elke taal die jij spreekt.
+  </p>
+
+  <h3>Headless</h3>
+  <p>
+    Headless componenten hebben <strong>geen CSS</strong>, geen
+    <code>&lt;style&gt;</code> -blokken en geen designtokens die je niet zelf hebt gekozen. Ze tonen één kebab-case klassenaam op elk rootelement, zodat je ze kunt targeten zoals je wilt – semantische CSS, Tailwind, CSS-in-JS, jouw keuze.
+  </p>
+
+  <h3>Kant-en-klare voorbeelden</h3>
+  <p>
+    De voorbeeldapps laten zien hoe je de componenten opmaakt voor echt gebruik: welke designtokens je instelt, welke varianten je toevoegt en hoe je pagina's samenstelt. Het zijn volledige SvelteKit-, Next.js-, Nuxt-, Blazor- en Eleventy-apps, geen simpele zandbakken.
+  </p>
+
+  <h2 id="inspirations">Inspiratiebronnen</h2>
+  <p>
+    Lily ontleent patronen en taal aan een bewust brede set designsystemen:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>Licentie</h2>
+  <p>
+    Lily heeft meerdere licenties: <strong>BSD, MIT, Apache-2.0, GPL-2.0 of GPL-3.0</strong>. Kies de licentie die bij je project past. Past geen enkele, neem dan contact op.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Projectleider: Joel Parker Henderson –
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Een bug gevonden, een idee, of wil je een component bijdragen? Open een issue of pull request op
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Status:</strong> Lily is gloednieuw werk en we verwelkomen samenwerking, begeleiding en feedback. Dingen zullen veranderen en zich ontwikkelen.
+    </p>
+  </div>
+</section>

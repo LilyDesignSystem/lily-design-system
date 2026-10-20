@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills Claude Code ને Lily Design System માં પસંદ કરેલું, લોડ કરી શકાય તેવું પ્રવેશ બિંદુ આપે છે — સામાન્ય ખ્યાલો, ફ્રેમવર્ક-દીઠ છત્ર કૌશલ્યો, અને હેડલેસ લાઇબ્રેરી તથા *-picker સહાયકો માટે ઉપ-પ્રોજેક્ટ-દીઠ ઊંડા કૌશલ્યો. -->
+<section class="page-intro">
+  <h1>AI એજન્ટ પરના કૌશલ્યો Lily ને વધુ સરળ બનાવે છે</h1>
+  <p class="page-intro-tagline">
+    Lily કેન્દ્રિત કૌશલ્યો આપે છે — સામાન્ય, ફ્રેમવર્ક-દીઠ અને ઉપ-પ્રોજેક્ટ-દીઠ — જેથી એજન્ટ બરાબર તેને જોઈતો સંદર્ભ લોડ કરે અને જે જોઈતું નથી તે નહીં.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>તમને કયું કૌશલ્ય જોઈએ છે?</h2>
+  <p>
+    દરેક સ્તર અલગ પ્રશ્નનો જવાબ આપે છે. તમે Lily ને હજુ જાણતા ન હો ત્યારે સામાન્ય કૌશલ્ય લોડ કરો. તમે તમારું ફ્રેમવર્ક જાણો છો પણ કયો ઉપ-પ્રોજેક્ટ જોઈએ તે નથી જાણતા ત્યારે ફ્રેમવર્ક કૌશલ્ય લોડ કરો. તમે શેના પર કામ કરી રહ્યા છો તે બરાબર જાણો ત્યારે headless-skill અથવા helpers-skill સીધું લોડ કરો.
+  </p>
+
+  <ul>
+    <li>
+      <strong>સામાન્ય / જાળવનાર</strong> — “Lily શું છે?” / “આ મોનોરેપો કેવી રીતે ગોઠવાયેલો છે?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>ફ્રેમવર્ક છત્ર</strong> — “{framework} માટે શું ઉપલબ્ધ છે, અને મને કયો ભાગ જોઈએ?” — 8, દરેક માટે એક <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>હેડલેસ / સહાયકો</strong> — “હું {framework} ના ઘટકો / *-picker સહાયકો બરાબર કેવી રીતે વાપરું?” — 16, દરેક માટે એક <code>{framework}-headless-skill</code> અને એક <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>આઠ ફ્રેમવર્ક</h2>
+  <p>
+    દરેક ફ્રેમવર્કને એ જ ત્રણ-સ્તરીય સ્ટેક મળે છે. છત્ર કૌશલ્ય તે ફ્રેમવર્કના બધા વાસ્તવિક ઉપ-પ્રોજેક્ટનો નકશો બનાવે છે — ઉદાહરણ એપ સહિત, જેને તેના બંને ભાઈ-બહેન કૌશલ્યોમાંથી એક પણ આવરતું નથી — અને તેમના કરારો પુનરાવર્તિત કરવાને બદલે તેમની તરફ નીચે નિર્દેશ કરે છે.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ફ્રેમવર્ક</th>
+        <th>છત્ર</th>
+        <th>હેડલેસ</th>
+        <th>સહાયકો</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Angular હેડલેસ કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Angular સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Blazor હેડલેસ કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Blazor સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="HTML હેડલેસ કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="HTML સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Nunjucks હેડલેસ કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Nunjucks સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="React હેડલેસ કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="React સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Svelte હેડલેસ કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Svelte સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Vue હેડલેસ કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">કૌશલ્ય</a></td>
+        <td><a aria-label="Vue સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components છત્ર કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">કૌશલ્ય</a></td>
+        <td>
+          <a
+            aria-label="Web Components હેડલેસ કૌશલ્ય"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >કૌશલ્ય</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components સહાયક કૌશલ્ય" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">કૌશલ્ય</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components બંને દિશામાં એકમાત્ર અપવાદ છે: તેનો હેડલેસ કેટલોગ 571 માંથી 536 નો ઇરાદાપૂર્વકનો વ્યાપ ધરાવે છે (મૂળ કસ્ટમ એલિમેન્ટ, કોઈ ફ્રેમવર્ક રનટાઇમ નથી; બાકીના 35 ઘટકો કાયમી રીતે બાકાત છે), અને હજુ Web Components ઉદાહરણ એપ નથી — તેનું છત્ર કૌશલ્ય એક છે એવો સંકેત આપવાને બદલે આ કહે છે.
+  </p>
+
+  <h2>એક કૌશલ્ય ઉમેરો</h2>
+  <p>
+    દરેક કૌશલ્ય એક <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> ફાઇલ છે — ઉપરાંત સહાયક ફાઇલો, બિલ્ડ પગલું નથી. તમારું Claude Code સેટઅપ જ્યાંથી કૌશલ્યો લોડ કરે છે ત્યાં તમને જોઈતું ક્લોન કરો (તમારા પ્રોજેક્ટ અથવા ખાતાની કૌશલ્ય ડિરેક્ટરી માટે ઉપર લિંક કરેલા અધિકૃત દસ્તાવેજો જુઓ):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    ઘણા ફ્રેમવર્કમાં, અથવા મોનોરેપો પર જ કામ કરો છો? તેના બદલે <a href="https://github.com/LilyDesignSystem/lily-design-system">પ્રમાણભૂત મોનોરેપો</a> ક્લોન કરો — બધા 26 કૌશલ્યો પહેલેથી તેના રૂટ પર છે, જે હેડલેસ લાઇબ્રેરીઓ, સહાયક કેટલોગ અને ઉદાહરણ એપ્સનું તે વર્ણન કરે છે તેમની બાજુમાં.
+  </p>
+</section>

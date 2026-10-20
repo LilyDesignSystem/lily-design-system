@@ -1,0 +1,111 @@
+<!-- title: Motīvu apmācība — Lily Design System -->
+<!-- description: Pievienojiet Lily motīvu trīs veidos: saistiet vienu no 45 gatavajiem motīviem, pārrakstiet to ar savu CSS un pievienojiet motīva pārslēgšanu izpildes laikā ar palīgu theme-picker. -->
+<section class="page-intro">
+  <h1>Motīvi</h1>
+  <p class="page-intro-tagline">
+    Lily komponentēm ir stabili klases āķi un nulle CSS — tātad motīvs ir tikai stilu lapa. Šī apmācība iet no „saistiet vienu datni” līdz „ļaujiet lietotājam mainīt motīvu izpildes laikā, ar saglabāšanu”.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Lietotne, kuras visu izskatu lietotājs var mainīt — sākot ar vienu saistītu stilu lapu un beidzot ar saglabājamu motīvu pārslēdzēju izpildes laikā — apmēram 15 minūtēs.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Vispirms pabeidziet <a href="/tutorials/">ietvara apmācību</a> savam stekam vispirms, lai jums būtu neliela Lily veidlapa, kurai piešķirt motīvu. Viss šeit darbojas visos septiņos ietvaros; koda paraugi rāda Svelte un vienkāršu HTML.
+  </p>
+
+  <h2>1. solis — Saistiet gatavu motīvu</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    direktorija satur 45 patstāvīgas stilu lapas. Nokopējiet tās savas lietotnes statiskajos resursos un saistiet vienu:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Kopas akcenti:</p>
+  <ul>
+    <li>
+      <strong>Publiskais sektors</strong> — NHS England / Scotland / Wales, katrs pacientiem un speciālistiem paredzētos variantos; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Piegādātāju iedvesmoti</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Vispārējam lietojumam</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>un daudzi citi.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudiet savu darbu:</strong> pārlādējiet lapu. Tas pats iezīmējums, ko izveidojāt ietvara apmācībā, tagad ir pilnībā noformēts — pogas, ievades, iezīmes, fokusa gredzeni. To izdarīja viena HTML rindiņa — katra komponente palika tieši tāda, kāda bija.
+    </p>
+  </div>
+
+  <h2>2. solis — Pārrakstiet jebko</h2>
+  <p>
+    Motīva selektori ir ietīti <code>:where(...)</code>kam ir nulles specifiskums — tātad jebkurš jūsu uzrakstītais noteikums uzvar, vienkārši:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>3. solis — Pārslēgšana izpildes laikā ar theme-picker</h2>
+  <p>
+     <code>theme-picker</code> palīgs ir bezgalvas ikonas poga + listbox, kas pārvalda visu motīva dzīves ciklu: tas ielādē izvēlēto stilu lapu, nomainot vienu pārvaldītu <code>&lt;link&gt;</code>
+    (tiek lejupielādēts tikai aktīvais motīvs), iestata
+    <code>data-theme="&#123;slug&#125;"</code> dokumentā un pēc izvēles saglabā <code>localStorage</code>. Šeit parādīts Svelte; React, Vue, Angular, HTML, Nunjucks un Blazor porti atbilst līgums pēc līguma:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Tā ir visa integrācija. Tastatūras uzvedība seko WAI-ARIA APG listbox modelim; pati vadīkla ir bezgalvas (klases āķis
+    <code>.theme-picker</code>), tāpēc tā pārņem jebkuru aktīvo motīvu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudīts 2026-08-29:</strong> tieši šis fragments tika sakompilēts pret publicēto <code>0.1.1</code> paku ar
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>4. solis — Reaģējiet uz motīvu savā CSS</h2>
+  <p>
+    Tā kā palīgs iestata <code>data-theme</code> dokumenta saknē, jūsu pašu stili var atzaroties pēc tā:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Piezīmes servera pusē attēlošanai</h2>
+  <p>
+    Palīgs veic visus DOM ierakstus ietvara mount/effect dzīves ciklā, tāpēc tas ir drošs SSR pēc konstrukcijas. Lai izvairītos no uzplaiksnījuma pirmajā zīmēšanā, attēlojiet serverī <code>&lt;link&gt;</code> un
+    <code>data-theme</code> sākotnējam motīvam (piemēram, no sīkdatnes) — Svelte palīga repozitorijs piegādā izpildāmu SvelteKit sīkdatnes piemēru, un pārējie katalogi dokumentē to pašu modeli saviem steikiem.
+  </p>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Preferenču palīgi</a> — tas pats modelis valodai, teksta izmēram, kopīgošanai un datuma/laika ievadei.</li>
+    <li>
+      Pievienojiet motīvu — katrs ir viena patstāvīga stilu lapa, kas mērķē klases āķus; skatiet <a href="/help/#contributing">piedalīšanos</a>.
+    </li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

@@ -1,0 +1,102 @@
+<!-- title: Bakit Lily — Lily Design System -->
+<!-- description: Ang kaso para sa Lily: mga headless na component na ikaw ang nagbibigay ng istilo, built-in na accessibility na WCAG 2.2 AAA, walang hardcoded na string, walong framework, isang catalog, libre magpakailanman. -->
+<section class="page-intro">
+  <h1>Ang kaso para sa Lily</h1>
+  <p class="page-intro-tagline">
+    Ibinibigay sa iyo ng Lily ang mahihirap na bahagi — semantics, accessibility, gawi ng keyboard, internationalization — at iniiwan ang hitsura nang buo, masaya, sa iyo.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Magsimula sa iyong disenyo</h2>
+  <p>
+    Alam na ng iyong koponan kung paano dapat magmukha ang produkto mo. Doon mismo nagsisimula ang Lily: ibinibigay nito ang mga bahaging talagang mahirap gawin nang tama at magastos ulitin — ang tamang semantic element, mga state ng ARIA, kontrata ng keyboard, pamamahala ng focus — at iniiwan ang bawat visual na desisyon nang buo, masaya, sa iyo. Ang iyong CSS ang hitsura ng design system, mula sa unang araw.
+  </p>
+  <p>
+    Dahil bawat component ay may matatag na class hook at purong istruktura, nananatiling malinaw na sa iyo ang iyong istilo sa bawat upgrade — at patuloy na gumagana ang accessibility sa ilalim nito, bersyon pagkatapos ng bersyon.
+  </p>
+
+  <h2>Ang ipinangangako ng Lily</h2>
+  <ul>
+    <li>
+      <strong>Accessible bilang default.</strong> Ang WCAG 2.2 AAA ang target para sa bawat component. Sumusunod ang mga pattern sa WAI-ARIA Authoring Practices; ang bawat interactive na component ay magagamit gamit ang keyboard na may dokumentadong kontrata; pinapanatili ng mga halimbawang app ang malinis na axe-core baseline.
+    </li>
+    <li>
+      <strong>Maaaring i-internationalize sa disenyo.</strong> Ang bawat string na nakikita ng user — bawat label, error, at anunsyo — ay prop na may matatag na pangalan sa lahat ng framework, kaya natural na dumadaloy ang pagsasalin. Namamana ang RTL at bidirectional na teksto mula sa iyong <code>dir</code>. Tinatanggap ng mga component na nakakaalam ng locale ang locale bilang prop, palaging tahasan.
+    </li>
+    <li>
+      <strong>Isang catalog, walong framework.</strong> Ang parehong 571 component (536 bilang native na Web Components) na may parehong class hook at kombensyon ng prop sa HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, at Web Components. Nalilipat ang iyong CSS at kaalaman ng koponan sa iba't ibang stack.
+    </li>
+    <li>
+      <strong>Walang pinapanigan na estratehiya sa CSS.</strong> Isang matatag na kebab-case na klase sa bawat ugat ng component. Semantic CSS, mga utility ng Tailwind, CSS-in-JS, o isa sa 57 handa nang tema — tinatanggap sila lahat ng Lily at maayos na umiiwas sa daan.
+    </li>
+    <li>
+      <strong>Libre, magpakailanman, sa iyong mga tuntunin.</strong> Open source sa ilalim ng pinili mong BSD, MIT, Apache-2.0, GPL-2.0, o GPL-3.0. Walang pro tier, walang seat license, walang telemetry.
+    </li>
+  </ul>
+
+  <h2>Lalim kung saan mahalaga</h2>
+  <p>
+    Higit sa karaniwang mga button at dialog, mas malayo ang abot ng catalog kaysa sa karamihan:
+  </p>
+  <ul>
+    <li>
+      <strong>Mga pattern ng pampublikong sektor</strong> na sinaliksik mula sa mga design system ng NHS UK, GOV.UK, USWDS, at ONS — mga buod ng error, babalang callout, buod na listahan, phase banner, skip link.
+    </li>
+    <li>
+      <strong>140 component ng pambansang personal na identifier</strong> na sumasaklaw sa mga identifier para sa kalusugan, pambansang ID, buwis, at pasaporte sa mahigit 50 bansa, na bawat isa ay nagdodokumento ng format at algorithm ng pagpapatunay nito.
+    </li>
+    <li>
+      <strong>Mga editorial at scrollytelling na primitive</strong> na hinango mula sa Reuters Graphics — mga layout ng artikulo, scroller, timeline, tile map.
+    </li>
+    <li>
+      <strong>Mga picker helper</strong> — maliliit na package na may-ari ng isang interaksyon mula simula hanggang wakas: pagpapalit ng tema (na may runtime na paglo-load ng stylesheet), wika, laki ng teksto, nabawasang galaw, paghahanap, mga link ng pahina, pagbabahagi, at pagpasok ng petsa-oras. Bawat isa ay headless na icon button na nagbubukas ng popup — hindi native na <code>&lt;select&gt;</code> — na may built-in na persistence at kaligtasan sa SSR.
+    </li>
+  </ul>
+
+  <h2>Mga tema para sa pampublikong sektor, handa na agad</h2>
+  <p>
+    May kasamang 57 standalone na reference na tema ang Lily na direktang tumututok sa mga class hook nito: NHS England, NHS Scotland, at NHS Wales (bawat isa sa mga variant para sa pasyente at practitioner), GOV.UK, USWDS, mga palette na inspirasyon ng Adobe Spectrum at Mozilla Protocol, at isang hanay ng pangkalahatang liwanag at madilim na tema. Mag-link ng isang stylesheet at gumagana na ang hitsurang pang-gobyerno; ang <code>theme-picker</code> helper ang magpapalit sa mga ito sa runtime.
+  </p>
+
+  <h2>Paano naghahambing ang Lily</h2>
+  <p>
+    Nag-iingat kami ng tapat, component-by-component
+    <a href="/comparisons/">paghahambing laban sa ibang design system</a> — may istilo at headless, komersyal at pampublikong sektor. Kung mas angkop sa iyo ang ibang library, ipapakita iyon ng paghahambing; natututo ang Lily sa kanilang lahat at hayagang binabanggit ang mga inspirasyon nito.
+  </p>
+
+  <h2>Sino ang nasa likod nito</h2>
+  <p>
+    Ang Lily ay isang batang, independiyenteng open-source na proyekto na malugod na tumatanggap ng pakikipagtulungan, gabay, at puna — tingnan ang
+    <a href="/about/">Tungkol</a> para sa kuwento at mga inspirasyon. Lahat — ang espesipikasyon, ang mga pagsusuri, ang roadmap, pati ang audit tooling — ay bukas sa
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Tulungan ang Lily na lumago</h2>
+  <p>Kung kapaki-pakinabang sa iyo ang Lily, ito ang pinakamahahalagang magagawa mo:</p>
+  <ul>
+    <li>
+      <strong>Mag-star at magbahagi.</strong> Mag-star sa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">pangunahing repo</a>
+      at ipakita sa isang katrabaho ang <a href="/components/">catalog</a> — ang kamalayan ang pinakakulang na yaman ng isang batang proyekto.
+    </li>
+    <li>
+      <strong>Gumawa ng isang bagay at sabihin sa amin.</strong> Ang mga ulat ng totoong paggamit — ano ang gumana, ano ang mas gagaan — ang humuhubog sa roadmap higit sa anupaman.
+    </li>
+    <li>
+      <strong>Mag-audit ng accessibility.</strong> Ang mga screen-reader pass (VoiceOver, NVDA, JAWS) sa <a href="/examples/">mga halimbawang app</a> ay ginto; i-file ang iyong natuklasan.
+    </li>
+    <li>
+      <strong>Mag-ambag ng tema o pagsasalin.</strong> Parehong self-contained at mahusay ang saklaw na unang kontribusyon.
+    </li>
+    <li>
+      <strong>Ibahagi ang natuklasan mo, na may minimal na reproduction,</strong> sa GitHub repository, o mag-email sa
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Simulan ang tutorial</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Mag-star sa GitHub</a>
+  </div>
+</section>

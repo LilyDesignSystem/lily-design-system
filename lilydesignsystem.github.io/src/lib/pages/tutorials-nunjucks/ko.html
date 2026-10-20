@@ -1,0 +1,97 @@
+<!-- title: Nunjucks 튜토리얼 — Lily Design System -->
+<!-- description: Lily의 Nunjucks 매크로로 접근성 있고 스타일이 적용된 서버 렌더링 페이지를 만듭니다 — Eleventy에 이상적입니다. -->
+<section class="page-intro">
+  <h1>Nunjucks 튜토리얼</h1>
+  <p class="page-intro-tagline">
+    Eleventy, Express 또는 모든 Node 템플릿 파이프라인용 서버 렌더링 매크로 — Lily의 카탈로그와 클래스 훅을 쓰는 GOV.UK 방식입니다.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>만들 것</h2>
+  <p>
+    작은 서버 렌더링 문의 폼 — 레이블이 있는 입력, 제출 버튼, JavaScript 페이로드 0 — 먼저 꾸미지 않은 상태로, 그다음 스타일을 입혀서 약 10분 안에 만듭니다.
+  </p>
+
+  <h2>시작하기 전에</h2>
+  <p>
+    git, Node 22 이상, pnpm 10 이상이 필요합니다. Nunjucks 파이프라인이라면 무엇이든 괜찮습니다 — Eleventy, Express, 순수 Nunjucks 모두 됩니다.
+  </p>
+
+  <h2>1단계 — 코드 가져오기</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    각 컴포넌트는 다음 위치의 디렉터리입니다: <code>components/</code> (그 안에
+    <code>macro.njk</code>, 테스트, 문서가 있습니다) — 예를 들어
+    <code>components/button/macro.njk</code>. Nunjucks 로더가 다음을 가리키게 하세요:
+    <code>components/</code> (Eleventy에서는 includes 경로에 추가). 그리고 필요한 것을 가져옵니다.
+  </p>
+
+  <h2>2단계 — 첫 번째 컴포넌트</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    렌더링하는 요소: <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. 매크로는 params 객체 하나를 받습니다: <code>text</code> (이스케이프됨) 또는
+    <code>html</code> (원본 그대로), <code>type</code>, <code>label</code> 는
+    <code>aria-label</code>, 그리고 클래스 훅을 덧붙이는 항목입니다.
+  </p>
+
+  <h2>3단계 — 작은 폼 구성하기</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    모든 것이 서버에서 렌더링되므로, 브라우저는 클래스 훅이 붙은 순수한 의미 있는 HTML만 받습니다 — JavaScript 페이로드는 0바이트입니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>작동 확인:</strong> 페이지를 불러오면 폼이 밋밋해 보입니다 — 의도한 대로이며 스타일은 앞으로 입힙니다.
+      <kbd>Tab</kbd>키를 눌러 보세요. 포커스가 모든 컨트롤을 따라 이동하고, 레이블이 읽히며, 제출도 동작합니다. 동작은 완성되었고, 모양은 당신 몫이며 다음 단계입니다.
+    </p>
+  </div>
+
+  <h2>4단계 — 스타일 입히기</h2>
+  <p>
+    훅에 스타일을 입힙니다 — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 스타일시트에서, 또는 기본 레이아웃에서 준비된 테마를 링크합니다:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>5단계 — 전체가 동작하는 모습 보기</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy 예제 앱</a> 은 컴포넌트별 데모 페이지가 있는 정적 사이트로 전체 카탈로그를 빌드합니다:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>다음 단계</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">테마 적용</a> — 깜빡임 없는 SSR 테마 전환을 위한 Eleventy 쿠키 패턴 포함.</li>
+    <li><a href="/tutorials/helpers/">환경설정 헬퍼</a> — 언어와 텍스트 크기.</li>
+    <li><a href="/components/">컴포넌트 카탈로그</a> — 컴포넌트별 props, ARIA, 키보드.</li>
+  </ul>
+  <p>
+    진행하다가 궁금한 점이 있다면
+    <a href="/help/#troubleshooting">도움말 페이지</a> 에 답이 많이 있습니다. 어떤 단계가 더 명확해질 수 있다면
+    <a href="https://github.com/LilyDesignSystem">알려 주세요</a> . 기꺼이 튜토리얼을 개선하겠습니다.
+  </p>
+</section>

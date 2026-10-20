@@ -1,0 +1,276 @@
+<!-- title: Eelistuste abiliste õpetus — Lily Design System -->
+<!-- description: Lisa kasutaja keele- ja tekstisuuruse eelistused Lily abilistega locale-picker ja text-size-picker: peata juhtelemendid ikoonnupp + listbox, püsivuse ja SSR-turvalisusega. -->
+<section class="page-intro">
+  <h1>Eelistuste abilised</h1>
+  <p class="page-intro-tagline">
+    Seitse väikest paketti raamistiku kohta, millest igaüks omab üht kasutaja ülesannet algusest lõpuni, pluss riba, mis koondab neist viis. Sa oled juba kohanud
+    <a href="/tutorials/theming/">theme-pickerit</a>; siin on locale-picker, text-size-picker ja motion-picker (eelistused), share-picker ja search-picker (tegevused), date-time-picker (vormi väärtus) ning picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mida sa ehitad</h2>
+  <p>
+    Seadete paneel, kus kasutajad valivad keele ja teksti suuruse — valikud, mis kehtivad kogu dokumendile, püsivad külastuste vahel ja maksavad sulle kaks komponenti ja paar rida CSS-i. Umbes 15 minutit.
+  </p>
+
+  <h2>Enne alustamist</h2>
+  <p>
+    Lõpeta esmalt <a href="/tutorials/">raamistiku õpetus</a> oma tehnoloogiapaki jaoks. Allolevad näited on Svelte'is; Reacti, Vue, Angulari, HTML-i, Nunjucksi ja Blazori abilised vastavad neile lepingu haaval.
+  </p>
+
+  <h2>Kuju, mida nad jagavad</h2>
+  <ul>
+    <li>Peata ikoonnupp, mis avab WAI-ARIA APG listboxi (või date-time-pickeri puhul kuupäevavalija dialoogi) — pole natiivset <code>&lt;select&gt;</code>-i, nii et iga raamistik saab sama klaviatuurikäitumise ja kujunduskonksud.</li>
+    <li>Üks klassikonks paketi kohta (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), null tarnitud CSS-i.</li>
+    <li>SSR-ohutu: DOM-i kirjutamised toimuvad ainult mount-/effect-elutsüklis.</li>
+    <li>i18n-puhas: iga kasutajale nähtav string on prop.</li>
+    <li>
+      Saadaval Svelte'ile (kanooniline), Reactile, Vuele, Angularile, HTML-i kohandatud elemendile, Nunjucksile ja Blazorile — igaühes sama leping.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker ja text-size-picker omavad igaüks ühte kasutaja
+    <em>eelistust</em> algusest lõpuni (valik, rakendamine DOM-ile, valikuline
+    <code>localStorage</code> püsivus <code>storageKey</code>
+    propi kaudu). share-picker ja date-time-picker on olemuselt teistsugused: share-picker omab <em>tegevust</em> — see ei rakenda dokumendile midagi ega salvesta midagi — ja date-time-picker omab
+    <em>vormi väärtust</em>, sest vormi kuupäev on andmed, mitte eelistus.
+  </p>
+
+  <h2>locale-picker — keel ja suund</h2>
+  <p>
+    Laseb kasutajal valida lokaadi ja kirjutab seejärel <code>lang</code> ja
+    <code>dir</code> dokumendi juurele, et sinu i18n-teek, CSS ja abitehnoloogiad kõik järgiksid. RTL tuvastatakse automaatselt araabia, heebrea ja teiste paremalt vasakule kirjutatavate kirjade jaoks. See keskendub puhtalt signaliseerimisele — tõlke teeb sinu i18n-teek.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Valikud märgistatakse sisseehitatud lokaadinimede tabelist (alistatav propiga <code>localeLabels</code>), igal valikul on oma
+    <code>lang</code> atribuut, et ekraanilugejad hääldaksid "Français" prantsuse keeles, ja alakriipsuga koodid nagu <code>en_US</code>
+    teisendatakse BCP 47-ks ja tagasi kadudeta <code>en-US</code>. Ühenda
+    <code>onChange</code> (või seotud väärtus) i18nexti, Paraglide'i, vue-i18n-i või millega iganes sa töötad.
+  </p>
+
+  <h2>text-size-picker — lugeja juhitav suurus</h2>
+  <p>
+    Ligipääsetavuse võit, mis võtab minuteid: abiline seab
+    <code>data-text-size="&#123;slug&#125;"</code> dokumendi juurele ja sinu CSS seob iga väärtuse suurusega.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Mõõtmesta oma paigutus ühikuga <code>rem</code> ja kogu rakendus skaleerub kasutaja valikuga. Sildid moodustatakse slugidest suure algustähega ("X Large") või alistatakse propiga <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolli oma tööd:</strong> vali valijast "Large" ja lehe tekst kasvab. Laadi uuesti — see on ikka suur: valik salvestati püsivalt kohta
+      <code>localStorage</code>. Lülita keelevalija araabiakeelseks ja
+      <code>dir="rtl"</code> seatakse dokumendile automaatselt.
+    </p>
+  </div>
+
+  <h2>share-picker — saada see leht</h2>
+  <p>
+    Ühe sümboliga nupp, mis avab seadme natiivse jagamislehe, kus see on olemas, ja muidu langeb tagasi sinu antud sihtkohtade loendile, pluss URL-i kopeerimise tegevus. See ei tarni ühtegi sotsiaalvõrgustiku URL-i — millised võrgustikud sinu tootesse kuuluvad, on sinu otsus, mitte disainisüsteemi oma.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> vaikeväärtus on <code>location.href</code>, nii et tavajuhtum ei vaja ühendamist. Sunni tee propiga <code>strategy="list"</code> või
+    <code>strategy="native"</code> kui vajad järjepidevat käitumist platvormide vahel testide või ekraanipiltide jaoks.
+  </p>
+
+  <h2>date-time-picker — kuupäev, kellaaeg või mõlemad</h2>
+  <p>
+    Tekstiväli, kuhu saab kirjutada, pluss ikoonnupp, mis avab WAI-ARIA APG kuupäevavalija dialoogi. Lokaadile õige juba ülesehituselt — kuude nimed, nädalapäevade nimed, nädala esimene päev ja 12- või 24-tunnine kell tulevad kõik moodulist <code>Intl</code> — ja väärtus on alati sorteeritav, ajavööndita ISO-string: <code>"2026-03-15"</code> elemendile
+    <code>mode="date"</code>, <code>"09:30"</code> elemendile
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> elemendile
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO väärtus on identne sellega, mida <code>&lt;input type="date"&gt;</code>
+    saadab, nii et saad natiivse juhtelemendi sisse või välja vahetada, backendi puutumata.
+  </p>
+
+  <h2>motion-picker — austa vähendatud liikumist</h2>
+  <p>
+    Abiline seab <code>data-motion="&#123;slug&#125;"</code> dokumendi juurele. Selle esimene väärtus tuleb külastaja operatsioonisüsteemi
+    <code>prefers-reduced-motion</code> seadest — alati, ilma lubamislipuata, sest liikumine on tõeline ligipääsetavuse vajadus (WCAG 2.3.3). Sinu CSS ja skriptid otsustavad, mida alla surutakse.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — otsingukast, mis ei jää ette</h2>
+  <p>
+    Ikoonnupp, mis avab otsinguvälja. Return-klahvi või välja kõrval oleva &#9166;-nupu vajutamine navigeerib tavalise GET-päringuga aadressile
+    <code>/?&lt;text&gt;</code> (tekst kärbitakse ja URI-kodeeritakse; tühi päring ei vii kuhugi). Selle kolm ligipääsetavat nime on kohustuslikud, sest abiline ei tarni inglise keelt.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> muudab teed (<code>/search?foo</code>) ja
+    <code>navigate</code> hoiab navigeerimise rakenduse sees; ilma selleta kutsub abiline <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — kogu päisejada korraga</h2>
+  <p>
+    <code>picker-bar</code> renderdab otsingu, teema, keele, teksti suuruse ja jagamise ühes reas, täieliku viiteteemade komplekti ja seitsmeastmelise tekstiskaalaga eelnevalt ühendatud. Iga ligipääsetav nimi tuleb ühes kohustuslikus
+    <code>labels</code> objektis.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Jõua mis tahes mähitud valijani propiga <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> ja <code>shareProps</code>.
+  </p>
+
+  <h2>Tööriistavihjed on sisse ehitatud</h2>
+  <p>
+    Iga valija näitab oma silti tööriistavihjes, kui kursor puhkab selle nupul või nupul on klaviatuurifookus. Tööriistavihje jääb nähtavale, kui kursor liigub sellele, Escape sulgeb selle, kus iganes fookus on, ja see ei ilmu kunagi, kui valija hüpikaken on avatud. See kannab sama teksti mis nupu ligipääsetav nimi, nii et pole midagi seadistada ega kaks korda tõlkida; viiteteemad kujundavad selle.
+  </p>
+
+  <h2>Seadete paneel ühes kohas</h2>
+  <p>Neli eelistuste abilist sobivad loomulikult kokku:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollitud:</strong> locale-pickeri, text-size-pickeri, share-pickeri, date-time-pickeri ja kombineeritud paneeli koodilõigud kompileeriti eraldi avaldatud <code>0.1.1</code> pakettide vastu käsuga
+      <code>svelte/server</code> (2026-08-29); motion-pickeri, search-pickeri ja picker-bari koodilõigud renderdati pakettide enda komponentidega 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Kust neid saada</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Igal paketil on oma spec, speci klauslitega seotud testid, käivitatavad näited (sh SSR-küpsisemustrid) ning ehitus- ja avaldamistoru. Svelte paketid on kanoonilised; kahtluse korral võidavad nende lepingud.
+  </p>
+
+  <h2>Järgmised sammud</h2>
+  <ul>
+    <li><a href="/components/">Komponentide kataloog</a> — kõigi 571 komponendi täielik viide.</li>
+    <li><a href="/help/">Abi</a> — tõrkeotsing ja KKK.</li>
+    <li><a href="/why/">Miks Lily</a> — ja kuidas projekti toetada.</li>
+  </ul>
+  <p>
+    Küsimusi teel?
+    <a href="/help/#troubleshooting">Abileht</a> on täis vastuseid — ja kui mõni samm saaks olla selgem,
+    <a href="https://github.com/LilyDesignSystem">anna meile teada</a> ja me parandame õpetust hea meelega.
+  </p>
+</section>

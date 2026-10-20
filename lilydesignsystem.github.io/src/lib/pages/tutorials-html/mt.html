@@ -1,0 +1,106 @@
+<!-- title: Tutorja tal-HTML — Lily Design System -->
+<!-- description: Ibni formola aċċessibbli u mgħammra bi stil bil-komponenti headless ta' Lily għal HTML — markup sempliċi, direttament minn fajl. -->
+<section class="page-intro">
+  <h1>Tutorja tal-HTML</h1>
+  <p class="page-intro-tagline">
+    L-iktar bidu sempliċi possibbli: ikkopja HTML semantiku bil-ganċijiet tal-klassi ta' Lily, żid stylesheet wieħed, ippubblika. Fajls sempliċi li jaħdmu kullimkien fejn jaħdem l-HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>X'se tibni</h2>
+  <p>
+    Formola żgħira ta' kuntatt — oqsma b'tikketti, buttuna biex tibgħat, mġiba vera tat-tastiera u tal-qarrej tal-iskrin — l-ewwel għarwiena, imbagħad bi stil, f'madwar 10 minuti.
+  </p>
+
+  <h2>Qabel ma tibda</h2>
+  <p>
+    Għandek bżonn browser u editur tat-test. Dak huwa kollox. (git jgħin biex tikseb il-fajls tal-komponenti, imma tista' tikkopjahom ukoll minn GitHub fil-browser.)
+  </p>
+
+  <h2>Pass 1 — Ġib il-kodiċi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Kull komponent huwa fajl indipendenti fi <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>u hekk għall-quddiem — b'kummentarju fil-header li jiddokumenta t-tag HTML tiegħu, il-ganċ tal-klassi, il-mġiba tat-tastiera u l-kuntratt tal-aċċessibbiltà. Il-fajls <em>huma</em> il-librerija — ikkopja dak li għandek bżonn u mur.
+  </p>
+
+  <h2>Pass 2 — L-ewwel komponent tiegħek</h2>
+  <p>Iftaħ <code>components/button.html</code>, jew sempliċement ikteb il-markup — il-ganċ tal-klassi huwa l-kuntratt:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Peress li huwa <code>&lt;button&gt;</code>veru, il-focus tat-tastiera, l-attivazzjoni b'Enter u Space u r-rwol impliċitu tal-buttuna diġà huma korretti.
+  </p>
+
+  <h2>Pass 3 — Ikkomponi formola żgħira</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Innota l-mudell: kull kontroll jorbot <code>&lt;label for&gt;</code>tiegħu, juża l-iktar tip speċifiku ta' input u jġorr ganċ tal-klassi kebab-case wieħed biss.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Iċċekkja x-xogħol tiegħek:</strong> iftaħ il-paġna f'browser. Tidher għarwiena — eżattament kif intenzjonat: l-istil għad irid jiġi. Agħfas
+      <kbd>Tab</kbd>: il-focus jgħaddi minn kull kontroll, it-tikketti jiġu mħabbra u l-ibgħat jaħdem. Il-mġiba lesta; id-dehra hija tiegħek u hija l-pass li jmiss.
+    </p>
+  </div>
+
+  <h2>Pass 4 — Agħtiha stil</h2>
+  <p>Ikteb CSS kontra l-ganċijiet:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Jew aqbeż għalkollox il-kitba tas-CSS bl-id — evita wieħed mill-45 tema lesti u l-istess markup jixgħel:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Pass 5 — Esplora iktar</h2>
+  <ul>
+    <li>It-testijiet tar-repożitorju jmexxu fuq browsers veri: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook għal kull komponent: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">L-app eżempju HTML+CSS+JS</a> turi l-571 komponent kollha bi stil, li jistgħu jiġu mfittxija u murija.
+    </li>
+  </ul>
+
+  <h2>Passi li jmiss</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — bdil tat-tema waqt it-tħaddim b'theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Għajnuniet tal-preferenzi</a> — lingwa u daqs tat-test.</li>
+    <li><a href="/components/">Katalogu tal-komponenti</a> — ir-referenza sħiħa.</li>
+  </ul>
+  <p>
+    Mistoqsijiet matul it-triq?
+    <a href="/help/#troubleshooting">Il-paġna tal-għajnuna</a> hija mimlija tweġibiet — u jekk pass jista' jkun iktar ċar,
+    <a href="https://github.com/LilyDesignSystem">għidilna</a> u nħossuna kuntenti ntejbu t-tutorja.
+  </p>
+</section>

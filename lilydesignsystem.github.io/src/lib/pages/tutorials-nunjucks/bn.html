@@ -1,0 +1,97 @@
+<!-- title: Nunjucks টিউটোরিয়াল — Lily Design System -->
+<!-- description: Lily-র Nunjucks ম্যাক্রো দিয়ে সহজে ব্যবহারযোগ্য, স্টাইল করা, সার্ভার-রেন্ডার করা পাতা তৈরি করুন — Eleventy-র জন্য আদর্শ। -->
+<section class="page-intro">
+  <h1>Nunjucks টিউটোরিয়াল</h1>
+  <p class="page-intro-tagline">
+    Eleventy, Express বা যেকোনো Node টেমপ্লেট পাইপলাইনের জন্য সার্ভার-রেন্ডার ম্যাক্রো — Lily-র ক্যাটালগ ও ক্লাস হুকসহ GOV.UK-ধাঁচের পদ্ধতি।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>আপনি কী তৈরি করবেন</h2>
+  <p>
+    একটি ছোট সার্ভার-রেন্ডার যোগাযোগ ফর্ম — লেবেলসহ ক্ষেত্র, জমা দেওয়ার বোতাম, শূন্য JavaScript বোঝা — প্রথমে সাদামাটা, তারপর স্টাইলসহ, প্রায় ১০ মিনিটে।
+  </p>
+
+  <h2>শুরু করার আগে</h2>
+  <p>
+    আপনার git, Node 22 বা নতুন, এবং pnpm 10 বা নতুন লাগবে। যেকোনো Nunjucks পাইপলাইন চলবে — Eleventy, Express বা সাধারণ Nunjucks।
+  </p>
+
+  <h2>ধাপ ১ — কোড নিন</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    প্রতিটি কম্পোনেন্ট এখানে একটি ডিরেক্টরি: <code>components/</code> একটি
+    <code>macro.njk</code>সহ, তার পরীক্ষা ও নথি — যেমন
+    <code>components/button/macro.njk</code>। আপনার Nunjucks লোডারকে এখানে নির্দেশ করুন
+    <code>components/</code> (Eleventy-তে এটিকে includes পথে যোগ করুন) আর যা দরকার আমদানি করুন।
+  </p>
+
+  <h2>ধাপ ২ — আপনার প্রথম কম্পোনেন্ট</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    দেখায় <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>। ম্যাক্রো একটিমাত্র params অবজেক্ট নেয়: <code>text</code> (এস্কেপ করা) বা
+    <code>html</code> (কাঁচা), <code>type</code>, <code>label</code> -এর জন্য
+    <code>aria-label</code>এবং একটি ক্লাস হুক সংযোজক।
+  </p>
+
+  <h2>ধাপ ৩ — একটি ছোট ফর্ম তৈরি করুন</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    যেহেতু সবকিছু সার্ভারে রেন্ডার হয়, ব্রাউজার ক্লাস হুকসহ খাঁটি অর্থবোধক HTML পায় — শূন্য বাইটের JavaScript বোঝা।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>আপনার কাজ পরীক্ষা করুন:</strong> পাতাটি লোড করুন আর ফর্মটি সাদামাটা দেখায় — ঠিক যেমন উদ্দেশ্য ছিল: স্টাইলিং এখনো সামনে। চাপুন
+      <kbd>Tab</kbd>: ফোকাস প্রতিটি নিয়ন্ত্রণের মধ্য দিয়ে যায়, লেবেল ঘোষিত হয় এবং জমা দেওয়া কাজ করে। আচরণ সম্পূর্ণ; চেহারা আপনার, আর সেটাই পরবর্তী ধাপ।
+    </p>
+  </div>
+
+  <h2>ধাপ ৪ — স্টাইল দিন</h2>
+  <p>
+    হুকগুলোতে স্টাইল দিন — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — আপনার স্টাইলশিটে, অথবা আপনার মূল বিন্যাসে একটি তৈরি থিম লিংক করুন:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>ধাপ ৫ — সবকিছু কাজ করতে দেখুন</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy উদাহরণ অ্যাপ</a> প্রতিটি কম্পোনেন্টের প্রদর্শন পাতাসহ পূর্ণ ক্যাটালগকে স্থির সাইট হিসেবে তৈরি করে:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>পরবর্তী ধাপ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">থিম</a> — ঝিলিকহীন SSR থিম বদলের জন্য Eleventy কুকি প্যাটার্নসহ।</li>
+    <li><a href="/tutorials/helpers/">পছন্দ সহায়ক</a> — ভাষা ও লেখার আকার।</li>
+    <li><a href="/components/">কম্পোনেন্ট ক্যাটালগ</a> — প্রতিটি কম্পোনেন্টের বৈশিষ্ট্য, ARIA ও কিবোর্ড।</li>
+  </ul>
+  <p>
+    পথে প্রশ্ন আছে?
+    <a href="/help/#troubleshooting">সহায়তা পাতা</a> উত্তরে ভরা — আর কোনো ধাপ আরও পরিষ্কার হতে পারলে,
+    <a href="https://github.com/LilyDesignSystem">আমাদের জানান</a> আর আমরা খুশি মনে টিউটোরিয়াল উন্নত করব।
+  </p>
+</section>

@@ -1,0 +1,136 @@
+<!-- title: Tutorial — Lily Design System -->
+<!-- description: Tutorial Lily langkah demi langkah: komponèn kapisan sampéyan, nggaya, tema siap, lan pembantu preferensi — kanggo HTML, Svelte, React, Vue, Angular, Blazor, lan Nunjucks. -->
+<section class="page-intro">
+  <h1>Sinau Lily, langkah demi langkah</h1>
+  <p class="page-intro-tagline">
+    Sugeng rawuh! Saben tutorial diwiwiti saka nol lan mbangun bab cilik sing padha — formulir sing bisa diaksès lan digayani — ing kira-kira 10 menit, supaya sampéyan bisa mbandhingaké framework kanthi imbang. Banjur luwih jero karo tema lan preferensi pangguna.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Sadurungé miwiti</h2>
+  <p>Sampéyan butuh sithik banget:</p>
+  <ul>
+    <li>
+      <strong>Kanggo tutorial HTML</strong> — mung browser lan panyunting tèks. Kuwi kabèh kothak pirantiné.
+    </li>
+    <li>
+      <strong>Kanggo Svelte, React, Vue, Angular, utawa Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26, lan pnpm 10 utawa luwih anyar.
+    </li>
+    <li>
+      <strong>Kanggo Blazor</strong> — git lan
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 utawa luwih anyar.
+    </li>
+  </ul>
+  <p>
+    Anyar karo komponèn tanpa sirah? Sampéyan ana ing panggonan sing bener — saben tutorial njlèntrèhaké apa sing kelakon, lan saben langkah nuduhaké kode pas sing kudu disalin.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Papat langkah saka nol nganti dirilis</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Komponèn kapisan sampéyan</strong> (~5 menit) — pilih framework sampéyan ing ngisor, jupuk kodené, lan render Button.
+      </li>
+      <li>
+        <strong>Rakit lan gaya</strong> (~5 menit) — bangun formulir kanthi labèl lan gayani nganggo pancingan kelas kebab-case (bagéan saka saben tutorial framework).
+      </li>
+      <li>
+        <strong>Wènèhana tema</strong> (~15 menit) — ganti CSS tulisan tangan sampéyan nganggo salah siji saka 57 tema siap, banjur supaya pangguna ngganti nalika mlaku: <a href="/tutorials/theming/">tutorial tema</a>.
+      </li>
+      <li>
+        <strong>Ajènana preferensi</strong> (~15 menit) — tambahna pilihan basa lan ukuran tèks nganggo pembantu preferensi:
+        <a href="/tutorials/helpers/">tutorial pembantu</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Pilih framework sampéyan</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Salinen HTML semantik nganggo pancingan kelas lan lanjutna — browser lan panyunting wis cukup.</p>
+      <p class="card-meta">~10 menit · wiwitan paling gampang</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Rune Svelte 5, snippet, lan pangiketan rong arah nganggo <code>bind:value</code> .</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Komponèn fungsi nganggo <code>value</code> + <code>onChange</code> lan panyebaran properti sisa.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Komponèn siji-berkas Vue 3 kanthi dhukungan <code>v-model</code> .</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Komponèn mandiri Angular nganggo input sinyal lan <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Komponèn Razor nganggo parameter, <code>ChildContent</code>lan tés bUnit.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Makro sing dirender ing server kanggo Eleventy lan pipeline templat Node apa waé.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Bingung milih? Wiwiti karo <a href="/tutorials/html/">HTML</a> — mulangaké kontrak pancingan kelas sing dienggo bareng kabèh framework liyané, lan mlaku langsung saka berkas.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Luwih jero</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Tema</h3>
+      <p class="card-description">
+        Sambungna salah siji saka 57 tema siap — NHS, GOV.UK, USWDS, padhang, peteng, lan liyané — timpanana nganggo CSS sampéyan dhéwé, lan tambahna ganti tema nalika mlaku nganggo pembantu theme-picker.
+      </p>
+      <p class="card-meta">~15 menit</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Pembantu preferensi</h3>
+      <p class="card-description">
+        Wènèhana pangguna kontrol tema, basa, ukuran tèks, gerakan, panelusuran, tautan kaca, nuduhaké, lan input tanggal/wektu nganggo theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker, lan date-time-picker: kontrol tanpa sirah kanthi persistensi, keamanan SSR, lan deteksi RTL otomatis.
+      </p>
+      <p class="card-meta">~15 menit</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Sawisé tutorial</h2>
+  <ul>
+    <li>
+      Jelajahi <a href="/components/">katalog komponèn</a> — saben komponèn ndokumentasiaké properti, kontrak ARIA, lan prilaku keyboardé.
+    </li>
+    <li>
+      Kloning <a href="/examples/">aplikasi conto</a> kanggo ndeleng kabèh 571 komponèn digayani lan makarya bebarengan — CSS nargetaké pancingan kelas sing padha karo sing lagi waé sampéyan enggo, dadi salinen bagéan apa waé menyang proyèk sampéyan lan setèlen manut kekarepan.
+    </li>
+    <li>
+      Pitakon? <a href="/help/">Kaca bantuan</a> duwé wangsulan, FAQ, lan cara tekan manungsa sing ramah. Lan yèn tutorial bisa luwih cetha,
+      <a href="https://github.com/LilyDesignSystem">kandhanana kita</a> — kita bakal seneng nambahi.
+    </li>
+  </ul>
+</section>

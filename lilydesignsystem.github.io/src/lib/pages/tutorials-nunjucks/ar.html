@@ -1,0 +1,97 @@
+<!-- title: دليل Nunjucks — Lily Design System -->
+<!-- description: ابنِ صفحات سهلة الوصول ومنسَّقة ومعروضة على الخادم بماكرو Nunjucks من Lily — مثالية لـ Eleventy. -->
+<section class="page-intro">
+  <h1>دليل Nunjucks</h1>
+  <p class="page-intro-tagline">
+    ماكرو معروضة على الخادم لـ Eleventy أو Express أو أي خط قوالب في Node — نهج بأسلوب GOV.UK، مع فهرس Lily وخطّافات الأصناف.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج اتصال صغير معروض على الخادم — حقل بتسمية، زر إرسال، صفر حمولة JavaScript — عاريًا أولًا ثم منسَّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى git وNode 22 أو أحدث وpnpm 10 أو أحدث. يصلح أي خط Nunjucks — Eleventy أو Express أو Nunjucks العادي.
+  </p>
+
+  <h2>الخطوة 1 — احصل على الشيفرة</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    كل مكوّن مجلد في <code>components/</code> مع
+    <code>macro.njk</code>واختباره ووثائقه — مثلًا
+    <code>components/button/macro.njk</code>. وجّه محمِّل Nunjucks لديك إلى
+    <code>components/</code> (في Eleventy أضفه إلى مسار includes) واستورد ما تحتاجه.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    يعرض <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. تأخذ الماكرو كائن params واحدًا: <code>text</code> (مُهرَّب) أو
+    <code>html</code> (خام)، <code>type</code>, <code>label</code> لـ
+    <code>aria-label</code>ومُلحِق خطّاف صنف.
+  </p>
+
+  <h2>الخطوة 3 — ركّب نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    ولأن كل شيء يُعرض على الخادم، يتلقى المتصفح HTML دلاليًا خالصًا بخطّافات الأصناف — حمولة JavaScript بصفر بايت.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقق من عملك:</strong> حمّل الصفحة فيبدو النموذج بسيطًا — تمامًا كما هو مقصود: التنسيق لا يزال قادمًا. اضغط
+      <kbd>Tab</kbd>: ينتقل التركيز عبر كل عنصر تحكم، وتُعلن التسمية، ويعمل الإرسال. السلوك مكتمل؛ والمظهر لك وهو الخطوة التالية.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسِّقه</h2>
+  <p>
+    نسِّق الخطّافات — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — في ورقة الأنماط لديك، أو اربط سمة جاهزة في تخطيطك الأساسي:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>الخطوة 5 — شاهد كل شيء يعمل</h2>
+  <p>
+     <a href="/examples/">تطبيق المثال Nunjucks + Eleventy</a> يبني الفهرس الكامل موقعًا ساكنًا بصفحات عرض لكل مكوّن:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">السمات</a> — بما فيه نمط ملفات تعريف الارتباط في Eleventy لتبديل سمة SSR دون وميض.</li>
+    <li><a href="/tutorials/helpers/">مساعدات التفضيلات</a> — اللغة وحجم النص.</li>
+    <li><a href="/components/">فهرس المكوّنات</a> — الخصائص وARIA ولوحة المفاتيح لكل مكوّن.</li>
+  </ul>
+  <p>
+    أسئلة في الطريق؟
+    <a href="/help/#troubleshooting">صفحة المساعدة</a> مليئة بالإجابات — وإن أمكن توضيح خطوة أكثر،
+    <a href="https://github.com/LilyDesignSystem">أخبرنا</a> وسنحسّن الدليل بكل سرور.
+  </p>
+</section>

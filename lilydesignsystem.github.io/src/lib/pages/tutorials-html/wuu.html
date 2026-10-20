@@ -1,0 +1,105 @@
+<!-- title: HTML 教程 — Lily Design System -->
+<!-- description: 使用 Lily 个 HTML headless 组件构建一个无障碍、带样式个表单——纯标记，直接来自文件。 -->
+<section class="page-intro">
+  <h1>HTML 教程</h1>
+  <p class="page-intro-tagline">
+    最简单个起步方式：复制带有 Lily 类名钩子个语义化 HTML，加一份样式表，然后发布。纯文件，凡是能运行 HTML 个地方侪能用。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>侬将构建啥</h2>
+  <p>
+    一个小型联系表单——带标签个输入框、提交按钮，以及真实个键盘搭屏幕阅读器行为——先是勿带样式个版本，再加上样式，大约 10 分钟完成。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    侬只需要一个浏览器搭一个文本编辑器。仅此而已。（git 有助于获取组件文件，但侬也可以在浏览器里从 GitHub 上复制伊拉。）
+  </p>
+
+  <h2>第 1 步——获取代码</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    每个组件侪是 <code>components/</code> 中个一个独立文件——
+    <code>button.html</code>、<code>text-input.html</code>，依此类推——文件头部个注释说明了伊个 HTML 标签、类名钩子、键盘行为搭无障碍约定。搿眼文件<em>就是</em>组件库——复制侬需要个，直接开始即可。
+  </p>
+
+  <h2>第 2 步——侬个第一个组件</h2>
+  <p>打开 <code>components/button.html</code>，或者直接写出标记——类名钩子就是约定：</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    因为伊是真正个 <code>&lt;button&gt;</code>，键盘焦点、Enter 搭 Space 激活，以及隐含个按钮角色侪已经是正确个。
+  </p>
+
+  <h2>第 3 步——组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    请注意搿个模式：每个控件侪关联伊个 <code>&lt;label for&gt;</code>，使用最具体个输入类型，并且恰好带有一个 kebab-case 类名钩子。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查侬个成果：</strong>在浏览器中打开页面。伊看起来老朴素——这正是预期：样式还在后面。按下
+      <kbd>Tab</kbd>：焦点会依次经过每个控件，标签会被朗读，提交也能正常工作。行为已经完成；外观由侬决定，这就是下一步。
+    </p>
+  </div>
+
+  <h2>第 4 步——添加样式</h2>
+  <p>针对搿眼钩子编写 CSS：</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    或者完全勿用手写 CSS——链接 45 套现成主题之一，同样个标记就会焕然一新：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>第 5 步——进一步探索</h2>
+  <ul>
+    <li>仓库个测试在真实浏览器中运行：<code>pnpm install &amp;&amp; pnpm test</code>（WebDriverIO）。</li>
+    <li>每个组件侪有 Storybook：<code>pnpm run storybook</code>。</li>
+    <li>
+      <a href="/examples/">HTML+CSS+JS 示例应用</a>展示全部 571 个组件，带样式、可搜索并有演示。
+    </li>
+  </ul>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">主题</a>——用 theme-picker 在运行时切换主题。</li>
+    <li><a href="/tutorials/helpers/">偏好设置辅助包</a>——语言与文字大小。</li>
+    <li><a href="/components/">组件目录</a>——完整参考。</li>
+  </ul>
+  <p>
+    过程中有疑问？<a href="/help/#troubleshooting">帮助页面</a>里有大量解答——如果某一步可以写得更清楚，
+    <a href="https://github.com/LilyDesignSystem">请告诉阿拉</a>，阿拉老乐意改进教程。
+  </p>
+</section>

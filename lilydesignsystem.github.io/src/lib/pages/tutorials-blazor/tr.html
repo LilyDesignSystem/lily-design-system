@@ -1,0 +1,107 @@
+<!-- title: Blazor eğitimi — Lily Design System -->
+<!-- description: Lily'nin Blazor başsız bileşenleriyle erişilebilir, biçimlendirilmiş bir form oluşturun: parametreli ve bUnit testli Razor bileşenleri. -->
+<section class="page-intro">
+  <h1>Blazor eğitimi</h1>
+  <p class="page-intro-tagline">
+    Parametreli Razor sınıf kitaplığı bileşenleri, <code>ChildContent</code>
+    render fragment'lar, öznitelik dağıtımı ve bileşen başına bir bUnit testi.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ne oluşturacaksınız</h2>
+  <p>
+    Küçük bir iletişim formu — etiketli girdi, gönder düğmesi,
+    <code>@bind-Value</code> bağlama, gerçek klavye ve ekran okuyucu davranışı — önce çıplak, sonra biçimlendirilmiş olarak, yaklaşık 10 dakikada.
+  </p>
+
+  <h2>Başlamadan önce</h2>
+  <p>
+    git ve .NET SDK 8 veya üstü gerekir. Herhangi bir Blazor projesi olur — Blazor Web App, Server veya WebAssembly.
+  </p>
+
+  <h2>Adım 1 — Kodu edinin</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Bileşenler şurada bulunur: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — her biri tek bir Razor dosyası. Blazor uygulamanızdan projeye başvurun (veya dosyaları kopyalayın) ve şunu ekleyin: <code>@using LilyBlazorHeadless.Components</code> şuraya:
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Adım 2 — İlk bileşeniniz</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Şunu işler: <code>&lt;button class="button"&gt;</code>. Ortak parametre kuralları: <code>Label</code> ( <code>aria-label</code> geçersiz kılmak),
+    <code>CssClass</code> (temel kancaya eklenir),
+    <code>ChildContent</code>ve
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> öznitelik dağıtımı sayesinde fazladan her HTML özniteliği geçirilir.
+  </p>
+
+  <h2>Adım 3 — Küçük bir form oluşturun</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> görünür <code>Label</code> değerini iç içe bir etiket bileşeni yerine kendi parametresi olarak alır — bir kez geçirin,
+    <code>Field</code>ve <code>TextInput</code>ile eşleşen
+    <code>Label</code> erişilebilir adı sağlar.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29'da doğrulandı:</strong> önceki bir taslak <code>Label</code> içine ayrı bir <code>Field</code>bileşeni yerleştirmişti; bu da <em>iki</em> etiket (biri boş) işlenmesine yol açtı, çünkü <code>Field</code>
+      kendi etiketini zaten <code>Label</code> parametresi — bileşen kaynağı kontrol edilerek yakalandı; <code>Form</code> kendisinde <code>Label</code> parametresi yoktur, bu yüzden önceki taslaktaki
+      <code>&lt;Form&gt;</code> kullanımı, var olmayan bir öznitelik uydurmak yerine onsuz olacak şekilde düzeltildi.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Bileşik iletişim formu rotası</a>
+      aynı kalıptır ve gerçek e2e ve axe testleriyle sınanır.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Çalışmanızı kontrol edin:</strong> uygulamayı çalıştırın; form sade görünür — tam olarak amaçlandığı gibi: biçimlendirme henüz ileride. Şuna basın:
+      <kbd>Tab</kbd>: odak her denetimde ilerler, etiket duyurulur ve gönderme çalışır. Davranış tamam; görünüm sizin ve sıradaki adım.
+    </p>
+  </div>
+
+  <h2>Adım 4 — Biçimlendirin</h2>
+  <p>
+    Sınıf kancalarını biçimlendirin — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — şurada: <code>app.css</code>, ya da hazır bir temayı şurada bağlayın: <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Adım 5 — Hepsinin çalıştığını görün</h2>
+  <p>
+     <a href="/examples/">Blazor Web örnek uygulaması</a> tüm kataloğu biçimli ve demolu olarak, Playwright e2e testleriyle birlikte gösterir:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Sonraki adımlar</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temalar</a> — Blazor theme-picker yardımcısıyla çalışma anında geçiş (NuGet üzerinde bir Razor sınıf kitaplığı).</li>
+    <li><a href="/tutorials/helpers/">Tercih yardımcıları</a> — dil ve metin boyutu.</li>
+    <li><a href="/components/">Bileşen kataloğu</a> — bileşen başına özellikler, ARIA ve klavye.</li>
+  </ul>
+  <p>
+    Yol boyunca sorunuz mu var?
+    <a href="/help/#troubleshooting">Yardım sayfası</a> yanıtlarla dolu — ve bir adım daha açık olabilirse,
+    <a href="https://github.com/LilyDesignSystem">bize söyleyin</a> ve eğitimi memnuniyetle iyileştirelim.
+  </p>
+</section>

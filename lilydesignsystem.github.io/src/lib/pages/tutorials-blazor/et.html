@@ -1,0 +1,107 @@
+<!-- title: Blazori õpetus — Lily Design System -->
+<!-- description: Ehita ligipääsetav, kujundatud vorm Lily Blazori peata komponentidega: Razor-komponendid parameetrite ja bUnit-testidega. -->
+<section class="page-intro">
+  <h1>Blazori õpetus</h1>
+  <p class="page-intro-tagline">
+    Razor-klasside teegi komponendid parameetritega, <code>ChildContent</code>
+    renderdusfragmendid, atribuutide laiali jagamine ja üks bUnit-test komponendi kohta.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mida sa ehitad</h2>
+  <p>
+    Väike kontaktivorm — sildiga väli, saatmisnupp,
+    <code>@bind-Value</code> sidumine, tõeline klaviatuuri- ja ekraanilugeja käitumine — esmalt paljas, seejärel kujundatud, umbes 10 minutiga.
+  </p>
+
+  <h2>Enne alustamist</h2>
+  <p>
+    Vaja on gitti ja .NET SDK 8 või uuemat. Sobib iga Blazori projekt — Blazor Web App, Server või WebAssembly.
+  </p>
+
+  <h2>Samm 1 — Hangi kood</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Komponendid asuvad kaustas <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — igaüks üks Razor-fail. Viita projektile (või kopeeri failid) oma Blazori rakendusest ja lisa <code>@using LilyBlazorHeadless.Components</code> faili
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Samm 2 — Sinu esimene komponent</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Renderdab <code>&lt;button class="button"&gt;</code>. Ühised parameetrikokkulepped: <code>Label</code> ( <code>aria-label</code> ülekirjutamiseks),
+    <code>CssClass</code> (lisatakse baaskonksule),
+    <code>ChildContent</code>ja
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> atribuutide laiali jagamine, et iga lisa-HTML-atribuut läbi läheks.
+  </p>
+
+  <h2>Samm 3 — Kombineeri väike vorm</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> võtab nähtava <code>Label</code> oma parameetrina pesastatud sildikomponendi asemel — anna see üks kord edasi, elemendile
+    <code>Field</code>ja <code>TextInput</code>elemendist
+    <code>Label</code> annab ligipääsetava nime.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollitud 2026-08-29:</strong> varasem mustand pesastas eraldi <code>Label</code> komponendi elementi <code>Field</code>, mis renderdab <em>kaks</em> silti (üks tühi), sest <code>Field</code>
+      renderdab juba oma sildi <code>Label</code> parameeter — avastatud komponendi lähtekoodi kontrollides; <code>Form</code> ise ei oma <code>Label</code> parameetrit, nii et varasema mustandi
+      <code>&lt;Form&gt;</code> kasutus parandati selle ära jätmiseks, selle asemel et välja mõelda olematu atribuut.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Koostatud kontaktivormi marsruut</a>
+      on sama muster, proovitud päris e2e- ja axe-testidega.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolli oma tööd:</strong> käivita rakendus ja vorm paistab paljas — täpselt nagu ette nähtud: kujundamine on alles ees. Vajuta
+      <kbd>Tab</kbd>: fookus liigub läbi iga juhtelemendi, silt kuulutatakse ette ja saatmine töötab. Käitumine on valmis; välimus on sinu ja järgmine samm.
+    </p>
+  </div>
+
+  <h2>Samm 4 — Kujunda see</h2>
+  <p>
+    Kujunda klassikonksud — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — failis <code>app.css</code>või lingi valmis teema failis <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Samm 5 — Vaata kõike töötamas</h2>
+  <p>
+     <a href="/examples/">Blazor Web näiterakendus</a> näitab kogu kataloogi kujundatuna ja demonstreeritult, Playwright e2e-testidega:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Järgmised sammud</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemad</a> — vahetamine töö ajal Blazori theme-picker abiga (Razor-klasside teek NuGetis).</li>
+    <li><a href="/tutorials/helpers/">Eelistuste abilised</a> — keel ja teksti suurus.</li>
+    <li><a href="/components/">Komponentide kataloog</a> — omadused, ARIA ja klaviatuur komponendi kohta.</li>
+  </ul>
+  <p>
+    Küsimusi teel?
+    <a href="/help/#troubleshooting">Abileht</a> on täis vastuseid — ja kui mõni samm saaks olla selgem,
+    <a href="https://github.com/LilyDesignSystem">anna meile teada</a> ja me parandame õpetust hea meelega.
+  </p>
+</section>

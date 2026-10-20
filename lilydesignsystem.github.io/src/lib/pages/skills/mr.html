@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills Claude Code ला Lily Design System मध्ये निवडक, लोड करता येण्याजोगा प्रवेश बिंदू देतात — सामान्य संकल्पना, प्रति-फ्रेमवर्क छत्री कौशल्ये आणि हेडलेस लायब्ररी व *-picker सहाय्यकांसाठी प्रति-उप-प्रकल्प सखोल कौशल्ये. -->
+<section class="page-intro">
+  <h1>AI एजंटवरील कौशल्ये Lily ला आणखी सोपे करतात</h1>
+  <p class="page-intro-tagline">
+    Lily केंद्रित कौशल्ये पुरवते — सामान्य, प्रति-फ्रेमवर्क आणि प्रति-उप-प्रकल्प — म्हणजे एजंट नेमका त्याला लागणारा संदर्भ लोड करतो आणि नको असलेले काहीही नाही.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>तुम्हाला कोणते कौशल्य हवे?</h2>
+  <p>
+    प्रत्येक स्तर वेगळ्या प्रश्नाचे उत्तर देतो. तुम्ही Lily अजून ओळखत नसाल तेव्हा सामान्य कौशल्य लोड करा. तुम्ही तुमचा फ्रेमवर्क ओळखता पण तुम्हाला कोणता उप-प्रकल्प हवा ते माहीत नसेल तेव्हा फ्रेमवर्क कौशल्य लोड करा. तुम्ही कशावर काम करत आहात ते नेमके माहीत असेल तेव्हा headless-skill किंवा helpers-skill थेट लोड करा.
+  </p>
+
+  <ul>
+    <li>
+      <strong>सामान्य / देखभालकर्ता</strong> — “Lily म्हणजे काय?” / “हा मोनोरेपो कसा रचला आहे?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>फ्रेमवर्क छत्री</strong> — “{framework} साठी काय उपलब्ध आहे, आणि मला कोणता भाग हवा?” — 8, प्रत्येकासाठी एक <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>हेडलेस / सहाय्यक</strong> — “मी {framework} चे घटक / *-picker सहाय्यक नेमके कसे वापरू?” — 16, प्रत्येकासाठी एक <code>{framework}-headless-skill</code> आणि एक <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>आठ फ्रेमवर्क</h2>
+  <p>
+    प्रत्येक फ्रेमवर्कला तोच तीन-स्तरीय स्टॅक मिळतो. छत्री कौशल्य त्या फ्रेमवर्कचे सर्व वास्तविक उप-प्रकल्प मांडते — उदाहरण अॅपसह, जे त्याच्या दोन्ही भावंड कौशल्यांपैकी कोणतेही व्यापत नाही — आणि त्यांचे करार पुन्हा न सांगता त्यांच्याकडे खाली निर्देश करते.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>फ्रेमवर्क</th>
+        <th>छत्री</th>
+        <th>हेडलेस</th>
+        <th>सहाय्यक</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">कौशल्य</a></td>
+        <td><a aria-label="Angular हेडलेस कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">कौशल्य</a></td>
+        <td><a aria-label="Angular सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">कौशल्य</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">कौशल्य</a></td>
+        <td><a aria-label="Blazor हेडलेस कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">कौशल्य</a></td>
+        <td><a aria-label="Blazor सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">कौशल्य</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">कौशल्य</a></td>
+        <td><a aria-label="HTML हेडलेस कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">कौशल्य</a></td>
+        <td><a aria-label="HTML सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">कौशल्य</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">कौशल्य</a></td>
+        <td><a aria-label="Nunjucks हेडलेस कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">कौशल्य</a></td>
+        <td><a aria-label="Nunjucks सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">कौशल्य</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">कौशल्य</a></td>
+        <td><a aria-label="React हेडलेस कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">कौशल्य</a></td>
+        <td><a aria-label="React सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">कौशल्य</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">कौशल्य</a></td>
+        <td><a aria-label="Svelte हेडलेस कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">कौशल्य</a></td>
+        <td><a aria-label="Svelte सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">कौशल्य</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">कौशल्य</a></td>
+        <td><a aria-label="Vue हेडलेस कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">कौशल्य</a></td>
+        <td><a aria-label="Vue सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">कौशल्य</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components छत्री कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">कौशल्य</a></td>
+        <td>
+          <a
+            aria-label="Web Components हेडलेस कौशल्य"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >कौशल्य</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components सहाय्यक कौशल्य" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">कौशल्य</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components हा दोन्ही दिशांमध्ये एकमेव अपवाद आहे: त्याच्या हेडलेस कॅटलॉगची व्याप्ती 571 पैकी 536 अशी जाणीवपूर्वक आहे (मूळ कस्टम घटक, फ्रेमवर्क रनटाइम नाही; उर्वरित 35 घटक कायमचे वगळलेले आहेत), आणि अद्याप Web Components उदाहरण अॅप नाही — त्याचे छत्री कौशल्य एक आहे असे सुचवण्याऐवजी हे सांगते.
+  </p>
+
+  <h2>एक कौशल्य जोडा</h2>
+  <p>
+    प्रत्येक कौशल्य एक <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> फाइल आहे — शिवाय सहाय्यक फाइल, बिल्ड पायरी नाही. तुम्हाला हवे ते तिथे क्लोन करा जिथून तुमचा Claude Code सेटअप कौशल्ये लोड करतो (तुमच्या प्रकल्पाच्या किंवा खात्याच्या कौशल्य निर्देशिकेसाठी वर दिलेले अधिकृत दस्तऐवज पहा):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    अनेक फ्रेमवर्कमध्ये, किंवा मोनोरेपोवरच काम करत आहात? त्याऐवजी <a href="https://github.com/LilyDesignSystem/lily-design-system">प्रमाणित मोनोरेपो</a> क्लोन करा — सर्व 26 कौशल्ये आधीच त्याच्या मुळावर आहेत, ज्यांचे वर्णन ती करतात त्या हेडलेस लायब्ररी, सहाय्यक कॅटलॉग आणि उदाहरण अॅप्सच्या शेजारी.
+  </p>
+</section>

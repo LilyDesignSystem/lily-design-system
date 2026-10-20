@@ -1,0 +1,63 @@
+<!-- title: Přístupnost — Lily Design System -->
+<!-- description: Prohlášení o přístupnosti Lily: co zde znamená mířit na WCAG 2.2 AAA — co je ověřováno, čím, co neověřuje nic a jak nahlásit problém. -->
+<section class="page-intro">
+  <h1>Co zde znamená „míří na WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Slovo <em>míří</em> je zvoleno záměrně. Tato stránka přesně říká, co je ověřováno, čím, co neověřuje nic a co hodláme s touto mezerou udělat. Lily nikdy netvrdí „shodu” s WCAG — žádný audit ji nepodporuje.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Ověřováno průběžně</h2>
+  <ul>
+    <li>
+      Kanonický sémantický prvek, atributy ARIA a háčky tříd každé komponenty — potvrzované sadami jednotkových testů pro každý framework (přes 15 000 případů v sedmi frameworcích).
+    </li>
+    <li>
+      Každá z 571 ukázkových stránek komponent v ukázkové aplikaci SvelteKit je čistá podle axe (sady pravidel WCAG 2.0/2.1 A+AA a 2.2 AA) — průchod celým katalogem, poprvé zaveden jako základ 2026-08-27 a znovu spuštěn 2026-10-06 — plus základy pro každou aplikaci pro domovskou stránku, katalog a složené trasy ve všech sedmi ukázkových aplikacích.
+    </li>
+    <li>
+      Smlouvy s klávesnicí pro každou interaktivní komponentu, zdokumentované v kanonických metadatech každé komponenty a ověřované sadami; balíčky pomocníků navíc spouštějí specifikace Playwright ve skutečných prohlížečích.
+    </li>
+    <li>
+      Spodní meze velikosti cíle dle WCAG 2.2 a ochrany proti přetečení ve všech 57 motivech; odkaz pro přeskočení, orientační body a žádné vodorovné přetečení ve čtyřech viewportech na aplikaci; <code>lang</code>/<code>dir</code> použití včetně převrácení RTL.
+    </li>
+  </ul>
+
+  <h2>Neověřeno ničím</h2>
+  <ul>
+    <li>
+      <strong>Nikdy nebyl proveden audit shody.</strong> Žádný VPAT, žádná certifikace. Automatické nástroje pokrývají menšinu kritérií úspěšnosti WCAG.
+    </li>
+    <li>
+      Kritéria specifická pro AAA (zvýšený kontrast a další) jsou návrhové záměry, ne ověřené vlastnosti; sady pravidel axe běží na úrovni A/AA. Zvláštní vysokokontrastní motiv zatím neexistuje.
+    </li>
+    <li>
+      <strong>Chování čteček obrazovky je převážně netestované.</strong> Sady potvrzují atributy ARIA, ne to, co VoiceOver, NVDA nebo JAWS oznamují — a tento projekt už víckrát vydal zelené sady nad skutečnými vadami, z nichž každá je zapsána ve změnovém logu právě proto, že je sady nemohly vidět.
+    </li>
+  </ul>
+
+  <h2>Co s tím hodláme dělat</h2>
+  <p>
+    Nezávislý audit přístupnosti je prvním jmenovaným použitím jakéhokoli financování projektu a rozsah, který auditor potřebuje, je již připraven. Do té doby jsou hlášení od čteček obrazovky příspěvkem, který tento projekt chce nejvíc: „komponenta X oznamuje Y, což je špatně, protože Z” je přímo použitelné.
+  </p>
+
+  <h2>Nahlaste problém</h2>
+  <p>
+    Otevřete issue na
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    nebo pošlete e-mail na
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Uvedení kritéria WCAG pomáhá, ale není povinné — „nemohl jsem ovládat X klávesnicí” je úplné hlášení.
+  </p>
+  <p>
+    Úplné prohlášení s ověřovací tabulkou a historií revizí je v repozitáři:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

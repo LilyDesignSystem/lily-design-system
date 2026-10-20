@@ -1,0 +1,63 @@
+<!-- title: Pristupačnost — Lily Design System -->
+<!-- description: Izjava o pristupačnosti Lilyja: što ovdje znači ciljati na WCAG 2.2 AAA — što se provjerava, čime, što ne provjerava ništa i kako prijaviti problem. -->
+<section class="page-intro">
+  <h1>Što ovdje znači „cilja na WCAG 2.2 AAA”</h1>
+  <p class="page-intro-tagline">
+    Riječ <em>cilja</em> odabrana je namjerno. Ova stranica točno kaže što se provjerava, čime, što ne provjerava ništa i što namjeravamo učiniti u vezi s tom prazninom. Lily nikada ne tvrdi WCAG „sukladnost” — nijedna revizija je ne podupire.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Provjereno kontinuirano</h2>
+  <ul>
+    <li>
+      Kanonski semantički element, ARIA atributi i kuke klasa svake komponente — potvrđeni skupovima jediničnih testova po frameworku (više od 15.000 slučajeva u sedam frameworka).
+    </li>
+    <li>
+      Svaka od 571 demo stranice komponenti u SvelteKit primjeru aplikacije čista je po axeu (skupovi pravila WCAG 2.0/2.1 A+AA i 2.2 AA) — pregled cijelog kataloga, prvi put postavljen kao osnovica 2026-08-27 i ponovno pokrenut 2026-10-06 — plus osnovice po aplikaciji za početnu stranicu, katalog i složene rute u svih sedam primjera aplikacija.
+    </li>
+    <li>
+      Ugovori o tipkovnici po interaktivnoj komponenti, dokumentirani u kanonskim metapodacima svake komponente i provjeravani skupovima; paketi pomoćnika dodatno pokreću Playwright specifikacije u stvarnim preglednicima.
+    </li>
+    <li>
+      Donje granice veličine cilja prema WCAG 2.2 i zaštite od preljeva u svih 57 tema; poveznica za preskakanje, orijentiri i bez vodoravnog preljeva u četiri viewporta po aplikaciji; <code>lang</code>/<code>dir</code> primjena, uključujući RTL preokret.
+    </li>
+  </ul>
+
+  <h2>Ne provjerava ništa</h2>
+  <ul>
+    <li>
+      <strong>Nikada nije provedena revizija sukladnosti.</strong> Nema VPAT-a, nema certifikacije. Automatizirani alati pokrivaju manjinu WCAG kriterija uspješnosti.
+    </li>
+    <li>
+      Kriteriji specifični za AAA (poboljšani kontrast i drugi) dizajnerske su namjere, a ne provjerena svojstva; axe skupovi pravila izvode se za A/AA. Još nema posebne teme visokog kontrasta.
+    </li>
+    <li>
+      <strong>Ponašanje čitača zaslona uglavnom je neprovjereno.</strong> Skupovi potvrđuju ARIA atribute, a ne ono što VoiceOver, NVDA ili JAWS izgovaraju — a ovaj je projekt više puta isporučio zelene skupove preko stvarnih nedostataka, od kojih je svaki zabilježen u dnevniku promjena upravo zato što ih skupovi nisu mogli vidjeti.
+    </li>
+  </ul>
+
+  <h2>Što namjeravamo učiniti u vezi s tim</h2>
+  <p>
+    Neovisna revizija pristupačnosti prva je imenovana namjena bilo kakvog financiranja projekta, a opseg koji revizoru treba već je pripremljen. Do tada su izvješća s čitača zaslona doprinos koji ovaj projekt najviše želi: „komponenta X izgovara Y, što je pogrešno jer Z” izravno je primjenjivo.
+  </p>
+
+  <h2>Prijavite problem</h2>
+  <p>
+    Otvorite issue na
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    ili pošaljite e-poštu na
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Navođenje WCAG kriterija pomaže, ali nije obvezno — „nisam mogao upravljati X tipkovnicom” potpuno je izvješće.
+  </p>
+  <p>
+    Potpuna izjava, s tablicom provjere i poviješću pregleda, nalazi se u repozitoriju:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

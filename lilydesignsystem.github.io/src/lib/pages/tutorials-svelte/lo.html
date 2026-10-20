@@ -1,0 +1,117 @@
+<!-- title: ບົດສອນ Svelte — Lily Design System -->
+<!-- description: ສ້າງແບບຟອມທີ່ເຂົ້າເຖິງໄດ້ງ່າຍ ແລະມີຮູບແບບດ້ວຍອົງປະກອບແບບບໍ່ມີຫົວ Svelte 5 ຂອງ Lily: runes, snippets ແລະ bind:value. -->
+<section class="page-intro">
+  <h1>ບົດສອນ Svelte</h1>
+  <p class="page-intro-tagline">
+    ໄລບຣາຣີ Svelte ຂອງ Lily ແມ່ນການນຳໃຊ້ມາດຕະຖານ: Svelte 5 runes, ຄຸນສົມບັດທີ່ມີຊະນິດ, ການກະຈາຍ rest-prop, ແລະການຜູກສອງທາງດ້ວຍ
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ສິ່ງທີ່ທ່ານຈະສ້າງ</h2>
+  <p>
+    ແບບຟອມຕິດຕໍ່ນ້ອຍໆ — ຊ່ອງປ້ອນທີ່ມີປ້າຍ, ປຸ່ມສົ່ງ, ການຜູກສອງທາງ, ພຶດຕິກຳແປ້ນພິມ ແລະໂປຣແກຣມອ່ານໜ້າຈໍຈິງ — ທຳອິດເປົ່າ, ຈາກນັ້ນມີຮູບແບບ, ໃນປະມານ 10 ນາທີ.
+  </p>
+
+  <h2>ກ່ອນທ່ານເລີ່ມ</h2>
+  <p>
+    ທ່ານຕ້ອງການ git, Node 22 ຫຼືໃໝ່ກວ່າ, ແລະ pnpm 10 ຫຼືໃໝ່ກວ່າ. ໂຄງການ Svelte 5 ໃດກໍໃຊ້ໄດ້ — ແອັບ <code>npx sv create</code> ສົດໆກໍພໍ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 1 — ເອົາໂຄດ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    ອົງປະກອບຢູ່ໃນ <code>src/lib/components/&#123;Name&#125;/</code>, ໜຶ່ງໄດເຣັກທໍຣີຕໍ່ອົງປະກອບພ້ອມໄຟລ໌ <code>.svelte</code> , ການທົດສອບ, stories ແລະເອກະສານຂອງມັນຄຽງຂ້າງກັນ. ສຳເນົາໄດເຣັກທໍຣີທີ່ທ່ານຕ້ອງການເຂົ້າແອັບຂອງທ່ານ, ຫຼືເພິ່ງພາຄັງແລະນຳເຂົ້າໂດຍກົງ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 2 — ອົງປະກອບທຳອິດຂອງທ່ານ</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    ສະແດງ <code>&lt;button class="button" type="button"&gt;</code>. ຄຸນສົມບັດມີຊະນິດ: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (ສະແດງ <code>aria-pressed</code> ສຳລັບປຸ່ມສະຫຼັບ), <code>label</code> ( <code>aria-label</code> ການແທນທີ່), ແລະຄຸນລັກສະນະພິເສດໃດໆກະຈາຍໃສ່ຮາກ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 3 — ປະກອບແບບຟອມນ້ອຍໆ</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> ເອົາ <code>label</code> ເປັນຄຸນສົມບັດຂອງຕົນເອງ ແທນທີ່ຈະເປັນອົງປະກອບປ້າຍທີ່ຊ້ອນກັນ — ສົ່ງຜ່ານຄັ້ງດຽວ, ທີ່ <code>Field</code>, ແລະ <code>TextInput</code>ທີ່ກົງກັນໃນ <code>label</code> ໃຫ້ຊື່ທີ່ເຂົ້າເຖິງໄດ້. <code>TextInput</code>'s <code>value</code> ເປັນ
+    <code>$bindable</code> ຄຸນສົມບັດ rune, ດັ່ງນັ້ນ <code>bind:value</code> ໃຫ້ທ່ານການຜູກສອງທາງທັນທີ.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດສອບແລ້ວ 2026-08-29:</strong> ສ່ວນທີ່ແນ່ນອນນີ້ຖືກຄອມໄພລ໌ຜ່ານ <code>svelte/server</code> ແລະກວດສອບສຳລັບໜຶ່ງ, ເຊື່ອມຕໍ່ຢ່າງຖືກຕ້ອງ <code>&lt;label for&gt;</code> — ຮ່າງກ່ອນໜ້າໄດ້ຊ້ອນແຍກຕ່າງຫາກ <code>Label</code> ພາຍໃນ <code>Field</code>, ເຊິ່ງສະແດງ
+      <em>ສອງ</em> ປ້າຍ (ອັນໜຶ່ງຫວ່າງ) ເພາະ <code>Field</code> ສະແດງຂອງຕົນເອງແລ້ວຈາກ <code>label</code> ຄຸນສົມບັດ.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">ເສັ້ນທາງແບບຟອມຕິດຕໍ່ແບບປະກອບ</a>
+      ເປັນຮູບແບບດຽວກັນ, ໃຊ້ດ້ວຍການທົດສອບ e2e ແລະ axe ຈິງ.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດງານຂອງທ່ານ:</strong> ແລ່ນແອັບ ແລະແບບຟອມເບິ່ງທຳມະດາ — ຕາມທີ່ຕັ້ງໃຈ: ການໃສ່ຮູບແບບຍັງຢູ່ຂ້າງໜ້າ. ກົດ
+      <kbd>Tab</kbd>: ຈຸດສຸມເຄື່ອນຜ່ານທຸກການຄວບຄຸມ, ປ້າຍຖືກປະກາດ ແລະການສົ່ງເຮັດວຽກ. ພຶດຕິກຳສຳເລັດແລ້ວ; ລັກສະນະເປັນຂອງທ່ານ ແລະເປັນຂັ້ນຕໍ່ໄປ.
+    </p>
+  </div>
+
+  <h2>ຂັ້ນຕອນ 4 — ໃສ່ຮູບແບບ</h2>
+  <p>
+    ທຸກຢ່າງຂ້າງເທິງສະແດງເປັນໂຄງສ້າງລ້ວນ, ພ້ອມສຳລັບຮູບແບບຂອງທ່ານ. ໃສ່ຮູບແບບ class hook —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — ໃນ stylesheet ສາກົນຂອງທ່ານ, ຫຼືເຊື່ອມຕໍ່ຮູບແບບສີສັນສຳເລັດຮູບໃນ <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    ການປັບແຕ່ງຕໍ່ instance ຜ່ານ <code>class</code> ຄຸນສົມບັດ, ເຊິ່ງຖືກຕໍ່ທ້າຍ base hook: <code>&lt;Button class="wide"&gt;</code> ສະແດງ
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 5 — ເບິ່ງທຸກຢ່າງເຮັດວຽກ</h2>
+  <p>
+     <a href="/examples/">ແອັບຕົວຢ່າງ SvelteKit</a> ແມ່ນແຄັດຕາລັອກດຽວກັນທີ່ມີຮູບແບບຄົບ, ພ້ອມການສາທິດສົດ, ການທົດສອບ Playwright e2e ແລະ axe-core accessibility baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ຂັ້ນຕອນຕໍ່ໄປ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ຮູບແບບສີສັນ</a> — ການສະຫຼັບຕອນແລ່ນດ້ວຍຕົວຊ່ວຍ Svelte theme-picker.</li>
+    <li><a href="/tutorials/helpers/">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a> — ພາສາ ແລະຂະໜາດຕົວອັກສອນ.</li>
+    <li><a href="/components/">ແຄັດຕາລັອກອົງປະກອບ</a> — ຄຸນສົມບັດ, ARIA ແລະແປ້ນພິມຕໍ່ອົງປະກອບ.</li>
+  </ul>
+  <p>
+    ມີຄຳຖາມລະຫວ່າງທາງບໍ?
+    <a href="/help/#troubleshooting">ໜ້າຊ່ວຍເຫຼືອ</a> ເຕັມໄປດ້ວຍຄຳຕອບ — ແລະຖ້າຂັ້ນຕອນໃດຊັດເຈນຂຶ້ນໄດ້,
+    <a href="https://github.com/LilyDesignSystem">ບອກພວກເຮົາ</a> ແລະພວກເຮົາຍິນດີປັບປຸງບົດສອນ.
+  </p>
+</section>

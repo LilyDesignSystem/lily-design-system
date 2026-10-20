@@ -1,0 +1,127 @@
+<!-- title: Tutorial Angular — Lily Design System -->
+<!-- description: Bina borang yang mudah diakses dan digayakan dengan komponen tanpa kepala Angular 20 Lily: komponen kendiri dengan input isyarat. -->
+<section class="page-intro">
+  <h1>Tutorial Angular</h1>
+  <p class="page-intro-tagline">
+    Komponen kendiri Angular 20 — input isyarat, pengesanan perubahan OnPush, templat sebaris, sifar NgModules, sifar CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan anda bina</h2>
+  <p>
+    Borang hubungan kecil — input berlabel, butang hantar, pengikatan dua hala, tingkah laku papan kekunci dan pembaca skrin yang sebenar — mula-mula kosong, kemudian digayakan, dalam kira-kira 10 minit.
+  </p>
+
+  <h2>Sebelum anda bermula</h2>
+  <p>
+    Anda memerlukan git, Node 22 atau lebih baharu, dan pnpm 10 atau lebih baharu. Mana-mana projek Angular 20 boleh digunakan — Angular CLI atau Analog.
+  </p>
+
+  <h2>Langkah 1 — Dapatkan kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponen ialah fail rata dalam <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — masing-masing komponen kendiri dengan templat sebaris, ditambah spec dan story-nya. Barrel
+    <code>index.ts</code> mengeksport semula setiap komponen; <code>pnpm build</code>
+    menghasilkan bundel Angular Package Format melalui ng-packagr.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama anda</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Setiap komponen mengisytiharkan <code>lily-*</code> pemilih dan memaparkan elemen semantik dengan cangkuk kelasnya —
+    <code>&lt;button class="button" type="button"&gt;</code> di sini. Input berasaskan isyarat: <code>label()</code> untuk <code>aria-label</code>
+    penggantian, <code>className()</code> untuk menambah kelas.
+  </p>
+
+  <h2>Langkah 3 — Gubah borang kecil</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> mengambil label kelihatan sebagai
+    <code>label</code> inputnya sendiri dan bukannya komponen label bersarang — hantar sekali, pada medan, dan <code>lily-text-input</code>yang sepadan pada
+    <code>label</code> membekalkan nama boleh diakses. Komponen seperti input mendedahkan <code>model()</code> nilai, jadi banana-box <code>[(value)]</code>
+    pengikatan dua hala berfungsi serta-merta — serasi zoneless sepenuhnya.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Disahkan 2026-08-29:</strong> draf awal menyarangkan komponen <code>Label</code> berasingan di dalam <code>lily-field</code>, yang memaparkan <em>dua</em> label (satu kosong) kerana
+      <code>lily-field</code> sudah memaparkan labelnya sendiri daripada
+      <code>label</code> input — dikesan dengan menyemak sumber komponen.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">laluan borang hubungan gubahan</a>
+      ialah corak yang sama, diuji dengan e2e dan ujian axe sebenar.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Semak kerja anda:</strong> jalankan aplikasi dan borang kelihatan biasa sahaja — tepat seperti dimaksudkan: penggayaan masih di hadapan. Tekan
+      <kbd>Tab</kbd>: fokus bergerak melalui setiap kawalan, label diumumkan dan penghantaran berfungsi. Tingkah laku sudah siap; rupanya milik anda dan itu seterusnya.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Gayakan</h2>
+  <p>
+    Gayakan cangkuk kelas — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — dalam <code>styles.css</code>, atau tambah tema siap pakai pada tatasusunan <code>styles</code> dalam
+    <code>angular.json</code> / pautkan dalam <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Lihat semuanya berfungsi</h2>
+  <p>
+     <a href="/examples/">Aplikasi contoh Angular + Analog</a> menunjukkan katalog penuh dengan penghalaan berasaskan fail dan Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah seterusnya</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — penukaran runtime dengan pembantu Angular theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pembantu keutamaan</a> — bahasa dan saiz teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — prop, ARIA dan papan kekunci bagi setiap komponen.</li>
+  </ul>
+  <p>
+    Ada soalan di sepanjang jalan?
+    <a href="/help/#troubleshooting">halaman bantuan</a> penuh dengan jawapan — dan jika sesuatu langkah boleh dijelaskan lagi,
+    <a href="https://github.com/LilyDesignSystem">beritahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial.
+  </p>
+</section>

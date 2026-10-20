@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude-ferdigheter gir Claude Code et kuratert, lastbart inngangspunkt til Lily Design System — generelle konsepter, paraplyer per rammeverk og dypdykk per delprosjekt for det hodeløse biblioteket og *-picker-hjelperne. -->
+<section class="page-intro">
+  <h1>Ferdigheter for KI-agenter gjør Lily enda enklere</h1>
+  <p class="page-intro-tagline">
+    Lily leverer fokuserte ferdigheter — generelle, per rammeverk og per delprosjekt — slik at en agent laster akkurat den konteksten den trenger og ingenting den ikke trenger.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hvilken ferdighet vil du ha?</h2>
+  <p>
+    Hvert nivå svarer på et ulikt spørsmål. Last den generelle ferdigheten når du ikke kjenner Lily ennå. Last en rammeverksferdighet når du kjenner rammeverket ditt, men ikke vet hvilket delprosjekt du trenger. Last en headless-skill eller helpers-skill direkte når du allerede vet nøyaktig hva du jobber med.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Generell / vedlikeholder</strong> — «Hva er Lily?» / «Hvordan er dette monorepoet satt sammen?» —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Rammeverksparaply</strong> — «Hva finnes for {framework}, og hvilken del trenger jeg?» — 8, én <code>{framework}-skill</code> hver
+    </li>
+    <li>
+      <strong>Hodeløs / hjelpere</strong> — «Hvordan bruker jeg nøyaktig {framework}s komponenter / *-picker-hjelpere?» — 16, én <code>{framework}-headless-skill</code> og én <code>{framework}-helpers-skill</code> hver
+    </li>
+  </ul>
+
+  <h2>De åtte rammeverkene</h2>
+  <p>
+    Hvert rammeverk får samme tredelte stabel. Paraplyferdigheten kartlegger alle rammeverkets ekte delprosjekter — inkludert eksempelappen, som ingen av de to søsterferdighetene dekker — og peker nedover til dem i stedet for å gjenta kontraktene deres.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Rammeverk</th>
+        <th>Paraply</th>
+        <th>Hodeløs</th>
+        <th>Hjelpere</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">ferdighet</a></td>
+        <td><a aria-label="Angular hodeløs ferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">ferdighet</a></td>
+        <td><a aria-label="Angular-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">ferdighet</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">ferdighet</a></td>
+        <td><a aria-label="Blazor hodeløs ferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">ferdighet</a></td>
+        <td><a aria-label="Blazor-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">ferdighet</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">ferdighet</a></td>
+        <td><a aria-label="HTML hodeløs ferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">ferdighet</a></td>
+        <td><a aria-label="HTML-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">ferdighet</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">ferdighet</a></td>
+        <td><a aria-label="Nunjucks hodeløs ferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">ferdighet</a></td>
+        <td><a aria-label="Nunjucks-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">ferdighet</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">ferdighet</a></td>
+        <td><a aria-label="React hodeløs ferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">ferdighet</a></td>
+        <td><a aria-label="React-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">ferdighet</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">ferdighet</a></td>
+        <td><a aria-label="Svelte hodeløs ferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">ferdighet</a></td>
+        <td><a aria-label="Svelte-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">ferdighet</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">ferdighet</a></td>
+        <td><a aria-label="Vue hodeløs ferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">ferdighet</a></td>
+        <td><a aria-label="Vue-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">ferdighet</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components-paraplyferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">ferdighet</a></td>
+        <td>
+          <a
+            aria-label="Web Components hodeløs ferdighet"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >ferdighet</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components-hjelperferdighet" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">ferdighet</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components er det eneste unntaket i begge retninger: det hodeløse katalogomfanget er bevisst 536 av 571 (native egendefinerte elementer, ingen rammeverkskjøretid; de øvrige 35 komponentene er permanent utelatt), og det finnes ennå ingen Web Components-eksempelapp — paraplyferdigheten sier det i stedet for å antyde at en finnes.
+  </p>
+
+  <h2>Legg til én ferdighet</h2>
+  <p>
+    Hver ferdighet er en <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a>-fil — pluss støttefiler, uten byggesteg. Klon den du trenger dit Claude Code-oppsettet ditt laster ferdigheter fra (se den offisielle dokumentasjonen lenket ovenfor for prosjektets eller kontoens ferdighetskatalog):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Jobber du på tvers av flere rammeverk, eller på selve monorepoet? Klon det <a href="https://github.com/LilyDesignSystem/lily-design-system">kanoniske monorepoet</a> i stedet — alle 26 ferdighetene ligger allerede i roten, ved siden av de hodeløse bibliotekene, hjelperkatalogene og eksempelappene de beskriver.
+  </p>
+</section>

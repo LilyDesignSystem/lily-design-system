@@ -1,0 +1,307 @@
+<!-- title: 帮助 — Lily Design System -->
+<!-- description: 开始使用 Lily：为侬个框架安装 headless 包，复制组件，设置样式，应用主题，然后发布。故障排查、常见问题与支持。 -->
+<section class="page-intro">
+  <h1>Lily 入门</h1>
+  <p class="page-intro-tagline">选择一个框架，克隆单体仓库并打开其中个 headless 库或示例应用，然后开始组合侬自己个页面。喜欢有引导个路径？请从<a href="/tutorials/">教程</a>开始。</p>
+</section>
+
+<nav aria-label="On this page" class="prose" style="margin: 0 auto;">
+  <p><strong>本页内容：</strong></p>
+  <ul>
+    <li><a href="#install">安装</a></li>
+    <li><a href="#use-headless">使用 headless 组件</a></li>
+    <li><a href="#use-styled">使用带样式个示例</a></li>
+    <li><a href="#styling">样式与设计令牌</a></li>
+    <li><a href="#themes">现成主题</a></li>
+    <li><a href="#helpers">偏好辅助组件</a></li>
+    <li><a href="#a11y">无障碍</a></li>
+    <li><a href="#i18n">国际化</a></li>
+    <li><a href="#testing">测试</a></li>
+    <li><a href="#ai-agents">AI 代理</a></li>
+    <li><a href="#troubleshooting">故障排查</a></li>
+    <li><a href="#contributing">参与贡献</a></li>
+    <li><a href="#community">社区与支持</a></li>
+    <li><a href="#faq">常见问题</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>安装</h2>
+  <p>Lily 位于一个 Git 单体仓库中，每个框架个 headless 库、辅助包搭示例应用各有一个目录。最快个试用方法是克隆单体仓库，然后打开侬所用技术栈个 headless 库：</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>同样个模式也适用于其伊框架：</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — 无需安装；复制 <code>.html</code> 文件即可</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>headless 库个设计目的是被克隆或直接纳入侬个项目——把源代码当作事实来源，需要啥就复制啥。<a href="#helpers">偏好辅助组件</a>还以可安装软件包个形式提供，并有构建与发布流水线（JS 框架用 npm，Blazor 用 NuGet）。</p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>使用 headless 组件</h2>
+  <p>headless 组件自带语义化 HTML、ARIA 搭属性——但呒没 CSS。下面是各框架中个一个按钮：</p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>使用带样式个示例</h2>
+  <p>示例应用包含 CSS、路由搭完整个演示页面。最快个实验方式是启动 SvelteKit、Next、Nuxt、Analog 或 Eleventy 示例应用，并在 <code>/components</code> 查看演示。</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>然后打开 <code>http://localhost:5173</code> 并浏览 <code>/components</code>。</p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>样式与设计令牌</h2>
+  <p>每个组件在其根元素上渲染一个 kebab-case 类。例如，<code>&lt;Button&gt;</code> 会渲染 <code>&lt;button class="button"&gt;</code>。侬想哪能设置样式侪行：</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily 默认个调色板（用于示例应用）是：</p>
+  <ul>
+    <li>主色：<code>#2563eb</code></li>
+    <li>危险：<code>#dc2626</code></li>
+    <li>警告：<code>#f59e0b</code></li>
+    <li>成功：<code>#16a34a</code></li>
+    <li>页面背景：<code>#f9fafb</code></li>
+    <li>卡片背景：<code>#ffffff</code></li>
+  </ul>
+  <p>搿眼只是建议，不是要求。换成侬自己品牌个调色板，Lily 会欣然配合。</p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>现成主题</h2>
+  <p>勿想从零开始写 CSS？Lily 附带 <strong>57 个独立个参考主题</strong>，位于 <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a> 目录中。每一个侪是针对 Lily 类钩子个一份样式表——链接伊，样式就生效了：</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>这一组主题涵盖：</p>
+  <ul>
+    <li><strong>公共部门</strong> — NHS England、NHS Scotland 搭 NHS Wales（各有面向患者搭面向从业者个版本）、GOV.UK GDS，以及美国网页设计系统。</li>
+    <li><strong>受厂商启发</strong> — Adobe Spectrum、Mozilla Protocol。</li>
+    <li><strong>通用</strong> — 浅色、深色、nord、dracula、wireframe，以及三十多个其伊主题。</li>
+  </ul>
+  <p>主题选择器使用 <code>:where(...)</code>，所以在优先级上侬自己个 CSS 总是胜出。把伊拉与下面个 <code>theme-picker</code> 辅助组件搭配即可在运行时切换，或参阅<a href="/tutorials/theming/">主题教程</a>。</p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>偏好辅助组件</h2>
+  <p>每个框架侪有八个小型选择器，每个侪是独立个 <code>lily-design-system-{framework}-{package}</code> 包（以及一个把伊拉组装在一起个 <code>picker-bar</code>）。每个侪是打开弹出层个 headless 图标按钮——选项列表、链接列表、搜索表单，或（对 date-time-picker 而言）日期选择对话框——而不是原生个 <code>&lt;select&gt;</code>；伊对 SSR 安全，也勿附带任何 CSS：</p>
+  <ul>
+    <li><strong>theme-picker</strong> — 通过替换一个受管理个 <code>&lt;link&gt;</code> 在运行时加载主题样式表，在文档上设置 <code>data-theme</code>，并可选择持久化到 <code>localStorage</code>。</li>
+    <li><strong>locale-picker</strong> — 设置 <code>lang</code> 搭 <code>dir</code>（自动检测从右到左），以便侬个 i18n 库跟随；伊自己勿做任何翻译。</li>
+    <li><strong>text-size-picker</strong> — 在文档上设置 <code>data-text-size</code>；侬个 CSS 把每个值映射为字体大小。</li>
+    <li><strong>motion-picker</strong> — 在文档上设置 <code>data-motion</code>，起点是访问者个减弱动效设置；由侬个 CSS 搭脚本决定要抑制啥。</li>
+    <li><strong>search-picker</strong> — 打开搜索框个图标按钮；提交后跳转到搜索页面。伊拥有个是一个操作，而不是偏好。</li>
+    <li><strong>link-picker</strong> — 一个主页图标，打开由侬个应用定义个页面链接菜单（首页、关于阿拉、联系阿拉、隐私政策……）。伊拥有个是一个操作，而不是偏好。</li>
+    <li><strong>share-picker</strong> — 打开原生分享面板或使用方提供个目的地列表，外加复制网址。伊拥有个是一个操作，而不是偏好：勿应用任何东西，也勿保存任何东西。</li>
+    <li><strong>date-time-picker</strong> — 一个文本字段加上用于日期、时间或两者个 APG 日期选择对话框。伊拥有个是一个表单值，而不是偏好：ISO 字符串可与 <code>&lt;input type="date"&gt;</code> 来回转换。</li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>Svelte 目录是规范参考；React、Vue、Angular、HTML、Nunjucks、Web Components 搭 Blazor 个移植版逐项契约与之一致。参见<a href="/tutorials/helpers/">辅助组件教程</a>。</p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>无障碍</h2>
+  <p>组件以 <strong>WCAG 2.2 AAA</strong> 为目标。伊拉遵循搿眼模式：</p>
+  <ul>
+    <li>用语义化 HTML 元素而不是通用个 <code>&lt;div&gt;</code>。</li>
+    <li>用 <code>&lt;label for="id"&gt;</code> 把标签与输入关联起来。</li>
+    <li>用 <code>aria-labelledby</code> / <code>aria-describedby</code> 做相互引用。</li>
+    <li>用 <code>aria-invalid</code> + <code>aria-errormessage</code> 表示错误状态。</li>
+    <li>用 <code>role="alert"</code> 搭 <code>aria-live</code> 表示动态内容。</li>
+    <li>用 <code>aria-pressed</code>、<code>aria-expanded</code>、<code>aria-current</code> 表示状态。</li>
+    <li>为网格使用漫游式 <code>tabindex</code>。</li>
+  </ul>
+  <p>焦点指示器刻意由使用方提供——Lily 从勿绘制与侬个设计冲突个默认焦点环。示例应用在其所有路由上侪保持干净个 axe-core 基线。</p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>国际化</h2>
+  <p>每个标签、占位符、错误消息搭按钮文字侪是一个属性。呒没硬编码个字符串。接入侬选择个翻译框架——Paraglide、i18next、vue-i18n、react-intl、.resx 文件，啥侪行。</p>
+  <p>对于日期、数字搭货币，组件接受预先格式化个字符串：侬用 <code>Intl.DateTimeFormat</code> / <code>Intl.NumberFormat</code> / 侬喜欢个库进行格式化，然后传入结果。</p>
+  <p><code>locale-picker</code> 辅助组件通过在文档根上设置 <code>lang</code> 搭 <code>dir</code>，向侬个 i18n 库传达所选个区域设置。</p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>测试</h2>
+  <p>每个框架子项目侪使用其惯用技术栈附带自己个测试：</p>
+  <ul>
+    <li><strong>HTML</strong>：在真实浏览器中运行个 WebDriverIO。</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>：Vitest + TestBed（通过 Analog 个 Vite 插件）。</li>
+    <li><strong>Nunjucks</strong>：带渲染辅助函数个 Vitest。</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>测试<strong>只使用 Vitest 个内置匹配器</strong>——从勿使用 <code>jest-dom</code> 匹配器。这让测试套件保持可移植。示例应用还增加了 Playwright 端到端套件、axe-core 无障碍基线搭响应式视口扫描。</p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI 代理</h2>
+  <p>本站在根目录发布 <a href="/llms.txt">llms.txt</a> 搭 <a href="/llms.json">llms.json</a>——最重要页面个精选地图，供任何遵循 <a href="https://llmstxt.org">llms.txt 约定</a>个工具使用。</p>
+  <p>规范单体仓库还提供两个 <a href="https://code.claude.com/docs/en/skills">Claude 技能</a>：<code>lily-design-system-skill</code>，一个通用技能，为使用该系统构建个人涵盖 Lily 个概念、术语搭组合模式；以及 <code>lily-design-system-maintainer-skill</code>，一个技术技能，为在其上工作个人涵盖单体仓库所需个文件布局搭工具。两者侪位于<a href="https://github.com/LilyDesignSystem/lily-design-system">规范单体仓库</a>个根目录。</p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>故障排查</h2>
+
+  <details class="faq-item">
+    <summary>组件能渲染，但看起来呒没样式</summary>
+    <p>这是 headless 在按预期工作——组件勿附带任何 CSS。要么针对组件个 kebab-case 类编写 CSS（每个<a href="/components/">目录页面</a>上侪有显示），要么链接 <a href="#themes">57 个现成主题</a>之一。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>我个 CSS 似乎没能覆盖主题</summary>
+    <p>应该可以——主题选择器包裹在 <code>:where(...)</code> 中，其优先级为零。如果某条规则仍然输了，请检查侬个样式表是否在主题个 <code>&lt;link&gt;</code> 之后加载，以及选择器是否确实匹配组件个类钩子。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install 因对等依赖或版本错误而失败</summary>
+    <p>使用较新个 pnpm（v10+）搭 Node 22+。每个子项目侪在 <code>package.json</code> 中固定了其框架版本；如果侬个全局工具链较旧，<code>pnpm env use --global lts</code> 是最快个解决办法。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>屏幕阅读器为某个控件朗读了错误个名称</summary>
+    <p>检查组件必需个 <code>label</code> 属性——呒没可见文字个组件需要伊；而使用方提供并通过其余属性传入个 <code>aria-label</code> / <code>aria-labelledby</code> 会刻意优先于内置个连线。每个目录页面侪记录了该组件个 ARIA 契约。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker 辅助组件勿切换样式表</summary>
+    <p>确认 <code>themesUrl</code> 指向浏览器可获取个目录（把 <code>themes/</code> 文件作为静态资源提供），并且侬个 <code>themes</code> 属性中个主题标识符与文件名一致。该辅助组件替换个是一个受管理个 <code>&lt;link data-lily-theme-picker&gt;</code> 个 <code>href</code>——在开发者工具中检查伊，就能看到被请求个网址。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>其伊东西坏了</summary>
+    <p>请在 <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> 提交议题并附上最小复现——或查看<a href="#community">社区与支持</a>。</p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>参与贡献</h2>
+  <p>Lily 还老年轻，欢迎协作。目前最有用个贡献是：</p>
+  <ul>
+    <li>新组件（尤其是来自成熟设计系统个模式）。</li>
+    <li>新主题——每个侪是一份独立样式表，范围明确个首个拉取请求。</li>
+    <li>更好个示例样式——展示啥是可能个。</li>
+    <li>示例应用字符串个翻译。</li>
+    <li>附带最小复现个缺陷报告。</li>
+    <li>借助屏幕阅读器搭辅助技术进行个无障碍审计。</li>
+  </ul>
+  <p>请在 <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> 提交议题搭拉取请求。</p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>社区与支持</h2>
+  <ul>
+    <li><strong>问题与缺陷报告</strong> — 请在 <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> 提交议题。</li>
+    <li><strong>电子邮件</strong> — 维护者会阅读 <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>，欢迎协作、指导搭反馈。</li>
+    <li><strong>镜像</strong> — Lily 还会推送到 <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> 搭 <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>，这样侬可以在自己喜欢个平台上参与。</li>
+    <li><strong>行为准则</strong> — 项目遵循标准个行为准则；请友善待人，以善意揣度伊人。</li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>常见问题</h2>
+
+  <details class="faq-item">
+    <summary>为啥用 headless 而不是自带样式？</summary>
+    <p>预设样式个组件老方便——直到伊拉搭侬个品牌勿匹配。headless 组件前期多一眼工作，但让侬完全掌控视觉设计。示例应用搭 57 个主题展示了设置样式个方法；侬可以直接采用，也可以完全替换。更完整个论述见<a href="/why/">为啥选择 Lily</a>。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>为啥有这么多组件？</summary>
+    <p>Lily 个目标是覆盖大多数应用所需个模式，而勿强迫侬从零构建——包括国家标识符输入搭编辑式滚动叙事这类更深入个场景。目录借鉴了十几个成熟个设计系统，再加上原创工作——参见<a href="/about/">关于</a>。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>我能把 Lily 搭 Tailwind 一起用伐？</summary>
+    <p>可以。每个组件侪暴露一个 kebab-case 根类，外加使用方提供个 <code>className</code> / <code>class</code>。想哪能在上面叠加 Tailwind 工具类侪可以。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>我能把 Lily 搭 DaisyUI 这类语义化 CSS 框架一起用伐？</summary>
+    <p>可以。根元素上个 kebab-case 类名可作为语义化 CSS 钩子。把 Lily 与语义化框架搭配，侬就得到仍然尊重 ARIA 搭 i18n 个预设样式组件。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>有 npm 包伐？</summary>
+    <p><a href="#helpers">偏好辅助组件</a>以软件包形式提供，并有 npm/NuGet 发布流水线。headless 组件库个设计目的是被克隆或直接纳入项目——源代码就是交付物，所以侬可以阅读、裁剪并完全掌握侬所发布个内容。headless 库发布到包注册表仍在路线图上。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>为啥是多重许可？</summary>
+    <p>不同个项目有不同个许可需求。BSD 搭 MIT 是宽松个，Apache-2.0 带有专利授权，而 GPL 选项支持 copyleft。选择适合侬情况个即可。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>我该如何报告缺陷或请求新功能？</summary>
+    <p>在 GitHub 仓库提交议题，或发邮件至 <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>。</p>
+  </details>
+</section>

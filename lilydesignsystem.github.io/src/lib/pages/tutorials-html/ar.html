@@ -1,0 +1,106 @@
+<!-- title: دليل HTML — Lily Design System -->
+<!-- description: ابنِ نموذجًا سهل الوصول ومنسَّقًا بمكوّنات Lily عديمة الرأس لـ HTML — ترميز عادي مباشرة من ملف. -->
+<section class="page-intro">
+  <h1>دليل HTML</h1>
+  <p class="page-intro-tagline">
+    أبسط بداية ممكنة: انسخ HTML دلاليًا بخطّافات أصناف Lily، وأضف ورقة أنماط واحدة، وانشر. ملفات عادية تعمل أينما يعمل HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج اتصال صغير — حقول بتسميات، وزر إرسال، وسلوك حقيقي للوحة المفاتيح وقارئ الشاشة — عاريًا أولًا ثم منسَّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى متصفح ومحرر نصوص. هذا كل شيء. (يساعد git على جلب ملفات المكوّنات، لكن يمكنك نسخها من GitHub في المتصفح أيضًا.)
+  </p>
+
+  <h2>الخطوة 1 — احصل على الشيفرة</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    كل مكوّن ملف مستقل في <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>وهكذا — مع تعليق ترويسة يوثّق وسم HTML وخطّاف الصنف وسلوك لوحة المفاتيح وعقد إمكانية الوصول. الملفات <em>هي</em> المكتبة — انسخ ما تحتاجه وانطلق.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  <p>افتح <code>components/button.html</code>، أو اكتب الترميز فحسب — خطّاف الصنف هو العقد:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    لأنه <code>&lt;button&gt;</code>حقيقي، فتركيز لوحة المفاتيح والتفعيل بـ Enter وSpace ودور الزر الضمني صحيحة أصلًا.
+  </p>
+
+  <h2>الخطوة 3 — ركّب نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    لاحظ النمط: كل عنصر تحكم يربط <code>&lt;label for&gt;</code>الخاص به، ويستخدم أدق نوع input، ويحمل خطّاف صنف واحدًا بالضبط بصيغة kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقق من عملك:</strong> افتح الصفحة في متصفح. تبدو بسيطة — تمامًا كما هو مقصود: التنسيق لا يزال قادمًا. اضغط
+      <kbd>Tab</kbd>: ينتقل التركيز عبر كل عنصر تحكم، وتُعلن التسميات، ويعمل الإرسال. السلوك مكتمل؛ والمظهر لك وهو الخطوة التالية.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسِّقه</h2>
+  <p>اكتب CSS على الخطّافات:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    أو تجاوز كتابة CSS يدويًا تمامًا — اربط إحدى السمات الجاهزة الـ 45 فيتألق الترميز نفسه:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>الخطوة 5 — استكشف أكثر</h2>
+  <ul>
+    <li>تعمل اختبارات المستودع في متصفحات حقيقية: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook لكل مكوّن: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">تطبيق المثال HTML+CSS+JS</a> يعرض المكوّنات الـ 571 كلها منسَّقة وقابلة للبحث ومعروضة.
+    </li>
+  </ul>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">السمات</a> — تبديل السمة أثناء التشغيل بـ theme-picker.</li>
+    <li><a href="/tutorials/helpers/">مساعدات التفضيلات</a> — اللغة وحجم النص.</li>
+    <li><a href="/components/">فهرس المكوّنات</a> — المرجع الكامل.</li>
+  </ul>
+  <p>
+    أسئلة في الطريق؟
+    <a href="/help/#troubleshooting">صفحة المساعدة</a> مليئة بالإجابات — وإن أمكن توضيح خطوة أكثر،
+    <a href="https://github.com/LilyDesignSystem">أخبرنا</a> وسنحسّن الدليل بكل سرور.
+  </p>
+</section>

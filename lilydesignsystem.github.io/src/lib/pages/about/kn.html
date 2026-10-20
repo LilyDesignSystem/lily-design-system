@@ -1,0 +1,94 @@
+<!-- title: ಕುರಿತು — Lily Design System -->
+<!-- description: Lily ಎಂದರೇನು, ಅದರ ಹಿಂದಿನ ತತ್ವಗಳು, ಮತ್ತು ಅದು ಸ್ಫೂರ್ತಿ ಪಡೆಯುವ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳು. -->
+<section class="page-intro">
+  <h1>Lily ಎಂದರೇನು?</h1>
+  <p class="page-intro-tagline">
+    ಉಚಿತ, ಮುಕ್ತ ಮೂಲ, ಪ್ರವೇಶಿಸುವಿಕೆಗೆ ಮೊದಲ ಆದ್ಯತೆ ನೀಡುವ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆ — ನೀವು ಕೋಡ್ ಬರೆಯುವಲ್ಲಿ ನಿಮ್ಮನ್ನು ಭೇಟಿಯಾಗುತ್ತದೆ, ಮತ್ತು ನಿಮಗೆ ಅದರ ಅಗತ್ಯವಿಲ್ಲದಾಗ ದಾರಿಯಿಂದ ಸರಿಯುತ್ತದೆ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ಸಂಕ್ಷಿಪ್ತ ಆವೃತ್ತಿ</h2>
+  <p>
+    Lily ಒಂದು ಕ್ಯಾಟಲಾಗ್ <strong>ವೆಬ್ ಘಟಕಗಳ</strong>, ಪ್ರತಿಯೊಂದೂ ಎಂಟು ಹೆಡ್‌ಲೆಸ್ ರೂಪಗಳಲ್ಲಿ (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, ಮತ್ತು Web Components) ಅನುಷ್ಠಾನಗೊಂಡಿದೆ, ಜೊತೆಗೆ ಅವುಗಳನ್ನು ಹೇಗೆ ಶೈಲೀಕರಿಸುವುದು ಎಂದು ತೋರಿಸುವ ಸಂಪೂರ್ಣ ಉದಾಹರಣೆ ಅಪ್ಲಿಕೇಶನ್‌ಗಳ ಒಂದು ಸಮೂಹ.
+  </p>
+  <p>
+    ಹೆಡ್‌ಲೆಸ್ ಆವೃತ್ತಿಗಳು ಬರುವುದು <em>ಶೂನ್ಯ CSS</em>ನೊಂದಿಗೆ. ಅವು ನಿಮಗೆ ಶಬ್ದಾರ್ಥ HTML, ARIA ಪಾತ್ರಗಳು ಮತ್ತು ಸ್ಥಿತಿಗಳು, ಕೀಬೋರ್ಡ್ ಬೆಂಬಲ, ಮತ್ತು i18n-ಸ್ನೇಹಿ ಪ್ರಾಪ್‌ಗಳನ್ನು ನೀಡುತ್ತವೆ. ದೃಶ್ಯ ವಿನ್ಯಾಸವನ್ನು ನೀವು ತರುತ್ತೀರಿ.
+  </p>
+
+  <h2>ವಿನ್ಯಾಸ ತತ್ವಗಳು</h2>
+
+  <h3>ಪ್ರವೇಶಿಸಬಹುದಾದ</h3>
+  <p>
+    ಪ್ರತಿಯೊಂದು ಘಟಕವೂ ಶಬ್ದಾರ್ಥ HTML ನಿಂದ ಆರಂಭವಾಗುತ್ತದೆ. HTML ಮಾತ್ರ ಮಾದರಿಯನ್ನು ವ್ಯಕ್ತಪಡಿಸಲಾಗದ ಸ್ಥಳದಲ್ಲಿ ಮಾತ್ರ ARIA ಅನ್ನು ಸೇರಿಸಲಾಗುತ್ತದೆ. ಘಟಕಗಳು ಗುರಿಯಾಗಿಸುವುದು
+    <strong>WCAG 2.2 AAA</strong> — ಬಣ್ಣಗಳು, ಅಂತರ, ಫೋಕಸ್, ಮತ್ತು ಕೀಬೋರ್ಡ್ ನ್ಯಾವಿಗೇಷನ್ ಎಲ್ಲವನ್ನೂ ಪರಿಗಣಿಸಲಾಗಿದೆ.
+  </p>
+
+  <h3>ಸಂಯೋಜಿಸಬಹುದಾದ</h3>
+  <p>
+    Lily ಒಂದಕ್ಕೊಂದು ಜೋಡಿಸಿಕೊಳ್ಳುವ ಸಣ್ಣ, ಏಕೈಕ ಉದ್ದೇಶದ ಘಟಕಗಳನ್ನು ಇಷ್ಟಪಡುತ್ತದೆ. ಸಂಯುಕ್ತ ಮಾದರಿಗಳು ಮತ್ತೆ ಮತ್ತೆ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — ಬ್ರೆಡ್‌ಕ್ರಂಬ್‌ಗಳು, ವಿಷಯ ಪಟ್ಟಿಗಳು, ಅಕಾರ್ಡಿಯನ್ ಮೆನುಗಳು, ಟ್ರೀ ಮೆನುಗಳು ಮತ್ತು ಪುಟ ವಿಂಗಡಣೆಗಾಗಿ</li>
+    <li><code>Form → Field → Input</code> — ಲೇಬಲ್‌ಗಳು, ಸುಳಿವುಗಳು ಮತ್ತು ದೋಷಗಳಿರುವ ಯಾವುದೇ ಫಾರ್ಮ್ ವಿನ್ಯಾಸಕ್ಕಾಗಿ</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — ಕೋಷ್ಟಕಗಳು, ಕ್ಯಾಲೆಂಡರ್‌ಗಳು, ಗ್ಯಾಂಟ್ ಚಾರ್ಟ್‌ಗಳು ಮತ್ತು ಕಾನ್‌ಬಾನ್ ಬೋರ್ಡ್‌ಗಳಿಗಾಗಿ</li>
+    <li><code>Bar → BarButton</code> — ಟೂಲ್ ಬಾರ್‌ಗಳು, ಟ್ಯಾಬ್ ಬಾರ್‌ಗಳು, ಟಾಸ್ಕ್ ಬಾರ್‌ಗಳು, ಆಕ್ಷನ್ ಬಾರ್‌ಗಳು ಮತ್ತು ಮೆನು ಬಾರ್‌ಗಳಿಗಾಗಿ</li>
+    <li><code>Picker → PickerButton</code> — ಬಣ್ಣ ಆಯ್ಕೆಗಾರರು, ರೇಟಿಂಗ್ ಆಯ್ಕೆಗಾರರು, ಥೀಮ್ ಆಯ್ಕೆಗಾರರಿಗಾಗಿ</li>
+  </ul>
+
+  <h3>ಅಂತರರಾಷ್ಟ್ರೀಯಗೊಳಿಸಬಹುದಾದ</h3>
+  <p>
+    ಬಳಕೆದಾರರು ನೋಡುವ ಒಂದು ಸ್ಟ್ರಿಂಗ್ ಕೂಡ ಹಾರ್ಡ್‌ಕೋಡ್ ಆಗಿಲ್ಲ. ಲೇಬಲ್‌ಗಳು, ಪ್ಲೇಸ್‌ಹೋಲ್ಡರ್‌ಗಳು, ದೋಷ ಸಂದೇಶಗಳು, ಬಟನ್ ಪಠ್ಯ — ಎಲ್ಲವೂ ಪ್ಯಾರಾಮೀಟರ್‌ಗಳು. ನಿಮ್ಮದೇ ಅನುವಾದ ವ್ಯವಸ್ಥೆಯನ್ನು ಸೇರಿಸಿ, ಮತ್ತು ನೀವು ಮಾತನಾಡುವ ಯಾವುದೇ ಭಾಷೆಯನ್ನು Lily ಮಾತನಾಡುತ್ತದೆ.
+  </p>
+
+  <h3>ಹೆಡ್‌ಲೆಸ್</h3>
+  <p>
+    ಹೆಡ್‌ಲೆಸ್ ಘಟಕಗಳಿಗೆ <strong>CSS</strong>ಇಲ್ಲ,
+    <code>&lt;style&gt;</code> ಬ್ಲಾಕ್‌ಗಳಿಲ್ಲ, ಮತ್ತು ನೀವು ಆಯ್ಕೆ ಮಾಡದ ವಿನ್ಯಾಸ ಟೋಕನ್‌ಗಳಿಲ್ಲ. ಅವು ಪ್ರತಿ ರೂಟ್ ಎಲಿಮೆಂಟ್‌ನಲ್ಲಿ ಒಂದು kebab-case ಕ್ಲಾಸ್ ಹೆಸರನ್ನು ಒಡ್ಡುತ್ತವೆ, ಹೀಗಾಗಿ ನೀವು ಬಯಸಿದಂತೆ ಅವನ್ನು ಗುರಿಯಾಗಿಸಬಹುದು — ಶಬ್ದಾರ್ಥ CSS, Tailwind, CSS-in-JS, ನಿಮ್ಮ ಆಯ್ಕೆ.
+  </p>
+
+  <h3>ಬ್ಯಾಟರಿ ಸಹಿತ ಉದಾಹರಣೆಗಳು</h3>
+  <p>
+    ಉದಾಹರಣೆ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು ನಿಜವಾದ ಬಳಕೆಗಾಗಿ ಘಟಕಗಳನ್ನು ಹೇಗೆ ಶೈಲೀಕರಿಸುವುದು ಎಂದು ತೋರಿಸುತ್ತವೆ — ಯಾವ ವಿನ್ಯಾಸ ಟೋಕನ್‌ಗಳನ್ನು ಹೊಂದಿಸಬೇಕು, ಯಾವ ಬದಲಾವಣೆಗಳನ್ನು ಸೇರಿಸಬೇಕು, ಪುಟಗಳನ್ನು ಹೇಗೆ ಸಂಯೋಜಿಸಬೇಕು. ಅವು ಕೇವಲ ಸ್ಯಾಂಡ್‌ಬಾಕ್ಸ್‌ಗಳಲ್ಲ, ಪೂರ್ಣ SvelteKit, Next.js, Nuxt, Blazor ಮತ್ತು Eleventy ಅಪ್ಲಿಕೇಶನ್‌ಗಳು.
+  </p>
+
+  <h2 id="inspirations">ಸ್ಫೂರ್ತಿಗಳು</h2>
+  <p>
+    Lily ಉದ್ದೇಶಪೂರ್ವಕವಾಗಿ ವ್ಯಾಪಕವಾಗಿ ಆರಿಸಿದ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗಳಿಂದ ಮಾದರಿಗಳನ್ನು ಮತ್ತು ಭಾಷೆಯನ್ನು ಪಡೆಯುತ್ತದೆ:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (ಆಸ್ಟ್ರೇಲಿಯಾ ಸರ್ಕಾರ)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters ಗ್ರಾಫಿಕ್ಸ್ ಘಟಕಗಳು</a></li>
+  </ul>
+
+  <h2>ಪರವಾನಗಿ</h2>
+  <p>
+    Lily ಬಹು ಪರವಾನಗಿಗಳನ್ನು ಹೊಂದಿದೆ, <strong>BSD, MIT, Apache-2.0, GPL-2.0, ಅಥವಾ GPL-3.0</strong>ಅಡಿಯಲ್ಲಿ. ನಿಮ್ಮ ಯೋಜನೆಗೆ ಹೊಂದುವ ಪರವಾನಗಿಯನ್ನು ಆರಿಸಿ. ಅವುಗಳಲ್ಲಿ ಯಾವುದೂ ಹೊಂದದಿದ್ದರೆ, ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ.
+  </p>
+
+  <h2>ಸಂಪರ್ಕ</h2>
+  <p>
+    ಯೋಜನೆಯ ಮುಖ್ಯಸ್ಥ: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    ಬಗ್ ಸಿಕ್ಕಿತೇ, ಒಂದು ಆಲೋಚನೆ ಇದೆಯೇ, ಘಟಕವನ್ನು ಕೊಡುಗೆ ನೀಡಲು ಬಯಸುವಿರಾ? ಇಲ್ಲಿ ಇಷ್ಯೂ ಅಥವಾ ಪುಲ್ ರಿಕ್ವೆಸ್ಟ್ ತೆರೆಯಿರಿ:
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ಸ್ಥಿತಿ:</strong> Lily ಹೊಚ್ಚಹೊಸ ಕೆಲಸ, ಮತ್ತು ನಾವು ಸಹಯೋಗ, ಮಾರ್ಗದರ್ಶನ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಸ್ವಾಗತಿಸುತ್ತೇವೆ. ವಿಷಯಗಳು ಚಲಿಸುತ್ತವೆ ಮತ್ತು ವಿಕಸನಗೊಳ್ಳುತ್ತವೆ.
+    </p>
+  </div>
+</section>

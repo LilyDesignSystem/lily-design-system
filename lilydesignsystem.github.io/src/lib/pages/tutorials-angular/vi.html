@@ -1,0 +1,127 @@
+<!-- title: Hướng dẫn Angular — Lily Design System -->
+<!-- description: Xây dựng biểu mẫu dễ tiếp cận, có kiểu dáng bằng các thành phần headless Angular 20 của Lily: thành phần độc lập với signal input. -->
+<section class="page-intro">
+  <h1>Hướng dẫn Angular</h1>
+  <p class="page-intro-tagline">
+    Thành phần độc lập Angular 20 — signal input, phát hiện thay đổi OnPush, mẫu nội tuyến, không NgModule, không CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một biểu mẫu liên hệ nhỏ — ô nhập có nhãn, nút gửi, liên kết hai chiều, hành vi bàn phím và trình đọc màn hình thật — lúc đầu để trơn, sau đó thêm kiểu dáng, trong khoảng 10 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Bạn cần git, Node 22 trở lên và pnpm 10 trở lên. Dự án Angular 20 nào cũng được — Angular CLI hoặc Analog.
+  </p>
+
+  <h2>Bước 1 — Lấy mã</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Các thành phần là những tệp phẳng trong <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — mỗi cái là một thành phần độc lập với mẫu nội tuyến, kèm spec và story của nó. Barrel
+    <code>index.ts</code> xuất lại mọi thành phần; <code>pnpm build</code>
+    tạo gói theo Angular Package Format qua ng-packagr.
+  </p>
+
+  <h2>Bước 2 — Thành phần đầu tiên của bạn</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Mỗi thành phần khai báo bộ chọn <code>lily-*</code> và hiển thị phần tử ngữ nghĩa với class hook của nó —
+    <code>&lt;button class="button" type="button"&gt;</code> ở đây. Các đầu vào dựa trên signal: <code>label()</code> cho <code>aria-label</code>
+    để ghi đè, <code>className()</code> để nối thêm lớp.
+  </p>
+
+  <h2>Bước 3 — Ghép một biểu mẫu nhỏ</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> nhận nhãn hiển thị làm
+    <code>label</code> đầu vào riêng thay vì thành phần nhãn lồng bên trong — chỉ truyền một lần, ở trường, và <code>lily-text-input</code>tương ứng
+    <code>label</code> cung cấp tên có thể tiếp cận. Các thành phần giống ô nhập phơi bày giá trị <code>model()</code> nên banana-box <code>[(value)]</code>
+    liên kết hai chiều hoạt động ngay — tương thích zoneless xuyên suốt.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Đã xác minh 2026-08-29:</strong> bản nháp trước lồng một thành phần <code>Label</code> riêng bên trong <code>lily-field</code>, khiến hiển thị <em>hai</em> nhãn (một cái rỗng) vì
+      <code>lily-field</code> đã tự hiển thị nhãn của nó từ
+      <code>label</code> đầu vào — phát hiện nhờ kiểm tra mã nguồn thành phần.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Tuyến biểu mẫu liên hệ ghép sẵn</a>
+      cũng theo mẫu này, được kiểm chứng bằng các bài kiểm thử e2e và axe thật.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> chạy ứng dụng và biểu mẫu trông trơ — đúng như dự định: kiểu dáng còn ở phía trước. Nhấn
+      <kbd>Tab</kbd>: tiêu điểm di chuyển qua mọi điều khiển, nhãn được đọc lên và việc gửi hoạt động. Hành vi đã xong; diện mạo là của bạn và là bước tiếp theo.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Tạo kiểu dáng</h2>
+  <p>
+    Tạo kiểu cho các class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — trong <code>styles.css</code>, hoặc thêm một chủ đề dựng sẵn vào mảng <code>styles</code> trong
+    <code>angular.json</code> / liên kết nó trong <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Bước 5 — Xem mọi thứ hoạt động</h2>
+  <p>
+     <a href="/examples/">Ứng dụng ví dụ Angular + Analog</a> hiển thị toàn bộ danh mục với định tuyến theo tệp và Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Chủ đề</a> — chuyển đổi khi chạy bằng trợ giúp theme-picker của Angular.</li>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — ngôn ngữ và cỡ chữ.</li>
+    <li><a href="/components/">Danh mục thành phần</a> — thuộc tính, ARIA và bàn phím của từng thành phần.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

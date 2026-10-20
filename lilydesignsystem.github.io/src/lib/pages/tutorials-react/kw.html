@@ -1,0 +1,109 @@
+<!-- title: Dyskans React — Lily Design System -->
+<!-- description: Drehevewgh furv hedhesys ha stylys gans darnow heb pen React Lily: darnow-oberow tyskys gans value + onChange. -->
+<section class="page-intro">
+  <h1>Dyskans React</h1>
+  <p class="page-intro-tagline">
+    Darnow-oberow tyskys, unn restren pub onan, kontrollys gans an patrom
+    <code>value</code> + <code>onChange</code> standard — pubtra a ober fatell wra React seulajys.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pyth a wrewgh drehevel</h2>
+  <p>
+    Furv kestava byghan — mewnos gans lavell, botton danvon, stad kontrollys, hwedhel klavyer ha skrin-redyer gwir — kynsa noeth, ena stylys, yn a-dro dhe 10 mynysenn.
+  </p>
+
+  <h2>Kyns dalleth</h2>
+  <p>
+    Ty a'n jeves othom a git, Node 22 po nowodhyes, ha pnpm 10 po nowodhyes. Raglen React 18+ vyth a ober — Next.js, Vite, po React plen.
+  </p>
+
+  <h2>Kamm 1 — Kevewgh an koodh</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    An darnow yw restrennow plat yn <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — pub onan gans y brov, story, ha dhogynnans ryb. Kopiewgh an restrennow a'n jeves othom dhe'th app, po vendorewgh an gwithva hag enporthewgh dhiworto.
+  </p>
+
+  <h2>Kamm 2 — Dha dharn kynsa</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Dyskwedh <code>&lt;button class="button" type="button"&gt;</code>. Perthynasow:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (a dhyskwedh
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> gorholans), <code>className</code>, ha peub perthynas ekstra a lesans war an elven wreydh.
+  </p>
+
+  <h2>Kamm 3 — Kesstrewewgh furv byghan</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> a gemmer an <code>label</code> avel perthynas y honan yn le darn lavell nessys — passewgh hi unnweyth, war
+    <code>Field</code>ha <code>TextInput</code>kehevelys war
+    <code>label</code> a re an hanow hedhesys.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriys 2026-08-29:</strong> kynsa towl a nesas darn dyvers <code>Label</code> a-berth <code>Field</code>, hag a dhyskwedhas
+      <em>dew</em> lavell (unn gwag) drefen <code>Field</code> seulajys a dhyskwedh y honan dhiworth an <code>label</code> perthynas — kefys dre gesolya an snippet ewn. An
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">fordh furv-kestava kesstrewys</a>
+      yw an keth patrom, previys gans e2e ha axe gwir.
+    </p>
+  </div>
+
+  <h2>Kamm 4 — Stylyewgh</h2>
+  <p>
+    Pubtra a-ugh a vydh dyskwedhys avel strewyans pur, parys rag dha stilyow. Stylyewgh an krogow — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — yn dha folen-stil, gorrewgh toulys Tailwind dre <code>className</code>, po kevrewgh tebel parys:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Kamm 5 — Gwelewgh pubtra ow ’oberi</h2>
+  <p>
+    An <a href="/examples/">App ensampel Next.js</a> yw an rolyans kowl stylys ha displetys, gans Playwright e2e ha linenn-selys axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Kammow nessa</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tebelyow</a> — chanj y'n termyn-dyrghas gans an gweresor React theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Gweresoryon dewisyow</a> — yeth ha myns an skrif.</li>
+    <li><a href="/components/">Rolyans darnow</a> — perthynasow, ARIA, ha klavyer dre bub darn.</li>
+  </ul>
+  <p>
+    Govynnow war an fordh? An
+    <a href="/help/#troubleshooting">folen skoodhya</a> yw leun a worthebow — ha mar pe kamm moy splann,
+    <a href="https://github.com/LilyDesignSystem">leverewgh dhyn</a> ha ni a wellha an dyskans yn lowen.
+  </p>
+</section>

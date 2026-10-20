@@ -1,0 +1,127 @@
+<!-- title: Teagasc Angular — Lily Design System -->
+<!-- description: Tóg foirm inrochtana, stíl-chóirithe le comhpháirteanna gan cheann Lily do Angular 20: comhpháirteanna neamhspleácha le hionchuir chomhartha. -->
+<section class="page-intro">
+  <h1>Teagasc Angular</h1>
+  <p class="page-intro-tagline">
+    Comhpháirteanna neamhspleácha Angular 20 — ionchuir chomhartha, brath athruithe OnPush, teimpléid inlíne, nialas NgModules, nialas CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    Foirm theagmhála bheag — réimse le lipéad, cnaipe cur isteach, ceangal dhá-bhealach, fíor-iompar méarchláir agus léitheora scáileáin — nocht ar dtús, ansin stíl-chóirithe, i thart ar 10 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Tá git, Node 22 nó níos nuaí, agus pnpm 10 nó níos nuaí ag teastáil uait. Oibríonn aon tionscadal Angular 20 — Angular CLI nó Analog.
+  </p>
+
+  <h2>Céim 1 — Faigh an cód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Is comhaid chothroma iad na comhpháirteanna i <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — is comhpháirt neamhspleách é gach ceann le teimpléad inlíne, móide a spec agus a scéal. Athéascraíonn an barrel
+    <code>index.ts</code> gach comhpháirt; <code>pnpm build</code>
+    táirgeann sé beart Angular Package Format trí ng-packagr.
+  </p>
+
+  <h2>Céim 2 — Do chéad chomhpháirt</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Dearbhaíonn gach comhpháirt roghnóir <code>lily-*</code> agus rindreálann sí an eilimint shéimeantach lena crúca aicme —
+    <code>&lt;button class="button" type="button"&gt;</code> anseo. Tá na hionchuir bunaithe ar chomharthaí: <code>label()</code> le haghaidh <code>aria-label</code>
+    chun sárú, <code>className()</code> chun aicmí a chur leis.
+  </p>
+
+  <h2>Céim 3 — Cuir foirm bheag le chéile</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> glacann sé leis an lipéad infheicthe mar
+    <code>label</code> ionchur dá chuid féin in ionad comhpháirt lipéid neadaithe — pas é uair amháin, ar an réimse, agus soláthraíonn an <code>lily-text-input</code>comhfhreagrach ó
+    <code>label</code> an t-ainm inrochtana. Nochtann comhpháirteanna cosúil le hionchuir luachanna <code>model()</code> mar sin oibríonn ceangal dhá-bhealach banana-box <code>[(value)]</code>
+    láithreach — comhoiriúnach le zoneless ar fad.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Fíoraithe 2026-08-29:</strong> chuir dréacht roimhe sin comhpháirt <code>Label</code> ar leith taobh istigh de <code>lily-field</code>, rud a rindreáil <em>dhá</em> lipéad (ceann amháin folamh) mar go rindreálann
+      <code>lily-field</code> a cheann féin cheana ón ionchur
+      <code>label</code> — faighte trí chód foinse na comhpháirte a sheiceáil.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">An bealach comhshuite foirm teagmhála</a>
+      an patrún céanna, tástáilte le fíor-thástálacha e2e agus axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> rith an app agus tá an fhoirm le feiceáil nocht — go díreach mar a bhí beartaithe: tá an stíliú fós le teacht. Brúigh
+      <kbd>Tab</kbd>: gluaiseann an fócas trí gach rialú, fógraítear an lipéad agus oibríonn an cur isteach. Tá an t-iompar déanta; is leatsa an cuma agus is é an chéad chéim eile é.
+    </p>
+  </div>
+
+  <h2>Céim 4 — Stíligh é</h2>
+  <p>
+    Stíligh na crúcaí aicme — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in <code>styles.css</code>, nó cuir téama réamhdhéanta leis an eagar <code>styles</code> in
+    <code>angular.json</code> / nasc é in <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Céim 5 — Féach air ag obair ar fad</h2>
+  <p>
+     <a href="/examples/">App samplach Angular + Analog</a> taispeánann sé an catalóg iomlán le ródú bunaithe ar chomhaid agus Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Téamaí</a> — malartú ag am rite leis an gcúntóir theme-picker d'Angular.</li>
+    <li><a href="/tutorials/helpers/">Cúntóirí sainroghanna</a> — teanga agus méid téacs.</li>
+    <li><a href="/components/">Catalóg na gcomhpháirteanna</a> — airíonna, ARIA agus méarchlár in aghaidh na comhpháirte.</li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

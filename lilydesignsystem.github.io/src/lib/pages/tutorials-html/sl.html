@@ -1,0 +1,106 @@
+<!-- title: Vodnik za HTML — Lily Design System -->
+<!-- description: Ustvarite dostopen, oblikovan obrazec z Lilyjinimi brezglavimi komponentami za HTML — navadno označevanje, neposredno iz datoteke. -->
+<section class="page-intro">
+  <h1>Vodnik za HTML</h1>
+  <p class="page-intro-tagline">
+    Najpreprostejši možni začetek: kopirajte semantični HTML z Lilyjinimi razrednimi kavlji, dodajte eno slogovno datoteko, objavite. Navadne datoteke, ki delujejo povsod, kjer deluje HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Kaj boste ustvarili</h2>
+  <p>
+    Majhen kontaktni obrazec — polja z oznakami, gumb za pošiljanje, resnično vedenje tipkovnice in bralnika zaslona — najprej gol, nato oblikovan, v približno 10 minutah.
+  </p>
+
+  <h2>Preden začnete</h2>
+  <p>
+    Potrebujete brskalnik in urejevalnik besedila. To je vse. (git pomaga pri pridobivanju datotek komponent, lahko pa jih kopirate tudi z GitHuba v brskalniku.)
+  </p>
+
+  <h2>Korak 1 — Pridobite kodo</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Vsaka komponenta je samostojna datoteka v <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>in tako naprej — z glavo-komentarjem, ki dokumentira njeno oznako HTML, razredni kavelj, vedenje tipkovnice in pogodbo o dostopnosti. Datoteke <em>so</em> knjižnica — kopirajte, kar potrebujete, in naprej.
+  </p>
+
+  <h2>Korak 2 — Vaša prva komponenta</h2>
+  <p>Odprite <code>components/button.html</code>ali preprosto napišite označevanje — razredni kavelj je pogodba:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Ker je to pravi <code>&lt;button&gt;</code>, so fokus tipkovnice, aktivacija s tipkama Enter in preslednica ter implicitna vloga gumba že pravilni.
+  </p>
+
+  <h2>Korak 3 — Sestavite majhen obrazec</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Opazite vzorec: vsak kontrolnik poveže svoj <code>&lt;label for&gt;</code>, uporabi najbolj specifičen tip vnosa in nosi natanko en razredni kavelj v kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverite svoje delo:</strong> odprite stran v brskalniku. Videti je gola — natanko kot je bilo načrtovano: oblikovanje šele sledi. Pritisnite
+      <kbd>Tab</kbd>: fokus gre skozi vsak kontrolnik, oznake se izgovorijo in pošiljanje deluje. Vedenje je končano; videz je vaš in je naslednji korak.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Oblikujte ga</h2>
+  <p>Napišite CSS proti kavljem:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Ali pa ročno pisanje CSS povsem preskočite — povežite eno od 45 pripravljenih tem in isto označevanje zasveti:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Korak 5 — Raziščite dlje</h2>
+  <ul>
+    <li>Testi repozitorija tečejo v pravih brskalnikih: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook za vsako komponento: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Vzorčna aplikacija HTML+CSS+JS</a> prikazuje vseh 571 komponent oblikovanih, z iskanjem in predstavljenih.
+    </li>
+  </ul>
+
+  <h2>Naslednji koraki</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — preklapljanje teme med izvajanjem s theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pomočniki za nastavitve</a> — jezik in velikost besedila.</li>
+    <li><a href="/components/">Katalog komponent</a> — popolna referenca.</li>
+  </ul>
+  <p>
+    Vprašanja na poti?
+    <a href="/help/#troubleshooting">Stran s pomočjo</a> je polna odgovorov — in če bi bil kakšen korak lahko jasnejši,
+    <a href="https://github.com/LilyDesignSystem">sporočite nam</a> in vodnik bomo z veseljem izboljšali.
+  </p>
+</section>

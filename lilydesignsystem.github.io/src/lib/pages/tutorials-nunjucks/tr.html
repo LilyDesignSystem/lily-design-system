@@ -1,0 +1,97 @@
+<!-- title: Nunjucks eğitimi — Lily Design System -->
+<!-- description: Lily'nin Nunjucks makrolarıyla erişilebilir, biçimlendirilmiş, sunucuda işlenen sayfalar oluşturun — Eleventy için ideal. -->
+<section class="page-intro">
+  <h1>Nunjucks eğitimi</h1>
+  <p class="page-intro-tagline">
+    Eleventy, Express veya herhangi bir Node şablon hattı için sunucuda işlenen makrolar — Lily'nin kataloğu ve sınıf kancalarıyla GOV.UK tarzı yaklaşım.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ne oluşturacaksınız</h2>
+  <p>
+    Küçük, sunucuda işlenen bir iletişim formu — etiketli girdi, gönder düğmesi, sıfır JavaScript yükü — önce çıplak, sonra biçimlendirilmiş olarak, yaklaşık 10 dakikada.
+  </p>
+
+  <h2>Başlamadan önce</h2>
+  <p>
+    git, Node 22 veya üstü ve pnpm 10 veya üstü gerekir. Herhangi bir Nunjucks hattı olur — Eleventy, Express veya düz Nunjucks.
+  </p>
+
+  <h2>Adım 1 — Kodu edinin</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Her bileşen şurada bir dizindir: <code>components/</code> içinde bir
+    <code>macro.njk</code>, testi ve belgeleri bulunur — örneğin
+    <code>components/button/macro.njk</code>. Nunjucks yükleyicinizi şuraya yönlendirin:
+    <code>components/</code> (Eleventy'de includes yoluna ekleyin) ve ihtiyacınız olanı içe aktarın.
+  </p>
+
+  <h2>Adım 2 — İlk bileşeniniz</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Şunu işler: <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makrolar tek bir params nesnesi alır: <code>text</code> (kaçışlı) veya
+    <code>html</code> (ham), <code>type</code>, <code>label</code> için
+    <code>aria-label</code>ve bir sınıf kancası ekleyici.
+  </p>
+
+  <h2>Adım 3 — Küçük bir form oluşturun</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Her şey sunucuda işlendiği için tarayıcı, sınıf kancalı saf anlamsal HTML alır — sıfır baytlık JavaScript yükü.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Çalışmanızı kontrol edin:</strong> sayfayı yükleyin; form sade görünür — tam olarak amaçlandığı gibi: biçimlendirme henüz ileride. Şuna basın:
+      <kbd>Tab</kbd>: odak her denetimde ilerler, etiket duyurulur ve gönderme çalışır. Davranış tamam; görünüm sizin ve sıradaki adım.
+    </p>
+  </div>
+
+  <h2>Adım 4 — Biçimlendirin</h2>
+  <p>
+    Kancaları biçimlendirin — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — stil sayfanızda ya da temel düzeninizde hazır bir temayı bağlayın:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Adım 5 — Hepsinin çalıştığını görün</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy örnek uygulaması</a> tüm kataloğu bileşen başına demo sayfalarıyla statik bir site olarak derler:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Sonraki adımlar</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temalar</a> — titremesiz SSR tema geçişi için Eleventy çerez kalıbı dahil.</li>
+    <li><a href="/tutorials/helpers/">Tercih yardımcıları</a> — dil ve metin boyutu.</li>
+    <li><a href="/components/">Bileşen kataloğu</a> — bileşen başına özellikler, ARIA ve klavye.</li>
+  </ul>
+  <p>
+    Yol boyunca sorunuz mu var?
+    <a href="/help/#troubleshooting">Yardım sayfası</a> yanıtlarla dolu — ve bir adım daha açık olabilirse,
+    <a href="https://github.com/LilyDesignSystem">bize söyleyin</a> ve eğitimi memnuniyetle iyileştirelim.
+  </p>
+</section>

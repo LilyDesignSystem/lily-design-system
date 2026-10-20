@@ -1,0 +1,107 @@
+<!-- title: Blazor-veiledning — Lily Design System -->
+<!-- description: Bygg et tilgjengelig, stilet skjema med Lilys hodeløse Blazor-komponenter: Razor-komponenter med parametere og bUnit-tester. -->
+<section class="page-intro">
+  <h1>Blazor-veiledning</h1>
+  <p class="page-intro-tagline">
+    Razor-klassebibliotekskomponenter med parametere, <code>ChildContent</code>
+    gjengivelsesfragmenter, attributtspredning og en bUnit-test per komponent.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hva du skal bygge</h2>
+  <p>
+    Et lite kontaktskjema — et inndatafelt med etikett, en send-knapp,
+    <code>@bind-Value</code> binding, ekte tastatur- og skjermleseroppførsel — først bart, så stilet, på omtrent 10 minutter.
+  </p>
+
+  <h2>Før du begynner</h2>
+  <p>
+    Du trenger git og .NET SDK 8 eller nyere. Ethvert Blazor-prosjekt fungerer — Blazor Web App, Server eller WebAssembly.
+  </p>
+
+  <h2>Steg 1 — Hent koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Komponentene bor i <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — én Razor-fil hver. Referer til prosjektet (eller kopier filene) fra Blazor-appen din og legg til <code>@using LilyBlazorHeadless.Components</code> i
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Steg 2 — Din første komponent</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Gjengir <code>&lt;button class="button"&gt;</code>. De delte parameterkonvensjonene: <code>Label</code> (en <code>aria-label</code> overstyring),
+    <code>CssClass</code> (føyd til basekroken),
+    <code>ChildContent</code>og
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> attributtspredning slik at ethvert ekstra HTML-attributt går gjennom.
+  </p>
+
+  <h2>Steg 3 — Sett sammen et lite skjema</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> tar den synlige <code>Label</code> som sin egen parameter i stedet for en nøstet etikettkomponent — send den inn én gang, på
+    <code>Field</code>og <code>TextInput</code>på
+    <code>Label</code> gir det tilgjengelige navnet.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifisert 2026-08-29:</strong> et tidligere utkast nøstet en separat <code>Label</code> komponent inni <code>Field</code>, som gjengir <em>to</em> etiketter (én tom) fordi <code>Field</code>
+      allerede gjengir sin egen fra <code>Label</code> parameter — oppdaget ved å sjekke komponentkilden; <code>Form</code> har ikke noen egen <code>Label</code> parameter, så bruken av
+      <code>&lt;Form&gt;</code> i det tidligere utkastet ble rettet ved å utelate den i stedet for å finne på et attributt som ikke finnes. Den
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">sammensatte kontaktskjema-ruten</a>
+      er det samme mønsteret, prøvd med ekte e2e- og axe-tester.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sjekk arbeidet ditt:</strong> kjør appen, og skjemaet ser enkelt ut — akkurat som tiltenkt: stilingen ligger fortsatt foran. Trykk
+      <kbd>Tab</kbd>: fokus beveger seg gjennom hver kontroll, etiketten kunngjøres og innsending fungerer. Oppførselen er ferdig; utseendet er ditt og er neste.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Stil det</h2>
+  <p>
+    Stil klassekrokene — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — i <code>app.css</code>, eller lenk et ferdig tema i <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Steg 5 — Se alt fungere</h2>
+  <p>
+     <a href="/examples/">Blazor Web-eksempelappen</a> viser hele katalogen stilet og demonstrert, med Playwright e2e-tester:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Neste steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — bytte ved kjøretid med Blazor theme-picker-hjelperen (et Razor-klassebibliotek på NuGet).</li>
+    <li><a href="/tutorials/helpers/">Preferansehjelpere</a> — språk og tekststørrelse.</li>
+    <li><a href="/components/">Komponentkatalog</a> — egenskaper, ARIA og tastatur per komponent.</li>
+  </ul>
+  <p>
+    Spørsmål underveis?
+    <a href="/help/#troubleshooting">hjelpesiden</a> er full av svar — og hvis et steg kan bli tydeligere,
+    <a href="https://github.com/LilyDesignSystem">fortell oss</a> så forbedrer vi gjerne veiledningen.
+  </p>
+</section>

@@ -1,0 +1,276 @@
+<!-- title: មេរៀនជំនួយការចំណូលចិត្ត — Lily Design System -->
+<!-- description: បន្ថែមចំណូលចិត្តភាសា និងទំហំអក្សររបស់អ្នកប្រើជាមួយជំនួយការ locale-picker និង text-size-picker របស់ Lily៖ ការគ្រប់គ្រងប៊ូតុងរូបតំណាង + ប្រអប់បញ្ជីគ្មានក្បាល ដែលមានភាពស្ថិតស្ថេរ និងសុវត្ថិភាព SSR។ -->
+<section class="page-intro">
+  <h1>ជំនួយការចំណូលចិត្ត</h1>
+  <p class="page-intro-tagline">
+    កញ្ចប់តូចៗប្រាំពីរក្នុងមួយក្របខណ្ឌ នីមួយៗជាម្ចាស់ការងារអ្នកប្រើមួយពីដើមដល់ចប់ បូករបារដែលផ្គុំប្រាំក្នុងចំណោមពួកវា។ អ្នកបានជួប
+    <a href="/tutorials/theming/">theme-picker</a>រួចហើយ; នេះគឺ locale-picker, text-size-picker និង motion-picker (ចំណូលចិត្ត), share-picker និង search-picker (សកម្មភាព), date-time-picker (តម្លៃទម្រង់) និង picker-bar។
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>អ្វីដែលអ្នកនឹងសាងសង់</h2>
+  <p>
+    បន្ទះការកំណត់ដែលអ្នកប្រើជ្រើសរើសភាសា និងទំហំអក្សររបស់ពួកគេ — ជម្រើសដែលអនុវត្តលើឯកសារទាំងមូល ស្ថិតស្ថេររវាងការទស្សនា និងអស់សមាសភាគពីរ និង CSS ប៉ុន្មានជួរ។ ប្រហែល ១៥ នាទី។
+  </p>
+
+  <h2>មុនពេលអ្នកចាប់ផ្តើម</h2>
+  <p>
+    បញ្ចប់ <a href="/tutorials/">មេរៀនក្របខណ្ឌ</a> សម្រាប់ស្ទែករបស់អ្នក។ គំរូខាងក្រោមជា Svelte; ជំនួយការ React, Vue, Angular, HTML, Nunjucks និង Blazor ត្រូវគ្នាកិច្ចសន្យាដោយកិច្ចសន្យា។
+  </p>
+
+  <h2>រូបរាងដែលពួកវាចែករំលែក</h2>
+  <ul>
+    <li>ប៊ូតុងរូបតំណាងគ្មានក្បាលដែលបើកប្រអប់បញ្ជី WAI-ARIA APG (ឬសម្រាប់ date-time-picker ប្រអប់ជ្រើសកាលបរិច្ឆេទ) — គ្មានដើម <code>&lt;select&gt;</code>ដូច្នេះក្របខណ្ឌនីមួយៗទទួលបានអាកប្បកិរិយាក្តារចុច និង hook រចនាប័ទ្មដូចគ្នា។</li>
+    <li>class hook មួយក្នុងមួយកញ្ចប់ (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), CSS សូន្យត្រូវបានដឹកជញ្ជូន។</li>
+    <li>សុវត្ថិភាព SSR៖ ការសរសេរ DOM កើតឡើងតែក្នុងវដ្តជីវិត mount/effect ប៉ុណ្ណោះ។</li>
+    <li>ស្អាតចំពោះ i18n៖ អក្សរនីមួយៗដែលអ្នកប្រើមើលឃើញជាលក្ខណៈសម្បត្តិ។</li>
+    <li>
+      មានសម្រាប់ Svelte (ស្តង់ដារ) React, Vue, Angular, ធាតុផ្ទាល់ខ្លួន HTML, Nunjucks និង Blazor — កិច្ចសន្យាដូចគ្នាក្នុងនីមួយៗ។
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker និង text-size-picker នីមួយៗជាម្ចាស់
+    <em>ចំណូលចិត្ត</em> អ្នកប្រើមួយពីដើមដល់ចប់ (ការជ្រើសរើស ការអនុវត្ត DOM ជាជម្រើស
+    <code>localStorage</code> ភាពស្ថិតស្ថេរ <code>storageKey</code>
+    តាមរយៈលក្ខណៈសម្បត្តិ)។ share-picker និង date-time-picker ខុសគ្នាក្នុងប្រភេទ៖ share-picker ជាម្ចាស់ <em>សកម្មភាព</em> — វាមិនអនុវត្តអ្វីលើឯកសារ ហើយមិនរក្សាទុកអ្វី — ហើយ date-time-picker ជាម្ចាស់
+    <em>តម្លៃទម្រង់</em>ពីព្រោះកាលបរិច្ឆេទក្នុងទម្រង់ជាទិន្នន័យ មិនមែនជាចំណូលចិត្តទេ។
+  </p>
+
+  <h2>locale-picker — ភាសា និងទិស</h2>
+  <p>
+    អនុញ្ញាតឱ្យអ្នកប្រើជ្រើសរើសតំបន់ភាសា បន្ទាប់មកសរសេរ <code>lang</code> និង
+    <code>dir</code> ទៅឫសឯកសារ ដើម្បីឱ្យបណ្ណាល័យ i18n CSS និងបច្ចេកវិទ្យាជំនួយរបស់អ្នកទាំងអស់តាម។ RTL ត្រូវបានរកឃើញដោយស្វ័យប្រវត្តិសម្រាប់អារ៉ាប់ ហេព្រើរ និងអក្សរស្តាំទៅឆ្វេងផ្សេងទៀត។ វាផ្តោតតែលើការផ្តល់សញ្ញា — បណ្ណាល័យ i18n របស់អ្នកគ្រប់គ្រងការបកប្រែ។
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    ជម្រើសត្រូវបានដាក់ស្លាកពីតារាងដែលភ្ជាប់មកស្រាប់នៃឈ្មោះតំបន់ភាសា (អាចបដិសេធតាមរយៈ <code>localeLabels</code>) ជម្រើសនីមួយៗមាន
+    <code>lang</code> គុណលក្ខណៈផ្ទាល់ខ្លួន ដើម្បីឱ្យកម្មវិធីអានអេក្រង់បញ្ចេញសំឡេង “Français” ជាភាសាបារាំង ហើយកូដដែលមានសញ្ញាគូសបន្ទាត់ក្រោមដូចជា <code>en_US</code>
+    ធ្វើដំណើរទៅមកដោយគ្មានការបាត់បង់ទៅ BCP 47 <code>en-US</code>។ ភ្ជាប់
+    <code>onChange</code> (ឬតម្លៃដែលចង) ទៅ i18next, Paraglide, vue-i18n ឬអ្វីដែលអ្នកប្រើ។
+  </p>
+
+  <h2>text-size-picker — ទំហំដែលអ្នកអានគ្រប់គ្រង</h2>
+  <p>
+    ជ័យជម្នះភាពងាយស្រួលចូលប្រើដែលចំណាយពេលតែប៉ុន្មាននាទី៖ ជំនួយការកំណត់
+    <code>data-text-size="&#123;slug&#125;"</code> នៅលើឫសឯកសារ ហើយ CSS របស់អ្នកផ្គូផ្គងតម្លៃនីមួយៗទៅទំហំ។
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    កំណត់ទំហំប្លង់របស់អ្នកក្នុង <code>rem</code> ហើយកម្មវិធីទាំងមូលធ្វើមាត្រដ្ឋានតាមជម្រើសរបស់អ្នកប្រើ។ ស្លាកត្រូវបានធ្វើជាអក្សរធំពី slug (“X Large”) ឬបដិសេធដោយ <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ពិនិត្យការងាររបស់អ្នក៖</strong> ជ្រើស “Large” ពីឧបករណ៍ជ្រើសរើស ហើយអត្ថបទទំព័រលូតលាស់។ ផ្ទុកឡើងវិញ — វានៅតែធំ៖ ជម្រើសត្រូវបានរក្សាទុកទៅ
+      <code>localStorage</code>។ ប្តូរឧបករណ៍ជ្រើសភាសារបស់អ្នកទៅអារ៉ាប់ ហើយ
+      <code>dir="rtl"</code> ចុះចតលើឯកសារដោយស្វ័យប្រវត្តិ។
+    </p>
+  </div>
+
+  <h2>share-picker — ផ្ញើទំព័រនេះ</h2>
+  <p>
+    ប៊ូតុងអក្សរតែមួយដែលបើកសន្លឹកចែករំលែកដើមរបស់ឧបករណ៍ កន្លែងដែលមាន ហើយបើមិនដូច្នោះទេ ត្រឡប់ទៅបញ្ជីគោលដៅដែលអ្នកផ្តល់ បូកសកម្មភាពចម្លង URL។ វាមិនដឹកជញ្ជូន URL បណ្តាញសង្គមទេ — បណ្តាញណាដែលជារបស់ផលិតផលរបស់អ្នក ជាការហៅរបស់អ្នក មិនមែនរបស់ប្រព័ន្ធរចនាទេ។
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> លំនាំដើមទៅ <code>location.href</code>ដូច្នេះករណីទូទៅមិនត្រូវការខ្សែភ្ជាប់។ បង្ខំផ្លូវជាមួយ <code>strategy="list"</code> ឬ
+    <code>strategy="native"</code> នៅពេលអ្នកត្រូវការអាកប្បកិរិយាស្ថិរភាពឆ្លងវេទិកាសម្រាប់ការធ្វើតេស្ត ឬរូបថតអេក្រង់។
+  </p>
+
+  <h2>date-time-picker — កាលបរិច្ឆេទ ពេលវេលា ឬទាំងពីរ</h2>
+  <p>
+    វាលអត្ថបទដែលអ្នកអាចវាយ បូកប៊ូតុងរូបតំណាងដែលបើកប្រអប់ជ្រើសកាលបរិច្ឆេទ WAI-ARIA APG។ ត្រឹមត្រូវតាមតំបន់ភាសាតាមការរចនា — ឈ្មោះខែ ឈ្មោះថ្ងៃក្នុងសប្តាហ៍ ថ្ងៃដំបូងនៃសប្តាហ៍ និងនាឡិកា ១២ ឬ ២៤ ម៉ោង ទាំងអស់មកពី <code>Intl</code> — ហើយតម្លៃគឺជាខ្សែអក្សរ ISO ដែលអាចតម្រៀបបាន គ្មានល្វែងម៉ោងជានិច្ច៖ <code>"2026-03-15"</code> សម្រាប់
+    <code>mode="date"</code>, <code>"09:30"</code> សម្រាប់
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> សម្រាប់
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    តម្លៃ ISO ដូចគ្នានឹងអ្វីដែល <code>&lt;input type="date"&gt;</code>
+    ផ្ញើ ដូច្នេះអ្នកអាចប្តូរការគ្រប់គ្រងដើមចូល ឬចេញដោយមិនប៉ះ backend របស់អ្នក។
+  </p>
+
+  <h2>motion-picker — គោរពចលនាថយចុះ</h2>
+  <p>
+    ជំនួយការកំណត់ <code>data-motion="&#123;slug&#125;"</code> នៅលើឫសឯកសារ។ តម្លៃដំបូងរបស់វាមកពីការកំណត់ប្រព័ន្ធប្រតិបត្តិការរបស់អ្នកទស្សនា
+    <code>prefers-reduced-motion</code> — ជានិច្ច គ្មានទង់ជ្រើសរើសចូល ព្រោះចលនាគឺជាតម្រូវការភាពងាយស្រួលចូលប្រើពិតប្រាកដ (WCAG 2.3.3)។ CSS និងស្គ្រីបរបស់អ្នកសម្រេចថាអ្វីត្រូវបង្ក្រាប។
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — ប្រអប់ស្វែងរកដែលចៀសចេញពីផ្លូវ</h2>
+  <p>
+    ប៊ូតុងរូបតំណាងដែលបើកវាលស្វែងរក។ ការចុច Return ឬប៊ូតុង &#9166; នៅក្បែរវាល រុករកដោយសំណើ GET ធម្មតាទៅ
+    <code>/?&lt;text&gt;</code> (អត្ថបទត្រូវបានកាត់ និងអ៊ិនកូដ URI; សំណួរទទេមិនទៅណាទេ)។ ឈ្មោះដែលអាចចូលប្រើបានទាំងបីរបស់វាតម្រូវ ពីព្រោះជំនួយការមិនដឹកជញ្ជូនភាសាអង់គ្លេសទេ។
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> ផ្លាស់ប្តូរផ្លូវ (<code>/search?foo</code>) និង
+    <code>navigate</code> រក្សាការរុករកក្នុងកម្មវិធី; បើគ្មានវាទេ ជំនួយការហៅ <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — ជួរក្បាលទំព័រទាំងមូលក្នុងពេលតែមួយ</h2>
+  <p>
+    <code>picker-bar</code> បង្ហាញការស្វែងរក ស្បែក តំបន់ភាសា ទំហំអក្សរ និងការចែករំលែកក្នុងជួរតែមួយ ជាមួយសំណុំពេញលេញនៃស្បែកយោង និងមាត្រដ្ឋានអក្សរប្រាំពីរជំហានដែលភ្ជាប់ជាមុន។ ឈ្មោះដែលអាចចូលប្រើបាននីមួយៗមកក្នុងមួយ
+    <code>labels</code> វត្ថុតម្រូវ។
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    ទៅដល់ឧបករណ៍ជ្រើសរើសដែលរុំណាមួយជាមួយ <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> និង <code>shareProps</code>.
+  </p>
+
+  <h2>ព័ត៌មានជំនួយភ្ជាប់មកស្រាប់</h2>
+  <p>
+    ឧបករណ៍ជ្រើសរើសនីមួយៗបង្ហាញស្លាករបស់វាក្នុងព័ត៌មានជំនួយនៅពេលទស្សន៍ទ្រនិចសម្រាកលើប៊ូតុងរបស់វា ឬប៊ូតុងមានការផ្តោតក្តារចុច។ ព័ត៌មានជំនួយនៅតែមាននៅពេលទស្សន៍ទ្រនិចផ្លាស់ទីលើវា Escape បដិសេធវាទោះការផ្តោតនៅទីណាក៏ដោយ ហើយវាមិនដែលបង្ហាញនៅពេលផ្ទាំងលេចឡើងរបស់ឧបករណ៍ជ្រើសរើសបើកទេ។ វាមានអត្ថបទដូចគ្នានឹងឈ្មោះដែលអាចចូលប្រើបានរបស់ប៊ូតុង ដូច្នេះគ្មានអ្វីត្រូវកំណត់ ហើយគ្មានអ្វីត្រូវបកប្រែពីរដងទេ; ស្បែកយោងដាក់រចនាប័ទ្មវា។
+  </p>
+
+  <h2>បន្ទះការកំណត់នៅកន្លែងតែមួយ</h2>
+  <p>ជំនួយការចំណូលចិត្តទាំងបួនផ្សំគ្នាតាមធម្មជាតិ៖</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>បានផ្ទៀងផ្ទាត់៖</strong> កំណាត់ locale-picker, text-size-picker, share-picker, date-time-picker និងបន្ទះរួមបញ្ចូលគ្នាត្រូវបានចងក្រងដោយឡែកពីគ្នាប្រឆាំងនឹងកញ្ចប់ដែលបានបោះពុម្ព <code>0.1.1</code> តាមរយៈ
+      <code>svelte/server</code> (2026-08-29); កំណាត់ motion-picker, search-picker និង picker-bar ត្រូវបានបង្ហាញប្រឆាំងនឹងសមាសភាគផ្ទាល់ខ្លួនរបស់កញ្ចប់នៅ 2026-10-06។
+    </p>
+  </div>
+
+  <h2>កន្លែងយកវា</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    កញ្ចប់នីមួយៗមាន spec ផ្ទាល់ខ្លួន តេស្តដែលផ្គូផ្គងទៅនឹងកថាខណ្ឌ spec ឧទាហរណ៍ដែលអាចដំណើរការបាន (រួមទាំងលំនាំ cookie SSR) និងបំពង់សាងសង់ + ផ្សាយ។ កញ្ចប់ Svelte ជាស្តង់ដារ; នៅពេលសង្ស័យ កិច្ចសន្យារបស់ពួកវាឈ្នះ។
+  </p>
+
+  <h2>ជំហានបន្ទាប់</h2>
+  <ul>
+    <li><a href="/components/">កាតាឡុកសមាសភាគ</a> — ឯកសារយោងពេញលេញនៃសមាសភាគទាំង ៥៧១។</li>
+    <li><a href="/help/">ជំនួយ</a> — ការដោះស្រាយបញ្ហា និងសំណួរញឹកញាប់។</li>
+    <li><a href="/why/">ហេតុអ្វី Lily</a> — និងរបៀបគាំទ្រគម្រោង។</li>
+  </ul>
+  <p>
+    មានសំណួរតាមផ្លូវ?
+    <a href="/help/#troubleshooting">ទំព័រជំនួយ</a> ពេញដោយចម្លើយ — ហើយប្រសិនបើជំហានណាអាចច្បាស់ជាងនេះ
+    <a href="https://github.com/LilyDesignSystem">ប្រាប់យើង</a> ហើយយើងនឹងកែលម្អមេរៀនដោយអំណរ។
+  </p>
+</section>

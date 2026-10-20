@@ -1,0 +1,107 @@
+<!-- title: Blazor tutorial — Lily Design System -->
+<!-- description: Build accessible, styled form with Lily Blazor headless components: Razor components wey get parameters and bUnit tests. -->
+<section class="page-intro">
+  <h1>Blazor tutorial</h1>
+  <p class="page-intro-tagline">
+    Razor class library components wey get parameters, <code>ChildContent</code>
+    render fragments, attribute splatting, and one bUnit test for each component.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wetin you go build</h2>
+  <p>
+    Small contact form — input wey get label, submit button,
+    <code>@bind-Value</code> binding, real keyboard and screen-reader behaviour — first bare, then styled, for about 10 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    You need git and di .NET SDK 8 or newer. Any Blazor project dey work — Blazor Web App, Server, or WebAssembly.
+  </p>
+
+  <h2>Step 1 — Get di code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Di components dey live inside <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — one Razor file each. Reference di project (or copy di files) from your Blazor app and add <code>@using LilyBlazorHeadless.Components</code> to
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Step 2 — Your first component</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    E dey render <code>&lt;button class="button"&gt;</code>. Di shared parameter conventions: <code>Label</code> (an <code>aria-label</code> override),
+    <code>CssClass</code> (dem append am to di base hook),
+    <code>ChildContent</code>, and
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> attribute splatting so any extra HTML attribute go pass through.
+  </p>
+
+  <h2>Step 3 — Compose small form</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> dey take di visible <code>Label</code> as im own parameter instead of nested label component — pass am once, on
+    <code>Field</code>, and <code>TextInput</code>for
+    <code>Label</code> dey provide di accessible name.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> earlier draft nest separate <code>Label</code> component inside <code>Field</code>, wey render <em>two</em> labels (one empty) because <code>Field</code>
+      already dey render im own from di <code>Label</code> parameter — dem catch am by checking di component source; <code>Form</code> no get im own <code>Label</code> parameter, so di earlier draft usage of
+      <code>&lt;Form&gt;</code> dem correct am to comot one instead of to invent attribute wey no exist. Di
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">contact-form composed route</a>
+      na di same pattern, wey real e2e and axe tests don exercise.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> run di app and di form go look plain — exactly as dem plan am: di styling still dey come. Press
+      <kbd>Tab</kbd>: focus go move through every control, di label go dey announced, and submit dey work. Di behaviour don finish; di look na yours and e be next.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style am</h2>
+  <p>
+    Style di class hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — inside <code>app.css</code>, or link ready-made theme inside <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Step 5 — See everything dey work</h2>
+  <p>
+    Di <a href="/examples/">Blazor Web example app</a> show di full catalog styled and demoed, with Playwright e2e tests:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with di Blazor theme-picker helper (Razor class library for NuGet).</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
+    <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard for each component.</li>
+  </ul>
+  <p>
+    You get questions as you dey go? Di
+    <a href="/help/#troubleshooting">help page</a> full of answers — and if any step fit clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we go gladly improve di tutorial.
+  </p>
+</section>

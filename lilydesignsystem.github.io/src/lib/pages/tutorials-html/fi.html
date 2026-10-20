@@ -1,0 +1,106 @@
+<!-- title: HTML-opas — Lily Design System -->
+<!-- description: Rakenna saavutettava, tyylitelty lomake Lilyn HTML-headless-komponenteilla — tavallista merkintää suoraan tiedostosta. -->
+<section class="page-intro">
+  <h1>HTML-opas</h1>
+  <p class="page-intro-tagline">
+    Yksinkertaisin mahdollinen aloitus: kopioi semanttista HTML:ää Lilyn luokkakoukkuineen, lisää yksi tyylitiedosto, julkaise. Tavallisia tiedostoja, jotka toimivat kaikkialla, missä HTML toimii.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Pieni yhteydenottolomake — nimiöityjä kenttiä, lähetyspainike, aito näppäimistö- ja ruudunlukijakäyttäytyminen — ensin paljaana, sitten tyylitellen, noin 10 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Tarvitset selaimen ja tekstieditorin. Siinä kaikki. (git helpottaa komponenttitiedostojen hakemista, mutta voit kopioida ne myös GitHubista selaimessa.)
+  </p>
+
+  <h2>Vaihe 1 — Hae koodi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Jokainen komponentti on itsenäinen tiedosto hakemistossa <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>ja niin edelleen — otsikkokommentilla, joka dokumentoi sen HTML-tagin, luokkakoukun, näppäimistökäyttäytymisen ja saavutettavuussopimuksen. Tiedostot <em>ovat</em> kirjasto — kopioi tarvitsemasi ja aloita.
+  </p>
+
+  <h2>Vaihe 2 — Ensimmäinen komponenttisi</h2>
+  <p>Avaa <code>components/button.html</code>tai kirjoita vain merkintä — luokkakoukku on sopimus:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Koska se on aito <code>&lt;button&gt;</code>, näppäimistökohdistus, aktivointi Enterillä ja välilyönnillä sekä implisiittinen painikeroolit ovat jo oikein.
+  </p>
+
+  <h2>Vaihe 3 — Kokoa pieni lomake</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Huomaa malli: jokainen ohjain linkittää oman <code>&lt;label for&gt;</code>-elementtinsä, käyttää tarkinta syöttötyyppiä ja kantaa täsmälleen yhtä kebab-case-luokkakoukkua.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> avaa sivu selaimessa. Se näyttää paljaalta — juuri niin kuin on tarkoitus: tyylittely on vielä edessä. Paina
+      <kbd>Tab</kbd>: kohdistus liikkuu jokaisen ohjaimen läpi, nimiöt ilmoitetaan ja lähettäminen toimii. Toiminta on valmis; ulkoasu on sinun ja seuraava vaihe.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Tyylittele se</h2>
+  <p>Kirjoita CSS koukkuja vasten:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Tai ohita CSS:n käsin kirjoittaminen kokonaan — linkitä yksi 45 valmiista teemasta, ja sama merkintä syttyy:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Vaihe 5 — Tutki lisää</h2>
+  <ul>
+    <li>Repon testit ajetaan oikeilla selaimilla: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook jokaiselle komponentille: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS-esimerkkisovellus</a> näyttää kaikki 571 komponenttia tyyliteltyinä, haettavina ja esiteltyinä.
+    </li>
+  </ul>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemat</a> — teeman vaihto ajon aikana theme-pickerillä.</li>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — kieli ja tekstikoko.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — täysi viite.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

@@ -1,0 +1,109 @@
+<!-- title: آموزش React — Lily Design System -->
+<!-- description: با مؤلفه‌های بدون‌سر Lily برای React یک فرم در دسترس و استایل‌دار بسازید: مؤلفه‌های تابعی نوع‌دار با value + onChange. -->
+<section class="page-intro">
+  <h1>آموزش React</h1>
+  <p class="page-intro-tagline">
+    مؤلفه‌های تابعی نوع‌دار، هر کدام یک فایل، با الگوی استاندارد کنترل می‌شوند
+    <code>value</code> + <code>onChange</code> — همه‌چیز همان‌طور کار می‌کند که React از پیش کار می‌کند.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>چه چیزی می‌سازید</h2>
+  <p>
+    یک فرم تماس کوچک — فیلد دارای برچسب، دکمه ارسال، وضعیت کنترل‌شده، رفتار واقعی صفحه‌کلید و صفحه‌خوان — ابتدا ساده، سپس استایل‌دار، در حدود ۱۰ دقیقه.
+  </p>
+
+  <h2>پیش از شروع</h2>
+  <p>
+    به git، Node 22 یا جدیدتر و pnpm 10 یا جدیدتر نیاز دارید. هر پروژه React 18+ کار می‌کند — Next.js، Vite یا React ساده.
+  </p>
+
+  <h2>گام ۱ — کد را بگیرید</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    مؤلفه‌ها فایل‌های تخت هستند در <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — هر کدام با آزمون، story و مستنداتش در کنارش. فایل‌های لازم را در برنامه خود کپی کنید، یا مخزن را بیاورید و از آن وارد کنید.
+  </p>
+
+  <h2>گام ۲ — نخستین مؤلفه شما</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    نمایش می‌دهد <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (نمایش می‌دهد
+    <code>aria-pressed</code>), <code>label</code> (یک
+    <code>aria-label</code> برای بازنویسی)، <code>className</code>، و هر ویژگی اضافی روی عنصر ریشه پخش می‌شود.
+  </p>
+
+  <h2>گام ۳ — یک فرم کوچک بسازید</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code>  <code>label</code> را به‌عنوان prop خودش، نه مؤلفه برچسب تودرتو — آن را یک‌بار بدهید، روی
+    <code>Field</code>و <code>TextInput</code>متناظر
+    <code>label</code> نام قابل‌دسترس را فراهم می‌کند.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تأییدشده در ۲۰۲۶-۰۸-۲۹:</strong> یک پیش‌نویس قبلی مؤلفه <code>Label</code> درون <code>Field</code>قرار داده بود که
+      <em>دو</em> برچسب (یکی خالی) نمایش می‌داد، چون <code>Field</code> خودش از ورودی <code>label</code> prop — با کامپایل قطعه دقیق کشف شد. مسیر
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">مسیر ترکیبی فرم تماس</a>
+      همین الگوست، با آزمون‌های واقعی e2e و axe سنجیده شده.
+    </p>
+  </div>
+
+  <h2>گام ۴ — استایل بدهید</h2>
+  <p>
+    همه‌چیز بالا به‌صورت ساختار خالص رندر می‌شود، آماده برای استایل‌های شما. قلاب‌ها را استایل بدهید — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — در شیوه‌نامه خود، ابزارهای Tailwind را از طریق لایه کنید <code>className</code>، یا یک تم آماده را پیوند دهید:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>گام ۵ — همه‌چیز را در حال کار ببینید</h2>
+  <p>
+     <a href="/examples/">برنامه نمونه Next.js</a> کل فهرست استایل‌دار و نمایش‌داده است، با Playwright e2e و خط پایه axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>گام‌های بعدی</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">تم‌ها</a> — تعویض در زمان اجرا با کمکی theme-picker برای React.</li>
+    <li><a href="/tutorials/helpers/">کمکی‌های ترجیحات</a> — زبان و اندازه متن.</li>
+    <li><a href="/components/">فهرست مؤلفه‌ها</a> — ویژگی‌ها، ARIA و صفحه‌کلید برای هر مؤلفه.</li>
+  </ul>
+  <p>
+    در مسیر پرسشی دارید؟
+    <a href="/help/#troubleshooting">صفحه راهنما</a> پر از پاسخ است — و اگر گامی می‌تواند روشن‌تر باشد،
+    <a href="https://github.com/LilyDesignSystem">به ما بگویید</a> و ما با کمال میل آموزش را بهبود می‌دهیم.
+  </p>
+</section>

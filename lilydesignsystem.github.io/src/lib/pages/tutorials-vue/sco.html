@@ -1,0 +1,122 @@
+<!-- title: Vue tutorial — Lily Design System -->
+<!-- description: Big an accessible, styled form wi Lily's Vue 3 headless components: single-file components wi v-model. -->
+<section class="page-intro">
+  <h1>Vue tutorial</h1>
+  <p class="page-intro-tagline">
+    Vue 3 single-file components wi typed props, <code>defineModel</code>
+    two-wey binding, an <code>v-bind="$attrs"</code> pass-through.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Whit ye'll big</h2>
+  <p>
+    A wee contact form — labelled input, submit button, <code>v-model</code>
+    bindin, real keyboard an screen-reader behaviour — first bare, then styled, in aboot 10 minutes.
+  </p>
+
+  <h2>Afore ye stairt</h2>
+  <p>
+    Ye need git, Node 22 or later, an pnpm 10 or later. Onie Vue 3 project wirks — Nuxt, Vite, or plain Vue.
+  </p>
+
+  <h2>Step 1 — Git the code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    The components are flat files in <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — ilkane wi its test, story, an docs alangside. Copy the files ye need, or vendor the repo.
+  </p>
+
+  <h2>Step 2 — Yer first component</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Renders <code>&lt;button class="button" type="button"&gt;</code>. Props match the ither frameworks: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plus attribute fall-through for aathing else.
+  </p>
+
+  <h2>Step 3 — Compose a wee form</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> taks the visible <code>label</code> as its ain prop raither than a nestit label component — pass it ance, on
+    <code>Field</code>, an <code>TextInput</code>on
+    <code>label</code> supplies the accessible name.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> an earlier draft nestit a separate <code>Label</code> inside <code>Field</code>, which renders
+      <em>twa</em> labels (ane empty) because <code>Field</code> aareadies renders its ain frae the <code>label</code> prop — catcht bi compilin the exact snippet. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">contact-form composed route</a>
+      is the same pattern, exercised bi real e2e an axe tests.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> uises <code>defineModel</code>, sae plain
+    <code>v-model</code> wirks oot o the box.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check yer wirk:</strong> rin the app an the form looks plain — exactly as intendit: styling is still aheid. Press
+      <kbd>Tab</kbd>: focus muives through ilka control, the label is announced, an submit wirks. The behaviour is deen; the look is yours, an it's neist.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style it</h2>
+  <p>
+    Style the class hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — in yer stylesheet, or link a ready-made theme in <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Step 5 — See it aw wirkin</h2>
+  <p>
+    The <a href="/examples/">Nuxt example app</a> is the full catalog styled an demoed, wi Playwright e2e an an axe-core baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Neist steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switchin wi the Vue theme-picker helper.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — leid an text size.</li>
+    <li><a href="/components/">Component catalog</a> — props, ARIA, an keyboard per component.</li>
+  </ul>
+  <p>
+    Questions alang the wey? The
+    <a href="/help/#troubleshooting">help page</a> is fu o answers — an if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> an we'll gladly improve the tutorial.
+  </p>
+</section>

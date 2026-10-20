@@ -1,0 +1,122 @@
+<!-- title: Vue-Tutorial — Lily Design System -->
+<!-- description: Baut e zougängleche, gestalte Formulaire mat de Headless-Komponente vu Lily fir Vue 3: Eendatei-Komponenten mat v-model. -->
+<section class="page-intro">
+  <h1>Vue-Tutorial</h1>
+  <p class="page-intro-tagline">
+    Vue-3-Eendatei-Komponenten mat typiséierte Props, <code>defineModel</code>
+    Zwee-Weeër-Bindung an <code>v-bind="$attrs"</code> -Duerchleeung.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    E klengt Kontaktformulaire — Feld mat Etikett, Schécken-Knäppchen, <code>v-model</code>
+    -Bindung, richtegt Tastatur- an Écranliesser-Verhalen — fir d'éischt nackeg, duerno gestalt, an ongeféier 10 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Dir braucht git, Node 22 oder méi nei a pnpm 10 oder méi nei. All Vue-3-Projet funktionéiert — Nuxt, Vite oder einfachen Vue.
+  </p>
+
+  <h2>Schrëtt 1 — D'Code kréien</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    D'Komponenten sinn flaach Dateien am <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — jidd mat sengem Test, senger Story a senger Dokumentatioun niewendrun. Kopéiert d'Dateien, déi Dir braucht, oder hellt de Repo eran.
+  </p>
+
+  <h2>Schrëtt 2 — Är éischt Komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button" type="button"&gt;</code>. D'Props entspriechen deenen aner Frameworks: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plus Attribut-Duerchleeung fir alles anescht.
+  </p>
+
+  <h2>Schrëtt 3 — E klengt Formulaire zesummestellen</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> hëlt dat siichtbart <code>label</code> als seng eege Prop amplaz vun enger verschachtelter Etikett-Komponent — gitt et eemol weider, bei
+    <code>Field</code>an <code>TextInput</code>vun
+    <code>label</code> liwwert den zougänglechen Numm.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gepréift den 2026-08-29:</strong> en ale Brouillon huet eng separat <code>Label</code> bannen <code>Field</code>verschachtelt, wat
+      <em>zwee</em> Etiketten (eng eidel) gerendert huet, well <code>Field</code> schonn säin eegenen aus dem <code>label</code> -Prop — entdeckt duerch d'Kompiléiere vum exakte Snippet. D'Route
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Déi zesummegesat Kontaktformulaire-Route</a>
+      ass datselwecht Muster, getest mat richtegen e2e- an axe-Tester.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> benotzt <code>defineModel</code>, sou datt e einfachen
+    <code>v-model</code> direkt funktionéiert.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> start d'App an d'Formulaire gesäit nackeg aus — genee wéi geduecht: d'Gestaltung kënnt nach. Dréckt
+      <kbd>Tab</kbd>: de Fokus geet duerch all Kontroll, d'Etikett gëtt ugekënnegt an d'Schécken funktionéiert. D'Verhalen ass fäerdeg; d'Ausgesi ass Är a kënnt als Nächst.
+    </p>
+  </div>
+
+  <h2>Schrëtt 4 — Gestalt et</h2>
+  <p>
+    Gestalt d'Klassen-Hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — an Ärem Stylesheet, oder verlinkt e fäerdegt Thema am <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Schrëtt 5 — Alles am Aktioun gesinn</h2>
+  <p>
+     <a href="/examples/">Nuxt Beispill-App</a> ass de ganze Katalog gestalt an demonstréiert, mat Playwright e2e an enger axe-core-Baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themen</a> — Wiessel zur Laafzäit mam Vue-Helper theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Astellungs-Helperen</a> — Sprooch a Textgréisst.</li>
+    <li><a href="/components/">Komponentekatalog</a> — Eegeschaften, ARIA an Tastatur pro Komponent.</li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

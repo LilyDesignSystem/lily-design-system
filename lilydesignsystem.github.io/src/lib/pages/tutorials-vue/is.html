@@ -1,0 +1,122 @@
+<!-- title: Vue-kennsluefni — Lily Design System -->
+<!-- description: Byggðu aðgengilegt, stílað eyðublað með höfuðlausum Vue 3 íhlutum Lily: einskrárhlutum með v-model. -->
+<section class="page-intro">
+  <h1>Vue-kennsluefni</h1>
+  <p class="page-intro-tagline">
+    Vue 3 einskrárhlutir með tegundabundnum props, <code>defineModel</code>
+    tvíátta bindingu og <code>v-bind="$attrs"</code> gegnumflæði.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Lítið tengiliðaeyðublað — innsláttarreitur með merkimiða, sendihnappur, <code>v-model</code>
+    binding, raunveruleg lyklaborðs- og skjálesarahegðun — fyrst ber, svo stílað, á um 10 mínútum.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Þú þarft git, Node 22 eða nýrra og pnpm 10 eða nýrra. Hvaða Vue 3 verkefni sem er virkar — Nuxt, Vite eða hreint Vue.
+  </p>
+
+  <h2>Skref 1 — Náðu í kóðann</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Íhlutirnir eru flatar skrár í <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — hver með prófi, story og skjölum við hliðina. Afritaðu skrárnar sem þú þarft, eða taktu geymsluna inn.
+  </p>
+
+  <h2>Skref 2 — Fyrsti íhluturinn þinn</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Birtir <code>&lt;button class="button" type="button"&gt;</code>. Props samsvara hinum römmunum: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, auk eigindagegnumflæðis fyrir allt annað.
+  </p>
+
+  <h2>Skref 3 — Settu saman lítið eyðublað</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> tekur sýnilega <code>label</code> sem sinn eigin prop frekar en innfelldan merkimiðaíhlut — gefðu hann einu sinni, á
+    <code>Field</code>og <code>TextInput</code>á
+    <code>label</code> sér um aðgengilega heitið.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staðfest 2026-08-29:</strong> fyrri drög innfeldu sérstakan <code>Label</code> inni í <code>Field</code>, sem birtir
+      <em>tvo</em> merkimiða (annan tóman) því <code>Field</code> birtir þegar sinn eigin út frá <code>label</code> prop — uppgötvað með því að þýða nákvæmlega snifsið. Sá
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">samsetta tengiliðaeyðublaðsleiðin</a>
+      er sama mynstur, prófað með raunverulegum e2e- og axe-prófum.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> notar <code>defineModel</code>, svo einfalt
+    <code>v-model</code> virkar strax.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Athugaðu verkið:</strong> keyrðu forritið og eyðublaðið lítur einfalt út — nákvæmlega eins og ætlað er: stíllinn er enn framundan. Ýttu á
+      <kbd>Tab</kbd>: fókusinn færist í gegnum hverja stýringu, merkimiðinn er lesinn upp og sending virkar. Hegðunin er tilbúin; útlitið er þitt og er næst.
+    </p>
+  </div>
+
+  <h2>Skref 4 — Stílaðu það</h2>
+  <p>
+    Stílaðu klasakrókana — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — í stílblaðinu þínu, eða tengdu tilbúið þema í <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Skref 5 — Sjáðu allt virka</h2>
+  <p>
+     <a href="/examples/">Nuxt dæmaforritið</a> er allt safnið stílað og sýnt, með Playwright e2e og axe-core grunnlínu:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Þemu</a> — skipti á keyrslutíma með Vue theme-picker hjálpartækinu.</li>
+    <li><a href="/tutorials/helpers/">Stillingahjálpartæki</a> — tungumál og textastærð.</li>
+    <li><a href="/components/">Íhlutasafn</a> — eiginleikar, ARIA og lyklaborð fyrir hvern íhlut.</li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

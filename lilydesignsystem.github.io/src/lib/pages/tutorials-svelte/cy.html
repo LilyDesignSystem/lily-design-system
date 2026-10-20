@@ -1,0 +1,117 @@
+<!-- title: Tiwtorial Svelte — Lily Design System -->
+<!-- description: Adeiladwch ffurflen hygyrch, wedi'i steilio gyda chydrannau di-ben Lily ar gyfer Svelte 5: runes, snippets a bind:value. -->
+<section class="page-intro">
+  <h1>Tiwtorial Svelte</h1>
+  <p class="page-intro-tagline">
+    Llyfrgell Svelte Lily yw'r gweithrediad canonaidd: runes Svelte 5, props teipiedig, lledaenu props gweddilliol, a rhwymo dwyffordd gyda
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gyswllt fach — maes â label, botwm cyflwyno, rhwymo dwyffordd, ymddygiad bysellfwrdd a darllenydd sgrin go iawn — yn noeth yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae arnoch angen git, Node 22 neu'n hwyrach, a pnpm 10 neu'n hwyrach. Mae unrhyw brosiect Svelte 5 yn gweithio — mae ap newydd sbon <code>npx sv create</code> yn ddigon.
+  </p>
+
+  <h2>Cam 1 — Cael y cod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Mae'r cydrannau'n byw yn <code>src/lib/components/&#123;Name&#125;/</code>, un cyfeiriadur i bob cydran gyda'r ffeil <code>.svelte</code> , ei phrofion, ei storïau a'i dogfennaeth ochr yn ochr. Copïwch y cyfeiriaduron sydd eu hangen arnoch i'ch ap, neu dibynnwch ar y gadwrfa a mewnforio'n uniongyrchol.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Yn dangos <code>&lt;button class="button" type="button"&gt;</code>. Mae'r props yn deipiedig: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (yn dangos <code>aria-pressed</code> (yn dangos <code>label</code> ( <code>aria-label</code> ar gyfer botymau toglo),
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> yn cymryd y <code>label</code> fel ei prop ei hun yn lle cydran label nythedig — pasiwch ef unwaith, ar <code>Field</code>a <code>TextInput</code>cyfatebol o <code>label</code> yn darparu'r enw hygyrch. <code>TextInput</code>'s <code>value</code> i'w ddiystyru), ac mae unrhyw briodoledd ychwanegol yn lledaenu ar y gwraidd.
+    <code>$bindable</code> yn prop <code>bind:value</code> rune, felly mae
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwyd 2026-08-29:</strong> yn rhoi rhwymo dwyffordd i chi ar unwaith. <code>svelte/server</code> llunniwyd yr union ddarn hwn drwy <code>&lt;label for&gt;</code> a'i wirio am un label unigol, wedi'i gysylltu'n gywir <code>Label</code> y tu mewn i <code>Field</code>— roedd drafft cynharach yn nythu
+      <em>dau</em> label (un yn wag) oherwydd bod <code>Field</code> eisoes yn dangos ei un ei hun o'r mewnbwn <code>label</code> ar wahân y tu mewn, a oedd yn rendro
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Y llwybr ffurflen gyswllt cyfansawdd</a>
+      yw'r un patrwm, wedi'i brofi gyda phrofion e2e ac axe go iawn.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> rhedwch yr ap ac mae'r ffurflen yn edrych yn noeth — yn union fel y bwriadwyd: mae'r steilio eto i ddod. Pwyswch
+      <kbd>Tab</kbd>: mae ffocws yn symud trwy bob rheolydd, caiff y label ei gyhoeddi ac mae cyflwyno'n gweithio. Mae'r ymddygiad wedi'i orffen; eich un chi yw'r olwg a dyma'r cam nesaf.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>
+    Mae popeth uchod yn rendro fel strwythur pur, yn barod ar gyfer eich arddulliau. Steiliwch y bachau dosbarth —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — yn eich taflen arddull fyd-eang, neu cysylltwch thema barod yn <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Mae addasiadau fesul enghraifft yn mynd drwy'r <code>class</code> prop, sy'n cael ei atodi at y bachyn sylfaenol: <code>&lt;Button class="wide"&gt;</code> yn rendro
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Cam 5 — Ei weld yn gweithio i gyd</h2>
+  <p>
+     <a href="/examples/">Ap enghreifftiol SvelteKit</a> yw'r un catalog wedi'i steilio'n llawn, gydag arddangosiadau byw, profion Playwright e2e a llinell sylfaen hygyrchedd axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themâu</a> — newid yn ystod rhedeg gyda'r cynorthwyydd theme-picker ar gyfer Svelte.</li>
+    <li><a href="/tutorials/helpers/">Cynorthwywyr dewisiadau</a> — iaith a maint testun.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — priodweddau, ARIA a bysellfwrdd ar gyfer pob cydran.</li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

@@ -1,0 +1,111 @@
+<!-- title: Tiwtorial themâu — Lily Design System -->
+<!-- description: Themeiwch Lily mewn tair ffordd: cysylltwch un o'r 45 thema barod, diystyrwch hi gyda'ch CSS, ac ychwanegwch newid thema yn ystod rhedeg gyda'r cynorthwyydd theme-picker. -->
+<section class="page-intro">
+  <h1>Themâu</h1>
+  <p class="page-intro-tagline">
+    Mae gan gydrannau Lily fachau dosbarth sefydlog a sero CSS — felly taflen arddull yn unig yw thema. Mae'r tiwtorial hwn yn mynd o "gysylltu un ffeil" i "adael i'r defnyddiwr newid thema yn ystod rhedeg, wedi'i barhau".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ap y gall y defnyddiwr newid ei olwg gyfan — gan ddechrau gydag un daflen arddull gysylltiedig, gan orffen â newidiwr thema parhaus yn ystod rhedeg — mewn tua 15 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Gorffennwch yn gyntaf y <a href="/tutorials/">tiwtorial fframwaith</a> ar gyfer eich pentwr yn gyntaf, fel bod gennych ffurflen Lily fach i'w themeiddio. Mae popeth yma'n gweithio ym mhob un o'r saith fframwaith; mae'r samplau cod yn dangos Svelte a HTML syml.
+  </p>
+
+  <h2>Cam 1 — Cysylltu thema barod</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    Mae'r cyfeiriadur yn cynnwys 45 taflen arddull annibynnol. Copïwch nhw i asedau statig eich ap a chysylltwch un:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Uchafbwyntiau'r set:</p>
+  <ul>
+    <li>
+      <strong>Y sector cyhoeddus</strong> — NHS England / Scotland / Wales, pob un mewn amrywiadau sy'n wynebu cleifion ac ymarferwyr; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Wedi'u hysbrydoli gan werthwyr</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Pwrpas cyffredinol</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, a llawer mwy.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> ail-lwythwch y dudalen. Mae'r un marcio ag a adeiladoch yn y tiwtorial fframwaith bellach wedi'i steilio'n llawn — botymau, mewnbynnau, labeli, cylchoedd ffocws. Gwnaeth un llinell o HTML hynny — arhosodd pob cydran yn union fel yr oedd.
+    </p>
+  </div>
+
+  <h2>Cam 2 — Diystyru unrhyw beth</h2>
+  <p>
+    Mae dewiswyr y thema wedi'u lapio yn <code>:where(...)</code>sydd â phenodolrwydd sero — felly mae unrhyw reol a ysgrifennwch yn ennill, yn syml:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Cam 3 — Newid yn ystod rhedeg gyda theme-picker</h2>
+  <p>
+     <code>theme-picker</code> mae'r cynorthwyydd yn fotwm eicon di-ben + blwch rhestr sy'n berchen ar gylch bywyd cyfan y thema: mae'n llwytho'r daflen arddull a ddewiswyd drwy gyfnewid un <code>&lt;link&gt;</code>
+    a reolir (dim ond y thema weithredol a nôl), yn gosod
+    <code>data-theme="&#123;slug&#125;"</code> ar y ddogfen, ac yn parhau'n ddewisol i <code>localStorage</code>. Dangosir Svelte yma; mae porthladdoedd React, Vue, Angular, HTML, Nunjucks a Blazor yn cyfateb contract wrth gontract:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Dyna'r integreiddio cyfan. Mae ymddygiad y bysellfwrdd yn dilyn patrwm blwch rhestr WAI-ARIA APG; mae'r rheolydd ei hun yn ddi-ben (bachyn dosbarth
+    <code>.theme-picker</code>), felly mae'n codi pa bynnag thema sy'n weithredol.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwyd 2026-08-29:</strong> llunniwyd yr union ddarn hwn yn erbyn y pecyn <code>0.1.1</code> cyhoeddedig drwy
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ymateb i'r thema yn eich CSS eich hun</h2>
+  <p>
+    Gan fod y cynorthwyydd yn gosod <code>data-theme</code> ar wraidd y ddogfen, gall eich arddulliau eich hun ganghennu arno:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Nodiadau ar gyfer rendro ar y gweinydd</h2>
+  <p>
+    Mae'r cynorthwyydd yn gwneud pob ysgrifennu DOM y tu mewn i gylch bywyd mount/effect y fframwaith, felly mae'n ddiogel ar gyfer SSR yn ôl cynllun. I osgoi fflach wrth y paentiad cyntaf, rendrwch <code>&lt;link&gt;</code> a
+    <code>data-theme</code> y thema gychwynnol ar y gweinydd (er enghraifft o gwci) — mae cadwrfa'r cynorthwyydd Svelte yn cludo enghraifft cwci SvelteKit y gellir ei rhedeg, ac mae'r catalogau eraill yn cofnodi'r un patrwm ar gyfer eu pentyrrau.
+  </p>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Cynorthwywyr dewisiadau</a> — yr un patrwm ar gyfer iaith, maint testun, rhannu a mewnbynnu dyddiad/amser.</li>
+    <li>
+      Cyfrannwch thema — mae pob un yn un daflen arddull annibynnol sy'n targedu'r bachau dosbarth; gweler <a href="/help/#contributing">cyfrannu</a>.
+    </li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

@@ -1,0 +1,432 @@
+<!-- title: Yardım — Lily Design System -->
+<!-- description: Lily ile başlayın: çerçeveniz için başsız paketi kurun, bir bileşeni kopyalayın, biçimlendirin, tema uygulayın ve yayına alın. Sorun giderme, SSS ve destek. -->
+<section class="page-intro">
+  <h1>Lily ile başlarken</h1>
+  <p class="page-intro-tagline">
+    Bir çerçeve seçin, monorepo'yu klonlayın ve başsız kütüphanesini ya da örnek uygulamasını açın, sonra kendi sayfalarınızı oluşturmaya başlayın. Rehberli bir yol mu tercih edersiniz?
+    <a href="/tutorials/">Öğreticilerle</a>.
+  </p>
+</section>
+
+<nav aria-label="Bu sayfada" class="prose" style="margin: 0 auto;">
+  <p><strong>Bu sayfada:</strong></p>
+  <ul>
+    <li><a href="#install">Kurulum</a></li>
+    <li><a href="#use-headless">Başsız bileşen kullanma</a></li>
+    <li><a href="#use-styled">Biçimlendirilmiş örnek kullanma</a></li>
+    <li><a href="#styling">Biçimlendirme ve tasarım belirteçleri</a></li>
+    <li><a href="#themes">Hazır temalar</a></li>
+    <li><a href="#helpers">Tercih yardımcıları</a></li>
+    <li><a href="#a11y">Erişilebilirlik</a></li>
+    <li><a href="#i18n">Uluslararasılaştırma</a></li>
+    <li><a href="#testing">Test</a></li>
+    <li><a href="#ai-agents">Yapay zekâ ajanları</a></li>
+    <li><a href="#troubleshooting">Sorun giderme</a></li>
+    <li><a href="#contributing">Katkıda bulunma</a></li>
+    <li><a href="#community">Topluluk ve destek</a></li>
+    <li><a href="#faq">SSS</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Kurulum</h2>
+  <p>
+    Lily tek bir Git monorepo'sunda yaşar; her çerçevenin başsız kütüphanesi, yardımcı paketleri ve örnek uygulaması için ayrı bir dizin vardır. Denemenin en hızlı yolu monorepo'yu klonlayıp yığınınız için başsız kütüphaneyi açmaktır:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Aynı kalıp diğer çerçeveler için de geçerlidir:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — kurulum gerekmez; dosyalarını kopyalayın <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Başsız kütüphaneler klonlanmak veya projeye alınmak üzere tasarlanmıştır — kaynak kodunu doğruluk kaynağı sayın ve ihtiyacınız olanı kopyalayın.
+    <a href="#helpers">Tercih yardımcıları</a> ek olarak derleme ve yayın hattıyla (JS çerçeveleri için npm, Blazor için NuGet) kurulabilir paketler olarak da sunulur.
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Başsız bileşen kullanma</h2>
+  <p>
+    Başsız bileşenler anlamsal HTML, ARIA ve prop'lar sunar — ama CSS sunmaz. İşte her çerçevede bir Button:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Biçimlendirilmiş örnek kullanma</h2>
+  <p>
+    Örnek uygulamalar CSS, rotalar ve tam demo sayfaları içerir. Denemenin en hızlı yolu SvelteKit, Next, Nuxt, Analog veya Eleventy örnek uygulamasını başlatıp demoyu şurada görmektir: <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Sonra <code>http://localhost:5173</code> adresini açın ve şuraya göz atın: <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Biçimlendirme ve tasarım belirteçleri</h2>
+  <p>
+    Her bileşen, kök öğesinde tek bir kebab-case sınıfla oluşturulur. Örneğin <code>&lt;Button&gt;</code> şuna dönüşür: <code>&lt;button class="button"&gt;</code>. İstediğiniz gibi biçimlendirin:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily'nin varsayılan renk paleti (örnek uygulamalarda kullanılır):</p>
+  <ul>
+    <li>Birincil: <code>#2563eb</code></li>
+    <li>Tehlike: <code>#dc2626</code></li>
+    <li>Uyarı: <code>#f59e0b</code></li>
+    <li>Başarı: <code>#16a34a</code></li>
+    <li>Sayfa arka planı: <code>#f9fafb</code></li>
+    <li>Kart arka planı: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Bunlar öneridir, zorunluluk değil. Kendi marka paletinizle değiştirin, Lily memnuniyetle uyum sağlar.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Hazır temalar</h2>
+  <p>
+    CSS'i sıfırdan yazmak istemiyor musunuz? Lily,
+    <strong>57 bağımsız başvuru temasını</strong> 
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    dizininde sunar. Her biri Lily sınıf kancalarını hedefleyen tek bir stil sayfasıdır — bağlayın, biçimlendirilmiş olursunuz:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Küme şunları kapsar:</p>
+  <ul>
+    <li>
+      <strong>Kamu sektörü</strong> — NHS England, NHS Scotland ve NHS Wales (her biri hasta ve uygulayıcı sürümleriyle), GOV.UK GDS ve U.S. Web Design System.
+    </li>
+    <li><strong>Satıcılardan esinlenenler</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Genel amaçlı</strong> — light, dark, nord, dracula, wireframe ve otuz kadar daha.
+    </li>
+  </ul>
+  <p>
+    Tema seçicileri <code>:where(...)</code> kullanır; bu nedenle kendi CSS'iniz özgüllükte her zaman kazanır. Çalışma zamanında geçiş için bunları aşağıdaki <code>theme-picker</code> yardımcısıyla eşleştirin veya şunu izleyin:
+    <a href="/tutorials/theming/">tema öğreticisi</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Tercih yardımcıları</h2>
+  <p>
+    Her çerçevenin sekiz küçük seçicisi vardır; her biri kendi
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> paketidir (ve bunları bir araya getiren bir <code>picker-bar</code> vardır). Her biri bir açılır pencere açan başsız bir simge düğmesidir — liste kutusu, bağlantı listesi, arama formu veya (date-time-picker için) bir tarih seçici iletişim kutusu — yerel bir
+    <code>&lt;select&gt;</code> değildir; SSR güvenlidir ve CSS içermez:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — yönetilen bir <code>&lt;link&gt;</code>öğesini değiştirerek tema stil sayfalarını çalışma zamanında yükler, belgede
+      <code>data-theme</code> ayarlar ve isteğe bağlı olarak şuraya kalıcı yazar:
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — <code>lang</code> ve
+      <code>dir</code> ayarlar (otomatik RTL algılamayla); böylece i18n kütüphaneniz takip edebilir; kendisi çeviri yapmaz.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — <code>data-text-size</code> belgede ayarlar; CSS'iniz her değeri yazı tipi boyutlandırmasına eşler.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — <code>data-motion</code> belgede ayarlar, ziyaretçinin azaltılmış hareket ayarından yola çıkar; neyin bastırılacağına CSS'iniz ve betikleriniz karar verir.
+    </li>
+    <li>
+      <strong>search-picker</strong> — bir arama alanı açan simge düğmesi; gönderme bir arama sayfasına gider. Bir eylemi sahiplenir, bir tercihi değil.
+    </li>
+    <li>
+      <strong>link-picker</strong> — uygulamanızın tanımladığı sayfa bağlantılarının (Ana sayfa, Hakkımızda, Bize ulaşın, Gizlilik politikası, …) menüsünü açan bir ev simgesi. Bir eylemi sahiplenir, bir tercihi değil.
+    </li>
+    <li>
+      <strong>share-picker</strong> — yerel paylaşım sayfasını veya tüketicinin sağladığı hedef listesini ve URL kopyalamayı açar. Bir eylemi sahiplenir, bir tercihi değil: hiçbir şey uygulamaz, hiçbir şey kalıcı yazmaz.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — bir tarih, bir saat veya her ikisi için metin alanı artı bir APG tarih seçici iletişim kutusu. Bir form değerini sahiplenir, bir tercihi değil: ISO dizesi şuna gidip gelir:
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte kataloğu kanonik başvurudur; React, Vue, Angular, HTML, Nunjucks, Web Components ve Blazor uyarlamaları ona sözleşme sözleşme uyar.
+    <a href="/tutorials/helpers/">yardımcılar öğreticisine</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Erişilebilirlik</h2>
+  <p>Bileşenler <strong>WCAG 2.2 AAA</strong>düzeyini hedefler. Şu desenleri izlerler:</p>
+  <ul>
+    <li>Genel <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> öğeler yerine anlamsal HTML öğeleri; etiketleri girdilere bağlayan</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> çapraz başvurular için.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> hata durumları için.</li>
+    <li><code>role="alert"</code> ve <code>aria-live</code> dinamik içerik için.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> durum için.</li>
+    <li>Izgaralar için hareketli <code>tabindex</code> .</li>
+  </ul>
+  <p>
+    Odak göstergeleri kasıtlı olarak tüketici tarafından sağlanır — Lily, tasarımınızla çakışan varsayılan bir odak halkası asla çizmez. Örnek uygulamalar tüm rotalarında temiz bir axe-core temel çizgisini korur.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Uluslararasılaştırma</h2>
+  <p>
+    Her etiket, yer tutucu, hata iletisi ve düğme metni bir prop'tur. Koda gömülü dize yoktur. Tercih ettiğiniz çeviri çerçevesini bağlayın — Paraglide, i18next, vue-i18n, react-intl, .resx dosyaları, her şey olur.
+  </p>
+  <p>
+    Tarihler, sayılar ve para birimleri için bileşenler önceden biçimlendirilmiş dizeler kabul eder: siz <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / tercih ettiğiniz kütüphaneyle biçimlendirir ve sonucu iletirsiniz.
+  </p>
+  <p>
+     <code>locale-picker</code> yardımcısı, belge kökünde <code>lang</code> ve <code>dir</code> ayarlayarak seçilen yerel ayarı i18n kütüphanenize bildirir.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Test</h2>
+  <p>Her çerçeve alt projesi, kendi deyimsel yığınını kullanan kendi testleriyle gelir:</p>
+  <ul>
+    <li><strong>HTML</strong>: gerçek tarayıcıları çalıştıran WebDriverIO.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (Analog Vite eklentisi aracılığıyla).</li>
+    <li><strong>Nunjucks</strong>: render yardımcılı Vitest.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testler <strong>yalnızca Vitest'in yerleşik eşleştiricilerini</strong> kullanır — asla
+    <code>jest-dom</code> eşleştiricilerini değil. Bu, test takımlarını taşınabilir tutar. Örnek uygulamalar Playwright uçtan uca takımlarını, axe-core erişilebilirlik temel çizgilerini ve duyarlı görünüm alanı taramasını ekler.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Yapay zekâ ajanları</h2>
+  <p>
+    Bu site kökünde <a href="/llms.txt">llms.txt</a> ve
+    <a href="/llms.json">llms.json</a> yayımlar —
+    <a href="https://llmstxt.org">llms.txt kuralını</a>.
+  </p>
+  <p>
+    izleyen her araç için en önemli sayfalarının derlenmiş bir haritası. Kanonik monorepo ayrıca iki
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>içerir:  Lily'nin kavramlarını, terminolojisini ve birleştirme desenlerini sistemle geliştiren herkes için kapsayan genel amaçlı bir skill ve <code>lily-design-system-maintainer-skill</code>, monorepo'nun zorunlu dosya düzenini ve araçlarını üzerinde çalışan herkes için kapsayan teknik bir skill. İkisi de
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonik monorepo'nun</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Sorun giderme</h2>
+
+  <details class="faq-item">
+    <summary>Bir bileşen oluşturuluyor ama biçimlendirilmemiş görünüyor</summary>
+    <p>
+      Bu, başsızın amaçlandığı gibi çalışmasıdır — bileşenle birlikte CSS gelmez. Ya bileşenin kebab-case sınıfı için CSS yazın (her <a href="/components/">katalog sayfasında</a>gösterilir) ya da
+      <a href="#themes">hazır 57 temadan</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS'im bir temanın üzerinde uygulanmıyor gibi</summary>
+    <p>
+      Uygulanmalı — tema seçicileri özgüllüğü sıfır olan <code>:where(...)</code>içine sarılmıştır. Bir kural yine de kaybediyorsa, stil sayfanızın temanın <code>&lt;link&gt;</code> öğesinden sonra yüklendiğini ve seçicinin bileşenin sınıf kancasıyla gerçekten eşleştiğini kontrol edin.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install bir eş bağımlılık veya sürüm hatasıyla başarısız oluyor</summary>
+    <p>
+      Güncel bir pnpm (v10+) ve Node 22+ kullanın. Her alt proje çerçeve sürümlerini kendi <code>package.json</code>dosyasında sabitler; küresel araç zinciriniz daha eskiyse <code>pnpm env use --global lts</code> en hızlı çözümdür.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ekran okuyucu bir denetim için yanlış adı okuyor</summary>
+    <p>
+      Bileşenin gerekli <code>label</code> prop'unu kontrol edin — görünür metni olmayan bileşenler bunu gerektirir; rest-props ile geçirilen tüketici tarafından sağlanan
+      <code>aria-label</code> / <code>aria-labelledby</code> öznitelikleri kasıtlı olarak yerleşik bağlantıdan üstündür. Her katalog sayfası bileşenin ARIA sözleşmesini belgeler.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker yardımcısı stil sayfalarını değiştirmiyor</summary>
+    <p>
+      Şunu doğrulayın: <code>themesUrl</code> tarayıcının getirebileceği bir dizini gösteriyor ( <code>themes/</code> dosyalarını statik varlıklar olarak sunun) ve <code>themes</code> prop'unuzdaki tema kısa adları dosya adlarıyla eşleşiyor. Yardımcı, yönetilen tek bir <code>href</code> öğesinin
+      <code>&lt;link data-lily-theme-picker&gt;</code> değerini değiştirir — istenen URL'yi görmek için geliştirici araçlarında inceleyin.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Başka bir şey bozuk</summary>
+    <p>
+      Asgari bir yeniden üretimle şurada bir issue açın:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ya da bakın: <a href="#community">topluluk ve destek</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Katkıda bulunma</h2>
+  <p>Lily gençtir ve iş birliğini memnuniyetle karşılar. Şu anda en yararlı katkılar:</p>
+  <ul>
+    <li>Yeni bileşenler (özellikle yerleşik tasarım sistemlerinden desenler).</li>
+    <li>Yeni temalar — her biri bağımsız bir stil sayfası, kapsamı iyi belirlenmiş bir ilk PR.</li>
+    <li>Daha iyi örnek biçimlendirme — nelerin mümkün olduğunu gösterin.</li>
+    <li>Örnek uygulama dizelerinin çevirileri.</li>
+    <li>Asgari yeniden üretimli hata raporları.</li>
+    <li>Ekran okuyucular ve yardımcı teknolojilerle erişilebilirlik denetimleri.</li>
+  </ul>
+  <p>
+    Issue ve PR'ları şurada açın:
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Topluluk ve destek</h2>
+  <ul>
+    <li>
+      <strong>Sorular ve hata raporları</strong> — şurada bir issue açın:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-posta</strong> — bakımcı
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      adresini okur ve iş birliğini, yönlendirmeyi ve geri bildirimi memnuniyetle karşılar.
+    </li>
+    <li>
+      <strong>Aynalar</strong> — Lily ayrıca şuralara da gönderilir:
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> ve
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, böylece tercih ettiğiniz forge'dan katılabilirsiniz.
+    </li>
+    <li>
+      <strong>Davranış</strong> — proje standart bir davranış kurallarını izler; nazik olun, iyi niyet varsayın.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>SSS</h2>
+
+  <details class="faq-item">
+    <summary>Neden biçimlendirilmiş değil de başsız?</summary>
+    <p>
+      Önceden biçimlendirilmiş bileşenler kullanışlıdır — markanıza uymayana kadar. Başsız bileşenler baştan biraz daha fazla iş gerektirir ama görsel tasarım üzerinde tam denetim verir. Örnek uygulamalar ve 57 tema bunları biçimlendirmenin yollarını gösterir; bunları alabilir ya da tamamen değiştirebilirsiniz. Daha uzun gerekçe şurada: <a href="/why/">Neden Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Neden bu kadar çok bileşen?</summary>
+    <p>
+      Lily, çoğu uygulamanın ihtiyaç duyduğu desenleri sizi sıfırdan inşa etmeye zorlamadan kapsamayı amaçlar — ulusal tanımlayıcı girdileri ve editoryal scrollytelling gibi derin işler dahil. Katalog, bir düzine yerleşik tasarım sisteminden ve özgün çalışmadan beslenir — bakın: <a href="/about/">Hakkında</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily'yi Tailwind ile kullanabilir miyim?</summary>
+    <p>
+      Evet. Her bileşen tek bir kebab-case kök sınıfı ve tüketicinin sağladığı bir <code>className</code> / <code>class</code> sunar. Tailwind yardımcılarını dilediğiniz gibi üstüne ekleyin.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily'yi DaisyUI gibi anlamsal CSS çerçeveleriyle kullanabilir miyim?</summary>
+    <p>
+      Evet. Kök öğedeki kebab-case sınıf adları anlamsal CSS kancaları olarak çalışır. Lily'yi anlamsal bir çerçeveyle eşleştirirseniz ARIA ve i18n'e yine saygı gösteren önceden biçimlendirilmiş bileşenler elde edersiniz.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bir npm paketi var mı?</summary>
+    <p>
+       <a href="#helpers">Tercih yardımcıları</a> npm/NuGet yayın hattıyla paketler olarak sunulur. Başsız bileşen kütüphaneleri klonlanmak veya projeye alınmak üzere tasarlanmıştır — teslim edilen kaynak koddur; böylece yayına aldığınız şeyi tam olarak okuyabilir, kırpabilir ve sahiplenebilirsiniz. Başsız kütüphanelerin kayıt defterine yayımlanması yol haritasında kalmaktadır.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Neden çoklu lisans?</summary>
+    <p>
+      Farklı projelerin lisans ihtiyaçları farklıdır. BSD ve MIT izin vericidir, Apache-2.0 patent hakkı tanır ve GPL seçenekleri copyleft'i destekler. Durumunuza uyanı seçin.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bir hatayı nasıl bildirir veya özellik talep ederim?</summary>
+    <p>
+      GitHub deposunda bir issue açın veya şu adrese e-posta gönderin:
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

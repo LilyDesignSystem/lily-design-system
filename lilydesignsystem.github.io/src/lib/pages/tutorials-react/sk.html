@@ -1,0 +1,109 @@
+<!-- title: Návod pre React — Lily Design System -->
+<!-- description: Vytvorte prístupný, ostylovaný formulár pomocou bezhlavých komponentov Lily pre React: typované funkčné komponenty s value + onChange. -->
+<section class="page-intro">
+  <h1>Návod pre React</h1>
+  <p class="page-intro-tagline">
+    Typované funkčné komponenty, každý v jednom súbore, riadené štandardným vzorom
+    <code>value</code> + <code>onChange</code> — všetko funguje tak, ako React už funguje.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Čo vytvoríte</h2>
+  <p>
+    Malý kontaktný formulár — pole s popisom, tlačidlo odoslať, riadený stav, skutočné správanie klávesnice a čítačky obrazovky — najprv holý, potom ostylovaný, približne za 10 minút.
+  </p>
+
+  <h2>Skôr než začnete</h2>
+  <p>
+    Potrebujete git, Node 22 alebo novší a pnpm 10 alebo novší. Hodí sa akýkoľvek projekt React 18+ — Next.js, Vite alebo čistý React.
+  </p>
+
+  <h2>Krok 1 — Získajte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponenty sú ploché súbory v <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — každý s vlastným testom, story a dokumentáciou po boku. Skopírujte potrebné súbory do svojej aplikácie, alebo si repozitár vezmite a importujte z neho.
+  </p>
+
+  <h2>Krok 2 — Váš prvý komponent</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Vykresľuje <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (vykresľuje
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> na prepísanie), <code>className</code>a akýkoľvek ďalší atribút sa rozprestrie na koreňový prvok.
+  </p>
+
+  <h2>Krok 3 — Zložte malý formulár</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> prijíma viditeľný <code>label</code> ako vlastný prop namiesto vnoreného komponentu popisu — odovzdajte ho raz, pri
+    <code>Field</code>a <code>TextInput</code>z
+    <code>label</code> poskytne prístupný názov.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Overené 2026-08-29:</strong> skorší koncept vnáral samostatný komponent <code>Label</code> vnútri <code>Field</code>, čo vykreslilo
+      <em>dva</em> popisy (jeden prázdny), pretože <code>Field</code> už vykresľuje svoj vlastný zo vstupu <code>label</code> prop — zistené kompiláciou presnej ukážky. Trasa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Zložená trasa kontaktného formulára</a>
+      je rovnaký vzor, preverený skutočnými testami e2e a axe.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>
+    Všetko vyššie sa vykresľuje ako čistá štruktúra, pripravená na vaše štýly. Ostylujte háčiky — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — vo svojej štýlovej šablóne, pridajte nástroje Tailwind cez <code>className</code>, alebo pripojte hotovú tému:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Pozrite sa, ako to celé funguje</h2>
+  <p>
+     <a href="/examples/">Ukážková aplikácia Next.js</a> je celý katalóg ostylovaný a predvedený, s Playwright e2e a základnou líniou axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Ďalšie kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témy</a> — prepínanie za behu pomocníkom theme-picker pre React.</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pre predvoľby</a> — jazyk a veľkosť textu.</li>
+    <li><a href="/components/">Katalóg komponentov</a> — vlastnosti, ARIA a klávesnica pre každý komponent.</li>
+  </ul>
+  <p>
+    Otázky po ceste?
+    <a href="/help/#troubleshooting">Stránka pomocníka</a> je plná odpovedí — a ak by niektorý krok mohol byť jasnejší,
+    <a href="https://github.com/LilyDesignSystem">dajte nám vedieť</a> a návod radi vylepšíme.
+  </p>
+</section>

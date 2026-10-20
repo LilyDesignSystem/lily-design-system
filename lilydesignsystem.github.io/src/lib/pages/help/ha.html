@@ -1,0 +1,432 @@
+<!-- title: Taimako — Lily Design System -->
+<!-- description: Fara da Lily: shigar da fakitin marar kai don tsarin aikinka, kwafi ɓangare, yi masa ado, ba shi jigo, kuma aika. Magance matsaloli, FAQ da tallafi. -->
+<section class="page-intro">
+  <h1>Farawa da Lily</h1>
+  <p class="page-intro-tagline">
+    Zaɓi tsarin aiki, kwafa monorepo ka buɗe ɗakin karatunsa marar kai ko aikace-aikacen misali, ka fara haɗa shafukanka. Ka fi son hanya mai jagora? Fara da
+    <a href="/tutorials/">koyarwar</a>.
+  </p>
+</section>
+
+<nav aria-label="A wannan shafi" class="prose" style="margin: 0 auto;">
+  <p><strong>A wannan shafi:</strong></p>
+  <ul>
+    <li><a href="#install">Shigarwa</a></li>
+    <li><a href="#use-headless">Yi amfani da ɓangare marar kai</a></li>
+    <li><a href="#use-styled">Yi amfani da misali mai ado</a></li>
+    <li><a href="#styling">Ado da alamomin zane</a></li>
+    <li><a href="#themes">Jigogi da aka shirya</a></li>
+    <li><a href="#helpers">Masu taimakon zaɓi</a></li>
+    <li><a href="#a11y">Samun dama</a></li>
+    <li><a href="#i18n">Daidaita ƙasashen duniya</a></li>
+    <li><a href="#testing">Gwaji</a></li>
+    <li><a href="#ai-agents">Wakilan AI</a></li>
+    <li><a href="#troubleshooting">Magance matsaloli</a></li>
+    <li><a href="#contributing">Gudummawa</a></li>
+    <li><a href="#community">Al’umma da tallafi</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Shigarwa</h2>
+  <p>
+    Lily tana zaune a monorepo na Git ɗaya, mai kundi ga ɗakin karatu marar kai na kowane tsarin aiki, fakitin masu taimako da aikace-aikacen misali. Hanya mafi sauri ta gwada ita ce kwafa monorepo ka buɗe ɗakin karatu marar kai don tarinka:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Tsari iri ɗaya yana aiki ga sauran tsarin aiki:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — ba a buƙatar shigarwa; kwafi <code>.html</code> fayiloli</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    An tsara ɗakunan karatu marasa kai don a kwafa ko a ɗora cikin aiki — ɗauki tushen lamba a matsayin tushen gaskiya ka kwafi abin da kake buƙata.
+    <a href="#helpers">masu taimakon zaɓi</a> ƙari suna zuwa a matsayin fakiti da za a iya shigarwa tare da bututun gini da bugawa (npm don tsarin aikin JS, NuGet don Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Yi amfani da ɓangare marar kai</h2>
+  <p>
+    Abubuwa marasa kai suna kawo HTML mai ma’ana, ARIA da kadarori — amma ba CSS ba. Ga Button a kowane tsarin aiki:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Yi amfani da misali mai ado</h2>
+  <p>
+    Aikace-aikacen misali sun haɗa da CSS, hanyoyi, da cikakkun shafukan nuni. Hanya mafi sauri ta gwaji ita ce fara aikace-aikacen misali na SvelteKit, Next, Nuxt, Analog ko Eleventy ka duba nunin a <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Sai ka buɗe <code>http://localhost:5173</code> ka bincika <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Ado da alamomin zane</h2>
+  <p>
+    Kowane ɓangare ana nuna shi da aji ɗaya na kebab-case a kan tushen abunsa. Misali, <code>&lt;Button&gt;</code> ana nuna shi a matsayin <code>&lt;button class="button"&gt;</code>. Yi masa ado yadda kake so:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Launukan Lily na tsoho (da ake amfani da su a aikace-aikacen misali) su ne:</p>
+  <ul>
+    <li>Na farko: <code>#2563eb</code></li>
+    <li>Haɗari: <code>#dc2626</code></li>
+    <li>Gargaɗi: <code>#f59e0b</code></li>
+    <li>Nasara: <code>#16a34a</code></li>
+    <li>Bangon shafi: <code>#f9fafb</code></li>
+    <li>Bangon kati: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Waɗannan shawarwari ne, ba buƙatu ba. Maye gurbinsu da launukan alamar kasuwancinka kuma Lily tana bi cikin farin ciki.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Jigogi da aka shirya</h2>
+  <p>
+    Ba ka son rubuta CSS daga farko? Lily tana kawo
+    <strong>jigogi 57 na tunani masu zaman kansu</strong> a kundin
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Kowanne takardar salo ɗaya ce da ke nufin ƙugiyoyin aji na Lily — haɗa ta kuma an yi maka ado:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Saitin yana rufe:</p>
+  <ul>
+    <li>
+      <strong>Fannin gwamnati</strong> — NHS England, NHS Scotland da NHS Wales (kowanne a salo na marasa lafiya da na ma’aikata), GOV.UK GDS, da U.S. Web Design System.
+    </li>
+    <li><strong>Wanda masu sayarwa suka ƙarfafa</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Manufa ta gama-gari</strong> — light, dark, nord, dracula, wireframe, da kusan talatin ƙari.
+    </li>
+  </ul>
+  <p>
+    Masu zaɓen jigo suna amfani da <code>:where(...)</code>, don haka CSS ɗinka koyaushe yana yin nasara a takamaimai. Haɗa su da mai taimakon <code>theme-picker</code> da ke ƙasa don sauyawa lokacin gudu, ko bi
+    <a href="/tutorials/theming/">koyarwar jigo</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Masu taimakon zaɓi</h2>
+  <p>
+    Kowane tsarin aiki yana da ƙananan masu zaɓe takwas, kowanne fakiti na
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> nasa (da <code>picker-bar</code> da ke haɗa su). Kowanne maɓallin gunki ne marar kai da ke buɗe tagar fitowa — akwatin jeri, jerin hanyoyi, fom ɗin bincike, ko (don date-time-picker) tattaunawar zaɓen kwanan wata — ba na asali ba
+    <code>&lt;select&gt;</code>; yana da amintaccen SSR; kuma ba ya kawo CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — yana ɗora takardun salo na jigo lokacin gudu ta hanyar canza <code>&lt;link&gt;</code>da ake sarrafawa, yana saita
+      <code>data-theme</code> a kan takarda, kuma zaɓi yana adana a
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — yana saita <code>lang</code> da
+      <code>dir</code> (tare da gano RTL na atomatik) don ɗakin karatunka na i18n ya bi; shi kansa ba ya fassara komai.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — yana saita <code>data-text-size</code> a kan takarda; CSS ɗinka yana daidaita kowace ƙima da girman rubutu.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — yana saita <code>data-motion</code> a kan takarda, yana farawa daga saitin rage motsi na baƙo; CSS da rubutun aikinka suna yanke shawarar abin da za a danne.
+    </li>
+    <li>
+      <strong>search-picker</strong> — maɓallin gunki da ke buɗe filin bincike; miƙawa yana zuwa shafin bincike. Yana mallakar aiki, ba zaɓi ba.
+    </li>
+    <li>
+      <strong>link-picker</strong> — gunkin gida da ke buɗe menu na hanyoyin shafuka da aikace-aikacenka ya ayyana (Gida, Game da Mu, Tuntuɓe Mu, Manufar Sirri, …). Yana mallakar aiki, ba zaɓi ba.
+    </li>
+    <li>
+      <strong>share-picker</strong> — yana buɗe takardar rabawa ta asali ko jerin wuraren da mai amfani ya bayar, tare da kwafin URL. Yana mallakar aiki, ba zaɓi ba: ba ya amfani da komai, ba ya adana komai.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — filin rubutu tare da tattaunawar zaɓen kwanan wata ta APG don kwanan wata, lokaci, ko duka biyu. Yana mallakar ƙimar fom, ba zaɓi ba: zaren ISO yana juyawa gaba da baya zuwa
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Jerin Svelte shi ne ma’anar ƙa’ida; tashoshin React, Vue, Angular, HTML, Nunjucks, Web Components da Blazor suna daidaita da shi yarjejeniya-da-yarjejeniya. Duba
+    <a href="/tutorials/helpers/">koyarwar masu taimako</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Samun dama</h2>
+  <p>Abubuwan suna nufin <strong>WCAG 2.2 AAA</strong>. Suna bin waɗannan tsare-tsare:</p>
+  <ul>
+    <li>Abubuwan HTML masu ma’ana maimakon na gama-gari <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> masu haɗa lakabi da shigarwa.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> don nassoshi na giciye.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> don yanayin kuskure.</li>
+    <li><code>role="alert"</code> da <code>aria-live</code> don abun ciki mai canzawa.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> don yanayi.</li>
+    <li>Roving <code>tabindex</code> don grid.</li>
+  </ul>
+  <p>
+    Mai amfani ne ke ba da alamomin mayar da hankali da gangan — Lily ba ta taɓa zana zoben mayar da hankali na tsoho da ya saɓa wa zanenka ba. Aikace-aikacen misali suna riƙe tsabtataccen tushen axe-core a duk hanyoyinsu.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Daidaita ƙasashen duniya</h2>
+  <p>
+    Kowace lakabi, mai riƙe wuri, saƙon kuskure da rubutun maɓalli kadara ce. Babu rubutun da aka rubuta a cikin lamba. Ɗora tsarin fassarar da ka zaɓa — Paraglide, i18next, vue-i18n, react-intl, fayilolin .resx, kowane.
+  </p>
+  <p>
+    Don kwanan wata, lambobi da kuɗaɗe, abubuwan suna karɓar zaren da aka riga aka tsara: kai ne ke tsara da <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / ɗakin karatunka da ka fi so ka miƙa sakamakon.
+  </p>
+  <p>
+    Mai taimakon <code>locale-picker</code> yana sanar da yaren da aka zaɓa ga ɗakin karatunka na i18n ta hanyar saita <code>lang</code> da <code>dir</code> a kan tushen takarda.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Gwaji</h2>
+  <p>Kowane ƙaramin aikin tsarin aiki yana kawo gwaje-gwajensa ta amfani da tarinsa na al’ada:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO da ke gudanar da ainihin masu bincike.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (ta hanyar plugin ɗin Analog Vite).</li>
+    <li><strong>Nunjucks</strong>: Vitest tare da mai taimakon nuna.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Gwaje-gwajen suna amfani da <strong>masu daidaita Vitest na ciki kawai</strong> — ba taɓa
+    <code>jest-dom</code> masu daidaita ba. Wannan yana sa gwaje-gwajen su zama masu ɗaukuwa. Aikace-aikacen misali suna ƙara gwaje-gwajen Playwright daga ƙarshe zuwa ƙarshe, tushen samun dama na axe-core, da duba wuraren duba masu amsawa.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Wakilan AI</h2>
+  <p>
+    Wannan shafi yana buga <a href="/llms.txt">llms.txt</a> da
+    <a href="/llms.json">llms.json</a> a tushensa — taswirar da aka zaɓa ta manyan shafukansa, ga kowane kayan aiki da ke bin
+    <a href="https://llmstxt.org">al’adar llms.txt</a>.
+  </p>
+  <p>
+    Monorepo na ƙa’ida kuma yana kawo
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code> guda biyu: ƙwarewar manufa ta gama-gari da ke rufe ra’ayoyin Lily, kalmomi da tsare-tsaren haɗawa ga duk wanda ke gini da tsarin, da <code>lily-design-system-maintainer-skill</code>, ƙwarewar fasaha da ke rufe tsarin fayilolin da ake buƙata na monorepo da kayan aiki ga duk wanda ke aiki a kai. Dukansu suna a tushen
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo na ƙa’ida</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Magance matsaloli</h2>
+
+  <details class="faq-item">
+    <summary>Ɓangare yana nunawa amma yana kama marar ado</summary>
+    <p>
+      Wannan marar kai ne yana aiki kamar yadda aka nufa — babu CSS da ke zuwa da ɓangaren. Ko dai rubuta CSS don ajin kebab-case na ɓangaren (da ake nunawa a kowane <a href="/components/">shafin jeri</a>) ko haɗa ɗaya daga cikin
+      <a href="#themes">jigogi 57 da aka shirya</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS ɗina bai bayyana yana aiki a kan jigo ba</summary>
+    <p>
+      Ya kamata — masu zaɓen jigo an naɗe su a <code>:where(...)</code>, wanda ke da takamaimai sifili. Idan doka tana ci gaba da asara, duba cewa takardar salonka tana ɗorawa bayan <code>&lt;link&gt;</code> na jigo kuma mai zaɓen yana daidaita da gaske da ƙugiyar ajin ɓangaren.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install yana kasawa da kuskuren peer ko sigar</summary>
+    <p>
+      Yi amfani da pnpm na yanzu (v10+) da Node 22+. Kowane ƙaramin aiki yana ƙulla sigogin tsarin aikinsa a <code>package.json</code>nasa; idan sarkar kayan aikinka ta duniya ta fi tsufa, <code>pnpm env use --global lts</code> shi ne gyara mafi sauri.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mai karanta allo yana sanar da sunan da bai dace ba ga abin sarrafawa</summary>
+    <p>
+      Duba kadarar da ake buƙata ta <code>label</code> ta ɓangaren — abubuwan da ba su da rubutu mai gani suna buƙatar ɗaya, kuma
+      <code>aria-label</code> / <code>aria-labelledby</code> da mai amfani ya bayar aka miƙa ta rest-props da gangan suna yin nasara a kan haɗin da ke ciki. Kowane shafin jeri yana rubuta yarjejeniyar ARIA ta ɓangaren.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mai taimakon theme-picker ba ya canza takardun salo</summary>
+    <p>
+      Tabbatar cewa <code>themesUrl</code> yana nuna kundin da mai bincike zai iya ɗauko (bayar da fayilolin <code>themes/</code> a matsayin kadarori na tsaye) kuma cewa sunayen jigo a kadararka ta <code>themes</code> suna daidaita da sunayen fayiloli. Mai taimakon yana canza <code>href</code> na
+      <code>&lt;link data-lily-theme-picker&gt;</code> ɗaya da ake sarrafawa — duba shi a kayan aikin mai haɓakawa don ganin URL da ake nema.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Wani abu daban ya lalace</summary>
+    <p>
+      Buɗe issue tare da ƙaramin sake-samarwa a
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — ko duba <a href="#community">al’umma da tallafi</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Gudummawa</h2>
+  <p>Lily matashiya ce kuma tana maraba da haɗin kai. Gudummawar da suka fi amfani a yanzu su ne:</p>
+  <ul>
+    <li>Sababbin abubuwa (musamman tsare-tsare daga tsarin zane da aka kafa).</li>
+    <li>Sababbin jigogi — kowanne takardar salo ce mai zaman kanta, PR na farko mai iyaka sosai.</li>
+    <li>Ingantaccen ado na misalai — nuna abin da zai yiwu.</li>
+    <li>Fassarar zaren aikace-aikacen misali.</li>
+    <li>Rahotannin kurakurai tare da ƙaramin sake-samarwa.</li>
+    <li>Binciken samun dama tare da masu karanta allo da fasahar taimako.</li>
+  </ul>
+  <p>
+    Buɗe issues da PRs a
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Al’umma da tallafi</h2>
+  <ul>
+    <li>
+      <strong>Tambayoyi da rahotannin kurakurai</strong> — buɗe issue a
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Imel</strong> — mai kulawa yana karantawa
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      kuma yana maraba da haɗin kai, jagora da ra’ayi.
+    </li>
+    <li>
+      <strong>Madubai</strong> — ana kuma tura Lily zuwa
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> da
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, don ka iya shiga daga forge ɗin da ka fi so.
+    </li>
+    <li>
+      <strong>Hali</strong> — aikin yana bin ƙa’idar hali ta yau da kullum; ka kasance mai alheri, ka ɗauka da kyakkyawar niyya.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Me ya sa marar kai maimakon mai ado?</summary>
+    <p>
+      Abubuwan da aka riga aka yi wa ado suna da sauƙi — har sai sun ƙi dacewa da alamar kasuwancinka. Abubuwa marasa kai suna buƙatar ɗan ƙarin aiki a farko amma suna ba ka cikakken iko kan zanen gani. Aikace-aikacen misali da jigogi 57 suna nuna hanyoyin yi musu ado; za ka iya ɗaukar su ko ka maye gurbinsu gaba ɗaya. Dogon hujjar tana a <a href="/why/">Dalilin Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Me ya sa abubuwa da yawa haka?</summary>
+    <p>
+      Lily tana nufin rufe tsare-tsaren da yawancin aikace-aikace ke buƙata ba tare da tilasta maka gina su daga farko ba — har da abubuwa masu zurfi kamar shigarwar masu gano na ƙasa da scrollytelling na edita. Jerin yana ɗaukowa daga tsarin zane goma sha biyu da aka kafa tare da aikin asali — duba <a href="/about/">Game da</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Zan iya amfani da Lily da Tailwind?</summary>
+    <p>
+      Eh. Kowane ɓangare yana bayyana aji ɗaya na tushe na kebab-case tare da <code>className</code> / <code>class</code>da mai amfani ya bayar. Shimfiɗa kayan aikin Tailwind a sama yadda kake so.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Zan iya amfani da Lily da tsarin CSS masu ma’ana kamar DaisyUI?</summary>
+    <p>
+      Eh. Sunayen aji na kebab-case a kan tushen abu suna aiki a matsayin ƙugiyoyin CSS masu ma’ana. Haɗa Lily da tsari mai ma’ana kuma za ka sami abubuwan da aka riga aka yi wa ado waɗanda har yanzu suke girmama ARIA da i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Akwai fakitin npm?</summary>
+    <p>
+       <a href="#helpers">Masu taimakon zaɓi</a> suna zuwa a matsayin fakiti tare da bututun bugawa na npm/NuGet. An tsara ɗakunan karatu na abubuwa marasa kai don a kwafa ko a ɗora cikin aiki — tushen lamba shi ne abin da ake kawowa, don haka za ka iya karantawa, rage, da mallakar ainihin abin da kake aikawa. Buga ɗakunan karatu marasa kai a rajista har yanzu yana kan taswirar hanya.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Me ya sa lasisi da yawa?</summary>
+    <p>
+      Ayyuka daban-daban suna da buƙatun lasisi daban-daban. BSD da MIT masu ba da izini ne, Apache-2.0 yana da bayar da haƙƙin mallaka, kuma zaɓukan GPL suna goyon bayan copyleft. Zaɓi wanda ya dace da yanayinka.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ta yaya zan ba da rahoton kuskure ko neman fasali?</summary>
+    <p>
+      Buɗe issue a ma’ajiyar GitHub, ko aika imel zuwa
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

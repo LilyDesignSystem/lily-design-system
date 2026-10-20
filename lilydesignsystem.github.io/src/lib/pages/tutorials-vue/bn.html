@@ -1,0 +1,122 @@
+<!-- title: Vue টিউটোরিয়াল — Lily Design System -->
+<!-- description: Lily-র Vue 3 হেডলেস কম্পোনেন্ট দিয়ে সহজে ব্যবহারযোগ্য, স্টাইল করা ফর্ম তৈরি করুন: v-model সহ এক-ফাইল কম্পোনেন্ট। -->
+<section class="page-intro">
+  <h1>Vue টিউটোরিয়াল</h1>
+  <p class="page-intro-tagline">
+    টাইপ করা props সহ Vue 3 এক-ফাইল কম্পোনেন্ট, <code>defineModel</code>
+    দ্বিমুখী বাইন্ডিং, এবং <code>v-bind="$attrs"</code> পাস-থ্রু।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>আপনি কী তৈরি করবেন</h2>
+  <p>
+    একটি ছোট যোগাযোগ ফর্ম — লেবেলসহ ক্ষেত্র, জমা দেওয়ার বোতাম, <code>v-model</code>
+    বাইন্ডিং, প্রকৃত কিবোর্ড ও স্ক্রিন-রিডার আচরণ — প্রথমে সাদামাটা, তারপর স্টাইলসহ, প্রায় ১০ মিনিটে।
+  </p>
+
+  <h2>শুরু করার আগে</h2>
+  <p>
+    আপনার git, Node 22 বা নতুন, এবং pnpm 10 বা নতুন লাগবে। যেকোনো Vue 3 প্রকল্প চলবে — Nuxt, Vite বা সাধারণ Vue।
+  </p>
+
+  <h2>ধাপ ১ — কোড নিন</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    কম্পোনেন্টগুলো এখানে সমতল ফাইল হিসেবে আছে: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — প্রতিটির পাশে তার পরীক্ষা, story ও নথি। যে ফাইল দরকার কপি করুন, বা রিপো আনুন।
+  </p>
+
+  <h2>ধাপ ২ — আপনার প্রথম কম্পোনেন্ট</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    দেখায় <code>&lt;button class="button" type="button"&gt;</code>। Props অন্য ফ্রেমওয়ার্কের সঙ্গে মেলে: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, সঙ্গে বাকি সবকিছুর জন্য অ্যাট্রিবিউট পাস-থ্রু।
+  </p>
+
+  <h2>ধাপ ৩ — একটি ছোট ফর্ম তৈরি করুন</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> দৃশ্যমান <code>label</code> নিজের prop হিসেবে, ভেতরে রাখা লেবেল কম্পোনেন্ট হিসেবে নয় — একবার দিন,
+    <code>Field</code>এবং <code>TextInput</code>-এর
+    <code>label</code> -এ সহজে ব্যবহারযোগ্য নাম জোগায়।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>২০২৬-০৮-২৯ তারিখে যাচাইকৃত:</strong> আগের একটি খসড়া আলাদা <code>Label</code> -এর ভেতরে <code>Field</code>-এর ভেতরে রেখেছিল, ফলে
+      <em>দুটি</em> লেবেল (একটি খালি) দেখাত, কারণ <code>Field</code> ইতিমধ্যেই নিজের লেবেল <code>label</code> prop — হুবহু খণ্ডটি কম্পাইল করে ধরা পড়েছে। রুট
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">সংযুক্ত যোগাযোগ-ফর্ম রুট</a>
+      একই প্যাটার্ন, প্রকৃত e2e ও axe পরীক্ষায় যাচাই করা।
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> ব্যবহার করে <code>defineModel</code>, তাই সাধারণ
+    <code>v-model</code> বাক্স থেকেই কাজ করে।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>আপনার কাজ পরীক্ষা করুন:</strong> অ্যাপ চালান, আর ফর্মটি সাদামাটা দেখায় — ঠিক যেমন উদ্দেশ্য ছিল: স্টাইলিং এখনো সামনে। চাপুন
+      <kbd>Tab</kbd>: ফোকাস প্রতিটি নিয়ন্ত্রণের মধ্য দিয়ে যায়, লেবেল ঘোষিত হয় এবং জমা দেওয়া কাজ করে। আচরণ সম্পূর্ণ; চেহারা আপনার, আর সেটাই পরবর্তী ধাপ।
+    </p>
+  </div>
+
+  <h2>ধাপ ৪ — স্টাইল দিন</h2>
+  <p>
+    ক্লাস হুকগুলোতে স্টাইল দিন — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — আপনার স্টাইলশিটে, অথবা একটি তৈরি থিম এখানে লিংক করুন <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>ধাপ ৫ — সবকিছু কাজ করতে দেখুন</h2>
+  <p>
+     <a href="/examples/">Nuxt উদাহরণ অ্যাপ</a> পূর্ণ ক্যাটালগ স্টাইল ও প্রদর্শনসহ, Playwright e2e ও axe-core ভিত্তিরেখাসহ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>পরবর্তী ধাপ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">থিম</a> — Vue theme-picker সহায়ক দিয়ে চলার সময় বদল।</li>
+    <li><a href="/tutorials/helpers/">পছন্দ সহায়ক</a> — ভাষা ও লেখার আকার।</li>
+    <li><a href="/components/">কম্পোনেন্ট ক্যাটালগ</a> — প্রতিটি কম্পোনেন্টের বৈশিষ্ট্য, ARIA ও কিবোর্ড।</li>
+  </ul>
+  <p>
+    পথে প্রশ্ন আছে?
+    <a href="/help/#troubleshooting">সহায়তা পাতা</a> উত্তরে ভরা — আর কোনো ধাপ আরও পরিষ্কার হতে পারলে,
+    <a href="https://github.com/LilyDesignSystem">আমাদের জানান</a> আর আমরা খুশি মনে টিউটোরিয়াল উন্নত করব।
+  </p>
+</section>

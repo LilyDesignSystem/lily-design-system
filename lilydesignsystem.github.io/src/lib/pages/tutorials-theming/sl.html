@@ -1,0 +1,111 @@
+<!-- title: Vodnik za teme — Lily Design System -->
+<!-- description: Dajte Lily temo na tri načine: povežite eno od 45 pripravljenih tem, preglasite jo s svojim CSS in dodajte preklapljanje teme med izvajanjem s pomočnikom theme-picker. -->
+<section class="page-intro">
+  <h1>Teme</h1>
+  <p class="page-intro-tagline">
+    Komponente Lily imajo stabilne razredne kavlje in nič CSS — tema je torej samo slogovna datoteka. Ta vodnik gre od „povežite eno datoteko“ do „naj uporabnik med izvajanjem zamenja temo, s trajnim shranjevanjem“.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Kaj boste ustvarili</h2>
+  <p>
+    Aplikacija, katere celoten videz lahko uporabnik spremeni — od ene povezane slogovne datoteke do trajno shranjenega preklopnika tem med izvajanjem — v približno 15 minutah.
+  </p>
+
+  <h2>Preden začnete</h2>
+  <p>
+    Najprej dokončajte <a href="/tutorials/">vodnik za ogrodje</a> za svoj sklad najprej, da imate majhen obrazec Lily, ki mu boste dali temo. Vse tukaj deluje v vseh sedmih ogrodjih; vzorci kode prikazujejo Svelte in navaden HTML.
+  </p>
+
+  <h2>Korak 1 — Povežite pripravljeno temo</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    mapa vsebuje 45 samostojnih slogovnih datotek. Kopirajte jih v statična sredstva svoje aplikacije in povežite eno:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Poudarki nabora:</p>
+  <ul>
+    <li>
+      <strong>Javni sektor</strong> — NHS England / Scotland / Wales, vsaka v različicah za bolnike in za strokovnjake; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Navdihnjene z dobavitelji</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Splošna uporaba</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>in še mnogo drugih.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverite svoje delo:</strong> znova naložite stran. Isto označevanje, ki ste ga zgradili v vodniku za ogrodje, je zdaj povsem oblikovano — gumbi, vnosi, oznake, fokusni obroči. To je naredila ena vrstica HTML — vsaka komponenta je ostala natanko taka, kot je bila.
+    </p>
+  </div>
+
+  <h2>Korak 2 — Preglasite karkoli</h2>
+  <p>
+    Izbirniki teme so oviti v <code>:where(...)</code>ki ima ničelno specifičnost — zato vsako pravilo, ki ga napišete, zmaga, preprosto:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Korak 3 — Preklapljanje med izvajanjem s theme-picker</h2>
+  <p>
+     <code>theme-picker</code> pomočnik je brezglavi gumb z ikono + listbox, ki lastni celoten življenjski cikel teme: naloži izbrano slogovno datoteko z zamenjavo enega upravljanega <code>&lt;link&gt;</code>
+    (prenese se le aktivna tema), nastavi
+    <code>data-theme="&#123;slug&#125;"</code> na dokumentu in neobvezno trajno shrani v <code>localStorage</code>. Tukaj je prikazan Svelte; vrati za React, Vue, Angular, HTML, Nunjucks in Blazor ustrezajo pogodbo za pogodbo:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    To je celotna integracija. Vedenje tipkovnice sledi vzorcu listboxa WAI-ARIA APG; sam kontrolnik je brezglav (razredni kavelj
+    <code>.theme-picker</code>), zato prevzame, katera koli tema je aktivna.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverjeno 2026-08-29:</strong> natanko ta izrezek je bil preveden proti objavljenemu <code>0.1.1</code> paketu prek
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Odzovite se na temo v lastnem CSS</h2>
+  <p>
+    Ker pomočnik nastavi <code>data-theme</code> na korenu dokumenta, se lahko vaši lastni slogi razvejijo po tem:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Opombe o izrisovanju na strežniku</h2>
+  <p>
+    Pomočnik vse zapise v DOM opravi znotraj življenjskega cikla mount/effect ogrodja, zato je po zasnovi varen za SSR. Da se izognete utripu ob prvem risanju, izrišite na strežniku <code>&lt;link&gt;</code> in
+    <code>data-theme</code> začetne teme (na primer iz piškotka) — repozitorij pomočnika Svelte vsebuje izvedljiv primer piškotka za SvelteKit, drugi katalogi pa isti vzorec dokumentirajo za svoje sklade.
+  </p>
+
+  <h2>Naslednji koraki</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Pomočniki za nastavitve</a> — isti vzorec za jezik, velikost besedila, deljenje in vnos datuma/časa.</li>
+    <li>
+      Prispevajte temo — vsaka je ena samostojna slogovna datoteka, ki cilja razredne kavlje; glejte <a href="/help/#contributing">prispevanje</a>.
+    </li>
+  </ul>
+  <p>
+    Vprašanja na poti?
+    <a href="/help/#troubleshooting">Stran s pomočjo</a> je polna odgovorov — in če bi bil kakšen korak lahko jasnejši,
+    <a href="https://github.com/LilyDesignSystem">sporočite nam</a> in vodnik bomo z veseljem izboljšali.
+  </p>
+</section>

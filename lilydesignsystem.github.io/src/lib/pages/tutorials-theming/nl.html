@@ -1,0 +1,111 @@
+<!-- title: Thema-handleiding — Lily Design System -->
+<!-- description: Geef Lily op drie manieren een thema: koppel een van de 45 kant-en-klare thema's, overschrijf het met je CSS en voeg thema wisselen tijdens het draaien toe met de helper theme-picker. -->
+<section class="page-intro">
+  <h1>Thema's</h1>
+  <p class="page-intro-tagline">
+    Lily-componenten hebben stabiele klassehaken en nul CSS — dus een thema is gewoon een stylesheet. Deze handleiding gaat van "koppel één bestand" naar "laat de gebruiker tijdens het draaien van thema wisselen, bewaard".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat je gaat bouwen</h2>
+  <p>
+    Een app waarvan de gebruiker het hele uiterlijk kan veranderen — beginnend met één gekoppelde stylesheet, eindigend met een bewaarde thema-wisselaar tijdens het draaien — in ongeveer 15 minuten.
+  </p>
+
+  <h2>Voordat je begint</h2>
+  <p>
+    Rond eerst de <a href="/tutorials/">framework-handleiding</a> voor jouw stack eerst, zodat je een klein Lily-formulier hebt om te thematiseren. Alles hier werkt in alle zeven frameworks; de codevoorbeelden tonen Svelte en gewone HTML.
+  </p>
+
+  <h2>Stap 1 — Koppel een kant-en-klaar thema</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    map bevat 45 losse stylesheets. Kopieer ze naar de statische assets van je app en koppel er één:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Hoogtepunten van de set:</p>
+  <ul>
+    <li>
+      <strong>Publieke sector</strong> — NHS England / Scotland / Wales, elk in patiëntgerichte en beroepsbeoefenaarsgerichte varianten; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Door leveranciers geïnspireerd</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Algemeen gebruik</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, en nog veel meer.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controleer je werk:</strong> laad de pagina opnieuw. Dezelfde markup die je in de framework-handleiding bouwde, is nu volledig vormgegeven — knoppen, velden, labels, focusringen. Eén regel HTML deed dat — elke component bleef precies zoals hij was.
+    </p>
+  </div>
+
+  <h2>Stap 2 — Overschrijf alles</h2>
+  <p>
+    Themaselectors zijn verpakt in <code>:where(...)</code>dat nul specificiteit heeft — dus elke regel die je schrijft wint, eenvoudig:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Stap 3 — Wisselen tijdens het draaien met theme-picker</h2>
+  <p>
+     <code>theme-picker</code> de helper is een headless pictogramknop + listbox die de hele thema-levenscyclus bezit: hij laadt de gekozen stylesheet door één beheerde <code>&lt;link&gt;</code>
+    te verwisselen (alleen het actieve thema wordt opgehaald), zet
+    <code>data-theme="&#123;slug&#125;"</code> op het document en bewaart optioneel in <code>localStorage</code>. Hier is Svelte getoond; de ports voor React, Vue, Angular, HTML, Nunjucks en Blazor komen contract voor contract overeen:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Dat is de hele integratie. Toetsenbordgedrag volgt het WAI-ARIA APG-listboxpatroon; het bedieningselement zelf is headless (klassehaak
+    <code>.theme-picker</code>), dus het neemt over welk thema ook actief is.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Geverifieerd op 2026-08-29:</strong> dit exacte fragment is gecompileerd tegen het gepubliceerde <code>0.1.1</code> -pakket via
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Stap 4 — Reageer op het thema in je eigen CSS</h2>
+  <p>
+    Omdat de helper <code>data-theme</code> op de documentroot zet, kunnen je eigen stijlen erop vertakken:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Opmerkingen voor server-side rendering</h2>
+  <p>
+    De helper doet alle DOM-schrijfacties binnen de mount-/effect-levenscyclus van het framework, dus hij is van nature SSR-veilig. Om een flits bij de eerste weergave te vermijden, render je het <code>&lt;link&gt;</code> en
+    <code>data-theme</code> van het begin-thema op de server (bijvoorbeeld uit een cookie) — de repo van de Svelte-helper levert een uitvoerbaar SvelteKit-cookievoorbeeld mee, en de andere catalogi documenteren hetzelfde patroon voor hun stacks.
+  </p>
+
+  <h2>Volgende stappen</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Voorkeurenhelpers</a> — hetzelfde patroon voor taal, tekstgrootte, delen en datum-/tijdinvoer.</li>
+    <li>
+      Draag een thema bij — elk is één losse stylesheet die zich op de klassehaken richt; zie <a href="/help/#contributing">bijdragen</a>.
+    </li>
+  </ul>
+  <p>
+    Vragen onderweg? De
+    <a href="/help/#troubleshooting">helppagina</a> staat vol antwoorden — en als een stap duidelijker kan,
+    <a href="https://github.com/LilyDesignSystem">laat het ons weten</a> en we verbeteren de handleiding graag.
+  </p>
+</section>

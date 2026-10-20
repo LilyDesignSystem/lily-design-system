@@ -1,0 +1,276 @@
+<!-- title: Tutorial iwwer d'Astellungs-Helperen — Lily Design System -->
+<!-- description: Füügt Sprooch- an Textgréisst-Astellunge vum Benotzer mat de Lily-Helperen locale-picker an text-size-picker derbäi: Headless-Kontrollen aus Ikonknäppchen + Listbox, mat Persistenz an SSR-Sécherheet. -->
+<section class="page-intro">
+  <h1>Astellungs-Helperen</h1>
+  <p class="page-intro-tagline">
+    Siwen kleng Packagen pro Framework, jidd besëtzt eng Benotzeraufgab vun Ufank bis Enn, plus eng Baar, déi fënnef dovun zesummefaasst. Dir hutt schonn
+    <a href="/tutorials/theming/">theme-picker</a>kennegeléiert; hei sinn locale-picker, text-size-picker a motion-picker (Astellungen), share-picker a search-picker (Aktiounen), date-time-picker (e Formulairewäert) a picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    E Panel mat Astellungen, wou d'Benotzer hir Sprooch an hir Textgréisst wielen — Choixen, déi fir dat ganzt Dokument gëllen, tëscht Visitte bleiwen a Iech zwou Komponenten a puer Zeilen CSS kaschten. Ongeféier 15 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Maacht fir d'éischt de <a href="/tutorials/">Framework-Tutorial</a> fir Äre Stack fäerdeg. D'Beispiller hei drënner sinn Svelte; d'Helperen fir React, Vue, Angular, HTML, Nunjucks a Blazor entspriechen hinnen Kontrakt fir Kontrakt.
+  </p>
+
+  <h2>D'Form, déi si deelen</h2>
+  <ul>
+    <li>E Headless-Ikonknäppchen, dat eng WAI-ARIA APG-Listbox opmaacht (oder, bei date-time-picker, en Datumsauswiel-Dialog) — kee nativen <code>&lt;select&gt;</code>, sou datt all Framework datselwecht Tastaturverhalen an dëselwechte Styling-Hooks kritt.</li>
+    <li>Ee Klassen-Hook pro Package (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), null CSS geliwwert.</li>
+    <li>SSR-sécher: DOM-Schreiwen geschitt just am Mount-/Effect-Liewenszyklus.</li>
+    <li>I18n-propper: all String, deen de Benotzer gesäit, ass eng Prop.</li>
+    <li>
+      Verfügbar fir Svelte (kanonesch), React, Vue, Angular, HTML-Custom-Element, Nunjucks a Blazor — an all enger dee selwechte Kontrakt.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker an text-size-picker besëtzen jidd eng Benotzer-
+    <em>Astellung</em> vun Ufank bis Enn (Auswiel, Uwendung op den DOM, optionell
+    <code>localStorage</code> Persistenz iwwer d'Prop <code>storageKey</code>
+    ). share-picker an date-time-picker sinn anerer Aart: share-picker besëtzt eng <em>Aktioun</em> — si wend näischt um Dokument un a behält näischt — an date-time-picker besëtzt e
+    <em>Formulairewäert</em>, well en Datum an engem Formulaire Daten an keng Astellung ass.
+  </p>
+
+  <h2>locale-picker — Sprooch a Richtung</h2>
+  <p>
+    Léisst de Benotzer e Lokal wielen an schreift dann <code>lang</code> an
+    <code>dir</code> op d'Wuerzel vum Dokument, sou datt Är i18n-Bibliothéik, Äre CSS an Hëllefstechnologien et all verfollegen. RTL gëtt automatesch erkannt fir Arabesch, Hebräesch an aner Schrëften vu riets no lénks. Et konzentréiert sech just op d'Signaliséieren — Är i18n-Bibliothéik këmmert sech ëm d'Iwwersetzung.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    D'Optioune ginn aus enger agebauter Tabell vu Lokalnimm beschrëft (iwwerschreifbar iwwer <code>localeLabels</code>), all Optioun huet säin eegent
+    <code>lang</code> -Attribut, sou datt Écranliesser „Français“ op Franséisch aussprécheen, a Coden mat Ënnerstréch wéi <code>en_US</code>
+    ginn ouni Verloscht op BCP 47 an zréck ëmgewandelt <code>en-US</code>. Verbënnt
+    <code>onChange</code> (oder de gebonnene Wäert) mat i18next, Paraglide, vue-i18n oder wat Dir benotzt.
+  </p>
+
+  <h2>text-size-picker — Gréisst, vum Lieser kontrolléiert</h2>
+  <p>
+    E Gewënn fir d'Zougänglechkeet, dat just Minutte brauch: den Helper setzt
+    <code>data-text-size="&#123;slug&#125;"</code> op d'Wuerzel vum Dokument, an Äre CSS ordnet all Wäert enger Gréisst zou.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Dimensionéiert Äre Layout a <code>rem</code> an déi ganz App skaléiert mat der Wiel vum Benotzer. D'Etikette ginn aus de Slugs mat grousse Buschtawen erstallt („X Large“) oder iwwerschriwwen mat <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> wielt „Large“ aus dem Wieler, an den Text vun der Säit gëtt méi grouss. Luet nei — et ass nach ëmmer grouss: d'Wiel gouf gespäichert an
+      <code>localStorage</code>. Wiesselt de Sproochwieler op Arabesch an
+      <code>dir="rtl"</code> gëtt automatesch um Dokument gesat.
+    </p>
+  </div>
+
+  <h2>share-picker — dës Säit schécken</h2>
+  <p>
+    E Knäppchen mat engem eenzege Glyph, dat dat native Deelen-Blat vum Apparat opmaacht, wou et een gëtt, an soss op eng Lëscht vun Destinatioune zréckfällt, déi Dir ubitt, plus eng Aktioun fir d'URL ze kopéieren. Et liwwert keng URLe vu sozialen Netzwierker — wéi eng Netzwierker an Äre Produkt gehéieren, ass Är Entscheedung, net déi vum Designsystem.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> ass standardméisseg <code>location.href</code>sou datt de Normalfall keng Verdrahtung brauch. Erzwéngt e Wee mat <code>strategy="list"</code> oder
+    <code>strategy="native"</code> wann Dir konsequent Verhalen iwwer Plattformen fir Tester oder Screenshots braucht.
+  </p>
+
+  <h2>date-time-picker — en Datum, eng Zäit oder béides</h2>
+  <p>
+    E Textfeld, an dat Dir tippe kënnt, plus e Ikonknäppchen, dat en WAI-ARIA APG-Datumsauswiel-Dialog opmaacht. Vun der Konstruktioun hier lokalgerecht — Monatsnimm, Wochendagsnimm, den éischten Dag vun der Woch an 12- oder 24-Stonne-Auer kommen all aus <code>Intl</code> — an de Wäert ass ëmmer e sortéierbare ISO-String ouni Zäitzon: <code>"2026-03-15"</code> fir
+    <code>mode="date"</code>, <code>"09:30"</code> fir
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> fir
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Den ISO-Wäert ass identesch mat deem, wat <code>&lt;input type="date"&gt;</code>
+    schéckt, sou datt Dir déi nativ Kontroll eran- oder erausschalte kënnt ouni Äre Backend ze beréieren.
+  </p>
+
+  <h2>motion-picker — reduzéiert Bewegung respektéieren</h2>
+  <p>
+    Den Helper setzt <code>data-motion="&#123;slug&#125;"</code> op d'Wuerzel vum Dokument. Säin éischte Wäert kënnt aus der
+    <code>prefers-reduced-motion</code> -Astellung vum Betribssystem vum Visiteur — ëmmer, ouni Opt-in-Flag, well Bewegung e richtege Zougänglechkeetsbedarf ass (WCAG 2.3.3). Äre CSS an Är Skripte entscheeden, wat ënnerdréckt gëtt.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — eng Sichbox, déi net am Wee ass</h2>
+  <p>
+    E Ikonknäppchen, dat e Sichfeld opmaacht. D'Drécke vun Return, oder vum &#9166;-Knäppchen niewent dem Feld, navigéiert mat enger einfacher GET-Ufro op
+    <code>/?&lt;text&gt;</code> (den Text gëtt getrimmt an URI-kodéiert; eng eidel Ufro féiert nirgendwuer hin). Seng dräi zougänglech Nimm sinn Pflicht, well den Helper keen Englesch liwwert.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> ännert de Wee (<code>/search?foo</code>), an
+    <code>navigate</code> hält d'Navigatioun an der App; ouni dat rifft den Helper <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — déi ganz Kopzeil op eemol</h2>
+  <p>
+    <code>picker-bar</code> rendert Sich, Thema, Lokal, Textgréisst an Deelen an enger Zeil, mam kompletten Set vu Referenzthemen an der siwenstufeger Textskala virverbonnen. All zougänglechen Numm kënnt an engem erfuerderlechen
+    <code>labels</code> -Objet.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Erreecht all agepackte Wieler mat <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> an <code>shareProps</code>.
+  </p>
+
+  <h2>Tooltips sinn agebaut</h2>
+  <p>
+    All Wieler weist säin Etikett an engem Tooltip, wann de Pointer op sengem Knäppchen rascht oder d'Knäppchen Tastatur-Fokus huet. Den Tooltip bleift, während de Pointer op en geet, Escape mécht en zou, egal wou de Fokus ass, an hie gëtt ni gewisen, wärend dem Wieler säi Popup op ass. Hie fiert datselwecht Text wéi den zougängleche Numm vum Knäppchen, sou datt näischt ze konfiguréieren oder zweemol z'iwwersetzen ass; d'Referenzthemen gestalten en.
+  </p>
+
+  <h2>E Panel mat Astellungen op engem Plaz</h2>
+  <p>Déi véier Astellungs-Helperen setzen sech natierlech zesummen:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gepréift:</strong> d'Snippete fir locale-picker, text-size-picker, share-picker, date-time-picker an dat kombinéiert Panel goufen eenzel géint déi verëffentlecht <code>0.1.1</code> -Packagen kompiléiert, iwwer
+      <code>svelte/server</code> (2026-08-29); d'Snippete fir motion-picker, search-picker a picker-bar goufen den 2026-10-06 géint déi eegen Komponente vun de Packagen gerendert.
+    </p>
+  </div>
+
+  <h2>Wou Dir se kritt</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    All Package huet seng eege Spec, Tester, déi un d'Spec-Klauselen gebonne sinn, ausféierbar Beispiller (och SSR-Cookie-Muster) an eng Build- a Verëffentlechungs-Pipeline. D'Svelte-Packagen sinn déi kanonesch; am Zweiwelsfall gewannen hir Kontrakter.
+  </p>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/components/">Komponentekatalog</a> — déi komplett Referenz vun de 571 Komponenten.</li>
+    <li><a href="/help/">Hëllef</a> — Feelersich an FAQ.</li>
+    <li><a href="/why/">Firwat Lily</a> — a wéi Dir de Projet ënnerstëtzt.</li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

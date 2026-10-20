@@ -1,0 +1,122 @@
+<!-- title: Vue ట్యుటోరియల్ — Lily Design System -->
+<!-- description: Lily యొక్క Vue 3 హెడ్‌లెస్ కాంపోనెంట్లతో అందుబాటులో ఉండే, శైలీకరించిన ఫారమ్‌ను నిర్మించండి: v-model ఉన్న ఒక-ఫైల్ కాంపోనెంట్లు. -->
+<section class="page-intro">
+  <h1>Vue ట్యుటోరియల్</h1>
+  <p class="page-intro-tagline">
+    టైప్ చేసిన props ఉన్న Vue 3 ఒక-ఫైల్ కాంపోనెంట్లు, <code>defineModel</code>
+    ద్విముఖ బైండింగ్, మరియు <code>v-bind="$attrs"</code> పాస్-త్రూ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>మీరు ఏమి నిర్మిస్తారు</h2>
+  <p>
+    ఒక చిన్న సంప్రదింపు ఫారమ్ — లేబుల్ ఉన్న ఫీల్డ్, సమర్పించే బటన్, <code>v-model</code>
+    బైండింగ్, నిజమైన కీబోర్డ్ మరియు స్క్రీన్-రీడర్ ప్రవర్తన — మొదట ఖాళీగా, తర్వాత శైలీకరించి, సుమారు 10 నిమిషాల్లో.
+  </p>
+
+  <h2>ప్రారంభించే ముందు</h2>
+  <p>
+    మీకు git, Node 22 లేదా కొత్తది, మరియు pnpm 10 లేదా కొత్తది కావాలి. ఏ Vue 3 ప్రాజెక్ట్ అయినా పనిచేస్తుంది — Nuxt, Vite లేదా సాదా Vue.
+  </p>
+
+  <h2>దశ 1 — కోడ్ పొందండి</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    కాంపోనెంట్లు ఇక్కడ చదునైన ఫైళ్లుగా ఉన్నాయి: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — ప్రతి ఒక్కటి దాని పరీక్ష, story మరియు డాక్యుమెంటేషన్‌తో పక్కనే. మీకు కావలసిన ఫైళ్లను కాపీ చేయండి, లేదా రిపోను తెచ్చుకోండి.
+  </p>
+
+  <h2>దశ 2 — మీ మొదటి కాంపోనెంట్</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    ఇది చూపిస్తుంది <code>&lt;button class="button" type="button"&gt;</code>. Props ఇతర ఫ్రేమ్‌వర్క్‌లకు సరిపోతాయి: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, పాటు మిగతా అన్నిటికీ గుణ పాస్-త్రూ.
+  </p>
+
+  <h2>దశ 3 — ఒక చిన్న ఫారమ్‌ను కూర్చండి</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> కనిపించే <code>label</code> దాని స్వంత prop గా, లోపల ఉంచిన లేబుల్ కాంపోనెంట్‌గా కాదు — దాన్ని ఒకసారి ఇవ్వండి, పై
+    <code>Field</code>మరియు <code>TextInput</code>యొక్క
+    <code>label</code> అందుబాటులో ఉండే పేరును అందిస్తుంది.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29న ధృవీకరించబడింది:</strong> ముందటి చిత్తుప్రతి ఒక ప్రత్యేక <code>Label</code> లోపల <code>Field</code>లోపల ఉంచింది, దాని వల్ల
+      <em>రెండు</em> లేబుళ్లు (ఒకటి ఖాళీ) కనిపించాయి ఎందుకంటే <code>Field</code> ఇప్పటికే తన స్వంతదాన్ని <code>label</code> prop — సరిగ్గా ఆ స్నిప్పెట్‌ను కంపైల్ చేయడం ద్వారా గుర్తించబడింది. మార్గం
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">సంయుక్త సంప్రదింపు-ఫారమ్ మార్గం</a>
+      అదే నమూనా, నిజమైన e2e మరియు axe పరీక్షలతో పరీక్షించబడింది.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> వాడుతుంది <code>defineModel</code>, కాబట్టి సాదా
+    <code>v-model</code> వెంటనే పనిచేస్తుంది.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>మీ పనిని తనిఖీ చేయండి:</strong> యాప్‌ను నడపండి, ఫారమ్ సాదాగా కనిపిస్తుంది — సరిగ్గా అనుకున్నట్లే: శైలీకరణ ఇంకా ముందుంది. నొక్కండి
+      <kbd>Tab</kbd>: ఫోకస్ ప్రతి నియంత్రణ గుండా వెళుతుంది, లేబుల్ ప్రకటించబడుతుంది మరియు సమర్పణ పనిచేస్తుంది. ప్రవర్తన పూర్తయింది; రూపం మీది మరియు తదుపరి దశ.
+    </p>
+  </div>
+
+  <h2>దశ 4 — శైలీకరించండి</h2>
+  <p>
+    క్లాస్ హుక్‌లను శైలీకరించండి — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — మీ స్టైల్‌షీట్‌లో, లేదా సిద్ధమైన థీమ్‌ను ఇక్కడ లింక్ చేయండి <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>దశ 5 — అంతా పనిచేయడం చూడండి</h2>
+  <p>
+     <a href="/examples/">Nuxt ఉదాహరణ యాప్</a> పూర్తి కేటలాగ్ శైలీకరించి, ప్రదర్శనతో ఉంది, Playwright e2e మరియు axe-core ఆధారరేఖతో:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>తదుపరి దశలు</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">థీమ్‌లు</a> — Vue theme-picker సహాయకంతో రన్‌టైమ్‌లో మార్చడం.</li>
+    <li><a href="/tutorials/helpers/">ప్రాధాన్యత సహాయకాలు</a> — భాష మరియు టెక్స్ట్ పరిమాణం.</li>
+    <li><a href="/components/">కాంపోనెంట్ కేటలాగ్</a> — ప్రతి కాంపోనెంట్‌కు లక్షణాలు, ARIA మరియు కీబోర్డ్.</li>
+  </ul>
+  <p>
+    దారిలో ప్రశ్నలా?
+    <a href="/help/#troubleshooting">సహాయ పేజీ</a> సమాధానాలతో నిండి ఉంది — మరియు ఏదైనా దశను మరింత స్పష్టంగా చేయవచ్చంటే,
+    <a href="https://github.com/LilyDesignSystem">మాకు చెప్పండి</a> మరియు మేము సంతోషంగా ట్యుటోరియల్‌ను మెరుగుపరుస్తాము.
+  </p>
+</section>

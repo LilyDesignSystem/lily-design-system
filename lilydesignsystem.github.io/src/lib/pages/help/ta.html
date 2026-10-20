@@ -1,0 +1,432 @@
+<!-- title: உதவி — Lily Design System -->
+<!-- description: Lily உடன் தொடங்குங்கள்: உங்கள் கட்டமைப்புக்கான தலையற்ற தொகுப்பை நிறுவுங்கள், கூறை நகலெடுங்கள், பாணியிடுங்கள், தீம் கொடுங்கள், வெளியிடுங்கள். சிக்கல் தீர்வு, FAQ மற்றும் ஆதரவு. -->
+<section class="page-intro">
+  <h1>Lily உடன் தொடங்குதல்</h1>
+  <p class="page-intro-tagline">
+    ஒரு கட்டமைப்பைத் தேர்ந்தெடுத்து, மோனோரெப்போவை குளோன் செய்து அதன் தலையற்ற நூலகம் அல்லது எடுத்துக்காட்டு பயன்பாட்டைத் திறந்து, உங்கள் சொந்த பக்கங்களை அமைக்கத் தொடங்குங்கள். வழிகாட்டப்பட்ட பாதை விரும்புகிறீர்களா? இதிலிருந்து தொடங்குங்கள்
+    <a href="/tutorials/">பயிற்சிகள்</a>.
+  </p>
+</section>
+
+<nav aria-label="இந்தப் பக்கத்தில்" class="prose" style="margin: 0 auto;">
+  <p><strong>இந்தப் பக்கத்தில்:</strong></p>
+  <ul>
+    <li><a href="#install">நிறுவல்</a></li>
+    <li><a href="#use-headless">தலையற்ற கூறைப் பயன்படுத்துங்கள்</a></li>
+    <li><a href="#use-styled">பாணியிடப்பட்ட எடுத்துக்காட்டைப் பயன்படுத்துங்கள்</a></li>
+    <li><a href="#styling">பாணியிடல் மற்றும் வடிவமைப்புக் குறிகள்</a></li>
+    <li><a href="#themes">தயார் தீம்கள்</a></li>
+    <li><a href="#helpers">விருப்ப உதவியாளர்கள்</a></li>
+    <li><a href="#a11y">அணுகல்</a></li>
+    <li><a href="#i18n">சர்வதேசமயமாக்கல்</a></li>
+    <li><a href="#testing">சோதனை</a></li>
+    <li><a href="#ai-agents">AI முகவர்கள்</a></li>
+    <li><a href="#troubleshooting">சிக்கல் தீர்வு</a></li>
+    <li><a href="#contributing">பங்களிப்பு</a></li>
+    <li><a href="#community">சமூகம் மற்றும் ஆதரவு</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>நிறுவல்</h2>
+  <p>
+    Lily ஒரு Git மோனோரெப்போவில் வாழ்கிறது, ஒவ்வொரு கட்டமைப்பின் தலையற்ற நூலகம், உதவித் தொகுப்புகள் மற்றும் எடுத்துக்காட்டு பயன்பாட்டுக்கு ஒரு கோப்பகத்துடன். முயற்சிக்க விரைவான வழி மோனோரெப்போவை குளோன் செய்து உங்கள் அடுக்குக்கான தலையற்ற நூலகத்தைத் திறப்பது:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>அதே வடிவம் மற்ற கட்டமைப்புகளுக்கும் வேலை செய்கிறது:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — நிறுவல் தேவையில்லை; நகலெடுக்கவும் <code>.html</code> கோப்புகளை</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    தலையற்ற நூலகங்கள் குளோன் செய்ய அல்லது வெண்டர் செய்ய வடிவமைக்கப்பட்டவை — மூலத்தை உண்மையின் மூலமாகக் கருதி தேவையானதை நகலெடுங்கள்.
+    <a href="#helpers">விருப்ப உதவியாளர்கள்</a> கூடுதலாக உருவாக்க மற்றும் வெளியீட்டுக் குழாயுடன் (JS கட்டமைப்புகளுக்கு npm, Blazor க்கு NuGet) நிறுவக்கூடிய தொகுப்புகளாகவும் வருகின்றன.
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>தலையற்ற கூறைப் பயன்படுத்துங்கள்</h2>
+  <p>
+    தலையற்ற கூறுகள் பொருள்சார் HTML, ARIA மற்றும் ப்ராப்களை வழங்குகின்றன — ஆனால் CSS அல்ல. ஒவ்வொரு கட்டமைப்பிலும் ஒரு Button இதோ:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>பாணியிடப்பட்ட எடுத்துக்காட்டைப் பயன்படுத்துங்கள்</h2>
+  <p>
+    எடுத்துக்காட்டு பயன்பாடுகளில் CSS, வழிகள் மற்றும் முழு டெமோ பக்கங்கள் உள்ளன. சோதிக்க விரைவான வழி SvelteKit, Next, Nuxt, Analog அல்லது Eleventy எடுத்துக்காட்டு பயன்பாட்டைத் தொடங்கி இங்கே டெமோவைப் பார்ப்பது <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    பிறகு திறக்கவும் <code>http://localhost:5173</code> மற்றும் இங்கே உலாவவும் <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>பாணியிடல் மற்றும் வடிவமைப்புக் குறிகள்</h2>
+  <p>
+    ஒவ்வொரு கூறும் அதன் மூல உறுப்பில் ஒரு கபாப்-கேஸ் வகுப்புடன் வழங்கப்படுகிறது. எடுத்துக்காட்டாக, <code>&lt;Button&gt;</code> இவ்வாறு வழங்கப்படுகிறது <code>&lt;button class="button"&gt;</code>. விரும்பியபடி பாணியிடுங்கள்:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily இன் இயல்புநிலை வண்ணத் தட்டு (எடுத்துக்காட்டு பயன்பாடுகளில் பயன்படுத்தப்படுவது):</p>
+  <ul>
+    <li>முதன்மை: <code>#2563eb</code></li>
+    <li>ஆபத்து: <code>#dc2626</code></li>
+    <li>எச்சரிக்கை: <code>#f59e0b</code></li>
+    <li>வெற்றி: <code>#16a34a</code></li>
+    <li>பக்க பின்னணி: <code>#f9fafb</code></li>
+    <li>அட்டை பின்னணி: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    இவை பரிந்துரைகள், தேவைகள் அல்ல. உங்கள் சொந்த பிராண்ட் தட்டால் மாற்றுங்கள், Lily மகிழ்ச்சியுடன் உடன் வரும்.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>தயார் தீம்கள்</h2>
+  <p>
+    CSS ஐ பூஜ்ஜியத்திலிருந்து எழுத விரும்பவில்லையா? Lily வழங்குகிறது
+    <strong>57 தனித்த குறிப்புத் தீம்களை</strong> இந்தக் கோப்பகத்தில்
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . ஒவ்வொன்றும் Lily வகுப்பு கொக்கிகளை இலக்கு வைக்கும் ஒரு ஸ்டைல்ஷீட் — இணையுங்கள், பாணி கிடைத்துவிடும்:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>இத்தொகுப்பு உள்ளடக்குவது:</p>
+  <ul>
+    <li>
+      <strong>பொதுத்துறை</strong> — NHS England, NHS Scotland மற்றும் NHS Wales (ஒவ்வொன்றும் நோயாளி-நோக்கு மற்றும் பயிற்சியாளர்-நோக்கு வடிவங்களில்), GOV.UK GDS, மற்றும் U.S. Web Design System.
+    </li>
+    <li><strong>விற்பனையாளர்களால் தூண்டப்பட்டவை</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>பொது நோக்கம்</strong> — light, dark, nord, dracula, wireframe, மற்றும் முப்பது வரை மேலும்.
+    </li>
+  </ul>
+  <p>
+    தீம் தேர்விகள் பயன்படுத்துகின்றன <code>:where(...)</code>, அதனால் உங்கள் சொந்த CSS எப்போதும் குறிப்பிட்ட தன்மையில் வெல்லும். இயக்க நேர மாற்றத்துக்கு அவற்றை கீழுள்ள <code>theme-picker</code> உதவியாளருடன் இணையுங்கள், அல்லது பின்பற்றுங்கள்
+    <a href="/tutorials/theming/">தீமிங் பயிற்சியை</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>விருப்ப உதவியாளர்கள்</h2>
+  <p>
+    ஒவ்வொரு கட்டமைப்புக்கும் எட்டு சிறிய தேர்விகள் உள்ளன, ஒவ்வொன்றும் தனக்கே உரிய
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> தொகுப்பு (மற்றும் அவற்றைத் திரட்டும் ஒரு <code>picker-bar</code> ). ஒவ்வொன்றும் பாப்அப் திறக்கும் தலையற்ற ஐகான் பொத்தான் — பட்டியல் பெட்டி, இணைப்புகளின் பட்டியல், தேடல் படிவம், அல்லது (date-time-picker க்கு) தேதி-தேர்வு உரையாடல் — இயல்பான
+    <code>&lt;select&gt;</code>அல்ல; SSR-பாதுகாப்பானது; CSS ஐ வழங்குவதில்லை:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — நிர்வகிக்கப்படும் <code>&lt;link&gt;</code>ஐ மாற்றுவதன் மூலம் இயக்க நேரத்தில் தீம் ஸ்டைல்ஷீட்களை ஏற்றுகிறது, ஆவணத்தில்
+      <code>data-theme</code> அமைக்கிறது, விருப்பப்பட்டால் இதில் நிலைநிறுத்தி வைக்கிறது
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — அமைக்கிறது <code>lang</code> மற்றும்
+      <code>dir</code> (தானியங்கி RTL கண்டறிதலுடன்) உங்கள் i18n நூலகம் பின்தொடர; தானே எதையும் மொழிபெயர்ப்பதில்லை.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — அமைக்கிறது <code>data-text-size</code> ஆவணத்தில்; உங்கள் CSS ஒவ்வொரு மதிப்பையும் எழுத்துரு அளவுடன் இணைக்கிறது.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — அமைக்கிறது <code>data-motion</code> ஆவணத்தில், பார்வையாளரின் குறைந்த-இயக்க அமைப்பிலிருந்து தொடங்கி; எதை அடக்குவது என்பதை உங்கள் CSS மற்றும் ஸ்கிரிப்ட்கள் முடிவு செய்கின்றன.
+    </li>
+    <li>
+      <strong>search-picker</strong> — தேடல் புலத்தைத் திறக்கும் ஐகான் பொத்தான்; சமர்ப்பித்தால் தேடல் பக்கத்திற்குச் செல்லும். ஒரு செயலைச் சொந்தமாகக் கொண்டுள்ளது, விருப்பத்தை அல்ல.
+    </li>
+    <li>
+      <strong>link-picker</strong> — உங்கள் பயன்பாடு வரையறுக்கும் பக்க இணைப்புகளின் (முகப்பு, எங்களைப் பற்றி, எங்களைத் தொடர்பு கொள்ள, தனியுரிமைக் கொள்கை, …) மெனுவைத் திறக்கும் வீட்டு ஐகான். ஒரு செயலைச் சொந்தமாகக் கொண்டுள்ளது, விருப்பத்தை அல்ல.
+    </li>
+    <li>
+      <strong>share-picker</strong> — இயல்பான பகிர்வுத் தாள் அல்லது நுகர்வோர் வழங்கிய இலக்குகளின் பட்டியலைத் திறக்கிறது, URL நகலுடன். ஒரு செயலைச் சொந்தமாகக் கொண்டுள்ளது, விருப்பத்தை அல்ல: எதையும் பயன்படுத்தாது, எதையும் நிலைநிறுத்தாது.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — தேதி, நேரம், அல்லது இரண்டிற்கும் உரைப் புலம் மற்றும் APG தேதி-தேர்வு உரையாடல். ஒரு படிவ மதிப்பைச் சொந்தமாகக் கொண்டுள்ளது, விருப்பத்தை அல்ல: ISO சரம் இதனுடன் முன்னும் பின்னும் மாறுகிறது
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte பட்டியல் நியமக் குறிப்பு; React, Vue, Angular, HTML, Nunjucks, Web Components மற்றும் Blazor போர்ட்கள் அதனுடன் ஒப்பந்தத்துக்கு ஒப்பந்தம் பொருந்துகின்றன. பார்க்க
+    <a href="/tutorials/helpers/">உதவியாளர் பயிற்சி</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>அணுகல்</h2>
+  <p>கூறுகள் இலக்கு வைப்பது <strong>WCAG 2.2 AAA</strong>. அவை இந்த வடிவங்களைப் பின்பற்றுகின்றன:</p>
+  <ul>
+    <li>பொதுவான <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> க்கு பதிலாக பொருள்சார் HTML உறுப்புகள், லேபிள்களை உள்ளீடுகளுடன் இணைக்கும்.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> குறுக்குக் குறிப்புகளுக்கு.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> பிழை நிலைகளுக்கு.</li>
+    <li><code>role="alert"</code> மற்றும் <code>aria-live</code> இயங்குநிலை உள்ளடக்கத்துக்கு.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> நிலைக்கு.</li>
+    <li>கட்டங்களுக்கு ரோவிங் <code>tabindex</code> .</li>
+  </ul>
+  <p>
+    குவிப்புக் குறிகாட்டிகள் வேண்டுமென்றே நுகர்வோரால் வழங்கப்படுகின்றன — உங்கள் வடிவமைப்புடன் மோதும் இயல்புநிலை குவிப்பு வளையத்தை Lily ஒருபோதும் வரைவதில்லை. எடுத்துக்காட்டு பயன்பாடுகள் அவற்றின் அனைத்து வழிகளிலும் சுத்தமான axe-core அடிப்படையைப் பராமரிக்கின்றன.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>சர்வதேசமயமாக்கல்</h2>
+  <p>
+    ஒவ்வொரு லேபிள், இடஒதுக்கி, பிழைச் செய்தி மற்றும் பொத்தான் உரை ஒரு ப்ராப். நிலையாக எழுதப்பட்ட சரங்கள் இல்லை. உங்கள் விருப்ப மொழிபெயர்ப்புக் கட்டமைப்பைச் சேருங்கள் — Paraglide, i18next, vue-i18n, react-intl, .resx கோப்புகள், எதுவானாலும்.
+  </p>
+  <p>
+    தேதிகள், எண்கள் மற்றும் நாணயங்களுக்கு, கூறுகள் முன்-வடிவமைக்கப்பட்ட சரங்களை ஏற்கின்றன: நீங்கள் இதனுடன் வடிவமைத்து <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / உங்கள் விருப்ப நூலகம், முடிவை அனுப்புகிறீர்கள்.
+  </p>
+  <p>
+     <code>locale-picker</code> உதவியாளர் தேர்ந்தெடுத்த மொழிச்சூழலை உங்கள் i18n நூலகத்துக்கு இவ்வாறு அமைத்துத் தெரிவிக்கிறார் <code>lang</code> மற்றும் <code>dir</code> ஆவண மூலத்தில்.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>சோதனை</h2>
+  <p>ஒவ்வொரு கட்டமைப்பு துணைத் திட்டமும் அதன் மரபு அடுக்கைப் பயன்படுத்தி தன் சொந்த சோதனைகளை வழங்குகிறது:</p>
+  <ul>
+    <li><strong>HTML</strong>: உண்மையான உலாவிகளை இயக்கும் WebDriverIO.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (Analog Vite செருகுநிரல் வழியாக).</li>
+    <li><strong>Nunjucks</strong>: வழங்கல் உதவியாளருடன் Vitest.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    சோதனைகள் பயன்படுத்துவது <strong>Vitest இன் உள்ளமைந்த பொருத்திகளை மட்டும்</strong> — ஒருபோதும் இல்லை
+    <code>jest-dom</code> பொருத்திகள். இது சோதனைத் தொகுப்புகளை எடுத்துச்செல்லக்கூடியதாக வைக்கிறது. எடுத்துக்காட்டு பயன்பாடுகள் Playwright முனைக்கு-முனை தொகுப்புகள், axe-core அணுகல் அடிப்படைகள், மற்றும் பதிலளிக்கும் காட்சித்திரை துடைப்பைச் சேர்க்கின்றன.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI முகவர்கள்</h2>
+  <p>
+    இந்தத் தளம் அதன் மூலத்தில் வெளியிடுகிறது <a href="/llms.txt">llms.txt</a> மற்றும்
+    <a href="/llms.json">llms.json</a> — அதன் மிக முக்கிய பக்கங்களின் தேர்ந்தெடுக்கப்பட்ட வரைபடம், பின்பற்றும் எந்தக் கருவிக்கும்
+    <a href="https://llmstxt.org">llms.txt மரபை</a>.
+  </p>
+  <p>
+    நியம மோனோரெப்போ கூடுதலாக இரண்டை வழங்குகிறது
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: அமைப்புடன் உருவாக்கும் அனைவருக்கும் Lily இன் கருத்துகள், சொற்களஞ்சியம் மற்றும் கலவை வடிவங்களை உள்ளடக்கும் பொது-நோக்கத் திறன், மற்றும் <code>lily-design-system-maintainer-skill</code>, அதில் வேலை செய்யும் அனைவருக்கும் மோனோரெப்போவின் தேவையான-கோப்பு அமைப்பையும் கருவிகளையும் உள்ளடக்கும் தொழில்நுட்பத் திறன். இரண்டும் இதன் மூலத்தில் உள்ளன
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">நியம மோனோரெப்போ</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>சிக்கல் தீர்வு</h2>
+
+  <details class="faq-item">
+    <summary>கூறு வழங்கப்படுகிறது ஆனால் பாணியற்றதாகத் தெரிகிறது</summary>
+    <p>
+      அது தலையற்றது நோக்கப்படி வேலை செய்வது — கூறுடன் CSS வருவதில்லை. கூறின் கபாப்-கேஸ் வகுப்புக்கு CSS எழுதுங்கள் (ஒவ்வொரு <a href="/components/">பட்டியல் பக்கத்திலும் காட்டப்படும்)</a>அல்லது இவற்றில் ஒன்றை இணையுங்கள்
+      <a href="#themes">57 தயார் தீம்கள்</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>என் CSS தீமின் மேல் பொருந்துவதாகத் தெரியவில்லை</summary>
+    <p>
+      பொருந்த வேண்டும் — தீம் தேர்விகள் இதில் சுற்றப்பட்டுள்ளன <code>:where(...)</code>, இதற்கு பூஜ்ஜிய குறிப்பிட்ட தன்மை. விதி இன்னும் தோற்றால், உங்கள் ஸ்டைல்ஷீட் தீமின் <code>&lt;link&gt;</code> க்குப் பிறகு ஏற்றப்படுகிறதா, தேர்வி உண்மையில் கூறின் வகுப்பு கொக்கியுடன் பொருந்துகிறதா என்று சரிபாருங்கள்.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install பியர் அல்லது பதிப்புப் பிழையுடன் தோல்வியடைகிறது</summary>
+    <p>
+      தற்போதைய pnpm (v10+) மற்றும் Node 22+ ஐப் பயன்படுத்துங்கள். ஒவ்வொரு துணைத் திட்டமும் அதன் கட்டமைப்புப் பதிப்புகளைத் தன் சொந்த <code>package.json</code>இல் பின் செய்கிறது; உங்கள் உலகளாவிய கருவிச்சங்கிலி பழையதாக இருந்தால், <code>pnpm env use --global lts</code> விரைவான தீர்வு.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>திரை வாசிப்பான் கட்டுப்பாட்டுக்குத் தவறான பெயரை அறிவிக்கிறது</summary>
+    <p>
+      கூறின் தேவையான <code>label</code> ப்ராப்பைச் சரிபாருங்கள் — புலப்படும் உரை இல்லாத கூறுகளுக்கு ஒன்று தேவை, மற்றும் நுகர்வோர் வழங்கிய
+      <code>aria-label</code> / <code>aria-labelledby</code> rest-props வழியாக அனுப்பப்பட்டவை வேண்டுமென்றே உள்ளமைந்த இணைப்பை வெல்கின்றன. ஒவ்வொரு பட்டியல் பக்கமும் கூறின் ARIA ஒப்பந்தத்தை ஆவணப்படுத்துகிறது.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker உதவியாளர் ஸ்டைல்ஷீட்களை மாற்றுவதில்லை</summary>
+    <p>
+      உறுதிசெய்யுங்கள் <code>themesUrl</code> உலாவி பெறக்கூடிய கோப்பகத்தைச் சுட்டுகிறது ( <code>themes/</code> கோப்புகளை நிலையான சொத்துகளாக வழங்குங்கள்) மற்றும் உங்கள் <code>themes</code> ப்ராப்பிலுள்ள தீம் ஸ்லக்குகள் கோப்புப் பெயர்களுடன் பொருந்துகின்றன என்று. உதவியாளர் மாற்றுகிறார் <code>href</code> ஒரு நிர்வகிக்கப்படும்
+      <code>&lt;link data-lily-theme-picker&gt;</code> இன் — கோரப்படும் URL ஐப் பார்க்க devtools இல் ஆய்வு செய்யுங்கள்.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>வேறேதோ உடைந்துள்ளது</summary>
+    <p>
+      குறைந்தபட்ச மறுஉருவாக்கத்துடன் இங்கே issue திறக்கவும்
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — அல்லது பார்க்க <a href="#community">சமூகம் மற்றும் ஆதரவு</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>பங்களிப்பு</h2>
+  <p>Lily இளையது, ஒத்துழைப்பை வரவேற்கிறது. இப்போதைய மிகப் பயனுள்ள பங்களிப்புகள்:</p>
+  <ul>
+    <li>புதிய கூறுகள் (குறிப்பாக நிலைபெற்ற வடிவமைப்பு அமைப்புகளின் வடிவங்கள்).</li>
+    <li>புதிய தீம்கள் — ஒவ்வொன்றும் ஒரு தனித்த ஸ்டைல்ஷீட், நன்கு வரையறுக்கப்பட்ட முதல் PR.</li>
+    <li>சிறந்த எடுத்துக்காட்டுப் பாணியிடல் — என்ன சாத்தியம் என்று காட்டுங்கள்.</li>
+    <li>எடுத்துக்காட்டு பயன்பாட்டுச் சரங்களின் மொழிபெயர்ப்புகள்.</li>
+    <li>குறைந்தபட்ச மறுஉருவாக்கத்துடன் பிழை அறிக்கைகள்.</li>
+    <li>திரை வாசிப்பான்கள் மற்றும் உதவித் தொழில்நுட்பத்துடன் அணுகல் தணிக்கைகள்.</li>
+  </ul>
+  <p>
+    இங்கே issues மற்றும் PRs திறக்கவும்
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>சமூகம் மற்றும் ஆதரவு</h2>
+  <ul>
+    <li>
+      <strong>கேள்விகளும் பிழை அறிக்கைகளும்</strong> — இங்கே issue திறக்கவும்
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>மின்னஞ்சல்</strong> — பராமரிப்பாளர் படிக்கிறார்
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      மேலும் ஒத்துழைப்பு, வழிகாட்டுதல் மற்றும் கருத்துகளை வரவேற்கிறார்.
+    </li>
+    <li>
+      <strong>கண்ணாடிகள்</strong> — Lily இங்கேயும் தள்ளப்படுகிறது
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> மற்றும்
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, அதனால் நீங்கள் விரும்பும் ஃபோர்ஜிலிருந்து பங்கேற்கலாம்.
+    </li>
+    <li>
+      <strong>நடத்தை</strong> — திட்டம் ஒரு நிலையான நடத்தை விதிமுறையைப் பின்பற்றுகிறது; அன்பாக இருங்கள், நல்லெண்ணத்தை ஊகியுங்கள்.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>பாணியிடப்பட்டதற்குப் பதிலாக தலையற்றது ஏன்?</summary>
+    <p>
+      முன்-பாணியிடப்பட்ட கூறுகள் வசதியானவை — அவை உங்கள் பிராண்டுக்குப் பொருந்தாதவரை. தலையற்ற கூறுகளுக்கு முதலில் சற்று அதிக வேலை தேவை, ஆனால் காட்சி வடிவமைப்பின் மீது முழுக் கட்டுப்பாட்டைத் தருகின்றன. எடுத்துக்காட்டு பயன்பாடுகளும் 57 தீம்களும் அவற்றுக்குப் பாணி கொடுக்கும் வழிகளைக் காட்டுகின்றன; அவற்றை நீங்கள் எடுத்துக்கொள்ளலாம் அல்லது முழுமையாக மாற்றலாம். நீண்ட வாதம் இங்கே உள்ளது <a href="/why/">ஏன் Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ஏன் இத்தனை கூறுகள்?</summary>
+    <p>
+      பெரும்பாலான பயன்பாடுகளுக்குத் தேவையான வடிவங்களை நீங்கள் அவற்றைப் பூஜ்ஜியத்திலிருந்து உருவாக்கும்படி வற்புறுத்தாமல் உள்ளடக்குவது Lily இன் நோக்கம் — தேசிய அடையாளங்காட்டி உள்ளீடுகள் மற்றும் தலையங்க scrollytelling போன்ற ஆழமான விஷயங்கள் உட்பட. பட்டியல் ஒரு டஜன் நிலைபெற்ற வடிவமைப்பு அமைப்புகளிலிருந்தும் அசல் பணியிலிருந்தும் எடுக்கிறது — பார்க்க <a href="/about/">பற்றி</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily ஐ Tailwind உடன் பயன்படுத்தலாமா?</summary>
+    <p>
+      ஆம். ஒவ்வொரு கூறும் ஒரு கபாப்-கேஸ் மூல வகுப்பையும் நுகர்வோர் வழங்கிய <code>className</code> / <code>class</code>ஐயும் வெளிப்படுத்துகிறது. Tailwind பயன்பாடுகளை உங்கள் விருப்பப்படி மேலே அடுக்குங்கள்.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily ஐ DaisyUI போன்ற பொருள்சார் CSS கட்டமைப்புகளுடன் பயன்படுத்தலாமா?</summary>
+    <p>
+      ஆம். மூல உறுப்பிலுள்ள கபாப்-கேஸ் வகுப்புப் பெயர்கள் பொருள்சார் CSS கொக்கிகளாக வேலை செய்கின்றன. Lily ஐ பொருள்சார் கட்டமைப்புடன் இணைத்தால், ARIA மற்றும் i18n ஐ இன்னும் மதிக்கும் முன்-பாணியிடப்பட்ட கூறுகள் கிடைக்கும்.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>npm தொகுப்பு உள்ளதா?</summary>
+    <p>
+       <a href="#helpers">விருப்ப உதவியாளர்கள்</a> npm/NuGet வெளியீட்டுக் குழாயுடன் தொகுப்புகளாக வருகின்றன. தலையற்ற கூறு நூலகங்கள் குளோன் செய்ய அல்லது வெண்டர் செய்ய வடிவமைக்கப்பட்டவை — மூலமே வழங்கப்படுவது, எனவே நீங்கள் அனுப்புவதை சரியாகப் படிக்கவும், வெட்டவும், சொந்தமாக்கவும் முடியும். தலையற்ற நூலகங்களை பதிவகங்களில் வெளியிடுவது இன்னும் வழிவரைபடத்தில் உள்ளது.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ஏன் பல உரிமங்கள்?</summary>
+    <p>
+      வெவ்வேறு திட்டங்களுக்கு வெவ்வேறு உரிமத் தேவைகள் உள்ளன. BSD மற்றும் MIT அனுமதிப்பவை, Apache-2.0 இல் காப்புரிமை வழங்கல் உள்ளது, GPL விருப்பங்கள் copyleft ஐ ஆதரிக்கின்றன. உங்கள் சூழலுக்குப் பொருந்துவதைத் தேர்ந்தெடுங்கள்.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>பிழையைப் புகாரளிக்க அல்லது அம்சத்தைக் கோர எப்படி?</summary>
+    <p>
+      GitHub களஞ்சியத்தில் issue திறக்கவும், அல்லது மின்னஞ்சல் செய்யுங்கள்
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

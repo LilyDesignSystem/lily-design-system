@@ -1,0 +1,97 @@
+<!-- title: Teagasc Nunjucks — Lily Design System -->
+<!-- description: Tóg leathanaigh inrochtana, stíl-chóirithe, rindreáilte ar an bhfreastalaí le macraí Nunjucks Lily — idéalach d'Eleventy. -->
+<section class="page-intro">
+  <h1>Teagasc Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Macraí rindreáilte ar an bhfreastalaí d'Eleventy, d'Express nó d'aon phíblíne teimpléad Node — an cur chuige i stíl GOV.UK, le catalóg agus crúcaí aicme Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    Foirm theagmhála bheag rindreáilte ar an bhfreastalaí — réimse le lipéad, cnaipe cur isteach, nialas ualach JavaScript — nocht ar dtús, ansin stíl-chóirithe, i thart ar 10 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Tá git, Node 22 nó níos nuaí, agus pnpm 10 nó níos nuaí ag teastáil uait. Oibríonn aon phíblíne Nunjucks — Eleventy, Express nó Nunjucks simplí.
+  </p>
+
+  <h2>Céim 1 — Faigh an cód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Is eolaire é gach comhpháirt i <code>components/</code> le
+    <code>macro.njk</code>, a thástáil agus a doiciméadú — mar shampla
+    <code>components/button/macro.njk</code>. Díreoigh do luchtaitheoir Nunjucks ar
+    <code>components/</code> (in Eleventy, cuir leis an gcosán includes é) agus iompórtáil an méid atá ag teastáil uait.
+  </p>
+
+  <h2>Céim 2 — Do chéad chomhpháirt</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Rindreálann <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Glacann macraí le réad params amháin: <code>text</code> (éalaithe) nó
+    <code>html</code> (amh), <code>type</code>, <code>label</code> le haghaidh
+    <code>aria-label</code>agus cuireoir crúca aicme.
+  </p>
+
+  <h2>Céim 3 — Cuir foirm bheag le chéile</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Toisc go rindreáiltear gach rud ar an bhfreastalaí, faigheann an brabhsálaí HTML séimeantach glan le crúcaí aicme — ualach JavaScript nialas bearta.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> luchtaigh an leathanach agus tá an fhoirm le feiceáil nocht — go díreach mar a bhí beartaithe: tá an stíliú fós le teacht. Brúigh
+      <kbd>Tab</kbd>: gluaiseann an fócas trí gach rialú, fógraítear an lipéad agus oibríonn an cur isteach. Tá an t-iompar déanta; is leatsa an cuma agus is é an chéad chéim eile é.
+    </p>
+  </div>
+
+  <h2>Céim 4 — Stíligh é</h2>
+  <p>
+    Stíligh na crúcaí — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — i do bhileog stíle, nó nasc téama réamhdhéanta i do leagan amach bunúsach:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Céim 5 — Féach air ag obair ar fad</h2>
+  <p>
+     <a href="/examples/">App samplach Nunjucks + Eleventy</a> tógann sé an catalóg iomlán mar shuíomh statach le leathanaigh léirithe in aghaidh na comhpháirte:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Téamaí</a> — lena n-áirítear patrún fianán Eleventy le haghaidh malartú téama SSR gan priocadh.</li>
+    <li><a href="/tutorials/helpers/">Cúntóirí sainroghanna</a> — teanga agus méid téacs.</li>
+    <li><a href="/components/">Catalóg na gcomhpháirteanna</a> — airíonna, ARIA agus méarchlár in aghaidh na comhpháirte.</li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

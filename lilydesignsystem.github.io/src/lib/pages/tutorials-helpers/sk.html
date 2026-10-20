@@ -1,0 +1,276 @@
+<!-- title: Návod k pomocníkom pre predvoľby — Lily Design System -->
+<!-- description: Pridajte užívateľské predvoľby jazyka a veľkosti textu pomocníkmi Lily locale-picker a text-size-picker: bezhlavé ovládacie prvky z tlačidla s ikonou + listboxu s trvalým uložením a bezpečnosťou SSR. -->
+<section class="page-intro">
+  <h1>Pomocníci pre predvoľby</h1>
+  <p class="page-intro-tagline">
+    Sedem malých balíkov na framework, z ktorých každý vlastní jednu užívateľskú úlohu od začiatku do konca, plus lišta, ktorá päť z nich zostavuje. Už ste sa stretli s
+    <a href="/tutorials/theming/">theme-picker</a>; tu sú locale-picker, text-size-picker a motion-picker (predvoľby), share-picker a search-picker (akcie), date-time-picker (hodnota formulára) a picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Čo vytvoríte</h2>
+  <p>
+    Panel nastavení, kde používatelia volia jazyk a veľkosť textu — voľby, ktoré platia pre celý dokument, pretrvávajú medzi návštevami a stoja vás dva komponenty a pár riadkov CSS. Približne 15 minút.
+  </p>
+
+  <h2>Skôr než začnete</h2>
+  <p>
+    Najprv dokončite <a href="/tutorials/">návod k frameworku</a> pre svoj stack. Ukážky nižšie sú v Svelte; pomocníci pre React, Vue, Angular, HTML, Nunjucks a Blazor im zodpovedajú zmluvu po zmluve.
+  </p>
+
+  <h2>Tvar, ktorý zdieľajú</h2>
+  <ul>
+    <li>Bezhlavé tlačidlo s ikonou, ktoré otvára listbox WAI-ARIA APG (alebo pri date-time-picker dialóg na výber dátumu) — žiadny natívny <code>&lt;select&gt;</code>, takže každý framework získa rovnaké správanie klávesnice a štýlovacie háčiky.</li>
+    <li>Jeden triedny háčik na balík (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), nula dodaného CSS.</li>
+    <li>Bezpečné pre SSR: zápisy do DOM prebiehajú len v životnom cykle mount/effect.</li>
+    <li>Čisté pre i18n: každý reťazec viditeľný používateľovi je prop.</li>
+    <li>
+      K dispozícii pre Svelte (kanonický), React, Vue, Angular, vlastný prvok HTML, Nunjucks a Blazor — v každom rovnaká zmluva.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker a text-size-picker vlastnia každý jednu používateľskú
+    <em>predvoľbu</em> od začiatku do konca (výber, aplikácia na DOM, voliteľné
+    <code>localStorage</code> trvalé uloženie cez prop <code>storageKey</code>
+    ). share-picker a date-time-picker sú iného druhu: share-picker vlastní <em>akciu</em> — nič nepoužíva na dokument a nič neukladá — a date-time-picker vlastní
+    <em>hodnotu formulára</em>, pretože dátum vo formulári sú dáta, nie predvoľba.
+  </p>
+
+  <h2>locale-picker — jazyk a smer</h2>
+  <p>
+    Nechá používateľa vybrať miestne nastavenie a potom zapíše <code>lang</code> a
+    <code>dir</code> na koreň dokumentu, aby ho nasledovala vaša knižnica i18n, vaše CSS aj asistívne technológie. RTL sa zisťuje automaticky pre arabčinu, hebrejčinu a ďalšie písma písané sprava doľava. Sústredí sa čisto na signalizáciu — preklad zabezpečuje vaša knižnica i18n.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Voľby sú popísané z vstavanej tabuľky názvov miestnych nastavení (možno prepísať cez <code>localeLabels</code>), každá voľba nesie vlastný atribút
+    <code>lang</code> , aby čítačky obrazovky vyslovili „Français“ po francúzsky, a kódy s podčiarkovníkom ako <code>en_US</code>
+    sa bezstratovo prevádzajú do BCP 47 a späť <code>en-US</code>. Pripojte
+    <code>onChange</code> (alebo viazanú hodnotu) k i18next, Paraglide, vue-i18n alebo čomukoľvek, čo používate.
+  </p>
+
+  <h2>text-size-picker — veľkosť ovládaná čitateľom</h2>
+  <p>
+    Zisk pre prístupnosť za pár minút: pomocník nastaví
+    <code>data-text-size="&#123;slug&#125;"</code> na koreň dokumentu a vaše CSS priradí každej hodnote veľkosť.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Rozmerujte rozloženie v <code>rem</code> a celá aplikácia sa prispôsobí voľbe používateľa. Popisy sa tvoria zo slugov s veľkým začiatočným písmenom („X Large“) alebo sa prepisujú cez <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Skontrolujte svoju prácu:</strong> vyberte „Large“ vo výbere a text stránky sa zväčší. Znova načítajte — stále je veľký: voľba sa trvalo uložila do
+      <code>localStorage</code>. Prepnite výber jazyka na arabčinu a
+      <code>dir="rtl"</code> sa na dokument nastaví automaticky.
+    </p>
+  </div>
+
+  <h2>share-picker — odoslať túto stránku</h2>
+  <p>
+    Tlačidlo s jedným glyfom, ktoré otvorí natívny zdieľací list zariadenia tam, kde existuje, a inak sa vráti k zoznamu cieľov, ktoré dodáte, plus akcii kopírovania URL. Nedodáva žiadne URL sociálnych sietí — ktoré siete patria do vášho produktu, je vaše rozhodnutie, nie rozhodnutie dizajnového systému.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> je predvolene <code>location.href</code>, takže bežný prípad nepotrebuje žiadne zapojenie. Vynúťte cestu pomocou <code>strategy="list"</code> alebo
+    <code>strategy="native"</code> keď potrebujete konzistentné správanie naprieč platformami pre testy alebo snímky obrazovky.
+  </p>
+
+  <h2>date-time-picker — dátum, čas alebo oboje</h2>
+  <p>
+    Textové pole, do ktorého možno písať, plus tlačidlo s ikonou, ktoré otvorí dialóg na výber dátumu WAI-ARIA APG. Správne pre dané prostredie už z konštrukcie — názvy mesiacov, názvy dní, prvý deň týždňa a 12- či 24-hodinové hodiny pochádzajú z <code>Intl</code> — a hodnota je vždy zoraditeľný reťazec ISO bez časového pásma: <code>"2026-03-15"</code> pre
+    <code>mode="date"</code>, <code>"09:30"</code> pre
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> pre
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Hodnota ISO je zhodná s tým, čo <code>&lt;input type="date"&gt;</code>
+    odosiela, takže natívny ovládací prvok môžete vymeniť dovnútra aj von bez zásahu do backendu.
+  </p>
+
+  <h2>motion-picker — rešpektujte obmedzený pohyb</h2>
+  <p>
+    Pomocník nastaví <code>data-motion="&#123;slug&#125;"</code> na koreň dokumentu. Jeho prvá hodnota pochádza z nastavenia
+    <code>prefers-reduced-motion</code> operačného systému návštevníka — vždy, bez príznaku na aktiváciu, pretože pohyb je skutočná potreba prístupnosti (WCAG 2.3.3). Vaše CSS a skripty rozhodujú, čo sa potlačí.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — vyhľadávacie pole, ktoré neprekáža</h2>
+  <p>
+    Tlačidlo s ikonou, ktoré otvorí vyhľadávacie pole. Stlačenie Return alebo tlačidla &#9166; vedľa poľa prejde obyčajnou požiadavkou GET na
+    <code>/?&lt;text&gt;</code> (text sa orezá a zakóduje ako URI; prázdny dotaz nevedie nikam). Jeho tri prístupné názvy sú povinné, pretože pomocník nedodáva angličtinu.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> mení cestu (<code>/search?foo</code>) a
+    <code>navigate</code> drží navigáciu v aplikácii; bez neho pomocník volá <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — celý riadok hlavičky naraz</h2>
+  <p>
+    <code>picker-bar</code> vykresľuje vyhľadávanie, tému, miestne nastavenie, veľkosť textu a zdieľanie v jednom riadku, s úplnou sadou referenčných tém a sedemstupňovou škálou textu vopred zapojenými. Každý prístupný názov prichádza v jednom povinnom objekte
+    <code>labels</code> .
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Dostanete sa k ľubovoľnému obalenému výberu cez <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> a <code>shareProps</code>.
+  </p>
+
+  <h2>Popisky sú vstavané</h2>
+  <p>
+    Každý výber zobrazí svoj popis v popisku, keď ukazovateľ spočinie na jeho tlačidle alebo má tlačidlo fokus klávesnice. Popisok zostane, keď ukazovateľ prejde na neho, Escape ho zavrie, nech je fokus kdekoľvek, a nikdy sa nezobrazí, kým je otvorené kontextové okno výberu. Nesie rovnaký text ako prístupný názov tlačidla, takže nie je čo konfigurovať ani dvakrát prekladať; referenčné témy ho ostylujú.
+  </p>
+
+  <h2>Panel nastavení na jednom mieste</h2>
+  <p>Štyria pomocníci pre predvoľby sa prirodzene skladajú:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Overené:</strong> ukážky pre locale-picker, text-size-picker, share-picker, date-time-picker a kombinovaný panel boli skompilované jednotlivo proti publikovaným <code>0.1.1</code> balíkom cez
+      <code>svelte/server</code> (2026-08-29); ukážky pre motion-picker, search-picker a picker-bar boli vykreslené proti vlastným komponentom balíkov 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Kde ich získať</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Každý balík má vlastný spec, testy naviazané na klauzuly specu, spustiteľné príklady (vrátane vzorov cookies pre SSR) a pipeline na zostavenie a publikovanie. Balíky Svelte sú kanonické; v prípade pochybností vyhrávajú ich zmluvy.
+  </p>
+
+  <h2>Ďalšie kroky</h2>
+  <ul>
+    <li><a href="/components/">Katalóg komponentov</a> — úplná referencia 571 komponentov.</li>
+    <li><a href="/help/">Pomocník</a> — riešenie problémov a FAQ.</li>
+    <li><a href="/why/">Prečo Lily</a> — a ako projekt podporiť.</li>
+  </ul>
+  <p>
+    Otázky po ceste?
+    <a href="/help/#troubleshooting">Stránka pomocníka</a> je plná odpovedí — a ak by niektorý krok mohol byť jasnejší,
+    <a href="https://github.com/LilyDesignSystem">dajte nám vedieť</a> a návod radi vylepšíme.
+  </p>
+</section>

@@ -1,0 +1,122 @@
+<!-- title: Hướng dẫn Vue — Lily Design System -->
+<!-- description: Xây dựng biểu mẫu dễ tiếp cận, có kiểu dáng bằng các thành phần headless Vue 3 của Lily: thành phần một tệp với v-model. -->
+<section class="page-intro">
+  <h1>Hướng dẫn Vue</h1>
+  <p class="page-intro-tagline">
+    Thành phần một tệp Vue 3 với thuộc tính có kiểu, <code>defineModel</code>
+    liên kết hai chiều và chuyển tiếp <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một biểu mẫu liên hệ nhỏ — ô nhập có nhãn, nút gửi, <code>v-model</code>
+    liên kết, hành vi bàn phím và trình đọc màn hình thật — lúc đầu để trơn, sau đó thêm kiểu dáng, trong khoảng 10 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Bạn cần git, Node 22 trở lên và pnpm 10 trở lên. Dự án Vue 3 nào cũng được — Nuxt, Vite hoặc Vue thuần.
+  </p>
+
+  <h2>Bước 1 — Lấy mã</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Các thành phần là những tệp phẳng trong <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — mỗi cái có bài kiểm thử, story và tài liệu bên cạnh. Sao chép các tệp bạn cần, hoặc đưa kho mã vào.
+  </p>
+
+  <h2>Bước 2 — Thành phần đầu tiên của bạn</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Hiển thị <code>&lt;button class="button" type="button"&gt;</code>. Thuộc tính khớp với các framework khác: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, cộng với chuyển tiếp thuộc tính cho mọi thứ còn lại.
+  </p>
+
+  <h2>Bước 3 — Ghép một biểu mẫu nhỏ</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> nhận <code>label</code> làm thuộc tính riêng thay vì thành phần nhãn lồng bên trong — chỉ truyền một lần, trên
+    <code>Field</code>và <code>TextInput</code>tương ứng
+    <code>label</code> cung cấp tên có thể tiếp cận.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Đã xác minh 2026-08-29:</strong> bản nháp trước lồng một thành phần <code>Label</code> bên trong <code>Field</code>, khiến hiển thị
+      <em>hai</em> nhãn (một cái rỗng) vì <code>Field</code> đã tự hiển thị nhãn của nó từ <code>label</code> thuộc tính — phát hiện nhờ biên dịch đoạn mã chính xác. Tuyến
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Tuyến biểu mẫu liên hệ ghép sẵn</a>
+      cũng theo mẫu này, được kiểm chứng bằng các bài kiểm thử e2e và axe thật.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> dùng <code>defineModel</code>nên
+    <code>v-model</code> thuần hoạt động ngay.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> chạy ứng dụng và biểu mẫu trông trơ — đúng như dự định: kiểu dáng còn ở phía trước. Nhấn
+      <kbd>Tab</kbd>: tiêu điểm di chuyển qua mọi điều khiển, nhãn được đọc lên và việc gửi hoạt động. Hành vi đã xong; diện mạo là của bạn và là bước tiếp theo.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Tạo kiểu dáng</h2>
+  <p>
+    Tạo kiểu cho các class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — trong bảng kiểu của bạn, hoặc liên kết một chủ đề dựng sẵn trong <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Bước 5 — Xem mọi thứ hoạt động</h2>
+  <p>
+     <a href="/examples/">Ứng dụng ví dụ Nuxt</a> là toàn bộ danh mục có kiểu dáng và bản demo, cùng Playwright e2e và đường cơ sở axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Chủ đề</a> — chuyển đổi khi chạy bằng trợ giúp theme-picker của Vue.</li>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — ngôn ngữ và cỡ chữ.</li>
+    <li><a href="/components/">Danh mục thành phần</a> — thuộc tính, ARIA và bàn phím của từng thành phần.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

@@ -1,0 +1,432 @@
+<!-- title: Hilfe — Lily Design System -->
+<!-- description: Erste Schritte mit Lily: das Headless-Paket für Ihr Framework installieren, eine Komponente kopieren, gestalten, mit einem Theme versehen und ausliefern. Fehlerbehebung, FAQ und Support. -->
+<section class="page-intro">
+  <h1>Erste Schritte mit Lily</h1>
+  <p class="page-intro-tagline">
+    Wählen Sie ein Framework, klonen Sie das Monorepo und öffnen Sie dessen Headless-Bibliothek oder Beispiel-App, und beginnen Sie, eigene Seiten zusammenzustellen. Lieber einen geführten Weg? Beginnen Sie mit den
+    <a href="/tutorials/">Anleitungen</a>.
+  </p>
+</section>
+
+<nav aria-label="Auf dieser Seite" class="prose" style="margin: 0 auto;">
+  <p><strong>Auf dieser Seite:</strong></p>
+  <ul>
+    <li><a href="#install">Installation</a></li>
+    <li><a href="#use-headless">Eine Headless-Komponente verwenden</a></li>
+    <li><a href="#use-styled">Ein gestaltetes Beispiel verwenden</a></li>
+    <li><a href="#styling">Gestaltung und Design-Tokens</a></li>
+    <li><a href="#themes">Fertige Themes</a></li>
+    <li><a href="#helpers">Einstellungshelfer</a></li>
+    <li><a href="#a11y">Barrierefreiheit</a></li>
+    <li><a href="#i18n">Internationalisierung</a></li>
+    <li><a href="#testing">Testen</a></li>
+    <li><a href="#ai-agents">KI-Agenten</a></li>
+    <li><a href="#troubleshooting">Fehlerbehebung</a></li>
+    <li><a href="#contributing">Mitwirken</a></li>
+    <li><a href="#community">Community und Support</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Installation</h2>
+  <p>
+    Lily lebt in einem einzigen Git-Monorepo, mit einem Verzeichnis für die Headless-Bibliothek, die Helferpakete und die Beispiel-App jedes Frameworks. Am schnellsten probieren Sie es aus, indem Sie das Monorepo klonen und die Headless-Bibliothek für Ihren Stack öffnen:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Dasselbe Muster funktioniert für die anderen Frameworks:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> – keine Installation nötig; kopieren Sie die <code>.html</code> -Dateien</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Die Headless-Bibliotheken sind dafür gedacht, geklont oder eingebunden zu werden – betrachten Sie den Quellcode als maßgebliche Quelle und kopieren Sie, was Sie brauchen.
+    <a href="#helpers">Einstellungshelfer</a> werden zusätzlich als installierbare Pakete mit Build- und Veröffentlichungs-Pipeline ausgeliefert (npm für die JS-Frameworks, NuGet für Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Eine Headless-Komponente verwenden</h2>
+  <p>
+    Headless-Komponenten liefern semantisches HTML, ARIA und Props – aber kein CSS. Hier ist ein Button in jedem Framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Ein gestaltetes Beispiel verwenden</h2>
+  <p>
+    Die Beispiel-Apps enthalten CSS, Routen und vollständige Demoseiten. Am schnellsten experimentieren Sie, indem Sie die Beispiel-App für SvelteKit, Next, Nuxt, Analog oder Eleventy starten und die Demo ansehen unter <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Öffnen Sie dann <code>http://localhost:5173</code> und stöbern Sie unter <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Gestaltung und Design-Tokens</h2>
+  <p>
+    Jede Komponente wird mit einer einzigen Kebab-Case-Klasse auf ihrem Wurzelelement gerendert. Zum Beispiel wird <code>&lt;Button&gt;</code> zu <code>&lt;button class="button"&gt;</code>. Gestalten Sie es nach Belieben:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Die Standardfarbpalette von Lily (in den Beispiel-Apps verwendet) lautet:</p>
+  <ul>
+    <li>Primär: <code>#2563eb</code></li>
+    <li>Gefahr: <code>#dc2626</code></li>
+    <li>Warnung: <code>#f59e0b</code></li>
+    <li>Erfolg: <code>#16a34a</code></li>
+    <li>Seitenhintergrund: <code>#f9fafb</code></li>
+    <li>Kartenhintergrund: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Das sind Vorschläge, keine Vorgaben. Ersetzen Sie sie durch Ihre eigene Markenpalette, und Lily zieht gern mit.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Fertige Themes</h2>
+  <p>
+    Sie möchten CSS nicht von Grund auf schreiben? Lily liefert
+    <strong>57 eigenständige Referenz-Themes</strong> im Verzeichnis
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    aus. Jedes ist ein Stylesheet, das auf die Klassen-Hooks von Lily zielt – binden Sie es ein, und Sie sind gestaltet:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Der Satz umfasst:</p>
+  <ul>
+    <li>
+      <strong>Öffentlicher Sektor</strong> – NHS England, NHS Scotland und NHS Wales (jeweils Varianten für Patienten und für Fachkräfte), GOV.UK GDS und das U.S. Web Design System.
+    </li>
+    <li><strong>Von Anbietern inspiriert</strong> – Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Allgemeiner Zweck</strong> – light, dark, nord, dracula, wireframe und rund dreißig weitere.
+    </li>
+  </ul>
+  <p>
+    Theme-Selektoren verwenden <code>:where(...)</code>, daher gewinnt Ihr eigenes CSS bei der Spezifität immer. Kombinieren Sie sie mit dem Helfer <code>theme-picker</code> unten für den Wechsel zur Laufzeit, oder folgen Sie der
+    <a href="/tutorials/theming/">Theming-Anleitung</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Einstellungshelfer</h2>
+  <p>
+    Jedes Framework hat acht kleine Picker, jeder ein eigenes
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -Paket (und eine <code>picker-bar</code> , die sie zusammensetzt). Jeder ist eine Headless-Icon-Schaltfläche, die ein Popup öffnet – eine Listbox, eine Liste von Links, ein Suchformular oder (bei date-time-picker) einen Datumsauswahldialog – kein natives
+    <code>&lt;select&gt;</code>; er ist SSR-sicher und liefert kein CSS mit:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> – lädt Theme-Stylesheets zur Laufzeit, indem es ein verwaltetes <code>&lt;link&gt;</code>austauscht, setzt
+      <code>data-theme</code> auf dem Dokument und speichert optional in
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> – setzt <code>lang</code> und
+      <code>dir</code> (mit automatischer RTL-Erkennung), damit Ihre i18n-Bibliothek folgen kann; übersetzt selbst nichts.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> – setzt <code>data-text-size</code> auf dem Dokument; Ihr CSS ordnet jeden Wert einer Schriftgröße zu.
+    </li>
+    <li>
+      <strong>motion-picker</strong> – setzt <code>data-motion</code> auf dem Dokument, ausgehend von der Einstellung für reduzierte Bewegung des Besuchers; Ihr CSS und Ihre Skripte entscheiden, was unterdrückt wird.
+    </li>
+    <li>
+      <strong>search-picker</strong> – eine Icon-Schaltfläche, die ein Suchfeld öffnet; das Absenden navigiert zu einer Suchseite. Verantwortet eine Aktion, keine Einstellung.
+    </li>
+    <li>
+      <strong>link-picker</strong> – ein Haus-Icon, das ein Menü mit den Seitenlinks öffnet, die Ihre App definiert (Startseite, Über uns, Kontakt, Datenschutzerklärung, …). Verantwortet eine Aktion, keine Einstellung.
+    </li>
+    <li>
+      <strong>share-picker</strong> – öffnet das native Teilen-Blatt oder eine vom Nutzer bereitgestellte Zielliste, plus URL kopieren. Verantwortet eine Aktion, keine Einstellung: wendet nichts an, speichert nichts.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> – ein Textfeld plus ein APG-Datumsauswahldialog für ein Datum, eine Uhrzeit oder beides. Verantwortet einen Formularwert, keine Einstellung: Die ISO-Zeichenkette wird hin und her umgewandelt zu
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Der Svelte-Katalog ist die kanonische Referenz; die Portierungen für React, Vue, Angular, HTML, Nunjucks, Web Components und Blazor entsprechen ihm Vertrag für Vertrag. Siehe die
+    <a href="/tutorials/helpers/">Helfer-Anleitung</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Barrierefreiheit</h2>
+  <p>Die Komponenten zielen auf <strong>WCAG 2.2 AAA</strong>. Sie folgen diesen Mustern:</p>
+  <ul>
+    <li>Semantische HTML-Elemente statt generischer <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> zur Verknüpfung von Beschriftungen mit Eingaben.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> für Querverweise.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> für Fehlerzustände.</li>
+    <li><code>role="alert"</code> und <code>aria-live</code> für dynamische Inhalte.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> für den Zustand.</li>
+    <li>Roving <code>tabindex</code> für Raster.</li>
+  </ul>
+  <p>
+    Fokusindikatoren werden bewusst vom Nutzer bereitgestellt – Lily zeichnet nie einen Standard-Fokusrahmen, der mit Ihrem Design kollidiert. Die Beispiel-Apps halten auf allen Routen eine saubere axe-core-Baseline.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internationalisierung</h2>
+  <p>
+    Jede Beschriftung, jeder Platzhalter, jede Fehlermeldung und jeder Schaltflächentext ist ein Prop. Es gibt keine fest codierten Zeichenketten. Binden Sie das Übersetzungs-Framework Ihrer Wahl ein – Paraglide, i18next, vue-i18n, react-intl, .resx-Dateien, alles.
+  </p>
+  <p>
+    Für Daten, Zahlen und Währungen nehmen die Komponenten vorformatierte Zeichenketten entgegen: Sie formatieren mit <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / Ihrer bevorzugten Bibliothek und reichen das Ergebnis weiter.
+  </p>
+  <p>
+    Der Helfer <code>locale-picker</code> signalisiert Ihrer i18n-Bibliothek die gewählte Sprache, indem er <code>lang</code> und <code>dir</code> am Dokument-Root setzt.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testen</h2>
+  <p>Jedes Framework-Teilprojekt liefert eigene Tests mit seinem idiomatischen Stack:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO mit echten Browsern.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (über das Analog-Vite-Plugin).</li>
+    <li><strong>Nunjucks</strong>: Vitest mit einem Render-Helfer.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Tests verwenden <strong>nur die eingebauten Matcher von Vitest</strong> – niemals
+    <code>jest-dom</code> -Matcher. Das hält die Test-Suiten portabel. Die Beispiel-Apps ergänzen Playwright-End-to-End-Suiten, axe-core-Barrierefreiheits-Baselines und einen Durchlauf über responsive Viewports.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>KI-Agenten</h2>
+  <p>
+    Diese Website veröffentlicht <a href="/llms.txt">llms.txt</a> und
+    <a href="/llms.json">llms.json</a> in ihrem Root – eine kuratierte Karte ihrer wichtigsten Seiten, für jedes Werkzeug, das der
+    <a href="https://llmstxt.org">llms.txt-Konvention</a>.
+  </p>
+  <p>
+    Das kanonische Monorepo liefert zusätzlich zwei
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: eine Allzweck-Skill, die Lilys Konzepte, Terminologie und Kompositionsmuster für alle abdeckt, die mit dem System bauen, und <code>lily-design-system-maintainer-skill</code>, eine technische Skill, die das Layout der Pflichtdateien und die Werkzeuge des Monorepos für alle abdeckt, die daran arbeiten. Beide liegen im Root des
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonischen Monorepos</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Fehlerbehebung</h2>
+
+  <details class="faq-item">
+    <summary>Eine Komponente wird gerendert, sieht aber ungestaltet aus</summary>
+    <p>
+      Das ist Headless wie vorgesehen – mit der Komponente wird kein CSS ausgeliefert. Schreiben Sie entweder CSS gegen die Kebab-Case-Klasse der Komponente (auf jeder <a href="/components/">Katalogseite</a>angezeigt) oder binden Sie eines der
+      <a href="#themes">57 fertigen Themes</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mein CSS scheint über einem Theme nicht zu greifen</summary>
+    <p>
+      Das sollte es – Theme-Selektoren sind in <code>:where(...)</code>verpackt, was keine Spezifität hat. Verliert eine Regel dennoch, prüfen Sie, ob Ihr Stylesheet nach dem <code>&lt;link&gt;</code> des Themes geladen wird und ob der Selektor tatsächlich zum Klassen-Hook der Komponente passt.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install schlägt mit einem Peer- oder Versionsfehler fehl</summary>
+    <p>
+      Verwenden Sie ein aktuelles pnpm (v10+) und Node 22+. Jedes Teilprojekt fixiert seine Framework-Versionen in seiner eigenen <code>package.json</code>; ist Ihre globale Toolchain älter, ist <code>pnpm env use --global lts</code> die schnellste Lösung.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Der Screenreader sagt einen falschen Namen für ein Steuerelement an</summary>
+    <p>
+      Prüfen Sie das erforderliche <code>label</code> -Prop der Komponente – Komponenten ohne sichtbaren Text verlangen eines, und vom Nutzer bereitgestellte
+      <code>aria-label</code> / <code>aria-labelledby</code> die per Rest-Props durchgereicht werden, haben absichtlich Vorrang vor der eingebauten Verdrahtung. Jede Katalogseite dokumentiert den ARIA-Vertrag der Komponente.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Der Helfer theme-picker wechselt keine Stylesheets</summary>
+    <p>
+      Prüfen Sie, ob <code>themesUrl</code> auf ein Verzeichnis zeigt, das der Browser abrufen kann (liefern Sie die <code>themes/</code> -Dateien als statische Assets aus) und ob die Theme-Slugs in Ihrem <code>themes</code> -Prop zu den Dateinamen passen. Der Helfer tauscht das <code>href</code> eines verwalteten
+      <code>&lt;link data-lily-theme-picker&gt;</code> aus – prüfen Sie es in den Entwicklertools, um die angeforderte URL zu sehen.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Etwas anderes ist kaputt</summary>
+    <p>
+      Eröffnen Sie ein Issue mit minimaler Reproduktion auf
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> – oder siehe <a href="#community">Community und Support</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Mitwirken</h2>
+  <p>Lily ist jung und begrüßt Zusammenarbeit. Die nützlichsten Beiträge sind derzeit:</p>
+  <ul>
+    <li>Neue Komponenten (besonders Muster aus etablierten Designsystemen).</li>
+    <li>Neue Themes – jedes ist ein eigenständiges Stylesheet, ein gut abgegrenzter erster PR.</li>
+    <li>Bessere Gestaltung der Beispiele – zeigen Sie, was möglich ist.</li>
+    <li>Übersetzungen der Zeichenketten der Beispiel-Apps.</li>
+    <li>Fehlerberichte mit minimaler Reproduktion.</li>
+    <li>Barrierefreiheits-Audits mit Screenreadern und assistiven Technologien.</li>
+  </ul>
+  <p>
+    Eröffnen Sie Issues und PRs auf
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Community und Support</h2>
+  <ul>
+    <li>
+      <strong>Fragen und Fehlerberichte</strong> – eröffnen Sie ein Issue auf
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-Mail</strong> – der Maintainer liest
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      und freut sich über Zusammenarbeit, Anleitung und Rückmeldungen.
+    </li>
+    <li>
+      <strong>Spiegel</strong> – Lily wird auch gepusht nach
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> und
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, sodass Sie von der Forge aus mitmachen können, die Sie bevorzugen.
+    </li>
+    <li>
+      <strong>Verhalten</strong> – das Projekt folgt einem üblichen Verhaltenskodex; seien Sie freundlich und gehen Sie von guten Absichten aus.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Warum headless statt gestaltet?</summary>
+    <p>
+      Vorgestaltete Komponenten sind bequem – bis sie nicht zu Ihrer Marke passen. Headless-Komponenten erfordern anfangs etwas mehr Arbeit, geben Ihnen aber die volle Kontrolle über das visuelle Design. Die Beispiel-Apps und die 57 Themes zeigen Wege, sie zu gestalten; Sie können sie übernehmen oder ganz ersetzen. Die ausführlichere Argumentation steht unter <a href="/why/">Warum Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Warum so viele Komponenten?</summary>
+    <p>
+      Lily will die Muster abdecken, die die meisten Apps brauchen, ohne dass Sie sie von Grund auf bauen müssen – einschließlich ausgefallener Dinge wie Eingaben für nationale Kennungen und redaktionelles Scrollytelling. Der Katalog schöpft aus einem Dutzend etablierter Designsysteme plus eigener Arbeit – siehe <a href="/about/">Über</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kann ich Lily mit Tailwind verwenden?</summary>
+    <p>
+      Ja. Jede Komponente stellt eine einzelne Kebab-Case-Wurzelklasse plus ein vom Nutzer bereitgestelltes <code>className</code> / <code>class</code>bereit. Legen Sie Tailwind-Utilities darüber, wie Sie möchten.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kann ich Lily mit semantischen CSS-Frameworks wie DaisyUI verwenden?</summary>
+    <p>
+      Ja. Die Kebab-Case-Klassennamen auf dem Wurzelelement funktionieren als semantische CSS-Hooks. Kombinieren Sie Lily mit einem semantischen Framework, und Sie erhalten vorgestaltete Komponenten, die ARIA und i18n trotzdem respektieren.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Gibt es ein npm-Paket?</summary>
+    <p>
+      Die <a href="#helpers">Einstellungshelfer</a> werden als Pakete mit einer npm/NuGet-Veröffentlichungs-Pipeline ausgeliefert. Die Headless-Komponentenbibliotheken sind dafür gedacht, geklont oder eingebunden zu werden – der Quellcode ist das Produkt, sodass Sie genau das, was Sie ausliefern, lesen, kürzen und besitzen können. Die Veröffentlichung der Headless-Bibliotheken in Registries steht weiterhin auf der Roadmap.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Warum mehrfach lizenziert?</summary>
+    <p>
+      Verschiedene Projekte haben unterschiedliche Lizenzanforderungen. BSD und MIT sind permissiv, Apache-2.0 enthält eine Patentgewährung, und die GPL-Optionen unterstützen Copyleft. Wählen Sie, was zu Ihrer Situation passt.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Wie melde ich einen Fehler oder wünsche ein Feature?</summary>
+    <p>
+      Eröffnen Sie ein Issue im GitHub-Repository oder schreiben Sie an
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

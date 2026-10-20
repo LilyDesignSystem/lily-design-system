@@ -1,0 +1,102 @@
+<!-- title: Dlaczego Lily — Lily Design System -->
+<!-- description: Argumenty za Lily: bezgłowe komponenty, które stylizujesz sam, wbudowana dostępność WCAG 2.2 AAA, brak ciągów wpisanych na sztywno, osiem frameworków, jeden katalog, za darmo na zawsze. -->
+<section class="page-intro">
+  <h1>Argumenty za Lily</h1>
+  <p class="page-intro-tagline">
+    Lily bierze na siebie trudne części — semantykę, dostępność, zachowanie klawiatury, internacjonalizację — a wygląd w całości, z radością, zostawia tobie.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zacznij od własnego projektu</h2>
+  <p>
+    Twój zespół już wie, jak powinien wyglądać produkt. Lily zaczyna dokładnie stąd: dostarcza części, które naprawdę trudno zrobić dobrze i drogo poprawiać — właściwy element semantyczny, stany ARIA, kontrakt klawiatury, zarządzanie fokusem — a każdą decyzję wizualną zostawia w całości, z radością, tobie. Twój CSS jest wyglądem systemu projektowego od pierwszego dnia.
+  </p>
+  <p>
+    Ponieważ każdy komponent ma stabilny hak klasy i czystą strukturę, twoja stylizacja pozostaje czysto twoja przez każdą aktualizację — a dostępność pod spodem działa dalej, wersja po wersji.
+  </p>
+
+  <h2>Do czego zobowiązuje się Lily</h2>
+  <ul>
+    <li>
+      <strong>Dostępny domyślnie.</strong> WCAG 2.2 AAA to cel dla każdego komponentu. Wzorce są zgodne z WAI-ARIA Authoring Practices; każdy interaktywny komponent obsługuje się klawiaturą według udokumentowanego kontraktu; aplikacje przykładowe utrzymują czystą bazę axe-core.
+    </li>
+    <li>
+      <strong>Przystosowany do internacjonalizacji z założenia.</strong> Każdy ciąg widoczny dla użytkownika — każda etykieta, błąd i komunikat — to właściwość o stabilnych nazwach we wszystkich frameworkach, więc tłumaczenie przebiega naturalnie. RTL i tekst dwukierunkowy dziedziczą z twojego <code>dir</code>. Komponenty uwzględniające ustawienia regionalne przyjmują język jako właściwość, zawsze jawnie.
+    </li>
+    <li>
+      <strong>Jeden katalog, osiem frameworków.</strong> Te same 571 komponentów (536 jako natywne Web Components) z tymi samymi hakami klas i konwencjami właściwości w HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks i Web Components. Twój CSS i wiedza zespołu przenoszą się między stosami technologicznymi.
+    </li>
+    <li>
+      <strong>Niezależny od strategii CSS.</strong> Jedna stabilna klasa w kebab-case na korzeń komponentu. Semantyczny CSS, narzędziowe klasy Tailwind, CSS-in-JS lub jeden z 57 gotowych motywów — Lily wita je wszystkie i taktownie schodzi z drogi.
+    </li>
+    <li>
+      <strong>Za darmo, na zawsze, na twoich warunkach.</strong> Otwarty kod na licencji do wyboru: BSD, MIT, Apache-2.0, GPL-2.0 lub GPL-3.0. Bez wersji pro, bez licencji na stanowisko, bez telemetrii.
+    </li>
+  </ul>
+
+  <h2>Głębia tam, gdzie ma znaczenie</h2>
+  <p>
+    Poza zwykłymi przyciskami i oknami dialogowymi katalog sięga dalej niż większość:
+  </p>
+  <ul>
+    <li>
+      <strong>Wzorce dla sektora publicznego</strong> zbadane na podstawie systemów projektowych NHS UK, GOV.UK, USWDS i ONS — podsumowania błędów, ramki ostrzeżeń, listy podsumowań, banery faz, linki pomijające.
+    </li>
+    <li>
+      <strong>140 komponentów krajowych identyfikatorów osobistych</strong> obejmujących identyfikatory medyczne, dowodów osobistych, podatkowe i paszportowe w ponad 50 krajach, każdy z udokumentowanym formatem i algorytmem walidacji.
+    </li>
+    <li>
+      <strong>Elementy podstawowe dla treści redakcyjnych i scrollytellingu</strong> zaadaptowane z Reuters Graphics — układy artykułów, przewijacze, osie czasu, mapy kafelkowe.
+    </li>
+    <li>
+      <strong>Pomocnicy selektorów</strong> — małe pakiety, które odpowiadają za jedną interakcję od początku do końca: przełączanie motywów (z ładowaniem arkuszy stylów w czasie działania), język, rozmiar tekstu, ograniczony ruch, wyszukiwanie, linki do stron, udostępnianie oraz wprowadzanie daty i godziny. Każdy to bezgłowy przycisk z ikoną otwierający okienko — nie natywny <code>&lt;select&gt;</code> — z wbudowaną trwałością i bezpieczeństwem SSR.
+    </li>
+  </ul>
+
+  <h2>Motywy dla sektora publicznego, od ręki</h2>
+  <p>
+    Lily dostarcza 57 samodzielnych motywów referencyjnych, które celują bezpośrednio w jego haki klas: NHS England, NHS Scotland i NHS Wales (każdy w wariancie dla pacjentów i dla praktyków), GOV.UK, USWDS, palety inspirowane Adobe Spectrum i Mozilla Protocol oraz zestaw ogólnych motywów jasnych i ciemnych. Podlinkuj jeden arkusz stylów, a wygląd na poziomie administracji rządowej jest włączony; pomocnik <code>theme-picker</code> zmienia je w czasie działania.
+  </p>
+
+  <h2>Jak Lily wypada w porównaniu</h2>
+  <p>
+    Prowadzimy uczciwe, komponent po komponencie,
+    <a href="/comparisons/">porównanie z innymi systemami projektowymi</a> — ostylowanymi i bezgłowymi, komercyjnymi i z sektora publicznego. Tam, gdzie inna biblioteka lepiej ci odpowiada, porównanie to pokaże; Lily uczy się od wszystkich i otwarcie wskazuje swoje źródła inspiracji.
+  </p>
+
+  <h2>Kto za tym stoi</h2>
+  <p>
+    Lily to młody, niezależny projekt open source, który wita współpracę, wskazówki i opinie — zobacz
+    <a href="/about/">O projekcie</a> , by poznać historię i źródła inspiracji. Wszystko — specyfikacja, testy, plan rozwoju, nawet narzędzia audytu — jest jawne na
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Pomóż Lily rosnąć</h2>
+  <p>Jeśli Lily jest dla ciebie przydatny, najcenniejsze rzeczy, jakie możesz zrobić:</p>
+  <ul>
+    <li>
+      <strong>Daj gwiazdkę i podaj dalej.</strong> Daj gwiazdkę
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">głównemu repozytorium</a>
+      i pokaż koledze <a href="/components/">katalog</a> — świadomość jest najrzadszym zasobem młodego projektu.
+    </li>
+    <li>
+      <strong>Zbuduj coś i daj nam znać.</strong> Raporty z rzeczywistego użycia — co zadziałało, co mogłoby być płynniejsze — kształtują plan rozwoju bardziej niż cokolwiek innego.
+    </li>
+    <li>
+      <strong>Zbadaj dostępność.</strong> Przejścia z czytnikami ekranu (VoiceOver, NVDA, JAWS) w <a href="/examples/">aplikacjach przykładowych</a> są na wagę złota; zgłoś, co znajdziesz.
+    </li>
+    <li>
+      <strong>Wnieś motyw lub tłumaczenie.</strong> Oba są samodzielnymi, dobrze ograniczonymi pierwszymi wkładami.
+    </li>
+    <li>
+      <strong>Podziel się tym, co znajdziesz, z minimalnym przykładem odtworzenia,</strong> w repozytorium GitHub lub napisz na
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Zacznij samouczek</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Daj gwiazdkę na GitHubie</a>
+  </div>
+</section>

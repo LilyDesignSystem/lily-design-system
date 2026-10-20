@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Bakımı yapılan bir Lily Figma kitaplığı veya eklentisi yok. 57 referans temanın tasarım belirteçleri DTCG biçiminde yayımlanır ve mevcut bir topluluk eklentisiyle bugün Figma'ya aktarılabilir. -->
+<section class="page-intro">
+  <h1>Bakımı yapılan bir Figma kitaplığı yok — onun yerine olanlar</h1>
+  <p class="page-intro-tagline">
+    Bu sayfa "yakında" diyordu. Artık demiyor, çünkü kimse bunu yapmıyordu. İşte dürüst durum ve bugün çalışan gerçek bir yol.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Olmayanlar</h2>
+  <p>
+    Figma'da resmi bir Lily bileşen kitaplığı ve bakımı yapılan bir Figma eklentisi yok. Bir tasarım aracı kitaplığını iyi kurmak ve sürdürmek gerçek, süregelen bir yükümlülüktür — Figma bileşen yapısı, varyant adlandırma, otomatik yerleşim, kendi yayımlama hattı — kod bakımından ayrıdır ve bu proje bunu üstlenmedi.
+  </p>
+
+  <h2>Bugün olanlar</h2>
+  <p>
+    57 referans temanın her birinin tasarım belirteci temelleri — renk, yarıçap, boyut, kenarlık — şu biçimde yayımlanır:
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 biçimi</a
+    >
+    şurada:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Bu biçim, modern belirteç araçlarının tam olarak okuduğu biçimdir. Bu projeden hiçbir eklenti olmadan, şimdi, bir Lily temasının paletini kendiniz Figma'ya çekebilirsiniz:
+  </p>
+  <ol>
+    <li>
+      Topluluk eklentisini kurun:
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (ya da planınız DTCG içe aktarmayı destekliyorsa Figma'nın kendi Variables içe aktarması).
+    </li>
+    <li>
+      İçe aktarın: <code>themes/tokens/{theme-slug}.json</code> istediğiniz tema için — örneğin
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio, DTCG değerlerinden Figma değişkenleri oluşturur; bunları kendi bileşenlerinize uygulayabilirsiniz.
+    </li>
+  </ol>
+  <p>
+    Bu size Lily'nin renk ve biçim belirteçlerini Figma'da verir. Lily'nin gerçek bileşenlerini Figma bileşenleri olarak vermez — bunu kimse yapmadı ve bu sayfa başka türlü davranmayacak.
+  </p>
+
+  <h2>Gerçek bir Figma kitaplığı planlanıyor mu?</h2>
+  <p>
+    Şu anda hayır ve söz vermek de bedava değil: bkz.
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    açık soru ve projenin fikrini neyin değiştireceği için — en çok işe yarayanı, bir tasarımcının bu katmandan tam olarak ne istediğini söylemesi. Eğer bu sizseniz,
+    <a href="mailto:joel@joelparkerhenderson.com">bize söyleyin</a>
+    ya da bir issue açın.
+  </p>
+</section>

@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills δίνουν στο Claude Code ένα επιμελημένο, φορτώσιμο σημείο εισόδου στο Lily Design System — γενικές έννοιες, δεξιότητες-ομπρέλες ανά πλαίσιο και αναλυτικές δεξιότητες ανά υποέργο για την κεφαλοχωρίς βιβλιοθήκη και τους βοηθούς *-picker. -->
+<section class="page-intro">
+  <h1>Οι δεξιότητες στους πράκτορες AI κάνουν το Lily ακόμη πιο εύκολο</h1>
+  <p class="page-intro-tagline">
+    Το Lily παρέχει εστιασμένες δεξιότητες — γενικές, ανά πλαίσιο και ανά υποέργο — ώστε ένας πράκτορας να φορτώνει ακριβώς το πλαίσιο που χρειάζεται και τίποτα που δεν χρειάζεται.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ποια δεξιότητα θέλεις;</h2>
+  <p>
+    Κάθε επίπεδο απαντά σε διαφορετική ερώτηση. Φόρτωσε τη γενική δεξιότητα όταν δεν γνωρίζεις ακόμη το Lily. Φόρτωσε μια δεξιότητα πλαισίου όταν γνωρίζεις το πλαίσιό σου αλλά όχι ποιο υποέργο χρειάζεσαι. Φόρτωσε απευθείας μια headless-skill ή helpers-skill όταν ήδη ξέρεις ακριβώς με τι δουλεύεις.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Γενική / συντηρητής</strong> — «Τι είναι το Lily;» / «Πώς είναι δομημένο αυτό το monorepo;» —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Ομπρέλα πλαισίου</strong> — «Τι διατίθεται για το {framework} και ποιο κομμάτι χρειάζομαι;» — 8, μία <code>{framework}-skill</code> για το καθένα
+    </li>
+    <li>
+      <strong>Κεφαλοχωρίς / βοηθοί</strong> — «Πώς ακριβώς χρησιμοποιώ τα στοιχεία / τους βοηθούς *-picker του {framework};» — 16, μία <code>{framework}-headless-skill</code> και μία <code>{framework}-helpers-skill</code> για το καθένα
+    </li>
+  </ul>
+
+  <h2>Τα οκτώ πλαίσια</h2>
+  <p>
+    Κάθε πλαίσιο παίρνει την ίδια στοίβα τριών επιπέδων. Η δεξιότητα-ομπρέλα χαρτογραφεί όλα τα πραγματικά υποέργα του εν λόγω πλαισίου — συμπεριλαμβανομένης της εφαρμογής-παραδείγματος, που καμία από τις δύο αδελφές της δεξιότητες δεν καλύπτει — και δείχνει προς τα κάτω σε αυτά αντί να επαναλαμβάνει τα συμβόλαιά τους.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Πλαίσιο</th>
+        <th>Ομπρέλα</th>
+        <th>Κεφαλοχωρίς</th>
+        <th>Βοηθοί</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">δεξιότητα</a></td>
+        <td><a aria-label="Κεφαλοχωρίς δεξιότητα Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">δεξιότητα</a></td>
+        <td><a aria-label="Δεξιότητα βοηθών Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">δεξιότητα</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">δεξιότητα</a></td>
+        <td><a aria-label="Κεφαλοχωρίς δεξιότητα Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">δεξιότητα</a></td>
+        <td><a aria-label="Δεξιότητα βοηθών Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">δεξιότητα</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">δεξιότητα</a></td>
+        <td><a aria-label="Κεφαλοχωρίς δεξιότητα HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">δεξιότητα</a></td>
+        <td><a aria-label="Δεξιότητα βοηθών HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">δεξιότητα</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">δεξιότητα</a></td>
+        <td><a aria-label="Κεφαλοχωρίς δεξιότητα Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">δεξιότητα</a></td>
+        <td><a aria-label="Δεξιότητα βοηθών Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">δεξιότητα</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">δεξιότητα</a></td>
+        <td><a aria-label="Κεφαλοχωρίς δεξιότητα React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">δεξιότητα</a></td>
+        <td><a aria-label="Δεξιότητα βοηθών React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">δεξιότητα</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">δεξιότητα</a></td>
+        <td><a aria-label="Κεφαλοχωρίς δεξιότητα Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">δεξιότητα</a></td>
+        <td><a aria-label="Δεξιότητα βοηθών Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">δεξιότητα</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">δεξιότητα</a></td>
+        <td><a aria-label="Κεφαλοχωρίς δεξιότητα Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">δεξιότητα</a></td>
+        <td><a aria-label="Δεξιότητα βοηθών Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">δεξιότητα</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Δεξιότητα-ομπρέλα Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">δεξιότητα</a></td>
+        <td>
+          <a
+            aria-label="Κεφαλοχωρίς δεξιότητα Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >δεξιότητα</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Δεξιότητα βοηθών Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">δεξιότητα</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Το Web Components είναι η μοναδική εξαίρεση προς τις δύο κατευθύνσεις: ο κεφαλοχωρίς κατάλογός του έχει σκόπιμο εύρος 536 από 571 (εγγενή προσαρμοσμένα στοιχεία, χωρίς χρόνο εκτέλεσης πλαισίου· τα υπόλοιπα 35 στοιχεία αποκλείονται μόνιμα), και δεν υπάρχει ακόμη εφαρμογή-παράδειγμα Web Components — η δεξιότητα-ομπρέλα του το λέει αντί να υπονοεί ότι υπάρχει.
+  </p>
+
+  <h2>Πρόσθεσε μία δεξιότητα</h2>
+  <p>
+    Κάθε δεξιότητα είναι ένα αρχείο <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> — συν αρχεία υποστήριξης, χωρίς βήμα δόμησης. Κλωνοποίησε αυτήν που χρειάζεσαι εκεί από όπου η ρύθμιση του Claude Code σου φορτώνει δεξιότητες (δες την επίσημη τεκμηρίωση που συνδέεται παραπάνω για τον κατάλογο δεξιοτήτων του έργου ή του λογαριασμού σου):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Δουλεύεις σε πολλά πλαίσια ή στο ίδιο το monorepo; Κλωνοποίησε αντί γι' αυτό το <a href="https://github.com/LilyDesignSystem/lily-design-system">κανονικό monorepo</a> — και οι 26 δεξιότητες βρίσκονται ήδη στη ρίζα του, δίπλα στις κεφαλοχωρίς βιβλιοθήκες, τους καταλόγους βοηθών και τις εφαρμογές-παραδείγματα που περιγράφουν.
+  </p>
+</section>

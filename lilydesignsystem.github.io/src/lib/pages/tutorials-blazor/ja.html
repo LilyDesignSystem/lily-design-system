@@ -1,0 +1,107 @@
+<!-- title: Blazor チュートリアル — Lily Design System -->
+<!-- description: Lily の Blazor ヘッドレスコンポーネントで、アクセシブルでスタイル付きのフォームを作ります。パラメーターと bUnit テストを備えた Razor コンポーネントです。 -->
+<section class="page-intro">
+  <h1>Blazor チュートリアル</h1>
+  <p class="page-intro-tagline">
+    パラメーターを持つ Razor クラスライブラリのコンポーネント、 <code>ChildContent</code>
+    レンダーフラグメント、属性スプラッティング、コンポーネントごとの bUnit テスト。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    小さなお問い合わせフォーム — ラベル付き入力、送信ボタン、
+    <code>@bind-Value</code> バインディング、本物のキーボードとスクリーンリーダーの動作 — まずは装飾なしで、次にスタイルを付けて、約 10 分で作ります。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    git と .NET SDK 8 以降が必要です。Blazor プロジェクトならどれでも使えます — Blazor Web App、Server、WebAssembly のいずれでも構いません。
+  </p>
+
+  <h2>ステップ 1 — コードを入手する</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    コンポーネントは次の場所にあります: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — 1 コンポーネントにつき 1 つの Razor ファイルです。Blazor アプリからそのプロジェクトを参照する(またはファイルをコピーする)か、 <code>@using LilyBlazorHeadless.Components</code> を次のファイルに追加します:
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>ステップ 2 — 最初のコンポーネント</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    描画する要素: <code>&lt;button class="button"&gt;</code>。共通のパラメーターの規約: <code>Label</code> ( <code>aria-label</code> の上書き用)、
+    <code>CssClass</code> (基本のフックに追加されます)、
+    <code>ChildContent</code>、そして
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> 属性スプラッティングにより、追加の HTML 属性はそのまま渡されます。
+  </p>
+
+  <h2>ステップ 3 — 小さなフォームを組み立てる</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> は、表示用の <code>Label</code> を、ネストしたラベルコンポーネントではなく専用のパラメーターとして受け取ります — 一度だけ渡せば、
+    <code>Field</code>、そして <code>TextInput</code>の対応する
+    <code>Label</code> がアクセシブルな名前を与えます。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 に確認済み:</strong> 以前の下書きでは、別の <code>Label</code> コンポーネントを <code>Field</code>の中にネストしていたため、 <em>2 つの</em> ラベル(1 つは空)が描画されていました。 <code>Field</code>
+      は <code>Label</code> パラメーター — コンポーネントのソースを確認して見つけました。 <code>Form</code> 自体には <code>Label</code> パラメーターがないため、以前の下書きの
+      <code>&lt;Form&gt;</code> の使い方は、存在しない属性を作り出すのではなく、指定しない形に修正されました。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">お問い合わせフォームの組み合わせルート</a>
+      も同じパターンで、本物の e2e テストと axe テストで検証されています。
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>動作の確認:</strong> アプリを実行すると、フォームは飾りのない見た目になります — 意図どおりで、スタイルはこれからです。
+      <kbd>Tab</kbd>キーを押してみましょう。フォーカスがすべてのコントロールを移動し、ラベルが読み上げられ、送信も動きます。動作は完成しています。見た目はあなた次第で、次のステップです。
+    </p>
+  </div>
+
+  <h2>ステップ 4 — スタイルを付ける</h2>
+  <p>
+    クラスフックにスタイルを付けます — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 次の場所で: <code>app.css</code>、または既成のテーマを次の場所でリンクします: <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>ステップ 5 — 動いているところを見る</h2>
+  <p>
+     <a href="/examples/">Blazor Web サンプルアプリ</a> は、スタイル付きでデモ付きの完全なカタログを表示し、Playwright e2e テストも備えています:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">テーマ設定</a> — Blazor の theme-picker ヘルパー(NuGet の Razor クラスライブラリ)による実行時切り替え。</li>
+    <li><a href="/tutorials/helpers/">設定ヘルパー</a> — 言語とテキストサイズ。</li>
+    <li><a href="/components/">コンポーネントカタログ</a> — コンポーネントごとのプロパティ、ARIA、キーボード操作。</li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

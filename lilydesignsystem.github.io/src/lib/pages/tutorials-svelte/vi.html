@@ -1,0 +1,117 @@
+<!-- title: Hướng dẫn Svelte — Lily Design System -->
+<!-- description: Xây dựng biểu mẫu dễ tiếp cận, có kiểu dáng bằng các thành phần headless Svelte 5 của Lily: rune, snippet và bind:value. -->
+<section class="page-intro">
+  <h1>Hướng dẫn Svelte</h1>
+  <p class="page-intro-tagline">
+    Thư viện Svelte của Lily là bản triển khai chuẩn: rune Svelte 5, thuộc tính có kiểu, trải các thuộc tính còn lại và liên kết hai chiều với
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một biểu mẫu liên hệ nhỏ — ô nhập có nhãn, nút gửi, liên kết hai chiều, hành vi bàn phím và trình đọc màn hình thật — lúc đầu để trơn, sau đó thêm kiểu dáng, trong khoảng 10 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Bạn cần git, Node 22 trở lên và pnpm 10 trở lên. Dự án Svelte 5 nào cũng được — một dự án mới <code>npx sv create</code> là đủ.
+  </p>
+
+  <h2>Bước 1 — Lấy mã</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Các thành phần nằm trong <code>src/lib/components/&#123;Name&#125;/</code>, mỗi thành phần một thư mục với tệp <code>.svelte</code> , các bài kiểm thử, story và tài liệu của nó nằm cạnh nhau. Sao chép các thư mục bạn cần vào ứng dụng, hoặc phụ thuộc vào kho mã và nhập trực tiếp.
+  </p>
+
+  <h2>Bước 2 — Thành phần đầu tiên của bạn</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Hiển thị <code>&lt;button class="button" type="button"&gt;</code>. Các thuộc tính có kiểu: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (hiển thị <code>aria-pressed</code> (hiển thị <code>label</code> ( <code>aria-label</code> cho nút bật tắt),
+  </p>
+
+  <h2>Bước 3 — Ghép một biểu mẫu nhỏ</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> nhận <code>label</code> làm thuộc tính riêng thay vì thành phần nhãn lồng bên trong — chỉ truyền một lần, trên <code>Field</code>và <code>TextInput</code>tương ứng <code>label</code> cung cấp tên có thể tiếp cận. <code>TextInput</code>'s <code>value</code> để ghi đè), và mọi thuộc tính bổ sung được trải lên gốc.
+    <code>$bindable</code> là thuộc tính rune <code>bind:value</code> nên
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Đã xác minh 2026-08-29:</strong> cho bạn liên kết hai chiều ngay lập tức. <code>svelte/server</code> đoạn mã chính xác này đã được biên dịch qua <code>&lt;label for&gt;</code> và kiểm tra là chỉ có một nhãn được liên kết đúng <code>Label</code> bên trong <code>Field</code>— bản nháp trước lồng một
+      <em>hai</em> nhãn (một cái rỗng) vì <code>Field</code> đã tự hiển thị nhãn của nó từ <code>label</code> riêng bên trong, khiến hiển thị
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Tuyến biểu mẫu liên hệ ghép sẵn</a>
+      cũng theo mẫu này, được kiểm chứng bằng các bài kiểm thử e2e và axe thật.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> chạy ứng dụng và biểu mẫu trông trơ — đúng như dự định: kiểu dáng còn ở phía trước. Nhấn
+      <kbd>Tab</kbd>: tiêu điểm di chuyển qua mọi điều khiển, nhãn được đọc lên và việc gửi hoạt động. Hành vi đã xong; diện mạo là của bạn và là bước tiếp theo.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Tạo kiểu dáng</h2>
+  <p>
+    Mọi thứ ở trên hiển thị thành cấu trúc thuần, sẵn sàng cho kiểu dáng của bạn. Tạo kiểu cho các class hook —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — trong bảng kiểu toàn cục của bạn, hoặc liên kết một chủ đề dựng sẵn trong <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Tinh chỉnh theo từng thể hiện đi qua <code>class</code> thuộc tính, nối thêm vào hook cơ sở: <code>&lt;Button class="wide"&gt;</code> hiển thị
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Bước 5 — Xem mọi thứ hoạt động</h2>
+  <p>
+     <a href="/examples/">Ứng dụng ví dụ SvelteKit</a> là cùng danh mục đó được tạo kiểu đầy đủ, với bản demo trực tiếp, bài kiểm thử Playwright e2e và đường cơ sở tiếp cận axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Chủ đề</a> — chuyển đổi khi chạy bằng trợ giúp theme-picker của Svelte.</li>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — ngôn ngữ và cỡ chữ.</li>
+    <li><a href="/components/">Danh mục thành phần</a> — thuộc tính, ARIA và bàn phím của từng thành phần.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

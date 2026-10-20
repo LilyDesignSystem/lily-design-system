@@ -1,0 +1,106 @@
+<!-- title: HTML apmācība — Lily Design System -->
+<!-- description: Izveidojiet pieejamu, noformētu veidlapu ar Lily HTML bezgalvas komponentēm — vienkārša iezīmēšana, tieši no datnes. -->
+<section class="page-intro">
+  <h1>HTML apmācība</h1>
+  <p class="page-intro-tagline">
+    Vienkāršākais iespējamais sākums: nokopējiet semantisko HTML ar Lily klases āķiem, pievienojiet vienu stilu lapu, publicējiet. Parastas datnes, kas darbojas visur, kur darbojas HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Neliela kontaktu veidlapa — lauki ar iezīmēm, iesniegšanas poga, īsta tastatūras un ekrāna lasītāja darbība — vispirms kaila, tad noformēta, apmēram 10 minūtēs.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Nepieciešams pārlūks un teksta redaktors. Tas ir viss. (git palīdz iegūt komponenšu datnes, taču tās var nokopēt arī no GitHub pārlūkā.)
+  </p>
+
+  <h2>1. solis — Iegūstiet kodu</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Katra komponente ir atsevišķa datne direktorijā <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>un tā tālāk — ar galvenes komentāru, kas dokumentē tās HTML tagu, klases āķi, tastatūras uzvedību un pieejamības līgumu. Datnes <em>ir</em> bibliotēka — nokopējiet, kas vajadzīgs, un dodieties.
+  </p>
+
+  <h2>2. solis — Jūsu pirmā komponente</h2>
+  <p>Atveriet <code>components/button.html</code>vai vienkārši uzrakstiet iezīmējumu — klases āķis ir līgums:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Tā kā tas ir īsts <code>&lt;button&gt;</code>, tastatūras fokuss, aktivizēšana ar Enter un Space un netiešā pogas loma jau ir pareizi.
+  </p>
+
+  <h2>3. solis — Salieciet nelielu veidlapu</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Ievērojiet modeli: katra vadīkla saista savu <code>&lt;label for&gt;</code>, izmanto visprecīzāko input tipu un nes tieši vienu kebab-case klases āķi.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudiet savu darbu:</strong> atveriet lapu pārlūkā. Tā izskatās kaila — tieši kā paredzēts: noformēšana vēl priekšā. Nospiediet
+      <kbd>Tab</kbd>: fokuss iet cauri katrai vadīklai, iezīmes tiek paziņotas, un iesniegšana darbojas. Uzvedība ir gatava; izskats ir jūsu un ir nākamais solis.
+    </p>
+  </div>
+
+  <h2>4. solis — Noformējiet to</h2>
+  <p>Rakstiet CSS pret āķiem:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Vai arī pavisam izlaidiet CSS rakstīšanu ar rokām — saistiet vienu no 45 gatavajiem motīviem, un tas pats iezīmējums atdzīvojas:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>5. solis — Izpētiet tālāk</h2>
+  <ul>
+    <li>Repozitorija testi darbojas īstos pārlūkos: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook katrai komponentei: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS paraugu lietotne</a> rāda visas 571 komponentes noformētas, meklējamas un demonstrētas.
+    </li>
+  </ul>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motīvi</a> — motīva pārslēgšana izpildes laikā ar theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Preferenču palīgi</a> — valoda un teksta izmērs.</li>
+    <li><a href="/components/">Komponenšu katalogs</a> — pilna atsauce.</li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

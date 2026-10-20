@@ -1,0 +1,97 @@
+<!-- title: Tutoriel Nunjucks — Lily Design System -->
+<!-- description: Construisez des pages accessibles, stylées et rendues côté serveur avec les macros Nunjucks de Lily — idéal pour Eleventy. -->
+<section class="page-intro">
+  <h1>Tutoriel Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Des macros rendues côté serveur pour Eleventy, Express ou n'importe quel pipeline de modèles Node — l'approche à la GOV.UK, avec le catalogue et les crochets de classe de Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce que vous allez construire</h2>
+  <p>
+    Un petit formulaire de contact rendu côté serveur — champ avec étiquette, bouton d'envoi, zéro charge JavaScript — d'abord nu, puis stylé, en 10 minutes environ.
+  </p>
+
+  <h2>Avant de commencer</h2>
+  <p>
+    Il vous faut git, Node 22 ou plus récent et pnpm 10 ou plus récent. Tout pipeline Nunjucks convient — Eleventy, Express ou Nunjucks simple.
+  </p>
+
+  <h2>Étape 1 — Récupérer le code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Chaque composant est un répertoire dans <code>components/</code> avec un
+    <code>macro.njk</code>, son test et sa documentation — par exemple
+    <code>components/button/macro.njk</code>. Pointez votre chargeur Nunjucks vers
+    <code>components/</code> (dans Eleventy, ajoutez-le au chemin includes) et importez ce dont vous avez besoin.
+  </p>
+
+  <h2>Étape 2 — Votre premier composant</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Rend <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Les macros prennent un seul objet params : <code>text</code> (échappé) ou
+    <code>html</code> (brut), <code>type</code>, <code>label</code> pour un
+    <code>aria-label</code>et un ajouteur de crochet de classe.
+  </p>
+
+  <h2>Étape 3 — Composer un petit formulaire</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Comme tout est rendu sur le serveur, le navigateur reçoit du HTML sémantique pur avec les crochets de classe — une charge JavaScript de zéro octet.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Vérifiez votre travail :</strong> chargez la page et le formulaire paraît nu — exactement comme prévu : le style reste à venir. Appuyez sur
+      <kbd>Tab</kbd>: le focus traverse chaque contrôle, l'étiquette est annoncée et l'envoi fonctionne. Le comportement est fait ; l'apparence est la vôtre et c'est l'étape suivante.
+    </p>
+  </div>
+
+  <h2>Étape 4 — Le styler</h2>
+  <p>
+    Stylez les crochets — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — dans votre feuille de style, ou liez un thème prêt à l'emploi dans votre mise en page de base :
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Étape 5 — Voir le tout fonctionner</h2>
+  <p>
+     <a href="/examples/">L'application d'exemple Nunjucks + Eleventy</a> construit le catalogue complet comme un site statique avec des pages de démonstration par composant :
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Étapes suivantes</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Thèmes</a> — y compris le motif de cookies d'Eleventy pour un changement de thème SSR sans scintillement.</li>
+    <li><a href="/tutorials/helpers/">Assistants de préférences</a> — langue et taille du texte.</li>
+    <li><a href="/components/">Catalogue de composants</a> — propriétés, ARIA et clavier par composant.</li>
+  </ul>
+  <p>
+    Des questions en chemin ? La
+    <a href="/help/#troubleshooting">page d'aide</a> regorge de réponses — et si une étape peut être plus claire,
+    <a href="https://github.com/LilyDesignSystem">dites-le-nous</a> et nous améliorerons volontiers le tutoriel.
+  </p>
+</section>

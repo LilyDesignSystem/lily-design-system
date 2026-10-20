@@ -1,0 +1,63 @@
+<!-- title: Accessibilità — Lily Design System -->
+<!-- description: La dichiarazione di accessibilità di Lily: cosa significa qui puntare a WCAG 2.2 AAA – cosa viene verificato, con cosa, cosa non è verificato da nulla e come segnalare un problema. -->
+<section class="page-intro">
+  <h1>Cosa significa qui «punta a WCAG 2.2 AAA»</h1>
+  <p class="page-intro-tagline">
+    La parola <em>punta</em> è scelta con cura. Questa pagina dice con precisione cosa viene verificato, con cosa, cosa non è verificato da nulla e cosa intendiamo fare riguardo a questa lacuna. Lily non dichiara mai la «conformità» a WCAG – nessun audit la supporta.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Verificato in continuazione</h2>
+  <ul>
+    <li>
+      L'elemento semantico canonico, gli attributi ARIA e gli hook di classe di ogni componente – confermati da suite di unit test per framework (oltre 15.000 casi in sette framework).
+    </li>
+    <li>
+      Ciascuna delle 571 pagine demo dei componenti nell'app di esempio SvelteKit è priva di violazioni axe (set di regole WCAG 2.0/2.1 A+AA e 2.2 AA) – la scansione dell'intero catalogo, impostata come baseline il 2026-08-27 e rieseguita il 2026-10-06 – più baseline per app su home, catalogo e percorsi composti in tutte e sette le app di esempio.
+    </li>
+    <li>
+      Contratti da tastiera per ogni componente interattivo, documentati nei metadati canonici di ciascun componente ed esercitati dalle suite; i pacchetti helper eseguono inoltre specifiche Playwright su browser reali.
+    </li>
+    <li>
+      Soglie minime di dimensione del target secondo WCAG 2.2 e protezioni dall'overflow in tutti i 57 temi; link per saltare, landmark e nessun overflow orizzontale su quattro viewport per app; <code>lang</code>/<code>dir</code> applicazione inclusa l'inversione RTL.
+    </li>
+  </ul>
+
+  <h2>Non verificato da nulla</h2>
+  <ul>
+    <li>
+      <strong>Non è mai stato eseguito alcun audit di conformità.</strong> Nessun VPAT, nessuna certificazione. Gli strumenti automatici coprono una minoranza dei criteri di successo WCAG.
+    </li>
+    <li>
+      I criteri specifici di AAA (contrasto avanzato e altri) sono intenzioni di progetto, non proprietà verificate; i set di regole axe vengono eseguiti per A/AA. Non esiste ancora un tema dedicato ad alto contrasto.
+    </li>
+    <li>
+      <strong>Il comportamento degli screen reader è in gran parte non testato.</strong> Le suite verificano gli attributi ARIA, non ciò che VoiceOver, NVDA o JAWS annunciano – e questo progetto ha rilasciato più di una volta suite verdi su difetti reali, ciascuno annotato nel changelog proprio perché le suite non potevano vederli.
+    </li>
+  </ul>
+
+  <h2>Cosa intendiamo fare al riguardo</h2>
+  <p>
+    Un audit di accessibilità indipendente è il primo utilizzo dichiarato di qualsiasi finanziamento del progetto, e l'ambito di cui un auditor ha bisogno è già pronto. Fino ad allora, le segnalazioni sugli screen reader sono il contributo che questo progetto desidera di più: «il componente X annuncia Y, il che è sbagliato perché Z» è direttamente attuabile.
+  </p>
+
+  <h2>Segnala un problema</h2>
+  <p>
+    Apri una issue su
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    oppure scrivi a
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Indicare un criterio WCAG aiuta ma non è obbligatorio – «non sono riuscito a usare X con la tastiera» è una segnalazione completa.
+  </p>
+  <p>
+    La dichiarazione completa, con la tabella di verifica e la sua cronologia delle revisioni, si trova nel repository:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

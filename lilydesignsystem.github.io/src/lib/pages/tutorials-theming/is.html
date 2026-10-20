@@ -1,0 +1,111 @@
+<!-- title: Þemakennsluefni — Lily Design System -->
+<!-- description: Settu þema á Lily á þrjá vegu: tengdu eitt af 45 tilbúnum þemum, hnekktu því með þínu CSS og bættu við þemaskiptum á keyrslutíma með theme-picker hjálpartækinu. -->
+<section class="page-intro">
+  <h1>Þemu</h1>
+  <p class="page-intro-tagline">
+    Lily-íhlutir bera stöðuga klasakróka og ekkert CSS — svo þema er einfaldlega stílblað. Þetta kennsluefni fer frá „tengdu eina skrá“ til „leyfðu notandanum að skipta um þema á keyrslutíma, vistað“.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Forrit þar sem notandinn getur breytt öllu útlitinu — byrjar með einu tengdu stílblaði og endar með vistuðum þemaskipti á keyrslutíma — á um 15 mínútum.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Ljúktu við <a href="/tutorials/">rammakennsluefnið</a> fyrst fyrir þinn stafla, svo þú hafir lítið Lily-eyðublað til að setja þema á. Allt hér virkar í öllum rammanum sjö; kóðadæmin sýna Svelte og hreint HTML.
+  </p>
+
+  <h2>Skref 1 — Tengdu tilbúið þema</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    mappan inniheldur 45 sjálfstæð stílblöð. Afritaðu þau í kyrrstæðar eignir forritsins og tengdu eitt:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Hápunktar settsins:</p>
+  <ul>
+    <li>
+      <strong>Opinber geiri</strong> — NHS England / Scotland / Wales, hvert í útgáfum fyrir sjúklinga og fagfólk; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Innblásið af söluaðilum</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Almenn notkun</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, og mörg fleiri.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Athugaðu verkið:</strong> endurhladdu síðuna. Sama markup og þú byggðir í rammakennsluefninu er nú fullstílað — hnappar, innsláttarreitir, merkimiðar, fókushringir. Ein lína af HTML gerði það — hver íhlutur var nákvæmlega eins og hann var.
+    </p>
+  </div>
+
+  <h2>Skref 2 — Hnekktu hverju sem er</h2>
+  <p>
+    Þemaveljarar eru vafðir í <code>:where(...)</code>sem hefur núll sértækni — svo hvaða regla sem þú skrifar vinnur, einfaldlega:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Skref 3 — Skipti á keyrslutíma með theme-picker</h2>
+  <p>
+     <code>theme-picker</code> hjálpartækið er höfuðlaus táknhnappur + valmöguleikalisti sem á allan lífsferil þemans: það hleður völdu stílblaði með því að skipta um eitt stýrt <code>&lt;link&gt;</code>
+    (aðeins virka þemað er nokkurn tíma sótt), stillir
+    <code>data-theme="&#123;slug&#125;"</code> á skjalið og vistar valfrjálst í <code>localStorage</code>. Svelte er sýnt hér; React-, Vue-, Angular-, HTML-, Nunjucks- og Blazor-færslur samsvara samningur fyrir samning:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Þetta er öll samþættingin. Lyklaborðshegðun fylgir WAI-ARIA APG valmöguleikalistamynstrinu; stýringin sjálf er höfuðlaus (klasakrókur
+    <code>.theme-picker</code>), svo hún tekur upp hvaða þema sem er virkt.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staðfest 2026-08-29:</strong> þetta nákvæma snifs var þýtt gegn útgefna <code>0.1.1</code> pakkanum í gegnum
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Skref 4 — Bregðast við þemanu í þínu eigin CSS</h2>
+  <p>
+    Þar sem hjálpartækið stillir <code>data-theme</code> á rót skjalsins geta þínir eigin stílar greinst eftir því:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Athugasemdir um miðlarabirtingu</h2>
+  <p>
+    Hjálpartækið framkvæmir öll DOM-skrif innan mount/effect lífsferils rammans, svo það er SSR-öruggt frá grunni. Til að forðast blikk við fyrstu málningu skaltu birta <code>&lt;link&gt;</code> og
+    <code>data-theme</code> upphafsþemans á miðlaranum (til dæmis úr köku) — Svelte-hjálpargeymslan sendir keyranlegt SvelteKit-kökudæmi og hin söfnin skjalfesta sama mynstur fyrir sína stafla.
+  </p>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Stillingahjálpartæki</a> — sama mynstur fyrir tungumál, textastærð, deilingu og dagsetninga-/tímainnslátt.</li>
+    <li>
+      Leggðu til þema — hvert er eitt sjálfstætt stílblað sem miðar á klasakrókana; sjá <a href="/help/#contributing">framlag</a>.
+    </li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

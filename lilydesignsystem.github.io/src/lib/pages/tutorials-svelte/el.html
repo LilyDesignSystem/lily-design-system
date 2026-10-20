@@ -1,0 +1,117 @@
+<!-- title: Οδηγός Svelte — Lily Design System -->
+<!-- description: Φτιάξτε μια προσβάσιμη, μορφοποιημένη φόρμα με τα headless στοιχεία της Lily για Svelte 5: runes, snippets και bind:value. -->
+<section class="page-intro">
+  <h1>Οδηγός Svelte</h1>
+  <p class="page-intro-tagline">
+    Η βιβλιοθήκη Svelte της Lily είναι η κανονική υλοποίηση: runes του Svelte 5, τυποποιημένα props, διασπορά των υπόλοιπων props και αμφίδρομη δέσμευση με
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Τι θα φτιάξετε</h2>
+  <p>
+    Μια μικρή φόρμα επικοινωνίας — πεδίο με ετικέτα, κουμπί υποβολής, αμφίδρομη δέσμευση, πραγματική συμπεριφορά πληκτρολογίου και προγράμματος ανάγνωσης οθόνης — πρώτα γυμνή, μετά μορφοποιημένη, σε περίπου 10 λεπτά.
+  </p>
+
+  <h2>Πριν ξεκινήσετε</h2>
+  <p>
+    Χρειάζεστε git, Node 22 ή νεότερο και pnpm 10 ή νεότερο. Κάθε έργο Svelte 5 κάνει — μια ολοκαίνουργια <code>npx sv create</code> εφαρμογή αρκεί.
+  </p>
+
+  <h2>Βήμα 1 — Πάρτε τον κώδικα</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Τα στοιχεία βρίσκονται στο <code>src/lib/components/&#123;Name&#125;/</code>, ένας κατάλογος ανά στοιχείο με το αρχείο <code>.svelte</code> , τις δοκιμές, τα stories και την τεκμηρίωσή του δίπλα δίπλα. Αντιγράψτε τους καταλόγους που χρειάζεστε στην εφαρμογή σας ή εξαρτηθείτε από το αποθετήριο και εισαγάγετε απευθείας.
+  </p>
+
+  <h2>Βήμα 2 — Το πρώτο σας στοιχείο</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Αποδίδει <code>&lt;button class="button" type="button"&gt;</code>. Τα props είναι τυποποιημένα: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (αποδίδει <code>aria-pressed</code> (αποδίδει <code>label</code> (ένα <code>aria-label</code> για κουμπιά εναλλαγής),
+  </p>
+
+  <h2>Βήμα 3 — Συνθέστε μια μικρή φόρμα</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> παίρνει την ορατή <code>label</code> ως δικό του prop αντί για ένθετο στοιχείο ετικέτας — περάστε την μία φορά, στο <code>Field</code>και <code>TextInput</code>του <code>label</code> δίνει το προσβάσιμο όνομα. <code>TextInput</code>'s <code>value</code> για παράκαμψη), και κάθε επιπλέον χαρακτηριστικό διασπείρεται στη ρίζα.
+    <code>$bindable</code> είναι ένα prop <code>bind:value</code> rune, οπότε το
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Επαληθεύτηκε στις 2026-08-29:</strong> σας δίνει αμέσως αμφίδρομη δέσμευση. <code>svelte/server</code> αυτό ακριβώς το απόσπασμα μεταγλωττίστηκε μέσω <code>&lt;label for&gt;</code> και ελέγχθηκε για μία μόνο, σωστά συνδεδεμένη ετικέτα <code>Label</code> μέσα στο <code>Field</code>— ένα προηγούμενο προσχέδιο ένθετε ξεχωριστό
+      <em>δύο</em> ετικέτες (η μία κενή) επειδή το <code>Field</code> αποδίδει ήδη τη δική του από την είσοδο <code>label</code> μέσα του, το οποίο απέδιδε
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Η σύνθετη διαδρομή της φόρμας επικοινωνίας</a>
+      είναι το ίδιο μοτίβο, δοκιμασμένο με πραγματικά τεστ e2e και axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ελέγξτε τη δουλειά σας:</strong> τρέξτε την εφαρμογή και η φόρμα φαίνεται γυμνή — ακριβώς όπως προβλέπεται: η μορφοποίηση έρχεται μετά. Πατήστε
+      <kbd>Tab</kbd>: η εστίαση περνά από κάθε στοιχείο ελέγχου, η ετικέτα ανακοινώνεται και η υποβολή δουλεύει. Η συμπεριφορά είναι έτοιμη· η εμφάνιση είναι δική σας και είναι το επόμενο βήμα.
+    </p>
+  </div>
+
+  <h2>Βήμα 4 — Μορφοποιήστε την</h2>
+  <p>
+    Όλα τα παραπάνω αποδίδονται ως καθαρή δομή, έτοιμη για τα στυλ σας. Μορφοποιήστε τα αγκίστρια κλάσης —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — στο καθολικό φύλλο στυλ σας, ή συνδέστε ένα έτοιμο θέμα στο <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Οι προσαρμογές ανά στιγμιότυπο περνούν από το <code>class</code> prop, που προστίθεται στο βασικό αγκίστρι: <code>&lt;Button class="wide"&gt;</code> αποδίδει
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Βήμα 5 — Δείτε τα πάντα να δουλεύουν</h2>
+  <p>
+     <a href="/examples/">Η εφαρμογή-παράδειγμα SvelteKit</a> είναι ο ίδιος κατάλογος πλήρως μορφοποιημένος, με ζωντανές επιδείξεις, δοκιμές Playwright e2e και βάση αναφοράς προσβασιμότητας axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Επόμενα βήματα</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Θέματα</a> — εναλλαγή κατά την εκτέλεση με τον βοηθό theme-picker για Svelte.</li>
+    <li><a href="/tutorials/helpers/">Βοηθοί προτιμήσεων</a> — γλώσσα και μέγεθος κειμένου.</li>
+    <li><a href="/components/">Κατάλογος στοιχείων</a> — ιδιότητες, ARIA και πληκτρολόγιο ανά στοιχείο.</li>
+  </ul>
+  <p>
+    Ερωτήσεις στην πορεία; Η
+    <a href="/help/#troubleshooting">σελίδα βοήθειας</a> είναι γεμάτη απαντήσεις — και αν ένα βήμα μπορεί να γίνει πιο σαφές,
+    <a href="https://github.com/LilyDesignSystem">πείτε μας</a> και θα βελτιώσουμε με χαρά τον οδηγό.
+  </p>
+</section>

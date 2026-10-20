@@ -1,0 +1,127 @@
+<!-- title: Angular 튜토리얼 — Lily Design System -->
+<!-- description: Lily의 Angular 20 헤드리스 컴포넌트로 접근성 있고 스타일이 적용된 폼을 만듭니다. 시그널 입력을 쓰는 스탠드얼론 컴포넌트입니다. -->
+<section class="page-intro">
+  <h1>Angular 튜토리얼</h1>
+  <p class="page-intro-tagline">
+    Angular 20 스탠드얼론 컴포넌트 — 시그널 입력, OnPush 변경 감지, 인라인 템플릿, NgModule 없음, CSS 없음.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>만들 것</h2>
+  <p>
+    작은 문의 폼 — 레이블이 있는 입력, 제출 버튼, 양방향 바인딩, 실제 키보드 및 스크린 리더 동작 — 먼저 꾸미지 않은 상태로, 그다음 스타일을 입혀서 약 10분 안에 만듭니다.
+  </p>
+
+  <h2>시작하기 전에</h2>
+  <p>
+    git, Node 22 이상, pnpm 10 이상이 필요합니다. Angular 20 프로젝트라면 무엇이든 괜찮습니다 — Angular CLI든 Analog든 상관없습니다.
+  </p>
+
+  <h2>1단계 — 코드 가져오기</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    컴포넌트는 다음 위치에 평평한 파일로 있습니다: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — 각각 인라인 템플릿을 가진 스탠드얼론 컴포넌트이며, spec과 스토리가 함께 있습니다. 배럴
+    <code>index.ts</code> 은 모든 컴포넌트를 다시 내보냅니다. <code>pnpm build</code>
+    은 ng-packagr로 Angular Package Format 번들을 만듭니다.
+  </p>
+
+  <h2>2단계 — 첫 번째 컴포넌트</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    모든 컴포넌트는 <code>lily-*</code> 셀렉터를 선언하고 클래스 훅이 붙은 의미 있는 요소를 렌더링합니다 —
+    <code>&lt;button class="button" type="button"&gt;</code> 여기서는요. 입력은 시그널 기반입니다: <code>label()</code> 는 <code>aria-label</code>
+    재정의용, <code>className()</code> 는 클래스를 덧붙입니다.
+  </p>
+
+  <h2>3단계 — 작은 폼 구성하기</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> 은 중첩된 레이블 컴포넌트가 아니라 보이는 레이블을 별도의
+    <code>label</code> 입력으로 받습니다 — 필드에 한 번만 전달하면 <code>lily-text-input</code>의 대응하는
+    <code>label</code> 가 접근 가능한 이름을 제공합니다. 입력과 비슷한 컴포넌트는 <code>model()</code> 값을 노출하므로 banana-box <code>[(value)]</code>
+    양방향 바인딩이 그대로 동작합니다 — 전체가 zoneless와 호환됩니다.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 확인 완료:</strong> 이전 초안에서는 별도의 <code>Label</code> 컴포넌트를 <code>lily-field</code>안에 중첩했는데, 그러면 <em>두 개의</em> 레이블(하나는 비어 있음)이 렌더링되었습니다.
+      <code>lily-field</code> 가
+      <code>label</code> 입력으로 자체 레이블을 이미 렌더링하기 때문입니다 — 컴포넌트 소스를 확인하다가 발견했습니다.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">문의 폼 조합 라우트</a>
+      도 같은 패턴이며, 실제 e2e 및 axe 테스트로 검증됩니다.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>작동 확인:</strong> 앱을 실행하면 폼이 밋밋해 보입니다 — 의도한 대로이며 스타일은 앞으로 입힙니다.
+      <kbd>Tab</kbd>키를 눌러 보세요. 포커스가 모든 컨트롤을 따라 이동하고, 레이블이 읽히며, 제출도 동작합니다. 동작은 완성되었고, 모양은 당신 몫이며 다음 단계입니다.
+    </p>
+  </div>
+
+  <h2>4단계 — 스타일 입히기</h2>
+  <p>
+    클래스 훅에 스타일을 입힙니다 — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 다음 위치에서: <code>styles.css</code>, 또는 준비된 테마를 <code>styles</code> 배열에 추가하거나
+    <code>angular.json</code> / 다음 위치에서 링크합니다: <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>5단계 — 전체가 동작하는 모습 보기</h2>
+  <p>
+     <a href="/examples/">Angular + Analog 예제 앱</a> 은 파일 기반 라우팅과 Vite로 전체 카탈로그를 보여 줍니다:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>다음 단계</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">테마 적용</a> — Angular theme-picker 헬퍼로 하는 런타임 전환.</li>
+    <li><a href="/tutorials/helpers/">환경설정 헬퍼</a> — 언어와 텍스트 크기.</li>
+    <li><a href="/components/">컴포넌트 카탈로그</a> — 컴포넌트별 props, ARIA, 키보드.</li>
+  </ul>
+  <p>
+    진행하다가 궁금한 점이 있다면
+    <a href="/help/#troubleshooting">도움말 페이지</a> 에 답이 많이 있습니다. 어떤 단계가 더 명확해질 수 있다면
+    <a href="https://github.com/LilyDesignSystem">알려 주세요</a> . 기꺼이 튜토리얼을 개선하겠습니다.
+  </p>
+</section>

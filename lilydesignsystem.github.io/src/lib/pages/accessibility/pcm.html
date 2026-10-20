@@ -1,0 +1,63 @@
+<!-- title: Accessibility (Make Everybody Fit Use Am) — Lily Design System -->
+<!-- description: Lily accessibility statement: wetin e mean to target WCAG 2.2 AAA here — wetin dem verify, with wetin, wetin no get any verification, and how to report problem. -->
+<section class="page-intro">
+  <h1>Wetin “targets WCAG 2.2 AAA” mean here</h1>
+  <p class="page-intro-tagline">
+    Di word <em>targets</em> na on purpose. Dis page talk exactly wetin dem verify, with wetin, wetin nothing verify, and wetin we plan to do about di gap. Lily no dey ever claim WCAG “compliance” — no audit support am.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Verified, continuously</h2>
+  <ul>
+    <li>
+      Every component canonical semantic element, ARIA attributes, and class hooks — dem assert am with per-framework unit suites (15,000+ cases across seven frameworks).
+    </li>
+    <li>
+      Every one of di 571 component demo pages for di SvelteKit example app dey axe-clean (WCAG 2.0/2.1 A+AA and 2.2 AA rule sets) — di full-catalog sweep, first baselined 2026-08-27 and run again 2026-10-06 — plus per-app baselines for home, catalog, and composed routes for all seven example apps.
+    </li>
+    <li>
+      Keyboard contracts for every interactive component, wey dem document for each component canonical metadata and wey di suites dey test; di helper packages still dey run real-browser Playwright specs too.
+    </li>
+    <li>
+      WCAG 2.2 target-size floors and overflow guards for all 57 themes; skip-link, landmarks, and no horizontal overflow for four viewports per app; <code>lang</code>/<code>dir</code> application and di RTL flip.
+    </li>
+  </ul>
+
+  <h2>Nothing verify am</h2>
+  <ul>
+    <li>
+      <strong>Dem never ever perform conformance audit.</strong> No VPAT, no certification. Automated tooling cover small part of WCAG success criteria.
+    </li>
+    <li>
+      AAA-specific criteria (enhanced contrast, and others) na design intents, no be verified properties; di axe rule sets dey run A/AA. High-contrast theme still no dey.
+    </li>
+    <li>
+      <strong>Screen-reader behaviour mostly no test.</strong> Di suites dey assert ARIA attributes, no be wetin VoiceOver, NVDA, or JAWS go announce — and dis project don ship green suites over real defects more than once, each one dem write am for di changelog just because di suites no fit see dem.
+    </li>
+  </ul>
+
+  <h2>Wetin we plan to do about am</h2>
+  <p>
+    Independent accessibility audit na di first named use of any project funding, and di scope wey auditor need don ready already. Until dat time, screen-reader reports na di contribution wey dis project want pass: “component X announce Y, wey wrong because Z” dey directly actionable.
+  </p>
+
+  <h2>Report problem</h2>
+  <p>
+    Open issue for
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    or email
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. To name WCAG criterion dey help but e no compulsory — “I no fit operate X with keyboard” na complete report.
+  </p>
+  <p>
+    Di full statement, with di verification table and im review history, dey for di repository:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

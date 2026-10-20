@@ -1,0 +1,111 @@
+<!-- title: Tutorial tema — Lily Design System -->
+<!-- description: Beri tema pada Lily dengan tiga cara: tautkan salah satu dari 45 tema siap pakai, timpa dengan CSS Anda, dan tambahkan pengalihan tema saat berjalan dengan pembantu theme-picker. -->
+<section class="page-intro">
+  <h1>Tema</h1>
+  <p class="page-intro-tagline">
+    Komponen Lily memiliki kait kelas yang stabil dan nol CSS — jadi tema hanyalah lembar gaya. Tutorial ini berjalan dari "tautkan satu berkas" hingga "biarkan pengguna mengganti tema saat berjalan, dengan persistensi".
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan Anda bangun</h2>
+  <p>
+    Aplikasi yang seluruh tampilannya dapat diubah pengguna — dimulai dari satu lembar gaya tertaut, berakhir dengan pengalih tema saat berjalan yang persisten — dalam sekitar 15 menit.
+  </p>
+
+  <h2>Sebelum memulai</h2>
+  <p>
+    Selesaikan dulu <a href="/tutorials/">tutorial kerangka kerja</a> untuk tumpukan Anda dulu, agar Anda memiliki formulir Lily kecil untuk diberi tema. Semua di sini bekerja di ketujuh kerangka kerja; contoh kode menampilkan Svelte dan HTML biasa.
+  </p>
+
+  <h2>Langkah 1 — Tautkan tema siap pakai</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    direktori berisi 45 lembar gaya mandiri. Salin ke aset statis aplikasi Anda dan tautkan satu:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Sorotan set ini:</p>
+  <ul>
+    <li>
+      <strong>Sektor publik</strong> — NHS England / Scotland / Wales, masing-masing dalam varian untuk pasien dan praktisi; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Terinspirasi vendor</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Tujuan umum</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, dan banyak lagi.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Periksa pekerjaan Anda:</strong> muat ulang halaman. Markup yang sama yang Anda bangun di tutorial kerangka kerja kini sepenuhnya bergaya — tombol, input, label, cincin fokus. Satu baris HTML melakukannya — setiap komponen tetap persis seperti semula.
+    </p>
+  </div>
+
+  <h2>Langkah 2 — Timpa apa pun</h2>
+  <p>
+    Selektor tema dibungkus dalam <code>:where(...)</code>yang berspesifisitas nol — jadi aturan apa pun yang Anda tulis menang, sesederhana itu:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Langkah 3 — Pengalihan saat berjalan dengan theme-picker</h2>
+  <p>
+     <code>theme-picker</code> pembantu adalah tombol-ikon headless + kotak daftar yang memiliki seluruh siklus hidup tema: ia memuat lembar gaya terpilih dengan menukar satu <code>&lt;link&gt;</code>
+    terkelola (hanya tema aktif yang diambil), menetapkan
+    <code>data-theme="&#123;slug&#125;"</code> pada dokumen, dan secara opsional menyimpan di <code>localStorage</code>. Svelte ditampilkan di sini; port React, Vue, Angular, HTML, Nunjucks, dan Blazor sesuai kontrak demi kontrak:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Itulah seluruh integrasinya. Perilaku papan ketik mengikuti pola kotak daftar WAI-ARIA APG; kontrolnya sendiri headless (kait kelas
+    <code>.theme-picker</code>), jadi ia mengambil tema apa pun yang aktif.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Diverifikasi 2026-08-29:</strong> cuplikan yang persis ini dikompilasi terhadap paket <code>0.1.1</code> yang diterbitkan, melalui
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Tanggapi tema di CSS Anda sendiri</h2>
+  <p>
+    Karena pembantu menetapkan <code>data-theme</code> pada akar dokumen, gaya Anda sendiri dapat bercabang berdasarkan itu:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Catatan untuk render di server</h2>
+  <p>
+    Pembantu melakukan semua penulisan DOM di dalam siklus hidup mount/effect kerangka kerja, jadi aman untuk SSR sejak rancangan. Untuk menghindari kedipan pada pewarnaan pertama, render <code>&lt;link&gt;</code> dan
+    <code>data-theme</code> tema awal di server (misalnya dari cookie) — repositori pembantu Svelte menyertakan contoh cookie SvelteKit yang dapat dijalankan, dan katalog lain mendokumentasikan pola yang sama untuk tumpukannya.
+  </p>
+
+  <h2>Langkah berikutnya</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — pola yang sama untuk bahasa, ukuran teks, berbagi, dan input tanggal/waktu.</li>
+    <li>
+      Sumbangkan tema — masing-masing adalah satu lembar gaya mandiri yang menargetkan kait kelas; lihat <a href="/help/#contributing">kontribusi</a>.
+    </li>
+  </ul>
+  <p>
+    Ada pertanyaan di tengah jalan?
+    <a href="/help/#troubleshooting">Halaman bantuan</a> penuh jawaban — dan jika suatu langkah bisa lebih jelas,
+    <a href="https://github.com/LilyDesignSystem">beri tahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial ini.
+  </p>
+</section>

@@ -1,0 +1,97 @@
+<!-- title: Hướng dẫn Nunjucks — Lily Design System -->
+<!-- description: Xây dựng các trang dễ tiếp cận, có kiểu dáng, hiển thị phía máy chủ bằng macro Nunjucks của Lily — lý tưởng cho Eleventy. -->
+<section class="page-intro">
+  <h1>Hướng dẫn Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Macro hiển thị phía máy chủ cho Eleventy, Express hoặc bất kỳ quy trình mẫu Node nào — cách làm kiểu GOV.UK, với danh mục và class hook của Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một biểu mẫu liên hệ nhỏ hiển thị phía máy chủ — ô nhập có nhãn, nút gửi, không có JavaScript payload — lúc đầu để trơn, sau đó thêm kiểu dáng, trong khoảng 10 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Bạn cần git, Node 22 trở lên và pnpm 10 trở lên. Quy trình Nunjucks nào cũng được — Eleventy, Express hoặc Nunjucks thuần.
+  </p>
+
+  <h2>Bước 1 — Lấy mã</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Mỗi thành phần là một thư mục trong <code>components/</code> với một
+    <code>macro.njk</code>, bài kiểm thử và tài liệu của nó — ví dụ
+    <code>components/button/macro.njk</code>. Trỏ trình nạp Nunjucks của bạn tới
+    <code>components/</code> (trong Eleventy, thêm nó vào đường dẫn includes) và nhập thứ bạn cần.
+  </p>
+
+  <h2>Bước 2 — Thành phần đầu tiên của bạn</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Hiển thị <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Macro nhận một đối tượng params duy nhất: <code>text</code> (đã thoát ký tự) hoặc
+    <code>html</code> (nguyên văn), <code>type</code>, <code>label</code> cho
+    <code>aria-label</code>và một bộ nối thêm class hook.
+  </p>
+
+  <h2>Bước 3 — Ghép một biểu mẫu nhỏ</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Vì mọi thứ được hiển thị trên máy chủ, trình duyệt nhận HTML ngữ nghĩa thuần với các class hook — JavaScript payload bằng không byte.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> tải trang và biểu mẫu trông trơ — đúng như dự định: kiểu dáng còn ở phía trước. Nhấn
+      <kbd>Tab</kbd>: tiêu điểm di chuyển qua mọi điều khiển, nhãn được đọc lên và việc gửi hoạt động. Hành vi đã xong; diện mạo là của bạn và là bước tiếp theo.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Tạo kiểu dáng</h2>
+  <p>
+    Tạo kiểu cho các hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — trong bảng kiểu của bạn, hoặc liên kết một chủ đề dựng sẵn trong bố cục cơ sở:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Bước 5 — Xem mọi thứ hoạt động</h2>
+  <p>
+     <a href="/examples/">Ứng dụng ví dụ Nunjucks + Eleventy</a> dựng toàn bộ danh mục thành một trang tĩnh với trang demo cho từng thành phần:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Chủ đề</a> — gồm cả mẫu cookie của Eleventy để đổi chủ đề SSR không nhấp nháy.</li>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — ngôn ngữ và cỡ chữ.</li>
+    <li><a href="/components/">Danh mục thành phần</a> — thuộc tính, ARIA và bàn phím của từng thành phần.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

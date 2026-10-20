@@ -1,0 +1,122 @@
+<!-- title: Οδηγός Vue — Lily Design System -->
+<!-- description: Φτιάξτε μια προσβάσιμη, μορφοποιημένη φόρμα με τα headless στοιχεία της Lily για Vue 3: στοιχεία ενός αρχείου με v-model. -->
+<section class="page-intro">
+  <h1>Οδηγός Vue</h1>
+  <p class="page-intro-tagline">
+    Στοιχεία ενός αρχείου Vue 3 με τυποποιημένα props, <code>defineModel</code>
+    αμφίδρομη δέσμευση και διέλευση του <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Τι θα φτιάξετε</h2>
+  <p>
+    Μια μικρή φόρμα επικοινωνίας — πεδίο με ετικέτα, κουμπί υποβολής, <code>v-model</code>
+    δέσμευση, πραγματική συμπεριφορά πληκτρολογίου και προγράμματος ανάγνωσης οθόνης — πρώτα γυμνή, μετά μορφοποιημένη, σε περίπου 10 λεπτά.
+  </p>
+
+  <h2>Πριν ξεκινήσετε</h2>
+  <p>
+    Χρειάζεστε git, Node 22 ή νεότερο και pnpm 10 ή νεότερο. Κάθε έργο Vue 3 κάνει — Nuxt, Vite ή απλό Vue.
+  </p>
+
+  <h2>Βήμα 1 — Πάρτε τον κώδικα</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Τα στοιχεία είναι επίπεδα αρχεία στο <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — καθένα με τη δοκιμή, το story και την τεκμηρίωσή του δίπλα του. Αντιγράψτε τα αρχεία που χρειάζεστε ή φέρτε το αποθετήριο.
+  </p>
+
+  <h2>Βήμα 2 — Το πρώτο σας στοιχείο</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Αποδίδει <code>&lt;button class="button" type="button"&gt;</code>. Τα props αντιστοιχούν στα υπόλοιπα frameworks: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, συν διέλευση χαρακτηριστικών για όλα τα υπόλοιπα.
+  </p>
+
+  <h2>Βήμα 3 — Συνθέστε μια μικρή φόρμα</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> παίρνει την ορατή <code>label</code> ως δικό του prop αντί για ένθετο στοιχείο ετικέτας — περάστε την μία φορά, στο
+    <code>Field</code>και <code>TextInput</code>του
+    <code>label</code> δίνει το προσβάσιμο όνομα.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Επαληθεύτηκε στις 2026-08-29:</strong> ένα προηγούμενο προσχέδιο ένθετε ξεχωριστό στοιχείο <code>Label</code> μέσα στο <code>Field</code>, το οποίο απέδιδε
+      <em>δύο</em> ετικέτες (η μία κενή) επειδή το <code>Field</code> αποδίδει ήδη τη δική του από την είσοδο <code>label</code> prop — εντοπίστηκε μεταγλωττίζοντας το ακριβές απόσπασμα. Η διαδρομή
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Η σύνθετη διαδρομή της φόρμας επικοινωνίας</a>
+      είναι το ίδιο μοτίβο, δοκιμασμένο με πραγματικά τεστ e2e και axe.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> χρησιμοποιεί <code>defineModel</code>, οπότε ένα απλό
+    <code>v-model</code> δουλεύει αμέσως.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ελέγξτε τη δουλειά σας:</strong> τρέξτε την εφαρμογή και η φόρμα φαίνεται γυμνή — ακριβώς όπως προβλέπεται: η μορφοποίηση έρχεται μετά. Πατήστε
+      <kbd>Tab</kbd>: η εστίαση περνά από κάθε στοιχείο ελέγχου, η ετικέτα ανακοινώνεται και η υποβολή δουλεύει. Η συμπεριφορά είναι έτοιμη· η εμφάνιση είναι δική σας και είναι το επόμενο βήμα.
+    </p>
+  </div>
+
+  <h2>Βήμα 4 — Μορφοποιήστε την</h2>
+  <p>
+    Μορφοποιήστε τα αγκίστρια κλάσης — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — στο φύλλο στυλ σας, ή συνδέστε ένα έτοιμο θέμα στο <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Βήμα 5 — Δείτε τα πάντα να δουλεύουν</h2>
+  <p>
+     <a href="/examples/">Η εφαρμογή-παράδειγμα Nuxt</a> είναι ολόκληρος ο κατάλογος μορφοποιημένος και επιδεδειγμένος, με Playwright e2e και βάση αναφοράς axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Επόμενα βήματα</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Θέματα</a> — εναλλαγή κατά την εκτέλεση με τον βοηθό theme-picker για Vue.</li>
+    <li><a href="/tutorials/helpers/">Βοηθοί προτιμήσεων</a> — γλώσσα και μέγεθος κειμένου.</li>
+    <li><a href="/components/">Κατάλογος στοιχείων</a> — ιδιότητες, ARIA και πληκτρολόγιο ανά στοιχείο.</li>
+  </ul>
+  <p>
+    Ερωτήσεις στην πορεία; Η
+    <a href="/help/#troubleshooting">σελίδα βοήθειας</a> είναι γεμάτη απαντήσεις — και αν ένα βήμα μπορεί να γίνει πιο σαφές,
+    <a href="https://github.com/LilyDesignSystem">πείτε μας</a> και θα βελτιώσουμε με χαρά τον οδηγό.
+  </p>
+</section>

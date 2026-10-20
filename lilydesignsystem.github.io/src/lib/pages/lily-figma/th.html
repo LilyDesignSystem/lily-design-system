@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: ไม่มีไลบรารีหรือปลั๊กอิน Figma ของ Lily ที่มีผู้ดูแลอยู่ โทเค็นการออกแบบของธีมอ้างอิง 57 ธีมเผยแพร่ในรูปแบบ DTCG และนำเข้า Figma ได้ทันทีด้วยปลั๊กอินของชุมชนที่มีอยู่ -->
+<section class="page-intro">
+  <h1>ไม่มีไลบรารี Figma ที่มีผู้ดูแล — นี่คือสิ่งที่มีแทน</h1>
+  <p class="page-intro-tagline">
+    หน้านี้เคยเขียนว่า "เร็ว ๆ นี้" ตอนนี้ไม่ได้เขียนแล้ว เพราะไม่มีใครกำลังสร้างมัน นี่คือสถานะที่ตรงไปตรงมา และเส้นทางจริงที่ใช้ได้ในวันนี้
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>สิ่งที่ไม่มี</h2>
+  <p>
+    ไม่มีไลบรารีคอมโพเนนต์ Lily อย่างเป็นทางการใน Figma และไม่มีปลั๊กอิน Figma ที่มีผู้ดูแล การสร้างและดูแลไลบรารีเครื่องมือออกแบบให้ดีเป็นภาระผูกพันต่อเนื่องจริง ๆ — โครงสร้างคอมโพเนนต์ Figma การตั้งชื่อ variant, auto-layout, ไปป์ไลน์เผยแพร่ของมันเอง — แยกจากการดูแลโค้ด และโครงการนี้ยังไม่ได้รับไว้
+  </p>
+
+  <h2>สิ่งที่มีในวันนี้</h2>
+  <p>
+    ธีมอ้างอิงทั้ง 57 ธีมมีโทเค็นพื้นฐานการออกแบบของตัวเอง — สี รัศมีมุม ขนาด เส้นขอบ — เผยแพร่ใน
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >รูปแบบ DTCG 2025.10</a
+    >
+    ที่
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >รูปแบบนั้นคือสิ่งที่เครื่องมือโทเค็นสมัยใหม่อ่านได้พอดี คุณดึงจานสีของธีม Lily เข้า Figma ได้เองตอนนี้เลย โดยไม่ต้องใช้ปลั๊กอินจากโครงการนี้:
+  </p>
+  <ol>
+    <li>
+      ติดตั้งปลั๊กอินของชุมชน
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (หรือการนำเข้า Variables ของ Figma เอง หากแผนของคุณรองรับการนำเข้า DTCG)
+    </li>
+    <li>
+      นำเข้า <code>themes/tokens/{theme-slug}.json</code> สำหรับธีมที่คุณต้องการ — ตัวอย่างเช่น
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio สร้างตัวแปร Figma จากค่า DTCG ซึ่งคุณนำไปใช้กับคอมโพเนนต์ของคุณเองได้
+    </li>
+  </ol>
+  <p>
+    วิธีนี้ให้โทเค็นสีและรูปทรงของ Lily ใน Figma แต่ไม่ได้ให้คอมโพเนนต์จริงของ Lily ในรูปคอมโพเนนต์ Figma — ยังไม่มีใครสร้างขึ้น และหน้านี้จะไม่แกล้งว่ามี
+  </p>
+
+  <h2>มีแผนทำไลบรารี Figma จริงไหม?</h2>
+  <p>
+    ตอนนี้ยังไม่มี และไม่ใช่เรื่องที่สัญญาได้ง่าย ๆ: ดู
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    สำหรับคำถามที่ยังเปิดอยู่ และสิ่งที่จะเปลี่ยนใจโครงการ — ที่เป็นประโยชน์ที่สุดคือนักออกแบบที่บอกอย่างเฉพาะเจาะจงว่าต้องการอะไรจากชั้นนี้ ถ้าคุณคือคนนั้น
+    <a href="mailto:joel@joelparkerhenderson.com">บอกเรา</a>
+    หรือเปิด issue
+  </p>
+</section>

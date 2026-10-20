@@ -1,0 +1,466 @@
+<!-- title: 도움말 — Lily Design System -->
+<!-- description: Lily 시작하기: 사용하는 프레임워크의 헤드리스 패키지를 설치하고, 컴포넌트를 복사하고, 스타일을 입히고, 테마를 적용하고, 배포합니다. 문제 해결, FAQ, 지원. -->
+<section class="page-intro">
+  <h1>Lily 시작하기</h1>
+  <p class="page-intro-tagline">
+    프레임워크를 고르고, 모노레포를 복제해서 헤드리스 라이브러리나 예제 앱을 열고, 나만의 페이지를 조합해 보세요. 안내를 따라 진행하고 싶다면
+    <a href="/tutorials/">튜토리얼</a>부터 시작하세요.
+  </p>
+</section>
+
+<nav aria-label="이 페이지의 내용" class="prose" style="margin: 0 auto;">
+  <p><strong>이 페이지의 내용:</strong></p>
+  <ul>
+    <li><a href="#install">설치</a></li>
+    <li><a href="#use-headless">헤드리스 컴포넌트 사용하기</a></li>
+    <li><a href="#use-styled">스타일이 적용된 예제 사용하기</a></li>
+    <li><a href="#styling">스타일과 디자인 토큰</a></li>
+    <li><a href="#themes">기성 테마</a></li>
+    <li><a href="#helpers">환경설정 도우미</a></li>
+    <li><a href="#a11y">접근성</a></li>
+    <li><a href="#i18n">다국어화</a></li>
+    <li><a href="#testing">테스트</a></li>
+    <li><a href="#ai-agents">AI 에이전트</a></li>
+    <li><a href="#troubleshooting">문제 해결</a></li>
+    <li><a href="#contributing">기여하기</a></li>
+    <li><a href="#community">커뮤니티와 지원</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>설치</h2>
+  <p>
+    Lily는 하나의 Git 모노레포에 있으며, 프레임워크마다 헤드리스 라이브러리, 도우미 패키지, 예제 앱 디렉터리가 있습니다. 가장 빠르게 써 보는 방법은 모노레포를 복제하고 사용하는 스택의 헤드리스 라이브러리를 여는 것입니다.
+  </p>
+
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>다른 프레임워크도 같은 방식입니다.</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — 설치 불필요. <code>.html</code> 파일을 복사합니다</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    헤드리스 라이브러리는 복제하거나 벤더링해서 쓰도록 설계되었습니다. 소스를 기준으로 삼고 필요한 것을 복사하세요.
+    <a href="#helpers">환경설정 도우미</a>는 추가로 빌드와 배포 파이프라인(JS 프레임워크는 npm, Blazor는 NuGet)을 갖춘 설치 가능한 패키지로도 제공됩니다.
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>헤드리스 컴포넌트 사용하기</h2>
+  <p>
+    헤드리스 컴포넌트는 시맨틱 HTML, ARIA, 속성을 제공하지만 CSS는 없습니다. 각 프레임워크에서의
+    Button은 다음과 같습니다.
+  </p>
+
+  <h3>HTML</h3>
+
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+
+
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+
+
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>스타일이 적용된 예제 사용하기</h2>
+  <p>
+    예제 앱에는 CSS, 라우트, 완전한 데모 페이지가 들어 있습니다. 가장 빠르게 실험하는 방법은 SvelteKit, Next, Nuxt, Analog, Eleventy
+    예제 앱을 실행해서 <code>/components</code>의 데모를 보는 것입니다.
+  </p>
+
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    그런 다음 <code>http://localhost:5173</code>을 열고 <code>/components</code>를 둘러보세요.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>스타일과 디자인 토큰</h2>
+  <p>
+    각 컴포넌트는 루트 요소에 케밥 케이스 클래스 하나를 달고 렌더링됩니다.
+    예를 들어 <code>&lt;Button&gt;</code>은 <code>&lt;button class="button"&gt;</code>을 렌더링합니다.
+    스타일은 원하는 대로 입히세요.
+  </p>
+
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily의 기본 색상 팔레트(예제 앱에서 사용)는 다음과 같습니다.</p>
+  <ul>
+    <li>기본: <code>#2563eb</code></li>
+    <li>위험: <code>#dc2626</code></li>
+    <li>경고: <code>#f59e0b</code></li>
+    <li>성공: <code>#16a34a</code></li>
+    <li>페이지 배경: <code>#f9fafb</code></li>
+    <li>카드 배경: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    이것들은 제안일 뿐 필수가 아닙니다. 여러분 브랜드의 팔레트로 바꿔도 Lily는 문제없이 따라옵니다.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>기성 테마</h2>
+  <p>
+    CSS를 처음부터 쓰고 싶지 않으신가요? Lily에는 <strong>57가지 독립 참조 테마</strong>가
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    디렉터리에 포함되어 있습니다. 각각은 Lily 클래스 훅을 겨냥한 스타일시트 하나이며,
+    연결하기만 하면 스타일이 적용됩니다.
+  </p>
+
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>제공되는 테마는 다음과 같습니다.</p>
+  <ul>
+    <li>
+      <strong>공공 부문</strong> — NHS England, NHS Scotland, NHS Wales
+      (각각 환자용과 실무자용 변형), GOV.UK GDS, U.S. Web Design System.
+    </li>
+    <li><strong>벤더에서 영감을 받은 것</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>범용</strong> — light, dark, nord, dracula, wireframe 등 서른 가지가 넘는 테마.
+    </li>
+  </ul>
+  <p>
+    테마 선택자는 <code>:where(...)</code>를 쓰므로 명시도에서는 항상 여러분의 CSS가 이깁니다. 런타임 전환을 위해 아래의
+    <code>theme-picker</code> 도우미와 함께 쓰거나
+    <a href="/tutorials/theming/">테마 설정 튜토리얼</a>을 따라 해 보세요.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>환경설정 도우미</h2>
+  <p>
+    각 프레임워크에는 작은 선택기가 여덟 개 있으며, 각각 독립된
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> 패키지입니다(이를 조립하는 <code>picker-bar</code>도 있습니다). 각각은
+    팝업(리스트박스, 링크 목록, 검색 폼, date-time-picker의 경우 날짜 선택 대화 상자)을 여는 헤드리스 아이콘 버튼이며, 네이티브
+    <code>&lt;select&gt;</code>가 아니고, SSR에 안전하며, CSS는 포함하지 않습니다.
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — 관리되는 <code>&lt;link&gt;</code>를 교체해서 런타임에 테마 스타일시트를 불러오고, 문서에
+      <code>data-theme</code>를 설정하며, 선택적으로
+      <code>localStorage</code>에 저장합니다.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — <code>lang</code>과
+      <code>dir</code>(자동 RTL 감지 포함)를 설정해서 i18n 라이브러리가 따라가게 합니다. 번역 자체는 하지 않습니다.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — 문서에 <code>data-text-size</code>를 설정합니다. 각 값을 글꼴 크기에 대응시키는 것은 여러분의 CSS입니다.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — 방문자의 동작 줄이기 설정에서 출발해 문서에 <code>data-motion</code>을 설정합니다.
+      무엇을 억제할지는 여러분의 CSS와 스크립트가 정합니다.
+    </li>
+    <li>
+      <strong>search-picker</strong> — 검색 필드를 여는 아이콘 버튼. 제출하면 검색 페이지로 이동합니다. 환경설정이 아니라 동작을 담당합니다.
+    </li>
+    <li>
+      <strong>link-picker</strong> — 앱이 정의하는 페이지 링크(홈, 회사 소개, 문의하기, 개인정보 처리방침 등)의 메뉴를 여는 홈 아이콘.
+      환경설정이 아니라 동작을 담당합니다.
+    </li>
+    <li>
+      <strong>share-picker</strong> — 네이티브 공유 시트 또는 사용 측이 제공한 대상 목록과 URL 복사를 엽니다.
+      환경설정이 아니라 동작을 담당합니다. 아무것도 적용하지 않고 아무것도 저장하지 않습니다.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — 날짜, 시간 또는 둘 다를 위한 텍스트 필드와 APG 날짜 선택 대화 상자.
+      환경설정이 아니라 폼 값을 담당합니다. ISO 문자열이
+      <code>&lt;input type="date"&gt;</code>와 오가며 변환됩니다.
+    </li>
+  </ul>
+
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte 카탈로그가 기준입니다. React, Vue, Angular, HTML, Nunjucks, Web Components, Blazor 포트는 규약 하나하나까지 일치합니다.
+    <a href="/tutorials/helpers/">도우미 튜토리얼</a>을 참고하세요.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>접근성</h2>
+  <p>컴포넌트는 <strong>WCAG 2.2 AAA</strong>를 목표로 합니다. 다음 패턴을 따릅니다.</p>
+  <ul>
+    <li>범용 <code>&lt;div&gt;</code>보다 시맨틱 HTML 요소.</li>
+    <li>레이블과 입력을 연결하는 <code>&lt;label for="id"&gt;</code>.</li>
+    <li>상호 참조를 위한 <code>aria-labelledby</code> / <code>aria-describedby</code>.</li>
+    <li>오류 상태를 위한 <code>aria-invalid</code> + <code>aria-errormessage</code>.</li>
+    <li>동적 콘텐츠를 위한 <code>role="alert"</code>와 <code>aria-live</code>.</li>
+    <li>상태를 위한 <code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code>.</li>
+    <li>그리드를 위한 로빙 <code>tabindex</code>.</li>
+  </ul>
+  <p>
+    포커스 표시는 의도적으로 사용 측이 제공합니다. Lily는 여러분의 디자인과 충돌하는 기본 포커스 링을 그리지 않습니다.
+    예제 앱은 모든 경로에서 axe-core의 깨끗한 기준선을 유지합니다.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>다국어화</h2>
+  <p>
+    모든 레이블, 플레이스홀더, 오류 메시지, 버튼 문구는 속성입니다. 하드코딩된 문자열은 없습니다.
+    원하는 번역 프레임워크(Paraglide, i18next, vue-i18n, react-intl, .resx 파일 등 무엇이든)를 연결하세요.
+  </p>
+  <p>
+    날짜, 숫자, 통화는 컴포넌트가 미리 서식을 갖춘 문자열을 받습니다.
+    <code>Intl.DateTimeFormat</code> / <code>Intl.NumberFormat</code> / 선호하는 라이브러리로 서식을 만들어 그 결과를 전달하세요.
+  </p>
+  <p>
+    <code>locale-picker</code> 도우미는 문서 루트에 <code>lang</code>과 <code>dir</code>을 설정해서
+    선택된 로케일을 i18n 라이브러리에 알립니다.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>테스트</h2>
+  <p>각 프레임워크 하위 프로젝트에는 그 프레임워크에 맞는 구성의 자체 테스트가 포함되어 있습니다.</p>
+  <ul>
+    <li><strong>HTML</strong>: 실제 브라우저에서 실행하는 WebDriverIO.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (Analog Vite 플러그인 사용).</li>
+    <li><strong>Nunjucks</strong>: 렌더 도우미가 있는 Vitest.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    테스트는 <strong>Vitest 내장 매처만</strong> 사용하며
+    <code>jest-dom</code> 매처는 쓰지 않습니다. 이렇게 하면 테스트 모음의 이식성이 유지됩니다.
+    예제 앱에는 Playwright 엔드투엔드 테스트, axe-core 접근성 기준선, 반응형 뷰포트 점검이 추가됩니다.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI 에이전트</h2>
+  <p>
+    이 사이트는 루트에 <a href="/llms.txt">llms.txt</a>와
+    <a href="/llms.json">llms.json</a>을 게시합니다. 이는
+    <a href="https://llmstxt.org">llms.txt 규약</a>을 따르는 모든 도구를 위한, 가장 중요한 페이지를 엄선한 안내도입니다.
+  </p>
+  <p>
+    정식 모노레포에는 추가로 두 개의
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>가 있습니다.
+    <code>lily-design-system-skill</code>은 이 시스템으로 개발하는 사람을 위해 Lily의 개념, 용어, 조합 패턴을 다루는 범용 스킬이고,
+    <code>lily-design-system-maintainer-skill</code>은 모노레포에서 작업하는 사람을 위해 필수 파일 구성과 도구를 다루는 기술 스킬입니다.
+    둘 다
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">정식 모노레포</a>의 루트에 있습니다.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>문제 해결</h2>
+
+  <details class="faq-item">
+    <summary>컴포넌트는 렌더링되는데 스타일이 없어 보입니다</summary>
+    <p>
+      헤드리스가 의도대로 동작하는 것입니다. 컴포넌트에는 CSS가 포함되지 않습니다.
+      컴포넌트의 케밥 케이스 클래스(<a href="/components/">카탈로그의 모든 페이지</a>에 표시됩니다)에 맞춰 CSS를 작성하거나
+      <a href="#themes">57가지 기성 테마</a> 중 하나를 연결하세요.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>테마 위에서 내 CSS가 적용되지 않는 것 같습니다</summary>
+    <p>
+      적용되어야 합니다. 테마 선택자는 명시도가 0인 <code>:where(...)</code>로 감싸여 있습니다. 그래도 규칙이 지는 경우,
+      내 스타일시트가 테마의 <code>&lt;link&gt;</code> 뒤에 로드되는지, 그리고 선택자가 실제로 컴포넌트의 클래스 훅과 일치하는지 확인하세요.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install이 피어 또는 버전 오류로 실패합니다</summary>
+    <p>
+      최신 pnpm(v10 이상)과 Node 22 이상을 사용하세요. 각 하위 프로젝트는 자체 <code>package.json</code>에 프레임워크 버전을 고정합니다. 전역 도구 체인이 오래되었다면
+      <code>pnpm env use --global lts</code>가 가장 빠른 해결책입니다.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>스크린 리더가 컨트롤의 이름을 잘못 읽습니다</summary>
+    <p>
+      컴포넌트의 필수 <code>label</code> 속성을 확인하세요. 보이는 텍스트가 없는 컴포넌트에는 이것이 필수입니다.
+      또한 rest-props로 전달한 사용 측의 <code>aria-label</code> / <code>aria-labelledby</code>는 의도적으로 내장 연결보다 우선합니다.
+      각 카탈로그 페이지에 해당 컴포넌트의 ARIA 규약이 문서화되어 있습니다.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker 도우미가 스타일시트를 전환하지 않습니다</summary>
+    <p>
+      <code>themesUrl</code>이 브라우저가 가져올 수 있는 디렉터리를 가리키는지(<code>themes/</code> 파일을 정적 자산으로 제공하세요),
+      그리고 <code>themes</code> 속성의 테마 슬러그가 파일 이름과 일치하는지 확인하세요.
+      도우미는 관리되는 하나의
+      <code>&lt;link data-lily-theme-picker&gt;</code>의 <code>href</code>를 교체합니다. 개발자 도구에서 살펴보면 요청되는 URL을 알 수 있습니다.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>그 밖의 다른 것이 고장 났습니다</summary>
+    <p>
+      최소한의 재현 방법과 함께
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>에서 이슈를 열어 주세요.
+      또는 <a href="#community">커뮤니티와 지원</a>을 참고하세요.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>기여하기</h2>
+  <p>Lily는 젊은 프로젝트이며 협업을 환영합니다. 지금 가장 유용한 기여는 다음과 같습니다.</p>
+  <ul>
+    <li>새 컴포넌트(특히 확립된 디자인 시스템의 패턴).</li>
+    <li>새 테마. 각각이 독립된 스타일시트 하나이므로 첫 풀 리퀘스트로 알맞은 범위입니다.</li>
+    <li>더 나은 예제 스타일링. 가능한 것을 보여 주세요.</li>
+    <li>예제 앱 문자열의 번역.</li>
+    <li>최소한의 재현 방법을 갖춘 버그 보고.</li>
+    <li>스크린 리더와 보조 기술을 이용한 접근성 감사.</li>
+  </ul>
+  <p>
+    이슈와 풀 리퀘스트는
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>에서 열어 주세요.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>커뮤니티와 지원</h2>
+  <ul>
+    <li>
+      <strong>질문과 버그 보고</strong> —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>에서 이슈를 열어 주세요.
+    </li>
+    <li>
+      <strong>이메일</strong> — 유지관리자가
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      을 읽고 있으며 협업, 조언, 피드백을 환영합니다.
+    </li>
+    <li>
+      <strong>미러</strong> — Lily는
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a>와
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>에도 푸시되므로, 선호하는 포지에서 참여할 수 있습니다.
+    </li>
+    <li>
+      <strong>행동 강령</strong> — 이 프로젝트는 표준 행동 강령을 따릅니다. 친절하게, 선의를 전제로 해 주세요.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>왜 스타일이 적용된 것이 아니라 헤드리스인가요?</summary>
+    <p>
+      미리 스타일이 적용된 컴포넌트는 편리하지만, 브랜드와 맞지 않게 되는 순간까지만입니다.
+      헤드리스 컴포넌트는 처음에 조금 더 일이 들지만 시각 디자인을 완전히 통제할 수 있게 해 줍니다. 예제 앱과 57가지 테마가 스타일을 입히는 방법을 보여 주며,
+      그것을 가져다 써도 되고 완전히 바꿔도 됩니다.
+      더 긴 논의는 <a href="/why/">Lily를 선택하는 이유</a>에 있습니다.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>왜 컴포넌트가 이렇게 많나요?</summary>
+    <p>
+      Lily는 대부분의 앱에 필요한 패턴을 처음부터 만들지 않아도 되도록 다루는 것을 목표로 합니다. 국가별 식별자 입력이나 편집용 스크롤리텔링 같은
+      깊이 있는 것도 포함합니다. 카탈로그는 십여 개의 확립된 디자인 시스템과 독자적인 작업에서 가져왔습니다.
+      <a href="/about/">소개</a>를 참고하세요.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily를 Tailwind와 함께 쓸 수 있나요?</summary>
+    <p>
+      네. 각 컴포넌트는 케밥 케이스 루트 클래스 하나와 사용 측이 제공하는 <code>className</code> / <code>class</code>를 노출합니다.
+      그 위에 Tailwind 유틸리티를 원하는 대로 얹으세요.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>DaisyUI 같은 시맨틱 CSS 프레임워크와 함께 쓸 수 있나요?</summary>
+    <p>
+      네. 루트 요소의 케밥 케이스 클래스 이름은 시맨틱 CSS 훅으로 동작합니다. Lily를 시맨틱 프레임워크와 짝지으면
+      ARIA와 다국어화를 지키면서 이미 스타일이 적용된 컴포넌트를 얻을 수 있습니다.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>npm 패키지가 있나요?</summary>
+    <p>
+      <a href="#helpers">환경설정 도우미</a>는 npm/NuGet 배포 파이프라인을 갖춘 패키지로 제공됩니다.
+      헤드리스 컴포넌트 라이브러리는 복제하거나 벤더링해서 쓰도록 설계되었으며 소스 자체가 결과물입니다.
+      그래서 배포하는 것을 직접 읽고, 다듬고, 소유할 수 있습니다. 헤드리스 라이브러리의 레지스트리 배포는 여전히 로드맵에 있습니다.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>왜 멀티 라이선스인가요?</summary>
+    <p>
+      프로젝트마다 필요한 라이선스가 다릅니다. BSD와 MIT는 허용적이고, Apache-2.0에는 특허 허가가 있으며, GPL 계열은 카피레프트를 뒷받침합니다.
+      상황에 맞는 것을 고르세요.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>버그를 보고하거나 기능을 요청하려면 어떻게 하나요?</summary>
+    <p>
+      GitHub 저장소에서 이슈를 열거나
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>으로 이메일을 보내 주세요.
+    </p>
+  </details>
+</section>

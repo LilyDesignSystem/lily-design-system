@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: कोई अनुरक्षित Lily Figma लाइब्रेरी या प्लगइन नहीं है। 57 संदर्भ थीम के डिज़ाइन टोकन DTCG प्रारूप में प्रकाशित हैं और आज मौजूदा सामुदायिक प्लगइन से Figma में आयात किए जा सकते हैं। -->
+<section class="page-intro">
+  <h1>कोई अनुरक्षित Figma लाइब्रेरी नहीं है — इसकी जगह जो है</h1>
+  <p class="page-intro-tagline">
+    यह पृष्ठ पहले "जल्द आ रहा है" कहता था। अब नहीं कहता, क्योंकि कोई इसे बना नहीं रहा था। यह है ईमानदार स्थिति, और एक असली रास्ता जो आज काम करता है।
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>जो मौजूद नहीं है</h2>
+  <p>
+    Figma में कोई आधिकारिक Lily घटक लाइब्रेरी नहीं है, और कोई अनुरक्षित Figma प्लगइन नहीं है। डिज़ाइन-टूल लाइब्रेरी को अच्छी तरह बनाना और सँभालना एक असली, चलती रहने वाली प्रतिबद्धता है — Figma घटक संरचना, वेरिएंट नामकरण, auto-layout, अपनी प्रकाशन पाइपलाइन — कोड सँभालने से अलग, और इस परियोजना ने इसे नहीं लिया है।
+  </p>
+
+  <h2>जो आज मौजूद है</h2>
+  <p>
+    57 संदर्भ थीम में से हर एक के अपने डिज़ाइन-टोकन आदिम तत्व हैं — रंग, त्रिज्या, आकार, किनारा — इसमें प्रकाशित
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 प्रारूप</a
+    >
+    यहाँ
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >। वह प्रारूप ठीक वही है जो आधुनिक टोकन टूल पढ़ते हैं। आप Lily थीम का पैलेट ख़ुद, अभी, इस परियोजना के किसी प्लगइन के बिना Figma में खींच सकते हैं:
+  </p>
+  <ol>
+    <li>
+      सामुदायिक
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      प्लगइन इंस्टॉल करें (या Figma का अपना Variables आयात, जहाँ आपकी योजना DTCG आयात का समर्थन करे)।
+    </li>
+    <li>
+      आयात करें <code>themes/tokens/{theme-slug}.json</code> अपनी पसंद की थीम के लिए — उदाहरण के लिए
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio DTCG मानों से Figma चर बनाता है, जिन्हें आप फिर अपने घटकों पर लागू कर सकते हैं।
+    </li>
+  </ol>
+  <p>
+    यह आपको Figma में Lily के रंग और आकार टोकन देता है। यह आपको Lily के असली घटक Figma घटकों के रूप में नहीं देता — किसी ने उसे नहीं बनाया, और यह पृष्ठ अन्यथा होने का दिखावा नहीं करेगा।
+  </p>
+
+  <h2>क्या असली Figma लाइब्रेरी की योजना है?</h2>
+  <p>
+    अभी नहीं, और इसका वादा करना मुफ़्त नहीं है: देखें
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    खुले प्रश्न और परियोजना का मन क्या बदलेगा, इसके लिए — सबसे उपयोगी यह है कि कोई डिज़ाइनर ठीक-ठीक बताए कि उसे इस परत से क्या चाहिए। अगर वह आप हैं,
+    <a href="mailto:joel@joelparkerhenderson.com">हमें बताएँ</a>
+    या issue खोलें।
+  </p>
+</section>

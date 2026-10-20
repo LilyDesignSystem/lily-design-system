@@ -1,0 +1,30 @@
+<!-- title: 无障碍 — Lily Design System -->
+<!-- description: Lily 个无障碍声明：搿搭“以 WCAG 2.2 AAA 为目标”意味着啥——哪些已被验证、由啥验证，哪些呒没任何东西验证，以及如何报告问题。 -->
+<section class="page-intro">
+  <h1>搿搭“以 WCAG 2.2 AAA 为目标”意味着啥</h1>
+  <p class="page-intro-tagline"><em>目标</em>一词是刻意选用个。本页准确说明哪些已被验证、由啥验证，哪些呒没任何东西验证，以及阿拉打算如何弥补这一差距。Lily 从勿声称“符合”WCAG——呒没任何审计支持这样个说法。</p>
+</section>
+
+<section class="prose">
+  <h2>持续验证</h2>
+  <ul>
+    <li>每个组件个规范语义元素、ARIA 属性搭类钩子——由各框架个单元测试套件断言（七个框架共 15,000 多个用例）。</li>
+    <li>SvelteKit 示例应用中 571 个组件演示页面个每一个侪通过 axe 检测且无错误（WCAG 2.0/2.1 A+AA 搭 2.2 AA 规则集）——这是对整个目录个扫描，首次基线建立于 2026-08-27，并于 2026-10-06 重新运行——此外还有七个示例应用在首页、目录搭组合路由上各自个基线。</li>
+    <li>每个交互组件个键盘契约，记录在各组件个规范元数据中，并由测试套件演练；辅助组件包还会在真实浏览器中运行 Playwright 规范。</li>
+    <li>全部 57 个主题中符合 WCAG 2.2 个目标尺寸下限搭溢出防护；跳转链接、地标，以及每个应用在四种视口下无水平溢出；<code>lang</code>/<code>dir</code> 个应用，包括从右到左个翻转。</li>
+  </ul>
+
+  <h2>呒没任何东西验证个部分</h2>
+  <ul>
+    <li><strong>从未进行过符合性审计。</strong>呒没 VPAT，呒没认证。自动化工具只能覆盖 WCAG 成功标准中个一小部分。</li>
+    <li>AAA 特有个标准（增强对比度等）是设计意图，而不是已验证个属性；axe 规则集运行个是 A/AA。目前还呒没专门个高对比度主题。</li>
+    <li><strong>屏幕阅读器个行为基本未经测试。</strong>测试套件断言个是 ARIA 属性，而不是 VoiceOver、NVDA 或 JAWS 会朗读啥——而且本项目勿止一次在真实缺陷之上发布了全绿个测试套件，每一次侪记录在变更日志里，正因为测试套件看勿到伊拉。</li>
+  </ul>
+
+  <h2>阿拉打算哪能做</h2>
+  <p>独立个无障碍审计是项目任何资金个首个明确用途，审计员所需个范围也已准备就绪。在此之前，屏幕阅读器报告是本项目最希望得到个贡献：“组件 X 朗读了 Y，这是错个，因为 Z”，可以直接据此行动。</p>
+
+  <h2>报告问题</h2>
+  <p>请在 <a href="https://github.com/LilyDesignSystem/lily-design-system" >github.com/LilyDesignSystem/lily-design-system</a > 提交议题，或发邮件至 <a href="mailto:joel@joelparkerhenderson.com" >joel@joelparkerhenderson.com</a >。指出具体个 WCAG 标准会有帮助，但不是必需个——“我无法用键盘操作 X”就是一份完整个报告。</p>
+  <p>完整声明，连同验证表及其审阅历史，保存在仓库中：<a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md" >docs/accessibility-statement.md</a >。</p>
+</section>

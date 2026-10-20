@@ -1,0 +1,109 @@
+<!-- title: Tutorial sa React — Lily Design System -->
+<!-- description: Bumuo ng accessible at may istilong form gamit ang mga headless na component ng Lily para sa React: mga typed na function component na may value + onChange. -->
+<section class="page-intro">
+  <h1>Tutorial sa React</h1>
+  <p class="page-intro-tagline">
+    Mga typed na function component, isang file bawat isa, kontrolado gamit ang karaniwang
+    <code>value</code> + <code>onChange</code> pattern — gumagana ang lahat gaya ng nakasanayan na ng React.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ang bubuuin mo</h2>
+  <p>
+    Isang maliit na contact form — input na may label, submit button, kontroladong state, tunay na gawi ng keyboard at screen reader — una ay hubad, pagkatapos ay may istilo, sa humigit-kumulang 10 minuto.
+  </p>
+
+  <h2>Bago ka magsimula</h2>
+  <p>
+    Kailangan mo ng git, Node 22 o mas bago, at pnpm 10 o mas bago. Gumagana ang anumang proyektong React 18+ — Next.js, Vite, o payak na React.
+  </p>
+
+  <h2>Hakbang 1 — Kunin ang code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Ang mga component ay mga flat na file sa <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — bawat isa ay may test, story, at mga dokumento sa tabi nito. Kopyahin ang mga file na kailangan mo sa iyong app, o i-vendor ang repo at mag-import mula rito.
+  </p>
+
+  <h2>Hakbang 2 — Ang una mong component</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Nagre-render ng <code>&lt;button class="button" type="button"&gt;</code>. Mga prop:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (nagre-render ng
+    <code>aria-pressed</code>), <code>label</code> (isang
+    <code>aria-label</code> override), <code>className</code>, at anumang dagdag na attribute ay kumakalat sa root element.
+  </p>
+
+  <h2>Hakbang 3 — Bumuo ng maliit na form</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> ay kumukuha ng nakikitang <code>label</code> bilang sarili nitong prop sa halip na nested na label component — ipasa ito nang isang beses, sa
+    <code>Field</code>, at <code>TextInput</code>sa
+    <code>label</code> ay nagbibigay ng accessible na pangalan.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Napatunayan noong 2026-08-29:</strong> nag-nest ang naunang draft ng hiwalay na <code>Label</code> sa loob ng <code>Field</code>, na nagre-render ng
+      <em>dalawang</em> label (isang walang laman) dahil <code>Field</code> ay nagre-render na ng sarili nito mula sa <code>label</code> prop — nahuli sa pamamagitan ng pag-compile ng eksaktong snippet. Ang
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">composed na ruta ng contact-form</a>
+      ay parehong pattern, sinubukan ng tunay na e2e at axe na pagsusuri.
+    </p>
+  </div>
+
+  <h2>Hakbang 4 — Bigyan ng istilo</h2>
+  <p>
+    Lahat ng nasa itaas ay nagre-render bilang purong istruktura, handa para sa iyong mga istilo. Bigyan ng istilo ang mga hook — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — sa iyong stylesheet, patungan ng mga utility ng Tailwind sa pamamagitan ng <code>className</code>, o mag-link ng handa nang tema:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Hakbang 5 — Tingnan ang lahat na gumagana</h2>
+  <p>
+    Ang <a href="/examples/">Next.js na halimbawang app</a> ay ang buong catalog na may istilo at demo, na may Playwright e2e at axe-core baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Mga susunod na hakbang</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime na pagpapalit gamit ang React theme-picker helper.</li>
+    <li><a href="/tutorials/helpers/">Mga preference helper</a> — wika at laki ng teksto.</li>
+    <li><a href="/components/">Catalog ng component</a> — mga prop, ARIA, at keyboard para sa bawat component.</li>
+  </ul>
+  <p>
+    May mga tanong habang nasa daan? Ang
+    <a href="/help/#troubleshooting">pahina ng tulong</a> ay puno ng mga sagot — at kung maaaring maging mas malinaw ang isang hakbang,
+    <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> at masaya naming pagbubutihin ang tutorial.
+  </p>
+</section>

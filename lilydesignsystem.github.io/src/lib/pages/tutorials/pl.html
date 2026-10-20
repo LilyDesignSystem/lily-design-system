@@ -1,0 +1,136 @@
+<!-- title: Samouczki — Lily Design System -->
+<!-- description: Samouczki Lily krok po kroku: twój pierwszy komponent, stylizacja, gotowe motywy i pomocnicy preferencji — dla HTML, Svelte, React, Vue, Angular, Blazor i Nunjucks. -->
+<section class="page-intro">
+  <h1>Poznaj Lily krok po kroku</h1>
+  <p class="page-intro-tagline">
+    Witaj! Każdy samouczek zaczyna od zera i buduje tę samą małą rzecz — dostępny, ostylowany formularz — w około 10 minut, żebyś mógł porównać frameworki na równych zasadach. Potem zejdź głębiej do motywów i preferencji użytkownika.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zanim zaczniesz</h2>
+  <p>Potrzebujesz zaskakująco mało:</p>
+  <ul>
+    <li>
+      <strong>Do samouczka HTML</strong> — tylko przeglądarka i edytor tekstu. To cały zestaw narzędzi.
+    </li>
+    <li>
+      <strong>Do Svelte, React, Vue, Angular lub Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 i pnpm 10 lub nowszy.
+    </li>
+    <li>
+      <strong>Do Blazor</strong> — git i
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 lub nowszy.
+    </li>
+  </ul>
+  <p>
+    Nowy w komponentach bezgłowych? Jesteś we właściwym miejscu — każdy samouczek wyjaśnia, co się dzieje po drodze, a każdy krok pokazuje dokładny kod do skopiowania.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Cztery kroki od zera do wdrożenia</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Twój pierwszy komponent</strong> (~5 minut) — wybierz poniżej swój framework, pobierz kod i wyrenderuj Button.
+      </li>
+      <li>
+        <strong>Składanie i stylizacja</strong> (~5 minut) — zbuduj formularz z etykietami i ostyluj go za pomocą haków klas w kebab-case (część każdego samouczka frameworka).
+      </li>
+      <li>
+        <strong>Nadaj motyw</strong> (~15 minut) — zamień ręcznie napisany CSS na jeden z 57 gotowych motywów, a następnie pozwól użytkownikom przełączać się w czasie działania: <a href="/tutorials/theming/">samouczek o motywach</a>.
+      </li>
+      <li>
+        <strong>Szanuj preferencje</strong> (~15 minut) — dodaj wybór języka i rozmiaru tekstu za pomocą pomocników preferencji:
+        <a href="/tutorials/helpers/">samouczek o pomocnikach</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Wybierz swój framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Skopiuj semantyczny HTML z hakami klas i ruszaj — wystarczy przeglądarka i edytor.</p>
+      <p class="card-meta">~10 minut · najłatwiejszy start</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Runy Svelte 5, snippety i dwukierunkowe wiązanie <code>bind:value</code> .</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Komponenty funkcyjne z <code>value</code> + <code>onChange</code> i rozprowadzaniem pozostałych właściwości.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Jednoplikowe komponenty Vue 3 z obsługą <code>v-model</code> .</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Samodzielne komponenty Angulara z wejściami sygnałowymi i <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Komponenty Razor z parametrami, <code>ChildContent</code>i testami bUnit.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Makra renderowane po stronie serwera dla Eleventy i dowolnego potoku szablonów Node.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Nie możesz się zdecydować? Zacznij od <a href="/tutorials/html/">HTML</a> — uczy kontraktu haków klas, który dzielą wszystkie inne frameworki, i działa prosto z pliku.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Zejdź głębiej</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Motywy</h3>
+      <p class="card-description">
+        Podlinkuj jeden z 57 gotowych motywów — NHS, GOV.UK, USWDS, jasny, ciemny i więcej — nadpisz go własnym CSS i dodaj przełączanie motywów w czasie działania za pomocą pomocnika theme-picker.
+      </p>
+      <p class="card-meta">~15 minut</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Pomocnicy preferencji</h3>
+      <p class="card-description">
+        Daj użytkownikom kontrolę nad motywem, językiem, rozmiarem tekstu, ruchem, wyszukiwaniem, linkami do stron, udostępnianiem i wprowadzaniem daty/godziny dzięki theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker i date-time-picker: bezgłowym kontrolkom z trwałością, bezpieczeństwem SSR i automatycznym wykrywaniem RTL.
+      </p>
+      <p class="card-meta">~15 minut</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Po samouczkach</h2>
+  <ul>
+    <li>
+      Przeglądaj <a href="/components/">katalog komponentów</a> — każdy komponent dokumentuje swoje właściwości, kontrakt ARIA i zachowanie klawiatury.
+    </li>
+    <li>
+      Sklonuj <a href="/examples/">aplikację przykładową</a> , aby zobaczyć wszystkie 571 komponentów ostylowanych i współpracujących — CSS celuje w te same haki klas, których właśnie użyłeś, więc skopiuj dowolną jego część do swojego projektu i dostosuj ją, jak chcesz.
+    </li>
+    <li>
+      Pytania? <a href="/help/">Strona pomocy</a> zawiera odpowiedzi, FAQ i sposoby dotarcia do życzliwego człowieka. A jeśli któryś samouczek mógłby być jaśniejszy,
+      <a href="https://github.com/LilyDesignSystem">powiedz nam</a> — chętnie go poprawimy.
+    </li>
+  </ul>
+</section>

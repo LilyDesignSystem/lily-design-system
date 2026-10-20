@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Ne postoji održavana Lily biblioteka ni dodatak za Figmu. Dizajnerski tokeni 57 referentnih tema objavljeni su u DTCG formatu i danas se mogu uvesti u Figmu postojećim dodatkom zajednice. -->
+<section class="page-intro">
+  <h1>Nema održavane biblioteke za Figmu — evo što postoji umjesto nje</h1>
+  <p class="page-intro-tagline">
+    Ova je stranica nekad pisala „uskoro“. Više ne piše, jer to nitko nije gradio. Evo poštenog stanja i stvarnog puta koji radi danas.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Što ne postoji</h2>
+  <p>
+    Ne postoji službena biblioteka Lily komponenti u Figmi niti održavani dodatak za Figmu. Dobro izgraditi i održavati biblioteku za dizajnerski alat stvarna je, trajna obveza — struktura komponenti u Figmi, imenovanje varijanti, auto-layout, vlastiti cjevovod objave — odvojena od održavanja koda, a ovaj je projekt nije preuzeo.
+  </p>
+
+  <h2>Što postoji danas</h2>
+  <p>
+    Svaka od 57 referentnih tema ima svoje primitive dizajnerskih tokena — boja, polumjer, veličina, obrub — objavljene u
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 formatu</a
+    >
+    na
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Taj je format točno ono što suvremeni alati za tokene čitaju. Paletu Lily teme možete sami uvesti u Figmu, odmah, bez ikakvog dodatka iz ovog projekta:
+  </p>
+  <ol>
+    <li>
+      Instalirajte dodatak zajednice
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (ili Figmin vlastiti uvoz Variables, ako vaš plan podržava uvoz DTCG-a).
+    </li>
+    <li>
+      Uvezite <code>themes/tokens/{theme-slug}.json</code> za temu koju želite — na primjer
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio stvara Figma varijable iz DTCG vrijednosti, koje zatim možete primijeniti na vlastite komponente.
+    </li>
+  </ol>
+  <p>
+    Time dobivate Lilyne tokene boja i oblika u Figmi. Ne dobivate Lilyne stvarne komponente kao Figma komponente — to nitko nije izgradio, a ova stranica neće glumiti suprotno.
+  </p>
+
+  <h2>Planira li se prava biblioteka za Figmu?</h2>
+  <p>
+    Trenutačno ne, a obećavati je nije besplatno: pogledajte
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    za otvoreno pitanje i ono što bi promijenilo mišljenje projekta — najkorisnije je da dizajner konkretno kaže što mu treba od ovog sloja. Ako ste to vi,
+    <a href="mailto:joel@joelparkerhenderson.com">javite nam</a>
+    ili otvorite issue.
+  </p>
+</section>

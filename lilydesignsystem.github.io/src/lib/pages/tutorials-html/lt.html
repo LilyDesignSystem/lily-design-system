@@ -1,0 +1,106 @@
+<!-- title: HTML vadovas — Lily Design System -->
+<!-- description: Sukurkite prieinamą, apipavidalintą formą su „Lily“ HTML bekūniais komponentais — paprasta žymėjimo kalba, tiesiai iš bylos. -->
+<section class="page-intro">
+  <h1>HTML vadovas</h1>
+  <p class="page-intro-tagline">
+    Paprasčiausias įmanomas pradžia: nukopijuokite semantinį HTML su „Lily“ klasių kabliais, pridėkite vieną stilių lentelę, paskelbkite. Paprastos bylos, veikiančios visur, kur veikia HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Nedidelė kontaktų forma — laukai su žymomis, siuntimo mygtukas, tikras klaviatūros ir ekrano skaitytuvo elgesys — pirma plika, paskui apipavidalinta, per maždaug 10 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Reikia naršyklės ir teksto redaktoriaus. Tai viskas. (git padeda gauti komponentų bylas, bet galite jas nukopijuoti ir iš GitHub naršyklėje.)
+  </p>
+
+  <h2>1 žingsnis — Gaukite kodą</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Kiekvienas komponentas yra atskira byla aplanke <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>ir pan. — su antraštės komentaru, dokumentuojančiu jo HTML žymą, klasės kablį, klaviatūros elgesį ir prieinamumo sutartį. Bylos <em>yra</em> biblioteka — nukopijuokite, ko reikia, ir eikite.
+  </p>
+
+  <h2>2 žingsnis — Jūsų pirmasis komponentas</h2>
+  <p>Atidarykite <code>components/button.html</code>arba tiesiog parašykite žymėjimą — klasės kablys yra sutartis:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Kadangi tai tikras <code>&lt;button&gt;</code>, klaviatūros fokusas, aktyvinimas Enter ir tarpo klavišais bei numanomas mygtuko vaidmuo jau teisingi.
+  </p>
+
+  <h2>3 žingsnis — Sudėkite nedidelę formą</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Atkreipkite dėmesį į šabloną: kiekvienas valdiklis susieja savo <code>&lt;label for&gt;</code>, naudoja konkrečiausią įvesties tipą ir turi lygiai vieną kebab-case klasės kablį.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> atidarykite puslapį naršyklėje. Atrodo plika — kaip ir numatyta: stilius dar laukia. Paspauskite
+      <kbd>Tab</kbd>: fokusas pereina per kiekvieną valdiklį, žymos paskelbiamos, o siuntimas veikia. Elgesys baigtas; išvaizda jūsų ir yra kitas žingsnis.
+    </p>
+  </div>
+
+  <h2>4 žingsnis — Apipavidalinkite</h2>
+  <p>Parašykite CSS pagal kablius:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Arba visai praleiskite CSS rašymą rankomis — susiekite vieną iš 45 paruoštų temų ir tas pats žymėjimas sušvinta:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>5 žingsnis — Tyrinėkite toliau</h2>
+  <ul>
+    <li>Saugyklos testai vykdomi tikrose naršyklėse: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>„Storybook“ kiekvienam komponentui: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS pavyzdinė programa</a> rodo visus 571 komponentus apipavidalintus, ieškomus ir pademonstruotus.
+    </li>
+  </ul>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temos</a> — temos perjungimas vykdymo metu su theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Nuostatų pagalbininkai</a> — kalba ir teksto dydis.</li>
+    <li><a href="/components/">Komponentų katalogas</a> — visas žinynas.</li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

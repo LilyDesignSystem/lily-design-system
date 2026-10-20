@@ -1,0 +1,111 @@
+<!-- title: Tutorial de temas — Lily Design System -->
+<!-- description: Aplica un tema a Lily de tres maneras: enlaza uno de los 45 temas ya hechos, anúlalo con tu CSS y añade el cambio de tema en tiempo de ejecución con el asistente theme-picker. -->
+<section class="page-intro">
+  <h1>Temas</h1>
+  <p class="page-intro-tagline">
+    Los componentes de Lily tienen ganchos de clase estables y cero CSS, así que un tema es solo una hoja de estilos. Este tutorial va de «enlaza un archivo» a «deja que el usuario cambie de tema en tiempo de ejecución, con persistencia».
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Qué vas a construir</h2>
+  <p>
+    Una aplicación cuyo aspecto completo el usuario puede cambiar: empezando con una hoja de estilos enlazada y terminando con un conmutador de temas persistente en tiempo de ejecución, en unos 15 minutos.
+  </p>
+
+  <h2>Antes de empezar</h2>
+  <p>
+    Termina primero el <a href="/tutorials/">tutorial del framework</a> de tu stack primero, para tener un pequeño formulario de Lily al que aplicar el tema. Todo aquí funciona en los siete frameworks; los ejemplos de código muestran Svelte y HTML simple.
+  </p>
+
+  <h2>Paso 1: Enlaza un tema ya hecho</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    el directorio contiene 45 hojas de estilo independientes. Cópialas a los recursos estáticos de tu aplicación y enlaza una:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Lo más destacado del conjunto:</p>
+  <ul>
+    <li>
+      <strong>Sector público</strong> : NHS England / Scotland / Wales, cada uno en variantes para pacientes y para profesionales; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Inspirados en proveedores</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Propósito general</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, y muchos más.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Comprueba tu trabajo:</strong> recarga la página. El mismo marcado que construiste en el tutorial del framework ahora tiene estilo completo: botones, entradas, etiquetas, anillos de foco. Una línea de HTML lo logró; cada componente permaneció exactamente como estaba.
+    </p>
+  </div>
+
+  <h2>Paso 2: Anula lo que quieras</h2>
+  <p>
+    Los selectores del tema están envueltos en <code>:where(...)</code>que tiene especificidad cero, así que cualquier regla que escribas gana, sin más:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Paso 3: Cambio en tiempo de ejecución con theme-picker</h2>
+  <p>
+     <code>theme-picker</code> el asistente es un botón de icono sin cabeza + cuadro de lista que es dueño de todo el ciclo de vida del tema: carga la hoja de estilos elegida cambiando un único <code>&lt;link&gt;</code>
+    administrado (solo se descarga el tema activo), establece
+    <code>data-theme="&#123;slug&#125;"</code> en el documento y, opcionalmente, persiste en <code>localStorage</code>. Aquí se muestra Svelte; los ports de React, Vue, Angular, HTML, Nunjucks y Blazor coinciden contrato por contrato:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Esa es toda la integración. El comportamiento del teclado sigue el patrón de cuadro de lista de WAI-ARIA APG; el control en sí no tiene cabeza (gancho de clase
+    <code>.theme-picker</code>), así que adopta el tema que esté activo.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificado el 2026-08-29:</strong> este fragmento exacto se compiló contra el paquete <code>0.1.1</code> publicado, mediante
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Paso 4: Reacciona al tema en tu propio CSS</h2>
+  <p>
+    Como el asistente establece <code>data-theme</code> en la raíz del documento, tus propios estilos pueden ramificarse a partir de él:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Notas sobre el renderizado en el servidor</h2>
+  <p>
+    El asistente realiza todas las escrituras en el DOM dentro del ciclo de vida mount/effect del framework, así que es seguro para SSR por construcción. Para evitar un destello en el primer pintado, renderiza en el servidor el <code>&lt;link&gt;</code> y
+    <code>data-theme</code> del tema inicial (por ejemplo, a partir de una cookie); el repositorio del asistente de Svelte incluye un ejemplo ejecutable de cookie para SvelteKit, y los demás catálogos documentan el mismo patrón para sus stacks.
+  </p>
+
+  <h2>Próximos pasos</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Asistentes de preferencias</a> : el mismo patrón para idioma, tamaño de texto, compartir y entrada de fecha/hora.</li>
+    <li>
+      Aporta un tema: cada uno es una hoja de estilos independiente que apunta a los ganchos de clase; consulta <a href="/help/#contributing">cómo contribuir</a>.
+    </li>
+  </ul>
+  <p>
+    ¿Dudas por el camino? La
+    <a href="/help/#troubleshooting">página de ayuda</a> está llena de respuestas, y si algún paso puede ser más claro,
+    <a href="https://github.com/LilyDesignSystem">cuéntanoslo</a> y con gusto mejoraremos el tutorial.
+  </p>
+</section>

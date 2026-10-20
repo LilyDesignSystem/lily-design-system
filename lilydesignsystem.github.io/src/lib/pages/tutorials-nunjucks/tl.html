@@ -1,0 +1,97 @@
+<!-- title: Tutorial sa Nunjucks — Lily Design System -->
+<!-- description: Bumuo ng accessible, may istilo, at server-rendered na mga pahina gamit ang mga Nunjucks macro ng Lily — mainam para sa Eleventy. -->
+<section class="page-intro">
+  <h1>Tutorial sa Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Mga macro na nire-render sa server para sa Eleventy, Express, o anumang Node templating pipeline — ang GOV.UK-style na paraan, na may catalog at mga class hook ng Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ang bubuuin mo</h2>
+  <p>
+    Isang maliit na server-rendered na contact form — input na may label, submit button, zero JavaScript payload — una ay hubad, pagkatapos ay may istilo, sa humigit-kumulang 10 minuto.
+  </p>
+
+  <h2>Bago ka magsimula</h2>
+  <p>
+    Kailangan mo ng git, Node 22 o mas bago, at pnpm 10 o mas bago. Gumagana ang anumang Nunjucks pipeline — Eleventy, Express, o payak na Nunjucks.
+  </p>
+
+  <h2>Hakbang 1 — Kunin ang code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Bawat component ay direktoryo sa <code>components/</code> na may
+    <code>macro.njk</code>, ang test nito, at ang mga dokumento nito — halimbawa
+    <code>components/button/macro.njk</code>. Ituro ang iyong Nunjucks loader sa
+    <code>components/</code> (sa Eleventy, idagdag ito sa includes path) at i-import ang kailangan mo.
+  </p>
+
+  <h2>Hakbang 2 — Ang una mong component</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Nagre-render ng <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Kumukuha ang mga macro ng iisang params object: <code>text</code> (escaped) o
+    <code>html</code> (raw), <code>type</code>, <code>label</code> para sa
+    <code>aria-label</code>, at isang class hook appender.
+  </p>
+
+  <h2>Hakbang 3 — Bumuo ng maliit na form</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Dahil lahat ay nire-render sa server, tumatanggap ang browser ng purong semantic HTML na may mga class hook — JavaScript payload na zero bytes.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Suriin ang gawa mo:</strong> i-load ang pahina at mukhang payak ang form — eksakto ayon sa layunin: ang istilo ay nasa unahan pa. Pindutin ang
+      <kbd>Tab</kbd>: gumagalaw ang focus sa bawat kontrol, naba-balita ang label, at gumagana ang pagsumite. Tapos na ang gawi; sa iyo ang hitsura at iyon ang susunod.
+    </p>
+  </div>
+
+  <h2>Hakbang 4 — Bigyan ng istilo</h2>
+  <p>
+    Bigyan ng istilo ang mga hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — sa iyong stylesheet, o mag-link ng handa nang tema sa iyong base layout:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Hakbang 5 — Tingnan ang lahat na gumagana</h2>
+  <p>
+    Ang <a href="/examples/">Nunjucks + Eleventy na halimbawang app</a> ay bumubuo ng buong catalog bilang static site na may demo page bawat component:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Mga susunod na hakbang</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — kasama ang Eleventy cookie pattern para sa SSR na pagpapalit ng tema na walang flash.</li>
+    <li><a href="/tutorials/helpers/">Mga preference helper</a> — wika at laki ng teksto.</li>
+    <li><a href="/components/">Catalog ng component</a> — mga prop, ARIA, at keyboard para sa bawat component.</li>
+  </ul>
+  <p>
+    May mga tanong habang nasa daan? Ang
+    <a href="/help/#troubleshooting">pahina ng tulong</a> ay puno ng mga sagot — at kung maaaring maging mas malinaw ang isang hakbang,
+    <a href="https://github.com/LilyDesignSystem">sabihin sa amin</a> at masaya naming pagbubutihin ang tutorial.
+  </p>
+</section>

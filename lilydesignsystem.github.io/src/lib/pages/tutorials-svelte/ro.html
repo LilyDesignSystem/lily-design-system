@@ -1,0 +1,117 @@
+<!-- title: Tutorial Svelte — Lily Design System -->
+<!-- description: Construiește un formular accesibil și stilizat cu componentele headless Lily pentru Svelte 5: runes, snippets și bind:value. -->
+<section class="page-intro">
+  <h1>Tutorial Svelte</h1>
+  <p class="page-intro-tagline">
+    Biblioteca Svelte a Lily este implementarea canonică: runes Svelte 5, props tipizate, distribuire a props rămase și legare bidirecțională cu
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce vei construi</h2>
+  <p>
+    Un mic formular de contact — câmp cu etichetă, buton de trimitere, legare bidirecțională, comportament real al tastaturii și al cititorului de ecran — mai întâi simplu, apoi stilizat, în aproximativ 10 minute.
+  </p>
+
+  <h2>Înainte să începi</h2>
+  <p>
+    Ai nevoie de git, Node 22 sau mai nou și pnpm 10 sau mai nou. Orice proiect Svelte 5 merge — o aplicație <code>npx sv create</code> nouă este suficientă.
+  </p>
+
+  <h2>Pasul 1 — Obține codul</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Componentele se află în <code>src/lib/components/&#123;Name&#125;/</code>, un director pe componentă cu fișierul <code>.svelte</code> , testele, story-urile și documentația sa alături. Copiază directoarele de care ai nevoie în aplicația ta sau depinde de depozit și importă direct.
+  </p>
+
+  <h2>Pasul 2 — Prima ta componentă</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Randează <code>&lt;button class="button" type="button"&gt;</code>. Props sunt tipizate: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (randează <code>aria-pressed</code> (randează <code>label</code> (un <code>aria-label</code> pentru butoane comutatoare),
+  </p>
+
+  <h2>Pasul 3 — Compune un formular mic</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> primește <code>label</code> ca propriul prop, în loc de o componentă etichetă imbricată — transmite-o o singură dată, pe <code>Field</code>și <code>TextInput</code>corespunzător din <code>label</code> oferă numele accesibil. <code>TextInput</code>'s <code>value</code> pentru suprascriere), iar orice atribut suplimentar este distribuit pe rădăcină.
+    <code>$bindable</code> este un prop <code>bind:value</code> rune, deci
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificat la 2026-08-29:</strong> îți oferă imediat legare bidirecțională. <code>svelte/server</code> acest fragment exact a fost compilat prin <code>&lt;label for&gt;</code> și verificat pentru o singură etichetă, legată corect <code>Label</code> în interiorul <code>Field</code>— o ciornă anterioară imbrica un
+      <em>două</em> etichete (una goală) deoarece <code>Field</code> randează deja propria etichetă din intrarea <code>label</code> separat în interior, ceea ce randa
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Ruta compusă a formularului de contact</a>
+      este același tipar, exersat cu teste e2e și axe reale.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifică-ți munca:</strong> rulează aplicația și formularul arată simplu — exact cum era intenționat: stilizarea urmează. Apasă
+      <kbd>Tab</kbd>: focalizarea trece prin fiecare control, eticheta este anunțată, iar trimiterea funcționează. Comportamentul este gata; aspectul este al tău și urmează.
+    </p>
+  </div>
+
+  <h2>Pasul 4 — Stilizează-l</h2>
+  <p>
+    Tot ce e mai sus se randează ca structură pură, gata pentru stilurile tale. Stilizează cârligele de clasă —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — în foaia ta de stil globală sau leagă o temă gata făcută în <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Ajustările pe instanță trec prin prop-ul <code>class</code> care se adaugă la cârligul de bază: <code>&lt;Button class="wide"&gt;</code> randează
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Pasul 5 — Vezi totul funcționând</h2>
+  <p>
+     <a href="/examples/">Aplicația-exemplu SvelteKit</a> este același catalog complet stilizat, cu demonstrații live, teste Playwright e2e și o linie de bază de accesibilitate axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Pașii următori</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — comutare în timpul rulării cu ajutorul theme-picker pentru Svelte.</li>
+    <li><a href="/tutorials/helpers/">Ajutoare pentru preferințe</a> — limbă și dimensiunea textului.</li>
+    <li><a href="/components/">Catalogul de componente</a> — proprietăți, ARIA și tastatură pentru fiecare componentă.</li>
+  </ul>
+  <p>
+    Întrebări pe parcurs?
+    <a href="/help/#troubleshooting">Pagina de ajutor</a> este plină de răspunsuri — iar dacă un pas poate fi mai clar,
+    <a href="https://github.com/LilyDesignSystem">spune-ne</a> și vom îmbunătăți cu plăcere tutorialul.
+  </p>
+</section>

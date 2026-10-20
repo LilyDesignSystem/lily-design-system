@@ -1,0 +1,105 @@
+<!-- title: Näited — Lily Design System -->
+<!-- description: Läbitöötatud näiterakendused, mis näitavad, kuidas kujundada Lily komponente HTML-is, Svelte'is, Reactis, Vue's, Angularis, Blazoris ja Eleventys. -->
+<section class="page-intro">
+  <h1>Vaata Lilyt päris rakendustes</h1>
+  <p class="page-intro-tagline">
+    Seitse läbitöötatud näiteprojekti näitavad, kuidas võtta päisteta komponendid, lisada kujundus ja avaldada päris veebisait. Vali raamistik, mida kasutad.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Demorakendused täieliku CSS-i ja marsruutimisega</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Lihtsad HTML-lehed, puhas JavaScript, ei mingeid ehitusvahendeid. Sobib igale staatilisele hostile – ideaalne väikeste saitide ja järkjärgulise täiustamise jaoks.
+      </p>
+      <p class="card-meta">→ Vaata GitHubis</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        SvelteKit 3 rakendus, mis kasutab Svelte 5 rune. Komponendimarsruudid, failipõhine marsruutimine ja iga komponendi kujundatud storybook.
+      </p>
+      <p class="card-meta">→ Vaata GitHubis</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Next.js 16 rakendus, mis näitab iga komponenti kontekstis, läbivalt TypeScriptiga ja demolehtedega liitmustrite jaoks.
+      </p>
+      <p class="card-meta">→ Vaata GitHubis</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Nuxt 4 rakendus. <code>&lt;script setup&gt;</code> ja Composition API igal demomarsruudil.
+      </p>
+      <p class="card-meta">→ Vaata GitHubis</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 22 + Analog.js rakendus. Failipõhine marsruutimine, signaalid, tsoonita muutuste tuvastus ja täielik SSG eelrenderdus.
+      </p>
+      <p class="card-meta">→ Vaata GitHubis</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Blazor Web rakendus Razor-komponentidega. Sobib serverile ja WebAssembly'le, baasiks .NET 10.
+      </p>
+      <p class="card-meta">→ Vaata GitHubis</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Eleventy sait, mis kasutab Nunjucksi makrosid. Ideaalne sisurikaste staatiliste saitide jaoks, mis siiski tahavad päris komponendisüsteemi.
+      </p>
+      <p class="card-meta">→ Vaata GitHubis</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Igal näiterakendusel on sama kuju</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Et raamistike vahel hüppamine tunduks tuttav, pakub iga näiterakendus:</p>
+    <ul>
+      <li>Tervitusmarsruudi aadressil <code>/</code> mis tutvustab projekti.</li>
+      <li>Komponendiindeksi aadressil <code>/components</code> mis loetleb iga komponendi.</li>
+      <li>Demolehe iga komponendi kohta aadressil <code>/components/&lt;component&gt;</code>.</li>
+      <li>Päris CSS-i – mitte abstraktseid disainitunnuseid –, nii et saad stiile otse üle võtta.</li>
+      <li>Töötava klaviatuurinavigatsiooni ja fookuse halduse karbist välja võttes.</li>
+    </ul>
+
+    <h3>Kas pead nägema, kuidas üksik komponent on kujundatud?</h3>
+    <p>
+      Ava vastav näiterakendus, mine aadressile
+      <code>/components/&lt;name&gt;</code>ja kopeeri märgendus ning CSS oma projekti. Näiterakendused kasutavad tahtlikult tavalist (või peaaegu tavalist) CSS-i, et saaksid neid kohandada mis tahes süsteemile, mida eelistad.
+    </p>
+
+    <h3>Tahad hoopis päisteta?</h3>
+    <p>
+      Seo mis tahes näiterakendus vastava <em>päisteta</em>
+      paketiga – need avaldavad samu komponente ilma CSS-ita, valmis sinu enda disainitunnuste jaoks.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Sirvi kataloogi →</a>
+      <a class="button button-secondary" href="/help/">Loe seadistusjuhendit</a>
+    </p>
+  </div>
+</section>

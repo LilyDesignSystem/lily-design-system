@@ -1,0 +1,97 @@
+<!-- title: Nunjucks-Tutorial — Lily Design System -->
+<!-- description: Baut zougänglech, gestalt, serversäiteg gerendert Säite mat de Nunjucks-Makroe vu Lily — ideal fir Eleventy. -->
+<section class="page-intro">
+  <h1>Nunjucks-Tutorial</h1>
+  <p class="page-intro-tagline">
+    Serversäiteg gerendert Makroen fir Eleventy, Express oder all Node-Schablounen-Pipeline — d'Approche am GOV.UK-Stil, mam Katalog an de Klassen-Hooks vu Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    E klengt serversäiteg gerendert Kontaktformulaire — Feld mat Etikett, Schécken-Knäppchen, null JavaScript-Last — fir d'éischt nackeg, duerno gestalt, an ongeféier 10 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Dir braucht git, Node 22 oder méi nei a pnpm 10 oder méi nei. All Nunjucks-Pipeline funktionéiert — Eleventy, Express oder einfachen Nunjucks.
+  </p>
+
+  <h2>Schrëtt 1 — D'Code kréien</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    All Komponent ass e Verzeechnes am <code>components/</code> mat engem
+    <code>macro.njk</code>, hirem Test a hirer Dokumentatioun — zum Beispill
+    <code>components/button/macro.njk</code>. Léisst Äre Nunjucks-Loader op
+    <code>components/</code> weisen (an Eleventy füügt et dem Include-Wee derbäi) an importéiert, wat Dir braucht.
+  </p>
+
+  <h2>Schrëtt 2 — Är éischt Komponent</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makroe huele ee Params-Objet: <code>text</code> (escaped) oder
+    <code>html</code> (roh), <code>type</code>, <code>label</code> fir en
+    <code>aria-label</code>an en Klassen-Hook-Unhänker.
+  </p>
+
+  <h2>Schrëtt 3 — E klengt Formulaire zesummestellen</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Well alles um Server gerendert gëtt, kritt de Browser purt semantescht HTML mat de Klassen-Hooks — eng JavaScript-Last vun null Bytes.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> luet d'Säit an d'Formulaire gesäit nackeg aus — genee wéi geduecht: d'Gestaltung kënnt nach. Dréckt
+      <kbd>Tab</kbd>: de Fokus geet duerch all Kontroll, d'Etikett gëtt ugekënnegt an d'Schécken funktionéiert. D'Verhalen ass fäerdeg; d'Ausgesi ass Är a kënnt als Nächst.
+    </p>
+  </div>
+
+  <h2>Schrëtt 4 — Gestalt et</h2>
+  <p>
+    Gestalt d'Hooks — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — an Ärem Stylesheet, oder verlinkt e fäerdegt Thema an Ärem Basis-Layout:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Schrëtt 5 — Alles am Aktioun gesinn</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy Beispill-App</a> baut de ganze Katalog als statesch Websäit mat Demosäiten pro Komponent:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themen</a> — abegraff dem Eleventy-Cookie-Muster fir flackerfräie SSR-Themewiessel.</li>
+    <li><a href="/tutorials/helpers/">Astellungs-Helperen</a> — Sprooch a Textgréisst.</li>
+    <li><a href="/components/">Komponentekatalog</a> — Eegeschaften, ARIA an Tastatur pro Komponent.</li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

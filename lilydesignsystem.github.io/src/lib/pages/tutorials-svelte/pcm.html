@@ -1,0 +1,117 @@
+<!-- title: Svelte tutorial — Lily Design System -->
+<!-- description: Build accessible, styled form with Lily Svelte 5 headless components: runes, snippets, and bind:value. -->
+<section class="page-intro">
+  <h1>Svelte tutorial</h1>
+  <p class="page-intro-tagline">
+    Lily Svelte library na di canonical implementation: Svelte 5 runes, typed props, rest-prop spread, and two-way binding with
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wetin you go build</h2>
+  <p>
+    Small contact form — input wey get label, submit button, two-way binding, real keyboard and screen-reader behaviour — first bare, then styled, for about 10 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    You need git, Node 22 or newer, and pnpm 10 or newer. Any Svelte 5 project dey work — fresh <code>npx sv create</code> app go do.
+  </p>
+
+  <h2>Step 1 — Get di code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Di components dey live inside <code>src/lib/components/&#123;Name&#125;/</code>, one directory for each component wey get di <code>.svelte</code> file, im tests, im stories, and im docs side by side. Copy di directories wey you need enter your app, or depend on di repo and import directly.
+  </p>
+
+  <h2>Step 2 — Your first component</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    E dey render <code>&lt;button class="button" type="button"&gt;</code>. Di props dey typed: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (e dey render <code>aria-pressed</code> for toggle buttons), <code>label</code> (an <code>aria-label</code> override), and any extra attribute go spread onto di root.
+  </p>
+
+  <h2>Step 3 — Compose small form</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> dey take di visible <code>label</code> as im own prop instead of nested label component — pass am once, on <code>Field</code>, and <code>TextInput</code>for <code>label</code> dey provide di accessible name. <code>TextInput</code>'s <code>value</code> na
+    <code>$bindable</code> rune prop, so <code>bind:value</code> dey give you two-way binding straight away.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> dis exact snippet dem compile through <code>svelte/server</code> and check am for single, correctly linked <code>&lt;label for&gt;</code> — earlier draft nest separate <code>Label</code> inside <code>Field</code>, wey render
+      <em>two</em> labels (one empty) because <code>Field</code> already dey render im own from di <code>label</code> prop. Di
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">contact-form composed route</a>
+      na di same pattern, wey real e2e and axe tests don exercise.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> run di app and di form go look plain — exactly as dem plan am: di styling still dey come. Press
+      <kbd>Tab</kbd>: focus go move through every control, di label go dey announced, and submit dey work. Di behaviour don finish; di look na yours and e be next.
+    </p>
+  </div>
+
+  <h2>Step 4 — Style am</h2>
+  <p>
+    Everything above dey render as pure structure, ready for your styles. Style di class hooks —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — inside your global stylesheet, or link ready-made theme inside <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Per-instance tweaks dey go through di <code>class</code> prop, wey dem append to di base hook: <code>&lt;Button class="wide"&gt;</code> dey render
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Step 5 — See everything dey work</h2>
+  <p>
+    Di <a href="/examples/">SvelteKit example app</a> na di same catalog fully styled, with live demos, Playwright e2e tests, and axe-core accessibility baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with di Svelte theme-picker helper.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
+    <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard for each component.</li>
+  </ul>
+  <p>
+    You get questions as you dey go? Di
+    <a href="/help/#troubleshooting">help page</a> full of answers — and if any step fit clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we go gladly improve di tutorial.
+  </p>
+</section>

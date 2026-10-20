@@ -1,0 +1,117 @@
+<!-- title: Svelte tutoriala — Lily Design System -->
+<!-- description: Eraiki formulario irisgarri eta estilatu bat Lilyren Svelte 5 osagai buru gabeekin: runes, snippets eta bind:value. -->
+<section class="page-intro">
+  <h1>Svelte tutoriala</h1>
+  <p class="page-intro-tagline">
+    Lilyren Svelte liburutegia inplementazio kanonikoa da: Svelte 5 runes, propa tipatuak, rest-prop hedapena eta bi norabideko lotura honekin:
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Harremanetarako formulario txiki bat — etiketadun sarrera, bidaltze-botoia, bi norabideko lotura, teklatu eta pantaila-irakurgailu portaera erreala — lehenik biluzik, gero estilatuta, 10 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    git, Node 22 edo berriagoa eta pnpm 10 edo berriagoa behar dituzu. Edozein Svelte 5 proiektuk balio du — berri-berria den <code>npx sv create</code> aplikazio bat nahikoa da.
+  </p>
+
+  <h2>1. pausoa — Lortu kodea</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Osagaiak hemen bizi dira: <code>src/lib/components/&#123;Name&#125;/</code>, osagai bakoitzeko direktorio bat <code>.svelte</code> fitxategiarekin, bere probekin, story-ekin eta dokumentazioarekin elkarren ondoan. Kopiatu behar dituzun direktorioak zure aplikaziora, edo egin biltegiaren mendekotasun eta inportatu zuzenean.
+  </p>
+
+  <h2>2. pausoa — Zure lehen osagaia</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Errendatzen du <code>&lt;button class="button" type="button"&gt;</code>. Propak tipatuak dira: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (errendatzen du <code>aria-pressed</code> etengailu-botoietarako), <code>label</code> ( <code>aria-label</code> gainidazketa), eta atributu gehigarri oro erroan hedatzen da.
+  </p>
+
+  <h2>3. pausoa — Osatu formulario txiki bat</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> etiketa ikusgarria <code>label</code> bere propa gisa, etiketa-osagai habiaratu gisa baino — eman behin, <code>Field</code>, eta <code>TextInput</code>-ak <code>label</code> -n <code>TextInput</code>'s <code>value</code> 
+    <code>$bindable</code> rune propa da, beraz <code>bind:value</code> bi norabideko lotura ematen dizu berehala.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29an egiaztatua:</strong> snippet zehatz hau honen bidez konpilatu zen <code>svelte/server</code> eta hau egiaztatu zen: bakarra, ongi lotua <code>&lt;label for&gt;</code> — aurreko zirriborro batek bereizita habiaratzen zuen <code>Label</code> -ren barruan <code>Field</code>, honek errendatzen zuen
+      <em>bi</em> etiketa errendatzen zituen (bat hutsik) zeren <code>Field</code> -k jada bere etiketa errendatzen baitu <code>label</code> propa. Honek
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">harremanetarako formulario konposatuaren ibilbideak</a>
+      patroi bera du, benetako e2e eta axe probekin erabilia.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> exekutatu aplikazioa eta formularioa soila ageri da — hain zuzen nahi bezala: estiloa oraindik aurrean dago. Sakatu
+      <kbd>Tab</kbd>: fokua kontrol guztietatik pasatzen da, etiketa iragartzen da eta bidalketak funtzionatzen du. Portaera prest dago; itxura zurea da eta hurrengoa da.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Estilatu</h2>
+  <p>
+    Gainean dagoen guztia egitura huts gisa errendatzen da, zure estilorako prest. Estilatu klase-gakoak —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — zure estilo-orri globalean, edo lotu prest dagoen gai bat hemen: <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Instantzia bakoitzeko doikuntzak honen bidez doaz: <code>class</code> propa, oinarrizko gakoari eransten zaiona: <code>&lt;Button class="wide"&gt;</code> errendatzen du
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>5. pausoa — Ikusi dena funtzionatzen</h2>
+  <p>
+     <a href="/examples/">SvelteKit adibide-aplikazioa</a> katalogo bera da guztiz estilatuta, demo biziekin, Playwright e2e probekin eta axe-core irisgarritasun oinarri-lerroarekin:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Gaiak</a> — exekuzio-garaiko aldaketa Svelte theme-picker laguntzailearekin.</li>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — hizkuntza eta testu-tamaina.</li>
+    <li><a href="/components/">Osagai-katalogoa</a> — osagai bakoitzaren propak, ARIA eta teklatua.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

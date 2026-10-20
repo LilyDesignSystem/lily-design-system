@@ -1,0 +1,107 @@
+<!-- title: Blazor-kennsluefni — Lily Design System -->
+<!-- description: Byggðu aðgengilegt, stílað eyðublað með höfuðlausum Blazor íhlutum Lily: Razor-íhlutum með færibreytum og bUnit-prófum. -->
+<section class="page-intro">
+  <h1>Blazor-kennsluefni</h1>
+  <p class="page-intro-tagline">
+    Razor-klasasafnsíhlutir með færibreytum, <code>ChildContent</code>
+    birtingarbrotum, eigindadreifingu og bUnit-prófi fyrir hvern íhlut.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Lítið tengiliðaeyðublað — innsláttarreitur með merkimiða, sendihnappur,
+    <code>@bind-Value</code> binding, raunveruleg lyklaborðs- og skjálesarahegðun — fyrst ber, svo stílað, á um 10 mínútum.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Þú þarft git og .NET SDK 8 eða nýrra. Hvaða Blazor verkefni sem er virkar — Blazor Web App, Server eða WebAssembly.
+  </p>
+
+  <h2>Skref 1 — Náðu í kóðann</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Íhlutirnir eru í <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — ein Razor-skrá hver. Vísaðu í verkefnið (eða afritaðu skrárnar) úr Blazor-forritinu þínu og bættu við <code>@using LilyBlazorHeadless.Components</code> í
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Skref 2 — Fyrsti íhluturinn þinn</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Birtir <code>&lt;button class="button"&gt;</code>. Sameiginlegar færibreytuvenjur: <code>Label</code> ( <code>aria-label</code> yfirskrift),
+    <code>CssClass</code> (bætt við grunnkrókinn),
+    <code>ChildContent</code>og
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> eigindadreifing svo að hvaða aukaeigind HTML sem er fari í gegn.
+  </p>
+
+  <h2>Skref 3 — Settu saman lítið eyðublað</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> tekur sýnilega <code>Label</code> sem sína eigin færibreytu frekar en innfelldan merkimiðaíhlut — gefðu hana einu sinni, á
+    <code>Field</code>og <code>TextInput</code>á
+    <code>Label</code> sér um aðgengilega heitið.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staðfest 2026-08-29:</strong> fyrri drög innfeldu sérstakan <code>Label</code> íhlut inni í <code>Field</code>, sem birtir <em>tvo</em> merkimiða (annan tóman) því <code>Field</code>
+      birtir þegar sinn eigin út frá <code>Label</code> færibreyta — uppgötvað með því að athuga frumkóða íhlutarins; <code>Form</code> hefur enga eigin <code>Label</code> færibreytu, svo notkun fyrri draga á
+      <code>&lt;Form&gt;</code> var leiðrétt með því að sleppa henni frekar en að búa til eigind sem er ekki til. Sá
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">samsetta tengiliðaeyðublaðsleiðin</a>
+      er sama mynstur, prófað með raunverulegum e2e- og axe-prófum.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Athugaðu verkið:</strong> keyrðu forritið og eyðublaðið lítur einfalt út — nákvæmlega eins og ætlað er: stíllinn er enn framundan. Ýttu á
+      <kbd>Tab</kbd>: fókusinn færist í gegnum hverja stýringu, merkimiðinn er lesinn upp og sending virkar. Hegðunin er tilbúin; útlitið er þitt og er næst.
+    </p>
+  </div>
+
+  <h2>Skref 4 — Stílaðu það</h2>
+  <p>
+    Stílaðu klasakrókana — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — í <code>app.css</code>, eða tengdu tilbúið þema í <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Skref 5 — Sjáðu allt virka</h2>
+  <p>
+     <a href="/examples/">Blazor Web dæmaforritið</a> sýnir allt safnið stílað og sýnt, með Playwright e2e-prófum:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Þemu</a> — skipti á keyrslutíma með Blazor theme-picker hjálpartækinu (Razor-klasasafn á NuGet).</li>
+    <li><a href="/tutorials/helpers/">Stillingahjálpartæki</a> — tungumál og textastærð.</li>
+    <li><a href="/components/">Íhlutasafn</a> — eiginleikar, ARIA og lyklaborð fyrir hvern íhlut.</li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

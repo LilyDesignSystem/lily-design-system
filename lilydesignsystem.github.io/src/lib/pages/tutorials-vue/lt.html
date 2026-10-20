@@ -1,0 +1,122 @@
+<!-- title: „Vue“ vadovas — Lily Design System -->
+<!-- description: Sukurkite prieinamą, apipavidalintą formą su „Lily“ „Vue 3“ bekūniais komponentais: vienos bylos komponentai su v-model. -->
+<section class="page-intro">
+  <h1>„Vue“ vadovas</h1>
+  <p class="page-intro-tagline">
+    „Vue 3“ vienos bylos komponentai su tipizuotais propais, <code>defineModel</code>
+    dvipusis susiejimas ir <code>v-bind="$attrs"</code> perdavimas.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Nedidelė kontaktų forma — laukas su žyma, siuntimo mygtukas, <code>v-model</code>
+    susiejimas, tikras klaviatūros ir ekrano skaitytuvo elgesys — pirma plika, paskui apipavidalinta, per maždaug 10 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Reikia git, Node 22 ar naujesnės ir pnpm 10 ar naujesnio. Tinka bet kuris „Vue 3“ projektas — „Nuxt“, „Vite“ arba paprastas „Vue“.
+  </p>
+
+  <h2>1 žingsnis — Gaukite kodą</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentai yra plokščios bylos aplanke <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — kiekvienas su savo testu, story ir dokumentacija šalia. Nukopijuokite reikalingas bylas arba pasiimkite saugyklą.
+  </p>
+
+  <h2>2 žingsnis — Jūsų pirmasis komponentas</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Atvaizduoja <code>&lt;button class="button" type="button"&gt;</code>. Propai atitinka kitas sistemas: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plius atributų praleidimas visam kitam.
+  </p>
+
+  <h2>3 žingsnis — Sudėkite nedidelę formą</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> priima matomą <code>label</code> kaip savo prop vietoj įdėto žymos komponento — perduokite ją vieną kartą, prie
+    <code>Field</code>ir <code>TextInput</code>iš
+    <code>label</code> suteikia prieinamą pavadinimą.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinta 2026-08-29:</strong> ankstesnis juodraštis įdėjo atskirą <code>Label</code> viduje <code>Field</code>, todėl buvo atvaizduotos
+      <em>dvi</em> žymos (viena tuščia), nes <code>Field</code> jau pats atvaizduoja savo iš <code>label</code> prop — pastebėta sukompiliavus tikslų fragmentą. Maršrutas
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Sudėtinis kontaktų formos maršrutas</a>
+      yra tas pats šablonas, išbandytas tikrais e2e ir axe testais.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> naudoja <code>defineModel</code>, todėl paprastas
+    <code>v-model</code> veikia iš karto.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> paleiskite programą ir forma atrodo plika — kaip ir numatyta: stilius dar laukia. Paspauskite
+      <kbd>Tab</kbd>: fokusas pereina per kiekvieną valdiklį, žyma paskelbiama, o siuntimas veikia. Elgesys baigtas; išvaizda jūsų ir yra kitas žingsnis.
+    </p>
+  </div>
+
+  <h2>4 žingsnis — Apipavidalinkite</h2>
+  <p>
+    Apipavidalinkite klasių kablius — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — savo stilių lentelėje arba susiekite paruoštą temą faile <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>5 žingsnis — Pažiūrėkite, kaip viskas veikia</h2>
+  <p>
+     <a href="/examples/">„Nuxt“ pavyzdinė programa</a> yra visas katalogas apipavidalintas ir pademonstruotas, su „Playwright“ e2e ir axe-core pradine riba:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temos</a> — perjungimas vykdymo metu su „Vue“ pagalbininku theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Nuostatų pagalbininkai</a> — kalba ir teksto dydis.</li>
+    <li><a href="/components/">Komponentų katalogas</a> — savybės, ARIA ir klaviatūra kiekvienam komponentui.</li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

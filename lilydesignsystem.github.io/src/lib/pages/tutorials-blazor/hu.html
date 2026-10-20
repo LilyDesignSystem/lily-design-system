@@ -1,0 +1,107 @@
+<!-- title: Blazor oktatóanyag — Lily Design System -->
+<!-- description: Építs hozzáférhető, stílusos űrlapot a Lily Blazor fej nélküli komponenseivel: Razor komponensek paraméterekkel és bUnit-tesztekkel. -->
+<section class="page-intro">
+  <h1>Blazor oktatóanyag</h1>
+  <p class="page-intro-tagline">
+    Razor osztálykönyvtár-komponensek paraméterekkel, <code>ChildContent</code>
+    renderelési töredékek, attribútumszórás és komponensenként egy bUnit-teszt.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mit fogsz építeni</h2>
+  <p>
+    Egy kis kapcsolatfelvételi űrlap — címkézett mező, küldés gomb,
+    <code>@bind-Value</code> kötés, valódi billentyűzet- és képernyőolvasó-viselkedés — először csupaszon, aztán stílusosan, nagyjából 10 perc alatt.
+  </p>
+
+  <h2>Mielőtt elkezdenéd</h2>
+  <p>
+    Szükséged van gitre és a .NET SDK 8-ra vagy újabbra. Bármelyik Blazor projekt megfelel — Blazor Web App, Server vagy WebAssembly.
+  </p>
+
+  <h2>1. lépés — Szerezd meg a kódot</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    A komponensek itt vannak: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — mindegyik egy Razor-fájl. Hivatkozz a projektre (vagy másold a fájlokat) a Blazor-alkalmazásodból, és add hozzá a <code>@using LilyBlazorHeadless.Components</code> fájlhoz:
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>2. lépés — Az első komponensed</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Ezt rendereli: <code>&lt;button class="button"&gt;</code>. A közös paraméterkonvenciók: <code>Label</code> (egy <code>aria-label</code> felülíráshoz),
+    <code>CssClass</code> (hozzáfűződik az alapkampóhoz),
+    <code>ChildContent</code>és
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> attribútumszórás, hogy bármely további HTML-attribútum átjusson.
+  </p>
+
+  <h2>3. lépés — Állíts össze egy kis űrlapot</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> a látható <code>Label</code> értéket a saját paramétereként veszi át beágyazott címkekomponens helyett — add át egyszer, a
+    <code>Field</code>és <code>TextInput</code>a
+    <code>Label</code> biztosítja a hozzáférhető nevet.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizve 2026-08-29:</strong> egy korábbi vázlat külön <code>Label</code> komponenst ágyazott be a <code>Field</code>elembe, ami <em>két</em> címkét renderelt (az egyik üres), mert a <code>Field</code>
+      már magától rendereli a sajátját a <code>Label</code> paraméter — a komponens forráskódjának ellenőrzésével derült ki; <code>Form</code> maga nem rendelkezik <code>Label</code> paraméterrel, ezért a korábbi vázlat
+      <code>&lt;Form&gt;</code> használatát úgy javítottuk, hogy kihagyjuk, ahelyett hogy nemlétező attribútumot találnánk ki.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Az összeállított kapcsolatfelvételi űrlap útvonala</a>
+      ugyanez a minta, valódi e2e- és axe-tesztekkel kipróbálva.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ellenőrizd a munkádat:</strong> indítsd el az alkalmazást, és az űrlap csupasznak látszik — pontosan úgy, ahogy szántuk: a stílus még hátravan. Nyomd meg a
+      <kbd>Tab</kbd>billentyűt: a fókusz végigmegy minden vezérlőn, a címkét bemondja, és a küldés működik. A viselkedés kész; a megjelenés a tiéd, és a következő lépés.
+    </p>
+  </div>
+
+  <h2>4. lépés — Stílus hozzá</h2>
+  <p>
+    Stílusozd az osztálykampókat — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — itt: <code>app.css</code>, vagy hivatkozz egy kész témára itt: <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>5. lépés — Nézd meg, ahogy az egész működik</h2>
+  <p>
+     <a href="/examples/">A Blazor Web példaalkalmazás</a> a teljes katalógust stílusosan és bemutatva mutatja, Playwright e2e tesztekkel:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>További lépések</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témák</a> — váltás futásidőben a Blazor theme-picker segédjével (Razor osztálykönyvtár a NuGeten).</li>
+    <li><a href="/tutorials/helpers/">Beállítási segédek</a> — nyelv és szövegméret.</li>
+    <li><a href="/components/">Komponenskatalógus</a> — tulajdonságok, ARIA és billentyűzet komponensenként.</li>
+  </ul>
+  <p>
+    Kérdésed akad útközben?
+    <a href="/help/#troubleshooting">A súgóoldal</a> tele van válaszokkal — és ha egy lépés érthetőbb lehetne,
+    <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> és szívesen javítjuk az oktatóanyagot.
+  </p>
+</section>

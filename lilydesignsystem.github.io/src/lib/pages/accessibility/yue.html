@@ -1,0 +1,63 @@
+<!-- title: 無障礙 — Lily Design System -->
+<!-- description: Lily 嘅無障礙聲明:喺度以 WCAG 2.2 AAA 為目標係咩意思 — 驗證咗啲乜、用乜驗證、乜嘢冇任何嘢驗證,以及點樣回報問題。 -->
+<section class="page-intro">
+  <h1>喺度「以 WCAG 2.2 AAA 為目標」係咩意思</h1>
+  <p class="page-intro-tagline">
+    「目標」 <em>呢個詞</em> 係特意揀嘅。呢頁準確講明驗證咗啲乜、用乜驗證、乜嘢冇任何嘢驗證,以及我哋打算點處理呢個缺口。Lily 從來唔會聲稱「符合」WCAG — 冇審核支持呢個講法。
+  </p>
+</section>
+
+<section class="prose">
+  <h2>持續驗證</h2>
+  <ul>
+    <li>
+      每個元件嘅標準語義元素、ARIA 屬性同類別掛鉤 — 由每個框架嘅單元測試套件斷言(七個框架合共超過 15,000 個案例)。
+    </li>
+    <li>
+      SvelteKit 範例應用程式入面 571 個元件示範頁面每一頁都通過 axe(WCAG 2.0/2.1 A+AA 同 2.2 AA 規則集)— 完整目錄掃描,2026-08-27 首次建立基線,並於 2026-10-06 重新執行 — 另加七個範例應用程式入面主頁、目錄同組合路由嘅每個應用程式基線。
+    </li>
+    <li>
+      每個互動元件嘅鍵盤合約,記錄喺每個元件嘅標準元數據入面,並由測試套件執行;輔助套件另外運行真實瀏覽器嘅 Playwright 規格。
+    </li>
+    <li>
+      喺全部 57 個主題入面嘅 WCAG 2.2 目標大小下限同溢出保護;每個應用程式喺四個視口入面嘅跳過連結、地標同冇水平溢出; <code>lang</code>/<code>dir</code> 應用同 RTL 翻轉。
+    </li>
+  </ul>
+
+  <h2>冇任何嘢驗證</h2>
+  <ul>
+    <li>
+      <strong>從未進行過符合性審核。</strong> 冇 VPAT,冇認證。自動化工具只覆蓋 WCAG 成功準則嘅少數。
+    </li>
+    <li>
+      AAA 特有準則(增強對比度等)係設計意圖,唔係已驗證嘅屬性;axe 規則集運行 A/AA。仍然冇專用嘅高對比度主題。
+    </li>
+    <li>
+      <strong>螢幕閱讀器行為大致上未經測試。</strong> 測試套件斷言 ARIA 屬性,而唔係 VoiceOver、NVDA 或 JAWS 讀出嘅內容 — 而呢個項目已經多過一次喺真正缺陷之上交付咗綠色嘅測試套件,每一次都寫喺更新日誌入面,正正因為測試套件睇唔到。
+    </li>
+  </ul>
+
+  <h2>我哋打算點處理</h2>
+  <p>
+    獨立無障礙審核係任何項目資金嘅第一個指定用途,而審核員需要嘅範圍已經準備好。喺嗰之前,螢幕閱讀器報告係呢個項目最想要嘅貢獻:「元件 X 讀出 Y,呢個係錯嘅,因為 Z」可以直接跟進。
+  </p>
+
+  <h2>回報問題</h2>
+  <p>
+    喺
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    開一個 issue,或者電郵至
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >。講出 WCAG 準則有幫助但唔係必須 — 「我用鍵盤操作唔到 X」已經係一份完整嘅報告。
+  </p>
+  <p>
+    完整聲明連同驗證表同佢嘅審閱歷史,可以喺倉庫入面搵到:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

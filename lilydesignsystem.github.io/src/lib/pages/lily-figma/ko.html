@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: 유지보수되는 Lily Figma 라이브러리나 플러그인은 없습니다. 57개 참조 테마의 디자인 토큰은 DTCG 형식으로 공개되어 있으며, 기존 커뮤니티 플러그인으로 지금 바로 Figma에 가져올 수 있습니다. -->
+<section class="page-intro">
+  <h1>유지보수되는 Figma 라이브러리는 없습니다 — 대신 있는 것</h1>
+  <p class="page-intro-tagline">
+    이 페이지에는 예전에 "곧 제공"이라고 적혀 있었습니다. 만드는 사람이 없었으므로 더는 그렇게 적지 않습니다. 정직한 현황과 오늘 쓸 수 있는 실제 방법을 안내합니다.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>없는 것</h2>
+  <p>
+    Figma에는 공식 Lily 컴포넌트 라이브러리가 없고, 유지보수되는 Figma 플러그인도 없습니다. 디자인 도구 라이브러리를 제대로 만들고 유지하는 일은 진짜로 계속되는 부담입니다 — Figma 컴포넌트 구조, 베리언트 이름 짓기, 오토 레이아웃, 자체 배포 파이프라인이 필요하며, 코드를 유지보수하는 일과는 별개입니다. 이 프로젝트는 그 일을 맡지 않았습니다.
+  </p>
+
+  <h2>지금 있는 것</h2>
+  <p>
+    57개 참조 테마는 각각 디자인 토큰 기본값 — 색, 모서리 반경, 크기, 테두리 — 을 다음 형식으로 공개합니다:
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 형식</a
+    >
+    위치:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. 이 형식은 최신 토큰 도구가 그대로 읽는 형식입니다. 이 프로젝트의 플러그인 없이도 지금 바로 Lily 테마의 팔레트를 Figma로 가져올 수 있습니다:
+  </p>
+  <ol>
+    <li>
+      커뮤니티
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      플러그인을 설치하세요(요금제가 DTCG 가져오기를 지원하면 Figma 자체의 Variables 가져오기도 됩니다).
+    </li>
+    <li>
+      가져올 것: <code>themes/tokens/{theme-slug}.json</code> (원하는 테마의 것) — 예를 들어
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio는 DTCG 값으로 Figma 변수를 만들고, 이를 자신의 컴포넌트에 적용할 수 있습니다.
+    </li>
+  </ol>
+  <p>
+    이렇게 하면 Lily의 색과 모양 토큰을 Figma에서 쓸 수 있습니다. Lily의 실제 컴포넌트를 Figma 컴포넌트로 얻는 것은 아닙니다 — 그것을 만든 사람은 없으며, 이 페이지도 그런 척하지 않겠습니다.
+  </p>
+
+  <h2>실제 Figma 라이브러리 계획이 있나요?</h2>
+  <p>
+    지금은 없으며, 쉽게 약속할 수 있는 일도 아닙니다. 다음을 보세요:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    열린 질문과 프로젝트의 생각을 바꿀 만한 것이 적혀 있습니다 — 가장 도움이 되는 것은, 이 계층에서 무엇이 필요한지 디자이너가 구체적으로 말해 주는 것입니다. 그 디자이너가 당신이라면
+    <a href="mailto:joel@joelparkerhenderson.com">의견을 들려주세요</a>
+    또는 이슈를 열어 주세요.
+  </p>
+</section>

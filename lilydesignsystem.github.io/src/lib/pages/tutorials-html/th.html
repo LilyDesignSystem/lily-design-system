@@ -1,0 +1,106 @@
+<!-- title: บทเรียน HTML — Lily Design System -->
+<!-- description: สร้างฟอร์มที่เข้าถึงได้และมีสไตล์ด้วยคอมโพเนนต์ headless HTML ของ Lily — มาร์กอัปธรรมดา ใช้ได้จากไฟล์โดยตรง -->
+<section class="page-intro">
+  <h1>บทเรียน HTML</h1>
+  <p class="page-intro-tagline">
+    จุดเริ่มต้นที่ง่ายที่สุด: คัดลอก HTML เชิงความหมายพร้อม class hook ของ Lily เพิ่มสไตล์ชีตหนึ่งไฟล์ แล้วเผยแพร่ ไฟล์ธรรมดาที่ใช้ได้ทุกที่ที่ HTML ใช้ได้
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>สิ่งที่คุณจะสร้าง</h2>
+  <p>
+    ฟอร์มติดต่อขนาดเล็ก — ช่องกรอกที่มีป้ายกำกับ, ปุ่มส่ง, พฤติกรรมของแป้นพิมพ์และโปรแกรมอ่านหน้าจอจริง — เริ่มจากแบบไม่ตกแต่งก่อน แล้วค่อยใส่สไตล์ ภายในประมาณ 10 นาที
+  </p>
+
+  <h2>ก่อนเริ่ม</h2>
+  <p>
+    คุณต้องมีเบราว์เซอร์และโปรแกรมแก้ไขข้อความเท่านั้น (git ช่วยให้ดึงไฟล์คอมโพเนนต์ได้สะดวก แต่คุณคัดลอกจาก GitHub ในเบราว์เซอร์ก็ได้)
+  </p>
+
+  <h2>ขั้นที่ 1 — รับโค้ด</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    คอมโพเนนต์ทุกตัวเป็นไฟล์เดี่ยวใน <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>และอื่น ๆ — พร้อมคอมเมนต์หัวไฟล์ที่ระบุแท็ก HTML, class hook, พฤติกรรมแป้นพิมพ์ และสัญญาด้านการเข้าถึง ไฟล์เหล่านี้ <em>คือ</em> ไลบรารีเอง — คัดลอกสิ่งที่ต้องการแล้วไปต่อได้เลย
+  </p>
+
+  <h2>ขั้นที่ 2 — คอมโพเนนต์แรกของคุณ</h2>
+  <p>เปิด <code>components/button.html</code>หรือเขียนมาร์กอัปเลยก็ได้ — class hook คือสัญญา:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    เพราะเป็น <code>&lt;button&gt;</code>จริง โฟกัสแป้นพิมพ์ การกระตุ้นด้วย Enter และ Space และบทบาทปุ่มโดยนัยจึงถูกต้องอยู่แล้ว
+  </p>
+
+  <h2>ขั้นที่ 3 — ประกอบฟอร์มเล็ก ๆ</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    สังเกตรูปแบบนี้: ทุกตัวควบคุมเชื่อม <code>&lt;label for&gt;</code>ของตัวเอง ใช้ชนิด input ที่เฉพาะเจาะจงที่สุด และมี class hook แบบ kebab-case เพียงหนึ่งตัวพอดี
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ตรวจสอบงานของคุณ:</strong> เปิดหน้าในเบราว์เซอร์ ดูธรรมดา — ตามที่ตั้งใจ สไตล์ยังรออยู่ข้างหน้า กด
+      <kbd>Tab</kbd>โฟกัสจะเลื่อนผ่านทุกตัวควบคุม ป้ายกำกับถูกอ่านออกเสียง และการส่งทำงานได้ พฤติกรรมเสร็จแล้ว ส่วนรูปลักษณ์เป็นของคุณ และเป็นขั้นต่อไป
+    </p>
+  </div>
+
+  <h2>ขั้นที่ 4 — ใส่สไตล์</h2>
+  <p>เขียน CSS ให้ตรงกับ hook:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    หรือข้ามการเขียน CSS เองไปเลย — ลิงก์ธีมสำเร็จรูปหนึ่งใน 45 ธีม แล้วมาร์กอัปเดิมก็จะสว่างขึ้นทันที:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>ขั้นที่ 5 — สำรวจเพิ่มเติม</h2>
+  <ul>
+    <li>การทดสอบของรีโพรันบนเบราว์เซอร์จริง: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO)</li>
+    <li>Storybook สำหรับทุกคอมโพเนนต์: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">แอปตัวอย่าง HTML+CSS+JS</a> แสดงทั้ง 571 คอมโพเนนต์พร้อมสไตล์ ค้นหาได้ และมีเดโม
+    </li>
+  </ul>
+
+  <h2>ขั้นต่อไป</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">การกำหนดธีม</a> — การสลับธีมขณะรันไทม์ด้วย theme-picker</li>
+    <li><a href="/tutorials/helpers/">ตัวช่วยการตั้งค่า</a> — ภาษาและขนาดตัวอักษร</li>
+    <li><a href="/components/">แคตตาล็อกคอมโพเนนต์</a> — เอกสารอ้างอิงครบ</li>
+  </ul>
+  <p>
+    มีคำถามระหว่างทางไหม?
+    <a href="/help/#troubleshooting">หน้าช่วยเหลือ</a> เต็มไปด้วยคำตอบ — และถ้าขั้นตอนไหนทำให้ชัดเจนกว่านี้ได้
+    <a href="https://github.com/LilyDesignSystem">บอกเรา</a> แล้วเรายินดีปรับปรุงบทเรียน
+  </p>
+</section>

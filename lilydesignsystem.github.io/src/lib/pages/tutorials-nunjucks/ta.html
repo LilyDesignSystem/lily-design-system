@@ -1,0 +1,97 @@
+<!-- title: Nunjucks பயிற்சி — Lily Design System -->
+<!-- description: Lily இன் Nunjucks மேக்ரோக்களைக் கொண்டு அணுகத்தக்க, பாணியிடப்பட்ட, சேவையகத்தில் ரெண்டர் செய்யப்படும் பக்கங்களை உருவாக்குங்கள் — Eleventy க்குப் பொருத்தமானது. -->
+<section class="page-intro">
+  <h1>Nunjucks பயிற்சி</h1>
+  <p class="page-intro-tagline">
+    Eleventy, Express அல்லது எந்த Node வார்ப்புருக் குழாய்க்கும் சேவையகத்தில் ரெண்டர் செய்யப்படும் மேக்ரோக்கள் — Lily இன் பட்டியல் மற்றும் வகுப்புக் கொக்கிகளுடன் GOV.UK பாணி அணுகுமுறை.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>நீங்கள் என்ன உருவாக்குவீர்கள்</h2>
+  <p>
+    ஒரு சிறிய சேவையகத்தில் ரெண்டர் செய்யப்படும் தொடர்புப் படிவம் — லேபிளுடன் கூடிய புலம், சமர்ப்பிக்கும் பொத்தான், பூஜ்ஜிய JavaScript சுமை — முதலில் வெறுமையாக, பிறகு பாணியுடன், சுமார் 10 நிமிடங்களில்.
+  </p>
+
+  <h2>தொடங்குவதற்கு முன்</h2>
+  <p>
+    உங்களுக்கு git, Node 22 அல்லது புதியது, மற்றும் pnpm 10 அல்லது புதியது தேவை. எந்த Nunjucks குழாயும் வேலை செய்யும் — Eleventy, Express அல்லது எளிய Nunjucks.
+  </p>
+
+  <h2>படி 1 — குறியீட்டைப் பெறுங்கள்</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    ஒவ்வொரு கூறும் இங்கே ஒரு அடைவு: <code>components/</code> ஒரு
+    <code>macro.njk</code>உடன், அதன் சோதனை மற்றும் ஆவணங்கள் — எடுத்துக்காட்டாக
+    <code>components/button/macro.njk</code>. உங்கள் Nunjucks ஏற்றியை இங்கே சுட்டுங்கள்
+    <code>components/</code> (Eleventy இல் அதை includes பாதையில் சேர்க்கவும்) மற்றும் தேவையானதை இறக்குமதி செய்யுங்கள்.
+  </p>
+
+  <h2>படி 2 — உங்கள் முதல் கூறு</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    இது வழங்குகிறது <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. மேக்ரோக்கள் ஒரே params பொருளை எடுக்கின்றன: <code>text</code> (தப்பிக்கப்பட்டது) அல்லது
+    <code>html</code> (மூலம்), <code>type</code>, <code>label</code> க்காக
+    <code>aria-label</code>மற்றும் ஒரு வகுப்புக் கொக்கி சேர்ப்பான்.
+  </p>
+
+  <h2>படி 3 — ஒரு சிறிய படிவத்தை உருவாக்குங்கள்</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    எல்லாம் சேவையகத்தில் ரெண்டர் ஆவதால், உலாவி வகுப்புக் கொக்கிகளுடன் தூய பொருள்தரு HTML ஐப் பெறுகிறது — பூஜ்ஜிய பைட் JavaScript சுமை.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>உங்கள் வேலையைச் சரிபார்க்கவும்:</strong> பக்கத்தை ஏற்றுங்கள், படிவம் வெறுமையாகத் தெரிகிறது — சரியாக நோக்கப்பட்டபடி: பாணியிடல் இன்னும் வரவுள்ளது. அழுத்துங்கள்
+      <kbd>Tab</kbd>: குவியம் ஒவ்வொரு கட்டுப்பாட்டின் வழியாகவும் செல்கிறது, லேபிள் அறிவிக்கப்படுகிறது, சமர்ப்பிப்பு வேலை செய்கிறது. நடத்தை முடிந்தது; தோற்றம் உங்களுடையது, அடுத்த படி அதுவே.
+    </p>
+  </div>
+
+  <h2>படி 4 — பாணியிடுங்கள்</h2>
+  <p>
+    கொக்கிகளுக்குப் பாணியிடுங்கள் — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — உங்கள் நடைத்தாளில், அல்லது உங்கள் அடிப்படைத் தளவமைப்பில் தயார் தீமை இணைக்கவும்:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>படி 5 — எல்லாம் வேலை செய்வதைப் பாருங்கள்</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy எடுத்துக்காட்டுப் பயன்பாடு</a> ஒவ்வொரு கூறுக்கும் செயல்விளக்கப் பக்கங்களுடன் முழு பட்டியலையும் நிலையான தளமாக உருவாக்குகிறது:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>அடுத்த படிகள்</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">தீம்கள்</a> — மினுக்கல் இல்லாத SSR தீம் மாற்றத்திற்கான Eleventy குக்கீ முறை உட்பட.</li>
+    <li><a href="/tutorials/helpers/">விருப்ப உதவியாளர்கள்</a> — மொழி மற்றும் உரை அளவு.</li>
+    <li><a href="/components/">கூறுப் பட்டியல்</a> — ஒவ்வொரு கூறுக்கும் பண்புகள், ARIA மற்றும் விசைப்பலகை.</li>
+  </ul>
+  <p>
+    வழியில் கேள்விகளா?
+    <a href="/help/#troubleshooting">உதவிப் பக்கம்</a> பதில்களால் நிறைந்தது — ஒரு படி இன்னும் தெளிவாக இருக்க முடிந்தால்,
+    <a href="https://github.com/LilyDesignSystem">எங்களிடம் சொல்லுங்கள்</a> நாங்கள் மகிழ்ச்சியுடன் பயிற்சியை மேம்படுத்துவோம்.
+  </p>
+</section>

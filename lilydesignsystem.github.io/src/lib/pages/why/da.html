@@ -1,0 +1,102 @@
+<!-- title: Hvorfor Lily — Lily Design System -->
+<!-- description: Argumentet for Lily: hovedløse komponenter, du selv stiler, indbygget WCAG 2.2 AAA-tilgængelighed, ingen hårdkodede strenge, otte frameworks, ét katalog, gratis for evigt. -->
+<section class="page-intro">
+  <h1>Argumentet for Lily</h1>
+  <p class="page-intro-tagline">
+    Lily tager sig af de svære dele – semantik, tilgængelighed, tastaturadfærd, internationalisering – og overlader udseendet helt og gerne til dig.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Start med dit eget design</h2>
+  <p>
+    Dit team ved allerede, hvordan dit produkt skal se ud. Lily starter præcis dér: Det leverer de dele, der er virkelig svære at få rigtige og dyre at lave om – det korrekte semantiske element, ARIA-tilstandene, tastaturkontrakten, fokushåndteringen – og overlader enhver visuel beslutning helt og med glæde til dig. Din CSS er designsystemets udseende fra dag ét.
+  </p>
+  <p>
+    Fordi hver komponent har en stabil klassekrog og ren struktur, forbliver din stil ren din egen gennem hver opgradering – og tilgængeligheden nedenunder bliver ved med at virke, version efter version.
+  </p>
+
+  <h2>Hvad Lily forpligter sig til</h2>
+  <ul>
+    <li>
+      <strong>Tilgængeligt som standard.</strong> WCAG 2.2 AAA er målet for hver komponent. Mønstrene følger WAI-ARIA Authoring Practices, hver interaktiv komponent kan betjenes med tastatur efter en dokumenteret kontrakt, og eksempelapps holder en ren axe-core-baseline.
+    </li>
+    <li>
+      <strong>Kan internationaliseres fra grunden.</strong> Hver brugervendt streng – hver etiket, fejl og meddelelse – er en prop med stabile navne på tværs af frameworks, så oversættelse flyder naturligt. RTL og tovejstekst arver fra din <code>dir</code>. Sprogbevidste komponenter tager sproget som en prop, altid udtrykkeligt.
+    </li>
+    <li>
+      <strong>Ét katalog, otte frameworks.</strong> De samme 571 komponenter (536 som native Web Components) med de samme klassekroge og prop-konventioner i HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks og Web Components. Din CSS og dit teams viden kan overføres på tværs af stakke.
+    </li>
+    <li>
+      <strong>Uafhængig af CSS-strategi.</strong> Én stabil klasse i kebab-case pr. komponentrod. Semantisk CSS, Tailwind-utilities, CSS-in-JS eller et af de 57 færdige temaer – Lily byder dem alle velkommen og holder sig elegant i baggrunden.
+    </li>
+    <li>
+      <strong>Gratis, for evigt, på dine vilkår.</strong> Åben kildekode under en licens efter eget valg: BSD, MIT, Apache-2.0, GPL-2.0 eller GPL-3.0. Intet pro-niveau, ingen brugerlicenser, ingen telemetri.
+    </li>
+  </ul>
+
+  <h2>Dybde, hvor det tæller</h2>
+  <p>
+    Ud over de sædvanlige knapper og dialoger rækker kataloget længere end de fleste:
+  </p>
+  <ul>
+    <li>
+      <strong>Mønstre til den offentlige sektor</strong> undersøgt fra designsystemerne hos NHS UK, GOV.UK, USWDS og ONS – fejloversigter, advarselsbokse, oversigtslister, fasebannere og spring-over-links.
+    </li>
+    <li>
+      <strong>140 komponenter til nationale personidentifikatorer</strong> der dækker identifikatorer inden for sundhed, nationale id-kort, skat og pas i over 50 lande, hver med dokumenteret format og valideringsalgoritme.
+    </li>
+    <li>
+      <strong>Byggeklodser til redaktionelt arbejde og scrollytelling</strong> tilpasset fra Reuters Graphics – artikellayouts, scrollere, tidslinjer, fliskort.
+    </li>
+    <li>
+      <strong>Vælgerhjælpere</strong> – små pakker, der ejer én interaktion fra ende til anden: temaskift (med indlæsning af typografiark under kørsel), sprog, tekststørrelse, reduceret bevægelse, søgning, sidelinks, deling og indtastning af dato og tid. Hver er en hovedløs ikonknap, der åbner en popup – ikke en indbygget <code>&lt;select&gt;</code> – med vedvarende lagring og SSR-sikkerhed indbygget.
+    </li>
+  </ul>
+
+  <h2>Temaer til den offentlige sektor, klar til brug</h2>
+  <p>
+    Lily leverer 57 selvstændige referencetemaer, der retter sig direkte mod dets klassekroge: NHS England, NHS Scotland og NHS Wales (hver i varianter til patienter og til fagpersoner), GOV.UK, USWDS, paletter inspireret af Adobe Spectrum og Mozilla Protocol samt et sæt almene lyse og mørke temaer. Link ét typografiark, og et udseende på myndighedsniveau er slået til; hjælperen <code>theme-picker</code> skifter dem under kørsel.
+  </p>
+
+  <h2>Hvordan Lily klarer sig i sammenligning</h2>
+  <p>
+    Vi fører en ærlig sammenligning, komponent for komponent,
+    <a href="/comparisons/">med andre designsystemer</a> – stilede og hovedløse, kommercielle og offentlige. Hvor et andet bibliotek passer bedre til dig, vil sammenligningen vise det; Lily lærer af dem alle og angiver åbent sine inspirationskilder.
+  </p>
+
+  <h2>Hvem der står bag</h2>
+  <p>
+    Lily er et ungt, uafhængigt projekt med åben kildekode, der byder samarbejde, vejledning og feedback velkommen – se
+    <a href="/about/">Om</a> for historien og inspirationskilderne. Alt – specifikationen, testene, køreplanen, selv revisionsværktøjerne – er åbent tilgængeligt på
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Hjælp Lily med at vokse</h2>
+  <p>Hvis Lily er nyttigt for dig, er det mest værdifulde, du kan gøre:</p>
+  <ul>
+    <li>
+      <strong>Giv en stjerne og del.</strong> Giv en stjerne til
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">hovedrepositoriet</a>
+      og vis en kollega <a href="/components/">kataloget</a> – synlighed er den knappeste ressource, et ungt projekt har.
+    </li>
+    <li>
+      <strong>Byg noget og fortæl os om det.</strong> Rapporter fra virkelig brug – hvad der virkede, hvad der kunne gå mere glat – former køreplanen mere end noget andet.
+    </li>
+    <li>
+      <strong>Gennemgå tilgængeligheden.</strong> Gennemgange med skærmlæsere (VoiceOver, NVDA, JAWS) på <a href="/examples/">eksempelapps</a> er guld værd; indrapportér det, du finder.
+    </li>
+    <li>
+      <strong>Bidrag med et tema eller en oversættelse.</strong> Begge dele er selvstændige, velafgrænsede første bidrag.
+    </li>
+    <li>
+      <strong>Del det, du finder, med en minimal gengivelse,</strong> i GitHub-repositoriet, eller skriv til
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Start vejledningen</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Giv en stjerne på GitHub</a>
+  </div>
+</section>

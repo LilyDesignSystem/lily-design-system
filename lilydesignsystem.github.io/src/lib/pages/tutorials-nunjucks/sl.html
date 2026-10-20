@@ -1,0 +1,97 @@
+<!-- title: Vodnik za Nunjucks — Lily Design System -->
+<!-- description: Gradite dostopne, oblikovane, na strežniku izrisane strani z Lilyjinimi makri Nunjucks — idealno za Eleventy. -->
+<section class="page-intro">
+  <h1>Vodnik za Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Makri, izrisani na strežniku, za Eleventy, Express ali kateri koli cevovod predlog Node — pristop v slogu GOV.UK z Lilyjinim katalogom in razrednimi kavlji.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Kaj boste ustvarili</h2>
+  <p>
+    Majhen na strežniku izrisan kontaktni obrazec — polje z oznako, gumb za pošiljanje, ničen tovor JavaScripta — najprej gol, nato oblikovan, v približno 10 minutah.
+  </p>
+
+  <h2>Preden začnete</h2>
+  <p>
+    Potrebujete git, Node 22 ali novejši in pnpm 10 ali novejši. Primeren je vsak cevovod Nunjucks — Eleventy, Express ali navaden Nunjucks.
+  </p>
+
+  <h2>Korak 1 — Pridobite kodo</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Vsaka komponenta je mapa v <code>components/</code> z
+    <code>macro.njk</code>, njenim testom in dokumentacijo — na primer
+    <code>components/button/macro.njk</code>. Usmerite svoj nalagalnik Nunjucks na
+    <code>components/</code> (v Eleventyju ga dodajte v pot includes) in uvozite, kar potrebujete.
+  </p>
+
+  <h2>Korak 2 — Vaša prva komponenta</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Izriše <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makri sprejmejo en sam objekt params: <code>text</code> (ubežan) ali
+    <code>html</code> (surov), <code>type</code>, <code>label</code> za
+    <code>aria-label</code>in dodajalnik razrednega kavlja.
+  </p>
+
+  <h2>Korak 3 — Sestavite majhen obrazec</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Ker se vse izriše na strežniku, brskalnik prejme čist semantični HTML z razrednimi kavlji — tovor JavaScripta nič bajtov.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Preverite svoje delo:</strong> naložite stran in obrazec je videti gol — natanko kot je bilo načrtovano: oblikovanje šele sledi. Pritisnite
+      <kbd>Tab</kbd>: fokus gre skozi vsak kontrolnik, oznaka se izgovori in pošiljanje deluje. Vedenje je končano; videz je vaš in je naslednji korak.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Oblikujte ga</h2>
+  <p>
+    Oblikujte kavlje — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — v svoji slogovni datoteki ali povežite že pripravljeno temo v osnovni postavitvi:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Korak 5 — Poglejte, kako vse deluje</h2>
+  <p>
+     <a href="/examples/">Vzorčna aplikacija Nunjucks + Eleventy</a> zgradi celoten katalog kot statično spletno mesto s predstavitvenimi stranmi za vsako komponento:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Naslednji koraki</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — vključno z Eleventyjevim vzorcem piškotkov za preklapljanje teme v SSR brez utripanja.</li>
+    <li><a href="/tutorials/helpers/">Pomočniki za nastavitve</a> — jezik in velikost besedila.</li>
+    <li><a href="/components/">Katalog komponent</a> — lastnosti, ARIA in tipkovnica za vsako komponento.</li>
+  </ul>
+  <p>
+    Vprašanja na poti?
+    <a href="/help/#troubleshooting">Stran s pomočjo</a> je polna odgovorov — in če bi bil kakšen korak lahko jasnejši,
+    <a href="https://github.com/LilyDesignSystem">sporočite nam</a> in vodnik bomo z veseljem izboljšali.
+  </p>
+</section>

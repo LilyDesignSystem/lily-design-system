@@ -1,0 +1,109 @@
+<!-- title: Tutorial React — Lily Design System -->
+<!-- description: Gawé formulir sing gampang diakses lan wis ditata nganggo komponen headless Lily kanggo React: komponen fungsi kanthi tipe nganggo value + onChange. -->
+<section class="page-intro">
+  <h1>Tutorial React</h1>
+  <p class="page-intro-tagline">
+    Komponen fungsi kanthi tipe, siji berkas saben siji, dikontrol nganggo pola standar
+    <code>value</code> + <code>onChange</code> — kabèh mlaku kaya sing wis dilakoni React.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa sing bakal sampeyan gawé</h2>
+  <p>
+    Formulir kontak cilik — kolom nganggo label, tombol kirim, kahanan sing dikontrol, prilaku keyboard lan pamaca layar sing nyata — dhisik polosan, banjur ditata, kira-kira 10 menit.
+  </p>
+
+  <h2>Sadurunge miwiti</h2>
+  <p>
+    Sampeyan butuh git, Node 22 utawa luwih anyar, lan pnpm 10 utawa luwih anyar. Proyek React 18+ apa wae bisa — Next.js, Vite utawa React biasa.
+  </p>
+
+  <h2>Langkah 1 — Njupuk kode</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponen iku berkas rata ing <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — saben siji kanthi tes, story lan dokumentasiné ing jejeré. Salin berkas sing dibutuhaké menyang aplikasi sampeyan, utawa tarik repositori lan impor saka kono.
+  </p>
+
+  <h2>Langkah 2 — Komponen pisanan sampeyan</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Nampilaké <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (nampilaké
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> kanggo nimpa), <code>className</code>, lan atribut tambahan apa wae nyebar ing unsur oyod.
+  </p>
+
+  <h2>Langkah 3 — Nyusun formulir cilik</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> nampa <code>label</code> minangka prop dhéwé, dudu komponen label sing disarangaké — lulusna sepisan, ing
+    <code>Field</code>lan <code>TextInput</code>sing cocog saka
+    <code>label</code> nyedhiyakaké jeneng sing bisa diakses.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dikonfirmasi 2026-08-29:</strong> konsep sadurungé nyarangaké komponen <code>Label</code> ing njero <code>Field</code>, sing nampilaké
+      <em>rong</em> label (siji kosong) amarga <code>Field</code> wis nampilaké dhéwé saka input <code>label</code> prop — ditemokaké kanthi ngompilasi potongan sing persis. Rute
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">Rute formulir kontak gabungan</a>
+      iku pola sing padha, diuji nganggo tes e2e lan axe nyata.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Tata</h2>
+  <p>
+    Kabèh ing ndhuwur dirender minangka struktur murni, siap kanggo gaya sampeyan. Tata pancingan — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — ing lembar gaya sampeyan, tumpukna utilitas Tailwind liwat <code>className</code>, utawa sambungna tema sing wis siap:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Deleng kabèh mlaku</h2>
+  <p>
+     <a href="/examples/">Aplikasi conto Next.js</a> iku katalog lengkap sing ditata lan didemonstrasiaké, kanthi Playwright e2e lan garis dhasar axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah sabanjuré</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — ganti nalika mlaku nganggo pembantu theme-picker React.</li>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — basa lan ukuran teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — properti, ARIA lan keyboard saben komponen.</li>
+  </ul>
+  <p>
+    Ana pitakon ing dalan?
+    <a href="/help/#troubleshooting">Kaca pitulung</a> kebak wangsulan — lan menawa ana langkah sing bisa luwih cetha,
+    <a href="https://github.com/LilyDesignSystem">kandhanana kita</a> lan kita bakal seneng nyaosi tutorial luwih apik.
+  </p>
+</section>

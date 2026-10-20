@@ -1,0 +1,127 @@
+<!-- title: آموزش Angular — Lily Design System -->
+<!-- description: با مؤلفه‌های بدون‌سر Lily برای Angular 20 یک فرم در دسترس و استایل‌دار بسازید: مؤلفه‌های مستقل با ورودی‌های سیگنالی. -->
+<section class="page-intro">
+  <h1>آموزش Angular</h1>
+  <p class="page-intro-tagline">
+    مؤلفه‌های مستقل Angular 20 — ورودی‌های سیگنالی، تشخیص تغییر OnPush، قالب‌های درون‌خطی، صفر NgModules، صفر CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>چه چیزی می‌سازید</h2>
+  <p>
+    یک فرم تماس کوچک — فیلد دارای برچسب، دکمه ارسال، پیوند دوطرفه، رفتار واقعی صفحه‌کلید و صفحه‌خوان — ابتدا ساده، سپس استایل‌دار، در حدود ۱۰ دقیقه.
+  </p>
+
+  <h2>پیش از شروع</h2>
+  <p>
+    به git، Node 22 یا جدیدتر و pnpm 10 یا جدیدتر نیاز دارید. هر پروژه Angular 20 کار می‌کند — Angular CLI یا Analog.
+  </p>
+
+  <h2>گام ۱ — کد را بگیرید</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    مؤلفه‌ها فایل‌های تخت هستند در <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — هر کدام یک مؤلفه مستقل با قالب درون‌خطی است، به‌همراه spec و story خودش. بارل
+    <code>index.ts</code> هر مؤلفه را دوباره صادر می‌کند؛ <code>pnpm build</code>
+    یک بسته به قالب Angular Package Format از طریق ng-packagr می‌سازد.
+  </p>
+
+  <h2>گام ۲ — نخستین مؤلفه شما</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    هر مؤلفه یک انتخابگر <code>lily-*</code> اعلام می‌کند و عنصر معنایی را با قلاب کلاس خود نمایش می‌دهد —
+    <code>&lt;button class="button" type="button"&gt;</code> اینجا. ورودی‌ها مبتنی بر سیگنال‌اند: <code>label()</code> برای یک <code>aria-label</code>
+    برای بازنویسی، <code>className()</code> برای افزودن کلاس‌ها.
+  </p>
+
+  <h2>گام ۳ — یک فرم کوچک بسازید</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> برچسب قابل‌مشاهده را به‌عنوان
+    <code>label</code> ورودی خودش می‌گیرد، نه به‌صورت مؤلفه برچسب تودرتو — آن را یک‌بار روی فیلد بدهید، و <code>lily-text-input</code>متناظر
+    <code>label</code> نام قابل‌دسترس را فراهم می‌کند. مؤلفه‌های ورودی‌مانند <code>model()</code> مقدارها را در معرض می‌گذارند، پس پیوند دوطرفه banana-box <code>[(value)]</code>
+    بی‌درنگ کار می‌کند — سراسر سازگار با zoneless.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تأییدشده در ۲۰۲۶-۰۸-۲۹:</strong> یک پیش‌نویس قبلی مؤلفه <code>Label</code> جداگانه‌ای را درون <code>lily-field</code>قرار داده بود که <em>دو</em> برچسب (یکی خالی) نمایش می‌داد، چون
+      <code>lily-field</code> خودش از ورودی
+      <code>label</code> برچسب خود را نمایش می‌دهد — با بررسی کد منبع مؤلفه کشف شد.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">مسیر ترکیبی فرم تماس</a>
+      همین الگوست، با آزمون‌های واقعی e2e و axe سنجیده شده.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>کارتان را بررسی کنید:</strong> برنامه را اجرا کنید و فرم ساده به نظر می‌رسد — دقیقاً همان‌طور که قصد شده: استایل‌دهی هنوز در پیش است. بزنید
+      <kbd>Tab</kbd>: تمرکز از هر کنترل می‌گذرد، برچسب اعلام می‌شود و ارسال کار می‌کند. رفتار کامل است؛ ظاهر مال شماست و گام بعدی است.
+    </p>
+  </div>
+
+  <h2>گام ۴ — استایل بدهید</h2>
+  <p>
+    قلاب‌های کلاس را استایل بدهید — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — در <code>styles.css</code>، یا یک تم آماده را به آرایه <code>styles</code> در
+    <code>angular.json</code> / در آن پیوند دهید <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>گام ۵ — همه‌چیز را در حال کار ببینید</h2>
+  <p>
+     <a href="/examples/">برنامه نمونه Angular + Analog</a> کل فهرست را با مسیریابی مبتنی بر فایل و Vite نشان می‌دهد:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>گام‌های بعدی</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">تم‌ها</a> — تعویض در زمان اجرا با کمکی theme-picker برای Angular.</li>
+    <li><a href="/tutorials/helpers/">کمکی‌های ترجیحات</a> — زبان و اندازه متن.</li>
+    <li><a href="/components/">فهرست مؤلفه‌ها</a> — ویژگی‌ها، ARIA و صفحه‌کلید برای هر مؤلفه.</li>
+  </ul>
+  <p>
+    در مسیر پرسشی دارید؟
+    <a href="/help/#troubleshooting">صفحه راهنما</a> پر از پاسخ است — و اگر گامی می‌تواند روشن‌تر باشد،
+    <a href="https://github.com/LilyDesignSystem">به ما بگویید</a> و ما با کمال میل آموزش را بهبود می‌دهیم.
+  </p>
+</section>

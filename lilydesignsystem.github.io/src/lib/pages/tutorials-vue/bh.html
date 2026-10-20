@@ -1,0 +1,122 @@
+<!-- title: Vue ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के Vue 3 हेडलेस घटक से सुलभ, शैली वाला फॉर्म बनाईं: v-model वाला एक-फाइल घटक। -->
+<section class="page-intro">
+  <h1>Vue ट्यूटोरियल</h1>
+  <p class="page-intro-tagline">
+    टाइप कइल props वाला Vue 3 एक-फाइल घटक, <code>defineModel</code>
+    दू-तरफा बाइंडिंग, आ <code>v-bind="$attrs"</code> पास-थ्रू।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>रउआ का बनाईब</h2>
+  <p>
+    एगो छोट संपर्क फॉर्म — लेबल वाला क्षेत्र, जमा करे के बटन, <code>v-model</code>
+    बाइंडिंग, असली कीबोर्ड आ स्क्रीन-रीडर व्यवहार — पहिले सादा, फेर शैली के साथे, करीब 10 मिनट में।
+  </p>
+
+  <h2>शुरू करे से पहिले</h2>
+  <p>
+    रउआ के git, Node 22 भा नया, आ pnpm 10 भा नया चाहीं। कवनो Vue 3 परियोजना चली — Nuxt, Vite भा सादा Vue।
+  </p>
+
+  <h2>कदम 1 — कोड पाईं</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    घटक इहाँ सपाट फाइल बाड़ें: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — हर एक के बगल में ओकर परीक्षण, story आ दस्तावेज। जवन फाइल चाहीं कॉपी करीं, भा रेपो ले आईं।
+  </p>
+
+  <h2>कदम 2 — रउआ के पहिला घटक</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    ई देखावेला <code>&lt;button class="button" type="button"&gt;</code>। Props दोसर फ्रेमवर्क से मेल खालें: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, संगे बाकी सब खातिर गुण पास-थ्रू।
+  </p>
+
+  <h2>कदम 3 — एगो छोट फॉर्म जोड़ीं</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> दिखे वाला <code>label</code> आपन prop के रूप में, भीतर रखल लेबल घटक के रूप में ना — एक बेर दीं, पर
+    <code>Field</code>आ <code>TextInput</code>के
+    <code>label</code> सुलभ नाम देला।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 के जाँचल:</strong> पहिले के मसौदा में अलग <code>Label</code> के भीतर <code>Field</code>के भीतर रखल गइल रहे, जवना से
+      <em>दू गो</em> लेबल (एगो खाली) दिखल काहे कि <code>Field</code> पहिले से आपन <code>label</code> prop — ठीक टुकड़ा के कंपाइल करके पता चलल। रास्ता
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">संयुक्त संपर्क-फॉर्म रास्ता</a>
+      उहे पैटर्न ह, असली e2e आ axe परीक्षण से जाँचल।
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> प्रयोग करेला <code>defineModel</code>, एहसे सादा
+    <code>v-model</code> तुरंत चलेला।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>आपन काम जाँचीं:</strong> ऐप चलाईं आ फॉर्म सादा लउकेला — ठीक वइसहीं जइसे सोचल गइल रहे: शैली अभी आगे बा। दबाईं
+      <kbd>Tab</kbd>: फोकस हर नियंत्रण से गुजरेला, लेबल घोषित होखेला आ जमा करे के काम करेला। व्यवहार पूरा बा; रूप रउआ के बा आ अगिला कदम बा।
+    </p>
+  </div>
+
+  <h2>कदम 4 — एकरा के शैली दीं</h2>
+  <p>
+    क्लास हुक के शैली दीं — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — आपन स्टाइलशीट में, भा तैयार थीम इहाँ लिंक करीं <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>कदम 5 — सब कुछ चलत देखीं</h2>
+  <p>
+     <a href="/examples/">Nuxt उदाहरण ऐप</a> पूरा कैटलॉग शैली आ प्रदर्शन के साथे बा, Playwright e2e आ axe-core आधाररेखा के साथे:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>अगिला कदम</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">थीम</a> — Vue theme-picker सहायक से चलत समय बदलाव।</li>
+    <li><a href="/tutorials/helpers/">पसंद सहायक</a> — भाषा आ पाठ के आकार।</li>
+    <li><a href="/components/">घटक कैटलॉग</a> — हर घटक खातिर गुण, ARIA आ कीबोर्ड।</li>
+  </ul>
+  <p>
+    रास्ता में सवाल बा?
+    <a href="/help/#troubleshooting">मदद पन्ना</a> जवाब से भरल बा — आ अगर कवनो कदम अउरी साफ हो सकेला,
+    <a href="https://github.com/LilyDesignSystem">हमनी के बताईं</a> आ हमनी खुशी से ट्यूटोरियल सुधारब।
+  </p>
+</section>

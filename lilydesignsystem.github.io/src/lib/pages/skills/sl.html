@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills daje Claude Code urejeno, nalagljivo vstopno točko v Lily Design System — splošne pojme, krovne spretnosti po ogrodju in poglobljene spretnosti po podprojektu za brezglavo knjižnico in pomočnike *-picker. -->
+<section class="page-intro">
+  <h1>Spretnosti pri agentih UI naredijo Lily še lažji</h1>
+  <p class="page-intro-tagline">
+    Lily dobavlja ciljno usmerjene spretnosti — splošne, po ogrodju in po podprojektu — tako da agent naloži natanko tisti kontekst, ki ga potrebuje, in nič, česar ne potrebuje.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Katero spretnost želite?</h2>
+  <p>
+    Vsaka raven odgovarja na drugo vprašanje. Naložite splošno spretnost, ko Lily še ne poznate. Naložite spretnost ogrodja, ko poznate svoje ogrodje, ne veste pa, kateri podprojekt potrebujete. Naložite neposredno headless-skill ali helpers-skill, ko že natanko veste, na čem delate.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Splošno / vzdrževalec</strong> — „Kaj je Lily?” / „Kako je sestavljen ta monorepozitorij?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Krov ogrodja</strong> — „Kaj je na voljo za {framework} in kateri del potrebujem?” — 8, po ena <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Brezglavo / pomočniki</strong> — „Kako natanko uporabljam komponente / pomočnike *-picker za {framework}?” — 16, po ena <code>{framework}-headless-skill</code> in ena <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>Osem ogrodij</h2>
+  <p>
+    Vsako ogrodje dobi isti tristopenjski sklad. Krovna spretnost preslika vse prave podprojekte tega ogrodja — vključno z vzorčno aplikacijo, ki je ne pokrije nobena od njenih dveh sestrskih spretnosti — in kaže navzdol nanje, namesto da ponavlja njihove pogodbe.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Ogrodje</th>
+        <th>Krov</th>
+        <th>Brezglavo</th>
+        <th>Pomočniki</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Krovna spretnost za Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">spretnost</a></td>
+        <td><a aria-label="Brezglava spretnost za Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">spretnost</a></td>
+        <td><a aria-label="Spretnost pomočnikov za Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">spretnost</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Krovna spretnost za Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">spretnost</a></td>
+        <td><a aria-label="Brezglava spretnost za Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">spretnost</a></td>
+        <td><a aria-label="Spretnost pomočnikov za Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">spretnost</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Krovna spretnost za HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">spretnost</a></td>
+        <td><a aria-label="Brezglava spretnost za HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">spretnost</a></td>
+        <td><a aria-label="Spretnost pomočnikov za HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">spretnost</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Krovna spretnost za Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">spretnost</a></td>
+        <td><a aria-label="Brezglava spretnost za Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">spretnost</a></td>
+        <td><a aria-label="Spretnost pomočnikov za Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">spretnost</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Krovna spretnost za React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">spretnost</a></td>
+        <td><a aria-label="Brezglava spretnost za React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">spretnost</a></td>
+        <td><a aria-label="Spretnost pomočnikov za React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">spretnost</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Krovna spretnost za Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">spretnost</a></td>
+        <td><a aria-label="Brezglava spretnost za Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">spretnost</a></td>
+        <td><a aria-label="Spretnost pomočnikov za Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">spretnost</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Krovna spretnost za Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">spretnost</a></td>
+        <td><a aria-label="Brezglava spretnost za Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">spretnost</a></td>
+        <td><a aria-label="Spretnost pomočnikov za Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">spretnost</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Krovna spretnost za Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">spretnost</a></td>
+        <td>
+          <a
+            aria-label="Brezglava spretnost za Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >spretnost</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Spretnost pomočnikov za Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">spretnost</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components je edina izjema v obe smeri: njegov brezglavi katalog ima namenski obseg 536 od 571 (izvorni elementi po meri, brez izvajalnega okolja ogrodja; preostalih 35 komponent je trajno izključenih) in vzorčne aplikacije Web Components še ni — njegova krovna spretnost to pove, namesto da bi namigovala, da obstaja.
+  </p>
+
+  <h2>Dodajte eno spretnost</h2>
+  <p>
+    Vsaka spretnost je datoteka <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> — plus podporne datoteke, brez koraka gradnje. Klonirajte tisto, ki jo potrebujete, tja, od koder vaša nastavitev Claude Code nalaga spretnosti (glejte zgoraj povezano uradno dokumentacijo za mapo spretnosti vašega projekta ali računa):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Delate čez več ogrodij ali na samem monorepozitoriju? Namesto tega klonirajte <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonični monorepozitorij</a> — vseh 26 spretnosti je že v njegovem korenu, ob brezglavih knjižnicah, katalogih pomočnikov in vzorčnih aplikacijah, ki jih opisujejo.
+  </p>
+</section>

@@ -1,0 +1,276 @@
+<!-- title: Tutorial pembantu keutamaan — Lily Design System -->
+<!-- description: Tambah keutamaan bahasa dan saiz teks pengguna dengan pembantu locale-picker dan text-size-picker Lily: kawalan butang ikon + kotak senarai tanpa kepala dengan kegigihan dan keselamatan SSR. -->
+<section class="page-intro">
+  <h1>Pembantu keutamaan</h1>
+  <p class="page-intro-tagline">
+    Tujuh pakej kecil bagi setiap rangka kerja, masing-masing memiliki satu tugas pengguna dari awal hingga akhir, ditambah bar yang menghimpunkan lima daripadanya. Anda sudah mengenali
+    <a href="/tutorials/theming/">theme-picker</a>; ini pula locale-picker, text-size-picker dan motion-picker (keutamaan), share-picker dan search-picker (tindakan), date-time-picker (nilai borang), dan picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan anda bina</h2>
+  <p>
+    Panel tetapan di mana pengguna memilih bahasa dan saiz teks mereka — pilihan yang digunakan pada seluruh dokumen, kekal antara lawatan dan hanya menelan dua komponen serta beberapa baris CSS. Kira-kira 15 minit.
+  </p>
+
+  <h2>Sebelum anda bermula</h2>
+  <p>
+    Selesaikan <a href="/tutorials/">tutorial rangka kerja</a> untuk tindanan anda. Sampel di bawah ialah Svelte; pembantu React, Vue, Angular, HTML, Nunjucks dan Blazor sepadan kontrak demi kontrak.
+  </p>
+
+  <h2>Bentuk yang mereka kongsi</h2>
+  <ul>
+    <li>Butang ikon tanpa kepala yang membuka kotak senarai WAI-ARIA APG (atau, bagi date-time-picker, dialog pemilih tarikh) — tiada natif <code>&lt;select&gt;</code>, jadi setiap rangka kerja mendapat tingkah laku papan kekunci dan cangkuk penggayaan yang sama.</li>
+    <li>Satu cangkuk kelas bagi setiap pakej (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), sifar CSS dihantar.</li>
+    <li>Selamat untuk SSR: penulisan DOM berlaku hanya dalam kitaran hayat mount/effect.</li>
+    <li>Bersih i18n: setiap rentetan yang dilihat pengguna ialah prop.</li>
+    <li>
+      Tersedia untuk Svelte (kanonik), React, Vue, Angular, elemen tersuai HTML, Nunjucks dan Blazor — kontrak yang sama dalam setiap satu.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker dan text-size-picker masing-masing memiliki satu
+    <em>keutamaan</em> pengguna dari awal hingga akhir (pemilihan, penggunaan DOM,
+    <code>localStorage</code> kegigihan <code>storageKey</code>
+    pilihan melalui prop). share-picker dan date-time-picker berbeza jenis: share-picker memiliki satu <em>tindakan</em> — ia tidak menggunakan apa-apa pada dokumen dan tidak menyimpan apa-apa — dan date-time-picker memiliki satu
+    <em>nilai borang</em>, kerana tarikh dalam borang ialah data dan bukan keutamaan.
+  </p>
+
+  <h2>locale-picker — bahasa dan arah</h2>
+  <p>
+    Membenarkan pengguna memilih lokal, kemudian menulis <code>lang</code> dan
+    <code>dir</code> pada akar dokumen supaya perpustakaan i18n anda, CSS anda dan teknologi bantuan semuanya mengikut. RTL dikesan secara automatik untuk Arab, Ibrani dan tulisan kanan-ke-kiri yang lain. Ia hanya memberi tumpuan kepada isyarat — perpustakaan i18n anda mengendalikan terjemahan.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Pilihan dilabel daripada jadual terbina dalam nama lokal (boleh diganti melalui <code>localeLabels</code>), setiap pilihan membawa atribut
+    <code>lang</code> sendiri supaya pembaca skrin menyebut “Français” dalam bahasa Perancis, dan kod bergaris bawah seperti <code>en_US</code>
+    berulang-alik tanpa kehilangan kepada BCP 47 <code>en-US</code>. Sambungkan
+    <code>onChange</code> (atau nilai terikat) ke i18next, Paraglide, vue-i18n atau apa sahaja yang anda gunakan.
+  </p>
+
+  <h2>text-size-picker — saiz dikawal pembaca</h2>
+  <p>
+    Kemenangan kebolehcapaian yang mengambil masa beberapa minit: pembantu menetapkan
+    <code>data-text-size="&#123;slug&#125;"</code> pada akar dokumen dan CSS anda memetakan setiap nilai kepada saiz.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Saizkan susun atur anda dalam <code>rem</code> dan seluruh aplikasi berskala mengikut pilihan pengguna. Label dihuruf besarkan daripada slug (“X Large”) atau diganti dengan <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Semak kerja anda:</strong> pilih “Large” daripada pemilih, dan teks halaman membesar. Muat semula — ia masih besar: pilihan itu disimpan ke
+      <code>localStorage</code>. Tukar pemilih bahasa anda kepada Arab dan
+      <code>dir="rtl"</code> mendarat pada dokumen secara automatik.
+    </p>
+  </div>
+
+  <h2>share-picker — hantar halaman ini</h2>
+  <p>
+    Butang satu glif yang membuka helaian kongsi natif peranti di mana ada, dan jika tidak kembali kepada senarai destinasi yang anda bekalkan, serta tindakan salin-URL. Ia tidak menghantar URL rangkaian sosial — rangkaian mana yang sesuai dalam produk anda adalah keputusan anda, bukan sistem reka bentuk.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> lalai kepada <code>location.href</code>jadi kes biasa tidak memerlukan pendawaian. Paksa laluan dengan <code>strategy="list"</code> atau
+    <code>strategy="native"</code> apabila anda memerlukan tingkah laku konsisten merentas platform untuk ujian atau tangkapan skrin.
+  </p>
+
+  <h2>date-time-picker — tarikh, masa, atau kedua-duanya</h2>
+  <p>
+    Medan teks yang boleh anda taip, ditambah butang ikon yang membuka dialog pemilih tarikh WAI-ARIA APG. Betul mengikut lokal mengikut reka bentuk — nama bulan, nama hari minggu, hari pertama minggu dan jam 12 atau 24 jam semuanya datang daripada <code>Intl</code> — dan nilainya sentiasa rentetan ISO yang boleh diisih tanpa zon masa: <code>"2026-03-15"</code> untuk
+    <code>mode="date"</code>, <code>"09:30"</code> untuk
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> untuk
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Nilai ISO sama dengan apa yang dihantar oleh <code>&lt;input type="date"&gt;</code>
+    , jadi anda boleh menukar kawalan natif masuk atau keluar tanpa menyentuh bahagian belakang anda.
+  </p>
+
+  <h2>motion-picker — hormati gerakan dikurangkan</h2>
+  <p>
+    Pembantu menetapkan <code>data-motion="&#123;slug&#125;"</code> pada akar dokumen. Nilai pertamanya datang daripada tetapan sistem pengendalian pelawat
+    <code>prefers-reduced-motion</code> — sentiasa, tanpa bendera pilih masuk, kerana gerakan ialah keperluan kebolehcapaian sebenar (WCAG 2.3.3). CSS dan skrip anda memutuskan apa yang ditindas.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — kotak carian yang tidak menghalang</h2>
+  <p>
+    Butang ikon yang membuka medan carian. Menekan Return, atau butang &#9166; di sebelah medan, menavigasi dengan permintaan GET biasa ke
+    <code>/?&lt;text&gt;</code> (teks dipangkas dan dikod URI; pertanyaan kosong tidak ke mana-mana). Tiga nama boleh diaksesnya diperlukan, kerana pembantu tidak menghantar bahasa Inggeris.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> menukar laluan (<code>/search?foo</code>), dan
+    <code>navigate</code> mengekalkan navigasi dalam aplikasi; tanpanya pembantu memanggil <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — seluruh baris pengepala sekaligus</h2>
+  <p>
+    <code>picker-bar</code> memaparkan carian, tema, lokal, saiz teks dan perkongsian dalam satu baris, dengan set penuh tema rujukan dan skala teks tujuh langkah yang sudah disambungkan. Setiap nama boleh diakses tiba dalam satu
+    <code>labels</code> objek wajib.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Capai mana-mana pemilih terbalut dengan <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> dan <code>shareProps</code>.
+  </p>
+
+  <h2>Tip alat sudah terbina dalam</h2>
+  <p>
+    Setiap pemilih menunjukkan labelnya dalam tip alat apabila penuding berehat pada butangnya atau butang mempunyai fokus papan kekunci. Tip alat kekal semasa penuding bergerak ke atasnya, Escape menolaknya di mana-mana fokus berada, dan ia tidak pernah dipaparkan semasa popup pemilih terbuka. Ia membawa teks yang sama dengan nama boleh akses butang, jadi tiada apa untuk dikonfigurasi dan tiada apa untuk diterjemah dua kali; tema rujukan menggayakannya.
+  </p>
+
+  <h2>Panel tetapan di satu tempat</h2>
+  <p>Empat pembantu keutamaan bergubah dengan semula jadi:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Disahkan:</strong> serpihan locale-picker, text-size-picker, share-picker, date-time-picker dan panel gabungan dikompil secara berasingan terhadap <code>0.1.1</code> pakej yang diterbitkan melalui
+      <code>svelte/server</code> (2026-08-29); serpihan motion-picker, search-picker dan picker-bar dipaparkan terhadap komponen pakej itu sendiri pada 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Di mana untuk mendapatkannya</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Setiap pakej mempunyai spec sendiri, ujian yang dipetakan kepada klausa spec, contoh boleh dijalankan (termasuk corak kuki SSR) dan saluran binaan + penerbitan. Pakej Svelte ialah kanonik; apabila ragu, kontrak mereka menang.
+  </p>
+
+  <h2>Langkah seterusnya</h2>
+  <ul>
+    <li><a href="/components/">Katalog komponen</a> — rujukan penuh 571 komponen.</li>
+    <li><a href="/help/">Bantuan</a> — penyelesaian masalah dan FAQ.</li>
+    <li><a href="/why/">Mengapa Lily</a> — dan cara menyokong projek.</li>
+  </ul>
+  <p>
+    Ada soalan di sepanjang jalan?
+    <a href="/help/#troubleshooting">halaman bantuan</a> penuh dengan jawapan — dan jika sesuatu langkah boleh dijelaskan lagi,
+    <a href="https://github.com/LilyDesignSystem">beritahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial.
+  </p>
+</section>

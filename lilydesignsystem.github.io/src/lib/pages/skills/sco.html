@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills gie Claude Code a curatit, loadable entry pynt intae Lily Design System — general concepts, per-framework umbrellas, an per-subproject deep dives for the headless library an the *-picker helpers. -->
+<section class="page-intro">
+  <h1>Skills on AI agents mak Lily even easier</h1>
+  <p class="page-intro-tagline">
+    Lily ships focused skills — general, per-framework, an per-subproject — sae an agent loads exactly the context it needs an naething it disnae.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Whit skill dae ye want?</h2>
+  <p>
+    Ilka tier answers a different question. Load the general skill whan ye dinnae ken Lily yet. Load a framework skill whan ye ken yer framework but no whit subproject ye need. Load a headless-skill or helpers-skill directly whan ye aareadies ken exactly whit ye're wirkin on.
+  </p>
+
+  <ul>
+    <li>
+      <strong>General / maintainer</strong> — “Whit is Lily?” / “Hoo is this monorepo pit thegither?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Framework umbrella</strong> — “Whit's available for {framework}, an whit piece dae I need?” — 8, ane <code>{framework}-skill</code> ilkane
+    </li>
+    <li>
+      <strong>Headless / helpers</strong> — “Hoo exactly dae I uise {framework}'s components / *-picker helpers?” — 16, ane <code>{framework}-headless-skill</code> an ane <code>{framework}-helpers-skill</code> ilkane
+    </li>
+  </ul>
+
+  <h2>The aicht frameworks</h2>
+  <p>
+    Ilka framework gits the same three-deep stack. The umbrella skill maps aw that framework's real subprojects — includin the example app, which neither o its twa sibling skills covers — an points doun intae them raither than repeatin their contracts.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Umbrella</th>
+        <th>Headless</th>
+        <th>Helpers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="Angular headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="Angular helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="Blazor headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="Blazor helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="HTML headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="HTML helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="Nunjucks headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="Nunjucks helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="React headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="React helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="Svelte headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="Svelte helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="Vue headless skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="Vue helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components umbrella skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">skill</a></td>
+        <td>
+          <a
+            aria-label="Web Components headless skill"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >skill</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components is the ae exception in baith directions: its headless catalog is a deliberate 536-o-571 scope (native custom elements, nae framework runtime; the ither 35 components are permanently excludit), an there's nae Web Components example app yet — its umbrella skill says sae raither than implyin ane exists.
+  </p>
+
+  <h2>Add ae skill</h2>
+  <p>
+    Ilka skill is a <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> file — plus supportin files, nae build step. Clone the ane ye need intae whaurever yer Claude Code setup loads skills frae (see the official docs linkit abune for yer project's or account's skills directory):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Wirkin athort several frameworks, or on the monorepo itsel? Clone the <a href="https://github.com/LilyDesignSystem/lily-design-system">canonical monorepo</a> insteid — ilka ane o the 26 skills aareadies lives at its root, alangside the headless libraries, the helpers catalogs, an the example apps they describe.
+  </p>
+</section>

@@ -1,0 +1,127 @@
+<!-- title: Angular apmācība — Lily Design System -->
+<!-- description: Izveidojiet pieejamu, noformētu veidlapu ar Lily Angular 20 bezgalvas komponentēm: patstāvīgas komponentes ar signālu ievadēm. -->
+<section class="page-intro">
+  <h1>Angular apmācība</h1>
+  <p class="page-intro-tagline">
+    Angular 20 patstāvīgās komponentes — signālu ievades, OnPush izmaiņu noteikšana, iebūvētas veidnes, nulle NgModules, nulle CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Neliela kontaktu veidlapa — lauks ar iezīmi, iesniegšanas poga, divvirzienu saistīšana, īsta tastatūras un ekrāna lasītāja darbība — vispirms kaila, tad noformēta, apmēram 10 minūtēs.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Nepieciešams git, Node 22 vai jaunāks un pnpm 10 vai jaunāks. Der jebkurš Angular 20 projekts — Angular CLI vai Analog.
+  </p>
+
+  <h2>1. solis — Iegūstiet kodu</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponentes ir plakanas datnes direktorijā <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — katra ir patstāvīga komponente ar iebūvētu veidni, plus tās spec un story. Barrel
+    <code>index.ts</code> atkārtoti eksportē katru komponenti; <code>pnpm build</code>
+    izveido Angular Package Format paku ar ng-packagr.
+  </p>
+
+  <h2>2. solis — Jūsu pirmā komponente</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Katra komponente deklarē <code>lily-*</code> selektoru un attēlo semantisko elementu ar tās klases āķi —
+    <code>&lt;button class="button" type="button"&gt;</code> šeit. Ievades ir balstītas uz signāliem: <code>label()</code> elementam <code>aria-label</code>
+    lai pārrakstītu, <code>className()</code> lai pievienotu klases.
+  </p>
+
+  <h2>3. solis — Salieciet nelielu veidlapu</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> pieņem redzamo iezīmi kā savu
+    <code>label</code> ievadi, nevis iekļautu iezīmes komponenti — nododiet to vienreiz, pie lauka, un atbilstošais <code>lily-text-input</code>no
+    <code>label</code> nodrošina pieejamo nosaukumu. Ievadēm līdzīgas komponentes atklāj <code>model()</code> vērtības, tāpēc banana-box <code>[(value)]</code>
+    divvirzienu saistīšana darbojas uzreiz — visur saderīga ar zoneless.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudīts 2026-08-29:</strong> agrāks melnraksts iekļāva atsevišķu <code>Label</code> komponenti iekšā <code>lily-field</code>, kas attēloja <em>divas</em> iezīmes (vienu tukšu), jo
+      <code>lily-field</code> jau pati attēlo savu no
+      <code>label</code> ievades — atklāts, pārbaudot komponentes pirmkodu.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Salikto kontaktu veidlapas maršrutu</a>
+      ir tas pats modelis, pārbaudīts ar īstiem e2e un axe testiem.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudiet savu darbu:</strong> palaidiet lietotni, un veidlapa izskatās kaila — tieši kā paredzēts: noformēšana vēl priekšā. Nospiediet
+      <kbd>Tab</kbd>: fokuss iet cauri katrai vadīklai, iezīme tiek paziņota, un iesniegšana darbojas. Uzvedība ir gatava; izskats ir jūsu un ir nākamais solis.
+    </p>
+  </div>
+
+  <h2>4. solis — Noformējiet to</h2>
+  <p>
+    Noformējiet klases āķus — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — failā <code>styles.css</code>vai pievienojiet gatavu motīvu masīvam <code>styles</code> failā
+    <code>angular.json</code> / saistiet to failā <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>5. solis — Redziet, kā viss darbojas</h2>
+  <p>
+     <a href="/examples/">Angular + Analog paraugu lietotne</a> rāda pilnu katalogu ar failu balstītu maršrutēšanu un Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motīvi</a> — pārslēgšana izpildes laikā ar Angular palīgu theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Preferenču palīgi</a> — valoda un teksta izmērs.</li>
+    <li><a href="/components/">Komponenšu katalogs</a> — īpašības, ARIA un tastatūra katrai komponentei.</li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

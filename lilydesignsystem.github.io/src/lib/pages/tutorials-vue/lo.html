@@ -1,0 +1,122 @@
+<!-- title: ບົດສອນ Vue — Lily Design System -->
+<!-- description: ສ້າງແບບຟອມທີ່ເຂົ້າເຖິງໄດ້ງ່າຍ ແລະມີຮູບແບບດ້ວຍອົງປະກອບແບບບໍ່ມີຫົວ Vue 3 ຂອງ Lily: ອົງປະກອບໄຟລ໌ດຽວພ້ອມ v-model. -->
+<section class="page-intro">
+  <h1>ບົດສອນ Vue</h1>
+  <p class="page-intro-tagline">
+    ອົງປະກອບໄຟລ໌ດຽວ Vue 3 ພ້ອມຄຸນສົມບັດທີ່ມີຊະນິດ, <code>defineModel</code>
+    ການຜູກສອງທາງ, ແລະ <code>v-bind="$attrs"</code> ການຜ່ານ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ສິ່ງທີ່ທ່ານຈະສ້າງ</h2>
+  <p>
+    ແບບຟອມຕິດຕໍ່ນ້ອຍໆ — ຊ່ອງປ້ອນທີ່ມີປ້າຍ, ປຸ່ມສົ່ງ, <code>v-model</code>
+    ການຜູກ, ພຶດຕິກຳແປ້ນພິມ ແລະໂປຣແກຣມອ່ານໜ້າຈໍຈິງ — ທຳອິດເປົ່າ, ຈາກນັ້ນມີຮູບແບບ, ໃນປະມານ 10 ນາທີ.
+  </p>
+
+  <h2>ກ່ອນທ່ານເລີ່ມ</h2>
+  <p>
+    ທ່ານຕ້ອງການ git, Node 22 ຫຼືໃໝ່ກວ່າ, ແລະ pnpm 10 ຫຼືໃໝ່ກວ່າ. ໂຄງການ Vue 3 ໃດກໍໃຊ້ໄດ້ — Nuxt, Vite ຫຼື Vue ທຳມະດາ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 1 — ເອົາໂຄດ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    ອົງປະກອບເປັນໄຟລ໌ຮາບພຽງໃນ <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — ແຕ່ລະອັນມີການທົດສອບ, story ແລະເອກະສານຢູ່ຂ້າງ. ສຳເນົາໄຟລ໌ທີ່ທ່ານຕ້ອງການ, ຫຼື vendor ຄັງ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 2 — ອົງປະກອບທຳອິດຂອງທ່ານ</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    ສະແດງ <code>&lt;button class="button" type="button"&gt;</code>. ຄຸນສົມບັດກົງກັບເຟຣມເວີກອື່ນ: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, ບວກການຜ່ານຄຸນລັກສະນະສຳລັບທຸກຢ່າງອື່ນ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 3 — ປະກອບແບບຟອມນ້ອຍໆ</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> ເອົາ <code>label</code> ເປັນຄຸນສົມບັດຂອງຕົນເອງ ແທນທີ່ຈະເປັນອົງປະກອບປ້າຍທີ່ຊ້ອນກັນ — ສົ່ງຜ່ານຄັ້ງດຽວ, ທີ່
+    <code>Field</code>, ແລະ <code>TextInput</code>ທີ່ກົງກັນໃນ
+    <code>label</code> ໃຫ້ຊື່ທີ່ເຂົ້າເຖິງໄດ້.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດສອບແລ້ວ 2026-08-29:</strong> ຮ່າງກ່ອນໜ້າໄດ້ຊ້ອນອົງປະກອບແຍກຕ່າງຫາກ <code>Label</code> ພາຍໃນ <code>Field</code>, ເຊິ່ງສະແດງ
+      <em>ສອງ</em> ປ້າຍ (ອັນໜຶ່ງຫວ່າງ) ເພາະ <code>Field</code> ສະແດງຂອງຕົນເອງແລ້ວຈາກ <code>label</code> ຄຸນສົມບັດ — ພົບໂດຍການຄອມໄພລ໌ສ່ວນທີ່ແນ່ນອນ.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">ເສັ້ນທາງແບບຟອມຕິດຕໍ່ແບບປະກອບ</a>
+      ເປັນຮູບແບບດຽວກັນ, ໃຊ້ດ້ວຍການທົດສອບ e2e ແລະ axe ຈິງ.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> ໃຊ້ <code>defineModel</code>, ສະນັ້ນທຳມະດາ
+    <code>v-model</code> ເຮັດວຽກທັນທີ.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດງານຂອງທ່ານ:</strong> ແລ່ນແອັບ ແລະແບບຟອມເບິ່ງທຳມະດາ — ຕາມທີ່ຕັ້ງໃຈ: ການໃສ່ຮູບແບບຍັງຢູ່ຂ້າງໜ້າ. ກົດ
+      <kbd>Tab</kbd>: ຈຸດສຸມເຄື່ອນຜ່ານທຸກການຄວບຄຸມ, ປ້າຍຖືກປະກາດ ແລະການສົ່ງເຮັດວຽກ. ພຶດຕິກຳສຳເລັດແລ້ວ; ລັກສະນະເປັນຂອງທ່ານ ແລະເປັນຂັ້ນຕໍ່ໄປ.
+    </p>
+  </div>
+
+  <h2>ຂັ້ນຕອນ 4 — ໃສ່ຮູບແບບ</h2>
+  <p>
+    ໃສ່ຮູບແບບ class hook — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ໃນ stylesheet ຂອງທ່ານ, ຫຼືເຊື່ອມຕໍ່ຮູບແບບສີສັນສຳເລັດຮູບໃນ <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>ຂັ້ນຕອນ 5 — ເບິ່ງທຸກຢ່າງເຮັດວຽກ</h2>
+  <p>
+     <a href="/examples/">ແອັບຕົວຢ່າງ Nuxt</a> ແມ່ນແຄັດຕາລັອກເຕັມທີ່ມີຮູບແບບ ແລະສາທິດ, ພ້ອມ Playwright e2e ແລະ axe-core baseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ຂັ້ນຕອນຕໍ່ໄປ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ຮູບແບບສີສັນ</a> — ການສະຫຼັບຕອນແລ່ນດ້ວຍຕົວຊ່ວຍ Vue theme-picker.</li>
+    <li><a href="/tutorials/helpers/">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a> — ພາສາ ແລະຂະໜາດຕົວອັກສອນ.</li>
+    <li><a href="/components/">ແຄັດຕາລັອກອົງປະກອບ</a> — ຄຸນສົມບັດ, ARIA ແລະແປ້ນພິມຕໍ່ອົງປະກອບ.</li>
+  </ul>
+  <p>
+    ມີຄຳຖາມລະຫວ່າງທາງບໍ?
+    <a href="/help/#troubleshooting">ໜ້າຊ່ວຍເຫຼືອ</a> ເຕັມໄປດ້ວຍຄຳຕອບ — ແລະຖ້າຂັ້ນຕອນໃດຊັດເຈນຂຶ້ນໄດ້,
+    <a href="https://github.com/LilyDesignSystem">ບອກພວກເຮົາ</a> ແລະພວກເຮົາຍິນດີປັບປຸງບົດສອນ.
+  </p>
+</section>

@@ -1,0 +1,109 @@
+<!-- title: บทเรียน React — Lily Design System -->
+<!-- description: สร้างฟอร์มที่เข้าถึงได้และมีสไตล์ด้วยคอมโพเนนต์ headless React ของ Lily: คอมโพเนนต์ฟังก์ชันที่มีชนิดข้อมูล พร้อม value + onChange -->
+<section class="page-intro">
+  <h1>บทเรียน React</h1>
+  <p class="page-intro-tagline">
+    คอมโพเนนต์ฟังก์ชันที่มีชนิดข้อมูล หนึ่งไฟล์ต่อหนึ่งตัว ควบคุมด้วยรูปแบบมาตรฐาน
+    <code>value</code> + <code>onChange</code> — ทุกอย่างทำงานแบบที่ React ทำอยู่แล้ว
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>สิ่งที่คุณจะสร้าง</h2>
+  <p>
+    ฟอร์มติดต่อขนาดเล็ก — ช่องกรอกที่มีป้ายกำกับ, ปุ่มส่ง, สถานะแบบควบคุม, พฤติกรรมของแป้นพิมพ์และโปรแกรมอ่านหน้าจอจริง — เริ่มจากแบบไม่ตกแต่งก่อน แล้วค่อยใส่สไตล์ ภายในประมาณ 10 นาที
+  </p>
+
+  <h2>ก่อนเริ่ม</h2>
+  <p>
+    คุณต้องมี git, Node 22 ขึ้นไป และ pnpm 10 ขึ้นไป โปรเจกต์ React 18+ ใดก็ได้ — Next.js, Vite หรือ React ล้วน ๆ
+  </p>
+
+  <h2>ขั้นที่ 1 — รับโค้ด</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    คอมโพเนนต์เป็นไฟล์แบบแบนอยู่ใน <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — แต่ละตัวมีการทดสอบ story และเอกสารอยู่ข้างกัน คัดลอกไฟล์ที่ต้องการเข้าแอปของคุณ หรือนำรีโพเข้ามาแล้วนำเข้าจากที่นั่น
+  </p>
+
+  <h2>ขั้นที่ 2 — คอมโพเนนต์แรกของคุณ</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    แสดงผล <code>&lt;button class="button" type="button"&gt;</code>Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (แสดงผล
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> ใช้แทนที่), <code>className</code>และแอตทริบิวต์เพิ่มเติมใด ๆ จะกระจายไปที่องค์ประกอบราก
+  </p>
+
+  <h2>ขั้นที่ 3 — ประกอบฟอร์มเล็ก ๆ</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> รับ <code>label</code> เป็น prop ของตัวเอง แทนที่จะเป็นคอมโพเนนต์ป้ายกำกับที่ซ้อนอยู่ข้างใน — ส่งเพียงครั้งเดียวที่
+    <code>Field</code>และ <code>TextInput</code>ที่ตรงกัน
+    <code>label</code> ให้ชื่อที่เข้าถึงได้
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ตรวจสอบเมื่อ 2026-08-29:</strong> ร่างก่อนหน้านี้ซ้อนคอมโพเนนต์ <code>Label</code> ภายใน <code>Field</code>ซึ่งแสดงผล
+      <em>ป้ายกำกับ</em> สองอัน (อันหนึ่งว่างเปล่า) เพราะ <code>Field</code> แสดงป้ายกำกับของตัวเองอยู่แล้วจาก <code>label</code> prop — พบจากการคอมไพล์ตัวอย่างโค้ดจริง
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">เส้นทางฟอร์มติดต่อแบบประกอบ</a>
+      เป็นรูปแบบเดียวกัน และผ่านการทดสอบ e2e และ axe จริง
+    </p>
+  </div>
+
+  <h2>ขั้นที่ 4 — ใส่สไตล์</h2>
+  <p>
+    ทุกอย่างข้างบนเรนเดอร์เป็นโครงสร้างล้วน พร้อมรับสไตล์ของคุณ ใส่สไตล์ให้ hook — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — ในสไตล์ชีตของคุณ ซ้อนยูทิลิตี Tailwind ผ่าน <code>className</code>หรือลิงก์ธีมสำเร็จรูป:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>ขั้นที่ 5 — ดูทุกอย่างทำงาน</h2>
+  <p>
+     <a href="/examples/">แอปตัวอย่าง Next.js</a> คือแคตตาล็อกทั้งหมดที่มีสไตล์และเดโม พร้อม Playwright e2e และเส้นฐาน axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>ขั้นต่อไป</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">การกำหนดธีม</a> — การสลับขณะรันไทม์ด้วยตัวช่วย theme-picker ของ React</li>
+    <li><a href="/tutorials/helpers/">ตัวช่วยการตั้งค่า</a> — ภาษาและขนาดตัวอักษร</li>
+    <li><a href="/components/">แคตตาล็อกคอมโพเนนต์</a> — props, ARIA และแป้นพิมพ์ของแต่ละคอมโพเนนต์</li>
+  </ul>
+  <p>
+    มีคำถามระหว่างทางไหม?
+    <a href="/help/#troubleshooting">หน้าช่วยเหลือ</a> เต็มไปด้วยคำตอบ — และถ้าขั้นตอนไหนทำให้ชัดเจนกว่านี้ได้
+    <a href="https://github.com/LilyDesignSystem">บอกเรา</a> แล้วเรายินดีปรับปรุงบทเรียน
+  </p>
+</section>

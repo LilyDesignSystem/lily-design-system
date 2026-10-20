@@ -1,0 +1,97 @@
+<!-- title: „Nunjucks“ vadovas — Lily Design System -->
+<!-- description: Kurkite prieinamus, apipavidalintus, serveryje atvaizduojamus puslapius su „Lily“ „Nunjucks“ makrokomandomis — idealu „Eleventy“. -->
+<section class="page-intro">
+  <h1>„Nunjucks“ vadovas</h1>
+  <p class="page-intro-tagline">
+    Serveryje atvaizduojamos makrokomandos „Eleventy“, „Express“ ar bet kuriam „Node“ šablonų vamzdynui — „GOV.UK“ stiliaus požiūris su „Lily“ katalogu ir klasių kabliais.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ką sukursite</h2>
+  <p>
+    Nedidelė serveryje atvaizduojama kontaktų forma — laukas su žyma, siuntimo mygtukas, nulinė JavaScript apkrova — pirma plika, paskui apipavidalinta, per maždaug 10 minučių.
+  </p>
+
+  <h2>Prieš pradedant</h2>
+  <p>
+    Reikia git, Node 22 ar naujesnės ir pnpm 10 ar naujesnio. Tinka bet kuris „Nunjucks“ vamzdynas — „Eleventy“, „Express“ arba paprastas „Nunjucks“.
+  </p>
+
+  <h2>1 žingsnis — Gaukite kodą</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Kiekvienas komponentas yra katalogas <code>components/</code> su
+    <code>macro.njk</code>, jo testu ir dokumentacija — pavyzdžiui
+    <code>components/button/macro.njk</code>. Nukreipkite savo „Nunjucks“ įkroviklį į
+    <code>components/</code> („Eleventy“ pridėkite jį prie includes kelio) ir importuokite, ko reikia.
+  </p>
+
+  <h2>2 žingsnis — Jūsų pirmasis komponentas</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Atvaizduoja <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makrokomandos priima vieną params objektą: <code>text</code> (pabėgtas) arba
+    <code>html</code> (neapdorotas), <code>type</code>, <code>label</code> elementui
+    <code>aria-label</code>ir klasės kablio pridėtuvą.
+  </p>
+
+  <h2>3 žingsnis — Sudėkite nedidelę formą</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Kadangi viskas atvaizduojama serveryje, naršyklė gauna gryną semantinį HTML su klasių kabliais — nulio baitų JavaScript apkrova.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Patikrinkite savo darbą:</strong> įkelkite puslapį ir forma atrodo plika — kaip ir numatyta: stilius dar laukia. Paspauskite
+      <kbd>Tab</kbd>: fokusas pereina per kiekvieną valdiklį, žyma paskelbiama, o siuntimas veikia. Elgesys baigtas; išvaizda jūsų ir yra kitas žingsnis.
+    </p>
+  </div>
+
+  <h2>4 žingsnis — Apipavidalinkite</h2>
+  <p>
+    Apipavidalinkite kablius — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — savo stilių lentelėje arba susiekite paruoštą temą savo bazinėje maketavimo byloje:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>5 žingsnis — Pažiūrėkite, kaip viskas veikia</h2>
+  <p>
+     <a href="/examples/">„Nunjucks“ + „Eleventy“ pavyzdinė programa</a> sukuria visą katalogą kaip statinę svetainę su demonstraciniais puslapiais kiekvienam komponentui:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Tolesni žingsniai</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temos</a> — įskaitant „Eleventy“ slapukų šabloną SSR temos perjungimui be mirgėjimo.</li>
+    <li><a href="/tutorials/helpers/">Nuostatų pagalbininkai</a> — kalba ir teksto dydis.</li>
+    <li><a href="/components/">Komponentų katalogas</a> — savybės, ARIA ir klaviatūra kiekvienam komponentui.</li>
+  </ul>
+  <p>
+    Klausimų pakeliui?
+    <a href="/help/#troubleshooting">Pagalbos puslapis</a> pilnas atsakymų — o jei kuris nors žingsnis galėtų būti aiškesnis,
+    <a href="https://github.com/LilyDesignSystem">pasakykite mums</a> ir mielai patobulinsime vadovą.
+  </p>
+</section>

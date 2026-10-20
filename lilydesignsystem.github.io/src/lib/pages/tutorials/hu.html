@@ -1,0 +1,136 @@
+<!-- title: Oktatóanyagok — Lily Design System -->
+<!-- description: Lépésről lépésre haladó Lily-oktatóanyagok: az első komponensed, stílusozás, kész témák és beállítássegédek – HTML-hez, Svelte-hez, Reacthez, Vue-hoz, Angularhoz, Blazorhoz és Nunjuckshoz. -->
+<section class="page-intro">
+  <h1>Tanuld meg a Lilyt lépésről lépésre</h1>
+  <p class="page-intro-tagline">
+    Üdv! Minden oktatóanyag a nulláról indul, és ugyanazt a kis dolgot építi fel – egy hozzáférhető, stílusozott űrlapot – körülbelül 10 perc alatt, hogy a keretrendszereket azonos alapon hasonlíthasd össze. Utána menj mélyebbre a témázással és a felhasználói beállításokkal.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mielőtt belekezdesz</h2>
+  <p>Meglepően kevés kell hozzá:</p>
+  <ul>
+    <li>
+      <strong>A HTML-oktatóanyaghoz</strong> – csak egy böngésző és egy szövegszerkesztő. Ez a teljes eszköztár.
+    </li>
+    <li>
+      <strong>Svelte-hez, Reacthez, Vue-hoz, Angularhoz vagy Nunjuckshoz</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 és pnpm 10 vagy újabb.
+    </li>
+    <li>
+      <strong>Blazorhoz</strong> – git és a
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 vagy újabb.
+    </li>
+  </ul>
+  <p>
+    Új vagy a fej nélküli komponensek világában? Jó helyen jársz – minden oktatóanyag elmagyarázza, mi történik közben, és minden lépés pontosan megmutatja a másolandó kódot.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Négy lépés a nullától a kiadásig</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Az első komponensed</strong> (~5 perc) – válaszd ki lent a keretrendszeredet, szerezd meg a kódot, és jeleníts meg egy Buttont.
+      </li>
+      <li>
+        <strong>Összeállítás és stílusozás</strong> (~5 perc) – építs egy címkézett űrlapot, és stílusozd a kebab-case osztályhorgokra (minden keretrendszer-oktatóanyag része).
+      </li>
+      <li>
+        <strong>Adj neki témát</strong> (~15 perc) – cseréld le a kézzel írt CSS-edet az 57 kész téma egyikére, majd hagyd, hogy a felhasználók futásidőben váltsanak: <a href="/tutorials/theming/">témázási oktatóanyag</a>.
+      </li>
+      <li>
+        <strong>Tartsd tiszteletben a beállításokat</strong> (~15 perc) – adj hozzá nyelv- és szövegméret-választást a beállítássegédekkel:
+        <a href="/tutorials/helpers/">segédek oktatóanyaga</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Válaszd ki a keretrendszeredet</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Másold a szemantikus HTML-t az osztályhorgokkal, és indulhatsz – egy böngésző és egy szerkesztő elég.</p>
+      <p class="card-meta">~10 perc · legkönnyebb kezdés</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 rúnák, snippetek és <code>bind:value</code> kétirányú kötés.</p>
+      <p class="card-meta">~10 perc</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Függvénykomponensek <code>value</code> + <code>onChange</code> és a maradék tulajdonságok szétterítésével.</p>
+      <p class="card-meta">~10 perc</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Vue 3 egyfájlos komponensek <code>v-model</code> támogatással.</p>
+      <p class="card-meta">~10 perc</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Önálló Angular-komponensek signal-bemenetekkel és <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 perc</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Razor-komponensek paraméterekkel, <code>ChildContent</code>és bUnit-tesztekkel.</p>
+      <p class="card-meta">~10 perc</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Kiszolgálóoldalon renderelt makrók az Eleventyhez és bármely Node-sablonozási csővezetékhez.</p>
+      <p class="card-meta">~10 perc</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Nem tudsz dönteni? Kezdd a <a href="/tutorials/html/">HTML</a> -lel – megtanítja az osztályhorog-szerződést, amelyet minden más keretrendszer megoszt, és közvetlenül fájlból fut.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Menj mélyebbre</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Témázás</h3>
+      <p class="card-description">
+        Linkeld be az 57 kész téma egyikét – NHS, GOV.UK, USWDS, világos, sötét és több – írd felül a saját CSS-eddel, és adj hozzá futásidejű témaváltást a theme-picker segéddel.
+      </p>
+      <p class="card-meta">~15 perc</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Beállítássegédek</h3>
+      <p class="card-description">
+        Adj a felhasználóknak kontrollt a téma, a nyelv, a szövegméret, a mozgás, a keresés, az oldallinkek, a megosztás, valamint a dátum/idő megadása fölött a theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker és date-time-picker segítségével: fej nélküli vezérlők tartóssággal, SSR-biztonsággal és automatikus RTL-érzékeléssel.
+      </p>
+      <p class="card-meta">~15 perc</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Az oktatóanyagok után</h2>
+  <ul>
+    <li>
+      Böngészd a <a href="/components/">komponenskatalógust</a> – minden komponens dokumentálja a tulajdonságait, az ARIA-szerződését és a billentyűzetes viselkedését.
+    </li>
+    <li>
+      Klónozz egy <a href="/examples/">példaalkalmazást</a> , hogy mind az 571 komponenst stílusozva és együttműködve lásd – a CSS ugyanazokat az osztályhorgokat célozza, amelyeket az imént használtál, így másold át bármelyik részét a projektedbe, és igazítsd kedved szerint.
+    </li>
+    <li>
+      Kérdésed van? A <a href="/help/">súgóoldalon</a> válaszokat, GYIK-et és a barátságos emberekhez vezető utakat találsz. És ha egy oktatóanyag világosabb lehetne,
+      <a href="https://github.com/LilyDesignSystem">szólj nekünk</a> – szívesen javítjuk.
+    </li>
+  </ul>
+</section>

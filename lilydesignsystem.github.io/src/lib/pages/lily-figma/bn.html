@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: রক্ষণাবেক্ষণ করা কোনো Lily Figma লাইব্রেরি বা প্লাগইন নেই। ৫৭টি রেফারেন্স থিমের ডিজাইন টোকেন DTCG ফরম্যাটে প্রকাশিত এবং আজই বিদ্যমান কমিউনিটি প্লাগইন দিয়ে Figma-তে আমদানি করা যায়। -->
+<section class="page-intro">
+  <h1>রক্ষণাবেক্ষণ করা কোনো Figma লাইব্রেরি নেই — এর বদলে যা আছে</h1>
+  <p class="page-intro-tagline">
+    এই পাতায় আগে লেখা ছিল "শীঘ্রই আসছে।" এখন আর নেই, কারণ কেউ এটি বানাচ্ছিল না। এই হলো সৎ অবস্থা, আর আজই কাজ করা একটি প্রকৃত পথ।
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>যা নেই</h2>
+  <p>
+    Figma-তে কোনো অফিসিয়াল Lily কম্পোনেন্ট লাইব্রেরি নেই, রক্ষণাবেক্ষণ করা Figma প্লাগইনও নেই। একটি ডিজাইন-টুল লাইব্রেরি ভালোভাবে বানানো ও রক্ষণাবেক্ষণ করা একটি প্রকৃত, চলমান দায়বদ্ধতা — Figma কম্পোনেন্ট কাঠামো, ভ্যারিয়েন্ট নামকরণ, auto-layout, নিজস্ব প্রকাশনা পাইপলাইন — কোড রক্ষণাবেক্ষণ থেকে আলাদা, আর এই প্রকল্প তা গ্রহণ করেনি।
+  </p>
+
+  <h2>আজ যা আছে</h2>
+  <p>
+    ৫৭টি রেফারেন্স থিমের প্রতিটির নিজস্ব ডিজাইন-টোকেন আদিম উপাদান আছে — রং, ব্যাসার্ধ, আকার, সীমানা — প্রকাশিত
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 ফরম্যাটে</a
+    >
+    এখানে
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >। সেই ফরম্যাটই আধুনিক টোকেন টুল ঠিক যা পড়ে। আপনি এই প্রকল্পের কোনো প্লাগইন ছাড়াই নিজে, এখনই, একটি Lily থিমের প্যালেট Figma-তে টেনে আনতে পারেন:
+  </p>
+  <ol>
+    <li>
+      কমিউনিটি
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      প্লাগইন ইনস্টল করুন (অথবা Figma-র নিজস্ব Variables আমদানি, যেখানে আপনার প্ল্যান DTCG আমদানি সমর্থন করে)।
+    </li>
+    <li>
+      আমদানি করুন <code>themes/tokens/{theme-slug}.json</code> আপনার পছন্দের থিমের জন্য — যেমন
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio DTCG মান থেকে Figma ভ্যারিয়েবল তৈরি করে, যা আপনি পরে নিজের কম্পোনেন্টে প্রয়োগ করতে পারেন।
+    </li>
+  </ol>
+  <p>
+    এটি আপনাকে Figma-তে Lily-র রং ও আকৃতির টোকেন দেয়। এটি Lily-র প্রকৃত কম্পোনেন্টগুলোকে Figma কম্পোনেন্ট হিসেবে দেয় না — কেউ তা বানায়নি, আর এই পাতা অন্যথা ভান করবে না।
+  </p>
+
+  <h2>প্রকৃত Figma লাইব্রেরি কি পরিকল্পিত?</h2>
+  <p>
+    এখন নয়, আর এর প্রতিশ্রুতি দেওয়া বিনামূল্যে নয়: দেখুন
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    খোলা প্রশ্ন এবং কী প্রকল্পের মত বদলাবে তার জন্য — সবচেয়ে কাজের হলো কোনো ডিজাইনার নির্দিষ্টভাবে বলেন এই স্তর থেকে তাঁর কী দরকার। সেটা আপনি হলে,
+    <a href="mailto:joel@joelparkerhenderson.com">আমাদের জানান</a>
+    বা একটি issue খুলুন।
+  </p>
+</section>

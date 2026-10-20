@@ -1,0 +1,97 @@
+<!-- title: Nunjucks ટ્યુટોરિયલ — Lily Design System -->
+<!-- description: Lily ના Nunjucks મેક્રો સાથે સુલભ, શૈલીબદ્ધ, સર્વર-રેન્ડર પૃષ્ઠો બનાવો — Eleventy માટે આદર્શ. -->
+<section class="page-intro">
+  <h1>Nunjucks ટ્યુટોરિયલ</h1>
+  <p class="page-intro-tagline">
+    Eleventy, Express અથવા કોઈ પણ Node ટેમ્પલેટ પાઇપલાઇન માટે સર્વર-રેન્ડર મેક્રો — Lily ના કેટલોગ અને ક્લાસ હૂક સાથે GOV.UK-શૈલીનો અભિગમ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>તમે શું બનાવશો</h2>
+  <p>
+    એક નાનું સર્વર-રેન્ડર સંપર્ક ફોર્મ — લેબલ સાથેનું ક્ષેત્ર, સબમિટ બટન, શૂન્ય JavaScript ભાર — પહેલાં સાદું, પછી શૈલીબદ્ધ, લગભગ 10 મિનિટમાં.
+  </p>
+
+  <h2>શરૂ કરતા પહેલાં</h2>
+  <p>
+    તમને git, Node 22 કે નવું, અને pnpm 10 કે નવું જોઈએ. કોઈ પણ Nunjucks પાઇપલાઇન ચાલશે — Eleventy, Express અથવા સાદું Nunjucks.
+  </p>
+
+  <h2>પગલું 1 — કોડ મેળવો</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    દરેક ઘટક અહીં એક ડિરેક્ટરી છે: <code>components/</code> એક
+    <code>macro.njk</code>સાથે, તેનું પરીક્ષણ અને તેના દસ્તાવેજો — ઉદાહરણ તરીકે
+    <code>components/button/macro.njk</code>. તમારા Nunjucks લોડરને અહીં નિર્દેશ કરો
+    <code>components/</code> (Eleventy માં તેને includes માર્ગમાં ઉમેરો) અને જે જોઈએ તે આયાત કરો.
+  </p>
+
+  <h2>પગલું 2 — તમારો પહેલો ઘટક</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    આ દર્શાવે છે <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. મેક્રો એક જ params ઑબ્જેક્ટ લે છે: <code>text</code> (એસ્કેપ કરેલું) અથવા
+    <code>html</code> (કાચું), <code>type</code>, <code>label</code> માટે
+    <code>aria-label</code>અને એક ક્લાસ હૂક ઉમેરનાર.
+  </p>
+
+  <h2>પગલું 3 — એક નાનું ફોર્મ બનાવો</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    કારણ કે બધું સર્વર પર રેન્ડર થાય છે, બ્રાઉઝરને ક્લાસ હૂક સાથે શુદ્ધ અર્થપૂર્ણ HTML મળે છે — શૂન્ય બાઇટનો JavaScript ભાર.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>તમારું કામ તપાસો:</strong> પૃષ્ઠ લોડ કરો અને ફોર્મ સાદું દેખાય છે — બરાબર ધાર્યા મુજબ: શૈલી હજી આગળ છે. દબાવો
+      <kbd>Tab</kbd>: ફોકસ દરેક નિયંત્રણમાંથી પસાર થાય છે, લેબલ જાહેર થાય છે અને સબમિટ કામ કરે છે. વર્તન પૂર્ણ છે; દેખાવ તમારો છે અને આગલું પગલું છે.
+    </p>
+  </div>
+
+  <h2>પગલું 4 — તેને શૈલી આપો</h2>
+  <p>
+    હૂકને શૈલી આપો — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — તમારી સ્ટાઇલશીટમાં, અથવા તમારા બેઝ લેઆઉટમાં તૈયાર થીમ લિંક કરો:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>પગલું 5 — બધું કામ કરતું જુઓ</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy ઉદાહરણ એપ</a> દરેક ઘટકના નિદર્શન પૃષ્ઠો સાથે સંપૂર્ણ કેટલોગ સ્થિર સાઇટ તરીકે બનાવે છે:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>આગળનાં પગલાં</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">થીમ</a> — ઝબકારા વિનાના SSR થીમ બદલાવ માટે Eleventy કૂકી પેટર્ન સહિત.</li>
+    <li><a href="/tutorials/helpers/">પસંદગી સહાયકો</a> — ભાષા અને લખાણનું કદ.</li>
+    <li><a href="/components/">ઘટક કેટલોગ</a> — દરેક ઘટક માટે ગુણધર્મો, ARIA અને કીબોર્ડ.</li>
+  </ul>
+  <p>
+    રસ્તામાં પ્રશ્નો છે?
+    <a href="/help/#troubleshooting">મદદ પૃષ્ઠ</a> જવાબોથી ભરેલું છે — અને જો કોઈ પગલું વધુ સ્પષ્ટ થઈ શકે,
+    <a href="https://github.com/LilyDesignSystem">અમને કહો</a> અને અમે ખુશીથી ટ્યુટોરિયલ સુધારીશું.
+  </p>
+</section>

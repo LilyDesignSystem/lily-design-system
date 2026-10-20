@@ -1,0 +1,136 @@
+<!-- title: Vodiči — Lily Design System -->
+<!-- description: Vodiči za Lily korak za korakom: vaša prva komponenta, stiliziranje, pripravljene teme in pomočniki za nastavitve — za HTML, Svelte, React, Vue, Angular, Blazor in Nunjucks. -->
+<section class="page-intro">
+  <h1>Naučite se Lily korak za korakom</h1>
+  <p class="page-intro-tagline">
+    Dobrodošli! Vsak vodič se začne pri nič in zgradi isto majhno stvar — dostopen, stiliziran obrazec — v približno 10 minutah, da lahko ogrodja primerjate pod enakimi pogoji. Nato pojdite globlje s temami in uporabniškimi nastavitvami.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Preden začnete</h2>
+  <p>Potrebujete presenetljivo malo:</p>
+  <ul>
+    <li>
+      <strong>Za vodič HTML</strong> — samo brskalnik in urejevalnik besedila. To je celotno orodje.
+    </li>
+    <li>
+      <strong>Za Svelte, React, Vue, Angular ali Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 in pnpm 10 ali novejši.
+    </li>
+    <li>
+      <strong>Za Blazor</strong> — git in
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 ali novejši.
+    </li>
+  </ul>
+  <p>
+    Ste novi pri brezglavih komponentah? Ste na pravem mestu — vsak vodič pojasni, kaj se dogaja, in vsak korak pokaže točno kodo za kopiranje.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Štirje koraki od nič do objave</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Vaša prva komponenta</strong> (~5 minut) — spodaj izberite svoje ogrodje, pridobite kodo in prikažite Button.
+      </li>
+      <li>
+        <strong>Sestavite in stilizirajte</strong> (~5 minut) — zgradite obrazec z oznakami in ga stilizirajte glede na kavlje razredov v kebab-case (del vsakega vodiča za ogrodje).
+      </li>
+      <li>
+        <strong>Dodelite mu temo</strong> (~15 minut) — zamenjajte ročno napisan CSS z eno od 57 pripravljenih tem, nato uporabnikom dovolite preklapljanje med izvajanjem: <a href="/tutorials/theming/">vodič o temah</a>.
+      </li>
+      <li>
+        <strong>Spoštujte nastavitve</strong> (~15 minut) — dodajte izbiro jezika in velikosti besedila s pomočniki za nastavitve:
+        <a href="/tutorials/helpers/">vodič o pomočnikih</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Izberite svoje ogrodje</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Kopirajte semantični HTML s kavlji razredov in začnite — dovolj sta brskalnik in urejevalnik.</p>
+      <p class="card-meta">~10 minut · najlažji začetek</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Runi Svelte 5, odlomki in dvosmerna vezava z <code>bind:value</code> .</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Funkcijske komponente z <code>value</code> + <code>onChange</code> in razširjanjem preostalih lastnosti.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Enodatotečne komponente Vue 3 s podporo za <code>v-model</code> .</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Samostojne komponente Angularja s signalnimi vnosi in <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Komponente Razor s parametri, <code>ChildContent</code>in testi bUnit.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Makri, upodobljeni na strežniku, za Eleventy in katerikoli cevovod predlog Node.</p>
+      <p class="card-meta">~10 minut</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Ne morete se odločiti? Začnite s <a href="/tutorials/html/">HTML</a> — uči pogodbo o kavljih razredov, ki jo delijo vsa druga ogrodja, in deluje neposredno iz datoteke.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Pojdite globlje</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Teme</h3>
+      <p class="card-description">
+        Povežite eno od 57 pripravljenih tem — NHS, GOV.UK, USWDS, svetlo, temno in druge — prepišite jo z lastnim CSS in dodajte preklapljanje tem med izvajanjem s pomočnikom theme-picker.
+      </p>
+      <p class="card-meta">~15 minut</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Pomočniki za nastavitve</h3>
+      <p class="card-description">
+        Uporabnikom dajte nadzor nad temo, jezikom, velikostjo besedila, gibanjem, iskanjem, povezavami strani, deljenjem in vnosom datuma/časa s theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker in date-time-picker: brezglavimi kontrolniki s trajnostjo, varnostjo SSR in samodejnim zaznavanjem RTL.
+      </p>
+      <p class="card-meta">~15 minut</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Po vodičih</h2>
+  <ul>
+    <li>
+      Prebrskajte <a href="/components/">katalog komponent</a> — vsaka komponenta dokumentira svoje lastnosti, pogodbo ARIA in vedenje tipkovnice.
+    </li>
+    <li>
+      Klonirajte <a href="/examples/">vzorčno aplikacijo</a> , da vidite vseh 571 komponent stiliziranih in delujočih skupaj — CSS cilja na iste kavlje razredov, ki ste jih pravkar uporabili, zato kopirajte katerikoli del v svoj projekt in ga prilagodite po želji.
+    </li>
+    <li>
+      Vprašanja? <a href="/help/">Stran s pomočjo</a> ima odgovore, pogosta vprašanja in načine, kako priti do prijaznega človeka. In če bi bil kakšen vodič lahko jasnejši,
+      <a href="https://github.com/LilyDesignSystem">povejte nam</a> — z veseljem ga bomo izboljšali.
+    </li>
+  </ul>
+</section>

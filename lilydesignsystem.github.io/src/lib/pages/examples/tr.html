@@ -1,0 +1,105 @@
+<!-- title: Örnekler — Lily Design System -->
+<!-- description: Lily bileşenlerinin HTML, Svelte, React, Vue, Angular, Blazor ve Eleventy'de nasıl biçimlendirileceğini gösteren çalışan örnek uygulamalar. -->
+<section class="page-intro">
+  <h1>Lily'yi gerçek uygulamalarda görün</h1>
+  <p class="page-intro-tagline">
+    Yedi çalışan örnek proje, başsız bileşenleri nasıl alıp üzerine biçimlendirme ekleyeceğinizi ve gerçek bir web sitesini nasıl yayına alacağınızı gösterir. Kullandığınız çerçeveyi seçin.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Tam CSS ve yönlendirmeli demo uygulamalar</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Düz HTML sayfaları, saf JavaScript, derleme aracı yok. Herhangi bir statik barındırıcıya oturur — küçük siteler ve aşamalı geliştirme için ideal.
+      </p>
+      <p class="card-meta">→ GitHub'da görüntüle</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        Svelte 5 rune'larını kullanan SvelteKit 3 uygulaması. Bileşen rotaları, dosya tabanlı yönlendirme ve her bileşenin biçimlendirilmiş storybook'u.
+      </p>
+      <p class="card-meta">→ GitHub'da görüntüle</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Her bileşeni bağlam içinde gösteren Next.js 16 uygulaması; baştan sona TypeScript ve bileşik desenler için demo sayfaları.
+      </p>
+      <p class="card-meta">→ GitHub'da görüntüle</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Nuxt 4 uygulaması. <code>&lt;script setup&gt;</code> ve Composition API, her demo rotasında.
+      </p>
+      <p class="card-meta">→ GitHub'da görüntüle</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 22 + Analog.js uygulaması. Dosya tabanlı yönlendirme, sinyaller, bölgesiz (zoneless) değişiklik algılama ve tam SSG ön oluşturma.
+      </p>
+      <p class="card-meta">→ GitHub'da görüntüle</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Razor bileşenli Blazor Web uygulaması. Sunucu ve WebAssembly dostu, .NET 10 tabanlı.
+      </p>
+      <p class="card-meta">→ GitHub'da görüntüle</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Nunjucks makrolarını kullanan Eleventy sitesi. Yine de gerçek bir bileşen sistemi isteyen içerik ağırlıklı statik siteler için ideal.
+      </p>
+      <p class="card-meta">→ GitHub'da görüntüle</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Her örnek uygulama aynı biçimdedir</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Çerçeveler arasında geçişi tanıdık kılmak için her örnek uygulama şunları sağlar:</p>
+    <ul>
+      <li>Projeyi tanıtan, <code>/</code> adresinde bir karşılama rotası.</li>
+      <li>Her bileşeni listeleyen, <code>/components</code> adresinde bir bileşen dizini.</li>
+      <li>Bileşen başına bir demo sayfası: <code>/components/&lt;component&gt;</code>.</li>
+      <li>Soyut tasarım belirteçleri değil, gerçek CSS — böylece stilleri doğrudan alabilirsiniz.</li>
+      <li>Kutudan çıktığı gibi çalışan klavye gezinmesi ve odak yönetimi.</li>
+    </ul>
+
+    <h3>Tek bir bileşenin nasıl biçimlendirildiğini mi görmek istiyorsunuz?</h3>
+    <p>
+      İlgili örnek uygulamayı açın,
+      <code>/components/&lt;name&gt;</code>adresine gidin ve işaretlemeyi ile CSS'i kendi projenize kopyalayın. Örnek uygulamalar kasıtlı olarak düz (veya düze yakın) CSS kullanır; böylece onları tercih ettiğiniz herhangi bir sisteme uyarlayabilirsiniz.
+    </p>
+
+    <h3>Bunun yerine başsız mı istiyorsunuz?</h3>
+    <p>
+      Herhangi bir örnek uygulamayı karşılık gelen <em>başsız</em>
+      paketle eşleştirin — bunlar aynı bileşenleri hiç CSS olmadan yayımlar, kendi tasarım belirteçlerinize hazırdır.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Kataloğa göz atın →</a>
+      <a class="button button-secondary" href="/help/">Kurulum kılavuzunu okuyun</a>
+    </p>
+  </div>
+</section>

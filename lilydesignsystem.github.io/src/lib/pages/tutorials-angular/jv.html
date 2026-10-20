@@ -1,0 +1,127 @@
+<!-- title: Tutorial Angular — Lily Design System -->
+<!-- description: Gawé formulir sing gampang diakses lan wis ditata nganggo komponen headless Lily kanggo Angular 20: komponen mandiri kanthi input sinyal. -->
+<section class="page-intro">
+  <h1>Tutorial Angular</h1>
+  <p class="page-intro-tagline">
+    Komponen mandiri Angular 20 — input sinyal, deteksi owah-owahan OnPush, cithakan inline, nol NgModules, nol CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa sing bakal sampeyan gawé</h2>
+  <p>
+    Formulir kontak cilik — kolom nganggo label, tombol kirim, pengikatan loro arah, prilaku keyboard lan pamaca layar sing nyata — dhisik polosan, banjur ditata, kira-kira 10 menit.
+  </p>
+
+  <h2>Sadurunge miwiti</h2>
+  <p>
+    Sampeyan butuh git, Node 22 utawa luwih anyar, lan pnpm 10 utawa luwih anyar. Proyek Angular 20 apa wae bisa — Angular CLI utawa Analog.
+  </p>
+
+  <h2>Langkah 1 — Njupuk kode</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponen iku berkas rata ing <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — saben siji komponen mandiri kanthi cithakan inline, ditambah spec lan story-né. Barrel
+    <code>index.ts</code> ngekspor ulang saben komponen; <code>pnpm build</code>
+    ngasilaké bundel Angular Package Format liwat ng-packagr.
+  </p>
+
+  <h2>Langkah 2 — Komponen pisanan sampeyan</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Saben komponen ndeklarasiké pamilih <code>lily-*</code> lan nampilaké unsur semantik kanthi pancingan kelas-é —
+    <code>&lt;button class="button" type="button"&gt;</code> ing kéné. Input-é adhedhasar sinyal: <code>label()</code> kanggo <code>aria-label</code>
+    kanggo nimpa, <code>className()</code> kanggo nambah kelas.
+  </p>
+
+  <h2>Langkah 3 — Nyusun formulir cilik</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> nampa label sing katon minangka input
+    <code>label</code> dhéwé, dudu komponen label sing disarangaké — lulusna sepisan, ing kolom, lan <code>lily-text-input</code>sing cocog saka
+    <code>label</code> nyedhiyakaké jeneng sing bisa diakses. Komponen sing mirip input mbukak nilai <code>model()</code> dadi pengikatan loro arah banana-box <code>[(value)]</code>
+    langsung mlaku — kompatibel karo zoneless ing sakabèhé.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dikonfirmasi 2026-08-29:</strong> konsep sadurungé nyarangaké komponen <code>Label</code> kapisah ing njero <code>lily-field</code>, sing nampilaké <em>rong</em> label (siji kosong) amarga
+      <code>lily-field</code> wis nampilaké dhéwé saka input
+      <code>label</code> — ditemokaké kanthi mriksa kode sumber komponen.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Rute formulir kontak gabungan</a>
+      iku pola sing padha, diuji nganggo tes e2e lan axe nyata.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Priksa pagawéan sampeyan:</strong> jalanna aplikasi lan formulir katon polosan — persis kaya sing dikarepaké: penataan isih ing ngarep. Pencet
+      <kbd>Tab</kbd>: fokus mlaku liwat saben kontrol, label diumumaké lan kirim mlaku. Prilaku wis rampung; tampilan iku duwèkmu lan dadi langkah sabanjuré.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Tata</h2>
+  <p>
+    Tata pancingan kelas — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ing <code>styles.css</code>, utawa tambahna tema sing wis siap menyang larik <code>styles</code> ing
+    <code>angular.json</code> / sambungna ing <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Deleng kabèh mlaku</h2>
+  <p>
+     <a href="/examples/">Aplikasi conto Angular + Analog</a> nampilaké katalog lengkap kanthi rute adhedhasar berkas lan Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah sabanjuré</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — ganti nalika mlaku nganggo pembantu theme-picker Angular.</li>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — basa lan ukuran teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — properti, ARIA lan keyboard saben komponen.</li>
+  </ul>
+  <p>
+    Ana pitakon ing dalan?
+    <a href="/help/#troubleshooting">Kaca pitulung</a> kebak wangsulan — lan menawa ana langkah sing bisa luwih cetha,
+    <a href="https://github.com/LilyDesignSystem">kandhanana kita</a> lan kita bakal seneng nyaosi tutorial luwih apik.
+  </p>
+</section>

@@ -1,0 +1,122 @@
+<!-- title: Tutorial Vue — Lily Design System -->
+<!-- description: Gawé formulir sing gampang diakses lan wis ditata nganggo komponen headless Lily kanggo Vue 3: komponen siji berkas nganggo v-model. -->
+<section class="page-intro">
+  <h1>Tutorial Vue</h1>
+  <p class="page-intro-tagline">
+    Komponen siji berkas Vue 3 kanthi props kanthi tipe, <code>defineModel</code>
+    pengikatan loro arah, lan panerusan <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa sing bakal sampeyan gawé</h2>
+  <p>
+    Formulir kontak cilik — kolom nganggo label, tombol kirim, <code>v-model</code>
+    pengikatan, prilaku keyboard lan pamaca layar sing nyata — dhisik polosan, banjur ditata, kira-kira 10 menit.
+  </p>
+
+  <h2>Sadurunge miwiti</h2>
+  <p>
+    Sampeyan butuh git, Node 22 utawa luwih anyar, lan pnpm 10 utawa luwih anyar. Proyek Vue 3 apa wae bisa — Nuxt, Vite utawa Vue biasa.
+  </p>
+
+  <h2>Langkah 1 — Njupuk kode</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponen iku berkas rata ing <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — saben siji kanthi tes, story lan dokumentasiné ing jejeré. Salin berkas sing dibutuhaké, utawa tarik repositori.
+  </p>
+
+  <h2>Langkah 2 — Komponen pisanan sampeyan</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Nampilaké <code>&lt;button class="button" type="button"&gt;</code>. Props cocog karo kerangka liyané: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, ditambah panerusan atribut kanggo kabèh liyané.
+  </p>
+
+  <h2>Langkah 3 — Nyusun formulir cilik</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> nampa <code>label</code> minangka prop dhéwé, dudu komponen label sing disarangaké — lulusna sepisan, ing
+    <code>Field</code>lan <code>TextInput</code>sing cocog saka
+    <code>label</code> nyedhiyakaké jeneng sing bisa diakses.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dikonfirmasi 2026-08-29:</strong> konsep sadurungé nyarangaké komponen <code>Label</code> ing njero <code>Field</code>, sing nampilaké
+      <em>rong</em> label (siji kosong) amarga <code>Field</code> wis nampilaké dhéwé saka input <code>label</code> prop — ditemokaké kanthi ngompilasi potongan sing persis. Rute
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Rute formulir kontak gabungan</a>
+      iku pola sing padha, diuji nganggo tes e2e lan axe nyata.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> nganggo <code>defineModel</code>, mula
+    <code>v-model</code> biasa langsung mlaku.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Priksa pagawéan sampeyan:</strong> jalanna aplikasi lan formulir katon polosan — persis kaya sing dikarepaké: penataan isih ing ngarep. Pencet
+      <kbd>Tab</kbd>: fokus mlaku liwat saben kontrol, label diumumaké lan kirim mlaku. Prilaku wis rampung; tampilan iku duwèkmu lan dadi langkah sabanjuré.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Tata</h2>
+  <p>
+    Tata pancingan kelas — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — ing lembar gaya sampeyan, utawa sambungna tema sing wis siap ing <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Deleng kabèh mlaku</h2>
+  <p>
+     <a href="/examples/">Aplikasi conto Nuxt</a> iku katalog lengkap sing ditata lan didemonstrasiaké, kanthi Playwright e2e lan garis dhasar axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Langkah sabanjuré</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — ganti nalika mlaku nganggo pembantu theme-picker Vue.</li>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — basa lan ukuran teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — properti, ARIA lan keyboard saben komponen.</li>
+  </ul>
+  <p>
+    Ana pitakon ing dalan?
+    <a href="/help/#troubleshooting">Kaca pitulung</a> kebak wangsulan — lan menawa ana langkah sing bisa luwih cetha,
+    <a href="https://github.com/LilyDesignSystem">kandhanana kita</a> lan kita bakal seneng nyaosi tutorial luwih apik.
+  </p>
+</section>

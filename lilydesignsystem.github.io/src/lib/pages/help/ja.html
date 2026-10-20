@@ -1,0 +1,466 @@
+<!-- title: ヘルプ — Lily Design System -->
+<!-- description: Lily を始める: お使いのフレームワーク用のヘッドレスパッケージをインストールし、コンポーネントをコピーして、スタイルを付け、テーマを適用し、公開します。トラブルシューティング、FAQ、サポートも。 -->
+<section class="page-intro">
+  <h1>Lily を始める</h1>
+  <p class="page-intro-tagline">
+    フレームワークを選び、モノレポをクローンして、そのヘッドレスライブラリかサンプルアプリを開き、自分のページを組み立て始めましょう。案内に沿って進めたい場合は、
+    <a href="/tutorials/">チュートリアル</a>から始めてください。
+  </p>
+</section>
+
+<nav aria-label="このページの内容" class="prose" style="margin: 0 auto;">
+  <p><strong>このページの内容:</strong></p>
+  <ul>
+    <li><a href="#install">インストール</a></li>
+    <li><a href="#use-headless">ヘッドレスコンポーネントを使う</a></li>
+    <li><a href="#use-styled">スタイル付きのサンプルを使う</a></li>
+    <li><a href="#styling">スタイルとデザイントークン</a></li>
+    <li><a href="#themes">すぐに使えるテーマ</a></li>
+    <li><a href="#helpers">設定ヘルパー</a></li>
+    <li><a href="#a11y">アクセシビリティ</a></li>
+    <li><a href="#i18n">多言語化</a></li>
+    <li><a href="#testing">テスト</a></li>
+    <li><a href="#ai-agents">AI エージェント</a></li>
+    <li><a href="#troubleshooting">トラブルシューティング</a></li>
+    <li><a href="#contributing">コントリビュート</a></li>
+    <li><a href="#community">コミュニティとサポート</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>インストール</h2>
+  <p>
+    Lily は 1 つの Git モノレポにあり、フレームワークごとにヘッドレスライブラリ、ヘルパーパッケージ、サンプルアプリのディレクトリがあります。試す最も早い方法は、モノレポをクローンして、お使いのスタックのヘッドレスライブラリを開くことです。
+  </p>
+
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>他のフレームワークでも同じパターンです。</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — インストール不要。<code>.html</code> ファイルをコピーします</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    ヘッドレスライブラリは、クローンまたはベンダリングして使うように設計されています。ソースを正とし、必要なものをコピーしてください。
+    <a href="#helpers">設定ヘルパー</a>は、さらにビルドと公開のパイプライン（JS フレームワークは npm、Blazor は NuGet）を備えた、インストール可能なパッケージとしても提供されます。
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>ヘッドレスコンポーネントを使う</h2>
+  <p>
+    ヘッドレスコンポーネントは、セマンティックな HTML、ARIA、プロパティを提供しますが、CSS は含みません。各フレームワークでの
+    Button は次のとおりです。
+  </p>
+
+  <h3>HTML</h3>
+
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+
+
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+
+
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>スタイル付きのサンプルを使う</h2>
+  <p>
+    サンプルアプリには、CSS、ルート、完全なデモページが含まれています。試すいちばん早い方法は、SvelteKit、Next、Nuxt、Analog、Eleventy
+    のサンプルアプリを起動して、<code>/components</code> のデモを見ることです。
+  </p>
+
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    そのあと <code>http://localhost:5173</code> を開き、<code>/components</code> を見て回ってください。
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>スタイルとデザイントークン</h2>
+  <p>
+    各コンポーネントは、ルート要素にケバブケースのクラスを 1 つ付けて表示されます。
+    たとえば <code>&lt;Button&gt;</code> は <code>&lt;button class="button"&gt;</code> を出力します。
+    スタイルは好きなように付けられます。
+  </p>
+
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily の既定のカラーパレット（サンプルアプリで使用）は次のとおりです。</p>
+  <ul>
+    <li>プライマリ: <code>#2563eb</code></li>
+    <li>危険: <code>#dc2626</code></li>
+    <li>警告: <code>#f59e0b</code></li>
+    <li>成功: <code>#16a34a</code></li>
+    <li>ページの背景: <code>#f9fafb</code></li>
+    <li>カードの背景: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    これらは提案であり、必須ではありません。ご自身のブランドのパレットに置き換えても、Lily は問題なく対応します。
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>すぐに使えるテーマ</h2>
+  <p>
+    CSS をゼロから書きたくありませんか？Lily には、<strong>57 種類の独立したリファレンステーマ</strong>が
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ディレクトリに付属します。それぞれが Lily のクラスフックを対象とする 1 つのスタイルシートで、
+    リンクするだけでスタイルが付きます。
+  </p>
+
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>用意されているテーマは次のとおりです。</p>
+  <ul>
+    <li>
+      <strong>公共部門</strong> — NHS England、NHS Scotland、NHS Wales
+      （それぞれ患者向けと実務者向けの種類）、GOV.UK GDS、U.S. Web Design System。
+    </li>
+    <li><strong>ベンダーに着想を得たもの</strong> — Adobe Spectrum、Mozilla Protocol。</li>
+    <li>
+      <strong>汎用</strong> — light、dark、nord、dracula、wireframe など、さらに 30 種類あまり。
+    </li>
+  </ul>
+  <p>
+    テーマのセレクターには <code>:where(...)</code> を使っているため、詳細度ではあなた自身の CSS が常に優先されます。実行時の切り替えには、下の
+    <code>theme-picker</code> ヘルパーと組み合わせるか、
+    <a href="/tutorials/theming/">テーマ設定のチュートリアル</a>に従ってください。
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>設定ヘルパー</h2>
+  <p>
+    各フレームワークには、8 つの小さなピッカーがあり、それぞれが独自の
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> パッケージです（それらをまとめる <code>picker-bar</code> もあります）。それぞれが、
+    ポップアップ（リストボックス、リンクの一覧、検索フォーム、date-time-picker の場合は日付選択ダイアログ）を開くヘッドレスのアイコンボタンで、ネイティブの
+    <code>&lt;select&gt;</code> ではなく、SSR に対応し、CSS は含みません。
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — 管理対象の <code>&lt;link&gt;</code> を差し替えることで実行時にテーマのスタイルシートを読み込み、ドキュメントに
+      <code>data-theme</code> を設定し、必要に応じて
+      <code>localStorage</code> に保存します。
+    </li>
+    <li>
+      <strong>locale-picker</strong> — <code>lang</code> と
+      <code>dir</code>（RTL の自動検出付き）を設定して、i18n ライブラリが追従できるようにします。翻訳そのものは行いません。
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — ドキュメントに <code>data-text-size</code> を設定します。各値をフォントサイズに対応づけるのは、あなたの CSS です。
+    </li>
+    <li>
+      <strong>motion-picker</strong> — 訪問者のモーション軽減の設定を出発点として、ドキュメントに <code>data-motion</code> を設定します。
+      何を抑えるかは、あなたの CSS とスクリプトが決めます。
+    </li>
+    <li>
+      <strong>search-picker</strong> — 検索フィールドを開くアイコンボタン。送信すると検索ページに移動します。設定ではなく、操作を担います。
+    </li>
+    <li>
+      <strong>link-picker</strong> — アプリが定義するページリンク（ホーム、会社概要、お問い合わせ、プライバシーポリシーなど）のメニューを開くホームアイコン。
+      設定ではなく、操作を担います。
+    </li>
+    <li>
+      <strong>share-picker</strong> — ネイティブの共有シートか、利用側が用意した共有先の一覧と、URL のコピーを開きます。
+      設定ではなく、操作を担います。何も適用せず、何も保存しません。
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — 日付、時刻、またはその両方のための、テキストフィールドと APG の日付選択ダイアログ。
+      設定ではなく、フォームの値を担います。ISO 文字列は
+      <code>&lt;input type="date"&gt;</code> と相互に変換されます。
+    </li>
+  </ul>
+
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte のカタログが正本です。React、Vue、Angular、HTML、Nunjucks、Web Components、Blazor への移植版は、約束事のひとつひとつまで一致しています。詳しくは
+    <a href="/tutorials/helpers/">ヘルパーのチュートリアル</a>をご覧ください。
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>アクセシビリティ</h2>
+  <p>コンポーネントは <strong>WCAG 2.2 AAA</strong> を目標としています。次のパターンに従っています。</p>
+  <ul>
+    <li>汎用の <code>&lt;div&gt;</code> よりもセマンティックな HTML 要素。</li>
+    <li>ラベルと入力を結びつける <code>&lt;label for="id"&gt;</code>。</li>
+    <li>相互参照のための <code>aria-labelledby</code> / <code>aria-describedby</code>。</li>
+    <li>エラー状態のための <code>aria-invalid</code> + <code>aria-errormessage</code>。</li>
+    <li>動的なコンテンツのための <code>role="alert"</code> と <code>aria-live</code>。</li>
+    <li>状態のための <code>aria-pressed</code>、<code>aria-expanded</code>、<code>aria-current</code>。</li>
+    <li>グリッドのためのローヴィング <code>tabindex</code>。</li>
+  </ul>
+  <p>
+    フォーカスの表示は意図的に利用側が用意するものです。Lily は、あなたのデザインと衝突する既定のフォーカスリングを描くことはありません。
+    サンプルアプリは、全ルートで axe-core のクリーンなベースラインを保っています。
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>多言語化</h2>
+  <p>
+    ラベル、プレースホルダー、エラーメッセージ、ボタンの文言は、すべてプロパティです。ハードコードされた文字列はありません。
+    お好みの翻訳フレームワーク（Paraglide、i18next、vue-i18n、react-intl、.resx ファイルなど、何でも）を組み込んでください。
+  </p>
+  <p>
+    日付、数値、通貨については、コンポーネントは整形済みの文字列を受け取ります。
+    <code>Intl.DateTimeFormat</code> / <code>Intl.NumberFormat</code> / お好みのライブラリで整形し、その結果を渡してください。
+  </p>
+  <p>
+    <code>locale-picker</code> ヘルパーは、ドキュメントのルートに <code>lang</code> と <code>dir</code> を設定することで、
+    選ばれたロケールを i18n ライブラリに伝えます。
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>テスト</h2>
+  <p>各フレームワークのサブプロジェクトには、そのフレームワークに合った構成のテストが付属します。</p>
+  <ul>
+    <li><strong>HTML</strong>: 実ブラウザーで動かす WebDriverIO。</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>。</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>。</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>。</li>
+    <li><strong>Angular</strong>: Vitest + TestBed（Analog の Vite プラグイン経由）。</li>
+    <li><strong>Nunjucks</strong>: レンダリングヘルパー付きの Vitest。</li>
+    <li><strong>Blazor</strong>: bUnit。</li>
+  </ul>
+  <p>
+    テストでは <strong>Vitest 組み込みのマッチャーだけ</strong>を使い、
+    <code>jest-dom</code> のマッチャーは使いません。これでテストスイートの移植性が保たれます。
+    サンプルアプリには、Playwright のエンドツーエンドテスト、axe-core のアクセシビリティベースライン、レスポンシブのビューポート検査が加わります。
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI エージェント</h2>
+  <p>
+    このサイトは、ルートに <a href="/llms.txt">llms.txt</a> と
+    <a href="/llms.json">llms.json</a> を公開しています。これは、
+    <a href="https://llmstxt.org">llms.txt の規約</a>に従うあらゆるツール向けの、最も重要なページを厳選した案内図です。
+  </p>
+  <p>
+    正式なモノレポには、さらに 2 つの
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a> があります。
+    <code>lily-design-system-skill</code> は、このシステムで開発する人向けに Lily の概念、用語、組み合わせパターンを扱う汎用スキルで、
+    <code>lily-design-system-maintainer-skill</code> は、モノレポで作業する人向けに必須ファイルの構成とツールを扱う技術的なスキルです。
+    どちらも
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">正式なモノレポ</a>のルートにあります。
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>トラブルシューティング</h2>
+
+  <details class="faq-item">
+    <summary>コンポーネントは表示されるが、スタイルが付いていないように見える</summary>
+    <p>
+      それはヘッドレスの意図どおりの動作です。コンポーネントに CSS は付属しません。
+      コンポーネントのケバブケースのクラス（<a href="/components/">カタログの各ページ</a>に表示されています）に対して CSS を書くか、
+      <a href="#themes">すぐに使える 57 種類のテーマ</a>のどれかをリンクしてください。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>テーマの上から自分の CSS が効いていないようだ</summary>
+    <p>
+      効くはずです。テーマのセレクターは詳細度がゼロの <code>:where(...)</code> で包まれています。それでもルールが負ける場合は、
+      自分のスタイルシートがテーマの <code>&lt;link&gt;</code> の後に読み込まれていること、そしてセレクターが実際にコンポーネントのクラスフックに一致していることを確認してください。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install がピア依存やバージョンのエラーで失敗する</summary>
+    <p>
+      最新の pnpm（v10 以降）と Node 22 以降を使ってください。各サブプロジェクトは、自身の <code>package.json</code> にフレームワークのバージョンを固定しています。グローバルのツールチェーンが古い場合は、
+      <code>pnpm env use --global lts</code> が最も手早い解決策です。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>スクリーンリーダーがコントロールの名前を誤って読み上げる</summary>
+    <p>
+      コンポーネントの必須の <code>label</code> プロパティを確認してください。表示テキストがないコンポーネントには、これが必須です。
+      また、rest-props 経由で渡した利用側の <code>aria-label</code> / <code>aria-labelledby</code> は、意図的に組み込みの配線より優先されます。
+      各カタログページに、そのコンポーネントの ARIA の約束事が記載されています。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker ヘルパーがスタイルシートを切り替えない</summary>
+    <p>
+      <code>themesUrl</code> がブラウザーから取得できるディレクトリを指していること（<code>themes/</code> のファイルを静的アセットとして配信してください）、
+      そして <code>themes</code> プロパティのテーマのスラッグがファイル名と一致していることを確認してください。
+      ヘルパーは、管理対象の 1 つの
+      <code>&lt;link data-lily-theme-picker&gt;</code> の <code>href</code> を差し替えます。開発者ツールで確認すると、リクエストされている URL が分かります。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>それ以外の何かが壊れている</summary>
+    <p>
+      最小限の再現手順を添えて、
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> で issue を開いてください。
+      または<a href="#community">コミュニティとサポート</a>をご覧ください。
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>コントリビュート</h2>
+  <p>Lily は若いプロジェクトで、協力を歓迎します。現在とくに役立つ貢献は次のとおりです。</p>
+  <ul>
+    <li>新しいコンポーネント（とくに、確立されたデザインシステムのパターン）。</li>
+    <li>新しいテーマ。それぞれが独立した 1 つのスタイルシートで、最初のプルリクエストに適した範囲です。</li>
+    <li>より良いサンプルのスタイル付け。可能なことを見せてください。</li>
+    <li>サンプルアプリの文字列の翻訳。</li>
+    <li>最小限の再現手順を添えたバグ報告。</li>
+    <li>スクリーンリーダーや支援技術によるアクセシビリティ監査。</li>
+  </ul>
+  <p>
+    issue とプルリクエストは
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> へどうぞ。
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>コミュニティとサポート</h2>
+  <ul>
+    <li>
+      <strong>質問とバグ報告</strong> —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> で issue を開いてください。
+    </li>
+    <li>
+      <strong>メール</strong> — メンテナーは
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      を読んでおり、協力、助言、フィードバックを歓迎します。
+    </li>
+    <li>
+      <strong>ミラー</strong> — Lily は
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> と
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a> にも公開されているので、お好みのフォージから参加できます。
+    </li>
+    <li>
+      <strong>行動規範</strong> — このプロジェクトは標準的な行動規範に従います。親切に、善意を前提にしてください。
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>なぜスタイル付きではなくヘッドレスなのですか？</summary>
+    <p>
+      スタイル付きのコンポーネントは便利ですが、ブランドに合わなくなるまでの話です。
+      ヘッドレスコンポーネントは最初の手間がやや増えますが、見た目を完全に自分で決められます。サンプルアプリと 57 種類のテーマがスタイルの付け方を示していますので、
+      それを使っても、まったく置き換えても構いません。
+      詳しい議論は<a href="/why/">Lily を選ぶ理由</a>にあります。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>なぜこんなに多くのコンポーネントがあるのですか？</summary>
+    <p>
+      Lily は、ほとんどのアプリが必要とするパターンを、ゼロから作らなくて済むようにカバーすることを目指しています。国別の識別子入力や編集向けのスクロールテリングといった、
+      奥の深いものも含みます。カタログは十数の確立されたデザインシステムと独自の成果から作られています。
+      <a href="/about/">概要</a>をご覧ください。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Lily を Tailwind と一緒に使えますか？</summary>
+    <p>
+      はい。各コンポーネントは、ケバブケースのルートクラスを 1 つと、利用側が渡す <code>className</code> / <code>class</code> を公開します。
+      その上に、Tailwind のユーティリティを好きなように重ねてください。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>DaisyUI のようなセマンティック CSS フレームワークと一緒に使えますか？</summary>
+    <p>
+      はい。ルート要素のケバブケースのクラス名は、セマンティックな CSS フックとして機能します。Lily をセマンティックなフレームワークと組み合わせれば、
+      ARIA と多言語化を守りつつ、スタイル済みのコンポーネントが得られます。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>npm パッケージはありますか？</summary>
+    <p>
+      <a href="#helpers">設定ヘルパー</a>は、npm/NuGet の公開パイプラインを備えたパッケージとして提供されます。
+      ヘッドレスのコンポーネントライブラリは、クローンまたはベンダリングして使うように設計されており、ソースそのものが成果物です。
+      そのため、出荷するものを自分で読み、削り、所有できます。ヘッドレスライブラリのレジストリへの公開は、引き続きロードマップに載っています。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>なぜマルチライセンスなのですか？</summary>
+    <p>
+      プロジェクトによって、必要なライセンスは異なります。BSD と MIT は寛容で、Apache-2.0 には特許の許諾があり、GPL の各種はコピーレフトを支えます。
+      状況に合うものをお選びください。
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>バグを報告したり、機能を要望したりするには？</summary>
+    <p>
+      GitHub リポジトリで issue を開くか、
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> にメールしてください。
+    </p>
+  </details>
+</section>

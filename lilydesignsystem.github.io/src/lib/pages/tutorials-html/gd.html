@@ -1,0 +1,106 @@
+<!-- title: Oideachadh HTML — Lily Design System -->
+<!-- description: Tog foirm so-ruigsinneach le stoidhle le co-phàirtean gun cheann HTML aig Lily — marcachadh sìmplidh, dìreach bho fhaidhle. -->
+<section class="page-intro">
+  <h1>Oideachadh HTML</h1>
+  <p class="page-intro-tagline">
+    An tòiseachadh as sìmplidh: dèan lethbhreac de HTML seamantach le crochaidhean clas Lily, cuir aon bhileag-stoidhle ris, foillsich. Faidhlichean sìmplidh a dh’obraicheas àite sam bith an obraich HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Na thogas tu</h2>
+  <p>
+    Foirm fios-thugainn bheag — in-chuiridhean le leubail, putan cur-a-steach, giùlan clàr-iuchrach is leughadair-sgrìn fìor — an toiseach lom, an uairsin le stoidhle, ann an timcheall air 10 mionaidean.
+  </p>
+
+  <h2>Mus tòisich thu</h2>
+  <p>
+    Feumaidh tu brabhsair agus deasaiche teacsa. Sin uile. (Cuidichidh git le faidhlichean nan co-phàirtean fhaighinn, ach faodaidh tu lethbhreac a dhèanamh dhiubh bho GitHub sa bhrabhsair cuideachd.)
+  </p>
+
+  <h2>Ceum 1 — Faigh an còd</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Tha gach co-phàirt na faidhle fèin-sheasmhach ann an <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, agus mar sin air adhart — le beachd-cinn a’ clàradh a taga HTML, crochadh clas, giùlan clàr-iuchrach agus cùmhnant so-ruigsinneachd. Tha na faidhlichean <em>an</em> leabharlann — dèan lethbhreac dhen fheadhainn a tha a dhìth ort agus rach air adhart.
+  </p>
+
+  <h2>Ceum 2 — A’ chiad cho-phàirt agad</h2>
+  <p>Fosgail <code>components/button.html</code>, no dìreach sgrìobh am marcachadh — is e an crochadh clas an cùmhnant:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Leis gu bheil e na fhìor <code>&lt;button&gt;</code>, tha fòcas clàr-iuchrach, gnìomhachadh Enter is Space, agus dreuchd shàmhach a’ phutain ceart mu thràth.
+  </p>
+
+  <h2>Ceum 3 — Cuir foirm bheag ri chèile</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Thoir an aire don phàtran: bidh gach smachd a’ ceangal a <code>&lt;label for&gt;</code>, a’ cleachdadh an t-seòrsa in-chuir as sònraichte, agus a’ giùlan dìreach aon chrochadh clas kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Dèan cinnteach air d’ obair:</strong> fosgail an duilleag ann am brabhsair. Tha e a’ coimhead lom — dìreach mar a bha dùil: tha an stoidhle fhathast romhainn. Brùth
+      <kbd>Tab</kbd>: bidh am fòcas a’ gluasad tro gach smachd, tha na leubailean air an ainmeachadh, agus obraichidh cur-a-steach. Tha an giùlan deiseil; is leatsa an coltas, agus is e an ath rud.
+    </p>
+  </div>
+
+  <h2>Ceum 4 — Cuir stoidhle air</h2>
+  <p>Sgrìobh CSS an aghaidh nan crochaidhean:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    No leum thairis air sgrìobhadh CSS gu tur — ceangail fear dhe na 45 ùrlar deiseil agus lasaidh an aon mharcachadh:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Ceum 5 — Rannsaich nas fhaide</h2>
+  <ul>
+    <li>Bidh deuchainnean an stòir a’ ruith ann am fìor bhrabhsairean: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook airson gach co-phàirt: <code>pnpm run storybook</code>.</li>
+    <li>
+      Tha an <a href="/examples/">tagradh eisimpleir HTML+CSS+JS</a> a’ sealltainn nan 571 co-phàirt le stoidhle, ri an lorg agus air an taisbeanadh.
+    </li>
+  </ul>
+
+  <h2>Na ceumannan a leanas</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Ùrlaran</a> — atharrachadh ùrlair aig àm ruith le theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Cuideachaidhean roghainnean</a> — cànan agus meud teacsa.</li>
+    <li><a href="/components/">Catalog cho-phàirtean</a> — an tùs-iùl slàn.</li>
+  </ul>
+  <p>
+    Ceistean air an t-slighe? Tha an
+    <a href="/help/#troubleshooting">duilleag chuideachaidh</a> làn fhreagairtean — agus nam b’ urrainn ceum a bhith nas soilleire,
+    <a href="https://github.com/LilyDesignSystem">innis dhuinn</a> agus nì sinn an t-oideachadh nas fheàrr le toileachas.
+  </p>
+</section>

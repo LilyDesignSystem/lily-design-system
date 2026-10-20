@@ -1,0 +1,97 @@
+<!-- title: Nunjucks apmācība — Lily Design System -->
+<!-- description: Veidojiet pieejamas, noformētas, servera pusē attēlotas lapas ar Lily Nunjucks makroiem — ideāli Eleventy. -->
+<section class="page-intro">
+  <h1>Nunjucks apmācība</h1>
+  <p class="page-intro-tagline">
+    Servera pusē attēloti makro Eleventy, Express vai jebkuram Node veidņu cauruļvadam — GOV.UK stila pieeja ar Lily katalogu un klases āķiem.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Neliela servera pusē attēlota kontaktu veidlapa — lauks ar iezīmi, iesniegšanas poga, nulles JavaScript slodze — vispirms kaila, tad noformēta, apmēram 10 minūtēs.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Nepieciešams git, Node 22 vai jaunāks un pnpm 10 vai jaunāks. Der jebkurš Nunjucks cauruļvads — Eleventy, Express vai tīrs Nunjucks.
+  </p>
+
+  <h2>1. solis — Iegūstiet kodu</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Katra komponente ir direktorija <code>components/</code> ar
+    <code>macro.njk</code>, tās testu un dokumentāciju — piemēram,
+    <code>components/button/macro.njk</code>. Norādiet savu Nunjucks ielādētāju uz
+    <code>components/</code> (Eleventy pievienojiet to includes ceļam) un importējiet, kas vajadzīgs.
+  </p>
+
+  <h2>2. solis — Jūsu pirmā komponente</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Attēlo <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makro pieņem vienu params objektu: <code>text</code> (ar izbēgšanu) vai
+    <code>html</code> (neapstrādāts), <code>type</code>, <code>label</code> elementam
+    <code>aria-label</code>un klases āķa pievienotāju.
+  </p>
+
+  <h2>3. solis — Salieciet nelielu veidlapu</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Tā kā viss tiek attēlots serverī, pārlūks saņem tīru semantisko HTML ar klases āķiem — nulles baitu JavaScript slodze.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudiet savu darbu:</strong> ielādējiet lapu, un veidlapa izskatās kaila — tieši kā paredzēts: noformēšana vēl priekšā. Nospiediet
+      <kbd>Tab</kbd>: fokuss iet cauri katrai vadīklai, iezīme tiek paziņota, un iesniegšana darbojas. Uzvedība ir gatava; izskats ir jūsu un ir nākamais solis.
+    </p>
+  </div>
+
+  <h2>4. solis — Noformējiet to</h2>
+  <p>
+    Noformējiet āķus — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — savā stilu lapā vai saistiet gatavu motīvu savā bāzes izkārtojumā:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>5. solis — Redziet, kā viss darbojas</h2>
+  <p>
+     <a href="/examples/">Nunjucks + Eleventy paraugu lietotne</a> izveido visu katalogu kā statisku vietni ar demonstrāciju lapām katrai komponentei:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motīvi</a> — ieskaitot Eleventy sīkdatņu modeli SSR motīva pārslēgšanai bez mirgošanas.</li>
+    <li><a href="/tutorials/helpers/">Preferenču palīgi</a> — valoda un teksta izmērs.</li>
+    <li><a href="/components/">Komponenšu katalogs</a> — īpašības, ARIA un tastatūra katrai komponentei.</li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

@@ -1,0 +1,136 @@
+<!-- title: Hướng dẫn — Lily Design System -->
+<!-- description: Hướng dẫn Lily từng bước: thành phần đầu tiên của bạn, tạo kiểu, giao diện làm sẵn và các trợ thủ tùy chọn — cho HTML, Svelte, React, Vue, Angular, Blazor và Nunjucks. -->
+<section class="page-intro">
+  <h1>Học Lily, từng bước một</h1>
+  <p class="page-intro-tagline">
+    Chào mừng! Mỗi hướng dẫn bắt đầu từ con số không và xây dựng cùng một thứ nhỏ — một biểu mẫu dễ tiếp cận, có kiểu — trong khoảng 10 phút, để bạn so sánh các framework một cách công bằng. Sau đó đi sâu hơn với giao diện và tùy chọn người dùng.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Trước khi bắt đầu</h2>
+  <p>Bạn cần ít một cách đáng ngạc nhiên:</p>
+  <ul>
+    <li>
+      <strong>Với hướng dẫn HTML</strong> — chỉ cần trình duyệt và trình soạn thảo văn bản. Đó là toàn bộ bộ công cụ.
+    </li>
+    <li>
+      <strong>Với Svelte, React, Vue, Angular hoặc Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 và pnpm 10 trở lên.
+    </li>
+    <li>
+      <strong>Với Blazor</strong> — git và
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 trở lên.
+    </li>
+  </ul>
+  <p>
+    Mới làm quen với thành phần headless? Bạn đến đúng chỗ rồi — mỗi hướng dẫn giải thích điều đang diễn ra khi bạn làm, và mỗi bước cho thấy chính xác đoạn mã cần sao chép.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Bốn bước từ con số không đến khi phát hành</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Thành phần đầu tiên của bạn</strong> (~5 phút) — chọn framework của bạn bên dưới, lấy mã và hiển thị một Button.
+      </li>
+      <li>
+        <strong>Ghép và tạo kiểu</strong> (~5 phút) — xây một biểu mẫu có nhãn và tạo kiểu cho nó dựa trên các móc lớp kebab-case (một phần của mỗi hướng dẫn framework).
+      </li>
+      <li>
+        <strong>Áp dụng giao diện</strong> (~15 phút) — thay CSS tự viết của bạn bằng một trong 57 giao diện làm sẵn, rồi để người dùng chuyển đổi lúc chạy: <a href="/tutorials/theming/">hướng dẫn giao diện</a>.
+      </li>
+      <li>
+        <strong>Tôn trọng tùy chọn</strong> (~15 phút) — thêm lựa chọn ngôn ngữ và cỡ chữ bằng các trợ thủ tùy chọn:
+        <a href="/tutorials/helpers/">hướng dẫn trợ thủ</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Chọn framework của bạn</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Sao chép HTML ngữ nghĩa với các móc lớp rồi bắt đầu — chỉ cần một trình duyệt và một trình soạn thảo.</p>
+      <p class="card-meta">~10 phút · khởi đầu dễ nhất</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Rune của Svelte 5, snippet và ràng buộc hai chiều với <code>bind:value</code> .</p>
+      <p class="card-meta">~10 phút</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Thành phần hàm với <code>value</code> + <code>onChange</code> và trải các prop còn lại.</p>
+      <p class="card-meta">~10 phút</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Thành phần một tệp của Vue 3 với hỗ trợ <code>v-model</code> .</p>
+      <p class="card-meta">~10 phút</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Thành phần độc lập của Angular với đầu vào signal và <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 phút</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Thành phần Razor với tham số, <code>ChildContent</code>và kiểm thử bUnit.</p>
+      <p class="card-meta">~10 phút</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Macro hiển thị phía máy chủ cho Eleventy và mọi quy trình mẫu của Node.</p>
+      <p class="card-meta">~10 phút</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Phân vân? Hãy bắt đầu với <a href="/tutorials/html/">HTML</a> — nó dạy hợp đồng móc lớp mà mọi framework khác đều dùng chung, và chạy thẳng từ một tệp.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Đi sâu hơn</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Giao diện</h3>
+      <p class="card-description">
+        Liên kết một trong 57 giao diện làm sẵn — NHS, GOV.UK, USWDS, sáng, tối và nhiều hơn nữa — ghi đè bằng CSS của riêng bạn, và thêm việc chuyển giao diện lúc chạy bằng trợ thủ theme-picker.
+      </p>
+      <p class="card-meta">~15 phút</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Trợ thủ tùy chọn</h3>
+      <p class="card-description">
+        Trao cho người dùng quyền kiểm soát giao diện, ngôn ngữ, cỡ chữ, chuyển động, tìm kiếm, liên kết trang, chia sẻ và nhập ngày/giờ với theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker và date-time-picker: các điều khiển headless với tính lưu trữ bền, an toàn SSR và tự động phát hiện RTL.
+      </p>
+      <p class="card-meta">~15 phút</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Sau các hướng dẫn</h2>
+  <ul>
+    <li>
+      Duyệt <a href="/components/">danh mục thành phần</a> — mỗi thành phần đều ghi rõ prop, hợp đồng ARIA và hành vi bàn phím của nó.
+    </li>
+    <li>
+      Sao chép một <a href="/examples/">ứng dụng ví dụ</a> để xem cả 571 thành phần được tạo kiểu và cùng hoạt động — CSS nhắm vào đúng các móc lớp bạn vừa dùng, nên hãy sao chép bất kỳ phần nào vào dự án và điều chỉnh tùy ý.
+    </li>
+    <li>
+      Có câu hỏi? Trang <a href="/help/">trợ giúp</a> có câu trả lời, phần hỏi đáp và cách liên hệ một người thân thiện. Và nếu một hướng dẫn có thể rõ ràng hơn, hãy
+      <a href="https://github.com/LilyDesignSystem">cho chúng tôi biết</a> — chúng tôi sẵn lòng cải thiện.
+    </li>
+  </ul>
+</section>

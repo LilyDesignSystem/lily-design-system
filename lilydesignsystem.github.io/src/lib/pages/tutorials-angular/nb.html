@@ -1,0 +1,127 @@
+<!-- title: Angular-veiledning — Lily Design System -->
+<!-- description: Bygg et tilgjengelig, stilet skjema med Lilys hodeløse Angular 20-komponenter: frittstående komponenter med signal-inndata. -->
+<section class="page-intro">
+  <h1>Angular-veiledning</h1>
+  <p class="page-intro-tagline">
+    Frittstående Angular 20-komponenter — signal-inndata, OnPush-endringsdeteksjon, innebygde maler, null NgModules, null CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hva du skal bygge</h2>
+  <p>
+    Et lite kontaktskjema — et inndatafelt med etikett, en send-knapp, toveis binding, ekte tastatur- og skjermleseroppførsel — først bart, så stilet, på omtrent 10 minutter.
+  </p>
+
+  <h2>Før du begynner</h2>
+  <p>
+    Du trenger git, Node 22 eller nyere og pnpm 10 eller nyere. Ethvert Angular 20-prosjekt fungerer — Angular CLI eller Analog.
+  </p>
+
+  <h2>Steg 1 — Hent koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponentene er flate filer i <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — hver en frittstående komponent med innebygd mal, pluss spec og story. Barrelen
+    <code>index.ts</code> re-eksporterer hver komponent; <code>pnpm build</code>
+    produserer en Angular Package Format-pakke via ng-packagr.
+  </p>
+
+  <h2>Steg 2 — Din første komponent</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Hver komponent deklarerer en <code>lily-*</code> velger og gjengir det semantiske elementet med sin klassekrok —
+    <code>&lt;button class="button" type="button"&gt;</code> her. Inndata er signalbaserte: <code>label()</code> for en <code>aria-label</code>
+    overstyring, <code>className()</code> for å legge til klasser.
+  </p>
+
+  <h2>Steg 3 — Sett sammen et lite skjema</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> tar den synlige etiketten som sin egen
+    <code>label</code> inndata i stedet for en nøstet etikettkomponent — send den inn én gang, på feltet, og den tilhørende <code>lily-text-input</code>på
+    <code>label</code> gir det tilgjengelige navnet. Inndatalignende komponenter eksponerer <code>model()</code> verdier, så banana-box <code>[(value)]</code>
+    toveis binding bare fungerer — soneløs-kompatibel hele veien.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifisert 2026-08-29:</strong> et tidligere utkast nøstet en separat <code>Label</code> komponent inni <code>lily-field</code>, som gjengir <em>to</em> etiketter (én tom) fordi
+      <code>lily-field</code> allerede gjengir sin egen fra
+      <code>label</code> inndata — oppdaget ved å sjekke komponentkilden. Den
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">sammensatte kontaktskjema-ruten</a>
+      er det samme mønsteret, prøvd med ekte e2e- og axe-tester.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sjekk arbeidet ditt:</strong> kjør appen, og skjemaet ser enkelt ut — akkurat som tiltenkt: stilingen ligger fortsatt foran. Trykk
+      <kbd>Tab</kbd>: fokus beveger seg gjennom hver kontroll, etiketten kunngjøres og innsending fungerer. Oppførselen er ferdig; utseendet er ditt og er neste.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Stil det</h2>
+  <p>
+    Stil klassekrokene — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — i <code>styles.css</code>, eller legg et ferdig tema til <code>styles</code> -arrayet i
+    <code>angular.json</code> / lenk det i <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Steg 5 — Se alt fungere</h2>
+  <p>
+     <a href="/examples/">Angular + Analog-eksempelappen</a> viser hele katalogen med filbasert ruting og Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Neste steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — bytte ved kjøretid med Angular theme-picker-hjelperen.</li>
+    <li><a href="/tutorials/helpers/">Preferansehjelpere</a> — språk og tekststørrelse.</li>
+    <li><a href="/components/">Komponentkatalog</a> — egenskaper, ARIA og tastatur per komponent.</li>
+  </ul>
+  <p>
+    Spørsmål underveis?
+    <a href="/help/#troubleshooting">hjelpesiden</a> er full av svar — og hvis et steg kan bli tydeligere,
+    <a href="https://github.com/LilyDesignSystem">fortell oss</a> så forbedrer vi gjerne veiledningen.
+  </p>
+</section>

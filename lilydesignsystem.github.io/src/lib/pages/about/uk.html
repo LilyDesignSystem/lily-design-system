@@ -1,0 +1,94 @@
+<!-- title: Про проєкт — Lily Design System -->
+<!-- description: Що таке Lily, принципи, що за нею стоять, і дизайн-системи, які її надихають. -->
+<section class="page-intro">
+  <h1>Що таке Lily?</h1>
+  <p class="page-intro-tagline">
+    Безкоштовна дизайн-система з відкритим кодом, яка ставить доступність на перше місце, зустрічає вас там, де ви пишете код, — і не заважає, коли вона вам не потрібна.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Коротко</h2>
+  <p>
+    Lily — це каталог <strong>вебкомпонентів</strong>, кожен з яких реалізовано у восьми «безголових» варіантах (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks і Web Components), а також набір повнофункціональних прикладів застосунків, що показують, як їх стилізувати.
+  </p>
+  <p>
+    «Безголові» версії постачаються з <em>нульовим CSS</em>. Вони дають вам семантичний HTML, ролі та стани ARIA, підтримку клавіатури та властивості, зручні для інтернаціоналізації. Візуальний дизайн ви додаєте самі.
+  </p>
+
+  <h2>Принципи дизайну</h2>
+
+  <h3>Доступність</h3>
+  <p>
+    Кожен компонент починається із семантичного HTML. ARIA додається лише там, де самого HTML недостатньо для вираження шаблону. Компоненти орієнтовані на
+    <strong>WCAG 2.2 AAA</strong> — враховано кольори, відступи, фокус і навігацію клавіатурою.
+  </p>
+
+  <h3>Компонованість</h3>
+  <p>
+    Lily віддає перевагу невеликим компонентам з єдиним призначенням, які легко поєднуються. Складені шаблони повторюються знову і знову:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — для «хлібних крихт», змістів, акордеонних меню, деревоподібних меню та пагінації</li>
+    <li><code>Form → Field → Input</code> — для будь-якої форми з мітками, підказками та помилками</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — для таблиць, календарів, діаграм Ганта та канбан-дощок</li>
+    <li><code>Bar → BarButton</code> — для панелей інструментів, панелей вкладок, панелей завдань, панелей дій і панелей меню</li>
+    <li><code>Picker → PickerButton</code> — для вибору кольору, вибору оцінок, вибору теми</li>
+  </ul>
+
+  <h3>Придатність до інтернаціоналізації</h3>
+  <p>
+    Жоден рядок, який бачить користувач, не прописаний жорстко. Мітки, підказки в полях, повідомлення про помилки, текст кнопок — усе це параметри. Підключіть власну систему перекладу — і Lily говоритиме будь-якою мовою, якою говорите ви.
+  </p>
+
+  <h3>«Безголовість»</h3>
+  <p>
+    «Безголові» компоненти мають <strong>нуль CSS</strong>, жодних
+    <code>&lt;style&gt;</code> блоків і жодних дизайн-токенів, які ви не обирали. Вони відкривають один клас у стилі kebab-case на кожному кореневому елементі, щоб ви могли націлюватися на них як завгодно — семантичний CSS, Tailwind, CSS-in-JS, на ваш вибір.
+  </p>
+
+  <h3>Повнофункціональні приклади</h3>
+  <p>
+    Приклади застосунків показують, як стилізувати компоненти для реального використання: які дизайн-токени задавати, які варіації додавати, як компонувати сторінки. Це повноцінні застосунки на SvelteKit, Next.js, Nuxt, Blazor та Eleventy, а не просто пісочниці.
+  </p>
+
+  <h2 id="inspirations">Джерела натхнення</h2>
+  <p>
+    Lily запозичує шаблони та мову з навмисно широкого кола дизайн-систем:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (уряд Австралії)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Графічні компоненти Reuters</a></li>
+  </ul>
+
+  <h2>Ліцензія</h2>
+  <p>
+    Lily має кілька ліцензій, зокрема <strong>BSD, MIT, Apache-2.0, GPL-2.0 або GPL-3.0</strong>. Оберіть ту, що підходить вашому проєкту. Якщо жодна не підходить — зв’яжіться з нами.
+  </p>
+
+  <h2>Контакти</h2>
+  <p>
+    Керівник проєкту: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Знайшли помилку, маєте ідею, хочете запропонувати компонент? Відкрийте issue або pull request на
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Стан:</strong> Lily — цілком нова робота, і ми вітаємо співпрацю, поради та відгуки. Усе буде рухатися й розвиватися.
+    </p>
+  </div>
+</section>

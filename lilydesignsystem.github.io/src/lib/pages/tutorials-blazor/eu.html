@@ -1,0 +1,107 @@
+<!-- title: Blazor tutoriala — Lily Design System -->
+<!-- description: Eraiki formulario irisgarri eta estilatu bat Lilyren Blazor osagai buru gabeekin: parametroak dituzten Razor osagaiak eta bUnit probak. -->
+<section class="page-intro">
+  <h1>Blazor tutoriala</h1>
+  <p class="page-intro-tagline">
+    Razor klase-liburutegiko osagaiak parametroekin, <code>ChildContent</code>
+    errendatze-zatiekin, atributu-hedapenarekin eta osagai bakoitzeko bUnit proba batekin.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Harremanetarako formulario txiki bat — etiketadun sarrera, bidaltze-botoia,
+    <code>@bind-Value</code> lotura, teklatu eta pantaila-irakurgailu portaera erreala — lehenik biluzik, gero estilatuta, 10 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    git eta .NET SDK 8 edo berriagoa behar dituzu. Edozein Blazor proiektuk balio du — Blazor Web App, Server edo WebAssembly.
+  </p>
+
+  <h2>1. pausoa — Lortu kodea</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Osagaiak hemen bizi dira: <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — Razor fitxategi bat bakoitza. Egin proiektuari erreferentzia (edo kopiatu fitxategiak) zure Blazor aplikaziotik eta gehitu <code>@using LilyBlazorHeadless.Components</code> honi:
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>2. pausoa — Zure lehen osagaia</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Errendatzen du <code>&lt;button class="button"&gt;</code>. Parametro-hitzarmen partekatuak: <code>Label</code> ( <code>aria-label</code> gainidazketa),
+    <code>CssClass</code> (oinarrizko gakoari erantsia),
+    <code>ChildContent</code>, eta
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> atributu-hedapena, HTML atributu gehigarri oro pasa dadin.
+  </p>
+
+  <h2>3. pausoa — Osatu formulario txiki bat</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> etiketa ikusgarria <code>Label</code> bere parametro gisa hartzen du, etiketa-osagai habiaratu gisa baino — eman behin,
+    <code>Field</code>, eta <code>TextInput</code>-ak
+    <code>Label</code> -n
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29an egiaztatua:</strong> aurreko zirriborro batek <code>Label</code> osagai bereizi bat habiaratzen zuen <code>Field</code>barruan, eta honek <em>bi</em> etiketa errendatzen zituen (bat hutsik) zeren <code>Field</code>
+      -k jada bere etiketa errendatzen baitu <code>Label</code> parametroa — osagaiaren iturburua begiratuz atzeman zen; <code>Form</code> -k ez du <code>Label</code> parametro propiorik, beraz aurreko zirriborroaren
+      <code>&lt;Form&gt;</code> erabilera zuzendu zen hura kenduz, existitzen ez den atributu bat asmatu beharrean. Honek
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">harremanetarako formulario konposatuaren ibilbideak</a>
+      patroi bera du, benetako e2e eta axe probekin erabilia.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> exekutatu aplikazioa eta formularioa soila ageri da — hain zuzen nahi bezala: estiloa oraindik aurrean dago. Sakatu
+      <kbd>Tab</kbd>: fokua kontrol guztietatik pasatzen da, etiketa iragartzen da eta bidalketak funtzionatzen du. Portaera prest dago; itxura zurea da eta hurrengoa da.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Estilatu</h2>
+  <p>
+    Estilatu klase-gakoak — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — hemen: <code>app.css</code>, edo lotu prest dagoen gai bat hemen: <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>5. pausoa — Ikusi dena funtzionatzen</h2>
+  <p>
+     <a href="/examples/">Blazor Web adibide-aplikazioak</a> katalogo osoa estilatuta eta demostratuta erakusten du, Playwright e2e probekin:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Gaiak</a> — exekuzio-garaiko aldaketa Blazor theme-picker laguntzailearekin (NuGet-eko Razor klase-liburutegia).</li>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — hizkuntza eta testu-tamaina.</li>
+    <li><a href="/components/">Osagai-katalogoa</a> — osagai bakoitzaren propak, ARIA eta teklatua.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

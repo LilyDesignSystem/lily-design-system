@@ -1,0 +1,106 @@
+<!-- title: HTML-Tutorial — Lily Design System -->
+<!-- description: Baut e zougängleche, gestalte Formulaire mat de Headless-Komponente vu Lily fir HTML — einfacht Markup, direkt aus enger Datei. -->
+<section class="page-intro">
+  <h1>HTML-Tutorial</h1>
+  <p class="page-intro-tagline">
+    Dee méi einfachste méigleche Start: kopéiert semantescht HTML mat de Klassen-Hooks vu Lily, füügt een Stylesheet derbäi, verëffentlecht. Einfach Dateien, déi iwwerall funktionéieren, wou HTML funktionéiert.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    E klengt Kontaktformulaire — Felder mat Etiketten, e Schécken-Knäppchen, richtegt Tastatur- an Écranliesser-Verhalen — fir d'éischt nackeg, duerno gestalt, an ongeféier 10 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Dir braucht e Browser an en Texteditor. Dat ass alles. (git hëlleft, d'Komponentedateien ze kréien, awer Dir kënnt se och am Browser vun GitHub kopéieren.)
+  </p>
+
+  <h2>Schrëtt 1 — D'Code kréien</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    All Komponent ass eng eegestänneg Datei am <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>an esou weider — mat engem Kopkommentar, deen hire HTML-Tag, de Klassen-Hook, d'Tastaturverhalen an den Zougänglechkeetskontrakt dokumentéiert. D'Dateien <em>sinn</em> d'Bibliothéik — kopéiert, wat Dir braucht, a lass.
+  </p>
+
+  <h2>Schrëtt 2 — Är éischt Komponent</h2>
+  <p>Maacht <code>components/button.html</code>op, oder schreift einfach d'Markup — de Klassen-Hook ass de Kontrakt:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Well et e richtegt <code>&lt;button&gt;</code>ass, sinn Tastatur-Fokus, Aktivéierung mat Enter a Space an déi implizit Knäppchen-Roll schonn richteg.
+  </p>
+
+  <h2>Schrëtt 3 — E klengt Formulaire zesummestellen</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Bemierkt d'Muster: all Kontroll verlinkt säin <code>&lt;label for&gt;</code>, benotzt dee spezifeschsten Input-Typ a bréngt genee ee Kebab-Case-Klassen-Hook mat.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> maacht d'Säit am Browser op. Si gesäit nackeg aus — genee wéi geduecht: d'Gestaltung kënnt nach. Dréckt
+      <kbd>Tab</kbd>: de Fokus geet duerch all Kontroll, d'Etiketten ginn ugekënnegt an d'Schécken funktionéiert. D'Verhalen ass fäerdeg; d'Ausgesi ass Är a kënnt als Nächst.
+    </p>
+  </div>
+
+  <h2>Schrëtt 4 — Gestalt et</h2>
+  <p>Schreift CSS géint d'Hooks:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Oder iwwersprang d'Handschreiwe vu CSS ganz — verlinkt ee vun de 45 fäerdege Themen an datselwecht Markup liicht op:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Schrëtt 5 — Weider entdecken</h2>
+  <ul>
+    <li>D'Tester vum Repo lafen a richtege Browser: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook fir all Komponent: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS Beispill-App</a> weist all 571 Komponenten gestalt, duerchsichbar an demonstréiert.
+    </li>
+  </ul>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themen</a> — Themewiessel zur Laafzäit mat theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Astellungs-Helperen</a> — Sprooch a Textgréisst.</li>
+    <li><a href="/components/">Komponentekatalog</a> — déi komplett Referenz.</li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

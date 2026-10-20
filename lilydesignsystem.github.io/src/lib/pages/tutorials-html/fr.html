@@ -1,0 +1,106 @@
+<!-- title: Tutoriel HTML — Lily Design System -->
+<!-- description: Construisez un formulaire accessible et stylé avec les composants sans tête de Lily pour HTML — du balisage simple, directement depuis un fichier. -->
+<section class="page-intro">
+  <h1>Tutoriel HTML</h1>
+  <p class="page-intro-tagline">
+    Le départ le plus simple possible : copiez du HTML sémantique avec les crochets de classe de Lily, ajoutez une feuille de style, publiez. Des fichiers simples qui fonctionnent partout où HTML fonctionne.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce que vous allez construire</h2>
+  <p>
+    Un petit formulaire de contact — champs avec étiquettes, un bouton d'envoi, vrai comportement clavier et lecteur d'écran — d'abord nu, puis stylé, en 10 minutes environ.
+  </p>
+
+  <h2>Avant de commencer</h2>
+  <p>
+    Il vous faut un navigateur et un éditeur de texte. C'est tout. (git aide à récupérer les fichiers des composants, mais vous pouvez aussi les copier depuis GitHub dans le navigateur.)
+  </p>
+
+  <h2>Étape 1 — Récupérer le code</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Chaque composant est un fichier autonome dans <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>et ainsi de suite — avec un commentaire d'en-tête documentant sa balise HTML, son crochet de classe, son comportement clavier et son contrat d'accessibilité. Les fichiers <em>sont</em> la bibliothèque — copiez ce dont vous avez besoin et partez.
+  </p>
+
+  <h2>Étape 2 — Votre premier composant</h2>
+  <p>Ouvrez <code>components/button.html</code>, ou écrivez simplement le balisage — le crochet de classe est le contrat :</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Comme c'est un vrai <code>&lt;button&gt;</code>, le focus clavier, l'activation avec Entrée et Espace et le rôle de bouton implicite sont déjà corrects.
+  </p>
+
+  <h2>Étape 3 — Composer un petit formulaire</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Remarquez le motif : chaque contrôle lie son propre <code>&lt;label for&gt;</code>, utilise le type d'input le plus spécifique et porte exactement un crochet de classe en kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Vérifiez votre travail :</strong> ouvrez la page dans un navigateur. Elle paraît nue — exactement comme prévu : le style reste à venir. Appuyez sur
+      <kbd>Tab</kbd>: le focus traverse chaque contrôle, les étiquettes sont annoncées et l'envoi fonctionne. Le comportement est fait ; l'apparence est la vôtre et c'est l'étape suivante.
+    </p>
+  </div>
+
+  <h2>Étape 4 — Le styler</h2>
+  <p>Écrivez du CSS contre les crochets :</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Ou sautez entièrement l'écriture du CSS à la main — liez l'un des 45 thèmes prêts à l'emploi et le même balisage s'illumine :
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Étape 5 — Explorer plus loin</h2>
+  <ul>
+    <li>Les tests du dépôt s'exécutent dans de vrais navigateurs : <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook pour chaque composant : <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">L'application d'exemple HTML+CSS+JS</a> montre les 571 composants stylés, interrogeables et démontrés.
+    </li>
+  </ul>
+
+  <h2>Étapes suivantes</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Thèmes</a> — changement de thème à l'exécution avec theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Assistants de préférences</a> — langue et taille du texte.</li>
+    <li><a href="/components/">Catalogue de composants</a> — la référence complète.</li>
+  </ul>
+  <p>
+    Des questions en chemin ? La
+    <a href="/help/#troubleshooting">page d'aide</a> regorge de réponses — et si une étape peut être plus claire,
+    <a href="https://github.com/LilyDesignSystem">dites-le-nous</a> et nous améliorerons volontiers le tutoriel.
+  </p>
+</section>

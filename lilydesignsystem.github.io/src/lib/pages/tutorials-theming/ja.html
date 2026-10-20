@@ -1,0 +1,111 @@
+<!-- title: テーマ設定チュートリアル — Lily Design System -->
+<!-- description: Lily のテーマを 3 通りで設定します: 45 の既成テーマのどれかをリンクし、自分の CSS で上書きし、theme-picker ヘルパーで実行時のテーマ切り替えを追加します。 -->
+<section class="page-intro">
+  <h1>テーマ設定</h1>
+  <p class="page-intro-tagline">
+    Lily のコンポーネントは安定したクラスフックを持ち、CSS は一切持ちません — だからテーマは単なるスタイルシートです。このチュートリアルでは、「ファイルを 1 つリンクする」ところから、「ユーザーが実行時にテーマを切り替えられ、それが保持される」ところまで進みます。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    ユーザーが見た目全体を変えられるアプリ — 1 つのスタイルシートをリンクするところから始めて、保持される実行時のテーマ切り替えで終わります — 約 15 分で作ります。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    先に、お使いのスタックの <a href="/tutorials/">フレームワークチュートリアル</a> を先に済ませて、テーマを付ける小さな Lily フォームを用意してください。ここでの内容は 7 つのフレームワークすべてで動きます。コードサンプルは Svelte とプレーンな HTML で示します。
+  </p>
+
+  <h2>ステップ 1 — 既成のテーマをリンクする</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    ディレクトリには、45 の独立したスタイルシートが入っています。アプリの静的アセットにコピーして、どれか 1 つをリンクします:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>主なテーマ:</p>
+  <ul>
+    <li>
+      <strong>公共部門</strong> — NHS England / Scotland / Wales(それぞれ患者向けと実務者向けのバリアント)、GOV.UK(<code>united-kingdom-government-digital-service</code>)、USWDS(<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>ベンダー由来</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>汎用</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>、ほかにも多数あります。
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>動作の確認:</strong> ページを再読み込みします。フレームワークのチュートリアルで作った同じマークアップが、ボタン、入力、ラベル、フォーカスリングまで、すっかりスタイル付きになりました。HTML をたった 1 行追加しただけで、すべてのコンポーネントは元のままです。
+    </p>
+  </div>
+
+  <h2>ステップ 2 — 何でも上書きする</h2>
+  <p>
+    テーマのセレクターは次で囲まれています: <code>:where(...)</code>詳細度がゼロなので、自分で書いたルールが必ず勝ちます。単純明快です:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>ステップ 3 — theme-picker による実行時の切り替え</h2>
+  <p>
+     <code>theme-picker</code> ヘルパーは、アイコンボタンとリストボックスを備えたヘッドレスのコンポーネントで、テーマのライフサイクル全体を受け持ちます。管理された 1 つの <code>&lt;link&gt;</code>
+    を差し替えて、選ばれたスタイルシートを読み込み(有効なテーマだけが取得されます)、ドキュメントに
+    <code>data-theme="&#123;slug&#125;"</code> を設定し、必要に応じて次に保持します: <code>localStorage</code>。ここでは Svelte で示します。React、Vue、Angular、HTML、Nunjucks、Blazor のポートも契約ごとに同じ内容です:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    これで連携は完了です。キーボード操作は WAI-ARIA APG のリストボックスのパターンに従い、コントロール自体はヘッドレス(クラスフック
+    <code>.theme-picker</code>)なので、有効なテーマがそのまま適用されます。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 に確認済み:</strong> このスニペットそのものを、公開済みの <code>0.1.1</code> パッケージに対して、次を通してコンパイルしました:
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>ステップ 4 — 自分の CSS でテーマに反応する</h2>
+  <p>
+    ヘルパーがドキュメントのルートに <code>data-theme</code> を設定するので、自分のスタイルをそれに応じて分岐できます:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>サーバーレンダリングに関する注意</h2>
+  <p>
+    このヘルパーはすべての DOM 書き込みをフレームワークのマウント/エフェクトのライフサイクル内で行うので、設計上 SSR 対応です。最初の描画でのちらつきを避けるには、サーバー側で(たとえばクッキーから)最初のテーマの <code>&lt;link&gt;</code> と
+    <code>data-theme</code> を描画してください。Svelte のヘルパーのリポジトリには実行できる SvelteKit のクッキーの例があり、ほかのカタログでもそれぞれのスタックに合わせた同じパターンを説明しています。
+  </p>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">設定ヘルパー</a> — 言語、テキストサイズ、共有、日付/時刻の入力にも同じパターンが使えます。</li>
+    <li>
+      テーマの投稿 — 各テーマは、クラスフックを対象にした 1 つの独立したスタイルシートです。次を参照してください: <a href="/help/#contributing">貢献の手引き</a>.
+    </li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

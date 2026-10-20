@@ -1,0 +1,102 @@
+<!-- title: Kodėl Lily — Lily Design System -->
+<!-- description: Argumentai už Lily: bevaigiai komponentai, kuriuos stilizuojate patys, integruotas WCAG 2.2 AAA prieinamumas, jokių į kodą įrašytų eilučių, aštuoni karkasai, vienas katalogas, nemokamai amžinai. -->
+<section class="page-intro">
+  <h1>Argumentai už Lily</h1>
+  <p class="page-intro-tagline">
+    Lily perima sunkiąsias dalis — semantiką, prieinamumą, klaviatūros elgseną, internacionalizaciją — o išvaizdą visiškai ir mielai palieka jums.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pradėkite nuo savo dizaino</h2>
+  <p>
+    Jūsų komanda jau žino, kaip turėtų atrodyti jūsų produktas. Lily prasideda lygiai nuo ten: tiekia dalis, kurias iš tiesų sunku padaryti teisingai ir brangu perdaryti — teisingą semantinį elementą, ARIA būsenas, klaviatūros sutartį, fokuso valdymą — ir kiekvieną vizualinį sprendimą visiškai ir džiaugsmingai palieka jums. Jūsų CSS yra dizaino sistemos išvaizda nuo pirmos dienos.
+  </p>
+  <p>
+    Kadangi kiekvienas komponentas turi stabilią klasės kabliuką ir gryną struktūrą, jūsų stilizavimas per kiekvieną atnaujinimą išlieka švariai jūsų — o po juo esantis prieinamumas ir toliau veikia, versija po versijos.
+  </p>
+
+  <h2>Ką Lily įsipareigoja daryti</h2>
+  <ul>
+    <li>
+      <strong>Prieinamas pagal numatytuosius nustatymus.</strong> WCAG 2.2 AAA yra kiekvieno komponento tikslas. Šablonai atitinka WAI-ARIA Authoring Practices; kiekvienas interaktyvus komponentas valdomas klaviatūra pagal dokumentuotą sutartį; pavyzdinės programos išlaiko švarią axe-core bazinę liniją.
+    </li>
+    <li>
+      <strong>Internacionalizuojamas pagal konstrukciją.</strong> Kiekviena vartotojui matoma eilutė — kiekviena etiketė, klaida ir pranešimas — yra savybė su stabiliais pavadinimais visuose karkasuose, todėl vertimas teka natūraliai. RTL ir dvikryptis tekstas paveldi iš jūsų <code>dir</code>. Lokalei jautrūs komponentai lokalę gauna kaip savybę, visada aiškiai.
+    </li>
+    <li>
+      <strong>Vienas katalogas, aštuoni karkasai.</strong> Tie patys 571 komponentai (536 kaip vietiniai Web Components) su tais pačiais klasės kabliukais ir savybių konvencijomis HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks ir Web Components. Jūsų CSS ir komandos žinios perkeliamos tarp technologijų rinkinių.
+    </li>
+    <li>
+      <strong>Nepriklausomas nuo CSS strategijos.</strong> Viena stabili kebab-case klasė vienai komponento šakniai. Semantinis CSS, Tailwind pagalbinės klasės, CSS-in-JS arba viena iš 57 paruoštų temų — Lily sveikina jas visas ir grakščiai pasitraukia.
+    </li>
+    <li>
+      <strong>Nemokamai, amžinai, jūsų sąlygomis.</strong> Atvirasis kodas pagal jūsų pasirinktą licenciją: BSD, MIT, Apache-2.0, GPL-2.0 arba GPL-3.0. Jokio pro lygio, jokių vietų licencijų, jokios telemetrijos.
+    </li>
+  </ul>
+
+  <h2>Gylis ten, kur jis svarbus</h2>
+  <p>
+    Be įprastų mygtukų ir dialogų, katalogas siekia toliau nei dauguma:
+  </p>
+  <ul>
+    <li>
+      <strong>Viešojo sektoriaus šablonai</strong> ištirti iš NHS UK, GOV.UK, USWDS ir ONS dizaino sistemų — klaidų santraukos, įspėjimo langeliai, santraukų sąrašai, fazių reklamjuostės, praleidimo nuorodos.
+    </li>
+    <li>
+      <strong>140 nacionalinių asmens identifikatorių komponentų</strong> apimančių sveikatos, nacionalinių tapatybės, mokesčių ir pasų identifikatorius daugiau nei 50 šalių, kiekvienas su dokumentuotu formatu ir patikros algoritmu.
+    </li>
+    <li>
+      <strong>Redakciniai ir scrollytelling pagrindiniai elementai</strong> pritaikyti iš Reuters Graphics — straipsnių išdėstymai, slinkikliai, laiko juostos, plytelių žemėlapiai.
+    </li>
+    <li>
+      <strong>Parinkiklių pagalbininkai</strong> — maži paketai, valdantys vieną sąveiką nuo pradžios iki pabaigos: temų perjungimas (su vykdymo metu įkeliamu stilių lapu), kalba, teksto dydis, sumažintas judesys, paieška, puslapių nuorodos, dalijimasis ir datos bei laiko įvedimas. Kiekvienas yra bevaigis piktogramos mygtukas, atidarantis iškylantįjį langą — ne vietinis <code>&lt;select&gt;</code> — su integruotu išsaugojimu ir SSR saugumu.
+    </li>
+  </ul>
+
+  <h2>Viešojo sektoriaus temos, iškart paruoštos</h2>
+  <p>
+    Lily tiekia 57 savarankiškas pavyzdines temas, tiesiogiai taikomas jo klasės kabliukams: NHS England, NHS Scotland ir NHS Wales (kiekviena pacientams ir praktikams skirtais variantais), GOV.UK, USWDS, paletes, įkvėptas Adobe Spectrum ir Mozilla Protocol, ir bendrosios paskirties šviesių bei tamsių temų rinkinį. Susiekite vieną stilių lapą ir valdžios lygio išvaizda įjungta; pagalbininkas <code>theme-picker</code> perjungia jas vykdymo metu.
+  </p>
+
+  <h2>Kaip Lily lyginasi</h2>
+  <p>
+    Mes palaikome sąžiningą, komponentas po komponento
+    <a href="/comparisons/">palyginimą su kitomis dizaino sistemomis</a> — stilizuotomis ir bevaigėmis, komercinėmis ir viešojo sektoriaus. Kur kita biblioteka jums tinka labiau, palyginimas tai parodys; Lily mokosi iš visų ir viešai nurodo savo įkvėpimo šaltinius.
+  </p>
+
+  <h2>Kas už to stovi</h2>
+  <p>
+    Lily yra jaunas, nepriklausomas atvirojo kodo projektas, sveikinantis bendradarbiavimą, patarimus ir atsiliepimus — žr.
+    <a href="/about/">Apie</a> istorijai ir įkvėpimo šaltiniams. Viskas — specifikacija, testai, planas, net audito įrankiai — atvira adresu
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Padėkite Lily augti</h2>
+  <p>Jei Lily jums naudingas, vertingiausi dalykai, kuriuos galite padaryti:</p>
+  <ul>
+    <li>
+      <strong>Suteikite žvaigždutę ir pasidalykite.</strong> Suteikite žvaigždutę
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">pagrindinei saugyklai</a>
+      ir parodykite kolegai <a href="/components/">katalogą</a> — žinomumas yra pats retiausias jauno projekto išteklius.
+    </li>
+    <li>
+      <strong>Sukurkite ką nors ir pasakykite mums.</strong> Realaus naudojimo ataskaitos — kas veikė, kas galėtų būti sklandžiau — formuoja planą labiau nei bet kas kita.
+    </li>
+    <li>
+      <strong>Audituokite prieinamumą.</strong> Peržiūros su ekrano skaitytuvais (VoiceOver, NVDA, JAWS) <a href="/examples/">pavyzdinėse programose</a> verta aukso; pranešykite, ką rasite.
+    </li>
+    <li>
+      <strong>Prisidėkite tema arba vertimu.</strong> Abu yra savarankiški, gerai apibrėžti pirmieji indėliai.
+    </li>
+    <li>
+      <strong>Pasidalykite tuo, ką rasite, su minimaliu atkūrimu,</strong> GitHub saugykloje arba rašykite el. paštu
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Pradėti mokymą</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Suteikti žvaigždutę GitHub</a>
+  </div>
+</section>

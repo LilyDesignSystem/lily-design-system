@@ -1,0 +1,432 @@
+<!-- title: Għajnuna — Lily Design System -->
+<!-- description: Ibda b’Lily: installa l-pakkett headless għall-framework tiegħek, ikkopja komponent, stilizzah, agħtih tema u ħarġu. Soluzzjoni tal-problemi, FAQ u appoġġ. -->
+<section class="page-intro">
+  <h1>Bidu ma’ Lily</h1>
+  <p class="page-intro-tagline">
+    Agħżel framework, ikklona l-monorepo u iftaħ il-librerija headless jew l-applikazzjoni ta’ eżempju tiegħu, u ibda ikkomponi l-paġni tiegħek stess. Tippreferi mogħdija mmexxija? Ibda bit-
+    <a href="/tutorials/">tutorjals</a>.
+  </p>
+</section>
+
+<nav aria-label="F’din il-paġna" class="prose" style="margin: 0 auto;">
+  <p><strong>F’din il-paġna:</strong></p>
+  <ul>
+    <li><a href="#install">Installazzjoni</a></li>
+    <li><a href="#use-headless">Uża komponent headless</a></li>
+    <li><a href="#use-styled">Uża eżempju stilizzat</a></li>
+    <li><a href="#styling">Stilizzazzjoni u tokens tad-disinn</a></li>
+    <li><a href="#themes">Temi lesti</a></li>
+    <li><a href="#helpers">Għajnuniet tal-preferenzi</a></li>
+    <li><a href="#a11y">Aċċessibbiltà</a></li>
+    <li><a href="#i18n">Internazzjonalizzazzjoni</a></li>
+    <li><a href="#testing">Ittestjar</a></li>
+    <li><a href="#ai-agents">Aġenti AI</a></li>
+    <li><a href="#troubleshooting">Soluzzjoni tal-problemi</a></li>
+    <li><a href="#contributing">Kontribuzzjoni</a></li>
+    <li><a href="#community">Komunità u appoġġ</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Installazzjoni</h2>
+  <p>
+    Lily tgħix f’monorepo wieħed ta’ Git, b’direttorju għal-librerija headless, il-pakketti tal-għajnuna u l-applikazzjoni ta’ eżempju ta’ kull framework. L-aktar mod mgħaġġel biex tipprovaha huwa li tikklona l-monorepo u tiftaħ il-librerija headless għall-istack tiegħek:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>L-istess xejra taħdem għall-frameworks l-oħra:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — l-ebda installazzjoni meħtieġa; ikkopja l-fajls <code>.html</code> </li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Il-libreriji headless huma ddisinjati biex jiġu kklonati jew inkorporati — ittratta l-kodiċi sors bħala s-sors tal-verità u ikkopja dak li għandek bżonn.
+    <a href="#helpers">għajnuniet tal-preferenzi</a> jiġu wkoll bħala pakketti installabbli b’pipeline tal-bini u tal-pubblikazzjoni (npm għall-frameworks JS, NuGet għal Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Uża komponent headless</h2>
+  <p>
+    Il-komponenti headless jipprovdu HTML semantiku, ARIA u proprjetajiet — imma l-ebda CSS. Hawn Button f’kull framework:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Uża eżempju stilizzat</h2>
+  <p>
+    L-applikazzjonijiet ta’ eżempju jinkludu CSS, rotot u paġni demo sħaħ. L-aktar mod mgħaġġel biex tesperimenta huwa li tibda l-applikazzjoni ta’ eżempju SvelteKit, Next, Nuxt, Analog jew Eleventy u tara d-demo fuq <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Imbagħad iftaħ <code>http://localhost:5173</code> u esplora <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stilizzazzjoni u tokens tad-disinn</h2>
+  <p>
+    Kull komponent jiġi renderjat b’klassi waħda f’kebab-case fuq l-element għerq tiegħu. Pereżempju, <code>&lt;Button&gt;</code> jiġi renderjat bħala <code>&lt;button class="button"&gt;</code>. Stilizzah kif trid:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Il-paletta tal-kuluri awtomatika ta’ Lily (użata fl-applikazzjonijiet ta’ eżempju) hija:</p>
+  <ul>
+    <li>Primarju: <code>#2563eb</code></li>
+    <li>Periklu: <code>#dc2626</code></li>
+    <li>Twissija: <code>#f59e0b</code></li>
+    <li>Suċċess: <code>#16a34a</code></li>
+    <li>Isfond tal-paġna: <code>#f9fafb</code></li>
+    <li>Isfond tal-kard: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Dawn huma suġġerimenti, mhux rekwiżiti. Ibdilhom bil-paletta tal-marka tiegħek stess u Lily tikkonforma bil-ferħ.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Temi lesti</h2>
+  <p>
+    Ma tridx tikteb CSS mill-bidu? Lily tibgħat
+    <strong>57 tema ta’ referenza awtonoma</strong> fid-direttorju
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Kull waħda hija stylesheet wieħed li jimmira lejn il-ganċijiet tal-klassi ta’ Lily — qabbdu u int stilizzat:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Is-sett ikopri:</p>
+  <ul>
+    <li>
+      <strong>Settur pubbliku</strong> — NHS England, NHS Scotland u NHS Wales (kull waħda f’varjanti għall-pazjenti u għall-prattikanti), GOV.UK GDS u l-U.S. Web Design System.
+    </li>
+    <li><strong>Ispirati mill-bejjiegħa</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Użu ġenerali</strong> — light, dark, nord, dracula, wireframe u tletin oħra jew hekk.
+    </li>
+  </ul>
+  <p>
+    Is-selectors tat-temi jużaw <code>:where(...)</code>, għalhekk is-CSS tiegħek stess dejjem jirbaħ fl-ispeċifiċità. Akkoppjahom mal-għajnuna <code>theme-picker</code> hawn taħt għat-tibdil waqt it-tħaddim, jew segwi
+    <a href="/tutorials/theming/">tutorja tat-temi</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Għajnuniet tal-preferenzi</h2>
+  <p>
+    Kull framework għandu tmien għażliet żgħar, kull wieħed pakkett
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> tiegħu stess (u <code>picker-bar</code> li jiġbor flimkien). Kull wieħed huwa buttuna headless b’ikona li tiftaħ popup — listbox, lista ta’ links, formola tat-tfittxija jew (għal date-time-picker) dijalogu tal-għażla tad-data — mhux
+    <code>&lt;select&gt;</code>nattiv; huwa sigur għal SSR; u ma jibgħatx CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — jgħabbi stylesheets tat-temi waqt it-tħaddim billi jibdel <code>&lt;link&gt;</code>ġestit, jistabbilixxi
+      <code>data-theme</code> fuq id-dokument u b’mod fakultattiv jiffranka f’
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — jistabbilixxi <code>lang</code> u
+      <code>dir</code> (b’skoperta awtomatika tal-RTL) biex il-librerija i18n tiegħek tkun tista’ ssegwi; ma jittraduċi xejn waħdu.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — jistabbilixxi <code>data-text-size</code> fuq id-dokument; is-CSS tiegħek jimmappja kull valur għad-daqs tal-font.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — jistabbilixxi <code>data-motion</code> fuq id-dokument, jibda mill-issettjar tal-moviment imnaqqas tal-viżitatur; is-CSS u l-iscripts tiegħek jiddeċiedu x’għandu jiġi mrażżan.
+    </li>
+    <li>
+      <strong>search-picker</strong> — buttuna b’ikona li tiftaħ qasam tat-tfittxija; is-sottomissjoni tmur fuq paġna tat-tfittxija. Hija sid ta’ azzjoni, mhux preferenza.
+    </li>
+    <li>
+      <strong>link-picker</strong> — ikona tad-dar li tiftaħ menu tal-links tal-paġni li l-applikazzjoni tiegħek tiddefinixxi (Home, Dwarna, Ikkuntattjana, Politika tal-Privatezza, …). Hija sid ta’ azzjoni, mhux preferenza.
+    </li>
+    <li>
+      <strong>share-picker</strong> — tiftaħ il-folja nattiva tal-qsim jew lista ta’ destinazzjonijiet ipprovduta mill-konsumatur, flimkien mal-kopja tal-URL. Hija sid ta’ azzjoni, mhux preferenza: ma tapplika xejn, ma tiffranka xejn.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — qasam tat-test flimkien ma’ dijalogu APG tal-għażla tad-data għal data, ħin, jew it-tnejn. Hija sid ta’ valur ta’ formola, mhux preferenza: is-sekwenza ISO tinbidel bidirezzjonalment għal
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Il-katalgu Svelte huwa r-referenza kanonika; il-ports ta’ React, Vue, Angular, HTML, Nunjucks, Web Components u Blazor jaqblu miegħu kuntratt b’kuntratt. Ara t-
+    <a href="/tutorials/helpers/">tutorja tal-għajnuniet</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Aċċessibbiltà</h2>
+  <p>Il-komponenti jimmiraw lejn <strong>WCAG 2.2 AAA</strong>. Isegwu dawn ix-xejriet:</p>
+  <ul>
+    <li>Elementi HTML semantiċi minflok <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> ġeneriċi li jorbtu t-tikketti mal-inputs.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> għal referenzi inkroċjati.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> għal stati ta’ żball.</li>
+    <li><code>role="alert"</code> u <code>aria-live</code> għal kontenut dinamiku.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> għall-istat.</li>
+    <li>Roving <code>tabindex</code> għall-grids.</li>
+  </ul>
+  <p>
+    L-indikaturi tal-fokus huma apposta pprovduti mill-konsumatur — Lily qatt ma tpinġi ċirku tal-fokus awtomatiku li jmur kontra d-disinn tiegħek. L-applikazzjonijiet ta’ eżempju jżommu linja bażi axe-core nadifa fuq ir-rotot kollha tagħhom.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internazzjonalizzazzjoni</h2>
+  <p>
+    Kull tikketta, placeholder, messaġġ ta’ żball u test ta’ buttuna hija proprjetà. M’hemmx sekwenzi miktuba direttament. Qabbad il-framework tat-traduzzjoni li tippreferi — Paraglide, i18next, vue-i18n, react-intl, fajls .resx, kwalunkwe.
+  </p>
+  <p>
+    Għal dati, numri u muniti, il-komponenti jaċċettaw sekwenzi ffurmattjati minn qabel: int tifformattja b’ <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / il-librerija preferuta tiegħek u tgħaddi r-riżultat.
+  </p>
+  <p>
+    L-għajnuna <code>locale-picker</code> tgħarraf il-lokal magħżul lill-librerija i18n tiegħek billi tistabbilixxi <code>lang</code> u <code>dir</code> fuq l-għerq tad-dokument.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Ittestjar</h2>
+  <p>Kull sottoproġett ta’ framework jibgħat it-testijiet tiegħu stess bl-istack idjomatiku tiegħu:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO li jħaddem browsers reali.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (permezz tal-plugin Vite ta’ Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest b’għajnuna tar-renderjar.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    It-testijiet jużaw <strong>biss il-matchers integrati ta’ Vitest</strong> — qatt il-matchers ta’
+    <code>jest-dom</code> . Dan iżomm is-suites tat-testijiet portabbli. L-applikazzjonijiet ta’ eżempju jżidu suites end-to-end ta’ Playwright, linji bażi tal-aċċessibbiltà axe-core u skannjar tal-viewports responsivi.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Aġenti AI</h2>
+  <p>
+    Dan is-sit jippubblika <a href="/llms.txt">llms.txt</a> u
+    <a href="/llms.json">llms.json</a> fl-għerq tiegħu — mappa kkurata tal-aktar paġni importanti tiegħu, għal kwalunkwe għodda li ssegwi
+    <a href="https://llmstxt.org">l-konvenzjoni llms.txt</a>.
+  </p>
+  <p>
+    Il-monorepo kanoniku jibgħat ukoll tnejn
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: ħila ta’ użu ġenerali li tkopri l-kunċetti, it-terminoloġija u x-xejriet ta’ kompożizzjoni ta’ Lily għal kull min jibni bis-sistema, u <code>lily-design-system-maintainer-skill</code>, ħila teknika li tkopri d-dispożizzjoni tal-fajls meħtieġa u l-għodod tal-monorepo għal kull min jaħdem fuqu. It-tnejn jinsabu fl-għerq tal-
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kanoniku</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Soluzzjoni tal-problemi</h2>
+
+  <details class="faq-item">
+    <summary>Komponent jiġi renderjat imma jidher mhux stilizzat</summary>
+    <p>
+      Dak huwa headless jaħdem kif intenzjonat — l-ebda CSS ma jiġi mal-komponent. Jew ikteb CSS għall-klassi f’kebab-case tal-komponent (murija fuq kull <a href="/components/">paġna tal-katalgu</a>) jew qabbad waħda mit-
+      <a href="#themes">57 tema lesta</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Is-CSS tiegħi ma jidhirx li japplika fuq tema</summary>
+    <p>
+      Għandu — is-selectors tat-temi huma mgeżwra f’ <code>:where(...)</code>, li għandu speċifiċità żero. Jekk regola xorta titlef, ivverifika li l-istylesheet tiegħek jitgħabba wara l- <code>&lt;link&gt;</code> tat-tema u li s-selector verament jaqbel mal-ganċ tal-klassi tal-komponent.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install jonqos b’żball ta’ peer jew ta’ verżjoni</summary>
+    <p>
+      Uża pnpm kurrenti (v10+) u Node 22+. Kull sottoproġett jibbloka l-verżjonijiet tal-framework tiegħu fil- <code>package.json</code>tiegħu stess; jekk it-toolchain globali tiegħek huwa eqdem, <code>pnpm env use --global lts</code> huwa l-eqreb soluzzjoni.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Il-qarrej tal-iskrin iħabbar isem ħażin għal kontroll</summary>
+    <p>
+      Iċċekkja l-proprjetà meħtieġa <code>label</code> tal-komponent — il-komponenti li m’għandhomx test viżibbli jeħtieġu waħda, u
+      <code>aria-label</code> / <code>aria-labelledby</code> ipprovdut mill-konsumatur u mgħoddi permezz ta’ rest-props apposta jirbaħ fuq it-twaħħil integrat. Kull paġna tal-katalgu tiddokumenta l-kuntratt ARIA tal-komponent.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>L-għajnuna theme-picker ma tibdilx l-istylesheets</summary>
+    <p>
+      Ikkonferma li <code>themesUrl</code> jipponta lejn direttorju li l-browser jista’ jġib (servi l-fajls <code>themes/</code> bħala assi statiċi) u li l-slugs tat-temi fil-proprjetà <code>themes</code> tiegħek jaqblu mal-ismijiet tal-fajls. L-għajnuna tibdel il- <code>href</code> ta’
+      <code>&lt;link data-lily-theme-picker&gt;</code> ġestit wieħed — spezzjonah fl-għodod tal-iżviluppatur biex tara l-URL mitlub.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Xi ħaġa oħra mkissra</summary>
+    <p>
+      Iftaħ issue b’riproduzzjoni minima fuq
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> — jew ara <a href="#community">komunità u appoġġ</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Kontribuzzjoni</h2>
+  <p>Lily hija żagħżugħa u tilqa’ l-kollaborazzjoni. Il-kontribuzzjonijiet l-aktar utli bħalissa huma:</p>
+  <ul>
+    <li>Komponenti ġodda (speċjalment xejriet minn sistemi tad-disinn stabbiliti).</li>
+    <li>Temi ġodda — kull wieħed huwa stylesheet wieħed awtonomu, PR tal-ewwel darba mdefinit sew.</li>
+    <li>Stilizzazzjoni aħjar tal-eżempji — uri x’hu possibbli.</li>
+    <li>Traduzzjonijiet tas-sekwenzi tal-applikazzjonijiet ta’ eżempju.</li>
+    <li>Rapporti tal-bugs b’riproduzzjoni minima.</li>
+    <li>Awditjar tal-aċċessibbiltà b’qarrejja tal-iskrin u teknoloġija assistiva.</li>
+  </ul>
+  <p>
+    Iftaħ issues u PRs fuq
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Komunità u appoġġ</h2>
+  <ul>
+    <li>
+      <strong>Mistoqsijiet u rapporti tal-bugs</strong> — iftaħ issue fuq
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>Email</strong> — il-manutentur jaqra
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      u jilqa’ l-kollaborazzjoni, il-gwida u l-feedback.
+    </li>
+    <li>
+      <strong>Mirrors</strong> — Lily tiġi wkoll imbuttata lejn
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> u
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, biex tkun tista’ tipparteċipa mill-forge li tippreferi.
+    </li>
+    <li>
+      <strong>Kondotta</strong> — il-proġett isegwi kodiċi ta’ kondotta standard; kun ġentili, assumi bona fede.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Għaliex headless minflok stilizzat?</summary>
+    <p>
+      Il-komponenti pre-stilizzati huma komdi — sakemm ma jaqblux mal-marka tiegħek. Il-komponenti headless jeħtieġu ftit aktar xogħol fil-bidu imma jagħtuk kontroll sħiħ tad-disinn viżwali. L-applikazzjonijiet ta’ eżempju u t-57 tema juru modi kif tistilizzahom; tista’ tieħodhom jew tissostitwihom kompletament. L-argument itwal jinsab fuq <a href="/why/">Għaliex Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Għaliex tant komponenti?</summary>
+    <p>
+      Lily timmira li tkopri x-xejriet li l-biċċa l-kbira tal-applikazzjonijiet jeħtieġu mingħajr ma ġġiegħlek tibnihom mill-bidu — inklużi affarijiet fondi bħal inputs ta’ identifikaturi nazzjonali u scrollytelling editorjali. Il-katalgu jieħu minn tużżana sistemi tad-disinn stabbiliti flimkien ma’ xogħol oriġinali — ara <a href="/about/">Dwar</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nista’ nuża Lily ma’ Tailwind?</summary>
+    <p>
+      Iva. Kull komponent jesponi klassi għerq waħda f’kebab-case flimkien ma’ <code>className</code> / <code>class</code>ipprovdut mill-konsumatur. Poġġi utilitajiet Tailwind fuq kif trid.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nista’ nuża Lily ma’ frameworks CSS semantiċi bħal DaisyUI?</summary>
+    <p>
+      Iva. L-ismijiet tal-klassi f’kebab-case fuq l-element għerq jaħdmu bħala ganċijiet CSS semantiċi. Akkoppja Lily ma’ framework semantiku u tikseb komponenti pre-stilizzati li xorta jirrispettaw ARIA u i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hemm pakkett npm?</summary>
+    <p>
+      L- <a href="#helpers">għajnuniet tal-preferenzi</a> jiġu bħala pakketti b’pipeline tal-pubblikazzjoni npm/NuGet. Il-libreriji tal-komponenti headless huma ddisinjati biex jiġu kklonati jew inkorporati — il-kodiċi sors huwa dak li tibgħat, biex tkun tista’ taqra, tnaqqas u tippossjedi eżattament dak li tibgħat. Il-pubblikazzjoni fir-reġistri tal-libreriji headless għadha fil-pjan.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Għaliex liċenzji multipli?</summary>
+    <p>
+      Proġetti differenti għandhom bżonnijiet differenti ta’ liċenzjar. BSD u MIT huma permissivi, Apache-2.0 għandha għoti ta’ privattiva, u l-għażliet GPL jappoġġjaw il-copyleft. Agħżel dik li taqbel mas-sitwazzjoni tiegħek.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kif nirrapporta bug jew nitlob karatteristika?</summary>
+    <p>
+      Iftaħ issue fir-repożitorju GitHub, jew ibgħat email lil
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

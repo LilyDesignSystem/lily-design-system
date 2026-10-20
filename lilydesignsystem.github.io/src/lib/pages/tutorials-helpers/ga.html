@@ -1,0 +1,276 @@
+<!-- title: Teagasc cúntóirí sainroghanna — Lily Design System -->
+<!-- description: Cuir sainroghanna teanga agus méide téacs an úsáideora leis le cúntóirí Lily locale-picker agus text-size-picker: rialuithe gan cheann le cnaipe deilbhín + listbox, le marthanacht agus sábháilteacht SSR. -->
+<section class="page-intro">
+  <h1>Cúntóirí sainroghanna</h1>
+  <p class="page-intro-tagline">
+    Seacht bpacáiste beaga in aghaidh na gcreat, gach ceann acu ag úinéireacht tasc úsáideora amháin ó thús go deireadh, móide barra a chuireann cúig cheann acu le chéile. Tá
+    <a href="/tutorials/theming/">theme-picker</a>feicthe agat cheana; seo locale-picker, text-size-picker agus motion-picker (sainroghanna), share-picker agus search-picker (gníomhartha), date-time-picker (luach foirme) agus picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    Painéal socruithe ina roghnaíonn úsáideoirí a dteanga agus a méid téacs — roghanna a bhaineann leis an doiciméad ar fad, a mhaireann idir cuairteanna agus a chosnaíonn dhá chomhpháirt agus cúpla líne CSS ort. Thart ar 15 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Críochnaigh an <a href="/tutorials/">teagasc creata</a> le haghaidh do chruach ar dtús. Tá na samplaí thíos i Svelte; tá cúntóirí React, Vue, Angular, HTML, Nunjucks agus Blazor ag teacht leo conradh i ndiaidh conartha.
+  </p>
+
+  <h2>An cruth a roinneann siad</h2>
+  <ul>
+    <li>Cnaipe deilbhín gan cheann a osclaíonn listbox WAI-ARIA APG (nó, i gcás date-time-picker, dialóg roghnóra dáta) — gan <code>&lt;select&gt;</code>dúchasach, ionas go bhfaigheann gach creat an iompar méarchláir agus na crúcaí stíle céanna.</li>
+    <li>Crúca aicme amháin in aghaidh an phacáiste (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), nialas CSS seolta.</li>
+    <li>Sábháilte do SSR: tarlaíonn scríbhinní DOM sa timthriall saoil mount/effect amháin.</li>
+    <li>Glan do i18n: is prop gach teaghrán a fheiceann an t-úsáideoir.</li>
+    <li>
+      Ar fáil do Svelte (canónach), React, Vue, Angular, eilimint saincheaptha HTML, Nunjucks agus Blazor — an conradh céanna i ngach ceann.
+    </li>
+  </ul>
+  <p>
+    Tá úinéireacht ag theme-picker, locale-picker agus text-size-picker gach ceann ar
+    <em>shainroghan</em> úsáideora amháin ó thús go deireadh (roghnú, cur i bhfeidhm ar an DOM,
+    <code>localStorage</code> marthanacht roghnach tríd an prop <code>storageKey</code>
+    ). Tá share-picker agus date-time-picker difriúil ó thaobh cineáil de: tá úinéireacht ag share-picker ar <em>ghníomh</em> — ní chuireann sé aon rud i bhfeidhm ar an doiciméad agus ní choinníonn sé aon rud — agus tá úinéireacht ag date-time-picker ar
+    <em>luach foirme</em>, mar is sonraí é dáta i bhfoirm, ní sainroghan.
+  </p>
+
+  <h2>locale-picker — teanga agus treo</h2>
+  <p>
+    Ligeann sé don úsáideoir logchaighdeán a roghnú, ansin scríobhann sé <code>lang</code> agus
+    <code>dir</code> ar fhréamh an doiciméid ionas go leanfaidh do leabharlann i18n, do CSS agus teicneolaíochtaí cúnta ar fad é. Braitear RTL go huathoibríoch don Araibis, don Eabhrais agus do scripteanna eile ón taobh dheas go clé. Díríonn sé ar chomharthaíocht amháin — láimhseálann do leabharlann i18n an t-aistriúchán.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Lipéadaítear na roghanna ó tábla ionsuite d'ainmneacha logchaighdeán (inshárú tríd an <code>localeLabels</code>), iompraíonn gach rogha a aitreabúid féin
+    <code>lang</code> ionas go bhfuaimníonn léitheoirí scáileáin "Français" i bhFraincis, agus aistrítear cóid le tanaíocht mar <code>en_US</code>
+    go BCP 47 agus ar ais gan caillteanas <code>en-US</code>. Ceangail
+    <code>onChange</code> (nó an luach ceangailte) le i18next, Paraglide, vue-i18n nó cibé rud a úsáideann tú.
+  </p>
+
+  <h2>text-size-picker — méid arna rialú ag an léitheoir</h2>
+  <p>
+    Bua inrochtaineachta a thógann nóiméid: socraíonn an cúntóir
+    <code>data-text-size="&#123;slug&#125;"</code> ar fhréamh an doiciméid agus mapálann do CSS gach luach ar mhéid.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Méadaigh do leagan amach i <code>rem</code> agus scálaíonn an app ar fad le rogha an úsáideora. Foirmítear lipéid ó na slugs le ceannlitir ("X Large") nó sáraítear iad leis an <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> roghnaigh "Large" ón roghnóir, agus fásann téacs an leathanaigh. Athlódáil — tá sé fós mór: coinníodh an rogha i
+      <code>localStorage</code>. Athraigh do roghnóir teanga go hAraibis agus socraítear
+      <code>dir="rtl"</code> ar an doiciméad go huathoibríoch.
+    </p>
+  </div>
+
+  <h2>share-picker — seol an leathanach seo</h2>
+  <p>
+    Cnaipe aon-ghlife a osclaíonn bileog roinnte dhúchasach an ghléis nuair atá ceann ann, agus ar shlí eile titeann sé ar ais ar liosta ceann scríbe a sholáthraíonn tú, móide gníomh cóipeála an URL. Ní sheolann sé aon URLanna líonraí sóisialta — is é do chinneadh féin é cé acu líonraí a bhaineann le do tháirge, ní cinneadh an chórais dearaidh.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> is é <code>location.href</code>an réamhshocrú, mar sin ní theastaíonn aon sreangú sa ghnáthchás. Fórsáil cosán le <code>strategy="list"</code> nó
+    <code>strategy="native"</code> nuair a theastaíonn iompar comhsheasmhach ar fud ardán le haghaidh tástálacha nó seatanna scáileáin.
+  </p>
+
+  <h2>date-time-picker — dáta, am, nó an dá cheann</h2>
+  <p>
+    Réimse téacs inar féidir leat clóscríobh, móide cnaipe deilbhín a osclaíonn dialóg roghnóra dáta WAI-ARIA APG. Ceart don logchaighdeán de réir dearaidh — tagann ainmneacha míonna, ainmneacha laethanta, céad lá na seachtaine agus clog 12 nó 24 uair ar fad ó <code>Intl</code> — agus is teaghrán ISO inchomhairithe gan crios ama an luach i gcónaí: <code>"2026-03-15"</code> le haghaidh
+    <code>mode="date"</code>, <code>"09:30"</code> le haghaidh
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> le haghaidh
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    Tá an luach ISO comhionann leis an rud a sheolann <code>&lt;input type="date"&gt;</code>
+    ionas gur féidir leat an rialú dúchasach a mhalartú isteach nó amach gan teagmháil a dhéanamh le do chúl-chóras.
+  </p>
+
+  <h2>motion-picker — tabhair meas ar ghluaiseacht laghdaithe</h2>
+  <p>
+    Socraíonn an cúntóir <code>data-motion="&#123;slug&#125;"</code> ar fhréamh an doiciméid. Tagann a chéad luach ó shocrú
+    <code>prefers-reduced-motion</code> chórais oibriúcháin an chuairteora — i gcónaí, gan bratach rogha isteach, mar is fíor-riachtanas inrochtaineachta é gluaiseacht (WCAG 2.3.3). Cinneann do CSS agus do scripteanna cad a chuirtear faoi chois.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — bosca cuardaigh nach gcuireann bac ort</h2>
+  <p>
+    Cnaipe deilbhín a osclaíonn réimse cuardaigh. Nuair a bhrúnn tú Return, nó an cnaipe &#9166; in aice leis an réimse, nascleanann sé le hiarratas GET simplí chuig
+    <code>/?&lt;text&gt;</code> (bearrtar an téacs agus códaítear mar URI é; ní théann ceist fholamh in áit ar bith). Tá a thrí ainm inrochtana ag teastáil, mar ní sheolann an cúntóir Béarla.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> athraíonn an cosán (<code>/search?foo</code>), agus
+    <code>navigate</code> coinníonn sé an nascleanúint istigh san app; gan é glaonn an cúntóir <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — an tsraith ceanntásc iomlán in aon turas</h2>
+  <p>
+    <code>picker-bar</code> rindreálann sé cuardach, téama, logchaighdeán, méid téacs agus roinnt in aon tsraith amháin, leis an tsraith iomlán téamaí tagartha agus scála téacs seacht gcéim réamhcheangailte. Tagann gach ainm inrochtana in aon réad riachtanach amháin
+    <code>labels</code> .
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Sroich aon roghnóir fillte le <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> agus <code>shareProps</code>.
+  </p>
+
+  <h2>Tá leideanna uirlise ionsuite</h2>
+  <p>
+    Taispeánann gach roghnóir a lipéad i leid uirlise nuair a luíonn an pointeoir ar a chnaipe nó nuair a bhíonn fócas méarchláir ar an gcnaipe. Fanann an leid uirlise nuair a ghluaiseann an pointeoir air, dúnann Escape é cibé áit a bhfuil an fócas, agus ní thaispeántar riamh é fad atá preabfhuinneog an roghnóra oscailte. Iompraíonn sé an téacs céanna le hainm inrochtana an chnaipe, mar sin níl aon rud le cumrú ná le haistriú faoi dhó; stíleálann na téamaí tagartha é.
+  </p>
+
+  <h2>Painéal socruithe in aon áit amháin</h2>
+  <p>Cuireann na ceithre chúntóir sainroghanna le chéile go nádúrtha:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Fíoraithe:</strong> cumasc blúirí locale-picker, text-size-picker, share-picker, date-time-picker agus an phainéil chomhcheangailte in aghaidh na bpacáistí <code>0.1.1</code> foilsithe, trí
+      <code>svelte/server</code> (2026-08-29); rindreáladh blúirí motion-picker, search-picker agus picker-bar in aghaidh chomhpháirteanna na bpacáistí féin ar 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Cá bhfaighidh tú iad</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Tá a spec féin ag gach pacáiste, tástálacha mapáilte ar chlásail an spec, samplaí inrite (lena n-áirítear patrúin fianán SSR) agus píblíne tógála + foilsithe. Is iad na pacáistí Svelte na cinn canónacha; i gcás amhrais, buann a gconarthaí.
+  </p>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/components/">Catalóg na gcomhpháirteanna</a> — tagairt iomlán na 571 comhpháirt.</li>
+    <li><a href="/help/">Cabhair</a> — fabhtcheartú agus ceisteanna coitianta.</li>
+    <li><a href="/why/">Cén fáth Lily</a> — agus conas tacú leis an tionscadal.</li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

@@ -1,0 +1,136 @@
+<!-- title: Vejledninger — Lily Design System -->
+<!-- description: Trin-for-trin-vejledninger til Lily: din første komponent, stilarter, færdige temaer og præferencehjælpere – til HTML, Svelte, React, Vue, Angular, Blazor og Nunjucks. -->
+<section class="page-intro">
+  <h1>Lær Lily, trin for trin</h1>
+  <p class="page-intro-tagline">
+    Velkommen! Hver vejledning starter fra bunden og bygger det samme lille stykke – en tilgængelig, stilet formular – på cirka 10 minutter, så du kan sammenligne frameworks på lige fod. Gå derefter dybere med temaer og brugerpræferencer.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Før du starter</h2>
+  <p>Du har brug for overraskende lidt:</p>
+  <ul>
+    <li>
+      <strong>Til HTML-vejledningen</strong> – blot en browser og en teksteditor. Det er hele værktøjskassen.
+    </li>
+    <li>
+      <strong>Til Svelte, React, Vue, Angular eller Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 og pnpm 10 eller nyere.
+    </li>
+    <li>
+      <strong>Til Blazor</strong> – git og
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 eller nyere.
+    </li>
+  </ul>
+  <p>
+    Ny med hovedløse komponenter? Så er du det rette sted – hver vejledning forklarer, hvad der sker undervejs, og hvert trin viser den præcise kode, du skal kopiere.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Fire trin fra nul til udgivet</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Din første komponent</strong> (ca. 5 minutter) – vælg dit framework nedenfor, hent koden og gengiv en Button.
+      </li>
+      <li>
+        <strong>Sammensæt og stil</strong> (ca. 5 minutter) – byg en formular med etiketter og stil den med klassekrogene i kebab-case (en del af hver framework-vejledning).
+      </li>
+      <li>
+        <strong>Giv det et tema</strong> (ca. 15 minutter) – byt din håndskrevne CSS ud med et af de 57 færdige temaer, og lad derefter brugere skifte under kørsel: <a href="/tutorials/theming/">temavejledningen</a>.
+      </li>
+      <li>
+        <strong>Respektér præferencer</strong> (ca. 15 minutter) – tilføj valg af sprog og tekststørrelse med præferencehjælperne:
+        <a href="/tutorials/helpers/">hjælpervejledningen</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Vælg dit framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Kopiér semantisk HTML med klassekrogene og kom i gang – en browser og en editor er alt, hvad der skal til.</p>
+      <p class="card-meta">ca. 10 minutter · nemmeste start</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5-runes, snippets og <code>bind:value</code> tovejsbinding.</p>
+      <p class="card-meta">ca. 10 minutter</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Funktionskomponenter med <code>value</code> + <code>onChange</code> og videregivelse af øvrige props.</p>
+      <p class="card-meta">ca. 10 minutter</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Vue 3-enkeltfilskomponenter med understøttelse af <code>v-model</code> .</p>
+      <p class="card-meta">ca. 10 minutter</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Selvstændige Angular-komponenter med signalinput og <code>[(value)]</code>.</p>
+      <p class="card-meta">ca. 10 minutter</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Razor-komponenter med parametre, <code>ChildContent</code>og bUnit-tests.</p>
+      <p class="card-meta">ca. 10 minutter</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Servergengivne makroer til Eleventy og enhver Node-skabelonpipeline.</p>
+      <p class="card-meta">ca. 10 minutter</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Kan du ikke vælge? Start med <a href="/tutorials/html/">HTML</a> – den lærer klassekrog-kontrakten, som alle andre frameworks deler, og den kører direkte fra en fil.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Gå dybere</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Temaer</h3>
+      <p class="card-description">
+        Link et af 57 færdige temaer – NHS, GOV.UK, USWDS, lyst, mørkt og flere – tilsidesæt det med din egen CSS, og tilføj temaskift under kørsel med theme-picker-hjælperen.
+      </p>
+      <p class="card-meta">ca. 15 minutter</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Præferencehjælpere</h3>
+      <p class="card-description">
+        Giv brugerne kontrol over tema, sprog, tekststørrelse, bevægelse, søgning, sidelinks, deling og indtastning af dato/tid med theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker og date-time-picker: hovedløse kontroller med vedvarende lagring, SSR-sikkerhed og automatisk RTL-registrering.
+      </p>
+      <p class="card-meta">ca. 15 minutter</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Efter vejledningerne</h2>
+  <ul>
+    <li>
+      Gennemse <a href="/components/">komponentkataloget</a> – hver komponent dokumenterer sine props, ARIA-kontrakt og tastaturadfærd.
+    </li>
+    <li>
+      Klon en <a href="/examples/">eksempelapp</a> for at se alle 571 komponenter stilet og samarbejde – CSS'en retter sig mod de samme klassekroge, som du netop har brugt, så kopiér hvad som helst af den ind i dit projekt og tilpas den, som du vil.
+    </li>
+    <li>
+      Spørgsmål? <a href="/help/">Hjælpesiden</a> har svar, en FAQ og måder at nå et venligt menneske på. Og hvis en vejledning kunne være tydeligere,
+      <a href="https://github.com/LilyDesignSystem">så fortæl os det</a> – vi forbedrer den gerne.
+    </li>
+  </ul>
+</section>

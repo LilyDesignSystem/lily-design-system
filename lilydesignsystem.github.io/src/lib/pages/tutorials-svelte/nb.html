@@ -1,0 +1,117 @@
+<!-- title: Svelte-veiledning — Lily Design System -->
+<!-- description: Bygg et tilgjengelig, stilet skjema med Lilys hodeløse Svelte 5-komponenter: runes, snippets og bind:value. -->
+<section class="page-intro">
+  <h1>Svelte-veiledning</h1>
+  <p class="page-intro-tagline">
+    Lilys Svelte-bibliotek er den kanoniske implementasjonen: Svelte 5 runes, typede egenskaper, rest-prop-spredning og toveis binding med
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hva du skal bygge</h2>
+  <p>
+    Et lite kontaktskjema — et inndatafelt med etikett, en send-knapp, toveis binding, ekte tastatur- og skjermleseroppførsel — først bart, så stilet, på omtrent 10 minutter.
+  </p>
+
+  <h2>Før du begynner</h2>
+  <p>
+    Du trenger git, Node 22 eller nyere og pnpm 10 eller nyere. Ethvert Svelte 5-prosjekt fungerer — en ny <code>npx sv create</code> app holder.
+  </p>
+
+  <h2>Steg 1 — Hent koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentene bor i <code>src/lib/components/&#123;Name&#125;/</code>, én katalog per komponent med <code>.svelte</code> -filen, testene, storiene og dokumentasjonen side om side. Kopier katalogene du trenger inn i appen din, eller avhenge av repoet og importer direkte.
+  </p>
+
+  <h2>Steg 2 — Din første komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Gjengir <code>&lt;button class="button" type="button"&gt;</code>. Egenskapene er typet: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (gjengir <code>aria-pressed</code> for veksleknapper), <code>label</code> (en <code>aria-label</code> overstyring), og ethvert ekstra attributt spres på roten.
+  </p>
+
+  <h2>Steg 3 — Sett sammen et lite skjema</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> tar den synlige <code>label</code> som sin egen egenskap i stedet for en nøstet etikettkomponent — send den inn én gang, på <code>Field</code>og <code>TextInput</code>på <code>label</code> gir det tilgjengelige navnet. <code>TextInput</code>'s <code>value</code> er en
+    <code>$bindable</code> rune-egenskap, så <code>bind:value</code> gir deg toveis binding med en gang.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifisert 2026-08-29:</strong> akkurat denne snutten ble kompilert via <code>svelte/server</code> og sjekket for én, korrekt lenket <code>&lt;label for&gt;</code> — et tidligere utkast nøstet en separat <code>Label</code> inni <code>Field</code>, som gjengav
+      <em>to</em> etiketter (én tom) fordi <code>Field</code> allerede gjengir sin egen fra <code>label</code> egenskap. Den
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">sammensatte kontaktskjema-ruten</a>
+      er det samme mønsteret, prøvd med ekte e2e- og axe-tester.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sjekk arbeidet ditt:</strong> kjør appen, og skjemaet ser enkelt ut — akkurat som tiltenkt: stilingen ligger fortsatt foran. Trykk
+      <kbd>Tab</kbd>: fokus beveger seg gjennom hver kontroll, etiketten kunngjøres og innsending fungerer. Oppførselen er ferdig; utseendet er ditt og er neste.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Stil det</h2>
+  <p>
+    Alt ovenfor gjengis som ren struktur, klar for stilene dine. Stil klassekrokene —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — i det globale stilarket ditt, eller lenk et ferdig tema i <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Justeringer per forekomst går gjennom <code>class</code> -egenskapen, som føyes til basekroken: <code>&lt;Button class="wide"&gt;</code> gjengir
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Steg 5 — Se alt fungere</h2>
+  <p>
+     <a href="/examples/">SvelteKit-eksempelappen</a> er den samme katalogen fullt stilet, med levende demoer, Playwright e2e-tester og en axe-core-tilgjengelighetsbaseline:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Neste steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — bytte ved kjøretid med Svelte theme-picker-hjelperen.</li>
+    <li><a href="/tutorials/helpers/">Preferansehjelpere</a> — språk og tekststørrelse.</li>
+    <li><a href="/components/">Komponentkatalog</a> — egenskaper, ARIA og tastatur per komponent.</li>
+  </ul>
+  <p>
+    Spørsmål underveis?
+    <a href="/help/#troubleshooting">hjelpesiden</a> er full av svar — og hvis et steg kan bli tydeligere,
+    <a href="https://github.com/LilyDesignSystem">fortell oss</a> så forbedrer vi gjerne veiledningen.
+  </p>
+</section>

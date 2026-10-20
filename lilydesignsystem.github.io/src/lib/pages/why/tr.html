@@ -1,0 +1,102 @@
+<!-- title: Neden Lily — Lily Design System -->
+<!-- description: Lily'nin gerekçesi: kendiniz biçimlendirdiğiniz başsız bileşenler, yerleşik WCAG 2.2 AAA erişilebilirliği, koda gömülü dize yok, sekiz çerçeve, tek katalog, sonsuza dek ücretsiz. -->
+<section class="page-intro">
+  <h1>Lily'nin gerekçesi</h1>
+  <p class="page-intro-tagline">
+    Lily zor kısımları üstlenir — anlambilim, erişilebilirlik, klavye davranışı, uluslararasılaştırma — ve görünümü tamamen, memnuniyetle size bırakır.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Kendi tasarımınızdan başlayın</h2>
+  <p>
+    Ekibiniz ürününüzün nasıl görünmesi gerektiğini zaten biliyor. Lily tam olarak buradan başlar: doğru yapması gerçekten zor ve yeniden yapması pahalı olan parçaları sağlar — doğru anlamsal öğe, ARIA durumları, klavye sözleşmesi, odak yönetimi — ve her görsel kararı tamamen, keyifle size bırakır. CSS'iniz, ilk günden itibaren tasarım sisteminin görünümüdür.
+  </p>
+  <p>
+    Her bileşen kararlı bir sınıf kancası ve saf bir yapı taşıdığı için, biçimlendirmeniz her yükseltmede temiz biçimde sizin kalır — ve altındaki erişilebilirlik sürümden sürüme çalışmaya devam eder.
+  </p>
+
+  <h2>Lily'nin taahhütleri</h2>
+  <ul>
+    <li>
+      <strong>Varsayılan olarak erişilebilir.</strong> WCAG 2.2 AAA her bileşenin hedefidir. Desenler WAI-ARIA Authoring Practices'i izler; her etkileşimli bileşen belgelenmiş bir sözleşmeyle klavyeyle kullanılabilir; örnek uygulamalar temiz bir axe-core temel çizgisini korur.
+    </li>
+    <li>
+      <strong>Yapısı gereği uluslararasılaştırılabilir.</strong> Kullanıcıya dönük her dize — her etiket, hata ve duyuru — çerçeveler arasında kararlı adlara sahip bir prop'tur; bu yüzden çeviri doğal biçimde akar. RTL ve çift yönlü metin, sizin <code>dir</code> değerinizden devralınır. Yerel ayara duyarlı bileşenler yerel ayarı prop olarak alır, her zaman açıkça.
+    </li>
+    <li>
+      <strong>Tek katalog, sekiz çerçeve.</strong> Aynı 571 bileşen (536'sı yerel Web Components olarak), HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks ve Web Components'te aynı sınıf kancaları ve prop kurallarıyla. CSS'iniz ve ekibinizin bilgisi yığınlar arasında aktarılır.
+    </li>
+    <li>
+      <strong>CSS stratejisinden bağımsız.</strong> Bileşen kökü başına tek bir kararlı kebab-case sınıf. Anlamsal CSS, Tailwind yardımcıları, CSS-in-JS veya hazır 57 temadan biri — Lily hepsini ağırlar ve zarifçe yolunuzdan çekilir.
+    </li>
+    <li>
+      <strong>Ücretsiz, sonsuza dek, sizin şartlarınızla.</strong> BSD, MIT, Apache-2.0, GPL-2.0 veya GPL-3.0 arasından seçeceğiniz lisansla açık kaynak. Pro katman yok, koltuk lisansı yok, telemetri yok.
+    </li>
+  </ul>
+
+  <h2>Önemli olan yerde derinlik</h2>
+  <p>
+    Alışıldık düğmelerin ve iletişim kutularının ötesinde, katalog çoğundan daha ileri gider:
+  </p>
+  <ul>
+    <li>
+      <strong>Kamu sektörü desenleri</strong> NHS UK, GOV.UK, USWDS ve ONS tasarım sistemlerinden araştırılmış — hata özetleri, uyarı kutuları, özet listeleri, aşama afişleri, atlama bağlantıları.
+    </li>
+    <li>
+      <strong>140 ulusal kişisel tanımlayıcı bileşeni</strong> 50'den fazla ülkede sağlık, ulusal kimlik, vergi ve pasaport tanımlayıcılarını kapsar; her biri biçimini ve doğrulama algoritmasını belgeler.
+    </li>
+    <li>
+      <strong>Editoryal ve scrollytelling yapı taşları</strong> Reuters Graphics'ten uyarlanmıştır — makale düzenleri, kaydırıcılar, zaman çizelgeleri, karo haritalar.
+    </li>
+    <li>
+      <strong>Seçici yardımcıları</strong> — tek bir etkileşimi baştan sona sahiplenen küçük paketler: tema değiştirme (çalışma zamanında stil sayfası yükleme ile), dil, metin boyutu, azaltılmış hareket, arama, sayfa bağlantıları, paylaşım ve tarih-saat girişi. Her biri bir açılır pencere açan başsız bir simge düğmesidir — yerel bir <code>&lt;select&gt;</code>  değil — kalıcılık ve SSR güvenliği yerleşiktir.
+    </li>
+  </ul>
+
+  <h2>Kamu sektörü için temalar, kutudan çıktığı gibi</h2>
+  <p>
+    Lily, doğrudan sınıf kancalarını hedefleyen 57 bağımsız başvuru teması sunar: NHS England, NHS Scotland ve NHS Wales (her biri hasta ve uygulayıcı sürümleriyle), GOV.UK, USWDS, Adobe Spectrum ve Mozilla Protocol'den esinlenen paletler ve genel amaçlı açık ve koyu temalar. Tek bir stil sayfası bağlayın, devlet düzeyinde bir görünüm açılır; <code>theme-picker</code> yardımcısı bunları çalışma zamanında değiştirir.
+  </p>
+
+  <h2>Lily nasıl karşılaştırılır</h2>
+  <p>
+    Diğer tasarım sistemleriyle dürüst, bileşen bileşen bir
+    <a href="/comparisons/">karşılaştırma</a> tutuyoruz — biçimlendirilmiş ve başsız, ticari ve kamu sektörü. Başka bir kütüphane size daha uygunsa karşılaştırma bunu gösterecektir; Lily hepsinden öğrenir ve ilham kaynaklarını açıkça belirtir.
+  </p>
+
+  <h2>Arkasında kimler var</h2>
+  <p>
+    Lily; iş birliğini, yönlendirmeyi ve geri bildirimi memnuniyetle karşılayan genç, bağımsız bir açık kaynak projesidir — hikâye ve ilham kaynakları için
+    <a href="/about/">Hakkında</a> sayfasına bakın. Her şey — belirtim, testler, yol haritası, hatta denetim araçları — şurada herkese açıktır:
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+
+  <h2>Lily'nin büyümesine yardım edin</h2>
+  <p>Lily size yararlıysa yapabileceğiniz en değerli şeyler:</p>
+  <ul>
+    <li>
+      <strong>Yıldız verin ve paylaşın.</strong> 
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">Ana depoya</a>
+      yıldız verin ve bir meslektaşınıza <a href="/components/">kataloğu</a> gösterin — tanınırlık, genç bir projenin en kıt kaynağıdır.
+    </li>
+    <li>
+      <strong>Bir şey geliştirin ve bize söyleyin.</strong> Gerçek dünya kullanım raporları — neyin işe yaradığı, neyin daha akıcı olabileceği — yol haritasını her şeyden çok şekillendirir.
+    </li>
+    <li>
+      <strong>Erişilebilirliği denetleyin.</strong>  <a href="/examples/">Örnek uygulamalarda</a> ekran okuyucu geçişleri (VoiceOver, NVDA, JAWS) altın değerindedir; bulduklarınızı bildirin.
+    </li>
+    <li>
+      <strong>Bir tema veya çeviri katkısında bulunun.</strong> İkisi de kendi içinde tamamlanmış, kapsamı iyi belirlenmiş ilk katkılardır.
+    </li>
+    <li>
+      <strong>Bulduklarınızı asgari bir yeniden üretimle paylaşın,</strong> GitHub deposunda veya şu adrese e-posta ile:
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Öğreticiye başlayın</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">GitHub'da yıldız verin</a>
+  </div>
+</section>

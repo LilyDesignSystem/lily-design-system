@@ -1,0 +1,106 @@
+<!-- title: Vodič za HTML — Lily Design System -->
+<!-- description: Izradite pristupačan, stiliziran obrazac s Lilynim headless komponentama za HTML — obična oznaka, izravno iz datoteke. -->
+<section class="page-intro">
+  <h1>Vodič za HTML</h1>
+  <p class="page-intro-tagline">
+    Najjednostavniji mogući početak: kopirajte semantički HTML s Lilynim klasnim kukama, dodajte jednu stilsku tablicu, objavite. Obične datoteke koje rade svugdje gdje radi HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Što ćete izraditi</h2>
+  <p>
+    Mali kontaktni obrazac — polja s oznakama, gumb za slanje, stvarno ponašanje tipkovnice i čitača zaslona — najprije golo, zatim stilizirano, za otprilike 10 minuta.
+  </p>
+
+  <h2>Prije nego počnete</h2>
+  <p>
+    Trebaju vam preglednik i uređivač teksta. To je sve. (git pomaže pri dohvaćanju datoteka komponenti, ali ih možete kopirati i s GitHuba u pregledniku.)
+  </p>
+
+  <h2>Korak 1 — Preuzmite kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Svaka komponenta je samostalna datoteka u <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>i tako dalje — sa zaglavnim komentarom koji dokumentira njezinu HTML oznaku, klasnu kuku, ponašanje tipkovnice i ugovor o pristupačnosti. Datoteke <em>jesu</em> biblioteka — kopirajte što trebate i krenite.
+  </p>
+
+  <h2>Korak 2 — Vaša prva komponenta</h2>
+  <p>Otvorite <code>components/button.html</code>, ili jednostavno napišite oznaku — klasna kuka je ugovor:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Budući da je to stvarni <code>&lt;button&gt;</code>, fokus tipkovnice, aktivacija tipkama Enter i Space te implicitna uloga gumba već su ispravni.
+  </p>
+
+  <h2>Korak 3 — Sastavite mali obrazac</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Uočite uzorak: svaka kontrola povezuje svoj <code>&lt;label for&gt;</code>, koristi najspecifičniji tip inputa i nosi točno jednu klasnu kuku u kebab-caseu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Provjerite svoj rad:</strong> otvorite stranicu u pregledniku. Izgleda golo — točno kako je zamišljeno: stiliziranje tek slijedi. Pritisnite
+      <kbd>Tab</kbd>: fokus prolazi kroz svaku kontrolu, oznake se izgovaraju i slanje radi. Ponašanje je gotovo; izgled je vaš i sljedeći je korak.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Stilizirajte ga</h2>
+  <p>Napišite CSS prema kukama:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Ili potpuno preskočite ručno pisanje CSS-a — povežite jednu od 45 gotovih tema i ista oznaka zasja:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Korak 5 — Istražite dalje</h2>
+  <ul>
+    <li>Testovi repozitorija izvode se u stvarnim preglednicima: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook za svaku komponentu: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Primjer aplikacija HTML+CSS+JS</a> prikazuje svih 571 komponentu stiliziranih, pretraživih i demonstriranih.
+    </li>
+  </ul>
+
+  <h2>Sljedeći koraci</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — prebacivanje teme tijekom izvođenja pomoću theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pomoćnici za postavke</a> — jezik i veličina teksta.</li>
+    <li><a href="/components/">Katalog komponenti</a> — potpuna referenca.</li>
+  </ul>
+  <p>
+    Pitanja usput?
+    <a href="/help/#troubleshooting">Stranica pomoći</a> puna je odgovora — a ako neki korak može biti jasniji,
+    <a href="https://github.com/LilyDesignSystem">javite nam</a> i rado ćemo poboljšati vodič.
+  </p>
+</section>

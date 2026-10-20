@@ -1,0 +1,122 @@
+<!-- title: Vue ટ્યુટોરિયલ — Lily Design System -->
+<!-- description: Lily ના Vue 3 હેડલેસ ઘટકો સાથે સુલભ, શૈલીબદ્ધ ફોર્મ બનાવો: v-model સાથેના એક-ફાઇલ ઘટકો. -->
+<section class="page-intro">
+  <h1>Vue ટ્યુટોરિયલ</h1>
+  <p class="page-intro-tagline">
+    ટાઇપ કરેલા props સાથેના Vue 3 એક-ફાઇલ ઘટકો, <code>defineModel</code>
+    બે-તરફી બાઇન્ડિંગ, અને <code>v-bind="$attrs"</code> પાસ-થ્રુ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>તમે શું બનાવશો</h2>
+  <p>
+    એક નાનું સંપર્ક ફોર્મ — લેબલ સાથેનું ક્ષેત્ર, સબમિટ બટન, <code>v-model</code>
+    બાઇન્ડિંગ, સાચું કીબોર્ડ અને સ્ક્રીન-રીડર વર્તન — પહેલાં સાદું, પછી શૈલીબદ્ધ, લગભગ 10 મિનિટમાં.
+  </p>
+
+  <h2>શરૂ કરતા પહેલાં</h2>
+  <p>
+    તમને git, Node 22 કે નવું, અને pnpm 10 કે નવું જોઈએ. કોઈ પણ Vue 3 પ્રોજેક્ટ ચાલશે — Nuxt, Vite અથવા સાદું Vue.
+  </p>
+
+  <h2>પગલું 1 — કોડ મેળવો</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    ઘટકો અહીં સપાટ ફાઇલો તરીકે છે: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — દરેકની બાજુમાં તેનું પરીક્ષણ, story અને દસ્તાવેજો. જે ફાઇલો જોઈએ તે કૉપી કરો, અથવા રિપો લાવો.
+  </p>
+
+  <h2>પગલું 2 — તમારો પહેલો ઘટક</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    આ દર્શાવે છે <code>&lt;button class="button" type="button"&gt;</code>. Props બીજા ફ્રેમવર્ક સાથે મેળ ખાય છે: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, ઉપરાંત બાકી બધા માટે ગુણધર્મ પાસ-થ્રુ.
+  </p>
+
+  <h2>પગલું 3 — એક નાનું ફોર્મ બનાવો</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> દેખાતા <code>label</code> ને પોતાના prop તરીકે, અંદર મૂકેલા લેબલ ઘટક તરીકે નહીં — તેને એક વાર આપો, પર
+    <code>Field</code>અને <code>TextInput</code>નું
+    <code>label</code> સુલભ નામ પૂરું પાડે છે.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 ના રોજ ચકાસ્યું:</strong> અગાઉના મુસદ્દાએ અલગ <code>Label</code> ની અંદર <code>Field</code>ની અંદર મૂક્યો હતો, જેનાથી
+      <em>બે</em> લેબલ (એક ખાલી) દેખાયા કારણ કે <code>Field</code> પહેલેથી પોતાનું <code>label</code> prop — ચોક્કસ ટુકડો કમ્પાઇલ કરીને ખબર પડી. રૂટ
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">સંયુક્ત સંપર્ક-ફોર્મ રૂટ</a>
+      એ જ પેટર્ન છે, સાચા e2e અને axe પરીક્ષણોથી ચકાસાયેલ.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> વાપરે છે <code>defineModel</code>, તેથી સાદું
+    <code>v-model</code> તરત કામ કરે છે.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>તમારું કામ તપાસો:</strong> એપ ચલાવો અને ફોર્મ સાદું દેખાય છે — બરાબર ધાર્યા મુજબ: શૈલી હજી આગળ છે. દબાવો
+      <kbd>Tab</kbd>: ફોકસ દરેક નિયંત્રણમાંથી પસાર થાય છે, લેબલ જાહેર થાય છે અને સબમિટ કામ કરે છે. વર્તન પૂર્ણ છે; દેખાવ તમારો છે અને આગલું પગલું છે.
+    </p>
+  </div>
+
+  <h2>પગલું 4 — તેને શૈલી આપો</h2>
+  <p>
+    ક્લાસ હૂકને શૈલી આપો — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — તમારી સ્ટાઇલશીટમાં, અથવા તૈયાર થીમ અહીં લિંક કરો <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>પગલું 5 — બધું કામ કરતું જુઓ</h2>
+  <p>
+     <a href="/examples/">Nuxt ઉદાહરણ એપ</a> સંપૂર્ણ કેટલોગ શૈલીબદ્ધ અને નિદર્શન સાથે છે, Playwright e2e અને axe-core આધારરેખા સાથે:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>આગળનાં પગલાં</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">થીમ</a> — Vue theme-picker સહાયક સાથે ચાલતી વખતે બદલવું.</li>
+    <li><a href="/tutorials/helpers/">પસંદગી સહાયકો</a> — ભાષા અને લખાણનું કદ.</li>
+    <li><a href="/components/">ઘટક કેટલોગ</a> — દરેક ઘટક માટે ગુણધર્મો, ARIA અને કીબોર્ડ.</li>
+  </ul>
+  <p>
+    રસ્તામાં પ્રશ્નો છે?
+    <a href="/help/#troubleshooting">મદદ પૃષ્ઠ</a> જવાબોથી ભરેલું છે — અને જો કોઈ પગલું વધુ સ્પષ્ટ થઈ શકે,
+    <a href="https://github.com/LilyDesignSystem">અમને કહો</a> અને અમે ખુશીથી ટ્યુટોરિયલ સુધારીશું.
+  </p>
+</section>

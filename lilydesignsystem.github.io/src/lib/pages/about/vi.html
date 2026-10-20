@@ -1,0 +1,94 @@
+<!-- title: Giới thiệu — Lily Design System -->
+<!-- description: Lily là gì, các nguyên tắc đằng sau nó và những hệ thống thiết kế mà nó lấy cảm hứng. -->
+<section class="page-intro">
+  <h1>Lily là gì?</h1>
+  <p class="page-intro-tagline">
+    Một hệ thống thiết kế miễn phí, mã nguồn mở, đặt khả năng tiếp cận lên hàng đầu: gặp bạn ở nơi bạn viết mã, và tránh đường khi bạn không cần đến nó.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Tóm tắt ngắn</h2>
+  <p>
+    Lily là một danh mục các <strong>thành phần web</strong>, mỗi thành phần được triển khai theo tám kiểu headless (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks và Web Components), cùng một bộ ứng dụng ví dụ đầy đủ cho thấy cách tạo kiểu cho chúng.
+  </p>
+  <p>
+    Các phiên bản headless được cung cấp với <em>không có CSS nào</em>. Chúng mang đến HTML ngữ nghĩa, vai trò và trạng thái ARIA, hỗ trợ bàn phím và các prop thân thiện với đa ngôn ngữ. Thiết kế hình ảnh là phần của bạn.
+  </p>
+
+  <h2>Nguyên tắc thiết kế</h2>
+
+  <h3>Dễ tiếp cận</h3>
+  <p>
+    Mỗi thành phần bắt đầu từ HTML ngữ nghĩa. ARIA chỉ được thêm vào ở những nơi HTML một mình không thể diễn đạt mẫu đó. Các thành phần hướng tới
+    <strong>WCAG 2.2 AAA</strong> — màu sắc, khoảng cách, tiêu điểm và điều hướng bằng bàn phím đều được cân nhắc.
+  </p>
+
+  <h3>Có thể kết hợp</h3>
+  <p>
+    Lily ưu tiên các thành phần nhỏ, đơn mục đích, khớp vào nhau. Các mẫu ghép xuất hiện lặp đi lặp lại:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — cho đường dẫn breadcrumb, danh sách mục lục, menu accordion, menu dạng cây và phân trang</li>
+    <li><code>Form → Field → Input</code> — cho mọi bố cục biểu mẫu có nhãn, gợi ý và lỗi</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — cho bảng, lịch, biểu đồ Gantt và bảng kanban</li>
+    <li><code>Bar → BarButton</code> — cho thanh công cụ, thanh tab, thanh tác vụ, thanh hành động và thanh menu</li>
+    <li><code>Picker → PickerButton</code> — cho bộ chọn màu, bộ chọn xếp hạng, bộ chọn giao diện</li>
+  </ul>
+
+  <h3>Có thể quốc tế hóa</h3>
+  <p>
+    Không một chuỗi nào hiển thị cho người dùng bị viết cứng trong mã. Nhãn, văn bản gợi ý, thông báo lỗi, chữ trên nút — tất cả đều là tham số. Gắn hệ thống dịch của bạn vào và Lily nói bất kỳ ngôn ngữ nào bạn nói.
+  </p>
+
+  <h3>Headless</h3>
+  <p>
+    Các thành phần headless <strong>không có CSS</strong>, không có khối
+    <code>&lt;style&gt;</code> , không có token thiết kế nào bạn chưa chọn. Chúng chỉ phơi ra một tên lớp kebab-case duy nhất trên mỗi phần tử gốc để bạn nhắm tới theo cách bạn muốn — CSS ngữ nghĩa, Tailwind, CSS-in-JS, tùy bạn.
+  </p>
+
+  <h3>Ví dụ đầy đủ</h3>
+  <p>
+    Các ứng dụng ví dụ cho thấy cách tạo kiểu cho thành phần để dùng thực tế — nên đặt token thiết kế nào, thêm biến thể nào, ghép trang ra sao. Đó là các ứng dụng SvelteKit, Next.js, Nuxt, Blazor và Eleventy hoàn chỉnh, không chỉ là sân thử nghiệm.
+  </p>
+
+  <h2 id="inspirations">Nguồn cảm hứng</h2>
+  <p>
+    Lily lấy các mẫu và ngôn ngữ từ một tập hợp hệ thống thiết kế được chọn rộng rãi có chủ ý:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>Giấy phép</h2>
+  <p>
+    Lily được cấp nhiều giấy phép theo <strong>BSD, MIT, Apache-2.0, GPL-2.0 hoặc GPL-3.0</strong>. Hãy chọn giấy phép phù hợp với dự án của bạn. Nếu không giấy phép nào phù hợp, hãy liên hệ với chúng tôi.
+  </p>
+
+  <h2>Liên hệ</h2>
+  <p>
+    Trưởng dự án: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    Tìm thấy lỗi, có ý tưởng, muốn đóng góp một thành phần? Hãy mở issue hoặc pull request tại
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Trạng thái:</strong> Lily là công việc hoàn toàn mới và chúng tôi hoan nghênh sự hợp tác, hướng dẫn và phản hồi. Mọi thứ sẽ thay đổi và phát triển.
+    </p>
+  </div>
+</section>

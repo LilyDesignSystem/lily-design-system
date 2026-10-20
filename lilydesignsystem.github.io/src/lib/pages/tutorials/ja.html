@@ -1,0 +1,146 @@
+<!-- title: チュートリアル — Lily Design System -->
+<!-- description: Lily のステップバイステップのチュートリアル: 最初のコンポーネント、スタイル付け、すぐに使えるテーマ、設定ヘルパー。HTML、Svelte、React、Vue、Angular、Blazor、Nunjucks に対応。 -->
+<section class="page-intro">
+  <h1>Lily をステップごとに学ぶ</h1>
+  <p class="page-intro-tagline">
+    ようこそ！どのチュートリアルもゼロから始めて、アクセシブルでスタイル付きのフォームという同じ小さなものを約 10 分で作ります。
+    だからフレームワークどうしを同じ条件で比べられます。そのあとは、テーマ設定やユーザー設定へと掘り下げましょう。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>始める前に</h2>
+  <p>必要なものは驚くほど少なくて済みます。</p>
+  <ul>
+    <li>
+      <strong>HTML のチュートリアル</strong> — ブラウザーとテキストエディターだけです。道具はそれで全部です。
+    </li>
+    <li>
+      <strong>Svelte、React、Vue、Angular、Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>、Node 26、pnpm 10 以降。
+    </li>
+    <li>
+      <strong>Blazor</strong> — git と
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 以降。
+    </li>
+  </ul>
+  <p>
+    ヘッドレスコンポーネントは初めてですか？ここで大丈夫です。どのチュートリアルも進めながら何が起きているかを説明し、
+    各ステップでコピーできるコードをそのまま示します。
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>ゼロから公開までの 4 ステップ</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>最初のコンポーネント</strong>（約 5 分）— 下からフレームワークを選び、コードを入手して、Button を表示します。
+      </li>
+      <li>
+        <strong>組み合わせてスタイルを付ける</strong>（約 5 分）— ラベル付きフォームを作り、ケバブケースのクラスフックに沿ってスタイルを付けます
+        （各フレームワークのチュートリアルの一部です）。
+      </li>
+      <li>
+        <strong>テーマを適用する</strong>（約 15 分）— 手書きの CSS を 57 種類のすぐに使えるテーマのどれかに置き換え、
+        そのあと実行時にユーザーが切り替えられるようにします:
+        <a href="/tutorials/theming/">テーマ設定のチュートリアル</a>
+      </li>
+      <li>
+        <strong>設定を尊重する</strong>（約 15 分）— 設定ヘルパーで言語と文字サイズの選択を加えます:
+        <a href="/tutorials/helpers/">ヘルパーのチュートリアル</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>フレームワークを選ぶ</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">クラスフック付きのセマンティックな HTML をコピーして進めます。必要なのはブラウザーとエディターだけです。</p>
+      <p class="card-meta">約 10 分 · いちばん始めやすい</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 のルーン、スニペット、<code>bind:value</code> による双方向バインディング。</p>
+      <p class="card-meta">約 10 分</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description"><code>value</code> + <code>onChange</code> を使う関数コンポーネントと、残りのプロパティの展開。</p>
+      <p class="card-meta">約 10 分</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description"><code>v-model</code> に対応した Vue 3 のシングルファイルコンポーネント。</p>
+      <p class="card-meta">約 10 分</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">シグナル入力と <code>[(value)]</code> を使う Angular のスタンドアロンコンポーネント。</p>
+      <p class="card-meta">約 10 分</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">パラメーター、<code>ChildContent</code>、bUnit テストを備えた Razor コンポーネント。</p>
+      <p class="card-meta">約 10 分</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Eleventy や、あらゆる Node のテンプレート処理パイプラインに使える、サーバーレンダリングのマクロ。</p>
+      <p class="card-meta">約 10 分</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    迷ったら <a href="/tutorials/html/">HTML</a> から始めましょう。他のすべてのフレームワークが共有するクラスフックの約束事が身につき、
+    ファイルから直接実行できます。
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>さらに深く</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">テーマ設定</h3>
+      <p class="card-description">
+        NHS、GOV.UK、USWDS、ライト、ダークなど 57 種類のすぐに使えるテーマのどれかをリンクし、自分の CSS で上書きして、
+        theme-picker ヘルパーで実行時のテーマ切り替えを加えます。
+      </p>
+      <p class="card-meta">約 15 分</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">設定ヘルパー</h3>
+      <p class="card-description">
+        theme-picker、locale-picker、text-size-picker、motion-picker、search-picker、link-picker、share-picker、date-time-picker で、
+        テーマ、言語、文字サイズ、モーション、検索、ページリンク、共有、日時入力をユーザーが操作できるようにします。
+        永続化、SSR への対応、RTL の自動検出を備えたヘッドレスのコントロールです。
+      </p>
+      <p class="card-meta">約 15 分</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>チュートリアルのあとは</h2>
+  <ul>
+    <li>
+      <a href="/components/">コンポーネントカタログ</a>を見てみましょう。すべてのコンポーネントに、プロパティ、ARIA の約束事、キーボード操作が文書化されています。
+    </li>
+    <li>
+      <a href="/examples/">サンプルアプリ</a>をクローンして、571 個すべてのコンポーネントがスタイル付きで連携する様子を見てください。
+      CSS は先ほど使ったクラスフックと同じものを対象にしているので、どの部分でもプロジェクトにコピーして、好きなように調整できます。
+    </li>
+    <li>
+      ご質問は？<a href="/help/">ヘルプのページ</a>に、回答、FAQ、親切な人間に連絡する方法があります。チュートリアルをもっと分かりやすくできそうなら、
+      <a href="https://github.com/LilyDesignSystem">ぜひ教えてください</a>。喜んで改善します。
+    </li>
+  </ul>
+</section>

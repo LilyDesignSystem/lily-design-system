@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: જાળવાતી Lily Figma લાઇબ્રેરી કે પ્લગઇન નથી. 57 સંદર્ભ થીમના ડિઝાઇન ટોકન DTCG ફૉર્મેટમાં પ્રકાશિત છે અને આજે હાલના સમુદાય પ્લગઇનથી Figma માં આયાત કરી શકાય છે. -->
+<section class="page-intro">
+  <h1>કોઈ જાળવાતી Figma લાઇબ્રેરી નથી — તેના બદલે આ છે</h1>
+  <p class="page-intro-tagline">
+    આ પૃષ્ઠ પહેલાં "જલદી આવે છે" કહેતું. હવે નથી કહેતું, કારણ કે કોઈ તેને બનાવતું ન હતું. આ પ્રામાણિક સ્થિતિ છે, અને આજે કામ કરતો સાચો માર્ગ.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>જે અસ્તિત્વમાં નથી</h2>
+  <p>
+    Figma માં કોઈ સત્તાવાર Lily ઘટક લાઇબ્રેરી નથી, અને કોઈ જાળવાતું Figma પ્લગઇન નથી. ડિઝાઇન-ટૂલ લાઇબ્રેરી સારી રીતે બનાવવી અને જાળવવી એ સાચી, સતત પ્રતિબદ્ધતા છે — Figma ઘટક માળખું, વેરિયન્ટ નામકરણ, auto-layout, પોતાની પ્રકાશન પાઇપલાઇન — કોડ જાળવવાથી અલગ, અને આ પ્રોજેક્ટે તે લીધી નથી.
+  </p>
+
+  <h2>આજે જે અસ્તિત્વમાં છે</h2>
+  <p>
+    57 સંદર્ભ થીમમાંથી દરેકના પોતાના ડિઝાઇન-ટોકન મૂળભૂત ઘટકો છે — રંગ, ત્રિજ્યા, કદ, કિનારી — આમાં પ્રકાશિત
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 ફૉર્મેટ</a
+    >
+    અહીં
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. એ ફૉર્મેટ બરાબર એ જ છે જે આધુનિક ટોકન સાધનો વાંચે છે. તમે Lily થીમની પૅલેટ જાતે, હમણાં જ, આ પ્રોજેક્ટના કોઈ પ્લગઇન વિના Figma માં ખેંચી શકો:
+  </p>
+  <ol>
+    <li>
+      સમુદાયનું
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      પ્લગઇન ઇન્સ્ટૉલ કરો (અથવા Figma નું પોતાનું Variables આયાત, જ્યાં તમારી યોજના DTCG આયાતને ટેકો આપે).
+    </li>
+    <li>
+      આયાત કરો <code>themes/tokens/{theme-slug}.json</code> તમને જોઈતી થીમ માટે — ઉદાહરણ તરીકે
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio DTCG મૂલ્યોમાંથી Figma ચલ બનાવે છે, જેને તમે પછી તમારા પોતાના ઘટકો પર લાગુ કરી શકો.
+    </li>
+  </ol>
+  <p>
+    આ તમને Figma માં Lily ના રંગ અને આકાર ટોકન આપે છે. તે તમને Lily ના સાચા ઘટકો Figma ઘટકો તરીકે આપતું નથી — એ કોઈએ બનાવ્યું નથી, અને આ પૃષ્ઠ અલગ હોવાનો દેખાવ કરશે નહીં.
+  </p>
+
+  <h2>શું સાચી Figma લાઇબ્રેરી આયોજિત છે?</h2>
+  <p>
+    હાલમાં નહીં, અને તેનું વચન આપવું મફત નથી: જુઓ
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    ખુલ્લા પ્રશ્ન માટે અને પ્રોજેક્ટનું મન શું બદલશે તે માટે — સૌથી ઉપયોગી એ છે કે ડિઝાઇનર ચોક્કસ કહે કે તેને આ સ્તરમાંથી શું જોઈએ. જો તે તમે હો,
+    <a href="mailto:joel@joelparkerhenderson.com">અમને કહો</a>
+    અથવા issue ખોલો.
+  </p>
+</section>

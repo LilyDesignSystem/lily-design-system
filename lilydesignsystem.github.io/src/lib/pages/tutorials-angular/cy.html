@@ -1,0 +1,127 @@
+<!-- title: Tiwtorial Angular — Lily Design System -->
+<!-- description: Adeiladwch ffurflen hygyrch, wedi'i steilio gyda chydrannau di-ben Lily ar gyfer Angular 20: cydrannau annibynnol gyda mewnbynnau signal. -->
+<section class="page-intro">
+  <h1>Tiwtorial Angular</h1>
+  <p class="page-intro-tagline">
+    Cydrannau annibynnol Angular 20 — mewnbynnau signal, canfod newid OnPush, templedi mewnlin, sero NgModules, sero CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gyswllt fach — maes â label, botwm cyflwyno, rhwymo dwyffordd, ymddygiad bysellfwrdd a darllenydd sgrin go iawn — yn noeth yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae arnoch angen git, Node 22 neu'n hwyrach, a pnpm 10 neu'n hwyrach. Mae unrhyw brosiect Angular 20 yn gweithio — Angular CLI neu Analog.
+  </p>
+
+  <h2>Cam 1 — Cael y cod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Ffeiliau gwastad yw'r cydrannau yn <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — mae pob un yn gydran annibynnol â thempled mewnlin, ynghyd â'i spec a'i story. Mae'r barrel
+    <code>index.ts</code> yn ailallforio pob cydran; <code>pnpm build</code>
+    mae'n cynhyrchu bwndel Angular Package Format drwy ng-packagr.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Mae pob cydran yn datgan dewisydd <code>lily-*</code> ac yn dangos yr elfen semantig gyda'i bachyn dosbarth —
+    <code>&lt;button class="button" type="button"&gt;</code> yma. Mae'r mewnbynnau'n seiliedig ar signalau: <code>label()</code> ar gyfer <code>aria-label</code>
+    i'w ddiystyru, <code>className()</code> i atodi dosbarthiadau.
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> yn cymryd y label gweladwy fel ei fewnbwn
+    <code>label</code> ei hun yn lle cydran label nythedig — pasiwch ef unwaith, ar y maes, ac mae'r <code>lily-text-input</code>cyfatebol o
+    <code>label</code> yn darparu'r enw hygyrch. Mae cydrannau tebyg i fewnbwn yn datgelu gwerthoedd <code>model()</code> felly mae rhwymo dwyffordd banana-box <code>[(value)]</code>
+    yn gweithio ar unwaith — yn gydnaws â zoneless drwyddo draw.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwyd 2026-08-29:</strong> roedd drafft cynharach yn nythu cydran <code>Label</code> ar wahân y tu mewn i <code>lily-field</code>, a oedd yn dangos <em>dau</em> label (un yn wag) oherwydd bod
+      <code>lily-field</code> eisoes yn dangos ei un ei hun o'r mewnbwn
+      <code>label</code> — darganfuwyd drwy wirio cod ffynhonnell y gydran.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Y llwybr ffurflen gyswllt cyfansawdd</a>
+      yw'r un patrwm, wedi'i brofi gyda phrofion e2e ac axe go iawn.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> rhedwch yr ap ac mae'r ffurflen yn edrych yn noeth — yn union fel y bwriadwyd: mae'r steilio eto i ddod. Pwyswch
+      <kbd>Tab</kbd>: mae ffocws yn symud trwy bob rheolydd, caiff y label ei gyhoeddi ac mae cyflwyno'n gweithio. Mae'r ymddygiad wedi'i orffen; eich un chi yw'r olwg a dyma'r cam nesaf.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>
+    Steiliwch y bachau dosbarth — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — yn <code>styles.css</code>, neu ychwanegwch thema barod at y tabl <code>styles</code> yn
+    <code>angular.json</code> / cysylltwch hi yn <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Cam 5 — Ei weld yn gweithio i gyd</h2>
+  <p>
+     <a href="/examples/">Ap enghreifftiol Angular + Analog</a> yn dangos y catalog llawn gyda llwybro seiliedig ar ffeiliau a Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Y camau nesaf</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Themâu</a> — newid yn ystod rhedeg gyda'r cynorthwyydd theme-picker ar gyfer Angular.</li>
+    <li><a href="/tutorials/helpers/">Cynorthwywyr dewisiadau</a> — iaith a maint testun.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — priodweddau, ARIA a bysellfwrdd ar gyfer pob cydran.</li>
+  </ul>
+  <p>
+    Cwestiynau ar y ffordd? Mae'r
+    <a href="/help/#troubleshooting">dudalen gymorth</a> yn llawn atebion — ac os gellid gwneud cam yn gliriach,
+    <a href="https://github.com/LilyDesignSystem">dywedwch wrthym</a> a byddwn yn falch o wella'r tiwtorial.
+  </p>
+</section>

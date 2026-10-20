@@ -1,0 +1,107 @@
+<!-- title: Tutorja tal-Blazor — Lily Design System -->
+<!-- description: Ibni formola aċċessibbli u mgħammra bi stil bil-komponenti headless ta' Lily għal Blazor: komponenti Razor b'parametri u testijiet bUnit. -->
+<section class="page-intro">
+  <h1>Tutorja tal-Blazor</h1>
+  <p class="page-intro-tagline">
+    Komponenti ta' librerija ta' klassijiet Razor b'parametri, <code>ChildContent</code>
+    frammenti tar-rendering, firxa tal-attributi u test bUnit għal kull komponent.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>X'se tibni</h2>
+  <p>
+    Formola żgħira ta' kuntatt — qasam b'tikketta, buttuna biex tibgħat,
+    <code>@bind-Value</code> rbit, mġiba vera tat-tastiera u tal-qarrej tal-iskrin — l-ewwel għarwiena, imbagħad bi stil, f'madwar 10 minuti.
+  </p>
+
+  <h2>Qabel ma tibda</h2>
+  <p>
+    Għandek bżonn git u .NET SDK 8 jew iktar ġdid. Kwalunkwe proġett Blazor jaħdem — Blazor Web App, Server jew WebAssembly.
+  </p>
+
+  <h2>Pass 1 — Ġib il-kodiċi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Il-komponenti jinsabu fi <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — fajl Razor wieħed kull wieħed. Irreferi għall-proġett (jew ikkopja l-fajls) mill-app Blazor tiegħek u żid <code>@using LilyBlazorHeadless.Components</code> ma'
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>Pass 2 — L-ewwel komponent tiegħek</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Jirrendi <code>&lt;button class="button"&gt;</code>. Il-konvenzjonijiet komuni tal-parametri: <code>Label</code> ( <code>aria-label</code> biex tissostitwixxi),
+    <code>CssClass</code> (miżjud mal-ganċ bażi),
+    <code>ChildContent</code>u
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> firxa tal-attributi biex kwalunkwe attribut HTML żejjed jgħaddi.
+  </p>
+
+  <h2>Pass 3 — Ikkomponi formola żgħira</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> jieħu l- <code>Label</code> viżibbli bħala parametru tiegħu stess minflok komponent ta' tikketta mdaħħal — għaddiha darba, fuq
+    <code>Field</code>u <code>TextInput</code>korrispondenti ta'
+    <code>Label</code> jipprovdi l-isem aċċessibbli.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ivverifikat fl-2026-08-29:</strong> abbozz preċedenti daħħal komponent <code>Label</code> separat ġewwa <code>Field</code>, li rrendi <em>żewġ</em> tikketti (waħda vojta) għax <code>Field</code>
+      diġà jirrendi tiegħu stess mill-input <code>Label</code> parametru — skopert billi ġie spezzjonat il-kodiċi tas-sors tal-komponent; <code>Form</code> innifsu m'għandux <code>Label</code> parametru, għalhekk l-użu ta'
+      <code>&lt;Form&gt;</code> fl-abbozz preċedenti ġie kkoreġut billi tħalla barra, minflok jiġi mfittex attribut li ma jeżistix.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Ir-rotta komposta tal-formola ta' kuntatt</a>
+      hija l-istess mudell, ittestjat b'testijiet e2e u axe veri.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Iċċekkja x-xogħol tiegħek:</strong> mexxi l-app u l-formola tidher għarwiena — eżattament kif intenzjonat: l-istil għad irid jiġi. Agħfas
+      <kbd>Tab</kbd>: il-focus jgħaddi minn kull kontroll, it-tikketta tiġi mħabbra u l-ibgħat jaħdem. Il-mġiba lesta; id-dehra hija tiegħek u hija l-pass li jmiss.
+    </p>
+  </div>
+
+  <h2>Pass 4 — Agħtiha stil</h2>
+  <p>
+    Agħti stil lill-ganċijiet tal-klassi — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — fi <code>app.css</code>, jew evita tema lesta fi <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>Pass 5 — Ara kollox jaħdem</h2>
+  <p>
+     <a href="/examples/">L-app eżempju Blazor Web</a> turi l-katalogu sħiħ bi stil u murija, b'testijiet e2e Playwright:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Passi li jmiss</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — bdil waqt it-tħaddim bl-għajnuna theme-picker għal Blazor (librerija ta' klassijiet Razor fuq NuGet).</li>
+    <li><a href="/tutorials/helpers/">Għajnuniet tal-preferenzi</a> — lingwa u daqs tat-test.</li>
+    <li><a href="/components/">Katalogu tal-komponenti</a> — proprjetajiet, ARIA u tastiera għal kull komponent.</li>
+  </ul>
+  <p>
+    Mistoqsijiet matul it-triq?
+    <a href="/help/#troubleshooting">Il-paġna tal-għajnuna</a> hija mimlija tweġibiet — u jekk pass jista' jkun iktar ċar,
+    <a href="https://github.com/LilyDesignSystem">għidilna</a> u nħossuna kuntenti ntejbu t-tutorja.
+  </p>
+</section>

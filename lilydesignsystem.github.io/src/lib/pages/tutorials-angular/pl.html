@@ -1,0 +1,127 @@
+<!-- title: Samouczek Angular — Lily Design System -->
+<!-- description: Zbuduj dostępny, ostylowany formularz za pomocą bezstylowych komponentów Lily dla Angulara 20: samodzielne komponenty z wejściami sygnałowymi. -->
+<section class="page-intro">
+  <h1>Samouczek Angular</h1>
+  <p class="page-intro-tagline">
+    Samodzielne komponenty Angulara 20 — wejścia sygnałowe, wykrywanie zmian OnPush, szablony wbudowane, zero NgModules, zero CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co zbudujesz</h2>
+  <p>
+    Mały formularz kontaktowy — pole z etykietą, przycisk wysyłania, wiązanie dwukierunkowe, prawdziwe działanie klawiatury i czytnika ekranu — najpierw surowy, potem ostylowany, w około 10 minut.
+  </p>
+
+  <h2>Zanim zaczniesz</h2>
+  <p>
+    Potrzebujesz gita, Node 22 lub nowszego i pnpm 10 lub nowszego. Dowolny projekt Angular 20 się nadaje — Angular CLI lub Analog.
+  </p>
+
+  <h2>Krok 1 — Pobierz kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponenty to płaskie pliki w <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — każdy jest samodzielnym komponentem z szablonem wbudowanym, plus jego spec i story. Barrel
+    <code>index.ts</code> ponownie eksportuje każdy komponent; <code>pnpm build</code>
+    tworzy pakiet w formacie Angular Package Format przez ng-packagr.
+  </p>
+
+  <h2>Krok 2 — Twój pierwszy komponent</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Każdy komponent deklaruje selektor <code>lily-*</code> i renderuje element semantyczny z jego haczykiem klasy —
+    <code>&lt;button class="button" type="button"&gt;</code> tutaj. Wejścia są oparte na sygnałach: <code>label()</code> dla elementu <code>aria-label</code>
+    do nadpisywania, <code>className()</code> do dopisywania klas.
+  </p>
+
+  <h2>Krok 3 — Złóż mały formularz</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> przyjmuje widoczną etykietę jako własne wejście
+    <code>label</code> zamiast zagnieżdżonego komponentu etykiety — przekaż ją raz, na polu, a pasujący <code>lily-text-input</code>z
+    <code>label</code> dostarcza dostępną nazwę. Komponenty podobne do pól udostępniają wartości <code>model()</code> więc banana-box <code>[(value)]</code>
+    wiązanie dwukierunkowe działa od razu — zgodne z zoneless w całości.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Zweryfikowano 2026-08-29:</strong> wcześniejszy szkic zagnieżdżał osobny komponent <code>Label</code> wewnątrz <code>lily-field</code>, co renderowało <em>dwie</em> etykiety (jedną pustą), ponieważ
+      <code>lily-field</code> już renderuje własną z wejścia
+      <code>label</code> — wykryto, sprawdzając kod źródłowy komponentu.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Złożona trasa formularza kontaktowego</a>
+      to ten sam wzorzec, sprawdzony prawdziwymi testami e2e i axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sprawdź swoją pracę:</strong> uruchom aplikację, a formularz wygląda surowo — dokładnie tak, jak zamierzono: stylowanie jest jeszcze przed nami. Naciśnij
+      <kbd>Tab</kbd>: fokus przechodzi przez każdą kontrolkę, etykieta jest odczytywana, a wysyłanie działa. Zachowanie jest gotowe; wygląd należy do ciebie i jest następnym krokiem.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostyluj go</h2>
+  <p>
+    Ostyluj haczyki klas — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — w <code>styles.css</code>lub dodaj gotowy motyw do tablicy <code>styles</code> w
+    <code>angular.json</code> / podlinkuj go w <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Zobacz, jak to wszystko działa</h2>
+  <p>
+     <a href="/examples/">Aplikacja przykładowa Angular + Analog</a> pokazuje cały katalog z routingiem opartym na plikach i Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Następne kroki</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motywy</a> — przełączanie w czasie działania pomocnikiem theme-picker dla Angulara.</li>
+    <li><a href="/tutorials/helpers/">Pomocniki preferencji</a> — język i rozmiar tekstu.</li>
+    <li><a href="/components/">Katalog komponentów</a> — właściwości, ARIA i klawiatura dla każdego komponentu.</li>
+  </ul>
+  <p>
+    Pytania po drodze?
+    <a href="/help/#troubleshooting">Strona pomocy</a> jest pełna odpowiedzi — a jeśli jakiś krok mógłby być jaśniejszy,
+    <a href="https://github.com/LilyDesignSystem">daj nam znać</a> a chętnie ulepszymy samouczek.
+  </p>
+</section>

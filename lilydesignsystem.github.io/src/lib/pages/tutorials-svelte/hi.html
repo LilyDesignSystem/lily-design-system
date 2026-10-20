@@ -1,0 +1,117 @@
+<!-- title: Svelte ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के Svelte 5 हेडलेस घटकों से सुलभ, शैलीबद्ध फ़ॉर्म बनाएँ: runes, snippets और bind:value। -->
+<section class="page-intro">
+  <h1>Svelte ट्यूटोरियल</h1>
+  <p class="page-intro-tagline">
+    Lily की Svelte लाइब्रेरी मानक कार्यान्वयन है: Svelte 5 runes, टाइप किए हुए props, बाक़ी props का प्रसार, और इसके साथ दो-तरफ़ा बाइंडिंग
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>आप क्या बनाएँगे</h2>
+  <p>
+    एक छोटा संपर्क फ़ॉर्म — लेबल वाला क्षेत्र, सबमिट बटन, दो-तरफ़ा बाइंडिंग, असली कीबोर्ड और स्क्रीन-रीडर व्यवहार — पहले सादा, फिर शैलीबद्ध, लगभग 10 मिनट में।
+  </p>
+
+  <h2>शुरू करने से पहले</h2>
+  <p>
+    आपको git, Node 22 या नया, और pnpm 10 या नया चाहिए। कोई भी Svelte 5 प्रोजेक्ट चलेगा — एकदम नया <code>npx sv create</code> ऐप काफ़ी है।
+  </p>
+
+  <h2>चरण 1 — कोड प्राप्त करें</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    घटक यहाँ रहते हैं: <code>src/lib/components/&#123;Name&#125;/</code>, प्रति घटक एक डायरेक्टरी जिसमें <code>.svelte</code> फ़ाइल, उसके परीक्षण, story और दस्तावेज़ साथ-साथ हैं। जो डायरेक्टरियाँ चाहिए उन्हें अपने ऐप में कॉपी करें, या रेपो पर निर्भर रहें और सीधे आयात करें।
+  </p>
+
+  <h2>चरण 2 — आपका पहला घटक</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    यह दिखाता है <code>&lt;button class="button" type="button"&gt;</code>। Props टाइप किए हुए हैं: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (दिखाता है <code>aria-pressed</code> (दिखाता है <code>label</code> (एक <code>aria-label</code> टॉगल बटन के लिए),
+  </p>
+
+  <h2>चरण 3 — एक छोटा फ़ॉर्म बनाएँ</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> दिखने वाले <code>label</code> अपने prop के रूप में, भीतर रखे लेबल घटक के रूप में नहीं — इसे एक बार दें, पर <code>Field</code>और <code>TextInput</code>का <code>label</code> सुलभ नाम देता है। <code>TextInput</code>'s <code>value</code> अधिलेखित करने के लिए), और कोई भी अतिरिक्त गुण मूल पर फैल जाता है।
+    <code>$bindable</code> एक <code>bind:value</code> rune prop है, इसलिए
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 को सत्यापित:</strong> आपको तुरंत दो-तरफ़ा बाइंडिंग देता है। <code>svelte/server</code> यही सटीक टुकड़ा इसके माध्यम से कंपाइल किया गया <code>&lt;label for&gt;</code> और एक ही, सही ढंग से जुड़े लेबल के लिए जाँचा गया <code>Label</code> के भीतर <code>Field</code>— पिछले मसौदे ने अलग
+      <em>दो</em> लेबल (एक खाली) दिखे क्योंकि <code>Field</code> पहले से अपना <code>label</code> भीतर रखा था, जिसने दिखाया
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">संयुक्त संपर्क-फ़ॉर्म रूट</a>
+      वही पैटर्न है, असली e2e और axe परीक्षणों से परखा हुआ।
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>अपना काम जाँचें:</strong> ऐप चलाएँ और फ़ॉर्म सादा दिखता है — ठीक वैसा ही जैसा इरादा था: शैली अभी आगे है। दबाएँ
+      <kbd>Tab</kbd>: फ़ोकस हर नियंत्रण से गुज़रता है, लेबल घोषित होता है और सबमिट काम करता है। व्यवहार पूरा है; रूप आपका है और अगला चरण है।
+    </p>
+  </div>
+
+  <h2>चरण 4 — इसे शैली दें</h2>
+  <p>
+    ऊपर का सब कुछ शुद्ध संरचना के रूप में रेंडर होता है, आपकी शैलियों के लिए तैयार। क्लास हुक को शैली दें —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — अपनी वैश्विक स्टाइलशीट में, या कोई तैयार थीम यहाँ लिंक करें <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    प्रति इंस्टेंस समायोजन इसके माध्यम से जाते हैं <code>class</code> prop, जो मूल हुक में जोड़ा जाता है: <code>&lt;Button class="wide"&gt;</code> दिखाता है
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>चरण 5 — सब कुछ चलते हुए देखें</h2>
+  <p>
+     <a href="/examples/">SvelteKit उदाहरण ऐप</a> वही कैटलॉग पूरी तरह शैलीबद्ध है, लाइव प्रदर्शन, Playwright e2e परीक्षण और axe-core सुलभता आधाररेखा के साथ:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>अगले चरण</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">थीम</a> — Svelte theme-picker सहायक से चलते समय बदलाव।</li>
+    <li><a href="/tutorials/helpers/">वरीयता सहायक</a> — भाषा और पाठ का आकार।</li>
+    <li><a href="/components/">घटक कैटलॉग</a> — हर घटक के लिए गुण, ARIA और कीबोर्ड।</li>
+  </ul>
+  <p>
+    रास्ते में सवाल हैं?
+    <a href="/help/#troubleshooting">सहायता पृष्ठ</a> उत्तरों से भरा है — और अगर कोई चरण और स्पष्ट हो सकता है,
+    <a href="https://github.com/LilyDesignSystem">हमें बताएँ</a> और हम खुशी से ट्यूटोरियल सुधारेंगे।
+  </p>
+</section>

@@ -1,0 +1,111 @@
+<!-- title: Themen-Tutorial — Lily Design System -->
+<!-- description: Gitt Lily op dräi Weeër en Thema: verlinkt een vun de 45 fäerdegen Themen, iwwerschreift et mat Ärem CSS an füügt Themewiessel zur Laafzäit mam Helper theme-picker derbäi. -->
+<section class="page-intro">
+  <h1>Themen</h1>
+  <p class="page-intro-tagline">
+    D'Lily-Komponente hunn stabil Klassen-Hooks an null CSS — also ass en Thema just e Stylesheet. Dësen Tutorial geet vu „eng Datei verlinken“ bis „de Benotzer zur Laafzäit d'Thema wiesselen loossen, mat Persistenz“.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat Dir bauen wäert</h2>
+  <p>
+    Eng App, vun där de Benotzer dat ganzt Ausgesi ännere kann — ugefaange mat engem verlinkte Stylesheet, opgehalen mat engem persistente Themewiesselen zur Laafzäit — an ongeféier 15 Minutten.
+  </p>
+
+  <h2>Ier Dir ufänkt</h2>
+  <p>
+    Maacht fir d'éischt de <a href="/tutorials/">Framework-Tutorial</a> fir Äre Stack fir d'éischt, sou datt Dir e klengt Lily-Formulaire hutt, dat Dir themaiséiere kënnt. Alles hei funktionéiert an alle siwe Frameworks; d'Codebeispiller weisen Svelte an einfacht HTML.
+  </p>
+
+  <h2>Schrëtt 1 — E fäerdegt Thema verlinken</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    -Verzeechnes enthält 45 eegestänneg Stylesheets. Kopéiert se an d'statesch Assets vun Ärer App a verlinkt ee:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Highlights vum Set:</p>
+  <ul>
+    <li>
+      <strong>Ëffentleche Secteur</strong> — NHS England / Scotland / Wales, jidd a Patienten- a Praktiker-Varianten; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Vun Ubidder inspiréiert</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Allgemeng Notzung</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, a vill méi.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrolléiert Är Aarbecht:</strong> luet d'Säit nei. Datselwecht Markup, dat Dir am Framework-Tutorial gebaut hutt, ass elo voll gestalt — Knäppercher, Inputen, Etiketten, Fokusréng. Eng Zeil HTML huet dat gemaach — all Komponent ass genee esou bliwwen, wéi se war.
+    </p>
+  </div>
+
+  <h2>Schrëtt 2 — Alles iwwerschreiwen</h2>
+  <p>
+    D'Theme-Selectoren sinn agewéckelt a <code>:where(...)</code>wat null Spezifizitéit huet — also gewënnt all Regel, déi Dir schreift, einfach:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Schrëtt 3 — Wiessel zur Laafzäit mat theme-picker</h2>
+  <p>
+     <code>theme-picker</code> den Helper ass e Headless-Ikonknäppchen + Listbox, dee de ganze Liewenszyklus vum Thema besëtzt: en luet de gewielte Stylesheet, andeems en een eenzege geréierte <code>&lt;link&gt;</code>
+    (nëmmen dat aktivt Thema gëtt gehuelt) ëmtauscht, setzt
+    <code>data-theme="&#123;slug&#125;"</code> um Dokument an späichert optional an <code>localStorage</code>. Hei gëtt Svelte gewisen; d'Ports fir React, Vue, Angular, HTML, Nunjucks a Blazor entspriechen him Kontrakt fir Kontrakt:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Dat ass déi ganz Integratioun. D'Tastaturverhalen follegt dem WAI-ARIA APG-Listbox-Muster; d'Kontroll selwer ass headless (Klassen-Hook
+    <code>.theme-picker</code>), sou datt si dat aktivt Thema iwwerhëlt, wat och ëmmer et ass.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gepréift den 2026-08-29:</strong> dësen exakte Snippet gouf géint dat verëffentlecht <code>0.1.1</code> -Package kompiléiert, iwwer
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Schrëtt 4 — Op d'Thema an Ärem eegene CSS reagéieren</h2>
+  <p>
+    Well den Helper <code>data-theme</code> op d'Wuerzel vum Dokument setzt, kënnen Är eege Stiler sech doraus verzweigen:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Notize fir serversäiteg Rendering</h2>
+  <p>
+    Den Helper mécht all DOM-Schreiwen am Mount-/Effect-Liewenszyklus vum Framework, dofir ass hien vun der Konstruktioun hier SSR-sécher. Fir e Blénken beim éischte Molen ze vermeiden, rendert de <code>&lt;link&gt;</code> an
+    <code>data-theme</code> vum Ufankstema um Server (zum Beispill aus engem Cookie) — de Repo vum Svelte-Helper huet e lafbaart SvelteKit-Cookie-Beispill, an déi aner Katalogen dokumentéieren datselwecht Muster fir hir Stacks.
+  </p>
+
+  <h2>Nächst Schrëtt</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Astellungs-Helperen</a> — datselwecht Muster fir Sprooch, Textgréisst, Deelen an Datum-/Zäitagab.</li>
+    <li>
+      E Thema bäisteieren — jidd ass een eegestännege Stylesheet, deen d'Klassen-Hooks ugräift; kuckt <a href="/help/#contributing">d'Matmaachen</a>.
+    </li>
+  </ul>
+  <p>
+    Froen ënnerwee?
+    <a href="/help/#troubleshooting">D'Hëllefsäit</a> ass voller Äntwerten — a wann e Schrëtt méi kloer kéint sinn,
+    <a href="https://github.com/LilyDesignSystem">soot et eis</a> a mir verbesseren den Tutorial gär.
+  </p>
+</section>

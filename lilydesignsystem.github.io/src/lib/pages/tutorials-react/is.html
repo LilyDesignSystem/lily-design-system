@@ -1,0 +1,109 @@
+<!-- title: React-kennsluefni — Lily Design System -->
+<!-- description: Byggðu aðgengilegt, stílað eyðublað með höfuðlausum React íhlutum Lily: tegundum bundnum fallaíhlutum með value + onChange. -->
+<section class="page-intro">
+  <h1>React-kennsluefni</h1>
+  <p class="page-intro-tagline">
+    Tegundum bundnir fallaíhlutir, ein skrá hver, stýrðir með hefðbundnu
+    <code>value</code> + <code>onChange</code> mynstri — allt virkar eins og React gerir nú þegar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Lítið tengiliðaeyðublað — innsláttarreitur með merkimiða, sendihnappur, stýrt ástand, raunveruleg lyklaborðs- og skjálesarahegðun — fyrst ber, svo stílað, á um 10 mínútum.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Þú þarft git, Node 22 eða nýrra og pnpm 10 eða nýrra. Hvaða React 18+ verkefni sem er virkar — Next.js, Vite eða hreint React.
+  </p>
+
+  <h2>Skref 1 — Náðu í kóðann</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Íhlutirnir eru flatar skrár í <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — hver með prófi, story og skjölum við hliðina. Afritaðu skrárnar sem þú þarft í forritið þitt, eða taktu geymsluna inn og fluttu inn úr henni.
+  </p>
+
+  <h2>Skref 2 — Fyrsti íhluturinn þinn</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Birtir <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (birtir
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> yfirskrift), <code>className</code>, og hvaða aukaeigind sem er dreifist á rótarþáttinn.
+  </p>
+
+  <h2>Skref 3 — Settu saman lítið eyðublað</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> tekur sýnilega <code>label</code> sem sinn eigin prop frekar en innfelldan merkimiðaíhlut — gefðu hann einu sinni, á
+    <code>Field</code>og <code>TextInput</code>á
+    <code>label</code> sér um aðgengilega heitið.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staðfest 2026-08-29:</strong> fyrri drög innfeldu sérstakan <code>Label</code> inni í <code>Field</code>, sem birtir
+      <em>tvo</em> merkimiða (annan tóman) því <code>Field</code> birtir þegar sinn eigin út frá <code>label</code> prop — uppgötvað með því að þýða nákvæmlega snifsið. Sá
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">samsetta tengiliðaeyðublaðsleiðin</a>
+      er sama mynstur, prófað með raunverulegum e2e- og axe-prófum.
+    </p>
+  </div>
+
+  <h2>Skref 4 — Stílaðu það</h2>
+  <p>
+    Allt hér að ofan birtist sem hrein uppbygging, tilbúin fyrir stílana þína. Stílaðu krókana — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — í stílblaðinu þínu, leggðu Tailwind-tól yfir með <code>className</code>, eða tengdu tilbúið þema:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Skref 5 — Sjáðu allt virka</h2>
+  <p>
+     <a href="/examples/">Next.js dæmaforritið</a> er allt safnið stílað og sýnt, með Playwright e2e og axe-core grunnlínu:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Þemu</a> — skipti á keyrslutíma með React theme-picker hjálpartækinu.</li>
+    <li><a href="/tutorials/helpers/">Stillingahjálpartæki</a> — tungumál og textastærð.</li>
+    <li><a href="/components/">Íhlutasafn</a> — eiginleikar, ARIA og lyklaborð fyrir hvern íhlut.</li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

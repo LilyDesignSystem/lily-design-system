@@ -1,0 +1,107 @@
+<!-- title: Blazor apmācība — Lily Design System -->
+<!-- description: Izveidojiet pieejamu, noformētu veidlapu ar Lily Blazor bezgalvas komponentēm: Razor komponentes ar parametriem un bUnit testiem. -->
+<section class="page-intro">
+  <h1>Blazor apmācība</h1>
+  <p class="page-intro-tagline">
+    Razor klašu bibliotēkas komponentes ar parametriem, <code>ChildContent</code>
+    attēlošanas fragmenti, atribūtu izklāšana un viens bUnit tests katrai komponentei.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ko jūs izveidosiet</h2>
+  <p>
+    Neliela kontaktu veidlapa — lauks ar iezīmi, iesniegšanas poga,
+    <code>@bind-Value</code> saistīšana, īsta tastatūras un ekrāna lasītāja darbība — vispirms kaila, tad noformēta, apmēram 10 minūtēs.
+  </p>
+
+  <h2>Pirms sākat</h2>
+  <p>
+    Nepieciešams git un .NET SDK 8 vai jaunāks. Der jebkurš Blazor projekts — Blazor Web App, Server vai WebAssembly.
+  </p>
+
+  <h2>1. solis — Iegūstiet kodu</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-headless
+dotnet build
+dotnet test      # bUnit — 1,400+ cases across the catalog</code></pre>
+  <p>
+    Komponentes atrodas direktorijā <code>src/LilyBlazorHeadless/Components/</code> —
+    <code>Button.razor</code>, <code>TextInput.razor</code> — katra vienā Razor failā. Atsaucieties uz projektu (vai kopējiet failus) no savas Blazor lietotnes un pievienojiet <code>@using LilyBlazorHeadless.Components</code> failam
+    <code>_Imports.razor</code>.
+  </p>
+
+  <h2>2. solis — Jūsu pirmā komponente</h2>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Attēlo <code>&lt;button class="button"&gt;</code>. Kopīgās parametru konvencijas: <code>Label</code> ( <code>aria-label</code> lai pārrakstītu),
+    <code>CssClass</code> (tiek pievienots pamata āķim),
+    <code>ChildContent</code>un
+    <code>[Parameter(CaptureUnmatchedValues = true)]</code> atribūtu izklāšana, lai jebkurš papildu HTML atribūts tiktu cauri.
+  </p>
+
+  <h2>3. solis — Salieciet nelielu veidlapu</h2>
+  
+  <pre tabindex="0"><code>&lt;Form OnSubmit="HandleSubmit"&gt;
+  &lt;Field Label="Full name" Required="true"&gt;
+    &lt;TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" /&gt;
+  &lt;/Field&gt;
+  &lt;Button Type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;
+
+@code {
+  private string name = "";
+}</code></pre>
+  <p>
+    <code>Field</code> pieņem redzamo <code>Label</code> kā savu parametru, nevis iekļautu iezīmes komponenti — nododiet to vienreiz, pie
+    <code>Field</code>un <code>TextInput</code>no
+    <code>Label</code> nodrošina pieejamo nosaukumu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudīts 2026-08-29:</strong> agrāks melnraksts iekļāva atsevišķu <code>Label</code> komponenti iekšā <code>Field</code>, kas attēloja <em>divas</em> iezīmes (vienu tukšu), jo <code>Field</code>
+      jau pati attēlo savu no <code>Label</code> parametrs — atklāts, pārbaudot komponentes pirmkodu; <code>Form</code> pašam nav <code>Label</code> parametra, tāpēc agrākā melnraksta
+      <code>&lt;Form&gt;</code> lietojums tika izlabots, to izlaižot, nevis izdomājot neesošu atribūtu.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">Salikto kontaktu veidlapas maršrutu</a>
+      ir tas pats modelis, pārbaudīts ar īstiem e2e un axe testiem.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Pārbaudiet savu darbu:</strong> palaidiet lietotni, un veidlapa izskatās kaila — tieši kā paredzēts: noformēšana vēl priekšā. Nospiediet
+      <kbd>Tab</kbd>: fokuss iet cauri katrai vadīklai, iezīme tiek paziņota, un iesniegšana darbojas. Uzvedība ir gatava; izskats ir jūsu un ir nākamais solis.
+    </p>
+  </div>
+
+  <h2>4. solis — Noformējiet to</h2>
+  <p>
+    Noformējiet klases āķus — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — failā <code>app.css</code>vai saistiet gatavu motīvu failā <code>App.razor</code> /
+    <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="themes/wireframe.css" /&gt;</code></pre>
+
+  <h2>5. solis — Redziet, kā viss darbojas</h2>
+  <p>
+     <a href="/examples/">Blazor Web paraugu lietotne</a> rāda pilnu katalogu noformētu un demonstrētu, ar Playwright e2e testiem:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-blazor-web-examples
+dotnet run --project src/LilyBlazorWebExamples</code></pre>
+
+  <h2>Nākamie soļi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Motīvi</a> — pārslēgšana izpildes laikā ar Blazor palīgu theme-picker (Razor klašu bibliotēka NuGet).</li>
+    <li><a href="/tutorials/helpers/">Preferenču palīgi</a> — valoda un teksta izmērs.</li>
+    <li><a href="/components/">Komponenšu katalogs</a> — īpašības, ARIA un tastatūra katrai komponentei.</li>
+  </ul>
+  <p>
+    Jautājumi pa ceļam?
+    <a href="/help/#troubleshooting">Palīdzības lapa</a> ir pilna atbilžu — un, ja kāds solis varētu būt skaidrāks,
+    <a href="https://github.com/LilyDesignSystem">pastāstiet mums</a> un mēs labprāt uzlabosim apmācību.
+  </p>
+</section>

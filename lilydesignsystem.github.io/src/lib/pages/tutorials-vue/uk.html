@@ -1,0 +1,122 @@
+<!-- title: Посібник з Vue — Lily Design System -->
+<!-- description: Створіть доступну стилізовану форму за допомогою «безголових» компонентів Lily для Vue 3: однофайлові компоненти з v-model. -->
+<section class="page-intro">
+  <h1>Посібник з Vue</h1>
+  <p class="page-intro-tagline">
+    Однофайлові компоненти Vue 3 з типізованими властивостями, <code>defineModel</code>
+    двостороннім зв’язуванням і <code>v-bind="$attrs"</code> наскрізною передачею.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Що ви створите</h2>
+  <p>
+    Невелика контактна форма — поле з міткою, кнопка надсилання, <code>v-model</code>
+    зв’язування, справжня поведінка клавіатури та зчитувача екрана — спочатку «гола», потім стилізована, приблизно за 10 хвилин.
+  </p>
+
+  <h2>Перш ніж почати</h2>
+  <p>
+    Вам потрібні git, Node 22 або новіший і pnpm 10 або новіший. Підійде будь-який проєкт Vue 3 — Nuxt, Vite або чистий Vue.
+  </p>
+
+  <h2>Крок 1 — Отримайте код</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Компоненти — це плоскі файли в <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — кожен із тестом, story та документацією поруч. Скопіюйте потрібні файли або вендорте репозиторій.
+  </p>
+
+  <h2>Крок 2 — Ваш перший компонент</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Рендерить <code>&lt;button class="button" type="button"&gt;</code>. Властивості відповідають іншим фреймворкам: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, плюс наскрізна передача атрибутів для всього іншого.
+  </p>
+
+  <h2>Крок 3 — Складіть невелику форму</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> приймає видиму <code>label</code> як власну властивість, а не вкладений компонент мітки — передайте її один раз, на
+    <code>Field</code>, і <code>TextInput</code>у
+    <code>label</code> надає доступну назву.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірено 2026-08-29:</strong> ранній чернетковий варіант вкладав окремий компонент <code>Label</code> всередині <code>Field</code>, що рендерило
+      <em>дві</em> мітки (одну порожню), оскільки <code>Field</code> уже рендерить власну з <code>label</code> властивість — виявлено компіляцією точного фрагмента.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">складений маршрут контактної форми</a>
+      — той самий шаблон, перевірений справжніми e2e- та axe-тестами.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> використовує <code>defineModel</code>, тож простий
+    <code>v-model</code> працює «з коробки».
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірте свою роботу:</strong> запустіть застосунок — форма виглядає простою, саме як і задумано: стилізація ще попереду. Натисніть
+      <kbd>Tab</kbd>: фокус проходить через кожен елемент керування, мітка озвучується, а надсилання працює. Поведінка готова; вигляд — ваш, і він наступний.
+    </p>
+  </div>
+
+  <h2>Крок 4 — Стилізуйте</h2>
+  <p>
+    Стилізуйте клас-гачки — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — у своїй таблиці стилів або підключіть готову тему в <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Крок 5 — Побачте все в дії</h2>
+  <p>
+     <a href="/examples/">Приклад застосунку Nuxt</a> — це весь каталог зі стилями й демонстраціями, з Playwright e2e та базовою лінією axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Наступні кроки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — перемикання під час виконання за допомогою допоміжного засобу Vue theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Допоміжні засоби налаштувань</a> — мова та розмір тексту.</li>
+    <li><a href="/components/">Каталог компонентів</a> — властивості, ARIA та клавіатура для кожного компонента.</li>
+  </ul>
+  <p>
+    Питання по дорозі?
+    <a href="/help/#troubleshooting">сторінка допомоги</a> повна відповідей — а якщо якийсь крок може бути зрозумілішим,
+    <a href="https://github.com/LilyDesignSystem">повідомте нам</a> і ми із задоволенням покращимо посібник.
+  </p>
+</section>

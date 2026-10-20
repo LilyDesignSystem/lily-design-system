@@ -1,0 +1,94 @@
+<!-- title: เกี่ยวกับ — Lily Design System -->
+<!-- description: Lily คืออะไร หลักการเบื้องหลัง และระบบการออกแบบที่เป็นแรงบันดาลใจ -->
+<section class="page-intro">
+  <h1>Lily คืออะไร?</h1>
+  <p class="page-intro-tagline">
+    ระบบการออกแบบโอเพนซอร์สฟรีที่ให้ความสำคัญกับการเข้าถึงเป็นอันดับแรก อยู่เคียงข้างคุณในที่ที่คุณเขียนโค้ด และหลบทางให้เมื่อคุณไม่ต้องการ
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>สรุปสั้น ๆ</h2>
+  <p>
+    Lily คือแคตตาล็อกของ <strong>เว็บคอมโพเนนต์</strong> ซึ่งแต่ละตัวถูกสร้างขึ้นในแปดรูปแบบแบบ headless (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks และ Web Components) พร้อมชุดแอปตัวอย่างที่ครบถ้วนซึ่งแสดงวิธีจัดสไตล์
+  </p>
+  <p>
+    เวอร์ชัน headless มาพร้อม <em>CSS เป็นศูนย์</em> โดยให้ HTML เชิงความหมาย บทบาทและสถานะของ ARIA การรองรับแป้นพิมพ์ และ props ที่เหมาะกับการรองรับหลายภาษา ส่วนการออกแบบด้านภาพเป็นหน้าที่ของคุณ
+  </p>
+
+  <h2>หลักการออกแบบ</h2>
+
+  <h3>เข้าถึงได้</h3>
+  <p>
+    ทุกคอมโพเนนต์เริ่มจาก HTML เชิงความหมาย ARIA จะถูกเพิ่มเข้ามาเฉพาะที่ HTML เพียงอย่างเดียวไม่สามารถแสดงรูปแบบนั้นได้ คอมโพเนนต์มุ่งเป้าไปที่
+    <strong>WCAG 2.2 AAA</strong>  — สี ระยะห่าง โฟกัส และการนำทางด้วยแป้นพิมพ์ ล้วนได้รับการพิจารณา
+  </p>
+
+  <h3>ประกอบเข้าด้วยกันได้</h3>
+  <p>
+    Lily ชอบคอมโพเนนต์ขนาดเล็กที่มีจุดประสงค์เดียวและต่อเข้ากันได้พอดี รูปแบบเชิงประกอบปรากฏซ้ำแล้วซ้ำอีก:
+  </p>
+  <ul>
+    <li><code>Nav → List → ListItem</code>  — สำหรับเส้นทางนำทาง รายการสารบัญ เมนูแอคคอร์เดียน เมนูแบบต้นไม้ และการแบ่งหน้า</li>
+    <li><code>Form → Field → Input</code>  — สำหรับเลย์เอาต์ฟอร์มทุกแบบที่มีป้ายกำกับ คำแนะนำ และข้อผิดพลาด</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code>  — สำหรับตาราง ปฏิทิน แผนภูมิแกนต์ และกระดานคัมบัง</li>
+    <li><code>Bar → BarButton</code>  — สำหรับแถบเครื่องมือ แถบแท็บ แถบงาน แถบการกระทำ และแถบเมนู</li>
+    <li><code>Picker → PickerButton</code>  — สำหรับตัวเลือกสี ตัวเลือกคะแนน ตัวเลือกธีม</li>
+  </ul>
+
+  <h3>รองรับหลายภาษา</h3>
+  <p>
+    ไม่มีสตริงที่ผู้ใช้เห็นแม้แต่ตัวเดียวที่เขียนตายตัวไว้ในโค้ด ป้ายกำกับ ตัวยึดตำแหน่ง ข้อความแสดงข้อผิดพลาด ข้อความบนปุ่ม ล้วนเป็นพารามิเตอร์ ใส่ระบบแปลภาษาของคุณเข้ามา แล้ว Lily จะพูดภาษาที่คุณพูด
+  </p>
+
+  <h3>Headless</h3>
+  <p>
+    คอมโพเนนต์แบบ headless มี <strong>ไม่มี CSS</strong> ไม่มีบล็อก
+    <code>&lt;style&gt;</code>  ไม่มีโทเค็นการออกแบบที่คุณไม่ได้เลือก คอมโพเนนต์เปิดเผยชื่อคลาสแบบ kebab-case หนึ่งชื่อบนองค์ประกอบรากแต่ละตัว เพื่อให้คุณเลือกเป้าหมายได้ตามต้องการ — CSS เชิงความหมาย Tailwind CSS-in-JS คุณเป็นคนตัดสินใจ
+  </p>
+
+  <h3>ตัวอย่างที่ครบถ้วน</h3>
+  <p>
+    แอปตัวอย่างแสดงวิธีจัดสไตล์คอมโพเนนต์เพื่อการใช้งานจริง — ควรตั้งโทเค็นการออกแบบใด ควรเพิ่มรูปแบบอื่นอะไร และประกอบหน้าอย่างไร เป็นแอป SvelteKit, Next.js, Nuxt, Blazor และ Eleventy เต็มรูปแบบ ไม่ใช่แค่แซนด์บ็อกซ์
+  </p>
+
+  <h2 id="inspirations">แหล่งแรงบันดาลใจ</h2>
+  <p>
+    Lily นำรูปแบบและภาษามาจากระบบการออกแบบที่คัดเลือกอย่างกว้างขวางโดยตั้งใจ:
+  </p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
+    <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Australian Government)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Reuters graphics components</a></li>
+  </ul>
+
+  <h2>สัญญาอนุญาต</h2>
+  <p>
+    Lily ใช้ได้หลายสัญญาอนุญาต ภายใต้ <strong>BSD, MIT, Apache-2.0, GPL-2.0 หรือ GPL-3.0</strong> เลือกอันที่เหมาะกับโปรเจกต์ของคุณ หากไม่มีอันใดเหมาะ โปรดติดต่อเรา
+  </p>
+
+  <h2>ติดต่อ</h2>
+  <p>
+    หัวหน้าโครงการ: Joel Parker Henderson —
+    <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+  </p>
+  <p>
+    พบข้อบกพร่อง มีไอเดีย หรืออยากสมทบคอมโพเนนต์ใช่ไหม เปิด issue หรือ pull request ได้ที่
+    <a href="https://github.com/LilyDesignSystem">GitHub</a>.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>สถานะ:</strong> Lily เป็นงานใหม่เอี่ยม และเรายินดีรับความร่วมมือ คำแนะนำ และข้อเสนอแนะ หลายอย่างจะเปลี่ยนและพัฒนาต่อไป
+    </p>
+  </div>
+</section>

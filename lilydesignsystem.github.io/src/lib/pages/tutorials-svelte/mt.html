@@ -1,0 +1,117 @@
+<!-- title: Tutorja tas-Svelte — Lily Design System -->
+<!-- description: Ibni formola aċċessibbli u mgħammra bi stil bil-komponenti headless ta' Lily għal Svelte 5: runes, snippets u bind:value. -->
+<section class="page-intro">
+  <h1>Tutorja tas-Svelte</h1>
+  <p class="page-intro-tagline">
+    Il-librerija Svelte ta' Lily hija l-implimentazzjoni kanonika: runes ta' Svelte 5, props tipizzati, firxa tal-props li jifdal u rbit fiż-żewġ direzzjonijiet ma'
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>X'se tibni</h2>
+  <p>
+    Formola żgħira ta' kuntatt — qasam b'tikketta, buttuna biex tibgħat, rbit fiż-żewġ direzzjonijiet, mġiba vera tat-tastiera u tal-qarrej tal-iskrin — l-ewwel għarwiena, imbagħad bi stil, f'madwar 10 minuti.
+  </p>
+
+  <h2>Qabel ma tibda</h2>
+  <p>
+    Għandek bżonn git, Node 22 jew iktar ġdid, u pnpm 10 jew iktar ġdid. Kwalunkwe proġett Svelte 5 jaħdem — app ġdida <code>npx sv create</code> tkun biżżejjed.
+  </p>
+
+  <h2>Pass 1 — Ġib il-kodiċi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Il-komponenti jinsabu fi <code>src/lib/components/&#123;Name&#125;/</code>, direttorju wieħed għal kull komponent bil-fajl <code>.svelte</code> , it-testijiet, l-istories u d-dokumentazzjoni tiegħu maġenbu. Ikkopja d-direttorji li teħtieġ fl-app tiegħek, jew dipendi mir-repożitorju u importa direttament.
+  </p>
+
+  <h2>Pass 2 — L-ewwel komponent tiegħek</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Jirrendi <code>&lt;button class="button" type="button"&gt;</code>. Il-props huma tipizzati: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (jirrendi <code>aria-pressed</code> (jirrendi <code>label</code> ( <code>aria-label</code> għal buttuni ta' tibdil),
+  </p>
+
+  <h2>Pass 3 — Ikkomponi formola żgħira</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> jieħu l- <code>label</code> bħala prop tiegħu stess minflok komponent ta' tikketta mdaħħal — għaddiha darba, fuq <code>Field</code>u <code>TextInput</code>korrispondenti ta' <code>label</code> jipprovdi l-isem aċċessibbli. <code>TextInput</code>'s <code>value</code> biex tissostitwixxi), u kwalunkwe attribut żejjed jinfirex fuq l-għerq.
+    <code>$bindable</code> huwa prop <code>bind:value</code> rune, għalhekk
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ivverifikat fl-2026-08-29:</strong> jagħtik rbit fiż-żewġ direzzjonijiet minnufih. <code>svelte/server</code> dan is-snippet eżatt ġie kkompilat permezz ta' <code>&lt;label for&gt;</code> u ċċekkjat għal tikketta waħda biss, marbuta sew <code>Label</code> ġewwa <code>Field</code>— abbozz preċedenti daħħal
+      <em>żewġ</em> tikketti (waħda vojta) għax <code>Field</code> diġà jirrendi tiegħu stess mill-input <code>label</code> separat ġewwa, li rrendi
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Ir-rotta komposta tal-formola ta' kuntatt</a>
+      hija l-istess mudell, ittestjat b'testijiet e2e u axe veri.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Iċċekkja x-xogħol tiegħek:</strong> mexxi l-app u l-formola tidher għarwiena — eżattament kif intenzjonat: l-istil għad irid jiġi. Agħfas
+      <kbd>Tab</kbd>: il-focus jgħaddi minn kull kontroll, it-tikketta tiġi mħabbra u l-ibgħat jaħdem. Il-mġiba lesta; id-dehra hija tiegħek u hija l-pass li jmiss.
+    </p>
+  </div>
+
+  <h2>Pass 4 — Agħtiha stil</h2>
+  <p>
+    Kollox hawn fuq jirrendi bħala struttura pura, lesta għall-istili tiegħek. Agħti stil lill-ganċijiet tal-klassi —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — fl-istylesheet globali tiegħek, jew evita tema lesta fi <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Aġġustamenti għal kull istanza jgħaddu permezz tal-prop <code>class</code> , li jiżdied mal-ganċ bażi: <code>&lt;Button class="wide"&gt;</code> jirrendi
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Pass 5 — Ara kollox jaħdem</h2>
+  <p>
+     <a href="/examples/">L-app eżempju SvelteKit</a> hija l-istess katalogu bi stil sħiħ, b'dimostrazzjonijiet ħajjin, testijiet Playwright e2e u linja bażi ta' aċċessibbiltà axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Passi li jmiss</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — bdil waqt it-tħaddim bl-għajnuna theme-picker għal Svelte.</li>
+    <li><a href="/tutorials/helpers/">Għajnuniet tal-preferenzi</a> — lingwa u daqs tat-test.</li>
+    <li><a href="/components/">Katalogu tal-komponenti</a> — proprjetajiet, ARIA u tastiera għal kull komponent.</li>
+  </ul>
+  <p>
+    Mistoqsijiet matul it-triq?
+    <a href="/help/#troubleshooting">Il-paġna tal-għajnuna</a> hija mimlija tweġibiet — u jekk pass jista' jkun iktar ċar,
+    <a href="https://github.com/LilyDesignSystem">għidilna</a> u nħossuna kuntenti ntejbu t-tutorja.
+  </p>
+</section>

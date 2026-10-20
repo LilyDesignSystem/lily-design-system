@@ -1,0 +1,106 @@
+<!-- title: ບົດສອນ HTML — Lily Design System -->
+<!-- description: ສ້າງແບບຟອມທີ່ເຂົ້າເຖິງໄດ້ງ່າຍ ແລະມີຮູບແບບດ້ວຍອົງປະກອບແບບບໍ່ມີຫົວ HTML ຂອງ Lily — markup ທຳມະດາ, ໂດຍກົງຈາກໄຟລ໌. -->
+<section class="page-intro">
+  <h1>ບົດສອນ HTML</h1>
+  <p class="page-intro-tagline">
+    ການເລີ່ມຕົ້ນທີ່ງ່າຍທີ່ສຸດ: ສຳເນົາ HTML ທີ່ມີຄວາມໝາຍພ້ອມ class hook ຂອງ Lily, ເພີ່ມ stylesheet ໜຶ່ງອັນ, ສົ່ງມອບ. ໄຟລ໌ທຳມະດາທີ່ເຮັດວຽກໄດ້ທຸກບ່ອນທີ່ HTML ເຮັດວຽກ.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ສິ່ງທີ່ທ່ານຈະສ້າງ</h2>
+  <p>
+    ແບບຟອມຕິດຕໍ່ນ້ອຍໆ — ຊ່ອງປ້ອນທີ່ມີປ້າຍ, ປຸ່ມສົ່ງ, ພຶດຕິກຳແປ້ນພິມ ແລະໂປຣແກຣມອ່ານໜ້າຈໍຈິງ — ທຳອິດເປົ່າ, ຈາກນັ້ນມີຮູບແບບ, ໃນປະມານ 10 ນາທີ.
+  </p>
+
+  <h2>ກ່ອນທ່ານເລີ່ມ</h2>
+  <p>
+    ທ່ານຕ້ອງການບຣາວເຊີ ແລະຕົວແກ້ໄຂຂໍ້ຄວາມ. ເທົ່ານັ້ນ. (git ຊ່ວຍເອົາໄຟລ໌ອົງປະກອບ, ແຕ່ທ່ານກໍສຳເນົາຈາກ GitHub ໃນບຣາວເຊີໄດ້ຄືກັນ.)
+  </p>
+
+  <h2>ຂັ້ນຕອນ 1 — ເອົາໂຄດ</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    ທຸກອົງປະກອບເປັນໄຟລ໌ເອກະລາດໃນ <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, ແລະອື່ນໆ — ພ້ອມຄຳເຫັນສ່ວນຫົວທີ່ບັນທຶກແທັກ HTML, class hook, ພຶດຕິກຳແປ້ນພິມ ແລະສັນຍາການເຂົ້າເຖິງໄດ້ງ່າຍຂອງມັນ. ໄຟລ໌ <em>ແມ່ນ</em> ໄລບຣາຣີ — ສຳເນົາສິ່ງທີ່ທ່ານຕ້ອງການແລ້ວໄປ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 2 — ອົງປະກອບທຳອິດຂອງທ່ານ</h2>
+  <p>ເປີດ <code>components/button.html</code>, ຫຼືພຽງແຕ່ຂຽນ markup — class hook ແມ່ນສັນຍາ:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    ເພາະມັນເປັນ <code>&lt;button&gt;</code>ຈິງ, ຈຸດສຸມແປ້ນພິມ, ການກະຕຸ້ນດ້ວຍ Enter ແລະ Space, ແລະບົດບາດປຸ່ມໂດຍນັຍຖືກຕ້ອງແລ້ວ.
+  </p>
+
+  <h2>ຂັ້ນຕອນ 3 — ປະກອບແບບຟອມນ້ອຍໆ</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    ສັງເກດຮູບແບບ: ທຸກການຄວບຄຸມເຊື່ອມ <code>&lt;label for&gt;</code>ຂອງມັນ, ໃຊ້ຊະນິດ input ທີ່ສະເພາະທີ່ສຸດ, ແລະມີ class hook kebab-case ພຽງໜຶ່ງອັນພໍດີ.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>ກວດງານຂອງທ່ານ:</strong> ເປີດໜ້າໃນບຣາວເຊີ. ມັນເບິ່ງທຳມະດາ — ຕາມທີ່ຕັ້ງໃຈ: ການໃສ່ຮູບແບບຍັງຢູ່ຂ້າງໜ້າ. ກົດ
+      <kbd>Tab</kbd>: ຈຸດສຸມເຄື່ອນຜ່ານທຸກການຄວບຄຸມ, ປ້າຍຖືກປະກາດ ແລະການສົ່ງເຮັດວຽກ. ພຶດຕິກຳສຳເລັດແລ້ວ; ລັກສະນະເປັນຂອງທ່ານ ແລະເປັນຂັ້ນຕໍ່ໄປ.
+    </p>
+  </div>
+
+  <h2>ຂັ້ນຕອນ 4 — ໃສ່ຮູບແບບ</h2>
+  <p>ຂຽນ CSS ຕໍ່ hook:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    ຫຼືຂ້າມການຂຽນ CSS ດ້ວຍມືທັງໝົດ — ເຊື່ອມຕໍ່ໜຶ່ງໃນ 45 ຮູບແບບສີສັນສຳເລັດຮູບ ແລະ markup ດຽວກັນກໍສະຫວ່າງຂຶ້ນ:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>ຂັ້ນຕອນ 5 — ສຳຫຼວດຕື່ມ</h2>
+  <ul>
+    <li>ການທົດສອບຂອງຄັງແລ່ນໃນບຣາວເຊີຈິງ: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook ສຳລັບທຸກອົງປະກອບ: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">ແອັບຕົວຢ່າງ HTML+CSS+JS</a> ສະແດງທັງ 571 ອົງປະກອບທີ່ມີຮູບແບບ, ຄົ້ນຫາໄດ້ ແລະສາທິດ.
+    </li>
+  </ul>
+
+  <h2>ຂັ້ນຕອນຕໍ່ໄປ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ຮູບແບບສີສັນ</a> — ການສະຫຼັບຮູບແບບສີສັນຕອນແລ່ນດ້ວຍ theme-picker.</li>
+    <li><a href="/tutorials/helpers/">ຕົວຊ່ວຍການຕັ້ງຄ່າ</a> — ພາສາ ແລະຂະໜາດຕົວອັກສອນ.</li>
+    <li><a href="/components/">ແຄັດຕາລັອກອົງປະກອບ</a> — ການອ້າງອີງເຕັມ.</li>
+  </ul>
+  <p>
+    ມີຄຳຖາມລະຫວ່າງທາງບໍ?
+    <a href="/help/#troubleshooting">ໜ້າຊ່ວຍເຫຼືອ</a> ເຕັມໄປດ້ວຍຄຳຕອບ — ແລະຖ້າຂັ້ນຕອນໃດຊັດເຈນຂຶ້ນໄດ້,
+    <a href="https://github.com/LilyDesignSystem">ບອກພວກເຮົາ</a> ແລະພວກເຮົາຍິນດີປັບປຸງບົດສອນ.
+  </p>
+</section>

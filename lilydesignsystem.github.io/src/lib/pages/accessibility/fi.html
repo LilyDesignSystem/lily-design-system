@@ -1,0 +1,63 @@
+<!-- title: Saavutettavuus — Lily Design System -->
+<!-- description: Lilyn saavutettavuusseloste: mitä WCAG 2.2 AAA:n tavoittelu tarkoittaa täällä – mitä varmennetaan, millä, mitä mikään ei varmenna ja miten ongelmasta ilmoitetaan. -->
+<section class="page-intro">
+  <h1>Mitä ”tavoittelee WCAG 2.2 AAA:ta” tarkoittaa täällä</h1>
+  <p class="page-intro-tagline">
+    Sana <em>tavoittelee</em> on valittu tarkoituksella. Tämä sivu kertoo täsmälleen, mitä varmennetaan, millä, mitä mikään ei varmenna ja mitä aiomme tehdä aukon suhteen. Lily ei koskaan väitä WCAG-”vaatimustenmukaisuutta” – mikään auditointi ei tue sitä.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Varmennettu jatkuvasti</h2>
+  <ul>
+    <li>
+      Jokaisen komponentin kanoninen semanttinen elementti, ARIA-attribuutit ja luokkakoukut – varmistettu kehyskohtaisilla yksikkötestisarjoilla (yli 15 000 tapausta seitsemässä kehyksessä).
+    </li>
+    <li>
+      Kaikki 571 komponenttien demosivua SvelteKit-esimerkkisovelluksessa ovat axe-puhtaita (WCAG 2.0/2.1 A+AA ja 2.2 AA -sääntöjoukot) – koko luettelon läpikäynti, ensimmäisen kerran perustasoksi mitattu 2026-08-27 ja ajettu uudelleen 2026-10-06 – sekä sovelluskohtaiset perustasot etusivulle, luettelolle ja koostetuille reiteille kaikissa seitsemässä esimerkkisovelluksessa.
+    </li>
+    <li>
+      Näppäimistösopimukset vuorovaikutteista komponenttia kohden, dokumentoituna kunkin komponentin kanonisessa metadatassa ja testisarjojen koettelemina; apupaketit ajavat lisäksi oikean selaimen Playwright-määrittelyjä.
+    </li>
+    <li>
+      WCAG 2.2 -kohdekoon alarajat ja ylivuotosuojat kaikissa 57 teemassa; ohituslinkki, maamerkit ja ei vaakasuuntaista ylivuotoa neljällä näkymäalueella sovellusta kohden; <code>lang</code>/<code>dir</code> -soveltaminen mukaan lukien RTL-käännös.
+    </li>
+  </ul>
+
+  <h2>Ei minkään varmentama</h2>
+  <ul>
+    <li>
+      <strong>Vaatimustenmukaisuusauditointia ei ole koskaan tehty.</strong> Ei VPAT:ia, ei sertifiointia. Automaattiset työkalut kattavat vähemmistön WCAG:n onnistumiskriteereistä.
+    </li>
+    <li>
+      AAA-kohtaiset kriteerit (parannettu kontrasti ja muut) ovat suunnitteluaikomuksia, eivät varmennettuja ominaisuuksia; axe-sääntöjoukot ajetaan A/AA-tasolla. Erillistä korkean kontrastin teemaa ei vielä ole.
+    </li>
+    <li>
+      <strong>Näytönlukijoiden käyttäytymistä ei ole pääosin testattu.</strong> Testisarjat varmistavat ARIA-attribuutit, eivät sitä, mitä VoiceOver, NVDA tai JAWS ilmoittavat – ja tämä projekti on useammin kuin kerran toimittanut vihreitä testisarjoja todellisten vikojen yllä, kukin kirjattu muutoslokiin juuri siksi, että testisarjat eivät nähneet niitä.
+    </li>
+  </ul>
+
+  <h2>Mitä aiomme tehdä asialle</h2>
+  <p>
+    Riippumaton saavutettavuusauditointi on projektirahoituksen ensimmäinen nimetty käyttökohde, ja auditoijan tarvitsema laajuus on jo valmisteltu. Siihen asti näytönlukijaraportit ovat se panos, jota tämä projekti toivoo eniten: ”komponentti X ilmoittaa Y:n, mikä on väärin, koska Z” on suoraan toimeenpantavissa.
+  </p>
+
+  <h2>Ilmoita ongelmasta</h2>
+  <p>
+    Avaa issue osoitteessa
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    tai lähetä sähköpostia osoitteeseen
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. WCAG-kriteerin mainitseminen auttaa mutta ei ole pakollista – ”en voinut käyttää X:ää näppäimistöllä” on täydellinen raportti.
+  </p>
+  <p>
+    Täydellinen seloste varmennustaulukkoineen ja tarkistushistorioineen on repossa:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

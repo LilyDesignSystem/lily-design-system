@@ -1,0 +1,117 @@
+<!-- title: دليل Svelte — Lily Design System -->
+<!-- description: ابنِ نموذجًا سهل الوصول ومنسَّقًا بمكوّنات Lily عديمة الرأس لـ Svelte 5: runes وsnippets وbind:value. -->
+<section class="page-intro">
+  <h1>دليل Svelte</h1>
+  <p class="page-intro-tagline">
+    مكتبة Svelte من Lily هي التنفيذ المرجعي: runes في Svelte 5، وخصائص مُنمَّطة، ونشر الخصائص المتبقية، وربط ثنائي الاتجاه مع
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج اتصال صغير — حقل بتسمية، زر إرسال، ربط ثنائي الاتجاه، سلوك حقيقي للوحة المفاتيح وقارئ الشاشة — عاريًا أولًا ثم منسَّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى git وNode 22 أو أحدث وpnpm 10 أو أحدث. يصلح أي مشروع Svelte 5 — يكفي تطبيق جديد <code>npx sv create</code> تمامًا.
+  </p>
+
+  <h2>الخطوة 1 — احصل على الشيفرة</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    توجد المكوّنات في <code>src/lib/components/&#123;Name&#125;/</code>، مجلد لكل مكوّن فيه ملف <code>.svelte</code> واختباراته وstories ووثائقه جنبًا إلى جنب. انسخ المجلدات التي تحتاجها إلى تطبيقك، أو اعتمد على المستودع واستورد مباشرة.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    يعرض <code>&lt;button class="button" type="button"&gt;</code>. الخصائص مُنمَّطة: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (يعرض <code>aria-pressed</code> (يعرض <code>label</code> (أي <code>aria-label</code> لأزرار التبديل)،
+  </p>
+
+  <h2>الخطوة 3 — ركّب نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> يأخذ <code>label</code> كخاصية خاصة به لا كمكوّن تسمية متداخل — مرّرها مرة واحدة على <code>Field</code>و <code>TextInput</code>المطابق من <code>label</code> يوفّر الاسم القابل للوصول. <code>TextInput</code>'s <code>value</code> للتجاوز)، وأي سمة إضافية تُنشر على الجذر.
+    <code>$bindable</code> هي خاصية <code>bind:value</code> rune، لذا
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تم التحقق في 2026-08-29:</strong> يمنحك ربطًا ثنائي الاتجاه فورًا. <code>svelte/server</code> جُمّع هذا المقتطف نفسه عبر <code>&lt;label for&gt;</code> وفُحص بحثًا عن تسمية واحدة مربوطة بشكل صحيح <code>Label</code> داخل <code>Field</code>— كانت مسودة سابقة تضع
+      <em>تسميتين</em> (إحداهما فارغة) لأن <code>Field</code> يعرض تسميته بنفسه من المدخل <code>label</code> منفصلًا بداخله فيعرض
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">مسار نموذج الاتصال المركّب</a>
+      هو النمط نفسه، جُرّب باختبارات e2e وaxe حقيقية.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقق من عملك:</strong> شغّل التطبيق فيبدو النموذج بسيطًا — تمامًا كما هو مقصود: التنسيق لا يزال قادمًا. اضغط
+      <kbd>Tab</kbd>: ينتقل التركيز عبر كل عنصر تحكم، وتُعلن التسمية، ويعمل الإرسال. السلوك مكتمل؛ والمظهر لك وهو الخطوة التالية.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسِّقه</h2>
+  <p>
+    كل ما سبق يُعرض كبنية خالصة، جاهزة لأنماطك. نسِّق خطّافات الأصناف —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — في ورقة الأنماط العامة لديك، أو اربط سمة جاهزة في <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    تمرّ التعديلات لكل نسخة عبر الخاصية <code>class</code> التي تُلحق بالخطّاف الأساسي: <code>&lt;Button class="wide"&gt;</code> يعرض
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>الخطوة 5 — شاهد كل شيء يعمل</h2>
+  <p>
+     <a href="/examples/">تطبيق المثال SvelteKit</a> هو الفهرس نفسه منسَّقًا بالكامل، مع عروض حيّة واختبارات Playwright e2e وخط أساس إمكانية الوصول axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">السمات</a> — التبديل أثناء التشغيل بمساعد theme-picker لـ Svelte.</li>
+    <li><a href="/tutorials/helpers/">مساعدات التفضيلات</a> — اللغة وحجم النص.</li>
+    <li><a href="/components/">فهرس المكوّنات</a> — الخصائص وARIA ولوحة المفاتيح لكل مكوّن.</li>
+  </ul>
+  <p>
+    أسئلة في الطريق؟
+    <a href="/help/#troubleshooting">صفحة المساعدة</a> مليئة بالإجابات — وإن أمكن توضيح خطوة أكثر،
+    <a href="https://github.com/LilyDesignSystem">أخبرنا</a> وسنحسّن الدليل بكل سرور.
+  </p>
+</section>

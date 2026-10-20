@@ -1,0 +1,127 @@
+<!-- title: Vodič za Angular — Lily Design System -->
+<!-- description: Izradite pristupačan, stiliziran obrazac s Lilynim headless komponentama za Angular 20: samostalne komponente sa signalnim ulazima. -->
+<section class="page-intro">
+  <h1>Vodič za Angular</h1>
+  <p class="page-intro-tagline">
+    Samostalne komponente Angulara 20 — signalni ulazi, otkrivanje promjena OnPush, ugrađeni predlošci, nula NgModules, nula CSS-a.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Što ćete izraditi</h2>
+  <p>
+    Mali kontaktni obrazac — polje s oznakom, gumb za slanje, dvosmjerno vezivanje, stvarno ponašanje tipkovnice i čitača zaslona — najprije golo, zatim stilizirano, za otprilike 10 minuta.
+  </p>
+
+  <h2>Prije nego počnete</h2>
+  <p>
+    Trebaju vam git, Node 22 ili noviji i pnpm 10 ili noviji. Odgovara bilo koji projekt Angular 20 — Angular CLI ili Analog.
+  </p>
+
+  <h2>Korak 1 — Preuzmite kod</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Komponente su ravne datoteke u <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — svaka je samostalna komponenta s ugrađenim predloškom, plus njezin spec i story. Barrel
+    <code>index.ts</code> ponovno izvozi svaku komponentu; <code>pnpm build</code>
+    izrađuje paket u formatu Angular Package Format preko ng-packagr.
+  </p>
+
+  <h2>Korak 2 — Vaša prva komponenta</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Svaka komponenta deklarira selektor <code>lily-*</code> i iscrtava semantički element sa svojom klasnom kukom —
+    <code>&lt;button class="button" type="button"&gt;</code> ovdje. Ulazi se temelje na signalima: <code>label()</code> za <code>aria-label</code>
+    za nadjačavanje, <code>className()</code> za dodavanje klasa.
+  </p>
+
+  <h2>Korak 3 — Sastavite mali obrazac</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> prima vidljivu oznaku kao vlastiti
+    <code>label</code> ulaz umjesto ugniježđene komponente oznake — proslijedite je jednom, na polju, a odgovarajući <code>lily-text-input</code>iz
+    <code>label</code> daje pristupačno ime. Komponente nalik ulazima izlažu vrijednosti <code>model()</code> pa banana-box <code>[(value)]</code>
+    dvosmjerno vezivanje radi odmah — kompatibilno sa zoneless u cijelosti.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Provjereno 2026-08-29:</strong> raniji nacrt ugnijezdio je zasebnu komponentu <code>Label</code> unutar <code>lily-field</code>, što je iscrtalo <em>dvije</em> oznake (jednu praznu) jer
+      <code>lily-field</code> već iscrtava vlastitu iz ulaza
+      <code>label</code> — otkriveno provjerom izvornog koda komponente.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Složena ruta kontaktnog obrasca</a>
+      isti je uzorak, isproban stvarnim e2e i axe testovima.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Provjerite svoj rad:</strong> pokrenite aplikaciju i obrazac izgleda golo — točno kako je zamišljeno: stiliziranje tek slijedi. Pritisnite
+      <kbd>Tab</kbd>: fokus prolazi kroz svaku kontrolu, oznaka se izgovara i slanje radi. Ponašanje je gotovo; izgled je vaš i sljedeći je korak.
+    </p>
+  </div>
+
+  <h2>Korak 4 — Stilizirajte ga</h2>
+  <p>
+    Stilizirajte klasne kuke — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — u <code>styles.css</code>, ili dodajte gotovu temu u polje <code>styles</code> u
+    <code>angular.json</code> / povežite je u <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Korak 5 — Pogledajte kako sve radi</h2>
+  <p>
+     <a href="/examples/">Primjer aplikacija Angular + Analog</a> prikazuje cijeli katalog s usmjeravanjem temeljenim na datotekama i Viteom:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Sljedeći koraci</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teme</a> — prebacivanje tijekom izvođenja pomoćnikom theme-picker za Angular.</li>
+    <li><a href="/tutorials/helpers/">Pomoćnici za postavke</a> — jezik i veličina teksta.</li>
+    <li><a href="/components/">Katalog komponenti</a> — svojstva, ARIA i tipkovnica po komponenti.</li>
+  </ul>
+  <p>
+    Pitanja usput?
+    <a href="/help/#troubleshooting">Stranica pomoći</a> puna je odgovora — a ako neki korak može biti jasniji,
+    <a href="https://github.com/LilyDesignSystem">javite nam</a> i rado ćemo poboljšati vodič.
+  </p>
+</section>

@@ -1,0 +1,109 @@
+<!-- title: React-handleiding — Lily Design System -->
+<!-- description: Bouw een toegankelijk, vormgegeven formulier met Lily's headless-componenten voor React: getypeerde functiecomponenten met value + onChange. -->
+<section class="page-intro">
+  <h1>React-handleiding</h1>
+  <p class="page-intro-tagline">
+    Getypeerde functiecomponenten, elk één bestand, aangestuurd met het standaardpatroon
+    <code>value</code> + <code>onChange</code> — alles werkt zoals React dat al doet.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Wat je gaat bouwen</h2>
+  <p>
+    Een klein contactformulier — invoerveld met label, verzendknop, gecontroleerde state, echt toetsenbord- en schermlezergedrag — eerst kaal, dan vormgegeven, in ongeveer 10 minuten.
+  </p>
+
+  <h2>Voordat je begint</h2>
+  <p>
+    Je hebt git, Node 22 of nieuwer en pnpm 10 of nieuwer nodig. Elk React 18+-project werkt — Next.js, Vite of gewone React.
+  </p>
+
+  <h2>Stap 1 — Haal de code op</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    De componenten zijn platte bestanden in <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — elk met zijn test, story en documentatie ernaast. Kopieer de bestanden die je nodig hebt naar je app, of haal de repo binnen en importeer ervandaan.
+  </p>
+
+  <h2>Stap 2 — Je eerste component</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Rendert <code>&lt;button class="button" type="button"&gt;</code>. Props:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (rendert
+    <code>aria-pressed</code>), <code>label</code> (een
+    <code>aria-label</code> om te overschrijven), <code>className</code>, en elk extra attribuut wordt op het rootelement uitgespreid.
+  </p>
+
+  <h2>Stap 3 — Stel een klein formulier samen</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> neemt het zichtbare <code>label</code> als eigen prop in plaats van een geneste labelcomponent — geef het één keer door, op
+    <code>Field</code>en <code>TextInput</code>van
+    <code>label</code> levert de toegankelijke naam.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Geverifieerd op 2026-08-29:</strong> een eerder concept nestelde een aparte <code>Label</code> binnen <code>Field</code>, wat
+      <em>twee</em> labels (een leeg) rendert omdat <code>Field</code> zijn eigen label al rendert vanuit de <code>label</code> -prop — ontdekt door het exacte fragment te compileren. De
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">De samengestelde contactformulierroute</a>
+      is hetzelfde patroon, beproefd met echte e2e- en axe-tests.
+    </p>
+  </div>
+
+  <h2>Stap 4 — Geef het vorm</h2>
+  <p>
+    Alles hierboven wordt als pure structuur gerenderd, klaar voor je stijlen. Geef de haken vorm — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — in je stylesheet, leg Tailwind-utilities eroverheen via <code>className</code>, of koppel een kant-en-klaar thema:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Stap 5 — Zie alles werken</h2>
+  <p>
+     <a href="/examples/">Next.js voorbeeld-app</a> is de volledige catalogus vormgegeven en gedemonstreerd, met Playwright e2e en een axe-core-basislijn:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Volgende stappen</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Thema's</a> — wisselen tijdens het draaien met de React-helper theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Voorkeurenhelpers</a> — taal en tekstgrootte.</li>
+    <li><a href="/components/">Componentencatalogus</a> — props, ARIA en toetsenbord per component.</li>
+  </ul>
+  <p>
+    Vragen onderweg? De
+    <a href="/help/#troubleshooting">helppagina</a> staat vol antwoorden — en als een stap duidelijker kan,
+    <a href="https://github.com/LilyDesignSystem">laat het ons weten</a> en we verbeteren de handleiding graag.
+  </p>
+</section>

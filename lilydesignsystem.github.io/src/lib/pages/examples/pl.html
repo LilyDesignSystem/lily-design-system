@@ -1,0 +1,105 @@
+<!-- title: Przykłady — Lily Design System -->
+<!-- description: Gotowe aplikacje przykładowe pokazujące, jak stylizować komponenty Lily w HTML, Svelte, React, Vue, Angular, Blazor i Eleventy. -->
+<section class="page-intro">
+  <h1>Zobacz Lily w prawdziwych aplikacjach</h1>
+  <p class="page-intro-tagline">
+    Siedem gotowych projektów przykładowych pokazuje, jak wziąć komponenty bezgłowe, nałożyć stylizację i wdrożyć prawdziwą witrynę. Wybierz framework, którego używasz.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Aplikacje demonstracyjne z pełnym CSS i routingiem</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">
+        Zwykłe strony HTML, czysty JavaScript, bez narzędzi do budowania. Pasuje do każdego statycznego hostingu — idealne do małych witryn i progresywnego ulepszania.
+      </p>
+      <p class="card-meta">→ Zobacz na GitHubie</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">
+        Aplikacja SvelteKit 3 używająca run Svelte 5. Trasy komponentów, routing oparty na plikach i ostylowany storybook każdego komponentu.
+      </p>
+      <p class="card-meta">→ Zobacz na GitHubie</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">
+        Aplikacja Next.js 16 pokazująca każdy komponent w kontekście, z TypeScriptem w całości i stronami demonstracyjnymi dla wzorców złożonych.
+      </p>
+      <p class="card-meta">→ Zobacz na GitHubie</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">
+        Aplikacja Nuxt 4. <code>&lt;script setup&gt;</code> i Composition API na każdej trasie demonstracyjnej.
+      </p>
+      <p class="card-meta">→ Zobacz na GitHubie</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Aplikacja Angular 22 + Analog.js. Routing oparty na plikach, sygnały, wykrywanie zmian bez stref i pełne prerenderowanie SSG.
+      </p>
+      <p class="card-meta">→ Zobacz na GitHubie</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">
+        Aplikacja Blazor Web z komponentami Razor. Przyjazna zarówno dla serwera, jak i WebAssembly, z bazą .NET 10.
+      </p>
+      <p class="card-meta">→ Zobacz na GitHubie</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">
+        Witryna Eleventy używająca makr Nunjucks. Idealna dla statycznych witryn z dużą ilością treści, które mimo to chcą mieć prawdziwy system komponentów.
+      </p>
+      <p class="card-meta">→ Zobacz na GitHubie</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Każda aplikacja przykładowa ma ten sam kształt</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>Aby przechodzenie między frameworkami było znajome, każda aplikacja przykładowa zapewnia:</p>
+    <ul>
+      <li>Trasę powitalną pod adresem <code>/</code> która przedstawia projekt.</li>
+      <li>Indeks komponentów pod adresem <code>/components</code> który wymienia każdy komponent.</li>
+      <li>Stronę demonstracyjną dla każdego komponentu pod adresem <code>/components/&lt;component&gt;</code>.</li>
+      <li>Prawdziwy CSS — nie abstrakcyjne tokeny projektowe — żebyś mógł od razu zapożyczać style.</li>
+      <li>Działającą nawigację klawiaturą i zarządzanie fokusem od razu po instalacji.</li>
+    </ul>
+
+    <h3>Chcesz zobaczyć, jak ostylowany jest pojedynczy komponent?</h3>
+    <p>
+      Otwórz odpowiednią aplikację przykładową, przejdź do
+      <code>/components/&lt;name&gt;</code>i skopiuj znaczniki oraz CSS do własnego projektu. Aplikacje przykładowe celowo używają zwykłego (lub prawie zwykłego) CSS, żebyś mógł dostosować je do dowolnego systemu, który wolisz.
+    </p>
+
+    <h3>Wolisz bezgłowo?</h3>
+    <p>
+      Połącz dowolną aplikację przykładową z odpowiadającym jej <em>bezgłowym</em>
+      pakietem — publikują one te same komponenty bez żadnego CSS, gotowe na twoje własne tokeny projektowe.
+    </p>
+    <p>
+      <a class="button button-primary" href="/components/">Przeglądaj katalog →</a>
+      <a class="button button-secondary" href="/help/">Przeczytaj przewodnik konfiguracji</a>
+    </p>
+  </div>
+</section>

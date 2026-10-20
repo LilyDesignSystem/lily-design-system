@@ -1,0 +1,136 @@
+<!-- title: Handleidingen — Lily Design System -->
+<!-- description: Stapsgewijze Lily-handleidingen: je eerste component, opmaak, kant-en-klare thema's en voorkeurshelpers – voor HTML, Svelte, React, Vue, Angular, Blazor en Nunjucks. -->
+<section class="page-intro">
+  <h1>Leer Lily, stap voor stap</h1>
+  <p class="page-intro-tagline">
+    Welkom! Elke handleiding begint bij nul en bouwt hetzelfde kleine ding – een toegankelijk, opgemaakt formulier – in zo'n 10 minuten, zodat je frameworks eerlijk kunt vergelijken. Ga daarna dieper met thema's en gebruikersvoorkeuren.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Voordat je begint</h2>
+  <p>Je hebt verrassend weinig nodig:</p>
+  <ul>
+    <li>
+      <strong>Voor de HTML-handleiding</strong> – alleen een browser en een teksteditor. Dat is de hele gereedschapskist.
+    </li>
+    <li>
+      <strong>Voor Svelte, React, Vue, Angular of Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26 en pnpm 10 of nieuwer.
+    </li>
+    <li>
+      <strong>Voor Blazor</strong> – git en de
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 of nieuwer.
+    </li>
+  </ul>
+  <p>
+    Nieuw met headless componenten? Dan ben je hier goed – elke handleiding legt uit wat er gebeurt terwijl je bezig bent, en elke stap toont de exacte code om te kopiëren.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Vier stappen van nul naar live</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Je eerste component</strong> (~5 minuten) – kies hieronder je framework, haal de code op en render een Button.
+      </li>
+      <li>
+        <strong>Samenstellen en opmaken</strong> (~5 minuten) – bouw een formulier met labels en maak het op via de kebab-case klassenhaken (onderdeel van elke frameworkhandleiding).
+      </li>
+      <li>
+        <strong>Geef het een thema</strong> (~15 minuten) – ruil je zelfgeschreven CSS in voor een van de 57 kant-en-klare thema's en laat gebruikers dan tijdens runtime wisselen: <a href="/tutorials/theming/">themahandleiding</a>.
+      </li>
+      <li>
+        <strong>Respecteer voorkeuren</strong> (~15 minuten) – voeg taal- en tekstgrootteselectie toe met de voorkeurshelpers:
+        <a href="/tutorials/helpers/">helperhandleiding</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Kies je framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Kopieer semantische HTML met de klassenhaken en ga – een browser en een editor is alles wat je nodig hebt.</p>
+      <p class="card-meta">~10 minuten · makkelijkste start</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5-runes, snippets en <code>bind:value</code> tweerichtingsbinding.</p>
+      <p class="card-meta">~10 minuten</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Functiecomponenten met <code>value</code> + <code>onChange</code> en doorgifte van overige props.</p>
+      <p class="card-meta">~10 minuten</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Vue 3-componenten in één bestand met ondersteuning voor <code>v-model</code> .</p>
+      <p class="card-meta">~10 minuten</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Zelfstandige Angular-componenten met signal-invoer en <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minuten</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Razor-componenten met parameters, <code>ChildContent</code>en bUnit-tests.</p>
+      <p class="card-meta">~10 minuten</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Server-gerenderde macro's voor Eleventy en elke Node-templatepipeline.</p>
+      <p class="card-meta">~10 minuten</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    Twijfel je? Begin met <a href="/tutorials/html/">HTML</a> – het leert het contract van klassenhaken dat elk ander framework deelt, en het draait rechtstreeks vanuit een bestand.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Ga dieper</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Thema's</h3>
+      <p class="card-description">
+        Koppel een van de 57 kant-en-klare thema's – NHS, GOV.UK, USWDS, licht, donker en meer – overschrijf het met je eigen CSS en voeg themawissel tijdens runtime toe met de theme-picker-helper.
+      </p>
+      <p class="card-meta">~15 minuten</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Voorkeurshelpers</h3>
+      <p class="card-description">
+        Geef gebruikers controle over thema, taal, tekstgrootte, beweging, zoeken, paginalinks, delen en invoer van datum/tijd met theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker en date-time-picker: headless besturingselementen met persistentie, SSR-veiligheid en automatische RTL-detectie.
+      </p>
+      <p class="card-meta">~15 minuten</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Na de handleidingen</h2>
+  <ul>
+    <li>
+      Blader door de <a href="/components/">componentencatalogus</a> – elke component documenteert zijn props, ARIA-contract en toetsenbordgedrag.
+    </li>
+    <li>
+      Kloon een <a href="/examples/">voorbeeldapp</a> om alle 571 componenten opgemaakt en samenwerkend te zien – de CSS richt zich op dezelfde klassenhaken die je zojuist gebruikte, dus kopieer wat je wilt naar je project en pas het aan zoals je wilt.
+    </li>
+    <li>
+      Vragen? De <a href="/help/">helppagina</a> heeft antwoorden, een FAQ en manieren om een vriendelijk mens te bereiken. En als een handleiding duidelijker kan,
+      <a href="https://github.com/LilyDesignSystem">laat het ons weten</a> – we verbeteren hem graag.
+    </li>
+  </ul>
+</section>

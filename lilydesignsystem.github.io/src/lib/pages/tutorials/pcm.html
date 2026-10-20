@@ -1,0 +1,136 @@
+<!-- title: Tutorials (Learn Am) — Lily Design System -->
+<!-- description: Step-by-step Lily tutorials: your first component, styling, ready-made themes, and preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks. -->
+<section class="page-intro">
+  <h1>Learn Lily small small, step by step</h1>
+  <p class="page-intro-tagline">
+    Welcome! Every tutorial start from scratch and build di same small thing — accessible, styled form — for about 10 minutes, so you fit compare frameworks fair and square. Then go deeper with theming and user preferences.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Before you start</h2>
+  <p>You need very small tins:</p>
+  <ul>
+    <li>
+      <strong>For di HTML tutorial</strong> — just browser and text editor. Na all di toolkit be dat.
+    </li>
+    <li>
+      <strong>For Svelte, React, Vue, Angular, abi Nunjucks</strong> —
+      <a href="https://git-scm.com/">git</a>, Node 26, and pnpm 10 or newer one.
+    </li>
+    <li>
+      <strong>For Blazor</strong> — git and di
+      <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 or later.
+    </li>
+  </ul>
+  <p>
+    You new to headless components? You don reach di right place — each tutorial dey explain wetin dey happen as you dey go, and every step show di exact code to copy.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Four steps wey go take you from zero reach shipping</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li>
+        <strong>Your first component</strong> (~5 minutes) — pick your framework below, get di code, and render Button.
+      </li>
+      <li>
+        <strong>Compose and style</strong> (~5 minutes) — build labelled form and style am against di kebab-case class hooks (part of each framework tutorial).
+      </li>
+      <li>
+        <strong>Theme am</strong> (~15 minutes) — swap your hand-written CSS for one of di 57 ready-made themes, then let users switch for runtime: <a href="/tutorials/theming/">theming tutorial</a>.
+      </li>
+      <li>
+        <strong>Respect preferences</strong> (~15 minutes) — add language and text-size selection with di preference helpers:
+        <a href="/tutorials/helpers/">helpers tutorial</a>.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Pick your framework</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Copy semantic HTML with di class hooks and go — browser and editor na all e take.</p>
+      <p class="card-meta">~10 minutes · di easiest way to start</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 runes, snippets, plus <code>bind:value</code> two-way binding.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Function components wey get <code>value</code> + <code>onChange</code> and rest-prop spread.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Vue 3 single-file components wey get <code>v-model</code> support.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Angular standalone components wey dey use signal inputs and <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Razor components wey get parameters, <code>ChildContent</code>, and bUnit tests.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Macros wey server dey render for Eleventy and any Node templating pipeline wey you get.</p>
+      <p class="card-meta">~10 minutes</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">
+    You dey confuse between dem? Start with <a href="/tutorials/html/">HTML</a> — e teach di class-hook contract wey every other framework share, and e dey run straight from file.
+  </p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Go deeper</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Theming</h3>
+      <p class="card-description">
+        Link one of 57 ready-made themes — NHS, GOV.UK, USWDS, light, dark, and more — override am with your own CSS, and add runtime theme switching with di theme-picker helper.
+      </p>
+      <p class="card-meta">~15 minutes</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Preference helpers</h3>
+      <p class="card-description">
+        Give users power to control theme, language, text size, motion, search, page links, sharing, and date/time entry with theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker, and date-time-picker: headless controls wey get persistence, SSR safety, and automatic RTL detection.
+      </p>
+      <p class="card-meta">~15 minutes</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>After di tutorials</h2>
+  <ul>
+    <li>
+      Browse di <a href="/components/">component catalog</a> — every component dey document im props, ARIA contract, and keyboard behaviour.
+    </li>
+    <li>
+      Clone an <a href="/examples/">example app</a> to see all 571 components styled and dey work together — di CSS dey target di same class hooks wey you just use, so copy any part of am enter your project and adjust am as you like.
+    </li>
+    <li>
+      Questions? Di <a href="/help/">help page</a> get answers, FAQ, and ways to reach friendly human. And if tutorial fit clearer,
+      <a href="https://github.com/LilyDesignSystem">tell us</a> — we go gladly improve am.
+    </li>
+  </ul>
+</section>

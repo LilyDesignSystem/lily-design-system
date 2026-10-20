@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: Không có thư viện hay plugin Figma nào của Lily được duy trì. Các design token của 57 chủ đề tham chiếu được công bố theo định dạng DTCG và có thể nhập vào Figma ngay hôm nay bằng một plugin cộng đồng có sẵn. -->
+<section class="page-intro">
+  <h1>Không có thư viện Figma được duy trì — đây là những gì hiện có</h1>
+  <p class="page-intro-tagline">
+    Trang này từng ghi "sắp ra mắt." Giờ không còn nữa, vì không ai đang xây dựng nó. Đây là tình trạng thật, và một con đường thực tế dùng được ngay hôm nay.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Những gì không tồn tại</h2>
+  <p>
+    Không có thư viện thành phần Lily chính thức trong Figma, cũng không có plugin Figma được duy trì. Xây dựng và duy trì tốt một thư viện công cụ thiết kế là một cam kết thật sự, lâu dài — cấu trúc thành phần Figma, đặt tên biến thể, auto-layout, quy trình xuất bản riêng — tách biệt với việc duy trì mã, và dự án này chưa nhận việc đó.
+  </p>
+
+  <h2>Những gì có hôm nay</h2>
+  <p>
+    Mỗi chủ đề trong 57 chủ đề tham chiếu có các token thiết kế cơ bản — màu, bán kính, kích thước, đường viền — được công bố theo
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >định dạng DTCG 2025.10</a
+    >
+    tại
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. Định dạng đó chính là thứ các công cụ token hiện đại đọc được. Bạn có thể tự kéo bảng màu của một chủ đề Lily vào Figma ngay bây giờ, không cần plugin nào từ dự án này:
+  </p>
+  <ol>
+    <li>
+      Cài plugin cộng đồng
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (hoặc tính năng nhập Variables của chính Figma, nếu gói của bạn hỗ trợ nhập DTCG).
+    </li>
+    <li>
+      Nhập <code>themes/tokens/{theme-slug}.json</code> cho chủ đề bạn muốn — ví dụ
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio tạo biến Figma từ các giá trị DTCG, rồi bạn có thể áp dụng chúng cho các thành phần của riêng mình.
+    </li>
+  </ol>
+  <p>
+    Cách này đưa màu và token hình dạng của Lily vào Figma. Nó không đưa các thành phần thật của Lily vào dưới dạng thành phần Figma — chưa ai xây dựng điều đó, và trang này sẽ không giả vờ khác đi.
+  </p>
+
+  <h2>Có kế hoạch làm thư viện Figma thật không?</h2>
+  <p>
+    Hiện chưa, và không dễ để hứa hẹn: xem
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    về câu hỏi còn bỏ ngỏ và điều gì sẽ khiến dự án đổi ý — hữu ích nhất là một nhà thiết kế nói cụ thể họ cần gì từ lớp này. Nếu đó là bạn,
+    <a href="mailto:joel@joelparkerhenderson.com">hãy cho chúng tôi biết</a>
+    hoặc mở một issue.
+  </p>
+</section>

@@ -1,0 +1,276 @@
+<!-- title: Koyarwar masu taimakon abubuwan so — Lily Design System -->
+<!-- description: Ƙara abubuwan so na harshe da girman rubutu na mai amfani da masu taimakon Lily locale-picker da text-size-picker: sarrafawa marasa kai na maɓallin alama + listbox masu dorewa da amincin SSR. -->
+<section class="page-intro">
+  <h1>Masu taimakon abubuwan so</h1>
+  <p class="page-intro-tagline">
+    Ƙananan fakiti bakwai ga kowane tsari, kowanne yana mallakar aikin mai amfani ɗaya daga farko zuwa ƙarshe, da wani bar da ke tara biyar daga cikinsu. Ka riga ka haɗu da
+    <a href="/tutorials/theming/">theme-picker</a>; ga locale-picker, text-size-picker da motion-picker (abubuwan so), share-picker da search-picker (ayyuka), date-time-picker (ƙimar fom) da picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Abin da za ka gina</h2>
+  <p>
+    Allon saituna inda masu amfani ke zaɓar harshensu da girman rubutu — zaɓuɓɓukan da ke aiki ga dukan takarda, suna dawwama tsakanin ziyara, kuma suna kashe maka abubuwa biyu da ƴan layukan CSS. Kusan mintuna 15.
+  </p>
+
+  <h2>Kafin ka fara</h2>
+  <p>
+    Fara gama <a href="/tutorials/">koyarwar tsarin</a> don tarin fasahar ka. Samfuran da ke ƙasa na Svelte ne; masu taimakon React, Vue, Angular, HTML, Nunjucks da Blazor suna daidaita yarjejeniya da yarjejeniya.
+  </p>
+
+  <h2>Siffar da suke rabawa</h2>
+  <ul>
+    <li>Maɓallin alama maras kai da ke buɗe listbox na WAI-ARIA APG (ko, ga date-time-picker, maganar zaɓar kwanan wata) — babu na asali <code>&lt;select&gt;</code>, don kowane tsari ya samu halayyar maɓallan rubutu da ƙugiyoyin tsari iri ɗaya.</li>
+    <li>Ƙugiyar aji ɗaya ga kowane fakiti (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), sifili CSS da ake aikawa.</li>
+    <li>Amintacce ga SSR: rubuce-rubucen DOM suna faruwa ne kawai a zagayen rayuwar mount/effect.</li>
+    <li>Mai tsabta ga i18n: kowane rubutu da mai amfani ke gani prop ne.</li>
+    <li>
+      Akwai don Svelte (na asali), React, Vue, Angular, sinadarin HTML na musamman, Nunjucks da Blazor — yarjejeniya ɗaya a kowanne.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker da text-size-picker kowanne yana mallakar
+    <em>abin so</em> ɗaya na mai amfani daga farko zuwa ƙarshe (zaɓi, amfani ga DOM, na zaɓi
+    <code>localStorage</code> dawwama ta prop ɗin <code>storageKey</code>
+    ). share-picker da date-time-picker sun bambanta a nau'i: share-picker yana mallakar <em>aiki</em> — ba ya amfani da komai ga takardar kuma ba ya riƙe komai — kuma date-time-picker yana mallakar
+    <em>ƙimar fom</em>, domin kwanan wata a cikin fom bayani ne, ba abin so ba.
+  </p>
+
+  <h2>locale-picker — harshe da alkibla</h2>
+  <p>
+    Yana barin mai amfani ya zaɓi yanayin yanki, sannan ya rubuta <code>lang</code> da
+    <code>dir</code> a tushen takardar domin ɗakin karatun i18n ɗinka, CSS ɗinka da fasahohin taimako duk su bi. Ana gano RTL kai tsaye ga Larabci, Ibrananci da sauran rubutu daga dama zuwa hagu. Yana mai da hankali ne kawai kan nuni — ɗakin karatun i18n ɗinka yana kula da fassara.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Ana sa wa zaɓuɓɓuka lakabi daga teburin sunayen yanayin yanki da aka gina a ciki (ana iya gyarawa ta <code>localeLabels</code>), kowane zaɓi yana ɗauke da sifar
+    <code>lang</code> nasa don masu karanta allo su furta "Français" da Faransanci, kuma lambobin da ke da ƙasan layi kamar <code>en_US</code>
+    ana mayar da su zuwa BCP 47 da dawowa ba tare da asara ba <code>en-US</code>. Haɗa
+    <code>onChange</code> (ko ƙimar da aka ɗaure) zuwa i18next, Paraglide, vue-i18n ko duk abin da kake amfani da shi.
+  </p>
+
+  <h2>text-size-picker — girman da mai karatu ke sarrafawa</h2>
+  <p>
+    Nasarar sauƙin isa da ke ɗaukar mintuna: mai taimakon yana saita
+    <code>data-text-size="&#123;slug&#125;"</code> a tushen takardar kuma CSS ɗinka yana haɗa kowace ƙima da girma.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Auna tsarinka da <code>rem</code> kuma dukan app ɗin yana daidaita da zaɓin mai amfani. Ana ƙirƙirar lakabi daga slugs da babban harafin farko ("X Large") ko a gyara su da <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Duba aikinka:</strong> zaɓi "Large" daga mai zaɓe, kuma rubutun shafin yana girma. Sake loda — har yanzu babba ne: an riƙe zaɓin a
+      <code>localStorage</code>. Sauya mai zaɓen harshenka zuwa Larabci kuma
+      <code>dir="rtl"</code> ana saita shi kan takardar kai tsaye.
+    </p>
+  </div>
+
+  <h2>share-picker — aika wannan shafi</h2>
+  <p>
+    Maɓalli mai alama ɗaya da ke buɗe takardar rabawa ta asali ta na'urar inda akwai, in ba haka ba ya koma jerin wuraren da kake bayarwa, tare da aikin kwafin URL. Ba ya aika wani URL na shafukan sada zumunta — waɗanne shafuka suka dace da samfurinka shawararka ce, ba ta tsarin ƙira ba.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> tsohon ƙimarsa <code>location.href</code>don haka al'amarin gama gari ba ya buƙatar wata haɗawa. Tilasta hanya da <code>strategy="list"</code> ko
+    <code>strategy="native"</code> lokacin da kake buƙatar halayyar da ta daidaita a dandamali don gwaje-gwaje ko hotunan allo.
+  </p>
+
+  <h2>date-time-picker — kwanan wata, lokaci, ko duka biyu</h2>
+  <p>
+    Filin rubutu da za ka iya rubutawa a ciki, tare da maɓallin alama da ke buɗe maganar zaɓar kwanan wata ta WAI-ARIA APG. Daidai ga yanayin yanki ta tsari — sunayen watanni, sunayen ranakun mako, ranar farko ta mako da agogon sa'o'i 12 ko 24 duk suna fitowa daga <code>Intl</code> — kuma ƙimar koyaushe zaren ISO ne mai jerawa kuma marar yankin lokaci: <code>"2026-03-15"</code> don
+    <code>mode="date"</code>, <code>"09:30"</code> don
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> don
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ƙimar ISO iri ɗaya ce da abin da <code>&lt;input type="date"&gt;</code>
+    ke aikawa, don haka za ka iya musanya sarrafawar ta asali ciki ko waje ba tare da taɓa bayan fagenka ba.
+  </p>
+
+  <h2>motion-picker — girmama rage motsi</h2>
+  <p>
+    Mai taimakon yana saita <code>data-motion="&#123;slug&#125;"</code> a tushen takardar. Ƙimarsa ta farko tana fitowa daga saitin tsarin aiki na baƙo
+    <code>prefers-reduced-motion</code> — koyaushe, ba tare da tuta ta shiga ba, domin motsi ainihin buƙatar sauƙin isa ne (WCAG 2.3.3). CSS ɗinka da rubutunka suna yanke abin da za a danne.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — akwatin bincike da ba ya shiga hanya</h2>
+  <p>
+    Maɓallin alama da ke buɗe filin bincike. Danna Return, ko maɓallin &#9166; kusa da filin, yana tafiya da buƙatar GET mai sauƙi zuwa
+    <code>/?&lt;text&gt;</code> (ana yanke rubutun kuma a ɓoye shi a matsayin URI; tambaya fanko ba ta zuwa ko'ina). Sunayensa uku masu sauƙin isa wajibi ne, domin mai taimakon ba ya aika Turanci.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> yana canza hanya (<code>/search?foo</code>), kuma
+    <code>navigate</code> yana riƙe tafiya a cikin app; ba tare da shi ba mai taimakon yana kiran <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — dukan layin kai a lokaci ɗaya</h2>
+  <p>
+    <code>picker-bar</code> yana nuna bincike, jigo, yanayin yanki, girman rubutu da rabawa a layi ɗaya, tare da cikakken saitin jigogin tunani da ma'aunin rubutu na matakai bakwai da aka riga aka haɗa. Kowane suna mai sauƙin isa yana zuwa cikin abu ɗaya wajibi
+    <code>labels</code> .
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Isa ga kowane mai zaɓe da aka naɗe da <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> da <code>shareProps</code>.
+  </p>
+
+  <h2>Shawarwarin kayan aiki sun zo a ciki</h2>
+  <p>
+    Kowane mai zaɓe yana nuna lakabinsa a cikin shawarar kayan aiki lokacin da mai nunawa ya tsaya a kan maɓallinsa ko maɓallin yana da mayar da hankali na maɓallan rubutu. Shawarar kayan aiki tana tsayawa yayin da mai nunawa ke motsawa kanta, Escape yana rufe ta duk inda mayar da hankali yake, kuma ba a taɓa nuna ta yayin da buɗaɗɗen taga na mai zaɓen ke buɗe. Tana ɗauke da rubutu iri ɗaya da suna mai sauƙin isa na maɓallin, don haka babu abin da za a saita ko a fassara sau biyu; jigogin tunani suna ba ta tsari.
+  </p>
+
+  <h2>Allon saituna a wuri ɗaya</h2>
+  <p>Masu taimakon abubuwan so huɗu suna haɗuwa a hankali:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>An tabbatar:</strong> an haɗa gutsattsarin locale-picker, text-size-picker, share-picker, date-time-picker da allon da aka haɗa ɗaya bayan ɗaya da fakitin da aka wallafa <code>0.1.1</code> ta
+      <code>svelte/server</code> (2026-08-29); an zana gutsattsarin motion-picker, search-picker da picker-bar da abubuwan fakitin da kansu a 2026-10-06.
+    </p>
+  </div>
+
+  <h2>Inda za a samu su</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Kowane fakiti yana da spec ɗinsa, gwaje-gwajen da aka daidaita da sassan spec, misalan da za a iya gudanarwa (ciki har da tsarin kuki na SSR) da bututun ginawa + wallafawa. Fakitin Svelte na asali ne; idan shakka, yarjejeniyoyinsu suna nasara.
+  </p>
+
+  <h2>Matakai na gaba</h2>
+  <ul>
+    <li><a href="/components/">Kundin abubuwa</a> — cikakken bayanin abubuwa 571.</li>
+    <li><a href="/help/">Taimako</a> — warware matsaloli da FAQ.</li>
+    <li><a href="/why/">Me ya sa Lily</a> — da yadda za a goyi bayan aikin.</li>
+  </ul>
+  <p>
+    Tambayoyi a hanya?
+    <a href="/help/#troubleshooting">Shafin taimako</a> cike yake da amsoshi — kuma idan wani mataki zai iya zama mafi bayyana,
+    <a href="https://github.com/LilyDesignSystem">gaya mana</a> kuma za mu gyara koyarwar da farin ciki.
+  </p>
+</section>

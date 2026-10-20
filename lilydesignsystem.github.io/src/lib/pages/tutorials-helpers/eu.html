@@ -1,0 +1,276 @@
+<!-- title: Lehentasun-laguntzaileen tutoriala — Lily Design System -->
+<!-- description: Gehitu erabiltzailearen hizkuntza- eta testu-tamaina lehentasunak Lilyren locale-picker eta text-size-picker laguntzaileekin: ikono-botoi + zerrenda-koadro kontrol buru gabeak iraunkortasunarekin eta SSR segurtasunarekin. -->
+<section class="page-intro">
+  <h1>Lehentasun-laguntzaileak</h1>
+  <p class="page-intro-tagline">
+    Zazpi pakete txiki framework bakoitzeko, bakoitzak erabiltzaile-lan bat bere gain hartzen du hasieratik amaierara, gehi horietako bost biltzen dituen barra bat. Dagoeneko ezagutzen duzu
+    <a href="/tutorials/theming/">theme-picker</a>; hona locale-picker, text-size-picker eta motion-picker (lehentasunak), share-picker eta search-picker (ekintzak), date-time-picker (formulario-balioa) eta picker-bar.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Erabiltzaileek hizkuntza eta testu-tamaina aukeratzen dituzten ezarpen-panel bat — dokumentu osoari aplikatzen zaizkion, bisiten artean irauten duten eta bi osagai eta CSS lerro gutxi batzuk kostatzen dizkizuten aukerak. 15 minutu inguru.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    Osatu <a href="/tutorials/">framework tutoriala</a> zure stack-erako. Beheko laginak Svelte-koak dira; React, Vue, Angular, HTML, Nunjucks eta Blazor laguntzaileak kontratuz kontratu datoz bat.
+  </p>
+
+  <h2>Partekatzen duten forma</h2>
+  <ul>
+    <li>WAI-ARIA APG zerrenda-koadro bat irekitzen duen ikono-botoi buru gabea (edo, date-time-picker-erako, data-hautatzaile elkarrizketa) — natiborik ez <code>&lt;select&gt;</code>, beraz framework guztiek teklatu-portaera eta estilo-gako berdinak dituzte.</li>
+    <li>Klase-gako bat pakete bakoitzeko (<code>.locale-picker</code>, <code>.text-size-picker</code>, <code>.share-picker</code>, <code>.date-time-picker</code>), CSSrik bidali gabe.</li>
+    <li>SSR-rako segurua: DOM idazketak mount/effect bizi-zikloan baino ez dira gertatzen.</li>
+    <li>i18n-rako garbia: erabiltzaileak ikusten duen kate guztiak propa dira.</li>
+    <li>
+      Svelte (kanonikoa), React, Vue, Angular, HTML elementu pertsonalizatua, Nunjucks eta Blazor-erako eskuragarri — kontratu bera bakoitzean.
+    </li>
+  </ul>
+  <p>
+    theme-picker, locale-picker eta text-size-picker bakoitzak erabiltzaile-
+    <em>lehentasun</em> bat du bere gain hasieratik amaierara (hautaketa, DOMean aplikazioa, aukerako
+    <code>localStorage</code> iraunkortasuna <code>storageKey</code>
+    propa bidez). share-picker eta date-time-picker mota desberdinekoak dira: share-picker-ek <em>ekintza</em> bat du bere gain — ez dio ezer aplikatzen dokumentuari eta ez du ezer gordetzen — eta date-time-picker-ek
+    <em>formulario-balio</em>bat, formulario bateko data datua baita, ez lehentasuna.
+  </p>
+
+  <h2>locale-picker — hizkuntza eta norabidea</h2>
+  <p>
+    Erabiltzaileari locale bat aukeratzen uzten dio, eta gero idazten du <code>lang</code> eta
+    <code>dir</code> dokumentuaren erroan zure i18n liburutegiak, zure CSSak eta teknologia lagungarriek guztiek jarrai dezaten. RTL automatikoki detektatzen da arabierarako, hebreerarako eta eskuinetik ezkerrerako beste idazkerarako. Seinalatzean soilik zentratzen da — itzulpena zure i18n liburutegiak kudeatzen du.
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+
+  let locale = $state("en-US");
+&lt;/script&gt;
+
+&lt;LocalePicker
+  label="Language"
+  locales={["en-US", "fr", "ar", "he", "ja"]}
+  bind:value={locale}
+  storageKey="my-app-locale"
+/&gt;</code></pre>
+  <p>
+    Aukerek etiketak locale-izenen taula integratu batetik hartzen dituzte (gainidatz daiteke honen bidez: <code>localeLabels</code>), aukera bakoitzak bere
+    <code>lang</code> atributua du pantaila-irakurgailuek “Français” frantsesez ahoskatzeko, eta azpimarra duten kodeek, adibidez <code>en_US</code>
+    galerarik gabe joan-etorria egiten dute BCP 47-ra <code>en-US</code>. Konektatu
+    <code>onChange</code> (edo lotutako balioa) i18next, Paraglide, vue-i18n edo erabiltzen duzun edozeinekin.
+  </p>
+
+  <h2>text-size-picker — irakurleak kontrolatutako tamaina</h2>
+  <p>
+    Minutuetan lortzen den irisgarritasun-irabazi bat: laguntzaileak ezartzen du
+    <code>data-text-size="&#123;slug&#125;"</code> dokumentuaren erroan eta zure CSSak balio bakoitza tamaina batera mapatzen du.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+&lt;/script&gt;
+
+&lt;TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  storageKey="my-app-text-size"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-text-size="small"]   { font-size: 87.5%; }
+:root[data-text-size="medium"]  { font-size: 100%; }
+:root[data-text-size="large"]   { font-size: 112.5%; }
+:root[data-text-size="x-large"] { font-size: 125%; }</code></pre>
+  <p>
+    Neurtu zure diseinua hemen: <code>rem</code> eta aplikazio osoa erabiltzailearen aukerarekin eskalatzen da. Etiketak slug-etatik sortzen dira maiuskulaz (“X Large”) edo honekin gainidazten dira: <code>sizeLabels</code>.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> aukeratu “Large” hautatzailean, eta orriko testua handitzen da. Birkargatu — oraindik handia da: aukera hemen gorde zen:
+      <code>localStorage</code>. Aldatu zure hizkuntza-hautatzailea arabierara eta
+      <code>dir="rtl"</code> automatikoki ezartzen da dokumentuan.
+    </p>
+  </div>
+
+  <h2>share-picker — bidali orri hau</h2>
+  <p>
+    Ikur bakarreko botoi bat, gailuaren partekatze-orri natiboa irekitzen duena dagoen tokian, eta bestela zuk emandako helmugen zerrendara itzultzen dena, gehi URLa kopiatzeko ekintza. Ez du sare sozialen URLrik bidaltzen — zure produktuan zein sare egon behar diren zure erabakia da, ez diseinu-sistemarena.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+
+  const targets = [
+    { id: "mastodon", label: "Mastodon",
+      href: (url, title) =&gt; `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}` },
+    { id: "email", label: "Email",
+      href: (url, title) =&gt; `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`, newTab: false },
+  ];
+&lt;/script&gt;
+
+&lt;SharePicker
+  label="Share this page"
+  title="An article worth reading"
+  {targets}
+  copyLabel="Copy link"
+  copiedLabel="Link copied"
+/&gt;</code></pre>
+  <p>
+    <code>url</code> lehenetsia da <code>location.href</code>beraz kasu arruntak ez du kableatzerik behar. Behartu bide bat honekin: <code>strategy="list"</code> edo
+    <code>strategy="native"</code> probetarako edo pantaila-argazkietarako plataformen artean portaera koherentea behar duzunean.
+  </p>
+
+  <h2>date-time-picker — data bat, ordu bat, edo biak</h2>
+  <p>
+    Idatz dezakezun testu-eremu bat, gehi WAI-ARIA APG data-hautatzaile elkarrizketa irekitzen duen ikono-botoi bat. Locale-aren arabera zuzena eraikuntzaz — hilabete-izenak, asteko egun-izenak, asteko lehen eguna eta 12 edo 24 orduko erlojua hemendik datoz guztiak: <code>Intl</code> — eta balioa beti ISO kate ordenagarria da, ordu-zonarik gabe: <code>"2026-03-15"</code> honetarako
+    <code>mode="date"</code>, <code>"09:30"</code> honetarako
+    <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> honetarako
+    <code>mode="datetime"</code>.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
+
+  let appointment = $state("");
+&lt;/script&gt;
+
+&lt;DateTimePicker
+  inputId="appointment"
+  name="appointment"
+  label="Choose an appointment date"
+  locale="en-GB"
+  bind:value={appointment}
+  labels={{
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "OK",
+    cancel: "Cancel",
+  }}
+/&gt;</code></pre>
+  <p>
+    ISO balioa honek bidaltzen duenaren berdina da: <code>&lt;input type="date"&gt;</code>
+    , beraz kontrol natiboa sartu edo atera dezakezu zure backend-ari ukitu gabe.
+  </p>
+
+  <h2>motion-picker — errespetatu mugimendu murriztua</h2>
+  <p>
+    Laguntzaileak ezartzen du <code>data-motion="&#123;slug&#125;"</code> dokumentuaren erroan. Bere lehen balioa bisitariaren sistema eragilearen ezarpenetik dator
+    <code>prefers-reduced-motion</code> — beti, aukerako banderarik gabe, mugimendua benetako irisgarritasun-beharra delako (WCAG 2.3.3). Zure CSSak eta script-ek erabakitzen dute zer kentzen den.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+&lt;/script&gt;
+
+&lt;MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/&gt;</code></pre>
+  
+  <pre tabindex="0"><code>:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}</code></pre>
+
+  <h2>search-picker — bidetik kentzen den bilaketa-koadroa</h2>
+  <p>
+    Bilaketa-eremu bat irekitzen duen ikono-botoia. Return sakatzeak, edo eremuaren ondoko &#9166; botoiak, GET eskaera soil batekin nabigatzen du hona:
+    <code>/?&lt;text&gt;</code> (testua mozten eta URI-kodetzen da; kontsulta hutsak ez doa inora). Bere hiru izen irisgarriak beharrezkoak dira, laguntzaileak ez baitu ingelesik bidaltzen.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+&lt;/script&gt;
+
+&lt;SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) =&gt; goto(href)}
+/&gt;</code></pre>
+  <p>
+    <code>action</code> bidea aldatzen du (<code>/search?foo</code>), eta
+    <code>navigate</code> nabigazioa aplikazioan mantentzen du; hori gabe laguntzaileak deitzen du <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — goiburuko errenkada osoa aldi berean</h2>
+  <p>
+    <code>picker-bar</code> bilaketa, gaia, locale-a, testu-tamaina eta partekatzea errenkada bakarrean errendatzen ditu, erreferentzia-gaien multzo osoarekin eta zazpi mailako testu-eskalarekin aurrekonfiguratuta. Izen irisgarri guztiak
+    <code>labels</code> objektu beharrezko bakarrean datoz.
+  </p>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+&lt;/script&gt;
+
+&lt;PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/&gt;</code></pre>
+  <p>
+    Iritsi bildutako edozein hautatzailera honekin: <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> eta <code>shareProps</code>.
+  </p>
+
+  <h2>Tooltip-ak integratuta datoz</h2>
+  <p>
+    Hautatzaile bakoitzak bere etiketa tooltip batean erakusten du erakusleak bere botoian pausatzen denean edo botoiak teklatu-fokua duenean. Tooltip-a mantentzen da erakuslea gainera mugitzen denean, Escape-k baztertzen du fokua edonon dagoela, eta ez da inoiz agertzen hautatzailearen popup-a irekita dagoenean. Botoiaren izen irisgarriaren testu bera darama, beraz ez dago ezer konfiguratzeko ez bi aldiz itzultzeko; erreferentzia-gaiek estilatzen dute.
+  </p>
+
+  <h2>Ezarpen-panel bat leku bakarrean</h2>
+  <p>Lau lehentasun-laguntzaileek modu naturalean osatzen dute:</p>
+  
+  <pre tabindex="0"><code>&lt;fieldset class="fieldset"&gt;
+  &lt;legend&gt;Preferences&lt;/legend&gt;
+  &lt;ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" /&gt;
+  &lt;LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" /&gt;
+  &lt;TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" /&gt;
+  &lt;MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" /&gt;
+&lt;/fieldset&gt;</code></pre>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatua:</strong> locale-picker, text-size-picker, share-picker, date-time-picker eta panel konbinatuaren zatiak banan-banan konpilatu ziren argitaratutako <code>0.1.1</code> paketeen aurka honen bidez:
+      <code>svelte/server</code> (2026-08-29); motion-picker, search-picker eta picker-bar zatiak paketeen osagai propioen aurka errendatu ziren 2026-10-06an.
+    </p>
+  </div>
+
+  <h2>Non lortu</h2>
+  
+  <pre tabindex="0"><code># one directory per package in the monorepo, e.g.
+git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker
+# or lily-design-system-react-theme-picker, -vue- / -angular- / -html- / -web-components- / -nunjucks- / -blazor-</code></pre>
+  <p>
+    Pakete bakoitzak bere spec-a, spec-klausuletara mapatutako probak, exekuta daitezkeen adibideak (SSR cookie-patroiak barne) eta eraikitze + argitaratze kanalizazioa ditu. Svelte paketeak kanonikoak dira; zalantzan, haien kontratuek irabazten dute.
+  </p>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/components/">Osagai-katalogoa</a> — 571 osagaien erreferentzia osoa.</li>
+    <li><a href="/help/">Laguntza</a> — arazoen konponbidea eta ohiko galderak.</li>
+    <li><a href="/why/">Zergatik Lily</a> — eta proiektua nola lagundu.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

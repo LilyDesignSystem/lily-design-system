@@ -1,0 +1,63 @@
+<!-- title: Khả năng tiếp cận — Lily Design System -->
+<!-- description: Tuyên bố về khả năng tiếp cận của Lily: ở đây “hướng tới WCAG 2.2 AAA” nghĩa là gì — điều gì được xác minh, bằng gì, điều gì không được xác minh bởi bất cứ thứ gì, và cách báo cáo vấn đề. -->
+<section class="page-intro">
+  <h1>“Hướng tới WCAG 2.2 AAA” ở đây nghĩa là gì</h1>
+  <p class="page-intro-tagline">
+    Từ <em>hướng tới</em> được chọn có chủ ý. Trang này nói chính xác điều gì được xác minh, bằng gì, điều gì không được xác minh bởi bất cứ thứ gì, và chúng tôi định làm gì với khoảng trống đó. Lily không bao giờ tuyên bố “tuân thủ” WCAG — không cuộc kiểm toán nào chứng minh điều đó.
+  </p>
+</section>
+
+<section class="prose">
+  <h2>Được xác minh liên tục</h2>
+  <ul>
+    <li>
+      Phần tử ngữ nghĩa chuẩn, thuộc tính ARIA và móc lớp của mọi thành phần — được khẳng định bởi các bộ kiểm thử đơn vị theo từng framework (hơn 15.000 trường hợp trên bảy framework).
+    </li>
+    <li>
+      Mỗi trang demo trong số 571 trang thành phần ở ứng dụng ví dụ SvelteKit đều sạch theo axe (các bộ quy tắc WCAG 2.0/2.1 A+AA và 2.2 AA) — đợt quét toàn danh mục, lần đầu lập đường cơ sở 2026-08-27 và chạy lại 2026-10-06 — cộng với đường cơ sở theo từng ứng dụng cho trang chủ, danh mục và các tuyến ghép trong cả bảy ứng dụng ví dụ.
+    </li>
+    <li>
+      Hợp đồng bàn phím cho từng thành phần tương tác, được ghi lại trong siêu dữ liệu chuẩn của mỗi thành phần và được các bộ kiểm thử thực thi; các gói trợ thủ còn chạy thêm đặc tả Playwright trên trình duyệt thật.
+    </li>
+    <li>
+      Ngưỡng tối thiểu về kích thước mục tiêu theo WCAG 2.2 và biện pháp chống tràn trong cả 57 giao diện; liên kết bỏ qua, mốc điều hướng và không tràn ngang ở bốn khung nhìn cho mỗi ứng dụng; <code>lang</code>/<code>dir</code> việc áp dụng, bao gồm cả lật RTL.
+    </li>
+  </ul>
+
+  <h2>Không được xác minh bởi bất cứ thứ gì</h2>
+  <ul>
+    <li>
+      <strong>Chưa từng có cuộc kiểm toán tuân thủ nào được thực hiện.</strong> Không có VPAT, không có chứng nhận. Công cụ tự động chỉ bao phủ một thiểu số tiêu chí thành công của WCAG.
+    </li>
+    <li>
+      Các tiêu chí riêng của AAA (độ tương phản nâng cao, và những tiêu chí khác) là ý định thiết kế, không phải thuộc tính đã xác minh; các bộ quy tắc axe chạy ở mức A/AA. Hiện chưa có giao diện tương phản cao riêng.
+    </li>
+    <li>
+      <strong>Hành vi của trình đọc màn hình phần lớn chưa được kiểm thử.</strong> Các bộ kiểm thử khẳng định thuộc tính ARIA, không phải điều VoiceOver, NVDA hay JAWS đọc ra — và dự án này đã nhiều lần phát hành bộ kiểm thử xanh trên những lỗi thật, mỗi lần đều được ghi vào nhật ký thay đổi chính vì các bộ kiểm thử không thể nhìn thấy chúng.
+    </li>
+  </ul>
+
+  <h2>Chúng tôi định làm gì về điều đó</h2>
+  <p>
+    Một cuộc kiểm toán khả năng tiếp cận độc lập là mục đích sử dụng đầu tiên được nêu tên của bất kỳ nguồn tài trợ nào cho dự án, và phạm vi mà kiểm toán viên cần đã được chuẩn bị. Cho đến lúc đó, các báo cáo từ trình đọc màn hình là đóng góp mà dự án này mong muốn nhất: “thành phần X đọc là Y, điều này sai vì Z” có thể xử lý ngay.
+  </p>
+
+  <h2>Báo cáo một vấn đề</h2>
+  <p>
+    Mở một issue tại
+    <a href="https://github.com/LilyDesignSystem/lily-design-system"
+      >github.com/LilyDesignSystem/lily-design-system</a
+    >
+    hoặc gửi email tới
+    <a href="mailto:joel@joelparkerhenderson.com"
+      >joel@joelparkerhenderson.com</a
+    >. Nêu một tiêu chí WCAG sẽ có ích nhưng không bắt buộc — “tôi không thể thao tác X bằng bàn phím” là một báo cáo đầy đủ.
+  </p>
+  <p>
+    Bản tuyên bố đầy đủ, kèm bảng xác minh và lịch sử xem xét, nằm trong kho mã:
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md"
+      >docs/accessibility-statement.md</a
+    >.
+  </p>
+</section>

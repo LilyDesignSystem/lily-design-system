@@ -1,0 +1,127 @@
+<!-- title: Οδηγός Angular — Lily Design System -->
+<!-- description: Φτιάξτε μια προσβάσιμη, μορφοποιημένη φόρμα με τα headless στοιχεία της Lily για Angular 20: αυτόνομα στοιχεία με signal inputs. -->
+<section class="page-intro">
+  <h1>Οδηγός Angular</h1>
+  <p class="page-intro-tagline">
+    Αυτόνομα στοιχεία Angular 20 — signal inputs, ανίχνευση αλλαγών OnPush, ενσωματωμένα πρότυπα, μηδέν NgModules, μηδέν CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Τι θα φτιάξετε</h2>
+  <p>
+    Μια μικρή φόρμα επικοινωνίας — πεδίο με ετικέτα, κουμπί υποβολής, αμφίδρομη δέσμευση, πραγματική συμπεριφορά πληκτρολογίου και προγράμματος ανάγνωσης οθόνης — πρώτα γυμνή, μετά μορφοποιημένη, σε περίπου 10 λεπτά.
+  </p>
+
+  <h2>Πριν ξεκινήσετε</h2>
+  <p>
+    Χρειάζεστε git, Node 22 ή νεότερο και pnpm 10 ή νεότερο. Κάθε έργο Angular 20 κάνει — Angular CLI ή Analog.
+  </p>
+
+  <h2>Βήμα 1 — Πάρτε τον κώδικα</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Τα στοιχεία είναι επίπεδα αρχεία στο <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — καθένα είναι αυτόνομο στοιχείο με ενσωματωμένο πρότυπο, μαζί με το spec και το story του. Το barrel
+    <code>index.ts</code> επανεξάγει κάθε στοιχείο· <code>pnpm build</code>
+    παράγει πακέτο Angular Package Format μέσω ng-packagr.
+  </p>
+
+  <h2>Βήμα 2 — Το πρώτο σας στοιχείο</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Κάθε στοιχείο δηλώνει έναν επιλογέα <code>lily-*</code> και αποδίδει το σημασιολογικό στοιχείο με το αγκίστρι κλάσης του —
+    <code>&lt;button class="button" type="button"&gt;</code> εδώ. Οι είσοδοι βασίζονται σε signals: <code>label()</code> για ένα <code>aria-label</code>
+    για παράκαμψη, <code>className()</code> για προσθήκη κλάσεων.
+  </p>
+
+  <h2>Βήμα 3 — Συνθέστε μια μικρή φόρμα</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> παίρνει την ορατή ετικέτα ως δική του
+    <code>label</code> είσοδο αντί για ένθετο στοιχείο ετικέτας — περάστε την μία φορά, στο πεδίο, και το αντίστοιχο <code>lily-text-input</code>του
+    <code>label</code> δίνει το προσβάσιμο όνομα. Τα στοιχεία τύπου εισόδου εκθέτουν τιμές <code>model()</code> έτσι η αμφίδρομη δέσμευση banana-box <code>[(value)]</code>
+    δουλεύει αμέσως — συμβατή με zoneless σε όλη την έκταση.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Επαληθεύτηκε στις 2026-08-29:</strong> ένα προηγούμενο προσχέδιο ένθετε ξεχωριστό στοιχείο <code>Label</code> μέσα στο <code>lily-field</code>, το οποίο απέδιδε <em>δύο</em> ετικέτες (η μία κενή) επειδή το
+      <code>lily-field</code> αποδίδει ήδη τη δική του από την είσοδο
+      <code>label</code> — εντοπίστηκε ελέγχοντας τον πηγαίο κώδικα του στοιχείου.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">Η σύνθετη διαδρομή της φόρμας επικοινωνίας</a>
+      είναι το ίδιο μοτίβο, δοκιμασμένο με πραγματικά τεστ e2e και axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ελέγξτε τη δουλειά σας:</strong> τρέξτε την εφαρμογή και η φόρμα φαίνεται γυμνή — ακριβώς όπως προβλέπεται: η μορφοποίηση έρχεται μετά. Πατήστε
+      <kbd>Tab</kbd>: η εστίαση περνά από κάθε στοιχείο ελέγχου, η ετικέτα ανακοινώνεται και η υποβολή δουλεύει. Η συμπεριφορά είναι έτοιμη· η εμφάνιση είναι δική σας και είναι το επόμενο βήμα.
+    </p>
+  </div>
+
+  <h2>Βήμα 4 — Μορφοποιήστε την</h2>
+  <p>
+    Μορφοποιήστε τα αγκίστρια κλάσης — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — στο <code>styles.css</code>, ή προσθέστε ένα έτοιμο θέμα στον πίνακα <code>styles</code> στο
+    <code>angular.json</code> / συνδέστε το στο <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Βήμα 5 — Δείτε τα πάντα να δουλεύουν</h2>
+  <p>
+     <a href="/examples/">Η εφαρμογή-παράδειγμα Angular + Analog</a> δείχνει ολόκληρο τον κατάλογο με δρομολόγηση βάσει αρχείων και Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Επόμενα βήματα</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Θέματα</a> — εναλλαγή κατά την εκτέλεση με τον βοηθό theme-picker για Angular.</li>
+    <li><a href="/tutorials/helpers/">Βοηθοί προτιμήσεων</a> — γλώσσα και μέγεθος κειμένου.</li>
+    <li><a href="/components/">Κατάλογος στοιχείων</a> — ιδιότητες, ARIA και πληκτρολόγιο ανά στοιχείο.</li>
+  </ul>
+  <p>
+    Ερωτήσεις στην πορεία; Η
+    <a href="/help/#troubleshooting">σελίδα βοήθειας</a> είναι γεμάτη απαντήσεις — και αν ένα βήμα μπορεί να γίνει πιο σαφές,
+    <a href="https://github.com/LilyDesignSystem">πείτε μας</a> και θα βελτιώσουμε με χαρά τον οδηγό.
+  </p>
+</section>

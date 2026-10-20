@@ -1,0 +1,122 @@
+<!-- title: Vue-handledning — Lily Design System -->
+<!-- description: Bygg ett tillgängligt, formgivet formulär med Lilys headless-komponenter för Vue 3: enfilskomponenter med v-model. -->
+<section class="page-intro">
+  <h1>Vue-handledning</h1>
+  <p class="page-intro-tagline">
+    Vue 3-enfilskomponenter med typade props, <code>defineModel</code>
+    tvåvägsbindning och <code>v-bind="$attrs"</code> -genomströmning.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Det här bygger du</h2>
+  <p>
+    Ett litet kontaktformulär — fält med etikett, skicka-knapp, <code>v-model</code>
+    -bindning, verkligt tangentbords- och skärmläsarbeteende — först naket, sedan formgivet, på ungefär 10 minuter.
+  </p>
+
+  <h2>Innan du börjar</h2>
+  <p>
+    Du behöver git, Node 22 eller senare och pnpm 10 eller senare. Alla Vue 3-projekt fungerar — Nuxt, Vite eller vanlig Vue.
+  </p>
+
+  <h2>Steg 1 — Hämta koden</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponenterna är platta filer i <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — var och en med sitt test, sin story och sin dokumentation bredvid. Kopiera de filer du behöver, eller hämta förvaret.
+  </p>
+
+  <h2>Steg 2 — Din första komponent</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Renderar <code>&lt;button class="button" type="button"&gt;</code>. Propsen motsvarar de andra ramverken: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, plus attributgenomströmning för allt annat.
+  </p>
+
+  <h2>Steg 3 — Sätt ihop ett litet formulär</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> tar den synliga <code>label</code> som sin egen prop i stället för en nästlad etikettkomponent — skicka den en gång, på
+    <code>Field</code>och <code>TextInput</code>från
+    <code>label</code> ger det tillgängliga namnet.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifierat 2026-08-29:</strong> ett tidigare utkast nästlade en separat <code>Label</code> inuti <code>Field</code>, vilket renderar
+      <em>två</em> etiketter (en tom) eftersom <code>Field</code> redan renderar sin egen från <code>label</code> -prop — upptäckt genom att kompilera det exakta kodavsnittet. Rutten
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Den sammansatta kontaktformulärsrutten</a>
+      är samma mönster, prövat med riktiga e2e- och axe-tester.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> använder <code>defineModel</code>, så en vanlig
+    <code>v-model</code> fungerar direkt.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kontrollera ditt arbete:</strong> kör appen så ser formuläret kargt ut — precis som tänkt: formgivningen återstår. Tryck på
+      <kbd>Tab</kbd>: fokus flyttas genom varje kontroll, etiketten läses upp och inskickning fungerar. Beteendet är klart; utseendet är ditt och kommer härnäst.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Formge det</h2>
+  <p>
+    Formge klasskrokarna — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — i din stilmall, eller länka ett färdigt tema i <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Steg 5 — Se allt fungera</h2>
+  <p>
+     <a href="/examples/">Exempelappen Nuxt</a> är hela katalogen formgiven och demonstrerad, med Playwright e2e och en axe-core-baslinje:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Nästa steg</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teman</a> — byte under körning med Vue-hjälparen theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Inställningshjälpare</a> — språk och textstorlek.</li>
+    <li><a href="/components/">Komponentkatalog</a> — egenskaper, ARIA och tangentbord per komponent.</li>
+  </ul>
+  <p>
+    Frågor på vägen?
+    <a href="/help/#troubleshooting">Hjälpsidan</a> är full av svar — och om ett steg kan bli tydligare,
+    <a href="https://github.com/LilyDesignSystem">berätta för oss</a> så förbättrar vi gärna handledningen.
+  </p>
+</section>

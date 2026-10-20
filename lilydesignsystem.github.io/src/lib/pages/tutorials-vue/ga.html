@@ -1,0 +1,122 @@
+<!-- title: Teagasc Vue — Lily Design System -->
+<!-- description: Tóg foirm inrochtana, stíl-chóirithe le comhpháirteanna gan cheann Lily do Vue 3: comhpháirteanna comhaid aonair le v-model. -->
+<section class="page-intro">
+  <h1>Teagasc Vue</h1>
+  <p class="page-intro-tagline">
+    Comhpháirteanna comhaid aonair Vue 3 le props clóscríofa, <code>defineModel</code>
+    ceangal dhá-bhealach agus pas tríd <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>An rud a thógfaidh tú</h2>
+  <p>
+    Foirm theagmhála bheag — réimse le lipéad, cnaipe cur isteach, <code>v-model</code>
+    ceangal, fíor-iompar méarchláir agus léitheora scáileáin — nocht ar dtús, ansin stíl-chóirithe, i thart ar 10 nóiméad.
+  </p>
+
+  <h2>Sula dtosaíonn tú</h2>
+  <p>
+    Tá git, Node 22 nó níos nuaí, agus pnpm 10 nó níos nuaí ag teastáil uait. Oibríonn aon tionscadal Vue 3 — Nuxt, Vite nó Vue simplí.
+  </p>
+
+  <h2>Céim 1 — Faigh an cód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Is comhaid chothroma iad na comhpháirteanna i <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — gach ceann lena thástáil, scéal agus doiciméadú taobh leis. Cóipeáil na comhaid atá ag teastáil uait, nó tarraing an stóras isteach.
+  </p>
+
+  <h2>Céim 2 — Do chéad chomhpháirt</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Rindreálann <code>&lt;button class="button" type="button"&gt;</code>. Tá na props ag teacht leis na creataí eile: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, móide pas tríd aitreabúidí do gach rud eile.
+  </p>
+
+  <h2>Céim 3 — Cuir foirm bheag le chéile</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> glacann sé leis an <code>label</code> mar phrop dá chuid féin in ionad comhpháirt lipéid neadaithe — pas é uair amháin, ar
+    <code>Field</code>agus <code>TextInput</code>comhfhreagrach ó
+    <code>label</code> soláthraíonn an t-ainm inrochtana.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Fíoraithe 2026-08-29:</strong> chuir dréacht roimhe sin comhpháirt <code>Label</code> taobh istigh de <code>Field</code>, rud a rindreáil
+      <em>dhá</em> lipéad (ceann amháin folamh) mar go rindreálann <code>Field</code> a cheann féin cheana ón ionchur <code>label</code> prop — faighte trí bhlúire cruinn a thiomsú. An bealach
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">An bealach comhshuite foirm teagmhála</a>
+      an patrún céanna, tástáilte le fíor-thástálacha e2e agus axe.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> úsáideann sé <code>defineModel</code>, mar sin oibríonn
+    <code>v-model</code> simplí as an bhosca.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Seiceáil d'obair:</strong> rith an app agus tá an fhoirm le feiceáil nocht — go díreach mar a bhí beartaithe: tá an stíliú fós le teacht. Brúigh
+      <kbd>Tab</kbd>: gluaiseann an fócas trí gach rialú, fógraítear an lipéad agus oibríonn an cur isteach. Tá an t-iompar déanta; is leatsa an cuma agus is é an chéad chéim eile é.
+    </p>
+  </div>
+
+  <h2>Céim 4 — Stíligh é</h2>
+  <p>
+    Stíligh na crúcaí aicme — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — i do bhileog stíle, nó nasc téama réamhdhéanta in <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Céim 5 — Féach air ag obair ar fad</h2>
+  <p>
+     <a href="/examples/">App samplach Nuxt</a> an catalóg iomlán stíl-chóirithe agus léirithe, le Playwright e2e agus bonnlíne axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Na chéad chéimeanna eile</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Téamaí</a> — malartú ag am rite leis an gcúntóir theme-picker do Vue.</li>
+    <li><a href="/tutorials/helpers/">Cúntóirí sainroghanna</a> — teanga agus méid téacs.</li>
+    <li><a href="/components/">Catalóg na gcomhpháirteanna</a> — airíonna, ARIA agus méarchlár in aghaidh na comhpháirte.</li>
+  </ul>
+  <p>
+    Ceisteanna ar an mbealach?
+    <a href="/help/#troubleshooting">Tá an leathanach cabhrach</a> lán de fhreagraí — agus más féidir céim a dhéanamh níos soiléire,
+    <a href="https://github.com/LilyDesignSystem">inis dúinn</a> agus déanfaimid an teagasc a fheabhsú go sásta.
+  </p>
+</section>

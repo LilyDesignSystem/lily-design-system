@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills дават на Claude Code подбрана, зареждаема входна точка към Lily Design System — общи понятия, обединяващи умения за всеки фреймуърк и задълбочени умения за всеки подпроект за безглавата библиотека и помощниците *-picker. -->
+<section class="page-intro">
+  <h1>Уменията на AI агентите правят Lily още по-лесен</h1>
+  <p class="page-intro-tagline">
+    Lily се доставя със фокусирани умения — общи, за всеки фреймуърк и за всеки подпроект — така че агентът зарежда точно контекста, от който се нуждае, и нищо излишно.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Какво умение искате?</h2>
+  <p>
+    Всяко ниво отговаря на различен въпрос. Заредете общото умение, когато още не познавате Lily. Заредете умение за фреймуърк, когато познавате фреймуърка си, но не знаете кой подпроект ви трябва. Заредете директно headless-skill или helpers-skill, когато вече знаете точно по какво работите.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Общо / поддържащ</strong> — „Какво е Lily?” / „Как е устроено това монорепо?” —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Чадър на фреймуърк</strong> — „Какво е налично за {framework} и коя част ми трябва?” — 8, по едно <code>{framework}-skill</code>
+    </li>
+    <li>
+      <strong>Безглав / помощници</strong> — „Как точно да използвам компонентите / помощниците *-picker на {framework}?” — 16, по едно <code>{framework}-headless-skill</code> и едно <code>{framework}-helpers-skill</code>
+    </li>
+  </ul>
+
+  <h2>Осемте фреймуърка</h2>
+  <p>
+    Всеки фреймуърк получава един и същ тристепенен стек. Чадърното умение картографира всички реални подпроекти на този фреймуърк — включително примерното приложение, което нито едно от двете му сестрински умения не покрива — и сочи надолу към тях, вместо да повтаря техните договори.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Фреймуърк</th>
+        <th>Чадър</th>
+        <th>Безглав</th>
+        <th>Помощници</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Чадърно умение за Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">умение</a></td>
+        <td><a aria-label="Безглаво умение за Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">умение</a></td>
+        <td><a aria-label="Умение за помощници на Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">умение</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Чадърно умение за Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">умение</a></td>
+        <td><a aria-label="Безглаво умение за Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">умение</a></td>
+        <td><a aria-label="Умение за помощници на Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">умение</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Чадърно умение за HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">умение</a></td>
+        <td><a aria-label="Безглаво умение за HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">умение</a></td>
+        <td><a aria-label="Умение за помощници на HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">умение</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Чадърно умение за Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">умение</a></td>
+        <td><a aria-label="Безглаво умение за Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">умение</a></td>
+        <td><a aria-label="Умение за помощници на Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">умение</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Чадърно умение за React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">умение</a></td>
+        <td><a aria-label="Безглаво умение за React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">умение</a></td>
+        <td><a aria-label="Умение за помощници на React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">умение</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Чадърно умение за Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">умение</a></td>
+        <td><a aria-label="Безглаво умение за Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">умение</a></td>
+        <td><a aria-label="Умение за помощници на Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">умение</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Чадърно умение за Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">умение</a></td>
+        <td><a aria-label="Безглаво умение за Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">умение</a></td>
+        <td><a aria-label="Умение за помощници на Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">умение</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Чадърно умение за Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">умение</a></td>
+        <td>
+          <a
+            aria-label="Безглаво умение за Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >умение</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Умение за помощници на Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">умение</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components е единственото изключение в двете посоки: неговият безглав каталог има умишлен обхват от 536 от 571 (родни потребителски елементи, без среда за изпълнение на фреймуърк; останалите 35 компонента са изключени завинаги), а примерно приложение за Web Components още няма — неговото чадърно умение го казва, вместо да намеква, че има.
+  </p>
+
+  <h2>Добавете едно умение</h2>
+  <p>
+    Всяко умение е файл <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> — плюс помощни файлове, без стъпка за изграждане. Клонирайте нужното там, откъдето вашата настройка на Claude Code зарежда умения (вижте официалната документация, свързана по-горе, за директорията с умения на вашия проект или акаунт):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Работите върху няколко фреймуърка или върху самото монорепо? Клонирайте вместо това <a href="https://github.com/LilyDesignSystem/lily-design-system">каноничното монорепо</a> — всичките 26 умения вече са в неговия корен, до безглавите библиотеки, каталозите с помощници и примерните приложения, които описват.
+  </p>
+</section>

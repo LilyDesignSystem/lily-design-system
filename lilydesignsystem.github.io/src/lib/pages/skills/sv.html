@@ -1,0 +1,120 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude Skills ger Claude Code en kurerad, inläsningsbar ingång till Lily Design System – allmänna begrepp, paraplyfärdigheter per ramverk och djupdykningar per delprojekt för det huvudlösa biblioteket och *-picker-hjälparna. -->
+<section class="page-intro">
+  <h1>Färdigheter hos AI-agenter gör Lily ännu enklare</h1>
+  <p class="page-intro-tagline">
+    Lily levereras med fokuserade färdigheter – allmänna, per ramverk och per delprojekt – så att en agent läser in exakt det sammanhang den behöver och inget den inte behöver.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Vilken färdighet vill du ha?</h2>
+  <p>
+    Varje nivå svarar på en olika fråga. Läs in den allmänna färdigheten när du inte känner till Lily än. Läs in en ramverksfärdighet när du känner till ditt ramverk men inte vilket delprojekt du behöver. Läs in en headless-skill eller helpers-skill direkt när du redan vet exakt vad du arbetar med.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Allmän / underhållare</strong> – ”Vad är Lily?” / ”Hur är det här monorepot uppbyggt?” –
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Ramverksparaply</strong> – ”Vad finns för {framework}, och vilken del behöver jag?” – 8, en <code>{framework}-skill</code> vardera
+    </li>
+    <li>
+      <strong>Huvudlös / hjälpare</strong> – ”Hur använder jag exakt {framework}s komponenter / *-picker-hjälpare?” – 16, en <code>{framework}-headless-skill</code> och en <code>{framework}-helpers-skill</code> vardera
+    </li>
+  </ul>
+
+  <h2>De åtta ramverken</h2>
+  <p>
+    Varje ramverk får samma tre nivåer djupt. Paraplyfärdigheten kartlägger alla det ramverkets verkliga delprojekt – inklusive exempelappen, som ingen av dess två syskonfärdigheter täcker – och pekar nedåt mot dem i stället för att upprepa deras kontrakt.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Ramverk</th>
+        <th>Paraply</th>
+        <th>Huvudlös</th>
+        <th>Hjälpare</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Paraplyfärdighet för Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-skill">färdighet</a></td>
+        <td><a aria-label="Huvudlös färdighet för Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-headless-skill">färdighet</a></td>
+        <td><a aria-label="Hjälparfärdighet för Angular" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-angular-helpers-skill">färdighet</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Paraplyfärdighet för Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-skill">färdighet</a></td>
+        <td><a aria-label="Huvudlös färdighet för Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-headless-skill">färdighet</a></td>
+        <td><a aria-label="Hjälparfärdighet för Blazor" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-blazor-helpers-skill">färdighet</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Paraplyfärdighet för HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-skill">färdighet</a></td>
+        <td><a aria-label="Huvudlös färdighet för HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-headless-skill">färdighet</a></td>
+        <td><a aria-label="Hjälparfärdighet för HTML" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-html-helpers-skill">färdighet</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Paraplyfärdighet för Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-skill">färdighet</a></td>
+        <td><a aria-label="Huvudlös färdighet för Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless-skill">färdighet</a></td>
+        <td><a aria-label="Hjälparfärdighet för Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-nunjucks-helpers-skill">färdighet</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Paraplyfärdighet för React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-skill">färdighet</a></td>
+        <td><a aria-label="Huvudlös färdighet för React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-headless-skill">färdighet</a></td>
+        <td><a aria-label="Hjälparfärdighet för React" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-react-helpers-skill">färdighet</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Paraplyfärdighet för Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-skill">färdighet</a></td>
+        <td><a aria-label="Huvudlös färdighet för Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-headless-skill">färdighet</a></td>
+        <td><a aria-label="Hjälparfärdighet för Svelte" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-svelte-helpers-skill">färdighet</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Paraplyfärdighet för Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-skill">färdighet</a></td>
+        <td><a aria-label="Huvudlös färdighet för Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-headless-skill">färdighet</a></td>
+        <td><a aria-label="Hjälparfärdighet för Vue" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-vue-helpers-skill">färdighet</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Paraplyfärdighet för Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-skill">färdighet</a></td>
+        <td>
+          <a
+            aria-label="Huvudlös färdighet för Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
+            >färdighet</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Hjälparfärdighet för Web Components" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">färdighet</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Web Components är det enda undantaget åt båda håll: dess huvudlösa katalog har ett medvetet omfång på 536 av 571 (inbyggda anpassade element, ingen ramverksruntid; de övriga 35 komponenterna är permanent uteslutna), och det finns ännu ingen exempelapp för Web Components – dess paraplyfärdighet säger det i stället för att antyda att en finns.
+  </p>
+
+  <h2>Lägg till en färdighet</h2>
+  <p>
+    Varje färdighet är en <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a>-fil – plus stödfiler, inget byggsteg. Klona den du behöver dit där din Claude Code-konfiguration läser in färdigheter (se den officiella dokumentationen som länkas ovan för ditt projekts eller kontos färdighetskatalog):
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-skill</code></pre>
+  <p>
+    Arbetar du över flera ramverk, eller på själva monorepot? Klona i stället det <a href="https://github.com/LilyDesignSystem/lily-design-system">kanoniska monorepot</a> – alla 26 färdigheter finns redan i dess rot, bredvid de huvudlösa biblioteken, hjälparkatalogerna och exempelapparna de beskriver.
+  </p>
+</section>

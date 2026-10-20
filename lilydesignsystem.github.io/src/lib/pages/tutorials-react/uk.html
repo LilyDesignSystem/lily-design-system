@@ -1,0 +1,109 @@
+<!-- title: Посібник з React — Lily Design System -->
+<!-- description: Створіть доступну стилізовану форму за допомогою «безголових» компонентів Lily для React: типізовані функціональні компоненти з value + onChange. -->
+<section class="page-intro">
+  <h1>Посібник з React</h1>
+  <p class="page-intro-tagline">
+    Типізовані функціональні компоненти, по одному файлу на кожен, керовані стандартним
+    <code>value</code> + <code>onChange</code> шаблоном — усе працює так, як React уже робить.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Що ви створите</h2>
+  <p>
+    Невелика контактна форма — поле з міткою, кнопка надсилання, керований стан, справжня поведінка клавіатури та зчитувача екрана — спочатку «гола», потім стилізована, приблизно за 10 хвилин.
+  </p>
+
+  <h2>Перш ніж почати</h2>
+  <p>
+    Вам потрібні git, Node 22 або новіший і pnpm 10 або новіший. Підійде будь-який проєкт React 18+ — Next.js, Vite або чистий React.
+  </p>
+
+  <h2>Крок 1 — Отримайте код</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install
+pnpm test        # vitest + @testing-library/react
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Компоненти — це плоскі файли в <code>components/</code> —
+    <code>Button.tsx</code>, <code>TextInput.tsx</code> — кожен із тестом, story та документацією поруч. Скопіюйте потрібні файли у свій застосунок або вендорте репозиторій та імпортуйте з нього.
+  </p>
+
+  <h2>Крок 2 — Ваш перший компонент</h2>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+export function SaveBar() {
+  return &lt;Button onClick={save}&gt;Save&lt;/Button&gt;;
+}</code></pre>
+  <p>
+    Рендерить <code>&lt;button class="button" type="button"&gt;</code>. Властивості:
+    <code>type</code>, <code>disabled</code>, <code>pressed</code> (рендерить
+    <code>aria-pressed</code>), <code>label</code> (
+    <code>aria-label</code> перевизначення), <code>className</code>, а будь-який додатковий атрибут розповсюджується на кореневий елемент.
+  </p>
+
+  <h2>Крок 3 — Складіть невелику форму</h2>
+  
+  <pre tabindex="0"><code>import { useState } from "react";
+import Form from ".../components/Form";
+import Field from ".../components/Field";
+import TextInput from ".../components/TextInput";
+import Button from ".../components/Button";
+
+export function ContactForm() {
+  const [name, setName] = useState("");
+  return (
+    &lt;Form label="Contact form" onSubmit={handleSubmit}&gt;
+      &lt;Field label="Full name" required&gt;
+        &lt;TextInput id="name" label="Full name" value={name} onChange={setName} required /&gt;
+      &lt;/Field&gt;
+      &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+  <p>
+    <code>Field</code> приймає видиму <code>label</code> як власну властивість, а не вкладений компонент мітки — передайте її один раз, на
+    <code>Field</code>, і <code>TextInput</code>у
+    <code>label</code> надає доступну назву.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірено 2026-08-29:</strong> ранній чернетковий варіант вкладав окремий компонент <code>Label</code> всередині <code>Field</code>, що рендерило
+      <em>дві</em> мітки (одну порожню), оскільки <code>Field</code> уже рендерить власну з <code>label</code> властивість — виявлено компіляцією точного фрагмента.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-react-next-examples/app/contact-form/page.tsx">складений маршрут контактної форми</a>
+      — той самий шаблон, перевірений справжніми e2e- та axe-тестами.
+    </p>
+  </div>
+
+  <h2>Крок 4 — Стилізуйте</h2>
+  <p>
+    Усе вище рендериться як чиста структура, готова до ваших стилів. Стилізуйте гачки — <code>.button</code>,
+    <code>.text-input</code>, <code>.label</code>, <code>.field</code> — у своїй таблиці стилів, накладайте утиліти Tailwind через <code>className</code>або підключіть готову тему:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-states-web-design-system.css" /&gt;</code></pre>
+
+  <h2>Крок 5 — Побачте все в дії</h2>
+  <p>
+     <a href="/examples/">Приклад застосунку Next.js</a> — це весь каталог зі стилями й демонстраціями, з Playwright e2e та базовою лінією axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-next-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Наступні кроки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — перемикання під час виконання за допомогою допоміжного засобу React theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Допоміжні засоби налаштувань</a> — мова та розмір тексту.</li>
+    <li><a href="/components/">Каталог компонентів</a> — властивості, ARIA та клавіатура для кожного компонента.</li>
+  </ul>
+  <p>
+    Питання по дорозі?
+    <a href="/help/#troubleshooting">сторінка допомоги</a> повна відповідей — а якщо якийсь крок може бути зрозумілішим,
+    <a href="https://github.com/LilyDesignSystem">повідомте нам</a> і ми із задоволенням покращимо посібник.
+  </p>
+</section>

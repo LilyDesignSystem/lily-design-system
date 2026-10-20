@@ -1,0 +1,117 @@
+<!-- title: Návod pro Svelte — Lily Design System -->
+<!-- description: Vytvořte přístupný, ostylovaný formulář pomocí bezhlavých komponent Lily pro Svelte 5: runy, snippety a bind:value. -->
+<section class="page-intro">
+  <h1>Návod pro Svelte</h1>
+  <p class="page-intro-tagline">
+    Knihovna Svelte od Lily je kanonická implementace: runy Svelte 5, typované props, rozprostírání zbývajících props a obousměrná vazba s
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Co vytvoříte</h2>
+  <p>
+    Malý kontaktní formulář — pole se štítkem, tlačítko odeslat, obousměrná vazba, skutečné chování klávesnice a čtečky obrazovky — nejprve holý, potom ostylovaný, zhruba za 10 minut.
+  </p>
+
+  <h2>Než začnete</h2>
+  <p>
+    Potřebujete git, Node 22 nebo novější a pnpm 10 nebo novější. Hodí se jakýkoli projekt Svelte 5 — stačí nová <code>npx sv create</code> aplikace.
+  </p>
+
+  <h2>Krok 1 — Získejte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponenty jsou v <code>src/lib/components/&#123;Name&#125;/</code>, jeden adresář na komponentu se souborem <code>.svelte</code> , jeho testy, story a dokumentací vedle sebe. Zkopírujte potřebné adresáře do své aplikace, nebo se na repozitáři závislejte a importujte přímo.
+  </p>
+
+  <h2>Krok 2 — Vaše první komponenta</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Vykresluje <code>&lt;button class="button" type="button"&gt;</code>. Props jsou typované: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (vykresluje <code>aria-pressed</code> (vykresluje <code>label</code> ( <code>aria-label</code> pro přepínací tlačítka),
+  </p>
+
+  <h2>Krok 3 — Sestavte malý formulář</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> přijímá viditelný <code>label</code> jako vlastní prop místo vnořené komponenty štítku — předejte ho jednou, u <code>Field</code>a <code>TextInput</code>z <code>label</code> dodá přístupný název. <code>TextInput</code>'s <code>value</code> k přepsání) a jakýkoli další atribut se rozprostře na kořen.
+    <code>$bindable</code> je prop <code>bind:value</code> rune, takže
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Ověřeno 2026-08-29:</strong> vám hned dává obousměrnou vazbu. <code>svelte/server</code> přesně tato ukázka byla zkompilována přes <code>&lt;label for&gt;</code> a zkontrolována na jediný, správně propojený štítek <code>Label</code> uvnitř <code>Field</code>— dřívější koncept vnořoval samostatné
+      <em>dva</em> štítky (jeden prázdný), protože <code>Field</code> už vykresluje svůj vlastní ze vstupu <code>label</code> dovnitř, což vykreslilo
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">Složená trasa kontaktního formuláře</a>
+      je stejný vzor, prověřený skutečnými testy e2e a axe.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Zkontrolujte svou práci:</strong> spusťte aplikaci a formulář vypadá holě — přesně jak bylo zamýšleno: stylování teprve přijde. Stiskněte
+      <kbd>Tab</kbd>: fokus prochází každým ovládacím prvkem, štítek se oznamuje a odeslání funguje. Chování je hotové; vzhled je váš a je další na řadě.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>
+    Vše výše se vykresluje jako čistá struktura, připravená na vaše styly. Ostylujte třídní háčky —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — v globálním stylopisu, nebo připojte hotové téma v <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Úpravy pro jednotlivou instanci procházejí přes <code>class</code> prop, který se připojí k základnímu háčku: <code>&lt;Button class="wide"&gt;</code> vykresluje
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Krok 5 — Podívejte se, jak to celé funguje</h2>
+  <p>
+     <a href="/examples/">Ukázková aplikace SvelteKit</a> je stejný katalog plně ostylovaný, s živými ukázkami, testy Playwright e2e a základní linií přístupnosti axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Další kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témata</a> — přepínání za běhu pomocníkem theme-picker pro Svelte.</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pro předvolby</a> — jazyk a velikost textu.</li>
+    <li><a href="/components/">Katalog komponent</a> — vlastnosti, ARIA a klávesnice pro každou komponentu.</li>
+  </ul>
+  <p>
+    Otázky cestou?
+    <a href="/help/#troubleshooting">Stránka nápovědy</a> je plná odpovědí — a pokud by nějaký krok mohl být jasnější,
+    <a href="https://github.com/LilyDesignSystem">dejte nám vědět</a> a návod rádi vylepšíme.
+  </p>
+</section>

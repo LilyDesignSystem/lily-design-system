@@ -1,0 +1,106 @@
+<!-- title: HTML பயிற்சி — Lily Design System -->
+<!-- description: Lily இன் HTML தலையற்ற கூறுகளைக் கொண்டு அணுகத்தக்க, பாணியிடப்பட்ட படிவத்தை உருவாக்குங்கள் — எளிய மார்க்அப், நேரடியாக கோப்பிலிருந்து. -->
+<section class="page-intro">
+  <h1>HTML பயிற்சி</h1>
+  <p class="page-intro-tagline">
+    மிக எளிய தொடக்கம்: Lily இன் வகுப்புக் கொக்கிகளுடன் பொருள்தரு HTML ஐ நகலெடுங்கள், ஒரு நடைத்தாளைச் சேர்க்கவும், வெளியிடுங்கள். HTML வேலை செய்யும் எங்கும் வேலை செய்யும் எளிய கோப்புகள்.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>நீங்கள் என்ன உருவாக்குவீர்கள்</h2>
+  <p>
+    ஒரு சிறிய தொடர்புப் படிவம் — லேபிள்களுடன் கூடிய புலங்கள், ஒரு சமர்ப்பிக்கும் பொத்தான், உண்மையான விசைப்பலகை மற்றும் திரை வாசிப்பான் நடத்தை — முதலில் வெறுமையாக, பிறகு பாணியுடன், சுமார் 10 நிமிடங்களில்.
+  </p>
+
+  <h2>தொடங்குவதற்கு முன்</h2>
+  <p>
+    உங்களுக்கு ஒரு உலாவியும் ஒரு உரைத் திருத்தியும் தேவை. அவ்வளவுதான். (கூறுக் கோப்புகளைப் பெற git உதவும், ஆனால் உலாவியில் GitHub இலிருந்தும் நகலெடுக்கலாம்.)
+  </p>
+
+  <h2>படி 1 — குறியீட்டைப் பெறுங்கள்</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    ஒவ்வொரு கூறும் இங்கே ஒரு தனிக் கோப்பு: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>மற்றும் பல — அதன் HTML குறிச்சொல், வகுப்புக் கொக்கி, விசைப்பலகை நடத்தை மற்றும் அணுகல் ஒப்பந்தத்தை ஆவணப்படுத்தும் தலைப்புக் குறிப்புடன். கோப்புகளே <em>அந்த</em> நூலகம் — தேவையானதை நகலெடுத்துச் செல்லுங்கள்.
+  </p>
+
+  <h2>படி 2 — உங்கள் முதல் கூறு</h2>
+  <p>திறக்கவும் <code>components/button.html</code>, அல்லது மார்க்அப்பை எழுதுங்கள் — வகுப்புக் கொக்கியே ஒப்பந்தம்:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    இது உண்மையான <code>&lt;button&gt;</code>என்பதால், விசைப்பலகைக் குவியம், Enter மற்றும் Space மூலம் செயல்படுத்தல், மறைமுகப் பொத்தான் பங்கு ஏற்கனவே சரியாக உள்ளன.
+  </p>
+
+  <h2>படி 3 — ஒரு சிறிய படிவத்தை உருவாக்குங்கள்</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    முறையைக் கவனியுங்கள்: ஒவ்வொரு கட்டுப்பாடும் தன் <code>&lt;label for&gt;</code>ஐ இணைக்கிறது, மிகவும் குறிப்பிட்ட input வகையைப் பயன்படுத்துகிறது, சரியாக ஒரு kebab-case வகுப்புக் கொக்கியைக் கொண்டுள்ளது.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>உங்கள் வேலையைச் சரிபார்க்கவும்:</strong> பக்கத்தை உலாவியில் திறக்கவும். அது வெறுமையாகத் தெரிகிறது — சரியாக நோக்கப்பட்டபடி: பாணியிடல் இன்னும் வரவுள்ளது. அழுத்துங்கள்
+      <kbd>Tab</kbd>: குவியம் ஒவ்வொரு கட்டுப்பாட்டின் வழியாகவும் செல்கிறது, லேபிள்கள் அறிவிக்கப்படுகின்றன, சமர்ப்பிப்பு வேலை செய்கிறது. நடத்தை முடிந்தது; தோற்றம் உங்களுடையது, அடுத்த படி அதுவே.
+    </p>
+  </div>
+
+  <h2>படி 4 — பாணியிடுங்கள்</h2>
+  <p>கொக்கிகளுக்கு எதிராக CSS எழுதுங்கள்:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    அல்லது கையால் CSS எழுதுவதை முற்றிலும் தவிர்க்கவும் — 45 தயார் தீம்களில் ஒன்றை இணைக்கவும், அதே மார்க்அப் ஒளிர்கிறது:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>படி 5 — மேலும் ஆராயுங்கள்</h2>
+  <ul>
+    <li>களஞ்சியத்தின் சோதனைகள் உண்மையான உலாவிகளில் இயங்குகின்றன: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>ஒவ்வொரு கூறுக்கும் Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS எடுத்துக்காட்டுப் பயன்பாடு</a> அனைத்து 571 கூறுகளையும் பாணியுடனும், தேடக்கூடியதாகவும், செயல்விளக்கத்துடனும் காட்டுகிறது.
+    </li>
+  </ul>
+
+  <h2>அடுத்த படிகள்</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">தீம்கள்</a> — theme-picker உடன் இயங்கும் போதே தீம் மாற்றுதல்.</li>
+    <li><a href="/tutorials/helpers/">விருப்ப உதவியாளர்கள்</a> — மொழி மற்றும் உரை அளவு.</li>
+    <li><a href="/components/">கூறுப் பட்டியல்</a> — முழு குறிப்பு.</li>
+  </ul>
+  <p>
+    வழியில் கேள்விகளா?
+    <a href="/help/#troubleshooting">உதவிப் பக்கம்</a> பதில்களால் நிறைந்தது — ஒரு படி இன்னும் தெளிவாக இருக்க முடிந்தால்,
+    <a href="https://github.com/LilyDesignSystem">எங்களிடம் சொல்லுங்கள்</a> நாங்கள் மகிழ்ச்சியுடன் பயிற்சியை மேம்படுத்துவோம்.
+  </p>
+</section>

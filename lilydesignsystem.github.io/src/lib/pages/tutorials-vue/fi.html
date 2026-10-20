@@ -1,0 +1,122 @@
+<!-- title: Vue-opas — Lily Design System -->
+<!-- description: Rakenna saavutettava, tyylitelty lomake Lilyn Vue 3 -headless-komponenteilla: yhden tiedoston komponentit v-modelilla. -->
+<section class="page-intro">
+  <h1>Vue-opas</h1>
+  <p class="page-intro-tagline">
+    Vue 3 -yhden tiedoston komponentit tyypitetyillä propeilla, <code>defineModel</code>
+    kaksisuuntainen sidonta ja <code>v-bind="$attrs"</code> -läpivienti.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Mitä rakennat</h2>
+  <p>
+    Pieni yhteydenottolomake — nimiöity kenttä, lähetyspainike, <code>v-model</code>
+    -sidonta, aito näppäimistö- ja ruudunlukijakäyttäytyminen — ensin paljaana, sitten tyylitellen, noin 10 minuutissa.
+  </p>
+
+  <h2>Ennen kuin aloitat</h2>
+  <p>
+    Tarvitset gitin, Node 22:n tai uudemman ja pnpm 10:n tai uudemman. Mikä tahansa Vue 3 -projekti kelpaa — Nuxt, Vite tai pelkkä Vue.
+  </p>
+
+  <h2>Vaihe 1 — Hae koodi</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Komponentit ovat litteitä tiedostoja hakemistossa <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — kullakin on testinsä, storynsa ja dokumentaationsa vieressään. Kopioi tarvitsemasi tiedostot tai tuo repo mukaan.
+  </p>
+
+  <h2>Vaihe 2 — Ensimmäinen komponenttisi</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Renderöi <code>&lt;button class="button" type="button"&gt;</code>. Propit vastaavat muita kehyksiä: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, sekä attribuuttien läpivienti kaikelle muulle.
+  </p>
+
+  <h2>Vaihe 3 — Kokoa pieni lomake</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> ottaa näkyvän <code>label</code> omana proppinaan sisäkkäisen nimiökomponentin sijaan — välitä se kerran elementille
+    <code>Field</code>ja <code>TextInput</code>elementistä
+    <code>label</code> antaa saavutettavan nimen.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Varmistettu 2026-08-29:</strong> aiempi luonnos sijoitti erillisen <code>Label</code> sisällä <code>Field</code>sisään, mikä renderöi
+      <em>kaksi</em> nimiötä (toinen tyhjä), koska <code>Field</code> renderöi jo oman nimiönsä <code>label</code> -prop — havaittu kääntämällä täsmällinen koodinpätkä. Reitti
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">Koottu yhteydenottolomakkeen reitti</a>
+      on sama malli, jota on koeteltu oikeilla e2e- ja axe-testeillä.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> käyttää <code>defineModel</code>, joten pelkkä
+    <code>v-model</code> toimii sellaisenaan.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Tarkista työsi:</strong> käynnistä sovellus, ja lomake näyttää paljaalta — juuri niin kuin on tarkoitus: tyylittely on vielä edessä. Paina
+      <kbd>Tab</kbd>: kohdistus liikkuu jokaisen ohjaimen läpi, nimiö ilmoitetaan ja lähettäminen toimii. Toiminta on valmis; ulkoasu on sinun ja seuraava vaihe.
+    </p>
+  </div>
+
+  <h2>Vaihe 4 — Tyylittele se</h2>
+  <p>
+    Tyylittele luokkakoukut — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — tyylitiedostossasi, tai linkitä valmis teema tiedostossa <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Vaihe 5 — Katso kaiken toimivan</h2>
+  <p>
+     <a href="/examples/">Nuxt-esimerkkisovellus</a> on koko luettelo tyyliteltynä ja esiteltynä, Playwright e2e:llä ja axe-core-lähtötasolla:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Seuraavat askeleet</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Teemat</a> — vaihto ajon aikana Vuen theme-picker-apuvälineellä.</li>
+    <li><a href="/tutorials/helpers/">Asetusapuvälineet</a> — kieli ja tekstikoko.</li>
+    <li><a href="/components/">Komponenttiluettelo</a> — ominaisuudet, ARIA ja näppäimistö komponenteittain.</li>
+  </ul>
+  <p>
+    Kysymyksiä matkan varrella?
+    <a href="/help/#troubleshooting">Ohjesivu</a> on täynnä vastauksia — ja jos jokin vaihe voisi olla selkeämpi,
+    <a href="https://github.com/LilyDesignSystem">kerro meille</a> ja parannamme opasta mielellämme.
+  </p>
+</section>

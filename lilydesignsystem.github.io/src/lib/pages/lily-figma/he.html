@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: אין ספריית Figma או תוסף של Lily שמתוחזקים. אסימוני העיצוב של 57 ערכות הייחוס מפורסמים בפורמט DTCG וניתן לייבא אותם ל-Figma כבר היום עם תוסף קהילתי קיים. -->
+<section class="page-intro">
+  <h1>אין ספריית Figma מתוחזקת — הנה מה שקיים במקומה</h1>
+  <p class="page-intro-tagline">
+    עמוד זה נהג לומר “בקרוב”. הוא כבר לא אומר זאת, כי איש לא בנה את זה. הנה המצב הכן, ונתיב אמיתי שעובד כבר היום.
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>מה שלא קיים</h2>
+  <p>
+    אין ספריית רכיבים רשמית של Lily ב-Figma, ואין תוסף Figma מתוחזק. בנייה ותחזוקה טובה של ספריית כלי עיצוב היא מחויבות אמיתית ומתמשכת — מבנה רכיבי Figma, מתן שמות לווריאנטים, auto-layout, צינור פרסום משלה — נפרדת מתחזוקת קוד, והפרויקט הזה לא לקח אותה על עצמו.
+  </p>
+
+  <h2>מה שקיים היום</h2>
+  <p>
+    לכל אחת מ-57 ערכות הייחוס יש פרימיטיבים משלה של אסימוני עיצוב — צבע, רדיוס, גודל, מסגרת — שמפורסמים ב
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >פורמט DTCG 2025.10</a
+    >
+    ב-
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >. זה בדיוק הפורמט שכלי אסימונים מודרניים קוראים. אפשר למשוך את פלטת ערכת הנושא של Lily אל Figma בעצמכם, ממש עכשיו, ללא תוסף מהפרויקט הזה:
+  </p>
+  <ol>
+    <li>
+      התקינו את תוסף הקהילה
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      (או את ייבוא ה-Variables של Figma עצמה, היכן שהתוכנית שלכם תומכת בייבוא DTCG).
+    </li>
+    <li>
+      ייבאו את <code>themes/tokens/{theme-slug}.json</code> עבור ערכת הנושא שתרצו — לדוגמה
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio יוצר משתני Figma מערכי ה-DTCG, שאותם תוכלו להחיל על הרכיבים שלכם.
+    </li>
+  </ol>
+  <p>
+    זה נותן לכם את אסימוני הצבע והצורה של Lily ב-Figma. זה לא נותן לכם את הרכיבים האמיתיים של Lily כרכיבי Figma — איש לא בנה זאת, והעמוד הזה לא יעמיד פנים אחרת.
+  </p>
+
+  <h2>האם מתוכננת ספריית Figma אמיתית?</h2>
+  <p>
+    לא כרגע, והבטחה אינה חינם: ראו
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    לשאלה הפתוחה ולמה שישנה את דעת הפרויקט — השימושי ביותר, מעצב שאומר במפורש מה הוא צריך מהשכבה הזו. אם זה אתם,
+    <a href="mailto:joel@joelparkerhenderson.com">ספרו לנו</a>
+    או פתחו issue.
+  </p>
+</section>

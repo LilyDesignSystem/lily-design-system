@@ -1,0 +1,106 @@
+<!-- title: Tutorial HTML — Lily Design System -->
+<!-- description: Bangun formulir yang mudah diakses dan bergaya dengan komponen headless Lily untuk HTML — markup biasa, langsung dari berkas. -->
+<section class="page-intro">
+  <h1>Tutorial HTML</h1>
+  <p class="page-intro-tagline">
+    Awal paling sederhana: salin HTML semantik dengan kait kelas Lily, tambahkan satu lembar gaya, terbitkan. Berkas biasa yang bekerja di mana pun HTML bekerja.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Apa yang akan Anda bangun</h2>
+  <p>
+    Formulir kontak kecil — kolom berlabel, tombol kirim, perilaku papan ketik dan pembaca layar yang nyata — pertama polos, lalu bergaya, dalam sekitar 10 menit.
+  </p>
+
+  <h2>Sebelum memulai</h2>
+  <p>
+    Anda memerlukan peramban dan penyunting teks. Itu saja. (git membantu mengambil berkas komponen, tetapi Anda juga dapat menyalinnya dari GitHub di peramban.)
+  </p>
+
+  <h2>Langkah 1 — Dapatkan kodenya</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Setiap komponen adalah berkas mandiri di <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>dan seterusnya — dengan komentar header yang mendokumentasikan tag HTML, kait kelas, perilaku papan ketik, dan kontrak aksesibilitasnya. Berkas <em>adalah</em> pustakanya — salin yang Anda perlukan dan berangkat.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama Anda</h2>
+  <p>Buka <code>components/button.html</code>, atau cukup tulis markup-nya — kait kelas adalah kontraknya:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Karena ini adalah <code>&lt;button&gt;</code>sungguhan, fokus papan ketik, aktivasi dengan Enter dan Space, dan peran tombol implisit sudah benar.
+  </p>
+
+  <h2>Langkah 3 — Susun formulir kecil</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Perhatikan polanya: setiap kontrol menautkan <code>&lt;label for&gt;</code>miliknya, menggunakan tipe input yang paling spesifik, dan membawa tepat satu kait kelas kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Periksa pekerjaan Anda:</strong> buka halaman di peramban. Tampak polos — persis seperti yang dimaksudkan: penataan gaya masih akan datang. Tekan
+      <kbd>Tab</kbd>: fokus berpindah melalui setiap kontrol, label diumumkan, dan pengiriman berfungsi. Perilakunya selesai; tampilan adalah milik Anda dan menjadi langkah berikutnya.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Beri gaya</h2>
+  <p>Tulis CSS terhadap kait:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Atau lewati sama sekali penulisan CSS secara manual — tautkan salah satu dari 45 tema siap pakai dan markup yang sama menyala:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Langkah 5 — Jelajahi lebih jauh</h2>
+  <ul>
+    <li>Pengujian repositori berjalan di peramban sungguhan: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook untuk setiap komponen: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Aplikasi contoh HTML+CSS+JS</a> menampilkan semua 571 komponen yang bergaya, dapat dicari, dan didemonstrasikan.
+    </li>
+  </ul>
+
+  <h2>Langkah berikutnya</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Tema</a> — pengalihan tema saat berjalan dengan theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a> — bahasa dan ukuran teks.</li>
+    <li><a href="/components/">Katalog komponen</a> — referensi lengkap.</li>
+  </ul>
+  <p>
+    Ada pertanyaan di tengah jalan?
+    <a href="/help/#troubleshooting">Halaman bantuan</a> penuh jawaban — dan jika suatu langkah bisa lebih jelas,
+    <a href="https://github.com/LilyDesignSystem">beri tahu kami</a> dan kami dengan senang hati akan memperbaiki tutorial ini.
+  </p>
+</section>

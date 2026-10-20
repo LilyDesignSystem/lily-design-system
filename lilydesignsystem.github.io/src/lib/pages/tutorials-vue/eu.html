@@ -1,0 +1,122 @@
+<!-- title: Vue tutoriala — Lily Design System -->
+<!-- description: Eraiki formulario irisgarri eta estilatu bat Lilyren Vue 3 osagai buru gabeekin: v-model duten fitxategi bakarreko osagaiak. -->
+<section class="page-intro">
+  <h1>Vue tutoriala</h1>
+  <p class="page-intro-tagline">
+    Vue 3 fitxategi bakarreko osagaiak propa tipatuekin, <code>defineModel</code>
+    bi norabideko loturarekin eta <code>v-bind="$attrs"</code> pasatzearekin.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Zer eraikiko duzun</h2>
+  <p>
+    Harremanetarako formulario txiki bat — etiketadun sarrera, bidaltze-botoia, <code>v-model</code>
+    lotura, teklatu eta pantaila-irakurgailu portaera erreala — lehenik biluzik, gero estilatuta, 10 minutu inguruan.
+  </p>
+
+  <h2>Hasi aurretik</h2>
+  <p>
+    git, Node 22 edo berriagoa eta pnpm 10 edo berriagoa behar dituzu. Edozein Vue 3 proiektuk balio du — Nuxt, Vite edo Vue soila.
+  </p>
+
+  <h2>1. pausoa — Lortu kodea</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Osagaiak fitxategi lau gisa daude hemen: <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — bakoitza bere proba, story eta dokumentazioarekin batera. Kopiatu behar dituzun fitxategiak, edo egin vendoring biltegiari.
+  </p>
+
+  <h2>2. pausoa — Zure lehen osagaia</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Errendatzen du <code>&lt;button class="button" type="button"&gt;</code>. Propak beste framework-ekin bat datoz: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, gehi gainerako guztiarentzako atributu-pasatzea.
+  </p>
+
+  <h2>3. pausoa — Osatu formulario txiki bat</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> etiketa ikusgarria <code>label</code> bere propa gisa, etiketa-osagai habiaratu gisa baino — eman behin,
+    <code>Field</code>, eta <code>TextInput</code>-ak
+    <code>label</code> -n
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29an egiaztatua:</strong> aurreko zirriborro batek <code>Label</code> -ren barruan <code>Field</code>barruan, eta honek
+      <em>bi</em> etiketa errendatzen zituen (bat hutsik) zeren <code>Field</code> -k jada bere etiketa errendatzen baitu <code>label</code> propa — snippet zehatza konpilatuz atzeman zen.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">harremanetarako formulario konposatuaren ibilbideak</a>
+      patroi bera du, benetako e2e eta axe probekin erabilia.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> erabiltzen du <code>defineModel</code>, beraz
+    <code>v-model</code> soila kutxatik ateratzen den bezala funtzionatzen du.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Egiaztatu zure lana:</strong> exekutatu aplikazioa eta formularioa soila ageri da — hain zuzen nahi bezala: estiloa oraindik aurrean dago. Sakatu
+      <kbd>Tab</kbd>: fokua kontrol guztietatik pasatzen da, etiketa iragartzen da eta bidalketak funtzionatzen du. Portaera prest dago; itxura zurea da eta hurrengoa da.
+    </p>
+  </div>
+
+  <h2>4. pausoa — Estilatu</h2>
+  <p>
+    Estilatu klase-gakoak — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — zure estilo-orrian, edo lotu prest dagoen gai bat hemen: <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>5. pausoa — Ikusi dena funtzionatzen</h2>
+  <p>
+     <a href="/examples/">Nuxt adibide-aplikazioa</a> katalogo osoa da estilatuta eta demostratuta, Playwright e2e eta axe-core oinarri-lerroarekin:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Hurrengo pausoak</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Gaiak</a> — exekuzio-garaiko aldaketa Vue theme-picker laguntzailearekin.</li>
+    <li><a href="/tutorials/helpers/">Lehentasun-laguntzaileak</a> — hizkuntza eta testu-tamaina.</li>
+    <li><a href="/components/">Osagai-katalogoa</a> — osagai bakoitzaren propak, ARIA eta teklatua.</li>
+  </ul>
+  <p>
+    Galderarik bidean?
+    <a href="/help/#troubleshooting">laguntza-orriak</a> erantzunez beteta dago — eta pauso bat argiagoa izan badaiteke,
+    <a href="https://github.com/LilyDesignSystem">esan iezaguzu</a> eta pozik hobetuko dugu tutoriala.
+  </p>
+</section>

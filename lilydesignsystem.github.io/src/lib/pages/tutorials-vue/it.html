@@ -1,0 +1,122 @@
+<!-- title: Tutorial Vue — Lily Design System -->
+<!-- description: Crea un modulo accessibile e stilizzato con i componenti headless Vue 3 di Lily: componenti a file singolo con v-model. -->
+<section class="page-intro">
+  <h1>Tutorial Vue</h1>
+  <p class="page-intro-tagline">
+    Componenti a file singolo Vue 3 con prop tipizzate, <code>defineModel</code>
+    binding bidirezionale e passaggio di <code>v-bind="$attrs"</code> .
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Cosa costruirai</h2>
+  <p>
+    Un piccolo modulo di contatto — campo con etichetta, pulsante di invio, <code>v-model</code>
+    binding, comportamento reale di tastiera e screen reader — prima spoglio, poi stilizzato, in circa 10 minuti.
+  </p>
+
+  <h2>Prima di iniziare</h2>
+  <p>
+    Servono git, Node 22 o successivo e pnpm 10 o successivo. Va bene qualsiasi progetto Vue 3 — Nuxt, Vite o Vue semplice.
+  </p>
+
+  <h2>Passo 1 — Ottieni il codice</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-headless
+pnpm install
+pnpm test        # vitest + @testing-library/vue
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    I componenti sono file piatti in <code>components/</code> —
+    <code>Button.vue</code>, <code>TextInput.vue</code> — ognuno con il suo test, la sua story e la sua documentazione accanto. Copia i file che ti servono, oppure integra il repository.
+  </p>
+
+  <h2>Passo 2 — Il tuo primo componente</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button @click="save"&gt;Save&lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    Rende <code>&lt;button class="button" type="button"&gt;</code>. Le prop rispecchiano gli altri framework: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code>, <code>label</code>, più il passaggio degli attributi per tutto il resto.
+  </p>
+
+  <h2>Passo 3 — Componi un piccolo modulo</h2>
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Form from ".../components/Form.vue";
+import Field from ".../components/Field.vue";
+import TextInput from ".../components/TextInput.vue";
+import Button from ".../components/Button.vue";
+
+const name = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Form @submit="handleSubmit"&gt;
+    &lt;Field label="Full name" required&gt;
+      &lt;TextInput id="name" label="Full name" v-model="name" required /&gt;
+    &lt;/Field&gt;
+    &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+  &lt;/Form&gt;
+&lt;/template&gt;</code></pre>
+  <p>
+    <code>Field</code> riceve l' <code>label</code> come prop propria invece di un componente etichetta annidato — passala una sola volta, su
+    <code>Field</code>e <code>TextInput</code>corrispondente
+    <code>label</code> fornisce il nome accessibile.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verificato il 2026-08-29:</strong> una bozza precedente annidava un componente <code>Label</code> dentro <code>Field</code>, che rendeva
+      <em>due</em> etichette (una vuota) perché <code>Field</code> rende già la propria dall'input <code>label</code> prop — individuato compilando lo snippet esatto. La rotta
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-vue-nuxt-examples/pages/contact-form.vue">La rotta composta del modulo di contatto</a>
+      è lo stesso schema, collaudato da veri test e2e e axe.
+    </p>
+  </div>
+  <p>
+    <code>TextInput</code> usa <code>defineModel</code>, quindi un semplice
+    <code>v-model</code> funziona subito.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Controlla il lavoro:</strong> avvia l'app e il modulo appare spoglio — esattamente come previsto: lo stile deve ancora venire. Premi
+      <kbd>Tab</kbd>: il focus si sposta su ogni controllo, l'etichetta viene annunciata e l'invio funziona. Il comportamento è fatto; l'aspetto è tuo, ed è il prossimo passo.
+    </p>
+  </div>
+
+  <h2>Passo 4 — Dagli uno stile</h2>
+  <p>
+    Stilizza gli hook di classe — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — nel tuo foglio di stile, oppure collega un tema pronto in <code>index.html</code> / <code>nuxt.config</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/nord.css" /&gt;</code></pre>
+
+  <h2>Passo 5 — Guarda tutto in funzione</h2>
+  <p>
+     <a href="/examples/">App di esempio Nuxt</a> è il catalogo completo stilizzato e dimostrato, con e2e Playwright e una baseline axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-vue-nuxt-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Prossimi passi</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Temi</a> — cambio a runtime con l'helper theme-picker per Vue.</li>
+    <li><a href="/tutorials/helpers/">Helper delle preferenze</a> — lingua e dimensione del testo.</li>
+    <li><a href="/components/">Catalogo dei componenti</a> — proprietà, ARIA e tastiera per ogni componente.</li>
+  </ul>
+  <p>
+    Domande lungo la strada? La
+    <a href="/help/#troubleshooting">pagina di aiuto</a> è piena di risposte — e se un passo può essere più chiaro,
+    <a href="https://github.com/LilyDesignSystem">faccelo sapere</a> e miglioreremo volentieri il tutorial.
+  </p>
+</section>

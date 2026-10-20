@@ -1,0 +1,111 @@
+<!-- title: Dyskans tebelyow — Lily Design System -->
+<!-- description: Rewgh tebel dhe Lily yn tri fordh: kevrewgh onan a'n 45 tebel parys, gorholewgh anodho gans dha CSS, ha keworrewgh chanj tebel y'n termyn-dyrghas gans an gweresor theme-picker. -->
+<section class="page-intro">
+  <h1>Tebelyow</h1>
+  <p class="page-intro-tagline">
+    Darnow Lily a dhon krogow klass stabel ha CSS hwath — rag henna tebel yw unn folen-stil hepken. An dyskans ma a gerdh dhiworth “kevrewgh unn restren” dhe “gadewgh an devnydhyer dhe chanjya tebelyow y'n termyn-dyrghas, gwithys”.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Pyth a wrewgh drehevel</h2>
+  <p>
+    App may hyll an devnydhyer chanjya y semlant kowl — ow talleth gans unn folen-stil kevrys, ow tiwedha gans chanjyer tebel y'n termyn-dyrghas a bes — yn a-dro dhe 15 mynysenn.
+  </p>
+
+  <h2>Kyns dalleth</h2>
+  <p>
+    Gorfennewgh an <a href="/tutorials/">dyskans framwyth</a> kynsa rag dha stakk, may hyllowgh kafos furv Lily byghan dhe worra tebel warnodho. Pubtra omma a ober yn oll an seyth framwyth; sampylyow koodh a dhyskwedh Svelte ha HTML plen.
+  </p>
+
+  <h2>Kamm 1 — Kevrewgh tebel parys</h2>
+  <p>
+    An <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    a'n jeves 45 folen-stil dre-honan. Kopiewgh anedha dhe asetow stedhek dha app ha kevrewgh onan:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Pennvarghow an set:</p>
+  <ul>
+    <li>
+      <strong>Sektour poblek</strong> — NHS England / Scotland / Wales, pub onan yn versyonow rag klavyoryon ha gwithyoryon; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Enspyrys gans gwerther</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Amkan kenedhlek</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, ha lies moy.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Hwithrewgh dha oberenn:</strong> hwithrewgh an folen. An keth markup a wrussowgh y'n dyskans framwyth yw lemmyn stylys yn tien — bottonow, mewnosow, lavellow, kylghow fokus. Unn linenn a HTML a wrug henna — pub darn a driga yn ewn fatell o.
+    </p>
+  </div>
+
+  <h2>Kamm 2 — Gorholewgh peth vyth</h2>
+  <p>
+    Dewisyoryon tebel yw lappys yn <code>:where(...)</code>neb a'n jeves arbennigrwydh nagonan — rag henna peub reyn a skrifowgh a wayn, plen ha splann:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Kamm 3 — Chanj y'n termyn-dyrghas gans theme-picker</h2>
+  <p>
+    An <code>theme-picker</code> an gweresor yw botton-ikon + listbox heb pen a berth kylgh-bewnans kowl an tebel: ev a gar an folen-stil dewisys dre chanjya unn <code>&lt;link&gt;</code>
+    governys (unnik an tebel gweythys a vydh bythkweth kyrghys), a sett
+    <code>data-theme="&#123;slug&#125;"</code> war an skrif, ha yn kuntellys a with dhe <code>localStorage</code>. Svelte yw dyskwedhys omma; porthow React, Vue, Angular, HTML, Nunjucks, ha Blazor a gessenva kevambos orth kevambos:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Henna yw an kesstrewyans kowl. Hwedhel klavyer a sew patrom listbox WAI-ARIA APG; an kontroll y honan yw heb pen (krok klass
+    <code>.theme-picker</code>), rag henna ev a gemmer pynag tebel a vo gweythys.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriys 2026-08-29:</strong> an snippet ewn ma a veu kesolyes orth an pakkya dyllys <code>0.1.1</code> dre
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Kamm 4 — Gorthebewgh dhe'n tebel yn dha CSS dha honan</h2>
+  <p>
+    Drefen an gweresor a sett <code>data-theme</code> war wreydh an skrif, dha stilyow dha honan a yll gwedhya warnodho:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Nottow rag dyskwedhes war servyer</h2>
+  <p>
+    An gweresor a wra oll skrifans DOM a-berth kylgh-bewnans mount/effect an framwyth, rag henna yw diogel dhe SSR dre dhrehevyans. Rag ladha splan y'n kynsa peynta, dyskwedhewgh <code>&lt;link&gt;</code> ha
+    <code>data-theme</code> an tebel dallethek war an servyer (rag ensampel dhiworth cookie) — gwithva gweresor Svelte a re ensampel cookie SvelteKit kerdhus, hag an rolyansow erell a dhogyn an keth patrom rag aga stakkow.
+  </p>
+
+  <h2>Kammow nessa</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Gweresoryon dewisyow</a> — an keth patrom rag yeth, myns skrif, rannans, ha entra deiz/termyn.</li>
+    <li>
+      Rewgh tebel — pub onan yw unn folen-stil dre-honan a hwel an krogow klass; gwelewgh <a href="/help/#contributing">kevrenna</a>.
+    </li>
+  </ul>
+  <p>
+    Govynnow war an fordh? An
+    <a href="/help/#troubleshooting">folen skoodhya</a> yw leun a worthebow — ha mar pe kamm moy splann,
+    <a href="https://github.com/LilyDesignSystem">leverewgh dhyn</a> ha ni a wellha an dyskans yn lowen.
+  </p>
+</section>

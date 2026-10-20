@@ -1,0 +1,117 @@
+<!-- title: Посібник з Svelte — Lily Design System -->
+<!-- description: Створіть доступну стилізовану форму за допомогою «безголових» компонентів Lily для Svelte 5: runes, snippets та bind:value. -->
+<section class="page-intro">
+  <h1>Посібник з Svelte</h1>
+  <p class="page-intro-tagline">
+    Бібліотека Lily для Svelte — канонічна реалізація: runes Svelte 5, типізовані властивості, розповсюдження rest-prop і двостороннє зв’язування з
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Що ви створите</h2>
+  <p>
+    Невелика контактна форма — поле з міткою, кнопка надсилання, двостороннє зв’язування, справжня поведінка клавіатури та зчитувача екрана — спочатку «гола», потім стилізована, приблизно за 10 хвилин.
+  </p>
+
+  <h2>Перш ніж почати</h2>
+  <p>
+    Вам потрібні git, Node 22 або новіший і pnpm 10 або новіший. Підійде будь-який проєкт Svelte 5 — свіжий <code>npx sv create</code> застосунок цілком підійде.
+  </p>
+
+  <h2>Крок 1 — Отримайте код</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    Компоненти живуть у <code>src/lib/components/&#123;Name&#125;/</code>, по одному каталогу на компонент з файлом <code>.svelte</code> , його тестами, stories та документацією поряд. Скопіюйте потрібні каталоги у свій застосунок або залежте від репозиторію й імпортуйте напряму.
+  </p>
+
+  <h2>Крок 2 — Ваш перший компонент</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    Рендерить <code>&lt;button class="button" type="button"&gt;</code>. Властивості типізовані: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (рендерить <code>aria-pressed</code> для кнопок-перемикачів), <code>label</code> ( <code>aria-label</code> перевизначення), а будь-який додатковий атрибут розповсюджується на корінь.
+  </p>
+
+  <h2>Крок 3 — Складіть невелику форму</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> приймає видиму <code>label</code> як власну властивість, а не вкладений компонент мітки — передайте її один раз, на <code>Field</code>, і <code>TextInput</code>у <code>label</code> надає доступну назву. <code>TextInput</code>'s <code>value</code> це
+    <code>$bindable</code> rune-властивість, тож <code>bind:value</code> одразу дає вам двостороннє зв’язування.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірено 2026-08-29:</strong> цей точний фрагмент було скомпільовано через <code>svelte/server</code> і перевірено на єдиний, правильно пов’язаний <code>&lt;label for&gt;</code> — ранній чернетковий варіант вкладав окремий <code>Label</code> всередині <code>Field</code>, що рендерило
+      <em>дві</em> мітки (одну порожню), оскільки <code>Field</code> уже рендерить власну з <code>label</code> властивість.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">складений маршрут контактної форми</a>
+      — той самий шаблон, перевірений справжніми e2e- та axe-тестами.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Перевірте свою роботу:</strong> запустіть застосунок — форма виглядає простою, саме як і задумано: стилізація ще попереду. Натисніть
+      <kbd>Tab</kbd>: фокус проходить через кожен елемент керування, мітка озвучується, а надсилання працює. Поведінка готова; вигляд — ваш, і він наступний.
+    </p>
+  </div>
+
+  <h2>Крок 4 — Стилізуйте</h2>
+  <p>
+    Усе вище рендериться як чиста структура, готова до ваших стилів. Стилізуйте клас-гачки —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — у своїй глобальній таблиці стилів або підключіть готову тему в <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    Налаштування для окремих екземплярів ідуть через <code>class</code> властивість, яка додається до базового гачка: <code>&lt;Button class="wide"&gt;</code> рендерить
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>Крок 5 — Побачте все в дії</h2>
+  <p>
+     <a href="/examples/">Приклад застосунку SvelteKit</a> — той самий каталог повністю стилізований, з живими демо, e2e-тестами Playwright та базовою лінією доступності axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Наступні кроки</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Теми</a> — перемикання під час виконання за допомогою допоміжного засобу Svelte theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Допоміжні засоби налаштувань</a> — мова та розмір тексту.</li>
+    <li><a href="/components/">Каталог компонентів</a> — властивості, ARIA та клавіатура для кожного компонента.</li>
+  </ul>
+  <p>
+    Питання по дорозі?
+    <a href="/help/#troubleshooting">сторінка допомоги</a> повна відповідей — а якщо якийсь крок може бути зрозумілішим,
+    <a href="https://github.com/LilyDesignSystem">повідомте нам</a> і ми із задоволенням покращимо посібник.
+  </p>
+</section>

@@ -1,0 +1,432 @@
+<!-- title: Súgó — Lily Design System -->
+<!-- description: Kezdd el a Lilyt: telepítsd a keretrendszeredhez a fej nélküli csomagot, másolj egy komponenst, stílusozd, adj neki témát, és add ki. Hibaelhárítás, GYIK és támogatás. -->
+<section class="page-intro">
+  <h1>Első lépések a Lilyvel</h1>
+  <p class="page-intro-tagline">
+    Válassz egy keretrendszert, klónozd a monorepót, nyisd meg a fej nélküli könyvtárát vagy a példaalkalmazását, és kezdj saját oldalakat összeállítani. Vezetett útra vágysz? Kezdd az
+    <a href="/tutorials/">oktatóanyagokkal</a>.
+  </p>
+</section>
+
+<nav aria-label="Ezen az oldalon" class="prose" style="margin: 0 auto;">
+  <p><strong>Ezen az oldalon:</strong></p>
+  <ul>
+    <li><a href="#install">Telepítés</a></li>
+    <li><a href="#use-headless">Fej nélküli komponens használata</a></li>
+    <li><a href="#use-styled">Stílusozott példa használata</a></li>
+    <li><a href="#styling">Stílusozás és tervezési tokenek</a></li>
+    <li><a href="#themes">Kész témák</a></li>
+    <li><a href="#helpers">Beállítássegédek</a></li>
+    <li><a href="#a11y">Hozzáférhetőség</a></li>
+    <li><a href="#i18n">Nemzetköziesítés</a></li>
+    <li><a href="#testing">Tesztelés</a></li>
+    <li><a href="#ai-agents">MI-ügynökök</a></li>
+    <li><a href="#troubleshooting">Hibaelhárítás</a></li>
+    <li><a href="#contributing">Közreműködés</a></li>
+    <li><a href="#community">Közösség és támogatás</a></li>
+    <li><a href="#faq">GYIK</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Telepítés</h2>
+  <p>
+    A Lily egyetlen Git-monorepóban él, minden keretrendszer fej nélküli könyvtárának, segédcsomagjainak és példaalkalmazásának külön könyvtárával. A leggyorsabb kipróbálás: klónozd a monorepót, és nyisd meg a fej nélküli könyvtárat a saját technológiai veremedhez:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Ugyanez a minta működik a többi keretrendszerhez is:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> – nem kell telepíteni; másold a <code>.html</code> fájlokat</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    A fej nélküli könyvtárakat klónozásra vagy beemelésre tervezték – tekintsd a forráskódot az igazság forrásának, és másold, amire szükséged van.
+    <a href="#helpers">beállítássegédek</a> ezenfelül telepíthető csomagokként is kaphatók build- és kiadási csővezetékkel (npm a JS-keretrendszerekhez, NuGet a Blazorhoz).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Fej nélküli komponens használata</h2>
+  <p>
+    A fej nélküli komponensek szemantikus HTML-t, ARIA-t és tulajdonságokat adnak – de CSS-t nem. Íme egy Button minden keretrendszerben:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Stílusozott példa használata</h2>
+  <p>
+    A példaalkalmazások CSS-t, útvonalakat és teljes demóoldalakat tartalmaznak. A legjobb kísérletezési mód a SvelteKit-, Next-, Nuxt-, Analog- vagy Eleventy-példaalkalmazás elindítása, és a demó megtekintése itt: <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Utána nyisd meg a <code>http://localhost:5173</code> címet, és böngéssz itt: <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Stílusozás és tervezési tokenek</h2>
+  <p>
+    Minden komponens egyetlen kebab-case osztállyal renderelődik a gyökérelemén. Például a <code>&lt;Button&gt;</code> így renderelődik: <code>&lt;button class="button"&gt;</code>. Stílusozd úgy, ahogy akarod:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>A Lily alapértelmezett színpalettája (a példaalkalmazásokban használt):</p>
+  <ul>
+    <li>Elsődleges: <code>#2563eb</code></li>
+    <li>Veszély: <code>#dc2626</code></li>
+    <li>Figyelmeztetés: <code>#f59e0b</code></li>
+    <li>Siker: <code>#16a34a</code></li>
+    <li>Oldalháttér: <code>#f9fafb</code></li>
+    <li>Kártyaháttér: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Ezek javaslatok, nem követelmények. Cseréld le őket a saját márkapalettádra, és a Lily örömmel követi.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Kész témák</h2>
+  <p>
+    Nem akarsz CSS-t írni a nulláról? A Lily
+    <strong>57 önálló referenciatémát</strong> szállít a
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    könyvtárban. Mindegyik egy-egy stíluslap, amely a Lily osztályhorgait célozza – linkeld be, és már stílusozott vagy:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>A készlet a következőket fedi le:</p>
+  <ul>
+    <li>
+      <strong>Közszféra</strong> – NHS England, NHS Scotland és NHS Wales (mindegyik betegeknek és szakembereknek szóló változatban), GOV.UK GDS és a U.S. Web Design System.
+    </li>
+    <li><strong>Szállítók által ihletett</strong> – Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Általános célú</strong> – light, dark, nord, dracula, wireframe és még vagy harminc.
+    </li>
+  </ul>
+  <p>
+    A témaválasztók a <code>:where(...)</code>-t használják, így a saját CSS-ed mindig nyer a specificitásban. Párosítsd őket az alábbi <code>theme-picker</code> segéddel a futásidejű váltáshoz, vagy kövesd a
+    <a href="/tutorials/theming/">témázási oktatóanyagot</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Beállítássegédek</h2>
+  <p>
+    Minden keretrendszernek nyolc kis választója van, mindegyik saját
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> csomag (és egy <code>picker-bar</code> , amely összeállítja őket). Mindegyik egy fej nélküli ikongomb, amely előugró ablakot nyit – listadobozt, linklistát, keresőűrlapot vagy (a date-time-picker esetében) dátumválasztó párbeszédpanelt –, nem natív
+    <code>&lt;select&gt;</code>; SSR-biztos; és nem szállít CSS-t:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> – futásidőben tölti be a témák stíluslapjait egy kezelt <code>&lt;link&gt;</code>cseréjével, beállítja a
+      <code>data-theme</code> attribútumot a dokumentumon, és igény szerint tartósan elmenti ide:
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> – beállítja a <code>lang</code> és a
+      <code>dir</code> attribútumot (automatikus RTL-érzékeléssel), hogy az i18n-könyvtárad követhesse; maga nem fordít semmit.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> – beállítja a <code>data-text-size</code> attribútumot a dokumentumon; a CSS-ed rendeli hozzá az egyes értékekhez a betűméretet.
+    </li>
+    <li>
+      <strong>motion-picker</strong> – beállítja a <code>data-motion</code> attribútumot a dokumentumon, a látogató csökkentett mozgás beállításából kiindulva; a CSS-ed és a szkriptjeid döntik el, mit kell elnyomni.
+    </li>
+    <li>
+      <strong>search-picker</strong> – egy ikongomb, amely keresőmezőt nyit; a beküldés egy keresőoldalra navigál. Egy műveletet birtokol, nem beállítást.
+    </li>
+    <li>
+      <strong>link-picker</strong> – egy otthon ikon, amely megnyitja az alkalmazásod által meghatározott oldallinkek menüjét (Kezdőlap, Rólunk, Kapcsolat, Adatvédelmi irányelvek, …). Egy műveletet birtokol, nem beállítást.
+    </li>
+    <li>
+      <strong>share-picker</strong> – megnyitja a natív megosztási lapot vagy a fogyasztó által megadott célok listáját, plusz az URL másolását. Egy műveletet birtokol, nem beállítást: semmit nem alkalmaz, semmit nem ment.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> – egy szövegmező plusz egy APG-dátumválasztó párbeszédpanel dátumhoz, időhöz vagy mindkettőhöz. Egy űrlapértéket birtokol, nem beállítást: az ISO-karakterlánc oda-vissza alakítható ide:
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    A Svelte-katalógus a kanonikus referencia; a React-, Vue-, Angular-, HTML-, Nunjucks-, Web Components- és Blazor-portok szerződésről szerződésre megfelelnek neki. Lásd a
+    <a href="/tutorials/helpers/">segédek oktatóanyagát</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Hozzáférhetőség</h2>
+  <p>A komponensek célja a <strong>WCAG 2.2 AAA</strong>szint. Ezeket a mintákat követik:</p>
+  <ul>
+    <li>Szemantikus HTML-elemek az általános <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> -ek helyett, amelyek a címkéket a bemenetekhez kötik.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> a kereszthivatkozásokhoz.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> a hibaállapotokhoz.</li>
+    <li><code>role="alert"</code> és <code>aria-live</code> a dinamikus tartalomhoz.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> az állapothoz.</li>
+    <li>Roving <code>tabindex</code> a rácsokhoz.</li>
+  </ul>
+  <p>
+    A fókuszjelzőket szándékosan a fogyasztó adja – a Lily soha nem rajzol olyan alapértelmezett fókuszgyűrűt, amely ütközne a terveddel. A példaalkalmazások tiszta axe-core alapvonalat tartanak az összes útvonalukon.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Nemzetköziesítés</h2>
+  <p>
+    Minden címke, helyőrző, hibaüzenet és gombfelirat tulajdonság. Nincsenek beégetett karakterláncok. Kapcsold be a választott fordítási keretrendszert – Paraglide, i18next, vue-i18n, react-intl, .resx-fájlok, bármi.
+  </p>
+  <p>
+    Dátumokhoz, számokhoz és pénznemekhez a komponensek előre formázott karakterláncokat fogadnak: te formázol a <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / a kedvenc könyvtáraddal, és átadod az eredményt.
+  </p>
+  <p>
+    A <code>locale-picker</code> segéd a kiválasztott nyelvi beállítást jelzi az i18n-könyvtáradnak a <code>lang</code> és a <code>dir</code> beállításával a dokumentum gyökerén.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Tesztelés</h2>
+  <p>Minden keretrendszer-alprojekt saját, a keretrendszerre jellemző technológiai veremmel készült teszteket szállít:</p>
+  <ul>
+    <li><strong>HTML</strong>: valódi böngészőket futtató WebDriverIO.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (az Analog Vite-bővítményén keresztül).</li>
+    <li><strong>Nunjucks</strong>: Vitest renderelő segéddel.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    A tesztek <strong>csak a Vitest beépített illesztőit</strong> használják – soha nem a
+    <code>jest-dom</code> -illesztőket. Ez hordozhatóvá teszi a tesztcsomagokat. A példaalkalmazások Playwright végpontok közötti csomagokat, axe-core hozzáférhetőségi alapvonalakat és reszponzív nézetablak-átvizsgálást adnak hozzá.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>MI-ügynökök</h2>
+  <p>
+    Ez a webhely a gyökerében közzéteszi a <a href="/llms.txt">llms.txt</a> és a
+    <a href="/llms.json">llms.json</a> fájlt – a legfontosabb oldalainak gondozott térképét, minden olyan eszköznek, amely követi az
+    <a href="https://llmstxt.org">llms.txt konvenciót</a>.
+  </p>
+  <p>
+    A kanonikus monorepo ezenfelül két
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>-t szállít: egy általános célú készséget, amely a Lily fogalmait, terminológiáját és összeállítási mintáit fedi le mindenkinek, aki a rendszerrel épít, és <code>lily-design-system-maintainer-skill</code>-t, egy műszaki készséget, amely a monorepo kötelező fájlszerkezetét és eszközeit fedi le mindenkinek, aki rajta dolgozik. Mindkettő a
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanonikus monorepo gyökerében</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Hibaelhárítás</h2>
+
+  <details class="faq-item">
+    <summary>Egy komponens megjelenik, de stílustalannak tűnik</summary>
+    <p>
+      Ez a fej nélküli működés a tervezett módon – a komponenshez nem tartozik CSS. Vagy írj CSS-t a komponens kebab-case osztályára (minden <a href="/components/">katalógusoldalon látható</a>), vagy linkeld be az
+      <a href="#themes">57 kész téma</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>A CSS-em nem tűnik érvényesnek egy téma fölött</summary>
+    <p>
+      Érvényesnek kellene lennie – a témaválasztók <code>:where(...)</code>-be vannak csomagolva, amelynek nulla a specificitása. Ha egy szabály mégis veszít, ellenőrizd, hogy a stíluslapod a téma <code>&lt;link&gt;</code> után töltődik-e be, és hogy a választó valóban illeszkedik-e a komponens osztályhorgához.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>A pnpm install peer- vagy verziós hibával meghiúsul</summary>
+    <p>
+      Használj aktuális pnpm-et (v10+) és Node 22+-t. Minden alprojekt a keretrendszer-verzióit a saját <code>package.json</code>fájljában rögzíti; ha a globális eszközláncod régebbi, a <code>pnpm env use --global lts</code> a leggyorsabb megoldás.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>A képernyőolvasó rossz nevet jelent be egy vezérlőhöz</summary>
+    <p>
+      Ellenőrizd a komponens kötelező <code>label</code> tulajdonságát – a látható szöveg nélküli komponenseknek kell egy, és a fogyasztó által megadott
+      <code>aria-label</code> / <code>aria-labelledby</code> amely a rest-propson át érkezik, szándékosan felülírja a beépített huzalozást. Minden katalógusoldal dokumentálja a komponens ARIA-szerződését.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>A theme-picker segéd nem vált stíluslapot</summary>
+    <p>
+      Győződj meg róla, hogy a <code>themesUrl</code> olyan könyvtárra mutat, amelyet a böngésző le tud kérni (szolgáld ki a <code>themes/</code> fájlokat statikus erőforrásként), és hogy a <code>themes</code> tulajdonságodban a témák azonosítói egyeznek a fájlnevekkel. A segéd egyetlen kezelt <code>href</code> elem
+      <code>&lt;link data-lily-theme-picker&gt;</code> attribútumát cseréli – vizsgáld meg a fejlesztői eszközökben, hogy lásd a kért URL-t.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Valami más romlott el</summary>
+    <p>
+      Nyiss egy issue-t minimális reprodukcióval itt:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> – vagy lásd a <a href="#community">közösség és támogatás</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Közreműködés</h2>
+  <p>A Lily fiatal, és szívesen fogadja az együttműködést. A jelenleg leghasznosabb hozzájárulások:</p>
+  <ul>
+    <li>Új komponensek (különösen bevált tervezési rendszerek mintái).</li>
+    <li>Új témák – mindegyik egy önálló stíluslap, jól körülhatárolt első PR.</li>
+    <li>Jobb példastílusozás – mutasd meg, mi lehetséges.</li>
+    <li>A példaalkalmazás karakterláncainak fordításai.</li>
+    <li>Hibajelentések minimális reprodukcióval.</li>
+    <li>Hozzáférhetőségi auditok képernyőolvasókkal és kisegítő technológiákkal.</li>
+  </ul>
+  <p>
+    Nyiss issue-kat és PR-eket itt:
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Közösség és támogatás</h2>
+  <ul>
+    <li>
+      <strong>Kérdések és hibajelentések</strong> – nyiss egy issue-t itt:
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-mail</strong> – a karbantartó olvassa a
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      címet, és szívesen fogadja az együttműködést, az útmutatást és a visszajelzést.
+    </li>
+    <li>
+      <strong>Tükrök</strong> – a Lily ide is fel van töltve:
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> és
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, hogy az általad preferált forge-ról is részt vehess.
+    </li>
+    <li>
+      <strong>Magatartás</strong> – a projekt egy szokásos magatartási kódexet követ; légy kedves, feltételezz jóhiszeműséget.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>GYIK</h2>
+
+  <details class="faq-item">
+    <summary>Miért fej nélküli a stílusozott helyett?</summary>
+    <p>
+      Az előre stílusozott komponensek kényelmesek – amíg nem illenek a márkádhoz. A fej nélküli komponensek eleinte kicsit több munkát igényelnek, de teljes kontrollt adnak a vizuális tervezés fölött. A példaalkalmazások és az 57 téma megmutatja a stílusozás módjait; átveheted őket, vagy teljesen lecserélheted. A hosszabb érvelés itt található: <a href="/why/">Miért a Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Miért van ennyi komponens?</summary>
+    <p>
+      A Lily célja, hogy lefedje azokat a mintákat, amelyekre a legtöbb alkalmazásnak szüksége van, anélkül, hogy a nulláról kellene felépítened őket – beleértve a mély ügyeket, mint a nemzeti azonosítók bemenetei és a szerkesztői scrollytelling. A katalógus egy tucat bevált tervezési rendszerből és saját munkából merít – lásd a <a href="/about/">Névjegy</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Használhatom a Lilyt a Tailwinddel?</summary>
+    <p>
+      Igen. Minden komponens egyetlen kebab-case gyökérosztályt tesz elérhetővé, plusz egy, a fogyasztó által megadott <code>className</code> / <code>class</code>értéket. Rétegezz Tailwind-segédosztályokat felülre, ahogy akarsz.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Használhatom a Lilyt szemantikus CSS-keretrendszerekkel, mint a DaisyUI?</summary>
+    <p>
+      Igen. A gyökérelem kebab-case osztálynevei szemantikus CSS-horogként működnek. Párosítsd a Lilyt egy szemantikus keretrendszerrel, és előre stílusozott komponenseket kapsz, amelyek mégis tiszteletben tartják az ARIA-t és az i18n-t.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Van npm-csomag?</summary>
+    <p>
+      A <a href="#helpers">beállítássegédek</a> csomagokként érkeznek npm/NuGet kiadási csővezetékkel. A fej nélküli komponenskönyvtárakat klónozásra vagy beemelésre tervezték – a forráskód maga a szállítmány, így pontosan azt olvashatod, nyirbálhatod és birtokolhatod, amit kiadsz. A fej nélküli könyvtárak regisztrumba való közzététele továbbra is az ütemtervben szerepel.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Miért többes licenc?</summary>
+    <p>
+      A különböző projektek különböző licencigényekkel rendelkeznek. A BSD és az MIT megengedő, az Apache-2.0 szabadalmi engedélyt tartalmaz, a GPL-opciók pedig a copyleftet támogatják. Válaszd azt, amelyik a helyzetedhez illik.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Hogyan jelentek hibát vagy kérek funkciót?</summary>
+    <p>
+      Nyiss egy issue-t a GitHub-tárolóban, vagy írj e-mailt ide:
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

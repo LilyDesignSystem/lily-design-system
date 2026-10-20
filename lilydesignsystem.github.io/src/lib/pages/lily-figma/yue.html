@@ -1,0 +1,57 @@
+<!-- title: Lily + Figma — Lily Design System -->
+<!-- description: 冇維護中嘅 Lily Figma 函式庫或外掛。57 個參考主題嘅設計令牌以 DTCG 格式發佈,今日已經可以用現有嘅社群外掛匯入 Figma。 -->
+<section class="page-intro">
+  <h1>冇維護中嘅 Figma 函式庫 — 而家有嘅係咁</h1>
+  <p class="page-intro-tagline">
+    呢頁以前寫「即將推出」。而家唔再咁寫,因為冇人喺度建。以下係誠實嘅狀況,同一條今日已經行得通嘅真實路徑。
+  </p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>冇嘅嘢</h2>
+  <p>
+    Figma 入面冇官方嘅 Lily 元件庫,亦冇維護中嘅 Figma 外掛。好好咁建立同維護設計工具函式庫,係真正持續嘅承擔 — Figma 元件結構、變體命名、auto-layout、自己嘅發佈流程 — 同維護程式碼係兩回事,而呢個項目冇承擔呢件事。
+  </p>
+
+  <h2>而家有嘅嘢</h2>
+  <p>
+    57 個參考主題每一個都有自己嘅設計令牌原語 — 顏色、圓角、大細、邊框 — 以
+    <a href="https://www.w3.org/community/design-tokens/2025/10/28/design-tokens-specification-reaches-first-stable-version/"
+      >DTCG 2025.10 格式</a
+    >
+    發佈於
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes/tokens"
+      ><code>themes/tokens/*.json</code></a
+    >。呢個格式正正係現代令牌工具讀取嘅格式。你可以自己將 Lily 主題嘅配色拉入 Figma,即刻就得,唔需要呢個項目提供任何外掛:
+  </p>
+  <ol>
+    <li>
+      安裝社群嘅
+      <a href="https://tokens.studio/">Tokens Studio for Figma</a>
+      外掛(或者 Figma 自己嘅 Variables 匯入,只要你嘅方案支援 DTCG 匯入)。
+    </li>
+    <li>
+      匯入 <code>themes/tokens/{theme-slug}.json</code> 你想要嘅任何主題 — 例如
+      <code>united-kingdom-national-health-service-england-for-patients.json</code>.
+    </li>
+    <li>
+      Tokens Studio 會由 DTCG 值建立 Figma 變數,之後你可以套用到自己嘅元件。
+    </li>
+  </ol>
+  <p>
+    咁樣你就喺 Figma 入面有 Lily 嘅顏色同形狀令牌。但唔會畀你 Lily 嘅真實元件作為 Figma 元件 — 冇人建過,而呢頁亦唔會扮成咁樣。
+  </p>
+
+  <h2>有計劃做真正嘅 Figma 函式庫嗎?</h2>
+  <p>
+    暫時冇,而且承諾唔係免費嘅:參見
+    <a
+      href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md#rfc-6-is-45-reference-themes-useful-or-should-this-be-a-token-system"
+      >RFC 6</a
+    >
+    了解未決問題同咩會改變項目嘅想法 — 最有用嘅係設計師具體講出佢需要呢一層做啲乜。如果你係,
+    <a href="mailto:joel@joelparkerhenderson.com">話畀我哋知</a>
+    或者開一個 issue。
+  </p>
+</section>

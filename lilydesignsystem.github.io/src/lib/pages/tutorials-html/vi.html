@@ -1,0 +1,106 @@
+<!-- title: Hướng dẫn HTML — Lily Design System -->
+<!-- description: Xây dựng biểu mẫu dễ tiếp cận, có kiểu dáng bằng các thành phần headless HTML của Lily — đánh dấu thuần, dùng thẳng từ tệp. -->
+<section class="page-intro">
+  <h1>Hướng dẫn HTML</h1>
+  <p class="page-intro-tagline">
+    Cách bắt đầu đơn giản nhất: sao chép HTML ngữ nghĩa với class hook của Lily, thêm một bảng kiểu, xuất bản. Các tệp thuần chạy ở bất cứ đâu HTML chạy được.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Bạn sẽ xây dựng gì</h2>
+  <p>
+    Một biểu mẫu liên hệ nhỏ — các ô nhập có nhãn, nút gửi, hành vi bàn phím và trình đọc màn hình thật — lúc đầu để trơn, sau đó thêm kiểu dáng, trong khoảng 10 phút.
+  </p>
+
+  <h2>Trước khi bắt đầu</h2>
+  <p>
+    Bạn chỉ cần một trình duyệt và một trình soạn thảo văn bản. Vậy là đủ. (git giúp lấy các tệp thành phần tiện hơn, nhưng bạn cũng có thể sao chép chúng từ GitHub ngay trong trình duyệt.)
+  </p>
+
+  <h2>Bước 1 — Lấy mã</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    Mỗi thành phần là một tệp độc lập trong <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>, v.v. — với chú thích đầu tệp ghi rõ thẻ HTML, class hook, hành vi bàn phím và hợp đồng tiếp cận của nó. Các tệp <em>chính là</em> thư viện — sao chép thứ bạn cần rồi đi tiếp.
+  </p>
+
+  <h2>Bước 2 — Thành phần đầu tiên của bạn</h2>
+  <p>Mở <code>components/button.html</code>, hoặc cứ viết phần đánh dấu — class hook là hợp đồng:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    Vì đó là <code>&lt;button&gt;</code>thật, tiêu điểm bàn phím, kích hoạt bằng Enter và Space, và vai trò nút ngầm định đều đã đúng.
+  </p>
+
+  <h2>Bước 3 — Ghép một biểu mẫu nhỏ</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Chú ý mẫu này: mỗi điều khiển liên kết với <code>&lt;label for&gt;</code>của nó, dùng kiểu input cụ thể nhất và mang đúng một class hook kiểu kebab-case.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Kiểm tra kết quả:</strong> mở trang trong trình duyệt. Nó trông trơ — đúng như dự định: kiểu dáng còn ở phía trước. Nhấn
+      <kbd>Tab</kbd>: tiêu điểm di chuyển qua mọi điều khiển, nhãn được đọc lên và việc gửi hoạt động. Hành vi đã xong; diện mạo là của bạn và là bước tiếp theo.
+    </p>
+  </div>
+
+  <h2>Bước 4 — Tạo kiểu dáng</h2>
+  <p>Viết CSS dựa trên các hook:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    Hoặc bỏ hẳn việc tự viết CSS — liên kết một trong 45 chủ đề dựng sẵn và cùng phần đánh dấu đó sẽ sáng lên:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>Bước 5 — Khám phá thêm</h2>
+  <ul>
+    <li>Các bài kiểm thử của kho mã chạy trên trình duyệt thật: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
+    <li>Storybook cho mọi thành phần: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">Ứng dụng ví dụ HTML+CSS+JS</a> hiển thị tất cả 571 thành phần có kiểu dáng, tìm kiếm được và có bản demo.
+    </li>
+  </ul>
+
+  <h2>Các bước tiếp theo</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Chủ đề</a> — chuyển đổi chủ đề khi chạy bằng theme-picker.</li>
+    <li><a href="/tutorials/helpers/">Trợ giúp tùy chọn</a> — ngôn ngữ và cỡ chữ.</li>
+    <li><a href="/components/">Danh mục thành phần</a> — tài liệu tham chiếu đầy đủ.</li>
+  </ul>
+  <p>
+    Có thắc mắc trên đường đi? Trang
+    <a href="/help/#troubleshooting">trợ giúp</a> có đầy câu trả lời — và nếu một bước có thể rõ ràng hơn,
+    <a href="https://github.com/LilyDesignSystem">hãy cho chúng tôi biết</a> và chúng tôi sẽ vui lòng cải thiện hướng dẫn.
+  </p>
+</section>

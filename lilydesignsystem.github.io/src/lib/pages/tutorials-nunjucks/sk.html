@@ -1,0 +1,97 @@
+<!-- title: Návod pre Nunjucks — Lily Design System -->
+<!-- description: Vytvárajte prístupné, ostylované, na serveri vykresľované stránky pomocou makier Nunjucks od Lily — ideálne pre Eleventy. -->
+<section class="page-intro">
+  <h1>Návod pre Nunjucks</h1>
+  <p class="page-intro-tagline">
+    Makrá vykresľované na serveri pre Eleventy, Express alebo ľubovoľnú šablónovaciu pipeline Node — prístup v štýle GOV.UK s katalógom a triednymi háčikmi Lily.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Čo vytvoríte</h2>
+  <p>
+    Malý na serveri vykresľovaný kontaktný formulár — pole s popisom, tlačidlo odoslať, nulový náklad JavaScriptu — najprv holý, potom ostylovaný, približne za 10 minút.
+  </p>
+
+  <h2>Skôr než začnete</h2>
+  <p>
+    Potrebujete git, Node 22 alebo novší a pnpm 10 alebo novší. Hodí sa akákoľvek pipeline Nunjucks — Eleventy, Express alebo čisté Nunjucks.
+  </p>
+
+  <h2>Krok 1 — Získajte kód</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-headless
+pnpm install
+pnpm test        # vitest rendering every macro</code></pre>
+  <p>
+    Každý komponent je adresár v <code>components/</code> s
+    <code>macro.njk</code>, jeho testom a dokumentáciou — napríklad
+    <code>components/button/macro.njk</code>. Nasmerujte svoj loader Nunjucks na
+    <code>components/</code> (v Eleventy ho pridajte do cesty includes) a importujte, čo potrebujete.
+  </p>
+
+  <h2>Krok 2 — Váš prvý komponent</h2>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}</code></pre>
+  <p>
+    Vykresľuje <code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code>. Makrá prijímajú jediný objekt params: <code>text</code> (escapovaný) alebo
+    <code>html</code> (surový), <code>type</code>, <code>label</code> pre
+    <code>aria-label</code>a pridávač triedneho háčika.
+  </p>
+
+  <h2>Krok 3 — Zložte malý formulár</h2>
+  
+  <pre tabindex="0"><code>{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+
+&lt;form class="form" method="post"&gt;
+  &lt;div class="field"&gt;
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ textInput({ id: "name", name: "name", required: true }) }}
+  &lt;/div&gt;
+  {{ button({ text: "Save", type: "submit" }) }}
+&lt;/form&gt;</code></pre>
+  <p>
+    Pretože sa všetko vykresľuje na serveri, prehliadač dostane čisté sémantické HTML s triednymi háčikmi — nulabajtový náklad JavaScriptu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Skontrolujte svoju prácu:</strong> načítajte stránku a formulár vyzerá holo — presne podľa zámeru: štýlovanie ešte len príde. Stlačte
+      <kbd>Tab</kbd>: fokus prechádza každým ovládacím prvkom, popis sa oznamuje a odoslanie funguje. Správanie je hotové; vzhľad je váš a je ďalším krokom.
+    </p>
+  </div>
+
+  <h2>Krok 4 — Ostylujte ho</h2>
+  <p>
+    Ostylujte háčiky — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — vo svojej štýlovej šablóne, alebo pripojte hotovú tému v základnom rozložení:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+
+  <h2>Krok 5 — Pozrite sa, ako to celé funguje</h2>
+  <p>
+     <a href="/examples/">Ukážková aplikácia Nunjucks + Eleventy</a> zostaví celý katalóg ako statický web s ukážkovými stránkami pre každý komponent:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-nunjucks-eleventy-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Ďalšie kroky</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Témy</a> — vrátane vzoru cookies z Eleventy pre prepínanie témy v SSR bez blikania.</li>
+    <li><a href="/tutorials/helpers/">Pomocníci pre predvoľby</a> — jazyk a veľkosť textu.</li>
+    <li><a href="/components/">Katalóg komponentov</a> — vlastnosti, ARIA a klávesnica pre každý komponent.</li>
+  </ul>
+  <p>
+    Otázky po ceste?
+    <a href="/help/#troubleshooting">Stránka pomocníka</a> je plná odpovedí — a ak by niektorý krok mohol byť jasnejší,
+    <a href="https://github.com/LilyDesignSystem">dajte nám vedieť</a> a návod radi vylepšíme.
+  </p>
+</section>

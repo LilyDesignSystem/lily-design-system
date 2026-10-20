@@ -1,0 +1,127 @@
+<!-- title: Angular チュートリアル — Lily Design System -->
+<!-- description: Lily の Angular 20 ヘッドレスコンポーネントで、アクセシブルでスタイル付きのフォームを作ります。シグナル入力を使うスタンドアロンコンポーネントです。 -->
+<section class="page-intro">
+  <h1>Angular チュートリアル</h1>
+  <p class="page-intro-tagline">
+    Angular 20 のスタンドアロンコンポーネント — シグナル入力、OnPush 変更検知、インラインテンプレート、NgModule なし、CSS なし。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>作るもの</h2>
+  <p>
+    小さなお問い合わせフォーム — ラベル付き入力、送信ボタン、双方向バインディング、本物のキーボードとスクリーンリーダーの動作 — まずは装飾なしで、次にスタイルを付けて、約 10 分で作ります。
+  </p>
+
+  <h2>始める前に</h2>
+  <p>
+    git、Node 22 以降、pnpm 10 以降が必要です。Angular 20 のプロジェクトならどれでも使えます — Angular CLI でも Analog でも構いません。
+  </p>
+
+  <h2>ステップ 1 — コードを入手する</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    コンポーネントは次の場所にフラットなファイルとして置かれています: <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — それぞれインラインテンプレートを持つスタンドアロンコンポーネントで、spec とストーリーが付いています。バレル
+    <code>index.ts</code> はすべてのコンポーネントを再エクスポートします。 <code>pnpm build</code>
+    は ng-packagr で Angular Package Format のバンドルを生成します。
+  </p>
+
+  <h2>ステップ 2 — 最初のコンポーネント</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    すべてのコンポーネントは <code>lily-*</code> セレクターを宣言し、クラスフックを付けた意味のある要素を描画します —
+    <code>&lt;button class="button" type="button"&gt;</code> ここでは。入力はシグナルベースです: <code>label()</code> は <code>aria-label</code>
+    の上書き用、 <code>className()</code> はクラスを追加します。
+  </p>
+
+  <h2>ステップ 3 — 小さなフォームを組み立てる</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> は、ネストしたラベルコンポーネントではなく、表示用のラベルを専用の
+    <code>label</code> 入力として受け取ります — フィールドに一度だけ渡せば、 <code>lily-text-input</code>の対応する
+    <code>label</code> がアクセシブルな名前を与えます。入力に似たコンポーネントは <code>model()</code> 値を公開するので、banana-box <code>[(value)]</code>
+    双方向バインディングがそのまま動きます — 全体がゾーンレス対応です。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>2026-08-29 に確認済み:</strong> 以前の下書きでは、別の <code>Label</code> コンポーネントを <code>lily-field</code>の中にネストしていたため、 <em>2 つの</em> ラベル(1 つは空)が描画されていました。
+      <code>lily-field</code> は
+      <code>label</code> 入力から自前のラベルをすでに描画するためです — コンポーネントのソースを確認して見つけました。
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">お問い合わせフォームの組み合わせルート</a>
+      も同じパターンで、本物の e2e テストと axe テストで検証されています。
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>動作の確認:</strong> アプリを実行すると、フォームは飾りのない見た目になります — 意図どおりで、スタイルはこれからです。
+      <kbd>Tab</kbd>キーを押してみましょう。フォーカスがすべてのコントロールを移動し、ラベルが読み上げられ、送信も動きます。動作は完成しています。見た目はあなた次第で、次のステップです。
+    </p>
+  </div>
+
+  <h2>ステップ 4 — スタイルを付ける</h2>
+  <p>
+    クラスフックにスタイルを付けます — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — 次の場所で: <code>styles.css</code>、または既成のテーマを <code>styles</code> 配列に追加するか、
+    <code>angular.json</code> / 次の場所でリンクします: <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>ステップ 5 — 動いているところを見る</h2>
+  <p>
+     <a href="/examples/">Angular + Analog のサンプルアプリ</a> は、ファイルベースのルーティングと Vite を使った完全なカタログを表示します:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>次のステップ</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">テーマ設定</a> — Angular の theme-picker ヘルパーによる実行時切り替え。</li>
+    <li><a href="/tutorials/helpers/">設定ヘルパー</a> — 言語とテキストサイズ。</li>
+    <li><a href="/components/">コンポーネントカタログ</a> — コンポーネントごとのプロパティ、ARIA、キーボード操作。</li>
+  </ul>
+  <p>
+    途中で疑問があれば、
+    <a href="/help/#troubleshooting">ヘルプページ</a> に答えがたくさんあります。もし手順がもっと分かりやすくできるなら、
+    <a href="https://github.com/LilyDesignSystem">お知らせください</a> 。喜んでチュートリアルを改善します。
+  </p>
+</section>

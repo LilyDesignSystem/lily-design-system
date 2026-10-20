@@ -1,0 +1,432 @@
+<!-- title: Abi — Lily Design System -->
+<!-- description: Alusta Lilyga: paigalda oma raamistiku päisteta pakett, kopeeri komponent, kujunda see, anna sellele teema ja avalda. Tõrkeotsing, KKK ja tugi. -->
+<section class="page-intro">
+  <h1>Lilyga alustamine</h1>
+  <p class="page-intro-tagline">
+    Vali raamistik, klooni monorepo ja ava selle päisteta teek või näiterakendus ning hakka oma lehti koostama. Eelistad juhitud teed? Alusta
+    <a href="/tutorials/">õpetustega</a>.
+  </p>
+</section>
+
+<nav aria-label="Sellel lehel" class="prose" style="margin: 0 auto;">
+  <p><strong>Sellel lehel:</strong></p>
+  <ul>
+    <li><a href="#install">Paigaldamine</a></li>
+    <li><a href="#use-headless">Päisteta komponendi kasutamine</a></li>
+    <li><a href="#use-styled">Kujundatud näite kasutamine</a></li>
+    <li><a href="#styling">Kujundus ja disainitunnused</a></li>
+    <li><a href="#themes">Valmisteemad</a></li>
+    <li><a href="#helpers">Eelistuste abilised</a></li>
+    <li><a href="#a11y">Juurdepääsetavus</a></li>
+    <li><a href="#i18n">Rahvusvahelistamine</a></li>
+    <li><a href="#testing">Testimine</a></li>
+    <li><a href="#ai-agents">AI-agendid</a></li>
+    <li><a href="#troubleshooting">Tõrkeotsing</a></li>
+    <li><a href="#contributing">Panustamine</a></li>
+    <li><a href="#community">Kogukond ja tugi</a></li>
+    <li><a href="#faq">KKK</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Paigaldamine</h2>
+  <p>
+    Lily elab ühes Giti monorepos, kus on iga raamistiku päisteta teegi, abipakettide ja näiterakenduse kataloog. Kiireim viis proovida on monorepo kloonida ja avada oma tehnoloogiapaketi päisteta teek:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Sama muster töötab teiste raamistike puhul:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> – paigaldamist pole vaja; kopeeri <code>.html</code> -failid</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Päisteta teegid on mõeldud kloonimiseks või projekti kaasamiseks – käsitle lähtekoodi tõeallikana ja kopeeri, mida vaja.
+    <a href="#helpers">eelistuste abilised</a> tarnitakse lisaks paigaldatavate pakettidena koos ehitus- ja avaldamistorustikuga (npm JS-raamistikele, NuGet Blazorile).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Päisteta komponendi kasutamine</h2>
+  <p>
+    Päisteta komponendid sisaldavad semantilist HTML-i, ARIA-t ja atribuute – kuid mitte CSS-i. Siin on Button igas raamistikus:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Kujundatud näite kasutamine</h2>
+  <p>
+    Näiterakendused sisaldavad CSS-i, marsruute ja täielikke demolehti. Kiireim viis katsetada on käivitada SvelteKit'i, Nexti, Nuxti, Analogi või Eleventy näiterakendus ja vaadata demot aadressil <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Seejärel ava <code>http://localhost:5173</code> ja sirvi <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Kujundus ja disainitunnused</h2>
+  <p>
+    Iga komponent renderdatakse ühe kebab-case klassiga oma juurelemendil. Näiteks renderdab <code>&lt;Button&gt;</code> elemendi <code>&lt;button class="button"&gt;</code>. Kujunda see, nagu soovid:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily vaikevärvipalett (kasutusel näiterakendustes) on:</p>
+  <ul>
+    <li>Põhi: <code>#2563eb</code></li>
+    <li>Oht: <code>#dc2626</code></li>
+    <li>Hoiatus: <code>#f59e0b</code></li>
+    <li>Edu: <code>#16a34a</code></li>
+    <li>Lehe taust: <code>#f9fafb</code></li>
+    <li>Kaardi taust: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Need on soovitused, mitte nõuded. Asenda need oma brändipaletiga ja Lily kaasneb rõõmuga.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Valmisteemad</h2>
+  <p>
+    Ei taha CSS-i nullist kirjutada? Lily tarnib
+    <strong>57 iseseisvat viiteteemat</strong> kataloogis
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    . Igaüks on üks stiilifail, mis sihib Lily klassihaake – lingi see ja oledki kujundatud:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Komplekt hõlmab:</p>
+  <ul>
+    <li>
+      <strong>Avalik sektor</strong> – NHS England, NHS Scotland ja NHS Wales (igaüks patsiendi- ja praktiseerija-variandis), GOV.UK GDS ja U.S. Web Design System.
+    </li>
+    <li><strong>Müüjatest inspireeritud</strong> – Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Üldotstarbeline</strong> – light, dark, nord, dracula, wireframe ja veel kolmkümmend.
+    </li>
+  </ul>
+  <p>
+    Teemaselektorid kasutavad <code>:where(...)</code>, seega võidab sinu enda CSS alati spetsiifilisuses. Seo need allpool oleva <code>theme-picker</code> -abilisega töö ajal vahetamiseks või järgi
+    <a href="/tutorials/theming/">teemaõpetust</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Eelistuste abilised</h2>
+  <p>
+    Igal raamistikul on kaheksa väikest valijat, millest igaüks on eraldi
+    <code>lily-design-system-&#123;framework&#125;-&#123;package&#125;</code> -pakett (ja <code>picker-bar</code> , mis need kokku paneb). Iga neist on päisteta ikoonnupp, mis avab hüpikakna – loendikasti, linkide loendi, otsinguvormi või (date-time-pickeri puhul) kuupäevavaliku dialoogi – mitte natiivne
+    <code>&lt;select&gt;</code>; on SSR-turvaline; ja ei sisalda CSS-i:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> – laeb teema stiilifaile töö ajal, vahetades hallatavat <code>&lt;link&gt;</code>-i, seab
+      <code>data-theme</code> dokumendil ja soovi korral salvestab püsivalt
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> – seab <code>lang</code> ja
+      <code>dir</code> (automaatse RTL-tuvastusega), et sinu i18n-teek saaks järgneda; ei tõlgi ise midagi.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> – seab <code>data-text-size</code> dokumendil; sinu CSS seostab iga väärtuse fondisuurusega.
+    </li>
+    <li>
+      <strong>motion-picker</strong> – seab <code>data-motion</code> dokumendil, lähtudes külastaja vähendatud liikumise seadest; sinu CSS ja skriptid otsustavad, mida alla suruda.
+    </li>
+    <li>
+      <strong>search-picker</strong> – ikoonnupp, mis avab otsinguvälja; esitamine suunab otsingulehele. Haldab toimingut, mitte eelistust.
+    </li>
+    <li>
+      <strong>link-picker</strong> – kodu ikoon, mis avab menüü lehelinkidega, mille sinu rakendus määrab (Avaleht, Meist, Võta ühendust, Privaatsuspoliitika, …). Haldab toimingut, mitte eelistust.
+    </li>
+    <li>
+      <strong>share-picker</strong> – avab natiivse jagamislehe või tarbija antud sihtkohtade loendi, pluss URL-i kopeerimise. Haldab toimingut, mitte eelistust: ei rakenda midagi, ei salvesta midagi.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> – tekstiväli pluss APG kuupäevavaliku dialoog kuupäeva, kellaaja või mõlema jaoks. Haldab vormiväärtust, mitte eelistust: ISO-string teisendub edasi-tagasi
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-theme-picker</code></pre>
+  <p>
+    Svelte'i kataloog on kanooniline viide; React, Vue, Angular, HTML, Nunjucks, Web Components ja Blazori pordid vastavad sellele leping lepingu haaval. Vaata
+    <a href="/tutorials/helpers/">abiliste õpetust</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Juurdepääsetavus</h2>
+  <p>Komponendid taotlevad <strong>WCAG 2.2 AAA</strong>taset. Nad järgivad neid mustreid:</p>
+  <ul>
+    <li>Semantilised HTML-elemendid üldiste <code>&lt;div&gt;</code>s.</li>
+    <li><code>&lt;label for="id"&gt;</code> -ide asemel, mis seovad sildid sisenditega.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> ristviidete jaoks.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> veaolekute jaoks.</li>
+    <li><code>role="alert"</code> ja <code>aria-live</code> dünaamilise sisu jaoks.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> oleku jaoks.</li>
+    <li>Liikuv <code>tabindex</code> ruudustike jaoks.</li>
+  </ul>
+  <p>
+    Fookusnäidikud on tahtlikult tarbija antud – Lily ei joonista kunagi vaikefookusrõngast, mis läheks vastuollu sinu disainiga. Näiterakendused hoiavad kõigil marsruutidel puhast axe-core'i baasjoont.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Rahvusvahelistamine</h2>
+  <p>
+    Iga silt, kohatäide, veateade ja nupu tekst on atribuut. Koodi kirjutatud stringe pole. Ühenda oma valitud tõlkeraamistik – Paraglide, i18next, vue-i18n, react-intl, .resx-failid, mis tahes.
+  </p>
+  <p>
+    Kuupäevade, arvude ja valuutade puhul võtavad komponendid vastu eelvormindatud stringe: vorminda ise <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / oma eelistatud teegiga ja anna tulemus edasi.
+  </p>
+  <p>
+    Abiline <code>locale-picker</code> annab valitud keele sinu i18n-teegile teada, seades <code>lang</code> ja <code>dir</code> dokumendi juurel.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Testimine</h2>
+  <p>Iga raamistiku alamprojekt tarnib oma teste, kasutades oma idiomaatilist tehnoloogiapaketti:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO, mis käivitab päris brausereid.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (Analog Vite'i plugina kaudu).</li>
+    <li><strong>Nunjucks</strong>: Vitest koos renderdusabilisega.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Testid kasutavad <strong>ainult Vitesti sisseehitatud sobitajaid</strong> – mitte kunagi
+    <code>jest-dom</code> sobitajaid. See hoiab testikomplektid teisaldatavatena. Näiterakendused lisavad Playwrighti otsast lõpuni komplektid, axe-core'i juurdepääsetavuse baasjooned ja reageeriva vaateakna läbivaatuse.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI-agendid</h2>
+  <p>
+    See sait avaldab <a href="/llms.txt">llms.txt</a> ja
+    <a href="/llms.json">llms.json</a> oma juurel – kureeritud kaardi oma kõige olulisematest lehtedest, igale tööriistale, mis järgib
+    <a href="https://llmstxt.org">llms.txt kokkulepet</a>.
+  </p>
+  <p>
+    Kanooniline monorepo tarnib lisaks kaks
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-design-system-skill</code>: üldotstarbeline oskus, mis hõlmab Lily mõisteid, terminoloogiat ja koostemustreid kõigile, kes süsteemiga ehitavad, ning <code>lily-design-system-maintainer-skill</code>, tehniline oskus, mis hõlmab monorepo nõutavate failide paigutust ja tööriistu kõigile, kes sellega töötavad. Mõlemad asuvad
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">kanoonilise monorepo juurkataloogis</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Tõrkeotsing</h2>
+
+  <details class="faq-item">
+    <summary>Komponent renderdub, kuid näeb välja kujundamata</summary>
+    <p>
+      See on päisteta nii, nagu ette nähtud – komponendiga ei kaasne CSS-i. Kirjuta CSS komponendi kebab-case klassi vastu (näidatud igal <a href="/components/">kataloogilehel</a>) või lingi üks
+      <a href="#themes">57 valmisteemast</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mu CSS ei tundu teema peal kehtivat</summary>
+    <p>
+      Peaks küll – teemaselektorid on mähitud <code>:where(...)</code>-sse, millel on null spetsiifilisust. Kui reegel ikka kaotab, kontrolli, et sinu stiilifail laaditakse pärast teema <code>&lt;link&gt;</code> -i ja et selektor tõepoolest sobib komponendi klassihaagiga.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install ebaõnnestub peer- või versioonitõrkega</summary>
+    <p>
+      Kasuta praegust pnpm-i (v10+) ja Node 22+. Iga alamprojekt kinnitab oma raamistikuversioonid oma <code>package.json</code>-is; kui sinu globaalne tööriistaahel on vanem, on <code>pnpm env use --global lts</code> kiireim lahendus.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ekraanilugeja teatab juhtelemendi vale nime</summary>
+    <p>
+      Kontrolli komponendi nõutavat <code>label</code> atribuuti – komponendid, millel puudub nähtav tekst, nõuavad seda, ja tarbija antud
+      <code>aria-label</code> / <code>aria-labelledby</code> mis antakse edasi rest-props'i kaudu, võidab tahtlikult sisseehitatud ühenduse. Iga kataloogileht dokumenteerib komponendi ARIA lepingu.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker abiline ei vaheta stiilifaile</summary>
+    <p>
+      Kinnita, et <code>themesUrl</code> osutab kataloogile, mille brauser saab tuua (serveeri <code>themes/</code> -faile staatiliste varadena) ja et teemade lühinimed sinu <code>themes</code> -atribuudis vastavad failinimedele. Abiline vahetab ühe hallatava <code>href</code> -i
+      <code>&lt;link data-lily-theme-picker&gt;</code> atribuuti – kontrolli seda arendustööriistades, et näha päritavat URL-i.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Midagi muud on katki</summary>
+    <p>
+      Ava teema koos minimaalse taasesitusega aadressil
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a> – või vaata <a href="#community">kogukond ja tugi</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Panustamine</h2>
+  <p>Lily on noor ja tervitab koostööd. Kõige kasulikumad panused praegu on:</p>
+  <ul>
+    <li>Uued komponendid (eriti mustrid väljakujunenud disainisüsteemidest).</li>
+    <li>Uued teemad – iga neist on üks iseseisev stiilifail, hästi piiritletud esimene PR.</li>
+    <li>Parem näidete kujundus – näita, mis on võimalik.</li>
+    <li>Näiterakenduse stringide tõlked.</li>
+    <li>Veaaruanded minimaalse taasesitusega.</li>
+    <li>Juurdepääsetavuse auditid ekraanilugejate ja abitehnoloogiaga.</li>
+  </ul>
+  <p>
+    Ava teemad ja PR-id aadressil
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Kogukond ja tugi</h2>
+  <ul>
+    <li>
+      <strong>Küsimused ja veaaruanded</strong> – ava teema aadressil
+      <a href="https://github.com/LilyDesignSystem/lily-design-system">github.com/LilyDesignSystem/lily-design-system</a>.
+    </li>
+    <li>
+      <strong>E-post</strong> – haldaja loeb
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ja tervitab koostööd, juhiseid ja tagasisidet.
+    </li>
+    <li>
+      <strong>Peeglid</strong> – Lily lükatakse ka
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> ja
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>hoidlasse, et saaksid osaleda oma eelistatud forgest.
+    </li>
+    <li>
+      <strong>Käitumine</strong> – projekt järgib tavalist käitumisjuhendit; ole lahke, eelda head usku.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>KKK</h2>
+
+  <details class="faq-item">
+    <summary>Miks päisteta, mitte kujundatud?</summary>
+    <p>
+      Eelkujundatud komponendid on mugavad – kuni need ei sobi sinu brändiga. Päisteta komponendid nõuavad alguses veidi rohkem tööd, kuid annavad sulle täieliku kontrolli visuaalse disaini üle. Näiterakendused ja 57 teemat näitavad kujundamise viise; võid need üle võtta või täielikult asendada. Pikem argument on lehel <a href="/why/">Miks Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Miks nii palju komponente?</summary>
+    <p>
+      Lily eesmärk on katta mustrid, mida enamik rakendusi vajab, sundimata sind neid nullist ehitama – sealhulgas sügavamad asjad nagu riiklike tunnuste sisendid ja toimetuse scrollytelling. Kataloog tugineb tosinale väljakujunenud disainisüsteemile pluss omaloomingule – vaata <a href="/about/">Teave</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kas saan Lilyt Tailwindiga kasutada?</summary>
+    <p>
+      Jah. Iga komponent pakub ühte kebab-case juurklassi pluss tarbija antud <code>className</code> / <code>class</code>. Pane Tailwindi utiliidid peale, nagu soovid.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kas saan Lilyt kasutada semantiliste CSS-raamistikega nagu DaisyUI?</summary>
+    <p>
+      Jah. Juurelemendi kebab-case klassinimed töötavad semantiliste CSS-haakidena. Seo Lily semantilise raamistikuga ja saad eelkujundatud komponendid, mis siiski austavad ARIA-t ja i18n-i.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kas on olemas npm-pakett?</summary>
+    <p>
+       <a href="#helpers">eelistuste abilised</a> tarnitakse pakettidena koos npm/NuGet avaldamistorustikuga. Päisteta komponenditeegid on mõeldud kloonimiseks või projekti kaasamiseks – lähtekood on tarnitav, nii et saad täpselt selle, mida tarnid, lugeda, kärpida ja omada. Registrisse avaldamine päisteta teekide jaoks on endiselt tegevuskavas.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Miks mitu litsentsi?</summary>
+    <p>
+      Erinevatel projektidel on erinevad litsentsivajadused. BSD ja MIT on lubavad, Apache-2.0-l on patendiluba ja GPL-valikud toetavad copyleft'i. Vali see, mis sinu olukorda sobib.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Kuidas teatada veast või taotleda funktsiooni?</summary>
+    <p>
+      Ava teema GitHubi hoidlas või saada e-kiri aadressile
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

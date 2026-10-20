@@ -1,0 +1,127 @@
+<!-- title: Angular-kennsluefni — Lily Design System -->
+<!-- description: Byggðu aðgengilegt, stílað eyðublað með höfuðlausum Angular 20 íhlutum Lily: sjálfstæðum íhlutum með merkjainntökum. -->
+<section class="page-intro">
+  <h1>Angular-kennsluefni</h1>
+  <p class="page-intro-tagline">
+    Sjálfstæðir Angular 20 íhlutir — merkjainntök, OnPush breytingagreining, innfelld sniðmát, engar NgModules, ekkert CSS.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Það sem þú munt byggja</h2>
+  <p>
+    Lítið tengiliðaeyðublað — innsláttarreitur með merkimiða, sendihnappur, tvíátta binding, raunveruleg lyklaborðs- og skjálesarahegðun — fyrst ber, svo stílað, á um 10 mínútum.
+  </p>
+
+  <h2>Áður en þú byrjar</h2>
+  <p>
+    Þú þarft git, Node 22 eða nýrra og pnpm 10 eða nýrra. Hvaða Angular 20 verkefni sem er virkar — Angular CLI eða Analog.
+  </p>
+
+  <h2>Skref 1 — Náðu í kóðann</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-headless
+pnpm install
+pnpm test        # vitest + TestBed, all 571 components
+pnpm run build-storybook</code></pre>
+  <p>
+    Íhlutirnir eru flatar skrár í <code>components/</code> —
+    <code>Button.ts</code>, <code>TextInput.ts</code> — hver sjálfstæður íhlutur með innfelldu sniðmáti, auk spec- og story-skráa. Tunnuskráin
+    <code>index.ts</code> endurútflytur alla íhluti; <code>pnpm build</code>
+    býr til Angular Package Format búnt með ng-packagr.
+  </p>
+
+  <h2>Skref 2 — Fyrsti íhluturinn þinn</h2>
+  
+  <pre tabindex="0"><code>import { Component } from "@angular/core";
+import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-save-bar",
+  standalone: true,
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})
+export class SaveBar {
+  save() { console.log("saved"); }
+}</code></pre>
+  <p>
+    Hver íhlutur lýsir yfir <code>lily-*</code> veljara og birtir merkingarþáttinn með klasakróknum sínum —
+    <code>&lt;button class="button" type="button"&gt;</code> hér. Inntök byggja á merkjum: <code>label()</code> fyrir <code>aria-label</code>
+    yfirskrift, <code>className()</code> til að bæta við klösum.
+  </p>
+
+  <h2>Skref 3 — Settu saman lítið eyðublað</h2>
+  
+  <pre tabindex="0"><code>import { Component, signal } from "@angular/core";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  selector: "app-contact-form",
+  standalone: true,
+  imports: [Form, Field, TextInput, Button],
+  template: `
+    &lt;lily-form label="Contact form" (submit)="handleSubmit($event)"&gt;
+      &lt;lily-field label="Full name" [required]="true"&gt;
+        &lt;lily-text-input id="name" label="Full name" [(value)]="name" /&gt;
+      &lt;/lily-field&gt;
+      &lt;lily-button type="submit"&gt;Save&lt;/lily-button&gt;
+    &lt;/lily-form&gt;
+  `,
+})
+export class ContactForm {
+  name = signal("");
+}</code></pre>
+  <p>
+    <code>lily-field</code> tekur sýnilega merkimiðann sem sitt eigið
+    <code>label</code> inntak frekar en innfelldan merkimiðaíhlut — gefðu hann einu sinni, á reitnum, og samsvarandi <code>lily-text-input</code>á
+    <code>label</code> sér um aðgengilega heitið. Inntakslíkir íhlutir birta <code>model()</code> gildi, svo banana-box <code>[(value)]</code>
+    tvíátta binding virkar strax — samhæft við zoneless alla leið.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Staðfest 2026-08-29:</strong> fyrri drög innfeldu sérstakan <code>Label</code> íhlut inni í <code>lily-field</code>, sem birtir <em>tvo</em> merkimiða (annan tóman) því
+      <code>lily-field</code> birtir þegar sinn eigin út frá
+      <code>label</code> inntakinu — uppgötvað með því að athuga frumkóða íhlutarins.
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-angular-examples/src/app/views/contact-form.ts">samsetta tengiliðaeyðublaðsleiðin</a>
+      er sama mynstur, prófað með raunverulegum e2e- og axe-prófum.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Athugaðu verkið:</strong> keyrðu forritið og eyðublaðið lítur einfalt út — nákvæmlega eins og ætlað er: stíllinn er enn framundan. Ýttu á
+      <kbd>Tab</kbd>: fókusinn færist í gegnum hverja stýringu, merkimiðinn er lesinn upp og sending virkar. Hegðunin er tilbúin; útlitið er þitt og er næst.
+    </p>
+  </div>
+
+  <h2>Skref 4 — Stílaðu það</h2>
+  <p>
+    Stílaðu klasakrókana — <code>.button</code>, <code>.text-input</code>,
+    <code>.label</code>, <code>.field</code> — í <code>styles.css</code>, eða bættu tilbúnu þema við fylkið <code>styles</code> í
+    <code>angular.json</code> / tengdu það í <code>index.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/adobe-spectrum.css" /&gt;</code></pre>
+
+  <h2>Skref 5 — Sjáðu allt virka</h2>
+  <p>
+     <a href="/examples/">Angular + Analog dæmaforritið</a> sýnir allt safnið með skráamiðaðri leiðsögn og Vite:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-angular-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>Næstu skref</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">Þemu</a> — skipti á keyrslutíma með Angular theme-picker hjálpartækinu.</li>
+    <li><a href="/tutorials/helpers/">Stillingahjálpartæki</a> — tungumál og textastærð.</li>
+    <li><a href="/components/">Íhlutasafn</a> — eiginleikar, ARIA og lyklaborð fyrir hvern íhlut.</li>
+  </ul>
+  <p>
+    Spurningar á leiðinni?
+    <a href="/help/#troubleshooting">hjálparsíðan</a> er full af svörum — og ef skref gæti verið skýrara,
+    <a href="https://github.com/LilyDesignSystem">segðu okkur</a> og við bætum kennsluefnið með ánægju.
+  </p>
+</section>

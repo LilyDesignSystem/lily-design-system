@@ -1,0 +1,117 @@
+<!-- title: מדריך Svelte — Lily Design System -->
+<!-- description: בנו טופס נגיש ומעוצב עם הרכיבים ללא הראש של Lily ל-Svelte 5: runes, snippets ו-bind:value. -->
+<section class="page-intro">
+  <h1>מדריך Svelte</h1>
+  <p class="page-intro-tagline">
+    ספריית ה-Svelte של Lily היא המימוש הקנוני: runes של Svelte 5, מאפיינים מוקלדים, פיזור rest-prop וקשירה דו-כיוונית עם
+    <code>bind:value</code>.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>מה תבנו</h2>
+  <p>
+    טופס יצירת קשר קטן — קלט עם תווית, כפתור שליחה, קשירה דו-כיוונית, התנהגות אמיתית של מקלדת וקורא מסך — קודם חשוף, אחר כך מעוצב, בכ-10 דקות.
+  </p>
+
+  <h2>לפני שמתחילים</h2>
+  <p>
+    אתם צריכים git, Node 22 ומעלה ו-pnpm 10 ומעלה. כל פרויקט Svelte 5 מתאים — אפליקציה חדשה <code>npx sv create</code> לגמרי מספיקה.
+  </p>
+
+  <h2>שלב 1 — קבלו את הקוד</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-headless
+pnpm install
+pnpm test        # vitest — thousands of component cases
+pnpm run storybook   # browse all 571 components</code></pre>
+  <p>
+    הרכיבים חיים ב- <code>src/lib/components/&#123;Name&#125;/</code>, ספרייה אחת לכל רכיב עם קובץ ה- <code>.svelte</code> שלו, הבדיקות, ה-stories והתיעוד זה לצד זה. העתיקו את הספריות שאתם צריכים לאפליקציה שלכם, או תלו במאגר וייבאו ישירות.
+  </p>
+
+  <h2>שלב 2 — הרכיב הראשון שלכם</h2>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "#lib/components/Button/Button.svelte";
+
+  function save() { console.log("saved"); }
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+  <p>
+    מציג <code>&lt;button class="button" type="button"&gt;</code>. המאפיינים מוקלדים: <code>type</code>, <code>disabled</code>,
+    <code>pressed</code> (מציג <code>aria-pressed</code> עבור כפתורי החלפה), <code>label</code> ( <code>aria-label</code> עקיפה), וכל מאפיין נוסף מתפזר על השורש.
+  </p>
+
+  <h2>שלב 3 — הרכיבו טופס קטן</h2>
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
+
+  let name = $state("");
+&lt;/script&gt;
+
+&lt;Form label="Contact form" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Full name" required&gt;
+    &lt;TextInput id="name" label="Full name" bind:value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Save&lt;/Button&gt;
+&lt;/Form&gt;</code></pre>
+  <p>
+    <code>Field</code> לוקח את ה <code>label</code> כמאפיין משלו ולא כרכיב תווית מקונן — העבירו אותה פעם אחת, על <code>Field</code>, ו <code>TextInput</code>התואם ב- <code>label</code> מספק את השם הנגיש. <code>TextInput</code>'s <code>value</code> הוא
+    <code>$bindable</code> מאפיין rune, ולכן <code>bind:value</code> נותן לכם קשירה דו-כיוונית מיד.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>אומת ב-2026-08-29:</strong> הקטע המדויק הזה הועבר הידור דרך <code>svelte/server</code> ונבדק עבור <code>&lt;label for&gt;</code> אחד, מקושר נכון — טיוטה מוקדמת קיננה <code>Label</code> בתוך <code>Field</code>נפרד, מה שהציג
+      <em>שתי</em> תוויות (אחת ריקה) משום ש- <code>Field</code> כבר מציג תווית משלו מתוך <code>label</code> מאפיין. ה-
+      <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/lily-design-system-svelte-sveltekit-examples/src/routes/contact-form/%2Bpage.svelte">נתיב טופס יצירת הקשר המורכב</a>
+      הוא אותה תבנית, שנבדקה בבדיקות e2e ו-axe אמיתיות.
+    </p>
+  </div>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>בדקו את העבודה שלכם:</strong> הריצו את האפליקציה והטופס נראה פשוט — בדיוק כמתוכנן: העיצוב עוד לפנינו. לחצו על
+      <kbd>Tab</kbd>: המיקוד עובר בכל פקד, התווית מוכרזת והשליחה עובדת. ההתנהגות מוכנה; המראה שלכם והוא הבא בתור.
+    </p>
+  </div>
+
+  <h2>שלב 4 — עצבו אותו</h2>
+  <p>
+    כל מה שלמעלה מוצג כמבנה טהור, מוכן לעיצוב שלכם. עצבו את ווי המחלקה —
+    <code>.button</code>, <code>.text-input</code>, <code>.label</code>,
+    <code>.field</code> — בגיליון הסגנון הגלובלי שלכם, או קשרו ערכת נושא מוכנה ב- <code>app.html</code>:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/dark.css" /&gt;</code></pre>
+  <p>
+    התאמות לכל מופע עוברות דרך <code>class</code> המאפיין, שמצורף לוו הבסיס: <code>&lt;Button class="wide"&gt;</code> מציג
+    <code>class="button wide"</code>.
+  </p>
+
+  <h2>שלב 5 — ראו הכול עובד</h2>
+  <p>
+     <a href="/examples/">אפליקציית הדוגמה SvelteKit</a> היא אותו קטלוג מעוצב במלואו, עם הדגמות חיות, בדיקות e2e של Playwright וקו בסיס נגישות של axe-core:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-svelte-sveltekit-examples
+pnpm install &amp;&amp; pnpm run dev</code></pre>
+
+  <h2>השלבים הבאים</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">ערכות נושא</a> — החלפה בזמן ריצה עם העוזר theme-picker של Svelte.</li>
+    <li><a href="/tutorials/helpers/">עוזרי העדפות</a> — שפה וגודל טקסט.</li>
+    <li><a href="/components/">קטלוג הרכיבים</a> — מאפיינים, ARIA ומקלדת לכל רכיב.</li>
+  </ul>
+  <p>
+    שאלות בדרך?
+    <a href="/help/#troubleshooting">עמוד העזרה</a> מלא בתשובות — ואם שלב יכול להיות ברור יותר,
+    <a href="https://github.com/LilyDesignSystem">ספרו לנו</a> ונשמח לשפר את המדריך.
+  </p>
+</section>

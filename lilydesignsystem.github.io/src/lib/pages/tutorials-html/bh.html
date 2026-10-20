@@ -1,0 +1,106 @@
+<!-- title: HTML ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के HTML हेडलेस घटक से सुलभ, शैली वाला फॉर्म बनाईं — सादा मार्कअप, सीधे फाइल से। -->
+<section class="page-intro">
+  <h1>HTML ट्यूटोरियल</h1>
+  <p class="page-intro-tagline">
+    सबसे सरल शुरुआत: Lily के क्लास हुक के साथे अर्थपूर्ण HTML कॉपी करीं, एगो स्टाइलशीट जोड़ीं, प्रकाशित करीं। सादा फाइल जे जहाँ HTML चलेला उहाँ सगरो चलेलें।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>रउआ का बनाईब</h2>
+  <p>
+    एगो छोट संपर्क फॉर्म — लेबल वाला क्षेत्र, एगो जमा करे के बटन, असली कीबोर्ड आ स्क्रीन-रीडर व्यवहार — पहिले सादा, फेर शैली के साथे, करीब 10 मिनट में।
+  </p>
+
+  <h2>शुरू करे से पहिले</h2>
+  <p>
+    रउआ के एगो ब्राउज़र आ एगो टेक्स्ट एडिटर चाहीं। बस। (git घटक फाइल लेवे में मदद करेला, बाकिर रउआ ब्राउज़र में GitHub से भी कॉपी कर सकीले।)
+  </p>
+
+  <h2>कदम 1 — कोड पाईं</h2>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system
+cd lily-design-system/lily-design-system-html-headless</code></pre>
+  <p>
+    हर घटक इहाँ एगो स्वतंत्र फाइल ह: <code>components/</code> —
+    <code>button.html</code>, <code>text-input.html</code>आ अइसहीं — हेडर टिप्पणी के साथे जे ओकर HTML टैग, क्लास हुक, कीबोर्ड व्यवहार आ सुलभता करार दर्ज करेला। फाइल <em>उहे</em> लाइब्रेरी बाड़ीं — जवन चाहीं कॉपी करीं आ चलीं।
+  </p>
+
+  <h2>कदम 2 — रउआ के पहिला घटक</h2>
+  <p>खोलीं <code>components/button.html</code>, भा खाली मार्कअप लिखीं — क्लास हुक उहे करार ह:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+  <p>
+    काहे कि ई असली <code>&lt;button&gt;</code>ह, कीबोर्ड फोकस, Enter आ Space से सक्रिय करे, आ अप्रत्यक्ष बटन भूमिका पहिले से सही बाड़ें।
+  </p>
+
+  <h2>कदम 3 — एगो छोट फॉर्म जोड़ीं</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    पैटर्न देखीं: हर नियंत्रण आपन <code>&lt;label for&gt;</code>जोड़ेला, सबसे खास input किस्म प्रयोग करेला आ ठीक एगो kebab-case क्लास हुक रखेला।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>आपन काम जाँचीं:</strong> पन्ना ब्राउज़र में खोलीं। ई सादा लउकेला — ठीक वइसहीं जइसे सोचल गइल रहे: शैली अभी आगे बा। दबाईं
+      <kbd>Tab</kbd>: फोकस हर नियंत्रण से गुजरेला, लेबल घोषित होखेलें आ जमा करे के काम करेला। व्यवहार पूरा बा; रूप रउआ के बा आ अगिला कदम बा।
+    </p>
+  </div>
+
+  <h2>कदम 4 — एकरा के शैली दीं</h2>
+  <p>हुक के खिलाफ CSS लिखीं:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.text-input,
+.email-input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #6b7280;
+  border-radius: 0.25rem;
+}
+.label { display: block; font-weight: 600; margin-bottom: 0.25rem; }</code></pre>
+  <p>
+    भा हाथ से CSS लिखे के पूरा छोड़ दीं — 45 तैयार थीम में से एगो लिंक करीं आ उहे मार्कअप चमक उठेला:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+
+  <h2>कदम 5 — आगे खोजीं</h2>
+  <ul>
+    <li>रेपो के परीक्षण असली ब्राउज़र में चलेलें: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO)।</li>
+    <li>हर घटक खातिर Storybook: <code>pnpm run storybook</code>.</li>
+    <li>
+       <a href="/examples/">HTML+CSS+JS उदाहरण ऐप</a> सब 571 घटक शैली, खोजे लायक आ प्रदर्शन के साथे देखावेला।
+    </li>
+  </ul>
+
+  <h2>अगिला कदम</h2>
+  <ul>
+    <li><a href="/tutorials/theming/">थीम</a> — theme-picker से चलत समय थीम बदलाव।</li>
+    <li><a href="/tutorials/helpers/">पसंद सहायक</a> — भाषा आ पाठ के आकार।</li>
+    <li><a href="/components/">घटक कैटलॉग</a> — पूरा संदर्भ।</li>
+  </ul>
+  <p>
+    रास्ता में सवाल बा?
+    <a href="/help/#troubleshooting">मदद पन्ना</a> जवाब से भरल बा — आ अगर कवनो कदम अउरी साफ हो सकेला,
+    <a href="https://github.com/LilyDesignSystem">हमनी के बताईं</a> आ हमनी खुशी से ट्यूटोरियल सुधारब।
+  </p>
+</section>

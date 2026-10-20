@@ -1,0 +1,111 @@
+<!-- title: Temaveiledning — Lily Design System -->
+<!-- description: Gi Lily tema på tre måter: lenk til ett av 45 ferdige temaer, overstyr det med din CSS, og legg til temabytte ved kjøretid med theme-picker-hjelperen. -->
+<section class="page-intro">
+  <h1>Tema</h1>
+  <p class="page-intro-tagline">
+    Lily-komponenter bærer stabile klassekroker og null CSS — så et tema er bare et stilark. Denne veiledningen går fra «lenk til én fil» til «la brukeren bytte tema ved kjøretid, lagret».
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Hva du skal bygge</h2>
+  <p>
+    En app der hele utseendet kan endres av brukeren — fra ett lenket stilark til en vedvarende temabytter ved kjøretid — på omtrent 15 minutter.
+  </p>
+
+  <h2>Før du begynner</h2>
+  <p>
+    Fullfør <a href="/tutorials/">rammeverksveiledningen</a> først for stacken din, slik at du har et lite Lily-skjema å gi tema. Alt her fungerer i alle syv rammeverk; kodeeksemplene viser Svelte og ren HTML.
+  </p>
+
+  <h2>Steg 1 — Lenk til et ferdig tema</h2>
+  <p>
+     <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    katalogen leveres med 45 frittstående stilark. Kopier dem inn i appens statiske ressurser og lenk til ett:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" /&gt;</code></pre>
+  <p>Høydepunkter i settet:</p>
+  <ul>
+    <li>
+      <strong>Offentlig sektor</strong> — NHS England / Scotland / Wales, hver i pasientrettede og utøverrettede varianter; GOV.UK (<code>united-kingdom-government-digital-service</code>); USWDS (<code>united-states-web-design-system</code>).
+    </li>
+    <li><strong>Leverandørinspirert</strong> — <code>adobe-spectrum</code>, <code>mozilla-protocol</code>.</li>
+    <li>
+      <strong>Generelt formål</strong> — <code>light</code>, <code>dark</code>,
+      <code>nord</code>, <code>dracula</code>, <code>wireframe</code>,
+      <code>corporate</code>, <code>synthwave</code>, og mange flere.
+    </li>
+  </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Sjekk arbeidet ditt:</strong> last siden på nytt. Den samme markupen du bygde i rammeverksveiledningen er nå fullt stilet — knapper, inndatafelt, etiketter, fokusringer. Én linje HTML gjorde det — hver komponent forble akkurat som den var.
+    </p>
+  </div>
+
+  <h2>Steg 2 — Overstyr hva som helst</h2>
+  <p>
+    Temavelgere er pakket inn i <code>:where(...)</code>som har null spesifisitet — så enhver regel du skriver vinner, enkelt og greit:
+  </p>
+  
+  <pre tabindex="0"><code>/* After the theme link: your brand button, everything else themed */
+.button {
+  background: #7c3aed;
+  border-radius: 9999px;
+}</code></pre>
+
+  <h2>Steg 3 — Bytte ved kjøretid med theme-picker</h2>
+  <p>
+     <code>theme-picker</code> hjelperen er en hodeløs ikonknapp + listeboks som eier hele temaets livssyklus: den laster det valgte stilarket ved å bytte ett administrert <code>&lt;link&gt;</code>
+    (bare det aktive temaet hentes noensinne), setter
+    <code>data-theme="&#123;slug&#125;"</code> på dokumentet, og lagrer valgfritt i <code>localStorage</code>. Svelte vises her; portene for React, Vue, Angular, HTML, Nunjucks og Blazor samsvarer kontrakt for kontrakt:
+  </p>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+&lt;/script&gt;
+
+&lt;ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark", "nord", "wireframe"]}
+  storageKey="my-app-theme"
+/&gt;</code></pre>
+  <p>
+    Det er hele integrasjonen. Tastaturoppførselen følger WAI-ARIA APG-listeboksmønsteret; selve kontrollen er hodeløs (klassekrok
+    <code>.theme-picker</code>), så den tar opp hvilket tema som enn er aktivt.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifisert 2026-08-29:</strong> akkurat denne snutten ble kompilert mot den publiserte <code>0.1.1</code> pakken via
+      <code>svelte/server</code>.
+    </p>
+  </div>
+
+  <h2>Steg 4 — Reager på temaet i din egen CSS</h2>
+  <p>
+    Fordi hjelperen setter <code>data-theme</code> på dokumentroten, kan dine egne stiler forgrene seg på det:
+  </p>
+  
+  <pre tabindex="0"><code>[data-theme="dark"] .site-logo { filter: invert(1); }</code></pre>
+
+  <h2>Merknader om server-gjengivelse</h2>
+  <p>
+    Hjelperen utfører all DOM-skriving inni rammeverkets mount/effect-livssyklus, så den er SSR-sikker fra grunnen av. For å unngå flimmer ved første tegning gjengir du det opprinnelige temaets <code>&lt;link&gt;</code> og
+    <code>data-theme</code> på serveren (for eksempel fra en informasjonskapsel) — Svelte-hjelperepoet leverer et kjørbart SvelteKit-informasjonskapseleksempel, og de andre katalogene dokumenterer samme mønster for sine stacker.
+  </p>
+
+  <h2>Neste steg</h2>
+  <ul>
+    <li><a href="/tutorials/helpers/">Preferansehjelpere</a> — samme mønster for språk, tekststørrelse, deling og dato-/tidsinntasting.</li>
+    <li>
+      Bidra med et tema — hvert er ett frittstående stilark som retter seg mot klassekrokene; se <a href="/help/#contributing">bidrag</a>.
+    </li>
+  </ul>
+  <p>
+    Spørsmål underveis?
+    <a href="/help/#troubleshooting">hjelpesiden</a> er full av svar — og hvis et steg kan bli tydeligere,
+    <a href="https://github.com/LilyDesignSystem">fortell oss</a> så forbedrer vi gjerne veiledningen.
+  </p>
+</section>
