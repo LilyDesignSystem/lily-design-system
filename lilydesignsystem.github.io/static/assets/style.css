@@ -23,13 +23,20 @@
   --lily-danger: #dc2626;
   --lily-warning: #f59e0b;
   --lily-success: #16a34a;
-  --lily-page-bg: #f9fafb;
-  --lily-card-bg: #ffffff;
-  --lily-text: #111827;
-  --lily-text-muted: #4b5563;
-  --lily-text-subtle: #6b7280;
-  --lily-border: #e5e7eb;
-  --lily-border-strong: #d1d5db;
+  /* Surfaces and text follow the active theme. Until 2026-10-20 these were fixed light values, which beat the
+   * theme's own zero-specificity :where(:root) tokens, so every dark theme (dracula, night, ...) still painted a
+   * near-white page: the picker set data-theme and color-scheme: dark, but body/card backgrounds never changed.
+   * The var() fallbacks are the original light values, used only before any theme stylesheet has loaded.
+   * Page = base-200 and card = base-100 keeps the original "page slightly off the card" look in light themes. */
+  --lily-page-bg: var(--color-base-200, #f9fafb);
+  --lily-card-bg: var(--color-base-100, #ffffff);
+  --lily-text: var(--color-base-content, #111827);
+  --lily-text-muted: color-mix(in oklch, var(--color-base-content, #111827) 72%, transparent);
+  --lily-text-subtle: color-mix(in oklch, var(--color-base-content, #111827) 60%, transparent);
+  --lily-border: color-mix(in oklch, var(--color-base-content, #111827) 16%, transparent);
+  --lily-border-strong: color-mix(in oklch, var(--color-base-content, #111827) 32%, transparent);
+  --lily-tint: color-mix(in oklch, var(--lily-primary) 12%, var(--lily-card-bg));
+  --lily-on-primary: var(--color-primary-content, #fff);
   --lily-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
   --lily-shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
   --lily-radius: 0.5rem;
@@ -90,8 +97,8 @@ code, pre {
   font-size: 0.9em;
 }
 code {
-  background: #eef2ff;
-  color: #312e81;
+  background: var(--lily-tint);
+  color: var(--lily-text);
   padding: 0.1em 0.35em;
   border-radius: 4px;
 }
@@ -184,7 +191,7 @@ kbd {
 .site-nav a[aria-current="page"] {
   color: var(--lily-primary);
   font-weight: 600;
-  background: #eef2ff;
+  background: var(--lily-tint);
 }
 
 /* Site preference pickers (theme, language, text size, share) — composed
@@ -298,7 +305,7 @@ html[data-text-size='largest'] { font-size: 150%; }
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--lily-primary);
-  background: #eef2ff;
+  background: var(--lily-tint);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   margin-bottom: 1rem;
@@ -331,13 +338,13 @@ html[data-text-size='largest'] { font-size: 150%; }
 }
 .button-primary {
   background: var(--lily-primary);
-  color: #fff;
+  color: var(--lily-on-primary);
   border-color: var(--lily-primary);
 }
 .button-primary:hover {
   background: var(--lily-primary-hover);
   border-color: var(--lily-primary-hover);
-  color: #fff;
+  color: var(--lily-on-primary);
 }
 .button-secondary {
   background: var(--lily-card-bg);
@@ -345,7 +352,7 @@ html[data-text-size='largest'] { font-size: 150%; }
   border-color: var(--lily-primary);
 }
 .button-secondary:hover {
-  background: #eef2ff;
+  background: var(--lily-tint);
 }
 
 .button-row {
@@ -562,7 +569,7 @@ a.card:hover { color: inherit; }
 .tag {
   display: inline-block;
   font-size: 0.8125rem;
-  background: #eef2ff;
+  background: var(--lily-tint);
   color: var(--lily-primary);
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
@@ -604,7 +611,7 @@ details.faq-item p { margin-top: 0.75rem; }
   top: -100px;
   left: 1rem;
   background: var(--lily-primary);
-  color: #fff;
+  color: var(--lily-on-primary);
   padding: 0.5rem 1rem;
   border-radius: 4px;
   text-decoration: none;
@@ -613,24 +620,24 @@ details.faq-item p { margin-top: 0.75rem; }
 }
 .skip-link:focus {
   top: 1rem;
-  color: #fff;
+  color: var(--lily-on-primary);
 }
 
 /* Banner */
 
 .callout {
-  background: #eef2ff;
+  background: var(--lily-tint);
   border-left: 4px solid var(--lily-primary);
   padding: 1rem 1.25rem;
   border-radius: 0 var(--lily-radius) var(--lily-radius) 0;
   margin: 1.5rem 0;
 }
 .callout-warning {
-  background: #fff7ed;
+  background: color-mix(in oklch, var(--lily-warning) 14%, var(--lily-card-bg));
   border-left-color: var(--lily-warning);
 }
 .callout-success {
-  background: #f0fdf4;
+  background: color-mix(in oklch, var(--lily-success) 14%, var(--lily-card-bg));
   border-left-color: var(--lily-success);
 }
 

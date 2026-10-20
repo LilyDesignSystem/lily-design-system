@@ -21,6 +21,68 @@
 
   let { locale = DEFAULT_LOCALE }: { locale?: string } = $props();
 
+  // Every stylesheet in static/assets/themes (57): the published picker-bar's own default list is shorter.
+  // General and design-system themes alphabetically, then the UK and US government themes.
+  const THEMES = [
+    'abyss',
+    'acid',
+    'adobe-spectrum',
+    'ant-design',
+    'aqua',
+    'atlassian',
+    'autumn',
+    'black',
+    'bumblebee',
+    'business',
+    'cappuccino',
+    'caramellatte',
+    'cmyk',
+    'coffee',
+    'corporate',
+    'cupcake',
+    'cyberpunk',
+    'dark',
+    'dim',
+    'dracula',
+    'emerald',
+    'excel',
+    'fantasy',
+    'fluent',
+    'forest',
+    'garden',
+    'github-primer',
+    'halloween',
+    'ibm-carbon',
+    'lemonade',
+    'light',
+    'linear',
+    'lofi',
+    'luxury',
+    'mozilla-protocol',
+    'night',
+    'nord',
+    'notion',
+    'pastel',
+    'retro',
+    'salesforce',
+    'sap-fiori',
+    'silk',
+    'sunset',
+    'synthwave',
+    'valentine',
+    'vercel',
+    'winter',
+    'wireframe',
+    'united-kingdom-government-digital-service',
+    'united-kingdom-national-health-service-england-for-patients',
+    'united-kingdom-national-health-service-england-for-practitioners',
+    'united-kingdom-national-health-service-scotland-for-patients',
+    'united-kingdom-national-health-service-scotland-for-practitioners',
+    'united-kingdom-national-health-service-wales-for-patients',
+    'united-kingdom-national-health-service-wales-for-practitioners',
+    'united-states-web-design-system',
+  ];
+
   const strings = $derived(ui(locale));
 
   // The link picker's menu: pages this site actually has, reusing the nav strings that are already
@@ -92,6 +154,7 @@
   linkProps={{ navigate: (href: string) => goto(href) }}
   searchProps={{ action: '/components/', navigate: (href: string) => goto(href) }}
   themesUrl="/assets/themes/"
+  themes={THEMES}
   themeProps={{ detectFromSystem: true, storageKey: 'lily-site-theme' }}
   locales={locales()}
   localeProps={{
