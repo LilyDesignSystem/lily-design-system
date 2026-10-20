@@ -4,7 +4,7 @@ Single source of truth: [spec/index.md](./spec/index.md).
 
 ## What this package is
 
-The 46 per-locale label packs (`label-packs/<locale>.json`) and their loaders (`label-pack.ts`, `label-pack-nunjucks.ts`), published as `@lilydesignsystem/locale-translations`. No dependencies, no CSS, no English default.
+The 64 per-locale label packs (`label-packs/<locale>.json`) and their loaders (`label-pack.ts`, `label-pack-nunjucks.ts`), published as `@lilydesignsystem/locale-translations`. No dependencies, no CSS, no English default.
 
 ## Rules to keep
 

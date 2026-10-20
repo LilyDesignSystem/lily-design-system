@@ -19,7 +19,7 @@ All eight catalogs have their own package so you install the one that matches yo
 
 ## What a pack holds
 
-The `labels` for each helper, plus `locale`, `reviewed`, `direction`, `endonym` and `exonyms` (the language's name in itself and in each other pack's language; none yet for Bhojpuri). Only English (`en-001`) is reviewed; the other 45 are machine drafts, so check `pack.reviewed` and have a native speaker read one, screen-reader wording especially, before it ships in a product. A key a pack lacks leaves that label unset, never another language. Dates stay out of packs: use `Intl`.
+The `labels` for each helper, plus `locale`, `reviewed`, `direction`, `endonym` and `exonyms` (the language's name in itself and in each other pack's language; none yet for Bhojpuri). Only English (`en-001`) is reviewed; the other 63 are machine drafts, so check `pack.reviewed` and have a native speaker read one, screen-reader wording especially, before it ships in a product. A key a pack lacks leaves that label unset, never another language. Dates stay out of packs: use `Intl`.
 
 ## Source
 

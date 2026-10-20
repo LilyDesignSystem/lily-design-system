@@ -1,4 +1,4 @@
-// The 46 locale label packs, embedded. See index.md.
+// The 49 locale label packs, embedded. See index.md.
 //
 //     var pack = LabelPack.FromJson(LocaleTranslations.Json("cy-001"));   // LabelPack is in the data-grid package
 //

@@ -8,7 +8,7 @@ Let an app use the grid-like helpers in a language without writing the strings i
 
 ## 2. Scope
 
-In: the 46 packs, `labelsFor`, `nunjucksLabelsFor`, their types. Out: weekday and month names, period titles (use `Intl`); the Blazor loader (`LabelPack` in the Blazor packages); any translation workflow.
+In: the 64 packs, `labelsFor`, `nunjucksLabelsFor`, their types. Out: weekday and month names, period titles (use `Intl`); the Blazor loader (`LabelPack` in the Blazor packages); any translation workflow.
 
 ## 3. Contract
 

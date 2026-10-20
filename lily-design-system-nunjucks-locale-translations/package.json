@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=26"
   },
-  "description": "Lily Design System - Nunjucks: per-locale label packs (46 locales) and the loader for the data grid, kanban board, calendar, Gantt chart and filter helpers",
+  "description": "Lily Design System - Nunjucks: per-locale label packs (64 locales) and the loader for the data grid, kanban board, calendar, Gantt chart and filter helpers",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
