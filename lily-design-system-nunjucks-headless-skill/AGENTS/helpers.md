@@ -34,7 +34,7 @@ See the Rules below for why.
 ## Label packs (added 2026-10-18)
 
 The grid-like helpers (`data-grid`, `kanban-board`, `calendar`, `gantt-chart`, `filter`) take a large `labels` object and ship no
-English. [`shared/label-packs/`](../shared/label-packs/index.md) holds one JSON pack per locale (46, English plus 45 **unreviewed
+English. [`shared/label-packs/`](../shared/label-packs/index.md) holds one JSON pack per locale (46, English plus 63 **unreviewed
 machine drafts**); `labelsFor(helper, pack)` builds a ready `labels`, `nunjucksLabelsFor()` does it for the Nunjucks macros and clients,
 and Blazor's `LabelPack` + `ToXLabels()` for the typed records. A key a pack lacks leaves the label unset, never another language;
 dates stay out of packs (use `Intl`). Never edit one pack alone: add a string to `en-001` first, then every locale, and run

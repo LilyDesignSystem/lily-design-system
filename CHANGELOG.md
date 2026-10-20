@@ -9,6 +9,21 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Label packs for 15 more languages — 2026-10-20
+
+- Added `gd`, `is`, `uk`, `ms`, `he`, `pcm`, `yue`, `tl`, `wuu`, `kn`, `nb`, `lo`, `km`, `sco` and `kw` label packs (64 locales in all; `eu-001` already had one). All 63 non-English packs are unreviewed machine drafts. Hebrew is `direction: rtl`.
+
+## Docs site: 16 more languages, 14 extra pages for every language — 2026-10-20
+
+- The nine per-framework tutorials, Lily + Figma, Lily + Claude Design, News, Roadmap and Locales pages are translated into all 46 non-Chinese languages that already had the eight main pages.
+- Added the languages Scottish Gaelic (`gd`), Icelandic (`is`), Basque (`eu`), Ukrainian (`uk`), Malay (`ms`), Hebrew (`he`, right-to-left), Nigerian Pidgin (`pcm`), Cantonese (`yue`), Tagalog (`tl`), Wu Chinese (`wuu`), Kannada (`kn`), Norwegian Bokmål (`nb`), Lao (`lo`), Khmer (`km`), Scots (`sco`) and Cornish (`kw`), plus the `-001` aliases `bg cs el ga lb lt lv mt pl ro sk sl` and the regional pairs `is-is`, `eu-es`, `nb-no`, `km-kh`, `lo-la`, `gd-gb`, `kw-gb`, `sco-gb`.
+- All of it is machine-drafted and unreviewed. Wu Chinese was derived from the Simplified Chinese pages by Shanghainese function-word substitution; Cornish is the lowest-confidence draft.
+- Not added: `cy-cy` (ambiguous — Welsh is `cy-gb`/`cy-001`); label packs for the new languages.
+
+## Label packs for Swahili, Thai and Luxembourgish — 2026-10-20
+
+- Three new unreviewed machine-draft packs, `sw-001`, `th-001` and `lb-001`, so there are now 49 label packs (English plus 48 drafts), matching the docs site's new page translations. Each holds `endonym` and its own `exonyms` entry only; the other 46 packs do not yet name these three languages. Synced into every `locale-translations` package by `bin/sync-shared-modules`.
+
 ## Locale translations packages — 2026-10-18
 
 - New `@lilydesignsystem/locale-translations` 0.1.0 (npm) and `LilyDesignSystem.Blazor.LocaleTranslations` 0.1.0 (NuGet): the 46 label packs as flat per-locale exports (Blazor: embedded resources) with `labelsFor` / `nunjucksLabelsFor`. Not yet published.

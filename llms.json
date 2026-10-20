@@ -114,7 +114,7 @@
         {
           "title": "spec/label-packs/index.md",
           "url": "spec/label-packs/index.md",
-          "description": "The 46 per-locale labels packs (English plus 45 unreviewed drafts), their loaders for every catalog and the checks that keep them in step."
+          "description": "The 64 per-locale labels packs (English plus 63 unreviewed drafts), their loaders for every catalog and the checks that keep them in step."
         },
         {
           "title": "spec/frameworks/index.md",

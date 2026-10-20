@@ -82,7 +82,7 @@ Re-verified 2026-09-03 as the `motion-picker` helper landed in all seven catalog
 
 ## Label-pack tests (2026-10-18)
 
-The 46 label packs are tested three ways, all against the real files in `shared/label-packs/`. `bin/check-label-packs` (in `bin/test`)
+The 64 label packs are tested three ways, all against the real files in `shared/label-packs/`. `bin/check-label-packs` (in `bin/test`)
 checks key and placeholder parity with English and that the Svelte and TypeScript-port helpers still have every key a pack holds.
 `shared/label-pack.test.ts` and `shared/label-pack-nunjucks.test.ts` build every label from every pack (run with
 `pnpm exec vitest run --root ../shared` from any package that has vitest). Each Nunjucks package has a `*.label-pack.test.ts` that renders

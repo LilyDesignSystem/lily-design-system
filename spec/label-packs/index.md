@@ -6,11 +6,11 @@
 hundred-odd `labels` strings. A *label pack* is that work done once: one JSON file per locale in
 [`shared/label-packs/`](../../shared/label-packs/) holding the strings for the data grid, kanban board, calendar, Gantt chart
 and filter, plus a small loader per catalog that turns a pack into the `labels` the helper takes. Added 2026-10-18.
-**Forty-five of the forty-six packs are unreviewed machine drafts.**
+**Sixty-three of the sixty-four packs are unreviewed machine drafts.**
 
 ## Scope
 
-In: the pack format, the loaders (TypeScript, Nunjucks, Blazor), the 46 locales, and the checks that keep packs and helpers in step.
+In: the pack format, the loaders (TypeScript, Nunjucks, Blazor), the 64 locales, and the checks that keep packs and helpers in step.
 Out: anything that depends on how a locale writes dates (weekday and day names, period titles and announcements, the Gantt column
 label, the date-time-picker labels) — build those with `Intl` or the culture; pickers (their labels are few and per-app); publishing
 the packs as a package (not done yet).
@@ -63,7 +63,7 @@ placeholders in logical order.
 - [x] Every Nunjucks package renders its macro with every pack and leaves no placeholder in a visible label (`*.label-pack.test.ts`).
 - [x] Every Blazor package builds its labels from every pack (`*LabelPackTests.cs`).
 - [x] `shared/label-pack.test.ts` and `shared/label-pack-nunjucks.test.ts` build every label from every pack.
-- [ ] Native-speaker review of the 45 draft packs (Welsh included).
+- [ ] Native-speaker review of the 63 draft packs (Welsh included).
 - [x] Packaged (2026-10-18, not yet published): `@lilydesignsystem/locale-translations` (npm, one flat export per locale; the `reviewed` flag, not a path, marks a draft) and `LilyDesignSystem.Blazor.LocaleTranslations` (NuGet, packs embedded). Each pack also holds `direction`, `endonym` and `exonyms`.
 
 ## Related topics

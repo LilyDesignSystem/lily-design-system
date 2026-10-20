@@ -105,7 +105,7 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `check-theme` | Conformance checks for the 57 reference themes (class hooks, zero specificity, tokens, data-theme guard, shared sections, provenance, no filled current-day cell). |
 | `check-class-names` | Audit that every implementation in all 8 headless libraries carries its slug as the base class (first token of a class list); part of `bin/test`. |
 | `check-helper-docs` | The Svelte grid-like helpers document every prop and list no shipped feature as a non-goal; part of `bin/test`. |
-| `check-label-packs` | The 46 label packs in `shared/label-packs/` match the English pack, and the Svelte and TypeScript-port helpers still have every key they hold; part of `bin/test`. |
+| `check-label-packs` | The 64 label packs in `shared/label-packs/` match the English pack, and the Svelte and TypeScript-port helpers still have every key they hold; part of `bin/test`. |
 | `sync-shared-modules` | One source (`shared/`) for the pure modules the grid-like helpers copy; `--check` fails on drift. Edit `shared/`, never a package's copy. |
 | `verify-published` | After `publish-helpers`: is every helper package's local version on npm / nuget.org? `--wait 900` polls through registry lag. |
 | `check-coverage` | Coverage drift matrix: per-component file presence across all 7 headless libraries (beyond `bin/test`'s 3). |

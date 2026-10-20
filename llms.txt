@@ -56,8 +56,8 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [spec/helpers/index.md](spec/helpers/index.md): the ten `*-picker`
   helper contracts in full, picker-bar, the tooltip contract, and the data-grid,
   kanban-board, gantt-chart, calendar and filter contracts.
-- [spec/label-packs/index.md](spec/label-packs/index.md): the 46 per-locale
-  `labels` packs (English plus 45 unreviewed drafts), their loaders for every
+- [spec/label-packs/index.md](spec/label-packs/index.md): the 64 per-locale
+  `labels` packs (English plus 63 unreviewed drafts), their loaders for every
   catalog and the checks that keep them in step.
 - [spec/frameworks/index.md](spec/frameworks/index.md): the seven
   framework pairs, per-framework file shapes, the copy-pattern.

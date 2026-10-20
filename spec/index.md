@@ -54,7 +54,7 @@ coding agents.
 | [share-picker](share-picker/index.md) | The share-picker button / disclosure-of-links HTML contract, bare glyph ➤, no `aria-haspopup`. |
 | [search-picker](search-picker/index.md) | The search-picker button / search-form disclosure HTML contract: magnifying-glass icon, ⏎ submit, GET to `/?<text>`. |
 | [date-time-picker](date-time-picker/index.md) | The date-time-picker field + trigger + APG dialog HTML contract, bare glyph 📅︎ — the one picker that is a form control. |
-| [label-packs](label-packs/index.md) | The 46 per-locale label packs for the data grid, kanban, calendar, Gantt and filter, their loaders (TypeScript, Nunjucks, Blazor) and the checks. |
+| [label-packs](label-packs/index.md) | The 64 per-locale label packs for the data grid, kanban, calendar, Gantt and filter, their loaders (TypeScript, Nunjucks, Blazor) and the checks. |
 | [national-identifiers](national-identifiers/index.md) | The 140 national personal identifier components, normalization, validation algorithms. |
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
@@ -354,7 +354,7 @@ Scripts live in `bin/`:
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
 | `bin/check-helper-docs`               | Every Svelte grid-like helper documents each prop and lists no shipped feature as a non-goal. |
-| `bin/check-label-packs`               | The 46 label packs match the English pack; the helpers still take every key a pack holds. |
+| `bin/check-label-packs`               | The 64 label packs match the English pack; the helpers still take every key a pack holds. |
 | `bin/verify-published`                | After a publish: is every helper package's local version on npm / nuget.org? `--wait` polls through registry lag. |
 | `bin/check-theme`                     | Conformance checks for the 57 reference themes; `--contrast` reports token-pair contrast (report only). |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
@@ -612,7 +612,7 @@ The dated, per-event narrative moved to [history](history/index.md) on 2026-10-0
 grown to more than half of this file). [CHANGELOG.md](../CHANGELOG.md) remains the
 canonical release record. Most recent events, newest first:
 
-- **Label packs, critical path and parity (2026-10-18)** — 46 per-locale `labels` packs (45 unreviewed drafts) with loaders for every catalog; the optional Gantt critical-path helper (calendar or working-day lag); the Gantt `criticalLabel` and kanban title editing in all eight catalogs; `bin/check-helper-docs`, `bin/check-label-packs`, `bin/verify-published`. See [label-packs](label-packs/index.md).
+- **Label packs, critical path and parity (2026-10-18)** — 64 per-locale `labels` packs (63 unreviewed drafts) with loaders for every catalog; the optional Gantt critical-path helper (calendar or working-day lag); the Gantt `criticalLabel` and kanban title editing in all eight catalogs; `bin/check-helper-docs`, `bin/check-label-packs`, `bin/verify-published`. See [label-packs](label-packs/index.md).
 - **`menu-picker` and `settings-picker` (2026-10-08)** — two more `*-picker`s: a hamburger and a cog icon button opening a
   dropdown of whatever the app provides, in all eight catalogs. See [menu-picker](menu-picker/index.md),
   [settings-picker](settings-picker/index.md).

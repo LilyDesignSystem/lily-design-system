@@ -101,11 +101,9 @@ the binding rules are:
   `en-gb-oxendict` (British English, Oxford spelling, which has no standard subtag). `bin/test` enforces the rule on
   `src/routes/`.
 - **The tree is `/<code>/`**, one thin page per locale around a shared template; `/` is the default locale `en-001` and is the
-  untranslated, canonical English site. There are 15 locales: `ar-001 bn-001 cy-001 cy-gb en-001 en-gb en-gb-oxendict en-us es-001
-  fr-001 hi-001 id-001 pt-001 ru-001 ur-001 zh-cn`. Component docs and the per-framework tutorials are still English-only, and the translated home page says so in its own language.
+  untranslated, canonical English site. There are 111 locales (2026-10-20: 96 added, each non-English language also gaining the eight translated main pages; the 52 languages added that day are machine drafts pending native-speaker review, and the Wu Chinese (`wuu`) pages were derived from the Simplified Chinese pages by Shanghainese function-word substitution rather than translated afresh, Cornish (`kw`) is the lowest-confidence draft): `ar-001 bg-001 bg-bg bh-001 bn-001 cs-001 cs-cz cy-001 cy-gb da-001 da-dk de-001 de-at de-de el-001 el-cy el-gr en-001 en-gb en-gb-oxendict en-us es-001 es-es et-001 et-ee eu-001 eu-es fa-001 fi-001 fi-fi fr-001 fr-be fr-fr ga-001 ga-ie gd-001 gd-gb gu-001 ha-001 he-001 hi-001 hi-in hr-001 hr-hr hu-001 hu-hu id-001 id-id is-001 is-is it-001 it-it ja-001 ja-jp jv-001 km-001 km-kh kn-001 ko-001 ko-kr kw-001 kw-gb lb-001 lb-lu lo-001 lo-la lt-001 lt-lt lv-001 lv-lv mr-001 ms-001 mt-001 mt-mt nb-001 nb-no nl-001 nl-nl pa-001 pcm-001 pl-001 pl-pl pt-001 pt-pt ro-001 ro-ro ru-001 sco-gb sk-001 sk-sk sl-001 sl-si sv-001 sv-se sw-001 sw-tz ta-001 te-001 th-001 th-th tl-001 tr-001 tr-tr uk-001 ur-001 vi-001 vi-vn wuu-001 yue-001 zh-001 zh-cn`. Component docs and the per-framework tutorials are still English-only, and the translated home page says so in its own language.
 - **The eight main pages are translated too (2026-10-07).** About, Why Lily, Accessibility, Help, Comparisons, Tutorials, Examples and
-  Skills exist at `/<code>/<page>/` for every non-English locale (11 languages: `ar bn cy es fr hi id pt ru ur zh`, which covers
-  12 locale directories because `cy-001` and `cy-gb` share Welsh). The English page (`src/routes/<page>/+page.svelte`) is the source:
+  Skills exist at `/<code>/<page>/` for every non-English locale (63 languages, which cover 107 locale directories because a language's `-001` and regional locales share one set of files, e.g. `cy-001` and `cy-gb`). The English page (`src/routes/<page>/+page.svelte`) is the source:
   `bin/extract-site-pages` turns it into `src/lib/pages/<page>/en.html`, each language adds `<language>.html` with *identical markup
   structure* (same tags, `id`s, `href`s and byte-identical `<pre>` code samples; only text and `aria-label`s differ), and
   `bin/generate-locale-pages` writes the thin route files. `bin/check-site-page-translations` enforces structure, code-sample identity,
@@ -119,7 +117,7 @@ the binding rules are:
   translated page only when it exists (otherwise it stays on the English page), and `bin/check-site-page-translations` applies the same
   structure, code-sample and not-English checks wherever one is present. `news`, `roadmap` and `locales` are **intro-only**: the translation
   covers the intro section, and what follows (the rendered NEWS.md and plan.md, and the list of languages from `LocaleList.svelte`) is
-  generated at build time — the NEWS.md and plan.md text stays English. `zh-cn` has all fourteen. Still English-only everywhere: the 571
+  generated at build time — the NEWS.md and plan.md text stays English. Every language has all fourteen. Still English-only everywhere: the 571
   component docs. The English page numbers are copied as written (the tutorials say "45 themes" where the repository now has 57).
 - **Labels are endonyms** — each language's own name (`Cymraeg`, `Français`, `العربية`) — except where a language has several
   regional locales: then the label adds the region after a dash (`English - Great Britain`, `Cymraeg - Prydain Fawr`), never an

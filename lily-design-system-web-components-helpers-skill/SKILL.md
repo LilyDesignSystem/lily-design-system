@@ -124,7 +124,7 @@ output is JSON, SQL, MongoDB, OData or a predicate) as separate packages (@lilyd
 Svelte wins.
 
 They take a large `labels` object and ship no English, so do not write it by hand per locale. `shared/label-packs/` holds one JSON
-pack for each of 46 locales (English plus 45 **unreviewed machine drafts**; have a native speaker check screen-reader wording).
+pack for each of 64 locales (English plus 63 **unreviewed machine drafts**; have a native speaker check screen-reader wording).
 `labelsFor("data-grid", pack)` gives a drop-in `labels` property. A string a pack lacks leaves the label unset rather than showing another language, and date-dependent labels (weekday names,
 period titles) come from `Intl`. Full contract: `spec/label-packs/index.md`.
 
