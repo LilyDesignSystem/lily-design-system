@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["index.ts", "components/**/*.ts", "components/**/*.svelte"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "components/**/*.stories.svelte",
+    "components/**/*.stories.ts",
+    "components/**/*.test.ts"
+  ]
+}

@@ -2326,9 +2326,8 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
 From the capabilities and code-quality audit in [plan.md](plan.md) § "Research findings (2026-10-21)". Every number in
 a task was measured on 2026-10-21; re-measure before closing it.
 
-- [ ] **P12-T1 Typecheck in CI.** *(Partly done 2026-10-21: `check` scripts and a CI step for react, vue, angular and web-components headless; still open: `svelte-headless` (needs `svelte-check` installed), the HTML, Nunjucks and Alpine libraries, the helpers outside the Svelte ones, and adding web-components to the `headless` matrix.)* Add a `check` script (`svelte-check`, `tsc --noEmit`, `vue-tsc --noEmit`, the Angular
-  compiler's `ngc -p` or `tsc`) to every TypeScript headless library and helper package that lacks one — starting with
-  `svelte-headless`, which has none — and a CI job that runs them all.
+- [ ] **P12-T1 Typecheck in CI.** *(Partly done 2026-10-21: `check` scripts and a CI step for svelte, react, vue, angular and web-components headless — `svelte-headless` runs `svelte-check` on `tsconfig.check.json` (source only, 0 errors, 13 a11y warnings); Web Components was not in the `headless` CI matrix at all and now is. Still open: the HTML, Nunjucks and Alpine libraries; the helper packages outside the Svelte ones; the 81 `svelte-headless` test files that omit a required `children` snippet (excluded from `tsconfig.check.json`); the 13 `svelte-check` warnings, e.g. `aria-multiselectable` on `TreeSelect`'s combobox, a redundant role in `StickyPromoBanner`, a tabindex on `Splitter`'s non-interactive element.)* Add a `check` script (`svelte-check`, `tsc --noEmit`, `vue-tsc --noEmit`, the Angular
+  compiler's `ngc -p` or `tsc`) to every TypeScript headless library and helper package that lacks one, and a CI job that runs them all.
   Verify: the job is in `.github/workflows/ci.yml` and fails when a deliberate type error is introduced.
 - [x] **P12-T2 (done 2026-10-21: React 405 → 0 — story files use `StoryObj<typeof Component>` so `args` are optional, 16 test props fixed; Vue, Angular and Web Components were already clean; 3,310 React tests pass) Fix the React headless type errors.** `tsc --noEmit -p lily-design-system-react-headless` reports 405
   errors: 389 in `*.stories.tsx` (stories with no `args` for required props — fix in

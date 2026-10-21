@@ -107,6 +107,7 @@ jobs:
           - lily-design-system-vue-headless
           - lily-design-system-angular-headless
           - lily-design-system-nunjucks-headless
+          - lily-design-system-web-components-headless
           - lily-design-system-alpine-headless
     steps:
       - uses: actions/checkout@v7
@@ -122,7 +123,7 @@ jobs:
         working-directory: ${{ matrix.catalog }}
         run: pnpm install --frozen-lockfile
       - name: Typecheck
-        # Libraries without a `check` script yet are skipped (tasks.md P12-T1).
+        # Libraries without a `check` script (html, nunjucks, alpine) are skipped; see tasks.md P12-T1.
         working-directory: ${{ matrix.catalog }}
         run: pnpm run --if-present check
       - name: Test
