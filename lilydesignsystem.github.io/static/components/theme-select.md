@@ -100,9 +100,9 @@ With theme application:
 
 ## When Not to Use
 
-- Do not use when visual preview of themes is important -- use [ThemeSelect](../theme-select/) with swatches instead.
-- Do not use for non-theme selections -- use [Select](../select/) with custom options instead.
-- Do not use for a simple binary light/dark toggle -- use [SwitchButton](../switch-button/) or [ToggleButton](../toggle-button/) instead.
+- Do not use when visual preview of themes is important -- use [ThemeSelect](theme-select.md) with swatches instead.
+- Do not use for non-theme selections -- use [Select](select.md) with custom options instead.
+- Do not use for a simple binary light/dark toggle -- use [SwitchButton](switch-button.md) or [ToggleButton](toggle-button.md) instead.
 
 ## Headless
 

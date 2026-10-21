@@ -201,7 +201,9 @@ def manifests(mode):
 
 
 def markdown_copies(mode):
-    """static/components/{slug}.md must equal components/{slug}/index.md byte for byte."""
+    """static/components/{slug}.md must equal components/{slug}/index.md, except that
+    sibling links `](../other/)` become `](other.md)`: the copies sit side by side in
+    one directory, so the directory-style links of the source would not resolve."""
     dest = os.path.join(TOP, "lilydesignsystem.github.io", "static", "components")
     os.makedirs(dest, exist_ok=True)
     slugs = [l.split("\t")[0] for l in open(os.path.join(TOP, "components.tsv")) if l.strip()]
@@ -209,7 +211,8 @@ def markdown_copies(mode):
     differ = 0
     for slug in slugs:
         wanted.add(f"{slug}.md")
-        body = open(os.path.join(TOP, "components", slug, "index.md"), "rb").read()
+        body = re.sub(rb"\]\(\.\./([a-z0-9-]+)/\)", rb"](\1.md)",
+                      open(os.path.join(TOP, "components", slug, "index.md"), "rb").read())
         path = os.path.join(dest, f"{slug}.md")
         if not os.path.exists(path) or open(path, "rb").read() != body:
             differ += 1

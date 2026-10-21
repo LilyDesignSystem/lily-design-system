@@ -87,10 +87,10 @@ Health dashboard with data attributes:
 
 ## When Not to Use
 
-- Do not use for display-only status -- use [RedAmberGreenView](../red-amber-green-view/) instead.
-- Do not use when five-level granularity is needed -- use [RedOrangeYellowGreenBluePicker](../red-orange-yellow-green-blue-picker/) instead.
-- Do not use for binary on/off states -- use [SwitchButton](../switch-button/) or [CheckboxInput](../checkbox-input/) instead.
-- Do not use for free-form status text -- use [Select](../select/) with custom options instead.
+- Do not use for display-only status -- use [RedAmberGreenView](red-amber-green-view.md) instead.
+- Do not use when five-level granularity is needed -- use [RedOrangeYellowGreenBluePicker](red-orange-yellow-green-blue-picker.md) instead.
+- Do not use for binary on/off states -- use [SwitchButton](switch-button.md) or [CheckboxInput](checkbox-input.md) instead.
+- Do not use for free-form status text -- use [Select](select.md) with custom options instead.
 
 ## Headless
 

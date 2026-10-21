@@ -64,9 +64,9 @@ None -- this is a passive informational display, not an interactive element.
 
 ## When Not to Use
 
-- Do not use when users need to select or change the status -- use [RedOrangeYellowGreenBluePicker](../red-orange-yellow-green-blue-picker/) instead.
-- Do not use for three-level status display -- use [RedAmberGreenView](../red-amber-green-view/) instead.
-- Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
+- Do not use when users need to select or change the status -- use [RedOrangeYellowGreenBluePicker](red-orange-yellow-green-blue-picker.md) instead.
+- Do not use for three-level status display -- use [RedAmberGreenView](red-amber-green-view.md) instead.
+- Do not use for general-purpose text display -- use a `<span>` or [Badge](badge.md) instead.
 
 ## Headless
 

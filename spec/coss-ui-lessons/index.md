@@ -79,7 +79,7 @@ only).
 ### 3. "Copy Markdown" on every docs page
 
 - **Deliverable:** `/components/{slug}.md` (the component's `index.md`,
-  served verbatim) and a "Copy Markdown" button plus a visible `.md` link on
+  served as is, except that sibling links `](../other/)` become `](other.md)` so they resolve beside it) and a "Copy Markdown" button plus a visible `.md` link on
   the component page.
 - **Rule:** the button copies exactly the served file; the site adds no
   second copy of the prose.

@@ -80,9 +80,9 @@ Detailed project health assessment:
 
 ## When Not to Use
 
-- Do not use for display-only status -- use [RedOrangeYellowGreenBlueView](../red-orange-yellow-green-blue-view/) instead.
-- Do not use when a simpler three-level scale suffices -- use [RedAmberGreenPicker](../red-amber-green-picker/) instead.
-- Do not use for binary on/off states -- use [SwitchButton](../switch-button/) or [CheckboxInput](../checkbox-input/) instead.
+- Do not use for display-only status -- use [RedOrangeYellowGreenBlueView](red-orange-yellow-green-blue-view.md) instead.
+- Do not use when a simpler three-level scale suffices -- use [RedAmberGreenPicker](red-amber-green-picker.md) instead.
+- Do not use for binary on/off states -- use [SwitchButton](switch-button.md) or [CheckboxInput](checkbox-input.md) instead.
 
 ## Headless
 

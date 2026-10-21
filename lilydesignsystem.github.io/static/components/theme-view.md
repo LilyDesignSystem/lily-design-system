@@ -68,8 +68,8 @@ None -- this component is a passive display element with no interactive behavior
 
 ## When Not to Use
 
-- Do not use when users need to select or change the theme -- use [ThemeSelect](../theme-select/) instead.
-- Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
+- Do not use when users need to select or change the theme -- use [ThemeSelect](theme-select.md) instead.
+- Do not use for general-purpose text display -- use a `<span>` or [Badge](badge.md) instead.
 
 ## Headless
 

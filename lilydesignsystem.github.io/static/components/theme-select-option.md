@@ -91,7 +91,7 @@ With disabled option:
 ## When Not to Use
 
 - Do not use outside of a ThemeSelect -- it renders a native `<option>` that requires a `<select>` context.
-- Do not use for standard non-theme Select dropdowns -- use [Option](../option/) instead.
+- Do not use for standard non-theme Select dropdowns -- use [Option](option.md) instead.
 
 ## Headless
 

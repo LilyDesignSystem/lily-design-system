@@ -80,8 +80,8 @@ Inside a form field for risk assessment:
 ## When Not to Use
 
 - Do not use outside of a RedAmberGreenPicker container -- the button relies on the picker for grouping and context.
-- Do not use for standalone toggle actions -- use [ToggleButton](../toggle-button/) instead.
-- Do not use for standalone option selection -- use [RadioInput](../radio-input/) instead.
+- Do not use for standalone toggle actions -- use [ToggleButton](toggle-button.md) instead.
+- Do not use for standalone option selection -- use [RadioInput](radio-input.md) instead.
 
 ## Headless
 
