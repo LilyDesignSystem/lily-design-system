@@ -172,7 +172,7 @@ behaves this way (class-first rule, suffix to element table, per-component
 - [ ] 4. The maintainer has decided which skill registries to list in; the entry skills are listed with consistent install text.
 - [ ] 5. The validity timing is documented in `field` and `error-message`, with the 15 patterns tested.
 - [ ] 6. `/chat-interface` ships in all seven example apps and passes axe and keyboard tests.
-- [ ] 7. The "How the pieces fit" page exists.
+- [x] 7. The "How the pieces fit" page exists (2026-10-21; English only, `/how-the-pieces-fit/`, plus a section in the root `index.md`).
 - [x] 8. The predictability principle is in `AGENTS/headless.md` and the headless topic (2026-10-21).
 
 ## Related topics

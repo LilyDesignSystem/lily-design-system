@@ -25,6 +25,10 @@ The living specification is [spec/index.md](spec/index.md). The modular referenc
 [AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/). For a topic-by-topic walkthrough,
 see the modular specification docs under [spec/](spec/index.md).
 
+## How the pieces fit
+
+Lily is a stack of layers, each owning one job: the **catalog** (571 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (57 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
+
 ## AI agent support
 
 Twenty-seven [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
