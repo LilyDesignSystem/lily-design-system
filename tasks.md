@@ -2350,7 +2350,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
 - [ ] **P12-T5 Add that list to `bin/check-coverage`.** Report, per catalog, components whose `AGENTS.md` names a
   keyboard contract but whose test sends no key event; fail on regressions once P12-T4 is done.
   Verify: `bin/check-coverage` prints the column; `bin/test` runs it.
-- [ ] **P12-T6 Frozen lockfiles in CI.** Replace the six `pnpm install --no-frozen-lockfile` in `ci.yml` with
+- [x] **P12-T6 (done 2026-10-21: all six installs frozen; `alpine-headless`'s lockfile carried a stale `serialize-javascript` override and was regenerated; every other lockfile passed `pnpm install --frozen-lockfile --lockfile-only`) Frozen lockfiles in CI.** Replace the six `pnpm install --no-frozen-lockfile` in `ci.yml` with
   `--frozen-lockfile`; regenerate any lockfile that is out of date.
   Verify: CI green with frozen installs; a manifest edit without a lockfile update fails CI.
 - [ ] **P12-T7 `bin/test` under 60 seconds.** It took 5 m 42 s on 2026-10-21 (25 s user, 215 s system — filesystem-bound).

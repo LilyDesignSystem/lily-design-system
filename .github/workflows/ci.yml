@@ -85,13 +85,13 @@ jobs:
         # Some headless libraries (HTML) are consumed as source and have no build.
         working-directory: lily-design-system-${{ matrix.framework }}-headless
         run: |
-          pnpm install --no-frozen-lockfile
+          pnpm install --frozen-lockfile
           pnpm run --if-present build
       - name: Install, build and test each package in dependency order
         run: |
           for d in $(bin/list-helper-packages ${{ matrix.framework }}); do
             echo "::group::$d"
-            ( cd "$d" && pnpm install --no-frozen-lockfile && pnpm run build && pnpm run test )
+            ( cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run test )
             echo "::endgroup::"
           done
 
@@ -120,7 +120,7 @@ jobs:
           cache-dependency-path: ${{ matrix.catalog }}/pnpm-lock.yaml
       - name: Install
         working-directory: ${{ matrix.catalog }}
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Test
         working-directory: ${{ matrix.catalog }}
         run: pnpm exec vitest run
@@ -140,7 +140,7 @@ jobs:
           cache-dependency-path: lily-design-system-html-headless/pnpm-lock.yaml
       - name: Install
         working-directory: lily-design-system-html-headless
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Test (491 WebDriverIO specs, headless Chrome)
         working-directory: lily-design-system-html-headless
         run: pnpm test
@@ -208,7 +208,7 @@ jobs:
           cache-dependency-path: lily-design-system-svelte-sveltekit-examples/pnpm-lock.yaml
       - name: Install
         working-directory: lily-design-system-svelte-sveltekit-examples
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Cache Playwright browsers
         uses: actions/cache@v6
         id: playwright-cache
@@ -253,11 +253,11 @@ jobs:
       - name: Build the locale picker (the site serves its dist/index.js)
         working-directory: lily-design-system-nunjucks-locale-picker
         run: |
-          pnpm install --no-frozen-lockfile
+          pnpm install --frozen-lockfile
           pnpm run build
       - name: Install
         working-directory: lily-design-system-nunjucks-eleventy-examples
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Build
         working-directory: lily-design-system-nunjucks-eleventy-examples
         run: pnpm run build
@@ -296,7 +296,7 @@ jobs:
           cache-dependency-path: lily-design-system-alpine-examples/pnpm-lock.yaml
       - name: Install
         working-directory: lily-design-system-alpine-examples
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Build and unit-test (every demo mounted under Alpine)
         working-directory: lily-design-system-alpine-examples
         run: pnpm run build && pnpm run test
