@@ -218,4 +218,69 @@ export default function lily(Alpine) {
       "@click"() { this.open = false; },
     },
   }));
+  // Dismissible: a banner the user can close. Hides with `hidden` (never an
+  // inline style) and emits a bubbling `close` event.
+  Alpine.data("lilyDismissible", (open = true) => ({
+    open,
+    root: { ":hidden"() { return !this.open; } },
+    dismiss: {
+      type: "button",
+      "@click"() { this.open = false; this.$dispatch("close"); },
+    },
+  }));
+
+  // Accordion: trigger / region pairs by id; one open at a time unless `multiple`.
+  Alpine.data("lilyAccordion", (multiple = false, open = []) => ({
+    open: [...open],
+    isOpen(id) { return this.open.includes(id); },
+    toggle(id) {
+      if (this.isOpen(id)) this.open = this.open.filter((o) => o !== id);
+      else this.open = multiple ? [...this.open, id] : [id];
+    },
+    trigger(id) {
+      return {
+        type: "button",
+        ":id"() { return `${id}-trigger`; },
+        ":aria-controls"() { return `${id}-panel`; },
+        ":aria-expanded"() { return String(this.isOpen(id)); },
+        "@click"() { this.toggle(id); },
+      };
+    },
+    panel(id) {
+      return {
+        role: "region",
+        ":id"() { return `${id}-panel`; },
+        ":aria-labelledby"() { return `${id}-trigger`; },
+        ":hidden"() { return !this.isOpen(id); },
+      };
+    },
+  }));
+
+  // CheckboxAccordion: a real checkbox is the disclosure control.
+  Alpine.data("lilyCheckboxAccordion", (checked = false) => ({
+    checked,
+    input: {
+      ":checked"() { return this.checked; },
+      ":aria-expanded"() { return String(this.checked); },
+      "@change"() { this.checked = this.$el.checked; },
+    },
+    panel: { ":hidden"() { return !this.checked; } },
+  }));
+
+  // HoverCard: opens on hover or focus within, stays open while the pointer
+  // is over the card (it is inside the root), Escape dismisses (WCAG 1.4.13).
+  Alpine.data("lilyHoverCard", () => ({
+    open: false,
+    root: {
+      ":data-open"() { return String(this.open); },
+      "@mouseenter"() { this.open = true; },
+      "@mouseleave"() { this.open = false; },
+      "@focusin"() { this.open = true; },
+      "@focusout"(event) {
+        if (!this.$el.contains(event.relatedTarget)) this.open = false;
+      },
+      "@keydown.escape"() { this.open = false; },
+    },
+    card: { ":hidden"() { return !this.open; } },
+  }));
 }

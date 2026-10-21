@@ -1,0 +1,18 @@
+<!-- accordion-checkbox.html -->
+<!-- AccordionCheckbox component (Alpine.js) -->
+<!--
+  Description: a checkbox option that reveals an accordion panel when checked
+  HTML tag: <div>
+  CSS class: accordion-checkbox
+  Keyboard: Tab to the checkbox, Space to expand and collapse
+  Accessibility: a real checkbox with aria-expanded and aria-controls; the panel is a labelled region
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="accordion-checkbox" x-data="lilyCheckboxAccordion(false)">
+  <input class="accordion-checkbox-input" type="checkbox" id="accordion-checkbox-1" x-bind="input" aria-controls="accordion-checkbox-1-panel">
+  <label class="accordion-checkbox-label" for="accordion-checkbox-1"><!-- Consumer provides label --></label>
+  <div class="accordion-checkbox-panel" id="accordion-checkbox-1-panel" role="region" aria-labelledby="accordion-checkbox-1" x-bind="panel">
+    <!-- Consumer provides revealable panel content -->
+  </div>
+</div>

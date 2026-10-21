@@ -1,0 +1,16 @@
+<!-- medical-banner.html -->
+<!-- MedicalBanner component (Alpine.js) -->
+<!--
+  Description: a prominent message bar across the top of a page, with medical information
+  HTML tag: <div>
+  CSS class: medical-banner
+  Keyboard: Tab to the dismiss button, Enter or Space to dismiss
+  Accessibility: role="region" with aria-live="polite" and aria-label; data-type and data-context are for CSS
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="medical-banner" role="region" aria-live="polite" aria-label="" data-type="info" data-context="medical"
+     x-data="lilyDismissible(true)" x-bind="root">
+  <!-- Consumer provides content -->
+  <button data-dismiss x-bind="dismiss" aria-label=""><!-- Consumer provides label --></button>
+</div>

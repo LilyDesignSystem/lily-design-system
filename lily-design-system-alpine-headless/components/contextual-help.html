@@ -1,0 +1,17 @@
+<!-- contextual-help.html -->
+<!-- ContextualHelp component (Alpine.js) -->
+<!--
+  Description: a help button that opens a popover with explanatory content
+  HTML tag: <div>
+  CSS class: contextual-help
+  Keyboard: Tab to the trigger, Enter or Space to open, Escape to close
+  Accessibility: aria-haspopup="dialog", aria-expanded and aria-controls on the trigger; the panel is role="dialog"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="contextual-help" x-data="lilyPopover(false)" x-bind="root">
+  <button class="contextual-help-trigger" x-bind="trigger" aria-label="" aria-controls="contextual-help-panel-1">?</button>
+  <div class="contextual-help-panel" id="contextual-help-panel-1" role="dialog" aria-label="" x-bind="panel">
+    <!-- Consumer provides popover content -->
+  </div>
+</div>

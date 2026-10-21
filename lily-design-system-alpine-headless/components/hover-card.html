@@ -1,0 +1,15 @@
+<!-- hover-card.html -->
+<!-- HoverCard component (Alpine.js) -->
+<!--
+  Description: a card that appears on hover over a trigger element
+  HTML tag: <div>
+  CSS class: hover-card
+  Keyboard: Focus the trigger to show, Escape to dismiss
+  Accessibility: role="group" with aria-label; opens on pointer hover or focus within, stays open while hovered (WCAG 1.4.13)
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="hover-card" role="group" aria-label="" x-data="lilyHoverCard()" x-bind="root">
+  <a class="hover-card-trigger" href=""><!-- Consumer provides trigger --></a>
+  <div class="hover-card-content" x-bind="card"><!-- Consumer provides content --></div>
+</div>

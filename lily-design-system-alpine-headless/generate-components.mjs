@@ -383,6 +383,11 @@ const panels = () => [...document.querySelectorAll(".tab-panel")];`,
   },
 };
 
+// One module per behaviour family under families/, merged in here.
+for (const f of readdirSync(join(root, "families")).filter((f) => f.endsWith(".mjs")).sort()) {
+  Object.assign(BEHAVIOURAL, (await import("./families/" + f)).default);
+}
+
 function header(slug, tag, keyboard, aria) {
   const d = catalog.get(slug).description;
   return `<!-- ${slug}.html -->

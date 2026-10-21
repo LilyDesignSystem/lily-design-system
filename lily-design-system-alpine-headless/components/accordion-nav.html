@@ -1,0 +1,23 @@
+<!-- accordion-nav.html -->
+<!-- AccordionNav component (Alpine.js) -->
+<!--
+  Description: an accordion navigation area for collapsible accordion information
+  HTML tag: <nav>
+  CSS class: accordion-nav
+  Keyboard: Tab between triggers, Enter or Space to expand and collapse
+  Accessibility: each trigger has aria-expanded and aria-controls; each panel is a region labelled by its trigger
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<nav class="accordion-nav" aria-label="" x-data="lilyAccordion(false)">
+  <ol class="accordion-list">
+    <li class="accordion-list-item">
+      <button class="accordion-trigger" x-bind="trigger('one')"><!-- Consumer provides heading --></button>
+      <div class="accordion-panel" x-bind="panel('one')"><!-- Consumer provides content --></div>
+    </li>
+    <li class="accordion-list-item">
+      <button class="accordion-trigger" x-bind="trigger('two')"><!-- Consumer provides heading --></button>
+      <div class="accordion-panel" x-bind="panel('two')"><!-- Consumer provides content --></div>
+    </li>
+  </ol>
+</nav>

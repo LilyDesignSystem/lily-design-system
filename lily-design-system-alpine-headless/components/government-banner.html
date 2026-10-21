@@ -1,0 +1,22 @@
+<!-- government-banner.html -->
+<!-- GovernmentBanner component (Alpine.js) -->
+<!--
+  Description: a banner identifying a website as belonging to a government, with an expandable details panel
+  HTML tag: <aside>
+  CSS class: government-banner
+  Keyboard: Tab to the toggle, Enter or Space to show and hide the details
+  Accessibility: aria-expanded and aria-controls on the toggle; details hidden while collapsed
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<aside class="government-banner" x-data="lilyCollapsible(false)" x-bind="root" aria-label="">
+  <header class="government-banner-header">
+    <span class="government-banner-text"><!-- Consumer provides header text --></span>
+    <button class="government-banner-toggle" x-bind="trigger" aria-controls="government-banner-panel-1">
+      <!-- Consumer provides the toggle label -->
+    </button>
+  </header>
+  <div class="government-banner-details" id="government-banner-panel-1" x-bind="content">
+    <!-- Consumer provides details panel content -->
+  </div>
+</aside>

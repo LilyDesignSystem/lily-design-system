@@ -1,0 +1,18 @@
+<!-- sticky-promo-banner.html -->
+<!-- StickyPromoBanner component (Alpine.js) -->
+<!--
+  Description: a fixed-position promotional banner with a dismiss button
+  HTML tag: <aside>
+  CSS class: sticky-promo-banner
+  Keyboard: Tab to the dismiss button, Enter or Space to dismiss
+  Accessibility: role="complementary" with aria-label; position (fixed) is consumer CSS driven by data-position
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<aside class="sticky-promo-banner" role="complementary" aria-label="" data-position="bottom"
+       x-data="lilyDismissible(true)" x-bind="root">
+  <div class="sticky-promo-banner-content">
+    <!-- Consumer provides banner content -->
+  </div>
+  <button class="sticky-promo-banner-dismiss" x-bind="dismiss" aria-label=""><!-- Consumer provides label --></button>
+</aside>
