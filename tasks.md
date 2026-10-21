@@ -2276,10 +2276,6 @@ Ideas from reading [bref-ui](https://github.com/feuersteiner/bref-ui) at commit 
   and minimum width. A visual decision: reset them, or keep the border as a grouping cue.
 - [ ] **P10-T15 `scrollspy` as an option on `contents-nav`.** Decided 2026-10-14: add it to `contents-nav` (`spy`) rather than a new component. Svelte done; the other seven libraries follow. Research is in [spec/components/scrollspy.md](spec/components/scrollspy.md): the behaviour, the Bootstrap failure modes to avoid, a recommended `scrollspy-nav`, and three open questions for the maintainer.
 
----
-
-Lily™ and Lily Design System™ are trademarks.
-
 ## Phase 11 — Grid-like helpers, label packs and parity (2026-10-17/18)
 
 Work from a developer's two rounds of feedback on the Svelte grid-like helpers, and what followed from it. Detail per change
@@ -2325,3 +2321,91 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
   parameter that does the same (pass the text you render). The edit-mode input keeps the label. Angular, HTML and Nunjucks render a non-button
   wrapper or a `textbox`, which the rule does not flag, so they are unchanged. Tests, the example copies (`bin/sync-example-components`) and
   `components/editable/` are updated, and the `@axe-core/playwright` `~4.13.0` pin and its `dependabot.yml` ignore are gone.
+## Phase 12 — Code quality and capability gaps (2026-10-21)
+
+From the capabilities and code-quality audit in [plan.md](plan.md) § "Research findings (2026-10-21)". Every number in
+a task was measured on 2026-10-21; re-measure before closing it.
+
+- [ ] **P12-T1 Typecheck in CI.** Add a `check` script (`svelte-check`, `tsc --noEmit`, `vue-tsc --noEmit`, the Angular
+  compiler's `ngc -p` or `tsc`) to every TypeScript headless library and helper package that lacks one — starting with
+  `svelte-headless`, which has none — and a CI job that runs them all.
+  Verify: the job is in `.github/workflows/ci.yml` and fails when a deliberate type error is introduced.
+- [ ] **P12-T2 Fix the React headless type errors.** `tsc --noEmit -p lily-design-system-react-headless` reports 405
+  errors: 389 in `*.stories.tsx` (stories with no `args` for required props — fix in
+  `bin/generate-storybook-stories.mjs`, not by hand) and 16 in tests (e.g. `BannerBox.test.tsx` omits required
+  `children`, `CheckListItem.test.tsx` passes `unknown` as `ReactNode`). Then run the same check on Vue, Angular and
+  Web Components and fix what it finds.
+  Verify: `tsc --noEmit` exits 0 in each; P12-T1's job is green.
+- [ ] **P12-T3 Lint and format.** Choose one ESLint flat config (with `eslint-plugin-svelte`, `-vue`, `-react-hooks`,
+  `angular-eslint`, `eslint-plugin-jsx-a11y` where it applies) and one Prettier config at the root, applied to every JS/TS
+  subproject; `dotnet format --verify-no-changes` for Blazor. Land the formatting as its own commit; then add a CI job.
+  Decide first whether lint warnings fail CI (recommend: errors only, warnings reported).
+  Verify: CI job green; `git blame --ignore-rev` file lists the formatting commit.
+- [ ] **P12-T4 Keyboard and ARIA-state tests for Angular, HTML and Alpine.** Mean test cases per component: Angular 2.7,
+  HTML 2.7, Alpine 2.3 (Svelte 5.4, React 5.8). For every component whose `AGENTS.md` documents a keyboard contract,
+  port the Svelte test's keyboard and state assertions (open/close, `aria-expanded`, `aria-selected`,
+  `aria-activedescendant`, roving `tabindex`, Escape, Home/End). Start with `listbox`, `combobox`, `menu`, `tabs`/`tab-bar`,
+  `dialog`, `slider`, `tree-*`, `accordion-*`. The HTML `listbox.test.js` today asserts no key at all.
+  Verify: a script lists keyboard-contract components with no keydown assertion per catalog; the list is empty.
+- [ ] **P12-T5 Add that list to `bin/check-coverage`.** Report, per catalog, components whose `AGENTS.md` names a
+  keyboard contract but whose test sends no key event; fail on regressions once P12-T4 is done.
+  Verify: `bin/check-coverage` prints the column; `bin/test` runs it.
+- [ ] **P12-T6 Frozen lockfiles in CI.** Replace the six `pnpm install --no-frozen-lockfile` in `ci.yml` with
+  `--frozen-lockfile`; regenerate any lockfile that is out of date.
+  Verify: CI green with frozen installs; a manifest edit without a lockfile update fails CI.
+- [ ] **P12-T7 `bin/test` under 60 seconds.** It took 5 m 42 s on 2026-10-21 (25 s user, 215 s system — filesystem-bound).
+  Profile each check (`time` per step), then batch per-file shell loops into one `find`/`node` pass, cache the
+  component list, and skip `node_modules` / `dist` everywhere. Do not drop any check.
+  Verify: `time bin/test` < 60 s on the maintainer's machine, same checks, exit 0.
+- [ ] **P12-T8 Decide a dependency policy** (maintainer decision). Options: (a) a root `pnpm-workspace.yaml` with a shared
+  catalog of versions (`catalog:` protocol), subprojects still publishable alone; (b) keep separate lockfiles but add a
+  `bin/check-dependency-versions` that fails on mixed ranges. Today: `vitest` ^4 in 15 packages vs ^5 in 122,
+  `typescript` ^5.9 in 90 vs ^6.0 in 43, ~24 GB of `node_modules`. Then align the ranges.
+  Verify: one version per dev dependency across the repo, enforced by a check in `bin/test`.
+- [ ] **P12-T9 Generate the Web Components helpers from the HTML helpers.** They differ only in tag prefix and package
+  name (`data-grid.ts`: 4 of 2,066 lines; kanban/Gantt/data-grid element files: 0). Add `bin/sync-web-components-helpers`
+  (`--check` in `bin/test`), document the few real differences (`date-time-picker`: 292 lines — investigate whether
+  they are intended) as explicit patches, and update `AGENTS/helpers.md`.
+  Verify: `--check` passes; a deliberate edit to a WC copy fails `bin/test`.
+- [ ] **P12-T10 Decide on `@lilydesignsystem/core`** (maintainer decision; `spec/headless-improvements` Tier 2.2). The
+  pure modules are copied into up to 39 packages each; a fix ships only when every package is re-released. Decide
+  between a published zero-dependency core package and keeping `bin/sync-shared-modules`.
+  Verify: decision recorded in `spec/headless-improvements/index.md` § Status.
+- [ ] **P12-T11 Move non-rendering logic out of the big helper components.** `DataGrid.svelte` 1,843 lines,
+  `KanbanBoard.svelte` 1,496, `GanttChart.svelte` 1,304, `CalendarView.svelte` 1,179. Extract sorting, filtering,
+  selection, column state and windowing into tested pure modules in `shared/` (as `grid-navigation.ts` was), Svelte
+  first, then each port.
+  Verify: each Svelte component under ~1,000 lines; new `shared/*.test.ts`; all helper suites green.
+- [ ] **P12-T12 Themes honour the preference pickers.** None of the 57 themes styles `data-text-size` or `data-motion`;
+  only the docs site's `style.css` maps text size. Add the seven-step size scale and a `data-motion="reduce"` rule
+  (suppress transitions and animations) to every theme, ideally in one shared partial generated by
+  `bin/generate-theme-tokens`; extend `bin/check-theme` to require both.
+  Verify: `bin/check-theme` passes; selecting a size or motion in an example app visibly changes the page.
+- [ ] **P12-T13 Forced colours and contrast preference in the themes.** 2 of 57 themes have a `forced-colors` block and
+  none `prefers-contrast`. Add a shared `@media (forced-colors: active)` block (focus rings, borders on controls that
+  rely on background colour, selected states via `Highlight`/`SelectedItem`) to every theme; test in Windows High
+  Contrast or Chromium's forced-colors emulation.
+  Verify: `bin/check-theme` requires the block; a Playwright run with `forcedColors: 'active'` shows focus and selection.
+- [ ] **P12-T14 Restamp the counts.** `spec/index.md` topic table and §2 say 491 components (571); §3 says 150
+  implementation subprojects / 133 helper packages; `plan.md` "Current state" says 172 subprojects and omits Alpine.
+  Actual 2026-10-21: 187 = 9 headless + 8 example apps + 133 helpers + 27 skills + 9 locale-translations + themes.
+  Consider a `bin/check-counts` that compares stated present-tense counts to the tree.
+  Verify: `grep -n '491' spec/index.md` shows only dated history; counts match `ls -d lily-design-system-*`.
+- [ ] **P12-T15 Tidy the root scripts.** Move `generate-component-demos.js` (used by `bin/generate-registries`) into
+  `bin/`; delete or archive `generate-component-docs.js`, `upgrade-component-docs.js`, `upgrade-html-component-demos.js`
+  and `upgrade-subproject-docs.js` after confirming nothing references them.
+  Verify: `bin/test` passes; `grep -rn` finds no reference to a removed script.
+- [ ] **P12-T16 Turn the lessons topics into tasks.** `spec/bootstrap-lessons` (10 items), `spec/daisyui-lessons` (11),
+  `spec/shardsui-lessons` (4) and `spec/coss-ui-lessons` items 1, 4, 5, 6 have no task IDs. Triage each into a task
+  here, a "not adopted" note, or a maintainer decision, so they can be scheduled and closed.
+  Verify: every item in those four topics links to a task ID or a recorded decision.
+- [ ] **P12-T17 Fix the 26 broken links in the generated `/components/{slug}.md` copies.** Since `c25bfe528`,
+  `bin/check-links` fails on `lilydesignsystem.github.io/static/components/*.md` (e.g. `theme-select.md` → `../select/`):
+  the copies keep `index.md`'s relative links, which do not resolve from `static/components/`. Rewrite them to site
+  URLs in `bin/generate-api-docs`. `bin/test` does not run `bin/check-links` (CI does, separately), which is why the
+  commit passed locally; either add it to `bin/test` or correct the plan's claim that it is there.
+  Verify: `bin/check-links` exits 0.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
