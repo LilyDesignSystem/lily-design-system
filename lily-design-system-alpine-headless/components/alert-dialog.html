@@ -1,0 +1,18 @@
+<!-- alert-dialog.html -->
+<!-- AlertDialog component (Alpine.js) -->
+<!--
+  Description: a modal dialog for urgent messages requiring user acknowledgment
+  HTML tag: <dialog>
+  CSS class: alert-dialog
+  Keyboard: Tab cycles focus inside, Escape closes
+  Accessibility: native <dialog> opened with showModal(); role="alertdialog"; aria-label names it; aria-modal="true"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div x-data="lilyDialog(false)">
+  <button class="alert-dialog-trigger" x-bind="trigger"><!-- Consumer provides trigger label --></button>
+  <dialog class="alert-dialog" role="alertdialog" aria-label="" x-bind="dialog">
+    <!-- Consumer provides dialog content -->
+    <button class="alert-dialog-close" x-bind="closer"><!-- Consumer provides label --></button>
+  </dialog>
+</div>

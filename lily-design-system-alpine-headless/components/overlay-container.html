@@ -1,0 +1,14 @@
+<!-- overlay-container.html -->
+<!-- OverlayContainer component (Alpine.js) -->
+<!--
+  Description: a full-viewport overlay backdrop for modals and sheets
+  HTML tag: <div>
+  CSS class: overlay-container
+  Keyboard: none: the backdrop is not focusable; the child dialog owns the keyboard
+  Accessibility: role="presentation", aria-hidden follows open, hidden while closed; a backdrop click emits overlay-close
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="overlay-container" x-data="lilyOverlay(false)" x-bind="container">
+  <!-- Consumer provides the overlay child (typically a dialog or sheet) -->
+</div>

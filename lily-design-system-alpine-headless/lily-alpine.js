@@ -11,6 +11,10 @@
 //   Alpine.plugin(lily);
 //   Alpine.start();
 
+/** What focus may land on when an overlay opens. */
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 /** Roving-focus keys shared by every composite widget (APG). */
 function rovingIndex(key, index, count) {
   if (key === "ArrowRight" || key === "ArrowDown") return (index + 1) % count;
@@ -282,5 +286,68 @@ export default function lily(Alpine) {
       "@keydown.escape"() { this.open = false; },
     },
     card: { ":hidden"() { return !this.open; } },
+  }));
+  // Overlay: a dialog-role surface (drawer, sheet, slide-out drawer, popup)
+  // opened by a trigger. Focus moves in on open and returns to the trigger on
+  // close; Escape closes. `container` is the backdrop form (overlay-container).
+  Alpine.data("lilyOverlay", (open = false) => ({
+    open,
+    init() {
+      this.$watch("open", (value) => { if (value) this.$nextTick(() => this.focusIn()); });
+    },
+    focusIn() {
+      const surface = this.$refs.surface;
+      if (!surface) return;
+      const first = surface.querySelector(FOCUSABLE);
+      (first || surface).focus();
+    },
+    close() {
+      this.open = false;
+      this.$refs.trigger?.focus();
+    },
+    trigger: {
+      type: "button",
+      "x-ref": "trigger",
+      "aria-haspopup": "dialog",
+      ":aria-expanded"() { return String(this.open); },
+      "@click"() { this.open = !this.open; },
+    },
+    surface: {
+      "x-ref": "surface",
+      ":data-open"() { return String(this.open); },
+      ":hidden"() { return !this.open; },
+      "@keydown.escape"() { if (this.open) this.close(); },
+    },
+    closer: {
+      type: "button",
+      "@click"() { this.close(); },
+    },
+    container: {
+      role: "presentation",
+      ":data-open"() { return String(this.open); },
+      ":aria-hidden"() { return String(!this.open); },
+      ":hidden"() { return !this.open; },
+      "@click"(event) { if (event.target === this.$el) this.$dispatch("overlay-close"); },
+    },
+  }));
+
+  // Confirm: a non-modal alertdialog with confirm and cancel. Emits the
+  // bubbling `lily:confirm` / `lily:cancel` events and closes; Escape cancels.
+  Alpine.data("lilyConfirm", (open = false) => ({
+    open,
+    root: {
+      ":hidden"() { return !this.open; },
+      "@keydown.escape"() { if (this.open) this.cancel(); },
+    },
+    trigger: {
+      type: "button",
+      "aria-haspopup": "dialog",
+      ":aria-expanded"() { return String(this.open); },
+      "@click"() { this.open = !this.open; },
+    },
+    confirm() { this.open = false; this.$dispatch("lily:confirm"); },
+    cancel() { this.open = false; this.$dispatch("lily:cancel"); },
+    confirmButton: { type: "button", "@click"() { this.confirm(); } },
+    cancelButton: { type: "button", "@click"() { this.cancel(); } },
   }));
 }

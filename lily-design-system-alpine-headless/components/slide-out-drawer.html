@@ -1,0 +1,18 @@
+<!-- slide-out-drawer.html -->
+<!-- SlideOutDrawer component (Alpine.js) -->
+<!--
+  Description: a drawer that slides out from the side of the page
+  HTML tag: <div>
+  CSS class: slide-out-drawer
+  Keyboard: Escape closes and returns focus to the trigger; focus moves in on open
+  Accessibility: role="dialog" with aria-label, aria-modal="true"; tabindex -1 so it can take focus; data-side is for consumer CSS
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div x-data="lilyOverlay(false)">
+  <button class="slide-out-drawer-trigger" x-bind="trigger" aria-controls="slide-out-drawer-1"><!-- Consumer provides trigger label --></button>
+  <div class="slide-out-drawer" id="slide-out-drawer-1" role="dialog" aria-modal="true" aria-label="" tabindex="-1" data-side="right" x-bind="surface">
+    <!-- Consumer provides content -->
+    <button class="slide-out-drawer-close" x-bind="closer"><!-- Consumer provides close label --></button>
+  </div>
+</div>

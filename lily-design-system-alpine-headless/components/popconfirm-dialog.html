@@ -1,0 +1,21 @@
+<!-- popconfirm-dialog.html -->
+<!-- PopconfirmDialog component (Alpine.js) -->
+<!--
+  Description: a popover dialog with confirm and cancel buttons
+  HTML tag: <div>
+  CSS class: popconfirm-dialog
+  Keyboard: Tab between the buttons, Escape cancels
+  Accessibility: role="alertdialog", aria-modal="false", labelled by its title and described by its description
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div x-data="lilyConfirm(false)">
+  <button class="popconfirm-dialog-trigger" x-bind="trigger" aria-controls="popconfirm-dialog-1"><!-- Consumer provides trigger label --></button>
+  <div class="popconfirm-dialog" id="popconfirm-dialog-1" role="alertdialog" aria-modal="false"
+       aria-labelledby="popconfirm-dialog-title" aria-describedby="popconfirm-dialog-description" x-bind="root">
+    <h2 class="popconfirm-dialog-title" id="popconfirm-dialog-title"><!-- Consumer provides the title --></h2>
+    <p class="popconfirm-dialog-description" id="popconfirm-dialog-description"><!-- Consumer provides the description --></p>
+    <button class="popconfirm-dialog-cancel" x-bind="cancelButton"><!-- Consumer provides the cancel label --></button>
+    <button class="popconfirm-dialog-confirm" x-bind="confirmButton"><!-- Consumer provides the confirm label --></button>
+  </div>
+</div>
