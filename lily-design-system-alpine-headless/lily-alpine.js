@@ -24,6 +24,20 @@ function rovingIndex(key, index, count) {
   return -1;
 }
 
+/** Focus-move for menu-like widgets: returns the item to focus, or null. */
+function menuTarget(key, items, from, horizontal) {
+  const next = horizontal ? "ArrowRight" : "ArrowDown";
+  const prev = horizontal ? "ArrowLeft" : "ArrowUp";
+  if (!items.length) return null;
+  if (key === next) return items[(from + 1) % items.length];
+  if (key === prev) return items[(from - 1 + items.length) % items.length];
+  if (key === "Home") return items[0];
+  if (key === "End") return items[items.length - 1];
+  return null;
+}
+
+const MENU_ITEMS = '[role="menuitem"]:not([disabled])';
+
 export default function lily(Alpine) {
   // ToggleButton: <button aria-pressed>
   Alpine.data("lilyToggleButton", (pressed = false) => ({
@@ -349,5 +363,142 @@ export default function lily(Alpine) {
     cancel() { this.open = false; this.$dispatch("lily:cancel"); },
     confirmButton: { type: "button", "@click"() { this.confirm(); } },
     cancelButton: { type: "button", "@click"() { this.cancel(); } },
+  }));
+  // Menu / MenuBar: an always-visible menu with roving tabindex. Vertical
+  // for role="menu", horizontal for role="menubar"; arrows wrap, Home/End jump.
+  Alpine.data("lilyMenu", (orientation = "vertical") => ({
+    current: "",
+    ids() {
+      // $root, not $el: this runs while an item evaluates its own :tabindex.
+      return Array.from(this.$root.querySelectorAll(MENU_ITEMS)).map((i) => i.dataset.item);
+    },
+    menu: {
+      "@keydown"(event) {
+        const items = Array.from(this.$el.querySelectorAll(MENU_ITEMS));
+        const target = menuTarget(event.key, items, items.indexOf(document.activeElement), orientation === "horizontal");
+        if (!target) return;
+        event.preventDefault();
+        this.current = target.dataset.item;
+        target.focus();
+      },
+    },
+    item(id) {
+      return {
+        role: "menuitem",
+        "data-item": id,
+        ":tabindex"() { return (this.current || this.ids()[0]) === id ? "0" : "-1"; },
+        "@focus"() { this.current = id; },
+      };
+    },
+  }));
+
+  // DropdownMenu: a trigger opening a role="menu" popup (also the split-button
+  // menu and the action-group overflow). Focus moves to the first item on
+  // open and back to the trigger on close; Escape and a selection close,
+  // Tab and an outside click close without moving focus.
+  Alpine.data("lilyDropdownMenu", (open = false) => ({
+    open,
+    init() {
+      this.$watch("open", (value) => {
+        if (value) this.$nextTick(() => this.items()[0]?.focus());
+      });
+    },
+    items() {
+      return Array.from(this.$refs.menu?.querySelectorAll(MENU_ITEMS) ?? []);
+    },
+    close(returnFocus = true) {
+      this.open = false;
+      if (returnFocus) this.$refs.trigger?.focus();
+    },
+    root: {
+      ":data-open"() { return String(this.open); },
+      "@click.document"(event) {
+        if (this.open && !this.$el.contains(event.target)) this.open = false;
+      },
+    },
+    trigger: {
+      type: "button",
+      "x-ref": "trigger",
+      "aria-haspopup": "menu",
+      ":aria-expanded"() { return String(this.open); },
+      "@click"() { this.open = !this.open; },
+      "@keydown.arrow-down.prevent"() { this.open = true; },
+    },
+    menu: {
+      role: "menu",
+      "x-ref": "menu",
+      ":hidden"() { return !this.open; },
+      "@keydown"(event) {
+        if (event.key === "Escape") return this.close();
+        if (event.key === "Tab") return this.close(false);
+        const items = this.items();
+        const target = menuTarget(event.key, items, items.indexOf(document.activeElement), false);
+        if (!target) return;
+        event.preventDefault();
+        target.focus();
+      },
+    },
+    item: {
+      role: "menuitem",
+      tabindex: "-1",
+      "@click"() { this.close(); },
+    },
+  }));
+
+  // ContextMenu: opens on the right button, or the ContextMenu key / Shift+F10
+  // on the focusable target. The pointer position is exposed as the CSS
+  // custom properties --context-menu-x / --context-menu-y.
+  Alpine.data("lilyContextMenu", () => ({
+    open: false,
+    x: 0,
+    y: 0,
+    init() {
+      this.$watch("open", (value) => {
+        if (value) this.$nextTick(() => this.items()[0]?.focus());
+      });
+    },
+    items() {
+      return Array.from(this.$refs.menu?.querySelectorAll(MENU_ITEMS) ?? []);
+    },
+    close(returnFocus = true) {
+      this.open = false;
+      if (returnFocus) this.$refs.target?.focus();
+    },
+    target: {
+      "x-ref": "target",
+      "@contextmenu.prevent"(event) {
+        this.x = event.clientX; this.y = event.clientY; this.open = true;
+      },
+      "@keydown"(event) {
+        if (event.key === "ContextMenu" || (event.key === "F10" && event.shiftKey)) {
+          event.preventDefault();
+          const box = this.$el.getBoundingClientRect();
+          this.x = box.left; this.y = box.bottom; this.open = true;
+        }
+      },
+    },
+    menu: {
+      role: "menu",
+      "x-ref": "menu",
+      ":hidden"() { return !this.open; },
+      ":style"() { return { "--context-menu-x": `${this.x}px`, "--context-menu-y": `${this.y}px` }; },
+      "@click.document"(event) {
+        if (this.open && !this.$el.contains(event.target)) this.open = false;
+      },
+      "@keydown"(event) {
+        if (event.key === "Escape") return this.close();
+        if (event.key === "Tab") return this.close(false);
+        const items = this.items();
+        const target = menuTarget(event.key, items, items.indexOf(document.activeElement), false);
+        if (!target) return;
+        event.preventDefault();
+        target.focus();
+      },
+    },
+    item: {
+      role: "menuitem",
+      tabindex: "-1",
+      "@click"() { this.close(); },
+    },
   }));
 }

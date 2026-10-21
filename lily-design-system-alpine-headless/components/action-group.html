@@ -1,0 +1,19 @@
+<!-- action-group.html -->
+<!-- ActionGroup component (Alpine.js) -->
+<!--
+  Description: a group of action buttons that can collapse to an overflow menu when space is constrained
+  HTML tag: <div>
+  CSS class: action-group
+  Keyboard: Tab through the actions; the overflow trigger behaves as a dropdown-menu trigger
+  Accessibility: role="group" with aria-label; overflow trigger: aria-haspopup="menu", aria-expanded, aria-controls
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="action-group" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
+  <button type="button"><!-- Consumer provides a visible action --></button>
+  <button class="action-group-overflow-trigger" x-bind="trigger" aria-label="" aria-controls="action-group-overflow-1">…</button>
+  <div class="action-group-overflow-menu" id="action-group-overflow-1" aria-label="" x-bind="menu">
+    <button class="action-group-overflow-item" x-bind="item"><!-- Consumer provides label --></button>
+    <button class="action-group-overflow-item" x-bind="item"><!-- Consumer provides label --></button>
+  </div>
+</div>

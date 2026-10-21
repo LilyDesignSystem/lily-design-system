@@ -1,0 +1,16 @@
+<!-- menu.html -->
+<!-- Menu component (Alpine.js) -->
+<!--
+  Description: a list of actions or options triggered by a button
+  HTML tag: <div>
+  CSS class: menu
+  Keyboard: ArrowDown/ArrowUp move focus (wrapping), Home/End jump; one item is in the tab order
+  Accessibility: role="menu" with aria-label; items are role="menuitem" with roving tabindex
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="menu" role="menu" aria-label="" x-data="lilyMenu('vertical')" x-bind="menu">
+  <button class="menu-item" x-bind="item('one')"><!-- Consumer provides label --></button>
+  <button class="menu-item" x-bind="item('two')"><!-- Consumer provides label --></button>
+  <button class="menu-item" x-bind="item('three')"><!-- Consumer provides label --></button>
+</div>

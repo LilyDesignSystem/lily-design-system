@@ -1,0 +1,21 @@
+<!-- split-button.html -->
+<!-- SplitButton component (Alpine.js) -->
+<!--
+  Description: a button with a primary action and a dropdown for related actions
+  HTML tag: <div>
+  CSS class: split-button
+  Keyboard: Tab: primary then trigger; the trigger behaves as a dropdown-menu trigger
+  Accessibility: role="group" with aria-label; menu trigger: aria-haspopup="menu", aria-expanded, its own aria-label
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="split-button" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
+  <button class="split-button-primary" type="button"><!-- Consumer provides primary label --></button>
+  <button class="split-button-menu-trigger" x-bind="trigger" aria-label="" aria-controls="split-button-menu-1">
+    <!-- Consumer optionally provides a chevron icon -->
+  </button>
+  <div class="split-button-menu" id="split-button-menu-1" aria-label="" x-bind="menu">
+    <button class="split-button-menu-item" x-bind="item"><!-- Consumer provides label --></button>
+    <button class="split-button-menu-item" x-bind="item"><!-- Consumer provides label --></button>
+  </div>
+</div>

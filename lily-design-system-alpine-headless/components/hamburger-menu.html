@@ -1,0 +1,19 @@
+<!-- hamburger-menu.html -->
+<!-- HamburgerMenu component (Alpine.js) -->
+<!--
+  Description: a toggle button that opens a mobile navigation menu
+  HTML tag: <div>
+  CSS class: hamburger-menu
+  Keyboard: Enter or Space toggles; Tab moves into the navigation when open
+  Accessibility: button: aria-expanded + aria-controls; navigation region: role="navigation" with aria-label, hidden while closed
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="hamburger-menu" x-data="lilyCollapsible(false)" x-bind="root">
+  <button class="hamburger-menu-button" x-bind="trigger" aria-label="" aria-controls="hamburger-menu-nav-1">
+    <!-- Consumer provides the icon -->
+  </button>
+  <nav class="hamburger-menu-nav" id="hamburger-menu-nav-1" aria-label="" x-bind="content">
+    <!-- Consumer provides navigation content -->
+  </nav>
+</div>

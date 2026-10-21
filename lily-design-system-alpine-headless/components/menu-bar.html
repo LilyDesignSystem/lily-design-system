@@ -1,0 +1,16 @@
+<!-- menu-bar.html -->
+<!-- MenuBar component (Alpine.js) -->
+<!--
+  Description: a horizontal bar of menu triggers
+  HTML tag: <div>
+  CSS class: menu-bar
+  Keyboard: ArrowRight/ArrowLeft move focus (wrapping), Home/End jump; one item is in the tab order
+  Accessibility: role="menubar" with aria-label; items are role="menuitem" with roving tabindex
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="menu-bar" role="menubar" aria-label="" x-data="lilyMenu('horizontal')" x-bind="menu">
+  <button class="menu-bar-item" x-bind="item('one')"><!-- Consumer provides label --></button>
+  <button class="menu-bar-item" x-bind="item('two')"><!-- Consumer provides label --></button>
+  <button class="menu-bar-item" x-bind="item('three')"><!-- Consumer provides label --></button>
+</div>

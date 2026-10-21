@@ -1,0 +1,19 @@
+<!-- dropdown-menu.html -->
+<!-- DropdownMenu component (Alpine.js) -->
+<!--
+  Description: a menu that opens below a trigger button
+  HTML tag: <div>
+  CSS class: dropdown-menu
+  Keyboard: Enter/Space/ArrowDown open, arrows move, Escape closes
+  Accessibility: trigger: aria-haspopup="menu" + aria-expanded; popup: role="menu"; items: role="menuitem"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="dropdown-menu" x-data="lilyDropdownMenu(false)" x-bind="root">
+  <button class="dropdown-menu-trigger" x-bind="trigger" aria-controls="dropdown-menu-1"><!-- Consumer provides trigger label --></button>
+  <div class="dropdown-menu-popup" id="dropdown-menu-1" aria-label="" x-bind="menu">
+    <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
+    <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
+    <button class="dropdown-menu-item" x-bind="item"><!-- Consumer provides label --></button>
+  </div>
+</div>
