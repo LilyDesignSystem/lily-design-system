@@ -1,0 +1,19 @@
+<!-- command.html -->
+<!-- Command component (Alpine.js) -->
+<!--
+  Description: a command palette for searching and executing actions
+  HTML tag: <div>
+  CSS class: command
+  Keyboard: type to filter; ArrowDown/ArrowUp move the active result (wrapping); Enter activates it
+  Accessibility: role="search" with aria-label; a type="search" input with aria-activedescendant; results are a role="listbox" of role="option"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="command" role="search" aria-label="" x-data="lilyCommand()">
+  <input class="command-input" type="search" autocomplete="off" aria-label="" aria-controls="command-listbox-1" x-bind="input">
+  <div class="command-listbox" id="command-listbox-1" role="listbox" aria-label="">
+    <div class="command-option" x-bind="option('command-option-1')"><!-- Consumer provides option --></div>
+    <div class="command-option" x-bind="option('command-option-2')"><!-- Consumer provides option --></div>
+    <div class="command-option" x-bind="option('command-option-3')"><!-- Consumer provides option --></div>
+  </div>
+</div>

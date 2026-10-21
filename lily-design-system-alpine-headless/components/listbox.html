@@ -1,0 +1,16 @@
+<!-- listbox.html -->
+<!-- Listbox component (Alpine.js) -->
+<!--
+  Description: a list of selectable options with keyboard navigation
+  HTML tag: <div>
+  CSS class: listbox
+  Keyboard: ArrowDown/ArrowUp move focus (wrapping), Home/End jump, Enter or Space selects
+  Accessibility: role="listbox" with aria-label; options are role="option" with aria-selected and roving tabindex
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="listbox" aria-label="" x-data="lilyListbox(false)" x-bind="listbox">
+  <div class="listbox-option" x-bind="option('one')"><!-- Consumer provides option --></div>
+  <div class="listbox-option" x-bind="option('two')"><!-- Consumer provides option --></div>
+  <div class="listbox-option" x-bind="option('three')"><!-- Consumer provides option --></div>
+</div>

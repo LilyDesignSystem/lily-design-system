@@ -1,0 +1,18 @@
+<!-- five-star-rating-picker.html -->
+<!-- FiveStarRatingPicker component (Alpine.js) -->
+<!--
+  Description: a picker for selecting a 1-5 star rating using radio buttons
+  HTML tag: <fieldset>
+  CSS class: five-star-rating-picker
+  Keyboard: Tab focuses the selected radio; arrows move between radios; Space selects
+  Accessibility: fieldset with role="radiogroup" and aria-label; native radios share a name; x-model keeps the chosen value in data-value
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<fieldset class="five-star-rating-picker" role="radiogroup" aria-label="" x-data="{ value: '' }" :data-value="value">
+  <label class="five-star-rating-picker-button"><input type="radio" name="rating" value="1" aria-label="1" x-model="value"> 1</label>
+  <label class="five-star-rating-picker-button"><input type="radio" name="rating" value="2" aria-label="2" x-model="value"> 2</label>
+  <label class="five-star-rating-picker-button"><input type="radio" name="rating" value="3" aria-label="3" x-model="value"> 3</label>
+  <label class="five-star-rating-picker-button"><input type="radio" name="rating" value="4" aria-label="4" x-model="value"> 4</label>
+  <label class="five-star-rating-picker-button"><input type="radio" name="rating" value="5" aria-label="5" x-model="value"> 5</label>
+</fieldset>

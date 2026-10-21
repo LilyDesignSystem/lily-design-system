@@ -1,0 +1,16 @@
+<!-- segment-group.html -->
+<!-- SegmentGroup component (Alpine.js) -->
+<!--
+  Description: a group of mutually exclusive segment options
+  HTML tag: <div>
+  CSS class: segment-group
+  Keyboard: ArrowLeft/ArrowRight (and Up/Down) move focus and select, wrapping; Home/End jump; Tab leaves the group
+  Accessibility: role="radiogroup" with aria-label; segments are role="radio" buttons with aria-checked and roving tabindex
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="segment-group" role="radiogroup" aria-label="" x-data="lilySegmentGroup('one')" x-bind="group">
+  <button class="segment-group-item" x-bind="segment('one')"><!-- Consumer provides label --></button>
+  <button class="segment-group-item" x-bind="segment('two')"><!-- Consumer provides label --></button>
+  <button class="segment-group-item" x-bind="segment('three')"><!-- Consumer provides label --></button>
+</div>

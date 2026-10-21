@@ -1,0 +1,18 @@
+<!-- red-orange-yellow-green-blue-picker.html -->
+<!-- RedOrangeYellowGreenBluePicker component (Alpine.js) -->
+<!--
+  Description: a picker for selecting a five-level color status
+  HTML tag: <select>
+  CSS class: red-orange-yellow-green-blue-picker
+  Keyboard: native select: arrows choose, Enter/Space opens, Escape closes
+  Accessibility: native select named by aria-label; x-model keeps the chosen value in data-value
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<select class="red-orange-yellow-green-blue-picker" aria-label="" x-data="{ value: 'red' }" x-model="value" :data-value="value">
+  <option value="red"><!-- Consumer provides label --></option>
+  <option value="orange"><!-- Consumer provides label --></option>
+  <option value="yellow"><!-- Consumer provides label --></option>
+  <option value="green"><!-- Consumer provides label --></option>
+  <option value="blue"><!-- Consumer provides label --></option>
+</select>

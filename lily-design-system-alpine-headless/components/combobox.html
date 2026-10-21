@@ -1,0 +1,19 @@
+<!-- combobox.html -->
+<!-- Combobox component (Alpine.js) -->
+<!--
+  Description: a text input combined with a dropdown list for filtering options
+  HTML tag: <div>
+  CSS class: combobox
+  Keyboard: type to filter; ArrowDown/ArrowUp open and move (wrapping); Enter chooses; Escape closes
+  Accessibility: role="combobox" on the input with aria-expanded, aria-controls, aria-autocomplete="list" and aria-activedescendant; the popup is role="listbox"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="combobox" x-data="lilyCombobox()" x-bind="root">
+  <input class="combobox-input" type="text" aria-label="" aria-controls="combobox-listbox-1" x-bind="input">
+  <div class="combobox-listbox" id="combobox-listbox-1" aria-label="" x-bind="listbox">
+    <div class="combobox-option" x-bind="option('combobox-option-1')"><!-- Consumer provides option --></div>
+    <div class="combobox-option" x-bind="option('combobox-option-2')"><!-- Consumer provides option --></div>
+    <div class="combobox-option" x-bind="option('combobox-option-3')"><!-- Consumer provides option --></div>
+  </div>
+</div>

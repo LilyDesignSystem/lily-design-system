@@ -1,0 +1,24 @@
+<!-- net-promoter-score-picker.html -->
+<!-- NetPromoterScorePicker component (Alpine.js) -->
+<!--
+  Description: a picker for selecting a 0-10 Net Promoter Score
+  HTML tag: <fieldset>
+  CSS class: net-promoter-score-picker
+  Keyboard: arrows move between radios (native radio group); Space selects; Tab leaves the group
+  Accessibility: fieldset with role="radiogroup" and aria-label; native radios share a name; x-model keeps the chosen value in data-value
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<fieldset class="net-promoter-score-picker" role="radiogroup" aria-label="" x-data="{ value: '' }" :data-value="value">
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="0" aria-label="0" x-model="value"> 0</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="1" aria-label="1" x-model="value"> 1</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="2" aria-label="2" x-model="value"> 2</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="3" aria-label="3" x-model="value"> 3</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="4" aria-label="4" x-model="value"> 4</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="5" aria-label="5" x-model="value"> 5</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="6" aria-label="6" x-model="value"> 6</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="7" aria-label="7" x-model="value"> 7</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="8" aria-label="8" x-model="value"> 8</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="9" aria-label="9" x-model="value"> 9</label>
+  <label class="net-promoter-score-picker-button"><input type="radio" name="nps" value="10" aria-label="10" x-model="value"> 10</label>
+</fieldset>

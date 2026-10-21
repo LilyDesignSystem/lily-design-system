@@ -501,4 +501,185 @@ export default function lily(Alpine) {
       "@click"() { this.close(); },
     },
   }));
+
+  // Listbox: role="listbox" of role="option" items with roving focus
+  // (arrows wrap, Home/End jump) and selection (single or multiple).
+  Alpine.data("lilyListbox", (multiple = false, selected = []) => ({
+    multiple,
+    selected: [].concat(selected).filter((s) => s !== ""),
+    current: "",
+    ids() {
+      // $root, not $el: this runs while an option evaluates its own :tabindex.
+      return Array.from(this.$root.querySelectorAll('[role="option"]')).map((o) => o.dataset.option);
+    },
+    isSelected(id) { return this.selected.includes(id); },
+    choose(id) {
+      if (!this.multiple) this.selected = [id];
+      else this.selected = this.isSelected(id) ? this.selected.filter((s) => s !== id) : [...this.selected, id];
+      this.$dispatch("lily:select", { selected: [...this.selected] });
+    },
+    listbox: {
+      role: "listbox",
+      ":aria-multiselectable"() { return this.multiple ? "true" : null; },
+      "@keydown"(event) {
+        const options = Array.from(this.$el.querySelectorAll('[role="option"]'));
+        const target = menuTarget(event.key, options, options.indexOf(document.activeElement), false);
+        if (!target) return;
+        event.preventDefault();
+        target.focus();
+      },
+    },
+    option(id) {
+      return {
+        role: "option",
+        "data-option": id,
+        ":aria-selected"() { return String(this.isSelected(id)); },
+        ":tabindex"() { return (this.current || this.selected[0] || this.ids()[0]) === id ? "0" : "-1"; },
+        "@focus"() { this.current = id; },
+        "@click"() { this.choose(id); },
+        "@keydown.enter.prevent"() { this.choose(id); },
+        "@keydown.space.prevent"() { this.choose(id); },
+      };
+    },
+  }));
+
+  // SegmentGroup: a role="radiogroup" of role="radio" buttons. Arrow keys move
+  // focus and select (APG radio group); one segment is in the tab order.
+  Alpine.data("lilySegmentGroup", (selected = "") => ({
+    selected,
+    ids() {
+      return Array.from(this.$root.querySelectorAll('[role="radio"]')).map((r) => r.dataset.segment);
+    },
+    group: {
+      "@keydown"(event) {
+        const items = Array.from(this.$el.querySelectorAll('[role="radio"]'));
+        const from = items.indexOf(document.activeElement);
+        if (from < 0) return;
+        const next = rovingIndex(event.key, from, items.length);
+        if (next < 0) return;
+        const target = items[next];
+        event.preventDefault();
+        target.focus();
+        this.selected = target.dataset.segment;
+        this.$dispatch("lily:select", { selected: this.selected });
+      },
+    },
+    segment(id) {
+      return {
+        role: "radio",
+        type: "button",
+        "data-segment": id,
+        ":aria-checked"() { return String(this.selected === id); },
+        ":tabindex"() { return (this.selected || this.ids()[0]) === id ? "0" : "-1"; },
+        "@click"() { this.selected = id; this.$dispatch("lily:select", { selected: id }); },
+      };
+    },
+  }));
+
+  // Combobox: a text input driving a role="listbox" popup. The input keeps
+  // DOM focus; the highlighted option is aria-activedescendant. Options are
+  // filtered by the typed text (case-insensitive substring); ArrowDown/Up
+  // move (wrapping), Enter chooses, Escape closes, an outside click closes.
+  Alpine.data("lilyCombobox", (value = "", open = false) => ({
+    value,
+    open,
+    active: "",
+    visible() {
+      return Array.from(this.$root.querySelectorAll('[role="option"]')).filter((o) => !o.hidden);
+    },
+    matches(el) {
+      return !this.value || el.textContent.toLowerCase().includes(this.value.toLowerCase());
+    },
+    choose(el) {
+      this.value = el.textContent.trim();
+      this.open = false;
+      this.active = "";
+      this.$dispatch("lily:select", { value: this.value });
+    },
+    root: {
+      ":data-open"() { return String(this.open); },
+      "@click.document"(event) {
+        if (this.open && !this.$el.contains(event.target)) this.open = false;
+      },
+    },
+    input: {
+      role: "combobox",
+      autocomplete: "off",
+      "aria-autocomplete": "list",
+      ":aria-expanded"() { return String(this.open); },
+      ":aria-activedescendant"() { return this.open && this.active ? this.active : null; },
+      ":value"() { return this.value; },
+      "@input"(event) { this.value = event.target.value; this.open = true; this.active = ""; },
+      "@keydown"(event) {
+        if (event.key === "Escape") { this.open = false; this.active = ""; return; }
+        if (event.key === "Enter") {
+          const el = this.visible().find((o) => o.id === this.active);
+          if (this.open && el) { event.preventDefault(); this.choose(el); }
+          return;
+        }
+        if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+        event.preventDefault();
+        this.open = true;
+        const options = this.visible();
+        if (!options.length) return;
+        const from = options.findIndex((o) => o.id === this.active);
+        this.active = menuTarget(event.key, options, from, false).id;
+      },
+    },
+    listbox: {
+      role: "listbox",
+      ":hidden"() { return !this.open; },
+    },
+    option(id) {
+      return {
+        role: "option",
+        id,
+        ":hidden"() { return !this.matches(this.$el); },
+        ":aria-selected"() { return String(this.active === id); },
+        ":data-active"() { return String(this.active === id); },
+        "@mousedown.prevent"() {},
+        "@click"() { this.choose(this.$el); },
+      };
+    },
+  }));
+
+  // Command: a role="search" palette. A search input filters the role="option"
+  // results (case-insensitive substring); arrows move the active result
+  // (aria-activedescendant, wrapping) and Enter activates it with a click.
+  Alpine.data("lilyCommand", (value = "") => ({
+    value,
+    active: "",
+    visible() {
+      return Array.from(this.$root.querySelectorAll('[role="option"]')).filter((o) => !o.hidden);
+    },
+    matches(el) {
+      return !this.value || el.textContent.toLowerCase().includes(this.value.toLowerCase());
+    },
+    input: {
+      ":aria-activedescendant"() { return this.active || null; },
+      ":value"() { return this.value; },
+      "@input"(event) { this.value = event.target.value; this.active = ""; },
+      "@keydown"(event) {
+        if (event.key === "Enter") {
+          const el = this.visible().find((o) => o.id === this.active);
+          if (el) { event.preventDefault(); el.click(); }
+          return;
+        }
+        if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+        event.preventDefault();
+        const options = this.visible();
+        if (!options.length) return;
+        this.active = menuTarget(event.key, options, options.findIndex((o) => o.id === this.active), false).id;
+      },
+    },
+    option(id) {
+      return {
+        role: "option",
+        id,
+        ":hidden"() { return !this.matches(this.$el); },
+        ":aria-selected"() { return String(this.active === id); },
+        ":data-active"() { return String(this.active === id); },
+      };
+    },
+  }));
 }

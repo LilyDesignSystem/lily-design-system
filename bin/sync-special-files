@@ -203,7 +203,7 @@ def describe(name):
                     "2026-10-06; the other 35 are permanently excluded by a "
                     "real architectural limitation), unstyled and accessible")
         if name == "lily-design-system-alpine-headless":
-            return (f"the {label} headless component library: 528 of the 571 "
+            return (f"the {label} headless component library: 537 of the 571 "
                     "catalog components as annotated snippets plus an Alpine plugin, unstyled and accessible")
         return f"the {label} headless component library: all 571 catalog components, unstyled and accessible"
     if kind == "helpers":
