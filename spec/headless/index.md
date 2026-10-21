@@ -21,6 +21,7 @@ It does **not** cover: visual theming (see [theme](../theme/index.md)), the full
 - ARIA attributes that ride along with semantic elements are the responsibility of the component, not the consumer. The component renders them based on its props.
 - WCAG 2.2 AAA is the target. Colour contrast and focus-ring visibility are the consumer's CSS concern; semantic structure and keyboard reachability are the component's concern.
 - No stylesheets, fonts, images, icon assets, or CSS framework dependencies (Tailwind, DaisyUI, Bootstrap) shipped. The base class is the only contract for consumer CSS.
+- **Predictability is a feature.** Names, tags and sub-classes follow the suffix table in [components](../components/index.md), so a component's behaviour is derivable from its slug and its `AGENTS.md`; an exception is documented in that component's `AGENTS.md`, never left implicit. Code that a person or a language model can read and predict is also code either can modify safely.
 
 ## Markup contract
 

@@ -2,6 +2,10 @@
 
 All components are unstyled and focus on semantic HTML, ARIA accessibility, and keyboard interaction. The library ships markup, ARIA, focus management, and keyboard semantics; consumers ship every visual decision.
 
+### Predictability
+
+- Predictability is a feature: names, tags and sub-classes follow the suffix table in `AGENTS/components.md`, so a component's behaviour is derivable from its slug and its `AGENTS.md`. Document any exception in that component's `AGENTS.md`; never leave it implicit.
+
 ### Markup
 
 - Choose the most specific semantic HTML element that fits (`<button>`, `<dialog>`, `<details>`, `<nav>`, `<article>`, `<figure>`, etc.) before reaching for `<div>` or `<span>`. The canonical HTML tag for each component is fixed in `components/{slug}/AGENTS.md` under "HTML tag" and is the single source of truth.

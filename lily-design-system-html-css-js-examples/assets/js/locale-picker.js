@@ -77,7 +77,7 @@ var defaultLocaleLabels = {
   "zh_Hant_MO": "Chinese (Traditional Han, Macau SAR China)",
   "zh_Hant_TW": "Chinese (Traditional Han, Taiwan)",
   "zh": "Chinese",
-  "kw_GB": "Cornish (United Kingdom)",
+  "kw_GB": "Cornish (Great Britain)",
   "kw": "Cornish",
   "hr_HR": "Croatian (Croatia)",
   "hr": "Croatian",
@@ -115,7 +115,7 @@ var defaultLocaleLabels = {
   "en_TT": "English (Trinidad and Tobago)",
   "en_UM": "English (U.S. Minor Outlying Islands)",
   "en_VI": "English (U.S. Virgin Islands)",
-  "en_GB": "English (United Kingdom)",
+  "en_GB": "English (Great Britain)",
   "en_US": "English (United States)",
   "en_ZW": "English (Zimbabwe)",
   "en": "English",
@@ -265,7 +265,7 @@ var defaultLocaleLabels = {
   "ml": "Malayalam",
   "mt_MT": "Maltese (Malta)",
   "mt": "Maltese",
-  "gv_GB": "Manx (United Kingdom)",
+  "gv_GB": "Manx (Great Britain)",
   "gv": "Manx",
   "mr_IN": "Marathi (India)",
   "mr": "Marathi",
@@ -430,7 +430,7 @@ var defaultLocaleLabels = {
   "vi": "Vietnamese",
   "vun_TZ": "Vunjo (Tanzania)",
   "vun": "Vunjo",
-  "cy_GB": "Welsh (United Kingdom)",
+  "cy_GB": "Welsh (Great Britain)",
   "cy": "Welsh",
   "yo_NG": "Yoruba (Nigeria)",
   "yo": "Yoruba",
@@ -506,9 +506,12 @@ function isRtlLocale(locale) {
 function localeName(locale) {
   return defaultLocaleLabels[locale] ?? locale;
 }
+var ENDONYM_OVERRIDES = { wuu: "\u5434\u8BED", pcm: "Naij\xE1" };
 function localeEndonym(locale) {
   try {
     const tag = bcp47LocaleTag(locale);
+    const override = ENDONYM_OVERRIDES[tag.split("-")[0].toLowerCase()];
+    if (override) return override;
     const dn = new Intl.DisplayNames([tag], { type: "language" });
     const found = dn.of(tag) ?? "";
     return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
