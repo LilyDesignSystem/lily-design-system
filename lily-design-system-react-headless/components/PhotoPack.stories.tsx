@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof PhotoPack>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof PhotoPack>;
 
 export const Default: Story = {};

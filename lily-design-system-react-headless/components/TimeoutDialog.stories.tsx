@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof TimeoutDialog>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TimeoutDialog>;
 
 export const Default: Story = {};

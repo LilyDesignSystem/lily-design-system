@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof VideoPlayer>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof VideoPlayer>;
 
 export const Default: Story = {};

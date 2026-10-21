@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ToggleButton>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ToggleButton>;
 
 export const Default: Story = {};

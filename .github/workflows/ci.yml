@@ -121,6 +121,10 @@ jobs:
       - name: Install
         working-directory: ${{ matrix.catalog }}
         run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        # Libraries without a `check` script yet are skipped (tasks.md P12-T1).
+        working-directory: ${{ matrix.catalog }}
+        run: pnpm run --if-present check
       - name: Test
         working-directory: ${{ matrix.catalog }}
         run: pnpm exec vitest run

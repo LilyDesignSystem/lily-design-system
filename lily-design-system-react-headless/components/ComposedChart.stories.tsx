@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ComposedChart>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ComposedChart>;
 
 export const Default: Story = {};

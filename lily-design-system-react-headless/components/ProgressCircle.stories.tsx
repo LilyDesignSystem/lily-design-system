@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ProgressCircle>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ProgressCircle>;
 
 export const Default: Story = {};

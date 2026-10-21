@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof AccordionLink>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof AccordionLink>;
 
 export const Default: Story = {};

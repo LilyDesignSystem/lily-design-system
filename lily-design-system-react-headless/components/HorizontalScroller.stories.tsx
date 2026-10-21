@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof HorizontalScroller>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof HorizontalScroller>;
 
 export const Default: Story = {};

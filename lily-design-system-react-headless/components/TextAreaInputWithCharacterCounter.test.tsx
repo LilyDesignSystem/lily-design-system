@@ -5,14 +5,14 @@ import Subject from "./TextAreaInputWithCharacterCounter";
 
 describe("TextAreaInputWithCharacterCounter", () => {
     test("renders root element with canonical class", () => {
-        const { container } = render(<Subject label="Demo" />);
+        const { container } = render(<Subject label="Demo" maxLength={100} />);
         const el = container.querySelector(".text-area-input-with-character-counter");
         expect(el).toBeTruthy();
         expect(el?.tagName.toLowerCase()).toBe("div");
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(<Subject label="Demo" className="extra" maxLength={100} />);
         const el = container.querySelector(".text-area-input-with-character-counter");
         expect(el?.className).toContain("text-area-input-with-character-counter");
         expect(el?.className).toContain("extra");

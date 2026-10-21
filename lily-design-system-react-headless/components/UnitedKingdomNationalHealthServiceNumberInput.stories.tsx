@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof UnitedKingdomNationalHealthServiceNumberInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof UnitedKingdomNationalHealthServiceNumberInput>;
 
 export const Default: Story = {};

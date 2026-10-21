@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof PaddingReset>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof PaddingReset>;
 
 export const Default: Story = {};

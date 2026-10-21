@@ -12,7 +12,8 @@
     "test:ui": "vitest --ui",
     "build": "node generate-index.mjs && ng-packagr -p ng-package.json",
     "storybook": "ng run @lilydesignsystem/angular-headless:storybook",
-    "build-storybook": "ng run @lilydesignsystem/angular-headless:build-storybook"
+    "build-storybook": "ng run @lilydesignsystem/angular-headless:build-storybook",
+    "check": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.spec.json"
   },
   "peerDependencies": {
     "@angular/common": ">=20.0.0 <23.0.0",

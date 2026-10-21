@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof CandlestickChart>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof CandlestickChart>;
 
 export const Default: Story = {};

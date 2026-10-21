@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Diff>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Diff>;
 
 export const Default: Story = {};

@@ -2,10 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
 
+import type { ReactNode } from "react";
 import CheckListItem from "./CheckListItem";
 
 // Wrap CheckListItem in an <ol> for valid HTML context
-function renderInList(props: Record<string, unknown>) {
+function renderInList(props: { children?: ReactNode; [key: string]: unknown }) {
     const { children, ...rest } = props;
     return render(
         <ol>

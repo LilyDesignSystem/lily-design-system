@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof FunnelChart>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FunnelChart>;
 
 export const Default: Story = {};

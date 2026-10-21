@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof NetPromoterScoreView>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof NetPromoterScoreView>;
 
 export const Default: Story = {};

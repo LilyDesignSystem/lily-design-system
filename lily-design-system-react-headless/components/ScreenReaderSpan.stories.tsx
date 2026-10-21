@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof ScreenReaderSpan>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ScreenReaderSpan>;
 
 export const Default: Story = {};

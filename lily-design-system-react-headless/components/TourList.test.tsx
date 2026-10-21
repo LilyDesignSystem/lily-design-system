@@ -7,7 +7,7 @@ import Subject from "./TourList";
 
 function ControlledTourList(props: { label: string; children: ReactNode; [key: string]: unknown }) {
   const [active, setActive] = useState(true);
-  return <Subject {...props} active={active} onChange={setActive} />;
+  return <Subject {...props} active={active} onChange={(value: unknown) => setActive(Boolean(value))} />;
 }
 
 describe("TourList", () => {

@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof GrailLayoutCenterMain>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof GrailLayoutCenterMain>;
 
 export const Default: Story = {};

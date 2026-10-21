@@ -5,14 +5,14 @@ import Subject from "./MedicalBanner";
 
 describe("MedicalBanner", () => {
     test("renders root element with canonical class", () => {
-        const { container } = render(<Subject label="Demo" />);
+        const { container } = render(<Subject label="Demo">content</Subject>);
         const el = container.querySelector(".medical-banner");
         expect(el).toBeTruthy();
         expect(el?.tagName.toLowerCase()).toBe("div");
     });
 
     test("appends className prop to root", () => {
-        const { container } = render(<Subject label="Demo" className="extra" />);
+        const { container } = render(<Subject label="Demo" className="extra">content</Subject>);
         const el = container.querySelector(".medical-banner");
         expect(el?.className).toContain("medical-banner");
         expect(el?.className).toContain("extra");

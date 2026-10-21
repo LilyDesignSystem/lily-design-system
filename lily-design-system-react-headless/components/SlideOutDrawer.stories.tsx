@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof SlideOutDrawer>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SlideOutDrawer>;
 
 export const Default: Story = {};

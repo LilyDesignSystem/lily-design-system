@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof TextAreaInputWithCharacterCounter>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof TextAreaInputWithCharacterCounter>;
 
 export const Default: Story = {};

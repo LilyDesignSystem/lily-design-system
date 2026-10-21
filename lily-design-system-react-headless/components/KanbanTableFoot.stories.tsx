@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof KanbanTableFoot>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof KanbanTableFoot>;
 
 export const Default: Story = {};

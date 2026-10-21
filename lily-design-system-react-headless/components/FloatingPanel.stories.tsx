@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof FloatingPanel>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FloatingPanel>;
 
 export const Default: Story = {};

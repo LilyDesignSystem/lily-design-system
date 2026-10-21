@@ -5,7 +5,7 @@ import Subject from "./HeroHeadline";
 
 describe("HeroHeadline", () => {
     test("renders a div with class hero-headline", () => {
-        const { container } = render(<Subject label="x">content</Subject>);
+        const { container } = render(<Subject label="x" media={null}>content</Subject>);
         const root = container.querySelector(".hero-headline");
         expect(root).toBeTruthy();
         expect(root?.tagName).toBe("DIV");
@@ -17,7 +17,7 @@ describe("HeroHeadline", () => {
     });
 
     test("applies aria-label from label prop", () => {
-        const { container } = render(<Subject label="Hello">content</Subject>);
+        const { container } = render(<Subject label="Hello" media={null}>content</Subject>);
         const root = container.querySelector(".hero-headline");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
     });

@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof PinInputDiv>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof PinInputDiv>;
 
 export const Default: Story = {};

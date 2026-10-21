@@ -2326,11 +2326,11 @@ is in `CHANGELOG.md` (2026-10-18) and each package's own CHANGELOG.
 From the capabilities and code-quality audit in [plan.md](plan.md) § "Research findings (2026-10-21)". Every number in
 a task was measured on 2026-10-21; re-measure before closing it.
 
-- [ ] **P12-T1 Typecheck in CI.** Add a `check` script (`svelte-check`, `tsc --noEmit`, `vue-tsc --noEmit`, the Angular
+- [ ] **P12-T1 Typecheck in CI.** *(Partly done 2026-10-21: `check` scripts and a CI step for react, vue, angular and web-components headless; still open: `svelte-headless` (needs `svelte-check` installed), the HTML, Nunjucks and Alpine libraries, the helpers outside the Svelte ones, and adding web-components to the `headless` matrix.)* Add a `check` script (`svelte-check`, `tsc --noEmit`, `vue-tsc --noEmit`, the Angular
   compiler's `ngc -p` or `tsc`) to every TypeScript headless library and helper package that lacks one — starting with
   `svelte-headless`, which has none — and a CI job that runs them all.
   Verify: the job is in `.github/workflows/ci.yml` and fails when a deliberate type error is introduced.
-- [ ] **P12-T2 Fix the React headless type errors.** `tsc --noEmit -p lily-design-system-react-headless` reports 405
+- [x] **P12-T2 (done 2026-10-21: React 405 → 0 — story files use `StoryObj<typeof Component>` so `args` are optional, 16 test props fixed; Vue, Angular and Web Components were already clean; 3,310 React tests pass) Fix the React headless type errors.** `tsc --noEmit -p lily-design-system-react-headless` reports 405
   errors: 389 in `*.stories.tsx` (stories with no `args` for required props — fix in
   `bin/generate-storybook-stories.mjs`, not by hand) and 16 in tests (e.g. `BannerBox.test.tsx` omits required
   `children`, `CheckListItem.test.tsx` passes `unknown` as `ReactNode`). Then run the same check on Vue, Angular and

@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof FranceNumeroDIdentificationAuRepertoireInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FranceNumeroDIdentificationAuRepertoireInput>;
 
 export const Default: Story = {};

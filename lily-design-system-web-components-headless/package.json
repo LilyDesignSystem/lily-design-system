@@ -27,7 +27,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "check": "tsc --noEmit"
   },
   "devDependencies": {
     "@storybook/web-components-vite": "^10.6.1",

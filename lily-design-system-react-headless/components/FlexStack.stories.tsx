@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof FlexStack>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FlexStack>;
 
 export const Default: Story = {};

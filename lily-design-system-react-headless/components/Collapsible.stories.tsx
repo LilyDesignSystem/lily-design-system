@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof Collapsible>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Collapsible>;
 
 export const Default: Story = {};

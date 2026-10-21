@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof SplitView>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof SplitView>;
 
 export const Default: Story = {};

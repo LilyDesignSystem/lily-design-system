@@ -8,6 +8,6 @@ const meta = {
 } satisfies Meta<typeof GanttTableTfoot>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof GanttTableTfoot>;
 
 export const Default: Story = {};
