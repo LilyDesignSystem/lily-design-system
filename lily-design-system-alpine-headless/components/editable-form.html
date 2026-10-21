@@ -1,0 +1,18 @@
+<!-- editable-form.html -->
+<!-- EditableForm component (Alpine.js) -->
+<!--
+  Description: a form wrapper for inline editing of content
+  HTML tag: <form>
+  CSS class: editable-form
+  Keyboard: Enter submits and leaves edit mode; Escape cancels and leaves edit mode
+  Accessibility: aria-label names the form; the form is tabindex -1 and takes focus when it opens
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div x-data="lilyEditableForm()">
+  <button class="editable-form-edit" x-bind="editButton"><!-- Consumer provides edit label --></button>
+  <form class="editable-form" aria-label="" hidden x-bind="form">
+    <input name="title" aria-label="">
+    <button type="submit"><!-- Consumer provides save label --></button>
+  </form>
+</div>

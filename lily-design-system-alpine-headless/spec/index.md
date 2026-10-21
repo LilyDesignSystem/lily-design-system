@@ -10,12 +10,12 @@ A ninth framework family alongside HTML, Svelte, React, Vue, Angular, Blazor, Nu
 
 ### In scope (this pass)
 
-- `lily-design-system-alpine-headless`, **543 of 571 components** (488 static, 55 with Alpine behaviour), each with a snippet, a vitest test and a Storybook story.
+- `lily-design-system-alpine-headless`, **557 of 571 components** (488 static, 69 with Alpine behaviour), each with a snippet, a vitest test and a Storybook story.
 - The Alpine plugin `lily-alpine.js`.
 
 ### Explicitly out of scope (later passes)
 
-- The other 28 components, those whose html-headless snippet carries behaviour; each needs a hand-written `Alpine.data` behaviour (not excluded, simply not yet done).
+- The other 14 components, those whose html-headless snippet carries behaviour; each needs a hand-written `Alpine.data` behaviour (not excluded, simply not yet done).
 - `lily-design-system-alpine-examples` (an example app), and the 16 `lily-design-system-alpine-*` helper packages (the ten pickers, `picker-bar`, `data-grid`, `filter`, `kanban-board`, `calendar`, `gantt-chart`).
 - Wiring into `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless`, `bin/smoke-packages`, and the root catalog-count prose: this catalog is deliberately not yet a full-catalog peer, so the 7-library coverage checks do not include it.
 - Agent skills (`lily-design-system-alpine-skill`, `-headless-skill`, `-helpers-skill`).
@@ -59,10 +59,10 @@ Each follows the WAI-ARIA APG pattern and the matching `components/{slug}/AGENTS
 ## 5. Acceptance criteria
 
 - [x] Package scaffolded with the required files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`) and synced special files.
-- [x] 543 components, each with snippet, test and story. Static components are tested for element, base class and role only.
-- [x] `pnpm test` passes (1,200 tests).
+- [x] 557 components, each with snippet, test and story. Static components are tested for element, base class and role only.
+- [x] `pnpm test` passes (1,264 tests).
 - [x] Registered in `bin/sync-special-files`, CI and Dependabot.
-- [ ] Remaining 28 behavioural components.
+- [ ] Remaining 14 behavioural components.
 - [ ] Example app, helpers, skills, publish pipeline.
 
 ## Related topics

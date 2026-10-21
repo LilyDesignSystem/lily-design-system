@@ -1,0 +1,15 @@
+<!-- editable.html -->
+<!-- Editable component (Alpine.js) -->
+<!--
+  Description: an inline-editable text element that toggles between view and edit modes
+  HTML tag: <div>
+  CSS class: editable
+  Keyboard: Enter, Space or a click edits; Enter confirms; Escape cancels
+  Accessibility: the display is role="button" named "value, label"; tabindex 0 (or -1 with aria-disabled when disabled); the field is named by the label
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="editable" x-data="lilyEditable('', false, '')">
+  <span class="editable-display" x-bind="display"></span>
+  <input class="editable-input" x-bind="input" hidden>
+</div>

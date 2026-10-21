@@ -2,7 +2,7 @@
 
 Headless components for [Alpine.js](https://alpinejs.dev/): annotated, semantic HTML snippets that carry the ARIA, class hooks and Alpine directives, plus one small Alpine plugin that owns state and keyboard behaviour. Zero CSS, zero text, zero icons. Targets WCAG 2.2 AAA.
 
-**Status: 543 of the 571 catalog components** — every component that is pure markup (488) plus 55 with Alpine behaviour. The other 28 (those with behaviour in the html-headless catalog) are queued in [spec/index.md](spec/index.md).
+**Status: 557 of the 571 catalog components** — every component that is pure markup (488) plus 69 with Alpine behaviour. The other 14 (those with behaviour in the html-headless catalog) are queued in [spec/index.md](spec/index.md).
 
 ## How it works
 

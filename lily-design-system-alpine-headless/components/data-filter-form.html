@@ -1,0 +1,17 @@
+<!-- data-filter-form.html -->
+<!-- DataFilterForm component (Alpine.js) -->
+<!--
+  Description: a form for filtering data by criteria
+  HTML tag: <form>
+  CSS class: data-filter-form
+  Keyboard: None (passive element); native form keys
+  Accessibility: role="search" with aria-label
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<form class="data-filter-form" role="search" aria-label="" x-data="lilyDataFilterForm()" x-bind="form">
+  <!-- Consumer provides form fields -->
+  <input name="q" aria-label="">
+  <button type="submit"><!-- Consumer provides apply label --></button>
+  <button type="reset"><!-- Consumer provides reset label --></button>
+</form>

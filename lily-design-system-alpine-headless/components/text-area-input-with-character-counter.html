@@ -1,0 +1,15 @@
+<!-- text-area-input-with-character-counter.html -->
+<!-- TextAreaInputWithCharacterCounter component (Alpine.js) -->
+<!--
+  Description: a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
+  HTML tag: <div>
+  CSS class: text-area-input-with-character-counter
+  Keyboard: native textarea keys; the counter updates as you type
+  Accessibility: aria-label names the textarea; aria-describedby links it to the counter; the counter is a polite status
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="text-area-input-with-character-counter" x-data="lilyCountedTextarea(20)">
+  <textarea class="text-area-input-with-character-counter-textarea" aria-label="" aria-describedby="text-area-input-with-character-counter-count-1" x-bind="textarea"></textarea>
+  <span class="text-area-input-with-character-counter-count" id="text-area-input-with-character-counter-count-1" aria-label="" x-bind="counter"></span>
+</div>

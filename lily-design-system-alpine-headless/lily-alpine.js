@@ -868,4 +868,366 @@ export default function lily(Alpine) {
     }));
   popupTree("lilyTreeSelect", false);
   popupTree("lilyCascader", true);
+
+  // CharacterCounter: a polite status "count / max" (or just count). Give it
+  // `forId` to follow a field by id; otherwise set `count` yourself. Exposes
+  // data-count, data-max, data-remaining and (only when over) data-over-limit.
+  const counterBind = {
+    role: "status",
+    "aria-live": "polite",
+    "x-text"() { return this.max == null ? String(this.count) : `${this.count} / ${this.max}`; },
+    ":data-count"() { return String(this.count); },
+    ":data-max"() { return this.max == null ? null : String(this.max); },
+    ":data-remaining"() { return this.max == null ? null : String(this.max - this.count); },
+    ":data-over-limit"() { return this.max != null && this.count > this.max ? "" : null; },
+  };
+
+  Alpine.data("lilyCharacterCounter", (max = null, forId = "") => ({
+    count: 0,
+    max,
+    init() {
+      const field = forId && document.getElementById(forId);
+      if (!field) return;
+      this.count = field.value.length;
+      field.addEventListener("input", () => { this.count = field.value.length; });
+    },
+    counter: counterBind,
+  }));
+
+  // A textarea with its own counter, linked by aria-describedby.
+  Alpine.data("lilyCountedTextarea", (max = null, value = "") => ({
+    value,
+    max,
+    get count() { return this.value.length; },
+    textarea: {
+      ":value"() { return this.value; },
+      "@input"(event) { this.value = event.target.value; },
+      ":aria-invalid"() { return this.max != null && this.count > this.max ? "true" : null; },
+    },
+    counter: counterBind,
+  }));
+
+  // Password field with a show / hide toggle button (aria-pressed).
+  Alpine.data("lilyPasswordToggle", (visible = false) => ({
+    visible,
+    input: {
+      ":type"() { return this.visible ? "text" : "password"; },
+      autocomplete: "current-password",
+    },
+    toggle: {
+      type: "button",
+      ":aria-pressed"() { return String(this.visible); },
+      "@click"() { this.visible = !this.visible; },
+    },
+  }));
+
+  // PinInput: one digit per input. A digit moves focus on, Backspace on an empty
+  // box moves back, arrows move, and a paste fills the boxes from the focused
+  // one. Non-digits are dropped. `lily:complete` fires when every box is filled.
+  Alpine.data("lilyPinInput", () => ({
+    boxes() { return Array.from(this.$root.querySelectorAll("input")); },
+    get value() { return this.boxes().map((b) => b.value).join(""); },
+    sync() {
+      const value = this.value;
+      this.$root.dataset.value = value;
+      if (value.length === this.boxes().length) this.$dispatch("lily:complete", { value });
+    },
+    fill(boxes, from, digits) {
+      digits.split("").forEach((d, k) => { if (boxes[from + k]) boxes[from + k].value = d; });
+      boxes[Math.min(from + digits.length, boxes.length - 1)]?.focus();
+      this.sync();
+    },
+    digit(i) {
+      return {
+        type: "text",
+        inputmode: "numeric",
+        maxlength: "1",
+        autocomplete: "off",
+        "@input"(event) {
+          const boxes = this.boxes();
+          const digits = event.target.value.replace(/\D/g, "");
+          event.target.value = "";
+          if (digits) this.fill(boxes, i, digits);
+          else this.sync();
+        },
+        "@paste"(event) {
+          event.preventDefault();
+          this.fill(this.boxes(), i, (event.clipboardData?.getData("text") ?? "").replace(/\D/g, ""));
+        },
+        "@keydown"(event) {
+          const boxes = this.boxes();
+          if (event.key === "Backspace" && !event.target.value && i > 0) {
+            event.preventDefault();
+            boxes[i - 1].value = "";
+            boxes[i - 1].focus();
+            this.sync();
+          } else if (event.key === "ArrowLeft" && i > 0) {
+            event.preventDefault();
+            boxes[i - 1].focus();
+          } else if (event.key === "ArrowRight" && i < boxes.length - 1) {
+            event.preventDefault();
+            boxes[i + 1].focus();
+          }
+        },
+      };
+    },
+  }));
+
+  // TagInput: Enter adds the trimmed text as a tag (duplicates ignored) and
+  // clears the field; Backspace on an empty field removes the last tag.
+  Alpine.data("lilyTagInput", (tags = []) => ({
+    tags: [...tags],
+    add(text) {
+      const tag = text.trim();
+      if (!tag || this.tags.includes(tag)) return false;
+      this.tags = [...this.tags, tag];
+      this.$dispatch("lily:add", { value: tag, tags: [...this.tags] });
+      return true;
+    },
+    remove(tag) {
+      this.tags = this.tags.filter((t) => t !== tag);
+      this.$dispatch("lily:remove", { value: tag, tags: [...this.tags] });
+    },
+    input: {
+      type: "text",
+      "@keydown"(event) {
+        if (event.key === "Enter" && this.$el.value.trim()) {
+          event.preventDefault();
+          this.add(this.$el.value);
+          this.$el.value = "";
+        } else if (event.key === "Backspace" && !this.$el.value && this.tags.length) {
+          this.remove(this.tags[this.tags.length - 1]);
+        }
+      },
+    },
+  }));
+
+  // CurrencyInput: a decimal text field that keeps only digits and one ".",
+  // carries data-currency-code, and flags aria-invalid outside min / max.
+  // Formatting (Intl.NumberFormat, locale) stays the consumer's.
+  Alpine.data("lilyCurrencyInput", (currencyCode = "", min = null, max = null) => ({
+    input: {
+      type: "text",
+      inputmode: "decimal",
+      "data-currency-code": currencyCode,
+      "@input"() {
+        const [whole, ...rest] = this.$el.value.replace(/[^\d.]/g, "").split(".");
+        this.$el.value = rest.length ? `${whole}.${rest.join("")}` : whole;
+        const n = Number(this.$el.value);
+        const bad = this.$el.value !== "" && ((min != null && n < min) || (max != null && n > max));
+        if (bad) this.$el.setAttribute("aria-invalid", "true");
+        else this.$el.removeAttribute("aria-invalid");
+      },
+    },
+  }));
+
+  // TextInputWithSearch: Enter in the field or the button emits `lily:search`.
+  Alpine.data("lilySearch", (value = "") => ({
+    value,
+    search() { this.$dispatch("lily:search", { value: this.value }); },
+    input: {
+      type: "text",
+      ":value"() { return this.value; },
+      "@input"(event) { this.value = event.target.value; },
+      "@keydown.enter.prevent"() { this.search(); },
+    },
+    button: {
+      type: "button",
+      "@click"() { this.search(); },
+    },
+  }));
+
+  // MentionsInput: typing the trigger character opens suggestions filtered by
+  // the text after it. Arrows move the active option (aria-activedescendant),
+  // Enter replaces "@query" with the chosen option, Escape closes.
+  Alpine.data("lilyMentions", (trigger = "@") => ({
+    open: false,
+    active: "",
+    query: "",
+    visible() {
+      return Array.from(this.$root.querySelectorAll('[role="option"]')).filter((o) => !o.hidden);
+    },
+    match(el) { return el.textContent.toLowerCase().includes(this.query.toLowerCase()); },
+    scan(value) {
+      const at = value.lastIndexOf(trigger);
+      const tail = at < 0 ? null : value.slice(at + trigger.length);
+      this.open = tail !== null && !/\s/.test(tail);
+      this.query = this.open ? tail : "";
+      this.active = "";
+    },
+    choose(el) {
+      const input = this.$refs.input;
+      const at = input.value.lastIndexOf(trigger);
+      input.value = `${input.value.slice(0, at)}${trigger}${el.textContent.trim()} `;
+      this.open = false;
+      this.active = "";
+      input.focus();
+      this.$dispatch("lily:select", { value: el.textContent.trim() });
+    },
+    input: {
+      "x-ref": "input",
+      role: "combobox",
+      "aria-haspopup": "listbox",
+      "aria-autocomplete": "list",
+      ":aria-expanded"() { return String(this.open); },
+      ":aria-activedescendant"() { return this.open && this.active ? this.active : null; },
+      "@input"(event) { this.scan(event.target.value); },
+      "@keydown"(event) {
+        if (!this.open) return;
+        if (event.key === "Escape") { this.open = false; this.active = ""; return; }
+        if (event.key === "Enter") {
+          const el = this.visible().find((o) => o.id === this.active);
+          if (el) { event.preventDefault(); this.choose(el); }
+          return;
+        }
+        if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+        event.preventDefault();
+        const options = this.visible();
+        if (!options.length) return;
+        this.active = menuTarget(event.key, options, options.findIndex((o) => o.id === this.active), false).id;
+      },
+    },
+    panel: {
+      ":hidden"() { return !this.open; },
+    },
+    option(id) {
+      return {
+        role: "option",
+        id,
+        ":hidden"() { return !this.match(this.$el); },
+        ":aria-selected"() { return String(this.active === id); },
+        "@mousedown.prevent"() {},
+        "@click"() { this.choose(this.$el); },
+      };
+    },
+  }));
+
+  // Editable: a button-like display that swaps for a text field. Enter,
+  // Space or a click edits; Enter confirms; Escape cancels. The display's
+  // accessible name is "value, label" so the visible text is in the name.
+  Alpine.data("lilyEditable", (value = "", editing = false, label = "", disabled = false) => ({
+    value,
+    draft: value,
+    editing,
+    disabled,
+    label,
+    edit() {
+      if (this.disabled) return;
+      this.draft = this.value;
+      this.editing = true;
+      this.$nextTick(() => this.$refs.input?.focus());
+    },
+    confirm() {
+      this.value = this.draft;
+      this.editing = false;
+      this.$dispatch("lily:change", { value: this.value });
+      this.$nextTick(() => this.$refs.display?.focus());
+    },
+    cancel() {
+      this.draft = this.value;
+      this.editing = false;
+      this.$nextTick(() => this.$refs.display?.focus());
+    },
+    display: {
+      role: "button",
+      "x-ref": "display",
+      ":tabindex"() { return this.disabled ? "-1" : "0"; },
+      ":aria-disabled"() { return this.disabled ? "true" : null; },
+      ":aria-label"() { return this.value ? `${this.value}, ${this.label}` : this.label; },
+      ":hidden"() { return this.editing; },
+      "x-text"() { return this.value; },
+      "@click"() { this.edit(); },
+      "@keydown.enter.prevent"() { this.edit(); },
+      "@keydown.space.prevent"() { this.edit(); },
+    },
+    input: {
+      type: "text",
+      "x-ref": "input",
+      ":aria-label"() { return this.label; },
+      ":value"() { return this.draft; },
+      ":hidden"() { return !this.editing; },
+      "@input"(event) { this.draft = event.target.value; },
+      "@keydown.enter.prevent"() { this.confirm(); },
+      "@keydown.escape.prevent"() { this.cancel(); },
+    },
+  }));
+
+  // EditableForm: a form shown only while editing. Submit saves (the consumer
+  // handles `lily:submit`) and closes; Escape cancels and closes. The form is
+  // tabindex -1 and takes focus when it opens.
+  Alpine.data("lilyEditableForm", (editing = false) => ({
+    editing,
+    edit() {
+      this.editing = true;
+      this.$nextTick(() => this.$refs.form?.focus());
+    },
+    cancel() {
+      this.editing = false;
+      this.$dispatch("lily:cancel");
+    },
+    editButton: {
+      type: "button",
+      ":hidden"() { return this.editing; },
+      "@click"() { this.edit(); },
+    },
+    form: {
+      "x-ref": "form",
+      tabindex: "-1",
+      ":hidden"() { return !this.editing; },
+      "@submit.prevent"() {
+        this.editing = false;
+        this.$dispatch("lily:submit", { values: Object.fromEntries(new FormData(this.$el)) });
+      },
+      "@keydown.escape"() { this.cancel(); },
+    },
+  }));
+
+  // DataFilterForm: a role="search" form that never navigates. Submit emits
+  // `lily:filter` with the field values; reset emits `lily:reset`.
+  Alpine.data("lilyDataFilterForm", () => ({
+    form: {
+      role: "search",
+      "@submit.prevent"() {
+        this.$dispatch("lily:filter", { values: Object.fromEntries(new FormData(this.$el)) });
+      },
+      "@reset"() { this.$dispatch("lily:reset"); },
+    },
+  }));
+
+  // NewsletterSignup: a state machine (idle | submitting | success | error)
+  // surfaced as data-state. While submitting the field and button are
+  // disabled; success is a polite status, error an alert. Submit emits
+  // `lily:submit` — the consumer moves `state` on.
+  Alpine.data("lilyNewsletterSignup", (state = "idle") => ({
+    state,
+    form: {
+      ":data-state"() { return this.state; },
+      "@submit.prevent"() {
+        const email = this.$el.querySelector('input[type="email"]');
+        this.$dispatch("lily:submit", { email: email?.value ?? "" });
+      },
+    },
+    field: { ":disabled"() { return this.state === "submitting"; } },
+    submit: { ":disabled"() { return this.state === "submitting"; } },
+    success: { ":hidden"() { return this.state !== "success"; } },
+    error: { ":hidden"() { return this.state !== "error"; } },
+  }));
+
+  // DateTimeNowInput: date and time fields plus a button that fills both with
+  // the current local date and time.
+  Alpine.data("lilyDateTimeNow", () => ({
+    date: "",
+    time: "",
+    now() {
+      const d = new Date();
+      const p = (n) => String(n).padStart(2, "0");
+      this.date = `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+      this.time = `${p(d.getHours())}:${p(d.getMinutes())}`;
+      this.$dispatch("lily:change", { date: this.date, time: this.time });
+    },
+    nowButton: {
+      type: "button",
+      "@click"() { this.now(); },
+    },
+  }));
 }

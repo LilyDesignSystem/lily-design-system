@@ -1,0 +1,16 @@
+<!-- date-time-now-input.html -->
+<!-- DateTimeNowInput component (Alpine.js) -->
+<!--
+  Description: an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
+  HTML tag: <div>
+  CSS class: date-time-now-input
+  Keyboard: Tab between the date, the time and the Now button; Enter or Space on Now fills both
+  Accessibility: role="group" with aria-label; the date input, the time input and the button each have an aria-label
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="date-time-now-input" role="group" aria-label="" x-data="lilyDateTimeNow()">
+  <input class="date-time-now-input-date" type="date" aria-label="" x-model="date">
+  <input class="date-time-now-input-time" type="time" aria-label="" x-model="time">
+  <button class="date-time-now-input-now" aria-label="" x-bind="nowButton"><!-- Consumer provides button text --></button>
+</div>

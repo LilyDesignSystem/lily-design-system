@@ -1,0 +1,17 @@
+<!-- pin-input-div.html -->
+<!-- PinInputDiv component (Alpine.js) -->
+<!--
+  Description: a series of single-digit inputs for entering a PIN or OTP code
+  HTML tag: <div>
+  CSS class: pin-input-div
+  Keyboard: a digit moves on; Backspace on an empty box moves back; ArrowLeft/ArrowRight move; paste fills the boxes
+  Accessibility: role="group" with aria-label; one-digit inputs with inputmode="numeric" and maxlength="1"; data-value holds the combined value
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="pin-input-div" role="group" aria-label="" x-data="lilyPinInput()">
+  <input class="pin-input-div-digit" aria-label="" x-bind="digit(0)">
+  <input class="pin-input-div-digit" aria-label="" x-bind="digit(1)">
+  <input class="pin-input-div-digit" aria-label="" x-bind="digit(2)">
+  <input class="pin-input-div-digit" aria-label="" x-bind="digit(3)">
+</div>

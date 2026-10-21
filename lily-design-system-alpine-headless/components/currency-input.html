@@ -1,0 +1,12 @@
+<!-- currency-input.html -->
+<!-- CurrencyInput component (Alpine.js) -->
+<!--
+  Description: a locale-aware currency input with automatic formatting, symbols, separators
+  HTML tag: <input>
+  CSS class: currency-input
+  Keyboard: None (passive element); native text entry
+  Accessibility: aria-label names the input; inputmode="decimal"; aria-invalid outside min / max; data-currency-code carries the ISO 4217 code
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<input class="currency-input" aria-label="" x-data="lilyCurrencyInput('GBP', 0, 100)" x-bind="input">

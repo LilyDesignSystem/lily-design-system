@@ -1,0 +1,24 @@
+<!-- newsletter-signup.html -->
+<!-- NewsletterSignup component (Alpine.js) -->
+<!--
+  Description: an email subscription form composition with idle, submitting, success, and error states
+  HTML tag: <form>
+  CSS class: newsletter-signup
+  Keyboard: native form keys: Tab through the field and button, Enter submits
+  Accessibility: aria-label names the form; data-state mirrors the state; success is role="status" aria-live="polite", error is role="alert"; each hidden outside its state
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<form class="newsletter-signup" aria-label="" x-data="lilyNewsletterSignup()" x-bind="form">
+  <header class="newsletter-signup-header">
+    <h3 class="newsletter-signup-heading"><!-- Consumer provides heading text (optional) --></h3>
+    <p class="newsletter-signup-description"><!-- Consumer provides description text (optional) --></p>
+  </header>
+  <label class="newsletter-signup-label">
+    <!-- Consumer provides email label text -->
+    <input type="email" class="newsletter-signup-email" placeholder="" x-bind="field">
+  </label>
+  <button type="submit" class="newsletter-signup-submit" x-bind="submit"><!-- Consumer provides submit button text --></button>
+  <p class="newsletter-signup-success" role="status" aria-live="polite" hidden x-bind="success"><!-- Consumer provides success message text --></p>
+  <p class="newsletter-signup-error" role="alert" hidden x-bind="error"><!-- Consumer provides error message text --></p>
+</form>

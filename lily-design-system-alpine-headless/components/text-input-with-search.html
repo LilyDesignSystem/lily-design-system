@@ -1,0 +1,15 @@
+<!-- text-input-with-search.html -->
+<!-- TextInputWithSearch component (Alpine.js) -->
+<!--
+  Description: a single-line text input field <input type="text"> with search capability
+  HTML tag: <div>
+  CSS class: text-input-with-search
+  Keyboard: Tab between the field and the button; Enter in the field, or Enter/Space on the button, searches
+  Accessibility: role="search" with aria-label; the field and the button each have an aria-label
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="text-input-with-search" role="search" aria-label="" x-data="lilySearch()">
+  <input class="text-input-with-search-input" aria-label="" x-bind="input">
+  <button class="text-input-with-search-button" aria-label="" x-bind="button"><!-- Consumer provides icon or text --></button>
+</div>

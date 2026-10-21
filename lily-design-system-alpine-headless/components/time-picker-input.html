@@ -1,0 +1,12 @@
+<!-- time-picker-input.html -->
+<!-- TimePickerInput component (Alpine.js) -->
+<!--
+  Description: an input with a dropdown for picking a time
+  HTML tag: <input>
+  CSS class: time-picker-input
+  Keyboard: native time field: arrows change and move between segments
+  Accessibility: aria-label names the input; the native time input already carries its semantics
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<input class="time-picker-input" type="time" aria-label="" x-data="{ value: '' }" x-model="value" :data-value="value">
