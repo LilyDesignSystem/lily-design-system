@@ -21,6 +21,8 @@ describe("Tour", () => {
   it("shows the first step as current and hides the rest from everyone", async () => {
     await mount("tour");
     expect(steps().map((s) => s.getAttribute("aria-roledescription"))).toEqual(["step", "step", "step"]);
+    // A list item must stay a list item inside the ol (axe: list), so no role="group" here.
+    expect(steps().some((s) => s.hasAttribute("role"))).toBe(false);
     expect(steps().map((s) => s.getAttribute("aria-current"))).toEqual(["step", null, null]);
     expect(steps().map((s) => s.hidden)).toEqual([false, true, true]);
     expect(steps().map((s) => s.getAttribute("aria-hidden"))).toEqual([null, "true", "true"]);

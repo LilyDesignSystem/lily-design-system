@@ -1,0 +1,85 @@
+<!-- data-grid snippet (Alpine.js) -->
+<!--
+  Requires: Alpine.js and the Lily data-grid plugin:
+    import Alpine from "alpinejs";
+    import lilyDataGrid from "@lilydesignsystem/alpine-data-grid";
+    Alpine.plugin(lilyDataGrid);
+  `gridOptions` is your own object: { columns, rows, labels, selectionMode, pageSize, ... }.
+  Headless: no CSS, no text. Every string comes from gridOptions.labels, and a label's presence shows the control it names.
+-->
+<div class="data-grid" x-data="lilyDataGrid(gridOptions)">
+  <div class="data-grid-toolbar">
+    <template x-if="labels.search">
+      <input class="data-grid-search" type="search" :aria-label="labels.search" :value="filter" @input="setFilter($event.target.value)">
+    </template>
+    <template x-if="labels.exportCsv">
+      <button class="data-grid-export" type="button" data-export-format="csv" @click="download('csv')" x-text="labels.exportCsv"></button>
+    </template>
+    <template x-if="labels.exportTsv">
+      <button class="data-grid-export" type="button" data-export-format="tsv" @click="download('tsv')" x-text="labels.exportTsv"></button>
+    </template>
+    <template x-if="labels.copy">
+      <button class="data-grid-export" type="button" data-export-format="copy" @click="copy()" x-text="labels.copy"></button>
+    </template>
+  </div>
+
+  <template x-if="columns.some(c => c.hidable)">
+    <div class="data-grid-columns" role="group" :aria-label="labels.columns">
+      <template x-for="col in columns.filter(c => c.hidable)" :key="col.id">
+        <label class="data-grid-column-toggle">
+          <input type="checkbox" :checked="!hidden.includes(col.id)" :aria-label="labels.toggleColumn ? labels.toggleColumn(col.header) : null" @change="toggleColumn(col.id)">
+          <span x-text="col.header"></span>
+        </label>
+      </template>
+    </div>
+  </template>
+
+  <table class="data-table" role="grid" :aria-label="labels.grid" :aria-rowcount="sortedRows.length + 1" :aria-colcount="colCount" :aria-multiselectable="selectionMode === 'multiple' ? 'true' : null" @keydown="onKeydown($event)">
+    <template x-if="labels.caption"><caption class="data-table-caption" x-text="labels.caption"></caption></template>
+    <thead class="data-table-head">
+      <tr class="data-table-row" role="row" aria-rowindex="1">
+        <template x-if="selectable">
+          <th class="data-table-th data-grid-select-all" role="columnheader" data-row="-1" data-col="0" :tabindex="tabindex(-1, 0)" @focus="onFocusCell(-1, 0)">
+            <template x-if="selectionMode === 'multiple'">
+              <input type="checkbox" tabindex="-1" :aria-label="labels.selectAll" :checked="allSelected" x-effect="$el.indeterminate = someSelected" @change="toggleAll()">
+            </template>
+          </th>
+        </template>
+        <template x-for="(col, i) in visibleColumns" :key="col.id">
+          <th class="data-table-th" role="columnheader" scope="col" data-row="-1" :data-col="i + colOffset" :tabindex="tabindex(-1, i + colOffset)" :aria-sort="ariaSort(col)" :data-sort-order="sortOrder(col)" @focus="onFocusCell(-1, i + colOffset)">
+            <template x-if="col.sortable">
+              <button class="data-grid-sort" type="button" tabindex="-1" :aria-label="labels.sortButton ? labels.sortButton(col.header) : null" @click="toggleSort(col, $event.shiftKey)"><span x-text="col.header"></span></button>
+            </template>
+            <template x-if="!col.sortable"><span x-text="col.header"></span></template>
+          </th>
+        </template>
+      </tr>
+    </thead>
+    <tbody class="data-table-body">
+      <template x-for="(row, r) in pageRows" :key="id(row)">
+        <tr class="data-table-row" role="row" :aria-rowindex="r + 2" :aria-selected="selectable ? String(isSelected(id(row))) : null">
+          <template x-if="selectable">
+            <td class="data-table-td data-grid-select" role="gridcell" :data-row="r" data-col="0" :tabindex="tabindex(r, 0)" @focus="onFocusCell(r, 0)">
+              <input type="checkbox" tabindex="-1" :checked="isSelected(id(row))" :aria-label="labels.selectRow ? labels.selectRow(rowName(row)) : null" @change="toggleRow(id(row))">
+            </td>
+          </template>
+          <template x-for="(col, c) in visibleColumns" :key="col.id">
+            <td class="data-table-td" role="gridcell" :data-row="r" :data-col="c + colOffset" :tabindex="tabindex(r, c + colOffset)" @focus="onFocusCell(r, c + colOffset)" x-text="cell(row, col)"></td>
+          </template>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+
+  <template x-if="labels.empty && pageRows.length === 0"><p class="data-grid-empty" x-text="labels.empty"></p></template>
+
+  <template x-if="pageSize > 0">
+    <div class="data-grid-pager" role="group" :aria-label="labels.pagination">
+      <button class="data-grid-pager-button" type="button" :disabled="page === 0" @click="goto(page - 1)" x-text="labels.previousPage"></button>
+      <span class="data-grid-pager-status" x-text="pageLabel"></span>
+      <button class="data-grid-pager-button" type="button" :disabled="page >= pageCount - 1" @click="goto(page + 1)" x-text="labels.nextPage"></button>
+    </div>
+  </template>
+
+  <p class="data-grid-status" role="status" aria-live="polite" x-text="status"></p>
+</div>

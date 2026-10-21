@@ -211,6 +211,10 @@ def describe(name):
     if kind == "examples":
         return f"the {label} example application: a fully styled reference app demonstrating every catalog component"
     if kind == "package":
+        if fw == "alpine":
+            # The Alpine helpers are subsets of the Svelte references; the generic text would overclaim.
+            return (f"the {label} {helper_package(name)} helper, a subset of its Svelte reference "
+                    "(its spec/index.md lists what is built and what is not)")
         return f"the {label} {HELPER_PACKAGES[helper_package(name)]}"
     if kind == "skill":
         if name.endswith("-headless-skill"):

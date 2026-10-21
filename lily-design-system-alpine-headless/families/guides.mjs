@@ -72,7 +72,7 @@ const next = () => document.querySelector(".carousel-next");`,
 
   tour: {
     tag: "div", keyboard: "Tab to previous, next and close; Escape ends the tour",
-    aria: 'aria-label names the tour; each step is role="group" with aria-roledescription="step"; the current step has aria-current="step", the others are hidden and aria-hidden',
+    aria: 'aria-label names the tour; each step is a list item with aria-roledescription="step" (no role="group": axe rejects it inside an ol); the current step has aria-current="step", the others are hidden and aria-hidden',
     markup: `<div class="tour" aria-label="" x-data="lilyTour(0)" x-bind="root">
   <ol class="tour-list">
 ${Array.from({ length: 3 }, (_, i) => `    <li class="tour-list-item" x-bind="item(${i})"><!-- Consumer provides step content --></li>`).join("\n")}
@@ -88,6 +88,8 @@ const button = (name) => document.querySelector(".tour-" + name);`,
   it("shows the first step as current and hides the rest from everyone", async () => {
     await mount("tour");
     expect(steps().map((s) => s.getAttribute("aria-roledescription"))).toEqual(["step", "step", "step"]);
+    // A list item must stay a list item inside the ol (axe: list), so no role="group" here.
+    expect(steps().some((s) => s.hasAttribute("role"))).toBe(false);
     expect(steps().map((s) => s.getAttribute("aria-current"))).toEqual(["step", null, null]);
     expect(steps().map((s) => s.hidden)).toEqual([false, true, true]);
     expect(steps().map((s) => s.getAttribute("aria-hidden"))).toEqual([null, "true", "true"]);
@@ -165,7 +167,7 @@ const button = (name) => document.querySelector(".tour-" + name);`,
     aria: 'aria-label on the button; the status is aria-live="polite" and carries data-file-count',
     markup: `<div class="file-upload" x-data="lilyFileUpload()">
   <button class="file-upload-button" aria-label="" x-bind="trigger"><!-- Consumer provides button text --></button>
-  <input class="file-upload-input" hidden x-bind="input">
+  <input class="file-upload-input" hidden aria-hidden="true" tabindex="-1" x-bind="input">
   <span class="file-upload-status" data-file-count="0" x-bind="status"></span>
 </div>`,
     sel: "div.file-upload",
@@ -183,6 +185,8 @@ const choose = async (files) => {
     expect(button().type).toBe("button");
     expect(input().type).toBe("file");
     expect(input().hidden).toBe(true);
+    expect(input().getAttribute("aria-hidden")).toBe("true");
+    expect(input().getAttribute("tabindex")).toBe("-1");
     expect(status().getAttribute("aria-live")).toBe("polite");
     expect(status().getAttribute("data-file-count")).toBe("0");
   });

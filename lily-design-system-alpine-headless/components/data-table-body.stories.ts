@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-const html = "<!-- DataTableBody component -->\n<!--\n  Description: a data table interactive grid tbody for displaying and sorting tabular data\n  HTML tag: <tbody> wrapped in <table>\n  CSS class: data-table-body\n  Accessibility: aria-label for accessible name\n-->\n\n<table><tbody class=\"data-table-body\" aria-label=\"Example\">\n    <!-- Consumer provides child content -->\n</tbody></table>";
+const html = "<table><tbody class=\"data-table-body\" aria-label=\"Example\">\n    <!-- Consumer provides child content -->\n</tbody></table>";
 
 const meta = {
   title: 'Headless/Data Table Body',

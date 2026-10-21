@@ -2,7 +2,7 @@
 
 Headless components for [Alpine.js](https://alpinejs.dev/): annotated, semantic HTML snippets that carry the ARIA, class hooks and Alpine directives, plus one small Alpine plugin that owns state and keyboard behaviour. Zero CSS, zero text, zero icons. Targets WCAG 2.2 AAA.
 
-**Status: 571 of the 571 catalog components** — every component that is pure markup (488) plus 83 with Alpine behaviour. The whole catalog is covered; what is left (example app, helpers, publish pipeline) is in [spec/index.md](spec/index.md).
+**Status: 571 of the 571 catalog components** — every component that is pure markup (488) plus 83 with Alpine behaviour. The whole catalog is covered; the [example app](../lily-design-system-alpine-examples/) and four helpers ([data grid](../lily-design-system-alpine-data-grid/), [kanban board](../lily-design-system-alpine-kanban-board/), [calendar](../lily-design-system-alpine-calendar/), [Gantt chart](../lily-design-system-alpine-gantt-chart/)) exist; what is left (the other helpers, the publish pipeline) is in [spec/index.md](spec/index.md).
 
 ## How it works
 

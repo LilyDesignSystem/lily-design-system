@@ -72,6 +72,7 @@ jobs:
           - html
           - web-components
           - nunjucks
+          - alpine
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -276,6 +277,45 @@ jobs:
         run: pnpm exec playwright install-deps chromium
       - name: Test (every component page, /components search, pickers, accessibility, responsive)
         working-directory: lily-design-system-nunjucks-eleventy-examples
+        run: pnpm exec playwright test
+
+  alpine-examples:
+    # The Alpine.js example site is generated from components.tsv, the Alpine headless snippets and the four Alpine
+    # helpers; vitest mounts every demo under Alpine, and Playwright + axe visits every page in Chromium.
+    name: example-app build + Playwright (alpine-examples)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: lily-design-system-alpine-examples/pnpm-lock.yaml
+      - name: Install
+        working-directory: lily-design-system-alpine-examples
+        run: pnpm install --no-frozen-lockfile
+      - name: Build and unit-test (every demo mounted under Alpine)
+        working-directory: lily-design-system-alpine-examples
+        run: pnpm run build && pnpm run test
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('lily-design-system-alpine-examples/pnpm-lock.yaml') }}
+      - name: Install Playwright Chromium
+        working-directory: lily-design-system-alpine-examples
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Install Playwright OS deps only (browser cached)
+        working-directory: lily-design-system-alpine-examples
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+      - name: Test (axe on every page, the helpers' flows)
+        working-directory: lily-design-system-alpine-examples
         run: pnpm exec playwright test
 
   consumer-smoke:

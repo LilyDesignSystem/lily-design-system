@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Alpine.js example app and four helpers — 2026-10-21
+
+- New `lily-design-system-alpine-examples`: a static site (`node build.mjs`, 578 pages, no framework runtime) with `/`, `/components/` (searchable), `/components/{slug}/` for all 571 components (a live demo, the shipped markup, links) and a page per helper; the reference themes are copied in and chosen from a header selector. vitest mounts every demo under real Alpine in jsdom (no Alpine error, base class kept, no empty `aria-label`); Playwright + axe visits every page in Chromium at WCAG 2.2 AA (586 tests), with one named reference-theme finding (the filled-star colour of `five-star-rating-view`, 1.49:1). CI job `alpine-examples`.
+- New helpers, each an Alpine plugin plus a `snippet.html`, TypeScript built with tsup, a subset of its Svelte reference with a `spec/index.md` that lists what is built and what is not: `alpine-data-grid` (25 tests: multi-column sort, filter, selection, pagination, column visibility, APG grid keys, CSV / TSV / clipboard export), `alpine-kanban-board` (18: drag, keyboard move menu, Alt+Arrow, WIP limits), `alpine-calendar` (21: month and week, picked and disabled days, events, bounds, date-grid keys), `alpine-gantt-chart` (19: day timeline, hierarchy, milestones, dependencies, critical path). They reuse the shared pure modules and are in the CI `helper-packages` matrix and Dependabot (now 33 entries); none is published, and `bin/publish-helpers` does not list them.
+- The sweep found and fixed four defects in the Alpine catalog: six `role="radio"` picker buttons lacked `aria-checked`; the tab-panel sample had unnamed tabs; the tour's `<li role="group">` is invalid inside an `<ol>` (steps are now plain list items with `aria-roledescription="step"`); the hidden file input of `file-upload` was still reachable. Static snippets no longer keep a second leading header comment.
+- Lesson recorded in the skill and the helper specs: an Alpine expression that evaluates to a function is *called*, so snippets test `!!labels.x` in `x-if`, never `labels.x`.
+- Counts: 150 implementation subprojects (9 headless, 8 example apps, 133 helper packages); `spec/architecture` corrected (its summary still said 129, 26 skills and git subtrees).
+
 ## Alpine.js headless catalog — 2026-10-21
 
 - New `lily-design-system-alpine-headless` (`@lilydesignsystem/alpine-headless` 0.1.0, not yet published): a ninth framework family. Annotated semantic-HTML snippets with Alpine directives plus one Alpine plugin (`lily-alpine.js`) that owns state and keyboard behaviour. All 571 components (488 static, generated from the html-headless markup, and 83 with hand-written Alpine behaviour), each with a vitest + jsdom test (1,313 tests, spot-checked by mutation) and a Storybook story.

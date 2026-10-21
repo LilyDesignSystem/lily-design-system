@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-alpine-headless-skill
-description: Explains Lily Design System's Alpine.js headless catalog — annotated semantic-HTML snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`) that registers `Alpine.data("lily…")` behaviours. Use when someone asks how to use Lily with Alpine.js, wants the snippet-plus-plugin idiom, asks which components have Alpine behaviour and which are pure markup, needs the `x-bind` object names and keyboard contracts (menus, trees, combobox, tabs, dialogs, sliders), the `lily:*` events, or how to test a snippet under jsdom.
+description: Explains Lily Design System's Alpine.js headless catalog — annotated semantic-HTML snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`) that registers `Alpine.data("lily…")` behaviours — and the four Alpine helpers built on it (data grid, kanban board, calendar, Gantt chart) and the Alpine example app. Use when someone asks how to use Lily with Alpine.js, wants the snippet-plus-plugin idiom, asks which components have Alpine behaviour and which are pure markup, needs the `x-bind` object names and keyboard contracts (menus, trees, combobox, tabs, dialogs, sliders), the `lily:*` events, how to test a snippet under jsdom, or how to use the Alpine data grid, kanban board, calendar or Gantt chart.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -97,10 +97,28 @@ Behaviours announce changes as bubbling `CustomEvent`s named `lily:*`
 *shipped* snippet under real Alpine and each test drives it with DOM events.
 Static components are tested only for element, base class and role.
 
+## Helpers and the example app
+
+Four helpers ship as their own packages, each an Alpine plugin plus a `snippet.html`, each a **subset** of its Svelte reference
+(its `spec/index.md` lists what is built and what is not):
+
+| Package | Plugin | Does | Events |
+| --- | --- | --- | --- |
+| `@lilydesignsystem/alpine-data-grid` | `lilyDataGrid(options)` | multi-column sort, filter, selection, pagination, column visibility, APG grid keys, CSV / TSV / clipboard export | `lily:sort`, `lily:page`, `lily:select`, `lily:activate` |
+| `@lilydesignsystem/alpine-kanban-board` | `lilyKanbanBoard(options)` | drag, a keyboard move menu and Alt+Arrow, WIP limits, `canMove`, `strictWip` | `lily:move` |
+| `@lilydesignsystem/alpine-calendar` | `lilyCalendarView(options)` | month and week views, picked and disabled days, events, bounds, date-grid keys, UTC ISO dates | `lily:pick`, `lily:event` |
+| `@lilydesignsystem/alpine-gantt-chart` | `lilyGanttChart(options)` | day timeline, hierarchy and collapse, milestones, dependencies, critical path, APG grid keys | `lily:activate` |
+
+Each takes one options object (`gridOptions`, `boardOptions`, `calendarOptions`, `ganttOptions` in the snippets) with every string
+in `labels`; a label's absence removes the control it names. `createDataGrid(options)` and its siblings return the same state
+without Alpine. `lily-design-system-alpine-examples` is a static site with a live demo of every component and a page per helper
+(`pnpm build`, `pnpm test`, `pnpm test:e2e`).
+
+An Alpine expression that evaluates to a **function** is called by Alpine, so snippets test `!!labels.x` in `x-if`, never
+`labels.x` (a label function would be invoked with no arguments).
+
 ## What is not built yet
 
-No Alpine example app, no helper packages (the ten pickers, `picker-bar`,
-`data-grid`, `filter`, `kanban-board`, `calendar`, `gantt-chart`), and the
-package is not yet in `bin/check-coverage`, `bin/check-class-names`,
-`bin/publish-headless` or `bin/smoke-packages`. Say so rather than implying
-otherwise. The package `spec/index.md` is the source of truth for scope.
+No Alpine pickers (`theme-picker`, `locale-picker`, …), `picker-bar` or `filter`; no composed-page demos; and the packages are not
+yet in `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless` or `bin/smoke-packages`. Say so rather than implying
+otherwise. Each package's `spec/index.md` is the source of truth for scope.

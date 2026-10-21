@@ -1,0 +1,56 @@
+<!-- kanban-board snippet (Alpine.js) -->
+<!--
+  Requires: Alpine.js and the Lily kanban-board plugin:
+    import Alpine from "alpinejs";
+    import lilyKanbanBoard from "@lilydesignsystem/alpine-kanban-board";
+    Alpine.plugin(lilyKanbanBoard);
+  `boardOptions` is your own object: { columns, cards, labels, canMove, strictWip, cardLabel }.
+  Headless: no CSS, no text. Every string comes from boardOptions.labels; a label's absence removes the control it names.
+-->
+<div class="kanban-board" x-data="lilyKanbanBoard(boardOptions)">
+  <table class="kanban-table" role="grid" :aria-label="labels.grid" :aria-rowcount="rowCount + 1" :aria-colcount="columns.length" @keydown="onKeydown($event)">
+    <template x-if="labels.caption"><caption class="kanban-table-caption" x-text="labels.caption"></caption></template>
+    <thead class="kanban-table-head">
+      <tr class="kanban-table-row" role="row" aria-rowindex="1">
+        <template x-for="(col, c) in columns" :key="col.id">
+          <th class="kanban-table-th" role="columnheader" scope="col" data-row="-1" :data-col="c" :tabindex="tabindex(-1, c)" :data-over-limit="isOverLimit(col) ? '' : null" @focus="onFocusCell(-1, c)">
+            <span class="kanban-board-column-title" x-text="col.title"></span>
+            <template x-if="!!labels.cardCount"><span class="kanban-board-count" x-text="countLabel(col)"></span></template>
+            <template x-if="!!labels.overLimit"><span class="kanban-board-limit" x-text="limitLabel(col)"></span></template>
+          </th>
+        </template>
+      </tr>
+    </thead>
+    <tbody class="kanban-table-body">
+      <template x-for="r in rows" :key="r">
+        <tr class="kanban-table-row" role="row" :aria-rowindex="r + 2">
+          <template x-for="(col, c) in columns" :key="col.id">
+            <td class="kanban-table-td" role="gridcell" :data-row="r" :data-col="c" :tabindex="tabindex(r, c)"
+                :aria-haspopup="cardsAt(r, c).length && labels.moveButton ? 'listbox' : null"
+                :aria-expanded="cardsAt(r, c).length && labels.moveButton ? String(isMenuOpen(cardsAt(r, c)[0].id)) : null"
+                :aria-activedescendant="cardsAt(r, c).length && isMenuOpen(cardsAt(r, c)[0].id) ? optionId(cardsAt(r, c)[0].id, menu.index) : null"
+                :data-drop-target="dropState(col.id) === 'target' ? '' : null" :data-drop-blocked="dropState(col.id) === 'blocked' ? '' : null"
+                @focus="onFocusCell(r, c)" @dragover="dragOver(col.id, $event)" @drop="drop(col.id, $event)">
+              <template x-for="card in cardsAt(r, c)" :key="card.id">
+                <div class="kanban-card" draggable="true" @dragstart="dragStart(card.id, $event)" @dragend="dragEnd()">
+                  <span class="kanban-card-title" x-text="title(card)"></span>
+                  <template x-if="!!labels.moveButton">
+                    <button class="kanban-move-button" type="button" tabindex="-1" aria-haspopup="listbox" :aria-expanded="String(isMenuOpen(card.id))" :aria-label="labels.moveButton(title(card))" @click="openMenu(card.id); $el.closest('td').focus()"></button>
+                  </template>
+                  <template x-if="isMenuOpen(card.id)">
+                    <ul class="kanban-move-menu" role="listbox" :aria-label="labels.moveMenu">
+                      <template x-for="(dest, i) in destinations(card.id)" :key="dest.id">
+                        <li class="kanban-move-option" role="option" :id="optionId(card.id, i)" :aria-selected="String(menu.index === i)" @click="closeMenu(false); move(card.id, dest.id)" x-text="dest.title"></li>
+                      </template>
+                    </ul>
+                  </template>
+                </div>
+              </template>
+            </td>
+          </template>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+  <p class="kanban-board-status" role="status" aria-live="polite" x-text="status"></p>
+</div>

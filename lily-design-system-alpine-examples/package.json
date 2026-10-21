@@ -1,0 +1,38 @@
+{
+  "name": "lily-design-system-alpine-examples",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=26"
+  },
+  "description": "Lily Design System: Alpine.js examples",
+  "private": true,
+  "type": "module",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "vitest run",
+    "serve": "node build.mjs && http-server dist -p 8082 -c-1",
+    "test:e2e": "node build.mjs && playwright test"
+  },
+  "dependencies": {
+    "alpinejs": "^3.15.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.1",
+    "esbuild": "^0.28.2",
+    "http-server": "^14.1.1",
+    "jsdom": "^30.1.1",
+    "vitest": "^5.0.4"
+  },
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-alpine-examples"
+  },
+  "homepage": "https://lilydesignsystem.com/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  }
+}

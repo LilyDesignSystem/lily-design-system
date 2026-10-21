@@ -9,37 +9,6 @@
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<!-- Statistic component -->
-<!--
-  Description: a numeric value display with title, prefix, and suffix
-
-  HTML tag: <div> with role="group"
-  CSS class: statistic
-  Keyboard: None (passive display)
-  Accessibility:
-    - role="group" — semantically groups the title and value as one unit
-    - aria-label — the accessible name. By default a consumer should set it
-      to "{title}: {value}" so screen readers announce both pieces together.
-      An explicit aria-label may override this default.
-
-  Behavior:
-    Renders a <div role="group"> containing:
-      - <div class="statistic-title">  — the label/heading text
-      - <div class="statistic-value">  — the value, optionally wrapped between
-        a <span class="statistic-prefix"> and a <span class="statistic-suffix">.
-    Purely passive: no script.
-
-  Usage:
-    <div class="statistic" role="group" aria-label="Active users: 1,234">
-      <div class="statistic-title">Active users</div>
-      <div class="statistic-value">
-        <span class="statistic-prefix">$</span>
-        1,234
-        <span class="statistic-suffix">USD</span>
-      </div>
-    </div>
--->
-
 <div
   class="statistic"
   role="group"

@@ -332,8 +332,8 @@ const panels = () => [...document.querySelectorAll(".tab-panel")];`,
     markup: `<!-- Always inside a lilyTabs scope: see tab-bar.html -->
 <div x-data="lilyTabs('one')">
   <div role="tablist" aria-label="" x-bind="tablist">
-    <button x-bind="tab('one')"></button>
-    <button x-bind="tab('two')"></button>
+    <button x-bind="tab('one')"><!-- Consumer provides tab label --></button>
+    <button x-bind="tab('two')"><!-- Consumer provides tab label --></button>
   </div>
   <div class="tab-panel" x-bind="panel('one')"><!-- Consumer provides panel content --></div>
   <div class="tab-panel" x-bind="panel('two')"><!-- Consumer provides panel content --></div>
@@ -447,7 +447,12 @@ const out = (slug, ext, text) => writeFileSync(join(root, "components", `${slug}
 for (const slug of STATIC) {
   const src = readFileSync(join(root, "..", "lily-design-system-html-headless", "components", `${slug}.html`), "utf8");
   const meta = (k) => (src.match(new RegExp(`^  ${k}: (.*)$`, "m")) || [])[1] || "";
-  const markup = src.replace(/^[\s\S]*?-->\s*\n/m, "").replace(/\n*<script>[\s\S]*<\/script>\s*$/, "").trim();
+  // Drop every leading comment block (some sources carry two headers) and the script.
+  let markup = src.replace(/\n*<script>[\s\S]*<\/script>\s*$/, "");
+  while (/^\s*<!--/.test(markup)) markup = markup.replace(/^\s*<!--[\s\S]*?-->/, "");
+  markup = markup.trim();
+  // A radio must carry aria-checked (axe: aria-required-attr); the consumer keeps it current.
+  markup = markup.replace(/^(<button\b[^>]*\brole="radio")(?![^>]*aria-checked)/, '$1 aria-checked="false"');
   if (/<script/.test(markup)) throw new Error(`${slug}: script left in markup`);
   const tag = meta("HTML tag").replace(/[<>]/g, "");
   // The element carrying the base class (a snippet may wrap it, e.g. an <li> in an <ol>).

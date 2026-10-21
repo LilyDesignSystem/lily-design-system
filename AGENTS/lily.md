@@ -24,7 +24,7 @@ A 9th, [Lily Design System: Alpine.js headless](../lily-design-system-alpine-hea
 (added 2026-10-21, unpublished), covers all 571 components as annotated HTML
 snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`)
 that owns state and keyboard behaviour: 488 static, 83 with an `Alpine.data`
-behaviour. It has no example app, helpers or skill yet. See its `spec/index.md`.
+behaviour. Its example app is [`lily-design-system-alpine-examples`](../lily-design-system-alpine-examples); its helpers are `lily-design-system-alpine-{data-grid,kanban-board,calendar,gantt-chart}` (`@lilydesignsystem/alpine-*`), each a subset of its Svelte reference. See its `spec/index.md`.
 
 - [Lily Design System: HTML headless](../lily-design-system-html-headless)
 - [Lily Design System: Svelte headless](../lily-design-system-svelte-headless)

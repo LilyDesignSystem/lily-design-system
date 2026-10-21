@@ -1,0 +1,90 @@
+/* App-shell chrome only. Everything shaped like a Lily component comes from the runtime theme stylesheet
+ * (/themes/<slug>.css, chosen by theme-boot.js). Nothing here styles a Lily class. */
+body {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.page-wrapper {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  inset-inline-start: 0;
+  padding: 0.5rem 1rem;
+  background: #ffeb3b;
+  color: #231f20;
+  font-weight: 700;
+  z-index: 10000;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 1.5rem;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a,
+.site-footer a,
+main :where(li > a) {
+  display: inline-block;
+  min-block-size: 24px;
+}
+
+.site-footer {
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+.demo {
+  padding: 1rem;
+  border: 1px solid currentColor;
+  overflow: auto;
+}
+
+pre {
+  overflow: auto;
+  padding: 1rem;
+  border: 1px solid currentColor;
+}
+
+.component-index {
+  columns: 16rem;
+  padding: 0;
+  list-style: none;
+}
+
+.component-index li {
+  break-inside: avoid;
+}
+
+/* WCAG 2.2 target-size floor for controls the demos add themselves (a theme does not style them). */
+.demo :where(button, [role="button"]) {
+  min-block-size: 24px;
+  min-inline-size: 24px;
+}

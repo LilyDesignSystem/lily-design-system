@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-const html = "<!-- ContentBlock component -->\n<!--\n  Description: a content width constraint container\n  HTML tag: <div>\n  CSS class: content-block\n  Keyboard: None (passive element)\n  Accessibility: aria-label for accessible name\n-->\n\n<div\n  class=\"content-block\"\n  aria-label=\"\"\n  data-width=\"normal\"\n>\n  <!-- Consumer provides content -->\n</div>";
+const html = "<div\n  class=\"content-block\"\n  aria-label=\"\"\n  data-width=\"normal\"\n>\n  <!-- Consumer provides content -->\n</div>";
 
 const meta = {
   title: 'Headless/Content Block',

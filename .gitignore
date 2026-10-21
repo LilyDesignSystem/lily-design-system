@@ -11,3 +11,7 @@ node_modules/
 **/obj/
 **/[Bb]in/[Dd]ebug/
 **/[Bb]in/[Rr]elease/
+
+# Playwright
+test-results/
+playwright-report/

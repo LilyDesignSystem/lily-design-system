@@ -25,6 +25,8 @@ describe("FileUpload", () => {
     expect(button().type).toBe("button");
     expect(input().type).toBe("file");
     expect(input().hidden).toBe(true);
+    expect(input().getAttribute("aria-hidden")).toBe("true");
+    expect(input().getAttribute("tabindex")).toBe("-1");
     expect(status().getAttribute("aria-live")).toBe("polite");
     expect(status().getAttribute("data-file-count")).toBe("0");
   });

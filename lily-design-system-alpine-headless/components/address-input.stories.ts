@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-const html = "<!-- AddressInput component -->\n<div\n  class=\"address-input\"\n  aria-label=\"\"\n>\n  <!-- Consumer provides content -->\n</div>";
+const html = "<div\n  class=\"address-input\"\n  aria-label=\"\"\n>\n  <!-- Consumer provides content -->\n</div>";
 
 const meta = {
   title: 'Headless/Address Input',

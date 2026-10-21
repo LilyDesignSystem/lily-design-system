@@ -25,11 +25,11 @@ A Claude Skill explaining how to consume
 [`@lilydesignsystem/alpine-headless`](../lily-design-system-alpine-headless/),
 the Alpine.js implementation of Lily's canonical catalog: 571 of 571
 components as snippets, 83 of them with hand-written `Alpine.data`
-behaviour. It ships no components, no example app and no helpers of its own.
+behaviour, and the four Alpine helpers and the example app built on it. It ships no components of its own.
 
 ## Rules
 
 - Keep every claim scoped to what the Alpine package's `spec/index.md` says is
-  built. Do not imply an example app, helpers or a published npm package.
+  built. Do not imply Alpine pickers, `picker-bar`, `filter` or a published npm package.
 - When the package's component count, behaviour list or events change,
   update `SKILL.md` in the same change.

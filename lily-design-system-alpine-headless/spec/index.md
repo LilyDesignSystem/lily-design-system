@@ -15,7 +15,7 @@ A ninth framework family alongside HTML, Svelte, React, Vue, Angular, Blazor, Nu
 
 ### Explicitly out of scope (later passes)
 
-- `lily-design-system-alpine-examples` (an example app), and the 16 `lily-design-system-alpine-*` helper packages (the ten pickers, `picker-bar`, `data-grid`, `filter`, `kanban-board`, `calendar`, `gantt-chart`).
+- The other 12 `lily-design-system-alpine-*` helper packages (the ten pickers, `picker-bar`, `filter`). The example app `lily-design-system-alpine-examples` and the helpers `alpine-data-grid`, `alpine-kanban-board`, `alpine-calendar` and `alpine-gantt-chart` exist (each with its own spec).
 - Wiring into `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless`, `bin/smoke-packages`, and the root catalog-count prose: this catalog is deliberately not yet a full-catalog peer, so the 7-library coverage checks do not include it.
 - Agent skills (`lily-design-system-alpine-skill`, `-headless-skill`, `-helpers-skill`).
 

@@ -24,7 +24,7 @@ A 9th, [Lily Design System: Alpine.js headless](../lily-design-system-alpine-hea
 (added 2026-10-21, unpublished), covers all 571 components as annotated HTML
 snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`)
 that owns state and keyboard behaviour: 488 static, 83 with an `Alpine.data`
-behaviour. It has no example app, helpers or skill yet. See its `spec/index.md`.
+behaviour. Its example app is [`lily-design-system-alpine-examples`](../lily-design-system-alpine-examples); its helpers are `lily-design-system-alpine-{data-grid,kanban-board,calendar,gantt-chart}` (`@lilydesignsystem/alpine-*`), each a subset of its Svelte reference. See its `spec/index.md`.
 
 - [Lily Design System: HTML headless](../lily-design-system-html-headless)
 - [Lily Design System: Svelte headless](../lily-design-system-svelte-headless)
@@ -208,14 +208,15 @@ The [themes/](../themes) directory ships 57 standalone theme stylesheets (NHS En
 
 ## Agent skills
 
-Twenty-six top-level Claude Skill packages in three tiers, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
+Twenty-seven top-level Claude Skill packages in three tiers, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
 
 - [lily-design-system-skill](../lily-design-system-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building *with* Lily.
 - [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working *on* this monorepo.
 - Eight framework-umbrella skills (2026-09-05), one `{framework}-skill` per framework family, each mapping that framework's up-to-three real subprojects (headless, helpers, example app — the one layer neither sibling skill below covers) and pointing down into them: `lily-design-system-angular-skill`, `lily-design-system-blazor-skill`, `lily-design-system-html-skill`, `lily-design-system-nunjucks-skill`, `lily-design-system-react-skill`, `lily-design-system-svelte-skill`, `lily-design-system-vue-skill`, `lily-design-system-web-components-skill` (the one with only two subprojects to map — no Web Components example app exists yet).
+- [lily-design-system-alpine-headless-skill](../lily-design-system-alpine-headless-skill) (2026-10-21) — the Alpine.js headless catalog: the snippet-plus-plugin idiom, behaviours, events. Alpine has no helpers or example app yet, so it has no helpers-skill or umbrella.
 - Sixteen framework-specific skills (2026-09-04), one `{framework}-headless-skill` and one `{framework}-helpers-skill` per framework family, each scoped to exactly the one real subproject it covers: `lily-design-system-angular-headless-skill`, `lily-design-system-angular-helpers-skill`, `lily-design-system-blazor-headless-skill`, `lily-design-system-blazor-helpers-skill`, `lily-design-system-html-headless-skill`, `lily-design-system-html-helpers-skill`, `lily-design-system-nunjucks-headless-skill`, `lily-design-system-nunjucks-helpers-skill`, `lily-design-system-react-headless-skill`, `lily-design-system-react-helpers-skill`, `lily-design-system-svelte-headless-skill`, `lily-design-system-svelte-helpers-skill`, `lily-design-system-vue-headless-skill`, `lily-design-system-vue-helpers-skill`, `lily-design-system-web-components-headless-skill` (covers its full achievable scope), `lily-design-system-web-components-helpers-skill`.
 
-All twenty-six follow the `lily-design-system-` prefix and get full subproject treatment (the first two as of 2026-08-31 — `lily-design-system-skill` was renamed from `lily-skill`, which deliberately sat outside the prefix — the sixteen framework-specific ones as of 2026-09-04 and the eight framework-umbrella ones as of 2026-09-05, both reversing or extending this topic's earlier "two skills only" decision — see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
+All twenty-seven follow the `lily-design-system-` prefix and get full subproject treatment (the first two as of 2026-08-31 — `lily-design-system-skill` was renamed from `lily-skill`, which deliberately sat outside the prefix — the sixteen framework-specific ones as of 2026-09-04 and the eight framework-umbrella ones as of 2026-09-05, both reversing or extending this topic's earlier "two skills only" decision — see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
 
 ## AI guidance files
 

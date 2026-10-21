@@ -12,8 +12,8 @@
 <!-- Always inside a lilyTabs scope: see tab-bar.html -->
 <div x-data="lilyTabs('one')">
   <div role="tablist" aria-label="" x-bind="tablist">
-    <button x-bind="tab('one')"></button>
-    <button x-bind="tab('two')"></button>
+    <button x-bind="tab('one')"><!-- Consumer provides tab label --></button>
+    <button x-bind="tab('two')"><!-- Consumer provides tab label --></button>
   </div>
   <div class="tab-panel" x-bind="panel('one')"><!-- Consumer provides panel content --></div>
   <div class="tab-panel" x-bind="panel('two')"><!-- Consumer provides panel content --></div>

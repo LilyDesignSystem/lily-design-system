@@ -80,14 +80,14 @@ Headless versions if you want to use components with all your own styles:
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
 - [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (536 of 571; the remaining 35 are permanently excluded, not backlog)
-- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 571 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published; no example app or helpers yet)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 571 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and four helpers: the data grid, kanban board, calendar and Gantt chart
 
 ## Helpers
 
 Small, opinionated helper packages for every framework, one top-level
 subproject each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — plus `picker-bar` and the grid-like `data-grid`, `kanban-board`,
-`gantt-chart`, `calendar` and `filter` (129 helper packages in all), and each owns one complete interaction end to end:
+`gantt-chart`, `calendar` and `filter` (133 helper packages in all; the Alpine.js ones cover the data grid, kanban board, calendar and Gantt chart), and each owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
   own a user preference: selection, DOM application (`data-theme`,

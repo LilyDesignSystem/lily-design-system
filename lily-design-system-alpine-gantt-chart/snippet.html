@@ -1,0 +1,46 @@
+<!-- gantt-chart snippet (Alpine.js) -->
+<!--
+  Requires: Alpine.js and the Lily Gantt chart plugin:
+    import Alpine from "alpinejs";
+    import lilyGanttChart from "@lilydesignsystem/alpine-gantt-chart";
+    Alpine.plugin(lilyGanttChart);
+  `ganttOptions` is your own object: { range, tasks, today, weekends, criticalPath, collapsed, labels, taskLabel }.
+  Headless: no CSS, no text. Every string comes from ganttOptions.labels; a label's absence removes the control or text it names.
+  The bar is drawn by your CSS from data-in-range / data-bar-start / data-bar-end / data-milestone / data-percent-complete.
+-->
+<div class="gantt-chart" x-data="lilyGanttChart(ganttOptions)">
+  <table class="gantt-table" :role="hasHierarchy ? 'treegrid' : 'grid'" :aria-label="labels.grid" :aria-rowcount="rows.length + 1" :aria-colcount="days.length + 1" @keydown="onKeydown($event)">
+    <template x-if="labels.caption"><caption class="gantt-table-caption" x-text="labels.caption"></caption></template>
+    <thead class="gantt-table-thead">
+      <tr class="gantt-table-tr">
+        <th class="gantt-table-th gantt-chart-task-header" scope="col" data-row="-1" data-col="0" :tabindex="tabindex(-1, 0)" @focus="onFocusCell(-1, 0)" x-text="labels.taskColumn ?? ''"></th>
+        <template x-for="(d, i) in days" :key="d">
+          <th class="gantt-table-th" scope="col" data-row="-1" :data-col="i + 1" :tabindex="tabindex(-1, i + 1)" :data-today="d === today ? '' : null" :data-weekend="isWeekend(d) ? '' : null" @focus="onFocusCell(-1, i + 1)" x-text="labels.columnLabel ? labels.columnLabel(d) : ''"></th>
+        </template>
+      </tr>
+    </thead>
+    <tbody class="gantt-table-tbody">
+      <template x-for="(row, r) in rows" :key="row.task.id">
+        <tr class="gantt-table-tr" :aria-level="hasHierarchy ? row.depth : null" :aria-expanded="row.isParent ? String(!row.collapsed) : null" :data-critical="row.task.critical ? '' : null" :data-slack="row.task.slack ?? null">
+          <th class="gantt-table-th gantt-chart-task" scope="row" :data-row="r" data-col="0" :tabindex="tabindex(r, 0)" :data-depth="row.depth" :aria-describedby="dependencyText(row) ? dependencyId(row) : null" @focus="onFocusCell(r, 0)">
+            <template x-if="row.isParent && !!labels.collapseButton">
+              <button class="gantt-chart-collapse" type="button" tabindex="-1" :aria-expanded="String(!row.collapsed)" :aria-label="collapseLabel(row)" @click="toggleCollapse(row.task.id)"></button>
+            </template>
+            <span class="gantt-chart-task-label" x-text="label(row.task)"></span>
+            <template x-if="labels.criticalLabel && row.task.critical"><span class="gantt-chart-critical" x-text="labels.criticalLabel"></span></template>
+            <template x-if="dependencyText(row)"><span class="gantt-chart-dependencies" :id="dependencyId(row)" x-text="dependencyText(row)"></span></template>
+          </th>
+          <template x-for="(d, i) in days" :key="d">
+            <td class="gantt-table-td" role="gridcell" :data-row="r" :data-col="i + 1" :tabindex="tabindex(r, i + 1)"
+                :data-in-range="inRange(row, d) ? '' : null" :data-bar-start="inRange(row, d) && d === row.start ? '' : null" :data-bar-end="inRange(row, d) && d === row.end ? '' : null"
+                :data-milestone="inRange(row, d) && isMilestone(row) ? '' : null" :data-percent-complete="inRange(row, d) && row.task.percentComplete !== undefined ? row.task.percentComplete : null"
+                :data-today="d === today ? '' : null" :data-weekend="isWeekend(d) ? '' : null" @focus="onFocusCell(r, i + 1)">
+              <template x-if="labels.milestoneLabel && inRange(row, d) && isMilestone(row)"><span class="gantt-chart-milestone" x-text="labels.milestoneLabel"></span></template>
+            </td>
+          </template>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+  <p class="gantt-chart-status" role="status" aria-live="polite" x-text="status"></p>
+</div>

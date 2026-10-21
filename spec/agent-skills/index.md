@@ -11,8 +11,8 @@ for people working *on* this monorepo (the original two); eight
 framework-umbrella skills, one per framework family, added 2026-09-05;
 and seventeen framework-specific skills, one headless-skill and one
 helpers-skill per framework, added 2026-09-04, plus
-`lily-design-system-alpine-headless-skill` (2026-10-21; Alpine has no helpers
-or example app yet, so it has no helpers-skill or umbrella). All twenty-seven follow the
+`lily-design-system-alpine-headless-skill` (2026-10-21; it also covers the four Alpine helpers and the
+example app, so there is no separate helpers-skill or umbrella yet). All twenty-seven follow the
 same `lily-design-system-` naming convention and get identical
 full-subproject treatment — see "Naming-split retirement" and
 "Framework-specific skills reversal" below for how each tier arrived.
@@ -38,7 +38,7 @@ full-subproject treatment — see "Naming-split retirement" and
   and `lily-design-system-{framework}-helpers-skill` for each of the eight
   framework families — see "The sixteen framework-specific skills" below —
   plus `lily-design-system-alpine-headless-skill` for the ninth, Alpine.js
-  headless catalog (no helpers-skill: Alpine has no helpers yet).
+  headless catalog (it also covers the four Alpine helpers and the example app; no separate helpers-skill yet).
 - Each skill's own `SKILL.md` (the Claude Skill entry point: YAML
   frontmatter with `name`/`description`/`license`, then Markdown
   instructions) and any `reference/*.md` files it loads on demand.

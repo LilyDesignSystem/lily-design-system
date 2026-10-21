@@ -1,0 +1,53 @@
+<!-- calendar-view snippet (Alpine.js) -->
+<!--
+  Requires: Alpine.js and the Lily calendar plugin:
+    import Alpine from "alpinejs";
+    import lilyCalendarView from "@lilydesignsystem/alpine-calendar";
+    Alpine.plugin(lilyCalendarView);
+  `calendarOptions` is your own object: { view, anchor, today, picked, weekStart, events, minDate, maxDate, isDisabled, labels }.
+  Headless: no CSS, no text. Every string comes from calendarOptions.labels; a label's absence removes the control it names.
+-->
+<div class="calendar-view" x-data="lilyCalendarView(calendarOptions)">
+  <div class="calendar-view-toolbar">
+    <template x-if="!!labels.previous">
+      <button class="calendar-view-previous" type="button" :aria-label="labels.previous(view)" :aria-disabled="canShift(-1) ? null : 'true'" @click="previous()"></button>
+    </template>
+    <template x-if="labels.today">
+      <button class="calendar-view-today" type="button" @click="goToday()" x-text="labels.today"></button>
+    </template>
+    <template x-if="!!labels.next">
+      <button class="calendar-view-next" type="button" :aria-label="labels.next(view)" :aria-disabled="canShift(1) ? null : 'true'" @click="next()"></button>
+    </template>
+    <template x-if="!!labels.periodTitle"><span class="calendar-view-title" x-text="title"></span></template>
+    <template x-if="labels.monthView">
+      <button class="calendar-view-month" type="button" :aria-pressed="String(view === 'month')" @click="setView('month')" x-text="labels.monthView"></button>
+    </template>
+    <template x-if="labels.weekView">
+      <button class="calendar-view-week" type="button" :aria-pressed="String(view === 'week')" @click="setView('week')" x-text="labels.weekView"></button>
+    </template>
+  </div>
+  <table class="calendar-table" role="grid" :aria-label="labels.grid" @keydown="onKeydown($event)">
+    <thead class="calendar-table-head">
+      <tr class="calendar-table-row">
+        <template x-for="d in weekdays" :key="d">
+          <th class="calendar-table-th" scope="col" :aria-label="labels.weekdayName ? labels.weekdayName(d) : null" x-text="labels.weekdayAbbr ? labels.weekdayAbbr(d) : ''"></th>
+        </template>
+      </tr>
+    </thead>
+    <tbody class="calendar-table-body">
+      <template x-for="week in weeks" :key="week[0]">
+        <tr class="calendar-table-row">
+          <template x-for="iso in week" :key="iso">
+            <td class="calendar-table-td" role="gridcell" :data-date="iso" :tabindex="tabindex(iso)" :aria-selected="String(picked === iso)" :aria-current="iso === today ? 'date' : null" :aria-disabled="isDisabled(iso) ? 'true' : null" :data-outside="isOutside(iso) ? '' : null" :aria-label="labels.dayLabel ? labels.dayLabel(iso) : null" @focus="onFocusDay(iso)" @click="pick(iso)">
+              <span class="calendar-day-number" x-text="dayNumber(iso)"></span>
+              <template x-for="e in eventsOn(iso)" :key="e.id">
+                <button class="calendar-event" type="button" @click.stop="openEvent(e.id)" x-text="e.title"></button>
+              </template>
+            </td>
+          </template>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+  <p class="calendar-view-status" role="status" aria-live="polite" x-text="status"></p>
+</div>

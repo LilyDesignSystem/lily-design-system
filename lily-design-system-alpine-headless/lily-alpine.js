@@ -1425,7 +1425,6 @@ export default function lily(Alpine) {
     close: { type: "button", "@click"() { this.end(); } },
     item(i) {
       return {
-        role: "group",
         "aria-roledescription": "step",
         ":aria-label"() { return `${i + 1} / ${this.total}`; },
         ":aria-current"() { return this.step === i ? "step" : null; },

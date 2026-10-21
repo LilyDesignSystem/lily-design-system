@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-const html = "<!-- ProgressBar component -->\n<!--\n  Description: a horizontal progress indicator\n  HTML tag: <div>\n  CSS class: progress-bar\n-->\n\n<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"\"></div>";
+const html = "<div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"0\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-label=\"\"></div>";
 
 const meta = {
   title: 'Headless/Progress Bar',

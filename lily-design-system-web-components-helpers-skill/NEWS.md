@@ -24,7 +24,7 @@ _Updated 2026-10-21._
 | Started | 2025-08-09 |
 | Catalog | 571 components |
 | Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (536/571; the remaining 35 are permanently excluded, not backlog), and a 9th, Alpine.js, covering all 571 as HTML snippets plus one plugin (unpublished; no example app or helpers yet) |
-| Layers | 9 headless libraries, 7 example applications, 129 helper packages (one top-level subproject each since 2026-10-10) |
+| Layers | 9 headless libraries, 8 example applications, 133 helper packages (one top-level subproject each since 2026-10-10) |
 | Themes | 57 reference stylesheets |
 | Published | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published |
 | License | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option |
@@ -41,7 +41,7 @@ one Alpine plugin that owns state and keyboard behaviour: 488 are static
 markup and 83 have hand-written behaviour (menus, trees, tabs, dialogs,
 combobox, sliders, tours and more), each with a jsdom test and a Storybook
 story. A matching `lily-design-system-alpine-headless-skill` explains the
-idiom. There is no Alpine example app or helper package yet.
+idiom. An Alpine example app (every component with a live demo, axe-clean in Chromium) and four helpers — `alpine-data-grid`, `alpine-kanban-board`, `alpine-calendar` and `alpine-gantt-chart`, each a subset of its Svelte reference — landed the same day; there are no Alpine pickers yet.
 
 ### 2026-09-06 — An 8th headless catalog, Web Components, reaches its full achievable scope
 

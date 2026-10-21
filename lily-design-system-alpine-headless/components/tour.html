@@ -5,7 +5,7 @@
   HTML tag: <div>
   CSS class: tour
   Keyboard: Tab to previous, next and close; Escape ends the tour
-  Accessibility: aria-label names the tour; each step is role="group" with aria-roledescription="step"; the current step has aria-current="step", the others are hidden and aria-hidden
+  Accessibility: aria-label names the tour; each step is a list item with aria-roledescription="step" (no role="group": axe rejects it inside an ol); the current step has aria-current="step", the others are hidden and aria-hidden
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
