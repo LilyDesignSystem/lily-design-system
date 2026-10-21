@@ -177,7 +177,7 @@ test('English locales keep the English pages', async ({ page }) => {
 test('every locale home page shows the framework icon row', async ({ page }) => {
   for (const code of ['en-gb', 'en-us', 'en-001', 'fr-001', 'ar-001', 'zh-cn']) {
     await page.goto(`/${code}/`);
-    await expect(page.locator('.framework-icon-row .framework-icon-link')).toHaveCount(8);
+    await expect(page.locator('.framework-icon-row .framework-icon-link')).toHaveCount(9);
     await expect(page.locator('.framework-icon-row img').first()).toBeVisible();
     expect(await page.locator('.framework-icon-row img').first().evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0);
   }

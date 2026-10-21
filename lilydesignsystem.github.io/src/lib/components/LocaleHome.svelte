@@ -74,6 +74,12 @@
         <span>Web Components</span>
       </a>
     </li>
+    <li>
+      <a class="framework-icon-link" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-alpine-headless">
+        <img src="/assets/images/icons/alpine/64x64.png" alt="" width="40" height="40" />
+        <span>Alpine.js</span>
+      </a>
+    </li>
   </ul>
 </section>
 
