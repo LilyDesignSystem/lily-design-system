@@ -63,7 +63,7 @@ coding agents.
 | [node-current-version](node-current-version/index.md) | The Node 26 requirement: `engines.node` across all `package.json` files and `deploy.yml`. |
 | [agent-skills](agent-skills/index.md) | The `lily-design-system-skill` (end-user) and `lily-design-system-maintainer-skill` (maintainer) Claude Skills, what each covers, and the naming-split retirement. |
 | [llms-json-and-llms-txt](llms-json-and-llms-txt/index.md) | The root and docs-site `llms.txt`/`llms.json` AI guidance files, the llms.txt convention, and why the two pairs' links differ. |
-| [coss-ui-lessons](coss-ui-lessons/index.md) | Planned work from a review of coss ui-svelte: a recipes layer, per-component JSON manifests, Copy Markdown, skill registries, validity patterns, a chat page, layer naming, an LLM-readability principle. |
+| [coss-ui-lessons](coss-ui-lessons/index.md) | Planned work from reviews of coss ui-svelte and ShardsUI: a recipes layer, per-component JSON manifests, Copy Markdown, skill registries, validity patterns, a chat page, layer naming, an LLM-readability principle, a state data-attribute vocabulary, missing menu parts, documented behaviour defaults, published positioning variables. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |
 | [history](history/index.md) | The dated, per-event record of releases and fixes (moved out of this file 2026-10-06 to keep it loadable). |
 | [trademarks](trademarks.md) | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer. |
