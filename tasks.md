@@ -2340,12 +2340,22 @@ a task was measured on 2026-10-21; re-measure before closing it.
   subproject; `dotnet format --verify-no-changes` for Blazor. Land the formatting as its own commit; then add a CI job.
   Decide first whether lint warnings fail CI (recommend: errors only, warnings reported).
   Verify: CI job green; `git blame --ignore-rev` file lists the formatting commit.
-- [ ] **P12-T4 Keyboard and ARIA-state tests for Angular, HTML and Alpine.** Mean test cases per component: Angular 2.7,
-  HTML 2.7, Alpine 2.3 (Svelte 5.4, React 5.8). For every component whose `AGENTS.md` documents a keyboard contract,
-  port the Svelte test's keyboard and state assertions (open/close, `aria-expanded`, `aria-selected`,
-  `aria-activedescendant`, roving `tabindex`, Escape, Home/End). Start with `listbox`, `combobox`, `menu`, `tabs`/`tab-bar`,
-  `dialog`, `slider`, `tree-*`, `accordion-*`. The HTML `listbox.test.js` today asserts no key at all.
-  Verify: a script lists keyboard-contract components with no keydown assertion per catalog; the list is empty.
+- [ ] **P12-T4 Keyboard behaviour is missing, not just untested, in Angular and HTML (re-scoped 2026-10-21).** Measured:
+  of 162 components whose `AGENTS.md` has a `## Keyboard` section naming keys, 48 have key tests in at least two of Svelte,
+  React and Vue. For those, Svelte's source handles keys in 23 (`color-picker`, `context-menu`, `dial`, `dialog`, `drawer`,
+  `dropdown-menu`, `editable`, `editable-form`, `horizontal-scroller`, `menu`, `menu-bar`, `pin-input-div`, `sheet`,
+  `slide-out-drawer`, `switch-button`, `tab-bar`, `task-bar`, `tile-map`, `toggle-button`, `tool-bar`, `tour`, `tour-list`,
+  `tree-list`); **Angular's source handles keys in none of the 44 it was checked against** (its `Dialog`, `Menu` and
+  `TabBar` are bare wrappers: no Escape, no arrow keys), and the HTML library's component files contain none either.
+  Alpine centralises keys in `lily-alpine.js` (35 `keydown` sites) and is a different case. So the tests the earlier audit
+  asked for cannot be written until the behaviour exists. Decide per library: **implement** the 23 behaviours (Angular first,
+  porting from Svelte; for HTML, in the custom elements or a shared script), or **document** that the library is structural
+  only and correct the claims below. Then add the key tests.
+  Verify: for each of the 23, the Angular (and HTML) source handles the keys its `AGENTS.md` names, with a test sending them.
+- [ ] **P12-T4a Correct the keyboard claims.** `lily-design-system-html-headless/index.md` says "Full keyboard navigation
+  support" and "Keyboard navigation: Full keyboard support for all interactive components"; the Angular library has no
+  equivalent caveat. Until P12-T4 lands, say which components handle keys in each library, or soften the claim.
+  Verify: no library's `index.md` claims keyboard support its source lacks.
 - [ ] **P12-T5 Add that list to `bin/check-coverage`.** Report, per catalog, components whose `AGENTS.md` names a
   keyboard contract but whose test sends no key event; fail on regressions once P12-T4 is done.
   Verify: `bin/check-coverage` prints the column; `bin/test` runs it.

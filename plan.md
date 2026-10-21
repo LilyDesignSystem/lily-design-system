@@ -384,12 +384,13 @@ command run against the working tree; nothing is carried over from earlier secti
    `svelte-headless`, and `ci.yml` never runs it. `tsc --noEmit` on `react-headless` reports **405 errors** (389 in
    `*.stories.tsx`: stories without `args`; 16 in tests: missing required props, `unknown` as `ReactNode`); the
    components themselves type-check clean. Types are what consumers rely on, and nothing guards them. → P12-T1, P12-T2, P12-T3.
-2. **Test depth is uneven between catalogs.** Mean test cases per component file: Web Components 6.0, Nunjucks 6.1,
-   React 5.8, Vue 5.7, Svelte 5.4 — but **Angular 2.7, HTML 2.7, Alpine 2.3**. 475 Angular, 351 HTML and 508 Alpine
-   files have two cases or fewer, typically "renders with base class" and "passes className". The HTML `listbox` test
-   asserts no keyboard behaviour at all; `dialog.test.js` checks only the class, the role and that `aria-label`
-   exists. The keyboard contract in each `AGENTS.md` is the part users depend on and the part least tested outside
-   Svelte/React/Vue/Nunjucks/WC. → P12-T4, P12-T5.
+2. **Keyboard behaviour is missing in Angular and HTML, and test depth is uneven.** Mean test cases per component file:
+   Web Components 6.0, Nunjucks 6.1, React 5.8, Vue 5.7, Svelte 5.4 — but Angular 2.7, HTML 2.7, Alpine 2.3. Digging
+   in (2026-10-21) showed the cause is not only thin tests: of 162 components with a documented keyboard contract, 23
+   handle keys in Svelte's source and **none** do in Angular's (`Dialog`, `Menu`, `TabBar` are bare wrappers) or in the
+   HTML library's component files, while the HTML `index.md` claims "full keyboard support for all interactive
+   components". A keyboard-test heuristic that only counts tests (159 of 162 "missing" in Angular) overstates the gap,
+   since many contracts are native (`button`); the behaviour gap is the real one. → P12-T4, P12-T4a, P12-T5.
 3. **`bin/test` takes 5 m 42 s** (25 s user, 215 s system — filesystem-bound), against a ~63 s baseline and a <20 s
    target set in Phase 7. A five-minute local gate gets skipped. → P12-T7.
 4. **CI installs are not reproducible.** Every `pnpm install` in `ci.yml` (six sites) uses `--no-frozen-lockfile`, so a
@@ -429,8 +430,8 @@ command run against the working tree; nothing is carried over from earlier secti
 
 1. **Guard what consumers touch first**: typecheck and lint in CI (P12-T1–T3) and frozen lockfiles (P12-T6). Cheap, and both
    stop silent regressions in published packages.
-2. **Raise keyboard-contract test coverage** in Angular, HTML and Alpine to the Svelte level for the ~80 interactive
-   components (P12-T4/T5). This is the accessibility claim; it should be the best-tested thing in the repo.
+2. **Close the keyboard-behaviour gap** in Angular and HTML for the 23 components Svelte implements, or correct the
+   claim (P12-T4/T4a/T5). This is the accessibility claim; it should be the best-tested thing in the repo.
 3. **Make `bin/test` fast again** (P12-T7) so the gate is actually run.
 4. **Stop hand-copying**: generate the Web Components helpers from the HTML ones (P12-T9), then decide on a root pnpm
    workspace (P12-T8) and the core package (P12-T10). These cut future maintenance cost the most.
