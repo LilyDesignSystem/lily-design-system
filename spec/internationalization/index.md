@@ -122,6 +122,12 @@ the binding rules are:
 - **Labels are endonyms** — each language's own name (`Cymraeg`, `Français`, `العربية`) — except where a language has several
   regional locales: then the label adds the region after a dash (`English - Great Britain`, `Cymraeg - Prydain Fawr`), never an
   abbreviation or parenthetical.
+- **`*-gb` locales say "Great Britain", never "United Kingdom".** Wherever a locale-related name matches `*-gb` (`en-gb`, `cy-gb`,
+  `gd-gb`, `kw-gb`, `sco-gb`, `en-gb-oxendict`) — the docs site's `locales.tsv` and `locales.ts`, the locale pickers' built-in English
+  name tables, examples and docs — the English region wording is "Great Britain" (`English - Great Britain`; the Oxford-spelling
+  variant is `English - Great Britain - Oxford`). Where a language has its own name for the region, the label uses it: `Cymraeg - Prydain Fawr`,
+  `Gàidhlig - Breatainn Mhòr`, `Kernewek - Breten Veur`; Scots is `Scots - Great Britain`. This rule is for locales only: the `united-kingdom-*`
+  component slugs, national identifiers and `united-kingdom-*` theme names are unchanged.
 - **Direction and language follow the locale:** `<html lang dir>` is set at prerender time from the locale (`-001` is dropped to the
   bare language tag; `cy-gb` becomes `cy-GB`; `ar-001` and `ur-001` are `rtl`) and kept right across client-side navigation.
 - **The home page redirects by browser language, once per session.** On the first visit, `/` reads `navigator.languages` and, for each
