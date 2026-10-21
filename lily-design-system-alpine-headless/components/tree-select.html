@@ -1,0 +1,32 @@
+<!-- tree-select.html -->
+<!-- TreeSelect component (Alpine.js) -->
+<!--
+  Description: a select dropdown showing a tree of hierarchical options
+  HTML tag: <div>
+  CSS class: tree-select
+  Keyboard: Enter/Space or ArrowDown on the trigger opens; the tree takes the APG keys; Escape closes and returns to the trigger
+  Accessibility: role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; aria-multiselectable in multiple mode; the panel holds a role="tree"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="tree-select" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyTreeSelect()" x-bind="root">
+  <button class="tree-select-trigger" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
+  <div class="tree-select-panel" hidden x-bind="panel">
+    <ul class="tree-list" role="tree" aria-label="" x-bind="tree">
+      <li role="treeitem" class="tree-list-item" x-bind="item('one', true)">
+        <!-- Consumer provides label -->
+        <ul role="group" x-bind="group('one')">
+          <li role="treeitem" class="tree-list-item" x-bind="item('one-a')"><!-- Consumer provides label --></li>
+          <li role="treeitem" class="tree-list-item" x-bind="item('one-b')"><!-- Consumer provides label --></li>
+        </ul>
+      </li>
+      <li role="treeitem" class="tree-list-item" x-bind="item('two')"><!-- Consumer provides label --></li>
+      <li role="treeitem" class="tree-list-item" x-bind="item('three', true)">
+        <!-- Consumer provides label -->
+        <ul role="group" x-bind="group('three')">
+          <li role="treeitem" class="tree-list-item" x-bind="item('three-a')"><!-- Consumer provides label --></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -38,6 +38,136 @@ function menuTarget(key, items, from, horizontal) {
 
 const MENU_ITEMS = '[role="menuitem"]:not([disabled])';
 
+/**
+ * Shared APG tree-view behaviour for lilyTree, lilyTreeSelect and lilyCascader.
+ * Items are role="treeitem" carrying data-item; a branch has aria-expanded and
+ * owns a role="group". Visibility is read from the ancestors' aria-expanded.
+ */
+function treeCore({ wrap = false, exclusive = false, expanded = [] } = {}) {
+  let buffer = "";
+  let timer;
+  const parentOf = (item) => item.parentElement?.closest('[role="treeitem"]') ?? null;
+  const ownText = (item) =>
+    Array.from(item.childNodes)
+      .filter((n) => n.nodeType !== 8 && !(n.nodeType === 1 && n.getAttribute("role") === "group"))
+      .map((n) => n.textContent || "")
+      .join("")
+      .trim()
+      .toLowerCase();
+  return {
+    expanded: [...expanded],
+    selected: [],
+    current: "",
+    allItems() { return Array.from(this.$root.querySelectorAll('[role="treeitem"]')); },
+    visibleItems() {
+      return this.allItems().filter((item) => {
+        for (let p = parentOf(item); p; p = parentOf(p)) {
+          if (p.getAttribute("aria-expanded") === "false") return false;
+        }
+        return true;
+      });
+    },
+    itemFor(id) { return this.allItems().find((i) => i.dataset.item === id); },
+    pathOf(id) {
+      const path = [];
+      for (let item = this.itemFor(id); item; item = parentOf(item)) path.unshift(item.dataset.item);
+      return path;
+    },
+    focusItem(item) {
+      if (!item) return;
+      this.current = item.dataset.item;
+      item.focus();
+    },
+    toggle(id) {
+      if (this.expanded.includes(id)) {
+        this.expanded = this.expanded.filter((e) => e !== id);
+        return;
+      }
+      let next = [...this.expanded, id];
+      if (exclusive) {
+        const item = this.itemFor(id);
+        const siblings = this.allItems().filter((i) => i !== item && parentOf(i) === parentOf(item));
+        next = next.filter((e) => !siblings.some((s) => s.dataset.item === e));
+      }
+      this.expanded = next;
+    },
+    choose(id) {
+      this.selected = [id];
+      this.$dispatch("lily:select", { selected: id, path: this.pathOf(id) });
+    },
+    activate(id, branch) { if (branch) this.toggle(id); else this.choose(id); },
+    treeKey(event) {
+      const target = event.target;
+      const item = target.closest('[role="treeitem"]');
+      if (!item || !this.$root.contains(item)) return;
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      const visible = this.visibleItems();
+      const index = visible.indexOf(item);
+      const expandedState = item.getAttribute("aria-expanded");
+      const go = (to) => { event.preventDefault(); this.focusItem(to); };
+      switch (event.key) {
+        case "ArrowDown": return go(visible[wrap ? (index + 1) % visible.length : Math.min(index + 1, visible.length - 1)]);
+        case "ArrowUp": return go(visible[wrap ? (index - 1 + visible.length) % visible.length : Math.max(index - 1, 0)]);
+        case "Home": return go(visible[0]);
+        case "End": return go(visible[visible.length - 1]);
+        case "ArrowRight":
+          if (target !== item) return;
+          event.preventDefault();
+          if (expandedState === "false") this.toggle(item.dataset.item);
+          else if (expandedState === "true") this.focusItem(item.querySelector('[role="group"] [role="treeitem"]'));
+          return;
+        case "ArrowLeft":
+          if (target !== item) return;
+          event.preventDefault();
+          if (expandedState === "true") this.toggle(item.dataset.item);
+          else this.focusItem(parentOf(item));
+          return;
+        case "Enter":
+        case " ":
+          if (target !== item) return;
+          event.preventDefault();
+          this.activate(item.dataset.item, expandedState !== null);
+          return;
+        case "*":
+          event.preventDefault();
+          this.allItems()
+            .filter((i) => parentOf(i) === parentOf(item) && i.getAttribute("aria-expanded") === "false")
+            .forEach((i) => this.toggle(i.dataset.item));
+          return;
+      }
+      if (event.key.length !== 1) return;
+      event.preventDefault();
+      buffer += event.key.toLowerCase();
+      clearTimeout(timer);
+      timer = setTimeout(() => { buffer = ""; }, 500);
+      const cycle = buffer.length === 1 || [...buffer].every((c) => c === buffer[0]);
+      const needle = cycle ? buffer[0] : buffer;
+      const cut = index + (cycle ? 1 : 0);
+      const ordered = visible.slice(cut).concat(visible.slice(0, cut));
+      this.focusItem(ordered.find((i) => ownText(i).startsWith(needle)));
+    },
+    tree: {
+      "@keydown"(event) { this.treeKey(event); },
+    },
+    group(id) {
+      return { role: "group", ":hidden"() { return !this.expanded.includes(id); } };
+    },
+    item(id, branch = false) {
+      return {
+        role: "treeitem",
+        "data-item": id,
+        ":tabindex"() { return (this.current || this.selected[0] || this.allItems()[0]?.dataset.item) === id ? "0" : "-1"; },
+        ":aria-selected"() { return String(this.selected.includes(id)); },
+        ...(branch ? { ":aria-expanded"() { return String(this.expanded.includes(id)); } } : {}),
+        "@focus"() { this.current = id; },
+        "@click"(event) {
+          if (event.target.closest('[role="treeitem"]') === this.$el) this.activate(id, branch);
+        },
+      };
+    },
+  };
+}
+
 export default function lily(Alpine) {
   // ToggleButton: <button aria-pressed>
   Alpine.data("lilyToggleButton", (pressed = false) => ({
@@ -682,4 +812,60 @@ export default function lily(Alpine) {
       };
     },
   }));
+
+  // Tree (tree-nav, tree-menu, file-tree): a role="tree" with roving tabindex
+  // and the APG keys. `wrap` makes the arrows wrap (tree-menu); the others stop
+  // at the ends.
+  Alpine.data("lilyTree", (wrap = false, expanded = []) => ({
+    ...treeCore({ wrap, expanded }),
+  }));
+
+  // TreeSelect / Cascader: a role="combobox" holding a trigger and a panel
+  // with a tree. Opening moves focus into the tree; Escape returns it to the
+  // trigger; choosing a leaf sets the selection and (single mode) closes.
+  // `exclusive` opens one branch per level, which is the cascader.
+  const popupTree = (name, exclusive) =>
+    Alpine.data(name, (multiple = false, expanded = []) => ({
+      ...treeCore({ exclusive, expanded }),
+      multiple,
+      open: false,
+      init() {
+        this.$watch("open", (value) => {
+          if (value) this.$nextTick(() => this.focusItem(this.itemFor(this.selected[0]) ?? this.visibleItems()[0]));
+        });
+      },
+      choose(id) {
+        if (this.multiple) {
+          this.selected = this.selected.includes(id) ? this.selected.filter((s) => s !== id) : [...this.selected, id];
+        } else {
+          this.selected = [id];
+          this.open = false;
+          this.$refs.trigger?.focus();
+        }
+        this.$dispatch("lily:select", { selected: [...this.selected], path: this.pathOf(id) });
+      },
+      root: {
+        ":aria-expanded"() { return String(this.open); },
+        ":aria-multiselectable"() { return this.multiple ? "true" : null; },
+        "@keydown.escape"() {
+          if (!this.open) return;
+          this.open = false;
+          this.$refs.trigger?.focus();
+        },
+        "@click.document"(event) {
+          if (this.open && !this.$el.contains(event.target)) this.open = false;
+        },
+      },
+      trigger: {
+        type: "button",
+        "x-ref": "trigger",
+        "@click"() { this.open = !this.open; },
+        "@keydown.arrow-down.prevent"() { this.open = true; },
+      },
+      panel: {
+        ":hidden"() { return !this.open; },
+      },
+    }));
+  popupTree("lilyTreeSelect", false);
+  popupTree("lilyCascader", true);
 }

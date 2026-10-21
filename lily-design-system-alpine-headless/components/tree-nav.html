@@ -1,0 +1,29 @@
+<!-- tree-nav.html -->
+<!-- TreeNav component (Alpine.js) -->
+<!--
+  Description: a hierarchical navigation with expandable branches
+  HTML tag: <nav>
+  CSS class: tree-nav
+  Keyboard: arrows move through visible items, ArrowRight/ArrowLeft open, close and climb, Home/End jump, * opens siblings, type to jump
+  Accessibility: nav landmark with aria-label; the list is role="tree" of role="treeitem" with aria-expanded on branches and a roving tabindex
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<nav class="tree-nav" aria-label="" x-data="lilyTree()">
+  <ul class="tree-list" role="tree" aria-label="" x-bind="tree">
+    <li role="treeitem" class="tree-list-item" x-bind="item('one', true)">
+      <!-- Consumer provides label -->
+      <ul role="group" x-bind="group('one')">
+        <li role="treeitem" class="tree-list-item" x-bind="item('one-a')"><!-- Consumer provides label --></li>
+        <li role="treeitem" class="tree-list-item" x-bind="item('one-b')"><!-- Consumer provides label --></li>
+      </ul>
+    </li>
+    <li role="treeitem" class="tree-list-item" x-bind="item('two')"><!-- Consumer provides label --></li>
+    <li role="treeitem" class="tree-list-item" x-bind="item('three', true)">
+      <!-- Consumer provides label -->
+      <ul role="group" x-bind="group('three')">
+        <li role="treeitem" class="tree-list-item" x-bind="item('three-a')"><!-- Consumer provides label --></li>
+      </ul>
+    </li>
+  </ul>
+</nav>

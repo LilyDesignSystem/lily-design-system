@@ -1,0 +1,28 @@
+<!-- file-tree.html -->
+<!-- FileTree component (Alpine.js) -->
+<!--
+  Description: a hierarchical tree of folders and files with expandable folders
+  HTML tag: <ul>
+  CSS class: file-tree
+  Keyboard: arrows move through visible items, ArrowRight/ArrowLeft open, close and climb, Home/End jump, * opens siblings, type to jump, Enter/Space activates
+  Accessibility: role="tree" with aria-label; folders carry aria-expanded and hold a role="group"; one item is in the tab order
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<ul class="file-tree" role="tree" aria-label="" x-data="lilyTree(false, ['src', 'lib'])" x-bind="tree">
+  <li role="treeitem" x-bind="item('src', true)">src
+    <ul role="group" x-bind="group('src')">
+      <li role="treeitem" x-bind="item('lib', true)">lib
+        <ul role="group" x-bind="group('lib')"><li role="treeitem" x-bind="item('index')">index.ts</li></ul>
+      </li>
+      <li role="treeitem" x-bind="item('app')">app.ts</li>
+    </ul>
+  </li>
+  <li role="treeitem" x-bind="item('docs', true)">docs
+    <ul role="group" x-bind="group('docs')"><li role="treeitem" x-bind="item('guide')">guide.md</li></ul>
+  </li>
+  <li role="treeitem" x-bind="item('readme')">readme.md</li>
+  <li role="treeitem" x-bind="item('etc', true)">etc
+    <ul role="group" x-bind="group('etc')"><li role="treeitem" x-bind="item('x')">x.txt</li></ul>
+  </li>
+</ul>

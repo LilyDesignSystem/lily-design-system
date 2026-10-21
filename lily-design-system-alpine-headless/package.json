@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=26"
   },
-  "description": "Lily Design System Alpine.js headless components (537 of 571): annotated semantic-HTML snippets with ARIA, class hooks and Alpine directives, plus a small Alpine plugin that owns the keyboard and state behaviour. Zero CSS. Targets WCAG 2.2 AAA.",
+  "description": "Lily Design System Alpine.js headless components (543 of 571): annotated semantic-HTML snippets with ARIA, class hooks and Alpine directives, plus a small Alpine plugin that owns the keyboard and state behaviour. Zero CSS. Targets WCAG 2.2 AAA.",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "scripts": {
     "test": "vitest run",

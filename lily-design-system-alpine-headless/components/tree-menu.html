@@ -1,0 +1,27 @@
+<!-- tree-menu.html -->
+<!-- TreeMenu component (Alpine.js) -->
+<!--
+  Description: a hierarchical tree menu with expandable branches
+  HTML tag: <ul>
+  CSS class: tree-menu
+  Keyboard: ArrowDown/ArrowUp move through visible items (wrapping), ArrowRight/ArrowLeft open and close, Home/End jump
+  Accessibility: role="tree" with aria-label; items are role="treeitem" with a roving tabindex
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<ul class="tree-menu" role="tree" aria-label="" x-data="lilyTree(true)" x-bind="tree">
+  <li role="treeitem" class="tree-menu-item" x-bind="item('one', true)">
+    <!-- Consumer provides label -->
+    <ul role="group" x-bind="group('one')">
+      <li role="treeitem" class="tree-menu-item" x-bind="item('one-a')"><!-- Consumer provides label --></li>
+      <li role="treeitem" class="tree-menu-item" x-bind="item('one-b')"><!-- Consumer provides label --></li>
+    </ul>
+  </li>
+  <li role="treeitem" class="tree-menu-item" x-bind="item('two')"><!-- Consumer provides label --></li>
+  <li role="treeitem" class="tree-menu-item" x-bind="item('three', true)">
+    <!-- Consumer provides label -->
+    <ul role="group" x-bind="group('three')">
+      <li role="treeitem" class="tree-menu-item" x-bind="item('three-a')"><!-- Consumer provides label --></li>
+    </ul>
+  </li>
+</ul>

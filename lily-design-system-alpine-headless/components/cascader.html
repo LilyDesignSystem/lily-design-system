@@ -1,0 +1,32 @@
+<!-- cascader.html -->
+<!-- Cascader component (Alpine.js) -->
+<!--
+  Description: a multi-level dropdown for selecting a value from a hierarchy
+  HTML tag: <div>
+  CSS class: cascader
+  Keyboard: Enter/Space or ArrowDown on the trigger opens; arrows move and open one branch per level; Escape closes
+  Accessibility: role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; the panel holds a role="tree" of cascading lists
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="cascader" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyCascader()" x-bind="root">
+  <button class="cascader-trigger" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
+  <div class="cascader-panel" hidden x-bind="panel">
+    <ul class="cascader-list" role="tree" aria-label="" x-bind="tree">
+      <li role="treeitem" class="cascader-option" x-bind="item('one', true)">
+        <!-- Consumer provides label -->
+        <ul role="group" x-bind="group('one')">
+          <li role="treeitem" class="cascader-option" x-bind="item('one-a')"><!-- Consumer provides label --></li>
+          <li role="treeitem" class="cascader-option" x-bind="item('one-b')"><!-- Consumer provides label --></li>
+        </ul>
+      </li>
+      <li role="treeitem" class="cascader-option" x-bind="item('two')"><!-- Consumer provides label --></li>
+      <li role="treeitem" class="cascader-option" x-bind="item('three', true)">
+        <!-- Consumer provides label -->
+        <ul role="group" x-bind="group('three')">
+          <li role="treeitem" class="cascader-option" x-bind="item('three-a')"><!-- Consumer provides label --></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
