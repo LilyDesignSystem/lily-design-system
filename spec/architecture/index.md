@@ -30,7 +30,7 @@ lily-design-system/                              ← canonical catalog + tools
 ├── themes/                                      ← 57 reference theme stylesheets (+ tokens/)
 ├── bin/                                         ← scaffolding, listing, sync, generators, test, publish
 ├── spec/index.md, spec/{topic}/index.md         ← spec + modular topic docs
-├── lily-design-system-{framework}-headless/     ← 8 headless libraries: html, svelte, react, vue, angular, blazor, nunjucks, web-components
+├── lily-design-system-{framework}-headless/     ← 9 headless libraries: html, svelte, react, vue, angular, blazor, nunjucks, web-components, alpine
 ├── lily-design-system-{framework}-{package}/ ← 129 helper packages, one subproject each (bin/list-helper-packages <framework>)
 ├── lily-design-system-html-css-js-examples/     ← examples: vanilla HTML+CSS+JS
 ├── lily-design-system-svelte-sveltekit-examples/ ← examples: SvelteKit
@@ -59,6 +59,8 @@ lily-design-system/                              ← canonical catalog + tools
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
 An 8th headless library sits outside the pairs: `@lilydesignsystem/web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 536 of the 571 components as native custom elements with no framework runtime and no example app — the other 35 (30 table sub-elements and 5 interactive `*ListItem` families) are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements over customized built-ins, light-DOM-only) and the exact scope.
+
+A 9th headless library, `@lilydesignsystem/alpine-headless` (added 2026-10-21, unpublished), ships all 571 components as annotated HTML snippets (`components/{slug}.html`) plus one Alpine.js plugin that owns state and keyboard behaviour: 488 are static markup and 83 have an `Alpine.data` behaviour. It has no example app, helpers or skill yet, and is not yet wired into `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless` or `bin/smoke-packages`. See its `spec/index.md`.
 
 ## Helper packages
 

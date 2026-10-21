@@ -2,7 +2,7 @@
 
 > Free, open-source, headless design system: a canonical catalog of 571
 > accessible components implemented across seven frameworks (HTML, Svelte,
-> React, Vue, Angular, Blazor, Nunjucks) plus a Web Components catalog, paired
+> React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired
 > with fully styled example apps that demonstrate the same catalog end to end.
 
 This is the canonical monorepo. The living specification is `spec/`,

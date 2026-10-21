@@ -31,7 +31,7 @@ coding agents.
 | Topic | What it covers |
 | ----- | -------------- |
 | [overview](overview/index.md) | Vision, scope, the headless vs. example layers, key facts. |
-| [architecture](architecture/index.md) | Monorepo layout, the 144 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 129 top-level helper packages), `themes/`, source hosting, required files. |
+| [architecture](architecture/index.md) | Monorepo layout, the 145 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 1 Alpine.js headless (all 571 components, no example app or helpers yet) + 7 examples + 129 top-level helper packages), `themes/`, source hosting, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect). |
@@ -138,9 +138,10 @@ committing.
 
 The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
-`AGENTS/*.md`, `themes/`); 144 implementation subprojects hang off it —
+`AGENTS/*.md`, `themes/`); 145 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 headless library at its full
-achievable scope (Web Components, 536/571), 7 example apps and
+achievable scope (Web Components, 536/571), 1 Alpine.js headless library
+(571/571 as markup snippets plus one plugin; added 2026-10-21), 7 example apps and
 129 helper packages, one top-level
 subproject each (the per-framework catalogs were dissolved into them 2026-10-10;
 `bin/list-helper-packages <framework>`). Packages publish from this
@@ -450,7 +451,7 @@ checked is considered live work; anything unchecked is queued in §12.
       `motion-picker` added 2026-09-03, `search-picker` 2026-10-02).
       Per-catalog test counts: [spec/testing/](testing/index.md); the
       accessibility-hardening sweeps that produced the current counts: §14.1.
-- [x] All 144 subprojects have required files (`index.md`, `README.md`
+- [x] All 145 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `spec/index.md`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
       standardised on (it replaces the older split plan.md / tasks.md).

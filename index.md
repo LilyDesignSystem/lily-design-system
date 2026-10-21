@@ -80,6 +80,7 @@ Headless versions if you want to use components with all your own styles:
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
 - [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (536 of 571; the remaining 35 are permanently excluded, not backlog)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 571 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published; no example app or helpers yet)
 
 ## Helpers
 
