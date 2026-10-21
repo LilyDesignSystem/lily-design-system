@@ -3,7 +3,7 @@
 // .stories.ts. Static components (no behaviour) are derived from the
 // html-headless snippet's markup, which is the same; behavioural ones
 // are written here, against the plugin in lily-alpine.js.
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -14,11 +14,15 @@ const catalog = new Map(
 );
 
 const pascal = (slug) => catalog.get(slug).name;
-const STATIC = [
-  "button", "icon-button", "label", "hint", "error-message", "badge", "tag", "separator",
-  "skip-link", "breadcrumb-nav", "breadcrumb-list", "breadcrumb-list-item", "breadcrumb-link",
-  "progress", "meter", "alert", "card", "kbd", "inset-text",
-];
+// Every html-headless snippet with no embedded <script> is pure markup, so
+// the Alpine snippet is the same markup. Snippets with a script need a
+// hand-written behaviour (BEHAVIOURAL below) and are added a batch at a time.
+const htmlDir = join(root, "..", "lily-design-system-html-headless", "components");
+const STATIC = readdirSync(htmlDir)
+  .filter((f) => f.endsWith(".html") && !f.includes("fixture"))
+  .map((f) => f.slice(0, -5))
+  .filter((slug) => catalog.has(slug) && !/<script/.test(readFileSync(join(htmlDir, slug + ".html"), "utf8")))
+  .sort();
 
 // slug -> { tag, keyboard, aria, markup, test }
 // `test` is the body of the vitest `describe`; helpers: root(), mount, tick, fire.
@@ -441,11 +445,11 @@ for (const slug of STATIC) {
   const markup = src.replace(/^[\s\S]*?-->\s*\n/m, "").replace(/\n*<script>[\s\S]*<\/script>\s*$/, "").trim();
   if (/<script/.test(markup)) throw new Error(`${slug}: script left in markup`);
   const tag = meta("HTML tag").replace(/[<>]/g, "");
-  const first = (markup.match(/<(\w+)/) || [])[1];
-  const sel = slug.includes("list-item") ? `li.${slug}` : `${first}.${slug}`;
+  // The element carrying the base class (a snippet may wrap it, e.g. an <li> in an <ol>).
+  const host = (markup.match(new RegExp(`<(\\w+)[^>]*class="${slug}[ "]`)) || [])[1];
+  if (!host) throw new Error(`${slug}: no element with class ${slug}`);
   out(slug, "html", header(slug, tag, meta("Keyboard"), meta("Accessibility")) + "\n" + markup + "\n");
   out(slug, "stories.ts", story(slug, markup));
-  const host = slug === "breadcrumb-list-item" ? "li" : first;
   out(slug, "test.js", testFile(slug, `${host}.${slug}`, `
   it("uses the ${host} element", async () => {
     await mount(${JSON.stringify(slug)});

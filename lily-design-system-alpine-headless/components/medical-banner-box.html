@@ -1,0 +1,33 @@
+<!-- medical-banner-box.html -->
+<!-- MedicalBannerBox component (Alpine.js) -->
+<!--
+  Description: a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+  HTML tag: <div>
+  CSS class: medical-banner-box
+  Keyboard: None (passive element)
+  Accessibility: data-context="medical", optional aria-label
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<!-- MedicalBannerBox component -->
+<!--
+  Description: a medical banner box inside a medical banner, using flexbox horizontal
+  HTML tag: <div>
+  CSS class: medical-banner-box
+  Keyboard: None (passive element)
+  Accessibility: data-context="medical", optional aria-label
+  Usage:
+    <div class="medical-banner" role="region" aria-live="polite" aria-label="Patient summary" data-context="medical">
+      <div class="medical-banner-box" data-context="medical">
+        <span>Patient: John Smith</span>
+        <span>NHS: 123 456 7890</span>
+      </div>
+    </div>
+-->
+
+<div
+  class="medical-banner-box"
+  data-context="medical"
+>
+  <!-- Consumer provides content -->
+</div>

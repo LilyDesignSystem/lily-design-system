@@ -1,0 +1,29 @@
+<!-- video-player.html -->
+<!-- VideoPlayer component (Alpine.js) -->
+<!--
+  Description: a video player with play-in-view behavior, custom controls, and IntersectionObserver support
+  HTML tag: <div>
+  CSS class: video-player
+  Keyboard: None (passive element)
+  Accessibility: aria-label for accessible name
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<!-- VideoPlayer component -->
+<!--
+  Description: a video player container
+  HTML tag: <div>
+  CSS class: video-player
+  Keyboard: None (passive element)
+  Accessibility: aria-label for accessible name
+-->
+
+<div
+  class="video-player"
+  aria-label=""
+>
+  <video class="video-player-element" src="" controls playsinline></video>
+  <figcaption class="video-player-caption">
+    <!-- Consumer provides caption -->
+  </figcaption>
+</div>
