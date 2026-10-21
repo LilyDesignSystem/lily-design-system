@@ -1,0 +1,19 @@
+<!-- popover.html -->
+<!-- Popover component (Alpine.js) -->
+<!--
+  Description: a floating content box anchored to a trigger element
+  HTML tag: <div>
+  CSS class: popover
+  Keyboard: Tab to the trigger, Enter or Space to open, Escape to close and return focus
+  Accessibility: aria-haspopup="dialog" and aria-expanded on the trigger
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="popover" x-data="lilyPopover(false)" x-bind="root" aria-label="">
+  <button class="popover-trigger" x-bind="trigger" aria-controls="popover-panel-1">
+    <!-- Consumer provides trigger content -->
+  </button>
+  <div class="popover-panel" id="popover-panel-1" role="dialog" aria-label="" x-bind="panel">
+    <!-- Consumer provides content -->
+  </div>
+</div>

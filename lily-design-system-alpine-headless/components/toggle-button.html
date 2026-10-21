@@ -1,0 +1,19 @@
+<!-- toggle-button.html -->
+<!-- ToggleButton component (Alpine.js) -->
+<!--
+  Description: a button that toggles between pressed and unpressed states
+  HTML tag: <button>
+  CSS class: toggle-button
+  Keyboard: Tab to focus, Enter or Space to toggle
+  Accessibility: aria-pressed reflects the state; aria-label names the button
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<button
+  class="toggle-button"
+  x-data="lilyToggleButton(false)"
+  x-bind="button"
+  aria-label=""
+>
+  <!-- Consumer provides button content -->
+</button>

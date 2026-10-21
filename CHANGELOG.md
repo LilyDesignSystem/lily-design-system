@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Alpine.js headless catalog (pilot) — 2026-10-21
+
+- New `lily-design-system-alpine-headless` (`@lilydesignsystem/alpine-headless` 0.1.0, not yet published): a ninth framework family. Annotated semantic-HTML snippets with Alpine directives plus one Alpine plugin (`lily-alpine.js`) that owns state and keyboard behaviour. Pilot slice of 31 of 571 components (19 static, 12 behavioural: toggle/switch buttons, collapsible, show-more, popover, tooltip, clipboard copy, toggle group, tabs, dialog), each with a vitest + jsdom test (78 tests) and a Storybook story.
+- Registered in `bin/sync-special-files`, CI (`headless` matrix) and Dependabot (now 32 entries). Not yet in `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless`; no Alpine example app, helpers or skills yet. See its `spec/index.md`.
+
 ## Label packs for 15 more languages — 2026-10-20
 
 - Released `@lilydesignsystem/{svelte,react,vue,angular,html,nunjucks,web-components}-locale-translations` and `@lilydesignsystem/locale-translations` 0.2.0 (and `LilyDesignSystem.Blazor.LocaleTranslations` 0.2.0, version bumped; NuGet push via the workflow).

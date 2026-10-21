@@ -1,0 +1,19 @@
+<!-- switch-button.html -->
+<!-- SwitchButton component (Alpine.js) -->
+<!--
+  Description: a toggle switch for turning a setting on or off
+  HTML tag: <button>
+  CSS class: switch-button
+  Keyboard: Tab to focus, Enter or Space to toggle
+  Accessibility: role="switch", aria-checked reflects the state
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label=""
+>
+  <!-- Consumer provides button content -->
+</button>

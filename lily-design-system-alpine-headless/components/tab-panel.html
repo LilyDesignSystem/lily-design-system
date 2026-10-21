@@ -1,0 +1,20 @@
+<!-- tab-panel.html -->
+<!-- TabPanel component (Alpine.js) -->
+<!--
+  Description: a content panel associated with a tab in a tab bar
+  HTML tag: <div>
+  CSS class: tab-panel
+  Keyboard: Tab moves focus into the panel (tabindex 0)
+  Accessibility: role="tabpanel", aria-labelledby the tab, data-selected for CSS; hidden while not selected
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<!-- Always inside a lilyTabs scope: see tab-bar.html -->
+<div x-data="lilyTabs('one')">
+  <div role="tablist" aria-label="" x-bind="tablist">
+    <button x-bind="tab('one')"></button>
+    <button x-bind="tab('two')"></button>
+  </div>
+  <div class="tab-panel" x-bind="panel('one')"><!-- Consumer provides panel content --></div>
+  <div class="tab-panel" x-bind="panel('two')"><!-- Consumer provides panel content --></div>
+</div>

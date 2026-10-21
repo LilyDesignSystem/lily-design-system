@@ -1,0 +1,21 @@
+<!-- tab-bar.html -->
+<!-- TabBar component (Alpine.js) -->
+<!--
+  Description: a group of tabs for switching between content panels
+  HTML tag: <div>
+  CSS class: tab-bar
+  Keyboard: Tab to the selected tab, Arrow Left/Right move and select, Home/End jump
+  Accessibility: role="tablist" with aria-label; tabs have role="tab", aria-selected, aria-controls; roving tabindex
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="tabs" x-data="lilyTabs('one')">
+  <div class="tab-bar" role="tablist" aria-label="" x-bind="tablist">
+    <button class="tab-bar-button" x-bind="tab('one')"><!-- Consumer provides tab label --></button>
+    <button class="tab-bar-button" x-bind="tab('two')"><!-- Consumer provides tab label --></button>
+    <button class="tab-bar-button" x-bind="tab('three')"><!-- Consumer provides tab label --></button>
+  </div>
+  <div class="tab-panel" x-bind="panel('one')"><!-- Consumer provides panel content --></div>
+  <div class="tab-panel" x-bind="panel('two')"><!-- Consumer provides panel content --></div>
+  <div class="tab-panel" x-bind="panel('three')"><!-- Consumer provides panel content --></div>
+</div>

@@ -1,0 +1,19 @@
+<!-- show-more.html -->
+<!-- ShowMore component (Alpine.js) -->
+<!--
+  Description: a content region clamped to a shorter height with a button that reveals the rest
+  HTML tag: <div>
+  CSS class: show-more
+  Keyboard: Tab to the button, Enter or Space to show more or less
+  Accessibility: aria-expanded and aria-controls on the button; the button text is the consumer's
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="show-more" x-data="lilyShowMore(false)" x-bind="root">
+  <div class="show-more-content" id="show-more-content-1" x-bind="content">
+    <!-- Consumer provides long content; CSS clamps it while data-expanded is false -->
+  </div>
+  <button class="show-more-button" x-bind="button" aria-controls="show-more-content-1">
+    <!-- Consumer provides the label, e.g. via x-text="expanded ? lessLabel : moreLabel" -->
+  </button>
+</div>

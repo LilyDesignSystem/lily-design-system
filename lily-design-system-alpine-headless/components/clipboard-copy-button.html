@@ -1,0 +1,19 @@
+<!-- clipboard-copy-button.html -->
+<!-- ClipboardCopyButton component (Alpine.js) -->
+<!--
+  Description: a button that copies text to the clipboard
+  HTML tag: <button>
+  CSS class: clipboard-copy-button
+  Keyboard: Tab to focus, Enter or Space to copy
+  Accessibility: aria-label names the button; data-copied is for consumer CSS and announcements
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<button
+  class="clipboard-copy-button"
+  x-data="lilyClipboardCopy('text to copy')"
+  x-bind="button"
+  aria-label=""
+>
+  <!-- Consumer provides button content -->
+</button>

@@ -1,0 +1,20 @@
+<!-- dialog.html -->
+<!-- Dialog component (Alpine.js) -->
+<!--
+  Description: a modal or non-modal dialog window
+  HTML tag: <dialog>
+  CSS class: dialog
+  Keyboard: Tab cycles focus inside, Escape closes
+  Accessibility: native <dialog> opened with showModal(); aria-label names it; aria-modal="true"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div x-data="lilyDialog(false)">
+  <button class="dialog-trigger" x-bind="trigger">
+    <!-- Consumer provides trigger content -->
+  </button>
+  <dialog class="dialog" aria-label="" x-bind="dialog">
+    <!-- Consumer provides dialog content -->
+    <button class="dialog-close" x-bind="closer"><!-- Consumer provides label --></button>
+  </dialog>
+</div>

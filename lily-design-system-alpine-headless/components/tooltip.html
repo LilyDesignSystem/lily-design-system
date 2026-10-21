@@ -1,0 +1,19 @@
+<!-- tooltip.html -->
+<!-- Tooltip component (Alpine.js) -->
+<!--
+  Description: a small popup showing descriptive text on hover or focus
+  HTML tag: <div>
+  CSS class: tooltip
+  Keyboard: Focus the trigger to show, Escape to dismiss
+  Accessibility: role="tooltip"; hoverable and dismissable (WCAG 1.4.13); the trigger is linked with aria-describedby
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<span class="tooltip-wrapper" x-data="lilyTooltip()">
+  <button class="tooltip-trigger" x-bind="trigger" aria-describedby="tooltip-1">
+    <!-- Consumer provides trigger content -->
+  </button>
+  <div class="tooltip" id="tooltip-1" x-bind="tooltip">
+    <!-- Consumer provides content -->
+  </div>
+</span>

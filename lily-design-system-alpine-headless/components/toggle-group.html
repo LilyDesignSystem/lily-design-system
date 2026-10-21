@@ -1,0 +1,15 @@
+<!-- toggle-group.html -->
+<!-- ToggleGroup component (Alpine.js) -->
+<!--
+  Description: a group of toggle buttons for selecting options
+  HTML tag: <div>
+  CSS class: toggle-group
+  Keyboard: Tab between buttons, Enter or Space to toggle each
+  Accessibility: role="group" with aria-label; each button carries aria-pressed
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="toggle-group" role="group" aria-label="" x-data="lilyToggleGroup([])">
+  <button class="toggle-group-item" x-bind="item('one')"><!-- Consumer provides content --></button>
+  <button class="toggle-group-item" x-bind="item('two')"><!-- Consumer provides content --></button>
+</div>

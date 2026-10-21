@@ -1,0 +1,39 @@
+<!-- icon-button.html -->
+<!-- IconButton component (Alpine.js) -->
+<!--
+  Description: a button containing only an icon with a required accessible label
+  HTML tag: <button>
+  CSS class: icon-button
+  Keyboard: Tab to focus, Enter or Space to activate (native <button> behavior)
+  Accessibility: aria-label is REQUIRED — provides the entire accessible name for an icon-only button. aria-pressed is set when the button is a toggle.
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<!-- IconButton component -->
+<!--
+  Description: a button containing only an icon with a required accessible label
+
+  HTML tag: <button>
+  CSS class: icon-button
+  Keyboard: Tab to focus, Enter or Space to activate (native <button> behavior)
+  Accessibility: aria-label is REQUIRED — provides the entire accessible name for an icon-only button. aria-pressed is set when the button is a toggle.
+
+  Behavior:
+    Renders a native <button type="button"> with a required aria-label.
+    The icon (svg, glyph, emoji) is supplied by the consumer as inner content.
+    A small script enforces type="button" by default and reads aria-pressed
+    to keep state consistent if the consumer toggles data-pressed.
+
+  Usage:
+    <button class="icon-button" type="button" aria-label="Close" aria-pressed="false">
+      <svg>...</svg>
+    </button>
+-->
+
+<button
+  class="icon-button"
+  type="button"
+  aria-label=""
+>
+  <!-- Consumer provides icon content (SVG, emoji, or glyph) -->
+</button>

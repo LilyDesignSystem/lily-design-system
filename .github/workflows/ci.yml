@@ -106,6 +106,7 @@ jobs:
           - lily-design-system-vue-headless
           - lily-design-system-angular-headless
           - lily-design-system-nunjucks-headless
+          - lily-design-system-alpine-headless
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6

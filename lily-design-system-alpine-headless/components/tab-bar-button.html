@@ -1,0 +1,18 @@
+<!-- tab-bar-button.html -->
+<!-- TabBarButton component (Alpine.js) -->
+<!--
+  Description: one tab button in a tab group
+  HTML tag: <button>
+  CSS class: tab-bar-button
+  Keyboard: Part of a TabBar: see tab-bar
+  Accessibility: role="tab", aria-selected, aria-controls and roving tabindex, all from x-bind="tab(id)"
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<!-- Always inside a lilyTabs scope: see tab-bar.html -->
+<div x-data="lilyTabs('one')">
+  <div role="tablist" aria-label="" x-bind="tablist">
+    <button class="tab-bar-button" x-bind="tab('one')"><!-- Consumer provides tab label --></button>
+  </div>
+  <div x-bind="panel('one')"></div>
+</div>

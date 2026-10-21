@@ -139,6 +139,18 @@ updates:
           - "*"
 
   - package-ecosystem: "npm"
+    directory: "/lily-design-system-alpine-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
     # One top-level subproject per HTML helper package (2026-10-10).
     directories:
       - "/lily-design-system-html-data-grid"

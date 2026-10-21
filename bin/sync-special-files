@@ -63,7 +63,7 @@ BANNER = (
 FRAMEWORK = {
     "html": "HTML", "svelte": "Svelte 5", "react": "React", "vue": "Vue 3",
     "angular": "Angular 22", "blazor": "Blazor", "nunjucks": "Nunjucks",
-    "web-components": "Web Components",
+    "web-components": "Web Components", "alpine": "Alpine.js",
 }
 
 LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+)(\s+\"[^\"]*\")?\)")
@@ -202,6 +202,9 @@ def describe(name):
                     "achievable scope (536 of the 571 components as of "
                     "2026-10-06; the other 35 are permanently excluded by a "
                     "real architectural limitation), unstyled and accessible")
+        if name == "lily-design-system-alpine-headless":
+            return (f"the {label} headless component library: a pilot slice of the "
+                    "catalog as annotated snippets plus an Alpine plugin, unstyled and accessible")
         return f"the {label} headless component library: all 571 catalog components, unstyled and accessible"
     if kind == "helpers":
         return f"the {label} helpers catalog: six opinionated packages that each own one complete interaction"
@@ -227,6 +230,7 @@ PUBLISHED_NPM = {
     "lily-design-system-vue-headless", "lily-design-system-html-headless",
     "lily-design-system-angular-headless", "lily-design-system-nunjucks-headless",
     "lily-design-system-web-components-headless",
+    "lily-design-system-alpine-headless",
 }
 
 PUBLISHED_NUGET = {"lily-design-system-blazor-headless"}

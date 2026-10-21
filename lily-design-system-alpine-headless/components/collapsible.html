@@ -1,0 +1,19 @@
+<!-- collapsible.html -->
+<!-- Collapsible component (Alpine.js) -->
+<!--
+  Description: a container that can be expanded or collapsed
+  HTML tag: <div>
+  CSS class: collapsible
+  Keyboard: Tab to the trigger, Enter or Space to expand and collapse
+  Accessibility: aria-expanded on the trigger; the content is hidden while collapsed
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div class="collapsible" x-data="lilyCollapsible(false)" x-bind="root" aria-label="">
+  <button class="collapsible-trigger" x-bind="trigger" aria-controls="collapsible-content-1">
+    <!-- Consumer provides trigger label -->
+  </button>
+  <div class="collapsible-content" id="collapsible-content-1" x-bind="content">
+    <!-- Consumer provides content -->
+  </div>
+</div>
