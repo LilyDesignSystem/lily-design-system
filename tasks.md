@@ -2399,7 +2399,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
   `spec/shardsui-lessons` (4) and `spec/coss-ui-lessons` items 1, 4, 5, 6 have no task IDs. Triage each into a task
   here, a "not adopted" note, or a maintainer decision, so they can be scheduled and closed.
   Verify: every item in those four topics links to a task ID or a recorded decision.
-- [x] **P12-T17 (done 2026-10-21: `markdown_copies` rewrites `](../slug/)` to `](slug.md)`; `bin/check-links` exits 0) Fix the 26 broken links in the generated `/components/{slug}.md` copies.** Since `c25bfe528`,
+- [x] **P12-T17 (done 2026-10-21: `markdown_copies` rewrites sibling directory links to `slug.md` links; `bin/check-links` exits 0) Fix the 26 broken links in the generated `/components/{slug}.md` copies.** Since `c25bfe528`,
   `bin/check-links` fails on `lilydesignsystem.github.io/static/components/*.md` (e.g. `theme-select.md` → `../select/`):
   the copies keep `index.md`'s relative links, which do not resolve from `static/components/`. Rewrite them to site
   URLs in `bin/generate-api-docs`. `bin/test` does not run `bin/check-links` (CI does, separately), which is why the
